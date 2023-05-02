@@ -9,6 +9,12 @@
         <Projects Include="bantu-shop\BantuShop.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="bantu-starter\BantuStarter.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +41,32 @@
     <Target Name="BantuShop:Make">
         <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Make"/>
     </Target>
+    <Target Name="BantuStarter">
+        <MSBuild Projects="bantu-starter\BantuStarter.dproj"/>
+    </Target>
+    <Target Name="BantuStarter:Clean">
+        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BantuStarter:Make">
+        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Clean">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Make">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="BantuLibSis;BantuShop"/>
+        <CallTarget Targets="BantuLibSis;BantuShop;BantuStarter;ArredRoundRectRgn1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BantuLibSis:Clean;BantuShop:Clean"/>
+        <CallTarget Targets="BantuLibSis:Clean;BantuShop:Clean;BantuStarter:Clean;ArredRoundRectRgn1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BantuLibSis:Make;BantuShop:Make"/>
+        <CallTarget Targets="BantuLibSis:Make;BantuShop:Make;BantuStarter:Make;ArredRoundRectRgn1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
