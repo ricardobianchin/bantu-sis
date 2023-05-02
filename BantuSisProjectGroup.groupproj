@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{6690CA90-CE87-4DFC-A97A-02E1F0EC7DCF}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-shop\BantuShop.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BantuLibSis">
+        <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj"/>
+    </Target>
+    <Target Name="BantuLibSis:Clean">
+        <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BantuLibSis:Make">
+        <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BantuShop">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj"/>
+    </Target>
+    <Target Name="BantuShop:Clean">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BantuShop:Make">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BantuLibSis;BantuShop"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BantuLibSis:Clean;BantuShop:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BantuLibSis:Make;BantuShop:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
