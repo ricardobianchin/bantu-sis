@@ -1,14 +1,14 @@
-unit lib.ui.FormBasico.Act;
+unit btu.lib.ui.FormBasico.Act;
 
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions,
-  Vcl.ActnList, lib.ui.FormBasico;
+  Vcl.ActnList, btu.lib.ui.FormBasico;
 
 type
-  TFormBasAct = class(TFormBas)
+  TFormBasAct = class(TFormBasico)
     BasActActionList: TActionList;
   private
     { Private declarations }

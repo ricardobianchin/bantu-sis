@@ -1,6 +1,5 @@
 inherited FormBasActDialog: TFormBasActDialog
   Caption = 'FormBasActDialog'
-  PixelsPerInch = 96
   TextHeight = 17
   inherited BasActActionList: TActionList
     object BasDiagOkAct: TAction

@@ -1,7 +1,7 @@
-object FormBas: TFormBas
+object FormBasico: TFormBasico
   Left = 0
   Top = 0
-  Caption = 'FormBas'
+  Caption = 'FormBasico'
   ClientHeight = 172
   ClientWidth = 447
   Color = clBtnFace
@@ -10,8 +10,9 @@ object FormBas: TFormBas
   Font.Height = -13
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OldCreateOrder = False
   ShowHint = True
-  PixelsPerInch = 96
+  OnDestroy = FormDestroy
+  OnKeyPress = FormKeyPress
+  OnResize = FormResize
   TextHeight = 17
 end

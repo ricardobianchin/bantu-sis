@@ -29,12 +29,25 @@ package BantuLibSis;
 
 requires
   rtl,
-  vcl;
+  vcl,
+  Spring.Base,
+  Spring.Core;
 
 contains
-  lib.types.Booleans in 'types\lib.types.Booleans.pas',
-  lib.ui.FormBasico in 'ui\lib.ui.FormBasico.pas' {FormBas},
-  lib.ui.FormBasico.Act in 'ui\lib.ui.FormBasico.Act.pas' {FormBasAct},
-  lib.ui.FormBasico.Act.Dialog in 'ui\lib.ui.FormBasico.Act.Dialog.pas' {FormBasActDialog};
+  btu.lib.types.bool.ProcQueryBoolean in 'types\bool\btu.lib.types.bool.ProcQueryBoolean.pas',
+  btu.lib.ui.FormBasico in 'ui\FormBasico\btu.lib.ui.FormBasico.pas' {FormBasico},
+  btu.lib.ui.FormBasico.Act in 'ui\FormBasico\btu.lib.ui.FormBasico.Act.pas' {FormBasAct},
+  btu.lib.ui.FormBasico.Act.Dialog in 'ui\FormBasico\btu.lib.ui.FormBasico.Act.Dialog.pas' {FormBasActDialog},
+  btu.lib.ui.FormDecorator in 'ui\FormDecorators\btu.lib.ui.FormDecorator.pas',
+  btu.lib.types.classes.utils in 'types\classes\btu.lib.types.classes.utils.pas',
+  btu.lib.ui.FormDecorator.CantosArred in 'ui\FormDecorators\CantosArred\btu.lib.ui.FormDecorator.CantosArred.pas',
+  btu.lib.ui.RegisterClasses in 'di\ui\btu.lib.ui.RegisterClasses.pas',
+  btu.sis.di.ui.constants in 'di\ui\btu.sis.di.ui.constants.pas',
+  btu.lib.ui.Img.DataModule in 'ui\FormDecorators\btu.lib.ui.Img.DataModule.pas' {SisImgDataModule: TDataModule},
+  btu.lib.sis_i in 'sis\btu.lib.sis_i.pas',
+  btu.lib.sis_u in 'sis\btu.lib.sis_u.pas',
+  btu.lib.sis.factory in 'sis\btu.lib.sis.factory.pas',
+  btu.lib.sis in 'sis\btu.lib.sis.pas',
+  btu.lib.ui.FormDecorator.ControlsAlign in 'ui\FormDecorators\ControlsAlign\btu.lib.ui.FormDecorator.ControlsAlign.pas';
 
 end.

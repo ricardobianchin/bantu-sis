@@ -3,16 +3,25 @@
         <ProjectGuid>{6690CA90-CE87-4DFC-A97A-02E1F0EC7DCF}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
+        <Projects Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-shop\BantuShop.dproj">
+        <Projects Include="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-starter\BantuStarter.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+        <Projects Include="bantu-shop\BantuShop.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -23,6 +32,42 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="ArredRoundRectRgn1">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Clean">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Make">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ServiceLocatorTest">
+        <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj"/>
+    </Target>
+    <Target Name="ServiceLocatorTest:Clean">
+        <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServiceLocatorTest:Make">
+        <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Spring_Base">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj"/>
+    </Target>
+    <Target Name="Spring_Base:Clean">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Spring_Base:Make">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Spring_Core">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj"/>
+    </Target>
+    <Target Name="Spring_Core:Clean">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Spring_Core:Make">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj" Targets="Make"/>
+    </Target>
     <Target Name="BantuLibSis">
         <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj"/>
     </Target>
@@ -31,15 +76,6 @@
     </Target>
     <Target Name="BantuLibSis:Make">
         <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BantuShop">
-        <MSBuild Projects="bantu-shop\BantuShop.dproj"/>
-    </Target>
-    <Target Name="BantuShop:Clean">
-        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BantuShop:Make">
-        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Make"/>
     </Target>
     <Target Name="BantuStarter">
         <MSBuild Projects="bantu-starter\BantuStarter.dproj"/>
@@ -50,23 +86,67 @@
     <Target Name="BantuStarter:Make">
         <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ArredRoundRectRgn1">
-        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
+    <Target Name="BantuShop">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj"/>
     </Target>
-    <Target Name="ArredRoundRectRgn1:Clean">
-        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
+    <Target Name="BantuShop:Clean">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ArredRoundRectRgn1:Make">
-        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
+    <Target Name="BantuShop:Make">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="BantuLibSis;BantuShop;BantuStarter;ArredRoundRectRgn1"/>
+        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;Spring_Base;Spring_Core;BantuLibSis;BantuStarter;BantuShop"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BantuLibSis:Clean;BantuShop:Clean;BantuStarter:Clean;ArredRoundRectRgn1:Clean"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;Spring_Base:Clean;Spring_Core:Clean;BantuLibSis:Clean;BantuStarter:Clean;BantuShop:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BantuLibSis:Make;BantuShop:Make;BantuStarter:Make;ArredRoundRectRgn1:Make"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;Spring_Base:Make;Spring_Core:Make;BantuLibSis:Make;BantuStarter:Make;BantuShop:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
+        <BuildGroupProject Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+            <ProjectGuid>{03A1EA8A-306F-4378-838A-F76441B45EC3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj">
+            <ProjectGuid>{8F00FFD6-085B-4B31-B6A2-D3157F252221}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-shop\BantuShop.dproj">
+            <ProjectGuid>{5D0EE2FB-67F7-43BD-BEA2-D2E5A76FC815}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-lib\sis\BantuLibSis.dproj">
+            <ProjectGuid>{5FFB1003-BC15-45F1-A8E0-DED3A8186AB2}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-starter\BantuStarter.dproj">
+            <ProjectGuid>{416A27BF-724C-4294-A0F1-EA91F10FC028}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj">
+            <ProjectGuid>{3F933A25-7C87-419F-B285-EE0B5E3F0B73}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj">
+            <ProjectGuid>{DC5696C2-C8FA-4087-8530-25E48A0A9176}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
 </Project>
