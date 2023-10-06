@@ -3,16 +3,46 @@
         <ProjectGuid>{6690CA90-CE87-4DFC-A97A-02E1F0EC7DCF}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
+        <Projects Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-shop\BantuShop.dproj">
+        <Projects Include="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-starter\BantuStarter.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+        <Projects Include="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="retag\Retag.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-shop\BantuShop.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-lib\ctrls\BtnControls.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\d-tes\ui\Tabs\PageControl\TDI1\TDI1.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\tools\cairo-dbtools\CairoDBTools.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -23,6 +53,42 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="ArredRoundRectRgn1">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Clean">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Make">
+        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ServiceLocatorTest">
+        <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj"/>
+    </Target>
+    <Target Name="ServiceLocatorTest:Clean">
+        <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServiceLocatorTest:Make">
+        <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Spring_Base">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj"/>
+    </Target>
+    <Target Name="Spring_Base:Clean">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Spring_Base:Make">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Spring_Core">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj"/>
+    </Target>
+    <Target Name="Spring_Core:Clean">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Spring_Core:Make">
+        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj" Targets="Make"/>
+    </Target>
     <Target Name="BantuLibSis">
         <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj"/>
     </Target>
@@ -31,15 +97,6 @@
     </Target>
     <Target Name="BantuLibSis:Make">
         <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BantuShop">
-        <MSBuild Projects="bantu-shop\BantuShop.dproj"/>
-    </Target>
-    <Target Name="BantuShop:Clean">
-        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BantuShop:Make">
-        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Make"/>
     </Target>
     <Target Name="BantuStarter">
         <MSBuild Projects="bantu-starter\BantuStarter.dproj"/>
@@ -50,23 +107,172 @@
     <Target Name="BantuStarter:Make">
         <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ArredRoundRectRgn1">
-        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
+    <Target Name="ExemploTDI">
+        <MSBuild Projects="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj"/>
     </Target>
-    <Target Name="ArredRoundRectRgn1:Clean">
-        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
+    <Target Name="ExemploTDI:Clean">
+        <MSBuild Projects="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ArredRoundRectRgn1:Make">
-        <MSBuild Projects="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
+    <Target Name="ExemploTDI:Make">
+        <MSBuild Projects="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FlatBtn1">
+        <MSBuild Projects="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj"/>
+    </Target>
+    <Target Name="FlatBtn1:Clean">
+        <MSBuild Projects="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlatBtn1:Make">
+        <MSBuild Projects="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Retag">
+        <MSBuild Projects="retag\Retag.dproj"/>
+    </Target>
+    <Target Name="Retag:Clean">
+        <MSBuild Projects="retag\Retag.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Retag:Make">
+        <MSBuild Projects="retag\Retag.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BantuShop">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj"/>
+    </Target>
+    <Target Name="BantuShop:Clean">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BantuShop:Make">
+        <MSBuild Projects="bantu-shop\BantuShop.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BtnControls">
+        <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj"/>
+    </Target>
+    <Target Name="BtnControls:Clean">
+        <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BtnControls:Make">
+        <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TDI1">
+        <MSBuild Projects="..\..\..\d-tes\ui\Tabs\PageControl\TDI1\TDI1.dproj"/>
+    </Target>
+    <Target Name="TDI1:Clean">
+        <MSBuild Projects="..\..\..\d-tes\ui\Tabs\PageControl\TDI1\TDI1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TDI1:Make">
+        <MSBuild Projects="..\..\..\d-tes\ui\Tabs\PageControl\TDI1\TDI1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CairoDBTools">
+        <MSBuild Projects="..\..\tools\cairo-dbtools\CairoDBTools.dproj"/>
+    </Target>
+    <Target Name="CairoDBTools:Clean">
+        <MSBuild Projects="..\..\tools\cairo-dbtools\CairoDBTools.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CairoDBTools:Make">
+        <MSBuild Projects="..\..\tools\cairo-dbtools\CairoDBTools.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="IbgeMunImport">
+        <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj"/>
+    </Target>
+    <Target Name="IbgeMunImport:Clean">
+        <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="IbgeMunImport:Make">
+        <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="BantuLibSis;BantuShop;BantuStarter;ArredRoundRectRgn1"/>
+        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;Spring_Base;Spring_Core;BantuLibSis;BantuStarter;ExemploTDI;FlatBtn1;Retag;BantuShop;BtnControls;TDI1;CairoDBTools;IbgeMunImport"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BantuLibSis:Clean;BantuShop:Clean;BantuStarter:Clean;ArredRoundRectRgn1:Clean"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;Spring_Base:Clean;Spring_Core:Clean;BantuLibSis:Clean;BantuStarter:Clean;ExemploTDI:Clean;FlatBtn1:Clean;Retag:Clean;BantuShop:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BantuLibSis:Make;BantuShop:Make;BantuStarter:Make;ArredRoundRectRgn1:Make"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;Spring_Base:Make;Spring_Core:Make;BantuLibSis:Make;BantuStarter:Make;ExemploTDI:Make;FlatBtn1:Make;Retag:Make;BantuShop:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
+        <BuildGroupProject Include="bantu-shop\BantuShop.dproj">
+            <ProjectGuid>{5D0EE2FB-67F7-43BD-BEA2-D2E5A76FC815}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-lib\sis\BantuLibSis.dproj">
+            <ProjectGuid>{5FFB1003-BC15-45F1-A8E0-DED3A8186AB2}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj">
+            <ProjectGuid>{3F933A25-7C87-419F-B285-EE0B5E3F0B73}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj">
+            <ProjectGuid>{56E73651-65D1-409F-82F9-6272411DA38B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj">
+            <ProjectGuid>{DC5696C2-C8FA-4087-8530-25E48A0A9176}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="retag\Retag.dproj">
+            <ProjectGuid>{25229F2E-A428-4EDB-ACF8-D80B8B3A2EFE}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj">
+            <ProjectGuid>{CEE614EC-FBF5-4CB9-BFDB-F5643A16497F}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-lib\ctrls\BtnControls.dproj">
+            <ProjectGuid>{6D4C9667-FC33-4200-AC66-6DC0C8C69959}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
+            <ProjectGuid>{43083AFB-84BA-48C4-8523-4ACCFB678806}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+            <ProjectGuid>{03A1EA8A-306F-4378-838A-F76441B45EC3}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj">
+            <ProjectGuid>{8F00FFD6-085B-4B31-B6A2-D3157F252221}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-starter\BantuStarter.dproj">
+            <ProjectGuid>{416A27BF-724C-4294-A0F1-EA91F10FC028}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\d-tes\ui\Tabs\PageControl\TDI1\TDI1.dproj">
+            <ProjectGuid>{3452B832-B2D1-4592-BC0E-1270A4B0FCBD}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\tools\cairo-dbtools\CairoDBTools.dproj">
+            <ProjectGuid>{8B81E88C-2333-4A9D-8116-94381907C36F}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
 </Project>
