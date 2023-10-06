@@ -66,6 +66,7 @@ begin
   ExibLog('ini');
   try
     ImporteCSV;
+    Close;
   finally
     ExibLog('fim');
   end;
@@ -105,7 +106,9 @@ begin
         s := aCampos[0] + ';' + aCampos[1];
         UFSL.Add(s);
 
-        s := aCampos[2] + ';' + aCampos[3];
+        s := aCampos[2];
+        Delete(s, 1, 2);
+        s := aCampos[0] + ';' + s + ';' + aCampos[3];
         MunSL.Add(s)
       end;
     finally
