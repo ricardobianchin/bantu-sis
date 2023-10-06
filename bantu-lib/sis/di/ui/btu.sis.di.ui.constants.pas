@@ -12,6 +12,10 @@ function RGB(red, green, blue: Byte): TColor;
 const
   REGNAME_FORMDECORATOR_CANTOSARRED = 'ui.formdecorator.RoundCorners';
   COR_AZUL_VIVO = 21 OR (98 SHL 8) OR (163 SHL 16);
+  COR_AZUL_LINK = $ab0d1a;
+//#1a0dab AZUL LINK
+
+
 
 //var
 //  AzulVivo: TColor;

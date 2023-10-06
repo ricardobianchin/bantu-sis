@@ -17,6 +17,7 @@ type
     procedure IpLabeledEditExit(Sender: TObject);
     procedure NomeLabeledEditChange(Sender: TObject);
     procedure IpLabeledEditChange(Sender: TObject);
+    procedure NomeLabeledEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure EsconderErro;
@@ -30,6 +31,8 @@ type
 implementation
 
 {$R *.dfm}
+
+uses btn.lib.types.strings;
 
 { TMaqNomeEdFrame }
 
@@ -59,6 +62,21 @@ end;
 procedure TMaqNomeEdFrame.NomeLabeledEditChange(Sender: TObject);
 begin
   EsconderErro;
+end;
+
+procedure TMaqNomeEdFrame.NomeLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  // inherited;
+  if Key = #13 then
+  begin
+    key := #0;
+    IpLabeledEdit.SetFocus;
+    exit;
+  end;
+
+  CharSemAcento(Key, true);
+
 end;
 
 function TMaqNomeEdFrame.PodeOk: boolean;

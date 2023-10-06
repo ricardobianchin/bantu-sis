@@ -2,7 +2,7 @@ unit btu.lib.config.machineid_u;
 
 interface
 
-uses btu.lib.config.machineid;
+uses btu.lib.config.machineid, btu.lib.types.bool.utils;
 
 type
   TMachineId = class(TInterfacedObject, IMachineId)
@@ -21,6 +21,8 @@ type
 
     function GetIsDataOk: boolean;
     property IsDataOk: boolean read GetIsDataOk;
+
+    function GetServerName: string;
 
     procedure Zerar;
 
@@ -53,6 +55,11 @@ end;
 function TMachineId.GetName: string;
 begin
   result := FName;
+end;
+
+function TMachineId.GetServerName: string;
+begin
+  result := Iif(FName = '', FIp, FName);
 end;
 
 procedure TMachineId.SetIp(const Value: string);

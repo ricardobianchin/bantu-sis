@@ -41,4 +41,17 @@ begin
   end;
 end;
 
+{
+var
+  Major, Minor, CSDVersion: Integer;
+begin
+  GetWinVersion(Major, Minor, CSDVersion);
+
+  if Major = 6 and Minor = 1 and CSDVersion <> '' then
+    Writeln('O Windows 7 tem o Service Pack 1 instalado.');
+  else
+    Writeln('O Windows 7 não tem o Service Pack 1 instalado.');
+end.
+}
+
 end.

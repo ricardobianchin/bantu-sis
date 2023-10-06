@@ -9,6 +9,9 @@ type
   TSisImgDataModule = class(TDataModule)
     FormSysMenuImageList: TImageList;
     ImageList24Flat: TImageList;
+    ImageList32Flat: TImageList;
+    ImageList_40_24: TImageList;
+    ImageListLogin16: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

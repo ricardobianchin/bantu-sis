@@ -101,12 +101,12 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="ui\btu.sta.FormPrinc.pas">
+        <DCCReference Include="ui\btu.sta.ui.PrincForm.pas">
             <Form>PrincForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="sta\btu.sta.exec_u.pas"/>
-        <DCCReference Include="ui\btu.sta.Form.Config.pas">
+        <DCCReference Include="ui\btu.sta.ui.ConfigForm.pas">
             <Form>StarterFormConfig</Form>
             <FormType>dfm</FormType>
         </DCCReference>
@@ -136,6 +136,104 @@
         <DCCReference Include="..\bantu-lib\sis\types\btu.lib.types.constants.pas"/>
         <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.constants.pas"/>
         <DCCReference Include="sta\btu.sta.constants.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\di\ui\btu.sis.di.ui.constants.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.UsuLogin.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.UsuLogin_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\debug\btu.lib.debug.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\controls\btn.lib.ui.controls.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItem_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\btu.sis.ui.io.output.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\btu.sis.ui.io.output.mudo_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.LogFile_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.LogRecord.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.LogRecord_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\bool\btu.lib.types.bool.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.pastas.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.types.pas"/>
+        <DCCReference Include="sta\btu.sta.exec_xml_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.types.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.info_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\registry\btu.lib.win.registry.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes_u.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.reg_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\fdac_acces\FDacDM_u.pas">
+            <Form>FDacDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execute.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execute_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.execute.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.execute_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\btu.sis.ui.io.output.form_u.pas">
+            <Form>OutputForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\btu.sis.ui.io.output.toform_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\btu.sis.ui.io.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.firebird_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.info.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.firebird_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\int\btn.lib.types.integers.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.connection.firedac_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.connection_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.str.TStrings_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.query_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.sqloperation_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.query.firedac_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.sis.db.updater.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.firebird.GetSql_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createtable_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.constants_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo.list.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo.list_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createoralterprocedure_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.list.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.list_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\btu.sis.ui.io.output.exibirpausa.form_u.pas">
+            <Form>ExibirPausaF</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec.firedac_u.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.strings_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.fb_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createoralterpackage_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.GetSql.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createdomains_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.clipb_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.firebird_u.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.csv_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

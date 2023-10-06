@@ -2,7 +2,7 @@ unit btu.lib.config;
 
 interface
 
-uses btu.lib.config.machineid, btu.lib.win.VersionInfo;
+uses btu.lib.config.machineid, btu.lib.win.VersionInfo, btu.lib.db.types;
 
 type
   ISisConfig = interface(IInterface)
@@ -19,6 +19,13 @@ type
 
     function GetWinVersionInfo: IWinVersionInfo;
     property WinVersionInfo: IWinVersionInfo read GetWinVersionInfo;
+
+    function GetDBMSInfo: IDBMSInfo;
+    property DBMSInfo: IDBMSInfo read GetDBMSInfo;
+
+    function GetPastaProduto: string;
+    property PastaProduto: string read GetPastaProduto;
+
   end;
 
 implementation

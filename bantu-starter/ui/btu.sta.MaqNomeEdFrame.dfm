@@ -14,7 +14,7 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
   object ErroLabel: TLabel
     Left = 0
     Top = 96
-    Width = 279
+    Width = 48
     Height = 13
     Align = alBottom
     Caption = 'ErroLabel'
@@ -26,7 +26,6 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
     ParentFont = False
     Visible = False
     StyleElements = [seBorder]
-    ExplicitWidth = 48
   end
   object GroupBox1: TGroupBox
     Left = 0
@@ -64,10 +63,11 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
       TabOrder = 0
       Text = ''
       OnChange = NomeLabeledEditChange
+      OnKeyPress = NomeLabeledEditKeyPress
     end
     object IpLabeledEdit: TLabeledEdit
       AlignWithMargins = True
-      Left = 162
+      Left = 150
       Top = 39
       Width = 106
       Height = 25

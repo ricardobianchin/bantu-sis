@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 446
-  ClientWidth = 624
+  ClientHeight = 493
+  ClientWidth = 988
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,22 +13,23 @@ object StarterFormConfig: TStarterFormConfig
   ShowHint = True
   OnCreate = FormCreate
   OnResize = FormResize
+  OnShow = FormShow
   TextHeight = 17
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 175
-    Height = 446
+    Height = 493
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitHeight = 445
+    ExplicitHeight = 492
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 175
-      Height = 446
+      Height = 493
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7051,8 +7052,8 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 449
-    Height = 446
+    Width = 813
+    Height = 493
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7060,65 +7061,18 @@ object StarterFormConfig: TStarterFormConfig
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitWidth = 445
-    ExplicitHeight = 445
-    object CheckBox1: TCheckBox
-      AlignWithMargins = True
-      Left = 15
-      Top = 134
-      Width = 191
-      Height = 17
-      Margins.Left = 15
-      Margins.Top = 15
-      Margins.Right = 0
-      Margins.Bottom = 15
-      Caption = 'Esta m'#225'quina '#233' o servidor'
-      TabOrder = 0
-    end
-    inline LocalMaqNomeEdFrame: TMaqNomeEdFrame
-      Left = 8
-      Top = 8
-      Width = 279
-      Height = 109
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      StyleElements = [seFont, seBorder]
-      ExplicitLeft = 8
-      ExplicitTop = 8
-      inherited ErroLabel: TLabel
-        Width = 279
-      end
-    end
-    inline ServerMaqNomeEdFrame: TMaqNomeEdFrame
-      Left = 8
-      Top = 176
-      Width = 279
-      Height = 109
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-      StyleElements = [seFont, seBorder]
-      ExplicitLeft = 8
-      ExplicitTop = 176
-      inherited ErroLabel: TLabel
-        Width = 279
-      end
-    end
+    ExplicitWidth = 809
+    ExplicitHeight = 492
+    DesignSize = (
+      813
+      493)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 320
+      Top = 457
       Width = 278
       Height = 60
       Align = alNone
+      Anchors = [akLeft, akBottom]
       AutoSize = True
       ButtonHeight = 30
       ButtonWidth = 139
@@ -7126,7 +7080,7 @@ object StarterFormConfig: TStarterFormConfig
       Images = SisImgDataModule.ImageList24Flat
       List = True
       ShowCaptions = True
-      TabOrder = 3
+      TabOrder = 0
       StyleElements = [seFont, seBorder]
       object ToolButton1: TToolButton
         Left = 0
@@ -7145,20 +7099,351 @@ object StarterFormConfig: TStarterFormConfig
         Action = ReloadAct
       end
     end
-    object Button1: TButton
-      Left = 304
-      Top = 48
-      Width = 75
-      Height = 25
-      Caption = 'Button1'
+    inline LocalMaqNomeEdFrame: TMaqNomeEdFrame
+      Left = 7
+      Top = 3
+      Width = 300
+      Height = 109
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      StyleElements = [seFont, seBorder]
+      ExplicitLeft = 7
+      ExplicitTop = 3
+      ExplicitWidth = 300
+      inherited ErroLabel: TLabel
+        Width = 300
+      end
+      inherited GroupBox1: TGroupBox
+        Width = 300
+        ExplicitWidth = 300
+        inherited IpLabeledEdit: TLabeledEdit
+          OnKeyPress = LocalMaqNomeEdFrameIpLabeledEditKeyPress
+        end
+      end
+    end
+    object EhServidorCheckBox: TCheckBox
+      AlignWithMargins = True
+      Left = 16
+      Top = 123
+      Width = 191
+      Height = 17
+      Margins.Left = 15
+      Margins.Top = 15
+      Margins.Right = 0
+      Margins.Bottom = 15
+      Caption = 'Esta m'#225'quina '#233' o &servidor'
+      TabOrder = 3
+      OnClick = EhServidorCheckBoxClick
+      OnKeyPress = EhServidorCheckBoxKeyPress
+    end
+    inline ServerMaqNomeEdFrame: TMaqNomeEdFrame
+      Left = 322
+      Top = 3
+      Width = 456
+      Height = 110
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 4
-      OnClick = Button1Click
+      StyleElements = [seFont, seBorder]
+      ExplicitLeft = 322
+      ExplicitTop = 3
+      ExplicitWidth = 456
+      ExplicitHeight = 110
+      inherited ErroLabel: TLabel
+        Top = 97
+        Width = 456
+        ExplicitTop = 97
+      end
+      inherited GroupBox1: TGroupBox
+        Width = 456
+        Height = 97
+        ExplicitWidth = 456
+        ExplicitHeight = 97
+      end
+    end
+    object ToolBar2: TToolBar
+      Left = 270
+      Top = 42
+      Width = 31
+      Height = 29
+      Align = alNone
+      ButtonWidth = 31
+      Caption = 'LoginToolBar'
+      Images = SisImgDataModule.ImageListLogin16
+      TabOrder = 5
+      object ToolButton5: TToolButton
+        Left = 0
+        Top = 0
+        Action = BuscaNomeAction
+      end
+    end
+    object ServerConfigLabeledEdit: TLabeledEdit
+      AlignWithMargins = True
+      Left = 331
+      Top = 135
+      Width = 440
+      Height = 25
+      EditLabel.Width = 180
+      EditLabel.Height = 17
+      EditLabel.Caption = 'Arquivo config.xml do servidor'
+      MaxLength = 20
+      TabOrder = 6
+      Text = ''
+    end
+    object UsuRespGroupBox: TGroupBox
+      Left = 7
+      Top = 162
+      Width = 300
+      Height = 289
+      Caption = 'Login do respons'#225'vel t'#233'cnico'
+      TabOrder = 1
+      Visible = False
+      DesignSize = (
+        300
+        289)
+      object AjudaRespLabel: TLabel
+        Left = 134
+        Top = 16
+        Width = 160
+        Height = 13
+        Hint = 
+          #201' o respons'#225'vel t'#233'cnico quem vai cadastrar os funcion'#225'rios, incl' +
+          'uindo da ger'#234'ncia, mas n'#227'o ter'#225' direitos de visualizar informa'#231#245 +
+          'es cr'#237'ticas da empresa, como RH ou Financeiro'
+        CustomHint = BalloonHint1
+        Anchors = [akTop, akRight]
+        Caption = 'O que '#233' o respons'#225'vel t'#233'cnico?'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        ExplicitLeft = 206
+      end
+      object LoginErroLabel: TLabel
+        Left = 2
+        Top = 274
+        Width = 296
+        Height = 13
+        Align = alBottom
+        Caption = 'LoginErroLabel'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 192
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        Visible = False
+        StyleElements = [seBorder]
+        ExplicitWidth = 77
+      end
+      object ObsLabel: TLabel
+        Left = 9
+        Top = 258
+        Width = 264
+        Height = 18
+        AutoSize = False
+        Caption = 'Todos os campos devem ser preenchidos'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        WordWrap = True
+      end
+      object AvisoSenhaLabel: TLabel
+        Left = 103
+        Top = 219
+        Width = 185
+        Height = 17
+        Caption = 'ATEN'#199#195'O! Exibindo a Senha!'
+        Color = 192
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Segoe UI Black'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+        Visible = False
+        StyleElements = []
+      end
+      object UsuRespNomeExibLabeledEdit: TLabeledEdit
+        Left = 8
+        Top = 46
+        Width = 285
+        Height = 25
+        EditLabel.Width = 119
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Nome para exibi'#231#227'o'
+        MaxLength = 32
+        TabOrder = 0
+        Text = ''
+        OnChange = UsuRespNomeExibLabeledEditChange
+        OnKeyPress = UsuRespNomeExibLabeledEditKeyPress
+      end
+      object UsuRespNomeUsuLabeledEdit: TLabeledEdit
+        Left = 8
+        Top = 94
+        Width = 285
+        Height = 25
+        EditLabel.Width = 102
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Nome de usu'#225'rio'
+        MaxLength = 32
+        TabOrder = 1
+        Text = ''
+        OnChange = UsuRespNomeUsuLabeledEditChange
+        OnKeyPress = UsuRespNomeUsuLabeledEditKeyPress
+      end
+      object UsuRespSenha1LabeledEdit: TLabeledEdit
+        Left = 8
+        Top = 142
+        Width = 285
+        Height = 25
+        EditLabel.Width = 35
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Senha'
+        MaxLength = 32
+        PasswordChar = '*'
+        TabOrder = 2
+        Text = ''
+        OnChange = UsuRespSenha1LabeledEditChange
+        OnKeyPress = UsuRespSenha1LabeledEditKeyPress
+      end
+      object UsuRespSenha2LabeledEdit: TLabeledEdit
+        Left = 8
+        Top = 190
+        Width = 285
+        Height = 25
+        EditLabel.Width = 86
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Repita a senha'
+        MaxLength = 32
+        PasswordChar = '*'
+        TabOrder = 3
+        Text = ''
+        OnChange = UsuRespSenha2LabeledEditChange
+        OnKeyPress = UsuRespSenha2LabeledEditKeyPress
+      end
+      object LoginToolBar: TToolBar
+        Left = 329
+        Top = 143
+        Width = 33
+        Height = 29
+        Align = alNone
+        Caption = 'LoginToolBar'
+        Images = SisImgDataModule.ImageListLogin16
+        TabOrder = 4
+        object ToolButton4: TToolButton
+          Left = 0
+          Top = 0
+          Hint = 'Exibe/Oculta a senha'
+          Caption = 'Exibir a senha'
+          ImageIndex = 0
+        end
+      end
+      object UsuRespExibSenhaCheckBox: TCheckBox
+        Left = 8
+        Top = 221
+        Width = 97
+        Height = 17
+        Caption = 'E&xibir senha'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 5
+        OnClick = UsuRespExibSenhaCheckBoxClick
+      end
+    end
+    object LojaIdGroupBox: TGroupBox
+      Left = 322
+      Top = 162
+      Width = 300
+      Height = 130
+      Caption = 'Loja'
+      TabOrder = 7
+      Visible = False
+      DesignSize = (
+        300
+        130)
+      object AjudaLojaLabel: TLabel
+        Left = 246
+        Top = 16
+        Width = 46
+        Height = 13
+        Hint = 
+          #201' o respons'#225'vel t'#233'cnico quem vai cadastrar os funcion'#225'rios, incl' +
+          'uindo da ger'#234'ncia, mas n'#227'o ter'#225' direitos de visualizar informa'#231#245 +
+          'es cr'#237'ticas da empresa, como RH ou Financeiro'
+        CustomHint = BalloonHint1
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        Caption = 'O que '#233'?'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object LojaIdLabeledEdit: TLabeledEdit
+        Left = 9
+        Top = 46
+        Width = 53
+        Height = 25
+        Alignment = taCenter
+        EditLabel.Width = 43
+        EditLabel.Height = 17
+        EditLabel.Caption = 'C'#243'digo'
+        MaxLength = 3
+        NumbersOnly = True
+        TabOrder = 0
+        Text = '1'
+        OnKeyPress = LojaIdLabeledEditKeyPress
+      end
+      object LojaApelidoLabeledEdit: TLabeledEdit
+        Left = 9
+        Top = 94
+        Width = 201
+        Height = 25
+        EditLabel.Width = 45
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Apelido'
+        MaxLength = 20
+        TabOrder = 1
+        Text = ''
+        OnKeyPress = LojaApelidoLabeledEditKeyPress
+      end
+    end
+    object ServerConfigSelectButton: TButton
+      Left = 778
+      Top = 135
+      Width = 25
+      Height = 25
+      Caption = '...'
+      TabOrder = 8
     end
   end
   object ActionList1: TActionList
     Images = SisImgDataModule.ImageList24Flat
-    Left = 455
-    Top = 112
+    Left = 23
+    Top = 96
     object OkAct: TAction
       Caption = 'Salvar e fechar'
       ImageIndex = 0
@@ -7170,8 +7455,35 @@ object StarterFormConfig: TStarterFormConfig
       OnExecute = CancelActExecute
     end
     object ReloadAct: TAction
-      Caption = 'Reler do arquivo'
+      Caption = 'Desfazer'
       ImageIndex = 2
+      Visible = False
     end
+  end
+  object BalloonHint1: TBalloonHint
+    Left = 23
+    Top = 24
+  end
+  object ActionList2: TActionList
+    Images = SisImgDataModule.ImageListLogin16
+    Left = 23
+    Top = 216
+    object BuscaNomeAction: TAction
+      Caption = 'Buscar nome'
+      Hint = 'Descobre o nome da m'#225'quina local'
+      ImageIndex = 2
+      OnExecute = BuscaNomeActionExecute
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 103
+    Top = 96
+  end
+  object ShowTimer: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = ShowTimerTimer
+    Left = 104
+    Top = 16
   end
 end
