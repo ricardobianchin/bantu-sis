@@ -65,7 +65,7 @@ end;
 
 function GetSQLVersaoGet: string;
 begin
-  Result := 'SELECT DBUPDATE_PA.VERSAO_GET() AS VERSAO FROM RDB$DATABASE;';
+  Result := 'SELECT DBUPDATE_PA.VERSAO_GET() AS DBVERSAO FROM RDB$DATABASE;';
 end;
 
 function GetSQLHistInsParams: string;

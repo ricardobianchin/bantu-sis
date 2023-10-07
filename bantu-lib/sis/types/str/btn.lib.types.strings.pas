@@ -22,6 +22,8 @@ function RightPos(pCar: Char; pStr: string): integer;
 
 function StrApos(pStr, pBusca: string): string;
 
+function StrGarantirTermino(pStr, pTermino: string): string;
+
 implementation
 
 uses strutils, sysutils;
@@ -196,6 +198,25 @@ begin
   SetLength(pStr, j - 1);
   // Retornar a string modificada
   Result := pStr;
+end;
+
+function StrGarantirTermino(pStr, pTermino: string): string;
+var
+  iLenTermino: integer;
+  sFinalAtual: string;
+begin
+  Result := pStr;
+
+  iLenTermino := Length(pTermino);
+
+  if iLenTermino = 0 then
+    exit;
+
+  sFinalAtual := RightStr(pStr, iLenTermino);
+  if sFinalAtual = pTermino then
+    exit;
+
+  Result := Result + pTermino;
 end;
 
 end.

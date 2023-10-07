@@ -4,14 +4,15 @@ interface
 
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u, btu.lib.db.updater.operations,
-  btu.sis.ui.io.log, btu.sis.ui.io.output;
+  btu.sis.ui.io.log, btu.sis.ui.io.output, btu.lib.lists.TextoList;
 
 type
   TComandoFBCreateDomains = class(TComandoFB)
   private
     FDomainsDefSL: TStringList;
-    FDomainNamesSL: TStringList;
-
+    //FDomainNamesSL: TStringList;
+    FComandosTextoList: ITextoList;
+    procedure ForcarUmComandoPorLinha;
   protected
     procedure PegarObjeto(pNome: string); override;
     function GetAsText: string;  override;
@@ -28,7 +29,8 @@ implementation
 
 uses btu.lib.db.updater.constants_u, btu.lib.db.updater.campo, System.SysUtils,
   btu.lib.db.updater.factory, btn.lib.types.strings, btu.sis.db.updater.utils
-  , System.StrUtils, btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u;
+  , System.StrUtils, btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u
+  , btu.lib.lists.factory, btu.lib.lists.TextoItem;
 
 { TComandoFBCreateDomains }
 
@@ -37,14 +39,40 @@ constructor TComandoFBCreateDomains.Create(pDBConnection: IDBConnection;
 begin
   inherited Create(pDBConnection, pUpdaterOperations, pLog, pOutput);
   FDomainsDefSL := TStringList.Create;
-  FDomainNamesSL := TStringList.Create;
+  //FDomainNamesSL := TStringList.Create;
+  FComandosTextoList := TextoListCreate;
 end;
 
 destructor TComandoFBCreateDomains.Destroy;
 begin
   FDomainsDefSL.Free;
-  FDomainNamesSL.Free;
+  //FDomainNamesSL.Free;
   inherited;
+end;
+
+procedure TComandoFBCreateDomains.ForcarUmComandoPorLinha;
+var
+  s: string;
+  I: integer;
+  FaComandos: TArray<string>;
+  sTit, sTex: string;
+  aPalavras: TArray<string>;
+begin
+  s := StrSemAcento( FDomainsDefSL.text);
+  s := StringReplace(s, #13#10, #32, [rfReplaceAll, rfIgnoreCase]);
+  FaComandos := s.Split([';']);
+  for I := 0 to Length(FaComandos) - 1 do
+  begin
+    s := StrSemEspacoDuplo(FaComandos[i]);
+
+    if LeftStr(s, 13) = 'CREATE DOMAIN' then
+    begin
+      aPalavras := s.Split([' ']);
+      sTit := aPalavras[2];
+      sTex := StrGarantirTermino(sTex, ';');
+      FComandosTextoList.PegarTextoItem(TextoItemCreate(sTit, sTex));
+    end;
+  end;
 end;
 
 function TComandoFBCreateDomains.Funcionou: boolean;
@@ -58,9 +86,9 @@ begin
   oDBQuery := btu.lib.db.factory.DBQueryCreate(DBConnection, sSql, Log, Output);
   oDBQuery.Prepare;
   try
-    for I := 0 to FDomainNamesSL.Count - 1 do
+    for I := 0 to FComandosTextoList.Count - 1 do
     begin
-      sDomainName := FDomainNamesSL[I];
+      sDomainName := FComandosTextoList[I].Titulo;
       oDBQuery.Params[0].AsString := sDomainName;
       try
         oDBQuery.Open;
@@ -81,8 +109,40 @@ begin
 end;
 
 function TComandoFBCreateDomains.GetAsSql: string;
+var
+  sSql: string;
+  sDomainName: string;
+  oDBQuery: IDBQuery;
+  I: integer;
+  bResultado: boolean;
+  oItemTexto: ITextoItem;
 begin
-  Result := FDomainsDefSL.Text;
+  Result := '';
+  sSql := GetSQLDomainExisteParams;
+  oDBQuery := btu.lib.db.factory.DBQueryCreate(DBConnection, sSql, Log, Output);
+  oDBQuery.Prepare;
+  try
+    for I := 0 to FComandosTextoList.Count - 1 do
+    begin
+      oItemTexto := FComandosTextoList[I];
+
+      sDomainName := oItemTexto.Titulo;
+      oDBQuery.Params[0].AsString := sDomainName;
+      try
+        oDBQuery.Open;
+        bResultado := oDBQuery.DataSet.Fields[0].AsInteger = 1;
+      finally
+        oDBQuery.Close;
+      end;
+
+      if not bResultado then
+      begin
+        Result := Result + oItemTexto.Texto + #13#10;
+      end;
+    end;
+  finally
+    oDBQuery.Unprepare;
+  end;
 
   if Result = '' then
     Exit;
@@ -100,9 +160,8 @@ end;
 
 function TComandoFBCreateDomains.GetAsText: string;
 begin
-//  FDomainsDefSL.Delimiter := ',';
 
-  Result := DBATUALIZ_TIPO_COMANDO_CREATE_DOMAINS + ' ' + FDomainNamesSL.DelimitedText;
+  Result := DBATUALIZ_TIPO_COMANDO_CREATE_DOMAINS + ' ' + FComandosTextoList.TitulosComVirgulas;
 end;
 
 procedure TComandoFBCreateDomains.PegarLinhas(var piLin: integer;
@@ -112,12 +171,12 @@ var
   sDomainName: string;
   sLinAtual: string;
   bPegandoCodigo: boolean;
-  aPalavras: TArray<string>;
+//  aPalavras: TArray<string>;
 begin
   bPegandoCodigo := False;
 
   FDomainsDefSL.Clear;
-  FDomainNamesSL.Clear;
+  //FDomainNamesSL.Clear;
 
   while piLin < pSL.Count do
   begin
@@ -132,20 +191,24 @@ begin
         break;
       end;
       FDomainsDefSL.Add(sLinha);
-
-      sLinAtual := StrSemEspacoDuplo(sLinha);
-      if LeftStr(sLinAtual, 13) = 'CREATE DOMAIN' then
-      begin
-        aPalavras := sLinha.Split([' ']);
-        sDomainName := aPalavras[2];
-        FDomainNamesSL.Add(sDomainName);
-      end;
     end
     else if sLinha = SYNTAX_FIREBIRD_INI then
     begin
       bPegandoCodigo := True;
     end;
   end;
+
+
+  (*      sLinAtual := StrSemEspacoDuplo(sLinha);
+      if LeftStr(sLinAtual, 13) = 'CREATE DOMAIN' then
+      begin
+        aPalavras := sLinha.Split([' ']);
+        sDomainName := aPalavras[2];
+        FDomainNamesSL.Add(sDomainName);
+      end;
+*)
+
+  ForcarUmComandoPorLinha;
 end;
 
 procedure TComandoFBCreateDomains.PegarObjeto(pNome: string);
