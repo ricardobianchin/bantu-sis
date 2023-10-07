@@ -110,7 +110,11 @@ uses
   btu.lib.db.dbms.config_u in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config_u.pas',
   btu.lib.db.dbms.config.firebird_u in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.firebird_u.pas',
   btu.sta.exec.testes.csv_u in 'sta\btu.sta.exec.testes.csv_u.pas',
-  btu.lib.db.updater.comando.fb.ensurerecords_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas';
+  btu.lib.db.updater.comando.fb.ensurerecords_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas',
+  btu.lib.lists.TextoItem in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem.pas',
+  btu.lib.lists.TextoItem_u in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem_u.pas',
+  btu.lib.lists.TextoList in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList.pas',
+  btu.lib.lists.TextoList_u in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas';
 
 {$R *.res}
 

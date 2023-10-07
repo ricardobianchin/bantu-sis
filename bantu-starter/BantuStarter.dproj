@@ -234,6 +234,10 @@
         <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.firebird_u.pas"/>
         <DCCReference Include="sta\btu.sta.exec.testes.csv_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
