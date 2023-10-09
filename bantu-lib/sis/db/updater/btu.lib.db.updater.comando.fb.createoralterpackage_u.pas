@@ -125,12 +125,12 @@ begin
 
     if bPegandoCodigo then
     begin
-      FPackageDefSL.Add(sLinha);
       if sLinha = SYNTAX_FIM then
       begin
         bPegandoCodigo := False;
         break;
       end;
+      FPackageDefSL.Add(sLinha);
 
       if LeftStr(sLinha, 23) = 'CREATE OR ALTER PACKAGE' then
       begin
@@ -138,6 +138,7 @@ begin
       end
       else if LeftStr(sLinha, 21) = 'RECREATE PACKAGE BODY' then
       begin
+        FPackageDefSL.Add('');
         bPegandoBody := True;
       end;
 

@@ -160,7 +160,7 @@ begin
   begin
     //SetClipboardText(sNomeArqTmp);
     ExecutarNotepadPlusPlus(sNomeArqTmp);
-    showmessage('vai executar ' + sNomeArqTmp);
+    //showmessage('vai executar ' + sNomeArqTmp);
   end;
 
   sExecFile := FIsqlExe;

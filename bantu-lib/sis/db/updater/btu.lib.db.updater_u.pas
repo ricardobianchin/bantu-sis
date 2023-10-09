@@ -229,17 +229,18 @@ var
   sOutput: string;
 begin
   sLog := 'TDBUpdater.LerUpdateProperties,';
+  sOutput := '';
 
   FsAssunto := pSL.Values[DBATUALIZ_ASSUNTO_CHAVE];
-  sOutput := 'FsAssunto=' + FsAssunto;
+  sOutput := sOutput + 'FsAssunto=' + FsAssunto + #13#10;
 
   FsObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
-  sOutput := 'sObjetivo=' + FsObjetivo;
+  sOutput := sOutput + 'sObjetivo=' + FsObjetivo + #13#10;
 
   FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
-  sOutput := 'sObs=' + FsObs;
+  sOutput := sOutput + 'sObs=' + FsObs + #13#10;
 
-  sLog := sLog + sOutput;
+  sLog := sLog + #13#10 + sOutput;
   FOutput.Exibir(sOutput);
   FLog.Exibir(sLog);
 end;

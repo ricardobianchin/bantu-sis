@@ -3,7 +3,8 @@ unit btu.lib.db.updater.comando.fb.createtable_u;
 interface
 
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
-  btu.lib.db.types, btu.lib.db.updater.comando.fb_u, btu.lib.db.updater.operations,
+  btu.lib.db.types, btu.lib.db.updater.comando.fb_u,
+  btu.lib.db.updater.operations,
   btu.sis.ui.io.log, btu.sis.ui.io.output;
 
 type
@@ -98,7 +99,10 @@ end;
 
 function TComandoFBCreateTable.GetPKName: string;
 begin
-  Result := FNomeTabela + PKINDEXNAME_SUFIXO;
+
+  Result := DBUpdaterOperations.NomeTabelaToPKName(FNomeTabela);
+
+//  FNomeTabela + PKINDEXNAME_SUFIXO;
 end;
 
 function TComandoFBCreateTable.GetSqlCreatePK: string;

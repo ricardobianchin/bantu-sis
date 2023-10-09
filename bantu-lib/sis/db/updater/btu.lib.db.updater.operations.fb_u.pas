@@ -31,13 +31,16 @@ type
     procedure PrepareVersoes;
     procedure Unprepare;
 
+    function NomeTabelaToPKName(pNomeTabela: string): string;
+
     constructor Create(pDBConnection: IDBConnection; pLog: ILog;
       pOutput: IOutput);
   end;
 
 implementation
 
-uses btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u, System.SysUtils;
+uses btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u, System.SysUtils,
+  btu.lib.db.updater.constants_u;
 
 { TDBUpdateOperationsFB }
 
@@ -104,6 +107,12 @@ begin
   FDBExecHistIns.Params[2].AsString := pObjetivo;
   FDBExecHistIns.Params[3].AsString := pObs;
   FDBExecHistIns.Execute;
+end;
+
+function TDBUpdaterOperationsFB.NomeTabelaToPKName(pNomeTabela: string): string;
+begin
+  Result := pNomeTabela + btu.lib.db.updater.constants_u.PKINDEXNAME_SUFIXO;
+
 end;
 
 procedure TDBUpdaterOperationsFB.PreparePrincipais;
