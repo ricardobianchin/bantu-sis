@@ -19,6 +19,8 @@ type
     procedure PreparePrincipais;
     procedure PrepareVersoes;
     procedure Unprepare;
+
+    function NomeTabelaToPKName(pNomeTabela: string): string;
   end;
 
 implementation

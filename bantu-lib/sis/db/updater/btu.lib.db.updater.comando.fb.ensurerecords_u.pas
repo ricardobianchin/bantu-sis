@@ -53,11 +53,72 @@ end;
 
 function TComandoFBEnsureRecords.Funcionou: boolean;
 begin
-
+  Result := True;
 end;
 
 function TComandoFBEnsureRecords.GetAsSql: string;
+var
+  I: Integer;
+  sReg: string;
+  aValores: TArray<string>;
+  sIndexFieldNames: string;
+  aFieldNames: TArray<string>;
+  iQtdIndices: integer;
+  iParamIndice: integer;
+  bRegistroTem: boolean;
+  J: Integer;
 begin
+  Result := '';
+
+  sIndexFieldNames := DBUpdaterOperations.GetIndexFieldNames
+    (DBUpdaterOperations.NomeTabelaToPKName(FNomeTabela));
+  aFieldNames := sIndexFieldNames.Split([',']);
+  iQtdIndices := Length(aFieldNames);
+
+  for I := 0 to FRegistrosSL.count - 1 do
+  begin
+    sReg := FRegistrosSL[I];
+
+    AjusteAsciiCodeToChar(sReg);
+
+    aValores := sReg.Split([';']);
+
+    for J := 0 to iQtdIndices - 1 do
+    begin
+      FTemDBQuery.Params[J].AsString := aValores[J];
+    end;
+
+    FTemDBQuery.Open;
+    try
+      bRegistroTem := FTemDBQuery.DataSet.Fields[0].AsInteger = 1;
+    finally
+      FTemDBQuery.Close;
+    end;
+
+    if bRegistroTem then
+    begin
+      iParamIndice := 0;
+      for J := iQtdIndices to Length(aValores) - 1 do
+      begin
+        FUpdDBExec.Params[iParamIndice].AsString := aValores[J];
+        inc(iParamIndice);
+      end;
+      for J := 0 to iQtdIndices - 1 do
+      begin
+        FUpdDBExec.Params[iParamIndice].AsString := aValores[J];
+        inc(iParamIndice);
+      end;
+      FUpdDBExec.Execute;
+    end
+    else
+    begin
+      for J := 0 to Length(aValores) - 1 do
+      begin
+        FInsDBExec.Params[J].AsString := aValores[J];
+      end;
+      FInsDBExec.Execute;
+    end;
+  end;
 end;
 
 function TComandoFBEnsureRecords.GetAsText: string;
@@ -75,6 +136,7 @@ var
   sCampos, sValues: string;
 
   sUpdSet: string;
+  s: string;
 begin
   sCampos := '';
   sValues := '';
@@ -88,7 +150,16 @@ begin
 
   sSqlTem := GetSQLExists(sSqlTem);
   FTemDBQuery := DBQueryCreate(DBConnection, sSqlTem, Log, Output);
-  FTemDBQuery.Prepare;
+  try
+    FTemDBQuery.Prepare;
+  except on E: Exception do
+  begin
+    s := e.Message + ' ao preparar ' + sSqlTem;
+    Log.Exibir(s);
+    Output.Exibir(s);
+    raise Exception.Create(s);
+  end;
+  end;
 
   sSqlIns := 'INSERT INTO ' + FNomeTabela + '(';
   sSqlUpd := 'UPDATE ' + FNomeTabela + ' SET ';
@@ -119,12 +190,31 @@ begin
     ;
 
   FInsDBExec := DBExecCreate(DBConnection, sSqlIns, Log, Output);
-  FInsDBExec.Prepare;
+  try
+    FInsDBExec.Prepare;
+  except on E: Exception do
+  begin
+    s := e.Message + ' ao preparar ' + sSqlTem;
+    Log.Exibir(s);
+    Output.Exibir(s);
+    raise Exception.Create(s);
+  end;
+  end;
 
   sUpdSet := sUpdSet + ' WHERE ' + FaTitulos[0] + ' = :' + FaTitulos[0] + ';';
+  sSqlUpd := sSqlUpd + sUpdSet;
 
-  FUpdDBExec := DBExecCreate(DBConnection, sUpdSet, Log, Output);
-  FUpdDBExec.Prepare;
+  FUpdDBExec := DBExecCreate(DBConnection, sSqlUpd, Log, Output);
+  try
+    FUpdDBExec.Prepare;
+  except on E: Exception do
+  begin
+    s := e.Message + ' ao preparar ' + sSqlTem;
+    Log.Exibir(s);
+    Output.Exibir(s);
+    raise Exception.Create(s);
+  end;
+  end;
 
 end;
 
