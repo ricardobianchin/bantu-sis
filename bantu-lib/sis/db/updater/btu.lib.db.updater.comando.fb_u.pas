@@ -21,9 +21,11 @@ type
     function GetLog: ILog;
     function GetOutput: IOutput;
 
+    function GetDBConnection: IDBConnection;
+
   protected
     procedure PegarObjeto(pNome: string); virtual; abstract;
-    property DBConnection: IDBConnection read FDBConnection;
+    property DBConnection: IDBConnection read GetDBConnection;
     property DBUpdaterOperations: IDBUpdaterOperations read FDBUpdaterOperations;
     function GetAsText: string; virtual; abstract;
   public
@@ -52,6 +54,11 @@ begin
   FOutput := pOutput;
   FUltimoErro := '';
   FDBUpdaterOperations := pUpdaterOperations;
+end;
+
+function TComandoFB.GetDBConnection: IDBConnection;
+begin
+  Result := FDBConnection;
 end;
 
 function TComandoFB.GetLog: ILog;

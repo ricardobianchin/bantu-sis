@@ -30,7 +30,7 @@ implementation
 
 uses btu.lib.db.updater.constants_u, btu.lib.db.updater.campo, System.SysUtils,
   btu.lib.db.updater.factory, btn.lib.types.strings, btu.sis.db.updater.utils
-  , System.StrUtils;
+  , System.StrUtils, btu.lib.sis.clipb_u;
 
 { TComandoFBCreateOrAlterPackage }
 
@@ -64,14 +64,14 @@ begin
 
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
 
-  Result := FCabecLinhasSL.Text = sCabec + #10;
+  Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
   begin
     UltimoErro := 'TComandoFBCreateOrAlterPackage, Erro ao criar o cabecalho da package ' + FPackageName;
     Exit;
   end;
 
-  Result := FBodyLinhasSL.Text = sBody + #10;
+  Result := FBodyLinhasSL.Text = sBody;
   if not Result then
   begin
     UltimoErro := 'TComandoFBCreateOrAlterPackage, Erro ao criar o codigo da package ' + FPackageName;
@@ -80,7 +80,27 @@ begin
 end;
 
 function TComandoFBCreateOrAlterPackage.GetAsSql: string;
+var
+  sCabec: string;
+  sBody: string;
 begin
+  Result := '';
+
+  DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
+{
+  SetClipboardText(
+    'sCabec'#13#10+sCabec+#13#10#13#10+
+    'sBody'#13#10+sBody+#13#10#13#10+
+    'FCabecLinhasSL'#13#10+ FCabecLinhasSL.Text+#13#10#13#10+
+    'FBodyLinhasSL'#13#10+ FBodyLinhasSL.Text+#13#10#13#10
+    );}
+
+  if
+    (FCabecLinhasSL.Text = sCabec) and
+    (FBodyLinhasSL.Text = sBody)
+  then
+    exit;
+
   Result := FPackageDefSL.Text;
 
   if Result = '' then

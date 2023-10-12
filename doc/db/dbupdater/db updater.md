@@ -1,5 +1,10 @@
 # db updater
 
+## pasta
+
+C:\Pr\app\bantu\bantu-sis\bantu-lib\sis\db\updater
+
+
 ## `TComandoFBEnsureRecords`
 
 os valores chave primária tem que ser os mais a esquerda.

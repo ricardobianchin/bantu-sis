@@ -55,6 +55,7 @@ end;
 procedure TDBConnectionFireDAC.Commit;
 begin
   FFDConnection.Commit;
+  FFDConnection.TxOptions.AutoCommit := False;
 end;
 
 function TDBConnectionFireDAC.ConnectionObjectAberto: boolean;
@@ -141,10 +142,12 @@ end;
 procedure TDBConnectionFireDAC.Rollback;
 begin
   FFDConnection.Rollback;
+  FFDConnection.TxOptions.AutoCommit := False;
 end;
 
 procedure TDBConnectionFireDAC.StartTransaction;
 begin
+  FFDConnection.TxOptions.AutoCommit := true;
   FFDConnection.StartTransaction;
 end;
 

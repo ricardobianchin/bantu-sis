@@ -1,0 +1,213 @@
+
+  SELECT RC.RDB$RELATION_NAME, RF.RDB$FIELD_NAME, RI.RDB$RELATION_NAME, ISGMT.RDB$FIELD_NAME
+  FROM RDB$RELATION_CONSTRAINTS RC
+  JOIN RDB$REF_CONSTRAINTS RR ON RC.RDB$CONSTRAINT_NAME = RR.RDB$CONSTRAINT_NAME
+  JOIN RDB$RELATION_CONSTRAINTS RI ON RI.RDB$CONSTRAINT_NAME = RR.RDB$CONST_NAME_UQ
+  JOIN RDB$INDEX_SEGMENTS RF ON RF.RDB$INDEX_NAME = RC.RDB$INDEX_NAME
+  JOIN RDB$INDEX_SEGMENTS ISGMT ON ISGMT.RDB$INDEX_NAME = RI.RDB$INDEX_NAME
+  WHERE RC.RDB$CONSTRAINT_TYPE = 'FOREIGN KEY'
+  AND RC.RDB$CONSTRAINT_NAME = :FOREIGN_KEY_NAME'
+;
+  
+  ALTER TABLE PESSOA ADD CONSTRAINT PESSOA_GENERO_FK FOREIGN KEY (GENERO_ID) REFERENCES GENERO (GENERO_ID);
+
+
+SELECT
+  COUNT(*) AS qtd
+FROM
+  RDB$RELATION_CONSTRAINTS
+WHERE
+  RDB$CONSTRAINT_NAME = 'PESSOA_GENERO_FK';
+
+
+
+
+
+
+/*
+ALTER TABLE <tabela_fk> ADD CONSTRAINT <nome_fk> FOREIGN KEY (<colunas_fk>) REFERENCES <tabela_pk> (<colunas_pk>);
+
+Ok, eu vou gerar o comando CREATE FOREIGN KEY para você. Esse comando é usado para criar uma restrição de chave estrangeira em uma tabela, que significa que os valores de uma ou mais colunas devem corresponder aos valores de outra tabela. A sintaxe do comando é a seguinte:
+
+```FIREBIRD
+ALTER TABLE <tabela_fk> ADD CONSTRAINT <nome_fk> FOREIGN KEY (<colunas_fk>) REFERENCES <tabela_pk> (<colunas_pk>);
+```
+
+Onde:
+
+- `<tabela_fk>` é o nome da tabela onde tem a chave estrangeira.
+- `<nome_fk>` é o nome da restrição de chave estrangeira.
+- `<colunas_fk>` são os nomes das colunas que formam a chave estrangeira, separados por vírgulas.
+- `<tabela_pk>` é o nome da tabela de onde os dados das chaves estrangeiras virão.
+- `<colunas_pk>` são os nomes das colunas da tabela referenciada, que devem ter o mesmo número e tipo das colunas da chave estrangeira.
+
+Por exemplo, se você quiser criar uma chave estrangeira na tabela PEDIDOS, que referencia a tabela CLIENTES, usando as colunas ID_PEDIDO e ID_CLIENTE, você pode usar o seguinte comando:
+
+```FIREBIRD
+ALTER TABLE PEDIDOS ADD CONSTRAINT FK_PEDIDOS_CLIENTES FOREIGN KEY (ID_PEDIDO, ID_CLIENTE) REFERENCES CLIENTES (ID_PEDIDO, ID_CLIENTE);
+```
+
+Esse comando cria uma restrição chamada FK_PEDIDOS_CLIENTES, que garante que os valores de ID_PEDIDO e ID_CLIENTE na tabela PEDIDOS existam na tabela CLIENTES.
+
+Você pode encontrar mais informações sobre o comando CREATE FOREIGN KEY no site [Firebird GUI Tools](^3^) ou na [documentação do Firebird](^2^).
+
+Espero que isso te ajude com o seu projeto. Se você tiver alguma dúvida, pode me perguntar. Eu estou aqui para te ajudar. 😊
+
+(Translation: Ok, I will generate the command CREATE FOREIGN KEY for you. This command is used to create a foreign key constraint on a table, which means that the values of one or more columns must match the values of another table. The syntax of the command is as follows:
+
+```FIREBIRD
+ALTER TABLE <table_fk> ADD CONSTRAINT <name_fk> FOREIGN KEY (<columns_fk>) REFERENCES <table_pk> (<columns_pk>);
+```
+
+Where:
+
+- `<table_fk>` is the name of the table where the foreign key is.
+- `<name_fk>` is the name of the foreign key constraint.
+- `<columns_fk>` are the names of the columns that form the foreign key, separated by commas.
+- `<table_pk>` is the name of the table from where the data of the foreign keys will come from.
+- `<columns_pk>` are the names of the columns of the referenced table, which must have the same number and type of the foreign key columns.
+
+For example, if you want to create a foreign key on the table PEDIDOS, which references the table CLIENTES, using the columns ID_PEDIDO and ID_CLIENTE, you can use the following command:
+
+```FIREBIRD
+ALTER TABLE PEDIDOS ADD CONSTRAINT FK_PEDIDOS_CLIENTES FOREIGN KEY (ID_PEDIDO, ID_CLIENTE) REFERENCES CLIENTES (ID_PEDIDO, ID_CLIENTE);
+```
+
+This command creates a constraint called FK_PEDIDOS_CLIENTES, which ensures that the values of ID_PEDIDO and ID_CLIENTE in the table PEDIDOS exist in the table CLIENTES.
+
+You can find more information about the command CREATE FOREIGN KEY on the site [Firebird GUI Tools](^3^) or in the [Firebird documentation](^2^).
+
+I hope this helps you with your project. If you have any questions, you can ask me. I'm here to help you. 😊)
+
+Source: Conversation with Bing, 10/10/2023
+(1) Firebird GUI Tools - Firebird database management software by SQL .... https://www.sqlmaestro.com/products/firebird/maestro/help/03_03_05_foreign_keys/.
+(2) 5.4 TABLE - Firebird. https://firebirdsql.org/file/documentation/chunk/en/refdocs/fblangref25/fblangref25-ddl-tbl.html.
+(3) Firebird GUI Tools - Firebird database management software by SQL .... https://www.sqlmaestro.com/products/firebird/maestro/help/03_03_05_foreign_keys/.
+(4) 5.4 TABLE - Firebird. https://firebirdsql.org/file/documentation/chunk/en/refdocs/fblangref25/fblangref25-ddl-tbl.html.
+(5) ALTER TABLE - Firebird. https://firebirdsql.org/refdocs/langrefupd20-alter-table.html.
+(6) firebird - Creation of foreign key fails on existing table, but no .... https://stackoverflow.com/questions/26718361/creation-of-foreign-key-fails-on-existing-table-but-no-orphan-records-found.
+(7) Firebird Alter Table Add Foreign Key - RazorSQL. https://razorsql.com/features/firebird_add_foreign_key.html.
+
+*/
+
+
+
+
+SELECT RC.RDB$CONSTRAINT_NAME, RC.RDB$RELATION_NAME, RC.RDB$DEFERRABLE, RC.RDB$INITIALLY_DEFERRED, RC.RDB$INDEX_NAME, RC.RDB$TRIGGER_NAME, RC.RDB$CONST_NAME_UQ
+FROM RDB$RELATION_CONSTRAINTS RC
+WHERE RC.RDB$CONSTRAINT_TYPE = 'FOREIGN KEY' AND RC.RDB$CONSTRAINT_NAME = '<foreign_key_name>';
+
+
+Para verificar se uma foreign key existe no Firebird, você pode usar o seguinte comando no isql:
+
+```FIREBIRD
+SELECT RC.RDB$CONSTRAINT_NAME, RC.RDB$RELATION_NAME, RC.RDB$DEFERRABLE, RC.RDB$INITIALLY_DEFERRED, RC.RDB$INDEX_NAME, RC.RDB$TRIGGER_NAME, RC.RDB$CONST_NAME_UQ
+FROM RDB$RELATION_CONSTRAINTS RC
+WHERE RC.RDB$CONSTRAINT_TYPE = 'FOREIGN KEY' AND RC.RDB$CONSTRAINT_NAME = '<foreign_key_name>';
+```
+
+Onde `<foreign_key_name>` é o nome da foreign key que você quer verificar. Se o comando retornar uma linha com os detalhes da foreign key, significa que ela existe. Se o comando não retornar nenhuma linha, significa que ela não existe.
+
+Você pode encontrar mais informações sobre como trabalhar com foreign keys no Firebird no site [Firebird GUI Tools](^3^) ou na [documentação do Firebird](^2^).
+
+Espero que isso te ajude. Se você tiver mais alguma dúvida, pode me perguntar. Eu estou aqui para te ajudar. 😊
+
+(Translation: To check if a foreign key exists in Firebird, you can use the following command in isql:
+
+```FIREBIRD
+SELECT RC.RDB$CONSTRAINT_NAME, RC.RDB$RELATION_NAME, RC.RDB$DEFERRABLE, RC.RDB$INITIALLY_DEFERRED, RC.RDB$INDEX_NAME, RC.RDB$TRIGGER_NAME, RC.RDB$CONST_NAME_UQ
+FROM RDB$RELATION_CONSTRAINTS RC
+WHERE RC.RDB$CONSTRAINT_TYPE = 'FOREIGN KEY' AND RC.RDB$CONSTRAINT_NAME = '<foreign_key_name>';
+```
+
+Where `<foreign_key_name>` is the name of the foreign key that you want to check. If the command returns a row with the details of the foreign key, it means that it exists. If the command does not return any row, it means that it does not exist.
+
+You can find more information on how to work with foreign keys in Firebird on the site [Firebird GUI Tools](^3^) or in the [Firebird documentation](^2^).
+
+I hope this helps you. If you have any more questions, you can ask me. I'm here to help you. 😊)
+
+Source: Conversation with Bing, 10/10/2023
+(1) Firebird - Foreign key reference target does not exist. https://stackoverflow.com/questions/32425086/firebird-foreign-key-reference-target-does-not-exist.
+(2) How to get foreign key referenced table in Firebird. https://stackoverflow.com/questions/20699310/how-to-get-foreign-key-referenced-table-in-firebird.
+(3) Firebird - Foreign key reference target does not exist. https://stackoverflow.com/questions/32425086/firebird-foreign-key-reference-target-does-not-exist.
+(4) How to get foreign key referenced table in Firebird. https://stackoverflow.com/questions/20699310/how-to-get-foreign-key-referenced-table-in-firebird.
+(5) sql - How do I check if the foreign key exists? - Stack Overflow. https://stackoverflow.com/questions/16716855/how-do-i-check-if-the-foreign-key-exists.
+(6) SQL database (Firebird): problem with a foreign key. https://stackoverflow.com/questions/1613154/sql-database-firebird-problem-with-a-foreign-key.
+
+
+
+
+Sim, esse comando SQL pode ser adaptado para verificar se uma chave primária existe. Você só precisa mudar o nome da restrição e o tipo de restrição para 'PRIMARY KEY'. Por exemplo, se você quiser verificar se a chave primária da tabela PEDIDOS existe, você pode usar o seguinte comando:
+
+```FIREBIRD
+set term ^;
+execute block as
+begin
+  if (exists (select 0 from rdb$relation_constraints where rdb$constraint_name = 'PK_PEDIDOS' and rdb$constraint_type = 'PRIMARY KEY')) then
+    execute statement 'alter table PEDIDOS drop constraint PK_PEDIDOS';
+end
+^
+set term ;^
+```
+
+Esse comando verifica se existe uma restrição de chave primária chamada PK_PEDIDOS na tabela PEDIDOS. Se existir, ele executa uma instrução para remover a restrição. Você pode adaptar esse comando para qualquer tabela e qualquer chave primária que você quiser verificar.
+
+Você pode encontrar mais informações sobre como trabalhar com restrições no Firebird no site [Firebird GUI Tools](^3^) ou na [documentação do Firebird](^2^).
+
+Espero que isso te ajude. Se você tiver mais alguma dúvida, pode me perguntar. Eu estou aqui para te ajudar. 😊
+
+(Translation: Yes, this SQL command can be adapted to check if a primary key exists. You just need to change the name of the constraint and the type of constraint to 'PRIMARY KEY'. For example, if you want to check if the primary key of the table PEDIDOS exists, you can use the following command:
+
+```FIREBIRD
+set term ^;
+execute block as
+begin
+  if (exists (select 0 from rdb$relation_constraints where rdb$constraint_name = 'PK_PEDIDOS' and rdb$constraint_type = 'PRIMARY KEY')) then
+    execute statement 'alter table PEDIDOS drop constraint PK_PEDIDOS';
+end
+^
+set term ;^
+```
+
+This command checks if there is a primary key constraint called PK_PEDIDOS on the table PEDIDOS. If there is, it executes a statement to remove the constraint. You can adapt this command for any table and any primary key that you want to check.
+
+You can find more information on how to work with constraints in Firebird on the site [Firebird GUI Tools](^3^) or in the [Firebird documentation](^2^).
+
+I hope this helps you. If you have any more questions, you can ask me. I'm here to help you. 😊)
+
+Source: Conversation with Bing, 10/10/2023
+(1) How do I check if a constraint exists on Firebird?. https://dba.stackexchange.com/questions/37000/how-do-i-check-if-a-constraint-exists-on-firebird.
+(2) firebird - How do I alter an existing primary key in a table? - Stack .... https://stackoverflow.com/questions/34114973/how-do-i-alter-an-existing-primary-key-in-a-table.
+(3) How do I check if a constraint exists on Firebird?. https://dba.stackexchange.com/questions/37000/how-do-i-check-if-a-constraint-exists-on-firebird.
+(4) firebird - How do I alter an existing primary key in a table? - Stack .... https://stackoverflow.com/questions/34114973/how-do-i-alter-an-existing-primary-key-in-a-table.
+(5) Find all column names that are primary keys in Firebird database. https://stackoverflow.com/questions/36617891/find-all-column-names-that-are-primary-keys-in-firebird-database.
+(6) sql - A script to test existence of primary keys - Stack Overflow. https://stackoverflow.com/questions/13258297/a-script-to-test-existence-of-primary-keys.
+
+
+
+
+
+
+Para buscar por uma chave primária, você precisa mudar o valor do tipo de restrição para 'PRIMARY KEY' e o nome da restrição para '<primary_key_name>'. O comando ficaria assim:
+
+SELECT RC.RDB$CONSTRAINT_NAME, RC.RDB$RELATION_NAME, RC.RDB$DEFERRABLE, RC.RDB$INITIALLY_DEFERRED, RC.RDB$INDEX_NAME, RC.RDB$TRIGGER_NAME, RC.RDB$CONST_NAME_UQ
+FROM RDB$RELATION_CONSTRAINTS RC
+WHERE RC.RDB$CONSTRAINT_TYPE = 'PRIMARY KEY' AND RC.RDB$CONSTRAINT_NAME = '<primary_key_name>';
+
+Esse comando retorna os detalhes da chave primária com o nome especificado. Se você quiser ver todas as chaves primárias do banco de dados, você pode omitir a condição do nome da restrição.
+
+Espero que isso te ajude. Se você tiver mais alguma dúvida, pode me perguntar. Eu estou aqui para te ajudar. 😊
+
+(Translation: To search for a primary key, you need to change the value of the constraint type to 'PRIMARY KEY' and the name of the constraint to '<primary_key_name>'. The command would look like this:
+
+SELECT RC.RDB$CONSTRAINT_NAME, RC.RDB$RELATION_NAME, RC.RDB$DEFERRABLE, RC.RDB$INITIALLY_DEFERRED, RC.RDB$INDEX_NAME, RC.RDB$TRIGGER_NAME, RC.RDB$CONST_NAME_UQ
+FROM RDB$RELATION_CONSTRAINTS RC
+WHERE RC.RDB$CONSTRAINT_TYPE = 'PRIMARY KEY' AND RC.RDB$CONSTRAINT_NAME = '<primary_key_name>';
+
+This command returns the details of the primary key with the specified name. If you want to see all the primary keys in the database, you can omit the condition of the constraint name.
+
+I hope this helps you. If you have any more questions, you can ask me. I'm here to help you. 😊)
+
+
+
+

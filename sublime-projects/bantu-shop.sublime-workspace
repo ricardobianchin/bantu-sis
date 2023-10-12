@@ -1,0 +1,1191 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Pr/ter/i9/Src/Foco1/Sys/SysDBI/UtilsDataSet.pas",
+			"settings":
+			{
+				"buffer_size": 20928,
+				"encoding": "Western (Windows 1252)",
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000003.txt",
+			"settings":
+			{
+				"buffer_size": 122097,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+				[
+					10,
+					1,
+					"cut",
+					null,
+					"AQAAAFMAAAAAAAAAUwAAAAAAAABNBQAALS0tLS0KLy8gRnVuw6fDo28gcXVlIHJlY2ViZSB1bSBjaGFyIGUgcmV0b3JuYSB2ZXJkYWRlaXJvIHNlIGZvciB1bSBhbGdhcmlzbW8KZnVuY3Rpb24gSXNEaWdpdChjOiBjaGFyKTogYm9vbGVhbjsKYmVnaW4KICAvLyBWZXJpZmljYSBzZSBvIGPDs2RpZ28gQVNDSUkgZG8gY2hhciBlc3TDoSBlbnRyZSA0OCBlIDU3LCBxdWUgY29ycmVzcG9uZGVtIGFvcyBhbGdhcmlzbW9zIGRlIDAgYSA5CiAgSXNEaWdpdCA6PSAob3JkKGMpID49IDQ4KSBhbmQgKG9yZChjKSA8PSA1Nyk7CmVuZDsKCi8vIFByb2NlZHVyZSBxdWUgcmVjZWJlIHVtYSBzdHJpbmcgY3VqbyBjb250ZcO6ZG8gc8OjbyBkYWRvcyBzZXBhcmFkb3MgcG9yIDsgZSBzdWJzdGl0dWkgYXMgc2VxdcOqbmNpYXMgZGUgIyBzZWd1aWRhcyBkZSAzIGFsZ2FyaXNtb3MgcGVsbyBjYXJhY3RlcmUgQVNDSUkgY29ycmVzcG9uZGVudGUKcHJvY2VkdXJlIEFzY2lpQ29kZVRvQ2hhcih2YXIgcFN0cjogc3RyaW5nKTsKdmFyCiAgaSwgY29kZTogaW50ZWdlcjsKICBjOiBjaGFyOwogIC8vIFBlcmNvcnJlIGEgc3RyaW5nIGRhIGVzcXVlcmRhIHBhcmEgYSBkaXJlaXRhCiAgaSA6PSAxOwogIHdoaWxlIGkgPD0gbGVuZ3RoKHBTdHIpIGRvCiAgYmVnaW4KICAgIC8vIFNlIGVuY29udHJhciBvIGNhcmFjdGVyZSAjCiAgICBpZiBwU3RyW2ldID0gJyMnIHRoZW4KICAgIGJlZ2luCiAgICAgIC8vIFZlcmlmaWNhIHNlIG9zIHByw7N4aW1vcyB0csOqcyBjYXJhY3RlcmVzIHPDo28gYWxnYXJpc21vcwogICAgICBpZiAoaSArIDMgPD0gbGVuZ3RoKHBTdHIpKSBhbmQgSXNEaWdpdChwU3RyW2krMV0pIGFuZCBJc0RpZ2l0KHBTdHJbaSsyXSkgYW5kIElzRGlnaXQocFN0cltpKzNdKSB0aGVuCiAgICAgIGJlZ2luCiAgICAgICAgLy8gQ29udmVydGUgb3MgdHLDqnMgYWxnYXJpc21vcyBlbSB1bSBuw7ptZXJvIGludGVpcm8KICAgICAgICBjb2RlIDo9IFN0clRvSW50KHBTdHJbaSsxXSArIHBTdHJbaSsyXSArIHBTdHJbaSszXSk7CiAgICAgICAgLy8gQ29udmVydGUgbyBuw7ptZXJvIGludGVpcm8gZW0gdW0gY2FyYWN0ZXJlIEFTQ0lJCiAgICAgICAgYyA6PSBjaHIoY29kZSk7CiAgICAgICAgLy8gU3Vic3RpdHVpIGEgc2VxdcOqbmNpYSBkZSAjIGUgdHLDqnMgYWxnYXJpc21vcyBwZWxvIGNhcmFjdGVyZSBBU0NJSSBuYSBzdHJpbmcgb3JpZ2luYWwKICAgICAgICBwU3RyIDo9IENvcHkocFN0ciwgMSwgaS0xKSArIGMgKyBDb3B5KHBTdHIsIGkrNCwgbGVuZ3RoKHBTdHIpIC0gaSAtIDMpOwogICAgICBlbmQ7CiAgICBlbmQ7CiAgICAvLyBJbmNyZW1lbnRhIG8gw61uZGljZSBkYSBzdHJpbmcKICAgIGkgOj0gaSArIDE7CiAgZW5kOwplbmQ7CgotLS0tCg",
+					"AQAAAAAAAAABAAAAUwAAAAAAAACQBQAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					13,
+					1,
+					"insert",
+					{
+						"characters": "\n-------"
+					},
+					"CAAAAFIAAAAAAAAAUwAAAAAAAAAAAAAAUwAAAAAAAABUAAAAAAAAAAAAAABUAAAAAAAAAFUAAAAAAAAAAAAAAFUAAAAAAAAAVgAAAAAAAAAAAAAAVgAAAAAAAABXAAAAAAAAAAAAAABXAAAAAAAAAFgAAAAAAAAAAAAAAFgAAAAAAAAAWQAAAAAAAAAAAAAAWQAAAAAAAABaAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAUgAAAAAAAABSAAAAAAAAAP///////+9/"
+				],
+				[
+					17,
+					1,
+					"cut",
+					null,
+					"AQAAAFsAAAAAAAAAWwAAAAAAAAAMBgAAc3VnZXN0YW8gZGUgY29tbyBpbnNlcmlyCgpBcMOzcyBpbnRlcnByZXRhciBlc3NhcyBsaW5oYXMsIGEgZmVycmFtZW50YSBwb2RlcmlhIGNyaWFyIG8gc2VndWludGUgc2NyaXB0OgoKYGBgU1FMCi0tIEluc2VyaXIgb3MgcmVnaXN0cm9zIHF1ZSBuw6NvIGV4aXN0ZW0gbmEgdGFiZWxhCklOU0VSVCBJTlRPIE1BUklUQUxfU1RBVFVTIChNQVJJVEFMX1NUQVRVU19JRCwgU1RBVFVTX0RFU0NSSVBUSU9OKQpTRUxFQ1QgMSwgJ1NvbHRlaXJvJwpXSEVSRSBOT1QgRVhJU1RTIChTRUxFQ1QgMSBGUk9NIE1BUklUQUxfU1RBVFVTIFdIRVJFIE1BUklUQUxfU1RBVFVTX0lEID0gMSk7CgpJTlNFUlQgSU5UTyBNQVJJVEFMX1NUQVRVUyAoTUFSSVRBTF9TVEFUVVNfSUQsIFNUQVRVU19ERVNDUklQVElPTikKU0VMRUNUIDIsICdDYXNhZG8nCldIRVJFIE5PVCBFWElTVFMgKFNFTEVDVCAxIEZST00gTUFSSVRBTF9TVEFUVVMgV0hFUkUgTUFSSVRBTF9TVEFUVVNfSUQgPSAyKTsKCklOU0VSVCBJTlRPIE1BUklUQUxfU1RBVFVTIChNQVJJVEFMX1NUQVRVU19JRCwgU1RBVFVTX0RFU0NSSVBUSU9OKQpTRUxFQ1QgMywgJ0Rpdm9yY2lhZG8nCldIRVJFIE5PVCBFWElTVFMgKFNFTEVDVCAxIEZST00gTUFSSVRBTF9TVEFUVVMgV0hFUkUgTUFSSVRBTF9TVEFUVVNfSUQgPSAzKTsKCklOU0VSVCBJTlRPIE1BUklUQUxfU1RBVFVTIChNQVJJVEFMX1NUQVRVU19JRCwgU1RBVFVTX0RFU0NSSVBUSU9OKQpTRUxFQ1QgNCwgJ1Zpw7p2bycKV0hFUkUgTk9UIEVYSVNUUyAoU0VMRUNUIDEgRlJPTSBNQVJJVEFMX1NUQVRVUyBXSEVSRSBNQVJJVEFMX1NUQVRVU19JRCA9IDQpOwoKLS0gQXR1YWxpemFyIG9zIHJlZ2lzdHJvcyBxdWUgZXhpc3RlbSBuYSB0YWJlbGEgY29tIHZhbG9yZXMgZGlmZXJlbnRlcwpVUERBVEUgTUFSSVRBTF9TVEFUVVMgU0VUIFNUQVRVU19ERVNDUklQVElPTiA9ICdTb2x0ZWlybycKV0hFUkUgTUFSSVRBTF9TVEFUVVNfSUQgPSAxIEFORCBTVEFUVVNfREVTQ1JJUFRJT04gPD4gJ1NvbHRlaXJvJzsKClVQREFURSBNQVJJVEFMX1NUQVRVUyBTRVQgU1RBVFVTX0RFU0NSSVBUSU9OID0gJ0Nhc2FkbycKV0hFUkUgTUFSSVRBTF9TVEFUVVNfSUQgPSAyIEFORCBTVEFUVVNfREVTQ1JJUFRJT04gPD4gJ0Nhc2Fkbyc7CgpVUERBVEUgTUFSSVRBTF9TVEFUVVMgU0VUIFNUQVRVU19ERVNDUklQVElPTiA9ICdEaXZvcmNpYWRvJwpXSEVSRSBNQVJJVEFMX1NUQVRVU19JRCA9IDMgQU5EIFNUQVRVU19ERVNDUklQVElPTiA8PiAnRGl2b3JjaWFkbyc7CgpVUERBVEUgTUFSSVRBTF9TVEFUVVMgU0VUIFNUQVRVU19ERVNDUklQVElPTiA9ICdWacO6dm8nCldIRVJFIE1BUklUQUxfU1RBVFVTX0lEID0gNCBBTkQgU1RBVFVTX0RFU0NSSVBUSU9OIDw+ICdWacO6dm8nOwpgYGAKCkV1IGVzcGVybyBxdWUgZXNzZSBleGVtcGxvIHNlamEgw7p0aWwgcGFyYSB2b2PDqi4gU2Ugdm9jw6ogcXVpc2VyIG1haXMgYWxndW1hIHN1Z2VzdMOjbyBvdSB0aXZlciBhbGd1bWEgZMO6dmlkYSwgcG9kZSBtZSBlbnZpYXIgb3V0cmEgbWVuc2FnZW0uIPCfmIoKCgoK",
+					"AQAAAAAAAAABAAAAWwAAAAAAAABaBgAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					25,
+					1,
+					"cut",
+					null,
+					"AQAAABsAAAAAAAAAGwAAAAAAAAA4AAAAbGlzdGEgb2ZpY2lhbApTT0xURUlSTwpDQVNBRE8KU0VQQVJBRE8KRElWT1JDSUFETwpWSVVWTwo",
+					"AQAAAAAAAAABAAAAUwAAAAAAAAAbAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					27,
+					1,
+					"right_delete",
+					null,
+					"AQAAABUAAAAAAAAAFQAAAAAAAAAGAAAALS0tLS0K",
+					"AQAAAAAAAAABAAAAGwAAAAAAAAAVAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					57,
+					1,
+					"cut",
+					null,
+					"AQAAALsBAAAAAAAAuwEAAAAAAACuAAAACgovLyBHRU5FUk8gRU5TVVJFIFJFQ09SRFMKCkNPTUFORE8gSU5JClRJUE9fQ09NQU5ETz1FTlNVUkUgUkVDT1JEUwpPQkpFVE9fTk9NRT1HRU5FUk8KCkNTViBJTkkKR0VORVJPX0lEO0RFU0NSCiMwMzI7TkFPIElORElDQURPCk07TUFTQ1VMSU5PCkY7RkVNSU5JTk8KQ1NWIEZJTQpDT01BTkRPIEZJTQoK",
+					"AQAAAAAAAAABAAAAaQIAAAAAAAC7AQAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					58,
+					1,
+					"right_delete",
+					null,
+					"AQAAALsBAAAAAAAAuwEAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAAuwEAAAAAAAC7AQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					59,
+					1,
+					"right_delete",
+					null,
+					"AQAAALsBAAAAAAAAuwEAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAAuwEAAAAAAAC7AQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					62,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAANAAAAAAAAAA0QAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA0AAAAAAAAADQAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					63,
+					1,
+					"paste",
+					null,
+					"AQAAANEAAAAAAAAAfwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA0QAAAAAAAADRAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					65,
+					1,
+					"insert",
+					{
+						"characters": "//////////////////////////"
+					},
+					"GgAAANIAAAAAAAAA0wAAAAAAAAAAAAAA0wAAAAAAAADUAAAAAAAAAAAAAADUAAAAAAAAANUAAAAAAAAAAAAAANUAAAAAAAAA1gAAAAAAAAAAAAAA1gAAAAAAAADXAAAAAAAAAAAAAADXAAAAAAAAANgAAAAAAAAAAAAAANgAAAAAAAAA2QAAAAAAAAAAAAAA2QAAAAAAAADaAAAAAAAAAAAAAADaAAAAAAAAANsAAAAAAAAAAAAAANsAAAAAAAAA3AAAAAAAAAAAAAAA3AAAAAAAAADdAAAAAAAAAAAAAADdAAAAAAAAAN4AAAAAAAAAAAAAAN4AAAAAAAAA3wAAAAAAAAAAAAAA3wAAAAAAAADgAAAAAAAAAAAAAADgAAAAAAAAAOEAAAAAAAAAAAAAAOEAAAAAAAAA4gAAAAAAAAAAAAAA4gAAAAAAAADjAAAAAAAAAAAAAADjAAAAAAAAAOQAAAAAAAAAAAAAAOQAAAAAAAAA5QAAAAAAAAAAAAAA5QAAAAAAAADmAAAAAAAAAAAAAADmAAAAAAAAAOcAAAAAAAAAAAAAAOcAAAAAAAAA6AAAAAAAAAAAAAAA6AAAAAAAAADpAAAAAAAAAAAAAADpAAAAAAAAAOoAAAAAAAAAAAAAAOoAAAAAAAAA6wAAAAAAAAAAAAAA6wAAAAAAAADsAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA0gAAAAAAAADSAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					66,
+					1,
+					"insert",
+					{
+						"characters": "/"
+					},
+					"AQAAAOwAAAAAAAAA7QAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA7AAAAAAAAADsAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					67,
+					1,
+					"insert",
+					{
+						"characters": "\n//"
+					},
+					"AwAAAO0AAAAAAAAA7gAAAAAAAAAAAAAA7gAAAAAAAADvAAAAAAAAAAAAAADvAAAAAAAAAPAAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA7QAAAAAAAADtAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					72,
+					1,
+					"paste",
+					null,
+					"AQAAAAoBAAAAAAAADQEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAACgEAAAAAAAAKAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					77,
+					1,
+					"paste",
+					null,
+					"AQAAAA0BAAAAAAAAKQEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAADQEAAAAAAAANAQAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					78,
+					1,
+					"right_delete",
+					null,
+					"AQAAACkBAAAAAAAAKQEAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAAKQEAAAAAAAApAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					97,
+					1,
+					"cut",
+					null,
+					"AQAAAMXbAQAAAAAAxdsBAAAAAAAOAAAAREJBVFVBTElaIEZJTQo",
+					"AQAAAAAAAAABAAAA09sBAAAAAADF2wEAAAAAAAAAAAAAAAAA"
+				],
+				[
+					102,
+					1,
+					"paste",
+					null,
+					"AQAAALsBAAAAAAAAyQEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAuwEAAAAAAAC7AQAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					105,
+					1,
+					"left_delete",
+					null,
+					"AQAAAJkBAAAAAAAAmQEAAAAAAAABAAAATw",
+					"AQAAAAAAAAABAAAAmgEAAAAAAACaAQAAAAAAAP///////+9/"
+				],
+				[
+					107,
+					1,
+					"left_delete",
+					null,
+					"AQAAAKMBAAAAAAAAowEAAAAAAAABAAAATw",
+					"AQAAAAAAAAABAAAApAEAAAAAAACkAQAAAAAAAAAAAAAAgFBA"
+				],
+				[
+					111,
+					1,
+					"insert",
+					{
+						"characters": "\n\n"
+					},
+					"AgAAABwAAAAAAAAAHQAAAAAAAAAAAAAAHQAAAAAAAAAeAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAHAAAAAAAAAAcAAAAAAAAAAAAAAAAwGNA"
+				],
+				[
+					112,
+					1,
+					"paste",
+					null,
+					"AQAAAB4AAAAAAAAATgAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAHgAAAAAAAAAeAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					122,
+					1,
+					"insert",
+					{
+						"characters": "delete"
+					},
+					"BgAAAB0AAAAAAAAAHgAAAAAAAAAAAAAAHgAAAAAAAAAfAAAAAAAAAAAAAAAfAAAAAAAAACAAAAAAAAAAAAAAACAAAAAAAAAAIQAAAAAAAAAAAAAAIQAAAAAAAAAiAAAAAAAAAAAAAAAiAAAAAAAAACMAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAdAAAAAAAAAAAAAAAAwFNA"
+				],
+				[
+					123,
+					1,
+					"insert",
+					{
+						"characters": " from"
+					},
+					"BQAAACMAAAAAAAAAJAAAAAAAAAAAAAAAJAAAAAAAAAAlAAAAAAAAAAAAAAAlAAAAAAAAACYAAAAAAAAAAAAAACYAAAAAAAAAJwAAAAAAAAAAAAAAJwAAAAAAAAAoAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAIwAAAAAAAAAjAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					124,
+					1,
+					"insert",
+					{
+						"characters": " genero"
+					},
+					"BwAAACgAAAAAAAAAKQAAAAAAAAAAAAAAKQAAAAAAAAAqAAAAAAAAAAAAAAAqAAAAAAAAACsAAAAAAAAAAAAAACsAAAAAAAAALAAAAAAAAAAAAAAALAAAAAAAAAAtAAAAAAAAAAAAAAAtAAAAAAAAAC4AAAAAAAAAAAAAAC4AAAAAAAAALwAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAKAAAAAAAAAAoAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					125,
+					1,
+					"insert",
+					{
+						"characters": ";"
+					},
+					"AQAAAC8AAAAAAAAAMAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAALwAAAAAAAAAvAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					128,
+					1,
+					"upper_case",
+					null,
+					"AQAAAB0AAAAAAAAAMAAAAAAAAAATAAAAZGVsZXRlIGZyb20gZ2VuZXJvOw",
+					"AQAAAAAAAAABAAAAMAAAAAAAAAAdAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					129,
+					1,
+					"lower_case",
+					null,
+					"AQAAAB0AAAAAAAAAMAAAAAAAAAATAAAAREVMRVRFIEZST00gR0VORVJPOw",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAwAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					130,
+					1,
+					"upper_case",
+					null,
+					"AQAAAB0AAAAAAAAAMAAAAAAAAAATAAAAZGVsZXRlIGZyb20gZ2VuZXJvOw",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAwAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					137,
+					1,
+					"right_delete",
+					null,
+					"AQAAAFYAAAAAAAAAVgAAAAAAAAABAAAAMg",
+					"AQAAAAAAAAABAAAAVgAAAAAAAABWAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					138,
+					1,
+					"insert",
+					{
+						"characters": "3"
+					},
+					"AQAAAFYAAAAAAAAAVwAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAVgAAAAAAAABWAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					190,
+					2,
+					"paste",
+					null,
+					"AwAAAB0AAAAAAAAAMQAAAAAAAAAAAAAAMQAAAAAAAAAxAAAAAAAAABQAAABERUxFVEUgRlJPTSBHRU5FUk87CjEAAAAAAAAARQAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAxAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					194,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAADAAAAAAAAAAMQAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAMAAAAAAAAAAwAAAAAAAAAP///////+9/"
+				],
+				[
+					197,
+					6,
+					"right_delete",
+					null,
+					"BgAAAB0AAAAAAAAAHQAAAAAAAAABAAAARB0AAAAAAAAAHQAAAAAAAAABAAAARR0AAAAAAAAAHQAAAAAAAAABAAAATB0AAAAAAAAAHQAAAAAAAAABAAAARR0AAAAAAAAAHQAAAAAAAAABAAAAVB0AAAAAAAAAHQAAAAAAAAABAAAARQ",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAdAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					198,
+					1,
+					"insert",
+					{
+						"characters": "select"
+					},
+					"BgAAAB0AAAAAAAAAHgAAAAAAAAAAAAAAHgAAAAAAAAAfAAAAAAAAAAAAAAAfAAAAAAAAACAAAAAAAAAAAAAAACAAAAAAAAAAIQAAAAAAAAAAAAAAIQAAAAAAAAAiAAAAAAAAAAAAAAAiAAAAAAAAACMAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAdAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					199,
+					1,
+					"insert",
+					{
+						"characters": " *"
+					},
+					"AgAAACMAAAAAAAAAJAAAAAAAAAAAAAAAJAAAAAAAAAAlAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAIwAAAAAAAAAjAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					202,
+					1,
+					"upper_case",
+					null,
+					"AQAAAB0AAAAAAAAAMwAAAAAAAAAWAAAAc2VsZWN0ICogRlJPTSBHRU5FUk87Cg",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAzAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					208,
+					1,
+					"paste",
+					null,
+					"AQAAAB0AAAAAAAAAXAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAHQAAAAAAAAAdAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					209,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAAFwAAAAAAAAAXQAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAXAAAAAAAAABcAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					224,
+					1,
+					"paste",
+					null,
+					"AQAAAF0AAAAAAAAAZQAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAXQAAAAAAAABdAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					239,
+					1,
+					"sort_lines",
+					{
+						"case_sensitive": false
+					},
+					"AQAAAGUAAAAAAAAAegAAAAAAAAAVAAAAU0VMRUNUICogRlJPTSBHRU5FUk87",
+					"AQAAAAAAAAABAAAAZQAAAAAAAAB7AAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					259,
+					1,
+					"cut",
+					null,
+					"AQAAAF0CAAAAAAAAXQIAAAAAAAAOAAAAREJBVFVBTElaIEZJTQo",
+					"AQAAAAAAAAABAAAAawIAAAAAAABdAgAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					261,
+					1,
+					"paste",
+					null,
+					"AQAAAGfcAQAAAAAAddwBAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAZ9wBAAAAAABn3AEAAAAAAAAAAAAAAPC/"
+				],
+				[
+					278,
+					1,
+					"insert",
+					{
+						"characters": "\n\n\n"
+					},
+					"AwAAAMAAAAAAAAAAwQAAAAAAAAAAAAAAwQAAAAAAAADCAAAAAAAAAAAAAADCAAAAAAAAAMMAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAwAAAAAAAAADAAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					280,
+					1,
+					"insert",
+					{
+						"characters": "select"
+					},
+					"BgAAAMIAAAAAAAAAwwAAAAAAAAAAAAAAwwAAAAAAAADEAAAAAAAAAAAAAADEAAAAAAAAAMUAAAAAAAAAAAAAAMUAAAAAAAAAxgAAAAAAAAAAAAAAxgAAAAAAAADHAAAAAAAAAAAAAADHAAAAAAAAAMgAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAwgAAAAAAAADCAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					281,
+					1,
+					"insert",
+					{
+						"characters": " C"
+					},
+					"AgAAAMgAAAAAAAAAyQAAAAAAAAAAAAAAyQAAAAAAAADKAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAyAAAAAAAAADIAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					282,
+					1,
+					"insert",
+					{
+						"characters": "OUNT"
+					},
+					"BAAAAMoAAAAAAAAAywAAAAAAAAAAAAAAywAAAAAAAADMAAAAAAAAAAAAAADMAAAAAAAAAM0AAAAAAAAAAAAAAM0AAAAAAAAAzgAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAygAAAAAAAADKAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					283,
+					1,
+					"insert_snippet",
+					{
+						"contents": "($0)"
+					},
+					"AQAAAM4AAAAAAAAA0AAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAzgAAAAAAAADOAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					284,
+					1,
+					"insert",
+					{
+						"characters": "*"
+					},
+					"AQAAAM8AAAAAAAAA0AAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAzwAAAAAAAADPAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					286,
+					1,
+					"insert",
+					{
+						"characters": " FROM"
+					},
+					"BQAAANEAAAAAAAAA0gAAAAAAAAAAAAAA0gAAAAAAAADTAAAAAAAAAAAAAADTAAAAAAAAANQAAAAAAAAAAAAAANQAAAAAAAAA1QAAAAAAAAAAAAAA1QAAAAAAAADWAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA0QAAAAAAAADRAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					287,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAANYAAAAAAAAA1wAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA1gAAAAAAAADWAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					288,
+					1,
+					"insert",
+					{
+						"characters": "MUN;"
+					},
+					"BAAAANcAAAAAAAAA2AAAAAAAAAAAAAAA2AAAAAAAAADZAAAAAAAAAAAAAADZAAAAAAAAANoAAAAAAAAAAAAAANoAAAAAAAAA2wAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA1wAAAAAAAADXAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					290,
+					1,
+					"upper_case",
+					null,
+					"AQAAAMIAAAAAAAAA2wAAAAAAAAAZAAAAc2VsZWN0IENPVU5UKCopIEZST00gTVVOOw",
+					"AQAAAAAAAAABAAAA2wAAAAAAAADCAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					297,
+					1,
+					"paste",
+					null,
+					"AQAAANwAAAAAAAAA9gAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA3AAAAAAAAADcAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					300,
+					8,
+					"right_delete",
+					null,
+					"CAAAAOMAAAAAAAAA4wAAAAAAAAABAAAAQ+MAAAAAAAAA4wAAAAAAAAABAAAAT+MAAAAAAAAA4wAAAAAAAAABAAAAVeMAAAAAAAAA4wAAAAAAAAABAAAATuMAAAAAAAAA4wAAAAAAAAABAAAAVOMAAAAAAAAA4wAAAAAAAAABAAAAKOMAAAAAAAAA4wAAAAAAAAABAAAAKuMAAAAAAAAA4wAAAAAAAAABAAAAKQ",
+					"AQAAAAAAAAABAAAA4wAAAAAAAADjAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					301,
+					1,
+					"insert",
+					{
+						"characters": "FIRST"
+					},
+					"BQAAAOMAAAAAAAAA5AAAAAAAAAAAAAAA5AAAAAAAAADlAAAAAAAAAAAAAADlAAAAAAAAAOYAAAAAAAAAAAAAAOYAAAAAAAAA5wAAAAAAAAAAAAAA5wAAAAAAAADoAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA4wAAAAAAAADjAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					302,
+					1,
+					"insert_snippet",
+					{
+						"contents": "($0)"
+					},
+					"AQAAAOgAAAAAAAAA6gAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA6AAAAAAAAADoAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					303,
+					1,
+					"insert",
+					{
+						"characters": "10"
+					},
+					"AgAAAOkAAAAAAAAA6gAAAAAAAAAAAAAA6gAAAAAAAADrAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA6QAAAAAAAADpAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					305,
+					1,
+					"insert",
+					{
+						"characters": " *"
+					},
+					"AgAAAOwAAAAAAAAA7QAAAAAAAAAAAAAA7QAAAAAAAADuAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA7AAAAAAAAADsAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					312,
+					1,
+					"insert",
+					{
+						"characters": "\n\nDE"
+					},
+					"BAAAAPgAAAAAAAAA+QAAAAAAAAAAAAAA+QAAAAAAAAD6AAAAAAAAAAAAAAD6AAAAAAAAAPsAAAAAAAAAAAAAAPsAAAAAAAAA/AAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA+AAAAAAAAAD4AAAAAAAAAP///////+9/"
+				],
+				[
+					313,
+					1,
+					"insert",
+					{
+						"characters": "LETE"
+					},
+					"BAAAAPwAAAAAAAAA/QAAAAAAAAAAAAAA/QAAAAAAAAD+AAAAAAAAAAAAAAD+AAAAAAAAAP8AAAAAAAAAAAAAAP8AAAAAAAAAAAEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA/AAAAAAAAAD8AAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					314,
+					1,
+					"insert",
+					{
+						"characters": " FROM"
+					},
+					"BQAAAAABAAAAAAAAAQEAAAAAAAAAAAAAAQEAAAAAAAACAQAAAAAAAAAAAAACAQAAAAAAAAMBAAAAAAAAAAAAAAMBAAAAAAAABAEAAAAAAAAAAAAABAEAAAAAAAAFAQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					315,
+					1,
+					"insert",
+					{
+						"characters": " MUN"
+					},
+					"BAAAAAUBAAAAAAAABgEAAAAAAAAAAAAABgEAAAAAAAAHAQAAAAAAAAAAAAAHAQAAAAAAAAgBAAAAAAAAAAAAAAgBAAAAAAAACQEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAABQEAAAAAAAAFAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					316,
+					1,
+					"insert",
+					{
+						"characters": ";"
+					},
+					"AQAAAAkBAAAAAAAACgEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAACQEAAAAAAAAJAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					317,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAAAoBAAAAAAAACwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAACgEAAAAAAAAKAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					322,
+					1,
+					"paste",
+					null,
+					"AQAAAAsBAAAAAAAAOwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAACwEAAAAAAAALAQAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					366,
+					1,
+					"right_delete",
+					null,
+					"AQAAAJYGAAAAAAAAlgYAAAAAAAABAAAAMA",
+					"AQAAAAAAAAABAAAAlgYAAAAAAACWBgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					367,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAJYGAAAAAAAAlwYAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAlgYAAAAAAACWBgAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"contents": "PESSOA\n\nDOMAINS\n-------\nNOME_DOM\nNOME_CURTO_DOM\nNOME_CURTO_NOTN_DOM\nID_CHAR_DOM\n\nSEQUENCE\n--------\nPESSOA_SEQ\n\nTABELAS\n-------\nESTADO_CIVIL\nGENERO\n\nPESSOA\nFOREIGN KEY \nPESSOA_GENERO_FK\nPESSOA_ESTADO_CIVIL_FK\n\n\nUF\nMUN\nENDERECO\n\n\nPACKAGE PESSOA_PA\n\n\n\n//\n// SHOW\n//\nSHOW DOMAINS;\nSHOW TABLES;\nSHOW PACKAGE;\n\nSHOW TABLE ESTADO_CIVIL;\nSHOW TABLE PESSOA;\nSHOW PACKAGE PESSOA_PA;\n\n//\n// DROP\n//\nDROP PACKAGE PESSOA_PA;\nDROP TABLE ECIVIL;\n\nDROP TABLE UF;\nDROP TABLE MUN;\n\nDROP TABLE PESSOA;\n\nDROP DOMAIN NOME_DOM;\nDROP DOMAIN NOME_CURTO_DOM;\nDROP DOMAIN NOME_CURTO_NOTN_DOM;\nDROP DOMAIN ID_CHAR_DOM;\n\n--------------------\nSELECT DBUPDATE_PA.VERSAO_GET() AS DBVERSAO FROM RDB$DATABASE;\n\nDELETE FROM DBUPDATE_HIST WHERE NUM>=2;\nCOMMIT;\n--------------------\n\n\n//INICIO\n-----------------------------\nDBATUALIZ INI\nDBATUALIZ_ASSUNTO=PESSOA\nDBATUALIZ_OBJETIVO=CRIAR ECIVIL, PESSOA, PACKAGE PESSOA_PA, ENDER, DOMAINS NOME_CURTO\nDBATUALIZ_OBS=\n\n//////////////////////\n//\n// DOMAINS\n//\n//////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE DOMAINS\n\n```FIREBIRD\nCREATE DOMAIN NOME_DOM AS VARCHAR(60);\nCREATE DOMAIN NOME_CURTO_DOM AS VARCHAR(15);\nCREATE DOMAIN NOME_CURTO_NOTN_DOM AS VARCHAR(15) NOT NULL;\nCREATE DOMAIN ID_CHAR_DOM AS CHAR(1) NOT NULL;\n```\nCOMANDO FIM\n// DOMAINS FIM\n\n\n//TABELA ESTADO_CIVIL\n\nCOMANDO INI\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=ESTADO_CIVIL\n\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\nESTADO_CIVIL_ID,ID_CHAR_DOM,N,S\nDESCR,NOME_CURTO_NOTN_DOM\nCOLUNAS FIM\nCOMANDO FIM\n//TABELA ESTADO_CIVIL FIM\n\n\n\n\n// TABELA GENERO\n\nCOMANDO INI\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=GENERO\n\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\nGENERO_ID,ID_CHAR_DOM,N,S\nDESCR,NOME_CURTO_NOTN_DOM \nCOLUNAS FIM\nCOMANDO FIM\n// TABELA GENERO FIM\n\n\n\n\n// SEQUENCE PESSOA_SEQ\n\nCOMANDO INI\nTIPO_COMANDO=CREATE SEQUENCE\nOBJETO_NOME=PESSOA_SEQ\n//VALOR_INICIAL=0\nCOMANDO FIM\n// SEQUENCE PESSOA_SEQ FIM\n\n\n\n//  TABELA PESSOA\n\nCOMANDO INI\n\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=PESSOA\n\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\nLOJA_ID,ID_SHORT_DOM,N,S\nTERMINAL_ID,ID_SHORT_DOM,N,S\nPESSOA_ID,ID_DOM,N,S\n\nNOME,NOME_DOM NOT NULL\nNOME_FANTASIA,NOME_DOM\nAPELIDO,NOME_RED_DOM\n\nGENERO_ID,CHAR DEFAULT ' ',S\nESTADO_CIVIL_ID,CHAR DEFAULT ' ',S\nC,VARCHAR(15)\nI,VARCHAR(15)\nM,VARCHAR(15)\nM_UF,CHAR(2)\nEMAIL,VARCHAR(50)\nDT_NASC,DATE\n\nDTH_EDIT TIMESTAMP,\nDTH_CRI TIMESTAMP default 'NOW',\nCOLUNAS FIM\n\nCOMANDO FIM\n//TABELA PESSOA FIM\n\n\n//////////////////////////////////\n//\n// FOREIGN KEY PESSOA GENERO\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE FOREIGN KEY\n//OBJETO_NOME=FK_PEDIDOS_CLIENTES\nTABELA_FK=PESSOA\nCAMPOS_FK=GENERO_ID\nTABELA_PK=GENERO\n//CAMPOS_PK=GENERO_ID\nCOMANDO FIM\n//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios\n// FOREIGN KEY PESSOA GENERO FIM\n\n\n//////////////////////////////////\n//\n// FOREIGN KEY PESSOA ESTADO CIVIL\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE FOREIGN KEY\n//OBJETO_NOME=PESSOA_ESTADO_CIVIL_FK\nTABELA_FK=PESSOA\nCAMPOS_FK=ESTADO_CIVIL_ID\nTABELA_PK=ESTADO_CIVIL\n//CAMPOS_PK=ESTADO_CIVIL_ID\nCOMANDO FIM\n//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios\n// FOREIGN KEY PESSOA ESTADO CIVIL FIM\n\n\n\n//////////////////////////////////\n//\n// TABELA UF\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=UF\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\n\nUF_SIGLA,CHAR(2),S,S\nUF_NOME,NOME_RED_NOTN_DOM\nUF_IBGE_COD,ID_SHORT_DOM\n\nCOLUNAS FIM\nCOMANDO FIM\n//TABELA UF FIM\n\n\n\n\n\n//////////////////////////////////\n//\n// TABELA MUN\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=MUN\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\n\nUF_SIGLA,CHAR(2),S,S\nMUN_IBGE_ID,CHAR(5),S,S\nMUN_NOME,NOME_DOM,S\n\nCOLUNAS FIM\nCOMANDO FIM\n//TABELA MUN FIM\n\n\n\n//////////////////////////////////\n//\n// FOREIGN KEY MUN_UF_FK\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE FOREIGN KEY\n//OBJETO_NOME=\nTABELA_FK=mun\nCAMPOS_FK=UF_SIGLA\nTABELA_PK=UF\n//CAMPOS_PK=\nCOMANDO FIM\n//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios\n// FOREIGN KEY MUN_UF_FK FIM\n\n\n\n\n//////////////////////////////////\n//\n// TABELA ENDER\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=ENDER\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\n\nLOJA_ID,ID_SHORT_DOM,N,S\nTERMINAL_ID,ID_SHORT_DOM,N,S\nPESSOA_ID,ID_DOM,N,S\nORDEM,ID_SHORT_DOM,N,S\n\nLOGR,VARCHAR(70)\nNUM,NOME_DOM\nCOMPL,NOME_DOM\nBAI,NOME_DOM\nMUN,NOME_DOM\n\nUF_SIGLA,CHAR(2) DEFAULT '  '\nCEP,CHAR(8)\n\nMUN_IBGE_ID,CHAR(5) DEFAULT '     '\n\nDDD,CHAR(2)\nFONE1,NOME_CURTO_DOM\nFONE2,NOME_CURTO_DOM\nFONE3,NOME_CURTO_DOM\n\nCONTATO,NOME_DOM\nREF,OBS1_DOM\n\nDTH_CRI,TIMESTAMP\nDTH_ALT,TIMESTAMP\n\nCOLUNAS FIM\nCOMANDO FIM\n//TABELA ENDER FIM\n\n\n/*\n//////////////////////////////////\n//\n// FOREIGN KEY ENDER MUN\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE FOREIGN KEY\n//OBJETO_NOME=\nTABELA_FK=ENDER\nCAMPOS_FK=UF_SIGLA,\nTABELA_PK=UF\n//CAMPOS_PK=\nCOMANDO FIM\n//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios\n// FOREIGN KEY MUN_UF_FK FIM\n*/\n\n\n//////////////////////////\n//\n// TABELA LOJA_PESSOA\n//\n//////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE TABLE\nOBJETO_NOME=LOJA_PESSOA\nCOLUNAS INI\n//NOME,TIPO,NOT NULL,PRIM\n\nLOJA_ID,ID_SHORT_DOM\nTERMINAL_ID,ID_SHORT_DOM\nPESSOA_ID,ID_DOM\n\nCOLUNAS FIM\nCOMANDO FIM\n//TABELA MUN FIM\n\n\n\n//////////////////////////////////\n//\n// FOREIGN KEY LOJA PESSOA PESSOA\n//\n//////////////////////////////////\nCOMANDO INI\nTIPO_COMANDO=CREATE FOREIGN KEY\n//OBJETO_NOME=\nTABELA_FK=LOJA_PESSOA\nCAMPOS_FK=LOJA_ID,TERMINAL_ID,PESSOA_ID\nTABELA_PK=PESSOA\n//CAMPOS_PK=\nCOMANDO FIM\n//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios\n// FOREIGN KEY LOJA PESSOA PESSOA FIM\n\n\n\n//PACKAGE DBUPDATE_PA\n\nCOMANDO INI\nTIPO_COMANDO=CREATE OR ALTER PACKAGE\nOBJETO_NOME=PESSOA_PA\n\n```FIREBIRD\nSET TERM ^;\nCREATE OR ALTER PACKAGE PESSOA_PA\nAS\nBEGIN\n  PROCEDURE ESTADO_CIVIL_LISTA_GET\n  RETURNS\n  (\n    ESTADO_CIVIL_ID CHAR\n   , DESCR NOME_CURTO_DOM\n  );  \nEND^\n\nRECREATE PACKAGE BODY PESSOA_PA\nAS\nBEGIN\n  PROCEDURE ESTADO_CIVIL_LISTA_GET\n  RETURNS\n  (\n    ESTADO_CIVIL_ID CHAR\n    , DESCR NOME_CURTO_DOM\n  )\n  AS\n  BEGIN\n    FOR SELECT E.ESTADO_CIVIL_ID, E.DESCR \n    FROM ESTADO_CIVIL E\n    ORDER BY E.DESCR\n    INTO :ESTADO_CIVIL_ID, :DESCR \n    DO \n    SUSPEND; \n  END\nEND^\nSET TERM ;^\n```\nCOMANDO FIM\n\n//PACKAGE DBUPDATE_PA\n\nDBATUALIZ FIM\n\n\n",
+			"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000002.txt",
+			"file_size": 6677,
+			"file_write_time": 133416186000369926,
+			"settings":
+			{
+				"buffer_size": 6278,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+				[
+					45,
+					11,
+					"right_delete",
+					null,
+					"CwAAACIOAAAAAAAAIg4AAAAAAAABAAAASSIOAAAAAAAAIg4AAAAAAAABAAAARCIOAAAAAAAAIg4AAAAAAAABAAAAXyIOAAAAAAAAIg4AAAAAAAABAAAAUyIOAAAAAAAAIg4AAAAAAAABAAAASCIOAAAAAAAAIg4AAAAAAAABAAAATyIOAAAAAAAAIg4AAAAAAAABAAAAUiIOAAAAAAAAIg4AAAAAAAABAAAAVCIOAAAAAAAAIg4AAAAAAAABAAAAXyIOAAAAAAAAIg4AAAAAAAABAAAARCIOAAAAAAAAIg4AAAAAAAABAAAATw",
+					"AQAAAAAAAAABAAAAIg4AAAAAAAAiDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					46,
+					1,
+					"right_delete",
+					null,
+					"AQAAACIOAAAAAAAAIg4AAAAAAAABAAAATQ",
+					"AQAAAAAAAAABAAAAIg4AAAAAAAAiDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					47,
+					1,
+					"insert",
+					{
+						"characters": "char"
+					},
+					"BAAAACIOAAAAAAAAIw4AAAAAAAAAAAAAIw4AAAAAAAAkDgAAAAAAAAAAAAAkDgAAAAAAACUOAAAAAAAAAAAAACUOAAAAAAAAJg4AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAIg4AAAAAAAAiDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					48,
+					4,
+					"left_delete",
+					null,
+					"BAAAACUOAAAAAAAAJQ4AAAAAAAABAAAAciQOAAAAAAAAJA4AAAAAAAABAAAAYSMOAAAAAAAAIw4AAAAAAAABAAAAaCIOAAAAAAAAIg4AAAAAAAABAAAAYw",
+					"AQAAAAAAAAABAAAAJg4AAAAAAAAmDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					49,
+					1,
+					"insert",
+					{
+						"characters": "CHAR("
+					},
+					"BQAAACIOAAAAAAAAIw4AAAAAAAAAAAAAIw4AAAAAAAAkDgAAAAAAAAAAAAAkDgAAAAAAACUOAAAAAAAAAAAAACUOAAAAAAAAJg4AAAAAAAAAAAAAJg4AAAAAAAAnDgAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAIg4AAAAAAAAiDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					50,
+					1,
+					"insert",
+					{
+						"characters": "5)"
+					},
+					"AgAAACcOAAAAAAAAKA4AAAAAAAAAAAAAKA4AAAAAAAApDgAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAJw4AAAAAAAAnDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					52,
+					1,
+					"right_delete",
+					null,
+					"AQAAACoOAAAAAAAAKg4AAAAAAAABAAAATg",
+					"AQAAAAAAAAABAAAAKg4AAAAAAAAqDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					53,
+					1,
+					"insert",
+					{
+						"characters": "s"
+					},
+					"AQAAACoOAAAAAAAAKw4AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAKg4AAAAAAAAqDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					54,
+					1,
+					"left_delete",
+					null,
+					"AQAAACoOAAAAAAAAKg4AAAAAAAABAAAAcw",
+					"AQAAAAAAAAABAAAAKw4AAAAAAAArDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					55,
+					1,
+					"insert",
+					{
+						"characters": "S"
+					},
+					"AQAAACoOAAAAAAAAKw4AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAKg4AAAAAAAAqDgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					62,
+					8,
+					"right_delete",
+					null,
+					"CAAAAEMRAAAAAAAAQxEAAAAAAAABAAAAU0MRAAAAAAAAQxEAAAAAAAABAAAATUMRAAAAAAAAQxEAAAAAAAABAAAAQUMRAAAAAAAAQxEAAAAAAAABAAAATEMRAAAAAAAAQxEAAAAAAAABAAAATEMRAAAAAAAAQxEAAAAAAAABAAAASUMRAAAAAAAAQxEAAAAAAAABAAAATkMRAAAAAAAAQxEAAAAAAAABAAAAVA",
+					"AQAAAAAAAAABAAAAQxEAAAAAAABDEQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					63,
+					1,
+					"paste",
+					null,
+					"AQAAAEMRAAAAAAAAShEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAQxEAAAAAAABDEQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					66,
+					1,
+					"left_delete",
+					null,
+					"AQAAAFMRAAAAAAAAUxEAAAAAAAABAAAAMA",
+					"AQAAAAAAAAABAAAAVBEAAAAAAABUEQAAAAAAAP///////+9/"
+				],
+				[
+					67,
+					1,
+					"insert_snippet",
+					{
+						"contents": "'$0'"
+					},
+					"AQAAAFMRAAAAAAAAVREAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAUxEAAAAAAABTEQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					70,
+					1,
+					"insert",
+					{
+						"characters": "    "
+					},
+					"BAAAAFQRAAAAAAAAVREAAAAAAAAAAAAAVREAAAAAAABWEQAAAAAAAAAAAABWEQAAAAAAAFcRAAAAAAAAAAAAAFcRAAAAAAAAWBEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAVBEAAAAAAABUEQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					71,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAFgRAAAAAAAAWREAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAWBEAAAAAAABYEQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					78,
+					1,
+					"paste",
+					null,
+					"AQAAAL4BAAAAAAAAzQEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAvgEAAAAAAAC+AQAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					79,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAAM0BAAAAAAAAzgEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAzQEAAAAAAADNAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					85,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAAK4BAAAAAAAArwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAArgEAAAAAAACuAQAAAAAAAP///////+9/"
+				]
+			]
+		},
+		{
+			"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000001.txt",
+			"settings":
+			{
+				"buffer_size": 3397,
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"split",
+				"Selection: Split into Lines"
+			],
+			[
+				"sa",
+				"File: Save All"
+			],
+			[
+				"sav",
+				"File: Save All"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000",
+		"/C/Pr/app/bantu/bantu-sis/doc",
+		"/C/Pr/app/bantu/bantu-sis/doc/BtuShopCore",
+		"/C/Pr/app/bantu/bantu-sis/doc/db",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater",
+		"/C/Pr/app/bantu/bantu-sis/doc/sis",
+		"/C/Pr/app/bantu/bantu-sis/doc/sis/types",
+		"/C/Pr/ter/i9/Src",
+		"/C/Pr/ter/i9/Src/Foco1",
+		"/C/Pr/ter/i9/Src/Foco1/Sys"
+	],
+	"file_history":
+	[
+		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000002.txt",
+		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000001.txt",
+		"/C/Pr/app/bantu/bantu-sis/doc/sis/types/strnum to char.md",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/insert exemplo.md",
+		"/C/Pr/app/bantu/bantu-sis/doc/BtuShopCore/estado civil.md",
+		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000003.txt",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/domains.md",
+		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000000.txt",
+		"/C/Pr/app/bantu/bantu-sis/bantu-lib/sis/db/dbms/btu.lib.db.dbms.pas",
+		"/C/Pr/app/bantu/bantu-sis/bantu-lib/sis/db/dbms/btu.lib.db.dbms.firebird_u.pas",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/versao db tabelas usadas.md",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/pessoa.md",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/pessoa.txt",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/busca se existe no firebird.md",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/versao db.md",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/versoes 000000000.md",
+		"/C/Pr/app/bantu/bantu-sis/bantu-starter/sta/btu.sta.exec.testes.csv_u.pas"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 98.0,
+		"where_history":
+		[
+			"C:\\Pr\\ter\\i9\\Src\\Foco1,<project filters>",
+			"C:\\Pr\\ter\\i9\\Src\\Foco1\\FocoPDVTools,<project filters>",
+			"C:\\Pr\\app\\bantu\\bantu-sis,<project filters>",
+			"C:\\Pr\\app\\bantu\\bantu-sis\\bantu-starter,<project filters>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"DELE",
+			"MUN_IBGE_ID",
+			"versao",
+			"DataSetToInsertInto",
+			"EditarCopiarTabelaComoInsertActExecute",
+			"GarantirDBServCriadoEAtualizado",
+			"NOME_DOM",
+			"UF",
+			";",
+			" AS ",
+			" as "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"|"
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Pr/ter/i9/Src/Foco1/Sys/SysDBI/UtilsDataSet.pas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20928,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								837,
+								837
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Pascal/Pascal.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000003.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 122097,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								250,
+								315
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000002.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6278,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								678,
+								726
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 736.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000001.txt",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3397,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								821,
+								821
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 314.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "bantu-shop.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"UtilsDataSet",
+				"Src\\Foco1\\Sys\\SysDBI\\UtilsDataSet.pas"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 346.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
