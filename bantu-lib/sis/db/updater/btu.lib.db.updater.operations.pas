@@ -11,7 +11,8 @@ type
     function GetIndexFieldNames(pIndexName: string): string;
     function ProcedureExiste(pProcedureName: string): boolean;
 
-    procedure PackagePegarCodigo(pPackageName: string; out pCabec: string; out pBody: string);
+    procedure PackagePegarCodigo(pPackageName: string; out pCabec: string;
+      out pBody: string);
 
     function VersaoGet: integer;
     procedure HistIns(pNum: integer; pAssunto, pObjetivo, pObs: string);
@@ -21,10 +22,13 @@ type
     procedure Unprepare;
 
     function NomeTabelaToPKName(pNomeTabela: string): string;
+
+    function SequenceExiste(pNomeSequence: string): boolean;
+    function GetForeignKeyInfo(pFKName: string; out pTabelaFK: string;
+      out pCamposFK: string; out pTabelaPK: string; out pCamposPK: string
+      ): boolean;
   end;
 
 implementation
 
 end.
-
-

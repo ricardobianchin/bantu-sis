@@ -10,6 +10,10 @@ procedure SLManterEntre(pSL:TStrings; pStrIni, pStrFin: string);
 procedure SLRemoveVazias(pSL:TStrings);
 procedure SLUpperCase(pSL:TStrings);
 
+// o uso de tstrings.duplicate so funciona se sort=true
+//quando nao posso alterar a ordem dos itens, uso esta funcion
+procedure SLAddUnique(pSL:TStrings; pStr: string);
+
 implementation
 
 uses System.SysUtils, btn.lib.types.strings;
@@ -137,6 +141,16 @@ begin
   begin
     pSL[I] := UpperCase(pSL[I]);
   end;
+end;
+
+procedure SLAddUnique(pSL:TStrings; pStr: string);
+var
+  I: integer;
+begin
+  I := pSL.IndexOf(pStr);
+  if I > -1 then
+    exit;
+  pSL.Add(pStr);
 end;
 
 end.

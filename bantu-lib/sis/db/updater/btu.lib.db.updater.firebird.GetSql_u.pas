@@ -11,6 +11,8 @@ function GetSQLTabelaExisteParams: string;
 function GetSQLIndexNamesParams: string;
 function GetSQLProcedureExisteParams: string;
 function GetSQLDomainExisteParams: string;
+function GetSQLSequenceExisteParams: string;
+function GetSQLForeignKeyInfoParams: string;
 
 function GetSQLPackagGetCodigoParams: string;
 
@@ -19,7 +21,7 @@ function GetSQLVersaoGet: string;
 
 implementation
 
-uses System.SysUtils, System.StrUtils;
+uses System.SysUtils, System.StrUtils, btu.lib.sis.clipb_u;
 
 function GetSQLTabelaExiste(pNomeTabela: string): string;
 var
@@ -117,6 +119,47 @@ begin
   sSql := 'SELECT RDB$FIELD_NAME FROM RDB$FIELDS'
     + ' WHERE RDB$FIELD_NAME = :DOMAIN_NAME';
   sSql := GetSQLExists(sSql);
+  Result := sSql;
+end;
+
+function GetSQLSequenceExisteParams: string;
+var
+  sSql: string;
+begin
+  sSql := 'SELECT RDB$GENERATOR_NAME'
+    +' FROM RDB$GENERATORS WHERE RDB$GENERATOR_NAME = :SEQUENCE_NAME'
+    ;
+
+  sSql := GetSQLExists(sSql);
+  Result := sSql;
+end;
+
+
+function GetSQLForeignKeyInfoParams: string;
+var
+  sSql: string;
+begin
+  sSql := 'SELECT RC.RDB$RELATION_NAME, RF.RDB$FIELD_NAME,'
+    + ' RI.RDB$RELATION_NAME, ISGMT.RDB$FIELD_NAME'
+
+    + ' FROM RDB$RELATION_CONSTRAINTS RC'
+
+    + ' JOIN RDB$REF_CONSTRAINTS RR ON'
+    + ' RC.RDB$CONSTRAINT_NAME = RR.RDB$CONSTRAINT_NAME'
+
+    + ' JOIN RDB$RELATION_CONSTRAINTS RI ON'
+    + ' RI.RDB$CONSTRAINT_NAME = RR.RDB$CONST_NAME_UQ'
+
+    + ' JOIN RDB$INDEX_SEGMENTS RF ON'
+    + ' RF.RDB$INDEX_NAME = RC.RDB$INDEX_NAME'
+
+    + ' JOIN RDB$INDEX_SEGMENTS ISGMT ON'
+    + ' ISGMT.RDB$INDEX_NAME = RI.RDB$INDEX_NAME'
+
+    + ' WHERE RC.RDB$CONSTRAINT_TYPE = ''FOREIGN KEY'''
+    + ' AND RC.RDB$CONSTRAINT_NAME = :FOREIGN_KEY_NAME'
+    ;
+  //SetClipboardText(sSql);
   Result := sSql;
 end;
 

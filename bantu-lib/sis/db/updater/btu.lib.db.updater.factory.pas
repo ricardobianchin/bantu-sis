@@ -34,7 +34,9 @@ uses
   btu.lib.db.updater.operations.fb_u,
   btu.lib.db.updater.comando.fb.createdomains_u,
   btu.lib.db.updater.comando.fb.createoralterpackage_u, btn.lib.types.strings,
-  btu.lib.db.updater.comando.fb.ensurerecords_u;
+  btu.lib.db.updater.comando.fb.ensurerecords_u,
+  btu.lib.db.updater.comando.fb.createsequence_u,
+  btu.lib.db.updater.comando.fb.createforeignkey_u;
 
 function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB;
   pDBMS: IDBMS; pSisConfig: ISisConfig; pLog: ILog;
@@ -64,6 +66,14 @@ begin
 
   else if pTipoStr = DBATUALIZ_TIPO_COMANDO_ENSURE_RECORDS then
     result := TComandoFBEnsureRecords.Create(pDBConnection,
+      pUpdaterOperations, pLog, pOutput)
+
+  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_SEQUENCE then
+    result := TComandoFBCreateSequence.Create(pDBConnection,
+      pUpdaterOperations, pLog, pOutput)
+
+  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_FOREIGN_KEY then
+    result := TComandoFBCreateForeignKey.Create(pDBConnection,
       pUpdaterOperations, pLog, pOutput)
 
       ;

@@ -21,6 +21,11 @@ type
 
     UFSL: TStringList;
     MunSL: TStringList;
+    IbgeToUfSL: TStringList;
+
+    procedure PreencherIbgeToUfSL;
+    function IbgeToUf(pIbgeCod: string): string;
+
 
     procedure ExibLog(pFrase: string);
     procedure ImportePlanilha;
@@ -61,6 +66,11 @@ begin
   Application.ProcessMessages;
 end;
 
+function TForm2.IbgeToUf(pIbgeCod: string): string;
+begin
+  Result := IbgeToUfSL.Values[pIbgeCod];
+end;
+
 procedure TForm2.ImportarButtonClick(Sender: TObject);
 begin
   ExibLog('ini');
@@ -80,6 +90,8 @@ var
   aCampos: TArray<string>;
   i: integer;
   s: string;
+  sUFSigla, sMunId, sMunNome: string;
+//  UF_SIGLA;Mun_ID;Mun_Nome
 begin
   // Abrindo o arquivo
   Stream := TFileStream.Create(ArqLabeledEdit.Text, fmOpenRead);
@@ -87,6 +99,10 @@ begin
   MunSL := TStringList.Create;
   UFSL.Sorted := True;
   UFSL.Duplicates := dupIgnore;
+
+  IbgeToUfSL := TStringList.Create;
+  PreencherIbgeToUfSL;
+
   try
     // Criando o leitor de texto
     Reader := TStreamReader.Create(Stream, TEncoding.ANSI, false);
@@ -103,12 +119,15 @@ begin
         // Separando os campos por ;
         aCampos := Line.Split([';']);
 
+        sUFSigla := IbgeToUf(aCampos[0]);
+        sMunId := aCampos[2];
+        Delete(sMunId, 1, 2);
+        sMunNome := aCampos[3];
+
         s := aCampos[0] + ';' + aCampos[1];
         UFSL.Add(s);
 
-        s := aCampos[2];
-        Delete(s, 1, 2);
-        s := aCampos[0] + ';' + s + ';' + aCampos[3];
+        s := sUFSigla + ';' + sMunId + ';' + sMunNome;
         MunSL.Add(s)
       end;
     finally
@@ -119,6 +138,7 @@ begin
     Stream.Free;
     UFSL.Free;
     MunSL.Free;
+    IbgeToUfSL.Free;
   end;
 end;
 
@@ -251,13 +271,46 @@ begin
 *)
 end;
 
+procedure TForm2.PreencherIbgeToUfSL;
+begin
+  IbgeToUfSL.Text:=
+    '11=RO'#13#10+
+    '12=AC'#13#10+
+    '13=AM'#13#10+
+    '14=RR'#13#10+
+    '15=PA'#13#10+
+    '16=AP'#13#10+
+    '17=TO'#13#10+
+    '21=MA'#13#10+
+    '22=PI'#13#10+
+    '23=CE'#13#10+
+    '24=RN'#13#10+
+    '25=PR'#13#10+
+    '26=PE'#13#10+
+    '27=AL'#13#10+
+    '28=SE'#13#10+
+    '29=BA'#13#10+
+    '31=MG'#13#10+
+    '32=ES'#13#10+
+    '33=RJ'#13#10+
+    '35=SP'#13#10+
+    '41=PR'#13#10+
+    '42=SC'#13#10+
+    '43=RS'#13#10+
+    '50=MS'#13#10+
+    '51=MT'#13#10+
+    '52=GO'#13#10+
+    '53=DF'#13#10
+    ;
+end;
+
 procedure TForm2.SalveSL;
 var
   sPasta: string;
 begin
   sPasta := IncludeTrailingPathDelimiter( ExtractFilePath(ArqLabeledEdit.Text));
 
-  UFSL.SaveToFile(sPasta + 'uf.csv');
+//  UFSL.SaveToFile(sPasta + 'uf.csv');
   MunSL.SaveToFile(sPasta + 'mun.csv');
 end;
 
