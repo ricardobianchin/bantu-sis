@@ -21,9 +21,8 @@ type
 //    function GetSqlDbUpdateIns: string; override;
 //    function GetSqlDbUpdateGetMax: string; override;
   public
-    constructor Create(pLocalDoDB: TLocalDoDB;
-      pDBMS: IDBMS; pSisConfig: ISisConfig; pLog: ILog;
-      pOutput: IOutput);
+    constructor Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
+      pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
   end;
 
 implementation
@@ -35,9 +34,8 @@ uses
 
 { TDBUpdaterFirebird }
 
-constructor TDBUpdaterFirebird.Create(pLocalDoDB: TLocalDoDB;
-  pDBMS: IDBMS; pSisConfig: ISisConfig; pLog: ILog;
-  pOutput: IOutput);
+constructor TDBUpdaterFirebird.Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
 begin
   FArq := pDBMS.LocalDoDBToNomeArq(pLocalDoDB);
   FDatabase := pDBMS.LocalDoDBToDatabase(pLocalDoDB);

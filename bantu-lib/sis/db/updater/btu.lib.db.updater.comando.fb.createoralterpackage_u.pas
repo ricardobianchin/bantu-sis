@@ -70,6 +70,8 @@ begin
     UltimoErro := 'TComandoFBCreateOrAlterPackage, Erro ao criar o cabecalho da package ' + FPackageName;
     Exit;
   end;
+//  SetClipboardText(FBodyLinhasSL.Text);
+//  SetClipboardText(sBody);
 
   Result := FBodyLinhasSL.Text = sBody;
   if not Result then

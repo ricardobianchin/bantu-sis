@@ -89,6 +89,8 @@ type
 
     function GetValue(pSql: string): Variant;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
+
+    function ExecuteSQL(pSql: string): LongInt;
   end;
 
   IDBSqlOperation = interface(IInterface)
