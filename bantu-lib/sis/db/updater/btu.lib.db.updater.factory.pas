@@ -9,9 +9,8 @@ uses
   btu.lib.db.updater.campo.list, btu.lib.db.updater.comando.list,
   btu.lib.db.updater.operations;
 
-function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB;
-  pDBMS: IDBMS; pSisConfig: ISisConfig; pLog: ILog;
-  pOutput: IOutput): IDBUpdater;
+function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput): IDBUpdater;
 
 function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput)
@@ -38,9 +37,8 @@ uses
   btu.lib.db.updater.comando.fb.createsequence_u,
   btu.lib.db.updater.comando.fb.createforeignkey_u;
 
-function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB;
-  pDBMS: IDBMS; pSisConfig: ISisConfig; pLog: ILog;
-  pOutput: IOutput): IDBUpdater;
+function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput): IDBUpdater;
 begin
   result := TDBUpdaterFirebird.Create(pLocalDoDB, pDBMS, pSisConfig,
     pLog, pOutput);

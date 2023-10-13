@@ -26,10 +26,11 @@ type
     procedure Rollback; override;
 
     function GetValue(pSql: string): Variant; override;
-
-    constructor Create(pDBMSInfo: IDBMSInfo; pDBConnectionParams: TDBConnectionParams; pLog: ILog;
-    pOutput: IOutput);
+    function ExecuteSQL(pSql: string): LongInt; override;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet); override;
+
+    constructor Create(pDBMSInfo: IDBMSInfo;
+      pDBConnectionParams: TDBConnectionParams; pLog: ILog; pOutput: IOutput);
   end;
 
 implementation
@@ -110,6 +111,12 @@ end
   *)
 
   //FFDConnection.TxOptions.AutoCommit:=true;
+end;
+
+function TDBConnectionFireDAC.ExecuteSQL(pSql: string): LongInt;
+begin
+  inherited;
+  Result := FFDConnection.ExecSQL(pSql);
 end;
 
 procedure TDBConnectionFireDAC.FecharConnectionObject;

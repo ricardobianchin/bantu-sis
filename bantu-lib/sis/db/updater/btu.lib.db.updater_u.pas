@@ -95,6 +95,7 @@ begin
   FDBMS := pDBMS;
   sLog := classname + '.Create,' + FsLocalDoDB;
   FCaminhoComandos := FSisConfig.PastaProduto + 'inst\dbupdates\';
+
   FDBConnection := DBConnectionCreate(FSisConfig, FDBMS, FLocalDoDB,
     FLog, FOutput);
 

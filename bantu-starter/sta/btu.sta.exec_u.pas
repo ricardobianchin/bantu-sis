@@ -4,7 +4,8 @@ interface
 
 uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.UsuLogin, btu.lib.entit.loja, btu.sis.ui.io.log,
   btu.sis.ui.io.output
-  , windows, btu.lib.db.dbms, btu.lib.db.factory, btu.lib.db.dbms.config
+  , windows, btu.lib.db.dbms, btu.lib.db.factory, btu.lib.db.dbms.config,
+  btu.lib.db.types
   ;
 
 type
@@ -18,6 +19,7 @@ type
     FOutput: IOutput;
     FDBMSConfig: IDBMSConfig;
     FDBMS: IDBMS;
+    FServConnection: IDBConnection;
 
     procedure CrieEEntreNaPastaBin;
     function ConfigArqExiste: boolean;
@@ -25,8 +27,8 @@ type
     procedure ConfigCrieObjetos;
     function ConfigEdit: Boolean;
 
-    procedure GravarLoja;
-    procedure GravarFuncTec;
+    procedure GravarLoja(pDBConnection: IDBConnection);
+    procedure GravarFuncTec(pDBConnection: IDBConnection);
 
     procedure ExecuteApp;
   public
@@ -128,9 +130,25 @@ begin
   FDBMS.GarantirDBMSInstalado(FLog, FOutput);
 
   if FSisConfig.LocalMachineIsServer then
+  begin
     FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput);
-  GravarLoja;
-  GravarFuncTec;
+    FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor, FLog, FOutput);
+    if FServConnection.Abrir then
+    begin
+      FServConnection.StartTransaction;
+      try
+        try
+          GravarLoja(FServConnection);
+          GravarFuncTec(FServConnection);
+        except on e: exception do
+          FLog.Exibir(e.Message);
+        end;
+      finally
+        FServConnection.Commit;
+        FServConnection.Fechar;
+      end;
+    end;
+  end;
   ExecuteApp;
 end;
 
@@ -139,14 +157,22 @@ begin
 
 end;
 
-procedure TStarterExec.GravarFuncTec;
+procedure TStarterExec.GravarFuncTec(pDBConnection: IDBConnection);
 begin
 
 end;
 
-procedure TStarterExec.GravarLoja;
+procedure TStarterExec.GravarLoja(pDBConnection: IDBConnection);
+var
+  s: string;
 begin
-
+  S := 'EXECUTE PROCEDURE LOJA_PA.LOJA_GARANTIR('
+    + FLoja.Id.ToString
+    + ','
+    + FLoja.Descr.QuotedString
+    +', TRUE);'
+    ;
+  pDBConnection.ExecuteSQL(s);
 end;
 
 procedure TStarterExec.ConfigCrieObjetos;

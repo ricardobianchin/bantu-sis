@@ -49,6 +49,7 @@ type
     property Aberto: boolean read GetAberto;
 
     function GetValue(pSql: string): Variant; virtual; abstract;
+    function ExecuteSQL(pSql: string): LongInt; virtual; abstract;
 
     constructor Create(pDBConnectionParams: TDBConnectionParams; pLog: ILog; pOutput: IOutput);
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);

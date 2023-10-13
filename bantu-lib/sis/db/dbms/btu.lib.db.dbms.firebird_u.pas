@@ -247,7 +247,7 @@ end;
 
 procedure TDBMSFirebird.GarantirDBServCriadoEAtualizado(pLog: iLog; pOutput: IOutput);
 var
-  Updater: IDBUpdater;
+  updater: IDBUpdater;
 begin
   Updater := DBUpdaterFirebirdCreate(ldbServidor, self, FSisConfig, pLog, pOutput);
   Updater.Execute;
