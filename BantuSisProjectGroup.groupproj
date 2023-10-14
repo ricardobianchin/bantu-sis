@@ -18,7 +18,7 @@
         <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-starter\BantuStarter.dproj">
+        <Projects Include="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj">
@@ -43,6 +43,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-starter\BantuStarter.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -98,14 +101,14 @@
     <Target Name="BantuLibSis:Make">
         <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Make"/>
     </Target>
-    <Target Name="BantuStarter">
-        <MSBuild Projects="bantu-starter\BantuStarter.dproj"/>
+    <Target Name="BucharestDT">
+        <MSBuild Projects="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj"/>
     </Target>
-    <Target Name="BantuStarter:Clean">
-        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Clean"/>
+    <Target Name="BucharestDT:Clean">
+        <MSBuild Projects="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="BantuStarter:Make">
-        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Make"/>
+    <Target Name="BucharestDT:Make">
+        <MSBuild Projects="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj" Targets="Make"/>
     </Target>
     <Target Name="ExemploTDI">
         <MSBuild Projects="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj"/>
@@ -179,14 +182,23 @@
     <Target Name="IbgeMunImport:Make">
         <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
     </Target>
+    <Target Name="BantuStarter">
+        <MSBuild Projects="bantu-starter\BantuStarter.dproj"/>
+    </Target>
+    <Target Name="BantuStarter:Clean">
+        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BantuStarter:Make">
+        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;Spring_Base;Spring_Core;BantuLibSis;BantuStarter;ExemploTDI;FlatBtn1;Retag;BantuShop;BtnControls;TDI1;CairoDBTools;IbgeMunImport"/>
+        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;Spring_Base;Spring_Core;BantuLibSis;BucharestDT;ExemploTDI;FlatBtn1;Retag;BantuShop;BtnControls;TDI1;CairoDBTools;IbgeMunImport;BantuStarter"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;Spring_Base:Clean;Spring_Core:Clean;BantuLibSis:Clean;BantuStarter:Clean;ExemploTDI:Clean;FlatBtn1:Clean;Retag:Clean;BantuShop:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;Spring_Base:Clean;Spring_Core:Clean;BantuLibSis:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;Retag:Clean;BantuShop:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean;BantuStarter:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;Spring_Base:Make;Spring_Core:Make;BantuLibSis:Make;BantuStarter:Make;ExemploTDI:Make;FlatBtn1:Make;Retag:Make;BantuShop:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;Spring_Base:Make;Spring_Core:Make;BantuLibSis:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;Retag:Make;BantuShop:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make;BantuStarter:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
@@ -271,6 +283,12 @@
         <BuildGroupProject Include="..\..\tools\cairo-dbtools\CairoDBTools.dproj">
             <ProjectGuid>{8B81E88C-2333-4A9D-8116-94381907C36F}</ProjectGuid>
             <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
+            <ProjectGuid>{08EFEBD9-CFA0-411C-A8A0-8ED9A3495AB6}</ProjectGuid>
+            <Configurations>Release</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>

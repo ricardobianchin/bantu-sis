@@ -35,7 +35,7 @@ type
 
     property Log: ILog read FLog;
     property Output: IOutput read FOutput;
-
+    property DBConnectionParams: TDBConnectionParams read FDBConnectionParams;
   public
     property ConnectionObject:TObject read GetConnectionObject;
     procedure StartTransaction; virtual; abstract;

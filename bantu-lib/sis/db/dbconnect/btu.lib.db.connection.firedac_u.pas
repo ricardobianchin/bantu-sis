@@ -13,7 +13,7 @@ type
   TDBConnectionFireDAC = class(TDBConnection)
   private
     FFDConnection: TFDConnection;
-    FDBConnectionParams: TDBConnectionParams;
+//    FDBConnectionParams: TDBConnectionParams;
   protected
     function GetConnectionObject:TObject; override;
     function ConnectionObjectAberto:boolean; override;
@@ -46,7 +46,8 @@ begin
     try
       FFDConnection.Open;
     except on e: exception do
-      Log.Exibir('Erro ' + e.ClassName + ',' + e.Message +' ao conectar a '+ FDBConnectionParams.Database);
+        log.Exibir('Erro ' + e.ClassName + ',' + e.Message + ' ao conectar a ' +
+          DBConnectionParams.Database);
     end;
   finally
     result := FFDConnection.Connected;
@@ -70,7 +71,7 @@ var
 begin
   inherited Create(pDBConnectionParams, pLog, pOutput);
 
-  FDBConnectionParams := pDBConnectionParams;
+//  FDBConnectionParams := pDBConnectionParams;
 
   FFDConnection:=TFDConnection.Create(nil);
   FFDConnection.LoginPrompt := false;
@@ -87,8 +88,8 @@ begin
 
   FFDConnection.Params.Text:=
     'DriverID='+sDriver+#13#10
-    +'Server='+FDBConnectionParams.Server+#13#10
-    +'Database='+FDBConnectionParams.Arq+#13#10
+    +'Server='+DBConnectionParams.Server+#13#10
+    +'Database='+DBConnectionParams.Arq+#13#10
     +'Password=masterkey'#13#10
     +'User_Name=sysdba'#13#10
     +'Protocol=TCPIP'#13#10

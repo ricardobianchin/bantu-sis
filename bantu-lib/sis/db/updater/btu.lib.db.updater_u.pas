@@ -106,7 +106,7 @@ end;
 
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
 var
-  sLog: string;
+  sErro, sLog: string;
 begin
   Result := 0;
   sLog := 'TDBUpdater.DBDescubraVersaoEConecte';
@@ -116,6 +116,13 @@ begin
     begin
       sLog := sLog + ',banco nao existia';
       CrieDB;
+      sleep(100);
+      if not GetDBExite then
+      begin
+        sErro := 'Error ao criar banco de dados';
+        sLog := sLog + sErro;
+        raise Exception.Create(sErro);
+      end;
     end
     else
       sLog := sLog + ',banco existia';
@@ -372,7 +379,7 @@ procedure TDBUpdater.ExecuteSql;
 begin
   FOutput.Exibir('Executando comandos...');
   dbms.ExecInterative('DBUpdate ' + IntToStrZero(iVersao, 9),
-    FDestinoSL, FLocalDoDB, FLog, FOutput);
+    FDestinoSL.Text, FLocalDoDB, FLog, FOutput);
 end;
 
 procedure TDBUpdater.GravarVersao;
