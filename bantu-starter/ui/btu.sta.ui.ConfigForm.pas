@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg,
   Vcl.ExtCtrls, Vcl.Mask, Vcl.Imaging.pngimage, btu.sta.MaqNomeEdFrame,
   Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList, btu.lib.Config,
-  btu.lib.usu.UsuLogin, btu.lib.entit.loja;
+  btu.lib.usu.Usuario, btu.lib.entit.loja;
 
 type
   {
@@ -96,7 +96,7 @@ type
     { Private declarations }
     FPastaBin: string;
     FSisConfig: ISisConfig;
-    FUsuLogin: IUsuLogin;
+    FUsuarioGerente: IUsuario;
     FLoja: ILoja;
 
     FTesteEhServ: boolean;
@@ -130,7 +130,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
-      pUsuLogin: IUsuLogin; pLoja: ILoja); reintroduce;
+      pUsuarioGerente: IUsuario; pLoja: ILoja); reintroduce;
   end;
 
 var
@@ -335,11 +335,11 @@ begin
 end;
 
 constructor TStarterFormConfig.Create(AOwner: TComponent;
-  pSisConfig: ISisConfig; pUsuLogin: IUsuLogin; pLoja: ILoja);
+  pSisConfig: ISisConfig; pUsuarioGerente: IUsuario; pLoja: ILoja);
 begin
   inherited Create(AOwner);
   FSisConfig := pSisConfig;
-  FUsuLogin := pUsuLogin;
+  FUsuarioGerente := pUsuarioGerente;
   FLoja := pLoja;
 end;
 
@@ -364,10 +364,9 @@ begin
   FSisConfig.DBMSInfo.DatabaseType :=  dbmstFirebird;
   FSisConfig.DBMSInfo.Version := 4.0;
 
-  FUsuLogin.Id := 0;
-  FUsuLogin.NomeExib := UsugerenteNomeExibLabeledEdit.Text;
-  FUsuLogin.NomeUsu := UsugerenteNomeUsuLabeledEdit.Text;
-  FUsuLogin.Senha := UsugerenteSenha1LabeledEdit.Text;
+  FUsuarioGerente.NomeExib := UsugerenteNomeExibLabeledEdit.Text;
+  FUsuarioGerente.NomeUsu := UsugerenteNomeUsuLabeledEdit.Text;
+  FUsuarioGerente.Senha := UsugerenteSenha1LabeledEdit.Text;
 
   FLoja.Id := StrToInt(LojaIdLabeledEdit.Text);
   FLoja.Descr := LojaApelidoLabeledEdit.Text;

@@ -2,7 +2,7 @@ unit btu.sta.exec_u;
 
 interface
 
-uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.UsuLogin, btu.lib.entit.loja, btu.sis.ui.io.log,
+uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.Usuario, btu.lib.entit.loja, btu.sis.ui.io.log,
   btu.sis.ui.io.output
   , windows, btu.lib.db.dbms, btu.lib.db.factory, btu.lib.db.dbms.config,
   btu.lib.db.types
@@ -13,7 +13,7 @@ type
   private
     FLog: ILog;
     FSisConfig: ISisConfig;
-    FUsuLogin: IUsuLogin;
+    FUsuarioGerente: IUsuario;
 //    FCaminhoFirebird: string;
     FLoja: ILoja;
     FOutput: IOutput;
@@ -28,7 +28,7 @@ type
     function ConfigEdit: Boolean;
 
     procedure GravarLoja(pDBConnection: IDBConnection);
-    procedure GravarFuncGerente(pDBConnection: IDBConnection);
+    procedure GravarUsuGerente(pDBConnection: IDBConnection);
 
     procedure ExecuteApp;
   public
@@ -53,8 +53,9 @@ function TStarterExec.ConfigEdit: Boolean;
 var
   r: tmodalresult;
 begin
-  StarterFormConfig := TStarterFormConfig.Create(nil, FSisConfig, FUsuLogin, FLoja);
-  try
+  StarterFormConfig := TStarterFormConfig.Create(nil, FSisConfig,
+    FUsuarioGerente, FLoja);
+   try
     r := StarterFormConfig.ShowModal;
     result := IsPositiveResult(r);
     if r = mrCancel then
@@ -139,7 +140,7 @@ begin
       try
         try
           GravarLoja(FServConnection);
-          GravarFuncGerente(FServConnection);
+          GravarUsuGerente(FServConnection);
         except on e: exception do
           FLog.Exibir(e.Message);
         end;
@@ -157,7 +158,7 @@ begin
 
 end;
 
-procedure TStarterExec.GravarFuncGerente(pDBConnection: IDBConnection);
+procedure TStarterExec.GravarUsuGerente(pDBConnection: IDBConnection);
 begin
 //FUsuLogin
 end;
@@ -178,7 +179,7 @@ end;
 procedure TStarterExec.ConfigCrieObjetos;
 begin
   FSisConfig := SisConfigCreate;
-  FUsuLogin := UsuLoginCreate;
+  FUsuarioGerente := UsuarioCreate;
   FLoja := btu.lib.entit.factory.LojaCreate;
   Log.Exibir('ConfigCrieObjetos');
 

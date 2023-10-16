@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 487
-  ClientWidth = 964
+  ClientHeight = 486
+  ClientWidth = 960
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,12 +22,11 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 487
+    Height = 486
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitHeight = 486
     object Image1: TImage
       Left = 0
       Top = 0
@@ -7055,8 +7054,8 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 789
-    Height = 487
+    Width = 785
+    Height = 486
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7064,14 +7063,14 @@ object StarterFormConfig: TStarterFormConfig
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitWidth = 785
-    ExplicitHeight = 486
+    ExplicitWidth = 793
+    ExplicitHeight = 487
     DesignSize = (
-      789
-      487)
+      785
+      486)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 451
+      Top = 450
       Width = 278
       Height = 60
       Align = alNone
@@ -7085,7 +7084,7 @@ object StarterFormConfig: TStarterFormConfig
       ShowCaptions = True
       TabOrder = 0
       StyleElements = [seFont, seBorder]
-      ExplicitTop = 450
+      ExplicitTop = 451
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7119,9 +7118,6 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitLeft = 7
       ExplicitTop = 3
       ExplicitWidth = 300
-      inherited ErroLabel: TLabel
-        Width = 300
-      end
       inherited GroupBox1: TGroupBox
         Width = 300
         CustomHint = BalloonHint1
@@ -7174,7 +7170,6 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitHeight = 110
       inherited ErroLabel: TLabel
         Top = 97
-        Width = 456
         ExplicitTop = 97
       end
       inherited GroupBox1: TGroupBox

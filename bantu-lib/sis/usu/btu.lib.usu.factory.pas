@@ -2,17 +2,17 @@ unit btu.lib.usu.factory;
 
 interface
 
-uses btu.lib.usu.UsuLogin;
+uses btu.lib.usu.Usuario;
 
-function UsuLoginCreate: IUsuLogin;
+function UsuarioCreate: IUsuario;
 
 implementation
 
-uses btu.lib.usu.UsuLogin_u;
+uses btu.lib.usu.Usuario_u;
 
-function UsuLoginCreate: IUsuLogin;
+function UsuarioCreate: IUsuario;
 begin
-  result := TUsuLogin.Create;
+  result := TUsuario.Create;
 end;
 
 end.
