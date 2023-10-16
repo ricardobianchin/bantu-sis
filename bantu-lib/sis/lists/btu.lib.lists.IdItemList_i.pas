@@ -2,7 +2,7 @@ unit btu.lib.lists.IdItemList_i;
 
 interface
 
-uses classes, btu.lib.lists.IdItem_i;
+uses classes, btu.lib.lists.IdItem;
 
 type
   IIdItemList = interface(IInterfaceList)

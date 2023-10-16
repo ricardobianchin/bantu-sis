@@ -187,13 +187,14 @@ begin
 
         until False;
       finally
-        FDBUpdaterOperations.Unprepare
+        FDBUpdaterOperations.Unprepare;
       end;
     except
       on E: Exception do
       begin
         FLog.Exibir('vr. ' + iVersao.ToString + E.Message);
         FOutput.Exibir('vr. ' + iVersao.ToString + E.Message);
+        //DBConnection.Rollback;
       end;
     end;
   finally
@@ -361,6 +362,7 @@ begin
 
   for I := 0 to FComandoList.Count - 1 do
   begin
+    //sLEEP(200);
     oComando := FComandoList[I];
     Resultado := oComando.Funcionou;
     if not Resultado then
@@ -387,7 +389,6 @@ begin
   FDBUpdaterOperations.PrepareVersoes;
 
   FDBUpdaterOperations.HistIns(FiVersao, FsAssunto, FsObjetivo, FsObs);
-//
 end;
 
 procedure TDBUpdater.RemoveExcedentes(pSL: TStrings);

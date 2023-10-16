@@ -74,7 +74,7 @@ begin
   end;
 
 //  SetClipboardText(FBodyLinhasSL.Text);
-  SetClipboardText(sBody);
+//  SetClipboardText(sBody);
 
   Result := FBodyLinhasSL.Text = sBody;
   if not Result then

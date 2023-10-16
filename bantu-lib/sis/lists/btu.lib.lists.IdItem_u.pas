@@ -2,28 +2,28 @@ unit btu.lib.lists.IdItem_u;
 
 interface
 
-uses btu.lib.lists.IdItem_i;
+uses btu.lib.lists.IdItem;
 
 type
   TIdItem = class(TInterfacedObject, IIdItem)
   private
-    FId:integer;
-    function GetId: Integer;
+    FId: integer;
+    function GetId: integer;
   protected
-    procedure SetId(Value:integer);
+    procedure SetId(Value: integer);
   public
-    procedure Zerar;virtual;
-    procedure Pegar(pId: Integer);virtual;
+    procedure Zerar; virtual;
+    procedure Pegar(pId: integer);
 
-    function IgualA(pId:integer):boolean;overload;
-    function IgualA(pIdItem:IIdItem):boolean;overload;
+    function IgualA(pId: integer): boolean; overload;
+    function IgualA(pIdItem: IIdItem): boolean; overload;
 
-    procedure PegarDe( pIdItem:IIdItem);
-    function GetToStrZero(pNCasas:integer=0):string;
+    procedure PegarDe(pIdItem: IIdItem);
+    function GetToStrZero(pNCasas: integer = 0): string; virtual;
 
-    property Id:integer read GetId write SetId;
+    property Id: integer read GetId write SetId;
 
-    constructor Create(pId:integer=0);
+    constructor Create(pId: integer = 0);
   end;
 
 implementation
@@ -34,34 +34,34 @@ uses System.SysUtils;
 
 constructor TIdItem.Create(pId: integer);
 begin
-  FId:=pId;
+  FId := pId;
 end;
 
-function TIdItem.GetId: Integer;
+function TIdItem.GetId: integer;
 begin
-  result:=FId;
+  result := FId;
 end;
 
 function TIdItem.GetToStrZero(pNCasas: integer): string;
 begin
   result := FId.ToString;
-  while Length(result)<pNCasas do
-    result := '0'+result;
+  while Length(result) < pNCasas do
+    result := '0' + result;
 
 end;
 
 function TIdItem.IgualA(pIdItem: IIdItem): boolean;
 begin
-  result:=Id=pIdItem.Id;
+  result := Id = pIdItem.Id;
 
 end;
 
 function TIdItem.IgualA(pId: integer): boolean;
 begin
-  result:=pId=FId;
+  result := pId = FId;
 end;
 
-procedure TIdItem.Pegar(pId: Integer);
+procedure TIdItem.Pegar(pId: integer);
 begin
   SetId(pId);
 end;
@@ -73,7 +73,7 @@ end;
 
 procedure TIdItem.SetId(Value: integer);
 begin
-  FId:=Value;
+  FId := Value;
 end;
 
 procedure TIdItem.Zerar;

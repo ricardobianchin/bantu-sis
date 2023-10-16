@@ -147,7 +147,7 @@
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItem_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_i.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_u.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_i.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.factory.pas"/>
@@ -240,6 +240,8 @@
         <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createsequence_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermItem.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermItem_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

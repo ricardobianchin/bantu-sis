@@ -7213,12 +7213,12 @@ object StarterFormConfig: TStarterFormConfig
       TabOrder = 6
       Text = ''
     end
-    object UsuRespGroupBox: TGroupBox
+    object UsuGerenteGroupBox: TGroupBox
       Left = 7
       Top = 162
       Width = 300
       Height = 289
-      Caption = 'Login do respons'#225'vel t'#233'cnico'
+      Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
       DesignSize = (
@@ -7294,7 +7294,7 @@ object StarterFormConfig: TStarterFormConfig
         Visible = False
         StyleElements = []
       end
-      object UsuRespNomeExibLabeledEdit: TLabeledEdit
+      object UsuGerenteNomeExibLabeledEdit: TLabeledEdit
         Left = 8
         Top = 46
         Width = 285
@@ -7305,10 +7305,10 @@ object StarterFormConfig: TStarterFormConfig
         MaxLength = 32
         TabOrder = 0
         Text = ''
-        OnChange = UsuRespNomeExibLabeledEditChange
-        OnKeyPress = UsuRespNomeExibLabeledEditKeyPress
+        OnChange = UsuGerenteNomeExibLabeledEditChange
+        OnKeyPress = UsuGerenteNomeExibLabeledEditKeyPress
       end
-      object UsuRespNomeUsuLabeledEdit: TLabeledEdit
+      object UsuGerenteNomeUsuLabeledEdit: TLabeledEdit
         Left = 8
         Top = 94
         Width = 285
@@ -7319,10 +7319,10 @@ object StarterFormConfig: TStarterFormConfig
         MaxLength = 32
         TabOrder = 1
         Text = ''
-        OnChange = UsuRespNomeUsuLabeledEditChange
-        OnKeyPress = UsuRespNomeUsuLabeledEditKeyPress
+        OnChange = UsuGerenteNomeUsuLabeledEditChange
+        OnKeyPress = UsuGerenteNomeUsuLabeledEditKeyPress
       end
-      object UsuRespSenha1LabeledEdit: TLabeledEdit
+      object UsuGerenteSenha1LabeledEdit: TLabeledEdit
         Left = 8
         Top = 142
         Width = 285
@@ -7334,10 +7334,10 @@ object StarterFormConfig: TStarterFormConfig
         PasswordChar = '*'
         TabOrder = 2
         Text = ''
-        OnChange = UsuRespSenha1LabeledEditChange
-        OnKeyPress = UsuRespSenha1LabeledEditKeyPress
+        OnChange = UsuGerenteSenha1LabeledEditChange
+        OnKeyPress = UsuGerenteSenha1LabeledEditKeyPress
       end
-      object UsuRespSenha2LabeledEdit: TLabeledEdit
+      object UsuGerenteSenha2LabeledEdit: TLabeledEdit
         Left = 8
         Top = 190
         Width = 285
@@ -7349,8 +7349,8 @@ object StarterFormConfig: TStarterFormConfig
         PasswordChar = '*'
         TabOrder = 3
         Text = ''
-        OnChange = UsuRespSenha2LabeledEditChange
-        OnKeyPress = UsuRespSenha2LabeledEditKeyPress
+        OnChange = UsuGerenteSenha2LabeledEditChange
+        OnKeyPress = UsuGerenteSenha2LabeledEditKeyPress
       end
       object LoginToolBar: TToolBar
         Left = 329
@@ -7369,7 +7369,7 @@ object StarterFormConfig: TStarterFormConfig
           ImageIndex = 0
         end
       end
-      object UsuRespExibSenhaCheckBox: TCheckBox
+      object UsuGerenteExibSenhaCheckBox: TCheckBox
         Left = 8
         Top = 221
         Width = 97
@@ -7382,7 +7382,7 @@ object StarterFormConfig: TStarterFormConfig
         Font.Style = []
         ParentFont = False
         TabOrder = 5
-        OnClick = UsuRespExibSenhaCheckBoxClick
+        OnClick = UsuGerenteExibSenhaCheckBoxClick
       end
     end
     object LojaIdGroupBox: TGroupBox

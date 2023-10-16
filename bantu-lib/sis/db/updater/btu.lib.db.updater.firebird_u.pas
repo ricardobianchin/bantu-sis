@@ -53,7 +53,7 @@ begin
   ComandosSQL := 'CREATE DATABASE ''' + FArq + ''' page_size 8192 user ''' +
     'sysdba'' password ''masterkey'';';
 
-  sAssunto :=  'Cria banco ' + FNomeBanco;
+  sAssunto :=  'Cria';
 
   DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, log, output);
 end;

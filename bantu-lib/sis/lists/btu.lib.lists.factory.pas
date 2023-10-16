@@ -2,7 +2,7 @@ unit btu.lib.lists.factory;
 
 interface
 
-uses btu.lib.lists.IdItem_i, btu.lib.lists.HashItem_i, btu.lib.lists.TextoItem,
+uses btu.lib.lists.IdItem, btu.lib.lists.HashItem_i, btu.lib.lists.TextoItem,
   btu.lib.lists.TextoList;
 
 {$REGION 'Id List'}

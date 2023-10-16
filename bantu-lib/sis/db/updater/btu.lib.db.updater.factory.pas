@@ -81,7 +81,7 @@ function sLinToCampoCreate(pStr: string): ICampo;
 begin
   Result := nil;
 
-  pStr := StrSemEspacoDuplo(pStr);
+  pStr := StrSemCharRepetido(pStr);
   if pStr='' then
     exit;
 

@@ -34,7 +34,7 @@ uses
   btu.lib.lists.HashItem_u in '..\bantu-lib\sis\lists\btu.lib.lists.HashItem_u.pas',
   btu.lib.lists.HashItemList_i in '..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_i.pas',
   btu.lib.lists.HashItemList_u in '..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_u.pas',
-  btu.lib.lists.IdItem_i in '..\bantu-lib\sis\lists\btu.lib.lists.IdItem_i.pas',
+  btu.lib.lists.IdItem in '..\bantu-lib\sis\lists\btu.lib.lists.IdItem.pas',
   btu.lib.lists.IdItemList_i in '..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_i.pas',
   btu.lib.lists.IdItemList_u in '..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_u.pas',
   btu.lib.lists.factory in '..\bantu-lib\sis\lists\btu.lib.lists.factory.pas',
@@ -116,7 +116,9 @@ uses
   btu.lib.lists.TextoList in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList.pas',
   btu.lib.lists.TextoList_u in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas',
   btu.lib.db.updater.comando.fb.createsequence_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createsequence_u.pas',
-  btu.lib.db.updater.comando.fb.createforeignkey_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas';
+  btu.lib.db.updater.comando.fb.createforeignkey_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas',
+  btu.lib.lists.LojaTermItem in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermItem.pas',
+  btu.lib.lists.LojaTermItem_u in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermItem_u.pas';
 
 {$R *.res}
 

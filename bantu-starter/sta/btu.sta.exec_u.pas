@@ -28,7 +28,7 @@ type
     function ConfigEdit: Boolean;
 
     procedure GravarLoja(pDBConnection: IDBConnection);
-    procedure GravarFuncTec(pDBConnection: IDBConnection);
+    procedure GravarFuncGerente(pDBConnection: IDBConnection);
 
     procedure ExecuteApp;
   public
@@ -139,7 +139,7 @@ begin
       try
         try
           GravarLoja(FServConnection);
-          GravarFuncTec(FServConnection);
+          GravarFuncGerente(FServConnection);
         except on e: exception do
           FLog.Exibir(e.Message);
         end;
@@ -157,9 +157,9 @@ begin
 
 end;
 
-procedure TStarterExec.GravarFuncTec(pDBConnection: IDBConnection);
+procedure TStarterExec.GravarFuncGerente(pDBConnection: IDBConnection);
 begin
-
+//FUsuLogin
 end;
 
 procedure TStarterExec.GravarLoja(pDBConnection: IDBConnection);

@@ -91,6 +91,7 @@ type
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
 
     function ExecuteSQL(pSql: string): LongInt;
+
   end;
 
   IDBSqlOperation = interface(IInterface)

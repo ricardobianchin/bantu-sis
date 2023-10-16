@@ -177,7 +177,9 @@ begin
 
   if FsKeyName = '' then
   begin
-    PegarObjeto(FsTabelaFK + '_' + FsTabelaPK + '_FK');
+    sObjetoNome := FsTabelaFK + '_REF_' + FsTabelaPK + '_FK';
+    sObjetoNome := TruncSnakeCase(sObjetoNome);
+    PegarObjeto(sObjetoNome);
   end;
 
   if FsCamposPK = '' then

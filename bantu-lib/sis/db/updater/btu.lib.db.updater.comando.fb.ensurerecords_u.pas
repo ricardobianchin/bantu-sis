@@ -77,10 +77,10 @@ begin
   Output.Exibir(AsText + ' Inicio');
   Log.Exibir(AsText + ' Inicio');
   Log.Exibir('StartTransaction');
-  DBConnection.StartTransaction;
+//  DBConnection.StartTransaction;
   if FRegistrosSL.count < 100 then
     iPasso := 0;
-    
+
   Output.Exibir('Processando '+FRegistrosSL.count.ToString+' registros');
   try
     try
@@ -142,14 +142,16 @@ begin
         sErro := AsText + ' Erro ' + E.ClassName + ' ' + E.Message;
         Log.Exibir(sErro);
         output.Exibir(sErro);
-        DBConnection.Rollback;
+        //DBConnection.Rollback;
         raise Exception.Create(sErro);
       end;
     end;
   finally
-    DBConnection.Commit;
+//    DBConnection.Commit;
     Log.Exibir('Commit');
     Log.Exibir('');
+//    DBConnection.Abrir;
+//    DBConnection.Fechar;
     Output.Exibir('Terminado');
   end;
 end;
@@ -226,6 +228,8 @@ begin
   end;
 
   sSqlIns := sSqlIns + sCampos + ') values (' + sValues + ');';
+  sUpdCamposSet := sUpdCamposSet + ' WHERE ' + sWhere + ';';
+  sSqlUpd := sSqlUpd + sUpdCamposSet;
 
   FInsDBExec := DBExecCreate(DBConnection, sSqlIns, log, output);
   try
@@ -239,9 +243,6 @@ begin
       raise Exception.Create(sErro);
     end;
   end;
-
-  sUpdCamposSet := sUpdCamposSet + ' WHERE ' + sWhere + ';';
-  sSqlUpd := sSqlUpd + sUpdCamposSet;
 
   FUpdDBExec := DBExecCreate(DBConnection, sSqlUpd, log, output);
   try

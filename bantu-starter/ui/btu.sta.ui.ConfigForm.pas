@@ -29,16 +29,16 @@ type
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ReloadAct: TAction;
-    UsuRespGroupBox: TGroupBox;
+    UsuGerenteGroupBox: TGroupBox;
     LocalMaqNomeEdFrame: TMaqNomeEdFrame;
     EhServidorCheckBox: TCheckBox;
     ServerMaqNomeEdFrame: TMaqNomeEdFrame;
     AjudaRespLabel: TLabel;
     BalloonHint1: TBalloonHint;
-    UsuRespNomeExibLabeledEdit: TLabeledEdit;
-    UsuRespNomeUsuLabeledEdit: TLabeledEdit;
-    UsuRespSenha1LabeledEdit: TLabeledEdit;
-    UsuRespSenha2LabeledEdit: TLabeledEdit;
+    UsuGerenteNomeExibLabeledEdit: TLabeledEdit;
+    UsuGerenteNomeUsuLabeledEdit: TLabeledEdit;
+    UsuGerenteSenha1LabeledEdit: TLabeledEdit;
+    UsuGerenteSenha2LabeledEdit: TLabeledEdit;
     ActionList2: TActionList;
     LoginToolBar: TToolBar;
     ToolButton4: TToolButton;
@@ -55,7 +55,7 @@ type
     ServerConfigSelectButton: TButton;
     ShowTimer: TTimer;
     ObsLabel: TLabel;
-    UsuRespExibSenhaCheckBox: TCheckBox;
+    UsuGerenteExibSenhaCheckBox: TCheckBox;
     AvisoSenhaLabel: TLabel;
     LojaErroLabel: TLabel;
 
@@ -72,18 +72,18 @@ type
 
     procedure EhServidorCheckBoxClick(Sender: TObject);
 
-    procedure UsuRespNomeExibLabeledEditChange(Sender: TObject);
-    procedure UsuRespNomeUsuLabeledEditChange(Sender: TObject);
-    procedure UsuRespSenha1LabeledEditChange(Sender: TObject);
-    procedure UsuRespSenha2LabeledEditChange(Sender: TObject);
+    procedure UsuGerenteNomeExibLabeledEditChange(Sender: TObject);
+    procedure UsuGerenteNomeUsuLabeledEditChange(Sender: TObject);
+    procedure UsuGerenteSenha1LabeledEditChange(Sender: TObject);
+    procedure UsuGerenteSenha2LabeledEditChange(Sender: TObject);
 
-    procedure UsuRespNomeExibLabeledEditKeyPress(Sender: TObject;
+    procedure UsuGerenteNomeExibLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
-    procedure UsuRespNomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure UsuRespSenha1LabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure UsuRespSenha2LabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuGerenteNomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuGerenteSenha1LabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuGerenteSenha2LabeledEditKeyPress(Sender: TObject; var Key: Char);
 
-    procedure UsuRespExibSenhaCheckBoxClick(Sender: TObject);
+    procedure UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
 
     procedure LojaIdLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure LojaApelidoLabeledEditKeyPress(Sender: TObject; var Key: Char);
@@ -102,7 +102,7 @@ type
     FTesteEhServ: boolean;
     FTesteMaqLocalBuscaNome: boolean;
 
-    FTesteUsuRespPreenche: boolean;
+    FTesteUsuPreenche: boolean;
     FTesteUsuNomeExib: string;
     FTesteUsuNomeUsu: string;
     FTesteUsuSenha1: string;
@@ -118,7 +118,7 @@ type
     function LocalMaqPodeOk: boolean;
 
     function ServerPodeOk: boolean;
-    function UsuRespPodeOk: boolean;
+    function UsuGerentePodeOk: boolean;
     function LojaPodeOk: boolean;
 
     function TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit; pErroLabel: TLabel): boolean;
@@ -246,33 +246,33 @@ begin
       EhServidorCheckBox.Checked := true;
     end;
 
-    // USUARIO RESPONSAVEL TECNICO
-    FTesteUsuRespPreenche := IniFile.ReadBool('form',
-      'usuresp_preenche', false);
-    IniFile.WriteBool('form', 'usuresp_preenche', FTesteUsuRespPreenche);
+    // USUARIO GERENTE
+    FTesteUsuPreenche := IniFile.ReadBool('form',
+      'usugerente_preenche', false);
+    IniFile.WriteBool('form', 'usugerente_preenche', FTesteUsuPreenche);
 
-    FTesteUsuNomeExib := IniFile.ReadString('form', 'usuresp_nomeexib', '');
-    IniFile.WriteString('form', 'usuresp_nomeexib', FTesteUsuNomeExib);
+    FTesteUsuNomeExib := IniFile.ReadString('form', 'usugerente_nomeexib', '');
+    IniFile.WriteString('form', 'usugerente_nomeexib', FTesteUsuNomeExib);
 
-    FTesteUsuNomeUsu := IniFile.ReadString('form', 'usuresp_nomeusu', '');
-    IniFile.WriteString('form', 'usuresp_nomeusu', FTesteUsuNomeUsu);
+    FTesteUsuNomeUsu := IniFile.ReadString('form', 'usugerente_nomeusu', '');
+    IniFile.WriteString('form', 'usugerente_nomeusu', FTesteUsuNomeUsu);
 
-    FTesteUsuSenha1 := IniFile.ReadString('form', 'usuresp_senha1', '');
-    IniFile.WriteString('form', 'usuresp_senha1', FTesteUsuSenha1);
+    FTesteUsuSenha1 := IniFile.ReadString('form', 'usugerente_senha1', '');
+    IniFile.WriteString('form', 'usugerente_senha1', FTesteUsuSenha1);
 
-    FTesteUsuSenha2 := IniFile.ReadString('form', 'usuresp_senha2', '');
-    IniFile.WriteString('form', 'usuresp_senha2', FTesteUsuSenha2);
+    FTesteUsuSenha2 := IniFile.ReadString('form', 'usugerente_senha2', '');
+    IniFile.WriteString('form', 'usugerente_senha2', FTesteUsuSenha2);
 
-    FTesteUsuExibSenha := IniFile.ReadBool('form', 'usuresp_exibsenha', false);
-    IniFile.WriteBool('form', 'usuresp_exibsenha', FTesteUsuExibSenha);
+    FTesteUsuExibSenha := IniFile.ReadBool('form', 'usugerente_exibsenha', false);
+    IniFile.WriteBool('form', 'usugerente_exibsenha', FTesteUsuExibSenha);
 
-    if FTesteUsuRespPreenche then
+    if FTesteUsuPreenche then
     begin
-      UsuRespNomeExibLabeledEdit.Text := FTesteUsuNomeExib;
-      UsuRespNomeUsuLabeledEdit.Text := FTesteUsuNomeUsu;
-      UsuRespSenha1LabeledEdit.Text := FTesteUsuSenha1;
-      UsuRespSenha2LabeledEdit.Text := FTesteUsuSenha2;
-      UsuRespExibSenhaCheckBox.Checked := FTesteUsuExibSenha;
+      UsugerenteNomeExibLabeledEdit.Text := FTesteUsuNomeExib;
+      UsugerenteNomeUsuLabeledEdit.Text := FTesteUsuNomeUsu;
+      UsugerenteSenha1LabeledEdit.Text := FTesteUsuSenha1;
+      UsugerenteSenha2LabeledEdit.Text := FTesteUsuSenha2;
+      UsugerenteExibSenhaCheckBox.Checked := FTesteUsuExibSenha;
     end;
 
 
@@ -305,7 +305,7 @@ begin
     ServerConfigLabeledEdit.Visible := false;
     ServerConfigSelectButton.Visible := false;
 
-    UsuRespGroupBox.Visible := true;
+    UsuGerenteGroupBox.Visible := true;
     LojaIdGroupBox.Visible := true;
   end
   else
@@ -314,7 +314,7 @@ begin
     ServerConfigLabeledEdit.Visible := true;
     ServerConfigSelectButton.Visible := true;
 
-    UsuRespGroupBox.Visible := false;
+    UsuGerenteGroupBox.Visible := false;
     LojaIdGroupBox.Visible := false;
   end;
 end;
@@ -327,7 +327,7 @@ begin
   begin
     Key := cNULO;
     if EhServidorCheckBox.Checked then
-      UsuRespNomeExibLabeledEdit.SetFocus;
+      UsuGerenteNomeExibLabeledEdit.SetFocus;
     exit;
   end;
 
@@ -365,9 +365,9 @@ begin
   FSisConfig.DBMSInfo.Version := 4.0;
 
   FUsuLogin.Id := 0;
-  FUsuLogin.NomeExib := UsuRespNomeExibLabeledEdit.Text;
-  FUsuLogin.NomeUsu := UsuRespNomeUsuLabeledEdit.Text;
-  FUsuLogin.Senha := UsuRespSenha1LabeledEdit.Text;
+  FUsuLogin.NomeExib := UsugerenteNomeExibLabeledEdit.Text;
+  FUsuLogin.NomeUsu := UsugerenteNomeUsuLabeledEdit.Text;
+  FUsuLogin.Senha := UsugerenteSenha1LabeledEdit.Text;
 
   FLoja.Id := StrToInt(LojaIdLabeledEdit.Text);
   FLoja.Descr := LojaApelidoLabeledEdit.Text;
@@ -519,111 +519,111 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.UsuRespExibSenhaCheckBoxClick(Sender: TObject);
+procedure TStarterFormConfig.UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
 begin
-  if UsuRespExibSenhaCheckBox.Checked then
+  if UsugerenteExibSenhaCheckBox.Checked then
   begin
-    UsuRespSenha1LabeledEdit.PasswordChar := cNULO;
-    UsuRespSenha2LabeledEdit.PasswordChar := cNULO;
+    UsugerenteSenha1LabeledEdit.PasswordChar := cNULO;
+    UsugerenteSenha2LabeledEdit.PasswordChar := cNULO;
     AvisoSenhaLabel.Visible := true;
   end
   else
   begin
-    UsuRespSenha1LabeledEdit.PasswordChar := '*';
-    UsuRespSenha2LabeledEdit.PasswordChar := '*';
+    UsugerenteSenha1LabeledEdit.PasswordChar := '*';
+    UsugerenteSenha2LabeledEdit.PasswordChar := '*';
     AvisoSenhaLabel.Visible := false;
   end;
 
 end;
 
-procedure TStarterFormConfig.UsuRespNomeExibLabeledEditChange(Sender: TObject);
+procedure TStarterFormConfig.UsuGerenteNomeExibLabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 end;
 
-procedure TStarterFormConfig.UsuRespNomeExibLabeledEditKeyPress(Sender: TObject;
+procedure TStarterFormConfig.UsuGerenteNomeExibLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
   if Key = cENTER then
   begin
     Key := cNULO;
-    UsuRespNomeUsuLabeledEdit.SetFocus;
+    UsugerenteNomeUsuLabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-procedure TStarterFormConfig.UsuRespNomeUsuLabeledEditChange(Sender: TObject);
+procedure TStarterFormConfig.UsuGerenteNomeUsuLabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TStarterFormConfig.UsuRespNomeUsuLabeledEditKeyPress(Sender: TObject;
+procedure TStarterFormConfig.UsuGerenteNomeUsuLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
   if Key = cENTER then
   begin
     Key := cNULO;
-    UsuRespSenha1LabeledEdit.SetFocus;
+    UsugerenteSenha1LabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-function TStarterFormConfig.UsuRespPodeOk: boolean;
+function TStarterFormConfig.UsugerentePodeOk: boolean;
 begin
-  UsuRespNomeExibLabeledEdit.Text := Trim(StrSemAcento(UsuRespNomeExibLabeledEdit.Text));
-  UsuRespNomeUsuLabeledEdit.Text := Trim(StrToName(UsuRespNomeUsuLabeledEdit.Text));
+  UsugerenteNomeExibLabeledEdit.Text := Trim(StrSemAcento(UsugerenteNomeExibLabeledEdit.Text));
+  UsugerenteNomeUsuLabeledEdit.Text := Trim(StrToName(UsugerenteNomeUsuLabeledEdit.Text));
 
-  result := TesteLabeledEditVazio(UsuRespNomeExibLabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsugerenteNomeExibLabeledEdit, LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuRespNomeUsuLabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsugerenteNomeUsuLabeledEdit, LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuRespSenha1LabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsugerenteSenha1LabeledEdit, LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuRespSenha2LabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsugerenteSenha2LabeledEdit, LoginErroLabel);
   // if not result then
   // exit;
 end;
 
-procedure TStarterFormConfig.UsuRespSenha1LabeledEditChange(Sender: TObject);
+procedure TStarterFormConfig.UsuGerenteSenha1LabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TStarterFormConfig.UsuRespSenha1LabeledEditKeyPress(Sender: TObject;
+procedure TStarterFormConfig.UsuGerenteSenha1LabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
   if Key = cENTER then
   begin
     Key := cNULO;
-    UsuRespSenha2LabeledEdit.SetFocus;
+    UsugerenteSenha2LabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-procedure TStarterFormConfig.UsuRespSenha2LabeledEditChange(Sender: TObject);
+procedure TStarterFormConfig.UsuGerenteSenha2LabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TStarterFormConfig.UsuRespSenha2LabeledEditKeyPress(Sender: TObject;
+procedure TStarterFormConfig.UsuGerenteSenha2LabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
@@ -659,7 +659,7 @@ begin
   if not result then
     exit;
 
-  result := UsuRespPodeOk;
+  result := UsugerentePodeOk;
   if not result then
     exit;
 
