@@ -15,17 +15,20 @@ type
     FExt: string;
   public
     procedure Exibir(pFrase: string); override;
-    constructor Create(pAssunto: string; pAcrescentaDtH: boolean=True; pPasta: string=''; pDtH: TDateTime=0; pExt: string='.txt');
+    constructor Create(pAssunto: string; pAcrescentaDtH: boolean = True;
+      pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt');
     destructor Destroy; override;
   end;
 
 implementation
 
-uses System.SysUtils, btn.lib.types.strings, btu.lib.types.bool.utils;
+uses System.SysUtils, btn.lib.types.strings, btu.lib.types.bool.utils,
+  btu.lib.win.pastas, btu.lib.files;
 
 { TLogFile }
 
-constructor TLogFile.Create(pAssunto: string; pAcrescentaDtH: boolean=True; pPasta: string=''; pDtH: TDateTime=0; pExt: string='.txt');
+constructor TLogFile.Create(pAssunto: string; pAcrescentaDtH: boolean = True;
+  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt');
 var
   sAssunto: string;
   sPasta: string;
@@ -34,14 +37,17 @@ begin
   inherited Create;
   FDtHIni := Now;
 
-  if pDtH=0 then
+  if pDtH = 0 then
     pDtH := FDtHIni;
 
   FDtHFile := pDtH;
 
   sPasta := pPasta;
-  if sPasta='' then
-    sPasta := IncludeTrailingPathDelimiter( ExtractFilePath( ParamStr(0)));
+  if sPasta = '' then
+  begin
+    sPasta := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+    sPasta := PastaAcima(sPasta)+'tmp\log\'+DateToPath();
+  end;
 
   ForceDirectories(sPasta);
   FPasta := IncludeTrailingPathDelimiter(sPasta);
@@ -52,22 +58,19 @@ begin
 
   sAssunto := StrToNomeArq(Trim(pAssunto));
 
-  FNomeArq := 'Log '+ sAssunto;
+  FNomeArq := 'Log ' + sAssunto;
 
   if pAcrescentaDtH then
-    FNomeArq := FNomeArq + ' ' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', FDtHFile);
+    FNomeArq := FNomeArq + ' ' + FormatDateTime('yyyy-mm-dd_hh-nn-ss',
+      FDtHFile);
 
   FExt := pExt;
 
-  AssignFile(FF, FPasta+FNomeArq+FExt);
+  AssignFile(FF, FPasta + FNomeArq + FExt);
 
-  sLog := 'TLogFile.Create'
-    +','+sAssunto
-    +','+iif(pAcrescentaDtH, 'acrescDth', 'nao acrescDth')
-    +','+sPasta
-    +','+DateTimeToStr(pDtH)
-    +','+pExt
-    ;
+  sLog := 'TLogFile.Create' + ',' + sAssunto + ',' +
+    iif(pAcrescentaDtH, 'acrescDth', 'nao acrescDth') + ',' + sPasta + ',' +
+    DateTimeToStr(pDtH) + ',' + pExt;
   Exibir(sLog);
 end;
 
@@ -83,7 +86,7 @@ begin
     exit;
 
   inherited Exibir(pFrase);
-  if FileExists(FPasta+FNomeArq+FExt) then
+  if FileExists(FPasta + FNomeArq + FExt) then
     Append(FF)
   else
     Rewrite(FF);

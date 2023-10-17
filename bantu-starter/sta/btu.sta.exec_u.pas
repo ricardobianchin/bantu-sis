@@ -174,8 +174,15 @@ begin
   try
     sPasta := FSisConfig.PastaProduto + 'bin\';
     sParam := '';
-    sExec := sPasta + 'BantuShopRetag.exe';
+    sExec := sPasta + 'retag.exe';
     sLog := sLog + ';' + sPasta + ';' + sExec + ';' + sParam;
+
+    if not FileExists(sExec) then
+    begin
+      sErro := 'Não encontrado ' + sExec;
+      sLog := sLog + ';' + sErro;
+      exit;
+    end;
     if not ExecutePrograma(sExec, sParam, sPasta, sErro) then
       sLog := sLog + ';' + sErro;
   finally

@@ -1,14 +1,14 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{25229F2E-A428-4EDB-ACF8-D80B8B3A2EFE}</ProjectGuid>
+        <ProjectGuid>{416A27BF-724C-4294-A0F1-EA91F10FC028}</ProjectGuid>
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
-        <TargetedPlatforms>3</TargetedPlatforms>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
-        <MainSource>Retag.dpr</MainSource>
+        <MainSource>Starter.dpr</MainSource>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -34,12 +34,6 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
-        <Cfg_1_Win64>true</Cfg_1_Win64>
-        <CfgParent>Cfg_1</CfgParent>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
@@ -51,15 +45,9 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
+        <DCC_ExeOutput>..\exe\Starter\</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
         <DCC_N>false</DCC_N>
         <DCC_S>false</DCC_S>
@@ -69,10 +57,12 @@
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <SanitizedProjectName>Retag</SanitizedProjectName>
+        <SanitizedProjectName>Starter</SanitizedProjectName>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;IndyIPClient;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;IndyIPServer;fmxFireDAC;dbexpress;dsnapxml;dsnapcon;soapmidas;adortl;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;dbrtl;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;vclFireDAC;IndySystem;bindcompvclsmp;tethering;svnui;bindcompvclwinx;dsnapcon;FireDACADSDriver;FireDACMSAccDriver;fmxFireDAC;vclimg;TeeDB;FireDAC;vcltouch;vcldb;bindcompfmx;svn;FireDACSqliteDriver;FireDACPgDriver;inetdb;FMXTee;soaprtl;DbxCommonDriver;FmxTeeUI;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;vcledge;fmxobj;vclwinx;Tee;rtl;DbxClientDriver;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;bindcomp;appanalytics;dsnap;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;TeeUI;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -81,13 +71,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;IndyIPClient;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;IndyIPServer;fmxFireDAC;dbexpress;dsnapxml;dsnapcon;soapmidas;adortl;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;dbrtl;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;vclFireDAC;IndySystem;bindcompvclsmp;tethering;bindcompvclwinx;dsnapcon;FireDACADSDriver;FireDACMSAccDriver;fmxFireDAC;vclimg;TeeDB;FireDAC;vcltouch;vcldb;bindcompfmx;FireDACSqliteDriver;FireDACPgDriver;inetdb;FMXTee;soaprtl;DbxCommonDriver;FmxTeeUI;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;vcledge;fmxobj;vclwinx;Tee;rtl;DbxClientDriver;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;bindcomp;appanalytics;dsnap;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;TeeUI;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -96,20 +80,11 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
-        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
-        <DCC_RangeChecking>true</DCC_RangeChecking>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_ExeOutput>.</DCC_ExeOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -119,62 +94,158 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <AppExecutionLevel>requireAdministrator</AppExecutionLevel>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="ui\btu.sta.ui.PrincForm.pas">
+            <Form>PrincForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="sta\btu.sta.exec_u.pas"/>
+        <DCCReference Include="ui\btu.sta.ui.ConfigForm.pas">
+            <Form>StarterFormConfig</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\bantu-lib\sis\ui\FormDecorators\ControlsAlign\ControlsReposition.pas"/>
+        <DCCReference Include="ui\btu.sta.MaqNomeEdFrame.pas">
+            <Form>MaqNomeEdFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <DCCReference Include="..\bantu-lib\sis\ui\FormDecorators\btu.lib.ui.Img.DataModule.pas">
             <Form>SisImgDataModule</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="ui\retag.ui.Form.Princ.pas">
-            <Form>RetagPrincForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.machineid.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.machineid_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\winversion.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\winplatform.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\files\btu.lib.files.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.VersionInfo.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.VersionInfo_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.constants.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\btu.lib.types.constants.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.constants.pas"/>
+        <DCCReference Include="sta\btu.sta.constants.pas"/>
         <DCCReference Include="..\bantu-lib\sis\di\ui\btu.sis.di.ui.constants.pas"/>
-        <DCCReference Include="ui\ChildForm_u.pas">
-            <Form>ChildForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="ui\CategoriasChildForm_u.pas">
-            <Form>CategoriasChildForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.pas"/>
-        <DCCReference Include="ui\DiagForm_u.pas">
-            <Form>DiagForm</Form>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.Usuario.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.Usuario_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\debug\btu.lib.debug.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\controls\btn.lib.ui.controls.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItem_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\btu.sis.ui.io.output.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\btu.sis.ui.io.output.mudo_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.LogFile_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.LogRecord.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.LogRecord_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\log\btu.sis.ui.io.log.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\bool\btu.lib.types.bool.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.pastas.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.types.pas"/>
+        <DCCReference Include="sta\btu.sta.exec_xml_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.types.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.info_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\registry\btu.lib.win.registry.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes_u.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.reg_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\fdac_acces\FDacDM_u.pas">
+            <Form>FDacDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execute.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execute_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.execute.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.execute_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\btu.sis.ui.io.output.form_u.pas">
+            <Form>OutputForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ui\CategoriasDiagForm_u.pas">
-            <Form>CategDiagForm</Form>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\btu.sis.ui.io.output.toform_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\btu.sis.ui.io.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.firebird_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.info.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.firebird_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\int\btn.lib.types.integers.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.connection.firedac_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.connection_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.str.TStrings_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.query_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.sqloperation_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.query.firedac_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.sis.db.updater.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.firebird.GetSql_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createtable_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.constants_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo.list.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.campo.list_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createoralterprocedure_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.list.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.list_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\btu.sis.ui.io.output.exibirpausa.form_u.pas">
+            <Form>ExibirPausaF</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="usu\usu_u.pas"/>
-        <DCCReference Include="ui\LoginDiagForm_u.pas">
-            <Form>LoginDiagForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="ui\retag.ui.form.defaut.pas">
-            <Form>TabDefaultForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="ui\UsuCatChildForm_u.pas">
-            <Form>UsuCategChildForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="ui\UsuCategDiagForm_u.pas">
-            <Form>UsuCategDiagForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\bantu-lib\ctrls\bnt.sis.ctrls.CustomFlatBtn.pas"/>
-        <DCCReference Include="..\bantu-lib\ctrls\bnt.sis.ctrls.CustomFlatBtnFace.pas"/>
-        <DCCReference Include="..\bantu-lib\ctrls\bnt.sis.ctrls.FlatBtn.pas"/>
-        <DCCReference Include="..\bantu-lib\ctrls\bnt.sis.ctrls.FlatBtnFace.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec.firedac_u.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.strings_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.fb_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createoralterpackage_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.GetSql.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createdomains_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\sis\btu.lib.sis.clipb_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.firebird_u.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.csv_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createsequence_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.crypt_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execs.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -193,7 +264,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">Retag.dpr</Source>
+                    <Source Name="MainSource">Starter.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -201,24 +272,13 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="Retag.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
-                        <RemoteName>Retag.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Retag.rsm" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win64">
-                        <RemoteName>Retag.rsm</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win32\Debug\Retag.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\exe\Starter\Starter.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Retag.exe</RemoteName>
+                        <RemoteName>Starter.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="Win32\Debug\BantuStarter.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
@@ -1035,6 +1095,7 @@
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimARM64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
@@ -1044,7 +1105,7 @@
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">True</Platform>
+                <Platform value="Win64">False</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
