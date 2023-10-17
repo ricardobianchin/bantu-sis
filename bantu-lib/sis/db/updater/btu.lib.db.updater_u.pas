@@ -106,7 +106,7 @@ end;
 
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
 var
-  sLog: string;
+  sErro, sLog: string;
 begin
   Result := 0;
   sLog := 'TDBUpdater.DBDescubraVersaoEConecte';
@@ -116,6 +116,13 @@ begin
     begin
       sLog := sLog + ',banco nao existia';
       CrieDB;
+      sleep(100);
+      if not GetDBExite then
+      begin
+        sErro := 'Error ao criar banco de dados';
+        sLog := sLog + sErro;
+        raise Exception.Create(sErro);
+      end;
     end
     else
       sLog := sLog + ',banco existia';
@@ -180,13 +187,14 @@ begin
 
         until False;
       finally
-        FDBUpdaterOperations.Unprepare
+        FDBUpdaterOperations.Unprepare;
       end;
     except
       on E: Exception do
       begin
         FLog.Exibir('vr. ' + iVersao.ToString + E.Message);
         FOutput.Exibir('vr. ' + iVersao.ToString + E.Message);
+        //DBConnection.Rollback;
       end;
     end;
   finally
@@ -354,6 +362,7 @@ begin
 
   for I := 0 to FComandoList.Count - 1 do
   begin
+    //sLEEP(200);
     oComando := FComandoList[I];
     Resultado := oComando.Funcionou;
     if not Resultado then
@@ -372,7 +381,7 @@ procedure TDBUpdater.ExecuteSql;
 begin
   FOutput.Exibir('Executando comandos...');
   dbms.ExecInterative('DBUpdate ' + IntToStrZero(iVersao, 9),
-    FDestinoSL, FLocalDoDB, FLog, FOutput);
+    FDestinoSL.Text, FLocalDoDB, FLog, FOutput);
 end;
 
 procedure TDBUpdater.GravarVersao;
@@ -380,7 +389,6 @@ begin
   FDBUpdaterOperations.PrepareVersoes;
 
   FDBUpdaterOperations.HistIns(FiVersao, FsAssunto, FsObjetivo, FsObs);
-//
 end;
 
 procedure TDBUpdater.RemoveExcedentes(pSL: TStrings);

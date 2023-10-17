@@ -13,19 +13,19 @@ var
   s: string;
 begin
   s := '         ';
-  s := StrSemEspacoDuplo(s);
+  s := StrSemCharRepetido(s);
   ShowMessage(s);
 
   s := '  Oi,    como   vai  você?  ';
-  s := StrSemEspacoDuplo(s);
+  s := StrSemCharRepetido(s);
   ShowMessage(s);
 
   s := 'Esta   é  uma   string    com   muitos   espaços  ';
-  s := StrSemEspacoDuplo(s);
+  s := StrSemCharRepetido(s);
   ShowMessage(s);
 
   s := 'Sem espaços';
-  s := StrSemEspacoDuplo(s);
+  s := StrSemCharRepetido(s);
   ShowMessage(s);
 
 

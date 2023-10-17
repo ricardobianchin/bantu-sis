@@ -6,12 +6,14 @@ procedure CharSemAcento(var Key: Char; pTudoMaiusculas: boolean = True);
 function StrSemAcento(const pStr: string;
   pTudoMaiusculas: boolean = True): string;
 
-function StrSemEspacoDuplo(pStr: string): string;
+function StrSemCharRepetido(pStr: string; pChar: char = #32): string;
 
 procedure CharOnlyDigit(var Key: Char);
 
 procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
+
+function StrComerNoFim(pStr: string; pQtdChars: integer): string;
 
 function IsWindowsFilenameChar(c: Char): boolean;
 procedure ReplaceInvalidFilenameChar(var c: Char);
@@ -26,6 +28,11 @@ function StrGarantirTermino(pStr, pTermino: string): string;
 
 function IsDigit(c: char): boolean;
 procedure AjusteAsciiCodeToChar(var pStr: string);
+
+function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer = 28): string;
+//function ArrayToSnakeCase(pPalavras: TArray<string>): string;
+function ArrayLargestIndex(pPalavras: TArray<string>): integer;
+function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
 
 implementation
 
@@ -172,7 +179,7 @@ begin
   Delete(Result, 1, iPosNaStr);
 end;
 
-function StrSemEspacoDuplo(pStr: string): string;
+function StrSemCharRepetido(pStr: string; pChar: char): string;
 var
   i, j: integer;
 begin
@@ -188,9 +195,9 @@ begin
     // Copiar o caractere na posição i para a posição j
     pStr[j] := pStr[i];
     // Se o caractere for um espaço, avançar i até encontrar um caractere diferente de espaço
-    if pStr[i] = ' ' then
+    if pStr[i] = pChar then
     begin
-      while (i <= Length(pStr)) and (pStr[i] = ' ') do
+      while (i <= Length(pStr)) and (pStr[i] = pChar) do
         Inc(i);
     end
     // Caso contrário, avançar i normalmente
@@ -259,6 +266,107 @@ begin
     // Incrementa o índice da string
     i := i + 1;
   end;
+end;
+
+function ArrayToSnaceCase(pPalavras: TArray<string>): string;
+var
+  I: integer;
+begin
+  Result := '';
+
+  for I := 0 to Length(pPalavras) - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + '_';
+    Result := Result + pPalavras[I];
+  end;
+end;
+
+function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer): string;
+var
+  aPalavras: TArray<string>;
+  iMaior, I, L: integer;
+begin
+  Result := pIdentifier;
+  L := Result.Length;
+
+  if l <= pMaxIdentifierLenght  then
+    exit;
+
+  Result := '';
+  aPalavras := pIdentifier.Split(['_']);
+
+  while SnakeCaseFutureLenght(aPalavras) > pMaxIdentifierLenght do
+  begin
+    iMaior := ArrayLargestIndex(aPalavras);
+    aPalavras[iMaior] := StrComerNoFim(aPalavras[iMaior], 1);
+  end;
+
+  for I := 0 to Length(aPalavras) - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + '_';
+
+    Result := Result + aPalavras[I];
+  end;
+
+  Result := StrSemCharRepetido(Result, '_');
+end;
+
+function ArrayLargestIndex(pPalavras: TArray<string>): integer;
+var
+  i, max, index: integer;
+begin
+  max := 0; // inicializa o comprimento máximo como zero
+  index := -1; // inicializa o índice como -1 (significa que o array está vazio)
+  for i := 0 to Length(pPalavras) - 1 do // percorre o array de strings
+  begin
+    if Length(pPalavras[i]) > max then // se a string atual é mais longa do que o máximo atual
+    begin
+      max := Length(pPalavras[i]); // atualiza o máximo com o comprimento da string atual
+      index := i; // atualiza o índice com o índice da string atual
+    end;
+  end;
+  Result := index; // retorna o índice da string mais longa
+end;
+
+function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
+var
+  L, i, len: integer;
+begin
+  Result := 0;
+
+  L := Length(pPalavras) - 1;
+
+  len := 0;
+  for i := 0 to L do
+  begin
+    len := len + Length(pPalavras[i]);
+  end;
+
+  len := len + L;
+
+  Result := len;
+end;
+
+function StrComerNoFim(pStr: string; pQtdChars: integer): string;
+var
+  L: integer;
+  S: string;
+begin
+  Result := pStr;
+
+  L := pStr.Length;
+  if L = 0 then
+    exit;
+  L := L - pQtdChars;
+  if L < 1 then
+  begin
+    Result := '';
+    exit;
+  end;
+
+  Result := LeftStr(pStr, L);
 end;
 
 end.

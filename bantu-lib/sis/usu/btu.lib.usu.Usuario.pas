@@ -1,13 +1,16 @@
-unit btu.lib.usu.UsuLogin;
+unit btu.lib.usu.Usuario;
 
 interface
 
+uses btu.lib.lists.LojaTermIdItem;
+
 type
-  IUsuLogin = interface(IInterface)
+  IUsuario = interface(ILojaTermIdItem)
     ['{E586E972-544E-41C9-9232-CB492B58084B}']
-    function GetId: LongInt;
-    procedure SetId(const Value: LongInt);
-    property Id: LongInt read GetId write SetId;
+
+    function GetNomeCompleto: string;
+    procedure SetNomeCompleto(const Value: string);
+    property NomeCompleto: string read GetNomeCompleto write SetNomeCompleto;
 
     function GetNomeExib: string;
     procedure SetNomeExib(const Value: string);

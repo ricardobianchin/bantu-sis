@@ -47,21 +47,15 @@ end;
 procedure TDBUpdaterFirebird.CrieDB;
 var
   PastaTmp: string;
-  NomeArqTmp: string;
+  sAssunto: string;
   ComandosSQL: string;
 begin
   ComandosSQL := 'CREATE DATABASE ''' + FArq + ''' page_size 8192 user ''' +
     'sysdba'' password ''masterkey'';';
 
-  PastaTmp := SisConfig.PastaProduto + 'tmp\comandos\';
-  ForceDirectories(PastaTmp);
+  sAssunto :=  'Cria';
 
-  NomeArqTmp := PastaTmp + 'cria banco ' + FNomeBanco + ' ' +
-    DateTimeToNomeArq() + '.sql';
-
-  EscreverArquivo(ComandosSQL, NomeArqTmp);
-
-  DBMS.ExecInterative(NomeArqTmp, LocalDoDB, log, output);
+  DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, log, output);
 end;
 
 function TDBUpdaterFirebird.GetDBExite: boolean;

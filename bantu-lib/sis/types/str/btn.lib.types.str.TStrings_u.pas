@@ -122,7 +122,7 @@ begin
   I := 0;
   while I < pSL.Count do
   begin
-    S := StrSemEspacoDuplo(pSL[I]);
+    S := StrSemCharRepetido(pSL[I]);
     if S = '' then
       pSL.Delete(I)
     else

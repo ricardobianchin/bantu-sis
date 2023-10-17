@@ -10,7 +10,10 @@ uses btu.lib.db.firebird.GetSql;
 function GetSQLTabelaExisteParams: string;
 function GetSQLIndexNamesParams: string;
 function GetSQLProcedureExisteParams: string;
+
 function GetSQLDomainExisteParams: string;
+function GetSQLDomainExiste(pDomainName: string): string;
+
 function GetSQLSequenceExisteParams: string;
 function GetSQLForeignKeyInfoParams: string;
 
@@ -108,6 +111,17 @@ var
 begin
   sSql := 'SELECT RDB$PROCEDURE_NAME FROM RDB$PROCEDURES'
     + ' WHERE RDB$PROCEDURE_NAME = :PROCEDURE_NOME';
+  sSql := GetSQLExists(sSql);
+  Result := sSql;
+end;
+
+
+function GetSQLDomainExiste(pDomainName: string): string;
+var
+  sSql: string;
+begin
+  sSql := 'SELECT RDB$FIELD_NAME FROM RDB$FIELDS'
+    + ' WHERE TRIM(RDB$FIELD_NAME) = ' + QuotedStr(pDomainName);
   sSql := GetSQLExists(sSql);
   Result := sSql;
 end;

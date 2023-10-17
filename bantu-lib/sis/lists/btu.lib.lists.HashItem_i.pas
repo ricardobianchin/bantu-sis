@@ -2,7 +2,7 @@ unit btu.lib.lists.HashItem_i;
 
 interface
 
-uses btu.lib.lists.IdItem_i, Vcl.Controls;
+uses btu.lib.lists.IdItem, Vcl.Controls;
 
 type
   IHashItem=interface(IIdItem)

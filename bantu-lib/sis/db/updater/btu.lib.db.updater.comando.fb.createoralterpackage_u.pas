@@ -64,12 +64,15 @@ begin
 
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
 
+//  SetClipboardText(FCabecLinhasSL.Text);
+//  SetClipboardText(sCabec);
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
   begin
     UltimoErro := 'TComandoFBCreateOrAlterPackage, Erro ao criar o cabecalho da package ' + FPackageName;
     Exit;
   end;
+
 //  SetClipboardText(FBodyLinhasSL.Text);
 //  SetClipboardText(sBody);
 

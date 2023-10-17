@@ -31,8 +31,8 @@ type
 
     procedure GarantirDBServCriadoEAtualizado(pLog: iLog; pOutput: IOutput);
     procedure GarantirDBMSInstalado(pLog: iLog; pOutput: IOutput);
-    procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
-    procedure ExecInterative(pAssunto: string; pSLSql: TStrings; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
+//    procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
+    procedure ExecInterative(pAssunto: string; pSql: string; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
 
     constructor Create(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
       pLog: iLog; pOutput: IOutput);
@@ -125,7 +125,7 @@ begin
   PeguePaths(pLog, pOutput);
 end;
 
-procedure TDBMSFirebird.ExecInterative(pAssunto: string; pSLSql: TStrings;
+procedure TDBMSFirebird.ExecInterative(pAssunto: string; pSql: string;
   pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput);
 var
   sStartIn: string;
@@ -142,7 +142,7 @@ var
 
   s: string;
 begin
-  if Trim(pSLSql.Text) = '' then
+  if Trim(pSql) = '' then
     exit;
 
   sPastaTmp := FSisConfig.PastaProduto + 'tmp\comandos\';
@@ -153,8 +153,7 @@ begin
 
   sNomeArqTmp := sNomeArqTmp + ' '  + sNomeBanco + ' ' +
     DateTimeToNomeArq() + '.sql';
-
-  pSLSql.SaveToFile(sNomeArqTmp);
+  EscreverArquivo(pSql, sNomeArqTmp);
 
   if DBMSConfig.PausaAntesExec then
   begin
@@ -181,20 +180,21 @@ begin
   begin
     for I := 1 to 2 do
     begin
-      sleep(1000);
+      sleep(500);
       if not WExec.Executando then
         break;
     end;
     if WExec.Executando then
       pOutput.Exibir('Aguardando a execução...');
   end;
+  Sleep(100);
 
   pOutput.Exibir('Execução terminada');
   pLog.Exibir('Execução terminada');
   pLog.Exibir('TDBMSFirebird.ExecInterative fim');
   //PeguePaths(pLog, pOutput);
 end;
-
+{
 procedure TDBMSFirebird.ExecInterative(pNomeArqSQL: string;
   pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput);
 var
@@ -206,6 +206,7 @@ var
 
   WExec: IWinExecute;
   I: Integer;
+  //sLog: string;
 begin
   sExecFile := FIsqlExe;
   sStartIn := FFirebirdPath;
@@ -221,24 +222,32 @@ begin
   pLog.Exibir('vai executar');
   pOutput.Exibir('instalando o firebird...');
   pOutput.Exibir('Executando via ISQL ' + ExtractFileName(pNomeArqSQL) + '...');
+//  sLog := 'vai exec';
   WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
+//  sLog := sLog + ',exec';
   while WExec.Executando do
   begin
+//    sLog := sLog + ',fora pausa';
     for I := 1 to 2 do
     begin
-      sleep(1000);
+//      sLog := sLog + ',dentro pausa';
+      sleep(500);
       if not WExec.Executando then
         break;
     end;
+//    sLog := sLog + ',testar';
     if WExec.Executando then
       pOutput.Exibir('Aguardando a execução...');
   end;
+//  sLog := sLog + ',saiu loop';
+//  pOutput.Exibir(slog);
+  Sleep(100);
 
   pOutput.Exibir('Execução terminada');
   pLog.Exibir('Execução terminada');
   pLog.Exibir('TDBMSFirebird.ExecInterative fim');
 end;
-
+}
 procedure TDBMSFirebird.GarantirDBMSInstalado(pLog: iLog; pOutput: IOutput);
 begin
   if not BancoInstalado(pLog, pOutput) then

@@ -191,6 +191,7 @@ begin
     else if Pos(DBATUALIZ_OBJETO_NOME_CHAVE + '=', sLinha) = 1 then
     begin
       sObjetoNome := StrApos(sLinha, '=');
+      sObjetoNome := TruncSnakeCase(sObjetoNome);
       PegarObjeto(sObjetoNome);
     end;
   end;

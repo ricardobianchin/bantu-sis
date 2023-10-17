@@ -138,8 +138,8 @@
         <DCCReference Include="sta\btu.sta.constants.pas"/>
         <DCCReference Include="..\bantu-lib\sis\di\ui\btu.sis.di.ui.constants.pas"/>
         <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.UsuLogin.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.UsuLogin_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.Usuario.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.Usuario_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\usu\btu.lib.usu.factory.pas"/>
         <DCCReference Include="..\bantu-lib\sis\debug\btu.lib.debug.pas"/>
         <DCCReference Include="..\bantu-lib\sis\ui\controls\btn.lib.ui.controls.utils.pas"/>
@@ -147,7 +147,7 @@
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItem_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_i.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_u.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem_i.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItem.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_i.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.factory.pas"/>
@@ -240,6 +240,12 @@
         <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createsequence_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.crypt_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execs.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

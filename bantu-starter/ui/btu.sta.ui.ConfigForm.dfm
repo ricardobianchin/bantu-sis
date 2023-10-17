@@ -2,7 +2,7 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 487
+  ClientHeight = 535
   ClientWidth = 964
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 487
+    Height = 535
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
@@ -32,7 +32,7 @@ object StarterFormConfig: TStarterFormConfig
       Left = 0
       Top = 0
       Width = 175
-      Height = 487
+      Height = 535
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7056,7 +7056,7 @@ object StarterFormConfig: TStarterFormConfig
     Left = 175
     Top = 0
     Width = 789
-    Height = 487
+    Height = 535
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7068,10 +7068,10 @@ object StarterFormConfig: TStarterFormConfig
     ExplicitHeight = 486
     DesignSize = (
       789
-      487)
+      535)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 451
+      Top = 499
       Width = 278
       Height = 60
       Align = alNone
@@ -7213,17 +7213,17 @@ object StarterFormConfig: TStarterFormConfig
       TabOrder = 6
       Text = ''
     end
-    object UsuRespGroupBox: TGroupBox
+    object UsuGerenteGroupBox: TGroupBox
       Left = 7
       Top = 162
       Width = 300
-      Height = 289
-      Caption = 'Login do respons'#225'vel t'#233'cnico'
+      Height = 337
+      Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
       DesignSize = (
         300
-        289)
+        337)
       object AjudaRespLabel: TLabel
         Left = 134
         Top = 16
@@ -7246,7 +7246,7 @@ object StarterFormConfig: TStarterFormConfig
       end
       object LoginErroLabel: TLabel
         Left = 2
-        Top = 274
+        Top = 322
         Width = 296
         Height = 13
         Align = alBottom
@@ -7259,11 +7259,12 @@ object StarterFormConfig: TStarterFormConfig
         ParentFont = False
         Visible = False
         StyleElements = [seBorder]
+        ExplicitTop = 274
         ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9
-        Top = 258
+        Top = 306
         Width = 264
         Height = 18
         AutoSize = False
@@ -7278,7 +7279,7 @@ object StarterFormConfig: TStarterFormConfig
       end
       object AvisoSenhaLabel: TLabel
         Left = 103
-        Top = 219
+        Top = 283
         Width = 185
         Height = 17
         Caption = 'ATEN'#199#195'O! Exibindo a Senha!'
@@ -7294,52 +7295,52 @@ object StarterFormConfig: TStarterFormConfig
         Visible = False
         StyleElements = []
       end
-      object UsuRespNomeExibLabeledEdit: TLabeledEdit
+      object UsuGerenteNomeExibLabeledEdit: TLabeledEdit
         Left = 8
-        Top = 46
+        Top = 99
         Width = 285
         Height = 25
         EditLabel.Width = 119
         EditLabel.Height = 17
         EditLabel.Caption = 'Nome para exibi'#231#227'o'
         MaxLength = 32
-        TabOrder = 0
+        TabOrder = 1
         Text = ''
-        OnChange = UsuRespNomeExibLabeledEditChange
-        OnKeyPress = UsuRespNomeExibLabeledEditKeyPress
+        OnChange = UsuGerenteNomeExibLabeledEditChange
+        OnKeyPress = UsuGerenteNomeExibLabeledEditKeyPress
       end
-      object UsuRespNomeUsuLabeledEdit: TLabeledEdit
+      object UsuGerenteNomeUsuLabeledEdit: TLabeledEdit
         Left = 8
-        Top = 94
+        Top = 148
         Width = 285
         Height = 25
         EditLabel.Width = 102
         EditLabel.Height = 17
         EditLabel.Caption = 'Nome de usu'#225'rio'
         MaxLength = 32
-        TabOrder = 1
+        TabOrder = 2
         Text = ''
-        OnChange = UsuRespNomeUsuLabeledEditChange
-        OnKeyPress = UsuRespNomeUsuLabeledEditKeyPress
+        OnChange = UsuGerenteNomeUsuLabeledEditChange
+        OnKeyPress = UsuGerenteNomeUsuLabeledEditKeyPress
       end
-      object UsuRespSenha1LabeledEdit: TLabeledEdit
+      object UsuGerenteSenha1LabeledEdit: TLabeledEdit
         Left = 8
-        Top = 142
+        Top = 198
         Width = 285
-        Height = 25
+        Height = 26
         EditLabel.Width = 35
         EditLabel.Height = 17
         EditLabel.Caption = 'Senha'
         MaxLength = 32
         PasswordChar = '*'
-        TabOrder = 2
+        TabOrder = 3
         Text = ''
-        OnChange = UsuRespSenha1LabeledEditChange
-        OnKeyPress = UsuRespSenha1LabeledEditKeyPress
+        OnChange = UsuGerenteSenha1LabeledEditChange
+        OnKeyPress = UsuGerenteSenha1LabeledEditKeyPress
       end
-      object UsuRespSenha2LabeledEdit: TLabeledEdit
+      object UsuGerenteSenha2LabeledEdit: TLabeledEdit
         Left = 8
-        Top = 190
+        Top = 247
         Width = 285
         Height = 25
         EditLabel.Width = 86
@@ -7347,10 +7348,10 @@ object StarterFormConfig: TStarterFormConfig
         EditLabel.Caption = 'Repita a senha'
         MaxLength = 32
         PasswordChar = '*'
-        TabOrder = 3
+        TabOrder = 4
         Text = ''
-        OnChange = UsuRespSenha2LabeledEditChange
-        OnKeyPress = UsuRespSenha2LabeledEditKeyPress
+        OnChange = UsuGerenteSenha2LabeledEditChange
+        OnKeyPress = UsuGerenteSenha2LabeledEditKeyPress
       end
       object LoginToolBar: TToolBar
         Left = 329
@@ -7360,7 +7361,7 @@ object StarterFormConfig: TStarterFormConfig
         Align = alNone
         Caption = 'LoginToolBar'
         Images = SisImgDataModule.ImageListLogin16
-        TabOrder = 4
+        TabOrder = 5
         object ToolButton4: TToolButton
           Left = 0
           Top = 0
@@ -7369,9 +7370,9 @@ object StarterFormConfig: TStarterFormConfig
           ImageIndex = 0
         end
       end
-      object UsuRespExibSenhaCheckBox: TCheckBox
+      object UsuGerenteExibSenhaCheckBox: TCheckBox
         Left = 8
-        Top = 221
+        Top = 285
         Width = 97
         Height = 17
         Caption = 'E&xibir senha'
@@ -7381,8 +7382,22 @@ object StarterFormConfig: TStarterFormConfig
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        TabOrder = 5
-        OnClick = UsuRespExibSenhaCheckBoxClick
+        TabOrder = 6
+        OnClick = UsuGerenteExibSenhaCheckBoxClick
+      end
+      object UsuGerenteNomeCompletoLabeledEdit: TLabeledEdit
+        Left = 9
+        Top = 49
+        Width = 285
+        Height = 25
+        EditLabel.Width = 97
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Nome Completo'
+        MaxLength = 60
+        TabOrder = 0
+        Text = ''
+        OnChange = UsuGerenteNomeExibLabeledEditChange
+        OnKeyPress = UsuGerenteNomeCompletoLabeledEditKeyPress
       end
     end
     object LojaIdGroupBox: TGroupBox

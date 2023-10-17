@@ -25,8 +25,8 @@ uses
   btu.sta.constants in 'sta\btu.sta.constants.pas',
   btu.sis.di.ui.constants in '..\bantu-lib\sis\di\ui\btu.sis.di.ui.constants.pas',
   btn.lib.types.strings in '..\bantu-lib\sis\types\str\btn.lib.types.strings.pas',
-  btu.lib.usu.UsuLogin in '..\bantu-lib\sis\usu\btu.lib.usu.UsuLogin.pas',
-  btu.lib.usu.UsuLogin_u in '..\bantu-lib\sis\usu\btu.lib.usu.UsuLogin_u.pas',
+  btu.lib.usu.Usuario in '..\bantu-lib\sis\usu\btu.lib.usu.Usuario.pas',
+  btu.lib.usu.Usuario_u in '..\bantu-lib\sis\usu\btu.lib.usu.Usuario_u.pas',
   btu.lib.usu.factory in '..\bantu-lib\sis\usu\btu.lib.usu.factory.pas',
   btu.lib.debug in '..\bantu-lib\sis\debug\btu.lib.debug.pas',
   btn.lib.ui.controls.utils in '..\bantu-lib\sis\ui\controls\btn.lib.ui.controls.utils.pas',
@@ -34,7 +34,7 @@ uses
   btu.lib.lists.HashItem_u in '..\bantu-lib\sis\lists\btu.lib.lists.HashItem_u.pas',
   btu.lib.lists.HashItemList_i in '..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_i.pas',
   btu.lib.lists.HashItemList_u in '..\bantu-lib\sis\lists\btu.lib.lists.HashItemList_u.pas',
-  btu.lib.lists.IdItem_i in '..\bantu-lib\sis\lists\btu.lib.lists.IdItem_i.pas',
+  btu.lib.lists.IdItem in '..\bantu-lib\sis\lists\btu.lib.lists.IdItem.pas',
   btu.lib.lists.IdItemList_i in '..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_i.pas',
   btu.lib.lists.IdItemList_u in '..\bantu-lib\sis\lists\btu.lib.lists.IdItemList_u.pas',
   btu.lib.lists.factory in '..\bantu-lib\sis\lists\btu.lib.lists.factory.pas',
@@ -116,7 +116,13 @@ uses
   btu.lib.lists.TextoList in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList.pas',
   btu.lib.lists.TextoList_u in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoList_u.pas',
   btu.lib.db.updater.comando.fb.createsequence_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createsequence_u.pas',
-  btu.lib.db.updater.comando.fb.createforeignkey_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas';
+  btu.lib.db.updater.comando.fb.createforeignkey_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas',
+  btu.lib.lists.LojaTermIdItem in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem.pas',
+  btu.lib.lists.LojaTermIdItem_u in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas',
+  btu.lib.entit.LojaTermId.utils in '..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas',
+  btn.lib.types.strings.crypt in '..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas',
+  btu.sta.exec.testes.crypt_u in 'sta\btu.sta.exec.testes.crypt_u.pas',
+  btu.lib.win.execs in '..\bantu-lib\sis\win\btu.lib.win.execs.pas';
 
 {$R *.res}
 

@@ -1,6 +1,3 @@
-show # versoes do db
-
-tabelas e demais objetos base para o controle de versao do db
 
 ## 000.000.000
 

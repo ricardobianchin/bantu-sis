@@ -2,19 +2,19 @@ unit btu.sta.exec_u;
 
 interface
 
-uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.UsuLogin, btu.lib.entit.loja, btu.sis.ui.io.log,
-  btu.sis.ui.io.output
-  , windows, btu.lib.db.dbms, btu.lib.db.factory, btu.lib.db.dbms.config,
-  btu.lib.db.types
-  ;
+uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.Usuario,
+  btu.lib.entit.loja, btu.sis.ui.io.log,
+  btu.sis.ui.io.output, windows, btu.lib.db.dbms, btu.lib.db.factory,
+  btu.lib.db.dbms.config,
+  btu.lib.db.types;
 
 type
   TStarterExec = class
   private
     FLog: ILog;
     FSisConfig: ISisConfig;
-    FUsuLogin: IUsuLogin;
-//    FCaminhoFirebird: string;
+    FUsuarioGerente: IUsuario;
+    // FCaminhoFirebird: string;
     FLoja: ILoja;
     FOutput: IOutput;
     FDBMSConfig: IDBMSConfig;
@@ -25,35 +25,36 @@ type
     function ConfigArqExiste: boolean;
     procedure PreenchaSisConfigVersao;
     procedure ConfigCrieObjetos;
-    function ConfigEdit: Boolean;
+    function ConfigEdit: boolean;
 
     procedure GravarLoja(pDBConnection: IDBConnection);
-    procedure GravarFuncTec(pDBConnection: IDBConnection);
+    procedure GravarUsuGerente(pDBConnection: IDBConnection);
 
     procedure ExecuteApp;
   public
-    property DB: IDBMS read FDBMS;
-    property Log: ILog read FLog;
+    property db: IDBMS read FDBMS;
+    property log: ILog read FLog;
     procedure Execute;
     constructor Create(pLog: ILog; pOutput: IOutput);
   end;
 
 implementation
 
-uses dialogs, sysutils, System.UITypes, btu.lib.config.factory, winplatform
-  , btu.lib.files, btu.lib.sis.constants, btu.lib.win.VersionInfo
-  , btu.lib.win.constants, winversion, IniFiles
-  , btu.sta.constants, btu.lib.usu.factory, btu.lib.entit.factory
-  , btn.lib.types.strings, btu.sta.exec_xml_u, btu.sta.exec.testes_u,
-  btu.lib.win.pastas;
+uses dialogs, sysutils, System.UITypes, btu.lib.config.factory, winplatform,
+  btu.lib.files, btu.lib.sis.constants, btu.lib.win.VersionInfo,
+  btu.lib.win.constants, winversion, IniFiles, db, btu.lib.win.execs,
+  btu.sta.constants, btu.lib.usu.factory, btu.lib.entit.factory,
+  btn.lib.types.strings, btu.sta.exec_xml_u, btu.sta.exec.testes_u,
+  btu.lib.win.pastas, btn.lib.types.strings.crypt;
 
 { TStarterExec }
 
-function TStarterExec.ConfigEdit: Boolean;
+function TStarterExec.ConfigEdit: boolean;
 var
   r: tmodalresult;
 begin
-  StarterFormConfig := TStarterFormConfig.Create(nil, FSisConfig, FUsuLogin, FLoja);
+  StarterFormConfig := TStarterFormConfig.Create(nil, FSisConfig,
+    FUsuarioGerente, FLoja);
   try
     r := StarterFormConfig.ShowModal;
     result := IsPositiveResult(r);
@@ -69,17 +70,17 @@ function TStarterExec.ConfigArqExiste: boolean;
 var
   s: string;
 begin
-//  s := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) +
-//    CONFIG_NOME_ARQ;
+  // s := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) +
+  // CONFIG_NOME_ARQ;
 
   s := PastaAtual + CONFIG_NOME_ARQ;
   log.Exibir('ConfigArqExiste, vai testar se existe ' + s);
 
   result := FileExists(s);
   if result then
-    Log.Exibir('ConfigArqExiste, existia')
+    log.Exibir('ConfigArqExiste, existia')
   else
-    Log.Exibir('ConfigArqExiste, não existia');
+    log.Exibir('ConfigArqExiste, não existia');
 end;
 
 procedure TStarterExec.PreenchaSisConfigVersao;
@@ -89,31 +90,35 @@ var
   sCSDVersion: string;
 begin
   if not GetWinVersion(iMajor, iMinor, sCSDVersion) then
-    raise Exception.Create( btu.sta.constants.MSG_ERRO_WINVERSION);
+    raise Exception.Create(btu.sta.constants.MSG_ERRO_WINVERSION);
 
   if winplatform.IsWow64Process then
-    FSisConfig.WinVersionInfo.WinPlatform := wplatWin64
+    FSisConfig.WinVersionInfo.winplatform := wplatWin64
   else
-    FSisConfig.WinVersionInfo.WinPlatform := wplatWin32;
+    FSisConfig.WinVersionInfo.winplatform := wplatWin32;
 
   FSisConfig.WinVersionInfo.PegarVersion(iMajor, iMinor);
   FSisConfig.WinVersionInfo.CSDVersion := sCSDVersion;
 end;
 
 procedure TStarterExec.Execute;
+var
+  bExistiaXML: boolean;
 begin
   TestesChamar;
   CrieEEntreNaPastaBin;
 
-
-  if FileExists('C:\Pr\app\bantu\bantu-sis\bantu-starter\bats\apag ini.bat') then
-    winexec('C:\Pr\app\bantu\bantu-sis\bantu-starter\bats\apag ini.bat', SW_SHOWNORMAL);
+  if FileExists('C:\Pr\app\bantu\bantu-sis\bantu-starter\bats\apag ini.bat')
+  then
+    winexec('C:\Pr\app\bantu\bantu-sis\bantu-starter\bats\apag ini.bat',
+      SW_SHOWNORMAL);
 
   ConfigCrieObjetos;
 
-  if not ConfigArqExiste then
+  PreenchaSisConfigVersao;
+  bExistiaXML := ConfigArqExiste;
+  if not bExistiaXML then
   begin
-    PreenchaSisConfigVersao;
     if not ConfigEdit then
     begin
       exit;
@@ -122,26 +127,34 @@ begin
     ConfigXmlCreate(FSisConfig);
   end
   else
+  begin
+    FOutput.Enabled := true;
     ConfigXmlCarregue(FSisConfig);
+  end;
+
+  FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
+  FSisConfig.DBMSInfo.Version := 4.0;
 
   FDBMSConfig := DBMSConfigCreate(FSisConfig, FLog, FOutput);
   FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLog, FOutput);
 
   FDBMS.GarantirDBMSInstalado(FLog, FOutput);
 
-  if FSisConfig.LocalMachineIsServer then
+  if FSisConfig.LocalMachineIsServer and (not ConfigArqExiste) then
   begin
     FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput);
-    FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor, FLog, FOutput);
+    FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor,
+      FLog, FOutput);
     if FServConnection.Abrir then
     begin
       FServConnection.StartTransaction;
       try
         try
           GravarLoja(FServConnection);
-          GravarFuncTec(FServConnection);
-        except on e: exception do
-          FLog.Exibir(e.Message);
+          GravarUsuGerente(FServConnection);
+        except
+          on e: Exception do
+            FLog.Exibir(e.Message);
         end;
       finally
         FServConnection.Commit;
@@ -149,38 +162,68 @@ begin
       end;
     end;
   end;
+
   ExecuteApp;
 end;
 
 procedure TStarterExec.ExecuteApp;
+var
+  sLog, sExec, sParam, sPasta, sErro: string;
 begin
-
+  sLog := 'TStarterExec.ExecuteApp';
+  try
+    sPasta := FSisConfig.PastaProduto + 'bin\';
+    sParam := '';
+    sExec := sPasta + 'BantuShopRetag.exe';
+    sLog := sLog + ';' + sPasta + ';' + sExec + ';' + sParam;
+    if not ExecutePrograma(sExec, sParam, sPasta, sErro) then
+      sLog := sLog + ';' + sErro;
+  finally
+    FLog.Exibir(sLog);
+  end;
 end;
 
-procedure TStarterExec.GravarFuncTec(pDBConnection: IDBConnection);
+procedure TStarterExec.GravarUsuGerente(pDBConnection: IDBConnection);
+var
+  s: string;
+  sSenha: string;
+  Q: TDataSet;
+  iPessoaId: integer;
 begin
+  Encriptar('123', sSenha);
 
+  s := 'SELECT PESSOA_ID_RETORNADA FROM PESSOA_PA.USUARIO_GARANTIR(' +
+    FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
+    'TEC'.QuotedString + ',' + sSenha.QuotedString + ',' +
+    'TECNICO'.QuotedString + ',' + '1);';
+
+  iPessoaId := pDBConnection.GetValue(s);
+
+  Encriptar(FUsuarioGerente.Senha, sSenha);
+
+  s := 'SELECT PESSOA_ID_RETORNADA FROM PESSOA_PA.USUARIO_GARANTIR(' +
+    FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ',' +
+    FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',' +
+    FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
+
+  iPessoaId := pDBConnection.GetValue(s);
 end;
 
 procedure TStarterExec.GravarLoja(pDBConnection: IDBConnection);
 var
   s: string;
 begin
-  S := 'EXECUTE PROCEDURE LOJA_PA.LOJA_GARANTIR('
-    + FLoja.Id.ToString
-    + ','
-    + FLoja.Descr.QuotedString
-    +', TRUE);'
-    ;
+  s := 'EXECUTE PROCEDURE LOJA_PA.LOJA_GARANTIR(' + FLoja.Id.ToString + ',' +
+    FLoja.Descr.QuotedString + ', TRUE);';
   pDBConnection.ExecuteSQL(s);
 end;
 
 procedure TStarterExec.ConfigCrieObjetos;
 begin
   FSisConfig := SisConfigCreate;
-  FUsuLogin := UsuLoginCreate;
+  FUsuarioGerente := UsuarioCreate;
   FLoja := btu.lib.entit.factory.LojaCreate;
-  Log.Exibir('ConfigCrieObjetos');
+  log.Exibir('ConfigCrieObjetos');
 
 end;
 
@@ -190,7 +233,7 @@ var
 begin
   FLog := pLog;
   s := 'TStarterExec iniciado.';
-  Log.Exibir(s);
+  log.Exibir(s);
 
   FOutput := pOutput;
 end;
@@ -201,12 +244,12 @@ var
 const
   PASTA_BIN = '..\bin';
 begin
-  Log.Exibir('Vai criar e entrar na pasta PASTA_BIN='+PASTA_BIN);
+  log.Exibir('Vai criar e entrar na pasta PASTA_BIN=' + PASTA_BIN);
   Resultado := PastaCriarEntrar(PASTA_BIN);
 
-  if not resultado then
+  if not Resultado then
   begin
-    Log.Exibir('Erro pasta do sistema não localizada');
+    log.Exibir('Erro pasta do sistema não localizada');
     raise Exception.Create('Erro pasta do sistema não localizada');
   end;
 end;

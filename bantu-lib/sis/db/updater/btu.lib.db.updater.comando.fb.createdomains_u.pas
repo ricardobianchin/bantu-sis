@@ -63,7 +63,7 @@ begin
   FaComandos := s.Split([';']);
   for I := 0 to Length(FaComandos) - 1 do
   begin
-    s := StrSemEspacoDuplo(FaComandos[i]);
+    s := StrSemCharRepetido(FaComandos[i]);
 
     if LeftStr(s, 13) = 'CREATE DOMAIN' then
     begin
@@ -82,14 +82,17 @@ var
   oDBQuery: IDBQuery;
   I: integer;
 begin
-  sSql := GetSQLDomainExisteParams;
-  oDBQuery := btu.lib.db.factory.DBQueryCreate(DBConnection, sSql, Log, Output);
-  oDBQuery.Prepare;
+  Result := true;
+//  EXIT;
+
+//  oDBQuery.Prepare;
   try
     for I := 0 to FComandosTextoList.Count - 1 do
     begin
       sDomainName := FComandosTextoList[I].Titulo;
-      oDBQuery.Params[0].AsString := sDomainName;
+      sSql := GetSQLDomainExiste{Params}(sDomainName);
+      oDBQuery := DBQueryCreate(DBConnection, sSql, Log, Output);
+    //  oDBQuery.Params[0].AsString := sDomainName;
       try
         oDBQuery.Open;
         Result := oDBQuery.DataSet.Fields[0].AsInteger = 1;

@@ -51,7 +51,7 @@ implementation
 
 uses btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u, System.SysUtils,
   btu.lib.db.updater.constants_u, btu.lib.sis.clipb_u,
-  btn.lib.types.str.TStrings_u;
+  btn.lib.types.str.TStrings_u, btn.lib.types.strings;
 
 { TDBUpdateOperationsFB }
 
@@ -164,8 +164,7 @@ end;
 
 function TDBUpdaterOperationsFB.NomeTabelaToPKName(pNomeTabela: string): string;
 begin
-  Result := pNomeTabela + btu.lib.db.updater.constants_u.PKINDEXNAME_SUFIXO;
-
+  Result := TruncSnakeCase(pNomeTabela + PKINDEXNAME_SUFIXO);
 end;
 
 procedure TDBUpdaterOperationsFB.PreparePrincipais;
