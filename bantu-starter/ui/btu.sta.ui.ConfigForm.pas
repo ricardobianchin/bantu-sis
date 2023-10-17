@@ -58,6 +58,7 @@ type
     UsuGerenteExibSenhaCheckBox: TCheckBox;
     AvisoSenhaLabel: TLabel;
     LojaErroLabel: TLabel;
+    UsuGerenteNomeCompletoLabeledEdit: TLabeledEdit;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -92,6 +93,8 @@ type
     procedure EhServidorCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure UsuGerenteNomeCompletoLabeledEditKeyPress(Sender: TObject;
+      var Key: Char);
   private
     { Private declarations }
     FPastaBin: string;
@@ -103,6 +106,7 @@ type
     FTesteMaqLocalBuscaNome: boolean;
 
     FTesteUsuPreenche: boolean;
+    FTesteUsuNomeCompleto: string;
     FTesteUsuNomeExib: string;
     FTesteUsuNomeUsu: string;
     FTesteUsuSenha1: string;
@@ -251,6 +255,9 @@ begin
       'usugerente_preenche', false);
     IniFile.WriteBool('form', 'usugerente_preenche', FTesteUsuPreenche);
 
+    FTesteUsuNomecompleto := IniFile.ReadString('form', 'usugerente_nomecompleto', '');
+    IniFile.WriteString('form', 'usugerente_nomecompleto', FTesteUsuNomeCompleto);
+
     FTesteUsuNomeExib := IniFile.ReadString('form', 'usugerente_nomeexib', '');
     IniFile.WriteString('form', 'usugerente_nomeexib', FTesteUsuNomeExib);
 
@@ -268,6 +275,7 @@ begin
 
     if FTesteUsuPreenche then
     begin
+      UsuGerenteNomeCompletoLabeledEdit.Text := FTesteUsuNomeCompleto;
       UsugerenteNomeExibLabeledEdit.Text := FTesteUsuNomeExib;
       UsugerenteNomeUsuLabeledEdit.Text := FTesteUsuNomeUsu;
       UsugerenteSenha1LabeledEdit.Text := FTesteUsuSenha1;
@@ -327,7 +335,7 @@ begin
   begin
     Key := cNULO;
     if EhServidorCheckBox.Checked then
-      UsuGerenteNomeExibLabeledEdit.SetFocus;
+      UsuGerenteNomeCompletoLabeledEdit.SetFocus;
     exit;
   end;
 
@@ -364,6 +372,7 @@ begin
   FSisConfig.DBMSInfo.DatabaseType :=  dbmstFirebird;
   FSisConfig.DBMSInfo.Version := 4.0;
 
+  FUsuarioGerente.NomeCompleto := UsugerenteNomeCompletoLabeledEdit.Text;
   FUsuarioGerente.NomeExib := UsugerenteNomeExibLabeledEdit.Text;
   FUsuarioGerente.NomeUsu := UsugerenteNomeUsuLabeledEdit.Text;
   FUsuarioGerente.Senha := UsugerenteSenha1LabeledEdit.Text;
@@ -535,6 +544,20 @@ begin
 
 end;
 
+procedure TStarterFormConfig.UsuGerenteNomeCompletoLabeledEditKeyPress(
+  Sender: TObject; var Key: Char);
+begin
+  // inherited;
+  if Key = cENTER then
+  begin
+    Key := cNULO;
+    UsugerenteNomeExibLabeledEdit.SetFocus;
+    exit;
+  end;
+
+  CharSemAcento(Key);
+end;
+
 procedure TStarterFormConfig.UsuGerenteNomeExibLabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
@@ -576,8 +599,13 @@ end;
 
 function TStarterFormConfig.UsugerentePodeOk: boolean;
 begin
+  UsugerenteNomeCompletoLabeledEdit.Text := Trim(StrSemAcento(UsugerenteNomeCompletoLabeledEdit.Text));
   UsugerenteNomeExibLabeledEdit.Text := Trim(StrSemAcento(UsugerenteNomeExibLabeledEdit.Text));
   UsugerenteNomeUsuLabeledEdit.Text := Trim(StrToName(UsugerenteNomeUsuLabeledEdit.Text));
+
+  result := TesteLabeledEditVazio(UsugerenteNomeCompletoLabeledEdit, LoginErroLabel);
+  if not result then
+    exit;
 
   result := TesteLabeledEditVazio(UsugerenteNomeExibLabeledEdit, LoginErroLabel);
   if not result then

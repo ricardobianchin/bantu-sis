@@ -243,6 +243,9 @@
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas"/>
+        <DCCReference Include="sta\btu.sta.exec.testes.crypt_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execs.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

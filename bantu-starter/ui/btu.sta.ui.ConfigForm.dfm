@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 486
-  ClientWidth = 960
+  ClientHeight = 535
+  ClientWidth = 964
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,16 +22,17 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 486
+    Height = 535
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitHeight = 486
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 175
-      Height = 487
+      Height = 535
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7054,8 +7055,8 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 785
-    Height = 486
+    Width = 789
+    Height = 535
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7063,14 +7064,14 @@ object StarterFormConfig: TStarterFormConfig
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitWidth = 793
-    ExplicitHeight = 487
+    ExplicitWidth = 785
+    ExplicitHeight = 486
     DesignSize = (
-      785
-      486)
+      789
+      535)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 450
+      Top = 499
       Width = 278
       Height = 60
       Align = alNone
@@ -7084,7 +7085,7 @@ object StarterFormConfig: TStarterFormConfig
       ShowCaptions = True
       TabOrder = 0
       StyleElements = [seFont, seBorder]
-      ExplicitTop = 451
+      ExplicitTop = 450
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7118,6 +7119,9 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitLeft = 7
       ExplicitTop = 3
       ExplicitWidth = 300
+      inherited ErroLabel: TLabel
+        Width = 300
+      end
       inherited GroupBox1: TGroupBox
         Width = 300
         CustomHint = BalloonHint1
@@ -7170,6 +7174,7 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitHeight = 110
       inherited ErroLabel: TLabel
         Top = 97
+        Width = 456
         ExplicitTop = 97
       end
       inherited GroupBox1: TGroupBox
@@ -7212,13 +7217,13 @@ object StarterFormConfig: TStarterFormConfig
       Left = 7
       Top = 162
       Width = 300
-      Height = 289
+      Height = 337
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
       DesignSize = (
         300
-        289)
+        337)
       object AjudaRespLabel: TLabel
         Left = 134
         Top = 16
@@ -7241,7 +7246,7 @@ object StarterFormConfig: TStarterFormConfig
       end
       object LoginErroLabel: TLabel
         Left = 2
-        Top = 274
+        Top = 322
         Width = 296
         Height = 13
         Align = alBottom
@@ -7254,11 +7259,12 @@ object StarterFormConfig: TStarterFormConfig
         ParentFont = False
         Visible = False
         StyleElements = [seBorder]
+        ExplicitTop = 274
         ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9
-        Top = 258
+        Top = 306
         Width = 264
         Height = 18
         AutoSize = False
@@ -7273,7 +7279,7 @@ object StarterFormConfig: TStarterFormConfig
       end
       object AvisoSenhaLabel: TLabel
         Left = 103
-        Top = 219
+        Top = 283
         Width = 185
         Height = 17
         Caption = 'ATEN'#199#195'O! Exibindo a Senha!'
@@ -7291,50 +7297,50 @@ object StarterFormConfig: TStarterFormConfig
       end
       object UsuGerenteNomeExibLabeledEdit: TLabeledEdit
         Left = 8
-        Top = 46
+        Top = 99
         Width = 285
         Height = 25
         EditLabel.Width = 119
         EditLabel.Height = 17
         EditLabel.Caption = 'Nome para exibi'#231#227'o'
         MaxLength = 32
-        TabOrder = 0
+        TabOrder = 1
         Text = ''
         OnChange = UsuGerenteNomeExibLabeledEditChange
         OnKeyPress = UsuGerenteNomeExibLabeledEditKeyPress
       end
       object UsuGerenteNomeUsuLabeledEdit: TLabeledEdit
         Left = 8
-        Top = 94
+        Top = 148
         Width = 285
         Height = 25
         EditLabel.Width = 102
         EditLabel.Height = 17
         EditLabel.Caption = 'Nome de usu'#225'rio'
         MaxLength = 32
-        TabOrder = 1
+        TabOrder = 2
         Text = ''
         OnChange = UsuGerenteNomeUsuLabeledEditChange
         OnKeyPress = UsuGerenteNomeUsuLabeledEditKeyPress
       end
       object UsuGerenteSenha1LabeledEdit: TLabeledEdit
         Left = 8
-        Top = 142
+        Top = 198
         Width = 285
-        Height = 25
+        Height = 26
         EditLabel.Width = 35
         EditLabel.Height = 17
         EditLabel.Caption = 'Senha'
         MaxLength = 32
         PasswordChar = '*'
-        TabOrder = 2
+        TabOrder = 3
         Text = ''
         OnChange = UsuGerenteSenha1LabeledEditChange
         OnKeyPress = UsuGerenteSenha1LabeledEditKeyPress
       end
       object UsuGerenteSenha2LabeledEdit: TLabeledEdit
         Left = 8
-        Top = 190
+        Top = 247
         Width = 285
         Height = 25
         EditLabel.Width = 86
@@ -7342,7 +7348,7 @@ object StarterFormConfig: TStarterFormConfig
         EditLabel.Caption = 'Repita a senha'
         MaxLength = 32
         PasswordChar = '*'
-        TabOrder = 3
+        TabOrder = 4
         Text = ''
         OnChange = UsuGerenteSenha2LabeledEditChange
         OnKeyPress = UsuGerenteSenha2LabeledEditKeyPress
@@ -7355,7 +7361,7 @@ object StarterFormConfig: TStarterFormConfig
         Align = alNone
         Caption = 'LoginToolBar'
         Images = SisImgDataModule.ImageListLogin16
-        TabOrder = 4
+        TabOrder = 5
         object ToolButton4: TToolButton
           Left = 0
           Top = 0
@@ -7366,7 +7372,7 @@ object StarterFormConfig: TStarterFormConfig
       end
       object UsuGerenteExibSenhaCheckBox: TCheckBox
         Left = 8
-        Top = 221
+        Top = 285
         Width = 97
         Height = 17
         Caption = 'E&xibir senha'
@@ -7376,8 +7382,22 @@ object StarterFormConfig: TStarterFormConfig
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        TabOrder = 5
+        TabOrder = 6
         OnClick = UsuGerenteExibSenhaCheckBoxClick
+      end
+      object UsuGerenteNomeCompletoLabeledEdit: TLabeledEdit
+        Left = 9
+        Top = 49
+        Width = 285
+        Height = 25
+        EditLabel.Width = 97
+        EditLabel.Height = 17
+        EditLabel.Caption = 'Nome Completo'
+        MaxLength = 60
+        TabOrder = 0
+        Text = ''
+        OnChange = UsuGerenteNomeExibLabeledEditChange
+        OnKeyPress = UsuGerenteNomeCompletoLabeledEditKeyPress
       end
     end
     object LojaIdGroupBox: TGroupBox

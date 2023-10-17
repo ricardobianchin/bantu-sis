@@ -7,6 +7,7 @@ uses btu.lib.usu.Usuario, btu.lib.lists.LojaTermIdItem_u;
 type
   TUsuario = class(TLojaTermIdItem, IUsuario)
   private
+    FNomeCompleto: string;
     FNomeExib: string;
     FNomeUsu: string;
     FSenha: string;
@@ -20,14 +21,17 @@ type
     function GetSenha: string;
     procedure SetSenha(const Value: string);
 
+    function GetNomeCompleto: string;
+    procedure SetNomeCompleto(const Value: string);
   public
+    property NomeCompleto: string read GetNomeCompleto write SetNomeCompleto;
     property NomeExib: string read GetNomeExib write SetNomeExib;
     property NomeUsu: string read GetNomeUsu write SetNomeUsu;
     property Senha: string read GetSenha write SetSenha;
 
     constructor Create(pLojaId: integer = 0; pTerminalId: integer = 0;
-      pId: integer = 0; pNomeExib: string = ''; pNomeUsu: string = '';
-      pSenha: string = ''
+      pId: integer = 0; pNomeCompleto: string = ''; pNomeExib: string = '';
+      pNomeUsu: string = ''; pSenha: string = ''
       );
   end;
 
@@ -36,13 +40,19 @@ implementation
 { TUsuario }
 
 constructor TUsuario.Create(pLojaId: integer; pTerminalId: integer;
-      pId: integer; pNomeExib: string; pNomeUsu: string;
+      pId: integer; pNomeCompleto: string; pNomeExib: string; pNomeUsu: string;
       pSenha: string);
 begin
   inherited Create(pLojaId, pTerminalId, pId);
+  SetNomeCompleto(pNomeCompleto);
   SetNomeExib(pNomeExib);
   SetNomeUsu(pNomeUsu);
   SetSenha(pSenha);
+end;
+
+function TUsuario.GetNomeCompleto: string;
+begin
+  Result := FNomeCompleto;
 end;
 
 function TUsuario.GetNomeExib: string;
@@ -58,6 +68,11 @@ end;
 function TUsuario.GetSenha: string;
 begin
   Result := FSenha;
+end;
+
+procedure TUsuario.SetNomeCompleto(const Value: string);
+begin
+  FNomeCompleto := Value;
 end;
 
 procedure TUsuario.SetNomeExib(const Value: string);

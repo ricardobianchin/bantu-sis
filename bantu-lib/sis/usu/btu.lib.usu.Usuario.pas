@@ -8,6 +8,10 @@ type
   IUsuario = interface(ILojaTermIdItem)
     ['{E586E972-544E-41C9-9232-CB492B58084B}']
 
+    function GetNomeCompleto: string;
+    procedure SetNomeCompleto(const Value: string);
+    property NomeCompleto: string read GetNomeCompleto write SetNomeCompleto;
+
     function GetNomeExib: string;
     procedure SetNomeExib(const Value: string);
     property NomeExib: string read GetNomeExib write SetNomeExib;

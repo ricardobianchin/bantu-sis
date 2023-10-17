@@ -119,7 +119,10 @@ uses
   btu.lib.db.updater.comando.fb.createforeignkey_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createforeignkey_u.pas',
   btu.lib.lists.LojaTermIdItem in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem.pas',
   btu.lib.lists.LojaTermIdItem_u in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas',
-  btu.lib.entit.LojaTermId.utils in '..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas';
+  btu.lib.entit.LojaTermId.utils in '..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas',
+  btn.lib.types.strings.crypt in '..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas',
+  btu.sta.exec.testes.crypt_u in 'sta\btu.sta.exec.testes.crypt_u.pas',
+  btu.lib.win.execs in '..\bantu-lib\sis\win\btu.lib.win.execs.pas';
 
 {$R *.res}
 
