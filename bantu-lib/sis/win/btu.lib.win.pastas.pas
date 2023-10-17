@@ -5,6 +5,7 @@ interface
 function GetProgramFilesPath: string;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
+function DateToPath(pDtH: TDateTime = 0): string;
 
 implementation
 
@@ -35,6 +36,23 @@ function PastaAtual: string;
 begin
   GetDir(0,result);
   result := IncludeTrailingPathDelimiter(result);
+end;
+
+function DateToPath(pDtH: TDateTime = 0): string;
+var
+  ano, mes, dia: word;
+begin
+  // Se o valor datetime não for informado, usa o valor atual
+  if pDtH = 0 then
+    pDtH := Date;
+
+  // Extrai os componentes do valor datetime
+  DecodeDate(pDtH, ano, mes, dia);
+
+  // Formata o resultado no formato YYYY-mm-dd_hh-nn-ss-zzz
+//  Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d', [ano, mes, dia, hora, minuto, segundo, milisegundo]);
+  Result := Format('%.4d\%.2d\%.2d\', [ano, mes, dia]);
+
 end;
 
 end.

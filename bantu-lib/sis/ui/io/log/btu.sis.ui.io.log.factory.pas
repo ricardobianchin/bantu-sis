@@ -5,7 +5,9 @@ interface
 uses btu.sis.ui.io.log.LogRecord, btu.sis.ui.io.log;
 
 function LogRecordCreate: ILogRecord;
-function LogFileCreate(pAssunto: string; pAcrescentaDtH: boolean=True; pPasta: string=''; pDtH: TDateTime=0; pExt: string='.txt'): ILog;
+function LogFileCreate(pAssunto: string; pPasta: string = '';
+  pAcrescentaDtH: boolean = True; pDtH: TDateTime = 0;
+  pExt: string = '.txt'): ILog;
 
 implementation
 
@@ -16,7 +18,9 @@ begin
   result := TLogRecord.Create;
 end;
 
-function LogFileCreate(pAssunto: string; pAcrescentaDtH: boolean=True; pPasta: string=''; pDtH: TDateTime=0; pExt: string='.txt'): ILog;
+function LogFileCreate(pAssunto: string; pPasta: string = '';
+  pAcrescentaDtH: boolean = True; pDtH: TDateTime = 0;
+  pExt: string = '.txt'): ILog;
 begin
   result := TLogFile.Create(pAssunto, pAcrescentaDtH, pPasta, pDtH, pExt);
 end;

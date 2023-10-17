@@ -9,19 +9,10 @@
         <Projects Include="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj">
+        <Projects Include="bantu-lib\sis\SisAntigo.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-lib\sis\BantuLibSis.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-shop\BantuShopRetag.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-starter\BantuStarter.dproj">
+        <Projects Include="bantu-shop\Retag.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
@@ -33,7 +24,7 @@
         <Projects Include="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="retag\Retag.dproj">
+        <Projects Include="retag\RetagAntigo.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-lib\ctrls\BtnControls.dproj">
@@ -46,6 +37,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-starter\Starter.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -74,50 +68,23 @@
     <Target Name="ServiceLocatorTest:Make">
         <MSBuild Projects="..\..\..\ter\Patterns\depend-inj\malcolmgroves-servicelocator\src\ServiceLocatorTest.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Spring_Base">
-        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj"/>
+    <Target Name="SisAntigo">
+        <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj"/>
     </Target>
-    <Target Name="Spring_Base:Clean">
-        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj" Targets="Clean"/>
+    <Target Name="SisAntigo:Clean">
+        <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Spring_Base:Make">
-        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj" Targets="Make"/>
+    <Target Name="SisAntigo:Make">
+        <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Spring_Core">
-        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj"/>
+    <Target Name="Retag">
+        <MSBuild Projects="bantu-shop\Retag.dproj"/>
     </Target>
-    <Target Name="Spring_Core:Clean">
-        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj" Targets="Clean"/>
+    <Target Name="Retag:Clean">
+        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Spring_Core:Make">
-        <MSBuild Projects="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BantuLibSis">
-        <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj"/>
-    </Target>
-    <Target Name="BantuLibSis:Clean">
-        <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BantuLibSis:Make">
-        <MSBuild Projects="bantu-lib\sis\BantuLibSis.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BantuShopRetag">
-        <MSBuild Projects="bantu-shop\BantuShopRetag.dproj"/>
-    </Target>
-    <Target Name="BantuShopRetag:Clean">
-        <MSBuild Projects="bantu-shop\BantuShopRetag.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BantuShopRetag:Make">
-        <MSBuild Projects="bantu-shop\BantuShopRetag.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BantuStarter">
-        <MSBuild Projects="bantu-starter\BantuStarter.dproj"/>
-    </Target>
-    <Target Name="BantuStarter:Clean">
-        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BantuStarter:Make">
-        <MSBuild Projects="bantu-starter\BantuStarter.dproj" Targets="Make"/>
+    <Target Name="Retag:Make">
+        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
     </Target>
     <Target Name="BucharestDT">
         <MSBuild Projects="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj"/>
@@ -146,14 +113,14 @@
     <Target Name="FlatBtn1:Make">
         <MSBuild Projects="..\..\..\d-tes\ui\botoes\TFlatBtn\t1\FlatBtn1.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Retag">
-        <MSBuild Projects="retag\Retag.dproj"/>
+    <Target Name="RetagAntigo">
+        <MSBuild Projects="retag\RetagAntigo.dproj"/>
     </Target>
-    <Target Name="Retag:Clean">
-        <MSBuild Projects="retag\Retag.dproj" Targets="Clean"/>
+    <Target Name="RetagAntigo:Clean">
+        <MSBuild Projects="retag\RetagAntigo.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Retag:Make">
-        <MSBuild Projects="retag\Retag.dproj" Targets="Make"/>
+    <Target Name="RetagAntigo:Make">
+        <MSBuild Projects="retag\RetagAntigo.dproj" Targets="Make"/>
     </Target>
     <Target Name="BtnControls">
         <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj"/>
@@ -191,34 +158,37 @@
     <Target Name="IbgeMunImport:Make">
         <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Starter">
+        <MSBuild Projects="bantu-starter\Starter.dproj"/>
+    </Target>
+    <Target Name="Starter:Clean">
+        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Starter:Make">
+        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;Spring_Base;Spring_Core;BantuLibSis;BantuShopRetag;BantuStarter;BucharestDT;ExemploTDI;FlatBtn1;Retag;BtnControls;TDI1;CairoDBTools;IbgeMunImport"/>
+        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;SisAntigo;Retag;BucharestDT;ExemploTDI;FlatBtn1;RetagAntigo;BtnControls;TDI1;CairoDBTools;IbgeMunImport;Starter"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;Spring_Base:Clean;Spring_Core:Clean;BantuLibSis:Clean;BantuShopRetag:Clean;BantuStarter:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;Retag:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;SisAntigo:Clean;Retag:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;RetagAntigo:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean;Starter:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;Spring_Base:Make;Spring_Core:Make;BantuLibSis:Make;BantuShopRetag:Make;BantuStarter:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;Retag:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;SisAntigo:Make;Retag:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;RetagAntigo:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make;Starter:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
-        <BuildGroupProject Include="bantu-shop\BantuShopRetag.dproj">
+        <BuildGroupProject Include="bantu-shop\Retag.dproj">
             <ProjectGuid>{5D0EE2FB-67F7-43BD-BEA2-D2E5A76FC815}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="bantu-lib\sis\BantuLibSis.dproj">
+        <BuildGroupProject Include="bantu-lib\sis\SisAntigo.dproj">
             <ProjectGuid>{5FFB1003-BC15-45F1-A8E0-DED3A8186AB2}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Core.dproj">
-            <ProjectGuid>{3F933A25-7C87-419F-B285-EE0B5E3F0B73}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj">
             <ProjectGuid>{56E73651-65D1-409F-82F9-6272411DA38B}</ProjectGuid>
@@ -232,7 +202,7 @@
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="retag\Retag.dproj">
+        <BuildGroupProject Include="retag\RetagAntigo.dproj">
             <ProjectGuid>{25229F2E-A428-4EDB-ACF8-D80B8B3A2EFE}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
@@ -262,13 +232,7 @@
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="..\..\..\ter\spring4d\Packages\Delphi11\Spring.Base.dproj">
-            <ProjectGuid>{8F00FFD6-085B-4B31-B6A2-D3157F252221}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="bantu-starter\BantuStarter.dproj">
+        <BuildGroupProject Include="bantu-starter\Starter.dproj">
             <ProjectGuid>{416A27BF-724C-4294-A0F1-EA91F10FC028}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
