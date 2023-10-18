@@ -141,9 +141,9 @@ begin
 
   FDBMS.GarantirDBMSInstalado(FLog, FOutput);
 
+  FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput);
   if FSisConfig.LocalMachineIsServer and (not ConfigArqExiste) then
   begin
-    FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput);
     FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor,
       FLog, FOutput);
     if FServConnection.Abrir then

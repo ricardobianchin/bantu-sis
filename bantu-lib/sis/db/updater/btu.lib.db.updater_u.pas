@@ -51,7 +51,7 @@ type
     property LocalDoDB: TLocalDoDB read FLocalDoDB;
     property dbms: IDBMS read FDBMS;
     property iVersao: integer read FiVersao write SetiVersao;
-    function GetDBExite: boolean; virtual; abstract;
+    function GetDBExiste: boolean; virtual; abstract;
     function DBDescubraVersaoEConecte: integer; virtual;
     property LinhasSL: TStringList read FLinhasSL;
 
@@ -112,12 +112,12 @@ begin
   sLog := 'TDBUpdater.DBDescubraVersaoEConecte';
   try
     sLog := sLog + ', vai testar se o banco existe';
-    if not GetDBExite then
+    if not GetDBExiste then
     begin
       sLog := sLog + ',banco nao existia';
       CrieDB;
       sleep(100);
-      if not GetDBExite then
+      if not GetDBExiste then
       begin
         sErro := 'Error ao criar banco de dados';
         sLog := sLog + sErro;

@@ -18,7 +18,8 @@ implementation
 
 uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, btu.lib.types.bool.utils,
   {System.Win.ComObj} WinApi.ActiveX, btu.lib.db.types, btu.lib.types.floats,
-  btu.lib.win.VersionInfo, btu.lib.sis.constants, System.TypInfo;
+  btu.lib.win.VersionInfo, btu.lib.sis.constants, System.TypInfo,
+  btu.lib.win.VersionInfo_u;
 
 { TConfigXMLI }
 
@@ -140,15 +141,13 @@ begin
     DBMSNode := ConfigNode.ChildNodes.FindNode('DBMS');
     begin
       SoftwareNode := DBMSNode.ChildNodes.FindNode('SOFTWARE');
-      FSisConfig.DBMSInfo.DatabaseType :=
-        TDBMSType(GetEnumValue(TypeInfo(TDBMSType), SoftwareNode.Text));
+      FSisConfig.DBMSInfo.DatabaseType := StrToDBMSType(SoftwareNode.Text);
 
       VersaoDBMSNode := DBMSNode.ChildNodes.FindNode('VERSAO');
       FSisConfig.DBMSInfo.Version := StrToNum(VersaoDBMSNode.Text);
 
       DBFrameworNode := DBMSNode.ChildNodes.FindNode('FRAMEWORK');
-      FSisConfig.DBMSInfo.DBFramework :=
-        TDBFramework(GetEnumValue(TypeInfo(TDBFramework), DBFrameworNode.Text));
+      FSisConfig.DBMSInfo.DBFramework := StrToDBFramework(DBFrameworNode.Text);
     end;
 
     WinNode := ConfigNode.ChildNodes.FindNode('SO');
@@ -160,9 +159,7 @@ begin
       FSisConfig.WinVersionInfo.CSDVersion := CSDVersionNode.Text;
 
       WinPlatformNode := WinNode.ChildNodes.FindNode('PLATFORM');
-      FSisConfig.WinVersionInfo.WinPlatform :=
-        TWinPlatform(GetEnumValue(TypeInfo(TWinPlatform),
-        WinPlatformNode.Text));
+      FSisConfig.WinVersionInfo.WinPlatform := StrToWinPlatform(DBFrameworNode.Text);
     end;
   finally
     CoUninitialize;

@@ -17,7 +17,7 @@ type
     FPausaAntesExec: string;
 
     FDBMSConfig: IDBMSConfig;
-    function BancoInstalado(pLog: iLog; pOutput: IOutput): boolean;
+    function DBMSInstalado(pLog: iLog; pOutput: IOutput): boolean;
     procedure PeguePaths(pLog: iLog; pOutput: IOutput);
     procedure ExecInstal(pLog: iLog; pOutput: IOutput);
     function GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo; pLog: iLog; pOutput: IOutput): string;
@@ -47,7 +47,7 @@ uses btu.lib.win.Registry, System.win.Registry, Winapi.Windows, SysUtils,
 
 { TDBMSFirebird }
 
-function TDBMSFirebird.BancoInstalado(pLog: iLog; pOutput: IOutput): boolean;
+function TDBMSFirebird.DBMSInstalado(pLog: iLog; pOutput: IOutput): boolean;
 var
   s: string;
 begin
@@ -250,7 +250,7 @@ end;
 }
 procedure TDBMSFirebird.GarantirDBMSInstalado(pLog: iLog; pOutput: IOutput);
 begin
-  if not BancoInstalado(pLog, pOutput) then
+  if not DBMSInstalado(pLog, pOutput) then
     ExecInstal(pLog, pOutput);
 end;
 
