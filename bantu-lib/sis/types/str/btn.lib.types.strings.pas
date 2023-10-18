@@ -14,6 +14,7 @@ procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
 
 function StrComerNoFim(pStr: string; pQtdChars: integer): string;
+function StrComerNoInicio(pStr: string; pQtdChars: integer): string;
 
 function IsWindowsFilenameChar(c: Char): boolean;
 procedure ReplaceInvalidFilenameChar(var c: Char);
@@ -33,6 +34,10 @@ function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer = 28)
 //function ArrayToSnakeCase(pPalavras: TArray<string>): string;
 function ArrayLargestIndex(pPalavras: TArray<string>): integer;
 function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
+function StrCountCharLeft(pStr: string; pCharInicial: char = '0'): integer;
+function SemCharAEsquerda(pStr: string; pCharInicial: char = '0'): string;
+function TemChar(pStr: string; pChar: char): boolean;
+procedure RemovaChars(pStr: string; pCharBusca: char);
 
 implementation
 
@@ -359,6 +364,7 @@ begin
   L := pStr.Length;
   if L = 0 then
     exit;
+
   L := L - pQtdChars;
   if L < 1 then
   begin
@@ -367,6 +373,94 @@ begin
   end;
 
   Result := LeftStr(pStr, L);
+end;
+
+function StrComerNoInicio(pStr: string; pQtdChars: integer): string;
+var
+  L: integer;
+  S: string;
+begin
+  Result := pStr;
+
+  L := pStr.Length;
+  if L = 0 then
+    exit;
+
+  L := L - pQtdChars;
+  if L < 1 then
+  begin
+    Result := '';
+    exit;
+  end;
+
+  Result := RightStr(pStr, L);
+{
+  // Verifica se a quantidade de caracteres é válida
+  if (pQtdChars > 0) and (pQtdChars < Length(pStr)) then
+    // Retorna a substring a partir da posição pQtdChars + 1
+    Result := Copy(pStr, pQtdChars + 1, Length(pStr) - pQtdChars)
+  else
+    // Retorna a string original se a quantidade de caracteres é inválida
+    Result := pStr;
+    }
+end;
+
+function StrCountCharLeft(pStr: string; pCharInicial: char): integer;
+var
+  i, count: integer;
+begin
+  pStr := Trim(pStr);
+  if pStr = '' then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  if pStr[1] <> pCharInicial then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  count := 0;
+  for i := 1 to Length(pStr) do
+  begin
+    if pStr[i] = pCharInicial then
+      Inc(count)
+    else
+      Break;
+  end;
+
+  Result := count;
+end;
+
+function SemCharAEsquerda(pStr: string; pCharInicial: char = '0'): string;
+var
+  iQtdCharsIniciais: integer;
+  sCortada: string;
+begin
+  pStr := Trim(pStr);
+
+  iQtdCharsIniciais := StrCountCharLeft(pStr, pCharInicial);
+
+  if iQtdCharsIniciais < 1 then
+  begin
+    Result := pStr;
+    exit;
+  end;
+
+  sCortada := StrComerNoInicio(pStr, iQtdCharsIniciais);
+  Result := sCortada;
+end;
+
+function TemChar(pStr: string; pChar: char): boolean;
+begin
+  Result := Pos(pChar, pStr) > 0;
+end;
+
+procedure RemovaChars(pStr: string; pCharBusca: char);
+begin
+  pStr := StringReplace(pStr, pCharBusca, '', [rfReplaceAll]);
 end;
 
 end.

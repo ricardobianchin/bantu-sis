@@ -19,7 +19,7 @@ type
     dbmstOracle,
     dbmstSQLServer,
     dbmstSQLite
-  );
+    );
 
   TLocalDoDB = (
     ldbNaoIndicado
@@ -27,27 +27,32 @@ type
     , ldbTerminal
     );
 
-  TDBFramework = (dbfrFireDAC{, dbfrDBX, dbfrZeos});
+  TDBFramework = (dbfrNaoIndicado, dbfrFireDAC{, dbfrDBX, dbfrZeos});
 
   TDBConnectionParams = record
     Server, Arq, Database: string;
   end;
 
 const
+  DBFrameworkNames: array[TDBFramework] of string = (
+    'NAOINDICADO',
+    'FIREDAC'
+    );
+
   DBMSNames: array[TDBMSType] of string = (
-    'NaoIndicado',
-    'Firebird',
-    'MySQL',
-    'PostgreSQL',
-    'Oracle',
-    'SQL Server',
-    'SQLite'
-  );
+    'NAOINDICADO',
+    'FIREBIRD',
+    'MYSQL',
+    'POSTGRESQL',
+    'ORACLE',
+    'SQLSERVER',
+    'SQLITE'
+    );
 
   TiposDeLocalDB: array[TLocalDoDB] of string = (
-    'NaoIndicado'
-    , 'Servidor'
-    , 'Terminal'
+    'NAOINDICADO'
+    , 'SERVIDOR'
+    , 'TERMINAL'
     );
 
 type

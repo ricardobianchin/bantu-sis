@@ -3,10 +3,9 @@ unit btu.sta.exec_u;
 interface
 
 uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.Usuario,
-  btu.lib.entit.loja, btu.sis.ui.io.log,
+  btu.lib.entit.loja, btu.sis.ui.io.log, btu.lib.db.types,
   btu.sis.ui.io.output, windows, btu.lib.db.dbms, btu.lib.db.factory,
-  btu.lib.db.dbms.config,
-  btu.lib.db.types;
+  btu.lib.db.dbms.config;
 
 type
   TStarterExec = class
@@ -44,7 +43,7 @@ uses dialogs, sysutils, System.UITypes, btu.lib.config.factory, winplatform,
   btu.lib.files, btu.lib.sis.constants, btu.lib.win.VersionInfo,
   btu.lib.win.constants, winversion, IniFiles, db, btu.lib.win.execs,
   btu.sta.constants, btu.lib.usu.factory, btu.lib.entit.factory,
-  btn.lib.types.strings, btu.sta.exec_xml_u, btu.sta.exec.testes_u,
+  btn.lib.types.strings, btu.sta.exec.testes_u, btu.lib.config.xmli,
   btu.lib.win.pastas, btn.lib.types.strings.crypt;
 
 { TStarterExec }
@@ -104,6 +103,7 @@ end;
 procedure TStarterExec.Execute;
 var
   bExistiaXML: boolean;
+  oConfigXMLI: IConfigXMLI;
 begin
   TestesChamar;
   CrieEEntreNaPastaBin;
@@ -114,6 +114,7 @@ begin
       SW_SHOWNORMAL);
 
   ConfigCrieObjetos;
+  oConfigXMLI := ConfigXMLICreate(FSisConfig);
 
   PreenchaSisConfigVersao;
   bExistiaXML := ConfigArqExiste;
@@ -124,16 +125,16 @@ begin
       exit;
     end;
     FOutput.Enabled := true;
-    ConfigXmlCreate(FSisConfig);
+    oConfigXMLI.Gravar;
   end
   else
   begin
     FOutput.Enabled := true;
-    ConfigXmlCarregue(FSisConfig);
+    oConfigXMLI.Ler;
   end;
 
-  FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
-  FSisConfig.DBMSInfo.Version := 4.0;
+//  FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
+//  FSisConfig.DBMSInfo.Version := 4.0;
 
   FDBMSConfig := DBMSConfigCreate(FSisConfig, FLog, FOutput);
   FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLog, FOutput);

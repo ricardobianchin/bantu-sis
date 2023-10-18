@@ -7,6 +7,7 @@ uses System.UITypes, system.SysUtils;
 
 const
   ZERO_CURRENCY: currency = 0.0;
+  UM_CENTAVO: Currency = 0.01;
   ZERO_INTEGER: integer = 0;
   STR_NULA = '';
 
