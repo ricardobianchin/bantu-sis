@@ -54,7 +54,6 @@ uses
   btu.lib.win.pastas in '..\bantu-lib\sis\win\btu.lib.win.pastas.pas',
   btu.lib.db.firebird.utils in '..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas',
   btu.lib.db.firebird.types in '..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.types.pas',
-  btu.sta.exec_xml_u in 'sta\btu.sta.exec_xml_u.pas',
   btu.lib.db.types in '..\bantu-lib\sis\db\btu.lib.db.types.pas',
   btu.lib.db.factory in '..\bantu-lib\sis\db\btu.lib.db.factory.pas',
   btu.lib.db.dbms.info_u in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.info_u.pas',
@@ -122,7 +121,10 @@ uses
   btu.lib.entit.LojaTermId.utils in '..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas',
   btn.lib.types.strings.crypt in '..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas',
   btu.sta.exec.testes.crypt_u in 'sta\btu.sta.exec.testes.crypt_u.pas',
-  btu.lib.win.execs in '..\bantu-lib\sis\win\btu.lib.win.execs.pas';
+  btu.lib.win.execs in '..\bantu-lib\sis\win\btu.lib.win.execs.pas',
+  btu.lib.types.floats in '..\bantu-lib\sis\types\float\btu.lib.types.floats.pas',
+  btu.lib.config.xmli in '..\bantu-lib\sis\config\btu.lib.config.xmli.pas',
+  btu.lib.config.xmli_u in '..\bantu-lib\sis\config\btu.lib.config.xmli_u.pas';
 
 {$R *.res}
 

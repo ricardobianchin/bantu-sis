@@ -22,6 +22,13 @@ type
     property WinPlatform: TWinPlatform read GetWinPlatform write SetWinPlatform;
   end;
 
+const
+  WinPlatforms: array[TWinPlatform] of string = (
+    'NAOINDICADO',
+    'WIN32',
+    'WIN64'
+    );
+
 implementation
 
 end.

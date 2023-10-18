@@ -167,7 +167,6 @@
         <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.pastas.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.types.pas"/>
-        <DCCReference Include="sta\btu.sta.exec_xml_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.types.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.factory.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.info_u.pas"/>
@@ -246,6 +245,9 @@
         <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.crypt.pas"/>
         <DCCReference Include="sta\btu.sta.exec.testes.crypt_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\win\btu.lib.win.execs.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\float\btu.lib.types.floats.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.xmli.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.xmli_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

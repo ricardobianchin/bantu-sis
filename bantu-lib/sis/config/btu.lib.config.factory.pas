@@ -2,15 +2,17 @@ unit btu.lib.config.factory;
 
 interface
 
-uses btu.lib.config.machineid, btu.lib.config, btu.lib.db.types;
+uses btu.lib.config.machineid, btu.lib.config, btu.lib.db.types, btu.lib.config.xmli,
+  btu.lib.db.dbms.config;
 
 function MachineIdCreate: IMachineId;
 function SisConfigCreate(pVersion: TDBVersion = 0; pDatabaseType: TDBMSType = dbmstUnknown): ISisConfig;
+function ConfigXMLICreate(pSisConfig: ISisConfig): IConfigXMLI;
 
 implementation
 
 uses btu.lib.config.machineid_u, btu.lib.config_u, btu.lib.win.factory, btu.lib.win.VersionInfo,
-  btu.lib.db.factory;
+  btu.lib.db.factory, btu.lib.config.xmli_u;
 
 function MachineIdCreate: IMachineId;
 begin
@@ -29,6 +31,11 @@ begin
   vDBMSInfo := DBMSInfoCreate(pVersion, pDatabaseType);
 
   result := TISisConfig.Create(vLocalMachineId, vServerMachineId, vWinVersionInfo, vDBMSInfo);
+end;
+
+function ConfigXMLICreate(pSisConfig: ISisConfig): IConfigXMLI;
+begin
+  Result := TConfigXMLI.Create(pSisConfig);
 end;
 
 end.
