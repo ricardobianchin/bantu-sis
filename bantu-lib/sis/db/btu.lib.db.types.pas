@@ -144,6 +144,36 @@ type
     procedure Execute;
   end;
 
+function StrToDBFramework(pStr: string): TDBFramework;
+function StrToDBMSType(pStr: string): TDBMSType;
+
 implementation
+
+function StrToDBFramework(pStr: string): TDBFramework;
+begin
+  if pStr = 'NAOINDICADO' then
+    Result := dbfrNaoIndicado
+  else
+    Result := dbfrFireDAC;
+end;
+
+function StrToDBMSType(pStr: string): TDBMSType;
+begin
+  if pStr = 'NAOINDICADO' then
+    Result := dbmstUnknown
+  else if pStr = 'FIREBIRD' then
+    Result := dbmstFirebird
+  else if pStr = 'MYSQL' then
+    Result := dbmstMySQL
+  else if pStr = 'POSTGRESQL' then
+    Result := dbmstPostgreSQL
+  else if pStr = 'ORACLE' then
+    Result := dbmstOracle
+  else if pStr = 'SQLSERVER' then
+    Result := dbmstSQLServer
+  else //if pStr = 'SQLITE' then
+    Result := dbmstSQLite
+    ;
+end;
 
 end.

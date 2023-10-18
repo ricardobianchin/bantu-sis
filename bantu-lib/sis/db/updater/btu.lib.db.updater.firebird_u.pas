@@ -16,7 +16,7 @@ type
   protected
 
     // procedure AtualizeBanco;virtual; abstract;
-    function GetDBExite: boolean; override;
+    function GetDBExiste: boolean; override;
     procedure CrieDB; override;
 //    function GetSqlDbUpdateIns: string; override;
 //    function GetSqlDbUpdateGetMax: string; override;
@@ -29,8 +29,8 @@ implementation
 
 uses
   btu.lib.db.firebird.utils, System.SysUtils, btu.lib.files, System.StrUtils,
-  btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u,
-  System.Variants;
+  btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u, Winapi.Windows,
+  System.Variants, btu.lib.win.VersionInfo;
 
 { TDBUpdaterFirebird }
 
@@ -58,8 +58,38 @@ begin
   DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, log, output);
 end;
 
-function TDBUpdaterFirebird.GetDBExite: boolean;
+function TDBUpdaterFirebird.GetDBExiste: boolean;
+var
+  sPastaInstDados, sNomeArq: string;
 begin
+  result := FileExists(FArq);
+
+  if Result then
+    exit;
+
+  sPastaInstDados := SisConfig.PastaProduto + 'inst\inst-Firebird\dados\';
+  sNomeArq := 'RETAG';
+  if SisConfig.WinVersionInfo.Version <= 6.1 then
+  begin
+
+  end
+  else
+  begin
+    sNomeArq := sNomeArq + '4';
+    if SisConfig.WinVersionInfo.WinPlatform = wplatWin64 then
+    begin
+      sNomeArq := sNomeArq + '64';
+    end
+    else
+    begin
+      sNomeArq := sNomeArq + '32';
+    end;
+  end;
+  sNomeArq := sNomeArq + '.fdb';
+  sNomeArq := sPastaInstDados + sNomeArq;
+
+  CopyFile(PChar(sNomeArq), PChar(FArq), False);
+
   result := FileExists(FArq);
 end;
 

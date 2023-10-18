@@ -29,6 +29,18 @@ const
     'WIN64'
     );
 
+function StrToWinPlatform(pStr: string): TWinPlatform;
+
 implementation
+
+function StrToWinPlatform(pStr: string): TWinPlatform;
+begin
+  if pStr = 'NAOINDICADO' then
+    Result := wplatNaoIndicado
+  else if pStr = 'WIN32' then
+    Result := wplatWin32
+  else //if pStr = 'WIN64' then
+    Result := wplatWin64;
+end;
 
 end.
