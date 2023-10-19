@@ -80,7 +80,6 @@ begin
   sStartIn := PastaAcima(sStartIn);
   sStartIn := sStartIn + 'inst\inst-Firebird\';
 
-
   if FSisConfig.WinVersionInfo.Version <= 6.1 then
   begin
     sStartIn := sStartIn + 'fb32\';
@@ -105,7 +104,7 @@ begin
   pLog.Exibir('sStartIn='+sStartIn);
 
   pLog.Exibir('vai executar');
-  pOutput.Exibir('instalando o firebird...');
+  pOutput.Exibir('Instalando o firebird...');
   WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
   while WExec.Executando do
   begin

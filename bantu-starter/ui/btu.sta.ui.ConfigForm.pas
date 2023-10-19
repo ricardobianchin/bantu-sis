@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg,
   Vcl.ExtCtrls, Vcl.Mask, Vcl.Imaging.pngimage, btu.sta.MaqNomeEdFrame,
   Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList, btu.lib.Config,
-  btu.lib.usu.Usuario, btu.lib.entit.loja;
+  btu.lib.usu.Usuario, btu.lib.entit.loja, btu.sta.ui.ConfigForm.testeconfig;
 
 type
   {
@@ -95,6 +95,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure UsuGerenteNomeCompletoLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     FPastaBin: string;
@@ -102,20 +103,7 @@ type
     FUsuarioGerente: IUsuario;
     FLoja: ILoja;
 
-    FTesteEhServ: boolean;
-    FTesteMaqLocalBuscaNome: boolean;
-
-    FTesteUsuPreenche: boolean;
-    FTesteUsuNomeCompleto: string;
-    FTesteUsuNomeExib: string;
-    FTesteUsuNomeUsu: string;
-    FTesteUsuSenha1: string;
-    FTesteUsuSenha2: string;
-    FTesteUsuExibSenha: boolean;
-
-    FTesteLojaPreenche: boolean;
-    FTesteLojaId: integer;
-    FTesteLojaApelido: string;
+    FTesteConfig: TTesteConfig;
 
     function PodeOk: boolean;
 
@@ -144,7 +132,7 @@ implementation
 
 {$R *.dfm}
 
-uses Math, ControlsReposition, btu.lib.ui.Img.DataModule, IniFiles,
+uses Math, ControlsReposition, btu.lib.ui.Img.DataModule,
   btu.lib.Config.machineid, Winapi.winsock, btu.sis.di.ui.constants,
   btn.lib.types.strings, btn.lib.ui.Controls.utils, btu.sta.constants,
   btu.lib.types.constants, btu.lib.db.types;
@@ -224,84 +212,33 @@ begin
 end;
 
 procedure TStarterFormConfig.CarregTesteStarterIni;
-var
-  sNomeArq: string;
-  IniFile: TIniFile;
 begin
-  sNomeArq := FPastaBin + 'testes.starter.ini';
-  IniFile := TIniFile.Create(sNomeArq);
-  try
-    // MAQ LOCAL
-    FTesteMaqLocalBuscaNome := IniFile.ReadBool('form',
-      'maqlocal_buscanome', false);
-    IniFile.WriteBool('form', 'maqlocal_buscanome', FTesteMaqLocalBuscaNome);
+  FTesteConfig.LerIni;
 
-    if FTesteMaqLocalBuscaNome then
-    begin
-      BuscaNomeAction.Execute;
-    end;
+  if FTesteConfig.TesteMaqLocalBuscaNome then
+  begin
+    BuscaNomeAction.Execute;
+  end;
 
-    // SE É SERVIDOR
-    FTesteEhServ := IniFile.ReadBool('form', 'ehserver', false);
-    IniFile.WriteBool('form', 'ehserver', FTesteEhServ);
+  if FTesteConfig.TesteEhServ then
+  begin
+    EhServidorCheckBox.Checked := true;
+  end;
 
-    if FTesteEhServ then
-    begin
-      EhServidorCheckBox.Checked := true;
-    end;
+  if FTesteConfig.TesteUsuPreenche then
+  begin
+    UsuGerenteNomeCompletoLabeledEdit.Text := FTesteConfig.TesteUsuNomeCompleto;
+    UsuGerenteNomeExibLabeledEdit.Text := FTesteConfig.TesteUsuNomeExib;
+    UsuGerenteNomeUsuLabeledEdit.Text := FTesteConfig.TesteUsuNomeUsu;
+    UsuGerenteSenha1LabeledEdit.Text := FTesteConfig.TesteUsuSenha1;
+    UsuGerenteSenha2LabeledEdit.Text := FTesteConfig.TesteUsuSenha2;
+    UsuGerenteExibSenhaCheckBox.Checked := FTesteConfig.TesteUsuExibSenha;
+  end;
 
-    // USUARIO GERENTE
-    FTesteUsuPreenche := IniFile.ReadBool('form',
-      'usugerente_preenche', false);
-    IniFile.WriteBool('form', 'usugerente_preenche', FTesteUsuPreenche);
-
-    FTesteUsuNomecompleto := IniFile.ReadString('form', 'usugerente_nomecompleto', '');
-    IniFile.WriteString('form', 'usugerente_nomecompleto', FTesteUsuNomeCompleto);
-
-    FTesteUsuNomeExib := IniFile.ReadString('form', 'usugerente_nomeexib', '');
-    IniFile.WriteString('form', 'usugerente_nomeexib', FTesteUsuNomeExib);
-
-    FTesteUsuNomeUsu := IniFile.ReadString('form', 'usugerente_nomeusu', '');
-    IniFile.WriteString('form', 'usugerente_nomeusu', FTesteUsuNomeUsu);
-
-    FTesteUsuSenha1 := IniFile.ReadString('form', 'usugerente_senha1', '');
-    IniFile.WriteString('form', 'usugerente_senha1', FTesteUsuSenha1);
-
-    FTesteUsuSenha2 := IniFile.ReadString('form', 'usugerente_senha2', '');
-    IniFile.WriteString('form', 'usugerente_senha2', FTesteUsuSenha2);
-
-    FTesteUsuExibSenha := IniFile.ReadBool('form', 'usugerente_exibsenha', false);
-    IniFile.WriteBool('form', 'usugerente_exibsenha', FTesteUsuExibSenha);
-
-    if FTesteUsuPreenche then
-    begin
-      UsuGerenteNomeCompletoLabeledEdit.Text := FTesteUsuNomeCompleto;
-      UsugerenteNomeExibLabeledEdit.Text := FTesteUsuNomeExib;
-      UsugerenteNomeUsuLabeledEdit.Text := FTesteUsuNomeUsu;
-      UsugerenteSenha1LabeledEdit.Text := FTesteUsuSenha1;
-      UsugerenteSenha2LabeledEdit.Text := FTesteUsuSenha2;
-      UsugerenteExibSenhaCheckBox.Checked := FTesteUsuExibSenha;
-    end;
-
-
-    //LOJA
-    FTesteLojaPreenche := IniFile.ReadBool('form', 'loja_preenche', false);
-    IniFile.WriteBool('form', 'loja_preenche', FTesteLojaPreenche);
-
-    FTesteLojaId := IniFile.ReadInteger('form', 'loja_id', 0);
-    IniFile.WriteInteger('form', 'loja_id', FTesteLojaId);
-
-    FTesteLojaApelido := IniFile.ReadString('form', 'loja_apelido', '');
-    IniFile.WriteString('form', 'loja_apelido', FTesteLojaApelido);
-
-    if FTesteLojaPreenche then
-    begin
-      LojaIdLabeledEdit.Text := FTesteLojaId.ToString;
-      LojaApelidoLabeledEdit.Text := FTesteLojaApelido;
-    end;
-
-  finally
-    IniFile.Free;
+  if FTesteConfig.TesteLojaPreenche then
+  begin
+    LojaIdLabeledEdit.Text := FTesteConfig.TesteLojaId.ToString;
+    LojaApelidoLabeledEdit.Text := FTesteConfig.TesteLojaApelido;
   end;
 end;
 
@@ -384,6 +321,7 @@ end;
 procedure TStarterFormConfig.FormCreate(Sender: TObject);
 begin
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+  FTesteConfig := TTesteConfig.Create(FPastaBin);
 
   AjudaRespLabel.Font.Color := COR_AZUL_LINK;
   AjudaRespLabel.Hint := RESPTEC_DESCR;
@@ -396,6 +334,11 @@ begin
 
   // LocalGroupBox.AutoSize := true;
   // ServerGroupBox.AutoSize := true;
+end;
+
+procedure TStarterFormConfig.FormDestroy(Sender: TObject);
+begin
+  FTesteConfig.Free;
 end;
 
 procedure TStarterFormConfig.FormKeyDown(Sender: TObject; var Key: Word;
