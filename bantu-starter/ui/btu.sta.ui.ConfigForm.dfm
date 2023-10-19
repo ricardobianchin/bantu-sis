@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 535
-  ClientWidth = 964
+  ClientHeight = 534
+  ClientWidth = 960
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,6 +13,7 @@ object StarterFormConfig: TStarterFormConfig
   KeyPreview = True
   ShowHint = True
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnResize = FormResize
@@ -22,17 +23,16 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 535
+    Height = 534
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitHeight = 486
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 175
-      Height = 535
+      Height = 534
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7055,8 +7055,8 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 789
-    Height = 535
+    Width = 785
+    Height = 534
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7064,14 +7064,12 @@ object StarterFormConfig: TStarterFormConfig
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitWidth = 785
-    ExplicitHeight = 486
     DesignSize = (
-      789
-      535)
+      785
+      534)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 499
+      Top = 498
       Width = 278
       Height = 60
       Align = alNone
@@ -7085,7 +7083,6 @@ object StarterFormConfig: TStarterFormConfig
       ShowCaptions = True
       TabOrder = 0
       StyleElements = [seFont, seBorder]
-      ExplicitTop = 450
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7259,7 +7256,6 @@ object StarterFormConfig: TStarterFormConfig
         ParentFont = False
         Visible = False
         StyleElements = [seBorder]
-        ExplicitTop = 274
         ExplicitWidth = 69
       end
       object ObsLabel: TLabel
@@ -7327,7 +7323,7 @@ object StarterFormConfig: TStarterFormConfig
         Left = 8
         Top = 198
         Width = 285
-        Height = 26
+        Height = 25
         EditLabel.Width = 35
         EditLabel.Height = 17
         EditLabel.Caption = 'Senha'

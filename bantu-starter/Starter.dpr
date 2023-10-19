@@ -124,7 +124,8 @@ uses
   btu.lib.win.execs in '..\bantu-lib\sis\win\btu.lib.win.execs.pas',
   btu.lib.types.floats in '..\bantu-lib\sis\types\float\btu.lib.types.floats.pas',
   btu.lib.config.xmli in '..\bantu-lib\sis\config\btu.lib.config.xmli.pas',
-  btu.lib.config.xmli_u in '..\bantu-lib\sis\config\btu.lib.config.xmli_u.pas';
+  btu.lib.config.xmli_u in '..\bantu-lib\sis\config\btu.lib.config.xmli_u.pas',
+  btu.sta.ui.ConfigForm.testeconfig in 'ui\btu.sta.ui.ConfigForm.testeconfig.pas';
 
 {$R *.res}
 

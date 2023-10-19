@@ -12,9 +12,6 @@
         <Projects Include="bantu-lib\sis\SisAntigo.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-shop\Retag.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
             <Dependencies/>
         </Projects>
@@ -37,6 +34,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-shop\Retag.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-starter\Starter.dproj">
@@ -76,15 +76,6 @@
     </Target>
     <Target Name="SisAntigo:Make">
         <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="Retag">
-        <MSBuild Projects="bantu-shop\Retag.dproj"/>
-    </Target>
-    <Target Name="Retag:Clean">
-        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Retag:Make">
-        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
     </Target>
     <Target Name="BucharestDT">
         <MSBuild Projects="..\..\tools\bucharest-desktop-tools\BucharestDT.dproj"/>
@@ -158,6 +149,15 @@
     <Target Name="IbgeMunImport:Make">
         <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Retag">
+        <MSBuild Projects="bantu-shop\Retag.dproj"/>
+    </Target>
+    <Target Name="Retag:Clean">
+        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Retag:Make">
+        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Starter">
         <MSBuild Projects="bantu-starter\Starter.dproj"/>
     </Target>
@@ -168,13 +168,13 @@
         <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;SisAntigo;Retag;BucharestDT;ExemploTDI;FlatBtn1;RetagAntigo;BtnControls;TDI1;CairoDBTools;IbgeMunImport;Starter"/>
+        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;SisAntigo;BucharestDT;ExemploTDI;FlatBtn1;RetagAntigo;BtnControls;TDI1;CairoDBTools;IbgeMunImport;Retag;Starter"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;SisAntigo:Clean;Retag:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;RetagAntigo:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean;Starter:Clean"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;SisAntigo:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;RetagAntigo:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean;Retag:Clean;Starter:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;SisAntigo:Make;Retag:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;RetagAntigo:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make;Starter:Make"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;SisAntigo:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;RetagAntigo:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make;Retag:Make;Starter:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
