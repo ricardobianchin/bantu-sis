@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 530
-  ClientWidth = 944
+  ClientHeight = 529
+  ClientWidth = 940
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,7 @@ object StarterFormConfig: TStarterFormConfig
   Font.Name = 'Segoe UI'
   Font.Style = []
   KeyPreview = True
+  Position = poDesktopCenter
   ShowHint = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -23,17 +24,17 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 530
+    Height = 529
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitHeight = 534
+    ExplicitHeight = 528
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 175
-      Height = 534
+      Height = 529
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7056,8 +7057,8 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 769
-    Height = 530
+    Width = 765
+    Height = 529
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7065,14 +7066,14 @@ object StarterFormConfig: TStarterFormConfig
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitWidth = 781
-    ExplicitHeight = 532
+    ExplicitWidth = 761
+    ExplicitHeight = 528
     DesignSize = (
-      769
-      530)
+      765
+      529)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 494
+      Top = 493
       Width = 278
       Height = 60
       Align = alNone
@@ -7086,7 +7087,7 @@ object StarterFormConfig: TStarterFormConfig
       ShowCaptions = True
       TabOrder = 0
       StyleElements = [seFont, seBorder]
-      ExplicitTop = 496
+      ExplicitTop = 492
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7120,6 +7121,9 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitLeft = 7
       ExplicitTop = 3
       ExplicitWidth = 300
+      inherited ErroLabel: TLabel
+        Width = 300
+      end
       inherited GroupBox1: TGroupBox
         Width = 300
         CustomHint = BalloonHint1
@@ -7172,6 +7176,7 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitHeight = 110
       inherited ErroLabel: TLabel
         Top = 97
+        Width = 456
         ExplicitTop = 97
       end
       inherited GroupBox1: TGroupBox
@@ -7398,7 +7403,7 @@ object StarterFormConfig: TStarterFormConfig
     end
     object LojaIdGroupBox: TGroupBox
       Left = 313
-      Top = 166
+      Top = 162
       Width = 300
       Height = 143
       Caption = 'Loja'

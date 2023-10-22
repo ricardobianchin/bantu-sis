@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
 OutputDir=\\Vboxsvr\d_drive\inst\Bantu\
-OutputBaseFilename=MercadoInstall
+OutputBaseFilename=MercadoUpdate
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -37,16 +37,13 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-;Source: "C:\Pr\app\bantu\bantu-sis\exe\Starter\{#MyAppExeName}"; DestDir: "{app}\exe\Starter"; Flags: ignoreversion
-;Source: "C:\Pr\app\bantu\bantu-sis\exe\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-
 ;atu
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ;ini
-Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Delphi-redist\Redist\win64\*"; DestDir: "{app}\Starter\inst\inst-Delphi-redist\Redist\win64\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Firebird\fb64\*"; DestDir: "{app}\Starter\inst\inst-Firebird\fb64\"; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Delphi-redist\Redist\win64\*"; DestDir: "{app}\Starter\inst\inst-Delphi-redist\Redist\win64\"; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Firebird\fb64\*"; DestDir: "{app}\Starter\inst\inst-Firebird\fb64\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

@@ -134,7 +134,7 @@ implementation
 
 uses Math, ControlsReposition, sis.ui.Img.DataModule,
   btu.lib.Config.machineid, Winapi.winsock, btu.sis.di.ui.constants,
-  sis.types.strings, sis.ui.Controls.utils, btu.sta.constants,
+  sis.types.strings, sis.ui.Controls.utils, Sta.Constants,
   sis.types.constants, btu.lib.db.types;
 
 {

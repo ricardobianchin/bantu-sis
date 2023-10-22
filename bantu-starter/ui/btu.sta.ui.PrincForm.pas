@@ -37,7 +37,7 @@ implementation
 
 {$R *.dfm}
 
-uses btu.sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.log.factory,
+uses Sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.log.factory,
   sis.ui.io.factory, sis.ui.controls.utils, sis.ui.io.output.exibirpausa.form_u,
   btu.lib.debug;
 
@@ -50,6 +50,7 @@ procedure TPrincForm.ExecStarter;
 var
   e: TStarterExec;
 begin
+  try
   FLog := LogFileCreate( 'Starter');
 
 //  FOutputForm := TOutputForm.Create(self);
@@ -60,6 +61,9 @@ begin
     e.Execute;
   finally
     e.Free;
+  end;
+  except on E: Exception do
+    FLog.Exibir('Erro '+E.ClassName+' '+e.Message);
   end;
   FLog.Exibir('Vai finalizar a aplicação');
   Application.Terminate;

@@ -116,7 +116,7 @@ begin
     begin
       sLog := sLog + ',banco nao existia';
       CrieDB;
-      sleep(100);
+      sleep(50);
       if not GetDBExiste then
       begin
         sErro := 'Error ao criar banco de dados';
@@ -363,7 +363,6 @@ begin
 
   for I := 0 to FComandoList.Count - 1 do
   begin
-    //sLEEP(200);
     oComando := FComandoList[I];
     Resultado := oComando.Funcionou;
     if not Resultado then
