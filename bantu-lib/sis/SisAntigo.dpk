@@ -9,21 +9,21 @@ package SisAntigo;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
+{$OPTIMIZATION ON}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
-{$REFERENCEINFO ON}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -43,7 +43,7 @@ contains
   btu.lib.ui.FormDecorator.CantosArred in 'ui\FormDecorators\CantosArred\btu.lib.ui.FormDecorator.CantosArred.pas',
   btu.lib.ui.RegisterClasses in 'di\ui\btu.lib.ui.RegisterClasses.pas',
   btu.sis.di.ui.constants in 'di\ui\btu.sis.di.ui.constants.pas',
-  btu.lib.ui.Img.DataModule in 'ui\FormDecorators\btu.lib.ui.Img.DataModule.pas' {SisImgDataModule: TDataModule},
+  sis.ui.Img.DataModule in 'ui\FormDecorators\sis.ui.Img.DataModule.pas' {SisImgDataModule: TDataModule},
   btu.lib.sis_i in 'sis\btu.lib.sis_i.pas',
   btu.lib.sis_u in 'sis\btu.lib.sis_u.pas',
   btu.lib.sis.factory in 'sis\btu.lib.sis.factory.pas',

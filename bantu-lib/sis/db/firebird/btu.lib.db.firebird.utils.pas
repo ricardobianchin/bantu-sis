@@ -2,7 +2,7 @@ unit btu.lib.db.firebird.utils;
 
 interface
 
-uses btu.lib.win.VersionInfo, btu.lib.config, btu.lib.db.types;
+uses sis.win.VersionInfo, btu.lib.config, btu.lib.db.types;
 
 //function FirebirdExeExiste(pWinVersionInfo: IWinVersionInfo): boolean;
 //function MachineIdToDatabase(pTipoDeLocalDB: TTipoDeLocalDB;
@@ -13,15 +13,17 @@ uses btu.lib.win.VersionInfo, btu.lib.config, btu.lib.db.types;
 implementation
 
 uses btu.lib.db.firebird.types, System.win.Registry, classes, Winapi.Windows,
-  sysutils, btu.lib.win.Registry, btu.lib.win.pastas, btu.lib.types.bool.utils;
+  sysutils, sis.win.Registry, sis.win.pastas, sis.types.bool.utils;
 
 function FirebirdVersionByWinVersion(pWinVersionInfo: IWinVersionInfo)
   : TFirebirdVersion;
 begin
-  if pWinVersionInfo.Version = 1 then
+  if pWinVersionInfo.Version <= 6.1 then
   begin
-    result := 2.5
+    result := 2.5;
+    exit;
   end;
+  result := 4;
 end;
 {
 function FirebirdExePath(pWinVersionInfo: IWinVersionInfo): string;

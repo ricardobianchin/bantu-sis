@@ -11,7 +11,7 @@ function ConfigXMLICreate(pSisConfig: ISisConfig): IConfigXMLI;
 
 implementation
 
-uses btu.lib.config.machineid_u, btu.lib.config_u, btu.lib.win.factory, btu.lib.win.VersionInfo,
+uses btu.lib.config.machineid_u, btu.lib.config_u, sis.win.factory, sis.win.VersionInfo,
   btu.lib.db.factory, btu.lib.config.xmli_u;
 
 function MachineIdCreate: IMachineId;

@@ -13,8 +13,8 @@ package Sis;
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
 {$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
 {$STACKFRAMES ON}
@@ -25,29 +25,57 @@ package Sis;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
 {$IMPLICITBUILD ON}
 
 requires
   rtl,
   vcl,
-  Spring.Base,
-  Spring.Core;
+  vclx;
 
 contains
-  btu.lib.types.bool.ProcQueryBoolean in 'types\bool\btu.lib.types.bool.ProcQueryBoolean.pas',
-  btu.lib.ui.FormBasico in 'ui\FormBasico\btu.lib.ui.FormBasico.pas' {FormBasico},
-  btu.lib.ui.FormBasico.Act in 'ui\FormBasico\btu.lib.ui.FormBasico.Act.pas' {FormBasAct},
-  btu.lib.ui.FormBasico.Act.Dialog in 'ui\FormBasico\btu.lib.ui.FormBasico.Act.Dialog.pas' {FormBasActDialog},
-  btu.lib.ui.FormDecorator in 'ui\FormDecorators\btu.lib.ui.FormDecorator.pas',
-  btu.lib.types.classes.utils in 'types\classes\btu.lib.types.classes.utils.pas',
-  btu.lib.ui.FormDecorator.CantosArred in 'ui\FormDecorators\CantosArred\btu.lib.ui.FormDecorator.CantosArred.pas',
-  btu.lib.ui.RegisterClasses in 'di\ui\btu.lib.ui.RegisterClasses.pas',
-  btu.sis.di.ui.constants in 'di\ui\btu.sis.di.ui.constants.pas',
-  btu.lib.ui.Img.DataModule in 'ui\FormDecorators\btu.lib.ui.Img.DataModule.pas' {SisImgDataModule: TDataModule},
-  btu.lib.sis_i in 'sis\btu.lib.sis_i.pas',
-  btu.lib.sis_u in 'sis\btu.lib.sis_u.pas',
+  Sis.Files in 'Files\Sis.Files.pas',
+  Sis.Files.FilesSync in 'Files\sync\Sis.Files.FilesSync.pas',
+  Sis.Sis.Executavel in 'Sis\Sis.Sis.Executavel.pas',
+  Sis.Sis.Executavel_u in 'Sis\Sis.Sis.Executavel_u.pas',
+  Sis.Files.FilesSync_u in 'Files\sync\Sis.Files.FilesSync_u.pas',
+  Sis.Files.factory in 'Files\Sis.Files.factory.pas',
+  sis.ui.io.log.LogRecord in 'ui\io\log\sis.ui.io.log.LogRecord.pas',
+  sis.ui.io.log.LogRecord_u in 'ui\io\log\sis.ui.io.log.LogRecord_u.pas',
+  sis.ui.io.log in 'ui\io\log\sis.ui.io.log.pas',
+  sis.ui.io.log_u in 'ui\io\log\sis.ui.io.log_u.pas',
+  sis.ui.io.log.factory in 'ui\io\log\sis.ui.io.log.factory.pas',
+  sis.ui.io.log.LogFile_u in 'ui\io\log\sis.ui.io.log.LogFile_u.pas',
+  sis.ui.io.factory in 'ui\io\sis.ui.io.factory.pas',
+  sis.ui.io.output in 'ui\io\output\sis.ui.io.output.pas',
+  sis.ui.io.output.mudo_u in 'ui\io\output\sis.ui.io.output.mudo_u.pas',
+  sis.ui.io.output.exibirpausa.form_u in 'ui\io\output\output.form\sis.ui.io.output.exibirpausa.form_u.pas',
+  sis.ui.io.output.form_u in 'ui\io\output\output.form\sis.ui.io.output.form_u.pas',
+  sis.ui.io.output.toform_u in 'ui\io\output\output.form\sis.ui.io.output.toform_u.pas',
+  sis.ui.controls.utils in 'ui\controls\sis.ui.controls.utils.pas',
+  sis.types.constants in 'types\sis.types.constants.pas',
+  sis.sis.clipb_u in 'sis\sis.sis.clipb_u.pas',
+  sis.sis.constants in 'sis\sis.sis.constants.pas',
   btu.lib.sis.factory in 'sis\btu.lib.sis.factory.pas',
   btu.lib.sis in 'sis\btu.lib.sis.pas',
-  btu.lib.ui.FormDecorator.ControlsAlign in 'ui\FormDecorators\ControlsAlign\btu.lib.ui.FormDecorator.ControlsAlign.pas';
+  btu.lib.sis_i in 'sis\btu.lib.sis_i.pas',
+  btu.lib.sis_u in 'sis\btu.lib.sis_u.pas',
+  sis.types.strings.crypt in 'types\str\sis.types.strings.crypt.pas',
+  sis.types.strings in 'types\str\sis.types.strings.pas',
+  sis.types.str.TStrings_u in 'types\str\sis.types.str.TStrings_u.pas',
+  sis.types.integers in 'types\int\sis.types.integers.pas',
+  sis.types.floats in 'types\float\sis.types.floats.pas',
+  sis.types.bool.utils in 'types\bool\sis.types.bool.utils.pas',
+  sis.win.execs in 'win\sis.win.execs.pas',
+  sis.win.execute in 'win\sis.win.execute.pas',
+  sis.win.execute_u in 'win\sis.win.execute_u.pas',
+  sis.win.factory in 'win\sis.win.factory.pas',
+  sis.win.pastas in 'win\sis.win.pastas.pas',
+  sis.win.VersionInfo in 'win\sis.win.VersionInfo.pas',
+  sis.win.VersionInfo_u in 'win\sis.win.VersionInfo_u.pas',
+  winplatform in 'win\winplatform.pas',
+  winversion in 'win\winversion.pas',
+  sis.win.constants in 'win\sis.win.constants.pas',
+  sis.ui.Img.DataModule in 'ui\FormDecorators\sis.ui.Img.DataModule.pas';
 
 end.

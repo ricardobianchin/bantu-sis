@@ -32,7 +32,7 @@ implementation
 
 {$R *.dfm}
 
-uses btn.lib.types.strings;
+uses sis.types.strings;
 
 { TMaqNomeEdFrame }
 

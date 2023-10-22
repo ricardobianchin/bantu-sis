@@ -3,7 +3,7 @@ unit btu.lib.db.updater.firebird_u;
 interface
 
 uses
-  btu.lib.db.updater_u, btu.lib.config, btu.sis.ui.io.log, btu.sis.ui.io.output,
+  btu.lib.db.updater_u, btu.lib.config, sis.ui.io.log, sis.ui.io.output,
   btu.lib.db.types, btu.lib.db.DBMS;
 
 // updates especivico para firebird, no pai, funcito q diz se existe o arq dados
@@ -16,6 +16,7 @@ type
   protected
 
     // procedure AtualizeBanco;virtual; abstract;
+    function GetNomeBanco: string; override;
     function GetDBExiste: boolean; override;
     procedure CrieDB; override;
 //    function GetSqlDbUpdateIns: string; override;
@@ -28,9 +29,9 @@ type
 implementation
 
 uses
-  btu.lib.db.firebird.utils, System.SysUtils, btu.lib.files, System.StrUtils,
+  btu.lib.db.firebird.utils, System.SysUtils, sis.files, System.StrUtils,
   btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u, Winapi.Windows,
-  System.Variants, btu.lib.win.VersionInfo;
+  System.Variants, sis.win.VersionInfo;
 
 { TDBUpdaterFirebird }
 
@@ -46,7 +47,6 @@ end;
 
 procedure TDBUpdaterFirebird.CrieDB;
 var
-  PastaTmp: string;
   sAssunto: string;
   ComandosSQL: string;
 begin
@@ -91,6 +91,11 @@ begin
   CopyFile(PChar(sNomeArq), PChar(FArq), False);
 
   result := FileExists(FArq);
+end;
+
+function TDBUpdaterFirebird.GetNomeBanco: string;
+begin
+  Result := 'FIREBIRD';
 end;
 
 //function TDBUpdaterFirebird.GetSqlDbUpdateGetMax: string;

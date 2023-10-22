@@ -6,7 +6,7 @@ uses
   btu.lib.db.query_u, FireDAC.Stan.Param, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.db,
-  btu.lib.db.types, btu.sis.UI.io.log, btu.sis.UI.io.output;
+  btu.lib.db.types, sis.UI.io.log, sis.UI.io.output;
 
 type
   TDBQueryFireDac = class(TDBQuery)
@@ -22,6 +22,9 @@ type
 
     function GetActive: boolean; override;
     procedure SetActive(Value: boolean); override;
+
+    function GetPrepared: boolean; override;
+    procedure SetPrepared(Value: boolean); override;
   public
     function Abrir: boolean; override;
     procedure Fechar; override;
@@ -42,7 +45,6 @@ uses System.SysUtils;
 
 function TDBQueryFireDac.Abrir: boolean;
 begin
-  Result := False;
   try
     FFDQuery.Open;
     result := FFDQuery.Active;
@@ -104,6 +106,11 @@ begin
   Result := FFDQuery.Params;
 end;
 
+function TDBQueryFireDac.GetPrepared: boolean;
+begin
+  Result := FFDQuery.Prepared;
+end;
+
 function TDBQueryFireDac.GetSQL: string;
 begin
   Result := FFDQuery.SQL.Text;
@@ -121,6 +128,12 @@ begin
   inherited;
   if FFDQuery.Active <> Value then
     FFDQuery.Active := Value;
+end;
+
+procedure TDBQueryFireDac.SetPrepared(Value: boolean);
+begin
+  inherited;
+  FFDQuery.Prepared := Value;
 end;
 
 procedure TDBQueryFireDac.SetSql(Value: string);

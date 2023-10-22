@@ -5,7 +5,7 @@ interface
 uses btu.lib.db.updater.comando, System.Classes,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u,
   btu.lib.db.updater.operations,
-  btu.sis.ui.io.log, btu.sis.ui.io.output;
+  sis.ui.io.log, sis.ui.io.output;
 
 type
   TComandoFBEnsureRecords = class(TComandoFB)
@@ -35,7 +35,7 @@ type
 implementation
 
 uses btu.lib.db.updater.constants_u, System.SysUtils,
-  btu.lib.db.updater.factory, btn.lib.types.strings, btu.sis.db.updater.utils,
+  btu.lib.db.updater.factory, sis.types.strings, btu.sis.db.updater.utils,
   System.StrUtils, btu.lib.db.firebird.GetSql,
   btu.lib.db.updater.firebird.GetSql_u, btu.lib.db.factory;
 

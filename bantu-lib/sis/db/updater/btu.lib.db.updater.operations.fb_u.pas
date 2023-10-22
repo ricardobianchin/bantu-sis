@@ -2,8 +2,8 @@ unit btu.lib.db.updater.operations.fb_u;
 
 interface
 
-uses btu.lib.db.updater.operations, btu.lib.db.types, btu.sis.ui.io.log,
-  btu.sis.ui.io.output, System.Classes;
+uses btu.lib.db.updater.operations, btu.lib.db.types, sis.ui.io.log,
+  sis.ui.io.output, System.Classes;
 
 type
   TDBUpdaterOperationsFB = class(TInterfacedObject, IDBUpdaterOperations)
@@ -50,8 +50,8 @@ type
 implementation
 
 uses btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u, System.SysUtils,
-  btu.lib.db.updater.constants_u, btu.lib.sis.clipb_u,
-  btn.lib.types.str.TStrings_u, btn.lib.types.strings;
+  btu.lib.db.updater.constants_u, Sis.sis.clipb_u,
+  sis.types.str.TStrings_u, sis.types.strings;
 
 { TDBUpdateOperationsFB }
 

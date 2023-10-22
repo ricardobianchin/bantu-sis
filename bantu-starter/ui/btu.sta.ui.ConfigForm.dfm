@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 534
-  ClientWidth = 960
+  ClientHeight = 530
+  ClientWidth = 944
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,11 +23,12 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 534
+    Height = 530
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitHeight = 534
     object Image1: TImage
       Left = 0
       Top = 0
@@ -7055,8 +7056,8 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 785
-    Height = 534
+    Width = 769
+    Height = 530
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -7064,12 +7065,14 @@ object StarterFormConfig: TStarterFormConfig
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
+    ExplicitWidth = 781
+    ExplicitHeight = 532
     DesignSize = (
-      785
-      534)
+      769
+      530)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 498
+      Top = 494
       Width = 278
       Height = 60
       Align = alNone
@@ -7083,6 +7086,7 @@ object StarterFormConfig: TStarterFormConfig
       ShowCaptions = True
       TabOrder = 0
       StyleElements = [seFont, seBorder]
+      ExplicitTop = 496
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7116,9 +7120,6 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitLeft = 7
       ExplicitTop = 3
       ExplicitWidth = 300
-      inherited ErroLabel: TLabel
-        Width = 300
-      end
       inherited GroupBox1: TGroupBox
         Width = 300
         CustomHint = BalloonHint1
@@ -7171,7 +7172,6 @@ object StarterFormConfig: TStarterFormConfig
       ExplicitHeight = 110
       inherited ErroLabel: TLabel
         Top = 97
-        Width = 456
         ExplicitTop = 97
       end
       inherited GroupBox1: TGroupBox

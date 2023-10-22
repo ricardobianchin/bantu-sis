@@ -132,10 +132,10 @@ implementation
 
 {$R *.dfm}
 
-uses Math, ControlsReposition, btu.lib.ui.Img.DataModule,
+uses Math, ControlsReposition, sis.ui.Img.DataModule,
   btu.lib.Config.machineid, Winapi.winsock, btu.sis.di.ui.constants,
-  btn.lib.types.strings, btn.lib.ui.Controls.utils, btu.sta.constants,
-  btu.lib.types.constants, btu.lib.db.types;
+  sis.types.strings, sis.ui.Controls.utils, btu.sta.constants,
+  sis.types.constants, btu.lib.db.types;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -374,7 +374,7 @@ end;
 
 procedure TStarterFormConfig.FormShow(Sender: TObject);
 begin
-  ShowTimer.Enabled := true;
+//  ShowTimer.Enabled := true;
 
 end;
 
@@ -640,14 +640,12 @@ end;
 
 procedure TStarterFormConfig.ShowTimerTimer(Sender: TObject);
 begin
-  ShowTimer.Enabled := false;
+//  ShowTimer.Enabled := false;
   CarregTesteStarterIni;
 end;
 
 function TStarterFormConfig.TesteLabeledEditVazio(pLabeledEdit
   : TLabeledEdit; pErroLabel: TLabel): boolean;
-var
-  iVal: integer;
 begin
   result := not EditVazio(pLabeledEdit);
   if not result then

@@ -24,7 +24,7 @@ function GetSQLVersaoGet: string;
 
 implementation
 
-uses System.SysUtils, System.StrUtils, btu.lib.sis.clipb_u;
+uses System.SysUtils, System.StrUtils, Sis.sis.clipb_u;
 
 function GetSQLTabelaExiste(pNomeTabela: string): string;
 var

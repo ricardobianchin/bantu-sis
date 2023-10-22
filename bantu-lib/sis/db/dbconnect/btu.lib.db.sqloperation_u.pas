@@ -2,8 +2,8 @@ unit btu.lib.db.sqloperation_u;
 
 interface
 
-uses btu.lib.db.types, System.Classes, FireDAC.Stan.Param, btu.sis.ui.io.log,
-  btu.sis.ui.io.output;
+uses btu.lib.db.types, System.Classes, FireDAC.Stan.Param, sis.ui.io.log,
+  sis.ui.io.output;
 
 type
   TDBSqlOperation = class(TInterfacedObject, IDBSqlOperation)

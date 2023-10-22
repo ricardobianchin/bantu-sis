@@ -36,10 +36,13 @@
         <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-shop\Retag.dproj">
+        <Projects Include="bantu-lib\sis\Sis.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="bantu-starter\Starter.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bantu-shop\Retag.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -149,14 +152,14 @@
     <Target Name="IbgeMunImport:Make">
         <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Retag">
-        <MSBuild Projects="bantu-shop\Retag.dproj"/>
+    <Target Name="Sis">
+        <MSBuild Projects="bantu-lib\sis\Sis.dproj"/>
     </Target>
-    <Target Name="Retag:Clean">
-        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Clean"/>
+    <Target Name="Sis:Clean">
+        <MSBuild Projects="bantu-lib\sis\Sis.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Retag:Make">
-        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
+    <Target Name="Sis:Make">
+        <MSBuild Projects="bantu-lib\sis\Sis.dproj" Targets="Make"/>
     </Target>
     <Target Name="Starter">
         <MSBuild Projects="bantu-starter\Starter.dproj"/>
@@ -167,28 +170,37 @@
     <Target Name="Starter:Make">
         <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Retag">
+        <MSBuild Projects="bantu-shop\Retag.dproj"/>
+    </Target>
+    <Target Name="Retag:Clean">
+        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Retag:Make">
+        <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;SisAntigo;BucharestDT;ExemploTDI;FlatBtn1;RetagAntigo;BtnControls;TDI1;CairoDBTools;IbgeMunImport;Retag;Starter"/>
+        <CallTarget Targets="ArredRoundRectRgn1;ServiceLocatorTest;SisAntigo;BucharestDT;ExemploTDI;FlatBtn1;RetagAntigo;BtnControls;TDI1;CairoDBTools;IbgeMunImport;Sis;Starter;Retag"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;SisAntigo:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;RetagAntigo:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean;Retag:Clean;Starter:Clean"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Clean;ServiceLocatorTest:Clean;SisAntigo:Clean;BucharestDT:Clean;ExemploTDI:Clean;FlatBtn1:Clean;RetagAntigo:Clean;BtnControls:Clean;TDI1:Clean;CairoDBTools:Clean;IbgeMunImport:Clean;Sis:Clean;Starter:Clean;Retag:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;SisAntigo:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;RetagAntigo:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make;Retag:Make;Starter:Make"/>
+        <CallTarget Targets="ArredRoundRectRgn1:Make;ServiceLocatorTest:Make;SisAntigo:Make;BucharestDT:Make;ExemploTDI:Make;FlatBtn1:Make;RetagAntigo:Make;BtnControls:Make;TDI1:Make;CairoDBTools:Make;IbgeMunImport:Make;Sis:Make;Starter:Make;Retag:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
-        <BuildGroupProject Include="bantu-shop\Retag.dproj">
-            <ProjectGuid>{5D0EE2FB-67F7-43BD-BEA2-D2E5A76FC815}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
         <BuildGroupProject Include="bantu-lib\sis\SisAntigo.dproj">
             <ProjectGuid>{5FFB1003-BC15-45F1-A8E0-DED3A8186AB2}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-shop\Retag.dproj">
+            <ProjectGuid>{7AFE0623-59E9-4BA1-A59F-2770C4083147}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\ter\ui\tdi\delphi-tdi\Exemplo\ExemploTDI.dproj">
             <ProjectGuid>{56E73651-65D1-409F-82F9-6272411DA38B}</ProjectGuid>
@@ -222,6 +234,12 @@
         </BuildGroupProject>
         <BuildGroupProject Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
             <ProjectGuid>{43083AFB-84BA-48C4-8523-4ACCFB678806}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-lib\sis\Sis.dproj">
+            <ProjectGuid>{ECDC28AD-F6CF-417C-8A0B-C517AC2A5436}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>

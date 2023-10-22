@@ -2,7 +2,7 @@ unit btu.lib.config;
 
 interface
 
-uses btu.lib.config.machineid, btu.lib.win.VersionInfo, btu.lib.db.types;
+uses btu.lib.config.machineid, sis.win.VersionInfo, btu.lib.db.types;
 
 type
   ISisConfig = interface(IInterface)

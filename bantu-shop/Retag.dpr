@@ -2,7 +2,9 @@ program Retag;
 
 uses
   Vcl.Forms,
-  ret.ui.PrincForm in 'ui\ret.ui.PrincForm.pas' {RetagPrincForm};
+  Btu.UI.BasForm_u in '..\bantu-lib\UI\BasForm\Btu.UI.BasForm_u.pas' {BasForm},
+  Btu.UI.BasForm.Princ_u in '..\bantu-lib\UI\BasForm\Btu.UI.BasForm.Princ_u.pas' {PrincBasForm},
+  Ret.UI.PrincForm in 'ui\Ret.UI.PrincForm.pas' {RetagPrincForm};
 
 {$R *.res}
 

@@ -2,8 +2,8 @@ unit btu.lib.db.dbms.firebird_u;
 
 interface
 
-uses btu.lib.db.dbms, btu.lib.config, btu.lib.win.VersionInfo, System.Classes,
-  btu.sis.ui.io.log, btu.sis.ui.io.output, btu.lib.win.execute, btu.lib.db.types,
+uses btu.lib.db.dbms, btu.lib.config, sis.win.VersionInfo, System.Classes,
+  sis.ui.io.log, sis.ui.io.output, sis.win.execute, btu.lib.db.types,
   btu.lib.db.dbms.config;
 
 type
@@ -40,10 +40,10 @@ type
 
 implementation
 
-uses btu.lib.win.Registry, System.win.Registry, Winapi.Windows, SysUtils,
-  btu.lib.types.bool.utils, btu.lib.win.pastas, btu.lib.win.factory,
-  btu.lib.db.updater.factory, btu.lib.db.updater, btu.lib.files, Vcl.Dialogs,
-  btu.lib.sis.clipb_u, btu.lib.debug;
+uses sis.win.Registry, System.win.Registry, Winapi.Windows, SysUtils,
+  sis.types.bool.utils, sis.win.pastas, sis.win.factory,
+  btu.lib.db.updater.factory, btu.lib.db.updater, sis.files, Vcl.Dialogs,
+  Sis.sis.clipb_u, btu.lib.debug;
 
 { TDBMSFirebird }
 

@@ -102,7 +102,7 @@
             <Form>Form2</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\..\..\bantu-lib\sis\types\str\btn.lib.types.strings.pas"/>
+        <DCCReference Include="..\..\..\bantu-lib\sis\types\str\sis.types.strings.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

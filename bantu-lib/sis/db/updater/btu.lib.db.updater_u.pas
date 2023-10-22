@@ -3,9 +3,9 @@ unit btu.lib.db.updater_u;
 interface
 
 uses
-  btu.lib.db.updater, btu.lib.config, btu.sis.ui.io.log, btu.sis.ui.io.output,
+  btu.lib.db.updater, btu.lib.config, sis.ui.io.log, sis.ui.io.output,
   btu.lib.db.types, btu.lib.db.dbms, System.Classes, Vcl.Dialogs,
-  btu.lib.db.updater.comando.list, btu.sis.ui.io.output.exibirpausa.form_u,
+  btu.lib.db.updater.comando.list, sis.ui.io.output.exibirpausa.form_u,
   btu.lib.db.updater.operations;
 
 type
@@ -75,10 +75,10 @@ implementation
 
 { TDBUpdater }
 
-uses btn.lib.types.integers, System.SysUtils, System.StrUtils,
-  btu.lib.db.factory, btn.lib.types.str.TStrings_u, btu.lib.sis.constants,
+uses sis.types.integers, System.SysUtils, System.StrUtils,
+  btu.lib.db.factory, sis.types.str.TStrings_u, sis.sis.constants,
   btu.lib.db.updater.constants_u, btu.lib.db.updater.comando,
-  btu.lib.db.updater.factory, btu.sis.db.updater.utils, btn.lib.types.strings;
+  btu.lib.db.updater.factory, btu.sis.db.updater.utils, sis.types.strings;
 
 constructor TDBUpdater.Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
@@ -158,6 +158,7 @@ end;
 
 function TDBUpdater.Execute: boolean;
 begin
+  Result := True;
   FOutput.Exibir('TDBUpdater.Execute,Inicio');
   FLog.Exibir('TDBUpdater.Execute,Inicio');
   FLog.Exibir('TDBUpdater.Execute,FsLocalDoDB=' + FsLocalDoDB);
@@ -369,7 +370,7 @@ begin
     begin
       sMensagemErro := 'Erro DB UPDATER, vr ' + iVersao.ToString + ', ' +
         oComando.UltimoErro;
-      btu.sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro, TMsgDlgType.mtError);
+      sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro, TMsgDlgType.mtError);
       raise Exception.Create(sMensagemErro);
     end;
   end;

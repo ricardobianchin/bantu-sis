@@ -3,7 +3,7 @@ program IbgeMunImport;
 uses
   Vcl.Forms,
   IbgeMunImportForm_u in 'IbgeMunImportForm_u.pas' {Form2},
-  btn.lib.types.strings in '..\..\..\bantu-lib\sis\types\str\btn.lib.types.strings.pas';
+  sis.types.strings in '..\..\..\bantu-lib\sis\types\str\sis.types.strings.pas';
 
 {$R *.res}
 

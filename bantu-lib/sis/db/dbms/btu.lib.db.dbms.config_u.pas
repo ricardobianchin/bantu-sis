@@ -2,7 +2,7 @@ unit btu.lib.db.dbms.config_u;
 
 interface
 
-uses btu.lib.db.dbms.config, btu.sis.ui.io.log, btu.sis.ui.io.output,
+uses btu.lib.db.dbms.config, sis.ui.io.log, sis.ui.io.output,
   btu.lib.config;
 
 type
@@ -26,7 +26,7 @@ type
 
 implementation
 
-uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, btu.lib.types.bool.utils;
+uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, sis.types.bool.utils;
 
 { TDBMSConfig }
 

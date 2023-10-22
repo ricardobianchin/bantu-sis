@@ -8,7 +8,7 @@ function SisCreate: ISis;
 
 implementation
 
-uses Spring.Container, btu.lib.ui.Img.DataModule, btu.lib.sis_u, Vcl.Forms;
+uses Spring.Container, SIS.ui.Img.DataModule, btu.lib.sis_u, Vcl.Forms;
 
 function SisCreate: ISis;
 var

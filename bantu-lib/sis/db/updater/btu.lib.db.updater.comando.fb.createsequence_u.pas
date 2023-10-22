@@ -5,7 +5,7 @@ interface
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u,
   btu.lib.db.updater.operations,
-  btu.sis.ui.io.log, btu.sis.ui.io.output;
+  sis.ui.io.log, sis.ui.io.output;
 
 type
   TComandoFBCreateSequence = class(TComandoFB)
@@ -27,7 +27,7 @@ type
 implementation
 
 uses btu.lib.db.updater.constants_u, btu.lib.db.updater.factory,
-  btn.lib.types.strings, btu.sis.db.updater.utils, System.StrUtils,
+  sis.types.strings, btu.sis.db.updater.utils, System.StrUtils,
   System.SysUtils;
 
 { TComandoFBCreateSequence }

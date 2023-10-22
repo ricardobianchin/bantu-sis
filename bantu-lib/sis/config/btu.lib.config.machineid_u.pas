@@ -2,7 +2,7 @@ unit btu.lib.config.machineid_u;
 
 interface
 
-uses btu.lib.config.machineid, btu.lib.types.bool.utils;
+uses btu.lib.config.machineid, sis.types.bool.utils;
 
 type
   TMachineId = class(TInterfacedObject, IMachineId)
