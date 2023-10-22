@@ -2,8 +2,8 @@ unit btu.lib.db.factory;
 
 interface
 
-uses btu.lib.db.types, btu.lib.db.dbms, btu.lib.config, btu.sis.ui.io.log,
-  btu.sis.ui.io.output, btu.lib.db.dbms.config;
+uses btu.lib.db.types, btu.lib.db.dbms, btu.lib.config, sis.ui.io.log,
+  sis.ui.io.output, btu.lib.db.dbms.config;
 
 function DBMSInfoCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
   : IDBMSInfo;

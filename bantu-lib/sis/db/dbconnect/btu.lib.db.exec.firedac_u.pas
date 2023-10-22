@@ -6,7 +6,7 @@ uses
   btu.lib.db.exec_u, FireDAC.Stan.Param, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.db,
-  btu.lib.db.types, btu.sis.UI.io.log, btu.sis.UI.io.output;
+  btu.lib.db.types, sis.UI.io.log, sis.UI.io.output;
 
 type
   TDBExecFireDac = class(TDBExec)

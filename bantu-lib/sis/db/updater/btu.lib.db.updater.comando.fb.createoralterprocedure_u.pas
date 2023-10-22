@@ -4,7 +4,7 @@ interface
 
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u, btu.lib.db.updater.operations,
-  btu.sis.ui.io.log, btu.sis.ui.io.output;
+  sis.ui.io.log, sis.ui.io.output;
 
 type
   TComandoFBCreateOrAlterProcedure = class(TComandoFB)
@@ -27,7 +27,7 @@ type
 implementation
 
 uses btu.lib.db.updater.constants_u, btu.lib.db.updater.campo,
-  btu.lib.db.updater.factory, btn.lib.types.strings, btu.sis.db.updater.utils;
+  btu.lib.db.updater.factory, sis.types.strings, btu.sis.db.updater.utils;
 
 { TComandoFBCreateOrAlterProcedure }
 
@@ -93,7 +93,6 @@ procedure TComandoFBCreateOrAlterProcedure.PegarLinhas(var piLin: integer;
 var
   sLinha: string;
   bPegandoProcedure: boolean;
-  oCampo: ICampo;
   sObjetoNome: string;
 begin
   bPegandoProcedure := false;
@@ -107,7 +106,7 @@ begin
     begin
       if sLinha = SYNTAX_FIM then
       begin
-        bPegandoProcedure := False;
+        //bPegandoProcedure := False;
         break;
       end;
       FProcedureDefSL.Add(sLinha);

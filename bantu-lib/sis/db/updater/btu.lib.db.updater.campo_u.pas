@@ -40,7 +40,7 @@ type
 
 implementation
 
-uses System.SysUtils, btu.lib.types.bool.utils;
+uses System.SysUtils, sis.types.bool.utils;
 
 { TCampo }
 

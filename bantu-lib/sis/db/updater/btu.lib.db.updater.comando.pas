@@ -2,7 +2,7 @@ unit btu.lib.db.updater.comando;
 
 interface
 
-uses classes, btu.sis.ui.io.log, btu.sis.ui.io.output;
+uses classes, sis.ui.io.log, sis.ui.io.output;
 
 type
   IComando = interface(IInterface)

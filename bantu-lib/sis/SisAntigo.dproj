@@ -138,7 +138,7 @@
         <DCCReference Include="ui\FormDecorators\CantosArred\btu.lib.ui.FormDecorator.CantosArred.pas"/>
         <DCCReference Include="di\ui\btu.lib.ui.RegisterClasses.pas"/>
         <DCCReference Include="di\ui\btu.sis.di.ui.constants.pas"/>
-        <DCCReference Include="ui\FormDecorators\btu.lib.ui.Img.DataModule.pas">
+        <DCCReference Include="ui\FormDecorators\sis.ui.Img.DataModule.pas">
             <Form>SisImgDataModule</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>

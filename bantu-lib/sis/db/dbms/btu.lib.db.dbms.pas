@@ -2,7 +2,7 @@ unit btu.lib.db.dbms;
 
 interface
 
-uses btu.sis.ui.io.log, btu.sis.ui.io.output, btu.lib.db.types, System.Classes;
+uses sis.ui.io.log, sis.ui.io.output, btu.lib.db.types, System.Classes;
 // sugestoes
 // DBMS (Database Management System)
 // IDBMS

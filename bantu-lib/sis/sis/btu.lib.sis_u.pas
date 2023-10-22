@@ -2,7 +2,7 @@ unit btu.lib.sis_u;
 
 interface
 
-uses btu.lib.sis_i, Spring.Container, btu.lib.ui.Img.DataModule;
+uses btu.lib.sis_i, Spring.Container, SIS.ui.Img.DataModule;
 
 type
   TSis = class(TInterfacedObject, ISis)

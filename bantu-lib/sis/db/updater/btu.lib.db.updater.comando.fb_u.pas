@@ -3,8 +3,8 @@ unit btu.lib.db.updater.comando.fb_u;
 interface
 
 uses btu.lib.db.updater.comando, System.Classes,
-  btu.lib.db.types, btu.lib.db.updater.operations, btu.sis.ui.io.output,
-  btu.sis.ui.io.log;
+  btu.lib.db.types, btu.lib.db.updater.operations, sis.ui.io.output,
+  sis.ui.io.log;
 
 type
   TComandoFB = class(TInterfacedObject, IComando)

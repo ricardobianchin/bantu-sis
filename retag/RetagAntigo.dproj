@@ -127,7 +127,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\bantu-lib\sis\ui\FormDecorators\btu.lib.ui.Img.DataModule.pas">
+        <DCCReference Include="..\bantu-lib\sis\ui\FormDecorators\sis.ui.Img.DataModule.pas">
             <Form>SisImgDataModule</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
@@ -145,7 +145,7 @@
             <Form>CategoriasChildForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\bantu-lib\sis\types\str\btn.lib.types.strings.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\types\str\sis.types.strings.pas"/>
         <DCCReference Include="ui\DiagForm_u.pas">
             <Form>DiagForm</Form>
             <FormType>dfm</FormType>

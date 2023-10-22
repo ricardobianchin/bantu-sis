@@ -4,22 +4,30 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, btu.sis.ui.io.log, btu.sis.ui.io.output.form_u,
-  btu.sis.ui.io.output, Vcl.AppEvnts;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, sis.ui.io.log, Vcl.AppEvnts,    Sis.UI.IO.Output.Form_u,
+  sis.ui.io.output, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
-  TPrincForm = class(TForm)
+  TPrincForm = class(TForm, IOutput)
     ApplicationEvents1: TApplicationEvents;
+    StatusMemo: TMemo;
+    ShowTimer: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure ShowTimerTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FLog: ILog;
-    FOutputForm: TOutputForm;
-    FOutputToForm: IOutput;
+//    FOutputForm: TOutputForm;
+//    FOutputToForm: IOutput;
+    FOutput: IOutput;
+    procedure ExecStarter;
   public
 
     { Public declarations }
+    procedure Exibir(pFrase: string);
+    procedure ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
   end;
 
 var
@@ -29,25 +37,25 @@ implementation
 
 {$R *.dfm}
 
-uses btu.sta.exec_u, btu.lib.ui.Img.DataModule, btu.sis.ui.io.log.factory,
-  btu.sis.ui.io.factory;
+uses btu.sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.log.factory,
+  sis.ui.io.factory, sis.ui.controls.utils, sis.ui.io.output.exibirpausa.form_u,
+  btu.lib.debug;
 
 procedure TPrincForm.ApplicationEvents1Exception(Sender: TObject; E: Exception);
 begin
 //  ShowMessage(e.ClassName+' '+e.Message);
 end;
 
-procedure TPrincForm.FormCreate(Sender: TObject);
+procedure TPrincForm.ExecStarter;
 var
   e: TStarterExec;
 begin
-  SisImgDataModule := TSisImgDataModule.Create(self);
   FLog := LogFileCreate( 'Starter');
 
-  FOutputForm := TOutputForm.Create(self);
-  FOutputToForm := OutputToFormCreate(FOutputForm);
+//  FOutputForm := TOutputForm.Create(self);
+//  FOutputToForm := OutputToFormCreate(FOutputForm);
   FLog.Exibir('TPrincForm.FormCreate, TStarterExec.Create');
-  e := TStarterExec.Create(FLog, FOutputToForm);
+  e := TStarterExec.Create(FLog, Self{FOutputToForm});
   try
     e.Execute;
   finally
@@ -55,6 +63,39 @@ begin
   end;
   FLog.Exibir('Vai finalizar a aplicação');
   Application.Terminate;
+end;
+
+procedure TPrincForm.Exibir(pFrase: string);
+begin
+  StatusMemo.Lines.Add(pFrase);
+  SimuleTecla(VK_END, StatusMemo);
+  //Repaint;
+  Application.ProcessMessages;
+  // s le ep(1250);
+
+end;
+
+procedure TPrincForm.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
+begin
+  Exibir(pFrase);
+  sis.ui.io.output.exibirpausa.form_u.Exibir(pFrase, pMsgDlgType);
+end;
+
+procedure TPrincForm.FormCreate(Sender: TObject);
+begin
+  SisImgDataModule := TSisImgDataModule.Create(self);
+end;
+
+procedure TPrincForm.FormShow(Sender: TObject);
+begin
+  ShowTimer.Enabled := true;
+
+end;
+
+procedure TPrincForm.ShowTimerTimer(Sender: TObject);
+begin
+  ShowTimer.Enabled := False;
+  ExecStarter;
 end;
 
 end.

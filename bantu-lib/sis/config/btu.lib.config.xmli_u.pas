@@ -16,10 +16,10 @@ type
 
 implementation
 
-uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, btu.lib.types.bool.utils,
-  {System.Win.ComObj} WinApi.ActiveX, btu.lib.db.types, btu.lib.types.floats,
-  btu.lib.win.VersionInfo, btu.lib.sis.constants, System.TypInfo,
-  btu.lib.win.VersionInfo_u;
+uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, sis.types.bool.utils,
+  {System.Win.ComObj} WinApi.ActiveX, btu.lib.db.types, sis.types.floats,
+  sis.win.VersionInfo, sis.sis.constants, System.TypInfo,
+  sis.win.VersionInfo_u;
 
 { TConfigXMLI }
 

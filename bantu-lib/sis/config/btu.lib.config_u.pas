@@ -2,7 +2,7 @@ unit btu.lib.config_u;
 
 interface
 
-uses btu.lib.config.machineid, btu.lib.config, btu.lib.win.VersionInfo
+uses btu.lib.config.machineid, btu.lib.config, sis.win.VersionInfo
   , btu.lib.db.types;
 
 type
@@ -42,7 +42,7 @@ implementation
 
 { TISisConfig }
 
-uses btu.lib.win.pastas;
+uses sis.win.pastas;
 
 constructor TISisConfig.Create(pLocalMachineId, pServerMachineId: IMachineId; pWinVersionInfo: IWinVersionInfo; pDBMSInfo: IDBMSInfo);
 begin

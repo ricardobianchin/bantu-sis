@@ -3,8 +3,8 @@ unit btu.lib.db.updater.factory;
 interface
 
 uses
-  btu.lib.db.updater.firebird_u, btu.lib.config, btu.sis.ui.io.log,
-  btu.sis.ui.io.output, btu.lib.db.types, btu.lib.db.updater,
+  btu.lib.db.updater.firebird_u, btu.lib.config, sis.ui.io.log,
+  sis.ui.io.output, btu.lib.db.types, btu.lib.db.updater,
   btu.lib.db.dbms, btu.lib.db.updater.comando, btu.lib.db.updater.campo,
   btu.lib.db.updater.campo.list, btu.lib.db.updater.comando.list,
   btu.lib.db.updater.operations;
@@ -32,7 +32,7 @@ uses
   btu.lib.db.updater.comando.fb.createoralterprocedure_u,
   btu.lib.db.updater.operations.fb_u,
   btu.lib.db.updater.comando.fb.createdomains_u,
-  btu.lib.db.updater.comando.fb.createoralterpackage_u, btn.lib.types.strings,
+  btu.lib.db.updater.comando.fb.createoralterpackage_u, sis.types.strings,
   btu.lib.db.updater.comando.fb.ensurerecords_u,
   btu.lib.db.updater.comando.fb.createsequence_u,
   btu.lib.db.updater.comando.fb.createforeignkey_u;

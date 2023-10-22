@@ -5,8 +5,8 @@ interface
 uses
   btu.lib.db.types
   , btu.lib.db.dbms
-  , btu.sis.ui.io.output
-  , btu.sis.ui.io.log
+  , sis.ui.io.output
+  , sis.ui.io.log
   , Data.DB
   ;
 

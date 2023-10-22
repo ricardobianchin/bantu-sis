@@ -2,12 +2,12 @@ program RetagAntigo;
 
 uses
   Vcl.Forms,
-  btu.lib.ui.Img.DataModule in '..\bantu-lib\sis\ui\FormDecorators\btu.lib.ui.Img.DataModule.pas' {SisImgDataModule: TDataModule},
+  sis.ui.Img.DataModule in '..\bantu-lib\sis\ui\FormDecorators\sis.ui.Img.DataModule.pas' {SisImgDataModule: TDataModule},
   retag.ui.Form.Princ in 'ui\retag.ui.Form.Princ.pas' {RetagPrincForm},
   btu.sis.di.ui.constants in '..\bantu-lib\sis\di\ui\btu.sis.di.ui.constants.pas',
   ChildForm_u in 'ui\ChildForm_u.pas' {ChildForm},
   CategoriasChildForm_u in 'ui\CategoriasChildForm_u.pas' {CategoriasChildForm},
-  btn.lib.types.strings in '..\bantu-lib\sis\types\str\btn.lib.types.strings.pas',
+  sis.types.strings in '..\bantu-lib\sis\types\str\sis.types.strings.pas',
   DiagForm_u in 'ui\DiagForm_u.pas' {DiagForm},
   CategoriasDiagForm_u in 'ui\CategoriasDiagForm_u.pas' {CategDiagForm},
   usu_u in 'usu\usu_u.pas',

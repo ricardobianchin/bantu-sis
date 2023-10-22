@@ -5,7 +5,7 @@ interface
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u,
   btu.lib.db.updater.operations,
-  btu.sis.ui.io.log, btu.sis.ui.io.output;
+  sis.ui.io.log, sis.ui.io.output;
 
 type
   TComandoFBCreateTable = class(TComandoFB)
@@ -34,7 +34,7 @@ implementation
 { TSqlGenComandoFBCreateTable }
 
 uses btu.lib.db.updater.constants_u, btu.lib.db.updater.campo,
-  btu.lib.db.updater.factory, btn.lib.types.strings, btu.sis.db.updater.utils;
+  btu.lib.db.updater.factory, sis.types.strings, btu.sis.db.updater.utils;
 
 constructor TComandoFBCreateTable.Create(pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
@@ -177,7 +177,7 @@ begin
     begin
       if sLinha = DBATUALIZ_COLUNAS_FIM_CHAVE then
       begin
-        bPegandoColunas := False;
+        //bPegandoColunas := False;
         break;
       end;
       oCampo := sLinToCampoCreate(sLinha);
