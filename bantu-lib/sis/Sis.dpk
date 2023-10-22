@@ -23,6 +23,7 @@ package Sis;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
+{$DEFINE ..\..\..\exe\bin}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$RUNONLY}
@@ -35,10 +36,8 @@ requires
 
 contains
   Sis.Files in 'Files\Sis.Files.pas',
-  Sis.Files.FilesSync in 'Files\sync\Sis.Files.FilesSync.pas',
   Sis.Sis.Executavel in 'Sis\Sis.Sis.Executavel.pas',
   Sis.Sis.Executavel_u in 'Sis\Sis.Sis.Executavel_u.pas',
-  Sis.Files.FilesSync_u in 'Files\sync\Sis.Files.FilesSync_u.pas',
   Sis.Files.factory in 'Files\Sis.Files.factory.pas',
   sis.ui.io.log.LogRecord in 'ui\io\log\sis.ui.io.log.LogRecord.pas',
   sis.ui.io.log.LogRecord_u in 'ui\io\log\sis.ui.io.log.LogRecord_u.pas',
@@ -56,10 +55,6 @@ contains
   sis.types.constants in 'types\sis.types.constants.pas',
   sis.sis.clipb_u in 'sis\sis.sis.clipb_u.pas',
   sis.sis.constants in 'sis\sis.sis.constants.pas',
-  btu.lib.sis.factory in 'sis\btu.lib.sis.factory.pas',
-  btu.lib.sis in 'sis\btu.lib.sis.pas',
-  btu.lib.sis_i in 'sis\btu.lib.sis_i.pas',
-  btu.lib.sis_u in 'sis\btu.lib.sis_u.pas',
   sis.types.strings.crypt in 'types\str\sis.types.strings.crypt.pas',
   sis.types.strings in 'types\str\sis.types.strings.pas',
   sis.types.str.TStrings_u in 'types\str\sis.types.str.TStrings_u.pas',
@@ -76,6 +71,9 @@ contains
   winplatform in 'win\winplatform.pas',
   winversion in 'win\winversion.pas',
   sis.win.constants in 'win\sis.win.constants.pas',
-  sis.ui.Img.DataModule in 'ui\FormDecorators\sis.ui.Img.DataModule.pas';
+  sis.ui.Img.DataModule in 'ui\FormDecorators\sis.ui.Img.DataModule.pas',
+  sis.files.FileInfo in 'files\sis.files.FileInfo.pas',
+  sis.files.FileInfo_u in 'files\sis.files.FileInfo_u.pas',
+  Sis.Files.Sync in 'files\Sis.Files.Sync.pas';
 
 end.

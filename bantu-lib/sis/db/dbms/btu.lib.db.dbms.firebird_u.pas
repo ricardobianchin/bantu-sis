@@ -77,7 +77,6 @@ var
 begin
   sStartIn := ParamStr(0);
   sStartIn := ExtractFilePath(sStartIn);
-  sStartIn := PastaAcima(sStartIn);
   sStartIn := sStartIn + 'inst\inst-Firebird\';
 
   if FSisConfig.WinVersionInfo.Version <= 6.1 then
@@ -110,7 +109,7 @@ begin
   begin
     for I := 1 to 8 do
     begin
-      sleep(1000);
+      sleep(100);
       if not WExec.Executando then
         break;
     end;
@@ -179,14 +178,14 @@ begin
   begin
     for I := 1 to 2 do
     begin
-      sleep(500);
+      sleep(100);
       if not WExec.Executando then
         break;
     end;
     if WExec.Executando then
       pOutput.Exibir('Aguardando a execução...');
   end;
-  Sleep(100);
+//  Sleep(100);
 
   pOutput.Exibir('Execução terminada');
   pLog.Exibir('Execução terminada');

@@ -84,7 +84,7 @@ constructor TFileInfo.Create(pPasta, pNome: string; pData: TDateTime);
 begin
   FPasta := pPasta;
   FNome := pNome;
-  pData := pData;
+  FData := pData;
 end;
 
 function TFileInfo.GetCaminhoCompleto: string;

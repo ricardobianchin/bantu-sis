@@ -1,4 +1,4 @@
-exit
+rem exit
 
 cd "C:\Pr\app\bantu\bantu-sis\exe\Starter\"
 del *.txt

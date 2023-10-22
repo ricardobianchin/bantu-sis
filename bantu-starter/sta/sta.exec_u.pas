@@ -30,6 +30,8 @@ type
     procedure GravarUsuGerente(pDBConnection: IDBConnection);
 
     procedure ExecuteApp;
+    procedure CopieInicial;
+    procedure CopieAtu;
   public
     property db: IDBMS read FDBMS;
     property log: ILog read FLog;
@@ -42,9 +44,9 @@ implementation
 uses dialogs, sysutils, System.UITypes, btu.lib.config.factory, winplatform,
   sis.files, sis.sis.constants, sis.win.VersionInfo,
   sis.win.constants, winversion, IniFiles, db, sis.win.execs,
-  btu.sta.constants, btu.lib.usu.factory, btu.lib.entit.factory,
-  sis.types.strings, btu.sta.exec.testes_u, btu.lib.config.xmli,
-  sis.win.pastas, sis.types.strings.crypt;
+  Sta.Constants, btu.lib.usu.factory, btu.lib.entit.factory,
+  sis.types.strings, Sta.Exec.testes_u, btu.lib.config.xmli,
+  sis.win.pastas, sis.types.strings.crypt, Sis.Files.Sync;
 
 { TStarterExec }
 
@@ -63,6 +65,31 @@ begin
   finally
     StarterFormConfig.Free;
   end;
+end;
+
+procedure TStarterExec.CopieAtu;
+var
+  sOrig: string;
+  sDest: string;
+begin
+  FLog.Exibir('Sincronizar atualização');
+  sOrig := FSisConfig.PastaProduto + 'Starter\inst\inst-bin\';
+  sDest := FSisConfig.PastaProduto + 'bin\';
+
+  Sis.Files.Sync.AtualizarArquivos(sOrig, sDest, FOutput);
+  FLog.Exibir('Sincronizar atualização fim');
+end;
+
+procedure TStarterExec.CopieInicial;
+var
+  sOrig: string;
+  sDest: string;
+begin
+  FLog.Exibir('Sincronizar inicial');
+  sOrig := FSisConfig.PastaProduto + 'Starter\inst\inst-Delphi-redist\Redist\win64\';
+  sDest := FSisConfig.PastaProduto + 'bin\';
+  Sis.Files.Sync.AtualizarArquivos(sOrig, sDest, FOutput);
+  FLog.Exibir('Sincronizar inicial fim');
 end;
 
 function TStarterExec.ConfigArqExiste: boolean;
@@ -89,7 +116,7 @@ var
   sCSDVersion: string;
 begin
   if not GetWinVersion(iMajor, iMinor, sCSDVersion) then
-    raise Exception.Create(btu.sta.constants.MSG_ERRO_WINVERSION);
+    raise Exception.Create(Sta.Constants.MSG_ERRO_WINVERSION);
 
   if winplatform.IsWow64Process then
     FSisConfig.WinVersionInfo.winplatform := wplatWin64
@@ -108,9 +135,9 @@ begin
   TestesChamar;
   CrieEEntreNaPastaBin;
 
-  if FileExists('C:\Pr\app\bantu\bantu-sis\bantu-starter\bats\apag ini.bat')
+  if FileExists('C:\Pr\app\bantu\bantu-sis\src\bantu-starter\bats\apag ini.bat')
   then
-    winexec('C:\Pr\app\bantu\bantu-sis\bantu-starter\bats\apag ini.bat',
+    winexec('C:\Pr\app\bantu\bantu-sis\src\bantu-starter\bats\apag ini.bat',
       SW_SHOWNORMAL);
 
   ConfigCrieObjetos;
@@ -120,6 +147,7 @@ begin
   bExistiaXML := ConfigArqExiste;
   if not bExistiaXML then
   begin
+    CopieInicial;
     if not ConfigEdit then
     begin
       exit;
@@ -132,6 +160,8 @@ begin
 //    FOutput.Enabled := true;
     oConfigXMLI.Ler;
   end;
+
+  CopieAtu;
 
 //  FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
 //  FSisConfig.DBMSInfo.Version := 4.0;
@@ -238,6 +268,8 @@ constructor TStarterExec.Create(pLog: ILog; pOutput: IOutput);
 var
   s: string;
 begin
+  s := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+  SetCurrentDir(s);
   FLog := pLog;
   s := 'TStarterExec iniciado.';
   log.Exibir(s);

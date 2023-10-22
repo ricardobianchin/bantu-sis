@@ -141,8 +141,6 @@ begin
   Application.MainFormOnTaskbar := False;
 //  Application.ShowMainForm := False;
   Application.ShowMainForm := True;
-  Application.CreateForm(TFDacDM, FDacDM);
   Application.CreateForm(TPrincForm, PrincForm);
-  Application.CreateForm(TExibirPausaF, ExibirPausaF);
   Application.Run;
 end.

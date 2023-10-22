@@ -6,12 +6,12 @@ procedure TestesChamar;
 
 implementation
 
-uses
+//uses
   //btu.sta.exec.testes.reg_u,
   //btu.sta.exec.testes.strings_u
   //btu.sta.exec.testes.csv_u
-  btu.sta.exec.testes.crypt_u
-  ;
+//  btu.sta.exec.testes.crypt_u
+//  ;
 
 procedure TestesChamar;
 begin
