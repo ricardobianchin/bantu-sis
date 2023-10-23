@@ -7223,29 +7223,6 @@ object StarterFormConfig: TStarterFormConfig
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
-      DesignSize = (
-        300
-        337)
-      object AjudaRespLabel: TLabel
-        Left = 134
-        Top = 16
-        Width = 160
-        Height = 13
-        Hint = 
-          #201' o respons'#225'vel t'#233'cnico quem vai cadastrar os funcion'#225'rios, incl' +
-          'uindo da ger'#234'ncia, mas n'#227'o ter'#225' direitos de visualizar informa'#231#245 +
-          'es cr'#237'ticas da empresa, como RH ou Financeiro'
-        CustomHint = BalloonHint1
-        Anchors = [akTop, akRight]
-        Caption = 'O que '#233' o respons'#225'vel t'#233'cnico?'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        ExplicitLeft = 206
-      end
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322

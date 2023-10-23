@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -171,8 +171,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\db\btu.lib.db.factory.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.info_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\win\registry\sis.win.registry.pas"/>
-        <DCCReference Include="sta\sta.exec.testes_u.pas"/>
-        <DCCReference Include="sta\sta.exec.testes.reg_u.pas"/>
+        <DCCReference Include="sta\Testes\Sta.Exec.Testes_u.pas"/>
+        <DCCReference Include="sta\Testes\Sta.Exec.Testes.Reg_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\fdac_acces\FDacDM_u.pas">
             <Form>FDacDM</Form>
             <FormType>dfm</FormType>
@@ -221,7 +221,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec.firedac_u.pas"/>
-        <DCCReference Include="sta\sta.exec.testes.strings_u.pas"/>
+        <DCCReference Include="sta\Testes\Sta.Exec.Testes.Strings_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.fb_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createoralterpackage_u.pas"/>
@@ -231,7 +231,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.firebird_u.pas"/>
-        <DCCReference Include="sta\sta.exec.testes.csv_u.pas"/>
+        <DCCReference Include="sta\Testes\Sta.Exec.Testes.CSV_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem.pas"/>
         <DCCReference Include="..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem_u.pas"/>
@@ -243,7 +243,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas"/>
         <DCCReference Include="..\bantu-lib\sis\types\str\sis.types.strings.crypt.pas"/>
-        <DCCReference Include="sta\sta.exec.testes.crypt_u.pas"/>
+        <DCCReference Include="sta\Testes\Sta.Exec.Testes.Crypt_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\win\sis.win.execs.pas"/>
         <DCCReference Include="..\bantu-lib\sis\types\float\sis.types.floats.pas"/>
         <DCCReference Include="..\bantu-lib\sis\config\btu.lib.config.xmli.pas"/>
@@ -253,8 +253,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\files\sis.files.FileInfo_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\files\sis.files.FileInfo.pas"/>
         <DCCReference Include="..\bantu-lib\sis\files\Sis.Files.Sync.pas"/>
-        <DCCReference Include="sta\inst\Sta.Inst.Garantir.pas"/>
-        <DCCReference Include="sta\inst\Sta.Inst.Garantir_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -281,13 +279,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="..\exe\Starter\Starter.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\exe\Starter\Starter.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Starter.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\exe\Starter\Starter.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\exe\Starter\Starter.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Starter.exe</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -1133,7 +1131,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy &quot;$(OUTPUTPATH)&quot; &quot;\\Vboxsvr\d_drive\inst\Bantu\Mercado\inst-Starter\&quot;</PostBuildEvent>
+        <PostBuildEvent>copy &quot;$(OUTPUTPATH)&quot; &quot;\\Vboxsvr\d_drive\inst\Bantu\Mercado\inst-Starter\&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -1141,7 +1139,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy &quot;$(OUTPUTPATH)&quot; &quot;\\Vboxsvr\d_drive\inst\Bantu\Mercado\inst-Starter\&quot;</PostBuildEvent>
+        <PostBuildEvent>copy &quot;$(OUTPUTPATH)&quot; &quot;\\Vboxsvr\d_drive\inst\Bantu\Mercado\inst-Starter\&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
