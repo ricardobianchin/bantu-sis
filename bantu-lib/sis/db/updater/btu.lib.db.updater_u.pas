@@ -46,8 +46,8 @@ type
   protected
     property sLocalDoDB: string read FsLocalDoDB;
     property SisConfig: ISisConfig read FSisConfig;
-    property log: ILog read FLog;
-    property output: IOutput read FOutput;
+    property Log: ILog read FLog;
+    property Output: IOutput read FOutput;
     property LocalDoDB: TLocalDoDB read FLocalDoDB;
     property dbms: IDBMS read FDBMS;
     property iVersao: integer read FiVersao write SetiVersao;
@@ -94,7 +94,8 @@ begin
   FOutput := pOutput;
   FDBMS := pDBMS;
   sLog := classname + '.Create,' + FsLocalDoDB;
-  FCaminhoComandos := FSisConfig.PastaProduto + 'inst\dbupdates\';
+  FLog.Exibir(sLog);
+  FCaminhoComandos := FSisConfig.PastaProduto + 'Update\dbupdates\';
 
   FDBConnection := DBConnectionCreate(FSisConfig, FDBMS, FLocalDoDB,
     FLog, FOutput);
@@ -116,7 +117,6 @@ begin
     begin
       sLog := sLog + ',banco nao existia';
       CrieDB;
-      sleep(50);
       if not GetDBExiste then
       begin
         sErro := 'Error ao criar banco de dados';
@@ -125,7 +125,7 @@ begin
       end;
     end
     else
-      sLog := sLog + ',banco existia';
+      sLog := sLog + ',banco existia,vai abrir conexao';
 
     DBConnection.Abrir;
     FDBUpdaterOperations.PreparePrincipais;
@@ -139,6 +139,7 @@ begin
     sLog := sLog + ', existia,vai ler com versao_get';
 
     Result := FDBUpdaterOperations.VersaoGet;
+    sLog := sLog + ', FDBUpdaterOperations.VersaoGet=' + Result.ToString;
   finally
     log.Exibir(sLog);
     output.Exibir(sLog);
@@ -157,52 +158,64 @@ begin
 end;
 
 function TDBUpdater.Execute: boolean;
+var
+  sLog: string;
 begin
   Result := True;
-  FOutput.Exibir('TDBUpdater.Execute,Inicio');
-  FLog.Exibir('TDBUpdater.Execute,Inicio');
-  FLog.Exibir('TDBUpdater.Execute,FsLocalDoDB=' + FsLocalDoDB);
+  sLog :='TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB+
+  ',FCaminhoComandos=' + FCaminhoComandos;
 
   FLinhasSL := TStringList.Create;
   try
     try
+      sLog := sLog + ', vai DBDescubraVersaoEConecte';
       iVersao := DBDescubraVersaoEConecte;
-
+      sLog := sLog + 'fez prepare,iVersao='+iVersao.ToString;
       try
         repeat
           FOutput.Exibir('');
           iVersao := iVersao + 1;
+          sLog := sLog + ','#13#10'incrementou iVersao='+iVersao.ToString+',vai CarreguouArqComando';
 
           if not CarreguouArqComando(iVersao) then
+          begin
+            sLog := sLog+'retornou false, vai abortar o loop';
             break;
+          end;
+          sLog := sLog+'retornou true';
 
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
           LerUpdateProperties(FLinhasSL);
-
+          sLog := slog+',vai ComandosCarregar';
           ComandosCarregar;
+          sLog := slog+',vai ComandosGetSql';
           ComandosGetSql;
+          sLog := slog+',vai ExecuteSql';
           ExecuteSql;
+          sLog := slog+',vai ComandosTesteFuncionou';
           ComandosTesteFuncionou;
+          sLog := slog+',vai GravarVersao';
           GravarVersao;
 
         until False;
       finally
+        sLog := slog +#13#10',vai unprepare';
         FDBUpdaterOperations.Unprepare;
       end;
     except
       on E: Exception do
       begin
-        FLog.Exibir('vr. ' + iVersao.ToString + E.Message);
+        sLog := sLog + 'erro vr. ' + iVersao.ToString + E.Message;
         FOutput.Exibir('vr. ' + iVersao.ToString + E.Message);
-        //DBConnection.Rollback;
+        // DBConnection.Rollback;
       end;
     end;
   finally
-    FLog.Exibir('TDBUpdater.Execute,fechando DBConnection e saindo');
+    sLog := sLog + 'fechando DBConnection e saindo';
+    FLog.Exibir(sLog);
     DBConnection.Fechar;
     FreeAndNil(FLinhasSL);
-    FLog.Exibir('TDBUpdater.Execute,Fim');
     FOutput.Exibir('TDBUpdater.Execute,Fim');
   end;
 end;
@@ -211,24 +224,15 @@ procedure TDBUpdater.InsertCabecalho;
 var
   sLinhas: string;
 begin
-  sLinhas :=
-    '/*'#13#10
-    + 'SCRIPT CRIADO AUTOMATICAMENTE'#13#10
-    + 'ATUALIZA BANCO DE DADOS PARA A VERSAO: '+iVersao.ToString + #13#10
-    + 'ASSUNTO: '+FsAssunto + #13#10
-    + 'OBJETIVO: '+FsObjetivo + #13#10
-    ;
+  sLinhas := '/*'#13#10 + 'SCRIPT CRIADO AUTOMATICAMENTE'#13#10 +
+    'ATUALIZA BANCO DE DADOS PARA A VERSAO: ' + iVersao.ToString + #13#10 +
+    'ASSUNTO: ' + FsAssunto + #13#10 + 'OBJETIVO: ' + FsObjetivo + #13#10;
   if FsObs <> '' then
-    sLinhas := sLinhas + 'OBS: '+FsObs + #13#10;
+    sLinhas := sLinhas + 'OBS: ' + FsObs + #13#10;
 
-  sLinhas := sLinhas
-    + FormatDateTime('dd/mm/yyyy hh:nn:ss,zzz', FDtHExec) + #13#10
-    + '*/'#13#10
-    + #13#10
-    + 'CONNECT ''' + dbms.LocalDoDBToDatabase(FLocalDoDB)
-      + ''' USER ''sysdba'' PASSWORD ''masterkey'';'#13#10
-    + #13#10
-    ;
+  sLinhas := sLinhas + FormatDateTime('dd/mm/yyyy hh:nn:ss,zzz', FDtHExec) +
+    #13#10 + '*/'#13#10 + #13#10 + 'CONNECT ''' + dbms.LocalDoDBToDatabase
+    (FLocalDoDB) + ''' USER ''sysdba'' PASSWORD ''masterkey'';'#13#10 + #13#10;
 
   FDestinoSL.Text := sLinhas + FDestinoSL.Text;
 end;
@@ -258,29 +262,32 @@ end;
 function TDBUpdater.CarreguouArqComando(piVersao: integer): boolean;
 var
   sNomeArq: string;
+  sLog: string;
 begin
-  FLog.Exibir('TDBUpdater.Execute,iVersao=' + piVersao.ToString);
+  sLog := 'TDBUpdater.Execute,iVersao=' + piVersao.ToString;
+  try
+    sNomeArq := VersaoToArqComando(piVersao);
+    sLog := sLog +',sNomeArqComando=' + sNomeArq;
+    Result := FileExists(sNomeArq);
 
-  sNomeArq := VersaoToArqComando(piVersao);
+    if not Result then
+    begin
+      sLog := sLog + ',arq nao encontrado, abortando';
+      exit;
+    end;
+    sLog := sLog + ',arq encontrado, vai carregar';
 
-  FLog.Exibir('TDBUpdater.Execute,sNomeArqComando=' + sNomeArq);
-  Result := FileExists(sNomeArq);
+    FOutput.Exibir('iVersao=' + piVersao.ToString);
 
-  if not Result then
-  begin
-    FLog.Exibir('TDBUpdater.Execute,arq nao encontrado, abortando');
-    exit;
-  end;
-  FOutput.Exibir('iVersao=' + piVersao.ToString);
+    FLinhasSL.LoadFromFile(sNomeArq);
+    Result := FLinhasSL.Text <> '';
 
-  FLog.Exibir('TDBUpdater.Execute,arq encontrado, vai carregar');
-
-  FLinhasSL.LoadFromFile(sNomeArq);
-  Result := FLinhasSL.Text <> '';
-
-  if not Result then
-  begin
-    FLog.Exibir('TDBUpdater.Execute,arquivo estava vazio, abortando');
+    if not Result then
+    begin
+      sLog := sLog +',arquivo estava vazio, abortando';
+    end;
+  finally
+    FLog.Exibir(sLog);
   end;
 end;
 
@@ -296,7 +303,7 @@ begin
   FOutput.Exibir('Carregando comandos...');
 
   try
-    bComandAberto := false;
+    bComandAberto := False;
     iLin := 0;
     FComandoList.Clear;
     while iLin < FLinhasSL.Count do
@@ -309,12 +316,13 @@ begin
       end
       else if sLin = DBATUALIZ_COMANDO_FIM_CHAVE then
       begin
-        bComandAberto := false;
+        bComandAberto := False;
       end
       else if Pos(DBATUALIZ_TIPO_COMANDO + '=', sLin) = 1 then
       begin
         sTipoComando := StrApos(sLin, '=');
-        oComando := TipoToComando(sTipoComando, FDBConnection, FDBUpdaterOperations, FLog, FOutput);
+        oComando := TipoToComando(sTipoComando, FDBConnection,
+          FDBUpdaterOperations, FLog, FOutput);
         FComandoList.Add(oComando);
         oComando.PegarLinhas(iLin, FLinhasSL);
       end;
@@ -369,7 +377,8 @@ begin
     begin
       sMensagemErro := 'Erro DB UPDATER, vr ' + iVersao.ToString + ', ' +
         oComando.UltimoErro;
-      sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro, TMsgDlgType.mtError);
+      sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro,
+        TMsgDlgType.mtError);
       raise Exception.Create(sMensagemErro);
     end;
   end;
@@ -380,8 +389,8 @@ end;
 procedure TDBUpdater.ExecuteSql;
 begin
   FOutput.Exibir('Executando comandos...');
-  dbms.ExecInterative('DBUpdate ' + IntToStrZero(iVersao, 9),
-    FDestinoSL.Text, FLocalDoDB, FLog, FOutput);
+  dbms.ExecInterative('DBUpdate ' + IntToStrZero(iVersao, 9), FDestinoSL.Text,
+    FLocalDoDB, FLog, FOutput);
 end;
 
 procedure TDBUpdater.GravarVersao;
@@ -399,7 +408,7 @@ begin
   SLRemoveCommentsSingleLine(pSL);
   SLRemoveCommentsMultiLine(pSL);
   SLManterEntre(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
-  //SLRemoveVazias(FLinhasSL);
+  // SLRemoveVazias(FLinhasSL);
   SLUpperCase(FLinhasSL);
   sLog := sLog + ',sobraram ' + pSL.Count.ToString + ' linhas,';
   FLog.Exibir(sLog);

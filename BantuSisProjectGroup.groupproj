@@ -15,13 +15,16 @@
         <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="bantu-lib\sis\Sis.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-starter\Starter.dproj">
+        <Projects Include="bantu-shop\Retag.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-shop\Retag.dproj">
+        <Projects Include="bantu-starter\Starter.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -68,6 +71,15 @@
     <Target Name="IbgeMunImport:Make">
         <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
     </Target>
+    <Target Name="BucharestDT">
+        <MSBuild Projects="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj"/>
+    </Target>
+    <Target Name="BucharestDT:Clean">
+        <MSBuild Projects="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BucharestDT:Make">
+        <MSBuild Projects="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Sis">
         <MSBuild Projects="bantu-lib\sis\Sis.dproj"/>
     </Target>
@@ -76,15 +88,6 @@
     </Target>
     <Target Name="Sis:Make">
         <MSBuild Projects="bantu-lib\sis\Sis.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="Starter">
-        <MSBuild Projects="bantu-starter\Starter.dproj"/>
-    </Target>
-    <Target Name="Starter:Clean">
-        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Starter:Make">
-        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
     </Target>
     <Target Name="Retag">
         <MSBuild Projects="bantu-shop\Retag.dproj"/>
@@ -95,14 +98,23 @@
     <Target Name="Retag:Make">
         <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Starter">
+        <MSBuild Projects="bantu-starter\Starter.dproj"/>
+    </Target>
+    <Target Name="Starter:Clean">
+        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Starter:Make">
+        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;Sis;Starter;Retag"/>
+        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;BucharestDT;Sis;Retag;Starter"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;Sis:Clean;Starter:Clean;Retag:Clean"/>
+        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;BucharestDT:Clean;Sis:Clean;Retag:Clean;Starter:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;Sis:Make;Starter:Make;Retag:Make"/>
+        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;BucharestDT:Make;Sis:Make;Retag:Make;Starter:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
@@ -118,14 +130,20 @@
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="retag\RetagAntigo.dproj">
-            <ProjectGuid>{25229F2E-A428-4EDB-ACF8-D80B8B3A2EFE}</ProjectGuid>
+        <BuildGroupProject Include="bantu-starter\Starter.dproj">
+            <ProjectGuid>{416A27BF-724C-4294-A0F1-EA91F10FC028}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="bantu-lib\ctrls\BtnControls.dproj">
+            <ProjectGuid>{6D4C9667-FC33-4200-AC66-6DC0C8C69959}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="bantu-lib\ctrls\BtnControls.dproj">
-            <ProjectGuid>{6D4C9667-FC33-4200-AC66-6DC0C8C69959}</ProjectGuid>
+        <BuildGroupProject Include="retag\RetagAntigo.dproj">
+            <ProjectGuid>{25229F2E-A428-4EDB-ACF8-D80B8B3A2EFE}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
@@ -142,11 +160,11 @@
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="bantu-starter\Starter.dproj">
-            <ProjectGuid>{416A27BF-724C-4294-A0F1-EA91F10FC028}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
+        <BuildGroupProject Include="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
+            <ProjectGuid>{08EFEBD9-CFA0-411C-A8A0-8ED9A3495AB6}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>

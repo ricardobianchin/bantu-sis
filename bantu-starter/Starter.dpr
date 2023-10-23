@@ -58,8 +58,8 @@ uses
   btu.lib.db.factory in '..\bantu-lib\sis\db\btu.lib.db.factory.pas',
   btu.lib.db.dbms.info_u in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.info_u.pas',
   sis.win.registry in '..\bantu-lib\sis\win\registry\sis.win.registry.pas',
-  sta.exec.testes_u in 'sta\sta.exec.testes_u.pas',
-  sta.exec.testes.reg_u in 'sta\sta.exec.testes.reg_u.pas',
+  Sta.Exec.Testes_u in 'sta\Testes\Sta.Exec.Testes_u.pas',
+  Sta.Exec.Testes.Reg_u in 'sta\Testes\Sta.Exec.Testes.Reg_u.pas',
   FDacDM_u in '..\bantu-lib\sis\db\fdac_acces\FDacDM_u.pas' {FDacDM: TDataModule},
   sis.win.execute in '..\bantu-lib\sis\win\sis.win.execute.pas',
   sis.win.execute_u in '..\bantu-lib\sis\win\sis.win.execute_u.pas',
@@ -98,7 +98,7 @@ uses
   sis.ui.io.output.exibirpausa.form_u in '..\bantu-lib\sis\ui\io\output\output.form\sis.ui.io.output.exibirpausa.form_u.pas' {ExibirPausaF},
   btu.lib.db.exec_u in '..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec_u.pas',
   btu.lib.db.exec.firedac_u in '..\bantu-lib\sis\db\dbconnect\btu.lib.db.exec.firedac_u.pas',
-  sta.exec.testes.strings_u in 'sta\sta.exec.testes.strings_u.pas',
+  Sta.Exec.Testes.Strings_u in 'sta\Testes\Sta.Exec.Testes.Strings_u.pas',
   btu.lib.db.updater.operations in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.pas',
   btu.lib.db.updater.operations.fb_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.operations.fb_u.pas',
   btu.lib.db.updater.comando.fb.createoralterpackage_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.createoralterpackage_u.pas',
@@ -108,7 +108,7 @@ uses
   btu.lib.db.dbms.config in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.pas',
   btu.lib.db.dbms.config_u in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config_u.pas',
   btu.lib.db.dbms.config.firebird_u in '..\bantu-lib\sis\db\dbms\btu.lib.db.dbms.config.firebird_u.pas',
-  sta.exec.testes.csv_u in 'sta\sta.exec.testes.csv_u.pas',
+  Sta.Exec.Testes.CSV_u in 'sta\Testes\Sta.Exec.Testes.CSV_u.pas',
   btu.lib.db.updater.comando.fb.ensurerecords_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.comando.fb.ensurerecords_u.pas',
   btu.lib.lists.TextoItem in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem.pas',
   btu.lib.lists.TextoItem_u in '..\bantu-lib\sis\lists\TextList\btu.lib.lists.TextoItem_u.pas',
@@ -120,7 +120,7 @@ uses
   btu.lib.lists.LojaTermIdItem_u in '..\bantu-lib\sis\lists\btu.lib.lists.LojaTermIdItem_u.pas',
   btu.lib.entit.LojaTermId.utils in '..\bantu-lib\sis\entit\usuario\btu.lib.entit.LojaTermId.utils.pas',
   sis.types.strings.crypt in '..\bantu-lib\sis\types\str\sis.types.strings.crypt.pas',
-  sta.exec.testes.crypt_u in 'sta\sta.exec.testes.crypt_u.pas',
+  Sta.Exec.Testes.Crypt_u in 'sta\Testes\Sta.Exec.Testes.Crypt_u.pas',
   sis.win.execs in '..\bantu-lib\sis\win\sis.win.execs.pas',
   sis.types.floats in '..\bantu-lib\sis\types\float\sis.types.floats.pas',
   btu.lib.config.xmli in '..\bantu-lib\sis\config\btu.lib.config.xmli.pas',
@@ -129,9 +129,7 @@ uses
   sis.files.factory in '..\bantu-lib\sis\files\sis.files.factory.pas',
   sis.files.FileInfo_u in '..\bantu-lib\sis\files\sis.files.FileInfo_u.pas',
   sis.files.FileInfo in '..\bantu-lib\sis\files\sis.files.FileInfo.pas',
-  Sis.Files.Sync in '..\bantu-lib\sis\files\Sis.Files.Sync.pas',
-  Sta.Inst.Garantir in 'sta\inst\Sta.Inst.Garantir.pas',
-  Sta.Inst.Garantir_u in 'sta\inst\Sta.Inst.Garantir_u.pas';
+  Sis.Files.Sync in '..\bantu-lib\sis\files\Sis.Files.Sync.pas';
 
 {$R *.res}
 

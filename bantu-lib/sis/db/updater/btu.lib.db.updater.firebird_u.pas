@@ -31,7 +31,7 @@ implementation
 uses
   btu.lib.db.firebird.utils, System.SysUtils, sis.files, System.StrUtils,
   btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u, Winapi.Windows,
-  System.Variants, sis.win.VersionInfo;
+  System.Variants, sis.win.VersionInfo, sis.types.bool.utils;
 
 { TDBUpdaterFirebird }
 
@@ -56,18 +56,27 @@ begin
   sAssunto :=  'Cria';
 
   DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, log, output);
+  sleep(200);
+
 end;
 
 function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
-  sPastaInstDados, sNomeArq: string;
+  sPastaInstDados, sNomeArq, sLog: string;
 begin
-  result := FileExists(FArq);
+  sLog := 'TDBUpdaterFirebird.GetDBExiste ini';
+  try
+    slog := slog + 'vai testar se existe='+FArq;
+    result := FileExists(FArq);
 
-  if Result then
-    exit;
+    if Result then
+    begin
+      sLog := sLog + ',existia';
+      exit;
+    end;
+  sLog := sLog + ',nao existia';
 
-  sPastaInstDados := SisConfig.PastaProduto + 'inst\inst-Firebird\dados\';
+  sPastaInstDados := SisConfig.PastaProduto + 'Starter\inst\inst-Firebird\dados\';
   sNomeArq := 'RETAG';
   if SisConfig.WinVersionInfo.Version <= 6.1 then
   begin
@@ -87,10 +96,14 @@ begin
   end;
   sNomeArq := sNomeArq + '.fdb';
   sNomeArq := sPastaInstDados + sNomeArq;
-
+  sLog := sLog + ',vai copiar('+sNomeArq+','+FArq+')';
   CopyFile(PChar(sNomeArq), PChar(FArq), False);
 
-  result := FileExists(FArq);
+  Result := FileExists(FArq);
+  sLog := sLog+',Result='+BooleanToStr(Result);
+  finally
+    Log.Exibir(sLog);
+  end;
 end;
 
 function TDBUpdaterFirebird.GetNomeBanco: string;

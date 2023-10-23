@@ -33,7 +33,6 @@ type
     LocalMaqNomeEdFrame: TMaqNomeEdFrame;
     EhServidorCheckBox: TCheckBox;
     ServerMaqNomeEdFrame: TMaqNomeEdFrame;
-    AjudaRespLabel: TLabel;
     BalloonHint1: TBalloonHint;
     UsuGerenteNomeExibLabeledEdit: TLabeledEdit;
     UsuGerenteNomeUsuLabeledEdit: TLabeledEdit;
@@ -322,9 +321,6 @@ procedure TStarterFormConfig.FormCreate(Sender: TObject);
 begin
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   FTesteConfig := TTesteConfig.Create(FPastaBin);
-
-  AjudaRespLabel.Font.Color := COR_AZUL_LINK;
-  AjudaRespLabel.Hint := RESPTEC_DESCR;
 
   AjudaLojaLabel.Font.Color := COR_AZUL_LINK;
   AjudaLojaLabel.Hint := LOJAID_DESCR;
