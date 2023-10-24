@@ -40,6 +40,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 ;atu
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\Vboxsvr\d_drive\inst\Bantu\Update\DBUpdates\*"; DestDir: "{app}\Starter\Update\DBUpdates\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ;ini
 ;Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Delphi-redist\Redist\win64\*"; DestDir: "{app}\Starter\inst\inst-Delphi-redist\Redist\win64\"; Flags: ignoreversion recursesubdirs createallsubdirs
