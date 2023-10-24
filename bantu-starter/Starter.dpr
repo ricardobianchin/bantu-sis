@@ -129,7 +129,11 @@ uses
   sis.files.factory in '..\bantu-lib\sis\files\sis.files.factory.pas',
   sis.files.FileInfo_u in '..\bantu-lib\sis\files\sis.files.FileInfo_u.pas',
   sis.files.FileInfo in '..\bantu-lib\sis\files\sis.files.FileInfo.pas',
-  Sis.Files.Sync in '..\bantu-lib\sis\files\Sis.Files.Sync.pas';
+  Sis.Files.Sync in '..\bantu-lib\sis\files\Sis.Files.Sync.pas',
+  Sta.Inst.Update_u in 'sta\Update\Sta.Inst.Update_u.pas',
+  Sis.Web.HTTP.Download in '..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas',
+  Sis.Web.HTTP.Download_u in '..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas',
+  Sis.Web.Factory in '..\bantu-lib\sis\Web\Sis.Web.Factory.pas';
 
 {$R *.res}
 

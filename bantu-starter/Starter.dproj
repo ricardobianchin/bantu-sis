@@ -253,6 +253,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\files\sis.files.FileInfo_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\files\sis.files.FileInfo.pas"/>
         <DCCReference Include="..\bantu-lib\sis\files\Sis.Files.Sync.pas"/>
+        <DCCReference Include="sta\Update\Sta.Inst.Update_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas"/>
+        <DCCReference Include="..\bantu-lib\sis\Web\Sis.Web.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -279,13 +283,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="..\..\exe\Starter\Starter.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\exe\Starter\Starter.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Starter.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\exe\Starter\Starter.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\exe\Starter\Starter.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Starter.exe</RemoteName>
                         <Overwrite>true</Overwrite>
