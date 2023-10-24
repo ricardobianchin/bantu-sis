@@ -5,7 +5,7 @@ interface
 uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.Usuario,
   btu.lib.entit.loja, sis.ui.io.log, btu.lib.db.types,
   sis.ui.io.output, windows, btu.lib.db.dbms, btu.lib.db.factory,
-  btu.lib.db.dbms.config;
+  btu.lib.db.dbms.config, Forms;
 
 type
   TStarterExec = class
@@ -32,9 +32,10 @@ type
     procedure ExecuteApp;
     procedure CopieInicial;
     procedure CopieAtu;
+
   public
-    property db: IDBMS read FDBMS;
-    property log: ILog read FLog;
+    property DB: IDBMS read FDBMS;
+    property Log: ILog read FLog;
     procedure Execute;
     constructor Create(pLog: ILog; pOutput: IOutput);
   end;
@@ -42,7 +43,7 @@ type
 implementation
 
 uses dialogs, sysutils, System.UITypes, btu.lib.config.factory, winplatform,
-  sis.files, sis.sis.constants, sis.win.VersionInfo,
+  sis.files, sis.sis.constants, sis.win.VersionInfo, Sta.Inst.Update_u,
   sis.win.constants, winversion, IniFiles, db, sis.win.execs,
   Sta.Constants, btu.lib.usu.factory, btu.lib.entit.factory,
   sis.types.strings, Sta.Exec.testes_u, btu.lib.config.xmli,
@@ -132,34 +133,57 @@ var
   bExistiaXML: boolean;
   oConfigXMLI: IConfigXMLI;
 begin
+  Log.Exibir('TStarterExec.Execute inicio, TestesChamar');
   TestesChamar;
-  CrieEEntreNaPastaBin;
 
+  Log.Exibir('TStarterExec.Execute CrieEEntreNaPastaBin');
+  CrieEEntreNaPastaBin;
+{
   if FileExists('C:\Pr\app\bantu\bantu-sis\src\bantu-starter\bats\apag ini.bat')
   then
+  begin
     winexec('C:\Pr\app\bantu\bantu-sis\src\bantu-starter\bats\apag ini.bat',
       SW_SHOWNORMAL);
-
+  end;
+}
+  Log.Exibir('TStarterExec.Execute ConfigCrieObjetos');
   ConfigCrieObjetos;
+
+  Log.Exibir('TStarterExec.Execute ConfigXMLICreate');
   oConfigXMLI := ConfigXMLICreate(FSisConfig);
 
+  Log.Exibir('TStarterExec.Execute PreenchaSisConfigVersao');
   PreenchaSisConfigVersao;
+  Log.Exibir('TStarterExec.Execute ConfigArqExiste');
   bExistiaXML := ConfigArqExiste;
   if not bExistiaXML then
   begin
+    Log.Exibir('TStarterExec.Execute nao existia xml, CopieInicial');
     CopieInicial;
+    Log.Exibir('TStarterExec.Execute vai ConfigEdit');
     if not ConfigEdit then
     begin
+      Log.Exibir('TStarterExec.Execute ConfigEdit cancel');
       exit;
     end;
 //    FOutput.Enabled := true;
+    Log.Exibir('TStarterExec.Execute ConfigEdit ok, oConfigXMLI.Gravar');
     oConfigXMLI.Gravar;
   end
   else
   begin
+    Log.Exibir('TStarterExec.Execute existia xml, oConfigXMLI.Ler');
 //    FOutput.Enabled := true;
     oConfigXMLI.Ler;
   end;
+
+  Log.Exibir('TStarterExec.Execute InstUpdate');
+  if Sta.Inst.Update_u.InstUpdate(FSisConfig, Log) then
+  begin
+    Log.Exibir('TStarterExec.Execute InstUpdate exit');
+    Exit;
+  end;
+  Log.Exibir('TStarterExec.Execute InstUpdate nao exit, CopieAtu');
 
   CopieAtu;
 
@@ -169,11 +193,17 @@ begin
   FDBMSConfig := DBMSConfigCreate(FSisConfig, FLog, FOutput);
   FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLog, FOutput);
 
+  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado');
   FDBMS.GarantirDBMSInstalado(FLog, FOutput);
 
+  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado');
   FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput);
+
+  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado'
+   +' acabou, vai testar se precisa criar loja');
   if FSisConfig.LocalMachineIsServer and (not ConfigArqExiste) then
   begin
+    Log.Exibir('TStarterExec.Execute vai gravar loja e gerente');
     FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor,
       FLog, FOutput);
     if FServConnection.Abrir then
@@ -194,7 +224,9 @@ begin
     end;
   end;
 
+  Log.Exibir('TStarterExec.Execute ExecuteApp');
   ExecuteApp;
+  Log.Exibir('TStarterExec.Execute ExecuteApp fim');
 end;
 
 procedure TStarterExec.ExecuteApp;
