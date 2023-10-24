@@ -86,6 +86,8 @@ var
   sLog: string;
   sSql: string;
 begin
+  sLog := classname + '.Create,' + FsLocalDoDB;
+  try
   FDestinoSL := TStringList.Create;
   FLocalDoDB := pLocalDoDB;
   FsLocalDoDB := TiposDeLocalDB[pLocalDoDB];
@@ -93,7 +95,7 @@ begin
   FLog := pLog;
   FOutput := pOutput;
   FDBMS := pDBMS;
-  sLog := classname + '.Create,' + FsLocalDoDB;
+  
   FLog.Exibir(sLog);
   FCaminhoComandos := FSisConfig.PastaProduto + 'Update\dbupdates\';
 
@@ -103,6 +105,9 @@ begin
   FDBUpdaterOperations := GetDBUpdaterOperations(FDBConnection, FLog, FOutput);
 
   FComandoList := ComandoListCreate;
+  finally
+    FLog.Exibir(sLog);
+  end;
 end;
 
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
