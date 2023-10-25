@@ -3,7 +3,7 @@ unit Sis.Web.HTTP.Download_u;
 interface
 
 uses Sis.Web.HTTP.Download, Sis.ui.io.log, Sis.ui.io.output, IdHTTP,
-  System.Classes;
+  System.Classes, IdSSL, IdSSLOpenSSL;
 
 type
   THTTPDownload = class(TInterfacedObject, IHTTPDownload)
@@ -12,7 +12,8 @@ type
     FDtHLocal, FDtHRemoto : TDateTIme;
     FArqLocal, FArqRemoto : string;
 
-    HTTP: TIdHTTP;
+    IdHTTP1: TIdHTTP;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     MS: TMemoryStream;
   public
     function Execute: Boolean;
@@ -21,7 +22,8 @@ type
 
 implementation
 
-uses System.DateUtils, System.SysUtils, Sis.types.bool.utils;
+uses System.DateUtils, System.SysUtils, Sis.types.bool.utils, Sis.Types.Times,
+  sis.sis.clipb_u, Sis.Files.Sync;
 
 { THTTPDownload }
 
@@ -40,20 +42,27 @@ end;
 function THTTPDownload.Execute: Boolean;
 var
   sLog: string;
+  sGMT: string;
+  sDtH: string;
 begin
   sLog := 'THTTPDownload.Execute,TIdHTTP.Create';
   Result := True;
-  HTTP := TIdHTTP.Create(nil);
+  IdHTTP1 := TIdHTTP.Create(nil);
+  IdSSLIOHandlerSocketOpenSSL1 := TIdSSLIOHandlerSocketOpenSSL.Create(IdHTTP1);
+  IdHTTP1.IOHandler := IdSSLIOHandlerSocketOpenSSL1;
+  IdSSLIOHandlerSocketOpenSSL1.SSLOptions.SSLVersions := [sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2];
   try
     try
       sLog := sLog + ',HTTP.Head';
-      HTTP.Head(FArqRemoto);
+      IdHTTP1.Head(FArqRemoto);
+      SetClipboardText(IdHTTP1.Response.RawHeaders.Text);
 
       sLog := sLog + ',vai ler dth remoto';
-      FDtHRemoto := StrToDateTime(HTTP.Response.RawHeaders.Values
-        ['Last-Modified']);
+      sGMT := IdHTTP1.Response.RawHeaders.Values['Last-Modified'];
+      FDtHRemoto := ConvertGMTToTDateTime(sGMT);
+
       sLog := sLog + ',vai ler dth local';
-      FDtHLocal := FileDateToDateTime(FileAge(FArqLocal));
+      FDtHLocal := GetDataArquivo(FArqLocal);
 
       if FDtHRemoto > FDtHLocal then
       begin
@@ -62,7 +71,7 @@ begin
         MS := TMemoryStream.Create;
         try
           sLog := sLog + ',Get para MS';
-          HTTP.Get(FArqRemoto, MS);
+          IdHTTP1.Get(FArqRemoto, MS);
           sLog := sLog + ',MS.SaveToFile';
           MS.SaveToFile(FArqLocal);
         finally
@@ -80,7 +89,7 @@ begin
     end;
   finally
     sLog := sLog + ',HTTP.Free';
-    HTTP.Free;
+    IdHTTP1.Free;
     sLog := sLog + ',Result=' + BooleanToStr(Result);
     FLog.Exibir(sLog);
   end;
