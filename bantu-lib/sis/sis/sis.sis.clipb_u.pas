@@ -29,6 +29,7 @@ procedure SetClipboardText(const AText: string);
 begin
   // limpa a área de transferência
   Clipboard.Clear;
+  Sleep(200);
   // coloca a string na área de transferência
   Clipboard.AsText := AText;
 end;

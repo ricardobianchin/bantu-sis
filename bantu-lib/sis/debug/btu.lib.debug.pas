@@ -9,7 +9,7 @@ procedure ExecutarNotepadPlusPlus(const Arquivo: string);
 implementation
 
 uses sysutils, windows, sis.win.registry, System.Win.Registry, // Unit que contém a classe TRegistry
-  ShellAPI; // Unit que contém a função ShellExecute
+  Winapi.ShellAPI; // Unit que contém a função ShellExecute
 
 function DelphiIsOpen: Boolean;
 var
