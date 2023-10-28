@@ -134,7 +134,9 @@ uses
   Sis.Web.HTTP.Download in '..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas',
   Sis.Web.HTTP.Download_u in '..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas',
   Sis.Web.Factory in '..\bantu-lib\sis\Web\Sis.Web.Factory.pas',
-  Sis.Types.Times in '..\bantu-lib\Sis\types\times\Sis.Types.Times.pas';
+  Sis.Types.Times in '..\bantu-lib\Sis\types\times\Sis.Types.Times.pas',
+  Sis.Web.HTTPDownload.NET in '..\bantu-lib\Sis\Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas',
+  Sta.Versao in 'sta\Sta.Versao.pas';
 
 {$R *.res}
 

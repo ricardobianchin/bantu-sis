@@ -31,18 +31,24 @@ implementation
 uses
   btu.lib.db.firebird.utils, System.SysUtils, sis.files, System.StrUtils,
   btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u, Winapi.Windows,
-  System.Variants, sis.win.VersionInfo, sis.types.bool.utils;
+  System.Variants, sis.win.VersionInfo, sis.types.bool.utils, sis.win.pastas;
 
 { TDBUpdaterFirebird }
 
 constructor TDBUpdaterFirebird.Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
 begin
+  pLog.Exibir('TDBUpdaterFirebird.Create, inicio');
   FArq := pDBMS.LocalDoDBToNomeArq(pLocalDoDB);
   FDatabase := pDBMS.LocalDoDBToDatabase(pLocalDoDB);
   FNomeBanco := pDBMS.LocalDoDBToNomeBanco(pLocalDoDB);
 
+  pLog.Exibir('TDBUpdaterFirebird.Create,FArq=' + FArq + ',FDatabase=' +
+    FDatabase + ',FNomeBanco=' + FNomeBanco);
+
+  pLog.Exibir('TDBUpdaterFirebird.Create, vai chamar inherited,TDBUpdater.Create');
   inherited Create(pLocalDoDB, pDBMS, pSisConfig, pLog, pOutput);
+  pLog.Exibir('TDBUpdaterFirebird.Create, voltou do inherited,fim');
 end;
 
 procedure TDBUpdaterFirebird.CrieDB;
@@ -62,47 +68,57 @@ end;
 
 function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
-  sPastaInstDados, sNomeArq, sLog: string;
+  sPastaInstDados, sNomeArq: string;
 begin
-  sLog := 'TDBUpdaterFirebird.GetDBExiste ini';
+  log.Exibir('TDBUpdaterFirebird.GetDBExiste ini');
   try
-    slog := slog + 'vai testar se existe='+FArq;
+    GarantaPastaDoArq(FArq);
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se ' + FArq+' existe');
     result := FileExists(FArq);
 
-    if Result then
+    if result then
     begin
-      sLog := sLog + ',existia';
+      log.Exibir('TDBUpdaterFirebird.GetDBExiste,existia, vai abortar');
       exit;
     end;
-  sLog := sLog + ',nao existia';
 
-  sPastaInstDados := SisConfig.PastaProduto + 'Starter\inst\inst-Firebird\dados\';
-  sNomeArq := 'RETAG';
-  if SisConfig.WinVersionInfo.Version <= 6.1 then
-  begin
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste,nao existia');
 
-  end
-  else
-  begin
-    sNomeArq := sNomeArq + '4';
-    if SisConfig.WinVersionInfo.WinPlatform = wplatWin64 then
+    sPastaInstDados := SisConfig.PastaProduto +
+      'Starter\inst\inst-Firebird\dados\';
+
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste,sPastaInstDados=' +
+      sPastaInstDados);
+
+    ForceDirectories(sPastaInstDados);
+    sNomeArq := 'RETAG';
+    if SisConfig.WinVersionInfo.Version <= 6.1 then
     begin
-      sNomeArq := sNomeArq + '64';
+
     end
     else
     begin
-      sNomeArq := sNomeArq + '32';
+      sNomeArq := sNomeArq + '4';
+      if SisConfig.WinVersionInfo.WinPlatform = wplatWin64 then
+      begin
+        sNomeArq := sNomeArq + '64';
+      end
+      else
+      begin
+        sNomeArq := sNomeArq + '32';
+      end;
     end;
-  end;
-  sNomeArq := sNomeArq + '.fdb';
-  sNomeArq := sPastaInstDados + sNomeArq;
-  sLog := sLog + ',vai copiar('+sNomeArq+','+FArq+')';
-  CopyFile(PChar(sNomeArq), PChar(FArq), False);
+    sNomeArq := sNomeArq + '.fdb';
+    sNomeArq := sPastaInstDados + sNomeArq;
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste,vai copiar(' + sNomeArq + ',' +
+      FArq + ')');
+    CopyFile(PChar(sNomeArq), PChar(FArq), False);
 
-  Result := FileExists(FArq);
-  sLog := sLog+',Result='+BooleanToStr(Result);
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se existe');
+    result := FileExists(FArq);
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste,Result=' + BooleanToStr(result));
   finally
-    Log.Exibir(sLog);
+    log.Exibir('TDBUpdaterFirebird.GetDBExiste fim');
   end;
 end;
 

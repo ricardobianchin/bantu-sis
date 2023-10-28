@@ -139,7 +139,7 @@ begin
     except
       on E: Exception do
       begin
-        sErro := AsText + ' Erro ' + E.ClassName + ' ' + E.Message;
+        sErro := AsText + 'TComandoFBEnsureRecords.GetAsSql Erro ' + E.ClassName + ' ' + E.Message;
         Log.Exibir(sErro);
         output.Exibir(sErro);
         //DBConnection.Rollback;

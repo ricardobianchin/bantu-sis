@@ -12,6 +12,8 @@ type
     ApplicationEvents1: TApplicationEvents;
     StatusMemo: TMemo;
     ShowTimer: TTimer;
+    DtHCompileLabel: TLabel;
+
     procedure FormCreate(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure ShowTimerTimer(Sender: TObject);
@@ -21,7 +23,7 @@ type
     FLog: ILog;
 //    FOutputForm: TOutputForm;
 //    FOutputToForm: IOutput;
-    FOutput: IOutput;
+//    FOutput: IOutput;
     procedure ExecStarter;
   public
 
@@ -39,7 +41,7 @@ implementation
 
 uses Sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.log.factory,
   sis.ui.io.factory, sis.ui.controls.utils, sis.ui.io.output.exibirpausa.form_u,
-  btu.lib.debug;
+  btu.lib.debug, Sta.Versao;
 
 procedure TPrincForm.ApplicationEvents1Exception(Sender: TObject; E: Exception);
 begin
@@ -63,7 +65,7 @@ begin
     e.Free;
   end;
   except on E: Exception do
-    FLog.Exibir('Erro '+E.ClassName+' '+e.Message);
+    FLog.Exibir('TPrincForm.ExecStarter Erro '+E.ClassName+' '+e.Message);
   end;
   FLog.Exibir('Vai finalizar a aplicação');
   Application.Terminate;
@@ -88,6 +90,7 @@ end;
 procedure TPrincForm.FormCreate(Sender: TObject);
 begin
   SisImgDataModule := TSisImgDataModule.Create(self);
+  DtHCompileLabel.Caption := 'Compilado em: ' + Sta.Versao.DTH_COMPILE;
 end;
 
 procedure TPrincForm.FormShow(Sender: TObject);

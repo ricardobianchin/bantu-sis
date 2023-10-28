@@ -83,11 +83,8 @@ uses sis.types.integers, System.SysUtils, System.StrUtils,
 constructor TDBUpdater.Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
 var
-  sLog: string;
   sSql: string;
 begin
-  sLog := classname + '.Create,' + FsLocalDoDB;
-  try
   FDestinoSL := TStringList.Create;
   FLocalDoDB := pLocalDoDB;
   FsLocalDoDB := TiposDeLocalDB[pLocalDoDB];
@@ -95,130 +92,130 @@ begin
   FLog := pLog;
   FOutput := pOutput;
   FDBMS := pDBMS;
-  
-  FLog.Exibir(sLog);
+
   FCaminhoComandos := FSisConfig.PastaProduto + 'Update\dbupdates\';
 
+  FLog.Exibir('TDBUpdater.Create FsLocalDoDB=' + FsLocalDoDB +
+    ',FCaminhoComandos=' + FCaminhoComandos);
   FDBConnection := DBConnectionCreate(FSisConfig, FDBMS, FLocalDoDB,
     FLog, FOutput);
 
   FDBUpdaterOperations := GetDBUpdaterOperations(FDBConnection, FLog, FOutput);
 
   FComandoList := ComandoListCreate;
-  finally
-    FLog.Exibir(sLog);
-  end;
+
+  FLog.Exibir('TDBUpdater.Create fim');
 end;
 
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
 var
-  sErro, sLog: string;
+  sErro: string;
 begin
   Result := 0;
-  sLog := 'TDBUpdater.DBDescubraVersaoEConecte';
+  FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte inicio');
   try
-    sLog := sLog + ', vai testar se o banco existe';
+    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte, vai testar se o banco existe');
     if not GetDBExiste then
     begin
-      sLog := sLog + ',banco nao existia';
+      FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,banco nao existia');
       CrieDB;
       if not GetDBExiste then
       begin
-        sErro := 'Error ao criar banco de dados';
-        sLog := sLog + sErro;
+        sErro := 'TDBUpdater.DBDescubraVersaoEConecte,Erro ao criar banco de dados';
+        FLog.Exibir(sErro);
         raise Exception.Create(sErro);
       end;
     end
     else
-      sLog := sLog + ',banco existia,vai abrir conexao';
+    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,banco existia,vai abrir conexao');
 
     DBConnection.Abrir;
     FDBUpdaterOperations.PreparePrincipais;
-    sLog := sLog + ',tab ' + NOMETAB_DBUPDATE_HIST + ' vai testar se existe';
+    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,vai testar se tabela ' + NOMETAB_DBUPDATE_HIST + ' existe');
     if not FDBUpdaterOperations.TabelaExiste(NOMETAB_DBUPDATE_HIST) then
     begin
-      sLog := sLog + ', nao existia,vr=-1';
+      FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,nao existia,vr=-1');
       Result := -1;
       exit;
     end;
-    sLog := sLog + ', existia,vai ler com versao_get';
+    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte, existia,vai ler com versao_get');
 
     Result := FDBUpdaterOperations.VersaoGet;
-    sLog := sLog + ', FDBUpdaterOperations.VersaoGet=' + Result.ToString;
+    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte, FDBUpdaterOperations.VersaoGet=' + Result.ToString);
   finally
-    log.Exibir(sLog);
-    output.Exibir(sLog);
+    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte fim');
   end;
 end;
 
 destructor TDBUpdater.Destroy;
-var
-  sLog: string;
 begin
-  sLog := classname + '.Destroy,' + FsLocalDoDB;
-  FLog.Exibir(sLog);
-  FOutput.Exibir(sLog);
+  FLog.Exibir('TDBUpdater.Destroy, FsLocalDoDB=' + FsLocalDoDB);
   FDestinoSL.Free;
   inherited;
 end;
 
 function TDBUpdater.Execute: boolean;
-var
-  sLog: string;
 begin
+  FLog.Exibir('TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB +
+    ',FCaminhoComandos=' + FCaminhoComandos);
+
   Result := True;
-  sLog :='TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB+
-  ',FCaminhoComandos=' + FCaminhoComandos;
 
   FLinhasSL := TStringList.Create;
   try
     try
-      sLog := sLog + ', vai DBDescubraVersaoEConecte';
+      FLog.Exibir('TDBUpdater.Execute,vai DBDescubraVersaoEConecte');
       iVersao := DBDescubraVersaoEConecte;
-      sLog := sLog + 'fez prepare,iVersao='+iVersao.ToString;
+      FLog.Exibir('TDBUpdater.Execute,fez prepare,iVersao=' + iVersao.ToString);
       try
         repeat
           FOutput.Exibir('');
           iVersao := iVersao + 1;
-          sLog := sLog + ','#13#10'incrementou iVersao='+iVersao.ToString+',vai CarreguouArqComando';
+          FLog.Exibir('TDBUpdater.Execute,incrementou iVersao=' +
+            iVersao.ToString + ',vai CarreguouArqComando');
 
           if not CarreguouArqComando(iVersao) then
           begin
-            sLog := sLog+'retornou false, vai abortar o loop';
+            FLog.Exibir('TDBUpdater.Execute,retornou False, vai abortar o loop');
             break;
           end;
-          sLog := sLog+'retornou true';
+          FLog.Exibir('TDBUpdater.Execute,retornou True');
 
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
           LerUpdateProperties(FLinhasSL);
-          sLog := slog+',vai ComandosCarregar';
+
+          FLog.Exibir('TDBUpdater.Execute,vai ComandosCarregar');
           ComandosCarregar;
-          sLog := slog+',vai ComandosGetSql';
+
+          FLog.Exibir('TDBUpdater.Execute,vai ComandosGetSql');
           ComandosGetSql;
-          sLog := slog+',vai ExecuteSql';
+
+          FLog.Exibir('TDBUpdater.Execute,vai ExecuteSql');
           ExecuteSql;
-          sLog := slog+',vai ComandosTesteFuncionou';
+
+          FLog.Exibir('TDBUpdater.Execute,vai ComandosTesteFuncionou');
           ComandosTesteFuncionou;
-          sLog := slog+',vai GravarVersao';
+
+          FLog.Exibir('TDBUpdater.Execute,vai GravarVersao');
           GravarVersao;
 
         until False;
       finally
-        sLog := slog +#13#10',vai unprepare';
+        FLog.Exibir('TDBUpdater.Execute,vai FDBUpdaterOperations.Unprepare');
         FDBUpdaterOperations.Unprepare;
       end;
     except
       on E: Exception do
       begin
-        sLog := sLog + 'erro vr. ' + iVersao.ToString + E.Message;
         FOutput.Exibir('vr. ' + iVersao.ToString + E.Message);
+        FLog.Exibir('TDBUpdater.Execute,erro vr. ' + iVersao.ToString + E.Message);
         // DBConnection.Rollback;
       end;
     end;
   finally
-    sLog := sLog + 'fechando DBConnection e saindo';
-    FLog.Exibir(sLog);
+    FLog.Exibir('TDBUpdater.Execute,fechando DBConnection e saindo');
+
     DBConnection.Fechar;
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
@@ -272,7 +269,7 @@ begin
   sLog := 'TDBUpdater.Execute,iVersao=' + piVersao.ToString;
   try
     sNomeArq := VersaoToArqComando(piVersao);
-    sLog := sLog +',sNomeArqComando=' + sNomeArq;
+    sLog := sLog + ',sNomeArqComando=' + sNomeArq;
     Result := FileExists(sNomeArq);
 
     if not Result then
@@ -289,7 +286,7 @@ begin
 
     if not Result then
     begin
-      sLog := sLog +',arquivo estava vazio, abortando';
+      sLog := sLog + ',arquivo estava vazio, abortando';
     end;
   finally
     FLog.Exibir(sLog);

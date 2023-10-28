@@ -119,6 +119,8 @@ begin
   pPastaOrigem := IncludeTrailingPathDelimiter(pPastaOrigem);
   pPastaDestino := IncludeTrailingPathDelimiter(pPastaDestino);
 
+  ForceDirectories(pPastaDestino);
+
   try
     // Popular as listas com os arquivos das pastas de origem e destino
     pOutput.Exibir('Carregando '+pPastaOrigem);

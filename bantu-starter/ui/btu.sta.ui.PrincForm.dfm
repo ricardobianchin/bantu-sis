@@ -2,8 +2,8 @@ object PrincForm: TPrincForm
   Left = 0
   Top = 0
   Caption = 'DarosPDV'
-  ClientHeight = 548
-  ClientWidth = 599
+  ClientHeight = 547
+  ClientWidth = 595
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,13 +14,29 @@ object PrincForm: TPrincForm
   OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
+  object DtHCompileLabel: TLabel
+    Left = 8
+    Top = 520
+    Width = 89
+    Height = 13
+    Caption = 'DtHCompileLabel'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
   object StatusMemo: TMemo
     Left = 16
-    Top = 40
+    Top = 224
     Width = 569
-    Height = 481
+    Height = 281
+    BorderStyle = bsNone
+    Color = clBtnFace
     ReadOnly = True
     TabOrder = 0
+    StyleElements = [seFont, seBorder]
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception

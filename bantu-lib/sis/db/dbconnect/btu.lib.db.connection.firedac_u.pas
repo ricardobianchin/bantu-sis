@@ -46,7 +46,7 @@ begin
     try
       FFDConnection.Open;
     except on e: exception do
-        log.Exibir('Erro ' + e.ClassName + ',' + e.Message + ' ao conectar a ' +
+        log.Exibir('TDBConnectionFireDAC.AbrirConnectionObject Erro ' + e.ClassName + ',' + e.Message + ' ao conectar a ' +
           DBConnectionParams.Database);
     end;
   finally

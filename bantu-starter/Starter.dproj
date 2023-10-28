@@ -96,6 +96,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <PreBuildEvent><![CDATA[C:\Pr\app\tools\dublin-sourcecode-tuner\Win32\Release\DublinSourcecodeTuner.exe C:\Pr\app\bantu\bantu-sis\Src\bantu-starter\sta\Sta.Versao.pas
+$(PreBuildEvent)]]></PreBuildEvent>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -258,6 +260,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\Web\Sis.Web.Factory.pas"/>
         <DCCReference Include="..\bantu-lib\Sis\types\times\Sis.Types.Times.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas"/>
+        <DCCReference Include="sta\Sta.Versao.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -1132,7 +1136,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
-        <PreBuildEvent/>
+        <PreBuildEvent>C:\Pr\app\tools\dublin-sourcecode-tuner\Win32\Release\DublinSourcecodeTuner.exe C:\Pr\app\bantu\bantu-sis\Src\bantu-starter\sta\Sta.Versao.pas</PreBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>

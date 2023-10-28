@@ -20,7 +20,6 @@ var
   Day, Month, Year, Time: string;
   DT: TDateTime;
   FormatSettings: TFormatSettings;
-  myDate, myTime: string;
 begin
   Day := Copy(GMT, 6, 2);
   Month := IntToStr(MonthNames.IndexOf(Copy(GMT, 9, 3)) + 1);
@@ -54,7 +53,7 @@ var
   Day, Month, Year, Time: string;
   DT: TDateTime;
   FormatSettings: TFormatSettings;
-  myDate, myTime: string;
+  //myDate, myTime: string;
 begin
 
   Day := Copy(GMT, 6, 2);
@@ -79,11 +78,19 @@ begin
 end;
 
 initialization
+
+var
+  iniFormatSettings: TFormatSettings;
+  iniFormatSettings := TFormatSettings.Create;
+
   MonthNames := TStringList.Create;
   MonthNames.CommaText := '"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"';
 
-  MascaraDate := GetLocaleStr(GetThreadLocale(), LOCALE_SSHORTDATE, '');
-  MascaraTime := GetLocaleStr(GetThreadLocale(), LOCALE_STIMEFORMAT, '');
+//  MascaraDate := GetLocaleStr(GetThreadLocale(), LOCALE_SSHORTDATE, '');
+//  MascaraTime := GetLocaleStr(GetThreadLocale(), LOCALE_STIMEFORMAT, '');
+
+  MascaraDate := FormatSettings.ShortDateFormat;
+  MascaraTime := FormatSettings.LongTimeFormat;
 
 finalization
   MonthNames.Free;
