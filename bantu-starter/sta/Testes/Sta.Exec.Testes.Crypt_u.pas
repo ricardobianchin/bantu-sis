@@ -18,20 +18,20 @@ begin
   Encriptar(str, encriptado);
 
   Desencriptar(encriptado, str);
-  showmessage(str);
+  //Sho wMe ssage(s);
 
   str := 'JOAO';
   Encriptar(str, encriptado);
 
   Desencriptar(encriptado, str);
-  showmessage(str);
+  //Sho wMe ssage(s);
 
 
   str := 'JOAO DA SILVA';
   Encriptar(str, encriptado);
 
   Desencriptar(encriptado, str);
-  showmessage(str);
+  //Sho wMe ssage(s);
 
 
 end;

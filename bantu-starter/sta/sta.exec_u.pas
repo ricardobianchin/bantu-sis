@@ -36,6 +36,7 @@ type
   public
     property DB: IDBMS read FDBMS;
     property Log: ILog read FLog;
+    property Output: IOutput read FOutput;
     procedure Execute;
     constructor Create(pLog: ILog; pOutput: IOutput);
   end;
@@ -101,7 +102,7 @@ begin
   // CONFIG_NOME_ARQ;
 
   s := PastaAtual + CONFIG_NOME_ARQ;
-  log.Exibir('ConfigArqExiste, vai testar se existe ' + s);
+  log.Exibir('ConfigArqExiste, vai testar se arq config existe ' + s);
 
   result := FileExists(s);
   if result then
@@ -133,6 +134,7 @@ var
   bExistiaXML: boolean;
   oConfigXMLI: IConfigXMLI;
 begin
+  FOutput.Exibir('TStarterExec.Execute inicio');
   Log.Exibir('TStarterExec.Execute inicio, TestesChamar');
   TestesChamar;
 
@@ -148,6 +150,19 @@ begin
 }
   Log.Exibir('TStarterExec.Execute ConfigCrieObjetos');
   ConfigCrieObjetos;
+
+
+  Log.Exibir('TStarterExec.Execute InstUpdate');
+  FOutput.Exibir('Busca por atualizações...');
+  if Sta.Inst.Update_u.InstUpdate(FSisConfig, Log, Output) then
+  begin
+    FOutput.Exibir('Atualizando o sistema...');
+    Log.Exibir('TStarterExec.Execute InstUpdate exit');
+    Exit;
+  end;
+  Log.Exibir('TStarterExec.Execute InstUpdate nao exit');
+
+
 
   Log.Exibir('TStarterExec.Execute ConfigXMLICreate');
   oConfigXMLI := ConfigXMLICreate(FSisConfig);
@@ -177,32 +192,34 @@ begin
     oConfigXMLI.Ler;
   end;
 
-  Log.Exibir('TStarterExec.Execute InstUpdate');
-  if Sta.Inst.Update_u.InstUpdate(FSisConfig, Log) then
-  begin
-    Log.Exibir('TStarterExec.Execute InstUpdate exit');
-    Exit;
-  end;
-  Log.Exibir('TStarterExec.Execute InstUpdate nao exit, CopieAtu');
-
+  FOutput.Exibir('Atualiza arquivos...');
   CopieAtu;
 
 //  FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
 //  FSisConfig.DBMSInfo.Version := 4.0;
 
+  FOutput.Exibir('Verificando banco de dados...');
   FDBMSConfig := DBMSConfigCreate(FSisConfig, FLog, FOutput);
   FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLog, FOutput);
 
   Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado');
   FDBMS.GarantirDBMSInstalado(FLog, FOutput);
+  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado, retornou');
 
   Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado');
-  FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput);
+  if not FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput) then
+  begin
+    Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado, retornou erro, vai abortar');
+    ShowMessage('Ocorreu um erro na instalação. Consulte o log de instalação para determinar o motivo');
+    exit;
+  end;
+  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado, retornou');
 
   Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado'
    +' acabou, vai testar se precisa criar loja');
   if FSisConfig.LocalMachineIsServer and (not ConfigArqExiste) then
   begin
+    FOutput.Exibir('Granvando dados iniciais...');
     Log.Exibir('TStarterExec.Execute vai gravar loja e gerente');
     FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor,
       FLog, FOutput);
@@ -303,10 +320,11 @@ begin
   s := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   SetCurrentDir(s);
   FLog := pLog;
-  s := 'TStarterExec iniciado.';
-  log.Exibir(s);
-
   FOutput := pOutput;
+
+  s := 'TStarter instanciado';
+  log.Exibir(s);
+  FOutput.Exibir(S);
 end;
 
 procedure TStarterExec.CrieEEntreNaPastaBin;
@@ -320,8 +338,8 @@ begin
 
   if not Resultado then
   begin
-    log.Exibir('Erro pasta do sistema não localizada');
-    raise Exception.Create('Erro pasta do sistema não localizada');
+    log.Exibir('TStarterExec.CrieEEntreNaPastaBin Erro pasta do sistema não localizada');
+    raise Exception.Create('TStarterExec.CrieEEntreNaPastaBin Erro pasta do sistema não localizada');
   end;
 end;
 

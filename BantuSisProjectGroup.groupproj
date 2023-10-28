@@ -24,7 +24,13 @@
         <Projects Include="bantu-shop\Retag.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="bantu-starter\Starter.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -98,6 +104,15 @@
     <Target Name="Retag:Make">
         <MSBuild Projects="bantu-shop\Retag.dproj" Targets="Make"/>
     </Target>
+    <Target Name="DublinSourcecodeTuner">
+        <MSBuild Projects="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj"/>
+    </Target>
+    <Target Name="DublinSourcecodeTuner:Clean">
+        <MSBuild Projects="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DublinSourcecodeTuner:Make">
+        <MSBuild Projects="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Starter">
         <MSBuild Projects="bantu-starter\Starter.dproj"/>
     </Target>
@@ -107,17 +122,32 @@
     <Target Name="Starter:Make">
         <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
     </Target>
+    <Target Name="WinSecurityExclusion">
+        <MSBuild Projects="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj"/>
+    </Target>
+    <Target Name="WinSecurityExclusion:Clean">
+        <MSBuild Projects="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WinSecurityExclusion:Make">
+        <MSBuild Projects="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;BucharestDT;Sis;Retag;Starter"/>
+        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;BucharestDT;Sis;Retag;DublinSourcecodeTuner;Starter;WinSecurityExclusion"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;BucharestDT:Clean;Sis:Clean;Retag:Clean;Starter:Clean"/>
+        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;BucharestDT:Clean;Sis:Clean;Retag:Clean;DublinSourcecodeTuner:Clean;Starter:Clean;WinSecurityExclusion:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;BucharestDT:Make;Sis:Make;Retag:Make;Starter:Make"/>
+        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;BucharestDT:Make;Sis:Make;Retag:Make;DublinSourcecodeTuner:Make;Starter:Make;WinSecurityExclusion:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
+        <BuildGroupProject Include="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj">
+            <ProjectGuid>{972AA7F7-E93A-4439-836A-16301EFF7603}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
         <BuildGroupProject Include="bantu-lib\sis\SisAntigo.dproj">
             <ProjectGuid>{5FFB1003-BC15-45F1-A8E0-DED3A8186AB2}</ProjectGuid>
             <Configurations>Debug</Configurations>
@@ -135,6 +165,12 @@
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj">
+            <ProjectGuid>{E6172F85-2606-4DA2-A78A-162DC383D39D}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="bantu-lib\ctrls\BtnControls.dproj">
             <ProjectGuid>{6D4C9667-FC33-4200-AC66-6DC0C8C69959}</ProjectGuid>

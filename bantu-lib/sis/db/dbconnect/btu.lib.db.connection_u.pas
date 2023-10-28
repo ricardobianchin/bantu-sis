@@ -70,7 +70,10 @@ begin
 
   if FNVezesConectou=0 then
   begin
-    result:=Aberto;
+    if Aberto then
+    begin
+      Result := True;
+    end;
     if not result then
     begin
 //      try

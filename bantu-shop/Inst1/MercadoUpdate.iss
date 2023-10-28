@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Mercado"
-#define MyAppVersion "0.1"
+#define MyAppVersion "0.0.1 26/10/2023 11:58:50,569"
 #define MyAppPublisher "Daros"
 #define MyAppURL "https://www.daros.com.br/"
 #define MyAppExeName "Starter.exe"
@@ -39,6 +39,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ;atu
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\libeay32.dll"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\ssleay32.dll"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\Vboxsvr\d_drive\inst\Bantu\Update\DBUpdates\*"; DestDir: "{app}\Starter\Update\DBUpdates\"; Flags: ignoreversion recursesubdirs createallsubdirs
 

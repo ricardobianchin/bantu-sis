@@ -15,7 +15,7 @@ type
 
   protected
     function GetParams: TFDParams; override;
-    procedure SetSql(Value: string); override;
+    procedure SetSQL(Value: string); override;
     function GetSQL: string; override;
 
     function GetPrepared: boolean; override;

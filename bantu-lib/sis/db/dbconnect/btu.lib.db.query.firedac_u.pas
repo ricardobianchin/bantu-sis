@@ -15,10 +15,10 @@ type
 
   protected
     function GetParams: TFDParams; override;
-    procedure SetSql(Value: string); override;
+    procedure SetSQL(Value: string); override;
     function GetSQL: string; override;
-    function GetIsEmpty: boolean;  override;
-    function GetDataSet: TDataSet;  override;
+    function GetIsEmpty: boolean; override;
+    function GetDataSet: TDataSet; override;
 
     function GetActive: boolean; override;
     procedure SetActive(Value: boolean); override;
@@ -45,21 +45,23 @@ uses System.SysUtils;
 
 function TDBQueryFireDac.Abrir: boolean;
 begin
+  Result := False;
   try
     FFDQuery.Open;
-    result := FFDQuery.Active;
-    UltimoErro := '';
+    if FFDQuery.Active then
+    begin
+      Result := True;
+      UltimoErro := ''
+    end;
   except
     on e: exception do
     begin
-      UltimoErro := 'Erro' + #13#10 + #13#10 + e.classname + #13#10 + e.message
+      UltimoErro := 'TDBQueryFireDac.Abrir Erro' + #13#10 + #13#10 + e.classname + #13#10 + e.message
         + #13#10 + #13#10 + 'ao tentar abrir:'#13#10 + #13#10 +
         FFDQuery.SQL.Text;
 
-      Result := False;
-
-      Log.Exibir(UltimoErro);
-      Output.Exibir(UltimoErro);
+      log.Exibir(UltimoErro);
+      output.Exibir(UltimoErro);
       raise exception.Create(UltimoErro);
     end;
   end;
@@ -69,8 +71,8 @@ constructor TDBQueryFireDac.Create(pDBConnection: IDBConnection; pSql: string;
   pLog: ILog; pOutput: IOutput);
 begin
   inherited Create(pDBConnection, pLog, pOutput);
-  FFDQuery:=TFDQuery.Create(nil);
-  FFDQuery.Connection := TFDConnection( pDBConnection.ConnectionObject);
+  FFDQuery := TFDQuery.Create(nil);
+  FFDQuery.Connection := TFDConnection(pDBConnection.ConnectionObject);
   SetSql(pSql);
 end;
 
@@ -93,7 +95,7 @@ end;
 
 function TDBQueryFireDac.GetDataSet: TDataSet;
 begin
-  result := FFDQuery;
+  Result := FFDQuery;
 end;
 
 function TDBQueryFireDac.GetIsEmpty: boolean;

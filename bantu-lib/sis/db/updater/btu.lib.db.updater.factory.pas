@@ -40,8 +40,10 @@ uses
 function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput): IDBUpdater;
 begin
+  pLog.Exibir('DBUpdaterFirebirdCreate, inicio, vai TDBUpdaterFirebird.Create');
   result := TDBUpdaterFirebird.Create(pLocalDoDB, pDBMS, pSisConfig,
     pLog, pOutput);
+  pLog.Exibir('DBUpdaterFirebirdCreate, fim');
 end;
 
 function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;

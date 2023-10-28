@@ -2,17 +2,17 @@ unit Sis.Web.Factory;
 
 interface
 
-uses Sis.Web.HTTP.Download, sis.ui.io.log;
+uses Sis.Web.HTTP.Download, sis.ui.io.log, sis.ui.io.output;
 
-function IHTTPDownloadCreate(pArqRemoto, pArqLocal: string; pLog: ILog): IHTTPDownload;
+function IHTTPDownloadCreate(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): IHTTPDownload;
 
 implementation
 
 uses Sis.Web.HTTP.Download_u;
 
-function IHTTPDownloadCreate(pArqRemoto, pArqLocal: string; pLog: ILog): IHTTPDownload;
+function IHTTPDownloadCreate(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): IHTTPDownload;
 begin
-  Result := THTTPDownload.Create(pArqRemoto, pArqLocal, pLog);
+  Result := THTTPDownload.Create(pArqLocal, pArqRemoto, pLog, pOutput, pExluiDestinoAntesDeBaixar);
 end;
 
 end.

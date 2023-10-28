@@ -28,7 +28,7 @@ begin
   // Executar o programa usando ShellExecuteEx
   Result := ShellExecuteEx(@SEInfo);
   if not Result then
-    pErro := SysErrorMessage(GetLastError);
+    pErro := 'ExecutePrograma '+SysErrorMessage(GetLastError);
   {
   if  then
     Result

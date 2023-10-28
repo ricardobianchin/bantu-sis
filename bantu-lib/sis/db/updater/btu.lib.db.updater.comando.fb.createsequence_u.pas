@@ -102,7 +102,7 @@ begin
       begin
         UltimoErro := 'TComandoFBCreateSequence, Erro ao criar a sequence ' +
           FNomeSequence + '. Verifique a sintaxe do valor inicial';
-        raise Exception.Create('Erro no updater '+ UltimoErro);
+        raise Exception.Create('TComandoFBCreateSequence, Erro no updater '+ UltimoErro);
       end;
     end
     else if Pos(DBATUALIZ_OBJETO_NOME_CHAVE + '=', sLinha) = 1 then

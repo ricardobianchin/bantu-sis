@@ -5,6 +5,13 @@ interface
 uses sis.types.constants;
 
 const
+
+  WEB_LIB_INDY = 1;
+  WEB_LIB_NET = 2;
+  WEB_LIB_USADA = WEB_LIB_NET;
+
+  INST_UPDATE_EXCLUI_LOCAL_ANTES_DOWNLOAD = True;
+
   MSG_ERRO_WINVERSION = 'Erro detectando a versao do Windows';
 
   RESPTEC_DESCR =

@@ -3,51 +3,73 @@ unit Sis.Web.HTTP.Download_u;
 interface
 
 uses Sis.Web.HTTP.Download, Sis.ui.io.log, Sis.ui.io.output, IdHTTP,
-  System.Classes, IdSSL, IdSSLOpenSSL;
+  System.Classes, IdSSL, IdSSLOpenSSL, sta.constants;
 
 type
   THTTPDownload = class(TInterfacedObject, IHTTPDownload)
   private
     FLog: ILog;
-    FDtHLocal, FDtHRemoto : TDateTIme;
+    FOutput: IOutput;
+    FExluiDestinoAntesDeBaixar: boolean;
+    //FDtHLocal, FDtHRemoto : TDateTIme;
     FArqLocal, FArqRemoto : string;
 
-    IdHTTP1: TIdHTTP;
-    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
-    MS: TMemoryStream;
+    //IdHTTP1: TIdHTTP;
+    //IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
+    //MS: TMemoryStream;
+//    function ExecuteIndy: Boolean;
   public
     function Execute: Boolean;
-    constructor Create(pArqLocal, pArqRemoto: string; pLog: ILog);
+    constructor Create(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
   end;
 
 implementation
 
 uses System.DateUtils, System.SysUtils, Sis.types.bool.utils, Sis.Types.Times,
-  sis.sis.clipb_u, Sis.Files.Sync;
+  sis.sis.clipb_u, Sis.Files.Sync, Sis.Web.HTTPDownload.NET;
 
 { THTTPDownload }
 
-constructor THTTPDownload.Create(pArqLocal, pArqRemoto: string; pLog: ILog);
-var
-  sLog: string;
+constructor THTTPDownload.Create(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
 begin
   FArqLocal := pArqLocal;
   FArqRemoto := pArqRemoto;
   FLog := pLog;
+  FOutput := pOutput;
+  FExluiDestinoAntesDeBaixar := pExluiDestinoAntesDeBaixar;
 
-  sLog := 'THTTPDownload.Create,Local=' + FArqLocal+ ',Remoto=' + FArqRemoto;
-  FLog.Exibir(sLog)
+  FLog.Exibir('THTTPDownload.Create,Local=' + FArqLocal+ ',Remoto=' + FArqRemoto);
 end;
 
 function THTTPDownload.Execute: Boolean;
+begin
+  {
+  case WEB_LIB_USADA of
+    WEB_LIB_INDY: Result := ExecuteIndy;
+    WEB_LIB_NET: Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FLog, FOutput, FExluiDestinoAntesDeBaixar);
+  end;
+  }
+  FLog.Exibir('THTTPDownload.Create,vai chamar Sis.Web.HTTPDownload.NET.Execute');
+  Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FLog,
+    FOutput, FExluiDestinoAntesDeBaixar);
+  FLog.Exibir('THTTPDownload.Create,retornou de Sis.Web.HTTPDownload.NET.Execute, Fim');
+end;
+
+{
+function THTTPDownload.ExecuteIndy: Boolean;
 var
   sLog: string;
   sGMT: string;
-  sDtH: string;
+//  sDtH: string;
 begin
+  result := false;
+  exit;
+
   sLog := 'THTTPDownload.Execute,TIdHTTP.Create';
   Result := True;
+
   IdHTTP1 := TIdHTTP.Create(nil);
+
   IdSSLIOHandlerSocketOpenSSL1 := TIdSSLIOHandlerSocketOpenSSL.Create(IdHTTP1);
   IdHTTP1.IOHandler := IdSSLIOHandlerSocketOpenSSL1;
   IdSSLIOHandlerSocketOpenSSL1.SSLOptions.SSLVersions := [sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2];
@@ -55,7 +77,6 @@ begin
     try
       sLog := sLog + ',HTTP.Head';
       IdHTTP1.Head(FArqRemoto);
-      SetClipboardText(IdHTTP1.Response.RawHeaders.Text);
 
       sLog := sLog + ',vai ler dth remoto';
       sGMT := IdHTTP1.Response.RawHeaders.Values['Last-Modified'];
@@ -94,5 +115,6 @@ begin
     FLog.Exibir(sLog);
   end;
 end;
+}
 
 end.

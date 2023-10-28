@@ -72,6 +72,12 @@ begin
   sLog := 'TLogFile.Create' + ',' + sAssunto + ',' +
     iif(pAcrescentaDtH, 'acrescDth', 'nao acrescDth') + ',' + sPasta + ',' +
     DateTimeToStr(pDtH) + ',' + pExt;
+
+  if not FileExists(FPasta + FNomeArq + FExt) then
+  begin
+    Rewrite(FF);
+    CloseFile(FF);
+  end;
   Exibir(sLog);
 end;
 
@@ -87,10 +93,11 @@ begin
     exit;
 
   inherited Exibir(pFrase);
-  if FileExists(FPasta + FNomeArq + FExt) then
+//  if FileExists(FPasta + FNomeArq + FExt) then
     Append(FF)
-  else
-    Rewrite(FF);
+  //else
+//    Rewrite(FF)
+    ;
 
   Writeln(FF, LogRecord.AsTab);
 

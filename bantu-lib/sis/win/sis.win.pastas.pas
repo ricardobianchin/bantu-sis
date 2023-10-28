@@ -6,6 +6,7 @@ function GetProgramFilesPath: string;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
 function DateToPath(pDtH: TDateTime = 0): string;
+procedure GarantaPastaDoArq(pNomeArq: string);
 
 implementation
 
@@ -52,7 +53,14 @@ begin
   // Formata o resultado no formato YYYY-mm-dd_hh-nn-ss-zzz
 //  Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d', [ano, mes, dia, hora, minuto, segundo, milisegundo]);
   Result := Format('%.4d\%.2d\%.2d\', [ano, mes, dia]);
+end;
 
+procedure GarantaPastaDoArq(pNomeArq: string);
+var
+  sPasta: string;
+begin
+  sPasta := IncludeTrailingPathDelimiter(ExtractFilePath(pNomeArq));
+  ForceDirectories(sPasta);
 end;
 
 end.

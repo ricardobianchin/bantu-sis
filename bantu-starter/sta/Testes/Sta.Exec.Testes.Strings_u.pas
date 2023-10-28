@@ -14,19 +14,19 @@ var
 begin
   s := '         ';
   s := StrSemCharRepetido(s);
-  ShowMessage(s);
+  //Sho wMe ssage(s);
 
   s := '  Oi,    como   vai  você?  ';
   s := StrSemCharRepetido(s);
-  ShowMessage(s);
+  //Sho wMe ssage(s);
 
   s := 'Esta   é  uma   string    com   muitos   espaços  ';
   s := StrSemCharRepetido(s);
-  ShowMessage(s);
+  //Sho wMe ssage(s);
 
   s := 'Sem espaços';
   s := StrSemCharRepetido(s);
-  ShowMessage(s);
+  //Sho wMe ssage(s);
 
 
 {
