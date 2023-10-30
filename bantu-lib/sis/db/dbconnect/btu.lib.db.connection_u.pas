@@ -6,7 +6,7 @@ uses
   btu.lib.db.types
   , btu.lib.db.dbms
   , sis.ui.io.output
-  , sis.ui.io.log
+  , sis.ui.io.LogProcess
   , Data.DB
   ;
 
@@ -17,7 +17,7 @@ type
     FNVezesConectou:integer;
     FDBConnectionParams: TDBConnectionParams;
     FUltimoErro:string;
-    FLog: ILog;
+    FLogProcess: ILogProcess;
 //    FAberto: boolean;
 
     function GetUltimoErro: string;
@@ -33,7 +33,7 @@ type
     function AbrirConnectionObject:boolean; virtual; abstract;
     procedure FecharConnectionObject; virtual; abstract;
 
-    property Log: ILog read FLog;
+    property LogProcess: ILogProcess read FLogProcess;
     property Output: IOutput read FOutput;
     property DBConnectionParams: TDBConnectionParams read FDBConnectionParams;
   public
@@ -51,7 +51,7 @@ type
     function GetValue(pSql: string): Variant; virtual; abstract;
     function ExecuteSQL(pSql: string): LongInt; virtual; abstract;
 
-    constructor Create(pDBConnectionParams: TDBConnectionParams; pLog: ILog; pOutput: IOutput);
+    constructor Create(pDBConnectionParams: TDBConnectionParams; pLogProcess: ILogProcess; pOutput: IOutput);
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
       virtual; abstract;
   end;
@@ -97,11 +97,11 @@ begin
   end;
 end;
 
-constructor TDBConnection.Create(pDBConnectionParams: TDBConnectionParams; pLog: ILog; pOutput: IOutput);
+constructor TDBConnection.Create(pDBConnectionParams: TDBConnectionParams; pLogProcess: ILogProcess; pOutput: IOutput);
 begin
   FUltimoErro := '';
   FOutput := pOutput;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
 //  FAberto := false;
   IniciarNVezesConectou;
   FDBConnectionParams := pDBConnectionParams;

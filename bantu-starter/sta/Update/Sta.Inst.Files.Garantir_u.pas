@@ -2,27 +2,27 @@ unit Sta.Inst.Files.Garantir_u;
 
 interface
 
-uses Sta.Inst.Files.Garantir, sis.ui.io.output, sis.ui.io.log;
+uses Sta.Inst.Files.Garantir, sis.ui.io.output, sis.ui.io.LogProcess;
 
 type
   TInstGarantir = class(TInterfacedObject, IInstGarantir)
   private
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
     procedure GarantirMSI;
     procedure GarantirArqsInstalacao;
   public
     function Execute: Boolean;
-    constructor Create(pLog: ILog; pOutput: IOutput);
+    constructor Create(pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
 
 { TInstGarantir }
 
-constructor TInstGarantir.Create(pLog: ILog; pOutput: IOutput);
+constructor TInstGarantir.Create(pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
 end;
 
@@ -42,7 +42,7 @@ begin
 
   finally
     FOutput.Exibir('Garantir arquivos instalados fim');
-    FLog.Exibir(sLog);
+    FLogProcess.Exibir(sLog);
   end;
 end;
 

@@ -43,13 +43,7 @@ uses
   btu.lib.entit.loja_u in '..\bantu-lib\sis\entit\btu.lib.entit.loja_u.pas',
   btu.lib.entit.factory in '..\bantu-lib\sis\entit\btu.lib.entit.factory.pas',
   sis.ui.io.output in '..\bantu-lib\sis\ui\io\output\sis.ui.io.output.pas',
-  sis.ui.io.log in '..\bantu-lib\sis\ui\io\log\sis.ui.io.log.pas',
-  sis.ui.io.log_u in '..\bantu-lib\sis\ui\io\log\sis.ui.io.log_u.pas',
   sis.ui.io.output.mudo_u in '..\bantu-lib\sis\ui\io\output\sis.ui.io.output.mudo_u.pas',
-  sis.ui.io.log.LogFile_u in '..\bantu-lib\sis\ui\io\log\sis.ui.io.log.LogFile_u.pas',
-  sis.ui.io.log.LogRecord in '..\bantu-lib\sis\ui\io\log\sis.ui.io.log.LogRecord.pas',
-  sis.ui.io.log.LogRecord_u in '..\bantu-lib\sis\ui\io\log\sis.ui.io.log.LogRecord_u.pas',
-  sis.ui.io.log.factory in '..\bantu-lib\sis\ui\io\log\sis.ui.io.log.factory.pas',
   sis.types.bool.utils in '..\bantu-lib\sis\types\bool\sis.types.bool.utils.pas',
   sis.win.pastas in '..\bantu-lib\sis\win\sis.win.pastas.pas',
   btu.lib.db.firebird.utils in '..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas',
@@ -67,7 +61,7 @@ uses
   sis.sis.Executavel_u in '..\bantu-lib\sis\sis\sis.sis.Executavel_u.pas',
   sis.ui.io.output.form_u in '..\bantu-lib\sis\ui\io\output\output.form\sis.ui.io.output.form_u.pas' {OutputForm},
   sis.ui.io.output.toform_u in '..\bantu-lib\sis\ui\io\output\output.form\sis.ui.io.output.toform_u.pas',
-  sis.ui.io.factory in '..\bantu-lib\sis\ui\io\sis.ui.io.factory.pas',
+  Sis.UI.IO.Factory in '..\bantu-lib\Sis\ui\io\Sis.UI.IO.Factory.pas',
   btu.lib.db.updater in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.pas',
   btu.lib.db.updater_u in '..\bantu-lib\sis\db\updater\btu.lib.db.updater_u.pas',
   btu.lib.db.updater.factory in '..\bantu-lib\sis\db\updater\btu.lib.db.updater.factory.pas',
@@ -136,7 +130,13 @@ uses
   Sis.Web.Factory in '..\bantu-lib\sis\Web\Sis.Web.Factory.pas',
   Sis.Types.Times in '..\bantu-lib\Sis\types\times\Sis.Types.Times.pas',
   Sis.Web.HTTPDownload.NET in '..\bantu-lib\Sis\Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas',
-  Sta.Versao in 'sta\Sta.Versao.pas';
+  Sta.Versao in 'sta\Sta.Versao.pas',
+  Sis.UI.IO.LogProcess.Factory in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess.Factory.pas',
+  Sis.UI.IO.LogProcess in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess.pas',
+  Sis.UI.IO.LogProcess_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess_u.pas',
+  Sis.UI.IO.LogProcessFile_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessFile_u.pas',
+  Sis.UI.IO.LogProcessRecord in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord.pas',
+  Sis.UI.IO.LogProcessRecord_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas';
 
 {$R *.res}
 

@@ -1,9 +1,9 @@
-unit sis.ui.io.log.LogRecord;
+unit sis.ui.io.LogProcessRecord;
 
 interface
 
 type
-  ILogRecord = interface(IInterface)
+  ILogProcessRecord = interface(IInterface)
     ['{2BDB314C-B9F3-4835-B707-6C10E6D6FC29}']
     function GetDtH: TDateTime;
     procedure SetDtH(Value: TDateTime);

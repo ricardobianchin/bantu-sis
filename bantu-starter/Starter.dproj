@@ -158,13 +158,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.factory.pas"/>
         <DCCReference Include="..\bantu-lib\sis\ui\io\output\sis.ui.io.output.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\log\sis.ui.io.log.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\log\sis.ui.io.log_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\ui\io\output\sis.ui.io.output.mudo_u.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\log\sis.ui.io.log.LogFile_u.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\log\sis.ui.io.log.LogRecord.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\log\sis.ui.io.log.LogRecord_u.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\log\sis.ui.io.log.factory.pas"/>
         <DCCReference Include="..\bantu-lib\sis\types\bool\sis.types.bool.utils.pas"/>
         <DCCReference Include="..\bantu-lib\sis\win\sis.win.pastas.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas"/>
@@ -189,7 +183,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\bantu-lib\sis\ui\io\output\output.form\sis.ui.io.output.toform_u.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\sis.ui.io.factory.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\Sis.UI.IO.Factory.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\updater\btu.lib.db.updater.factory.pas"/>
@@ -262,6 +256,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="..\bantu-lib\Sis\types\times\Sis.Types.Times.pas"/>
         <DCCReference Include="..\bantu-lib\Sis\Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas"/>
         <DCCReference Include="sta\Sta.Versao.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess.Factory.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess_u.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessFile_u.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -2,14 +2,14 @@ unit btu.lib.db.dbms.config_u;
 
 interface
 
-uses btu.lib.db.dbms.config, sis.ui.io.log, sis.ui.io.output,
+uses btu.lib.db.dbms.config, sis.ui.io.LogProcess, sis.ui.io.output,
   btu.lib.config;
 
 type
   TDBMSConfig = class(TInterfacedObject, IDBMSConfig)
   private
     FSisConfig: ISisConfig;
-    FLog: iLog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
     FPausaAntesExec: boolean;
 
@@ -21,7 +21,7 @@ type
     procedure Inicialize; virtual;
   public
     property PausaAntesExec: boolean read GetPausaAntesExec write SetPausaAntesExec;
-    constructor Create(pSisConfig: ISisConfig; pLog: iLog; pOutput: IOutput);
+    constructor Create(pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
@@ -30,11 +30,11 @@ uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, sis.types.bool.utils;
 
 { TDBMSConfig }
 
-constructor TDBMSConfig.Create(pSisConfig: ISisConfig; pLog: iLog;
+constructor TDBMSConfig.Create(pSisConfig: ISisConfig; pLogProcess: ILogProcess;
   pOutput: IOutput);
 begin
   FSisConfig := pSisConfig;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
 
   Inicialize;

@@ -3,14 +3,14 @@ unit sta.exec_u;
 interface
 
 uses btu.sta.ui.ConfigForm, btu.lib.config, btu.lib.usu.Usuario,
-  btu.lib.entit.loja, sis.ui.io.log, btu.lib.db.types,
+  btu.lib.entit.loja, sis.ui.io.LogProcess, btu.lib.db.types,
   sis.ui.io.output, windows, btu.lib.db.dbms, btu.lib.db.factory,
   btu.lib.db.dbms.config, Forms;
 
 type
   TStarterExec = class
   private
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FSisConfig: ISisConfig;
     FUsuarioGerente: IUsuario;
     // FCaminhoFirebird: string;
@@ -35,10 +35,10 @@ type
 
   public
     property DB: IDBMS read FDBMS;
-    property Log: ILog read FLog;
+    property LogProcess: ILogProcess read FLogProcess;
     property Output: IOutput read FOutput;
     procedure Execute;
-    constructor Create(pLog: ILog; pOutput: IOutput);
+    constructor Create(pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
@@ -74,12 +74,12 @@ var
   sOrig: string;
   sDest: string;
 begin
-  FLog.Exibir('Sincronizar atualização');
+  FLogProcess.Exibir('Sincronizar atualização');
   sOrig := FSisConfig.PastaProduto + 'Starter\inst\inst-bin\';
   sDest := FSisConfig.PastaProduto + 'bin\';
 
   Sis.Files.Sync.AtualizarArquivos(sOrig, sDest, FOutput);
-  FLog.Exibir('Sincronizar atualização fim');
+  FLogProcess.Exibir('Sincronizar atualização fim');
 end;
 
 procedure TStarterExec.CopieInicial;
@@ -87,11 +87,11 @@ var
   sOrig: string;
   sDest: string;
 begin
-  FLog.Exibir('Sincronizar inicial');
+  FLogProcess.Exibir('Sincronizar inicial');
   sOrig := FSisConfig.PastaProduto + 'Starter\inst\inst-Delphi-redist\Redist\win64\';
   sDest := FSisConfig.PastaProduto + 'bin\';
   Sis.Files.Sync.AtualizarArquivos(sOrig, sDest, FOutput);
-  FLog.Exibir('Sincronizar inicial fim');
+  FLogProcess.Exibir('Sincronizar inicial fim');
 end;
 
 function TStarterExec.ConfigArqExiste: boolean;
@@ -102,13 +102,13 @@ begin
   // CONFIG_NOME_ARQ;
 
   s := PastaAtual + CONFIG_NOME_ARQ;
-  log.Exibir('ConfigArqExiste, vai testar se arq config existe ' + s);
+  LogProcess.Exibir('ConfigArqExiste, vai testar se arq config existe ' + s);
 
   result := FileExists(s);
   if result then
-    log.Exibir('ConfigArqExiste, existia')
+    LogProcess.Exibir('ConfigArqExiste, existia')
   else
-    log.Exibir('ConfigArqExiste, não existia');
+    LogProcess.Exibir('ConfigArqExiste, não existia');
 end;
 
 procedure TStarterExec.PreenchaSisConfigVersao;
@@ -135,10 +135,10 @@ var
   oConfigXMLI: IConfigXMLI;
 begin
   FOutput.Exibir('TStarterExec.Execute inicio');
-  Log.Exibir('TStarterExec.Execute inicio, TestesChamar');
+  LogProcess.Exibir('TStarterExec.Execute inicio, TestesChamar');
   TestesChamar;
 
-  Log.Exibir('TStarterExec.Execute CrieEEntreNaPastaBin');
+  LogProcess.Exibir('TStarterExec.Execute CrieEEntreNaPastaBin');
   CrieEEntreNaPastaBin;
 {
   if FileExists('C:\Pr\app\bantu\bantu-sis\src\bantu-starter\bats\apag ini.bat')
@@ -148,46 +148,46 @@ begin
       SW_SHOWNORMAL);
   end;
 }
-  Log.Exibir('TStarterExec.Execute ConfigCrieObjetos');
+  LogProcess.Exibir('TStarterExec.Execute ConfigCrieObjetos');
   ConfigCrieObjetos;
 
 
-  Log.Exibir('TStarterExec.Execute InstUpdate');
+  LogProcess.Exibir('TStarterExec.Execute InstUpdate');
   FOutput.Exibir('Busca por atualizações...');
-  if Sta.Inst.Update_u.InstUpdate(FSisConfig, Log, Output) then
+  if Sta.Inst.Update_u.InstUpdate(FSisConfig, LogProcess, Output) then
   begin
     FOutput.Exibir('Atualizando o sistema...');
-    Log.Exibir('TStarterExec.Execute InstUpdate exit');
+    LogProcess.Exibir('TStarterExec.Execute InstUpdate exit');
     Exit;
   end;
-  Log.Exibir('TStarterExec.Execute InstUpdate nao exit');
+  LogProcess.Exibir('TStarterExec.Execute InstUpdate nao exit');
 
 
 
-  Log.Exibir('TStarterExec.Execute ConfigXMLICreate');
+  LogProcess.Exibir('TStarterExec.Execute ConfigXMLICreate');
   oConfigXMLI := ConfigXMLICreate(FSisConfig);
 
-  Log.Exibir('TStarterExec.Execute PreenchaSisConfigVersao');
+  LogProcess.Exibir('TStarterExec.Execute PreenchaSisConfigVersao');
   PreenchaSisConfigVersao;
-  Log.Exibir('TStarterExec.Execute ConfigArqExiste');
+  LogProcess.Exibir('TStarterExec.Execute ConfigArqExiste');
   bExistiaXML := ConfigArqExiste;
   if not bExistiaXML then
   begin
-    Log.Exibir('TStarterExec.Execute nao existia xml, CopieInicial');
+    LogProcess.Exibir('TStarterExec.Execute nao existia xml, CopieInicial');
     CopieInicial;
-    Log.Exibir('TStarterExec.Execute vai ConfigEdit');
+    LogProcess.Exibir('TStarterExec.Execute vai ConfigEdit');
     if not ConfigEdit then
     begin
-      Log.Exibir('TStarterExec.Execute ConfigEdit cancel');
+      LogProcess.Exibir('TStarterExec.Execute ConfigEdit cancel');
       exit;
     end;
 //    FOutput.Enabled := true;
-    Log.Exibir('TStarterExec.Execute ConfigEdit ok, oConfigXMLI.Gravar');
+    LogProcess.Exibir('TStarterExec.Execute ConfigEdit ok, oConfigXMLI.Gravar');
     oConfigXMLI.Gravar;
   end
   else
   begin
-    Log.Exibir('TStarterExec.Execute existia xml, oConfigXMLI.Ler');
+    LogProcess.Exibir('TStarterExec.Execute existia xml, oConfigXMLI.Ler');
 //    FOutput.Enabled := true;
     oConfigXMLI.Ler;
   end;
@@ -199,30 +199,30 @@ begin
 //  FSisConfig.DBMSInfo.Version := 4.0;
 
   FOutput.Exibir('Verificando banco de dados...');
-  FDBMSConfig := DBMSConfigCreate(FSisConfig, FLog, FOutput);
-  FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLog, FOutput);
+  FDBMSConfig := DBMSConfigCreate(FSisConfig, FLogProcess, FOutput);
+  FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLogProcess, FOutput);
 
-  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado');
-  FDBMS.GarantirDBMSInstalado(FLog, FOutput);
-  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado, retornou');
+  LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado');
+  FDBMS.GarantirDBMSInstalado(FLogProcess, FOutput);
+  LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado, retornou');
 
-  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado');
-  if not FDBMS.GarantirDBServCriadoEAtualizado(FLog, FOutput) then
+  LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado');
+  if not FDBMS.GarantirDBServCriadoEAtualizado(FLogProcess, FOutput) then
   begin
-    Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado, retornou erro, vai abortar');
-    ShowMessage('Ocorreu um erro na instalação. Consulte o log de instalação para determinar o motivo');
+    LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado, retornou erro, vai abortar');
+    ShowMessage('Ocorreu um erro na instalação. Consulte o LogProcess de instalação para determinar o motivo');
     exit;
   end;
-  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado, retornou');
+  LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado, retornou');
 
-  Log.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado'
+  LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado'
    +' acabou, vai testar se precisa criar loja');
   if FSisConfig.LocalMachineIsServer and (not ConfigArqExiste) then
   begin
     FOutput.Exibir('Granvando dados iniciais...');
-    Log.Exibir('TStarterExec.Execute vai gravar loja e gerente');
+    LogProcess.Exibir('TStarterExec.Execute vai gravar loja e gerente');
     FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor,
-      FLog, FOutput);
+      FLogProcess, FOutput);
     if FServConnection.Abrir then
     begin
       FServConnection.StartTransaction;
@@ -232,7 +232,7 @@ begin
           GravarUsuGerente(FServConnection);
         except
           on e: Exception do
-            FLog.Exibir(e.Message);
+            FLogProcess.Exibir(e.Message);
         end;
       finally
         FServConnection.Commit;
@@ -241,9 +241,9 @@ begin
     end;
   end;
 
-  Log.Exibir('TStarterExec.Execute ExecuteApp');
+  LogProcess.Exibir('TStarterExec.Execute ExecuteApp');
   ExecuteApp;
-  Log.Exibir('TStarterExec.Execute ExecuteApp fim');
+  LogProcess.Exibir('TStarterExec.Execute ExecuteApp fim');
 end;
 
 procedure TStarterExec.ExecuteApp;
@@ -266,7 +266,7 @@ begin
     if not ExecutePrograma(sExec, sParam, sPasta, sErro) then
       sLog := sLog + ';' + sErro;
   finally
-    FLog.Exibir(sLog);
+    FLogProcess.Exibir(sLog);
   end;
 end;
 
@@ -309,21 +309,21 @@ begin
   FSisConfig := SisConfigCreate;
   FUsuarioGerente := UsuarioCreate;
   FLoja := btu.lib.entit.factory.LojaCreate;
-  log.Exibir('ConfigCrieObjetos');
+  LogProcess.Exibir('ConfigCrieObjetos');
 
 end;
 
-constructor TStarterExec.Create(pLog: ILog; pOutput: IOutput);
+constructor TStarterExec.Create(pLogProcess: ILogProcess; pOutput: IOutput);
 var
   s: string;
 begin
   s := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   SetCurrentDir(s);
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
 
   s := 'TStarter instanciado';
-  log.Exibir(s);
+  LogProcess.Exibir(s);
   FOutput.Exibir(S);
 end;
 
@@ -333,12 +333,12 @@ var
 const
   PASTA_BIN = '..\bin';
 begin
-  log.Exibir('Vai criar e entrar na pasta PASTA_BIN=' + PASTA_BIN);
+  LogProcess.Exibir('Vai criar e entrar na pasta PASTA_BIN=' + PASTA_BIN);
   Resultado := PastaCriarEntrar(PASTA_BIN);
 
   if not Resultado then
   begin
-    log.Exibir('TStarterExec.CrieEEntreNaPastaBin Erro pasta do sistema não localizada');
+    LogProcess.Exibir('TStarterExec.CrieEEntreNaPastaBin Erro pasta do sistema não localizada');
     raise Exception.Create('TStarterExec.CrieEEntreNaPastaBin Erro pasta do sistema não localizada');
   end;
 end;

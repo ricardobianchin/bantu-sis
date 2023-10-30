@@ -3,7 +3,7 @@ unit btu.lib.db.updater_u;
 interface
 
 uses
-  btu.lib.db.updater, btu.lib.config, sis.ui.io.log, sis.ui.io.output,
+  btu.lib.db.updater, btu.lib.config, sis.ui.io.LogProcess, sis.ui.io.output,
   btu.lib.db.types, btu.lib.db.dbms, System.Classes, Vcl.Dialogs,
   btu.lib.db.updater.comando.list, sis.ui.io.output.exibirpausa.form_u,
   btu.lib.db.updater.operations;
@@ -14,7 +14,7 @@ type
     FsLocalDoDB: string;
     FLocalDoDB: TLocalDoDB;
     FSisConfig: ISisConfig;
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
     FDBMS: IDBMS;
     FiVersao: integer;
@@ -46,7 +46,7 @@ type
   protected
     property sLocalDoDB: string read FsLocalDoDB;
     property SisConfig: ISisConfig read FSisConfig;
-    property Log: ILog read FLog;
+    property LogProcess: ILogProcess read FLogProcess;
     property Output: IOutput read FOutput;
     property LocalDoDB: TLocalDoDB read FLocalDoDB;
     property dbms: IDBMS read FDBMS;
@@ -67,7 +67,7 @@ type
     function Execute: boolean;
 
     constructor Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
-      pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
+      pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput);
     destructor Destroy; override;
   end;
 
@@ -81,7 +81,7 @@ uses sis.types.integers, System.SysUtils, System.StrUtils,
   btu.lib.db.updater.factory, btu.sis.db.updater.utils, sis.types.strings;
 
 constructor TDBUpdater.Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
-  pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
+  pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput);
 var
   sSql: string;
 begin
@@ -89,22 +89,22 @@ begin
   FLocalDoDB := pLocalDoDB;
   FsLocalDoDB := TiposDeLocalDB[pLocalDoDB];
   FSisConfig := pSisConfig;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
   FDBMS := pDBMS;
 
   FCaminhoComandos := FSisConfig.PastaProduto + 'Update\dbupdates\';
 
-  FLog.Exibir('TDBUpdater.Create FsLocalDoDB=' + FsLocalDoDB +
+  FLogProcess.Exibir('TDBUpdater.Create FsLocalDoDB=' + FsLocalDoDB +
     ',FCaminhoComandos=' + FCaminhoComandos);
   FDBConnection := DBConnectionCreate(FSisConfig, FDBMS, FLocalDoDB,
-    FLog, FOutput);
+    FLogProcess, FOutput);
 
-  FDBUpdaterOperations := GetDBUpdaterOperations(FDBConnection, FLog, FOutput);
+  FDBUpdaterOperations := GetDBUpdaterOperations(FDBConnection, FLogProcess, FOutput);
 
   FComandoList := ComandoListCreate;
 
-  FLog.Exibir('TDBUpdater.Create fim');
+  FLogProcess.Exibir('TDBUpdater.Create fim');
 end;
 
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
@@ -112,51 +112,51 @@ var
   sErro: string;
 begin
   Result := 0;
-  FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte inicio');
+  FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte inicio');
   try
-    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte, vai testar se o banco existe');
+    FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte, vai testar se o banco existe');
     if not GetDBExiste then
     begin
-      FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,banco nao existia');
+      FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte,banco nao existia');
       CrieDB;
       if not GetDBExiste then
       begin
         sErro := 'TDBUpdater.DBDescubraVersaoEConecte,Erro ao criar banco de dados';
-        FLog.Exibir(sErro);
+        FLogProcess.Exibir(sErro);
         raise Exception.Create(sErro);
       end;
     end
     else
-    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,banco existia,vai abrir conexao');
+    FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte,banco existia,vai abrir conexao');
 
     DBConnection.Abrir;
     FDBUpdaterOperations.PreparePrincipais;
-    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,vai testar se tabela ' + NOMETAB_DBUPDATE_HIST + ' existe');
+    FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte,vai testar se tabela ' + NOMETAB_DBUPDATE_HIST + ' existe');
     if not FDBUpdaterOperations.TabelaExiste(NOMETAB_DBUPDATE_HIST) then
     begin
-      FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte,nao existia,vr=-1');
+      FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte,nao existia,vr=-1');
       Result := -1;
       exit;
     end;
-    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte, existia,vai ler com versao_get');
+    FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte, existia,vai ler com versao_get');
 
     Result := FDBUpdaterOperations.VersaoGet;
-    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte, FDBUpdaterOperations.VersaoGet=' + Result.ToString);
+    FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte, FDBUpdaterOperations.VersaoGet=' + Result.ToString);
   finally
-    FLog.Exibir('TDBUpdater.DBDescubraVersaoEConecte fim');
+    FLogProcess.Exibir('TDBUpdater.DBDescubraVersaoEConecte fim');
   end;
 end;
 
 destructor TDBUpdater.Destroy;
 begin
-  FLog.Exibir('TDBUpdater.Destroy, FsLocalDoDB=' + FsLocalDoDB);
+  FLogProcess.Exibir('TDBUpdater.Destroy, FsLocalDoDB=' + FsLocalDoDB);
   FDestinoSL.Free;
   inherited;
 end;
 
 function TDBUpdater.Execute: boolean;
 begin
-  FLog.Exibir('TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB +
+  FLogProcess.Exibir('TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB +
     ',FCaminhoComandos=' + FCaminhoComandos);
 
   Result := True;
@@ -164,57 +164,57 @@ begin
   FLinhasSL := TStringList.Create;
   try
     try
-      FLog.Exibir('TDBUpdater.Execute,vai DBDescubraVersaoEConecte');
+      FLogProcess.Exibir('TDBUpdater.Execute,vai DBDescubraVersaoEConecte');
       iVersao := DBDescubraVersaoEConecte;
-      FLog.Exibir('TDBUpdater.Execute,fez prepare,iVersao=' + iVersao.ToString);
+      FLogProcess.Exibir('TDBUpdater.Execute,fez prepare,iVersao=' + iVersao.ToString);
       try
         repeat
           FOutput.Exibir('');
           iVersao := iVersao + 1;
-          FLog.Exibir('TDBUpdater.Execute,incrementou iVersao=' +
+          FLogProcess.Exibir('TDBUpdater.Execute,incrementou iVersao=' +
             iVersao.ToString + ',vai CarreguouArqComando');
 
           if not CarreguouArqComando(iVersao) then
           begin
-            FLog.Exibir('TDBUpdater.Execute,retornou False, vai abortar o loop');
+            FLogProcess.Exibir('TDBUpdater.Execute,retornou False, vai abortar o loop');
             break;
           end;
-          FLog.Exibir('TDBUpdater.Execute,retornou True');
+          FLogProcess.Exibir('TDBUpdater.Execute,retornou True');
 
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
           LerUpdateProperties(FLinhasSL);
 
-          FLog.Exibir('TDBUpdater.Execute,vai ComandosCarregar');
+          FLogProcess.Exibir('TDBUpdater.Execute,vai ComandosCarregar');
           ComandosCarregar;
 
-          FLog.Exibir('TDBUpdater.Execute,vai ComandosGetSql');
+          FLogProcess.Exibir('TDBUpdater.Execute,vai ComandosGetSql');
           ComandosGetSql;
 
-          FLog.Exibir('TDBUpdater.Execute,vai ExecuteSql');
+          FLogProcess.Exibir('TDBUpdater.Execute,vai ExecuteSql');
           ExecuteSql;
 
-          FLog.Exibir('TDBUpdater.Execute,vai ComandosTesteFuncionou');
+          FLogProcess.Exibir('TDBUpdater.Execute,vai ComandosTesteFuncionou');
           ComandosTesteFuncionou;
 
-          FLog.Exibir('TDBUpdater.Execute,vai GravarVersao');
+          FLogProcess.Exibir('TDBUpdater.Execute,vai GravarVersao');
           GravarVersao;
 
         until False;
       finally
-        FLog.Exibir('TDBUpdater.Execute,vai FDBUpdaterOperations.Unprepare');
+        FLogProcess.Exibir('TDBUpdater.Execute,vai FDBUpdaterOperations.Unprepare');
         FDBUpdaterOperations.Unprepare;
       end;
     except
       on E: Exception do
       begin
         FOutput.Exibir('vr. ' + iVersao.ToString + E.Message);
-        FLog.Exibir('TDBUpdater.Execute,erro vr. ' + iVersao.ToString + E.Message);
+        FLogProcess.Exibir('TDBUpdater.Execute,erro vr. ' + iVersao.ToString + E.Message);
         // DBConnection.Rollback;
       end;
     end;
   finally
-    FLog.Exibir('TDBUpdater.Execute,fechando DBConnection e saindo');
+    FLogProcess.Exibir('TDBUpdater.Execute,fechando DBConnection e saindo');
 
     DBConnection.Fechar;
     FreeAndNil(FLinhasSL);
@@ -258,7 +258,7 @@ begin
 
   sLog := sLog + #13#10 + sOutput;
   FOutput.Exibir(sOutput);
-  FLog.Exibir(sLog);
+  FLogProcess.Exibir(sLog);
 end;
 
 function TDBUpdater.CarreguouArqComando(piVersao: integer): boolean;
@@ -289,7 +289,7 @@ begin
       sLog := sLog + ',arquivo estava vazio, abortando';
     end;
   finally
-    FLog.Exibir(sLog);
+    FLogProcess.Exibir(sLog);
   end;
 end;
 
@@ -301,7 +301,7 @@ var
   oComando: IComando;
   sTipoComando: string;
 begin
-  FLog.Exibir('TDBUpdater.ComandosCarregar,ini;');
+  FLogProcess.Exibir('TDBUpdater.ComandosCarregar,ini;');
   FOutput.Exibir('Carregando comandos...');
 
   try
@@ -324,7 +324,7 @@ begin
       begin
         sTipoComando := StrApos(sLin, '=');
         oComando := TipoToComando(sTipoComando, FDBConnection,
-          FDBUpdaterOperations, FLog, FOutput);
+          FDBUpdaterOperations, FLogProcess, FOutput);
         FComandoList.Add(oComando);
         oComando.PegarLinhas(iLin, FLinhasSL);
       end;
@@ -332,7 +332,7 @@ begin
       inc(iLin);
     end;
   finally
-    FLog.Exibir('TDBUpdater.ComandosCarregar,fim;');
+    FLogProcess.Exibir('TDBUpdater.ComandosCarregar,fim;');
   end;
 end;
 
@@ -392,7 +392,7 @@ procedure TDBUpdater.ExecuteSql;
 begin
   FOutput.Exibir('Executando comandos...');
   dbms.ExecInterative('DBUpdate ' + IntToStrZero(iVersao, 9), FDestinoSL.Text,
-    FLocalDoDB, FLog, FOutput);
+    FLocalDoDB, FLogProcess, FOutput);
 end;
 
 procedure TDBUpdater.GravarVersao;
@@ -413,7 +413,7 @@ begin
   // SLRemoveVazias(FLinhasSL);
   SLUpperCase(FLinhasSL);
   sLog := sLog + ',sobraram ' + pSL.Count.ToString + ' linhas,';
-  FLog.Exibir(sLog);
+  FLogProcess.Exibir(sLog);
 end;
 
 procedure TDBUpdater.SetiVersao(const Value: integer);

@@ -3,7 +3,7 @@ unit btu.lib.db.updater.firebird_u;
 interface
 
 uses
-  btu.lib.db.updater_u, btu.lib.config, sis.ui.io.log, sis.ui.io.output,
+  btu.lib.db.updater_u, btu.lib.config, sis.ui.io.LogProcess, sis.ui.io.output,
   btu.lib.db.types, btu.lib.db.DBMS;
 
 // updates especivico para firebird, no pai, funcito q diz se existe o arq dados
@@ -23,7 +23,7 @@ type
 //    function GetSqlDbUpdateGetMax: string; override;
   public
     constructor Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
-      pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
+      pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
@@ -36,19 +36,19 @@ uses
 { TDBUpdaterFirebird }
 
 constructor TDBUpdaterFirebird.Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
-  pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput);
+  pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  pLog.Exibir('TDBUpdaterFirebird.Create, inicio');
+  pLogProcess.Exibir('TDBUpdaterFirebird.Create, inicio');
   FArq := pDBMS.LocalDoDBToNomeArq(pLocalDoDB);
   FDatabase := pDBMS.LocalDoDBToDatabase(pLocalDoDB);
   FNomeBanco := pDBMS.LocalDoDBToNomeBanco(pLocalDoDB);
 
-  pLog.Exibir('TDBUpdaterFirebird.Create,FArq=' + FArq + ',FDatabase=' +
+  pLogProcess.Exibir('TDBUpdaterFirebird.Create,FArq=' + FArq + ',FDatabase=' +
     FDatabase + ',FNomeBanco=' + FNomeBanco);
 
-  pLog.Exibir('TDBUpdaterFirebird.Create, vai chamar inherited,TDBUpdater.Create');
-  inherited Create(pLocalDoDB, pDBMS, pSisConfig, pLog, pOutput);
-  pLog.Exibir('TDBUpdaterFirebird.Create, voltou do inherited,fim');
+  pLogProcess.Exibir('TDBUpdaterFirebird.Create, vai chamar inherited,TDBUpdater.Create');
+  inherited Create(pLocalDoDB, pDBMS, pSisConfig, pLogProcess, pOutput);
+  pLogProcess.Exibir('TDBUpdaterFirebird.Create, voltou do inherited,fim');
 end;
 
 procedure TDBUpdaterFirebird.CrieDB;
@@ -61,7 +61,7 @@ begin
 
   sAssunto :=  'Cria';
 
-  DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, log, output);
+  DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, LogProcess, output);
   sleep(200);
 
 end;
@@ -70,24 +70,24 @@ function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
   sPastaInstDados, sNomeArq: string;
 begin
-  log.Exibir('TDBUpdaterFirebird.GetDBExiste ini');
+  LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste ini');
   try
     GarantaPastaDoArq(FArq);
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se ' + FArq+' existe');
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se ' + FArq+' existe');
     result := FileExists(FArq);
 
     if result then
     begin
-      log.Exibir('TDBUpdaterFirebird.GetDBExiste,existia, vai abortar');
+      LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,existia, vai abortar');
       exit;
     end;
 
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste,nao existia');
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,nao existia');
 
     sPastaInstDados := SisConfig.PastaProduto +
       'Starter\inst\inst-Firebird\dados\';
 
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste,sPastaInstDados=' +
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,sPastaInstDados=' +
       sPastaInstDados);
 
     ForceDirectories(sPastaInstDados);
@@ -110,15 +110,15 @@ begin
     end;
     sNomeArq := sNomeArq + '.fdb';
     sNomeArq := sPastaInstDados + sNomeArq;
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste,vai copiar(' + sNomeArq + ',' +
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai copiar(' + sNomeArq + ',' +
       FArq + ')');
     CopyFile(PChar(sNomeArq), PChar(FArq), False);
 
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se existe');
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se existe');
     result := FileExists(FArq);
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste,Result=' + BooleanToStr(result));
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,Result=' + BooleanToStr(result));
   finally
-    log.Exibir('TDBUpdaterFirebird.GetDBExiste fim');
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste fim');
   end;
 end;
 

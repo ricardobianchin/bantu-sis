@@ -2,7 +2,7 @@ unit btu.lib.db.sqloperation_u;
 
 interface
 
-uses btu.lib.db.types, System.Classes, FireDAC.Stan.Param, sis.ui.io.log,
+uses btu.lib.db.types, System.Classes, FireDAC.Stan.Param, sis.ui.io.LogProcess,
   sis.ui.io.output;
 
 type
@@ -10,7 +10,7 @@ type
   private
     FUltimoErro: string;
     FDBConnection: IDBConnection;
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
 
     function GetUltimoErro: string;
@@ -21,7 +21,7 @@ type
     procedure  SetSQL(Value: string); virtual; abstract;
     property DBConnection: IDBConnection read FDBConnection;
     property SQL: string read GetSQL write SetSQL;
-    property log: ILog read FLog;
+    property LogProcess: ILogProcess read FLogProcess;
     property output: IOutput read FOutput;
 
     function GetPrepared: boolean; virtual; abstract;
@@ -35,7 +35,7 @@ type
     procedure Unprepare; virtual; abstract;
     property Prepared: boolean read GetPrepared write SetPrepared;
 
-    constructor Create(pDBConnection: IDBConnection; pLog: ILog;
+    constructor Create(pDBConnection: IDBConnection; pLogProcess: ILogProcess;
       pOutput: IOutput);
   end;
 
@@ -43,11 +43,11 @@ implementation
 
 { TDBCommand }
 
-constructor TDBSqlOperation.Create(pDBConnection: IDBConnection; pLog: ILog;
+constructor TDBSqlOperation.Create(pDBConnection: IDBConnection; pLogProcess: ILogProcess;
   pOutput: IOutput);
 begin
   FDBConnection := pDBConnection;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
 end;
 

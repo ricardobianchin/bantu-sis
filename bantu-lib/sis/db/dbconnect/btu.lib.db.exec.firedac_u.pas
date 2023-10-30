@@ -6,7 +6,7 @@ uses
   btu.lib.db.exec_u, FireDAC.Stan.Param, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.db,
-  btu.lib.db.types, sis.UI.io.log, sis.UI.io.output;
+  btu.lib.db.types, sis.UI.io.LogProcess, sis.UI.io.output;
 
 type
   TDBExecFireDac = class(TDBExec)
@@ -22,7 +22,7 @@ type
     procedure SetPrepared(Value: boolean); override;
   public
     procedure Execute; override;
-    constructor Create(pDBConnection: IDBConnection; pSql: string; pLog: ILog;
+    constructor Create(pDBConnection: IDBConnection; pSql: string; pLogProcess: ILogProcess;
       pOutput: IOutput);
     destructor Destroy; override;
     procedure Prepare; override;
@@ -37,9 +37,9 @@ uses System.SysUtils;
 { TDBExecFireDac }
 
 constructor TDBExecFireDac.Create(pDBConnection: IDBConnection; pSql: string;
-  pLog: ILog; pOutput: IOutput);
+  pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  inherited Create(pDBConnection, pLog, pOutput);
+  inherited Create(pDBConnection, pLogProcess, pOutput);
   FDCommand := TFDCommand.Create(nil);
   FDCommand.Connection := TFDConnection( pDBConnection.ConnectionObject);
   Sql := pSql;

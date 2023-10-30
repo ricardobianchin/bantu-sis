@@ -2,14 +2,14 @@ unit btu.lib.db.updater.operations.fb_u;
 
 interface
 
-uses btu.lib.db.updater.operations, btu.lib.db.types, sis.ui.io.log,
+uses btu.lib.db.updater.operations, btu.lib.db.types, sis.ui.io.LogProcess,
   sis.ui.io.output, System.Classes;
 
 type
   TDBUpdaterOperationsFB = class(TInterfacedObject, IDBUpdaterOperations)
   private
     FDBConnection: IDBConnection;
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
 
     FDBQueryTabelaExiste: IDBQuery;
@@ -43,7 +43,7 @@ type
       out pCamposFK: string; out pTabelaPK: string;
       out pCamposPK: string): boolean;
 
-    constructor Create(pDBConnection: IDBConnection; pLog: ILog;
+    constructor Create(pDBConnection: IDBConnection; pLogProcess: ILogProcess;
       pOutput: IOutput);
   end;
 
@@ -56,31 +56,31 @@ uses btu.lib.db.factory, btu.lib.db.updater.firebird.GetSql_u, System.SysUtils,
 { TDBUpdateOperationsFB }
 
 constructor TDBUpdaterOperationsFB.Create(pDBConnection: IDBConnection;
-  pLog: ILog; pOutput: IOutput);
+  pLogProcess: ILogProcess; pOutput: IOutput);
 var
   s: string;
 begin
   FDBConnection := pDBConnection;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
 
   s := GetSQLTabelaExisteParams;
-  FDBQueryTabelaExiste := DBQueryCreate(pDBConnection, s, pLog, pOutput);
+  FDBQueryTabelaExiste := DBQueryCreate(pDBConnection, s, pLogProcess, pOutput);
 
   s := GetSQLIndexNamesParams;
-  FDBQueryIndexNames := DBQueryCreate(pDBConnection, s, pLog, pOutput);
+  FDBQueryIndexNames := DBQueryCreate(pDBConnection, s, pLogProcess, pOutput);
 
   s := GetSQLProcedureExisteParams;
-  FDBQueryProcedureExiste := DBQueryCreate(pDBConnection, s, pLog, pOutput);
+  FDBQueryProcedureExiste := DBQueryCreate(pDBConnection, s, pLogProcess, pOutput);
 
   s := GetSQLPackagGetCodigoParams;
-  FDBQueryPackageGetCodigo := DBQueryCreate(pDBConnection, s, pLog, pOutput);
+  FDBQueryPackageGetCodigo := DBQueryCreate(pDBConnection, s, pLogProcess, pOutput);
 
   s := GetSQLVersaoGet;
-  FDBQueryVersaoGet := DBQueryCreate(pDBConnection, s, pLog, pOutput);
+  FDBQueryVersaoGet := DBQueryCreate(pDBConnection, s, pLogProcess, pOutput);
 
   s := GetSQLHistInsParams;
-  FDBExecHistIns := DBExecCreate(pDBConnection, s, pLog, pOutput);
+  FDBExecHistIns := DBExecCreate(pDBConnection, s, pLogProcess, pOutput);
 end;
 
 procedure TDBUpdaterOperationsFB.PackagePegarCodigo(pPackageName: string;
@@ -110,7 +110,7 @@ begin
   CamposPKSL := TStringList.Create;
 
   s := GetSQLForeignKeyInfoParams;
-  FDBQueryForeignKeyInfo := DBQueryCreate(FDBConnection, s, FLog, FOutput);
+  FDBQueryForeignKeyInfo := DBQueryCreate(FDBConnection, s, FLogProcess, FOutput);
 
   FDBQueryForeignKeyInfo.Params[0].AsString := pFKName;
   FDBQueryForeignKeyInfo.Open;
@@ -195,7 +195,7 @@ var
   FDBQuerySequenceExiste: IDBQuery;
 begin
   s := GetSQLSequenceExisteParams;
-  FDBQuerySequenceExiste := DBQueryCreate(FDBConnection, s, FLog, FOutput);
+  FDBQuerySequenceExiste := DBQueryCreate(FDBConnection, s, FLogProcess, FOutput);
 
   FDBQuerySequenceExiste.Params[0].AsString := pNomeSequence;
   FDBQuerySequenceExiste.Open;

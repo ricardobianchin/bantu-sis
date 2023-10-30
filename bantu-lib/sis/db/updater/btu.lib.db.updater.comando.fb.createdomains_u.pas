@@ -4,7 +4,7 @@ interface
 
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u, btu.lib.db.updater.operations,
-  sis.ui.io.log, sis.ui.io.output, btu.lib.lists.TextoList;
+  sis.ui.io.LogProcess, sis.ui.io.output, btu.lib.lists.TextoList;
 
 type
   TComandoFBCreateDomains = class(TComandoFB)
@@ -20,7 +20,7 @@ type
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); override;
     function GetAsSql: string; override;
     constructor Create(pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
+      pUpdaterOperations: IDBUpdaterOperations; pLogProcess: ILogProcess; pOutput: IOutput);
     function Funcionou: boolean; override;
     destructor Destroy; override;
   end;
@@ -35,9 +35,9 @@ uses btu.lib.db.updater.constants_u, btu.lib.db.updater.campo, System.SysUtils,
 { TComandoFBCreateDomains }
 
 constructor TComandoFBCreateDomains.Create(pDBConnection: IDBConnection;
-  pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
+  pUpdaterOperations: IDBUpdaterOperations; pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  inherited Create(pDBConnection, pUpdaterOperations, pLog, pOutput);
+  inherited Create(pDBConnection, pUpdaterOperations, pLogProcess, pOutput);
   FDomainsDefSL := TStringList.Create;
   //FDomainNamesSL := TStringList.Create;
   FComandosTextoList := TextoListCreate;
@@ -91,7 +91,7 @@ begin
     begin
       sDomainName := FComandosTextoList[I].Titulo;
       sSql := GetSQLDomainExiste{Params}(sDomainName);
-      oDBQuery := DBQueryCreate(DBConnection, sSql, Log, Output);
+      oDBQuery := DBQueryCreate(DBConnection, sSql, LogProcess, Output);
     //  oDBQuery.Params[0].AsString := sDomainName;
       try
         oDBQuery.Open;
@@ -122,7 +122,7 @@ var
 begin
   Result := '';
   sSql := GetSQLDomainExisteParams;
-  oDBQuery := btu.lib.db.factory.DBQueryCreate(DBConnection, sSql, Log, Output);
+  oDBQuery := btu.lib.db.factory.DBQueryCreate(DBConnection, sSql, LogProcess, Output);
   oDBQuery.Prepare;
   try
     for I := 0 to FComandosTextoList.Count - 1 do
