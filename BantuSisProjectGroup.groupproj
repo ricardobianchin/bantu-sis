@@ -36,6 +36,9 @@
         <Projects Include="bantu-starter\Starter.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -143,17 +146,32 @@
     <Target Name="Starter:Make">
         <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ArredRoundRectRgn1">
+        <MSBuild Projects="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Clean">
+        <MSBuild Projects="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ArredRoundRectRgn1:Make">
+        <MSBuild Projects="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;BucharestDT;OsakaToolBar;DublinSourcecodeTuner;WinSecurityExclusion;Sis;Retag;Starter"/>
+        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;BucharestDT;OsakaToolBar;DublinSourcecodeTuner;WinSecurityExclusion;Sis;Retag;Starter;ArredRoundRectRgn1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;BucharestDT:Clean;OsakaToolBar:Clean;DublinSourcecodeTuner:Clean;WinSecurityExclusion:Clean;Sis:Clean;Retag:Clean;Starter:Clean"/>
+        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;BucharestDT:Clean;OsakaToolBar:Clean;DublinSourcecodeTuner:Clean;WinSecurityExclusion:Clean;Sis:Clean;Retag:Clean;Starter:Clean;ArredRoundRectRgn1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;BucharestDT:Make;OsakaToolBar:Make;DublinSourcecodeTuner:Make;WinSecurityExclusion:Make;Sis:Make;Retag:Make;Starter:Make"/>
+        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;BucharestDT:Make;OsakaToolBar:Make;DublinSourcecodeTuner:Make;WinSecurityExclusion:Make;Sis:Make;Retag:Make;Starter:Make;ArredRoundRectRgn1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='Bantu'">
+        <BuildGroupProject Include="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
+            <ProjectGuid>{03A1EA8A-306F-4378-838A-F76441B45EC3}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj">
             <ProjectGuid>{E6172F85-2606-4DA2-A78A-162DC383D39D}</ProjectGuid>
             <Configurations>Debug</Configurations>
@@ -166,6 +184,12 @@
             <Platforms>Win32</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
+        <BuildGroupProject Include="bantu-shop\Retag.dproj">
+            <ProjectGuid>{7AFE0623-59E9-4BA1-A59F-2770C4083147}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj">
             <ProjectGuid>{972AA7F7-E93A-4439-836A-16301EFF7603}</ProjectGuid>
             <Configurations>Debug</Configurations>
@@ -177,12 +201,6 @@
             <Configurations>Debug</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="bantu-shop\Retag.dproj">
-            <ProjectGuid>{7AFE0623-59E9-4BA1-A59F-2770C4083147}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\tools\osaka-toolbar\OsakaToolBar.dproj">
             <ProjectGuid>{FE6AC5AE-5C58-4185-A5B6-DD6DB9EF3A43}</ProjectGuid>
