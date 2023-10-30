@@ -2,15 +2,18 @@ unit sis.win.pastas;
 
 interface
 
+uses System.Classes;
+
 function GetProgramFilesPath: string;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
 function DateToPath(pDtH: TDateTime = 0): string;
 procedure GarantaPastaDoArq(pNomeArq: string);
+procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings; pZeraAntes: boolean; pMascara: string = '*.*');
 
 implementation
 
-uses System.SysUtils, StrUtils, sis.types.strings;
+uses System.SysUtils, StrUtils, sis.types.strings, System.IOUtils;
 
 function GetProgramFilesPath: string;
 var
@@ -61,6 +64,26 @@ var
 begin
   sPasta := IncludeTrailingPathDelimiter(ExtractFilePath(pNomeArq));
   ForceDirectories(sPasta);
+end;
+
+procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings; pZeraAntes: boolean; pMascara: string);
+var
+  F: TSearchRec;
+begin
+  if pZeraAntes then
+    pNomesArqSL.Clear;
+
+  if FindFirst(TPath.Combine(pPasta, pMascara), faAnyFile and not faDirectory, F) = 0 then
+  begin
+    try
+      repeat
+        if (F.Name <> '.') and (F.Name <> '..') then
+          pNomesArqSL.Add(F.Name);
+      until FindNext(F) <> 0;
+    finally
+      FindClose(F);
+    end;
+  end;
 end;
 
 end.

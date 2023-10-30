@@ -2,19 +2,18 @@
 	"folders":
 	[
 		{
-			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\exe\\inst\\dbupdates\\000\\000",
+			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\Src\\bantu-lib",
+			 "folder_exclude_patterns": ["__history"]
+			 "folder_exclude_patterns": ["__recovery"],
+			 "folder_exclude_patterns": ["Win32"]
+			 "file_exclude_patterns": ["*.local", "*.identcache", "*.rex"]
 		},
 		{
-			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\doc",
-		},
-		{
-			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\bantu-starter",
-		},
-		{
-			"path": "C:\\Pr\\app\\bantu\\bantu-sis",
-		},
-		{
-			"path": "C:\\Pr\\ter\\i9\\Src"
-		},
-	],
+			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\Src\\bantu-starter",
+			 "folder_exclude_patterns": ["__history"],
+			 "folder_exclude_patterns": ["__recovery"],
+			 "folder_exclude_patterns": ["Win32"]
+			 "file_exclude_patterns": ["*.local", "*.identcache", "*.rex"]
+		}
+	]
 }
