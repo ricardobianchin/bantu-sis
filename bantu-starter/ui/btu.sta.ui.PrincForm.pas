@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, sis.ui.io.log, Vcl.AppEvnts,    Sis.UI.IO.Output.Form_u,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, sis.ui.io.LogProcess, Vcl.AppEvnts,    Sis.UI.IO.Output.Form_u,
   sis.ui.io.output, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
@@ -20,7 +20,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
-    FLog: ILog;
+    FLogProcess: ILogProcess;
 //    FOutputForm: TOutputForm;
 //    FOutputToForm: IOutput;
 //    FOutput: IOutput;
@@ -39,7 +39,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.log.factory,
+uses Sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.LogProcess.factory,
   sis.ui.io.factory, sis.ui.controls.utils, sis.ui.io.output.exibirpausa.form_u,
   btu.lib.debug, Sta.Versao;
 
@@ -53,21 +53,21 @@ var
   e: TStarterExec;
 begin
   try
-  FLog := LogFileCreate( 'Starter');
+  FLogProcess := LogProcessFileCreate( 'Starter');
 
 //  FOutputForm := TOutputForm.Create(self);
 //  FOutputToForm := OutputToFormCreate(FOutputForm);
-  FLog.Exibir('TPrincForm.FormCreate, TStarterExec.Create');
-  e := TStarterExec.Create(FLog, Self{FOutputToForm});
+  FLogProcess.Exibir('TPrincForm.FormCreate, TStarterExec.Create');
+  e := TStarterExec.Create(FLogProcess, Self{FOutputToForm});
   try
     e.Execute;
   finally
     e.Free;
   end;
   except on E: Exception do
-    FLog.Exibir('TPrincForm.ExecStarter Erro '+E.ClassName+' '+e.Message);
+    FLogProcess.Exibir('TPrincForm.ExecStarter Erro '+E.ClassName+' '+e.Message);
   end;
-  FLog.Exibir('Vai finalizar a aplicação');
+  FLogProcess.Exibir('Vai finalizar a aplicação');
   Application.Terminate;
 end;
 

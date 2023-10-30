@@ -5,7 +5,7 @@ interface
 uses btu.lib.db.updater.comando, System.Classes, btu.lib.db.updater.campo.list,
   btu.lib.db.types, btu.lib.db.updater.comando.fb_u,
   btu.lib.db.updater.operations,
-  sis.ui.io.log, sis.ui.io.output;
+  sis.ui.io.LogProcess, sis.ui.io.output;
 
 type
   TComandoFBCreateForeignKey = class(TComandoFB)
@@ -23,7 +23,7 @@ type
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); override;
     function GetAsSql: string; override;
     constructor Create(pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
+      pUpdaterOperations: IDBUpdaterOperations; pLogProcess: ILogProcess; pOutput: IOutput);
     function Funcionou: boolean; override;
   end;
 
@@ -36,9 +36,9 @@ uses btu.lib.db.updater.constants_u, btu.lib.db.updater.factory,
 { TComandoFBCreateForeignKey }
 
 constructor TComandoFBCreateForeignKey.Create(pDBConnection: IDBConnection;
-  pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
+  pUpdaterOperations: IDBUpdaterOperations; pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  inherited Create(pDBConnection, pUpdaterOperations, pLog, pOutput);
+  inherited Create(pDBConnection, pUpdaterOperations, pLogProcess, pOutput);
   FsKeyName  := '';
   FsTabelaFK := '';
   FsCamposFK := '';

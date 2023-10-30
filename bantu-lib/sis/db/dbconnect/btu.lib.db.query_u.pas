@@ -6,7 +6,7 @@ uses
   btu.lib.db.types
   , btu.lib.db.dbms
   , sis.ui.io.output
-  , sis.ui.io.log
+  , sis.ui.io.LogProcess
   , btu.lib.db.sqloperation_u
   , FireDAC.Stan.Param
   , System.Classes

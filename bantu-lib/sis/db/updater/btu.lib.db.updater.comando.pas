@@ -2,7 +2,7 @@ unit btu.lib.db.updater.comando;
 
 interface
 
-uses classes, sis.ui.io.log, sis.ui.io.output;
+uses classes, sis.ui.io.LogProcess, sis.ui.io.output;
 
 type
   IComando = interface(IInterface)
@@ -15,8 +15,8 @@ type
     function GetUltimoErro: string;
     property UltimoErro: string read GetUltimoErro;
 
-    function GetLog: ILog;
-    property Log: ILog read GetLog;
+    function GetLogProcess: ILogProcess;
+    property LogProcess: ILogProcess read GetLogProcess;
 
     function GetOutput: IOutput;
     property Output: IOutput read GetOutput;

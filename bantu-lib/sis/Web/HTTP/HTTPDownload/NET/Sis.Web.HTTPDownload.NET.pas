@@ -2,9 +2,9 @@ unit Sis.Web.HTTPDownload.NET;
 
 interface
 
-uses sis.ui.io.log, sis.ui.io.output;
+uses sis.ui.io.LogProcess, sis.ui.io.output;
 
-function Execute(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): boolean;
+function Execute(pArqLocal, pArqRemoto: string; pLogProcess: ILogProcess; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): boolean;
 
 implementation
 
@@ -29,7 +29,7 @@ begin
   end;
 end;
 
-function Execute(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): boolean;
+function Execute(pArqLocal, pArqRemoto: string; pLogProcess: ILogProcess; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): boolean;
 var
   HTTPClient: THTTPClient;
   HTTPResponse: IHTTPResponse;
@@ -40,36 +40,36 @@ var
   DtHLocal: TDateTime;
   sGMT: string;
 begin
-  pLog.Exibir('Sis.Web.HTTPDownload.NET.Execute inicio');
-  pLog.Exibir('THTTPClient.Create');
+  pLogProcess.Exibir('Sis.Web.HTTPDownload.NET.Execute inicio');
+  pLogProcess.Exibir('THTTPClient.Create');
   HTTPClient := THTTPClient.Create;
   try
     RemoteFileURL := pArqRemoto;
-    pLog.Exibir('RemoteFileURL='+RemoteFileURL);
+    pLogProcess.Exibir('RemoteFileURL='+RemoteFileURL);
     HTTPResponse := HTTPClient.Head(RemoteFileURL);
 
     Result := HTTPResponse.StatusCode = 200;
     if not Result then
     begin
-      pLog.Exibir('HTTPResponse.StatusCode='+HTTPResponse.StatusCode.ToString+', precisava ser 200');
+      pLogProcess.Exibir('HTTPResponse.StatusCode='+HTTPResponse.StatusCode.ToString+', precisava ser 200');
       exit;
     end;
 
     sGMT := GetValueByName('Last-Modified', HTTPResponse.Headers);
-    pLog.Exibir('sGMT='+sGMT);
+    pLogProcess.Exibir('sGMT='+sGMT);
     DtHRemoto := ConvertGMTToTDateTime(sGMT);
-    pLog.Exibir('DtHRemoto='+DateTimeToStr(DtHRemoto));
+    pLogProcess.Exibir('DtHRemoto='+DateTimeToStr(DtHRemoto));
 
     LocalFilePath := pArqLocal;
-    pLog.Exibir('LocalFilePath='+LocalFilePath);
+    pLogProcess.Exibir('LocalFilePath='+LocalFilePath);
 
     DtHLocal := GetDataArquivo(pArqLocal);
-    pLog.Exibir('DtHLocal='+DateTimeToStr(DtHLocal));
+    pLogProcess.Exibir('DtHLocal='+DateTimeToStr(DtHLocal));
 
     Result := DtHRemoto > DtHLocal;
     if not Result then
     begin
-      pLog.Exibir('nao precisava atualizar');
+      pLogProcess.Exibir('nao precisava atualizar');
       exit;
     end;
 
@@ -77,15 +77,15 @@ begin
     begin
       if FileExists(LocalFilePath) then
       begin
-        pLog.Exibir('vai apagar');
+        pLogProcess.Exibir('vai apagar');
         TFile.Delete(LocalFilePath);
-        pLog.Exibir('apagou');
+        pLogProcess.Exibir('apagou');
       end;
     end;
 
     FileStream := TFileStream.Create(LocalFilePath, fmCreate);
     try
-      pLog.Exibir('HTTPClient.Get');
+      pLogProcess.Exibir('HTTPClient.Get');
       pOutput.Exibir('Baixando atualização...');
       try
         //showmessage(RemoteFileURL);
@@ -94,17 +94,17 @@ begin
       except on E: Exception do
       begin
         //showmessage('HTTPClient.Get '+E.Message+' statuscode='+HTTPResponse.StatusCode.ToString);
-        pLog.Exibir('HTTPClient.Get '+E.Message);
+        pLogProcess.Exibir('HTTPClient.Get '+E.Message);
       end;
       end;
       Result := HTTPResponse.StatusCode = 200;
-      pLog.Exibir('HTTPResponse.StatusCode='+HTTPResponse.StatusCode.ToString+', precisava ser 200');
+      pLogProcess.Exibir('HTTPResponse.StatusCode='+HTTPResponse.StatusCode.ToString+', precisava ser 200');
     finally
       FileStream.Free;
     end;
   finally
     HTTPClient.Free;
-    pLog.Exibir('Sis.Web.HTTPDownload.NET.Execute fim');
+    pLogProcess.Exibir('Sis.Web.HTTPDownload.NET.Execute fim');
   end;
 end;
 

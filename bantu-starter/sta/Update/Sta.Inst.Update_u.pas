@@ -2,49 +2,49 @@ unit Sta.Inst.Update_u;
 
 interface
 
-uses btu.lib.config, sis.ui.io.log, sis.ui.io.output,
+uses btu.lib.config, sis.ui.io.LogProcess, sis.ui.io.output,
   btu.lib.db.updater.constants_u, sta.constants;
 
-function InstUpdate(pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput): boolean;
+function InstUpdate(pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput): boolean;
 
 implementation
 
 uses sis.Web.Factory, sis.Web.HTTP.Download, sis.types.bool.utils,
   Winapi.ShellAPI, Winapi.Windows, sis.win.pastas, System.SysUtils, dialogs;
 
-function InstUpdate(pSisConfig: ISisConfig; pLog: ILog; pOutput: IOutput): boolean;
+function InstUpdate(pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput): boolean;
 var
   sArqLocal: string;
   sArqRemoto: string;
   oHTTPDownload: IHTTPDownload;
 begin
-  pLog.Exibir('InstUpdate inicio');
+  pLogProcess.Exibir('InstUpdate inicio');
     sArqLocal := pSisConfig.PastaProduto +
-      'Starter\Update\InstUpdate\MercadoUpdate.exe';
+      'Starter\Update\InstUpdate\MercadoAtualiz.exe';
 
     GarantaPastaDoArq(sArqLocal);
 
-    pLog.Exibir('sArqLocal=' + sArqLocal);
+    pLogProcess.Exibir('sArqLocal=' + sArqLocal);
 
-    sArqRemoto := 'https://www.bianch.in/arqs/daros/MercadoUpdate.exe';
-    pLog.Exibir('sArqRemoto=' + sArqRemoto);
+    sArqRemoto := 'https://www.bianch.in/arqs/daros/MercadoAtualiz.exe';
+    pLogProcess.Exibir('sArqRemoto=' + sArqRemoto);
 
-    pLog.Exibir('vai IHTTPDownloadCreate');
-    oHTTPDownload := IHTTPDownloadCreate(sArqLocal, sArqRemoto, pLog, pOutput, INST_UPDATE_EXCLUI_LOCAL_ANTES_DOWNLOAD);
+    pLogProcess.Exibir('vai IHTTPDownloadCreate');
+    oHTTPDownload := IHTTPDownloadCreate(sArqLocal, sArqRemoto, pLogProcess, pOutput, INST_UPDATE_EXCLUI_LOCAL_ANTES_DOWNLOAD);
 
-    pLog.Exibir('vai oHTTPDownload.Execute');
+    pLogProcess.Exibir('vai oHTTPDownload.Execute');
 
     Result := oHTTPDownload.Execute;
-    pLog.Exibir('oHTTPDownload.Execute Result =' + BooleanToStr(Result));
+    pLogProcess.Exibir('oHTTPDownload.Execute Result =' + BooleanToStr(Result));
     //showmessage('vou executar');
     if Result then
     begin
       try
-        pLog.Exibir('vai executar');
+        pLogProcess.Exibir('vai executar');
         ShellExecute(0, 'open', PChar(sArqLocal), nil, nil, SW_SHOWNORMAL);
-        pLog.Exibir('executou');
+        pLogProcess.Exibir('executou');
       except on E: Exception do
-        pLog.Exibir('InstUpdate, Erro ao executar sArqLocal, '+E.Message);
+        pLogProcess.Exibir('InstUpdate, Erro ao executar sArqLocal, '+E.Message);
       end;
     end;
 end;

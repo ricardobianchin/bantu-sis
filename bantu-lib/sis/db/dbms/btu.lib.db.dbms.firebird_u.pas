@@ -3,7 +3,7 @@ unit btu.lib.db.dbms.firebird_u;
 interface
 
 uses btu.lib.db.dbms, btu.lib.config, sis.win.VersionInfo, System.Classes,
-  sis.ui.io.log, sis.ui.io.output, sis.win.execute, btu.lib.db.types,
+  sis.ui.io.LogProcess, sis.ui.io.output, sis.win.execute, btu.lib.db.types,
   btu.lib.db.dbms.config;
 
 type
@@ -12,15 +12,15 @@ type
     FFirebirdPath: string;
     FIsqlExe: string;
     FSisConfig: ISisConfig;
-    // FLog: ILog;
+    // FLogProcess: ILogProcess;
     // FOutput: IOutput;
     //FPausaAntesExec: string;
 
     FDBMSConfig: IDBMSConfig;
-    function DBMSInstalado(pLog: iLog; pOutput: IOutput): boolean;
-    procedure PeguePaths(pLog: iLog; pOutput: IOutput);
-    procedure ExecInstal(pLog: iLog; pOutput: IOutput);
-    function GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo; pLog: iLog;
+    function DBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput): boolean;
+    procedure PeguePaths(pLogProcess: ILogProcess; pOutput: IOutput);
+    procedure ExecInstal(pLogProcess: ILogProcess; pOutput: IOutput);
+    function GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo; pLogProcess: ILogProcess;
       pOutput: IOutput): string;
   protected
     property DBMSConfig: IDBMSConfig read FDBMSConfig;
@@ -31,15 +31,15 @@ type
     function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
     function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
-    function GarantirDBServCriadoEAtualizado(pLog: iLog;
+    function GarantirDBServCriadoEAtualizado(pLogProcess: ILogProcess;
       pOutput: IOutput): boolean;
-    procedure GarantirDBMSInstalado(pLog: iLog; pOutput: IOutput);
-    // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
+    procedure GarantirDBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput);
+    // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pLogProcess: ILogProcess; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string;
-      pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
+      pLocalDoDB: TLocalDoDB; pLogProcess: ILogProcess; pOutput: IOutput); overload;
 
     constructor Create(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
-      pLog: iLog; pOutput: IOutput);
+      pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
@@ -51,7 +51,7 @@ uses sis.win.Registry, System.win.Registry, Winapi.Windows, SysUtils,
 
 { TDBMSFirebird }
 
-function TDBMSFirebird.DBMSInstalado(pLog: iLog; pOutput: IOutput): boolean;
+function TDBMSFirebird.DBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput): boolean;
 var
   s: string;
 begin
@@ -61,11 +61,11 @@ begin
 end;
 
 constructor TDBMSFirebird.Create(pSisConfig: ISisConfig;
-  pDBMSConfig: IDBMSConfig; pLog: iLog; pOutput: IOutput);
+  pDBMSConfig: IDBMSConfig; pLogProcess: ILogProcess; pOutput: IOutput);
 begin
   FSisConfig := pSisConfig;
   FDBMSConfig := pDBMSConfig;
-  PeguePaths(pLog, pOutput);
+  PeguePaths(pLogProcess, pOutput);
 end;
 
 procedure TDBMSFirebird.ExecInstal;
@@ -100,12 +100,12 @@ begin
 
   bExecuteAoCriar := true;
 
-  pLog.Exibir('ExecIntall inicio');
-  pLog.Exibir('sExecFile=' + sExecFile);
-  pLog.Exibir('sParam=' + sParam);
-  pLog.Exibir('sStartIn=' + sStartIn);
+  pLogProcess.Exibir('ExecIntall inicio');
+  pLogProcess.Exibir('sExecFile=' + sExecFile);
+  pLogProcess.Exibir('sParam=' + sParam);
+  pLogProcess.Exibir('sStartIn=' + sStartIn);
 
-  pLog.Exibir('vai executar');
+  pLogProcess.Exibir('vai executar');
   pOutput.Exibir('Instalando o firebird...');
   WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
   while WExec.Executando do
@@ -121,13 +121,13 @@ begin
   end;
 
   pOutput.Exibir('Execução terminada');
-  pLog.Exibir('Execução terminada');
-  pLog.Exibir('ExecIntall fim');
-  PeguePaths(pLog, pOutput);
+  pLogProcess.Exibir('Execução terminada');
+  pLogProcess.Exibir('ExecIntall fim');
+  PeguePaths(pLogProcess, pOutput);
 end;
 
 procedure TDBMSFirebird.ExecInterative(pAssunto: string; pSql: string;
-  pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput);
+  pLocalDoDB: TLocalDoDB; pLogProcess: ILogProcess; pOutput: IOutput);
 var
   sStartIn: string;
   sExecFile: string;
@@ -197,15 +197,15 @@ begin
 
     pOutput.Exibir('Execução terminada');
     sLog := sLog + ',Execução terminada';
-    // PeguePaths(pLog, pOutput);
+    // PeguePaths(pLogProcess, pOutput);
   finally
-    pLog.Exibir(sLog);
+    pLogProcess.Exibir(sLog);
   end;
 end;
 
 {
   procedure TDBMSFirebird.ExecInterative(pNomeArqSQL: string;
-  pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput);
+  pLocalDoDB: TLocalDoDB; pLogProcess: ILogProcess; pOutput: IOutput);
   var
   sStartIn: string;
   sExecFile: string;
@@ -223,12 +223,12 @@ end;
 
   bExecuteAoCriar := true;
 
-  pLog.Exibir('TDBMSFirebird.ExecInterative inicio');
-  pLog.Exibir('sExecFile='+sExecFile);
-  pLog.Exibir('sParam='+sParam);
-  pLog.Exibir('sStartIn='+sStartIn);
+  pLogProcess.Exibir('TDBMSFirebird.ExecInterative inicio');
+  pLogProcess.Exibir('sExecFile='+sExecFile);
+  pLogProcess.Exibir('sParam='+sParam);
+  pLogProcess.Exibir('sStartIn='+sStartIn);
 
-  pLog.Exibir('vai executar');
+  pLogProcess.Exibir('vai executar');
   pOutput.Exibir('instalando o firebird...');
   pOutput.Exibir('Executando via ISQL ' + ExtractFileName(pNomeArqSQL) + '...');
   //  sLog := 'vai exec';
@@ -253,31 +253,31 @@ end;
   Sleep(100);
 
   pOutput.Exibir('Execução terminada');
-  pLog.Exibir('Execução terminada');
-  pLog.Exibir('TDBMSFirebird.ExecInterative fim');
+  pLogProcess.Exibir('Execução terminada');
+  pLogProcess.Exibir('TDBMSFirebird.ExecInterative fim');
   end;
 }
-procedure TDBMSFirebird.GarantirDBMSInstalado(pLog: iLog; pOutput: IOutput);
+procedure TDBMSFirebird.GarantirDBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  if not DBMSInstalado(pLog, pOutput) then
-    ExecInstal(pLog, pOutput);
+  if not DBMSInstalado(pLogProcess, pOutput) then
+    ExecInstal(pLogProcess, pOutput);
 end;
 
-function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pLog: iLog;
+function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pLogProcess: ILogProcess;
   pOutput: IOutput): boolean;
 var
   updater: IDBUpdater;
 begin
-  pLog.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai DBUpdaterFirebirdCreate');
+  pLogProcess.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai DBUpdaterFirebirdCreate');
   updater := DBUpdaterFirebirdCreate(ldbServidor, self, FSisConfig,
-    pLog, pOutput);
-  pLog.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai updater.execute');
+    pLogProcess, pOutput);
+  pLogProcess.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai updater.execute');
   result := updater.execute;
-  pLog.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,updater.execute retornou,fim');
+  pLogProcess.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,updater.execute retornou,fim');
 end;
 
 function TDBMSFirebird.GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo;
-  pLog: iLog; pOutput: IOutput): string;
+  pLogProcess: ILogProcess; pOutput: IOutput): string;
 var
   // lReg: TRegistry;
   // lStr : String;
@@ -309,7 +309,7 @@ begin
   if Result <> '' then
     Result := IncludeTrailingPathDelimiter(Result);
   sLog := sLog + ', [' + Result + ']';
-  pLog.Exibir(sLog);
+  pLogProcess.Exibir(sLog);
   // pOutput.Exibir(sLog);
 end;
 
@@ -354,15 +354,15 @@ begin
   end;
 end;
 
-procedure TDBMSFirebird.PeguePaths(pLog: iLog; pOutput: IOutput);
+procedure TDBMSFirebird.PeguePaths(pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  pLog.Exibir('TDBMSFirebird.PeguePaths,inicio');
+  pLogProcess.Exibir('TDBMSFirebird.PeguePaths,inicio');
 
-  FFirebirdPath := GetFirebirdExePath(FSisConfig.WinVersionInfo, pLog, pOutput);
-  pLog.Exibir('TDBMSFirebird.PeguePaths,FFirebirdPath='+FFirebirdPath);
+  FFirebirdPath := GetFirebirdExePath(FSisConfig.WinVersionInfo, pLogProcess, pOutput);
+  pLogProcess.Exibir('TDBMSFirebird.PeguePaths,FFirebirdPath='+FFirebirdPath);
 
   FIsqlExe := FFirebirdPath + 'ISQL.exe';
-  pLog.Exibir('TDBMSFirebird.PeguePaths,FIsqlExe='+FIsqlExe);
+  pLogProcess.Exibir('TDBMSFirebird.PeguePaths,FIsqlExe='+FIsqlExe);
 end;
 
 end.

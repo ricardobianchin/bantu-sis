@@ -4,7 +4,7 @@ interface
 
 uses btu.lib.db.updater.comando, System.Classes,
   btu.lib.db.types, btu.lib.db.updater.operations, sis.ui.io.output,
-  sis.ui.io.log;
+  sis.ui.io.LogProcess;
 
 type
   TComandoFB = class(TInterfacedObject, IComando)
@@ -12,13 +12,13 @@ type
     FDBConnection: IDBConnection;
     FUltimoErro: string;
     FDBUpdaterOperations: IDBUpdaterOperations;
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
 
     function GetUltimoErro: string;
     procedure SetUltimoErro(Value: string);
 
-    function GetLog: ILog;
+    function GetLogProcess: ILogProcess;
     function GetOutput: IOutput;
 
     function GetDBConnection: IDBConnection;
@@ -34,12 +34,12 @@ type
     function Funcionou: boolean; virtual; abstract;
 
     property UltimoErro: string read GetUltimoErro write SetUltimoErro;
-    property Log: ILog read GetLog;
+    property LogProcess: ILogProcess read GetLogProcess;
     property Output: IOutput read GetOutput;
     property AsText: string read GetAsText;
 
     constructor Create(pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
+      pUpdaterOperations: IDBUpdaterOperations; pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
@@ -47,10 +47,10 @@ implementation
 { TComandoFB }
 
 constructor TComandoFB.Create(pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pLog: ILog; pOutput: IOutput);
+      pUpdaterOperations: IDBUpdaterOperations; pLogProcess: ILogProcess; pOutput: IOutput);
 begin
   FDBConnection := pDBConnection;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
   FUltimoErro := '';
   FDBUpdaterOperations := pUpdaterOperations;
@@ -61,9 +61,9 @@ begin
   Result := FDBConnection;
 end;
 
-function TComandoFB.GetLog: ILog;
+function TComandoFB.GetLogProcess: ILogProcess;
 begin
-  Result := FLog;
+  Result := FLogProcess;
 end;
 
 function TComandoFB.GetOutput: IOutput;

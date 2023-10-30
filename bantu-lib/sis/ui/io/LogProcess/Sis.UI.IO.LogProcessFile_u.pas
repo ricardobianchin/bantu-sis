@@ -1,11 +1,11 @@
-unit sis.ui.io.log.LogFile_u;
+unit Sis.UI.IO.LogProcessFile_u;
 
 interface
 
-uses sis.ui.io.log_u;
+uses Sis.UI.IO.LogProcess_u;
 
 type
-  TLogFile = class(TLog)
+  TLogProcessFile = class(TLogProcess)
   private
     FF: TextFile;
     FDtHIni: TDateTime;
@@ -26,9 +26,9 @@ implementation
 uses System.SysUtils, sis.types.strings, sis.types.bool.utils,
   sis.win.pastas, sis.files;
 
-{ TLogFile }
+{ TLogProcessFile }
 
-constructor TLogFile.Create(pAssunto: string; pAcrescentaDtH: boolean = True;
+constructor TLogProcessFile.Create(pAssunto: string; pAcrescentaDtH: boolean = True;
   pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt');
 var
   sAssunto: string;
@@ -47,7 +47,7 @@ begin
   if sPasta = '' then
   begin
     sPasta := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
-    sPasta := PastaAcima(sPasta)+'tmp\log\'+DateToPath();
+    sPasta := PastaAcima(sPasta)+'tmp\LogProcess\'+DateToPath();
   end;
 
   ForceDirectories(sPasta);
@@ -59,7 +59,7 @@ begin
 
   sAssunto := StrToNomeArq(Trim(pAssunto));
 
-  FNomeArq := 'Log ' + sAssunto;
+  FNomeArq := 'LogProcess ' + sAssunto;
 
   if pAcrescentaDtH then
     FNomeArq := FNomeArq + ' ' + FormatDateTime('yyyy-mm-dd_hh-nn-ss',
@@ -81,13 +81,13 @@ begin
   Exibir(sLog);
 end;
 
-destructor TLogFile.Destroy;
+destructor TLogProcessFile.Destroy;
 begin
-  Exibir('TLogFile.Destroy');
+  Exibir('TLogProcessFile.Destroy');
   inherited;
 end;
 
-procedure TLogFile.Exibir(pFrase: string);
+procedure TLogProcessFile.Exibir(pFrase: string);
 begin
   if not Ativo then
     exit;
@@ -99,7 +99,7 @@ begin
 //    Rewrite(FF)
     ;
 
-  Writeln(FF, LogRecord.AsTab);
+  Writeln(FF, LogProcessRecord.AsTab);
 
   CloseFile(FF);
 end;

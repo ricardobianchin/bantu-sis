@@ -56,9 +56,8 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-;fire 
-[Run]
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""Add-MpPreference -ExclusionPath '{app}\'"""; Flags: runhidden runascurrentuser
+Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""New-SmbShare -Name 'DarosPDV' -Path 'C:\DarosPDV' -FullAccess 'Everyone'"""; Flags: runhidden runascurrentuser
 
 ;starter
 Filename: "{app}\Starter\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

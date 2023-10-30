@@ -2,7 +2,7 @@ unit btu.lib.db.dbms;
 
 interface
 
-uses sis.ui.io.log, sis.ui.io.output, btu.lib.db.types, System.Classes;
+uses sis.ui.io.LogProcess, sis.ui.io.output, btu.lib.db.types, System.Classes;
 // sugestoes
 // DBMS (Database Management System)
 // IDBMS
@@ -17,11 +17,11 @@ type
     function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
     function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
-    procedure GarantirDBMSInstalado(pLog: iLog; pOutput: IOutput);
-    function GarantirDBServCriadoEAtualizado(pLog: iLog; pOutput: IOutput): boolean;
+    procedure GarantirDBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput);
+    function GarantirDBServCriadoEAtualizado(pLogProcess: ILogProcess; pOutput: IOutput): boolean;
 
-//    procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
-    procedure ExecInterative(pAssunto: string; pSql: string; pLocalDoDB: TLocalDoDB; pLog: iLog; pOutput: IOutput); overload;
+//    procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pLogProcess: ILogProcess; pOutput: IOutput); overload;
+    procedure ExecInterative(pAssunto: string; pSql: string; pLocalDoDB: TLocalDoDB; pLogProcess: ILogProcess; pOutput: IOutput); overload;
   end;
 
 implementation

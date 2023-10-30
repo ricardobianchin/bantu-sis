@@ -5,7 +5,7 @@ interface
 uses btu.lib.db.connection_u
   , FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
-  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, sis.ui.io.log,
+  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, sis.ui.io.LogProcess,
   sis.ui.io.output, btu.lib.db.types, Data.DB, FireDAC.DApt
   ;
 
@@ -30,7 +30,7 @@ type
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet); override;
 
     constructor Create(pDBMSInfo: IDBMSInfo;
-      pDBConnectionParams: TDBConnectionParams; pLog: ILog; pOutput: IOutput);
+      pDBConnectionParams: TDBConnectionParams; pLogProcess: ILogProcess; pOutput: IOutput);
   end;
 
 implementation
@@ -46,7 +46,7 @@ begin
     try
       FFDConnection.Open;
     except on e: exception do
-        log.Exibir('TDBConnectionFireDAC.AbrirConnectionObject Erro ' + e.ClassName + ',' + e.Message + ' ao conectar a ' +
+        LogProcess.Exibir('TDBConnectionFireDAC.AbrirConnectionObject Erro ' + e.ClassName + ',' + e.Message + ' ao conectar a ' +
           DBConnectionParams.Database);
     end;
   finally
@@ -65,11 +65,11 @@ begin
   Result := FFDConnection.Connected;
 end;
 
-constructor TDBConnectionFireDAC.Create(pDBMSInfo: IDBMSInfo; pDBConnectionParams: TDBConnectionParams; pLog: ILog; pOutput: IOutput);
+constructor TDBConnectionFireDAC.Create(pDBMSInfo: IDBMSInfo; pDBConnectionParams: TDBConnectionParams; pLogProcess: ILogProcess; pOutput: IOutput);
 var
   sDriver: string;
 begin
-  inherited Create(pDBConnectionParams, pLog, pOutput);
+  inherited Create(pDBConnectionParams, pLogProcess, pOutput);
 
 //  FDBConnectionParams := pDBConnectionParams;
 

@@ -1,11 +1,11 @@
-unit sis.ui.io.log.LogRecord_u;
+unit Sis.UI.IO.LogProcessRecord_u;
 
 interface
 
-uses sis.ui.io.log.LogRecord, sis.sis.constants, sis.types.constants;
+uses sis.ui.io.LogProcessRecord, sis.sis.constants, sis.types.constants;
 
 type
-  TLogRecord = class(TInterfacedObject, ILogRecord)
+  TLogProcessRecord = class(TInterfacedObject, ILogProcessRecord)
   private
     FDtH: TDateTime;
     FTexto: string;
@@ -30,15 +30,15 @@ implementation
 
 uses System.SysUtils, System.StrUtils;
 
-{ TLogRecord }
+{ TLogProcessRecord }
 
-constructor TLogRecord.Create;
+constructor TLogProcessRecord.Create;
 begin
   FDtH := 0;
   FTexto := '';
 end;
 
-function TLogRecord.GetAsTab: string;
+function TLogProcessRecord.GetAsTab: string;
 begin
   result :=
     FormatDateTime('dd/mm/yyyy hh:nn:ss,zzz', FDtH)
@@ -47,22 +47,22 @@ begin
     ;
 end;
 
-function TLogRecord.GetDtH: TDateTime;
+function TLogProcessRecord.GetDtH: TDateTime;
 begin
   result := FDtH;
 end;
 
-function TLogRecord.GetTexto: string;
+function TLogProcessRecord.GetTexto: string;
 begin
   result := FTexto;
 end;
 
-procedure TLogRecord.SetDtH(Value: TDateTime);
+procedure TLogProcessRecord.SetDtH(Value: TDateTime);
 begin
   FDtH := Value;
 end;
 
-procedure TLogRecord.SetTexto(Value: string);
+procedure TLogProcessRecord.SetTexto(Value: string);
 begin
 //substitute  Value := StringReplace(Value, ';', '_', [rfReplaceAll, rfIgnoreCase]);
   FTexto := Value;

@@ -2,13 +2,13 @@ unit Sis.Web.HTTP.Download_u;
 
 interface
 
-uses Sis.Web.HTTP.Download, Sis.ui.io.log, Sis.ui.io.output, IdHTTP,
+uses Sis.Web.HTTP.Download, Sis.ui.io.LogProcess, Sis.ui.io.output, IdHTTP,
   System.Classes, IdSSL, IdSSLOpenSSL, sta.constants;
 
 type
   THTTPDownload = class(TInterfacedObject, IHTTPDownload)
   private
-    FLog: ILog;
+    FLogProcess: ILogProcess;
     FOutput: IOutput;
     FExluiDestinoAntesDeBaixar: boolean;
     //FDtHLocal, FDtHRemoto : TDateTIme;
@@ -20,7 +20,7 @@ type
 //    function ExecuteIndy: Boolean;
   public
     function Execute: Boolean;
-    constructor Create(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
+    constructor Create(pArqLocal, pArqRemoto: string; pLogProcess: ILogProcess; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
   end;
 
 implementation
@@ -30,15 +30,15 @@ uses System.DateUtils, System.SysUtils, Sis.types.bool.utils, Sis.Types.Times,
 
 { THTTPDownload }
 
-constructor THTTPDownload.Create(pArqLocal, pArqRemoto: string; pLog: ILog; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
+constructor THTTPDownload.Create(pArqLocal, pArqRemoto: string; pLogProcess: ILogProcess; pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
 begin
   FArqLocal := pArqLocal;
   FArqRemoto := pArqRemoto;
-  FLog := pLog;
+  FLogProcess := pLogProcess;
   FOutput := pOutput;
   FExluiDestinoAntesDeBaixar := pExluiDestinoAntesDeBaixar;
 
-  FLog.Exibir('THTTPDownload.Create,Local=' + FArqLocal+ ',Remoto=' + FArqRemoto);
+  FLogProcess.Exibir('THTTPDownload.Create,Local=' + FArqLocal+ ',Remoto=' + FArqRemoto);
 end;
 
 function THTTPDownload.Execute: Boolean;
@@ -46,13 +46,13 @@ begin
   {
   case WEB_LIB_USADA of
     WEB_LIB_INDY: Result := ExecuteIndy;
-    WEB_LIB_NET: Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FLog, FOutput, FExluiDestinoAntesDeBaixar);
+    WEB_LIB_NET: Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FLogProcess, FOutput, FExluiDestinoAntesDeBaixar);
   end;
   }
-  FLog.Exibir('THTTPDownload.Create,vai chamar Sis.Web.HTTPDownload.NET.Execute');
-  Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FLog,
+  FLogProcess.Exibir('THTTPDownload.Create,vai chamar Sis.Web.HTTPDownload.NET.Execute');
+  Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FLogProcess,
     FOutput, FExluiDestinoAntesDeBaixar);
-  FLog.Exibir('THTTPDownload.Create,retornou de Sis.Web.HTTPDownload.NET.Execute, Fim');
+  FLogProcess.Exibir('THTTPDownload.Create,retornou de Sis.Web.HTTPDownload.NET.Execute, Fim');
 end;
 
 {
@@ -112,7 +112,7 @@ begin
     sLog := sLog + ',HTTP.Free';
     IdHTTP1.Free;
     sLog := sLog + ',Result=' + BooleanToStr(Result);
-    FLog.Exibir(sLog);
+    FLogProcess.Exibir(sLog);
   end;
 end;
 }
