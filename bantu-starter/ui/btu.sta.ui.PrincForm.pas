@@ -5,7 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, sis.ui.io.LogProcess, Vcl.AppEvnts,    Sis.UI.IO.Output.Form_u,
-  sis.ui.io.output, Vcl.StdCtrls, Vcl.ExtCtrls;
+  sis.ui.io.output, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Imaging.pngimage;
+
+const
+  Radius = 30;
 
 type
   TPrincForm = class(TForm, IOutput)
@@ -13,8 +16,11 @@ type
     StatusMemo: TMemo;
     ShowTimer: TTimer;
     DtHCompileLabel: TLabel;
+    Image1: TImage;
+    StatusLabel: TLabel;
 
     procedure FormCreate(Sender: TObject);
+
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure ShowTimerTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -25,6 +31,7 @@ type
 //    FOutputToForm: IOutput;
 //    FOutput: IOutput;
     procedure ExecStarter;
+    procedure MakeRounded(Control: TWinControl);
   public
 
     { Public declarations }
@@ -91,12 +98,30 @@ procedure TPrincForm.FormCreate(Sender: TObject);
 begin
   SisImgDataModule := TSisImgDataModule.Create(self);
   DtHCompileLabel.Caption := 'Compilado em: ' + Sta.Versao.DTH_COMPILE;
+  MakeRounded(Self);
 end;
 
 procedure TPrincForm.FormShow(Sender: TObject);
 begin
   ShowTimer.Enabled := true;
 
+end;
+
+procedure TPrincForm.MakeRounded(Control: TWinControl);
+var
+  R: TRect;
+  Rgn: HRGN;
+begin
+  with Control do
+  begin
+    R   := ClientRect;
+    rgn := CreateRoundRectRgn(R.Left, R.Top, R.Right, R.Bottom, Radius, Radius);
+    Perform(EM_GETRECT, 0, lParam(@r));
+    InflateRect(r, - 5, - 5);
+    Perform(EM_SETRECTNP, 0, lParam(@r));
+    SetWindowRgn(Handle, rgn, True);
+    Invalidate;
+  end;
 end;
 
 procedure TPrincForm.ShowTimerTimer(Sender: TObject);
