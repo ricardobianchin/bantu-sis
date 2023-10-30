@@ -8,14 +8,14 @@ type
   TLog = class(TInterfacedObject, ILog)
   private
     FLogRecord: ILogRecord;
-    FEnabled: boolean;
+    FAtivo: boolean;
 
-    function GetEnabled: boolean;
-    procedure SetEnabled(Value: boolean);
+    function GetAtivo: boolean;
+    procedure SetAtivo(Value: boolean);
   protected
     property LogRecord: ILogRecord read FLogRecord;
   public
-    property Enabled: boolean read GetEnabled write SetEnabled;
+    property Ativo: boolean read GetAtivo write SetAtivo;
     procedure Exibir(pFrase: string); virtual;
     procedure ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType); virtual;
     constructor Create; virtual;
@@ -30,7 +30,7 @@ uses sis.ui.io.log.factory, System.SysUtils;
 constructor TLog.Create;
 begin
   FLogRecord := LogRecordCreate;
-  SetEnabled(true);
+  SetAtivo(True);
 end;
 
 procedure TLog.Exibir(pFrase: string);
@@ -44,14 +44,14 @@ begin
   Exibir(pFrase);
 end;
 
-function TLog.GetEnabled: boolean;
+function TLog.GetAtivo: boolean;
 begin
-  result := FEnabled;
+  result := FAtivo;
 end;
 
-procedure TLog.SetEnabled(Value: boolean);
+procedure TLog.SetAtivo(Value: boolean);
 begin
-  FEnabled := Value;
+  FAtivo := Value;
 end;
 
 end.

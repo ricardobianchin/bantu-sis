@@ -7,281 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000003.txt",
-			"settings":
-			{
-				"buffer_size": 122097,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/domains.md",
-			"settings":
-			{
-				"buffer_size": 1400,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			},
-			"undo_stack":
-			[
-				[
-					9,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AQAAAPoAAAAAAAAA+wAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA+gAAAAAAAAD6AAAAAAAAAP///////+9/"
-				],
-				[
-					11,
-					1,
-					"insert",
-					{
-						"characters": "|V"
-					},
-					"AgAAABQAAAAAAAAAFQAAAAAAAAAAAAAAFQAAAAAAAAAWAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAFAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					12,
-					1,
-					"insert",
-					{
-						"characters": "ERSAO"
-					},
-					"BQAAABYAAAAAAAAAFwAAAAAAAAAAAAAAFwAAAAAAAAAYAAAAAAAAAAAAAAAYAAAAAAAAABkAAAAAAAAAAAAAABkAAAAAAAAAGgAAAAAAAAAAAAAAGgAAAAAAAAAbAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAFgAAAAAAAAAWAAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					15,
-					1,
-					"insert",
-					{
-						"characters": "|"
-					},
-					"AQAAACkAAAAAAAAAKgAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAKQAAAAAAAAApAAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					22,
-					1,
-					"insert",
-					{
-						"characters": "|"
-					},
-					"AQAAAEQAAAAAAAAARQAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAARAAAAAAAAABEAAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					25,
-					5,
-					"run_macro",
-					null,
-					"BQAAAGYAAAAAAAAAZwAAAAAAAAAAAAAAggAAAAAAAACDAAAAAAAAAAAAAACsAAAAAAAAAK0AAAAAAAAAAAAAAMgAAAAAAAAAyQAAAAAAAAAAAAAA4gAAAAAAAADjAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAZgAAAAAAAABmAAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					32,
-					1,
-					"insert",
-					{
-						"characters": "1"
-					},
-					"AQAAACoAAAAAAAAAKwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAKgAAAAAAAAAqAAAAAAAAAAAAAAAAABxA"
-				],
-				[
-					36,
-					1,
-					"right_delete",
-					null,
-					"AQAAACoAAAAAAAAAKgAAAAAAAAABAAAAMQ",
-					"AQAAAAAAAAABAAAAKgAAAAAAAAAqAAAAAAAAAAAAAAAAABxA"
-				],
-				[
-					37,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAACoAAAAAAAAAKwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAKgAAAAAAAAAqAAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					40,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAAEYAAAAAAAAARwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAARgAAAAAAAABGAAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					43,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAAGkAAAAAAAAAagAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAaQAAAAAAAABpAAAAAAAAAAAAAAAAABxA"
-				],
-				[
-					46,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAAIYAAAAAAAAAhwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAhgAAAAAAAACGAAAAAAAAAAAAAAAAABxA"
-				],
-				[
-					49,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAALEAAAAAAAAAsgAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAsQAAAAAAAACxAAAAAAAAAAAAAAAAABxA"
-				],
-				[
-					52,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAAM4AAAAAAAAAzwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAzgAAAAAAAADOAAAAAAAAAAAAAAAAABxA"
-				],
-				[
-					55,
-					1,
-					"insert",
-					{
-						"characters": "0"
-					},
-					"AQAAAOkAAAAAAAAA6gAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA6QAAAAAAAADpAAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					57,
-					1,
-					"right_delete",
-					null,
-					"AQAAABABAAAAAAAAEAEAAAAAAAABAAAACg",
-					"AQAAAAAAAAABAAAAEAEAAAAAAAAQAQAAAAAAAAAAAAAAACpA"
-				],
-				[
-					58,
-					1,
-					"insert",
-					{
-						"characters": "|"
-					},
-					"AQAAABABAAAAAAAAEQEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAEAEAAAAAAAAQAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					61,
-					6,
-					"run_macro",
-					null,
-					"BgAAAC4BAAAAAAAALwEAAAAAAAAAAAAAWgEAAAAAAABbAQAAAAAAAAAAAACMAQAAAAAAAI0BAAAAAAAAAAAAAKQBAAAAAAAApQEAAAAAAAAAAAAAwgEAAAAAAADDAQAAAAAAAAAAAADuAQAAAAAAAO8BAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALgEAAAAAAAAuAQAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					74,
-					2,
-					"swap_line_up",
-					null,
-					"BAAAAFoBAAAAAAAAWgEAAAAAAAAyAAAAfHxTRUxFQ0lPTkFET19ET018Qk9PTEVBTiBERUZBVUxUIEZBTFNFIE5PVCBOVUxMfAouAQAAAAAAAGABAAAAAAAAAAAAAC4BAAAAAAAALgEAAAAAAAAyAAAAfHxTRUxFQ0lPTkFET19ET018Qk9PTEVBTiBERUZBVUxUIEZBTFNFIE5PVCBOVUxMfAoQAQAAAAAAAEIBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAYQEAAAAAAABhAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					76,
-					1,
-					"insert",
-					{
-						"characters": "1"
-					},
-					"AQAAABEBAAAAAAAAEgEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAEQEAAAAAAAARAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					80,
-					2,
-					"swap_line_up",
-					null,
-					"BAAAAI0BAAAAAAAAjQEAAAAAAAAYAAAAfHxOT01FX0RPTXxWQVJDSEFSKDcwKXwKYQEAAAAAAAB5AQAAAAAAAAAAAABhAQAAAAAAAGEBAAAAAAAAGAAAAHx8Tk9NRV9ET018VkFSQ0hBUig3MCl8CkMBAAAAAAAAWwEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAkwEAAAAAAACTAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					82,
-					1,
-					"insert",
-					{
-						"characters": "2"
-					},
-					"AQAAAEQBAAAAAAAARQEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAARAEAAAAAAABEAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					85,
-					1,
-					"insert",
-					{
-						"characters": "2"
-					},
-					"AQAAAF0BAAAAAAAAXgEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAXQEAAAAAAABdAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					88,
-					1,
-					"insert",
-					{
-						"characters": "2"
-					},
-					"AQAAAHwBAAAAAAAAfQEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAfAEAAAAAAAB8AQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					92,
-					2,
-					"swap_line_up",
-					null,
-					"BAAAAPIBAAAAAAAA8gEAAAAAAAAgAAAAfHxJRF9DSEFSX0RPTXxDSEFSKDEpIE5PVCBOVUxMfArGAQAAAAAAAOYBAAAAAAAAAAAAAMYBAAAAAAAAxgEAAAAAAAAgAAAAfHxJRF9DSEFSX0RPTXxDSEFSKDEpIE5PVCBOVUxMfAqoAQAAAAAAAMgBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA8wEAAAAAAADzAQAAAAAAAAAAAAAAABxA"
-				],
-				[
-					93,
-					1,
-					"insert",
-					{
-						"characters": "2"
-					},
-					"AQAAAKkBAAAAAAAAqgEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAqQEAAAAAAACpAQAAAAAAAAAAAAAAABxA"
-				],
-				[
-					98,
-					1,
-					"right_delete",
-					null,
-					"AQAAAMkBAAAAAAAAyQEAAAAAAABKAAAAfHxOT01FX0NVUlRPX0RPTXxWQVJDSEFSKDE1KXwKfHxOT01FX0NVUlRPX05PVE5fRE9NfFZBUkNIQVIoMTUpIE5PVCBOVUxMfAo",
-					"AQAAAAAAAAABAAAAyQEAAAAAAAATAgAAAAAAAAAAAAAAAAAA"
-				]
-			]
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -294,6 +19,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"pac",
+				"Preferences: Browse Packages"
+			],
 			[
 				"split",
 				"Selection: Split into Lines"
@@ -311,9 +40,10 @@
 	},
 	"console":
 	{
-		"height": 0.0,
+		"height": 106.0,
 		"history":
 		[
+			"install"
 		]
 	},
 	"distraction_free":
@@ -327,24 +57,17 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000",
-		"/C/Pr/app/bantu/bantu-sis/doc",
-		"/C/Pr/app/bantu/bantu-sis/doc/BtuShopCore",
-		"/C/Pr/app/bantu/bantu-sis/doc/db",
-		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater",
-		"/C/Pr/app/bantu/bantu-sis/doc/sis",
-		"/C/Pr/app/bantu/bantu-sis/doc/sis/types",
-		"/C/Pr/ter/i9/Src",
-		"/C/Pr/ter/i9/Src/Foco1",
-		"/C/Pr/ter/i9/Src/Foco1/Sys"
+		"/C/Pr/app/bantu/bantu-sis/Src/bantu-lib",
+		"/C/Pr/app/bantu/bantu-sis/Src/bantu-starter"
 	],
 	"file_history":
 	[
+		"/C/Pr/app/bantu/bantu-sis/Src/sublime-projects/bantu-shop",
+		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/domains.md",
 		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000004.txt",
 		"/C/Pr/ter/i9/Src/Foco1/Sys/SysDBI/UtilsDataSet.pas",
 		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/versao db tabelas usadas.md",
 		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/versoes db.md",
-		"/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/domains.md",
 		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000002.txt",
 		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000003.txt",
 		"/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000001.txt",
@@ -363,7 +86,7 @@
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -417,73 +140,6 @@
 		{
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/C/Pr/app/bantu/bantu-sis/exe/inst/dbupdates/000/000/dbupdate 000000003.txt",
-					"selected": true,
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 122097,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 504.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"sheets":
-			[
-				{
-					"buffer": 1,
-					"file": "/C/Pr/app/bantu/bantu-sis/doc/db/dbupdater/domains.md",
-					"selected": true,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1400,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								423,
-								423
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -504,12 +160,6 @@
 				0,
 				1,
 				1
-			],
-			[
-				0,
-				1,
-				1,
-				2
 			]
 		],
 		"cols":
@@ -520,7 +170,6 @@
 		"rows":
 		[
 			0.0,
-			0.5,
 			1.0
 		]
 	},
@@ -567,7 +216,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

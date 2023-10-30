@@ -89,7 +89,7 @@ end;
 
 procedure TLogFile.Exibir(pFrase: string);
 begin
-  if not Enabled then
+  if not Ativo then
     exit;
 
   inherited Exibir(pFrase);
