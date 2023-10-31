@@ -47,6 +47,7 @@ function TDBQueryFireDac.Abrir: boolean;
 begin
   Result := False;
   try
+    LogProcess.Exibir('Abrirá '+SQL+','+GetParamsAsStr);
     FFDQuery.Open;
     if FFDQuery.Active then
     begin
