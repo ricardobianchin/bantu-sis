@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
 OutputDir=\\Vboxsvr\d_drive\inst\Bantu\
-OutputBaseFilename=MercadoInstall
+OutputBaseFilename=MercadoInicial
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -37,17 +37,15 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-;atu
-Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\libeay32.dll"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\ssleay32.dll"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "\\Vboxsvr\d_drive\inst\Bantu\Update\DBUpdates\*"; DestDir: "{app}\Starter\Update\DBUpdates\"; Flags: ignoreversion recursesubdirs createallsubdirs
-
 ;ini
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Delphi-redist\Redist\win64\*"; DestDir: "{app}\Starter\inst\inst-Delphi-redist\Redist\win64\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Firebird\fb64\*"; DestDir: "{app}\Starter\inst\inst-Firebird\fb64\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "\\Vboxsvr\d_drive\inst\Bantu\inst\inst-Firebird\dados\*"; DestDir: "{app}\Starter\inst\inst-Firebird\dados\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\Vboxsvr\d_drive\inst\Bantu\Mercado\inst-Firebird\dados\*"; DestDir: "{app}\Starter\inst\inst-Firebird\dados\"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+;atu
+Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\\Vboxsvr\d_drive\inst\Bantu\Mercado\Update\DBUpdates\*"; DestDir: "{app}\Starter\Update\DBUpdates\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -56,7 +54,13 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
+;md
+Filename: "{cmd}"; Parameters: "/C md {app}"; Flags: runhidden
+
+;exclusion
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""Add-MpPreference -ExclusionPath '{app}\'"""; Flags: runhidden runascurrentuser
+
+;compartilha
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""New-SmbShare -Name 'DarosPDV' -Path 'C:\DarosPDV' -FullAccess 'Everyone'"""; Flags: runhidden runascurrentuser
 
 ;starter
