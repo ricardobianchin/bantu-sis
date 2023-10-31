@@ -18,7 +18,7 @@ type
   protected
     function GetParams: TFDParams; virtual; abstract;
     function GetSQL: string; virtual; abstract;
-    procedure  SetSQL(Value: string); virtual; abstract;
+    procedure SetSQL(Value: string); virtual; abstract;
     property DBConnection: IDBConnection read FDBConnection;
     property SQL: string read GetSQL write SetSQL;
     property LogProcess: ILogProcess read FLogProcess;
@@ -26,6 +26,7 @@ type
 
     function GetPrepared: boolean; virtual; abstract;
     procedure SetPrepared(Value: boolean); virtual; abstract;
+    function GetParamsAsStr: string;
   public
     property Params: TFDParams read GetParams;
 
@@ -41,19 +42,42 @@ type
 
 implementation
 
+uses System.Variants;
+
 { TDBCommand }
 
-constructor TDBSqlOperation.Create(pDBConnection: IDBConnection; pLogProcess: ILogProcess;
-  pOutput: IOutput);
+constructor TDBSqlOperation.Create(pDBConnection: IDBConnection;
+  pLogProcess: ILogProcess; pOutput: IOutput);
 begin
   FDBConnection := pDBConnection;
   FLogProcess := pLogProcess;
   FOutput := pOutput;
 end;
 
+function TDBSqlOperation.GetParamsAsStr: string;
+var
+  s: string;
+  I: integer;
+  Param: TFDParam;
+begin
+  s := '';
+
+  for I := 0 to Params.Count - 1 do
+  begin
+    Param := Params[I];
+
+    if s <> '' then
+      s := s + ',';
+
+    s := s + '[' + Param.Name + ' = ' + VarToStrDef(Param.Value, 'NULL') + ']';
+  end;
+
+  Result := s;
+end;
+
 function TDBSqlOperation.GetUltimoErro: string;
 begin
-  result := FUltimoErro;
+  Result := FUltimoErro;
 end;
 
 procedure TDBSqlOperation.SetUltimoErro(Value: string);

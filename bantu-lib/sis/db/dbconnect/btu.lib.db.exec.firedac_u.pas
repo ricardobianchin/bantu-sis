@@ -54,6 +54,7 @@ end;
 procedure TDBExecFireDac.Execute;
 begin
   inherited;
+  LogProcess.Exibir('Executará '+SQL+','+GetParamsAsStr);
   FDCommand.Execute;
 end;
 
