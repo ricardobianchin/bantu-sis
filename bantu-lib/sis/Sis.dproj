@@ -5,7 +5,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -125,8 +125,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="ui\io\LogProcess\Sis.UI.IO.LogProcess.Factory.pas"/>
         <DCCReference Include="ui\io\LogProcess\Sis.UI.IO.LogProcessFile_u.pas"/>
         <DCCReference Include="ui\io\Sis.UI.IO.Factory.pas"/>
-        <DCCReference Include="ui\io\output\sis.ui.io.output.pas"/>
-        <DCCReference Include="ui\io\output\sis.ui.io.output.mudo_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas"/>
         <DCCReference Include="ui\io\output\output.form\sis.ui.io.output.exibirpausa.form_u.pas">
             <FormType>dfm</FormType>
         </DCCReference>
@@ -160,6 +160,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="files\sis.files.FileInfo.pas"/>
         <DCCReference Include="files\sis.files.FileInfo_u.pas"/>
         <DCCReference Include="files\Sis.Files.Sync.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
+        <DCCReference Include="UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -201,13 +203,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\exe\bin\Sis.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\exe\bin\Sis.bpl" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>Sis.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\exe\bin\Sis.bpl" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\exe\bin\Sis.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>Sis.bpl</RemoteName>
                         <Overwrite>true</Overwrite>

@@ -1,4 +1,4 @@
-unit sis.ui.io.output;
+unit Sis.UI.IO.Output;
 
 interface
 

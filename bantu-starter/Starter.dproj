@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -157,8 +157,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja.pas"/>
         <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.loja_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\entit\btu.lib.entit.factory.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\output\sis.ui.io.output.pas"/>
-        <DCCReference Include="..\bantu-lib\sis\ui\io\output\sis.ui.io.output.mudo_u.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas"/>
         <DCCReference Include="..\bantu-lib\sis\types\bool\sis.types.bool.utils.pas"/>
         <DCCReference Include="..\bantu-lib\sis\win\sis.win.pastas.pas"/>
         <DCCReference Include="..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas"/>
@@ -262,6 +262,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessFile_u.pas"/>
         <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord.pas"/>
         <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
+        <DCCReference Include="..\bantu-lib\Sis\UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

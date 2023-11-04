@@ -16,6 +16,7 @@ type
   public
     function Executando:boolean;
     function Execute: boolean; override;
+    procedure EspereExecucao(pOutput: IOutput; pQtdIntervals: integer = 8);
     constructor Create(
       pExecuteFile, pParams, pStartIn: string;
       pExecuteAoCriar: boolean;
@@ -26,7 +27,7 @@ type
 
 implementation
 
-uses Vcl.Forms;
+uses Vcl.Forms, System.SysUtils;
 
 { TWinExecute }
 
@@ -75,6 +76,29 @@ end;
 function TWinExecute.Execute: boolean;
 begin
   result := ShellExecuteEx(@SEInfo);
+end;
+
+procedure TWinExecute.EspereExecucao(pOutput: IOutput;
+  pQtdIntervals: integer);
+var
+  iQtdVoltas: integer;
+  iQtdExib: integer;
+begin
+  iQtdVoltas := 0;
+  iQtdExib := 0;
+  repeat
+    sleep(100);
+    if not Executando then
+      break;
+
+    if (iQtdVoltas div pQtdIntervals) = 0 then
+    begin
+      inc(iQtdExib);
+      pOutput.Exibir('Aguardando a execução... '+iqtdvoltas.tostring);
+    end;
+
+    inc(iQtdVoltas);
+  until true;
 end;
 
 end.

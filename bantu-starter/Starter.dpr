@@ -42,8 +42,8 @@ uses
   btu.lib.entit.loja in '..\bantu-lib\sis\entit\btu.lib.entit.loja.pas',
   btu.lib.entit.loja_u in '..\bantu-lib\sis\entit\btu.lib.entit.loja_u.pas',
   btu.lib.entit.factory in '..\bantu-lib\sis\entit\btu.lib.entit.factory.pas',
-  sis.ui.io.output in '..\bantu-lib\sis\ui\io\output\sis.ui.io.output.pas',
-  sis.ui.io.output.mudo_u in '..\bantu-lib\sis\ui\io\output\sis.ui.io.output.mudo_u.pas',
+  Sis.UI.IO.Output in '..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.pas',
+  Sis.UI.IO.Output.Mudo_u in '..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas',
   sis.types.bool.utils in '..\bantu-lib\sis\types\bool\sis.types.bool.utils.pas',
   sis.win.pastas in '..\bantu-lib\sis\win\sis.win.pastas.pas',
   btu.lib.db.firebird.utils in '..\bantu-lib\sis\db\firebird\btu.lib.db.firebird.utils.pas',
@@ -136,7 +136,9 @@ uses
   Sis.UI.IO.LogProcess_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcess_u.pas',
   Sis.UI.IO.LogProcessFile_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessFile_u.pas',
   Sis.UI.IO.LogProcessRecord in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord.pas',
-  Sis.UI.IO.LogProcessRecord_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas';
+  Sis.UI.IO.LogProcessRecord_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas',
+  Sis.UI.IO.Output.ToLabel_u in '..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas',
+  Sis.UI.IO.LogProcess.Constants in '..\bantu-lib\Sis\UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas';
 
 {$R *.res}
 

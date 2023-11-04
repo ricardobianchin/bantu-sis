@@ -13,7 +13,7 @@ type
     FIsqlExe: string;
     FSisConfig: ISisConfig;
     // FLogProcess: ILogProcess;
-    // FOutput: IOutput;
+    FOutput: IOutput;
     //FPausaAntesExec: string;
 
     FDBMSConfig: IDBMSConfig;
@@ -55,6 +55,7 @@ function TDBMSFirebird.DBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput)
 var
   s: string;
 begin
+  result := true;
   s := 'TDBMSFirebird.BancoInstalado';
   Result := FileExists(FIsqlExe);
   s := s + ', ' + Iif(Result, 'instalado', 'nao instalado');
@@ -65,6 +66,7 @@ constructor TDBMSFirebird.Create(pSisConfig: ISisConfig;
 begin
   FSisConfig := pSisConfig;
   FDBMSConfig := pDBMSConfig;
+  FOutput := pOutput;
   PeguePaths(pLogProcess, pOutput);
 end;
 
@@ -79,6 +81,7 @@ var
   WExec: IWinExecute;
   I: Integer;
 begin
+  exit;
   sStartIn := ParamStr(0);
   sStartIn := ExtractFilePath(sStartIn);
   sStartIn := sStartIn + 'inst\inst-Firebird\';
@@ -98,7 +101,7 @@ begin
     ' /COMPONENTS=SuperServerComponent,ClassicServerComponent,ServerComponent,'
     + 'DevAdminComponent,ClientComponent';
 
-  bExecuteAoCriar := true;
+  bExecuteAoCriar := True;
 
   pLogProcess.Exibir('ExecIntall inicio');
   pLogProcess.Exibir('sExecFile=' + sExecFile);
@@ -108,17 +111,13 @@ begin
   pLogProcess.Exibir('vai executar');
   pOutput.Exibir('Instalando o firebird...');
   WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-  while WExec.Executando do
-  begin
-    for I := 1 to 8 do
-    begin
-      sleep(100);
-      if not WExec.Executando then
-        break;
-    end;
-    if WExec.Executando then
-      pOutput.Exibir('Aguardando a execução...');
-  end;
+  WExec.EspereExecucao(FOutput);
+
+  sExecFile := sStartIn + 'instsvc.exe';
+  sParam := 'start';
+
+  WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
+  WExec.EspereExecucao(FOutput);
 
   pOutput.Exibir('Execução terminada');
   pLogProcess.Exibir('Execução terminada');
@@ -259,6 +258,7 @@ end;
 }
 procedure TDBMSFirebird.GarantirDBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput);
 begin
+  exit;
   if not DBMSInstalado(pLogProcess, pOutput) then
     ExecInstal(pLogProcess, pOutput);
 end;
