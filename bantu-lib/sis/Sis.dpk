@@ -9,21 +9,21 @@ package Sis;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
@@ -45,8 +45,8 @@ contains
   Sis.UI.IO.LogProcess.Factory in 'ui\io\LogProcess\Sis.UI.IO.LogProcess.Factory.pas',
   Sis.UI.IO.LogProcessFile_u in 'ui\io\LogProcess\Sis.UI.IO.LogProcessFile_u.pas',
   Sis.UI.IO.Factory in 'ui\io\Sis.UI.IO.Factory.pas',
-  sis.ui.io.output in 'ui\io\output\sis.ui.io.output.pas',
-  sis.ui.io.output.mudo_u in 'ui\io\output\sis.ui.io.output.mudo_u.pas',
+  Sis.UI.IO.Output in 'UI\IO\Output\Sis.UI.IO.Output.pas',
+  Sis.UI.IO.Output.Mudo_u in 'UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas',
   sis.ui.io.output.exibirpausa.form_u in 'ui\io\output\output.form\sis.ui.io.output.exibirpausa.form_u.pas',
   sis.ui.io.output.form_u in 'ui\io\output\output.form\sis.ui.io.output.form_u.pas',
   sis.ui.io.output.toform_u in 'ui\io\output\output.form\sis.ui.io.output.toform_u.pas',
@@ -73,6 +73,8 @@ contains
   sis.ui.Img.DataModule in 'ui\FormDecorators\sis.ui.Img.DataModule.pas',
   sis.files.FileInfo in 'files\sis.files.FileInfo.pas',
   sis.files.FileInfo_u in 'files\sis.files.FileInfo_u.pas',
-  Sis.Files.Sync in 'files\Sis.Files.Sync.pas';
+  Sis.Files.Sync in 'files\Sis.Files.Sync.pas',
+  Sis.UI.IO.Output.ToLabel_u in 'UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas',
+  Sis.UI.IO.LogProcess.Constants in 'UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas';
 
 end.

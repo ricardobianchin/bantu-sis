@@ -19,8 +19,8 @@ type
     function GetNomeBanco: string; override;
     function GetDBExiste: boolean; override;
     procedure CrieDB; override;
-//    function GetSqlDbUpdateIns: string; override;
-//    function GetSqlDbUpdateGetMax: string; override;
+    // function GetSqlDbUpdateIns: string; override;
+    // function GetSqlDbUpdateGetMax: string; override;
   public
     constructor Create(pLocalDoDB: TLocalDoDB; pDBMS: IDBMS;
       pSisConfig: ISisConfig; pLogProcess: ILogProcess; pOutput: IOutput);
@@ -30,8 +30,10 @@ implementation
 
 uses
   btu.lib.db.firebird.utils, System.SysUtils, sis.files, System.StrUtils,
-  btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u, Winapi.Windows,
-  System.Variants, sis.win.VersionInfo, sis.types.bool.utils, sis.win.pastas;
+  btu.sis.db.updater.utils, btu.lib.db.updater.firebird.GetSql_u,
+  Winapi.Windows,
+  System.Variants, sis.win.VersionInfo, sis.types.bool.utils, sis.win.pastas,
+  dialogs;
 
 { TDBUpdaterFirebird }
 
@@ -46,7 +48,8 @@ begin
   pLogProcess.Exibir('TDBUpdaterFirebird.Create,FArq=' + FArq + ',FDatabase=' +
     FDatabase + ',FNomeBanco=' + FNomeBanco);
 
-  pLogProcess.Exibir('TDBUpdaterFirebird.Create, vai chamar inherited,TDBUpdater.Create');
+  pLogProcess.Exibir
+    ('TDBUpdaterFirebird.Create, vai chamar inherited,TDBUpdater.Create');
   inherited Create(pLocalDoDB, pDBMS, pSisConfig, pLogProcess, pOutput);
   pLogProcess.Exibir('TDBUpdaterFirebird.Create, voltou do inherited,fim');
 end;
@@ -56,10 +59,11 @@ var
   sAssunto: string;
   ComandosSQL: string;
 begin
+  exit;
   ComandosSQL := 'CREATE DATABASE ''' + FArq + ''' page_size 8192 user ''' +
     'sysdba'' password ''masterkey'';';
 
-  sAssunto :=  'Cria';
+  sAssunto := 'Cria';
 
   DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, LogProcess, output);
   sleep(200);
@@ -70,18 +74,26 @@ function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
   sPastaInstDados, sNomeArq: string;
 begin
+  result := true;
+  exit;
+
   LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste ini');
   try
+    showmessage('veja pasta ' + FArq);
     GarantaPastaDoArq(FArq);
-    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se ' + FArq+' existe');
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se ' + FArq +
+      ' existe');
     result := FileExists(FArq);
 
+    showmessage('vai testar se existe ' + FArq);
     if result then
     begin
+      showmessage('nao existia');
       LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,existia, vai abortar');
       exit;
     end;
 
+    showmessage('existia');
     LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,nao existia');
 
     sPastaInstDados := SisConfig.PastaProduto +
@@ -110,13 +122,14 @@ begin
     end;
     sNomeArq := sNomeArq + '.fdb';
     sNomeArq := sPastaInstDados + sNomeArq;
-    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai copiar(' + sNomeArq + ',' +
-      FArq + ')');
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai copiar(' + sNomeArq +
+      ',' + FArq + ')');
     CopyFile(PChar(sNomeArq), PChar(FArq), False);
 
     LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se existe');
     result := FileExists(FArq);
-    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,Result=' + BooleanToStr(result));
+    LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,Result=' +
+      BooleanToStr(result));
   finally
     LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste fim');
   end;
@@ -124,17 +137,17 @@ end;
 
 function TDBUpdaterFirebird.GetNomeBanco: string;
 begin
-  Result := 'FIREBIRD';
+  result := 'FIREBIRD';
 end;
 
-//function TDBUpdaterFirebird.GetSqlDbUpdateGetMax: string;
-//begin
-//  Result := GetSqlDBUpdateGetMaxFirebird;
-//end;
+// function TDBUpdaterFirebird.GetSqlDbUpdateGetMax: string;
+// begin
+// Result := GetSqlDBUpdateGetMaxFirebird;
+// end;
 
-//function TDBUpdaterFirebird.GetSqlDbUpdateIns: string;
-//begin
-//  Result := GetSqlDBUpdateInsFirebird;
-//end;
+// function TDBUpdaterFirebird.GetSqlDbUpdateIns: string;
+// begin
+// Result := GetSqlDBUpdateInsFirebird;
+// end;
 
 end.

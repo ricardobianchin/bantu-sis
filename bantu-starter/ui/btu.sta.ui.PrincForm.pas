@@ -29,7 +29,7 @@ type
     FLogProcess: ILogProcess;
 //    FOutputForm: TOutputForm;
 //    FOutputToForm: IOutput;
-//    FOutput: IOutput;
+    FOutputStatus: IOutput;
     procedure ExecStarter;
     procedure MakeRounded(Control: TWinControl);
   public
@@ -65,7 +65,7 @@ begin
 //  FOutputForm := TOutputForm.Create(self);
 //  FOutputToForm := OutputToFormCreate(FOutputForm);
   FLogProcess.Exibir('TPrincForm.FormCreate, TStarterExec.Create');
-  e := TStarterExec.Create(FLogProcess, Self{FOutputToForm});
+  e := TStarterExec.Create(FLogProcess, Self, FOutputStatus);
   try
     e.Execute;
   finally
@@ -99,6 +99,7 @@ begin
   SisImgDataModule := TSisImgDataModule.Create(self);
   DtHCompileLabel.Caption := 'Compilado em: ' + Sta.Versao.DTH_COMPILE;
   MakeRounded(Self);
+  FOutputStatus := OutputToLabelCreate(StatusLabel);
 end;
 
 procedure TPrincForm.FormShow(Sender: TObject);

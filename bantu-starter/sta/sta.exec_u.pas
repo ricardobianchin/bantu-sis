@@ -16,6 +16,7 @@ type
     // FCaminhoFirebird: string;
     FLoja: ILoja;
     FOutput: IOutput;
+    FOutputStatus: IOutput;
     FDBMSConfig: IDBMSConfig;
     FDBMS: IDBMS;
     FServConnection: IDBConnection;
@@ -37,8 +38,9 @@ type
     property DB: IDBMS read FDBMS;
     property LogProcess: ILogProcess read FLogProcess;
     property Output: IOutput read FOutput;
+    property OutputStatus: IOutput read FOutputStatus;
     procedure Execute;
-    constructor Create(pLogProcess: ILogProcess; pOutput: IOutput);
+    constructor Create(pLogProcess: ILogProcess; pOutput, pOutputStatus: IOutput);
   end;
 
 implementation
@@ -134,6 +136,7 @@ var
   bExistiaXML: boolean;
   oConfigXMLI: IConfigXMLI;
 begin
+  FOutputStatus.Exibir('Iniciando...');
   FOutput.Exibir('TStarterExec.Execute inicio');
   LogProcess.Exibir('TStarterExec.Execute inicio, TestesChamar');
   TestesChamar;
@@ -153,8 +156,9 @@ begin
 
 
   LogProcess.Exibir('TStarterExec.Execute InstUpdate');
+  FOutputStatus.Exibir('Busca por atualizações...');
   FOutput.Exibir('Busca por atualizações...');
-  if Sta.Inst.Update_u.InstUpdate(FSisConfig, LogProcess, Output) then
+  if Sta.Inst.Update_u.InstUpdate(FSisConfig, LogProcess, OutputStatus) then
   begin
     FOutput.Exibir('Atualizando o sistema...');
     LogProcess.Exibir('TStarterExec.Execute InstUpdate exit');
@@ -162,8 +166,7 @@ begin
   end;
   LogProcess.Exibir('TStarterExec.Execute InstUpdate nao exit');
 
-
-
+  FOutputStatus.Exibir('Busca por configurações...');
   LogProcess.Exibir('TStarterExec.Execute ConfigXMLICreate');
   oConfigXMLI := ConfigXMLICreate(FSisConfig);
 
@@ -198,14 +201,16 @@ begin
 //  FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
 //  FSisConfig.DBMSInfo.Version := 4.0;
 
+  FOutputStatus.Exibir('Verificando banco de dados...');
   FOutput.Exibir('Verificando banco de dados...');
   FDBMSConfig := DBMSConfigCreate(FSisConfig, FLogProcess, FOutput);
   FDBMS := DBMSFirebirdCreate(FSisConfig, FDBMSConfig, FLogProcess, FOutput);
 
   LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado');
-  FDBMS.GarantirDBMSInstalado(FLogProcess, FOutput);
+  FDBMS.GarantirDBMSInstalado(FLogProcess, FOutputStatus);
   LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBMSInstalado, retornou');
 
+  FOutputStatus.Exibir('Verificando versão do banco de dados...');
   LogProcess.Exibir('TStarterExec.Execute FDBMS.GarantirDBServCriadoEAtualizado');
   if not FDBMS.GarantirDBServCriadoEAtualizado(FLogProcess, FOutput) then
   begin
@@ -219,6 +224,7 @@ begin
    +' acabou, vai testar se precisa criar loja');
   if FSisConfig.LocalMachineIsServer and (not ConfigArqExiste) then
   begin
+    FOutputStatus.Exibir('Granvando dados iniciais...');
     FOutput.Exibir('Granvando dados iniciais...');
     LogProcess.Exibir('TStarterExec.Execute vai gravar loja e gerente');
     FServConnection := DBConnectionCreate(FSisConfig, FDBMS, ldbServidor,
@@ -313,7 +319,7 @@ begin
 
 end;
 
-constructor TStarterExec.Create(pLogProcess: ILogProcess; pOutput: IOutput);
+constructor TStarterExec.Create(pLogProcess: ILogProcess; pOutput, pOutputStatus: IOutput);
 var
   s: string;
 begin
@@ -321,6 +327,7 @@ begin
   SetCurrentDir(s);
   FLogProcess := pLogProcess;
   FOutput := pOutput;
+  FOutputStatus := pOutputStatus;
 
   s := 'TStarter instanciado';
   LogProcess.Exibir(s);

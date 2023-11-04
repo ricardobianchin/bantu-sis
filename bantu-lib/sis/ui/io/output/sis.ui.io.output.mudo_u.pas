@@ -1,8 +1,8 @@
-unit sis.ui.io.output.mudo_u;
+unit Sis.UI.IO.Output.Mudo_u;
 
 interface
 
-uses sis.ui.io.output, Vcl.Dialogs;
+uses Sis.UI.IO.Output, Vcl.Dialogs;
 
 type
   TOutputMudo = class(TInterfacedObject, IOutput)
