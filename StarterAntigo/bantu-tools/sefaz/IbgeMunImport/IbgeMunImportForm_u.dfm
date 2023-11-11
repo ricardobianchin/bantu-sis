@@ -47,11 +47,11 @@ object Form2: TForm2
   object StatusMemo: TMemo
     Left = 8
     Top = 104
-    Width = 501
+    Width = 497
     Height = 330
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 3
-    ExplicitWidth = 497
+    ExplicitWidth = 493
     ExplicitHeight = 329
   end
   object OpenDialog1: TOpenDialog
