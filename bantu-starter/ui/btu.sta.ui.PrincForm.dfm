@@ -1,4 +1,4 @@
-object PrincForm: TPrincForm
+object StarterPrincForm: TStarterPrincForm
   Left = 0
   Top = 0
   BorderStyle = bsNone

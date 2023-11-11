@@ -84,21 +84,17 @@ Filename: "{cmd}"; Parameters: "/C md {app}\Dados"; Flags: runhidden
 ;Filename: "{commonpf64}\Firebird\Firebird_4_0\gsec.exe"; Description: "gsec"; Parameters: "-user sysdba -password masterkey -create -DBA -pw masterkey"; Flags: runascurrentuser
 ;Filename: "{commonpf64}\Firebird\Firebird_4_0\gsec.exe";                      Parameters: "-user sysdba -password masterkey -modify sysdba -pw masterkey"; Flags: runascurrentuser; Description: "Configurando Firebird"
 
-;exclusion
+;antivirus exclusion list, insere a pasta app na
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""Add-MpPreference -ExclusionPath '{app}'"""; Flags: runascurrentuser runhidden 
 
-;compartilha 
+;compartilha pasta app
 Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Description: "PowerShell"; Parameters: "-ExecutionPolicy Bypass -Command ""New-SmbShare -Name 'DarosPDV' -Path 'C:\DarosPDV' -FullAccess 'Everyone'"""; Flags: runascurrentuser runhidden
 
 ;starter
 Filename: "{app}\Starter\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
-
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\Starter\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{autodesktop}\LogProcess202311"; Filename: "{app}\Tmp\LogProcess\2023\11\02"; WorkingDir: "{app}\Tmp\Log\2023\11\02"
-Name: "{autodesktop}\ISQL"; Filename: "{commonpf64}\Firebird\Firebird_4_0\isql.exe"; Parameters: "BTUSERVIDOR:{app}\dados\retag.fdb"
-
-
-
+Name: "{autodesktop}\LogProcess 2023 11"; Filename: "{app}\Tmp\LogProcess\2023\11\08"; WorkingDir: "{app}\Tmp\LogProcess\2023\11\08"
+Name: "{autodesktop}\ISQL"; Filename: "{commonpf64}\Firebird\Firebird_4_0\isql.exe"; Parameters: """BTUSERVIDOR:{app}\dados\retag.fdb"" -user SYSDBA -password masterkey"

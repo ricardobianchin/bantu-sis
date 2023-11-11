@@ -59,7 +59,6 @@ var
   sAssunto: string;
   ComandosSQL: string;
 begin
-  exit;
   ComandosSQL := 'CREATE DATABASE ''' + FArq + ''' page_size 8192 user ''' +
     'sysdba'' password ''masterkey'';';
 
@@ -67,34 +66,27 @@ begin
 
   DBMS.ExecInterative(sAssunto, ComandosSQL, LocalDoDB, LogProcess, output);
   sleep(200);
-
 end;
 
 function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
   sPastaInstDados, sNomeArq: string;
 begin
-  result := true;
-  exit;
-
   LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste ini');
   try
-    showmessage('veja pasta ' + FArq);
-    GarantaPastaDoArq(FArq);
     LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,vai testar se ' + FArq +
       ' existe');
     result := FileExists(FArq);
 
-    showmessage('vai testar se existe ' + FArq);
     if result then
     begin
-      showmessage('nao existia');
       LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,existia, vai abortar');
       exit;
     end;
 
-    showmessage('existia');
     LogProcess.Exibir('TDBUpdaterFirebird.GetDBExiste,nao existia');
+
+    GarantaPastaDoArq(FArq);
 
     sPastaInstDados := SisConfig.PastaProduto +
       'Starter\inst\inst-Firebird\dados\';

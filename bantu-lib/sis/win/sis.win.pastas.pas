@@ -8,7 +8,9 @@ function GetProgramFilesPath: string;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
 function DateToPath(pDtH: TDateTime = 0): string;
-procedure GarantaPastaDoArq(pNomeArq: string);
+function GetPastaDoArquivo(pNomeArq: string): string;
+function GarantaPastaDoArq(pNomeArq: string): string;
+
 procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings; pZeraAntes: boolean; pMascara: string = '*.*');
 
 implementation
@@ -58,12 +60,18 @@ begin
   Result := Format('%.4d\%.2d\%.2d\', [ano, mes, dia]);
 end;
 
-procedure GarantaPastaDoArq(pNomeArq: string);
+function GetPastaDoArquivo(pNomeArq: string): string;
 var
   sPasta: string;
 begin
   sPasta := IncludeTrailingPathDelimiter(ExtractFilePath(pNomeArq));
-  ForceDirectories(sPasta);
+  Result  := sPasta;
+end;
+
+function GarantaPastaDoArq(pNomeArq: string): string;
+begin
+  Result := GetPastaDoArquivo(pNomeArq);
+  ForceDirectories(Result);
 end;
 
 procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings; pZeraAntes: boolean; pMascara: string);

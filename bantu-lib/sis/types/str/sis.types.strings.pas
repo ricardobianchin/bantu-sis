@@ -30,7 +30,7 @@ function StrGarantirTermino(pStr, pTermino: string): string;
 function IsDigit(c: char): boolean;
 procedure AjusteAsciiCodeToChar(var pStr: string);
 
-function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer = 28): string;
+function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer): string;
 //function ArrayToSnakeCase(pPalavras: TArray<string>): string;
 function ArrayLargestIndex(pPalavras: TArray<string>): integer;
 function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
@@ -38,6 +38,8 @@ function StrCountCharLeft(pStr: string; pCharInicial: char = '0'): integer;
 function SemCharAEsquerda(pStr: string; pCharInicial: char = '0'): string;
 function TemChar(pStr: string; pChar: char): boolean;
 procedure RemovaChars(pStr: string; pCharBusca: char);
+
+procedure StrSemEnterNoFim(var pStr: string);
 
 implementation
 
@@ -457,6 +459,18 @@ end;
 procedure RemovaChars(pStr: string; pCharBusca: char);
 begin
   pStr := StringReplace(pStr, pCharBusca, '', [rfReplaceAll]);
+end;
+
+procedure StrSemEnterNoFim(var pStr: string);
+// Esta procedure modifica a string passada por referência, removendo o enter (#13#10) no final, se houver
+begin
+  if Length(pStr) >= 2 then // Verifica se a string tem pelo menos dois caracteres
+  begin
+    if (pStr[Length(pStr) - 1] = #13) and (pStr[Length(pStr)] = #10) then // Verifica se os dois últimos caracteres são #13#10
+    begin
+      SetLength(pStr, Length(pStr) - 2); // Remove os dois últimos caracteres da string
+    end;
+  end;
 end;
 
 end.

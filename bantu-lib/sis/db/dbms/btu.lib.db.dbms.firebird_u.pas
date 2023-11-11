@@ -54,10 +54,14 @@ uses sis.win.Registry, System.win.Registry, Winapi.Windows, SysUtils,
 function TDBMSFirebird.DBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput): boolean;
 var
   s: string;
+  Resultado: boolean;
 begin
-  result := true;
+  Result := False;
+
   s := 'TDBMSFirebird.BancoInstalado';
-  Result := FileExists(FIsqlExe);
+  Resultado := FileExists(FIsqlExe);
+  if Resultado then
+    Result := True;
   s := s + ', ' + Iif(Result, 'instalado', 'nao instalado');
 end;
 
@@ -81,7 +85,6 @@ var
   WExec: IWinExecute;
   I: Integer;
 begin
-  exit;
   sStartIn := ParamStr(0);
   sStartIn := ExtractFilePath(sStartIn);
   sStartIn := sStartIn + 'inst\inst-Firebird\';
@@ -89,12 +92,12 @@ begin
   if FSisConfig.WinVersionInfo.Version <= 6.1 then
   begin
     sStartIn := sStartIn + 'fb32\';
-    sExecFile := sStartIn + 'Firebird-4.0.2.2816-0-Win32.exe';
+    sExecFile := sStartIn + 'Firebird-4.0.3.2975-0-Win32.exe';
   end
   else
   begin
     sStartIn := sStartIn + 'fb64\';
-    sExecFile := sStartIn + 'Firebird-4.0.2.2816-0-x64.exe';
+    sExecFile := sStartIn + 'Firebird-4.0.3.2975-0-x64.exe';
   end;
 
   sParam := '/PASSWORD=masterkey /SERVER=SuperServer /SILENT /SP-' +
@@ -111,18 +114,23 @@ begin
   pLogProcess.Exibir('vai executar');
   pOutput.Exibir('Instalando o firebird...');
   WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
+//  sleep(10000);
   WExec.EspereExecucao(FOutput);
 
+  PeguePaths(pLogProcess, pOutput);
+
+  sStartIn := FFirebirdPath;
   sExecFile := sStartIn + 'instsvc.exe';
   sParam := 'start';
 
   WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
+//  sleep(3000);
   WExec.EspereExecucao(FOutput);
 
   pOutput.Exibir('Execução terminada');
   pLogProcess.Exibir('Execução terminada');
   pLogProcess.Exibir('ExecIntall fim');
-  PeguePaths(pLogProcess, pOutput);
+
 end;
 
 procedure TDBMSFirebird.ExecInterative(pAssunto: string; pSql: string;
@@ -182,17 +190,7 @@ begin
     pOutput.Exibir('Executando via ISQL ' +
       ExtractFileName(sNomeArqTmp) + '...');
     WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-    while WExec.Executando do
-    begin
-      for I := 1 to 10 do
-      begin
-        sleep(100);
-        if not WExec.Executando then
-          break;
-      end;
-      if WExec.Executando then
-        pOutput.Exibir('Aguardando a execução...');
-    end;
+    WExec.EspereExecucao(pOutput);
 
     pOutput.Exibir('Execução terminada');
     sLog := sLog + ',Execução terminada';
@@ -258,7 +256,6 @@ end;
 }
 procedure TDBMSFirebird.GarantirDBMSInstalado(pLogProcess: ILogProcess; pOutput: IOutput);
 begin
-  exit;
   if not DBMSInstalado(pLogProcess, pOutput) then
     ExecInstal(pLogProcess, pOutput);
 end;
@@ -266,14 +263,24 @@ end;
 function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pLogProcess: ILogProcess;
   pOutput: IOutput): boolean;
 var
-  updater: IDBUpdater;
+  oUpdater: IDBUpdater;
+  s: string;
 begin
-  pLogProcess.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai DBUpdaterFirebirdCreate');
-  updater := DBUpdaterFirebirdCreate(ldbServidor, self, FSisConfig,
+  s := 'TDBMSFirebird.GarantirDBServCriadoEAtualizado'
+    + ',vai DBUpdaterFirebirdCreate';
+  pLogProcess.Exibir(s);
+
+  oUpdater := DBUpdaterFirebirdCreate(ldbServidor, self, FSisConfig,
     pLogProcess, pOutput);
-  pLogProcess.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai updater.execute');
-  result := updater.execute;
-  pLogProcess.Exibir('TDBMSFirebird.GarantirDBServCriadoEAtualizado,updater.execute retornou,fim');
+
+  s := 'TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai updater.execute';
+  pLogProcess.Exibir(s);
+
+  result := oUpdater.execute;
+
+  s := 'TDBMSFirebird.GarantirDBServCriadoEAtualizado'
+    + ',updater.execute retornou,fim';
+  pLogProcess.Exibir(s);
 end;
 
 function TDBMSFirebird.GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo;

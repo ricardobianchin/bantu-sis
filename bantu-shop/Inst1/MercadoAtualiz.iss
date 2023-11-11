@@ -41,9 +41,15 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 ;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-;atu
+; ---- atualizacao
+
+;copia starter.exe para uso
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-Starter\Starter.exe"; DestDir: "{app}\Starter\"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+;nao copia exe direto para a bin, copia para inst e starter decide
 Source: "\\VBOXSVR\d_drive\inst\Bantu\Mercado\inst-bin\*"; DestDir: "{app}\Starter\inst\inst-bin\"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+;txt atualizadores do banco
 Source: "\\Vboxsvr\d_drive\inst\Bantu\Mercado\Update\DBUpdates\*"; DestDir: "{app}\Starter\Update\DBUpdates\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

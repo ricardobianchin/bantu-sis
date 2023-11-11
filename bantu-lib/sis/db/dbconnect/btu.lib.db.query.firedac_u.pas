@@ -52,6 +52,7 @@ begin
     if FFDQuery.Active then
     begin
       Result := True;
+      LogProcess.Exibir('Abriu');
       UltimoErro := ''
     end;
   except
@@ -70,15 +71,22 @@ end;
 
 constructor TDBQueryFireDac.Create(pDBConnection: IDBConnection; pSql: string;
   pLogProcess: ILogProcess; pOutput: IOutput);
+var
+  s: string;
 begin
   inherited Create(pDBConnection, pLogProcess, pOutput);
   FFDQuery := TFDQuery.Create(nil);
   FFDQuery.Connection := TFDConnection(pDBConnection.ConnectionObject);
   SetSql(pSql);
+
+  s := 'TDBQueryFireDac.Create'
+    +#13#10+pSql+#13#10;
+  LogProcess.Exibir(s);
 end;
 
 destructor TDBQueryFireDac.Destroy;
 begin
+  LogProcess.Exibir('TDBQueryFireDac.Destroy');
   FreeAndNil(FFDQuery);
 
   inherited;
@@ -86,6 +94,7 @@ end;
 
 procedure TDBQueryFireDac.Fechar;
 begin
+  LogProcess.Exibir('TDBQueryFireDac.Fechar,FFDQuery.Close');
   FFDQuery.Close;
 end;
 
@@ -123,7 +132,10 @@ procedure TDBQueryFireDac.Prepare;
 begin
   inherited;
   if not FFDQuery.Prepared then
+  begin
+    LogProcess.Exibir('TDBQueryFireDac.Prepare,FFDQuery.Prepare');
     FFDQuery.Prepare;
+  end;
 end;
 
 procedure TDBQueryFireDac.SetActive(Value: boolean);
@@ -148,7 +160,10 @@ procedure TDBQueryFireDac.Unprepare;
 begin
   inherited;
   if FFDQuery.Prepared then
+  begin
+    LogProcess.Exibir('TDBQueryFireDac.Prepare,FFDQuery.Unprepare');
     FFDQuery.Unprepare;
+  end;
 end;
 
 end.

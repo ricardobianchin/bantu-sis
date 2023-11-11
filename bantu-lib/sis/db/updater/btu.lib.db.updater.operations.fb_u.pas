@@ -164,7 +164,7 @@ end;
 
 function TDBUpdaterOperationsFB.NomeTabelaToPKName(pNomeTabela: string): string;
 begin
-  Result := TruncSnakeCase(pNomeTabela + PKINDEXNAME_SUFIXO);
+  Result := TruncSnakeCase(pNomeTabela + PKINDEXNAME_SUFIXO, FB_MAX_IDENTIFIER_LENGHT);
 end;
 
 procedure TDBUpdaterOperationsFB.PreparePrincipais;

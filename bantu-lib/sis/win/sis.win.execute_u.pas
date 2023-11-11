@@ -83,6 +83,7 @@ procedure TWinExecute.EspereExecucao(pOutput: IOutput;
 var
   iQtdVoltas: integer;
   iQtdExib: integer;
+  iMod: integer;
 begin
   iQtdVoltas := 0;
   iQtdExib := 0;
@@ -90,15 +91,15 @@ begin
     sleep(100);
     if not Executando then
       break;
-
-    if (iQtdVoltas div pQtdIntervals) = 0 then
+    iMod := iQtdVoltas mod pQtdIntervals;
+    if iMod = 0 then
     begin
       inc(iQtdExib);
       pOutput.Exibir('Aguardando a execução... '+iqtdvoltas.tostring);
     end;
 
     inc(iQtdVoltas);
-  until true;
+  until false;
 end;
 
 end.

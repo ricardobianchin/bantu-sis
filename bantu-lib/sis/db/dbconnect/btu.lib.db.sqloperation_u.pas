@@ -48,10 +48,15 @@ uses System.Variants;
 
 constructor TDBSqlOperation.Create(pDBConnection: IDBConnection;
   pLogProcess: ILogProcess; pOutput: IOutput);
+var
+  s: string;
 begin
   FDBConnection := pDBConnection;
   FLogProcess := pLogProcess;
   FOutput := pOutput;
+
+  s := 'TDBSqlOperation.Create';
+  FLogProcess.Exibir(s);
 end;
 
 function TDBSqlOperation.GetParamsAsStr: string;

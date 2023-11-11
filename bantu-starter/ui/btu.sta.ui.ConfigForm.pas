@@ -370,7 +370,7 @@ end;
 
 procedure TStarterFormConfig.FormShow(Sender: TObject);
 begin
-//  ShowTimer.Enabled := true;
+  ShowTimer.Enabled := true;
 
 end;
 

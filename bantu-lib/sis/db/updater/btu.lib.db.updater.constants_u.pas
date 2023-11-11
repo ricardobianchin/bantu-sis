@@ -3,6 +3,8 @@ unit btu.lib.db.updater.constants_u;
 interface
 
 const
+  FB_MAX_IDENTIFIER_LENGHT = 31;
+
   DBATUALIZ_INI_CHAVE = 'DBATUALIZ INI';
   DBATUALIZ_FIM_CHAVE = 'DBATUALIZ FIM';
   NOMETAB_DBUPDATE_HIST = 'DBUPDATE_HIST';

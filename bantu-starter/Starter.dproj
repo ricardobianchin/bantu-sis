@@ -104,7 +104,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="ui\btu.sta.ui.PrincForm.pas">
-            <Form>PrincForm</Form>
+            <Form>StarterPrincForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="sta\sta.exec_u.pas"/>
@@ -264,6 +264,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas"/>
         <DCCReference Include="..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
         <DCCReference Include="..\bantu-lib\Sis\UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas"/>
+        <DCCReference Include="sta\Testes\Sta.Exec.Testes.WinExec_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
