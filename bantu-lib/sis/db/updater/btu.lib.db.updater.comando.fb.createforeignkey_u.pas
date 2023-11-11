@@ -178,7 +178,7 @@ begin
   if FsKeyName = '' then
   begin
     sObjetoNome := FsTabelaFK + '_REF_' + FsTabelaPK + '_FK';
-    sObjetoNome := TruncSnakeCase(sObjetoNome);
+    sObjetoNome := TruncSnakeCase(sObjetoNome, FB_MAX_IDENTIFIER_LENGHT);
     PegarObjeto(sObjetoNome);
   end;
 

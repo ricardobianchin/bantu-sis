@@ -93,7 +93,7 @@ begin
   FOutput := pOutput;
   FDBMS := pDBMS;
 
-  FCaminhoComandos := FSisConfig.PastaProduto + 'Update\dbupdates\';
+  FCaminhoComandos := FSisConfig.PastaProduto + 'Starter\Update\dbupdates\';
 
   FLogProcess.Exibir('TDBUpdater.Create FsLocalDoDB=' + FsLocalDoDB +
     ',FCaminhoComandos=' + FCaminhoComandos);
@@ -155,28 +155,38 @@ begin
 end;
 
 function TDBUpdater.Execute: boolean;
+var
+  s: string;
 begin
-  FLogProcess.Exibir('TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB +
-    ',FCaminhoComandos=' + FCaminhoComandos);
+  s := 'TDBUpdater.Execute,Inicio,FsLocalDoDB=' + FsLocalDoDB +
+    ',FCaminhoComandos=' + FCaminhoComandos;
+
+  FLogProcess.Exibir(s);
 
   Result := True;
 
   FLinhasSL := TStringList.Create;
   try
     try
-      FLogProcess.Exibir('TDBUpdater.Execute,vai DBDescubraVersaoEConecte');
+      s := 'TDBUpdater.Execute,vai DBDescubraVersaoEConecte';
+      FLogProcess.Exibir(s);
       iVersao := DBDescubraVersaoEConecte;
-      FLogProcess.Exibir('TDBUpdater.Execute,fez prepare,iVersao=' + iVersao.ToString);
+      s := 'TDBUpdater.Execute,fez prepare,iVersao=' + iVersao.ToString;
+      FLogProcess.Exibir(s);
       try
         repeat
           FOutput.Exibir('');
           iVersao := iVersao + 1;
-          FLogProcess.Exibir('TDBUpdater.Execute,incrementou iVersao=' +
-            iVersao.ToString + ',vai CarreguouArqComando');
+
+          s := 'TDBUpdater.Execute,incrementou iVersao=' + iVersao.ToString +
+            ',vai CarreguouArqComando';
+          FLogProcess.Exibir(s);
 
           if not CarreguouArqComando(iVersao) then
           begin
-            FLogProcess.Exibir('TDBUpdater.Execute,retornou False, vai abortar o loop');
+            s := 'TDBUpdater.Execute,CarreguouArqComando retornou False'
+              +', vai abortar o loop';
+            FLogProcess.Exibir(s);
             break;
           end;
           FLogProcess.Exibir('TDBUpdater.Execute,retornou True');
@@ -274,7 +284,7 @@ begin
 
     if not Result then
     begin
-      sLog := sLog + ',arq nao encontrado, abortando';
+      sLog := sLog + ',arq nao encontrado, encerrando';
       exit;
     end;
     sLog := sLog + ',arq encontrado, vai carregar';
@@ -427,6 +437,7 @@ var
   sSubPastaComando: string;
   sPastaComando: string;
   sNomeCompleto: string;
+  sNomeArq: string;
 begin
   sVersaoPad := IntToStrZero(pVersao, 9);
 
@@ -436,7 +447,8 @@ begin
   sPastaComando := FCaminhoComandos + sSubPastaComando + '\';
   ForceDirectories(sPastaComando);
 
-  Result := sPastaComando + 'dbupdate ' + sVersaoPad + '.txt';
+  sNomeArq := sPastaComando + 'dbupdate ' + sVersaoPad + '.txt';
+  Result := sNomeArq;
 end;
 
 end.

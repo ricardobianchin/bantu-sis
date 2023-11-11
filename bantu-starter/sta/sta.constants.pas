@@ -32,6 +32,9 @@ const
     'se a loja é a principal ou a outlet...'
     ;
 
+  ATUALIZ_ARQ_SUBPASTA = 'Starter\Update\InstUpdate\MercadoAtualiz.exe';
+  ATUALIZ_URL = 'https://www.bianch.in/arqs/daros/MercadoAtualiz.exe';
+
 implementation
 
 end.

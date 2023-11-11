@@ -65,6 +65,8 @@ uses
 { TDBConnection }
 
 function TDBConnection.Abrir: boolean;
+var
+  s: string;
 begin
   result:=false;
 
@@ -77,14 +79,18 @@ begin
     if not result then
     begin
 //      try
-        FOutput.Exibir(FDBConnectionParams.Database+' conectando...');
+      s := 'TDBConnection.Abrir,Database=' + FDBConnectionParams.Database +
+        ' conectando...';
+      FOutput.Exibir(s);
         result:=AbrirConnectionObject;
         if result then
         begin
           IncNVezesConectou;
           if FNVezesConectou = 1 then
           begin
-            FOutput.Exibir(FDBConnectionParams.Database+' conectou ok');
+            s := 'TDBConnection.Abrir,Database=' + FDBConnectionParams.Database
+              + ',conectou ok';
+            FOutput.Exibir(s);
           end;
         end;
         FUltimoErro := '';
@@ -97,13 +103,18 @@ begin
   end;
 end;
 
-constructor TDBConnection.Create(pDBConnectionParams: TDBConnectionParams; pLogProcess: ILogProcess; pOutput: IOutput);
+constructor TDBConnection.Create(pDBConnectionParams: TDBConnectionParams;
+  pLogProcess: ILogProcess; pOutput: IOutput);
+var
+  s: string;
 begin
   FUltimoErro := '';
   FOutput := pOutput;
   FLogProcess := pLogProcess;
 //  FAberto := false;
   IniciarNVezesConectou;
+  s := 'TDBConnection.Create,Database=' + pDBConnectionParams.Database;
+  FLogProcess.Exibir(s);
   FDBConnectionParams := pDBConnectionParams;
 end;
 
@@ -116,14 +127,16 @@ begin
 end;
 
 procedure TDBConnection.Fechar;
+var
+  s: string;
 begin
   DecNVezesConectou;
   if FNVezesConectou<1 then
   begin
     IniciarNVezesConectou;//evitar negativos acidentais
     FecharConnectionObject;
-    FOutput.Exibir('Desconectou ' + FDBConnectionParams.Database);
-    FOutput.Exibir('');
+    s := 'TDBConnection.Fechar,Database=' + FDBConnectionParams.Database;
+    FOutput.Exibir(s);
     //FInterfaceTela.ExibirPausa('desconectou '+inttostr(FNVezesConectou));
   end
   else

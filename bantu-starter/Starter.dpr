@@ -2,7 +2,7 @@ program Starter;
 
 uses
   Vcl.Forms,
-  btu.sta.ui.PrincForm in 'ui\btu.sta.ui.PrincForm.pas' {PrincForm},
+  btu.sta.ui.PrincForm in 'ui\btu.sta.ui.PrincForm.pas' {StarterPrincForm},
   sta.exec_u in 'sta\sta.exec_u.pas',
   btu.sta.ui.ConfigForm in 'ui\btu.sta.ui.ConfigForm.pas' {StarterFormConfig},
   ControlsReposition in '..\bantu-lib\sis\ui\FormDecorators\ControlsAlign\ControlsReposition.pas',
@@ -138,7 +138,8 @@ uses
   Sis.UI.IO.LogProcessRecord in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord.pas',
   Sis.UI.IO.LogProcessRecord_u in '..\bantu-lib\Sis\ui\io\LogProcess\Sis.UI.IO.LogProcessRecord_u.pas',
   Sis.UI.IO.Output.ToLabel_u in '..\bantu-lib\Sis\UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas',
-  Sis.UI.IO.LogProcess.Constants in '..\bantu-lib\Sis\UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas';
+  Sis.UI.IO.LogProcess.Constants in '..\bantu-lib\Sis\UI\IO\LogProcess\Sis.UI.IO.LogProcess.Constants.pas',
+  Sta.Exec.Testes.WinExec_u in 'sta\Testes\Sta.Exec.Testes.WinExec_u.pas';
 
 {$R *.res}
 
@@ -148,6 +149,6 @@ begin
   Application.MainFormOnTaskbar := False;
 //  Application.ShowMainForm := False;
   Application.ShowMainForm := True;
-  Application.CreateForm(TPrincForm, PrincForm);
+  Application.CreateForm(TStarterPrincForm, StarterPrincForm);
   Application.Run;
 end.

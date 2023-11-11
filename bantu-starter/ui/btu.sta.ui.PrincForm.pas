@@ -11,7 +11,7 @@ const
   Radius = 30;
 
 type
-  TPrincForm = class(TForm, IOutput)
+  TStarterPrincForm = class(TForm, IOutput)
     ApplicationEvents1: TApplicationEvents;
     StatusMemo: TMemo;
     ShowTimer: TTimer;
@@ -40,7 +40,7 @@ type
   end;
 
 var
-  PrincForm: TPrincForm;
+  StarterPrincForm: TStarterPrincForm;
 
 implementation
 
@@ -50,12 +50,12 @@ uses Sta.exec_u, sis.ui.Img.DataModule, sis.ui.io.LogProcess.factory,
   sis.ui.io.factory, sis.ui.controls.utils, sis.ui.io.output.exibirpausa.form_u,
   btu.lib.debug, Sta.Versao;
 
-procedure TPrincForm.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+procedure TStarterPrincForm.ApplicationEvents1Exception(Sender: TObject; E: Exception);
 begin
 //  ShowMessage(e.ClassName+' '+e.Message);
 end;
 
-procedure TPrincForm.ExecStarter;
+procedure TStarterPrincForm.ExecStarter;
 var
   e: TStarterExec;
 begin
@@ -78,7 +78,7 @@ begin
   Application.Terminate;
 end;
 
-procedure TPrincForm.Exibir(pFrase: string);
+procedure TStarterPrincForm.Exibir(pFrase: string);
 begin
   StatusMemo.Lines.Add(pFrase);
   SimuleTecla(VK_END, StatusMemo);
@@ -88,13 +88,13 @@ begin
 
 end;
 
-procedure TPrincForm.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
+procedure TStarterPrincForm.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
 begin
   Exibir(pFrase);
   sis.ui.io.output.exibirpausa.form_u.Exibir(pFrase, pMsgDlgType);
 end;
 
-procedure TPrincForm.FormCreate(Sender: TObject);
+procedure TStarterPrincForm.FormCreate(Sender: TObject);
 begin
   SisImgDataModule := TSisImgDataModule.Create(self);
   DtHCompileLabel.Caption := 'Compilado em: ' + Sta.Versao.DTH_COMPILE;
@@ -102,13 +102,13 @@ begin
   FOutputStatus := OutputToLabelCreate(StatusLabel);
 end;
 
-procedure TPrincForm.FormShow(Sender: TObject);
+procedure TStarterPrincForm.FormShow(Sender: TObject);
 begin
   ShowTimer.Enabled := true;
 
 end;
 
-procedure TPrincForm.MakeRounded(Control: TWinControl);
+procedure TStarterPrincForm.MakeRounded(Control: TWinControl);
 var
   R: TRect;
   Rgn: HRGN;
@@ -125,7 +125,7 @@ begin
   end;
 end;
 
-procedure TPrincForm.ShowTimerTimer(Sender: TObject);
+procedure TStarterPrincForm.ShowTimerTimer(Sender: TObject);
 begin
   ShowTimer.Enabled := False;
   ExecStarter;

@@ -38,15 +38,20 @@ uses System.SysUtils;
 
 constructor TDBExecFireDac.Create(pDBConnection: IDBConnection; pSql: string;
   pLogProcess: ILogProcess; pOutput: IOutput);
+var
+  s: string;
 begin
   inherited Create(pDBConnection, pLogProcess, pOutput);
   FDCommand := TFDCommand.Create(nil);
   FDCommand.Connection := TFDConnection( pDBConnection.ConnectionObject);
   Sql := pSql;
+  s := 'TDBExecFireDac.Create,'#13#10+pSql+#13#10;
+  LogProcess.Exibir(s);
 end;
 
 destructor TDBExecFireDac.Destroy;
 begin
+  LogProcess.Exibir('TDBExecFireDac.Destroy');
   FreeAndNil(FDCommand);
   inherited;
 end;
@@ -54,7 +59,7 @@ end;
 procedure TDBExecFireDac.Execute;
 begin
   inherited;
-  LogProcess.Exibir('Executará '+SQL+','+GetParamsAsStr);
+  LogProcess.Exibir('Executará'#13#10+SQL+#13#10+GetParamsAsStr);
   FDCommand.Execute;
 end;
 
@@ -77,7 +82,10 @@ procedure TDBExecFireDac.Prepare;
 begin
   inherited;
   if not FDCommand.Prepared then
+  begin
+    LogProcess.Exibir('TDBExecFireDac.Prepare,FDCommand.Prepare');
     FDCommand.Prepare;
+  end;
 end;
 
 procedure TDBExecFireDac.SetPrepared(Value: boolean);
@@ -96,7 +104,10 @@ procedure TDBExecFireDac.Unprepare;
 begin
   inherited;
   if FDCommand.Prepared then
+  begin
+    LogProcess.Exibir('TDBExecFireDac.Unprepare,FDCommand.Unprepare');
     FDCommand.Unprepare;
+  end;
 end;
 
 end.

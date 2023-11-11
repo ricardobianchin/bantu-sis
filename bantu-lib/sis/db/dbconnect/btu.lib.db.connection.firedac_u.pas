@@ -5,7 +5,7 @@ interface
 uses btu.lib.db.connection_u, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, sis.UI.io.LogProcess,
-  sis.UI.io.output, btu.lib.db.types, Data.db, FireDAC.DApt;
+  sis.UI.io.output, btu.lib.db.types, Data.db, FireDAC.DApt, System.Variants;
 
 type
   TDBConnectionFireDAC = class(TDBConnection)
@@ -34,7 +34,7 @@ type
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, sis.types.bool.utils;
 
 { TDBConnectionFireDAC }
 
@@ -45,21 +45,29 @@ begin
   try
     Result := false;
     try
+      sLog := 'TDBConnectionFireDAC.AbrirConnectionObject,'
+        + 'FFDConnection.Open';
       FFDConnection.Open;
     except
       on e: exception do
-        LogProcess.Exibir('TDBConnectionFireDAC.AbrirConnectionObject Erro ' +
-          e.ClassName + ',' + e.Message + ' ao conectar a ' +
-          DBConnectionParams.Database);
+    begin
+        sLog := 'TDBConnectionFireDAC.AbrirConnectionObject,Erro ' + e.ClassName
+          + ',' + e.Message + ' ao conectar a ' + DBConnectionParams.Database;
+        LogProcess.Exibir(sLog);
+    end;
     end;
   finally
+    sLog := 'TDBConnectionFireDAC.AbrirConnectionObject,'
+      +'vai testar FFDConnection.Connected,'
+      + FFDConnection.Params.CommaText
+      ;
+
     Result := FFDConnection.Connected;
     if Result then
-      sLog := 'Conectou'
+      sLog := sLog + ',Conectou'
     else
-      sLog := 'Nao conectou';
+      sLog := sLog + ',Nao conectou';
 
-    sLog := sLog + FFDConnection.Params.CommaText;
     LogProcess.Exibir(sLog);
   end;
 end;
@@ -67,7 +75,8 @@ end;
 procedure TDBConnectionFireDAC.Commit;
 begin
   FFDConnection.Commit;
-  FFDConnection.TxOptions.AutoCommit := false;
+  LogProcess.Exibir('TDBConnectionFireDAC.Commit,FFDConnection.Commit');
+
 end;
 
 function TDBConnectionFireDAC.ConnectionObjectAberto: boolean;
@@ -80,6 +89,7 @@ constructor TDBConnectionFireDAC.Create(pDBMSInfo: IDBMSInfo;
   pOutput: IOutput);
 var
   sDriver: string;
+  s: string;
 begin
   inherited Create(pDBConnectionParams, pLogProcess, pOutput);
 
@@ -108,8 +118,10 @@ begin
   FFDConnection.Params.Text := 'DriverID=' + sDriver + #13#10 + 'Server=' +
     DBConnectionParams.Server + #13#10 + 'Database=' + DBConnectionParams.Arq +
     #13#10 + 'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 +
-    'Protocol=TCPIP'#13#10;
+    'Protocol=TCPIP';
 
+  LogProcess.Exibir('TDBConnectionFireDAC.Create'#13#10 +
+    FFDConnection.Params.Text);
   (*
     object FDConnection1: TFDConnection
     Params.Strings = (
@@ -130,9 +142,22 @@ begin
 end;
 
 function TDBConnectionFireDAC.ExecuteSQL(pSql: string): LongInt;
+var
+  s: string;
 begin
   inherited;
-  Result := FFDConnection.ExecSQL(pSql);
+  s :=
+    'TDBConnectionFireDAC.ExecuteSQL'
+    +',FFDConnection.ExecSQL,vai executar,'
+    +#13#10+pSql+#13#10
+    ;
+  LogProcess.Exibir(s);
+  try
+    Result := FFDConnection.ExecSQL(pSql);
+  finally
+    s := 'Result='+Result.ToString;
+    LogProcess.Exibir(s);
+  end;
 end;
 
 procedure TDBConnectionFireDAC.FecharConnectionObject;
@@ -148,30 +173,54 @@ begin
 end;
 
 function TDBConnectionFireDAC.GetValue(pSql: string): Variant;
+var
+  s: string;
 begin
+  s :=
+    'TDBConnectionFireDAC.GetValue'
+    +',FFDConnection.ExecSQLScalar,'
+    +#13#10+pSql+#13#10
+    ;
+  LogProcess.Exibir(s);
+
+  LogProcess.Exibir('TDBConnectionFireDAC.GetValue,vai Abrir');
   Abrir;
   try
     Result := FFDConnection.ExecSQLScalar(pSql);
   finally
+    s := 'Result='+VarToStrDef(Result, 'nil');
+    LogProcess.Exibir(s);
+
+    LogProcess.Exibir('TDBConnectionFireDAC.GetValue,vai Fechar');
     Fechar;
   end;
 end;
 
 procedure TDBConnectionFireDAC.QueryDataSet(pSql: string;
   var pDataSet: TDataSet);
+var
+  s: string;
 begin
+  s :='TDBConnectionFireDAC.QueryDataSet'
+    +',FFDConnection.ExecSQL(pSql, pDataSet)'
+    +#13#10+pSql+#13#10;
+  LogProcess.Exibir(s);
+
   FFDConnection.ExecSQL(pSql, pDataSet);
+
+  s := 'Assigned(pDataSet)='+BooleanToStr(Assigned(pDataSet));
+  LogProcess.Exibir(s);
 end;
 
 procedure TDBConnectionFireDAC.Rollback;
 begin
+  LogProcess.Exibir('FFDConnection.Rollback');
   FFDConnection.Rollback;
-  FFDConnection.TxOptions.AutoCommit := false;
 end;
 
 procedure TDBConnectionFireDAC.StartTransaction;
 begin
-  FFDConnection.TxOptions.AutoCommit := true;
+  LogProcess.Exibir('FFDConnection.StartTransaction');
   FFDConnection.StartTransaction;
 end;
 
