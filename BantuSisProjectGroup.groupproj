@@ -1,48 +1,18 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{6690CA90-CE87-4DFC-A97A-02E1F0EC7DCF}</ProjectGuid>
+        <ProjectGuid>{09D70D0B-D47C-48C5-B908-BE2F6B2C4314}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="bantu-lib\sis\SisAntigo.dproj">
+        <Projects Include="Sis\Sis.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="retag\RetagAntigo.dproj">
+        <Projects Include="App\App.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-lib\ctrls\BtnControls.dproj">
+        <Projects Include="AppShop\AppShop.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\..\..\tools\osaka-toolbar\OsakaToolBar.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-starter\Starter.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-lib\sis\Sis.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-shop\Mercado\Mercado.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-shop\RetagLib\RetagLib.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="bantu-shop\RetagApp\Retag.dproj">
+        <Projects Include="Adm\Adm.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -53,140 +23,76 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="SisAntigo">
-        <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj"/>
-    </Target>
-    <Target Name="SisAntigo:Clean">
-        <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SisAntigo:Make">
-        <MSBuild Projects="bantu-lib\sis\SisAntigo.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="RetagAntigo">
-        <MSBuild Projects="retag\RetagAntigo.dproj"/>
-    </Target>
-    <Target Name="RetagAntigo:Clean">
-        <MSBuild Projects="retag\RetagAntigo.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="RetagAntigo:Make">
-        <MSBuild Projects="retag\RetagAntigo.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BtnControls">
-        <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj"/>
-    </Target>
-    <Target Name="BtnControls:Clean">
-        <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BtnControls:Make">
-        <MSBuild Projects="bantu-lib\ctrls\BtnControls.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="IbgeMunImport">
-        <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj"/>
-    </Target>
-    <Target Name="IbgeMunImport:Clean">
-        <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="IbgeMunImport:Make">
-        <MSBuild Projects="bantu-tools\sefaz\IbgeMunImport\IbgeMunImport.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BucharestDT">
-        <MSBuild Projects="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj"/>
-    </Target>
-    <Target Name="BucharestDT:Clean">
-        <MSBuild Projects="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BucharestDT:Make">
-        <MSBuild Projects="..\..\..\tools\bucharest-desktop-tools\BucharestDT.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="OsakaToolBar">
-        <MSBuild Projects="..\..\..\tools\osaka-toolbar\OsakaToolBar.dproj"/>
-    </Target>
-    <Target Name="OsakaToolBar:Clean">
-        <MSBuild Projects="..\..\..\tools\osaka-toolbar\OsakaToolBar.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="OsakaToolBar:Make">
-        <MSBuild Projects="..\..\..\tools\osaka-toolbar\OsakaToolBar.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="DublinSourcecodeTuner">
-        <MSBuild Projects="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj"/>
-    </Target>
-    <Target Name="DublinSourcecodeTuner:Clean">
-        <MSBuild Projects="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="DublinSourcecodeTuner:Make">
-        <MSBuild Projects="..\..\..\tools\dublin-sourcecode-tuner\DublinSourcecodeTuner.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="WinSecurityExclusion">
-        <MSBuild Projects="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj"/>
-    </Target>
-    <Target Name="WinSecurityExclusion:Clean">
-        <MSBuild Projects="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="WinSecurityExclusion:Make">
-        <MSBuild Projects="..\..\..\tools\WinSecurityExclusion\WinSecurityExclusion.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="ArredRoundRectRgn1">
-        <MSBuild Projects="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj"/>
-    </Target>
-    <Target Name="ArredRoundRectRgn1:Clean">
-        <MSBuild Projects="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ArredRoundRectRgn1:Make">
-        <MSBuild Projects="..\..\..\..\d-tes\ui\cantos-arred\ArredRoundRectRgn1\ArredRoundRectRgn1.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="Starter">
-        <MSBuild Projects="bantu-starter\Starter.dproj"/>
-    </Target>
-    <Target Name="Starter:Clean">
-        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Starter:Make">
-        <MSBuild Projects="bantu-starter\Starter.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Sis">
-        <MSBuild Projects="bantu-lib\sis\Sis.dproj"/>
+        <MSBuild Projects="Sis\Sis.dproj"/>
     </Target>
     <Target Name="Sis:Clean">
-        <MSBuild Projects="bantu-lib\sis\Sis.dproj" Targets="Clean"/>
+        <MSBuild Projects="Sis\Sis.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Sis:Make">
-        <MSBuild Projects="bantu-lib\sis\Sis.dproj" Targets="Make"/>
+        <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Mercado">
-        <MSBuild Projects="bantu-shop\Mercado\Mercado.dproj"/>
+    <Target Name="App">
+        <MSBuild Projects="App\App.dproj"/>
     </Target>
-    <Target Name="Mercado:Clean">
-        <MSBuild Projects="bantu-shop\Mercado\Mercado.dproj" Targets="Clean"/>
+    <Target Name="App:Clean">
+        <MSBuild Projects="App\App.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Mercado:Make">
-        <MSBuild Projects="bantu-shop\Mercado\Mercado.dproj" Targets="Make"/>
+    <Target Name="App:Make">
+        <MSBuild Projects="App\App.dproj" Targets="Make"/>
     </Target>
-    <Target Name="RetagLib">
-        <MSBuild Projects="bantu-shop\RetagLib\RetagLib.dproj"/>
+    <Target Name="AppShop">
+        <MSBuild Projects="AppShop\AppShop.dproj"/>
     </Target>
-    <Target Name="RetagLib:Clean">
-        <MSBuild Projects="bantu-shop\RetagLib\RetagLib.dproj" Targets="Clean"/>
+    <Target Name="AppShop:Clean">
+        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="RetagLib:Make">
-        <MSBuild Projects="bantu-shop\RetagLib\RetagLib.dproj" Targets="Make"/>
+    <Target Name="AppShop:Make">
+        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Retag">
-        <MSBuild Projects="bantu-shop\RetagApp\Retag.dproj"/>
+    <Target Name="Adm">
+        <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
-    <Target Name="Retag:Clean">
-        <MSBuild Projects="bantu-shop\RetagApp\Retag.dproj" Targets="Clean"/>
+    <Target Name="Adm:Clean">
+        <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Retag:Make">
-        <MSBuild Projects="bantu-shop\RetagApp\Retag.dproj" Targets="Make"/>
+    <Target Name="Adm:Make">
+        <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="SisAntigo;RetagAntigo;BtnControls;IbgeMunImport;BucharestDT;OsakaToolBar;DublinSourcecodeTuner;WinSecurityExclusion;ArredRoundRectRgn1;Starter;Sis;Mercado;RetagLib;Retag"/>
+        <CallTarget Targets="Sis;App;AppShop;Adm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SisAntigo:Clean;RetagAntigo:Clean;BtnControls:Clean;IbgeMunImport:Clean;BucharestDT:Clean;OsakaToolBar:Clean;DublinSourcecodeTuner:Clean;WinSecurityExclusion:Clean;ArredRoundRectRgn1:Clean;Starter:Clean;Sis:Clean;Mercado:Clean;RetagLib:Clean;Retag:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;AppShop:Clean;Adm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SisAntigo:Make;RetagAntigo:Make;BtnControls:Make;IbgeMunImport:Make;BucharestDT:Make;OsakaToolBar:Make;DublinSourcecodeTuner:Make;WinSecurityExclusion:Make;ArredRoundRectRgn1:Make;Starter:Make;Sis:Make;Mercado:Make;RetagLib:Make;Retag:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;AppShop:Make;Adm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
+        <BuildGroupProject Include="Sis\Sis.dproj">
+            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="App\App.dproj">
+            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Adm\Adm.dproj">
+            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="AppShop\AppShop.dproj">
+            <ProjectGuid>{4F1D7602-E94C-48BE-B034-BD495AFFD9A3}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
 </Project>
