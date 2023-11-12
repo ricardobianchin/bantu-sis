@@ -1,0 +1,98 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{09D70D0B-D47C-48C5-B908-BE2F6B2C4314}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Sis\Sis.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="App\App.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="AppShop\AppShop.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Adm\Adm.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Sis">
+        <MSBuild Projects="Sis\Sis.dproj"/>
+    </Target>
+    <Target Name="Sis:Clean">
+        <MSBuild Projects="Sis\Sis.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Sis:Make">
+        <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="App">
+        <MSBuild Projects="App\App.dproj"/>
+    </Target>
+    <Target Name="App:Clean">
+        <MSBuild Projects="App\App.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="App:Make">
+        <MSBuild Projects="App\App.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AppShop">
+        <MSBuild Projects="AppShop\AppShop.dproj"/>
+    </Target>
+    <Target Name="AppShop:Clean">
+        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AppShop:Make">
+        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Adm">
+        <MSBuild Projects="Adm\Adm.dproj"/>
+    </Target>
+    <Target Name="Adm:Clean">
+        <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Adm:Make">
+        <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Sis;App;AppShop;Adm"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Sis:Clean;App:Clean;AppShop:Clean;Adm:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Sis:Make;App:Make;AppShop:Make;Adm:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
+        <BuildGroupProject Include="Sis\Sis.dproj">
+            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="App\App.dproj">
+            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Adm\Adm.dproj">
+            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="AppShop\AppShop.dproj">
+            <ProjectGuid>{4F1D7602-E94C-48BE-B034-BD495AFFD9A3}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+</Project>
