@@ -32,6 +32,11 @@ requires
   vcl;
 
 contains
-  Sis.Teste.UI.IO.Outputs in 'Teste\Sis.Teste.UI.IO.Outputs.pas';
+  Sis.Types.Bool in 'Types\Sis.Types.Bool.pas',
+  Sis.Types.Bool_u in 'Types\Sis.Types.Bool_u.pas',
+  Sis.SisObj in 'SisObj\Sis.SisObj.pas',
+  Sis.SisObj_u in 'SisObj\Sis.SisObj_u.pas',
+  Sis.Factory in 'SisObj\Sis.Factory.pas',
+  Sis.SisObject_u in 'SisObj\Sis.SisObject_u.pas';
 
 end.

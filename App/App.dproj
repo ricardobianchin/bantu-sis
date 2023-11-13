@@ -128,7 +128,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="Sis.dcp"/>
-        <DCCReference Include="Testes\App.Teste.UI.IO.Outputs.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.Bas.Form_u.pas">
             <Form>BasForm</Form>
             <FormType>dfm</FormType>
@@ -137,6 +136,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>PrincBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="AppObj\App.AppObj.pas"/>
+        <DCCReference Include="AppObj\App.AppObj_u.pas"/>
+        <DCCReference Include="AppObj\App.AppObj.Inicialize.Sis_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -929,7 +931,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\32\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\32\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -937,7 +939,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\64\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\64\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
