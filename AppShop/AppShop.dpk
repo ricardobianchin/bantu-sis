@@ -32,7 +32,6 @@ requires
   App;
 
 contains
-  TesteTmp_u in 'TesteTmp_u.pas',
   AppShopPrincForm_u in 'UI\Forms\AppShopPrincForm_u.pas' {AppShopPrincForm};
 
 end.
