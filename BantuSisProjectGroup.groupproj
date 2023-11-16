@@ -13,7 +13,7 @@
             <Dependencies>Sis\Sis.dproj;App\App.dproj</Dependencies>
         </Projects>
         <Projects Include="Adm\Adm.dproj">
-            <Dependencies>AppShop\AppShop.dproj</Dependencies>
+            <Dependencies/>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -50,13 +50,13 @@
     <Target Name="AppShop:Make" DependsOnTargets="Sis:Make;App:Make">
         <MSBuild Projects="AppShop\AppShop.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Adm" DependsOnTargets="AppShop">
+    <Target Name="Adm">
         <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
-    <Target Name="Adm:Clean" DependsOnTargets="AppShop:Clean">
+    <Target Name="Adm:Clean">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Adm:Make" DependsOnTargets="AppShop:Make">
+    <Target Name="Adm:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
