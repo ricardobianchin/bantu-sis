@@ -124,12 +124,29 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vcl.dcp"/>
-        <DCCReference Include="Types\Sis.Types.Bool.pas"/>
-        <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
-        <DCCReference Include="SisObj\Sis.SisObj.pas"/>
-        <DCCReference Include="SisObj\Sis.SisObj_u.pas"/>
-        <DCCReference Include="SisObj\Sis.Factory.pas"/>
-        <DCCReference Include="SisObj\Sis.SisObject_u.pas"/>
+        <DCCReference Include="dbrtl.dcp"/>
+        <DCCReference Include="FireDACCommon.dcp"/>
+        <DCCReference Include="Types\Sis.Types.Utils_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
+        <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.Utils_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.VersionInfo_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.VersionInfo.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBTypes.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.Info_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Types.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

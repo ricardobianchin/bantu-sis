@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\Src\\bantu-lib",
+			 "folder_exclude_patterns": ["__history"]
+			 "folder_exclude_patterns": ["__recovery"],
+			 "folder_exclude_patterns": ["Win32"]
+			 "file_exclude_patterns": ["*.local", "*.identcache", "*.rex"]
+		},
+		{
+			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\Src\\bantu-starter",
+			 "folder_exclude_patterns": ["__history"],
+			 "folder_exclude_patterns": ["__recovery"],
+			 "folder_exclude_patterns": ["Win32"]
+			 "file_exclude_patterns": ["*.local", "*.identcache", "*.rex"]
+		}
+	]
+}

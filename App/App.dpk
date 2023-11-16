@@ -35,7 +35,6 @@ contains
   App.UI.Bas.Form_u in 'UI\BasForm\App.UI.Bas.Form_u.pas' {BasForm},
   App.UI.Princ.Bas.Form_u in 'UI\BasForm\App.UI.Princ.Bas.Form_u.pas' {PrincBasForm},
   App.AppObj in 'AppObj\App.AppObj.pas',
-  App.AppObj_u in 'AppObj\App.AppObj_u.pas',
-  App.AppObj.Inicialize.Sis_u in 'AppObj\App.AppObj.Inicialize.Sis_u.pas';
+  App.AppObj_u in 'AppObj\App.AppObj_u.pas';
 
 end.
