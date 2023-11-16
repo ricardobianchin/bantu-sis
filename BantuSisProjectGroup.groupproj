@@ -9,11 +9,11 @@
         <Projects Include="App\App.dproj">
             <Dependencies>Sis\Sis.dproj</Dependencies>
         </Projects>
-        <Projects Include="AppShop\AppShop.dproj">
+        <Projects Include="ShopApp\ShopApp.dproj">
             <Dependencies>Sis\Sis.dproj;App\App.dproj</Dependencies>
         </Projects>
         <Projects Include="Adm\Adm.dproj">
-            <Dependencies>AppShop\AppShop.dproj</Dependencies>
+            <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -41,35 +41,41 @@
     <Target Name="App:Make" DependsOnTargets="Sis:Make">
         <MSBuild Projects="App\App.dproj" Targets="Make"/>
     </Target>
-    <Target Name="AppShop" DependsOnTargets="Sis;App">
-        <MSBuild Projects="AppShop\AppShop.dproj"/>
+    <Target Name="ShopApp" DependsOnTargets="Sis;App">
+        <MSBuild Projects="ShopApp\ShopApp.dproj"/>
     </Target>
-    <Target Name="AppShop:Clean" DependsOnTargets="Sis:Clean;App:Clean">
-        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Clean"/>
+    <Target Name="ShopApp:Clean" DependsOnTargets="Sis:Clean;App:Clean">
+        <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="AppShop:Make" DependsOnTargets="Sis:Make;App:Make">
-        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Make"/>
+    <Target Name="ShopApp:Make" DependsOnTargets="Sis:Make;App:Make">
+        <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Adm" DependsOnTargets="AppShop">
+    <Target Name="Adm" DependsOnTargets="Sis;ShopApp">
         <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
-    <Target Name="Adm:Clean" DependsOnTargets="AppShop:Clean">
+    <Target Name="Adm:Clean" DependsOnTargets="Sis:Clean;ShopApp:Clean">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Adm:Make" DependsOnTargets="AppShop:Make">
+    <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;AppShop;Adm"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;AppShop:Clean;Adm:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;AppShop:Make;Adm:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
+        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
+            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
         <BuildGroupProject Include="Sis\Sis.dproj">
             <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
             <Configurations>Release</Configurations>
@@ -84,12 +90,6 @@
         </BuildGroupProject>
         <BuildGroupProject Include="Adm\Adm.dproj">
             <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="AppShop\AppShop.dproj">
-            <ProjectGuid>{4F1D7602-E94C-48BE-B034-BD495AFFD9A3}</ProjectGuid>
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>

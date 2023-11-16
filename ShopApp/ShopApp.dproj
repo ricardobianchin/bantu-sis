@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
-        <MainSource>Sis.dpk</MainSource>
+        <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
+        <MainSource>ShopApp.dpk</MainSource>
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
@@ -69,21 +69,25 @@
         <GenPackage>true</GenPackage>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
-        <SanitizedProjectName>Sis</SanitizedProjectName>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_BplOutput>..\..\Exe\Bin\</DCC_BplOutput>
+        <SanitizedProjectName>ShopApp</SanitizedProjectName>
         <DCC_DcpOutput>..\..\Dcp\</DCC_DcpOutput>
+        <DCC_BplOutput>..\..\Exe\Bin\</DCC_BplOutput>
+        <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -97,7 +101,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -121,30 +124,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
-        <DCCReference Include="vcl.dcp"/>
-        <DCCReference Include="dbrtl.dcp"/>
-        <DCCReference Include="FireDACCommon.dcp"/>
-        <DCCReference Include="Types\Sis.Types.Utils_u.pas"/>
-        <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
-        <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.Utils_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.VersionInfo_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.VersionInfo.pas"/>
-        <DCCReference Include="Config\Sis.Config.SisConfig.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBTypes.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBMS.Info_u.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Types.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas"/>
+        <DCCReference Include="App.dcp"/>
+        <DCCReference Include="Sis.dcp"/>
+        <DCCReference Include="UI\AppShop.UI.Form.Princ_u.pas">
+            <Form>AppShopPrincForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -163,7 +148,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">Sis.dpk</Source>
+                    <Source Name="MainSource">ShopApp.dpk</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -186,15 +171,15 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\Exe\Bin\Sis.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\Exe\Bin\ShopApp.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
-                        <RemoteName>Sis.bpl</RemoteName>
+                        <RemoteName>ShopApp.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\Sis.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\ShopApp.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Sis.bpl</RemoteName>
+                        <RemoteName>ShopApp.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -1,10 +1,10 @@
-unit AppShopPrincForm_u;
+unit AppShop.UI.Form.Princ_u;
 
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Princ.Bas.Form_u;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, Vcl.ExtCtrls;
 
 type
   TAppShopPrincForm = class(TPrincBasForm)

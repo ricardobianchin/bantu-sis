@@ -1,4 +1,4 @@
-package App;
+package ShopApp;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -29,13 +29,10 @@ package App;
 
 requires
   rtl,
+  App,
   Sis;
 
 contains
-  App.AppObj in 'AppObj\App.AppObj.pas',
-  App.AppObj_u in 'AppObj\App.AppObj_u.pas',
-  App.UI.Form.Bas_u in 'UI\BasForm\App.UI.Form.Bas_u.pas' {BasForm},
-  App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
-  App.Factory in 'AppObj\App.Factory.pas';
+  AppShop.UI.Form.Princ_u in 'UI\AppShop.UI.Form.Princ_u.pas' {AppShopPrincForm};
 
 end.
