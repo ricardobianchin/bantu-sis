@@ -126,6 +126,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="App.dcp"/>
+        <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="UI\Forms\AppShopPrincForm_u.pas">
             <Form>AppShopPrincForm</Form>
             <FormType>dfm</FormType>

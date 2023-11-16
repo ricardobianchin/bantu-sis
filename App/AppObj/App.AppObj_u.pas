@@ -13,13 +13,10 @@ type
 
 implementation
 
-uses App.AppObj.Inicialize.Sis_u;
-
 { TAppObj }
 
 procedure TAppObj.Inicialize;
 begin
-  App.AppObj.Inicialize.Sis_u.InicializeSis;
 end;
 
 end.

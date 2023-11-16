@@ -7,13 +7,13 @@
             <Dependencies/>
         </Projects>
         <Projects Include="App\App.dproj">
-            <Dependencies/>
+            <Dependencies>Sis\Sis.dproj</Dependencies>
         </Projects>
         <Projects Include="AppShop\AppShop.dproj">
-            <Dependencies/>
+            <Dependencies>Sis\Sis.dproj;App\App.dproj</Dependencies>
         </Projects>
         <Projects Include="Adm\Adm.dproj">
-            <Dependencies/>
+            <Dependencies>AppShop\AppShop.dproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -32,31 +32,31 @@
     <Target Name="Sis:Make">
         <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
     </Target>
-    <Target Name="App">
+    <Target Name="App" DependsOnTargets="Sis">
         <MSBuild Projects="App\App.dproj"/>
     </Target>
-    <Target Name="App:Clean">
+    <Target Name="App:Clean" DependsOnTargets="Sis:Clean">
         <MSBuild Projects="App\App.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="App:Make">
+    <Target Name="App:Make" DependsOnTargets="Sis:Make">
         <MSBuild Projects="App\App.dproj" Targets="Make"/>
     </Target>
-    <Target Name="AppShop">
+    <Target Name="AppShop" DependsOnTargets="Sis;App">
         <MSBuild Projects="AppShop\AppShop.dproj"/>
     </Target>
-    <Target Name="AppShop:Clean">
+    <Target Name="AppShop:Clean" DependsOnTargets="Sis:Clean;App:Clean">
         <MSBuild Projects="AppShop\AppShop.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="AppShop:Make">
+    <Target Name="AppShop:Make" DependsOnTargets="Sis:Make;App:Make">
         <MSBuild Projects="AppShop\AppShop.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Adm">
+    <Target Name="Adm" DependsOnTargets="AppShop">
         <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
-    <Target Name="Adm:Clean">
+    <Target Name="Adm:Clean" DependsOnTargets="AppShop:Clean">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Adm:Make">
+    <Target Name="Adm:Make" DependsOnTargets="AppShop:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
