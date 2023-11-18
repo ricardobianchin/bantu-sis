@@ -23,6 +23,8 @@ function StrToWinPlatform(pStr: string): TWinPlatform;
 
 function IsWow64Process: Boolean;
 
+function GetProgramFilesPath: string;
+
 implementation
 
 uses WinApi.Windows;
@@ -82,6 +84,14 @@ begin
   finally
     Winapi.Windows.FreeLibrary(hKernel32);
   end;
+end;
+
+function GetProgramFilesPath: string;
+var
+  ProgramFilesPath: string;
+begin
+  ProgramFilesPath := GetEnvironmentVariable('ProgramFiles');
+  Result := ProgramFilesPath;
 end;
 
 end.

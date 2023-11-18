@@ -124,7 +124,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="dbrtl.dcp"/>
         <DCCReference Include="FireDACCommon.dcp"/>
-        <DCCReference Include="Types\Sis.Types.Utils_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
         <DCCReference Include="Win\Sis.Win.Utils_u.pas"/>
@@ -140,11 +140,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas"/>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.pas"/>
+        <DCCReference Include="Types\Sis.Types.strings_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Utils_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.strings.Stack.pas"/>
+        <DCCReference Include="Types\Sis.Types.strings.Stack_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -937,7 +939,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -945,7 +947,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

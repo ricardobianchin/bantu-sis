@@ -7,10 +7,10 @@
             <Dependencies/>
         </Projects>
         <Projects Include="App\App.dproj">
-            <Dependencies>Sis\Sis.dproj</Dependencies>
+            <Dependencies/>
         </Projects>
         <Projects Include="ShopApp\ShopApp.dproj">
-            <Dependencies>Sis\Sis.dproj;App\App.dproj</Dependencies>
+            <Dependencies/>
         </Projects>
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
@@ -32,22 +32,22 @@
     <Target Name="Sis:Make">
         <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
     </Target>
-    <Target Name="App" DependsOnTargets="Sis">
+    <Target Name="App">
         <MSBuild Projects="App\App.dproj"/>
     </Target>
-    <Target Name="App:Clean" DependsOnTargets="Sis:Clean">
+    <Target Name="App:Clean">
         <MSBuild Projects="App\App.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="App:Make" DependsOnTargets="Sis:Make">
+    <Target Name="App:Make">
         <MSBuild Projects="App\App.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ShopApp" DependsOnTargets="Sis;App">
+    <Target Name="ShopApp">
         <MSBuild Projects="ShopApp\ShopApp.dproj"/>
     </Target>
-    <Target Name="ShopApp:Clean" DependsOnTargets="Sis:Clean;App:Clean">
+    <Target Name="ShopApp:Clean">
         <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ShopApp:Make" DependsOnTargets="Sis:Make;App:Make">
+    <Target Name="ShopApp:Make">
         <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Make"/>
     </Target>
     <Target Name="Adm" DependsOnTargets="Sis;ShopApp">

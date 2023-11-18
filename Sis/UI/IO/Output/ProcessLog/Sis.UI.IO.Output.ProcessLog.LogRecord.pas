@@ -19,6 +19,10 @@ type
     procedure SetAssunto(Value: TProcessLogAssunto);
     property Assunto: TProcessLogAssunto read GetAssunto write SetAssunto;
 
+    function GetLocal: TProcessLogLocal;
+    procedure SetLocal(Value: TProcessLogLocal);
+    property Local: TProcessLogLocal read GetLocal write SetLocal;
+
     function GetNome: TProcessLogNome;
     procedure SetNome(Value: TProcessLogNome);
     property Nome: TProcessLogNome read GetNome write SetNome;

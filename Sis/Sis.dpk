@@ -34,7 +34,7 @@ requires
   FireDACCommon;
 
 contains
-  Sis.Types.Utils_u in 'Types\Sis.Types.Utils_u.pas',
+  Sis.Types.Bool_u in 'Types\Sis.Types.Bool_u.pas',
   Sis.Config.MachineId in 'Config\Sis.Config.MachineId.pas',
   Sis.Config.MachineId_u in 'Config\Sis.Config.MachineId_u.pas',
   Sis.Win.Utils_u in 'Win\Sis.Win.Utils_u.pas',
@@ -50,10 +50,12 @@ contains
   Sis.UI.IO.Output.ProcessLog.LogRecord_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas',
   Sis.UI.IO.Output.ProcessLog.LogRecord in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas',
   Sis.UI.IO.Output in 'UI\IO\Output\Sis.UI.IO.Output.pas',
-  Sis.UI.IO.Output.ProcessLog.Properties in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.pas',
-  Sis.UI.IO.Output.ProcessLog.Properties_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties_u.pas',
-  Sis.UI.IO.Output.ProcessLog.Properties.Stack in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack.pas',
-  Sis.UI.IO.Output.ProcessLog.Properties.Stack_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Properties.Stack_u.pas',
-  Sis.UI.IO.Output.ProcessLog.Factory in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas';
+  Sis.UI.IO.Output.ProcessLog.Factory in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas',
+  Sis.UI.IO.Files in 'UI\IO\Files\Sis.UI.IO.Files.pas',
+  Sis.Types.strings_u in 'Types\Sis.Types.strings_u.pas',
+  Sis.Types.Utils_u in 'Types\Sis.Types.Utils_u.pas',
+  Sis.Types.strings.Stack in 'Types\Sis.Types.strings.Stack.pas',
+  Sis.Types.strings.Stack_u in 'Types\Sis.Types.strings.Stack_u.pas',
+  Sis.Types.Factory in 'Types\Sis.Types.Factory.pas';
 
 end.

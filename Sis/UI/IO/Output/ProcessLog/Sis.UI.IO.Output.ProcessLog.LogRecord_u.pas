@@ -10,6 +10,7 @@ type
     FDtH: TDateTime;
     FTipo: TProcessLogTipo;
     FNome: string;
+    FLocal: TProcessLogLocal;
     FAssunto: string;
     FTexto: string;
 
@@ -18,6 +19,9 @@ type
 
     function GetTipo: TProcessLogTipo;
     procedure SetTipo(Value: TProcessLogTipo);
+
+    function GetLocal: TProcessLogLocal;
+    procedure SetLocal(Value: TProcessLogLocal);
 
     function GetAssunto: TProcessLogAssunto;
     procedure SetAssunto(Value: TProcessLogAssunto);
@@ -34,6 +38,7 @@ type
     property DtH: TDateTime read GetDth write SetDtH;
     property Tipo: TProcessLogTipo read GetTipo write SetTipo;
 
+    property Local: TProcessLogLocal read GetLocal write SetLocal;
     property Assunto: TProcessLogAssunto read GetAssunto write SetAssunto;
     property Nome: TProcessLogNome read GetNome write SetNome;
     property Texto: TProcessLogTexto read GetTexto write SetTexto;
@@ -77,6 +82,11 @@ begin
   result := FDtH;
 end;
 
+function TProcessLogRecord.GetLocal: TProcessLogLocal;
+begin
+  Result := FLocal;
+end;
+
 function TProcessLogRecord.GetNome: TProcessLogNome;
 begin
   Result := FNome;
@@ -94,7 +104,7 @@ end;
 
 function TProcessLogRecord.ProcessLogTipoToStr(pTipo: TProcessLogTipo): string;
 begin
-  Result := ProcessLogTipoNames[pTipo];
+  Result := ProcessLogTipoStr[pTipo];
 end;
 
 procedure TProcessLogRecord.SetAssunto(Value: TProcessLogAssunto);
@@ -105,6 +115,11 @@ end;
 procedure TProcessLogRecord.SetDtH(Value: TDateTime);
 begin
   FDtH := Value;
+end;
+
+procedure TProcessLogRecord.SetLocal(Value: TProcessLogLocal);
+begin
+  FLocal := FLocal;
 end;
 
 procedure TProcessLogRecord.SetNome(Value: TProcessLogNome);

@@ -4,12 +4,13 @@ interface
 
 type
   TProcessLogTipo = (lptNaoDefinido, lptProcess, lptExecExternal, lptDB);
+  TProcessLogLocal = string;
   TProcessLogAssunto = string;
   TProcessLogNome = String;
   TProcessLogTexto = string;
 
 const
-  ProcessLogTipoNames: array[TProcessLogTipo] of string = (
+  ProcessLogTipoStr: array[TProcessLogTipo] of string = (
     'NaoDefinido', 'Process', 'ExecExternal', 'DB');
 
 implementation

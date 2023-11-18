@@ -2,8 +2,8 @@ program Adm;
 
 uses
   AppShop.UI.Form.Princ_u,
-  Vcl.Forms
-  ;
+  Vcl.Forms,
+  Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u in '..\Sis\UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas';
 
 {$R *.res}
 
