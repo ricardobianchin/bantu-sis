@@ -7,6 +7,10 @@ uses Sis.UI.IO.Output.ProcessLog.Types;
 type
   IProcessLogRecord = interface(IInterface)
     ['{2BDB314C-B9F3-4835-B707-6C10E6D6FC29}']
+
+    function GetVersao: integer;
+    property Versao: integer read GetVersao;
+
     function GetDtH: TDateTime;
     procedure SetDtH(Value: TDateTime);
     property DtH: TDateTime read GetDth write SetDtH;
@@ -33,6 +37,16 @@ type
 
     function GetAsTab: string;
     property AsTab: string read GetAsTab;
+
+    function GetTitAsTab: string;
+    property TitAsTab: string read GetTitAsTab;
+
+    procedure PegueAssunto(pAssunto: TProcessLogAssunto);
+    procedure RetorneAssunto;
+
+    procedure PegueLocal(pLocal: TProcessLogLocal);
+    procedure RetorneLocal;
+
   end;
 
 implementation

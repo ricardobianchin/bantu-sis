@@ -29,13 +29,20 @@ package App;
 
 requires
   rtl,
-  Sis;
+  Sis,
+  vclimg;
 
 contains
   App.AppObj in 'AppObj\App.AppObj.pas',
   App.AppObj_u in 'AppObj\App.AppObj_u.pas',
-  App.UI.Form.Bas_u in 'UI\BasForm\App.UI.Form.Bas_u.pas' {BasForm},
+  App.Factory in 'AppObj\App.Factory.pas',
+  App.AppInfo in 'AppObj\App.AppInfo.pas',
+  App.AppInfo_u in 'AppObj\App.AppInfo_u.pas',
+  App.AppObj_u_VaParaPasta in 'AppObj\App.AppObj_u_VaParaPasta.pas',
+  App.UI.Form.Status_u in 'UI\AppUI\App.UI.Form.Status_u.pas' {StatusForm},
   App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
-  App.Factory in 'AppObj\App.Factory.pas';
+  App.UI.Form.Bas.Princ.Modulos_u in 'UI\BasForm\App.UI.Form.Bas.Princ.Modulos_u.pas' {ModulosPrincBasForm},
+  App.DonoConfig.Utils in 'DonoConfig\App.DonoConfig.Utils.pas',
+  App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas';
 
 end.

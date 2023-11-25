@@ -2,8 +2,7 @@ program Adm;
 
 uses
   AppShop.UI.Form.Princ_u,
-  Vcl.Forms,
-  Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u in '..\Sis\UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas';
+  Vcl.Forms;
 
 {$R *.res}
 
@@ -11,6 +10,6 @@ begin
   Application.Initialize;
 //  Application.MainFormOnTaskbar := True;
 //  Application.ShowMainForm := False;
-  Application.CreateForm(TAppShopPrincForm, AppShopPrincForm);
+  Application.CreateForm(TShopPrincForm, ShopPrincForm);
   Application.Run;
 end.

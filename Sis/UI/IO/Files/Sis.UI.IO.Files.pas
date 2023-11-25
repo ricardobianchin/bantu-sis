@@ -2,15 +2,18 @@ unit Sis.UI.IO.Files;
 
 interface
 
-uses System.Classes;
+uses System.Classes, Sis.UI.IO.Output.ProcessLog;
+
+procedure VaParaPasta(pPasta: string);
+function VaParaPastaDoArquivo(const pNomeArq: string; pProcessLog: IProcessLog): string;
 
 function PastaCriarEntrar(const pCaminho: string): boolean;
 procedure EscreverArquivo(pStr: string; pNomeArq: string);
 function DateTimeToNomeArq(pDtH: TDateTime = 0): string;
 function GetPastaDoArquivo(const pNomeArq: string): string;
+procedure GarantirPasta(const pPasta: string);
 function GarantirPastaDoArquivo(const pNomeArq: string): string;
 
-function GetProgramFilesPath: string;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
 function DateToPath(pDtH: TDateTime = 0): string;
@@ -65,18 +68,15 @@ begin
   Result := IncludeTrailingPathDelimiter(ExtractFilePath(pNomeArq));
 end;
 
+procedure GarantirPasta(const pPasta: string);
+begin
+  ForceDirectories(pPasta);
+end;
+
 function GarantirPastaDoArquivo(const pNomeArq: string): string;
 begin
   Result := GetPastaDoArquivo(pNomeArq);
-  ForceDirectories(Result);
-end;
-
-function GetProgramFilesPath: string;
-var
-  ProgramFilesPath: string;
-begin
-  ProgramFilesPath := GetEnvironmentVariable('ProgramFiles');
-  Result := ProgramFilesPath;
+  GarantirPasta(Result);
 end;
 
 function PastaAcima(pPastaOrigem: string = ''): string;
@@ -134,5 +134,24 @@ begin
   end;
 end;
 
+procedure VaParaPasta(pPasta: string);
+begin
+  SetCurrentDir(pPasta);
+end;
+
+function VaParaPastaDoArquivo(const pNomeArq: string; pProcessLog: IProcessLog): string;
+var
+  sPasta: string;
+  sLog: string;
+begin
+  sLog := 'NomeArq='+pNomeArq;
+  pProcessLog.PegueLocal('Sis.UI.IO.Files function VaParaPastaDoArquivo');
+
+  sPasta := GarantirPastaDoArquivo(pNomeArq);
+  sLog := sLog + ',Pasta='+sPasta;
+  pProcessLog.RegistreLog(sLog);
+  VaParaPasta(sPasta);
+  pProcessLog.RetorneLocal;
+end;
 
 end.

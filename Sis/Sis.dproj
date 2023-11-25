@@ -101,6 +101,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -124,6 +125,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="dbrtl.dcp"/>
         <DCCReference Include="FireDACCommon.dcp"/>
+        <DCCReference Include="vclx.dcp"/>
         <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
@@ -147,6 +149,35 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Types\Sis.Types.strings.Stack.pas"/>
         <DCCReference Include="Types\Sis.Types.strings.Stack_u.pas"/>
         <DCCReference Include="Types\Sis.Types.Factory.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas_u.pas">
+            <Form>BasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\IO\Sis.UI.IO.Factory.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Utils.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToMemo_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Act_u.pas">
+            <Form>ActBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\Img\Sis.UI.ImgDM.pas">
+            <Form>SisImgDataModule</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Win\Sis.Win.Factory.pas"/>
+        <DCCReference Include="Win\Sis.Win.Execute.pas"/>
+        <DCCReference Include="Win\Sis.Win.Execute_u.pas"/>
+        <DCCReference Include="Sis\Sis.Sis.Executavel.pas"/>
+        <DCCReference Include="Sis\Sis.Sis.Executavel_u.pas"/>
+        <DCCReference Include="Sis\Sis.Sis.Constants.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.DBMSConfig_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.DBMSConfig.Firebird_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.Firebird_u.pas"/>
+        <DCCReference Include="Registry\Sis.Win.Registry.pas"/>
+        <DCCReference Include="Debug\Sis.Debug.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

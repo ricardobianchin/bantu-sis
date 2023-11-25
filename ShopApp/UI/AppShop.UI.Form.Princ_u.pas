@@ -4,10 +4,11 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Modulos_u,
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls;
 
 type
-  TAppShopPrincForm = class(TPrincBasForm)
+  TShopPrincForm = class(TModulosPrincBasForm)
   private
     { Private declarations }
   public
@@ -15,7 +16,7 @@ type
   end;
 
 var
-  AppShopPrincForm: TAppShopPrincForm;
+  ShopPrincForm: TShopPrincForm;
 
 implementation
 

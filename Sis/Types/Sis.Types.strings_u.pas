@@ -2,7 +2,10 @@ unit Sis.Types.strings_u;
 
 interface
 
-uses System.UITypes;
+uses
+  System.UITypes
+  , System.Hash
+  ;
 
 procedure CharSemAcento(var Key: Char; pTudoMaiusculas: boolean = True);
 function StrSemAcento(const pStr: string;
@@ -43,6 +46,8 @@ procedure RemovaChars(pStr: string; pCharBusca: char);
 
 procedure StrSemEnterNoFim(var pStr: string);
 
+function StrCheckSum(const pStr: string; pSHA2Version: THashSHA2.TSHA2Version = SHA256): string;
+
 implementation
 
 uses
@@ -55,6 +60,10 @@ const
     '¡·¿‡√„¬‚…È»Ë ÍÕÌ”Û’ı‘Ù⁄˙«Á');
   SubstSemAcento = ('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ' +
     'AaAaAaAaEeEeEeIiOoOoOoUuCc');
+
+  VALID_FILENAME_CHARS: TSysCharSet = ['a' .. 'z', 'A' .. 'Z', '0' .. '9',
+    '_', '-', '.', '!', '@', '#', '$', '%', '&', '(', ')', '[', ']', '{', '}'];
+
 
 procedure CharOnlyDigit(var Key: Char);
 begin
@@ -116,7 +125,7 @@ end;
 
 function IsWindowsFilenameChar(c: Char): boolean;
 begin
-  Result := CharInSet(c, ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.']);
+  Result := CharInSet(c, VALID_FILENAME_CHARS);
 end;
 
 function IsWindowsFilenameValid(filename: string): boolean;
@@ -476,5 +485,17 @@ begin
     end;
   end;
 end;
+
+function StrCheckSum(const pStr: string; pSHA2Version: THashSHA2.TSHA2Version): string;
+begin
+  // Cria uma inst‚ncia da classe THashSHA2 com a vers„o SHA-256
+//  var Hasher := THashSHA2.Create(THashSHA2.TSHA2Version.SHA256);
+  var Hasher := THashSHA2.Create(pSHA2Version);
+  // Calcula o hash da string pStr
+  Hasher.Update(pStr);
+  // Retorna o hash como uma string hexadecimal
+  Result := Hasher.HashAsString;
+end;
+
 
 end.

@@ -2,7 +2,7 @@ unit Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u;
 
 interface
 
-uses Sis.UI.IO.Output.ProcessLog_u;
+uses Sis.UI.IO.Output.ProcessLog_u, Sis.UI.IO.Output.ProcessLog.Types;
 
 type
   TProcessLogFile = class(TProcessLog)
@@ -13,8 +13,16 @@ type
     FPasta: string;
     FNomeArq: string;
     FExt: string;
+  private
+    procedure InsiraLinha(pLinha: string);
   public
-    procedure Exibir(pFrase: string); override;
+
+    procedure RegistreLog(pTexto: string;
+      pDtH: TDateTime = 0;
+      pTipo: TProcessLogTipo = TProcessLogTipo.lptNaoDefinido;
+      pNome: TProcessLogNome = ''
+      ); override;
+
     constructor Create(pAssunto: string; pAcrescentaDtH: boolean = True;
       pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt');
       reintroduce;
@@ -23,7 +31,7 @@ type
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, Sis.UI.IO.Files, Sis.Types.strings_u, Sis.Types.Bool_u;
 
 { TProcessLogFile }
 
@@ -46,7 +54,7 @@ begin
   if sPasta = '' then
   begin
     sPasta := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
-    sPasta := PastaAcima(sPasta)+'tmp\ProcessLog\'+DateToPath();
+    sPasta := PastaAcima(sPasta)+'Tmp\ProcessLog\'+DateToPath();
   end;
 
   ForceDirectories(sPasta);
@@ -75,32 +83,41 @@ begin
   if not FileExists(FPasta + FNomeArq + FExt) then
   begin
     Rewrite(FF);
+    WriteLn(FF, ProcessLogRecord.GetTitAsTab);
     CloseFile(FF);
   end;
-  Exibir(sLog);
+
+  RegistreLog(sLog, pDtH);
+
+  RetorneLocal;
 end;
 
 destructor TProcessLogFile.Destroy;
 begin
-  Exibir('TProcessLogFile.Destroy');
+  PegueLocal('TProcessLogFile.Destroy');
+  RegistreLog('Destroy');
   inherited;
 end;
 
-procedure TProcessLogFile.Exibir(pFrase: string);
+procedure TProcessLogFile.InsiraLinha(pLinha: string);
+begin
+  Append(FF);
+  Writeln(FF, pLinha);
+  CloseFile(FF);
+end;
+
+procedure TProcessLogFile.RegistreLog(pTexto: string; pDtH: TDateTime;
+  pTipo: TProcessLogTipo; pNome: TProcessLogNome);
 begin
   if not Ativo then
     exit;
 
-  inherited Exibir(pFrase);
-//  if FileExists(FPasta + FNomeArq + FExt) then
-    Append(FF)
-  //else
-//    Rewrite(FF)
-    ;
+  if Trim(pTexto) = '' then
+    exit;
 
-  Writeln(FF, ProcessLogRecord.AsTab);
+  inherited RegistreLog(pTexto, pDtH, pTipo, pNome);
 
-  CloseFile(FF);
+  InsiraLinha(ProcessLogRecord.AsTab);
 end;
 
 end.

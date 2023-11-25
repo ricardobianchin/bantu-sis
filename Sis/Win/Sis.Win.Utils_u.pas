@@ -1,8 +1,8 @@
-unit Sis.Win.Utils_u;
+﻿unit Sis.Win.Utils_u;
 
 interface
 
-uses System.UITypes, system.SysUtils, Sis.Types.Utils_u;
+uses System.UITypes, Sis.Types.Utils_u;
 
 type
   TWinPlatform = (wplatNaoIndicado, wplatWin32,  wplatWin64);
@@ -25,9 +25,12 @@ function IsWow64Process: Boolean;
 
 function GetProgramFilesPath: string;
 
+function ExecutePrograma(Nome, Parametros, Pasta: string; out pErro: string): boolean;
+
 implementation
 
-uses WinApi.Windows;
+uses
+  Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms;
 
 function GetWinVersion(out pMajor: integer; out pMinor: integer;
   out pCSDVersion: string): boolean;
@@ -93,5 +96,37 @@ begin
   ProgramFilesPath := GetEnvironmentVariable('ProgramFiles');
   Result := ProgramFilesPath;
 end;
+
+function ExecutePrograma(Nome, Parametros, Pasta: string; out pErro: string): boolean;
+var
+  SEInfo: TShellExecuteInfo;
+begin
+  pErro := '';
+  // Preencher a estrutura SEInfo com os dados necessários
+  FillChar(SEInfo, SizeOf(SEInfo), 0);
+  SEInfo.cbSize := SizeOf(TShellExecuteInfo);
+  SEInfo.fMask := SEE_MASK_NOCLOSEPROCESS;
+  SEInfo.Wnd := Application.Handle;
+  SEInfo.lpFile := PChar(Nome); // Nome do executável
+  SEInfo.lpParameters := PChar(Parametros); // Parâmetros do executável
+  SEInfo.lpDirectory := PChar(Pasta); // Pasta inicial do executável
+  SEInfo.nShow := SW_SHOWNORMAL;
+
+  // Executar o programa usando ShellExecuteEx
+  Result := ShellExecuteEx(@SEInfo);
+  if not Result then
+    pErro := 'ExecutePrograma '+SysErrorMessage(GetLastError);
+  {
+  if  then
+    Result
+    // Aguardar o término do programa
+    //WaitForSingleObject(SEInfo.hProcess, INFINITE)
+  else
+    // Mostrar uma mensagem de erro em caso de falha
+    raise Exception.Create(SysErrorMessage(GetLastError));
+//    ShowMessage(SysErrorMessage(GetLastError));
+}
+end;
+
 
 end.

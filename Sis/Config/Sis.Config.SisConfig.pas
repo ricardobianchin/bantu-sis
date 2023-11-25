@@ -23,9 +23,6 @@ type
     function GetDBMSInfo: IDBMSInfo;
     property DBMSInfo: IDBMSInfo read GetDBMSInfo;
 
-    function GetPastaProduto: string;
-    property PastaProduto: string read GetPastaProduto;
-
   end;
 
 implementation

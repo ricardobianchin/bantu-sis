@@ -126,17 +126,27 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="Sis.dcp"/>
+        <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
-        <DCCReference Include="UI\BasForm\App.UI.Form.Bas_u.pas">
-            <Form>BasForm</Form>
+        <DCCReference Include="AppObj\App.Factory.pas"/>
+        <DCCReference Include="AppObj\App.AppInfo.pas"/>
+        <DCCReference Include="AppObj\App.AppInfo_u.pas"/>
+        <DCCReference Include="AppObj\App.AppObj_u_VaParaPasta.pas"/>
+        <DCCReference Include="UI\AppUI\App.UI.Form.Status_u.pas">
+            <Form>StatusForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Princ_u.pas">
             <Form>PrincBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="AppObj\App.Factory.pas"/>
+        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Princ.Modulos_u.pas">
+            <Form>ModulosPrincBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DonoConfig\App.DonoConfig.Utils.pas"/>
+        <DCCReference Include="AppObj\App.AppObj_u_ExecEventos.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -929,7 +939,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -937,7 +947,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

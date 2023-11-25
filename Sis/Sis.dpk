@@ -31,7 +31,8 @@ requires
   rtl,
   vcl,
   dbrtl,
-  FireDACCommon;
+  FireDACCommon,
+  vclx;
 
 contains
   Sis.Types.Bool_u in 'Types\Sis.Types.Bool_u.pas',
@@ -56,6 +57,25 @@ contains
   Sis.Types.Utils_u in 'Types\Sis.Types.Utils_u.pas',
   Sis.Types.strings.Stack in 'Types\Sis.Types.strings.Stack.pas',
   Sis.Types.strings.Stack_u in 'Types\Sis.Types.strings.Stack_u.pas',
-  Sis.Types.Factory in 'Types\Sis.Types.Factory.pas';
+  Sis.Types.Factory in 'Types\Sis.Types.Factory.pas',
+  Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas',
+  Sis.UI.Form.Bas_u in 'UI\BasForm\Sis.UI.Form.Bas_u.pas' {BasForm},
+  Sis.UI.IO.Factory in 'UI\IO\Sis.UI.IO.Factory.pas',
+  Sis.UI.IO.Output.ToLabel_u in 'UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas',
+  Sis.UI.Controls.Utils in 'UI\Controls\Sis.UI.Controls.Utils.pas',
+  Sis.UI.IO.Output.ToMemo_u in 'UI\IO\Output\Sis.UI.IO.Output.ToMemo_u.pas',
+  Sis.UI.Form.Bas.Act_u in 'UI\BasForm\Sis.UI.Form.Bas.Act_u.pas' {ActBasForm},
+  Sis.UI.ImgDM in 'UI\Img\Sis.UI.ImgDM.pas' {SisImgDataModule: TDataModule},
+  Sis.Win.Factory in 'Win\Sis.Win.Factory.pas',
+  Sis.Win.Execute in 'Win\Sis.Win.Execute.pas',
+  Sis.Win.Execute_u in 'Win\Sis.Win.Execute_u.pas',
+  Sis.Sis.Executavel in 'Sis\Sis.Sis.Executavel.pas',
+  Sis.Sis.Executavel_u in 'Sis\Sis.Sis.Executavel_u.pas',
+  Sis.Sis.Constants in 'Sis\Sis.Sis.Constants.pas',
+  Sis.DB.DBMS.DBMSConfig_u in 'DB\Sis.DB.DBMS.DBMSConfig_u.pas',
+  Sis.DB.DBMS.DBMSConfig.Firebird_u in 'DB\Sis.DB.DBMS.DBMSConfig.Firebird_u.pas',
+  Sis.DB.DBMS.Firebird_u in 'DB\Sis.DB.DBMS.Firebird_u.pas',
+  Sis.Win.Registry in 'Registry\Sis.Win.Registry.pas',
+  Sis.Debug in 'Debug\Sis.Debug.pas';
 
 end.

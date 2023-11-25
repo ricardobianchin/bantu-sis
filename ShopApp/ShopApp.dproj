@@ -104,6 +104,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -126,8 +127,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="App.dcp"/>
         <DCCReference Include="Sis.dcp"/>
+        <DCCReference Include="ShopAppObj\ShopApp.ShopAppObj.pas"/>
+        <DCCReference Include="ShopAppObj\ShopApp.ShopAppObj_u.pas"/>
+        <DCCReference Include="ShopAppObj\ShopApp.Factory.pas"/>
         <DCCReference Include="UI\AppShop.UI.Form.Princ_u.pas">
-            <Form>AppShopPrincForm</Form>
+            <Form>ShopPrincForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
@@ -922,7 +926,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -930,7 +934,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

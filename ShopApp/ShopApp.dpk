@@ -33,6 +33,9 @@ requires
   Sis;
 
 contains
-  AppShop.UI.Form.Princ_u in 'UI\AppShop.UI.Form.Princ_u.pas' {AppShopPrincForm};
+  ShopApp.ShopAppObj in 'ShopAppObj\ShopApp.ShopAppObj.pas',
+  ShopApp.ShopAppObj_u in 'ShopAppObj\ShopApp.ShopAppObj_u.pas',
+  ShopApp.Factory in 'ShopAppObj\ShopApp.Factory.pas',
+  AppShop.UI.Form.Princ_u in 'UI\AppShop.UI.Form.Princ_u.pas' {ShopPrincForm};
 
 end.

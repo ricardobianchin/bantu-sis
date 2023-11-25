@@ -17,10 +17,11 @@ type
     { Private declarations }
     FDisparaShowTimer: Boolean;
     function GetDisparaShowTimer: Boolean;
+    procedure SetDisparaShowTimer(Value: Boolean);
     procedure DispareShowTimer;
 
   protected
-    property DisparaShowTimer: Boolean read GetDisparaShowTimer;
+    property DisparaShowTimer: Boolean read GetDisparaShowTimer write SetDisparaShowTimer;
 
   public
     { Public declarations }
@@ -55,6 +56,11 @@ end;
 function TBasForm.GetDisparaShowTimer: Boolean;
 begin
   Result := FDisparaShowTimer;
+end;
+
+procedure TBasForm.SetDisparaShowTimer(Value: Boolean);
+begin
+  FDisparaShowTimer := Value;
 end;
 
 procedure TBasForm.ShowTimer_BasFormTimer(Sender: TObject);

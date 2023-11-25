@@ -1,6 +1,4 @@
-inherited AppShopPrincForm: TAppShopPrincForm
-  Caption = 'AppShopPrincForm'
-  ClientWidth = 628
-  ExplicitHeight = 479
+inherited ShopPrincForm: TShopPrincForm
+  Caption = 'ShopPrincForm'
   TextHeight = 15
 end

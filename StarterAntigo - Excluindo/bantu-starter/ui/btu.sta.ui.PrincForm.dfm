@@ -1274,7 +1274,7 @@ object StarterPrincForm: TStarterPrincForm
     Height = 73
     Alignment = taCenter
     AutoSize = False
-    Caption = #13#10'Buscando atualiza'#231#227'o...'
+    Caption = 'Buscando atualiza'#231#227'o...'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 10905156
     Font.Height = -19
