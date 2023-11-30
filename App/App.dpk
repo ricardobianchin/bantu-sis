@@ -43,6 +43,10 @@ contains
   App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
   App.UI.Form.Bas.Princ.Modulos_u in 'UI\BasForm\App.UI.Form.Bas.Princ.Modulos_u.pas' {ModulosPrincBasForm},
   App.DonoConfig.Utils in 'DonoConfig\App.DonoConfig.Utils.pas',
-  App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas';
+  App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas',
+  App.AtualizaVersao in 'AtualizaVersao\App.AtualizaVersao.pas',
+  App.AtualizaVersao_u in 'AtualizaVersao\App.AtualizaVersao_u.pas',
+  App.SisConfig.Garantir in 'SisConfig\App.SisConfig.Garantir.pas',
+  App.SisConfig.Garantir_u in 'SisConfig\App.SisConfig.Garantir_u.pas';
 
 end.

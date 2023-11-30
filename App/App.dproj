@@ -147,6 +147,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="DonoConfig\App.DonoConfig.Utils.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u_ExecEventos.pas"/>
+        <DCCReference Include="AtualizaVersao\App.AtualizaVersao.pas"/>
+        <DCCReference Include="AtualizaVersao\App.AtualizaVersao_u.pas"/>
+        <DCCReference Include="SisConfig\App.SisConfig.Garantir.pas"/>
+        <DCCReference Include="SisConfig\App.SisConfig.Garantir_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

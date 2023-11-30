@@ -15,7 +15,8 @@ uses ShopApp.ShopAppObj_u;
 function ShopAppCreate(pAppObj: IAppObj; pStatusOutput: IOutput;
   pProcessOutput: IOutput; pProcessLog: IProcessLog): IShopAppObj;
 begin
-  Result := TShopAppObj.Create(pAppObj, pStatusOutput, pProcessOutput, pProcessLog);
+  Result := TShopAppObj.Create(pAppObj, pStatusOutput, pProcessOutput,
+    pProcessLog);
 end;
 
 end.

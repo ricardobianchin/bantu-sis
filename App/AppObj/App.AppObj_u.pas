@@ -2,7 +2,8 @@ unit App.AppObj_u;
 
 interface
 
-uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
+uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
+  Sis.Config.SisConfig;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
@@ -12,19 +13,26 @@ type
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
     FProcessLog: IProcessLog;
+
+    FSisConfig: ISisConfig;
+
+    function GetSisConfig: ISisConfig;
+
   public
     property StatusOutput: IOutput read FStatusOutput;
     property ProcessOutput: IOutput read FProcessOutput;
     property ProcessLog: IProcessLog read FProcessLog;
+    property SisConfig: ISisConfig read GetSisConfig;
 
-    procedure Inicialize;
+    function Inicialize: boolean;
     constructor Create(pAppInfo: IAppInfo; pStatusOutput: IOutput;
       pProcessOutput: IOutput; pProcessLog: IProcessLog);
   end;
 
 implementation
 
-uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos;
+uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory,
+  App.AtualizaVersao, App.Factory;
 
 { TAppObj }
 
@@ -42,9 +50,18 @@ begin
   ProcessLog.RetorneLocal;
 end;
 
-procedure TAppObj.Inicialize;
+function TAppObj.GetSisConfig: ISisConfig;
+begin
+  Result := FSisConfig;
+end;
+
+function TAppObj.Inicialize: boolean;
+var
+  oAtualizaVersao: IAtualizaVersao;
+  bPrecisaResetar: boolean;
 begin
   ProcessLog.PegueLocal('TAppObj.Inicialize');
+  Result := True;
   try
     ProcessLog.RegistreLog('Inicio');
     FStatusOutput.Exibir('App inicializando...');
@@ -55,13 +72,23 @@ begin
 
     App.AppObj_u_VaParaPasta.VaParaPastaExe(FAppInfo, ProcessLog);
 
+    FSisConfig := SisConfigCreate;
 
+    oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
+      FProcessLog);
+
+    bPrecisaResetar  := oAtualizaVersao.Execute;
+
+    if bPrecisaResetar then
+    begin
+      ProcessLog.RegistreLog('bPrecisaResetar=true,vai fechar');
+      Result := False;
+      Exit;
+    end;
   finally
-    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, ProcessLog);
     ProcessLog.RegistreLog('Fim');
     ProcessLog.RetorneLocal;
   end;
-
 end;
 
 end.

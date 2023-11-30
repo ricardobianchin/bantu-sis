@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Act_u, System.Actions,
   App.AppInfo, App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig;
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -23,10 +23,14 @@ type
     StatusLabel: TLabel;
     StatusMemo: TMemo;
     DtHCompileLabel: TLabel;
+
     procedure FormCreate(Sender: TObject);
-    procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
-    procedure FecharAction_ActBasFormExecute(Sender: TObject);
+
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FecharAction_ActBasFormExecute(Sender: TObject);
+
+    procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     FAppInfo: IAppInfo;
@@ -36,7 +40,13 @@ type
     FProcessOutput: IOutput;
     FProcessLog: IProcessLog;
 
-    FSisConfig: ISisConfig;
+    // FSisConfig: ISisConfig;
+
+    // FUsuarioGerente: IUsuario;
+    // FLoja: ILoja;
+    // FDBMSConfig: IDBMSConfig;
+    // FDBMS: IDBMS;
+    // FServConnection: IDBConnection;
 
     procedure CaregarLogo1;
 
@@ -45,6 +55,7 @@ type
     property AppObj: IAppObj read FAppObj;
 
     procedure OculteStatusForm;
+    function GetAppInfoCreate: IAppInfo; virtual; abstract;
   public
     { Public declarations }
   end;
@@ -58,7 +69,8 @@ implementation
 
 uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory,
   Sis.UI.Controls.Utils,
-  Sis.UI.ImgDM, Sis.UI.IO.Output.ProcessLog.Factory;
+  Sis.UI.ImgDM, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
+  App.AppObj_u_ExecEventos;
 
 procedure TPrincBasForm.CaregarLogo1;
 var
@@ -84,6 +96,8 @@ begin
 end;
 
 procedure TPrincBasForm.FormCreate(Sender: TObject);
+var
+  bResultado: boolean;
 begin
   StatusForm := TStatusForm.Create(nil);
   StatusForm.Show;
@@ -96,18 +110,39 @@ begin
   FProcessLog := ProcessLogFileCreate(Name);
 
   FProcessLog.PegueLocal('TPrincBasForm.FormCreate');
+  try
+    // FSisConfig := SisConfigCreate;
 
-  FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
-  FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
-  FAppObj := App.Factory.AppObjCreate(FAppInfo, FStatusOutput, FProcessOutput,
-    FProcessLog);
+    FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
+    // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
+    FAppInfo := GetAppInfoCreate;
 
-  FAppObj.Inicialize;
+    // FDBMSConfig := DBMSConfigCreate(FSisConfig, FProcessLog, FProcessOutput);
 
-  FProcessLog.RegistreLog('Carregar nomeexib e logo1');
-  TitleBarCaptionLabel.Caption := FAppInfo.NomeExib;
-  CaregarLogo1;
-  FProcessLog.RetorneLocal;
+    // FDBMS: IDBMS;
+
+    FAppObj := App.Factory.AppObjCreate(FAppInfo, FStatusOutput, FProcessOutput,
+      FProcessLog);
+
+    bResultado := FAppObj.Inicialize;
+    if not bResultado then
+    begin
+      Application.Terminate;
+      exit;
+    end;
+    FProcessLog.RegistreLog('Carregar nomeexib e logo1');
+    TitleBarCaptionLabel.Caption := FAppInfo.NomeExib;
+    CaregarLogo1;
+  finally
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TPrincBasForm.FormDestroy(Sender: TObject);
+begin
+  ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
+  inherited;
+
 end;
 
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);

@@ -2,8 +2,8 @@ unit Sis.UI.IO.Output.ProcessLog.LogRecord_u;
 
 interface
 
-uses Sis.UI.IO.Output.ProcessLog.LogRecord, Sis.UI.IO.Output.ProcessLog.Types,
-  Sis.Types.strings.Stack;
+uses Sis.UI.IO.Output.ProcessLog.LogRecord, Sis.Types.strings.Stack,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TProcessLogRecord = class(TInterfacedObject, IProcessLogRecord)

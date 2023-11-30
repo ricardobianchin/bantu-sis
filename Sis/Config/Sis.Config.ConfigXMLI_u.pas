@@ -1,8 +1,8 @@
-unit btu.lib.config.xmli_u;
+unit Sis.Config.ConfigXMLI_u;
 
 interface
 
-uses btu.lib.config.xmli, btu.lib.config;
+uses Sis.Config.SisConfig, Sis.Config.ConfigXMLI;
 
 type
   TConfigXMLI = class(TInterfacedObject, IConfigXMLI)
@@ -16,10 +16,9 @@ type
 
 implementation
 
-uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, sis.types.bool.utils,
-  {System.Win.ComObj} WinApi.ActiveX, btu.lib.db.types, sis.types.floats,
-  sis.win.VersionInfo, sis.sis.constants, System.TypInfo,
-  sis.win.VersionInfo_u;
+uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, {System.Win.ComObj}
+  WinApi.ActiveX, System.TypInfo, Sis.Types.Bool_u, Sis.DB.DBTypes,
+  Sis.Types.Floats, Sis.Win.VersionInfo, Sis.Win.Utils_u, Sis.Sis.Constants;
 
 { TConfigXMLI }
 

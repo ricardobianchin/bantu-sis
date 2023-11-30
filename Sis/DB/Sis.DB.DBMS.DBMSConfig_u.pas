@@ -58,7 +58,7 @@ var
     :IXMLNODE;
   sPasta, sNomeArq, sArqXML: string;
 begin
-  sPasta := PastaAcima(ExtractFilePath(ParamStr(0)));
+  sPasta := GetPastaDoArquivo(ParamStr(0));
   sNomeArq := 'DBMS.Firebird.Config.xml';
   sArqXML := sPasta + sNomeArq;
 
@@ -88,7 +88,7 @@ var
   sPasta, sNomeArq, sArqXML: string;
   s: string;
 begin
-  sPasta := PastaAcima(ExtractFilePath(ParamStr(0)));
+  sPasta := GetPastaDoArquivo(ParamStr(0));
   sNomeArq := 'DBMS.Firebird.Config.xml';
   sArqXML := sPasta + sNomeArq;
 

@@ -3,7 +3,7 @@ unit Sis.UI.IO.Output.ProcessLog_u;
 interface
 
 uses Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output.ProcessLog.LogRecord,
-  Vcl.Dialogs, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog.Types;
+  Vcl.Dialogs, Sis.DB.DBTypes;
 
 type
   TProcessLog = class(TInterfacedObject, IProcessLog)

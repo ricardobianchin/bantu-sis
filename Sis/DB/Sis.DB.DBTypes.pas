@@ -4,7 +4,7 @@ interface
 
 uses
   FireDAC.Stan.Param, System.Classes, Data.DB, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output;
+  Sis.UI.IO.Output, Sis.Sis.Nomeavel;
 
 type
   TDBVersion = double;
@@ -19,6 +19,8 @@ type
   TDBConnectionParams = record
     Server, Arq, Database: string;
   end;
+
+  TFirebirdVersion = TDBVersion;
 
 const
   DBFrameworkNames: array [TDBFramework] of string = ('NAOINDICADO', 'FIREDAC');
@@ -65,8 +67,8 @@ type
 //    function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
     procedure GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput);
-    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
-      pOutput: IOutput): boolean;
+//    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
+//      pOutput: IOutput): boolean;
 
     // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string;
@@ -76,7 +78,7 @@ type
       pOutput: IOutput); overload;
   end;
 
-  IDBConnection = interface(IInterface)
+  IDBConnection = interface(INomeavel)
     ['{5984CEAC-D7A0-41F5-9ED5-35627D5E5D49}']
     procedure StartTransaction;
     procedure Commit;
@@ -101,15 +103,14 @@ type
 
   end;
 
-  IDBSqlOperation = interface(IInterface)
+  IDBSqlOperation = interface(INomeavel)
     ['{16190228-4243-4196-BEAF-0B9AF16E0599}']
     function GetUltimoErro: string;
     procedure SetUltimoErro(Value: string);
     property UltimoErro: string read GetUltimoErro write SetUltimoErro;
 
     function GetNome: string;
-    procedure SetNome(Value: string);
-    property Nome: string read GetNome write SetNome;
+    property Nome: string read GetNome;
 
     function GetSql: string;
     procedure SetSql(Value: string);

@@ -2,7 +2,7 @@ unit Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u;
 
 interface
 
-uses Sis.UI.IO.Output.ProcessLog_u, Sis.UI.IO.Output.ProcessLog.Types;
+uses Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output.ProcessLog_u;
 
 type
   TProcessLogFile = class(TProcessLog)

@@ -6,6 +6,7 @@ inherited PrincBasForm: TPrincBasForm
   Color = 1641478
   Font.Color = 10905156
   StyleElements = []
+  OnDestroy = FormDestroy
   ExplicitWidth = 628
   ExplicitHeight = 477
   TextHeight = 15

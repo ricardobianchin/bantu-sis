@@ -134,6 +134,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ShopPrincForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="ShopAppObj\ShopApp.Constants.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

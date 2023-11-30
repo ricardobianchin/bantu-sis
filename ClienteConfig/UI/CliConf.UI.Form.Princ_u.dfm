@@ -1,15 +1,14 @@
 inherited ClienteConfigForm: TClienteConfigForm
   Caption = 'ClienteConfigForm'
-  ClientHeight = 361
-  ClientWidth = 620
-  ExplicitLeft = -4
+  ClientHeight = 360
+  ClientWidth = 616
   ExplicitWidth = 632
   ExplicitHeight = 399
   TextHeight = 15
   object Image1: TImage [0]
     Left = 0
     Top = 0
-    Width = 620
+    Width = 616
     Height = 101
     Align = alTop
     Picture.Data = {
@@ -2120,6 +2119,7 @@ inherited ClienteConfigForm: TClienteConfigForm
       03316C924726BD63F620D1ECFC45FB65FC38B1D42D6DAFAC67F1BE890C96F711
       2CB1491BDEC68E855810559095208C10483C54C9DA3CCC0FFFD9}
     Stretch = True
+    ExplicitWidth = 620
   end
   object ExemploLabel: TLabel [1]
     Left = 440
@@ -2138,36 +2138,14 @@ inherited ClienteConfigForm: TClienteConfigForm
     Transparent = False
     Layout = tlCenter
   end
-  object CliListaArqLabeledEdit: TLabeledEdit [2]
-    Left = 8
-    Top = 120
-    Width = 417
-    Height = 23
-    EditLabel.Width = 118
-    EditLabel.Height = 15
-    EditLabel.Caption = 'CliListaArqLabeledEdit'
-    TabOrder = 0
-    Text = 'C:\Pr\app\bantu\bantu-sis\Exe\Bin\ClienteConfig.txt'
-  end
-  object CliCodLabeledEdit: TLabeledEdit [3]
-    Left = 8
-    Top = 160
-    Width = 121
-    Height = 23
-    EditLabel.Width = 97
-    EditLabel.Height = 15
-    EditLabel.Caption = 'CliCodLabeledEdit'
-    TabOrder = 1
-    Text = '1'
-  end
-  object Memo1: TMemo [4]
+  object Memo1: TMemo [2]
     Left = 8
     Top = 192
     Width = 313
     Height = 145
     TabOrder = 2
   end
-  object FundoColorBox: TColorBox [5]
+  object FundoColorBox: TColorBox [3]
     Left = 455
     Top = 204
     Width = 145
@@ -2176,28 +2154,7 @@ inherited ClienteConfigForm: TClienteConfigForm
     TabOrder = 3
     OnChange = FundoColorBoxChange
   end
-  object FonteColorBox: TColorBox [6]
-    Left = 455
-    Top = 247
-    Width = 145
-    Height = 22
-    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
-    TabOrder = 4
-    OnChange = FonteColorBoxChange
-  end
-  object FundoLabeledEdit: TLabeledEdit [7]
-    Left = 327
-    Top = 204
-    Width = 121
-    Height = 23
-    EditLabel.Width = 34
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Fundo'
-    TabOrder = 5
-    Text = ''
-    OnChange = FundoLabeledEditChange
-  end
-  object FonteLabeledEdit: TLabeledEdit [8]
+  object FonteLabeledEdit: TLabeledEdit [4]
     Left = 327
     Top = 247
     Width = 121
@@ -2209,7 +2166,7 @@ inherited ClienteConfigForm: TClienteConfigForm
     Text = ''
     OnChange = FonteLabeledEditChange
   end
-  object ExecButton: TButton [9]
+  object ExecButton: TButton [5]
     Left = 440
     Top = 296
     Width = 75
@@ -2217,6 +2174,49 @@ inherited ClienteConfigForm: TClienteConfigForm
     Caption = 'Execute'
     TabOrder = 7
     OnClick = ExecButtonClick
+  end
+  object FundoLabeledEdit: TLabeledEdit [6]
+    Left = 327
+    Top = 204
+    Width = 121
+    Height = 23
+    EditLabel.Width = 34
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Fundo'
+    TabOrder = 5
+    Text = ''
+    OnChange = FundoLabeledEditChange
+  end
+  object FonteColorBox: TColorBox [7]
+    Left = 455
+    Top = 247
+    Width = 145
+    Height = 22
+    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
+    TabOrder = 4
+    OnChange = FonteColorBoxChange
+  end
+  object CliCodLabeledEdit: TLabeledEdit [8]
+    Left = 8
+    Top = 160
+    Width = 121
+    Height = 23
+    EditLabel.Width = 97
+    EditLabel.Height = 15
+    EditLabel.Caption = 'CliCodLabeledEdit'
+    TabOrder = 1
+    Text = '1'
+  end
+  object CliListaArqLabeledEdit: TLabeledEdit [9]
+    Left = 8
+    Top = 120
+    Width = 417
+    Height = 23
+    EditLabel.Width = 118
+    EditLabel.Height = 15
+    EditLabel.Caption = 'CliListaArqLabeledEdit'
+    TabOrder = 0
+    Text = 'C:\Pr\app\bantu\bantu-sis\Exe\Bin\ClienteConfig.txt'
   end
   object ColorDialog1: TColorDialog
     Left = 192

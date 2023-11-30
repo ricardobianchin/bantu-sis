@@ -126,6 +126,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="dbrtl.dcp"/>
         <DCCReference Include="FireDACCommon.dcp"/>
         <DCCReference Include="vclx.dcp"/>
+        <DCCReference Include="FireDAC.dcp"/>
+        <DCCReference Include="FireDACCommonDriver.dcp"/>
+        <DCCReference Include="IndySystem.dcp"/>
+        <DCCReference Include="IndyProtocols.dcp"/>
+        <DCCReference Include="IndyCore.dcp"/>
         <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
@@ -138,7 +143,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Types.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas"/>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
@@ -178,6 +182,32 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Sis.DB.DBMS.Firebird_u.pas"/>
         <DCCReference Include="Registry\Sis.Win.Registry.pas"/>
         <DCCReference Include="Debug\Sis.Debug.pas"/>
+        <DCCReference Include="DB\Sis.DB.Factory.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.Factory.pas"/>
+        <DCCReference Include="Config\Sis.Config.ConfigXMLI.pas"/>
+        <DCCReference Include="Config\Sis.Config.ConfigXMLI_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Floats.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBConnection_u.pas"/>
+        <DCCReference Include="Sis\Sis.Sis.Nomeavel.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBConnection.FireDAC_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Registrador.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Registrador_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBSQLOperation_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBQuery_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExec_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBQuery.FireDAC_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExec.FireDAC_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas"/>
+        <DCCReference Include="Types\Sis.Types.Times.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Sync.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Factory.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas"/>
+        <DCCReference Include="Web\Sis.Web.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

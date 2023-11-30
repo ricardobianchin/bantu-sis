@@ -2,7 +2,7 @@ unit Sis.UI.IO.Output.ProcessLog.LogRecord;
 
 interface
 
-uses Sis.UI.IO.Output.ProcessLog.Types;
+uses Sis.UI.IO.Output.ProcessLog;
 
 type
   IProcessLogRecord = interface(IInterface)

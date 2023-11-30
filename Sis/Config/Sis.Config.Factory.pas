@@ -2,24 +2,26 @@ unit Sis.Config.Factory;
 
 interface
 
-uses Sis.Config.MachineId, Sis.Config.SisConfig, btu.lib.db.types, btu.lib.config.xmli,
-  btu.lib.db.dbms.config;
+uses Sis.Config.MachineId, Sis.DB.DBTypes, Sis.Config.SisConfig,
+  Sis.Config.ConfigXMLI;
 
 function MachineIdCreate: IMachineId;
-function SisConfigCreate(pVersion: TDBVersion = 0; pDatabaseType: TDBMSType = dbmstUnknown): ISisConfig;
+function SisConfigCreate(pVersion: TDBVersion = 0;
+  pDatabaseType: TDBMSType = dbmstUnknown): ISisConfig;
 function ConfigXMLICreate(pSisConfig: ISisConfig): IConfigXMLI;
 
 implementation
 
-uses btu.lib.config.machineid_u, btu.lib.config_u, sis.win.factory, sis.win.VersionInfo,
-  btu.lib.db.factory, btu.lib.config.xmli_u;
+uses Sis.Config.MachineId_u, Sis.Win.VersionInfo, Sis.Win.Factory,
+  Sis.DB.Factory, Sis.Config.SisConfig_u, Sis.Config.ConfigXMLI_u;
 
 function MachineIdCreate: IMachineId;
 begin
   result := TMachineId.Create;
 end;
 
-function SisConfigCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType): ISisConfig;
+function SisConfigCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
+  : ISisConfig;
 var
   vLocalMachineId, vServerMachineId: IMachineId;
   vWinVersionInfo: IWinVersionInfo;
@@ -30,12 +32,13 @@ begin
   vWinVersionInfo := WinVersionCreate;
   vDBMSInfo := DBMSInfoCreate(pVersion, pDatabaseType);
 
-  result := TISisConfig.Create(vLocalMachineId, vServerMachineId, vWinVersionInfo, vDBMSInfo);
+  result := TISisConfig.Create(vLocalMachineId, vServerMachineId,
+    vWinVersionInfo, vDBMSInfo);
 end;
 
 function ConfigXMLICreate(pSisConfig: ISisConfig): IConfigXMLI;
 begin
-  Result := TConfigXMLI.Create(pSisConfig);
+  result := TConfigXMLI.Create(pSisConfig);
 end;
 
 end.

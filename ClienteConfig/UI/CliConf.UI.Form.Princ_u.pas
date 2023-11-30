@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls,
-  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Mask, App.AppInfo;
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Mask;
 
 type
   TClienteConfigForm = class(TBasForm)
@@ -39,7 +39,7 @@ type
     TmpNomeExib: string[200];
 
 
-    FAppInfo: IAppInfo;
+//    FAppInfo: IAppInfo;
 
     PastaArq: string;
 
@@ -172,7 +172,7 @@ begin
 
   FbCopiaCorSelected := false;
   FbCopiaCorLabeledEdit := false;
-  FAppInfo := AppInfoCreate(Application.ExeName);
+//  FAppInfo := AppInfoCreate;
 
   FundoColorBox.Selected := ExemploLabel.Color;
   FonteColorBox.Selected := ExemploLabel.Font.Color;

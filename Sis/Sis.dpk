@@ -32,7 +32,12 @@ requires
   vcl,
   dbrtl,
   FireDACCommon,
-  vclx;
+  vclx,
+  FireDAC,
+  FireDACCommonDriver,
+  IndySystem,
+  IndyProtocols,
+  IndyCore;
 
 contains
   Sis.Types.Bool_u in 'Types\Sis.Types.Bool_u.pas',
@@ -47,7 +52,6 @@ contains
   Sis.UI.IO.Output.Mudo_u in 'UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas',
   Sis.UI.IO.Output.ProcessLog in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas',
   Sis.UI.IO.Output.ProcessLog_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog_u.pas',
-  Sis.UI.IO.Output.ProcessLog.Types in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Types.pas',
   Sis.UI.IO.Output.ProcessLog.LogRecord_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas',
   Sis.UI.IO.Output.ProcessLog.LogRecord in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas',
   Sis.UI.IO.Output in 'UI\IO\Output\Sis.UI.IO.Output.pas',
@@ -76,6 +80,32 @@ contains
   Sis.DB.DBMS.DBMSConfig.Firebird_u in 'DB\Sis.DB.DBMS.DBMSConfig.Firebird_u.pas',
   Sis.DB.DBMS.Firebird_u in 'DB\Sis.DB.DBMS.Firebird_u.pas',
   Sis.Win.Registry in 'Registry\Sis.Win.Registry.pas',
-  Sis.Debug in 'Debug\Sis.Debug.pas';
+  Sis.Debug in 'Debug\Sis.Debug.pas',
+  Sis.DB.Factory in 'DB\Sis.DB.Factory.pas',
+  Sis.Config.SisConfig_u in 'Config\Sis.Config.SisConfig_u.pas',
+  Sis.Config.Factory in 'Config\Sis.Config.Factory.pas',
+  Sis.Config.ConfigXMLI in 'Config\Sis.Config.ConfigXMLI.pas',
+  Sis.Config.ConfigXMLI_u in 'Config\Sis.Config.ConfigXMLI_u.pas',
+  Sis.Types.Floats in 'Types\Sis.Types.Floats.pas',
+  Sis.DB.DBConnection_u in 'DB\Sis.DB.DBConnection_u.pas',
+  Sis.Sis.Nomeavel in 'Sis\Sis.Sis.Nomeavel.pas',
+  Sis.DB.DBConnection.FireDAC_u in 'DB\Sis.DB.DBConnection.FireDAC_u.pas',
+  Sis.UI.IO.Output.ProcessLog.Registrador in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Registrador.pas',
+  Sis.UI.IO.Output.ProcessLog.Registrador_u in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Registrador_u.pas',
+  Sis.DB.DBSQLOperation_u in 'DB\Sis.DB.DBSQLOperation_u.pas',
+  Sis.DB.DBQuery_u in 'DB\Sis.DB.DBQuery_u.pas',
+  Sis.DB.DBExec_u in 'DB\Sis.DB.DBExec_u.pas',
+  Sis.DB.DBQuery.FireDAC_u in 'DB\Sis.DB.DBQuery.FireDAC_u.pas',
+  Sis.DB.DBExec.FireDAC_u in 'DB\Sis.DB.DBExec.FireDAC_u.pas',
+  Sis.UI.IO.Output.ProcessLog.Mudo in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas',
+  Sis.Types.Times in 'Types\Sis.Types.Times.pas',
+  Sis.UI.IO.Files.FileInfo in 'UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas',
+  Sis.UI.IO.Files.FileInfo_u in 'UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas',
+  Sis.UI.IO.Files.Sync in 'UI\IO\Files\Sis.UI.IO.Files.Sync.pas',
+  Sis.UI.IO.Files.Factory in 'UI\IO\Files\Sis.UI.IO.Files.Factory.pas',
+  Sis.Web.HTTPDownload.NET in 'Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas',
+  Sis.Web.HTTP.Download_u in 'Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas',
+  Sis.Web.HTTP.Download in 'Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas',
+  Sis.Web.Factory in 'Web\Sis.Web.Factory.pas';
 
 end.

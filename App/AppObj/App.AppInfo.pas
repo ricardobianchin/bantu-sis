@@ -37,6 +37,16 @@ type
 
     function GetPastaComandos: string;
     property PastaComandos: string read GetPastaComandos;
+
+    function GetAtualizExeSubPasta: string;
+    property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
+
+    function GetAtualizExeURL: string;
+    property AtualizExeURL: string read GetAtualizExeURL;
+
+    function Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
+    property InstUpdate_ExcluiLocalAntesDoDownload: boolean
+      read Get_InstUpdate_ExcluiLocalAntesDoDownload;
   end;
 
 implementation

@@ -10,7 +10,7 @@ const
   WEB_LIB_NET = 2;
   WEB_LIB_USADA = WEB_LIB_NET;
 
-  INST_UPDATE_EXCLUI_LOCAL_ANTES_DOWNLOAD = True;
+  INST_UPDATE_EXCLUI_LOCAL_ANTES_DOWNLOAD = True;//ja foi
 
   MSG_ERRO_WINVERSION = 'Erro detectando a versao do Windows';
 
@@ -32,8 +32,8 @@ const
     'se a loja é a principal ou a outlet...'
     ;
 
-  ATUALIZ_ARQ_SUBPASTA = 'Starter\Update\InstUpdate\MercadoAtualiz.exe';
-  ATUALIZ_URL = 'https://www.bianch.in/arqs/daros/MercadoAtualiz.exe';
+  ATUALIZ_ARQ_SUBPASTA = 'Starter\Update\InstUpdate\MercadoAtualiz.exe';//ja foi
+  ATUALIZ_URL = 'https://www.bianch.in/arqs/daros/MercadoAtualiz.exe';//ja foi
 
 implementation
 

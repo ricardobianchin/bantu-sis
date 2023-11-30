@@ -1,4 +1,4 @@
-unit btu.lib.config.xmli;
+unit Sis.Config.ConfigXMLI;
 
 interface
 

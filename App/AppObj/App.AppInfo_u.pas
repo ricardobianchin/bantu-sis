@@ -18,6 +18,9 @@ type
     FPastaImg: string;
     FPastaComandos: string;
 
+    FAtualizExeSubPasta: string;
+    FAtualizExeURL: string;
+
     function GetExeName: string;
 
     function GetPessoaDonoId: integer;
@@ -38,6 +41,10 @@ type
 
     function GetPastaBin: string;
 
+    function GetAtualizExeSubPasta: string;
+    function GetAtualizExeURL: string;
+
+    function Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
   public
     property ExeName: string read GetExeName;
 
@@ -46,14 +53,20 @@ type
     property FonteCor: TColor read GetFonteCor write SetFonteCor;
     property NomeExib: string read GetNomeExib;
 
-
     property Pasta: string read GetPasta;
     property PastaImg: string read GetPastaImg;
     property PastaComandos: string read GetPastaComandos;
 
     property PastaBin: string read GetPastaBin;
 
-    constructor Create(pExeName: string);
+    property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
+    property AtualizExeURL: string read GetAtualizExeURL;
+
+    property InstUpdate_ExcluiLocalAntesDoDownload: boolean
+      read Get_InstUpdate_ExcluiLocalAntesDoDownload;
+
+    constructor Create(pExeName: string; pAtualizExeSubPasta: string;
+      pAtualizExeURL: string);
   end;
 
 implementation
@@ -62,7 +75,8 @@ uses Sis.UI.IO.Files;
 
 { TAppInfo }
 
-constructor TAppInfo.Create(pExeName: string);
+constructor TAppInfo.Create(pExeName: string; pAtualizExeSubPasta: string;
+  pAtualizExeURL: string);
 begin
   FExeName := pExeName;
   FPastaBin := GetPastaDoArquivo(FExeName);
@@ -70,6 +84,16 @@ begin
   FPastaImg := FPasta + 'Img\';
   FPastaComandos := FPasta + 'Comandos\';
 
+end;
+
+function TAppInfo.GetAtualizExeSubPasta: string;
+begin
+  Result := FAtualizExeSubPasta;
+end;
+
+function TAppInfo.GetAtualizExeURL: string;
+begin
+  Result := FAtualizExeURL;
 end;
 
 function TAppInfo.GetExeName: string;
@@ -115,6 +139,11 @@ end;
 function TAppInfo.GetPessoaDonoId: integer;
 begin
   Result := FPessoaDonoId;
+end;
+
+function TAppInfo.Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
+begin
+  Result := True;
 end;
 
 procedure TAppInfo.SetFonteCor(Value: TColor);

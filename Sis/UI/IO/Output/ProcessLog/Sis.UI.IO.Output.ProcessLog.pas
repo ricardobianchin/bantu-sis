@@ -2,7 +2,16 @@ unit Sis.UI.IO.Output.ProcessLog;
 
 interface
 
-uses Sis.UI.IO.Output.ProcessLog.Types;
+type
+  TProcessLogTipo = (lptNaoDefinido, lptProcess, lptExecExternal, lptDB, lptWeb);
+  TProcessLogLocal = string;
+  TProcessLogAssunto = string;
+  TProcessLogNome = String;
+  TProcessLogTexto = string;
+
+const
+  ProcessLogTipoStr: array [TProcessLogTipo] of string = ('NaoDefinido',
+    'Process', 'ExecExternal', 'DB', 'Web');
 
 type
   IProcessLog = interface(IInterface)
@@ -14,13 +23,9 @@ type
     procedure PegueLocal(pLocal: TProcessLogLocal);
     procedure RetorneLocal;
 
-    procedure RegistreLog(pTexto: string;
-      pDtH: TDateTime = 0;
+    procedure RegistreLog(pTexto: string; pDtH: TDateTime = 0;
       pTipo: TProcessLogTipo = TProcessLogTipo.lptNaoDefinido;
-      pNome: TProcessLogNome = ''{;
-      pAssunto: TProcessLogAssunto = '';
-      pLocal: TProcessLogLocal = ''}
-      );
+      pNome: TProcessLogNome = '');
   end;
 
 implementation
