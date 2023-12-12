@@ -49,7 +49,7 @@ type
 
 implementation
 
-uses System.Variants, Sis.UI.IO.Output.ProcessLog.Factory;
+uses System.Variants, Sis.UI.IO.Output.ProcessLog.Factory, System.StrUtils;
 
 { TDBCommand }
 
@@ -68,7 +68,7 @@ begin
     FDBLog := ProcessLogRegistradorCreate(FProcessLog, TProcessLogTipo.lptDB,
       FNome);
   finally
-    FDBLog.Registre('Nome=' + Nome);
+    FDBLog.Registre('Nome=' + Nome+',FDBConnection.Nome='+FDBConnection.Nome);
     FProcessLog.RetorneLocal;
   end;
 end;
@@ -81,7 +81,7 @@ end;
 function TDBSQLOperation.GetParamsAsStr: string;
 var
   sResult: string;
-  I: integer;
+  L, I: integer;
   Param: TFDParam;
 begin
   sResult := '';
@@ -91,7 +91,13 @@ begin
     Param := Params[I];
 
     sResult := sResult + '[' + Param.Name + '=' + VarToStrDef(Param.Value,
-      'NULL') + ']'#13#10;
+      'NULL') + '],';
+  end;
+
+  if sResult <> '' then
+  begin
+    L := Length(sResult);
+    sResult :=LeftStr( sResult, L - 1);
   end;
 
   Result := sResult;

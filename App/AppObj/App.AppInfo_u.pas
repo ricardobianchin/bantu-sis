@@ -15,6 +15,7 @@ type
 
     FPasta: string;
     FPastaBin: string;
+    FPastaDados: string;
     FPastaImg: string;
     FPastaComandos: string;
 
@@ -40,6 +41,7 @@ type
     function GetPastaComandos: string;
 
     function GetPastaBin: string;
+    function GetPastaDados: string;
 
     function GetAtualizExeSubPasta: string;
     function GetAtualizExeURL: string;
@@ -58,6 +60,7 @@ type
     property PastaComandos: string read GetPastaComandos;
 
     property PastaBin: string read GetPastaBin;
+    property PastaDados: string read GetPastaDados;
 
     property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
     property AtualizExeURL: string read GetAtualizExeURL;
@@ -83,7 +86,7 @@ begin
   FPasta := PastaAcima(FPastaBin);
   FPastaImg := FPasta + 'Img\';
   FPastaComandos := FPasta + 'Comandos\';
-
+  FPastaDados := FPasta + 'Dados\';
 end;
 
 function TAppInfo.GetAtualizExeSubPasta: string;
@@ -129,6 +132,11 @@ end;
 function TAppInfo.GetPastaComandos: string;
 begin
   Result := FPastaComandos;
+end;
+
+function TAppInfo.GetPastaDados: string;
+begin
+  Result := FPastaDados;
 end;
 
 function TAppInfo.GetPastaImg: string;

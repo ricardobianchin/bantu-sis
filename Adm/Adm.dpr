@@ -2,6 +2,7 @@ program Adm;
 
 uses
   AppShop.UI.Form.Princ_u,
+  FireDAC.Stan.Async,
   Vcl.Forms;
 
 {$R *.res}

@@ -48,6 +48,9 @@ procedure StrSemEnterNoFim(var pStr: string);
 
 function StrCheckSum(const pStr: string; pSHA2Version: THashSHA2.TSHA2Version = SHA256): string;
 
+procedure StrCheckSum32(pStr: string; out pCheckStr: string); overload;
+function StrCheckSum32(pStr: string): string;  overload;
+
 implementation
 
 uses
@@ -497,5 +500,18 @@ begin
   Result := Hasher.HashAsString;
 end;
 
+procedure StrCheckSum32(pStr: string; out pCheckStr: string);
+begin
+  pCheckStr := StrCheckSum32(pStr);
+end;
+
+function StrCheckSum32(pStr: string): string;
+var
+  Hasher: THashFNV1a32;
+begin
+  Hasher := THashFNV1a32.Create; // cria um objeto THashFNV1a32
+  Hasher.Update(pStr); // atualiza o hash com a string pStr
+  Result := Hasher.HashAsString; // obtém o hash como uma string hexadecimal
+end;
 
 end.

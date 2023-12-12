@@ -5,10 +5,9 @@ interface
 uses
   FireDAC.Stan.Param, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
-  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.db,
+  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.DB,
   Sis.DB.DBQuery_u, Sis.DB.DBTypes, Sis.UI.IO.Output,
-  Sis.UI.IO.Output.ProcessLog
-  ;
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TDBQueryFireDac = class(TDBQuery)
@@ -53,7 +52,7 @@ begin
   ProcessLog.PegueLocal('TDBQueryFireDac.Abrir');
   try
     try
-      sLog :='Abrirá ' + SQL + ',' + GetParamsAsStr;
+      sLog := SQL + ',' + GetParamsAsStr + ', vai FFDQuery.Open';
       FFDQuery.Open;
       if FFDQuery.Active then
       begin
@@ -64,9 +63,9 @@ begin
     except
       on e: exception do
       begin
-        UltimoErro := 'TDBQueryFireDac.Abrir Erro' + #13#10 + #13#10 +
-          e.classname + #13#10 + e.message + #13#10 + #13#10 +
-          'ao tentar abrir:'#13#10 + #13#10 + FFDQuery.SQL.Text;
+        UltimoErro := 'TDBQueryFireDac.Abrir Erro'#13#10#13#10 + e.classname +
+          #13#10 + e.message + #13#10 + #13#10 + 'ao tentar abrir:'#13#10#13#10
+          + FFDQuery.SQL.Text;
         sLog := sLog + ',' + UltimoErro;
         DBLog.Registre(sLog);
         Output.Exibir(UltimoErro);
@@ -88,14 +87,16 @@ begin
   pProcessLog.PegueLocal('TDBQueryFireDac.Create');
   try
     inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput);
-    sLog := 'retornou de inherited Create, vai FFDQuery := TFDQuery.Create(nil)';
+
+    sLog := 'retornou de inherited Create' +
+      ',vai FFDQuery := TFDQuery.Create(nil)';
 
     FFDQuery := TFDQuery.Create(nil);
 
     FFDQuery.Connection := TFDConnection(pDBConnection.ConnectionObject);
 
-    sLog := sLog + #13#10+pSql+#13#10;
-    SetSql(pSql);
+    sLog := sLog + #13#10'pSql='#13#10 + pSql + #13#10;
+    SetSQL(pSql);
 
   finally
     DBLog.Registre(sLog);
@@ -184,7 +185,7 @@ begin
   FFDQuery.Prepared := Value;
 end;
 
-procedure TDBQueryFireDac.SetSql(Value: string);
+procedure TDBQueryFireDac.SetSQL(Value: string);
 begin
   FFDQuery.SQL.Text := Value;
 end;

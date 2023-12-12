@@ -21,6 +21,10 @@ type
     procedure ExecInstal(pProcessLog: IProcessLog; pOutput: IOutput);
     function GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo;
       pProcessLog: IProcessLog; pOutput: IOutput): string;
+
+    function GetVendorHome: string;
+    function GetVendorLib: string;
+
   protected
     property DBMSConfig: IDBMSConfig read FDBMSConfig;
   public
@@ -31,7 +35,7 @@ type
 
 //    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
 //      pOutput: IOutput): boolean;
-    procedure GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput);
+    function GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput): boolean;
     // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string;
       pNomeBanco: string;
@@ -41,6 +45,8 @@ type
 
     constructor Create(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
       pProcessLog: IProcessLog; pOutput: IOutput);
+    property VendorHome: string read GetVendorHome;
+    property VendorLib: string read GetVendorLib;
   end;
 
 implementation
@@ -172,7 +178,7 @@ begin
         exit;
       end;
 
-      ForceDirectories(pPastaComandos);
+      GarantirPasta(pPastaComandos);
 
       sNomeArqTmp := Trim(pPastaComandos + 'SQL ' + pAssunto);
 
@@ -268,11 +274,26 @@ end;
   pProcessLog.Exibir('TDBMSFirebird.ExecInterative fim');
   end;
 }
-procedure TDBMSFirebird.GarantirDBMSInstalado(pProcessLog: IProcessLog;
-  pOutput: IOutput);
+function TDBMSFirebird.GarantirDBMSInstalado(pProcessLog: IProcessLog;
+  pOutput: IOutput): boolean;
 begin
-  if not DBMSInstalado(pProcessLog, pOutput) then
-    ExecInstal(pProcessLog, pOutput);
+  pProcessLog.PegueLocal('TDBMSFirebird.GarantirDBMSInstalado');
+  try
+    pProcessLog.RegistreLog('vai DBMSInstalado');
+    Result := DBMSInstalado(pProcessLog, pOutput);
+
+    if Result then
+    begin
+      pProcessLog.RegistreLog('retornou true');
+      exit;
+    end;
+    pProcessLog.RegistreLog('retornou false, nao encontrou o Firebird');
+
+    raise Exception.Create('Erro: Firebird não detectado');
+    //ExecInstal(pProcessLog, pOutput);
+  finally
+    pProcessLog.RetorneLocal;
+  end;
 end;
 {
 function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
@@ -338,7 +359,17 @@ begin
     pProcessLog.RetorneLocal;
   end;
 end;
- {
+ function TDBMSFirebird.GetVendorHome: string;
+begin
+  Result := FFirebirdPath;
+end;
+
+function TDBMSFirebird.GetVendorLib: string;
+begin
+  Result := 'fbclient.dll';
+end;
+
+{
 function TDBMSFirebird.LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB)
   : TDBConnectionParams;
 begin

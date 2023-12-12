@@ -12,12 +12,11 @@ type
   TDBMSType = (dbmstUnknown, dbmstFirebird, dbmstMySQL, dbmstPostgreSQL,
     dbmstOracle, dbmstSQLServer, dbmstSQLite);
 
-//  TLocalDoDB = (ldbNaoIndicado, ldbServidor, ldbTerminal);
-
   TDBFramework = (dbfrNaoIndicado, dbfrFireDAC { , dbfrDBX, dbfrZeos } );
 
   TDBConnectionParams = record
     Server, Arq, Database: string;
+    function GetNomeBanco: string;
   end;
 
   TFirebirdVersion = TDBVersion;
@@ -27,9 +26,6 @@ const
 
   DBMSNames: array [TDBMSType] of string = ('NAOINDICADO', 'FIREBIRD', 'MYSQL',
     'POSTGRESQL', 'ORACLE', 'SQLSERVER', 'SQLITE');
-
-//  TiposDeLocalDB: array [TLocalDoDB] of string = ('NAOINDICADO', 'SERVIDOR',
-//    'TERMINAL');
 
 type
   IDBMSConfig = interface(IInterface)
@@ -66,7 +62,7 @@ type
 //    function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
 //    function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
-    procedure GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput);
+    function GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput): boolean;
 //    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
 //      pOutput: IOutput): boolean;
 
@@ -76,6 +72,12 @@ type
       pPastaComandos: string;
       pProcessLog: IProcessLog;
       pOutput: IOutput); overload;
+
+    function GetVendorHome: string;
+    property VendorHome: string read GetVendorHome;
+
+    function GetVendorLib: string;
+    property VendorLib: string read GetVendorLib;
   end;
 
   IDBConnection = interface(INomeavel)
@@ -156,6 +158,8 @@ function StrToDBMSType(pStr: string): TDBMSType;
 
 implementation
 
+uses System.SysUtils;
+
 function StrToDBFramework(pStr: string): TDBFramework;
 begin
   if pStr = 'NAOINDICADO' then
@@ -180,6 +184,16 @@ begin
     Result := dbmstSQLServer
   else // if pStr = 'SQLITE' then
     Result := dbmstSQLite;
+end;
+
+{ TDBConnectionParams }
+
+function TDBConnectionParams.GetNomeBanco: string;
+var
+  sNome: string;
+begin
+  sNome := ChangeFileExt(ExtractFileName(Arq), '');
+  Result := sNome;
 end;
 
 end.

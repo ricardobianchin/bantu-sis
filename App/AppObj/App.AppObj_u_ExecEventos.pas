@@ -37,14 +37,14 @@ begin
     end;
 
     sNomeArq := sCaminho + sNomeArq;
-    pProcessLog.RegistreLog('vai testar se existe '+sNomeArq);
+    pProcessLog.RegistreLog('sNomeArq=' + sNomeArq + ',sCaminho=' + sCaminho);
+    pProcessLog.RegistreLog('vai testar se existe');
     if not FileExists(sNomeArq) then
     begin
-      pProcessLog.RegistreLog('nao existia, vai terminar');
-      exit;
+      pProcessLog.RegistreLog('nao existia, vai criar vazsio');
+      EscreverArquivo('rem Arquivo criado automaticamente', sNomeArq);
     end;
 
-    pProcessLog.RegistreLog('existia, vai executar');
     OWinExecute := WinExecuteCreate(sNomeArq, '', sCaminho, True, 1, pOutput);
   finally
     pProcessLog.RetorneLocal;

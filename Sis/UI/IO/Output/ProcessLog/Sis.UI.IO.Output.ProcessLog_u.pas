@@ -63,6 +63,7 @@ end;
 procedure TProcessLog.PegueLocal(pLocal: TProcessLogLocal);
 begin
   FProcessLogRecord.PegueLocal(pLocal);
+  RegistreLog('Local inicio');
 end;
 
 procedure TProcessLog.RegistreLog(pTexto: string; pDtH: TDateTime;
@@ -90,6 +91,7 @@ end;
 
 procedure TProcessLog.RetorneLocal;
 begin
+  RegistreLog('Local fim');
   FProcessLogRecord.RetorneLocal;
 end;
 

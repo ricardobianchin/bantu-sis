@@ -105,6 +105,7 @@ function TProcessLogRecord.GetAsTab1: string;
 var
   sRecord: string;
   sHash: string;
+  sHashFracao: string;
 begin
   sRecord :=
     '1' + CHAR_TAB +
@@ -119,7 +120,9 @@ begin
 
   sHash := StrCheckSum(sRecord);
 
-  Result := sRecord + CHAR_TAB + sHash;
+  sHashFracao := RightStr(sHash, 8);
+
+  Result := sRecord + CHAR_TAB + sHashFracao;
 end;
 
 function TProcessLogRecord.GetDtH: TDateTime;
@@ -224,7 +227,7 @@ end;
 
 procedure TProcessLogRecord.SetLocal(Value: TProcessLogLocal);
 begin
-  FLocal := FLocal;
+  FLocal := Value;
 end;
 
 procedure TProcessLogRecord.SetNome(Value: TProcessLogNome);

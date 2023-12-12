@@ -62,7 +62,8 @@ var
   I: Integer;
 begin
   Result := ''; // inicializa o resultado como uma string vazia
-  for I := FStack.Count - 1 downto 0 do // percorre os elementos da propriedade List em ordem inversa
+//  for I := FStack.Count - 1 downto 0 do // percorre os elementos da propriedade List em ordem inversa
+  for I := 0 to FStack.Count - 1 do // percorre os elementos da propriedade List
   begin
     Result := Result + FStack.List[I] + STACK_SEPARADOR; // concatena o elemento com uma vírgula no resultado
   end;

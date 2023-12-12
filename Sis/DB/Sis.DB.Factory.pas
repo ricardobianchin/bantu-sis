@@ -11,7 +11,7 @@ function DBMSInfoCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
 function DBMSConfigCreate(pSisConfig: ISisConfig; pProcessLog: IProcessLog;
   pOutput: IOutput): IDBMSConfig;
 
-function DBMSFirebirdCreate(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
+function DBMSCreate(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
   pProcessLog: IProcessLog; pOutput: IOutput): IDBMS;
 
 function DBConnectionCreate(pNomeComponente: string; pSisConfig: ISisConfig;
@@ -28,7 +28,7 @@ implementation
 
 uses Sis.DB.DBMS.Info_u, Sis.DB.DBMS.DBMSConfig.Firebird_u,
   Sis.DB.DBMS.Firebird_u, Sis.DB.DBConnection.FireDAC_u,
-  Sis.DB.DBExec.FireDAC_u, Sis.DB.DBQuery.FireDAC_u;
+  Sis.DB.DBExec.FireDAC_u, Sis.DB.DBQuery.FireDAC_u, Sis.UI.ImgDM;
 
 function DBMSInfoCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
   : IDBMSInfo;
@@ -51,21 +51,36 @@ begin
   end;
 end;
 
-function DBMSFirebirdCreate(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
+
+function DBMSCreate(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
   pProcessLog: IProcessLog; pOutput: IOutput): IDBMS;
 begin
-  Result := TDBMSFirebird.Create(pSisConfig, pDBMSConfig, pProcessLog, pOutput);
+  Result := nil;
+  case pSisConfig.DBMSInfo.DatabaseType of
+    dbmstUnknown: ;
+    dbmstFirebird: Result := TDBMSFirebird.Create(pSisConfig, pDBMSConfig, pProcessLog, pOutput);
+    dbmstMySQL: ;
+    dbmstPostgreSQL: ;
+    dbmstOracle: ;
+    dbmstSQLServer: ;
+    dbmstSQLite: ;
+  end;
+  SisImgDataModule.PegueVendor(Result.VendorHome, Result.VendorLib);
+
 end;
 
 function DBConnectionCreate(pNomeComponente: string; pSisConfig: ISisConfig;
   pDBMS: IDBMS; pDBConnectionParams: TDBConnectionParams;
   pProcessLog: IProcessLog; pOutput: IOutput): IDBConnection;
+var
+  oDBMSInfo: IDBMSInfo;
 begin
+  oDBMSInfo := pSisConfig.DBMSInfo;
   case pSisConfig.DBMSInfo.DBFramework of
     dbfrFireDAC:
       begin
         Result := TDBConnectionFiredac.Create(pNomeComponente,
-          pSisConfig.DBMSInfo, pDBConnectionParams, pProcessLog, pOutput);
+          oDBMSInfo, pDBConnectionParams, pProcessLog, pOutput);
       end;
   end;
 end;

@@ -8,7 +8,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Act_u, System.Actions,
   App.AppInfo, App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes;
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes,
+  Sis.Usuario, Sis.Loja;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -25,14 +26,13 @@ type
     DtHCompileLabel: TLabel;
 
     procedure FormCreate(Sender: TObject);
-
     procedure ShowTimer_BasFormTimer(Sender: TObject);
-    procedure FecharAction_ActBasFormExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
+    FsLogo1NomeArq: string;
     FAppInfo: IAppInfo;
     FAppObj: IAppObj;
 
@@ -48,13 +48,15 @@ type
     // FDBMS: IDBMS;
     // FServConnection: IDBConnection;
 
-    procedure CaregarLogo1;
-
+    function AtualizeVersao: boolean;
+    procedure ConfigureForm;
+    procedure ConfigureSplashForm;
+    function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
   protected
     property AppInfo: IAppInfo read FAppInfo;
     property AppObj: IAppObj read FAppObj;
 
-    procedure OculteStatusForm;
+    procedure OculteSplashForm;
     function GetAppInfoCreate: IAppInfo; virtual; abstract;
   public
     { Public declarations }
@@ -67,40 +69,96 @@ implementation
 
 {$R *.dfm}
 
-uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory,
-  Sis.UI.Controls.Utils,
-  Sis.UI.ImgDM, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
-  App.AppObj_u_ExecEventos;
+uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
+  Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
+  App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
+  System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
+  App.SisConfig.Garantir, App.DB.Garantir;
 
-procedure TPrincBasForm.CaregarLogo1;
+function TPrincBasForm.AtualizeVersao: boolean;
 var
-  s: string;
-  jpg: TJPEGImage;
+  oAtualizaVersao: IAtualizaVersao;
+  bPrecisaResetar: boolean;
+  sLog: string;
 begin
-  s := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
-  if not FileExists(s) then
-    exit;
-  jpg := TJPEGImage.Create;
+  FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersao');
   try
-    jpg.LoadFromFile(s);
-    Logo1Image.Picture.Graphic := jpg;
+    {$IFDEF DEBUG}
+    sLog := 'Config=DEBUG, abortando';
+    Result := False;
+    Exit;
+    {$ENDIF}
+
+
+    oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
+      FProcessLog);
+    bPrecisaResetar := oAtualizaVersao.Execute;
+
+    Result := bPrecisaResetar;
+    sLog := iif(bPrecisaResetar, 'Result=True,Precisa reiniciar',
+      'Result=False,Não precisa reiniciar');
   finally
-    jpg.Free;
+    FProcessLog.RegistreLog(sLog);
+    FProcessLog.RetorneLocal;
   end;
 end;
 
-procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
+procedure TPrincBasForm.ConfigureForm;
+var
+  sLog: string;
 begin
-  inherited;
-  //
+  FProcessLog.PegueLocal('TPrincBasForm.ConfigureForm');
+  try
+    sLog := 'Carregar,nomeexib=' + FAppInfo.NomeExib + ',Logo1=' +
+      FsLogo1NomeArq;
+    FProcessLog.RegistreLog(sLog);
+
+    TitleBarCaptionLabel.Caption := FAppInfo.NomeExib;
+
+    Color := FAppInfo.FundoCor;
+    Font.Color := FAppInfo.FonteCor;
+
+    StatusLabel.Color := FAppInfo.FundoCor;
+    StatusLabel.Font.Color := FAppInfo.FonteCor;
+
+    StatusMemo.Color := FAppInfo.FundoCor;
+    StatusMemo.Font.Color := FAppInfo.FonteCor;
+
+    Sis.UI.Controls.TImage.TImageCarretarJpg(Logo1Image, FsLogo1NomeArq);
+    FProcessLog.RegistreLog('Fim');
+  finally
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TPrincBasForm.ConfigureSplashForm;
+var
+  sLog: string;
+begin
+  FProcessLog.PegueLocal('TPrincBasForm.ConfigureSplashForm');
+  try
+    SplashForm := TSplashForm.Create(nil);
+
+    SplashForm.Color := FAppInfo.FundoCor;
+    SplashForm.Font.Color := FAppInfo.FonteCor;
+
+    SplashForm.MensLabel.Color := FAppInfo.FundoCor;
+    SplashForm.MensLabel.Font.Color := FAppInfo.FonteCor;
+
+    sLog := 'Ja ajustou cores do splash, vai SplashForm.CarregarLogo';
+    FProcessLog.RegistreLog(sLog);
+
+    SplashForm.Exibir(FAppInfo.NomeExib);
+    SplashForm.CarregarLogo(FsLogo1NomeArq);
+  finally
+    FProcessLog.RetorneLocal;
+  end;
 end;
 
 procedure TPrincBasForm.FormCreate(Sender: TObject);
 var
   bResultado: boolean;
 begin
-  StatusForm := TStatusForm.Create(nil);
-  StatusForm.Show;
   inherited;
   DisparaShowTimer := True;
   MakeRounded(Self, 30);
@@ -124,15 +182,16 @@ begin
     FAppObj := App.Factory.AppObjCreate(FAppInfo, FStatusOutput, FProcessOutput,
       FProcessLog);
 
+    FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
     bResultado := FAppObj.Inicialize;
-    if not bResultado then
-    begin
-      Application.Terminate;
-      exit;
-    end;
-    FProcessLog.RegistreLog('Carregar nomeexib e logo1');
-    TitleBarCaptionLabel.Caption := FAppInfo.NomeExib;
-    CaregarLogo1;
+
+    ToolBar1.Images := SisImgDataModule.ImageList_40_24;
+
+    ConfigureForm;
+
+    ConfigureSplashForm;
+
+    SplashForm.Show;
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -145,22 +204,89 @@ begin
 
 end;
 
+function TPrincBasForm.GarantirConfig(pLoja: ILoja;
+  pUsuarioGerente: IUsuario): boolean;
+var
+  oAppSisConfigGarantir: IAppSisConfigGarantir;
+  sLog: string;
+  oSisConfig: ISisConfig;
+begin
+  FProcessLog.PegueLocal('TPrincBasForm.GarantirConfig');
+  try
+    oSisConfig := FAppObj.SisConfig;
+
+    oAppSisConfigGarantir := SisConfigGarantirCreate(FAppInfo,
+      oSisConfig, pUsuarioGerente, pLoja, FProcessOutput, FProcessLog);
+    FProcessLog.RegistreLog('vai oAppSisConfigGarantir.Execute');
+    Result := oAppSisConfigGarantir.Execute;
+
+    sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
+    FProcessLog.RegistreLog(sLog);
+  finally
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);
 begin
   inherited;
   Application.Minimize;
 end;
 
-procedure TPrincBasForm.OculteStatusForm;
+procedure TPrincBasForm.OculteSplashForm;
 begin
-  if not Assigned(StatusForm) then
-    FreeAndNil(StatusForm);
+  if not Assigned(SplashForm) then
+    FreeAndNil(SplashForm);
 end;
 
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  bResultado: boolean;
+  oLoja: ILoja;
+  oUsuarioGerente: IUsuario;
+  oSisConfig: ISisConfig;
 begin
   inherited;
-  ToolBar1.Images := SisImgDataModule.ImageList_40_24;
+  FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
+  try
+    bResultado := AtualizeVersao;
+    if bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('AtualizeVersao retornou true, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+
+    oLoja := LojaCreate;
+    oUsuarioGerente := UsuarioCreate;
+
+    bResultado := GarantirConfig(oLoja, oUsuarioGerente);
+
+    if not bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('GarantirConfig retornou false, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+
+    oSisConfig := FAppObj.SisConfig;
+    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput);
+
+    if not bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('GarantirDB retornou false, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+
+
+  finally
+    OculteSplashForm;
+    FProcessLog.RetorneLocal;
+  end;
 end;
 
 end.

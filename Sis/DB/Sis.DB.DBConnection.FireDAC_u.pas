@@ -6,7 +6,7 @@ uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, Data.DB, FireDAC.DApt,
   System.Variants, Sis.DB.DBConnection_u, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, FireDAC.Stan.Async;
 
 type
   TDBConnectionFireDAC = class(TDBConnection)
@@ -98,11 +98,12 @@ var
   sDriver: string;
   s: string;
 begin
-  ProcessLog.PegueLocal('TDBConnectionFireDAC.Create');
+  FDManager.SilentMode := true;
+  pProcessLog.PegueLocal('TDBConnectionFireDAC.Create');
   try
-    DBLog.Registre('vai chamar inherited Create');
     inherited Create(pNomeComponente, pDBConnectionParams, pProcessLog,
       pOutput);
+    DBLog.Registre('voltou de inherited Create');
 
     FFDConnection := TFDConnection.Create(nil);
     FFDConnection.LoginPrompt := false;

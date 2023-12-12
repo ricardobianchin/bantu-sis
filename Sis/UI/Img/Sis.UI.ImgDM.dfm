@@ -2605,4 +2605,11 @@ object SisImgDataModule: TSisImgDataModule
       FFFFFFFFFFFF0000FFFFFFFFFFFF000000000000000000000000000000000000
       000000000000}
   end
+  object FDPhysFBDriverLink1: TFDPhysFBDriverLink
+    DriverID = 'FB'
+    VendorHome = 'C:\Program Files\Firebird\Firebird_4_0'
+    VendorLib = 'fbclient.dll'
+    Left = 344
+    Top = 40
+  end
 end

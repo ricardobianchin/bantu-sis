@@ -126,16 +126,17 @@ constructor TDBConnection.Create(pNomeComponente: string;
 var
   s: string;
 begin
-  FProcessLog.PegueLocal('TDBConnection.Create');
+  pProcessLog.PegueLocal('TDBConnection.Create');
   try
     FNome := pNomeComponente;
+    FUltimoErro := '';
+    FOutput := pOutput;
+    FProcessLog := pProcessLog;
+
     FDBLog := ProcessLogRegistradorCreate(FProcessLog, TProcessLogTipo.lptDB, FNome);
     s := 'FDBConnectionParams.Database=[' + FDBConnectionParams.Database + ']';
     FDBLog.Registre(s);
 
-    FUltimoErro := '';
-    FOutput := pOutput;
-    FProcessLog := pProcessLog;
 
     IniciarNVezesConectou;
     FDBConnectionParams := pDBConnectionParams;

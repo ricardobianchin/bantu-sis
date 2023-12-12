@@ -16,7 +16,7 @@ const
     'WIN64'
     );
 
-function GetWinVersion(out pMajor: integer; out pMinor: integer;
+function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
   out pCSDVersion: string): boolean;
 
 function StrToWinPlatform(pStr: string): TWinPlatform;
@@ -32,7 +32,7 @@ implementation
 uses
   Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms;
 
-function GetWinVersion(out pMajor: integer; out pMinor: integer;
+function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
   out pCSDVersion: string): boolean;
 var
   OSVI: TOSVersionInfo;
@@ -61,14 +61,19 @@ end;
 
 function IsWow64Process: Boolean;
 type
-  TIsWow64Process = function(AHandle: DWORD; var AIsWow64: BOOL): BOOL; stdcall;
+  TIsWow64Process = function(AHandle: THandle; var AIsWow64: BOOL): BOOL; stdcall;
 
 var
   hIsWow64Process: TIsWow64Process;
-  hKernel32: DWORD;
+  hKernel32: HMODULE;
   IsWow64: BOOL;
 
 begin
+  {$IFDEF CPUX64}
+  // Se o código é 64 bits, o Windows também é 64 bits
+  Result := True;
+  {$ELSE}
+  // Se o código é 32 bits, usa a função IsWow64Process
   Result := False;
 
   hKernel32 := Winapi.Windows.LoadLibrary('kernel32.dll');
@@ -87,6 +92,7 @@ begin
   finally
     Winapi.Windows.FreeLibrary(hKernel32);
   end;
+  {$ENDIF}
 end;
 
 function GetProgramFilesPath: string;

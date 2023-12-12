@@ -5,8 +5,9 @@ interface
 uses
   FireDAC.Stan.Param, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
-  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.db,
-  Sis.DB.DBExec_u, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
+  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.DB,
+  Sis.DB.DBExec_u, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Output;
 
 type
   TDBExecFireDac = class(TDBExec)
@@ -29,7 +30,6 @@ type
     procedure Unprepare; override;
   end;
 
-
 implementation
 
 uses System.SysUtils, Sis.Types.Bool_u;
@@ -44,10 +44,10 @@ var
 begin
   pProcessLog.PegueLocal('TDBExecFireDac.Create');
   try
-    sLog := 'vai chamar inherited Create';
     inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput);
+    sLog := 'retornou de inherited Create,vai FDCommand := TFDCommand.Create';
     FDCommand := TFDCommand.Create(nil);
-    FDCommand.Connection := TFDConnection( pDBConnection.ConnectionObject);
+    FDCommand.Connection := TFDConnection(pDBConnection.ConnectionObject);
     Sql := pSql;
     sLog := sLog + ','#13#10 + pSql + #13#10;
   finally
@@ -77,9 +77,23 @@ begin
   ProcessLog.PegueLocal('TDBExecFireDac.Execute');
   try
     inherited;
-    DBLog.Registre('vai FDCommand.Execute');
-    FDCommand.Execute;
+    try
+      sLog := Sql + ',' + GetParamsAsStr + ', vai FDCommand.Execute';
+
+      FDCommand.Execute;
+    except
+      on e: exception do
+      begin
+        UltimoErro := 'TDBExecFireDac.Execute Erro'#13#10#13#10 + e.classname +
+          #13#10 + e.message + #13#10 + #13#10 +
+          'ao tentar executar:'#13#10#13#10 + Sql;
+        sLog := sLog + ',' + UltimoErro;
+        Output.Exibir(UltimoErro);
+        raise exception.Create(UltimoErro);
+      end;
+    end;
   finally
+    DBLog.Registre(sLog);
     ProcessLog.RetorneLocal;
   end;
 end;
@@ -129,7 +143,7 @@ begin
   end;
 end;
 
-procedure TDBExecFireDac.SetSql(Value: string);
+procedure TDBExecFireDac.SetSQL(Value: string);
 begin
   inherited;
   FDCommand.CommandText.Text := Value;

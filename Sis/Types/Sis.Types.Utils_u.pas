@@ -10,9 +10,9 @@ const
   ZERO_INTEGER: integer = 0;
   STR_NULA = '';
 
-  cENTER = chr(vkReturn);
+  CHAR_ENTER = chr(vkReturn);
 //  cENTER: char = chr(vkReturn);
-  kENTER: word = vkReturn;
+  WKEY_ENTER: word = vkReturn;
 //  cESC: char = chr(vkEscape);
   CHAR_ESC = chr(vkEscape);
   CHAR_NULO: char = #0;

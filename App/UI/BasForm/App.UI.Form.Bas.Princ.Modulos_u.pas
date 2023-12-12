@@ -10,7 +10,6 @@ uses
 
 type
   TModulosPrincBasForm = class(TPrincBasForm)
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -23,11 +22,5 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TModulosPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  OculteStatusForm;
-end;
 
 end.

@@ -1,0 +1,30 @@
+unit Sis.DB.Updater.Comando;
+
+interface
+
+uses classes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
+
+type
+  IComando = interface(IInterface)
+    ['{4C487CD4-971E-48CB-B1BE-56EE6D6B37D4}']
+//    procedure PegarObjeto(pNome: string);
+    procedure PegarLinhas(var piLin: integer; pSL: TStrings);
+    function GetAsSql: string;
+    function Funcionou: boolean;
+
+    function GetUltimoErro: string;
+    property UltimoErro: string read GetUltimoErro;
+
+    function GetProcessLog: IProcessLog;
+    property ProcessLog: IProcessLog read GetProcessLog;
+
+    function GetOutput: IOutput;
+    property Output: IOutput read GetOutput;
+
+    function GetAsText: string;
+    property AsText: string read GetAsText;
+  end;
+
+implementation
+
+end.

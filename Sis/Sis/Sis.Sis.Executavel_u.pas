@@ -11,6 +11,7 @@ type
     FProcessLog: IProcessLog;
   protected
     property Output: IOutput read FOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
     function GetCaption: string; virtual;
     procedure Exib(pFrase: string);virtual;
   public

@@ -31,8 +31,7 @@ type
 
 implementation
 
-uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory,
-  App.AtualizaVersao, App.Factory;
+uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory, App.Factory, App.DonoConfig.Utils;
 
 { TAppObj }
 
@@ -46,8 +45,12 @@ begin
   FProcessLog := pProcessLog;
 
   ProcessLog.PegueLocal('TAppObj.Create');
-  ProcessLog.RegistreLog('Create');
-  ProcessLog.RetorneLocal;
+  try
+    ProcessLog.RegistreLog('Create, vai criar FSisConfig');
+    FSisConfig := SisConfigCreate;
+  finally
+    ProcessLog.RetorneLocal;
+  end;
 end;
 
 function TAppObj.GetSisConfig: ISisConfig;
@@ -56,9 +59,6 @@ begin
 end;
 
 function TAppObj.Inicialize: boolean;
-var
-  oAtualizaVersao: IAtualizaVersao;
-  bPrecisaResetar: boolean;
 begin
   ProcessLog.PegueLocal('TAppObj.Inicialize');
   Result := True;
@@ -67,24 +67,12 @@ begin
     FStatusOutput.Exibir('App inicializando...');
     FProcessOutput.Exibir('App inicializando...');
 
-
     ExecEvento(TSessaoMomento.ssmomInicio, FAppInfo, FStatusOutput, ProcessLog);
 
     App.AppObj_u_VaParaPasta.VaParaPastaExe(FAppInfo, ProcessLog);
 
-    FSisConfig := SisConfigCreate;
+    App.DonoConfig.Utils.DonoConfigLer(FAppInfo);
 
-    oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
-      FProcessLog);
-
-    bPrecisaResetar  := oAtualizaVersao.Execute;
-
-    if bPrecisaResetar then
-    begin
-      ProcessLog.RegistreLog('bPrecisaResetar=true,vai fechar');
-      Result := False;
-      Exit;
-    end;
   finally
     ProcessLog.RegistreLog('Fim');
     ProcessLog.RetorneLocal;
