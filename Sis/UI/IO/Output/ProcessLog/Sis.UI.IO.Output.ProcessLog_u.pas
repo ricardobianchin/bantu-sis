@@ -42,6 +42,7 @@ uses System.SysUtils, Sis.UI.IO.Output.ProcessLog.Factory;
 constructor TProcessLog.Create;
 begin
   FProcessLogRecord := ProcessLogRecordCreate;
+  FProcessLogRecord.ResetQtdRecords;
 
   ProcessLogRecord.Tipo := TProcessLogTipo.lptProcess;
 
@@ -82,6 +83,8 @@ begin
     ProcessLogRecord.Tipo := TProcessLogTipo.lptProcess
   else
     ProcessLogRecord.Tipo := pTipo;
+
+  ProcessLogRecord.IncGetQtdRecords;
 end;
 
 procedure TProcessLog.RetorneAssunto;

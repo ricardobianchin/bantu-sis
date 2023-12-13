@@ -5,11 +5,12 @@ interface
 uses Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
   Sis.Config.SisConfig, Sis.DB.Updater, Sis.DB.Updater.Operations,
   Sis.DB.Updater.Comando, Sis.DB.Updater.Campo, Sis.DB.Updater.Campo.List,
-  Sis.DB.Updater.Comando.List;
+  Sis.DB.Updater.Comando.List, Sis.Loja, Sis.Usuario;
 
 function DBUpdaterFirebirdCreate(pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput): IDBUpdater;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pUsuarioGerente: IUsuario): IDBUpdater;
 
 function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
@@ -37,10 +38,11 @@ uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,
 
 function DBUpdaterFirebirdCreate(pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput): IDBUpdater;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pUsuarioGerente: IUsuario): IDBUpdater;
 begin
   result := TDBUpdaterFirebird.Create( pDBConnectionParams, pPastaProduto,
-    pDBMS, pSisConfig, pProcessLog, pOutput);
+    pDBMS, pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioGerente);
 end;
 
 function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;

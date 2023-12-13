@@ -49,7 +49,13 @@ end;
 function TComandoFBCreateForeignKey.Funcionou: boolean;
 var
   sTabelaFK, sCamposFK, sTabelaPK, sCamposPK: string;
+
+  bTabFkOk: boolean;
+  bCamposFkOk: boolean;
+  bTabPkOk: boolean;
+  bCamposPkOk: boolean;
 begin
+  Sleep(200);
   Result := DBUpdaterOperations.GetForeignKeyInfo(FsKeyName, sTabelaFK,
     sCamposFK, sTabelaPK, sCamposPK);
 
@@ -66,8 +72,12 @@ begin
     exit;
   end;
 
-  Result := (sTabelaFK = FsTabelaFK) and (sCamposFK = FsCamposFK) and
-    (sTabelaPK = FsTabelaPK) and (sCamposPK = FsCamposPK);
+  bTabFkOk := sTabelaFK = FsTabelaFK;
+  bCamposFkOk := sCamposFK = FsCamposFK;
+  bTabPkOk := sTabelaPK = FsTabelaPK;
+  bCamposPkOk := sCamposPK = FsCamposPK;
+
+  Result := bTabFkOk and bCamposFkOk and bTabPkOk and bCamposPkOk;
 
   if not Result then
   begin
@@ -93,7 +103,7 @@ begin
     if Resultado then
       exit;
 
-    Result := Result + 'DROP CONSTRAINT ' + FsKeyName + ';'#13#10;
+    Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' DROP CONSTRAINT ' + FsKeyName + ';'#13#10;
   end;
 
   Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' ADD CONSTRAINT ' +

@@ -49,6 +49,10 @@ end;
 function THTTPDownload.Execute: boolean;
 begin
   {
+  WEB_LIB_INDY = 1;
+  WEB_LIB_NET = 2;
+  WEB_LIB_USADA = WEB_LIB_NET;
+
     case WEB_LIB_USADA of
     WEB_LIB_INDY: Result := ExecuteIndy;
     WEB_LIB_NET: Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto, FProcessLog, FOutput, FExluiDestinoAntesDeBaixar);

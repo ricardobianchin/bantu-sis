@@ -3,10 +3,10 @@ unit App.DB.Garantir;
 interface
 
 uses Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.Config.SisConfig, App.AppInfo;
+  Sis.Config.SisConfig, App.AppInfo, Sis.Usuario, Sis.Loja;
 
 function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
-  pProcessLog: IProcessLog; pOutput: IOutput): boolean;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
 
 implementation
 
@@ -16,10 +16,9 @@ var
   DBMSConfig: IDBMSConfig;
   DBMS: IDBMS;
 
-function GarantirDBServ(
-  pSisConfig: ISisConfig;
-  pAppInfo: IAppInfo;
-  pProcessLog: IProcessLog; pOutput: IOutput): boolean;
+function GarantirDBServ(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pUsuarioGerente: IUsuario): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -31,7 +30,7 @@ begin
       pAppInfo, pSisConfig);
 
     oUpdater := DBUpdaterFirebirdCreate(rDBConnectionParams, pAppInfo.Pasta,
-      DBMS, pSisConfig, pProcessLog, pOutput);
+      DBMS, pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioGerente);
 
     Result := oUpdater.Execute;
   finally
@@ -47,7 +46,7 @@ begin
 end;
 
 function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
-  pProcessLog: IProcessLog; pOutput: IOutput): boolean;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
 var
   sLog: string;
 begin
@@ -69,8 +68,8 @@ begin
     begin
       sLog := 'pSisConfig.LocalMachineIsServer=true, vai GarantirDBServ';
       pProcessLog.RegistreLog(sLog);
-      Result := GarantirDBServ(pSisConfig, pAppInfo,
-        pProcessLog, pOutput);
+      Result := GarantirDBServ(pSisConfig, pAppInfo, pProcessLog, pOutput,
+        pLoja, pUsuarioGerente);
       if not Result then
       begin
         pProcessLog.RegistreLog('retornou false');

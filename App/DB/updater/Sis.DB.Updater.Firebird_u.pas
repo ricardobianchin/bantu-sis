@@ -3,7 +3,7 @@ unit Sis.DB.Updater.Firebird_u;
 interface
 
 uses Sis.DB.Updater_u, Sis.DB.DBTypes, Sis.Config.SisConfig,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario;
 
 // upd ates especifico para firebird, no pai, funcito q diz se existe o arq dados
 type
@@ -20,7 +20,8 @@ type
   public
     constructor Create(pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-      pProcessLog: IProcessLog; pOutput: IOutput);
+      pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+      pUsuarioGerente: IUsuario);
   end;
 
 implementation
@@ -33,13 +34,14 @@ uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
 
 constructor TDBUpdaterFirebird.Create(pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput);
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pUsuarioGerente: IUsuario);
 begin
   pProcessLog.PegueLocal('TDBUpdaterFirebird.Create');
   try
     pProcessLog.RegistreLog('vai inherited Create');
     inherited Create(pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
-      pProcessLog, pOutput);
+      pProcessLog, pOutput, pLoja, pUsuarioGerente);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal;

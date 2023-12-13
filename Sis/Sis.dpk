@@ -160,6 +160,7 @@ contains
   Sis.DB.Firebird.GetSQL_u in 'DB\Sis.DB.Firebird.GetSQL_u.pas',
   Sis.Types.TStrings_u in 'Types\Sis.Types.TStrings_u.pas',
   Sis.DB.Updater_u_GetStrings in '..\App\DB\updater\Sis.DB.Updater_u_GetStrings.pas',
-  Sis.Types.Integers in 'Types\Sis.Types.Integers.pas';
+  Sis.Types.Integers in 'Types\Sis.Types.Integers.pas',
+  Sis.Types.strings.Crypt_u in 'Types\Sis.Types.strings.Crypt_u.pas';
 
 end.

@@ -52,6 +52,7 @@ type
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
+
   protected
     property AppInfo: IAppInfo read FAppInfo;
     property AppObj: IAppObj read FAppObj;
@@ -235,7 +236,7 @@ end;
 
 procedure TPrincBasForm.OculteSplashForm;
 begin
-  if not Assigned(SplashForm) then
+  if Assigned(SplashForm) then
     FreeAndNil(SplashForm);
 end;
 
@@ -249,6 +250,8 @@ begin
   inherited;
   FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
   try
+    OculteSplashForm;
+
     bResultado := AtualizeVersao;
     if bResultado then
     begin
@@ -272,7 +275,7 @@ begin
     end;
 
     oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput);
+    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput, oLoja, oUsuarioGerente);
 
     if not bResultado then
     begin
@@ -282,9 +285,7 @@ begin
       Exit;
     end;
 
-
   finally
-    OculteSplashForm;
     FProcessLog.RetorneLocal;
   end;
 end;

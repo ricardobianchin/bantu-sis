@@ -47,6 +47,10 @@ type
     procedure PegueLocal(pLocal: TProcessLogLocal);
     procedure RetorneLocal;
 
+    function GetQtdRecords: integer;
+    property QtdRecords: integer read GetQtdRecords;
+    procedure IncGetQtdRecords;
+    procedure ResetQtdRecords;
   end;
 
 implementation

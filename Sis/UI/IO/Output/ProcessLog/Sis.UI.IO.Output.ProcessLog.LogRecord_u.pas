@@ -18,6 +18,8 @@ type
     FAssuntoStack: IStrStack;
     FLocalStack: IStrStack;
 
+    FQtdRecords: integer;
+
     function GetVersao: integer;
 
     function GetDtH: TDateTime;
@@ -44,6 +46,9 @@ type
     function GetTitAsTab: string;
     function GetTitAsTab1: string;
     function GetAsTab1: string;
+
+    function GetQtdRecords: integer;
+
   public
     property Versao: integer read GetVersao;
     property DtH: TDateTime read GetDtH write SetDtH;
@@ -63,6 +68,10 @@ type
     procedure PegueLocal(pLocal: TProcessLogLocal);
     procedure RetorneLocal;
 
+    property QtdRecords: integer read GetQtdRecords;
+    procedure IncGetQtdRecords;
+    procedure ResetQtdRecords;
+
     constructor Create;
   end;
 
@@ -80,6 +89,7 @@ begin
   FAssunto := 'Princ';
   FAssuntoStack := StrStackCreate;
   FLocalStack := StrStackCreate;
+  ResetQtdRecords;
 end;
 
 function TProcessLogRecord.GetAssunto: TProcessLogAssunto;
@@ -109,6 +119,7 @@ var
 begin
   sRecord :=
     '1' + CHAR_TAB +
+    FQtdRecords.ToHexString + CHAR_TAB +
     FormatDateTime('dd/mm/yyyy hh:nn:ss,zzz', FDtH) + CHAR_TAB +
     ProcessLogTipoToStr(FTipo) + CHAR_TAB +
     FAssunto + CHAR_TAB +
@@ -138,6 +149,11 @@ end;
 function TProcessLogRecord.GetNome: TProcessLogNome;
 begin
   Result := FNome;
+end;
+
+function TProcessLogRecord.GetQtdRecords: integer;
+begin
+  Result := FQtdRecords;
 end;
 
 function TProcessLogRecord.GetTexto: TProcessLogTexto;
@@ -170,6 +186,7 @@ var
 begin
   sResult :=
     'Versao' + CHAR_TAB +
+    'Id' + CHAR_TAB +
     'DtH' + CHAR_TAB +
     'Tipo' + CHAR_TAB +
     'Assunto' + CHAR_TAB +
@@ -188,6 +205,11 @@ begin
   Result := 1;
 end;
 
+procedure TProcessLogRecord.IncGetQtdRecords;
+begin
+  Inc(FQtdRecords);
+end;
+
 procedure TProcessLogRecord.PegueAssunto(pAssunto: TProcessLogAssunto);
 begin
   FAssuntoStack.Push(Assunto);
@@ -203,6 +225,11 @@ end;
 function TProcessLogRecord.ProcessLogTipoToStr(pTipo: TProcessLogTipo): string;
 begin
   Result := ProcessLogTipoStr[pTipo];
+end;
+
+procedure TProcessLogRecord.ResetQtdRecords;
+begin
+  FQtdRecords := 0;
 end;
 
 procedure TProcessLogRecord.RetorneAssunto;

@@ -27,6 +27,9 @@ function GetProgramFilesPath: string;
 
 function ExecutePrograma(Nome, Parametros, Pasta: string; out pErro: string): boolean;
 
+function GetClipboardText: string;
+procedure SetClipboardText(const AText: string);
+
 implementation
 
 uses
@@ -134,5 +137,27 @@ begin
 }
 end;
 
+// função que retorna o conteúdo da área de transferência como uma string
+function GetClipboardText: string;
+begin
+  // verifica se a área de transferência contém texto
+  if Clipboard.HasFormat(CF_TEXT) then
+    // retorna o texto da área de transferência
+    Result := Clipboard.AsText
+  else
+    // retorna uma string vazia se não houver texto
+    Result := '';
+end;
+
+// procedimento que recebe uma string e coloca na área de transferência
+procedure SetClipboardText(const AText: string);
+begin
+  // limpa a área de transferência
+  Clipboard.Clear;
+  Sleep(200);
+  // coloca a string na área de transferência
+  Clipboard.AsText := AText;
+  Sleep(200);
+end;
 
 end.

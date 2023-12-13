@@ -6,7 +6,7 @@ uses
   Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs,
   Sis.Config.SisConfig,
   Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes, Sis.DB.Updater.Comando.List,
-  Sis.DB.Updater.Operations;
+  Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -30,6 +30,9 @@ type
 
     FDBUpdaterOperations: IDBUpdaterOperations;
 
+    FLoja: ILoja;
+    FUsuarioGerente: IUsuario;
+
     procedure SetiVersao(const Value: integer);
 
     function CarreguouArqComando(piVersao: integer): boolean;
@@ -42,6 +45,9 @@ type
     procedure ExecuteSql;
     procedure ComandosTesteFuncionou;
     procedure GravarVersao;
+
+    procedure GravarIniciais(pDBConnection: IDBConnection);
+
   protected
     property SisConfig: ISisConfig read FSisConfig;
     property ProcessLog: IProcessLog read FProcessLog;
@@ -67,7 +73,8 @@ type
 
     constructor Create(pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-      pProcessLog: IProcessLog; pOutput: IOutput);
+      pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+      pUsuarioGerente: IUsuario);
     destructor Destroy; override;
   end;
 
@@ -78,11 +85,12 @@ implementation
 uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Sis.constants, Sis.DB.Factory, Sis.DB.Updater.Constants_u,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
-  Sis.Types.Integers, Sis.Types.TStrings_u;
+  Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u;
 
 constructor TDBUpdater.Create(pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput);
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pUsuarioGerente: IUsuario);
 var
   sSql: string;
 begin
@@ -93,6 +101,8 @@ begin
   FProcessLog := pProcessLog;
   FOutput := pOutput;
   FDBMS := pDBMS;
+  FLoja := pLoja;
+  FUsuarioGerente := pUsuarioGerente;
 
   FProcessLog.PegueLocal('TDBUpdater.Create');
 
@@ -238,6 +248,11 @@ begin
         // DBConnection.Rollback;
       end;
     end;
+
+    if not SisConfig.LocalMachineIsServer then
+      exit;
+
+    GravarIniciais(DBConnection);
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
@@ -446,6 +461,50 @@ begin
       FProcessLog, FOutput);
   finally
     FProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TDBUpdater.GravarIniciais(pDBConnection: IDBConnection);
+var
+  s: string;
+  sSenha: string;
+begin
+  if FLoja.Descr <> '' then
+  begin
+    s := 'EXECUTE PROCEDURE LOJA_PA.LOJA_GARANTIR(' + FLoja.Id.ToString + ',' +
+      FLoja.Descr.QuotedString + ', TRUE);';
+    pDBConnection.ExecuteSql(s);
+  end;
+
+  if FUsuarioGerente.NomeCompleto <> '' then
+  begin
+    Encriptar(1, '123', sSenha);
+
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.USUARIO_GARANTIR(' +
+      FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
+      'SUP'.QuotedString + ',' + sSenha.QuotedString + ',' +
+      'SUPORTE'.QuotedString + ',' + '1);';
+
+    { iPessoaId := } pDBConnection.GetValue(s);
+
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
+      FLoja.Id.ToString + ',0,1,1);';
+
+    pDBConnection.ExecuteSql(s);
+
+    Encriptar(1, FUsuarioGerente.Senha, sSenha);
+
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.USUARIO_GARANTIR(' +
+      FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ','
+      + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',' +
+      FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
+
+    { iPessoaId := } pDBConnection.GetValue(s);
+
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
+      FLoja.Id.ToString + ',0,2,2);';
+
+    pDBConnection.ExecuteSql(s);
   end;
 end;
 

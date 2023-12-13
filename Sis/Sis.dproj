@@ -265,6 +265,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Types\Sis.Types.TStrings_u.pas"/>
         <DCCReference Include="..\App\DB\updater\Sis.DB.Updater_u_GetStrings.pas"/>
         <DCCReference Include="Types\Sis.Types.Integers.pas"/>
+        <DCCReference Include="Types\Sis.Types.strings.Crypt_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

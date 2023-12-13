@@ -24,7 +24,8 @@ function GetSQLCreateDatabase(pNomeArqFDB: string): string;
 
 implementation
 
-uses System.SysUtils, System.StrUtils, Sis.DB.Firebird.GetSQL_u;
+uses System.SysUtils, System.StrUtils, Sis.DB.Firebird.GetSQL_u,
+  Sis.Win.Utils_u;
 
 function GetSQLTabelaExiste(pNomeTabela: string): string;
 var
@@ -172,6 +173,9 @@ begin
 
     + ' WHERE RC.RDB$CONSTRAINT_TYPE = ''FOREIGN KEY'''
     + ' AND RC.RDB$CONSTRAINT_NAME = :FOREIGN_KEY_NAME'
+
+    + ' AND RF.RDB$FIELD_NAME = ISGMT.RDB$FIELD_NAME'
+
     ;
   //SetClipboardText(sSql);
   Result := sSql;

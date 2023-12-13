@@ -46,6 +46,7 @@ begin
     end;
 
     OWinExecute := WinExecuteCreate(sNomeArq, '', sCaminho, True, 1, pOutput);
+    OWinExecute.EspereExecucao(pOutput, 16);
   finally
     pProcessLog.RetorneLocal;
   end;
