@@ -5,7 +5,7 @@ interface
 uses Sis.UI.IO.Output, Vcl.Dialogs;
 
 type
-  TOutputMudo = class(TInterfacedObject, IOutput)
+  TMudoOutput = class(TInterfacedObject, IOutput)
   private
 
 //    function GetEnabled: boolean;
@@ -19,25 +19,25 @@ type
 
 implementation
 
-{ TOutputMudo }
+{ TMudoOutput }
 
-procedure TOutputMudo.Exibir(pFrase: string);
+procedure TMudoOutput.Exibir(pFrase: string);
 begin
 
 end;
 
-procedure TOutputMudo.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
+procedure TMudoOutput.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
 begin
 
 end;
 
 {
-  function TOutputMudo.GetEnabled: boolean;
+  function TMudoOutput.GetEnabled: boolean;
   begin
     result := false;
   end;
 
-  procedure TOutputMudo.SetEnabled(Value: boolean);
+  procedure TMudoOutput.SetEnabled(Value: boolean);
   begin
 
   end;

@@ -7,12 +7,15 @@
             <Dependencies/>
         </Projects>
         <Projects Include="App\App.dproj">
-            <Dependencies>Sis\Sis.dproj</Dependencies>
+            <Dependencies/>
         </Projects>
-        <Projects Include="AppShop\AppShop.dproj">
-            <Dependencies>Sis\Sis.dproj;App\App.dproj</Dependencies>
+        <Projects Include="ShopApp\ShopApp.dproj">
+            <Dependencies/>
         </Projects>
         <Projects Include="Adm\Adm.dproj">
+            <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
+        </Projects>
+        <Projects Include="ClienteConfig\ClienteConfig.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -32,44 +35,59 @@
     <Target Name="Sis:Make">
         <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
     </Target>
-    <Target Name="App" DependsOnTargets="Sis">
+    <Target Name="App">
         <MSBuild Projects="App\App.dproj"/>
     </Target>
-    <Target Name="App:Clean" DependsOnTargets="Sis:Clean">
+    <Target Name="App:Clean">
         <MSBuild Projects="App\App.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="App:Make" DependsOnTargets="Sis:Make">
+    <Target Name="App:Make">
         <MSBuild Projects="App\App.dproj" Targets="Make"/>
     </Target>
-    <Target Name="AppShop" DependsOnTargets="Sis;App">
-        <MSBuild Projects="AppShop\AppShop.dproj"/>
+    <Target Name="ShopApp">
+        <MSBuild Projects="ShopApp\ShopApp.dproj"/>
     </Target>
-    <Target Name="AppShop:Clean" DependsOnTargets="Sis:Clean;App:Clean">
-        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Clean"/>
+    <Target Name="ShopApp:Clean">
+        <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="AppShop:Make" DependsOnTargets="Sis:Make;App:Make">
-        <MSBuild Projects="AppShop\AppShop.dproj" Targets="Make"/>
+    <Target Name="ShopApp:Make">
+        <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Adm">
+    <Target Name="Adm" DependsOnTargets="Sis;ShopApp">
         <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
-    <Target Name="Adm:Clean">
+    <Target Name="Adm:Clean" DependsOnTargets="Sis:Clean;ShopApp:Clean">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Adm:Make">
+    <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ClienteConfig">
+        <MSBuild Projects="ClienteConfig\ClienteConfig.dproj"/>
+    </Target>
+    <Target Name="ClienteConfig:Clean">
+        <MSBuild Projects="ClienteConfig\ClienteConfig.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ClienteConfig:Make">
+        <MSBuild Projects="ClienteConfig\ClienteConfig.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;AppShop;Adm"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;AppShop:Clean;Adm:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;AppShop:Make;Adm:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
+        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
+            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
         <BuildGroupProject Include="Sis\Sis.dproj">
             <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
             <Configurations>Release</Configurations>
@@ -88,11 +106,11 @@
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="AppShop\AppShop.dproj">
-            <ProjectGuid>{4F1D7602-E94C-48BE-B034-BD495AFFD9A3}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
+        <BuildGroupProject Include="ClienteConfig\ClienteConfig.dproj">
+            <ProjectGuid>{B90DB9FC-DA54-4AE0-9B2F-CA9CA01680CF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>

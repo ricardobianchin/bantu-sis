@@ -32,7 +32,7 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.Types.Utils_u;
+uses System.SysUtils, Sis.Types.Utils_u, Sis.Types.Bool_u;
 
 { TMachineId }
 

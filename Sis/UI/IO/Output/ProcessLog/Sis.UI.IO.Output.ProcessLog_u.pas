@@ -3,15 +3,13 @@ unit Sis.UI.IO.Output.ProcessLog_u;
 interface
 
 uses Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output.ProcessLog.LogRecord,
-  Vcl.Dialogs, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog.Types,
-  Sis.UI.IO.Output.ProcessLog.Properties.Stack;
+  Vcl.Dialogs, Sis.DB.DBTypes;
 
 type
   TProcessLog = class(TInterfacedObject, IProcessLog)
   private
     FProcessLogRecord: IProcessLogRecord;
     FAtivo: boolean;
-    FProcessLogPropertiesStack: IProcessLogPropertiesStack;
 
     function GetAtivo: boolean;
     procedure SetAtivo(Value: boolean);
@@ -19,14 +17,20 @@ type
     property ProcessLogRecord: IProcessLogRecord read FProcessLogRecord;
   public
     property Ativo: boolean read GetAtivo write SetAtivo;
-    procedure Exibir(pFrase: string); virtual;
-    procedure ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType); virtual;
-
-    procedure PushProperties(pTipo: TProcessLogTipo;
-      pAssunto: TProcessLogAssunto; pNome: TProcessLogNome);
-    procedure PopProperties;
 
     constructor Create; virtual;
+
+    procedure PegueAssunto(pAssunto: TProcessLogAssunto);
+    procedure RetorneAssunto;
+
+    procedure PegueLocal(pLocal: TProcessLogLocal);
+    procedure RetorneLocal;
+
+    procedure RegistreLog(pTexto: string;
+      pDtH: TDateTime = 0;
+      pTipo: TProcessLogTipo = TProcessLogTipo.lptNaoDefinido;
+      pNome: TProcessLogNome = ''
+      ); virtual;
   end;
 
 implementation
@@ -38,19 +42,13 @@ uses System.SysUtils, Sis.UI.IO.Output.ProcessLog.Factory;
 constructor TProcessLog.Create;
 begin
   FProcessLogRecord := ProcessLogRecordCreate;
-  FProcessLogPropertiesStack := ProcessLogPropertiesStackCreate;
+  FProcessLogRecord.ResetQtdRecords;
+
+  ProcessLogRecord.Tipo := TProcessLogTipo.lptProcess;
+
+  PegueLocal('TProcessLog.Create');
+
   SetAtivo(True);
-end;
-
-procedure TProcessLog.Exibir(pFrase: string);
-begin
-  ProcessLogRecord.DtH := Now;
-  ProcessLogRecord.Texto := pFrase;
-end;
-
-procedure TProcessLog.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
-begin
-  Exibir(pFrase);
 end;
 
 function TProcessLog.GetAtivo: boolean;
@@ -58,27 +56,46 @@ begin
   result := FAtivo;
 end;
 
-procedure TProcessLog.PopProperties;
-var
-  LTipo: TProcessLogTipo;
-  LAssunto: TProcessLogAssunto;
-  LNome: TProcessLogNome;
+procedure TProcessLog.PegueAssunto(pAssunto: TProcessLogAssunto);
 begin
-  FProcessLogPropertiesStack.PopProperties(LTipo, LAssunto, LNome);
-  FProcessLogRecord.Tipo := LTipo;
-  FProcessLogRecord.Assunto := LAssunto;
-  FProcessLogRecord.Nome := LNome;
+  FProcessLogRecord.PegueAssunto(pAssunto);
 end;
 
-procedure TProcessLog.PushProperties(pTipo: TProcessLogTipo;
-  pAssunto: TProcessLogAssunto; pNome: TProcessLogNome);
+procedure TProcessLog.PegueLocal(pLocal: TProcessLogLocal);
 begin
-  FProcessLogPropertiesStack.PushProperties(FProcessLogRecord.Tipo,
-    FProcessLogRecord.Assunto, FProcessLogRecord.Nome);
+  FProcessLogRecord.PegueLocal(pLocal);
+  RegistreLog('Local inicio');
+end;
 
-  FProcessLogRecord.Tipo := pTipo;
-  FProcessLogRecord.Assunto := pAssunto;
-  FProcessLogRecord.Nome := pNome;
+procedure TProcessLog.RegistreLog(pTexto: string; pDtH: TDateTime;
+  pTipo: TProcessLogTipo; pNome: TProcessLogNome);
+begin
+  ProcessLogRecord.Texto := pTexto;
+
+  if pDtH = 0 then
+    ProcessLogRecord.DtH := Now
+  else
+    ProcessLogRecord.DtH := pDtH;
+
+  ProcessLogRecord.Nome := pNome;
+
+  if pTipo = TProcessLogTipo.lptNaoDefinido then
+    ProcessLogRecord.Tipo := TProcessLogTipo.lptProcess
+  else
+    ProcessLogRecord.Tipo := pTipo;
+
+  ProcessLogRecord.IncGetQtdRecords;
+end;
+
+procedure TProcessLog.RetorneAssunto;
+begin
+  FProcessLogRecord.RetorneAssunto;
+end;
+
+procedure TProcessLog.RetorneLocal;
+begin
+  RegistreLog('Local fim');
+  FProcessLogRecord.RetorneLocal;
 end;
 
 procedure TProcessLog.SetAtivo(Value: boolean);

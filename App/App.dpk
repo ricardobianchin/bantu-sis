@@ -29,12 +29,30 @@ package App;
 
 requires
   rtl,
-  Sis;
+  Sis,
+  vclimg;
 
 contains
-  App.UI.Bas.Form_u in 'UI\BasForm\App.UI.Bas.Form_u.pas' {BasForm},
-  App.UI.Princ.Bas.Form_u in 'UI\BasForm\App.UI.Princ.Bas.Form_u.pas' {PrincBasForm},
   App.AppObj in 'AppObj\App.AppObj.pas',
-  App.AppObj_u in 'AppObj\App.AppObj_u.pas';
+  App.AppObj_u in 'AppObj\App.AppObj_u.pas',
+  App.Factory in 'AppObj\App.Factory.pas',
+  App.AppInfo in 'AppObj\App.AppInfo.pas',
+  App.AppInfo_u in 'AppObj\App.AppInfo_u.pas',
+  App.AppObj_u_VaParaPasta in 'AppObj\App.AppObj_u_VaParaPasta.pas',
+  App.UI.Form.Status_u in 'UI\AppUI\App.UI.Form.Status_u.pas' {StatusForm},
+  App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
+  App.UI.Form.Bas.Princ.Modulos_u in 'UI\BasForm\App.UI.Form.Bas.Princ.Modulos_u.pas' {ModulosPrincBasForm},
+  App.DonoConfig.Utils in 'DonoConfig\App.DonoConfig.Utils.pas',
+  App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas',
+  App.AtualizaVersao in 'AtualizaVersao\App.AtualizaVersao.pas',
+  App.AtualizaVersao_u in 'AtualizaVersao\App.AtualizaVersao_u.pas',
+  App.SisConfig.Garantir in 'SisConfig\App.SisConfig.Garantir.pas',
+  App.SisConfig.Garantir_u in 'SisConfig\App.SisConfig.Garantir_u.pas',
+  App.UI.Config.MaqNomeEdFrame_u in 'UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas',
+  App.UI.Config.ConfigForm in 'UI\ConfigEdit\App.UI.Config.ConfigForm.pas' {StarterFormConfig},
+  App.UI.Config.ConfigForm.Testes in 'UI\ConfigEdit\App.UI.Config.ConfigForm.Testes.pas',
+  App.UI.Config.Constants in 'UI\ConfigEdit\App.UI.Config.Constants.pas',
+  App.DB.Garantir in 'DB\Garantir\App.DB.Garantir.pas',
+  App.DB.Utils in 'DB\App.DB.Utils.pas';
 
 end.

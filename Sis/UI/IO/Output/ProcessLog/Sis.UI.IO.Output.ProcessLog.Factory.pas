@@ -3,34 +3,47 @@ unit Sis.UI.IO.Output.ProcessLog.Factory;
 interface
 
 uses Sis.UI.IO.Output.ProcessLog.LogRecord,
-  Sis.UI.IO.Output.ProcessLog.Properties.Stack,
-  Sis.UI.IO.Output.ProcessLog.Types, Sis.UI.IO.Output.ProcessLog.Properties;
+  Sis.UI.IO.Output.ProcessLog.Registrador,
+  Sis.UI.IO.Output.ProcessLog;
+
+function ProcessLogRegistradorCreate(pProcessLog: IProcessLog;
+  pProcessLogTipo: TProcessLogTipo; pNome: TProcessLogNome)
+  : IProcessLogRegistrador;
 
 function ProcessLogRecordCreate: IProcessLogRecord;
-function ProcessLogPropertiesCreate(pTipo: TProcessLogTipo;
-  pAssunto: TProcessLogAssunto; pNome: TProcessLogNome): IProcessLogProperties;
-function ProcessLogPropertiesStackCreate: IProcessLogPropertiesStack;
+function ProcessLogFileCreate(pAssunto: string; pAcrescentaDtH: boolean = True;
+  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt'): IProcessLog;
+
+function MudoProcessLogCreate: IProcessLog;
 
 implementation
 
 uses Sis.UI.IO.Output.ProcessLog.LogRecord_u,
-  Sis.UI.IO.Output.ProcessLog.Properties.Stack_u,
-  Sis.UI.IO.Output.ProcessLog.Properties_u;
+  Sis.UI.IO.Output.ProcessLog.Registrador_u,
+  Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u, Sis.UI.IO.Output.ProcessLog.Mudo;
 
 function ProcessLogRecordCreate: IProcessLogRecord;
 begin
   Result := TProcessLogRecord.Create;
 end;
 
-function ProcessLogPropertiesCreate(pTipo: TProcessLogTipo;
-  pAssunto: TProcessLogAssunto; pNome: TProcessLogNome): IProcessLogProperties;
+function ProcessLogFileCreate(pAssunto: string; pAcrescentaDtH: boolean = True;
+  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt'): IProcessLog;
 begin
-  Result := TProcessLogProperties.Create(pTipo, pAssunto, pNome);
+  Result := TProcessLogFile.Create(pAssunto, pAcrescentaDtH, pPasta,
+    pDtH, pExt);
 end;
 
-function ProcessLogPropertiesStackCreate: IProcessLogPropertiesStack;
+function ProcessLogRegistradorCreate(pProcessLog: IProcessLog;
+  pProcessLogTipo: TProcessLogTipo; pNome: TProcessLogNome)
+  : IProcessLogRegistrador;
 begin
-  Result := TProcessLogPropertiesStack.Create;
+  Result := TProcessLogRegistrador.Create(pProcessLog, pProcessLogTipo, pNome);
+end;
+
+function MudoProcessLogCreate: IProcessLog;
+begin
+  Result := TMudoProcessLog.Create;
 end;
 
 end.

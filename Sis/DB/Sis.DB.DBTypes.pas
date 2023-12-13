@@ -4,7 +4,7 @@ interface
 
 uses
   FireDAC.Stan.Param, System.Classes, Data.DB, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output;
+  Sis.UI.IO.Output, Sis.Sis.Nomeavel;
 
 type
   TDBVersion = double;
@@ -12,13 +12,14 @@ type
   TDBMSType = (dbmstUnknown, dbmstFirebird, dbmstMySQL, dbmstPostgreSQL,
     dbmstOracle, dbmstSQLServer, dbmstSQLite);
 
-  TLocalDoDB = (ldbNaoIndicado, ldbServidor, ldbTerminal);
-
   TDBFramework = (dbfrNaoIndicado, dbfrFireDAC { , dbfrDBX, dbfrZeos } );
 
   TDBConnectionParams = record
     Server, Arq, Database: string;
+    function GetNomeBanco: string;
   end;
+
+  TFirebirdVersion = TDBVersion;
 
 const
   DBFrameworkNames: array [TDBFramework] of string = ('NAOINDICADO', 'FIREDAC');
@@ -26,10 +27,14 @@ const
   DBMSNames: array [TDBMSType] of string = ('NAOINDICADO', 'FIREBIRD', 'MYSQL',
     'POSTGRESQL', 'ORACLE', 'SQLSERVER', 'SQLITE');
 
-  TiposDeLocalDB: array [TLocalDoDB] of string = ('NAOINDICADO', 'SERVIDOR',
-    'TERMINAL');
-
 type
+  IDBMSConfig = interface(IInterface)
+    ['{5A1A706A-6F4C-43B8-9F12-D815CC4B23D0}']
+    function GetPausaAntesExec: boolean;
+    procedure SetPausaAntesExec(Value: boolean);
+    property PausaAntesExec: boolean read GetPausaAntesExec write SetPausaAntesExec;
+  end;
+
   // DBMS (Database Management System)
   IDBMSInfo = interface(IInterface)
     ['{0F87682A-7212-41F6-A917-8725F8B736DA}']
@@ -52,23 +57,30 @@ type
   // DBMS (Database Management System)
   IDBMS = interface(IInterface)
     ['{538EDEC7-A17C-4F0B-80C0-F55CE89435AB}']
-    function LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB)
-      : TDBConnectionParams;
-    function LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
-    function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
-    function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
+//    function LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB): TDBConnectionParams;
+//    function LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
+//    function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
+//    function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
-    procedure GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput);
-    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
-      pOutput: IOutput): boolean;
+    function GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput): boolean;
+//    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
+//      pOutput: IOutput): boolean;
 
     // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string;
-      pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog;
+      pNomeBanco: string;
+      pPastaComandos: string;
+      pProcessLog: IProcessLog;
       pOutput: IOutput); overload;
+
+    function GetVendorHome: string;
+    property VendorHome: string read GetVendorHome;
+
+    function GetVendorLib: string;
+    property VendorLib: string read GetVendorLib;
   end;
 
-  IDBConnection = interface(IInterface)
+  IDBConnection = interface(INomeavel)
     ['{5984CEAC-D7A0-41F5-9ED5-35627D5E5D49}']
     procedure StartTransaction;
     procedure Commit;
@@ -93,15 +105,14 @@ type
 
   end;
 
-  IDBSqlOperation = interface(IInterface)
+  IDBSqlOperation = interface(INomeavel)
     ['{16190228-4243-4196-BEAF-0B9AF16E0599}']
     function GetUltimoErro: string;
     procedure SetUltimoErro(Value: string);
     property UltimoErro: string read GetUltimoErro write SetUltimoErro;
 
     function GetNome: string;
-    procedure SetNome(Value: string);
-    property Nome: string read GetNome write SetNome;
+    property Nome: string read GetNome;
 
     function GetSql: string;
     procedure SetSql(Value: string);
@@ -147,6 +158,8 @@ function StrToDBMSType(pStr: string): TDBMSType;
 
 implementation
 
+uses System.SysUtils;
+
 function StrToDBFramework(pStr: string): TDBFramework;
 begin
   if pStr = 'NAOINDICADO' then
@@ -171,6 +184,16 @@ begin
     Result := dbmstSQLServer
   else // if pStr = 'SQLITE' then
     Result := dbmstSQLite;
+end;
+
+{ TDBConnectionParams }
+
+function TDBConnectionParams.GetNomeBanco: string;
+var
+  sNome: string;
+begin
+  sNome := ChangeFileExt(ExtractFileName(Arq), '');
+  Result := sNome;
 end;
 
 end.

@@ -5,9 +5,10 @@ interface
 uses Sis.UI.IO.Output, Vcl.Dialogs, Vcl.StdCtrls;
 
 type
-  TOutputToLabel = class(TInterfacedObject, IOutput)
+  TLabelOutput = class(TInterfacedObject, IOutput)
   private
     FLabel: TLabel;
+    FQtdExib: integer;
 
   public
     procedure Exibir(pFrase: string);
@@ -17,25 +18,33 @@ type
 
 implementation
 
-uses sis.ui.io.output.exibirpausa.form_u;
+uses Vcl.Forms;
 
-{ TOutputToLabel }
+{ TLabelOutput }
 
-constructor TOutputToLabel.Create(pLabel: TLabel);
+constructor TLabelOutput.Create(pLabel: TLabel);
 begin
   FLabel := pLabel;
+  FQtdExib := 0;
 end;
 
-procedure TOutputToLabel.Exibir(pFrase: string);
+procedure TLabelOutput.Exibir(pFrase: string);
 begin
   FLabel.Caption := pFrase;
-  FLabel.Repaint;
+
+  if (FQtdExib > 5) then
+  begin
+    FQtdExib := 0;
+    Application.ProcessMessages;
+  end
+  else
+    FLabel.Repaint;
+
 end;
 
-procedure TOutputToLabel.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
+procedure TLabelOutput.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
 begin
   Exibir(pFrase);
-  sis.ui.io.output.exibirpausa.form_u.Exibir(pFrase, pMsgDlgType);
 end;
 
 end.
