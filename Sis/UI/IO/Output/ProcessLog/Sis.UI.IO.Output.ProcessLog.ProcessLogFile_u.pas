@@ -24,7 +24,7 @@ type
       ); override;
 
     constructor Create(pAssunto: string; pAcrescentaDtH: boolean = True;
-      pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt');
+      pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.processlog.txt');
       reintroduce;
     destructor Destroy; override;
   end;
@@ -35,8 +35,8 @@ uses System.SysUtils, Sis.UI.IO.Files, Sis.Types.strings_u, Sis.Types.Bool_u;
 
 { TProcessLogFile }
 
-constructor TProcessLogFile.Create(pAssunto: string; pAcrescentaDtH: boolean = True;
-  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt');
+constructor TProcessLogFile.Create(pAssunto: string; pAcrescentaDtH: boolean;
+  pPasta: string; pDtH: TDateTime; pExt: string);
 var
   sAssunto: string;
   sPasta: string;
@@ -66,7 +66,7 @@ begin
 
   sAssunto := StrToNomeArq(Trim(pAssunto));
 
-  FNomeArq := 'ProcessLog ' + sAssunto;
+  FNomeArq := sAssunto;
 
   if pAcrescentaDtH then
     FNomeArq := FNomeArq + ' ' + FormatDateTime('yyyy-mm-dd_hh-nn-ss',

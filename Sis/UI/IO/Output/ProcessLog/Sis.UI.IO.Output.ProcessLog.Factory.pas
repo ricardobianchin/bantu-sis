@@ -12,7 +12,7 @@ function ProcessLogRegistradorCreate(pProcessLog: IProcessLog;
 
 function ProcessLogRecordCreate: IProcessLogRecord;
 function ProcessLogFileCreate(pAssunto: string; pAcrescentaDtH: boolean = True;
-  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt'): IProcessLog;
+  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.processlog.txt'): IProcessLog;
 
 function MudoProcessLogCreate: IProcessLog;
 
@@ -27,8 +27,8 @@ begin
   Result := TProcessLogRecord.Create;
 end;
 
-function ProcessLogFileCreate(pAssunto: string; pAcrescentaDtH: boolean = True;
-  pPasta: string = ''; pDtH: TDateTime = 0; pExt: string = '.txt'): IProcessLog;
+function ProcessLogFileCreate(pAssunto: string; pAcrescentaDtH: boolean;
+  pPasta: string; pDtH: TDateTime; pExt: string): IProcessLog;
 begin
   Result := TProcessLogFile.Create(pAssunto, pAcrescentaDtH, pPasta,
     pDtH, pExt);
