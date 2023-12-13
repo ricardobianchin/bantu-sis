@@ -6,30 +6,36 @@ uses System.Classes, Sis.UI.IO.Output.ProcessLog;
 
 // entra na pasta
 procedure VaParaPasta(pPasta: string);
-function VaParaPastaDoArquivo(const pNomeArq: string; pProcessLog: IProcessLog): string;
+function VaParaPastaDoArquivo(const pNomeArq: string;
+  pProcessLog: IProcessLog): string;
 function PastaCriarEntrar(const pCaminho: string): boolean;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
 procedure GarantirPasta(const pPasta: string);
 
-//date time
+// date time
 function DateTimeToNomeArq(pDtH: TDateTime = 0): string;
 function DateToPath(pDtH: TDateTime = 0): string;
 
-//fragmenta caminho
+// fragmenta caminho
 function GetPastaDoArquivo(const pNomeArq: string): string;
 function GarantirPastaDoArquivo(const pNomeArq: string): string;
 
-//dir
-procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings; pZeraAntes: boolean; pMascara: string = '*.*');
+// dir
+procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings;
+  pZeraAntes: boolean; pMascara: string = '*.*');
 
-//gravar
+// gravar
 procedure EscreverArquivo(pStr: string; pNomeArq: string);
+
+// selecionar
+function EscolhaArquivo(var pNomeArq: string; pFiltros: string = '';
+  pTitulo: string = ''): boolean;
 
 implementation
 
 uses System.SysUtils, System.IOUtils, System.StrUtils, Sis.Types.Utils_u,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, Vcl.Dialogs;
 
 function DateTimeToNomeArq(pDtH: TDateTime): string;
 var
@@ -100,8 +106,8 @@ end;
 
 function PastaAtual: string;
 begin
-  GetDir(0,result);
-  result := IncludeTrailingPathDelimiter(result);
+  GetDir(0, Result);
+  Result := IncludeTrailingPathDelimiter(Result);
 end;
 
 function DateToPath(pDtH: TDateTime = 0): string;
@@ -116,18 +122,20 @@ begin
   DecodeDate(pDtH, ano, mes, dia);
 
   // Formata o resultado no formato YYYY-mm-dd_hh-nn-ss-zzz
-//  Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d', [ano, mes, dia, hora, minuto, segundo, milisegundo]);
+  // Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d', [ano, mes, dia, hora, minuto, segundo, milisegundo]);
   Result := Format('%.4d\%.2d\%.2d\', [ano, mes, dia]);
 end;
 
-procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings; pZeraAntes: boolean; pMascara: string);
+procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings;
+  pZeraAntes: boolean; pMascara: string);
 var
   F: TSearchRec;
 begin
   if pZeraAntes then
     pNomesArqSL.Clear;
 
-  if FindFirst(TPath.Combine(pPasta, pMascara), faAnyFile and not faDirectory, F) = 0 then
+  if FindFirst(TPath.Combine(pPasta, pMascara), faAnyFile and not faDirectory,
+    F) = 0 then
   begin
     try
       repeat
@@ -145,19 +153,46 @@ begin
   SetCurrentDir(pPasta);
 end;
 
-function VaParaPastaDoArquivo(const pNomeArq: string; pProcessLog: IProcessLog): string;
+function VaParaPastaDoArquivo(const pNomeArq: string;
+  pProcessLog: IProcessLog): string;
 var
   sPasta: string;
   sLog: string;
 begin
-  sLog := 'NomeArq='+pNomeArq;
+  sLog := 'NomeArq=' + pNomeArq;
   pProcessLog.PegueLocal('Sis.UI.IO.Files function VaParaPastaDoArquivo');
 
   sPasta := GarantirPastaDoArquivo(pNomeArq);
-  sLog := sLog + ',Pasta='+sPasta;
+  sLog := sLog + ',Pasta=' + sPasta;
   pProcessLog.RegistreLog(sLog);
   VaParaPasta(sPasta);
   pProcessLog.RetorneLocal;
+end;
+
+function EscolhaArquivo(var pNomeArq: string; pFiltros: string;
+  pTitulo: string): boolean;
+var
+  OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1 := TOpenDialog.Create(nil);
+  try
+    if pFiltros = '' then
+      pFiltros := '*.*|*.*';
+
+    if pTitulo = '' then
+      pTitulo := 'Escolha o arquivo...';
+
+    OpenDialog1.Filter := pFiltros;
+    OpenDialog1.Title := pTitulo;
+    OpenDialog1.FileName := pNomeArq;
+
+    Result := OpenDialog1.Execute;
+
+    if Result then
+      pNomeArq := OpenDialog1.FileName;
+  finally
+    OpenDialog1.Free;
+  end;
 end;
 
 end.
