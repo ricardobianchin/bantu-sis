@@ -56,12 +56,9 @@ end;
 
 function TComandoFBCreateOrAlterPackage.Funcionou: boolean;
 var
-  I: integer;
   sCabec: string;
   sBody: string;
 begin
-  Result := true;
-
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
 
   // SetClipboardText(FCabecLinhasSL.Text);

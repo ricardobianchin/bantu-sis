@@ -4,12 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Modulos_u,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Sessoes_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo;
 
 type
-  TShopPrincForm = class(TModulosPrincBasForm)
+  TShopPrincForm = class(TSessoesPrincBasForm)
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -28,6 +29,12 @@ implementation
 uses App.Factory, ShopApp.Constants;
 
 { TShopPrincForm }
+
+procedure TShopPrincForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+ //
+end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
 begin
