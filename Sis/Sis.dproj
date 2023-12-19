@@ -158,7 +158,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas_u.pas">
             <Form>BasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\IO\Sis.UI.IO.Factory.pas"/>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
@@ -166,11 +165,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToMemo_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Act_u.pas">
             <Form>ActBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\Img\Sis.UI.ImgDM.pas">
             <Form>SisImgDataModule</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="Win\Sis.Win.Factory.pas"/>
@@ -212,7 +209,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Web\Sis.Web.Factory.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Splash_u.pas">
             <Form>SplashForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.TImage.pas"/>
         <DCCReference Include="Entities\Sis.Usuario.pas"/>
@@ -266,6 +262,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\App\DB\updater\Sis.DB.Updater_u_GetStrings.pas"/>
         <DCCReference Include="Types\Sis.Types.Integers.pas"/>
         <DCCReference Include="Types\Sis.Types.strings.Crypt_u.pas"/>
+        <DCCReference Include="Entities\Sis.Modulo.pas"/>
+        <DCCReference Include="Entities\Sis.Sessao.Types.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

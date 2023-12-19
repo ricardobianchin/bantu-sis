@@ -10,10 +10,15 @@ type
 
 //    function GetEnabled: boolean;
 //    procedure SetEnabled(Value: boolean);
+    function GetAtivo: boolean;
+    procedure SetAtivo(Value: boolean);
   public
 //    property Enabled: boolean read GetEnabled write SetEnabled;
     procedure Exibir(pFrase: string);
     procedure ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
+
+    property Ativo: boolean read GetAtivo write SetAtivo;
+
   end;
 
 
@@ -27,6 +32,16 @@ begin
 end;
 
 procedure TMudoOutput.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
+begin
+
+end;
+
+function TMudoOutput.GetAtivo: boolean;
+begin
+
+end;
+
+procedure TMudoOutput.SetAtivo(Value: boolean);
 begin
 
 end;

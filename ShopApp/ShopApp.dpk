@@ -36,7 +36,9 @@ contains
   ShopApp.ShopAppObj in 'ShopAppObj\ShopApp.ShopAppObj.pas',
   ShopApp.ShopAppObj_u in 'ShopAppObj\ShopApp.ShopAppObj_u.pas',
   ShopApp.Factory in 'ShopAppObj\ShopApp.Factory.pas',
+  ShopApp.Constants in 'ShopAppObj\ShopApp.Constants.pas',
   AppShop.UI.Form.Princ_u in 'UI\AppShop.UI.Form.Princ_u.pas' {ShopPrincForm},
-  ShopApp.Constants in 'ShopAppObj\ShopApp.Constants.pas';
+  AppShop.UI.Form.Modulo.Retaguarda_u in 'Modulos\Retaguarda\AppShop.UI.Form.Modulo.Retaguarda_u.pas',
+  AppShop.UI.Form.Modulo.PDV_u in 'Modulos\PDV\AppShop.UI.Form.Modulo.PDV_u.pas' {ShopPDVModuloForm};
 
 end.

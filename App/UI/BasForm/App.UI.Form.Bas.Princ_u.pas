@@ -54,6 +54,10 @@ type
     function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
 
   protected
+    property StatusOutput: IOutput read FStatusOutput;
+    property ProcessOutput: IOutput read FProcessOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
+
     property AppInfo: IAppInfo read FAppInfo;
     property AppObj: IAppObj read FAppObj;
 
@@ -61,6 +65,8 @@ type
     function GetAppInfoCreate: IAppInfo; virtual; abstract;
   public
     { Public declarations }
+
+
   end;
 
 var
@@ -200,9 +206,13 @@ end;
 
 procedure TPrincBasForm.FormDestroy(Sender: TObject);
 begin
-  ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
-  inherited;
-
+  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
+  try
+    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
+    inherited;
+  finally
+    FProcessLog.RetorneLocal;
+  end;
 end;
 
 function TPrincBasForm.GarantirConfig(pLoja: ILoja;
@@ -247,9 +257,9 @@ var
   oUsuarioGerente: IUsuario;
   oSisConfig: ISisConfig;
 begin
-  inherited;
   FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
   try
+    inherited;
     OculteSplashForm;
 
     bResultado := AtualizeVersao;

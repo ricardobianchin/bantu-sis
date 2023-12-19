@@ -41,7 +41,7 @@ contains
   App.AppObj_u_VaParaPasta in 'AppObj\App.AppObj_u_VaParaPasta.pas',
   App.UI.Form.Status_u in 'UI\AppUI\App.UI.Form.Status_u.pas' {StatusForm},
   App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
-  App.UI.Form.Bas.Princ.Modulos_u in 'UI\BasForm\App.UI.Form.Bas.Princ.Modulos_u.pas' {ModulosPrincBasForm},
+  App.UI.Form.Bas.Princ.Sessoes_u in 'UI\BasForm\App.UI.Form.Bas.Princ.Sessoes_u.pas' {SessoesPrincBasForm},
   App.DonoConfig.Utils in 'DonoConfig\App.DonoConfig.Utils.pas',
   App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas',
   App.AtualizaVersao in 'AtualizaVersao\App.AtualizaVersao.pas',
@@ -53,6 +53,17 @@ contains
   App.UI.Config.ConfigForm.Testes in 'UI\ConfigEdit\App.UI.Config.ConfigForm.Testes.pas',
   App.UI.Config.Constants in 'UI\ConfigEdit\App.UI.Config.Constants.pas',
   App.DB.Garantir in 'DB\Garantir\App.DB.Garantir.pas',
-  App.DB.Utils in 'DB\App.DB.Utils.pas';
+  App.DB.Utils in 'DB\App.DB.Utils.pas',
+  App.Sessao in 'Sessao\App.Sessao.pas',
+  App.Sessao_u in 'Sessao\App.Sessao_u.pas',
+  App.Sessao.List in 'Sessao\App.Sessao.List.pas',
+  App.Sessao.List_u in 'Sessao\App.Sessao.List_u.pas',
+  App.Sessao.Criar in 'Sessao\App.Sessao.Criar.pas',
+  App.Sessao.Criar.List in 'Sessao\App.Sessao.Criar.List.pas',
+  App.Sessao.Criar.List_u in 'Sessao\App.Sessao.Criar.List_u.pas',
+  App.Sessao.Factory in 'Sessao\App.Sessao.Factory.pas',
+  App.UI.Form.Bas.Modulo_u in 'UI\BasForm\App.UI.Form.Bas.Modulo_u.pas' {ModuloBasForm},
+  App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retaguarda\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
+  App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm};
 
 end.

@@ -130,11 +130,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="ShopAppObj\ShopApp.ShopAppObj.pas"/>
         <DCCReference Include="ShopAppObj\ShopApp.ShopAppObj_u.pas"/>
         <DCCReference Include="ShopAppObj\ShopApp.Factory.pas"/>
+        <DCCReference Include="ShopAppObj\ShopApp.Constants.pas"/>
         <DCCReference Include="UI\AppShop.UI.Form.Princ_u.pas">
             <Form>ShopPrincForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ShopAppObj\ShopApp.Constants.pas"/>
+        <DCCReference Include="Modulos\Retaguarda\AppShop.UI.Form.Modulo.Retaguarda_u.pas"/>
+        <DCCReference Include="Modulos\PDV\AppShop.UI.Form.Modulo.PDV_u.pas">
+            <Form>ShopPDVModuloForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

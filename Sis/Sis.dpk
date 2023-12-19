@@ -161,6 +161,8 @@ contains
   Sis.Types.TStrings_u in 'Types\Sis.Types.TStrings_u.pas',
   Sis.DB.Updater_u_GetStrings in '..\App\DB\updater\Sis.DB.Updater_u_GetStrings.pas',
   Sis.Types.Integers in 'Types\Sis.Types.Integers.pas',
-  Sis.Types.strings.Crypt_u in 'Types\Sis.Types.strings.Crypt_u.pas';
+  Sis.Types.strings.Crypt_u in 'Types\Sis.Types.strings.Crypt_u.pas',
+  Sis.Modulo in 'Entities\Sis.Modulo.pas',
+  Sis.Sessao.Types in 'Entities\Sis.Sessao.Types.pas';
 
 end.
