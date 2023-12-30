@@ -109,7 +109,7 @@ begin
               FTemDBQuery.Close;
             end;
 
-            if bRegistroTem then
+            if bRegistroTem and assigned(FUpdDBExec) then
             begin
               // sLog := sLog + ';TY';
               iParamIndice := 0;
@@ -240,6 +240,11 @@ begin
     sUpdCamposSet := sUpdCamposSet + ' WHERE ' + sWhere + ';';
     sSqlUpd := sSqlUpd + sUpdCamposSet;
 
+    if Length(FaTitulos) = FiQtdIndices then
+    begin
+      sSqlUpd := '';
+    end;
+
     FInsDBExec := DBExecCreate('EnsureRecInsQ',DBConnection, sSqlIns, ProcessLog, Output);
     try
       FInsDBExec.Prepare;
@@ -253,16 +258,22 @@ begin
       end;
     end;
 
-    FUpdDBExec := DBExecCreate('EnsureRecUpdQ',DBConnection, sSqlUpd, ProcessLog, Output);
-    try
-      FUpdDBExec.Prepare;
-    except
-      on E: Exception do
-      begin
-        sErro := E.Message + ' ao preparar ' + sSqlTem;
-        ProcessLog.RegistreLog(sErro);
-        Output.Exibir(sErro);
-        raise Exception.Create(sErro);
+    FUpdDBExec := nil;
+
+    if sSqlUpd <> '' then
+    begin
+      FUpdDBExec := DBExecCreate('EnsureRecUpdQ', DBConnection, sSqlUpd,
+        ProcessLog, Output);
+      try
+        FUpdDBExec.Prepare;
+      except
+        on E: Exception do
+        begin
+          sErro := E.Message + ' ao preparar ' + sSqlTem;
+          ProcessLog.RegistreLog(sErro);
+          Output.Exibir(sErro);
+          raise Exception.Create(sErro);
+        end;
       end;
     end;
   finally

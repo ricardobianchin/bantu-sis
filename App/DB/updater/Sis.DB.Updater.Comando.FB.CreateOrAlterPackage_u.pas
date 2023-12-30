@@ -126,6 +126,7 @@ var
   bPegandoCabec: boolean;
   bPegandoBody: boolean;
   sObjetoNome: string;
+  UltimoIndex: integer;
 begin
   bPegandoCodigo := False;
   bPegandoCabec := False;
@@ -154,7 +155,8 @@ begin
       end
       else if LeftStr(sLinha, 21) = 'RECREATE PACKAGE BODY' then
       begin
-        FPackageDefSL.Add('');
+        UltimoIndex := FPackageDefSL.Count - 1;
+        FPackageDefSL.Insert(UltimoIndex, '');
         bPegandoBody := true;
       end;
 

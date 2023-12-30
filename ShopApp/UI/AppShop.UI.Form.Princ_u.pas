@@ -33,7 +33,12 @@ uses App.Factory, ShopApp.Constants;
 procedure TShopPrincForm.FormCreate(Sender: TObject);
 begin
   inherited;
- //
+  ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
+  try
+
+  finally
+    ProcessLog.RetorneAssunto;
+  end;
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;

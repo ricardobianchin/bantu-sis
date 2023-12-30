@@ -3,7 +3,7 @@ unit Sis.Sessao.Types;
 interface
 
 type
-  TTipoAtividadeNegocio = (ativNaoIndicado, ativMercado);
+  TSisTipoAtividade = (stativNaoIndicado = 32, stativMercado = 33);
 
   TTipoModuloSistema = (moduloNaoIndicado, moduloClienteConfig,
     moduloConfiguracoes, moduloRetaguarda, moduloPDV);
@@ -11,7 +11,7 @@ type
 function TipoModuloSistemaToStr(pTipoModuloSistema: TTipoModuloSistema): string;
 
 const
-  TipoAtividadeNegocioDescr: array [TTipoAtividadeNegocio] of string =
+  TipoAtividadeNegocioDescr: array [TSisTipoAtividade] of string =
     ('Nao indicado', 'Mercado');
 
 

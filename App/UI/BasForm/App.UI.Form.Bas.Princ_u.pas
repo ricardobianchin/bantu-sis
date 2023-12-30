@@ -48,7 +48,7 @@ type
     // FDBMS: IDBMS;
     // FServConnection: IDBConnection;
 
-    function AtualizeVersao: boolean;
+    function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
@@ -82,13 +82,13 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   App.SisConfig.Garantir, App.DB.Garantir;
 
-function TPrincBasForm.AtualizeVersao: boolean;
+function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
   oAtualizaVersao: IAtualizaVersao;
   bPrecisaResetar: boolean;
   sLog: string;
 begin
-  FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersao');
+  FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
   try
     {$IFDEF DEBUG}
     sLog := 'Config=DEBUG, abortando';
@@ -262,11 +262,11 @@ begin
     inherited;
     OculteSplashForm;
 
-    bResultado := AtualizeVersao;
+    bResultado := AtualizeVersaoExecutaveis;
     if bResultado then
     begin
       FProcessLog.RegistreLog
-        ('AtualizeVersao retornou true, Application.Terminate');
+        ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
       Application.Terminate;
       Exit;
     end;
