@@ -37,10 +37,9 @@ uses App.Sessao.Factory;
 
 procedure TSessoesPrincBasForm.FormCreate(Sender: TObject);
 begin
+  inherited;
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
-    inherited;
-
     FSessaoCriarList := SessaoCriarListCreate;
     DtHCompileLabel.Parent := DtHCompilePanel;
     DtHCompileLabel.Left := 3;

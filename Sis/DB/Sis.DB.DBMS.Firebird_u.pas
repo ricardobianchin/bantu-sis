@@ -36,7 +36,6 @@ type
 //    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
 //      pOutput: IOutput): boolean;
     function GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput): boolean;
-    // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string;
       pNomeBanco: string;
       pPastaComandos: string;
@@ -167,6 +166,7 @@ var
 
   s: string;
   sLog: string;
+
 begin
   pProcessLog.PegueLocal('TDBMSFirebird.ExecInterative');
   try
@@ -183,7 +183,9 @@ begin
       sNomeArqTmp := Trim(pPastaComandos + 'SQL ' + pAssunto);
 
       sNomeArqTmp := sNomeArqTmp + ' ' + pNomeBanco + ' ' +
-        DateTimeToNomeArq() + '.sql';
+        DateTimeToNomeArq();
+
+      sNomeArqTmp := sNomeArqTmp + '.sql';
 
       sLog := sLog + ',sNomeArqTmp=' + sNomeArqTmp;
 
@@ -211,7 +213,6 @@ begin
 
       pOutput.Exibir('Execução terminada');
       sLog := sLog + ',Execução terminada';
-      // PeguePaths(pProcessLog, pOutput);
     finally
       pProcessLog.RegistreLog(sLog);
     end;
@@ -220,60 +221,6 @@ begin
   end;
 end;
 
-{
-  procedure TDBMSFirebird.ExecInterative(pNomeArqSQL: string;
-  pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput);
-  var
-  sStartIn: string;
-  sExecFile: string;
-  sParam: string;
-
-  bExecuteAoCriar: boolean;
-
-  WExec: IWinExecute;
-  I: Integer;
-  //sLog: string;
-  begin
-  sExecFile := FIsqlExe;
-  sStartIn := FFirebirdPath;
-  sParam := '-user sysdba -password masterkey -i "' + pNomeArqSQL + '"';
-
-  bExecuteAoCriar := true;
-
-  pProcessLog.Exibir('TDBMSFirebird.ExecInterative inicio');
-  pProcessLog.Exibir('sExecFile='+sExecFile);
-  pProcessLog.Exibir('sParam='+sParam);
-  pProcessLog.Exibir('sStartIn='+sStartIn);
-
-  pProcessLog.Exibir('vai executar');
-  pOutput.Exibir('instalando o firebird...');
-  pOutput.Exibir('Executando via ISQL ' + ExtractFileName(pNomeArqSQL) + '...');
-  //  sLog := 'vai exec';
-  WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-  //  sLog := sLog + ',exec';
-  while WExec.Executando do
-  begin
-  //    sLog := sLog + ',fora pausa';
-  for I := 1 to 2 do
-  begin
-  //      sLog := sLog + ',dentro pausa';
-  sleep(500);
-  if not WExec.Executando then
-  break;
-  end;
-  //    sLog := sLog + ',testar';
-  if WExec.Executando then
-  pOutput.Exibir('Aguardando a execução...');
-  end;
-  //  sLog := sLog + ',saiu loop';
-  //  pOutput.Exibir(slog);
-  Sleep(100);
-
-  pOutput.Exibir('Execução terminada');
-  pProcessLog.Exibir('Execução terminada');
-  pProcessLog.Exibir('TDBMSFirebird.ExecInterative fim');
-  end;
-}
 function TDBMSFirebird.GarantirDBMSInstalado(pProcessLog: IProcessLog;
   pOutput: IOutput): boolean;
 begin

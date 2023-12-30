@@ -1,9 +1,6 @@
 FUNCIONARIO
     inicio
 
-
-
-
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=FUNCIONARIO

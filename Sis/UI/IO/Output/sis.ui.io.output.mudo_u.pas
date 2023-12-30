@@ -38,7 +38,7 @@ end;
 
 function TMudoOutput.GetAtivo: boolean;
 begin
-
+  Result := True;
 end;
 
 procedure TMudoOutput.SetAtivo(Value: boolean);
