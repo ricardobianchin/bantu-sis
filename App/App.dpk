@@ -58,12 +58,13 @@ contains
   App.Sessao_u in 'Sessao\App.Sessao_u.pas',
   App.Sessao.List in 'Sessao\App.Sessao.List.pas',
   App.Sessao.List_u in 'Sessao\App.Sessao.List_u.pas',
-  App.Sessao.Criar in 'Sessao\App.Sessao.Criar.pas',
-  App.Sessao.Criar.List in 'Sessao\App.Sessao.Criar.List.pas',
-  App.Sessao.Criar.List_u in 'Sessao\App.Sessao.Criar.List_u.pas',
+  App.Sessao.Criador in 'Sessao\App.Sessao.Criador.pas',
+  App.Sessao.Criador.List in 'Sessao\App.Sessao.Criador.List.pas',
+  App.Sessao.Criador.List_u in 'Sessao\App.Sessao.Criador.List_u.pas',
   App.Sessao.Factory in 'Sessao\App.Sessao.Factory.pas',
   App.UI.Form.Bas.Modulo_u in 'UI\BasForm\App.UI.Form.Bas.Modulo_u.pas' {ModuloBasForm},
   App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retaguarda\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
-  App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm};
+  App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm},
+  App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {Frame1: TFrame};
 
 end.
