@@ -66,38 +66,4 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
       TabOrder = 1
     end
   end
-  object ScrollBox1: TScrollBox [7]
-    Left = 0
-    Top = 240
-    Width = 628
-    Height = 284
-    BevelInner = bvNone
-    BevelOuter = bvNone
-    BorderStyle = bsNone
-    TabOrder = 3
-    StyleElements = []
-  end
-  object TopoPanel: TPanel [8]
-    Left = 0
-    Top = 141
-    Width = 628
-    Height = 55
-    Align = alTop
-    BevelOuter = bvNone
-    Caption = ' '
-    TabOrder = 4
-    object SessaoToolBar: TToolBar
-      Left = 0
-      Top = 0
-      Width = 628
-      Height = 29
-      ButtonHeight = 21
-      ButtonWidth = 76
-      Caption = 'SessaoToolBar'
-      List = True
-      ShowCaptions = True
-      TabOrder = 0
-      StyleElements = []
-    end
-  end
 end

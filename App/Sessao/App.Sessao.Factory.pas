@@ -2,17 +2,17 @@ unit App.Sessao.Factory;
 
 interface
 
-uses App.Sessao.Criar.List;
+uses App.Sessao.Criador.List;
 
-function SessaoCriarListCreate: ISessaoCriarList;
+function SessaoCriadorListCreate: ISessaoCriadorList;
 
 implementation
 
-uses App.Sessao.Criar.List_u;
+uses App.Sessao.Criador.List_u;
 
-function SessaoCriarListCreate: ISessaoCriarList;
+function SessaoCriadorListCreate: ISessaoCriadorList;
 begin
-  Result := TSessaoCriarList.Create;
+  Result := TSessaoCriadorList.Create;
 end;
 
 end.

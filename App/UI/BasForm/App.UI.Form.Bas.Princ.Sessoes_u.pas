@@ -7,21 +7,18 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.Imaging.pngimage, App.Sessao.Criar.List;
+  Vcl.Imaging.pngimage, App.Sessao.Criador.List;
 
 type
   TSessoesPrincBasForm = class(TPrincBasForm)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
     StatusPanel: TPanel;
-    ScrollBox1: TScrollBox;
-    TopoPanel: TPanel;
-    SessaoToolBar: TToolBar;
     procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FSessaoCriarList: ISessaoCriarList;
+    FSessaoCriadorList: ISessaoCriadorList;
   public
     { Public declarations }
   end;
@@ -40,7 +37,7 @@ begin
   inherited;
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
-    FSessaoCriarList := SessaoCriarListCreate;
+    FSessaoCriadorList := SessaoCriadorListCreate;
     DtHCompileLabel.Parent := DtHCompilePanel;
     DtHCompileLabel.Left := 3;
     DtHCompileLabel.Top := 10;

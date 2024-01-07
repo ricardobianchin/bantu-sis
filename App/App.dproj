@@ -160,9 +160,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Sessao\App.Sessao_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.List.pas"/>
         <DCCReference Include="Sessao\App.Sessao.List_u.pas"/>
-        <DCCReference Include="Sessao\App.Sessao.Criar.pas"/>
-        <DCCReference Include="Sessao\App.Sessao.Criar.List.pas"/>
-        <DCCReference Include="Sessao\App.Sessao.Criar.List_u.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador.List.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador.List_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Factory.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Modulo_u.pas">
             <Form>ModuloBasForm</Form>
@@ -173,6 +173,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas">
             <Form>PDVModuloBasForm</Form>
+        </DCCReference>
+        <DCCReference Include="UI\Sessoes\App.UI.Sessoes.Frame.pas">
+            <Form>Frame1</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
