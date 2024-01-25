@@ -234,36 +234,58 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Reposition.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Align_u.pas"/>
         <DCCReference Include="UI\Sis.UI.Constants.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.CreateOrAlterPackage_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.CreateOrAlterProcedure_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.CreateSequence_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.CreateTable_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.EnsureRecords_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.List.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.List_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Constants_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Factory.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Firebird.GetSql_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Firebird_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Operations.FB_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Operations.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Campo.List.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Campo.List_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Campo.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Campo_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.CreateDomains_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater.Comando.FB.CreateForeignKey_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateOrAlterPackage_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateOrAlterProcedure_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateSequence_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateTable_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.EnsureRecords_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.List.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.List_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Constants_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Factory.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Firebird.GetSql_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Firebird_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Operations.FB_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Operations.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo.List.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo.List_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateDomains_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateForeignKey_u.pas"/>
         <DCCReference Include="DB\Sis.DB.Firebird.GetSQL_u.pas"/>
         <DCCReference Include="Types\Sis.Types.TStrings_u.pas"/>
-        <DCCReference Include="..\App\DB\updater\Sis.DB.Updater_u_GetStrings.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater_u_GetStrings.pas"/>
         <DCCReference Include="Types\Sis.Types.Integers.pas"/>
         <DCCReference Include="Types\Sis.Types.strings.Crypt_u.pas"/>
         <DCCReference Include="Entities\Sis.Modulo.pas"/>
-        <DCCReference Include="Entities\Sis.Sessao.Types.pas"/>
+        <DCCReference Include="Entities\Sis.Modulo.Types.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas">
+            <Form>DiagBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas">
+            <Form>DiagBtnBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login_u.pas">
+            <Form>LoginForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DBI\Sis.DBI.pas"/>
+        <DCCReference Include="DBI\Sis.DBI_u.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.DBI.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.DBI_u.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.Factory.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.DBI.GetSQL_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Config_u.pas"/>
+        <DCCReference Include="Sis\Sis.Config.pas"/>
+        <DCCReference Include="Sis\Sis.Config_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Config.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

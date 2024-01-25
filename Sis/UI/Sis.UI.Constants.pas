@@ -15,7 +15,8 @@ const
   COR_AZUL_LINK = $ab0d1a;
 //#1a0dab AZUL LINK
 
-
+  COR_VERMELHO_ESCURO = 192;
+  COR_ERRO = COR_VERMELHO_ESCURO;
 
 //var
 //  AzulVivo: TColor;

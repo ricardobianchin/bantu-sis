@@ -323,6 +323,8 @@ end;
 
 procedure TStarterFormConfig.FormCreate(Sender: TObject);
 begin
+  BorderIcons := [];
+  
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   FTesteConfig := TTesteConfig.Create(FPastaBin);
 

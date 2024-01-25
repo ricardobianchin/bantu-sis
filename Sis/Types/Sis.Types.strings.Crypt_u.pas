@@ -2,8 +2,8 @@ unit Sis.Types.strings.Crypt_u;
 
 interface
 
-procedure Encriptar(pVersao: integer; pStr: string; out pEncriptado: string);
-procedure Desencriptar(pVersao: integer; pEncriptado: string; out pStr: string);
+procedure Encriptar(pCryVer: integer; pStr: string; out pEncriptado: string);
+procedure Desencriptar(pCryVer: integer; pEncriptado: string; out pStr: string);
 
 implementation
 
@@ -48,9 +48,9 @@ begin
   end;
 end;
 
-procedure Encriptar(pVersao: integer; pStr: string; out pEncriptado: string);
+procedure Encriptar(pCryVer: integer; pStr: string; out pEncriptado: string);
 begin
-  case pVersao of
+  case pCryVer of
     1: Encriptar1(pStr, pEncriptado);
   end;
 end;
@@ -101,9 +101,9 @@ begin
    end;
 end;
 
-procedure Desencriptar(pVersao: integer; pEncriptado: string; out pStr: string);
+procedure Desencriptar(pCryVer: integer; pEncriptado: string; out pStr: string);
 begin
-  case pVersao of
+  case pCryVer of
     1: Desencriptar1(pEncriptado, pStr);
   end;
 end;

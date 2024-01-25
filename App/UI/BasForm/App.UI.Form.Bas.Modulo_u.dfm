@@ -1,6 +1,6 @@
 inherited ModuloBasForm: TModuloBasForm
   Caption = 'ModuloBasForm'
-  ExplicitWidth = 636
-  ExplicitHeight = 479
+  ClientHeight = 440
+  ExplicitWidth = 628
   TextHeight = 15
 end

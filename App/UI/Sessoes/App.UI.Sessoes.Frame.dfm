@@ -1,4 +1,4 @@
-object Frame1: TFrame1
+object SessoesFrame: TSessoesFrame
   Left = 0
   Top = 0
   Width = 383
@@ -12,11 +12,8 @@ object Frame1: TFrame1
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
+    ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 208
-    ExplicitTop = 264
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object TopoPanel: TPanel
       Left = 0
       Top = 0
@@ -26,24 +23,25 @@ object Frame1: TFrame1
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitLeft = 104
-      ExplicitTop = 96
-      ExplicitWidth = 185
       object ToolBar1: TToolBar
         Left = 0
         Top = 0
         Width = 383
         Height = 29
         ButtonHeight = 21
-        ButtonWidth = 47
+        ButtonWidth = 110
         Caption = 'ToolBar1'
+        Color = clBtnFace
         List = True
+        ParentColor = False
+        ParentShowHint = False
         ShowCaptions = True
+        ShowHint = True
         TabOrder = 0
         object ToolButton1: TToolButton
           Left = 0
           Top = 0
-          Action = NovaSessaoAction
+          Action = AbrirRetaguardaAction
         end
       end
     end
@@ -56,9 +54,6 @@ object Frame1: TFrame1
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitLeft = 104
-      ExplicitTop = 96
-      ExplicitWidth = 185
     end
     object MeioPanel: TPanel
       Left = 0
@@ -69,10 +64,6 @@ object Frame1: TFrame1
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 2
-      ExplicitLeft = 104
-      ExplicitTop = 96
-      ExplicitWidth = 185
-      ExplicitHeight = 41
       object SessoesScrollBox: TScrollBox
         Left = 0
         Top = 0
@@ -87,8 +78,10 @@ object Frame1: TFrame1
   object ActionList1: TActionList
     Left = 184
     Top = 97
-    object NovaSessaoAction: TAction
-      Caption = 'Abrir...'
+    object AbrirRetaguardaAction: TAction
+      Caption = 'Abrir Retaguarda...'
+      Visible = False
+      OnExecute = AbrirRetaguardaActionExecute
     end
   end
 end

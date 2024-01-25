@@ -40,6 +40,9 @@ type
     FProcessOutput: IOutput;
     FProcessLog: IProcessLog;
 
+    FDBMSConfig: IDBMSConfig;
+    FDBMS: IDBMS;
+
     // FSisConfig: ISisConfig;
 
     // FUsuarioGerente: IUsuario;
@@ -63,9 +66,12 @@ type
 
     procedure OculteSplashForm;
     function GetAppInfoCreate: IAppInfo; virtual; abstract;
+
+    property DBMSConfig: IDBMSConfig read FDBMSConfig;
+    property DBMS: IDBMS read FDBMS;
+
   public
     { Public declarations }
-
 
   end;
 
@@ -80,6 +86,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
+  Sis.Usuario.Factory,
   App.SisConfig.Garantir, App.DB.Garantir;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
@@ -90,13 +97,11 @@ var
 begin
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
   try
-    {$IFDEF DEBUG}
+{$IFDEF DEBUG}
     sLog := 'Config=DEBUG, abortando';
     Result := False;
     Exit;
-    {$ENDIF}
-
-
+{$ENDIF}
     oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
       FProcessLog);
     bPrecisaResetar := oAtualizaVersao.Execute;
@@ -226,8 +231,8 @@ begin
   try
     oSisConfig := FAppObj.SisConfig;
 
-    oAppSisConfigGarantir := SisConfigGarantirCreate(FAppInfo,
-      oSisConfig, pUsuarioGerente, pLoja, FProcessOutput, FProcessLog);
+    oAppSisConfigGarantir := SisConfigGarantirCreate(FAppInfo, oSisConfig,
+      pUsuarioGerente, pLoja, FProcessOutput, FProcessLog);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantir.Execute');
     Result := oAppSisConfigGarantir.Execute;
 
@@ -285,7 +290,8 @@ begin
     end;
 
     oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput, oLoja, oUsuarioGerente);
+    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
+      oLoja, oUsuarioGerente);
 
     if not bResultado then
     begin
@@ -295,6 +301,8 @@ begin
       Exit;
     end;
 
+    FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
+    FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
   finally
     FProcessLog.RetorneLocal;
   end;

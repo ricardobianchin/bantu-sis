@@ -7064,7 +7064,6 @@ object StarterFormConfig: TStarterFormConfig
     Color = 15399935
     ParentBackground = False
     TabOrder = 1
-    StyleElements = [seFont, seBorder]
     DesignSize = (
       761
       528)
@@ -7083,7 +7082,6 @@ object StarterFormConfig: TStarterFormConfig
       List = True
       ShowCaptions = True
       TabOrder = 0
-      StyleElements = [seFont, seBorder]
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7113,7 +7111,6 @@ object StarterFormConfig: TStarterFormConfig
       Font.Style = []
       ParentFont = False
       TabOrder = 2
-      StyleElements = [seFont, seBorder]
       ExplicitLeft = 7
       ExplicitTop = 3
       ExplicitWidth = 300
@@ -7165,7 +7162,6 @@ object StarterFormConfig: TStarterFormConfig
       Font.Style = []
       ParentFont = False
       TabOrder = 4
-      StyleElements = [seFont, seBorder]
       ExplicitLeft = 322
       ExplicitTop = 3
       ExplicitWidth = 456
@@ -7233,7 +7229,6 @@ object StarterFormConfig: TStarterFormConfig
         Font.Style = []
         ParentFont = False
         Visible = False
-        StyleElements = [seBorder]
       end
       object ObsLabel: TLabel
         Left = 9
@@ -7266,7 +7261,6 @@ object StarterFormConfig: TStarterFormConfig
         ParentFont = False
         Transparent = False
         Visible = False
-        StyleElements = []
       end
       object UsuGerenteNomeExibLabeledEdit: TLabeledEdit
         Left = 8
@@ -7418,7 +7412,6 @@ object StarterFormConfig: TStarterFormConfig
         Font.Style = []
         ParentFont = False
         Visible = False
-        StyleElements = [seBorder]
         ExplicitWidth = 69
       end
       object LojaIdLabeledEdit: TLabeledEdit

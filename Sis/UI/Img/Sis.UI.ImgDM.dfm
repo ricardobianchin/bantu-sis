@@ -2612,4 +2612,8 @@ object SisImgDataModule: TSisImgDataModule
     Left = 344
     Top = 40
   end
+  object BalloonHint1: TBalloonHint
+    Left = 383
+    Top = 104
+  end
 end

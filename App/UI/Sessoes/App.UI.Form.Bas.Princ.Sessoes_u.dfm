@@ -1,6 +1,7 @@
 inherited SessoesPrincBasForm: TSessoesPrincBasForm
   Caption = 'SessoesPrincBasForm'
   ClientHeight = 583
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitHeight = 583
   DesignSize = (
     628

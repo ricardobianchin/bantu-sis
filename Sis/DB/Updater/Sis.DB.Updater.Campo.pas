@@ -22,6 +22,10 @@ type
     procedure SetNotNull(Value: boolean);
     property NotNull: boolean read GetNotNull write SetNotNull;
 
+    function GetUnique: boolean;
+    procedure SetUnique(Value: boolean);
+    property Unique: boolean read GetUnique write SetUnique;
+
     function GetAsCreateTableField: string;
     property AsCreateTableField: string read GetAsCreateTableField;
   end;

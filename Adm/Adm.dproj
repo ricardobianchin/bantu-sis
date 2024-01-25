@@ -77,6 +77,7 @@
         <DCC_UnitSearchPath>C:\Pr\app\bantu\bantu-sis\Src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <PostBuildEvent><![CDATA[C:\Pr\app\bantu\bantu-sis\Src\Controle\prebuild.bat
 $(PostBuildEvent)]]></PostBuildEvent>
+        <Custom_Styles>&quot;Onyx Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\OnyxBlue.vsf&quot;</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;IndyIPClient;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FmxTeeUI;FireDACCommon;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;Tee;RESTComponents;DBXSqliteDriver;vcl;vclactnband;TeeUI;IndyIPServer;fmxFireDAC;dbexpress;dsnapxml;dsnapcon;soapmidas;adortl;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;dbrtl;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>

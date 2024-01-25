@@ -5,6 +5,7 @@ interface
 uses System.UITypes;
 
 function BooleanToStr(pBoolValue: boolean): string;
+function StrToBoolean(pStr: string): boolean;
 function Iif(pTeste: boolean; pSeTrue: string; pSeFalse: string): string; overload;
 procedure InicializeBool;
 
@@ -38,7 +39,23 @@ end;
 
 function BooleanToStr(pBoolValue: boolean): string;
 begin
-  Result := BoolToStr(pBoolValue, true);
+  Result := Iif(pBoolValue, 'S', 'N');
+//  Result := BoolToStr(pBoolValue, true);
 end;
+
+function StrToBoolean(pStr: string): boolean;
+begin
+//  pStr := Trim(pStr);
+
+//  Result := pStr <> '';
+
+//  if not Result then
+//    exit;
+
+  Result := StrToBool(pStr);
+end;
+
+initialization
+  InicializeBool;
 
 end.

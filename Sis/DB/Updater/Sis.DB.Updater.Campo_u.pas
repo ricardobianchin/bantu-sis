@@ -11,6 +11,8 @@ type
     FTipo: string;
     FPrimaryKey: boolean;
     FNotNull: boolean;
+    FUnique: boolean;
+
     procedure PegarStr(pStr: string);
 
     function GetNome: string;
@@ -25,17 +27,19 @@ type
     function GetNotNull: boolean;
     procedure SetNotNull(Value: boolean);
 
+    function GetUnique: boolean;
+    procedure SetUnique(Value: boolean);
+
     function GetAsCreateTableField: string;
   public
     property Nome: string read GetNome write SetNome;
     property Tipo: string read GetTipo write SetTipo;
     property PrimaryKey: boolean read GetPrimaryKey write SetPrimaryKey;
     property NotNull: boolean read GetNotNull write SetNotNull;
+    property Unique: boolean read GetUnique write SetUnique;
     property AsCreateTableField: string read GetAsCreateTableField;
 
     constructor Create(pStr: string);
-
-
   end;
 
 implementation
@@ -77,6 +81,11 @@ begin
   Result := FTipo;
 end;
 
+function TCampo.GetUnique: boolean;
+begin
+  Result := FUnique;
+end;
+
 procedure TCampo.PegarStr(pStr: string);
 var
   oPartes: TArray<string>;
@@ -92,6 +101,7 @@ begin
   FNome := oPartes[0];
   FNotNull := False;
   FPrimaryKey := False;
+  FUnique := False;
   FTipo := '';
 
   if iLen > 1 then
@@ -100,23 +110,24 @@ begin
   end;
 
   // Se houver mais de uma parte, a segunda parte indica se o campo é not null ou não
-  if Length(oPartes) > 2 then
+  if iLen > 2 then
   begin
     if oPartes[2] = 'S' then
-      FNotNull := True
-//    else if oPartes[1] = 'N' then
-//      FNotNull := False
-      ;
+      FNotNull := True;
   end;
 
   // Se houver mais de duas oPartes, a terceira parte indica se o campo é primary key ou não
-  if Length(oPartes) > 3 then
+  if iLen > 3 then
   begin
     if oPartes[3] = 'S' then
-      FPrimaryKey := True
-//    else if oPartes[2] = 'N' then
-//      FPrimaryKey := False
-      ;
+      FPrimaryKey := True;
+  end;
+
+  // Se houver mais de duas oPartes, a terceira parte indica se o campo é unique ou não
+  if iLen > 4 then
+  begin
+    if oPartes[4] = 'S' then
+      FUnique := True;
   end;
 end;
 
@@ -138,6 +149,11 @@ end;
 procedure TCampo.SetTipo(Value: string);
 begin
   FTipo := Value;
+end;
+
+procedure TCampo.SetUnique(Value: boolean);
+begin
+  FUnique := Value;
 end;
 
 end.
