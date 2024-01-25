@@ -81,3 +81,51 @@ Source: Conversation with Bing, 1/24/2024
 
 
 
+Olá, este é o Bing. Eu posso tentar responder às suas perguntas sobre os comandos do git, mas você pode precisar consultar a documentação oficial do git ou outros recursos online para mais detalhes. Aqui estão as respostas para as suas perguntas:
+
+1) Para criar o branch ft-criador no repositório remoto no github, você pode usar o comando `git push -u origin ft-criador`. Isso vai criar o branch remoto com o mesmo nome do seu branch local e também vai configurar o seu branch local para rastrear o branch remoto¹².
+2) Para fazer push dos commits deste branch para o repositório remoto, você pode usar o comando `git push origin ft-criador` ou simplesmente `git push` se você já tiver configurado o rastreamento¹².
+3) Para apagar o branch ft-criador no repositório remoto depois que fizer o merge no main, você pode usar o comando `git push origin --delete ft-criador` ou `git push origin :ft-criador`³?.
+
+Espero que isso ajude. ??
+
+¹: [Git - Working with Remotes](^2^)
+²: [Git: List Remote Branches {5 Different Methods} - phoenixNAP](^3^)
+³: [Git Pull Remote Branch – How To Fetch Remote Branches in Git](^4^)
+?: [How to Checkout a Remote Git Branch - How-To Geek](^5^).
+
+Source: Conversation with Bing, 1/24/2024
+(1) Git - Remote Branches. https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches.
+(2) Git - Working with Remotes. https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes.
+(3) Git: List Remote Branches {5 Different Methods} - phoenixNAP. https://phoenixnap.com/kb/git-list-remote-branches.
+(4) Git Pull Remote Branch – How To Fetch Remote Branches in Git. https://www.freecodecamp.org/news/git-pull-remote-branch-how-to-fetch-remote-branches-in-git/.
+(5) Git - Working with Remotes. https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes.
+(6) Git: List Remote Branches {5 Different Methods} - phoenixNAP. https://phoenixnap.com/kb/git-list-remote-branches.
+(7) Git Pull Remote Branch – How To Fetch Remote Branches in Git. https://www.freecodecamp.org/news/git-pull-remote-branch-how-to-fetch-remote-branches-in-git/.
+(8) How to Checkout a Remote Git Branch - How-To Geek. https://www.howtogeek.com/864263/how-to-checkout-a-remote-git-branch/.
+(9) undefined. https://github.com/schacon/ticgit.
+(10) undefined. https://github.com/bakkdoor/grit.
+(11) undefined. https://github.com/cho45/grit.
+(12) undefined. https://github.com/defunkt/grit.
+(13) en.wikipedia.org. https://en.wikipedia.org/wiki/Git.
+
+
+
+
+Sim, você pode fazer o push apenas com o comando `git push` estando no branch ft-criador, se você já tiver configurado o rastreamento com o comando `git push -u origin ft-criador`¹. Isso vai fazer com que o git saiba qual branch remoto corresponde ao seu branch local, e assim você não precisa especificar o <refspec> toda vez que fizer o push². Você pode verificar o status do seu branch local com o comando `git status`, que vai mostrar se ele está rastreando algum branch remoto³.
+
+¹: [How do I push a new local branch to a remote Git repository and track it too?](^1^)
+²: [Git - git-push Documentation](^2^)
+³: [Git push para uma branch remota – como fazer um push de uma branch local para a origin](^3^)
+
+Source: Conversation with Bing, 1/24/2024
+(1) How do I push a new local branch to a remote Git repository and track .... https://stackoverflow.com/questions/2765421/how-do-i-push-a-new-local-branch-to-a-remote-git-repository-and-track-it-too.
+(2) Git - git-push Documentation. https://git-scm.com/docs/git-push.
+(3) Git push para uma branch remota – como fazer um push de uma branch .... https://www.freecodecamp.org/portuguese/news/git-push-para-uma-branch-remota-como-fazer-um-push-de-uma-branch-local-para-a-origin/.
+(4) How do I push a new local branch to a remote Git repository and track .... https://stackoverflow.com/questions/2765421/how-do-i-push-a-new-local-branch-to-a-remote-git-repository-and-track-it-too.
+(5) Git - git-push Documentation. https://git-scm.com/docs/git-push.
+(6) Git push para uma branch remota – como fazer um push de uma branch .... https://www.freecodecamp.org/portuguese/news/git-push-para-uma-branch-remota-como-fazer-um-push-de-uma-branch-local-para-a-origin/.
+(7) undefined. http://github.com/myproject.git.
+
+
+
