@@ -9,7 +9,7 @@ type
   private
     function GetSessao(Index: integer): ISessao;
   public
-    property Sessao[Index: integer]: ISessao read GetSessao;
+    property Sessao[Index: integer]: ISessao read GetSessao; default;
 
     procedure PegarSessao(pSessao: ISessao);
   end;

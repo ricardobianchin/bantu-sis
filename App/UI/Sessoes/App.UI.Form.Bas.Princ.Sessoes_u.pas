@@ -27,9 +27,12 @@ type
 
     FLoginConfig: ILoginConfig;
     procedure ControlesAjustar;
-    procedure SessoesFrameCriar;
     procedure LoginConfigInicialize;
-
+    procedure SessoesFrameCriar;
+  protected
+    function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
+    property SessaoEventos: ISessaoEventos read FSessaoEventos;
+    property LoginConfig: ILoginConfig read fLoginConfig;
   public
     { Public declarations }
   end;
@@ -84,8 +87,7 @@ var
 begin
   ControlesAjustar;
 
-  FSessoesFrame := TSessoesFrame.Create(Self, FLoginConfig, FSessaoEventos, AppInfo, AppObj.SisConfig, DBMS,
-    ProcessLog, ProcessOutput);
+  FSessoesFrame := SessoesFrameCreate;
   FSessoesFrame.Parent := Self;
 
   iBaseLogo := Logo1Image.Top + Logo1Image.Height + 1;

@@ -3,7 +3,7 @@ unit App.Sessao.Factory;
 interface
 
 uses App.Sessao.Criador.List, App.Sessao.Eventos, Vcl.Forms, App.Sessao.Criador,
-  Sis.Modulo.Types;
+  Sis.ModuloSistema.Types;
 
 function SessaoEventosCreate(pForm: TForm): ISessaoEventos;
 

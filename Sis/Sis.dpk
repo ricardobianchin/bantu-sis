@@ -162,8 +162,8 @@ contains
   Sis.DB.Updater_u_GetStrings in 'DB\Updater\Sis.DB.Updater_u_GetStrings.pas',
   Sis.Types.Integers in 'Types\Sis.Types.Integers.pas',
   Sis.Types.strings.Crypt_u in 'Types\Sis.Types.strings.Crypt_u.pas',
-  Sis.Modulo in 'Entities\Sis.Modulo.pas',
-  Sis.Modulo.Types in 'Entities\Sis.Modulo.Types.pas',
+  Sis.ModuloSistema in 'Entities\Sis.ModuloSistema.pas',
+  Sis.ModuloSistema.Types in 'Entities\Sis.ModuloSistema.Types.pas',
   Sis.UI.Form.Bas.Diag_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas' {DiagBasForm},
   Sis.UI.Form.Bas.Diag.Btn_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas' {DiagBtnBasForm},
   Sis.UI.Form.Login_u in 'Usuario\Sis.UI.Form.Login_u.pas' {LoginForm},
@@ -176,6 +176,11 @@ contains
   Sis.UI.Form.Login.Config_u in 'Usuario\Sis.UI.Form.Login.Config_u.pas',
   Sis.Config in 'Sis\Sis.Config.pas',
   Sis.Config_u in 'Sis\Sis.Config_u.pas',
-  Sis.UI.Form.Login.Config in 'Usuario\Sis.UI.Form.Login.Config.pas';
+  Sis.UI.Form.Login.Config in 'Usuario\Sis.UI.Form.Login.Config.pas',
+  Sis.UI.Actions.Utils_u in 'UI\Actions\Sis.UI.Actions.Utils_u.pas',
+  Sis.UI.Controls.Alinhador in 'UI\Controls\Sis.UI.Controls.Alinhador.pas',
+  Sis.UI.Controls.Alinhador_u in 'UI\Controls\Sis.UI.Controls.Alinhador_u.pas',
+  Sis.UI.Controls.Alinhador.ADireita_u in 'UI\Controls\Sis.UI.Controls.Alinhador.ADireita_u.pas',
+  Sis.UI.Controls.Factory in 'UI\Controls\Sis.UI.Controls.Factory.pas';
 
 end.

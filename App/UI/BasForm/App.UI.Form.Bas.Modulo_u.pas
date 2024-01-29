@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.Modulo.Types,
-  Sis.Modulo;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types,
+  Sis.ModuloSistema;
 
 type
   TModuloBasForm = class(TBasForm)

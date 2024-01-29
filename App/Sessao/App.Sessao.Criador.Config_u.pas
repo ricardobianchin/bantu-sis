@@ -2,7 +2,7 @@ unit App.Sessao.Criador.Config_u;
 
 interface
 
-uses App.Sessao.Criador_u, Sis.Modulo.Types, App.Sessao;
+uses App.Sessao.Criador_u, Sis.ModuloSistema.Types, App.Sessao;
 
 type
   TSessaoCriadorConfig = class(TSessaoCriador)

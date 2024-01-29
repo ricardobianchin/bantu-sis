@@ -2,7 +2,7 @@ unit Sis.UI.Form.Login.Config;
 
 interface
 
-uses Sis.Config, Sis.Modulo.Types;
+uses Sis.Config, Sis.ModuloSistema.Types;
 
 type
   ILoginConfig = interface(IConfig)

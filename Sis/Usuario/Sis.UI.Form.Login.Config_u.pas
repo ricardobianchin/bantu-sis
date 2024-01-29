@@ -3,7 +3,7 @@ unit Sis.UI.Form.Login.Config_u;
 interface
 
 uses Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Config_u,
-  Sis.UI.Form.Login.Config, Sis.Modulo.Types, Xml.XMLDoc, Xml.XMLIntf;
+  Sis.UI.Form.Login.Config, Sis.ModuloSistema.Types, Xml.XMLDoc, Xml.XMLIntf;
 
 type
   TLoginConfig = class(TConfig, ILoginConfig)

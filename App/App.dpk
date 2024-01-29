@@ -71,6 +71,8 @@ contains
   App.Sessao.Criador_u in 'Sessao\App.Sessao.Criador_u.pas',
   App.Sessao.Criador.Retag_u in 'Sessao\App.Sessao.Criador.Retag_u.pas',
   App.Sessao.Criador.PDV_u in 'Sessao\App.Sessao.Criador.PDV_u.pas',
-  App.Sessao.Criador.Config_u in 'Sessao\App.Sessao.Criador.Config_u.pas';
+  App.Sessao.Criador.Config_u in 'Sessao\App.Sessao.Criador.Config_u.pas',
+  App.UI.Sessao.Frame in 'UI\Sessoes\App.UI.Sessao.Frame.pas' {SessaoFrame: TFrame},
+  App.UI.Form.Bas.Modulo.Config in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas' {ConfigModuloBasForm};
 
 end.

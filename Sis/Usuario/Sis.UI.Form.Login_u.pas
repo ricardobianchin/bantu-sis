@@ -3,18 +3,21 @@ unit Sis.UI.Form.Login_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Diag.Btn_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.Mask, Sis.Usuario, Sis.Config.SisConfig, Sis.Usuario.DBI,
-  Sis.UI.Form.Login.Config;
+  Sis.UI.Form.Login.Config, Sis.ModuloSistema, Sis.ModuloSistema.Types,
+  Vcl.StdActns;
 
 type
   TLoginForm = class(TDiagBtnBasForm)
     NomeUsuLabeledEdit: TLabeledEdit;
     SenhaLabeledEdit: TLabeledEdit;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
+
     procedure NomeUsuLabeledEditChange(Sender: TObject);
     procedure SenhaLabeledEditChange(Sender: TObject);
 
@@ -26,20 +29,26 @@ type
     FUsuario: IUsuario;
     FUsuarioDBI: IUsuarioDBI;
     FLoginConfig: ILoginConfig;
+    FTipoModuloSistema: TTipoModuloSistema;
 
     function NomeUsuOk: Boolean;
     function SenhaOk: Boolean;
     function UsuEncontrado: Boolean;
 
-   protected
-     function PodeOk: Boolean; override;
+    procedure ExecuteAutoLogin;
+  protected
+    function PodeOk: Boolean; override;
 
   public
     { Public declarations }
-    constructor Create(pLoginConfig: ILoginConfig; pUsuario: IUsuario; pUsuarioDBI: IUsuarioDBI); reintroduce;
+    constructor Create(pLoginConfig: ILoginConfig;
+      pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+      pUsuarioDBI: IUsuarioDBI); reintroduce;
   end;
 
-function LoginPerg(pLoginConfig: ILoginConfig; pUsuario: IUsuario; pUsuarioDBI: IUsuarioDBI): boolean;
+function LoginPerg(pLoginConfig: ILoginConfig;
+  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pUsuarioDBI: IUsuarioDBI): Boolean;
 
 var
   LoginForm: TLoginForm;
@@ -50,11 +59,14 @@ implementation
 
 uses Sis.Types.strings_u;
 
-function LoginPerg(pLoginConfig: ILoginConfig; pUsuario: IUsuario; pUsuarioDBI: IUsuarioDBI): boolean;
+function LoginPerg(pLoginConfig: ILoginConfig;
+  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pUsuarioDBI: IUsuarioDBI): Boolean;
 var
   Resultado: TModalResult;
 begin
-  LoginForm := TLoginForm.Create(pLoginConfig, pUsuario, pUsuarioDBI);
+  LoginForm := TLoginForm.Create(pLoginConfig, pTipoModuloSistema, pUsuario,
+    pUsuarioDBI);
   try
     Resultado := LoginForm.ShowModal;
     Result := IsPositiveResult(Resultado);
@@ -65,13 +77,31 @@ end;
 
 { TLoginForm }
 
-constructor TLoginForm.Create(pLoginConfig: ILoginConfig; pUsuario: IUsuario; pUsuarioDBI: IUsuarioDBI);
+constructor TLoginForm.Create(pLoginConfig: ILoginConfig;
+  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pUsuarioDBI: IUsuarioDBI);
+var
+  sNameTipo: string;
 begin
   inherited Create(nil);
   DisparaShowTimer := True;
   FUsuario := pUsuario;
   FUsuarioDBI := pUsuarioDBI;
   FLoginConfig := pLoginConfig;
+  FTipoModuloSistema := pTipoModuloSistema;
+  sNameTipo := TipoModuloSistemaToNameStr(pTipoModuloSistema);
+  Caption := Format('Login %s...', [sNameTipo]);
+end;
+
+procedure TLoginForm.ExecuteAutoLogin;
+begin
+  if not FLoginConfig.PreencheLogin then
+    exit;
+
+  NomeUsuLabeledEdit.Text := FLoginConfig.NomeUsu;
+  SenhaLabeledEdit.Text := FLoginConfig.Senha;
+
+  OkAct_Diag.Execute;
 end;
 
 procedure TLoginForm.FormCreate(Sender: TObject);
@@ -83,6 +113,8 @@ end;
 
 procedure TLoginForm.FormShow(Sender: TObject);
 begin
+  // era pra ser no create, mas volta a false.
+  // está aqui de forma anômala pra se conseguir que DisparaShowTimer fique true
   DisparaShowTimer := True;
 
   inherited;
@@ -97,7 +129,7 @@ end;
 procedure TLoginForm.NomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  EditKeyPress(Sender, key);
+  EditKeyPress(Sender, Key);
 end;
 
 function TLoginForm.NomeUsuOk: Boolean;
@@ -118,17 +150,17 @@ begin
   Result := NomeUsuOk;
 
   if not Result then
-    Exit;
+    exit;
 
   Result := SenhaOk;
 
   if not Result then
-    Exit;
+    exit;
 
   Result := UsuEncontrado;
 
-  if not Result then
-    Exit;
+//  if not Result then
+//    exit;
 end;
 
 procedure TLoginForm.SenhaLabeledEditChange(Sender: TObject);
@@ -167,18 +199,19 @@ procedure TLoginForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   NomeUsuLabeledEdit.SetFocus;
+  ExecuteAutoLogin;
 end;
 
 function TLoginForm.UsuEncontrado: Boolean;
 var
-  sNomeUsuDig, sSenhaDig, sMens: string;
+  sNomeUsuDigitado, sSenhaDigitada, sMens: string;
 begin
-  sNomeUsuDig := NomeUsuLabeledEdit.Text;
-  sSenhaDig := SenhaLabeledEdit.Text;
+  sNomeUsuDigitado := NomeUsuLabeledEdit.Text;
+  sSenhaDigitada := SenhaLabeledEdit.Text;
 
-  Result := FUsuarioDBI.LoginTente(sNomeUsuDig, sSenhaDig, sMens);
+  Result := FUsuarioDBI.LoginTente(sNomeUsuDigitado, sSenhaDigitada, sMens, FTipoModuloSistema);
 
-  if not Result  then
+  if not Result then
   begin
     ErroOutput.Exibir(sMens);
     NomeUsuLabeledEdit.SetFocus;

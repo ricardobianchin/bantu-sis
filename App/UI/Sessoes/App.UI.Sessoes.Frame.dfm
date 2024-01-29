@@ -3,6 +3,8 @@ object SessoesFrame: TSessoesFrame
   Top = 0
   Width = 383
   Height = 336
+  ParentShowHint = False
+  ShowHint = True
   TabOrder = 0
   object FundoPanel: TPanel
     Left = 0
@@ -34,15 +36,8 @@ object SessoesFrame: TSessoesFrame
         Color = clBtnFace
         List = True
         ParentColor = False
-        ParentShowHint = False
         ShowCaptions = True
-        ShowHint = True
         TabOrder = 0
-        object ToolButton1: TToolButton
-          Left = 0
-          Top = 0
-          Action = AbrirRetaguardaAction
-        end
       end
     end
     object BasePanel: TPanel
@@ -78,10 +73,5 @@ object SessoesFrame: TSessoesFrame
   object ActionList1: TActionList
     Left = 184
     Top = 97
-    object AbrirRetaguardaAction: TAction
-      Caption = 'Abrir Retaguarda...'
-      Visible = False
-      OnExecute = AbrirRetaguardaActionExecute
-    end
   end
 end

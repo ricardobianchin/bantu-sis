@@ -1,4 +1,4 @@
-unit Sis.Modulo.Types;
+unit Sis.ModuloSistema.Types;
 
 interface
 
@@ -8,6 +8,9 @@ type
   TTipoModuloSistema = (modsisNaoIndicado = 32, modsisConfiguracoes = 33,
     modsisRetaguarda = 34, modsisPDV = 35);
 
+  TTiposModuloSistema = set of TTipoModuloSistema;
+
+function TipoModuloSistemaToChar(pTipoModuloSistema: TTipoModuloSistema): char;
 function TipoModuloSistemaToStr(pTipoModuloSistema: TTipoModuloSistema): string;
 function TipoModuloSistemaToNameStr(pTipoModuloSistema: TTipoModuloSistema): string;
 function NameStrToTipoModuloSistema(pNameStr: string): TTipoModuloSistema;
@@ -19,6 +22,11 @@ const
 implementation
 
 uses Sis.Types.strings_u;
+
+function TipoModuloSistemaToChar(pTipoModuloSistema: TTipoModuloSistema): char;
+begin
+  Result := Chr(Integer(pTipoModuloSistema));
+end;
 
 function TipoModuloSistemaToStr(pTipoModuloSistema: TTipoModuloSistema): string;
 begin

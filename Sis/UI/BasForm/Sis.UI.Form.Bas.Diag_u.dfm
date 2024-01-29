@@ -1,15 +1,15 @@
 inherited DiagBasForm: TDiagBasForm
   BorderIcons = []
   Caption = 'DiagBasForm'
-  ClientHeight = 376
-  ClientWidth = 535
+  ClientHeight = 375
+  ClientWidth = 531
   ExplicitWidth = 547
   ExplicitHeight = 414
   TextHeight = 15
   object MensLabel: TLabel [0]
     Left = 0
-    Top = 356
-    Width = 535
+    Top = 355
+    Width = 531
     Height = 20
     Align = alBottom
     Caption = 'MensLabel'
@@ -24,6 +24,7 @@ inherited DiagBasForm: TDiagBasForm
     Transparent = True
     WordWrap = True
     StyleElements = [seClient, seBorder]
+    ExplicitTop = 356
     ExplicitWidth = 71
   end
   inherited ShowTimer_BasForm: TTimer

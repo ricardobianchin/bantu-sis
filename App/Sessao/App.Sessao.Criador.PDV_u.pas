@@ -2,7 +2,7 @@ unit App.Sessao.Criador.PDV_u;
 
 interface
 
-uses App.Sessao.Criador_u, Sis.Modulo.Types, App.Sessao;
+uses App.Sessao.Criador_u, Sis.ModuloSistema.Types, App.Sessao;
 
 type
   TSessaoCriadorPDV = class(TSessaoCriador)

@@ -1,8 +1,8 @@
-unit Sis.Modulo;
+unit Sis.ModuloSistema;
 
 interface
 
-uses Sis.Modulo.Types;
+uses Sis.ModuloSistema.Types;
 
 type
   IModuloSistema = interface(IInterface)

@@ -49,16 +49,8 @@ inherited LoginForm: TLoginForm
   inherited BasePanel: TPanel
     Top = 150
     Width = 375
-    ExplicitTop = 150
-    ExplicitWidth = 375
-    inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 193
-      ExplicitLeft = 189
-    end
-    inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 273
-      ExplicitLeft = 269
-    end
+    ExplicitTop = 149
+    ExplicitWidth = 371
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 192

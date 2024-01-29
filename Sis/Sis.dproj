@@ -262,8 +262,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Updater\Sis.DB.Updater_u_GetStrings.pas"/>
         <DCCReference Include="Types\Sis.Types.Integers.pas"/>
         <DCCReference Include="Types\Sis.Types.strings.Crypt_u.pas"/>
-        <DCCReference Include="Entities\Sis.Modulo.pas"/>
-        <DCCReference Include="Entities\Sis.Modulo.Types.pas"/>
+        <DCCReference Include="Entities\Sis.ModuloSistema.pas"/>
+        <DCCReference Include="Entities\Sis.ModuloSistema.Types.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas">
             <Form>DiagBasForm</Form>
             <FormType>dfm</FormType>
@@ -286,6 +286,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Sis\Sis.Config.pas"/>
         <DCCReference Include="Sis\Sis.Config_u.pas"/>
         <DCCReference Include="Usuario\Sis.UI.Form.Login.Config.pas"/>
+        <DCCReference Include="UI\Actions\Sis.UI.Actions.Utils_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.ADireita_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

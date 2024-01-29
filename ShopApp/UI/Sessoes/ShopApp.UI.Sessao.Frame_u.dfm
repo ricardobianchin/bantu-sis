@@ -1,0 +1,2 @@
+inherited ShopSessaoFrame: TShopSessaoFrame
+end

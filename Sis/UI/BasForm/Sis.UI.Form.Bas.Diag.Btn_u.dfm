@@ -8,7 +8,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
   inherited MensLabel: TLabel
     Top = 241
     Width = 507
-    ExplicitTop = 216
+    ExplicitTop = 241
   end
   object BasePanel: TPanel [1]
     Left = 0
@@ -24,32 +24,47 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
     DesignSize = (
       507
       37)
+    object MensCopyBitBtn_DiagBtn: TBitBtn
+      Left = 188
+      Top = 5
+      Width = 108
+      Height = 25
+      Action = MensCopyAct_Diag
+      Anchors = [akTop, akRight]
+      Caption = 'Copiar Mensagem'
+      TabOrder = 0
+      ExplicitLeft = 184
+    end
     object OkBitBtn_DiagBtn: TBitBtn
-      Left = 317
+      Left = 301
       Top = 5
       Width = 75
       Height = 25
       Action = OkAct_Diag
       Anchors = [akTop, akRight]
       Caption = 'Ok'
-      TabOrder = 0
-      ExplicitLeft = 313
+      TabOrder = 1
+      ExplicitLeft = 297
     end
     object CancelBitBtn_DiagBtn: TBitBtn
-      Left = 397
+      Left = 381
       Top = 5
       Width = 75
       Height = 25
       Action = CancelAct_Diag
       Anchors = [akTop, akRight]
       Caption = 'Cancelar'
-      TabOrder = 1
-      ExplicitLeft = 393
+      TabOrder = 2
+      ExplicitLeft = 377
     end
   end
   inherited ActionList1_Diag: TActionList
     inherited CancelAct_Diag: TAction
       Caption = 'Cancelar'
+    end
+    object MensCopyAct_Diag: TAction
+      Caption = 'Copiar Mensagem'
+      OnExecute = MensCopyAct_DiagExecute
     end
   end
 end
