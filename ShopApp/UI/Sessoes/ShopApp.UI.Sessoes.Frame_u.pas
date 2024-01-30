@@ -9,7 +9,7 @@ uses
   Vcl.ActnList, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ExtCtrls, App.UI.Sessao.Frame,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.Usuario,
   AppShop.UI.Form.Modulo.Config_u, AppShop.UI.Form.Modulo.PDV_u,
-  AppShop.UI.Form.Modulo.Retaguarda_u;
+  AppShop.UI.Form.Modulo.Retaguarda_u, Sis.ModuloSistema;
 
 type
   TShopSessoesFrame = class(TSessoesFrame)
@@ -19,7 +19,7 @@ type
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm): TSessaoFrame; override;
-    function ModuloBasFormCreate(pTipoModuloSistema: TTipoModuloSistema)
+    function ModuloBasFormCreate(pModuloSistema: IModuloSistema)
       : TModuloBasForm; override;
   public
     { Public declarations }
@@ -37,14 +37,9 @@ uses ShopApp.UI.Sessao.Frame_u;
 { TShopSessoesFrame }
 
 function TShopSessoesFrame.ModuloBasFormCreate(
-  pTipoModuloSistema: TTipoModuloSistema): TModuloBasForm;
+  pModuloSistema: IModuloSistema): TModuloBasForm;
 begin
-  case pTipoModuloSistema of
-    modsisConfiguracoes: Result := TShopConfigModuloForm.Create(Application);
-    modsisRetaguarda: Result := TShopRetaguardaModuloForm.Create(Application);
-    modsisPDV: Result := TShopPDVModuloForm.Create(Application);
-    else Result := nil; //modsisNaoIndicado: ;
-  end;
+  Result := TShopConfigModuloForm.Create(Application, pModuloSistema, SessaoEventos);
 end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;

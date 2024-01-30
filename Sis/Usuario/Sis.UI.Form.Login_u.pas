@@ -81,7 +81,7 @@ constructor TLoginForm.Create(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI);
 var
-  sNameTipo: string;
+  sNomeTipo: string;
 begin
   inherited Create(nil);
   DisparaShowTimer := True;
@@ -89,8 +89,8 @@ begin
   FUsuarioDBI := pUsuarioDBI;
   FLoginConfig := pLoginConfig;
   FTipoModuloSistema := pTipoModuloSistema;
-  sNameTipo := TipoModuloSistemaToNameStr(pTipoModuloSistema);
-  Caption := Format('Login %s...', [sNameTipo]);
+  sNomeTipo := TipoModuloSistemaToStr(pTipoModuloSistema);
+  Caption := Format('Login %s...', [sNomeTipo]);
 end;
 
 procedure TLoginForm.ExecuteAutoLogin;

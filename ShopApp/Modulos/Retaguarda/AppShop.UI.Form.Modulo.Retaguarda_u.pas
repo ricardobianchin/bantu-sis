@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Modulo.Retaguarda_u,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls;
 
 type
   TShopRetaguardaModuloForm = class(TRetaguardaModuloBasForm)

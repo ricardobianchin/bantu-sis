@@ -67,7 +67,6 @@ contains
   App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm},
   App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {SessoesFrame: TFrame},
   App.Sessao.Eventos in 'Sessao\App.Sessao.Eventos.pas',
-  App.Sessao.Eventos_u in 'Sessao\App.Sessao.Eventos_u.pas',
   App.Sessao.Criador_u in 'Sessao\App.Sessao.Criador_u.pas',
   App.Sessao.Criador.Retag_u in 'Sessao\App.Sessao.Criador.Retag_u.pas',
   App.Sessao.Criador.PDV_u in 'Sessao\App.Sessao.Criador.PDV_u.pas',

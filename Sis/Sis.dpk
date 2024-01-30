@@ -181,6 +181,7 @@ contains
   Sis.UI.Controls.Alinhador in 'UI\Controls\Sis.UI.Controls.Alinhador.pas',
   Sis.UI.Controls.Alinhador_u in 'UI\Controls\Sis.UI.Controls.Alinhador_u.pas',
   Sis.UI.Controls.Alinhador.ADireita_u in 'UI\Controls\Sis.UI.Controls.Alinhador.ADireita_u.pas',
-  Sis.UI.Controls.Factory in 'UI\Controls\Sis.UI.Controls.Factory.pas';
+  Sis.UI.Controls.Factory in 'UI\Controls\Sis.UI.Controls.Factory.pas',
+  Sis.ModuloSistema_u in 'Entities\Sis.ModuloSistema_u.pas';
 
 end.

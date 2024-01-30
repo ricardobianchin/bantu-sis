@@ -50,7 +50,7 @@ end;
 
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
-  Result := TShopSessoesFrame.Create(Self, LoginConfig, SessaoEventos, AppInfo,
+  Result := TShopSessoesFrame.Create(Self, LoginConfig, Self, AppInfo,
     AppObj.SisConfig, DBMS, ProcessLog, ProcessOutput);
 
 

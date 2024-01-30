@@ -11,7 +11,7 @@ uses
   App.Sessao.Eventos, Sis.UI.Form.Login.Config;
 
 type
-  TSessoesPrincBasForm = class(TPrincBasForm)
+  TSessoesPrincBasForm = class(TPrincBasForm, ISessaoEventos)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
     StatusPanel: TPanel;
@@ -23,16 +23,18 @@ type
     FSessaoCriadorList: ISessaoCriadorList;
     FSessoesFrame: TSessoesFrame;
 
-    FSessaoEventos: ISessaoEventos;
-
     FLoginConfig: ILoginConfig;
     procedure ControlesAjustar;
     procedure LoginConfigInicialize;
     procedure SessoesFrameCriar;
   protected
     function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
-    property SessaoEventos: ISessaoEventos read FSessaoEventos;
     property LoginConfig: ILoginConfig read fLoginConfig;
+
+    procedure DoCancel;
+    procedure DoOk;
+    procedure DoClose;
+
   public
     { Public declarations }
   end;
@@ -46,6 +48,21 @@ implementation
 
 uses App.Sessao.Factory, Sis.Usuario.Factory;
 
+procedure TSessoesPrincBasForm.DoCancel;
+begin
+
+end;
+
+procedure TSessoesPrincBasForm.DoClose;
+begin
+  Show;
+end;
+
+procedure TSessoesPrincBasForm.DoOk;
+begin
+  Hide;
+end;
+
 procedure TSessoesPrincBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -54,7 +71,6 @@ begin
     LoginConfigInicialize;
     FSessaoCriadorList := SessaoCriadorListCreate;
 
-    FSessaoEventos := SessaoEventosCreate(Self);
     SessoesFrameCriar;
 
   finally

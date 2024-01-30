@@ -9,7 +9,7 @@ uses
   App.AppInfo, App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.Usuario, Sis.Loja;
+  Sis.Usuario, Sis.Loja, Sis.UI.Constants;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -172,6 +172,9 @@ var
   bResultado: boolean;
 begin
   inherited;
+  TitleBarPanel.Color := COR_PRETO_TITLEBAR;
+  ToolBar1.Color := COR_PRETO_TITLEBAR;
+
   DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
