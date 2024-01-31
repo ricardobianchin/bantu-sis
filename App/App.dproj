@@ -158,7 +158,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\App.DB.Utils.pas"/>
         <DCCReference Include="Sessao\App.Sessao.pas"/>
         <DCCReference Include="Sessao\App.Sessao.List.pas"/>
-        <DCCReference Include="Sessao\App.Sessao.List_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.List.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.List_u.pas"/>

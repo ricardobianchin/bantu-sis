@@ -12,8 +12,10 @@ type
     FTipoModuloSistema: TTipoModuloSistema;
     FNomeUsu: string;
     FSenha: string;
+    FExecuteOk: boolean;
 
-    PreencheLoginNode, TipoModuloSistemaNode, NomeUsuNode, SenhaNode: IXMLNODE;
+    PreencheLoginNode, TipoModuloSistemaNode, NomeUsuNode, SenhaNode,
+      ExecuteOkNode: IXMLNODE;
 
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);
@@ -26,6 +28,9 @@ type
 
     function GetSenha: string;
     procedure SetSenha(Value: string);
+
+    function GetExecuteOk: boolean;
+    procedure SetExecuteOk(Value: boolean);
 
   protected
     function Ler: boolean; override;
@@ -40,6 +45,7 @@ type
       write SetTipoModuloSistema;
     property NomeUsu: string read GetNomeUsu write SetNomeUsu;
     property Senha: string read GetSenha write SetSenha;
+    property ExecuteOk: boolean read GetExecuteOk write SetExecuteOk;
   end;
 
 implementation
@@ -51,6 +57,11 @@ uses System.SysUtils, Sis.Types.Bool_u;
 function TLoginConfig.GetTipoModuloSistema: TTipoModuloSistema;
 begin
   Result := FTipoModuloSistema;
+end;
+
+function TLoginConfig.GetExecuteOk: boolean;
+begin
+  Result := FExecuteOk;
 end;
 
 function TLoginConfig.GetNomeArq: string;
@@ -82,11 +93,13 @@ begin
   TipoModuloSistemaNode := RootNode.AddChild('modulo_sistema');
   NomeUsuNode := RootNode.AddChild('nome_usu');
   SenhaNode := RootNode.AddChild('senha');
+  ExecuteOkNode := RootNode.AddChild('execute_ok');
 
   PreencheLoginNode.Text := BooleanToStr(FPreencheLogin);
   TipoModuloSistemaNode.Text := TipoModuloSistemaToNameStr(FTipoModuloSistema);
   NomeUsuNode.Text := FNomeUsu;
   SenhaNode.Text := FSenha;
+  ExecuteOkNode.Text := BooleanToStr(FExecuteOk);
 
   XMLDocumentSalvar;
 end;
@@ -98,6 +111,7 @@ begin
   FTipoModuloSistema := modsisNaoIndicado;
   FNomeUsu := '';
   FSenha := '';
+  FExecuteOk := True;
 end;
 
 function TLoginConfig.Ler: boolean;
@@ -112,6 +126,7 @@ begin
   TipoModuloSistemaNode := RootNode.ChildNodes['modulo_sistema'];
   NomeUsuNode := RootNode.ChildNodes['nome_usu'];
   SenhaNode := RootNode.ChildNodes['senha'];
+  ExecuteOkNode := RootNode.ChildNodes['execute_ok'];
 
   s := PreencheLoginNode.Text;
   FPreencheLogin := StrToBoolean(s);
@@ -124,11 +139,20 @@ begin
 
   s := SenhaNode.Text;
   FSenha := s;
+
+  s := ExecuteOkNode.Text;
+  FExecuteOk := StrToBoolean(s);
+
 end;
 
 procedure TLoginConfig.SetTipoModuloSistema(Value: TTipoModuloSistema);
 begin
   FTipoModuloSistema := Value;
+end;
+
+procedure TLoginConfig.SetExecuteOk(Value: boolean);
+begin
+  FExecuteOk := Value;
 end;
 
 procedure TLoginConfig.SetNomeUsu(Value: string);

@@ -11,10 +11,10 @@ uses
   Sis.UI.IO.Output, App.Sessao.Eventos, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
-  Sis.Types.Contador;
+  Sis.Types.Contador, App.Sessao.List, App.Sessao;
 
 type
-  TSessoesFrame = class(TFrame)
+  TSessoesFrame = class(TFrame, ISessaoList)
     FundoPanel: TPanel;
     TopoPanel: TPanel;
     BasePanel: TPanel;
@@ -24,6 +24,7 @@ type
     ActionList1: TActionList;
   private
     { Private declarations }
+    FSortCutInicial: TShortCut;
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
@@ -35,38 +36,49 @@ type
     FSessaoCriadorList: ISessaoCriadorList;
     FSessaoFrame: TSessaoFrame;
 
-    FIndexContador: IContador;
+    FSessaoIndexContador: IContador;
 
     procedure SessaoCriadorListPrep;
     procedure SessaoCriadorListPrepActionList;
     procedure SessaoCriadorListPrepToolBar;
+
+    function GetSessao(Index: integer): ISessao;
+    function GetCount: integer;
   protected
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
-    function ModuloBasFormCreate(pModuloSistema: IModuloSistema)
-      : TModuloBasForm; virtual; abstract;
+    function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
+      pSessaoIndex: Cardinal): TModuloBasForm; virtual; abstract;
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pIndex: Cardinal): TSessaoFrame; virtual; abstract;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: Cardinal): TSessaoFrame;
+      virtual; abstract;
   public
     { Public declarations }
 
     // cria sessao
     procedure CriarActionExecute(Sender: TObject);
-
     procedure ExecuteAutoLogin;
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
       pSessaoEventos: ISessaoEventos; pAppInfo: IAppInfo;
       pSisConfig: ISisConfig; pDBMS: IDBMS; pProcessLog: IProcessLog;
       pOutput: IOutput); reintroduce;
+
+    function GetSessaoByIndex(pSessaoIndex: Cardinal): ISessao;
+    procedure DeleteByIndex(pSessaoIndex: Cardinal);
+
+    property Count: integer read GetCount;
+    property Sessao[Index: integer]: ISessao read GetSessao; default;
+
+    function ExecutouPeloShortCut(var Key: word; var Shift: TShiftState): boolean;
   end;
 
 implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI,
+uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
   Sis.Usuario.Factory, Sis.UI.Form.Login_u, App.Sessao.Factory,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
   Sis.Types.Factory;
@@ -75,7 +87,7 @@ constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
   pSessaoEventos: ISessaoEventos; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS; pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  Inherited Create(AOwner);
+  inherited Create(AOwner);
   FAppInfo := pAppInfo;
   FSessaoEventos := pSessaoEventos;
   FSisConfig := pSisConfig;
@@ -83,7 +95,9 @@ begin
   FProcessLog := pProcessLog;
   FOutput := pOutput;
   FLoginConfig := pLoginConfig;
-  FIndexContador := ContadorCreate;
+  FSessaoIndexContador := ContadorCreate;
+
+  FSortCutInicial := VK_F3;
 
   SessaoCriadorListPrep;
   SessaoCriadorListPrepActionList;
@@ -104,7 +118,7 @@ var
   sNameConex: string;
   bResultado: boolean;
   oModuloBasForm: TModuloBasForm;
-  iIndex: integer;
+  iSessaoIndex: Cardinal;
   oModuloSistema: IModuloSistema;
 begin
   oAction := TAction(Sender);
@@ -127,19 +141,27 @@ begin
   if not bResultado then
     exit;
 
-  iIndex := FIndexContador.GetNext;
+  iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
     (vTipoModuloSistema);
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema);
-  oModuloBasForm.Name := 'ModuloBasForm' + iIndex.ToString;
+  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex);
+  oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
-    oModuloBasForm, iIndex);
+    oModuloBasForm, iSessaoIndex);
 
   FSessaoFrame.Parent := SessoesScrollBox;
   FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;
-  FSessaoFrame.Name := 'SessaoFrame' + iIndex.ToString;
+  FSessaoFrame.Name := 'SessaoFrame' + iSessaoIndex.ToString;
   oModuloBasForm.Show;
   FSessaoEventos.DoOk;
+end;
+
+procedure TSessoesFrame.DeleteByIndex(pSessaoIndex: Cardinal);
+var
+  oSessaoFrame: TSessaoFrame;
+begin
+  oSessaoFrame := TSessaoFrame(GetSessaoByIndex(pSessaoIndex));
+  oSessaoFrame.Free;
 end;
 
 procedure TSessoesFrame.ExecuteAutoLogin;
@@ -156,6 +178,61 @@ begin
     exit;
 
   oAction.Execute;
+end;
+
+function TSessoesFrame.ExecutouPeloShortCut(var Key: word; var Shift: TShiftState): boolean;
+var
+  MenorShortCut: TShortCut;
+  MaiorShortCut: TShortCut;
+  oAction: TAction;
+  iIndex: integer;
+  wShortCut: TShortCut;
+begin
+  Result := Shift = [];
+  if not Result then
+    exit;
+
+  MenorShortCut := FSortCutInicial;
+  MaiorShortCut := MenorShortCut + Count - 1;
+  wShortCut := tshortcut(Key);
+
+  Result := (wShortCut >= MenorShortCut) and (wShortCut >= MaiorShortCut);
+  if not Result then
+    exit;
+
+  iIndex := wShortCut - MenorShortCut;
+  oAction := TAction( ActionList1[iIndex]);
+  Key := 0;
+  oAction.Execute;
+end;
+
+function TSessoesFrame.GetCount: integer;
+begin
+  Result := SessoesScrollBox.ControlCount;
+end;
+
+function TSessoesFrame.GetSessao(Index: integer): ISessao;
+begin
+  SessoesScrollBox.Controls[Index];
+end;
+
+function TSessoesFrame.GetSessaoByIndex(pSessaoIndex: Cardinal): ISessao;
+var
+  oSessaoFrame: TSessaoFrame;
+  oControl: TControl;
+  I: integer;
+begin
+  Result := nil;
+  for I := 0 to SessoesScrollBox.ControlCount - 1 do
+  begin
+    oControl := SessoesScrollBox.Controls[I];
+    oSessaoFrame := TSessaoFrame(oControl);
+    if oSessaoFrame.Index = pSessaoIndex then
+    begin
+      Result := oSessaoFrame;
+      break;
+    end;
+  end;
 end;
 
 procedure TSessoesFrame.SessaoCriadorListPrep;
@@ -181,7 +258,11 @@ var
   I: integer;
   oAction: TAction;
   sNameTipo: string;
+  wShortCut: TShortCut;
+  sDescr: string;
+  sShortCut: string;
 begin
+  wShortCut := FSortCutInicial;
   for I := 0 to FSessaoCriadorList.Count - 1 do
   begin
     oSessaoCriador := FSessaoCriadorList[I];
@@ -189,11 +270,16 @@ begin
     oAction := TAction.Create(ActionList1);
 
     sNameTipo := TipoModuloSistemaToNameStr(oSessaoCriador.TipoModuloSistema);
+    sDescr := TipoModuloSistemaToStr(oSessaoCriador.TipoModuloSistema);;
+    sShortCut := ShortCutToText(wShortCut);
 
     oAction.Name := Format('Criar%sAction', [sNameTipo]);
-    oAction.Caption := TipoModuloSistemaToStr(oSessaoCriador.TipoModuloSistema);
-    oAction.Hint := Format('Abrir %s...', [oAction.Caption]);
+    oAction.Hint := Format('Abrir %s...', [sDescr]);
     oAction.Tag := integer(oSessaoCriador.TipoModuloSistema);
+    oAction.Caption := Format('%s - %s', [sShortCut, sDescr]);
+
+    inc(wShortCut);
+
     // oAction.Category := 'Minha Categoria';
     oAction.OnExecute := CriarActionExecute;
     oAction.ActionList := ActionList1;

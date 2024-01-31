@@ -19,8 +19,8 @@ type
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: Cardinal): TSessaoFrame; override;
-    function ModuloBasFormCreate(pModuloSistema: IModuloSistema)
-      : TModuloBasForm; override;
+    function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
+      pSessaoIndex: Cardinal): TModuloBasForm; override;
   public
     { Public declarations }
   end;
@@ -36,10 +36,11 @@ uses ShopApp.UI.Sessao.Frame_u;
 
 { TShopSessoesFrame }
 
-function TShopSessoesFrame.ModuloBasFormCreate(
-  pModuloSistema: IModuloSistema): TModuloBasForm;
+function TShopSessoesFrame.ModuloBasFormCreate(pModuloSistema: IModuloSistema;
+  pSessaoIndex: Cardinal): TModuloBasForm;
 begin
-  Result := TShopConfigModuloForm.Create(Application, pModuloSistema, SessaoEventos);
+  Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
+    SessaoEventos, pSessaoIndex);
 end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;

@@ -5,7 +5,6 @@ inherited ModuloBasForm: TModuloBasForm
   ClientHeight = 476
   ClientWidth = 620
   KeyPreview = True
-  WindowState = wsMaximized
   OnKeyPress = FormKeyPress
   ExplicitWidth = 620
   ExplicitHeight = 476

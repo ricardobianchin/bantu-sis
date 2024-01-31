@@ -18,6 +18,7 @@ type
 
     procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FSessaoCriadorList: ISessaoCriadorList;
@@ -33,7 +34,7 @@ type
 
     procedure DoCancel;
     procedure DoOk;
-    procedure DoClose;
+    procedure DoFecharSessao(pSessaoIndex: Cardinal);
 
   public
     { Public declarations }
@@ -53,8 +54,9 @@ begin
 
 end;
 
-procedure TSessoesPrincBasForm.DoClose;
+procedure TSessoesPrincBasForm.DoFecharSessao(pSessaoIndex: Cardinal);
 begin
+  FSessoesFrame.DeleteByIndex(pSessaoIndex);
   Show;
 end;
 
@@ -78,10 +80,16 @@ begin
   end;
 end;
 
+procedure TSessoesPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  FSessoesFrame.ExecutouPeloShortCut(key, Shift);
+end;
+
 procedure TSessoesPrincBasForm.LoginConfigInicialize;
 begin
   FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
-//  FLoginConfig
 end;
 
 procedure TSessoesPrincBasForm.ControlesAjustar;

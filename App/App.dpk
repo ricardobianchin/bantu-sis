@@ -56,7 +56,6 @@ contains
   App.DB.Utils in 'DB\App.DB.Utils.pas',
   App.Sessao in 'Sessao\App.Sessao.pas',
   App.Sessao.List in 'Sessao\App.Sessao.List.pas',
-  App.Sessao.List_u in 'Sessao\App.Sessao.List_u.pas',
   App.Sessao.Criador in 'Sessao\App.Sessao.Criador.pas',
   App.Sessao.Criador.List in 'Sessao\App.Sessao.Criador.List.pas',
   App.Sessao.Criador.List_u in 'Sessao\App.Sessao.Criador.List_u.pas',

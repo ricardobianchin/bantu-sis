@@ -133,6 +133,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="IndyCore.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="FireDACIBDriver.dcp"/>
+        <DCCReference Include="vclwinx.dcp"/>
+        <DCCReference Include="vcldb.dcp"/>
         <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
         <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
@@ -294,6 +296,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Sis.ModuloSistema_u.pas"/>
         <DCCReference Include="Types\Contador\Sis.Types.Contador.pas"/>
         <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
+        <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
+            <Form>DBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\App\UI\Sessoes\App.UI.Sessoes.Select.Frame.pas">
+            <Form>DBGridFrame1</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -101,6 +101,9 @@ begin
   NomeUsuLabeledEdit.Text := FLoginConfig.NomeUsu;
   SenhaLabeledEdit.Text := FLoginConfig.Senha;
 
+  if not FLoginConfig.ExecuteOk then
+    exit;
+
   OkAct_Diag.Execute;
 end;
 

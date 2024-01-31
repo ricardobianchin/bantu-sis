@@ -39,7 +39,9 @@ requires
   IndyProtocols,
   IndyCore,
   vclimg,
-  FireDACIBDriver;
+  FireDACIBDriver,
+  vclwinx,
+  vcldb;
 
 contains
   Sis.Types.Bool_u in 'Types\Sis.Types.Bool_u.pas',
@@ -184,6 +186,8 @@ contains
   Sis.UI.Controls.Factory in 'UI\Controls\Sis.UI.Controls.Factory.pas',
   Sis.ModuloSistema_u in 'Entities\Sis.ModuloSistema_u.pas',
   Sis.Types.Contador in 'Types\Contador\Sis.Types.Contador.pas',
-  Sis.Types.Contador_u in 'Types\Contador\Sis.Types.Contador_u.pas';
+  Sis.Types.Contador_u in 'Types\Contador\Sis.Types.Contador_u.pas',
+  Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
+  App.UI.Sessoes.Select.Frame in '..\App\UI\Sessoes\App.UI.Sessoes.Select.Frame.pas' {DBGridFrame1: TFrame};
 
 end.

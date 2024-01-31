@@ -31,7 +31,7 @@ object SessoesFrame: TSessoesFrame
         Width = 383
         Height = 29
         ButtonHeight = 21
-        ButtonWidth = 110
+        ButtonWidth = 38
         Caption = 'ToolBar1'
         Color = clBtnFace
         List = True

@@ -22,6 +22,10 @@ type
     function GetSenha: string;
     procedure SetSenha(Value: string);
     property Senha: string read GetSenha write SetSenha;
+
+    function GetExecuteOk: boolean;
+    procedure SetExecuteOk(Value: boolean);
+    property ExecuteOk: boolean read GetExecuteOk write SetExecuteOk;
   end;
 
 implementation

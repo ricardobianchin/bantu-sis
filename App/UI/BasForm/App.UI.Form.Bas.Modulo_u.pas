@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls,
   Sis.ModuloSistema.Types,
   Sis.ModuloSistema, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions,
-  Vcl.ActnList, App.Sessao.Eventos;
+  Vcl.ActnList, App.Sessao.Eventos {, App.Sessao.List};
 
 type
   TModuloBasForm = class(TBasForm)
@@ -25,7 +25,8 @@ type
     { Private declarations }
     FModuloSistema: IModuloSistema;
     FSessaoEventos: ISessaoEventos;
-
+    FSessaoIndex: Cardinal;
+    // FSessaoList: ISessaoList;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
@@ -37,8 +38,8 @@ type
     function Fechou: boolean; virtual;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos);
-      reintroduce;
+    constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
+      pSessaoEventos: ISessaoEventos; pSessaoIndex: Cardinal); reintroduce;
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
   end;
 
@@ -62,19 +63,22 @@ uses Sis.UI.ImgDM, Sis.UI.Constants;
 // end;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
-  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos);
+  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pSessaoIndex: Cardinal);
 begin
   inherited Create(AOwner);
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   FModuloSistema := pModuloSistema;
   TitleBarText := FModuloSistema.TipoModuloSistemaDescr;
   FSessaoEventos := pSessaoEventos;
+  FSessaoIndex := pSessaoIndex;
+  // FSessaoList := pSessaoList;
 end;
 
 procedure TModuloBasForm.DoFechar;
 begin
   Close;
-  FSessaoEventos.DoClose;
+  FSessaoEventos.DoFecharSessao(FSessaoIndex);
 end;
 
 procedure TModuloBasForm.FecharAction_ModuloBasFormExecute(Sender: TObject);
@@ -95,6 +99,7 @@ procedure TModuloBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
   TitleBarActionList_ModuloBasForm.Images := SisImgDataModule.ImageList_40_24;
+   BoundsRect := Screen.WorkAreaRect;
 end;
 
 procedure TModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
