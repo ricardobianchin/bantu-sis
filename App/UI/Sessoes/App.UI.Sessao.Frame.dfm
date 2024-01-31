@@ -15,8 +15,6 @@ object SessaoFrame: TSessaoFrame
     Align = alClient
     Caption = ' '
     TabOrder = 0
-    ExplicitLeft = -3
-    ExplicitTop = 3
     object ApelidoLabel: TLabel
       Left = 112
       Top = 4

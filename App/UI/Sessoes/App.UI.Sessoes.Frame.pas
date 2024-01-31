@@ -10,7 +10,8 @@ uses
   Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppInfo,
   Sis.UI.IO.Output, App.Sessao.Eventos, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
-  Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema;
+  Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
+  Sis.Types.Contador;
 
 type
   TSessoesFrame = class(TFrame)
@@ -34,6 +35,8 @@ type
     FSessaoCriadorList: ISessaoCriadorList;
     FSessaoFrame: TSessaoFrame;
 
+    FIndexContador: IContador;
+
     procedure SessaoCriadorListPrep;
     procedure SessaoCriadorListPrepActionList;
     procedure SessaoCriadorListPrepToolBar;
@@ -44,7 +47,7 @@ type
       : TModuloBasForm; virtual; abstract;
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm): TSessaoFrame; virtual; abstract;
+      pModuloBasForm: TModuloBasForm; pIndex: Cardinal): TSessaoFrame; virtual; abstract;
   public
     { Public declarations }
 
@@ -65,7 +68,8 @@ implementation
 
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI,
   Sis.Usuario.Factory, Sis.UI.Form.Login_u, App.Sessao.Factory,
-  App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory;
+  App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
+  Sis.Types.Factory;
 
 constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
   pSessaoEventos: ISessaoEventos; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -79,6 +83,7 @@ begin
   FProcessLog := pProcessLog;
   FOutput := pOutput;
   FLoginConfig := pLoginConfig;
+  FIndexContador := ContadorCreate;
 
   SessaoCriadorListPrep;
   SessaoCriadorListPrepActionList;
@@ -99,7 +104,7 @@ var
   sNameConex: string;
   bResultado: boolean;
   oModuloBasForm: TModuloBasForm;
-  iQtdChilds: integer;
+  iIndex: integer;
   oModuloSistema: IModuloSistema;
 begin
   oAction := TAction(Sender);
@@ -122,17 +127,17 @@ begin
   if not bResultado then
     exit;
 
-  iQtdChilds := SessoesScrollBox.ControlCount;
+  iIndex := FIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
     (vTipoModuloSistema);
   oModuloBasForm := ModuloBasFormCreate(oModuloSistema);
-  oModuloBasForm.Name := 'ModuloBasForm' + iQtdChilds.ToString;
+  oModuloBasForm.Name := 'ModuloBasForm' + iIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
-    oModuloBasForm);
+    oModuloBasForm, iIndex);
 
   FSessaoFrame.Parent := SessoesScrollBox;
   FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;
-  FSessaoFrame.Name := 'SessaoFrame' + iQtdChilds.ToString;
+  FSessaoFrame.Name := 'SessaoFrame' + iIndex.ToString;
   oModuloBasForm.Show;
   FSessaoEventos.DoOk;
 end;

@@ -18,7 +18,7 @@ type
   protected
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm): TSessaoFrame; override;
+      pModuloBasForm: TModuloBasForm; pIndex: Cardinal): TSessaoFrame; override;
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema)
       : TModuloBasForm; override;
   public
@@ -44,10 +44,10 @@ end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-  pModuloBasForm: TModuloBasForm): TSessaoFrame;
+  pModuloBasForm: TModuloBasForm; pIndex: Cardinal): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoModuloSistema, pUsuario,
-    pModuloBasForm);
+    pModuloBasForm, pIndex);
 end;
 
 end.

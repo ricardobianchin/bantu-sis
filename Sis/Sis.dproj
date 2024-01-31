@@ -292,6 +292,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.ADireita_u.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Factory.pas"/>
         <DCCReference Include="Entities\Sis.ModuloSistema_u.pas"/>
+        <DCCReference Include="Types\Contador\Sis.Types.Contador.pas"/>
+        <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
