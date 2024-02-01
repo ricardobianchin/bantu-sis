@@ -85,7 +85,8 @@ implementation
 uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Sis.constants, Sis.DB.Factory, Sis.DB.Updater.Constants_u,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
-  Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u;
+  Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
+  Sis.Win.Utils_u;
 
 constructor TDBUpdater.Create(pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
@@ -482,9 +483,9 @@ begin
 
     s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.USUARIO_GARANTIR(' +
       FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
-      'SUP'.QuotedString + ',' + sSenha.QuotedString + ',' +
-      'SUPORTE'.QuotedString + ',' + '1);';
-
+      'SUP'.QuotedString + ',' + sSenha.QuotedString + ',1,' +
+      'SUPORTE'.QuotedString + ',' + ' 1);';
+     // SetClipboardText(s);
     { iPessoaId := } pDBConnection.GetValue(s);
 
     s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
@@ -496,7 +497,7 @@ begin
 
     s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.USUARIO_GARANTIR(' +
       FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ','
-      + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',' +
+      + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',1,' +
       FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
 
     { iPessoaId := } pDBConnection.GetValue(s);

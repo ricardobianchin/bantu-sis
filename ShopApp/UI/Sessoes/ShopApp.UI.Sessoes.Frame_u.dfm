@@ -1,0 +1,2 @@
+inherited ShopSessoesFrame: TShopSessoesFrame
+end

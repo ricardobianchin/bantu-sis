@@ -140,6 +140,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ShopPDVModuloForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Config\AppShop.UI.Form.Modulo.Config_u.pas"/>
+        <DCCReference Include="UI\Sessoes\ShopApp.UI.Sessao.Frame_u.pas">
+            <Form>ShopSessaoFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\Sessoes\ShopApp.UI.Sessoes.Frame_u.pas">
+            <Form>ShopSessoesFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

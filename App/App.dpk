@@ -41,7 +41,7 @@ contains
   App.AppObj_u_VaParaPasta in 'AppObj\App.AppObj_u_VaParaPasta.pas',
   App.UI.Form.Status_u in 'UI\AppUI\App.UI.Form.Status_u.pas' {StatusForm},
   App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
-  App.UI.Form.Bas.Princ.Sessoes_u in 'UI\BasForm\App.UI.Form.Bas.Princ.Sessoes_u.pas' {SessoesPrincBasForm},
+  App.UI.Form.Bas.Princ.Sessoes_u in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes_u.pas' {SessoesPrincBasForm},
   App.DonoConfig.Utils in 'DonoConfig\App.DonoConfig.Utils.pas',
   App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas',
   App.AtualizaVersao in 'AtualizaVersao\App.AtualizaVersao.pas',
@@ -55,9 +55,7 @@ contains
   App.DB.Garantir in 'DB\Garantir\App.DB.Garantir.pas',
   App.DB.Utils in 'DB\App.DB.Utils.pas',
   App.Sessao in 'Sessao\App.Sessao.pas',
-  App.Sessao_u in 'Sessao\App.Sessao_u.pas',
   App.Sessao.List in 'Sessao\App.Sessao.List.pas',
-  App.Sessao.List_u in 'Sessao\App.Sessao.List_u.pas',
   App.Sessao.Criador in 'Sessao\App.Sessao.Criador.pas',
   App.Sessao.Criador.List in 'Sessao\App.Sessao.Criador.List.pas',
   App.Sessao.Criador.List_u in 'Sessao\App.Sessao.Criador.List_u.pas',
@@ -65,6 +63,16 @@ contains
   App.UI.Form.Bas.Modulo_u in 'UI\BasForm\App.UI.Form.Bas.Modulo_u.pas' {ModuloBasForm},
   App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retaguarda\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
   App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm},
-  App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {Frame1: TFrame};
+  App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {SessoesFrame: TFrame},
+  App.Sessao.Eventos in 'Sessao\App.Sessao.Eventos.pas',
+  App.Sessao.Criador_u in 'Sessao\App.Sessao.Criador_u.pas',
+  App.Sessao.Criador.Retag_u in 'Sessao\App.Sessao.Criador.Retag_u.pas',
+  App.Sessao.Criador.PDV_u in 'Sessao\App.Sessao.Criador.PDV_u.pas',
+  App.Sessao.Criador.Config_u in 'Sessao\App.Sessao.Criador.Config_u.pas',
+  App.UI.Sessao.Frame in 'UI\Sessoes\App.UI.Sessao.Frame.pas' {SessaoFrame: TFrame},
+  App.UI.Form.Bas.Modulo.Config in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas' {ConfigModuloBasForm},
+  App.UI.Sessao.Select.DBGrid.Frame in 'UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas' {SessaoSelectDBGridFrame: TFrame},
+  App.Constants in 'AppObj\App.Constants.pas',
+  App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm};
 
 end.

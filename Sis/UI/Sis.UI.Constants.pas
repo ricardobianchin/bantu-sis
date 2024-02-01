@@ -13,9 +13,13 @@ const
   REGNAME_FORMDECORATOR_CANTOSARRED = 'ui.formdecorator.RoundCorners';
   COR_AZUL_VIVO = 21 OR (98 SHL 8) OR (163 SHL 16);
   COR_AZUL_LINK = $ab0d1a;
+
+  COR_PRETO_TITLEBAR = $003A302C;
+
 //#1a0dab AZUL LINK
 
-
+  COR_VERMELHO_ESCURO = 192;
+  COR_ERRO = COR_VERMELHO_ESCURO;
 
 //var
 //  AzulVivo: TColor;

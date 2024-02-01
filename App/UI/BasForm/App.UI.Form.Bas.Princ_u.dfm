@@ -5,7 +5,6 @@ inherited PrincBasForm: TPrincBasForm
   ClientWidth = 628
   Color = 1641478
   Font.Color = 10905156
-  StyleElements = []
   OnDestroy = FormDestroy
   ExplicitWidth = 628
   ExplicitHeight = 477
@@ -1326,6 +1325,7 @@ inherited PrincBasForm: TPrincBasForm
       Flat = False
       Images = SisImgDataModule.ImageList_40_24
       TabOrder = 0
+      Transparent = True
       StyleElements = []
       object MinimizeToolButton: TToolButton
         Left = 0

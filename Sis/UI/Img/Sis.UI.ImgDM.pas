@@ -15,6 +15,7 @@ type
     ImageList_40_24: TImageList;
     ImageListLogin16: TImageList;
     FDPhysFBDriverLink1: TFDPhysFBDriverLink;
+    BalloonHint1: TBalloonHint;
   private
     { Private declarations }
   public

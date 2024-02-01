@@ -139,7 +139,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Princ_u.pas">
             <Form>PrincBasForm</Form>
         </DCCReference>
-        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Princ.Sessoes_u.pas">
+        <DCCReference Include="UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes_u.pas">
             <Form>SessoesPrincBasForm</Form>
         </DCCReference>
         <DCCReference Include="DonoConfig\App.DonoConfig.Utils.pas"/>
@@ -157,9 +157,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Garantir\App.DB.Garantir.pas"/>
         <DCCReference Include="DB\App.DB.Utils.pas"/>
         <DCCReference Include="Sessao\App.Sessao.pas"/>
-        <DCCReference Include="Sessao\App.Sessao_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.List.pas"/>
-        <DCCReference Include="Sessao\App.Sessao.List_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.List.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.List_u.pas"/>
@@ -175,9 +173,33 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>PDVModuloBasForm</Form>
         </DCCReference>
         <DCCReference Include="UI\Sessoes\App.UI.Sessoes.Frame.pas">
-            <Form>Frame1</Form>
+            <Form>SessoesFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Sessao\App.Sessao.Eventos.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador_u.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador.Retag_u.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador.PDV_u.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.Criador.Config_u.pas"/>
+        <DCCReference Include="UI\Sessoes\App.UI.Sessao.Frame.pas">
+            <Form>SessaoFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas">
+            <Form>ConfigModuloBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas">
+            <Form>SessaoSelectDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="AppObj\App.Constants.pas"/>
+        <DCCReference Include="UI\Sessoes\App.UI.Sessao.Select.Form_u.pas">
+            <Form>SessaoSelectForm</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

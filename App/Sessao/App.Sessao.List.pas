@@ -2,16 +2,22 @@ unit App.Sessao.List;
 
 interface
 
-uses System.Classes, App.Sessao;
+uses App.Sessao, App.Constants;
 
 type
-  ISessaoList = interface(IInterfaceList)
+  ISessaoList = interface(IInterface)
     ['{69E01122-D7EB-4B96-9805-028068147313}']
 
     function GetSessao(Index: integer): ISessao;
-    property Sessao[Index: integer]: ISessao read GetSessao;
+    property Sessao[Index: integer]: ISessao read GetSessao; default;
 
-    procedure PegarSessao(pSessao: ISessao);
+    function GetCount: integer;
+    property Count: integer read GetCount;
+
+    procedure DeleteByIndex(pIndex: TSessaoIndex);
+
+    function GetSessaoByIndex(pIndex: TSessaoIndex): ISessao;
+    function GetSessaoVisivelIndex: TSessaoIndex;
   end;
 
 implementation

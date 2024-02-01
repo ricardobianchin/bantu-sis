@@ -30,8 +30,8 @@ type
     property Senha: string read GetSenha write SetSenha;
 
     constructor Create(pLojaId: integer = 0; pTerminalId: integer = 0;
-      pId: integer = 0; pNomeCompleto: string = ''; pNomeExib: string = '';
-      pNomeUsu: string = ''; pSenha: string = ''
+      pId: integer = 0; pNomeCompleto: string = ''; pNomeExib: string = ''
+      ; pNomeUsu: string = ''; pSenha: string = ''
       );
   end;
 
@@ -40,8 +40,9 @@ implementation
 { TUsuario }
 
 constructor TUsuario.Create(pLojaId: integer; pTerminalId: integer;
-      pId: integer; pNomeCompleto: string; pNomeExib: string; pNomeUsu: string;
-      pSenha: string);
+      pId: integer; pNomeCompleto: string; pNomeExib: string
+      ; pNomeUsu: string; pSenha: string
+      );
 begin
   inherited Create(pLojaId, pTerminalId, pId);
   SetNomeCompleto(pNomeCompleto);

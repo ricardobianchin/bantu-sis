@@ -6,6 +6,7 @@ uses Vcl.Controls;
 
 procedure RepositionControls(pWinControl: TWinControl;
   pLeftInicial: integer = 1; pTopInicial: integer = 1);
+procedure AlinheADireita(pWinControl: TWinControl; pMargemDir: integer);
 
 implementation
 
@@ -100,6 +101,11 @@ begin
 
     CurrLeft := ProximoRight;
   end;
+end;
+
+procedure AlinheADireita(pWinControl: TWinControl; pMargemDir: integer);
+begin
+
 end;
 
 end.

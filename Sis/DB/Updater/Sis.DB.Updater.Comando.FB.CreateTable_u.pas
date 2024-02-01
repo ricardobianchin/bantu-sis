@@ -16,6 +16,7 @@ type
 
     function GetSqlCreateTable: string;
     function GetSqlCreatePK: string;
+    function GetSqlCreateUnique: string;
     function GetPKName: string;
   protected
     procedure PegarObjeto(pNome: string); override;
@@ -33,7 +34,7 @@ implementation
 { TSqlGenComandoFBCreateTable }
 
 uses Sis.DB.Updater.Factory, Sis.DB.Updater.Campo, Sis.DB.Updater.Constants_u,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, Sis.DB.Firebird.GetSQL_u;
 
 constructor TComandoFBCreateTable.Create(pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
@@ -74,7 +75,7 @@ end;
 
 function TComandoFBCreateTable.GetAsSql: string;
 begin
-  sCodigoRetornado := GetSqlCreateTable + GetSqlCreatePK;
+  sCodigoRetornado := GetSqlCreateTable + GetSqlCreatePK + GetSqlCreateUnique;
   Result := sCodigoRetornado;
 
   if Result = '' then
@@ -156,6 +157,32 @@ begin
     + FCampoList.AsCreateTableFields
     +');'#13#10
     ;
+end;
+
+function TComandoFBCreateTable.GetSqlCreateUnique: string;
+var
+  sComando: string;
+  i: integer;
+  oCampo: ICampo;
+  bUnique: boolean;
+  sCampoNome: string;
+begin
+  Result := '';
+
+  for I := 0 to FCampoList.Count - 1 do
+  begin
+    oCampo := FCampoList[i];
+    bUnique := oCampo.Unique;
+    if bUnique then
+    begin
+      sCampoNome := oCampo.Nome;
+      sComando := GetSQLUniqueKey(FNomeTabela, sCampoNome);
+      Result := Result + sComando + #13#10;
+    end;
+  end;
+
+  if Result <> '' then
+    Result := #13#10 + Result + #13#10;
 end;
 
 procedure TComandoFBCreateTable.PegarLinhas(var piLin: integer;

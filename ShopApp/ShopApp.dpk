@@ -39,6 +39,9 @@ contains
   ShopApp.Constants in 'ShopAppObj\ShopApp.Constants.pas',
   AppShop.UI.Form.Princ_u in 'UI\AppShop.UI.Form.Princ_u.pas' {ShopPrincForm},
   AppShop.UI.Form.Modulo.Retaguarda_u in 'Modulos\Retaguarda\AppShop.UI.Form.Modulo.Retaguarda_u.pas',
-  AppShop.UI.Form.Modulo.PDV_u in 'Modulos\PDV\AppShop.UI.Form.Modulo.PDV_u.pas' {ShopPDVModuloForm};
+  AppShop.UI.Form.Modulo.PDV_u in 'Modulos\PDV\AppShop.UI.Form.Modulo.PDV_u.pas' {ShopPDVModuloForm},
+  AppShop.UI.Form.Modulo.Config_u in 'Modulos\Config\AppShop.UI.Form.Modulo.Config_u.pas',
+  ShopApp.UI.Sessao.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessao.Frame_u.pas' {ShopSessaoFrame: TFrame},
+  ShopApp.UI.Sessoes.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessoes.Frame_u.pas' {ShopSessoesFrame: TFrame};
 
 end.

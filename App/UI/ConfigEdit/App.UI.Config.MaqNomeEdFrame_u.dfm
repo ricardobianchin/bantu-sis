@@ -10,7 +10,6 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
   Font.Style = []
   ParentFont = False
   TabOrder = 0
-  StyleElements = [seFont, seBorder]
   object ErroLabel: TLabel
     Left = 0
     Top = 96
@@ -25,7 +24,6 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
     Font.Style = []
     ParentFont = False
     Visible = False
-    StyleElements = [seBorder]
     ExplicitWidth = 48
   end
   object GroupBox1: TGroupBox
