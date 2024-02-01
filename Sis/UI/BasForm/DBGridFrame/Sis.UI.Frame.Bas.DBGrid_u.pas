@@ -36,6 +36,9 @@ end;
 
 procedure TDBGridFrame.FDMemTable1BeforeDelete(DataSet: TDataSet);
 begin
+
+FDMemTable1.CreateDataSet;
+
   Abort;
 end;
 

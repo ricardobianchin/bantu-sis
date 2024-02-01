@@ -1,0 +1,13 @@
+unit App.Constants;
+
+interface
+
+type
+  TSessaoIndex = Cardinal;
+
+const
+  SESSAO_INDEX_INVALIDO = TSessaoIndex(-1);// High(TSessaoIndex)//-1;
+
+implementation
+
+end.

@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls,
   Sis.ModuloSistema.Types,
   Sis.ModuloSistema, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions,
-  Vcl.ActnList, App.Sessao.Eventos, Vcl.Menus{, App.Sessao.List};
+  Vcl.ActnList, App.Sessao.Eventos, Vcl.Menus, App.Constants{, App.Sessao.List};
 
 type
   TModuloBasForm = class(TBasForm)
@@ -38,7 +38,7 @@ type
     { Private declarations }
     FModuloSistema: IModuloSistema;
     FSessaoEventos: ISessaoEventos;
-    FSessaoIndex: Cardinal;
+    FSessaoIndex: TSessaoIndex;
     // FSessaoList: ISessaoList;
 
     function GetTitleBarText: string;
@@ -52,14 +52,14 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: Cardinal); reintroduce;
+      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex); reintroduce;
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
   end;
 
   TModuloBasFormClass = class of TModuloBasForm;
 
-var
-  ModuloBasForm: TModuloBasForm;
+//var
+//  ModuloBasForm: TModuloBasForm;
 
 implementation
 
@@ -77,7 +77,7 @@ uses Sis.UI.ImgDM, Sis.UI.Constants;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: Cardinal);
+  pSessaoIndex: TSessaoIndex);
 begin
   inherited Create(AOwner);
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
@@ -175,7 +175,7 @@ procedure TModuloBasForm.OcultarAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
   Hide;
-  FSessaoEventos.DoOcultar;
+  FSessaoEventos.DoAposModuloOcultar;
 end;
 
 function TModuloBasForm.PergFechar: boolean;
@@ -200,6 +200,7 @@ procedure TModuloBasForm.TrocarAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
   OcultarAction_ModuloBasForm.Execute;
+//  FSessaoEventos.DoTrocarDaSessao(FSessaoIndex)
 end;
 
 function TModuloBasForm.Voltou: boolean;

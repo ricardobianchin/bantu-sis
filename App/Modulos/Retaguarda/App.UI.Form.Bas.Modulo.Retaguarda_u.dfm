@@ -5,5 +5,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   TextHeight = 15
   inherited TitleBarPanel: TPanel
     Width = 604
+    ExplicitWidth = 604
   end
 end

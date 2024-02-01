@@ -40,9 +40,9 @@ inherited ModuloBasForm: TModuloBasForm
       StyleElements = []
     end
     object ToolBar1: TToolBar
-      Left = 522
+      Left = 514
       Top = 3
-      Width = 95
+      Width = 101
       Height = 23
       Align = alNone
       Anchors = [akTop, akRight]

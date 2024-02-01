@@ -7,8 +7,8 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.Imaging.pngimage, App.Sessao.Criador.List, App.UI.Sessoes.Frame,
-  App.Sessao.Eventos, Sis.UI.Form.Login.Config;
+  Vcl.Imaging.pngimage, App.UI.Sessoes.Frame, App.Sessao.Eventos,
+  Sis.UI.Form.Login.Config, App.Constants;
 
 type
   TSessoesPrincBasForm = class(TPrincBasForm, ISessaoEventos)
@@ -21,21 +21,23 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
-    FSessaoCriadorList: ISessaoCriadorList;
+//    FSessaoCriadorList: ISessaoCriadorList;
     FSessoesFrame: TSessoesFrame;
 
     FLoginConfig: ILoginConfig;
     procedure ControlesAjustar;
     procedure LoginConfigInicialize;
     procedure SessoesFrameCriar;
+    procedure DoAbrirSessao(pSessaoIndex: TSessaoIndex);
   protected
     function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
-    property LoginConfig: ILoginConfig read fLoginConfig;
+    property LoginConfig: ILoginConfig read FLoginConfig;
 
     procedure DoCancel;
     procedure DoOk;
-    procedure DoOcultar;
-    procedure DoFecharSessao(pSessaoIndex: Cardinal);
+    procedure DoAposModuloOcultar;
+    procedure DoFecharSessao(pSessaoIndex: TSessaoIndex);
+    procedure DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
 
   public
     { Public declarations }
@@ -50,18 +52,25 @@ implementation
 
 uses App.Sessao.Factory, Sis.Usuario.Factory;
 
+procedure TSessoesPrincBasForm.DoAbrirSessao(pSessaoIndex: TSessaoIndex);
+var
+  SessaoVisivelIndex: TSessaoIndex;
+begin
+  SessaoVisivelIndex := FSessoesFrame.GetSessaoVisivelIndex
+end;
+
 procedure TSessoesPrincBasForm.DoCancel;
 begin
 
 end;
 
-procedure TSessoesPrincBasForm.DoFecharSessao(pSessaoIndex: Cardinal);
+procedure TSessoesPrincBasForm.DoFecharSessao(pSessaoIndex: TSessaoIndex);
 begin
   FSessoesFrame.DeleteByIndex(pSessaoIndex);
   Show;
 end;
 
-procedure TSessoesPrincBasForm.DoOcultar;
+procedure TSessoesPrincBasForm.DoAposModuloOcultar;
 begin
   Show;
 end;
@@ -71,13 +80,18 @@ begin
   Hide;
 end;
 
+procedure TSessoesPrincBasForm.DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
+begin
+  FSessoesFrame.DoTrocarDaSessao(pSessaoIndex);
+end;
+
 procedure TSessoesPrincBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
     LoginConfigInicialize;
-    FSessaoCriadorList := SessaoCriadorListCreate;
+//    FSessaoCriadorList := SessaoCriadorListCreate;
 
     SessoesFrameCriar;
 
@@ -90,7 +104,7 @@ procedure TSessoesPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  FSessoesFrame.ExecutouPeloShortCut(key, Shift);
+  FSessoesFrame.ExecutouPeloShortCut(Key, Shift);
 end;
 
 procedure TSessoesPrincBasForm.LoginConfigInicialize;

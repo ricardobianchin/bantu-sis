@@ -11,7 +11,7 @@ uses
   Sis.UI.IO.Output, App.Sessao.Eventos, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
-  Sis.Types.Contador, App.Sessao.List, App.Sessao;
+  Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants;
 
 type
   TSessoesFrame = class(TFrame, ISessaoList)
@@ -48,10 +48,10 @@ type
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: Cardinal): TModuloBasForm; virtual; abstract;
+      pSessaoIndex: TSessaoIndex): TModuloBasForm; virtual; abstract;
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: Cardinal): TSessaoFrame;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
       virtual; abstract;
   public
     { Public declarations }
@@ -65,8 +65,11 @@ type
       pSisConfig: ISisConfig; pDBMS: IDBMS; pProcessLog: IProcessLog;
       pOutput: IOutput); reintroduce;
 
-    function GetSessaoByIndex(pSessaoIndex: Cardinal): ISessao;
-    procedure DeleteByIndex(pSessaoIndex: Cardinal);
+    function GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;
+    function GetSessaoVisivelIndex: TSessaoIndex;
+
+    procedure DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
+    procedure DeleteByIndex(pSessaoIndex: TSessaoIndex);
 
     property Count: integer read GetCount;
     property Sessao[Index: integer]: ISessao read GetSessao; default;
@@ -118,7 +121,7 @@ var
   sNameConex: string;
   bResultado: boolean;
   oModuloBasForm: TModuloBasForm;
-  iSessaoIndex: Cardinal;
+  iSessaoIndex: TSessaoIndex;
   oModuloSistema: IModuloSistema;
 begin
   oAction := TAction(Sender);
@@ -156,12 +159,38 @@ begin
   FSessaoEventos.DoOk;
 end;
 
-procedure TSessoesFrame.DeleteByIndex(pSessaoIndex: Cardinal);
+procedure TSessoesFrame.DeleteByIndex(pSessaoIndex: TSessaoIndex);
 var
   oSessaoFrame: TSessaoFrame;
 begin
   oSessaoFrame := TSessaoFrame(GetSessaoByIndex(pSessaoIndex));
   oSessaoFrame.Free;
+end;
+
+procedure TSessoesFrame.DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
+var
+  oSessaoFrame: TSessaoFrame;
+  oControl: TControl;
+  I: integer;
+begin
+{
+diag
+}
+
+  SessaoEventos.DoAposModuloOcultar;
+{
+  Result := nil;
+  for I := 0 to SessoesScrollBox.ControlCount - 1 do
+  begin
+    oControl := SessoesScrollBox.Controls[I];
+    oSessaoFrame := TSessaoFrame(oControl);
+    if oSessaoFrame.Index = pSessaoIndex then
+    begin
+      Result := oSessaoFrame;
+      break;
+    end;
+  end;
+  }
 end;
 
 procedure TSessoesFrame.ExecuteAutoLogin;
@@ -216,7 +245,7 @@ begin
   SessoesScrollBox.Controls[Index];
 end;
 
-function TSessoesFrame.GetSessaoByIndex(pSessaoIndex: Cardinal): ISessao;
+function TSessoesFrame.GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;
 var
   oSessaoFrame: TSessaoFrame;
   oControl: TControl;
@@ -230,6 +259,26 @@ begin
     if oSessaoFrame.Index = pSessaoIndex then
     begin
       Result := oSessaoFrame;
+      break;
+    end;
+  end;
+end;
+
+function TSessoesFrame.GetSessaoVisivelIndex: TSessaoIndex;
+var
+  oSessaoFrame: TSessaoFrame;
+  oControl: TControl;
+  I: integer;
+begin
+  Result := SESSAO_INDEX_INVALIDO;
+  for I := 0 to SessoesScrollBox.ControlCount - 1 do
+  begin
+    oControl := SessoesScrollBox.Controls[I];
+    oSessaoFrame := TSessaoFrame(oControl);
+
+    if oSessaoFrame.ModuloBasForm.Visible then
+    begin
+      Result := oSessaoFrame.Index;
       break;
     end;
   end;

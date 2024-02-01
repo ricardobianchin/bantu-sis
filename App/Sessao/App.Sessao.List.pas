@@ -2,7 +2,7 @@ unit App.Sessao.List;
 
 interface
 
-uses App.Sessao;
+uses App.Sessao, App.Constants;
 
 type
   ISessaoList = interface(IInterface)
@@ -14,10 +14,10 @@ type
     function GetCount: integer;
     property Count: integer read GetCount;
 
-    function GetSessaoByIndex(pIndex: Cardinal): ISessao;
+    procedure DeleteByIndex(pIndex: TSessaoIndex);
 
-    procedure DeleteByIndex(pIndex: Cardinal);
-
+    function GetSessaoByIndex(pIndex: TSessaoIndex): ISessao;
+    function GetSessaoVisivelIndex: TSessaoIndex;
   end;
 
 implementation

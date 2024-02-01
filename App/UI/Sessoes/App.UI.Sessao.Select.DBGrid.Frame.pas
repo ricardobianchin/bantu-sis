@@ -1,4 +1,4 @@
-unit App.UI.Sessao.Select.Frame;
+unit App.UI.Sessao.Select.DBGrid.Frame;
 
 interface
 
@@ -20,8 +20,8 @@ type
     { Public declarations }
   end;
 
-var
-  SessaoSelectDBGridFrame: TSessaoSelectDBGridFrame;
+//var
+//  SessaoSelectDBGridFrame: TSessaoSelectDBGridFrame;
 
 implementation
 

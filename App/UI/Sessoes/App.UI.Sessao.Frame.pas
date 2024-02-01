@@ -9,7 +9,7 @@ uses
   Vcl.ExtCtrls,
   System.Actions, Vcl.ActnList, App.UI.Form.Bas.Modulo_u,
   Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.Eventos,
-  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config;
+  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config, App.Constants;
 
 type
   TSessaoFrame = class(TFrame, ISessao)
@@ -27,27 +27,28 @@ type
     FModuloBasForm: TModuloBasForm;
     FTipoModuloSistema: TTipoModuloSistema;
     FUsuario: IUsuario;
-    FIndex: Cardinal;
+    FIndex: TSessaoIndex;
     FSessaoEventos: ISessaoEventos;
-    FLoginConfig: ILoginConfig;
+//    FLoginConfig: ILoginConfig;
 
     function GetModuloBasForm: TModuloBasForm;
     function GetUsuario: IUsuario;
-    function GetIndex: Cardinal;
+    function GetIndex: TSessaoIndex;
 
   protected
   public
     { Public declarations }
 
     property ModuloBasForm: TModuloBasForm read GetModuloBasForm;
-    property Index: Cardinal read GetIndex;
+    property Index: TSessaoIndex read GetIndex;
     property Usuario: IUsuario read GetUsuario;
+    procedure EscondaModuloForm;
 
     constructor Create(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pIndex: Cardinal;
-      pSessaoEventos: ISessaoEventos; pLoginConfig: ILoginConfig
-      FAppInfo, FSisConfig
+      pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
+      pSessaoEventos: ISessaoEventos
+      //; pLoginConfig: ILoginConfig
       ); reintroduce;
   end;
 
@@ -60,29 +61,14 @@ uses Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory;
 { TSessaoFrame }
 
 procedure TSessaoFrame.AbrirActionExecute(Sender: TObject);
-var
-  bResultado: boolean;
-  oDBConnection: IDBConnection;
-  DBConnectionParams: TDBConnectionParams;
 begin
-  DBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    FAppInfo, FSisConfig);
-  oDBConnection := DBConnectionCreate(sNameConex, FSisConfig, FDBMS,
-    DBConnectionParams, FProcessLog, FOutput);
-
-  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
-
-  bResultado := LoginPerg(FLoginConfig, FTipoModuloSistema, FUsuario,
-    oUsuarioDBI, false);
-
-  FModuloBasForm.Show;
-  FSessaoEventos.DoOk;
+  FSessaoEventos.DoAbrirSessao(Index)
 end;
 
 constructor TSessaoFrame.Create(AOwner: TComponent;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-  pModuloBasForm: TModuloBasForm; pIndex: Cardinal;
-  pSessaoEventos: ISessaoEventos; pLoginConfig: ILoginConfig);
+  pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
+  pSessaoEventos: ISessaoEventos{; pLoginConfig: ILoginConfig});
 var
   s: string;
 begin
@@ -92,7 +78,7 @@ begin
   FUsuario := pUsuario;
   FIndex := pIndex;
   FSessaoEventos := pSessaoEventos;
-  FLoginConfig := pLoginConfig;
+//  FLoginConfig := pLoginConfig;
 
   s := FUsuario.NomeExib;
   ApelidoLabel.Caption := s;
@@ -101,7 +87,15 @@ begin
   ModuloLabel.Caption := s;
 end;
 
-function TSessaoFrame.GetIndex: Cardinal;
+procedure TSessaoFrame.EscondaModuloForm;
+begin
+  if not ModuloBasForm.Visible then
+    exit;
+
+  ModuloBasForm.Hide;
+end;
+
+function TSessaoFrame.GetIndex: TSessaoIndex;
 begin
   Result := FIndex;
 end;

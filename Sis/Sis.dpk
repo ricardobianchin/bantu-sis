@@ -187,6 +187,8 @@ contains
   Sis.ModuloSistema_u in 'Entities\Sis.ModuloSistema_u.pas',
   Sis.Types.Contador in 'Types\Contador\Sis.Types.Contador.pas',
   Sis.Types.Contador_u in 'Types\Contador\Sis.Types.Contador_u.pas',
-  Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame};
+  Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
+  Sis.DB.FDDataSetManager in 'DB\DataSetManager\Sis.DB.FDDataSetManager.pas',
+  Sis.DB.FDDataSetManager_u in 'DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas';
 
 end.
