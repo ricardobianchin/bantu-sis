@@ -137,7 +137,7 @@ begin
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
   bResultado := LoginPerg(FLoginConfig, vTipoModuloSistema, oUsuario,
-    oUsuarioDBI);
+    oUsuarioDBI, true);
   if not bResultado then
     exit;
 

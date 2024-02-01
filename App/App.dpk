@@ -70,6 +70,7 @@ contains
   App.Sessao.Criador.PDV_u in 'Sessao\App.Sessao.Criador.PDV_u.pas',
   App.Sessao.Criador.Config_u in 'Sessao\App.Sessao.Criador.Config_u.pas',
   App.UI.Sessao.Frame in 'UI\Sessoes\App.UI.Sessao.Frame.pas' {SessaoFrame: TFrame},
-  App.UI.Form.Bas.Modulo.Config in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas' {ConfigModuloBasForm};
+  App.UI.Form.Bas.Modulo.Config in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas' {ConfigModuloBasForm},
+  App.UI.Sessao.Select.Frame in 'UI\Sessoes\App.UI.Sessao.Select.Frame.pas' {SessaoSelectDBGridFrame: TFrame};
 
 end.

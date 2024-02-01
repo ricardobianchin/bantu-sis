@@ -48,7 +48,7 @@ function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
   pModuloBasForm: TModuloBasForm; pIndex: Cardinal): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoModuloSistema, pUsuario,
-    pModuloBasForm, pIndex);
+    pModuloBasForm, pIndex, SessaoEventos);
 end;
 
 end.

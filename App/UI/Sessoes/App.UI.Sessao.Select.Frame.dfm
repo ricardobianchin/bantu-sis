@@ -1,21 +1,5 @@
-inherited DBGridFrame1: TDBGridFrame1
+inherited SessaoSelectDBGridFrame: TSessaoSelectDBGridFrame
   inherited FDMemTable1: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'SessaoIndex'
-        DataType = ftLargeint
-      end
-      item
-        Name = 'UsuarioApelido'
-        DataType = ftString
-        Size = 30
-      end
-      item
-        Name = 'ModuloNome'
-        DataType = ftString
-        Size = 20
-      end>
     StoreDefs = True
     object FDMemTable1SessaoIndex: TLargeintField
       FieldName = 'SessaoIndex'

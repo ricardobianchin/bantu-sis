@@ -83,6 +83,13 @@ begin
 
     q.Free;
 
+    FUsuario.Pegar(iLojaId, 0, iPessoaId);
+    FUsuario.NomeCompleto := sNomeCompleto;
+    FUsuario.NomeExib := sApelido;
+
+    if pTipoModuloSistema = modsisNaoIndicado then
+      exit;
+
     sSql := GetSQLUsuarioAcessaModuloSistema(iLojaId, iPessoaId,
       pTipoModuloSistema);
     //sSql := 'SELECT ACESSA FROM USUARIO_PA.USUARIO_ACESSA_MODULO_GET(1, 2,''!'');';
@@ -107,9 +114,6 @@ begin
       exit;
     end;
 
-    FUsuario.Pegar(iLojaId, 0, iPessoaId);
-    FUsuario.NomeCompleto := sNomeCompleto;
-    FUsuario.NomeExib := sApelido;
   finally
     DBConnection.Fechar;
   end;

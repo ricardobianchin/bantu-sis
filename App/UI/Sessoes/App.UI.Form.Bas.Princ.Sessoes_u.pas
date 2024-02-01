@@ -34,6 +34,7 @@ type
 
     procedure DoCancel;
     procedure DoOk;
+    procedure DoOcultar;
     procedure DoFecharSessao(pSessaoIndex: Cardinal);
 
   public
@@ -57,6 +58,11 @@ end;
 procedure TSessoesPrincBasForm.DoFecharSessao(pSessaoIndex: Cardinal);
 begin
   FSessoesFrame.DeleteByIndex(pSessaoIndex);
+  Show;
+end;
+
+procedure TSessoesPrincBasForm.DoOcultar;
+begin
   Show;
 end;
 

@@ -1,4 +1,4 @@
-unit App.UI.Sessoes.Select.Frame;
+unit App.UI.Sessao.Select.Frame;
 
 interface
 
@@ -10,7 +10,7 @@ uses
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids;
 
 type
-  TDBGridFrame1 = class(TDBGridFrame)
+  TSessaoSelectDBGridFrame = class(TDBGridFrame)
     FDMemTable1SessaoIndex: TLargeintField;
     FDMemTable1UsuarioApelido: TStringField;
     FDMemTable1ModuloNome: TStringField;
@@ -21,7 +21,7 @@ type
   end;
 
 var
-  DBGridFrame1: TDBGridFrame1;
+  SessaoSelectDBGridFrame: TSessaoSelectDBGridFrame;
 
 implementation
 

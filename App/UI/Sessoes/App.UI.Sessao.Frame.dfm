@@ -57,6 +57,7 @@ object SessaoFrame: TSessaoFrame
     Top = 6
     object AbrirAction: TAction
       Caption = 'Abrir'
+      OnExecute = AbrirActionExecute
     end
   end
 end

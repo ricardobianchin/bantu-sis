@@ -30,25 +30,27 @@ type
     FUsuarioDBI: IUsuarioDBI;
     FLoginConfig: ILoginConfig;
     FTipoModuloSistema: TTipoModuloSistema;
+    FTestaAcessaModuloSistema: boolean;
 
-    function NomeUsuOk: Boolean;
-    function SenhaOk: Boolean;
-    function UsuEncontrado: Boolean;
+    function NomeUsuOk: boolean;
+    function SenhaOk: boolean;
+    function UsuEncontrado: boolean;
 
     procedure ExecuteAutoLogin;
   protected
-    function PodeOk: Boolean; override;
+    function PodeOk: boolean; override;
 
   public
     { Public declarations }
     constructor Create(pLoginConfig: ILoginConfig;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pUsuarioDBI: IUsuarioDBI); reintroduce;
+      pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
+      reintroduce;
   end;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI): Boolean;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 
 var
   LoginForm: TLoginForm;
@@ -61,12 +63,12 @@ uses Sis.Types.strings_u;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI): Boolean;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 var
   Resultado: TModalResult;
 begin
   LoginForm := TLoginForm.Create(pLoginConfig, pTipoModuloSistema, pUsuario,
-    pUsuarioDBI);
+    pUsuarioDBI, pTestaAcessaModuloSistema);
   try
     Resultado := LoginForm.ShowModal;
     Result := IsPositiveResult(Resultado);
@@ -79,7 +81,7 @@ end;
 
 constructor TLoginForm.Create(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI);
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
 var
   sNomeTipo: string;
 begin
@@ -135,7 +137,7 @@ begin
   EditKeyPress(Sender, Key);
 end;
 
-function TLoginForm.NomeUsuOk: Boolean;
+function TLoginForm.NomeUsuOk: boolean;
 begin
   NomeUsuLabeledEdit.Text := StrSemCharRepetido(NomeUsuLabeledEdit.Text);
 
@@ -148,7 +150,7 @@ begin
   NomeUsuLabeledEdit.SetFocus;
 end;
 
-function TLoginForm.PodeOk: Boolean;
+function TLoginForm.PodeOk: boolean;
 begin
   Result := NomeUsuOk;
 
@@ -162,8 +164,8 @@ begin
 
   Result := UsuEncontrado;
 
-//  if not Result then
-//    exit;
+  // if not Result then
+  // exit;
 end;
 
 procedure TLoginForm.SenhaLabeledEditChange(Sender: TObject);
@@ -187,7 +189,7 @@ begin
   inherited;
 end;
 
-function TLoginForm.SenhaOk: Boolean;
+function TLoginForm.SenhaOk: boolean;
 begin
   Result := SenhaLabeledEdit.Text <> '';
 
@@ -205,14 +207,22 @@ begin
   ExecuteAutoLogin;
 end;
 
-function TLoginForm.UsuEncontrado: Boolean;
+function TLoginForm.UsuEncontrado: boolean;
 var
   sNomeUsuDigitado, sSenhaDigitada, sMens: string;
+  vTipoModuloSistema: TTipoModuloSistema;
 begin
+
+  if FTestaAcessaModuloSistema then
+    vTipoModuloSistema := FTipoModuloSistema
+  else
+    vTipoModuloSistema := modsisNaoIndicado;
+
   sNomeUsuDigitado := NomeUsuLabeledEdit.Text;
   sSenhaDigitada := SenhaLabeledEdit.Text;
 
-  Result := FUsuarioDBI.LoginTente(sNomeUsuDigitado, sSenhaDigitada, sMens, FTipoModuloSistema);
+  Result := FUsuarioDBI.LoginTente(sNomeUsuDigitado, sSenhaDigitada, sMens,
+    vTipoModuloSistema);
 
   if not Result then
   begin

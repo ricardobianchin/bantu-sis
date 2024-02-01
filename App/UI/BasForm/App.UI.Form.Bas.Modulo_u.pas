@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls,
   Sis.ModuloSistema.Types,
   Sis.ModuloSistema, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions,
-  Vcl.ActnList, App.Sessao.Eventos {, App.Sessao.List};
+  Vcl.ActnList, App.Sessao.Eventos, Vcl.Menus{, App.Sessao.List};
 
 type
   TModuloBasForm = class(TBasForm)
@@ -18,9 +18,22 @@ type
     FecharToolButton: TToolButton;
     TitleBarActionList_ModuloBasForm: TActionList;
     FecharAction_ModuloBasForm: TAction;
+    ToolButton1: TToolButton;
+    OcultarAction_ModuloBasForm: TAction;
+    ToolBar2: TToolBar;
+    MenuToolButton: TToolButton;
+    ToolButton3: TToolButton;
+    MenuAction_ModuloBasForm: TAction;
+    TrocarAction_ModuloBasForm: TAction;
+    PopupMenu1: TPopupMenu;
+    FecharActionModuloBasForm1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FecharAction_ModuloBasFormExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure OcultarAction_ModuloBasFormExecute(Sender: TObject);
+    procedure TrocarAction_ModuloBasFormExecute(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure MenuAction_ModuloBasFormExecute(Sender: TObject);
   private
     { Private declarations }
     FModuloSistema: IModuloSistema;
@@ -30,7 +43,7 @@ type
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
-
+    procedure MenuExibir;
   protected
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
@@ -102,19 +115,67 @@ begin
    BoundsRect := Screen.WorkAreaRect;
 end;
 
+procedure TModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    vk_f6:
+    begin
+      TrocarAction_ModuloBasForm.Execute;
+      key := 0;
+      exit;
+    end;
+  end;
+
+  case key of
+    vk_f2:
+    begin
+      MenuAction_ModuloBasForm.Execute;
+      key := 0;
+      exit;
+    end;
+  end;
+
+  inherited;
+
+end;
+
 procedure TModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  inherited;
   if Key = #27 then
   begin
     Key := #0;
     Voltou;
   end;
+  inherited;
 end;
 
 function TModuloBasForm.GetTitleBarText: string;
 begin
   Result := TitleBarTextCaptionLabel.Caption;
+end;
+
+procedure TModuloBasForm.MenuAction_ModuloBasFormExecute(Sender: TObject);
+begin
+  inherited;
+  MenuExibir;
+end;
+
+procedure TModuloBasForm.MenuExibir;
+var
+  x, y: integer;
+begin
+  x := MenuToolButton.Left;
+  y := MenuToolButton.Top + MenuToolButton.Height;
+  PopupMenu1.Popup(x,y);
+
+end;
+
+procedure TModuloBasForm.OcultarAction_ModuloBasFormExecute(Sender: TObject);
+begin
+  inherited;
+  Hide;
+  FSessaoEventos.DoOcultar;
 end;
 
 function TModuloBasForm.PergFechar: boolean;
@@ -133,6 +194,12 @@ end;
 procedure TModuloBasForm.SetTitleBarText(Value: string);
 begin
   TitleBarTextCaptionLabel.Caption := Value;
+end;
+
+procedure TModuloBasForm.TrocarAction_ModuloBasFormExecute(Sender: TObject);
+begin
+  inherited;
+  OcultarAction_ModuloBasForm.Execute;
 end;
 
 function TModuloBasForm.Voltou: boolean;

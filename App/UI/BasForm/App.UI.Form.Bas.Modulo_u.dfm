@@ -5,6 +5,7 @@ inherited ModuloBasForm: TModuloBasForm
   ClientHeight = 476
   ClientWidth = 620
   KeyPreview = True
+  OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   ExplicitWidth = 620
   ExplicitHeight = 476
@@ -25,7 +26,7 @@ inherited ModuloBasForm: TModuloBasForm
       620
       30)
     object TitleBarTextCaptionLabel: TLabel
-      Left = 32
+      Left = 105
       Top = 8
       Width = 130
       Height = 15
@@ -39,10 +40,10 @@ inherited ModuloBasForm: TModuloBasForm
       StyleElements = []
     end
     object ToolBar1: TToolBar
-      Left = 562
-      Top = 0
-      Width = 51
-      Height = 29
+      Left = 522
+      Top = 3
+      Width = 95
+      Height = 23
       Align = alNone
       Anchors = [akTop, akRight]
       ButtonWidth = 47
@@ -51,10 +52,38 @@ inherited ModuloBasForm: TModuloBasForm
       Images = SisImgDataModule.ImageList_40_24
       TabOrder = 0
       StyleElements = []
-      object FecharToolButton: TToolButton
+      object ToolButton1: TToolButton
         Left = 0
         Top = 0
+        Action = OcultarAction_ModuloBasForm
+      end
+      object FecharToolButton: TToolButton
+        Left = 47
+        Top = 0
         Action = FecharAction_ModuloBasForm
+      end
+    end
+    object ToolBar2: TToolBar
+      Left = 0
+      Top = 3
+      Width = 103
+      Height = 22
+      Align = alNone
+      ButtonWidth = 47
+      Caption = 'ToolBar1'
+      Flat = False
+      Images = SisImgDataModule.ImageList_40_24
+      TabOrder = 1
+      StyleElements = []
+      object MenuToolButton: TToolButton
+        Left = 0
+        Top = 0
+        Action = MenuAction_ModuloBasForm
+      end
+      object ToolButton3: TToolButton
+        Left = 47
+        Top = 0
+        Action = TrocarAction_ModuloBasForm
       end
     end
   end
@@ -63,9 +92,34 @@ inherited ModuloBasForm: TModuloBasForm
     Left = 368
     Top = 88
     object FecharAction_ModuloBasForm: TAction
-      Caption = 'FecharAction_ModuloBasForm'
+      Caption = 'Fechar'
       ImageIndex = 0
       OnExecute = FecharAction_ModuloBasFormExecute
+    end
+    object OcultarAction_ModuloBasForm: TAction
+      Caption = 'OcultarAction_ModuloBasForm'
+      Hint = 'Ocultar'
+      ImageIndex = 4
+      OnExecute = OcultarAction_ModuloBasFormExecute
+    end
+    object MenuAction_ModuloBasForm: TAction
+      Caption = 'Menu'
+      Hint = 'Menu (F2)'
+      ImageIndex = 5
+      OnExecute = MenuAction_ModuloBasFormExecute
+    end
+    object TrocarAction_ModuloBasForm: TAction
+      Caption = 'TrocarAction_ModuloBasForm'
+      Hint = 'Trocar (F6)'
+      ImageIndex = 6
+      OnExecute = TrocarAction_ModuloBasFormExecute
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 80
+    Top = 96
+    object FecharActionModuloBasForm1: TMenuItem
+      Action = FecharAction_ModuloBasForm
     end
   end
 end
