@@ -201,6 +201,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>SessaoSelectForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retaguarda\App.UI.Retaguarda.ImgDM_u.pas">
+            <Form>RetagImgDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

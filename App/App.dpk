@@ -73,6 +73,7 @@ contains
   App.UI.Form.Bas.Modulo.Config in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas' {ConfigModuloBasForm},
   App.UI.Sessao.Select.DBGrid.Frame in 'UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas' {SessaoSelectDBGridFrame: TFrame},
   App.Constants in 'AppObj\App.Constants.pas',
-  App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm};
+  App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm},
+  App.UI.Retaguarda.ImgDM_u in 'Modulos\Retaguarda\App.UI.Retaguarda.ImgDM_u.pas' {RetagImgDM: TDataModule};
 
 end.

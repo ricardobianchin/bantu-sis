@@ -18,7 +18,8 @@ type
   protected
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame; override;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex)
+      : TSessaoFrame; override;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
       pSessaoIndex: TSessaoIndex): TModuloBasForm; override;
@@ -40,13 +41,24 @@ uses ShopApp.UI.Sessao.Frame_u;
 function TShopSessoesFrame.ModuloBasFormCreate(pModuloSistema: IModuloSistema;
   pSessaoIndex: TSessaoIndex): TModuloBasForm;
 begin
-  Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
-    SessaoEventos, pSessaoIndex);
+  case pModuloSistema.TipoModuloSistema of
+    modsisNaoIndicado:
+      Result := nil;
+    modsisConfiguracoes:
+      Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
+        SessaoEventos, pSessaoIndex);
+    modsisRetaguarda:
+      Result := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
+        SessaoEventos, pSessaoIndex);
+    modsisPDV:
+      Result := TShopPDVModuloForm.Create(Application, pModuloSistema,
+        SessaoEventos, pSessaoIndex);
+  end;
 end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
-      pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
+  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoModuloSistema, pUsuario,
     pModuloBasForm, pSessaoIndex, SessaoEventos);

@@ -303,6 +303,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager.pas"/>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas">
+            <Form>TabSheetBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
