@@ -7,6 +7,8 @@ uses System.Classes;
 function ConvertGMTToTDateTime(const GMT: string): TDateTime;
 function ConvertTDateTimeToGMT(const DT: TDateTime): string;
 function ConvertGMTToTDateTimeStr(const GMT: string): string;
+function DateTimeToSaudacao(const pDtH: TDateTime): string;
+
 var
   MonthNames: TStringList;
   MascaraDate, MascaraTime: string;
@@ -75,6 +77,20 @@ begin
   DT := IncHour(DT, -3); // Subtrai 3 horas
 
   Result := DateTimeToStr(DT);
+end;
+
+function DateTimeToSaudacao(const pDtH: TDateTime): string;
+var
+  iHora: Integer;
+begin
+  iHora := HourOf(pDtH);
+
+  if iHora < 12 then
+    Result := 'Bom dia!'
+  else if iHora < 18 then
+    Result := 'Boa tarde!'
+  else
+    Result := 'Boa noite!';
 end;
 
 initialization

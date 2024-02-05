@@ -61,7 +61,7 @@ contains
   App.Sessao.Criador.List_u in 'Sessao\App.Sessao.Criador.List_u.pas',
   App.Sessao.Factory in 'Sessao\App.Sessao.Factory.pas',
   App.UI.Form.Bas.Modulo_u in 'UI\BasForm\App.UI.Form.Bas.Modulo_u.pas' {ModuloBasForm},
-  App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retaguarda\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
+  App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retag\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
   App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm},
   App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {SessoesFrame: TFrame},
   App.Sessao.Eventos in 'Sessao\App.Sessao.Eventos.pas',
@@ -74,6 +74,9 @@ contains
   App.UI.Sessao.Select.DBGrid.Frame in 'UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas' {SessaoSelectDBGridFrame: TFrame},
   App.Constants in 'AppObj\App.Constants.pas',
   App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm},
-  App.UI.Retaguarda.ImgDM_u in 'Modulos\Retaguarda\App.UI.Retaguarda.ImgDM_u.pas' {RetagImgDM: TDataModule};
+  App.UI.Retaguarda.ImgDM_u in 'Modulos\Retag\App.UI.Retaguarda.ImgDM_u.pas' {RetagImgDM: TDataModule},
+  App.UI.Form.TabSheet.Retag.Est.ProdFabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.TabSheet.Retag.Est.ProdFabr_u.pas' {RetagEstProdFabrForm},
+  App.UI.Form.TabSheet.Retag.Est.ProdTipo_u in 'Modulos\Retag\Est\Tipo\App.UI.Form.TabSheet.Retag.Est.ProdTipo_u.pas' {RetagEstProdTipoForm},
+  App.UI.Form.TabSheet.Retag.Aju.BemVindo_u in 'Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas' {RetagAjuBemForm};
 
 end.

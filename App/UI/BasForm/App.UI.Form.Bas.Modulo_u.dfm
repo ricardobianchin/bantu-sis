@@ -7,6 +7,7 @@ inherited ModuloBasForm: TModuloBasForm
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
+  ExplicitTop = -25
   ExplicitWidth = 620
   ExplicitHeight = 476
   TextHeight = 15
@@ -84,6 +85,33 @@ inherited ModuloBasForm: TModuloBasForm
         Left = 47
         Top = 0
         Action = TrocarAction_ModuloBasForm
+      end
+    end
+  end
+  object BasePanel: TPanel [1]
+    Left = 0
+    Top = 451
+    Width = 620
+    Height = 25
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 1
+    ExplicitTop = 435
+    object UsuarioPanel: TPanel
+      Left = 5
+      Top = 0
+      Width = 185
+      Height = 25
+      BevelOuter = bvLowered
+      Caption = ' '
+      TabOrder = 0
+      object UsuarioApelidoLabel: TLabel
+        Left = 6
+        Top = 7
+        Width = 3
+        Height = 15
+        Caption = ' '
       end
     end
   end

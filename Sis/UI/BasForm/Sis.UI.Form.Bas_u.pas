@@ -16,17 +16,17 @@ type
   private
     { Private declarations }
     FSelecionaProximo: boolean;
-    FDisparaShowTimer: Boolean;
+//    FDisparaShowTimer: Boolean;
     FFezShow: boolean;
-    function GetDisparaShowTimer: Boolean;
-    procedure SetDisparaShowTimer(Value: Boolean);
+//    function GetDisparaShowTimer: Boolean;
+//    procedure SetDisparaShowTimer(Value: Boolean);
     procedure DispareShowTimer;
 
     function GetSelecionaProximo: boolean;
     procedure SetSelecionaProximo(Value: boolean);
 
   protected
-    property DisparaShowTimer: Boolean read GetDisparaShowTimer write SetDisparaShowTimer;
+//    property DisparaShowTimer: Boolean read GetDisparaShowTimer write SetDisparaShowTimer;
 
     property SelecionaProximo: boolean read GetSelecionaProximo write SetSelecionaProximo;
     procedure SelecioneProximo;
@@ -50,8 +50,8 @@ uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u;
 
 procedure TBasForm.DispareShowTimer;
 begin
-  if not FDisparaShowTimer then
-    exit;
+//  if not FDisparaShowTimer then
+//    exit;
 
   ShowTimer_BasForm.Enabled := True;
 end;
@@ -78,7 +78,7 @@ end;
 
 procedure TBasForm.FormCreate(Sender: TObject);
 begin
-  FDisparaShowTimer := False;
+//  FDisparaShowTimer := False;
   FSelecionaProximo := True;
   FFezShow := False;
 end;
@@ -93,10 +93,10 @@ begin
   end;
 end;
 
-function TBasForm.GetDisparaShowTimer: Boolean;
-begin
-  Result := FDisparaShowTimer;
-end;
+//function TBasForm.GetDisparaShowTimer: Boolean;
+//begin
+//  Result := FDisparaShowTimer;
+//end;
 
 function TBasForm.GetSelecionaProximo: boolean;
 begin
@@ -111,10 +111,10 @@ begin
   SelectNext(ActiveControl, true, true);
 end;
 
-procedure TBasForm.SetDisparaShowTimer(Value: Boolean);
-begin
-  FDisparaShowTimer := Value;
-end;
+//procedure TBasForm.SetDisparaShowTimer(Value: Boolean);
+//begin
+//  FDisparaShowTimer := Value;
+//end;
 
 procedure TBasForm.SetSelecionaProximo(Value: boolean);
 begin

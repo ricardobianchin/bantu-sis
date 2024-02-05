@@ -22,7 +22,7 @@ type
       : TSessaoFrame; override;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex): TModuloBasForm; override;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario): TModuloBasForm; override;
   public
     { Public declarations }
   end;
@@ -39,20 +39,20 @@ uses ShopApp.UI.Sessao.Frame_u;
 { TShopSessoesFrame }
 
 function TShopSessoesFrame.ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-  pSessaoIndex: TSessaoIndex): TModuloBasForm;
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario): TModuloBasForm;
 begin
   case pModuloSistema.TipoModuloSistema of
     modsisNaoIndicado:
       Result := nil;
     modsisConfiguracoes:
       Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex);
+        SessaoEventos, pSessaoIndex, pUsuario);
     modsisRetaguarda:
       Result := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex);
+        SessaoEventos, pSessaoIndex, pUsuario);
     modsisPDV:
       Result := TShopPDVModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex);
+        SessaoEventos, pSessaoIndex, pUsuario);
   end;
 end;
 

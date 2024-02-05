@@ -48,7 +48,7 @@ type
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex): TModuloBasForm; virtual; abstract;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario): TModuloBasForm; virtual; abstract;
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
@@ -147,7 +147,7 @@ begin
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
     (vTipoModuloSistema);
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex);
+  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario);
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
     oModuloBasForm, iSessaoIndex);
