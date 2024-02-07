@@ -87,7 +87,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Images = RetagImgDM.ImageList_32_32
           ShowCaptions = True
           TabOrder = 0
-          ExplicitTop = 8
           object AjuBemToolButton: TToolButton
             Left = 0
             Top = 0
@@ -110,7 +109,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Height = 298
     Align = alClient
     TabOrder = 3
-    TabPosition = tpBottom
   end
   object RetagActionList: TActionList
     Images = RetagImgDM.ImageList_32_32

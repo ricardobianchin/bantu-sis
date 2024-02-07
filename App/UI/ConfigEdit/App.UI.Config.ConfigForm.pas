@@ -4,11 +4,11 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Sis.Usuario,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg,
-  Vcl.ExtCtrls, Vcl.Mask, Vcl.Imaging.pngimage, App.UI.Config.MaqNomeEdFrame_u,
-  Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList, Sis.Loja,
-  Sis.Config.SisConfig, App.UI.Config.ConfigForm.Testes;
+  System.Classes, Vcl.Graphics, Sis.Usuario, Vcl.Controls, Vcl.Forms,
+  Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Mask,
+  Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
+  Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigForm.Testes,
+  App.UI.Config.MaqNomeEdFrame_u;
 
 type
   {
@@ -25,14 +25,11 @@ type
     OkAct: TAction;
     CancelAct: TAction;
     ToolBar1: TToolBar;
-    ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ReloadAct: TAction;
     UsuGerenteGroupBox: TGroupBox;
-    LocalMaqNomeEdFrame: TMaqNomeEdFrame;
     EhServidorCheckBox: TCheckBox;
-    ServerMaqNomeEdFrame: TMaqNomeEdFrame;
     BalloonHint1: TBalloonHint;
     UsuGerenteNomeExibLabeledEdit: TLabeledEdit;
     UsuGerenteNomeUsuLabeledEdit: TLabeledEdit;
@@ -58,6 +55,7 @@ type
     AvisoSenhaLabel: TLabel;
     LojaErroLabel: TLabel;
     UsuGerenteNomeCompletoLabeledEdit: TLabeledEdit;
+    ToolButton1: TToolButton;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -107,6 +105,9 @@ type
 
     FTesteConfig: TTesteConfig;
 
+    LocalMaqNomeEdFrame: TMaqNomeEdFrame;
+    ServerMaqNomeEdFrame: TMaqNomeEdFrame;
+
     function PodeOk: boolean;
 
     function LocalMaqPodeOk: boolean;
@@ -135,7 +136,8 @@ implementation
 
 {$R *.dfm}
 
-uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM, Sis.Types.Utils_u,
+uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
+  Sis.Types.Utils_u,
   Sis.Types.strings_u, Sis.DB.DBTypes, Sis.UI.Constants,
   App.UI.Config.Constants;
 
@@ -324,15 +326,32 @@ end;
 procedure TStarterFormConfig.FormCreate(Sender: TObject);
 begin
   BorderIcons := [];
-  
+
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   FTesteConfig := TTesteConfig.Create(FPastaBin);
 
   AjudaLojaLabel.Font.Color := COR_AZUL_LINK;
   AjudaLojaLabel.Hint := LOJAID_DESCR;
 
+  LocalMaqNomeEdFrame := TMaqNomeEdFrame.Create(Panel2);
+  LocalMaqNomeEdFrame.Name := 'LocalMaqNomeEdFrame';
+
+  ServerMaqNomeEdFrame := TMaqNomeEdFrame.Create(Panel2);
+  ServerMaqNomeEdFrame.Name := 'ServerMaqNomeEdFrame';
+
+  LocalMaqNomeEdFrame.Parent := Panel2;
+  ServerMaqNomeEdFrame.Parent := Panel2;
+
+  LocalMaqNomeEdFrame.Top := 3;
+  ServerMaqNomeEdFrame.Top := 3;
+
+  LocalMaqNomeEdFrame.Left := 7;
+  ServerMaqNomeEdFrame.Left := 312;
+
   LocalMaqNomeEdFrame.GroupBox1.Caption := 'Máquina Local';
   ServerMaqNomeEdFrame.GroupBox1.Caption := 'Servidor';
+
+  ToolBar2.BringToFront;
 
   // LocalGroupBox.AutoSize := true;
   // ServerGroupBox.AutoSize := true;
@@ -357,7 +376,7 @@ end;
 
 procedure TStarterFormConfig.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key =  CHAR_ESC then
+  if Key = CHAR_ESC then
   begin
     Key := CHAR_NULO;
     OkAct.Execute;

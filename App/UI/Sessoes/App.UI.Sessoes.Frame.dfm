@@ -15,6 +15,7 @@ object SessoesFrame: TSessoesFrame
     BevelOuter = bvNone
     Caption = ' '
     ParentBackground = False
+    ParentColor = True
     TabOrder = 0
     object TopoPanel: TPanel
       Left = 0
@@ -33,9 +34,7 @@ object SessoesFrame: TSessoesFrame
         ButtonHeight = 21
         ButtonWidth = 38
         Caption = 'ToolBar1'
-        Color = clBtnFace
         List = True
-        ParentColor = False
         ShowCaptions = True
         TabOrder = 0
       end
@@ -58,6 +57,7 @@ object SessoesFrame: TSessoesFrame
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
+      ParentColor = True
       TabOrder = 2
       object SessoesScrollBox: TScrollBox
         Left = 0

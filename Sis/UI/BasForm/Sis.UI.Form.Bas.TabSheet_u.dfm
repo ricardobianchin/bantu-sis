@@ -5,6 +5,7 @@ inherited TabSheetBasForm: TTabSheetBasForm
   ClientHeight = 477
   ClientWidth = 632
   OnClose = FormClose
+  ExplicitWidth = 632
   TextHeight = 15
   object TitPanel: TPanel [0]
     Left = 0
@@ -14,21 +15,20 @@ inherited TabSheetBasForm: TTabSheetBasForm
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
-    Color = 3813420
-    ParentBackground = False
+    ParentColor = True
     TabOrder = 0
     object ToolBar1: TToolBar
       Left = 0
       Top = 0
       Width = 632
       Height = 30
-      ButtonHeight = 30
-      ButtonWidth = 70
+      ButtonHeight = 21
+      ButtonWidth = 47
       Caption = 'ToolBar1'
-      Images = SisImgDataModule.ImageList24Flat
       List = True
       ShowCaptions = True
       TabOrder = 0
+      Transparent = True
       object FecharToolButton_BasTabSheet: TToolButton
         Left = 0
         Top = 0
@@ -37,7 +37,7 @@ inherited TabSheetBasForm: TTabSheetBasForm
     end
   end
   inherited ActionList1_ActBasForm: TActionList
-    Images = SisImgDataModule.ImageList24Flat
+    Images = nil
     inherited FecharAction_ActBasForm: TAction
       ImageIndex = 1
     end
