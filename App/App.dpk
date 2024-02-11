@@ -75,8 +75,15 @@ contains
   App.Constants in 'AppObj\App.Constants.pas',
   App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm},
   App.UI.Retaguarda.ImgDM_u in 'Modulos\Retag\App.UI.Retaguarda.ImgDM_u.pas' {RetagImgDM: TDataModule},
-  App.UI.Form.TabSheet.Retag.Est.ProdFabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.TabSheet.Retag.Est.ProdFabr_u.pas' {RetagEstProdFabrForm},
-  App.UI.Form.TabSheet.Retag.Est.ProdTipo_u in 'Modulos\Retag\Est\Tipo\App.UI.Form.TabSheet.Retag.Est.ProdTipo_u.pas' {RetagEstProdTipoForm},
-  App.UI.Form.TabSheet.Retag.Aju.BemVindo_u in 'Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas' {RetagAjuBemForm};
+  App.UI.Form.Bas.TabSheet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet_u.pas' {TabSheetAppBasForm},
+  App.UI.Form.Bas.TabSheet.DataSet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet_u.pas' {TabSheetDataSetBasForm},
+  App.UI.Form.TabSheet.Retag.Aju.BemVindo_u in 'Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas' {RetagAjuBemVindoForm},
+  App.UI.Form.TabSheet.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.TabSheet.Retag.Est.Prod.Fabr_u.pas' {RetagEstProdFabrTabSheetDataSetForm},
+  App.UI.TabSheetForm.Factory in 'Modulos\Retag\App.UI.TabSheetForm.Factory.pas',
+  App.Retag.Est.Prod.Fabr in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.pas',
+  App.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr_u.pas',
+  App.Retag.Est.Factory in 'Modulos\Retag\Est\App.Retag.Est.Factory.pas',
+  App.Retag.Est.Prod.Fabr.DBI in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI.pas',
+  App.Retag.Est.Prod.Fabr.DBI_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI_u.pas';
 
 end.

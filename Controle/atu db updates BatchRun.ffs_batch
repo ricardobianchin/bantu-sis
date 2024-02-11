@@ -13,7 +13,7 @@
     </Synchronize>
     <Filter>
         <Include>
-            <Item>*</Item>
+            <Item>*.csv</Item>
         </Include>
         <Exclude>
             <Item>\System Volume Information\</Item>
@@ -21,12 +21,17 @@
             <Item>\RECYCLE?\</Item>
             <Item>\Recovery\</Item>
             <Item>*\thumbs.db</Item>
+            <Item>*.odt</Item>
         </Exclude>
         <SizeMin Unit="None">0</SizeMin>
         <SizeMax Unit="None">0</SizeMax>
         <TimeSpan Type="None">0</TimeSpan>
     </Filter>
     <FolderPairs>
+        <Pair>
+            <Left>C:\Pr\app\bantu\bantu-sis\bantu-api-doc\db\TabViews\</Left>
+            <Right>C:\Pr\app\bantu\bantu-sis\Exe\Cons\TabViews</Right>
+        </Pair>
         <Pair>
             <Left>C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\</Left>
             <Right>C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\</Right>

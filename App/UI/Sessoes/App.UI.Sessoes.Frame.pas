@@ -48,11 +48,14 @@ type
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario): TModuloBasForm; virtual; abstract;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig)
+      : TModuloBasForm; virtual; abstract;
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
       virtual; abstract;
+    function GetAppInfo: IAppInfo;
+    property AppInfo: IAppInfo read GetAppInfo;
   public
     { Public declarations }
 
@@ -74,7 +77,8 @@ type
     property Count: integer read GetCount;
     property Sessao[Index: integer]: ISessao read GetSessao; default;
 
-    function ExecutouPeloShortCut(var Key: word; var Shift: TShiftState): boolean;
+    function ExecutouPeloShortCut(var Key: word;
+      var Shift: TShiftState): boolean;
   end;
 
 implementation
@@ -147,7 +151,9 @@ begin
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
     (vTipoModuloSistema);
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario);
+
+  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
+    FSisConfig);
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
     oModuloBasForm, iSessaoIndex);
@@ -173,23 +179,23 @@ var
   oControl: TControl;
   I: integer;
 begin
-{
-diag
-}
+  {
+    diag
+  }
 
   SessaoEventos.DoAposModuloOcultar;
-{
-  Result := nil;
-  for I := 0 to SessoesScrollBox.ControlCount - 1 do
-  begin
+  {
+    Result := nil;
+    for I := 0 to SessoesScrollBox.ControlCount - 1 do
+    begin
     oControl := SessoesScrollBox.Controls[I];
     oSessaoFrame := TSessaoFrame(oControl);
     if oSessaoFrame.Index = pSessaoIndex then
     begin
-      Result := oSessaoFrame;
-      break;
+    Result := oSessaoFrame;
+    break;
     end;
-  end;
+    end;
   }
 end;
 
@@ -209,7 +215,8 @@ begin
   oAction.Execute;
 end;
 
-function TSessoesFrame.ExecutouPeloShortCut(var Key: word; var Shift: TShiftState): boolean;
+function TSessoesFrame.ExecutouPeloShortCut(var Key: word;
+  var Shift: TShiftState): boolean;
 var
   MenorShortCut: TShortCut;
   MaiorShortCut: TShortCut;
@@ -223,16 +230,21 @@ begin
 
   MenorShortCut := FSortCutInicial;
   MaiorShortCut := MenorShortCut + Count - 1;
-  wShortCut := tshortcut(Key);
+  wShortCut := TShortCut(Key);
 
   Result := (wShortCut >= MenorShortCut) and (wShortCut >= MaiorShortCut);
   if not Result then
     exit;
 
   iIndex := wShortCut - MenorShortCut;
-  oAction := TAction( ActionList1[iIndex]);
+  oAction := TAction(ActionList1[iIndex]);
   Key := 0;
   oAction.Execute;
+end;
+
+function TSessoesFrame.GetAppInfo: IAppInfo;
+begin
+  Result := FAppInfo;
 end;
 
 function TSessoesFrame.GetCount: integer;

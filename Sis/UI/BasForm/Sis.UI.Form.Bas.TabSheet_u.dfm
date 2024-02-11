@@ -7,7 +7,7 @@ inherited TabSheetBasForm: TTabSheetBasForm
   OnClose = FormClose
   ExplicitWidth = 632
   TextHeight = 15
-  object TitPanel: TPanel [0]
+  object TitPanel_BasTabSheet: TPanel [0]
     Left = 0
     Top = 0
     Width = 632
@@ -17,14 +17,14 @@ inherited TabSheetBasForm: TTabSheetBasForm
     Caption = ' '
     ParentColor = True
     TabOrder = 0
-    object ToolBar1: TToolBar
+    object TitToolBar1_BasTabSheet: TToolBar
       Left = 0
       Top = 0
       Width = 632
       Height = 30
       ButtonHeight = 21
       ButtonWidth = 47
-      Caption = 'ToolBar1'
+      Caption = 'TitToolBar1_BasTabSheet'
       List = True
       ShowCaptions = True
       TabOrder = 0

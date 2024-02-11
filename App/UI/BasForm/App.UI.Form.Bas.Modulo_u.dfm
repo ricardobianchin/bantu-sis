@@ -7,7 +7,6 @@ inherited ModuloBasForm: TModuloBasForm
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  ExplicitTop = -25
   ExplicitWidth = 620
   ExplicitHeight = 476
   TextHeight = 15
@@ -97,7 +96,6 @@ inherited ModuloBasForm: TModuloBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 435
     object UsuarioPanel: TPanel
       Left = 5
       Top = 0

@@ -9,8 +9,8 @@ uses
 
 type
   TTabSheetBasForm = class(TActBasForm)
-    TitPanel: TPanel;
-    ToolBar1: TToolBar;
+    TitPanel_BasTabSheet: TPanel;
+    TitToolBar1_BasTabSheet: TToolBar;
     FecharToolButton_BasTabSheet: TToolButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
@@ -21,7 +21,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList); reintroduce;
   end;
 
-  TTabSheetBasFormClass = class of TTabSheetBasForm;
+//  TTabSheetBasFormClass = class of TTabSheetBasForm;
 
 var
   TabSheetBasForm: TTabSheetBasForm;

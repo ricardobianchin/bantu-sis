@@ -28,6 +28,9 @@ procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings;
 // gravar
 procedure EscreverArquivo(pStr: string; pNomeArq: string);
 
+// Ler
+function LerDoArquivo(pNomeArq: string; out pConteudo: string): boolean;
+
 // selecionar
 function EscolhaArquivo(var pNomeArq: string; pFiltros: string = '';
   pTitulo: string = ''): boolean;
@@ -71,6 +74,32 @@ begin
     Buffer := TEncoding.UTF8.GetBytes(pStr);
     Arquivo.Write(Buffer, Length(Buffer));
   finally
+    Arquivo.Free;
+  end;
+end;
+
+function LerDoArquivo(pNomeArq: string; out pConteudo: string): boolean;
+var
+  Arquivo: TFileStream;
+  Buffer: TBytes;
+begin
+  Result := FileExists(pNomeArq);
+
+  if not Result then
+    exit;
+
+  // Cria um objeto TFileStream para ler o arquivo
+  Arquivo := TFileStream.Create(pNomeArq, fmOpenRead or fmShareDenyWrite);
+  try
+    // Define o tamanho do buffer de acordo com o tamanho do arquivo
+    SetLength(Buffer, Arquivo.Size);
+    // Lê o arquivo para o buffer
+    Arquivo.Read(Buffer, Length(Buffer));
+    // Converte o buffer em string usando a codificação UTF-8
+    pConteudo := TEncoding.UTF8.GetString(Buffer);
+    Result := true; // Retorna true se a leitura foi bem sucedida
+  finally
+    // Libera o objeto TFileStream
     Arquivo.Free;
   end;
 end;

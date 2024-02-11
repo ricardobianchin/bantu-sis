@@ -307,6 +307,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>TabSheetBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Lists\Sis.Lists.Lista.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.AlignmentList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.AlignmentList_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.ListaList_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IntegerList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IntegerList_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

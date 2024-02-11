@@ -1,5 +1,5 @@
-inherited RetagAjuBemForm: TRetagAjuBemForm
-  Caption = 'Bem-vindo'
+inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
+  Caption = 'Bem-vindo!'
   TextHeight = 15
   object SaudacaoLabel: TLabel [0]
     Left = 8

@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
-  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario;
+  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario, App.AppInfo, Sis.Config.SisConfig;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -45,24 +45,32 @@ type
     FSessaoEventos: ISessaoEventos;
     FSessaoIndex: TSessaoIndex;
     FUsuario: IUsuario;
+    FAppInfo: IAppInfo;
+    FSisConfig: ISisConfig;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
     procedure MenuExibir;
+    function GetSisConfig: ISisConfig;
   protected
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
     procedure DoFechar; virtual;
     function Fechou: boolean; virtual;
+
+    function GetAppInfo: IAppInfo;
+    property AppInfo: IAppInfo read GetAppInfo;
+    property SisConfig: ISisConfig read GetSisConfig;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario); reintroduce;
+      pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig); reintroduce;
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
+
   end;
 
-  TModuloBasFormClass = class of TModuloBasForm;
+//  TModuloBasFormClass = class of TModuloBasForm;
 
   // var
   // ModuloBasForm: TModuloBasForm;
@@ -83,16 +91,19 @@ uses Sis.UI.ImgDM, Sis.UI.Constants;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
 begin
   inherited Create(AOwner);
+  FSisConfig := pSisConfig;
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   FModuloSistema := pModuloSistema;
   TitleBarText := FModuloSistema.TipoModuloSistemaDescr;
   FSessaoEventos := pSessaoEventos;
   FSessaoIndex := pSessaoIndex;
   FUsuario := pUsuario;
+  FAppInfo := pAppInfo;
   UsuarioApelidoLabel.Caption := FUsuario.NomeExib;
+
 end;
 
 procedure TModuloBasForm.DoFechar;
@@ -118,6 +129,8 @@ end;
 procedure TModuloBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
+
+
   TitleBarActionList_ModuloBasForm.Images := SisImgDataModule.ImageList_40_24;
   BoundsRect := Screen.WorkAreaRect;
 end;
@@ -155,6 +168,16 @@ begin
     Voltou;
   end;
   inherited;
+end;
+
+function TModuloBasForm.GetAppInfo: IAppInfo;
+begin
+  Result := FAppInfo;
+end;
+
+function TModuloBasForm.GetSisConfig: ISisConfig;
+begin
+  Result := FSisConfig;
 end;
 
 function TModuloBasForm.GetTitleBarText: string;

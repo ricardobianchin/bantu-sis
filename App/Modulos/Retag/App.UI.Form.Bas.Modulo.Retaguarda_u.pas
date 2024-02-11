@@ -6,27 +6,38 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador, Sis.UI.Form.Bas.TabSheet_u;
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
+  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
     RetagActionList: TActionList;
-    RetagEstProdTipoAction: TAction;
     MenuPanel: TPanel;
     MenuPageControl: TPageControl;
     EstoqueTabSheet: TTabSheet;
     AjudaTabSheet: TTabSheet;
     PageControl1: TPageControl;
-    RetagEstProdFabrAction: TAction;
     EstProdGroupBox: TGroupBox;
     EstoqueToolBar: TToolBar;
-    EstProdTipoToolButton: TToolButton;
+    EstProdEnvTermPanel: TPanel;
+
     EstProdFabrToolButton: TToolButton;
+    EstProdTipoToolButton: TToolButton;
+
+    RetagAjuBemAction: TAction;
+
+    RetagEstProdFabrAction: TAction;
+    RetagEstProdTipoAction: TAction;
+    RetagEstProdAction: TAction;
+    RetagEstProdEnviarTermAction: TAction;
+
     BalloonHint1: TBalloonHint;
     BalloonHint1CloseTimer: TTimer;
     ToolBar3: TToolBar;
-    RetagAjuBemAction: TAction;
     AjuBemToolButton: TToolButton;
+    ToolBar4: TToolBar;
+    ToolButton2: TToolButton;
+    ProdToolButton: TToolButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -34,15 +45,24 @@ type
     procedure RetagEstProdTipoActionExecute(Sender: TObject);
     procedure MenuPageControlDrawTab(Control: TCustomTabControl;
       TabIndex: Integer; const Rect: TRect; Active: Boolean);
-    procedure RetagEstProdFabrActionExecute(Sender: TObject);
     procedure BalloonHint1CloseTimerTimer(Sender: TObject);
+
+    //Aju
     procedure RetagAjuBemActionExecute(Sender: TObject);
+
+    //Est
+
+    //EstProd
+    procedure RetagEstProdFabrActionExecute(Sender: TObject);
+    procedure RetagEstProdActionExecute(Sender: TObject);
+    procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
+
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
     FContador: IContador;
 
-    procedure TabSheetCrie(pTabSheetBasFormClass: TTabSheetBasFormClass);
+    procedure TabSheetAppCrie(pFunctionTabSheetGetClassName: TFunctionTabSheetGetClassName; pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
   public
     { Public declarations }
   end;
@@ -54,8 +74,8 @@ implementation
 
 {$R *.dfm}
 
-uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  App.UI.Form.TabSheet.Retag.Aju.BemVindo_u;
+uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types, Sis.Types.strings_u,
+  App.UI.TabSheetForm.Factory;
 
 procedure TRetaguardaModuloBasForm.BalloonHint1CloseTimerTimer(Sender: TObject);
 begin
@@ -118,17 +138,27 @@ end;
 procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);
 begin
   inherited;
-  TabSheetCrie(TRetagAjuBemForm);
+  TabSheetAppCrie(RetagAjuBemVindoFormGetClassName, RetagAjuBemVindoFormCreate);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
+begin
+  inherited;
+//
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstProdEnviarTermActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+//
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdFabrActionExecute
   (Sender: TObject);
-var
-  t: TTabSheet;
 begin
   inherited;
-
-  //
+  TabSheetAppCrie(RetagEstProdFabrFormGetClassName, RetagEstProdFabrFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
@@ -142,22 +172,22 @@ procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   RetagAjuBemAction.Execute;
+  RetagEstProdFabrAction.Execute;
 end;
 
-procedure TRetaguardaModuloBasForm.TabSheetCrie(pTabSheetBasFormClass
-  : TTabSheetBasFormClass);
+procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName: TFunctionTabSheetGetClassName; pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
 var
   oTabSheet: TTabSheet;
-  oTabSheetBasForm: TTabSheetBasForm;
+  oTabSheetBasForm: TTabSheetAppBasForm;
   HintPoint: TPoint;
   sFormClassName: string;
   iPageIndex: Integer;
   oTRect: TRect;
-  iExistenteIndex: integer;
+  iExistenteIndex: Integer;
 
   oFormOwner: TComponent;
 begin
-  sFormClassName := UpperCase(pTabSheetBasFormClass.ClassName);
+  sFormClassName := pFunctionTabSheetGetClassName;
 
   iExistenteIndex := FFormClassNamesSL.IndexOf(sFormClassName);
   if iExistenteIndex > -1 then
@@ -187,14 +217,13 @@ begin
 
   oFormOwner := oTabSheet;
 
-  oTabSheetBasForm := pTabSheetBasFormClass.Create(oFormOwner, FFormClassNamesSL);
+  oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL, AppInfo);
   oTabSheetBasForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);
 
   oTabSheet.Caption := oTabSheetBasForm.Caption;
   oTabSheetBasForm.Show;
-
 end;
 
 end.

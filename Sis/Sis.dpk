@@ -190,6 +190,12 @@ contains
   Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
   Sis.DB.FDDataSetManager in 'DB\DataSetManager\Sis.DB.FDDataSetManager.pas',
   Sis.DB.FDDataSetManager_u in 'DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas',
-  Sis.UI.Form.Bas.TabSheet_u in 'UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas' {TabSheetBasForm};
+  Sis.UI.Form.Bas.TabSheet_u in 'UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas' {TabSheetBasForm},
+  Sis.Lists.Lista in 'Lists\Sis.Lists.Lista.pas',
+  Sis.Lists.AlignmentList in 'Lists\Sis.Lists.AlignmentList.pas',
+  Sis.Lists.AlignmentList_u in 'Lists\Sis.Lists.AlignmentList_u.pas',
+  Sis.Lists.ListaList_u in 'Lists\Sis.Lists.ListaList_u.pas',
+  Sis.Lists.IntegerList in 'Lists\Sis.Lists.IntegerList.pas',
+  Sis.Lists.IntegerList_u in 'Lists\Sis.Lists.IntegerList_u.pas';
 
 end.

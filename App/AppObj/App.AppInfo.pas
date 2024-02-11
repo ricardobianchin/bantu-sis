@@ -41,6 +41,12 @@ type
     function GetPastaComandos: string;
     property PastaComandos: string read GetPastaComandos;
 
+    function GetPastaConsultas: string;
+    property PastaConsultas: string read GetPastaConsultas;
+
+    function GetPastaConsTabViews: string;
+    property PastaConsTabViews: string read GetPastaConsTabViews;
+
     function GetAtualizExeSubPasta: string;
     property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
 

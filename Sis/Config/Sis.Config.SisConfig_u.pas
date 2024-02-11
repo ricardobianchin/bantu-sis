@@ -6,7 +6,7 @@ uses Sis.Config.MachineId, Sis.Config.SisConfig, Sis.Win.VersionInfo,
   Sis.DB.DBTypes;
 
 type
-  TISisConfig = class(TInterfacedObject, ISisConfig)
+  TSisConfig = class(TInterfacedObject, ISisConfig)
   private
     FLocalMachineId: IMachineId;
     FLocalMachineIsServer: boolean;
@@ -40,11 +40,11 @@ type
 
 implementation
 
-{ TISisConfig }
+{ TSisConfig }
 
 uses Sis.UI.IO.Files;
 
-constructor TISisConfig.Create(pLocalMachineId, pServerMachineId: IMachineId; pWinVersionInfo: IWinVersionInfo; pDBMSInfo: IDBMSInfo);
+constructor TSisConfig.Create(pLocalMachineId, pServerMachineId: IMachineId; pWinVersionInfo: IWinVersionInfo; pDBMSInfo: IDBMSInfo);
 begin
   FLocalMachineId := pLocalMachineId;
   FLocalMachineIsServer := false;
@@ -54,37 +54,37 @@ begin
   FPastaProduto := PastaAcima(PastaAtual);
 end;
 
-function TISisConfig.GetDBMSInfo: IDBMSInfo;
+function TSisConfig.GetDBMSInfo: IDBMSInfo;
 begin
   result := FDBMSInfo;
 end;
 
-function TISisConfig.GetLocalMachineId: IMachineId;
+function TSisConfig.GetLocalMachineId: IMachineId;
 begin
   result := FLocalMachineId;
 end;
 
-function TISisConfig.GetLocalMachineIsServer: boolean;
+function TSisConfig.GetLocalMachineIsServer: boolean;
 begin
   result := FLocalMachineIsServer;
 end;
 
-function TISisConfig.GetPastaProduto: string;
+function TSisConfig.GetPastaProduto: string;
 begin
   result := FPastaProduto;
 end;
 
-function TISisConfig.GetServerMachineId: IMachineId;
+function TSisConfig.GetServerMachineId: IMachineId;
 begin
   result := FServerMachineId;
 end;
 
-function TISisConfig.GetWinVersionInfo: IWinVersionInfo;
+function TSisConfig.GetWinVersionInfo: IWinVersionInfo;
 begin
   result := FWinVersionInfo;
 end;
 
-procedure TISisConfig.SetLocalMachineIsServer(const Value: boolean);
+procedure TSisConfig.SetLocalMachineIsServer(const Value: boolean);
 begin
   FLocalMachineIsServer := Value;
 end;

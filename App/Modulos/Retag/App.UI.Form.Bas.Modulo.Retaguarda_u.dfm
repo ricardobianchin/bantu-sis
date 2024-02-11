@@ -15,7 +15,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Left = 0
     Top = 30
     Width = 604
-    Height = 123
+    Height = 130
     Align = alTop
     Caption = ' '
     TabOrder = 1
@@ -23,8 +23,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Left = 1
       Top = 1
       Width = 602
-      Height = 121
-      ActivePage = AjudaTabSheet
+      Height = 128
+      ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -39,14 +39,14 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object EstProdGroupBox: TGroupBox
           Left = 1
           Top = -3
-          Width = 185
-          Height = 77
+          Width = 264
+          Height = 97
           Caption = 'Produtos'
           TabOrder = 0
           object EstoqueToolBar: TToolBar
             Left = 2
             Top = 17
-            Width = 181
+            Width = 260
             Height = 54
             ButtonHeight = 54
             ButtonWidth = 67
@@ -57,15 +57,46 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Images = RetagImgDM.ImageList_32_32
             ShowCaptions = True
             TabOrder = 0
-            object EstProdFabrToolButton: TToolButton
+            object ProdToolButton: TToolButton
               Left = 0
+              Top = 0
+              Action = RetagEstProdAction
+            end
+            object EstProdFabrToolButton: TToolButton
+              Left = 67
               Top = 0
               Action = RetagEstProdFabrAction
             end
             object EstProdTipoToolButton: TToolButton
-              Left = 67
+              Left = 134
               Top = 0
               Action = RetagEstProdTipoAction
+            end
+          end
+          object EstProdEnvTermPanel: TPanel
+            Left = 2
+            Top = 73
+            Width = 119
+            Height = 21
+            BevelOuter = bvNone
+            Caption = '  '
+            TabOrder = 1
+            object ToolBar4: TToolBar
+              Left = 0
+              Top = 0
+              Width = 119
+              Height = 21
+              ButtonHeight = 21
+              ButtonWidth = 114
+              Caption = 'ToolBar4'
+              List = True
+              ShowCaptions = True
+              TabOrder = 0
+              object ToolButton2: TToolButton
+                Left = 0
+                Top = 0
+                Action = RetagEstProdEnviarTermAction
+              end
             end
           end
         end
@@ -99,21 +130,28 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   inherited BasePanel: TPanel
     Width = 604
     TabOrder = 2
-    ExplicitTop = 451
     ExplicitWidth = 604
   end
   object PageControl1: TPageControl [3]
     Left = 0
-    Top = 153
+    Top = 160
     Width = 604
-    Height = 298
+    Height = 291
     Align = alClient
     TabOrder = 3
   end
+  inherited ShowTimer_BasForm: TTimer
+    Left = 184
+    Top = 192
+  end
+  inherited PopupMenu1: TPopupMenu
+    Left = 272
+    Top = 80
+  end
   object RetagActionList: TActionList
     Images = RetagImgDM.ImageList_32_32
-    Left = 104
-    Top = 216
+    Left = 496
+    Top = 176
     object RetagEstProdTipoAction: TAction
       Category = 'Estoque'
       Caption = 'Tipos'
@@ -127,20 +165,32 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       OnExecute = RetagEstProdFabrActionExecute
     end
     object RetagAjuBemAction: TAction
+      Category = 'Ajuda'
       Caption = 'Bem-vindo'
       ImageIndex = 2
       OnExecute = RetagAjuBemActionExecute
     end
+    object RetagEstProdEnviarTermAction: TAction
+      Category = 'Estoque'
+      Caption = 'Envia aos Terminais'
+      OnExecute = RetagEstProdEnviarTermActionExecute
+    end
+    object RetagEstProdAction: TAction
+      Category = 'Estoque'
+      Caption = 'Produtos'
+      ImageIndex = 3
+      OnExecute = RetagEstProdActionExecute
+    end
   end
   object BalloonHint1: TBalloonHint
-    Left = 216
-    Top = 216
+    Left = 464
+    Top = 256
   end
   object BalloonHint1CloseTimer: TTimer
     Enabled = False
     Interval = 5000
     OnTimer = BalloonHint1CloseTimerTimer
-    Left = 328
-    Top = 216
+    Left = 376
+    Top = 176
   end
 end
