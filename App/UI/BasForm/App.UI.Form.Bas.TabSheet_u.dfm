@@ -10,10 +10,6 @@ inherited TabSheetAppBasForm: TTabSheetAppBasForm
       Height = 21
       AutoSize = True
       ExplicitHeight = 21
-      inherited FecharToolButton_BasTabSheet: TToolButton
-        AutoSize = True
-        ExplicitWidth = 51
-      end
     end
   end
 end

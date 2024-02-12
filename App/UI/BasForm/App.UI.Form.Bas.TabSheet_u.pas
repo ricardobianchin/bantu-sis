@@ -28,7 +28,7 @@ type
   end;
 
   TFunctionTabSheetFormCreate = function(AOwner: TComponent;
-    pFormClassNamesSL: TStringList; pAppInfo: IAppInfo): TTabSheetAppBasForm;
+    pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig): TTabSheetAppBasForm;
   TFunctionTabSheetGetClassName = function: string;
 
   // TTabSheetAppBasFormClass = class of TTabSheetAppBasForm;
@@ -52,7 +52,7 @@ begin
   FSisConfig := pSisConfig;
 
   sFormCaption := Titulo;
-  sFecharCaption := 'Fechar ' + Titulo;
+  sFecharCaption := 'Fechar '{ + Titulo};
   FecharAction_ActBasForm.Caption := sFecharCaption;
 end;
 

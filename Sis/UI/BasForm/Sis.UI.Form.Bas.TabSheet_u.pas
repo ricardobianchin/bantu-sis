@@ -5,17 +5,21 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Act_u, System.Actions,
-  Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls;
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls,
+  Sis.UI.Controls.TToolBar;
 
 type
   TTabSheetBasForm = class(TActBasForm)
     TitPanel_BasTabSheet: TPanel;
     TitToolBar1_BasTabSheet: TToolBar;
-    FecharToolButton_BasTabSheet: TToolButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
+  protected
+    procedure ToolBar1CrieBotoes;virtual;
+    procedure Inicialize; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList); reintroduce;
@@ -59,6 +63,22 @@ begin
   except
 
   end;
+end;
+
+procedure TTabSheetBasForm.Inicialize;
+begin
+  ToolBar1CrieBotoes;
+end;
+
+procedure TTabSheetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  Inicialize;
+end;
+
+procedure TTabSheetBasForm.ToolBar1CrieBotoes;
+begin
+  ToolBarAddButton(FecharAction_ActBasForm, TitToolBar1_BasTabSheet);
 end;
 
 end.

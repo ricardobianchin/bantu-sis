@@ -5,7 +5,7 @@ inherited TabSheetBasForm: TTabSheetBasForm
   ClientHeight = 477
   ClientWidth = 632
   OnClose = FormClose
-  ExplicitWidth = 632
+  ExplicitHeight = 477
   TextHeight = 15
   object TitPanel_BasTabSheet: TPanel [0]
     Left = 0
@@ -29,11 +29,6 @@ inherited TabSheetBasForm: TTabSheetBasForm
       ShowCaptions = True
       TabOrder = 0
       Transparent = True
-      object FecharToolButton_BasTabSheet: TToolButton
-        Left = 0
-        Top = 0
-        Action = FecharAction_ActBasForm
-      end
     end
   end
   inherited ActionList1_ActBasForm: TActionList

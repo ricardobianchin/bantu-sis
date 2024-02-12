@@ -183,6 +183,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
   end
   object BalloonHint1: TBalloonHint
+    Delay = 100
     Left = 464
     Top = 256
   end

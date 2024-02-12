@@ -196,6 +196,9 @@ contains
   Sis.Lists.AlignmentList_u in 'Lists\Sis.Lists.AlignmentList_u.pas',
   Sis.Lists.ListaList_u in 'Lists\Sis.Lists.ListaList_u.pas',
   Sis.Lists.IntegerList in 'Lists\Sis.Lists.IntegerList.pas',
-  Sis.Lists.IntegerList_u in 'Lists\Sis.Lists.IntegerList_u.pas';
+  Sis.Lists.IntegerList_u in 'Lists\Sis.Lists.IntegerList_u.pas',
+  Sis.UI.Controls.TToolBar in 'UI\Controls\Sis.UI.Controls.TToolBar.pas',
+  Sis.UI.Frame.Bas.FiltroParams_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams_u.pas',
+  Sis.UI.Frame.Bas.FiltroParams.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas';
 
 end.

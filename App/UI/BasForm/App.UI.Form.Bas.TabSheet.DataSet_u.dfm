@@ -8,50 +8,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     inherited TitToolBar1_BasTabSheet: TToolBar
       Height = 32
       AutoSize = False
-      ButtonWidth = 58
       ExplicitHeight = 32
-      object FiltroPanel_DataSetTabSheet: TPanel
-        Left = 51
-        Top = 0
-        Width = 121
-        Height = 23
-        AutoSize = True
-        BevelOuter = bvNone
-        Caption = ' '
-        TabOrder = 0
-        object FiltroEdit_DataSetTabSheet: TEdit
-          Left = 0
-          Top = 0
-          Width = 121
-          Height = 23
-          TabOrder = 0
-          OnChange = FiltroEdit_DataSetTabSheetChange
-        end
-      end
-      object AtuToolButton: TToolButton
-        Left = 172
-        Top = 0
-        Action = AtuAction_DatasetTabSheet
-        AutoSize = True
-      end
-      object InsToolButton: TToolButton
-        Left = 229
-        Top = 0
-        Action = InsAction_DatasetTabSheet
-        AutoSize = True
-      end
-      object AltToolButton: TToolButton
-        Left = 272
-        Top = 0
-        Action = AltAction_DatasetTabSheet
-        AutoSize = True
-      end
-      object ExclToolButton: TToolButton
-        Left = 318
-        Top = 0
-        Action = ExclAction_DatasetTabSheetAction1
-        AutoSize = True
-      end
     end
   end
   object DBGrid1: TDBGrid [1]

@@ -8,7 +8,8 @@ uses
   App.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids,
   FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
-  Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls;
+  Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
+  Sis.DB.DBTypes;
 
 type
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
@@ -17,13 +18,7 @@ type
     AtuAction_DatasetTabSheet: TAction;
     InsAction_DatasetTabSheet: TAction;
     AltAction_DatasetTabSheet: TAction;
-    InsToolButton: TToolButton;
-    AltToolButton: TToolButton;
-    ExclToolButton: TToolButton;
-    AtuToolButton: TToolButton;
     ExclAction_DatasetTabSheetAction1: TAction;
-    FiltroPanel_DataSetTabSheet: TPanel;
-    FiltroEdit_DataSetTabSheet: TEdit;
     FiltroAtualizarTimer: TTimer;
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);
@@ -35,6 +30,10 @@ type
     // FFDDataSetManager: IFDDataSetManager;
 
     FFiltroEditAutomatico: boolean;
+
+//    oDBConnection: IDBConnection;
+    FDBConnectionParams: TDBConnectionParams;
+
 
   protected
     function GetFDMemTable: TFDMemTable;
@@ -52,7 +51,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo); reintroduce;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig); reintroduce;
   end;
   // TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
 
@@ -79,9 +78,9 @@ begin
 end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo);
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo);
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig);
   FFiltroEditAutomatico := false;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
