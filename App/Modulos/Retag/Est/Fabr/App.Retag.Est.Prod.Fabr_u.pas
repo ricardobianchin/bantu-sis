@@ -2,59 +2,24 @@ unit App.Retag.Est.Prod.Fabr_u;
 
 interface
 
-uses App.Retag.Est.Prod.Fabr;
+uses App.Retag.Est.Prod.Fabr, App.Entidade.Ed.Id.Descr, Data.DB,
+  App.Entidade.Ed.Id.Descr_u;
 
 type
-  TProdFabr = class(TInterfacedObject, IProdFabr)
+  TProdFabr = class(TEntIdDescr, IProdFabr)
   private
-    FId: smallint;
-    FNome: string;
-
-    function GetId: smallint;
-    procedure SetId(const Value: smallint);
-
-    function GetNome: string;
-    procedure SetNome(const Value: string);
   public
-    property Id: smallint read GetId write SetId;
-    property Nome: string read GetNome write SetNome;
-    constructor Create;
-    procedure Clear;
+    constructor Create(pState: TDataSetState; pId: integer = 0; pDescr: string = '');
   end;
 
 implementation
 
 { TProdFabr }
 
-procedure TProdFabr.Clear;
+constructor TProdFabr.Create(pState: TDataSetState; pId: integer;
+  pDescr: string);
 begin
-  FId := 0;
-  FNome := '';
-end;
-
-constructor TProdFabr.Create;
-begin
-  Clear;
-end;
-
-function TProdFabr.GetId: smallint;
-begin
-  Result := FId;
-end;
-
-function TProdFabr.GetNome: string;
-begin
-  Result := FNome;
-end;
-
-procedure TProdFabr.SetId(const Value: smallint);
-begin
-  FId := Value;
-end;
-
-procedure TProdFabr.SetNome(const Value: string);
-begin
-  FNome := Value;
+  inherited Create(pState, pId, pDescr);
 end;
 
 end.

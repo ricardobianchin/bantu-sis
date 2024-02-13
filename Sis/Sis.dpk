@@ -199,6 +199,8 @@ contains
   Sis.Lists.IntegerList_u in 'Lists\Sis.Lists.IntegerList_u.pas',
   Sis.UI.Controls.TToolBar in 'UI\Controls\Sis.UI.Controls.TToolBar.pas',
   Sis.UI.Frame.Bas.FiltroParams_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams_u.pas',
-  Sis.UI.Frame.Bas.FiltroParams.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas';
+  Sis.UI.Frame.Bas.FiltroParams.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas',
+  Sis.Entidade in 'Entities\Sis.Entidade.pas',
+  Sis.Entidade_u in 'Entities\Sis.Entidade_u.pas';
 
 end.

@@ -1,14 +1,13 @@
 inherited LoginForm: TLoginForm
   Caption = 'Login'
-  ClientHeight = 186
-  ClientWidth = 371
-  Position = poDesktopCenter
-  ExplicitWidth = 387
-  ExplicitHeight = 225
+  ClientHeight = 185
+  ClientWidth = 367
+  ExplicitWidth = 383
+  ExplicitHeight = 224
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 97
-    Width = 371
+    Top = 96
+    Width = 367
     Height = 52
     Alignment = taCenter
     AutoSize = False
@@ -17,7 +16,21 @@ inherited LoginForm: TLoginForm
     ExplicitWidth = 379
     ExplicitHeight = 52
   end
-  object SenhaLabeledEdit: TLabeledEdit [1]
+  object NomeUsuLabeledEdit: TLabeledEdit [1]
+    Left = 24
+    Top = 24
+    Width = 300
+    Height = 23
+    EditLabel.Width = 92
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Nome de Usu'#225'rio'
+    MaxLength = 20
+    TabOrder = 1
+    Text = ''
+    OnChange = NomeUsuLabeledEditChange
+    OnKeyPress = NomeUsuLabeledEditKeyPress
+  end
+  object SenhaLabeledEdit: TLabeledEdit [2]
     Left = 24
     Top = 72
     Width = 300
@@ -32,23 +45,9 @@ inherited LoginForm: TLoginForm
     OnChange = SenhaLabeledEditChange
     OnKeyPress = SenhaLabeledEditKeyPress
   end
-  object NomeUsuLabeledEdit: TLabeledEdit [2]
-    Left = 24
-    Top = 24
-    Width = 300
-    Height = 23
-    EditLabel.Width = 92
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Nome de Usu'#225'rio'
-    MaxLength = 20
-    TabOrder = 1
-    Text = ''
-    OnChange = NomeUsuLabeledEditChange
-    OnKeyPress = NomeUsuLabeledEditKeyPress
-  end
   inherited BasePanel: TPanel
-    Top = 149
-    Width = 371
+    Top = 148
+    Width = 367
     ExplicitTop = 149
     ExplicitWidth = 371
   end

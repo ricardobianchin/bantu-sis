@@ -1,24 +1,21 @@
 inherited EdBasForm: TEdBasForm
   Caption = 'EdBasForm'
-  ExplicitWidth = 515
-  ExplicitHeight = 335
   TextHeight = 15
-  inherited MensLabel: TLabel
-    ExplicitTop = 240
-  end
   inherited BasePanel: TPanel
-    ExplicitTop = 259
-    ExplicitWidth = 499
+    ExplicitWidth = 507
+    DesignSize = (
+      503
+      37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 172
+      Left = 168
       ExplicitLeft = 168
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 285
+      Left = 281
       ExplicitLeft = 281
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 365
+      Left = 361
       ExplicitLeft = 361
     end
   end

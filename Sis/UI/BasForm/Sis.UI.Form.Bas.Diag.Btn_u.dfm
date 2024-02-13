@@ -1,31 +1,29 @@
 inherited DiagBtnBasForm: TDiagBtnBasForm
   Caption = 'DiagBtnBasForm'
-  ClientHeight = 298
-  ClientWidth = 507
+  ClientHeight = 297
+  ClientWidth = 503
   ExplicitWidth = 519
   ExplicitHeight = 336
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 241
-    Width = 507
+    Top = 240
+    Width = 503
     ExplicitTop = 241
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 261
-    Width = 507
+    Top = 260
+    Width = 503
     Height = 37
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 260
-    ExplicitWidth = 503
     DesignSize = (
-      507
+      503
       37)
     object MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 188
+      Left = 184
       Top = 5
       Width = 108
       Height = 25
@@ -33,10 +31,9 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Copiar Mensagem'
       TabOrder = 0
-      ExplicitLeft = 184
     end
     object OkBitBtn_DiagBtn: TBitBtn
-      Left = 301
+      Left = 297
       Top = 5
       Width = 75
       Height = 25
@@ -44,10 +41,9 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Ok'
       TabOrder = 1
-      ExplicitLeft = 297
     end
     object CancelBitBtn_DiagBtn: TBitBtn
-      Left = 381
+      Left = 377
       Top = 5
       Width = 75
       Height = 25
@@ -55,7 +51,6 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Cancelar'
       TabOrder = 2
-      ExplicitLeft = 377
     end
   end
   inherited ActionList1_Diag: TActionList

@@ -90,9 +90,14 @@ procedure TRetagEstProdFabrTabSheetDataSetForm.InsAction_DatasetTabSheetExecute(
   Sender: TObject);
 var
   oFabr: IProdFabr;
+  Resultado: boolean;
 begin
   inherited;
-  oFabr := RetagEstProdFabrCreate;
+  oFabr := RetagEstProdFabrCreate(dsInsert);
+
+  Resultado := ProdFabrPerg(Self,  Titulo, dsInsert, oFabr);
+  if not Resultado then
+    exit;
 
 end;
 

@@ -26,7 +26,8 @@ type
     procedure AtuExib; virtual;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pTitulo: string; pState: TDataSetState);
+    constructor Create(AOwner: TComponent; pTitulo: string;
+      pState: TDataSetState); reintroduce;
   end;
 
 var

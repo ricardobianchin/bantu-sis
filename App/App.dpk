@@ -80,12 +80,19 @@ contains
   App.UI.Form.TabSheet.Retag.Aju.BemVindo_u in 'Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas' {RetagAjuBemVindoForm},
   App.UI.Form.TabSheet.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.TabSheet.Retag.Est.Prod.Fabr_u.pas' {RetagEstProdFabrTabSheetDataSetForm},
   App.UI.TabSheetForm.Factory in 'Modulos\Retag\App.UI.TabSheetForm.Factory.pas',
-  App.Retag.Est.Prod.Fabr in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.pas',
-  App.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr_u.pas',
   App.Retag.Est.Factory in 'Modulos\Retag\Est\App.Retag.Est.Factory.pas',
   App.Retag.Est.Prod.Fabr.DBI in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI.pas',
   App.Retag.Est.Prod.Fabr.DBI_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI_u.pas',
   App.UI.Form.Bas.Ed_u in 'UI\BasForm\App.UI.Form.Bas.Ed_u.pas' {EdBasForm},
-  App.UI.Form.Ed.Retag.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Retag.Prod.Fabr_u.pas' {ProdFabrRetagEdBasForm};
+  App.Entidade.Ed in 'Modulos\Retag\Ent\App.Entidade.Ed.pas',
+  App.Entidade.Ed_u in 'Modulos\Retag\Ent\App.Entidade.Ed_u.pas',
+  App.Entidade.Ed.Id in 'Modulos\Retag\Ent\App.Entidade.Ed.Id.pas',
+  App.Entidade.Ed.Id_u in 'Modulos\Retag\Ent\App.Entidade.Ed.Id_u.pas',
+  App.Entidade.Ed.Id.Descr in 'Modulos\Retag\Ent\App.Entidade.Ed.Id.Descr.pas',
+  App.Entidade.Ed.Id.Descr_u in 'Modulos\Retag\Ent\App.Entidade.Ed.Id.Descr_u.pas',
+  App.Retag.Est.Prod.Fabr in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.pas',
+  App.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr_u.pas',
+  App.UI.Form.Bas.Ed.Descr_u in 'UI\BasForm\App.UI.Form.Bas.Ed.Descr_u.pas' {EdDescrBasForm},
+  App.UI.Form.Ed.Retag.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Retag.Prod.Fabr_u.pas' {ProdFabrEdForm};
 
 end.

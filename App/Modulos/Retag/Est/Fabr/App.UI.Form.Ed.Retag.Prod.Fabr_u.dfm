@@ -1,19 +1,24 @@
-inherited ProdFabrRetagEdBasForm: TProdFabrRetagEdBasForm
-  Caption = 'ProdFabrRetagEdBasForm'
+inherited ProdFabrEdForm: TProdFabrEdForm
+  Caption = 'ProdFabrEdForm'
   TextHeight = 15
-  object LabeledEdit1: TLabeledEdit [2]
-    Left = 8
-    Top = 32
-    Width = 249
-    Height = 23
-    EditLabel.Width = 33
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Nome'
-    MaxLength = 20
-    TabOrder = 1
-    Text = ''
+  inherited BasePanel: TPanel
+    inherited MensCopyBitBtn_DiagBtn: TBitBtn
+      Left = 164
+      ExplicitLeft = 160
+    end
+    inherited OkBitBtn_DiagBtn: TBitBtn
+      Left = 277
+      ExplicitLeft = 273
+    end
+    inherited CancelBitBtn_DiagBtn: TBitBtn
+      Left = 357
+      ExplicitLeft = 353
+    end
   end
-  inherited ShowTimer_BasForm: TTimer
-    Top = 80
+  inherited LabeledEdit1: TLabeledEdit
+    EditLabel.ExplicitLeft = 0
+    EditLabel.ExplicitTop = -18
+    OnChange = LabeledEdit1Change
+    OnKeyPress = LabeledEdit1KeyPress
   end
 end
