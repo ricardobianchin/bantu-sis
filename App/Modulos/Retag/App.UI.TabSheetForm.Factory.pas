@@ -3,13 +3,12 @@ unit App.UI.TabSheetForm.Factory;
 interface
 
 uses App.UI.Form.Bas.TabSheet_u, System.Classes, App.AppInfo,
-  Sis.Config.SisConfig;
+  Sis.Config.SisConfig, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
+  Sis.DB.DBTypes;
 // Aju
 {$REGION 'Aju'}
 function RetagAjuBemVindoFormGetClassName: string;
-function RetagAjuBemVindoFormCreate(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig)
-  : TTabSheetAppBasForm;
+function RetagAjuBemVindoFormCreate(AOwner: TComponent; pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TTabSheetAppBasForm;
 {$ENDREGION}
 // Est
 {$REGION 'Est'}
@@ -17,7 +16,8 @@ function RetagAjuBemVindoFormCreate(AOwner: TComponent;
 // Est Prod
 function RetagEstProdFabrFormGetClassName: string;
 function RetagEstProdFabrFormCreate(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig)
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
   : TTabSheetAppBasForm;
 {$ENDREGION}
 {$ENDREGION}
@@ -35,11 +35,12 @@ begin
 end;
 
 function RetagAjuBemVindoFormCreate(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig)
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
   : TTabSheetAppBasForm;
 begin
   Result := TRetagAjuBemVindoForm.Create(AOwner, pFormClassNamesSL, pAppInfo,
-    pSisConfig);
+    pSisConfig, pDBMS, pOutput, pProcessLog);
 end;
 {$ENDREGION}
 {$REGION 'Est Prod impl'}
@@ -50,11 +51,12 @@ begin
 end;
 
 function RetagEstProdFabrFormCreate(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig)
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
   : TTabSheetAppBasForm;
 begin
   Result := TRetagEstProdFabrTabSheetDataSetForm.Create(AOwner,
-    pFormClassNamesSL, pAppInfo, pSisConfig);
+    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog);
 end;
 {$ENDREGION}
 

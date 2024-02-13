@@ -7,7 +7,9 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
-  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario, App.AppInfo, Sis.Config.SisConfig;
+  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario, App.AppInfo,
+  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -27,8 +29,9 @@ type
     PopupMenu1: TPopupMenu;
     FecharActionModuloBasForm1: TMenuItem;
     BasePanel: TPanel;
-    UsuarioPanel: TPanel;
-    UsuarioApelidoLabel: TLabel;
+    Panel1: TPanel;
+    Label1: TLabel;
+    OutputLabel: TLabel;
     procedure FormCreate(Sender: TObject);
 
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -47,6 +50,9 @@ type
     FUsuario: IUsuario;
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
+    FDBMS: IDBMS;
+    FOutput: IOutput;
+    FProcessLog: IProcessLog;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
@@ -61,16 +67,19 @@ type
     function GetAppInfo: IAppInfo;
     property AppInfo: IAppInfo read GetAppInfo;
     property SisConfig: ISisConfig read GetSisConfig;
+    property DBMS: IDBMS read FDBMS;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig); reintroduce;
+      pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+      pDBMS: IDBMS); reintroduce;
+
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
 
   end;
 
-//  TModuloBasFormClass = class of TModuloBasForm;
+  // TModuloBasFormClass = class of TModuloBasForm;
 
   // var
   // ModuloBasForm: TModuloBasForm;
@@ -79,7 +88,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Constants;
+uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TModuloBasForm }
 
@@ -91,19 +100,22 @@ uses Sis.UI.ImgDM, Sis.UI.Constants;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pDBMS: IDBMS);
 begin
   inherited Create(AOwner);
   FSisConfig := pSisConfig;
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   FModuloSistema := pModuloSistema;
-  TitleBarText := FModuloSistema.TipoModuloSistemaDescr;
   FSessaoEventos := pSessaoEventos;
   FSessaoIndex := pSessaoIndex;
   FUsuario := pUsuario;
   FAppInfo := pAppInfo;
-  UsuarioApelidoLabel.Caption := FUsuario.NomeExib;
-
+  FDBMS := pDBMS;
+  TitleBarText := FModuloSistema.TipoModuloSistemaDescr + ' - ' +
+    FUsuario.NomeExib;
+  FOutput := MudoOutputCreate;
+  FProcessLog := MudoProcessLogCreate;
 end;
 
 procedure TModuloBasForm.DoFechar;
@@ -129,7 +141,6 @@ end;
 procedure TModuloBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
-
 
   TitleBarActionList_ModuloBasForm.Images := SisImgDataModule.ImageList_40_24;
   BoundsRect := Screen.WorkAreaRect;

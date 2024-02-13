@@ -4,11 +4,10 @@ inherited ModuloBasForm: TModuloBasForm
   Caption = 'ModuloBasForm'
   ClientHeight = 476
   ClientWidth = 620
-  KeyPreview = True
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
+  ExplicitTop = -25
   ExplicitWidth = 620
-  ExplicitHeight = 476
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
@@ -26,7 +25,7 @@ inherited ModuloBasForm: TModuloBasForm
       620
       30)
     object TitleBarTextCaptionLabel: TLabel
-      Left = 105
+      Left = 103
       Top = 8
       Width = 130
       Height = 15
@@ -96,20 +95,31 @@ inherited ModuloBasForm: TModuloBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    object UsuarioPanel: TPanel
-      Left = 5
+    object Panel1: TPanel
+      Left = 13
       Top = 0
-      Width = 185
+      Width = 205
       Height = 25
       BevelOuter = bvLowered
       Caption = ' '
       TabOrder = 0
-      object UsuarioApelidoLabel: TLabel
+      object Label1: TLabel
         Left = 6
         Top = 7
         Width = 3
         Height = 15
         Caption = ' '
+      end
+      object OutputLabel: TLabel
+        Left = 1
+        Top = 1
+        Width = 203
+        Height = 23
+        Align = alClient
+        Caption = '    '
+        Layout = tlCenter
+        ExplicitWidth = 12
+        ExplicitHeight = 15
       end
     end
   end

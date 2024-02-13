@@ -9,7 +9,7 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids,
   FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
-  Sis.DB.DBTypes;
+  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
@@ -31,9 +31,8 @@ type
 
     FFiltroEditAutomatico: boolean;
 
-//    oDBConnection: IDBConnection;
+    // oDBConnection: IDBConnection;
     FDBConnectionParams: TDBConnectionParams;
-
 
   protected
     function GetFDMemTable: TFDMemTable;
@@ -51,7 +50,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig); reintroduce;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
+      pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
   end;
   // TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
 
@@ -78,9 +78,11 @@ begin
 end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig);
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS,
+    pOutput, pProcessLog);
   FFiltroEditAutomatico := false;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';

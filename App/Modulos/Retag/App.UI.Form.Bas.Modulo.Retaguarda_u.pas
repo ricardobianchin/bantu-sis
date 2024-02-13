@@ -63,9 +63,11 @@ type
     FFormClassNamesSL: TStringList;
     FContador: IContador;
 
+    // tab crie
     procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
       : TFunctionTabSheetGetClassName;
       pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
+
   public
     { Public declarations }
   end;
@@ -223,9 +225,9 @@ begin
   PageControl1.ActivePage := oTabSheet;
 
   oFormOwner := oTabSheet;
-
+                              dbms
   oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
-    AppInfo, SisConfig);
+    AppInfo, SisConfig, dbms, );
   oTabSheetBasForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);

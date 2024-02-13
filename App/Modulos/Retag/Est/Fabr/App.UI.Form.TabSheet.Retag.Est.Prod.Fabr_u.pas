@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Retag.Est.Prod.Fabr;
+  App.Retag.Est.Prod.Fabr, App.Retag.Est.Prod.Fabr.DBI, Sis.DB.DBTypes;
 
 type
   TRetagEstProdFabrTabSheetDataSetForm = class(TTabSheetDataSetBasForm)
@@ -33,7 +33,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory;
+uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
+  Sis.DB.Factory, App.DB.Utils;
 
 { TFabricanteTabSheetDataSetForm }
 
@@ -90,12 +91,23 @@ procedure TRetagEstProdFabrTabSheetDataSetForm.InsAction_DatasetTabSheetExecute(
   Sender: TObject);
 var
   oFabr: IProdFabr;
+  oFabrDBI: IProdFabrDBI;
   Resultado: boolean;
+  oDBConnectionParams: TDBConnectionParams;
+  oConn: IDBConnection;
 begin
   inherited;
   oFabr := RetagEstProdFabrCreate(dsInsert);
 
-  Resultado := ProdFabrPerg(Self,  Titulo, dsInsert, oFabr);
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oConn := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
+
+  Resultado := ProdFabrPerg(Self,  Titulo, dsInsert, oFabr, oFabrDBI);
   if not Resultado then
     exit;
 

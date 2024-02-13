@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo, Sis.Config.SisConfig;
+  Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
   TTabSheetAppBasForm = class(TTabSheetBasForm)
@@ -14,21 +15,31 @@ type
     { Private declarations }
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
+    FDBMS: IDBMS;
+    FOutput: IOutput;
+    FProcessLog: IProcessLog;
+
     function GetSisConfig: ISisConfig;
   protected
     function GetAppInfo: IAppInfo;
     property AppInfo: IAppInfo read GetAppInfo;
     function GetTitulo: string; virtual; abstract;
     property SisConfig: ISisConfig read GetSisConfig;
+    property Output: IOutput read FOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
   public
     { Public declarations }
     property Titulo: string read GetTitulo;
+    property DBMS: IDBMS read FDBMS;
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig); reintroduce;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
+      pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
   end;
 
   TFunctionTabSheetFormCreate = function(AOwner: TComponent;
-    pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig): TTabSheetAppBasForm;
+    pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+    pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
+    : TTabSheetAppBasForm;
   TFunctionTabSheetGetClassName = function: string;
 
   // TTabSheetAppBasFormClass = class of TTabSheetAppBasForm;
@@ -42,7 +53,8 @@ implementation
 { TTabSheetAppBasForm }
 
 constructor TTabSheetAppBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
 var
   sFormCaption: string;
   sFecharCaption: string;
@@ -50,9 +62,12 @@ begin
   inherited Create(AOwner, pFormClassNamesSL);
   FAppInfo := pAppInfo;
   FSisConfig := pSisConfig;
+  FDBMS := pDBMS;
+  FOutput := pOutput;
+  FProcessLog := pProcessLog;
 
   sFormCaption := Titulo;
-  sFecharCaption := 'Fechar '{ + Titulo};
+  sFecharCaption := 'Fechar ' { + Titulo };
   FecharAction_ActBasForm.Caption := sFecharCaption;
 end;
 

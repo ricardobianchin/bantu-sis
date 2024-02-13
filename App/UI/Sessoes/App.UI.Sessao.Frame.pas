@@ -9,7 +9,7 @@ uses
   Vcl.ExtCtrls,
   System.Actions, Vcl.ActnList, App.UI.Form.Bas.Modulo_u,
   Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.Eventos,
-  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config, App.Constants;
+  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants;
 
 type
   TSessaoFrame = class(TFrame, ISessao)
@@ -29,6 +29,7 @@ type
     FUsuario: IUsuario;
     FIndex: TSessaoIndex;
     FSessaoEventos: ISessaoEventos;
+    FDBMS: IDBMS;
 //    FLoginConfig: ILoginConfig;
 
     function GetModuloBasForm: TModuloBasForm;
@@ -47,7 +48,7 @@ type
     constructor Create(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-      pSessaoEventos: ISessaoEventos
+      pSessaoEventos: ISessaoEventos; pDBMS: IDBMS
       //; pLoginConfig: ILoginConfig
       ); reintroduce;
   end;
@@ -56,7 +57,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory;
+uses App.DB.Utils, Sis.DB.Factory;
 
 { TSessaoFrame }
 
@@ -68,7 +69,9 @@ end;
 constructor TSessaoFrame.Create(AOwner: TComponent;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-  pSessaoEventos: ISessaoEventos{; pLoginConfig: ILoginConfig});
+  pSessaoEventos: ISessaoEventos; pDBMS: IDBMS
+  {; pLoginConfig: ILoginConfig}
+  );
 var
   s: string;
 begin
@@ -78,6 +81,7 @@ begin
   FUsuario := pUsuario;
   FIndex := pIndex;
   FSessaoEventos := pSessaoEventos;
+  FDBMS := pDBMS;
 //  FLoginConfig := pLoginConfig;
 
   s := FUsuario.NomeExib;
