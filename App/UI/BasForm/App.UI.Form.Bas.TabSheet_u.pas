@@ -17,6 +17,7 @@ type
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
     FOutput: IOutput;
+    FOutputNotify: IOutput;
     FProcessLog: IProcessLog;
 
     function GetSisConfig: ISisConfig;
@@ -26,6 +27,7 @@ type
     function GetTitulo: string; virtual; abstract;
     property SisConfig: ISisConfig read GetSisConfig;
     property Output: IOutput read FOutput;
+    property OutputNotify: IOutput read FOutputNotify;
     property ProcessLog: IProcessLog read FProcessLog;
   public
     { Public declarations }
@@ -33,13 +35,13 @@ type
     property DBMS: IDBMS read FDBMS;
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
-      pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
+      pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
   end;
 
   TFunctionTabSheetFormCreate = function(AOwner: TComponent;
     pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-    pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
-    : TTabSheetAppBasForm;
+    pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+    pOutputNotify: IOutput): TTabSheetAppBasForm;
   TFunctionTabSheetGetClassName = function: string;
 
   // TTabSheetAppBasFormClass = class of TTabSheetAppBasForm;
@@ -54,7 +56,7 @@ implementation
 
 constructor TTabSheetAppBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput);
 var
   sFormCaption: string;
   sFecharCaption: string;
@@ -64,6 +66,7 @@ begin
   FSisConfig := pSisConfig;
   FDBMS := pDBMS;
   FOutput := pOutput;
+  FOutputNotify := pOutputNotify;
   FProcessLog := pProcessLog;
 
   sFormCaption := Titulo;

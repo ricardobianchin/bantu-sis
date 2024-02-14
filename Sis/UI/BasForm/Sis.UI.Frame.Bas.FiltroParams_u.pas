@@ -14,7 +14,7 @@ type
     { Private declarations }
     FOnChange: TNotifyEvent;
   protected
-    procedure DoChange(Sender: TObject);
+    procedure AgendeChange;
     function GetOnChange: TNotifyEvent; virtual;
     procedure SetOnChange(const Value: TNotifyEvent); virtual;
   public
@@ -47,7 +47,7 @@ begin
   inherited;
 end;
 
-procedure TFiltroParamsFrame.DoChange(Sender: TObject);
+procedure TFiltroParamsFrame.AgendeChange;
 begin
   ChangeTimer.Enabled := False;
   ChangeTimer.Enabled := True;

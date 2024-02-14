@@ -35,6 +35,7 @@ constructor TEntIdDescr.Create(pState: TDataSetState; pId: integer;
   pDescr: string);
 begin
   inherited Create(pState, pId);
+  FDescr := pDescr;
 end;
 
 function TEntIdDescr.EhIgualA(pOutraEntidade: IEntidade): boolean;

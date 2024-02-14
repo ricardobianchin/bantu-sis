@@ -33,10 +33,11 @@ type
 
     // oDBConnection: IDBConnection;
     FDBConnectionParams: TDBConnectionParams;
+    FState: TDataSetState;
 
   protected
     function GetFDMemTable: TFDMemTable;
-    property DMemTable: TFDMemTable read GetFDMemTable;
+    property FDMemTable: TFDMemTable read GetFDMemTable;
 
     function GetFDDataSetManager: IFDDataSetManager;
     property FDDataSetManager: IFDDataSetManager read GetFDDataSetManager;
@@ -47,11 +48,12 @@ type
 
     function GetCDS1: TFDMemTable;
     property CDS1: TFDMemTable read GetCDS1;
+    property State: TDataSetState read FState write FState;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
-      pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
+      pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
   end;
   // TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
 
@@ -79,10 +81,11 @@ end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS,
-    pOutput, pProcessLog);
+    pOutput, pProcessLog, pOutputNotify);
+  FState := dsBrowse;
   FFiltroEditAutomatico := false;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';

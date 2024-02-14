@@ -22,7 +22,6 @@ type
   public
     { Public declarations }
   end;
-//TFunctionTabSheetFormCreate = function(AOwner: TComponent; pFormClassNamesSL: TStringList; pAppInfo: IAppInfo): TTabSheetAppBasForm;
 
 var
   RetagAjuBemVindoForm: TRetagAjuBemVindoForm;

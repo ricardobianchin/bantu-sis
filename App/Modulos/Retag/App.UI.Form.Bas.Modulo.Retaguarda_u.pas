@@ -7,7 +7,10 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
-  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u;
+  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
+  Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -32,7 +35,6 @@ type
     RetagEstProdEnviarTermAction: TAction;
 
     BalloonHint1: TBalloonHint;
-    BalloonHint1CloseTimer: TTimer;
     ToolBar3: TToolBar;
     AjuBemToolButton: TToolButton;
     ToolBar4: TToolBar;
@@ -46,7 +48,6 @@ type
     procedure RetagEstProdTipoActionExecute(Sender: TObject);
     procedure MenuPageControlDrawTab(Control: TCustomTabControl;
       TabIndex: Integer; const Rect: TRect; Active: Boolean);
-    procedure BalloonHint1CloseTimerTimer(Sender: TObject);
 
     // Aju
     procedure RetagAjuBemActionExecute(Sender: TObject);
@@ -62,6 +63,7 @@ type
     { Private declarations }
     FFormClassNamesSL: TStringList;
     FContador: IContador;
+    FOutputNotify: IOutput;
 
     // tab crie
     procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
@@ -80,15 +82,7 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  Sis.Types.strings_u,
-  App.UI.TabSheetForm.Factory;
-
-procedure TRetaguardaModuloBasForm.BalloonHint1CloseTimerTimer(Sender: TObject);
-begin
-  inherited;
-  BalloonHint1CloseTimer.Enabled := False;
-  BalloonHint1.HideHint;
-end;
+  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory;
 
 procedure TRetaguardaModuloBasForm.FormCreate(Sender: TObject);
 begin
@@ -97,6 +91,7 @@ begin
   begin
     RetagImgDM := TRetagImgDM.Create(Application);
   end;
+  FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 
   FFormClassNamesSL := TStringList.Create;
   FContador := ContadorCreate;
@@ -187,7 +182,7 @@ procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName
 var
   oTabSheet: TTabSheet;
   oTabSheetBasForm: TTabSheetAppBasForm;
-  HintPoint: TPoint;
+//  HintPoint: TPoint;
   sFormClassName: string;
   iPageIndex: Integer;
   oTRect: TRect;
@@ -204,18 +199,16 @@ begin
     PageControl1.ActivePage := oTabSheet;
     iPageIndex := PageControl1.ActivePageIndex;
 
-    HintPoint := Mouse.CursorPos;
+//    HintPoint := Mouse.CursorPos;
 //    oTRect := PageControl1.TabRect(iPageIndex);
 //    HintPoint := CenterPoint(oTRect);
 
-    if HintPoint.X < 20 then
-      HintPoint.X := 20;
+//    if HintPoint.X < 20 then
+//      HintPoint.X := 20;
     // Dec(HintPoint.Y, 3);
 
-    BalloonHint1.Title := 'Opção já aberta';
-    BalloonHint1.ShowHint(HintPoint);
-    BalloonHint1CloseTimer.Enabled := False;
-    BalloonHint1CloseTimer.Enabled := true;
+    FOutputNotify.Exibir('Opção já aberta');
+
     exit;
   end;
 
@@ -227,7 +220,7 @@ begin
   oFormOwner := oTabSheet;
 
   oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
-    AppInfo, SisConfig, DBMS, Output, ProcessLog);
+    AppInfo, SisConfig, DBMS, Output, ProcessLog, FOutputNotify);
   oTabSheetBasForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);

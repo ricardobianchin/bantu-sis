@@ -318,6 +318,15 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas"/>
         <DCCReference Include="Entities\Sis.Entidade.pas"/>
         <DCCReference Include="Entities\Sis.Entidade_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas">
+            <Form>PergBooleanForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

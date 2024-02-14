@@ -19,6 +19,8 @@ inherited FiltroParamsStringFrame: TFiltroParamsStringFrame
     Height = 23
     TabOrder = 0
     Text = ' '
+    OnChange = BuscaStringEditChange
+    OnKeyPress = BuscaStringEditKeyPress
   end
   inherited ChangeTimer: TTimer
     Left = 72

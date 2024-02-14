@@ -10,7 +10,7 @@ type
   private
     FProdFabr: IProdFabr;
   public
-    procedure PreencherDataSet(var pDataSet: TDataSet; pStrBusca: string);
+    procedure PreencherDataSet(pStrBusca: string; pLeReg: TProcDataSetRef);
     function ByNome(pNome: string): integer;
     constructor Create(pDBConnection: IDBConnection; pProdFabr: IProdFabr);
     function Garantir: boolean;
@@ -80,23 +80,28 @@ begin
   end;
 end;
 
-procedure TProdFabrDBI.PreencherDataSet(var pDataSet: TDataSet;
-  pStrBusca: string);
+procedure TProdFabrDBI.PreencherDataSet(pStrBusca: string; pLeReg: TProcDataSetRef);
 var
   sSql: string;
+  q: TDataSet;
 begin
-  pDataSet.Open;
-  pDataSet.DisableControls;
   DBConnection.Abrir;
   try
     sSql := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET('
       + QuotedStr(pStrBusca)
       + ');';
-    DBConnection.QueryDataSet(sSql, pDataSet);
+    DBConnection.QueryDataSet(sSql, q);
+    try
+      while not q.Eof do
+      begin
+        pLeReg(q);
+        q.Next;
+      end;
+    finally
+      q.Free;
+    end;
   finally
     DBConnection.Fechar;
-    pDataSet.First;
-    pDataSet.EnableControls;
   end;
 end;
 

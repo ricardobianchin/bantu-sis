@@ -42,9 +42,9 @@ var
 begin
   oControlsAlinhador := ControlsAlinhadorADireitaCreate;
 
-  oControlsAlinhador.PegarControl(MensCopyBitBtn_DiagBtn);
   oControlsAlinhador.PegarControl(OkBitBtn_DiagBtn);
   oControlsAlinhador.PegarControl(CancelBitBtn_DiagBtn);
+  oControlsAlinhador.PegarControl(MensCopyBitBtn_DiagBtn);
 
   oControlsAlinhador.Execute;
 end;

@@ -11,15 +11,18 @@ uses
 
 type
   TProdFabrEdForm = class(TEdDescrBasForm)
+    ObjetivoLabel: TLabel;
     procedure LabeledEdit1Change(Sender: TObject);
     procedure LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FProdFabr: IProdFabr;
+    FProdFabrOriginal: IProdFabr;
     FProdFabrDBI: IProdFabrDBI;
     function DescrOk: boolean;
     function GravouOk: boolean;
     procedure ControlesToEnt;
+    procedure EntToControles;
   protected
     function PodeOk: boolean; override;
     procedure AjustarControles; override;
@@ -36,7 +39,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u;
+uses Sis.Types.strings_u, App.DB.Utils, App.Retag.Est.Prod.Fabr_u;
 
 { TProdFabrEdForm }
 
@@ -44,6 +47,23 @@ procedure TProdFabrEdForm.AjustarControles;
 begin
   inherited AjustarControles;
   LabeledEdit1.EditLabel.Caption := 'Nome';
+
+  Caption := 'Fabricante - '+DataSetStateToTitulo(State);
+  case State of
+    dsInactive: ;
+    dsBrowse: ;
+    dsEdit:
+    begin
+      FProdFabrOriginal := TProdFabr.Create(dsBrowse, FProdFabr.Id, FProdFabr.Descr);
+      ObjetivoLabel.Caption := 'Alterando fabricante: '+FProdFabrOriginal.Descr;
+      EntToControles;
+    end;
+
+    dsInsert:
+    begin
+      ObjetivoLabel.Caption := 'Novo fabricante';
+    end;
+  end;
 end;
 
 procedure TProdFabrEdForm.ControlesToEnt;
@@ -79,20 +99,34 @@ begin
     exit;
   end;
 
-  if State = dsInsert then
+  if State = dsEdit then
   begin
-    iFabricanteId := FProdFabrDBI.ByNome(sNomeDigitado);
-    Result := iFabricanteId < 1;
+    Result := sNomeDigitado <> FProdFabrOriginal.Descr;
+
     if not Result then
     begin
-      sFrase := Format('''%s'' já está cadastrado sob o código %d',
-        [sNomeDigitado, iFabricanteId]);
+      sFrase := 'Nome igual ao já existente';
       ErroOutput.Exibir(sFrase);
       LabeledEdit1.SetFocus;
       exit;
     end;
   end;
 
+  iFabricanteId := FProdFabrDBI.ByNome(sNomeDigitado);
+  Result := iFabricanteId < 1;
+  if not Result then
+  begin
+    sFrase := Format('''%s'' já está cadastrado sob o código %d',
+      [sNomeDigitado, iFabricanteId]);
+    ErroOutput.Exibir(sFrase);
+    LabeledEdit1.SetFocus;
+    exit;
+  end;
+end;
+
+procedure TProdFabrEdForm.EntToControles;
+begin
+  LabeledEdit1.Text := FProdFabr.Descr;
 end;
 
 function TProdFabrEdForm.GravouOk: boolean;

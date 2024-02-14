@@ -194,11 +194,4 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Left = 464
     Top = 256
   end
-  object BalloonHint1CloseTimer: TTimer
-    Enabled = False
-    Interval = 5000
-    OnTimer = BalloonHint1CloseTimerTimer
-    Left = 376
-    Top = 176
-  end
 end

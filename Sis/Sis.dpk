@@ -201,6 +201,12 @@ contains
   Sis.UI.Frame.Bas.FiltroParams_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams_u.pas',
   Sis.UI.Frame.Bas.FiltroParams.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas',
   Sis.Entidade in 'Entities\Sis.Entidade.pas',
-  Sis.Entidade_u in 'Entities\Sis.Entidade_u.pas';
+  Sis.Entidade_u in 'Entities\Sis.Entidade_u.pas',
+  Sis.UI.IO.Output.ToBalloonHint_u in 'UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas',
+  Sis.UI.IO.Input in 'UI\IO\Input\Sis.UI.IO.Input.pas',
+  Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
+  Sis.UI.IO.Input.Bool.Form in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas' {PergBooleanForm},
+  Sis.UI.IO.Input.Bool_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas',
+  Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas';
 
 end.
