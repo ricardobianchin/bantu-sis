@@ -225,9 +225,9 @@ begin
   PageControl1.ActivePage := oTabSheet;
 
   oFormOwner := oTabSheet;
-                              dbms
+
   oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
-    AppInfo, SisConfig, dbms, );
+    AppInfo, SisConfig, DBMS, Output, ProcessLog);
   oTabSheetBasForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);

@@ -18,6 +18,8 @@ type
     FProdFabr: IProdFabr;
     FProdFabrDBI: IProdFabrDBI;
     function DescrOk: boolean;
+    function GravouOk: boolean;
+    procedure ControlesToEnt;
   protected
     function PodeOk: boolean; override;
     procedure AjustarControles; override;
@@ -44,6 +46,11 @@ begin
   LabeledEdit1.EditLabel.Caption := 'Nome';
 end;
 
+procedure TProdFabrEdForm.ControlesToEnt;
+begin
+  FProdFabr.Descr := LabeledEdit1.Text;
+end;
+
 constructor TProdFabrEdForm.Create(AOwner: TComponent; pTitulo: string;
   pState: TDataSetState; pProdFabr: IProdFabr; pProdFabrDBI: IProdFabrDBI);
 begin
@@ -56,14 +63,46 @@ function TProdFabrEdForm.DescrOk: boolean;
 var
   sFrase: string;
   sNomeCampo: string;
+  iFabricanteId: smallint;
+  sNomeDigitado: string;
 begin
   LabeledEdit1.Text := Trim(LabeledEdit1.Text);
+  sNomeDigitado := LabeledEdit1.Text;
+  sNomeCampo := LabeledEdit1.EditLabel.Caption;
 
-  Result := LabeledEdit1.Text <> '';
+  Result := sNomeDigitado <> '';
   if not Result then
   begin
-    sNomeCampo := LabeledEdit1.EditLabel.Caption;
     sFrase := Format('Campo ''%s'' é obrigatório', [sNomeCampo]);
+    ErroOutput.Exibir(sFrase);
+    LabeledEdit1.SetFocus;
+    exit;
+  end;
+
+  if State = dsInsert then
+  begin
+    iFabricanteId := FProdFabrDBI.ByNome(sNomeDigitado);
+    Result := iFabricanteId < 1;
+    if not Result then
+    begin
+      sFrase := Format('''%s'' já está cadastrado sob o código %d',
+        [sNomeDigitado, iFabricanteId]);
+      ErroOutput.Exibir(sFrase);
+      LabeledEdit1.SetFocus;
+      exit;
+    end;
+  end;
+
+end;
+
+function TProdFabrEdForm.GravouOk: boolean;
+var
+  sFrase: string;
+begin
+  Result := FProdFabrDBI.Garantir;
+  if not Result then
+  begin
+    sFrase := 'Erro ao gravar Fabricante';
     ErroOutput.Exibir(sFrase);
     LabeledEdit1.SetFocus;
     exit;
@@ -78,6 +117,12 @@ end;
 
 procedure TProdFabrEdForm.LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
 begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    OkAct_Diag.Execute;
+    exit;
+  end;
   inherited;
   EditKeyPress(Sender, Key);
 end;
@@ -89,6 +134,12 @@ begin
     exit;
 
   Result := DescrOk;
+  if not Result then
+    exit;
+
+  ControlesToEnt;
+
+  Result := GravouOk;
   if not Result then
     exit;
 

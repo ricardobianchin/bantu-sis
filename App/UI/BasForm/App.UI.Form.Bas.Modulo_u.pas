@@ -68,12 +68,14 @@ type
     property AppInfo: IAppInfo read GetAppInfo;
     property SisConfig: ISisConfig read GetSisConfig;
     property DBMS: IDBMS read FDBMS;
+    property Output: IOutput read FOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
       pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-      pDBMS: IDBMS); reintroduce;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
 
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
 
@@ -101,7 +103,7 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBMS: IDBMS);
+  pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
 begin
   inherited Create(AOwner);
   FSisConfig := pSisConfig;

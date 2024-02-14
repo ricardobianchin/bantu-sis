@@ -48,14 +48,22 @@ type
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig)
-      : TModuloBasForm; virtual; abstract;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TModuloBasForm;
+      virtual; abstract;
+
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
+      pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
       virtual; abstract;
     function GetAppInfo: IAppInfo;
     property AppInfo: IAppInfo read GetAppInfo;
+
+    property DBMS: IDBMS read FDBMS;
+    property ProcessLog: IProcessLog read FProcessLog;
+    property Output: IOutput read FOutput;
+
   public
     { Public declarations }
 
@@ -153,10 +161,10 @@ begin
     (vTipoModuloSistema);
 
   oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
-    FSisConfig);
+    FSisConfig, DBMS, Output, ProcessLog);
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
-    oModuloBasForm, iSessaoIndex);
+    oModuloBasForm, iSessaoIndex, DBMS, Output, ProcessLog);
 
   FSessaoFrame.Parent := SessoesScrollBox;
   FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;

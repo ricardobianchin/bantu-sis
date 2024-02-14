@@ -10,7 +10,8 @@ uses
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.Usuario,
   AppShop.UI.Form.Modulo.Config_u, AppShop.UI.Form.Modulo.PDV_u,
   AppShop.UI.Form.Modulo.Retaguarda_u, Sis.ModuloSistema, App.Constants,
-  Sis.Config.SisConfig;
+  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TShopSessoesFrame = class(TSessoesFrame)
@@ -19,11 +20,12 @@ type
   protected
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex)
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
       : TSessaoFrame; override;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig)
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
       : TModuloBasForm; override;
   public
     { Public declarations }
@@ -41,19 +43,22 @@ uses ShopApp.UI.Sessao.Frame_u;
 { TShopSessoesFrame }
 
 function TShopSessoesFrame.ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig)
-  : TModuloBasForm;
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TModuloBasForm;
 begin
   case pModuloSistema.TipoModuloSistema of
     modsisConfiguracoes:
       Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex, pUsuario, AppInfo, pSisConfig);
+        SessaoEventos, pSessaoIndex, pUsuario, AppInfo, pSisConfig,
+        DBMS, Output, ProcessLog);
     modsisRetaguarda:
       Result := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex, pUsuario, AppInfo, pSisConfig);
+        SessaoEventos, pSessaoIndex, pUsuario, AppInfo, pSisConfig,
+        DBMS, Output, ProcessLog);
     modsisPDV:
       Result := TShopPDVModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex, pUsuario, AppInfo, pSisConfig);
+        SessaoEventos, pSessaoIndex, pUsuario, AppInfo, pSisConfig,
+        DBMS, Output, ProcessLog);
   else // modsisNaoIndicado:
     Result := nil;
   end;
@@ -61,10 +66,10 @@ end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-  pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
+  pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoModuloSistema, pUsuario,
-    pModuloBasForm, pSessaoIndex, SessaoEventos);
+    pModuloBasForm, pSessaoIndex, SessaoEventos, pDBMS, pOutput, pProcessLog);
 end;
 
 end.

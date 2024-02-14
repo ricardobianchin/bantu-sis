@@ -48,6 +48,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Top = 17
             Width = 260
             Height = 54
+            AutoSize = True
             ButtonHeight = 54
             ButtonWidth = 67
             Caption = 'EstoqueToolBar'
@@ -131,6 +132,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Width = 604
     TabOrder = 2
     ExplicitWidth = 604
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0

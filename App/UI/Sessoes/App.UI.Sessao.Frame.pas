@@ -9,7 +9,8 @@ uses
   Vcl.ExtCtrls,
   System.Actions, Vcl.ActnList, App.UI.Form.Bas.Modulo_u,
   Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.Eventos,
-  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants;
+  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
   TSessaoFrame = class(TFrame, ISessao)
@@ -30,6 +31,9 @@ type
     FIndex: TSessaoIndex;
     FSessaoEventos: ISessaoEventos;
     FDBMS: IDBMS;
+    FOutput: IOutput;
+    FProcessLog: IProcessLog;
+
 //    FLoginConfig: ILoginConfig;
 
     function GetModuloBasForm: TModuloBasForm;
@@ -44,11 +48,14 @@ type
     property Index: TSessaoIndex read GetIndex;
     property Usuario: IUsuario read GetUsuario;
     procedure EscondaModuloForm;
+    property DBMS: IDBMS read FDBMS;
+    property Output: IOutput read FOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
 
     constructor Create(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-      pSessaoEventos: ISessaoEventos; pDBMS: IDBMS
+      pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
       //; pLoginConfig: ILoginConfig
       ); reintroduce;
   end;
@@ -69,7 +76,7 @@ end;
 constructor TSessaoFrame.Create(AOwner: TComponent;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-  pSessaoEventos: ISessaoEventos; pDBMS: IDBMS
+  pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
   {; pLoginConfig: ILoginConfig}
   );
 var
@@ -82,6 +89,9 @@ begin
   FIndex := pIndex;
   FSessaoEventos := pSessaoEventos;
   FDBMS := pDBMS;
+  FOutput := pOutput;
+  FProcessLog := pProcessLog;
+
 //  FLoginConfig := pLoginConfig;
 
   s := FUsuario.NomeExib;
