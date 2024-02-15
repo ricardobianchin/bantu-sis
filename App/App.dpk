@@ -93,6 +93,10 @@ contains
   App.Retag.Est.Prod.Fabr in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.pas',
   App.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr_u.pas',
   App.UI.Form.Bas.Ed.Descr_u in 'UI\BasForm\App.UI.Form.Bas.Ed.Descr_u.pas' {EdDescrBasForm},
-  App.UI.Form.Ed.Retag.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Retag.Prod.Fabr_u.pas' {ProdFabrEdForm};
+  App.UI.Form.Ed.Retag.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Retag.Prod.Fabr_u.pas' {ProdFabrEdForm},
+  App.UI.Form.Retag.Excl_u in 'Modulos\Retag\Ent\Excl\App.UI.Form.Retag.Excl_u.pas' {ExclBasForm},
+  App.UI.Decorator.Form.Excl in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl.pas',
+  App.UI.Decorator.Form.Excl.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Decorator.Form.Excl.Fabr_u.pas',
+  App.UI.Decorator.Form.Excl_u in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas';
 
 end.

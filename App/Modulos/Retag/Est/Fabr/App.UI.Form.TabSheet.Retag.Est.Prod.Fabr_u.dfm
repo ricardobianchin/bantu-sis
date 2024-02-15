@@ -14,8 +14,8 @@ inherited RetagEstProdFabrTabSheetDataSetForm: TRetagEstProdFabrTabSheetDataSetF
     inherited AltAction_DatasetTabSheet: TAction
       OnExecute = AltAction_DatasetTabSheetExecute
     end
-    inherited ExclAction_DatasetTabSheetAction1: TAction
-      OnExecute = ExclAction_DatasetTabSheetAction1Execute
+    inherited ExclAction_DatasetTabSheet: TAction
+      OnExecute = ExclAction_DatasetTabSheetExecute
     end
   end
 end

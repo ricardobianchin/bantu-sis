@@ -262,7 +262,7 @@ end;
 
 function TSessoesFrame.GetSessao(Index: integer): ISessao;
 begin
-  SessoesScrollBox.Controls[Index];
+  Result := TSessaoFrame(SessoesScrollBox.Controls[Index]);
 end;
 
 function TSessoesFrame.GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;

@@ -11,7 +11,9 @@ type
   protected
     function GetId: integer; virtual;
     procedure SetId(Value: integer); virtual;
+    function GetAsString: string; virtual;
   public
+    property AsString: string read GetAsString;
     property Id: integer read GetId write SetId;
     constructor Create(pState: TDataSetState; pId: integer = 0);
     function EhIgualA(pOutraEntidade: IEntidade): boolean; override;
@@ -52,6 +54,11 @@ begin
     exit;
 
   Result := FId = IEntId(pOutraEntidade).Id;
+end;
+
+function TEntId.GetAsString: string;
+begin
+  Result := IntToStr(FId);
 end;
 
 function TEntId.GetId: integer;

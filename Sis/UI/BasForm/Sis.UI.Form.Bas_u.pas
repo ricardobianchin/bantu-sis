@@ -89,7 +89,6 @@ begin
   begin
     FFezShow := True;
     DispareShowTimer;
-
   end;
 end;
 

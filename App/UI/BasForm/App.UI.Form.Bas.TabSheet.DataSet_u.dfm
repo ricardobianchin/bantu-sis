@@ -37,7 +37,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     object AltAction_DatasetTabSheet: TAction
       Caption = 'Alterar'
     end
-    object ExclAction_DatasetTabSheetAction1: TAction
+    object ExclAction_DatasetTabSheet: TAction
       Caption = 'Excluir'
     end
   end

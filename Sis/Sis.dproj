@@ -327,6 +327,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Decorator.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Decorator.Form.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.TDBGrid.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

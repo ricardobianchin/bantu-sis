@@ -31,6 +31,7 @@ object SessoesFrame: TSessoesFrame
         Top = 0
         Width = 383
         Height = 29
+        AutoSize = True
         ButtonHeight = 21
         ButtonWidth = 38
         Caption = 'ToolBar1'

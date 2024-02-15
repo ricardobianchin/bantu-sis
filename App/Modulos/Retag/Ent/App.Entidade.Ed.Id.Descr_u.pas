@@ -11,12 +11,14 @@ type
   protected
     function GetDescr: string;
     procedure SetDescr(Value: string);
+  public
     property Descr: string read GetDescr write SetDescr;
 
     constructor Create(pState: TDataSetState; pId: integer = 0; pDescr: string = '');
     function EhIgualA(pOutraEntidade: IEntidade): boolean; override;
     procedure PegueDe(pOutraEntidade: IEntidade); override;
     procedure Clear; override;
+    function GetAsString: string; override;
   end;
 
 implementation
@@ -52,6 +54,14 @@ begin
   if not Result then
     exit;
   Result := FDescr = IEntIdDescr(pOutraEntidade).Descr;
+end;
+
+function TEntIdDescr.GetAsString: string;
+var
+  s: string;
+begin
+  s := inherited GetAsString +' - '+ FDescr;
+  Result := s;
 end;
 
 function TEntIdDescr.GetDescr: string;

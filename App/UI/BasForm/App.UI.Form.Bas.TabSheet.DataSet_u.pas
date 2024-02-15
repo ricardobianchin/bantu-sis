@@ -18,7 +18,7 @@ type
     AtuAction_DatasetTabSheet: TAction;
     InsAction_DatasetTabSheet: TAction;
     AltAction_DatasetTabSheet: TAction;
-    ExclAction_DatasetTabSheetAction1: TAction;
+    ExclAction_DatasetTabSheet: TAction;
     FiltroAtualizarTimer: TTimer;
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);

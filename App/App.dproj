@@ -246,6 +246,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ProdFabrEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Form.Retag.Excl_u.pas">
+            <Form>ExclBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Decorator.Form.Excl.Fabr_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

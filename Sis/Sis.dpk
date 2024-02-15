@@ -207,6 +207,9 @@ contains
   Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
   Sis.UI.IO.Input.Bool.Form in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas' {PergBooleanForm},
   Sis.UI.IO.Input.Bool_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas',
-  Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas';
+  Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas',
+  Sis.UI.Decorator in 'UI\BasForm\Sis.UI.Decorator.pas',
+  Sis.UI.Decorator.Form in 'UI\BasForm\Sis.UI.Decorator.Form.pas',
+  Sis.UI.Controls.TDBGrid in 'UI\Controls\Sis.UI.Controls.TDBGrid.pas';
 
 end.
