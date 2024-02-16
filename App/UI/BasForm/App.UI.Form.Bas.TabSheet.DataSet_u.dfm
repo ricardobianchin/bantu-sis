@@ -33,9 +33,11 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     end
     object InsAction_DatasetTabSheet: TAction
       Caption = 'Inserir'
+      OnExecute = InsAction_DatasetTabSheetExecute
     end
     object AltAction_DatasetTabSheet: TAction
       Caption = 'Alterar'
+      OnExecute = AltAction_DatasetTabSheetExecute
     end
     object ExclAction_DatasetTabSheet: TAction
       Caption = 'Excluir'

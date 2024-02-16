@@ -24,6 +24,9 @@ type
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -36,6 +39,8 @@ type
     FState: TDataSetState;
 
   protected
+    AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
+
     function GetFDMemTable: TFDMemTable;
     property FDMemTable: TFDMemTable read GetFDMemTable;
 
@@ -49,6 +54,11 @@ type
     function GetCDS1: TFDMemTable;
     property CDS1: TFDMemTable read GetCDS1;
     property State: TDataSetState read FState write FState;
+    function GetNome: string; virtual; abstract;
+    function GetNomeAbrev: string; virtual; abstract;
+    procedure DoAtualizar(Sender: TObject); virtual; abstract;
+    function DoInserir: boolean; virtual; abstract;
+    procedure DoAlterar; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -65,17 +75,48 @@ implementation
 {$R *.dfm}
 { TTabSheetDataSetBasForm }
 
+procedure TTabSheetDataSetBasForm.AltAction_DatasetTabSheetExecute(
+  Sender: TObject);
+var
+  Resultado: boolean;
+begin
+  inherited;
+  if FDMemTable.IsEmpty then
+  begin
+    OutputNotify.exibir('Não há registros a alterar');
+    exit;
+  end;
+
+  if AltExecutando then
+    exit;
+
+  AltExecutando := true;
+  State := dsEdit;
+  try
+    DoAlterar;
+  finally
+    State := dsBrowse;
+    DBGrid1.SetFocus;
+    AltExecutando := False;
+  end;
+end;
+
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
   (Sender: TObject);
 begin
   inherited;
-  CDS1.DisableControls;
-  try
-    FFDMemTable.EmptyDataSet;
+  if State <> dsBrowse then
+    exit;
 
+  if AtuExecutando then
+    exit;
+  try
+    AtuExecutando := true;
+
+    DoAtualizar(Self);
   finally
-    CDS1.First;
-    CDS1.EnableControls;
+    DBGrid1.SetFocus;
+    AtuExecutando := False;
   end;
 end;
 
@@ -130,6 +171,16 @@ begin
   FiltroAtualizarTimer.Enabled := True;
 end;
 
+procedure TTabSheetDataSetBasForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  AtuExecutando := False;
+  InsExecutando := False;
+  AltExecutando := False;
+  ExclExecutando := False;
+
+end;
+
 function TTabSheetDataSetBasForm.GetCDS1: TFDMemTable;
 begin
   Result := FFDMemTable;
@@ -145,10 +196,28 @@ begin
   Result := FFDMemTable;
 end;
 
+procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute(
+  Sender: TObject);
+begin
+  inherited;
+  if InsExecutando then
+    exit;
+  State := dsInsert;
+  InsExecutando := true;
+  try
+    while DoInserir do;
+  finally
+    InsExecutando := False;
+    State := dsBrowse;
+    DBGrid1.SetFocus;
+  end;
+end;
+
 procedure TTabSheetDataSetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   FFiltroEditAutomatico := True;
+  AtuAction_DatasetTabSheet.Execute;
 end;
 
 end.

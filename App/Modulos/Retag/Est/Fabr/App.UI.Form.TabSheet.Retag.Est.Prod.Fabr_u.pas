@@ -14,22 +14,23 @@ uses
 type
   TRetagEstProdFabrTabSheetDataSetForm = class(TTabSheetDataSetBasForm)
     procedure FormCreate(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
-
-    procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ExclAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FFiltroParamsStringFrame: TFiltroParamsStringFrame;
-    AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
     procedure CrieFiltroFrame;
-    procedure DoAtualizar(Sender: TObject);
+
+
   protected
+    procedure DoAtualizar(Sender: TObject); override;
+    function DoInserir: boolean; override;
+    procedure DoAlterar; override;
+
     function GetNomeArqTabView: string; override;
     function GetTitulo: string; override;
     procedure ToolBar1CrieBotoes; override;
+    function GetNome: string; override;
+    function GetNomeAbrev: string; override;
   public
     { Public declarations }
   end;
@@ -47,75 +48,32 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 { TFabricanteTabSheetDataSetForm }
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.AltAction_DatasetTabSheetExecute
-  (Sender: TObject);
+procedure TRetagEstProdFabrTabSheetDataSetForm.DoAlterar;
 var
   oFabr: IProdFabr;
   oFabrDBI: IProdFabrDBI;
-  Resultado: boolean;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
+  sBusca: string;
+  Resultado: boolean;
 begin
-  inherited;
-  Resultado := False;
-  if FDMemTable.IsEmpty then
-  begin
-    outputnotify.exibir('Não há registros a alterar');
-    exit;
-  end;
+  oFabr := RetagEstProdFabrCreate(State, FDMemTable.Fields[0].AsInteger, FDMemTable.Fields[1].AsString);
 
-  if AltExecutando then
-    exit;
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
 
-  State := dsEdit;
-  AltExecutando := true;
-  try
-    oFabr := RetagEstProdFabrCreate(dsEdit, FDMemTable.Fields[0].AsInteger,
-      FDMemTable.Fields[1].AsString);
+  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
 
-    oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-      AppInfo, SisConfig);
+  oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
 
-    oConn := DBConnectionCreate('Retag.Fabr.Ed.Alt.Conn', SisConfig, DBMS,
-      oDBConnectionParams, ProcessLog, Output);
-
-    oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
-
-    Resultado := ProdFabrPerg(Self, Titulo, dsEdit, oFabr, oFabrDBI);
-    if not Resultado then
-      exit;
-
-  finally
-    State := dsBrowse;
-    DBGrid1.SetFocus;
-    AltExecutando := False;
-    if Resultado then
-    begin
-      FDMemTable.Edit;
-      FDMemTable.Fields[1].AsString := oFabr.Descr;
-      FDMemTable.Post;
-    end;
-  end;
-
-end;
-
-procedure TRetagEstProdFabrTabSheetDataSetForm.AtuAction_DatasetTabSheetExecute
-  (Sender: TObject);
-begin
-  inherited;
-  if State <> dsBrowse then
+  Resultado := ProdFabrPerg(Self, Titulo, dsEdit, oFabr, oFabrDBI);
+  if not Resultado then
     exit;
 
-  if AtuExecutando then
-    exit;
-  try
-    AtuExecutando := true;
-
-    DoAtualizar(Self);
-  finally
-    DBGrid1.SetFocus;
-    AtuExecutando := False;
-  end;
+  FDMemTable.Edit;
+  FDMemTable.Fields[1].AsString := oFabr.Descr;
+  FDMemTable.Post;
 end;
 
 procedure TRetagEstProdFabrTabSheetDataSetForm.DoAtualizar(Sender: TObject);
@@ -158,6 +116,32 @@ begin
   end;
 end;
 
+function TRetagEstProdFabrTabSheetDataSetForm.DoInserir: boolean;
+var
+  oFabr: IProdFabr;
+  oFabrDBI: IProdFabrDBI;
+  oDBConnectionParams: TDBConnectionParams;
+  oConn: IDBConnection;
+begin
+  inherited;
+  oFabr := RetagEstProdFabrCreate(State);
+
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oConn := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
+
+  Result := ProdFabrPerg(Self, Titulo, dsInsert, oFabr, oFabrDBI);
+
+  if not Result then
+    exit;
+
+  FDMemTable.InsertRecord([oFabr.Id, oFabr.Descr]);
+end;
+
 procedure TRetagEstProdFabrTabSheetDataSetForm.CrieFiltroFrame;
 var
   iIndexUltimoBotao: integer;
@@ -194,6 +178,7 @@ var
   oFabr: IProdFabr;
 begin
   inherited;
+  Exit;
   if ExclExecutando then
     exit;
   ExclExecutando := true;
@@ -220,10 +205,16 @@ procedure TRetagEstProdFabrTabSheetDataSetForm.FormCreate(Sender: TObject);
 begin
   inherited;
   FFiltroParamsStringFrame := nil;
-  AtuExecutando := False;
-  InsExecutando := False;
-  AltExecutando := False;
-  ExclExecutando := False;
+end;
+
+function TRetagEstProdFabrTabSheetDataSetForm.GetNome: string;
+begin
+  Result := 'Fabricante';
+end;
+
+function TRetagEstProdFabrTabSheetDataSetForm.GetNomeAbrev: string;
+begin
+  Result := 'Fabr';
 end;
 
 function TRetagEstProdFabrTabSheetDataSetForm.GetNomeArqTabView: string;
@@ -238,53 +229,6 @@ end;
 function TRetagEstProdFabrTabSheetDataSetForm.GetTitulo: string;
 begin
   Result := 'Fabricantes';
-end;
-
-procedure TRetagEstProdFabrTabSheetDataSetForm.InsAction_DatasetTabSheetExecute
-  (Sender: TObject);
-var
-  oFabr: IProdFabr;
-  oFabrDBI: IProdFabrDBI;
-  Resultado: boolean;
-  oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
-begin
-  inherited;
-  if InsExecutando then
-    exit;
-  Resultado := False;
-  try
-    InsExecutando := true;
-    State := dsInsert;
-    oFabr := RetagEstProdFabrCreate(dsInsert);
-
-    oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-      AppInfo, SisConfig);
-
-    oConn := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
-      oDBConnectionParams, ProcessLog, Output);
-
-    oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
-
-    Resultado := ProdFabrPerg(Self, Titulo, dsInsert, oFabr, oFabrDBI);
-    if not Resultado then
-      exit;
-
-  finally
-    InsExecutando := False;
-    State := dsBrowse;
-    DBGrid1.SetFocus;
-    if Resultado then
-      AtuAction_DatasetTabSheet.Execute;
-  end;
-end;
-
-procedure TRetagEstProdFabrTabSheetDataSetForm.ShowTimer_BasFormTimer
-  (Sender: TObject);
-begin
-  inherited;
-  AtuAction_DatasetTabSheet.Execute;
-  ExclAction_DatasetTabSheet.Execute;
 end;
 
 procedure TRetagEstProdFabrTabSheetDataSetForm.ToolBar1CrieBotoes;
