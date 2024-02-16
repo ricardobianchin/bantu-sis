@@ -6,7 +6,7 @@ object FiltroParamsFrame: TFiltroParamsFrame
   TabOrder = 0
   object ChangeTimer: TTimer
     Enabled = False
-    Interval = 333
+    Interval = 292
     OnTimer = ChangeTimerTimer
     Left = 8
     Top = 8

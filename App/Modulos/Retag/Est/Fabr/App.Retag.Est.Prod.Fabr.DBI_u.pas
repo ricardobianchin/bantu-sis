@@ -2,18 +2,20 @@ unit App.Retag.Est.Prod.Fabr.DBI_u;
 
 interface
 
-uses Sis.DBI, Sis.DBI_u, App.Retag.Est.Prod.Fabr, Sis.DB.DBTypes, Data.DB,
-  App.Retag.Est.Prod.Fabr.DBI, System.Variants, Sis.Types.Integers;
+uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
+  System.Variants, Sis.Types.Integers, App.Ent.DBI_u, App.Entidade.Ed.Id.Descr;
 
 type
-  TProdFabrDBI = class(TDBI, IProdFabrDBI)
+  TProdFabrDBI = class(TEntDBI)
   private
-    FProdFabr: IProdFabr;
+    FProdFabr: IEntIdDescr;
+  protected
+    function GetSqlPreencherDataSetIdDescr(pStrBusca: string): string; override;
+    function GetSqlIdByDescr(pDescr: string): string; override;
+    function GetSqlGarantirRegId: string; override;
+    procedure SetNovaId(pId: integer); override;
   public
-    procedure PreencherDataSet(pStrBusca: string; pLeReg: TProcDataSetRef);
-    function ByNome(pNome: string): integer;
-    constructor Create(pDBConnection: IDBConnection; pProdFabr: IProdFabr);
-    function Garantir: boolean;
+    constructor Create(pDBConnection: IDBConnection; pProdFabr: IEntIdDescr);
   end;
 
 implementation
@@ -22,87 +24,41 @@ uses System.SysUtils;
 
 { TProdFabrDBI }
 
-function TProdFabrDBI.ByNome(pNome: string): integer;
-var
-  sFormat: string;
-  sSql: string;
-  q: TDataSet;
-  Resultado: Variant;
-  sResultado: string;
-begin
-  Result := 0;
-  sFormat := 'SELECT FABRICANTE_ID FROM FABRICANTE_PA.BYNOME_GET(''%s'');';
-  sSql := Format(sFormat, [pNome]);
-  DBConnection.Abrir;
-  try
-    Resultado := DBConnection.GetValue(sSql);
-    sResultado := System.Variants.VarToStrDef(Resultado, '0');
-    Result := StrToInteger(sResultado);
-
-  finally
-    DBConnection.Fechar;
-  end;
-end;
-
 constructor TProdFabrDBI.Create(pDBConnection: IDBConnection;
-  pProdFabr: IProdFabr);
+  pProdFabr: IEntIdDescr);
 begin
   inherited Create(pDBConnection);
   FProdFabr := pProdFabr;
 end;
 
-function TProdFabrDBI.Garantir: boolean;
+function TProdFabrDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
-  sSql: string;
-  q: TDataSet;
-  Resultado: Variant;
-  sResultado: string;
-  iResultado: smallint;
-  iId: smallint;
-  sNome: string;
 begin
-  Result := False;
-  iId := FProdFabr.Id;
-  sNome := FProdFabr.Descr;
-
   sFormat := 'SELECT FABRICANTE_ID_GRAVADO FROM FABRICANTE_PA.FABRICANTE_GARANTIR(%d,''%s'');';
-  sSql := Format(sFormat, [iId, sNome]);
-  DBConnection.Abrir;
-  try
-    Resultado := DBConnection.GetValue(sSql);
-    Result := True;
-    sResultado := VarToStrDef(Resultado, '0');
-    iResultado := StrToInteger(sResultado);
-    FProdFabr.Id := iResultado;
-  finally
-    DBConnection.Fechar;
-  end;
+  Result := Format(sFormat, [FProdFabr.Id, FProdFabr.Descr]);
 end;
 
-procedure TProdFabrDBI.PreencherDataSet(pStrBusca: string; pLeReg: TProcDataSetRef);
+function TProdFabrDBI.GetSqlIdByDescr(pDescr: string): string;
 var
-  sSql: string;
-  q: TDataSet;
+  sFormat: string;
 begin
-  DBConnection.Abrir;
-  try
-    sSql := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET('
-      + QuotedStr(pStrBusca)
-      + ');';
-    DBConnection.QueryDataSet(sSql, q);
-    try
-      while not q.Eof do
-      begin
-        pLeReg(q);
-        q.Next;
-      end;
-    finally
-      q.Free;
-    end;
-  finally
-    DBConnection.Fechar;
-  end;
+  sFormat := 'SELECT FABRICANTE_ID FROM FABRICANTE_PA.BYNOME_GET(''%s'');';
+  Result := Format(sFormat, [pDescr]);
+end;
+
+function TProdFabrDBI.GetSqlPreencherDataSetIdDescr(pStrBusca: string): string;
+var
+  sFormat: string;
+begin
+  sFormat := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET(''%s'');';
+  Result := Format(sFormat, [pStrBusca]);
+end;
+
+procedure TProdFabrDBI.SetNovaId(pId: integer);
+begin
+  inherited;
+  FProdFabr.Id := pId;
 end;
 
 end.

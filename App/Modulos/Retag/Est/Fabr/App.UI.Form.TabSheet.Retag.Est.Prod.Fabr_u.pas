@@ -8,8 +8,8 @@ uses
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Retag.Est.Prod.Fabr, App.Retag.Est.Prod.Fabr.DBI, Sis.DB.DBTypes,
-  App.UI.Decorator.Form.Excl;
+  App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
+  App.Entidade.Ed.Id.Descr;
 
 type
   TRetagEstProdFabrTabSheetDataSetForm = class(TTabSheetDataSetBasForm)
@@ -19,7 +19,6 @@ type
     { Private declarations }
     FFiltroParamsStringFrame: TFiltroParamsStringFrame;
     procedure CrieFiltroFrame;
-
 
   protected
     procedure DoAtualizar(Sender: TObject); override;
@@ -50,8 +49,8 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 procedure TRetagEstProdFabrTabSheetDataSetForm.DoAlterar;
 var
-  oFabr: IProdFabr;
-  oFabrDBI: IProdFabrDBI;
+  oFabr: IEntIdDescr;
+  oFabrDBI: IEntDBI;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
   sBusca: string;
@@ -78,8 +77,8 @@ end;
 
 procedure TRetagEstProdFabrTabSheetDataSetForm.DoAtualizar(Sender: TObject);
 var
-  oFabr: IProdFabr;
-  oFabrDBI: IProdFabrDBI;
+  oFabr: IEntIdDescr;
+  oFabrDBI: IEntDBI;
   Resultado: boolean;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
@@ -102,7 +101,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    oFabrDBI.PreencherDataSet(sBusca,
+    oFabrDBI.PreencherDataSetIdDescr(sBusca,
       procedure(q: TDataSet)
       begin
         FDMemTable.InsertRecord([q.Fields[0].AsInteger, q.Fields[1].AsString]);
@@ -118,8 +117,8 @@ end;
 
 function TRetagEstProdFabrTabSheetDataSetForm.DoInserir: boolean;
 var
-  oFabr: IProdFabr;
-  oFabrDBI: IProdFabrDBI;
+  oFabr: IEntIdDescr;
+  oFabrDBI: IEntDBI;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
@@ -175,7 +174,7 @@ procedure TRetagEstProdFabrTabSheetDataSetForm.ExclAction_DatasetTabSheetExecute
 var
   Resultado: boolean;
   oDecoratorExcl: IDecoratorExcl;
-  oFabr: IProdFabr;
+  oFabr: IEntIdDescr;
 begin
   inherited;
   Exit;

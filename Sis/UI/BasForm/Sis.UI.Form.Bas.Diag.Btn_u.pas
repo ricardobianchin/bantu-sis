@@ -22,7 +22,7 @@ type
   private
     { Private declarations }
   protected
-    procedure AjustarControles; virtual;
+    procedure AjusteControles; virtual;
   public
     { Public declarations }
   end;
@@ -36,7 +36,7 @@ implementation
 
 uses Sis.UI.Controls.Factory;
 
-procedure TDiagBtnBasForm.AjustarControles;
+procedure TDiagBtnBasForm.AjusteControles;
 var
   oControlsAlinhador: IControlsAlinhador;
 begin
@@ -69,7 +69,7 @@ end;
 procedure TDiagBtnBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  AjustarControles;
+  AjusteControles;
 end;
 
 end.

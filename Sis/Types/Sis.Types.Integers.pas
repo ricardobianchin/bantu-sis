@@ -7,10 +7,11 @@ function StrToIntStr(S:string):string;
 function StrToSmallInt(S:string): SmallInt;
 function StrToInteger(S:string): integer;
 function StrToInteger64(S:string): int64;
+function VarToInteger(Value: Variant): integer;
 
 implementation
 
-uses System.SysUtils, System.StrUtils;
+uses System.SysUtils, System.StrUtils, System.Variants;
 
 function IntToStrZero(pInt: Int64; pNCasas: word): string;
 begin
@@ -69,6 +70,14 @@ end;
 function StrToInteger64(S:string): int64;
 begin
   result:=StrToInt64(StrToIntStr(s));
+end;
+
+function VarToInteger(Value: Variant): integer;
+var
+  sResultado: string;
+begin
+  sResultado := System.Variants.VarToStrDef(Value, '0');
+  Result := StrToInteger(sResultado);
 end;
 
 end.

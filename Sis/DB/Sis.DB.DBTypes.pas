@@ -7,6 +7,8 @@ uses
   Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config;
 
 type
+  TProcDataSetRef = reference to procedure(q: TDataSet);
+
   TDBVersion = double;
 
   TDBMSType = (dbmstUnknown, dbmstFirebird, dbmstMySQL, dbmstPostgreSQL,
@@ -99,6 +101,7 @@ type
     property UltimoErro: string read GetUltimoErro write SetUltimoErro;
 
     function GetValue(pSql: string): Variant;
+    function GetValueInteger(pSql: string): integer;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
 
     function ExecuteSQL(pSql: string): LongInt;

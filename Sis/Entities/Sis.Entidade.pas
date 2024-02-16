@@ -8,6 +8,12 @@ type
     function EhIgualA(pOutraEntidade: IEntidade): boolean;
     procedure PegueDe(pOutraEntidade: IEntidade);
     procedure Clear;
+
+    function GetNome: string;
+    property Nome: string read GetNome;
+
+    function GetTitulo: string;
+    property Titulo: string read GetTitulo;
   end;
 
 

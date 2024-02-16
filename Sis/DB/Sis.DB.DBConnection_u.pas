@@ -53,6 +53,7 @@ type
     property Aberto: boolean read GetAberto;
 
     function GetValue(pSql: string): Variant; virtual; abstract;
+    function GetValueInteger(pSql: string): integer;
     function ExecuteSQL(pSql: string): LongInt; virtual; abstract;
 
     constructor Create(pNomeComponente: string;
@@ -64,8 +65,8 @@ type
 
 implementation
 
-uses
-  System.SysUtils, Sis.Types.Bool_u, Sis.UI.IO.Output.ProcessLog.Factory;
+uses System.SysUtils, Sis.Types.Bool_u, Sis.UI.IO.Output.ProcessLog.Factory,
+  Sis.Types.Integers;
 
 { TDBConnection }
 
@@ -133,10 +134,10 @@ begin
     FOutput := pOutput;
     FProcessLog := pProcessLog;
 
-    FDBLog := ProcessLogRegistradorCreate(FProcessLog, TProcessLogTipo.lptDB, FNome);
+    FDBLog := ProcessLogRegistradorCreate(FProcessLog,
+      TProcessLogTipo.lptDB, FNome);
     s := 'FDBConnectionParams.Database=[' + FDBConnectionParams.Database + ']';
     FDBLog.Registre(s);
-
 
     IniciarNVezesConectou;
     FDBConnectionParams := pDBConnectionParams;
@@ -193,6 +194,14 @@ end;
 function TDBConnection.GetUltimoErro: string;
 begin
   result := FUltimoErro;
+end;
+
+function TDBConnection.GetValueInteger(pSql: string): integer;
+var
+  Resultado: Variant;
+begin
+  Resultado := GetValue(pSql);
+  result := VarToInteger(Resultado);
 end;
 
 procedure TDBConnection.IncNVezesConectou;

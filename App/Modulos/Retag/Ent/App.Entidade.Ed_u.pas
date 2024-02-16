@@ -5,7 +5,7 @@ interface
 uses App.Entidade.Ed, Data.DB, Sis.Entidade_u;
 
 type
-  TEntidadeEd = class(TEntidade, IEntidadeEd)
+  TEntEd = class(TEntidade, IEntEd)
   private
     FState: TDataSetState;
     function GetState: TDataSetState;
@@ -16,14 +16,14 @@ type
 
 implementation
 
-{ TEntidadeEd }
+{ TEntEd }
 
-constructor TEntidadeEd.Create(pState: TDataSetState);
+constructor TEntEd.Create(pState: TDataSetState);
 begin
   FState := pState;
 end;
 
-function TEntidadeEd.GetState: TDataSetState;
+function TEntEd.GetState: TDataSetState;
 begin
   Result := FState;
 end;

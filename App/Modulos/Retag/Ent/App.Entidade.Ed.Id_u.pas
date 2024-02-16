@@ -5,19 +5,23 @@ interface
 uses App.Entidade.Ed.Id, Data.DB, App.Entidade.Ed_u, Sis.Entidade;
 
 type
-  TEntId = class(TEntidadeEd, IEntId)
+  TEntEdId = class(TEntEd, IEntEdId)
   private
     FId: integer;
   protected
     function GetId: integer; virtual;
     procedure SetId(Value: integer); virtual;
+
     function GetAsString: string; virtual;
   public
-    property AsString: string read GetAsString;
     property Id: integer read GetId write SetId;
+    property AsString: string read GetAsString;
+
     constructor Create(pState: TDataSetState; pId: integer = 0);
+
     function EhIgualA(pOutraEntidade: IEntidade): boolean; override;
     procedure PegueDe(pOutraEntidade: IEntidade); override;
+
     procedure Clear; override;
   end;
 
@@ -25,27 +29,27 @@ implementation
 
 uses System.SysUtils;
 
-{ TEntId }
+{ TEntEdId }
 
-procedure TEntId.Clear;
+procedure TEntEdId.Clear;
 begin
   inherited Clear;
   FId := 0;
 end;
 
-constructor TEntId.Create(pState: TDataSetState; pId: integer);
+constructor TEntEdId.Create(pState: TDataSetState; pId: integer);
 begin
   inherited Create(pState);
   FId := pId;
 end;
 
-function TEntId.EhIgualA(pOutraEntidade: IEntidade): boolean;
+function TEntEdId.EhIgualA(pOutraEntidade: IEntidade): boolean;
 begin
-  Result := Supports(Self, IEntId);
+  Result := Supports(Self, IEntEdId);
   if not Result then
     exit;
 
-  Result := Supports(pOutraEntidade, IEntId);
+  Result := Supports(pOutraEntidade, IEntEdId);
   if not Result then
     exit;
 
@@ -53,26 +57,26 @@ begin
   if Result then
     exit;
 
-  Result := FId = IEntId(pOutraEntidade).Id;
+  Result := FId = IEntEdId(pOutraEntidade).Id;
 end;
 
-function TEntId.GetAsString: string;
+function TEntEdId.GetAsString: string;
 begin
   Result := IntToStr(FId);
 end;
 
-function TEntId.GetId: integer;
+function TEntEdId.GetId: integer;
 begin
   Result := FId;
 end;
 
-procedure TEntId.PegueDe(pOutraEntidade: IEntidade);
+procedure TEntEdId.PegueDe(pOutraEntidade: IEntidade);
 begin
   inherited;
-  FId := TEntId(pOutraEntidade).Id;
+  FId := TEntEdId(pOutraEntidade).Id;
 end;
 
-procedure TEntId.SetId(Value: integer);
+procedure TEntEdId.SetId(Value: integer);
 begin
   FId := Value;
 end;

@@ -6,28 +6,27 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.Diag.Btn_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, Data.DB;
+  Vcl.StdCtrls, Vcl.Buttons, Data.DB, App.Entidade.Ed, App.Ent.DBI;
 
 type
   TEdBasForm = class(TDiagBtnBasForm)
+    ObjetivoLabel: TLabel;
   private
     { Private declarations }
-    FState: TDataSetState;
-    FTitulo: string;
-    function GetTitulo: string;
-
+    FEntEd: IEntEd;
+    FEntDBI: IEntDBI;
+    procedure AjusteCaption;
   protected
-    function GetState: TDataSetState;
-    procedure SetState(Value: TDataSetState);
-    property State: TDataSetState read GetState write SetState;
+    property EntEd: IEntEd read FEntEd;
+    property EntDBI: IEntDBI read FEntDBI;
 
-    property Titulo: string read GetTitulo;
+    procedure AjusteControles; override;
 
-    procedure AtuExib; virtual;
+    procedure ControlesToEnt; virtual; abstract;
+    procedure EntToControles; virtual; abstract;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pTitulo: string;
-      pState: TDataSetState); reintroduce;
+    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
   end;
 
 var
@@ -41,38 +40,29 @@ uses App.DB.Utils;
 
 { TEdBasForm }
 
-procedure TEdBasForm.AtuExib;
+procedure TEdBasForm.AjusteControles;
+begin
+  AjusteCaption;
+end;
+
+procedure TEdBasForm.AjusteCaption;
 var
   sCaption: string;
   sTitulo, sState: string;
 begin
-  sTitulo := GetTitulo;
-  sState := DataSetStateToTitulo(FState);
+  sTitulo := EntEd.Titulo;
+  sState := DataSetStateToTitulo(EntEd.State);
+
   sCaption := Format('%s - %s', [sTitulo, sState]);
+
   Caption := sCaption;
 end;
 
-constructor TEdBasForm.Create(AOwner: TComponent; pTitulo: string;
-  pState: TDataSetState);
+constructor TEdBasForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner);
-  FState := pState;
-end;
-
-function TEdBasForm.GetState: TDataSetState;
-begin
-  Result := FState;
-end;
-
-function TEdBasForm.GetTitulo: string;
-begin
-  Result := FTitulo;
-end;
-
-procedure TEdBasForm.SetState(Value: TDataSetState);
-begin
-  FState := Value;
-  AtuExib;
+  FEntEd := pEntEd;
+  FEntDBI := pEntDBI;
 end;
 
 end.
