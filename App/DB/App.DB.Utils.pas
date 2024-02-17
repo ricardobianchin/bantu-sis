@@ -2,7 +2,7 @@ unit App.DB.Utils;
 
 interface
 
-uses Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes;
+uses Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes, Data.DB;
 
 type
   TLocalDoDB = (ldbNaoIndicado, ldbServidor, ldbTerminal);
@@ -13,6 +13,8 @@ const
 
 function LocalDoDBToDBConnectionParams(pLocalDoDB: TLocalDoDB;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
+
+function DataSetStateToTitulo(pDataSetState: TDataSetState): string;
 
 implementation
 
@@ -55,6 +57,26 @@ begin
   Result.Server := ''; // fantando fazer
   Result.Arq := '';
   Result.Database := '';
+end;
+
+function DataSetStateToTitulo(pDataSetState: TDataSetState): string;
+begin
+  case pDataSetState of
+    dsInactive: Result := 'Inativo';
+    dsBrowse: Result := 'Navegando';
+    dsEdit: Result := 'Alterando';
+    dsInsert: Result := 'Inserindo';
+    dsSetKey: ;
+    dsCalcFields: ;
+    dsFilter: ;
+    dsNewValue: ;
+    dsOldValue: ;
+    dsCurValue: ;
+    dsBlockRead: ;
+    dsInternalCalc: ;
+    dsOpening: ;
+    else Result := '';
+  end;
 end;
 
 end.

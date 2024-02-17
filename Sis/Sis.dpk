@@ -189,6 +189,27 @@ contains
   Sis.Types.Contador_u in 'Types\Contador\Sis.Types.Contador_u.pas',
   Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
   Sis.DB.FDDataSetManager in 'DB\DataSetManager\Sis.DB.FDDataSetManager.pas',
-  Sis.DB.FDDataSetManager_u in 'DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas';
+  Sis.DB.FDDataSetManager_u in 'DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas',
+  Sis.UI.Form.Bas.TabSheet_u in 'UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas' {TabSheetBasForm},
+  Sis.Lists.Lista in 'Lists\Sis.Lists.Lista.pas',
+  Sis.Lists.AlignmentList in 'Lists\Sis.Lists.AlignmentList.pas',
+  Sis.Lists.AlignmentList_u in 'Lists\Sis.Lists.AlignmentList_u.pas',
+  Sis.Lists.ListaList_u in 'Lists\Sis.Lists.ListaList_u.pas',
+  Sis.Lists.IntegerList in 'Lists\Sis.Lists.IntegerList.pas',
+  Sis.Lists.IntegerList_u in 'Lists\Sis.Lists.IntegerList_u.pas',
+  Sis.UI.Controls.TToolBar in 'UI\Controls\Sis.UI.Controls.TToolBar.pas',
+  Sis.UI.Frame.Bas.FiltroParams_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams_u.pas',
+  Sis.UI.Frame.Bas.FiltroParams.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas',
+  Sis.Entidade in 'Entities\Sis.Entidade.pas',
+  Sis.Entidade_u in 'Entities\Sis.Entidade_u.pas',
+  Sis.UI.IO.Output.ToBalloonHint_u in 'UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas',
+  Sis.UI.IO.Input in 'UI\IO\Input\Sis.UI.IO.Input.pas',
+  Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
+  Sis.UI.IO.Input.Bool.Form in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas' {PergBooleanForm},
+  Sis.UI.IO.Input.Bool_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas',
+  Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas',
+  Sis.UI.Decorator in 'UI\BasForm\Sis.UI.Decorator.pas',
+  Sis.UI.Decorator.Form in 'UI\BasForm\Sis.UI.Decorator.Form.pas',
+  Sis.UI.Controls.TDBGrid in 'UI\Controls\Sis.UI.Controls.TDBGrid.pas';
 
 end.

@@ -48,11 +48,22 @@ type
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex): TModuloBasForm; virtual; abstract;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TModuloBasForm;
+      virtual; abstract;
+
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex): TSessaoFrame;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
+      pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
       virtual; abstract;
+    function GetAppInfo: IAppInfo;
+    property AppInfo: IAppInfo read GetAppInfo;
+
+    property DBMS: IDBMS read FDBMS;
+    property ProcessLog: IProcessLog read FProcessLog;
+    property Output: IOutput read FOutput;
+
   public
     { Public declarations }
 
@@ -74,7 +85,8 @@ type
     property Count: integer read GetCount;
     property Sessao[Index: integer]: ISessao read GetSessao; default;
 
-    function ExecutouPeloShortCut(var Key: word; var Shift: TShiftState): boolean;
+    function ExecutouPeloShortCut(var Key: word;
+      var Shift: TShiftState): boolean;
   end;
 
 implementation
@@ -147,10 +159,12 @@ begin
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
     (vTipoModuloSistema);
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex);
+
+  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
+    FSisConfig, DBMS, Output, ProcessLog);
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
-    oModuloBasForm, iSessaoIndex);
+    oModuloBasForm, iSessaoIndex, DBMS, Output, ProcessLog);
 
   FSessaoFrame.Parent := SessoesScrollBox;
   FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;
@@ -173,23 +187,23 @@ var
   oControl: TControl;
   I: integer;
 begin
-{
-diag
-}
+  {
+    diag
+  }
 
   SessaoEventos.DoAposModuloOcultar;
-{
-  Result := nil;
-  for I := 0 to SessoesScrollBox.ControlCount - 1 do
-  begin
+  {
+    Result := nil;
+    for I := 0 to SessoesScrollBox.ControlCount - 1 do
+    begin
     oControl := SessoesScrollBox.Controls[I];
     oSessaoFrame := TSessaoFrame(oControl);
     if oSessaoFrame.Index = pSessaoIndex then
     begin
-      Result := oSessaoFrame;
-      break;
+    Result := oSessaoFrame;
+    break;
     end;
-  end;
+    end;
   }
 end;
 
@@ -209,7 +223,8 @@ begin
   oAction.Execute;
 end;
 
-function TSessoesFrame.ExecutouPeloShortCut(var Key: word; var Shift: TShiftState): boolean;
+function TSessoesFrame.ExecutouPeloShortCut(var Key: word;
+  var Shift: TShiftState): boolean;
 var
   MenorShortCut: TShortCut;
   MaiorShortCut: TShortCut;
@@ -223,16 +238,21 @@ begin
 
   MenorShortCut := FSortCutInicial;
   MaiorShortCut := MenorShortCut + Count - 1;
-  wShortCut := tshortcut(Key);
+  wShortCut := TShortCut(Key);
 
   Result := (wShortCut >= MenorShortCut) and (wShortCut >= MaiorShortCut);
   if not Result then
     exit;
 
   iIndex := wShortCut - MenorShortCut;
-  oAction := TAction( ActionList1[iIndex]);
+  oAction := TAction(ActionList1[iIndex]);
   Key := 0;
   oAction.Execute;
+end;
+
+function TSessoesFrame.GetAppInfo: IAppInfo;
+begin
+  Result := FAppInfo;
 end;
 
 function TSessoesFrame.GetCount: integer;
@@ -242,7 +262,7 @@ end;
 
 function TSessoesFrame.GetSessao(Index: integer): ISessao;
 begin
-  SessoesScrollBox.Controls[Index];
+  Result := TSessaoFrame(SessoesScrollBox.Controls[Index]);
 end;
 
 function TSessoesFrame.GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;

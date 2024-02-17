@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.Imaging.pngimage, App.UI.Sessoes.Frame, App.Sessao.Eventos,
-  Sis.UI.Form.Login.Config, App.Constants;
+  Sis.UI.Form.Login.Config, App.Constants, App.Sessao;
 
 type
   TSessoesPrincBasForm = class(TPrincBasForm, ISessaoEventos)
@@ -54,9 +54,20 @@ uses App.Sessao.Factory, Sis.Usuario.Factory;
 
 procedure TSessoesPrincBasForm.DoAbrirSessao(pSessaoIndex: TSessaoIndex);
 var
-  SessaoVisivelIndex: TSessaoIndex;
+  iSessaoVisivelIndex: TSessaoIndex;
+  oSessao: ISessao;
+  oModuloBasForm: TForm;
 begin
-  SessaoVisivelIndex := FSessoesFrame.GetSessaoVisivelIndex
+  iSessaoVisivelIndex := FSessoesFrame.GetSessaoVisivelIndex;
+
+  if iSessaoVisivelIndex <> SESSAO_INDEX_INVALIDO then
+  begin
+    FSessoesFrame.Sessao[iSessaoVisivelIndex].EscondaModuloForm;
+  end;
+  oSessao := FSessoesFrame[pSessaoIndex];
+  oModuloBasForm := oSessao.ModuloBasForm;
+  oModuloBasForm.Show;
+  DoOk;
 end;
 
 procedure TSessoesPrincBasForm.DoCancel;

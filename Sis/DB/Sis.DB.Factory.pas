@@ -3,7 +3,8 @@ unit Sis.DB.Factory;
 interface
 
 uses Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output,
-  Sis.UI.IO.Output.ProcessLog, Sis.DB.FDDataSetManager;
+  Sis.UI.IO.Output.ProcessLog, Sis.DB.FDDataSetManager, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBGrids;
 
 function DBMSInfoCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
   : IDBMSInfo;
@@ -23,6 +24,8 @@ function DBExecCreate(pNomeComponente: string; pDBConnection: IDBConnection;
 
 function DBQueryCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBQuery;
+
+function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid): IFDDataSetManager;
 
 implementation
 
@@ -113,5 +116,11 @@ begin
   Result := TDBQueryFireDac.Create(pNomeComponente, pDBConnection, pSql,
     pProcessLog, pOutput);
 end;
+
+function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid): IFDDataSetManager;
+begin
+  Result := TFDDataSetManager.Create(pFDMemTable, pDBGrid);
+end;
+
 
 end.

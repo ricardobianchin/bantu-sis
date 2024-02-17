@@ -32,7 +32,7 @@ begin
   vWinVersionInfo := WinVersionCreate;
   vDBMSInfo := DBMSInfoCreate(pVersion, pDatabaseType);
 
-  result := TISisConfig.Create(vLocalMachineId, vServerMachineId,
+  result := TSisConfig.Create(vLocalMachineId, vServerMachineId,
     vWinVersionInfo, vDBMSInfo);
 end;
 

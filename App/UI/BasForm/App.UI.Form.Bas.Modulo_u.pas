@@ -4,11 +4,12 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls,
-  Sis.ModuloSistema.Types,
-  Sis.ModuloSistema, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions,
-  Vcl.ActnList, App.Sessao.Eventos, Vcl.Menus, App.Constants{, App.Sessao.List};
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
+  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario, App.AppInfo,
+  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -27,45 +28,69 @@ type
     TrocarAction_ModuloBasForm: TAction;
     PopupMenu1: TPopupMenu;
     FecharActionModuloBasForm1: TMenuItem;
+    BasePanel: TPanel;
+    Panel1: TPanel;
+    Label1: TLabel;
+    OutputLabel: TLabel;
     procedure FormCreate(Sender: TObject);
-    procedure FecharAction_ModuloBasFormExecute(Sender: TObject);
+
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
     procedure OcultarAction_ModuloBasFormExecute(Sender: TObject);
     procedure TrocarAction_ModuloBasFormExecute(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FecharAction_ModuloBasFormExecute(Sender: TObject);
     procedure MenuAction_ModuloBasFormExecute(Sender: TObject);
+
   private
     { Private declarations }
     FModuloSistema: IModuloSistema;
     FSessaoEventos: ISessaoEventos;
     FSessaoIndex: TSessaoIndex;
-    // FSessaoList: ISessaoList;
+    FUsuario: IUsuario;
+    FAppInfo: IAppInfo;
+    FSisConfig: ISisConfig;
+    FDBMS: IDBMS;
+    FOutput: IOutput;
+    FProcessLog: IProcessLog;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
     procedure MenuExibir;
+    function GetSisConfig: ISisConfig;
   protected
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
     procedure DoFechar; virtual;
     function Fechou: boolean; virtual;
+
+    function GetAppInfo: IAppInfo;
+    property AppInfo: IAppInfo read GetAppInfo;
+    property SisConfig: ISisConfig read GetSisConfig;
+    property DBMS: IDBMS read FDBMS;
+    property Output: IOutput read FOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex); reintroduce;
+      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
+
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
+
   end;
 
-  TModuloBasFormClass = class of TModuloBasForm;
+  // TModuloBasFormClass = class of TModuloBasForm;
 
-//var
-//  ModuloBasForm: TModuloBasForm;
+  // var
+  // ModuloBasForm: TModuloBasForm;
 
 implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Constants;
+uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TModuloBasForm }
 
@@ -77,15 +102,22 @@ uses Sis.UI.ImgDM, Sis.UI.Constants;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
 begin
   inherited Create(AOwner);
+  FSisConfig := pSisConfig;
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   FModuloSistema := pModuloSistema;
-  TitleBarText := FModuloSistema.TipoModuloSistemaDescr;
   FSessaoEventos := pSessaoEventos;
   FSessaoIndex := pSessaoIndex;
-  // FSessaoList := pSessaoList;
+  FUsuario := pUsuario;
+  FAppInfo := pAppInfo;
+  FDBMS := pDBMS;
+  TitleBarText := FModuloSistema.TipoModuloSistemaDescr + ' - ' +
+    FUsuario.NomeExib;
+  FOutput := MudoOutputCreate;
+  FProcessLog := MudoProcessLogCreate;
 end;
 
 procedure TModuloBasForm.DoFechar;
@@ -111,29 +143,30 @@ end;
 procedure TModuloBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
+
   TitleBarActionList_ModuloBasForm.Images := SisImgDataModule.ImageList_40_24;
-   BoundsRect := Screen.WorkAreaRect;
+  BoundsRect := Screen.WorkAreaRect;
 end;
 
 procedure TModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  case key of
+  case Key of
     vk_f6:
-    begin
-      TrocarAction_ModuloBasForm.Execute;
-      key := 0;
-      exit;
-    end;
+      begin
+        TrocarAction_ModuloBasForm.Execute;
+        Key := 0;
+        exit;
+      end;
   end;
 
-  case key of
+  case Key of
     vk_f2:
-    begin
-      MenuAction_ModuloBasForm.Execute;
-      key := 0;
-      exit;
-    end;
+      begin
+        MenuAction_ModuloBasForm.Execute;
+        Key := 0;
+        exit;
+      end;
   end;
 
   inherited;
@@ -148,6 +181,16 @@ begin
     Voltou;
   end;
   inherited;
+end;
+
+function TModuloBasForm.GetAppInfo: IAppInfo;
+begin
+  Result := FAppInfo;
+end;
+
+function TModuloBasForm.GetSisConfig: ISisConfig;
+begin
+  Result := FSisConfig;
 end;
 
 function TModuloBasForm.GetTitleBarText: string;
@@ -167,7 +210,7 @@ var
 begin
   x := MenuToolButton.Left;
   y := MenuToolButton.Top + MenuToolButton.Height;
-  PopupMenu1.Popup(x,y);
+  PopupMenu1.Popup(x, y);
 
 end;
 
@@ -200,7 +243,7 @@ procedure TModuloBasForm.TrocarAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
   OcultarAction_ModuloBasForm.Execute;
-//  FSessaoEventos.DoTrocarDaSessao(FSessaoIndex)
+  // FSessaoEventos.DoTrocarDaSessao(FSessaoIndex)
 end;
 
 function TModuloBasForm.Voltou: boolean;

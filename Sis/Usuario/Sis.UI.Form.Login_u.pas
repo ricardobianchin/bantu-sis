@@ -86,7 +86,7 @@ var
   sNomeTipo: string;
 begin
   inherited Create(nil);
-  DisparaShowTimer := True;
+//  DisparaShowTimer := True;
   FUsuario := pUsuario;
   FUsuarioDBI := pUsuarioDBI;
   FLoginConfig := pLoginConfig;
@@ -120,7 +120,7 @@ procedure TLoginForm.FormShow(Sender: TObject);
 begin
   // era pra ser no create, mas volta a false.
   // está aqui de forma anômala pra se conseguir que DisparaShowTimer fique true
-  DisparaShowTimer := True;
+//  DisparaShowTimer := True;
 
   inherited;
 end;

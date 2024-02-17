@@ -2,15 +2,16 @@ unit Sis.UI.Controls.Utils;
 
 interface
 
-uses Vcl.StdCtrls, controls, messages;
+uses Vcl.StdCtrls, controls, messages, System.Classes;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 procedure SimuleTecla(VkKeyCode:integer; pControl:TControl=nil);
 procedure MakeRounded(Control: TWinControl; Radius: integer);
+function CharToAlignment(const pChar: char): TAlignment;
 
 implementation
 
-uses SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, classes, Vcl.Forms;
+uses SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 begin
@@ -46,6 +47,15 @@ begin
     Perform(EM_SETRECTNP, 0, lParam(@r));
     SetWindowRgn(Handle, rgn, True);
     Invalidate;
+  end;
+end;
+
+function CharToAlignment(const pChar: char): TAlignment;
+begin
+  case pChar of
+    'C', 'c': Result := taCenter;
+    'R', 'r': Result := taRightJustify;
+    else {L, E, ''} Result := taLeftJustify;
   end;
 end;
 

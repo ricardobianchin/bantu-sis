@@ -1,14 +1,13 @@
 inherited LoginForm: TLoginForm
   Caption = 'Login'
-  ClientHeight = 187
-  ClientWidth = 375
-  Position = poDesktopCenter
-  ExplicitWidth = 391
-  ExplicitHeight = 226
+  ClientHeight = 185
+  ClientWidth = 367
+  ExplicitWidth = 383
+  ExplicitHeight = 224
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 98
-    Width = 375
+    Top = 96
+    Width = 367
     Height = 52
     Alignment = taCenter
     AutoSize = False
@@ -47,8 +46,8 @@ inherited LoginForm: TLoginForm
     OnKeyPress = SenhaLabeledEditKeyPress
   end
   inherited BasePanel: TPanel
-    Top = 150
-    Width = 375
+    Top = 148
+    Width = 367
     ExplicitTop = 149
     ExplicitWidth = 371
   end

@@ -168,7 +168,7 @@ end;
 procedure TClienteConfigForm.FormCreate(Sender: TObject);
 begin
   inherited;
-  DisparaShowTimer := true;
+//  DisparaShowTimer := true;
 
   FbCopiaCorSelected := false;
   FbCopiaCorLabeledEdit := false;

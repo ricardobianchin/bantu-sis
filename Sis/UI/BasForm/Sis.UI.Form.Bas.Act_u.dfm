@@ -1,6 +1,7 @@
 inherited ActBasForm: TActBasForm
   Caption = 'ActBasForm'
-  ClientWidth = 620
+  ClientWidth = 616
+  ExplicitWidth = 632
   TextHeight = 15
   inherited ShowTimer_BasForm: TTimer
     Left = 80
@@ -11,10 +12,11 @@ inherited ActBasForm: TActBasForm
     Left = 240
     Top = 32
     object FecharAction_ActBasForm: TAction
-      Caption = 'FecharAction_ActBasForm'
+      Caption = 'Fechar'
       Hint = 'Fechar'
       ImageIndex = 0
       OnExecute = FecharAction_ActBasFormExecute
+      OnHint = FecharAction_ActBasFormHint
     end
   end
 end

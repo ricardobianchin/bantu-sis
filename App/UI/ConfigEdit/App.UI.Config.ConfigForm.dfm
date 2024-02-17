@@ -2,7 +2,7 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 528
+  ClientHeight = 562
   ClientWidth = 936
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -24,16 +24,17 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 528
+    Height = 562
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitHeight = 561
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 175
-      Height = 529
+      Height = 562
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7057,24 +7058,23 @@ object StarterFormConfig: TStarterFormConfig
     Left = 175
     Top = 0
     Width = 761
-    Height = 528
+    Height = 562
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
-    Color = 15399935
-    ParentBackground = False
     TabOrder = 1
+    ExplicitWidth = 757
+    ExplicitHeight = 561
     DesignSize = (
       761
-      528)
+      562)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 492
-      Width = 278
-      Height = 60
+      Top = 526
+      Width = 417
+      Height = 28
       Align = alNone
       Anchors = [akLeft, akBottom]
-      AutoSize = True
       ButtonHeight = 30
       ButtonWidth = 139
       Caption = 'ToolBar1'
@@ -7082,6 +7082,9 @@ object StarterFormConfig: TStarterFormConfig
       List = True
       ShowCaptions = True
       TabOrder = 0
+      Transparent = True
+      StyleElements = []
+      ExplicitTop = 525
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7091,48 +7094,11 @@ object StarterFormConfig: TStarterFormConfig
         Left = 139
         Top = 0
         Action = CancelAct
-        Wrap = True
       end
       object ToolButton3: TToolButton
-        Left = 0
-        Top = 30
+        Left = 278
+        Top = 0
         Action = ReloadAct
-      end
-    end
-    inline LocalMaqNomeEdFrame: TMaqNomeEdFrame
-      Left = 7
-      Top = 3
-      Width = 300
-      Height = 109
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-      ExplicitLeft = 7
-      ExplicitTop = 3
-      ExplicitWidth = 300
-      inherited ErroLabel: TLabel
-        Width = 48
-      end
-      inherited GroupBox1: TGroupBox
-        Width = 300
-        CustomHint = BalloonHint1
-        ExplicitWidth = 300
-        inherited ObsLabel: TLabel
-          CustomHint = BalloonHint1
-        end
-        inherited NomeLabeledEdit: TLabeledEdit
-          CustomHint = BalloonHint1
-          EditLabel.CustomHint = BalloonHint1
-        end
-        inherited IpLabeledEdit: TLabeledEdit
-          CustomHint = BalloonHint1
-          EditLabel.CustomHint = BalloonHint1
-          OnKeyPress = LocalMaqNomeEdFrameIpLabeledEditKeyPress
-        end
       end
     end
     object EhServidorCheckBox: TCheckBox
@@ -7146,37 +7112,9 @@ object StarterFormConfig: TStarterFormConfig
       Margins.Right = 0
       Margins.Bottom = 15
       Caption = 'Esta m'#225'quina '#233' o &servidor'
-      TabOrder = 3
+      TabOrder = 2
       OnClick = EhServidorCheckBoxClick
       OnKeyPress = EhServidorCheckBoxKeyPress
-    end
-    inline ServerMaqNomeEdFrame: TMaqNomeEdFrame
-      Left = 322
-      Top = 3
-      Width = 456
-      Height = 110
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 4
-      ExplicitLeft = 322
-      ExplicitTop = 3
-      ExplicitWidth = 456
-      ExplicitHeight = 110
-      inherited ErroLabel: TLabel
-        Top = 97
-        Width = 48
-        ExplicitTop = 97
-      end
-      inherited GroupBox1: TGroupBox
-        Width = 456
-        Height = 97
-        ExplicitWidth = 456
-        ExplicitHeight = 97
-      end
     end
     object ToolBar2: TToolBar
       Left = 270
@@ -7187,7 +7125,7 @@ object StarterFormConfig: TStarterFormConfig
       ButtonWidth = 31
       Caption = 'LoginToolBar'
       Images = SisImgDataModule.ImageListLogin16
-      TabOrder = 5
+      TabOrder = 4
       object ToolButton5: TToolButton
         Left = 0
         Top = 0
@@ -7218,7 +7156,7 @@ object StarterFormConfig: TStarterFormConfig
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 69
+        Width = 296
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -7229,6 +7167,7 @@ object StarterFormConfig: TStarterFormConfig
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9
@@ -7373,7 +7312,7 @@ object StarterFormConfig: TStarterFormConfig
       Width = 300
       Height = 143
       Caption = 'Loja'
-      TabOrder = 7
+      TabOrder = 3
       Visible = False
       DesignSize = (
         300
@@ -7449,7 +7388,7 @@ object StarterFormConfig: TStarterFormConfig
       Width = 25
       Height = 25
       Caption = '...'
-      TabOrder = 8
+      TabOrder = 5
     end
   end
   object ActionList1: TActionList

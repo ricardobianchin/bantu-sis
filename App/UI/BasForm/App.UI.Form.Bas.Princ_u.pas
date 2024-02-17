@@ -175,7 +175,7 @@ begin
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   ToolBar1.Color := COR_PRETO_TITLEBAR;
 
-  DisparaShowTimer := True;
+//  DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
   FStatusOutput := LabelOutputCreate(StatusLabel);

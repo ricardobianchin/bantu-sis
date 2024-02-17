@@ -4,11 +4,9 @@ inherited ModuloBasForm: TModuloBasForm
   Caption = 'ModuloBasForm'
   ClientHeight = 476
   ClientWidth = 620
-  KeyPreview = True
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   ExplicitWidth = 620
-  ExplicitHeight = 476
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
@@ -26,7 +24,7 @@ inherited ModuloBasForm: TModuloBasForm
       620
       30)
     object TitleBarTextCaptionLabel: TLabel
-      Left = 105
+      Left = 103
       Top = 8
       Width = 130
       Height = 15
@@ -84,6 +82,41 @@ inherited ModuloBasForm: TModuloBasForm
         Left = 47
         Top = 0
         Action = TrocarAction_ModuloBasForm
+      end
+    end
+  end
+  object BasePanel: TPanel [1]
+    Left = 0
+    Top = 451
+    Width = 620
+    Height = 25
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 1
+    object Panel1: TPanel
+      Left = 13
+      Top = 0
+      Width = 205
+      Height = 25
+      BevelOuter = bvLowered
+      Caption = ' '
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 6
+        Top = 7
+        Width = 3
+        Height = 15
+        Caption = ' '
+      end
+      object OutputLabel: TLabel
+        Left = 1
+        Top = 1
+        Width = 12
+        Height = 15
+        Align = alClient
+        Caption = '    '
+        Layout = tlCenter
       end
     end
   end

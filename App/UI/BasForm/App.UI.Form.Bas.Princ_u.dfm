@@ -3,11 +3,8 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
-  Color = 1641478
-  Font.Color = 10905156
   OnDestroy = FormDestroy
   ExplicitWidth = 628
-  ExplicitHeight = 477
   TextHeight = 15
   object Logo1Image: TImage [0]
     Left = 0
@@ -1270,7 +1267,7 @@ inherited PrincBasForm: TPrincBasForm
     AutoSize = False
     Caption = 'Buscando atualiza'#231#227'o...'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = 10905156
+    Font.Color = clWindowText
     Font.Height = -19
     Font.Name = 'Segoe UI'
     Font.Style = []
@@ -1306,7 +1303,7 @@ inherited PrincBasForm: TPrincBasForm
       Height = 15
       Caption = 'TitleBarCaptionLabel'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 14597805
+      Font.Color = clWindowText
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
