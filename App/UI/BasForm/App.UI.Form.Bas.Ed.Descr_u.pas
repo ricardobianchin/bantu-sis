@@ -40,7 +40,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.DB;
+uses Data.DB, Sis.Types.strings_u;
 
 procedure TEdDescrBasForm.AjusteControles;
 var
@@ -83,7 +83,7 @@ var
   sNomeDigitado: string;
   sFormat: string;
 begin
-  LabeledEdit1.Text := Trim(LabeledEdit1.Text);
+  LabeledEdit1.Text := StrSemCharRepetido(LabeledEdit1.Text, #32);
   sNomeDigitado := LabeledEdit1.Text;
   sNomeCampo := EntIdDescr.DescrCaption;
 

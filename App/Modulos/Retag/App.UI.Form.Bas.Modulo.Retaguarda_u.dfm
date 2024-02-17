@@ -41,7 +41,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Top = -3
           Width = 264
           Height = 97
-          Caption = 'Produtos'
+          Caption = 'Itens de Estoque'
           TabOrder = 0
           object EstoqueToolBar: TToolBar
             Left = 2
@@ -132,6 +132,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Width = 604
     TabOrder = 2
     ExplicitWidth = 604
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -156,6 +162,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstProdTipoAction: TAction
       Category = 'Estoque'
       Caption = 'Tipos'
+      Hint = 'Tipos de Itens'
       ImageIndex = 0
       OnExecute = RetagEstProdTipoActionExecute
     end
@@ -178,7 +185,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagEstProdAction: TAction
       Category = 'Estoque'
-      Caption = 'Produtos'
+      Caption = 'Itens'
+      Hint = 'Itens de Estoque'
       ImageIndex = 3
       OnExecute = RetagEstProdActionExecute
     end

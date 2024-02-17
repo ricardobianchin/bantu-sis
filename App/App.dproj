@@ -248,6 +248,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.TabSheet.Retag.Est.Prod.Tipo_u.pas">
+            <Form>RetagEstProdTipoTabSheetDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

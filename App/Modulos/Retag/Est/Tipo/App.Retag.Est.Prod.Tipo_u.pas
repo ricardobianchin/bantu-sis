@@ -1,11 +1,11 @@
-unit App.Retag.Est.Prod.Fabr_u;
+unit App.Retag.Est.Prod.Tipo_u;
 
 interface
 
 uses Data.DB, App.Entidade.Ed.Id.Descr_u;
 
 type
-  TProdFabr = class(TEntIdDescr)
+  TProdTipo = class(TEntIdDescr)
   private
   protected
     function GetNome: string; override;
@@ -15,16 +15,16 @@ type
 
 implementation
 
-{ TProdFabr }
+{ TProdTipo }
 
-function TProdFabr.GetNome: string;
+function TProdTipo.GetNome: string;
 begin
-  Result := 'Fabricante';
+  Result := 'Tipo de Item';
 end;
 
-function TProdFabr.GetTitulo: string;
+function TProdTipo.GetTitulo: string;
 begin
-  Result := 'Fabricantes';
+  Result := 'Tipos de Item';
 end;
 
 end.

@@ -95,6 +95,9 @@ contains
   App.UI.Decorator.Form.Excl in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl.pas',
   App.UI.Decorator.Form.Excl_u in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas',
   App.Ent.DBI in 'Modulos\Retag\Ent\App.Ent.DBI.pas',
-  App.Ent.DBI_u in 'Modulos\Retag\Ent\App.Ent.DBI_u.pas';
+  App.Ent.DBI_u in 'Modulos\Retag\Ent\App.Ent.DBI_u.pas',
+  App.Retag.Est.Prod.Tipo.DBI_u in 'Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.DBI_u.pas',
+  App.Retag.Est.Prod.Tipo_u in 'Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo_u.pas',
+  App.UI.Form.TabSheet.Retag.Est.Prod.Tipo_u in 'Modulos\Retag\Est\Tipo\App.UI.Form.TabSheet.Retag.Est.Prod.Tipo_u.pas' {RetagEstProdTipoTabSheetDataSetForm};
 
 end.

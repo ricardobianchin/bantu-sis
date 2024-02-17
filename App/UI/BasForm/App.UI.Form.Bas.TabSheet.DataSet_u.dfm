@@ -25,6 +25,8 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     TitleFont.Height = -12
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
+    OnKeyPress = DBGrid1KeyPress
   end
   inherited ActionList1_ActBasForm: TActionList
     object AtuAction_DatasetTabSheet: TAction

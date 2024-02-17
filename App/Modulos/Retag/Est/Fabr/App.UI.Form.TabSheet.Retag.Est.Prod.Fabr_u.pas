@@ -178,26 +178,26 @@ var
 begin
   inherited;
   Exit;
-  if ExclExecutando then
-    exit;
-  ExclExecutando := true;
-  Resultado := False;
-  try
-
-    if FDMemTable.IsEmpty then
-    begin
-      outputnotify.exibir('Não há registros a excluir');
-      exit;
-    end;
-
-    oFabr := RetagEstProdFabrCreate(dsEdit, FDMemTable.Fields[0].AsInteger,
-      FDMemTable.Fields[1].AsString);
-
-    oDecoratorExcl := DecoratorExclFabrCreate(oFabr);
-    Resultado := ExclFormPerg(nil, oDecoratorExcl);
-  finally
-    ExclExecutando := False;
-  end;
+//  if ExclExecutando then
+//    exit;
+//  ExclExecutando := true;
+//  Resultado := False;
+//  try
+//
+//    if FDMemTable.IsEmpty then
+//    begin
+//      outputnotify.exibir('Não há registros a excluir');
+//      exit;
+//    end;
+//
+//    oFabr := RetagEstProdFabrCreate(dsEdit, FDMemTable.Fields[0].AsInteger,
+//      FDMemTable.Fields[1].AsString);
+//
+//    oDecoratorExcl := DecoratorExclFabrCreate(oFabr);
+//    Resultado := ExclFormPerg(nil, oDecoratorExcl);
+//  finally
+//    ExclExecutando := False;
+//  end;
 end;
 
 procedure TRetagEstProdFabrTabSheetDataSetForm.FormCreate(Sender: TObject);
@@ -213,7 +213,7 @@ end;
 
 function TRetagEstProdFabrTabSheetDataSetForm.GetNomeAbrev: string;
 begin
-  Result := 'Fabr';
+  Result := 'ProdFabr';
 end;
 
 function TRetagEstProdFabrTabSheetDataSetForm.GetNomeArqTabView: string;

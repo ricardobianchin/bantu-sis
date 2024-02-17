@@ -27,6 +27,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -131,6 +133,23 @@ begin
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
   DefCampos;
+end;
+
+procedure TTabSheetDataSetBasForm.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  AtuAction_DatasetTabSheet.Execute;
+end;
+
+procedure TTabSheetDataSetBasForm.DBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if CharInSet(key, [#32, #13]) then
+  begin
+    key := #0;
+    AtuAction_DatasetTabSheet.Execute;
+  end;
 end;
 
 procedure TTabSheetDataSetBasForm.DefCampos;
