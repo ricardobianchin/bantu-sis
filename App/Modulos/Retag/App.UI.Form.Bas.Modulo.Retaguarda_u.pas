@@ -10,7 +10,7 @@ uses
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog;
+  Sis.UI.IO.Output.ProcessLog, FlatBtn;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -21,11 +21,7 @@ type
     AjudaTabSheet: TTabSheet;
     PageControl1: TPageControl;
     EstProdGroupBox: TGroupBox;
-    EstoqueToolBar: TToolBar;
     EstProdEnvTermPanel: TPanel;
-
-    EstProdFabrToolButton: TToolButton;
-    EstProdTipoToolButton: TToolButton;
 
     RetagAjuBemAction: TAction;
 
@@ -39,7 +35,6 @@ type
     AjuBemToolButton: TToolButton;
     ToolBar4: TToolBar;
     ToolButton2: TToolButton;
-    ProdToolButton: TToolButton;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -61,9 +56,15 @@ type
 
   private
     { Private declarations }
+    FEstProdFlatBtn: TFlatBtn;
+    FEstProdFabrFlatBtn: TFlatBtn;
+    FEstProdTipoFlatBtn: TFlatBtn;
+
     FFormClassNamesSL: TStringList;
     FContador: IContador;
     FOutputNotify: IOutput;
+
+    procedure CriaFlatBtns;
 
     // tab crie
     procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
@@ -82,7 +83,38 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory;
+  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory,
+  Sis.UI.Controls.TFlatBtn;
+
+procedure TRetaguardaModuloBasForm.CriaFlatBtns;
+const
+  BTN_WIDTH = 70;
+  BTN_HEIGHT = 52;
+  BTN_TOP = 17;
+var
+  iLeftAtual: integer;
+  oParent: TWinControl;
+begin
+  oParent := EstProdGroupBox;
+  iLeftAtual := 2;
+
+  FEstProdFlatBtn := FlatBtnCreate(RetagEstProdAction, oParent,
+    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
+
+  FEstProdFabrFlatBtn := FlatBtnCreate(RetagEstProdFabrAction, oParent,
+    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
+
+  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdTipoAction, oParent,
+    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
+
+//  FEstProdFabrFlatBtn := TFlatBtn.Create(EstProdGroupBox);
+//  FEstProdFabrFlatBtn.Parent := EstProdGroupBox;
+//  FEstProdFabrFlatBtn.Left := 2;
+//  FEstProdFabrFlatBtn.Top := 17;
+//  FEstProdFabrFlatBtn.WIdth := 67;
+//  FEstProdFabrFlatBtn.Height := 54;
+//  FEstProdFabrFlatBtn.Action := RetagEstProdFabrAction;
+end;
 
 procedure TRetaguardaModuloBasForm.FormCreate(Sender: TObject);
 begin
@@ -95,6 +127,8 @@ begin
 
   FFormClassNamesSL := TStringList.Create;
   FContador := ContadorCreate;
+
+  CriaFlatBtns;
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);
@@ -172,7 +206,7 @@ end;
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  RetagAjuBemAction.Execute;
+  // RetagAjuBemAction.Execute;
   RetagEstProdTipoAction.Execute;
 end;
 
@@ -182,10 +216,10 @@ procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName
 var
   oTabSheet: TTabSheet;
   oTabSheetBasForm: TTabSheetAppBasForm;
-//  HintPoint: TPoint;
+  // HintPoint: TPoint;
   sFormClassName: string;
   iPageIndex: Integer;
-  oTRect: TRect;
+  //oTRect: TRect;
   iExistenteIndex: Integer;
 
   oFormOwner: TComponent;
@@ -197,14 +231,14 @@ begin
   begin
     oTabSheet := TTabSheet(FFormClassNamesSL.Objects[iExistenteIndex]);
     PageControl1.ActivePage := oTabSheet;
-    iPageIndex := PageControl1.ActivePageIndex;
 
-//    HintPoint := Mouse.CursorPos;
-//    oTRect := PageControl1.TabRect(iPageIndex);
-//    HintPoint := CenterPoint(oTRect);
+    //iPageIndex := PageControl1.ActivePageIndex;
+    // HintPoint := Mouse.CursorPos;
+    // oTRect := PageControl1.TabRect(iPageIndex);
+    // HintPoint := CenterPoint(oTRect);
 
-//    if HintPoint.X < 20 then
-//      HintPoint.X := 20;
+    // if HintPoint.X < 20 then
+    // HintPoint.X := 20;
     // Dec(HintPoint.Y, 3);
 
     FOutputNotify.Exibir('Opção já aberta');

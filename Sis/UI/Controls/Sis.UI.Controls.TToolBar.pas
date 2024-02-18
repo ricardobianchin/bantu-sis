@@ -8,30 +8,19 @@ procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar);
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, Sis.UI.Controls.TAction;
 
 procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar);
 var
   NovoBotao: TToolButton;
   sNameButton: string;
-  sNameAction, sNameActionUppercase: string;
-  iPosSufixo: integer;
+  sNameAction: string;
   iIndexUltimoBotao: integer;
 begin
   NovoBotao := TToolButton.Create(pToolBar);
 
   sNameAction := pAction.Name;
-  sNameActionUppercase := UpperCase(sNameAction);
-  sNameButton := sNameAction;
-
-  iPosSufixo := sNameActionUppercase.LastIndexOf('ACTION') + 1;
-
-  if iPosSufixo = 0 then
-    iPosSufixo := sNameActionUppercase.LastIndexOf('ACT') + 1;
-
-  if iPosSufixo > 0 then
-    Delete(sNameButton, iPosSufixo, (Length(sNameButton) - iPosSufixo) + 1);
-
+  sNameButton := GetActionNamePrefix(sNameAction);
   sNameButton := sNameButton + 'ToolButton';
 
   NovoBotao.Name := sNameButton;

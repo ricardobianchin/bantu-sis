@@ -211,7 +211,10 @@ contains
   Sis.UI.Decorator in 'UI\BasForm\Sis.UI.Decorator.pas',
   Sis.UI.Decorator.Form in 'UI\BasForm\Sis.UI.Decorator.Form.pas',
   Sis.UI.Controls.TDBGrid in 'UI\Controls\Sis.UI.Controls.TDBGrid.pas',
-  CustomFlatButton in 'UI\Controls\FlatButton\CustomFlatButton.pas',
-  FlatButton in 'UI\Controls\FlatButton\FlatButton.pas';
+  CustomFlatBtn in '..\BtuComponentes\FlatButton\CustomFlatBtn.pas',
+  FlatBtn in '..\BtuComponentes\FlatButton\FlatBtn.pas',
+  Sis.UI.Controls.TFlatBtn in 'UI\Controls\Sis.UI.Controls.TFlatBtn.pas',
+  FlatBtnList in '..\BtuComponentes\FlatButton\FlatBtnList.pas',
+  Sis.UI.Controls.TAction in 'UI\Controls\Sis.UI.Controls.TAction.pas';
 
 end.
