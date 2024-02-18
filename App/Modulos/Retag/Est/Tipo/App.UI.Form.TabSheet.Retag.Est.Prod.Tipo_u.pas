@@ -173,7 +173,7 @@ end;
 
 function TRetagEstProdTipoTabSheetDataSetForm.GetNome: string;
 begin
-  Result := 'Tipo de Item';
+  Result := 'Tipo de Produtos';
 end;
 
 function TRetagEstProdTipoTabSheetDataSetForm.GetNomeAbrev: string;
@@ -192,7 +192,7 @@ end;
 
 function TRetagEstProdTipoTabSheetDataSetForm.GetTitulo: string;
 begin
-  Result := 'ProdTipoicantes';
+  Result := 'Tipos de Produtos';
 end;
 
 procedure TRetagEstProdTipoTabSheetDataSetForm.ToolBar1CrieBotoes;

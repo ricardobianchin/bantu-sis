@@ -210,6 +210,11 @@ contains
   Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas',
   Sis.UI.Decorator in 'UI\BasForm\Sis.UI.Decorator.pas',
   Sis.UI.Decorator.Form in 'UI\BasForm\Sis.UI.Decorator.Form.pas',
-  Sis.UI.Controls.TDBGrid in 'UI\Controls\Sis.UI.Controls.TDBGrid.pas';
+  Sis.UI.Controls.TDBGrid in 'UI\Controls\Sis.UI.Controls.TDBGrid.pas',
+  CustomFlatBtn in '..\BtuComponentes\FlatButton\CustomFlatBtn.pas',
+  FlatBtn in '..\BtuComponentes\FlatButton\FlatBtn.pas',
+  Sis.UI.Controls.TFlatBtn in 'UI\Controls\Sis.UI.Controls.TFlatBtn.pas',
+  FlatBtnList in '..\BtuComponentes\FlatButton\FlatBtnList.pas',
+  Sis.UI.Controls.TAction in 'UI\Controls\Sis.UI.Controls.TAction.pas';
 
 end.
