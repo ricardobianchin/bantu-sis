@@ -158,8 +158,8 @@ var
 begin
   sFormat := '%s %s: %s';
   sTit := EntEd.StateAsTitulo;
-  sNom := GetProdFabrEnt.NomeEnt;
-  sVal := GetProdFabrEnt.Descr;
+  sNom := ProdFabrEnt.NomeEnt;
+  sVal := ProdFabrEnt.Descr;
   Result := Format(sFormat, [sTit, sNom, sVal]);
 end;
 

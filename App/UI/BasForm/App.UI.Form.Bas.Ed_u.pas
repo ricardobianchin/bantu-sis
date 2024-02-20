@@ -104,7 +104,6 @@ begin
   inherited Create(AOwner);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
-  FEntEd.Clear;
 end;
 
 function TEdBasForm.PodeOk: Boolean;

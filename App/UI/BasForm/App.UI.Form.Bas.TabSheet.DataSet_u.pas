@@ -151,7 +151,7 @@ end;
 procedure TTabSheetDataSetBasForm.DBGrid1DblClick(Sender: TObject);
 begin
   inherited;
-  AtuAction_DatasetTabSheet.Execute;
+  AltAction_DatasetTabSheet.Execute;
 end;
 
 procedure TTabSheetDataSetBasForm.DBGrid1KeyPress(Sender: TObject;
@@ -161,7 +161,7 @@ begin
   if CharInSet(Key, [#32, #13]) then
   begin
     Key := #0;
-    AtuAction_DatasetTabSheet.Execute;
+    AltAction_DatasetTabSheet.Execute;
   end;
 end;
 

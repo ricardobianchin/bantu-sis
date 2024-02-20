@@ -3,9 +3,6 @@
         <ProjectGuid>{09D70D0B-D47C-48C5-B908-BE2F6B2C4314}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="Teste\But\TesteBut.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="Sis\Sis.dproj">
             <Dependencies/>
         </Projects>
@@ -32,15 +29,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="TesteBut">
-        <MSBuild Projects="Teste\But\TesteBut.dproj"/>
-    </Target>
-    <Target Name="TesteBut:Clean">
-        <MSBuild Projects="Teste\But\TesteBut.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TesteBut:Make">
-        <MSBuild Projects="Teste\But\TesteBut.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Sis">
         <MSBuild Projects="Sis\Sis.dproj"/>
     </Target>
@@ -96,13 +84,13 @@
         <MSBuild Projects="LogMonitor\LogMonitor.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="TesteBut;Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="TesteBut:Clean;Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="TesteBut:Make;Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -132,12 +120,6 @@
         </BuildGroupProject>
         <BuildGroupProject Include="LogMonitor\LogMonitor.dproj">
             <ProjectGuid>{51185958-76FB-4A72-B6D7-0E23BADB628C}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Teste\But\TesteBut.dproj">
-            <ProjectGuid>{D1231DC0-3825-4F7B-BCDE-9EC07F3D6AAA}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
