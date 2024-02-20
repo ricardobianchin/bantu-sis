@@ -3,7 +3,7 @@ unit App.Retag.Est.Prod.Tipo.DBI_u;
 interface
 
 uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
-  System.Variants, Sis.Types.Integers, App.Ent.DBI_u, App.Entidade.Ed.Id.Descr;
+  System.Variants, Sis.Types.Integers, App.Ent.DBI_u, App.Ent.Ed.Id.Descr;
 
 type
   TProdTipoDBI = class(TEntDBI)

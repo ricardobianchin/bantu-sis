@@ -9,8 +9,11 @@ type
     procedure PegueDe(pOutraEntidade: IEntidade);
     procedure Clear;
 
-    function GetNome: string;
-    property Nome: string read GetNome;
+    function GetNomeEnt: string;
+    property NomeEnt: string read GetNomeEnt;
+
+    function GetNomeEntAbrev: string;
+    property NomeEntAbrev: string read GetNomeEntAbrev;
 
     function GetTitulo: string;
     property Titulo: string read GetTitulo;

@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Tipo_u;
 
 interface
 
-uses Data.DB, App.Entidade.Ed.Id.Descr_u;
+uses Data.DB, App.Ent.Ed.Id.Descr_u;
 
 type
   TProdTipo = class(TEntIdDescr)

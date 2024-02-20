@@ -1,4 +1,4 @@
-unit App.UI.Form.TabSheet.Retag.Est.Prod.Fabr_u;
+unit App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u;
 
 interface
 
@@ -9,16 +9,18 @@ uses
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
-  App.Entidade.Ed.Id.Descr;
+  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Fabr.Ent;
 
 type
-  TRetagEstProdFabrTabSheetDataSetForm = class(TTabSheetDataSetBasForm)
+  TRetagEstProdFabrDataSetForm = class(TTabSheetDataSetBasForm)
     procedure FormCreate(Sender: TObject);
     procedure ExclAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FFiltroParamsStringFrame: TFiltroParamsStringFrame;
     procedure CrieFiltroFrame;
+    function GetProdFabrEnt: IProdFabrEnt;
+    property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
 
   protected
     procedure DoAtualizar(Sender: TObject); override;
@@ -26,16 +28,15 @@ type
     procedure DoAlterar; override;
 
     function GetNomeArqTabView: string; override;
-    function GetTitulo: string; override;
     procedure ToolBar1CrieBotoes; override;
-    function GetNome: string; override;
-    function GetNomeAbrev: string; override;
+    procedure LeRegEInsere(q: TDataSet); override;
+    procedure RecordToEnt; override;
   public
     { Public declarations }
   end;
 
 var
-  RetagEstProdFabrTabSheetDataSetForm: TRetagEstProdFabrTabSheetDataSetForm;
+  RetagEstProdFabrDataSetForm: TRetagEstProdFabrDataSetForm;
 
 implementation
 
@@ -43,48 +44,42 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
-  Sis.UI.Controls.TDBGrid;
+  Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Fabr.Ent_u;
 
 { TFabricanteTabSheetDataSetForm }
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.DoAlterar;
+procedure TRetagEstProdFabrDataSetForm.DoAlterar;
 var
-  oFabr: IEntIdDescr;
   oFabrDBI: IEntDBI;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
   sBusca: string;
   Resultado: boolean;
 begin
-  oFabr := RetagEstProdFabrCreate(State, FDMemTable.Fields[0].AsInteger, FDMemTable.Fields[1].AsString);
-
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
+  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
 
-  Resultado := ProdFabrPerg(Self, Titulo, dsEdit, oFabr, oFabrDBI);
+  Resultado := ProdFabrPerg(Self, EntEd, oFabrDBI);
   if not Resultado then
     exit;
 
   FDMemTable.Edit;
-  FDMemTable.Fields[1].AsString := oFabr.Descr;
+  FDMemTable.Fields[1].AsString := ProdFabrEnt.Descr;
   FDMemTable.Post;
 end;
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.DoAtualizar(Sender: TObject);
+procedure TRetagEstProdFabrDataSetForm.DoAtualizar(Sender: TObject);
 var
-  oFabr: IEntIdDescr;
   oFabrDBI: IEntDBI;
   Resultado: boolean;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
-  sBusca: string;
 begin
-  oFabr := RetagEstProdFabrCreate(dsInsert);
 
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
@@ -92,20 +87,14 @@ begin
   oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
-
-  sBusca := FFiltroParamsStringFrame.BuscaString;
+  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
 
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
   FDMemTable.EmptyDataSet;
 
   try
-    oFabrDBI.PreencherDataSetIdDescr(sBusca,
-      procedure(q: TDataSet)
-      begin
-        FDMemTable.InsertRecord([q.Fields[0].AsInteger, q.Fields[1].AsString]);
-      end);
+    oFabrDBI.PreencherDataSet(FFiltroParamsStringFrame, LeRegEInsere);
 
   finally
     FDMemTable.First;
@@ -115,33 +104,30 @@ begin
   end;
 end;
 
-function TRetagEstProdFabrTabSheetDataSetForm.DoInserir: boolean;
+function TRetagEstProdFabrDataSetForm.DoInserir: boolean;
 var
-  oFabr: IEntIdDescr;
   oFabrDBI: IEntDBI;
   oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
+  oDBConnection: IDBConnection;
 begin
   inherited;
-  oFabr := RetagEstProdFabrCreate(State);
-
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
+  oDBConnection := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oFabrDBI := RetagEstProdFabrDBICreate(oConn, oFabr);
+  oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, EntEd);
 
-  Result := ProdFabrPerg(Self, Titulo, dsInsert, oFabr, oFabrDBI);
+  Result := ProdFabrPerg(Self, EntEd, oFabrDBI);
 
   if not Result then
     exit;
 
-  FDMemTable.InsertRecord([oFabr.Id, oFabr.Descr]);
+  FDMemTable.InsertRecord([ProdFabrEnt.Id, ProdFabrEnt.Descr]);
 end;
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.CrieFiltroFrame;
+procedure TRetagEstProdFabrDataSetForm.CrieFiltroFrame;
 var
   iIndexUltimoBotao: integer;
   l, w: integer;
@@ -169,7 +155,7 @@ begin
     FFiltroParamsStringFrame.Left := 0;
 end;
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.ExclAction_DatasetTabSheetExecute
+procedure TRetagEstProdFabrDataSetForm.ExclAction_DatasetTabSheetExecute
   (Sender: TObject);
 var
   Resultado: boolean;
@@ -177,46 +163,36 @@ var
   oFabr: IEntIdDescr;
 begin
   inherited;
-  Exit;
-//  if ExclExecutando then
-//    exit;
-//  ExclExecutando := true;
-//  Resultado := False;
-//  try
-//
-//    if FDMemTable.IsEmpty then
-//    begin
-//      outputnotify.exibir('Não há registros a excluir');
-//      exit;
-//    end;
-//
-//    oFabr := RetagEstProdFabrCreate(dsEdit, FDMemTable.Fields[0].AsInteger,
-//      FDMemTable.Fields[1].AsString);
-//
-//    oDecoratorExcl := DecoratorExclFabrCreate(oFabr);
-//    Resultado := ExclFormPerg(nil, oDecoratorExcl);
-//  finally
-//    ExclExecutando := False;
-//  end;
+  exit;
+  // if ExclExecutando then
+  // exit;
+  // ExclExecutando := true;
+  // Resultado := False;
+  // try
+  //
+  // if FDMemTable.IsEmpty then
+  // begin
+  // outputnotify.exibir('Não há registros a excluir');
+  // exit;
+  // end;
+  //
+  // oFabr := RetagEstProdFabrCreate(dsEdit, FDMemTable.Fields[0].AsInteger,
+  // FDMemTable.Fields[1].AsString);
+  //
+  // oDecoratorExcl := DecoratorExclFabrCreate(oFabr);
+  // Resultado := ExclFormPerg(nil, oDecoratorExcl);
+  // finally
+  // ExclExecutando := False;
+  // end;
 end;
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.FormCreate(Sender: TObject);
+procedure TRetagEstProdFabrDataSetForm.FormCreate(Sender: TObject);
 begin
   inherited;
   FFiltroParamsStringFrame := nil;
 end;
 
-function TRetagEstProdFabrTabSheetDataSetForm.GetNome: string;
-begin
-  Result := 'Fabricante';
-end;
-
-function TRetagEstProdFabrTabSheetDataSetForm.GetNomeAbrev: string;
-begin
-  Result := 'ProdFabr';
-end;
-
-function TRetagEstProdFabrTabSheetDataSetForm.GetNomeArqTabView: string;
+function TRetagEstProdFabrDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
@@ -225,12 +201,25 @@ begin
   Result := sNomeArq;
 end;
 
-function TRetagEstProdFabrTabSheetDataSetForm.GetTitulo: string;
+function TRetagEstProdFabrDataSetForm.GetProdFabrEnt: IProdFabrEnt;
 begin
-  Result := 'Fabricantes';
+  Result := TProdFabrEnt(EntEd);
 end;
 
-procedure TRetagEstProdFabrTabSheetDataSetForm.ToolBar1CrieBotoes;
+procedure TRetagEstProdFabrDataSetForm.LeRegEInsere(q: TDataSet);
+begin
+  inherited;
+  FDMemTable.InsertRecord([q.Fields[0].AsInteger, q.Fields[1].AsString]);
+end;
+
+procedure TRetagEstProdFabrDataSetForm.RecordToEnt;
+begin
+  inherited;
+  ProdFabrEnt.Id := FDMemTable.Fields[0].AsInteger;
+  ProdFabrEnt.Descr := FDMemTable.Fields[1].AsString;
+end;
+
+procedure TRetagEstProdFabrDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   CrieFiltroFrame;

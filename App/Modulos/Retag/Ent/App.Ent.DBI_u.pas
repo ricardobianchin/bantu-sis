@@ -2,17 +2,17 @@ unit App.Ent.DBI_u;
 
 interface
 
-uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u;
+uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u, Sis.UI.Frame.Bas.FiltroParams_u;
 
 type
   TEntDBI = class(TDBI, IEntDBI)
   protected
-    function GetSqlPreencherDataSetIdDescr(pStrBusca: string): string; virtual; abstract;
+    function GetSqlPreencherDataSet(pFiltroParamsFrame: TFiltroParamsFrame): string; virtual; abstract;
     function GetSqlIdByDescr(pDescr: string): string; virtual; abstract;
     function GetSqlGarantirRegId: string; virtual; abstract;
     procedure SetNovaId(pId: integer); virtual; abstract;
   public
-    procedure PreencherDataSetIdDescr(pStrBusca: string; pLeReg: TProcDataSetRef);
+    procedure PreencherDataSet(pFiltroParamsFrame: TFiltroParamsFrame; pProcLeReg: TProcDataSetOfObject);
     function IdByDescr(pDescr: string): integer;
     function GarantirRegId: boolean;
   end;
@@ -67,19 +67,19 @@ begin
   end;
 end;
 
-procedure TEntDBI.PreencherDataSetIdDescr(pStrBusca: string; pLeReg: TProcDataSetRef);
+procedure TEntDBI.PreencherDataSet(pFiltroParamsFrame: TFiltroParamsFrame; pProcLeReg: TProcDataSetOfObject);
 var
   sSql: string;
   q: TDataSet;
 begin
   DBConnection.Abrir;
   try
-    SSql := GetSqlPreencherDataSetIdDescr(pStrBusca);
+    SSql := GetSqlPreencherDataSet(pFiltroParamsFrame);
     DBConnection.QueryDataSet(sSql, q);
     try
       while not q.Eof do
       begin
-        pLeReg(q);
+        pProcLeReg(q);
         q.Next;
       end;
     finally

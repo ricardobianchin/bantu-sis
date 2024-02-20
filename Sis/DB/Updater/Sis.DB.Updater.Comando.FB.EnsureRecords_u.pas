@@ -33,7 +33,7 @@ type
 
 implementation
 
-uses System.SysUtils, System.StrUtils, Sis.Types.strings_u,
+uses System.SysUtils, System.StrUtils, Sis.Types.strings_u, System.Math,
   Sis.DB.Firebird.GetSQL_u, Sis.DB.Factory, Sis.DB.Updater.Constants_u;
 
 { TComandoFBEnsureRecords }
@@ -70,6 +70,7 @@ var
   iPasso: integer;
   s: string;
   perc: double;
+  iQtdRegs: integer;
 begin
   Result := '';
   ProcessLog.PegueLocal('TComandoFBEnsureRecords.GetAsSql');
@@ -86,7 +87,15 @@ begin
       ' registros');
     try
       try
-        for I := 0 to FRegistrosSL.count - 1 do
+
+        {$IFDEF DEBUG}
+        iQtdRegs := Min(25, FRegistrosSL.count - 1);
+        {$ELSE}
+        iQtdRegs := FRegistrosSL.count - 1;
+        {$ENDIF}
+
+
+        for I := 0 to iQtdRegs do
         begin
           sLog := I.ToString;
           try

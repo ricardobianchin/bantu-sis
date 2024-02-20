@@ -9,7 +9,7 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids,
   FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
+  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed;
 
 type
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
@@ -20,25 +20,30 @@ type
     AltAction_DatasetTabSheet: TAction;
     ExclAction_DatasetTabSheet: TAction;
     FiltroAtualizarTimer: TTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
+
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
+
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
+
     procedure DBGrid1DblClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
+    FEntEd: IEntEd;
     // FFDDataSetManager: IFDDataSetManager;
 
     FFiltroEditAutomatico: boolean;
 
     // oDBConnection: IDBConnection;
     FDBConnectionParams: TDBConnectionParams;
-    FState: TDataSetState;
+    function GetState: TDataSetState;
+    procedure SetState(const Value: TDataSetState);
 
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
@@ -55,17 +60,22 @@ type
 
     function GetCDS1: TFDMemTable;
     property CDS1: TFDMemTable read GetCDS1;
-    property State: TDataSetState read FState write FState;
-    function GetNome: string; virtual; abstract;
-    function GetNomeAbrev: string; virtual; abstract;
+    property State: TDataSetState read GetState write SetState;
+
+    function GetTitulo: string; override;
+
     procedure DoAtualizar(Sender: TObject); virtual; abstract;
     function DoInserir: boolean; virtual; abstract;
     procedure DoAlterar; virtual; abstract;
+    property EntEd: IEntEd read FEntEd;
+    procedure LeRegEInsere(q: TDataSet); virtual; abstract;
+    procedure RecordToEnt; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
-      pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
+      pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+      pEntEd: IEntEd); reintroduce;
   end;
   // TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
 
@@ -77,8 +87,8 @@ implementation
 {$R *.dfm}
 { TTabSheetDataSetBasForm }
 
-procedure TTabSheetDataSetBasForm.AltAction_DatasetTabSheetExecute(
-  Sender: TObject);
+procedure TTabSheetDataSetBasForm.AltAction_DatasetTabSheetExecute
+  (Sender: TObject);
 var
   Resultado: boolean;
 begin
@@ -95,6 +105,7 @@ begin
   AltExecutando := true;
   State := dsEdit;
   try
+    RecordToEnt;
     DoAlterar;
   finally
     State := dsBrowse;
@@ -124,12 +135,14 @@ end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput);
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput; pEntEd: IEntEd);
 begin
+  FEntEd := pEntEd;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS,
     pOutput, pProcessLog, pOutputNotify);
-  FState := dsBrowse;
-  FFiltroEditAutomatico := false;
+  State := dsBrowse;
+  FFiltroEditAutomatico := False;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
   DefCampos;
@@ -145,9 +158,9 @@ procedure TTabSheetDataSetBasForm.DBGrid1KeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  if CharInSet(key, [#32, #13]) then
+  if CharInSet(Key, [#32, #13]) then
   begin
-    key := #0;
+    Key := #0;
     AtuAction_DatasetTabSheet.Execute;
   end;
 end;
@@ -175,7 +188,7 @@ end;
 procedure TTabSheetDataSetBasForm.FiltroAtualizarTimerTimer(Sender: TObject);
 begin
   inherited;
-  FiltroAtualizarTimer.Enabled := false;
+  FiltroAtualizarTimer.Enabled := False;
   AtuAction_DatasetTabSheet.Execute;
 end;
 
@@ -186,8 +199,8 @@ begin
   if not FFiltroEditAutomatico then
     exit;
 
-  FiltroAtualizarTimer.Enabled := false;
-  FiltroAtualizarTimer.Enabled := True;
+  FiltroAtualizarTimer.Enabled := False;
+  FiltroAtualizarTimer.Enabled := true;
 end;
 
 procedure TTabSheetDataSetBasForm.FormCreate(Sender: TObject);
@@ -215,8 +228,18 @@ begin
   Result := FFDMemTable;
 end;
 
-procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute(
-  Sender: TObject);
+function TTabSheetDataSetBasForm.GetState: TDataSetState;
+begin
+  Result := FEntEd.State;
+end;
+
+function TTabSheetDataSetBasForm.GetTitulo: string;
+begin
+  Result := FEntEd.Titulo;
+end;
+
+procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute
+  (Sender: TObject);
 begin
   inherited;
   if InsExecutando then
@@ -232,11 +255,21 @@ begin
   end;
 end;
 
+procedure TTabSheetDataSetBasForm.RecordToEnt;
+begin
+
+end;
+
+procedure TTabSheetDataSetBasForm.SetState(const Value: TDataSetState);
+begin
+  FEntEd.State := Value;
+end;
+
 procedure TTabSheetDataSetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  FFiltroEditAutomatico := True;
   AtuAction_DatasetTabSheet.Execute;
+  FFiltroEditAutomatico := true;
 end;
 
 end.

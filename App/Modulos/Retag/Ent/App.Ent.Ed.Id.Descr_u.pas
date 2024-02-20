@@ -1,19 +1,18 @@
-unit App.Entidade.Ed.Id.Descr_u;
+unit App.Ent.Ed.Id.Descr_u;
 
 interface
 
-uses App.Entidade.Ed.Id.Descr, App.Entidade.Ed.Id_u, Data.DB, Sis.Entidade;
+uses App.Ent.Ed.Id.Descr, App.Ent.Ed.Id_u, Data.DB, Sis.Entidade;
 
 type
   TEntIdDescr = class(TEntEdId, IEntIdDescr)
   private
     FDescr: string;
-    FDescrCaption: string;
   protected
     function GetDescr: string;
     procedure SetDescr(Value: string);
 
-    function GetDescrCaption: string;
+    function GetDescrCaption: string; virtual;
 
     { LabeledEdit1.EditLabel.Caption := 'Nome';
       FDescrFieldName
@@ -28,7 +27,7 @@ type
     property DescrCaption: string read GetDescrCaption;
 
     constructor Create(pState: TDataSetState; pId: integer = 0;
-      pDescr: string = ''; pDescrCaption: string = 'Descrição');
+      pDescr: string = '');
   end;
 
 implementation
@@ -44,11 +43,10 @@ begin
 end;
 
 constructor TEntIdDescr.Create(pState: TDataSetState; pId: integer;
-  pDescr: string; pDescrCaption: string);
+  pDescr: string);
 begin
   inherited Create(pState, pId);
   FDescr := pDescr;
-  FDescrCaption := pDescrCaption;
 end;
 
 function TEntIdDescr.EhIgualA(pOutraEntidade: IEntidade): boolean;
@@ -82,7 +80,7 @@ end;
 
 function TEntIdDescr.GetDescrCaption: string;
 begin
-  Result := FDescrCaption;
+  Result := 'Descrição';
 end;
 
 procedure TEntIdDescr.PegueDe(pOutraEntidade: IEntidade);

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.Diag.Btn_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, Data.DB, App.Entidade.Ed, App.Ent.DBI;
+  Vcl.StdCtrls, Vcl.Buttons, Data.DB, App.Ent.Ed, App.Ent.DBI;
 
 type
   TEdBasForm = class(TDiagBtnBasForm)
@@ -16,7 +16,9 @@ type
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
     procedure AjusteCaption;
-  protected
+    procedure AjusteObjetivo;
+   protected
+
     property EntEd: IEntEd read FEntEd;
     property EntDBI: IEntDBI read FEntDBI;
 
@@ -24,6 +26,14 @@ type
 
     procedure ControlesToEnt; virtual; abstract;
     procedure EntToControles; virtual; abstract;
+
+    function GetObjetivoStr: string; virtual; abstract;
+
+    function PodeOk: Boolean; override;
+    function ControlesOk: boolean; virtual; abstract;
+    function DadosOk: boolean; virtual; abstract;
+    function GravouOk: boolean; virtual; abstract;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
@@ -41,8 +51,39 @@ uses App.DB.Utils;
 { TEdBasForm }
 
 procedure TEdBasForm.AjusteControles;
+var
+  sFormat: string;
+  sCaption: string;
+  sNom: string;
 begin
   AjusteCaption;
+  AjusteObjetivo;
+
+  case EntEd.State of
+    dsInactive:
+      ;
+    dsBrowse:
+      ;
+    dsEdit:
+      begin
+        EntToControles;
+      end;
+
+    dsInsert:
+      begin
+        sFormat := 'Novo %s';
+        sNom := EntEd.NomeEnt;
+        sCaption := Format(sFormat, [sNom]);
+        ObjetivoLabel.Caption := sCaption;
+        EntEd.Clear;
+        EntToControles;
+      end;
+  end;
+end;
+
+procedure TEdBasForm.AjusteObjetivo;
+begin
+  ObjetivoLabel.Caption := GetObjetivoStr;
 end;
 
 procedure TEdBasForm.AjusteCaption;
@@ -63,6 +104,29 @@ begin
   inherited Create(AOwner);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
+  FEntEd.Clear;
+end;
+
+function TEdBasForm.PodeOk: Boolean;
+begin
+  Result := Inherited PodeOk;
+  if not Result then
+    exit;
+
+  Result := ControlesOk;
+  if not Result then
+    exit;
+
+  Result := DadosOk;
+  if not Result then
+    exit;
+
+  ControlesToEnt;
+
+  Result := GravouOk;
+  if not Result then
+    exit;
+
 end;
 
 end.

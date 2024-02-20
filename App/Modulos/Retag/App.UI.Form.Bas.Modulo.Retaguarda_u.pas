@@ -25,9 +25,11 @@ type
 
     RetagAjuBemAction: TAction;
 
+    RetagEstProdAction: TAction;
     RetagEstProdFabrAction: TAction;
     RetagEstProdTipoAction: TAction;
-    RetagEstProdAction: TAction;
+    RetagEstProdUnidAction: TAction;
+
     RetagEstProdEnviarTermAction: TAction;
 
     BalloonHint1: TBalloonHint;
@@ -53,6 +55,7 @@ type
     procedure RetagEstProdFabrActionExecute(Sender: TObject);
     procedure RetagEstProdActionExecute(Sender: TObject);
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
+    procedure RetagEstProdUnidActionExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -105,6 +108,9 @@ begin
     iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
 
   FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdTipoAction, oParent,
+    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
+
+  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdUnidAction, oParent,
     iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
 
 //  FEstProdFabrFlatBtn := TFlatBtn.Create(EstProdGroupBox);
@@ -200,14 +206,21 @@ procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
+//  TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+//  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  // RetagAjuBemAction.Execute;
-  RetagEstProdTipoAction.Execute;
+//  RetagAjuBemAction.Execute;
+  RetagEstProdFabrAction.Execute;
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName
@@ -223,6 +236,8 @@ var
   iExistenteIndex: Integer;
 
   oFormOwner: TComponent;
+  oAppInfo: IAppInfo;
+  oSisConfig: ISisConfig;
 begin
   sFormClassName := pFunctionTabSheetGetClassName;
 
@@ -253,8 +268,11 @@ begin
 
   oFormOwner := oTabSheet;
 
+  oAppInfo := AppInfo;
+  oSisConfig := SisConfig;
+
   oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
-    AppInfo, SisConfig, DBMS, Output, ProcessLog, FOutputNotify);
+    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify);
   oTabSheetBasForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);

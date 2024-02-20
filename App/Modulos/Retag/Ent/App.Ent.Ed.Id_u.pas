@@ -1,8 +1,8 @@
-unit App.Entidade.Ed.Id_u;
+unit App.Ent.Ed.Id_u;
 
 interface
 
-uses App.Entidade.Ed.Id, Data.DB, App.Entidade.Ed_u, Sis.Entidade;
+uses App.Ent.Ed.Id, Data.DB, App.Ent.Ed_u, Sis.Entidade;
 
 type
   TEntEdId = class(TEntEd, IEntEdId)

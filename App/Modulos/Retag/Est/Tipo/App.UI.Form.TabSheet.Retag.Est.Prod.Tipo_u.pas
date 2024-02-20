@@ -9,7 +9,7 @@ uses
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
-  App.Entidade.Ed.Id.Descr;
+  App.Ent.Ed.Id.Descr;
 
 type
   TRetagEstProdTipoTabSheetDataSetForm = class(TTabSheetDataSetBasForm)

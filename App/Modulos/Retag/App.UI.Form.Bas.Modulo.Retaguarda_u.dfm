@@ -101,12 +101,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Width = 604
     TabOrder = 2
     ExplicitWidth = 604
-    inherited Panel1: TPanel
-      inherited OutputLabel: TLabel
-        Width = 203
-        Height = 23
-      end
-    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -128,12 +122,17 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Images = RetagImgDM.ImageList_32_32
     Left = 456
     Top = 240
-    object RetagEstProdTipoAction: TAction
+    object RetagEstProdAction: TAction
       Category = 'Estoque'
-      Caption = 'Tipos'
-      Hint = 'Tipos de Produtos'
-      ImageIndex = 0
-      OnExecute = RetagEstProdTipoActionExecute
+      Caption = 'Produtos'
+      Hint = 'Produtos'
+      ImageIndex = 3
+      OnExecute = RetagEstProdActionExecute
+    end
+    object RetagEstProdEnviarTermAction: TAction
+      Category = 'Estoque'
+      Caption = 'Envia aos Terminais'
+      OnExecute = RetagEstProdEnviarTermActionExecute
     end
     object RetagEstProdFabrAction: TAction
       Category = 'Estoque'
@@ -142,23 +141,25 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       ImageIndex = 1
       OnExecute = RetagEstProdFabrActionExecute
     end
+    object RetagEstProdTipoAction: TAction
+      Category = 'Estoque'
+      Caption = 'Tipos'
+      Hint = 'Tipos de Produtos'
+      ImageIndex = 0
+      OnExecute = RetagEstProdTipoActionExecute
+    end
     object RetagAjuBemAction: TAction
       Category = 'Ajuda'
       Caption = 'Bem-vindo'
       ImageIndex = 2
       OnExecute = RetagAjuBemActionExecute
     end
-    object RetagEstProdEnviarTermAction: TAction
+    object RetagEstProdUnidAction: TAction
       Category = 'Estoque'
-      Caption = 'Envia aos Terminais'
-      OnExecute = RetagEstProdEnviarTermActionExecute
-    end
-    object RetagEstProdAction: TAction
-      Category = 'Estoque'
-      Caption = 'Produtos'
-      Hint = 'Produtos'
-      ImageIndex = 3
-      OnExecute = RetagEstProdActionExecute
+      Caption = 'Unidades'
+      Hint = 'Unidades de Medida'
+      ImageIndex = 4
+      OnExecute = RetagEstProdUnidActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

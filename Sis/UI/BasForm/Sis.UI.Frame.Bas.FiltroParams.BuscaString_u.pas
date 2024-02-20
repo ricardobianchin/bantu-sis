@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.FiltroParams_u,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Sis.Types.strings_u;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Sis.Types.strings_u, data.db;
 
 type
   TFiltroParamsStringFrame = class(TFiltroParamsFrame)

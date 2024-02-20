@@ -8,6 +8,7 @@ uses
 
 type
   TProcDataSetRef = reference to procedure(q: TDataSet);
+  TProcDataSetOfObject = procedure (q: TDataSet) of object;
 
   TDBVersion = double;
 
