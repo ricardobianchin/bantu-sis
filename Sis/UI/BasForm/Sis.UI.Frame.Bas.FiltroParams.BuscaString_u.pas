@@ -61,8 +61,9 @@ end;
 function TFiltroParamsStringFrame.GetValues: variant;
 begin
   inherited;
-  Result := VarArrayCreate([0, 0], varVariant);
-  Result[0] := BuscaStringEdit.Text;
+//  Result := VarArrayCreate([0, 0], varVariant);
+//  Result[0] := BuscaStringEdit.Text;
+  Result := BuscaStringEdit.Text;
 end;
 
 end.

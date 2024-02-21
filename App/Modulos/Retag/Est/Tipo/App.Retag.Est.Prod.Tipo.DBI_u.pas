@@ -48,7 +48,7 @@ var
   sDescr: string;
 begin
   sFormat := 'SELECT PROD_TIPO_ID FROM PROD_TIPO_PA.BYDESCR_GET(''%s'');';
-  sDescr := VarToString(pValues[0]);
+  sDescr := VarToString(pValues);
   Result := Format(sFormat, [sDescr]);
 end;
 

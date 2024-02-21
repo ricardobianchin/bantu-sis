@@ -101,6 +101,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Width = 604
     TabOrder = 2
     ExplicitWidth = 604
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -108,6 +114,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Width = 604
     Height = 291
     Align = alClient
+    Images = RetagImgDM.ImageList_32_32
     TabOrder = 3
   end
   inherited ShowTimer_BasForm: TTimer

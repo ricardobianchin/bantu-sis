@@ -47,7 +47,7 @@ var
   sDescr: string;
 begin
   sFormat := 'SELECT FABRICANTE_ID FROM FABRICANTE_PA.BYNOME_GET(''%s'');';
-  sDescr := VarToString(pValues[0]);
+  sDescr := VarToString(pValues);
   Result := Format(sFormat, [sDescr]);
 end;
 
@@ -56,7 +56,7 @@ var
   sFormat: string;
   sBusca: string;
 begin
-  sBusca := VarToString(pValues[0]);
+  sBusca := VarToString(pValues);
 
   sFormat := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET(''%s'');';
   Result := Format(sFormat, [sBusca]);
