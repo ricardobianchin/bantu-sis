@@ -92,7 +92,7 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
 procedure TRetaguardaModuloBasForm.CriaFlatBtns;
 const
   BTN_WIDTH = 70;
-  BTN_HEIGHT = 52;
+  BTN_HEIGHT = 42;
   BTN_TOP = 17;
 var
   iLeftAtual: integer;
@@ -135,6 +135,8 @@ begin
   FContador := ContadorCreate;
 
   CriaFlatBtns;
+
+  MenuPageControl.ActivePage := EstoqueTabSheet;
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);
