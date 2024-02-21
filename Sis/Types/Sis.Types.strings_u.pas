@@ -51,12 +51,12 @@ function StrCheckSum(const pStr: string; pSHA2Version: THashSHA2.TSHA2Version = 
 procedure StrCheckSum32(pStr: string; out pCheckStr: string); overload;
 function StrCheckSum32(pStr: string): string;  overload;
 
+function VarToString(pValue: variant): string;
+
 implementation
 
 uses
-  System.SysUtils
-  , System.StrUtils
-  ;
+  System.SysUtils, System.StrUtils, System.Variants;
 
 const
   Imprimiveis = ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -514,4 +514,8 @@ begin
   Result := Hasher.HashAsString; // obtém o hash como uma string hexadecimal
 end;
 
+function VarToString(pValue: variant): string;
+begin
+  Result := VarToStrDef(pValue, '');
+end;
 end.

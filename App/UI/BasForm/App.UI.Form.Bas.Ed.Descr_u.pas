@@ -27,8 +27,8 @@ type
     procedure EntToControles; override;
 
     function DescrOk: boolean;
-    function GravouOk: boolean; virtual;
-    function DadosOk: boolean; virtual;
+    function GravouOk: boolean; override;
+    function DadosOk: boolean; override;
     function PodeOk: boolean; override;
   public
     { Public declarations }
@@ -120,7 +120,7 @@ begin
     end;
   end;
 
-  iId := EntDBI.IdByDescr(sNomeDigitado);
+  iId := EntDBI.GetExistente(sNomeDigitado);
   Result := iId < 1;
   if not Result then
   begin
@@ -147,7 +147,7 @@ function TEdDescrBasForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  Result := EntDBI.GarantirRegId;
+  Result := EntDBI.GarantirReg;
   if not Result then
   begin
     sFrase := 'Erro ao gravar '+EntIdDescr.NomeEnt;

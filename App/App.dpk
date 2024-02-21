@@ -96,7 +96,12 @@ contains
   App.UI.Decorator.Form.Excl_u in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas',
   App.Ent.DBI in 'Modulos\Retag\Ent\App.Ent.DBI.pas',
   App.Ent.DBI_u in 'Modulos\Retag\Ent\App.Ent.DBI_u.pas',
-  App.UI.Form.Ed.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Prod.Fabr_u.pas' {ProdFabrEdForm},
-  App.Retag.Est.Prod.Fabr.Ent in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent.pas';
+  App.UI.Form.Ed.Prod.Tipo_u in 'Modulos\Retag\Est\Tipo\App.UI.Form.Ed.Prod.Tipo_u.pas' {ProdTipoEdForm},
+  App.Retag.Est.Prod.Fabr.Ent in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent.pas',
+  App.Retag.Est.Prod.Tipo.DBI_u in 'Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.DBI_u.pas',
+  App.Retag.Est.Prod.Tipo.Ent in 'Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent.pas',
+  App.Retag.Est.Prod.Tipo.Ent_u in 'Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent_u.pas',
+  App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u in 'Modulos\Retag\Est\Tipo\App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u.pas' {RetagEstProdTipoDataSetForm},
+  App.UI.Form.Ed.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Prod.Fabr_u.pas' {ProdFabrEdForm};
 
 end.

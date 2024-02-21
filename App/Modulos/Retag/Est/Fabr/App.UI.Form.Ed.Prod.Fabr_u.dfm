@@ -1,15 +1,6 @@
 inherited ProdFabrEdForm: TProdFabrEdForm
   Caption = 'ProdFabrEdForm'
-  ClientHeight = 297
-  ClientWidth = 495
-  ExplicitWidth = 511
-  ExplicitHeight = 336
   TextHeight = 15
-  inherited MensLabel: TLabel
-    Top = 240
-    Width = 495
-    ExplicitTop = 241
-  end
   object LabeledEdit1: TLabeledEdit [2]
     Left = 8
     Top = 48
@@ -25,8 +16,6 @@ inherited ProdFabrEdForm: TProdFabrEdForm
     OnKeyPress = LabeledEdit1KeyPress
   end
   inherited BasePanel: TPanel
-    Top = 260
-    Width = 495
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       ExplicitLeft = 148
     end

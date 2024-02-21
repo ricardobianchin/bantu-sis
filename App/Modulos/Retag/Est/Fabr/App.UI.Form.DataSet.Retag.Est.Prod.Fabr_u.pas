@@ -80,7 +80,6 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
-
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
@@ -94,7 +93,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    oFabrDBI.PreencherDataSet(FFiltroParamsStringFrame, LeRegEInsere);
+    oFabrDBI.PreencherDataSet(FFiltroParamsStringFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;

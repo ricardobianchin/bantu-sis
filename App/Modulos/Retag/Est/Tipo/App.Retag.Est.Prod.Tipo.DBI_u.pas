@@ -3,63 +3,64 @@ unit App.Retag.Est.Prod.Tipo.DBI_u;
 interface
 
 uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
-  System.Variants, Sis.Types.Integers, App.Ent.DBI_u, App.Ent.Ed.Id.Descr;
+  System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
+  App.Retag.Est.Prod.Tipo.Ent, Sis.UI.Frame.Bas.FiltroParams_u;
 
 type
   TProdTipoDBI = class(TEntDBI)
   private
-    FEntIdDescr: IEntIdDescr;
+    FProdTipoEnt: IProdTipoEnt;
   protected
-    function GetSqlPreencherDataSetIdDescr(pStrBusca: string): string; override;
-    function GetSqlIdByDescr(pDescr: string): string; override;
-    function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pId: integer); override;
+    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGarantirReg: string; override;
+    procedure SetNovaId(pIds: variant); override;
   public
-    constructor Create(pDBConnection: IDBConnection; pEntIdDescr: IEntIdDescr);
+    constructor Create(pDBConnection: IDBConnection; pEntEd: IProdTipoEnt);
   end;
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
+  App.Retag.Est.Prod.Tipo.Ent_u, Sis.Types.strings_u;
 
-
-{ TProdTipoDBI }
+  { TProdTipoDBI }
 
 constructor TProdTipoDBI.Create(pDBConnection: IDBConnection;
-  pEntIdDescr: IEntIdDescr);
+  pEntEd: IProdTipoEnt);
 begin
   inherited Create(pDBConnection);
-  FEntIdDescr := pEntIdDescr;
+  FProdTipoEnt := TProdTipoEnt(pEntEd);
 end;
 
-function TProdTipoDBI.GetSqlGarantirRegId: string;
+function TProdTipoDBI.GetSqlGarantirReg: string;
 var
   sFormat: string;
 begin
-  sFormat := 'SELECT PROD_TIPO_ID_GRAVADO FROM PROD_TIPO_PA.PROD_TIPO_GARANTIR(%d,''%s'');';
-  Result := Format(sFormat, [FEntIdDescr.Id, FEntIdDescr.Descr]);
+  sFormat := 'SELECT PROD_TIPO_ID_GRAVADO'
+    + ' FROM PROD_TIPO_PA.PROD_TIPO_GARANTIR(%d,''%s'');';
+  Result := Format(sFormat, [FProdTipoEnt.Id, FProdTipoEnt.Descr]);
 end;
 
-function TProdTipoDBI.GetSqlIdByDescr(pDescr: string): string;
+function TProdTipoDBI.GetSqlGetExistente(pValues: Variant): string;
 var
   sFormat: string;
+  sDescr: string;
 begin
   sFormat := 'SELECT PROD_TIPO_ID FROM PROD_TIPO_PA.BYDESCR_GET(''%s'');';
-  Result := Format(sFormat, [pDescr]);
+  sDescr := VarToString(pValues[0]);
+  Result := Format(sFormat, [sDescr]);
 end;
 
-function TProdTipoDBI.GetSqlPreencherDataSetIdDescr(pStrBusca: string): string;
-var
-  sFormat: string;
+function TProdTipoDBI.GetSqlPreencherDataSet(pValues: variant): string;
 begin
-  sFormat := 'select PROD_TIPO_ID, DESCR from PROD_TIPO_PA.LISTA_GET(''%s'');';
-  Result := Format(sFormat, [pStrBusca]);
+  Result := 'SELECT PROD_TIPO_ID, DESCR FROM PROD_TIPO_PA.LISTA_GET;';
 end;
 
-procedure TProdTipoDBI.SetNovaId(pId: integer);
+procedure TProdTipoDBI.SetNovaId(pIds: Variant);
 begin
   inherited;
-  FEntIdDescr.Id := pId;
+  FProdTipoEnt.Id := VarToInteger(pIds);
 end;
 
 end.

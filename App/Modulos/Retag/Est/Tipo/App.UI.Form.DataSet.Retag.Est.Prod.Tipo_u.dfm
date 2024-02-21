@@ -1,5 +1,5 @@
-inherited RetagEstProdTipoTabSheetDataSetForm: TRetagEstProdTipoTabSheetDataSetForm
-  Caption = 'RetagEstProdTipoTabSheetDataSetForm'
+inherited RetagEstProdTipoDataSetForm: TRetagEstProdTipoDataSetForm
+  Caption = 'RetagEstProdTipoDataSetForm'
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
     inherited TitToolBar1_BasTabSheet: TToolBar

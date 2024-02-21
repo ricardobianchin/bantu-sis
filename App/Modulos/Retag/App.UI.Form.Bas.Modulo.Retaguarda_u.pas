@@ -42,7 +42,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
-    procedure RetagEstProdTipoActionExecute(Sender: TObject);
     procedure MenuPageControlDrawTab(Control: TCustomTabControl;
       TabIndex: Integer; const Rect: TRect; Active: Boolean);
 
@@ -53,10 +52,11 @@ type
 
     // EstProd
     procedure RetagEstProdFabrActionExecute(Sender: TObject);
-    procedure RetagEstProdActionExecute(Sender: TObject);
-    procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
+    procedure RetagEstProdTipoActionExecute(Sender: TObject);
     procedure RetagEstProdUnidActionExecute(Sender: TObject);
 
+    procedure RetagEstProdActionExecute(Sender: TObject);
+    procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
   private
     { Private declarations }
     FEstProdFlatBtn: TFlatBtn;
@@ -206,7 +206,8 @@ procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
   (Sender: TObject);
 begin
   inherited;
-//  TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
+//  TabSheetAppCrie(RetagEstProdFabrFormGetClassName, RetagEstProdFabrFormCreate);
+  TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute(
@@ -220,7 +221,7 @@ procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
 //  RetagAjuBemAction.Execute;
-  RetagEstProdFabrAction.Execute;
+  RetagEstProdTipoAction.Execute;
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName

@@ -248,11 +248,22 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.Ed.Prod.Tipo_u.pas">
+            <Form>ProdTipoEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u.pas">
+            <Form>RetagEstProdTipoDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Prod.Fabr_u.pas">
             <Form>ProdFabrEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

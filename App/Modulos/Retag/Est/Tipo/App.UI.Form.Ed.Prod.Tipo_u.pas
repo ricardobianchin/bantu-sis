@@ -1,4 +1,4 @@
-unit App.UI.Form.Ed.Prod.Fabr_u;
+unit App.UI.Form.Ed.Prod.Tipo_u;
 
 interface
 
@@ -7,18 +7,18 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
-  App.Retag.Est.Prod.Fabr.Ent, Data.DB;
+  App.Retag.Est.Prod.Tipo.Ent, Data.DB;
 
 type
-  TProdFabrEdForm = class(TEdBasForm)
+  TProdTipoEdForm = class(TEdBasForm)
     LabeledEdit1: TLabeledEdit;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure LabeledEdit1Change(Sender: TObject);
     procedure LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
-    function GetProdFabrEnt: IProdFabrEnt;
-    property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
+    function GetProdTipoEnt: IProdTipoEnt;
+    property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -34,23 +34,23 @@ type
   end;
 
 var
-  ProdFabrEdForm: TProdFabrEdForm;
+  ProdTipoEdForm: TProdTipoEdForm;
 
 implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.Integers;
-{ TProdFabrEdForm }
+uses Sis.Types.strings_u, App.Retag.Est.Prod.Tipo.Ent_u;
+{ TProdTipoEdForm }
 
-procedure TProdFabrEdForm.AjusteControles;
+procedure TProdTipoEdForm.AjusteControles;
 var
   sFormat: string;
   sCaption: string;
   sNom, sVal: string;
 begin
   inherited;
-  LabeledEdit1.EditLabel.Caption := ProdFabrEnt.DescrCaption;
+  LabeledEdit1.EditLabel.Caption := ProdTipoEnt.DescrCaption;
 
   case EntEd.State of
     dsInactive:
@@ -60,8 +60,8 @@ begin
     dsEdit:
       begin
         sFormat := 'Alterando %s: %s';
-        sNom := ProdFabrEnt.NomeEnt;
-        sVal := ProdFabrEnt.Descr;
+        sNom := ProdTipoEnt.NomeEnt;
+        sVal := ProdTipoEnt.Descr;
         sCaption := Format(sFormat, [sNom, sVal]);
         ObjetivoLabel.Caption := sCaption;
       end;
@@ -71,7 +71,7 @@ begin
   end;
 end;
 
-function TProdFabrEdForm.ControlesOk: boolean;
+function TProdTipoEdForm.ControlesOk: boolean;
 var
   sFrase: string;
   sNomeCampo: string;
@@ -94,13 +94,13 @@ begin
   end;
 end;
 
-procedure TProdFabrEdForm.ControlesToEnt;
+procedure TProdTipoEdForm.ControlesToEnt;
 begin
   inherited;
-  ProdFabrEnt.Descr := LabeledEdit1.Text;
+  ProdTipoEnt.Descr := LabeledEdit1.Text;
 end;
 
-function TProdFabrEdForm.DadosOk: boolean;
+function TProdTipoEdForm.DadosOk: boolean;
 var
   sFrase: string;
   sNomeCampo: string;
@@ -111,7 +111,7 @@ begin
   sValorDigitado := LabeledEdit1.Text;
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
 
-  Result := ProdFabrEnt.State in [dsEdit, dsInsert];
+  Result := ProdTipoEnt.State in [dsEdit, dsInsert];
   if not Result then
   begin
     sFrase := 'O Status da janela não permite a gravação';
@@ -120,9 +120,9 @@ begin
     exit;
   end;
 
-  if ProdFabrEnt.State = dsEdit then
+  if ProdTipoEnt.State = dsEdit then
   begin
-    Result := sValorDigitado <> ProdFabrEnt.Descr;
+    Result := sValorDigitado <> ProdTipoEnt.Descr;
 
     if not Result then
     begin
@@ -134,8 +134,7 @@ begin
     end;
   end;
 
-  iId := VarToInteger( EntDBI.GetExistente(sValorDigitado));
-
+  iId := EntDBI.GetExistente(sValorDigitado);
   Result := iId < 1;
   if not Result then
   begin
@@ -147,29 +146,29 @@ begin
   end;
 end;
 
-procedure TProdFabrEdForm.EntToControles;
+procedure TProdTipoEdForm.EntToControles;
 begin
   inherited;
-  LabeledEdit1.Text := ProdFabrEnt.Descr;
+  LabeledEdit1.Text := ProdTipoEnt.Descr;
 end;
 
-function TProdFabrEdForm.GetObjetivoStr: string;
+function TProdTipoEdForm.GetObjetivoStr: string;
 var
   sFormat, sTit, sNom, sVal: string;
 begin
   sFormat := '%s %s: %s';
   sTit := EntEd.StateAsTitulo;
-  sNom := ProdFabrEnt.NomeEnt;
-  sVal := ProdFabrEnt.Descr;
+  sNom := ProdTipoEnt.NomeEnt;
+  sVal := ProdTipoEnt.Descr;
   Result := Format(sFormat, [sTit, sNom, sVal]);
 end;
 
-function TProdFabrEdForm.GetProdFabrEnt: IProdFabrEnt;
+function TProdTipoEdForm.GetProdTipoEnt: IProdTipoEnt;
 begin
-  Result := TProdFabrEnt(EntEd);
+  Result := TProdTipoEnt(EntEd);
 end;
 
-function TProdFabrEdForm.GravouOk: boolean;
+function TProdTipoEdForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
@@ -183,13 +182,13 @@ begin
   end;
 end;
 
-procedure TProdFabrEdForm.LabeledEdit1Change(Sender: TObject);
+procedure TProdTipoEdForm.LabeledEdit1Change(Sender: TObject);
 begin
   inherited;
   MensLimpar;
 end;
 
-procedure TProdFabrEdForm.LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
+procedure TProdTipoEdForm.LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   if Key = #13 then
@@ -203,7 +202,7 @@ begin
 
 end;
 
-procedure TProdFabrEdForm.ShowTimer_BasFormTimer(Sender: TObject);
+procedure TProdTipoEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   LabeledEdit1.SetFocus;

@@ -1,10 +1,9 @@
-inherited EdDescrBasForm: TEdDescrBasForm
-  Caption = 'EdDescrBasForm'
-  ClientWidth = 499
-  ExplicitWidth = 511
+inherited ProdTipoEdForm: TProdTipoEdForm
+  Caption = 'ProdTipoEdForm'
+  ClientHeight = 298
   TextHeight = 15
   inherited MensLabel: TLabel
-    Width = 499
+    Top = 241
   end
   object LabeledEdit1: TLabeledEdit [2]
     Left = 8
@@ -14,15 +13,14 @@ inherited EdDescrBasForm: TEdDescrBasForm
     EditLabel.Width = 67
     EditLabel.Height = 15
     EditLabel.Caption = 'LabeledEdit1'
-    MaxLength = 20
+    MaxLength = 40
     TabOrder = 1
     Text = ''
     OnChange = LabeledEdit1Change
     OnKeyPress = LabeledEdit1KeyPress
   end
   inherited BasePanel: TPanel
-    Width = 499
-    ExplicitWidth = 499
+    Top = 261
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       ExplicitLeft = 140
     end
@@ -32,13 +30,5 @@ inherited EdDescrBasForm: TEdDescrBasForm
     inherited CancelBitBtn_DiagBtn: TBitBtn
       ExplicitLeft = 333
     end
-  end
-  inherited ShowTimer_BasForm: TTimer
-    Left = 80
-    Top = 80
-  end
-  inherited ActionList1_Diag: TActionList
-    Left = 232
-    Top = 80
   end
 end

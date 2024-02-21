@@ -23,22 +23,19 @@ function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
 {$ENDREGION}
 {$REGION 'prod tipo'}
-// function RetagEstProdTipoCreate(pState: TDataSetState; pId: integer = 0;
-// pDescr: string = ''): IEntIdDescr;
-//
-// function RetagEstProdTipoDBICreate(pDBConnection: IDBConnection;
-// pProdTipo: IEntIdDescr): IEntDBI;
-//
-// function ProdTipoEdFormCreate(AOwner: TComponent; pTitulo: string;
-// pState: TDataSetState; pProdTipo: IEntIdDescr; pProdTipoDBI: IEntDBI)
-// : TEdDescrBasForm;
-//
-// function ProdTipoPerg(AOwner: TComponent; pTitulo: string;
-// pState: TDataSetState; pProdTipo: IEntIdDescr;
-// pProdTipoDBI: IEntDBI): boolean;
-//
-// function DecoratorExclProdTipoCreate(pProdTipo: IEntIdDescr): IDecoratorExcl;
+function RetagEstProdTipoEntCreate(pState: TDataSetState; pId: integer = 0;
+  pDescr: string = ''): IEntEd;
 
+function RetagEstProdTipoDBICreate(pDBConnection: IDBConnection;
+  pProdTipoEnt: IEntEd): IEntDBI;
+
+function ProdTipoEdFormCreate(AOwner: TComponent; pProdTipo: IEntEd;
+  pProdTipoDBI: IEntDBI): TEdBasForm;
+
+function ProdTipoPerg(AOwner: TComponent; pProdTipoEnt: IEntEd;
+  pProdTipoDBI: IEntDBI): boolean;
+
+function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
 {$ENDREGION}
 
 implementation
@@ -46,15 +43,14 @@ implementation
 uses Vcl.Controls
 
   // fabr
-
     , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
     , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
-
-  // , App.Retag.Est.Prod.Tipo_u
-
     , App.Retag.Est.Prod.Fabr.DBI_u
-  // , App.Retag.Est.Prod.Tipo.DBI_u
 
+  // tipo
+    , App.Retag.Est.Prod.Tipo.Ent_u // fabr ent
+    , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
+    , App.Retag.Est.Prod.Tipo.DBI_u
     ;
 
 {$REGION 'prod fabr impl'}
@@ -92,39 +88,37 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'prod tipo impl'}
-// function RetagEstProdTipoCreate(pState: TDataSetState; pId: integer = 0;
-// pDescr: string = ''): IEntIdDescr;
-// begin
-// Result := TProdTipo.Create(pState, pId, pDescr);
-// end;
-//
-// function RetagEstProdTipoDBICreate(pDBConnection: IDBConnection;
-// pProdTipo: IEntIdDescr): IEntDBI;
-// begin
-// Result := TProdTipoDBI.Create(pDBConnection, pProdTipo);
-// end;
-//
-// function ProdTipoEdFormCreate(AOwner: TComponent; pTitulo: string;
-// pState: TDataSetState; pProdTipo: IEntIdDescr; pProdTipoDBI: IEntDBI)
-// : TEdDescrBasForm;
-// begin
-// Result := TEdDescrBasForm.Create(AOwner, pProdTipo, pProdTipoDBI);
-// end;
-//
-// function ProdTipoPerg(AOwner: TComponent; pTitulo: string;
-// pState: TDataSetState; pProdTipo: IEntIdDescr;
-// pProdTipoDBI: IEntDBI): boolean;
-// var
-// F: TEdDescrBasForm;
-// begin
-// F := ProdTipoEdFormCreate(AOwner, pTitulo, pState, pProdTipo, pProdTipoDBI);
-// Result := F.Perg;
-// end;
-//
-// function DecoratorExclProdTIpoCreate(pProdTipo: IEntIdDescr): IDecoratorExcl;
-// begin
-/// /  Result := TDecoratorExclFabr.Create(pProdTipo);
-// end;
+function RetagEstProdTipoEntCreate(pState: TDataSetState; pId: integer = 0;
+  pDescr: string = ''): IEntEd;
+begin
+  Result := TProdTipoEnt.Create(pState, pId, pDescr);
+end;
+
+function RetagEstProdTipoDBICreate(pDBConnection: IDBConnection;
+  pProdTipoEnt: IEntEd): IEntDBI;
+begin
+  Result := TProdTipoDBI.Create(pDBConnection, TProdTipoEnt(pProdTipoEnt));
+end;
+
+function ProdTipoEdFormCreate(AOwner: TComponent; pProdTipo: IEntEd;
+  pProdTipoDBI: IEntDBI): TEdBasForm;
+begin
+  Result := TProdTipoEdForm.Create(AOwner, pProdTipo, pProdTipoDBI);
+end;
+
+function ProdTipoPerg(AOwner: TComponent; pProdTipoEnt: IEntEd;
+  pProdTipoDBI: IEntDBI): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := ProdTipoEdFormCreate(AOwner, pProdTipoEnt, pProdTipoDBI);
+  Result := F.Perg;
+end;
+
+function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
+begin
+  // Result := TDecoratorExclTipo.Create(pProdTipo);
+end;
 {$ENDREGION}
 
 end.

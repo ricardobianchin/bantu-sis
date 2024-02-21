@@ -14,18 +14,17 @@ type
     procedure BuscaStringEditChange(Sender: TObject);
     procedure BuscaStringEditKeyPress(Sender: TObject; var Key: Char);
   private
-    function GetBuscaString: string;
-    procedure SetBuscaString(const Value: string);
     { Private declarations }
   protected
+    function GetValues: variant; override;
+    procedure AjusteValores; override;
   public
     { Public declarations }
-    property BuscaString: string read GetBuscaString write SetBuscaString;
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent);
   end;
 
-var
-  FiltroParamsStringFrame: TFiltroParamsStringFrame;
+//var
+//  FiltroParamsStringFrame: TFiltroParamsStringFrame;
 
 implementation
 
@@ -33,11 +32,16 @@ implementation
 
 { TFiltroParamsStringFrame }
 
+procedure TFiltroParamsStringFrame.AjusteValores;
+begin
+  inherited;
+  BuscaStringEdit.Text := StrSemCharRepetido(BuscaStringEdit.Text, #32)
+end;
+
 procedure TFiltroParamsStringFrame.BuscaStringEditChange(Sender: TObject);
 begin
   inherited;
   AgendeChange;
-
 end;
 
 procedure TFiltroParamsStringFrame.BuscaStringEditKeyPress(Sender: TObject;
@@ -54,15 +58,11 @@ begin
   OnChange := pOnChange;
 end;
 
-function TFiltroParamsStringFrame.GetBuscaString: string;
+function TFiltroParamsStringFrame.GetValues: variant;
 begin
-  BuscaStringEdit.Text := Trim(BuscaStringEdit.Text);
-  Result := BuscaStringEdit.Text;
-end;
-
-procedure TFiltroParamsStringFrame.SetBuscaString(const Value: string);
-begin
-  BuscaStringEdit.Text := Value;
+  inherited;
+  Result := VarArrayCreate([0, 0], varVariant);
+  Result[0] := BuscaStringEdit.Text;
 end;
 
 end.

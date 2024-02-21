@@ -2,19 +2,18 @@ unit App.Retag.Est.Prod.Fabr.DBI_u;
 
 interface
 
-uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
-  System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
-  App.Retag.Est.Prod.Fabr.Ent, Sis.UI.Frame.Bas.FiltroParams_u;
+uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Variants,
+  Sis.Types.Integers, App.Ent.DBI_u, App.Retag.Est.Prod.Fabr.Ent;
 
 type
   TProdFabrDBI = class(TEntDBI)
   private
     FProdFabrEnt: IProdFabrEnt;
   protected
-    function GetSqlPreencherDataSet(pFiltroParamsFrame: TFiltroParamsFrame): string; override;
-    function GetSqlIdByDescr(pDescr: string): string; override;
-    function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pId: integer); override;
+    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGarantirReg: string; override;
+    procedure SetNovaId(pIds: variant); override;
   public
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdFabrEnt);
   end;
@@ -22,7 +21,7 @@ type
 implementation
 
 uses System.SysUtils, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Retag.Est.Prod.Fabr.Ent_u;
+  App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.strings_u;
 
 { TProdFabrDBI }
 
@@ -33,36 +32,40 @@ begin
   FProdFabrEnt := TProdFabrEnt(pEntEd);
 end;
 
-function TProdFabrDBI.GetSqlGarantirRegId: string;
+function TProdFabrDBI.GetSqlGarantirReg: string;
 var
   sFormat: string;
 begin
-  sFormat := 'SELECT FABRICANTE_ID_GRAVADO FROM FABRICANTE_PA.FABRICANTE_GARANTIR(%d,''%s'');';
+  sFormat :=
+    'SELECT FABRICANTE_ID_GRAVADO FROM FABRICANTE_PA.FABRICANTE_GARANTIR(%d,''%s'');';
   Result := Format(sFormat, [FProdFabrEnt.Id, FProdFabrEnt.Descr]);
 end;
 
-function TProdFabrDBI.GetSqlIdByDescr(pDescr: string): string;
+function TProdFabrDBI.GetSqlGetExistente(pValues: variant): string;
 var
   sFormat: string;
+  sDescr: string;
 begin
   sFormat := 'SELECT FABRICANTE_ID FROM FABRICANTE_PA.BYNOME_GET(''%s'');';
-  Result := Format(sFormat, [pDescr]);
+  sDescr := VarToString(pValues[0]);
+  Result := Format(sFormat, [sDescr]);
 end;
 
-function TProdFabrDBI.GetSqlPreencherDataSet(pFiltroParamsFrame: TFiltroParamsFrame): string;
+function TProdFabrDBI.GetSqlPreencherDataSet(pValues: variant): string;
 var
   sFormat: string;
   sBusca: string;
 begin
+  sBusca := VarToString(pValues[0]);
+
   sFormat := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET(''%s'');';
-  sBusca := TFiltroParamsStringFrame(pFiltroParamsFrame).BuscaString;
   Result := Format(sFormat, [sBusca]);
 end;
 
-procedure TProdFabrDBI.SetNovaId(pId: integer);
+procedure TProdFabrDBI.SetNovaId(pIds: variant);
 begin
   inherited;
-  FProdFabrEnt.Id := pId;
+  FProdFabrEnt.Id := VarToInteger(pIds);
 end;
 
 end.
