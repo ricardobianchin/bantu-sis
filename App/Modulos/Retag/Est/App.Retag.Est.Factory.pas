@@ -38,19 +38,40 @@ function ProdTipoPerg(AOwner: TComponent; pProdTipoEnt: IEntEd;
 function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
 {$ENDREGION}
 
+{$REGION 'prod unid'}
+function RetagEstProdUnidEntCreate(pState: TDataSetState; pId: integer = 0;
+  pDescr: string = ''): IEntEd;
+
+function RetagEstProdUnidDBICreate(pDBConnection: IDBConnection;
+  pProdUnidEnt: IEntEd): IEntDBI;
+
+function ProdUnidEdFormCreate(AOwner: TComponent; pProdUnid: IEntEd;
+  pProdUnidDBI: IEntDBI): TEdBasForm;
+
+function ProdUnidPerg(AOwner: TComponent; pProdUnidEnt: IEntEd;
+  pProdUnidDBI: IEntDBI): boolean;
+
+function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
+{$ENDREGION}
+
 implementation
 
 uses Vcl.Controls
 
   // fabr
     , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
+    , App.Retag.Est.Prod.Fabr.DBI_u//fabr dbi
     , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
-    , App.Retag.Est.Prod.Fabr.DBI_u
 
   // tipo
-    , App.Retag.Est.Prod.Tipo.Ent_u // fabr ent
+    , App.Retag.Est.Prod.Tipo.Ent_u // tipo ent
+    , App.Retag.Est.Prod.Tipo.DBI_u//tipo dbi
     , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
-    , App.Retag.Est.Prod.Tipo.DBI_u
+
+  // unid
+    , App.Retag.Est.Prod.Unid.Ent_u // fabr ent
+    , App.Retag.Est.Prod.Unid.DBI_u
+    , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
     ;
 
 {$REGION 'prod fabr impl'}
@@ -118,6 +139,40 @@ end;
 function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
 begin
   // Result := TDecoratorExclTipo.Create(pProdTipo);
+end;
+{$ENDREGION}
+
+{$REGION 'prod Unid impl'}
+function RetagEstProdUnidEntCreate(pState: TDataSetState; pId: integer = 0;
+  pDescr: string = ''): IEntEd;
+begin
+  Result := TProdUnidEnt.Create(pState, pId, pDescr);
+end;
+
+function RetagEstProdUnidDBICreate(pDBConnection: IDBConnection;
+  pProdUnidEnt: IEntEd): IEntDBI;
+begin
+  Result := TProdUnidDBI.Create(pDBConnection, TProdUnidEnt(pProdUnidEnt));
+end;
+
+function ProdUnidEdFormCreate(AOwner: TComponent; pProdUnid: IEntEd;
+  pProdUnidDBI: IEntDBI): TEdBasForm;
+begin
+  Result := TProdUnidEdForm.Create(AOwner, pProdUnid, pProdUnidDBI);
+end;
+
+function ProdUnidPerg(AOwner: TComponent; pProdUnidEnt: IEntEd;
+  pProdUnidDBI: IEntDBI): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := ProdUnidEdFormCreate(AOwner, pProdUnidEnt, pProdUnidDBI);
+  Result := F.Perg;
+end;
+
+function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
+begin
+  // Result := TDecoratorExclUnid.Create(pProdUnid);
 end;
 {$ENDREGION}
 

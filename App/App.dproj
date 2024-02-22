@@ -264,6 +264,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ProdFabrEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.UI.Form.Ed.Prod.Unid_u.pas">
+            <Form>ProdUnidEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.UI.Form.DataSet.Retag.Est.Prod.Unid_u.pas">
+            <Form>RetagEstProdUnidDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

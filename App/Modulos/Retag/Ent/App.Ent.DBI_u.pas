@@ -11,12 +11,13 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; virtual;
       abstract;
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
-    function GetSqlGarantirReg: string; virtual; abstract;
+    function GetSqlGarantirRegId: string; virtual; abstract;
     procedure SetNovaId(pIds: variant); virtual; abstract;
   public
     procedure PreencherDataSet(pValues: variant;
       pProcLeReg: TProcDataSetOfObject);
-    function GetExistente(pValues: variant): variant;
+    function GetExistente(pValues: variant; out pRetorno: string)
+      : variant; virtual;
     function GarantirReg: boolean;
   end;
 
@@ -33,30 +34,26 @@ var
   q: TDataSet;
   Resultado: variant;
   sResultado: string;
-  iResultado: smallint;
   iId: integer;
   sNome: string;
 begin
   Result := False;
-  sSql := GetSqlGarantirReg;
+  sSql := GetSqlGarantirRegId;
 
   DBConnection.Abrir;
   try
-    Resultado := DBConnection.GetValue(sSql);
+    iId := DBConnection.GetValueInteger(sSql);
+    SetNovaId(iId);
     Result := True;
   finally
     DBConnection.Fechar;
   end;
-
-  iId := VarToInteger(Resultado);
-  SetNovaId(iId);
 end;
 
-function TEntDBI.GetExistente(pValues: variant): variant;
+function TEntDBI.GetExistente(pValues: variant; out pRetorno: string): variant;
 var
   sFormat: string;
   sSql: string;
-  q: TDataSet;
   Resultado: variant;
   sResultado: string;
 begin
@@ -70,7 +67,8 @@ begin
   end;
 end;
 
-procedure TEntDBI.PreencherDataSet(pValues: variant; pProcLeReg: TProcDataSetOfObject);
+procedure TEntDBI.PreencherDataSet(pValues: variant;
+  pProcLeReg: TProcDataSetOfObject);
 var
   sSql: string;
   q: TDataSet;

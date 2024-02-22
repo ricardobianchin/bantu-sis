@@ -12,7 +12,7 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGarantirReg: string; override;
+    function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
   public
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdFabrEnt);
@@ -32,7 +32,7 @@ begin
   FProdFabrEnt := TProdFabrEnt(pEntEd);
 end;
 
-function TProdFabrDBI.GetSqlGarantirReg: string;
+function TProdFabrDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
@@ -56,9 +56,8 @@ var
   sFormat: string;
   sBusca: string;
 begin
-  sBusca := VarToString(pValues);
-
   sFormat := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET(''%s'');';
+  sBusca := VarToString(pValues);
   Result := Format(sFormat, [sBusca]);
 end;
 

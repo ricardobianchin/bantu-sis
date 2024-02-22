@@ -40,7 +40,9 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, App.Retag.Est.Prod.Tipo.Ent_u;
+uses Sis.Types.strings_u, App.Retag.Est.Prod.Tipo.Ent_u,
+  Sis.UI.Controls.TLabeledEdit;
+
 { TProdTipoEdForm }
 
 procedure TProdTipoEdForm.AjusteControles;
@@ -59,10 +61,12 @@ begin
       ;
     dsEdit:
       begin
-        sFormat := 'Alterando %s: %s';
         sNom := ProdTipoEnt.NomeEnt;
         sVal := ProdTipoEnt.Descr;
+
+        sFormat := 'Alterando %s: %s';
         sCaption := Format(sFormat, [sNom, sVal]);
+
         ObjetivoLabel.Caption := sCaption;
       end;
 
@@ -72,26 +76,15 @@ begin
 end;
 
 function TProdTipoEdForm.ControlesOk: boolean;
-var
-  sFrase: string;
-  sNomeCampo: string;
-  iId: smallint;
-  sValorDigitado: string;
-  sFormat: string;
 begin
-  LabeledEdit1.Text := StrSemCharRepetido(LabeledEdit1.Text, #32);
-  sValorDigitado := LabeledEdit1.Text;
-  sNomeCampo := LabeledEdit1.EditLabel.Caption;
-
-  Result := sValorDigitado <> '';
+  Result := TesteLabeledEditVazio(LabeledEdit1, ErroOutput);
   if not Result then
-  begin
-    sFormat := 'Campo ''%s'' é obrigatório';
-    sFrase := Format(sFormat, [sNomeCampo]);
-    ErroOutput.Exibir(sFrase);
-    LabeledEdit1.SetFocus;
     exit;
-  end;
+
+  Result := TesteLabeledEditValorInalterado(LabeledEdit1, ProdTipoEnt.Descr,
+    ProdTipoEnt.State, ErroOutput);
+  if not Result then
+    exit;
 end;
 
 procedure TProdTipoEdForm.ControlesToEnt;
@@ -107,6 +100,7 @@ var
   iId: smallint;
   sValorDigitado: string;
   sFormat: string;
+  sRetorno: string;
 begin
   sValorDigitado := LabeledEdit1.Text;
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
@@ -120,21 +114,7 @@ begin
     exit;
   end;
 
-  if ProdTipoEnt.State = dsEdit then
-  begin
-    Result := sValorDigitado <> ProdTipoEnt.Descr;
-
-    if not Result then
-    begin
-      sFormat := 'Campo %s igual ao já existente';
-      sFrase := Format(sFormat, [sNomeCampo]);
-      ErroOutput.Exibir(sFrase);
-      LabeledEdit1.SetFocus;
-      exit;
-    end;
-  end;
-
-  iId := EntDBI.GetExistente(sValorDigitado);
+  iId := EntDBI.GetExistente(sValorDigitado, sRetorno);
   Result := iId < 1;
   if not Result then
   begin
@@ -156,10 +136,11 @@ function TProdTipoEdForm.GetObjetivoStr: string;
 var
   sFormat, sTit, sNom, sVal: string;
 begin
-  sFormat := '%s %s: %s';
   sTit := EntEd.StateAsTitulo;
   sNom := ProdTipoEnt.NomeEnt;
   sVal := ProdTipoEnt.Descr;
+
+  sFormat := '%s %s: %s';
   Result := Format(sFormat, [sTit, sNom, sVal]);
 end;
 
@@ -175,7 +156,7 @@ begin
   Result := EntDBI.GarantirReg;
   if not Result then
   begin
-    sFrase := 'Erro ao gravar '+EntEd.NomeEnt;
+    sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;
     ErroOutput.Exibir(sFrase);
     LabeledEdit1.SetFocus;
     exit;
@@ -199,7 +180,6 @@ begin
   end;
   inherited;
   EditKeyPress(Sender, Key);
-
 end;
 
 procedure TProdTipoEdForm.ShowTimer_BasFormTimer(Sender: TObject);

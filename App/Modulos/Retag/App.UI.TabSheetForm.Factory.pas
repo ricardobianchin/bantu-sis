@@ -33,22 +33,32 @@ function RetagEstProdTipoFormCreate(AOwner: TComponent;
   pOutputNotify: IOutput): TTabSheetAppBasForm;
 {$ENDREGION}//fim est prod tipo
 {$REGION 'Est Prod Unid'}
-// Est Prod
-//function RetagEstProdUnidFormGetClassName: string;
-//function RetagEstProdUnidFormCreate(AOwner: TComponent;
-//  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-//  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-//  pOutputNotify: IOutput): TTabSheetAppBasForm;
-{$ENDREGION}//fim est prod fabr
+// Est Prod unid
+function RetagEstProdUnidFormGetClassName: string;
+function RetagEstProdUnidFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+{$ENDREGION}//fim est prod unid
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 
 implementation
 
-uses App.UI.Form.TabSheet.Retag.Aju.BemVindo_u
+uses
+  App.Retag.Est.Factory
+
+  //ajuda
+  // ajuda bem-vindo
+  , App.UI.Form.TabSheet.Retag.Aju.BemVindo_u
+
+  //est
+  //est prod
   , App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
   , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u
-  , App.Retag.Est.Factory;
+  , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u
+
+  ;
 
 {$REGION 'Aju Impl'}
 
@@ -112,20 +122,23 @@ begin
 end;
 {$ENDREGION}//fim est prod tipo
 {$REGION 'Est Prod unid impl'}
-//function RetagEstProdUnidFormGetClassName: string;
-//begin
-//  Result := TRetagEstProdUnidTabSheetDataSetForm.ClassName;
-//end;
-//
-//function RetagEstProdUnidFormCreate(AOwner: TComponent;
-//  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-//  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-//  pOutputNotify: IOutput): TTabSheetAppBasForm;
-//begin
-//  Result := TRetagEstProdUnidTabSheetDataSetForm.Create(AOwner,
-//    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
-//    pOutputNotify);
-//end;
+function RetagEstProdUnidFormGetClassName: string;
+begin
+  Result := TRetagEstProdUnidDataSetForm.ClassName;
+end;
+
+function RetagEstProdUnidFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+var
+  oEntEd: IEntEd;
+begin
+  oEntEd := RetagEstProdUnidEntCreate(dsBrowse);
+  Result := TRetagEstProdUnidDataSetForm.Create(AOwner,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pOutputNotify, oEntEd);
+end;
 {$ENDREGION}//fim est prod unid
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est

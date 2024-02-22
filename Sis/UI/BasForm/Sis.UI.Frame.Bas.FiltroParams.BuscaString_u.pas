@@ -17,6 +17,7 @@ type
     { Private declarations }
   protected
     function GetValues: variant; override;
+    procedure SetValues(Value: variant); override;
     procedure AjusteValores; override;
   public
     { Public declarations }
@@ -64,6 +65,13 @@ begin
 //  Result := VarArrayCreate([0, 0], varVariant);
 //  Result[0] := BuscaStringEdit.Text;
   Result := BuscaStringEdit.Text;
+end;
+
+procedure TFiltroParamsStringFrame.SetValues(Value: variant);
+begin
+  inherited;
+  BuscaStringEdit.Text := VarToString(Value);
+  AjusteValores;
 end;
 
 end.

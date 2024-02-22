@@ -69,8 +69,8 @@ end;
 
 function TFiltroParamsFrame.GetValues: variant;
 begin
-  Result := varNull;
   AjusteValores;
+  Result := varNull;
 end;
 
 procedure TFiltroParamsFrame.SetOnChange(const Value: TNotifyEvent);

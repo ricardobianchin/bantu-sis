@@ -1,10 +1,11 @@
 inherited EdDescrBasForm: TEdDescrBasForm
   Caption = 'EdDescrBasForm'
-  ClientWidth = 499
-  ExplicitWidth = 511
+  ClientHeight = 297
+  ExplicitWidth = 503
   TextHeight = 15
   inherited MensLabel: TLabel
-    Width = 499
+    Top = 240
+    ExplicitTop = 239
   end
   object LabeledEdit1: TLabeledEdit [2]
     Left = 8
@@ -21,8 +22,7 @@ inherited EdDescrBasForm: TEdDescrBasForm
     OnKeyPress = LabeledEdit1KeyPress
   end
   inherited BasePanel: TPanel
-    Width = 499
-    ExplicitWidth = 499
+    Top = 260
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       ExplicitLeft = 140
     end

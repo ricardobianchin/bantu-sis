@@ -40,7 +40,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.Integers;
+uses Sis.Types.strings_u, App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.Integers,
+  Sis.UI.Controls.TLabeledEdit;
 { TProdFabrEdForm }
 
 procedure TProdFabrEdForm.AjusteControles;
@@ -72,26 +73,15 @@ begin
 end;
 
 function TProdFabrEdForm.ControlesOk: boolean;
-var
-  sFrase: string;
-  sNomeCampo: string;
-  iId: smallint;
-  sValorDigitado: string;
-  sFormat: string;
 begin
-  LabeledEdit1.Text := StrSemCharRepetido(LabeledEdit1.Text, #32);
-  sValorDigitado := LabeledEdit1.Text;
-  sNomeCampo := LabeledEdit1.EditLabel.Caption;
-
-  Result := sValorDigitado <> '';
+  Result := TesteLabeledEditVazio(LabeledEdit1, ErroOutput);
   if not Result then
-  begin
-    sFormat := 'Campo ''%s'' é obrigatório';
-    sFrase := Format(sFormat, [sNomeCampo]);
-    ErroOutput.Exibir(sFrase);
-    LabeledEdit1.SetFocus;
     exit;
-  end;
+
+  Result := TesteLabeledEditValorInalterado(LabeledEdit1, ProdFabrEnt.Descr,
+    ProdFabrEnt.State, ErroOutput);
+  if not Result then
+    exit;
 end;
 
 procedure TProdFabrEdForm.ControlesToEnt;
@@ -107,6 +97,7 @@ var
   iId: smallint;
   sValorDigitado: string;
   sFormat: string;
+  sRetorno: string;
 begin
   sValorDigitado := LabeledEdit1.Text;
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
@@ -120,21 +111,7 @@ begin
     exit;
   end;
 
-  if ProdFabrEnt.State = dsEdit then
-  begin
-    Result := sValorDigitado <> ProdFabrEnt.Descr;
-
-    if not Result then
-    begin
-      sFormat := 'Campo %s igual ao já existente';
-      sFrase := Format(sFormat, [sNomeCampo]);
-      ErroOutput.Exibir(sFrase);
-      LabeledEdit1.SetFocus;
-      exit;
-    end;
-  end;
-
-  iId := VarToInteger( EntDBI.GetExistente(sValorDigitado));
+  iId := VarToInteger(EntDBI.GetExistente(sValorDigitado, sRetorno));
 
   Result := iId < 1;
   if not Result then
@@ -157,10 +134,11 @@ function TProdFabrEdForm.GetObjetivoStr: string;
 var
   sFormat, sTit, sNom, sVal: string;
 begin
-  sFormat := '%s %s: %s';
   sTit := EntEd.StateAsTitulo;
   sNom := ProdFabrEnt.NomeEnt;
   sVal := ProdFabrEnt.Descr;
+
+  sFormat := '%s %s: %s';
   Result := Format(sFormat, [sTit, sNom, sVal]);
 end;
 
@@ -176,7 +154,7 @@ begin
   Result := EntDBI.GarantirReg;
   if not Result then
   begin
-    sFrase := 'Erro ao gravar '+EntEd.NomeEnt;
+    sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;
     ErroOutput.Exibir(sFrase);
     LabeledEdit1.SetFocus;
     exit;

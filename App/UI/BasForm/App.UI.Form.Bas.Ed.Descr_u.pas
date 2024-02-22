@@ -91,6 +91,7 @@ var
   iId: smallint;
   sNomeDigitado: string;
   sFormat: string;
+  sRetorno: string;
 begin
   LabeledEdit1.Text := StrSemCharRepetido(LabeledEdit1.Text, #32);
   sNomeDigitado := LabeledEdit1.Text;
@@ -120,7 +121,7 @@ begin
     end;
   end;
 
-  iId := EntDBI.GetExistente(sNomeDigitado);
+  iId := EntDBI.GetExistente(sNomeDigitado, sRetorno);
   Result := iId < 1;
   if not Result then
   begin
