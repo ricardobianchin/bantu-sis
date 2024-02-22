@@ -22,7 +22,7 @@ type
 
     function EhIgualA(pOutraEntidade: IEntidade): boolean; override;
     procedure PegueDe(pOutraEntidade: IEntidade); override;
-    procedure Clear; override;
+    procedure LimparEnt; override;
     function GetAsString: string; override;
     property DescrCaption: string read GetDescrCaption;
 
@@ -36,9 +36,9 @@ uses System.SysUtils;
 
 { TEntIdDescr }
 
-procedure TEntIdDescr.Clear;
+procedure TEntIdDescr.LimparEnt;
 begin
-  inherited Clear;
+  inherited;
   FDescr := '';
 end;
 

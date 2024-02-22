@@ -15,6 +15,11 @@ type
 
     function GetSigla: string;
     procedure SetSigla(Value: string);
+  protected
+    function GetNomeEnt: string; override;
+    function GetNomeEntAbrev: string; override;
+    function GetTitulo: string; override;
+    procedure LimparEnt; override;
   public
     property Descr: string read GetDescr write SetDescr;
     property Sigla: string read GetSigla write SetSigla;
@@ -39,9 +44,31 @@ begin
   Result := FDescr;
 end;
 
+function TProdUnidEnt.GetNomeEnt: string;
+begin
+  Result := 'Unidade de Medida';
+end;
+
+function TProdUnidEnt.GetNomeEntAbrev: string;
+begin
+  Result := 'ProdUnid';
+end;
+
 function TProdUnidEnt.GetSigla: string;
 begin
   Result := FSigla;
+end;
+
+function TProdUnidEnt.GetTitulo: string;
+begin
+  Result := 'Unidades de Medida';
+end;
+
+procedure TProdUnidEnt.LimparEnt;
+begin
+  inherited;
+  FDescr := '';
+  FSigla := '';
 end;
 
 procedure TProdUnidEnt.SetDescr(Value: string);

@@ -62,7 +62,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
               List = True
               ShowCaptions = True
               TabOrder = 0
-              ExplicitTop = -8
               object ToolButton2: TToolButton
                 Left = 0
                 Top = 0
@@ -116,9 +115,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Height = 299
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 1
-    ExplicitTop = 160
-    ExplicitHeight = 291
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 184

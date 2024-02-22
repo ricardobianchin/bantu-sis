@@ -208,7 +208,6 @@ procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
   (Sender: TObject);
 begin
   inherited;
-//  TabSheetAppCrie(RetagEstProdFabrFormGetClassName, RetagEstProdFabrFormCreate);
   TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
 end;
 
@@ -216,6 +215,7 @@ procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute(
   Sender: TObject);
 begin
   inherited;
+  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
 //  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
 end;
 
@@ -223,7 +223,9 @@ procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
 //  RetagAjuBemAction.Execute;
-  RetagEstProdTipoAction.Execute;
+  RetagEstProdUnidAction.Execute;
+//  sleep(150);
+//  RetagEstProdFabrAction.Execute;
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName

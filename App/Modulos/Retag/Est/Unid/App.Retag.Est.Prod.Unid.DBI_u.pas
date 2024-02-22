@@ -23,7 +23,8 @@ type
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.Unid.Ent_u, Sis.Types.strings_u;
+uses System.SysUtils, App.Retag.Est.Prod.Unid.Ent_u, Sis.Types.strings_u,
+  Sis.Win.Utils_u, Vcl.Dialogs;
 
 { TProdUnidDBI }
 
@@ -51,12 +52,16 @@ begin
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, q);
-
+    try
     bResultado := Assigned(q);
     if not bResultado then
       exit;
 
     bResultado := q.IsEmpty;
+    if bResultado then
+      exit;
+
+    bResultado := q.Fields[0].AsInteger = 0;
     if bResultado then
       exit;
 
@@ -77,7 +82,9 @@ begin
       pRetorno := 'Já existente: ' + pRetorno;
       Result := sResultado;
     end;
-
+    finally
+      q.Free;
+    end;
   finally
     DBConnection.Fechar;
   end;
@@ -102,8 +109,9 @@ begin
   sDescr := VarToString(pValues[0]);
   sSigla := VarToString(pValues[1]);
 
-  sFormat := 'SELECT UNID_ID FROM UNID_PA.EXISTENTES_GET(''%s'',''%s'');';
-  Result := Format(sFormat, [sDescr, sSigla]);
+  sFormat := 'SELECT UNID_ID_RET, DESCR_RET, SIGLA_RET'
+    + ' FROM UNID_PA.EXISTENTES_GET(%d,''%s'',''%s'');';
+  Result := Format(sFormat, [FProdUnidEnt.Id, sDescr, sSigla]);
 end;
 
 function TProdUnidDBI.GetSqlPreencherDataSet(pValues: variant): string;

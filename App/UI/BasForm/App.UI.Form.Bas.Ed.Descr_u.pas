@@ -68,7 +68,7 @@ begin
 
     dsInsert:
       begin
-        ObjetivoLabel.Caption := 'Novo fabricante';
+        ObjetivoLabel.Caption := 'Novo '+EntIdDescr.Titulo;
       end;
   end;
 end;

@@ -56,9 +56,6 @@ var
   sCaption: string;
   sNom: string;
 begin
-  AjusteCaption;
-  AjusteObjetivo;
-
   case EntEd.State of
     dsInactive:
       ;
@@ -75,15 +72,23 @@ begin
         sNom := EntEd.NomeEnt;
         sCaption := Format(sFormat, [sNom]);
         ObjetivoLabel.Caption := sCaption;
-        EntEd.Clear;
+        EntEd.LimparEnt;
         EntToControles;
       end;
   end;
+
+  AjusteCaption;
+  AjusteObjetivo;
+
+
 end;
 
 procedure TEdBasForm.AjusteObjetivo;
+var
+  sObjetivo: string;
 begin
-  ObjetivoLabel.Caption := GetObjetivoStr;
+  sObjetivo := GetObjetivoStr;
+  ObjetivoLabel.Caption := sObjetivo;
 end;
 
 procedure TEdBasForm.AjusteCaption;

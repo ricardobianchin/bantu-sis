@@ -22,7 +22,7 @@ type
     function EhIgualA(pOutraEntidade: IEntidade): boolean; override;
     procedure PegueDe(pOutraEntidade: IEntidade); override;
 
-    procedure Clear; override;
+    procedure LimparEnt; override;
   end;
 
 implementation
@@ -31,9 +31,9 @@ uses System.SysUtils;
 
 { TEntEdId }
 
-procedure TEntEdId.Clear;
+procedure TEntEdId.LimparEnt;
 begin
-  inherited Clear;
+  inherited;
   FId := 0;
 end;
 

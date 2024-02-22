@@ -51,8 +51,8 @@ begin
   sValorDigitado := pLabeledEdit.Text;
   sNomeCampo := pLabeledEdit.EditLabel.Caption;
 
-  Result := pDataSetState = dsEdit;
-  if not Result then
+  Result := pDataSetState <> dsEdit;
+  if Result then
     exit;
 
   Result := sValorDigitado <> pValorOriginal;

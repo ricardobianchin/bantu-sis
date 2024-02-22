@@ -485,7 +485,7 @@ begin
       FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
       'SUP'.QuotedString + ',' + sSenha.QuotedString + ',1,' +
       'SUPORTE'.QuotedString + ',' + ' 1);';
-     // SetClipboardText(s);
+
     { iPessoaId := } pDBConnection.GetValue(s);
 
     s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +

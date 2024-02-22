@@ -61,8 +61,6 @@ var
 begin
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
 
-  // SetClipboardText(FCabecLinhasSL.Text);
-  // SetClipboardText(sCabec);
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
   begin
@@ -71,9 +69,6 @@ begin
       FPackageName;
     Exit;
   end;
-
-  // SetClipboardText(FBodyLinhasSL.Text);
-  // SetClipboardText(sBody);
 
   Result := FBodyLinhasSL.Text = sBody;
   if not Result then
@@ -93,13 +88,6 @@ begin
   Result := '';
 
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
-  {
-    SetClipboardText(
-    'sCabec'#13#10+sCabec+#13#10#13#10+
-    'sBody'#13#10+sBody+#13#10#13#10+
-    'FCabecLinhasSL'#13#10+ FCabecLinhasSL.Text+#13#10#13#10+
-    'FBodyLinhasSL'#13#10+ FBodyLinhasSL.Text+#13#10#13#10
-    ); }
 
   if (FCabecLinhasSL.Text = sCabec) and (FBodyLinhasSL.Text = sBody) then
     Exit;

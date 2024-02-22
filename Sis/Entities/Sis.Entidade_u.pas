@@ -13,7 +13,8 @@ type
   public
     function EhIgualA(pOutraEntidade: IEntidade): boolean; virtual; abstract;
     procedure PegueDe(pOutraEntidade: IEntidade); virtual;
-    procedure Clear; virtual;
+
+    procedure LimparEnt; virtual; abstract;
 
     property NomeEnt: string read GetNomeEnt;
     property NomeEntAbrev: string read GetNomeEntAbrev;
@@ -23,11 +24,6 @@ type
 implementation
 
 { TEntidade }
-
-procedure TEntidade.Clear;
-begin
-
-end;
 
 procedure TEntidade.PegueDe(pOutraEntidade: IEntidade);
 begin

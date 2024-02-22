@@ -20,6 +20,7 @@ type
     AltAction_DatasetTabSheet: TAction;
     ExclAction_DatasetTabSheet: TAction;
     FiltroAtualizarTimer: TTimer;
+
     procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
