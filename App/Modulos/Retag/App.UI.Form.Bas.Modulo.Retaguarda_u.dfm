@@ -15,7 +15,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Left = 0
     Top = 30
     Width = 604
-    Height = 130
+    Height = 122
     Align = alTop
     Caption = ' '
     TabOrder = 1
@@ -23,7 +23,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Left = 1
       Top = 1
       Width = 602
-      Height = 128
+      Height = 120
       ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
@@ -45,7 +45,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           TabOrder = 0
           object EstProdEnvTermPanel: TPanel
             Left = 2
-            Top = 73
+            Top = 65
             Width = 119
             Height = 21
             BevelOuter = bvNone
@@ -79,13 +79,13 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Top = 0
           Width = 594
           Height = 54
-          ButtonHeight = 54
+          ButtonHeight = 46
           ButtonWidth = 66
           Caption = 'EstoqueToolBar'
           Ctl3D = False
           EdgeInner = esNone
           EdgeOuter = esNone
-          Images = RetagImgDM.ImageList_32_32
+          Images = RetagImgDM.ImageList_24_24
           ShowCaptions = True
           TabOrder = 0
           object AjuBemToolButton: TToolButton
@@ -110,9 +110,9 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   end
   object PageControl1: TPageControl [3]
     Left = 0
-    Top = 160
+    Top = 152
     Width = 604
-    Height = 291
+    Height = 299
     Align = alClient
     TabOrder = 3
   end
@@ -125,15 +125,20 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Top = 152
   end
   object RetagActionList: TActionList
-    Images = RetagImgDM.ImageList_32_32
+    Images = RetagImgDM.ImageList_24_24
     Left = 456
     Top = 240
-    object RetagEstProdTipoAction: TAction
+    object RetagEstProdAction: TAction
       Category = 'Estoque'
-      Caption = 'Tipos'
-      Hint = 'Tipos de Produtos'
-      ImageIndex = 0
-      OnExecute = RetagEstProdTipoActionExecute
+      Caption = 'Produtos'
+      Hint = 'Produtos'
+      ImageIndex = 5
+      OnExecute = RetagEstProdActionExecute
+    end
+    object RetagEstProdEnviarTermAction: TAction
+      Category = 'Estoque'
+      Caption = 'Envia aos Terminais'
+      OnExecute = RetagEstProdEnviarTermActionExecute
     end
     object RetagEstProdFabrAction: TAction
       Category = 'Estoque'
@@ -142,23 +147,25 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       ImageIndex = 1
       OnExecute = RetagEstProdFabrActionExecute
     end
+    object RetagEstProdTipoAction: TAction
+      Category = 'Estoque'
+      Caption = 'Tipos'
+      Hint = 'Tipos de Produtos'
+      ImageIndex = 2
+      OnExecute = RetagEstProdTipoActionExecute
+    end
     object RetagAjuBemAction: TAction
       Category = 'Ajuda'
       Caption = 'Bem-vindo'
-      ImageIndex = 2
+      ImageIndex = 0
       OnExecute = RetagAjuBemActionExecute
     end
-    object RetagEstProdEnviarTermAction: TAction
+    object RetagEstProdUnidAction: TAction
       Category = 'Estoque'
-      Caption = 'Envia aos Terminais'
-      OnExecute = RetagEstProdEnviarTermActionExecute
-    end
-    object RetagEstProdAction: TAction
-      Category = 'Estoque'
-      Caption = 'Produtos'
-      Hint = 'Produtos'
+      Caption = 'Unidades'
+      Hint = 'Unidades de Medida'
       ImageIndex = 3
-      OnExecute = RetagEstProdActionExecute
+      OnExecute = RetagEstProdUnidActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

@@ -1,8 +1,8 @@
-unit App.Entidade.Ed.Id.Descr;
+unit App.Ent.Ed.Id.Descr;
 
 interface
 
-uses App.Entidade.Ed.Id;
+uses App.Ent.Ed.Id;
 
 type
   IEntIdDescr = interface(IEntEdId)

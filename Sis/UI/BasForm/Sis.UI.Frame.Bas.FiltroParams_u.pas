@@ -3,8 +3,9 @@ unit Sis.UI.Frame.Bas.FiltroParams_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.ExtCtrls;
 
 type
   TFiltroParamsFrame = class(TFrame)
@@ -17,8 +18,12 @@ type
     procedure AgendeChange;
     function GetOnChange: TNotifyEvent; virtual;
     procedure SetOnChange(const Value: TNotifyEvent); virtual;
+    procedure SetValues(Value: variant); virtual;
+    function GetValues: variant; virtual;
   public
     { Public declarations }
+    procedure AjusteValores; virtual;
+    property Values: variant read GetValues write SetValues;
     constructor Create(AOwner: TComponent);
     destructor Destroy; override;
     property OnChange: TNotifyEvent read GetOnChange write SetOnChange;
@@ -27,8 +32,12 @@ type
 implementation
 
 {$R *.dfm}
-
 { TFiltroParamsFrame }
+
+procedure TFiltroParamsFrame.AjusteValores;
+begin
+
+end;
 
 procedure TFiltroParamsFrame.ChangeTimerTimer(Sender: TObject);
 begin
@@ -58,9 +67,20 @@ begin
   Result := FOnChange;
 end;
 
+function TFiltroParamsFrame.GetValues: variant;
+begin
+  AjusteValores;
+  Result := varNull;
+end;
+
 procedure TFiltroParamsFrame.SetOnChange(const Value: TNotifyEvent);
 begin
   FOnChange := Value;
+end;
+
+procedure TFiltroParamsFrame.SetValues(Value: variant);
+begin
+
 end;
 
 end.

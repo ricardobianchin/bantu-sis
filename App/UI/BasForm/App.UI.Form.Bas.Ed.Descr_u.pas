@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.DB.Utils,
-  App.Entidade.Ed.Id.Descr;
+  App.Ent.Ed.Id.Descr;
 
 type
   TEdDescrBasForm = class(TEdBasForm)
@@ -26,8 +26,9 @@ type
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
 
-    function DescrOk: boolean; virtual;
-    function GravouOk: boolean; virtual;
+    function DescrOk: boolean;
+    function GravouOk: boolean; override;
+    function DadosOk: boolean; override;
     function PodeOk: boolean; override;
   public
     { Public declarations }
@@ -46,6 +47,7 @@ procedure TEdDescrBasForm.AjusteControles;
 var
   sFormat: string;
   sCaption: string;
+  sNom, sVal: string;
 begin
   inherited;
   LabeledEdit1.EditLabel.Caption := EntIdDescr.DescrCaption;
@@ -57,14 +59,16 @@ begin
     dsEdit:
       begin
         sFormat := 'Alterando %s: %s';
-        sCaption := Format(sFormat, [EntIdDescr.Nome, EntIdDescr.Descr]);
+        sNom := EntIdDescr.NomeEnt;
+        sVal := EntIdDescr.Descr;
+        sCaption := Format(sFormat, [sNom, sVal]);
         ObjetivoLabel.Caption := sCaption;
         EntToControles;
       end;
 
     dsInsert:
       begin
-        ObjetivoLabel.Caption := 'Novo fabricante';
+        ObjetivoLabel.Caption := 'Novo '+EntIdDescr.Titulo;
       end;
   end;
 end;
@@ -75,6 +79,11 @@ begin
   EntIdDescr.Descr := LabeledEdit1.Text;
 end;
 
+function TEdDescrBasForm.DadosOk: boolean;
+begin
+  Result := DescrOk;
+end;
+
 function TEdDescrBasForm.DescrOk: boolean;
 var
   sFrase: string;
@@ -82,6 +91,7 @@ var
   iId: smallint;
   sNomeDigitado: string;
   sFormat: string;
+  sRetorno: string;
 begin
   LabeledEdit1.Text := StrSemCharRepetido(LabeledEdit1.Text, #32);
   sNomeDigitado := LabeledEdit1.Text;
@@ -111,7 +121,7 @@ begin
     end;
   end;
 
-  iId := EntDBI.IdByDescr(sNomeDigitado);
+  iId := EntDBI.GetExistente(sNomeDigitado, sRetorno);
   Result := iId < 1;
   if not Result then
   begin
@@ -138,10 +148,10 @@ function TEdDescrBasForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  Result := EntDBI.GarantirRegId;
+  Result := EntDBI.GarantirReg;
   if not Result then
   begin
-    sFrase := 'Erro ao gravar '+EntIdDescr.Nome;
+    sFrase := 'Erro ao gravar '+EntIdDescr.NomeEnt;
     ErroOutput.Exibir(sFrase);
     LabeledEdit1.SetFocus;
     exit;
@@ -173,7 +183,7 @@ begin
   if not Result then
     exit;
 
-  Result := DescrOk;
+  Result := DadosOk;
   if not Result then
     exit;
 

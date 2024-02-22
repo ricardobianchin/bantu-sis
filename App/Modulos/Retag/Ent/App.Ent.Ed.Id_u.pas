@@ -1,8 +1,8 @@
-unit App.Entidade.Ed.Id_u;
+unit App.Ent.Ed.Id_u;
 
 interface
 
-uses App.Entidade.Ed.Id, Data.DB, App.Entidade.Ed_u, Sis.Entidade;
+uses App.Ent.Ed.Id, Data.DB, App.Ent.Ed_u, Sis.Entidade;
 
 type
   TEntEdId = class(TEntEd, IEntEdId)
@@ -22,7 +22,7 @@ type
     function EhIgualA(pOutraEntidade: IEntidade): boolean; override;
     procedure PegueDe(pOutraEntidade: IEntidade); override;
 
-    procedure Clear; override;
+    procedure LimparEnt; override;
   end;
 
 implementation
@@ -31,9 +31,9 @@ uses System.SysUtils;
 
 { TEntEdId }
 
-procedure TEntEdId.Clear;
+procedure TEntEdId.LimparEnt;
 begin
-  inherited Clear;
+  inherited;
   FId := 0;
 end;
 

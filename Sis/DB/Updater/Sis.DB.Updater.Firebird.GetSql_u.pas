@@ -177,7 +177,6 @@ begin
     + ' AND RF.RDB$FIELD_NAME = ISGMT.RDB$FIELD_NAME'
 
     ;
-  //SetClipboardText(sSql);
   Result := sSql;
 end;
 

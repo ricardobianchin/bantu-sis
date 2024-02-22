@@ -7,7 +7,8 @@ uses
 
 type
   TRetagImgDM = class(TDataModule)
-    ImageList_32_32: TImageList;
+    ImageList_16_16: TImageList;
+    ImageList_24_24: TImageList;
   private
     { Private declarations }
   public

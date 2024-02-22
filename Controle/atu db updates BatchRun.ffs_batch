@@ -34,7 +34,7 @@
     </FolderPairs>
     <Errors Ignore="false" Retry="0" Delay="5"/>
     <PostSyncCommand Condition="Completion"/>
-    <LogFolder/>
+    <LogFolder>C:\Users\ricar\AppData\Roaming\FreeFileSync\Logs</LogFolder>
     <EmailNotification Condition="Always"/>
     <GridViewType>Action</GridViewType>
     <Batch>

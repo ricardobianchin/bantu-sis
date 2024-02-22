@@ -218,8 +218,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>RetagAjuBemVindoForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.TabSheet.Retag.Est.Prod.Fabr_u.pas">
-            <Form>RetagEstProdFabrTabSheetDataSetForm</Form>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas">
+            <Form>RetagEstProdFabrDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\App.UI.TabSheetForm.Factory.pas"/>
@@ -229,13 +229,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>EdBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Ent\App.Entidade.Ed.pas"/>
-        <DCCReference Include="Modulos\Retag\Ent\App.Entidade.Ed_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Ent\App.Entidade.Ed.Id.pas"/>
-        <DCCReference Include="Modulos\Retag\Ent\App.Entidade.Ed.Id_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Ent\App.Entidade.Ed.Id.Descr.pas"/>
-        <DCCReference Include="Modulos\Retag\Ent\App.Entidade.Ed.Id.Descr_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.Id.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.Id_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.Id.Descr.pas"/>
+        <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.Id.Descr_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent_u.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Ed.Descr_u.pas">
             <Form>EdDescrBasForm</Form>
             <FormType>dfm</FormType>
@@ -248,10 +248,31 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.Ed.Prod.Tipo_u.pas">
+            <Form>ProdTipoEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.DBI_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.TabSheet.Retag.Est.Prod.Tipo_u.pas">
-            <Form>RetagEstProdTipoTabSheetDataSetForm</Form>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u.pas">
+            <Form>RetagEstProdTipoDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Prod.Fabr_u.pas">
+            <Form>ProdFabrEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.UI.Form.Ed.Prod.Unid_u.pas">
+            <Form>ProdUnidEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Unid\App.UI.Form.DataSet.Retag.Est.Prod.Unid_u.pas">
+            <Form>RetagEstProdUnidDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

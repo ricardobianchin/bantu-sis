@@ -7,7 +7,10 @@ uses
   Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config;
 
 type
+  TIdLojaRecord = record LojaId, TerminalId: smallint; Id: integer; end;
+
   TProcDataSetRef = reference to procedure(q: TDataSet);
+  TProcDataSetOfObject = procedure (q: TDataSet) of object;
 
   TDBVersion = double;
 

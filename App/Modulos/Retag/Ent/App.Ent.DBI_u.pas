@@ -2,19 +2,23 @@ unit App.Ent.DBI_u;
 
 interface
 
-uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u;
+uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u,
+  Sis.UI.Frame.Bas.FiltroParams_u;
 
 type
   TEntDBI = class(TDBI, IEntDBI)
   protected
-    function GetSqlPreencherDataSetIdDescr(pStrBusca: string): string; virtual; abstract;
-    function GetSqlIdByDescr(pDescr: string): string; virtual; abstract;
+    function GetSqlPreencherDataSet(pValues: variant): string; virtual;
+      abstract;
+    function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
     function GetSqlGarantirRegId: string; virtual; abstract;
-    procedure SetNovaId(pId: integer); virtual; abstract;
+    procedure SetNovaId(pIds: variant); virtual; abstract;
   public
-    procedure PreencherDataSetIdDescr(pStrBusca: string; pLeReg: TProcDataSetRef);
-    function IdByDescr(pDescr: string): integer;
-    function GarantirRegId: boolean;
+    procedure PreencherDataSet(pValues: variant;
+      pProcLeReg: TProcDataSetOfObject);
+    function GetExistente(pValues: variant; out pRetorno: string)
+      : variant; virtual;
+    function GarantirReg: boolean;
   end;
 
 implementation
@@ -23,14 +27,13 @@ uses Sis.Types.Integers;
 
 { TEntDBI }
 
-function TEntDBI.GarantirRegId: boolean;
+function TEntDBI.GarantirReg: boolean;
 var
   sFormat: string;
   sSql: string;
   q: TDataSet;
-  Resultado: Variant;
+  Resultado: variant;
   sResultado: string;
-  iResultado: smallint;
   iId: integer;
   sNome: string;
 begin
@@ -39,26 +42,23 @@ begin
 
   DBConnection.Abrir;
   try
-    Resultado := DBConnection.GetValue(sSql);
+    iId := DBConnection.GetValueInteger(sSql);
+    SetNovaId(iId);
     Result := True;
   finally
     DBConnection.Fechar;
   end;
-
-  iId := VarToInteger(Resultado);
-  SetNovaId(iId);
 end;
 
-function TEntDBI.IdByDescr(pDescr: string): integer;
+function TEntDBI.GetExistente(pValues: variant; out pRetorno: string): variant;
 var
   sFormat: string;
   sSql: string;
-  q: TDataSet;
-  Resultado: Variant;
+  Resultado: variant;
   sResultado: string;
 begin
   Result := 0;
-  sSql := GetSqlIdByDescr(pDescr);
+  sSql := GetSqlGetExistente(pValues);
   DBConnection.Abrir;
   try
     Result := DBConnection.GetValueInteger(sSql);
@@ -67,19 +67,20 @@ begin
   end;
 end;
 
-procedure TEntDBI.PreencherDataSetIdDescr(pStrBusca: string; pLeReg: TProcDataSetRef);
+procedure TEntDBI.PreencherDataSet(pValues: variant;
+  pProcLeReg: TProcDataSetOfObject);
 var
   sSql: string;
   q: TDataSet;
 begin
   DBConnection.Abrir;
   try
-    SSql := GetSqlPreencherDataSetIdDescr(pStrBusca);
+    sSql := GetSqlPreencherDataSet(pValues);
     DBConnection.QueryDataSet(sSql, q);
     try
       while not q.Eof do
       begin
-        pLeReg(q);
+        pProcLeReg(q);
         q.Next;
       end;
     finally

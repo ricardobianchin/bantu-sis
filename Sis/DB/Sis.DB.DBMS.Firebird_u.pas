@@ -193,7 +193,6 @@ begin
 
       if DBMSConfig.PausaAntesExec then
       begin
-        // SetClipboardText(sNomeArqTmp);
         ExecutarNotepadPlusPlus(sNomeArqTmp);
       end;
 

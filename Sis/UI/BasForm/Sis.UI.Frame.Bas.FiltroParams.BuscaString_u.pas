@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.FiltroParams_u,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Sis.Types.strings_u;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Sis.Types.strings_u, data.db;
 
 type
   TFiltroParamsStringFrame = class(TFiltroParamsFrame)
@@ -14,18 +14,18 @@ type
     procedure BuscaStringEditChange(Sender: TObject);
     procedure BuscaStringEditKeyPress(Sender: TObject; var Key: Char);
   private
-    function GetBuscaString: string;
-    procedure SetBuscaString(const Value: string);
     { Private declarations }
   protected
+    function GetValues: variant; override;
+    procedure SetValues(Value: variant); override;
+    procedure AjusteValores; override;
   public
     { Public declarations }
-    property BuscaString: string read GetBuscaString write SetBuscaString;
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent);
   end;
 
-var
-  FiltroParamsStringFrame: TFiltroParamsStringFrame;
+//var
+//  FiltroParamsStringFrame: TFiltroParamsStringFrame;
 
 implementation
 
@@ -33,11 +33,16 @@ implementation
 
 { TFiltroParamsStringFrame }
 
+procedure TFiltroParamsStringFrame.AjusteValores;
+begin
+  inherited;
+  BuscaStringEdit.Text := StrSemCharRepetido(BuscaStringEdit.Text, #32)
+end;
+
 procedure TFiltroParamsStringFrame.BuscaStringEditChange(Sender: TObject);
 begin
   inherited;
   AgendeChange;
-
 end;
 
 procedure TFiltroParamsStringFrame.BuscaStringEditKeyPress(Sender: TObject;
@@ -54,15 +59,19 @@ begin
   OnChange := pOnChange;
 end;
 
-function TFiltroParamsStringFrame.GetBuscaString: string;
+function TFiltroParamsStringFrame.GetValues: variant;
 begin
-  BuscaStringEdit.Text := Trim(BuscaStringEdit.Text);
+  inherited;
+//  Result := VarArrayCreate([0, 0], varVariant);
+//  Result[0] := BuscaStringEdit.Text;
   Result := BuscaStringEdit.Text;
 end;
 
-procedure TFiltroParamsStringFrame.SetBuscaString(const Value: string);
+procedure TFiltroParamsStringFrame.SetValues(Value: variant);
 begin
-  BuscaStringEdit.Text := Value;
+  inherited;
+  BuscaStringEdit.Text := VarToString(Value);
+  AjusteValores;
 end;
 
 end.

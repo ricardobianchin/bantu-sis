@@ -50,7 +50,7 @@ type
     // FDBMSConfig: IDBMSConfig;
     // FDBMS: IDBMS;
     // FServConnection: IDBConnection;
-
+    procedure GarantaDB;
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
@@ -175,7 +175,7 @@ begin
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   ToolBar1.Color := COR_PRETO_TITLEBAR;
 
-//  DisparaShowTimer := True;
+  // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
   FStatusOutput := LabelOutputCreate(StatusLabel);
@@ -190,10 +190,6 @@ begin
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FAppInfo := GetAppInfoCreate;
 
-    // FDBMSConfig := DBMSConfigCreate(FSisConfig, FProcessLog, FProcessOutput);
-
-    // FDBMS: IDBMS;
-
     FAppObj := App.Factory.AppObjCreate(FAppInfo, FStatusOutput, FProcessOutput,
       FProcessLog);
 
@@ -201,6 +197,8 @@ begin
     bResultado := FAppObj.Inicialize;
 
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
+
+    GarantaDB;
 
     ConfigureForm;
 
@@ -218,6 +216,56 @@ begin
   try
     ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
     inherited;
+  finally
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TPrincBasForm.GarantaDB;
+var
+  bResultado: boolean;
+  oLoja: ILoja;
+  oUsuarioGerente: IUsuario;
+  oSisConfig: ISisConfig;
+begin
+  FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
+  try
+    bResultado := AtualizeVersaoExecutaveis;
+    if bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+
+    oLoja := LojaCreate;
+    oUsuarioGerente := UsuarioCreate;
+
+    bResultado := GarantirConfig(oLoja, oUsuarioGerente);
+
+    if not bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('GarantirConfig retornou false, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+
+    oSisConfig := FAppObj.SisConfig;
+    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
+      oLoja, oUsuarioGerente);
+
+    if not bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('GarantirDB retornou false, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+    oSisConfig := FAppObj.SisConfig;
+    FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
+    FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -259,53 +307,12 @@ begin
 end;
 
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-var
-  bResultado: boolean;
-  oLoja: ILoja;
-  oUsuarioGerente: IUsuario;
-  oSisConfig: ISisConfig;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
   try
     inherited;
     OculteSplashForm;
 
-    bResultado := AtualizeVersaoExecutaveis;
-    if bResultado then
-    begin
-      FProcessLog.RegistreLog
-        ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
-      Application.Terminate;
-      Exit;
-    end;
-
-    oLoja := LojaCreate;
-    oUsuarioGerente := UsuarioCreate;
-
-    bResultado := GarantirConfig(oLoja, oUsuarioGerente);
-
-    if not bResultado then
-    begin
-      FProcessLog.RegistreLog
-        ('GarantirConfig retornou false, Application.Terminate');
-      Application.Terminate;
-      Exit;
-    end;
-
-    oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      oLoja, oUsuarioGerente);
-
-    if not bResultado then
-    begin
-      FProcessLog.RegistreLog
-        ('GarantirDB retornou false, Application.Terminate');
-      Application.Terminate;
-      Exit;
-    end;
-
-    FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
-    FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
   finally
     FProcessLog.RetorneLocal;
   end;
