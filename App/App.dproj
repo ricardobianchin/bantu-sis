@@ -275,6 +275,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>RetagEstProdUnidDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\ICMS\App.UI.Form.Ed.Prod.ICMS_u.pas">
+            <Form>ProdICMSEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\ICMS\App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u.pas">
+            <Form>RetagEstProdICMSDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -92,7 +92,7 @@ var
   iLen: integer;
 begin
   // Dividir a string pStr em um array de strings usando a vírgula como separador
-  oPartes := pStr.Split([',']);
+  oPartes := pStr.Split([';']);
   iLen := Length(oPartes);
   if iLen = 0 then
     exit;

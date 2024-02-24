@@ -93,7 +93,6 @@ var
   bExecuteAoCriar: boolean;
 
   WExec: IWinExecute;
-  I: Integer;
 begin
   pProcessLog.PegueLocal('TDBMSFirebird.ExecInstal');
   try
@@ -162,9 +161,7 @@ var
   bExecuteAoCriar: boolean;
 
   WExec: IWinExecute;
-  I: Integer;
 
-  s: string;
   sLog: string;
 
 begin

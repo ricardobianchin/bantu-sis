@@ -25,7 +25,7 @@ function DBUpdaterOperationsCreate(pDBConnection: IDBConnection;
 
 implementation
 
-uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,
+uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,System.StrUtils,
   Sis.DB.Updater.Comando.FB.CreateDomains_u,
   Sis.DB.Updater.Comando.FB.CreateForeignKey_u,
   Sis.DB.Updater.Comando.FB.CreateOrAlterPackage_u,

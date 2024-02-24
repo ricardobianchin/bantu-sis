@@ -167,6 +167,13 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       ImageIndex = 3
       OnExecute = RetagEstProdUnidActionExecute
     end
+    object RetagEstProdICMSAction: TAction
+      Category = 'Estoque'
+      Caption = 'ICMS'
+      Hint = 'Al'#237'quotas (Percentuais) de ICMS. '
+      ImageIndex = 4
+      OnExecute = RetagEstProdICMSActionExecute
+    end
   end
   object BalloonHint1: TBalloonHint
     Delay = 100

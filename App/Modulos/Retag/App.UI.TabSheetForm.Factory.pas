@@ -40,6 +40,14 @@ function RetagEstProdUnidFormCreate(AOwner: TComponent;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput): TTabSheetAppBasForm;
 {$ENDREGION}//fim est prod unid
+{$REGION 'Est Prod ICMS'}
+// Est Prod ICMS
+function RetagEstProdICMSFormGetClassName: string;
+function RetagEstProdICMSFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+{$ENDREGION}//fim est prod ICMS
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 
@@ -57,6 +65,7 @@ uses
   , App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
   , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u
   , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u
+  , App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u
 
   ;
 
@@ -140,6 +149,25 @@ begin
     pOutputNotify, oEntEd);
 end;
 {$ENDREGION}//fim est prod unid
+{$REGION 'Est Prod ICMS impl'}
+function RetagEstProdICMSFormGetClassName: string;
+begin
+  Result := TRetagEstProdICMSDataSetForm.ClassName;
+end;
+
+function RetagEstProdICMSFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+var
+  oEntEd: IEntEd;
+begin
+  oEntEd := RetagEstProdICMSEntCreate(dsBrowse);
+  Result := TRetagEstProdICMSDataSetForm.Create(AOwner,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pOutputNotify, oEntEd);
+end;
+{$ENDREGION}//fim est prod ICMS
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 

@@ -15,10 +15,13 @@ function TruncTo(const AValue: currency; const ADigit: TRoundToRange = -2)
   : currency;
 function DinheiroStr(v: currency; pTrunc: boolean = false): string;
 
+function VarToCurrency(pValue: variant): currency;
+function CurrencyToVar(pValue: currency): variant;
+
 implementation
 
 uses
-  System.SysUtils, Sis.Types.strings_u, System.StrUtils;
+  System.SysUtils, Sis.Types.strings_u, System.StrUtils, System.Variants;
 
 function StrToCurrency(S:string):currency;
 begin
@@ -157,5 +160,22 @@ begin
     result := FormatFloat('###,###,##0.00', v);
   end;
 end;
+
+function VarToCurrency(pValue: variant): currency;
+var
+  sValue: string;
+begin
+  sValue := VarToStr(pValue);
+  Result := StrToCurrency(sValue);
+end;
+
+function CurrencyToVar(pValue: currency): variant;
+var
+  sValue: string;
+begin
+  sValue := CurrencyToStrPonto(pValue);
+  Result := sValue;
+end;
+
 
 end.

@@ -56,7 +56,7 @@ begin
   Result := 'CREATE SEQUENCE ' + FNomeSequence;
 
   if FValorInicial <> 0 then
-    Result := Result + 'RESTART WITH ' + FValorInicial.ToString;
+    Result := Result + ' START WITH ' + FValorInicial.ToString;
 
   Result := #13#10 + '/*******'#13#10 + '*'#13#10 + '* ' + GetAsText + #13#10 +
     '*'#13#10 + '*******/'#13#10 + Result + ';';

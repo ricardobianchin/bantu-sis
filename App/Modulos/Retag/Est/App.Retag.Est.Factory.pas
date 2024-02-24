@@ -4,7 +4,8 @@ interface
 
 uses Data.DB, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, System.Classes, App.Ent.DBI,
-  App.UI.Decorator.Form.Excl, App.UI.Form.Bas.Ed_u, App.Ent.Ed;
+  App.UI.Decorator.Form.Excl, App.UI.Form.Bas.Ed_u, App.Ent.Ed,
+  App.Retag.Est.Prod.ICMS.Ent, App.Retag.Est.Prod.ICMS.DBI;
 
 {$REGION 'prod fabr'}
 function RetagEstProdFabrEntCreate(pState: TDataSetState; pId: integer = 0;
@@ -54,6 +55,23 @@ function ProdUnidPerg(AOwner: TComponent; pProdUnidEnt: IEntEd;
 function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
 {$ENDREGION}
 
+
+{$REGION 'prod ICMS'}
+function RetagEstProdICMSEntCreate(pState: TDataSetState; pId: integer = 0;
+  pDescr: string = ''): IEntEd;
+
+function RetagEstProdICMSDBICreate(pDBConnection: IDBConnection;
+  pProdICMSEnt: IProdICMSEnt): IProdICMSDBI;
+
+function ProdICMSEdFormCreate(AOwner: TComponent; pProdICMS: IEntEd;
+  pProdICMSDBI: IEntDBI): TEdBasForm;
+
+function ProdICMSPerg(AOwner: TComponent; pProdICMSEnt: IEntEd;
+  pProdICMSDBI: IEntDBI): boolean;
+
+function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
+{$ENDREGION}
+
 implementation
 
 uses Vcl.Controls
@@ -72,6 +90,11 @@ uses Vcl.Controls
     , App.Retag.Est.Prod.Unid.Ent_u // fabr ent
     , App.Retag.Est.Prod.Unid.DBI_u
     , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
+
+  // icms
+    , App.Retag.Est.Prod.ICMS.Ent_u // fabr ent
+    , App.Retag.Est.Prod.ICMS.DBI_u
+    , App.UI.Form.Ed.Prod.ICMS_u // Unid ed form
     ;
 
 {$REGION 'prod fabr impl'}
@@ -173,6 +196,41 @@ end;
 function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
 begin
   // Result := TDecoratorExclUnid.Create(pProdUnid);
+end;
+{$ENDREGION}
+
+{$REGION 'prod ICMS impl'}
+function RetagEstProdICMSEntCreate(pState: TDataSetState; pId: integer = 0;
+  pDescr: string = ''): IEntEd;
+begin
+  Result := TProdICMSEnt.Create(pState, pId, pDescr);
+end;
+
+function RetagEstProdICMSDBICreate(pDBConnection: IDBConnection;
+  pProdICMSEnt: IProdICMSEnt): IProdICMSDBI;
+begin
+  Result := TProdICMSDBI.Create(pDBConnection, pProdICMSEnt);
+//  Result := TProdICMSDBI.Create(pDBConnection, TProdICMSEnt(pProdICMSEnt));
+end;
+
+function ProdICMSEdFormCreate(AOwner: TComponent; pProdICMS: IEntEd;
+  pProdICMSDBI: IEntDBI): TEdBasForm;
+begin
+  Result := TProdICMSEdForm.Create(AOwner, pProdICMS, pProdICMSDBI);
+end;
+
+function ProdICMSPerg(AOwner: TComponent; pProdICMSEnt: IEntEd;
+  pProdICMSDBI: IEntDBI): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := ProdICMSEdFormCreate(AOwner, pProdICMSEnt, pProdICMSDBI);
+  Result := F.Perg;
+end;
+
+function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
+begin
+  // Result := TDecoratorExclICMS.Create(pProdICMS);
 end;
 {$ENDREGION}
 
