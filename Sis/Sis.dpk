@@ -216,6 +216,9 @@ contains
   Sis.UI.Controls.TFlatBtn in 'UI\Controls\Sis.UI.Controls.TFlatBtn.pas',
   FlatBtnList in '..\BtuComponentes\FlatButton\FlatBtnList.pas',
   Sis.UI.Controls.TAction in 'UI\Controls\Sis.UI.Controls.TAction.pas',
-  Sis.UI.Controls.TLabeledEdit in 'UI\Controls\Sis.UI.Controls.TLabeledEdit.pas';
+  Sis.UI.Controls.TLabeledEdit in 'UI\Controls\Sis.UI.Controls.TLabeledEdit.pas',
+  CustomEditBtu in 'UI\Controls\Edits\CustomEditBtu.pas',
+  CustomNumEditBtu in 'UI\Controls\Edits\CustomNumEditBtu.pas',
+  NumEditBtn in 'UI\Controls\Edits\NumEditBtn.pas';
 
 end.

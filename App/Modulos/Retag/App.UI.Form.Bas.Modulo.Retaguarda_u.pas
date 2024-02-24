@@ -37,6 +37,7 @@ type
     AjuBemToolButton: TToolButton;
     ToolBar4: TToolBar;
     ToolButton2: TToolButton;
+    RetagEstProdICMSAction: TAction;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -54,6 +55,7 @@ type
     procedure RetagEstProdFabrActionExecute(Sender: TObject);
     procedure RetagEstProdTipoActionExecute(Sender: TObject);
     procedure RetagEstProdUnidActionExecute(Sender: TObject);
+    procedure RetagEstProdICMSActionExecute(Sender: TObject);
 
     procedure RetagEstProdActionExecute(Sender: TObject);
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
@@ -111,6 +113,9 @@ begin
     iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
 
   FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdUnidAction, oParent,
+    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
+
+  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdICMSAction, oParent,
     iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
 
 //  FEstProdFabrFlatBtn := TFlatBtn.Create(EstProdGroupBox);
@@ -204,6 +209,13 @@ begin
   TabSheetAppCrie(RetagEstProdFabrFormGetClassName, RetagEstProdFabrFormCreate);
 end;
 
+procedure TRetaguardaModuloBasForm.RetagEstProdICMSActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetAppCrie(RetagEstProdICMSFormGetClassName, RetagEstProdICMSFormCreate);
+end;
+
 procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
   (Sender: TObject);
 begin
@@ -223,7 +235,7 @@ procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
 //  RetagAjuBemAction.Execute;
-  RetagEstProdUnidAction.Execute;
+  RetagEstProdICMSAction.Execute;
 //  sleep(150);
 //  RetagEstProdFabrAction.Execute;
 end;

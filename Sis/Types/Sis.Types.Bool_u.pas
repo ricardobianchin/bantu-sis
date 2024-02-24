@@ -8,6 +8,7 @@ function BooleanToStr(pBoolValue: boolean): string;
 function StrToBoolean(pStr: string): boolean;
 function Iif(pTeste: boolean; pSeTrue: string; pSeFalse: string): string; overload;
 procedure InicializeBool;
+function BooleanToSQL(pBoolValue: boolean): string;
 
 implementation
 
@@ -53,6 +54,11 @@ begin
 //    exit;
 
   Result := StrToBool(pStr);
+end;
+
+function BooleanToSQL(pBoolValue: boolean): string;
+begin
+  Result := Iif(pBoolValue, 'TRUE', 'FALSE');
 end;
 
 initialization

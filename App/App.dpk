@@ -107,6 +107,12 @@ contains
   App.Retag.Est.Prod.Unid.Ent_u in 'Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent_u.pas',
   App.Retag.Est.Prod.Unid.DBI_u in 'Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.DBI_u.pas',
   App.UI.Form.Ed.Prod.Unid_u in 'Modulos\Retag\Est\Unid\App.UI.Form.Ed.Prod.Unid_u.pas' {ProdUnidEdForm},
-  App.UI.Form.DataSet.Retag.Est.Prod.Unid_u in 'Modulos\Retag\Est\Unid\App.UI.Form.DataSet.Retag.Est.Prod.Unid_u.pas' {RetagEstProdUnidDataSetForm};
+  App.UI.Form.DataSet.Retag.Est.Prod.Unid_u in 'Modulos\Retag\Est\Unid\App.UI.Form.DataSet.Retag.Est.Prod.Unid_u.pas' {RetagEstProdUnidDataSetForm},
+  App.Retag.Est.Prod.ICMS.Ent in 'Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.Ent.pas',
+  App.Retag.Est.Prod.ICMS.Ent_u in 'Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.Ent_u.pas',
+  App.UI.Form.Ed.Prod.ICMS_u in 'Modulos\Retag\Est\ICMS\App.UI.Form.Ed.Prod.ICMS_u.pas' {ProdICMSEdForm},
+  App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u in 'Modulos\Retag\Est\ICMS\App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u.pas' {RetagEstProdICMSDataSetForm},
+  App.Retag.Est.Prod.ICMS.DBI in 'Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI.pas',
+  App.Retag.Est.Prod.ICMS.DBI_u in 'Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI_u.pas';
 
 end.

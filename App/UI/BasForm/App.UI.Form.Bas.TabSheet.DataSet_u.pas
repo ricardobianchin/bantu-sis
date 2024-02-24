@@ -71,6 +71,8 @@ type
     property EntEd: IEntEd read FEntEd;
     procedure LeRegEInsere(q: TDataSet); virtual; abstract;
     procedure RecordToEnt; virtual;
+    procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -146,6 +148,7 @@ begin
   FFiltroEditAutomatico := False;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
+  FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
   DefCampos;
 end;
 
@@ -184,6 +187,11 @@ begin
   finally
     DefsSL.Free;
   end;
+end;
+
+procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
+begin
+
 end;
 
 procedure TTabSheetDataSetBasForm.FiltroAtualizarTimerTimer(Sender: TObject);

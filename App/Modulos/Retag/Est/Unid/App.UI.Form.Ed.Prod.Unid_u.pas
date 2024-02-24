@@ -218,7 +218,7 @@ end;
 procedure TProdUnidEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  DescrLabeledEdit.SetFocus;
+  DescrLabeledEdit.SetFocus;
 end;
 
 procedure TProdUnidEdForm.SiglaLabeledEditChange(Sender: TObject);
