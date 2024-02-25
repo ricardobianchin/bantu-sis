@@ -248,7 +248,7 @@ var
   oTabSheetBasForm: TTabSheetAppBasForm;
   // HintPoint: TPoint;
   sFormClassName: string;
-  iPageIndex: Integer;
+  //iPageIndex: Integer;
   //oTRect: TRect;
   iExistenteIndex: Integer;
 

@@ -67,8 +67,8 @@ begin
   sPerc := CurrencyToStrPonto(FProdICMSEnt.Perc);
   sAtivo := BooleanToSQL(FProdICMSEnt.Ativo);
 
-  sFormat := 'SELECT ICMS_ID_GRAVADO' +
-    ' FROM ICMS_PA.ICMS_GARANTIR(%s,%s,%s,%s,%s);';
+  sFormat := 'SELECT ID_GRAVADO' +
+    ' FROM ICMS_PA.GARANTIR(%s,%s,%s,%s,%s);';
   Result := Format(sFormat, [sId, sSigla, sDescr, sPerc, sAtivo]);
 end;
 

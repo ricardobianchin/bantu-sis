@@ -94,8 +94,8 @@ function TProdUnidDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
-  sFormat := 'SELECT UNID_ID_GRAVADA' +
-    ' FROM UNID_PA.UNID_GARANTIR(%d,''%s'',''%s'');';
+  sFormat := 'SELECT ID_GRAVADO' +
+    ' FROM UNID_PA.GARANTIR(%d,''%s'',''%s'');';
   Result := Format(sFormat, [FProdUnidEnt.Id, FProdUnidEnt.Descr,
     FProdUnidEnt.Sigla]);
 end;

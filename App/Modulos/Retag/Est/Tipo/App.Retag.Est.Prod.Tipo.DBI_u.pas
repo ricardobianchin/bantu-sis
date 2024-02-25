@@ -36,8 +36,8 @@ function TProdTipoDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
-  sFormat := 'SELECT PROD_TIPO_ID_GRAVADO'
-    + ' FROM PROD_TIPO_PA.PROD_TIPO_GARANTIR(%d,''%s'');';
+  sFormat := 'SELECT ID_GRAVADO'
+    + ' FROM PROD_TIPO_PA.GARANTIR(%d,''%s'');';
 
   Result := Format(sFormat, [FProdTipoEnt.Id, FProdTipoEnt.Descr]);
 end;

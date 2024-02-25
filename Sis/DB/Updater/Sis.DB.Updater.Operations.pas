@@ -27,6 +27,7 @@ type
     function GetForeignKeyInfo(pFKName: string; out pTabelaFK: string;
       out pCamposFK: string; out pTabelaPK: string; out pCamposPK: string
       ): boolean;
+    function GetUniqueKeyInfo(pUKName: string; out pCampos: string): boolean;
   end;
 
 implementation

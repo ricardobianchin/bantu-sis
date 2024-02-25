@@ -219,6 +219,7 @@ contains
   Sis.UI.Controls.TLabeledEdit in 'UI\Controls\Sis.UI.Controls.TLabeledEdit.pas',
   CustomEditBtu in 'UI\Controls\Edits\CustomEditBtu.pas',
   CustomNumEditBtu in 'UI\Controls\Edits\CustomNumEditBtu.pas',
-  NumEditBtn in 'UI\Controls\Edits\NumEditBtn.pas';
+  NumEditBtn in 'UI\Controls\Edits\NumEditBtn.pas',
+  Sis.DB.Updater.Comando.FB.CreateUniqueKey_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas';
 
 end.

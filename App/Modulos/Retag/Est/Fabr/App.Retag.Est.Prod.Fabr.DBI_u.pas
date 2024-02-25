@@ -37,7 +37,7 @@ var
   sFormat: string;
 begin
   sFormat :=
-    'SELECT FABRICANTE_ID_GRAVADO FROM FABRICANTE_PA.FABRICANTE_GARANTIR(%d,''%s'');';
+    'SELECT ID_GRAVADO FROM FABR_PA.GARANTIR(%d,''%s'');';
   Result := Format(sFormat, [FProdFabrEnt.Id, FProdFabrEnt.Descr]);
 end;
 
@@ -46,7 +46,7 @@ var
   sFormat: string;
   sDescr: string;
 begin
-  sFormat := 'SELECT FABRICANTE_ID FROM FABRICANTE_PA.BYNOME_GET(''%s'');';
+  sFormat := 'SELECT FABR_ID FROM FABR_PA.BYNOME_GET(''%s'');';
   sDescr := VarToString(pValues);
   Result := Format(sFormat, [sDescr]);
 end;
@@ -56,7 +56,7 @@ var
   sFormat: string;
   sBusca: string;
 begin
-  sFormat := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET(''%s'');';
+  sFormat := 'select FABR_ID, NOME from FABR_PA.LISTA_GET(''%s'');';
   sBusca := VarToString(pValues);
   Result := Format(sFormat, [sBusca]);
 end;

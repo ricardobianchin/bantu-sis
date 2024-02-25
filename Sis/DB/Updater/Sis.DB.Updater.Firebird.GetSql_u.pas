@@ -14,6 +14,7 @@ function GetSQLDomainExiste(pDomainName: string): string;
 
 function GetSQLSequenceExisteParams: string;
 function GetSQLForeignKeyInfoParams: string;
+function GetSQLUniqueKeyInfoParams: string;
 
 function GetSQLPackagGetCodigoParams: string;
 
@@ -179,6 +180,22 @@ begin
     ;
   Result := sSql;
 end;
+
+function GetSQLUniqueKeyInfoParams: string;
+var
+  sSql: string;
+begin
+  sSql := 'SELECT RDB$FIELD_NAME'
+    + ' FROM RDB$INDICES'
+    + ' JOIN RDB$INDEX_SEGMENTS ON'
+    + ' RDB$INDICES.RDB$INDEX_NAME = RDB$INDEX_SEGMENTS.RDB$INDEX_NAME'
+    + ' WHERE RDB$INDICES.RDB$UNIQUE_FLAG = 1'
+    + ' AND RDB$INDICES.RDB$INDEX_NAME = :UNIQUE_KEY_NAME'
+    + ' ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION'
+    ;
+  Result := sSql;
+end;
+
 
 function GetSQLCreateDatabase(pNomeArqFDB: string): string;
 begin

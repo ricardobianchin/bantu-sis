@@ -28,6 +28,7 @@ implementation
 uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,System.StrUtils,
   Sis.DB.Updater.Comando.FB.CreateDomains_u,
   Sis.DB.Updater.Comando.FB.CreateForeignKey_u,
+  Sis.DB.Updater.Comando.FB.CreateUniqueKey_u,
   Sis.DB.Updater.Comando.FB.CreateOrAlterPackage_u,
   Sis.DB.Updater.Comando.FB.CreateOrAlterProcedure_u,
   Sis.DB.Updater.Comando.FB.CreateSequence_u,
@@ -75,6 +76,10 @@ begin
 
   else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_FOREIGN_KEY then
     result := TComandoFBCreateForeignKey.Create(pDBConnection,
+      pUpdaterOperations, pProcessLog, pOutput)
+
+  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_UNIQUE_KEY then
+    result := TComandoFBCreateUniqueKey.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
       ;

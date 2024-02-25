@@ -42,6 +42,7 @@ type
     function GetForeignKeyInfo(pFKName: string; out pTabelaFK: string;
       out pCamposFK: string; out pTabelaPK: string;
       out pCamposPK: string): boolean;
+    function GetUniqueKeyInfo(pUKName: string; out pCampos: string): boolean;
 
     constructor Create(pDBConnection: IDBConnection; pProcessLog: IProcessLog;
       pOutput: IOutput);
@@ -142,10 +143,10 @@ begin
 
     while not FDBQueryForeignKeyInfo.DataSet.Eof do
     begin
-      s :=Trim(FDBQueryForeignKeyInfo.DataSet.Fields[1].AsString);
+      s := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[1].AsString);
       SLAddUnique(CamposFKSL, s);
 
-      s :=Trim(FDBQueryForeignKeyInfo.DataSet.Fields[3].AsString);
+      s := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[3].AsString);
       SLAddUnique(CamposPKSL, s);
 
       FDBQueryForeignKeyInfo.DataSet.Next;
@@ -181,7 +182,44 @@ begin
     end;
     FDBQueryIndexNames.Close;
   finally
-    FProcessLog.RegistreLog('Result='+Result);
+    FProcessLog.RegistreLog('Result=' + Result);
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+function TDBUpdaterOperationsFB.GetUniqueKeyInfo(pUKName: string;
+  out pCampos: string): boolean;
+var
+  s: string;
+  FDBQueryUniqueKeyInfo: IDBQuery;
+  CamposSL: TStringList;
+begin
+  Result := True;
+  FProcessLog.PegueLocal('TDBUpdaterOperationsFB.GetUniqueKeyInfo');
+  try
+    CamposSL := TStringList.Create;
+
+    s := GetSQLUniqueKeyInfoParams;
+    FDBQueryUniqueKeyInfo := DBQueryCreate('UniqueKeyInfoQ', FDBConnection, s,
+      FProcessLog, FOutput);
+
+    FDBQueryUniqueKeyInfo.Params[0].AsString := pUKName;
+    FDBQueryUniqueKeyInfo.Open;
+
+    while not FDBQueryUniqueKeyInfo.DataSet.Eof do
+    begin
+      s := Trim(FDBQueryUniqueKeyInfo.DataSet.Fields[0].AsString);
+      SLAddUnique(CamposSL, s);
+
+      FDBQueryUniqueKeyInfo.DataSet.Next;
+    end;
+
+    FDBQueryUniqueKeyInfo.Close;
+
+    pCampos := CamposSL.DelimitedText;
+
+    CamposSL.Free;
+  finally
     FProcessLog.RetorneLocal;
   end;
 end;

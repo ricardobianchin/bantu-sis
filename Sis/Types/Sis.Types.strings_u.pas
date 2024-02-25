@@ -11,6 +11,7 @@ procedure CharSemAcento(var Key: Char; pTudoMaiusculas: boolean = True);
 function StrSemAcento(const pStr: string;
   pTudoMaiusculas: boolean = True): string;
 
+function StrSemStr(pStr: string; pStrARemover: string = #32): string;
 function StrSemCharRepetido(pStr: string; pChar: char = #32): string;
 
 procedure CharOnlyDigit(var Key: Char);
@@ -200,6 +201,11 @@ begin
     exit;
 
   Delete(Result, 1, iPosNaStr);
+end;
+
+function StrSemStr(pStr: string; pStrARemover: string = #32): string;
+begin
+  Result := ReplaceStr(pStr, pStrARemover, '');
 end;
 
 function StrSemCharRepetido(pStr: string; pChar: char): string;
