@@ -48,6 +48,14 @@ function RetagEstProdICMSFormCreate(AOwner: TComponent;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput): TTabSheetAppBasForm;
 {$ENDREGION}//fim est prod ICMS
+{$REGION 'Est Prod prod'}
+// Est Prod prod
+function RetagEstProdFormGetClassName: string;
+function RetagEstProdFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+{$ENDREGION}//fim est prod prod
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 
@@ -66,7 +74,7 @@ uses
   , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u
   , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u
   , App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u
-
+  , App.UI.Form.DataSet.Retag.Est.Prod_u
   ;
 
 {$REGION 'Aju Impl'}
@@ -168,6 +176,25 @@ begin
     pOutputNotify, oEntEd);
 end;
 {$ENDREGION}//fim est prod ICMS
+{$REGION 'Est Prod prod impl'}
+function RetagEstProdFormGetClassName: string;
+begin
+  Result := TRetagEstProdDataSetForm.ClassName;
+end;
+
+function RetagEstProdFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+var
+  oEntEd: IEntEd;
+begin
+  oEntEd := RetagEstProdEntCreate(dsBrowse);
+  Result := TRetagEstProdDataSetForm.Create(AOwner,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pOutputNotify, oEntEd);
+end;
+{$ENDREGION}//fim est prod prod
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 

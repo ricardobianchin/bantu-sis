@@ -58,7 +58,7 @@ begin
   oConn := DBConnectionCreate('Retag.Prod.Ed.Atu.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oProdDBI := RetagEstProdDBICreate(oConn, EntEd);
+  oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
 
   Resultado := ProdPerg(Self, EntEd, oProdDBI);
   if not Resultado then
@@ -82,7 +82,7 @@ begin
   oConn := DBConnectionCreate('Retag.Prod.Ed.Atu.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oProdDBI := RetagEstProdDBICreate(oConn, EntEd);
+  oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
 
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
@@ -112,7 +112,7 @@ begin
   oDBConnection := DBConnectionCreate('Retag.Prod.Ed.Ins.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oProdDBI := RetagEstProdDBICreate(oDBConnection, EntEd);
+  oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
 
   Result := ProdPerg(Self, EntEd, oProdDBI);
 
