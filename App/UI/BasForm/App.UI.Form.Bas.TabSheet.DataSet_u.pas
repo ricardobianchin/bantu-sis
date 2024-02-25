@@ -69,7 +69,7 @@ type
     function DoInserir: boolean; virtual; abstract;
     procedure DoAlterar; virtual; abstract;
     property EntEd: IEntEd read FEntEd;
-    procedure LeRegEInsere(q: TDataSet); virtual; abstract;
+    procedure LeRegEInsere(q: TDataSet); virtual;
     procedure RecordToEnt; virtual;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
 
@@ -262,6 +262,18 @@ begin
     State := dsBrowse;
     DBGrid1.SetFocus;
   end;
+end;
+
+procedure TTabSheetDataSetBasForm.LeRegEInsere(q: TDataSet);
+var
+  I: integer;
+begin
+  FDMemTable.Append;
+  for I := 0 to q.FieldCount - 1 do
+  begin
+    FDMemTable.FIelds[I].Value := q.FIelds[I].Value;
+  end;
+  FDMemTable.Post;
 end;
 
 procedure TTabSheetDataSetBasForm.RecordToEnt;

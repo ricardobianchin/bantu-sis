@@ -295,6 +295,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ProdEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Form.DataSet.Retag.Est.Prod_u.pas">
+            <Form>RetagEstProdDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
