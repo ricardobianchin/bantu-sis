@@ -143,7 +143,7 @@ begin
   FPercNumEdit.OnChange := PercNumEditChange;
 
   AtivoCheckBox.Top := FPercNumEdit.Top + 2;
-  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width + 3;
+  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width + 12;
 
 end;
 

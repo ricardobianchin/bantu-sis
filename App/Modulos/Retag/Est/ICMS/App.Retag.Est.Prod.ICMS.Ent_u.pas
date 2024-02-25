@@ -45,7 +45,7 @@ implementation
 
 { TProdICMSEnt }
 
-uses Sis.ModuloSistema.Types;
+//uses Sis.ModuloSistema.Types;
 
 constructor TProdICMSEnt.Create(pState: TDataSetState; pId: integer;
   pSigla, pDescr: string; pPerc: currency; pAtivo: Boolean);

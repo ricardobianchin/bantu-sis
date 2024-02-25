@@ -4,7 +4,8 @@ interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
-  App.Retag.Est.Prod.ICMS.Ent, Sis.UI.Frame.Bas.FiltroParams_u, App.Retag.Est.Prod.ICMS.DBI;
+  App.Retag.Est.Prod.ICMS.Ent, Sis.UI.Frame.Bas.FiltroParams_u,
+  App.Retag.Est.Prod.ICMS.DBI;
 
 type
   TProdICMSDBI = class(TEntDBI, IProdICMSDBI)
@@ -36,7 +37,7 @@ begin
   sId := pIcmsId.ToString;
   sVal := BooleanToSQL(pValor);
   sFormat := 'EXECUTE PROCEDURE ICMS_PA.ATIVO_SET(%s, %s);';
-  sSql := Format(sFormat, [sid, sval]);
+  sSql := Format(sFormat, [sId, sVal]);
 
   Result := DBConnection.Abrir;
   if not Result then
@@ -67,8 +68,7 @@ begin
   sPerc := CurrencyToStrPonto(FProdICMSEnt.Perc);
   sAtivo := BooleanToSQL(FProdICMSEnt.Ativo);
 
-  sFormat := 'SELECT ID_GRAVADO' +
-    ' FROM ICMS_PA.GARANTIR(%s,%s,%s,%s,%s);';
+  sFormat := 'SELECT ID_GRAVADO' + ' FROM ICMS_PA.GARANTIR(%s,%s,%s,%s,%s);';
   Result := Format(sFormat, [sId, sSigla, sDescr, sPerc, sAtivo]);
 end;
 
