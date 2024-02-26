@@ -330,16 +330,31 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.Decorator.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Decorator.Form.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.TDBGrid.pas"/>
-        <DCCReference Include="..\BtuComponentes\FlatButton\CustomFlatBtn.pas"/>
-        <DCCReference Include="..\BtuComponentes\FlatButton\FlatBtn.pas"/>
+        <DCCReference Include="UI\Controls\Botoes\FlatBtn\CustomFlatBtn.pas"/>
+        <DCCReference Include="UI\Controls\Botoes\FlatBtn\FlatBtn.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.TFlatBtn.pas"/>
-        <DCCReference Include="..\BtuComponentes\FlatButton\FlatBtnList.pas"/>
+        <DCCReference Include="UI\Controls\Botoes\FlatBtn\FlatBtnList.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.TAction.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.TLabeledEdit.pas"/>
         <DCCReference Include="UI\Controls\Edits\CustomEditBtu.pas"/>
         <DCCReference Include="UI\Controls\Edits\CustomNumEditBtu.pas"/>
         <DCCReference Include="UI\Controls\Edits\NumEditBtu.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas_u.pas">
+            <Form>BasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas">
+            <Form>ControlBasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\Controls\SelectFrame\EditSelect\Sis.UI.Frame.Control.EditSelect_u.pas">
+            <Form>ControlBasFrame1</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

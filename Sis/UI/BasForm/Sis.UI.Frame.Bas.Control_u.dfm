@@ -1,0 +1,2 @@
+inherited ControlBasFrame: TControlBasFrame
+end

@@ -211,15 +211,18 @@ contains
   Sis.UI.Decorator in 'UI\BasForm\Sis.UI.Decorator.pas',
   Sis.UI.Decorator.Form in 'UI\BasForm\Sis.UI.Decorator.Form.pas',
   Sis.UI.Controls.TDBGrid in 'UI\Controls\Sis.UI.Controls.TDBGrid.pas',
-  CustomFlatBtn in '..\BtuComponentes\FlatButton\CustomFlatBtn.pas',
-  FlatBtn in '..\BtuComponentes\FlatButton\FlatBtn.pas',
+  CustomFlatBtn in 'UI\Controls\Botoes\FlatBtn\CustomFlatBtn.pas',
+  FlatBtn in 'UI\Controls\Botoes\FlatBtn\FlatBtn.pas',
   Sis.UI.Controls.TFlatBtn in 'UI\Controls\Sis.UI.Controls.TFlatBtn.pas',
-  FlatBtnList in '..\BtuComponentes\FlatButton\FlatBtnList.pas',
+  FlatBtnList in 'UI\Controls\Botoes\FlatBtn\FlatBtnList.pas',
   Sis.UI.Controls.TAction in 'UI\Controls\Sis.UI.Controls.TAction.pas',
   Sis.UI.Controls.TLabeledEdit in 'UI\Controls\Sis.UI.Controls.TLabeledEdit.pas',
   CustomEditBtu in 'UI\Controls\Edits\CustomEditBtu.pas',
   CustomNumEditBtu in 'UI\Controls\Edits\CustomNumEditBtu.pas',
   NumEditBtu in 'UI\Controls\Edits\NumEditBtu.pas',
-  Sis.DB.Updater.Comando.FB.CreateUniqueKey_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas';
+  Sis.DB.Updater.Comando.FB.CreateUniqueKey_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas',
+  Sis.UI.Frame.Bas_u in 'UI\BasForm\Sis.UI.Frame.Bas_u.pas' {BasFrame: TFrame},
+  Sis.UI.Frame.Bas.Control_u in 'UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas' {ControlBasFrame: TFrame},
+  Sis.UI.Frame.Control.EditSelect_u in 'UI\Controls\SelectFrame\EditSelect\Sis.UI.Frame.Control.EditSelect_u.pas' {ControlBasFrame1: TFrame};
 
 end.
