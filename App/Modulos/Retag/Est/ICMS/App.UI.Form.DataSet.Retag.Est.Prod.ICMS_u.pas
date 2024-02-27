@@ -33,7 +33,6 @@ type
 
     function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
-    procedure LeRegEInsere(q: TDataSet); override;
     procedure RecordToEnt; override;
   public
     { Public declarations }
@@ -182,13 +181,6 @@ end;
 function TRetagEstProdICMSDataSetForm.GetProdICMSEnt: IProdICMSEnt;
 begin
   Result := TProdICMSEnt(EntEd);
-end;
-
-procedure TRetagEstProdICMSDataSetForm.LeRegEInsere(q: TDataSet);
-begin
-  inherited;
-  FDMemTable.InsertRecord([q.Fields[0].AsInteger, q.Fields[1].AsString,
-    q.Fields[2].AsString, q.Fields[3].AsCurrency, q.Fields[4].AsBoolean]);
 end;
 
 procedure TRetagEstProdICMSDataSetForm.RecordToEnt;

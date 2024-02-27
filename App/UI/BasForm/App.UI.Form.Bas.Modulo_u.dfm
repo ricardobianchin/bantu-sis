@@ -112,17 +112,19 @@ inherited ModuloBasForm: TModuloBasForm
       object OutputLabel: TLabel
         Left = 1
         Top = 1
-        Width = 12
-        Height = 15
+        Width = 203
+        Height = 23
         Align = alClient
         Caption = '    '
         Layout = tlCenter
+        ExplicitWidth = 12
+        ExplicitHeight = 15
       end
     end
   end
   object TitleBarActionList_ModuloBasForm: TActionList
     Images = SisImgDataModule.ImageList_40_24
-    Left = 368
+    Left = 400
     Top = 88
     object FecharAction_ModuloBasForm: TAction
       Caption = 'Fechar'

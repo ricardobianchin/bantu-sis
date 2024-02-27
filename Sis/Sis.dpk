@@ -223,6 +223,13 @@ contains
   Sis.DB.Updater.Comando.FB.CreateUniqueKey_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas',
   Sis.UI.Frame.Bas_u in 'UI\BasForm\Sis.UI.Frame.Bas_u.pas' {BasFrame: TFrame},
   Sis.UI.Frame.Bas.Control_u in 'UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas' {ControlBasFrame: TFrame},
-  Sis.UI.Frame.Control.EditSelect_u in 'UI\Controls\SelectFrame\EditSelect\Sis.UI.Frame.Control.EditSelect_u.pas' {ControlBasFrame1: TFrame};
+  Sis.UI.Frame.Control.EditSelect_u in 'UI\Controls\SelectFrame\EditSelect\Sis.UI.Frame.Control.EditSelect_u.pas' {ControlBasFrame1: TFrame},
+  Sis.Ui.Img.Types in 'UI\Img\Sis.Ui.Img.Types.pas',
+  Sis.Ui.ImgsList in 'UI\Img\Sis.Ui.ImgsList.pas',
+  Sis.Ui.ImgsList_u in 'UI\Img\Sis.Ui.ImgsList_u.pas',
+  Sis.Ui.Img.Factory in 'UI\Img\Sis.Ui.Img.Factory.pas',
+  Sis.Ui.ImgsList.Prepare.Sis in 'UI\Img\Sis.Ui.ImgsList.Prepare.Sis.pas',
+  Sis.Ui.Img.Utils in 'UI\Img\Sis.Ui.Img.Utils.pas',
+  Sis.Ui.ImgsList.Prepare in 'UI\Img\Sis.Ui.ImgsList.Prepare.pas';
 
 end.

@@ -1,6 +1,6 @@
 object SisImgDataModule: TSisImgDataModule
   Height = 169
-  Width = 495
+  Width = 524
   object FormSysMenuImageList: TImageList
     Width = 24
     Left = 56
@@ -2616,5 +2616,9 @@ object SisImgDataModule: TSisImgDataModule
   object BalloonHint1: TBalloonHint
     Left = 383
     Top = 104
+  end
+  object ImageList16: TImageList
+    Left = 448
+    Top = 40
   end
 end

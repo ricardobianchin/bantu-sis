@@ -86,8 +86,8 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
-  Sis.Usuario.Factory,
-  App.SisConfig.Garantir, App.DB.Garantir;
+  Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
+  Sis.Ui.ImgsList.Prepare;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -205,6 +205,8 @@ begin
     ConfigureSplashForm;
 
     SplashForm.Show;
+
+    Sis.Ui.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
   finally
     FProcessLog.RetorneLocal;
   end;

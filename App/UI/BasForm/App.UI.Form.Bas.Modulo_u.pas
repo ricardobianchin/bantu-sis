@@ -122,8 +122,9 @@ end;
 
 procedure TModuloBasForm.DoFechar;
 begin
-  Close;
   FSessaoEventos.DoFecharSessao(FSessaoIndex);
+  Free
+//  Close;
 end;
 
 procedure TModuloBasForm.FecharAction_ModuloBasFormExecute(Sender: TObject);

@@ -2,7 +2,9 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   Caption = 'TabSheetDataSetBasForm'
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
+    Top = 440
     Height = 37
+    Align = alBottom
     AutoSize = False
     ExplicitHeight = 37
     inherited TitToolBar1_BasTabSheet: TToolBar
@@ -13,7 +15,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   end
   object DBGrid1: TDBGrid [1]
     Left = 0
-    Top = 37
+    Top = 0
     Width = 632
     Height = 440
     Align = alClient
@@ -51,7 +53,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   end
   object FiltroAtualizarTimer: TTimer
     Enabled = False
-    Interval = 333
+    Interval = 100
     OnTimer = FiltroAtualizarTimerTimer
     Left = 56
     Top = 112

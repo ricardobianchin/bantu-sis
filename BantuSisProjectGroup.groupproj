@@ -21,9 +21,6 @@
         <Projects Include="LogMonitor\LogMonitor.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="BtuComponentes\BtuComponentes.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -86,23 +83,14 @@
     <Target Name="LogMonitor:Make">
         <MSBuild Projects="LogMonitor\LogMonitor.dproj" Targets="Make"/>
     </Target>
-    <Target Name="BtuComponentes">
-        <MSBuild Projects="BtuComponentes\BtuComponentes.dproj"/>
-    </Target>
-    <Target Name="BtuComponentes:Clean">
-        <MSBuild Projects="BtuComponentes\BtuComponentes.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BtuComponentes:Make">
-        <MSBuild Projects="BtuComponentes\BtuComponentes.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor;BtuComponentes"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean;BtuComponentes:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make;BtuComponentes:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -117,12 +105,6 @@
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="BtuComponentes\BtuComponentes.dproj">
-            <ProjectGuid>{5C3EEC93-7EF4-4454-8439-52959921628A}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="ShopApp\ShopApp.dproj">
             <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>

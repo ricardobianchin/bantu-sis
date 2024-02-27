@@ -38,6 +38,37 @@ type
     ToolBar4: TToolBar;
     ToolButton2: TToolButton;
     RetagEstProdICMSAction: TAction;
+    ProdTabsTabSheet: TTabSheet;
+    ToolBar5: TToolBar;
+    ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
+    ToolButton6: TToolButton;
+    ToolButton7: TToolButton;
+    ToolBar6: TToolBar;
+    ToolButton8: TToolButton;
+    MainMenu1: TMainMenu;
+    Cadastro1: TMenuItem;
+    Estoque1: TMenuItem;
+    Estoque2: TMenuItem;
+    Configuraes1: TMenuItem;
+    Produtos1: TMenuItem;
+    Fabricantes1: TMenuItem;
+    Setores1: TMenuItem;
+    Unidades1: TMenuItem;
+    ICMS1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    OcultarActionModuloBasForm1: TMenuItem;
+    Fechar1: TMenuItem;
+    Preos1: TMenuItem;
+    Entradadenotas1: TMenuItem;
+    Entradadenotas2: TMenuItem;
+    Inventrios1: TMenuItem;
+    Baixa1: TMenuItem;
+    Balanas1: TMenuItem;
+    Estabelecimento1: TMenuItem;
+    PerfisdeUsurio1: TMenuItem;
+    Usurios1: TMenuItem;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -237,8 +268,8 @@ begin
 //  RetagAjuBemAction.Execute;
 //  RetagEstProdICMSAction.Execute;
 //  sleep(150);
-//  RetagEstProdFabrAction.Execute;
-  RetagEstProdAction.Execute;
+  RetagEstProdFabrAction.Execute;
+//  RetagEstProdAction.Execute;
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName
