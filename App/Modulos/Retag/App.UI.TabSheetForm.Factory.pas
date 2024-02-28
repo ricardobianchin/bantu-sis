@@ -4,7 +4,7 @@ interface
 
 uses App.UI.Form.Bas.TabSheet_u, System.Classes, App.AppInfo,
   Sis.Config.SisConfig, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.DB.DBTypes, App.Ent.Ed, Data.DB;
+  Sis.DB.DBTypes, App.Ent.Ed, Data.DB, App.Retag.Est.Prod.Fabr.Ent;
 // Aju
 {$REGION 'Aju'}
 function RetagAjuBemVindoFormGetClassName: string;
@@ -187,9 +187,12 @@ function RetagEstProdFormCreate(AOwner: TComponent;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput): TTabSheetAppBasForm;
 var
+  oProdFabrEnt: IProdFabrEnt;
   oEntEd: IEntEd;
 begin
-  oEntEd := RetagEstProdEntCreate(dsBrowse);
+  oProdFabrEnt := RetagEstProdFabrEntCreate(dsBrowse);
+
+  oEntEd := RetagEstProdEntCreate(dsBrowse, oProdFabrEnt);
   Result := TRetagEstProdDataSetForm.Create(AOwner,
     pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
     pOutputNotify, oEntEd);

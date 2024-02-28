@@ -1,0 +1,2 @@
+inherited FabrSelectEditFrame: TFabrSelectEditFrame
+end

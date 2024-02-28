@@ -97,7 +97,8 @@ constructor TCustomNumEditBtu.Create(AOwner: TComponent);
 begin
 //  NCasas:=2;
   inherited;
-  FMascEsq:='###,###,##0';
+//  FMascEsq:='###,###,##0';
+  FMascEsq:='########0';
   CharDecimal:=',';
   Alignment:=taRightJustify;
   Expoente:=0;

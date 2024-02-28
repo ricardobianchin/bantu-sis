@@ -299,6 +299,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>RetagEstProdDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Frame.SelectEdit.Fabr_u.pas">
+            <Form>FabrSelectEditFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\Controls\SelectFrame\EditSelect\App.UI.Frame.Control.EditSelect_u.pas">
+            <Form>SelectEditFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Obrigatorios.SanfonaItem_u.pas">
+            <Form>ProdObrigatoriosSanfonaItemFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

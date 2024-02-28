@@ -13,6 +13,7 @@ uses
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
@@ -129,8 +130,8 @@ procedure TRetagEstProdDataSetForm.EntToCampos;
 begin
   FDMemTable.Fields[1].AsString := ProdEnt.Descr;
   FDMemTable.Fields[2].AsString := ProdEnt.DescrRed;
-  FDMemTable.Fields[3].AsInteger := ProdEnt.FabrId;
-  FDMemTable.Fields[4].AsString := ProdEnt.FabrNome;
+  FDMemTable.Fields[3].AsInteger := ProdEnt.ProdFabrEnt.Id;
+  FDMemTable.Fields[4].AsString := ProdEnt.ProdFabrEnt.Descr;
 end;
 
 function TRetagEstProdDataSetForm.GetNomeArqTabView: string;
@@ -153,8 +154,15 @@ begin
   ProdEnt.Id := FDMemTable.Fields[0].AsInteger;
   ProdEnt.Descr := FDMemTable.Fields[1].AsString;
   ProdEnt.DescrRed := FDMemTable.Fields[2].AsString;
-  ProdEnt.FabrId := FDMemTable.Fields[3].AsInteger;
-  ProdEnt.FabrNome := FDMemTable.Fields[4].AsString;
+  ProdEnt.ProdFabrEnt.Id := FDMemTable.Fields[3].AsInteger;
+  ProdEnt.ProdFabrEnt.Descr := FDMemTable.Fields[4].AsString;
+end;
+
+procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  InsAction_DatasetTabSheet.Execute;
+
 end;
 
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;

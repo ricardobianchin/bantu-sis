@@ -8,6 +8,8 @@ function EditVazio(pEdit: TCustomEdit): boolean;
 procedure SimuleTecla(VkKeyCode:integer; pControl:TControl=nil);
 procedure MakeRounded(Control: TWinControl; Radius: integer);
 function CharToAlignment(const pChar: char): TAlignment;
+function PrimeiroWinControl(pWinControl: TWinControl): TWinControl;
+function PrimeiroWinControlVisivel(pWinControl: TWinControl): TWinControl;
 
 implementation
 
@@ -56,6 +58,40 @@ begin
     'C', 'c': Result := taCenter;
     'R', 'r': Result := taRightJustify;
     else {L, E, ''} Result := taLeftJustify;
+  end;
+end;
+
+function PrimeiroWinControl(pWinControl: TWinControl): TWinControl;
+var
+  c: TControl;
+  I: integer;
+begin
+  Result := nil;
+  for I := 0 to pWinControl.ControlCount - 1 do
+  begin
+    c := pWinControl.Controls[I];
+    if c is TWinControl then
+    begin
+      Result := TWinControl(c);
+      break;
+    end;
+  end;
+end;
+
+function PrimeiroWinControlVisivel(pWinControl: TWinControl): TWinControl;
+var
+  c: TControl;
+  I: integer;
+begin
+  Result := nil;
+  for I := 0 to pWinControl.ControlCount - 1 do
+  begin
+    c := pWinControl.Controls[I];
+    if (c is TWinControl) and c.Visible then
+    begin
+      Result := TWinControl(c);
+      break;
+    end;
   end;
 end;
 

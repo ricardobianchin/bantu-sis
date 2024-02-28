@@ -13,6 +13,7 @@ type
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
     function GetSqlGarantirRegId: string; virtual; abstract;
     procedure SetNovaId(pIds: variant); virtual; abstract;
+    function ById(pId: variant; out pValores: variant): boolean;virtual;
   public
     procedure PreencherDataSet(pValues: variant;
       pProcLeReg: TProcDataSetOfObject);
@@ -26,6 +27,11 @@ implementation
 uses Sis.Types.Integers;
 
 { TEntDBI }
+
+function TEntDBI.ById(pId: variant; out pValores: variant): boolean;
+begin
+  Result := False;
+end;
 
 function TEntDBI.GarantirReg: boolean;
 var

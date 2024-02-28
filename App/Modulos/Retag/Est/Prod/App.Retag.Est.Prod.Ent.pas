@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Ent;
 
 interface
 
-uses App.Ent.Ed.Id;
+uses App.Ent.Ed.Id, App.Retag.Est.Prod.Fabr.Ent;
 
 type
   IProdEnt = interface(IEntEdId)
@@ -15,13 +15,8 @@ type
     procedure SetDescrRed(Value: string);
     property DescrRed: string read GetDescrRed write SetDescrRed;
 
-    function GetFabrId: integer;
-    procedure SetFabrId(Value: integer);
-    property FabrId: integer read GetFabrId write SetFabrId;
-
-    function GetFabrNome: string;
-    procedure SetFabrNome(Value: string);
-    property FabrNome: string read GetFabrNome write SetFabrNome;
+    function GetProdFabrEnt: IProdFabrEnt;
+    property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
 
   end;
 

@@ -1,35 +1,42 @@
 inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
+  BorderStyle = bsSizeable
   Caption = 'RetaguardaModuloBasForm'
-  ClientWidth = 604
+  ClientHeight = 438
+  ClientWidth = 592
   Menu = MainMenu1
   OnDestroy = FormDestroy
   ExplicitWidth = 604
   ExplicitHeight = 496
   TextHeight = 15
   inherited TitleBarPanel: TPanel
-    Width = 604
+    Width = 592
     ExplicitWidth = 604
     DesignSize = (
-      604
+      592
       30)
+    inherited ToolBar1: TToolBar
+      Left = 502
+    end
   end
   object MenuPanel: TPanel [1]
     Left = 0
     Top = 30
-    Width = 604
+    Width = 592
     Height = 122
     Align = alTop
     Caption = ' '
     TabOrder = 1
+    ExplicitWidth = 604
     object MenuPageControl: TPageControl
       Left = 1
       Top = 1
-      Width = 602
+      Width = 590
       Height = 120
-      ActivePage = ProdTabsTabSheet
+      ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
+      ExplicitWidth = 602
       object EstoqueTabSheet: TTabSheet
         Caption = 'Estoque'
         Font.Charset = DEFAULT_CHARSET
@@ -99,7 +106,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object ToolBar5: TToolBar
           Left = 0
           Top = 0
-          Width = 594
+          Width = 582
           Height = 54
           ButtonHeight = 46
           ButtonWidth = 67
@@ -110,6 +117,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Images = RetagImgDM.ImageList_24_24
           ShowCaptions = True
           TabOrder = 0
+          ExplicitWidth = 594
           object ToolButton4: TToolButton
             Left = 0
             Top = 0
@@ -138,7 +146,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object ToolBar3: TToolBar
           Left = 0
           Top = 0
-          Width = 594
+          Width = 582
           Height = 54
           ButtonHeight = 46
           ButtonWidth = 66
@@ -149,6 +157,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Images = RetagImgDM.ImageList_24_24
           ShowCaptions = True
           TabOrder = 0
+          ExplicitWidth = 594
           object AjuBemToolButton: TToolButton
             Left = 0
             Top = 0
@@ -159,7 +168,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
   end
   inherited BasePanel: TPanel
-    Width = 604
+    Top = 413
+    Width = 592
     TabOrder = 2
     ExplicitWidth = 604
     inherited Panel1: TPanel
@@ -172,10 +182,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   object PageControl1: TPageControl [3]
     Left = 0
     Top = 152
-    Width = 604
-    Height = 299
+    Width = 592
+    Height = 261
     Align = alClient
     TabOrder = 3
+    ExplicitWidth = 604
+    ExplicitHeight = 299
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 184

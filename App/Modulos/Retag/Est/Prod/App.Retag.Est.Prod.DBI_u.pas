@@ -41,8 +41,8 @@ begin
   sId := FProdEnt.Id.ToString;
   sDescr := QuotedStr(FProdEnt.Descr);
   sDescrRed := QuotedStr(FProdEnt.DescrRed);
-  sFabrId := FProdEnt.FabrId.ToString;
-  sFabrNome := QuotedStr(FProdEnt.FabrNome);
+  sFabrId := FProdEnt.ProdFabrEnt.Id.ToString;
+  sFabrNome := QuotedStr(FProdEnt.ProdFabrEnt.Descr);
 
   sFormat := 'SELECT ID_GRAVADO FROM PROD_PA.GARANTIR(%s,%s,%s,%s,%s);';
   Result := Format(sFormat, [sId, sDescr, sDescrRed, sFabrId, sFabrNome]);

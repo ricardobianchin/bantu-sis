@@ -6,24 +6,11 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, NumEditBtu,
-  App.Retag.Est.Prod.Ent, Data.DB;
+  App.Retag.Est.Prod.Ent, Data.DB, App.UI.Frame.SelectEdit.Fabr_u,
+  Sis.UI.Controls.Sanfona_u, App.Retag.Prod.Obrigatorios.SanfonaItem_u;
 
 type
   TProdEdForm = class(TEdBasForm)
-    DescrLabeledEdit: TLabeledEdit;
-    DescrRedLabeledEdit: TLabeledEdit;
-    FabrComboBox: TComboBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    ComboBox1: TComboBox;
-    Label3: TLabel;
-    ComboBox2: TComboBox;
-    Label4: TLabel;
-    ComboBox3: TComboBox;
-    LabeledEdit3: TLabeledEdit;
-    AtivoCheckBox: TCheckBox;
-    Label5: TLabel;
-    ComboBox4: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
@@ -31,11 +18,17 @@ type
     FIdNumEdit: TNumEditBtu;
     FCustoAtualNumEdit: TNumEditBtu;
     FPrecoAtualNumEdit: TNumEditBtu;
+    //FFabrSelectEditFrame: TFabrSelectEditFrame;
+    FSanfonaFrame: TSanfonaFrame;
+    FProdObrigatoriosSanfonaItemFrame: TProdObrigatoriosSanfonaItemFrame;
 
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
     function GetAlterado: boolean;
-
+    procedure IdCrie;
+    procedure CustoCrie;
+    procedure PrecoCrie;
+    procedure FabrSelectCrie;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -54,7 +47,7 @@ var
 
 implementation
 
-uses App.Retag.Est.Prod.Ent_u, Sis.UI.Controls.TLabeledEdit;
+uses App.Retag.Est.Prod.Ent_u, Sis.UI.Controls.TLabeledEdit, Sis.UI.Controls.Utils;
 
 {$R *.dfm}
 
@@ -84,6 +77,25 @@ begin
     dsInsert:
       ;
   end;
+
+
+//  FIdNumEdit.Left := ObjetivoLabel.Left;
+//  FIdNumEdit.Top := 47;
+//  FIdNumEdit.Width := 60;
+
+//  FFabrSelectEditFrame.Left := ObjetivoLabel.Left;
+//  FFabrSelectEditFrame.Top := 75;
+
+//  FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
+//  FCustoAtualNumEdit.Top := 144;
+//  FCustoAtualNumEdit.Width := 70;
+//
+//  FPrecoAtualNumEdit.Left := ObjetivoLabel.Left;;
+//  FPrecoAtualNumEdit.Top := 70;
+//  FPrecoAtualNumEdit.Width := 70;
+
+
+
 end;
 
 function TProdEdForm.ControlesOk: boolean;
@@ -105,61 +117,35 @@ end;
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
-  FIdNumEdit.Valor := ProdEnt.Id;
-  DescrLabeledEdit.Text := ProdEnt.Descr;
-  DescrRedLabeledEdit.Text := ProdEnt.DescrRed;
+//  FIdNumEdit.Valor := ProdEnt.Id;
+//  DescrLabeledEdit.Text := ProdEnt.Descr;
+//  DescrRedLabeledEdit.Text := ProdEnt.DescrRed;
+end;
+
+procedure TProdEdForm.FabrSelectCrie;
+begin
+//  FFabrSelectEditFrame := TFabrSelectEditFrame.Create(Self, ProdEnt.ProdFabrEnt, nil);
+//  FFabrSelectEditFrame.Parent := Self;
 end;
 
 procedure TProdEdForm.FormCreate(Sender: TObject);
 begin
   inherited;
-  FIdNumEdit := TNumEditBtu.Create(Self);
-  FIdNumEdit.Parent := Self;
-  FIdNumEdit.Alignment := taCenter;
-  FIdNumEdit.NCasas:=0;
-  FIdNumEdit.NCasasEsq:=7;
+  FSanfonaFrame := TSanfonaFrame.Create(Self);
+  FSanfonaFrame.Parent := Self;
+  FSanfonaFrame.Align := alClient;
+  FSanfonaFrame.TitLabel.Caption := GetObjetivoStr;
+  ObjetivoLabel.Visible := false;
 
-  FIdNumEdit.MascEsq := '0000000';
-
-  FIdNumEdit.Left := ObjetivoLabel.Left;
-  FIdNumEdit.Top := ObjetivoLabel.Top + Round(ObjetivoLabel.Height * 2.5);
-  FIdNumEdit.Width := 60;
-  FIdNumEdit.Caption := 'Código';
-
-
-  FCustoAtualNumEdit := TNumEditBtu.Create(Self);
-  FCustoAtualNumEdit.Parent := Self;
-  FCustoAtualNumEdit.Alignment := taRightJustify;
-  FCustoAtualNumEdit.NCasas:=2;
-  FCustoAtualNumEdit.NCasasEsq:=7;
-
-  FCustoAtualNumEdit.MascEsq := '';
-
-  FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
-  FCustoAtualNumEdit.Top := 144;
-  FCustoAtualNumEdit.Width := 70;
-  FCustoAtualNumEdit.Caption := 'Custo atual';
-
-
-  FPrecoAtualNumEdit := TNumEditBtu.Create(Self);
-  FPrecoAtualNumEdit.Parent := Self;
-  FPrecoAtualNumEdit.Alignment := taRightJustify;
-  FPrecoAtualNumEdit.NCasas:=2;
-  FPrecoAtualNumEdit.NCasasEsq:=7;
-
-  FPrecoAtualNumEdit.MascEsq := '';
-
-  FPrecoAtualNumEdit.Left := 88;
-  FPrecoAtualNumEdit.Top := 144;
-  FPrecoAtualNumEdit.Width := 70;
-  FPrecoAtualNumEdit.Caption := 'Preço Atual';
+  FProdObrigatoriosSanfonaItemFrame := TProdObrigatoriosSanfonaItemFrame.Create(FSanfonaFrame);
+  FSanfonaFrame.PegarItem(FProdObrigatoriosSanfonaItemFrame);
+  IdCrie;
+//  CustoCrie;
+//  PrecoCrie;
+  FabrSelectCrie;
 
 
 
-
-
-//  FIdNumEdit.OnKeyPress := PercNumEditKeyPress;
-//  FIdNumEdit.OnChange := PercNumEditChange;
 
 end;
 
@@ -190,10 +176,53 @@ begin
 
 end;
 
+procedure TProdEdForm.IdCrie;
+begin
+  exit;
+  FIdNumEdit := TNumEditBtu.Create(Self);
+  FIdNumEdit.Parent := Self;
+  FIdNumEdit.Alignment := taCenter;
+  FIdNumEdit.NCasas:=0;
+  FIdNumEdit.NCasasEsq:=7;
+  FIdNumEdit.MascEsq := '0000000';
+  FIdNumEdit.Caption := 'Código';
+end;
+
+procedure TProdEdForm.PrecoCrie;
+begin
+  FPrecoAtualNumEdit := TNumEditBtu.Create(Self);
+  FPrecoAtualNumEdit.Parent := Self;
+  FPrecoAtualNumEdit.Alignment := taRightJustify;
+  FPrecoAtualNumEdit.NCasas:=2;
+  FPrecoAtualNumEdit.NCasasEsq:=7;
+  FPrecoAtualNumEdit.MascEsq := '';
+  FPrecoAtualNumEdit.Caption := 'Preço Atual';
+end;
+
+procedure TProdEdForm.CustoCrie;
+begin
+  FCustoAtualNumEdit := TNumEditBtu.Create(Self);
+  FCustoAtualNumEdit.Parent := Self;
+  FCustoAtualNumEdit.Alignment := taRightJustify;
+  FCustoAtualNumEdit.NCasas:=2;
+  FCustoAtualNumEdit.NCasasEsq:=7;
+  FCustoAtualNumEdit.MascEsq := '';
+  FCustoAtualNumEdit.Caption := 'Custo atual';
+
+end;
+
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  DescrLabeledEdit.SetFocus;
+//  DescrLabeledEdit.SetFocus;
+//  DescrLabeledEdit.Text := 'CANETA DE CD';
+//  DescrRedLabeledEdit.Text := 'CANETA DE CD';
+
+//  FFabrSelectEditFrame.IdNumEdit.Valor := 2;
+
+
+//  PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
+//  PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
 end;
 
 end.

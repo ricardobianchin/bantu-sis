@@ -18,6 +18,9 @@ type
 
     function GetTitulo: string;
     property Titulo: string read GetTitulo;
+
+    function GetAsStringExib: string;
+    property AsStringExib: string read GetAsStringExib;
   end;
 
 

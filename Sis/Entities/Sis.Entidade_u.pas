@@ -10,7 +10,9 @@ type
     function GetNomeEnt: string; virtual; abstract;
     function GetTitulo: string; virtual; abstract;
     function GetNomeEntAbrev: string; virtual; abstract;
+    function GetAsStringExib: string; virtual; abstract;
   public
+    property AsStringExib: string read GetAsStringExib;
     function EhIgualA(pOutraEntidade: IEntidade): boolean; virtual; abstract;
     procedure PegueDe(pOutraEntidade: IEntidade); virtual;
 

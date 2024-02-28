@@ -2,16 +2,15 @@ unit App.Retag.Est.Prod.Ent_u;
 
 interface
 
-uses App.Retag.Est.Prod.Ent, App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
-  Sis.Types.Utils_u;
+uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
+  Sis.Types.Utils_u, App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Fabr.Ent;
 
 type
   TProdEnt = class(TEntEdId, IProdEnt)
   private
     FDescr: string;
     FDescrRed: string;
-    FFabrId: integer;
-    FFabrNome: string;
+    FProdFabrEnt: IProdFabrEnt;
 
   protected
     function GetNomeEnt: string; override;
@@ -25,40 +24,31 @@ type
     function GetDescrRed: string;
     procedure SetDescrRed(Value: string);
 
-    function GetFabrId: integer;
-    procedure SetFabrId(Value: integer);
-
-    function GetFabrNome: string;
-    procedure SetFabrNome(Value: string);
-
+    function GetProdFabrEnt: IProdFabrEnt;
   public
     property Descr: string read GetDescr write SetDescr;
     property DescrRed: string read GetDescrRed write SetDescrRed;
-    property FabrId: integer read GetFabrId write SetFabrId;
-    property FabrNome: string read GetFabrNome write SetFabrNome;
 
+    property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
 
-    constructor Create(pState: TDataSetState; pId: integer = 0;
-    pDescr: string = ''; pDescrRed: string = ''; pFabrId: integer = 0;
-    pFabrNome: string = '');
+    constructor Create(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt;
+      pId: integer = 0; pDescr: string = ''; pDescrRed: string = '');
   end;
 
 implementation
 
-//uses Sis.ModuloSistema.Types;
+// uses Sis.ModuloSistema.Types;
 
 { TProdEnt }
 
-constructor TProdEnt.Create(pState: TDataSetState; pId: integer = 0;
-    pDescr: string = ''; pDescrRed: string = ''; pFabrId: integer = 0;
-    pFabrNome: string = '');
+constructor TProdEnt.Create(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt;
+  pId: integer = 0; pDescr: string = ''; pDescrRed: string = '');
 begin
   inherited Create(State, pId);
   FDescr := pDescr;
   FDescrRed := pDescrRed;
-  FFabrId := pFabrId;
-  FFabrNome := pFabrNome;
 
+  FProdFabrEnt := pProdFabrEnt;
 end;
 
 function TProdEnt.GetDescr: string;
@@ -71,16 +61,6 @@ begin
   Result := FDescrRed;
 end;
 
-function TProdEnt.GetFabrId: integer;
-begin
-  Result := FFabrId;
-end;
-
-function TProdEnt.GetFabrNome: string;
-begin
-  Result := FFabrNome;
-end;
-
 function TProdEnt.GetNomeEnt: string;
 begin
   Result := 'Produto';
@@ -89,6 +69,11 @@ end;
 function TProdEnt.GetNomeEntAbrev: string;
 begin
   Result := 'Prod';
+end;
+
+function TProdEnt.GetProdFabrEnt: IProdFabrEnt;
+begin
+  Result := FProdFabrEnt;
 end;
 
 function TProdEnt.GetTitulo: string;
@@ -101,8 +86,7 @@ begin
   inherited;
   FDescr := '';
   FDescrRed := '';
-  FFabrId := 0;
-  FFabrNome := '';
+  FProdFabrEnt.LimparEnt;
 end;
 
 procedure TProdEnt.SetDescr(Value: string);
@@ -113,16 +97,6 @@ end;
 procedure TProdEnt.SetDescrRed(Value: string);
 begin
   FDescrRed := Value;
-end;
-
-procedure TProdEnt.SetFabrId(Value: integer);
-begin
-  FFabrId := Value;
-end;
-
-procedure TProdEnt.SetFabrNome(Value: string);
-begin
-  FFabrNome := Value;
 end;
 
 end.

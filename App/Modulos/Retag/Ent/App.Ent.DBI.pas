@@ -11,6 +11,11 @@ type
       pProcLeReg: TProcDataSetOfObject);
     function GetExistente(pValues: variant; out pRetorno: string): variant;
     function GarantirReg: boolean;
+
+    //recebe uma id ou array de loja term id
+    //retorna array com os valores do reg
+    //retorna true se o id existia
+    function ById(pId: variant; out pValores: variant): boolean;
   end;
 
 implementation

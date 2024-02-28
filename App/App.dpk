@@ -119,6 +119,9 @@ contains
   App.Retag.Est.Prod.DBI in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.DBI.pas',
   App.Retag.Est.Prod.DBI_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.DBI_u.pas',
   App.UI.Form.Ed.Prod_u in 'Modulos\Retag\Est\Prod\App.UI.Form.Ed.Prod_u.pas' {ProdEdForm},
-  App.UI.Form.DataSet.Retag.Est.Prod_u in 'Modulos\Retag\Est\Prod\App.UI.Form.DataSet.Retag.Est.Prod_u.pas' {RetagEstProdDataSetForm};
+  App.UI.Form.DataSet.Retag.Est.Prod_u in 'Modulos\Retag\Est\Prod\App.UI.Form.DataSet.Retag.Est.Prod_u.pas' {RetagEstProdDataSetForm},
+  App.UI.Frame.SelectEdit.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Frame.SelectEdit.Fabr_u.pas' {FabrSelectEditFrame: TFrame},
+  App.UI.Frame.Control.EditSelect_u in 'UI\Controls\SelectFrame\EditSelect\App.UI.Frame.Control.EditSelect_u.pas' {SelectEditFrame: TFrame},
+  App.Retag.Prod.Obrigatorios.SanfonaItem_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.Obrigatorios.SanfonaItem_u.pas' {ProdObrigatoriosSanfonaItemFrame: TFrame};
 
 end.

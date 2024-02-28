@@ -10,7 +10,7 @@ uses
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, FlatBtn;
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -92,15 +92,10 @@ type
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FEstProdFlatBtn: TFlatBtn;
-    FEstProdFabrFlatBtn: TFlatBtn;
-    FEstProdTipoFlatBtn: TFlatBtn;
 
     FFormClassNamesSL: TStringList;
     FContador: IContador;
     FOutputNotify: IOutput;
-
-    procedure CriaFlatBtns;
 
     // tab crie
     procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
@@ -119,44 +114,7 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory,
-  Sis.UI.Controls.TFlatBtn;
-
-procedure TRetaguardaModuloBasForm.CriaFlatBtns;
-const
-  BTN_WIDTH = 70;
-  BTN_HEIGHT = 42;
-  BTN_TOP = 17;
-var
-  iLeftAtual: integer;
-  oParent: TWinControl;
-begin
-  oParent := EstProdGroupBox;
-  iLeftAtual := 2;
-
-  FEstProdFlatBtn := FlatBtnCreate(RetagEstProdAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdFabrFlatBtn := FlatBtnCreate(RetagEstProdFabrAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdTipoAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdUnidAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdICMSAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-//  FEstProdFabrFlatBtn := TFlatBtn.Create(EstProdGroupBox);
-//  FEstProdFabrFlatBtn.Parent := EstProdGroupBox;
-//  FEstProdFabrFlatBtn.Left := 2;
-//  FEstProdFabrFlatBtn.Top := 17;
-//  FEstProdFabrFlatBtn.WIdth := 67;
-//  FEstProdFabrFlatBtn.Height := 54;
-//  FEstProdFabrFlatBtn.Action := RetagEstProdFabrAction;
-end;
+  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory;
 
 procedure TRetaguardaModuloBasForm.FormCreate(Sender: TObject);
 begin
@@ -169,8 +127,6 @@ begin
 
   FFormClassNamesSL := TStringList.Create;
   FContador := ContadorCreate;
-
-  CriaFlatBtns;
 
   MenuPageControl.ActivePage := EstoqueTabSheet;
 end;
@@ -268,8 +224,8 @@ begin
 //  RetagAjuBemAction.Execute;
 //  RetagEstProdICMSAction.Execute;
 //  sleep(150);
-  RetagEstProdFabrAction.Execute;
-//  RetagEstProdAction.Execute;
+//  RetagEstProdFabrAction.Execute;
+  RetagEstProdAction.Execute;
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName

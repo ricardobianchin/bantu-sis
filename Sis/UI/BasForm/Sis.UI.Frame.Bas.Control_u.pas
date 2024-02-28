@@ -29,8 +29,8 @@ type
     { Public declarations }
   end;
 
-var
-  ControlBasFrame: TControlBasFrame;
+//var
+//  ControlBasFrame: TControlBasFrame;
 
 implementation
 

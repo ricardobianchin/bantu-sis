@@ -268,15 +268,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Sis.ModuloSistema.Types.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas">
             <Form>DiagBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas">
             <Form>DiagBtnBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Usuario\Sis.UI.Form.Login_u.pas">
             <Form>LoginForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="DBI\Sis.DBI.pas"/>
         <DCCReference Include="DBI\Sis.DBI_u.pas"/>
@@ -298,14 +295,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
         <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
             <Form>DBGridFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager.pas"/>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas">
             <Form>TabSheetBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Lists\Sis.Lists.Lista.pas"/>
         <DCCReference Include="Lists\Sis.Lists.AlignmentList.pas"/>
@@ -323,7 +318,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas">
             <Form>PergBooleanForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
@@ -342,17 +336,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas_u.pas">
             <Form>BasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas">
             <Form>ControlBasFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Controls\SelectFrame\EditSelect\Sis.UI.Frame.Control.EditSelect_u.pas">
-            <Form>ControlBasFrame1</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="UI\Img\Sis.Ui.Img.Types.pas"/>
@@ -362,6 +349,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\Img\Sis.Ui.ImgsList.Prepare.Sis.pas"/>
         <DCCReference Include="UI\Img\Sis.Ui.Img.Utils.pas"/>
         <DCCReference Include="UI\Img\Sis.Ui.ImgsList.Prepare.pas"/>
+        <DCCReference Include="UI\Controls\Sanfona\Sis.UI.Controls.Sanfona_u.pas">
+            <Form>SanfonaFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\Controls\Sanfona\Sis.UI.Frame.Bas.Controls.SanfonaItem_u.pas">
+            <Form>SanfonaItemBasFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
