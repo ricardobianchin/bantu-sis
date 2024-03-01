@@ -18,6 +18,7 @@ type
   public
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; override;
+
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdUnidEnt);
   end;
 

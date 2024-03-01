@@ -1,7 +1,7 @@
 inherited EdBasForm: TEdBasForm
   Caption = 'EdBasForm'
   ClientWidth = 491
-  ExplicitWidth = 503
+  ExplicitWidth = 507
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 491

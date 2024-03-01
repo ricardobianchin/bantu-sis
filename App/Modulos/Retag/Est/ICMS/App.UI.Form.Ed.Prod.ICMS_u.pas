@@ -93,17 +93,11 @@ end;
 function TProdICMSEdForm.DadosOk: boolean;
 var
   iId: smallint;
-  sIdAtual: string;
   sFrase: string;
 begin
-  Result := ProdICMSEnt.State in [dsEdit, dsInsert];
+  Result := inherited DadosOk;
   if not Result then
-  begin
-    sFrase := 'O Status da janela não permite a gravação';
-    ErroOutput.Exibir(sFrase);
-    FPercNumEdit.SetFocus;
     exit;
-  end;
 
   // if ProdICMSEnt.State = dsEdit then
   // begin

@@ -309,8 +309,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="UI\Controls\Sanfona\App.UI.Controls.SanfonaItem_u.pas">
+            <Form>SanfonaItemFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.SanfonaItem.Bas_u.pas">
+            <Form>ProdEdSanfonaItemFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Obrigatorios.SanfonaItem_u.pas">
-            <Form>ProdObrigatoriosSanfonaItemFrame</Form>
+            <Form>ObrigatoriosProdEdFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>

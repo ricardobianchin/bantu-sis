@@ -17,6 +17,7 @@ type
     FDPhysFBDriverLink1: TFDPhysFBDriverLink;
     BalloonHint1: TBalloonHint;
     ImageList16: TImageList;
+    ImageList_9_9: TImageList;
   private
     { Private declarations }
   public

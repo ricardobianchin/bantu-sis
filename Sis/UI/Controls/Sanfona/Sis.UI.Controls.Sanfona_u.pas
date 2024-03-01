@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas_u, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ToolWin, Vcl.ExtCtrls,
-  Sis.UI.Frame.Bas.Controls.SanfonaItem_u;
+  Sis.UI.Frame.Bas.Controls.SanfonaItem_u, Sis.UI.IO.Output;
 
 type
 
@@ -24,10 +24,13 @@ type
     { Private declarations }
     // procedure ItemExpandirClick(Sender: TObject);
     // procedure ItemRetrairClick(Sender: TObject);
+    FErroOutput: IOutput;
   procedure SanfonaItemAbriu(pSanfonaItem: TSanfonaItemBasFrame);
   public
     { Public declarations }
     procedure PegarItem(pSanfonaItem: TSanfonaItemBasFrame);
+    constructor Create(AOwner: TComponent; pErroOutput: IOutput); reintroduce;
+
   end;
 
 var
@@ -36,7 +39,18 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.UI.Controls.Utils, Sis.UI.ImgDM;
+
 { TSanfonaFrame }
+
+constructor TSanfonaFrame.Create(AOwner: TComponent; pErroOutput: IOutput);
+begin
+  inherited Create(AOwner);
+  FErroOutput := pErroOutput;
+//  ActionList1.Images := SisImgDataModule.ImageList_9_9;
+
+end;
 
 procedure TSanfonaFrame.PegarItem(pSanfonaItem: TSanfonaItemBasFrame);
 var

@@ -31,7 +31,7 @@ type
 
     function PodeOk: Boolean; override;
     function ControlesOk: boolean; virtual; abstract;
-    function DadosOk: boolean; virtual; abstract;
+    function DadosOk: boolean; virtual;
     function GravouOk: boolean; virtual; abstract;
 
   public
@@ -109,6 +109,19 @@ begin
   inherited Create(AOwner);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
+end;
+
+function TEdBasForm.DadosOk: boolean;
+var
+  sFrase: string;
+begin
+  Result := EntEd.State in [dsEdit, dsInsert];
+  if not Result then
+  begin
+    sFrase := 'O Status da janela não permite a gravação';
+    ErroOutput.Exibir(sFrase);
+    exit;
+  end;
 end;
 
 function TEdBasForm.PodeOk: Boolean;

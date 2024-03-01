@@ -3,9 +3,10 @@ unit App.UI.Form.Ed.Prod_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
-  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, NumEditBtu,
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
   App.Retag.Est.Prod.Ent, Data.DB, App.UI.Frame.SelectEdit.Fabr_u,
   Sis.UI.Controls.Sanfona_u, App.Retag.Prod.Obrigatorios.SanfonaItem_u;
 
@@ -15,20 +16,13 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FIdNumEdit: TNumEditBtu;
-    FCustoAtualNumEdit: TNumEditBtu;
-    FPrecoAtualNumEdit: TNumEditBtu;
-    //FFabrSelectEditFrame: TFabrSelectEditFrame;
+    // FFabrSelectEditFrame: TFabrSelectEditFrame;
     FSanfonaFrame: TSanfonaFrame;
-    FProdObrigatoriosSanfonaItemFrame: TProdObrigatoriosSanfonaItemFrame;
+    FObrigFrame: TObrigatoriosProdEdFrame;
 
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
     function GetAlterado: boolean;
-    procedure IdCrie;
-    procedure CustoCrie;
-    procedure PrecoCrie;
-    procedure FabrSelectCrie;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -47,7 +41,8 @@ var
 
 implementation
 
-uses App.Retag.Est.Prod.Ent_u, Sis.UI.Controls.TLabeledEdit, Sis.UI.Controls.Utils;
+uses {App.Retag.Est.Prod.Ent_u, }Sis.UI.Controls.TLabeledEdit,
+  Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory;
 
 {$R *.dfm}
 
@@ -71,82 +66,66 @@ begin
         sFormat := 'Alterando %s: %s';
         sCaption := Format(sFormat, [sNom, sDes]);
 
-        ObjetivoLabel.Caption := sCaption;
+        FSanfonaFrame.TitLabel.Caption := sCaption;
       end;
 
     dsInsert:
       ;
   end;
 
-
-//  FIdNumEdit.Left := ObjetivoLabel.Left;
-//  FIdNumEdit.Top := 47;
-//  FIdNumEdit.Width := 60;
-
-//  FFabrSelectEditFrame.Left := ObjetivoLabel.Left;
-//  FFabrSelectEditFrame.Top := 75;
-
-//  FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
-//  FCustoAtualNumEdit.Top := 144;
-//  FCustoAtualNumEdit.Width := 70;
-//
-//  FPrecoAtualNumEdit.Left := ObjetivoLabel.Left;;
-//  FPrecoAtualNumEdit.Top := 70;
-//  FPrecoAtualNumEdit.Width := 70;
-
-
-
 end;
 
 function TProdEdForm.ControlesOk: boolean;
 begin
-
+  Result := FObrigFrame.ControlesOk;
+  if not Result then
+    exit;
 end;
 
 procedure TProdEdForm.ControlesToEnt;
 begin
   inherited;
-
+  FObrigFrame.ControlesToEnt;
 end;
 
 function TProdEdForm.DadosOk: boolean;
+var
+  sId: string;
+  sIdAtual: string;
+  sFrase: string;
 begin
+  Result := inherited DadosOk;
+  if not Result then
+    exit;
 
+  sId := VarToStr(EntDBI.GetExistente(FObrigFrame.GetUniqueValues, sFrase));
+  Result := sId = '';
+  if not Result then
+  begin
+    ErroOutput.Exibir(sFrase);
+    FObrigFrame.Foque;
+    exit;
+  end;
 end;
 
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
-//  FIdNumEdit.Valor := ProdEnt.Id;
-//  DescrLabeledEdit.Text := ProdEnt.Descr;
-//  DescrRedLabeledEdit.Text := ProdEnt.DescrRed;
-end;
-
-procedure TProdEdForm.FabrSelectCrie;
-begin
-//  FFabrSelectEditFrame := TFabrSelectEditFrame.Create(Self, ProdEnt.ProdFabrEnt, nil);
-//  FFabrSelectEditFrame.Parent := Self;
+  FObrigFrame.EntToControles;
 end;
 
 procedure TProdEdForm.FormCreate(Sender: TObject);
 begin
   inherited;
-  FSanfonaFrame := TSanfonaFrame.Create(Self);
+  FSanfonaFrame := TSanfonaFrame.Create(Self, ErroOutput);
   FSanfonaFrame.Parent := Self;
   FSanfonaFrame.Align := alClient;
   FSanfonaFrame.TitLabel.Caption := GetObjetivoStr;
   ObjetivoLabel.Visible := false;
 
-  FProdObrigatoriosSanfonaItemFrame := TProdObrigatoriosSanfonaItemFrame.Create(FSanfonaFrame);
-  FSanfonaFrame.PegarItem(FProdObrigatoriosSanfonaItemFrame);
-  IdCrie;
-//  CustoCrie;
-//  PrecoCrie;
-  FabrSelectCrie;
-
-
-
-
+  FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame,
+    ProdEnt, ErroOutput);
+  FSanfonaFrame.PegarItem(FObrigFrame);
 end;
 
 function TProdEdForm.GetAlterado: boolean;
@@ -168,61 +147,46 @@ end;
 
 function TProdEdForm.GetProdEnt: IProdEnt;
 begin
-  Result := TProdEnt(EntEd);
+  Result := EntEdCastToProdEnt(EntEd);
 end;
 
 function TProdEdForm.GravouOk: boolean;
+var
+  sFrase: string;
 begin
-
-end;
-
-procedure TProdEdForm.IdCrie;
-begin
-  exit;
-  FIdNumEdit := TNumEditBtu.Create(Self);
-  FIdNumEdit.Parent := Self;
-  FIdNumEdit.Alignment := taCenter;
-  FIdNumEdit.NCasas:=0;
-  FIdNumEdit.NCasasEsq:=7;
-  FIdNumEdit.MascEsq := '0000000';
-  FIdNumEdit.Caption := 'Código';
-end;
-
-procedure TProdEdForm.PrecoCrie;
-begin
-  FPrecoAtualNumEdit := TNumEditBtu.Create(Self);
-  FPrecoAtualNumEdit.Parent := Self;
-  FPrecoAtualNumEdit.Alignment := taRightJustify;
-  FPrecoAtualNumEdit.NCasas:=2;
-  FPrecoAtualNumEdit.NCasasEsq:=7;
-  FPrecoAtualNumEdit.MascEsq := '';
-  FPrecoAtualNumEdit.Caption := 'Preço Atual';
-end;
-
-procedure TProdEdForm.CustoCrie;
-begin
-  FCustoAtualNumEdit := TNumEditBtu.Create(Self);
-  FCustoAtualNumEdit.Parent := Self;
-  FCustoAtualNumEdit.Alignment := taRightJustify;
-  FCustoAtualNumEdit.NCasas:=2;
-  FCustoAtualNumEdit.NCasasEsq:=7;
-  FCustoAtualNumEdit.MascEsq := '';
-  FCustoAtualNumEdit.Caption := 'Custo atual';
+  Result := EntDBI.GarantirReg;
+  if not Result then
+  begin
+    sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;
+    ErroOutput.Exibir(sFrase);
+    FObrigFrame.Foque;
+    exit;
+  end;
 
 end;
 
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  DescrLabeledEdit.SetFocus;
-//  DescrLabeledEdit.Text := 'CANETA DE CD';
-//  DescrRedLabeledEdit.Text := 'CANETA DE CD';
+  //  FObrigFrame.FIdNumEdit
+  FObrigFrame.Foque;
 
-//  FFabrSelectEditFrame.IdNumEdit.Valor := 2;
+  FObrigFrame.DescrLabeledEdit.Text := 'CANETA DE CD';
+  FObrigFrame.DescrRedLabeledEdit.Text := 'CANETA DE CD';
+  FObrigFrame.FabrIdLabeledEdit.Text := 'PILOT';
+  FObrigFrame.FabrIdLabeledEdit.Tag := 2;
+
+//  OkAct_Diag.Execute;
+
+//  ObrigatoriosProdEdFrame.FCustoAtualNumEdit
+//  ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
 
 
-//  PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
-//  PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
+
+  // FFabrSelectEditFrame.IdNumEdit.Valor := 2;
+
+  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
+  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
 end;
 
 end.

@@ -53,6 +53,9 @@ procedure TDiagBtnBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
   MensLabel.Top := BasePanel.Top - CancelBitBtn_DiagBtn.Height - 3;
+  //MensLabel.Font.Color := $009393FF;//onyx
+//  MensLabel.Font.Color := 192;//iceberg
+  MensLabel.Font.Color := 166;//iceberg
 end;
 
 procedure TDiagBtnBasForm.MensCopyAct_DiagExecute(Sender: TObject);

@@ -91,6 +91,8 @@ function ProdPerg(AOwner: TComponent; pProdEnt: IEntEd;
   pProdDBI: IEntDBI): boolean;
 
 function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
+
+function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 {$ENDREGION}
 
 implementation
@@ -288,6 +290,11 @@ end;
 function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
 begin
   // Result := TDecoratorExcl.Create(pProd);
+end;
+
+function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
+begin
+  Result := TProdEnt(pEntEd);
 end;
 {$ENDREGION}
 

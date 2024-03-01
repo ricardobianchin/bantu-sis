@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas_u, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList;
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
+  Sis.UI.IO.Output;
 
 type
   TSanfonaItemBasFrame = class;
@@ -16,28 +17,31 @@ type
     TopoPanel: TPanel;
     TitLabel: TLabel;
     ToolBar1: TToolBar;
-    ExpandirToolButton: TToolButton;
-    RetrairToolButton: TToolButton;
     MeioPanel: TPanel;
     ActionList1: TActionList;
     ExpandirAction: TAction;
     RetrairAction: TAction;
+    RetrairToolButton: TToolButton;
+    ExpandirToolButton: TToolButton;
     procedure ExpandirActionExecute(Sender: TObject);
     procedure RetrairActionExecute(Sender: TObject);
   private
     FUltimoHeight: integer;
+    FErroOutput: IOutput;
     function GetAberto: boolean;
     procedure SetAberto(const Value: boolean);
   protected
+    property ErroOutput: IOutput read FErroOutput;
     { Private declarations }
     function GetNome: string; virtual; abstract;
   public
     ProcNotificaAbriu: TProcSanfonaItemOfObject;
-    constructor Create(AOwner: TComponent); override;
+
     property Aberto: boolean read GetAberto write SetAberto;
     property Nome: string read GetNome;
     procedure Foque;
 
+    constructor Create(AOwner: TComponent; pErroOutput: IOutput); reintroduce;
     { Public declarations }
 
   end;
@@ -49,13 +53,17 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils;
+uses Sis.UI.Controls.Utils, Sis.UI.ImgDM;
 
 { TSanfonaItemBasFrame }
 
-constructor TSanfonaItemBasFrame.Create(AOwner: TComponent);
+constructor TSanfonaItemBasFrame.Create(AOwner: TComponent; pErroOutput: IOutput);
 begin
-  inherited;
+  inherited Create(AOwner);
+  FErroOutput := pErroOutput;
+  ActionList1.Images := SisImgDataModule.ImageList_9_9;
+  ToolBar1.Images := SisImgDataModule.ImageList_9_9;
+  TitLabel.Caption := Nome;
   FundoPanel.Color := RGB(206, 222, 236);
   MeioPanel.Color := RGB(231, 239, 245);
 

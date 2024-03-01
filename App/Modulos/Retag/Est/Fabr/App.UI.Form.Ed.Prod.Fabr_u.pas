@@ -99,17 +99,12 @@ var
   sFormat: string;
   sRetorno: string;
 begin
+  Result := inherited DadosOk;
+  if not Result then
+    exit;
+
   sValorDigitado := LabeledEdit1.Text;
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
-
-  Result := ProdFabrEnt.State in [dsEdit, dsInsert];
-  if not Result then
-  begin
-    sFrase := 'O Status da janela não permite a gravação';
-    ErroOutput.Exibir(sFrase);
-    LabeledEdit1.SetFocus;
-    exit;
-  end;
 
   iId := VarToInteger(EntDBI.GetExistente(sValorDigitado, sRetorno));
 

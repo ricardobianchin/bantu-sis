@@ -2,12 +2,13 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
   Caption = 'DiagBtnBasForm'
   ClientHeight = 297
   ClientWidth = 503
-  ExplicitWidth = 519
-  ExplicitHeight = 336
+  ExplicitWidth = 515
+  ExplicitHeight = 335
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 240
     Width = 503
+    Font.Color = 166
     ExplicitTop = 240
   end
   object BasePanel: TPanel [1]
@@ -19,6 +20,8 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitTop = 259
+    ExplicitWidth = 499
     DesignSize = (
       503
       37)

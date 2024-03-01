@@ -88,6 +88,7 @@ type
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly;
 
     function GetAsCurrency: currency;
+    procedure SetParent(AParent: TWinControl); override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -179,7 +180,8 @@ end;
 constructor TCustomEditBtu.Create(AOwner: TComponent);
 begin
   inherited;
-  Parent:=TWinControl(AOwner);
+  if AOwner is TWinControl then
+    Parent:=TWinControl(AOwner);
   LabelSpacing:=1;
   FOverwrite:=false;
   FPosCursor:=0;
@@ -333,6 +335,13 @@ procedure TCustomEditBtu.SetDigitado(const Value: string);
 begin
   FDigitado := Value;
   PreencherText;
+end;
+
+procedure TCustomEditBtu.SetParent(AParent: TWinControl);
+begin
+  inherited;
+  EditLabel.BringToFront;
+  EditLabel.Repaint;
 end;
 
 procedure TCustomEditBtu.SetPosCursor(const Value: integer);

@@ -60,7 +60,6 @@ inherited SanfonaFrame: TSanfonaFrame
       Top = 22
       Width = 444
       Height = 308
-      Hint = 'frame'
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
