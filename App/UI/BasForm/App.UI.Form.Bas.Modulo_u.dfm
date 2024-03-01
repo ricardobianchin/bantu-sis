@@ -132,7 +132,7 @@ inherited ModuloBasForm: TModuloBasForm
       OnExecute = FecharAction_ModuloBasFormExecute
     end
     object OcultarAction_ModuloBasForm: TAction
-      Caption = 'OcultarAction_ModuloBasForm'
+      Caption = 'Ocultar Esta Janela'
       Hint = 'Ocultar'
       ImageIndex = 4
       OnExecute = OcultarAction_ModuloBasFormExecute
@@ -155,6 +155,12 @@ inherited ModuloBasForm: TModuloBasForm
     Top = 96
     object FecharActionModuloBasForm1: TMenuItem
       Action = FecharAction_ModuloBasForm
+    end
+    object OcultarActionModuloBasForm2: TMenuItem
+      Action = OcultarAction_ModuloBasForm
+    end
+    object OcultarEsteMenu1: TMenuItem
+      Caption = 'Ocultar Este Menu'
     end
   end
 end

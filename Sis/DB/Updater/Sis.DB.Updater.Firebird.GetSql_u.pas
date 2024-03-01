@@ -201,10 +201,11 @@ function GetSQLCreateDatabase(pNomeArqFDB: string): string;
 begin
   Result := 'CREATE DATABASE ''' +
     pNomeArqFDB +
-    ''' page_size 8192 user ''' +
-    'sysdba'' password ''masterkey'';'
+    ''' PAGE_SIZE 8192' +
+    ' USER ''SYSDBA'' PASSWORD ''MASTERKEY'''+
+    ' DEFAULT CHARACTER SET WIN1252'+
+    ' COLLATION WIN_PTBR;'
     ;
-
 end;
 
 end.

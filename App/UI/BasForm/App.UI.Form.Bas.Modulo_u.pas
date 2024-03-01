@@ -32,6 +32,8 @@ type
     Panel1: TPanel;
     Label1: TLabel;
     OutputLabel: TLabel;
+    OcultarActionModuloBasForm2: TMenuItem;
+    OcultarEsteMenu1: TMenuItem;
     procedure FormCreate(Sender: TObject);
 
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -209,8 +211,8 @@ procedure TModuloBasForm.MenuExibir;
 var
   x, y: integer;
 begin
-  x := MenuToolButton.Left;
-  y := MenuToolButton.Top + MenuToolButton.Height;
+  x := MenuToolButton.Left+MenuToolButton.Width;
+  y := MenuToolButton.Top; // + 11; //+ MenuToolButton.Height;
   PopupMenu1.Popup(x, y);
 
 end;

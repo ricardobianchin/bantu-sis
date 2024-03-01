@@ -54,6 +54,8 @@ function StrCheckSum32(pStr: string): string;  overload;
 
 function VarToString(pValue: variant): string;
 
+function ConvertHTMLChars(pStr: string): string;
+
 implementation
 
 uses
@@ -524,4 +526,24 @@ function VarToString(pValue: variant): string;
 begin
   Result := VarToStrDef(pValue, '');
 end;
+
+function ConvertHTMLChars(pStr: string): string;
+begin
+  Result := pStr;
+  Result := StringReplace(Result, '&atilde;', 'ã', [rfReplaceAll]);
+  Result := StringReplace(Result, '&ccedil;', 'ç', [rfReplaceAll]);
+  Result := StringReplace(Result, '&Ccedil;', 'Ç', [rfReplaceAll]);
+  Result := StringReplace(Result, '&eacute;', 'é', [rfReplaceAll]);
+  Result := StringReplace(Result, '&Eacute;', 'É', [rfReplaceAll]);
+  Result := StringReplace(Result, '&otilde;', 'õ', [rfReplaceAll]);
+  {
+&atilde;
+&ccedil;
+&Ccedil;
+&eacute;
+&Eacute;
+&otilde;
+   }
+end;
+
 end.

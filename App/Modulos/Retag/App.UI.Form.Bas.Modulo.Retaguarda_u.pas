@@ -69,6 +69,25 @@ type
     Estabelecimento1: TMenuItem;
     PerfisdeUsurio1: TMenuItem;
     Usurios1: TMenuItem;
+    N3: TMenuItem;
+    Cadastro2: TMenuItem;
+    Cadastro3: TMenuItem;
+    Relatrios1: TMenuItem;
+    Acesso1: TMenuItem;
+    Produtos2: TMenuItem;
+    N4: TMenuItem;
+    Preos2: TMenuItem;
+    Fabricantes2: TMenuItem;
+    Setores2: TMenuItem;
+    Unidades2: TMenuItem;
+    ICMS2: TMenuItem;
+    EntradadeNotas3: TMenuItem;
+    EntradadeNotas4: TMenuItem;
+    Inventrio1: TMenuItem;
+    Inventrio2: TMenuItem;
+    PerfisdeUso1: TMenuItem;
+    Usurios2: TMenuItem;
+    DireitosdeAcesso1: TMenuItem;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

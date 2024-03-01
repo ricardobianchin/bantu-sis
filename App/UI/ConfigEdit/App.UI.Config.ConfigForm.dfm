@@ -7200,6 +7200,7 @@ object StarterFormConfig: TStarterFormConfig
         ParentFont = False
         Transparent = False
         Visible = False
+        StyleElements = []
       end
       object UsuGerenteNomeExibLabeledEdit: TLabeledEdit
         Left = 8

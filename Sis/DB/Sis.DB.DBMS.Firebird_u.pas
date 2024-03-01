@@ -195,7 +195,7 @@ begin
 
       sExecFile := FIsqlExe;
       sStartIn := FFirebirdPath;
-      sParam := '-user sysdba -password masterkey -i "' + sNomeArqTmp + '"';
+      sParam := '-user sysdba -password masterkey -i "' + sNomeArqTmp + '"';//  -ch WIN1252';
 
       bExecuteAoCriar := True;
 

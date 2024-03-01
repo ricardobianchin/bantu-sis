@@ -1,21 +1,20 @@
 inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
-  BorderStyle = bsSizeable
   Caption = 'RetaguardaModuloBasForm'
-  ClientHeight = 438
+  ClientHeight = 458
   ClientWidth = 592
-  Menu = MainMenu1
   OnDestroy = FormDestroy
-  ExplicitWidth = 604
-  ExplicitHeight = 496
+  ExplicitWidth = 592
+  ExplicitHeight = 458
   TextHeight = 15
   inherited TitleBarPanel: TPanel
     Width = 592
-    ExplicitWidth = 604
+    ExplicitWidth = 592
     DesignSize = (
       592
       30)
     inherited ToolBar1: TToolBar
-      Left = 502
+      Left = 498
+      ExplicitLeft = 498
     end
   end
   object MenuPanel: TPanel [1]
@@ -26,7 +25,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Align = alTop
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 604
     object MenuPageControl: TPageControl
       Left = 1
       Top = 1
@@ -36,7 +34,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
-      ExplicitWidth = 602
       object EstoqueTabSheet: TTabSheet
         Caption = 'Estoque'
         Font.Charset = DEFAULT_CHARSET
@@ -117,7 +114,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Images = RetagImgDM.ImageList_24_24
           ShowCaptions = True
           TabOrder = 0
-          ExplicitWidth = 594
           object ToolButton4: TToolButton
             Left = 0
             Top = 0
@@ -157,7 +153,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Images = RetagImgDM.ImageList_24_24
           ShowCaptions = True
           TabOrder = 0
-          ExplicitWidth = 594
           object AjuBemToolButton: TToolButton
             Left = 0
             Top = 0
@@ -168,39 +163,85 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
   end
   inherited BasePanel: TPanel
-    Top = 413
+    Top = 433
     Width = 592
     TabOrder = 2
-    ExplicitWidth = 604
-    inherited Panel1: TPanel
-      inherited OutputLabel: TLabel
-        Width = 203
-        Height = 23
-      end
-    end
+    ExplicitTop = 433
+    ExplicitWidth = 592
   end
   object PageControl1: TPageControl [3]
     Left = 0
     Top = 152
     Width = 592
-    Height = 261
+    Height = 281
     Align = alClient
     TabOrder = 3
-    ExplicitWidth = 604
-    ExplicitHeight = 299
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 184
     Top = 192
   end
-  inherited TitleBarActionList_ModuloBasForm: TActionList
-    inherited OcultarAction_ModuloBasForm: TAction
-      Caption = 'Ocultar esta janela'
-    end
-  end
   inherited PopupMenu1: TPopupMenu
     Left = 280
     Top = 152
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object Cadastro2: TMenuItem
+      Caption = 'Cadastro'
+      object Produtos2: TMenuItem
+        Action = RetagEstProdAction
+      end
+      object Preos2: TMenuItem
+        Caption = 'Pre'#231'os'
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object Fabricantes2: TMenuItem
+        Action = RetagEstProdFabrAction
+      end
+      object Setores2: TMenuItem
+        Action = RetagEstProdTipoAction
+      end
+      object Unidades2: TMenuItem
+        Action = RetagEstProdUnidAction
+      end
+      object ICMS2: TMenuItem
+        Action = RetagEstProdICMSAction
+      end
+    end
+    object Cadastro3: TMenuItem
+      Caption = 'Estoque'
+      object EntradadeNotas3: TMenuItem
+        Caption = 'Entrada de Notas'
+      end
+      object EntradadeNotas4: TMenuItem
+        Caption = 'Vendas'
+      end
+      object Inventrio1: TMenuItem
+        Caption = 'Invent'#225'rio'
+      end
+      object Inventrio2: TMenuItem
+        Caption = 'Baixas de Estoque'
+        Hint = 'xxx'
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+    end
+    object Acesso1: TMenuItem
+      Caption = 'Acesso'
+      object DireitosdeAcesso1: TMenuItem
+        Caption = 'Direitos de Acesso'
+      end
+      object Usurios2: TMenuItem
+        Caption = 'Usu'#225'rios'
+      end
+      object PerfisdeUso1: TMenuItem
+        Caption = 'Perfis de Uso'
+      end
+    end
   end
   object RetagActionList: TActionList
     Images = RetagImgDM.ImageList_24_24
