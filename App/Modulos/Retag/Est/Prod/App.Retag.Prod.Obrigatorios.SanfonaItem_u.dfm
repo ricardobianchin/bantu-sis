@@ -18,9 +18,16 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
       ExplicitTop = 20
       ExplicitWidth = 798
       ExplicitHeight = 150
+      object NatuLabel: TLabel
+        Left = 124
+        Top = 5
+        Width = 47
+        Height = 15
+        Caption = 'Natureza'
+      end
       object DescrLabeledEdit: TLabeledEdit
         Left = 175
-        Top = 1
+        Top = 25
         Width = 360
         Height = 23
         EditLabel.Width = 51
@@ -60,6 +67,18 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
         TabOrder = 2
         Text = ''
       end
+      object ComboBox1: TComboBox
+        Left = 175
+        Top = 1
+        Width = 125
+        Height = 23
+        TabOrder = 3
+        Text = 'MATERIA-PRIMA'
+      end
     end
+  end
+  inherited ActionList1: TActionList
+    Left = 153
+    Top = 81
   end
 end

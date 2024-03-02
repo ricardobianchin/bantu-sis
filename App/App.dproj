@@ -324,6 +324,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.ComboBoxManager_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

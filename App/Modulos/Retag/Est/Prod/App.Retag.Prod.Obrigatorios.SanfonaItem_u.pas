@@ -3,17 +3,20 @@ unit App.Retag.Prod.Obrigatorios.SanfonaItem_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.Retag.Prod.SanfonaItem.Bas_u,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls,
-  Vcl.ExtCtrls, NumEditBtu, App.Retag.Est.Prod.Ent, Vcl.Mask,
-  App.UI.Frame.SelectEdit.Fabr_u, Sis.UI.IO.Output;
+  Vcl.ExtCtrls, NumEditBtu, App.Retag.Prod.SanfonaItem.Bas_u,
+  App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output,
+  App.Retag.Est.Prod.Natu.ComboBoxManager_u;         instanciar combom manager e preencher combo
 
 type
   TObrigatoriosProdEdFrame = class(TProdEdSanfonaItemFrame)
     DescrLabeledEdit: TLabeledEdit;
     DescrRedLabeledEdit: TLabeledEdit;
     FabrIdLabeledEdit: TLabeledEdit;
+    ComboBox1: TComboBox;
+    NatuLabel: TLabel;
     procedure DescrLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure DescrLabeledEditChange(Sender: TObject);
     procedure DescrRedLabeledEditKeyPress(Sender: TObject; var Key: Char);
@@ -23,7 +26,7 @@ type
     FIdNumEdit: TNumEditBtu;
     FCustoAtualNumEdit: TNumEditBtu;
     FPrecoAtualNumEdit: TNumEditBtu;
-    //FFabrSelectEditFrame: TFabrSelectEditFrame;
+    // FFabrSelectEditFrame: TFabrSelectEditFrame;
 
     function GetControlProdFabrId: integer;
     procedure IdCrie;
@@ -62,11 +65,14 @@ type
 
     function GetUniqueValues: variant;
 
-    constructor Create(AOwner: TComponent; pProdEnt: IProdEnt; pErroOutput: IOutput); reintroduce;
+    procedure SimuleDig;
+
+    constructor Create(AOwner: TComponent; pProdEnt: IProdEnt;
+      pErroOutput: IOutput); reintroduce;
   end;
 
-//var
-//  ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame;
+  // var
+  // ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame;
 
 implementation
 
@@ -86,7 +92,7 @@ begin
   if not Result then
     exit;
 
-  Result :=  FabrId > 0;
+  Result := FabrId > 0;
   if not Result then
   begin
     ErroOutput.Exibir('Campo Fabricante é obrigatório');
@@ -95,7 +101,7 @@ end;
 
 procedure TObrigatoriosProdEdFrame.ControlesToEnt;
 begin
-//  inherited;
+  // inherited;
   ProdEnt.Id := Id;
   ProdEnt.Descr := Descr;
   ProdEnt.DescrRed := DescrRed;
@@ -119,8 +125,8 @@ begin
   FIdNumEdit.Top := 1;
   FIdNumEdit.Width := 60;
 
-//   FFabrSelectEditFrame.Left := 2;
-//   FFabrSelectEditFrame.Top := 30;
+  // FFabrSelectEditFrame.Left := 2;
+  // FFabrSelectEditFrame.Top := 30;
 
   // FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
   // FCustoAtualNumEdit.Top := 144;
@@ -153,7 +159,7 @@ procedure TObrigatoriosProdEdFrame.DescrLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  EditKeyPress(Sender, key, '');
+  EditKeyPress(Sender, Key, '');
 end;
 
 procedure TObrigatoriosProdEdFrame.DescrRedLabeledEditChange(Sender: TObject);
@@ -166,12 +172,12 @@ procedure TObrigatoriosProdEdFrame.DescrRedLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  EditKeyPress(Sender, key, '');
+  EditKeyPress(Sender, Key, '');
 end;
 
 procedure TObrigatoriosProdEdFrame.EntToControles;
 begin
-//  inherited;
+  // inherited;
   Id := ProdEnt.Id;
   Descr := ProdEnt.Descr;
   DescrRed := ProdEnt.DescrRed;
@@ -186,7 +192,7 @@ end;
 
 procedure TObrigatoriosProdEdFrame.FabrSelectCrie;
 begin
-//  FFabrSelectEditFrame := TFabrSelectEditFrame.Create(MeioPanel, ProdEnt.ProdFabrEnt, nil, nil);
+  // FFabrSelectEditFrame := TFabrSelectEditFrame.Create(MeioPanel, ProdEnt.ProdFabrEnt, nil, nil);
 end;
 
 function TObrigatoriosProdEdFrame.GetControlProdFabrId: integer;
@@ -247,7 +253,7 @@ end;
 
 procedure TObrigatoriosProdEdFrame.PrecoCrie;
 begin
- exit;
+  exit;
   FPrecoAtualNumEdit := TNumEditBtu.Create(Self);
   FPrecoAtualNumEdit.Parent := Self;
   FPrecoAtualNumEdit.Alignment := taRightJustify;
@@ -264,7 +270,7 @@ end;
 
 procedure TObrigatoriosProdEdFrame.SetDescrRed(Value: string);
 begin
-
+  DescrRedLabeledEdit.Text := Value;
 end;
 
 procedure TObrigatoriosProdEdFrame.SetFabrId(Value: integer);
@@ -281,6 +287,14 @@ end;
 procedure TObrigatoriosProdEdFrame.SetId(Value: integer);
 begin
   FIdNumEdit.Valor := Value;
+end;
+
+procedure TObrigatoriosProdEdFrame.SimuleDig;
+begin
+  DescrLabeledEdit.Text := 'CANETA DE CD';
+  DescrRedLabeledEdit.Text := 'CANETA DE CD';
+  FabrIdLabeledEdit.Text := 'PILOT';
+  FabrIdLabeledEdit.Tag := 2;
 end;
 
 end.

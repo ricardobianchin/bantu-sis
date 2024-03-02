@@ -7,8 +7,11 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
-  App.Retag.Est.Prod.Ent, Data.DB, App.UI.Frame.SelectEdit.Fabr_u,
-  Sis.UI.Controls.Sanfona_u, App.Retag.Prod.Obrigatorios.SanfonaItem_u;
+  App.Retag.Est.Prod.Ent, Data.DB,
+  Sis.UI.Controls.Sanfona_u
+
+  // sanfona item
+  , App.Retag.Prod.Obrigatorios.SanfonaItem_u;
 
 type
   TProdEdForm = class(TEdBasForm)
@@ -170,11 +173,7 @@ begin
   inherited;
   //  FObrigFrame.FIdNumEdit
   FObrigFrame.Foque;
-
-  FObrigFrame.DescrLabeledEdit.Text := 'CANETA DE CD';
-  FObrigFrame.DescrRedLabeledEdit.Text := 'CANETA DE CD';
-  FObrigFrame.FabrIdLabeledEdit.Text := 'PILOT';
-  FObrigFrame.FabrIdLabeledEdit.Tag := 2;
+  FObrigFrame.SimuleDig;
 
 //  OkAct_Diag.Execute;
 

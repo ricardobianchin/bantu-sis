@@ -3,7 +3,8 @@ unit App.Retag.Est.Prod.Ent_u;
 interface
 
 uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
-  Sis.Types.Utils_u, App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Fabr.Ent;
+  Sis.Types.Utils_u, App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Fabr.Ent,
+  App.Retag.Est.Prod.Natu.Ent;
 
 type
   TProdEnt = class(TEntEdId, IProdEnt)
@@ -11,6 +12,7 @@ type
     FDescr: string;
     FDescrRed: string;
     FProdFabrEnt: IProdFabrEnt;
+    FProdNatuEnt: IProdNatuEnt;
 
   protected
     function GetNomeEnt: string; override;
@@ -25,13 +27,16 @@ type
     procedure SetDescrRed(Value: string);
 
     function GetProdFabrEnt: IProdFabrEnt;
+    function GetProdNatuEnt: IProdNatuEnt;
   public
     property Descr: string read GetDescr write SetDescr;
     property DescrRed: string read GetDescrRed write SetDescrRed;
 
     property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
+    property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
 
     constructor Create(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt;
+      pProdNatuEnt: IProdNatuEnt;
       pId: integer = 0; pDescr: string = ''; pDescrRed: string = '');
   end;
 
@@ -42,6 +47,7 @@ implementation
 { TProdEnt }
 
 constructor TProdEnt.Create(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt;
+  pProdNatuEnt: IProdNatuEnt;
   pId: integer = 0; pDescr: string = ''; pDescrRed: string = '');
 begin
   inherited Create(State, pId);
@@ -49,6 +55,7 @@ begin
   FDescrRed := pDescrRed;
 
   FProdFabrEnt := pProdFabrEnt;
+  FProdNatuEnt := pProdNatuEnt;
 end;
 
 function TProdEnt.GetDescr: string;
@@ -74,6 +81,11 @@ end;
 function TProdEnt.GetProdFabrEnt: IProdFabrEnt;
 begin
   Result := FProdFabrEnt;
+end;
+
+function TProdEnt.GetProdNatuEnt: IProdNatuEnt;
+begin
+
 end;
 
 function TProdEnt.GetTitulo: string;

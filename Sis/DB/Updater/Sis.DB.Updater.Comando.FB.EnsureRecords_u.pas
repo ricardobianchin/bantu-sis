@@ -333,7 +333,7 @@ begin
       PegarObjeto(sObjetoNome);
     end;
   end;
-//  FRegistrosSL.Text := ConvertHTMLChars(FRegistrosSL.Text);
+
   PreencherQtdIndices;
   InicializeSqlOperations;
 end;

@@ -231,6 +231,8 @@ contains
   Sis.Ui.Img.Utils in 'UI\Img\Sis.Ui.Img.Utils.pas',
   Sis.Ui.ImgsList.Prepare in 'UI\Img\Sis.Ui.ImgsList.Prepare.pas',
   Sis.UI.Controls.Sanfona_u in 'UI\Controls\Sanfona\Sis.UI.Controls.Sanfona_u.pas' {SanfonaFrame: TFrame},
-  Sis.UI.Frame.Bas.Controls.SanfonaItem_u in 'UI\Controls\Sanfona\Sis.UI.Frame.Bas.Controls.SanfonaItem_u.pas' {SanfonaItemBasFrame: TFrame};
+  Sis.UI.Frame.Bas.Controls.SanfonaItem_u in 'UI\Controls\Sanfona\Sis.UI.Frame.Bas.Controls.SanfonaItem_u.pas' {SanfonaItemBasFrame: TFrame},
+  Sis.UI.Controls.ComboBoxManager in 'UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager.pas',
+  Sis.UI.Controls.ComboBoxManager_u in 'UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager_u.pas';
 
 end.

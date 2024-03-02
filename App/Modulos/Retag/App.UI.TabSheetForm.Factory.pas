@@ -4,7 +4,11 @@ interface
 
 uses App.UI.Form.Bas.TabSheet_u, System.Classes, App.AppInfo,
   Sis.Config.SisConfig, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.DB.DBTypes, App.Ent.Ed, Data.DB, App.Retag.Est.Prod.Fabr.Ent;
+  Sis.DB.DBTypes, App.Ent.Ed, Data.DB
+  //ents
+  , App.Retag.Est.Prod.Fabr.Ent//fabr ent
+  , App.Retag.Est.Prod.Natu.Ent//fabr ent
+  ;
 // Aju
 {$REGION 'Aju'}
 function RetagAjuBemVindoFormGetClassName: string;
@@ -188,11 +192,14 @@ function RetagEstProdFormCreate(AOwner: TComponent;
   pOutputNotify: IOutput): TTabSheetAppBasForm;
 var
   oProdFabrEnt: IProdFabrEnt;
+  oProdNatuEnt: IProdNatuEnt;
   oEntEd: IEntEd;
 begin
   oProdFabrEnt := RetagEstProdFabrEntCreate(dsBrowse);
+  oProdNatuEnt := RetagEstProdNatuEntCreate();
 
-  oEntEd := RetagEstProdEntCreate(dsBrowse, oProdFabrEnt);
+  oEntEd := RetagEstProdEntCreate(dsBrowse, oProdFabrEnt, oProdNatuEnt);
+
   Result := TRetagEstProdDataSetForm.Create(AOwner,
     pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
     pOutputNotify, oEntEd);

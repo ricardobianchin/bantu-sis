@@ -10,10 +10,15 @@ uses Data.DB, Sis.DB.DBTypes,
     , App.Ent.Ed, App.Ent.DBI
 
   // os dbi que nao seguem o padrao, deves ser citados aqui
-    , App.Retag.Est.Prod.ICMS.Ent, App.Retag.Est.Prod.ICMS.DBI
+    , App.Retag.Est.Prod.ICMS.Ent // icms ent
+    , App.Retag.Est.Prod.ICMS.DBI // icms dbi
 
-    , App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.DBI
-    , App.Retag.Est.Prod.Fabr.Ent
+    , App.Retag.Est.Prod.Ent // prod ent
+    , App.Retag.Est.Prod.DBI // prod dbi
+
+    , App.Retag.Est.Prod.Fabr.Ent // fabr ent
+
+    , App.Retag.Est.Prod.Natu.Ent // ProdNatu ent
 
     ;
 
@@ -79,7 +84,12 @@ function ProdICMSPerg(AOwner: TComponent; pProdICMSEnt: IEntEd;
 function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
 {$ENDREGION}
 {$REGION 'prod'}
-function RetagEstProdEntCreate(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt; pId: integer = 0;  pDescr: string = ''; pDescrRed: string = ''): IEntEd;
+function RetagEstProdEntCreate(pState: TDataSetState;
+  // entidades
+  pProdFabrEnt: IProdFabrEnt; // fabr
+  pProdNatuEnt: IProdNatuEnt; // est_item_natu
+  // campos
+  pId: integer = 0; pDescr: string = ''; pDescrRed: string = ''): IEntEd;
 
 function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IProdEnt)
   : IProdDBI;
@@ -93,6 +103,11 @@ function ProdPerg(AOwner: TComponent; pProdEnt: IEntEd;
 function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
 
 function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
+{$ENDREGION}
+{$REGION 'prod Natu'}
+function RetagEstProdNatuEntCreate(pId: char = #0;
+  pDescr: string = 'NAO INDICADO'): IProdNatuEnt;
+
 {$ENDREGION}
 
 implementation
@@ -110,16 +125,22 @@ uses Vcl.Controls
     , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
 
   // unid
-    , App.Retag.Est.Prod.Unid.Ent_u // fabr ent
-    , App.Retag.Est.Prod.Unid.DBI_u, App.UI.Form.Ed.Prod.Unid_u // Unid ed form
+    , App.Retag.Est.Prod.Unid.Ent_u // ent
+    , App.Retag.Est.Prod.Unid.DBI_u // unid dbi
+    , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
 
   // icms
-    , App.Retag.Est.Prod.ICMS.Ent_u // fabr ent
-    , App.Retag.Est.Prod.ICMS.DBI_u, App.UI.Form.Ed.Prod.ICMS_u // Unid ed form
+    , App.Retag.Est.Prod.ICMS.Ent_u // icms ent
+    , App.Retag.Est.Prod.ICMS.DBI_u // icms dbi
+    , App.UI.Form.Ed.Prod.ICMS_u // icms ed form
 
   // prod
     , App.Retag.Est.Prod.Ent_u // prod ent
-    , App.Retag.Est.Prod.DBI_u, App.UI.Form.Ed.Prod_u // prod ed form
+    , App.Retag.Est.Prod.DBI_u // prod dbi
+    , App.UI.Form.Ed.Prod_u // prod ed form
+
+  // natu
+    , App.Retag.Est.Prod.Natu.Ent_u // natu ent
     ;
 
 {$REGION 'prod fabr impl'}
@@ -261,9 +282,15 @@ end;
 {$ENDREGION}
 {$REGION 'prod impl'}
 
-function RetagEstProdEntCreate(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt; pId: integer = 0;  pDescr: string = ''; pDescrRed: string = ''): IEntEd;
+function RetagEstProdEntCreate(pState: TDataSetState;
+  // entidades
+  pProdFabrEnt: IProdFabrEnt; // fabr
+  pProdNatuEnt: IProdNatuEnt; // est_item_natu
+  // campos
+  pId: integer; pDescr: string; pDescrRed: string): IEntEd;
 begin
-  Result := TProdEnt.Create(pState, pProdFabrEnt, pId, pDescr, pDescrRed);
+  Result := TProdEnt.Create(pState, pProdFabrEnt, pProdNatuEnt, pId, pDescr,
+    pDescrRed);
 end;
 
 function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IProdEnt)
@@ -296,6 +323,14 @@ function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 begin
   Result := TProdEnt(pEntEd);
 end;
+{$ENDREGION}
+{$REGION 'prod Natu impl'}
+
+function RetagEstProdNatuEntCreate(pId: char; pDescr: string): IProdNatuEnt;
+begin
+  Result := TProdNatuEnt.Create(pId, pDescr);
+end;
+
 {$ENDREGION}
 
 end.

@@ -357,6 +357,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>SanfonaItemBasFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager.pas"/>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
