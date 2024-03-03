@@ -19,17 +19,18 @@ implementation
 constructor TProdNatuComboBoxManager.Create(pComboBox: TComboBox);
 begin
   inherited Create(pComboBox);
+  Preencher;
 end;
 
 procedure TProdNatuComboBoxManager.Preencher;
 begin
   LimparItens;
   ComboBox.Items.Clear;
-  PegarChar('P', 'PRODUTO');
-  PegarChar('S', 'SERVICO');
-  PegarChar('B', 'COMBO');
-  PegarChar('M', 'MATERIA-PRIMA');
-  PegarChar('C', 'COMPOSTO');
+  PegarIdChar('P', 'PRODUTO');
+  PegarIdChar('S', 'SERVICO');
+  PegarIdChar('B', 'COMBO');
+  PegarIdChar('M', 'MATERIA-PRIMA');
+  PegarIdChar('C', 'COMPOSTO');
 end;
 
 end.

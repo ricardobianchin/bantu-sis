@@ -85,7 +85,7 @@ end;
 
 function TProdEnt.GetProdNatuEnt: IProdNatuEnt;
 begin
-
+  Result := FProdNatuEnt;
 end;
 
 function TProdEnt.GetTitulo: string;

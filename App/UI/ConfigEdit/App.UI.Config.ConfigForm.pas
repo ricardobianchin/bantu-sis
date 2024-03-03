@@ -670,6 +670,7 @@ procedure TStarterFormConfig.ShowTimerTimer(Sender: TObject);
 begin
   ShowTimer.Enabled := false;
   CarregTesteStarterIni;
+  OkAct.Execute;
 end;
 
 function TStarterFormConfig.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;

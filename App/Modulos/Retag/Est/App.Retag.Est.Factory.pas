@@ -2,9 +2,9 @@ unit App.Retag.Est.Factory;
 
 interface
 
-uses Data.DB, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, System.Classes,
-  App.UI.Decorator.Form.Excl, App.UI.Form.Bas.Ed_u
+uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Output, System.Classes, App.UI.Decorator.Form.Excl,
+  App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager
 
   // os dbi que seguem o padrao, retornam iented
     , App.Ent.Ed, App.Ent.DBI
@@ -18,6 +18,7 @@ uses Data.DB, Sis.DB.DBTypes,
 
     , App.Retag.Est.Prod.Fabr.Ent // fabr ent
 
+  // prod natu
     , App.Retag.Est.Prod.Natu.Ent // ProdNatu ent
 
     ;
@@ -108,43 +109,44 @@ function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 function RetagEstProdNatuEntCreate(pId: char = #0;
   pDescr: string = 'NAO INDICADO'): IProdNatuEnt;
 
+function ProdNatuComboBoxManagerCreate(pComboBox: TComboBox): IComboBoxManager;
+
 {$ENDREGION}
+  implementation
 
-implementation
+  uses Vcl.Controls
 
-uses Vcl.Controls
+// fabr
+  , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
+  , App.Retag.Est.Prod.Fabr.DBI_u // fabr dbi
+  , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
 
-  // fabr
-    , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
-    , App.Retag.Est.Prod.Fabr.DBI_u // fabr dbi
-    , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
+// tipo
+  , App.Retag.Est.Prod.Tipo.Ent_u // tipo ent
+  , App.Retag.Est.Prod.Tipo.DBI_u // tipo dbi
+  , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
 
-  // tipo
-    , App.Retag.Est.Prod.Tipo.Ent_u // tipo ent
-    , App.Retag.Est.Prod.Tipo.DBI_u // tipo dbi
-    , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
+// unid
+  , App.Retag.Est.Prod.Unid.Ent_u // ent
+  , App.Retag.Est.Prod.Unid.DBI_u // unid dbi
+  , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
 
-  // unid
-    , App.Retag.Est.Prod.Unid.Ent_u // ent
-    , App.Retag.Est.Prod.Unid.DBI_u // unid dbi
-    , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
+// icms
+  , App.Retag.Est.Prod.ICMS.Ent_u // icms ent
+  , App.Retag.Est.Prod.ICMS.DBI_u // icms dbi
+  , App.UI.Form.Ed.Prod.ICMS_u // icms ed form
 
-  // icms
-    , App.Retag.Est.Prod.ICMS.Ent_u // icms ent
-    , App.Retag.Est.Prod.ICMS.DBI_u // icms dbi
-    , App.UI.Form.Ed.Prod.ICMS_u // icms ed form
+// prod
+  , App.Retag.Est.Prod.Ent_u // prod ent
+  , App.Retag.Est.Prod.DBI_u // prod dbi
+  , App.UI.Form.Ed.Prod_u // prod ed form
 
-  // prod
-    , App.Retag.Est.Prod.Ent_u // prod ent
-    , App.Retag.Est.Prod.DBI_u // prod dbi
-    , App.UI.Form.Ed.Prod_u // prod ed form
-
-  // natu
-    , App.Retag.Est.Prod.Natu.Ent_u // natu ent
-    ;
+// natu
+  , App.Retag.Est.Prod.Natu.Ent_u // natu ent
+  , App.Retag.Est.Prod.Natu.ComboBoxManager_u // natu manager
+  ;
 
 {$REGION 'prod fabr impl'}
-
 function RetagEstProdFabrEntCreate(pState: TDataSetState; pId: integer;
   pDescr: string): IProdFabrEnt;
 begin
@@ -165,6 +167,7 @@ end;
 
 function ProdFabrPerg(AOwner: TComponent; pProdFabrEnt: IEntEd;
   pProdFabrDBI: IEntDBI): boolean;
+
 var
   F: TEdBasForm;
 begin
@@ -178,7 +181,6 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'prod tipo impl'}
-
 function RetagEstProdTipoEntCreate(pState: TDataSetState; pId: integer = 0;
   pDescr: string = ''): IEntEd;
 begin
@@ -199,6 +201,7 @@ end;
 
 function ProdTipoPerg(AOwner: TComponent; pProdTipoEnt: IEntEd;
   pProdTipoDBI: IEntDBI): boolean;
+
 var
   F: TEdBasForm;
 begin
@@ -212,7 +215,6 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'prod Unid impl'}
-
 function RetagEstProdUnidEntCreate(pState: TDataSetState; pId: integer = 0;
   pDescr: string = ''): IEntEd;
 begin
@@ -233,6 +235,7 @@ end;
 
 function ProdUnidPerg(AOwner: TComponent; pProdUnidEnt: IEntEd;
   pProdUnidDBI: IEntDBI): boolean;
+
 var
   F: TEdBasForm;
 begin
@@ -246,7 +249,6 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'prod ICMS impl'}
-
 function RetagEstProdICMSEntCreate(pState: TDataSetState; pId: integer = 0;
   pDescr: string = ''): IEntEd;
 begin
@@ -268,6 +270,7 @@ end;
 
 function ProdICMSPerg(AOwner: TComponent; pProdICMSEnt: IEntEd;
   pProdICMSDBI: IEntDBI): boolean;
+
 var
   F: TEdBasForm;
 begin
@@ -281,7 +284,6 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'prod impl'}
-
 function RetagEstProdEntCreate(pState: TDataSetState;
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
@@ -307,6 +309,7 @@ end;
 
 function ProdPerg(AOwner: TComponent; pProdEnt: IEntEd;
   pProdDBI: IEntDBI): boolean;
+
 var
   F: TEdBasForm;
 begin
@@ -325,10 +328,14 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'prod Natu impl'}
-
 function RetagEstProdNatuEntCreate(pId: char; pDescr: string): IProdNatuEnt;
 begin
   Result := TProdNatuEnt.Create(pId, pDescr);
+end;
+
+function ProdNatuComboBoxManagerCreate(pComboBox: TComboBox): IComboBoxManager;
+begin
+  Result := TProdNatuComboBoxManager.Create(pComboBox);
 end;
 
 {$ENDREGION}

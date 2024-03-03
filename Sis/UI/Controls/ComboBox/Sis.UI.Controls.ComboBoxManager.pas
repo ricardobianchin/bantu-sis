@@ -10,6 +10,10 @@ type
     procedure SetId(const pId: integer);
     function GetId: integer;
     property Id: integer read GetId write SetId;
+
+    procedure SetIdChar(const pId: Char);
+    function GetIdChar: Char;
+    property IdChar: Char read GetIdChar write SetIdChar;
   end;
 
 implementation

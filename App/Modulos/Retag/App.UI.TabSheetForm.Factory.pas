@@ -196,7 +196,7 @@ var
   oEntEd: IEntEd;
 begin
   oProdFabrEnt := RetagEstProdFabrEntCreate(dsBrowse);
-  oProdNatuEnt := RetagEstProdNatuEntCreate();
+  oProdNatuEnt := RetagEstProdNatuEntCreate('P', 'PRODUTO');
 
   oEntEd := RetagEstProdEntCreate(dsBrowse, oProdFabrEnt, oProdNatuEnt);
 

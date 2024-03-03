@@ -12,6 +12,10 @@ type
   protected
     procedure SetId(const pId: integer); virtual;
     function GetId: integer; virtual;
+
+    procedure SetIdChar(const pId: Char); virtual;
+    function GetIdChar: Char; virtual;
+
     procedure LimparItens; virtual;
 
     property ComboBox: TComboBox read GetComboBox;
@@ -19,10 +23,12 @@ type
     procedure Cicle;
 
     constructor Create(pComboBox: TComboBox);
+
     property Id: integer read GetId write SetId;
+    property IdChar: Char read GetIdChar write SetIdChar;
 
     function PegarId(pId: integer; pDescr: string): integer; virtual;
-    function PegarChar(pId: char; pDescr: string): integer; virtual;
+    function PegarIdChar(pId: char; pDescr: string): integer; virtual;
   end;
 
 implementation
@@ -69,12 +75,17 @@ begin
   Result := Resultado;
 end;
 
+function TComboBoxManager.GetIdChar: Char;
+begin
+  Result := char(GetId);
+end;
+
 procedure TComboBoxManager.LimparItens;
 begin
   FComboBox.Items.Clear;
 end;
 
-function TComboBoxManager.PegarChar(pId: char; pDescr: string): integer;
+function TComboBoxManager.PegarIdChar(pId: char; pDescr: string): integer;
 var
   iId: integer;
 begin
@@ -107,6 +118,11 @@ begin
     exit;
 
   FComboBox.ItemIndex := i;
+end;
+
+procedure TComboBoxManager.SetIdChar(const pId: Char);
+begin
+  SetId(Ord(pId));
 end;
 
 end.

@@ -359,6 +359,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager.pas"/>
         <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager_u.pas"/>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Frame_u.pas">
+            <Form>ComboBoxBasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Select.Frame_u.pas">
+            <Form>ComboBoxSelectBasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

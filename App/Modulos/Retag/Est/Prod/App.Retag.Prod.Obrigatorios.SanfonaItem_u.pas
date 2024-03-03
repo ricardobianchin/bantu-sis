@@ -8,14 +8,13 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls,
   Vcl.ExtCtrls, NumEditBtu, App.Retag.Prod.SanfonaItem.Bas_u,
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output,
-  App.Retag.Est.Prod.Natu.ComboBoxManager_u;         instanciar combom manager e preencher combo
+  Sis.UI.Controls.ComboBoxManager;
 
 type
   TObrigatoriosProdEdFrame = class(TProdEdSanfonaItemFrame)
     DescrLabeledEdit: TLabeledEdit;
     DescrRedLabeledEdit: TLabeledEdit;
-    FabrIdLabeledEdit: TLabeledEdit;
-    ComboBox1: TComboBox;
+    NatuComboBox: TComboBox;
     NatuLabel: TLabel;
     procedure DescrLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure DescrLabeledEditChange(Sender: TObject);
@@ -26,6 +25,10 @@ type
     FIdNumEdit: TNumEditBtu;
     FCustoAtualNumEdit: TNumEditBtu;
     FPrecoAtualNumEdit: TNumEditBtu;
+
+    //natu
+    FNatuManager: IComboBoxManager;
+//    FNatuManager: TProdNatuComboBoxManager;
     // FFabrSelectEditFrame: TFabrSelectEditFrame;
 
     function GetControlProdFabrId: integer;
@@ -78,7 +81,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit;
+uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory;
 
 { TObrigatoriosProdEdSanfonaItemFrame }
 
@@ -107,6 +110,7 @@ begin
   ProdEnt.DescrRed := DescrRed;
   ProdEnt.ProdFabrEnt.Id := FabrId;
   ProdEnt.ProdFabrEnt.Descr := FabrNome;
+  ProdEnt.ProdNatuEnt.Id := FNatuManager.IdChar;
 
 end;
 
@@ -124,6 +128,8 @@ begin
   FIdNumEdit.Left := 45;
   FIdNumEdit.Top := 1;
   FIdNumEdit.Width := 60;
+
+  FNatuManager := ProdNatuComboBoxManagerCreate(NatuComboBox);
 
   // FFabrSelectEditFrame.Left := 2;
   // FFabrSelectEditFrame.Top := 30;
@@ -183,7 +189,7 @@ begin
   DescrRed := ProdEnt.DescrRed;
   FabrId := ProdEnt.ProdFabrEnt.Id;
   FabrNome := ProdEnt.ProdFabrEnt.Descr;
-
+  FNatuManager.IdChar := ProdEnt.ProdNatuEnt.Id;
   // FIdNumEdit.Valor := ProdEnt.Id;
   // DescrLabeledEdit.Text := ProdEnt.Descr;
   // DescrRedLabeledEdit.Text := ProdEnt.DescrRed;

@@ -56,24 +56,12 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
         OnChange = DescrRedLabeledEditChange
         OnKeyPress = DescrRedLabeledEditKeyPress
       end
-      object FabrIdLabeledEdit: TLabeledEdit
-        Left = 24
-        Top = 48
-        Width = 121
-        Height = 23
-        EditLabel.Width = 36
-        EditLabel.Height = 15
-        EditLabel.Caption = 'fabr_id'
-        TabOrder = 2
-        Text = ''
-      end
-      object ComboBox1: TComboBox
+      object NatuComboBox: TComboBox
         Left = 175
         Top = 1
-        Width = 125
+        Width = 119
         Height = 23
-        TabOrder = 3
-        Text = 'MATERIA-PRIMA'
+        TabOrder = 2
       end
     end
   end
