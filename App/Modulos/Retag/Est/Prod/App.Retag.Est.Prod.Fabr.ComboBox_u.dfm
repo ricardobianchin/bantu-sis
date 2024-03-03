@@ -1,0 +1,2 @@
+inherited FabrComboBoxFrame: TFabrComboBoxFrame
+end

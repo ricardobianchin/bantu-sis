@@ -8,7 +8,7 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls,
   Vcl.ExtCtrls, NumEditBtu, App.Retag.Prod.SanfonaItem.Bas_u,
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output,
-  Sis.UI.Controls.ComboBoxManager;
+  Sis.UI.Controls.ComboBoxManager, App.Retag.Est.Prod.Fabr.ComboBox_u;
 
 type
   TObrigatoriosProdEdFrame = class(TProdEdSanfonaItemFrame)
@@ -31,7 +31,9 @@ type
 //    FNatuManager: TProdNatuComboBoxManager;
     // FFabrSelectEditFrame: TFabrSelectEditFrame;
 
-    function GetControlProdFabrId: integer;
+    // fabr
+    FFabrComboBoxFrame: TFabrComboBoxFrame;
+
     procedure IdCrie;
     procedure CustoCrie;
     procedure PrecoCrie;
@@ -201,11 +203,6 @@ begin
   // FFabrSelectEditFrame := TFabrSelectEditFrame.Create(MeioPanel, ProdEnt.ProdFabrEnt, nil, nil);
 end;
 
-function TObrigatoriosProdEdFrame.GetControlProdFabrId: integer;
-begin
-  Result := StrToInteger(FabrIdLabeledEdit.Text);
-end;
-
 function TObrigatoriosProdEdFrame.GetDescr: string;
 begin
   Result := DescrLabeledEdit.Text;
@@ -218,12 +215,12 @@ end;
 
 function TObrigatoriosProdEdFrame.GetFabrId: integer;
 begin
-  Result := FabrIdLabeledEdit.Tag;
+  Result := FFabrComboBoxFrame.Id;
 end;
 
 function TObrigatoriosProdEdFrame.GetFabrNome: string;
 begin
-  Result := FabrIdLabeledEdit.Text;
+  Result := FFabrComboBoxFrame.Text;
 end;
 
 function TObrigatoriosProdEdFrame.GetId: integer;
@@ -281,13 +278,13 @@ end;
 
 procedure TObrigatoriosProdEdFrame.SetFabrId(Value: integer);
 begin
-  FabrIdLabeledEdit.Tag := Value;
+  FFabrComboBoxFrame.Id := Value;
 
 end;
 
 procedure TObrigatoriosProdEdFrame.SetFabrNome(Value: string);
 begin
-  FabrIdLabeledEdit.Text := Value;
+  FFabrComboBoxFrame.Text := Value;
 end;
 
 procedure TObrigatoriosProdEdFrame.SetId(Value: integer);
@@ -299,8 +296,8 @@ procedure TObrigatoriosProdEdFrame.SimuleDig;
 begin
   DescrLabeledEdit.Text := 'CANETA DE CD';
   DescrRedLabeledEdit.Text := 'CANETA DE CD';
-  FabrIdLabeledEdit.Text := 'PILOT';
-  FabrIdLabeledEdit.Tag := 2;
+//  FFabrComboBoxFrame.Text := 'PILOT';
+//  FFabrComboBoxFrame.Id := 2;
 end;
 
 end.

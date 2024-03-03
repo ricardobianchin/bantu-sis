@@ -1,0 +1,2 @@
+inherited ComboBoxSelectDBFrame: TComboBoxSelectDBFrame
+end

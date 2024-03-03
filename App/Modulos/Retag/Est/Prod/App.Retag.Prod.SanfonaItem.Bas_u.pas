@@ -12,7 +12,7 @@ type
   TProdEdSanfonaItemFrame = class(TSanfonaItemFrame)
   private
     { Private declarations }
-  protected
+  protected  tem que ter db conn pra aqui instanciar fabr combo
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 

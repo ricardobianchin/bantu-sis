@@ -299,16 +299,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>RetagEstProdDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Frame.SelectEdit.Fabr_u.pas">
-            <Form>FabrSelectEditFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Controls\SelectFrame\EditSelect\App.UI.Frame.Control.EditSelect_u.pas">
-            <Form>SelectEditFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="UI\Controls\Sanfona\App.UI.Controls.SanfonaItem_u.pas">
             <Form>SanfonaItemFrame</Form>
             <FormType>dfm</FormType>
@@ -327,6 +317,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.ComboBoxManager_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent_u.pas"/>
+        <DCCReference Include="UI\Controls\SelectComboBoxFrame\App.UI.Controls.ComboBox.Select.DB.Frame_u.pas">
+            <Form>ComboBoxSelectDBFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.ComboBox_u.pas">
+            <Form>ComboBoxProdEdFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Fabr.ComboBox_u.pas">
+            <Form>FabrComboBoxFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
