@@ -11,6 +11,8 @@ type
   TComboBoxBasFrame = class(TControlBasFrame)
     TitLabel: TLabel;
     ComboBox1: TComboBox;
+    EspacadorLabel: TLabel;
+    procedure ComboBox1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   protected
@@ -22,10 +24,8 @@ type
     function GetText: string; virtual;
     procedure SetText(const Value: string); virtual;
 
-
   public
     { Public declarations }
-    procedure PreenchaComboBox; virtual;
     procedure Limpar; virtual;
 
     property Id: integer read GetId write SetId;
@@ -43,10 +43,20 @@ implementation
 
 { TComboBoxBasFrame }
 
-constructor TComboBoxBasFrame.Create(AOwner: TComponent);
+procedure TComboBoxBasFrame.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  TitLabel.Caption := GetCaption;
+  EditKeyPress(Sender, key);
+end;
+
+constructor TComboBoxBasFrame.Create(AOwner: TComponent);
+var
+  sCaption: string;
+begin
+  inherited;
+  Limpar;
+  sCaption := GetCaption;
+  TitLabel.Caption := sCaption;
 end;
 
 function TComboBoxBasFrame.GetText: string;
@@ -70,11 +80,6 @@ procedure TComboBoxBasFrame.Limpar;
 begin
   ComboBox1.Items.Clear;
   ComboBox1.Text := '';
-end;
-
-procedure TComboBoxBasFrame.PreenchaComboBox;
-begin
-  Limpar;
 end;
 
 procedure TComboBoxBasFrame.SetText(const Value: string);

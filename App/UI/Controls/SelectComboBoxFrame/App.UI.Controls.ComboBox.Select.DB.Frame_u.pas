@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Controls.ComboBox.Select.Frame_u,
-  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, Sis.UI.IO.Output, App.Ent.DBI;
+  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, Sis.UI.IO.Output, App.Ent.DBI,
+  Sis.DB.DBTypes;
 
 type
   TComboBoxSelectDBFrame = class(TComboBoxSelectBasFrame)
@@ -16,14 +17,18 @@ type
     FErroOutput: IOutput;
 
     function GetEntEd: IEntEd;
+    function GetEntDBI: IEntDBI;
     function GetErroOutput: IOutput;
   protected
-    property EntEd: IEntEd read GetEntEd;
     property ErroOutput: IOutput read GetErroOutput;
+  protected
+    function GetCaption: string; override;
   public
     { Public declarations }
-  constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pErroOutput: IOutput); reintroduce;
+    property EntEd: IEntEd read GetEntEd;
+    property EntDBI: IEntDBI read GetEntDBI;
+    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI; pErroOutput: IOutput); reintroduce;
+    procedure Preencha(pDBConnection: IDBConnection = nil);
   end;
 
 var
@@ -38,10 +43,20 @@ implementation
 constructor TComboBoxSelectDBFrame.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pErroOutput: IOutput);
 begin
+  FEntEd := pEntEd; //vem antes pois no create chamará getcaption, que, aqui, depente da ent
   inherited Create(AOwner);
-  FEntEd := pEntEd;
   FEntDBI := pEntDBI;
   FErroOutput := pErroOutput;
+end;
+
+function TComboBoxSelectDBFrame.GetCaption: string;
+begin
+  Result := FEntEd.NomeEnt;
+end;
+
+function TComboBoxSelectDBFrame.GetEntDBI: IEntDBI;
+begin
+  Result := FEntDBI;
 end;
 
 function TComboBoxSelectDBFrame.GetEntEd: IEntEd;
@@ -52,6 +67,11 @@ end;
 function TComboBoxSelectDBFrame.GetErroOutput: IOutput;
 begin
   Result := FErroOutput;
+end;
+
+procedure TComboBoxSelectDBFrame.Preencha(pDBConnection: IDBConnection);
+begin
+  FEntDBI.ListaSelectGet(ComboBox1.Items, pDBConnection);
 end;
 
 end.

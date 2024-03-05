@@ -19,6 +19,8 @@ type
     property ProdEnt: IProdEnt read GetProdEnt;
     procedure EntToCampos;
 
+    function DoProdPerg(pDataSetStateAbrev: string): boolean;
+
   protected
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
@@ -47,21 +49,10 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
 var
-  oProdDBI: IEntDBI;
-  oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
-  sBusca: string;
   Resultado: boolean;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
+  Resultado := DoProdPerg('Alt');
 
-  oConn := DBConnectionCreate('Retag.Prod.Ed.Atu.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
-
-  Resultado := ProdPerg(Self, EntEd, oProdDBI);
   if not Resultado then
     exit;
 
@@ -101,21 +92,9 @@ begin
 end;
 
 function TRetagEstProdDataSetForm.DoInserir: boolean;
-var
-  oProdDBI: IEntDBI;
-  oDBConnectionParams: TDBConnectionParams;
-  oDBConnection: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
-
-  oDBConnection := DBConnectionCreate('Retag.Prod.Ed.Ins.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
-
-  Result := ProdPerg(Self, EntEd, oProdDBI);
+  Result := DoProdPerg('Ins');
 
   if not Result then
     exit;
@@ -124,6 +103,28 @@ begin
   FDMemTable.Fields[0].AsInteger := ProdEnt.Id;
   EntToCampos;
   FDMemTable.Post;
+end;
+
+function TRetagEstProdDataSetForm.DoProdPerg(pDataSetStateAbrev: string): boolean;
+var
+  oProdDBI: IEntDBI;
+  oProdFabrDBI: IEntDBI;
+  oDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
+  sBusca: string;
+begin
+  inherited;
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oDBConnection := DBConnectionCreate('Retag.Prod.Ed.'+pDataSetStateAbrev+'.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+
+  oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
+  oProdFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, ProdEnt.ProdFabrEnt);
+
+  Result := ProdPerg(Self, EntEd, oProdDBI, oProdFabrDBI);
 end;
 
 procedure TRetagEstProdDataSetForm.EntToCampos;

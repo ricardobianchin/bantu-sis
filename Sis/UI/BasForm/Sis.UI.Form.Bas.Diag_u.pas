@@ -15,7 +15,6 @@ type
     MensLabel: TLabel;
     procedure OkAct_DiagExecute(Sender: TObject);
     procedure CancelAct_DiagExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
@@ -27,6 +26,8 @@ type
   public
     { Public declarations }
     function Perg: boolean;
+    constructor Create(AOwner: TComponent); override;
+
   end;
 
 var
@@ -44,11 +45,11 @@ begin
   ModalResult := mrCancel;
 end;
 
-procedure TDiagBasForm.FormCreate(Sender: TObject);
+constructor TDiagBasForm.Create(AOwner: TComponent);
 begin
   inherited;
-  MensLabel.Alignment := taCenter;
   FErroOutput := LabelOutputCreate(MensLabel);
+  MensLabel.Alignment := taCenter;
 //  MensLabel.Font.Color := COR_ERRO;
   MensLabel.Font.Color := $009393FF;
 

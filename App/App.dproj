@@ -136,9 +136,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\AppUI\App.UI.Form.Status_u.pas">
             <Form>StatusForm</Form>
         </DCCReference>
-        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Princ_u.pas">
-            <Form>PrincBasForm</Form>
-        </DCCReference>
         <DCCReference Include="UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes_u.pas">
             <Form>SessoesPrincBasForm</Form>
         </DCCReference>
@@ -167,14 +164,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\App.UI.Form.Bas.Modulo.Retaguarda_u.pas">
             <Form>RetaguardaModuloBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas">
             <Form>PDVModuloBasForm</Form>
         </DCCReference>
         <DCCReference Include="UI\Sessoes\App.UI.Sessoes.Frame.pas">
             <Form>SessoesFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Sessao\App.Sessao.Eventos.pas"/>
@@ -184,50 +179,31 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Sessao\App.Sessao.Criador.Config_u.pas"/>
         <DCCReference Include="UI\Sessoes\App.UI.Sessao.Frame.pas">
             <Form>SessaoFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas">
             <Form>ConfigModuloBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas">
             <Form>SessaoSelectDBGridFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="AppObj\App.Constants.pas"/>
         <DCCReference Include="UI\Sessoes\App.UI.Sessao.Select.Form_u.pas">
             <Form>SessaoSelectForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\App.UI.Retaguarda.ImgDM_u.pas">
             <Form>RetagImgDM</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.TabSheet_u.pas">
-            <Form>TabSheetAppBasForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet_u.pas">
-            <Form>TabSheetDataSetBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas">
             <Form>RetagAjuBemVindoForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas">
-            <Form>RetagEstProdFabrDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\App.UI.TabSheetForm.Factory.pas"/>
         <DCCReference Include="Modulos\Retag\Est\App.Retag.Est.Factory.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI_u.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Ed_u.pas">
             <Form>EdBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed_u.pas"/>
@@ -236,13 +212,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.Id.Descr.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.Ed.Id.Descr_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent_u.pas"/>
-        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Ed.Descr_u.pas">
-            <Form>EdDescrBasForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Form.Retag.Excl_u.pas">
             <Form>ExclBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl.pas"/>
         <DCCReference Include="Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas"/>
@@ -250,7 +221,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Ent\App.Ent.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.Ed.Prod.Tipo_u.pas">
             <Form>ProdTipoEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.DBI_u.pas"/>
@@ -258,32 +228,26 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Tipo\App.Retag.Est.Prod.Tipo.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Tipo\App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u.pas">
             <Form>RetagEstProdTipoDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.Ed.Prod.Fabr_u.pas">
             <Form>ProdFabrEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Unid\App.Retag.Est.Prod.Unid.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Unid\App.UI.Form.Ed.Prod.Unid_u.pas">
             <Form>ProdUnidEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Unid\App.UI.Form.DataSet.Retag.Est.Prod.Unid_u.pas">
             <Form>RetagEstProdUnidDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.UI.Form.Ed.Prod.ICMS_u.pas">
             <Form>ProdICMSEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u.pas">
             <Form>RetagEstProdICMSDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI_u.pas"/>
@@ -293,25 +257,20 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Form.Ed.Prod_u.pas">
             <Form>ProdEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Form.DataSet.Retag.Est.Prod_u.pas">
             <Form>RetagEstProdDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\Controls\Sanfona\App.UI.Controls.SanfonaItem_u.pas">
             <Form>SanfonaItemFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.SanfonaItem.Bas_u.pas">
             <Form>ProdEdSanfonaItemFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Obrigatorios.SanfonaItem_u.pas">
             <Form>ObrigatoriosProdEdFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.ComboBoxManager_u.pas"/>
@@ -319,18 +278,24 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent_u.pas"/>
         <DCCReference Include="UI\Controls\SelectComboBoxFrame\App.UI.Controls.ComboBox.Select.DB.Frame_u.pas">
             <Form>ComboBoxSelectDBFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.ComboBox_u.pas">
             <Form>ComboBoxProdEdFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Fabr.ComboBox_u.pas">
-            <Form>FabrComboBoxFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
+        <DCCReference Include="UI\BasForm\App.UI.FormCreator.DataSet_u.pas"/>
+        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Princ_u.pas">
+            <Form>PrincBasForm</Form>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet_u.pas">
+            <Form>TabSheetDataSetBasForm</Form>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.TabSheet_u.pas">
+            <Form>TabSheetAppBasForm</Form>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas">
+            <Form>RetagEstProdFabrDataSetForm</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

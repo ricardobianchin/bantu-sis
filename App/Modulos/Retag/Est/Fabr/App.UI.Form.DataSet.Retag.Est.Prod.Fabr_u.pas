@@ -49,21 +49,20 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 procedure TRetagEstProdFabrDataSetForm.DoAlterar;
 var
-  oFabrDBI: IEntDBI;
-  oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
-  sBusca: string;
+//  oFabrDBI: IEntDBI;
+//  oDBConnectionParams: TDBConnectionParams;
+//  oConn: IDBConnection;
   Resultado: boolean;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
+//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//    AppInfo, SisConfig);
+//
+//  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
+//    oDBConnectionParams, ProcessLog, Output);
+//
+//  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
 
-  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
-
-  Resultado := ProdFabrPerg(Self, EntEd, oFabrDBI);
+  Resultado := ProdFabrPerg(Self, EntEd, EntDBI{oFabrDBI});
   if not Resultado then
     exit;
 
@@ -74,25 +73,26 @@ end;
 
 procedure TRetagEstProdFabrDataSetForm.DoAtualizar(Sender: TObject);
 var
-  oFabrDBI: IEntDBI;
+//  oFabrDBI: IEntDBI;
+//  oDBConnectionParams: TDBConnectionParams;
+//  oConn: IDBConnection;
   Resultado: boolean;
-  oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
-
-  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
+//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//    AppInfo, SisConfig);
+//
+//  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
+//    oDBConnectionParams, ProcessLog, Output);
+//
+//  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
 
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
   FDMemTable.EmptyDataSet;
 
   try
-    oFabrDBI.PreencherDataSet(FFiltroParamsStringFrame.Values, LeRegEInsere);
+    //oFabrDBI.PreencherDataSet(FFiltroParamsStringFrame.Values, LeRegEInsere);
+    EntDBI.PreencherDataSet(FFiltroParamsStringFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;
@@ -103,21 +103,21 @@ begin
 end;
 
 function TRetagEstProdFabrDataSetForm.DoInserir: boolean;
-var
-  oFabrDBI: IEntDBI;
-  oDBConnectionParams: TDBConnectionParams;
-  oDBConnection: IDBConnection;
+//var
+//  oFabrDBI: IEntDBI;
+//  oDBConnectionParams: TDBConnectionParams;
+//  oDBConnection: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
+//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//    AppInfo, SisConfig);
+//
+//  oDBConnection := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
+//    oDBConnectionParams, ProcessLog, Output);
+//
+//  oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, EntEd);
 
-  oDBConnection := DBConnectionCreate('Retag.Fabr.Ed.Ins.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, EntEd);
-
-  Result := ProdFabrPerg(Self, EntEd, oFabrDBI);
+  Result := ProdFabrPerg(Self, EntEd, EntDBI {oFabrDBI});
 
   if not Result then
     exit;

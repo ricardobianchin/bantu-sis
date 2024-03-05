@@ -8,7 +8,8 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls,
   Vcl.ExtCtrls, NumEditBtu, App.Retag.Prod.SanfonaItem.Bas_u,
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output,
-  Sis.UI.Controls.ComboBoxManager, App.Retag.Est.Prod.Fabr.ComboBox_u;
+  Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
+  Sis.DB.DBTypes;
 
 type
   TObrigatoriosProdEdFrame = class(TProdEdSanfonaItemFrame)
@@ -26,18 +27,18 @@ type
     FCustoAtualNumEdit: TNumEditBtu;
     FPrecoAtualNumEdit: TNumEditBtu;
 
-    //natu
+    // natu
     FNatuManager: IComboBoxManager;
-//    FNatuManager: TProdNatuComboBoxManager;
+    // FNatuManager: TProdNatuComboBoxManager;
     // FFabrSelectEditFrame: TFabrSelectEditFrame;
 
     // fabr
-    FFabrComboBoxFrame: TFabrComboBoxFrame;
+    FFabrComboBoxFrame: TComboBoxProdEdFrame;
 
     procedure IdCrie;
     procedure CustoCrie;
     procedure PrecoCrie;
-    procedure FabrSelectCrie;
+    procedure FabrComboBoxCrie(pFabrDBI: IEntDBI);
 
     function GetId: integer;
     procedure SetId(Value: integer);
@@ -71,9 +72,10 @@ type
     function GetUniqueValues: variant;
 
     procedure SimuleDig;
+    procedure PreenchaCombos(pDBConnection: IDBConnection);
 
     constructor Create(AOwner: TComponent; pProdEnt: IProdEnt;
-      pErroOutput: IOutput); reintroduce;
+      pProdDBI: IEntDBI; pFabrDBI: IEntDBI; pErroOutput: IOutput); reintroduce;
   end;
 
   // var
@@ -117,21 +119,23 @@ begin
 end;
 
 constructor TObrigatoriosProdEdFrame.Create(AOwner: TComponent;
-  pProdEnt: IProdEnt; pErroOutput: IOutput);
+  pProdEnt: IProdEnt; pProdDBI: IEntDBI; pFabrDBI: IEntDBI;
+  pErroOutput: IOutput);
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
   IdCrie;
   // CustoCrie;
   // PrecoCrie;
-  FabrSelectCrie;
 
   FIdNumEdit.LabelPosition := lpLeft;
   FIdNumEdit.LabelSpacing := 4;
-  FIdNumEdit.Left := 45;
+  FIdNumEdit.Left :=45;
   FIdNumEdit.Top := 1;
   FIdNumEdit.Width := 60;
 
   FNatuManager := ProdNatuComboBoxManagerCreate(NatuComboBox);
+
+  FabrComboBoxCrie(pFabrDBI);
 
   // FFabrSelectEditFrame.Left := 2;
   // FFabrSelectEditFrame.Top := 30;
@@ -198,9 +202,12 @@ begin
 
 end;
 
-procedure TObrigatoriosProdEdFrame.FabrSelectCrie;
+procedure TObrigatoriosProdEdFrame.FabrComboBoxCrie(pFabrDBI: IEntDBI);
 begin
-  // FFabrSelectEditFrame := TFabrSelectEditFrame.Create(MeioPanel, ProdEnt.ProdFabrEnt, nil, nil);
+  FFabrComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel,
+    ProdEnt.ProdFabrEnt, pFabrDBI, ErroOutput);
+  FFabrComboBoxFrame.Left := 5;
+  FFabrComboBoxFrame.Top := 49;
 end;
 
 function TObrigatoriosProdEdFrame.GetDescr: string;
@@ -266,6 +273,11 @@ begin
   FPrecoAtualNumEdit.Caption := 'Preço Atual';
 end;
 
+procedure TObrigatoriosProdEdFrame.PreenchaCombos(pDBConnection: IDBConnection);
+begin
+  FFabrComboBoxFrame.Preencha(pDBConnection);
+end;
+
 procedure TObrigatoriosProdEdFrame.SetDescr(Value: string);
 begin
   DescrLabeledEdit.Text := Value;
@@ -296,8 +308,8 @@ procedure TObrigatoriosProdEdFrame.SimuleDig;
 begin
   DescrLabeledEdit.Text := 'CANETA DE CD';
   DescrRedLabeledEdit.Text := 'CANETA DE CD';
-//  FFabrComboBoxFrame.Text := 'PILOT';
-//  FFabrComboBoxFrame.Id := 2;
+  // FFabrComboBoxFrame.Text := 'PILOT';
+  // FFabrComboBoxFrame.Id := 2;
 end;
 
 end.

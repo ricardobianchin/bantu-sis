@@ -40,7 +40,6 @@ contains
   App.AppInfo_u in 'AppObj\App.AppInfo_u.pas',
   App.AppObj_u_VaParaPasta in 'AppObj\App.AppObj_u_VaParaPasta.pas',
   App.UI.Form.Status_u in 'UI\AppUI\App.UI.Form.Status_u.pas' {StatusForm},
-  App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
   App.UI.Form.Bas.Princ.Sessoes_u in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes_u.pas' {SessoesPrincBasForm},
   App.DonoConfig.Utils in 'DonoConfig\App.DonoConfig.Utils.pas',
   App.AppObj_u_ExecEventos in 'AppObj\App.AppObj_u_ExecEventos.pas',
@@ -75,10 +74,7 @@ contains
   App.Constants in 'AppObj\App.Constants.pas',
   App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm},
   App.UI.Retaguarda.ImgDM_u in 'Modulos\Retag\App.UI.Retaguarda.ImgDM_u.pas' {RetagImgDM: TDataModule},
-  App.UI.Form.Bas.TabSheet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet_u.pas' {TabSheetAppBasForm},
-  App.UI.Form.Bas.TabSheet.DataSet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet_u.pas' {TabSheetDataSetBasForm},
   App.UI.Form.TabSheet.Retag.Aju.BemVindo_u in 'Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas' {RetagAjuBemVindoForm},
-  App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas' {RetagEstProdFabrDataSetForm},
   App.UI.TabSheetForm.Factory in 'Modulos\Retag\App.UI.TabSheetForm.Factory.pas',
   App.Retag.Est.Factory in 'Modulos\Retag\Est\App.Retag.Est.Factory.pas',
   App.Retag.Est.Prod.Fabr.DBI_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI_u.pas',
@@ -90,7 +86,6 @@ contains
   App.Ent.Ed.Id.Descr in 'Modulos\Retag\Ent\App.Ent.Ed.Id.Descr.pas',
   App.Ent.Ed.Id.Descr_u in 'Modulos\Retag\Ent\App.Ent.Ed.Id.Descr_u.pas',
   App.Retag.Est.Prod.Fabr.Ent_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.Ent_u.pas',
-  App.UI.Form.Bas.Ed.Descr_u in 'UI\BasForm\App.UI.Form.Bas.Ed.Descr_u.pas' {EdDescrBasForm},
   App.UI.Form.Retag.Excl_u in 'Modulos\Retag\Ent\Excl\App.UI.Form.Retag.Excl_u.pas' {ExclBasForm},
   App.UI.Decorator.Form.Excl in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl.pas',
   App.UI.Decorator.Form.Excl_u in 'Modulos\Retag\Ent\Excl\App.UI.Decorator.Form.Excl_u.pas',
@@ -128,6 +123,10 @@ contains
   App.Retag.Est.Prod.Natu.Ent_u in 'Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent_u.pas',
   App.UI.Controls.ComboBox.Select.DB.Frame_u in 'UI\Controls\SelectComboBoxFrame\App.UI.Controls.ComboBox.Select.DB.Frame_u.pas' {ComboBoxSelectDBFrame: TFrame},
   App.Retag.Est.Prod.ComboBox_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.ComboBox_u.pas' {ComboBoxProdEdFrame: TFrame},
-  App.Retag.Est.Prod.Fabr.ComboBox_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Fabr.ComboBox_u.pas' {FabrComboBoxFrame: TFrame};
+  App.UI.FormCreator.DataSet_u in 'UI\BasForm\App.UI.FormCreator.DataSet_u.pas',
+  App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
+  App.UI.Form.Bas.TabSheet.DataSet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet_u.pas' {TabSheetDataSetBasForm},
+  App.UI.Form.Bas.TabSheet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet_u.pas' {TabSheetAppBasForm},
+  App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas' {RetagEstProdFabrDataSetForm};
 
 end.

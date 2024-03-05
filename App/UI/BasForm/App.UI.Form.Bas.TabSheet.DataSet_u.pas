@@ -9,7 +9,8 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids,
   FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed;
+  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
+  App.Ent.DBI;
 
 type
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
@@ -37,12 +38,13 @@ type
     { Private declarations }
     FFDMemTable: TFDMemTable;
     FEntEd: IEntEd;
+    FEntDBI: IEntDBI;
     // FFDDataSetManager: IFDDataSetManager;
 
     FFiltroEditAutomatico: boolean;
 
     // oDBConnection: IDBConnection;
-    FDBConnectionParams: TDBConnectionParams;
+    //FDBConnectionParams: TDBConnectionParams;
     function GetState: TDataSetState;
     procedure SetState(const Value: TDataSetState);
 
@@ -69,6 +71,7 @@ type
     function DoInserir: boolean; virtual; abstract;
     procedure DoAlterar; virtual; abstract;
     property EntEd: IEntEd read FEntEd;
+    property EntDBI: IEntDBI read FEntDBI;
     procedure LeRegEInsere(q: TDataSet); virtual;
     procedure RecordToEnt; virtual;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
@@ -78,9 +81,9 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-      pEntEd: IEntEd); reintroduce;
+      pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
   end;
-  // TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
+  TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
 
 var
   TabSheetDataSetBasForm: TTabSheetDataSetBasForm;
@@ -139,9 +142,10 @@ end;
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd);
+  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   FEntEd := pEntEd;
+  FEntDBI := pEntDBI;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS,
     pOutput, pProcessLog, pOutputNotify);
   State := dsBrowse;

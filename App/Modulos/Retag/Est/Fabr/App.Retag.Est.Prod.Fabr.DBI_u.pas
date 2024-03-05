@@ -14,6 +14,7 @@ type
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
+    function GetPackageName: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdFabrEnt);
   end;
@@ -30,6 +31,11 @@ constructor TProdFabrDBI.Create(pDBConnection: IDBConnection;
 begin
   inherited Create(pDBConnection);
   FProdFabrEnt := TProdFabrEnt(pEntEd);
+end;
+
+function TProdFabrDBI.GetPackageName: string;
+begin
+  Result := 'FABR_PA';
 end;
 
 function TProdFabrDBI.GetSqlGarantirRegId: string;

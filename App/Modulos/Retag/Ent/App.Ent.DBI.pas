@@ -2,7 +2,7 @@ unit App.Ent.DBI;
 
 interface
 
-uses Sis.DBI, Data.DB, Sis.DB.DBTypes;
+uses Sis.DBI, Data.DB, Sis.DB.DBTypes, System.Classes;
 
 type
   IEntDBI = interface(IDBI)
@@ -15,7 +15,12 @@ type
     //recebe uma id ou array de loja term id
     //retorna array com os valores do reg
     //retorna true se o id existia
+    function GetPackageName: string;
+    property PackageName: string read GetPackageName;
+
     function ById(pId: variant; out pValores: variant): boolean;
+    procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil);
+
   end;
 
 implementation

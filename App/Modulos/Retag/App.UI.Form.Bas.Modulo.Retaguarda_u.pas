@@ -10,7 +10,8 @@ uses
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.Retag.Est.Factory,
+  App.Ent.Ed, App.Ent.DBI;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -116,6 +117,8 @@ type
     FContador: IContador;
     FOutputNotify: IOutput;
 
+    FFabrDataSetFormCreator: IFormCreator;
+
     // tab crie
     procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
       : TFunctionTabSheetGetClassName;
@@ -133,9 +136,17 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory;
+  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory,
+  App.DB.Utils, Sis.DB.Factory;
 
 procedure TRetaguardaModuloBasForm.FormCreate(Sender: TObject);
+var
+  oAppInfo: IAppInfo;
+  oSisConfig: ISisConfig;
+  oEnt: IEntEd;
+  oDBI: IEntDBI;
+  oDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
 begin
   inherited;
   if not Assigned(RetagImgDM) then
@@ -148,6 +159,21 @@ begin
   FContador := ContadorCreate;
 
   MenuPageControl.ActivePage := EstoqueTabSheet;
+
+  oAppInfo := AppInfo;
+  oSisConfig := SisConfig;
+
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  oEnt := RetagEstProdFabrEntCreate;
+  oDBI := RetagEstProdFabrDBICreate(oDBConnection, oEnt);
+
+  FFabrDataSetFormCreator := FabrFormCreatorCreate(FFormClassNamesSL, oAppInfo,
+    oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oEnt, oDBI);
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);
@@ -234,7 +260,6 @@ procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute(
 begin
   inherited;
   TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
-//  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);

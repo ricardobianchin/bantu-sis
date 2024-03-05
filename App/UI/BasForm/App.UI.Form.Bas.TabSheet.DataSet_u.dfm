@@ -6,6 +6,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Height = 37
     Align = alBottom
     AutoSize = False
+    ExplicitTop = 440
     ExplicitHeight = 37
     inherited TitToolBar1_BasTabSheet: TToolBar
       Height = 32

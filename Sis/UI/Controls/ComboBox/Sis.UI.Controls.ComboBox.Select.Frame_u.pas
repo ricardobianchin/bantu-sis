@@ -10,8 +10,10 @@ uses
 type
   TComboBoxSelectBasFrame = class(TComboBoxBasFrame)
     BuscaSpeedButton: TSpeedButton;
+    Espacador2Label: TLabel;
   private
     { Private declarations }
+  protected
   public
     { Public declarations }
   end;
@@ -24,5 +26,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM;
+
+{ TComboBoxSelectBasFrame }
 
 end.
