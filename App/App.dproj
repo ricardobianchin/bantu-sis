@@ -249,7 +249,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u.pas">
             <Form>RetagEstProdICMSDataSetForm</Form>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Est\ICMS\App.Retag.Est.Prod.ICMS.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ent_u.pas"/>

@@ -15,13 +15,14 @@ type
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
+    function GetPackageName: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdTipoEnt);
   end;
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.Tipo.Ent_u, Sis.Types.strings_u;
+uses System.SysUtils, Sis.Types.strings_u, App.Retag.Est.Factory;
 
   { TProdTipoDBI }
 
@@ -29,7 +30,12 @@ constructor TProdTipoDBI.Create(pDBConnection: IDBConnection;
   pEntEd: IProdTipoEnt);
 begin
   inherited Create(pDBConnection);
-  FProdTipoEnt := TProdTipoEnt(pEntEd);
+  FProdTipoEnt := EntEdCastToProdTipoEnt(pEntEd);
+end;
+
+function TProdTipoDBI.GetPackageName: string;
+begin
+  Result := 'PROD_TIPO_PA';
 end;
 
 function TProdTipoDBI.GetSqlGarantirRegId: string;

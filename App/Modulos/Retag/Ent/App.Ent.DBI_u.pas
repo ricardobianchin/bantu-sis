@@ -23,13 +23,36 @@ type
       : variant; virtual;
     function GarantirReg: boolean;
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil); virtual;
+    function AtivoSet(const pId: integer; Value: boolean): boolean; virtual;
   end;
 
 implementation
 
-uses Sis.Types.Integers, System.SysUtils;
+uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u;
 
 { TEntDBI }
+
+function TEntDBI.AtivoSet(const pId: integer; Value: boolean): boolean;
+var
+  sFormat: string;
+  sSql: string;
+  sId, sVal: string;
+begin
+  sId := pId.ToString;
+  sVal := BooleanToSQL(Value);
+  sFormat := 'EXECUTE PROCEDURE '+PackageName+'.ATIVO_SET(%s, %s);';
+  sSql := Format(sFormat, [sId, sVal]);
+
+  Result := DBConnection.Abrir;
+  if not Result then
+    exit;
+
+  try
+    DBConnection.ExecuteSQL(sSql);
+  finally
+    DBConnection.Fechar;
+  end;
+end;
 
 function TEntDBI.ById(pId: variant; out pValores: variant): boolean;
 begin

@@ -22,7 +22,7 @@ type
 implementation
 
 uses System.SysUtils, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.strings_u;
+  Sis.Types.strings_u, App.Retag.Est.Factory;
 
 { TProdFabrDBI }
 
@@ -30,7 +30,7 @@ constructor TProdFabrDBI.Create(pDBConnection: IDBConnection;
   pEntEd: IProdFabrEnt);
 begin
   inherited Create(pDBConnection);
-  FProdFabrEnt := TProdFabrEnt(pEntEd);
+  FProdFabrEnt := EntEdCastToProdFabrEnt(pEntEd);
 end;
 
 function TProdFabrDBI.GetPackageName: string;
@@ -42,8 +42,7 @@ function TProdFabrDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
-  sFormat :=
-    'SELECT ID_GRAVADO FROM FABR_PA.GARANTIR(%d,''%s'');';
+  sFormat := 'SELECT ID_GRAVADO FROM FABR_PA.GARANTIR(%d,''%s'');';
   Result := Format(sFormat, [FProdFabrEnt.Id, FProdFabrEnt.Descr]);
 end;
 

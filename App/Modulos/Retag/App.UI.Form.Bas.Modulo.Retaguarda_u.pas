@@ -118,11 +118,13 @@ type
     FOutputNotify: IOutput;
 
     FFabrDataSetFormCreator: IFormCreator;
+    FProdTipoDataSetFormCreator: IFormCreator;
+    FProdUnidDataSetFormCreator: IFormCreator;
+    FProdICMSDataSetFormCreator: IFormCreator;
+    FProdDataSetFormCreator: IFormCreator;
 
     // tab crie
-    procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
-      : TFunctionTabSheetGetClassName;
-      pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
+    procedure TabSheetCrie(pFormCreator: IFormCreator);
 
   public
     { Public declarations }
@@ -172,8 +174,41 @@ begin
   oEnt := RetagEstProdFabrEntCreate;
   oDBI := RetagEstProdFabrDBICreate(oDBConnection, oEnt);
 
-  FFabrDataSetFormCreator := FabrFormCreatorCreate(FFormClassNamesSL, oAppInfo,
-    oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oEnt, oDBI);
+  FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
+    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oEnt, oDBI);
+
+  oEnt := RetagEstProdTipoEntCreate;
+  oDBI := RetagEstProdTipoDBICreate(oDBConnection, oEnt);
+
+  FProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    FOutputNotify, oEnt, oDBI);
+
+  oEnt := RetagEstProdUnidEntCreate;
+  oDBI := RetagEstProdUnidDBICreate(oDBConnection, oEnt);
+
+  FProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    FOutputNotify, oEnt, oDBI);
+
+  oEnt := RetagEstProdICMSEntCreate;
+  oDBI := RetagEstProdICMSDBICreate(oDBConnection, oEnt);
+
+  FProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    FOutputNotify, oEnt, oDBI);
+
+
+
+  oEnt := RetagEstProdICMSEntCreate;
+  oDBI := RetagEstProdICMSDBICreate(oDBConnection, oEnt);
+
+  FProdDataSetFormCreator := ProdDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    FOutputNotify, oEnt, oDBI);
+
+
+
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);
@@ -218,13 +253,13 @@ end;
 procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagAjuBemVindoFormGetClassName, RetagAjuBemVindoFormCreate);
+  // TabSheetCrie(RetagAjuBemVindoFormGetClassName, RetagAjuBemVindoFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdFormGetClassName, RetagEstProdFormCreate);
+  // TabSheetCrie(RetagEstProdFormGetClassName, RetagEstProdFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdEnviarTermActionExecute
@@ -238,57 +273,59 @@ procedure TRetaguardaModuloBasForm.RetagEstProdFabrActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdFabrFormGetClassName, RetagEstProdFabrFormCreate);
+  TabSheetCrie(FFabrDataSetFormCreator);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagEstProdICMSActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagEstProdICMSActionExecute
+  (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdICMSFormGetClassName, RetagEstProdICMSFormCreate);
+  TabSheetCrie(FProdICMSDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
+  TabSheetCrie(FProdTipoDataSetFormCreator);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute
+  (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
+  TabSheetCrie(FProdUnidDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  RetagAjuBemAction.Execute;
-//  RetagEstProdICMSAction.Execute;
-//  sleep(150);
-//  RetagEstProdFabrAction.Execute;
+  // RetagAjuBemAction.Execute;
+  // RetagEstProdICMSAction.Execute;
+  // sleep(150);
+  // RetagEstProdFabrAction.Execute;
   RetagEstProdAction.Execute;
 end;
 
-procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName
-  : TFunctionTabSheetGetClassName;
-  pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
+procedure TRetaguardaModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator
+  { pFunctionTabSheetGetClassName
+    : TFunctionTabSheetGetClassName;
+    pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate } );
 var
   oTabSheet: TTabSheet;
-  oTabSheetBasForm: TTabSheetAppBasForm;
+  // oTabSheetBasForm: TTabSheetAppBasForm;
+  oForm: TForm;
   // HintPoint: TPoint;
   sFormClassName: string;
-  //iPageIndex: Integer;
-  //oTRect: TRect;
+  // iPageIndex: Integer;
+  // oTRect: TRect;
   iExistenteIndex: Integer;
 
   oFormOwner: TComponent;
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
 begin
-  sFormClassName := pFunctionTabSheetGetClassName;
+  sFormClassName := pFormCreator.FormClassName;
 
   iExistenteIndex := FFormClassNamesSL.IndexOf(sFormClassName);
   if iExistenteIndex > -1 then
@@ -296,7 +333,7 @@ begin
     oTabSheet := TTabSheet(FFormClassNamesSL.Objects[iExistenteIndex]);
     PageControl1.ActivePage := oTabSheet;
 
-    //iPageIndex := PageControl1.ActivePageIndex;
+    // iPageIndex := PageControl1.ActivePageIndex;
     // HintPoint := Mouse.CursorPos;
     // oTRect := PageControl1.TabRect(iPageIndex);
     // HintPoint := CenterPoint(oTRect);
@@ -320,14 +357,16 @@ begin
   oAppInfo := AppInfo;
   oSisConfig := SisConfig;
 
-  oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
-    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify);
-  oTabSheetBasForm.Parent := oTabSheet;
+  // oTabSheetBasForm := FFabrDataSetFormCreator.FormCreate(oFormOwner);
+  oForm := pFormCreator.FormCreate(oFormOwner);
+  // pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
+  // oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify);
+  oForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);
 
-  oTabSheet.Caption := oTabSheetBasForm.Titulo;
-  oTabSheetBasForm.Show;
+  oTabSheet.Caption := pFormCreator.Titulo;
+  oForm.Show;
 end;
 
 end.

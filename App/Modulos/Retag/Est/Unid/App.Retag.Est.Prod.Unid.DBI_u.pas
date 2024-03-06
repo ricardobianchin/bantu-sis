@@ -15,6 +15,7 @@ type
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
+    function GetPackageName: string; override;
   public
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; override;
@@ -24,8 +25,8 @@ type
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.Unid.Ent_u, Sis.Types.strings_u,
-  Sis.Win.Utils_u, Vcl.Dialogs;
+uses System.SysUtils, Sis.Types.strings_u,
+  Sis.Win.Utils_u, Vcl.Dialogs, App.Retag.Est.Factory;
 
 { TProdUnidDBI }
 
@@ -33,7 +34,7 @@ constructor TProdUnidDBI.Create(pDBConnection: IDBConnection;
   pEntEd: IProdUnidEnt);
 begin
   inherited Create(pDBConnection);
-  FProdUnidEnt := TProdUnidEnt(pEntEd);
+  FProdUnidEnt := EntEdCastToProdUnidEnt(pEntEd);
 end;
 
 function TProdUnidDBI.GetExistente(pValues: variant;
@@ -89,6 +90,11 @@ begin
   finally
     DBConnection.Fechar;
   end;
+end;
+
+function TProdUnidDBI.GetPackageName: string;
+begin
+  Result := 'UNID_PA';
 end;
 
 function TProdUnidDBI.GetSqlGarantirRegId: string;

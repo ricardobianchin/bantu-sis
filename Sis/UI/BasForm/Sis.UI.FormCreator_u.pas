@@ -11,9 +11,13 @@ type
     function GetFormClass: TFormClass;
   protected
     property FormClass: TFormClass read GetFormClass;
+    function GetTitulo: string; virtual; abstract;
+    function GetFormClassName: string;
   public
-    function FormCreate(AOwner: TComponent): TForm; virtual;
     constructor Create(pFormClass: TFormClass);
+    property Titulo: string read GetTitulo;
+    property FormClassName: string read GetFormClassName;
+    function FormCreate(AOwner: TComponent): TForm; virtual;
   end;
 
 
@@ -34,6 +38,11 @@ end;
 function TFormCreator.GetFormClass: TFormClass;
 begin
   Result := FFormClass;
+end;
+
+function TFormCreator.GetFormClassName: string;
+begin
+  Result := FFormClass.ClassName;
 end;
 
 end.

@@ -48,7 +48,7 @@ implementation
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.ICMS.Ent_u, Sis.Types.Utils_u,
-  App.Retag.Est.Prod.ICMS.DBI_u, App.Retag.Est.Prod.ICMS.DBI;
+  App.Retag.Est.Prod.ICMS.DBI_u;
 
 { TRetagEstProdICMSDataSetForm }
 
@@ -60,7 +60,7 @@ end;
 
 function TRetagEstProdICMSDataSetForm.AtivoSet(pValor: boolean): boolean;
 var
-  oICMSDBI: IProdICMSDBI;
+  oICMSDBI: IEntDBI;
   Resultado: boolean;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
@@ -113,7 +113,7 @@ end;
 
 procedure TRetagEstProdICMSDataSetForm.DoAtualizar(Sender: TObject);
 var
-  oICMSDBI: IProdICMSDBI;
+  oICMSDBI: IEntDBI;
   Resultado: boolean;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
@@ -142,7 +142,7 @@ end;
 
 function TRetagEstProdICMSDataSetForm.DoInserir: boolean;
 var
-  oICMSDBI: IProdICMSDBI;
+  oICMSDBI: IEntDBI;
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
