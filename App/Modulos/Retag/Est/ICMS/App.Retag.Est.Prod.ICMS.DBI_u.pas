@@ -22,7 +22,7 @@ type
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.ICMS.Ent_u, Sis.Types.strings_u,
+uses System.SysUtils, Sis.Types.strings_u,
   Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats,
   App.Retag.Est.Factory;
 

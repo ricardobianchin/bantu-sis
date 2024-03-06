@@ -2,8 +2,10 @@ unit App.Retag.Est.Prod.Natu.Ent;
 
 interface
 
+uses Sis.Entidade;
+
 type
-  IProdNatuEnt = interface(IInterface)
+  IProdNatuEnt = interface(IEntidade)
     ['{EEC37339-D74D-4DE6-9942-0B4A004D47AD}']
     function GetId: char;
     procedure SetId(const pId: char);

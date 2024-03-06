@@ -44,7 +44,7 @@ type
     pOutputNotify: IOutput): TTabSheetAppBasForm;
   TFunctionTabSheetGetClassName = function: string;
 
-  // TTabSheetAppBasFormClass = class of TTabSheetAppBasForm;
+  TTabSheetAppBasFormClass = class of TTabSheetAppBasForm;
 
 var
   TabSheetAppBasForm: TTabSheetAppBasForm;

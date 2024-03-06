@@ -3,7 +3,7 @@ unit App.Retag.Est.Factory;
 interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, System.Classes, App.UI.Decorator.Form.Excl,
+  Sis.UI.IO.Output, System.Classes,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
   Sis.Config.SisConfig
 
@@ -20,7 +20,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
 
   // prod natu
     , App.Retag.Est.Prod.Natu.Ent, Sis.UI.FormCreator,
-  App.Retag.Est.Prod.Tipo.Ent, App.Retag.Est.Prod.Unid.Ent // ProdNatu ent
+  App.Retag.Est.Prod.Tipo.Ent, App.Retag.Est.Prod.Unid.Ent, Sis.Entidade // ProdNatu ent
 
     ;
 
@@ -41,7 +41,7 @@ function ProdFabrEdFormCreate(AOwner: TComponent; pProdFabr: IEntEd;
 function ProdFabrPerg(AOwner: TComponent; pProdFabrEnt: IEntEd;
   pProdFabrDBI: IEntDBI): boolean;
 
-function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+//function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
 function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -59,7 +59,7 @@ function EntDBICastToProdTipoDBI(pEntDBI: IEntDBI): IEntDBI;
 
 
 function RetagEstProdTipoEntCreate(pState: TDataSetState = dsBrowse;
-  pId: integer = 0; pDescr: string = ''): IEntEd;
+  pId: integer = 0; pDescr: string = ''): IProdTipoEnt;
 
 function RetagEstProdTipoDBICreate(pDBConnection: IDBConnection;
   pProdTipoEnt: IEntEd): IEntDBI;
@@ -70,7 +70,7 @@ function ProdTipoEdFormCreate(AOwner: TComponent; pProdTipo: IEntEd;
 function ProdTipoPerg(AOwner: TComponent; pProdTipoEnt: IEntEd;
   pProdTipoDBI: IEntDBI): boolean;
 
-function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
+//function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
 
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -87,7 +87,7 @@ function EntEdCastToProdUnidEnt(pEntEd: IEntEd): IProdUnidEnt;
 function EntDBICastToProdUnidDBI(pEntDBI: IEntDBI): IEntDBI;
 
 function RetagEstProdUnidEntCreate(pState: TDataSetState = dsBrowse;
-  pId: integer = 0; pDescr: string = ''): IEntEd;
+  pId: integer = 0; pDescr: string = ''): IProdUnidEnt;
 
 function RetagEstProdUnidDBICreate(pDBConnection: IDBConnection;
   pProdUnidEnt: IEntEd): IEntDBI;
@@ -98,7 +98,7 @@ function ProdUnidEdFormCreate(AOwner: TComponent; pProdUnid: IEntEd;
 function ProdUnidPerg(AOwner: TComponent; pProdUnidEnt: IEntEd;
   pProdUnidDBI: IEntDBI): boolean;
 
-function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
+//function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
 
 
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
@@ -113,7 +113,7 @@ function EntEdCastToProdICMSEnt(pEntEd: IEntEd): IProdICMSEnt;
 function EntDBICastToProdICMSDBI(pEntDBI: IEntDBI): IEntDBI;
 
 function RetagEstProdICMSEntCreate(pState: TDataSetState = dsBrowse;
-  pId: integer = 0; pDescr: string = ''): IEntEd;
+  pId: integer = 0; pDescr: string = ''): IProdICMSEnt;
 
 function RetagEstProdICMSDBICreate(pDBConnection: IDBConnection;
   pProdICMSEnt: IEntEd): IEntDBI;
@@ -124,7 +124,7 @@ function ProdICMSEdFormCreate(AOwner: TComponent; pProdICMS: IEntEd;
 function ProdICMSPerg(AOwner: TComponent; pProdICMSEnt: IEntEd;
   pProdICMSDBI: IEntDBI): boolean;
 
-function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
+//function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
 
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -142,9 +142,9 @@ function RetagEstProdEntCreate(
 
   pState: TDataSetState = dsBrowse;
   // campos
-  pId: integer = 0; pDescr: string = ''; pDescrRed: string = ''): IEntEd;
+  pId: integer = 0; pDescr: string = ''; pDescrRed: string = ''): IProdEnt;
 
-function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IProdEnt)
+function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IEntEd)
   : IProdDBI;
 
 function ProdEdFormCreate(AOwner: TComponent; pProdEnt: IEntEd;
@@ -153,7 +153,7 @@ function ProdEdFormCreate(AOwner: TComponent; pProdEnt: IEntEd;
 function ProdPerg(AOwner: TComponent; pProdEnt: IEntEd; pProdDBI: IEntDBI;
   pProdFabrDBI: IEntDBI): boolean;
 
-function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
+//function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
 
 function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 function EntDBICastToProdDBI(pEntDBI: IEntDBI): IProdDBI;
@@ -169,8 +169,10 @@ function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 
 {$REGION 'prod Natu'}
-function RetagEstProdNatuEntCreate(pId: char = #0;
-  pDescr: string = 'NAO INDICADO'): IProdNatuEnt;
+function EntEdCastToProdNatuEnt(pEntEd: IEntEd): IProdNatuEnt;
+
+function RetagEstProdNatuEntCreate(pId: char = 'P';
+  pDescr: string = 'PRODUTO'): IProdNatuEnt;
 
 function ProdNatuComboBoxManagerCreate(pComboBox: TComboBox): IComboBoxManager;
 
@@ -178,41 +180,42 @@ function ProdNatuComboBoxManagerCreate(pComboBox: TComboBox): IComboBoxManager;
 
 implementation
 
-uses Vcl.Controls
+uses Vcl.Controls, App.UI.FormCreator.DataSet_u
 
   // fabr
     , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
     , App.Retag.Est.Prod.Fabr.DBI_u // fabr dbi
     , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
-    , App.UI.FormCreator.DataSet_u, App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
+    , App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
 
   // tipo
     , App.Retag.Est.Prod.Tipo.Ent_u // tipo ent
     , App.Retag.Est.Prod.Tipo.DBI_u // tipo dbi
     , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
+    , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u //
 
   // unid
     , App.Retag.Est.Prod.Unid.Ent_u // ent
     , App.Retag.Est.Prod.Unid.DBI_u // unid dbi
     , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
+    , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u //
 
   // icms
     , App.Retag.Est.Prod.ICMS.Ent_u // icms ent
     , App.Retag.Est.Prod.ICMS.DBI_u // icms dbi
     , App.UI.Form.Ed.Prod.ICMS_u // icms ed form
+    , App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u //
 
   // prod
     , App.Retag.Est.Prod.Ent_u // prod ent
     , App.Retag.Est.Prod.DBI_u // prod dbi
     , App.UI.Form.Ed.Prod_u // prod ed form
+    , App.UI.Form.DataSet.Retag.Est.Prod_u //
 
   // natu
     , App.Retag.Est.Prod.Natu.Ent_u // natu ent
     , App.Retag.Est.Prod.Natu.ComboBoxManager_u // natu manager
 
-    , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u //
-    , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u //
-    , App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u //
 
     ;
 
@@ -255,10 +258,10 @@ begin
   Result := F.Perg;
 end;
 
-function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
-begin
-  // Result := TDecoratorExclFabr.Create(pProdFabr);
-end;
+//function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+//begin
+//  // Result := TDecoratorExclFabr.Create(pProdFabr);
+//end;
 
 function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -286,7 +289,7 @@ begin
 end;
 
 function RetagEstProdTipoEntCreate(pState: TDataSetState; pId: integer;
-  pDescr: string): IEntEd;
+  pDescr: string): IProdTipoEnt;
 begin
   Result := TProdTipoEnt.Create(pState, pId, pDescr);
 end;
@@ -312,10 +315,10 @@ begin
   Result := F.Perg;
 end;
 
-function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
-begin
-  // Result := TDecoratorExclTipo.Create(pProdTipo);
-end;
+//function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
+//begin
+//  // Result := TDecoratorExclTipo.Create(pProdTipo);
+//end;
 
 
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
@@ -346,7 +349,7 @@ end;
 
 
 function RetagEstProdUnidEntCreate(pState: TDataSetState; pId: integer;
-  pDescr: string): IEntEd;
+  pDescr: string): IProdUnidEnt;
 begin
   Result := TProdUnidEnt.Create(pState, pId, pDescr);
 end;
@@ -373,10 +376,10 @@ begin
   Result := F.Perg;
 end;
 
-function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
-begin
-  // Result := TDecoratorExclUnid.Create(pProdUnid);
-end;
+//function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
+//begin
+//  // Result := TDecoratorExclUnid.Create(pProdUnid);
+//end;
 
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -406,7 +409,7 @@ begin
 end;
 
 function RetagEstProdICMSEntCreate(pState: TDataSetState; pId: integer;
-  pDescr: string): IEntEd;
+  pDescr: string): IProdICMSEnt;
 begin
   Result := TProdICMSEnt.Create(pState, pId, pDescr);
 end;
@@ -434,10 +437,10 @@ begin
   Result := F.Perg;
 end;
 
-function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
-begin
-  // Result := TDecoratorExclICMS.Create(pProdICMS);
-end;
+//function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
+//begin
+//  // Result := TDecoratorExclICMS.Create(pProdICMS);
+//end;
 
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -461,13 +464,13 @@ function RetagEstProdEntCreate(
   pProdNatuEnt: IProdNatuEnt; // est_item_natu
   // campos
   pState: TDataSetState; pId: integer; pDescr: string;
-  pDescrRed: string): IEntEd;
+  pDescrRed: string): IProdEnt;
 begin
-  Result := TProdEnt.Create(pState, pProdFabrEnt, pProdNatuEnt, pId, pDescr,
+  Result := TProdEnt.Create(pProdFabrEnt, pProdNatuEnt, pState, pId, pDescr,
     pDescrRed);
 end;
 
-function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IProdEnt)
+function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IEntEd)
   : IProdDBI;
 begin
   Result := TProdDBI.Create(pDBConnection, pProdEnt);
@@ -488,10 +491,10 @@ begin
   Result := F.Perg;
 end;
 
-function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
-begin
-  // Result := TDecoratorExcl.Create(pProd);
-end;
+//function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
+//begin
+//  // Result := TDecoratorExcl.Create(pProd);
+//end;
 
 function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 begin
@@ -503,8 +506,31 @@ begin
   Result := TProdDBI(pEntDBI);
 end;
 
+function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TRetagEstProdDataSetForm,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pOutputNotify, pEntEd, pEntDBI);
+end;
+
+
+
 {$ENDREGION}
+
+
+
+
+
 {$REGION 'prod Natu impl'}
+
+
+function EntEdCastToProdNatuEnt(pEntEd: IEntEd): IProdNatuEnt;
+begin
+  Result := TProdNatuEnt(pEntEd);
+end;
 
 function RetagEstProdNatuEntCreate(pId: char; pDescr: string): IProdNatuEnt;
 begin

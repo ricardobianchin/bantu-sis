@@ -75,7 +75,6 @@ contains
   App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm},
   App.UI.Retaguarda.ImgDM_u in 'Modulos\Retag\App.UI.Retaguarda.ImgDM_u.pas' {RetagImgDM: TDataModule},
   App.UI.Form.TabSheet.Retag.Aju.BemVindo_u in 'Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas' {RetagAjuBemVindoForm},
-  App.UI.TabSheetForm.Factory in 'Modulos\Retag\App.UI.TabSheetForm.Factory.pas',
   App.Retag.Est.Factory in 'Modulos\Retag\Est\App.Retag.Est.Factory.pas',
   App.Retag.Est.Prod.Fabr.DBI_u in 'Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI_u.pas',
   App.UI.Form.Bas.Ed_u in 'UI\BasForm\App.UI.Form.Bas.Ed_u.pas' {EdBasForm},
@@ -126,6 +125,8 @@ contains
   App.UI.Form.Bas.Princ_u in 'UI\BasForm\App.UI.Form.Bas.Princ_u.pas' {PrincBasForm},
   App.UI.Form.Bas.TabSheet.DataSet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet_u.pas' {TabSheetDataSetBasForm},
   App.UI.Form.Bas.TabSheet_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet_u.pas' {TabSheetAppBasForm},
-  App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas' {RetagEstProdFabrDataSetForm};
+  App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u in 'Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas' {RetagEstProdFabrDataSetForm},
+  App.Retag.Aju.Factory in 'Modulos\Retag\Aju\App.Retag.Aju.Factory.pas',
+  App.UI.FormCreator.TabSheet_u in 'UI\BasForm\App.UI.FormCreator.TabSheet_u.pas';
 
 end.

@@ -5,7 +5,7 @@ interface
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
   App.Retag.Est.Prod.Ent, Sis.UI.Frame.Bas.FiltroParams_u,
-  App.Retag.Est.Prod.DBI;
+  App.Retag.Est.Prod.DBI, App.Ent.Ed, App.Retag.Est.Factory;
 
 type
   TProdDBI = class(TEntDBI, IProdDBI)
@@ -20,20 +20,20 @@ type
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; override;
 
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IProdEnt);
+    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
   end;
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.Ent_u, Sis.Types.strings_u,
+uses System.SysUtils, Sis.Types.strings_u,
   Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats;
 
 { TProdDBI }
 
-constructor TProdDBI.Create(pDBConnection: IDBConnection; pEntEd: IProdEnt);
+constructor TProdDBI.Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
 begin
   inherited Create(pDBConnection);
-  FProdEnt := TProdEnt(pEntEd);
+  FProdEnt := EntEdCastToProdEnt(pEntEd);
 end;
 
 function TProdDBI.GetExistente(pValues: variant; out pRetorno: string): variant;

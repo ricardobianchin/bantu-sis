@@ -4,7 +4,7 @@ interface
 
 uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
   Sis.Types.Utils_u, App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Fabr.Ent,
-  App.Retag.Est.Prod.Natu.Ent;
+  App.Retag.Est.Prod.Natu.Ent, App.Ent.DBI_u, App.Ent.Ed, App.Retag.Est.Factory;
 
 type
   TProdEnt = class(TEntEdId, IProdEnt)
@@ -35,8 +35,11 @@ type
     property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
     property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
 
-    constructor Create(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt;
+    constructor Create(
+      pProdFabrEnt: IProdFabrEnt;
       pProdNatuEnt: IProdNatuEnt;
+      //
+      pState: TDataSetState = dsBrowse;
       pId: integer = 0; pDescr: string = ''; pDescrRed: string = '');
   end;
 
@@ -46,9 +49,12 @@ implementation
 
 { TProdEnt }
 
-constructor TProdEnt.Create(pState: TDataSetState; pProdFabrEnt: IProdFabrEnt;
-  pProdNatuEnt: IProdNatuEnt;
-  pId: integer = 0; pDescr: string = ''; pDescrRed: string = '');
+constructor TProdEnt.Create(
+      pProdFabrEnt: IProdFabrEnt;
+      pProdNatuEnt: IProdNatuEnt;
+      //
+      pState: TDataSetState;
+      pId: integer; pDescr: string; pDescrRed: string);
 begin
   inherited Create(State, pId);
   FDescr := pDescr;

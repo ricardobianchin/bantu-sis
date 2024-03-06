@@ -199,7 +199,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Aju\BemVindo\App.UI.Form.TabSheet.Retag.Aju.BemVindo_u.pas">
             <Form>RetagAjuBemVindoForm</Form>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\App.UI.TabSheetForm.Factory.pas"/>
         <DCCReference Include="Modulos\Retag\Est\App.Retag.Est.Factory.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.Retag.Est.Prod.Fabr.DBI_u.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.Form.Bas.Ed_u.pas">
@@ -296,6 +295,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Fabr\App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u.pas">
             <Form>RetagEstProdFabrDataSetForm</Form>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Aju\App.Retag.Aju.Factory.pas"/>
+        <DCCReference Include="UI\BasForm\App.UI.FormCreator.TabSheet_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
