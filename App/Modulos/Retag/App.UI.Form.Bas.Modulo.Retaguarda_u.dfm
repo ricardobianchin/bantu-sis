@@ -21,7 +21,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Left = 0
     Top = 30
     Width = 592
-    Height = 122
+    Height = 65
     Align = alTop
     Caption = ' '
     TabOrder = 1
@@ -29,11 +29,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Left = 1
       Top = 1
       Width = 590
-      Height = 120
-      ActivePage = EstoqueTabSheet
+      Height = 63
+      ActivePage = AjudaTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
+      ExplicitHeight = 120
       object EstoqueTabSheet: TTabSheet
         Caption = 'Estoque'
         Font.Charset = DEFAULT_CHARSET
@@ -42,58 +43,39 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        object EstProdGroupBox: TGroupBox
-          Left = 1
-          Top = -3
-          Width = 480
-          Height = 97
-          Caption = 'Produtos'
+        object ToolBar4: TToolBar
+          Left = 0
+          Top = 0
+          Width = 582
+          Height = 30
+          AutoSize = True
+          ButtonHeight = 30
+          ButtonWidth = 125
+          Caption = 'EstoqueToolBar'
+          Ctl3D = False
+          EdgeInner = esNone
+          EdgeOuter = esNone
+          Images = RetagImgDM.ImageList_24_24
+          List = True
+          ShowCaptions = True
           TabOrder = 0
-          object EstProdEnvTermPanel: TPanel
-            Left = 2
-            Top = 65
-            Width = 119
-            Height = 21
-            BevelOuter = bvNone
-            Caption = '  '
-            TabOrder = 0
-            object ToolBar4: TToolBar
-              Left = 0
-              Top = 0
-              Width = 119
-              Height = 21
-              ButtonHeight = 21
-              ButtonWidth = 114
-              Caption = 'ToolBar4'
-              List = True
-              ShowCaptions = True
-              TabOrder = 0
-              object ToolButton2: TToolButton
-                Left = 0
-                Top = 0
-                Action = RetagEstProdEnviarTermAction
-              end
-            end
+          object ToolButton2: TToolButton
+            Left = 0
+            Top = 0
+            Action = RetagEstProdAction
           end
-          object ToolBar6: TToolBar
-            Left = 2
-            Top = 17
-            Width = 476
-            Height = 54
-            ButtonHeight = 46
-            ButtonWidth = 55
-            Caption = 'EstoqueToolBar'
-            Ctl3D = False
-            EdgeInner = esNone
-            EdgeOuter = esNone
-            Images = RetagImgDM.ImageList_24_24
-            ShowCaptions = True
-            TabOrder = 1
-            object ToolButton8: TToolButton
-              Left = 0
-              Top = 0
-              Action = RetagEstProdAction
-            end
+          object ToolButton9: TToolButton
+            Left = 125
+            Top = 0
+            Hint = 'Produtos'
+            Caption = 'Entrada de Notas'
+            OnClick = RetagEstProdActionExecute
+          end
+          object ToolButton10: TToolButton
+            Left = 250
+            Top = 0
+            Caption = 'Vendas'
+            OnClick = RetagEstProdEnviarTermActionExecute
           end
         end
       end
@@ -104,14 +86,16 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Left = 0
           Top = 0
           Width = 582
-          Height = 54
-          ButtonHeight = 46
-          ButtonWidth = 67
+          Height = 30
+          AutoSize = True
+          ButtonHeight = 30
+          ButtonWidth = 95
           Caption = 'EstoqueToolBar'
           Ctl3D = False
           EdgeInner = esNone
           EdgeOuter = esNone
           Images = RetagImgDM.ImageList_24_24
+          List = True
           ShowCaptions = True
           TabOrder = 0
           object ToolButton4: TToolButton
@@ -120,17 +104,17 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Action = RetagEstProdFabrAction
           end
           object ToolButton5: TToolButton
-            Left = 67
+            Left = 95
             Top = 0
             Action = RetagEstProdTipoAction
           end
           object ToolButton6: TToolButton
-            Left = 134
+            Left = 190
             Top = 0
             Action = RetagEstProdUnidAction
           end
           object ToolButton7: TToolButton
-            Left = 201
+            Left = 285
             Top = 0
             Action = RetagEstProdICMSAction
           end
@@ -143,14 +127,16 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Left = 0
           Top = 0
           Width = 582
-          Height = 54
-          ButtonHeight = 46
-          ButtonWidth = 66
+          Height = 30
+          AutoSize = True
+          ButtonHeight = 30
+          ButtonWidth = 94
           Caption = 'EstoqueToolBar'
           Ctl3D = False
           EdgeInner = esNone
           EdgeOuter = esNone
           Images = RetagImgDM.ImageList_24_24
+          List = True
           ShowCaptions = True
           TabOrder = 0
           object AjuBemToolButton: TToolButton
@@ -171,15 +157,21 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   end
   object PageControl1: TPageControl [3]
     Left = 0
-    Top = 152
+    Top = 95
     Width = 592
-    Height = 281
+    Height = 338
     Align = alClient
     TabOrder = 3
+    ExplicitTop = 152
+    ExplicitHeight = 281
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 184
     Top = 192
+  end
+  inherited TitleBarActionList_ModuloBasForm: TActionList
+    Left = 392
+    Top = 136
   end
   inherited PopupMenu1: TPopupMenu
     Left = 280
@@ -251,7 +243,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Category = 'Estoque'
       Caption = 'Produtos'
       Hint = 'Produtos'
-      ImageIndex = 5
       OnExecute = RetagEstProdActionExecute
     end
     object RetagEstProdEnviarTermAction: TAction
@@ -263,34 +254,29 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Category = 'Estoque'
       Caption = 'Fabricantes'
       Hint = 'Fabricantes dos Produtos'
-      ImageIndex = 1
       OnExecute = RetagEstProdFabrActionExecute
     end
     object RetagEstProdTipoAction: TAction
       Category = 'Estoque'
       Caption = 'Setores'
       Hint = 'Setores dos produtos'
-      ImageIndex = 2
       OnExecute = RetagEstProdTipoActionExecute
     end
     object RetagAjuBemAction: TAction
       Category = 'Ajuda'
       Caption = 'Bem-vindo'
-      ImageIndex = 0
       OnExecute = RetagAjuBemActionExecute
     end
     object RetagEstProdUnidAction: TAction
       Category = 'Estoque'
       Caption = 'Unidades'
       Hint = 'Unidades de Medida'
-      ImageIndex = 3
       OnExecute = RetagEstProdUnidActionExecute
     end
     object RetagEstProdICMSAction: TAction
       Category = 'Estoque'
       Caption = 'ICMS'
       Hint = 'Al'#237'quotas (Percentuais) de ICMS. '
-      ImageIndex = 4
       OnExecute = RetagEstProdICMSActionExecute
     end
   end

@@ -211,8 +211,8 @@ procedure TModuloBasForm.MenuExibir;
 var
   x, y: integer;
 begin
-  x := MenuToolButton.Left+MenuToolButton.Width;
-  y := MenuToolButton.Top; // + 11; //+ MenuToolButton.Height;
+  x := MenuToolButton.Left; //+MenuToolButton.Width;
+  y := MenuToolButton.Top + MenuToolButton.Height + 1;
   PopupMenu1.Popup(x, y);
 
 end;

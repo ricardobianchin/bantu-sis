@@ -53,13 +53,10 @@ begin
   Resultado := FFormCreator.PergSelect(SelectItem);
   if not Resultado then
     exit;
-  Index := ComboBox1.Items.IndexOfObject(Pointer(SelectItem.Id));
 
-  if index < 0 then
-  begin
-    Preencha(nil);
-    Index := ComboBox1.Items.IndexOfObject(Pointer(SelectItem.Id));
-  end;
+  Preencha(nil);
+
+  Index := ComboBox1.Items.IndexOfObject(Pointer(SelectItem.Id));
 
   if index < 0 then
     exit;

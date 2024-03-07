@@ -191,7 +191,6 @@ procedure TTabSheetDataSetBasForm.CancelActionExecute(Sender: TObject);
 begin
   inherited;
   ModalResult := mrCancel;
-
 end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;

@@ -24,8 +24,6 @@ type
     EstoqueTabSheet: TTabSheet;
     AjudaTabSheet: TTabSheet;
     PageControl1: TPageControl;
-    EstProdGroupBox: TGroupBox;
-    EstProdEnvTermPanel: TPanel;
 
     RetagAjuBemAction: TAction;
 
@@ -39,8 +37,6 @@ type
     BalloonHint1: TBalloonHint;
     ToolBar3: TToolBar;
     AjuBemToolButton: TToolButton;
-    ToolBar4: TToolBar;
-    ToolButton2: TToolButton;
     RetagEstProdICMSAction: TAction;
     ProdTabsTabSheet: TTabSheet;
     ToolBar5: TToolBar;
@@ -48,8 +44,6 @@ type
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
     ToolButton7: TToolButton;
-    ToolBar6: TToolBar;
-    ToolButton8: TToolButton;
     MainMenu1: TMainMenu;
     Cadastro1: TMenuItem;
     Estoque1: TMenuItem;
@@ -92,6 +86,10 @@ type
     PerfisdeUso1: TMenuItem;
     Usurios2: TMenuItem;
     DireitosdeAcesso1: TMenuItem;
+    ToolBar4: TToolBar;
+    ToolButton9: TToolButton;
+    ToolButton10: TToolButton;
+    ToolButton2: TToolButton;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
