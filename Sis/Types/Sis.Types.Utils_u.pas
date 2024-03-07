@@ -19,6 +19,12 @@ const
   sNOVALIN = sLineBreak;
   CHAR_TAB: char = #9;
 
+type
+  TSelectItem = record
+    Id: integer;
+    Descr: string;
+  end;
+
 implementation
 
 end.

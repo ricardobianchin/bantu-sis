@@ -18,6 +18,7 @@ type
     BalloonHint1: TBalloonHint;
     ImageList16Flat: TImageList;
     ImageList_9_9: TImageList;
+    ImageList24FlatSelect: TImageList;
   private
     { Private declarations }
   public

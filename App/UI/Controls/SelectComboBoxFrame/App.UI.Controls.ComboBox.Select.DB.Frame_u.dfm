@@ -6,6 +6,7 @@ inherited ComboBoxSelectDBFrame: TComboBoxSelectDBFrame
   end
   inherited BuscaSpeedButton: TSpeedButton
     Height = 25
+    OnClick = BuscaSpeedButtonClick
     ExplicitHeight = 25
   end
   inherited EspacadorLabel: TLabel

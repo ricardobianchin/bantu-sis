@@ -3,18 +3,21 @@ unit App.UI.Controls.ComboBox.Select.DB.Frame_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Controls.ComboBox.Select.Frame_u,
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, Sis.UI.IO.Output, App.Ent.DBI,
-  Sis.DB.DBTypes;
+  Sis.DB.DBTypes, System.Actions, Vcl.ActnList, Sis.UI.FormCreator, Sis.Types.Utils_u;
 
 type
   TComboBoxSelectDBFrame = class(TComboBoxSelectBasFrame)
+    procedure BuscaSpeedButtonClick(Sender: TObject);
   private
     { Private declarations }
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
     FErroOutput: IOutput;
+    FFormCreator: IFormCreator;
 
     function GetEntEd: IEntEd;
     function GetEntDBI: IEntDBI;
@@ -27,7 +30,8 @@ type
     { Public declarations }
     property EntEd: IEntEd read GetEntEd;
     property EntDBI: IEntDBI read GetEntDBI;
-    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI; pErroOutput: IOutput); reintroduce;
+    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
+      pErroOutput: IOutput; pFormCreator: IFormCreator); reintroduce;
     procedure Preencha(pDBConnection: IDBConnection = nil);
   end;
 
@@ -37,16 +41,41 @@ var
 implementation
 
 {$R *.dfm}
-
 { TComboBoxSelectDBFrame }
 
-constructor TComboBoxSelectDBFrame.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pErroOutput: IOutput);
+procedure TComboBoxSelectDBFrame.BuscaSpeedButtonClick(Sender: TObject);
+var
+  Resultado: boolean;
+  SelectItem: TSelectItem;
+  Index: integer;
 begin
-  FEntEd := pEntEd; //vem antes pois no create chamará getcaption, que, aqui, depente da ent
+  inherited;
+  Resultado := FFormCreator.PergSelect(SelectItem);
+  if not Resultado then
+    exit;
+  Index := ComboBox1.Items.IndexOfObject(Pointer(SelectItem.Id));
+
+  if index < 0 then
+  begin
+    Preencha(nil);
+    Index := ComboBox1.Items.IndexOfObject(Pointer(SelectItem.Id));
+  end;
+
+  if index < 0 then
+    exit;
+
+  ComboBox1.ItemIndex := Index;
+end;
+
+constructor TComboBoxSelectDBFrame.Create(AOwner: TComponent; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pErroOutput: IOutput; pFormCreator: IFormCreator);
+begin
+  FEntEd := pEntEd;
+  // vem antes pois no create chamará getcaption, que, aqui, depente da ent
   inherited Create(AOwner);
   FEntDBI := pEntDBI;
   FErroOutput := pErroOutput;
+  FFormCreator := pFormCreator;
 end;
 
 function TComboBoxSelectDBFrame.GetCaption: string;

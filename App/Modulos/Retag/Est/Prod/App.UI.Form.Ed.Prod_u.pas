@@ -11,7 +11,8 @@ uses
   Sis.UI.Controls.Sanfona_u
 
   // sanfona item
-  , App.Retag.Prod.Obrigatorios.SanfonaItem_u, App.Ent.DBI, App.Ent.Ed;
+    , App.Retag.Prod.Obrigatorios.SanfonaItem_u, App.Ent.DBI, App.Ent.Ed,
+  Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig;
 
 type
   TProdEdForm = class(TEdBasForm)
@@ -40,7 +41,19 @@ type
     function GravouOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI; pFabrDBI: IEntDBI); reintroduce;
+    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
+
+      //
+      pFabrDBI: IEntDBI;
+
+      //
+      pFabrDataSetFormCreator: IFormCreator;
+      pProdTipoDataSetFormCreator: IFormCreator;
+      pProdUnidDataSetFormCreator: IFormCreator;
+      pProdICMSDataSetFormCreator: IFormCreator
+
+      //
+      ); reintroduce;
   end;
 
 var
@@ -48,7 +61,7 @@ var
 
 implementation
 
-uses {App.Retag.Est.Prod.Ent_u, }Sis.UI.Controls.TLabeledEdit,
+uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
   Sis.DB.DBTypes;
 
@@ -96,10 +109,25 @@ begin
   FObrigFrame.ControlesToEnt;
 end;
 
-constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI,
-  pFabrDBI: IEntDBI);
+constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
+  pEntDBI: IEntDBI;
+
+  //
+  pFabrDBI: IEntDBI;
+
+  //
+  pFabrDataSetFormCreator: IFormCreator;
+  pProdTipoDataSetFormCreator: IFormCreator;
+  pProdUnidDataSetFormCreator: IFormCreator;
+  pProdICMSDataSetFormCreator: IFormCreator
+
+  //
+  );
 var
+  oAppInfo: IAppInfo;
+  oSisConfig: ISisConfig;
   oDBConnection: IDBConnection;
+
 begin
   inherited Create(AOwner, pEntEd, pEntDBI);
   FSanfonaFrame := TSanfonaFrame.Create(Self, ErroOutput);
@@ -108,8 +136,9 @@ begin
   FSanfonaFrame.TitLabel.Caption := GetObjetivoStr;
   ObjetivoLabel.Visible := false;
 
-  FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame,
-    ProdEnt, ProdDBI, pFabrDBI, ErroOutput);
+  FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt,
+    ProdDBI, pFabrDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, ErroOutput);
 
   FSanfonaFrame.PegarItem(FObrigFrame);
 
@@ -196,14 +225,14 @@ end;
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //  FObrigFrame.FIdNumEdit
+  // FObrigFrame.FIdNumEdit
   FObrigFrame.Foque;
   FObrigFrame.SimuleDig;
 
-//  OkAct_Diag.Execute;
+  // OkAct_Diag.Execute;
 
-//  ObrigatoriosProdEdFrame.FCustoAtualNumEdit
-//  ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
+  // ObrigatoriosProdEdFrame.FCustoAtualNumEdit
+  // ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
 
 
 

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Controls.ComboBox.Frame_u,
-  Vcl.StdCtrls, Vcl.Buttons;
+  Vcl.StdCtrls, Vcl.Buttons, System.Actions, Vcl.ActnList;
 
 type
   TComboBoxSelectBasFrame = class(TComboBoxBasFrame)

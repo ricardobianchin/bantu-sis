@@ -6,6 +6,7 @@ inherited ComboBoxSelectBasFrame: TComboBoxSelectBasFrame
     Top = 0
     Width = 23
     Height = 23
+    Hint = 'Buscar...'
     Align = alLeft
     ImageIndex = 0
     Images = SisImgDataModule.ImageList16Flat
@@ -19,9 +20,5 @@ inherited ComboBoxSelectBasFrame: TComboBoxSelectBasFrame
     Height = 23
     Align = alLeft
     AutoSize = False
-  end
-  inherited ComboBox1: TComboBox
-    ExplicitLeft = 109
-    ExplicitTop = 1
   end
 end

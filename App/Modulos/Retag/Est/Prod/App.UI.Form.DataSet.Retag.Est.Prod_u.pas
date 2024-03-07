@@ -9,7 +9,7 @@ uses
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
-  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent;
+  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -105,26 +105,45 @@ begin
   FDMemTable.Post;
 end;
 
-function TRetagEstProdDataSetForm.DoProdPerg(pDataSetStateAbrev: string): boolean;
+function TRetagEstProdDataSetForm.DoProdPerg(pDataSetStateAbrev
+  : string): boolean;
 var
   oProdDBI: IEntDBI;
   oProdFabrDBI: IEntDBI;
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
   sBusca: string;
+  oFabrDataSetFormCreator: IFormCreator;
+  oProdTipoDataSetFormCreator: IFormCreator;
+  oProdUnidDataSetFormCreator: IFormCreator;
+  oProdICMSDataSetFormCreator: IFormCreator;
 begin
   inherited;
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
-  oDBConnection := DBConnectionCreate('Retag.Prod.Ed.'+pDataSetStateAbrev+'.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
+  oDBConnection := DBConnectionCreate('Retag.Prod.Ed.' + pDataSetStateAbrev +
+    '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
 
   oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
   oProdFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, ProdEnt.ProdFabrEnt);
 
-  Result := ProdPerg(Self, EntEd, oProdDBI, oProdFabrDBI);
+  oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, AppInfo,
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
+    oProdFabrDBI);
+
+  oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil, AppInfo,
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, nil, nil { TipoDBI } );
+
+  oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, AppInfo,
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, nil, nil { UnidDBI } );
+
+  oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, nil, nil { ICMSDBI } );
+
+  Result := ProdPerg(Self, EntEd, oProdDBI, oProdFabrDBI,
+    oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
+    oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator);
 end;
 
 procedure TRetagEstProdDataSetForm.EntToCampos;

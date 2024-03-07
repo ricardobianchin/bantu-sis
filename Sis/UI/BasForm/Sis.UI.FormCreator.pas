@@ -2,7 +2,7 @@ unit Sis.UI.FormCreator;
 
 interface
 
-uses Vcl.Forms, System.Classes;
+uses Vcl.Forms, System.Classes, Sis.Types.Utils_u;
 
 type
   IFormCreator = interface(IInterface)
@@ -13,6 +13,8 @@ type
 
     function GetFormClassName: string;
     property FormClassName: string read GetFormClassName;
+    function FormCreateSelect(AOwner: TComponent): TForm;
+    function PergSelect(var pSelectItem: TSelectItem): boolean;
   end;
 
 implementation

@@ -9,6 +9,7 @@ uses Sis.UI.FormCreator_u, VCL.Forms, App.UI.Form.Bas.TabSheet_u,
 type
   TTabSheetFormCreator = class(TFormCreator)
   private
+    InstanciouSL: boolean;
     FFormClassNamesSL: TStringList;
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
@@ -43,6 +44,8 @@ type
       pFormClassNamesSL: TStringList; pAppInfo: IAppInfo;
       pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
+          destructor Destroy; override;
+
   end;
 
 implementation
@@ -55,13 +58,25 @@ constructor TTabSheetFormCreator.Create(pFormClass: TTabSheetAppBasFormClass;
   pOutputNotify: IOutput);
 begin
   inherited Create(pFormClass);
-  FFormClassNamesSL := pFormClassNamesSL;
+  InstanciouSL := not Assigned(pFormClassNamesSL);
+  if InstanciouSL then
+    FFormClassNamesSL := TStringList.Create
+  else
+    FFormClassNamesSL := pFormClassNamesSL;
+
   FAppInfo := pAppInfo;
   FSisConfig := pSisConfig;
   FDBMS := pDBMS;
   FOutput := pOutput;
   FProcessLog := pProcessLog;
   FOutputNotify := pOutputNotify;
+end;
+
+destructor TTabSheetFormCreator.Destroy;
+begin
+  if InstanciouSL then
+    FFormClassNamesSL.Free;
+  inherited;
 end;
 
 function TTabSheetFormCreator.FormCreate(AOwner: TComponent): TForm;

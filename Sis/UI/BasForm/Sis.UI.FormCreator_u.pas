@@ -2,7 +2,7 @@ unit Sis.UI.FormCreator_u;
 
 interface
 
-uses Sis.UI.FormCreator, VCL.Forms, System.Classes;
+uses Sis.UI.FormCreator, VCL.Forms, System.Classes, Sis.Types.Utils_u;
 
 type
   TFormCreator = class(TInterfacedObject, IFormCreator)
@@ -18,6 +18,8 @@ type
     property Titulo: string read GetTitulo;
     property FormClassName: string read GetFormClassName;
     function FormCreate(AOwner: TComponent): TForm; virtual;
+    function FormCreateSelect(AOwner: TComponent): TForm; virtual;
+    function PergSelect(var pSelectItem: TSelectItem): boolean; virtual; abstract;
   end;
 
 
@@ -33,6 +35,11 @@ end;
 function TFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
   Result := FFormClass.Create(AOwner);
+end;
+
+function TFormCreator.FormCreateSelect(AOwner: TComponent): TForm;
+begin
+  Result := nil;
 end;
 
 function TFormCreator.GetFormClass: TFormClass;
