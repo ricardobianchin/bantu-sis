@@ -127,6 +127,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
+        <DCCReference Include="vcledge.dcp"/>
+        <DCCReference Include="vclie.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
         <DCCReference Include="AppObj\App.Factory.pas"/>
@@ -297,6 +299,23 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Aju\App.Retag.Aju.Factory.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.FormCreator.TabSheet_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent.List.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent.List_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Frame_u.pas">
+            <Form>ProdBarrasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.List.Form_u.pas">
+            <Form>ProdBarrasListForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.UI.Form.Ed.Prod.Barras_u.pas">
+            <Form>ProdBarrasEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

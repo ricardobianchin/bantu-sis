@@ -11,7 +11,8 @@ uses
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
   Sis.DB.DBTypes, App.Retag.Est.Prod.Fabr.Ent, App.Retag.Est.Prod.ICMS.Ent,
   App.Retag.Est.Prod.Natu.Ent, App.Retag.Est.Prod.Tipo.Ent,
-  App.Retag.Est.Prod.Unid.Ent, Sis.UI.FormCreator;
+  App.Retag.Est.Prod.Unid.Ent, Sis.UI.FormCreator,
+  App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo;
 
 type
   TObrigatoriosProdEdFrame = class(TProdEdSanfonaItemFrame)
@@ -26,6 +27,7 @@ type
   private
     { Private declarations }
     FIdNumEdit: TNumEditBtu;
+    FProdBarrasFrame: TProdBarrasFrame;
     FCustoAtualNumEdit: TNumEditBtu;
     FPrecoAtualNumEdit: TNumEditBtu;
 
@@ -42,6 +44,7 @@ type
     // fabr
     FFabrComboBoxFrame: TComboBoxProdEdFrame;
 
+    FAppInfo: IAppInfo;
     procedure IdCrie;
     procedure CustoCrie;
     procedure PrecoCrie;
@@ -83,8 +86,7 @@ type
 
     constructor Create(AOwner: TComponent;
       //
-      pProdEnt: IProdEnt;
-      pProdDBI: IEntDBI;
+      pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
       //
       pFabrDBI: IEntDBI;
@@ -95,6 +97,8 @@ type
       pProdUnidDataSetFormCreator: IFormCreator;
       pProdICMSDataSetFormCreator: IFormCreator;
 
+      //
+      pAppInfo: IAppInfo;
       //
       pErroOutput: IOutput); reintroduce;
   end;
@@ -140,23 +144,25 @@ begin
 end;
 
 constructor TObrigatoriosProdEdFrame.Create(AOwner: TComponent;
-      //
-      pProdEnt: IProdEnt;
-      pProdDBI: IEntDBI;
+  //
+  pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
-      //
-      pFabrDBI: IEntDBI;
+  //
+  pFabrDBI: IEntDBI;
 
-      //
-      pFabrDataSetFormCreator: IFormCreator;
-      pProdTipoDataSetFormCreator: IFormCreator;
-      pProdUnidDataSetFormCreator: IFormCreator;
-      pProdICMSDataSetFormCreator: IFormCreator;
+  //
+  pFabrDataSetFormCreator: IFormCreator;
+  pProdTipoDataSetFormCreator: IFormCreator;
+  pProdUnidDataSetFormCreator: IFormCreator;
+  pProdICMSDataSetFormCreator: IFormCreator;
 
-      //
-      pErroOutput: IOutput);
+  //
+  pAppInfo: IAppInfo;
+  //
+  pErroOutput: IOutput);
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
+  FAppInfo := pAppInfo;
   IdCrie;
   // CustoCrie;
   // PrecoCrie;
@@ -164,18 +170,29 @@ begin
   FIdNumEdit.LabelPosition := lpLeft;
   FIdNumEdit.LabelSpacing := 4;
   FIdNumEdit.Left := 45;
-  FIdNumEdit.Top := 1;
+  FIdNumEdit.Top := 2;
   FIdNumEdit.Width := 60;
+  FIdNumEdit.ReadOnly := true;
 
   FNatuManager := ProdNatuComboBoxManagerCreate(NatuComboBox);
+
+  FProdBarrasFrame := TProdBarrasFrame.Create(MeioPanel,
+    ProdEnt.ProdBarrasList, FAppInfo);
+  FProdBarrasFrame.Parent := MeioPanel;
+  FProdBarrasFrame.Left := NatuComboBox.Left + NatuComboBox.Width + 10;
+  FProdBarrasFrame.Top := NatuComboBox.Top;
 
   FFabrDataSetFormCreator := pFabrDataSetFormCreator;
   FProdTipoDataSetFormCreator := pProdTipoDataSetFormCreator;
   FProdUnidDataSetFormCreator := pProdUnidDataSetFormCreator;
   FProdICMSDataSetFormCreator := pProdICMSDataSetFormCreator;
 
-
   FabrComboBoxCrie(pFabrDBI, FFabrDataSetFormCreator);
+
+  FFabrComboBoxFrame.Left := FProdBarrasFrame.Left +
+    FProdBarrasFrame.Width + 10;
+  FFabrComboBoxFrame.Top := NatuComboBox.Top;
+
 
   // FFabrSelectEditFrame.Left := 2;
   // FFabrSelectEditFrame.Top := 30;
@@ -242,12 +259,11 @@ begin
 
 end;
 
-procedure TObrigatoriosProdEdFrame.FabrComboBoxCrie(pFabrDBI: IEntDBI; pFormCreator: IFormCreator);
+procedure TObrigatoriosProdEdFrame.FabrComboBoxCrie(pFabrDBI: IEntDBI;
+  pFormCreator: IFormCreator);
 begin
   FFabrComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel,
     ProdEnt.ProdFabrEnt, pFabrDBI, ErroOutput, pFormCreator);
-  FFabrComboBoxFrame.Left := 5;
-  FFabrComboBoxFrame.Top := 49;
 end;
 
 function TObrigatoriosProdEdFrame.GetDescr: string;

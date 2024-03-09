@@ -28,7 +28,6 @@ type
     function ControlesOk: boolean; override;
     function DadosOk: boolean; override;
     function GravouOk: boolean; override;
-
   public
     { Public declarations }
   end;

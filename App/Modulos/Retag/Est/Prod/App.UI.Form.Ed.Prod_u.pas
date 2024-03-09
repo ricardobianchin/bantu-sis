@@ -4,19 +4,22 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
-  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
-  App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.DBI, Data.DB,
-  Sis.UI.Controls.Sanfona_u
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Retag.Est.Prod.Ent,
+  App.Retag.Est.Prod.DBI, Data.DB, Sis.UI.Controls.Sanfona_u, App.Ent.DBI,
+  App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig
 
   // sanfona item
-    , App.Retag.Prod.Obrigatorios.SanfonaItem_u, App.Ent.DBI, App.Ent.Ed,
-  Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig;
+    , App.Retag.Prod.Obrigatorios.SanfonaItem_u
+
+  //
+    ;
 
 type
   TProdEdForm = class(TEdBasForm)
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     // FFabrSelectEditFrame: TFabrSelectEditFrame;
@@ -63,7 +66,7 @@ implementation
 
 uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
-  Sis.DB.DBTypes;
+  Sis.DB.DBTypes, ShellAPI;
 
 {$R *.dfm}
 
@@ -94,6 +97,20 @@ begin
       ;
   end;
 
+end;
+
+procedure TProdEdForm.Button1Click(Sender: TObject);
+var
+  url: string;
+begin
+  inherited;
+  // EdgeBrowser1.Navigate('https://www.google.com/search?q=qual+e+a+capital+do+brasil');
+  // WebBrowser1.Navigate('https://www.google.com/search?q=qual+e+a+capital+do+brasil');
+
+  // WebBrowser1.Navigate('https://www.google.com/search?q=descrição+do+produto+cujo+codigo+de+barra+é+07896036099117');
+  // WebBrowser1.Navigate('descrição do produto cujo codigo de barra é 07896036099117
+  url := 'https://www.google.com/search?q=descrição+do+produto+cujo+codigo+de+barra+é+07896036099117';
+  ShellExecute(0, 'open', PChar(url), nil, nil, SW_SHOWNORMAL);
 end;
 
 function TProdEdForm.ControlesOk: boolean;
@@ -138,7 +155,7 @@ begin
 
   FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt,
     ProdDBI, pFabrDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, ErroOutput);
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, oAppInfo, ErroOutput);
 
   FSanfonaFrame.PegarItem(FObrigFrame);
 

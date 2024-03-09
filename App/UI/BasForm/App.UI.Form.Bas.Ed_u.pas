@@ -34,6 +34,7 @@ type
     function DadosOk: boolean; virtual;
     function GravouOk: boolean; virtual; abstract;
 
+    procedure AtualizeAlteracaoTexto; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
@@ -89,6 +90,16 @@ var
 begin
   sObjetivo := GetObjetivoStr;
   ObjetivoLabel.Caption := sObjetivo;
+end;
+
+procedure TEdBasForm.AtualizeAlteracaoTexto;
+begin
+  if EntEd.State <> dsEdit then
+  begin
+    AlteracaoTextoLabel.Visible := false;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TEdBasForm.AjusteCaption;

@@ -33,7 +33,7 @@ type
 
 implementation
 
-uses Vcl.Controls;
+uses VCL.Controls;
 
 { TDataSetFormCreator }
 
@@ -51,13 +51,15 @@ end;
 function TDataSetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
   Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI, mfBrowse);
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
+    mfBrowse);
 end;
 
 function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent): TForm;
 begin
   Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI, mfSelect);
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
+    mfSelect);
 end;
 
 function TDataSetFormCreator.GetDataSetFormClass: TTabSheetDataSetBasFormClass;
@@ -74,10 +76,14 @@ function TDataSetFormCreator.PergSelect(var pSelectItem: TSelectItem): boolean;
 var
   oForm: TTabSheetDataSetBasForm;
 begin
-  oForm := TTabSheetDataSetBasForm(FormCreateSelect(Application));
-  Result := IsPositiveResult(oForm.ShowModal);
-  if Result then
-    pSelectItem := oForm.GetSelectItem;
+  oForm := TTabSheetDataSetBasForm(FormCreateSelect(nil));
+  try
+    Result := IsPositiveResult(oForm.ShowModal);
+    if Result then
+      pSelectItem := oForm.GetSelectItem;
+  finally
+    oForm.Free;
+  end;
 end;
 
 end.

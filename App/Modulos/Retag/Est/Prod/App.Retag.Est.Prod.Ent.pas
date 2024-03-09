@@ -2,7 +2,8 @@ unit App.Retag.Est.Prod.Ent;
 
 interface
 
-uses App.Ent.Ed.Id, App.Retag.Est.Prod.Fabr.Ent, App.Retag.Est.Prod.Natu.Ent;
+uses App.Ent.Ed.Id, App.Retag.Est.Prod.Fabr.Ent, App.Retag.Est.Prod.Natu.Ent,
+  App.Retag.Est.Prod.Barras.Ent.List;
 
 type
   IProdEnt = interface(IEntEdId)
@@ -20,6 +21,9 @@ type
 
     function GetProdNatuEnt: IProdNatuEnt;
     property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
+
+    function GetProdBarrasList: IProdBarrasList;
+    property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
   end;
 
 implementation

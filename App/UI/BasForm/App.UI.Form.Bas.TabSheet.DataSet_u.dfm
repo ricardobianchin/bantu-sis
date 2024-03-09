@@ -1,7 +1,6 @@
 inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   Caption = 'TabSheetDataSetBasForm'
   ClientWidth = 700
-  ExplicitTop = -26
   ExplicitWidth = 700
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
@@ -11,6 +10,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Align = alBottom
     AutoSize = False
     ExplicitTop = 446
+    ExplicitWidth = 700
     ExplicitHeight = 31
     inherited TitToolBar1_BasTabSheet: TToolBar
       Width = 700
@@ -19,6 +19,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
       ButtonHeight = 30
       ButtonWidth = 59
       HotImages = SisImgDataModule.ImageList24Flat
+      ExplicitWidth = 700
       ExplicitHeight = 27
       object Panel1: TPanel
         Left = 0

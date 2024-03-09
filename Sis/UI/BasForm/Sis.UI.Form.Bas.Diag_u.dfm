@@ -5,6 +5,7 @@ inherited DiagBasForm: TDiagBasForm
   ClientWidth = 531
   Position = poDesktopCenter
   OnKeyPress = FormKeyPress
+  ExplicitTop = -83
   ExplicitWidth = 543
   ExplicitHeight = 413
   TextHeight = 15
@@ -27,6 +28,15 @@ inherited DiagBasForm: TDiagBasForm
     WordWrap = True
     StyleElements = [seClient, seBorder]
     ExplicitWidth = 71
+  end
+  object AlteracaoTextoLabel: TLabel [1]
+    Left = 0
+    Top = 340
+    Width = 531
+    Height = 15
+    Align = alBottom
+    Caption = 'AlteracaoTextoLabel'
+    ExplicitWidth = 106
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 48

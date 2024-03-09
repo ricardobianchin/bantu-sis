@@ -14,7 +14,7 @@ uses
   App.Ent.Ed, App.Ent.DBI, Sis.Entidade, App.Retag.Est.Prod.Natu.Ent,
   App.Retag.Est.Prod.Fabr.Ent, App.Retag.Est.Prod.Tipo.Ent,
   App.Retag.Est.Prod.Unid.Ent, App.Retag.Est.Prod.ICMS.Ent,
-  App.Retag.Est.Prod.Ent;
+  App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Barras.Ent.List;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -166,6 +166,8 @@ var
   oNatuEnt: IProdNatuEnt;
 //  oNatuDBI: IEntDBI;
 
+  oProdBarrasList: IProdBarrasList;
+
   oProdEnt: IProdEnt;
   oProdDBI: IEntDBI;
 
@@ -230,7 +232,9 @@ begin
     (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
     FOutputNotify, oICMSEnt, oICMSDBI);
 
-  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oNatuEnt);
+  oProdBarrasList := ProdBarrasListCreate;
+
+  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oNatuEnt, oProdBarrasList);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,

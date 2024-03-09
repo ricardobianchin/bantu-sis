@@ -112,6 +112,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.DB.DataSet.Utils;
+
 { TTabSheetDataSetBasForm }
 
 procedure TTabSheetDataSetBasForm.AjusteBotoesSelect;
@@ -197,6 +200,8 @@ constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI; pModoForm: TModoForm);
+var
+  sNomeArq: string;
 begin
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
@@ -216,7 +221,11 @@ begin
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
   FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
-  DefCampos;
+//  DefCampos;
+
+  sNomeArq := GetNomeArqTabView;
+  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
+
   if ModoForm = mfSelect then
   begin
     Position := poDesktopCenter;
@@ -259,7 +268,6 @@ var
   sNomeArq: string;
   sLinhaAtual: string;
   I: integer;
-  Params: TArray<string>;
   oFDDataSetManager: IFDDataSetManager;
 begin
   DefsSL := TStringList.Create;

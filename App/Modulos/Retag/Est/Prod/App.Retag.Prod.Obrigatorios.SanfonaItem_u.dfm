@@ -19,16 +19,16 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
       ExplicitWidth = 798
       ExplicitHeight = 150
       object NatuLabel: TLabel
-        Left = 124
-        Top = 5
+        Left = 113
+        Top = 6
         Width = 47
         Height = 15
         Caption = 'Natureza'
       end
       object DescrLabeledEdit: TLabeledEdit
-        Left = 175
-        Top = 25
-        Width = 360
+        Left = 59
+        Top = 28
+        Width = 406
         Height = 23
         EditLabel.Width = 51
         EditLabel.Height = 23
@@ -42,9 +42,9 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
         OnKeyPress = DescrLabeledEditKeyPress
       end
       object DescrRedLabeledEdit: TLabeledEdit
-        Left = 647
-        Top = 1
-        Width = 150
+        Left = 581
+        Top = 28
+        Width = 194
         Height = 23
         EditLabel.Width = 102
         EditLabel.Height = 23
@@ -57,8 +57,8 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
         OnKeyPress = DescrRedLabeledEditKeyPress
       end
       object NatuComboBox: TComboBox
-        Left = 175
-        Top = 1
+        Left = 164
+        Top = 2
         Width = 119
         Height = 23
         TabOrder = 2

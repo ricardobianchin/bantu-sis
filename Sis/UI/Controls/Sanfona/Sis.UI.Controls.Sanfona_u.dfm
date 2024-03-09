@@ -56,26 +56,28 @@ inherited SanfonaFrame: TSanfonaFrame
       end
     end
     object ScrollBox1: TScrollBox
-      Left = 177
+      Left = 145
       Top = 22
-      Width = 444
+      Width = 476
       Height = 308
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
       BorderStyle = bsNone
       TabOrder = 1
-      ExplicitLeft = 121
-      ExplicitWidth = 500
+      ExplicitLeft = 177
+      ExplicitWidth = 444
     end
     object TreeView1: TTreeView
       Left = 0
       Top = 22
-      Width = 177
+      Width = 145
       Height = 308
       Align = alLeft
       BorderStyle = bsNone
+      HideSelection = False
       Indent = 19
+      ShowLines = False
       TabOrder = 2
       OnChange = TreeView1Change
     end

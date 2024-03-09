@@ -13,16 +13,22 @@ type
     OkAct_Diag: TAction;
     CancelAct_Diag: TAction;
     MensLabel: TLabel;
+    AlteracaoTextoLabel: TLabel;
     procedure OkAct_DiagExecute(Sender: TObject);
     procedure CancelAct_DiagExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FErroOutput: IOutput;
+    FAtualizaAlteracaoTexto: boolean;
   protected
     function PodeOk: boolean; virtual;
     procedure MensLimpar;
     property ErroOutput: IOutput read FErroOutput;
+
+    function GetAlteracaoTexto: string; virtual;
+    property AlteracaoTexto: string read GetAlteracaoTexto;
+    procedure AtualizeAlteracaoTexto; virtual;
   public
     { Public declarations }
     function Perg: boolean;
@@ -39,6 +45,20 @@ implementation
 
 uses Sis.UI.Constants;
 
+procedure TDiagBasForm.AtualizeAlteracaoTexto;
+var
+  S: string;
+  bNaoVazio: boolean;
+begin
+  s := GetAlteracaoTexto;
+  bNaoVazio := S <> '';
+  AlteracaoTextoLabel.Visible := bNaoVazio;
+  if s <> '' then
+    s := 'Alteração: ' + s;
+  AlteracaoTextoLabel.Caption := s;
+
+end;
+
 procedure TDiagBasForm.CancelAct_DiagExecute(Sender: TObject);
 begin
   inherited;
@@ -52,7 +72,9 @@ begin
   MensLabel.Alignment := taCenter;
 //  MensLabel.Font.Color := COR_ERRO;
   MensLabel.Font.Color := $009393FF;
-
+  MensLabel.Top := AlteracaoTextoLabel.Top - (AlteracaoTextoLabel.Height + 1);
+  FAtualizaAlteracaoTexto := False;
+  AlteracaoTextoLabel.Visible := false;
   MensLimpar;
 end;
 
@@ -64,6 +86,11 @@ begin
     Key := #0;
     CancelAct_Diag.Execute;
   end;
+end;
+
+function TDiagBasForm.GetAlteracaoTexto: string;
+begin
+  Result := ''
 end;
 
 procedure TDiagBasForm.MensLimpar;

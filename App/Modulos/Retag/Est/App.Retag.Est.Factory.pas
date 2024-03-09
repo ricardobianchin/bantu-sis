@@ -3,9 +3,9 @@ unit App.Retag.Est.Factory;
 interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, System.Classes,
+  Sis.UI.IO.Output, System.Classes, Sis.Entidade,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
-  Sis.Config.SisConfig
+  Sis.Config.SisConfig, Sis.UI.FormCreator
 
   // os dbi que seguem o padrao, retornam iented
     , App.Ent.Ed, App.Ent.DBI
@@ -19,9 +19,17 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.Prod.Fabr.Ent // fabr ent
 
   // prod natu
-    , App.Retag.Est.Prod.Natu.Ent, Sis.UI.FormCreator,
-  App.Retag.Est.Prod.Tipo.Ent, App.Retag.Est.Prod.Unid.Ent, Sis.Entidade
-  // ProdNatu ent
+    , App.Retag.Est.Prod.Natu.Ent
+
+  // prod tipo
+    , App.Retag.Est.Prod.Tipo.Ent
+
+  // prod unid
+    , App.Retag.Est.Prod.Unid.Ent
+
+  // prod barras
+    , App.Retag.Est.Prod.Barras.Ent
+    , App.Retag.Est.Prod.Barras.Ent.List
 
     ;
 
@@ -125,6 +133,7 @@ function RetagEstProdEntCreate(
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
   pProdNatuEnt: IProdNatuEnt; // est_item_natu
+  pProdBarrasList: IProdBarrasList; // prod barras list
 
   pState: TDataSetState = dsBrowse;
   // campos
@@ -182,6 +191,19 @@ function ProdNatuComboBoxManagerCreate(pComboBox: TComboBox): IComboBoxManager;
 
 {$ENDREGION}
 
+{$REGION 'prod barras'}
+
+function ProdBarrasCreate(pOrdem: smallint = 0; pBarras: string = ''): IProdBarras;
+function ProdBarrasListCreate: IProdBarrasList;
+
+
+
+
+{$ENDREGION}
+
+{$REGION 'xxx'}
+{$ENDREGION}
+
 implementation
 
 uses Vcl.Controls, App.UI.FormCreator.DataSet_u
@@ -219,6 +241,10 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u
   // natu
     , App.Retag.Est.Prod.Natu.Ent_u // natu ent
     , App.Retag.Est.Prod.Natu.ComboBoxManager_u // natu manager
+
+  // prod barras
+    , App.Retag.Est.Prod.Barras.Ent_u
+    , App.Retag.Est.Prod.Barras.Ent.List_u
 
     ;
 
@@ -446,17 +472,22 @@ begin
 end;
 
 {$ENDREGION}
+
+
+
+
 {$REGION 'prod impl'}
 
 function RetagEstProdEntCreate(
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
   pProdNatuEnt: IProdNatuEnt; // est_item_natu
+  pProdBarrasList: IProdBarrasList; // prod barras list
   // campos
   pState: TDataSetState; pId: integer; pDescr: string; pDescrRed: string)
   : IProdEnt;
 begin
-  Result := TProdEnt.Create(pProdFabrEnt, pProdNatuEnt, pState, pId, pDescr,
+  Result := TProdEnt.Create(pProdFabrEnt, pProdNatuEnt, pProdBarrasList, pState, pId, pDescr,
     pDescrRed);
 end;
 
@@ -549,6 +580,29 @@ function ProdNatuComboBoxManagerCreate(pComboBox: TComboBox): IComboBoxManager;
 begin
   Result := TProdNatuComboBoxManager.Create(pComboBox);
 end;
+
+{$ENDREGION}
+
+
+{$REGION 'prod natu impl'}
+function ProdBarrasCreate(pOrdem: smallint; pBarras: string): IProdBarras;
+begin
+  Result := TProdBarras.Create(pOrdem, pBarras);
+end;
+
+function ProdBarrasListCreate: IProdBarrasList;
+begin
+  Result := TProdBarrasList.Create;
+end;
+
+
+
+{$ENDREGION}
+
+
+{$REGION 'xxx impl'}
+
+
 
 {$ENDREGION}
 

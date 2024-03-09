@@ -2,7 +2,10 @@
 	"folders":
 	[
 		{
-			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\Src"
+			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\bantu-api-doc",
+		},
+		{
+			"path": "C:\\Pr\\app\\bantu\\bantu-sis\\Src",
 		},
 	],
 }
