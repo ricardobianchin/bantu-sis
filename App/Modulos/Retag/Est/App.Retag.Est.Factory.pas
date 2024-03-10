@@ -153,9 +153,10 @@ function ProdEdFormCreate(AOwner: TComponent;
   pFabrDataSetFormCreator: IFormCreator;
   pProdTipoDataSetFormCreator: IFormCreator;
   pProdUnidDataSetFormCreator: IFormCreator;
-  pProdICMSDataSetFormCreator: IFormCreator
+  pProdICMSDataSetFormCreator: IFormCreator;
 
   //
+  pAppInfo: IAppInfo
   ): TEdBasForm;
 
 function ProdPerg(AOwner: TComponent;
@@ -166,8 +167,9 @@ function ProdPerg(AOwner: TComponent;
   pFabrDataSetFormCreator: IFormCreator;
   pProdTipoDataSetFormCreator: IFormCreator;
   pProdUnidDataSetFormCreator: IFormCreator;
-  pProdICMSDataSetFormCreator: IFormCreator
+  pProdICMSDataSetFormCreator: IFormCreator;
   //
+  pAppInfo: IAppInfo
   ): boolean;
 
 // function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
@@ -508,14 +510,15 @@ function ProdEdFormCreate(AOwner: TComponent;
   pFabrDataSetFormCreator: IFormCreator;
   pProdTipoDataSetFormCreator: IFormCreator;
   pProdUnidDataSetFormCreator: IFormCreator;
-  pProdICMSDataSetFormCreator: IFormCreator
+  pProdICMSDataSetFormCreator: IFormCreator;
 
   //
+  pAppInfo: IAppInfo
   ): TEdBasForm;
 begin
   Result := TProdEdForm.Create(AOwner, pProdEnt, pProdDBI, pProdFabrDBI,
     pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator);
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo);
 end;
 
 function ProdPerg(AOwner: TComponent;
@@ -526,15 +529,16 @@ function ProdPerg(AOwner: TComponent;
   pFabrDataSetFormCreator: IFormCreator;
   pProdTipoDataSetFormCreator: IFormCreator;
   pProdUnidDataSetFormCreator: IFormCreator;
-  pProdICMSDataSetFormCreator: IFormCreator
+  pProdICMSDataSetFormCreator: IFormCreator;
   //
+  pAppInfo: IAppInfo
   ): boolean;
 var
   F: TEdBasForm;
 begin
   F := ProdEdFormCreate(AOwner, pProdEnt, pProdDBI, pProdFabrDBI,
     pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator);
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo);
   Result := F.Perg;
 end;
 

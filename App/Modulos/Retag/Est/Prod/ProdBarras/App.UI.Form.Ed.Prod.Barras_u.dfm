@@ -23,26 +23,28 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     EditLabel.Width = 90
     EditLabel.Height = 15
     EditLabel.Caption = 'C'#243'digo de Barras'
+    MaxLength = 14
     NumbersOnly = True
-    TabOrder = 1
+    TabOrder = 0
     Text = ''
   end
   inherited BasePanel: TPanel
     Top = 126
     Width = 356
+    TabOrder = 1
     ExplicitTop = 125
     ExplicitWidth = 352
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 17
-      ExplicitLeft = 13
+      Left = 13
+      ExplicitLeft = 9
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 130
-      ExplicitLeft = 126
+      Left = 126
+      ExplicitLeft = 122
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 210
-      ExplicitLeft = 206
+      Left = 206
+      ExplicitLeft = 202
     end
   end
 end

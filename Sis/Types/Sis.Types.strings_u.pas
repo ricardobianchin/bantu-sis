@@ -14,7 +14,8 @@ function StrSemAcento(const pStr: string;
 function StrSemStr(pStr: string; pStrARemover: string = #32): string;
 function StrSemCharRepetido(pStr: string; pChar: char = #32): string;
 
-procedure CharOnlyDigit(var Key: Char);
+function CharIsOnlyDigit(Key: Char): boolean;
+function StrToOnlyDigit(const pStr: string): string;
 
 procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
@@ -71,10 +72,26 @@ const
     '_', '-', '.', '!', '@', '#', '$', '%', '&', '(', ')', '[', ']', '{', '}'];
 
 
-procedure CharOnlyDigit(var Key: Char);
+function CharIsOnlyDigit(Key: Char): boolean;
 begin
-  if Pos(Key, '0123456789') = 0 then
-    Key := #0;
+  Result := CharInSet(key, ['0','1','2','3','4','5','6','7','8','9']);
+end;
+
+function StrToOnlyDigit(const pStr: string): string;
+var
+  i: integer;
+  c: char;
+  bResultado: boolean;
+begin
+  Result := '';
+
+  for i := 1 to Length(pStr) do
+  begin
+    c := pStr[i];
+    bResultado := CharIsOnlyDigit(c);
+    if bResultado then
+      Result := Result + c;
+  end;
 end;
 
 // Procedure que recebe um parâmetro var Key: char e faz a substituição

@@ -60,6 +60,9 @@ constructor TProdBarrasListForm.Create(AOwner: TComponent; pAppInfo: IAppInfo);
 var
   sNomeArq: string;
 begin
+  inherited Create(AOwner);
+  FFDMemTable := TFDMemTable.Create(Self);
+  FFDMemTable.Name := ClassName + 'FDMemTable';
   sNomeArq := pAppInfo.PastaConsTabViews + 'Est\tabview.est.prod.barras.csv';
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
 end;

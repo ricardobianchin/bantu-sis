@@ -238,6 +238,8 @@ contains
   Sis.UI.Controls.ComboBox.Select.Frame_u in 'UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Select.Frame_u.pas' {ComboBoxSelectBasFrame: TFrame},
   Sis.UI.FormCreator in 'UI\BasForm\Sis.UI.FormCreator.pas',
   Sis.UI.FormCreator_u in 'UI\BasForm\Sis.UI.FormCreator_u.pas',
-  Sis.DB.DataSet.Utils in 'DB\Sis.DB.DataSet.Utils.pas';
+  Sis.DB.DataSet.Utils in 'DB\Sis.DB.DataSet.Utils.pas',
+  Sis.Types.Codigos.Utils in 'Types\Codigos\Sis.Types.Codigos.Utils.pas',
+  Sis.Types.Codigos.Testes_u in 'Types\Codigos\Sis.Types.Codigos.Testes_u.pas';
 
 end.

@@ -36,6 +36,7 @@ object ProdBarrasFrame: TProdBarrasFrame
     EditLabel.Caption = 'C'#243'digo de Barras'
     LabelPosition = lpLeft
     LabelSpacing = 4
+    MaxLength = 14
     NumbersOnly = True
     TabOrder = 0
     Text = '7896422515658'

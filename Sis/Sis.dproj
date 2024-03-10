@@ -372,6 +372,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.FormCreator.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.FormCreator_u.pas"/>
         <DCCReference Include="DB\Sis.DB.DataSet.Utils.pas"/>
+        <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Utils.pas"/>
+        <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Testes_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

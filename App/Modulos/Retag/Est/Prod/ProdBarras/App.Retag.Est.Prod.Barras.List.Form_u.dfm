@@ -23,7 +23,8 @@ object ProdBarrasListForm: TProdBarrasListForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 346
+    ExplicitTop = 242
+    ExplicitWidth = 300
     object ToolBar1: TToolBar
       Left = 0
       Top = 0
@@ -34,9 +35,7 @@ object ProdBarrasListForm: TProdBarrasListForm
       Caption = 'ToolBar1'
       Images = SisImgDataModule.ImageList24FlatSelect
       TabOrder = 0
-      ExplicitLeft = 48
-      ExplicitTop = 8
-      ExplicitWidth = 150
+      ExplicitWidth = 300
       object ToolButton1: TToolButton
         Left = 0
         Top = 0

@@ -143,7 +143,7 @@ begin
 
   Result := ProdPerg(Self, EntEd, oProdDBI, oProdFabrDBI,
     oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
-    oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator);
+    oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator, AppInfo);
 end;
 
 procedure TRetagEstProdDataSetForm.EntToCampos;

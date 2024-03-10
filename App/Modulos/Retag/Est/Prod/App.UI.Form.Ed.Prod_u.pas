@@ -25,6 +25,7 @@ type
     // FFabrSelectEditFrame: TFabrSelectEditFrame;
     FSanfonaFrame: TSanfonaFrame;
     FObrigFrame: TObrigatoriosProdEdFrame;
+    FAppInfo: IAppInfo;
 
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
@@ -53,10 +54,10 @@ type
       pFabrDataSetFormCreator: IFormCreator;
       pProdTipoDataSetFormCreator: IFormCreator;
       pProdUnidDataSetFormCreator: IFormCreator;
-      pProdICMSDataSetFormCreator: IFormCreator
+      pProdICMSDataSetFormCreator: IFormCreator;
 
       //
-      ); reintroduce;
+      pAppInfo: IAppInfo); reintroduce;
   end;
 
 var
@@ -136,17 +137,16 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pFabrDataSetFormCreator: IFormCreator;
   pProdTipoDataSetFormCreator: IFormCreator;
   pProdUnidDataSetFormCreator: IFormCreator;
-  pProdICMSDataSetFormCreator: IFormCreator
+  pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  );
+  pAppInfo: IAppInfo);
 var
-  oAppInfo: IAppInfo;
-  oSisConfig: ISisConfig;
   oDBConnection: IDBConnection;
 
 begin
   inherited Create(AOwner, pEntEd, pEntDBI);
+  FAppInfo := pAppInfo;
   FSanfonaFrame := TSanfonaFrame.Create(Self, ErroOutput);
   FSanfonaFrame.Parent := Self;
   FSanfonaFrame.Align := alClient;
@@ -155,7 +155,8 @@ begin
 
   FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt,
     ProdDBI, pFabrDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, oAppInfo, ErroOutput);
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, FAppInfo,
+    ErroOutput);
 
   FSanfonaFrame.PegarItem(FObrigFrame);
 
