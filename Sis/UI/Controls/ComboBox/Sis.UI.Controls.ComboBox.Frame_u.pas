@@ -47,6 +47,8 @@ procedure TComboBoxBasFrame.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   EditKeyPress(Sender, key);
+  if (Key >= #32) or (Key = #8) then
+    ComboBox1.DroppedDown := True;
 end;
 
 constructor TComboBoxBasFrame.Create(AOwner: TComponent);
@@ -71,6 +73,11 @@ var
   Resultado: integer;
 begin
   I := ComboBox1.ItemIndex;
+  if I < 0 then
+  begin
+    Result := 0;
+    exit;
+  end;
   P := ComboBox1.Items.Objects[I];
   Resultado := integer(P);
   Result := Resultado;

@@ -13,7 +13,7 @@ type
 
     function GetFormClassName: string;
     property FormClassName: string read GetFormClassName;
-    function FormCreateSelect(AOwner: TComponent): TForm;
+    function FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm;
     function PergSelect(var pSelectItem: TSelectItem): boolean;
   end;
 

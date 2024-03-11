@@ -289,7 +289,7 @@ var
   iLen: integer;
 begin
   iLen := Length(pCod);
-  Result := iLen <> LEN_DESEJADO;
+  Result := iLen = LEN_DESEJADO;
   if not Result then
     exit;
 
@@ -356,7 +356,7 @@ var
   iLen: integer;
 begin
   iLen := Length(pCod);
-  Result := iLen <> LEN_DESEJADO;
+  Result := iLen = LEN_DESEJADO;
   if not Result then
     exit;
 
@@ -427,7 +427,7 @@ var
   iLen: integer;
 begin
   iLen := Length(pCod);
-  Result := iLen <> LEN_DESEJADO;
+  Result := iLen = LEN_DESEJADO;
   if not Result then
     exit;
 
@@ -549,7 +549,7 @@ var
   iLen: integer;
 begin
   iLen := Length(pCod);
-  Result := iLen <> LEN_DESEJADO;
+  Result := iLen = LEN_DESEJADO;
   if not Result then
     exit;
 

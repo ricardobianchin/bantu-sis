@@ -52,8 +52,8 @@ var
   ProdBarras: IProdBarras;
   q: TDataSet;
 begin
-  if not EAN13Valido(LabeledEdit1.Text) then
-  begin
+  if not BarCodValido(LabeledEdit1.Text) then
+  begin //7896422515658
     ErroLabel.Caption := 'Código de barras inválido';
     ErroLabel.Visible := True;
     LabeledEdit1.SetFocus;

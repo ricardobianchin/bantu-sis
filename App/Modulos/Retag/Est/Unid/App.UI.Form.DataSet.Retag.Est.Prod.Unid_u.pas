@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
-  Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
+  Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u, Sis.Types.Utils_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Unid.Ent;
 
@@ -28,6 +28,7 @@ type
     procedure RecordToEnt; override;
   public
     { Public declarations }
+    function GetSelectItem: TSelectItem; override;
   end;
 
 var
@@ -134,6 +135,15 @@ end;
 function TRetagEstProdUnidDataSetForm.GetProdUnidEnt: IProdUnidEnt;
 begin
   Result := TProdUnidEnt(EntEd);
+end;
+
+function TRetagEstProdUnidDataSetForm.GetSelectItem: TSelectItem;
+var
+  fPerc: currency;
+  Descr: string;
+begin
+  Result.Id := FDMemTable.Fields[0].AsInteger;
+  Result.Descr := FDMemTable.Fields[2].AsString;
 end;
 
 procedure TRetagEstProdUnidDataSetForm.RecordToEnt;

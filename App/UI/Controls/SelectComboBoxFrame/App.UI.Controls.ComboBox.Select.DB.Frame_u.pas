@@ -50,6 +50,7 @@ var
   Index: integer;
 begin
   inherited;
+  SelectItem.Id := Id;
   Resultado := FFormCreator.PergSelect(SelectItem);
   if not Resultado then
     exit;

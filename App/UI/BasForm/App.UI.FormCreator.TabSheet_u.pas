@@ -44,7 +44,7 @@ type
       pFormClassNamesSL: TStringList; pAppInfo: IAppInfo;
       pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
-          destructor Destroy; override;
+    destructor Destroy; override;
 
   end;
 

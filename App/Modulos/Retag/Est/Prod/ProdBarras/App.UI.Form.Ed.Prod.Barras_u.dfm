@@ -28,6 +28,7 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     TabOrder = 0
     Text = ''
     OnChange = LabeledEdit1Change
+    OnKeyPress = LabeledEdit1KeyPress
   end
   inherited BasePanel: TPanel
     Top = 126
@@ -36,16 +37,16 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     ExplicitTop = 125
     ExplicitWidth = 352
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 13
-      ExplicitLeft = 9
+      Left = 9
+      ExplicitLeft = 5
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 126
-      ExplicitLeft = 122
+      Left = 122
+      ExplicitLeft = 118
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 206
-      ExplicitLeft = 202
+      Left = 202
+      ExplicitLeft = 198
     end
   end
 end

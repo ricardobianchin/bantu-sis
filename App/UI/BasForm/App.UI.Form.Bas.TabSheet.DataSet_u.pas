@@ -51,6 +51,7 @@ type
     FFDMemTable: TFDMemTable;
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
+    FIdPos: integer;
     // FFDDataSetManager: IFDDataSetManager;
 
     FFiltroEditAutomatico: boolean;
@@ -99,7 +100,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-      pEntEd: IEntEd; pEntDBI: IEntDBI; pModoForm: TModoForm); reintroduce;
+      pEntEd: IEntEd; pEntDBI: IEntDBI; pModoForm: TModoForm; pIdPos: integer); reintroduce;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
@@ -199,14 +200,14 @@ end;
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI; pModoForm: TModoForm);
+  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI; pModoForm: TModoForm; pIdPos: integer);
 var
   sNomeArq: string;
 begin
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
   FModoForm := pModoForm;
-
+  FIdPos := pIdPos;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS,
     pOutput, pProcessLog, pOutputNotify);
 
@@ -436,10 +437,21 @@ begin
 end;
 
 procedure TTabSheetDataSetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  sNomeCampo: string;
 begin
   inherited;
   AtuAction_DatasetTabSheet.Execute;
   FFiltroEditAutomatico := true;
+
+  if ModoForm = TModoForm.mfBrowse then
+    exit;
+
+  if FIdPos = 0 then
+    exit;
+
+  sNomeCampo := FDMemTable.Fields[0].FieldName;
+  FDMemTable.Locate(sNomeCampo, FIdPos, []);
 end;
 
 end.

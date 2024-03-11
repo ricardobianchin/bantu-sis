@@ -12,6 +12,7 @@ type
   TProdBarrasEdForm = class(TDiagBtnBasForm)
     LabeledEdit1: TLabeledEdit;
     procedure LabeledEdit1Change(Sender: TObject);
+    procedure LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   protected
@@ -38,9 +39,17 @@ begin
   MensLabel.Visible := false;
 end;
 
+procedure TProdBarrasEdForm.LabeledEdit1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+    OkAct_Diag.Execute;
+end;
+
 function TProdBarrasEdForm.PodeOk: Boolean;
 begin
-  Result := EAN13Valido(LabeledEdit1.Text);
+  Result := BarCodValido(LabeledEdit1.Text);
 
   if not Result then
   begin

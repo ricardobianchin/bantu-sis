@@ -122,10 +122,14 @@ var
   oProdTipoDataSetFormCreator: IFormCreator;
   oProdUnidDataSetFormCreator: IFormCreator;
   oProdICMSDataSetFormCreator: IFormCreator;
+
+  oAppInfo: IAppInfo;
 begin
   inherited;
+  oAppInfo := AppInfo;
+
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
+    oAppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Prod.Ed.' + pDataSetStateAbrev +
     '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
@@ -145,18 +149,18 @@ begin
     oProdTipoDBI);
 
   oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, nil, nil { UnidDBI } );
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdUnidEnt, oProdUnidDBI);
 
   oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, nil, nil { ICMSDBI } );
+    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdICMSEnt, oProdICMSDBI );
 
   Result := ProdPerg(Self, EntEd
     //
     , oProdDBI, oProdFabrDBI, oProdTipoDBI, oProdUnidDBI, oProdICMSDBI
 
     //
-    , oFabrDataSetFormCreator, oProdTipoDataSetFormCreator
-    , oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator
+    , oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
+    oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator
     //
     , AppInfo);
 end;

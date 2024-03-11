@@ -47,10 +47,10 @@ type
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
 
       //
-      pFabrDBI: IEntDBI;//
-      pTipoDBI: IEntDBI;//
-      pUnidDBI: IEntDBI;//
-      pICMSDBI: IEntDBI;//
+      pFabrDBI: IEntDBI; //
+      pTipoDBI: IEntDBI; //
+      pUnidDBI: IEntDBI; //
+      pICMSDBI: IEntDBI; //
 
       //
       pFabrDataSetFormCreator: IFormCreator;
@@ -133,10 +133,10 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pEntDBI: IEntDBI;
 
   //
-  pFabrDBI: IEntDBI;//
-  pTipoDBI: IEntDBI;//
-  pUnidDBI: IEntDBI;//
-  pICMSDBI: IEntDBI;//
+  pFabrDBI: IEntDBI; //
+  pTipoDBI: IEntDBI; //
+  pUnidDBI: IEntDBI; //
+  pICMSDBI: IEntDBI; //
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -158,12 +158,14 @@ begin
   FSanfonaFrame.TitLabel.Caption := GetObjetivoStr;
   ObjetivoLabel.Visible := false;
 
-  FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt,
-    ProdDBI, pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI
-    , pFabrDataSetFormCreator//
-    , pProdTipoDataSetFormCreator//
-    , pProdUnidDataSetFormCreator//
-    , pProdICMSDataSetFormCreator  //
+  FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt, ProdDBI
+    //
+    , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI
+    //
+    , pFabrDataSetFormCreator //
+    , pProdTipoDataSetFormCreator //
+    , pProdUnidDataSetFormCreator //
+    , pProdICMSDataSetFormCreator //
     , FAppInfo, ErroOutput);
 
   FSanfonaFrame.PegarItem(FObrigFrame);

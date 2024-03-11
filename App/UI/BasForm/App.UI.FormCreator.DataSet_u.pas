@@ -22,7 +22,7 @@ type
 
   public
     function FormCreate(AOwner: TComponent): TForm; override;
-    function FormCreateSelect(AOwner: TComponent): TForm; override;
+    function FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm; override;
     constructor Create(pFormClass: TTabSheetDataSetBasFormClass;
       pFormClassNamesSL: TStringList; pAppInfo: IAppInfo;
       pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
@@ -52,14 +52,14 @@ function TDataSetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
   Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
     SisConfig, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
-    mfBrowse);
+    mfBrowse, 0);
 end;
 
-function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent): TForm;
+function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm;
 begin
   Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
     SisConfig, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
-    mfSelect);
+    mfSelect, pIdPos);
 end;
 
 function TDataSetFormCreator.GetDataSetFormClass: TTabSheetDataSetBasFormClass;
@@ -76,7 +76,7 @@ function TDataSetFormCreator.PergSelect(var pSelectItem: TSelectItem): boolean;
 var
   oForm: TTabSheetDataSetBasForm;
 begin
-  oForm := TTabSheetDataSetBasForm(FormCreateSelect(nil));
+  oForm := TTabSheetDataSetBasForm(FormCreateSelect(nil, pSelectItem.Id));
   try
     Result := IsPositiveResult(oForm.ShowModal);
     if Result then
