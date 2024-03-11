@@ -32,13 +32,14 @@ type
     procedure OkActionExecute(Sender: TObject);
     procedure NovoActionExecute(Sender: TObject);
     procedure ExclActionExecute(Sender: TObject);
+    procedure ConsultarWebActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
   public
     { Public declarations }
     property FDMemTable: TFDMemTable read FFDMemTable;
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo);
+    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo); reintroduce;
   end;
 
 var
@@ -49,11 +50,30 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM, Sis.DB.DataSet.Utils, App.UI.Form.Ed.Prod.Barras_u,
-  Sis.UI.IO.Input.Perg;
+  Sis.UI.IO.Input.Perg, ShellAPI;
 
 procedure TProdBarrasListForm.CancActionExecute(Sender: TObject);
 begin
   ModalResult := mrCancel;
+end;
+
+procedure TProdBarrasListForm.ConsultarWebActionExecute(Sender: TObject);
+var
+  Url: string;
+begin
+  if FDMemTable.IsEmpty then
+  begin
+    ShowMessage('Não há registro a consultar');
+    exit;
+  end;
+  Url := 'https://www.google.com/search?q=' //
+    + 'produto+com+%22c%C3%B3digo+de+barras%22+%22' //
+    + FDMemTable.Fields[1].AsString //
+    + '%22%3F' //
+    ;
+
+  ShellExecute(0, 'open', PChar(Url), nil, nil, SW_SHOWNORMAL);
+
 end;
 
 constructor TProdBarrasListForm.Create(AOwner: TComponent; pAppInfo: IAppInfo);

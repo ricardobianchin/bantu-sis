@@ -27,6 +27,7 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     NumbersOnly = True
     TabOrder = 0
     Text = ''
+    OnChange = LabeledEdit1Change
   end
   inherited BasePanel: TPanel
     Top = 126

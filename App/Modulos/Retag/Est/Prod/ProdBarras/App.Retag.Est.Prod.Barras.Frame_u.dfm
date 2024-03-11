@@ -2,11 +2,11 @@ object ProdBarrasFrame: TProdBarrasFrame
   Left = 0
   Top = 0
   Width = 244
-  Height = 24
+  Height = 40
   ParentShowHint = False
   ShowHint = True
   TabOrder = 0
-  object SpeedButton1: TSpeedButton
+  object BarrasListSpeedButton: TSpeedButton
     Left = 199
     Top = 1
     Width = 23
@@ -14,9 +14,9 @@ object ProdBarrasFrame: TProdBarrasFrame
     Hint = 'Lista de C'#243'digo deste Produto'
     ImageIndex = 1
     Images = SisImgDataModule.ImageList16Flat
-    OnClick = SpeedButton1Click
+    OnClick = BarrasListSpeedButtonClick
   end
-  object SpeedButton2: TSpeedButton
+  object ConsultarWebSpeedButton: TSpeedButton
     Left = 221
     Top = 1
     Width = 23
@@ -24,7 +24,23 @@ object ProdBarrasFrame: TProdBarrasFrame
     Hint = 'Pesquisar na Web'
     ImageIndex = 2
     Images = SisImgDataModule.ImageList16Flat
-    OnClick = SpeedButton2Click
+    OnClick = ConsultarWebSpeedButtonClick
+  end
+  object ErroLabel: TLabel
+    Left = 189
+    Top = 24
+    Width = 49
+    Height = 15
+    Alignment = taRightJustify
+    Caption = 'ErroLabel'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 192
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+    StyleElements = []
   end
   object LabeledEdit1: TLabeledEdit
     Left = 94
@@ -40,5 +56,6 @@ object ProdBarrasFrame: TProdBarrasFrame
     NumbersOnly = True
     TabOrder = 0
     Text = '7896422515658'
+    OnChange = LabeledEdit1Change
   end
 end

@@ -9,10 +9,12 @@ type
   TProdBarrasList = class(TInterfaceList, IProdBarrasList)
   private
     function GetProdBarras(Index: integer): IProdBarras;
+    procedure RenumereOrdem;
   public
-    property ProdBarras[Index: integer]: IProdBarras
-      read GetProdBarras; default;
-    procedure PegarBarCod(pBarCod: string);
+    property ProdBarras[Index: integer]: IProdBarras read GetProdBarras; default;
+    procedure PegarBarras(pBarras: string);
+    procedure InsertBarras(pIndex: integer; pBarras: string);
+    function IndexOfBarras(pBarras: string): integer;
   end;
 
 implementation
@@ -26,14 +28,62 @@ begin
   Result := IProdBarras(Items[Index]);
 end;
 
-procedure TProdBarrasList.PegarBarCod(pBarCod: string);
+function TProdBarrasList.IndexOfBarras(pBarras: string): integer;
+var
+  i: integer;
+  oProdBarras: IProdBarras;
+begin
+  Result := -1;
+  for I := 0 to Count - 1 do
+  begin
+    oProdBarras := ProdBarras[I];
+    if oProdBarras.Barras = pBarras then
+    begin
+      Result := I;
+      break;
+    end;
+  end;
+end;
+
+procedure TProdBarrasList.InsertBarras(pIndex: integer; pBarras: string);
 var
   iOrdem: smallint;
   oProdBarras: IProdBarras;
+  iIndex: integer;
 begin
+  iIndex := IndexOfBarras(pBarras);
+  if iIndex > -1 then
+    exit;
+
+  oProdBarras := ProdBarrasCreate(0, pBarras);
+  Insert(pIndex, oProdBarras);
+  RenumereOrdem;
+end;
+
+procedure TProdBarrasList.PegarBarras(pBarras: string);
+var
+  iOrdem: smallint;
+  oProdBarras: IProdBarras;
+  iIndex: integer;
+begin
+  iIndex := IndexOfBarras(pBarras);
+  if iIndex > -1 then
+    exit;
+
   iOrdem := Count + 1;
-  oProdBarras := ProdBarrasCreate(iOrdem, pBarCod);
+  oProdBarras := ProdBarrasCreate(iOrdem, pBarras);
   Add(oProdBarras);
+end;
+
+procedure TProdBarrasList.RenumereOrdem;
+var
+  i: integer;
+  oProdBarras: IProdBarras;
+begin
+  for I := 0 to Count - 1 do
+  begin
+    ProdBarras[I].Ordem := I + 1;
+  end;
 end;
 
 end.

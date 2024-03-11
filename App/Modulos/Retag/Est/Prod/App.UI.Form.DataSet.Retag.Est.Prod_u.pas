@@ -109,7 +109,10 @@ function TRetagEstProdDataSetForm.DoProdPerg(pDataSetStateAbrev
   : string): boolean;
 var
   oProdDBI: IEntDBI;
+
   oProdFabrDBI: IEntDBI;
+  oProdTipoDBI: IEntDBI;
+
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
   sBusca: string;
@@ -127,6 +130,7 @@ begin
 
   oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
   oProdFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, ProdEnt.ProdFabrEnt);
+  oProdTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, ProdEnt.ProdTipoEnt);
 
   oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, AppInfo,
     SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
@@ -141,7 +145,7 @@ begin
   oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
     SisConfig, DBMS, Output, ProcessLog, OutputNotify, nil, nil { ICMSDBI } );
 
-  Result := ProdPerg(Self, EntEd, oProdDBI, oProdFabrDBI,
+  Result := ProdPerg(Self, EntEd, oProdDBI, oProdFabrDBI, oProdTipoDBI,
     oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
     oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator, AppInfo);
 end;

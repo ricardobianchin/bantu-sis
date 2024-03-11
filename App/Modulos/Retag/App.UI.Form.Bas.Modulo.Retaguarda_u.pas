@@ -234,7 +234,7 @@ begin
 
   oProdBarrasList := ProdBarrasListCreate;
 
-  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oNatuEnt, oProdBarrasList);
+  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oTipoEnt, oNatuEnt, oProdBarrasList);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,

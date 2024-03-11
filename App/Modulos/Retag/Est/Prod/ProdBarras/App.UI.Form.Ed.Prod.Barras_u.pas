@@ -11,10 +11,14 @@ uses
 type
   TProdBarrasEdForm = class(TDiagBtnBasForm)
     LabeledEdit1: TLabeledEdit;
+    procedure LabeledEdit1Change(Sender: TObject);
   private
     { Private declarations }
+  protected
+    function PodeOk: Boolean; override;
   public
     { Public declarations }
+
   end;
 
 var
@@ -23,5 +27,27 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.Types.Codigos.Utils;
+
+{ TProdBarrasEdForm }
+
+procedure TProdBarrasEdForm.LabeledEdit1Change(Sender: TObject);
+begin
+  inherited;
+  MensLabel.Visible := false;
+end;
+
+function TProdBarrasEdForm.PodeOk: Boolean;
+begin
+  Result := EAN13Valido(LabeledEdit1.Text);
+
+  if not Result then
+  begin
+    ErroOutput.Exibir('Código de barras inválido');
+    LabeledEdit1.SetFocus;
+    exit;
+  end;
+end;
 
 end.

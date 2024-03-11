@@ -132,6 +132,7 @@ function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 function RetagEstProdEntCreate(
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
+  pProdTipoEnt: IProdTipoEnt; // fabr
   pProdNatuEnt: IProdNatuEnt; // est_item_natu
   pProdBarrasList: IProdBarrasList; // prod barras list
 
@@ -148,6 +149,7 @@ function ProdEdFormCreate(AOwner: TComponent;
 
   //
   pProdFabrDBI: IEntDBI;
+  pProdTipoDBI: IEntDBI;
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -161,7 +163,10 @@ function ProdEdFormCreate(AOwner: TComponent;
 
 function ProdPerg(AOwner: TComponent;
   //
-  pProdEnt: IEntEd; pProdDBI: IEntDBI; pProdFabrDBI: IEntDBI;
+  pProdEnt: IEntEd; pProdDBI: IEntDBI;
+  //
+  pProdFabrDBI: IEntDBI;//
+  pProdTipoDBI: IEntDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -483,13 +488,14 @@ end;
 function RetagEstProdEntCreate(
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
+  pProdTipoEnt: IProdTipoEnt; // fabr
   pProdNatuEnt: IProdNatuEnt; // est_item_natu
   pProdBarrasList: IProdBarrasList; // prod barras list
   // campos
   pState: TDataSetState; pId: integer; pDescr: string; pDescrRed: string)
   : IProdEnt;
 begin
-  Result := TProdEnt.Create(pProdFabrEnt, pProdNatuEnt, pProdBarrasList, pState, pId, pDescr,
+  Result := TProdEnt.Create(pProdFabrEnt, pProdTipoEnt, pProdNatuEnt, pProdBarrasList, pState, pId, pDescr,
     pDescrRed);
 end;
 
@@ -505,6 +511,7 @@ function ProdEdFormCreate(AOwner: TComponent;
 
   //
   pProdFabrDBI: IEntDBI;
+  pProdTipoDBI: IEntDBI;
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -516,14 +523,18 @@ function ProdEdFormCreate(AOwner: TComponent;
   pAppInfo: IAppInfo
   ): TEdBasForm;
 begin
-  Result := TProdEdForm.Create(AOwner, pProdEnt, pProdDBI, pProdFabrDBI,
+  Result := TProdEdForm.Create(AOwner, pProdEnt, pProdDBI, pProdFabrDBI, pProdTipoDBI,
     pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
     pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo);
 end;
 
 function ProdPerg(AOwner: TComponent;
   //
-  pProdEnt: IEntEd; pProdDBI: IEntDBI; pProdFabrDBI: IEntDBI;
+  pProdEnt: IEntEd; pProdDBI: IEntDBI;
+
+  //
+  pProdFabrDBI: IEntDBI;//
+  pProdTipoDBI: IEntDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -536,7 +547,7 @@ function ProdPerg(AOwner: TComponent;
 var
   F: TEdBasForm;
 begin
-  F := ProdEdFormCreate(AOwner, pProdEnt, pProdDBI, pProdFabrDBI,
+  F := ProdEdFormCreate(AOwner, pProdEnt, pProdDBI, pProdFabrDBI, pProdTipoDBI,
     pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
     pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo);
   Result := F.Perg;

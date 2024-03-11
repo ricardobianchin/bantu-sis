@@ -11,7 +11,10 @@ type
     function GetProdBarras(Index: integer): IProdBarras;
     property ProdBarras[Index: integer]: IProdBarras read GetProdBarras; default;
 
-    procedure PegarBarCod(pBarCod: string);
+    procedure PegarBarras(pBarras: string);
+    procedure InsertBarras(pIndex: integer; pBarras: string);
+    function IndexOfBarras(pBarras: string): integer;
+
   end;
 
 implementation

@@ -3,16 +3,25 @@ unit App.Retag.Est.Prod.Ent_u;
 interface
 
 uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
-  Sis.Types.Utils_u, App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Fabr.Ent,
+  Sis.Types.Utils_u, App.Retag.Est.Prod.Ent,
   App.Retag.Est.Prod.Natu.Ent, App.Ent.DBI_u, App.Ent.Ed, App.Retag.Est.Factory,
-  App.Retag.Est.Prod.Barras.Ent.List;
+  App.Retag.Est.Prod.Barras.Ent.List
+  //
+  , App.Retag.Est.Prod.Fabr.Ent//
+  , App.Retag.Est.Prod.Tipo.Ent//
+
+  //
+  ;
 
 type
   TProdEnt = class(TEntEdId, IProdEnt)
   private
     FDescr: string;
     FDescrRed: string;
+
     FProdFabrEnt: IProdFabrEnt;
+    FProdTipoEnt: IProdTipoEnt;
+
     FProdNatuEnt: IProdNatuEnt;
     FProdBarrasList: IProdBarrasList;
 
@@ -29,6 +38,11 @@ type
     procedure SetDescrRed(Value: string);
 
     function GetProdFabrEnt: IProdFabrEnt;
+    function GetProdTipoEnt: IProdTipoEnt;
+
+
+
+
     function GetProdNatuEnt: IProdNatuEnt;
 
     function GetProdBarrasList: IProdBarrasList;
@@ -38,12 +52,15 @@ type
     property DescrRed: string read GetDescrRed write SetDescrRed;
 
     property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
-    property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
+    property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
 
+    property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
 
     constructor Create(
       pProdFabrEnt: IProdFabrEnt; //fabr ent
+      pProdTipoEnt: IProdTipoEnt; //fabr ent
+      //
       pProdNatuEnt: IProdNatuEnt; //natu ent
       pProdBarrasList: IProdBarrasList; // prod barras list
 
@@ -60,6 +77,8 @@ implementation
 
 constructor TProdEnt.Create(
       pProdFabrEnt: IProdFabrEnt; //fabr ent
+      pProdTipoEnt: IProdTipoEnt; //fabr ent
+      //
       pProdNatuEnt: IProdNatuEnt; //natu ent
       pProdBarrasList: IProdBarrasList; // prod barras list
 
@@ -72,6 +91,8 @@ begin
   FDescrRed := pDescrRed;
 
   FProdFabrEnt := pProdFabrEnt;
+  FProdTipoEnt := pProdTipoEnt;
+
   FProdNatuEnt := pProdNatuEnt;
   FProdBarrasList := pProdBarrasList;
 end;
@@ -109,6 +130,11 @@ end;
 function TProdEnt.GetProdNatuEnt: IProdNatuEnt;
 begin
   Result := FProdNatuEnt;
+end;
+
+function TProdEnt.GetProdTipoEnt: IProdTipoEnt;
+begin
+  Result := FProdTipoEnt;
 end;
 
 function TProdEnt.GetTitulo: string;

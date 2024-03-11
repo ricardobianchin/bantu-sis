@@ -49,6 +49,7 @@ type
 
       //
       pFabrDBI: IEntDBI;
+      pTipoDBI: IEntDBI;
 
       //
       pFabrDataSetFormCreator: IFormCreator;
@@ -132,6 +133,7 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
 
   //
   pFabrDBI: IEntDBI;
+  pTipoDBI: IEntDBI;
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -154,7 +156,7 @@ begin
   ObjetivoLabel.Visible := false;
 
   FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt,
-    ProdDBI, pFabrDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
+    ProdDBI, pFabrDBI, pTipoDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
     pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, FAppInfo,
     ErroOutput);
 

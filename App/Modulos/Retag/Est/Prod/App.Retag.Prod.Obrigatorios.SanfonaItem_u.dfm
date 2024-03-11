@@ -27,7 +27,7 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
       end
       object DescrLabeledEdit: TLabeledEdit
         Left = 59
-        Top = 28
+        Top = 45
         Width = 406
         Height = 23
         EditLabel.Width = 51
@@ -43,7 +43,7 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
       end
       object DescrRedLabeledEdit: TLabeledEdit
         Left = 581
-        Top = 28
+        Top = 45
         Width = 194
         Height = 23
         EditLabel.Width = 102

@@ -23,6 +23,8 @@ function EAN14Dig(pCod: string): char;
 
 function UPCAValido(pCod: string): boolean;
 
+function IdToEan13(pId: integer): string;
+
 implementation
 
 uses System.SysUtils, System.Classes, System.StrUtils, VCL.Dialogs,
@@ -578,6 +580,30 @@ udi:=udi-dv;
     //showmessage(inttostr(udi))
   else
     //showmessage('ok');
+end;
+
+function IdToEan13(pId: integer): string;
+const
+  LEN_CODIGO = 13;
+  LEN_DESEJADO = LEN_CODIGO - 1;
+var
+  sId: string;
+  iFalta: integer;
+  iLen: integer;
+  sZeros: string;
+  cDigVer: char;
+begin
+  sId := pId.ToString;
+
+  iLen := Length(sId);
+  iFalta := LEN_DESEJADO - iLen;
+
+  sZeros := StringOfChar('0', iFalta);
+
+  Result := sId + sZeros;
+  cDigVer := EAN13Dig(Result);
+
+  Result := Result + cDigVer;
 end;
 
 end.

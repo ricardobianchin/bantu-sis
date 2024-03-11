@@ -11,10 +11,12 @@ uses
 type
   TProdBarrasFrame = class(TFrame)
     LabeledEdit1: TLabeledEdit;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    procedure SpeedButton2Click(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    BarrasListSpeedButton: TSpeedButton;
+    ConsultarWebSpeedButton: TSpeedButton;
+    ErroLabel: TLabel;
+    procedure ConsultarWebSpeedButtonClick(Sender: TObject);
+    procedure BarrasListSpeedButtonClick(Sender: TObject);
+    procedure LabeledEdit1Change(Sender: TObject);
   private
     { Private declarations }
     FProdBarrasList: IProdBarrasList;
@@ -29,7 +31,7 @@ implementation
 
 {$R *.dfm}
 
-uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB;
+uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils;
 
 constructor TProdBarrasFrame.Create(AOwner: TComponent;
   pProdBarrasList: IProdBarrasList; pAppInfo: IAppInfo);
@@ -39,16 +41,33 @@ begin
   FAppInfo := pAppInfo;
 end;
 
-procedure TProdBarrasFrame.SpeedButton1Click(Sender: TObject);
+procedure TProdBarrasFrame.LabeledEdit1Change(Sender: TObject);
+begin
+  ErroLabel.Visible := false;
+end;
+
+procedure TProdBarrasFrame.BarrasListSpeedButtonClick(Sender: TObject);
 var
   I: integer;
   ProdBarras: IProdBarras;
   q: TDataSet;
 begin
+  if not EAN13Valido(LabeledEdit1.Text) then
+  begin
+    ErroLabel.Caption := 'Código de barras inválido';
+    ErroLabel.Visible := True;
+    LabeledEdit1.SetFocus;
+    exit;
+  end;
+
   ProdBarrasListForm := TProdBarrasListForm.Create(Application, FAppInfo);
   q := ProdBarrasListForm.FDMemTable;
 
   try
+    if FProdBarrasList.Count = 0 then
+      FProdBarrasList.PegarBarras(LabeledEdit1.Text)
+    else
+      FProdBarrasList[0].Barras := LabeledEdit1.Text;
     q.DisableControls;
     try
       for I := 0 to FProdBarrasList.Count - 1 do
@@ -67,11 +86,15 @@ begin
     try
       q.First;
       FProdBarrasList.Clear;
+
       while not q.Eof do
       begin
-        FProdBarrasList.PegarBarCod(q.fields[1].asstring);
+        FProdBarrasList.PegarBarras(q.fields[1].asstring);
         q.Next;
       end;
+
+      if FProdBarrasList.Count > 0 then
+        LabeledEdit1.Text := FProdBarrasList[0].Barras;
     finally
       q.EnableControls;
     end;
@@ -80,7 +103,7 @@ begin
   end;
 end;
 
-procedure TProdBarrasFrame.SpeedButton2Click(Sender: TObject);
+procedure TProdBarrasFrame.ConsultarWebSpeedButtonClick(Sender: TObject);
 var
   Url: string;
 begin

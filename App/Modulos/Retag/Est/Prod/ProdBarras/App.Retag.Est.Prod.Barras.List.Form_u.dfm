@@ -3,7 +3,7 @@ object ProdBarrasListForm: TProdBarrasListForm
   Top = 0
   BorderIcons = []
   BorderStyle = bsToolWindow
-  Caption = 'ProdBarrasListForm'
+  Caption = 'Lista de C'#243'digos de Barra'
   ClientHeight = 284
   ClientWidth = 308
   Color = clBtnFace
@@ -126,6 +126,7 @@ object ProdBarrasListForm: TProdBarrasListForm
       Caption = 'Consultar na Web'
       Hint = 'Consultar na Web'
       ImageIndex = 4
+      OnExecute = ConsultarWebActionExecute
     end
   end
   object DataSource1: TDataSource
