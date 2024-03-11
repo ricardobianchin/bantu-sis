@@ -209,12 +209,12 @@ begin
   FTipoComboBoxFrame.Name := 'TipoComboBoxProdEdFrame';
 
   // Unid
-  FTipoComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdUnidEnt, pUnidDBI, ErroOutput, FProdUnidDataSetFormCreator);
-  FTipoComboBoxFrame.Name := 'UnidComboBoxProdEdFrame';
+  FUnidComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdUnidEnt, pUnidDBI, ErroOutput, FProdUnidDataSetFormCreator);
+  FUnidComboBoxFrame.Name := 'UnidComboBoxProdEdFrame';
 
   // ICMS
-  FTipoComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdICMSEnt, pTipoDBI, ErroOutput, FProdICMSDataSetFormCreator);
-  FTipoComboBoxFrame.Name := 'ICMSComboBoxProdEdFrame';
+  FICMSComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdICMSEnt, pTipoDBI, ErroOutput, FProdICMSDataSetFormCreator);
+  FICMSComboBoxFrame.Name := 'ICMSComboBoxProdEdFrame';
 
   FFabrComboBoxFrame.Left := FProdBarrasFrame.Left + FProdBarrasFrame.Width + 10;
   FFabrComboBoxFrame.Top := NatuComboBox.Top;
@@ -224,9 +224,13 @@ begin
 
   FUnidComboBoxFrame.Left := FTipoComboBoxFrame.Left + FTipoComboBoxFrame.Width + 10;
   FUnidComboBoxFrame.Top := FTipoComboBoxFrame.Top;
+  FUnidComboBoxFrame.ComboBox1.Width := 100;
+  FUnidComboBoxFrame.Width := FUnidComboBoxFrame.BuscaSpeedButton.Left + FUnidComboBoxFrame.BuscaSpeedButton.Width;
 
   FICMSComboBoxFrame.Left := FUnidComboBoxFrame.Left + FUnidComboBoxFrame.Width + 10;
   FICMSComboBoxFrame.Top := FTipoComboBoxFrame.Top;
+  FICMSComboBoxFrame.ComboBox1.Width := 100;
+  FICMSComboBoxFrame.Width := FICMSComboBoxFrame.BuscaSpeedButton.Left + FICMSComboBoxFrame.BuscaSpeedButton.Width;
 
   // FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
   // FCustoAtualNumEdit.Top := 144;

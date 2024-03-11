@@ -281,10 +281,18 @@ begin
 end;
 
 function EAN13Valido(pCod:string):boolean;
+const
+  LEN_DESEJADO = 13;
 var
   dv, soma:integer;
 //  c:char;
+  iLen: integer;
 begin
+  iLen := Length(pCod);
+  Result := iLen <> LEN_DESEJADO;
+  if not Result then
+    exit;
+
 //  result:=false;
   soma:=
     StrToInt(pCod[2])
@@ -340,10 +348,19 @@ begin
 end;
 
 function UPCAValido(pCod:string):boolean;
+const
+  LEN_DESEJADO = 12;
 var
   dv, soma:integer;
 //  c:char;
+  iLen: integer;
 begin
+  iLen := Length(pCod);
+  Result := iLen <> LEN_DESEJADO;
+  if not Result then
+    exit;
+
+
 //  result:=false;
   soma:=
     +StrToInt(pCod[1])
@@ -402,10 +419,18 @@ end;
 
 
 function EAN8Valido(pCod:string):boolean;
+const
+  LEN_DESEJADO = 13;
 var
   dv, soma:integer;
 //  c:char;
+  iLen: integer;
 begin
+  iLen := Length(pCod);
+  Result := iLen <> LEN_DESEJADO;
+  if not Result then
+    exit;
+
 //  result:=false;
   soma:=
     StrToInt(pCod[1])
@@ -515,11 +540,19 @@ Return strzero(nMul-nDig,1)
 
 
 function EAN14Valido(pCod:string):boolean;
+const
+  LEN_DESEJADO = 14;
 var
   udc:char;
   dv, soma, somapar, udi:integer;
 //  c:char;
+  iLen: integer;
 begin
+  iLen := Length(pCod);
+  Result := iLen <> LEN_DESEJADO;
+  if not Result then
+    exit;
+
 //  result:=false;
 {
 

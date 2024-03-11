@@ -1349,6 +1349,10 @@ inherited PrincBasForm: TPrincBasForm
     StyleElements = [seFont]
   end
   inherited ActionList1_ActBasForm: TActionList
+    inherited FecharAction_ActBasForm: TAction
+      Caption = 'Fechar o Sistema'
+      Hint = 'Fechar o Sistema'
+    end
     object MinimizeAction_PrincBasForm: TAction
       Caption = 'MinimizeAction_PrincBasForm'
       Hint = 'Minimize'
