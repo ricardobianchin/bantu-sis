@@ -22,7 +22,6 @@ type
     procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
-    // FFabrSelectEditFrame: TFabrSelectEditFrame;
     FSanfonaFrame: TSanfonaFrame;
     FObrigFrame: TObrigatoriosProdEdFrame;
     FAppInfo: IAppInfo;
@@ -48,8 +47,10 @@ type
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
 
       //
-      pFabrDBI: IEntDBI;
-      pTipoDBI: IEntDBI;
+      pFabrDBI: IEntDBI;//
+      pTipoDBI: IEntDBI;//
+      pUnidDBI: IEntDBI;//
+      pICMSDBI: IEntDBI;//
 
       //
       pFabrDataSetFormCreator: IFormCreator;
@@ -132,8 +133,10 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pEntDBI: IEntDBI;
 
   //
-  pFabrDBI: IEntDBI;
-  pTipoDBI: IEntDBI;
+  pFabrDBI: IEntDBI;//
+  pTipoDBI: IEntDBI;//
+  pUnidDBI: IEntDBI;//
+  pICMSDBI: IEntDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -156,9 +159,12 @@ begin
   ObjetivoLabel.Visible := false;
 
   FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt,
-    ProdDBI, pFabrDBI, pTipoDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, FAppInfo,
-    ErroOutput);
+    ProdDBI, pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI
+    , pFabrDataSetFormCreator//
+    , pProdTipoDataSetFormCreator//
+    , pProdUnidDataSetFormCreator//
+    , pProdICMSDataSetFormCreator  //
+    , FAppInfo, ErroOutput);
 
   FSanfonaFrame.PegarItem(FObrigFrame);
 

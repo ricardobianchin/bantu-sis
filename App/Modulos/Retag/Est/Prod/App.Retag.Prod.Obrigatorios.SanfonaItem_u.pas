@@ -9,13 +9,15 @@ uses
   Vcl.ExtCtrls, NumEditBtu, App.Retag.Prod.SanfonaItem.Bas_u,
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output,
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
-  Sis.DB.DBTypes, App.Retag.Est.Prod.ICMS.Ent,
+  Sis.DB.DBTypes,
   App.Retag.Est.Prod.Natu.Ent,
-  App.Retag.Est.Prod.Unid.Ent, Sis.UI.FormCreator,
+  Sis.UI.FormCreator,
   App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo
   //
   , App.Retag.Est.Prod.Fabr.Ent//
   , App.Retag.Est.Prod.Tipo.Ent//
+  , App.Retag.Est.Prod.Unid.Ent//
+  , App.Retag.Est.Prod.ICMS.Ent//
   //
   ;
 
@@ -52,7 +54,6 @@ type
     procedure IdCrie;
     procedure CustoCrie;
     procedure PrecoCrie;
-    procedure FabrComboBoxCrie(pFabrDBI: IEntDBI; pFormCreator: IFormCreator);
 
     function GetId: integer;
     procedure SetId(Value: integer);
@@ -95,6 +96,8 @@ type
       //
       pFabrDBI: IEntDBI;
       pTipoDBI: IEntDBI;
+      pUnidDBI: IEntDBI;
+      pICMSDBI: IEntDBI;
 
       //
       pFabrDataSetFormCreator: IFormCreator;
@@ -129,11 +132,11 @@ begin
   if not Result then
     exit;
 
-  Result := FabrId > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir('Campo Fabricante é obrigatório');
-  end;
+//  Result := FabrId > 0;
+//  if not Result then
+//  begin
+//    ErroOutput.Exibir('Campo Fabricante é obrigatório');
+//  end;
 end;
 
 procedure TObrigatoriosProdEdFrame.ControlesToEnt;
@@ -155,6 +158,8 @@ constructor TObrigatoriosProdEdFrame.Create(AOwner: TComponent;
   //
   pFabrDBI: IEntDBI;
   pTipoDBI: IEntDBI;
+  pUnidDBI: IEntDBI;
+  pICMSDBI: IEntDBI;
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -194,8 +199,22 @@ begin
   FProdICMSDataSetFormCreator := pProdICMSDataSetFormCreator;
 
   //FabrComboBoxCrie(pFabrDBI, FFabrDataSetFormCreator);
+
+  //fabr
   FFabrComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdFabrEnt, pFabrDBI, ErroOutput, FFabrDataSetFormCreator);
+  FFabrComboBoxFrame.Name := 'FabrComboBoxProdEdFrame';
+
+  // tipo
   FTipoComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdTipoEnt, pTipoDBI, ErroOutput, FProdTipoDataSetFormCreator);
+  FTipoComboBoxFrame.Name := 'TipoComboBoxProdEdFrame';
+
+  // Unid
+  FTipoComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdUnidEnt, pUnidDBI, ErroOutput, FProdUnidDataSetFormCreator);
+  FTipoComboBoxFrame.Name := 'UnidComboBoxProdEdFrame';
+
+  // ICMS
+  FTipoComboBoxFrame := TComboBoxProdEdFrame.Create(MeioPanel, ProdEnt.ProdICMSEnt, pTipoDBI, ErroOutput, FProdICMSDataSetFormCreator);
+  FTipoComboBoxFrame.Name := 'ICMSComboBoxProdEdFrame';
 
   FFabrComboBoxFrame.Left := FProdBarrasFrame.Left + FProdBarrasFrame.Width + 10;
   FFabrComboBoxFrame.Top := NatuComboBox.Top;
@@ -203,8 +222,11 @@ begin
   FTipoComboBoxFrame.Left := 4;
   FTipoComboBoxFrame.Top := DescrLabeledEdit.Top + DescrLabeledEdit.Height+17;
 
-  // FFabrSelectEditFrame.Left := 2;
-  // FFabrSelectEditFrame.Top := 30;
+  FUnidComboBoxFrame.Left := FTipoComboBoxFrame.Left + FTipoComboBoxFrame.Width + 10;
+  FUnidComboBoxFrame.Top := FTipoComboBoxFrame.Top;
+
+  FICMSComboBoxFrame.Left := FUnidComboBoxFrame.Left + FUnidComboBoxFrame.Width + 10;
+  FICMSComboBoxFrame.Top := FTipoComboBoxFrame.Top;
 
   // FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
   // FCustoAtualNumEdit.Top := 144;
@@ -266,11 +288,6 @@ begin
   // DescrLabeledEdit.Text := ProdEnt.Descr;
   // DescrRedLabeledEdit.Text := ProdEnt.DescrRed;
 
-end;
-
-procedure TObrigatoriosProdEdFrame.FabrComboBoxCrie(pFabrDBI: IEntDBI;
-  pFormCreator: IFormCreator);
-begin
 end;
 
 function TObrigatoriosProdEdFrame.GetDescr: string;

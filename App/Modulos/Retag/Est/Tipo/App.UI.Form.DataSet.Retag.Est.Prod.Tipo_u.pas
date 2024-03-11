@@ -45,21 +45,21 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 procedure TRetagEstProdTipoDataSetForm.DoAlterar;
 var
-  oTipoDBI: IEntDBI;
-  oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
-  sBusca: string;
+//  oTipoDBI: IEntDBI;
+//  oDBConnectionParams: TDBConnectionParams;
+//  oConn: IDBConnection;
+//  sBusca: string;
   Resultado: boolean;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
+//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//    AppInfo, SisConfig);
+//
+//  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
+//    oDBConnectionParams, ProcessLog, Output);
+//
+//  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
 
-  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
-
-  Resultado := ProdTipoPerg(Self, EntEd, oTipoDBI);
+  Resultado := ProdTipoPerg(Self, EntEd,EntDBI{ oTipoDBI});
   if not Resultado then
     exit;
 
@@ -70,25 +70,26 @@ end;
 
 procedure TRetagEstProdTipoDataSetForm.DoAtualizar(Sender: TObject);
 var
-  oTipoDBI: IEntDBI;
+//  oTipoDBI: IEntDBI;
+//  oDBConnectionParams: TDBConnectionParams;
+//  oConn: IDBConnection;
   Resultado: boolean;
-  oDBConnectionParams: TDBConnectionParams;
-  oConn: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
-
-  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
+//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//    AppInfo, SisConfig);
+//
+//  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
+//    oDBConnectionParams, ProcessLog, Output);
+//
+//  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
 
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
   FDMemTable.EmptyDataSet;
 
   try
-    oTipoDBI.PreencherDataSet(0, LeRegEInsere);
+    //oTipoDBI.PreencherDataSet(0, LeRegEInsere);
+    EntDBI.PreencherDataSet(0, LeRegEInsere);
 
   finally
     FDMemTable.First;
@@ -99,21 +100,21 @@ begin
 end;
 
 function TRetagEstProdTipoDataSetForm.DoInserir: boolean;
-var
-  oTipoDBI: IEntDBI;
-  oDBConnectionParams: TDBConnectionParams;
-  oDBConnection: IDBConnection;
+//var
+//  oTipoDBI: IEntDBI;
+//  oDBConnectionParams: TDBConnectionParams;
+//  oDBConnection: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
-
-  oDBConnection := DBConnectionCreate('Retag.Tipo.Ed.Ins.Conn', SisConfig, DBMS,
-    oDBConnectionParams, ProcessLog, Output);
-
-  oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, EntEd);
-
-  Result := ProdTipoPerg(Self, EntEd, oTipoDBI);
+//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//    AppInfo, SisConfig);
+//
+//  oDBConnection := DBConnectionCreate('Retag.Tipo.Ed.Ins.Conn', SisConfig, DBMS,
+//    oDBConnectionParams, ProcessLog, Output);
+//
+//  oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, EntEd);
+//
+  Result := ProdTipoPerg(Self, EntEd, EntDBI{oTipoDBI});
 
   if not Result then
     exit;

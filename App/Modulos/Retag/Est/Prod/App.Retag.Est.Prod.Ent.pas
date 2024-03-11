@@ -6,6 +6,8 @@ uses App.Ent.Ed.Id
   //
   , App.Retag.Est.Prod.Fabr.Ent//
   , App.Retag.Est.Prod.Tipo.Ent//
+  , App.Retag.Est.Prod.Unid.Ent//
+  , App.Retag.Est.Prod.Icms.Ent//
 
   //
   , App.Retag.Est.Prod.Natu.Ent
@@ -28,6 +30,12 @@ type
 
     function GetProdTipoEnt: IProdTipoEnt;
     property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
+
+    function GetProdUnidEnt: IProdUnidEnt;
+    property ProdUnidEnt: IProdUnidEnt read GetProdUnidEnt;
+
+    function GetProdICMSEnt: IProdICMSEnt;
+    property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
 
     function GetProdNatuEnt: IProdNatuEnt;
     property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;

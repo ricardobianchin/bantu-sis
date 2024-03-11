@@ -1,39 +1,39 @@
 inherited ProdEdForm: TProdEdForm
   Caption = 'ProdEdForm'
-  ClientHeight = 456
-  ClientWidth = 984
-  ExplicitWidth = 1000
-  ExplicitHeight = 495
+  ClientHeight = 455
+  ClientWidth = 980
+  ExplicitWidth = 996
+  ExplicitHeight = 494
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 399
-    Width = 984
+    Top = 398
+    Width = 980
     ExplicitTop = 399
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 384
-    Width = 984
+    Top = 383
+    Width = 980
     ExplicitTop = 384
   end
   inherited BasePanel: TPanel
-    Top = 419
-    Width = 984
-    ExplicitTop = 419
-    ExplicitWidth = 984
+    Top = 418
+    Width = 980
+    ExplicitTop = 418
+    ExplicitWidth = 980
     DesignSize = (
-      984
+      980
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 545
-      ExplicitLeft = 549
+      Left = 537
+      ExplicitLeft = 537
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 658
-      ExplicitLeft = 662
+      Left = 650
+      ExplicitLeft = 650
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 738
-      ExplicitLeft = 742
+      Left = 730
+      ExplicitLeft = 730
     end
   end
   inherited ShowTimer_BasForm: TTimer

@@ -9,6 +9,8 @@ uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
   //
   , App.Retag.Est.Prod.Fabr.Ent//
   , App.Retag.Est.Prod.Tipo.Ent//
+  , App.Retag.Est.Prod.Unid.Ent//
+  , App.Retag.Est.Prod.ICMS.Ent//
 
   //
   ;
@@ -21,9 +23,13 @@ type
 
     FProdFabrEnt: IProdFabrEnt;
     FProdTipoEnt: IProdTipoEnt;
+    FProdUnidEnt: IProdUnidEnt;
+    FProdICMSEnt: IProdICMSEnt;
 
     FProdNatuEnt: IProdNatuEnt;
     FProdBarrasList: IProdBarrasList;
+    function GetProdICMSEnt: IProdICMSEnt;
+    function GetProdUnidEnt: IProdUnidEnt;
 
   protected
     function GetNomeEnt: string; override;
@@ -39,7 +45,8 @@ type
 
     function GetProdFabrEnt: IProdFabrEnt;
     function GetProdTipoEnt: IProdTipoEnt;
-
+    function GetUnidTipoEnt: IProdUnidEnt;
+    function GetICMSTipoEnt: IProdICMSEnt;
 
 
 
@@ -53,13 +60,17 @@ type
 
     property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
     property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
+    property ProdUnidEnt: IProdUnidEnt read GetProdUnidEnt;
+    property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
 
     property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
 
     constructor Create(
       pProdFabrEnt: IProdFabrEnt; //fabr ent
-      pProdTipoEnt: IProdTipoEnt; //fabr ent
+      pProdTipoEnt: IProdTipoEnt; //
+      pProdUnidEnt: IProdUnidEnt; //
+      pProdICMSEnt: IProdICMSEnt; //
       //
       pProdNatuEnt: IProdNatuEnt; //natu ent
       pProdBarrasList: IProdBarrasList; // prod barras list
@@ -77,7 +88,9 @@ implementation
 
 constructor TProdEnt.Create(
       pProdFabrEnt: IProdFabrEnt; //fabr ent
-      pProdTipoEnt: IProdTipoEnt; //fabr ent
+      pProdTipoEnt: IProdTipoEnt; //
+      pProdUnidEnt: IProdUnidEnt; //
+      pProdICMSEnt: IProdICMSEnt; //
       //
       pProdNatuEnt: IProdNatuEnt; //natu ent
       pProdBarrasList: IProdBarrasList; // prod barras list
@@ -92,6 +105,8 @@ begin
 
   FProdFabrEnt := pProdFabrEnt;
   FProdTipoEnt := pProdTipoEnt;
+  FProdUnidEnt := pProdUnidEnt;
+  FProdICMSEnt := pProdICMSEnt;
 
   FProdNatuEnt := pProdNatuEnt;
   FProdBarrasList := pProdBarrasList;
@@ -105,6 +120,11 @@ end;
 function TProdEnt.GetDescrRed: string;
 begin
   Result := FDescrRed;
+end;
+
+function TProdEnt.GetICMSTipoEnt: IProdICMSEnt;
+begin
+
 end;
 
 function TProdEnt.GetNomeEnt: string;
@@ -127,6 +147,11 @@ begin
   Result := FProdFabrEnt;
 end;
 
+function TProdEnt.GetProdICMSEnt: IProdICMSEnt;
+begin
+  Result := FProdICMSEnt;
+end;
+
 function TProdEnt.GetProdNatuEnt: IProdNatuEnt;
 begin
   Result := FProdNatuEnt;
@@ -137,9 +162,19 @@ begin
   Result := FProdTipoEnt;
 end;
 
+function TProdEnt.GetProdUnidEnt: IProdUnidEnt;
+begin
+  Result := FProdUnidEnt;
+end;
+
 function TProdEnt.GetTitulo: string;
 begin
   Result := 'Produtos';
+end;
+
+function TProdEnt.GetUnidTipoEnt: IProdUnidEnt;
+begin
+
 end;
 
 procedure TProdEnt.LimparEnt;
@@ -148,6 +183,9 @@ begin
   FDescr := '';
   FDescrRed := '';
   FProdFabrEnt.LimparEnt;
+  FProdTipoEnt.LimparEnt;
+  FProdUnidEnt.LimparEnt;
+  FProdICMSEnt.LimparEnt;
 end;
 
 procedure TProdEnt.SetDescr(Value: string);
