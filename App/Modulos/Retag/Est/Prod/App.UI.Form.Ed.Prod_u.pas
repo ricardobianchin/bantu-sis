@@ -26,6 +26,13 @@ type
     FObrigFrame: TObrigatoriosProdEdFrame;
     FAppInfo: IAppInfo;
 
+
+    FFabrDBI: IEntDBI; //
+    FTipoDBI: IEntDBI; //
+    FUnidDBI: IEntDBI; //
+    FICMSDBI: IEntDBI; //
+
+
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 
@@ -33,6 +40,8 @@ type
     property ProdDBI: IProdDBI read GetProdDBI;
 
     function GetAlterado: boolean;
+
+    procedure PreenchaCombos;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -69,7 +78,7 @@ implementation
 
 uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
-  Sis.DB.DBTypes, ShellAPI;
+  Sis.DB.DBTypes, ShellAPI, System.DateUtils;
 
 {$R *.dfm}
 
@@ -99,7 +108,7 @@ begin
     dsInsert:
       ;
   end;
-
+  PreenchaCombos;
 end;
 
 procedure TProdEdForm.Button1Click(Sender: TObject);
@@ -147,9 +156,10 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   //
   pAppInfo: IAppInfo);
 var
-  oDBConnection: IDBConnection;
-
+  ti, tf, dt: tdatetime;
+  sdt: string;
 begin
+  ti := now;
   inherited Create(AOwner, pEntEd, pEntDBI);
   FAppInfo := pAppInfo;
   FSanfonaFrame := TSanfonaFrame.Create(Self, ErroOutput);
@@ -157,6 +167,11 @@ begin
   FSanfonaFrame.Align := alClient;
   FSanfonaFrame.TitLabel.Caption := GetObjetivoStr;
   ObjetivoLabel.Visible := false;
+
+  FFabrDBI := pFabrDBI;
+  FTipoDBI := pTipoDBI;
+  FUnidDBI := pUnidDBI;
+  FICMSDBI := pICMSDBI;
 
   FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt, ProdDBI
     //
@@ -170,15 +185,15 @@ begin
 
   FSanfonaFrame.PegarItem(FObrigFrame);
 
-  oDBConnection := pFabrDBI.DBConnection;
-
-  if not oDBConnection.Abrir then
-    exit;
-  try
-    FObrigFrame.PreenchaCombos(oDBConnection);
-  finally
-    oDBConnection.Fechar;
-  end;
+  tf := now;
+  dt := SecondSpan(tf, ti);
+  sdt :=
+    formatdatetime('dd/mm/yy hh:nn:ss,zzz', ti)
+    +' '
+    +formatdatetime('dd/mm/yy hh:nn:ss,zzz', tf)
+    +' '
+    +Format('%.6f segundos', [dt]);
+//  showmessage(sdt);
 
 end;
 
@@ -246,6 +261,22 @@ begin
     ErroOutput.Exibir(sFrase);
     FObrigFrame.Foque;
     exit;
+  end;
+
+end;
+
+procedure TProdEdForm.PreenchaCombos;
+var
+  oDBConnection: IDBConnection;
+begin
+  oDBConnection := FFabrDBI.DBConnection;
+
+  if not oDBConnection.Abrir then
+    exit;
+  try
+    FObrigFrame.PreenchaCombos(oDBConnection);
+  finally
+    oDBConnection.Fechar;
   end;
 
 end;

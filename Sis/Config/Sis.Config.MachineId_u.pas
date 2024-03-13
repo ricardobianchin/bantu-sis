@@ -23,7 +23,7 @@ type
     function GetIsDataOk: boolean;
     property IsDataOk: boolean read GetIsDataOk;
 
-    function GetServerName: string;
+    function GetIdent: string;
 
     procedure Zerar;
 
@@ -56,7 +56,7 @@ begin
   Result := FName;
 end;
 
-function TMachineId.GetServerName: string;
+function TMachineId.GetIdent: string;
 begin
   result := Iif(FName = '', FIp, FName);
 end;

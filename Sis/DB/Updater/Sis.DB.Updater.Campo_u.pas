@@ -120,7 +120,10 @@ begin
   if iLen > 3 then
   begin
     if oPartes[3] = 'S' then
+    begin
       FPrimaryKey := True;
+      FNotNull := True;
+    end;
   end;
 
   // Se houver mais de duas oPartes, a terceira parte indica se o campo é unique ou não

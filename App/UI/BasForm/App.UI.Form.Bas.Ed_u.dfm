@@ -16,25 +16,25 @@ inherited EdBasForm: TEdBasForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 243
     Width = 487
+    ExplicitTop = 243
   end
   inherited BasePanel: TPanel
     Top = 258
     Width = 487
-    ExplicitTop = 243
     ExplicitWidth = 487
     DesignSize = (
       487
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 128
+      Left = 124
       ExplicitLeft = 124
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 241
+      Left = 237
       ExplicitLeft = 237
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 321
+      Left = 317
       ExplicitLeft = 317
     end
   end

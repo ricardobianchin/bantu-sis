@@ -1,0 +1,108 @@
+POPULAR TABELAS LOG TIPO E LOG USO
+
+
+
+    inicio
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=POPULAR LOG TIPO E LOG USO
+DBATUALIZ_OBJETIVO=POPULA LOG TIPO E LOG USO
+DBATUALIZ_OBS=
+
+
+
+///////////////////////////
+//
+// NA TABELA APLIC, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+TIPO_COMANDO=ENSURE RECORDS
+OBJETO_NOME=APLIC
+
+CSV INI
+APLIC_ID;NAME;TITULO
+
+0;NAO INDICADO;NAO INDICADO
+R;RETAGUARDA;RETAGUARDA
+P;PDV;PDV
+C;CONFIG;CONFIG
+
+CSV FIM
+COMANDO FIM
+
+
+
+///////////////////////////
+//
+// NA TABELA ATIV, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+TIPO_COMANDO=ENSURE RECORDS
+OBJETO_NOME=ATIV
+
+CSV INI
+ATIV_ID;NAME;TITULO
+
+0;NAO INDICADO;NAO INDICADO
+M;MERCADO;MERCADO
+
+CSV FIM
+COMANDO FIM
+
+
+
+
+
+
+///////////////////////////
+//
+// NA TABELA LOG_TIPO, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+TIPO_COMANDO=ENSURE RECORDS
+OBJETO_NOME=LOG_TIPO
+
+CSV INI
+LOG_TIPO_ID;DESCR
+
+0;NAO INDICADO
+I;Login
+O;Logout
+R;Errou a Senha
+X;Comando Executado
+A;Inserir
+U;Alterarir
+E;Registro Excluido
+S;Registro Cancelado/Estornado
+C;Consulta Feita
+P;Impressao Realizada
+
+CSV FIM
+COMANDO FIM
+
+
+
+///////////////////////////
+//
+// NA TABELA LOG_USO, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+TIPO_COMANDO=ENSURE RECORDS
+OBJETO_NOME=LOG_USO
+
+CSV INI
+LOG_USO_ID;DESCR
+
+0;NAO INDICADO
+1;CUSTO
+CSV FIM
+COMANDO FIM
+
+
+
+DBATUALIZ FIM
+
