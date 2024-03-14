@@ -136,6 +136,9 @@ contains
   App.Retag.Est.Prod.Barras.Ent.List_u in 'Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent.List_u.pas',
   App.Retag.Est.Prod.Barras.Frame_u in 'Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Frame_u.pas' {ProdBarrasFrame: TFrame},
   App.Retag.Est.Prod.Barras.List.Form_u in 'Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.List.Form_u.pas' {ProdBarrasListForm},
-  App.UI.Form.Ed.Prod.Barras_u in 'Modulos\Retag\Est\Prod\ProdBarras\App.UI.Form.Ed.Prod.Barras_u.pas' {ProdBarrasEdForm};
+  App.UI.Form.Ed.Prod.Barras_u in 'Modulos\Retag\Est\Prod\ProdBarras\App.UI.Form.Ed.Prod.Barras_u.pas' {ProdBarrasEdForm},
+  App.SisConfig.DBI in 'SisConfig\App.SisConfig.DBI.pas',
+  App.SisConfig.DBI_u in 'SisConfig\App.SisConfig.DBI_u.pas',
+  App.SisConfig.Factory in 'SisConfig\App.SisConfig.Factory.pas';
 
 end.

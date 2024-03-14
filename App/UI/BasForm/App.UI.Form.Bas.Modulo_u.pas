@@ -60,6 +60,7 @@ type
     procedure SetTitleBarText(Value: string);
     procedure MenuExibir;
     function GetSisConfig: ISisConfig;
+
   protected
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
@@ -120,6 +121,7 @@ begin
     FUsuario.NomeExib;
   FOutput := MudoOutputCreate;
   FProcessLog := MudoProcessLogCreate;
+
 end;
 
 procedure TModuloBasForm.DoFechar;

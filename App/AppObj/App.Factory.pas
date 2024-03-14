@@ -17,7 +17,7 @@ function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
 
 function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
-  pProcessLog: IProcessLog): IAppSisConfigGarantir;
+  pProcessLog: IProcessLog): IAppSisConfigGarantirXML;
 
 implementation
 
@@ -45,9 +45,9 @@ end;
 
 function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
-  pProcessLog: IProcessLog): IAppSisConfigGarantir;
+  pProcessLog: IProcessLog): IAppSisConfigGarantirXML;
 begin
-  Result := TAppSisConfigGarantir.Create(pAppInfo, pSisConfig, pUsuarioGerente,
+  Result := TAppSisConfigGarantirXML.Create(pAppInfo, pSisConfig, pUsuarioGerente,
     pLoja, pOutput, pProcessLog);
 end;
 

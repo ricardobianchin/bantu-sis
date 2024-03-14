@@ -7,29 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent.pas",
-			"settings":
-			{
-				"buffer_size": 590,
-				"line_ending": "Windows"
-			},
-			"undo_stack":
-			[
-			]
-		},
-		{
-			"file": "/C/Pr/app/bantu/bantu-sis/bantu-api-doc/est/prod/prod barras.md",
-			"settings":
-			{
-				"buffer_size": 1035,
-				"encoding": "Western (Windows 1252)",
-				"line_ending": "Windows"
-			},
-			"undo_stack":
-			[
-			]
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -80,13 +57,23 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Pr/app/bantu/bantu-sis/bantu-api-doc",
-		"/C/Pr/app/bantu/bantu-sis/bantu-api-doc/est",
-		"/C/Pr/app/bantu/bantu-sis/bantu-api-doc/est/prod",
-		"/C/Pr/app/bantu/bantu-sis/bantu-api-doc/falta"
+		"/C/Pr/app/bantu/bantu-sis/Src",
+		"/C/Pr/app/bantu/bantu-sis/Src/Sis",
+		"/C/Pr/app/bantu/bantu-sis/Src/Sis/DB",
+		"/C/Pr/app/bantu/bantu-sis/Src/Externos/DBUpdates/000/000"
 	],
 	"file_history":
 	[
+		"/C/Pr/app/bantu/bantu-sis/Src/Externos/DBUpdates/000/000/dbupdate 000000017.txt",
+		"/C/Pr/app/bantu/bantu-sis/Src/Externos/DBUpdates/000/000/dbupdate 000000020.txt",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/UI/BasForm/App.UI.Form.Bas.Princ_u.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/AppObj/App.Factory.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/SisConfig/App.SisConfig.Garantir.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/SisConfig/App.SisConfig.Garantir_u.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/App.Retag.Est.Factory.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent.List_u.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent_u.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent_u",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/App.UI.Form.Bas.Modulo.Retaguarda_u.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/ShopApp/Modulos/Retaguarda/AppShop.UI.Form.Modulo.Retaguarda_u.pas",
@@ -115,13 +102,15 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
 		"height": 98.0,
 		"where_history":
 		[
+			"C:\\Pr\\app\\bantu\\bantu-sis\\Src\\App,<project filters>",
+			"C:\\Pr\\app\\bantu\\bantu-sis\\Src,<project filters>",
 			"C:\\Pr\\app\\bantu\\bantu-sis\\doc\\db\\dbupdater,<project filters>",
 			"C:\\Pr\\ter\\i9\\Src\\Foco1,<project filters>",
 			"C:\\Pr\\ter\\i9\\Src\\Foco1\\FocoPDVTools,<project filters>",
@@ -134,6 +123,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ESTADO_CIVIL_LISTA_GET",
+			"AppSisConfigGarantir",
+			"ProdBarrastList",
+			"TProdBarrastList",
 			"|-",
 			"garan",
 			"DELE",
@@ -154,6 +147,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"AppSisConfigGarantirXML",
+			"ProdBarrasList",
+			"TProdBarrasList",
 			"|"
 		],
 		"reverse": false,
@@ -162,80 +158,19 @@
 		"use_buffer2": true,
 		"use_gitignore": true,
 		"whole_word": false,
-		"wrap": true
+		"wrap": false
 	},
 	"groups":
 	[
 		{
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent.pas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 590,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								34,
-								5
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Pascal/Pascal.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Pr/app/bantu/bantu-sis/bantu-api-doc/est/prod/prod barras.md",
-					"selected": true,
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1035,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								127,
-								60
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -272,7 +207,7 @@
 	"project": "bantu-shop.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

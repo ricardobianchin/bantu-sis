@@ -55,6 +55,7 @@ type
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
+    procedure CarregarMachineId;
 
   protected
     property StatusOutput: IOutput read FStatusOutput;
@@ -87,7 +88,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
-  Sis.Ui.ImgsList.Prepare;
+  Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -113,6 +114,16 @@ begin
     FProcessLog.RegistreLog(sLog);
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.CarregarMachineId;
+var
+  oSisConfigDBI: ISisConfigDBI;
+begin
+  oSisConfigDBI := SisConfigDBICreate(AppObj.SisConfig, AppInfo, DBMS,
+    FProcessLog, FProcessOutput);
+
+  oSisConfigDBI.LerMachineIdent;
 end;
 
 procedure TPrincBasForm.ConfigureForm;
@@ -206,7 +217,10 @@ begin
 
     SplashForm.Show;
 
-    Sis.Ui.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
+    Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
+
+    CarregarMachineId;
+
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -276,7 +290,7 @@ end;
 function TPrincBasForm.GarantirConfig(pLoja: ILoja;
   pUsuarioGerente: IUsuario): boolean;
 var
-  oAppSisConfigGarantir: IAppSisConfigGarantir;
+  oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
   oSisConfig: ISisConfig;
 begin
@@ -284,10 +298,10 @@ begin
   try
     oSisConfig := FAppObj.SisConfig;
 
-    oAppSisConfigGarantir := SisConfigGarantirCreate(FAppInfo, oSisConfig,
+    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppInfo, oSisConfig,
       pUsuarioGerente, pLoja, FProcessOutput, FProcessLog);
-    FProcessLog.RegistreLog('vai oAppSisConfigGarantir.Execute');
-    Result := oAppSisConfigGarantir.Execute;
+    FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
+    Result := oAppSisConfigGarantirXML.Execute;
 
     sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
     FProcessLog.RegistreLog(sLog);

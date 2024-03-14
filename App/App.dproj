@@ -316,6 +316,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ProdBarrasEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="SisConfig\App.SisConfig.DBI.pas"/>
+        <DCCReference Include="SisConfig\App.SisConfig.DBI_u.pas"/>
+        <DCCReference Include="SisConfig\App.SisConfig.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
