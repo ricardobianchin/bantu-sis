@@ -319,6 +319,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="SisConfig\App.SisConfig.DBI.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.DBI_u.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.Factory.pas"/>
+        <DCCReference Include="AppObj\App.AppInfo.Types.pas"/>
+        <DCCReference Include="DB\Log\App.DB.Log.pas"/>
+        <DCCReference Include="DB\Log\App.DB.Log_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Custo\App.Retag.Est.Custo.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Custo\App.Retag.Est.Custo_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

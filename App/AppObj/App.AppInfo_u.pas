@@ -2,7 +2,7 @@ unit App.AppInfo_u;
 
 interface
 
-uses App.AppInfo, Vcl.Graphics;
+uses App.AppInfo, Vcl.Graphics, App.AppInfo.Types;
 
 type
   TAppInfo = class(TInterfacedObject, IAppInfo)
@@ -23,6 +23,9 @@ type
 
     FAtualizExeSubPasta: string;
     FAtualizExeURL: string;
+
+    FSisTipoAtividade: TSisTipoAtividade;
+
 
     function GetExeName: string;
 
@@ -51,9 +54,15 @@ type
     function GetAtualizExeURL: string;
 
     function Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
+
+
+    function GetSisTipoAtividade: TSisTipoAtividade;
+    procedure SetSisTipoAtividade(Value: TSisTipoAtividade);
+
   public
     property ExeName: string read GetExeName;
 
+    property SisTipoAtividade: TSisTipoAtividade read GetSisTipoAtividade write SetSisTipoAtividade;
     property PessoaDonoId: integer read GetPessoaDonoId write SetPessoaDonoId;
     property FundoCor: TColor read GetFundoCor write SetFundoCor;
     property FonteCor: TColor read GetFonteCor write SetFonteCor;
@@ -64,7 +73,6 @@ type
     property PastaComandos: string read GetPastaComandos;
     property PastaConsultas: string read GetPastaConsultas;
     property PastaConsTabViews: string read GetPastaConsTabViews;
-
 
     property PastaBin: string read GetPastaBin;
     property PastaDados: string read GetPastaDados;
@@ -168,6 +176,11 @@ begin
   Result := FPessoaDonoId;
 end;
 
+function TAppInfo.GetSisTipoAtividade: TSisTipoAtividade;
+begin
+  Result := FSisTipoAtividade;
+end;
+
 function TAppInfo.Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
 begin
   Result := True;
@@ -191,6 +204,11 @@ end;
 procedure TAppInfo.SetPessoaDonoId(Value: integer);
 begin
   FPessoaDonoId := Value;
+end;
+
+procedure TAppInfo.SetSisTipoAtividade(Value: TSisTipoAtividade);
+begin
+  FSisTipoAtividade := Value;
 end;
 
 end.

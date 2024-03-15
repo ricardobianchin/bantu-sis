@@ -1,23 +1,25 @@
 inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
   Width = 800
-  Height = 171
+  Height = 224
+  AutoSize = False
   ExplicitWidth = 800
-  ExplicitHeight = 171
+  ExplicitHeight = 224
   inherited FundoPanel: TPanel
     Width = 800
-    Height = 171
+    Height = 224
+    AutoSize = False
     ExplicitWidth = 800
-    ExplicitHeight = 171
+    ExplicitHeight = 224
     inherited TopoPanel: TPanel
       Width = 798
       ExplicitWidth = 798
     end
     inherited MeioPanel: TPanel
       Width = 798
-      Height = 150
+      Height = 205
       ExplicitTop = 20
       ExplicitWidth = 798
-      ExplicitHeight = 150
+      ExplicitHeight = 205
       object NatuLabel: TLabel
         Left = 113
         Top = 6

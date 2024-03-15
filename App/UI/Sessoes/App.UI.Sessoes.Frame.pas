@@ -7,7 +7,7 @@ uses
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Sis.DB.DBTypes,
-  Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppInfo,
+  Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.UI.IO.Output, App.Sessao.Eventos, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
@@ -25,11 +25,7 @@ type
   private
     { Private declarations }
     FSortCutInicial: TShortCut;
-    FAppInfo: IAppInfo;
-    FSisConfig: ISisConfig;
-    FDBMS: IDBMS;
-    FProcessLog: IProcessLog;
-    FOutput: IOutput;
+    FAppObj: IAppObj;
     FSessaoEventos: ISessaoEventos;
     FLoginConfig: ILoginConfig;
 
@@ -48,21 +44,16 @@ type
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pSisConfig: ISisConfig;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TModuloBasForm;
-      virtual; abstract;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj)
+      : TModuloBasForm; virtual; abstract;
 
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
       virtual; abstract;
-    function GetAppInfo: IAppInfo;
-    property AppInfo: IAppInfo read GetAppInfo;
-
-    property DBMS: IDBMS read FDBMS;
-    property ProcessLog: IProcessLog read FProcessLog;
-    property Output: IOutput read FOutput;
+    function GetAppObj: IAppObj;
+    property AppObj: IAppObj read GetAppObj;
 
   public
     { Public declarations }
@@ -70,11 +61,6 @@ type
     // cria sessao
     procedure CriarActionExecute(Sender: TObject);
     procedure ExecuteAutoLogin;
-
-    constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-      pSessaoEventos: ISessaoEventos; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pDBMS: IDBMS; pProcessLog: IProcessLog;
-      pOutput: IOutput); reintroduce;
 
     function GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;
     function GetSessaoVisivelIndex: TSessaoIndex;
@@ -87,6 +73,10 @@ type
 
     function ExecutouPeloShortCut(var Key: word;
       var Shift: TShiftState): boolean;
+
+    constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
+      pSessaoEventos: ISessaoEventos; pAppObj: IAppObj); reintroduce;
+
   end;
 
 implementation
@@ -99,16 +89,11 @@ uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
   Sis.Types.Factory;
 
 constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-  pSessaoEventos: ISessaoEventos; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS; pProcessLog: IProcessLog; pOutput: IOutput);
+  pSessaoEventos: ISessaoEventos; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
   FSessaoEventos := pSessaoEventos;
-  FSisConfig := pSisConfig;
-  FDBMS := pDBMS;
-  FProcessLog := pProcessLog;
-  FOutput := pOutput;
   FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
 
@@ -146,9 +131,10 @@ begin
   oUsuario := UsuarioCreate();
 
   DBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    FAppInfo, FSisConfig);
-  oDBConnection := DBConnectionCreate(sNameConex, FSisConfig, FDBMS,
-    DBConnectionParams, FProcessLog, FOutput);
+    FAppObj.AppInfo, FAppObj.SisConfig);
+  oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
+    FAppObj.DBMS, DBConnectionParams, FAppObj.ProcessLog,
+    FAppObj.ProcessOutput);
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
   bResultado := LoginPerg(FLoginConfig, vTipoModuloSistema, oUsuario,
@@ -160,11 +146,12 @@ begin
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
     (vTipoModuloSistema);
 
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
-    FSisConfig, DBMS, Output, ProcessLog);
+  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex,
+    oUsuario, FAppObj);
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
-    oModuloBasForm, iSessaoIndex, DBMS, Output, ProcessLog);
+    oModuloBasForm, iSessaoIndex, FAppObj.DBMS, FAppObj.ProcessOutput,
+    FAppObj.ProcessLog);
 
   FSessaoFrame.Parent := SessoesScrollBox;
   FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;
@@ -250,9 +237,9 @@ begin
   oAction.Execute;
 end;
 
-function TSessoesFrame.GetAppInfo: IAppInfo;
+function TSessoesFrame.GetAppObj: IAppObj;
 begin
-  Result := FAppInfo;
+  Result := FAppObj;
 end;
 
 function TSessoesFrame.GetCount: integer;

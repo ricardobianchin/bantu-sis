@@ -3,8 +3,6 @@ unit Sis.ModuloSistema.Types;
 interface
 
 type
-  TSisTipoAtividade = (stativNaoIndicado = 32, stativMercado = 33);
-
   TTipoModuloSistema = (modsisNaoIndicado = 32, modsisConfiguracoes = 33,
     modsisRetaguarda = 34, modsisPDV = 35);
 
@@ -14,10 +12,6 @@ function TipoModuloSistemaToChar(pTipoModuloSistema: TTipoModuloSistema): char;
 function TipoModuloSistemaToStr(pTipoModuloSistema: TTipoModuloSistema): string;
 function TipoModuloSistemaToNameStr(pTipoModuloSistema: TTipoModuloSistema): string;
 function NameStrToTipoModuloSistema(pNameStr: string): TTipoModuloSistema;
-
-const
-  TipoAtividadeNegocioDescr: array [TSisTipoAtividade] of string =
-    ('Nao indicado', 'Mercado');
 
 implementation
 
@@ -67,7 +61,6 @@ begin
     Result := modsisPDV
   else
     Result := modsisNaoIndicado;
-
 end;
 
 end.

@@ -12,6 +12,9 @@ type
 
     function GetTipoModuloSistemaDescr: string;
     property TipoModuloSistemaDescr: string read GetTipoModuloSistemaDescr;
+
+    function GetTipoModuloSistemaChar: char;
+    property TipoModuloSistemaChar: char read GetTipoModuloSistemaChar;
   end;
 
 implementation

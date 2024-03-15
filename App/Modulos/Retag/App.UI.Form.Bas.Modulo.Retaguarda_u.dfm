@@ -2,6 +2,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
   ClientWidth = 592
+  WindowState = wsMaximized
   OnDestroy = FormDestroy
   ExplicitWidth = 592
   ExplicitHeight = 458
@@ -30,11 +31,10 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = AjudaTabSheet
+      ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
-      ExplicitHeight = 120
       object EstoqueTabSheet: TTabSheet
         Caption = 'Estoque'
         Font.Charset = DEFAULT_CHARSET
@@ -154,6 +154,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -162,8 +168,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Height = 338
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 152
-    ExplicitHeight = 281
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 184

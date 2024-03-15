@@ -4,12 +4,12 @@ interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.AtualizaVersao, Sis.Config.SisConfig, App.SisConfig.Garantir, Sis.Loja,
-  Sis.Usuario;
+  Sis.Usuario, Sis.DB.DBTypes, App.DB.Log;
 
 function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
 
-function AppObjCreate(pAppInfo: IAppInfo; pStatusOutput: IOutput;
+function AppObjCreate(pAppInfo: IAppInfo; pDBMS: IDBMS; pStatusOutput: IOutput;
   pProcessOutput: IOutput; pProcessLog: IProcessLog): IAppObj;
 
 function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
@@ -22,7 +22,7 @@ function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
 implementation
 
 uses App.AppObj_u, App.AppInfo_u, App.AtualizaVersao_u, Sis.Config.SisConfig_u,
-  App.SisConfig.Garantir_u;
+  App.SisConfig.Garantir_u, App.DB.Log_u;
 
 function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
@@ -30,10 +30,10 @@ begin
   Result := TAppInfo.Create(pExeName, pAtualizExeSubPasta, pAtualizExeURL);
 end;
 
-function AppObjCreate(pAppInfo: IAppInfo; pStatusOutput: IOutput;
+function AppObjCreate(pAppInfo: IAppInfo; pDBMS: IDBMS; pStatusOutput: IOutput;
   pProcessOutput: IOutput; pProcessLog: IProcessLog): IAppObj;
 begin
-  Result := TAppObj.Create(pAppInfo, pStatusOutput, pProcessOutput,
+  Result := TAppObj.Create(pAppInfo, pDBMS, pStatusOutput, pProcessOutput,
     pProcessLog);
 end;
 

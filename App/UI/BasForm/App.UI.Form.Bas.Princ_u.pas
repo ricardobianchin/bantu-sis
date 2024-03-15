@@ -24,8 +24,6 @@ type
     StatusLabel: TLabel;
     StatusMemo: TMemo;
     DtHCompileLabel: TLabel;
-
-    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
 
@@ -71,9 +69,10 @@ type
     property DBMSConfig: IDBMSConfig read FDBMSConfig;
     property DBMS: IDBMS read FDBMS;
 
+    procedure PreenchaAtividade; virtual; abstract;
   public
     { Public declarations }
-
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -178,11 +177,11 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.FormCreate(Sender: TObject);
+constructor TPrincBasForm.Create(AOwner: TComponent);
 var
   bResultado: boolean;
 begin
-  inherited;
+  inherited Create(AOwner);
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   ToolBar1.Color := COR_PRETO_TITLEBAR;
 
@@ -201,8 +200,8 @@ begin
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FAppInfo := GetAppInfoCreate;
 
-    FAppObj := App.Factory.AppObjCreate(FAppInfo, FStatusOutput, FProcessOutput,
-      FProcessLog);
+    FAppObj := App.Factory.AppObjCreate(FAppInfo, FDBMS, FStatusOutput,
+      FProcessOutput, FProcessLog);
 
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
     bResultado := FAppObj.Inicialize;
@@ -221,6 +220,7 @@ begin
 
     CarregarMachineId;
 
+    PreenchaAtividade;
   finally
     FProcessLog.RetorneLocal;
   end;

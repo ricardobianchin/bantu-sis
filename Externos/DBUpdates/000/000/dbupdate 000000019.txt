@@ -13,28 +13,6 @@ DBATUALIZ_OBS=
 
 ///////////////////////////
 //
-// NA TABELA APLIC, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=APLIC
-
-CSV INI
-APLIC_ID;NAME;TITULO
-
-0;NAO INDICADO;NAO INDICADO
-R;RETAGUARDA;RETAGUARDA
-P;PDV;PDV
-C;CONFIG;CONFIG
-
-CSV FIM
-COMANDO FIM
-
-
-
-///////////////////////////
-//
 // NA TABELA ATIV, ENSURE RECORDS
 //
 ///////////////////////////
@@ -58,27 +36,27 @@ COMANDO FIM
 
 ///////////////////////////
 //
-// NA TABELA LOG_TIPO, ENSURE RECORDS
+// NA TABELA ACAO_SIS, ENSURE RECORDS
 //
 ///////////////////////////
 COMANDO INI
 TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=LOG_TIPO
+OBJETO_NOME=ACAO_SIS
 
 CSV INI
-LOG_TIPO_ID;DESCR
+ACAO_SIS_ID;DESCR
 
-0;NAO INDICADO
-I;Login
-O;Logout
-R;Errou a Senha
-X;Comando Executado
-A;Inserir
-U;Alterarir
-E;Registro Excluido
-S;Registro Cancelado/Estornado
-C;Consulta Feita
-P;Impressao Realizada
+#032;NAO INDICADO
+#033;Login
+#034;Logout
+#035;Errou a Senha
+#036;Comando Executado
+#037;Inserir
+#038;Alterarir
+#039;Registro Excluido
+#040;Registro Cancelado/Estornado
+#041;Consulta Feita
+#042;Impressao Realizada
 
 CSV FIM
 COMANDO FIM
@@ -87,18 +65,18 @@ COMANDO FIM
 
 ///////////////////////////
 //
-// NA TABELA LOG_USO, ENSURE RECORDS
+// NA TABELA FEATURE, ENSURE RECORDS
 //
 ///////////////////////////
 COMANDO INI
 TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=LOG_USO
+OBJETO_NOME=FEATURE
 
 CSV INI
-LOG_USO_ID;DESCR
+FEATURE_ID;NAME;DESCR
 
-0;NAO INDICADO
-1;CUSTO
+0;NAO INDICADO;NAO INDICADO
+1;PROD_CUSTO;PROD, CUSTO
 CSV FIM
 COMANDO FIM
 

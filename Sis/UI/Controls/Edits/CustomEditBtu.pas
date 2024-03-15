@@ -186,6 +186,7 @@ begin
   FOverwrite:=false;
   FPosCursor:=0;
   FAutoExit:=true;
+  StyleElements := [];
 end;
 
 procedure TCustomEditBtu.CreateParams(var Params: TCreateParams);

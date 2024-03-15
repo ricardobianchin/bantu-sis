@@ -9,7 +9,6 @@ uses
 type
   TBasForm = class(TForm)
     ShowTimer_BasForm: TTimer;
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -36,7 +35,7 @@ type
 
   public
     { Public declarations }
-
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -47,6 +46,14 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u;
+
+constructor TBasForm.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+//  FDisparaShowTimer := False;
+  FSelecionaProximo := True;
+  FFezShow := False;
+end;
 
 procedure TBasForm.DispareShowTimer;
 begin
@@ -74,13 +81,6 @@ begin
   end;
 
   CharSemAcento(Key);
-end;
-
-procedure TBasForm.FormCreate(Sender: TObject);
-begin
-//  FDisparaShowTimer := False;
-  FSelecionaProximo := True;
-  FFezShow := False;
 end;
 
 procedure TBasForm.FormShow(Sender: TObject);

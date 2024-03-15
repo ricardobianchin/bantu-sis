@@ -14,7 +14,7 @@ uses
   App.Ent.Ed, App.Ent.DBI, Sis.Entidade, App.Retag.Est.Prod.Natu.Ent,
   App.Retag.Est.Prod.Fabr.Ent, App.Retag.Est.Prod.Tipo.Ent,
   App.Retag.Est.Prod.Unid.Ent, App.Retag.Est.Prod.ICMS.Ent,
-  App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Barras.Ent.List;
+  App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Barras.Ent.List, App.AppObj;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -90,8 +90,6 @@ type
     ToolButton9: TToolButton;
     ToolButton10: TToolButton;
     ToolButton2: TToolButton;
-
-    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -133,6 +131,9 @@ type
 
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
+      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pUsuario: IUsuario; pAppObj: IAppObj); reintroduce;
   end;
 
 var
@@ -146,7 +147,9 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Types.strings_u, Sis.UI.IO.Factory,
   App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory;
 
-procedure TRetaguardaModuloBasForm.FormCreate(Sender: TObject);
+constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
+  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
@@ -174,7 +177,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  inherited;
+  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex, pUsuario, pAppObj);
   if not Assigned(RetagImgDM) then
   begin
     RetagImgDM := TRetagImgDM.Create(Application);
@@ -191,6 +194,8 @@ begin
 
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
+
+
 
   oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);

@@ -35,8 +35,15 @@ type
     { Private declarations }
     FIdNumEdit: TNumEditBtu;
     FProdBarrasFrame: TProdBarrasFrame;
+
     FCustoAtualNumEdit: TNumEditBtu;
+    FCustoNovoNumEdit: TNumEditBtu;
+
+    FMargemNumEdit: TNumEditBtu;
+
     FPrecoAtualNumEdit: TNumEditBtu;
+    FPrecoSugeridoNumEdit: TNumEditBtu;
+    FPrecoNovoNumEdit: TNumEditBtu;
 
     FFabrDataSetFormCreator: IFormCreator;
     FProdTipoDataSetFormCreator: IFormCreator;
@@ -49,6 +56,7 @@ type
     FTipoComboBoxFrame: TComboBoxProdEdFrame;
     FUnidComboBoxFrame: TComboBoxProdEdFrame;
     FICMSComboBoxFrame: TComboBoxProdEdFrame;
+
 
     FAppInfo: IAppInfo;
     procedure IdCrie;
@@ -236,13 +244,97 @@ begin
   FICMSComboBoxFrame.Width := FICMSComboBoxFrame.BuscaSpeedButton.Left +
     FICMSComboBoxFrame.BuscaSpeedButton.Width;
 
-  // FCustoAtualNumEdit.Left := ObjetivoLabel.Left;
-  // FCustoAtualNumEdit.Top := 144;
-  // FCustoAtualNumEdit.Width := 70;
+  FCustoAtualNumEdit := TNumEditBtu.Create(MeioPanel);
+  FCustoAtualNumEdit.Parent := MeioPanel;
+  FCustoAtualNumEdit.Alignment := taRightJustify;
+  FCustoAtualNumEdit.NCasas := 6;
+  FCustoAtualNumEdit.NCasasEsq := 7;
+  FCustoAtualNumEdit.MascEsq := '0000000';
+  FCustoAtualNumEdit.Caption := 'Custo Atual';
+  FCustoAtualNumEdit.ReadOnly := True;
+  FCustoAtualNumEdit.LabelPosition := lpLeft;
+  FCustoAtualNumEdit.LabelSpacing := 4;
+
+  FCustoAtualNumEdit.Width := 85;
+  FCustoAtualNumEdit.Left := FTipoComboBoxFrame.Left+66;
+  FCustoAtualNumEdit.Top := FTipoComboBoxFrame.Top + FTipoComboBoxFrame.Height + 17;
+
+  FCustoNovoNumEdit := TNumEditBtu.Create(MeioPanel);
+  FCustoNovoNumEdit.Parent := MeioPanel;
+  FCustoNovoNumEdit.Alignment := taRightJustify;
+  FCustoNovoNumEdit.NCasas := 6;
+  FCustoNovoNumEdit.NCasasEsq := 7;
+  FCustoNovoNumEdit.MascEsq := '0000000';
+  FCustoNovoNumEdit.Caption := 'Custo Novo';
+  FCustoNovoNumEdit.LabelPosition := lpLeft;
+  FCustoNovoNumEdit.LabelSpacing := 4;
+
+  FCustoNovoNumEdit.Width := 82;
+  FCustoNovoNumEdit.Left := FCustoAtualNumEdit.Left+FCustoAtualNumEdit.Width+10+67;
+  FCustoNovoNumEdit.Top := FCustoAtualNumEdit.Top;
+//
+
+  FMargemNumEdit := TNumEditBtu.Create(MeioPanel);
+  FMargemNumEdit.Parent := MeioPanel;
+  FMargemNumEdit.Alignment := taRightJustify;
+  FMargemNumEdit.NCasas := 4;
+  FMargemNumEdit.NCasasEsq := 3;
+  FMargemNumEdit.MascEsq := '000';
+  FMargemNumEdit.Caption := 'Margem';
+  FMargemNumEdit.LabelPosition := lpLeft;
+  FMargemNumEdit.LabelSpacing := 4;
+
+  FMargemNumEdit.Width := 50;
+  FMargemNumEdit.Left := FCustoNovoNumEdit.Left+FCustoNovoNumEdit.Width+58;
+  FMargemNumEdit.Top := FCustoNovoNumEdit.Top;
+
+//
+  FPrecoAtualNumEdit := TNumEditBtu.Create(MeioPanel);
+  FPrecoAtualNumEdit.Parent := MeioPanel;
+  FPrecoAtualNumEdit.Alignment := taRightJustify;
+  FPrecoAtualNumEdit.NCasas := 2;
+  FPrecoAtualNumEdit.NCasasEsq := 7;
+  FPrecoAtualNumEdit.MascEsq := '0000000';
+  FPrecoAtualNumEdit.Caption := 'Preço Atual';
+  FPrecoAtualNumEdit.ReadOnly := True;
+  FPrecoAtualNumEdit.LabelPosition := lpLeft;
+  FPrecoAtualNumEdit.LabelSpacing := 4;
+
+  FPrecoAtualNumEdit.Width := 75;
+  FPrecoAtualNumEdit.Left := FCustoAtualNumEdit.Left-1;
+  FPrecoAtualNumEdit.Top := FCustoAtualNumEdit.Top+FCustoAtualNumEdit.Height+17;
   //
-  // FPrecoAtualNumEdit.Left := ObjetivoLabel.Left;;
-  // FPrecoAtualNumEdit.Top := 70;
-  // FPrecoAtualNumEdit.Width := 70;
+  FPrecoSugeridoNumEdit := TNumEditBtu.Create(MeioPanel);
+  FPrecoSugeridoNumEdit.Parent := MeioPanel;
+  FPrecoSugeridoNumEdit.Alignment := taRightJustify;
+  FPrecoSugeridoNumEdit.NCasas := 2;
+  FPrecoSugeridoNumEdit.NCasasEsq := 7;
+  FPrecoSugeridoNumEdit.MascEsq := '0000000';
+  FPrecoSugeridoNumEdit.Caption := 'Preço Sugerido';
+  FPrecoSugeridoNumEdit.ReadOnly := True;
+  FPrecoSugeridoNumEdit.LabelPosition := lpLeft;
+  FPrecoSugeridoNumEdit.LabelSpacing := 4;
+
+  FPrecoSugeridoNumEdit.Width := 75;
+  FPrecoSugeridoNumEdit.Left := FPrecoAtualNumEdit.Left+FPrecoAtualNumEdit.Width+91;
+  FPrecoSugeridoNumEdit.Top := FPrecoAtualNumEdit.Top;
+
+  //
+  FPrecoNovoNumEdit := TNumEditBtu.Create(MeioPanel);
+  FPrecoNovoNumEdit.Parent := MeioPanel;
+  FPrecoNovoNumEdit.Alignment := taRightJustify;
+  FPrecoNovoNumEdit.NCasas := 2;
+  FPrecoNovoNumEdit.NCasasEsq := 7;
+  FPrecoNovoNumEdit.MascEsq := '0000000';
+  FPrecoNovoNumEdit.Caption := 'Preço Novo';
+  FPrecoNovoNumEdit.LabelPosition := lpLeft;
+  FPrecoNovoNumEdit.LabelSpacing := 4;
+
+  FPrecoNovoNumEdit.Width := 75;
+  FPrecoNovoNumEdit.Left := FPrecoSugeridoNumEdit.Left+FPrecoSugeridoNumEdit.Width+10+61;
+  FPrecoNovoNumEdit.Top := FPrecoSugeridoNumEdit.Top;
+
+
 end;
 
 procedure TObrigatoriosProdEdFrame.CustoCrie;

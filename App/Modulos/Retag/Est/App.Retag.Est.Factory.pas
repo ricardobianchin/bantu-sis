@@ -5,7 +5,7 @@ interface
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
-  Sis.Config.SisConfig, Sis.UI.FormCreator
+  Sis.Config.SisConfig, Sis.UI.FormCreator, App.Retag.Est.Custo
 
   // os dbi que seguem o padrao, retornam iented
     , App.Ent.Ed, App.Ent.DBI
@@ -210,9 +210,11 @@ function ProdBarrasListCreate: IProdBarrasList;
 {$REGION 'xxx'}
 {$ENDREGION}
 
+function CustoCreate: ICusto;
+
 implementation
 
-uses Vcl.Controls, App.UI.FormCreator.DataSet_u
+uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Retag.Est.Custo_u
 
   // fabr
     , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
@@ -614,5 +616,10 @@ end;
 {$ENDREGION}
 {$REGION 'xxx impl'}
 {$ENDREGION}
+
+function CustoCreate: ICusto;
+begin
+  Result := TCusto.Create;
+end;
 
 end.
