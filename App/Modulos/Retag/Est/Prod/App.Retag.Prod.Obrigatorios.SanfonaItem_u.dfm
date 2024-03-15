@@ -1,9 +1,9 @@
 inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
   Width = 800
-  Height = 224
+  Height = 317
   AutoSize = False
   ExplicitWidth = 800
-  ExplicitHeight = 224
+  ExplicitHeight = 317
   inherited FundoPanel: TPanel
     Width = 800
     Height = 224
@@ -66,6 +66,16 @@ inherited ObrigatoriosProdEdFrame: TObrigatoriosProdEdFrame
         TabOrder = 2
       end
     end
+  end
+  object NumberBox1: TNumberBox [1]
+    Left = 248
+    Top = 264
+    Width = 121
+    Height = 23
+    Alignment = taRightJustify
+    Mode = nbmCurrency
+    SmallStep = 0.010000000000000000
+    TabOrder = 1
   end
   inherited ActionList1: TActionList
     Left = 153

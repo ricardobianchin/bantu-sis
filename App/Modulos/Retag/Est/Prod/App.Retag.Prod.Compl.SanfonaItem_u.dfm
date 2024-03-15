@@ -1,0 +1,2 @@
+inherited ComplProdEdFrame: TComplProdEdFrame
+end

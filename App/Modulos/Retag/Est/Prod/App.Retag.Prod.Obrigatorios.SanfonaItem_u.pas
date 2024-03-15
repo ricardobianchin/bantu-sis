@@ -17,7 +17,7 @@ uses
     , App.Retag.Est.Prod.Fabr.Ent //
     , App.Retag.Est.Prod.Tipo.Ent //
     , App.Retag.Est.Prod.Unid.Ent //
-    , App.Retag.Est.Prod.ICMS.Ent //
+    , App.Retag.Est.Prod.ICMS.Ent, Vcl.NumberBox //
   //
     ;
 
@@ -27,6 +27,7 @@ type
     DescrRedLabeledEdit: TLabeledEdit;
     NatuComboBox: TComboBox;
     NatuLabel: TLabel;
+    NumberBox1: TNumberBox;
     procedure DescrLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure DescrLabeledEditChange(Sender: TObject);
     procedure DescrRedLabeledEditKeyPress(Sender: TObject; var Key: Char);

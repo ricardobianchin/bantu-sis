@@ -144,6 +144,7 @@ contains
   App.DB.Log in 'DB\Log\App.DB.Log.pas',
   App.DB.Log_u in 'DB\Log\App.DB.Log_u.pas',
   App.Retag.Est.Custo in 'Modulos\Retag\Est\Custo\App.Retag.Est.Custo.pas',
-  App.Retag.Est.Custo_u in 'Modulos\Retag\Est\Custo\App.Retag.Est.Custo_u.pas';
+  App.Retag.Est.Custo_u in 'Modulos\Retag\Est\Custo\App.Retag.Est.Custo_u.pas',
+  App.Retag.Prod.Compl.SanfonaItem_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas' {ComplProdEdFrame: TFrame};
 
 end.
