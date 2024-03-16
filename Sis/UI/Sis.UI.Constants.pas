@@ -2,7 +2,7 @@ unit Sis.UI.Constants;
 
 interface
 
-uses System.UITypes;
+uses System.UITypes, Vcl.Graphics;
 
 function RGB(red, green, blue: Byte): TColor;
 
@@ -10,6 +10,7 @@ function RGB(red, green, blue: Byte): TColor;
 ///   constantes nomes para registrar classes ui
 /// </summary>
 const
+  COR_FUNDO_READONLY = $00D3D7B9;
   REGNAME_FORMDECORATOR_CANTOSARRED = 'ui.formdecorator.RoundCorners';
   COR_AZUL_VIVO = 21 OR (98 SHL 8) OR (163 SHL 16);
   COR_AZUL_LINK = $ab0d1a;

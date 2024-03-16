@@ -208,6 +208,7 @@ end;
 procedure TCustomNumEditBtu.SetNCasasEsq(const Value: integer);
 begin
   FNCasasEsq := Value;
+  FMascEsq := StringOfChar('#', Value - 1) + '0';
   PreencherText;
 end;
 
