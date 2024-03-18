@@ -7,25 +7,23 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Retag.Est.Prod.Ent,
-  App.Retag.Est.Prod.DBI, Data.DB, Sis.UI.Controls.Sanfona_u, App.Ent.DBI,
-  App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig
-
-  // sanfona item
-    , App.Retag.Prod.Obrigatorios.SanfonaItem_u
+  App.Retag.Est.Prod.DBI, Data.DB, App.Ent.DBI,
+  App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig,
+  Sis.UI.Frame.Bas_u, App.UI.Frame.Bas.Retag.Ed_u,
+  App.UI.Frame.Bas.Retag.Prod.Ed_u
 
   //
+  , Vcl.ComCtrls
     ;
 
 type
   TProdEdForm = class(TEdBasForm)
+    ComunsPanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
-    FSanfonaFrame: TSanfonaFrame;
-    FObrigFrame: TObrigatoriosProdEdFrame;
     FAppInfo: IAppInfo;
-
 
     FFabrDBI: IEntDBI; //
     FTipoDBI: IEntDBI; //
@@ -101,8 +99,6 @@ begin
 
         sFormat := 'Alterando %s: %s';
         sCaption := Format(sFormat, [sNom, sDes]);
-
-        FSanfonaFrame.TitLabel.Caption := sCaption;
       end;
 
     dsInsert:
@@ -126,16 +122,35 @@ begin
 end;
 
 function TProdEdForm.ControlesOk: boolean;
+var
+  I: integer;
 begin
-  Result := FObrigFrame.ControlesOk;
+  Result := TesteLabeledEditVazio(FObrigFr.DescrEdit, ErroOutput);
   if not Result then
     exit;
+
+  Result := TesteLabeledEditVazio(FObrigFr.DescrRedEdit, ErroOutput);
+  if not Result then
+    exit;
+
+  I := FObrigFr.FabrFr.Id;
+  Result := I > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('Campo Fabricante é obrigatório');
+    exit;
+  end;
 end;
 
 procedure TProdEdForm.ControlesToEnt;
 begin
   inherited;
-  FObrigFrame.ControlesToEnt;
+  ProdEnt.Id := FObrigFr.IdEdit.AsInteger;
+  ProdEnt.Descr := FObrigFr.DescrEdit.Text;
+  ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
+  ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
+  ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
+  ProdEnt.ProdNatuEnt.Id := FObrigFr.NatuManager.IdChar;
 end;
 
 constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
@@ -161,19 +176,21 @@ var
 begin
   ti := now;
   inherited Create(AOwner, pEntEd, pEntDBI);
+
+  if EntEd.State = dsInsert then
+  begin
+    EdProdMeioPanel.Visible := EntEd.State <> dsInsert;
+    Height := 319;
+  end;
+
   FAppInfo := pAppInfo;
-  FSanfonaFrame := TSanfonaFrame.Create(Self, ErroOutput);
-  FSanfonaFrame.Parent := Self;
-  FSanfonaFrame.Align := alClient;
-  FSanfonaFrame.TitLabel.Caption := GetObjetivoStr;
-  ObjetivoLabel.Visible := false;
 
   FFabrDBI := pFabrDBI;
   FTipoDBI := pTipoDBI;
   FUnidDBI := pUnidDBI;
   FICMSDBI := pICMSDBI;
 
-  FObrigFrame := TObrigatoriosProdEdFrame.Create(FSanfonaFrame, ProdEnt, ProdDBI
+  FObrigFr := TRetagProdEdObrigFrame.Create(ObrigPanel, ProdEnt, ProdDBI
     //
     , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI
     //
@@ -183,7 +200,6 @@ begin
     , pProdICMSDataSetFormCreator //
     , FAppInfo, ErroOutput);
 
-  FSanfonaFrame.PegarItem(FObrigFrame);
 
   tf := now;
   dt := SecondSpan(tf, ti);
@@ -207,20 +223,27 @@ begin
   if not Result then
     exit;
 
-  sId := VarToStr(EntDBI.GetExistente(FObrigFrame.GetUniqueValues, sFrase));
-  Result := sId = '';
-  if not Result then
-  begin
-    ErroOutput.Exibir(sFrase);
-    FObrigFrame.Foque;
-    exit;
-  end;
+//  sId := VarToStr(EntDBI.GetExistente(FObrigFrame.GetUniqueValues, sFrase));
+//  Result := sId = '';
+//  if not Result then
+//  begin
+//    ErroOutput.Exibir(sFrase);
+//    FObrigFrame.Foque;
+//    exit;
+//  end;
 end;
 
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
-  FObrigFrame.EntToControles;
+//  FObrigFrame.EntToControles;
+
+  FObrigFr.IdEdit.Valor := ProdEnt.Id;
+  FObrigFr.DescrEdit.Text := ProdEnt.Descr;
+  FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
+  FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
+//  FObrigFr.FabrFr.Text := ProdEnt.ProdFabrEnt.Descr;
+  FObrigFr.NatuManager.IdChar := ProdEnt.ProdNatuEnt.Id;
 end;
 
 function TProdEdForm.GetAlterado: boolean;
@@ -259,7 +282,7 @@ begin
   begin
     sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;
     ErroOutput.Exibir(sFrase);
-    FObrigFrame.Foque;
+//    FObrigFrame.Foque;
     exit;
   end;
 
@@ -274,7 +297,7 @@ begin
   if not oDBConnection.Abrir then
     exit;
   try
-    FObrigFrame.PreenchaCombos(oDBConnection);
+//    FObrigFrame.PreenchaCombos(oDBConnection);
   finally
     oDBConnection.Fechar;
   end;
@@ -284,9 +307,8 @@ end;
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  // FObrigFrame.FIdNumEdit
-  FObrigFrame.Foque;
-  FObrigFrame.SimuleDig;
+//  FObrigFrame.Foque;
+//  FObrigFrame.SimuleDig;
 
   // OkAct_Diag.Execute;
 

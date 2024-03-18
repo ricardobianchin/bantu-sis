@@ -1,0 +1,2 @@
+inherited RetagEdBasFrame: TRetagEdBasFrame
+end

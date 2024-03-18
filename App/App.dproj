@@ -329,6 +329,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\App.UI.Frame.Bas.Retag.Ed_u.pas">
+            <Form>RetagEdBasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Bas.Retag.Prod.Ed_u.pas">
+            <Form>RetagProdEdBasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Obrig_u.pas">
+            <Form>RetagProdEdObrigFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
