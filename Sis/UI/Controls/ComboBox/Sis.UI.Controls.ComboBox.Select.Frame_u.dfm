@@ -20,5 +20,6 @@ inherited ComboBoxSelectBasFrame: TComboBoxSelectBasFrame
     Height = 23
     Align = alLeft
     AutoSize = False
+    Visible = False
   end
 end
