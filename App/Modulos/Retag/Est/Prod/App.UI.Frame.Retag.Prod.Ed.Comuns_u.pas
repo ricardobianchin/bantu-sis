@@ -1,4 +1,4 @@
-unit App.UI.Frame.Retag.Prod.Ed.Obrig_u;
+unit App.UI.Frame.Retag.Prod.Ed.Comuns_u;
 
 interface
 
@@ -8,7 +8,6 @@ uses
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output, NumEditBtu,
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
   Sis.DB.DBTypes,
-  App.Retag.Est.Prod.Natu.Ent,
   Sis.UI.FormCreator,
   App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo
   //
@@ -20,11 +19,9 @@ uses
     ;
 
 type
-  TRetagProdEdObrigFrame = class(TRetagProdEdBasFrame)
-    NatuLabel: TLabel;
+  TRetagProdEdComunsFrame = class(TRetagProdEdBasFrame)
     DescrEdit: TLabeledEdit;
     DescrRedEdit: TLabeledEdit;
-    NatuCombo: TComboBox;
     CustoGroupBox: TGroupBox;
     PrecoGroupBox: TGroupBox;
   private
@@ -51,8 +48,6 @@ type
     PrecoAtuEdit: TNumEditBtu;
     PrecoSugEdit: TNumEditBtu;
     PrecoNovEdit: TNumEditBtu;
-
-    NatuManager: IComboBoxManager;
 
     FabrFr: TComboBoxProdEdFrame;
     TipoFr: TComboBoxProdEdFrame;
@@ -90,7 +85,7 @@ uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory;
 
 { TRetagProdEdObrigFrame }
 
-constructor TRetagProdEdObrigFrame.Create(AOwner: TComponent;
+constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent;
   //
   pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
@@ -107,6 +102,9 @@ constructor TRetagProdEdObrigFrame.Create(AOwner: TComponent;
   pAppInfo: IAppInfo;
   //
   pErroOutput: IOutput);
+var
+  iTop: integer;
+  iLeft: integer;
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
   FAppInfo := pAppInfo;
@@ -122,24 +120,14 @@ begin
   IdEdit.LabelSpacing := 4;
   IdEdit.ReadOnly := true;
 
-  IdEdit.Left := 45;
-  IdEdit.Top := 2;
-  IdEdit.Width := 60;
-
-  NatuManager := ProdNatuComboBoxManagerCreate(NatuCombo);
-
   BarrasFr := TProdBarrasFrame.Create(Self, ProdEnt.ProdBarrasList,
     FAppInfo);
   BarrasFr.Parent := Self;
-  BarrasFr.Left := NatuCombo.Left ;//+ NatuCombo.Width + 10;
-  BarrasFr.Top := NatuCombo.Top;
 
   FFabrDataSetFormCreator := pFabrDataSetFormCreator;
   FProdTipoDataSetFormCreator := pProdTipoDataSetFormCreator;
   FProdUnidDataSetFormCreator := pProdUnidDataSetFormCreator;
   FProdICMSDataSetFormCreator := pProdICMSDataSetFormCreator;
-
-  // FabrComboBoxCrie(pFabrDBI, FFabrDataSetFormCreator);
 
   // fabr
   FabrFr := TComboBoxProdEdFrame.Create(Self,
@@ -161,26 +149,44 @@ begin
     ProdEnt.ProdICMSEnt, pICMSDBI, ErroOutput, FProdICMSDataSetFormCreator);
   ICMSFr.Name := 'ICMSComboBoxProdEdFrame';
 
-  FabrFr.Left := BarrasFr.Left +
-    BarrasFr.Width + 10;
-  FabrFr.Top := NatuCombo.Top;
+  iTop := 2;
+  iLeft := 4;
 
-  TipoFr.Left := 4;
-  TipoFr.Top := DescrEdit.Top + DescrEdit.Height + 17;
+  IdEdit.Left := iLeft + 41;
+  IdEdit.Top := iTop;
+  IdEdit.Width := 60;
 
-  UnidFr.Left := TipoFr.Left +
-    TipoFr.Width + 10;
-  UnidFr.Top := TipoFr.Top;
+  iLeft := iLeft + IdEdit.Left + IdEdit.Width + 10;
+
+  BarrasFr.Left := iLeft;
+  BarrasFr.Top := iTop;
+
+  iLeft := iLeft + BarrasFr.Width + 10;
+
+  FabrFr.Left := iLeft;
+  FabrFr.Top := iTop;
+
+  iTop := DescrEdit.Top + DescrEdit.Height + 17;
+  iLeft := 4;
+
+  TipoFr.Left := iLeft;
+  TipoFr.Top := iTop;
+
+  iLeft := iLeft + TipoFr.Width + 10;
+
+  UnidFr.Left := iLeft;
+  UnidFr.Top := iTop;
   UnidFr.ComboBox1.Width := 66;
-  UnidFr.Width := UnidFr.BuscaSpeedButton.Left +
-    UnidFr.BuscaSpeedButton.Width;
+  UnidFr.Width := UnidFr.BuscaSpeedButton.Left + UnidFr.BuscaSpeedButton.Width;
 
-  ICMSFr.Left := UnidFr.Left +
-    UnidFr.Width + 10;
-  ICMSFr.Top := TipoFr.Top;
+  iLeft := iLeft + UnidFr.Width + 10;
+
+  ICMSFr.Left := iLeft;
+  ICMSFr.Top := iTop;
   ICMSFr.ComboBox1.Width := 125;
-  ICMSFr.Width := ICMSFr.BuscaSpeedButton.Left +
-    ICMSFr.BuscaSpeedButton.Width;
+  ICMSFr.Width := ICMSFr.BuscaSpeedButton.Left + ICMSFr.BuscaSpeedButton.Width;
+
+  //iLeft := iLeft + ICMSFr.Left + ICMSFr.Width + 10;
 
   CustoAtuEdit := TNumEditBtu.Create(CustoGroupBox);
   CustoAtuEdit.Parent := CustoGroupBox;
@@ -193,10 +199,6 @@ begin
   CustoAtuEdit.LabelPosition := lpLeft;
   CustoAtuEdit.LabelSpacing := 4;
 
-  CustoAtuEdit.Width := 85;
-  CustoAtuEdit.Left := 38;
-  CustoAtuEdit.Top := 15;
-
   CustoNovEdit := TNumEditBtu.Create(CustoGroupBox);
   CustoNovEdit.Parent := CustoGroupBox;
   CustoNovEdit.Alignment := taRightJustify;
@@ -206,11 +208,6 @@ begin
   CustoNovEdit.Caption := 'Novo';
   CustoNovEdit.LabelPosition := lpLeft;
   CustoNovEdit.LabelSpacing := 4;
-
-  CustoNovEdit.Width := 85;
-  CustoNovEdit.Left := CustoAtuEdit.Left+CustoAtuEdit.Width+38;
-  CustoNovEdit.Top := CustoAtuEdit.Top;
-//
 
 //  FMargemNumEdit := TNumEditBtu.Create(Self);
 //  FMargemNumEdit.Parent := Self;
@@ -233,41 +230,45 @@ begin
   PrecoAtuEdit.Alignment := taRightJustify;
   PrecoAtuEdit.NCasas := 2;
   PrecoAtuEdit.NCasasEsq := 7;
-//  FPrecoAtuEdit.MascEsq := '0000000';
   PrecoAtuEdit.Caption := 'Atual';
   PrecoAtuEdit.ReadOnly := True;
   PrecoAtuEdit.LabelPosition := lpLeft;
   PrecoAtuEdit.LabelSpacing := 4;
 
-  PrecoAtuEdit.Width := 75;
-  PrecoAtuEdit.Left := 38;
-  PrecoAtuEdit.Top := 15;
-  //
   PrecoSugEdit := TNumEditBtu.Create(PrecoGroupBox);
   PrecoSugEdit.Parent := PrecoGroupBox;
   PrecoSugEdit.Alignment := taRightJustify;
   PrecoSugEdit.NCasas := 2;
   PrecoSugEdit.NCasasEsq := 7;
-//  FPrecoSugEdit.MascEsq := '0000000';
   PrecoSugEdit.Caption := 'Sugerido';
   PrecoSugEdit.ReadOnly := True;
   PrecoSugEdit.LabelPosition := lpLeft;
   PrecoSugEdit.LabelSpacing := 4;
 
-  PrecoSugEdit.Width := 75;
-  PrecoSugEdit.Left := PrecoAtuEdit.Left+PrecoAtuEdit.Width+56;
-  PrecoSugEdit.Top := PrecoAtuEdit.Top;
-
-  //
   PrecoNovEdit := TNumEditBtu.Create(PrecoGroupBox);
   PrecoNovEdit.Parent := PrecoGroupBox;
   PrecoNovEdit.Alignment := taRightJustify;
   PrecoNovEdit.NCasas := 2;
   PrecoNovEdit.NCasasEsq := 7;
-//  FPrecoNovEdit.MascEsq := '0000000';
   PrecoNovEdit.Caption := 'Novo';
   PrecoNovEdit.LabelPosition := lpLeft;
   PrecoNovEdit.LabelSpacing := 4;
+
+  CustoAtuEdit.Width := 85;
+  CustoAtuEdit.Left := 38;
+  CustoAtuEdit.Top := 15;
+
+  CustoNovEdit.Width := 85;
+  CustoNovEdit.Left := CustoAtuEdit.Left+CustoAtuEdit.Width+38;
+  CustoNovEdit.Top := CustoAtuEdit.Top;
+
+  PrecoAtuEdit.Width := 75;
+  PrecoAtuEdit.Left := 38;
+  PrecoAtuEdit.Top := 15;
+
+  PrecoSugEdit.Width := 75;
+  PrecoSugEdit.Left := PrecoAtuEdit.Left+PrecoAtuEdit.Width+56;
+  PrecoSugEdit.Top := PrecoAtuEdit.Top;
 
   PrecoNovEdit.Width := 75;
   PrecoNovEdit.Left := PrecoSugEdit.Left+PrecoSugEdit.Width+38;

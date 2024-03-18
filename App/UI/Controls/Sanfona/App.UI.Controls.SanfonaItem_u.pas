@@ -34,7 +34,8 @@ uses Sis.UI.ImgDM;
 
 constructor TSanfonaItemFrame.Create(AOwner: TComponent; pEntEd: IEntEd; pErroOutput: IOutput);
 begin
-  inherited Create(AOwner, pErroOutput);
+  inherited Create(AOwner);
+//  inherited Create(AOwner, pErroOutput);
   FEntEd := pEntEd;
 end;
 

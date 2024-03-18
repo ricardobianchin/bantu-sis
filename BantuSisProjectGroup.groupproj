@@ -94,14 +94,14 @@
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
-        <BuildGroupProject Include="Adm\Adm.dproj">
-            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
+        <BuildGroupProject Include="App\App.dproj">
+            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="App\App.dproj">
-            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
+        <BuildGroupProject Include="Adm\Adm.dproj">
+            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>

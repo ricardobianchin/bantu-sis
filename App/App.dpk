@@ -148,6 +148,6 @@ contains
   App.Retag.Prod.Compl.SanfonaItem_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas' {ComplProdEdFrame: TFrame},
   App.UI.Frame.Bas.Retag.Ed_u in 'Modulos\Retag\App.UI.Frame.Bas.Retag.Ed_u.pas' {RetagEdBasFrame: TFrame},
   App.UI.Frame.Bas.Retag.Prod.Ed_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Bas.Retag.Prod.Ed_u.pas' {RetagProdEdBasFrame: TFrame},
-  App.UI.Frame.Retag.Prod.Ed.Obrig_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Obrig_u.pas' {RetagProdEdObrigFrame: TFrame};
+  App.UI.Frame.Retag.Prod.Ed.Comuns_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas' {RetagProdEdComunsFrame: TFrame};
 
 end.

@@ -31,19 +31,18 @@ type
     function GetAberto: boolean;
     procedure SetAberto(const Value: boolean);
   protected
-    property ErroOutput: IOutput read FErroOutput;
     { Private declarations }
     function GetNome: string; virtual; abstract;
   public
-    ProcNotificaAbriu: TProcSanfonaItemOfObject;
+    { Public declarations }
+    ProcItemAbriuNotify: TProcSanfonaItemOfObject;
 
     property Aberto: boolean read GetAberto write SetAberto;
     property Nome: string read GetNome;
     procedure Foque;
+    property ErroOutput: IOutput read FErroOutput write FErroOutput;
 
-    constructor Create(AOwner: TComponent; pErroOutput: IOutput); reintroduce;
-    { Public declarations }
-
+    constructor Create(AOwner: TComponent); reintroduce;
   end;
 
 var
@@ -57,16 +56,14 @@ uses Sis.UI.Controls.Utils, Sis.UI.ImgDM;
 
 { TSanfonaItemBasFrame }
 
-constructor TSanfonaItemBasFrame.Create(AOwner: TComponent; pErroOutput: IOutput);
+constructor TSanfonaItemBasFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FErroOutput := pErroOutput;
   ActionList1.Images := SisImgDataModule.ImageList_9_9;
   ToolBar1.Images := SisImgDataModule.ImageList_9_9;
   TitLabel.Caption := Nome;
   FundoPanel.Color := RGB(206, 222, 236);
   MeioPanel.Color := RGB(231, 239, 245);
-
 end;
 
 procedure TSanfonaItemBasFrame.ExpandirActionExecute(Sender: TObject);
@@ -109,7 +106,7 @@ begin
     MeioPanel.Visible := True;
     MeioPanel.Height := FUltimoHeight;
 //    Height := TopoPanel.Height + MeioPanel.Height + 2;
-    //ProcNotificaAbriu(Self)
+    //ProcItemAbriuNotify(Self)
   end
   else
   begin

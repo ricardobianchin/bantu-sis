@@ -14,9 +14,8 @@ type
     procedure EditKeyDown(Sender:TObject; var Key:word; Shift: TShiftState); virtual;
     procedure EditKeyPress(Sender: TObject; var Key: Char; pCharExceto:string=''); virtual;
   public
-    constructor Create(AOwner: TComponent); override;
     { Public declarations }
-
+    constructor Create(AOwner: TComponent); override;
   end;
 
 implementation

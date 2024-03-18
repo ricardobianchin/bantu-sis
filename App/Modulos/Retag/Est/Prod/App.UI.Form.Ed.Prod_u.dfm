@@ -2,7 +2,6 @@ inherited ProdEdForm: TProdEdForm
   Caption = 'ProdEdForm'
   ClientHeight = 562
   ClientWidth = 838
-  ExplicitTop = -139
   ExplicitWidth = 850
   ExplicitHeight = 600
   TextHeight = 15
@@ -33,27 +32,37 @@ inherited ProdEdForm: TProdEdForm
       838
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 383
-      ExplicitLeft = 379
+      Left = 375
+      ExplicitLeft = 371
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 496
-      ExplicitLeft = 492
+      Left = 488
+      ExplicitLeft = 484
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 576
-      ExplicitLeft = 572
+      Left = 568
+      ExplicitLeft = 564
     end
   end
-  object ComunsPanel: TPanel [4]
+  object MeioPanel: TPanel [4]
     Left = 0
     Top = 15
     Width = 838
-    Height = 346
-    Align = alTop
+    Height = 475
+    Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    object ComunsPanel: TPanel
+      Left = 0
+      Top = 0
+      Width = 838
+      Height = 475
+      Align = alClient
+      BevelOuter = bvNone
+      Caption = ' '
+      TabOrder = 0
+    end
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 111

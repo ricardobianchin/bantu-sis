@@ -13,11 +13,12 @@ uses
   App.UI.Frame.Bas.Retag.Prod.Ed_u
 
   //
-  , Vcl.ComCtrls
+  , Vcl.ComCtrls, App.UI.Frame.Retag.Prod.Ed.Comuns_u
     ;
 
 type
   TProdEdForm = class(TEdBasForm)
+    MeioPanel: TPanel;
     ComunsPanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -30,6 +31,7 @@ type
     FUnidDBI: IEntDBI; //
     FICMSDBI: IEntDBI; //
 
+    FComunsFr: TRetagProdEdComunsFrame;
 
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
@@ -125,32 +127,32 @@ function TProdEdForm.ControlesOk: boolean;
 var
   I: integer;
 begin
-  Result := TesteLabeledEditVazio(FObrigFr.DescrEdit, ErroOutput);
-  if not Result then
-    exit;
-
-  Result := TesteLabeledEditVazio(FObrigFr.DescrRedEdit, ErroOutput);
-  if not Result then
-    exit;
-
-  I := FObrigFr.FabrFr.Id;
-  Result := I > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir('Campo Fabricante é obrigatório');
-    exit;
-  end;
+//  Result := TesteLabeledEditVazio(FObrigFr.DescrEdit, ErroOutput);
+//  if not Result then
+//    exit;
+//
+//  Result := TesteLabeledEditVazio(FObrigFr.DescrRedEdit, ErroOutput);
+//  if not Result then
+//    exit;
+//
+//  I := FObrigFr.FabrFr.Id;
+//  Result := I > 0;
+//  if not Result then
+//  begin
+//    ErroOutput.Exibir('Campo Fabricante é obrigatório');
+//    exit;
+//  end;
 end;
 
 procedure TProdEdForm.ControlesToEnt;
 begin
   inherited;
-  ProdEnt.Id := FObrigFr.IdEdit.AsInteger;
-  ProdEnt.Descr := FObrigFr.DescrEdit.Text;
-  ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
-  ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
-  ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
-  ProdEnt.ProdNatuEnt.Id := FObrigFr.NatuManager.IdChar;
+//  ProdEnt.Id := FObrigFr.IdEdit.AsInteger;
+//  ProdEnt.Descr := FObrigFr.DescrEdit.Text;
+//  ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
+//  ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
+//  ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
+//  ProdEnt.ProdNatuEnt.Id := FObrigFr.NatuManager.IdChar;
 end;
 
 constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
@@ -170,18 +172,8 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
 
   //
   pAppInfo: IAppInfo);
-var
-  ti, tf, dt: tdatetime;
-  sdt: string;
 begin
-  ti := now;
   inherited Create(AOwner, pEntEd, pEntDBI);
-
-  if EntEd.State = dsInsert then
-  begin
-    EdProdMeioPanel.Visible := EntEd.State <> dsInsert;
-    Height := 319;
-  end;
 
   FAppInfo := pAppInfo;
 
@@ -189,27 +181,13 @@ begin
   FTipoDBI := pTipoDBI;
   FUnidDBI := pUnidDBI;
   FICMSDBI := pICMSDBI;
-
-  FObrigFr := TRetagProdEdObrigFrame.Create(ObrigPanel, ProdEnt, ProdDBI
-    //
+  FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, ProdEnt, ProdDBI
     , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI
-    //
     , pFabrDataSetFormCreator //
     , pProdTipoDataSetFormCreator //
     , pProdUnidDataSetFormCreator //
     , pProdICMSDataSetFormCreator //
     , FAppInfo, ErroOutput);
-
-
-  tf := now;
-  dt := SecondSpan(tf, ti);
-  sdt :=
-    formatdatetime('dd/mm/yy hh:nn:ss,zzz', ti)
-    +' '
-    +formatdatetime('dd/mm/yy hh:nn:ss,zzz', tf)
-    +' '
-    +Format('%.6f segundos', [dt]);
-//  showmessage(sdt);
 
 end;
 
@@ -236,14 +214,12 @@ end;
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
-//  FObrigFrame.EntToControles;
 
-  FObrigFr.IdEdit.Valor := ProdEnt.Id;
-  FObrigFr.DescrEdit.Text := ProdEnt.Descr;
-  FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
-  FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
-//  FObrigFr.FabrFr.Text := ProdEnt.ProdFabrEnt.Descr;
-  FObrigFr.NatuManager.IdChar := ProdEnt.ProdNatuEnt.Id;
+//  FObrigFr.IdEdit.Valor := ProdEnt.Id;
+//  FObrigFr.DescrEdit.Text := ProdEnt.Descr;
+//  FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
+//  FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
+//  FObrigFr.NatuManager.IdChar := ProdEnt.ProdNatuEnt.Id;
 end;
 
 function TProdEdForm.GetAlterado: boolean;
