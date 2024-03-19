@@ -106,6 +106,9 @@ begin
   Encerrado:=false;
   AutoSize:=false;
   Ctl3D:=true;
+
+  LabelPosition := lpLeft;
+  LabelSpacing := 4;
 end;
 
 procedure TCustomNumEditBtu.DoExit;

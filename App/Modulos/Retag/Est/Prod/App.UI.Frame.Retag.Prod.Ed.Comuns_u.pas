@@ -24,6 +24,16 @@ type
     DescrRedEdit: TLabeledEdit;
     CustoGroupBox: TGroupBox;
     PrecoGroupBox: TGroupBox;
+    BalGroupBox: TGroupBox;
+    Label12: TLabel;
+    Label16: TLabel;
+    BalUtilzComboBox: TComboBox;
+    BalEtiqTextoMemo: TMemo;
+    LocalizLabeledEdit: TLabeledEdit;
+    MoldeQtdNaEmbLabeledEdit: TLabeledEdit;
+    AtivoCheckBox: TCheckBox;
+    MoldeBalDptoLabeledEdit: TLabeledEdit;
+    MoldeBalValidEditLabeledEdit: TLabeledEdit;
   private
     { Private declarations }
 
@@ -48,6 +58,11 @@ type
     PrecoAtuEdit: TNumEditBtu;
     PrecoSugEdit: TNumEditBtu;
     PrecoNovEdit: TNumEditBtu;
+
+    BalDpto: TNumEditBtu;
+    BalValidEdit: TNumEditBtu;
+    CapacEmbEdit: TNumEditBtu;
+
 
     FabrFr: TComboBoxProdEdFrame;
     TipoFr: TComboBoxProdEdFrame;
@@ -273,6 +288,60 @@ begin
   PrecoNovEdit.Width := 75;
   PrecoNovEdit.Left := PrecoSugEdit.Left+PrecoSugEdit.Width+38;
   PrecoNovEdit.Top := PrecoSugEdit.Top;
+
+  BalDpto := TNumEditBtu.Create(BalGroupBox);
+  BalDpto.Parent := BalGroupBox;
+  BalDpto.Alignment := taCenter;
+  BalDpto.NCasas := 0;
+  BalDpto.NCasasEsq := 2;
+  BalDpto.MascEsq := '00';
+  BalDpto.Caption := MoldeBalDptoLabeledEdit.EditLabel.Caption;
+//  BalDpto.LabelPosition := lpL;
+//  BalDpto.LabelSpacing := 4;
+  BalDpto.MaxLength := 5;
+
+  BalDpto.Left := MoldeBalDptoLabeledEdit.Left;
+  BalDpto.Top := MoldeBalDptoLabeledEdit.Top;
+  BalDpto.Width := MoldeBalDptoLabeledEdit.Width;
+
+  BalValidEdit := TNumEditBtu.Create(BalGroupBox);
+  BalValidEdit.Parent := BalGroupBox;
+  BalValidEdit.Alignment := taCenter;
+  BalValidEdit.AutoExit := True;
+  BalValidEdit.Caption := 'Validade (Dias)';
+  BalValidEdit.EditLabel.Caption := MoldeBalValidEditLabeledEdit.EditLabel.Caption;
+  BalValidEdit.MaxLength := 5;
+  BalValidEdit.NCasas := 0;
+  BalValidEdit.NCasasEsq := 4;
+  BalValidEdit.Valor := 0;
+  BalValidEdit.MascEsq := '###0';
+//  BalValidEdit.LabelPosition := lpCenter;
+
+  BalValidEdit.Left := MoldeBalValidEditLabeledEdit.Left;
+  BalValidEdit.Top := MoldeBalValidEditLabeledEdit.Top;
+  BalValidEdit.Width := MoldeBalValidEditLabeledEdit.Width;
+
+  CapacEmbEdit := TNumEditBtu.Create(Self);
+  CapacEmbEdit.Parent := Self;
+
+  CapacEmbEdit.Left := MoldeQtdNaEmbLabeledEdit.Left;
+  CapacEmbEdit.Top := MoldeQtdNaEmbLabeledEdit.Top;
+  CapacEmbEdit.Width := MoldeQtdNaEmbLabeledEdit.Width;
+
+  CapacEmbEdit.Alignment := taCenter;
+  CapacEmbEdit.Caption := MoldeQtdNaEmbLabeledEdit.EditLabel.Caption;
+
+  CapacEmbEdit.LabelPosition := lpLeft;
+  CapacEmbEdit.LabelSpacing := 4;
+
+  CapacEmbEdit.MaxLength := 5;
+  CapacEmbEdit.NCasas := 0;
+  CapacEmbEdit.NCasasEsq := 5;
+
+  MoldeQtdNaEmbLabeledEdit.Free;
+  MoldeBalValidEditLabeledEdit.Free;
+  MoldeBalDptoLabeledEdit.Free;
+
 end;
 
 end.
