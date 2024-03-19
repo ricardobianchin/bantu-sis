@@ -41,7 +41,6 @@ type
 
     function GetAlterado: boolean;
 
-    procedure PreenchaCombos;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -106,7 +105,6 @@ begin
     dsInsert:
       ;
   end;
-  PreenchaCombos;
 end;
 
 procedure TProdEdForm.Button1Click(Sender: TObject);
@@ -152,7 +150,6 @@ begin
 //  ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
 //  ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
 //  ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
-//  ProdEnt.ProdNatuEnt.Id := FObrigFr.NatuManager.IdChar;
 end;
 
 constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
@@ -219,7 +216,6 @@ begin
 //  FObrigFr.DescrEdit.Text := ProdEnt.Descr;
 //  FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
 //  FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
-//  FObrigFr.NatuManager.IdChar := ProdEnt.ProdNatuEnt.Id;
 end;
 
 function TProdEdForm.GetAlterado: boolean;
@@ -260,22 +256,6 @@ begin
     ErroOutput.Exibir(sFrase);
 //    FObrigFrame.Foque;
     exit;
-  end;
-
-end;
-
-procedure TProdEdForm.PreenchaCombos;
-var
-  oDBConnection: IDBConnection;
-begin
-  oDBConnection := FFabrDBI.DBConnection;
-
-  if not oDBConnection.Abrir then
-    exit;
-  try
-//    FObrigFrame.PreenchaCombos(oDBConnection);
-  finally
-    oDBConnection.Fechar;
   end;
 
 end;

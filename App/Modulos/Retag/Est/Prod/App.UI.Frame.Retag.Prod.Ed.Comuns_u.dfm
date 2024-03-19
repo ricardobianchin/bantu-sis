@@ -53,21 +53,21 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Height = 207
     Caption = 'Balan'#231'a'
     TabOrder = 4
-    object Label12: TLabel
+    object BalUtilizaTitLabel: TLabel
       Left = 5
       Top = 22
       Width = 51
       Height = 15
       Caption = 'Utiliza'#231#227'o'
     end
-    object Label16: TLabel
+    object BalTextoEtiqTitLabel: TLabel
       Left = 5
       Top = 94
       Width = 175
       Height = 15
       Caption = 'Texto da Etiqueta (400 caracteres)'
     end
-    object BalUtilzComboBox: TComboBox
+    object BalUtilizaComboBox: TComboBox
       Left = 61
       Top = 18
       Width = 270
@@ -84,7 +84,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
         'Usu'#225'rio indicar'#225' pre'#231'o total'
         'Usu'#225'rio indicar'#225' quantidade e pre'#231'o unit'#225'rio')
     end
-    object BalEtiqTextoMemo: TMemo
+    object BalTextoEtiqMemo: TMemo
       Left = 5
       Top = 111
       Width = 388
@@ -133,8 +133,10 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     EditLabel.Caption = 'Localiza'#231#227'o'
     LabelPosition = lpLeft
     LabelSpacing = 4
+    MaxLength = 15
     TabOrder = 5
     Text = ''
+    OnKeyPress = LocalizLabeledEditKeyPress
   end
   object MoldeQtdNaEmbLabeledEdit: TLabeledEdit
     Left = 565

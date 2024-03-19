@@ -117,10 +117,6 @@ contains
   App.UI.Form.DataSet.Retag.Est.Prod_u in 'Modulos\Retag\Est\Prod\App.UI.Form.DataSet.Retag.Est.Prod_u.pas' {RetagEstProdDataSetForm},
   App.UI.Controls.SanfonaItem_u in 'UI\Controls\Sanfona\App.UI.Controls.SanfonaItem_u.pas' {SanfonaItemFrame: TFrame},
   App.Retag.Prod.SanfonaItem.Bas_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.SanfonaItem.Bas_u.pas' {ProdEdSanfonaItemFrame: TFrame},
-  App.Retag.Prod.Obrigatorios.SanfonaItem_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.Obrigatorios.SanfonaItem_u.pas' {ObrigatoriosProdEdFrame: TFrame},
-  App.Retag.Est.Prod.Natu.ComboBoxManager_u in 'Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.ComboBoxManager_u.pas',
-  App.Retag.Est.Prod.Natu.Ent in 'Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent.pas',
-  App.Retag.Est.Prod.Natu.Ent_u in 'Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent_u.pas',
   App.UI.Controls.ComboBox.Select.DB.Frame_u in 'UI\Controls\SelectComboBoxFrame\App.UI.Controls.ComboBox.Select.DB.Frame_u.pas' {ComboBoxSelectDBFrame: TFrame},
   App.Retag.Est.Prod.ComboBox_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.ComboBox_u.pas' {ComboBoxProdEdFrame: TFrame},
   App.UI.FormCreator.DataSet_u in 'UI\BasForm\App.UI.FormCreator.DataSet_u.pas',
@@ -148,6 +144,9 @@ contains
   App.Retag.Prod.Compl.SanfonaItem_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas' {ComplProdEdFrame: TFrame},
   App.UI.Frame.Bas.Retag.Ed_u in 'Modulos\Retag\App.UI.Frame.Bas.Retag.Ed_u.pas' {RetagEdBasFrame: TFrame},
   App.UI.Frame.Bas.Retag.Prod.Ed_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Bas.Retag.Prod.Ed_u.pas' {RetagProdEdBasFrame: TFrame},
-  App.UI.Frame.Retag.Prod.Ed.Comuns_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas' {RetagProdEdComunsFrame: TFrame};
+  App.UI.Frame.Retag.Prod.Ed.Comuns_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas' {RetagProdEdComunsFrame: TFrame},
+  App.Retag.Est.Prod.Balanca.Ent in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas',
+  App.Est.Types_u in 'Est\App.Est.Types_u.pas',
+  App.Retag.Est.Prod.Balanca.Ent_u in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent_u.pas';
 
 end.

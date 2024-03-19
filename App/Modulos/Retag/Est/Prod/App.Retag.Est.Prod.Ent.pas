@@ -8,10 +8,8 @@ uses App.Ent.Ed.Id
   , App.Retag.Est.Prod.Tipo.Ent//
   , App.Retag.Est.Prod.Unid.Ent//
   , App.Retag.Est.Prod.Icms.Ent//
-
-  //
-  , App.Retag.Est.Prod.Natu.Ent
-  , App.Retag.Est.Prod.Barras.Ent.List
+  , App.Retag.Est.Prod.Barras.Ent.List//
+  , App.Retag.Est.Prod.Balanca.Ent//
   ;
 
 type
@@ -37,11 +35,23 @@ type
     function GetProdICMSEnt: IProdICMSEnt;
     property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
 
-    function GetProdNatuEnt: IProdNatuEnt;
-    property ProdNatuEnt: IProdNatuEnt read GetProdNatuEnt;
-
     function GetProdBarrasList: IProdBarrasList;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
+
+    function GetProdBalancaEnt: IProdBalancaEnt;
+    property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;
+
+    function GetAtivo: boolean;
+    procedure SetAtivo(Value: boolean);
+    property Ativo: boolean read GetAtivo write SetAtivo;
+
+    function GetCapacEmb: Currency;
+    procedure SetCapacEmb(Value: Currency);
+    property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
+
+    function GetLocaliz: string;
+    procedure SetLocaliz(Value: string);
+    property Localiz: string read GetLocaliz write SetLocaliz;
   end;
 
 implementation

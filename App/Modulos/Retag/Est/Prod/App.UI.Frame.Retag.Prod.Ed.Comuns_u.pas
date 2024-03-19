@@ -25,15 +25,16 @@ type
     CustoGroupBox: TGroupBox;
     PrecoGroupBox: TGroupBox;
     BalGroupBox: TGroupBox;
-    Label12: TLabel;
-    Label16: TLabel;
-    BalUtilzComboBox: TComboBox;
-    BalEtiqTextoMemo: TMemo;
+    BalUtilizaTitLabel: TLabel;
+    BalTextoEtiqTitLabel: TLabel;
+    BalUtilizaComboBox: TComboBox;
+    BalTextoEtiqMemo: TMemo;
     LocalizLabeledEdit: TLabeledEdit;
     MoldeQtdNaEmbLabeledEdit: TLabeledEdit;
     AtivoCheckBox: TCheckBox;
     MoldeBalDptoLabeledEdit: TLabeledEdit;
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
+    procedure LocalizLabeledEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
 
@@ -96,7 +97,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory;
+uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory, App.Est.Types_u;
 
 { TRetagProdEdObrigFrame }
 
@@ -342,6 +343,17 @@ begin
   MoldeBalValidEditLabeledEdit.Free;
   MoldeBalDptoLabeledEdit.Free;
 
+  App.Est.Types_u.BalancaTipoStrToSL(BalUtilizaComboBox.Items);
+  BalDpto.Valor := 1;
+  BalValidEdit.Valor := 0;
+  CapacEmbEdit.Valor := 1;
+end;
+
+procedure TRetagProdEdComunsFrame.LocalizLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 end.

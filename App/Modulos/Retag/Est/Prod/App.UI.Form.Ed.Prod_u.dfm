@@ -1,70 +1,70 @@
 inherited ProdEdForm: TProdEdForm
   Caption = 'ProdEdForm'
-  ClientHeight = 486
-  ClientWidth = 838
-  ExplicitWidth = 850
-  ExplicitHeight = 524
+  ClientHeight = 485
+  ClientWidth = 834
+  ExplicitWidth = 846
+  ExplicitHeight = 523
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 429
-    Width = 838
-    ExplicitTop = 429
+    Top = 428
+    Width = 834
+    ExplicitTop = 428
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
     Top = 0
-    Width = 838
+    Width = 834
     Align = alTop
     ExplicitLeft = 0
     ExplicitTop = 0
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 414
-    Width = 838
-    ExplicitTop = 414
+    Top = 413
+    Width = 834
+    ExplicitTop = 413
   end
   inherited BasePanel: TPanel
-    Top = 449
-    Width = 838
-    ExplicitTop = 448
-    ExplicitWidth = 834
+    Top = 448
+    Width = 834
+    ExplicitTop = 447
+    ExplicitWidth = 830
     DesignSize = (
-      838
+      834
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 367
-      ExplicitLeft = 363
+      Left = 359
+      ExplicitLeft = 355
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 480
-      ExplicitLeft = 476
+      Left = 472
+      ExplicitLeft = 468
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 560
-      ExplicitLeft = 556
+      Left = 552
+      ExplicitLeft = 548
     end
   end
   object MeioPanel: TPanel [4]
     Left = 0
     Top = 15
-    Width = 838
-    Height = 399
+    Width = 834
+    Height = 398
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 834
-    ExplicitHeight = 398
+    ExplicitWidth = 830
+    ExplicitHeight = 397
     object ComunsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 838
+      Width = 834
       Height = 390
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 834
+      ExplicitWidth = 830
     end
   end
   inherited ShowTimer_BasForm: TTimer
