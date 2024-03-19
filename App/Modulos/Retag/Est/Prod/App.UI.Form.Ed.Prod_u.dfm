@@ -1,59 +1,71 @@
 inherited ProdEdForm: TProdEdForm
   Caption = 'ProdEdForm'
-  ClientHeight = 562
-  ClientWidth = 838
-  ExplicitTop = -139
-  ExplicitWidth = 850
-  ExplicitHeight = 600
+  ClientHeight = 485
+  ClientWidth = 834
+  ExplicitWidth = 846
+  ExplicitHeight = 523
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 505
-    Width = 838
-    ExplicitTop = 505
+    Top = 428
+    Width = 834
+    ExplicitTop = 428
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
     Top = 0
-    Width = 838
+    Width = 834
     Align = alTop
     ExplicitLeft = 0
     ExplicitTop = 0
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 490
-    Width = 838
-    ExplicitTop = 490
+    Top = 413
+    Width = 834
+    ExplicitTop = 413
   end
   inherited BasePanel: TPanel
-    Top = 525
-    Width = 838
-    ExplicitTop = 524
-    ExplicitWidth = 834
+    Top = 448
+    Width = 834
+    ExplicitTop = 447
+    ExplicitWidth = 830
     DesignSize = (
-      838
+      834
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 383
-      ExplicitLeft = 379
+      Left = 359
+      ExplicitLeft = 355
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 496
-      ExplicitLeft = 492
+      Left = 472
+      ExplicitLeft = 468
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 576
-      ExplicitLeft = 572
+      Left = 552
+      ExplicitLeft = 548
     end
   end
-  object ComunsPanel: TPanel [4]
+  object MeioPanel: TPanel [4]
     Left = 0
     Top = 15
-    Width = 838
-    Height = 346
-    Align = alTop
+    Width = 834
+    Height = 398
+    Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitWidth = 830
+    ExplicitHeight = 397
+    object ComunsPanel: TPanel
+      Left = 0
+      Top = 0
+      Width = 834
+      Height = 390
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = ' '
+      TabOrder = 0
+      ExplicitWidth = 830
+    end
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 111

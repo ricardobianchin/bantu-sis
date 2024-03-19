@@ -25,11 +25,12 @@ type
     // procedure ItemExpandirClick(Sender: TObject);
     // procedure ItemRetrairClick(Sender: TObject);
     FErroOutput: IOutput;
-  procedure SanfonaItemAbriu(pSanfonaItem: TSanfonaItemBasFrame);
+    procedure ItemAbriuNotify(pSanfonaItem: TSanfonaItemBasFrame);
   public
     { Public declarations }
+    property ErroOutput: IOutput read FErroOutput write FErroOutput;
     procedure PegarItem(pSanfonaItem: TSanfonaItemBasFrame);
-    constructor Create(AOwner: TComponent; pErroOutput: IOutput); reintroduce;
+    constructor Create(AOwner: TComponent); reintroduce;
 
   end;
 
@@ -44,12 +45,10 @@ uses Sis.UI.Controls.Utils, Sis.UI.ImgDM;
 
 { TSanfonaFrame }
 
-constructor TSanfonaFrame.Create(AOwner: TComponent; pErroOutput: IOutput);
+constructor TSanfonaFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FErroOutput := pErroOutput;
 //  ActionList1.Images := SisImgDataModule.ImageList_9_9;
-
 end;
 
 procedure TSanfonaFrame.PegarItem(pSanfonaItem: TSanfonaItemBasFrame);
@@ -63,11 +62,11 @@ begin
     exit;
   UltimoControl := ScrollBox1.Controls[c - 1];
   pSanfonaItem.Top := UltimoControl.Top + UltimoControl.Height + 3;
-  pSanfonaItem.ProcNotificaAbriu := SanfonaItemAbriu;
+  pSanfonaItem.ProcItemAbriuNotify := ItemAbriuNotify;
   TreeView1.Items.AddObject(nil, pSanfonaItem.Nome, pSanfonaItem);
 end;
 
-procedure TSanfonaFrame.SanfonaItemAbriu(pSanfonaItem: TSanfonaItemBasFrame);
+procedure TSanfonaFrame.ItemAbriuNotify(pSanfonaItem: TSanfonaItemBasFrame);
 begin
 
 end;

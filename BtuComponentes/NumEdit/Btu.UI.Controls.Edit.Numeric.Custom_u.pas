@@ -1,12 +1,12 @@
-unit CustomNumEditBtu;
+unit Btu.UI.Controls.Edit.Numeric.Custom_u;
 
 interface
 
 uses
-  SysUtils, Classes, ExtCtrls, CustomEditBtu, dialogs;
+  SysUtils, Classes, ExtCtrls, Btu.UI.Controls.Edit.Custom_u, dialogs;
 
 type
-  TCustomNumEditBtu = class(TCustomEditBtu)
+  TCustomBtuNumEdit = class(TCustomBtuEdit)
   private
     FCharDecimal: char;
     FNCasas: integer;
@@ -58,34 +58,34 @@ uses Controls, StdCtrls, windows, Variants, Math, StrUtils;
 
 procedure Register;
 begin
-//  RegisterComponents('Ricardo', [TCustomNumEditBtu]);
+//  RegisterComponents('Ricardo', [TCustomBtuNumEdit]);
 end;
 
-{ TCustomNumEditBtu }
+{ TCustomBtuNumEdit }
 
-function TCustomNumEditBtu.AsStrZero(pNCasas: integer): string;
+function TCustomBtuNumEdit.AsStrZero(pNCasas: integer): string;
 begin
   result:=IntToStrZero(Valor,pNCasas);
 end;
 
-procedure TCustomNumEditBtu.Change;
+procedure TCustomBtuNumEdit.Change;
 begin
   inherited;
   SelStart:=Length(Text);
 end;
 
-procedure TCustomNumEditBtu.Clear;
+procedure TCustomBtuNumEdit.Clear;
 begin
   inherited;
 end;
 
-procedure TCustomNumEditBtu.Click;
+procedure TCustomBtuNumEdit.Click;
 begin
   inherited;
   SelStart:=Length(Text);
 end;
 
-procedure TCustomNumEditBtu.ComerChar;
+procedure TCustomBtuNumEdit.ComerChar;
 begin
   FDigitado:=LeftStr(FDigitado,length(FDigitado)-1);
   if SoDig(FDigitado)=fdigitado then
@@ -93,7 +93,7 @@ begin
 PreencherText;
 end;
 
-constructor TCustomNumEditBtu.Create(AOwner: TComponent);
+constructor TCustomBtuNumEdit.Create(AOwner: TComponent);
 begin
 //  NCasas:=2;
   inherited;
@@ -106,18 +106,17 @@ begin
   Encerrado:=false;
   AutoSize:=false;
   Ctl3D:=true;
-
   LabelPosition := lpLeft;
   LabelSpacing := 4;
 end;
 
-procedure TCustomNumEditBtu.DoExit;
+procedure TCustomBtuNumEdit.DoExit;
 begin
   inherited;
   Encerrado:=true;
 end;
 
-procedure TCustomNumEditBtu.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TCustomBtuNumEdit.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited;
   if not readonly then
@@ -131,7 +130,7 @@ begin
   end;
 end;
 
-procedure TCustomNumEditBtu.KeyPress(var Key: Char);
+procedure TCustomBtuNumEdit.KeyPress(var Key: Char);
 begin
   inherited;
   try
@@ -178,7 +177,7 @@ begin
   end;
 end;
 
-procedure TCustomNumEditBtu.PreencherText;
+procedure TCustomBtuNumEdit.PreencherText;
 var
   s,se,m:string;
   v, lendeve:integer;
@@ -202,27 +201,27 @@ begin
   end;
 end;
 
-procedure TCustomNumEditBtu.SetNCasas(const Value: integer);
+procedure TCustomBtuNumEdit.SetNCasas(const Value: integer);
 begin
   FNCasas := Value;
   PreencherText;
 end;
 
-procedure TCustomNumEditBtu.SetNCasasEsq(const Value: integer);
+procedure TCustomBtuNumEdit.SetNCasasEsq(const Value: integer);
 begin
   FNCasasEsq := Value;
   FMascEsq := StringOfChar('#', Value - 1) + '0';
   PreencherText;
 end;
 
-procedure TCustomNumEditBtu.SetValor(const Value: Variant);
+procedure TCustomBtuNumEdit.SetValor(const Value: Variant);
 begin
   inherited setvalor(SemZeroAEsquerda( strtonumstr(Value)));
 
   Encerrado:=true;
 end;
 
-function TCustomNumEditBtu.SQLString: string;
+function TCustomBtuNumEdit.SQLString: string;
 begin
   result := StrToNumStrPonto(text);
 end;

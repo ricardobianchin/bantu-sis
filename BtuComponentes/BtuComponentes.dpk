@@ -36,8 +36,8 @@ requires
   xmlrtl;
 
 contains
-  CustomEditBtu in 'NumEdit\CustomEditBtu.pas',
-  CustomNumEditBtu in 'NumEdit\CustomNumEditBtu.pas',
-  NumEditBtu in 'NumEdit\NumEditBtu.pas';
+  Btu.UI.Controls.Edit.Custom_u in 'NumEdit\Btu.UI.Controls.Edit.Custom_u.pas',
+  Btu.UI.Controls.Edit.Numeric.Custom_u in 'NumEdit\Btu.UI.Controls.Edit.Numeric.Custom_u.pas',
+  Btu.UI.Controls.NumericEdit in 'NumEdit\Btu.UI.Controls.NumericEdit.pas';
 
 end.

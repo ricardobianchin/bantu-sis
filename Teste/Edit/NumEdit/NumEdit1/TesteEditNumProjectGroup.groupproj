@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3AF3BE40-0088-4602-8D10-0A26C2BEE5A9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\..\BtuComponentes\BtuComponentes.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="NumEditTeste1.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BtuComponentes">
+        <MSBuild Projects="..\..\..\..\BtuComponentes\BtuComponentes.dproj"/>
+    </Target>
+    <Target Name="BtuComponentes:Clean">
+        <MSBuild Projects="..\..\..\..\BtuComponentes\BtuComponentes.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BtuComponentes:Make">
+        <MSBuild Projects="..\..\..\..\BtuComponentes\BtuComponentes.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="NumEditTeste1">
+        <MSBuild Projects="NumEditTeste1.dproj"/>
+    </Target>
+    <Target Name="NumEditTeste1:Clean">
+        <MSBuild Projects="NumEditTeste1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NumEditTeste1:Make">
+        <MSBuild Projects="NumEditTeste1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BtuComponentes;NumEditTeste1"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BtuComponentes:Clean;NumEditTeste1:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BtuComponentes:Make;NumEditTeste1:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

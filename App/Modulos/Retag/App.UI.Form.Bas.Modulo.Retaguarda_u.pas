@@ -10,11 +10,19 @@ uses
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.Retag.Est.Factory,
-  App.Ent.Ed, App.Ent.DBI, Sis.Entidade, App.Retag.Est.Prod.Natu.Ent,
-  App.Retag.Est.Prod.Fabr.Ent, App.Retag.Est.Prod.Tipo.Ent,
-  App.Retag.Est.Prod.Unid.Ent, App.Retag.Est.Prod.ICMS.Ent,
-  App.Retag.Est.Prod.Ent, App.Retag.Est.Prod.Barras.Ent.List, App.AppObj;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.AppObj,
+  App.Retag.Est.Factory, App.Ent.Ed, App.Ent.DBI, Sis.Entidade
+
+    , App.Retag.Est.Prod.Fabr.Ent //
+    , App.Retag.Est.Prod.Tipo.Ent //
+    , App.Retag.Est.Prod.Unid.Ent //
+    , App.Retag.Est.Prod.ICMS.Ent //
+    , App.Retag.Est.Prod.Ent //
+
+    , App.Retag.Est.Prod.Barras.Ent.List //
+    , App.Retag.Est.Prod.Balanca.Ent //
+
+    ;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -166,10 +174,8 @@ var
   oICMSEnt: IProdICMSEnt;
   oICMSDBI: IEntDBI;
 
-  oNatuEnt: IProdNatuEnt;
-//  oNatuDBI: IEntDBI;
-
   oProdBarrasList: IProdBarrasList;
+  oProdBalancaEnt: IProdBalancaEnt;
 
   oProdEnt: IProdEnt;
   oProdDBI: IEntDBI;
@@ -177,7 +183,8 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex, pUsuario, pAppObj);
+  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
+    pUsuario, pAppObj);
   if not Assigned(RetagImgDM) then
   begin
     RetagImgDM := TRetagImgDM.Create(Application);
@@ -195,8 +202,6 @@ begin
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
-
-
   oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
@@ -204,10 +209,6 @@ begin
   FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
     (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
     FOutputNotify);
-
-  oNatuEnt := RetagEstProdNatuEntCreate;
-//  oNatuDBI := RetagEstProdFabrDBICreate(oDBConnection, oNatuEnt);
-
 
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, oFabrEnt);
@@ -238,12 +239,15 @@ begin
     FOutputNotify, oICMSEnt, oICMSDBI);
 
   oProdBarrasList := ProdBarrasListCreate;
+  oProdBalancaEnt := ProdBalancaEntCreate;
 
-  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt, oNatuEnt, oProdBarrasList);
+  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+    oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
-    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt, oProdDBI);
+    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
+    oProdDBI);
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);

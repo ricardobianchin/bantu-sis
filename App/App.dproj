@@ -269,13 +269,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ProdEdSanfonaItemFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Obrigatorios.SanfonaItem_u.pas">
-            <Form>ObrigatoriosProdEdFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.ComboBoxManager_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Prod\ProdNatu\App.Retag.Est.Prod.Natu.Ent_u.pas"/>
         <DCCReference Include="UI\Controls\SelectComboBoxFrame\App.UI.Controls.ComboBox.Select.DB.Frame_u.pas">
             <Form>ComboBoxSelectDBFrame</Form>
             <DesignClass>TFrame</DesignClass>
@@ -339,11 +332,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Obrig_u.pas">
-            <Form>RetagProdEdObrigFrame</Form>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas">
+            <Form>RetagProdEdComunsFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas"/>
+        <DCCReference Include="Est\App.Est.Types_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
