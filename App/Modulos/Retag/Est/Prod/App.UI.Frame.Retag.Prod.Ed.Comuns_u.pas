@@ -9,7 +9,7 @@ uses
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
   Sis.DB.DBTypes,
   Sis.UI.FormCreator,
-  App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo
+  App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo, sndkey32
   //
     , App.Retag.Est.Prod.Fabr.Ent //
     , App.Retag.Est.Prod.Tipo.Ent //
@@ -34,6 +34,7 @@ type
     AtivoCheckBox: TCheckBox;
     MoldeBalDptoLabeledEdit: TLabeledEdit;
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
+    Label1: TLabel;
     procedure LocalizLabeledEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }

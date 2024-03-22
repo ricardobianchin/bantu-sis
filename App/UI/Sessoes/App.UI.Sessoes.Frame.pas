@@ -24,7 +24,7 @@ type
     ActionList1: TActionList;
   private
     { Private declarations }
-    FSortCutInicial: TShortCut;
+    FPrimeiroShortCut: TShortCut;
     FAppObj: IAppObj;
     FSessaoEventos: ISessaoEventos;
     FLoginConfig: ILoginConfig;
@@ -97,7 +97,7 @@ begin
   FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
 
-  FSortCutInicial := VK_F3;
+  FPrimeiroShortCut := VK_F3;
 
   SessaoCriadorListPrep;
   SessaoCriadorListPrepActionList;
@@ -223,7 +223,7 @@ begin
   if not Result then
     exit;
 
-  MenorShortCut := FSortCutInicial;
+  MenorShortCut := FPrimeiroShortCut;
   MaiorShortCut := MenorShortCut + Count - 1;
   wShortCut := TShortCut(Key);
 
@@ -318,7 +318,7 @@ var
   sDescr: string;
   sShortCut: string;
 begin
-  wShortCut := FSortCutInicial;
+  wShortCut := FPrimeiroShortCut;
   for I := 0 to FSessaoCriadorList.Count - 1 do
   begin
     oSessaoCriador := FSessaoCriadorList[I];

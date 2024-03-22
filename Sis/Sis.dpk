@@ -240,6 +240,11 @@ contains
   Sis.UI.FormCreator_u in 'UI\BasForm\Sis.UI.FormCreator_u.pas',
   Sis.DB.DataSet.Utils in 'DB\Sis.DB.DataSet.Utils.pas',
   Sis.Types.Codigos.Utils in 'Types\Codigos\Sis.Types.Codigos.Utils.pas',
-  Sis.Types.Codigos.Testes_u in 'Types\Codigos\Sis.Types.Codigos.Testes_u.pas';
+  Sis.Types.Codigos.Testes_u in 'Types\Codigos\Sis.Types.Codigos.Testes_u.pas',
+  sndkey32 in 'UI\IO\sndkey32.pas',
+  Sis.UI.IO.FIles.XMLI in 'UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI.pas',
+  Sis.UI.IO.Fils.FileI in 'UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI.pas',
+  Sis.UI.IO.Fils.FileI_u in 'UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI_u.pas',
+  Sis.UI.IO.FIles.XMLI_u in 'UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas';
 
 end.

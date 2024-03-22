@@ -374,6 +374,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Sis.DB.DataSet.Utils.pas"/>
         <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Utils.pas"/>
         <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Testes_u.pas"/>
+        <DCCReference Include="UI\IO\sndkey32.pas"/>
+        <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI.pas"/>
+        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI.pas"/>
+        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI_u.pas"/>
+        <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

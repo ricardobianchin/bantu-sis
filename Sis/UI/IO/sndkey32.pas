@@ -229,7 +229,7 @@ var
   PosSpace : Byte;
   I, L : Integer;
   NumTimes, MKey : Word;
-  KeyString : ShortString;
+  KeyString : String;
 
 procedure DisplayMessage(Message : PChar);
 begin

@@ -3,6 +3,13 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   Height = 390
   ExplicitWidth = 800
   ExplicitHeight = 390
+  object Label1: TLabel
+    Left = 448
+    Top = 32
+    Width = 37
+    Height = 15
+    Caption = 'Caneta'
+  end
   object DescrEdit: TLabeledEdit
     Left = 59
     Top = 45
