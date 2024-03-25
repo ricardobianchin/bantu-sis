@@ -11,11 +11,13 @@ function CharToAlignment(const pChar: char): TAlignment;
 function PrimeiroWinControl(pWinControl: TWinControl): TWinControl;
 function PrimeiroWinControlVisivel(pWinControl: TWinControl): TWinControl;
 procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean = True);
+function StrToDigiteStr(pStr: string): string;
+procedure DigiteStr(pTexto:string; pEspera:integer);overload;
 
 implementation
 
-uses SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
-  Sis.UI.Constants, Vcl.Graphics;
+uses System.SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
+  Sis.UI.Constants, Vcl.Graphics, sndkey32, System.StrUtils;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 begin
@@ -118,6 +120,24 @@ begin
       ReadOnly := False;
     end;
   end;
+end;
+
+function StrToDigiteStr(pStr: string): string;
+const
+  SENTER = '{ENTER}';
+var
+  s: string;
+begin
+  s := ReplaceStr(pStr, #$D#$A, SENTER);
+  Result := s;
+end;
+
+procedure DigiteStr(pTexto: string; pEspera:integer);overload;
+var
+  s: string;
+begin
+  s := StrToDigiteStr(pTexto);
+  sndkey32.SendKeys(PWideChar(s), true, pEspera);
 end;
 
 end.

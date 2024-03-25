@@ -147,6 +147,8 @@ contains
   App.UI.Frame.Retag.Prod.Ed.Comuns_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas' {RetagProdEdComunsFrame: TFrame},
   App.Retag.Est.Prod.Balanca.Ent in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas',
   App.Est.Types_u in 'Est\App.Est.Types_u.pas',
-  App.Retag.Est.Prod.Balanca.Ent_u in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent_u.pas';
+  App.Retag.Est.Prod.Balanca.Ent_u in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent_u.pas',
+  App.Est.Prod.Barras.DBI in 'Est\App.Est.Prod.Barras.DBI.pas',
+  App.Est.Prod.Barras.DBI_u in 'Est\App.Est.Prod.Barras.DBI_u.pas';
 
 end.

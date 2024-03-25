@@ -2,11 +2,11 @@ unit Sis.Config.ConfigXMLI;
 
 interface
 
+uses Sis.UI.IO.FIles.XMLI;
+
 type
-  IConfigXMLI = interface(IInterface)
-    ['{6F8E3160-8BA9-49DE-BDED-9EC883051933}']
-    procedure Gravar;
-    procedure Ler;
+  IConfigXMLI = interface(IXMLI)
+    ['{569A2377-669A-4FDA-AE2D-D1B3D08DCCC7}']
   end;
 
 implementation

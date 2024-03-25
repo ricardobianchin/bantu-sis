@@ -37,6 +37,9 @@ type
     function GetPastaBin: string;
     property PastaBin: string read GetPastaBin;
 
+    function GetPastaConfigs: string;
+    property PastaConfigs: string read GetPastaConfigs;
+
     function GetPastaDados: string;
     property PastaDados: string read GetPastaDados;
 

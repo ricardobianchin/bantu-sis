@@ -186,8 +186,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Sis.DB.Factory.pas"/>
         <DCCReference Include="Config\Sis.Config.SisConfig_u.pas"/>
         <DCCReference Include="Config\Sis.Config.Factory.pas"/>
-        <DCCReference Include="Config\Sis.Config.ConfigXMLI.pas"/>
-        <DCCReference Include="Config\Sis.Config.ConfigXMLI_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig.XMLI_u.pas"/>
         <DCCReference Include="Types\Sis.Types.Floats.pas"/>
         <DCCReference Include="DB\Sis.DB.DBConnection_u.pas"/>
         <DCCReference Include="Sis\Sis.Sis.Nomeavel.pas"/>
@@ -282,8 +281,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Usuario\Sis.Usuario.Factory.pas"/>
         <DCCReference Include="Usuario\Sis.Usuario.DBI.GetSQL_u.pas"/>
         <DCCReference Include="Usuario\Sis.UI.Form.Login.Config_u.pas"/>
-        <DCCReference Include="Sis\Sis.Config.pas"/>
-        <DCCReference Include="Sis\Sis.Config_u.pas"/>
         <DCCReference Include="Usuario\Sis.UI.Form.Login.Config.pas"/>
         <DCCReference Include="UI\Actions\Sis.UI.Actions.Utils_u.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.pas"/>
@@ -376,9 +373,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Testes_u.pas"/>
         <DCCReference Include="UI\IO\sndkey32.pas"/>
         <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI.pas"/>
-        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI.pas"/>
-        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI_u.pas"/>
+        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Files.FileI.pas"/>
+        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Files.FileI_u.pas"/>
         <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig.XMLI.pas"/>
+        <DCCReference Include="Config\Sis.Config.ConfigXMLI.pas"/>
+        <DCCReference Include="Config\Sis.Config.ConfigXMLI_u.pas"/>
+        <DCCReference Include="Debug\Sis.Debug.DebugSteps.pas"/>
+        <DCCReference Include="Debug\Sis.Debug.DebugSteps_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

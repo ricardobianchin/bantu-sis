@@ -55,6 +55,7 @@ object ProdBarrasFrame: TProdBarrasFrame
     MaxLength = 14
     NumbersOnly = True
     TabOrder = 0
+    Text = ''
     OnChange = LabeledEdit1Change
   end
 end

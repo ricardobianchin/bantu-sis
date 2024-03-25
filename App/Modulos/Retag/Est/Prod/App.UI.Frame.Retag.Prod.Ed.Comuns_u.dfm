@@ -23,6 +23,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     MaxLength = 120
     TabOrder = 0
     Text = ''
+    OnKeyPress = DescrEditKeyPress
   end
   object DescrRedEdit: TLabeledEdit
     Left = 581

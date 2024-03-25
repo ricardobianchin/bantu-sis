@@ -9,6 +9,7 @@ type
   TTesteConfig = class(TObject)
   private
     FPastaBin: string;
+    FPastaConfigs: string;
 
   public
     TesteEhServ: boolean;
@@ -29,7 +30,7 @@ type
     procedure LerIni;
     procedure GravarIni;
     procedure Zerar;
-    constructor Create(pPastaBin: string);
+    constructor Create(pPastaBin, pPastaConfigs: string);
     destructor Destroy; override;
 
   end;
@@ -40,9 +41,10 @@ uses System.IniFiles, System.SysUtils;
 
 { TTesteConfig }
 
-constructor TTesteConfig.Create(pPastaBin: string);
+constructor TTesteConfig.Create(pPastaBin, pPastaConfigs: string);
 begin
   FPastaBin := pPastaBin;
+  FPastaConfigs := pPastaConfigs;
   Zerar;
 end;
 
@@ -58,7 +60,7 @@ var
   sNomeArq: string;
   IniFile: TIniFile;
 begin
-  sNomeArq := FPastaBin + 'testes.starter.ini';
+  sNomeArq := FPastaConfigs + 'testes.starter.ini';
   IniFile := TIniFile.Create(sNomeArq);
   try
     // MAQ LOCAL
@@ -91,7 +93,7 @@ var
   sNomeArq: string;
   IniFile: TIniFile;
 begin
-  sNomeArq := FPastaBin + 'testes.starter.ini';
+  sNomeArq := FPastaConfigs + 'testes.starter.ini';
   if not FileExists(sNomeArq) then
   begin
     GravarIni;

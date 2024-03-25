@@ -7,8 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Frame.Bas.Retag.Prod.Ed_u,
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output, NumEditBtu,
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
-  Sis.DB.DBTypes,
-  Sis.UI.FormCreator,
+  Sis.DB.DBTypes, System.Generics.Collections, Sis.UI.FormCreator,
   App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo, sndkey32
   //
     , App.Retag.Est.Prod.Fabr.Ent //
@@ -36,8 +35,11 @@ type
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
     Label1: TLabel;
     procedure LocalizLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure DescrEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
+
+    FWinControlList: TList<Vcl.Controls.TWinControl>;
 
 
     FFabrDataSetFormCreator: IFormCreator;
@@ -46,6 +48,11 @@ type
     FProdICMSDataSetFormCreator: IFormCreator;
 
     FAppInfo: IAppInfo;
+
+    function BarrasOk: boolean;
+    function BarrasControleOk: boolean;
+    function BarrasDadosOk: boolean;
+
   public
     { Public declarations }
 
@@ -71,6 +78,8 @@ type
     UnidFr: TComboBoxProdEdFrame;
     ICMSFr: TComboBoxProdEdFrame;
 
+    procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
+
     constructor Create(AOwner: TComponent;
       //
       pProdEnt: IProdEnt; pProdDBI: IEntDBI;
@@ -89,6 +98,7 @@ type
       pAppInfo: IAppInfo;
       //
       pErroOutput: IOutput); reintroduce;
+      destructor Destroy; override;
   end;
 
 //var
@@ -101,6 +111,41 @@ implementation
 uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory, App.Est.Types_u;
 
 { TRetagProdEdObrigFrame }
+
+function TRetagProdEdComunsFrame.BarrasControleOk: boolean;
+begin
+  Result := BarrasFr.ControlesOk;
+end;
+
+function TRetagProdEdComunsFrame.BarrasDadosOk: boolean;
+begin
+
+end;
+
+procedure TRetagProdEdComunsFrame.BarrasFrEditKeyPress(Sender: TObject;
+  var Key: Char);
+var
+  Resultado: Boolean;
+begin
+  if key = #13 then
+  begin
+    Resultado := BarrasOk;
+  end
+  else
+  if Pos(Key, '0123456789')=0 then
+  begin
+    key := #0;
+  end;
+end;
+
+function TRetagProdEdComunsFrame.BarrasOk: boolean;
+begin
+  Result := BarrasControleOk;
+  if not Result then
+    exit;
+
+  Result := BarrasDadosOk;
+end;
 
 constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent;
   //
@@ -122,8 +167,10 @@ constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent;
 var
   iTop: integer;
   iLeft: integer;
+  I: Integer;
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
+  FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
   FAppInfo := pAppInfo;
 
   IdEdit := TNumEditBtu.Create(Self);
@@ -137,9 +184,14 @@ begin
   IdEdit.LabelSpacing := 4;
   IdEdit.ReadOnly := true;
 
+  FWinControlList.Add(IdEdit);
+
   BarrasFr := TProdBarrasFrame.Create(Self, ProdEnt.ProdBarrasList,
     FAppInfo);
   BarrasFr.Parent := Self;
+  BarrasFr.LabeledEdit1.OnKeyPress := BarrasFrEditKeyPress;
+  FWinControlList.Add(BarrasFr);
+
 
   FFabrDataSetFormCreator := pFabrDataSetFormCreator;
   FProdTipoDataSetFormCreator := pProdTipoDataSetFormCreator;
@@ -348,6 +400,24 @@ begin
   BalDpto.Valor := 1;
   BalValidEdit.Valor := 0;
   CapacEmbEdit.Valor := 1;
+
+  for I := 0 to FWinControlList.Count - 1 do
+  begin
+    FWinControlList[i].TabOrder := I;
+  end;
+end;
+
+procedure TRetagProdEdComunsFrame.DescrEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+//
+end;
+
+destructor TRetagProdEdComunsFrame.Destroy;
+begin
+  FWinControlList.Free;
+  inherited;
 end;
 
 procedure TRetagProdEdComunsFrame.LocalizLabeledEditKeyPress(Sender: TObject;

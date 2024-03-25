@@ -56,6 +56,8 @@ begin
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
     FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
+    FLoginConfig.Ler;
+
     SessoesFrameCriar;
 //    FSessaoCriadorList := SessaoCriadorListCreate;
   finally

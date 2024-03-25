@@ -32,7 +32,7 @@ type
 
 implementation
 
-uses Sis.Sis.Constants, System.SysUtils, Sis.Config.ConfigXMLI, Sis.Win.Utils_u,
+uses Sis.Sis.Constants, System.SysUtils, Sis.Config.SisConfig.XMLI, Sis.Win.Utils_u,
   Sis.Config.Factory, Sis.UI.IO.Files.Sync, Vcl.Controls,
   App.UI.Config.ConfigForm;
 
@@ -108,26 +108,26 @@ begin
   FUsuarioGerente := pUsuarioGerente;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');
-  FNomeArqXML := FAppInfo.PastaBin + Sis.Sis.Constants.CONFIG_NOME_ARQ;
+  FNomeArqXML := FAppInfo.PastaConfigs + Sis.Sis.Constants.CONFIG_ARQ_NOME+CONFIG_ARQ_EXT;
   ProcessLog.RegistreLog('NomeArqXML=' + FNomeArqXML);
   ProcessLog.RetorneLocal;
 end;
 
 function TAppSisConfigGarantirXML.Execute: boolean;
 var
-  oConfigXMLI: IConfigXMLI;
+  oSisConfigXMLI: ISisConfigXMLI;
 begin
   Result := True;
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Execute');
   try
-    oConfigXMLI := ConfigXMLICreate(FSisConfig);
+    oSisConfigXMLI := SisConfigXMLICreate(FSisConfig);
 
     ProcessLog.RegistreLog('vai testar ArqXmlExiste');
     Result := ArqXmlExiste;
     if Result then
     begin
       ProcessLog.RegistreLog('existia, vai ler e terminar');
-      oConfigXMLI.Ler;
+      oSisConfigXMLI.Ler;
       exit;
     end;
     ProcessLog.RegistreLog('não existia, vai CopieInicial');
@@ -143,7 +143,7 @@ begin
       exit;
     end;
 
-    oConfigXMLI.Gravar;
+    oSisConfigXMLI.Gravar;
 
   finally
     ProcessLog.RegistreLog('vai CopieAtu');

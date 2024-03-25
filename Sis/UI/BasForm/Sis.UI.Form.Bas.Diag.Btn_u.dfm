@@ -1,37 +1,37 @@
 inherited DiagBtnBasForm: TDiagBtnBasForm
   Caption = 'DiagBtnBasForm'
-  ClientHeight = 291
-  ClientWidth = 479
-  ExplicitWidth = 495
-  ExplicitHeight = 330
+  ClientHeight = 290
+  ClientWidth = 475
+  ExplicitWidth = 491
+  ExplicitHeight = 329
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 219
-    Width = 479
+    Top = 218
+    Width = 475
     Font.Color = 166
-    ExplicitTop = 220
+    ExplicitTop = 219
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 276
-    Width = 479
-    ExplicitTop = 277
+    Top = 275
+    Width = 475
+    ExplicitTop = 276
   end
   object BasePanel: TPanel [2]
     Left = 0
-    Top = 239
-    Width = 479
+    Top = 238
+    Width = 475
     Height = 37
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 240
-    ExplicitWidth = 483
+    ExplicitTop = 239
+    ExplicitWidth = 479
     DesignSize = (
-      479
+      475
       37)
     object MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 148
+      Left = 144
       Top = 5
       Width = 108
       Height = 25
@@ -42,7 +42,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       ExplicitLeft = 168
     end
     object OkBitBtn_DiagBtn: TBitBtn
-      Left = 261
+      Left = 257
       Top = 5
       Width = 75
       Height = 25
@@ -53,7 +53,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       ExplicitLeft = 281
     end
     object CancelBitBtn_DiagBtn: TBitBtn
-      Left = 341
+      Left = 337
       Top = 5
       Width = 75
       Height = 25

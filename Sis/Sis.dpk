@@ -88,8 +88,7 @@ contains
   Sis.DB.Factory in 'DB\Sis.DB.Factory.pas',
   Sis.Config.SisConfig_u in 'Config\Sis.Config.SisConfig_u.pas',
   Sis.Config.Factory in 'Config\Sis.Config.Factory.pas',
-  Sis.Config.ConfigXMLI in 'Config\Sis.Config.ConfigXMLI.pas',
-  Sis.Config.ConfigXMLI_u in 'Config\Sis.Config.ConfigXMLI_u.pas',
+  Sis.Config.SisConfig.XMLI_u in 'Config\Sis.Config.SisConfig.XMLI_u.pas',
   Sis.Types.Floats in 'Types\Sis.Types.Floats.pas',
   Sis.DB.DBConnection_u in 'DB\Sis.DB.DBConnection_u.pas',
   Sis.Sis.Nomeavel in 'Sis\Sis.Sis.Nomeavel.pas',
@@ -176,8 +175,6 @@ contains
   Sis.Usuario.Factory in 'Usuario\Sis.Usuario.Factory.pas',
   Sis.Usuario.DBI.GetSQL_u in 'Usuario\Sis.Usuario.DBI.GetSQL_u.pas',
   Sis.UI.Form.Login.Config_u in 'Usuario\Sis.UI.Form.Login.Config_u.pas',
-  Sis.Config in 'Sis\Sis.Config.pas',
-  Sis.Config_u in 'Sis\Sis.Config_u.pas',
   Sis.UI.Form.Login.Config in 'Usuario\Sis.UI.Form.Login.Config.pas',
   Sis.UI.Actions.Utils_u in 'UI\Actions\Sis.UI.Actions.Utils_u.pas',
   Sis.UI.Controls.Alinhador in 'UI\Controls\Sis.UI.Controls.Alinhador.pas',
@@ -243,8 +240,13 @@ contains
   Sis.Types.Codigos.Testes_u in 'Types\Codigos\Sis.Types.Codigos.Testes_u.pas',
   sndkey32 in 'UI\IO\sndkey32.pas',
   Sis.UI.IO.FIles.XMLI in 'UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI.pas',
-  Sis.UI.IO.Fils.FileI in 'UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI.pas',
-  Sis.UI.IO.Fils.FileI_u in 'UI\IO\Files\FileI\Sis.UI.IO.Fils.FileI_u.pas',
-  Sis.UI.IO.FIles.XMLI_u in 'UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas';
+  Sis.UI.IO.Files.FileI in 'UI\IO\Files\FileI\Sis.UI.IO.Files.FileI.pas',
+  Sis.UI.IO.Files.FileI_u in 'UI\IO\Files\FileI\Sis.UI.IO.Files.FileI_u.pas',
+  Sis.UI.IO.FIles.XMLI_u in 'UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas',
+  Sis.Config.SisConfig.XMLI in 'Config\Sis.Config.SisConfig.XMLI.pas',
+  Sis.Config.ConfigXMLI in 'Config\Sis.Config.ConfigXMLI.pas',
+  Sis.Config.ConfigXMLI_u in 'Config\Sis.Config.ConfigXMLI_u.pas',
+  Sis.Debug.DebugSteps in 'Debug\Sis.Debug.DebugSteps.pas',
+  Sis.Debug.DebugSteps_u in 'Debug\Sis.Debug.DebugSteps_u.pas';
 
 end.

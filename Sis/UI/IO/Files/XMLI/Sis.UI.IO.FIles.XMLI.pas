@@ -2,7 +2,7 @@ unit Sis.UI.IO.FIles.XMLI;
 
 interface
 
-uses Sis.UI.IO.Fils.FileI;
+uses Sis.UI.IO.Files.FileI;
 
 type
   IXMLI = interface(IFileI)

@@ -23,6 +23,7 @@ type
     FAppInfo: IAppInfo;
   public
     { Public declarations }
+    function ControlesOk: boolean; virtual;
     constructor Create(AOwner: TComponent; pProdBarrasList: IProdBarrasList;
       pAppInfo: IAppInfo);
   end;
@@ -114,6 +115,23 @@ begin
     ;
 
   ShellExecute(0, 'open', PChar(Url), nil, nil, SW_SHOWNORMAL);
+end;
+
+function TProdBarrasFrame.ControlesOk: boolean;
+var
+  I: integer;
+  ProdBarras: IProdBarras;
+  q: TDataSet;
+begin
+  Result := BarCodValido(LabeledEdit1.Text);
+
+  if not Result then
+  begin //7896422515658
+    ErroLabel.Caption := 'Código de barras inválido';
+    ErroLabel.Visible := True;
+    LabeledEdit1.SetFocus;
+    exit;
+  end;
 end;
 
 end.

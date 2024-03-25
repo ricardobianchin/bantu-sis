@@ -29,6 +29,7 @@ type
     function GetAlteracaoTexto: string; virtual;
     property AlteracaoTexto: string read GetAlteracaoTexto;
     procedure AtualizeAlteracaoTexto; virtual;
+    procedure SelecioneProximo;
   public
     { Public declarations }
     function Perg: boolean;
@@ -118,6 +119,11 @@ end;
 function TDiagBasForm.PodeOk: boolean;
 begin
   Result := True;
+end;
+
+procedure TDiagBasForm.SelecioneProximo;
+begin
+  SelectNext(ActiveControl, true, true);
 end;
 
 end.

@@ -114,6 +114,7 @@ var
   oProdTipoDBI: IEntDBI;
   oProdUnidDBI: IEntDBI;
   oProdICMSDBI: IEntDBI;
+//  oProdBarrasDBI: IBarrasDBI;
 
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;

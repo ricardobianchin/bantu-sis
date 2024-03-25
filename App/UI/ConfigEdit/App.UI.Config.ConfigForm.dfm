@@ -2,8 +2,8 @@ object StarterFormConfig: TStarterFormConfig
   Left = 0
   Top = 0
   Caption = 'StarterFormConfig'
-  ClientHeight = 561
-  ClientWidth = 932
+  ClientHeight = 560
+  ClientWidth = 928
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -24,11 +24,12 @@ object StarterFormConfig: TStarterFormConfig
     Left = 0
     Top = 0
     Width = 175
-    Height = 561
+    Height = 560
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitHeight = 561
     object Image1: TImage
       Left = 0
       Top = 0
@@ -7056,18 +7057,20 @@ object StarterFormConfig: TStarterFormConfig
   object Panel2: TPanel
     Left = 175
     Top = 0
-    Width = 757
-    Height = 561
+    Width = 753
+    Height = 560
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitWidth = 757
+    ExplicitHeight = 561
     DesignSize = (
-      757
-      561)
+      753
+      560)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 525
+      Top = 524
       Width = 417
       Height = 28
       Align = alNone
@@ -7081,6 +7084,7 @@ object StarterFormConfig: TStarterFormConfig
       TabOrder = 0
       Transparent = True
       StyleElements = []
+      ExplicitTop = 525
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7152,7 +7156,7 @@ object StarterFormConfig: TStarterFormConfig
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 296
+        Width = 69
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -7163,7 +7167,6 @@ object StarterFormConfig: TStarterFormConfig
         Font.Style = []
         ParentFont = False
         Visible = False
-        ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9

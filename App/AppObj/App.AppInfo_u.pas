@@ -15,6 +15,7 @@ type
 
     FPasta: string;
     FPastaBin: string;
+    FPastaConfigs: string;
     FPastaDados: string;
     FPastaImg: string;
     FPastaComandos: string;
@@ -48,6 +49,8 @@ type
     function GetPastaConsTabViews: string;
 
     function GetPastaBin: string;
+    function GetPastaConfigs: string;
+
     function GetPastaDados: string;
 
     function GetAtualizExeSubPasta: string;
@@ -75,6 +78,7 @@ type
     property PastaConsTabViews: string read GetPastaConsTabViews;
 
     property PastaBin: string read GetPastaBin;
+    property PastaConfigs: string read GetPastaConfigs;
     property PastaDados: string read GetPastaDados;
 
     property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
@@ -89,7 +93,7 @@ type
 
 implementation
 
-uses Sis.UI.IO.Files;
+uses Sis.UI.IO.Files, Sis.UI.Controls.Utils;
 
 { TAppInfo }
 
@@ -99,6 +103,7 @@ begin
   FExeName := pExeName;
   FPastaBin := GetPastaDoArquivo(FExeName);
   FPasta := PastaAcima(FPastaBin);
+  FPastaConfigs := FPasta + 'Configs\';
   FPastaImg := FPasta + 'Img\';
   FPastaComandos := FPasta + 'Comandos\';
   FPastaDados := FPasta + 'Dados\';
@@ -149,6 +154,11 @@ end;
 function TAppInfo.GetPastaComandos: string;
 begin
   Result := FPastaComandos;
+end;
+
+function TAppInfo.GetPastaConfigs: string;
+begin
+  Result := FPastaConfigs;
 end;
 
 function TAppInfo.GetPastaConsTabViews: string;

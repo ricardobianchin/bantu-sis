@@ -75,9 +75,9 @@ var
 
 implementation
 
-uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit,
+uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit, System.StrUtils,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
-  Sis.DB.DBTypes, ShellAPI, System.DateUtils;
+  Sis.DB.DBTypes, ShellAPI, System.DateUtils, Sis.Types.strings_u;
 
 {$R *.dfm}
 
@@ -105,6 +105,7 @@ begin
     dsInsert:
       ;
   end;
+  FComunsFr.BarrasFr.LabeledEdit1.SetFocus;
 end;
 
 procedure TProdEdForm.Button1Click(Sender: TObject);
@@ -261,8 +262,23 @@ begin
 end;
 
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  sNomeArq: string;
+  sl: tstringlist;
+  S: string;
 begin
   inherited;
+//  FComunsFr.
+  sNomeArq := 'C:\Pr\app\bantu\bantu-sis\Exe\Configs\Debug\App.UI.Form.Ed.Prod_u.Teclas.txt';
+
+  sl := tstringlist.create;
+  try
+    sl.LoadFromFile(sNomeArq);
+    s := sl.Text;
+    DigiteStr(s, -1);
+  finally
+    sl.Free;
+  end;
 //  FObrigFrame.Foque;
 //  FObrigFrame.SimuleDig;
 
@@ -280,3 +296,4 @@ begin
 end;
 
 end.
+
