@@ -8,17 +8,35 @@ type
   TBarrasDBI = class(TDBI, IBarrasDBI)
   private
   public
-    function BarrasExiste(pBarras: string; pProdIdExceto: integer): boolean;
+    function CodBarrasToProdId(pCodBarras: string;
+      pProdIdExceto: integer): integer;
   end;
 
 implementation
 
 { TBarrasDBI }
 
-function TBarrasDBI.BarrasExiste(pBarras: string;
-  pProdIdExceto: integer): boolean;
-begin
+uses App.Est.Prod.Barras.GetSQL_u, Sis.DB.DBTypes, Sis.DB.Factory, System.SysUtils;
 
+function TBarrasDBI.CodBarrasToProdId(pCodBarras: string;
+  pProdIdExceto: integer): integer;
+var
+  sFormat: string;
+  sSql: string;
+  Resultado: variant;
+  sResultado: string;
+  iProdId: integer;
+begin
+  Result := 0;
+  sFormat := GetSQLBarrasExisteFormat;
+  sSql := Format(sFormat, [pCodBarras, pProdIdExceto]);
+
+  DBConnection.Abrir;
+  try
+    Result := DBConnection.GetValueInteger(sSql);
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 end.

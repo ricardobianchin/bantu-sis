@@ -28,6 +28,7 @@ type
       out pCamposFK: string; out pTabelaPK: string; out pCamposPK: string
       ): boolean;
     function GetUniqueKeyInfo(pUKName: string; out pCampos: string): boolean;
+    function GetIndexInfo(pIName: string; out pCampos: string): boolean;
   end;
 
 implementation

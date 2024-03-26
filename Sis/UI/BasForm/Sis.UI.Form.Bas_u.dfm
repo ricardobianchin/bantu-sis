@@ -2,8 +2,8 @@ object BasForm: TBasForm
   Left = 0
   Top = 0
   Caption = 'BasForm'
-  ClientHeight = 432
-  ClientWidth = 588
+  ClientHeight = 431
+  ClientWidth = 584
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

@@ -2,7 +2,7 @@ inherited ActBasForm: TActBasForm
   Caption = 'ActBasForm'
   ClientWidth = 616
   ExplicitWidth = 628
-  ExplicitHeight = 474
+  ExplicitHeight = 469
   TextHeight = 15
   inherited ShowTimer_BasForm: TTimer
     Left = 80

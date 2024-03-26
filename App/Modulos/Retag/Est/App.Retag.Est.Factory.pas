@@ -27,9 +27,10 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   // prod barras
     , App.Retag.Est.Prod.Barras.Ent//
     , App.Retag.Est.Prod.Barras.Ent.List//
+    , App.Est.Prod.Barras.DBI//
 
   // prod balanca
-    , App.Retag.Est.Prod.Balanca.Ent
+    , App.Retag.Est.Prod.Balanca.Ent, App.Retag.Est.Prod.Ed.DBI
 
     ;
 
@@ -129,6 +130,9 @@ function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 {$ENDREGION}
 {$REGION 'prod'}
+
+function RetagEstProdEdDBICreate(pDBConnection: IDBConnection): IRetagEstProdEdDBI;
+
 function RetagEstProdEntCreate(
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
@@ -154,6 +158,7 @@ function ProdEdFormCreate(AOwner: TComponent;
   pProdTipoDBI: IEntDBI;//
   pProdUnidDBI: IEntDBI;//
   pProdICMSDBI: IEntDBI;//
+  pBarrasDBI: IBarrasDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -162,7 +167,9 @@ function ProdEdFormCreate(AOwner: TComponent;
   pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  pAppInfo: IAppInfo): TEdBasForm;
+  pAppInfo: IAppInfo;//
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+  ): TEdBasForm;
 
 function ProdPerg(AOwner: TComponent;
   //
@@ -172,6 +179,7 @@ function ProdPerg(AOwner: TComponent;
   pProdTipoDBI: IEntDBI; //
   pProdUnidDBI: IEntDBI; //
   pProdICMSDBI: IEntDBI; //
+  pBarrasDBI: IBarrasDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -179,7 +187,9 @@ function ProdPerg(AOwner: TComponent;
   pProdUnidDataSetFormCreator: IFormCreator;
   pProdICMSDataSetFormCreator: IFormCreator;
   //
-  pAppInfo: IAppInfo): boolean;
+  pAppInfo: IAppInfo;//
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+  ): boolean;
 
 // function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
 
@@ -196,7 +206,6 @@ function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 function ProdBarrasCreate(pOrdem: smallint = 0; pBarras: string = '')
   : IProdBarras;
 function ProdBarrasListCreate: IProdBarrasList;
-
 {$ENDREGION}
 
 
@@ -253,7 +262,7 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Retag.Est.Custo_u
     , App.Retag.Est.Prod.Balanca.Ent_u
 
   //
-    ;
+    , App.Retag.Est.Prod.Ed.DBI_u;
 
 {$REGION 'prod fabr impl'}
 
@@ -481,6 +490,11 @@ end;
 {$ENDREGION}
 {$REGION 'prod impl'}
 
+function RetagEstProdEdDBICreate(pDBConnection: IDBConnection): IRetagEstProdEdDBI;
+begin
+  Result := TRetagEstProdEdDBI.Create(pDBConnection);
+end;
+
 function RetagEstProdEntCreate(
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
@@ -513,6 +527,7 @@ function ProdEdFormCreate(AOwner: TComponent;
   pProdTipoDBI: IEntDBI;//
   pProdUnidDBI: IEntDBI;//
   pProdICMSDBI: IEntDBI;//
+  pBarrasDBI: IBarrasDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -521,11 +536,14 @@ function ProdEdFormCreate(AOwner: TComponent;
   pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  pAppInfo: IAppInfo): TEdBasForm;
+  pAppInfo: IAppInfo;//
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+
+  ): TEdBasForm;
 begin
   Result := TProdEdForm.Create(AOwner, pProdEnt, pProdDBI, pProdFabrDBI,
-    pProdTipoDBI, pProdUnidDBI, pProdICMSDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo);
+    pProdTipoDBI, pProdUnidDBI, pProdICMSDBI, pBarrasDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo, pRetagEstProdEdDBI);
 end;
 
 function ProdPerg(AOwner: TComponent;
@@ -537,6 +555,7 @@ function ProdPerg(AOwner: TComponent;
   pProdTipoDBI: IEntDBI; //
   pProdUnidDBI: IEntDBI; //
   pProdICMSDBI: IEntDBI; //
+  pBarrasDBI: IBarrasDBI;//
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -544,14 +563,16 @@ function ProdPerg(AOwner: TComponent;
   pProdUnidDataSetFormCreator: IFormCreator;
   pProdICMSDataSetFormCreator: IFormCreator;
   //
-  pAppInfo: IAppInfo): boolean;
+  pAppInfo: IAppInfo;//
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+  ): boolean;
 var
   F: TEdBasForm;
 begin
   F := ProdEdFormCreate(AOwner, pProdEnt, pProdDBI, pProdFabrDBI, pProdTipoDBI,
-    pProdUnidDBI, pProdICMSDBI, pFabrDataSetFormCreator,
+    pProdUnidDBI, pProdICMSDBI, pBarrasDBI, pFabrDataSetFormCreator,
     pProdTipoDataSetFormCreator, pProdUnidDataSetFormCreator,
-    pProdICMSDataSetFormCreator, pAppInfo);
+    pProdICMSDataSetFormCreator, pAppInfo, pRetagEstProdEdDBI);
   Result := F.Perg;
 end;
 

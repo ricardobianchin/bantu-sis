@@ -43,6 +43,7 @@ type
       out pCamposFK: string; out pTabelaPK: string;
       out pCamposPK: string): boolean;
     function GetUniqueKeyInfo(pUKName: string; out pCampos: string): boolean;
+    function GetIndexInfo(pIName: string; out pCampos: string): boolean;
 
     constructor Create(pDBConnection: IDBConnection; pProcessLog: IProcessLog;
       pOutput: IOutput);
@@ -183,6 +184,43 @@ begin
     FDBQueryIndexNames.Close;
   finally
     FProcessLog.RegistreLog('Result=' + Result);
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+function TDBUpdaterOperationsFB.GetIndexInfo(pIName: string;
+  out pCampos: string): boolean;
+var
+  s: string;
+  FDBQueryIndexInfo: IDBQuery;
+  CamposSL: TStringList;
+begin
+  Result := True;
+  FProcessLog.PegueLocal('TDBUpdaterOperationsFB.GetIndexInfo');
+  try
+    CamposSL := TStringList.Create;
+
+    s := GetSQLIndexInfoParams;
+    FDBQueryIndexInfo := DBQueryCreate('IndexInfoQ', FDBConnection, s,
+      FProcessLog, FOutput);
+
+    FDBQueryIndexInfo.Params[0].AsString := pIName;
+    FDBQueryIndexInfo.Open;
+
+    while not FDBQueryIndexInfo.DataSet.Eof do
+    begin
+      s := Trim(FDBQueryIndexInfo.DataSet.Fields[0].AsString);
+      SLAddUnique(CamposSL, s);
+
+      FDBQueryIndexInfo.DataSet.Next;
+    end;
+
+    FDBQueryIndexInfo.Close;
+
+    pCampos := CamposSL.DelimitedText;
+
+    CamposSL.Free;
+  finally
     FProcessLog.RetorneLocal;
   end;
 end;

@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.ImgDM, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.Buttons, App.AppInfo,
-  App.Retag.Est.Prod.Barras.Ent.List, App.Retag.Est.Prod.Barras.List.Form_u;
+  App.Retag.Est.Prod.Barras.Ent.List, App.Retag.Est.Prod.Barras.List.Form_u,
+  App.Est.Prod.Barras.DBI;
 
 type
   TProdBarrasFrame = class(TFrame)
@@ -21,11 +22,17 @@ type
     { Private declarations }
     FProdBarrasList: IProdBarrasList;
     FAppInfo: IAppInfo;
+    FBarrasDBI: IBarrasDBI;
+    FProdId: integer;
+    procedure ErroMens(pFrase: string);
   public
     { Public declarations }
     function ControlesOk: boolean; virtual;
+    function DadosOk: boolean; virtual;
+    function PodeOk: boolean;
+    // property ProdId: integer read FProdId write FProdId;
     constructor Create(AOwner: TComponent; pProdBarrasList: IProdBarrasList;
-      pAppInfo: IAppInfo);
+      pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer);
   end;
 
 implementation
@@ -35,11 +42,38 @@ implementation
 uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils;
 
 constructor TProdBarrasFrame.Create(AOwner: TComponent;
-  pProdBarrasList: IProdBarrasList; pAppInfo: IAppInfo);
+  pProdBarrasList: IProdBarrasList; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI;
+  pProdId: integer);
 begin
   inherited Create(AOwner);
   FProdBarrasList := pProdBarrasList;
   FAppInfo := pAppInfo;
+  FBarrasDBI := pBarrasDBI;
+  FProdId := pProdId;
+end;
+
+function TProdBarrasFrame.DadosOk: boolean;
+var
+  iProdIdOutro: integer;
+  sCodBarras: string;
+begin
+  sCodBarras := LabeledEdit1.Text;
+  iProdIdOutro := FBarrasDBI.CodBarrasToProdId(sCodBarras, FProdId);
+
+  Result := iProdIdOutro = 0;
+  if not Result then
+  begin // 7896422515658
+    ErroMens('Código usado no prod ' + iProdIdOutro.ToString);
+    exit;
+  end;
+
+end;
+
+procedure TProdBarrasFrame.ErroMens(pFrase: string);
+begin
+  ErroLabel.Caption := pFrase;
+  ErroLabel.Visible := True;
+  LabeledEdit1.SetFocus;
 end;
 
 procedure TProdBarrasFrame.LabeledEdit1Change(Sender: TObject);
@@ -47,19 +81,25 @@ begin
   ErroLabel.Visible := false;
 end;
 
+function TProdBarrasFrame.PodeOk: boolean;
+begin
+  Result := ControlesOk;
+  if not Result then
+    exit;
+
+  Result := DadosOk;
+end;
+
 procedure TProdBarrasFrame.BarrasListSpeedButtonClick(Sender: TObject);
 var
   I: integer;
   ProdBarras: IProdBarras;
   q: TDataSet;
+  Resultado: boolean;
 begin
-  if not BarCodValido(LabeledEdit1.Text) then
-  begin //7896422515658
-    ErroLabel.Caption := 'Código de barras inválido';
-    ErroLabel.Visible := True;
-    LabeledEdit1.SetFocus;
+  Resultado := PodeOk;
+  if not Resultado then
     exit;
-  end;
 
   ProdBarrasListForm := TProdBarrasListForm.Create(Application, FAppInfo);
   q := ProdBarrasListForm.FDMemTable;
@@ -126,10 +166,8 @@ begin
   Result := BarCodValido(LabeledEdit1.Text);
 
   if not Result then
-  begin //7896422515658
-    ErroLabel.Caption := 'Código de barras inválido';
-    ErroLabel.Visible := True;
-    LabeledEdit1.SetFocus;
+  begin // 7896422515658
+    ErroMens('Código de barras inválido');
     exit;
   end;
 end;

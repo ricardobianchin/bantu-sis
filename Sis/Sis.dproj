@@ -381,6 +381,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Config\Sis.Config.ConfigXMLI_u.pas"/>
         <DCCReference Include="Debug\Sis.Debug.DebugSteps.pas"/>
         <DCCReference Include="Debug\Sis.Debug.DebugSteps_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -10,10 +10,10 @@ uses
   App.Retag.Est.Prod.DBI, Data.DB, App.Ent.DBI,
   App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig,
   Sis.UI.Frame.Bas_u, App.UI.Frame.Bas.Retag.Ed_u,
-  App.UI.Frame.Bas.Retag.Prod.Ed_u
+  App.UI.Frame.Bas.Retag.Prod.Ed_u, App.Est.Prod.Barras.DBI
 
   //
-  , Vcl.ComCtrls, App.UI.Frame.Retag.Prod.Ed.Comuns_u
+  , Vcl.ComCtrls, App.UI.Frame.Retag.Prod.Ed.Comuns_u, App.Retag.Est.Prod.Ed.DBI
     ;
 
 type
@@ -31,7 +31,7 @@ type
     FUnidDBI: IEntDBI; //
     FICMSDBI: IEntDBI; //
 
-    FComunsFr: TRetagProdEdComunsFrame;
+    FRetagEstProdEdDBI: IRetagEstProdEdDBI;
 
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
@@ -40,6 +40,8 @@ type
     property ProdDBI: IProdDBI read GetProdDBI;
 
     function GetAlterado: boolean;
+
+    procedure PreenchaControles;
 
   protected
     function GetObjetivoStr: string; override;
@@ -52,6 +54,8 @@ type
     function GravouOk: boolean; override;
   public
     { Public declarations }
+    FComunsFr: TRetagProdEdComunsFrame;
+
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
 
       //
@@ -59,6 +63,7 @@ type
       pTipoDBI: IEntDBI; //
       pUnidDBI: IEntDBI; //
       pICMSDBI: IEntDBI; //
+      pBarrasDBI: IBarrasDBI; //
 
       //
       pFabrDataSetFormCreator: IFormCreator;
@@ -67,7 +72,11 @@ type
       pProdICMSDataSetFormCreator: IFormCreator;
 
       //
-      pAppInfo: IAppInfo); reintroduce;
+      pAppInfo: IAppInfo;//
+      pRetagEstProdEdDBI: IRetagEstProdEdDBI//
+
+
+      ); reintroduce;
   end;
 
 var
@@ -105,7 +114,7 @@ begin
     dsInsert:
       ;
   end;
-  FComunsFr.BarrasFr.LabeledEdit1.SetFocus;
+  PreenchaControles;
 end;
 
 procedure TProdEdForm.Button1Click(Sender: TObject);
@@ -161,6 +170,7 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pTipoDBI: IEntDBI; //
   pUnidDBI: IEntDBI; //
   pICMSDBI: IEntDBI; //
+  pBarrasDBI: IBarrasDBI; //
 
   //
   pFabrDataSetFormCreator: IFormCreator;
@@ -169,7 +179,9 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  pAppInfo: IAppInfo);
+  pAppInfo: IAppInfo;//
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI//
+  );
 begin
   inherited Create(AOwner, pEntEd, pEntDBI);
 
@@ -180,13 +192,14 @@ begin
   FUnidDBI := pUnidDBI;
   FICMSDBI := pICMSDBI;
   FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, ProdEnt, ProdDBI
-    , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI
+    , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI, pBarrasDBI
     , pFabrDataSetFormCreator //
     , pProdTipoDataSetFormCreator //
     , pProdUnidDataSetFormCreator //
     , pProdICMSDataSetFormCreator //
     , FAppInfo, ErroOutput);
 
+  FRetagEstProdEdDBI := pRetagEstProdEdDBI;
 end;
 
 function TProdEdForm.DadosOk: boolean;
@@ -261,6 +274,20 @@ begin
 
 end;
 
+procedure TProdEdForm.PreenchaControles;
+begin
+  if EntEd.State = dsEdit then
+  begin
+
+  end
+  else
+  begin
+    FRetagEstProdEdDBI.PreencherItens(Self);
+  end;
+  FComunsFr.BarrasFr.LabeledEdit1.SetFocus;
+
+end;
+
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 var
   sNomeArq: string;
@@ -275,7 +302,7 @@ begin
   try
     sl.LoadFromFile(sNomeArq);
     s := sl.Text;
-    DigiteStr(s, -1);
+    DigiteStr(s, 0);
   finally
     sl.Free;
   end;

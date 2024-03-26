@@ -1,4 +1,4 @@
-unit Sis.DB.Updater.Comando.FB.CreateUniqueKey_u;
+unit Sis.DB.Updater.Comando.FB.CreateIndex_u;
 
 interface
 
@@ -6,7 +6,7 @@ uses System.Classes, Sis.DB.Updater.Comando.FB_u, Sis.DB.DBTypes,
   Sis.DB.Updater.Operations, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
 
 type
-  TComandoFBCreateUniqueKey = class(TComandoFB)
+  TComandoFBCreateIndex = class(TComandoFB)
   private
     FsKeyName: string;
     FsTabelaNome: string;
@@ -29,9 +29,9 @@ implementation
 uses System.StrUtils, System.SysUtils, Sis.DB.Updater.Constants_u,
   Sis.Types.strings_u, Sis.DB.Firebird.GetSQL_u;
 
-{ TComandoFBCreateUniqueKey }
+{ TComandoFBCreateIndex }
 
-constructor TComandoFBCreateUniqueKey.Create(pDBConnection: IDBConnection;
+constructor TComandoFBCreateIndex.Create(pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
   pOutput: IOutput);
 begin
@@ -41,7 +41,7 @@ begin
   FsCampos := '';
 end;
 
-function TComandoFBCreateUniqueKey.Funcionou: boolean;
+function TComandoFBCreateIndex.Funcionou: boolean;
 var
   sCampos: string;
 
@@ -49,11 +49,11 @@ var
   s1, s2: string;
 begin
   Sleep(200);
-  Result := DBUpdaterOperations.GetUniqueKeyInfo(FsKeyName,  sCampos);
+  Result := DBUpdaterOperations.GetIndexInfo(FsKeyName,  sCampos);
 
   if not Result then
   begin
-    UltimoErro := 'TComandoFBCreateUniqueKey, Erro ao testar ' + AsText;
+    UltimoErro := 'TComandoFBCreateIndex, Erro ao testar ' + AsText;
     exit;
   end;
   s1 := StrSemStr(sCampos);
@@ -65,12 +65,12 @@ begin
   if not Result then
   begin
     UltimoErro :=
-      'TComandoFBCreateUniqueKey, Erro. Definida incorretamente ' + AsText;
+      'TComandoFBCreateIndex, Erro. Definida incorretamente ' + AsText;
     exit;
   end;
 end;
 
-function TComandoFBCreateUniqueKey.GetAsSql: string;
+function TComandoFBCreateIndex.GetAsSql: string;
 var
   sTabela, sCampos: string;
   Resultado: boolean;
@@ -78,7 +78,7 @@ var
   s1, s2: string;
 begin
   Result := '';
-  DBUpdaterOperations.GetUniqueKeyInfo(FsKeyName, sCampos);
+  DBUpdaterOperations.GetIndexInfo(FsKeyName, sCampos);
 
   s1 := StrSemStr(sCampos);
   s2 := StrSemStr(FsCampos);
@@ -87,8 +87,8 @@ begin
   if Resultado then
     exit;
 
-  sDrop := GetSQLDropUniqueKey(FsTabelaNome, FsKeyName)+#13#10;
-  sCreate := GetSQLUniqueKey(FsTabelaNome, FsCampos)+#13#10;
+  sDrop := GetSQLDropIndex(FsKeyName)+#13#10;
+  sCreate := GetSQLIndex(FsTabelaNome, FsCampos)+#13#10;
   sCabec := #13#10 +
     '/*******'#13#10 +
     '*'#13#10 +
@@ -100,14 +100,13 @@ begin
   Result := sCabec + sDrop + sCreate;
 end;
 
-function TComandoFBCreateUniqueKey.GetAsText: string;
+function TComandoFBCreateIndex.GetAsText: string;
 begin
-  Result := 'UNIQUE KEY ' + FsKeyName + ' ' + FsTabelaNome + ' (' + FsCampos +
+  Result := 'INDEX ' + FsKeyName + ' ' + FsTabelaNome + ' (' + FsCampos +
     ')';
 end;
 
-procedure TComandoFBCreateUniqueKey.PegarLinhas(var piLin: integer;
-  pSL: TStrings);
+procedure TComandoFBCreateIndex.PegarLinhas(var piLin: integer; pSL: TStrings);
 var
   sLinha: string;
   sObjetoNome: string;
@@ -145,12 +144,12 @@ begin
 
   if FsKeyName = '' then
   begin
-    sObjetoNome := CamposToKeyName(FsTabelaNome, FsCampos, UKINDEXNAME_SUFIXO);
+    sObjetoNome := CamposToKeyName(FsTabelaNome, FsCampos, INDEXNAME_SUFIXO);
     PegarObjeto(sObjetoNome);
   end;
 end;
 
-procedure TComandoFBCreateUniqueKey.PegarObjeto(pNome: string);
+procedure TComandoFBCreateIndex.PegarObjeto(pNome: string);
 begin
   inherited;
   FsKeyName := pNome;

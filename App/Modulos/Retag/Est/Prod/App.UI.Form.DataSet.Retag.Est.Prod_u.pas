@@ -9,7 +9,8 @@ uses
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
-  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator;
+  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator,
+  App.Est.Prod.Barras.DBI;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -43,7 +44,8 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
-  Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u;
+  Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
+  App.Retag.Est.Prod.Ed.DBI;
 
 { TRetagEstProdDataSetForm }
 
@@ -114,6 +116,7 @@ var
   oProdTipoDBI: IEntDBI;
   oProdUnidDBI: IEntDBI;
   oProdICMSDBI: IEntDBI;
+  oBarrasDBI: IBarrasDBI;
 //  oProdBarrasDBI: IBarrasDBI;
 
   oDBConnectionParams: TDBConnectionParams;
@@ -125,6 +128,7 @@ var
   oProdICMSDataSetFormCreator: IFormCreator;
 
   oAppInfo: IAppInfo;
+  oRetagEstProdEdDBI: IRetagEstProdEdDBI;
 begin
   inherited;
   oAppInfo := AppInfo;
@@ -140,6 +144,7 @@ begin
   oProdTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, ProdEnt.ProdTipoEnt);
   oProdUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, ProdEnt.ProdUnidEnt);
   oProdICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, ProdEnt.ProdICMSEnt);
+  oBarrasDBI := AppEstBarrasDBICreate(oDBConnection);
 
   oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, AppInfo,
     SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
@@ -155,15 +160,18 @@ begin
   oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
     SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdICMSEnt, oProdICMSDBI );
 
+  oRetagEstProdEdDBI := RetagEstProdEdDBICreate(oDBConnection);
+
   Result := ProdPerg(Self, EntEd
     //
-    , oProdDBI, oProdFabrDBI, oProdTipoDBI, oProdUnidDBI, oProdICMSDBI
+    , oProdDBI, oProdFabrDBI, oProdTipoDBI, oProdUnidDBI, oProdICMSDBI//
+    , oBarrasDBI//
 
     //
     , oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
     oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator
     //
-    , AppInfo);
+    , AppInfo, oRetagEstProdEdDBI);
 end;
 
 procedure TRetagEstProdDataSetForm.EntToCampos;

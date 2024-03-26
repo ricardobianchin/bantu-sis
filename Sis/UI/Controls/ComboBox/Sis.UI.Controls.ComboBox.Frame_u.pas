@@ -31,6 +31,8 @@ type
     property Id: integer read GetId write SetId;
     property Text: string read GetText write SetText;
 
+    procedure PegarItem(pId: integer; pText: string);
+
     constructor Create(AOwner: TComponent); override;
   end;
 
@@ -87,6 +89,17 @@ procedure TComboBoxBasFrame.Limpar;
 begin
   ComboBox1.Items.Clear;
   ComboBox1.Text := '';
+end;
+
+procedure TComboBoxBasFrame.PegarItem(pId: integer; pText: string);
+begin
+  if pId < 1 then
+  begin
+    ComboBox1.Items.Add(pText);
+    exit;
+  end;
+
+  ComboBox1.Items.AddObject(pText, Pointer(pId));
 end;
 
 procedure TComboBoxBasFrame.SetText(const Value: string);
