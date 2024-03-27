@@ -1,33 +1,36 @@
 inherited ComboBoxSelectBasFrame: TComboBoxSelectBasFrame
   Width = 334
   ExplicitWidth = 334
-  inherited TitLabel: TLabel
-    Height = 37
+  inherited MensLabel: TLabel
+    Left = 276
+    ExplicitLeft = 276
   end
-  object BuscaSpeedButton: TSpeedButton [1]
-    Left = 208
-    Top = 0
-    Width = 23
-    Height = 37
-    Hint = 'Buscar...'
-    Align = alLeft
-    ImageIndex = 0
-    Images = SisImgDataModule.ImageList16Flat
-    ExplicitLeft = 322
-    ExplicitHeight = 22
-  end
-  object Espacador2Label: TLabel [3]
-    Left = 206
-    Top = 0
-    Width = 2
-    Height = 37
-    Align = alLeft
-    AutoSize = False
-    Visible = False
-    ExplicitLeft = 309
-    ExplicitHeight = 23
-  end
-  inherited ComboBox1: TComboBox
-    ExplicitLeft = 6
+  inherited ControlsPanel: TPanel
+    Width = 334
+    ExplicitWidth = 334
+    object BuscaSpeedButton: TSpeedButton [1]
+      Left = 311
+      Top = 0
+      Width = 23
+      Height = 23
+      Hint = 'Buscar...'
+      Align = alLeft
+      ImageIndex = 0
+      Images = SisImgDataModule.ImageList16Flat
+    end
+    object Espacador2Label: TLabel [3]
+      Left = 309
+      Top = 0
+      Width = 2
+      Height = 23
+      Align = alLeft
+      AutoSize = False
+      Visible = False
+      ExplicitLeft = 304
+    end
+    inherited ComboBox1: TComboBox
+      OnKeyPress = nil
+      ExplicitLeft = 134
+    end
   end
 end
