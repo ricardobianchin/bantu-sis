@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Controls.ComboBox.Select.DB.Frame_u, Vcl.StdCtrls, Vcl.Buttons,
-  System.Actions, Vcl.ActnList;
+  System.Actions, Vcl.ActnList, Vcl.ExtCtrls;
 
 type
   TComboBoxProdEdFrame = class(TComboBoxSelectDBFrame)
