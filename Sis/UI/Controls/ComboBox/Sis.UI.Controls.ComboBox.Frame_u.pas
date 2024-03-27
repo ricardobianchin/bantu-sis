@@ -5,14 +5,17 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Control_u, Vcl.StdCtrls,
-  Vcl.Buttons;
+  Vcl.Buttons, Vcl.ExtCtrls;
 
 type
   TComboBoxBasFrame = class(TControlBasFrame)
+    ControlsPanel: TPanel;
     TitLabel: TLabel;
-    ComboBox1: TComboBox;
     EspacadorLabel: TLabel;
+    ComboBox1: TComboBox;
+    MensLabel: TLabel;
     procedure ComboBox1KeyPress(Sender: TObject; var Key: Char);
+    procedure ComboBox1Change(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -26,6 +29,8 @@ type
 
   public
     { Public declarations }
+    procedure EscondeMens;
+    procedure ExibaMens(pFrase: string);
     procedure Limpar; virtual;
 
     property Id: integer read GetId write SetId;
@@ -45,6 +50,12 @@ implementation
 
 { TComboBoxBasFrame }
 
+procedure TComboBoxBasFrame.ComboBox1Change(Sender: TObject);
+begin
+  inherited;
+  EscondeMens;
+end;
+
 procedure TComboBoxBasFrame.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
@@ -61,6 +72,17 @@ begin
   Limpar;
   sCaption := GetCaption;
   TitLabel.Caption := sCaption;
+end;
+
+procedure TComboBoxBasFrame.EscondeMens;
+begin
+  MensLabel.Visible := false;
+end;
+
+procedure TComboBoxBasFrame.ExibaMens(pFrase: string);
+begin
+  MensLabel.Visible := false;
+  MensLabel.Caption := pFrase;
 end;
 
 function TComboBoxBasFrame.GetText: string;
