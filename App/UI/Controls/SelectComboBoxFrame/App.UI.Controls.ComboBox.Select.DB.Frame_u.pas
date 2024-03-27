@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Controls.ComboBox.Select.Frame_u,
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, Sis.UI.IO.Output, App.Ent.DBI,
-  Sis.DB.DBTypes, System.Actions, Vcl.ActnList, Sis.UI.FormCreator, Sis.Types;
+  Sis.DB.DBTypes, System.Actions, Vcl.ActnList, Sis.UI.FormCreator, Sis.Types,
+  Vcl.ExtCtrls;
 
 type
   TComboBoxSelectDBFrame = class(TComboBoxSelectBasFrame)
