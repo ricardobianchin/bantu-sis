@@ -16,8 +16,8 @@ type
     { Public declarations }
   end;
 
-var
-  ComboBoxProdEdFrame: TComboBoxProdEdFrame;
+//var
+//  ComboBoxProdEdFrame: TComboBoxProdEdFrame;
 
 implementation
 

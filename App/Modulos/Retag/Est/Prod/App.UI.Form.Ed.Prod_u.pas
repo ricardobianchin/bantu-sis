@@ -191,7 +191,7 @@ begin
   FTipoDBI := pTipoDBI;
   FUnidDBI := pUnidDBI;
   FICMSDBI := pICMSDBI;
-  FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, ProdEnt, ProdDBI
+  FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, SelecioneProximo, ProdEnt, ProdDBI
     , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI, pBarrasDBI
     , pFabrDataSetFormCreator //
     , pProdTipoDataSetFormCreator //

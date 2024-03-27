@@ -9,7 +9,7 @@ uses
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output, NumEditBtu,
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
   Sis.DB.DBTypes, System.Generics.Collections, Sis.UI.FormCreator,
-  App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo, sndkey32, Data.DB
+  App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo, sndkey32, Data.DB, Sis.Types
   //
     , App.Retag.Est.Prod.Fabr.Ent //
     , App.Retag.Est.Prod.Tipo.Ent //
@@ -53,8 +53,10 @@ type
 
     FAppInfo: IAppInfo;
 
+    SelecioneProximoProc: TProcedureOfObject;
   public
     { Public declarations }
+
 
     IdEdit: TNumEditBtu;
     BarrasFr: TProdBarrasFrame;
@@ -78,8 +80,11 @@ type
     ICMSFr: TComboBoxProdEdFrame;
 
     procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ComboKeyPress(Sender: TObject; var Key: Char);
 
-    constructor Create(AOwner: TComponent;
+    constructor Create(
+      AOwner: TComponent;//
+      pSelecioneProximoProc: TProcedureOfObject;//
       //
       pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
@@ -122,7 +127,9 @@ var
 begin
   if Key = #13 then
   begin
+    Key := #0;
     Resultado := BarrasFr.DadosOk;
+    SelecioneProximoProc;
   end
   else if Pos(Key, '0123456789'#8) = 0 then
   begin
@@ -130,7 +137,25 @@ begin
   end;
 end;
 
-constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent;
+procedure TRetagProdEdComunsFrame.ComboKeyPress(Sender: TObject; var Key: Char);
+var
+  Combo: TComboBox;
+  Fr: TComboBoxProdEdFrame;
+begin
+  if not (Sender is TComboBox) then
+    exit;
+  Combo := TComboBox(Sender);
+
+  if not (Combo.Owner is TComboBoxProdEdFrame) then
+    exit;
+  Fr := TComboBoxProdEdFrame(Combo.Owner);
+  if Fr.Id < 1 then
+    Fr.
+end;
+
+constructor TRetagProdEdComunsFrame.Create(
+      AOwner: TComponent;//
+      pSelecioneProximoProc: TProcedureOfObject;//
   //
   pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
@@ -156,6 +181,7 @@ var
   I: integer;
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
+  SelecioneProximoProc := pSelecioneProximoProc;
   FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
   FAppInfo := pAppInfo;
 

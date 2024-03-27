@@ -248,6 +248,7 @@ contains
   Sis.Config.ConfigXMLI_u in 'Config\Sis.Config.ConfigXMLI_u.pas',
   Sis.Debug.DebugSteps in 'Debug\Sis.Debug.DebugSteps.pas',
   Sis.Debug.DebugSteps_u in 'Debug\Sis.Debug.DebugSteps_u.pas',
-  Sis.DB.Updater.Comando.FB.CreateIndex_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas';
+  Sis.DB.Updater.Comando.FB.CreateIndex_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas',
+  Sis.Types in 'Types\Sis.Types.pas';
 
 end.

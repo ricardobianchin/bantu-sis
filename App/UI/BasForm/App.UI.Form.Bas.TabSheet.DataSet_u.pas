@@ -10,7 +10,7 @@ uses
   FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
-  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types.Utils_u;
+  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types;
 
 type
   TModoForm = (mfBrowse, mfSelect);
