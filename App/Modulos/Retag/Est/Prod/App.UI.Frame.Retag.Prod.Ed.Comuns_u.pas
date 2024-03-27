@@ -57,7 +57,6 @@ type
   public
     { Public declarations }
 
-
     IdEdit: TNumEditBtu;
     BarrasFr: TProdBarrasFrame;
 
@@ -82,9 +81,8 @@ type
     procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
     procedure ComboKeyPress(Sender: TObject; var Key: Char);
 
-    constructor Create(
-      AOwner: TComponent;//
-      pSelecioneProximoProc: TProcedureOfObject;//
+    constructor Create(AOwner: TComponent; //
+      pSelecioneProximoProc: TProcedureOfObject; //
       //
       pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
@@ -142,20 +140,27 @@ var
   Combo: TComboBox;
   Fr: TComboBoxProdEdFrame;
 begin
-  if not (Sender is TComboBox) then
-    exit;
-  Combo := TComboBox(Sender);
+  if Key = #13 then
+  begin
+    Key := #0;
+    SelecioneProximoProc;
 
-  if not (Combo.Owner is TComboBoxProdEdFrame) then
-    exit;
-  Fr := TComboBoxProdEdFrame(Combo.Owner);
-  if Fr.Id < 1 then
-    Fr.
+    if not(Sender is TComboBox) then
+      exit;
+
+    Combo := TComboBox(Sender);
+
+    if not(Combo.Owner is TComboBoxProdEdFrame) then
+      exit;
+
+    Fr := TComboBoxProdEdFrame(Combo.Owner);
+    if Fr.Id < 1 then
+      Fr.ExibaMens('Obrigatório');
+  end;
 end;
 
-constructor TRetagProdEdComunsFrame.Create(
-      AOwner: TComponent;//
-      pSelecioneProximoProc: TProcedureOfObject;//
+constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent; //
+  pSelecioneProximoProc: TProcedureOfObject; //
   //
   pProdEnt: IProdEnt; pProdDBI: IEntDBI;
 
