@@ -44,7 +44,7 @@ var
 
 begin
   if TemChar(s,',') then
-    RemovaChars(s, '.');
+    DeleteChar(s, '.');
 
   npontos := 0;
   result := '';
@@ -152,7 +152,7 @@ begin
   if pTrunc then
   begin
     result := FormatFloat('###,###,##0.00000000000', v);
-    result := StrComerNoFim(result, 9);
+    result := StrDeleteNoFim(result, 9);
     // result:=StrComerDaDir(result,9);
   end
   else

@@ -4,11 +4,10 @@ inherited ComboBoxBasFrame: TComboBoxBasFrame
   ExplicitWidth = 309
   ExplicitHeight = 38
   object MensLabel: TLabel
-    Left = 252
+    Left = 0
     Top = 23
     Width = 57
     Height = 15
-    Alignment = taRightJustify
     Caption = 'MensLabel'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 192
@@ -56,6 +55,7 @@ inherited ComboBoxBasFrame: TComboBoxBasFrame
       TabOrder = 0
       Text = 'ComboBox1'
       OnChange = ComboBox1Change
+      OnCloseUp = ComboBox1CloseUp
     end
   end
 end

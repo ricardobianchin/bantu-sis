@@ -31,9 +31,11 @@ type
     { Public declarations }
     property EntEd: IEntEd read GetEntEd;
     property EntDBI: IEntDBI read GetEntDBI;
+
+    procedure Preencha(pDBConnection: IDBConnection = nil);
+
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI;
       pErroOutput: IOutput; pFormCreator: IFormCreator); reintroduce;
-    procedure Preencha(pDBConnection: IDBConnection = nil);
   end;
 
 var

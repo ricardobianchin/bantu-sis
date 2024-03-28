@@ -2,20 +2,69 @@ unit App.Retag.Est.Prod.Ed.DBI_u;
 
 interface
 
-uses App.Retag.Est.Prod.Ed.DBI, Sis.DB.DBTypes, Sis.DBI_u;
+uses App.Retag.Est.Prod.Ed.DBI, Sis.DB.DBTypes, Sis.DBI_u, System.Classes;
 
 type
   TRetagEstProdEdDBI = class(TDBI, IRetagEstProdEdDBI)
   private
   public
     procedure PreencherItens(pProdEdForm: TObject);
+    function FabrDescrsExistentes(pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
   end;
 
 implementation
 
-uses App.UI.Form.Ed.Prod_u, Data.DB, System.Classes;
+uses App.UI.Form.Ed.Prod_u, Data.DB, System.SysUtils, Sis.Types.Bool_u;
 
 { TRetagEstProdEdDBI }
+
+function TRetagEstProdEdDBI.FabrDescrsExistentes(pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
+var
+  oForm: TProdEdForm;
+  q: TDataSet;
+  sSql: string;
+  ProdId: integer;
+  Descr: string;
+  DescrRed: string;
+  sLinha: string;
+  sFormat: string;
+begin
+  Result := False;
+
+  sFormat := 'SELECT PROD_ID_RET, DESCR_RET, DESCR_RED_RET'
+    + ' FROM RETAG_PROD_ED_PA.FABR_DESCRS_EXISTENTES_GET(%d,''%s'',''%s'');';
+
+  sSql := Format(sFormat, [pFabrId, pDescr, pDescrRed]);
+  pResultSL.Clear;
+
+  DBConnection.Abrir;
+  try
+    DBConnection.QueryDataSet(sSql, q);
+    while not q.Eof do
+    begin
+      ProdId := q.Fields[0].AsInteger;
+      Descr := q.Fields[1].AsString;
+      DescrRed := q.Fields[2].AsString;
+
+      if Descr = pDescr then
+      begin
+        sLinha := '1'+ProdId.ToString+'-'+Descr;
+        pResultSL.Add(sLinha);
+      end;
+
+      if DescrRed = pDescrRed then
+      begin
+        sLinha := '2'+ProdId.ToString+'-'+DescrRed;
+        pResultSL.Add(sLinha);
+      end;
+
+      q.Next;
+    end;
+    Result := True;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
 
 procedure TRetagEstProdEdDBI.PreencherItens(pProdEdForm: TObject);
 var

@@ -13,8 +13,8 @@ uses
   App.UI.Frame.Bas.Retag.Prod.Ed_u, App.Est.Prod.Barras.DBI
 
   //
-  , Vcl.ComCtrls, App.UI.Frame.Retag.Prod.Ed.Comuns_u, App.Retag.Est.Prod.Ed.DBI
-    ;
+    , Vcl.ComCtrls, App.UI.Frame.Retag.Prod.Ed.Comuns_u,
+  App.Retag.Est.Prod.Ed.DBI;
 
 type
   TProdEdForm = class(TEdBasForm)
@@ -34,6 +34,7 @@ type
     FRetagEstProdEdDBI: IRetagEstProdEdDBI;
 
     function GetProdEnt: IProdEnt;
+    procedure DescrRedEditKeyPress(Sender: TObject; var Key: Char);
     property ProdEnt: IProdEnt read GetProdEnt;
 
     function GetProdDBI: IProdDBI;
@@ -43,14 +44,28 @@ type
 
     procedure PreenchaControles;
 
+    procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
+    procedure BarrasEditExit(Sender: TObject);
+
+    procedure ComboKeyPress(Sender: TObject; var Key: Char);
+    procedure ComboExit(Sender: TObject);
+
+    procedure FabrComboExit(Sender: TObject);
+
+    procedure EditKeyPress(Sender: TObject; var Key: Char);
+
+    procedure DescrEditExit(Sender: TObject);
+
+    function FabrOk: boolean;
+    function FabrDescrsOk(pAvisaDescrVazia: boolean): boolean;
+
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
 
-    function ControlesOk: boolean; override;
-    function DadosOk: boolean; override;
+    function PodeOk: boolean; override;
     function GravouOk: boolean; override;
   public
     { Public declarations }
@@ -72,9 +87,8 @@ type
       pProdICMSDataSetFormCreator: IFormCreator;
 
       //
-      pAppInfo: IAppInfo;//
-      pRetagEstProdEdDBI: IRetagEstProdEdDBI//
-
+      pAppInfo: IAppInfo; //
+      pRetagEstProdEdDBI: IRetagEstProdEdDBI //
 
       ); reintroduce;
   end;
@@ -86,7 +100,8 @@ implementation
 
 uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit, System.StrUtils,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
-  Sis.DB.DBTypes, ShellAPI, System.DateUtils, Sis.Types.strings_u;
+  Sis.DB.DBTypes, ShellAPI, System.DateUtils, Sis.Types.strings_u,
+  App.Retag.Est.Prod.ComboBox_u;
 
 {$R *.dfm}
 
@@ -117,6 +132,29 @@ begin
   PreenchaControles;
 end;
 
+procedure TProdEdForm.BarrasEditExit(Sender: TObject);
+begin
+  if ActiveControl = CancelBitBtn_DiagBtn then
+    exit;
+
+  FComunsFr.BarrasFr.PodeOk;
+end;
+
+procedure TProdEdForm.BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
+var
+  Resultado: boolean;
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    SelecioneProximo;
+  end
+  else if Pos(Key, '0123456789'#8) = 0 then
+  begin
+    Key := #0;
+  end;
+end;
+
 procedure TProdEdForm.Button1Click(Sender: TObject);
 var
   url: string;
@@ -131,35 +169,56 @@ begin
   ShellExecute(0, 'open', PChar(url), nil, nil, SW_SHOWNORMAL);
 end;
 
-function TProdEdForm.ControlesOk: boolean;
+procedure TProdEdForm.ComboExit(Sender: TObject);
 var
-  I: integer;
+  Combo: TComboBox;
+  Fr: TComboBoxProdEdFrame;
 begin
-//  Result := TesteLabeledEditVazio(FObrigFr.DescrEdit, ErroOutput);
-//  if not Result then
-//    exit;
-//
-//  Result := TesteLabeledEditVazio(FObrigFr.DescrRedEdit, ErroOutput);
-//  if not Result then
-//    exit;
-//
-//  I := FObrigFr.FabrFr.Id;
-//  Result := I > 0;
-//  if not Result then
-//  begin
-//    ErroOutput.Exibir('Campo Fabricante é obrigatório');
-//    exit;
-//  end;
+  if not(Sender is TComboBox) then
+    exit;
+
+  Combo := TComboBox(Sender);
+
+  if not(Combo.Owner is TComboBoxProdEdFrame) then
+    exit;
+  Fr := TComboBoxProdEdFrame(Combo.Owner);
+  if Fr.Id = 0 then
+  begin
+    Fr.ExibaMens('Obrigatório');
+  end;
+end;
+
+procedure TProdEdForm.ComboKeyPress(Sender: TObject; var Key: Char);
+var
+  Combo: TComboBox;
+  Fr: TComboBoxProdEdFrame;
+begin
+  if not(Sender is TComboBox) then
+    exit;
+
+  Combo := TComboBox(Sender);
+
+  if not(Combo.Owner is TComboBoxProdEdFrame) then
+    exit;
+  Fr := TComboBoxProdEdFrame(Combo.Owner);
+
+  Fr.ComboBox1KeyPress(Combo, Key);
+
+  if Key = #13 then
+  begin
+    Key := #0;
+    SelecioneProximo;
+  end;
 end;
 
 procedure TProdEdForm.ControlesToEnt;
 begin
   inherited;
-//  ProdEnt.Id := FObrigFr.IdEdit.AsInteger;
-//  ProdEnt.Descr := FObrigFr.DescrEdit.Text;
-//  ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
-//  ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
-//  ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
+  // ProdEnt.Id := FObrigFr.IdEdit.AsInteger;
+  // ProdEnt.Descr := FObrigFr.DescrEdit.Text;
+  // ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
+  // ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
+  // ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
 end;
 
 constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
@@ -179,62 +238,187 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  pAppInfo: IAppInfo;//
-  pRetagEstProdEdDBI: IRetagEstProdEdDBI//
+  pAppInfo: IAppInfo; //
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI //
   );
 begin
   inherited Create(AOwner, pEntEd, pEntDBI);
-
   FAppInfo := pAppInfo;
 
   FFabrDBI := pFabrDBI;
   FTipoDBI := pTipoDBI;
   FUnidDBI := pUnidDBI;
   FICMSDBI := pICMSDBI;
-  FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, SelecioneProximo, ProdEnt, ProdDBI
-    , pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI, pBarrasDBI
-    , pFabrDataSetFormCreator //
+
+  FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, SelecioneProximo,
+    ProdEnt, ProdDBI, pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI, pBarrasDBI,
+    pFabrDataSetFormCreator //
     , pProdTipoDataSetFormCreator //
     , pProdUnidDataSetFormCreator //
     , pProdICMSDataSetFormCreator //
     , FAppInfo, ErroOutput);
 
   FRetagEstProdEdDBI := pRetagEstProdEdDBI;
+
+  FComunsFr.BarrasFr.LabeledEdit1.OnKeyPress := BarrasFrEditKeyPress;
+  FComunsFr.BarrasFr.LabeledEdit1.OnExit := BarrasEditExit;
+
+  FComunsFr.FabrFr.ComboBox1.OnKeyPress := ComboKeyPress;
+  FComunsFr.FabrFr.ComboBox1.OnExit := FabrComboExit;
+
+  FComunsFr.DescrEdit.OnKeyPress := EditKeyPress;
+  FComunsFr.DescrEdit.OnExit := DescrEditExit;
+
+  FComunsFr.DescrRedEdit.OnKeyPress := EditKeyPress;
+  FComunsFr.DescrRedEdit.OnExit := DescrEditExit;
+
+  FComunsFr.TipoFr.ComboBox1.OnKeyPress := ComboKeyPress;
+  FComunsFr.TipoFr.ComboBox1.OnExit :=     ComboExit;
+
+  FComunsFr.UnidFr.ComboBox1.OnKeyPress := ComboKeyPress;
+  FComunsFr.UnidFr.ComboBox1.OnExit :=     ComboExit;
+
+  FComunsFr.ICMSFr.ComboBox1.OnKeyPress := ComboKeyPress;
+  FComunsFr.ICMSFr.ComboBox1.OnExit :=     ComboExit;
 end;
 
-function TProdEdForm.DadosOk: boolean;
+procedure TProdEdForm.DescrEditExit(Sender: TObject);
 var
-  sId: string;
-  sIdAtual: string;
-  sFrase: string;
+  Ed: TLabeledEdit;
+  Resultado: boolean;
 begin
-  Result := inherited DadosOk;
-  if not Result then
+  Resultado := ActiveControl = CancelBitBtn_DiagBtn;
+  if Resultado then
     exit;
 
-//  sId := VarToStr(EntDBI.GetExistente(FObrigFrame.GetUniqueValues, sFrase));
-//  Result := sId = '';
-//  if not Result then
-//  begin
-//    ErroOutput.Exibir(sFrase);
-//    FObrigFrame.Foque;
-//    exit;
-//  end;
+  Ed := TLabeledEdit(Sender);
+  if Ed.text = '' then
+  begin
+    if Ed = FComunsFr.DescrEdit then
+      FComunsFr.DescrErroLabel.Caption := 'Obrigatório'
+    else
+      FComunsFr.DescrRedErroLabel.Caption := 'Obrigatório';
+  end;
+  FabrDescrsOk(False);
+end;
+
+procedure TProdEdForm.EditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited EditKeyPress(Sender, Key);
+  if Key = #13 then
+  begin
+    Key := #0;
+    SelecioneProximo;
+  end;
+end;
+
+procedure TProdEdForm.DescrRedEditKeyPress(Sender: TObject; var Key: Char);
+begin
+
 end;
 
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
 
-//  FObrigFr.IdEdit.Valor := ProdEnt.Id;
-//  FObrigFr.DescrEdit.Text := ProdEnt.Descr;
-//  FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
-//  FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
+  // FObrigFr.IdEdit.Valor := ProdEnt.Id;
+  // FObrigFr.DescrEdit.Text := ProdEnt.Descr;
+  // FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
+  // FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
+end;
+
+procedure TProdEdForm.FabrComboExit(Sender: TObject);
+var
+  Resultado: boolean;
+begin
+  Resultado := ActiveControl = CancelBitBtn_DiagBtn;
+  if Resultado then
+    exit;
+
+  Resultado := FabrOk;
+  if not Resultado then
+    exit;
+
+  FabrDescrsOk(False);
+end;
+
+function TProdEdForm.FabrDescrsOk(pAvisaDescrVazia: boolean): boolean;
+var
+  oResultSL: TStringList;
+  I: Integer;
+  sLinhaAtual, pLinhaTipo, pLinhaConteudo: string;
+  sErroDescr, sErroDescrRed: string;
+begin
+  Result := True;
+  FComunsFr.DescrEdit.Text := Trim(FComunsFr.DescrEdit.Text);
+  FComunsFr.DescrRedEdit.Text := Trim(FComunsFr.DescrRedEdit.Text);
+
+  if FComunsFr.FabrFr.Id = 0 then
+  begin
+    FComunsFr.FabrFr.ExibaMens('Obrigatório');
+    Result := False;
+  end;
+
+  if (FComunsFr.DescrEdit.Text = '') and pAvisaDescrVazia then
+  begin
+    FComunsFr.DescrErroLabel.Caption := 'Obrigatório';
+    FComunsFr.DescrErroLabel.Visible := True;
+
+    Result := False;
+  end;
+
+  if (FComunsFr.DescrRedEdit.Text = '') and pAvisaDescrVazia then
+  begin
+    FComunsFr.DescrRedErroLabel.Caption := 'Obrigatório';
+    FComunsFr.DescrRedErroLabel.Visible := True;
+
+    Result := False;
+  end;
+
+  if FComunsFr.FabrFr.Id = 0 then
+    exit;
+
+  oResultSL := TStringList.Create;
+  try
+    FRetagEstProdEdDBI.FabrDescrsExistentes(FComunsFr.FabrFr.Id,
+      FComunsFr.DescrEdit.Text, FComunsFr.DescrRedEdit.Text, oResultSL);
+    Result := oResultSL.Count = 0;
+
+    if Result then
+      exit;
+
+    sErroDescr := '';
+    sErroDescrRed := '';
+
+    for I := 0 to oResultSL.Count - 1 do
+    begin
+      sLinhaAtual := oResultSL[I];
+      StrSepareInicio(sLinhaAtual, 1, pLinhaTipo, pLinhaConteudo);
+      if pLinhaTipo = '1' then
+        sErroDescr := pLinhaConteudo
+      else
+        sErroDescrRed := pLinhaConteudo;
+    end;
+    FComunsFr.DescrErroLabel.Caption := sErroDescr;
+    FComunsFr.DescrRedErroLabel.Caption := sErroDescrRed;
+  finally
+    oResultSL.Free;
+  end;
+end;
+
+function TProdEdForm.FabrOk: boolean;
+begin
+  Result := FComunsFr.FabrFr.Id > 0;
+  if not Result then
+  begin
+    FComunsFr.FabrFr.ExibaMens('Obrigatório');
+    exit;
+  end;
 end;
 
 function TProdEdForm.GetAlterado: boolean;
 begin
-  Result := true;
+  Result := True;
 end;
 
 function TProdEdForm.GetObjetivoStr: string;
@@ -268,10 +452,31 @@ begin
   begin
     sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;
     ErroOutput.Exibir(sFrase);
-//    FObrigFrame.Foque;
+    // FObrigFrame.Foque;
     exit;
   end;
 
+end;
+
+function TProdEdForm.PodeOk: boolean;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+
+  Result := FComunsFr.BarrasFr.PodeOk;
+  if not Result then
+    exit;
+
+  Result := FabrOk;
+  if not Result then
+    exit;
+
+  Result := FabrDescrsOk(True);
+  if not Result then
+    exit;
+
+  Result := GravouOk;
 end;
 
 procedure TProdEdForm.PreenchaControles;
@@ -284,30 +489,33 @@ begin
   begin
     FRetagEstProdEdDBI.PreencherItens(Self);
   end;
-  FComunsFr.BarrasFr.LabeledEdit1.SetFocus;
 
+  FComunsFr.BarrasFr.LabeledEdit1.SetFocus;
 end;
 
 procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 var
   sNomeArq: string;
-  sl: tstringlist;
+  sl: TStringList;
   S: string;
 begin
   inherited;
-//  FComunsFr.
-  sNomeArq := 'C:\Pr\app\bantu\bantu-sis\Exe\Configs\Debug\App.UI.Form.Ed.Prod_u.Teclas.txt';
+  // FComunsFr.
+  sNomeArq :=
+    'C:\Pr\app\bantu\bantu-sis\Exe\Configs\Debug\App.UI.Form.Ed.Prod_u.Teclas.txt';
+  if not FileExists(sNomeArq) then
+    exit;
 
-  sl := tstringlist.create;
+  sl := TStringList.Create;
   try
     sl.LoadFromFile(sNomeArq);
-    s := sl.Text;
-    DigiteStr(s, 0);
+    S := sl.Text;
+    DigiteStr(S, 0);
   finally
     sl.Free;
   end;
-//  FObrigFrame.Foque;
-//  FObrigFrame.SimuleDig;
+  // FObrigFrame.Foque;
+  // FObrigFrame.SimuleDig;
 
   // OkAct_Diag.Execute;
 
@@ -323,4 +531,3 @@ begin
 end;
 
 end.
-

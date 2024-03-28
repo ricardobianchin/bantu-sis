@@ -1,10 +1,6 @@
 inherited ComboBoxSelectBasFrame: TComboBoxSelectBasFrame
   Width = 334
   ExplicitWidth = 334
-  inherited MensLabel: TLabel
-    Left = 276
-    ExplicitLeft = 276
-  end
   inherited ControlsPanel: TPanel
     Width = 334
     ExplicitWidth = 334
@@ -27,10 +23,6 @@ inherited ComboBoxSelectBasFrame: TComboBoxSelectBasFrame
       AutoSize = False
       Visible = False
       ExplicitLeft = 304
-    end
-    inherited ComboBox1: TComboBox
-      OnKeyPress = nil
-      ExplicitLeft = 134
     end
   end
 end

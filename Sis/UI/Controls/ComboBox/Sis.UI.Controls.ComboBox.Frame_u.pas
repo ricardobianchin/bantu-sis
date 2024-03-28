@@ -16,6 +16,7 @@ type
     MensLabel: TLabel;
     procedure ComboBox1KeyPress(Sender: TObject; var Key: Char);
     procedure ComboBox1Change(Sender: TObject);
+    procedure ComboBox1CloseUp(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -56,6 +57,12 @@ begin
   EscondeMens;
 end;
 
+procedure TComboBoxBasFrame.ComboBox1CloseUp(Sender: TObject);
+begin
+  inherited;
+  EscondeMens;
+end;
+
 procedure TComboBoxBasFrame.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
@@ -81,7 +88,7 @@ end;
 
 procedure TComboBoxBasFrame.ExibaMens(pFrase: string);
 begin
-  MensLabel.Visible := false;
+  MensLabel.Visible := True;
   MensLabel.Caption := pFrase;
 end;
 
@@ -111,6 +118,7 @@ procedure TComboBoxBasFrame.Limpar;
 begin
   ComboBox1.Items.Clear;
   ComboBox1.Text := '';
+  EscondeMens;
 end;
 
 procedure TComboBoxBasFrame.PegarItem(pId: integer; pText: string);

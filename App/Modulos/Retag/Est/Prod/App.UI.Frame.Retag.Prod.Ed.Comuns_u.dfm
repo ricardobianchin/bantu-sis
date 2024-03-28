@@ -10,6 +10,34 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Height = 15
     Caption = 'Caneta'
   end
+  object DescrErroLabel: TLabel
+    Left = 4
+    Top = 68
+    Width = 78
+    Height = 15
+    Caption = 'DescrErroLabel'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 192
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    StyleElements = []
+  end
+  object DescrRedErroLabel: TLabel
+    Left = 476
+    Top = 68
+    Width = 98
+    Height = 15
+    Caption = 'DescrRedErroLabel'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 192
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    StyleElements = []
+  end
   object DescrEdit: TLabeledEdit
     Left = 59
     Top = 45
@@ -23,7 +51,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     MaxLength = 120
     TabOrder = 0
     Text = ''
-    OnKeyPress = DescrEditKeyPress
+    OnChange = DescrEditChange
   end
   object DescrRedEdit: TLabeledEdit
     Left = 581
@@ -37,6 +65,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     MaxLength = 29
     TabOrder = 1
     Text = ''
+    OnChange = DescrRedEditChange
   end
   object CustoGroupBox: TGroupBox
     Left = 5
@@ -144,7 +173,6 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     MaxLength = 15
     TabOrder = 5
     Text = ''
-    OnKeyPress = LocalizLabeledEditKeyPress
   end
   object MoldeQtdNaEmbLabeledEdit: TLabeledEdit
     Left = 565

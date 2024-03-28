@@ -39,8 +39,10 @@ type
     MoldeBalDptoLabeledEdit: TLabeledEdit;
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
     Label1: TLabel;
-    procedure LocalizLabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure DescrEditKeyPress(Sender: TObject; var Key: Char);
+    DescrErroLabel: TLabel;
+    DescrRedErroLabel: TLabel;
+    procedure DescrEditChange(Sender: TObject);
+    procedure DescrRedEditChange(Sender: TObject);
   private
     { Private declarations }
 
@@ -77,9 +79,6 @@ type
     TipoFr: TComboBoxProdEdFrame;
     UnidFr: TComboBoxProdEdFrame;
     ICMSFr: TComboBoxProdEdFrame;
-
-    procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
-    procedure ComboKeyPress(Sender: TObject; var Key: Char);
 
     constructor Create(AOwner: TComponent; //
       pSelecioneProximoProc: TProcedureOfObject; //
@@ -118,47 +117,6 @@ uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory,
 
 { TRetagProdEdObrigFrame }
 
-procedure TRetagProdEdComunsFrame.BarrasFrEditKeyPress(Sender: TObject;
-  var Key: Char);
-var
-  Resultado: boolean;
-begin
-  if Key = #13 then
-  begin
-    Key := #0;
-    Resultado := BarrasFr.DadosOk;
-    SelecioneProximoProc;
-  end
-  else if Pos(Key, '0123456789'#8) = 0 then
-  begin
-    Key := #0;
-  end;
-end;
-
-procedure TRetagProdEdComunsFrame.ComboKeyPress(Sender: TObject; var Key: Char);
-var
-  Combo: TComboBox;
-  Fr: TComboBoxProdEdFrame;
-begin
-  if Key = #13 then
-  begin
-    Key := #0;
-    SelecioneProximoProc;
-
-    if not(Sender is TComboBox) then
-      exit;
-
-    Combo := TComboBox(Sender);
-
-    if not(Combo.Owner is TComboBoxProdEdFrame) then
-      exit;
-
-    Fr := TComboBoxProdEdFrame(Combo.Owner);
-    if Fr.Id < 1 then
-      Fr.ExibaMens('Obrigatório');
-  end;
-end;
-
 constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent; //
   pSelecioneProximoProc: TProcedureOfObject; //
   //
@@ -186,6 +144,9 @@ var
   I: integer;
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
+  DescrErroLabel.Caption := '';
+  DescrRedErroLabel.Caption := '';
+
   SelecioneProximoProc := pSelecioneProximoProc;
   FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
   FAppInfo := pAppInfo;
@@ -209,7 +170,6 @@ begin
     pBarrasDBI, pProdEnt.Id);
 
   BarrasFr.Parent := Self;
-  BarrasFr.LabeledEdit1.OnKeyPress := BarrasFrEditKeyPress;
   FWinControlList.Add(BarrasFr);
 
   FFabrDataSetFormCreator := pFabrDataSetFormCreator;
@@ -223,20 +183,26 @@ begin
   FabrFr.Name := 'FabrComboBoxProdEdFrame';
   FWinControlList.Add(FabrFr);
 
+  FWinControlList.Add(DescrEdit);
+  FWinControlList.Add(DescrRedEdit);
+
   // tipo
   TipoFr := TComboBoxProdEdFrame.Create(Self, ProdEnt.ProdTipoEnt, pTipoDBI,
     ErroOutput, FProdTipoDataSetFormCreator);
   TipoFr.Name := 'TipoComboBoxProdEdFrame';
+  FWinControlList.Add(TipoFr);
 
   // Unid
   UnidFr := TComboBoxProdEdFrame.Create(Self, ProdEnt.ProdUnidEnt, pUnidDBI,
     ErroOutput, FProdUnidDataSetFormCreator);
   UnidFr.Name := 'UnidComboBoxProdEdFrame';
+  FWinControlList.Add(UnidFr);
 
   // ICMS
   ICMSFr := TComboBoxProdEdFrame.Create(Self, ProdEnt.ProdICMSEnt, pICMSDBI,
     ErroOutput, FProdICMSDataSetFormCreator);
   ICMSFr.Name := 'ICMSComboBoxProdEdFrame';
+  FWinControlList.Add(ICMSFr);
 
   iTop := 2;
   iLeft := 4;
@@ -287,6 +253,7 @@ begin
   CustoAtuEdit.ReadOnly := true;
   CustoAtuEdit.LabelPosition := lpLeft;
   CustoAtuEdit.LabelSpacing := 4;
+  CustoAtuEdit.TabStop := False;
 
   CustoNovEdit := TNumEditBtu.Create(CustoGroupBox);
   CustoNovEdit.Parent := CustoGroupBox;
@@ -323,6 +290,7 @@ begin
   PrecoAtuEdit.ReadOnly := true;
   PrecoAtuEdit.LabelPosition := lpLeft;
   PrecoAtuEdit.LabelSpacing := 4;
+  PrecoAtuEdit.TabStop := False;
 
   PrecoSugEdit := TNumEditBtu.Create(PrecoGroupBox);
   PrecoSugEdit.Parent := PrecoGroupBox;
@@ -333,6 +301,7 @@ begin
   PrecoSugEdit.ReadOnly := true;
   PrecoSugEdit.LabelPosition := lpLeft;
   PrecoSugEdit.LabelSpacing := 4;
+  PrecoSugEdit.TabStop := False;
 
   PrecoNovEdit := TNumEditBtu.Create(PrecoGroupBox);
   PrecoNovEdit.Parent := PrecoGroupBox;
@@ -418,6 +387,7 @@ begin
   MoldeBalDptoLabeledEdit.Free;
 
   App.Est.Types_u.BalancaTipoStrToSL(BalUtilizaComboBox.Items);
+  BalUtilizaComboBox.ItemIndex := 0;
   BalDpto.Valor := 1;
   BalValidEdit.Valor := 0;
   CapacEmbEdit.Valor := 1;
@@ -428,24 +398,23 @@ begin
   end;
 end;
 
-procedure TRetagProdEdComunsFrame.DescrEditKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TRetagProdEdComunsFrame.DescrEditChange(Sender: TObject);
 begin
   inherited;
-  //
+  DescrErroLabel.Caption := '';
+end;
+
+procedure TRetagProdEdComunsFrame.DescrRedEditChange(Sender: TObject);
+begin
+  inherited;
+  DescrRedErroLabel.Caption := '';
+
 end;
 
 destructor TRetagProdEdComunsFrame.Destroy;
 begin
   FWinControlList.Free;
   inherited;
-end;
-
-procedure TRetagProdEdComunsFrame.LocalizLabeledEditKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  EditKeyPress(Sender, Key);
 end;
 
 end.

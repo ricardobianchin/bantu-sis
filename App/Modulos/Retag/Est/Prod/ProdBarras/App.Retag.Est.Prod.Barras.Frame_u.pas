@@ -12,12 +12,15 @@ uses
 type
   TProdBarrasFrame = class(TFrame)
     LabeledEdit1: TLabeledEdit;
-    BarrasListSpeedButton: TSpeedButton;
     ConsultarWebSpeedButton: TSpeedButton;
+
+    BarrasListSpeedButton: TSpeedButton;
     ErroLabel: TLabel;
     procedure ConsultarWebSpeedButtonClick(Sender: TObject);
-    procedure BarrasListSpeedButtonClick(Sender: TObject);
     procedure LabeledEdit1Change(Sender: TObject);
+
+    procedure BarrasListSpeedButtonClick(Sender: TObject);
+
   private
     { Private declarations }
     FProdBarrasList: IProdBarrasList;
@@ -163,6 +166,10 @@ var
   ProdBarras: IProdBarras;
   q: TDataSet;
 begin
+  Result := LabeledEdit1.Text = '';
+  if result then
+    exit;
+
   Result := BarCodValido(LabeledEdit1.Text);
 
   if not Result then

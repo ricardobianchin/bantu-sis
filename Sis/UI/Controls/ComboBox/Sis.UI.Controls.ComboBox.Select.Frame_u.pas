@@ -16,6 +16,7 @@ type
   protected
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -28,5 +29,12 @@ implementation
 uses Sis.UI.ImgDM;
 
 { TComboBoxSelectBasFrame }
+
+constructor TComboBoxSelectBasFrame.Create(AOwner: TComponent);
+begin
+  inherited;
+  ControlsPanel.Width := BuscaSpeedButton.Left + BuscaSpeedButton.Width + 1;
+  Width := ControlsPanel.Width;
+end;
 
 end.
