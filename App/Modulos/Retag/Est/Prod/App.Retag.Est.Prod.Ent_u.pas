@@ -88,10 +88,10 @@ type
     property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
 
-    property CustoAtual: double read GetCustoAtual;
-    property CustoNovo: double read GetCustoNovo;
-    property PrecoAtual: Currency read GetPrecoAtual;
-    property PrecoNovo: Currency read GetPrecoNovo;
+    property CustoAtual: double read GetCustoAtual write SetCustoAtual;
+    property CustoNovo: double read GetCustoNovo write SetCustoNovo;
+    property PrecoAtual: Currency read GetPrecoAtual write SetPrecoAtual;
+    property PrecoNovo: Currency read GetPrecoNovo write SetPrecoNovo;
 
     property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;
     property Ativo: boolean read GetAtivo write SetAtivo;

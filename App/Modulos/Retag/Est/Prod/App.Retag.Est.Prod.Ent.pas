@@ -40,19 +40,19 @@ type
 
     function GetCustoAtual: double;
     procedure SetCustoAtual(Value: double);
-    property CustoAtual: double read GetCustoAtual;
+    property CustoAtual: double read GetCustoAtual write SetCustoAtual;
 
     function GetCustoNovo: double;
     procedure SetCustoNovo(Value: double);
-    property CustoNovo: double read GetCustoNovo;
+    property CustoNovo: double read GetCustoNovo write SetCustoNovo;
 
     function GetPrecoAtual: Currency;
     procedure SetPrecoAtual(Value: Currency);
-    property PrecoAtual: Currency read GetPrecoAtual;
+    property PrecoAtual: Currency read GetPrecoAtual write SetPrecoAtual;
 
     function GetPrecoNovo: Currency;
     procedure SetPrecoNovo(Value: Currency);
-    property PrecoNovo: Currency read GetPrecoNovo;
+    property PrecoNovo: Currency read GetPrecoNovo write SetPrecoNovo;
 
     function GetProdBalancaEnt: IProdBalancaEnt;
     property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;

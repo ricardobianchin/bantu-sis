@@ -104,7 +104,7 @@ implementation
 uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit, System.StrUtils,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
   Sis.DB.DBTypes, ShellAPI, System.DateUtils, Sis.Types.strings_u,
-  App.Retag.Est.Prod.ComboBox_u;
+  App.Retag.Est.Prod.ComboBox_u, App.Est.Types_u;
 
 {$R *.dfm}
 
@@ -227,11 +227,21 @@ end;
 procedure TProdEdForm.ControlesToEnt;
 begin
   inherited;
-  // ProdEnt.Id := FObrigFr.IdEdit.AsInteger;
-  // ProdEnt.Descr := FObrigFr.DescrEdit.Text;
-  // ProdEnt.DescrRed := FObrigFr.DescrrEDEdit.Text;
-  // ProdEnt.ProdFabrEnt.Id := FObrigFr.FabrFr.Id;
-  // ProdEnt.ProdFabrEnt.Descr := FObrigFr.FabrFr.Text;
+  ProdEnt.Descr := FComunsFr.DescrEdit.Text;
+  ProdEnt.DescrRed := FComunsFr.DescrRedEdit.Text;
+
+  ProdEnt.CustoAtual := FComunsFr.CustoAtuEdit.Valor;
+  ProdEnt.CustoNovo  := FComunsFr.CustoNovEdit.Valor;
+  ProdEnt.PrecoAtual := FComunsFr.PrecoAtuEdit.Valor;
+  ProdEnt.PrecoNovo  := FComunsFr.PrecoNovEdit.Valor;
+
+  ProdEnt.ProdBalancaEnt.BalancaTipo := TBalancaTipo(FComunsFr.BalUtilizaComboBox.ItemIndex);
+  ProdEnt.ProdBalancaEnt.DptoCod := FComunsFr.BalDpto.Valor;
+  ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
+
+  ProdEnt.Ativo := FComunsFr.AtivoCheckBox.Checked;
+  ProdEnt.CapacEmb := FComunsFr.CapacEmbEdit.Valor;
+  ProdEnt.Localiz := FComunsFr.LocalizLabeledEdit.Text;
 end;
 
 constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
