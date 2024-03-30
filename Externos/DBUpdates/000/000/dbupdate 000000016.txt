@@ -229,6 +229,49 @@ BEGIN
     SUSPEND;
   END
 
+  PROCEDURE ID_DISPONIVEL_GET
+  RETURNS (ID_DISPONIVEL_RET INTEGER)
+  AS
+  DECLARE VARIABLE MAX_PROD_ID INTEGER;
+  DECLARE VARIABLE MIN_PROD_ID INTEGER;
+  DECLARE VARIABLE CUR_PROD_ID INTEGER;
+  DECLARE VARIABLE NEXT_PROD_ID INTEGER;
+  DECLARE VARIABLE FOUND_GAP BOOLEAN;
+
+  BEGIN
+    -- Inicializa as variáveis
+    MAX_PROD_ID = 0;
+    MIN_PROD_ID = 1;
+    FOUND_GAP = FALSE;
+
+    -- Encontra o maior valor existente
+    SELECT MAX(PROD_ID) FROM PROD INTO :MAX_PROD_ID;
+
+    -- Se não houver registros, retorna 1
+    IF (MAX_PROD_ID IS NULL) THEN
+      AVAILABLE_PROD_ID = 1;
+    ELSE
+    BEGIN
+      -- Verifica se há lacunas na sequência
+      FOR SELECT PROD_ID FROM PROD ORDER BY PROD_ID INTO :CUR_PROD_ID DO
+      BEGIN
+        IF (CUR_PROD_ID > MIN_PROD_ID) THEN
+        BEGIN
+          NEXT_PROD_ID = CUR_PROD_ID - 1;
+          FOUND_GAP = TRUE;
+          LEAVE;
+        END
+        MIN_PROD_ID = CUR_PROD_ID + 1;
+      END
+
+      -- Se houver lacuna, retorna o próximo valor disponível
+      IF (FOUND_GAP) THEN
+        AVAILABLE_PROD_ID = NEXT_PROD_ID;
+      ELSE
+        -- Caso contrário, retorna o maior valor existente mais um
+        AVAILABLE_PROD_ID = MAX_PROD_ID + 1;
+    END
+
   PROCEDURE EXISTENTES_GET
   (
     PROD_ID_EXCETO INTEGER
