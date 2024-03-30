@@ -3,16 +3,9 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   Height = 390
   ExplicitWidth = 800
   ExplicitHeight = 390
-  object Label1: TLabel
-    Left = 448
-    Top = 32
-    Width = 37
-    Height = 15
-    Caption = 'Caneta'
-  end
   object DescrErroLabel: TLabel
     Left = 4
-    Top = 68
+    Top = 69
     Width = 78
     Height = 15
     Caption = 'DescrErroLabel'
@@ -26,7 +19,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object DescrRedErroLabel: TLabel
     Left = 476
-    Top = 68
+    Top = 69
     Width = 98
     Height = 15
     Caption = 'DescrRedErroLabel'
@@ -40,7 +33,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object DescrEdit: TLabeledEdit
     Left = 59
-    Top = 45
+    Top = 46
     Width = 406
     Height = 23
     EditLabel.Width = 51
@@ -55,7 +48,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object DescrRedEdit: TLabeledEdit
     Left = 581
-    Top = 45
+    Top = 46
     Width = 194
     Height = 23
     EditLabel.Width = 102
@@ -126,6 +119,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Top = 111
       Width = 388
       Height = 91
+      TabStop = False
       MaxLength = 400
       ScrollBars = ssBoth
       TabOrder = 1
@@ -171,7 +165,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     LabelPosition = lpLeft
     LabelSpacing = 4
     MaxLength = 15
-    TabOrder = 5
+    TabOrder = 6
     Text = ''
   end
   object MoldeQtdNaEmbLabeledEdit: TLabeledEdit
@@ -185,7 +179,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     EditLabel.Caption = 'Capacidade da Embalagem'
     LabelPosition = lpLeft
     LabelSpacing = 4
-    TabOrder = 6
+    TabOrder = 7
     Text = '12345'
   end
   object AtivoCheckBox: TCheckBox
@@ -194,6 +188,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Width = 109
     Height = 17
     Caption = 'Ativo no Sistema'
-    TabOrder = 7
+    TabOrder = 5
+    OnKeyPress = AtivoCheckBoxKeyPress
   end
 end

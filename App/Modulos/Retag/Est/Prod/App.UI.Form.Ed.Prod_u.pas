@@ -59,14 +59,17 @@ type
     function FabrOk: boolean;
     function FabrDescrsOk(pAvisaDescrVazia: boolean): boolean;
 
+    procedure CapacEmbEditKeyPress(Sender: TObject; var Key: Char);
+
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
 
-    function PodeOk: boolean; override;
     function GravouOk: boolean; override;
+    function DadosOk: Boolean; override;
+
   public
     { Public declarations }
     FComunsFr: TRetagProdEdComunsFrame;
@@ -169,6 +172,16 @@ begin
   ShellExecute(0, 'open', PChar(url), nil, nil, SW_SHOWNORMAL);
 end;
 
+procedure TProdEdForm.CapacEmbEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    OkAct_Diag.Execute;
+  end;
+
+end;
+
 procedure TProdEdForm.ComboExit(Sender: TObject);
 var
   Combo: TComboBox;
@@ -198,11 +211,11 @@ begin
 
   Combo := TComboBox(Sender);
 
-  if not(Combo.Owner is TComboBoxProdEdFrame) then
-    exit;
-  Fr := TComboBoxProdEdFrame(Combo.Owner);
-
-  Fr.ComboBox1KeyPress(Combo, Key);
+  if (Combo.Owner is TComboBoxProdEdFrame) then
+  begin
+    Fr := TComboBoxProdEdFrame(Combo.Owner);
+    Fr.ComboBox1KeyPress(Combo, Key);
+  end;
 
   if Key = #13 then
   begin
@@ -280,6 +293,93 @@ begin
 
   FComunsFr.ICMSFr.ComboBox1.OnKeyPress := ComboKeyPress;
   FComunsFr.ICMSFr.ComboBox1.OnExit :=     ComboExit;
+
+  FComunsFr.CustoNovEdit.OnKeyPress := EditKeyPress;
+  FComunsFr.PrecoNovEdit.OnKeyPress := EditKeyPress;
+
+  FComunsFr.BalUtilizaComboBox.OnKeyPress := ComboKeyPress;
+
+  FComunsFr.BalDpto.OnKeyPress := EditKeyPress;
+  FComunsFr.BalValidEdit.OnKeyPress := EditKeyPress;
+
+  FComunsFr.LocalizLabeledEdit.OnKeyPress := EditKeyPress;
+
+
+  FComunsFr.CapacEmbEdit.OnKeyPress := CapacEmbEditKeyPress;
+
+
+end;
+
+function TProdEdForm.DadosOk: Boolean;
+var
+  s: string;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+
+  Result := FComunsFr.BarrasFr.PodeOk;
+  if not Result then
+  begin
+    ErroOutput.Exibir('Código de Barras '+FComunsFr.BarrasFr.ErroLabel.Caption);
+    exit;
+  end;
+
+  Result := FabrOk;
+  if not Result then
+  begin
+    ErroOutput.Exibir('Fabricante '+FComunsFr.FabrFr.MensLabel.Caption);
+    exit;
+  end;
+
+  Result := FabrDescrsOk(True);
+  if not Result then
+  begin
+    s := '';
+    if FComunsFr.DescrErroLabel.Caption <> '' then
+    begin
+      s := s + 'Descrição '+FComunsFr.DescrErroLabel.Caption;
+    end;
+
+    if FComunsFr.DescrRedErroLabel.Caption <> '' then
+    begin
+      if s <> '' then
+        s := s + '. ';
+      s := s + 'Descrição Reduzida'+FComunsFr.DescrRedErroLabel.Caption;
+    end;
+
+    ErroOutput.Exibir(s);
+    exit;
+  end;
+
+  Result := FComunsFr.TipoFr.Id > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('Setor '+FComunsFr.TipoFr.MensLabel.Caption);
+    exit;
+  end;
+
+
+  Result := FComunsFr.UnidFr.Id > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('Unidade de Medida '+FComunsFr.UnidFr.MensLabel.Caption);
+    exit;
+  end;
+
+  Result := FComunsFr.ICMSFr.Id > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('Unidade de Medida '+FComunsFr.ICMSFr.MensLabel.Caption);
+    exit;
+  end;
+
+  Result := FComunsFr.CapacEmbEdit.Valor > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir(FComunsFr.CapacEmbEdit.EditLabel.Caption +' é obrigatória');
+    exit;
+  end;
 end;
 
 procedure TProdEdForm.DescrEditExit(Sender: TObject);
@@ -456,27 +556,6 @@ begin
     exit;
   end;
 
-end;
-
-function TProdEdForm.PodeOk: boolean;
-begin
-  Result := inherited;
-  if not Result then
-    exit;
-
-  Result := FComunsFr.BarrasFr.PodeOk;
-  if not Result then
-    exit;
-
-  Result := FabrOk;
-  if not Result then
-    exit;
-
-  Result := FabrDescrsOk(True);
-  if not Result then
-    exit;
-
-  Result := GravouOk;
 end;
 
 procedure TProdEdForm.PreenchaControles;

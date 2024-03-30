@@ -30,7 +30,7 @@ type
     function GetObjetivoStr: string; virtual; abstract;
 
     function PodeOk: Boolean; override;
-    function ControlesOk: boolean; virtual; abstract;
+    function ControlesOk: boolean; virtual;
     function DadosOk: boolean; virtual;
     function GravouOk: boolean; virtual; abstract;
 
@@ -113,6 +113,11 @@ begin
   sCaption := Format('%s - %s', [sTitulo, sState]);
 
   Caption := sCaption;
+end;
+
+function TEdBasForm.ControlesOk: boolean;
+begin
+  Result := True;
 end;
 
 constructor TEdBasForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);

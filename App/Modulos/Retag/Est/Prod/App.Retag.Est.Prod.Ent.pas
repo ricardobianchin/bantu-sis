@@ -38,6 +38,18 @@ type
     function GetProdBarrasList: IProdBarrasList;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
 
+    function GetCustoAtual: double;
+    property CustoAtual: double read GetCustoAtual;
+
+    function GetCustoNovo: double;
+    property CustoNovo: double read GetCustoNovo;
+
+    function GetPrecoAtual: double;
+    property PrecoAtual: double read GetPrecoAtual;
+
+    function GetPrecoNovo: double;
+    property PrecoNovo: double read GetPrecoNovo;
+
     function GetProdBalancaEnt: IProdBalancaEnt;
     property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;
 
@@ -45,13 +57,13 @@ type
     procedure SetAtivo(Value: boolean);
     property Ativo: boolean read GetAtivo write SetAtivo;
 
-    function GetCapacEmb: Currency;
-    procedure SetCapacEmb(Value: Currency);
-    property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
-
     function GetLocaliz: string;
     procedure SetLocaliz(Value: string);
     property Localiz: string read GetLocaliz write SetLocaliz;
+
+    function GetCapacEmb: Currency;
+    procedure SetCapacEmb(Value: Currency);
+    property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
   end;
 
 implementation

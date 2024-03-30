@@ -38,11 +38,11 @@ type
     AtivoCheckBox: TCheckBox;
     MoldeBalDptoLabeledEdit: TLabeledEdit;
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
-    Label1: TLabel;
     DescrErroLabel: TLabel;
     DescrRedErroLabel: TLabel;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
+    procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
 
@@ -116,6 +116,17 @@ uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory,
   App.Est.Types_u;
 
 { TRetagProdEdObrigFrame }
+
+procedure TRetagProdEdComunsFrame.AtivoCheckBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+  begin
+    key := #0;
+    SelecioneProximoProc;
+  end;
+end;
 
 constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent; //
   pSelecioneProximoProc: TProcedureOfObject; //
@@ -343,6 +354,7 @@ begin
   // BalDpto.LabelSpacing := 4;
   BalDpto.MaxLength := 5;
 
+
   BalDpto.Left := MoldeBalDptoLabeledEdit.Left;
   BalDpto.Top := MoldeBalDptoLabeledEdit.Top;
   BalDpto.Width := MoldeBalDptoLabeledEdit.Width;
@@ -360,6 +372,12 @@ begin
   BalValidEdit.Valor := 0;
   BalValidEdit.MascEsq := '###0';
   // BalValidEdit.LabelPosition := lpCenter;
+
+
+  BalUtilizaComboBox.TabOrder := 0;
+  BalDpto.TabOrder := 1;
+  BalValidEdit.TabOrder := 2;
+  BalTextoEtiqMemo.TabOrder := 3;
 
   BalValidEdit.Left := MoldeBalValidEditLabeledEdit.Left;
   BalValidEdit.Top := MoldeBalValidEditLabeledEdit.Top;
@@ -381,6 +399,8 @@ begin
   CapacEmbEdit.MaxLength := 5;
   CapacEmbEdit.NCasas := 0;
   CapacEmbEdit.NCasasEsq := 5;
+
+  CapacEmbEdit.TabOrder := 7;
 
   MoldeQtdNaEmbLabeledEdit.Free;
   MoldeBalValidEditLabeledEdit.Free;

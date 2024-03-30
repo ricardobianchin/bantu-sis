@@ -32,16 +32,16 @@ inherited ProdEdForm: TProdEdForm
       814
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 319
-      ExplicitLeft = 315
+      Left = 315
+      ExplicitLeft = 311
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 432
-      ExplicitLeft = 428
+      Left = 428
+      ExplicitLeft = 424
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 512
-      ExplicitLeft = 508
+      Left = 508
+      ExplicitLeft = 504
     end
   end
   object MeioPanel: TPanel [4]

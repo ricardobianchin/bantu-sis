@@ -71,8 +71,8 @@ begin
   inherited;
   FErroOutput := LabelOutputCreate(MensLabel);
   MensLabel.Alignment := taCenter;
-//  MensLabel.Font.Color := COR_ERRO;
-  MensLabel.Font.Color := $009393FF;
+  MensLabel.Font.Color := COR_ERRO;
+  //MensLabel.Font.Color := $009393FF;
   MensLabel.Top := AlteracaoTextoLabel.Top - (AlteracaoTextoLabel.Height + 1);
   FAtualizaAlteracaoTexto := False;
   AlteracaoTextoLabel.Visible := false;
