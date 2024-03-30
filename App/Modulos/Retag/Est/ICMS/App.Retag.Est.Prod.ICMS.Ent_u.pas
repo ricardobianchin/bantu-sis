@@ -2,22 +2,18 @@ unit App.Retag.Est.Prod.ICMS.Ent_u;
 
 interface
 
-uses App.Retag.Est.Prod.ICMS.Ent, App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
+uses App.Retag.Est.Prod.ICMS.Ent,App.Ent.Ed.Id.Descr_u, Data.DB, Sis.DB.DBTypes,
   Sis.Types.Utils_u;
 
 type
-  TProdICMSEnt = class(TEntEdId, IProdICMSEnt)
+  TProdICMSEnt = class(TEntIdDescr, IProdICMSEnt)
   private
     FSigla: string;
-    FDescr: string;
     FPerc: currency;
     FAtivo: Boolean;
 
     function GetSigla: string;
     procedure SetSigla(Value: string);
-
-    function GetDescr: string;
-    procedure SetDescr(Value: string);
 
     function GetPerc: currency;
     procedure SetPerc(Value: currency);
@@ -50,9 +46,8 @@ implementation
 constructor TProdICMSEnt.Create(pState: TDataSetState; pId: integer;
   pSigla, pDescr: string; pPerc: currency; pAtivo: Boolean);
 begin
-  inherited Create(State, pId);
+  inherited Create(State, pId, pDescr);
   FSigla := pSigla;
-  FDescr := pDescr;
   FPerc := pPerc;
   FAtivo := pAtivo;
 end;
@@ -60,11 +55,6 @@ end;
 function TProdICMSEnt.GetAtivo: Boolean;
 begin
   Result := FAtivo;
-end;
-
-function TProdICMSEnt.GetDescr: string;
-begin
-  Result := FDescr;
 end;
 
 function TProdICMSEnt.GetNomeEnt: string;
@@ -96,7 +86,6 @@ procedure TProdICMSEnt.LimparEnt;
 begin
   inherited;
   FSigla := '';
-  FDescr := '';
   FPerc := ZERO_CURRENCY;
   FAtivo := True;
 end;
@@ -104,11 +93,6 @@ end;
 procedure TProdICMSEnt.SetAtivo(Value: Boolean);
 begin
   FAtivo := Value;
-end;
-
-procedure TProdICMSEnt.SetDescr(Value: string);
-begin
-  FDescr := Value;
 end;
 
 procedure TProdICMSEnt.SetPerc(Value: currency);

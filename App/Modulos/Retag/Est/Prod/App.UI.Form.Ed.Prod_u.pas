@@ -306,8 +306,6 @@ begin
 
 
   FComunsFr.CapacEmbEdit.OnKeyPress := CapacEmbEditKeyPress;
-
-
 end;
 
 function TProdEdForm.DadosOk: Boolean;
@@ -420,11 +418,22 @@ end;
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
+  FComunsFr.IdEdit.Valor := ProdEnt.Id;
+  FComunsFr.DescrEdit.Text := ProdEnt.Descr;
+  FComunsFr.DescrRedEdit.Text := ProdEnt.DescrRed;
 
-  // FObrigFr.IdEdit.Valor := ProdEnt.Id;
-  // FObrigFr.DescrEdit.Text := ProdEnt.Descr;
-  // FObrigFr.DescrRedEdit.Text := ProdEnt.DescrRed;
-  // FObrigFr.FabrFr.Id := ProdEnt.ProdFabrEnt.Id;
+  FComunsFr.CustoAtuEdit.Valor := ProdEnt.CustoAtual;
+  FComunsFr.CustoNovEdit.Valor :=  ProdEnt.CustoNovo;
+  FComunsFr.PrecoAtuEdit.Valor := ProdEnt.PrecoAtual;
+  FComunsFr.PrecoNovEdit.Valor :=  ProdEnt.PrecoNovo;
+
+  FComunsFr.BalUtilizaComboBox.ItemIndex := Integer(ProdEnt.ProdBalancaEnt.BalancaTipo);
+  FComunsFr.BalDpto.Valor := ProdEnt.ProdBalancaEnt.DptoCod;
+  FComunsFr.BalValidEdit.Valor := ProdEnt.ProdBalancaEnt.ValidadeDias;
+
+  FComunsFr.AtivoCheckBox.Checked := ProdEnt.Ativo;
+  FComunsFr.CapacEmbEdit.Valor := ProdEnt.CapacEmb;
+  FComunsFr.LocalizLabeledEdit.Text := ProdEnt.Localiz;
 end;
 
 procedure TProdEdForm.FabrComboExit(Sender: TObject);

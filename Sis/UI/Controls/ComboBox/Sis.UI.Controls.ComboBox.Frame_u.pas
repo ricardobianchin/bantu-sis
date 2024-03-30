@@ -139,7 +139,7 @@ end;
 
 procedure TComboBoxBasFrame.SetId(const Value: integer);
 var
-  i: integer;
+  I: integer;
 begin
   if Value < 1 then
     exit;

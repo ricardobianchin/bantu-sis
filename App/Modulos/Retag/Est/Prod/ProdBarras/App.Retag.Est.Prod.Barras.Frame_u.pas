@@ -53,6 +53,9 @@ begin
   FAppInfo := pAppInfo;
   FBarrasDBI := pBarrasDBI;
   FProdId := pProdId;
+
+  if FProdBarrasList.Count > 0 then
+    LabeledEdit1.Text := FProdBarrasList[0].Barras;
 end;
 
 function TProdBarrasFrame.DadosOk: boolean;

@@ -101,6 +101,12 @@ begin
 
       q.Next;
     end;
+
+    oForm.FComunsFr.FabrFr.EntIdToItem;
+    oForm.FComunsFr.TipoFr.EntIdToItem;
+    oForm.FComunsFr.UnidFr.EntIdToItem;
+    oForm.FComunsFr.ICMSFr.EntIdToItem;
+
   finally
     DBConnection.Fechar;
   end;

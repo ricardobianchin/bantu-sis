@@ -242,7 +242,17 @@ begin
   FProdUnidEnt.LimparEnt;
   FProdICMSEnt.LimparEnt;
   FProdBarrasList.Clear;
+
+  FCustoAtual := 0;
+  FCustoNovo := 0;
+  FPrecoAtual := 0;
+  FPrecoNovo := 0;
+
   FProdBalancaEnt.LimparEnt;
+
+  FAtivo := True;
+  FCapacEmb := 1;
+  FLocaliz := '';
 end;
 
 procedure TProdEnt.SetAtivo(Value: boolean);
