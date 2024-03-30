@@ -39,16 +39,20 @@ type
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
 
     function GetCustoAtual: double;
+    procedure SetCustoAtual(Value: double);
     property CustoAtual: double read GetCustoAtual;
 
     function GetCustoNovo: double;
+    procedure SetCustoNovo(Value: double);
     property CustoNovo: double read GetCustoNovo;
 
-    function GetPrecoAtual: double;
-    property PrecoAtual: double read GetPrecoAtual;
+    function GetPrecoAtual: Currency;
+    procedure SetPrecoAtual(Value: Currency);
+    property PrecoAtual: Currency read GetPrecoAtual;
 
-    function GetPrecoNovo: double;
-    property PrecoNovo: double read GetPrecoNovo;
+    function GetPrecoNovo: Currency;
+    procedure SetPrecoNovo(Value: Currency);
+    property PrecoNovo: Currency read GetPrecoNovo;
 
     function GetProdBalancaEnt: IProdBalancaEnt;
     property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;

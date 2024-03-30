@@ -27,6 +27,12 @@ type
     FProdUnidEnt: IProdUnidEnt;
     FProdICMSEnt: IProdICMSEnt;
     FProdBarrasList: IProdBarrasList;
+
+    FCustoAtual: double;
+    FCustoNovo: double;
+    FPrecoAtual: Currency;
+    FPrecoNovo: Currency;
+
     FProdBalancaEnt: IProdBalancaEnt;
 
     FAtivo: boolean;
@@ -44,6 +50,19 @@ type
     function GetProdICMSEnt: IProdICMSEnt;
     function GetProdUnidEnt: IProdUnidEnt;
     function GetProdBarrasList: IProdBarrasList;
+
+    function GetCustoAtual: double;
+    procedure SetCustoAtual(Value: double);
+
+    function GetCustoNovo: double;
+    procedure SetCustoNovo(Value: double);
+
+    function GetPrecoAtual: Currency;
+    procedure SetPrecoAtual(Value: Currency);
+
+    function GetPrecoNovo: Currency;
+    procedure SetPrecoNovo(Value: Currency);
+
     function GetProdBalancaEnt: IProdBalancaEnt;
 
     function GetAtivo: boolean;
@@ -68,6 +87,12 @@ type
     property ProdUnidEnt: IProdUnidEnt read GetProdUnidEnt;
     property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
+
+    property CustoAtual: double read GetCustoAtual;
+    property CustoNovo: double read GetCustoNovo;
+    property PrecoAtual: Currency read GetPrecoAtual;
+    property PrecoNovo: Currency read GetPrecoNovo;
+
     property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;
     property Ativo: boolean read GetAtivo write SetAtivo;
     property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
@@ -126,6 +151,16 @@ begin
   Result := FCapacEmb;
 end;
 
+function TProdEnt.GetCustoAtual: double;
+begin
+  Result := FCustoAtual;
+end;
+
+function TProdEnt.GetCustoNovo: double;
+begin
+  Result := FCustoNovo;
+end;
+
 function TProdEnt.GetDescr: string;
 begin
   Result := FDescr;
@@ -149,6 +184,16 @@ end;
 function TProdEnt.GetNomeEntAbrev: string;
 begin
   Result := 'Prod';
+end;
+
+function TProdEnt.GetPrecoAtual: Currency;
+begin
+  Result := FPrecoAtual;
+end;
+
+function TProdEnt.GetPrecoNovo: Currency;
+begin
+  Result := FPrecoNovo;
 end;
 
 function TProdEnt.GetProdBalancaEnt: IProdBalancaEnt;
@@ -210,6 +255,16 @@ begin
   FCapacEmb := Value;
 end;
 
+procedure TProdEnt.SetCustoAtual(Value: double);
+begin
+  FCustoAtual := Value;
+end;
+
+procedure TProdEnt.SetCustoNovo(Value: double);
+begin
+  FCustoNovo := Value;
+end;
+
 procedure TProdEnt.SetDescr(Value: string);
 begin
   FDescr := Value;
@@ -223,6 +278,16 @@ end;
 procedure TProdEnt.SetLocaliz(Value: string);
 begin
   FLocaliz := Value;
+end;
+
+procedure TProdEnt.SetPrecoAtual(Value: Currency);
+begin
+  FPrecoAtual := Value;
+end;
+
+procedure TProdEnt.SetPrecoNovo(Value: Currency);
+begin
+  FPrecoNovo := Value;
 end;
 
 end.

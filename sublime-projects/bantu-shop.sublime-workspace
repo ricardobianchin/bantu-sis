@@ -64,6 +64,9 @@
 	],
 	"file_history":
 	[
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent_u.pas",
+		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Unid/App.UI.Form.DataSet.Retag.Est.Prod.Unid_u.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/Externos/DBUpdates/000/000/dbupdate 000000017.txt",
 		"/C/Pr/app/bantu/bantu-sis/Src/Externos/DBUpdates/000/000/dbupdate 000000020.txt",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/UI/BasForm/App.UI.Form.Bas.Princ_u.pas",
@@ -73,7 +76,6 @@
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/App.Retag.Est.Factory.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent.List_u.pas",
-		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent_u.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/ProdBarras/App.Retag.Est.Prod.Barras.Ent_u",
 		"/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/App.UI.Form.Bas.Modulo.Retaguarda_u.pas",
 		"/C/Pr/app/bantu/bantu-sis/Src/ShopApp/Modulos/Retaguarda/AppShop.UI.Form.Modulo.Retaguarda_u.pas",
@@ -102,7 +104,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
@@ -123,6 +125,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"preco",
 			"ESTADO_CIVIL_LISTA_GET",
 			"AppSisConfigGarantir",
 			"ProdBarrastList",
@@ -166,6 +169,11 @@
 			"sheets":
 			[
 			]
+		},
+		{
+			"sheets":
+			[
+			]
 		}
 	],
 	"incremental_find":
@@ -185,11 +193,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -249,7 +264,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
@@ -257,7 +272,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 346.0,
+	"side_bar_width": 78.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
