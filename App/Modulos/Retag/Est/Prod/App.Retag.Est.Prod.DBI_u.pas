@@ -21,6 +21,7 @@ type
       : variant; override;
 
     constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
+    procedure InsertInto;
   end;
 
 implementation
@@ -127,6 +128,11 @@ function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
 begin
   Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
     ' FROM PROD_PA.LISTA_GET;';
+end;
+
+procedure TProdDBI.InsertInto;
+begin
+
 end;
 
 procedure TProdDBI.SetNovaId(pIds: variant);

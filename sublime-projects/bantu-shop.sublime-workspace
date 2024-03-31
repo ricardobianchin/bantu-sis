@@ -7,6 +7,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent.pas",
+			"settings":
+			{
+				"buffer_size": 2354,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -104,7 +112,7 @@
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -173,6 +181,38 @@
 		{
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent.pas",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2354,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Pascal/Pascal.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
 			]
 		}
 	],

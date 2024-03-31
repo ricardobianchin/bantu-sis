@@ -271,7 +271,7 @@ begin
   CustoNovEdit.Alignment := taRightJustify;
   CustoNovEdit.NCasas := 6;
   CustoNovEdit.NCasasEsq := 7;
-  CustoNovEdit.MascEsq := '0000000';
+//  CustoNovEdit.MascEsq := '0000000';
   CustoNovEdit.Caption := 'Novo';
   CustoNovEdit.LabelPosition := lpLeft;
   CustoNovEdit.LabelSpacing := 4;
