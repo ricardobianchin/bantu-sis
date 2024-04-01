@@ -33,6 +33,7 @@ type
     FsLogo1NomeArq: string;
     FAppInfo: IAppInfo;
     FAppObj: IAppObj;
+    FLoja: ILoja;
 
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
@@ -62,6 +63,7 @@ type
 
     property AppInfo: IAppInfo read FAppInfo;
     property AppObj: IAppObj read FAppObj;
+    property Loja: ILoja read FLoja;
 
     procedure OculteSplashForm;
     function GetAppInfoCreate: IAppInfo; virtual; abstract;
@@ -87,7 +89,8 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
-  Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI;
+  Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
+  App.SisConfig.DBI;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -180,6 +183,7 @@ end;
 constructor TPrincBasForm.Create(AOwner: TComponent);
 var
   bResultado: boolean;
+  sMens: string;
 begin
   inherited Create(AOwner);
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
@@ -198,9 +202,10 @@ begin
 
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
+    FLoja := LojaCreate;
     FAppInfo := GetAppInfoCreate;
 
-    FAppObj := App.Factory.AppObjCreate(FAppInfo, FDBMS, FStatusOutput,
+    FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, FDBMS, FStatusOutput,
       FProcessOutput, FProcessLog);
 
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
@@ -209,6 +214,13 @@ begin
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
 
     GarantaDB;
+
+    if FLoja.Id < 0 then
+    begin
+      sMens := 'Verifique carregamento da Loja. Id zerado';
+      FProcessLog.RegistreLog(sMens);
+      raise Exception.Create(sMens);
+    end;
 
     ConfigureForm;
 
@@ -240,7 +252,6 @@ end;
 procedure TPrincBasForm.GarantaDB;
 var
   bResultado: boolean;
-  oLoja: ILoja;
   oUsuarioGerente: IUsuario;
   oSisConfig: ISisConfig;
 begin
@@ -255,10 +266,9 @@ begin
       Exit;
     end;
 
-    oLoja := LojaCreate;
     oUsuarioGerente := UsuarioCreate;
 
-    bResultado := GarantirConfig(oLoja, oUsuarioGerente);
+    bResultado := GarantirConfig(FLoja, oUsuarioGerente);
 
     if not bResultado then
     begin
@@ -270,7 +280,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      oLoja, oUsuarioGerente);
+      FLoja, oUsuarioGerente);
 
     if not bResultado then
     begin

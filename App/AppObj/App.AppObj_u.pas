@@ -37,8 +37,8 @@ type
 
 
     function Inicialize: boolean;
-    constructor Create(pAppInfo: IAppInfo; pDBMS: IDBMS; pStatusOutput: IOutput;
-      pProcessOutput: IOutput; pProcessLog: IProcessLog; pLoja: ILoja);
+    constructor Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
+      pProcessOutput: IOutput; pProcessLog: IProcessLog);
   end;
 
 implementation
@@ -47,8 +47,8 @@ uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory, App
 
 { TAppObj }
 
-constructor TAppObj.Create(pAppInfo: IAppInfo; pDBMS: IDBMS; pStatusOutput: IOutput;
-  pProcessOutput: IOutput; pProcessLog: IProcessLog; pLoja: ILoja);
+constructor TAppObj.Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
+  pProcessOutput: IOutput; pProcessLog: IProcessLog);
 begin
   FAppInfo := pAppInfo;
   FLoja := pLoja;
@@ -74,6 +74,11 @@ end;
 function TAppObj.GetDBMS: IDBMS;
 begin
   Result := FDBMS;
+end;
+
+function TAppObj.GetLoja: ILoja;
+begin
+  Result := FLoja;
 end;
 
 function TAppObj.GetProcessLog: IProcessLog;
