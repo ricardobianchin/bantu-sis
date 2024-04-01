@@ -130,8 +130,8 @@ contains
   Sis.Lists.IdLojaTermItem_u in 'Lists\Sis.Lists.IdLojaTermItem_u.pas',
   Sis.Usuario_u in 'Entities\Sis.Usuario_u.pas',
   Sis.Entities.Factory in 'Entities\Sis.Entities.Factory.pas',
-  Sis.Loja in 'Entities\Sis.Loja.pas',
-  Sis.Loja_u in 'Entities\Sis.Loja_u.pas',
+  Sis.Loja in 'Entities\Loja\Sis.Loja.pas',
+  Sis.Loja_u in 'Entities\Loja\Sis.Loja_u.pas',
   Sis.UI.Controls.Reposition in 'UI\Controls\Sis.UI.Controls.Reposition.pas',
   Sis.UI.Controls.Align_u in 'UI\Controls\Sis.UI.Controls.Align_u.pas',
   Sis.UI.Constants in 'UI\Sis.UI.Constants.pas',
@@ -249,6 +249,9 @@ contains
   Sis.Debug.DebugSteps in 'Debug\Sis.Debug.DebugSteps.pas',
   Sis.Debug.DebugSteps_u in 'Debug\Sis.Debug.DebugSteps_u.pas',
   Sis.DB.Updater.Comando.FB.CreateIndex_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas',
-  Sis.Types in 'Types\Sis.Types.pas';
+  Sis.Types in 'Types\Sis.Types.pas',
+  Sis.Loja.DBI in 'Entities\Loja\Sis.Loja.DBI.pas',
+  Sis.Loja.DBI_u in 'Entities\Loja\Sis.Loja.DBI_u.pas',
+  Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas';
 
 end.

@@ -3,12 +3,13 @@ unit App.AppObj_u;
 interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.Config.SisConfig, Sis.DB.DBTypes;
+  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
   private
     FAppInfo: IAppInfo;
+    FLoja: ILoja;
 
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
@@ -23,6 +24,7 @@ type
     function GetStatusOutput: IOutput;
     function GetProcessOutput: IOutput;
     function GetProcessLog: IProcessLog;
+    function GetLoja: ILoja;
 
 
   public
@@ -31,10 +33,12 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
     property SisConfig: ISisConfig read GetSisConfig;
     property AppInfo: IAppInfo read GetAppInfo;
+    property Loja: ILoja read GetLoja;
+
 
     function Inicialize: boolean;
     constructor Create(pAppInfo: IAppInfo; pDBMS: IDBMS; pStatusOutput: IOutput;
-      pProcessOutput: IOutput; pProcessLog: IProcessLog);
+      pProcessOutput: IOutput; pProcessLog: IProcessLog; pLoja: ILoja);
   end;
 
 implementation
@@ -44,9 +48,10 @@ uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory, App
 { TAppObj }
 
 constructor TAppObj.Create(pAppInfo: IAppInfo; pDBMS: IDBMS; pStatusOutput: IOutput;
-  pProcessOutput: IOutput; pProcessLog: IProcessLog);
+  pProcessOutput: IOutput; pProcessLog: IProcessLog; pLoja: ILoja);
 begin
   FAppInfo := pAppInfo;
+  FLoja := pLoja;
   FDBMS := pDBMS;
   FStatusOutput := pStatusOutput;
   FProcessOutput := pProcessOutput;

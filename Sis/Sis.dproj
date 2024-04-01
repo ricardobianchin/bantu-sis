@@ -230,8 +230,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Lists\Sis.Lists.IdLojaTermItem_u.pas"/>
         <DCCReference Include="Entities\Sis.Usuario_u.pas"/>
         <DCCReference Include="Entities\Sis.Entities.Factory.pas"/>
-        <DCCReference Include="Entities\Sis.Loja.pas"/>
-        <DCCReference Include="Entities\Sis.Loja_u.pas"/>
+        <DCCReference Include="Entities\Loja\Sis.Loja.pas"/>
+        <DCCReference Include="Entities\Loja\Sis.Loja_u.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Reposition.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Align_u.pas"/>
         <DCCReference Include="UI\Sis.UI.Constants.pas"/>
@@ -383,6 +383,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Debug\Sis.Debug.DebugSteps_u.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas"/>
         <DCCReference Include="Types\Sis.Types.pas"/>
+        <DCCReference Include="Entities\Loja\Sis.Loja.DBI.pas"/>
+        <DCCReference Include="Entities\Loja\Sis.Loja.DBI_u.pas"/>
+        <DCCReference Include="Entities\Loja\Sis.Loja.Factory.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

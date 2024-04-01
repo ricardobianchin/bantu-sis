@@ -3,7 +3,7 @@ unit App.AppObj;
 interface
 
 uses Sis.Config.SisConfig, App.AppInfo, Sis.UI.IO.Output, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog;
+  Sis.UI.IO.Output.ProcessLog, Sis.Loja;
 
 type
   IAppObj = interface(IInterface)
@@ -27,6 +27,9 @@ type
     property StatusOutput: IOutput read GetStatusOutput;
     property ProcessOutput: IOutput read GetProcessOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
+
+    function GetLoja: ILoja;
+    property Loja: ILoja read GetLoja;
   end;
 
 implementation
