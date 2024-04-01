@@ -15,6 +15,9 @@ type
     procedure InsertBarras(pIndex: integer; pBarras: string);
     function IndexOfBarras(pBarras: string): integer;
 
+    function GetAsStringCSV: string;
+    property AsStringCSV: string read GetAsStringCSV;
+
   end;
 
 implementation
