@@ -22,6 +22,21 @@ COMANDO FIM
 
 
 
+
+/////////////////////////
+// SEQUENCE PROD_SEQ
+/////////////////////////
+COMANDO INI
+TIPO_COMANDO=CREATE SEQUENCE
+OBJETO_NOME=PROD_SEQ
+//VALOR_INICIAL=2
+COMANDO FIM
+// SEQUENCE PESSOA_SEQ FIM
+
+
+
+
+
 /////////////////////////
 //
 // TABELA PROD CREATE TABLE PROD
