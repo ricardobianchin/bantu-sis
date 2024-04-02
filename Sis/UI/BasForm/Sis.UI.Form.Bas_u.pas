@@ -14,6 +14,7 @@ type
 
   private
     { Private declarations }
+    FKeyPressFiltraTeclado: boolean;
     FSelecionaProximo: boolean;
 //    FDisparaShowTimer: Boolean;
     FFezShow: boolean;
@@ -33,6 +34,10 @@ type
     procedure EditKeyDown(Sender:TObject; var Key:word; Shift: TShiftState);virtual;
     procedure EditKeyPress(Sender: TObject; var Key: Char; pCharExceto:string='');virtual;
 
+    function GetKeyPressFiltraTeclado: boolean;
+    procedure SetKeyPressFiltraTeclado(Value: boolean);
+    property KeyPressFiltraTeclado: boolean read GetKeyPressFiltraTeclado write SetKeyPressFiltraTeclado;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -50,6 +55,7 @@ uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u;
 constructor TBasForm.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FKeyPressFiltraTeclado := True;
 //  FDisparaShowTimer := False;
   FSelecionaProximo := True;
   FFezShow := False;
