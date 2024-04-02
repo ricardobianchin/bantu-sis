@@ -24,6 +24,7 @@ type
     function GetTextoEtiq: string;
     procedure SetTextoEtiq(Value: string);
 
+    function GetBalancaTipoStr: string;
   public
     property BalancaTipo: TBalancaTipo read GetBalancaTipo write SetBalancaTipo;
     property DptoCod: smallint read GetDptoCod write SetDptoCod;
@@ -31,11 +32,19 @@ type
     property TextoEtiq: string read GetTextoEtiq write SetTextoEtiq;
 
     procedure LimparEnt;
+    property BalancaTipoStr: string read GetBalancaTipoStr;
   end;
 
 implementation
 
+uses System.SysUtils;
+
 { TProdBalancaEnt }
+
+function TProdBalancaEnt.GetBalancaTipoStr: string;
+begin
+  Result := Integer(FBalancaTipo).ToString;
+end;
 
 function TProdBalancaEnt.GetDptoCod: smallint;
 begin

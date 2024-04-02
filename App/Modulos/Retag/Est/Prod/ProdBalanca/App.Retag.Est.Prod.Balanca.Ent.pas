@@ -11,6 +11,9 @@ type
     procedure SetBalancaTipo(Value: TBalancaTipo);
     property BalancaTipo: TBalancaTipo read GetBalancaTipo write SetBalancaTipo;
 
+    function GetBalancaTipoStr: string;
+    property BalancaTipoStr: string read GetBalancaTipoStr;
+
     function GetDptoCod: smallint;
     procedure SetDptoCod(Value: smallint);
     property DptoCod: smallint read GetDptoCod write SetDptoCod;

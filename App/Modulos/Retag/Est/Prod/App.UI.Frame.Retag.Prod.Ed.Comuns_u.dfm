@@ -128,7 +128,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object MoldeBalDptoLabeledEdit: TLabeledEdit
       Left = 84
       Top = 57
-      Width = 28
+      Width = 39
       Height = 23
       Alignment = taCenter
       EditLabel.Width = 76
@@ -140,7 +140,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Text = '12'
     end
     object MoldeBalValidEditLabeledEdit: TLabeledEdit
-      Left = 201
+      Left = 220
       Top = 57
       Width = 40
       Height = 23

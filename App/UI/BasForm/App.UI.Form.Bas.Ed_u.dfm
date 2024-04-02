@@ -22,22 +22,22 @@ inherited EdBasForm: TEdBasForm
   inherited BasePanel: TPanel
     Top = 252
     Width = 463
-    ExplicitTop = 252
-    ExplicitWidth = 463
+    ExplicitTop = 251
+    ExplicitWidth = 459
     DesignSize = (
       463
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 88
-      ExplicitLeft = 124
+      ExplicitLeft = 84
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
       Left = 201
-      ExplicitLeft = 237
+      ExplicitLeft = 197
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
       Left = 281
-      ExplicitLeft = 317
+      ExplicitLeft = 277
     end
   end
 end

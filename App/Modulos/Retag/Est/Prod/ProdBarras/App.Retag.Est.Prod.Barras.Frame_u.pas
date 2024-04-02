@@ -33,7 +33,8 @@ type
     function ControlesOk: boolean; virtual;
     function DadosOk: boolean; virtual;
     function PodeOk: boolean;
-    // property ProdId: integer read FProdId write FProdId;
+
+    property ProdBarrasList: IProdBarrasList read FProdBarrasList;
     constructor Create(AOwner: TComponent; pProdBarrasList: IProdBarrasList;
       pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer);
   end;
@@ -180,6 +181,8 @@ begin
     ErroMens('Código de barras inválido');
     exit;
   end;
+
+  FProdBarrasList.InsertBarras(0, LabeledEdit1.Text);
 end;
 
 end.

@@ -42,6 +42,7 @@ type
     procedure TrocarAction_ModuloBasFormExecute(Sender: TObject);
     procedure FecharAction_ModuloBasFormExecute(Sender: TObject);
     procedure MenuAction_ModuloBasFormExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
 
   private
     { Private declarations }
@@ -71,6 +72,10 @@ type
 
     function GetAppInfo: IAppInfo;
     property AppInfo: IAppInfo read GetAppInfo;
+
+    function GetAppObj: IAppObj;
+    property AppObj: IAppObj read GetAppObj;
+
     property SisConfig: ISisConfig read GetSisConfig;
     property DBMS: IDBMS read GetDBMS;
     property Output: IOutput read GetOutput;
@@ -178,9 +183,33 @@ begin
   inherited;
 end;
 
+procedure TModuloBasForm.FormResize(Sender: TObject);
+var
+  WorkArea: TRect;
+begin
+  inherited;
+  // Obtém a área de trabalho disponível
+  SystemParametersInfo(SPI_GETWORKAREA, 0, @WorkArea, 0);
+
+  // Verifica se o formulário está maximizado
+  if WindowState = wsMaximized then
+  begin
+    // Ajusta o tamanho do formulário para caber na área de trabalho disponível
+    top :=0;
+    left :=0;
+    Width := WorkArea.Width;
+    Height := WorkArea.Height;
+  end;
+end;
+
 function TModuloBasForm.GetAppInfo: IAppInfo;
 begin
   Result := FAppObj.AppInfo;
+end;
+
+function TModuloBasForm.GetAppObj: IAppObj;
+begin
+  Result := FAppObj;
 end;
 
 function TModuloBasForm.GetDBMS: IDBMS;

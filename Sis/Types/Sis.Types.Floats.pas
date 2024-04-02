@@ -4,7 +4,7 @@ interface
 
 uses System.Math;
 
-function StrToCurrency(S: string): currency;
+function StrToCurrency(S: string): Currency;
 function StrToNum(S: string): double;
 function StrToNumStr(S: string): string;
 function FloatToStrPonto(pF: double): string;
@@ -23,18 +23,23 @@ implementation
 uses
   System.SysUtils, Sis.Types.strings_u, System.StrUtils, System.Variants;
 
-function StrToCurrency(S:string):currency;
+function StrToCurrency(S: string): Currency;
+var
+  ss: string;
+  v: Currency;
 begin
-  if s='' then
-    s:='0';
-  result:=strtoCurr(StrToNumStr(s));
+  if S = '' then
+    S := '0';
+  ss := StrToNumStr(S);
+  v := strtoCurr(ss);
+  result := v;
 end;
 
-function StrToNum(S:string):double;
+function StrToNum(S: string): double;
 begin
-  if s='' then
-    s:='0';
-  result:=strtofloat(StrToNumStr(s));
+  if S = '' then
+    S := '0';
+  result := strtofloat(StrToNumStr(S));
 end;
 
 function StrToNumStr(S: string): string;
@@ -43,8 +48,8 @@ var
   c: string;
 
 begin
-  if TemChar(s,',') then
-    DeleteChar(s, '.');
+  if TemChar(S, ',') then
+    DeleteChar(S, '.');
 
   npontos := 0;
   result := '';
@@ -166,7 +171,7 @@ var
   sValue: string;
 begin
   sValue := VarToStr(pValue);
-  Result := StrToCurrency(sValue);
+  result := StrToCurrency(sValue);
 end;
 
 function CurrencyToVar(pValue: currency): variant;
@@ -174,8 +179,7 @@ var
   sValue: string;
 begin
   sValue := CurrencyToStrPonto(pValue);
-  Result := sValue;
+  result := sValue;
 end;
-
 
 end.

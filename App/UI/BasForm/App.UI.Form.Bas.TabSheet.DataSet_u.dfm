@@ -1,6 +1,8 @@
 inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
+  Align = alClient
   Caption = 'TabSheetDataSetBasForm'
   ClientWidth = 700
+  WindowState = wsMaximized
   ExplicitWidth = 700
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel

@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Ent;
 
 interface
 
-uses App.Ent.Ed.Id
+uses App.Ent.Ed.Id, Sis.Loja
   //
   , App.Retag.Est.Prod.Fabr.Ent//
   , App.Retag.Est.Prod.Tipo.Ent//
@@ -68,6 +68,9 @@ type
     function GetCapacEmb: Currency;
     procedure SetCapacEmb(Value: Currency);
     property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
+
+    function GetLoja: ILoja;
+    property Loja: ILoja read GetLoja;
   end;
 
 implementation

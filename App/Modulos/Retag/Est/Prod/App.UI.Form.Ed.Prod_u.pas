@@ -34,7 +34,6 @@ type
     FRetagEstProdEdDBI: IRetagEstProdEdDBI;
 
     function GetProdEnt: IProdEnt;
-    procedure DescrRedEditKeyPress(Sender: TObject; var Key: Char);
     property ProdEnt: IProdEnt read GetProdEnt;
 
     function GetProdDBI: IProdDBI;
@@ -104,7 +103,7 @@ implementation
 uses {App.Retag.Est.Prod.Ent_u,} Sis.UI.Controls.TLabeledEdit, System.StrUtils,
   Sis.UI.Controls.Utils, Sis.Types.Integers, App.Retag.Est.Factory,
   Sis.DB.DBTypes, ShellAPI, System.DateUtils, Sis.Types.strings_u,
-  App.Retag.Est.Prod.ComboBox_u, App.Est.Types_u;
+  App.Retag.Est.Prod.ComboBox_u, App.Est.Types_u, CustomEditBtu;
 
 {$R *.dfm}
 
@@ -225,10 +224,24 @@ begin
 end;
 
 procedure TProdEdForm.ControlesToEnt;
+var
+  cCapac: Currency;
 begin
   inherited;
   ProdEnt.Descr := FComunsFr.DescrEdit.Text;
   ProdEnt.DescrRed := FComunsFr.DescrRedEdit.Text;
+
+  ProdEnt.ProdFabrEnt.Id := FComunsFr.FabrFr.Id;
+  ProdEnt.ProdFabrEnt.Descr := FComunsFr.FabrFr.Text;
+
+  ProdEnt.ProdTipoEnt.Id := FComunsFr.TipoFr.Id;
+  ProdEnt.ProdTipoEnt.Descr := FComunsFr.TipoFr.Text;
+
+  ProdEnt.ProdUnidEnt.Id := FComunsFr.UnidFr.Id;
+  ProdEnt.ProdUnidEnt.Descr := FComunsFr.UnidFr.Text;
+
+  ProdEnt.ProdICMSEnt.Id := FComunsFr.ICMSFr.Id;
+  ProdEnt.ProdICMSEnt.Descr := FComunsFr.ICMSFr.Text;
 
   ProdEnt.CustoAtual := FComunsFr.CustoAtuEdit.Valor;
   ProdEnt.CustoNovo  := FComunsFr.CustoNovEdit.Valor;
@@ -240,7 +253,8 @@ begin
   ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
 
   ProdEnt.Ativo := FComunsFr.AtivoCheckBox.Checked;
-  ProdEnt.CapacEmb := FComunsFr.CapacEmbEdit.Valor;
+  cCapac := FComunsFr.CapacEmbEdit.AsCurrency;
+  ProdEnt.CapacEmb := cCapac;
   ProdEnt.Localiz := FComunsFr.LocalizLabeledEdit.Text;
 end;
 
@@ -420,11 +434,6 @@ begin
   end;
 end;
 
-procedure TProdEdForm.DescrRedEditKeyPress(Sender: TObject; var Key: Char);
-begin
-
-end;
-
 procedure TProdEdForm.EntToControles;
 begin
   inherited;
@@ -444,6 +453,11 @@ begin
   FComunsFr.AtivoCheckBox.Checked := ProdEnt.Ativo;
   FComunsFr.CapacEmbEdit.Valor := ProdEnt.CapacEmb;
   FComunsFr.LocalizLabeledEdit.Text := ProdEnt.Localiz;
+
+  if ProdEnt.ProdBarrasList.Count = 0 then
+    exit;
+
+//  FComunsFr.BarrasFr.list
 end;
 
 procedure TProdEdForm.FabrComboExit(Sender: TObject);
@@ -566,15 +580,10 @@ function TProdEdForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  Result := EntDBI.GarantirReg;
-  if not Result then
+  if EntEd.State = dsInsert  then
   begin
-    sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;
-    ErroOutput.Exibir(sFrase);
-    // FObrigFrame.Foque;
-    exit;
+    ProdEnt.Id := ProdDBI.InsertInto;
   end;
-
 end;
 
 procedure TProdEdForm.PreenchaControles;
@@ -596,12 +605,15 @@ var
   sNomeArq: string;
   sl: TStringList;
   S: string;
+  Resultado: Boolean;
 begin
   inherited;
-  // FComunsFr.
+  s := ActiveControl.Name;
   sNomeArq :=
     'C:\Pr\app\bantu\bantu-sis\Exe\Configs\Debug\App.UI.Form.Ed.Prod_u.Teclas.txt';
-  if not FileExists(sNomeArq) then
+
+  Resultado := FileExists(sNomeArq);
+  if not Resultado then
     exit;
 
   sl := TStringList.Create;

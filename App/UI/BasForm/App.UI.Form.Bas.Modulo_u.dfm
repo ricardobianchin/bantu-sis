@@ -4,9 +4,12 @@ inherited ModuloBasForm: TModuloBasForm
   Caption = 'ModuloBasForm'
   ClientHeight = 476
   ClientWidth = 620
+  WindowState = wsMaximized
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
+  OnResize = FormResize
   ExplicitWidth = 620
+  ExplicitHeight = 476
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
@@ -112,11 +115,13 @@ inherited ModuloBasForm: TModuloBasForm
       object OutputLabel: TLabel
         Left = 1
         Top = 1
-        Width = 12
-        Height = 15
+        Width = 203
+        Height = 23
         Align = alClient
         Caption = '    '
         Layout = tlCenter
+        ExplicitWidth = 12
+        ExplicitHeight = 15
       end
     end
   end

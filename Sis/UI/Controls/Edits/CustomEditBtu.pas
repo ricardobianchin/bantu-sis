@@ -108,7 +108,7 @@ procedure Register;
 
 implementation
 
-uses Variants, Math{, dialogs};
+uses Variants, Math{, dialogs}, Sis.Types.Floats;
 
 procedure Register;
 begin
@@ -124,12 +124,12 @@ end;}
 
 function TCustomEditBtu.GetAsCurrency: currency;
 var
-  s:string;
+  v: Variant;
 begin
   try
-    s:=StrToNumStr(GetValor);
-
-    result:=StrToCurr(s);
+//    Result := Valor;
+    v := GetValor;
+    result := VarToCurrency(v);
   except on EVariantError do
     result:=0;
   end;

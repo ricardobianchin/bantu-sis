@@ -3,7 +3,7 @@ unit App.Retag.Est.Factory;
 interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, System.Classes, Sis.Entidade,
+  Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
   Sis.Config.SisConfig, Sis.UI.FormCreator, App.Retag.Est.Custo
 
@@ -134,6 +134,8 @@ function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 function RetagEstProdEdDBICreate(pDBConnection: IDBConnection): IRetagEstProdEdDBI;
 
 function RetagEstProdEntCreate(
+  pLoja: ILoja;//
+  //
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
   pProdTipoEnt: IProdTipoEnt; // fabr
@@ -496,6 +498,8 @@ begin
 end;
 
 function RetagEstProdEntCreate(
+  pLoja: ILoja;//
+  //
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
   pProdTipoEnt: IProdTipoEnt; // fabr
@@ -507,7 +511,7 @@ function RetagEstProdEntCreate(
   pState: TDataSetState; pId: integer; pDescr: string; pDescrRed: string)
   : IProdEnt;
 begin
-  Result := TProdEnt.Create(pProdFabrEnt, pProdTipoEnt, pProdUnidEnt,
+  Result := TProdEnt.Create(pLoja, pProdFabrEnt, pProdTipoEnt, pProdUnidEnt,
     pProdICMSEnt, pProdBarrasList, pProdBalancaEnt, pState, pId, pDescr,
     pDescrRed);
 end;

@@ -39,7 +39,7 @@ var
   sId, sVal: string;
 begin
   sId := pId.ToString;
-  sVal := BooleanToSQL(Value);
+  sVal := BooleanToStrSQL(Value);
   sFormat := 'EXECUTE PROCEDURE '+PackageName+'.ATIVO_SET(%s, %s);';
   sSql := Format(sFormat, [sId, sVal]);
 

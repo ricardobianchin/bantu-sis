@@ -43,55 +43,44 @@ end;
 function TProdDBI.InsertInto: integer;
 var
   sSql: string;
-
+  sMens: string;
+  bResultado: Boolean;
 begin
-//  siscon
   Result := 0;
-  {
+
   sSql := 'SELECT PROD_ID FROM PROD_PA.INSERT_INTO_PROD('
-   + QuotedStr(FProdEnt.Descr) + ','
-   + QuotedStr(FProdEnt.DescrRed) + ','
-   + FProdEnt.ProdFabrEnt.Id.ToString + ','
-   + FProdEnt.ProdTipoEnt.Id.ToString + ','
-   + FProdEnt.ProdUnidEnt.Id.ToString + ','
-   + FProdEnt.ProdICMSEnt.Id.ToString + ','
-   + CurrencyToStrPonto(FProdEnt.CapacEmb) + ','
- }{
+    + QuotedStr(FProdEnt.Descr)
+    +','+ QuotedStr(FProdEnt.DescrRed)
 
-1.2, --CAPAC_EMB         INPUT NUMERIC(8, 3)
-1, --LOJA_ID           INPUT (ID_SHORT_DOM) SMALLINT
-TRUE, --ATIVO             INPUT BOOLEAN
-'LO', --LOCALIZ           INPUT (NOME_CURTO_DOM) VARCHAR(15) CHARACTER SET WIN1252
-2, --BAL_USO           INPUT SMALLINT
-'001', --BAL_DPTO          INPUT CHAR(3) CHARACTER SET WIN1252
-27, --BAL_VALIDADE_DIAS INPUT SMALLINT
-'TEXTO',--BAL_TEXTO_ETIQ    INPUT VARCHAR(400) CHARACTER SET WIN1252
-'78911111;78922222;78933333'
-);
+    +','+ FProdEnt.ProdFabrEnt.Id.ToString
+    +','+ FProdEnt.ProdTipoEnt.Id.ToString
+    +','+ FProdEnt.ProdUnidEnt.Id.ToString
+    +','+ FProdEnt.ProdICMSEnt.Id.ToString
 
+    +','+ CurrencyToStrPonto(FProdEnt.CapacEmb)
+    +','+ FProdEnt.Loja.Id.ToString
+    +','+ BooleanToStrSql( FProdEnt.Ativo)
+    +','+ QuotedStr(FProdEnt.Localiz)
+    +','+ FProdEnt.ProdBalancaEnt.BalancaTipoStr
+    +','+ QuotedStr(FProdEnt.ProdBalancaEnt.DptoCod.ToString)
+    +','+ FProdEnt.ProdBalancaEnt.ValidadeDias.ToString
+    +','+ QuotedStr(FProdEnt.ProdBalancaEnt.TextoEtiq)
+    +','+ QuotedStr(FProdEnt.ProdBarrasList.AsStringCSV)
+    +');';
 
-EXECUTE PROCEDURE PROD_PA.INSERT_INTO_PROD  (
-'AA',--DESCR             INPUT (PROD_DESCR_DOM) VARCHAR(120) CHARACTER SET WIN1252
-'A', --DESCR_RED         INPUT (PROD_DESCR_RED_DOM) VARCHAR(29) CHARACTER SET WIN1252
-1, --FABR_ID           INPUT (ID_SHORT_NOTN_DOM) SMALLINT
-1, --PROD_TIPO_ID      INPUT (ID_SHORT_NOTN_DOM) SMALLINT
-1, --UNID_ID           INPUT (ID_SHORT_NOTN_DOM) SMALLINT
-1, --ICMS_ID           INPUT (ID_SHORT_NOTN_DOM) SMALLINT
-1.2, --CAPAC_EMB         INPUT NUMERIC(8, 3)
-1, --LOJA_ID           INPUT (ID_SHORT_DOM) SMALLINT
-TRUE, --ATIVO             INPUT BOOLEAN
-'LO', --LOCALIZ           INPUT (NOME_CURTO_DOM) VARCHAR(15) CHARACTER SET WIN1252
-2, --BAL_USO           INPUT SMALLINT
-'001', --BAL_DPTO          INPUT CHAR(3) CHARACTER SET WIN1252
-27, --BAL_VALIDADE_DIAS INPUT SMALLINT
-'TEXTO',--BAL_TEXTO_ETIQ    INPUT VARCHAR(400) CHARACTER SET WIN1252
-'78911111;78922222;78933333'
-);
+  SetClipboardText(sSql);
 
-
-
-}
-
+  bResultado := DBConnection.Abrir;
+  if not bResultado then
+  begin
+    sMens := DBConnection.UltimoErro;
+    exit;
+  end;
+  try
+    Result := DBConnection.GetValueInteger(sSql);
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 procedure TProdDBI.SetNovaId(pIds: variant);

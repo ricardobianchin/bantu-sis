@@ -347,8 +347,8 @@ begin
   BalDpto.Parent := BalGroupBox;
   BalDpto.Alignment := taCenter;
   BalDpto.NCasas := 0;
-  BalDpto.NCasasEsq := 2;
-  BalDpto.MascEsq := '00';
+  BalDpto.NCasasEsq := 3;
+  BalDpto.MascEsq := '##0';
   BalDpto.Caption := MoldeBalDptoLabeledEdit.EditLabel.Caption;
   // BalDpto.LabelPosition := lpL;
   // BalDpto.LabelSpacing := 4;

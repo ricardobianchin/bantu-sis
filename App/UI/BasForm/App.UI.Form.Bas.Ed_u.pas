@@ -11,6 +11,7 @@ uses
 type
   TEdBasForm = class(TDiagBtnBasForm)
     ObjetivoLabel: TLabel;
+    procedure CancelAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FEntEd: IEntEd;
@@ -47,7 +48,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils;
+uses App.DB.Utils, Sis.UI.IO.Input.Perg;
 
 { TEdBasForm }
 
@@ -115,6 +116,15 @@ begin
   Caption := sCaption;
 end;
 
+procedure TEdBasForm.CancelAct_DiagExecute(Sender: TObject);
+begin
+  {$IFNDEF DEBUG}
+  if not PergBool('Sair sem gravar?') then
+    exit;
+  {$ENDIF}
+  inherited;
+end;
+
 function TEdBasForm.ControlesOk: boolean;
 begin
   Result := True;
@@ -159,7 +169,6 @@ begin
   Result := GravouOk;
   if not Result then
     exit;
-
 end;
 
 end.

@@ -49,7 +49,7 @@ begin
   sSigla := QuotedStr(FProdICMSEnt.Sigla);
   sDescr := QuotedStr(FProdICMSEnt.Descr);
   sPerc := CurrencyToStrPonto(FProdICMSEnt.Perc);
-  sAtivo := BooleanToSQL(FProdICMSEnt.Ativo);
+  sAtivo := BooleanToStrSQL(FProdICMSEnt.Ativo);
 
   sFormat := 'SELECT ID_GRAVADO FROM ICMS_PA.GARANTIR(%s,%s,%s,%s,%s);';
   Result := Format(sFormat, [sId, sSigla, sDescr, sPerc, sAtivo]);

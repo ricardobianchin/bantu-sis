@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
-  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
+  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u, Sis.Loja,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.AppObj,
@@ -119,7 +119,6 @@ type
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
   private
     { Private declarations }
-
     FFormClassNamesSL: TStringList;
     FContador: IContador;
     FOutputNotify: IOutput;
@@ -161,6 +160,7 @@ constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
+  oLoja: ILoja;
 
   oFabrEnt: IProdFabrEnt;
   oFabrDBI: IEntDBI;
@@ -198,6 +198,7 @@ begin
 
   oAppInfo := AppInfo;
   oSisConfig := SisConfig;
+  oLoja := AppObj.Loja;
 
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
@@ -241,7 +242,7 @@ begin
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
 
-  oProdEnt := RetagEstProdEntCreate(oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+  oProdEnt := RetagEstProdEntCreate(oLoja, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
     oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 

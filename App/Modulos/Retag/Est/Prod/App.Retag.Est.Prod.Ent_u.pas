@@ -2,9 +2,8 @@ unit App.Retag.Est.Prod.Ent_u;
 
 interface
 
-uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes,
-  Sis.Types.Utils_u, App.Retag.Est.Prod.Ent,
-  App.Ent.DBI_u, App.Ent.Ed, App.Retag.Est.Factory,
+uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes, Sis.Types.Utils_u, Sis.Loja,
+  App.Retag.Est.Prod.Ent, App.Ent.DBI_u, App.Ent.Ed, App.Retag.Est.Factory,
   App.Retag.Est.Prod.Barras.Ent.List
   //
   , App.Retag.Est.Prod.Fabr.Ent//
@@ -38,6 +37,7 @@ type
     FAtivo: boolean;
     FCapacEmb: Currency;
     FLocaliz: string;
+    FLoja: ILoja;
 
     function GetDescr: string;
     procedure SetDescr(Value: string);
@@ -77,6 +77,7 @@ type
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
+    function GetLoja: ILoja;
 
   public
     property Descr: string read GetDescr write SetDescr;
@@ -97,14 +98,18 @@ type
     property Ativo: boolean read GetAtivo write SetAtivo;
     property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
     property Localiz: string read GetLocaliz write SetLocaliz;
+    property Loja: ILoja read GetLoja;
 
     procedure LimparEnt; override;
 
     constructor Create(
+      pLoja: ILoja;//
+      //
       pProdFabrEnt: IProdFabrEnt; //fabr ent
       pProdTipoEnt: IProdTipoEnt; //
       pProdUnidEnt: IProdUnidEnt; //
       pProdICMSEnt: IProdICMSEnt; //
+      //
       pProdBarrasList: IProdBarrasList; // prod barras list
       pProdBalancaEnt: IProdBalancaEnt;//
       //
@@ -119,10 +124,13 @@ implementation
 { TProdEnt }
 
 constructor TProdEnt.Create(
+      pLoja: ILoja;//
+      //
       pProdFabrEnt: IProdFabrEnt; //fabr ent
       pProdTipoEnt: IProdTipoEnt; //
       pProdUnidEnt: IProdUnidEnt; //
       pProdICMSEnt: IProdICMSEnt; //
+      //
       pProdBarrasList: IProdBarrasList; // prod barras list
       pProdBalancaEnt: IProdBalancaEnt;//
       //
@@ -130,6 +138,7 @@ constructor TProdEnt.Create(
       pId: integer; pDescr: string; pDescrRed: string);
 begin
   inherited Create(State, pId);
+  FLoja := pLoja;
   FDescr := pDescr;
   FDescrRed := pDescrRed;
 
@@ -174,6 +183,11 @@ end;
 function TProdEnt.GetLocaliz: string;
 begin
   Result := FLocaliz;
+end;
+
+function TProdEnt.GetLoja: ILoja;
+begin
+  Result := FLoja;
 end;
 
 function TProdEnt.GetNomeEnt: string;
