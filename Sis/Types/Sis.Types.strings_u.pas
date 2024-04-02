@@ -14,6 +14,7 @@ function StrSemCharRepetido(pStr: string; pChar: Char = #32): string;
 
 function CharIsOnlyDigit(Key: Char): boolean;
 function StrToOnlyDigit(const pStr: string): string;
+function StrIsOnlyDigit(const pStr: string): boolean;
 
 procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
@@ -93,6 +94,28 @@ begin
     bResultado := CharIsOnlyDigit(c);
     if bResultado then
       Result := Result + c;
+  end;
+end;
+
+function StrIsOnlyDigit(const pStr: string): boolean;
+var
+  L: integer;
+  I: integer;
+  sStr: string;
+begin
+  sStr := Trim(sStr);
+  Result := sStr <> '';
+  if not Result then
+    exit;
+
+  L := Length(sStr);
+  for I := 1 to L do
+  begin
+    if not CharIsOnlyDigit(sStr[I]) then
+    begin
+      result:=false;
+      break;
+    end;
   end;
 end;
 
