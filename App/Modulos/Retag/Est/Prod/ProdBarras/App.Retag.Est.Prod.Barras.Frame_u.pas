@@ -69,8 +69,8 @@ begin
 
   Result := iProdIdOutro = 0;
   if not Result then
-  begin // 7896422515658
-    ErroMens('Código usado no prod ' + iProdIdOutro.ToString);
+  begin // 7896422515658 7897424080984
+    ErroMens('Código usado no Produto ' + iProdIdOutro.ToString);
     exit;
   end;
 
