@@ -34,7 +34,6 @@ type
     { Public declarations }
     function Perg: boolean;
     constructor Create(AOwner: TComponent); override;
-
   end;
 
 var

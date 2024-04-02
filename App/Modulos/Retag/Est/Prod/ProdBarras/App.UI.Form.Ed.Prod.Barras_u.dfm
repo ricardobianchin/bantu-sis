@@ -2,6 +2,7 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
   Caption = 'ProdBarrasEdForm'
   ClientHeight = 178
   ClientWidth = 356
+  OnDestroy = FormDestroy
   ExplicitWidth = 368
   ExplicitHeight = 216
   TextHeight = 15
@@ -37,16 +38,16 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     ExplicitTop = 125
     ExplicitWidth = 352
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 9
-      ExplicitLeft = 5
+      Left = 5
+      ExplicitLeft = 1
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 122
-      ExplicitLeft = 118
+      Left = 118
+      ExplicitLeft = 114
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 202
-      ExplicitLeft = 198
+      Left = 198
+      ExplicitLeft = 194
     end
   end
 end

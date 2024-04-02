@@ -232,7 +232,11 @@ function BarCodValido(pCod: string): boolean;
 var
   L: integer;
 begin
-  pCod := Trim(StrToOnlyDigit(pCod));
+  pCod := Trim(pCod);
+
+  Result := StrIsOnlyDigit(pCod);
+  if not Result then
+    exit;
 
   L := Length(pCod);
 

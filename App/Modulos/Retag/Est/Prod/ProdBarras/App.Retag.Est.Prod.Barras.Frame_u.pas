@@ -16,10 +16,13 @@ type
 
     BarrasListSpeedButton: TSpeedButton;
     ErroLabel: TLabel;
+
+    // abre lista
+    procedure BarrasListSpeedButtonClick(Sender: TObject);
+
+    // web
     procedure ConsultarWebSpeedButtonClick(Sender: TObject);
     procedure LabeledEdit1Change(Sender: TObject);
-
-    procedure BarrasListSpeedButtonClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -43,7 +46,8 @@ implementation
 
 {$R *.dfm}
 
-uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils, Sis.Lists.Types;
+uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils,
+  Sis.Lists.Types;
 
 constructor TProdBarrasFrame.Create(AOwner: TComponent;
   pProdBarrasList: IProdBarrasList; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI;
@@ -108,7 +112,8 @@ begin
   if not Resultado then
     exit;
 
-  ProdBarrasListForm := TProdBarrasListForm.Create(Application, FAppInfo);
+  ProdBarrasListForm := TProdBarrasListForm.Create(Application, FAppInfo,
+    FBarrasDBI, FProdId);
   q := ProdBarrasListForm.FDMemTable;
 
   try
@@ -116,6 +121,7 @@ begin
       FProdBarrasList.PegarBarras(LabeledEdit1.Text, plFim)
     else
       FProdBarrasList[0].Barras := LabeledEdit1.Text;
+
     q.DisableControls;
     try
       for I := 0 to FProdBarrasList.Count - 1 do
@@ -169,12 +175,15 @@ var
   I: integer;
   ProdBarras: IProdBarras;
   q: TDataSet;
+  sBarras: string;
 begin
-  Result := LabeledEdit1.Text = '';
-  if result then
+  LabeledEdit1.Text := Trim(LabeledEdit1.Text);
+  sBarras := LabeledEdit1.Text;
+  Result := sBarras = '';
+  if Result then
     exit;
 
-  Result := BarCodValido(LabeledEdit1.Text);
+  Result := BarCodValido(sBarras);
 
   if not Result then
   begin // 7896422515658
@@ -182,7 +191,7 @@ begin
     exit;
   end;
 
-  FProdBarrasList.PegarBarras(LabeledEdit1.Text, plInicio);
+  FProdBarrasList.PegarBarras(sBarras, plInicio);
 end;
 
 end.

@@ -103,10 +103,12 @@ var
   I: integer;
   sStr: string;
 begin
-  sStr := Trim(sStr);
+  sStr := Trim(pStr);
   Result := sStr <> '';
   if not Result then
     exit;
+
+  Result := True;
 
   L := Length(sStr);
   for I := 1 to L do

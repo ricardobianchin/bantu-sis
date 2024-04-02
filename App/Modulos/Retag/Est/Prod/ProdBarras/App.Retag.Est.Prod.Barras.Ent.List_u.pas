@@ -23,7 +23,7 @@ implementation
 
 { TProdBarrasList }
 
-uses App.Retag.Est.Factory;
+uses App.Retag.Est.Factory, System.SysUtils;
 
 function TProdBarrasList.GetAsStringCSV: string;
 var
@@ -71,6 +71,10 @@ var
   oProdBarras: IProdBarras;
   iIndex: integer;
 begin
+  pBarras := Trim(pBarras);
+  if pBarras = '' then
+    exit;
+
   iIndex := IndexOfBarras(pBarras);
   if iIndex > -1 then
     exit;

@@ -43,6 +43,7 @@ type
 
     procedure PreenchaControles;
 
+    procedure BarrasFrEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
     procedure BarrasEditExit(Sender: TObject);
 
@@ -142,10 +143,22 @@ begin
   FComunsFr.BarrasFr.PodeOk;
 end;
 
+procedure TProdEdForm.BarrasFrEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  bValor: Boolean;
+begin
+  bValor := Shift = [];
+  KeyPressFiltraTeclado := bValor;
+end;
+
 procedure TProdEdForm.BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
 var
   Resultado: boolean;
 begin
+  if not KeyPressFiltraTeclado then
+    exit;
+
   if Key = #13 then
   begin
     Key := #0;
@@ -298,6 +311,8 @@ begin
   FRetagEstProdEdDBI := pRetagEstProdEdDBI;
 
   FComunsFr.BarrasFr.LabeledEdit1.OnKeyPress := BarrasFrEditKeyPress;
+  FComunsFr.BarrasFr.LabeledEdit1.OnKeyDown := BarrasFrEditKeyDown;
+
   FComunsFr.BarrasFr.LabeledEdit1.OnExit := BarrasEditExit;
 
   FComunsFr.FabrFr.ComboBox1.OnKeyPress := ComboKeyPress;

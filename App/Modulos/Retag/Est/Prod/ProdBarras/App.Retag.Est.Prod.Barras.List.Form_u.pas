@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, App.AppInfo,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, App.Est.Prod.Barras.DBI;
 
 type
   TProdBarrasListForm = class(TForm)
@@ -36,10 +36,14 @@ type
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
+    FBarrasDBI: IBarrasDBI;
+    FProdId: integer;
+    function GetAsString: string;
   public
     { Public declarations }
+    property AsString: string read GetAsString;
     property FDMemTable: TFDMemTable read FFDMemTable;
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo); reintroduce;
+    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer); reintroduce;
   end;
 
 var
@@ -76,11 +80,14 @@ begin
 
 end;
 
-constructor TProdBarrasListForm.Create(AOwner: TComponent; pAppInfo: IAppInfo);
+constructor TProdBarrasListForm.Create(AOwner: TComponent; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
+  FBarrasDBI := pBarrasDBI;
+  FProdId := pProdId;
+
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
   sNomeArq := pAppInfo.PastaConsTabViews + 'Est\tabview.est.prod.barras.csv';
@@ -101,11 +108,39 @@ begin
   FDMemTable.Delete;
 end;
 
+function TProdBarrasListForm.GetAsString: string;
+var
+  oBookmark: TBookmark;
+begin
+  Result := '';
+  if FDMemTable.IsEmpty then
+    exit;
+
+  oBookmark := FDMemTable.GetBookmark;
+  FDMemTable.DisableControls;
+  try
+    FDMemTable.First;
+    while not FDMemTable.Eof do
+    begin
+      if Result <> '' then
+        Result := Result + #13#10;
+      Result := Result + FDMemTable.Fields[1].AsString;
+      FDMemTable.Next;
+    end;
+  finally
+    FDMemTable.GotoBookmark(oBookmark);
+    FDMemTable.FreeBookmark(oBookmark);
+    FDMemTable.EnableControls;
+  end;
+end;
+
 procedure TProdBarrasListForm.NovoActionExecute(Sender: TObject);
 var
   iOrdem: integer;
+  sBarras: string;
 begin
-  ProdBarrasEdForm := TProdBarrasEdForm.Create(nil);
+  sBarras := AsString;
+  ProdBarrasEdForm := TProdBarrasEdForm.Create(nil, sBarras, FBarrasDBI, FProdId);
   try
     if not ProdBarrasEdForm.Perg then
       exit;

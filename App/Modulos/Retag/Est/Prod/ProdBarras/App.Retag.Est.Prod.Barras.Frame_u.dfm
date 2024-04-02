@@ -53,7 +53,6 @@ object ProdBarrasFrame: TProdBarrasFrame
     LabelPosition = lpLeft
     LabelSpacing = 4
     MaxLength = 14
-    NumbersOnly = True
     TabOrder = 0
     Text = ''
     OnChange = LabeledEdit1Change
