@@ -252,6 +252,7 @@ contains
   Sis.Types in 'Types\Sis.Types.pas',
   Sis.Loja.DBI in 'Entities\Loja\Sis.Loja.DBI.pas',
   Sis.Loja.DBI_u in 'Entities\Loja\Sis.Loja.DBI_u.pas',
-  Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas';
+  Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas',
+  Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas';
 
 end.

@@ -43,7 +43,7 @@ implementation
 
 {$R *.dfm}
 
-uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils;
+uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils, Sis.Lists.Types;
 
 constructor TProdBarrasFrame.Create(AOwner: TComponent;
   pProdBarrasList: IProdBarrasList; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI;
@@ -113,7 +113,7 @@ begin
 
   try
     if FProdBarrasList.Count = 0 then
-      FProdBarrasList.PegarBarras(LabeledEdit1.Text)
+      FProdBarrasList.PegarBarras(LabeledEdit1.Text, plFim)
     else
       FProdBarrasList[0].Barras := LabeledEdit1.Text;
     q.DisableControls;
@@ -137,7 +137,7 @@ begin
 
       while not q.Eof do
       begin
-        FProdBarrasList.PegarBarras(q.fields[1].asstring);
+        FProdBarrasList.PegarBarras(q.fields[1].asstring, plFim);
         q.Next;
       end;
 
@@ -182,7 +182,7 @@ begin
     exit;
   end;
 
-  FProdBarrasList.InsertBarras(0, LabeledEdit1.Text);
+  FProdBarrasList.PegarBarras(LabeledEdit1.Text, plInicio);
 end;
 
 end.

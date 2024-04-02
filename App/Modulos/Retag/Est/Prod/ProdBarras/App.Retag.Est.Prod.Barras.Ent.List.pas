@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Barras.Ent.List;
 
 interface
 
-uses System.Classes, App.Retag.Est.Prod.Barras.Ent;
+uses System.Classes, App.Retag.Est.Prod.Barras.Ent, Sis.Lists.Types;
 
 type
   IProdBarrasList = interface(IInterfaceList)
@@ -11,8 +11,7 @@ type
     function GetProdBarras(Index: integer): IProdBarras;
     property ProdBarras[Index: integer]: IProdBarras read GetProdBarras; default;
 
-    procedure PegarBarras(pBarras: string);
-    procedure InsertBarras(pIndex: integer; pBarras: string);
+    procedure PegarBarras(pBarras: string; pOndeInserir: TPosicaoList);
     function IndexOfBarras(pBarras: string): integer;
 
     function GetAsStringCSV: string;

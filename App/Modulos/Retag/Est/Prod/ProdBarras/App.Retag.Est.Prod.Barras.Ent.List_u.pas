@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Barras.Ent.List_u;
 
 interface
 
-uses App.Retag.Est.Prod.Barras.Ent.List, System.Classes,
+uses App.Retag.Est.Prod.Barras.Ent.List, System.Classes, Sis.Lists.Types,
   App.Retag.Est.Prod.Barras.Ent;
 
 type
@@ -13,8 +13,7 @@ type
     function GetAsStringCSV: string;
   public
     property ProdBarras[Index: integer]: IProdBarras read GetProdBarras; default;
-    procedure PegarBarras(pBarras: string);
-    procedure InsertBarras(pIndex: integer; pBarras: string);
+    procedure PegarBarras(pBarras: string; pOndeInserir: TPosicaoList);
     function IndexOfBarras(pBarras: string): integer;
     property AsStringCSV: string read GetAsStringCSV;
 
@@ -66,9 +65,9 @@ begin
   end;
 end;
 
-procedure TProdBarrasList.InsertBarras(pIndex: integer; pBarras: string);
+procedure TProdBarrasList.PegarBarras(pBarras: string;
+  pOndeInserir: TPosicaoList);
 var
-  iOrdem: smallint;
   oProdBarras: IProdBarras;
   iIndex: integer;
 begin
@@ -77,23 +76,13 @@ begin
     exit;
 
   oProdBarras := ProdBarrasCreate(0, pBarras);
-  Insert(pIndex, oProdBarras);
+
+  if pOndeInserir = plInicio then
+    Insert(0, oProdBarras)
+  else
+    Add(oProdBarras);
+
   RenumereOrdem;
-end;
-
-procedure TProdBarrasList.PegarBarras(pBarras: string);
-var
-  iOrdem: smallint;
-  oProdBarras: IProdBarras;
-  iIndex: integer;
-begin
-  iIndex := IndexOfBarras(pBarras);
-  if iIndex > -1 then
-    exit;
-
-  iOrdem := Count + 1;
-  oProdBarras := ProdBarrasCreate(iOrdem, pBarras);
-  Add(oProdBarras);
 end;
 
 procedure TProdBarrasList.RenumereOrdem;

@@ -386,6 +386,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Loja\Sis.Loja.DBI.pas"/>
         <DCCReference Include="Entities\Loja\Sis.Loja.DBI_u.pas"/>
         <DCCReference Include="Entities\Loja\Sis.Loja.Factory.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.Types.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
