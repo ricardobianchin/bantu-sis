@@ -45,8 +45,11 @@ var
   sSql: string;
   sMens: string;
   bResultado: Boolean;
+  sBarras: string;
 begin
   Result := 0;
+
+  sBarras := FProdEnt.ProdBarrasList.AsStringCSV;
 
   sSql := 'SELECT PROD_ID FROM PROD_PA.INSERT_INTO_PROD('
     + QuotedStr(FProdEnt.Descr)
@@ -65,7 +68,7 @@ begin
     +','+ QuotedStr(FProdEnt.ProdBalancaEnt.DptoCod.ToString)
     +','+ FProdEnt.ProdBalancaEnt.ValidadeDias.ToString
     +','+ QuotedStr(FProdEnt.ProdBalancaEnt.TextoEtiq)
-    +','+ QuotedStr(FProdEnt.ProdBarrasList.AsStringCSV)
+    +','+ QuotedStr(sBarras)
     +');';
 
   SetClipboardText(sSql);
