@@ -103,6 +103,11 @@ end;
 //  Result := FDisparaShowTimer;
 //end;
 
+function TBasForm.GetKeyPressFiltraTeclado: boolean;
+begin
+  Result := FKeyPressFiltraTeclado;
+end;
+
 function TBasForm.GetSelecionaProximo: boolean;
 begin
   Result := FSelecionaProximo;
@@ -120,6 +125,11 @@ end;
 //begin
 //  FDisparaShowTimer := Value;
 //end;
+
+procedure TBasForm.SetKeyPressFiltraTeclado(Value: boolean);
+begin
+  FKeyPressFiltraTeclado := Value;
+end;
 
 procedure TBasForm.SetSelecionaProximo(Value: boolean);
 begin
