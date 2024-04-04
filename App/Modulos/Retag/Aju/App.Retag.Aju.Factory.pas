@@ -3,7 +3,7 @@ unit App.Retag.Aju.Factory;
 interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, System.Classes, App.UI.Form.Bas.Ed_u,
+  Sis.UI.IO.Output, System.Classes, App.UI.Form.Bas.Ed_u, Sis.Usuario,
   Sis.UI.Controls.ComboBoxManager, App.AppInfo, Sis.Config.SisConfig,
   App.UI.FormCreator.TabSheet_u, Sis.UI.FormCreator
   //
@@ -29,7 +29,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
 //function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 //
 function AjuBemVindoSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput): IFormCreator;
 
 {$ENDREGION}
@@ -78,11 +78,11 @@ uses App.UI.Form.TabSheet.Retag.Aju.BemVindo_u;
 //end;
 
 function AjuBemVindoSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput): IFormCreator;
 begin
   Result := TTabSheetFormCreator.Create(TRetagAjuBemVindoForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify);
 end;
 

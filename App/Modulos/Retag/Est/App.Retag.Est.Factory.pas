@@ -3,7 +3,7 @@ unit App.Retag.Est.Factory;
 interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja,
+  Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
   Sis.Config.SisConfig, Sis.UI.FormCreator, App.Retag.Est.Custo
 
@@ -53,7 +53,7 @@ function ProdFabrPerg(AOwner: TComponent; pProdFabrEnt: IEntEd;
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
 function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 
@@ -77,7 +77,7 @@ function ProdTipoPerg(AOwner: TComponent; pProdTipoEnt: IEntEd;
 // function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
 
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 
@@ -101,7 +101,7 @@ function ProdUnidPerg(AOwner: TComponent; pProdUnidEnt: IEntEd;
 // function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
 
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 {$ENDREGION}
@@ -124,7 +124,7 @@ function ProdICMSPerg(AOwner: TComponent; pProdICMSEnt: IEntEd;
 // function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
 
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 
@@ -170,7 +170,8 @@ function ProdEdFormCreate(AOwner: TComponent;
 
   //
   pAppInfo: IAppInfo;//
-  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
+  pUsuario: IUsuario
   ): TEdBasForm;
 
 function ProdPerg(AOwner: TComponent;
@@ -190,7 +191,8 @@ function ProdPerg(AOwner: TComponent;
   pProdICMSDataSetFormCreator: IFormCreator;
   //
   pAppInfo: IAppInfo;//
-  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
+  pUsuario: IUsuario
   ): boolean;
 
 // function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
@@ -199,7 +201,7 @@ function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 function EntDBICastToProdDBI(pEntDBI: IEntDBI): IProdDBI;
 
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 
@@ -311,12 +313,12 @@ end;
 // end;
 
 function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 begin
-  Result := TDataSetFormCreator.Create(TRetagEstProdFabrDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+  Result := TDataSetFormCreator.Create( TRetagEstProdFabrDataSetForm,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify, pEntEd, pEntDBI);
 end;
 
@@ -366,12 +368,12 @@ end;
 // end;
 
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdTipoDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify, pEntEd, pEntDBI);
 end;
 
@@ -422,12 +424,12 @@ end;
 // end;
 
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdUnidDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify, pEntEd, pEntDBI);
 end;
 
@@ -480,12 +482,12 @@ end;
 // end;
 
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdICMSDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify, pEntEd, pEntDBI);
 end;
 
@@ -541,13 +543,13 @@ function ProdEdFormCreate(AOwner: TComponent;
 
   //
   pAppInfo: IAppInfo;//
-  pRetagEstProdEdDBI: IRetagEstProdEdDBI
-
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
+  pUsuario: IUsuario
   ): TEdBasForm;
 begin
   Result := TProdEdForm.Create(AOwner, pProdEnt, pProdDBI, pProdFabrDBI,
     pProdTipoDBI, pProdUnidDBI, pProdICMSDBI, pBarrasDBI, pFabrDataSetFormCreator, pProdTipoDataSetFormCreator,
-    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo, pRetagEstProdEdDBI);
+    pProdUnidDataSetFormCreator, pProdICMSDataSetFormCreator, pAppInfo, pRetagEstProdEdDBI, pUsuario);
 end;
 
 function ProdPerg(AOwner: TComponent;
@@ -568,7 +570,8 @@ function ProdPerg(AOwner: TComponent;
   pProdICMSDataSetFormCreator: IFormCreator;
   //
   pAppInfo: IAppInfo;//
-  pRetagEstProdEdDBI: IRetagEstProdEdDBI
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
+  pUsuario: IUsuario
   ): boolean;
 var
   F: TEdBasForm;
@@ -576,7 +579,7 @@ begin
   F := ProdEdFormCreate(AOwner, pProdEnt, pProdDBI, pProdFabrDBI, pProdTipoDBI,
     pProdUnidDBI, pProdICMSDBI, pBarrasDBI, pFabrDataSetFormCreator,
     pProdTipoDataSetFormCreator, pProdUnidDataSetFormCreator,
-    pProdICMSDataSetFormCreator, pAppInfo, pRetagEstProdEdDBI);
+    pProdICMSDataSetFormCreator, pAppInfo, pRetagEstProdEdDBI, pUsuario);
   Result := F.Perg;
 end;
 
@@ -596,12 +599,12 @@ begin
 end;
 
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify, pEntEd, pEntDBI);
 end;
 

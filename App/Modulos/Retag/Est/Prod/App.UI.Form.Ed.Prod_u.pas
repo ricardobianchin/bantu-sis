@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Retag.Est.Prod.Ent,
-  App.Retag.Est.Prod.DBI, Data.DB, App.Ent.DBI,
+  App.Retag.Est.Prod.DBI, Data.DB, App.Ent.DBI, Sis.Usuario,
   App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig,
   Sis.UI.Frame.Bas_u, App.UI.Frame.Bas.Retag.Ed_u,
   App.UI.Frame.Bas.Retag.Prod.Ed_u, App.Est.Prod.Barras.DBI
@@ -92,8 +92,8 @@ type
 
       //
       pAppInfo: IAppInfo; //
-      pRetagEstProdEdDBI: IRetagEstProdEdDBI //
-
+      pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
+      pUsuario: IUsuario
       ); reintroduce;
   end;
 
@@ -291,7 +291,8 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
 
   //
   pAppInfo: IAppInfo; //
-  pRetagEstProdEdDBI: IRetagEstProdEdDBI //
+  pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
+  pUsuario: IUsuario
   );
 begin
   inherited Create(AOwner, pEntEd, pEntDBI);

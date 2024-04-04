@@ -147,18 +147,18 @@ begin
   oBarrasDBI := AppEstBarrasDBICreate(oDBConnection);
 
   oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
     oProdFabrDBI);
 
   oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdTipoEnt,
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdTipoEnt,
     oProdTipoDBI);
 
   oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdUnidEnt, oProdUnidDBI);
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdUnidEnt, oProdUnidDBI);
 
   oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdICMSEnt, oProdICMSDBI );
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdICMSEnt, oProdICMSDBI );
 
   oRetagEstProdEdDBI := RetagEstProdEdDBICreate(oDBConnection);
 
@@ -171,7 +171,7 @@ begin
     , oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
     oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator
     //
-    , AppInfo, oRetagEstProdEdDBI);
+    , AppInfo, oRetagEstProdEdDBI, Usuario);
 end;
 
 procedure TRetagEstProdDataSetForm.EntToCampos;

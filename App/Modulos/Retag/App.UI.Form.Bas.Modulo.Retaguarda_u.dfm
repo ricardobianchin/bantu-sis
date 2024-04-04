@@ -2,7 +2,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
   ClientWidth = 592
-  WindowState = wsMaximized
   OnDestroy = FormDestroy
   ExplicitWidth = 592
   ExplicitHeight = 458
@@ -154,6 +153,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 12
+        Height = 15
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0

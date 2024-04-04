@@ -1,5 +1,4 @@
 inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
-  Align = alClient
   Caption = 'TabSheetDataSetBasForm'
   ClientWidth = 700
   WindowState = wsMaximized

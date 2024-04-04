@@ -2,7 +2,7 @@ unit App.UI.FormCreator.TabSheet_u;
 
 interface
 
-uses Sis.UI.FormCreator_u, VCL.Forms, App.UI.Form.Bas.TabSheet_u,
+uses Sis.UI.FormCreator_u, VCL.Forms, App.UI.Form.Bas.TabSheet_u, Sis.Usuario,
   System.Classes, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes
   , Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
@@ -14,6 +14,7 @@ type
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
+    FUsuario: IUsuario;
     FOutput: IOutput;
     FProcessLog: IProcessLog;
     FOutputNotify: IOutput;
@@ -33,6 +34,7 @@ type
     property FormClassNamesSL: TStringList read GetFormClassNamesSL;
     property AppInfo: IAppInfo read GetAppInfo;
     property SisConfig: ISisConfig read GetSisConfig;
+    property Usuario: IUsuario read FUsuario;
     property DBMS: IDBMS read GetDBMS;
     property Output: IOutput read GetOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
@@ -42,7 +44,7 @@ type
     function FormCreate(AOwner: TComponent): TForm; override;
     constructor Create(pFormClass: TTabSheetAppBasFormClass;
       pFormClassNamesSL: TStringList; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput;
+      pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
     destructor Destroy; override;
 
@@ -53,7 +55,7 @@ implementation
 { TTabSheetFormCreator }
 
 constructor TTabSheetFormCreator.Create(pFormClass: TTabSheetAppBasFormClass;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput);
 begin
@@ -66,7 +68,9 @@ begin
 
   FAppInfo := pAppInfo;
   FSisConfig := pSisConfig;
+  FUsuario := pUsuario;
   FDBMS := pDBMS;
+
   FOutput := pOutput;
   FProcessLog := pProcessLog;
   FOutputNotify := pOutputNotify;
@@ -82,7 +86,7 @@ end;
 function TTabSheetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
   Result := TabSheetFormClass.Create(AOwner, FormClassNamesSL, FAppInfo,
-    FSisConfig, FDBMS, FOutput, FProcessLog, FOutputNotify);
+    FSisConfig, FUsuario, FDBMS, FOutput, FProcessLog, FOutputNotify);
 end;
 
 function TTabSheetFormCreator.GetAppInfo: IAppInfo;

@@ -208,35 +208,35 @@ begin
 
   // aju bem vindo
   FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify);
 
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, oFabrEnt);
 
   FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
-    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oFabrEnt,
+    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oFabrEnt,
     oFabrDBI);
 
   oTipoEnt := RetagEstProdTipoEntCreate;
   oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, oTipoEnt);
 
   FProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify, oTipoEnt, oTipoDBI);
 
   oUnidEnt := RetagEstProdUnidEntCreate;
   oUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, oUnidEnt);
 
   FProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify, oUnidEnt, oUnidDBI);
 
   oICMSEnt := RetagEstProdICMSEntCreate;
   oICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, oICMSEnt);
 
   FProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify, oICMSEnt, oICMSDBI);
 
   oProdBarrasList := ProdBarrasListCreate;
@@ -247,7 +247,7 @@ begin
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
-    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
+    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
     oProdDBI);
 end;
 
