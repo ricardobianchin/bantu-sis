@@ -43,7 +43,8 @@ type
 
     procedure PreenchaControles;
 
-    procedure BarrasFrEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BarrasFrEditKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
     procedure BarrasEditExit(Sender: TObject);
 
@@ -68,7 +69,7 @@ type
     procedure EntToControles; override;
 
     function GravouOk: boolean; override;
-    function DadosOk: Boolean; override;
+    function DadosOk: boolean; override;
 
   public
     { Public declarations }
@@ -146,7 +147,7 @@ end;
 procedure TProdEdForm.BarrasFrEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
-  bValor: Boolean;
+  bValor: boolean;
 begin
   bValor := Shift = [];
   KeyPressFiltraTeclado := bValor;
@@ -257,11 +258,12 @@ begin
   ProdEnt.ProdICMSEnt.Descr := FComunsFr.ICMSFr.Text;
 
   ProdEnt.CustoAtual := FComunsFr.CustoAtuEdit.Valor;
-  ProdEnt.CustoNovo  := FComunsFr.CustoNovEdit.Valor;
+  ProdEnt.CustoNovo := FComunsFr.CustoNovEdit.Valor;
   ProdEnt.PrecoAtual := FComunsFr.PrecoAtuEdit.Valor;
-  ProdEnt.PrecoNovo  := FComunsFr.PrecoNovEdit.Valor;
+  ProdEnt.PrecoNovo := FComunsFr.PrecoNovEdit.Valor;
 
-  ProdEnt.ProdBalancaEnt.BalancaTipo := TBalancaTipo(FComunsFr.BalUtilizaComboBox.ItemIndex);
+  ProdEnt.ProdBalancaEnt.BalancaTipo :=
+    TBalancaTipo(FComunsFr.BalUtilizaComboBox.ItemIndex);
   ProdEnt.ProdBalancaEnt.DptoCod := FComunsFr.BalDpto.Valor;
   ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
 
@@ -325,13 +327,13 @@ begin
   FComunsFr.DescrRedEdit.OnExit := DescrEditExit;
 
   FComunsFr.TipoFr.ComboBox1.OnKeyPress := ComboKeyPress;
-  FComunsFr.TipoFr.ComboBox1.OnExit :=     ComboExit;
+  FComunsFr.TipoFr.ComboBox1.OnExit := ComboExit;
 
   FComunsFr.UnidFr.ComboBox1.OnKeyPress := ComboKeyPress;
-  FComunsFr.UnidFr.ComboBox1.OnExit :=     ComboExit;
+  FComunsFr.UnidFr.ComboBox1.OnExit := ComboExit;
 
   FComunsFr.ICMSFr.ComboBox1.OnKeyPress := ComboKeyPress;
-  FComunsFr.ICMSFr.ComboBox1.OnExit :=     ComboExit;
+  FComunsFr.ICMSFr.ComboBox1.OnExit := ComboExit;
 
   FComunsFr.CustoNovEdit.OnKeyPress := EditKeyPress;
   FComunsFr.PrecoNovEdit.OnKeyPress := EditKeyPress;
@@ -343,11 +345,10 @@ begin
 
   FComunsFr.LocalizLabeledEdit.OnKeyPress := EditKeyPress;
 
-
   FComunsFr.CapacEmbEdit.OnKeyPress := CapacEmbEditKeyPress;
 end;
 
-function TProdEdForm.DadosOk: Boolean;
+function TProdEdForm.DadosOk: boolean;
 var
   s: string;
 begin
@@ -358,14 +359,15 @@ begin
   Result := FComunsFr.BarrasFr.PodeOk;
   if not Result then
   begin
-    ErroOutput.Exibir('Código de Barras '+FComunsFr.BarrasFr.ErroLabel.Caption);
+    ErroOutput.Exibir('Código de Barras ' +
+      FComunsFr.BarrasFr.ErroLabel.Caption);
     exit;
   end;
 
   Result := FabrOk;
   if not Result then
   begin
-    ErroOutput.Exibir('Fabricante '+FComunsFr.FabrFr.MensLabel.Caption);
+    ErroOutput.Exibir('Fabricante ' + FComunsFr.FabrFr.MensLabel.Caption);
     exit;
   end;
 
@@ -375,14 +377,14 @@ begin
     s := '';
     if FComunsFr.DescrErroLabel.Caption <> '' then
     begin
-      s := s + 'Descrição '+FComunsFr.DescrErroLabel.Caption;
+      s := s + 'Descrição ' + FComunsFr.DescrErroLabel.Caption;
     end;
 
     if FComunsFr.DescrRedErroLabel.Caption <> '' then
     begin
       if s <> '' then
         s := s + '. ';
-      s := s + 'Descrição Reduzida'+FComunsFr.DescrRedErroLabel.Caption;
+      s := s + 'Descrição Reduzida' + FComunsFr.DescrRedErroLabel.Caption;
     end;
 
     ErroOutput.Exibir(s);
@@ -392,29 +394,31 @@ begin
   Result := FComunsFr.TipoFr.Id > 0;
   if not Result then
   begin
-    ErroOutput.Exibir('Setor '+FComunsFr.TipoFr.MensLabel.Caption);
+    ErroOutput.Exibir('Setor ' + FComunsFr.TipoFr.MensLabel.Caption);
     exit;
   end;
-
 
   Result := FComunsFr.UnidFr.Id > 0;
   if not Result then
   begin
-    ErroOutput.Exibir('Unidade de Medida '+FComunsFr.UnidFr.MensLabel.Caption);
+    ErroOutput.Exibir('Unidade de Medida ' +
+      FComunsFr.UnidFr.MensLabel.Caption);
     exit;
   end;
 
   Result := FComunsFr.ICMSFr.Id > 0;
   if not Result then
   begin
-    ErroOutput.Exibir('Unidade de Medida '+FComunsFr.ICMSFr.MensLabel.Caption);
+    ErroOutput.Exibir('Unidade de Medida ' +
+      FComunsFr.ICMSFr.MensLabel.Caption);
     exit;
   end;
 
   Result := FComunsFr.CapacEmbEdit.Valor > 0;
   if not Result then
   begin
-    ErroOutput.Exibir(FComunsFr.CapacEmbEdit.EditLabel.Caption +' é obrigatória');
+    ErroOutput.Exibir(FComunsFr.CapacEmbEdit.EditLabel.Caption +
+      ' é obrigatória');
     exit;
   end;
 end;
@@ -429,7 +433,7 @@ begin
     exit;
 
   Ed := TLabeledEdit(Sender);
-  if Ed.text = '' then
+  if Ed.Text = '' then
   begin
     if Ed = FComunsFr.DescrEdit then
       FComunsFr.DescrErroLabel.Caption := 'Obrigatório'
@@ -457,11 +461,12 @@ begin
   FComunsFr.DescrRedEdit.Text := ProdEnt.DescrRed;
 
   FComunsFr.CustoAtuEdit.Valor := ProdEnt.CustoAtual;
-  FComunsFr.CustoNovEdit.Valor :=  ProdEnt.CustoNovo;
+  FComunsFr.CustoNovEdit.Valor := ProdEnt.CustoNovo;
   FComunsFr.PrecoAtuEdit.Valor := ProdEnt.PrecoAtual;
-  FComunsFr.PrecoNovEdit.Valor :=  ProdEnt.PrecoNovo;
+  FComunsFr.PrecoNovEdit.Valor := ProdEnt.PrecoNovo;
 
-  FComunsFr.BalUtilizaComboBox.ItemIndex := Integer(ProdEnt.ProdBalancaEnt.BalancaTipo);
+  FComunsFr.BalUtilizaComboBox.ItemIndex :=
+    Integer(ProdEnt.ProdBalancaEnt.BalancaTipo);
   FComunsFr.BalDpto.Valor := ProdEnt.ProdBalancaEnt.DptoCod;
   FComunsFr.BalValidEdit.Valor := ProdEnt.ProdBalancaEnt.ValidadeDias;
 
@@ -470,9 +475,11 @@ begin
   FComunsFr.LocalizLabeledEdit.Text := ProdEnt.Localiz;
 
   if ProdEnt.ProdBarrasList.Count = 0 then
+  begin
+    FComunsFr.BarrasFr.LabeledEdit1.Text := '';
     exit;
-
-//  FComunsFr.BarrasFr.list
+  end;
+  FComunsFr.BarrasFr.LabeledEdit1.Text := ProdEnt.ProdBarrasList[0].Barras;
 end;
 
 procedure TProdEdForm.FabrComboExit(Sender: TObject);
@@ -528,7 +535,7 @@ begin
 
   oResultSL := TStringList.Create;
   try
-    FRetagEstProdEdDBI.FabrDescrsExistentes(FComunsFr.FabrFr.Id,
+    FRetagEstProdEdDBI.FabrDescrsExistentes(ProdEnt.Id, FComunsFr.FabrFr.Id,
       FComunsFr.DescrEdit.Text, FComunsFr.DescrRedEdit.Text, oResultSL);
     Result := oResultSL.Count = 0;
 
@@ -547,6 +554,13 @@ begin
       else
         sErroDescrRed := pLinhaConteudo;
     end;
+
+    if sErroDescr <> '' then
+      sErroDescr := 'Já usado em ' + sErroDescr;
+
+    if sErroDescrRed <> '' then
+      sErroDescrRed := 'Já usado em ' + sErroDescrRed;
+
     FComunsFr.DescrErroLabel.Caption := sErroDescr;
     FComunsFr.DescrRedErroLabel.Caption := sErroDescrRed;
   finally
@@ -595,9 +609,14 @@ function TProdEdForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  if EntEd.State = dsInsert  then
+  Result := true;
+  try
+  if EntEd.State = dsInsert then
   begin
     ProdEnt.Id := ProdDBI.InsertInto;
+  end;
+  except
+    Result := False;
   end;
 end;
 
@@ -619,8 +638,8 @@ procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 var
   sNomeArq: string;
   sl: TStringList;
-  S: string;
-  Resultado: Boolean;
+  s: string;
+  Resultado: boolean;
 begin
   inherited;
   s := ActiveControl.Name;
@@ -634,8 +653,8 @@ begin
   sl := TStringList.Create;
   try
     sl.LoadFromFile(sNomeArq);
-    S := sl.Text;
-    DigiteStr(S, 0);
+    s := sl.Text;
+    DigiteStr(s, 0);
   finally
     sl.Free;
   end;

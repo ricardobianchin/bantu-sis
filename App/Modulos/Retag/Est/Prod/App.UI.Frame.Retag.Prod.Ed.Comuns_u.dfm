@@ -31,6 +31,14 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     ParentFont = False
     StyleElements = []
   end
+  object GeraBarrasLabel: TLabel
+    Left = 472
+    Top = 34
+    Width = 56
+    Height = 15
+    Caption = 'GeraBarras'
+    OnClick = GeraBarrasLabelClick
+  end
   object DescrEdit: TLabeledEdit
     Left = 59
     Top = 46

@@ -40,9 +40,11 @@ type
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
     DescrErroLabel: TLabel;
     DescrRedErroLabel: TLabel;
+    GeraBarrasLabel: TLabel;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure GeraBarrasLabelClick(Sender: TObject);
   private
     { Private declarations }
 
@@ -113,7 +115,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory,
-  App.Est.Types_u;
+  App.Est.Types_u, Sis.Types.Codigos.Utils;
 
 { TRetagProdEdObrigFrame }
 
@@ -257,7 +259,7 @@ begin
   CustoAtuEdit := TNumEditBtu.Create(CustoGroupBox);
   CustoAtuEdit.Parent := CustoGroupBox;
   CustoAtuEdit.Alignment := taRightJustify;
-  CustoAtuEdit.NCasas := 6;
+  CustoAtuEdit.NCasas := 4;
   CustoAtuEdit.NCasasEsq := 7;
   // FCustoAtuEdit.MascEsq := '0000000';
   CustoAtuEdit.Caption := 'Atual';
@@ -269,7 +271,7 @@ begin
   CustoNovEdit := TNumEditBtu.Create(CustoGroupBox);
   CustoNovEdit.Parent := CustoGroupBox;
   CustoNovEdit.Alignment := taRightJustify;
-  CustoNovEdit.NCasas := 6;
+  CustoNovEdit.NCasas := 4;
   CustoNovEdit.NCasasEsq := 7;
 //  CustoNovEdit.MascEsq := '0000000';
   CustoNovEdit.Caption := 'Novo';
@@ -435,6 +437,12 @@ destructor TRetagProdEdComunsFrame.Destroy;
 begin
   FWinControlList.Free;
   inherited;
+end;
+
+procedure TRetagProdEdComunsFrame.GeraBarrasLabelClick(Sender: TObject);
+begin
+  inherited;
+  BarrasFr.LabeledEdit1.Text := EAN13GetRandom;
 end;
 
 end.

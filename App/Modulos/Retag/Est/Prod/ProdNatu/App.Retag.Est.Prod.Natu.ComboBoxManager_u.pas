@@ -26,11 +26,11 @@ procedure TProdNatuComboBoxManager.Preencher;
 begin
   LimparItens;
   ComboBox.Items.Clear;
-  PegarIdChar('P', 'PRODUTO');
-  PegarIdChar('S', 'SERVICO');
-  PegarIdChar('B', 'COMBO');
-  PegarIdChar('M', 'MATERIA-PRIMA');
-  PegarIdChar('C', 'COMPOSTO');
+  PegarIdChar(#33, 'PRODUTO');
+  PegarIdChar(#34, 'SERVICO');
+  PegarIdChar(#35, 'COMBO');
+  PegarIdChar(#36, 'MATERIA-PRIMA');
+  PegarIdChar(#37, 'COMPOSTO');
 end;
 
 end.

@@ -16,7 +16,15 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     Width = 356
     ExplicitTop = 163
   end
-  object LabeledEdit1: TLabeledEdit [2]
+  object GeraBarrasLabel: TLabel [2]
+    Left = 128
+    Top = 24
+    Width = 56
+    Height = 15
+    Caption = 'GeraBarras'
+    OnClick = GeraBarrasLabelClick
+  end
+  object LabeledEdit1: TLabeledEdit [3]
     Left = 11
     Top = 22
     Width = 105
@@ -38,16 +46,16 @@ inherited ProdBarrasEdForm: TProdBarrasEdForm
     ExplicitTop = 125
     ExplicitWidth = 352
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 5
-      ExplicitLeft = 1
+      Left = 1
+      ExplicitLeft = -3
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 118
-      ExplicitLeft = 114
+      Left = 114
+      ExplicitLeft = 110
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 198
-      ExplicitLeft = 194
+      Left = 194
+      ExplicitLeft = 190
     end
   end
 end

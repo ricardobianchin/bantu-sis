@@ -186,6 +186,7 @@ var
   sMens: string;
 begin
   inherited Create(AOwner);
+  Randomize;
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   ToolBar1.Color := COR_PRETO_TITLEBAR;
 

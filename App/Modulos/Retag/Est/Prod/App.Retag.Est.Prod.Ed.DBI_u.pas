@@ -9,7 +9,7 @@ type
   private
   public
     procedure PreencherItens(pProdEdForm: TObject);
-    function FabrDescrsExistentes(pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
+    function FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
   end;
 
 implementation
@@ -18,7 +18,7 @@ uses App.UI.Form.Ed.Prod_u, Data.DB, System.SysUtils, Sis.Types.Bool_u;
 
 { TRetagEstProdEdDBI }
 
-function TRetagEstProdEdDBI.FabrDescrsExistentes(pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
+function TRetagEstProdEdDBI.FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
 var
   oForm: TProdEdForm;
   q: TDataSet;
@@ -32,9 +32,9 @@ begin
   Result := False;
 
   sFormat := 'SELECT PROD_ID_RET, DESCR_RET, DESCR_RED_RET'
-    + ' FROM RETAG_PROD_ED_PA.FABR_DESCRS_EXISTENTES_GET(%d,''%s'',''%s'');';
+    + ' FROM RETAG_PROD_ED_PA.FABR_DESCRS_EXISTENTES_GET(%d, %d,''%s'',''%s'');';
 
-  sSql := Format(sFormat, [pFabrId, pDescr, pDescrRed]);
+  sSql := Format(sFormat, [pProdIdExceto, pFabrId, pDescr, pDescrRed]);
   pResultSL.Clear;
 
   DBConnection.Abrir;

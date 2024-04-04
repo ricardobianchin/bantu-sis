@@ -2,13 +2,13 @@ unit Sis.Types.Codigos.Utils;
 
 interface
 
-function CNPJValido(pCNPJ: string; AceitaNulo: Boolean = True): boolean;
-function CPFValido(pCPF: string): boolean;
-function BarCodValido(pCod: string): boolean;
-function EAN8Valido(pCod: string): boolean;
-function EAN13Valido(pCod: string): boolean;
-function EAN14Valido(pCod: string): boolean;
-function UPCAValido(pCod: string): boolean;
+function CNPJValido(pCNPJ: string; AceitaNulo: Boolean = True): Boolean;
+function CPFValido(pCPF: string): Boolean;
+function BarCodValido(pCod: string): Boolean;
+function EAN8Valido(pCod: string): Boolean;
+function EAN13Valido(pCod: string): Boolean;
+function EAN14Valido(pCod: string): Boolean;
+function UPCAValido(pCod: string): Boolean;
 
 function CPFComMasc(S: string): string;
 function CEPComMasc(S: string): string;
@@ -21,12 +21,14 @@ function EAN8Dig(pCod: string): char;
 function EAN13Dig(pCod: string): char;
 function EAN14Dig(pCod: string): char;
 
+function EAN13GetRandom: string;
+
 function IdToEan13(pId: integer): string;
 
 implementation
 
 uses System.SysUtils, System.Classes, System.StrUtils, VCL.Dialogs,
-  Sis.Types.strings_u, Sis.Types.TStrings_u;
+  Sis.Types.strings_u, Sis.Types.TStrings_u, System.Math;
 
 // StrToOnlyDigit StrToOnlyDigit
 
@@ -113,7 +115,7 @@ begin
   end;
 end;
 
-function CNPJValido(pCNPJ: string; AceitaNulo: Boolean = True): boolean;
+function CNPJValido(pCNPJ: string; AceitaNulo: Boolean = True): Boolean;
 var
   L, soma, ind, i, resto, dv: integer;
 begin
@@ -121,30 +123,30 @@ begin
 
   if not AceitaNulo then
   begin
-    Result := pCNPJ <> '';
-    if not Result then
-      Exit;
+    result := pCNPJ <> '';
+    if not result then
+      exit;
   end;
 
   L := Length(pCNPJ);
 
-  Result := L >= 14;
-  if not Result then
+  result := L >= 14;
+  if not result then
     exit;
 
-  Result := False;
+  result := False;
 
-  Soma := 0;
-  Ind := 5;
-  for I := 1 to 12 do
+  soma := 0;
+  ind := 5;
+  for i := 1 to 12 do
   begin
-    inc(soma, strtoint(pCNPJ[I]) * ind);
+    inc(soma, strtoint(pCNPJ[i]) * ind);
     dec(ind);
     if ind = 1 then
       ind := 9;
   end;
 
-  Resto := soma mod 11;
+  resto := soma mod 11;
 
   if (resto = 0) or (resto = 1) then
     dv := 0
@@ -153,7 +155,7 @@ begin
 
   if strtoint(pCNPJ[13]) <> dv then
   begin
-    result := false;
+    result := False;
     exit;
   end;
   soma := 0;
@@ -173,14 +175,14 @@ begin
     dv := 11 - resto;
   if strtoint(pCNPJ[14]) <> dv then
   begin
-    result := false;
+    result := False;
     exit;
   end;
 
   result := True;
 end;
 
-function CPFValido(pCPF: string): boolean;
+function CPFValido(pCPF: string): Boolean;
 var
   soma, p, resto, dv: integer;
 begin
@@ -224,18 +226,18 @@ begin
 
   if strtoint(pCPF[11]) <> dv then
     exit;
-  result := true;
+  result := True;
 
 end;
 
-function BarCodValido(pCod: string): boolean;
+function BarCodValido(pCod: string): Boolean;
 var
   L: integer;
 begin
   pCod := Trim(pCod);
 
-  Result := StrIsOnlyDigit(pCod);
-  if not Result then
+  result := StrIsOnlyDigit(pCod);
+  if not result then
     exit;
 
   L := Length(pCod);
@@ -250,7 +252,7 @@ begin
     8:
       result := EAN8Valido(pCod);
   else
-    result := false;
+    result := False;
   end;
 end;
 
@@ -275,7 +277,7 @@ begin
   result := inttostr(dv)[1];
 end;
 
-function EAN13Valido(pCod: string): boolean;
+function EAN13Valido(pCod: string): Boolean;
 const
   LEN_DESEJADO = 13;
 var
@@ -288,7 +290,7 @@ begin
   if not result then
     exit;
 
-  Result:=false;
+  result := False;
 
   if not StrIsOnlyDigit(pCod) then
     exit;
@@ -334,7 +336,7 @@ begin
     result:= pCod[length(pcod)]=inttostr(dv); }
 end;
 
-function UPCAValido(pCod: string): boolean;
+function UPCAValido(pCod: string): Boolean;
 const
   LEN_DESEJADO = 12;
 var
@@ -347,7 +349,7 @@ begin
   if not result then
     exit;
 
-  Result:=false;
+  result := False;
 
   if not StrIsOnlyDigit(pCod) then
     exit;
@@ -388,11 +390,11 @@ begin
   result := inttostr(dv)[1];
 end;
 
-function EAN8Valido(pCod: string): boolean;
+function EAN8Valido(pCod: string): Boolean;
 const
   LEN_DESEJADO = 13;
 var
-  bResultado: boolean;
+  bResultado: Boolean;
   dv, soma: integer;
   // c:char;
   iLen: integer;
@@ -403,7 +405,7 @@ begin
   if not result then
     exit;
 
-  Result := False;
+  result := False;
 
   if not StrIsOnlyDigit(pCod) then
     exit;
@@ -491,7 +493,7 @@ end;
 
 }
 
-function EAN14Valido(pCod: string): boolean;
+function EAN14Valido(pCod: string): Boolean;
 const
   LEN_DESEJADO = 14;
 var
@@ -505,7 +507,7 @@ begin
   if not result then
     exit;
 
-  Result:=false;
+  result := False;
 
   if not StrIsOnlyDigit(pCod) then
     exit;
@@ -581,6 +583,28 @@ begin
   cDigVer := EAN13Dig(result);
 
   result := result + cDigVer;
+end;
+
+function EAN13GetRandom: string;
+const
+  Digitos: array[0..9] of Char = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+  LEN_CODIGO = 13;
+  PREFIXO = '2';
+  LEN_DESEJADO = LEN_CODIGO - 1{dig} - Length(PREFIXO);
+
+var
+  cAtual: char;
+  I, ic: integer;
+begin
+  Result := '2';
+  for I := 1 to LEN_DESEJADO do
+  begin
+    ic := Random(Length(Digitos));
+    cAtual := Digitos[ic];
+    Result := Result + cAtual
+  end;
+
+  Result := Result + EAN13Dig(result);
 end;
 
 end.

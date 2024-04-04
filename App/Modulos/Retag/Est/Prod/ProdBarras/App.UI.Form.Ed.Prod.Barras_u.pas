@@ -12,9 +12,11 @@ uses
 type
   TProdBarrasEdForm = class(TDiagBtnBasForm)
     LabeledEdit1: TLabeledEdit;
+    GeraBarrasLabel: TLabel;
     procedure LabeledEdit1Change(Sender: TObject);
     procedure LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
     procedure FormDestroy(Sender: TObject);
+    procedure GeraBarrasLabelClick(Sender: TObject);
   private
     { Private declarations }
     FListaAtualSL: TStringList;
@@ -53,6 +55,12 @@ procedure TProdBarrasEdForm.FormDestroy(Sender: TObject);
 begin
   FListaAtualSL.Free;
   inherited;
+end;
+
+procedure TProdBarrasEdForm.GeraBarrasLabelClick(Sender: TObject);
+begin
+  inherited;
+  LabeledEdit1.Text := EAN13GetRandom;
 end;
 
 procedure TProdBarrasEdForm.LabeledEdit1Change(Sender: TObject);
