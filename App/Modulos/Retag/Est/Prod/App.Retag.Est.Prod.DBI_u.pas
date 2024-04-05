@@ -21,7 +21,7 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.Types.strings_u,
+uses System.SysUtils, Sis.Types.strings_u, App.Est.Types_u,
   Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats;
 
 { TProdDBI }
@@ -60,16 +60,24 @@ begin
     +','+ FProdEnt.ProdUnidEnt.Id.ToString
     +','+ FProdEnt.ProdICMSEnt.Id.ToString
 
+    +','+ ProdNatuToSql(pnatuProduto)
+
     +','+ CurrencyToStrPonto(FProdEnt.CapacEmb)
+
     +','+ FProdEnt.Loja.Id.ToString
     +','+ BooleanToStrSql( FProdEnt.Ativo)
     +','+ QuotedStr(FProdEnt.Localiz)
+
+    +','+ CurrencyToStrPonto(FProdEnt.Margem)
+
     +','+ FProdEnt.ProdBalancaEnt.BalancaTipoStr
     +','+ QuotedStr(FProdEnt.ProdBalancaEnt.DptoCod.ToString)
     +','+ FProdEnt.ProdBalancaEnt.ValidadeDias.ToString
     +','+ QuotedStr(FProdEnt.ProdBalancaEnt.TextoEtiq)
+
     +','+ QuotedStr(sBarras)
     +');';
+
 
   SetClipboardText(sSql);
 

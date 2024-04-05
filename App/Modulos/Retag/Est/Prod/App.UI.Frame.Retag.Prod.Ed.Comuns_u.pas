@@ -77,6 +77,7 @@ type
     BalDpto: TNumEditBtu;
     BalValidEdit: TNumEditBtu;
     CapacEmbEdit: TNumEditBtu;
+    MargemEdit: TNumEditBtu;
 
     FabrFr: TComboBoxProdEdFrame;
     TipoFr: TComboBoxProdEdFrame;
@@ -386,6 +387,7 @@ begin
   BalValidEdit.Top := MoldeBalValidEditLabeledEdit.Top;
   BalValidEdit.Width := MoldeBalValidEditLabeledEdit.Width;
 
+  //capac emb
   CapacEmbEdit := TNumEditBtu.Create(Self);
   CapacEmbEdit.Parent := Self;
 
@@ -404,7 +406,37 @@ begin
   CapacEmbEdit.NCasasEsq := 5;
 
   CapacEmbEdit.TabOrder := 7;
+  //capac emb fim
 
+  FWinControlList.Add(AtivoCheckBox);
+  FWinControlList.Add(LocalizLabeledEdit);
+  FWinControlList.Add(CapacEmbEdit);
+
+
+  //margem
+  MargemEdit := TNumEditBtu.Create(Self);
+  MargemEdit.Parent := Self;
+
+  MargemEdit.Left := MoldeMargemLabeledEdit.Left;
+  MargemEdit.Top := MoldeMargemLabeledEdit.Top;
+  MargemEdit.Width := MoldeMargemLabeledEdit.Width;
+
+  MargemEdit.Alignment := taCenter;
+  MargemEdit.Caption := MoldeMargemLabeledEdit.EditLabel.Caption;
+
+  MargemEdit.LabelPosition := lpLeft;
+  MargemEdit.LabelSpacing := 4;
+
+  MargemEdit.MaxLength := 5;
+  MargemEdit.NCasas := 0;
+  MargemEdit.NCasasEsq := 5;
+
+  MargemEdit.TabOrder := 7;
+  //margem fim
+
+  FWinControlList.Add(MargemEdit);
+
+  MoldeMargemLabeledEdit.Free;
   MoldeCapacEmbLabeledEdit.Free;
   MoldeBalValidEditLabeledEdit.Free;
   MoldeBalDptoLabeledEdit.Free;
@@ -414,6 +446,7 @@ begin
   BalDpto.Valor := 1;
   BalValidEdit.Valor := 0;
   CapacEmbEdit.Valor := 1;
+  MargemEdit.Valor := 1;
 
   for I := 0 to FWinControlList.Count - 1 do
   begin
