@@ -41,6 +41,7 @@ type
     DescrErroLabel: TLabel;
     DescrRedErroLabel: TLabel;
     GeraBarrasLabel: TLabel;
+    MoldeMargemLabeledEdit: TLabeledEdit;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
