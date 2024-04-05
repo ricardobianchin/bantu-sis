@@ -11,7 +11,7 @@
 			"file": "/C/Pr/app/bantu/bantu-sis/Src/App/Modulos/Retag/Est/Prod/App.Retag.Est.Prod.Ent.pas",
 			"settings":
 			{
-				"buffer_size": 2354,
+				"buffer_size": 2433,
 				"line_ending": "Windows"
 			}
 		}
@@ -188,7 +188,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2354,
+						"buffer_size": 2433,
 						"regions":
 						{
 						},
@@ -312,7 +312,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 78.0,
+	"side_bar_width": 284.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
