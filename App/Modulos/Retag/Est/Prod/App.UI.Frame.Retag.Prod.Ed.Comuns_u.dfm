@@ -176,7 +176,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     TabOrder = 6
     Text = ''
   end
-  object MoldeQtdNaEmbLabeledEdit: TLabeledEdit
+  object MoldeCapacEmbLabeledEdit: TLabeledEdit
     Left = 565
     Top = 235
     Width = 53

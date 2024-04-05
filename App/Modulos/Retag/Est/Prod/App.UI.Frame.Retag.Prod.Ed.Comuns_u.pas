@@ -34,7 +34,7 @@ type
     BalUtilizaComboBox: TComboBox;
     BalTextoEtiqMemo: TMemo;
     LocalizLabeledEdit: TLabeledEdit;
-    MoldeQtdNaEmbLabeledEdit: TLabeledEdit;
+    MoldeCapacEmbLabeledEdit: TLabeledEdit;
     AtivoCheckBox: TCheckBox;
     MoldeBalDptoLabeledEdit: TLabeledEdit;
     MoldeBalValidEditLabeledEdit: TLabeledEdit;
@@ -388,12 +388,12 @@ begin
   CapacEmbEdit := TNumEditBtu.Create(Self);
   CapacEmbEdit.Parent := Self;
 
-  CapacEmbEdit.Left := MoldeQtdNaEmbLabeledEdit.Left;
-  CapacEmbEdit.Top := MoldeQtdNaEmbLabeledEdit.Top;
-  CapacEmbEdit.Width := MoldeQtdNaEmbLabeledEdit.Width;
+  CapacEmbEdit.Left := MoldeCapacEmbLabeledEdit.Left;
+  CapacEmbEdit.Top := MoldeCapacEmbLabeledEdit.Top;
+  CapacEmbEdit.Width := MoldeCapacEmbLabeledEdit.Width;
 
   CapacEmbEdit.Alignment := taCenter;
-  CapacEmbEdit.Caption := MoldeQtdNaEmbLabeledEdit.EditLabel.Caption;
+  CapacEmbEdit.Caption := MoldeCapacEmbLabeledEdit.EditLabel.Caption;
 
   CapacEmbEdit.LabelPosition := lpLeft;
   CapacEmbEdit.LabelSpacing := 4;
@@ -404,7 +404,7 @@ begin
 
   CapacEmbEdit.TabOrder := 7;
 
-  MoldeQtdNaEmbLabeledEdit.Free;
+  MoldeCapacEmbLabeledEdit.Free;
   MoldeBalValidEditLabeledEdit.Free;
   MoldeBalDptoLabeledEdit.Free;
 
