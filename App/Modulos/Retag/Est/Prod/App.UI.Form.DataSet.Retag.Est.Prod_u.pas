@@ -16,6 +16,7 @@ type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
+    { Private declarations }
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
     procedure EntToCampos;
@@ -23,6 +24,7 @@ type
     function DoProdPerg(pDataSetStateAbrev: string): boolean;
 
   protected
+    { Protected declarations }
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
     procedure DoAlterar; override;
@@ -30,7 +32,10 @@ type
     function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
-    { Private declarations }
+
+
+    procedure LeRegEInsere(q: TDataSet); override;
+
   public
     { Public declarations }
   end;
@@ -196,6 +201,20 @@ begin
   Result := TProdEnt(EntEd);
 end;
 
+procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet);
+var
+  I: integer;
+begin
+//  inherited;
+  FDMemTable.Append;
+  for I := 0 to q.FieldCount - 1 do
+  begin
+    FDMemTable.FIelds[I].Value := q.FIelds[I].Value;
+  end;
+  FDMemTable.Post;
+
+end;
+
 procedure TRetagEstProdDataSetForm.RecordToEnt;
 begin
   inherited;
@@ -209,7 +228,7 @@ end;
 procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  InsAction_DatasetTabSheet.Execute;
+//  InsAction_DatasetTabSheet.Execute;
 
 end;
 

@@ -37,6 +37,14 @@ end;
 function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
 begin
   Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
+    ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
+
+    ', CODS_BARRA' +
+
+    ', CUSTO, PRECO' +
+
+    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
+
     ' FROM PROD_PA.LISTA_GET;';
 end;
 
