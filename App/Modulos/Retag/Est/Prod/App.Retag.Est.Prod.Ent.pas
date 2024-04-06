@@ -69,6 +69,10 @@ type
     procedure SetCapacEmb(Value: Currency);
     property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
 
+    function GetMargem: Currency;
+    procedure SetMargem(Value: Currency);
+    property Margem: Currency read GetMargem write SetMargem;
+
     function GetLoja: ILoja;
     property Loja: ILoja read GetLoja;
   end;

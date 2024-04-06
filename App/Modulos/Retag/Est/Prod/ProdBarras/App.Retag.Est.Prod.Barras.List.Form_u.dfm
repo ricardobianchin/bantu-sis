@@ -4,8 +4,8 @@ object ProdBarrasListForm: TProdBarrasListForm
   BorderIcons = []
   BorderStyle = bsToolWindow
   Caption = 'Lista de C'#243'digos de Barra'
-  ClientHeight = 284
-  ClientWidth = 308
+  ClientHeight = 272
+  ClientWidth = 300
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,15 +16,13 @@ object ProdBarrasListForm: TProdBarrasListForm
   TextHeight = 15
   object BasePanel: TPanel
     Left = 0
-    Top = 254
-    Width = 308
+    Top = 242
+    Width = 300
     Height = 30
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 242
-    ExplicitWidth = 300
     object ToolBar1: TToolBar
       Left = 0
       Top = 0
@@ -82,8 +80,8 @@ object ProdBarrasListForm: TProdBarrasListForm
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 308
-    Height = 254
+    Width = 300
+    Height = 242
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]

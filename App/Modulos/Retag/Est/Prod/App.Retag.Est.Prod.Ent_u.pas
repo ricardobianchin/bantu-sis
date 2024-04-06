@@ -36,6 +36,7 @@ type
 
     FAtivo: boolean;
     FCapacEmb: Currency;
+    FMargem: Currency;
     FLocaliz: string;
     FLoja: ILoja;
 
@@ -73,6 +74,10 @@ type
 
     function GetLocaliz: string;
     procedure SetLocaliz(Value: string);
+
+    function GetMargem: Currency;
+    procedure SetMargem(Value: Currency);
+
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
@@ -98,6 +103,8 @@ type
     property Ativo: boolean read GetAtivo write SetAtivo;
     property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
     property Localiz: string read GetLocaliz write SetLocaliz;
+    property Margem: Currency read GetMargem write SetMargem;
+
     property Loja: ILoja read GetLoja;
 
     procedure LimparEnt; override;
@@ -190,6 +197,11 @@ begin
   Result := FLoja;
 end;
 
+function TProdEnt.GetMargem: Currency;
+begin
+  Result := FMargem;
+end;
+
 function TProdEnt.GetNomeEnt: string;
 begin
   Result := 'Produto';
@@ -267,6 +279,7 @@ begin
   FAtivo := True;
   FCapacEmb := 1;
   FLocaliz := '';
+  FMargem := 0;
 end;
 
 procedure TProdEnt.SetAtivo(Value: boolean);
@@ -302,6 +315,11 @@ end;
 procedure TProdEnt.SetLocaliz(Value: string);
 begin
   FLocaliz := Value;
+end;
+
+procedure TProdEnt.SetMargem(Value: Currency);
+begin
+  FMargem := Value;
 end;
 
 procedure TProdEnt.SetPrecoAtual(Value: Currency);

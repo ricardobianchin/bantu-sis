@@ -60,7 +60,7 @@ type
     function FabrOk: boolean;
     function FabrDescrsOk(pAvisaDescrVazia: boolean): boolean;
 
-    procedure CapacEmbEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UltimoControleEditKeyPress(Sender: TObject; var Key: Char);
 
   protected
     function GetObjetivoStr: string; override;
@@ -185,7 +185,7 @@ begin
   ShellExecute(0, 'open', PChar(url), nil, nil, SW_SHOWNORMAL);
 end;
 
-procedure TProdEdForm.CapacEmbEditKeyPress(Sender: TObject; var Key: Char);
+procedure TProdEdForm.UltimoControleEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
   begin
@@ -268,9 +268,16 @@ begin
   ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
 
   ProdEnt.Ativo := FComunsFr.AtivoCheckBox.Checked;
+
   cCapac := FComunsFr.CapacEmbEdit.AsCurrency;
   ProdEnt.CapacEmb := cCapac;
+
   ProdEnt.Localiz := FComunsFr.LocalizLabeledEdit.Text;
+
+  cCapac := FComunsFr.MargemEdit.AsCurrency;
+  ProdEnt.Margem := cCapac;
+
+
 end;
 
 constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
@@ -346,7 +353,9 @@ begin
 
   FComunsFr.LocalizLabeledEdit.OnKeyPress := EditKeyPress;
 
-  FComunsFr.CapacEmbEdit.OnKeyPress := CapacEmbEditKeyPress;
+  FComunsFr.CapacEmbEdit.OnKeyPress := EditKeyPress;
+  FComunsFr.MargemEdit.OnKeyPress := UltimoControleEditKeyPress;
+
 end;
 
 function TProdEdForm.DadosOk: boolean;
@@ -474,6 +483,7 @@ begin
   FComunsFr.AtivoCheckBox.Checked := ProdEnt.Ativo;
   FComunsFr.CapacEmbEdit.Valor := ProdEnt.CapacEmb;
   FComunsFr.LocalizLabeledEdit.Text := ProdEnt.Localiz;
+  FComunsFr.MargemEdit.Valor := ProdEnt.Margem;
 
   if ProdEnt.ProdBarrasList.Count = 0 then
   begin

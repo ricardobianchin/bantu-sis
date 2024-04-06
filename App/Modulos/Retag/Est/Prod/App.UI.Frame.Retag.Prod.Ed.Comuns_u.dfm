@@ -199,4 +199,18 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     TabOrder = 5
     OnKeyPress = AtivoCheckBoxKeyPress
   end
+  object MoldeMargemLabeledEdit: TLabeledEdit
+    Left = 677
+    Top = 235
+    Width = 53
+    Height = 23
+    Alignment = taCenter
+    EditLabel.Width = 45
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Margem'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 8
+    Text = '123,45'
+  end
 end

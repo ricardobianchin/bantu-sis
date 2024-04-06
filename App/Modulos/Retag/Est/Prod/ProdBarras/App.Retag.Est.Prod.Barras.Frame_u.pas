@@ -127,7 +127,10 @@ begin
       for I := 0 to FProdBarrasList.Count - 1 do
       begin
         ProdBarras := FProdBarrasList[I];
-        q.InsertRecord([I + 1, ProdBarras.Barras]);
+        q.Append;
+        q.Fields[0].AsInteger := I + 1;
+        q.Fields[1].AsString := ProdBarras.Barras;
+        q.Post;
       end;
     finally
       q.EnableControls;

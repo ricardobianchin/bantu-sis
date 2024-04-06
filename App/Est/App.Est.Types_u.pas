@@ -29,8 +29,12 @@ const
     );
 
 procedure BalancaTipoStrToSL(pSL: TStrings);
+function ProdNatuToChar(pProdNatu: TProdNatu): char;
+function ProdNatuToSql(pProdNatu: TProdNatu): string;
 
 implementation
+
+uses System.SysUtils;
 
 procedure BalancaTipoStrToSL(pSL: TStrings);
 var
@@ -41,5 +45,16 @@ begin
   for Tipo := Low(TBalancaTipo) to High(TBalancaTipo) do
     pSL.Add(BalancaTipoStr[Tipo]);
 end;
+
+function ProdNatuToChar(pProdNatu: TProdNatu): char;
+begin
+  Result := Chr(Integer(pProdNatu));
+end;
+
+function ProdNatuToSql(pProdNatu: TProdNatu): string;
+begin
+  Result := QuotedStr(ProdNatuToChar(pProdNatu));
+end;
+
 
 end.
