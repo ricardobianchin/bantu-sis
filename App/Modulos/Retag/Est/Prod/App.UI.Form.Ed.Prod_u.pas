@@ -354,9 +354,11 @@ begin
 
   FComunsFr.CustoNovEdit.OnKeyPress := EditKeyPress;
   FComunsFr.CustoNovEdit.OnExit := CustoExit;
+  FComunsFr.CustoNovEdit.OnChange := CustoChange;
 
   FComunsFr.PrecoNovEdit.OnKeyPress := EditKeyPress;
   FComunsFr.PrecoNovEdit.OnExit := PrecoExit;
+  FComunsFr.PrecoNovEdit.OnChange := PrecoChange;
 
   FComunsFr.BalUtilizaComboBox.OnKeyPress := ComboKeyPress;
 
