@@ -134,7 +134,7 @@ function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 function RetagEstProdEdDBICreate(pDBConnection: IDBConnection): IRetagEstProdEdDBI;
 
 function RetagEstProdEntCreate(
-  pLoja: ILoja;//
+  pLojaId: smallint;//
   pUsuarioId: integer;//
   pMachineIdentId: smallint;//
   //
@@ -502,7 +502,7 @@ begin
 end;
 
 function RetagEstProdEntCreate(
-  pLoja: ILoja;//
+  pLojaId: smallint;//
   pUsuarioId: integer;//
   pMachineIdentId: smallint;//
   //
@@ -517,7 +517,8 @@ function RetagEstProdEntCreate(
   pState: TDataSetState; pId: integer; pDescr: string; pDescrRed: string)
   : IProdEnt;
 begin
-  Result := TProdEnt.Create(pLoja, pUsuarioId, pMachineIdentId, pProdFabrEnt, pProdTipoEnt, pProdUnidEnt,
+
+  Result := TProdEnt.Create(pLojaId, pUsuarioId, pMachineIdentId, pProdFabrEnt, pProdTipoEnt, pProdUnidEnt,
     pProdICMSEnt, pProdBarrasList, pProdBalancaEnt, pState, pId, pDescr,
     pDescrRed);
 end;

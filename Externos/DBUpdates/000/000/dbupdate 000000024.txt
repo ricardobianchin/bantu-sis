@@ -198,7 +198,7 @@ BEGIN
     BEGIN
       LOG_ID_RET = 0;
       EXIT;
-    END;
+    END
 
     SELECT LOG_ID_RET, DTH FROM LOG_PA.LOG_NOVO_GET
     (

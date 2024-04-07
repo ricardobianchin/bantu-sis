@@ -55,6 +55,7 @@ type
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
     procedure CarregarMachineId;
+    procedure CarregarLoja;
 
   protected
     property StatusOutput: IOutput read FStatusOutput;
@@ -90,7 +91,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
   Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
-  App.SisConfig.DBI;
+  App.SisConfig.DBI, App.DB.Utils;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -116,6 +117,20 @@ begin
     FProcessLog.RegistreLog(sLog);
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.CarregarLoja;
+var
+  DBConnection: IDBConnection;
+  oDBConnectionParams: TDBConnectionParams;
+begin
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, AppObj.SisConfig);
+
+  DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig, dbms,
+    oDBConnectionParams, ProcessLog, FProcessOutput);
+
+  LojaLeia(FLoja, DBConnection);
 end;
 
 procedure TPrincBasForm.CarregarMachineId;
@@ -216,7 +231,12 @@ begin
 
     GarantaDB;
 
-    if FLoja.Id < 0 then
+    if FLoja.Id < 1 then
+    begin
+      CarregarLoja;
+    end;
+
+    if FLoja.Id < 1 then
     begin
       sMens := 'Verifique carregamento da Loja. Id zerado';
       FProcessLog.RegistreLog(sMens);

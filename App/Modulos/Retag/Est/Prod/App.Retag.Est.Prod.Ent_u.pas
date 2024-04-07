@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Ent_u;
 
 interface
 
-uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes, Sis.Types.Utils_u, Sis.Loja,
+uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes, Sis.Types.Utils_u,
   App.Retag.Est.Prod.Ent, App.Ent.DBI_u, App.Ent.Ed, App.Retag.Est.Factory,
   App.Retag.Est.Prod.Barras.Ent.List
   //
@@ -38,7 +38,7 @@ type
     FCapacEmb: Currency;
     FMargem: Currency;
     FLocaliz: string;
-    FLoja: ILoja;
+    FLojaId: smallint;
     FUsuarioId: integer;
     FMachineIdentId: smallint;
 
@@ -79,7 +79,7 @@ type
 
     function GetMargem: Currency;
     procedure SetMargem(Value: Currency);
-    function GetLoja: ILoja;
+    function GetLojaId: smallint;
     function GetUsuarioId: integer;
     function GetMachineIdentId: smallint;
 
@@ -109,14 +109,14 @@ type
     property Localiz: string read GetLocaliz write SetLocaliz;
     property Margem: Currency read GetMargem write SetMargem;
 
-    property Loja: ILoja read GetLoja;
+    property LojaId: smallint read GetLojaId;
     property UsuarioId: integer read GetUsuarioId;
     property MachineIdentId: smallint read GetMachineIdentId;
 
     procedure LimparEnt; override;
 
     constructor Create(
-      pLoja: ILoja;//
+      pLojaId: smallint;//
       pUsuarioId: integer;//
       pMachineIdentId: smallint;//
 
@@ -140,7 +140,7 @@ implementation
 { TProdEnt }
 
 constructor TProdEnt.Create(
-      pLoja: ILoja;//
+      pLojaId: smallint;//
       pUsuarioId: integer;//
       pMachineIdentId: smallint;//
       //
@@ -156,7 +156,7 @@ constructor TProdEnt.Create(
       pId: integer; pDescr: string; pDescrRed: string);
 begin
   inherited Create(State, pId);
-  FLoja := pLoja;
+  FLojaId := pLojaId;
   FUsuarioId := pUsuarioId;
   FDescr := pDescr;
   FDescrRed := pDescrRed;
@@ -205,9 +205,9 @@ begin
   Result := FLocaliz;
 end;
 
-function TProdEnt.GetLoja: ILoja;
+function TProdEnt.GetLojaId: smallint;
 begin
-  Result := FLoja;
+  Result := FLojaId;
 end;
 
 function TProdEnt.GetMachineIdentId: smallint;

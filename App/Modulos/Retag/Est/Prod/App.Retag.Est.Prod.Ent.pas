@@ -73,8 +73,8 @@ type
     procedure SetMargem(Value: Currency);
     property Margem: Currency read GetMargem write SetMargem;
 
-    function GetLoja: ILoja;
-    property Loja: ILoja read GetLoja;
+    function GetLojaId: smallint;
+    property LojaId: smallint read GetLojaId;
 
     function GetUsuarioId: integer;
     property UsuarioId: integer read GetUsuarioId;

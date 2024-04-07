@@ -205,7 +205,7 @@ procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet);
 var
   I: integer;
 begin
-//  inherited;
+//  inherited;REFAZER O CARREGAR     REVER ICMS PERC NOME
   FDMemTable.Append;
   for I := 0 to q.FieldCount - 1 do
   begin

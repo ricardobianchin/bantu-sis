@@ -160,7 +160,6 @@ constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
-  oLoja: ILoja;
 
   oFabrEnt: IProdFabrEnt;
   oFabrDBI: IEntDBI;
@@ -198,7 +197,7 @@ begin
 
   oAppInfo := AppInfo;
   oSisConfig := SisConfig;
-  oLoja := AppObj.Loja;
+
 
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
@@ -242,7 +241,7 @@ begin
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
 
-  oProdEnt := RetagEstProdEntCreate(oLoja, Usuario.Id, oSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, Usuario.Id, oSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
     oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 

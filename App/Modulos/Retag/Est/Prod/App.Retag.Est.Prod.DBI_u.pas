@@ -47,7 +47,7 @@ begin
 
     ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
 
-    ' FROM PROD_PA.LISTA_GET('+FProdEnt.Id.ToString+');';
+    ' FROM PROD_PA.LISTA_GET('+FProdEnt.LojaId.ToString+');';
 end;
 
 function TProdDBI.InsertInto: integer;
@@ -74,7 +74,7 @@ begin
 
     +','+ CurrencyToStrPonto(FProdEnt.CapacEmb)
 
-    +','+ FProdEnt.Loja.Id.ToString
+    +','+ FProdEnt.LojaId.ToString
     +','+ FProdEnt.UsuarioId.ToString
     +','+ FProdEnt.MachineIdentId.ToString
 

@@ -39,7 +39,7 @@ begin
   end;
 
   try
-    sSql := 'SELECT LOJA_ID, APELIDO FROM ATIVA_GET';
+    sSql := 'SELECT LOJA_ID, APELIDO FROM LOJA_PA.ATIVO_GET';
     DBConnection.QueryDataSet(sSql, q);
     try
       FLoja.Id := q.Fields[0].AsInteger;
