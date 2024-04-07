@@ -62,6 +62,15 @@ type
 
     procedure UltimoControleEditKeyPress(Sender: TObject; var Key: Char);
 
+    procedure CustoExit(Sender: TObject);
+    procedure PrecoExit(Sender: TObject);
+
+    procedure CustoChange(Sender: TObject);
+    procedure PrecoChange(Sender: TObject);
+
+    function CustoOk: boolean;
+    function PrecoOk: boolean;
+
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -344,7 +353,10 @@ begin
   FComunsFr.ICMSFr.ComboBox1.OnExit := ComboExit;
 
   FComunsFr.CustoNovEdit.OnKeyPress := EditKeyPress;
+  FComunsFr.CustoNovEdit.OnExit := CustoExit;
+
   FComunsFr.PrecoNovEdit.OnKeyPress := EditKeyPress;
+  FComunsFr.PrecoNovEdit.OnExit := PrecoExit;
 
   FComunsFr.BalUtilizaComboBox.OnKeyPress := ComboKeyPress;
 
@@ -356,6 +368,31 @@ begin
   FComunsFr.CapacEmbEdit.OnKeyPress := EditKeyPress;
   FComunsFr.MargemEdit.OnKeyPress := UltimoControleEditKeyPress;
 
+end;
+
+procedure TProdEdForm.CustoChange(Sender: TObject);
+begin
+  FComunsFr.CustoErroLabel.Caption := '';
+end;
+
+procedure TProdEdForm.CustoExit(Sender: TObject);
+begin
+  if ActiveControl = CancelBitBtn_DiagBtn then
+    exit;
+  if CustoOk then
+    exit;
+end;
+
+function TProdEdForm.CustoOk: boolean;
+begin
+  Result := FComunsFr.CustoAtuEdit.AsCurrency > 0;
+  if Result then
+    exit;
+
+  Result := FComunsFr.CustoNovEdit.AsCurrency > 0;
+
+  if not Result then
+    FComunsFr.CustoErroLabel.Caption := 'Primeiro Custo é obrigatório'
 end;
 
 function TProdEdForm.DadosOk: boolean;
@@ -421,6 +458,20 @@ begin
   begin
     ErroOutput.Exibir('Unidade de Medida ' +
       FComunsFr.ICMSFr.MensLabel.Caption);
+    exit;
+  end;
+
+  Result := CustoOk;
+  if not Result then
+  begin
+    ErroOutput.Exibir(FComunsFr.CustoErroLabel.Caption);
+    exit;
+  end;
+
+  Result := PrecoOk;
+  if not Result then
+  begin
+    ErroOutput.Exibir(FComunsFr.PrecoErroLabel.Caption);
     exit;
   end;
 
@@ -629,6 +680,31 @@ begin
   except
     Result := False;
   end;
+end;
+
+procedure TProdEdForm.PrecoChange(Sender: TObject);
+begin
+  FComunsFr.PrecoErroLabel.Caption := '';
+end;
+
+procedure TProdEdForm.PrecoExit(Sender: TObject);
+begin
+  if ActiveControl = CancelBitBtn_DiagBtn then
+    exit;
+  if PrecoOk then
+    exit;
+end;
+
+function TProdEdForm.PrecoOk: boolean;
+begin
+  Result := FComunsFr.PrecoAtuEdit.AsCurrency > 0;
+  if Result then
+    exit;
+
+  Result := FComunsFr.PrecoNovEdit.AsCurrency > 0;
+
+  if not Result then
+    FComunsFr.PrecoErroLabel.Caption := 'Primeiro Preço é obrigatório'
 end;
 
 procedure TProdEdForm.PreenchaControles;

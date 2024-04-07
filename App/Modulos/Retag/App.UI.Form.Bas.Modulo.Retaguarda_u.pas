@@ -242,7 +242,7 @@ begin
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
 
-  oProdEnt := RetagEstProdEntCreate(oLoja, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+  oProdEnt := RetagEstProdEntCreate(oLoja, Usuario.Id, oSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
     oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 

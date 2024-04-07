@@ -1,8 +1,8 @@
 inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   Width = 800
-  Height = 390
+  Height = 407
   ExplicitWidth = 800
-  ExplicitHeight = 390
+  ExplicitHeight = 407
   object DescrErroLabel: TLabel
     Left = 4
     Top = 69
@@ -72,21 +72,54 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Left = 5
     Top = 121
     Width = 253
-    Height = 52
+    Height = 68
     Caption = 'Custo'
     TabOrder = 2
+    object CustoErroLabel: TLabel
+      Left = 2
+      Top = 51
+      Width = 249
+      Height = 15
+      Align = alBottom
+      Caption = 'CustoErroLabel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 192
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      StyleElements = []
+      ExplicitWidth = 80
+    end
   end
   object PrecoGroupBox: TGroupBox
     Left = 262
     Top = 121
     Width = 364
-    Height = 52
+    Height = 68
     Caption = 'Pre'#231'o'
     TabOrder = 3
+    object PrecoErroLabel: TLabel
+      Left = 2
+      Top = 51
+      Width = 360
+      Height = 15
+      Align = alBottom
+      Caption = 'PrecoErroLabel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 192
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      StyleElements = []
+      ExplicitLeft = 3
+      ExplicitTop = 53
+    end
   end
   object BalGroupBox: TGroupBox
     Left = 5
-    Top = 178
+    Top = 195
     Width = 399
     Height = 207
     Caption = 'Balan'#231'a'
@@ -164,7 +197,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object LocalizLabeledEdit: TLabeledEdit
     Left = 608
-    Top = 197
+    Top = 214
     Width = 95
     Height = 23
     EditLabel.Width = 61
@@ -178,7 +211,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object MoldeCapacEmbLabeledEdit: TLabeledEdit
     Left = 565
-    Top = 235
+    Top = 252
     Width = 53
     Height = 23
     Alignment = taCenter
@@ -192,7 +225,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object AtivoCheckBox: TCheckBox
     Left = 417
-    Top = 199
+    Top = 216
     Width = 109
     Height = 17
     Caption = 'Ativo no Sistema'
@@ -201,7 +234,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   end
   object MoldeMargemLabeledEdit: TLabeledEdit
     Left = 677
-    Top = 235
+    Top = 252
     Width = 53
     Height = 23
     Alignment = taCenter

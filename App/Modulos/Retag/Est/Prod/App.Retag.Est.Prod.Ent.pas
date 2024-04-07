@@ -9,7 +9,7 @@ uses App.Ent.Ed.Id, Sis.Loja
   , App.Retag.Est.Prod.Unid.Ent//
   , App.Retag.Est.Prod.Icms.Ent//
   , App.Retag.Est.Prod.Barras.Ent.List//
-  , App.Retag.Est.Prod.Balanca.Ent//
+  , App.Retag.Est.Prod.Balanca.Ent, Sis.Usuario//
   ;
 
 type
@@ -75,7 +75,13 @@ type
 
     function GetLoja: ILoja;
     property Loja: ILoja read GetLoja;
-  end;
+
+    function GetUsuarioId: integer;
+    property UsuarioId: integer read GetUsuarioId;
+
+    function GetMachineIdentId: smallint;
+    property MachineIdentId: smallint read GetMachineIdentId;
+ end;
 
 implementation
 

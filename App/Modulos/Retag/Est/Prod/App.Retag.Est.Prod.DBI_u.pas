@@ -36,6 +36,8 @@ end;
 
 function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
 begin
+
+
   Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
     ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
 
@@ -45,7 +47,7 @@ begin
 
     ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
 
-    ' FROM PROD_PA.LISTA_GET;';
+    ' FROM PROD_PA.LISTA_GET('+FProdEnt.Id.ToString+');';
 end;
 
 function TProdDBI.InsertInto: integer;
@@ -73,6 +75,16 @@ begin
     +','+ CurrencyToStrPonto(FProdEnt.CapacEmb)
 
     +','+ FProdEnt.Loja.Id.ToString
+    +','+ FProdEnt.UsuarioId.ToString
+    +','+ FProdEnt.MachineIdentId.ToString
+
+    +','+ CurrencyToStrPonto(FProdEnt.CustoNovo)
+
+
+    +', 1' //+ 1 PROD_PRECO_TABELA_ID
+
+    +','+ CurrencyToStrPonto(FProdEnt.PrecoNovo)
+
     +','+ BooleanToStrSql( FProdEnt.Ativo)
     +','+ QuotedStr(FProdEnt.Localiz)
 

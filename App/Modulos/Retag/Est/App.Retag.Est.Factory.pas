@@ -135,6 +135,8 @@ function RetagEstProdEdDBICreate(pDBConnection: IDBConnection): IRetagEstProdEdD
 
 function RetagEstProdEntCreate(
   pLoja: ILoja;//
+  pUsuarioId: integer;//
+  pMachineIdentId: smallint;//
   //
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
@@ -501,6 +503,8 @@ end;
 
 function RetagEstProdEntCreate(
   pLoja: ILoja;//
+  pUsuarioId: integer;//
+  pMachineIdentId: smallint;//
   //
   // entidades
   pProdFabrEnt: IProdFabrEnt; // fabr
@@ -513,7 +517,7 @@ function RetagEstProdEntCreate(
   pState: TDataSetState; pId: integer; pDescr: string; pDescrRed: string)
   : IProdEnt;
 begin
-  Result := TProdEnt.Create(pLoja, pProdFabrEnt, pProdTipoEnt, pProdUnidEnt,
+  Result := TProdEnt.Create(pLoja, pUsuarioId, pMachineIdentId, pProdFabrEnt, pProdTipoEnt, pProdUnidEnt,
     pProdICMSEnt, pProdBarrasList, pProdBalancaEnt, pState, pId, pDescr,
     pDescrRed);
 end;

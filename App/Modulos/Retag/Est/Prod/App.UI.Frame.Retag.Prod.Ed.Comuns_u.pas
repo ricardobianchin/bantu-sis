@@ -42,6 +42,8 @@ type
     DescrRedErroLabel: TLabel;
     GeraBarrasLabel: TLabel;
     MoldeMargemLabeledEdit: TLabeledEdit;
+    CustoErroLabel: TLabel;
+    PrecoErroLabel: TLabel;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
@@ -161,6 +163,8 @@ begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
   DescrErroLabel.Caption := '';
   DescrRedErroLabel.Caption := '';
+  CustoErroLabel.Caption := '';
+  PrecoErroLabel.Caption := '';
 
   SelecioneProximoProc := pSelecioneProximoProc;
   FAppInfo := pAppInfo;

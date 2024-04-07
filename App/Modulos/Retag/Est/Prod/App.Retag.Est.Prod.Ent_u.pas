@@ -39,6 +39,8 @@ type
     FMargem: Currency;
     FLocaliz: string;
     FLoja: ILoja;
+    FUsuarioId: integer;
+    FMachineIdentId: smallint;
 
     function GetDescr: string;
     procedure SetDescr(Value: string);
@@ -77,12 +79,14 @@ type
 
     function GetMargem: Currency;
     procedure SetMargem(Value: Currency);
+    function GetLoja: ILoja;
+    function GetUsuarioId: integer;
+    function GetMachineIdentId: smallint;
 
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
-    function GetLoja: ILoja;
 
   public
     property Descr: string read GetDescr write SetDescr;
@@ -106,11 +110,16 @@ type
     property Margem: Currency read GetMargem write SetMargem;
 
     property Loja: ILoja read GetLoja;
+    property UsuarioId: integer read GetUsuarioId;
+    property MachineIdentId: smallint read GetMachineIdentId;
 
     procedure LimparEnt; override;
 
     constructor Create(
       pLoja: ILoja;//
+      pUsuarioId: integer;//
+      pMachineIdentId: smallint;//
+
       //
       pProdFabrEnt: IProdFabrEnt; //fabr ent
       pProdTipoEnt: IProdTipoEnt; //
@@ -132,6 +141,8 @@ implementation
 
 constructor TProdEnt.Create(
       pLoja: ILoja;//
+      pUsuarioId: integer;//
+      pMachineIdentId: smallint;//
       //
       pProdFabrEnt: IProdFabrEnt; //fabr ent
       pProdTipoEnt: IProdTipoEnt; //
@@ -146,8 +157,10 @@ constructor TProdEnt.Create(
 begin
   inherited Create(State, pId);
   FLoja := pLoja;
+  FUsuarioId := pUsuarioId;
   FDescr := pDescr;
   FDescrRed := pDescrRed;
+  FMachineIdentId := pMachineIdentId;
 
   FProdFabrEnt := pProdFabrEnt;
   FProdTipoEnt := pProdTipoEnt;
@@ -195,6 +208,11 @@ end;
 function TProdEnt.GetLoja: ILoja;
 begin
   Result := FLoja;
+end;
+
+function TProdEnt.GetMachineIdentId: smallint;
+begin
+  Result := FMachineIdentId;
 end;
 
 function TProdEnt.GetMargem: Currency;
@@ -255,6 +273,11 @@ end;
 function TProdEnt.GetTitulo: string;
 begin
   Result := 'Produtos';
+end;
+
+function TProdEnt.GetUsuarioId: integer;
+begin
+  Result := FUsuarioId;
 end;
 
 procedure TProdEnt.LimparEnt;
