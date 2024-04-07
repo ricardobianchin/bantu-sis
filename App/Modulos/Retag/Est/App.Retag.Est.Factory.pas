@@ -5,7 +5,8 @@ interface
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
-  Sis.Config.SisConfig, Sis.UI.FormCreator, App.Retag.Est.Custo
+  Sis.Config.SisConfig, Sis.UI.FormCreator, App.Retag.Est.Custo,
+  Sis.DB.UltimoId
 
   // os dbi que seguem o padrao, retornam iented
     , App.Ent.Ed, App.Ent.DBI
@@ -207,6 +208,7 @@ function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI): IFormCreator;
 
+function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;
 {$ENDREGION}
 {$REGION 'prod barras'}
 function ProdBarrasCreate(pOrdem: smallint = 0; pBarras: string = '')
@@ -259,6 +261,7 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Retag.Est.Custo_u
     , App.Retag.Est.Prod.DBI_u // prod dbi
     , App.UI.Form.Ed.Prod_u // prod ed form
     , App.UI.Form.DataSet.Retag.Est.Prod_u //
+    , App.Retag.Est.Prod.UltimoId_u//
 
   // prod barras
     , App.Retag.Est.Prod.Barras.Ent_u
@@ -611,6 +614,11 @@ begin
   Result := TDataSetFormCreator.Create(TRetagEstProdDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify, pEntEd, pEntDBI);
+end;
+
+function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;
+begin
+  Result := TProdEdUltimoId.Create(pQ);
 end;
 
 {$ENDREGION}

@@ -8,15 +8,21 @@ uses
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
+  App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl, App.Ent.Ed,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator,
-  App.Est.Prod.Barras.DBI;
+  App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId, }Sis.Config.SisConfig,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
+
+    FUltimoId: integer;
+    FCodsBarrasAcumulando: string;
+
+//    FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
     procedure EntToCampos;
@@ -33,11 +39,15 @@ type
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
 
-
     procedure LeRegEInsere(q: TDataSet); override;
 
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+      pModoForm: TModoForm; pIdPos: integer); reintroduce;
   end;
 
 var
@@ -53,6 +63,19 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   App.Retag.Est.Prod.Ed.DBI;
 
 { TRetagEstProdDataSetForm }
+
+constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+  pModoForm: TModoForm; pIdPos: integer);
+begin
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoForm,
+    pIdPos);
+//  FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
+
+end;
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
 var
@@ -86,6 +109,10 @@ begin
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
   FDMemTable.EmptyDataSet;
+
+//  FProdUltimoId.Zerar;
+  FUltimoId := -1;
+  FCodsBarrasAcumulando := '';
 
   try
     oProdDBI.PreencherDataSet(0, LeRegEInsere);
@@ -122,7 +149,7 @@ var
   oProdUnidDBI: IEntDBI;
   oProdICMSDBI: IEntDBI;
   oBarrasDBI: IBarrasDBI;
-//  oProdBarrasDBI: IBarrasDBI;
+  // oProdBarrasDBI: IBarrasDBI;
 
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
@@ -152,25 +179,27 @@ begin
   oBarrasDBI := AppEstBarrasDBICreate(oDBConnection);
 
   oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
-    oProdFabrDBI);
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+    ProdEnt.ProdFabrEnt, oProdFabrDBI);
 
   oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdTipoEnt,
-    oProdTipoDBI);
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+    ProdEnt.ProdTipoEnt, oProdTipoDBI);
 
   oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdUnidEnt, oProdUnidDBI);
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+    ProdEnt.ProdUnidEnt, oProdUnidDBI);
 
   oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdICMSEnt, oProdICMSDBI );
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+    ProdEnt.ProdICMSEnt, oProdICMSDBI);
 
   oRetagEstProdEdDBI := RetagEstProdEdDBICreate(oDBConnection);
 
   Result := ProdPerg(Self, EntEd
     //
-    , oProdDBI, oProdFabrDBI, oProdTipoDBI, oProdUnidDBI, oProdICMSDBI//
-    , oBarrasDBI//
+    , oProdDBI, oProdFabrDBI, oProdTipoDBI, oProdUnidDBI, oProdICMSDBI //
+    , oBarrasDBI //
 
     //
     , oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
@@ -202,17 +231,43 @@ begin
 end;
 
 procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet);
+const
+  PROD_ID_FIELD_INDEX = 0;
+  BARRAS_FIELD_INDEX = 11;
 var
   I: integer;
+  iProdIdAtual: integer;
+  sBarrasAtual: string;
 begin
-//  inherited;REFAZER O CARREGAR     REVER ICMS PERC NOME
-  FDMemTable.Append;
-  for I := 0 to q.FieldCount - 1 do
-  begin
-    FDMemTable.FIelds[I].Value := q.FIelds[I].Value;
-  end;
-  FDMemTable.Post;
+  // inherited;
+  iProdIdAtual := q.Fields[PROD_ID_FIELD_INDEX].AsInteger;
+  sBarrasAtual := q.Fields[BARRAS_FIELD_INDEX].AsString.Trim;
 
+  if FUltimoId <> iProdIdAtual then
+  begin
+    if FDMemTable.State in [dsEdit, dsInsert] then
+    begin
+      FDMemTable.Fields[BARRAS_FIELD_INDEX].AsString := FCodsBarrasAcumulando;
+      FDMemTable.Post;
+      FCodsBarrasAcumulando := '';
+    end;
+    FUltimoId := iProdIdAtual;
+
+    FDMemTable.Append;
+    for I := 0 to q.FieldCount - 1 do
+    begin
+      FDMemTable.Fields[I].Value := q.Fields[I].Value;
+    end;
+  end
+  else
+  begin
+    if sBarrasAtual <>'' then
+    begin
+      if FCodsBarrasAcumulando <> '' then
+        FCodsBarrasAcumulando := FCodsBarrasAcumulando+', ';
+      FCodsBarrasAcumulando := FCodsBarrasAcumulando + sBarrasAtual
+    end;
+  end;
 end;
 
 procedure TRetagEstProdDataSetForm.RecordToEnt;
@@ -228,7 +283,7 @@ end;
 procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  InsAction_DatasetTabSheet.Execute;
+  // InsAction_DatasetTabSheet.Execute;
 
 end;
 

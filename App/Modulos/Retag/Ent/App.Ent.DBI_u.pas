@@ -18,7 +18,7 @@ type
   public
     property PackageName: string read GetPackageName;
     procedure PreencherDataSet(pValues: variant;
-      pProcLeReg: TProcDataSetOfObject);
+      pProcLeReg: TProcDataSetOfObject); virtual;
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; virtual;
     function GarantirReg: boolean;

@@ -37,11 +37,13 @@ end;
 function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
 begin
 
-
+                   //  0       1        2         3         4
   Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
+       // 5         6          7        8          9           10
     ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
 
-    ', CODS_BARRA' +
+       //  11
+    ', COD_BARRAS' +
 
     ', CUSTO, PRECO' +
 
@@ -110,6 +112,30 @@ begin
   end;
   try
     Result := DBConnection.GetValueInteger(sSql);
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TProdDBI.PreencherDataSet(pValues: variant;
+  pProcLeReg: TProcDataSetOfObject);
+var
+  sSql: string;
+  q: TDataSet;
+begin
+  DBConnection.Abrir;
+  try
+    sSql := GetSqlPreencherDataSet(pValues);
+    DBConnection.QueryDataSet(sSql, q);
+    try
+      while not q.Eof do
+      begin
+        pProcLeReg(q);
+        q.Next;
+      end;
+    finally
+      q.Free;
+    end;
   finally
     DBConnection.Fechar;
   end;

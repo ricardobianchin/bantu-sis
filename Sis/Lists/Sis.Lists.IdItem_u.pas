@@ -10,7 +10,7 @@ type
     FId: integer;
     function GetId: integer;
   protected
-    procedure SetId(Value: integer);
+    procedure SetId(Value: integer); virtual;
   public
     procedure Zerar; virtual;
     procedure Pegar(pId: integer);

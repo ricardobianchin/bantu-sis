@@ -253,6 +253,8 @@ contains
   Sis.Loja.DBI in 'Entities\Loja\Sis.Loja.DBI.pas',
   Sis.Loja.DBI_u in 'Entities\Loja\Sis.Loja.DBI_u.pas',
   Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas',
-  Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas';
+  Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas',
+  Sis.DB.UltimoId in 'DB\UltimoId\Sis.DB.UltimoId.pas',
+  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas';
 
 end.

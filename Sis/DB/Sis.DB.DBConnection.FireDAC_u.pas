@@ -132,7 +132,6 @@ begin
       'User_Name=sysdba'#13#10 +
       'Protocol=TCPIP'
       ;
-
   finally
     DBLog.Registre('Params='#13#10 + FFDConnection.Params.Text);
     ProcessLog.RetorneLocal;
