@@ -393,8 +393,14 @@ begin
 
   Result := FComunsFr.CustoNovEdit.AsCurrency > 0;
 
-  if not Result then
-    FComunsFr.CustoErroLabel.Caption := 'Primeiro Custo é obrigatório'
+  if Result then
+  begin
+    FComunsFr.CustoErroLabel.Caption := '';
+  end
+  else
+  begin
+    FComunsFr.CustoErroLabel.Caption := 'Primeiro Custo é obrigatório';
+  end;
 end;
 
 function TProdEdForm.DadosOk: boolean;
@@ -467,6 +473,7 @@ begin
   if not Result then
   begin
     ErroOutput.Exibir(FComunsFr.CustoErroLabel.Caption);
+    FComunsFr.CustoNovEdit.SetFocus;
     exit;
   end;
 
@@ -474,6 +481,7 @@ begin
   if not Result then
   begin
     ErroOutput.Exibir(FComunsFr.PrecoErroLabel.Caption);
+    FComunsFr.PrecoNovEdit.SetFocus;
     exit;
   end;
 
@@ -705,8 +713,14 @@ begin
 
   Result := FComunsFr.PrecoNovEdit.AsCurrency > 0;
 
-  if not Result then
-    FComunsFr.PrecoErroLabel.Caption := 'Primeiro Preço é obrigatório'
+  if Result then
+  begin
+    FComunsFr.PrecoErroLabel.Caption := '';
+  end
+  else
+  begin
+    FComunsFr.PrecoErroLabel.Caption := 'Primeiro Preço é obrigatório';
+  end;
 end;
 
 procedure TProdEdForm.PreenchaControles;
