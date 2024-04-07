@@ -418,8 +418,8 @@ begin
   MargemEdit.LabelSpacing := 4;
 
   MargemEdit.MaxLength := 5;
-  MargemEdit.NCasas := 0;
-  MargemEdit.NCasasEsq := 5;
+  MargemEdit.NCasas := 2;
+  MargemEdit.NCasasEsq := 3;
 
   MargemEdit.TabOrder := 7;
   //margem fim
