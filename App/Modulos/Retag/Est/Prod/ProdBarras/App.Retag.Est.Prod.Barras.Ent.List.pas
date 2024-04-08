@@ -14,9 +14,7 @@ type
     procedure PegarBarras(pBarras: string; pOndeInserir: TPosicaoList);
     function IndexOfBarras(pBarras: string): integer;
 
-    function GetAsStringCSV: string;
-    property AsStringCSV: string read GetAsStringCSV;
-
+    function GetAsString(pSeparador: string): string;
   end;
 
 implementation

@@ -10,7 +10,7 @@ type
   TIdLojaRecord = record LojaId, TerminalId: smallint; Id: integer; end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
-  TProcDataSetOfObject = procedure (q: TDataSet) of object;
+  TProcDataSetOfObject = procedure (q: TDataSet; pRecNo: integer) of object;
 
   TDBVersion = double;
 

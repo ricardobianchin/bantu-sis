@@ -727,7 +727,7 @@ procedure TProdEdForm.PreenchaControles;
 begin
   if EntEd.State = dsEdit then
   begin
-
+    FRetagEstProdEdDBI.PreencherItens(Self);
   end
   else
   begin

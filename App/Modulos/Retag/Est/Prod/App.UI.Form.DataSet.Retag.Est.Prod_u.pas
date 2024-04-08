@@ -33,13 +33,14 @@ type
     { Protected declarations }
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
+    procedure DoLer; override;
     procedure DoAlterar; override;
 
     function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
 
-    procedure LeRegEInsere(q: TDataSet); override;
+    procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
 
   public
     { Public declarations }
@@ -60,7 +61,7 @@ implementation
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
-  App.Retag.Est.Prod.Ed.DBI;
+  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u;
 
 { TRetagEstProdDataSetForm }
 
@@ -139,6 +140,24 @@ begin
   FDMemTable.Post;
 end;
 
+procedure TRetagEstProdDataSetForm.DoLer;
+var
+  oProdDBI: IEntDBI;
+  Resultado: boolean;
+  oDBConnectionParams: TDBConnectionParams;
+  oConn: IDBConnection;
+begin
+  inherited;
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oConn := DBConnectionCreate('Retag.Prod.Ed.Ler.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
+  oProdDBI.Ler;
+end;
+
 function TRetagEstProdDataSetForm.DoProdPerg(pDataSetStateAbrev
   : string): boolean;
 var
@@ -210,10 +229,26 @@ end;
 
 procedure TRetagEstProdDataSetForm.EntToCampos;
 begin
-  FDMemTable.Fields[1].AsString := ProdEnt.Descr;
-  FDMemTable.Fields[2].AsString := ProdEnt.DescrRed;
-  FDMemTable.Fields[3].AsInteger := ProdEnt.ProdFabrEnt.Id;
-  FDMemTable.Fields[4].AsString := ProdEnt.ProdFabrEnt.Descr;
+  FDMemTable.Fields[1	{descr}]    .AsString := ProdEnt.Descr;
+  FDMemTable.Fields[2	{descr_red}].AsString := ProdEnt.DescrRed;
+  FDMemTable.Fields[3	{fabr_id}]  .AsInteger := ProdEnt.ProdFabrEnt.Id;
+  FDMemTable.Fields[4	{fabr_nome}].AsString := ProdEnt.ProdFabrEnt.Descr;
+  FDMemTable.Fields[5	{tipo_id}]   .AsInteger := ProdEnt.ProdTipoEnt.Id;
+  FDMemTable.Fields[6	{tipo_descr}].AsString := ProdEnt.ProdTipoEnt.Descr;
+  FDMemTable.Fields[7	{unid_id}]   .AsInteger := ProdEnt.ProdUnidEnt.Id;
+  FDMemTable.Fields[8	{unid_sigla}].AsString := ProdEnt.ProdUnidEnt.Descr;
+  FDMemTable.Fields[9	{icms_id}]   .AsInteger := ProdEnt.ProdUnidEnt.Id;
+  FDMemTable.Fields[10	{icms_descr_perc}].AsString := ProdEnt.ProdICMSEnt.Descr;
+  FDMemTable.Fields[11	{codbarras}].AsString := ProdEnt.ProdBarrasList.GetAsString(', ');
+  FDMemTable.Fields[12	{Custo}].AsCurrency := iif(ProdEnt.CustoNovo > 0, ProdEnt.CustoNovo, ProdEnt.CustoAtual);
+  FDMemTable.Fields[13	{Preco}].AsCurrency := iif(ProdEnt.PrecoNovo > 0, ProdEnt.PrecoNovo, ProdEnt.PrecoAtual);
+  FDMemTable.Fields[14	{Ativo}].AsBoolean := ProdEnt.Ativo;
+  FDMemTable.Fields[15	{Localiz}]   .AsString := ProdEnt.Localiz;
+  FDMemTable.Fields[16	{Capac_emb}].AsCurrency := ProdEnt.CapacEmb;
+  FDMemTable.Fields[17	{Margem}]   .AsCurrency := ProdEnt.Margem;
+
+
+
 end;
 
 function TRetagEstProdDataSetForm.GetNomeArqTabView: string;
@@ -230,7 +265,7 @@ begin
   Result := TProdEnt(EntEd);
 end;
 
-procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet);
+procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
 const
   PROD_ID_FIELD_INDEX = 0;
   BARRAS_FIELD_INDEX = 11;
@@ -240,18 +275,30 @@ var
   sBarrasAtual: string;
 begin
   // inherited;
+  if pRecNo = -1 then
+  begin
+    if (FDMemTable.State in [dsEdit, dsInsert]) then
+    begin
+      FDMemTable.Fields[BARRAS_FIELD_INDEX].AsString := FCodsBarrasAcumulando;
+      FDMemTable.Post;
+    end;
+    exit;
+  end;
+
   iProdIdAtual := q.Fields[PROD_ID_FIELD_INDEX].AsInteger;
   sBarrasAtual := q.Fields[BARRAS_FIELD_INDEX].AsString.Trim;
 
   if FUltimoId <> iProdIdAtual then
   begin
-    if FDMemTable.State in [dsEdit, dsInsert] then
+    if (FDMemTable.State in [dsEdit, dsInsert]) then
     begin
       FDMemTable.Fields[BARRAS_FIELD_INDEX].AsString := FCodsBarrasAcumulando;
-      FDMemTable.Post;
       FCodsBarrasAcumulando := '';
+      FDMemTable.Post;
     end;
     FUltimoId := iProdIdAtual;
+
+    FCodsBarrasAcumulando := sBarrasAtual;
 
     FDMemTable.Append;
     for I := 0 to q.FieldCount - 1 do
@@ -274,10 +321,10 @@ procedure TRetagEstProdDataSetForm.RecordToEnt;
 begin
   inherited;
   ProdEnt.Id := FDMemTable.Fields[0].AsInteger;
-  ProdEnt.Descr := FDMemTable.Fields[1].AsString;
-  ProdEnt.DescrRed := FDMemTable.Fields[2].AsString;
-  ProdEnt.ProdFabrEnt.Id := FDMemTable.Fields[3].AsInteger;
-  ProdEnt.ProdFabrEnt.Descr := FDMemTable.Fields[4].AsString;
+//  ProdEnt.Descr := FDMemTable.Fields[1].AsString;
+//  ProdEnt.DescrRed := FDMemTable.Fields[2].AsString;
+//  ProdEnt.ProdFabrEnt.Id := FDMemTable.Fields[3].AsInteger;
+//  ProdEnt.ProdFabrEnt.Descr := FDMemTable.Fields[4].AsString;
 end;
 
 procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);

@@ -85,10 +85,11 @@ type
 
     procedure DoAtualizar(Sender: TObject); virtual; abstract;
     function DoInserir: boolean; virtual; abstract;
+    procedure DoLer; virtual;
     procedure DoAlterar; virtual; abstract;
     property EntEd: IEntEd read FEntEd;
     property EntDBI: IEntDBI read FEntDBI;
-    procedure LeRegEInsere(q: TDataSet); virtual;
+    procedure LeRegEInsere(q: TDataSet; pRecNo: integer); virtual;
     procedure RecordToEnt; virtual;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
     function SelectPodeOk: boolean; virtual;
@@ -166,6 +167,7 @@ begin
   State := dsEdit;
   try
     RecordToEnt;
+    DoLer;
     DoAlterar;
   finally
     State := dsBrowse;
@@ -285,6 +287,11 @@ begin
   end;
 end;
 
+procedure TTabSheetDataSetBasForm.DoLer;
+begin
+
+end;
+
 procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
 
@@ -394,10 +401,13 @@ begin
   end;
 end;
 
-procedure TTabSheetDataSetBasForm.LeRegEInsere(q: TDataSet);
+procedure TTabSheetDataSetBasForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
 var
   i: integer;
 begin
+  if pRecno = -1 then
+    exit;
+
   FDMemTable.Append;
   for i := 0 to q.FieldCount - 1 do
   begin

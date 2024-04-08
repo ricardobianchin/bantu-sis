@@ -21,6 +21,7 @@ type
     function ById(pId: variant; out pValores: variant): boolean;
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil);
     function AtivoSet(const pId: integer; Value: boolean): boolean;
+    function Ler: boolean;
   end;
 
 implementation

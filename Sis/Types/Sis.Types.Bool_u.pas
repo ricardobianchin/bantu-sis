@@ -7,6 +7,7 @@ uses System.UITypes;
 function BooleanToStr(pBoolValue: boolean): string;
 function StrToBoolean(pStr: string): boolean;
 function Iif(pTeste: boolean; pSeTrue: string; pSeFalse: string): string; overload;
+function Iif(pTeste: boolean; pSeTrue: Currency; pSeFalse: Currency): Currency; overload;
 procedure InicializeBool;
 function BooleanToStrSQL(pBoolValue: boolean): string;
 
@@ -37,6 +38,16 @@ begin
   else
     result := pSeFalse;
 end;
+
+function Iif(pTeste: boolean; pSeTrue: Currency; pSeFalse: Currency): Currency; overload;
+begin
+  if pTeste then
+    result := pSeTrue
+  else
+    result := pSeFalse;
+end;
+
+
 
 function BooleanToStr(pBoolValue: boolean): string;
 begin

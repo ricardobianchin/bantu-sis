@@ -14,9 +14,9 @@ type
     function GetBalancaTipoStr: string;
     property BalancaTipoStr: string read GetBalancaTipoStr;
 
-    function GetDptoCod: smallint;
-    procedure SetDptoCod(Value: smallint);
-    property DptoCod: smallint read GetDptoCod write SetDptoCod;
+    function GetDptoCod: string;
+    procedure SetDptoCod(Value: string);
+    property DptoCod: string read GetDptoCod write SetDptoCod;
 
     function GetValidadeDias: smallint;
     procedure SetValidadeDias(Value: smallint);

@@ -10,13 +10,11 @@ type
   private
     function GetProdBarras(Index: integer): IProdBarras;
     procedure RenumereOrdem;
-    function GetAsStringCSV: string;
   public
     property ProdBarras[Index: integer]: IProdBarras read GetProdBarras; default;
     procedure PegarBarras(pBarras: string; pOndeInserir: TPosicaoList);
     function IndexOfBarras(pBarras: string): integer;
-    property AsStringCSV: string read GetAsStringCSV;
-
+    function GetAsString(pSeparador: string): string;
   end;
 
 implementation
@@ -25,7 +23,7 @@ implementation
 
 uses App.Retag.Est.Factory, System.SysUtils;
 
-function TProdBarrasList.GetAsStringCSV: string;
+function TProdBarrasList.GetAsString(pSeparador: string): string;
 var
   i: integer;
   oProdBarras: IProdBarras;
@@ -37,7 +35,7 @@ begin
     oProdBarras := ProdBarras[I];
 
     if Result <> '' then
-      Result := Result + ';';
+      Result := Result + pSeparador;
 
     Result := Result + oProdBarras.Barras;
   end;

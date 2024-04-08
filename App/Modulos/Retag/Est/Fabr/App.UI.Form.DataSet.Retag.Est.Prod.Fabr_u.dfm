@@ -1,6 +1,5 @@
 inherited RetagEstProdFabrDataSetForm: TRetagEstProdFabrDataSetForm
   Caption = 'RetagEstProdFabrDataSetForm'
-  ExplicitTop = -26
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
     inherited TitToolBar1_BasTabSheet: TToolBar

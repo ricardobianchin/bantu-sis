@@ -21,6 +21,7 @@ type
       pProcLeReg: TProcDataSetOfObject); virtual;
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; virtual;
+    function Ler: boolean; virtual;
     function GarantirReg: boolean;
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil); virtual;
     function AtivoSet(const pId: integer; Value: boolean): boolean; virtual;
@@ -99,6 +100,11 @@ begin
   end;
 end;
 
+function TEntDBI.Ler: boolean;
+begin
+//
+end;
+
 procedure TEntDBI.ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection);
 var
   sSql: string;
@@ -157,17 +163,21 @@ procedure TEntDBI.PreencherDataSet(pValues: variant;
 var
   sSql: string;
   q: TDataSet;
+  iRecNo: integer;
 begin
   DBConnection.Abrir;
   try
     sSql := GetSqlPreencherDataSet(pValues);
     DBConnection.QueryDataSet(sSql, q);
     try
+      iRecNo := 0;
       while not q.Eof do
       begin
-        pProcLeReg(q);
+        inc(iRecNo);
+        pProcLeReg(q, iRecNo);
         q.Next;
       end;
+      pProcLeReg(q, -1);
     finally
       q.Free;
     end;

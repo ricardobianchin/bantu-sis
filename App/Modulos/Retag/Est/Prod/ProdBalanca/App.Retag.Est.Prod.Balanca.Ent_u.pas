@@ -8,15 +8,15 @@ type
   TProdBalancaEnt = class(TInterfacedObject, IProdBalancaEnt)
   private
     FBalancaTipo: TBalancaTipo;
-    FDptoCod: smallint;
+    FDptoCod: string;
     FValidadeDias: smallint;
     FTextoEtiq: string;
 
     function GetBalancaTipo: TBalancaTipo;
     procedure SetBalancaTipo(Value: TBalancaTipo);
 
-    function GetDptoCod: smallint;
-    procedure SetDptoCod(Value: smallint);
+    function GetDptoCod: string;
+    procedure SetDptoCod(Value: string);
 
     function GetValidadeDias: smallint;
     procedure SetValidadeDias(Value: smallint);
@@ -27,7 +27,7 @@ type
     function GetBalancaTipoStr: string;
   public
     property BalancaTipo: TBalancaTipo read GetBalancaTipo write SetBalancaTipo;
-    property DptoCod: smallint read GetDptoCod write SetDptoCod;
+    property DptoCod: string read GetDptoCod write SetDptoCod;
     property ValidadeDias: smallint read GetValidadeDias write SetValidadeDias;
     property TextoEtiq: string read GetTextoEtiq write SetTextoEtiq;
 
@@ -46,7 +46,7 @@ begin
   Result := Integer(FBalancaTipo).ToString;
 end;
 
-function TProdBalancaEnt.GetDptoCod: smallint;
+function TProdBalancaEnt.GetDptoCod: string;
 begin
   Result := FDptoCod;
 end;
@@ -69,7 +69,7 @@ end;
 procedure TProdBalancaEnt.LimparEnt;
 begin
   FBalancaTipo := TBalancaTipo.baltNaoUtiliza;
-  FDptoCod := 0;
+  FDptoCod := '001';
   FValidadeDias := 0;
   FTextoEtiq := '';
 end;
@@ -79,7 +79,7 @@ begin
   FBalancaTipo := Value;
 end;
 
-procedure TProdBalancaEnt.SetDptoCod(Value: smallint);
+procedure TProdBalancaEnt.SetDptoCod(Value: string);
 begin
   FDptoCod := Value;
 end;
