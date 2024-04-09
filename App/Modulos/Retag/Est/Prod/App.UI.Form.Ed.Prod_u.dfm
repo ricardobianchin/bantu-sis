@@ -32,16 +32,16 @@ inherited ProdEdForm: TProdEdForm
       786
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 259
-      ExplicitLeft = 255
+      Left = 255
+      ExplicitLeft = 251
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 372
-      ExplicitLeft = 368
+      Left = 368
+      ExplicitLeft = 364
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 452
-      ExplicitLeft = 448
+      Left = 448
+      ExplicitLeft = 444
     end
   end
   object MeioPanel: TPanel [4]
@@ -59,12 +59,11 @@ inherited ProdEdForm: TProdEdForm
       Left = 0
       Top = 0
       Width = 786
-      Height = 390
+      Height = 407
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 782
     end
   end
   inherited ShowTimer_BasForm: TTimer

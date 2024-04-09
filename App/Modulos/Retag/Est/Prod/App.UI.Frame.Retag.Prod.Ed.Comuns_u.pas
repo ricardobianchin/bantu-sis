@@ -213,7 +213,7 @@ begin
   ICMSFr.Name := 'ICMSComboBoxProdEdFrame';
 
   iTop := 2;
-  iLeft := 4;
+  iLeft := 8;
 
   IdEdit.Left := iLeft + 41;
   IdEdit.Top := iTop;
@@ -230,7 +230,7 @@ begin
   FabrFr.Top := iTop;
 
   iTop := DescrEdit.Top + DescrEdit.Height + 17;
-  iLeft := 4;
+  iLeft := 6;
 
   TipoFr.Left := iLeft;
   TipoFr.Top := iTop;

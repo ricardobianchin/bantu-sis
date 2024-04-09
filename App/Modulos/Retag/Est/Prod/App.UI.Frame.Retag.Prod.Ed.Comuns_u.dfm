@@ -4,7 +4,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
   ExplicitWidth = 800
   ExplicitHeight = 407
   object DescrErroLabel: TLabel
-    Left = 4
+    Left = 5
     Top = 69
     Width = 78
     Height = 15
@@ -18,7 +18,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     StyleElements = []
   end
   object DescrRedErroLabel: TLabel
-    Left = 476
+    Left = 477
     Top = 69
     Width = 98
     Height = 15
@@ -32,7 +32,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     StyleElements = []
   end
   object GeraBarrasLabel: TLabel
-    Left = 472
+    Left = 473
     Top = 34
     Width = 56
     Height = 15
@@ -40,7 +40,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     OnClick = GeraBarrasLabelClick
   end
   object DescrEdit: TLabeledEdit
-    Left = 59
+    Left = 60
     Top = 46
     Width = 406
     Height = 23
@@ -55,7 +55,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     OnChange = DescrEditChange
   end
   object DescrRedEdit: TLabeledEdit
-    Left = 581
+    Left = 582
     Top = 46
     Width = 194
     Height = 23
@@ -113,8 +113,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
-      ExplicitLeft = 3
-      ExplicitTop = 53
+      ExplicitWidth = 79
     end
   end
   object BalGroupBox: TGroupBox
