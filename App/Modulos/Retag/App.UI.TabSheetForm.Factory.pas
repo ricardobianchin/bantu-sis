@@ -4,7 +4,11 @@ interface
 
 uses App.UI.Form.Bas.TabSheet_u, System.Classes, App.AppInfo,
   Sis.Config.SisConfig, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.DB.DBTypes, App.Ent.Ed, Data.DB;
+  Sis.DB.DBTypes, App.Ent.Ed, Data.DB
+  //ents
+  , App.Retag.Est.Prod.Fabr.Ent//fabr ent
+  , App.Retag.Est.Prod.Natu.Ent//fabr ent
+  ;
 // Aju
 {$REGION 'Aju'}
 function RetagAjuBemVindoFormGetClassName: string;
@@ -48,6 +52,14 @@ function RetagEstProdICMSFormCreate(AOwner: TComponent;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput): TTabSheetAppBasForm;
 {$ENDREGION}//fim est prod ICMS
+{$REGION 'Est Prod prod'}
+// Est Prod prod
+function RetagEstProdFormGetClassName: string;
+function RetagEstProdFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+{$ENDREGION}//fim est prod prod
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 
@@ -66,7 +78,7 @@ uses
   , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u
   , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u
   , App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u
-
+  , App.UI.Form.DataSet.Retag.Est.Prod_u
   ;
 
 {$REGION 'Aju Impl'}
@@ -104,10 +116,10 @@ function RetagEstProdFabrFormCreate(AOwner: TComponent;
 var
   oEntEd: IEntEd;
 begin
-  oEntEd := RetagEstProdFabrEntCreate(dsBrowse);
-  Result := TRetagEstProdFabrDataSetForm.Create(AOwner,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
-    pOutputNotify, oEntEd);
+//  oEntEd := RetagEstProdFabrEntCreate(dsBrowse);
+//  Result := TRetagEstProdFabrDataSetForm.Create(AOwner,
+//    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+//    pOutputNotify, oEntEd);
 end;
 {$ENDREGION}//fim est prod fabr
 
@@ -124,10 +136,10 @@ function RetagEstProdTipoFormCreate(AOwner: TComponent;
 var
   oEntEd: IEntEd;
 begin
-  oEntEd := RetagEstProdTipoEntCreate(dsBrowse);
-  Result := TRetagEstProdTipoDataSetForm.Create(AOwner,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
-    pOutputNotify, oEntEd);
+//  oEntEd := RetagEstProdTipoEntCreate(dsBrowse);
+//  Result := TRetagEstProdTipoDataSetForm.Create(AOwner,
+//    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+//    pOutputNotify, oEntEd);
 end;
 {$ENDREGION}//fim est prod tipo
 {$REGION 'Est Prod unid impl'}
@@ -143,10 +155,10 @@ function RetagEstProdUnidFormCreate(AOwner: TComponent;
 var
   oEntEd: IEntEd;
 begin
-  oEntEd := RetagEstProdUnidEntCreate(dsBrowse);
-  Result := TRetagEstProdUnidDataSetForm.Create(AOwner,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
-    pOutputNotify, oEntEd);
+//  oEntEd := RetagEstProdUnidEntCreate(dsBrowse);
+//  Result := TRetagEstProdUnidDataSetForm.Create(AOwner,
+//    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+//    pOutputNotify, oEntEd);
 end;
 {$ENDREGION}//fim est prod unid
 {$REGION 'Est Prod ICMS impl'}
@@ -162,12 +174,37 @@ function RetagEstProdICMSFormCreate(AOwner: TComponent;
 var
   oEntEd: IEntEd;
 begin
-  oEntEd := RetagEstProdICMSEntCreate(dsBrowse);
-  Result := TRetagEstProdICMSDataSetForm.Create(AOwner,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
-    pOutputNotify, oEntEd);
+//  oEntEd := RetagEstProdICMSEntCreate(dsBrowse);
+//  Result := TRetagEstProdICMSDataSetForm.Create(AOwner,
+//    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+//    pOutputNotify, oEntEd);
 end;
 {$ENDREGION}//fim est prod ICMS
+{$REGION 'Est Prod prod impl'}
+function RetagEstProdFormGetClassName: string;
+begin
+  Result := TRetagEstProdDataSetForm.ClassName;
+end;
+
+function RetagEstProdFormCreate(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): TTabSheetAppBasForm;
+var
+  oProdFabrEnt: IProdFabrEnt;
+  oProdNatuEnt: IProdNatuEnt;
+  oEntEd: IEntEd;
+begin
+//  oProdFabrEnt := RetagEstProdFabrEntCreate(dsBrowse);
+//  oProdNatuEnt := RetagEstProdNatuEntCreate('P', 'PRODUTO');
+//
+//  oEntEd := RetagEstProdEntCreate(dsBrowse, oProdFabrEnt, oProdNatuEnt);
+//
+//  Result := TRetagEstProdDataSetForm.Create(AOwner,
+//    pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS, pOutput, pProcessLog,
+//    pOutputNotify, oEntEd);
+end;
+{$ENDREGION}//fim est prod prod
 {$ENDREGION}//fim est prod
 {$ENDREGION}//fim est
 

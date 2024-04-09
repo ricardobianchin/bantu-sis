@@ -195,7 +195,7 @@ begin
 
       sExecFile := FIsqlExe;
       sStartIn := FFirebirdPath;
-      sParam := '-user sysdba -password masterkey -i "' + sNomeArqTmp + '"';
+      sParam := '-user sysdba -password masterkey -i "' + sNomeArqTmp + '"';//  -ch WIN1252';
 
       bExecuteAoCriar := True;
 
@@ -316,7 +316,7 @@ end;
 function TDBMSFirebird.LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB)
   : TDBConnectionParams;
 begin
-  Result.Server := FSisConfig.ServerMachineId.GetServerName;
+  Result.Server := FSisConfig.ServerMachineId.GetIdent;
   Result.Arq := LocalDoDBToNomeArq(pLocalDoDB);
   Result.Database := Result.Arq;
   if Result.Server <> '' then
@@ -331,7 +331,7 @@ begin
 
   Result := sArq;
 
-  sServ := FSisConfig.ServerMachineId.GetServerName;
+  sServ := FSisConfig.ServerMachineId.GetIdent;
   if sServ <> '' then
     Result := sServ + ':' + Result;
 end;

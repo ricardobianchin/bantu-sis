@@ -3,10 +3,10 @@ unit Sis.DB.DBMS.DBMSConfig_u;
 interface
 
 uses Sis.UI.IO.Output, Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog,
-  Sis.DB.DBTypes, Sis.Config_u,  Xml.XMLDoc, Xml.XMLIntf;
+  Sis.DB.DBTypes, Xml.XMLDoc, Xml.XMLIntf, Sis.Config.ConfigXMLI_u;
 
 type
-  TDBMSConfig = class(TConfig, IDBMSConfig)
+  TDBMSConfig = class(TConfigXMLI, IDBMSConfig)
   private
     FSisConfig: ISisConfig;
     FPausaAntesExec: boolean;
@@ -16,10 +16,9 @@ type
     function GetPausaAntesExec: boolean;
     procedure SetPausaAntesExec(Value: boolean);
   protected
-    function Ler: boolean; override;
-    procedure Gravar; override;
+    function PrepLer: boolean; override;
+    function  PrepGravar: boolean;  override;
     procedure Inicialize; override;
-    function GetNomeArq: string; override;
 
   public
     property PausaAntesExec: boolean read GetPausaAntesExec
@@ -37,29 +36,14 @@ uses System.SysUtils, Sis.Types.Bool_u, Sis.UI.IO.Files;
 constructor TDBMSConfig.Create(pSisConfig: ISisConfig; pProcessLog: IProcessLog;
   pOutput: IOutput);
 begin
+  inherited Create('dbms', 'DBMS.Firebird.Config', '.xml', '', False,
+    pProcessLog, pOutput);
   FSisConfig := pSisConfig;
-  inherited Create(pProcessLog, pOutput);
-end;
-
-function TDBMSConfig.GetNomeArq: string;
-begin
-  Result := 'DBMS.Firebird.Config.xml';
 end;
 
 function TDBMSConfig.GetPausaAntesExec: boolean;
 begin
   Result := FPausaAntesExec;
-end;
-
-procedure TDBMSConfig.Gravar;
-begin
-  inherited Gravar;
-  RootNode := XMLDocument1.AddChild('dbms');
-  DebugNode := RootNode.AddChild('debug');
-  PausaAntesExecNode := DebugNode.AddChild('pausa_antes_exec');
-
-  PausaAntesExecNode.Text := BooleanToStr(FPausaAntesExec);
-  XMLDocumentSalvar;
 end;
 
 procedure TDBMSConfig.Inicialize;
@@ -68,11 +52,23 @@ begin
   FPausaAntesExec := false;
 end;
 
-function TDBMSConfig.Ler: boolean;
+function TDBMSConfig.PrepGravar: boolean;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+
+  DebugNode := RootNode.AddChild('debug');
+  PausaAntesExecNode := DebugNode.AddChild('pausa_antes_exec');
+
+  PausaAntesExecNode.Text := BooleanToStr(FPausaAntesExec);
+end;
+
+function TDBMSConfig.PrepLer: boolean;
 var
   s: string;
 begin
-  Result := inherited Ler;
+  Result := inherited PrepLer;
   if not Result then
     exit;
 

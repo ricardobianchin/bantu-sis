@@ -4,13 +4,13 @@ interface
 
 uses
   FireDAC.Stan.Param, System.Classes, Data.DB, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config;
+  Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI;
 
 type
   TIdLojaRecord = record LojaId, TerminalId: smallint; Id: integer; end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
-  TProcDataSetOfObject = procedure (q: TDataSet) of object;
+  TProcDataSetOfObject = procedure (q: TDataSet; pRecNo: integer) of object;
 
   TDBVersion = double;
 
@@ -33,7 +33,7 @@ const
     'POSTGRESQL', 'ORACLE', 'SQLSERVER', 'SQLITE');
 
 type
-  IDBMSConfig = interface(IConfig)
+  IDBMSConfig = interface(IConfigXMLI)
     ['{5A1A706A-6F4C-43B8-9F12-D815CC4B23D0}']
     function GetPausaAntesExec: boolean;
     procedure SetPausaAntesExec(Value: boolean);

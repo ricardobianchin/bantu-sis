@@ -2,11 +2,16 @@ unit App.AppInfo;
 
 interface
 
-uses Vcl.Graphics;
+uses Vcl.Graphics, App.AppInfo.Types;
 
 type
   IAppInfo = interface(IInterface)
     ['{3F6A4F41-7A6D-4A75-BCE3-66797F458974}']
+
+    function GetSisTipoAtividade: TSisTipoAtividade;
+    procedure SetSisTipoAtividade(Value: TSisTipoAtividade);
+    property SisTipoAtividade: TSisTipoAtividade read GetSisTipoAtividade write SetSisTipoAtividade;
+
     function GetExeName: string;
     property ExeName: string read GetExeName;
 
@@ -31,6 +36,9 @@ type
 
     function GetPastaBin: string;
     property PastaBin: string read GetPastaBin;
+
+    function GetPastaConfigs: string;
+    property PastaConfigs: string read GetPastaConfigs;
 
     function GetPastaDados: string;
     property PastaDados: string read GetPastaDados;

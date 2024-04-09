@@ -2,10 +2,10 @@ unit Sis.UI.Form.Login.Config;
 
 interface
 
-uses Sis.Config, Sis.ModuloSistema.Types;
+uses Sis.ModuloSistema.Types, Sis.Config.ConfigXMLI;
 
 type
-  ILoginConfig = interface(IConfig)
+  ILoginConfig = interface(IConfigXMLI)
     ['{1EFB09EA-5B92-449E-9C26-9ECCA3FB5E8F}']
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);

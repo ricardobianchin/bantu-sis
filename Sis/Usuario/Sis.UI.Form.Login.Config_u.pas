@@ -2,11 +2,11 @@ unit Sis.UI.Form.Login.Config_u;
 
 interface
 
-uses Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Config_u,
-  Sis.UI.Form.Login.Config, Sis.ModuloSistema.Types, Xml.XMLDoc, Xml.XMLIntf;
+uses Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Xml.XMLDoc, Xml.XMLIntf,
+  Sis.UI.Form.Login.Config, Sis.ModuloSistema.Types, Sis.Config.ConfigXMLI_u;
 
 type
-  TLoginConfig = class(TConfig, ILoginConfig)
+  TLoginConfig = class(TConfigXMLI, ILoginConfig)
   private
     FPreencheLogin: boolean;
     FTipoModuloSistema: TTipoModuloSistema;
@@ -33,10 +33,9 @@ type
     procedure SetExecuteOk(Value: boolean);
 
   protected
-    function Ler: boolean; override;
-    procedure Gravar; override;
     procedure Inicialize; override;
-    function GetNomeArq: string; override;
+    function prepLer: boolean; override;
+    function PrepGravar: boolean; override;
 
   public
     property PreencheLogin: boolean read GetPreencheLogin
@@ -46,6 +45,7 @@ type
     property NomeUsu: string read GetNomeUsu write SetNomeUsu;
     property Senha: string read GetSenha write SetSenha;
     property ExecuteOk: boolean read GetExecuteOk write SetExecuteOk;
+    constructor Create(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
   end;
 
 implementation
@@ -59,14 +59,14 @@ begin
   Result := FTipoModuloSistema;
 end;
 
+constructor TLoginConfig.Create(pProcessLog: IProcessLog; pOutput: IOutput);
+begin
+  inherited Create('login', 'Login.Config', '.xml', '', False, pProcessLog, pOutput);
+end;
+
 function TLoginConfig.GetExecuteOk: boolean;
 begin
   Result := FExecuteOk;
-end;
-
-function TLoginConfig.GetNomeArq: string;
-begin
-  Result := 'Login.Config.xml';
 end;
 
 function TLoginConfig.GetNomeUsu: string;
@@ -84,10 +84,11 @@ begin
   Result := FSenha;
 end;
 
-procedure TLoginConfig.Gravar;
+function TLoginConfig.PrepGravar: boolean;
 begin
-  inherited;
-  RootNode := XMLDocument1.AddChild('login');
+  Result := inherited;
+  if not Result then
+    exit;
 
   PreencheLoginNode := RootNode.AddChild('preenche_login');
   TipoModuloSistemaNode := RootNode.AddChild('modulo_sistema');
@@ -101,7 +102,6 @@ begin
   SenhaNode.Text := FSenha;
   ExecuteOkNode.Text := BooleanToStr(FExecuteOk);
 
-  XMLDocumentSalvar;
 end;
 
 procedure TLoginConfig.Inicialize;
@@ -114,11 +114,11 @@ begin
   FExecuteOk := True;
 end;
 
-function TLoginConfig.Ler: boolean;
+function TLoginConfig.PrepLer: boolean;
 var
   s: string;
 begin
-  Result := inherited Ler;
+  Result := inherited PrepLer;
   if not Result then
     exit;
 
@@ -142,7 +142,6 @@ begin
 
   s := ExecuteOkNode.Text;
   FExecuteOk := StrToBoolean(s);
-
 end;
 
 procedure TLoginConfig.SetTipoModuloSistema(Value: TTipoModuloSistema);

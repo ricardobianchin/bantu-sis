@@ -4,10 +4,10 @@ interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
-  App.Retag.Est.Prod.ICMS.Ent, Sis.UI.Frame.Bas.FiltroParams_u, App.Retag.Est.Prod.ICMS.DBI;
+  App.Retag.Est.Prod.ICMS.Ent, Sis.UI.Frame.Bas.FiltroParams_u, App.Ent.Ed;
 
 type
-  TProdICMSDBI = class(TEntDBI, IProdICMSDBI)
+  TProdICMSDBI = class(TEntDBI, IEntDBI)
   private
     FProdICMSEnt: IProdICMSEnt;
   protected
@@ -15,45 +15,29 @@ type
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
+    function GetPackageName: string; override;
   public
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IProdICMSEnt);
-    function AtivoSet(pIcmsId: smallint; pValor: boolean): boolean;
+    constructor Create(pDBConnection: IDBConnection; pProdICMSEnt: IEntEd);
   end;
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.ICMS.Ent_u, Sis.Types.strings_u,
-  Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats;
+uses System.SysUtils, Sis.Types.strings_u,
+  Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats,
+  App.Retag.Est.Factory;
 
 { TProdICMSDBI }
 
-function TProdICMSDBI.AtivoSet(pIcmsId: smallint; pValor: boolean): boolean;
-var
-  sFormat: string;
-  sSql: string;
-  sId, sVal: string;
-begin
-  sId := pIcmsId.ToString;
-  sVal := BooleanToSQL(pValor);
-  sFormat := 'EXECUTE PROCEDURE ICMS_PA.ATIVO_SET(%s, %s);';
-  sSql := Format(sFormat, [sid, sval]);
-
-  Result := DBConnection.Abrir;
-  if not Result then
-    exit;
-
-  try
-    DBConnection.ExecuteSQL(sSql);
-  finally
-    DBConnection.Fechar;
-  end;
-end;
-
 constructor TProdICMSDBI.Create(pDBConnection: IDBConnection;
-  pEntEd: IProdICMSEnt);
+  pProdICMSEnt: IEntEd);
 begin
   inherited Create(pDBConnection);
-  FProdICMSEnt := TProdICMSEnt(pEntEd);
+  FProdICMSEnt := EntEdCastToProdICMSEnt(pProdICMSEnt);
+end;
+
+function TProdICMSDBI.GetPackageName: string;
+begin
+  Result := 'ICMS_PA';
 end;
 
 function TProdICMSDBI.GetSqlGarantirRegId: string;
@@ -65,10 +49,9 @@ begin
   sSigla := QuotedStr(FProdICMSEnt.Sigla);
   sDescr := QuotedStr(FProdICMSEnt.Descr);
   sPerc := CurrencyToStrPonto(FProdICMSEnt.Perc);
-  sAtivo := BooleanToSQL(FProdICMSEnt.Ativo);
+  sAtivo := BooleanToStrSQL(FProdICMSEnt.Ativo);
 
-  sFormat := 'SELECT ICMS_ID_GRAVADO' +
-    ' FROM ICMS_PA.ICMS_GARANTIR(%s,%s,%s,%s,%s);';
+  sFormat := 'SELECT ID_GRAVADO FROM ICMS_PA.GARANTIR(%s,%s,%s,%s,%s);';
   Result := Format(sFormat, [sId, sSigla, sDescr, sPerc, sAtivo]);
 end;
 

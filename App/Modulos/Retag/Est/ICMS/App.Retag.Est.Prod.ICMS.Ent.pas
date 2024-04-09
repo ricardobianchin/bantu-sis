@@ -2,18 +2,14 @@ unit App.Retag.Est.Prod.ICMS.Ent;
 
 interface
 
-uses App.Ent.Ed.Id;
+uses App.Ent.Ed.Id.Descr;
 
 type
-  IProdICMSEnt = interface(IEntEdId)
+  IProdICMSEnt = interface(IEntIdDescr)
     ['{6D9D8C9E-99B0-494D-9241-C918627EC2C2}']
     function GetSigla: string;
     procedure SetSigla(Value: string);
     property Sigla: string read GetSigla write SetSigla;
-
-    function GetDescr: string;
-    procedure SetDescr(Value: string);
-    property Descr: string read GetDescr write SetDescr;
 
     function GetPerc: currency;
     procedure SetPerc(Value: currency);

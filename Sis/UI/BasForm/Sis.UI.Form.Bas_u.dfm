@@ -2,8 +2,8 @@ object BasForm: TBasForm
   Left = 0
   Top = 0
   Caption = 'BasForm'
-  ClientHeight = 437
-  ClientWidth = 608
+  ClientHeight = 428
+  ClientWidth = 572
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,7 +13,6 @@ object BasForm: TBasForm
   KeyPreview = True
   Position = poDesigned
   ShowHint = True
-  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object ShowTimer_BasForm: TTimer

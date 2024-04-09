@@ -3,23 +3,27 @@ unit Sis.Types.strings_u;
 interface
 
 uses
-  System.UITypes
-  , System.Hash
-  ;
+  System.UITypes, System.Hash;
 
 procedure CharSemAcento(var Key: Char; pTudoMaiusculas: boolean = True);
 function StrSemAcento(const pStr: string;
   pTudoMaiusculas: boolean = True): string;
 
-function StrSemCharRepetido(pStr: string; pChar: char = #32): string;
+function StrSemStr(pStr: string; pStrARemover: string = #32): string;
+function StrSemCharRepetido(pStr: string; pChar: Char = #32): string;
 
-procedure CharOnlyDigit(var Key: Char);
+function CharIsOnlyDigit(Key: Char): boolean;
+function StrToOnlyDigit(const pStr: string): string;
+function StrIsOnlyDigit(const pStr: string): boolean;
 
 procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
 
-function StrComerNoFim(pStr: string; pQtdChars: integer): string;
-function StrComerNoInicio(pStr: string; pQtdChars: integer): string;
+function StrDeleteNoFim(pStr: string; pQtdChars: integer): string;
+function StrDeleteNoInicio(pStr: string; pQtdChars: integer): string;
+
+procedure StrSepareInicio(pStrOrigem: string; pQtdChars: integer;
+  out pStrIni: string; out pStrFim: string);
 
 function IsWindowsFilenameChar(c: Char): boolean;
 procedure ReplaceInvalidFilenameChar(var c: Char);
@@ -32,26 +36,30 @@ function StrApos(pStr, pBusca: string): string;
 
 function StrGarantirTermino(pStr, pTermino: string): string;
 
-function IsDigit(c: char): boolean;
+function IsDigit(c: Char): boolean;
 procedure AjusteAsciiCodeToChar(var pStr: string);
 
-function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer): string;
-//function ArrayToSnakeCase(pPalavras: TArray<string>): string;
+function TruncSnakeCase(pIdentifier: string;
+  pMaxIdentifierLenght: integer): string;
+// function ArrayToSnakeCase(pPalavras: TArray<string>): string;
 function ArrayLargestIndex(pPalavras: TArray<string>): integer;
 function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
-function StrCountCharLeft(pStr: string; pCharInicial: char = '0'): integer;
-function SemCharAEsquerda(pStr: string; pCharInicial: char = '0'): string;
-function TemChar(pStr: string; pChar: char): boolean;
-procedure RemovaChars(pStr: string; pCharBusca: char);
+function StrCountCharLeft(pStr: string; pCharInicial: Char = '0'): integer;
+function SemCharAEsquerda(pStr: string; pCharInicial: Char = '0'): string;
+function TemChar(pStr: string; pChar: Char): boolean;
+procedure DeleteChar(pStr: string; pCharToDel: Char);
 
 procedure StrSemEnterNoFim(var pStr: string);
 
-function StrCheckSum(const pStr: string; pSHA2Version: THashSHA2.TSHA2Version = SHA256): string;
+function StrCheckSum(const pStr: string;
+  pSHA2Version: THashSHA2.TSHA2Version = SHA256): string;
 
 procedure StrCheckSum32(pStr: string; out pCheckStr: string); overload;
-function StrCheckSum32(pStr: string): string;  overload;
+function StrCheckSum32(pStr: string): string; overload;
 
 function VarToString(pValue: variant): string;
+
+function ConvertHTMLChars(pStr: string): string;
 
 implementation
 
@@ -64,14 +72,53 @@ const
   SubstSemAcento = ('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ' +
     'AaAaAaAaEeEeEeIiOoOoOoUuCc');
 
-  VALID_FILENAME_CHARS: TSysCharSet = ['a' .. 'z', 'A' .. 'Z', '0' .. '9',
-    '_', '-', '.', '!', '@', '#', '$', '%', '&', '(', ')', '[', ']', '{', '}'];
+  VALID_FILENAME_CHARS: TSysCharSet = ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_',
+    '-', '.', '!', '@', '#', '$', '%', '&', '(', ')', '[', ']', '{', '}'];
 
-
-procedure CharOnlyDigit(var Key: Char);
+function CharIsOnlyDigit(Key: Char): boolean;
 begin
-  if Pos(Key, '0123456789') = 0 then
-    Key := #0;
+  Result := CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
+end;
+
+function StrToOnlyDigit(const pStr: string): string;
+var
+  i: integer;
+  c: Char;
+  bResultado: boolean;
+begin
+  Result := '';
+
+  for i := 1 to Length(pStr) do
+  begin
+    c := pStr[i];
+    bResultado := CharIsOnlyDigit(c);
+    if bResultado then
+      Result := Result + c;
+  end;
+end;
+
+function StrIsOnlyDigit(const pStr: string): boolean;
+var
+  L: integer;
+  I: integer;
+  sStr: string;
+begin
+  sStr := Trim(pStr);
+  Result := sStr <> '';
+  if not Result then
+    exit;
+
+  Result := True;
+
+  L := Length(sStr);
+  for I := 1 to L do
+  begin
+    if not CharIsOnlyDigit(sStr[I]) then
+    begin
+      result:=false;
+      break;
+    end;
+  end;
 end;
 
 // Procedure que recebe um parâmetro var Key: char e faz a substituição
@@ -202,7 +249,12 @@ begin
   Delete(Result, 1, iPosNaStr);
 end;
 
-function StrSemCharRepetido(pStr: string; pChar: char): string;
+function StrSemStr(pStr: string; pStrARemover: string = #32): string;
+begin
+  Result := ReplaceStr(pStr, pStrARemover, '');
+end;
+
+function StrSemCharRepetido(pStr: string; pChar: Char): string;
 var
   i, j: integer;
 begin
@@ -254,9 +306,8 @@ begin
   Result := Result + pTermino;
 end;
 
-
 // Função que recebe um char e retorna verdadeiro se for um algarismo
-function IsDigit(c: char): boolean;
+function IsDigit(c: Char): boolean;
 begin
   // Verifica se o código ASCII do char está entre 48 e 57, que correspondem aos algarismos de 0 a 9
   IsDigit := (ord(c) >= 48) and (ord(c) <= 57);
@@ -266,24 +317,26 @@ end;
 procedure AjusteAsciiCodeToChar(var pStr: string);
 var
   i, code: integer;
-  c: char;
+  c: Char;
 begin
   // Percorre a string da esquerda para a direita
   i := 1;
-  while i <= length(pStr) do
+  while i <= Length(pStr) do
   begin
     // Se encontrar o caractere #
     if pStr[i] = '#' then
     begin
       // Verifica se os próximos três caracteres são algarismos
-      if (i + 3 <= length(pStr)) and IsDigit(pStr[i+1]) and IsDigit(pStr[i+2]) and IsDigit(pStr[i+3]) then
+      if (i + 3 <= Length(pStr)) and IsDigit(pStr[i + 1]) and
+        IsDigit(pStr[i + 2]) and IsDigit(pStr[i + 3]) then
       begin
         // Converte os três algarismos em um número inteiro
-        code := StrToInt(pStr[i+1] + pStr[i+2] + pStr[i+3]);
+        code := StrToInt(pStr[i + 1] + pStr[i + 2] + pStr[i + 3]);
         // Converte o número inteiro em um caractere ASCII
         c := chr(code);
         // Substitui a sequência de # e três algarismos pelo caractere ASCII na string original
-        pStr := Copy(pStr, 1, i-1) + c + Copy(pStr, i+4, length(pStr) - i - 3);
+        pStr := Copy(pStr, 1, i - 1) + c + Copy(pStr, i + 4,
+          Length(pStr) - i - 3);
       end;
     end;
     // Incrementa o índice da string
@@ -293,27 +346,28 @@ end;
 
 function ArrayToSnaceCase(pPalavras: TArray<string>): string;
 var
-  I: integer;
+  i: integer;
 begin
   Result := '';
 
-  for I := 0 to Length(pPalavras) - 1 do
+  for i := 0 to Length(pPalavras) - 1 do
   begin
     if Result <> '' then
       Result := Result + '_';
-    Result := Result + pPalavras[I];
+    Result := Result + pPalavras[i];
   end;
 end;
 
-function TruncSnakeCase(pIdentifier: string; pMaxIdentifierLenght: integer): string;
+function TruncSnakeCase(pIdentifier: string;
+  pMaxIdentifierLenght: integer): string;
 var
   aPalavras: TArray<string>;
-  iMaior, I, L: integer;
+  iMaior, i, L: integer;
 begin
   Result := pIdentifier;
   L := Result.Length;
 
-  if l <= pMaxIdentifierLenght  then
+  if L <= pMaxIdentifierLenght then
     exit;
 
   Result := '';
@@ -322,15 +376,15 @@ begin
   while SnakeCaseFutureLenght(aPalavras) > pMaxIdentifierLenght do
   begin
     iMaior := ArrayLargestIndex(aPalavras);
-    aPalavras[iMaior] := StrComerNoFim(aPalavras[iMaior], 1);
+    aPalavras[iMaior] := StrDeleteNoFim(aPalavras[iMaior], 1);
   end;
 
-  for I := 0 to Length(aPalavras) - 1 do
+  for i := 0 to Length(aPalavras) - 1 do
   begin
     if Result <> '' then
       Result := Result + '_';
 
-    Result := Result + aPalavras[I];
+    Result := Result + aPalavras[i];
   end;
 
   Result := StrSemCharRepetido(Result, '_');
@@ -344,9 +398,11 @@ begin
   index := -1; // inicializa o índice como -1 (significa que o array está vazio)
   for i := 0 to Length(pPalavras) - 1 do // percorre o array de strings
   begin
-    if Length(pPalavras[i]) > max then // se a string atual é mais longa do que o máximo atual
+    if Length(pPalavras[i]) > max then
+    // se a string atual é mais longa do que o máximo atual
     begin
-      max := Length(pPalavras[i]); // atualiza o máximo com o comprimento da string atual
+      max := Length(pPalavras[i]);
+      // atualiza o máximo com o comprimento da string atual
       index := i; // atualiza o índice com o índice da string atual
     end;
   end;
@@ -370,7 +426,7 @@ begin
   Result := len;
 end;
 
-function StrComerNoFim(pStr: string; pQtdChars: integer): string;
+function StrDeleteNoFim(pStr: string; pQtdChars: integer): string;
 var
   L: integer;
 begin
@@ -390,7 +446,7 @@ begin
   Result := LeftStr(pStr, L);
 end;
 
-function StrComerNoInicio(pStr: string; pQtdChars: integer): string;
+function StrDeleteNoInicio(pStr: string; pQtdChars: integer): string;
 var
   L: integer;
 begin
@@ -408,18 +464,38 @@ begin
   end;
 
   Result := RightStr(pStr, L);
-{
-  // Verifica se a quantidade de caracteres é válida
-  if (pQtdChars > 0) and (pQtdChars < Length(pStr)) then
+  {
+    // Verifica se a quantidade de caracteres é válida
+    if (pQtdChars > 0) and (pQtdChars < Length(pStr)) then
     // Retorna a substring a partir da posição pQtdChars + 1
     Result := Copy(pStr, pQtdChars + 1, Length(pStr) - pQtdChars)
-  else
+    else
     // Retorna a string original se a quantidade de caracteres é inválida
     Result := pStr;
-    }
+  }
 end;
 
-function StrCountCharLeft(pStr: string; pCharInicial: char): integer;
+procedure StrSepareInicio(pStrOrigem: string; pQtdChars: integer;
+  out pStrIni: string; out pStrFim: string);
+begin
+  if pQtdChars < 1 then
+  begin
+    pStrIni := '';
+    pStrFim := pStrOrigem;
+    exit;
+  end
+  else if pQtdChars >= Length(pStrOrigem) then
+  begin
+    pStrIni := pStrOrigem;
+    pStrFim := '';
+    exit;
+  end;
+
+  pStrIni := Copy(pStrOrigem, 1, pQtdChars);
+  pStrFim := Copy(pStrOrigem, pQtdChars + 1, Length(pStrOrigem) - pQtdChars);
+end;
+
+function StrCountCharLeft(pStr: string; pCharInicial: Char): integer;
 var
   i, count: integer;
 begin
@@ -427,13 +503,13 @@ begin
   if pStr = '' then
   begin
     Result := 0;
-    Exit;
+    exit;
   end;
 
   if pStr[1] <> pCharInicial then
   begin
     Result := 0;
-    Exit;
+    exit;
   end;
 
   count := 0;
@@ -448,7 +524,7 @@ begin
   Result := count;
 end;
 
-function SemCharAEsquerda(pStr: string; pCharInicial: char = '0'): string;
+function SemCharAEsquerda(pStr: string; pCharInicial: Char = '0'): string;
 var
   iQtdCharsIniciais: integer;
   sCortada: string;
@@ -463,37 +539,42 @@ begin
     exit;
   end;
 
-  sCortada := StrComerNoInicio(pStr, iQtdCharsIniciais);
+  sCortada := StrDeleteNoInicio(pStr, iQtdCharsIniciais);
   Result := sCortada;
 end;
 
-function TemChar(pStr: string; pChar: char): boolean;
+function TemChar(pStr: string; pChar: Char): boolean;
 begin
   Result := Pos(pChar, pStr) > 0;
 end;
 
-procedure RemovaChars(pStr: string; pCharBusca: char);
+procedure DeleteChar(pStr: string; pCharToDel: Char);
 begin
-  pStr := StringReplace(pStr, pCharBusca, '', [rfReplaceAll]);
+  pStr := StringReplace(pStr, pCharToDel, '', [rfReplaceAll]);
 end;
 
 procedure StrSemEnterNoFim(var pStr: string);
 // Esta procedure modifica a string passada por referência, removendo o enter (#13#10) no final, se houver
 begin
-  if Length(pStr) >= 2 then // Verifica se a string tem pelo menos dois caracteres
+  if Length(pStr) >= 2 then
+  // Verifica se a string tem pelo menos dois caracteres
   begin
-    if (pStr[Length(pStr) - 1] = #13) and (pStr[Length(pStr)] = #10) then // Verifica se os dois últimos caracteres são #13#10
+    if (pStr[Length(pStr) - 1] = #13) and (pStr[Length(pStr)] = #10) then
+    // Verifica se os dois últimos caracteres são #13#10
     begin
-      SetLength(pStr, Length(pStr) - 2); // Remove os dois últimos caracteres da string
+      SetLength(pStr, Length(pStr) - 2);
+      // Remove os dois últimos caracteres da string
     end;
   end;
 end;
 
-function StrCheckSum(const pStr: string; pSHA2Version: THashSHA2.TSHA2Version): string;
+function StrCheckSum(const pStr: string;
+  pSHA2Version: THashSHA2.TSHA2Version): string;
 begin
   // Cria uma instância da classe THashSHA2 com a versão SHA-256
-//  var Hasher := THashSHA2.Create(THashSHA2.TSHA2Version.SHA256);
-  var Hasher := THashSHA2.Create(pSHA2Version);
+  // var Hasher := THashSHA2.Create(THashSHA2.TSHA2Version.SHA256);
+  var
+  Hasher := THashSHA2.Create(pSHA2Version);
   // Calcula o hash da string pStr
   Hasher.Update(pStr);
   // Retorna o hash como uma string hexadecimal
@@ -518,4 +599,24 @@ function VarToString(pValue: variant): string;
 begin
   Result := VarToStrDef(pValue, '');
 end;
+
+function ConvertHTMLChars(pStr: string): string;
+begin
+  Result := pStr;
+  Result := StringReplace(Result, '&atilde;', 'ã', [rfReplaceAll]);
+  Result := StringReplace(Result, '&ccedil;', 'ç', [rfReplaceAll]);
+  Result := StringReplace(Result, '&Ccedil;', 'Ç', [rfReplaceAll]);
+  Result := StringReplace(Result, '&eacute;', 'é', [rfReplaceAll]);
+  Result := StringReplace(Result, '&Eacute;', 'É', [rfReplaceAll]);
+  Result := StringReplace(Result, '&otilde;', 'õ', [rfReplaceAll]);
+  {
+    &atilde;
+    &ccedil;
+    &Ccedil;
+    &eacute;
+    &Eacute;
+    &otilde;
+  }
+end;
+
 end.

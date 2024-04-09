@@ -4,9 +4,12 @@ inherited ModuloBasForm: TModuloBasForm
   Caption = 'ModuloBasForm'
   ClientHeight = 476
   ClientWidth = 620
+  WindowState = wsMaximized
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
+  OnResize = FormResize
   ExplicitWidth = 620
+  ExplicitHeight = 476
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
@@ -112,17 +115,19 @@ inherited ModuloBasForm: TModuloBasForm
       object OutputLabel: TLabel
         Left = 1
         Top = 1
-        Width = 12
-        Height = 15
+        Width = 203
+        Height = 23
         Align = alClient
         Caption = '    '
         Layout = tlCenter
+        ExplicitWidth = 12
+        ExplicitHeight = 15
       end
     end
   end
   object TitleBarActionList_ModuloBasForm: TActionList
     Images = SisImgDataModule.ImageList_40_24
-    Left = 368
+    Left = 400
     Top = 88
     object FecharAction_ModuloBasForm: TAction
       Caption = 'Fechar'
@@ -130,7 +135,7 @@ inherited ModuloBasForm: TModuloBasForm
       OnExecute = FecharAction_ModuloBasFormExecute
     end
     object OcultarAction_ModuloBasForm: TAction
-      Caption = 'OcultarAction_ModuloBasForm'
+      Caption = 'Ocultar Esta Janela'
       Hint = 'Ocultar'
       ImageIndex = 4
       OnExecute = OcultarAction_ModuloBasFormExecute
@@ -153,6 +158,12 @@ inherited ModuloBasForm: TModuloBasForm
     Top = 96
     object FecharActionModuloBasForm1: TMenuItem
       Action = FecharAction_ModuloBasForm
+    end
+    object OcultarActionModuloBasForm2: TMenuItem
+      Action = OcultarAction_ModuloBasForm
+    end
+    object OcultarEsteMenu1: TMenuItem
+      Caption = 'Ocultar Este Menu'
     end
   end
 end

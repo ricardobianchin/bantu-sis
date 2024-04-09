@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
-  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, NumEditBtn,
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, NumEditBtu,
   App.Retag.Est.Prod.ICMS.Ent, Data.DB;
 
 type
@@ -93,17 +93,11 @@ end;
 function TProdICMSEdForm.DadosOk: boolean;
 var
   iId: smallint;
-  sIdAtual: string;
   sFrase: string;
 begin
-  Result := ProdICMSEnt.State in [dsEdit, dsInsert];
+  Result := inherited DadosOk;
   if not Result then
-  begin
-    sFrase := 'O Status da janela não permite a gravação';
-    ErroOutput.Exibir(sFrase);
-    FPercNumEdit.SetFocus;
     exit;
-  end;
 
   // if ProdICMSEnt.State = dsEdit then
   // begin
@@ -143,7 +137,7 @@ begin
   FPercNumEdit.OnChange := PercNumEditChange;
 
   AtivoCheckBox.Top := FPercNumEdit.Top + 2;
-  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width + 3;
+  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width + 12;
 
 end;
 

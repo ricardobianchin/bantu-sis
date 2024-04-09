@@ -1,0 +1,2 @@
+inherited ComboBoxProdEdFrame: TComboBoxProdEdFrame
+end

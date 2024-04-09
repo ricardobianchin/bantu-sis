@@ -1,6 +1,5 @@
 inherited RetagEstProdICMSDataSetForm: TRetagEstProdICMSDataSetForm
   Caption = 'RetagEstProdICMSDataSetForm'
-  ExplicitTop = -164
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
     inherited TitToolBar1_BasTabSheet: TToolBar

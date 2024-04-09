@@ -29,7 +29,7 @@ type
 implementation
 
 uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Constants_u,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, Sis.Win.Utils_u;
 
 { TComandoFBCreateOrAlterPackage }
 
@@ -60,7 +60,8 @@ var
   sBody: string;
 begin
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
-
+//  SetClipboardText(sCabec);
+//  SetClipboardText(sBody);
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
   begin

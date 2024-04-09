@@ -13,7 +13,6 @@ type
     ActionList1_ActBasForm: TActionList;
     FecharAction_ActBasForm: TAction;
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FecharAction_ActBasFormHint(var HintStr: string;
       var CanShow: Boolean);
 
@@ -25,6 +24,7 @@ type
 
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -35,6 +35,13 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM;
+
+constructor TActBasForm.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  if not Assigned(SisImgDataModule) then
+    SisImgDataModule := TSisImgDataModule.Create(Application);
+end;
 
 procedure TActBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
@@ -52,13 +59,6 @@ end;
 procedure TActBasForm.FecheForm;
 begin
   Close;
-end;
-
-procedure TActBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  if not Assigned(SisImgDataModule) then
-    SisImgDataModule := TSisImgDataModule.Create(Application);
 end;
 
 end.

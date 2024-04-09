@@ -18,7 +18,7 @@ type
     function GetIsDataOk: boolean;
     property IsDataOk: boolean read GetIsDataOk;
 
-    function GetServerName: string;
+    function GetIdent: string;
   end;
 
 implementation

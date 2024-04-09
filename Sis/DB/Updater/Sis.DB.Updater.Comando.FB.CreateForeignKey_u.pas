@@ -55,7 +55,7 @@ var
   bTabPkOk: boolean;
   bCamposPkOk: boolean;
 begin
-  Sleep(200);
+  // Sleep(200);
   Result := DBUpdaterOperations.GetForeignKeyInfo(FsKeyName, sTabelaFK,
     sCamposFK, sTabelaPK, sCamposPK);
 
@@ -103,7 +103,8 @@ begin
     if Resultado then
       exit;
 
-    Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' DROP CONSTRAINT ' + FsKeyName + ';'#13#10;
+    Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' DROP CONSTRAINT ' +
+      FsKeyName + ';'#13#10;
   end;
 
   Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' ADD CONSTRAINT ' +

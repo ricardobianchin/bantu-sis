@@ -9,6 +9,7 @@ procedure SLRemoveCommentsMultiLine(pSL:TStrings);
 procedure SLManterEntre(pSL:TStrings; pStrIni, pStrFin: string);
 procedure SLRemoveVazias(pSL:TStrings);
 procedure SLUpperCase(pSL:TStrings);
+function SLGetAsString(pSL:TStrings; pSeparador: string): string;
 
 // o uso de tstrings.duplicate so funciona se sort=true
 //quando nao posso alterar a ordem dos itens, uso esta funcion
@@ -151,6 +152,20 @@ begin
   if I > -1 then
     exit;
   pSL.Add(pStr);
+end;
+
+function SLGetAsString(pSL:TStrings; pSeparador: string): string;
+var
+  I: integer;
+begin
+  Result := '';
+
+  for I := 0 to pSL.Count - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + ', ';
+    Result := Result + pSL[I];
+  end;
 end;
 
 end.

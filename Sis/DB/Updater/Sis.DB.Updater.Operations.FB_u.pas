@@ -42,6 +42,8 @@ type
     function GetForeignKeyInfo(pFKName: string; out pTabelaFK: string;
       out pCamposFK: string; out pTabelaPK: string;
       out pCamposPK: string): boolean;
+    function GetUniqueKeyInfo(pUKName: string; out pCampos: string): boolean;
+    function GetIndexInfo(pIName: string; out pCampos: string): boolean;
 
     constructor Create(pDBConnection: IDBConnection; pProcessLog: IProcessLog;
       pOutput: IOutput);
@@ -121,15 +123,10 @@ function TDBUpdaterOperationsFB.GetForeignKeyInfo(pFKName: string;
 var
   s: string;
   FDBQueryForeignKeyInfo: IDBQuery;
-  CamposFKSL: TStringList;
-  CamposPKSL: TStringList;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdaterOperationsFB.GetForeignKeyInfo');
   try
-    CamposFKSL := TStringList.Create;
-    CamposPKSL := TStringList.Create;
-
     s := GetSQLForeignKeyInfoParams;
     FDBQueryForeignKeyInfo := DBQueryCreate('ForeignKeyInfoQ', FDBConnection, s,
       FProcessLog, FOutput);
@@ -137,27 +134,12 @@ begin
     FDBQueryForeignKeyInfo.Params[0].AsString := pFKName;
     FDBQueryForeignKeyInfo.Open;
 
-    pTabelaFK := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[0].AsString);
-    pTabelaPK := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[2].AsString);
-
-    while not FDBQueryForeignKeyInfo.DataSet.Eof do
-    begin
-      s :=Trim(FDBQueryForeignKeyInfo.DataSet.Fields[1].AsString);
-      SLAddUnique(CamposFKSL, s);
-
-      s :=Trim(FDBQueryForeignKeyInfo.DataSet.Fields[3].AsString);
-      SLAddUnique(CamposPKSL, s);
-
-      FDBQueryForeignKeyInfo.DataSet.Next;
-    end;
+    pTabelaPK := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[0].AsString);
+    pTabelaFK := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[1].AsString);
+    pCamposPK := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[2].AsString);
+    pCamposFK := Trim(FDBQueryForeignKeyInfo.DataSet.Fields[3].AsString);
 
     FDBQueryForeignKeyInfo.Close;
-
-    pCamposFK := CamposFKSL.DelimitedText;
-    pCamposPK := CamposPKSL.DelimitedText;
-
-    CamposFKSL.Free;
-    CamposPKSL.Free;
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -181,7 +163,81 @@ begin
     end;
     FDBQueryIndexNames.Close;
   finally
-    FProcessLog.RegistreLog('Result='+Result);
+    FProcessLog.RegistreLog('Result=' + Result);
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+function TDBUpdaterOperationsFB.GetIndexInfo(pIName: string;
+  out pCampos: string): boolean;
+var
+  s: string;
+  FDBQueryIndexInfo: IDBQuery;
+  CamposSL: TStringList;
+begin
+  Result := True;
+  FProcessLog.PegueLocal('TDBUpdaterOperationsFB.GetIndexInfo');
+  try
+    CamposSL := TStringList.Create;
+
+    s := GetSQLIndexInfoParams;
+    FDBQueryIndexInfo := DBQueryCreate('IndexInfoQ', FDBConnection, s,
+      FProcessLog, FOutput);
+
+    FDBQueryIndexInfo.Params[0].AsString := pIName;
+    FDBQueryIndexInfo.Open;
+
+    while not FDBQueryIndexInfo.DataSet.Eof do
+    begin
+      s := Trim(FDBQueryIndexInfo.DataSet.Fields[0].AsString);
+      SLAddUnique(CamposSL, s);
+
+      FDBQueryIndexInfo.DataSet.Next;
+    end;
+
+    FDBQueryIndexInfo.Close;
+
+    pCampos := CamposSL.DelimitedText;
+
+    CamposSL.Free;
+  finally
+    FProcessLog.RetorneLocal;
+  end;
+end;
+
+function TDBUpdaterOperationsFB.GetUniqueKeyInfo(pUKName: string;
+  out pCampos: string): boolean;
+var
+  s: string;
+  FDBQueryUniqueKeyInfo: IDBQuery;
+  CamposSL: TStringList;
+begin
+  Result := True;
+  FProcessLog.PegueLocal('TDBUpdaterOperationsFB.GetUniqueKeyInfo');
+  try
+    CamposSL := TStringList.Create;
+
+    s := GetSQLUniqueKeyInfoParams;
+    FDBQueryUniqueKeyInfo := DBQueryCreate('UniqueKeyInfoQ', FDBConnection, s,
+      FProcessLog, FOutput);
+
+    FDBQueryUniqueKeyInfo.Params[0].AsString := pUKName;
+    FDBQueryUniqueKeyInfo.Open;
+
+    while not FDBQueryUniqueKeyInfo.DataSet.Eof do
+    begin
+      s := Trim(FDBQueryUniqueKeyInfo.DataSet.Fields[0].AsString);
+      SLAddUnique(CamposSL, s);
+
+      FDBQueryUniqueKeyInfo.DataSet.Next;
+    end;
+
+    FDBQueryUniqueKeyInfo.Close;
+
+    pCampos := CamposSL.DelimitedText;
+
+    CamposSL.Free;
+  finally
     FProcessLog.RetorneLocal;
   end;
 end;

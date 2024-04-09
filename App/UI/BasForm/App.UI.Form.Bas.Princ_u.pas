@@ -24,8 +24,6 @@ type
     StatusLabel: TLabel;
     StatusMemo: TMemo;
     DtHCompileLabel: TLabel;
-
-    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
 
@@ -35,6 +33,7 @@ type
     FsLogo1NomeArq: string;
     FAppInfo: IAppInfo;
     FAppObj: IAppObj;
+    FLoja: ILoja;
 
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
@@ -55,6 +54,8 @@ type
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
+    procedure CarregarMachineId;
+    procedure CarregarLoja;
 
   protected
     property StatusOutput: IOutput read FStatusOutput;
@@ -63,6 +64,7 @@ type
 
     property AppInfo: IAppInfo read FAppInfo;
     property AppObj: IAppObj read FAppObj;
+    property Loja: ILoja read FLoja;
 
     procedure OculteSplashForm;
     function GetAppInfoCreate: IAppInfo; virtual; abstract;
@@ -70,9 +72,10 @@ type
     property DBMSConfig: IDBMSConfig read FDBMSConfig;
     property DBMS: IDBMS read FDBMS;
 
+    procedure PreenchaAtividade; virtual; abstract;
   public
     { Public declarations }
-
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -86,8 +89,9 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
-  Sis.Usuario.Factory,
-  App.SisConfig.Garantir, App.DB.Garantir;
+  Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
+  Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
+  App.SisConfig.DBI, App.DB.Utils;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -113,6 +117,30 @@ begin
     FProcessLog.RegistreLog(sLog);
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.CarregarLoja;
+var
+  DBConnection: IDBConnection;
+  oDBConnectionParams: TDBConnectionParams;
+begin
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, AppObj.SisConfig);
+
+  DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig, dbms,
+    oDBConnectionParams, ProcessLog, FProcessOutput);
+
+  LojaLeia(FLoja, DBConnection);
+end;
+
+procedure TPrincBasForm.CarregarMachineId;
+var
+  oSisConfigDBI: ISisConfigDBI;
+begin
+  oSisConfigDBI := SisConfigDBICreate(AppObj.SisConfig, AppInfo, DBMS,
+    FProcessLog, FProcessOutput);
+
+  oSisConfigDBI.LerMachineIdent;
 end;
 
 procedure TPrincBasForm.ConfigureForm;
@@ -167,11 +195,13 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.FormCreate(Sender: TObject);
+constructor TPrincBasForm.Create(AOwner: TComponent);
 var
   bResultado: boolean;
+  sMens: string;
 begin
-  inherited;
+  inherited Create(AOwner);
+  Randomize;
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   ToolBar1.Color := COR_PRETO_TITLEBAR;
 
@@ -188,10 +218,11 @@ begin
 
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
+    FLoja := LojaCreate;
     FAppInfo := GetAppInfoCreate;
 
-    FAppObj := App.Factory.AppObjCreate(FAppInfo, FStatusOutput, FProcessOutput,
-      FProcessLog);
+    FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, FDBMS, FStatusOutput,
+      FProcessOutput, FProcessLog);
 
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
     bResultado := FAppObj.Inicialize;
@@ -200,11 +231,29 @@ begin
 
     GarantaDB;
 
+    if FLoja.Id < 1 then
+    begin
+      CarregarLoja;
+    end;
+
+    if FLoja.Id < 1 then
+    begin
+      sMens := 'Verifique carregamento da Loja. Id zerado';
+      FProcessLog.RegistreLog(sMens);
+      raise Exception.Create(sMens);
+    end;
+
     ConfigureForm;
 
     ConfigureSplashForm;
 
     SplashForm.Show;
+
+    Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
+
+    CarregarMachineId;
+
+    PreenchaAtividade;
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -224,7 +273,6 @@ end;
 procedure TPrincBasForm.GarantaDB;
 var
   bResultado: boolean;
-  oLoja: ILoja;
   oUsuarioGerente: IUsuario;
   oSisConfig: ISisConfig;
 begin
@@ -239,10 +287,9 @@ begin
       Exit;
     end;
 
-    oLoja := LojaCreate;
     oUsuarioGerente := UsuarioCreate;
 
-    bResultado := GarantirConfig(oLoja, oUsuarioGerente);
+    bResultado := GarantirConfig(FLoja, oUsuarioGerente);
 
     if not bResultado then
     begin
@@ -254,7 +301,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      oLoja, oUsuarioGerente);
+      FLoja, oUsuarioGerente);
 
     if not bResultado then
     begin
@@ -274,7 +321,7 @@ end;
 function TPrincBasForm.GarantirConfig(pLoja: ILoja;
   pUsuarioGerente: IUsuario): boolean;
 var
-  oAppSisConfigGarantir: IAppSisConfigGarantir;
+  oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
   oSisConfig: ISisConfig;
 begin
@@ -282,10 +329,10 @@ begin
   try
     oSisConfig := FAppObj.SisConfig;
 
-    oAppSisConfigGarantir := SisConfigGarantirCreate(FAppInfo, oSisConfig,
+    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppInfo, oSisConfig,
       pUsuarioGerente, pLoja, FProcessOutput, FProcessLog);
-    FProcessLog.RegistreLog('vai oAppSisConfigGarantir.Execute');
-    Result := oAppSisConfigGarantir.Execute;
+    FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
+    Result := oAppSisConfigGarantirXML.Execute;
 
     sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
     FProcessLog.RegistreLog(sLog);

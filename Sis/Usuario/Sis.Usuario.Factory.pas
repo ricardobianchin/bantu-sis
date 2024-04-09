@@ -3,8 +3,7 @@ unit Sis.Usuario.Factory;
 interface
 
 uses Sis.Usuario, Sis.Usuario.DBI, Sis.UI.Form.Login.Config,
-  Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output
-  ;
+  Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
 
 function UsuarioCreate(pLojaId: integer = 0; pTerminalId: integer = 0;
   pId: integer = 0; pNomeCompleto: string = ''; pNomeExib: string = '';
@@ -13,8 +12,8 @@ function UsuarioCreate(pLojaId: integer = 0; pTerminalId: integer = 0;
 function UsuarioDBICreate(pDBConnection: IDBConnection; pUsuario: IUsuario)
   : IUsuarioDBI;
 
-function LoginConfigCreate(pProcessLog: IProcessLog; pOutput: IOutput)
-  : ILoginConfig;
+function LoginConfigCreate(pProcessLog: IProcessLog = nil;
+  pOutput: IOutput = nil): ILoginConfig;
 
 implementation
 

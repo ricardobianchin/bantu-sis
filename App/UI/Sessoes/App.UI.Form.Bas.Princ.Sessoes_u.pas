@@ -15,8 +15,6 @@ type
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
     StatusPanel: TPanel;
-
-    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -26,7 +24,6 @@ type
 
     FLoginConfig: ILoginConfig;
     procedure ControlesAjustar;
-    procedure LoginConfigInicialize;
     procedure SessoesFrameCriar;
     procedure DoAbrirSessao(pSessaoIndex: TSessaoIndex);
   protected
@@ -41,6 +38,7 @@ type
 
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -51,6 +49,21 @@ implementation
 {$R *.dfm}
 
 uses App.Sessao.Factory, Sis.Usuario.Factory;
+
+constructor TSessoesPrincBasForm.Create(AOwner: TComponent);
+begin
+  inherited;
+  ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
+  try
+    FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
+    FLoginConfig.Ler;
+
+    SessoesFrameCriar;
+//    FSessaoCriadorList := SessaoCriadorListCreate;
+  finally
+    ProcessLog.RetorneLocal;
+  end;
+end;
 
 procedure TSessoesPrincBasForm.DoAbrirSessao(pSessaoIndex: TSessaoIndex);
 var
@@ -96,31 +109,11 @@ begin
   FSessoesFrame.DoTrocarDaSessao(pSessaoIndex);
 end;
 
-procedure TSessoesPrincBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
-  try
-    LoginConfigInicialize;
-//    FSessaoCriadorList := SessaoCriadorListCreate;
-
-    SessoesFrameCriar;
-
-  finally
-    ProcessLog.RetorneLocal;
-  end;
-end;
-
 procedure TSessoesPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
   FSessoesFrame.ExecutouPeloShortCut(Key, Shift);
-end;
-
-procedure TSessoesPrincBasForm.LoginConfigInicialize;
-begin
-  FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
 end;
 
 procedure TSessoesPrincBasForm.ControlesAjustar;

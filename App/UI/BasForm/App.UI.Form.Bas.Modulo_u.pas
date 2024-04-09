@@ -7,9 +7,9 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
-  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario, App.AppInfo,
+  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog;
+  Sis.UI.IO.Output.ProcessLog, App.AppInfo, App.AppObj;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -32,7 +32,8 @@ type
     Panel1: TPanel;
     Label1: TLabel;
     OutputLabel: TLabel;
-    procedure FormCreate(Sender: TObject);
+    OcultarActionModuloBasForm2: TMenuItem;
+    OcultarEsteMenu1: TMenuItem;
 
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -41,6 +42,7 @@ type
     procedure TrocarAction_ModuloBasFormExecute(Sender: TObject);
     procedure FecharAction_ModuloBasFormExecute(Sender: TObject);
     procedure MenuAction_ModuloBasFormExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
 
   private
     { Private declarations }
@@ -48,16 +50,20 @@ type
     FSessaoEventos: ISessaoEventos;
     FSessaoIndex: TSessaoIndex;
     FUsuario: IUsuario;
-    FAppInfo: IAppInfo;
-    FSisConfig: ISisConfig;
-    FDBMS: IDBMS;
-    FOutput: IOutput;
-    FProcessLog: IProcessLog;
+    FAppObj: IAppObj;
+
+
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
     procedure MenuExibir;
     function GetSisConfig: ISisConfig;
+
+    function GetDBMS: IDBMS;
+    function GetOutput: IOutput;
+    function GetProcessLog: IProcessLog;
+
+
   protected
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
@@ -66,19 +72,22 @@ type
 
     function GetAppInfo: IAppInfo;
     property AppInfo: IAppInfo read GetAppInfo;
+
+    function GetAppObj: IAppObj;
+    property AppObj: IAppObj read GetAppObj;
+
     property SisConfig: ISisConfig read GetSisConfig;
-    property DBMS: IDBMS read FDBMS;
-    property Output: IOutput read FOutput;
-    property ProcessLog: IProcessLog read FProcessLog;
+    property DBMS: IDBMS read GetDBMS;
+    property Output: IOutput read GetOutput;
+    property ProcessLog: IProcessLog read GetProcessLog;
+    property Usuario: IUsuario read FUsuario;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog); reintroduce;
+      pUsuario: IUsuario; pAppObj: IAppObj); reintroduce;
 
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
-
   end;
 
   // TModuloBasFormClass = class of TModuloBasForm;
@@ -102,28 +111,27 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
-  FSisConfig := pSisConfig;
   TitleBarPanel.Color := COR_PRETO_TITLEBAR;
   FModuloSistema := pModuloSistema;
   FSessaoEventos := pSessaoEventos;
   FSessaoIndex := pSessaoIndex;
   FUsuario := pUsuario;
-  FAppInfo := pAppInfo;
-  FDBMS := pDBMS;
+  FAppObj := pAppObj;
   TitleBarText := FModuloSistema.TipoModuloSistemaDescr + ' - ' +
     FUsuario.NomeExib;
-  FOutput := MudoOutputCreate;
-  FProcessLog := MudoProcessLogCreate;
+//  FOutput := MudoOutputCreate;
+//  FProcessLog := MudoProcessLogCreate;
+
 end;
 
 procedure TModuloBasForm.DoFechar;
 begin
-  Close;
   FSessaoEventos.DoFecharSessao(FSessaoIndex);
+  Free
+//  Close;
 end;
 
 procedure TModuloBasForm.FecharAction_ModuloBasFormExecute(Sender: TObject);
@@ -138,14 +146,6 @@ begin
   if not Result then
     exit;
   DoFechar;
-end;
-
-procedure TModuloBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-
-  TitleBarActionList_ModuloBasForm.Images := SisImgDataModule.ImageList_40_24;
-  BoundsRect := Screen.WorkAreaRect;
 end;
 
 procedure TModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -183,14 +183,53 @@ begin
   inherited;
 end;
 
+procedure TModuloBasForm.FormResize(Sender: TObject);
+var
+  WorkArea: TRect;
+begin
+  inherited;
+  // Obtém a área de trabalho disponível
+  SystemParametersInfo(SPI_GETWORKAREA, 0, @WorkArea, 0);
+
+  // Verifica se o formulário está maximizado
+  if WindowState = wsMaximized then
+  begin
+    // Ajusta o tamanho do formulário para caber na área de trabalho disponível
+    top :=0;
+    left :=0;
+    Width := WorkArea.Width;
+    Height := WorkArea.Height;
+  end;
+end;
+
 function TModuloBasForm.GetAppInfo: IAppInfo;
 begin
-  Result := FAppInfo;
+  Result := FAppObj.AppInfo;
+end;
+
+function TModuloBasForm.GetAppObj: IAppObj;
+begin
+  Result := FAppObj;
+end;
+
+function TModuloBasForm.GetDBMS: IDBMS;
+begin
+  Result := FAppObj.DBMS;
+end;
+
+function TModuloBasForm.GetOutput: IOutput;
+begin
+  Result := FAppObj.ProcessOutput;
+end;
+
+function TModuloBasForm.GetProcessLog: IProcessLog;
+begin
+  Result := FAppObj.ProcessLog;
 end;
 
 function TModuloBasForm.GetSisConfig: ISisConfig;
 begin
-  Result := FSisConfig;
+  Result := FAppObj.SisConfig;
 end;
 
 function TModuloBasForm.GetTitleBarText: string;
@@ -208,8 +247,8 @@ procedure TModuloBasForm.MenuExibir;
 var
   x, y: integer;
 begin
-  x := MenuToolButton.Left;
-  y := MenuToolButton.Top + MenuToolButton.Height;
+  x := MenuToolButton.Left; //+MenuToolButton.Width;
+  y := MenuToolButton.Top + MenuToolButton.Height + 1;
   PopupMenu1.Popup(x, y);
 
 end;

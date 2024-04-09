@@ -2,7 +2,7 @@ unit App.AppInfo_u;
 
 interface
 
-uses App.AppInfo, Vcl.Graphics;
+uses App.AppInfo, Vcl.Graphics, App.AppInfo.Types;
 
 type
   TAppInfo = class(TInterfacedObject, IAppInfo)
@@ -15,6 +15,7 @@ type
 
     FPasta: string;
     FPastaBin: string;
+    FPastaConfigs: string;
     FPastaDados: string;
     FPastaImg: string;
     FPastaComandos: string;
@@ -23,6 +24,9 @@ type
 
     FAtualizExeSubPasta: string;
     FAtualizExeURL: string;
+
+    FSisTipoAtividade: TSisTipoAtividade;
+
 
     function GetExeName: string;
 
@@ -45,15 +49,23 @@ type
     function GetPastaConsTabViews: string;
 
     function GetPastaBin: string;
+    function GetPastaConfigs: string;
+
     function GetPastaDados: string;
 
     function GetAtualizExeSubPasta: string;
     function GetAtualizExeURL: string;
 
     function Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
+
+
+    function GetSisTipoAtividade: TSisTipoAtividade;
+    procedure SetSisTipoAtividade(Value: TSisTipoAtividade);
+
   public
     property ExeName: string read GetExeName;
 
+    property SisTipoAtividade: TSisTipoAtividade read GetSisTipoAtividade write SetSisTipoAtividade;
     property PessoaDonoId: integer read GetPessoaDonoId write SetPessoaDonoId;
     property FundoCor: TColor read GetFundoCor write SetFundoCor;
     property FonteCor: TColor read GetFonteCor write SetFonteCor;
@@ -65,8 +77,8 @@ type
     property PastaConsultas: string read GetPastaConsultas;
     property PastaConsTabViews: string read GetPastaConsTabViews;
 
-
     property PastaBin: string read GetPastaBin;
+    property PastaConfigs: string read GetPastaConfigs;
     property PastaDados: string read GetPastaDados;
 
     property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
@@ -81,7 +93,7 @@ type
 
 implementation
 
-uses Sis.UI.IO.Files;
+uses Sis.UI.IO.Files, Sis.UI.Controls.Utils;
 
 { TAppInfo }
 
@@ -91,6 +103,7 @@ begin
   FExeName := pExeName;
   FPastaBin := GetPastaDoArquivo(FExeName);
   FPasta := PastaAcima(FPastaBin);
+  FPastaConfigs := FPasta + 'Configs\';
   FPastaImg := FPasta + 'Img\';
   FPastaComandos := FPasta + 'Comandos\';
   FPastaDados := FPasta + 'Dados\';
@@ -143,6 +156,11 @@ begin
   Result := FPastaComandos;
 end;
 
+function TAppInfo.GetPastaConfigs: string;
+begin
+  Result := FPastaConfigs;
+end;
+
 function TAppInfo.GetPastaConsTabViews: string;
 begin
   Result := FPastaConsTabViews;
@@ -168,6 +186,11 @@ begin
   Result := FPessoaDonoId;
 end;
 
+function TAppInfo.GetSisTipoAtividade: TSisTipoAtividade;
+begin
+  Result := FSisTipoAtividade;
+end;
+
 function TAppInfo.Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
 begin
   Result := True;
@@ -191,6 +214,11 @@ end;
 procedure TAppInfo.SetPessoaDonoId(Value: integer);
 begin
   FPessoaDonoId := Value;
+end;
+
+procedure TAppInfo.SetSisTipoAtividade(Value: TSisTipoAtividade);
+begin
+  FSisTipoAtividade := Value;
 end;
 
 end.

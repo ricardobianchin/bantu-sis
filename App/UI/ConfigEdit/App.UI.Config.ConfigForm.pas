@@ -99,6 +99,7 @@ type
   private
     { Private declarations }
     FPastaBin: string;
+    FPastaConfigs: string;
     FSisConfig: ISisConfig;
     FUsuarioGerente: IUsuario;
     FLoja: ILoja;
@@ -139,7 +140,7 @@ implementation
 uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
   Sis.Types.Utils_u,
   Sis.Types.strings_u, Sis.DB.DBTypes, Sis.UI.Constants,
-  App.UI.Config.Constants;
+  App.UI.Config.Constants, Sis.UI.IO.Files;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -328,7 +329,8 @@ begin
   BorderIcons := [];
 
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
-  FTesteConfig := TTesteConfig.Create(FPastaBin);
+  FPastaConfigs := PastaAcima(FPastaBin)+'Configs\';
+  FTesteConfig := TTesteConfig.Create(FPastaBin, FPastaConfigs);
 
   AjudaLojaLabel.Font.Color := COR_AZUL_LINK;
   AjudaLojaLabel.Hint := LOJAID_DESCR;
@@ -670,6 +672,7 @@ procedure TStarterFormConfig.ShowTimerTimer(Sender: TObject);
 begin
   ShowTimer.Enabled := false;
   CarregTesteStarterIni;
+  OkAct.Execute;
 end;
 
 function TStarterFormConfig.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;

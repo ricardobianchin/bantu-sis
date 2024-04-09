@@ -10,14 +10,15 @@ uses
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   protected
     function SessoesFrameCreate: TSessoesFrame; override;
     function GetAppInfoCreate: IAppInfo; override;
+    procedure PreenchaAtividade; override;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -27,16 +28,15 @@ implementation
 
 {$R *.dfm}
 
-uses App.Factory, ShopApp.Constants, ShopApp.UI.Sessoes.Frame_u;
+uses App.Factory, ShopApp.Constants, ShopApp.UI.Sessoes.Frame_u, App.AppInfo.Types;
 
 { TShopPrincForm }
 
-procedure TShopPrincForm.FormCreate(Sender: TObject);
+constructor TShopPrincForm.Create(AOwner: TComponent);
 begin
   inherited;
   ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
   try
-
   finally
     ProcessLog.RetorneAssunto;
   end;
@@ -48,12 +48,15 @@ begin
     ATUALIZ_ARQ_SUBPASTA, ATUALIZ_URL);
 end;
 
+procedure TShopPrincForm.PreenchaAtividade;
+begin
+//  inherited;
+  AppObj.AppInfo.SisTipoAtividade := TSisTipoAtividade.stativMercado;
+end;
+
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
-  Result := TShopSessoesFrame.Create(Self, LoginConfig, Self, AppInfo,
-    AppObj.SisConfig, DBMS, ProcessLog, ProcessOutput);
-
-
+  Result := TShopSessoesFrame.Create(Self, LoginConfig, Self, AppObj);
 end;
 
 end.

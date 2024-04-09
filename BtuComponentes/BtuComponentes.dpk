@@ -36,7 +36,8 @@ requires
   xmlrtl;
 
 contains
-  CustomFlatButton in 'FlatButton\CustomFlatButton.pas',
-  FlatButton in 'FlatButton\FlatButton.pas';
+  Btu.UI.Controls.Edit.Custom_u in 'NumEdit\Btu.UI.Controls.Edit.Custom_u.pas',
+  Btu.UI.Controls.Edit.Numeric.Custom_u in 'NumEdit\Btu.UI.Controls.Edit.Numeric.Custom_u.pas',
+  Btu.UI.Controls.NumericEdit in 'NumEdit\Btu.UI.Controls.NumericEdit.pas';
 
 end.

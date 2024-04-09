@@ -7,10 +7,22 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
-  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u,
+  App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u, Sis.Loja,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, FlatBtn;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.AppObj,
+  App.Retag.Est.Factory, App.Ent.Ed, App.Ent.DBI, Sis.Entidade
+
+    , App.Retag.Est.Prod.Fabr.Ent //
+    , App.Retag.Est.Prod.Tipo.Ent //
+    , App.Retag.Est.Prod.Unid.Ent //
+    , App.Retag.Est.Prod.ICMS.Ent //
+    , App.Retag.Est.Prod.Ent //
+
+    , App.Retag.Est.Prod.Barras.Ent.List //
+    , App.Retag.Est.Prod.Balanca.Ent //
+
+    ;
 
 type
   TRetaguardaModuloBasForm = class(TModuloBasForm)
@@ -20,8 +32,6 @@ type
     EstoqueTabSheet: TTabSheet;
     AjudaTabSheet: TTabSheet;
     PageControl1: TPageControl;
-    EstProdGroupBox: TGroupBox;
-    EstProdEnvTermPanel: TPanel;
 
     RetagAjuBemAction: TAction;
 
@@ -35,11 +45,59 @@ type
     BalloonHint1: TBalloonHint;
     ToolBar3: TToolBar;
     AjuBemToolButton: TToolButton;
-    ToolBar4: TToolBar;
-    ToolButton2: TToolButton;
     RetagEstProdICMSAction: TAction;
-
-    procedure FormCreate(Sender: TObject);
+    ProdTabsTabSheet: TTabSheet;
+    ToolBar5: TToolBar;
+    ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
+    ToolButton6: TToolButton;
+    ToolButton7: TToolButton;
+    MainMenu1: TMainMenu;
+    Cadastro1: TMenuItem;
+    Estoque1: TMenuItem;
+    Estoque2: TMenuItem;
+    Configuraes1: TMenuItem;
+    Produtos1: TMenuItem;
+    Fabricantes1: TMenuItem;
+    Setores1: TMenuItem;
+    Unidades1: TMenuItem;
+    ICMS1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    OcultarActionModuloBasForm1: TMenuItem;
+    Fechar1: TMenuItem;
+    Preos1: TMenuItem;
+    Entradadenotas1: TMenuItem;
+    Entradadenotas2: TMenuItem;
+    Inventrios1: TMenuItem;
+    Baixa1: TMenuItem;
+    Balanas1: TMenuItem;
+    Estabelecimento1: TMenuItem;
+    PerfisdeUsurio1: TMenuItem;
+    Usurios1: TMenuItem;
+    N3: TMenuItem;
+    Cadastro2: TMenuItem;
+    Cadastro3: TMenuItem;
+    Relatrios1: TMenuItem;
+    Acesso1: TMenuItem;
+    Produtos2: TMenuItem;
+    N4: TMenuItem;
+    Preos2: TMenuItem;
+    Fabricantes2: TMenuItem;
+    Setores2: TMenuItem;
+    Unidades2: TMenuItem;
+    ICMS2: TMenuItem;
+    EntradadeNotas3: TMenuItem;
+    EntradadeNotas4: TMenuItem;
+    Inventrio1: TMenuItem;
+    Inventrio2: TMenuItem;
+    PerfisdeUso1: TMenuItem;
+    Usurios2: TMenuItem;
+    DireitosdeAcesso1: TMenuItem;
+    ToolBar4: TToolBar;
+    ToolButton9: TToolButton;
+    ToolButton10: TToolButton;
+    ToolButton2: TToolButton;
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -61,23 +119,28 @@ type
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FEstProdFlatBtn: TFlatBtn;
-    FEstProdFabrFlatBtn: TFlatBtn;
-    FEstProdTipoFlatBtn: TFlatBtn;
-
     FFormClassNamesSL: TStringList;
     FContador: IContador;
     FOutputNotify: IOutput;
 
-    procedure CriaFlatBtns;
+    // aju
+    FAjuBemVindoTabSheetFormCreator: IFormCreator;
+
+    // est
+    FFabrDataSetFormCreator: IFormCreator;
+    FProdTipoDataSetFormCreator: IFormCreator;
+    FProdUnidDataSetFormCreator: IFormCreator;
+    FProdICMSDataSetFormCreator: IFormCreator;
+    FProdDataSetFormCreator: IFormCreator;
 
     // tab crie
-    procedure TabSheetAppCrie(pFunctionTabSheetGetClassName
-      : TFunctionTabSheetGetClassName;
-      pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
+    procedure TabSheetCrie(pFormCreator: IFormCreator);
 
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
+      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pUsuario: IUsuario; pAppObj: IAppObj); reintroduce;
   end;
 
 var
@@ -88,48 +151,39 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  Sis.Types.strings_u, Sis.UI.IO.Factory, App.UI.TabSheetForm.Factory,
-  Sis.UI.Controls.TFlatBtn;
+  Sis.Types.strings_u, Sis.UI.IO.Factory,
+  App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory;
 
-procedure TRetaguardaModuloBasForm.CriaFlatBtns;
-const
-  BTN_WIDTH = 70;
-  BTN_HEIGHT = 42;
-  BTN_TOP = 17;
+constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
+  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
 var
-  iLeftAtual: integer;
-  oParent: TWinControl;
+  oAppInfo: IAppInfo;
+  oSisConfig: ISisConfig;
+
+  oFabrEnt: IProdFabrEnt;
+  oFabrDBI: IEntDBI;
+
+  oTipoEnt: IProdTipoEnt;
+  oTipoDBI: IEntDBI;
+
+  oUnidEnt: IProdUnidEnt;
+  oUnidDBI: IEntDBI;
+
+  oICMSEnt: IProdICMSEnt;
+  oICMSDBI: IEntDBI;
+
+  oProdBarrasList: IProdBarrasList;
+  oProdBalancaEnt: IProdBalancaEnt;
+
+  oProdEnt: IProdEnt;
+  oProdDBI: IEntDBI;
+
+  oDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
 begin
-  oParent := EstProdGroupBox;
-  iLeftAtual := 2;
-
-  FEstProdFlatBtn := FlatBtnCreate(RetagEstProdAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdFabrFlatBtn := FlatBtnCreate(RetagEstProdFabrAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdTipoAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdUnidAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-  FEstProdTipoFlatBtn := FlatBtnCreate(RetagEstProdICMSAction, oParent,
-    iLeftAtual, BTN_TOP, BTN_WIDTH, BTN_HEIGHT);
-
-//  FEstProdFabrFlatBtn := TFlatBtn.Create(EstProdGroupBox);
-//  FEstProdFabrFlatBtn.Parent := EstProdGroupBox;
-//  FEstProdFabrFlatBtn.Left := 2;
-//  FEstProdFabrFlatBtn.Top := 17;
-//  FEstProdFabrFlatBtn.WIdth := 67;
-//  FEstProdFabrFlatBtn.Height := 54;
-//  FEstProdFabrFlatBtn.Action := RetagEstProdFabrAction;
-end;
-
-procedure TRetaguardaModuloBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
+  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
+    pUsuario, pAppObj);
   if not Assigned(RetagImgDM) then
   begin
     RetagImgDM := TRetagImgDM.Create(Application);
@@ -139,9 +193,61 @@ begin
   FFormClassNamesSL := TStringList.Create;
   FContador := ContadorCreate;
 
-  CriaFlatBtns;
-
   MenuPageControl.ActivePage := EstoqueTabSheet;
+
+  oAppInfo := AppInfo;
+  oSisConfig := SisConfig;
+
+
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  // aju bem vindo
+  FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify);
+
+  oFabrEnt := RetagEstProdFabrEntCreate;
+  oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, oFabrEnt);
+
+  FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
+    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oFabrEnt,
+    oFabrDBI);
+
+  oTipoEnt := RetagEstProdTipoEntCreate;
+  oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, oTipoEnt);
+
+  FProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oTipoEnt, oTipoDBI);
+
+  oUnidEnt := RetagEstProdUnidEntCreate;
+  oUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, oUnidEnt);
+
+  FProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oUnidEnt, oUnidDBI);
+
+  oICMSEnt := RetagEstProdICMSEntCreate;
+  oICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, oICMSEnt);
+
+  FProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oICMSEnt, oICMSDBI);
+
+  oProdBarrasList := ProdBarrasListCreate;
+  oProdBalancaEnt := ProdBalancaEntCreate;
+
+  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, Usuario.Id, oSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+    oProdBarrasList, oProdBalancaEnt);
+  oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
+
+  FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
+    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
+    oProdDBI);
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);
@@ -186,13 +292,13 @@ end;
 procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagAjuBemVindoFormGetClassName, RetagAjuBemVindoFormCreate);
+  // TabSheetCrie(RetagAjuBemVindoFormGetClassName, RetagAjuBemVindoFormCreate);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
 begin
   inherited;
-  //
+  TabSheetCrie(FProdDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdEnviarTermActionExecute
@@ -206,57 +312,59 @@ procedure TRetaguardaModuloBasForm.RetagEstProdFabrActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdFabrFormGetClassName, RetagEstProdFabrFormCreate);
+  TabSheetCrie(FFabrDataSetFormCreator);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagEstProdICMSActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagEstProdICMSActionExecute
+  (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdICMSFormGetClassName, RetagEstProdICMSFormCreate);
+  TabSheetCrie(FProdICMSDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdTipoActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdTipoFormGetClassName, RetagEstProdTipoFormCreate);
+  TabSheetCrie(FProdTipoDataSetFormCreator);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute
+  (Sender: TObject);
 begin
   inherited;
-  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
-//  TabSheetAppCrie(RetagEstProdUnidFormGetClassName, RetagEstProdUnidFormCreate);
+  TabSheetCrie(FProdUnidDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  RetagAjuBemAction.Execute;
-  RetagEstProdICMSAction.Execute;
-//  sleep(150);
-//  RetagEstProdFabrAction.Execute;
+  // RetagAjuBemAction.Execute;
+  // RetagEstProdICMSAction.Execute;
+  // sleep(150);
+  // RetagEstProdFabrAction.Execute;
+  RetagEstProdAction.Execute;
 end;
 
-procedure TRetaguardaModuloBasForm.TabSheetAppCrie(pFunctionTabSheetGetClassName
-  : TFunctionTabSheetGetClassName;
-  pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate);
+procedure TRetaguardaModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator
+  { pFunctionTabSheetGetClassName
+    : TFunctionTabSheetGetClassName;
+    pFunctionTabSheetFormCreate: TFunctionTabSheetFormCreate } );
 var
   oTabSheet: TTabSheet;
-  oTabSheetBasForm: TTabSheetAppBasForm;
+  // oTabSheetBasForm: TTabSheetAppBasForm;
+  oForm: TForm;
   // HintPoint: TPoint;
   sFormClassName: string;
-  iPageIndex: Integer;
-  //oTRect: TRect;
+  // iPageIndex: Integer;
+  // oTRect: TRect;
   iExistenteIndex: Integer;
 
   oFormOwner: TComponent;
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
 begin
-  sFormClassName := pFunctionTabSheetGetClassName;
+  sFormClassName := pFormCreator.FormClassName;
 
   iExistenteIndex := FFormClassNamesSL.IndexOf(sFormClassName);
   if iExistenteIndex > -1 then
@@ -264,7 +372,7 @@ begin
     oTabSheet := TTabSheet(FFormClassNamesSL.Objects[iExistenteIndex]);
     PageControl1.ActivePage := oTabSheet;
 
-    //iPageIndex := PageControl1.ActivePageIndex;
+    // iPageIndex := PageControl1.ActivePageIndex;
     // HintPoint := Mouse.CursorPos;
     // oTRect := PageControl1.TabRect(iPageIndex);
     // HintPoint := CenterPoint(oTRect);
@@ -288,14 +396,16 @@ begin
   oAppInfo := AppInfo;
   oSisConfig := SisConfig;
 
-  oTabSheetBasForm := pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
-    oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify);
-  oTabSheetBasForm.Parent := oTabSheet;
+  // oTabSheetBasForm := FFabrDataSetFormCreator.FormCreate(oFormOwner);
+  oForm := pFormCreator.FormCreate(oFormOwner);
+  // pFunctionTabSheetFormCreate(oFormOwner, FFormClassNamesSL,
+  // oAppInfo, oSisConfig, DBMS, Output, ProcessLog, FOutputNotify);
+  oForm.Parent := oTabSheet;
 
   FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);
 
-  oTabSheet.Caption := oTabSheetBasForm.Titulo;
-  oTabSheetBasForm.Show;
+  oTabSheet.Caption := pFormCreator.Titulo;
+  oForm.Show;
 end;
 
 end.

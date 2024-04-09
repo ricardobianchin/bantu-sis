@@ -1,0 +1,2 @@
+inherited ComboBoxSelectBasFrame1: TComboBoxSelectBasFrame1
+end

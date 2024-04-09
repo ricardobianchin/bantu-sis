@@ -6,12 +6,15 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids, Sis.Usuario,
   FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed;
+  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
+  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types;
 
 type
+  TModoForm = (mfBrowse, mfSelect);
+
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
@@ -20,8 +23,14 @@ type
     AltAction_DatasetTabSheet: TAction;
     ExclAction_DatasetTabSheet: TAction;
     FiltroAtualizarTimer: TTimer;
-
-    procedure FormCreate(Sender: TObject);
+    SelectPanel: TPanel;
+    ToolBar1: TToolBar;
+    OkToolButton_DataSetForm: TToolButton;
+    CancelToolButton_DataSetForm: TToolButton;
+    SelectActionList_DataSetForm: TActionList;
+    OkAction: TAction;
+    CancelAction: TAction;
+    Panel1: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
@@ -33,23 +42,32 @@ type
 
     procedure DBGrid1DblClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure OkActionExecute(Sender: TObject);
+    procedure CancelActionExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
+    FModoForm: TModoForm;
     FFDMemTable: TFDMemTable;
     FEntEd: IEntEd;
+    FEntDBI: IEntDBI;
+    FIdPos: integer;
     // FFDDataSetManager: IFDDataSetManager;
 
     FFiltroEditAutomatico: boolean;
 
     // oDBConnection: IDBConnection;
-    FDBConnectionParams: TDBConnectionParams;
+    // FDBConnectionParams: TDBConnectionParams;
     function GetState: TDataSetState;
     procedure SetState(const Value: TDataSetState);
 
+    function GetModoForm: TModoForm;
+    procedure AjusteBotoesSelect;
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
 
     function GetFDMemTable: TFDMemTable;
+    procedure Inicialize; override;
     property FDMemTable: TFDMemTable read GetFDMemTable;
 
     function GetFDDataSetManager: IFDDataSetManager;
@@ -67,20 +85,30 @@ type
 
     procedure DoAtualizar(Sender: TObject); virtual; abstract;
     function DoInserir: boolean; virtual; abstract;
+    procedure DoLer; virtual;
     procedure DoAlterar; virtual; abstract;
     property EntEd: IEntEd read FEntEd;
-    procedure LeRegEInsere(q: TDataSet); virtual; abstract;
+    property EntDBI: IEntDBI read FEntDBI;
+    procedure LeRegEInsere(q: TDataSet; pRecNo: integer); virtual;
     procedure RecordToEnt; virtual;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
+    function SelectPodeOk: boolean; virtual;
+
+    property ModoForm: TModoForm read GetModoForm;
 
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
-      pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-      pEntEd: IEntEd); reintroduce;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+      pModoForm: TModoForm; pIdPos: integer); reintroduce;
+
+    function GetSelectValues: variant;
+    function GetSelectItem: TSelectItem; virtual;
   end;
-  // TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
+
+  TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
 
 var
   TabSheetDataSetBasForm: TTabSheetDataSetBasForm;
@@ -88,7 +116,37 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.DB.DataSet.Utils;
+
 { TTabSheetDataSetBasForm }
+
+procedure TTabSheetDataSetBasForm.AjusteBotoesSelect;
+var
+  LastButton: TToolButton;
+  i: integer;
+begin
+  if ModoForm = mfBrowse then
+    exit;
+
+  // Encontra o último botão na toolbar
+  LastButton := nil;
+  for i := 0 to TitToolBar1_BasTabSheet.ButtonCount - 1 do
+  begin
+    if TitToolBar1_BasTabSheet.Buttons[i].Visible then
+      LastButton := TitToolBar1_BasTabSheet.Buttons[i];
+  end;
+
+  // Muda o parent do panel para a toolbar
+  SelectPanel.Parent := TitToolBar1_BasTabSheet;
+  // Posiciona o left do panel
+  if LastButton <> nil then
+    SelectPanel.Left := LastButton.Left + LastButton.Width + 1
+  else
+    SelectPanel.Left := 0;
+
+  SelectPanel.Visible := True;
+end;
 
 procedure TTabSheetDataSetBasForm.AltAction_DatasetTabSheetExecute
   (Sender: TObject);
@@ -105,10 +163,11 @@ begin
   if AltExecutando then
     exit;
 
-  AltExecutando := true;
+  AltExecutando := True;
   State := dsEdit;
   try
     RecordToEnt;
+    DoLer;
     DoAlterar;
   finally
     State := dsBrowse;
@@ -127,7 +186,7 @@ begin
   if AtuExecutando then
     exit;
   try
-    AtuExecutando := true;
+    AtuExecutando := True;
 
     DoAtualizar(Self);
   finally
@@ -136,36 +195,76 @@ begin
   end;
 end;
 
+procedure TTabSheetDataSetBasForm.CancelActionExecute(Sender: TObject);
+begin
+  inherited;
+  ModalResult := mrCancel;
+end;
+
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd);
+  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+  pModoForm: TModoForm; pIdPos: integer);
+var
+  sNomeArq: string;
 begin
   FEntEd := pEntEd;
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pDBMS,
-    pOutput, pProcessLog, pOutputNotify);
+  FEntDBI := pEntDBI;
+  FModoForm := pModoForm;
+  FIdPos := pIdPos;
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+    pDBMS, pOutput, pProcessLog, pOutputNotify);
+
   State := dsBrowse;
+
+  AtuExecutando := False;
+  InsExecutando := False;
+  AltExecutando := False;
+  ExclExecutando := False;
+
   FFiltroEditAutomatico := False;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
   FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
-  DefCampos;
+  // DefCampos;
+
+  sNomeArq := GetNomeArqTabView;
+  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
+
+  if ModoForm = mfSelect then
+  begin
+    Position := poDesktopCenter;
+    BorderStyle := bsDialog;
+    Align := alNone;
+    Caption := 'Selecionando ' + EntEd.NomeEnt;
+  end;
 end;
 
 procedure TTabSheetDataSetBasForm.DBGrid1DblClick(Sender: TObject);
 begin
   inherited;
-  AltAction_DatasetTabSheet.Execute;
+  if FModoForm = mfBrowse then
+    AltAction_DatasetTabSheet.Execute
+  else
+    OkAction.Execute;
 end;
 
 procedure TTabSheetDataSetBasForm.DBGrid1KeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  if CharInSet(Key, [#32, #13]) then
-  begin
-    Key := #0;
-    AltAction_DatasetTabSheet.Execute;
+  case Key of
+    #32:
+      begin
+        Key := #0;
+        AltAction_DatasetTabSheet.Execute
+      end;
+    #13:
+      begin
+        Key := #0;
+        OkAction.Execute;
+      end;
   end;
 end;
 
@@ -174,8 +273,7 @@ var
   DefsSL: TStringList;
   sNomeArq: string;
   sLinhaAtual: string;
-  I: integer;
-  Params: TArray<string>;
+  i: integer;
   oFDDataSetManager: IFDDataSetManager;
 begin
   DefsSL := TStringList.Create;
@@ -187,6 +285,11 @@ begin
   finally
     DefsSL.Free;
   end;
+end;
+
+procedure TTabSheetDataSetBasForm.DoLer;
+begin
+
 end;
 
 procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
@@ -209,16 +312,14 @@ begin
     exit;
 
   FiltroAtualizarTimer.Enabled := False;
-  FiltroAtualizarTimer.Enabled := true;
+  FiltroAtualizarTimer.Enabled := True;
 end;
 
-procedure TTabSheetDataSetBasForm.FormCreate(Sender: TObject);
+procedure TTabSheetDataSetBasForm.FormClose(Sender: TObject;
+  var Action: TCloseAction);
 begin
-  inherited;
-  AtuExecutando := False;
-  InsExecutando := False;
-  AltExecutando := False;
-  ExclExecutando := False;
+  if ModoForm = mfBrowse then
+    inherited;
 
 end;
 
@@ -237,6 +338,36 @@ begin
   Result := FFDMemTable;
 end;
 
+function TTabSheetDataSetBasForm.GetSelectItem: TSelectItem;
+begin
+  Result.Id := FDMemTable.Fields[0].AsInteger;
+  Result.Descr := FDMemTable.Fields[1].AsString;
+end;
+
+function TTabSheetDataSetBasForm.GetModoForm: TModoForm;
+begin
+  Result := FModoForm;
+end;
+
+function TTabSheetDataSetBasForm.GetSelectValues: variant;
+var
+  UltimoIndex: integer;
+  i: integer;
+begin
+  if FDMemTable.IsEmpty then
+  begin
+    Result := varNull;
+    exit;
+  end;
+
+  UltimoIndex := FDMemTable.FieldCount - 1;
+  Result := VarArrayCreate([0, UltimoIndex - 1], UltimoIndex);
+  for i := 0 to UltimoIndex do
+  begin
+    Result[i] := FDMemTable.Fields[i].Value;
+  end;
+end;
+
 function TTabSheetDataSetBasForm.GetState: TDataSetState;
 begin
   Result := FEntEd.State;
@@ -247,6 +378,12 @@ begin
   Result := FEntEd.Titulo;
 end;
 
+procedure TTabSheetDataSetBasForm.Inicialize;
+begin
+  inherited;
+  AjusteBotoesSelect;
+end;
+
 procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute
   (Sender: TObject);
 begin
@@ -254,7 +391,7 @@ begin
   if InsExecutando then
     exit;
   State := dsInsert;
-  InsExecutando := true;
+  InsExecutando := True;
   try
     while DoInserir do;
   finally
@@ -264,9 +401,47 @@ begin
   end;
 end;
 
+procedure TTabSheetDataSetBasForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
+var
+  i: integer;
+begin
+  if pRecno = -1 then
+    exit;
+
+  FDMemTable.Append;
+  for i := 0 to q.FieldCount - 1 do
+  begin
+    FDMemTable.Fields[i].Value := q.Fields[i].Value;
+  end;
+  FDMemTable.Post;
+end;
+
+procedure TTabSheetDataSetBasForm.OkActionExecute(Sender: TObject);
+begin
+  if not SelectPodeOk then
+    exit;
+  inherited;
+  ModalResult := mrOk;
+
+end;
+
 procedure TTabSheetDataSetBasForm.RecordToEnt;
 begin
 
+end;
+
+function TTabSheetDataSetBasForm.SelectPodeOk: boolean;
+begin
+  Result := ModoForm = mfSelect;
+  if not Result then
+    exit;
+
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    OutputNotify.exibir('Nenhum registro visível para ser escolhido');
+    exit;
+  end;
 end;
 
 procedure TTabSheetDataSetBasForm.SetState(const Value: TDataSetState);
@@ -275,10 +450,21 @@ begin
 end;
 
 procedure TTabSheetDataSetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  sNomeCampo: string;
 begin
   inherited;
   AtuAction_DatasetTabSheet.Execute;
-  FFiltroEditAutomatico := true;
+  FFiltroEditAutomatico := True;
+
+  if ModoForm = TModoForm.mfBrowse then
+    exit;
+
+  if FIdPos = 0 then
+    exit;
+
+  sNomeCampo := FDMemTable.Fields[0].FieldName;
+  FDMemTable.Locate(sNomeCampo, FIdPos, []);
 end;
 
 end.

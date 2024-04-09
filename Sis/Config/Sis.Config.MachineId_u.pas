@@ -9,12 +9,16 @@ type
   private
     FName: string;
     FIp: string;
+    FIdentId: smallint;
 
     function GetName: string;
     procedure SetName(const Value: string);
 
     function GetIp: string;
     procedure SetIp(const Value: string);
+
+    function GetIdentId: smallint;
+    procedure SetIdentId(const Value: smallint);
 
   public
     property Name: string read GetName write SetName;
@@ -23,11 +27,14 @@ type
     function GetIsDataOk: boolean;
     property IsDataOk: boolean read GetIsDataOk;
 
-    function GetServerName: string;
+    function GetIdent: string;
 
     procedure Zerar;
 
     constructor Create;
+
+    property IdentId: smallint read GetIdentId write SetIdentId;
+
   end;
 
 implementation
@@ -56,9 +63,19 @@ begin
   Result := FName;
 end;
 
-function TMachineId.GetServerName: string;
+function TMachineId.GetIdent: string;
 begin
   result := Iif(FName = '', FIp, FName);
+end;
+
+function TMachineId.GetIdentId: smallint;
+begin
+  Result := FIdentId;
+end;
+
+procedure TMachineId.SetIdentId(const Value: smallint);
+begin
+  FIdentId := Value;
 end;
 
 procedure TMachineId.SetIp(const Value: string);

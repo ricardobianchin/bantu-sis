@@ -9,12 +9,12 @@ uses
 type
   TBasForm = class(TForm)
     ShowTimer_BasForm: TTimer;
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
   private
     { Private declarations }
+    FKeyPressFiltraTeclado: boolean;
     FSelecionaProximo: boolean;
 //    FDisparaShowTimer: Boolean;
     FFezShow: boolean;
@@ -34,9 +34,13 @@ type
     procedure EditKeyDown(Sender:TObject; var Key:word; Shift: TShiftState);virtual;
     procedure EditKeyPress(Sender: TObject; var Key: Char; pCharExceto:string='');virtual;
 
+    function GetKeyPressFiltraTeclado: boolean;
+    procedure SetKeyPressFiltraTeclado(Value: boolean);
+    property KeyPressFiltraTeclado: boolean read GetKeyPressFiltraTeclado write SetKeyPressFiltraTeclado;
+
   public
     { Public declarations }
-
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -47,6 +51,15 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u;
+
+constructor TBasForm.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FKeyPressFiltraTeclado := True;
+//  FDisparaShowTimer := False;
+  FSelecionaProximo := True;
+  FFezShow := False;
+end;
 
 procedure TBasForm.DispareShowTimer;
 begin
@@ -76,13 +89,6 @@ begin
   CharSemAcento(Key);
 end;
 
-procedure TBasForm.FormCreate(Sender: TObject);
-begin
-//  FDisparaShowTimer := False;
-  FSelecionaProximo := True;
-  FFezShow := False;
-end;
-
 procedure TBasForm.FormShow(Sender: TObject);
 begin
   if not FFezShow then
@@ -96,6 +102,11 @@ end;
 //begin
 //  Result := FDisparaShowTimer;
 //end;
+
+function TBasForm.GetKeyPressFiltraTeclado: boolean;
+begin
+  Result := FKeyPressFiltraTeclado;
+end;
 
 function TBasForm.GetSelecionaProximo: boolean;
 begin
@@ -114,6 +125,11 @@ end;
 //begin
 //  FDisparaShowTimer := Value;
 //end;
+
+procedure TBasForm.SetKeyPressFiltraTeclado(Value: boolean);
+begin
+  FKeyPressFiltraTeclado := Value;
+end;
 
 procedure TBasForm.SetSelecionaProximo(Value: boolean);
 begin

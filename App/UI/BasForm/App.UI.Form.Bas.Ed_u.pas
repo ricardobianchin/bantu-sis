@@ -11,6 +11,7 @@ uses
 type
   TEdBasForm = class(TDiagBtnBasForm)
     ObjetivoLabel: TLabel;
+    procedure CancelAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FEntEd: IEntEd;
@@ -30,10 +31,11 @@ type
     function GetObjetivoStr: string; virtual; abstract;
 
     function PodeOk: Boolean; override;
-    function ControlesOk: boolean; virtual; abstract;
-    function DadosOk: boolean; virtual; abstract;
+    function ControlesOk: boolean; virtual;
+    function DadosOk: boolean; virtual;
     function GravouOk: boolean; virtual; abstract;
 
+    procedure AtualizeAlteracaoTexto; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
@@ -46,7 +48,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils;
+uses App.DB.Utils, Sis.UI.IO.Input.Perg;
 
 { TEdBasForm }
 
@@ -91,6 +93,16 @@ begin
   ObjetivoLabel.Caption := sObjetivo;
 end;
 
+procedure TEdBasForm.AtualizeAlteracaoTexto;
+begin
+  if EntEd.State <> dsEdit then
+  begin
+    AlteracaoTextoLabel.Visible := false;
+    exit;
+  end;
+  inherited;
+end;
+
 procedure TEdBasForm.AjusteCaption;
 var
   sCaption: string;
@@ -104,11 +116,38 @@ begin
   Caption := sCaption;
 end;
 
+procedure TEdBasForm.CancelAct_DiagExecute(Sender: TObject);
+begin
+  {$IFNDEF DEBUG}
+  if not PergBool('Sair sem gravar?') then
+    exit;
+  {$ENDIF}
+  inherited;
+end;
+
+function TEdBasForm.ControlesOk: boolean;
+begin
+  Result := True;
+end;
+
 constructor TEdBasForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
+end;
+
+function TEdBasForm.DadosOk: boolean;
+var
+  sFrase: string;
+begin
+  Result := EntEd.State in [dsEdit, dsInsert];
+  if not Result then
+  begin
+    sFrase := 'O Status da janela não permite a gravação';
+    ErroOutput.Exibir(sFrase);
+    exit;
+  end;
 end;
 
 function TEdBasForm.PodeOk: Boolean;
@@ -130,7 +169,6 @@ begin
   Result := GravouOk;
   if not Result then
     exit;
-
 end;
 
 end.

@@ -17,6 +17,8 @@ type
     { LabeledEdit1.EditLabel.Caption := 'Nome';
       FDescrFieldName
     }
+
+    function GetAsStringExib: string; override;
   public
     property Descr: string read GetDescr write SetDescr;
 
@@ -71,6 +73,11 @@ var
 begin
   s := inherited GetAsString + ' - ' + FDescr;
   Result := s;
+end;
+
+function TEntIdDescr.GetAsStringExib: string;
+begin
+  Result := Id.ToString + ' - ' + Descr;
 end;
 
 function TEntIdDescr.GetDescr: string;

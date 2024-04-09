@@ -14,6 +14,7 @@ type
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
+    function GetPackageName: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdFabrEnt);
   end;
@@ -21,7 +22,7 @@ type
 implementation
 
 uses System.SysUtils, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.strings_u;
+  Sis.Types.strings_u, App.Retag.Est.Factory;
 
 { TProdFabrDBI }
 
@@ -29,15 +30,19 @@ constructor TProdFabrDBI.Create(pDBConnection: IDBConnection;
   pEntEd: IProdFabrEnt);
 begin
   inherited Create(pDBConnection);
-  FProdFabrEnt := TProdFabrEnt(pEntEd);
+  FProdFabrEnt := EntEdCastToProdFabrEnt(pEntEd);
+end;
+
+function TProdFabrDBI.GetPackageName: string;
+begin
+  Result := 'FABR_PA';
 end;
 
 function TProdFabrDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
-  sFormat :=
-    'SELECT FABRICANTE_ID_GRAVADO FROM FABRICANTE_PA.FABRICANTE_GARANTIR(%d,''%s'');';
+  sFormat := 'SELECT ID_GRAVADO FROM FABR_PA.GARANTIR(%d,''%s'');';
   Result := Format(sFormat, [FProdFabrEnt.Id, FProdFabrEnt.Descr]);
 end;
 
@@ -46,7 +51,7 @@ var
   sFormat: string;
   sDescr: string;
 begin
-  sFormat := 'SELECT FABRICANTE_ID FROM FABRICANTE_PA.BYNOME_GET(''%s'');';
+  sFormat := 'SELECT FABR_ID FROM FABR_PA.BYNOME_GET(''%s'');';
   sDescr := VarToString(pValues);
   Result := Format(sFormat, [sDescr]);
 end;
@@ -56,7 +61,7 @@ var
   sFormat: string;
   sBusca: string;
 begin
-  sFormat := 'select FABRICANTE_ID, NOME from FABRICANTE_PA.LISTA_GET(''%s'');';
+  sFormat := 'select FABR_ID, NOME from FABR_PA.LISTA_GET(''%s'');';
   sBusca := VarToString(pValues);
   Result := Format(sFormat, [sBusca]);
 end;

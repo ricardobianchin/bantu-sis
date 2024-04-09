@@ -43,7 +43,6 @@ constructor TTabSheetBasForm.Create(AOwner: TComponent;
 begin
   inherited Create(AOwner);
   FFormClassNamesSL := pFormClassNamesSL;
-  //DisparaShowTimer := True;
 end;
 
 procedure TTabSheetBasForm.FormClose(Sender: TObject; var Action: TCloseAction);

@@ -2,19 +2,13 @@ unit Sis.Entities.Factory;
 
 interface
 
-uses Sis.Loja, Sis.ModuloSistema.Types, Sis.ModuloSistema;
+uses Sis.ModuloSistema, Sis.ModuloSistema.Types;
 
-function LojaCreate(pDescr:string=''; pId:integer=0): ILoja;
 function ModuloSistemaCreate(pTipoModuloSistema: TTipoModuloSistema): IModuloSistema;
 
 implementation
 
-uses Sis.Usuario_u, Sis.Loja_u, Sis.ModuloSistema_u;
-
-function LojaCreate(pDescr:string=''; pId:integer=0): ILoja;
-begin
-  Result := TLoja.Create(pDescr, pId);
-end;
+uses Sis.ModuloSistema_u;
 
 function ModuloSistemaCreate(pTipoModuloSistema: TTipoModuloSistema): IModuloSistema;
 begin

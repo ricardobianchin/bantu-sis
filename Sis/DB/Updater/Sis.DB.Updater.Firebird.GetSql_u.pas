@@ -14,6 +14,9 @@ function GetSQLDomainExiste(pDomainName: string): string;
 
 function GetSQLSequenceExisteParams: string;
 function GetSQLForeignKeyInfoParams: string;
+function GetSQLUniqueKeyInfoParams: string;
+function GetSQLIndexInfoParams: string;
+
 
 function GetSQLPackagGetCodigoParams: string;
 
@@ -154,28 +157,69 @@ function GetSQLForeignKeyInfoParams: string;
 var
   sSql: string;
 begin
-  sSql := 'SELECT RC.RDB$RELATION_NAME, RF.RDB$FIELD_NAME,'
-    + ' RI.RDB$RELATION_NAME, ISGMT.RDB$FIELD_NAME'
+  sSql := 'SELECT '#13#10 +
+    's.RDB$RELATION_NAME AS PK_TABLE_NAME, '#13#10 +
+    'r.RDB$RELATION_NAME AS FK_TABLE_NAME, '#13#10 +
 
-    + ' FROM RDB$RELATION_CONSTRAINTS RC'
+    #13#10 +
 
-    + ' JOIN RDB$REF_CONSTRAINTS RR ON'
-    + ' RC.RDB$CONSTRAINT_NAME = RR.RDB$CONSTRAINT_NAME'
+    '('#13#10+
+    '  SELECT LIST(TRIM(i2.RDB$FIELD_NAME))'#13#10 +
+//    '  SELECT TRIM(LIST('' '' ||TRIM( i2.RDB$FIELD_NAME)))'#13#10 +
+    '  FROM RDB$INDEX_SEGMENTS i2'#13#10 +
+    '  WHERE i2.RDB$INDEX_NAME = ref.RDB$CONST_NAME_UQ'#13#10 +
+    ') AS PK_COLUMNS,'#13#10 +
 
-    + ' JOIN RDB$RELATION_CONSTRAINTS RI ON'
-    + ' RI.RDB$CONSTRAINT_NAME = RR.RDB$CONST_NAME_UQ'
+    #13#10 +
 
-    + ' JOIN RDB$INDEX_SEGMENTS RF ON'
-    + ' RF.RDB$INDEX_NAME = RC.RDB$INDEX_NAME'
+    '('#13#10 +
+    '  SELECT LIST(TRIM(i2.RDB$FIELD_NAME))'#13#10 +
+//    '  SELECT TRIM(LIST('' '' ||TRIM(i2.RDB$FIELD_NAME)))'#13#10 +
+    '  FROM RDB$INDEX_SEGMENTS i2'#13#10 +
+    '  WHERE i2.RDB$INDEX_NAME = r.RDB$INDEX_NAME'#13#10 +
+    ') AS FK_COLUMNS'#13#10 +
 
-    + ' JOIN RDB$INDEX_SEGMENTS ISGMT ON'
-    + ' ISGMT.RDB$INDEX_NAME = RI.RDB$INDEX_NAME'
+    #13#10 +
 
-    + ' WHERE RC.RDB$CONSTRAINT_TYPE = ''FOREIGN KEY'''
-    + ' AND RC.RDB$CONSTRAINT_NAME = :FOREIGN_KEY_NAME'
+    'FROM RDB$RELATION_CONSTRAINTS r'#13#10 +
+    'JOIN RDB$REF_CONSTRAINTS ref ON'#13#10 +
+     'r.RDB$CONSTRAINT_NAME = ref.RDB$CONSTRAINT_NAME'#13#10 +
 
-    + ' AND RF.RDB$FIELD_NAME = ISGMT.RDB$FIELD_NAME'
+    'JOIN RDB$RELATION_CONSTRAINTS s ON'#13#10 +
+    's.RDB$CONSTRAINT_NAME = ref.RDB$CONST_NAME_UQ'#13#10 +
 
+    'WHERE r.RDB$CONSTRAINT_TYPE = ''FOREIGN KEY'''#13#10 +
+    'AND r.RDB$CONSTRAINT_NAME = :CONSTRAINT_NAME'#13#10
+    ;
+
+  Result := sSql;
+end;
+
+function GetSQLUniqueKeyInfoParams: string;
+var
+  sSql: string;
+begin
+  sSql := 'SELECT RDB$FIELD_NAME'
+    + ' FROM RDB$INDICES'
+    + ' JOIN RDB$INDEX_SEGMENTS ON'
+    + ' RDB$INDICES.RDB$INDEX_NAME = RDB$INDEX_SEGMENTS.RDB$INDEX_NAME'
+    + ' WHERE RDB$INDICES.RDB$UNIQUE_FLAG = 1'
+    + ' AND RDB$INDICES.RDB$INDEX_NAME = :UNIQUE_KEY_NAME'
+    + ' ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION'
+    ;
+  Result := sSql;
+end;
+
+function GetSQLIndexInfoParams: string;
+var
+  sSql: string;
+begin
+  sSql := 'SELECT RDB$FIELD_NAME'
+    + ' FROM RDB$INDICES'
+    + ' JOIN RDB$INDEX_SEGMENTS ON'
+    + ' RDB$INDICES.RDB$INDEX_NAME = RDB$INDEX_SEGMENTS.RDB$INDEX_NAME'
+    + ' WHERE RDB$INDICES.RDB$INDEX_NAME = :INDEX_NAME'
+    + ' ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION'
     ;
   Result := sSql;
 end;
@@ -184,10 +228,11 @@ function GetSQLCreateDatabase(pNomeArqFDB: string): string;
 begin
   Result := 'CREATE DATABASE ''' +
     pNomeArqFDB +
-    ''' page_size 8192 user ''' +
-    'sysdba'' password ''masterkey'';'
+    ''' PAGE_SIZE 8192' +
+    ' USER ''SYSDBA'' PASSWORD ''MASTERKEY'''+
+    ' DEFAULT CHARACTER SET WIN1252'+
+    ' COLLATION WIN_PTBR;'
     ;
-
 end;
 
 end.

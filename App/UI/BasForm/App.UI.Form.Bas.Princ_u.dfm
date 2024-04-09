@@ -4,6 +4,7 @@ inherited PrincBasForm: TPrincBasForm
   ClientHeight = 477
   ClientWidth = 628
   OnDestroy = FormDestroy
+  ExplicitWidth = 628
   ExplicitHeight = 477
   TextHeight = 15
   object Logo1Image: TImage [0]
@@ -1348,6 +1349,10 @@ inherited PrincBasForm: TPrincBasForm
     StyleElements = [seFont]
   end
   inherited ActionList1_ActBasForm: TActionList
+    inherited FecharAction_ActBasForm: TAction
+      Caption = 'Fechar o Sistema'
+      Hint = 'Fechar o Sistema'
+    end
     object MinimizeAction_PrincBasForm: TAction
       Caption = 'MinimizeAction_PrincBasForm'
       Hint = 'Minimize'

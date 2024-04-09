@@ -15,16 +15,18 @@ type
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
+    function GetPackageName: string; override;
   public
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; override;
+
     constructor Create(pDBConnection: IDBConnection; pEntEd: IProdUnidEnt);
   end;
 
 implementation
 
-uses System.SysUtils, App.Retag.Est.Prod.Unid.Ent_u, Sis.Types.strings_u,
-  Sis.Win.Utils_u, Vcl.Dialogs;
+uses System.SysUtils, Sis.Types.strings_u,
+  Sis.Win.Utils_u, Vcl.Dialogs, App.Retag.Est.Factory;
 
 { TProdUnidDBI }
 
@@ -32,7 +34,7 @@ constructor TProdUnidDBI.Create(pDBConnection: IDBConnection;
   pEntEd: IProdUnidEnt);
 begin
   inherited Create(pDBConnection);
-  FProdUnidEnt := TProdUnidEnt(pEntEd);
+  FProdUnidEnt := EntEdCastToProdUnidEnt(pEntEd);
 end;
 
 function TProdUnidDBI.GetExistente(pValues: variant;
@@ -90,12 +92,17 @@ begin
   end;
 end;
 
+function TProdUnidDBI.GetPackageName: string;
+begin
+  Result := 'UNID_PA';
+end;
+
 function TProdUnidDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
-  sFormat := 'SELECT UNID_ID_GRAVADA' +
-    ' FROM UNID_PA.UNID_GARANTIR(%d,''%s'',''%s'');';
+  sFormat := 'SELECT ID_GRAVADO' +
+    ' FROM UNID_PA.GARANTIR(%d,''%s'',''%s'');';
   Result := Format(sFormat, [FProdUnidEnt.Id, FProdUnidEnt.Descr,
     FProdUnidEnt.Sigla]);
 end;

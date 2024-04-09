@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
-  Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
+  Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u, Sis.Types,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Unid.Ent;
 
@@ -25,10 +25,10 @@ type
 
     function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
-    procedure LeRegEInsere(q: TDataSet); override;
     procedure RecordToEnt; override;
   public
     { Public declarations }
+    function GetSelectItem: TSelectItem; override;
   end;
 
 var
@@ -137,10 +137,13 @@ begin
   Result := TProdUnidEnt(EntEd);
 end;
 
-procedure TRetagEstProdUnidDataSetForm.LeRegEInsere(q: TDataSet);
+function TRetagEstProdUnidDataSetForm.GetSelectItem: TSelectItem;
+var
+  fPerc: currency;
+  Descr: string;
 begin
-  inherited;
-  FDMemTable.InsertRecord([q.Fields[0].AsInteger, q.Fields[1].AsString, q.Fields[2].AsString]);
+  Result.Id := FDMemTable.Fields[0].AsInteger;
+  Result.Descr := FDMemTable.Fields[2].AsString;
 end;
 
 procedure TRetagEstProdUnidDataSetForm.RecordToEnt;

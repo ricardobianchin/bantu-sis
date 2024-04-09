@@ -18,7 +18,12 @@ type
     function GetIsDataOk: boolean;
     property IsDataOk: boolean read GetIsDataOk;
 
-    function GetServerName: string;
+    function GetIdentId: smallint;
+    procedure SetIdentId(const Value: smallint);
+    property IdentId: smallint read GetIdentId write SetIdentId;
+
+    function GetIdent: string;
+
   end;
 
 implementation

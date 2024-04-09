@@ -104,14 +104,10 @@ var
   sIdAtual: string;
   sFrase: string;
 begin
-  Result := ProdUnidEnt.State in [dsEdit, dsInsert];
+  Result := inherited DadosOk;
   if not Result then
-  begin
-    sFrase := 'O Status da janela não permite a gravação';
-    ErroOutput.Exibir(sFrase);
-    DescrLabeledEdit.SetFocus;
     exit;
-  end;
+
 
   // if ProdUnidEnt.State = dsEdit then
   // begin

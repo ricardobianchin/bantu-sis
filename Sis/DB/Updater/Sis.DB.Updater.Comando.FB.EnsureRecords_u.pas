@@ -34,7 +34,8 @@ type
 implementation
 
 uses System.SysUtils, System.StrUtils, Sis.Types.strings_u, System.Math,
-  Sis.DB.Firebird.GetSQL_u, Sis.DB.Factory, Sis.DB.Updater.Constants_u;
+  Sis.DB.Firebird.GetSQL_u, Sis.DB.Factory, Sis.DB.Updater.Constants_u,
+  Sis.Types.TStrings_u;
 
 { TComandoFBEnsureRecords }
 

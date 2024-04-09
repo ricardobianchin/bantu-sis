@@ -97,7 +97,8 @@ constructor TCustomNumEditBtu.Create(AOwner: TComponent);
 begin
 //  NCasas:=2;
   inherited;
-  FMascEsq:='###,###,##0';
+//  FMascEsq:='###,###,##0';
+  FMascEsq:='########0';
   CharDecimal:=',';
   Alignment:=taRightJustify;
   Expoente:=0;
@@ -105,6 +106,9 @@ begin
   Encerrado:=false;
   AutoSize:=false;
   Ctl3D:=true;
+
+  LabelPosition := lpLeft;
+  LabelSpacing := 4;
 end;
 
 procedure TCustomNumEditBtu.DoExit;
@@ -207,6 +211,7 @@ end;
 procedure TCustomNumEditBtu.SetNCasasEsq(const Value: integer);
 begin
   FNCasasEsq := Value;
+  FMascEsq := StringOfChar('#', Value - 1) + '0';
   PreencherText;
 end;
 
