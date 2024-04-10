@@ -158,9 +158,9 @@ begin
   inherited Create(State, pId);
   FLojaId := pLojaId;
   FUsuarioId := pUsuarioId;
+  FMachineIdentId := pMachineIdentId;
   FDescr := pDescr;
   FDescrRed := pDescrRed;
-  FMachineIdentId := pMachineIdentId;
 
   FProdFabrEnt := pProdFabrEnt;
   FProdTipoEnt := pProdTipoEnt;
