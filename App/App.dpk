@@ -154,6 +154,11 @@ contains
   App.Est.Factory_u in 'Est\App.Est.Factory_u.pas',
   App.Retag.Est.Prod.Ed.DBI in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ed.DBI.pas',
   App.Retag.Est.Prod.Ed.DBI_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ed.DBI_u.pas',
-  App.Retag.Est.Prod.UltimoId_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.UltimoId_u.pas';
+  App.Retag.Est.Prod.UltimoId_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.UltimoId_u.pas',
+  App.Retag.Fin.Factory in 'Modulos\Retag\Fin\App.Retag.Fin.Factory.pas',
+  App.Retag.Fin.PagForma.Ent in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ent.pas',
+  App.Fin.Types_u in 'Fin\App.Fin.Types_u.pas',
+  App.FIn.PagFormaTipo in 'Fin\PagFormaTipo\App.FIn.PagFormaTipo.pas',
+  App.FIn.PagFormaTipo_u in 'Fin\PagFormaTipo\App.FIn.PagFormaTipo_u.pas';
 
 end.
