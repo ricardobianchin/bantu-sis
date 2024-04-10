@@ -78,6 +78,32 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           end
         end
       end
+      object FinTabSheet: TTabSheet
+        Caption = 'Financeiro'
+        ImageIndex = 3
+        object FinToolBar: TToolBar
+          Left = 0
+          Top = 0
+          Width = 582
+          Height = 30
+          AutoSize = True
+          ButtonHeight = 30
+          ButtonWidth = 154
+          Caption = 'FinToolBar'
+          Ctl3D = False
+          EdgeInner = esNone
+          EdgeOuter = esNone
+          Images = RetagImgDM.ImageList_24_24
+          List = True
+          ShowCaptions = True
+          TabOrder = 0
+          object PagamentoFormaToolButton: TToolButton
+            Left = 0
+            Top = 0
+            Action = FinanceiroPagamentoFormaAction
+          end
+        end
+      end
       object ProdTabsTabSheet: TTabSheet
         Caption = 'Par'#226'metros dos Produtos'
         ImageIndex = 2
@@ -153,6 +179,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -275,6 +307,11 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Caption = 'ICMS'
       Hint = 'Al'#237'quotas (Percentuais) de ICMS. '
       OnExecute = RetagEstProdICMSActionExecute
+    end
+    object FinanceiroPagamentoFormaAction: TAction
+      Category = 'Financeiro'
+      Caption = 'Formas de Pagamento'
+      OnExecute = FinanceiroPagamentoFormaActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

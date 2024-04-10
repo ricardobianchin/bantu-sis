@@ -98,6 +98,10 @@ type
     ToolButton9: TToolButton;
     ToolButton10: TToolButton;
     ToolButton2: TToolButton;
+    FinTabSheet: TTabSheet;
+    FinToolBar: TToolBar;
+    PagamentoFormaToolButton: TToolButton;
+    FinanceiroPagamentoFormaAction: TAction;
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -117,6 +121,7 @@ type
 
     procedure RetagEstProdActionExecute(Sender: TObject);
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
+    procedure FinanceiroPagamentoFormaActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -132,6 +137,9 @@ type
     FProdUnidDataSetFormCreator: IFormCreator;
     FProdICMSDataSetFormCreator: IFormCreator;
     FProdDataSetFormCreator: IFormCreator;
+
+    //fin
+    FPagFormaDataSetFormCreator: IFormCreator;
 
     // tab crie
     procedure TabSheetCrie(pFormCreator: IFormCreator);
@@ -248,6 +256,21 @@ begin
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
     oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
     oProdDBI);
+
+
+  // fin pag forma
+  FPagFormaDataSetFormCreator := AjuBemVindoSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify);
+
+end;
+
+procedure TRetaguardaModuloBasForm.FinanceiroPagamentoFormaActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FPagFormaDataSetFormCreator);
+
 end;
 
 procedure TRetaguardaModuloBasForm.FormDestroy(Sender: TObject);
@@ -343,7 +366,10 @@ begin
   // RetagEstProdICMSAction.Execute;
   // sleep(150);
   // RetagEstProdFabrAction.Execute;
-  RetagEstProdAction.Execute;
+//  RetagEstProdAction.Execute;
+
+  MenuPageControl.ActivePage := EstoqueTabSheet;
+  FinanceiroPagamentoFormaAction.Execute
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator
