@@ -159,6 +159,7 @@ contains
   App.Retag.Fin.PagForma.Ent in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ent.pas',
   App.Fin.Types_u in 'Fin\App.Fin.Types_u.pas',
   App.FIn.PagFormaTipo in 'Fin\PagFormaTipo\App.FIn.PagFormaTipo.pas',
-  App.FIn.PagFormaTipo_u in 'Fin\PagFormaTipo\App.FIn.PagFormaTipo_u.pas';
+  App.FIn.PagFormaTipo_u in 'Fin\PagFormaTipo\App.FIn.PagFormaTipo_u.pas',
+  App.Retag.Fin.PagForma.Ent_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ent_u.pas';
 
 end.
