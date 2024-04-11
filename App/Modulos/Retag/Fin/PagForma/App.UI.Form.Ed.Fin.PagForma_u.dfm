@@ -1,13 +1,13 @@
 inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
-  ClientHeight = 319
+  ClientHeight = 282
   ClientWidth = 624
   OnCreate = FormCreate
   ExplicitWidth = 636
-  ExplicitHeight = 357
+  ExplicitHeight = 320
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 247
+    Top = 210
     Width = 624
   end
   object TipoTitLabel: TLabel [2]
@@ -32,7 +32,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Tipo'
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 267
+    Top = 230
     Width = 624
   end
   object DescrErroLabel: TLabel [6]
@@ -64,7 +64,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     StyleElements = []
   end
   inherited BasePanel: TPanel
-    Top = 282
+    Top = 245
     Width = 624
     ExplicitTop = 247
     ExplicitWidth = 443
@@ -81,7 +81,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       ExplicitLeft = 253
     end
   end
-  object PagFormaTipoComboBox: TComboBox [9]
+  object UsoComboBox: TComboBox [9]
     Left = 184
     Top = 71
     Width = 81
@@ -102,7 +102,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Ativa'
     TabOrder = 2
   end
-  object ComboBox2: TComboBox [11]
+  object RecebComboBox: TComboBox [11]
     Left = 347
     Top = 71
     Width = 81
@@ -115,7 +115,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'A VISTA'
       'A PRAZO')
   end
-  object ComboBox1: TComboBox [12]
+  object TipoComboBox: TComboBox [12]
     Left = 30
     Top = 71
     Width = 122
@@ -137,7 +137,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Height = 45
     Caption = 'Na Venda, Exige'
     TabOrder = 5
-    object CheckBox4: TCheckBox
+    object AutorizExigeCheckBox: TCheckBox
       Left = 82
       Top = 19
       Width = 87
@@ -145,7 +145,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Caption = 'Autoriza'#231#227'o'
       TabOrder = 0
     end
-    object CheckBox5: TCheckBox
+    object CliExigeCheckBox: TCheckBox
       Left = 8
       Top = 19
       Width = 65
@@ -153,7 +153,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Caption = 'Cliente'
       TabOrder = 1
     end
-    object LabeledEdit3: TLabeledEdit
+    object MoldeValorMinimoLabeledEdit: TLabeledEdit
       Left = 299
       Top = 17
       Width = 75
@@ -167,7 +167,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
       Text = '123,45'
     end
-    object CheckBox3: TCheckBox
+    object TefExigeCheckBox: TCheckBox
       Left = 178
       Top = 19
       Width = 44
@@ -183,7 +183,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Height = 45
     Caption = 'Comiss'#227'o'
     TabOrder = 6
-    object CheckBox2: TCheckBox
+    object ComissPermiteCheckBox: TCheckBox
       Left = 8
       Top = 19
       Width = 63
@@ -191,7 +191,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Caption = 'Permite'
       TabOrder = 0
     end
-    object LabeledEdit2: TLabeledEdit
+    object MoldeComissAbaterLabeledEdit: TLabeledEdit
       Left = 146
       Top = 17
       Width = 53
@@ -227,7 +227,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 0
       Text = '123,45'
     end
-    object LabeledEdit4: TLabeledEdit
+    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
       Left = 213
       Top = 17
       Width = 53
@@ -255,7 +255,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     TabOrder = 8
     Text = ''
   end
-  object LabeledEdit1: TLabeledEdit [17]
+  object DescrRedLabeledEdit: TLabeledEdit [17]
     Left = 499
     Top = 27
     Width = 82
@@ -275,7 +275,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Height = 45
     Caption = 'Promo'#231#227'o'
     TabOrder = 10
-    object CheckBox1: TCheckBox
+    object PromoPermiteCheckBox: TCheckBox
       Left = 8
       Top = 19
       Width = 122

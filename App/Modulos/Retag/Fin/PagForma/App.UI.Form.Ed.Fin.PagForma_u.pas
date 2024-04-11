@@ -11,28 +11,28 @@ uses
 
 type
   TPagFormaEdForm = class(TEdBasForm)
-    PagFormaTipoComboBox: TComboBox;
+    UsoComboBox: TComboBox;
     TipoTitLabel: TLabel;
     AtivoCheckBox: TCheckBox;
-    ComboBox2: TComboBox;
+    RecebComboBox: TComboBox;
     Label1: TLabel;
-    ComboBox1: TComboBox;
+    TipoComboBox: TComboBox;
     Label2: TLabel;
     GroupBox1: TGroupBox;
-    CheckBox4: TCheckBox;
-    CheckBox5: TCheckBox;
+    AutorizExigeCheckBox: TCheckBox;
+    CliExigeCheckBox: TCheckBox;
     GroupBox2: TGroupBox;
-    CheckBox2: TCheckBox;
-    LabeledEdit2: TLabeledEdit;
+    ComissPermiteCheckBox: TCheckBox;
+    MoldeComissAbaterLabeledEdit: TLabeledEdit;
     GroupBox3: TGroupBox;
     MoldeTaxaAdmLabeledEdit: TLabeledEdit;
-    LabeledEdit4: TLabeledEdit;
-    LabeledEdit3: TLabeledEdit;
-    CheckBox3: TCheckBox;
+    MoldeReembolsoDiasLabeledEdit: TLabeledEdit;
+    MoldeValorMinimoLabeledEdit: TLabeledEdit;
+    TefExigeCheckBox: TCheckBox;
     DescrLabeledEdit: TLabeledEdit;
-    LabeledEdit1: TLabeledEdit;
+    DescrRedLabeledEdit: TLabeledEdit;
     GroupBox4: TGroupBox;
-    CheckBox1: TCheckBox;
+    PromoPermiteCheckBox: TCheckBox;
     DescrErroLabel: TLabel;
     DescrRedErroLabel: TLabel;
   private
