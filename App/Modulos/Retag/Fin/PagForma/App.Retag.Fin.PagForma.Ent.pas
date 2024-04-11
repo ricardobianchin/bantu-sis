@@ -9,7 +9,7 @@ type
     ['{E3652AF8-CC37-4992-892B-BB8C71B9750E}']
 
     function GetPagFormaTipo: IPagFormaTipo;
-    property PagFormaTipo: IPagFormaTipo read GetPagFormaTipo write SetPagFormaTipo;
+    property PagFormaTipo: IPagFormaTipo read GetPagFormaTipo;
 
     function GetDescrRed: string;
     procedure SetDescrRed(Value: string);
