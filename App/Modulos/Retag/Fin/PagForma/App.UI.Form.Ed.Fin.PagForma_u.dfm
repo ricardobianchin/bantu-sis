@@ -1,17 +1,17 @@
 inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
   ClientHeight = 319
-  ClientWidth = 596
-  ExplicitWidth = 608
+  ClientWidth = 624
+  ExplicitWidth = 636
   ExplicitHeight = 357
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 247
-    Width = 596
+    Width = 624
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 267
-    Width = 596
+    Width = 624
   end
   object TipoTitLabel: TLabel [3]
     Left = 344
@@ -29,19 +29,19 @@ inherited PagFormaEdForm: TPagFormaEdForm
   end
   inherited BasePanel: TPanel
     Top = 282
-    Width = 596
+    Width = 624
     ExplicitTop = 247
     ExplicitWidth = 443
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 213
+      Left = 241
       ExplicitLeft = 60
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 326
+      Left = 354
       ExplicitLeft = 173
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 406
+      Left = 434
       ExplicitLeft = 253
     end
   end
@@ -105,7 +105,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
   end
   object DescrLabeledEdit: TLabeledEdit [7]
     Left = 57
-    Top = 70
+    Top = 68
     Width = 329
     Height = 23
     EditLabel.Width = 51
@@ -130,16 +130,16 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'COMPRA')
   end
   object AtivoCheckBox: TCheckBox [9]
-    Left = 526
-    Top = 159
-    Width = 62
+    Left = 527
+    Top = 115
+    Width = 52
     Height = 17
     Caption = 'Ativa'
     TabOrder = 4
   end
   object LabeledEdit1: TLabeledEdit [10]
     Left = 497
-    Top = 70
+    Top = 68
     Width = 82
     Height = 23
     EditLabel.Width = 102
@@ -151,24 +151,24 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Text = 'UUUUUUUU'
   end
   object CheckBox1: TCheckBox [11]
-    Left = 2
-    Top = 114
+    Left = 0
+    Top = 202
     Width = 124
     Height = 17
     Caption = 'Permite Promo'#231#227'o'
     TabOrder = 6
   end
   object CheckBox2: TCheckBox [12]
-    Left = 132
-    Top = 114
+    Left = 460
+    Top = 159
     Width = 124
     Height = 17
     Caption = 'Permite Comiss'#227'o'
     TabOrder = 7
   end
   object MoldeTaxaAdmLabeledEdit: TLabeledEdit [13]
-    Left = 343
-    Top = 111
+    Left = 84
+    Top = 112
     Width = 53
     Height = 23
     Alignment = taCenter
@@ -181,8 +181,8 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Text = '123,45'
   end
   object LabeledEdit3: TLabeledEdit [14]
-    Left = 503
-    Top = 111
+    Left = 446
+    Top = 113
     Width = 75
     Height = 23
     Alignment = taCenter
@@ -209,8 +209,8 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Text = '123,45'
   end
   object LabeledEdit4: TLabeledEdit [16]
-    Left = 275
-    Top = 156
+    Left = 242
+    Top = 113
     Width = 53
     Height = 23
     Alignment = taCenter
@@ -223,15 +223,15 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Text = '123,45'
   end
   object CheckBox3: TCheckBox [17]
-    Left = 338
-    Top = 159
-    Width = 52
+    Left = 301
+    Top = 116
+    Width = 44
     Height = 17
     Caption = 'TEF'
     TabOrder = 12
   end
   object CheckBox4: TCheckBox [18]
-    Left = 389
+    Left = 189
     Top = 159
     Width = 124
     Height = 17
@@ -239,9 +239,9 @@ inherited PagFormaEdForm: TPagFormaEdForm
     TabOrder = 13
   end
   object CheckBox5: TCheckBox [19]
-    Left = 2
-    Top = 192
-    Width = 124
+    Left = 319
+    Top = 159
+    Width = 135
     Height = 17
     Caption = 'Exige Indicar Cliente'
     TabOrder = 14
