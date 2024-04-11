@@ -189,6 +189,11 @@ begin
   Result := FPagFormaTipo;
 end;
 
+function TPagFormaEnt.GetParaVenda: boolean;
+begin
+  Result := FParaVenda;
+end;
+
 function TPagFormaEnt.GetPessoaExige: boolean;
 begin
   Result := FPessoaExige;
@@ -282,6 +287,11 @@ end;
 procedure TPagFormaEnt.SetDescrRed(Value: string);
 begin
   FDescrRed := Value;
+end;
+
+procedure TPagFormaEnt.SetParaVenda(Value: boolean);
+begin
+  FParaVenda := Value;
 end;
 
 procedure TPagFormaEnt.SetPessoaExige(Value: boolean);
