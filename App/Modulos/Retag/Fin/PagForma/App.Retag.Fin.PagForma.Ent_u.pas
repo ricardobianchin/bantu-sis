@@ -237,7 +237,21 @@ end;
 procedure TPagFormaEnt.LimparEnt;
 begin
   inherited;
-
+  FPagFormaTipo.Zerar;
+  FDescrRed := '';
+  FParaVenda := True;
+  FAtivo := True;
+  FSis := False;
+  FPromocaoPermite := True;
+  FComicaoPermite := True;
+  FTaxaAdmPerc := 0;
+  FVendaMinima := 0;
+  FComissaoAbaterPerc := 0;
+  FReembolsoDias := 0;
+  FTEFUsa := True;
+  FAutorizacaoExige := True;
+  FPessoaExige := True;
+  FAVista := True;
 end;
 
 procedure TPagFormaEnt.SetAtivo(Value: boolean);
