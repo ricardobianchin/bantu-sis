@@ -11,12 +11,9 @@ uses
 
 type
   TPagFormaEdForm = class(TEdBasForm)
-    DescrLabeledEdit: TLabeledEdit;
     PagFormaTipoComboBox: TComboBox;
     TipoTitLabel: TLabel;
     AtivoCheckBox: TCheckBox;
-    LabeledEdit1: TLabeledEdit;
-    CheckBox1: TCheckBox;
     ComboBox2: TComboBox;
     Label1: TLabel;
     ComboBox1: TComboBox;
@@ -32,6 +29,12 @@ type
     LabeledEdit4: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
     CheckBox3: TCheckBox;
+    DescrLabeledEdit: TLabeledEdit;
+    LabeledEdit1: TLabeledEdit;
+    GroupBox4: TGroupBox;
+    CheckBox1: TCheckBox;
+    DescrErroLabel: TLabel;
+    DescrRedErroLabel: TLabel;
   private
     { Private declarations }
     FWinControlList: TList<Vcl.Controls.TWinControl>;
