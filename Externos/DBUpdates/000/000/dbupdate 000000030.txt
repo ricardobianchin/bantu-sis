@@ -10,11 +10,11 @@ DBATUALIZ_OBS=
 
 
 
-/////////////////////////
+///////////////////////////////////////////
 //
 // TABELA PAGAMENTO_FORMA_TIPO
 //
-/////////////////////////
+///////////////////////////////////////////
 
 COMANDO INI
 TIPO_COMANDO=CREATE TABLE
@@ -37,7 +37,6 @@ COMANDO FIM
 ///////////////////////////
 //PACKAGE PAGAMENTO_FORMA_TIPO_PA
 ///////////////////////////
-
 COMANDO INI
 TIPO_COMANDO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=PAGAMENTO_FORMA_TIPO_PA
