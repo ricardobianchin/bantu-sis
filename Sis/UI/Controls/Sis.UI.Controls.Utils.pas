@@ -14,6 +14,8 @@ procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean = True);
 function StrToDigiteStr(pStr: string): string;
 procedure DigiteStr(pTexto:string; pEspera:integer);overload;
 
+procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
+
 implementation
 
 uses System.SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
@@ -138,6 +140,16 @@ var
 begin
   s := StrToDigiteStr(pTexto);
   sndkey32.SendKeys(PWideChar(s), true, pEspera);
+end;
+
+procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
+begin
+  pWinControlDestino.Left := pWinControlModelo.Left;
+  pWinControlDestino.Top := pWinControlModelo.Top;
+  pWinControlDestino.Width := pWinControlModelo.Width;
+  pWinControlDestino.TabOrder := pWinControlModelo.TabOrder;
+  pWinControlDestino.TabStop := pWinControlModelo.TabStop;
+  pWinControlModelo.Free;
 end;
 
 end.

@@ -2,6 +2,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
   ClientHeight = 319
   ClientWidth = 624
+  OnCreate = FormCreate
   ExplicitWidth = 636
   ExplicitHeight = 357
   TextHeight = 15
@@ -14,18 +15,25 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Width = 624
   end
   object TipoTitLabel: TLabel [3]
-    Left = 344
+    Left = 160
     Top = 28
     Width = 20
     Height = 15
     Caption = 'Uso'
   end
   object Label1: TLabel [4]
-    Left = 463
+    Left = 274
     Top = 28
     Width = 70
     Height = 15
     Caption = 'Recebimento'
+  end
+  object Label2: TLabel [5]
+    Left = 3
+    Top = 28
+    Width = 23
+    Height = 15
+    Caption = 'Tipo'
   end
   inherited BasePanel: TPanel
     Top = 282
@@ -45,64 +53,6 @@ inherited PagFormaEdForm: TPagFormaEdForm
       ExplicitLeft = 253
     end
   end
-  object MoldeTipoPanel: TPanel [6]
-    Left = 2
-    Top = 24
-    Width = 334
-    Height = 23
-    BevelOuter = bvNone
-    Caption = ' '
-    TabOrder = 1
-    object TitLabel: TLabel
-      Left = 0
-      Top = 0
-      Width = 103
-      Height = 23
-      Align = alLeft
-      Caption = 'Unidade de Medida'
-      FocusControl = ComboBox1
-      Layout = tlCenter
-      ExplicitHeight = 15
-    end
-    object BuscaSpeedButton: TSpeedButton
-      Left = 311
-      Top = 0
-      Width = 23
-      Height = 23
-      Hint = 'Buscar...'
-      Align = alLeft
-      ImageIndex = 0
-      Images = SisImgDataModule.ImageList16Flat
-    end
-    object EspacadorLabel: TLabel
-      Left = 103
-      Top = 0
-      Width = 6
-      Height = 23
-      Align = alLeft
-      Caption = '  '
-      ExplicitHeight = 15
-    end
-    object Espacador2Label: TLabel
-      Left = 309
-      Top = 0
-      Width = 2
-      Height = 23
-      Align = alLeft
-      AutoSize = False
-      Visible = False
-      ExplicitLeft = 304
-    end
-    object ComboBox1: TComboBox
-      Left = 109
-      Top = 0
-      Width = 200
-      Height = 23
-      Align = alLeft
-      TabOrder = 0
-      Text = 'ComboBox1'
-    end
-  end
   object DescrLabeledEdit: TLabeledEdit [7]
     Left = 57
     Top = 68
@@ -113,32 +63,32 @@ inherited PagFormaEdForm: TPagFormaEdForm
     EditLabel.Caption = 'Descri'#231#227'o'
     LabelPosition = lpLeft
     LabelSpacing = 4
-    TabOrder = 2
+    TabOrder = 1
     Text = ''
   end
   object PagFormaTipoComboBox: TComboBox [8]
-    Left = 369
+    Left = 184
     Top = 24
     Width = 81
     Height = 23
     Style = csDropDownList
     ItemIndex = 1
-    TabOrder = 3
+    TabOrder = 2
     Text = 'COMPRA'
     Items.Strings = (
       'VENDA'
       'COMPRA')
   end
   object AtivoCheckBox: TCheckBox [9]
-    Left = 527
-    Top = 115
+    Left = 439
+    Top = 27
     Width = 52
     Height = 17
     Caption = 'Ativa'
-    TabOrder = 4
+    TabOrder = 3
   end
   object LabeledEdit1: TLabeledEdit [10]
-    Left = 497
+    Left = 498
     Top = 68
     Width = 82
     Height = 23
@@ -147,124 +97,163 @@ inherited PagFormaEdForm: TPagFormaEdForm
     EditLabel.Caption = 'Descri'#231#227'o Reduzida'
     LabelPosition = lpLeft
     LabelSpacing = 4
-    TabOrder = 5
-    Text = 'UUUUUUUU'
+    TabOrder = 4
+    Text = ''
   end
   object CheckBox1: TCheckBox [11]
-    Left = 0
-    Top = 202
-    Width = 124
+    Left = 504
+    Top = 131
+    Width = 122
     Height = 17
     Caption = 'Permite Promo'#231#227'o'
-    TabOrder = 6
+    TabOrder = 5
   end
-  object CheckBox2: TCheckBox [12]
-    Left = 460
-    Top = 159
-    Width = 124
-    Height = 17
-    Caption = 'Permite Comiss'#227'o'
-    TabOrder = 7
-  end
-  object MoldeTaxaAdmLabeledEdit: TLabeledEdit [13]
-    Left = 84
-    Top = 112
-    Width = 53
-    Height = 23
-    Alignment = taCenter
-    EditLabel.Width = 81
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Taxa de Adm %'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 8
-    Text = '123,45'
-  end
-  object LabeledEdit3: TLabeledEdit [14]
-    Left = 446
-    Top = 113
-    Width = 75
-    Height = 23
-    Alignment = taCenter
-    EditLabel.Width = 92
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Venda M'#237'nima R$'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 9
-    Text = '123,45'
-  end
-  object LabeledEdit2: TLabeledEdit [15]
-    Left = 127
-    Top = 156
-    Width = 53
-    Height = 23
-    Alignment = taCenter
-    EditLabel.Width = 119
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Abater da Comiss'#227'o %'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 10
-    Text = '123,45'
-  end
-  object LabeledEdit4: TLabeledEdit [16]
-    Left = 242
-    Top = 113
-    Width = 53
-    Height = 23
-    Alignment = taCenter
-    EditLabel.Width = 84
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Reembolso Dias'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 11
-    Text = '123,45'
-  end
-  object CheckBox3: TCheckBox [17]
-    Left = 301
-    Top = 116
-    Width = 44
-    Height = 17
-    Caption = 'TEF'
-    TabOrder = 12
-  end
-  object CheckBox4: TCheckBox [18]
-    Left = 189
-    Top = 159
-    Width = 124
-    Height = 17
-    Caption = 'Exige Autoriza'#231#227'o'
-    TabOrder = 13
-  end
-  object CheckBox5: TCheckBox [19]
-    Left = 319
-    Top = 159
-    Width = 135
-    Height = 17
-    Caption = 'Exige Indicar Cliente'
-    TabOrder = 14
-  end
-  object ComboBox2: TComboBox [20]
-    Left = 536
+  object ComboBox2: TComboBox [12]
+    Left = 347
     Top = 24
     Width = 81
     Height = 23
     Style = csDropDownList
     ItemIndex = 1
-    TabOrder = 15
+    TabOrder = 6
     Text = 'A PRAZO'
     Items.Strings = (
       'A VISTA'
       'A PRAZO')
   end
+  object ComboBox1: TComboBox [13]
+    Left = 30
+    Top = 24
+    Width = 122
+    Height = 23
+    Style = csDropDownList
+    ItemIndex = 3
+    TabOrder = 7
+    Text = 'TRANSFERENCIA'
+    Items.Strings = (
+      'DINHEIRO'
+      'DEBITO'
+      'CREDITO'
+      'TRANSFERENCIA')
+  end
+  object GroupBox1: TGroupBox [14]
+    Left = 4
+    Top = 164
+    Width = 384
+    Height = 45
+    Caption = 'Na Venda, Exige'
+    TabOrder = 8
+    object CheckBox4: TCheckBox
+      Left = 82
+      Top = 19
+      Width = 87
+      Height = 17
+      Caption = 'Autoriza'#231#227'o'
+      TabOrder = 0
+    end
+    object CheckBox5: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 65
+      Height = 17
+      Caption = 'Cliente'
+      TabOrder = 1
+    end
+    object LabeledEdit3: TLabeledEdit
+      Left = 299
+      Top = 17
+      Width = 75
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 66
+      EditLabel.Height = 23
+      EditLabel.Caption = 'M'#237'nimo (R$)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 2
+      Text = '123,45'
+    end
+    object CheckBox3: TCheckBox
+      Left = 178
+      Top = 19
+      Width = 44
+      Height = 17
+      Caption = 'TEF'
+      TabOrder = 3
+    end
+  end
+  object GroupBox2: TGroupBox [15]
+    Left = 295
+    Top = 112
+    Width = 204
+    Height = 45
+    Caption = 'Comiss'#227'o'
+    TabOrder = 9
+    object CheckBox2: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 63
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
+    object LabeledEdit2: TLabeledEdit
+      Left = 146
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 56
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Abater (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
+  object GroupBox3: TGroupBox [16]
+    Left = 0
+    Top = 112
+    Width = 286
+    Height = 45
+    Caption = 'Administradora'
+    TabOrder = 10
+    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
+      Left = 55
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 44
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Taxa (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 0
+      Text = '123,45'
+    end
+    object LabeledEdit4: TLabeledEdit
+      Left = 213
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 92
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Reembolso (Dias)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
   inherited ShowTimer_BasForm: TTimer
-    Left = 56
-    Top = 16
+    Left = 88
+    Top = 40
   end
   inherited ActionList1_Diag: TActionList
-    Left = 96
-    Top = 8
+    Left = 174
+    Top = 24
   end
 end

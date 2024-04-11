@@ -7,37 +7,37 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
-  Vcl.Mask;
+  Vcl.Mask, App.Retag.Fin.PagForma.Ent;
 
 type
   TPagFormaEdForm = class(TEdBasForm)
-    MoldeTipoPanel: TPanel;
-    TitLabel: TLabel;
-    BuscaSpeedButton: TSpeedButton;
-    EspacadorLabel: TLabel;
-    Espacador2Label: TLabel;
-    ComboBox1: TComboBox;
     DescrLabeledEdit: TLabeledEdit;
     PagFormaTipoComboBox: TComboBox;
     TipoTitLabel: TLabel;
     AtivoCheckBox: TCheckBox;
     LabeledEdit1: TLabeledEdit;
     CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
-    MoldeTaxaAdmLabeledEdit: TLabeledEdit;
-    LabeledEdit3: TLabeledEdit;
-    LabeledEdit2: TLabeledEdit;
-    LabeledEdit4: TLabeledEdit;
-    CheckBox3: TCheckBox;
-    CheckBox4: TCheckBox;
-    CheckBox5: TCheckBox;
     ComboBox2: TComboBox;
     Label1: TLabel;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    GroupBox1: TGroupBox;
+    CheckBox4: TCheckBox;
+    CheckBox5: TCheckBox;
+    GroupBox2: TGroupBox;
+    CheckBox2: TCheckBox;
+    LabeledEdit2: TLabeledEdit;
+    GroupBox3: TGroupBox;
+    MoldeTaxaAdmLabeledEdit: TLabeledEdit;
+    LabeledEdit4: TLabeledEdit;
+    LabeledEdit3: TLabeledEdit;
+    CheckBox3: TCheckBox;
   private
     { Private declarations }
-    FabrFr: TComboBoxSelectDBFrame;
+    FWinControlList: TList<Vcl.Controls.TWinControl>;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent);
   end;
 
 var
@@ -46,5 +46,15 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.UI.Controls.Utils;
+
+{ TPagFormaEdForm }
+
+constructor TPagFormaEdForm.Create(AOwner: TComponent);
+begin
+
+//  PegueFormatoDe
+end;
 
 end.
