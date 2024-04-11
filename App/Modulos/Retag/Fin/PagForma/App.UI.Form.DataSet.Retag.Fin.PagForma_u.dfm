@@ -1,4 +1,4 @@
-inherited TabSheetDataSetBasForm1: TTabSheetDataSetBasForm1
-  Caption = 'TabSheetDataSetBasForm1'
+inherited RetagFinPagFormaDataSetForm: TRetagFinPagFormaDataSetForm
+  Caption = 'RetagFinPagFormaDataSetForm'
   TextHeight = 15
 end

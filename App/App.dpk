@@ -162,6 +162,7 @@ contains
   App.FIn.PagFormaTipo_u in 'Fin\PagFormaTipo\App.FIn.PagFormaTipo_u.pas',
   App.Retag.Fin.PagForma.Ent_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ent_u.pas',
   App.Retag.Fin.PagForma.DBI_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.DBI_u.pas',
-  App.UI.Form.DataSet.Retag.Fin.PagForma_u in 'Modulos\Retag\Fin\PagForma\App.UI.Form.DataSet.Retag.Fin.PagForma_u.pas' {TabSheetDataSetBasForm1};
+  App.UI.Form.DataSet.Retag.Fin.PagForma_u in 'Modulos\Retag\Fin\PagForma\App.UI.Form.DataSet.Retag.Fin.PagForma_u.pas' {RetagFinPagFormaDataSetForm},
+  App.UI.Form.Ed.Fin.PagForma_u in 'Modulos\Retag\Fin\PagForma\App.UI.Form.Ed.Fin.PagForma_u.pas' {PagFormaEdForm};
 
 end.

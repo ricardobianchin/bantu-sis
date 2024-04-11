@@ -7,16 +7,15 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
-  Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
+  Vcl.StdCtrls, App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Fin.PagForma.Ent;
 
 type
-  TTabSheetDataSetBasForm1 = class(TTabSheetDataSetBasForm)
+  TRetagFinPagFormaDataSetForm = class(TTabSheetDataSetBasForm)
   private
     { Private declarations }
-    function GetProdFabrEnt: IPagFormaEnt;
-    property ProdFabrEnt: IPagFormaEnt read GetProdFabrEnt;
+    function GetPagFormaEnt: IPagFormaEnt;
+    property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
 
   protected
     procedure DoAtualizar(Sender: TObject); override;
@@ -32,7 +31,7 @@ type
   end;
 
 var
-  TabSheetDataSetBasForm1: TTabSheetDataSetBasForm1;
+  RetagFinPagFormaDataSetForm: TRetagFinPagFormaDataSetForm;
 
 implementation
 
@@ -43,9 +42,56 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Fin.Factory,
 
 { TTabSheetDataSetBasForm1 }
 
-function TTabSheetDataSetBasForm1.GetProdFabrEnt: IPagFormaEnt;
+procedure TRetagFinPagFormaDataSetForm.DoAlterar;
 begin
-  Result := EntEdCastToProdEnt(EntEd);
+  inherited;
+
+end;
+
+procedure TRetagFinPagFormaDataSetForm.DoAtualizar(Sender: TObject);
+var
+  Resultado: boolean;
+begin
+  FDMemTable.DisableControls;
+  FDMemTable.BeginBatch;
+  FDMemTable.EmptyDataSet;
+
+  try
+    EntDBI.PreencherDataSet(0, LeRegEInsere);
+
+  finally
+    FDMemTable.First;
+    FDMemTable.EndBatch;
+    FDMemTable.EnableControls;
+    DBGridPosicioneColumnVisible(DBGrid1);
+  end;
+end;
+
+function TRetagFinPagFormaDataSetForm.DoInserir: boolean;
+begin
+
+end;
+
+function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
+begin
+
+end;
+
+function TRetagFinPagFormaDataSetForm.GetPagFormaEnt: IPagFormaEnt;
+begin
+  Result := EntEdCastToPagFormaEnt(EntEd);
+end;
+
+procedure TRetagFinPagFormaDataSetForm.RecordToEnt;
+begin
+  inherited;
+
+end;
+
+procedure TRetagFinPagFormaDataSetForm.ToolBar1CrieBotoes;
+begin
+  inherited;
+
 end;
 
 end.

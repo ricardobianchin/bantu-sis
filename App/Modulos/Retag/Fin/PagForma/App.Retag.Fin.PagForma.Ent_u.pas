@@ -110,12 +110,8 @@ type
     procedure LimparEnt; override;
 
 
-    constructor Create(
-      pLojaId: smallint;//
-      pUsuarioId: integer;//
-      pMachineIdentId: smallint;//
-      pPagFormaTipo: IPagFormaTipo//
-      );
+    constructor Create(pLojaId: smallint; pUsuarioId: integer;
+      pMachineIdentId: smallint; pPagFormaTipo: IPagFormaTipo);
   end;
 
 implementation

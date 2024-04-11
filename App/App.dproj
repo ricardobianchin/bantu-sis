@@ -355,7 +355,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.UI.Form.DataSet.Retag.Fin.PagForma_u.pas">
-            <Form>TabSheetDataSetBasForm1</Form>
+            <Form>RetagFinPagFormaDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Fin\PagForma\App.UI.Form.Ed.Fin.PagForma_u.pas">
+            <Form>PagFormaEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
