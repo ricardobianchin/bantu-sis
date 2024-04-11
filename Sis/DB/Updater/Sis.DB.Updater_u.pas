@@ -258,6 +258,7 @@ begin
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
     DBConnection.Fechar;
+
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;

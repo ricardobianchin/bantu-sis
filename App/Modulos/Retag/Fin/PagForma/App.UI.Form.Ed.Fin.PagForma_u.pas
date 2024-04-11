@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
-  Vcl.Mask, App.Retag.Fin.PagForma.Ent;
+  Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI,
+  System.Generics.Collections;
 
 type
   TPagFormaEdForm = class(TEdBasForm)
@@ -40,7 +41,7 @@ type
     FWinControlList: TList<Vcl.Controls.TWinControl>;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent);
+    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
   end;
 
 var
@@ -54,9 +55,9 @@ uses Sis.UI.Controls.Utils;
 
 { TPagFormaEdForm }
 
-constructor TPagFormaEdForm.Create(AOwner: TComponent);
+constructor TPagFormaEdForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
-
+  inherited Create(AOwner, pEntEd, pEntDBI);
 //  PegueFormatoDe
 end;
 

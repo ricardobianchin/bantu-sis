@@ -48,8 +48,13 @@ begin
 end;
 
 function TPagFormaDBI.GetSqlPreencherDataSet(pValues: variant): string;
+var
+  sFormat: string;
+  sBusca: string;
 begin
-
+  sFormat := 'select FABR_ID, NOME from FABR_PA.LISTA_GET(''%s'');';
+  sBusca := VarToString(pValues);
+  Result := Format(sFormat, [sBusca]);
 end;
 
 procedure TPagFormaDBI.SetNovaId(pIds: variant);

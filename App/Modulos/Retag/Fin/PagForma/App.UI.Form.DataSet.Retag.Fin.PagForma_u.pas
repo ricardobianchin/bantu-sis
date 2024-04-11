@@ -16,6 +16,7 @@ type
     { Private declarations }
     function GetPagFormaEnt: IPagFormaEnt;
     property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
+    procedure EntToCampos;
 
   protected
     procedure DoAtualizar(Sender: TObject); override;
@@ -72,9 +73,18 @@ begin
 
 end;
 
-function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
+procedure TRetagFinPagFormaDataSetForm.EntToCampos;
 begin
 
+end;
+
+function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
+var
+  sNomeArq: string;
+begin
+  sNomeArq := AppInfo.PastaConsTabViews + 'Fin\tabview.fin.pagforma.csv';
+
+  Result := sNomeArq;
 end;
 
 function TRetagFinPagFormaDataSetForm.GetPagFormaEnt: IPagFormaEnt;

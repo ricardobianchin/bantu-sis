@@ -20,7 +20,7 @@ function RetagEstPagFormaEntCreate(pLojaId: smallint; pUsuarioId: integer;
 function RetagEstPagFormaDBICreate(pDBConnection: IDBConnection;
   pPagFormaEnt: IEntEd): IEntDBI;
 
-function PagFormaEdFormCreate(AOwner: TComponent; pPagForma: IEntEd;
+function PagFormaEdFormCreate(AOwner: TComponent; pPagFormaEnt: IEntEd;
   pPagFormaDBI: IEntDBI): TEdBasForm;
 
 function PagFormaPerg(AOwner: TComponent; pPagFormaEnt: IEntEd;
@@ -38,7 +38,8 @@ function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 implementation
 
 uses App.Fin.PagFormaTipo_u, App.Retag.Fin.PagForma.DBI_u,
-  App.Retag.Fin.PagForma.Ent_u, App.UI.Form.DataSet.Retag.Fin.PagForma_u;
+  App.Retag.Fin.PagForma.Ent_u, App.UI.Form.DataSet.Retag.Fin.PagForma_u,
+  App.UI.Form.Ed.Fin.PagForma_u, App.UI.FormCreator.DataSet_u;
 
 function PagFormaTipoCreate: IPagFormaTipo;
 begin
@@ -52,7 +53,7 @@ begin
   Result := TPagFormaEnt(pEntEd);
 end;
 
-function EntDBICastToPagFormaDBI(pEntDBI: IEntDBI): IEntDBI;
+function EntDBICastToFormaTipoDBI(pEntDBI: IEntDBI): IEntDBI;
 begin
   Result := TPagFormaDBI(pEntDBI);
 end;
@@ -70,10 +71,10 @@ begin
   Result := TPagFormaDBI.Create(pDBConnection, TPagFormaEnt(pPagFormaEnt));
 end;
 
-function PagFormaEdFormCreate(AOwner: TComponent; pPagForma: IEntEd;
+function PagFormaEdFormCreate(AOwner: TComponent; pPagFormaEnt: IEntEd;
   pPagFormaDBI: IEntDBI): TEdBasForm;
 begin
-  Result := TPagFormaEdForm.Create(AOwner, pPagForma, pPagFormaDBI);
+  Result := TPagFormaEdForm.Create(AOwner, pPagFormaEnt, pPagFormaDBI);
 end;
 
 function PagFormaPerg(AOwner: TComponent; pPagFormaEnt: IEntEd;
@@ -95,7 +96,7 @@ function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
 begin
-  Result := TDataSetFormCreator.Create(TRetagEstPagFormaDataSetForm,
+  Result := TDataSetFormCreator.Create(TRetagFinPagFormaDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI);
 end;
