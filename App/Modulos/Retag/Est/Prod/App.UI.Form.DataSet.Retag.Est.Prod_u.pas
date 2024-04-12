@@ -25,7 +25,6 @@ type
 //    FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
-    procedure EntToCampos;
 
     function DoProdPerg(pDataSetStateAbrev: string): boolean;
 
@@ -39,6 +38,7 @@ type
     function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
+    procedure EntToRecord; override;
 
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
 
@@ -88,7 +88,7 @@ begin
     exit;
 
   FDMemTable.Edit;
-  EntToCampos;
+  EntToRecord;
   FDMemTable.Post;
 end;
 
@@ -136,7 +136,7 @@ begin
 
   FDMemTable.Insert;
   FDMemTable.Fields[0].AsInteger := ProdEnt.Id;
-  EntToCampos;
+  EntToRecord;
   FDMemTable.Post;
 end;
 
@@ -227,7 +227,7 @@ begin
     , AppInfo, oRetagEstProdEdDBI, Usuario);
 end;
 
-procedure TRetagEstProdDataSetForm.EntToCampos;
+procedure TRetagEstProdDataSetForm.EntToRecord;
 begin
   FDMemTable.Fields[1	{descr}]    .AsString := ProdEnt.Descr;
   FDMemTable.Fields[2	{descr_red}].AsString := ProdEnt.DescrRed;

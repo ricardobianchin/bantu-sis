@@ -91,6 +91,7 @@ type
     property EntDBI: IEntDBI read FEntDBI;
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); virtual;
     procedure RecordToEnt; virtual;
+    procedure EntToRecord; virtual;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
     function SelectPodeOk: boolean; virtual;
 
@@ -288,6 +289,11 @@ begin
 end;
 
 procedure TTabSheetDataSetBasForm.DoLer;
+begin
+
+end;
+
+procedure TTabSheetDataSetBasForm.EntToRecord;
 begin
 
 end;

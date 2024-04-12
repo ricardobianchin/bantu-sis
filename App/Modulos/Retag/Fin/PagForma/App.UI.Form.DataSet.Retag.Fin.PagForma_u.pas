@@ -16,7 +16,6 @@ type
     { Private declarations }
     function GetPagFormaEnt: IPagFormaEnt;
     property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
-    procedure EntToCampos;
 
   protected
     procedure DoAtualizar(Sender: TObject); override;
@@ -26,6 +25,7 @@ type
     function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
+    procedure EntToRecord; override;
 
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
   public
@@ -74,7 +74,7 @@ begin
 
 end;
 
-procedure TRetagFinPagFormaDataSetForm.EntToCampos;
+procedure TRetagFinPagFormaDataSetForm.EntToRecord;
 begin
   FDMemTable.Fields[0 {forma_id}].AsInteger := PagFormaEnt.Id;
   FDMemTable.Fields[1 {forma_tipo_descr}].AsString := PagFormaEnt.PagFormaTipo.Descr;
