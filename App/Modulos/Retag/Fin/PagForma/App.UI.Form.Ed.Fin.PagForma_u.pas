@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
   Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI,
-  System.Generics.Collections, App.AppInfo;
+  System.Generics.Collections, App.AppInfo, App.Retag.Fin.Factory;
 
 type
   TPagFormaEdForm = class(TEdBasForm)
@@ -39,6 +39,17 @@ type
   private
     { Private declarations }
     FWinControlList: TList<Vcl.Controls.TWinControl>;
+    function GetPagFormaEnt: IPagFormaEnt;
+    property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
+  protected
+    function GetObjetivoStr: string; override;
+    procedure AjusteControles; override;
+    procedure ControlesToEnt; override;
+    procedure EntToControles; override;
+
+    function ControlesOk: boolean; override;
+    function DadosOk: boolean; override;
+    function GravouOk: boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
@@ -52,9 +63,46 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils;
+uses Sis.UI.Controls.Utils, Data.DB;
 
 { TPagFormaEdForm }
+
+procedure TPagFormaEdForm.AjusteControles;
+var
+  sFormat: string;
+  sCaption: string;
+  sNom, sVal: string;
+begin
+  inherited;
+  case PagFormaEnt.State of
+    dsInactive:
+      ;
+    dsBrowse:
+      ;
+    dsEdit:
+      begin
+        sFormat := 'Alterando %s: %s';
+        sNom := PagFormaEnt.NomeEnt;
+        sVal := PagFormaEnt.strDescreve;
+        sCaption := Format(sFormat, [sNom, sVal]);
+        ObjetivoLabel.Caption := sCaption;
+      end;
+
+    dsInsert:
+      ;
+  end;
+end;
+
+function TPagFormaEdForm.ControlesOk: boolean;
+begin
+
+end;
+
+procedure TPagFormaEdForm.ControlesToEnt;
+begin
+  inherited;
+
+end;
 
 constructor TPagFormaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
@@ -81,6 +129,39 @@ begin
   end;
 
   // PegueFormatoDe
+end;
+
+function TPagFormaEdForm.DadosOk: boolean;
+begin
+
+end;
+
+procedure TPagFormaEdForm.EntToControles;
+begin
+  inherited;
+
+end;
+
+function TPagFormaEdForm.GetObjetivoStr: string;
+var
+  sFormat, sTit, sNom, sVal: string;
+begin
+  sTit := EntEd.StateAsTitulo;
+  sNom := PagFormaEnt.NomeEnt;
+  sVal := PagFormaEnt.StrDescreve;
+
+  sFormat := '%s %s: %s';
+  Result := Format(sFormat, [sTit, sNom, sVal]);
+end;
+
+function TPagFormaEdForm.GetPagFormaEnt: IPagFormaEnt;
+begin
+  Result := EntEdCastToPagFormaEnt(EntEd);
+end;
+
+function TPagFormaEdForm.GravouOk: boolean;
+begin
+
 end;
 
 end.
