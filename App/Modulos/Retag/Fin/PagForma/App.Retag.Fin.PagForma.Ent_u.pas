@@ -82,6 +82,9 @@ type
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
 
+    function GetDescrCaption: string; override;
+
+
   public
     property PagFormaTipo: IPagFormaTipo read GetPagFormaTipo;
 
@@ -153,6 +156,11 @@ end;
 function TPagFormaEnt.GetComissaoAbaterPerc: Currency;
 begin
   Result := FComissaoAbaterPerc;
+end;
+
+function TPagFormaEnt.GetDescrCaption: string;
+begin
+  Result := 'Descrição';
 end;
 
 function TPagFormaEnt.GetDescrRed: string;

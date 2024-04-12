@@ -160,7 +160,8 @@ implementation
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Types.strings_u, Sis.UI.IO.Factory,
-  App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory;
+  App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory, App.Retag.Fin.Factory,
+  App.FIn.PagFormaTipo;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
@@ -186,6 +187,10 @@ var
 
   oProdEnt: IProdEnt;
   oProdDBI: IEntDBI;
+
+  oPagFormaTipo: IPagFormaTipo;
+  oPagFormaEnt: IEntEd;
+  oPagFormaDBI: IEntDBI;
 
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
@@ -257,11 +262,17 @@ begin
     oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
     oProdDBI);
 
+//        pPagFormaTipo: IPagFormaTipo
+  oPagFormaTipo := PagFormaTipoCreate;
+
+  oPagFormaEnt := RetagFinPagFormaEntCreate(AppObj.Loja.Id, Usuario.Id,
+    oSisConfig.ServerMachineId.IdentId, oPagFormaTipo);
+  oPagFormaDBI := RetagFinPagFormaDBICreate(oDBConnection, oPagFormaEnt);
 
   // fin pag forma
-  FPagFormaDataSetFormCreator := AjuBemVindoSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
+  FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate(
+    FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oPagFormaEnt, oPagFormaDBI);
 
 end;
 

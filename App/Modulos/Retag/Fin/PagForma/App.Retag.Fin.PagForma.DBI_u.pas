@@ -48,13 +48,16 @@ begin
 end;
 
 function TPagFormaDBI.GetSqlPreencherDataSet(pValues: variant): string;
-var
-  sFormat: string;
-  sBusca: string;
 begin
-  sFormat := 'select FABR_ID, NOME from FABR_PA.LISTA_GET(''%s'');';
-  sBusca := VarToString(pValues);
-  Result := Format(sFormat, [sBusca]);
+  Result := 'SELECT'
+    +' FORMA_ID' //ID_SHORT_DOM
+    +', FORMA_TIPO_DESCR' //NOME_INTERM_DOM
+    +', DESCR' //NOME_INTERM_DOM
+    +', DESCR_RED' //CHAR(8)
+    +', PARA_VENDA' //BOOLEAN
+    +', ATIVO' //BOOLEAN
+    +' FROM PAGAMENTO_FORMA_PA.LISTA_GET;'
+    ;
 end;
 
 procedure TPagFormaDBI.SetNovaId(pIds: variant);

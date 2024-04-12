@@ -14,10 +14,10 @@ function PagFormaTipoCreate: IPagFormaTipo;
 function EntEdCastToPagFormaEnt(pEntEd: IEntEd): IPagFormaEnt;
 function EntDBICastToFormaTipoDBI(pEntDBI: IEntDBI): IEntDBI;
 
-function RetagEstPagFormaEntCreate(pLojaId: smallint; pUsuarioId: integer;
+function RetagFinPagFormaEntCreate(pLojaId: smallint; pUsuarioId: integer;
   pMachineIdentId: smallint; pPagFormaTipo: IPagFormaTipo): IPagFormaEnt;
 
-function RetagEstPagFormaDBICreate(pDBConnection: IDBConnection;
+function RetagFinPagFormaDBICreate(pDBConnection: IDBConnection;
   pPagFormaEnt: IEntEd): IEntDBI;
 
 function PagFormaEdFormCreate(AOwner: TComponent; pPagFormaEnt: IEntEd;
@@ -28,7 +28,7 @@ function PagFormaPerg(AOwner: TComponent; pPagFormaEnt: IEntEd;
 
 // function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 
-function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
@@ -58,14 +58,14 @@ begin
   Result := TPagFormaDBI(pEntDBI);
 end;
 
-function RetagEstPagFormaEntCreate(pLojaId: smallint; pUsuarioId: integer;
+function RetagFinPagFormaEntCreate(pLojaId: smallint; pUsuarioId: integer;
       pMachineIdentId: smallint; pPagFormaTipo: IPagFormaTipo): IPagFormaEnt;
 begin
   Result := TPagFormaEnt.Create(pLojaId, pUsuarioId, pMachineIdentId,
     pPagFormaTipo);
 end;
 
-function RetagEstPagFormaDBICreate(pDBConnection: IDBConnection;
+function RetagFinPagFormaDBICreate(pDBConnection: IDBConnection;
   pPagFormaEnt: IEntEd): IEntDBI;
 begin
   Result := TPagFormaDBI.Create(pDBConnection, TPagFormaEnt(pPagFormaEnt));
@@ -88,10 +88,10 @@ end;
 
 // function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 // begin
-// // Result := TDecoratorExclFabr.Create(pPagForma);
+// // Result := TDecoratorExclPagForma.Create(pPagForma);
 // end;
 
-function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;

@@ -27,6 +27,7 @@ type
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
 
+    procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
   public
     { Public declarations }
   end;
@@ -90,6 +91,13 @@ end;
 function TRetagFinPagFormaDataSetForm.GetPagFormaEnt: IPagFormaEnt;
 begin
   Result := EntEdCastToPagFormaEnt(EntEd);
+end;
+
+procedure TRetagFinPagFormaDataSetForm.LeRegEInsere(q: TDataSet;
+  pRecNo: integer);
+begin
+  inherited;
+  //o inherited dá conta
 end;
 
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;
