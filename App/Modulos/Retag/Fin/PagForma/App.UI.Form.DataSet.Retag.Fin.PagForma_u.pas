@@ -85,7 +85,6 @@ end;
 
 procedure TRetagFinPagFormaDataSetForm.EntToRecord;
 begin
-  FDMemTable.Fields[0 {forma_id}].AsInteger := PagFormaEnt.Id;
   FDMemTable.Fields[1 {forma_tipo_descr}].AsString := PagFormaEnt.PagFormaTipo.Descr;
   FDMemTable.Fields[2 {descr}].AsString := PagFormaEnt.Descr;
   FDMemTable.Fields[3 {descr_red}].AsString := PagFormaEnt.DescrRed;
