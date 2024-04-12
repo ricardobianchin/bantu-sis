@@ -142,7 +142,10 @@ end;
 procedure TRetagFinPagFormaDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
-
+  ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(ExclAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;
 
 end.
