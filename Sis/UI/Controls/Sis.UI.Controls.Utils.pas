@@ -144,7 +144,7 @@ end;
 
 procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
 begin
-  pWinControlDestino.Left := pWinControlModelo.Left;
+  pWinControlDestino.Parent := pWinControlModelo.Parent;
   pWinControlDestino.Top := pWinControlModelo.Top;
   pWinControlDestino.Width := pWinControlModelo.Width;
   pWinControlDestino.TabStop := pWinControlModelo.TabStop;

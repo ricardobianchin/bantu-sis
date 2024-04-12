@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
-  Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI,
+  Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI, NumEditBtu,
   System.Generics.Collections, App.AppInfo, App.Retag.Fin.Factory;
 
 type
@@ -39,6 +39,12 @@ type
   private
     { Private declarations }
     FWinControlList: TList<Vcl.Controls.TWinControl>;
+
+    FComissAbaterEdit: TNumEditBtu;
+    FTaxaAdmEdit: TNumEditBtu;
+    FReembolsoDiasEdit: TNumEditBtu;
+    FValorMinimoEdit: TNumEditBtu;
+
     function GetPagFormaEnt: IPagFormaEnt;
     property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
   protected
@@ -111,6 +117,24 @@ var
 begin
   inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
   FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
+
+  FTaxaAdmEdit := TNumEditBtu.Create(Self);
+  FReembolsoDiasEdit := TNumEditBtu.Create(Self);
+
+  FComissAbaterEdit := TNumEditBtu.Create(Self);
+  PegueFormatoDe(FComissAbaterEdit, MoldeComissAbaterLabeledEdit);
+  FComissAbaterEdit.Alignment := taCenter;
+  FComissAbaterEdit.NCasas := 0;
+  FComissAbaterEdit.NCasasEsq := 7;
+  FComissAbaterEdit.MascEsq := '0000000';
+  FComissAbaterEdit.Caption := 'Código';
+  FComissAbaterEdit.LabelPosition := lpLeft;
+  FComissAbaterEdit.LabelSpacing := 4;
+  FComissAbaterEdit.ReadOnly := true;
+
+
+  FValorMinimoEdit := TNumEditBtu.Create(Self);
+
 
   FWinControlList.Add(DescrLabeledEdit);
   FWinControlList.Add(DescrRedLabeledEdit);
