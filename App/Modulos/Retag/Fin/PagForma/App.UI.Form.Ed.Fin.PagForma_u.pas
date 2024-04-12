@@ -19,20 +19,20 @@ type
     Label1: TLabel;
     TipoComboBox: TComboBox;
     Label2: TLabel;
-    GroupBox1: TGroupBox;
+    VendaExigeGroupBox: TGroupBox;
     AutorizExigeCheckBox: TCheckBox;
     CliExigeCheckBox: TCheckBox;
-    GroupBox2: TGroupBox;
+    ComissGroupBox: TGroupBox;
     ComissPermiteCheckBox: TCheckBox;
     MoldeComissAbaterLabeledEdit: TLabeledEdit;
-    GroupBox3: TGroupBox;
+    AdminstradoraGroupBox: TGroupBox;
     MoldeTaxaAdmLabeledEdit: TLabeledEdit;
     MoldeReembolsoDiasLabeledEdit: TLabeledEdit;
     MoldeValorMinimoLabeledEdit: TLabeledEdit;
     TefExigeCheckBox: TCheckBox;
     DescrLabeledEdit: TLabeledEdit;
     DescrRedLabeledEdit: TLabeledEdit;
-    GroupBox4: TGroupBox;
+    PromoGroupBox: TGroupBox;
     PromoPermiteCheckBox: TCheckBox;
     DescrErroLabel: TLabel;
     DescrRedErroLabel: TLabel;
@@ -56,8 +56,28 @@ uses Sis.UI.Controls.Utils;
 { TPagFormaEdForm }
 
 constructor TPagFormaEdForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
+var
+  I: integer;
 begin
   inherited Create(AOwner, pEntEd, pEntDBI);
+  FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
+
+  FWinControlList.Add(DescrLabeledEdit);
+  FWinControlList.Add(DescrRedLabeledEdit);
+  FWinControlList.Add(TipoComboBox);
+  FWinControlList.Add(UsoComboBox);
+  FWinControlList.Add(RecebComboBox);
+  FWinControlList.Add(AtivoCheckBox);
+  FWinControlList.Add(AdminstradoraGroupBox);
+  FWinControlList.Add(ComissGroupBox);
+  FWinControlList.Add(PromoGroupBox);
+  FWinControlList.Add(VendaExigeGroupBox);
+
+  for I := 0 to FWinControlList.Count - 1 do
+  begin
+    FWinControlList[I].TabOrder := I;
+  end;
+
 //  PegueFormatoDe
 end;
 
