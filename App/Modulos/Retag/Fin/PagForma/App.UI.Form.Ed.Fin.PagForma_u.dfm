@@ -9,6 +9,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
   inherited MensLabel: TLabel
     Top = 210
     Width = 624
+    ExplicitTop = 211
   end
   object TipoTitLabel: TLabel [2]
     Left = 160
@@ -34,6 +35,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 230
     Width = 624
+    ExplicitTop = 231
   end
   object DescrErroLabel: TLabel [6]
     Left = 2
@@ -66,19 +68,19 @@ inherited PagFormaEdForm: TPagFormaEdForm
   inherited BasePanel: TPanel
     Top = 245
     Width = 624
-    ExplicitTop = 247
-    ExplicitWidth = 443
+    ExplicitTop = 244
+    ExplicitWidth = 620
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 241
-      ExplicitLeft = 60
+      Left = 237
+      ExplicitLeft = 233
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 354
-      ExplicitLeft = 173
+      Left = 350
+      ExplicitLeft = 346
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 434
-      ExplicitLeft = 253
+      Left = 430
+      ExplicitLeft = 426
     end
   end
   object UsoComboBox: TComboBox [9]
@@ -130,10 +132,10 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'CREDITO'
       'TRANSFERENCIA')
   end
-  object GroupBox1: TGroupBox [13]
+  object VendaExigeGroupBox: TGroupBox [13]
     Left = 3
     Top = 160
-    Width = 384
+    Width = 408
     Height = 45
     Caption = 'Na Venda, Exige'
     TabOrder = 5
@@ -143,7 +145,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Width = 87
       Height = 17
       Caption = 'Autoriza'#231#227'o'
-      TabOrder = 0
+      TabOrder = 1
     end
     object CliExigeCheckBox: TCheckBox
       Left = 8
@@ -151,20 +153,20 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Width = 65
       Height = 17
       Caption = 'Cliente'
-      TabOrder = 1
+      TabOrder = 0
     end
     object MoldeValorMinimoLabeledEdit: TLabeledEdit
-      Left = 299
+      Left = 328
       Top = 17
       Width = 75
       Height = 23
       Alignment = taCenter
-      EditLabel.Width = 66
+      EditLabel.Width = 95
       EditLabel.Height = 23
-      EditLabel.Caption = 'M'#237'nimo (R$)'
+      EditLabel.Caption = 'Valor M'#237'nimo (R$)'
       LabelPosition = lpLeft
       LabelSpacing = 4
-      TabOrder = 2
+      TabOrder = 3
       Text = '123,45'
     end
     object TefExigeCheckBox: TCheckBox
@@ -173,10 +175,10 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Width = 44
       Height = 17
       Caption = 'TEF'
-      TabOrder = 3
+      TabOrder = 2
     end
   end
-  object GroupBox2: TGroupBox [14]
+  object ComissGroupBox: TGroupBox [14]
     Left = 295
     Top = 108
     Width = 204
@@ -206,7 +208,49 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object GroupBox3: TGroupBox [15]
+  object DescrRedLabeledEdit: TLabeledEdit [15]
+    Left = 499
+    Top = 27
+    Width = 82
+    Height = 23
+    EditLabel.Width = 102
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o Reduzida'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 9
+    Text = ''
+  end
+  object PromoGroupBox: TGroupBox [16]
+    Left = 505
+    Top = 108
+    Width = 86
+    Height = 45
+    Caption = 'Promo'#231#227'o'
+    TabOrder = 10
+    object PromoPermiteCheckBox: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 122
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
+  end
+  object DescrLabeledEdit: TLabeledEdit [17]
+    Left = 58
+    Top = 27
+    Width = 329
+    Height = 23
+    EditLabel.Width = 51
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 8
+    Text = ''
+  end
+  object AdminstradoraGroupBox: TGroupBox [18]
     Left = 3
     Top = 108
     Width = 286
@@ -242,54 +286,12 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object DescrLabeledEdit: TLabeledEdit [16]
-    Left = 58
-    Top = 27
-    Width = 329
-    Height = 23
-    EditLabel.Width = 51
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 8
-    Text = ''
-  end
-  object DescrRedLabeledEdit: TLabeledEdit [17]
-    Left = 499
-    Top = 27
-    Width = 82
-    Height = 23
-    EditLabel.Width = 102
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o Reduzida'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 9
-    Text = ''
-  end
-  object GroupBox4: TGroupBox [18]
-    Left = 505
-    Top = 108
-    Width = 86
-    Height = 45
-    Caption = 'Promo'#231#227'o'
-    TabOrder = 10
-    object PromoPermiteCheckBox: TCheckBox
-      Left = 8
-      Top = 19
-      Width = 122
-      Height = 17
-      Caption = 'Permite'
-      TabOrder = 0
-    end
-  end
   inherited ShowTimer_BasForm: TTimer
     Left = 546
     Top = 203
   end
   inherited ActionList1_Diag: TActionList
     Left = 425
-    Top = 164
+    Top = 100
   end
 end
