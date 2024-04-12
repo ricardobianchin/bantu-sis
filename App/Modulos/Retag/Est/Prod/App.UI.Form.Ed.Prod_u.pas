@@ -20,11 +20,9 @@ type
   TProdEdForm = class(TEdBasForm)
     MeioPanel: TPanel;
     ComunsPanel: TPanel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
-    FAppInfo: IAppInfo;
 
     FFabrDBI: IEntDBI; //
     FTipoDBI: IEntDBI; //
@@ -264,9 +262,7 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pUsuario: IUsuario
   );
 begin
-  inherited Create(AOwner, pEntEd, pEntDBI);
-  FAppInfo := pAppInfo;
-
+  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
   FFabrDBI := pFabrDBI;
   FTipoDBI := pTipoDBI;
   FUnidDBI := pUnidDBI;
@@ -278,7 +274,7 @@ begin
     , pProdTipoDataSetFormCreator //
     , pProdUnidDataSetFormCreator //
     , pProdICMSDataSetFormCreator //
-    , FAppInfo, ErroOutput);
+    , pAppInfo, ErroOutput);
 
   FRetagEstProdEdDBI := pRetagEstProdEdDBI;
 
@@ -678,46 +674,6 @@ begin
   end;
 
   FComunsFr.BarrasFr.LabeledEdit1.SetFocus;
-end;
-
-procedure TProdEdForm.ShowTimer_BasFormTimer(Sender: TObject);
-var
-  sNomeArq: string;
-  sl: TStringList;
-  s: string;
-  Resultado: boolean;
-begin
-  inherited;
-  s := ActiveControl.Name;
-  sNomeArq :=
-    'C:\Pr\app\bantu\bantu-sis\Exe\Configs\Debug\App.UI.Form.Ed.Prod_u.Teclas.txt';
-
-  Resultado := FileExists(sNomeArq);
-  if not Resultado then
-    exit;
-
-  sl := TStringList.Create;
-  try
-    sl.LoadFromFile(sNomeArq);
-    s := sl.Text;
-    DigiteStr(s, 0);
-  finally
-    sl.Free;
-  end;
-  // FObrigFrame.Foque;
-  // FObrigFrame.SimuleDig;
-
-  // OkAct_Diag.Execute;
-
-  // ObrigatoriosProdEdFrame.FCustoAtualNumEdit
-  // ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
-
-
-
-  // FFabrSelectEditFrame.IdNumEdit.Valor := 2;
-
-  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
-  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
 end;
 
 end.

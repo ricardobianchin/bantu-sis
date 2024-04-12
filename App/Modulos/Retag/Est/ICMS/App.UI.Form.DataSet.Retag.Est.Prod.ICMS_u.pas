@@ -161,7 +161,7 @@ begin
 
    oICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, ProdICMSEnt);
 
-   Result := ProdICMSPerg(Self, EntEd, oICMSDBI);
+   Result := ProdICMSPerg(Self, AppInfo, EntEd, oICMSDBI);
 
   if not Result then
     exit;

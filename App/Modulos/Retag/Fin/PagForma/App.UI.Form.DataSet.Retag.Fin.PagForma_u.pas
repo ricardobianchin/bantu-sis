@@ -130,7 +130,7 @@ begin
   oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +
     '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
 
-  Result := PagFormaPerg(Self, EntEd, EntDBI);
+  Result := PagFormaPerg(Self, oAppInfo, EntEd, EntDBI);
 end;
 
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;

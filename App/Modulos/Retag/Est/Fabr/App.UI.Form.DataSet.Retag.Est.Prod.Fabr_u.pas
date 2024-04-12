@@ -62,7 +62,7 @@ begin
 //
 //  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
 
-  Resultado := ProdFabrPerg(Self, EntEd, EntDBI{oFabrDBI});
+  Resultado := ProdFabrPerg(Self, AppInfo, EntEd, EntDBI{oFabrDBI});
   if not Resultado then
     exit;
 
@@ -117,7 +117,7 @@ begin
 //
 //  oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, EntEd);
 
-  Result := ProdFabrPerg(Self, EntEd, EntDBI {oFabrDBI});
+  Result := ProdFabrPerg(Self, AppInfo, EntEd, EntDBI {oFabrDBI});
 
   if not Result then
     exit;

@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
   Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI,
-  System.Generics.Collections;
+  System.Generics.Collections, App.AppInfo;
 
 type
   TPagFormaEdForm = class(TEdBasForm)
@@ -41,7 +41,8 @@ type
     FWinControlList: TList<Vcl.Controls.TWinControl>;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
+    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+      pEntDBI: IEntDBI);
   end;
 
 var
@@ -55,11 +56,12 @@ uses Sis.UI.Controls.Utils;
 
 { TPagFormaEdForm }
 
-constructor TPagFormaEdForm.Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI);
+constructor TPagFormaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+  pEntEd: IEntEd; pEntDBI: IEntDBI);
 var
   I: integer;
 begin
-  inherited Create(AOwner, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
   FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
 
   FWinControlList.Add(DescrLabeledEdit);
@@ -78,7 +80,7 @@ begin
     FWinControlList[I].TabOrder := I;
   end;
 
-//  PegueFormatoDe
+  // PegueFormatoDe
 end;
 
 end.

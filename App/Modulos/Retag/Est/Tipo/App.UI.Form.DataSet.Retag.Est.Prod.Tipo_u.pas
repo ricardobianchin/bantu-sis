@@ -59,7 +59,7 @@ begin
 //
 //  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
 
-  Resultado := ProdTipoPerg(Self, EntEd,EntDBI{ oTipoDBI});
+  Resultado := ProdTipoPerg(Self, AppInfo, EntEd, EntDBI);
   if not Resultado then
     exit;
 
@@ -114,7 +114,7 @@ begin
 //
 //  oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, EntEd);
 //
-  Result := ProdTipoPerg(Self, EntEd, EntDBI{oTipoDBI});
+  Result := ProdTipoPerg(Self, AppInfo, EntEd, EntDBI);
 
   if not Result then
     exit;

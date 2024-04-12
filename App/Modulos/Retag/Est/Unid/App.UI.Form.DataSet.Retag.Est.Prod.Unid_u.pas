@@ -60,7 +60,7 @@ begin
 
   oUnidDBI := RetagEstProdUnidDBICreate(oConn, EntEd);
 
-  Resultado := ProdUnidPerg(Self, EntEd, oUnidDBI);
+  Resultado := ProdUnidPerg(Self, AppInfo, EntEd, oUnidDBI);
   if not Resultado then
     exit;
 
@@ -115,7 +115,7 @@ begin
 
   oUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, EntEd);
 
-  Result := ProdUnidPerg(Self, EntEd, oUnidDBI);
+  Result := ProdUnidPerg(Self, AppInfo, EntEd, oUnidDBI);
 
   if not Result then
     exit;
