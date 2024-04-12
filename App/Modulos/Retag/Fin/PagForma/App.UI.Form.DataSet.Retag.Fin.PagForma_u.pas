@@ -72,7 +72,15 @@ end;
 
 function TRetagFinPagFormaDataSetForm.DoInserir: boolean;
 begin
+  Result := PergEd('Ins');
 
+  if not Result then
+    exit;
+
+  FDMemTable.Insert;
+  FDMemTable.Fields[0].AsInteger := PagFormaEnt.Id;
+  EntToRecord;
+  FDMemTable.Post;
 end;
 
 procedure TRetagFinPagFormaDataSetForm.EntToRecord;
