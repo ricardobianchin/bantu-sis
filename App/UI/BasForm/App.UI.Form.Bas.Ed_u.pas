@@ -40,7 +40,6 @@ type
     procedure ComboKeyPress(Sender: TObject; var Key: Char);
     procedure ComboExit(Sender: TObject);
 
-    procedure EditKeyPress(Sender: TObject; var Key: Char); override;
  public
     { Public declarations }
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
@@ -196,16 +195,6 @@ begin
     ErroOutput.Exibir(sFrase);
     exit;
   end;
-end;
-
-procedure TEdBasForm.EditKeyPress(Sender: TObject; var Key: Char);
-begin
-  inherited EditKeyPress(Sender, Key);
-//  if Key = #13 then
-//  begin
-//    Key := #0;
-//    SelecioneProximo;
-//  end;
 end;
 
 function TEdBasForm.PodeOk: Boolean;

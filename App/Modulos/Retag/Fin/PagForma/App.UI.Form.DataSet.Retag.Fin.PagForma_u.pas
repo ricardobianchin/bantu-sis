@@ -17,6 +17,7 @@ type
     function GetPagFormaEnt: IPagFormaEnt;
     property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
 
+    function PergEd(pDataSetStateAbrev: string): boolean;
   protected
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
@@ -103,6 +104,26 @@ procedure TRetagFinPagFormaDataSetForm.LeRegEInsere(q: TDataSet;
 begin
   inherited;
   //o inherited dá conta
+end;
+
+function TRetagFinPagFormaDataSetForm.PergEd(
+  pDataSetStateAbrev: string): boolean;
+var
+  oDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
+
+  oAppInfo: IAppInfo;
+begin
+  inherited;
+  oAppInfo := AppInfo;
+
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    oAppInfo, SisConfig);
+
+  oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +
+    '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
+
+  Result := PagFormaPerg(Self, EntEd, EntDBI);
 end;
 
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;

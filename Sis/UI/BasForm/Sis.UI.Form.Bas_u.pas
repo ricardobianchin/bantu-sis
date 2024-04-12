@@ -32,7 +32,7 @@ type
     procedure SelecioneProximo;
 
     procedure EditKeyDown(Sender:TObject; var Key:word; Shift: TShiftState);virtual;
-    procedure EditKeyPress(Sender: TObject; var Key: Char; pCharExceto:string='');virtual;
+    procedure EditKeyPress(Sender: TObject; var Key: Char);virtual;
 
     function GetKeyPressFiltraTeclado: boolean;
     procedure SetKeyPressFiltraTeclado(Value: boolean);
@@ -75,8 +75,7 @@ begin
 
 end;
 
-procedure TBasForm.EditKeyPress(Sender: TObject; var Key: Char;
-  pCharExceto: string);
+procedure TBasForm.EditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = CHAR_ENTER then
   begin
