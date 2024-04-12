@@ -71,16 +71,16 @@ inherited PagFormaEdForm: TPagFormaEdForm
     ExplicitTop = 244
     ExplicitWidth = 620
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 237
-      ExplicitLeft = 233
+      Left = 233
+      ExplicitLeft = 229
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 350
-      ExplicitLeft = 346
+      Left = 346
+      ExplicitLeft = 342
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 430
-      ExplicitLeft = 426
+      Left = 426
+      ExplicitLeft = 422
     end
   end
   object UsoComboBox: TComboBox [9]
@@ -97,9 +97,9 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'COMPRA')
   end
   object AtivoCheckBox: TCheckBox [10]
-    Left = 439
+    Left = 438
     Top = 74
-    Width = 52
+    Width = 49
     Height = 17
     Caption = 'Ativa'
     TabOrder = 2
@@ -132,9 +132,117 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'CREDITO'
       'TRANSFERENCIA')
   end
-  object VendaExigeGroupBox: TGroupBox [13]
+  object DescrLabeledEdit: TLabeledEdit [13]
+    Left = 58
+    Top = 27
+    Width = 329
+    Height = 23
+    EditLabel.Width = 51
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 8
+    Text = ''
+  end
+  object AdminstradoraGroupBox: TGroupBox [14]
     Left = 3
-    Top = 160
+    Top = 108
+    Width = 273
+    Height = 45
+    Caption = 'Administradora'
+    TabOrder = 7
+    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
+      Left = 55
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 44
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Taxa (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 0
+      Text = '123,45'
+    end
+    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
+      Left = 213
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 92
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Reembolso (Dias)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
+  object PromoGroupBox: TGroupBox [15]
+    Left = 493
+    Top = 108
+    Width = 86
+    Height = 45
+    Caption = 'Promo'#231#227'o'
+    TabOrder = 10
+    object PromoPermiteCheckBox: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 122
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
+  end
+  object ComissGroupBox: TGroupBox [16]
+    Left = 283
+    Top = 108
+    Width = 204
+    Height = 45
+    Caption = 'Comiss'#227'o'
+    TabOrder = 6
+    object ComissPermiteCheckBox: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 63
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
+    object MoldeComissAbaterLabeledEdit: TLabeledEdit
+      Left = 146
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 56
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Abater (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
+  object DescrRedLabeledEdit: TLabeledEdit [17]
+    Left = 499
+    Top = 27
+    Width = 82
+    Height = 23
+    EditLabel.Width = 102
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o Reduzida'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 9
+    Text = ''
+  end
+  object VendaExigeGroupBox: TGroupBox [18]
+    Left = 3
+    Top = 163
     Width = 408
     Height = 45
     Caption = 'Na Venda, Exige'
@@ -178,120 +286,12 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
     end
   end
-  object ComissGroupBox: TGroupBox [14]
-    Left = 283
-    Top = 108
-    Width = 204
-    Height = 45
-    Caption = 'Comiss'#227'o'
-    TabOrder = 6
-    object ComissPermiteCheckBox: TCheckBox
-      Left = 8
-      Top = 19
-      Width = 63
-      Height = 17
-      Caption = 'Permite'
-      TabOrder = 0
-    end
-    object MoldeComissAbaterLabeledEdit: TLabeledEdit
-      Left = 146
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 56
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Abater (%)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 1
-      Text = '123,45'
-    end
-  end
-  object DescrRedLabeledEdit: TLabeledEdit [15]
-    Left = 499
-    Top = 27
-    Width = 82
-    Height = 23
-    EditLabel.Width = 102
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o Reduzida'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 9
-    Text = ''
-  end
-  object PromoGroupBox: TGroupBox [16]
-    Left = 493
-    Top = 108
-    Width = 86
-    Height = 45
-    Caption = 'Promo'#231#227'o'
-    TabOrder = 10
-    object PromoPermiteCheckBox: TCheckBox
-      Left = 8
-      Top = 19
-      Width = 122
-      Height = 17
-      Caption = 'Permite'
-      TabOrder = 0
-    end
-  end
-  object DescrLabeledEdit: TLabeledEdit [17]
-    Left = 58
-    Top = 27
-    Width = 329
-    Height = 23
-    EditLabel.Width = 51
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 8
-    Text = ''
-  end
-  object AdminstradoraGroupBox: TGroupBox [18]
-    Left = 3
-    Top = 108
-    Width = 273
-    Height = 45
-    Caption = 'Administradora'
-    TabOrder = 7
-    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
-      Left = 55
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 44
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Taxa (%)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 0
-      Text = '123,45'
-    end
-    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
-      Left = 213
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 92
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Reembolso (Dias)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 1
-      Text = '123,45'
-    end
-  end
   inherited ShowTimer_BasForm: TTimer
     Left = 546
     Top = 203
   end
   inherited ActionList1_Diag: TActionList
-    Left = 425
-    Top = 100
+    Left = 553
+    Top = 52
   end
 end
