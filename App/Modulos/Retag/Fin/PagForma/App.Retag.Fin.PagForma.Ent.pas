@@ -66,6 +66,8 @@ type
     function GetAVista: boolean;
     procedure SetAVista(Value: boolean);
     property AVista: boolean read GetAVista write SetAVista;
+
+    function GetUsoStr: string;
   end;
 
 implementation

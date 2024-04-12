@@ -2,7 +2,8 @@ unit App.Retag.Fin.PagForma.Ent_u;
 
 interface
 
-uses App.Ent.Ed.Id.Descr, App.FIn.PagFormaTipo, App.Ent.Ed.Id.Descr_u, App.Retag.Fin.PagForma.Ent;
+uses App.Ent.Ed.Id.Descr, App.FIn.PagFormaTipo, App.Ent.Ed.Id.Descr_u, App.Retag.Fin.PagForma.Ent,
+  Sis.Types.Bool_u;
 
 type
   TPagFormaEnt = class(TEntIdDescr, IPagFormaEnt)
@@ -83,6 +84,7 @@ type
     function GetTitulo: string; override;
 
     function GetDescrCaption: string; override;
+    function GetStrDescreve: string; override;
 
 
   public
@@ -112,6 +114,7 @@ type
 
     procedure LimparEnt; override;
 
+    function GetUsoStr: string;
 
     constructor Create(pLojaId: smallint; pUsuarioId: integer;
       pMachineIdentId: smallint; pPagFormaTipo: IPagFormaTipo);
@@ -218,6 +221,11 @@ begin
   Result := FSis;
 end;
 
+function TPagFormaEnt.GetStrDescreve: string;
+begin
+  Result := PagFormaTipo.DescrRed + ' ' + Descr + ' ' + GetUsoStr;
+end;
+
 function TPagFormaEnt.GetTaxaAdmPerc: Currency;
 begin
   Result := FTaxaAdmPerc;
@@ -231,6 +239,11 @@ end;
 function TPagFormaEnt.GetTitulo: string;
 begin
   Result := 'Formas de Pagamento';
+end;
+
+function TPagFormaEnt.GetUsoStr: string;
+begin
+  Result := Iif(FParaVenda, 'PARA VENDA', 'PARA COMPRA');
 end;
 
 function TPagFormaEnt.GetUsuarioId: integer;
