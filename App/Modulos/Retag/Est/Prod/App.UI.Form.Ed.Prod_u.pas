@@ -48,12 +48,7 @@ type
     procedure BarrasFrEditKeyPress(Sender: TObject; var Key: Char);
     procedure BarrasEditExit(Sender: TObject);
 
-    procedure ComboKeyPress(Sender: TObject; var Key: Char);
-    procedure ComboExit(Sender: TObject);
-
     procedure FabrComboExit(Sender: TObject);
-
-    procedure EditKeyPress(Sender: TObject; var Key: Char);
 
     procedure DescrEditExit(Sender: TObject);
 
@@ -202,48 +197,6 @@ begin
     OkAct_Diag.Execute;
   end;
 
-end;
-
-procedure TProdEdForm.ComboExit(Sender: TObject);
-var
-  Combo: TComboBox;
-  Fr: TComboBoxProdEdFrame;
-begin
-  if not(Sender is TComboBox) then
-    exit;
-
-  Combo := TComboBox(Sender);
-
-  if not(Combo.Owner is TComboBoxProdEdFrame) then
-    exit;
-  Fr := TComboBoxProdEdFrame(Combo.Owner);
-  if Fr.Id = 0 then
-  begin
-    Fr.ExibaMens('Obrigatório');
-  end;
-end;
-
-procedure TProdEdForm.ComboKeyPress(Sender: TObject; var Key: Char);
-var
-  Combo: TComboBox;
-  Fr: TComboBoxProdEdFrame;
-begin
-  if not(Sender is TComboBox) then
-    exit;
-
-  Combo := TComboBox(Sender);
-
-  if (Combo.Owner is TComboBoxProdEdFrame) then
-  begin
-    Fr := TComboBoxProdEdFrame(Combo.Owner);
-    Fr.ComboBox1KeyPress(Combo, Key);
-  end;
-
-  if Key = #13 then
-  begin
-    Key := #0;
-    SelecioneProximo;
-  end;
 end;
 
 procedure TProdEdForm.ControlesToEnt;
@@ -512,16 +465,6 @@ begin
       FComunsFr.DescrRedErroLabel.Caption := 'Obrigatório';
   end;
   FabrDescrsOk(False);
-end;
-
-procedure TProdEdForm.EditKeyPress(Sender: TObject; var Key: Char);
-begin
-  inherited EditKeyPress(Sender, Key);
-  if Key = #13 then
-  begin
-    Key := #0;
-    SelecioneProximo;
-  end;
 end;
 
 procedure TProdEdForm.EntToControles;

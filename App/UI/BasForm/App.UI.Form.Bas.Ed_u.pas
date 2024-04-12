@@ -36,7 +36,12 @@ type
     function GravouOk: boolean; virtual; abstract;
 
     procedure AtualizeAlteracaoTexto; override;
-  public
+
+    procedure ComboKeyPress(Sender: TObject; var Key: Char);
+    procedure ComboExit(Sender: TObject);
+
+    procedure EditKeyPress(Sender: TObject; var Key: Char); override;
+ public
     { Public declarations }
     constructor Create(AOwner: TComponent; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
   end;
@@ -48,7 +53,8 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils, Sis.UI.IO.Input.Perg;
+uses App.DB.Utils, Sis.UI.IO.Input.Perg,
+  App.UI.Controls.ComboBox.Select.DB.Frame_u;
 
 { TEdBasForm }
 
@@ -125,6 +131,48 @@ begin
   inherited;
 end;
 
+procedure TEdBasForm.ComboExit(Sender: TObject);
+var
+  Combo: TComboBox;
+  Fr: TComboBoxSelectDBFrame;
+begin
+  if not(Sender is TComboBox) then
+    exit;
+
+  Combo := TComboBox(Sender);
+
+  if not(Combo.Owner is TComboBoxSelectDBFrame) then
+    exit;
+  Fr := TComboBoxSelectDBFrame(Combo.Owner);
+  if Fr.Id = 0 then
+  begin
+    Fr.ExibaMens('Obrigatório');
+  end;
+end;
+
+procedure TEdBasForm.ComboKeyPress(Sender: TObject; var Key: Char);
+var
+  Combo: TComboBox;
+  Fr: TComboBoxSelectDBFrame;
+begin
+  if not(Sender is TComboBox) then
+    exit;
+
+  Combo := TComboBox(Sender);
+
+  if (Combo.Owner is TComboBoxSelectDBFrame) then
+  begin
+    Fr := TComboBoxSelectDBFrame(Combo.Owner);
+    Fr.ComboBox1KeyPress(Combo, Key);
+  end;
+
+  if Key = #13 then
+  begin
+    Key := #0;
+    SelecioneProximo;
+  end;
+end;
+
 function TEdBasForm.ControlesOk: boolean;
 begin
   Result := True;
@@ -148,6 +196,16 @@ begin
     ErroOutput.Exibir(sFrase);
     exit;
   end;
+end;
+
+procedure TEdBasForm.EditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited EditKeyPress(Sender, Key);
+//  if Key = #13 then
+//  begin
+//    Key := #0;
+//    SelecioneProximo;
+//  end;
 end;
 
 function TEdBasForm.PodeOk: Boolean;
