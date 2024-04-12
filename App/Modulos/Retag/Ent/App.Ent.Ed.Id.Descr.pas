@@ -13,6 +13,9 @@ type
 
     function GetDescrCaption: string;
     property DescrCaption: string read GetDescrCaption;
+
+    function GetStrDescreve: string;
+    property StrDescreve: string read GetStrDescreve;
   end;
 
 implementation

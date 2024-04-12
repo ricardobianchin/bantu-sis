@@ -19,6 +19,7 @@ type
     }
 
     function GetAsStringExib: string; override;
+    function GetStrDescreve: string; virtual;
   public
     property Descr: string read GetDescr write SetDescr;
 
@@ -27,6 +28,8 @@ type
     procedure LimparEnt; override;
     function GetAsString: string; override;
     property DescrCaption: string read GetDescrCaption;
+
+    property StrDescreve: string read GetStrDescreve;
 
     constructor Create(pState: TDataSetState; pId: integer = 0;
       pDescr: string = '');
@@ -88,6 +91,11 @@ end;
 function TEntIdDescr.GetDescrCaption: string;
 begin
   Result := 'Descrição';
+end;
+
+function TEntIdDescr.GetStrDescreve: string;
+begin
+  Result := Id.ToString + ' - ' +Descr;
 end;
 
 procedure TEntIdDescr.PegueDe(pOutraEntidade: IEntidade);
