@@ -26,7 +26,7 @@ type
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 
-    function DoProdPerg(pDataSetStateAbrev: string): boolean;
+    function PergEd(pDataSetStateAbrev: string): boolean;
 
   protected
     { Protected declarations }
@@ -82,7 +82,7 @@ procedure TRetagEstProdDataSetForm.DoAlterar;
 var
   Resultado: boolean;
 begin
-  Resultado := DoProdPerg('Alt');
+  Resultado := PergEd('Alt');
 
   if not Resultado then
     exit;
@@ -129,7 +129,7 @@ end;
 function TRetagEstProdDataSetForm.DoInserir: boolean;
 begin
   inherited;
-  Result := DoProdPerg('Ins');
+  Result := PergEd('Ins');
 
   if not Result then
     exit;
@@ -158,7 +158,7 @@ begin
   oProdDBI.Ler;
 end;
 
-function TRetagEstProdDataSetForm.DoProdPerg(pDataSetStateAbrev
+function TRetagEstProdDataSetForm.PergEd(pDataSetStateAbrev
   : string): boolean;
 var
   oProdDBI: IEntDBI;
