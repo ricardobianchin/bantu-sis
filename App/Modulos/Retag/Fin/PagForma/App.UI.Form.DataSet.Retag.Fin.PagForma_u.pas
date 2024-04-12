@@ -76,7 +76,12 @@ end;
 
 procedure TRetagFinPagFormaDataSetForm.EntToCampos;
 begin
-
+  FDMemTable.Fields[0 {forma_id}].AsInteger := PagFormaEnt.Id;
+  FDMemTable.Fields[1 {forma_tipo_descr}].AsString := PagFormaEnt.PagFormaTipo.Descr;
+  FDMemTable.Fields[2 {descr}].AsString := PagFormaEnt.Descr;
+  FDMemTable.Fields[3 {descr_red}].AsString := PagFormaEnt.DescrRed;
+  FDMemTable.Fields[4 {Para_Venda}].AsBoolean := PagFormaEnt.ParaVenda;
+  FDMemTable.Fields[5 {Ativo}].AsBoolean := PagFormaEnt.Ativo;
 end;
 
 function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
