@@ -362,6 +362,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>PagFormaEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
