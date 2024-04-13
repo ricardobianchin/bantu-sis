@@ -9,7 +9,8 @@ type
   private
   public
     procedure PreencherItens(pProdEdForm: TObject);
-    function FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
+    function FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint;
+      pDescr, pDescrRed: string; pResultsSL: TStringList): boolean;
   end;
 
 implementation
@@ -18,7 +19,9 @@ uses App.UI.Form.Ed.Prod_u, Data.DB, System.SysUtils, Sis.Types.Bool_u;
 
 { TRetagEstProdEdDBI }
 
-function TRetagEstProdEdDBI.FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
+function TRetagEstProdEdDBI.FabrDescrsExistentes(pProdIdExceto: integer;
+  pFabrId: smallint; pDescr, pDescrRed: string; pResultsSL: TStringList)
+  : boolean;
 var
   oForm: TProdEdForm;
   q: TDataSet;
@@ -31,11 +34,11 @@ var
 begin
   Result := False;
 
-  sFormat := 'SELECT PROD_ID_RET, DESCR_RET, DESCR_RED_RET'
-    + ' FROM RETAG_PROD_ED_PA.FABR_DESCRS_EXISTENTES_GET(%d, %d,''%s'',''%s'');';
+  sFormat := 'SELECT PROD_ID_RET, DESCR_RET, DESCR_RED_RET' +
+    ' FROM RETAG_PROD_ED_PA.FABR_DESCRS_EXISTENTES_GET(%d, %d,''%s'',''%s'');';
 
   sSql := Format(sFormat, [pProdIdExceto, pFabrId, pDescr, pDescrRed]);
-  pResultSL.Clear;
+  pResultsSL.Clear;
 
   DBConnection.Abrir;
   try
@@ -48,14 +51,14 @@ begin
 
       if Descr = pDescr then
       begin
-        sLinha := '1'+ProdId.ToString+'-'+Descr;
-        pResultSL.Add(sLinha);
+        sLinha := '1' + ProdId.ToString + '-' + Descr;
+        pResultsSL.Add(sLinha);
       end;
 
       if DescrRed = pDescrRed then
       begin
-        sLinha := '2'+ProdId.ToString+'-'+DescrRed;
-        pResultSL.Add(sLinha);
+        sLinha := '2' + ProdId.ToString + '-' + DescrRed;
+        pResultsSL.Add(sLinha);
       end;
 
       q.Next;
@@ -93,10 +96,14 @@ begin
       Descr := q.Fields[2].AsString;
 
       case RegTipo of
-        1: oForm.FComunsFr.FabrFr.PegarItem(Id, Descr);
-        2: oForm.FComunsFr.TipoFr.PegarItem(Id, Descr);
-        3: oForm.FComunsFr.UnidFr.PegarItem(Id, Descr);
-        4: oForm.FComunsFr.ICMSFr.PegarItem(Id, Descr);
+        1:
+          oForm.FComunsFr.FabrFr.PegarItem(Id, Descr);
+        2:
+          oForm.FComunsFr.TipoFr.PegarItem(Id, Descr);
+        3:
+          oForm.FComunsFr.UnidFr.PegarItem(Id, Descr);
+        4:
+          oForm.FComunsFr.ICMSFr.PegarItem(Id, Descr);
       end;
 
       q.Next;
