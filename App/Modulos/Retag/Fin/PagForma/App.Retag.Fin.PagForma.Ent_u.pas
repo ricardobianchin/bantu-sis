@@ -134,6 +134,7 @@ begin
   FUsuarioId := pUsuarioId;
   FMachineIdentId := pMachineIdentId;
   FPagFormaTipo := pPagFormaTipo;
+  LimparEnt;
 end;
 
 function TPagFormaEnt.GetAtivo: boolean;
@@ -223,7 +224,11 @@ end;
 
 function TPagFormaEnt.GetStrDescreve: string;
 begin
-  Result := PagFormaTipo.DescrRed + ' ' + Descr + ' ' + GetUsoStr;
+  Result := PagFormaTipo.DescrRed + ' ' + Descr;
+  if Descr = '' then
+    exit;
+
+  Result := Result + ' ' + GetUsoStr;
 end;
 
 function TPagFormaEnt.GetTaxaAdmPerc: Currency;
