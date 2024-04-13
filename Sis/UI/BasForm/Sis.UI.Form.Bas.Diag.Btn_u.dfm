@@ -9,12 +9,12 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
     Top = 212
     Width = 451
     Font.Color = 166
-    ExplicitTop = 213
+    ExplicitTop = 212
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 269
     Width = 451
-    ExplicitTop = 270
+    ExplicitTop = 269
   end
   object BasePanel: TPanel [2]
     Left = 0
@@ -25,8 +25,6 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 233
-    ExplicitWidth = 455
     DesignSize = (
       451
       37)

@@ -22,6 +22,7 @@ type
   private
     { Private declarations }
   protected
+    procedure CriarControles; virtual;
     procedure AjusteControles; virtual;
   public
     { Public declarations }
@@ -49,6 +50,11 @@ begin
   oControlsAlinhador.Execute;
 end;
 
+procedure TDiagBtnBasForm.CriarControles;
+begin
+
+end;
+
 procedure TDiagBtnBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -72,6 +78,7 @@ end;
 procedure TDiagBtnBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+  CriarControles;
   AjusteControles;
 end;
 
