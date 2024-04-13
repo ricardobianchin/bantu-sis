@@ -1,15 +1,15 @@
 inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
-  ClientHeight = 282
-  ClientWidth = 590
+  ClientHeight = 281
+  ClientWidth = 586
   OnCreate = FormCreate
-  ExplicitWidth = 602
-  ExplicitHeight = 320
+  ExplicitWidth = 598
+  ExplicitHeight = 319
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 210
-    Width = 590
-    ExplicitTop = 211
+    Top = 209
+    Width = 586
+    ExplicitTop = 209
   end
   object TipoTitLabel: TLabel [2]
     Left = 160
@@ -33,9 +33,9 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Tipo'
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 230
-    Width = 590
-    ExplicitTop = 231
+    Top = 229
+    Width = 586
+    ExplicitTop = 229
   end
   object DescrErroLabel: TLabel [6]
     Left = 2
@@ -66,94 +66,24 @@ inherited PagFormaEdForm: TPagFormaEdForm
     StyleElements = []
   end
   inherited BasePanel: TPanel
-    Top = 245
-    Width = 590
-    ExplicitTop = 244
-    ExplicitWidth = 620
+    Top = 244
+    Width = 586
+    ExplicitTop = 243
+    ExplicitWidth = 582
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 191
-      ExplicitLeft = 221
+      Left = 183
+      ExplicitLeft = 179
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 304
-      ExplicitLeft = 334
+      Left = 296
+      ExplicitLeft = 292
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 384
-      ExplicitLeft = 414
+      Left = 376
+      ExplicitLeft = 372
     end
   end
-  object UsoComboBox: TComboBox [9]
-    Left = 184
-    Top = 71
-    Width = 81
-    Height = 23
-    Style = csDropDownList
-    ItemIndex = 1
-    TabOrder = 1
-    Text = 'COMPRA'
-    Items.Strings = (
-      'VENDA'
-      'COMPRA')
-  end
-  object AtivoCheckBox: TCheckBox [10]
-    Left = 438
-    Top = 74
-    Width = 49
-    Height = 17
-    Caption = 'Ativa'
-    TabOrder = 2
-  end
-  object DescrLabeledEdit: TLabeledEdit [11]
-    Left = 58
-    Top = 27
-    Width = 329
-    Height = 23
-    EditLabel.Width = 51
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 8
-    Text = ''
-  end
-  object AdminstradoraGroupBox: TGroupBox [12]
-    Left = 3
-    Top = 108
-    Width = 273
-    Height = 45
-    Caption = 'Administradora'
-    TabOrder = 7
-    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
-      Left = 55
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 44
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Taxa (%)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 0
-      Text = '123,45'
-    end
-    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
-      Left = 213
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 92
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Reembolso (Dias)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 1
-      Text = '123,45'
-    end
-  end
-  object DescrRedLabeledEdit: TLabeledEdit [13]
+  object DescrRedLabeledEdit: TLabeledEdit [9]
     Left = 499
     Top = 27
     Width = 82
@@ -166,7 +96,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     TabOrder = 9
     Text = ''
   end
-  object VendaExigeGroupBox: TGroupBox [14]
+  object VendaExigeGroupBox: TGroupBox [10]
     Left = 3
     Top = 163
     Width = 408
@@ -212,7 +142,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
     end
   end
-  object ComissGroupBox: TGroupBox [15]
+  object ComissGroupBox: TGroupBox [11]
     Left = 283
     Top = 108
     Width = 204
@@ -242,7 +172,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object TipoComboBox: TComboBox [16]
+  object TipoComboBox: TComboBox [12]
     Left = 30
     Top = 71
     Width = 122
@@ -257,7 +187,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'CREDITO'
       'TRANSFERENCIA')
   end
-  object PromoGroupBox: TGroupBox [17]
+  object PromoGroupBox: TGroupBox [13]
     Left = 493
     Top = 108
     Width = 86
@@ -273,7 +203,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 0
     end
   end
-  object RecebComboBox: TComboBox [18]
+  object RecebComboBox: TComboBox [14]
     Left = 347
     Top = 71
     Width = 81
@@ -286,12 +216,82 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'A VISTA'
       'A PRAZO')
   end
+  object AdminstradoraGroupBox: TGroupBox [15]
+    Left = 3
+    Top = 108
+    Width = 273
+    Height = 45
+    Caption = 'Administradora'
+    TabOrder = 7
+    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
+      Left = 55
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 44
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Taxa (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 0
+      Text = '123,45'
+    end
+    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
+      Left = 213
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 92
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Reembolso (Dias)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
+  object AtivoCheckBox: TCheckBox [16]
+    Left = 438
+    Top = 74
+    Width = 49
+    Height = 17
+    Caption = 'Ativa'
+    TabOrder = 2
+  end
+  object DescrLabeledEdit: TLabeledEdit [17]
+    Left = 58
+    Top = 27
+    Width = 329
+    Height = 23
+    EditLabel.Width = 51
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 8
+    Text = ''
+  end
+  object UsoComboBox: TComboBox [18]
+    Left = 184
+    Top = 71
+    Width = 81
+    Height = 23
+    Style = csDropDownList
+    ItemIndex = 1
+    TabOrder = 1
+    Text = 'COMPRA'
+    Items.Strings = (
+      'VENDA'
+      'COMPRA')
+  end
   inherited ShowTimer_BasForm: TTimer
     Left = 426
     Top = 155
   end
   inherited ActionList1_Diag: TActionList
-    Left = 433
+    Left = 481
     Top = 164
   end
 end

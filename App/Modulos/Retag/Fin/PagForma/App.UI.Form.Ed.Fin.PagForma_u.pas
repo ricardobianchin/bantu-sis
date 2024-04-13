@@ -36,6 +36,7 @@ type
     PromoPermiteCheckBox: TCheckBox;
     DescrErroLabel: TLabel;
     DescrRedErroLabel: TLabel;
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FWinControlList: TList<Vcl.Controls.TWinControl>;
@@ -112,46 +113,8 @@ end;
 
 constructor TPagFormaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
-var
-  I: integer;
 begin
   inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
-  FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
-
-  FTaxaAdmEdit := TNumEditBtu.Create(Self);
-  FReembolsoDiasEdit := TNumEditBtu.Create(Self);
-
-  FComissAbaterEdit := TNumEditBtu.Create(Self);
-  PegueFormatoDe(FComissAbaterEdit, MoldeComissAbaterLabeledEdit);
-  FComissAbaterEdit.Alignment := taCenter;
-  FComissAbaterEdit.NCasas := 0;
-  FComissAbaterEdit.NCasasEsq := 7;
-  FComissAbaterEdit.MascEsq := '0000000';
-  FComissAbaterEdit.Caption := 'Código';
-  FComissAbaterEdit.LabelPosition := lpLeft;
-  FComissAbaterEdit.LabelSpacing := 4;
-  FComissAbaterEdit.ReadOnly := true;
-
-
-  FValorMinimoEdit := TNumEditBtu.Create(Self);
-
-
-  FWinControlList.Add(DescrLabeledEdit);
-  FWinControlList.Add(DescrRedLabeledEdit);
-  FWinControlList.Add(TipoComboBox);
-  FWinControlList.Add(UsoComboBox);
-  FWinControlList.Add(RecebComboBox);
-  FWinControlList.Add(AtivoCheckBox);
-  FWinControlList.Add(AdminstradoraGroupBox);
-  FWinControlList.Add(ComissGroupBox);
-  FWinControlList.Add(PromoGroupBox);
-  FWinControlList.Add(VendaExigeGroupBox);
-
-  for I := 0 to FWinControlList.Count - 1 do
-  begin
-    FWinControlList[I].TabOrder := I;
-  end;
-
   // PegueFormatoDe
 end;
 
@@ -186,6 +149,80 @@ end;
 function TPagFormaEdForm.GravouOk: boolean;
 begin
 
+end;
+
+procedure TPagFormaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  I: integer;
+begin
+  inherited;
+  FWinControlList := TList<Vcl.Controls.TWinControl>.Create;
+
+  FTaxaAdmEdit := TNumEditBtu.Create(Self);
+  PegueFormatoDe(FTaxaAdmEdit, MoldeTaxaAdmLabeledEdit);
+  FTaxaAdmEdit.Alignment := taRightJustify;
+  FTaxaAdmEdit.NCasas := 2;
+  FTaxaAdmEdit.NCasasEsq := 3;
+  FTaxaAdmEdit.MascEsq := '##0';
+  FTaxaAdmEdit.Caption := MoldeTaxaAdmLabeledEdit.EditLabel.Caption;
+  FTaxaAdmEdit.LabelPosition := lpLeft;
+  FTaxaAdmEdit.LabelSpacing := 4;
+  FTaxaAdmEdit.Valor := 0;
+
+  FReembolsoDiasEdit := TNumEditBtu.Create(Self);
+  PegueFormatoDe(FComissAbaterEdit, MoldeReembolsoDiasLabeledEdit);
+  FReembolsoDiasEdit.Alignment := taCenter;
+  FReembolsoDiasEdit.Caption := MoldeReembolsoDiasLabeledEdit.EditLabel.Caption;
+  FReembolsoDiasEdit.MaxLength := 5;
+  FReembolsoDiasEdit.NCasas := 0;
+  FReembolsoDiasEdit.NCasasEsq := 4;
+  FReembolsoDiasEdit.Valor := 0;
+  FReembolsoDiasEdit.MascEsq := '###0';
+  FReembolsoDiasEdit.Valor := 0;
+
+  FComissAbaterEdit := TNumEditBtu.Create(Self);
+  PegueFormatoDe(FComissAbaterEdit, MoldeComissAbaterLabeledEdit);
+  FComissAbaterEdit.Alignment := taRightJustify;
+  FComissAbaterEdit.NCasas := 2;
+  FComissAbaterEdit.NCasasEsq := 3;
+  FComissAbaterEdit.MascEsq := '##0';
+  FComissAbaterEdit.Caption := MoldeComissAbaterLabeledEdit.EditLabel.Caption;
+  FComissAbaterEdit.LabelPosition := lpLeft;
+  FComissAbaterEdit.LabelSpacing := 4;
+  FComissAbaterEdit.Valor := 0;
+
+  FValorMinimoEdit := TNumEditBtu.Create(Self);
+  PegueFormatoDe(FValorMinimoEdit, MoldeValorMinimoLabeledEdit);
+  FValorMinimoEdit.Alignment := taRightJustify;
+  FValorMinimoEdit.NCasas := 2;
+  FValorMinimoEdit.NCasasEsq := 5;
+  FValorMinimoEdit.MascEsq := '####0';
+  FValorMinimoEdit.Caption := MoldeValorMinimoLabeledEdit.EditLabel.Caption;
+  FValorMinimoEdit.LabelPosition := lpLeft;
+  FValorMinimoEdit.LabelSpacing := 4;
+  FValorMinimoEdit.Valor := 0;
+
+  FWinControlList.Add(DescrLabeledEdit);
+  FWinControlList.Add(DescrRedLabeledEdit);
+  FWinControlList.Add(TipoComboBox);
+  FWinControlList.Add(UsoComboBox);
+  FWinControlList.Add(RecebComboBox);
+  FWinControlList.Add(AtivoCheckBox);
+  FWinControlList.Add(AdminstradoraGroupBox);
+  FWinControlList.Add(ComissGroupBox);
+  FWinControlList.Add(PromoGroupBox);
+  FWinControlList.Add(VendaExigeGroupBox);
+
+  FTaxaAdmEdit.TabOrder := 0;
+  FReembolsoDiasEdit.TabOrder := 1;
+
+  FComissAbaterEdit.TabOrder := 1;
+  FValorMinimoEdit.TabOrder := 3;
+
+  for I := 0 to FWinControlList.Count - 1 do
+  begin
+    FWinControlList[I].TabOrder := I;
+  end;
 end;
 
 end.
