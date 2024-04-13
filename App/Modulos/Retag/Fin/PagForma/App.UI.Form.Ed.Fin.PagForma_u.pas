@@ -8,7 +8,8 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
   Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI, NumEditBtu,
-  System.Generics.Collections, App.AppInfo, App.Retag.Fin.Factory;
+  System.Generics.Collections, App.AppInfo, App.Retag.Fin.Factory,
+  Sis.Types.Bool_u;
 
 type
   TPagFormaEdForm = class(TEdBasForm)
@@ -17,7 +18,7 @@ type
     AtivoCheckBox: TCheckBox;
     RecebComboBox: TComboBox;
     Label1: TLabel;
-    TipoComboBox: TComboBox;
+    PagFormaTipoComboBox: TComboBox;
     Label2: TLabel;
     VendaExigeGroupBox: TGroupBox;
     AutorizExigeCheckBox: TCheckBox;
@@ -106,9 +107,32 @@ begin
 end;
 
 procedure TPagFormaEdForm.ControlesToEnt;
+var
+  i: integer;
 begin
   inherited;
+  i := PagFormaTipoComboBox.ItemIndex + 33;
+  PagFormaEnt.PagFormaTipo.Id := i;
 
+  PagFormaEnt.Descr := DescrLabeledEdit.Text;
+  PagFormaEnt.DescrRed := DescrRedLabeledEdit.Text;
+
+  PagFormaEnt.ParaVenda := UsoComboBox.ItemIndex = 0;
+
+  PagFormaEnt.Ativo := AtivoCheckBox.Checked;
+  PagFormaEnt.PromocaoPermite := PromoPermiteCheckBox.Checked;
+  PagFormaEnt.ComicaoPermite := ComissPermiteCheckBox.Checked;
+
+  PagFormaEnt.TaxaAdmPerc := FTaxaAdmEdit.Valor;
+  PagFormaEnt.VendaMinima := FValorMinimoEdit.Valor;
+  PagFormaEnt.ComissaoAbaterPerc := FComissAbaterEdit.Valor;
+  PagFormaEnt.ReembolsoDias := FReembolsoDiasEdit.Valor;
+
+  PagFormaEnt.TEFUsa := TefExigeCheckBox.Checked;
+  PagFormaEnt.AutorizacaoExige := AutorizExigeCheckBox.Checked;
+  PagFormaEnt.PessoaExige := CliExigeCheckBox.Checked;
+
+  PagFormaEnt.AVista := RecebComboBox.ItemIndex = 0;
 end;
 
 constructor TPagFormaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
@@ -124,9 +148,30 @@ begin
 end;
 
 procedure TPagFormaEdForm.EntToControles;
+var
+  i: integer;
 begin
   inherited;
+  i := PagFormaEnt.PagFormaTipo.Id - 33;
+  PagFormaTipoComboBox.ItemIndex := i;
 
+  DescrLabeledEdit.Text := PagFormaEnt.Descr;
+  DescrRedLabeledEdit.Text := PagFormaEnt.DescrRed;
+
+  UsoComboBox.ItemIndex := Iif(PagFormaEnt.ParaVenda, 0, 1);
+  AtivoCheckBox.Checked := PagFormaEnt.Ativo;
+  PromoPermiteCheckBox.Checked := PagFormaEnt.PromocaoPermite;
+  ComissPermiteCheckBox.Checked := PagFormaEnt.ComicaoPermite;
+
+  FTaxaAdmEdit.Valor := PagFormaEnt.TaxaAdmPerc;
+  FValorMinimoEdit.Valor := PagFormaEnt.VendaMinima;
+  FComissAbaterEdit.Valor := PagFormaEnt.ComissaoAbaterPerc;
+  FReembolsoDiasEdit.Valor := PagFormaEnt.ReembolsoDias;
+
+  TefExigeCheckBox.Checked := PagFormaEnt.TEFUsa;
+  AutorizExigeCheckBox.Checked := PagFormaEnt.AutorizacaoExige;
+  CliExigeCheckBox.Checked := PagFormaEnt.PessoaExige;
+  RecebComboBox.ItemIndex := iif(PagFormaEnt.AVista, 0, 1);
 end;
 
 function TPagFormaEdForm.GetObjetivoStr: string;

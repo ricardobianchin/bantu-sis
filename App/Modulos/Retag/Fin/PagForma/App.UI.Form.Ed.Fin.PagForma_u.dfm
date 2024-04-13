@@ -172,7 +172,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object TipoComboBox: TComboBox [12]
+  object PagFormaTipoComboBox: TComboBox [12]
     Left = 30
     Top = 71
     Width = 122
