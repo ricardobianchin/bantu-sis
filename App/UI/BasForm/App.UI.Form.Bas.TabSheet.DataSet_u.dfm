@@ -2,27 +2,27 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   Caption = 'TabSheetDataSetBasForm'
   ClientWidth = 700
   WindowState = wsMaximized
-  ExplicitTop = -46
+  ExplicitTop = -91
   ExplicitWidth = 700
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
-    Top = 445
+    Top = 442
     Width = 700
-    Height = 32
+    Height = 35
     Align = alBottom
     AutoSize = False
-    ExplicitTop = 445
+    ExplicitTop = 442
     ExplicitWidth = 700
-    ExplicitHeight = 32
+    ExplicitHeight = 35
     inherited TitToolBar1_BasTabSheet: TToolBar
       Width = 700
-      Height = 27
+      Height = 29
       AutoSize = False
       ButtonHeight = 30
       ButtonWidth = 59
       HotImages = SisImgDataModule.ImageList24Flat
       ExplicitWidth = 700
-      ExplicitHeight = 27
+      ExplicitHeight = 29
       object Panel1: TPanel
         Left = 0
         Top = 0
@@ -39,7 +39,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Left = 0
     Top = 0
     Width = 700
-    Height = 445
+    Height = 442
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
