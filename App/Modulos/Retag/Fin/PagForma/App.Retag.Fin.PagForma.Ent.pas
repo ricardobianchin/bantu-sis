@@ -68,6 +68,10 @@ type
     property AVista: boolean read GetAVista write SetAVista;
 
     function GetUsoStr: string;
+
+    function GetFormaTipo: char;
+    procedure SetFormaTipo(Value: char);
+    property FormaTipo: char read GetFormaTipo write SetFormaTipo;
   end;
 
 implementation
