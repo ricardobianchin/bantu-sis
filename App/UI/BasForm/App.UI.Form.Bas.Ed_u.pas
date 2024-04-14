@@ -34,18 +34,19 @@ type
     function GetObjetivoStr: string; virtual; abstract;
 
     function PodeOk: Boolean; override;
-    function ControlesOk: boolean; virtual;
-    function DadosOk: boolean; virtual;
-    function GravouOk: boolean; virtual; abstract;
+    function ControlesOk: Boolean; virtual;
+    function DadosOk: Boolean; virtual;
+    function GravouOk: Boolean; virtual; abstract;
 
     procedure AtualizeAlteracaoTexto; override;
 
     procedure ComboKeyPress(Sender: TObject; var Key: Char);
     procedure ComboExit(Sender: TObject);
 
- public
+  public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
+    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+      pEntDBI: IEntDBI); reintroduce;
   end;
 
 var
@@ -90,7 +91,6 @@ begin
   AjusteCaption;
   AjusteObjetivo;
 
-
 end;
 
 procedure TEdBasForm.AjusteObjetivo;
@@ -126,10 +126,10 @@ end;
 
 procedure TEdBasForm.CancelAct_DiagExecute(Sender: TObject);
 begin
-  {$IFNDEF DEBUG}
+{$IFNDEF DEBUG}
   if not PergBool('Sair sem gravar?') then
     exit;
-  {$ENDIF}
+{$ENDIF}
   inherited;
 end;
 
@@ -175,12 +175,13 @@ begin
   end;
 end;
 
-function TEdBasForm.ControlesOk: boolean;
+function TEdBasForm.ControlesOk: Boolean;
 begin
   Result := True;
 end;
 
-constructor TEdBasForm.Create(AOwner: TComponent ;pAppInfo: IAppInfo;  pEntEd: IEntEd; pEntDBI: IEntDBI);
+constructor TEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+  pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner);
   FAppInfo := pAppInfo;
@@ -188,7 +189,7 @@ begin
   FEntDBI := pEntDBI;
 end;
 
-function TEdBasForm.DadosOk: boolean;
+function TEdBasForm.DadosOk: Boolean;
 var
   sFrase: string;
 begin
@@ -206,12 +207,11 @@ var
   sNomeArq: string;
   sl: TStringList;
   s: string;
-  Resultado: boolean;
+  Resultado: Boolean;
 begin
   inherited;
-//  s := ActiveControl.Name;
-  sNomeArq := FAppInfo.PastaConfigs + 'Debug\' + ClassName + '\' +
-    'Teclas.txt';
+  // s := ActiveControl.Name;
+  sNomeArq := FAppInfo.PastaConfigs + 'Debug\' + ClassName + '\' + 'Teclas.txt';
 
   Resultado := FileExists(sNomeArq);
   if not Resultado then
