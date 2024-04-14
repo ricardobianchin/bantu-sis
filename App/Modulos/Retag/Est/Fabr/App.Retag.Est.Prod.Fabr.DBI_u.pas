@@ -8,15 +8,13 @@ uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Variants,
 type
   TProdFabrDBI = class(TEntDBI)
   private
-    FProdFabrEnt: IProdFabrEnt;
+    function GetFabrEnt: IProdFabrEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
     procedure SetNovaId(pIds: variant); override;
     function GetPackageName: string; override;
-  public
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IProdFabrEnt);
   end;
 
 implementation
@@ -26,11 +24,9 @@ uses System.SysUtils, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
 
 { TProdFabrDBI }
 
-constructor TProdFabrDBI.Create(pDBConnection: IDBConnection;
-  pEntEd: IProdFabrEnt);
+function TProdFabrDBI.GetFabrEnt: IProdFabrEnt;
 begin
-  inherited Create(pDBConnection);
-  FProdFabrEnt := EntEdCastToProdFabrEnt(pEntEd);
+  Result := EntEdCastToProdFabrEnt(EntEd);
 end;
 
 function TProdFabrDBI.GetPackageName: string;
@@ -43,7 +39,7 @@ var
   sFormat: string;
 begin
   sFormat := 'SELECT ID_GRAVADO FROM FABR_PA.GARANTIR(%d,''%s'');';
-  Result := Format(sFormat, [FProdFabrEnt.Id, FProdFabrEnt.Descr]);
+  Result := Format(sFormat, [GetFabrEnt.Id, GetFabrEnt.Descr]);
 end;
 
 function TProdFabrDBI.GetSqlGetExistente(pValues: variant): string;
@@ -69,7 +65,7 @@ end;
 procedure TProdFabrDBI.SetNovaId(pIds: variant);
 begin
   inherited;
-  FProdFabrEnt.Id := VarToInteger(pIds);
+  GetFabrEnt.Id := VarToInteger(pIds);
 end;
 
 end.

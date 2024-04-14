@@ -9,15 +9,13 @@ uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
 type
   TProdICMSDBI = class(TEntDBI, IEntDBI)
   private
-    FProdICMSEnt: IProdICMSEnt;
+    function GetProdICMSEnt: IProdICMSEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pIds: variant); override;
+    procedure SetNovaId(pId: variant); override;
     function GetPackageName: string; override;
-  public
-    constructor Create(pDBConnection: IDBConnection; pProdICMSEnt: IEntEd);
   end;
 
 implementation
@@ -28,16 +26,14 @@ uses System.SysUtils, Sis.Types.strings_u,
 
 { TProdICMSDBI }
 
-constructor TProdICMSDBI.Create(pDBConnection: IDBConnection;
-  pProdICMSEnt: IEntEd);
-begin
-  inherited Create(pDBConnection);
-  FProdICMSEnt := EntEdCastToProdICMSEnt(pProdICMSEnt);
-end;
-
 function TProdICMSDBI.GetPackageName: string;
 begin
   Result := 'ICMS_PA';
+end;
+
+function TProdICMSDBI.GetProdICMSEnt: IProdICMSEnt;
+begin
+  Result := EntEdCastToProdICMSEnt(EntEd);
 end;
 
 function TProdICMSDBI.GetSqlGarantirRegId: string;
@@ -45,11 +41,11 @@ var
   sFormat: string;
   sId, sSigla, sDescr, sPerc, sAtivo: string;
 begin
-  sId := FProdICMSEnt.Id.ToString;
-  sSigla := QuotedStr(FProdICMSEnt.Sigla);
-  sDescr := QuotedStr(FProdICMSEnt.Descr);
-  sPerc := CurrencyToStrPonto(FProdICMSEnt.Perc);
-  sAtivo := BooleanToStrSQL(FProdICMSEnt.Ativo);
+  sId := GetProdICMSEnt.Id.ToString;
+  sSigla := QuotedStr(GetProdICMSEnt.Sigla);
+  sDescr := QuotedStr(GetProdICMSEnt.Descr);
+  sPerc := CurrencyToStrPonto(GetProdICMSEnt.Perc);
+  sAtivo := BooleanToStrSQL(GetProdICMSEnt.Ativo);
 
   sFormat := 'SELECT ID_GRAVADO FROM ICMS_PA.GARANTIR(%s,%s,%s,%s,%s);';
   Result := Format(sFormat, [sId, sSigla, sDescr, sPerc, sAtivo]);
@@ -72,10 +68,10 @@ begin
   Result := 'SELECT ICMS_ID, SIGLA, DESCR, PERC, ATIVO FROM ICMS_PA.LISTA_GET;';
 end;
 
-procedure TProdICMSDBI.SetNovaId(pIds: variant);
+procedure TProdICMSDBI.SetNovaId(pId: variant);
 begin
   inherited;
-  FProdICMSEnt.Id := VarToInteger(pIds);
+  GetProdICMSEnt.Id := VarToInteger(pId);
 end;
 
 end.
