@@ -99,6 +99,10 @@ begin
   DescrLabeledEdit.OnKeyPress := EditKeyPress;
   DescrRedLabeledEdit.OnKeyPress := EditKeyPress;
 
+  PagFormaTipoComboBox.OnKeyPress := ComboKeyPress;
+  UsoComboBox.OnKeyPress := ComboKeyPress;
+  RecebComboBox.OnKeyPress := ComboKeyPress;
+
   case PagFormaEnt.State of
     dsInactive:
       ;

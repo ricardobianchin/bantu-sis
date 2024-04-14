@@ -32,7 +32,8 @@ type
     procedure SelecioneProximo;
 
     procedure EditKeyDown(Sender:TObject; var Key:word; Shift: TShiftState);virtual;
-    procedure EditKeyPress(Sender: TObject; var Key: Char);virtual;
+    procedure EditKeyPress(Sender: TObject; var Key: Char); virtual;
+    procedure CheckBoxKeyPress(Sender: TObject; var Key: Char); virtual;
 
     function GetKeyPressFiltraTeclado: boolean;
     procedure SetKeyPressFiltraTeclado(Value: boolean);
@@ -51,6 +52,17 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u;
+
+procedure TBasForm.CheckBoxKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+//    if SelecionaProximo then
+    SelecioneProximo;
+    exit;
+  end;
+end;
 
 constructor TBasForm.Create(AOwner: TComponent);
 begin
