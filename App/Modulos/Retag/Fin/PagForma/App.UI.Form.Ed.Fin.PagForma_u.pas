@@ -145,6 +145,7 @@ begin
   inherited;
   i := PagFormaTipoComboBox.ItemIndex + 33;
   PagFormaEnt.PagFormaTipo.Id := i;
+  PagFormaEnt.PagFormaTipo.Descr := PagFormaTipoComboBox.Text;
 
   PagFormaEnt.Descr := DescrLabeledEdit.Text;
   PagFormaEnt.DescrRed := DescrRedLabeledEdit.Text;
