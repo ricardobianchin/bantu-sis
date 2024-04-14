@@ -9,18 +9,16 @@ uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
 type
   TProdUnidDBI = class(TEntDBI)
   private
-    FProdUnidEnt: IProdUnidEnt;
+    function GetProdUnidEnt: IProdUnidEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pIds: variant); override;
+    procedure SetNovaId(pId: variant); override;
     function GetPackageName: string; override;
   public
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; override;
-
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IProdUnidEnt);
   end;
 
 implementation
@@ -29,13 +27,6 @@ uses System.SysUtils, Sis.Types.strings_u,
   Sis.Win.Utils_u, Vcl.Dialogs, App.Retag.Est.Factory;
 
 { TProdUnidDBI }
-
-constructor TProdUnidDBI.Create(pDBConnection: IDBConnection;
-  pEntEd: IProdUnidEnt);
-begin
-  inherited Create(pDBConnection);
-  FProdUnidEnt := EntEdCastToProdUnidEnt(pEntEd);
-end;
 
 function TProdUnidDBI.GetExistente(pValues: variant;
   out pRetorno: string): variant;
@@ -97,14 +88,20 @@ begin
   Result := 'UNID_PA';
 end;
 
+function TProdUnidDBI.GetProdUnidEnt: IProdUnidEnt;
+begin
+  Result := EntEdCastToProdUnidEnt(EntEd);
+
+end;
+
 function TProdUnidDBI.GetSqlGarantirRegId: string;
 var
   sFormat: string;
 begin
   sFormat := 'SELECT ID_GRAVADO' +
     ' FROM UNID_PA.GARANTIR(%d,''%s'',''%s'');';
-  Result := Format(sFormat, [FProdUnidEnt.Id, FProdUnidEnt.Descr,
-    FProdUnidEnt.Sigla]);
+  Result := Format(sFormat, [GetProdUnidEnt.Id, GetProdUnidEnt.Descr,
+    GetProdUnidEnt.Sigla]);
 end;
 
 function TProdUnidDBI.GetSqlGetExistente(pValues: variant): string;
@@ -118,7 +115,7 @@ begin
 
   sFormat := 'SELECT UNID_ID_RET, DESCR_RET, SIGLA_RET'
     + ' FROM UNID_PA.EXISTENTES_GET(%d,''%s'',''%s'');';
-  Result := Format(sFormat, [FProdUnidEnt.Id, sDescr, sSigla]);
+  Result := Format(sFormat, [GetProdUnidEnt.Id, sDescr, sSigla]);
 end;
 
 function TProdUnidDBI.GetSqlPreencherDataSet(pValues: variant): string;
@@ -126,10 +123,10 @@ begin
   Result := 'SELECT UNID_ID, DESCR, SIGLA FROM UNID_PA.LISTA_GET;';
 end;
 
-procedure TProdUnidDBI.SetNovaId(pIds: variant);
+procedure TProdUnidDBI.SetNovaId(pId: variant);
 begin
   inherited;
-  FProdUnidEnt.Id := VarToInteger(pIds);
+  GetProdUnidEnt.Id := VarToInteger(pId);
 end;
 
 end.
