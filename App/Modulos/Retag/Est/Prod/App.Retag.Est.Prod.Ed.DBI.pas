@@ -9,7 +9,7 @@ type
     ['{4028F4A5-EF6D-42E2-8C01-981584E79DB6}']
     procedure PreencherItens(pProdEdForm: TObject);
     function FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint;
-      pDescr, pDescrRed: string; pResultsSL: TStringList): boolean;
+      pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
   end;
 
 implementation

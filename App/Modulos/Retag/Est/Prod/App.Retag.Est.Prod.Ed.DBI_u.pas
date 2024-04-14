@@ -10,7 +10,7 @@ type
   public
     procedure PreencherItens(pProdEdForm: TObject);
     function FabrDescrsExistentes(pProdIdExceto: integer; pFabrId: smallint;
-      pDescr, pDescrRed: string; pResultsSL: TStringList): boolean;
+      pDescr, pDescrRed: string; pResultSL: TStringList): boolean;
   end;
 
 implementation
@@ -20,7 +20,7 @@ uses App.UI.Form.Ed.Prod_u, Data.DB, System.SysUtils, Sis.Types.Bool_u;
 { TRetagEstProdEdDBI }
 
 function TRetagEstProdEdDBI.FabrDescrsExistentes(pProdIdExceto: integer;
-  pFabrId: smallint; pDescr, pDescrRed: string; pResultsSL: TStringList)
+  pFabrId: smallint; pDescr, pDescrRed: string; pResultSL: TStringList)
   : boolean;
 var
   oForm: TProdEdForm;
@@ -38,7 +38,7 @@ begin
     ' FROM RETAG_PROD_ED_PA.FABR_DESCRS_EXISTENTES_GET(%d, %d,''%s'',''%s'');';
 
   sSql := Format(sFormat, [pProdIdExceto, pFabrId, pDescr, pDescrRed]);
-  pResultsSL.Clear;
+  pResultSL.Clear;
 
   DBConnection.Abrir;
   try
@@ -52,13 +52,13 @@ begin
       if Descr = pDescr then
       begin
         sLinha := '1' + ProdId.ToString + '-' + Descr;
-        pResultsSL.Add(sLinha);
+        pResultSL.Add(sLinha);
       end;
 
       if DescrRed = pDescrRed then
       begin
         sLinha := '2' + ProdId.ToString + '-' + DescrRed;
-        pResultsSL.Add(sLinha);
+        pResultSL.Add(sLinha);
       end;
 
       q.Next;
