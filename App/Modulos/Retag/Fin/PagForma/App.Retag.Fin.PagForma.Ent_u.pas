@@ -78,6 +78,8 @@ type
     function GetUsuarioId: integer;
     function GetMachineIdentId: smallint;
 
+    function GetFormaTipo: char;
+    procedure SetFormaTipo(Value: char);
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
@@ -115,6 +117,7 @@ type
     procedure LimparEnt; override;
 
     function GetUsoStr: string;
+    property FormaTipo: char read GetFormaTipo write SetFormaTipo;
 
     constructor Create(pLojaId: smallint; pUsuarioId: integer;
       pMachineIdentId: smallint; pPagFormaTipo: IPagFormaTipo);
@@ -170,6 +173,16 @@ end;
 function TPagFormaEnt.GetDescrRed: string;
 begin
   Result := FDescrRed;
+end;
+
+function TPagFormaEnt.GetFormaTipo: char;
+var
+  I: integer;
+  c: char;
+begin
+  I := FPagFormaTipo.Id;
+  c := CHR(I);
+  Result := c;
 end;
 
 function TPagFormaEnt.GetLojaId: smallint;
@@ -309,6 +322,14 @@ end;
 procedure TPagFormaEnt.SetDescrRed(Value: string);
 begin
   FDescrRed := Value;
+end;
+
+procedure TPagFormaEnt.SetFormaTipo(Value: char);
+var
+  I: integer;
+begin
+  I := Ord(Value);
+  FPagFormaTipo.Id := I;
 end;
 
 procedure TPagFormaEnt.SetParaVenda(Value: boolean);
