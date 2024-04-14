@@ -116,8 +116,8 @@ BEGIN
   )
   RETURNS
   (
-    PROD_ID INTEGER)
-  ;
+    PROD_ID INTEGER
+  );
 
   PROCEDURE BARCODES_GAR
   (
