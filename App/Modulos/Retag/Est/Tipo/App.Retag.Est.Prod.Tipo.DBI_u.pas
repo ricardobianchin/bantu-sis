@@ -9,15 +9,13 @@ uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
 type
   TProdTipoDBI = class(TEntDBI)
   private
-    FProdTipoEnt: IProdTipoEnt;
+    function GetProdTipoEnt: IProdTipoEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pIds: variant); override;
+    procedure SetNovaId(pId: variant); override;
     function GetPackageName: string; override;
-  public
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IProdTipoEnt);
   end;
 
 implementation
@@ -26,16 +24,14 @@ uses System.SysUtils, Sis.Types.strings_u, App.Retag.Est.Factory;
 
   { TProdTipoDBI }
 
-constructor TProdTipoDBI.Create(pDBConnection: IDBConnection;
-  pEntEd: IProdTipoEnt);
-begin
-  inherited Create(pDBConnection);
-  FProdTipoEnt := EntEdCastToProdTipoEnt(pEntEd);
-end;
-
 function TProdTipoDBI.GetPackageName: string;
 begin
   Result := 'PROD_TIPO_PA';
+end;
+
+function TProdTipoDBI.GetProdTipoEnt: IProdTipoEnt;
+begin
+  Result := EntEdCastToProdTipoEnt(EntEd);
 end;
 
 function TProdTipoDBI.GetSqlGarantirRegId: string;
@@ -45,7 +41,7 @@ begin
   sFormat := 'SELECT ID_GRAVADO'
     + ' FROM PROD_TIPO_PA.GARANTIR(%d,''%s'');';
 
-  Result := Format(sFormat, [FProdTipoEnt.Id, FProdTipoEnt.Descr]);
+  Result := Format(sFormat, [GetProdTipoEnt.Id, GetProdTipoEnt.Descr]);
 end;
 
 function TProdTipoDBI.GetSqlGetExistente(pValues: variant): string;
@@ -64,10 +60,10 @@ begin
   Result := 'SELECT PROD_TIPO_ID, DESCR FROM PROD_TIPO_PA.LISTA_GET;';
 end;
 
-procedure TProdTipoDBI.SetNovaId(pIds: variant);
+procedure TProdTipoDBI.SetNovaId(pId: variant);
 begin
   inherited;
-  FProdTipoEnt.Id := VarToInteger(pIds);
+  GetProdTipoEnt.Id := VarToInteger(pId);
 end;
 
 end.
