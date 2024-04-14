@@ -39,7 +39,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Action = MensCopyAct_Diag
       Anchors = [akTop, akRight]
       Caption = 'Copiar Mensagem'
-      TabOrder = 0
+      TabOrder = 2
       ExplicitLeft = 116
     end
     object OkBitBtn_DiagBtn: TBitBtn
@@ -50,7 +50,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Action = OkAct_Diag
       Anchors = [akTop, akRight]
       Caption = 'Ok'
-      TabOrder = 1
+      TabOrder = 0
       ExplicitLeft = 229
     end
     object CancelBitBtn_DiagBtn: TBitBtn
@@ -61,7 +61,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Action = CancelAct_Diag
       Anchors = [akTop, akRight]
       Caption = 'Cancelar'
-      TabOrder = 2
+      TabOrder = 1
       ExplicitLeft = 309
     end
   end
