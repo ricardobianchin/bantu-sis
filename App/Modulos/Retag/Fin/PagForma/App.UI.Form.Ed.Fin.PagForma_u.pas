@@ -44,14 +44,14 @@ type
     procedure DescrRedLabeledEditChange(Sender: TObject);
   private
     { Private declarations }
+    FPagFormaEdDBI: IPagFormaEdDBI;
+
     FWinControlList: TList<Vcl.Controls.TWinControl>;
 
     FComissAbaterEdit: TNumEditBtu;
     FTaxaAdmEdit: TNumEditBtu;
     FReembolsoDiasEdit: TNumEditBtu;
     FValorMinimoEdit: TNumEditBtu;
-
-    FPagFormaEdDBI: IPagFormaEdDBI;
 
     function GetPagFormaEnt: IPagFormaEnt;
     property PagFormaEnt: IPagFormaEnt read GetPagFormaEnt;
@@ -421,15 +421,7 @@ function TPagFormaEdForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  Result := true;
-  try
-  if EntEd.State = dsInsert then
-  begin
-    ProdEnt.Id := FPagFormaEdDBI.InsertInto;
-  end;
-  except
-    Result := False;
-  end;
+  Result := EntDBI.Gravar;
 end;
 
 function TPagFormaEdForm.PagFormaTipoSelecionado: char;
