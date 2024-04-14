@@ -41,10 +41,12 @@ type
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
 
     procedure DBGrid1DblClick(Sender: TObject);
-    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure OkActionExecute(Sender: TObject);
     procedure CancelActionExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FModoForm: TModoForm;
@@ -251,21 +253,14 @@ begin
     OkAction.Execute;
 end;
 
-procedure TTabSheetDataSetBasForm.DBGrid1KeyPress(Sender: TObject;
-  var Key: Char);
+procedure TTabSheetDataSetBasForm.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
   inherited;
   case Key of
-    #32:
-      begin
-        Key := #0;
-        AltAction_DatasetTabSheet.Execute
-      end;
-    #13:
-      begin
-        Key := #0;
-        OkAction.Execute;
-      end;
+    VK_INSERT: InsAction_DatasetTabSheet.Execute;
+    VK_RETURN: OkAction.Execute;
+    VK_SPACE: AltAction_DatasetTabSheet.Execute;
   end;
 end;
 
@@ -327,6 +322,15 @@ begin
   if ModoForm = mfBrowse then
     inherited;
 
+end;
+
+procedure TTabSheetDataSetBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  case Key of
+    VK_F5: AtuAction_DatasetTabSheet.Execute;
+  end;
 end;
 
 function TTabSheetDataSetBasForm.GetCDS1: TFDMemTable;

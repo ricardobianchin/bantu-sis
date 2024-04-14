@@ -2,7 +2,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   Caption = 'TabSheetDataSetBasForm'
   ClientWidth = 700
   WindowState = wsMaximized
-  ExplicitTop = -46
+  OnKeyDown = FormKeyDown
   ExplicitWidth = 700
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
@@ -50,7 +50,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
     OnDblClick = DBGrid1DblClick
-    OnKeyPress = DBGrid1KeyPress
+    OnKeyDown = DBGrid1KeyDown
   end
   object SelectPanel: TPanel [2]
     Left = 264
