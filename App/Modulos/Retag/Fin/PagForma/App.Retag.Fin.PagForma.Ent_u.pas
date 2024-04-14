@@ -275,10 +275,10 @@ begin
   FVendaMinima := 0;
   FComissaoAbaterPerc := 0;
   FReembolsoDias := 0;
-  FTEFUsa := True;
-  FAutorizacaoExige := True;
-  FPessoaExige := True;
-  FAVista := True;
+  FTEFUsa := False;
+  FAutorizacaoExige := False;
+  FPessoaExige := False;
+  FAVista := False;
 end;
 
 procedure TPagFormaEnt.SetAtivo(Value: boolean);

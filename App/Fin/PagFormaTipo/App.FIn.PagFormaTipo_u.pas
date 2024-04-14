@@ -31,6 +31,8 @@ implementation
 
 { TPagFormaTipo }
 
+uses App.Fin.Types_u;
+
 constructor TPagFormaTipo.Create(pDescr, pDescrRed: string; pAtivo: Boolean;
   pId: integer);
 begin
@@ -62,6 +64,7 @@ end;
 procedure TPagFormaTipo.Zerar;
 begin
   inherited;
+  Id := PAG_FORMA_TIPO_DEBITO;
   SetDescrRed('');
   SetAtivo(True);
 end;
