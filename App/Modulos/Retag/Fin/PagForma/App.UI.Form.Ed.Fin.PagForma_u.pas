@@ -98,10 +98,21 @@ begin
 
   DescrLabeledEdit.OnKeyPress := EditKeyPress;
   DescrRedLabeledEdit.OnKeyPress := EditKeyPress;
+//  FTaxaAdmEdit.OnKeyPress := EditKeyPress;
+//  FReembolsoDiasEdit.OnKeyPress := EditKeyPress;
+//  FComissAbaterEdit.OnKeyPress := EditKeyPress;
+//  FValorMinimoEdit.OnKeyPress := EditKeyPress;
 
   PagFormaTipoComboBox.OnKeyPress := ComboKeyPress;
   UsoComboBox.OnKeyPress := ComboKeyPress;
   RecebComboBox.OnKeyPress := ComboKeyPress;
+
+  AtivoCheckBox.OnKeyPress := CheckBoxKeyPress;
+  AutorizExigeCheckBox.OnKeyPress := CheckBoxKeyPress;
+  CliExigeCheckBox.OnKeyPress := CheckBoxKeyPress;
+  ComissPermiteCheckBox.OnKeyPress := CheckBoxKeyPress;
+  TefExigeCheckBox.OnKeyPress := CheckBoxKeyPress;
+  PromoPermiteCheckBox.OnKeyPress := CheckBoxKeyPress;
 
   case PagFormaEnt.State of
     dsInactive:
@@ -407,8 +418,18 @@ begin
 end;
 
 function TPagFormaEdForm.GravouOk: boolean;
+var
+  sFrase: string;
 begin
-
+  Result := true;
+  try
+  if EntEd.State = dsInsert then
+  begin
+    ProdEnt.Id := FPagFormaEdDBI.InsertInto;
+  end;
+  except
+    Result := False;
+  end;
 end;
 
 function TPagFormaEdForm.PagFormaTipoSelecionado: char;
