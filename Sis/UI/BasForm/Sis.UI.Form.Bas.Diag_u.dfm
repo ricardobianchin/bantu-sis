@@ -4,6 +4,7 @@ inherited DiagBasForm: TDiagBasForm
   ClientHeight = 363
   ClientWidth = 483
   Position = poDesktopCenter
+  OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   ExplicitWidth = 495
   ExplicitHeight = 401

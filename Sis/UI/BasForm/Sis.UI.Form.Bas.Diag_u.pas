@@ -17,6 +17,7 @@ type
     procedure OkAct_DiagExecute(Sender: TObject);
     procedure CancelAct_DiagExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FErroOutput: IOutput;
@@ -76,6 +77,19 @@ begin
   FAtualizaAlteracaoTexto := False;
   AlteracaoTextoLabel.Visible := false;
   MensLimpar;
+end;
+
+procedure TDiagBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  case Key of
+    VK_RETURN:
+    begin
+      if Shift = [ssCtrl]  then
+        OkAct_Diag.Execute;
+    end;
+  end;
 end;
 
 procedure TDiagBasForm.FormKeyPress(Sender: TObject; var Key: Char);
