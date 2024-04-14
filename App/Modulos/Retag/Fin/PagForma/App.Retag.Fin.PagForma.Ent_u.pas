@@ -36,7 +36,6 @@ type
 
     function GetParaVenda: boolean;
     procedure SetParaVenda(Value: boolean);
-    property ParaVenda: boolean read GetParaVenda write SetParaVenda;
 
     function GetAtivo: boolean;
     procedure SetAtivo(Value: boolean);
@@ -95,6 +94,7 @@ type
     property DescrRed: string read GetDescrRed write SetDescrRed;
 
     property Ativo: boolean read GetAtivo write SetAtivo;
+    property ParaVenda: boolean read GetParaVenda write SetParaVenda;
     property Sis: boolean read GetSis write SetSis;
 
     property PromocaoPermite: boolean read GetPromocaoPermite write SetPromocaoPermite;
