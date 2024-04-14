@@ -62,6 +62,7 @@ begin
   //MensLabel.Font.Color := $009393FF;//onyx
 //  MensLabel.Font.Color := 192;//iceberg
   MensLabel.Font.Color := 166;//iceberg
+  CriarControles;
 end;
 
 procedure TDiagBtnBasForm.MensCopyAct_DiagExecute(Sender: TObject);
@@ -78,7 +79,6 @@ end;
 procedure TDiagBtnBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  CriarControles;
   AjusteControles;
 end;
 
