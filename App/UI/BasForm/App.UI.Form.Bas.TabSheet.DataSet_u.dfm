@@ -2,18 +2,18 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   Caption = 'TabSheetDataSetBasForm'
   ClientWidth = 700
   WindowState = wsMaximized
-  ExplicitTop = -91
+  ExplicitTop = -46
   ExplicitWidth = 700
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
-    Top = 442
+    Top = 448
     Width = 700
-    Height = 35
+    Height = 29
     Align = alBottom
     AutoSize = False
-    ExplicitTop = 442
+    ExplicitTop = 448
     ExplicitWidth = 700
-    ExplicitHeight = 35
+    ExplicitHeight = 29
     inherited TitToolBar1_BasTabSheet: TToolBar
       Width = 700
       Height = 29
@@ -39,7 +39,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Left = 0
     Top = 0
     Width = 700
-    Height = 442
+    Height = 448
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
