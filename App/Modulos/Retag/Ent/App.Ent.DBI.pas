@@ -2,7 +2,7 @@ unit App.Ent.DBI;
 
 interface
 
-uses Sis.DBI, Data.DB, Sis.DB.DBTypes, System.Classes;
+uses Sis.DBI, Data.DB, Sis.DB.DBTypes, System.Classes, Sis.Entidade, App.Ent.Ed;
 
 type
   IEntDBI = interface(IDBI)
@@ -22,6 +22,15 @@ type
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil);
     function AtivoSet(const pId: integer; Value: boolean): boolean;
     function Ler: boolean;
+
+    function Inserir(out pNovaId: Variant): boolean;
+    function Alterar: boolean;
+    function Gravar: boolean;
+
+    function GetEntEd: IEntEd;
+    procedure SetEntEd(Value: IEntEd);
+    property EntEd: IEntEd read GetEntEd write SetEntEd;
+
   end;
 
 implementation

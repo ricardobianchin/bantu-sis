@@ -3,16 +3,20 @@ unit App.Ent.DBI_u;
 interface
 
 uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u,
-  Sis.UI.Frame.Bas.FiltroParams_u, System.Classes;
+  Sis.UI.Frame.Bas.FiltroParams_u, System.Classes, App.Ent.Ed;
 
 type
   TEntDBI = class(TDBI, IEntDBI)
+  private
+    FEntEd : IEntEd ;
+    function GetEntEd: IEntEd ;
+    procedure SetEntEd(Value: IEntEd );
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; virtual;
       abstract;
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
     function GetSqlGarantirRegId: string; virtual; abstract;
-    procedure SetNovaId(pIds: variant); virtual; abstract;
+    procedure SetNovaId(pId: variant); virtual; abstract;
     function ById(pId: variant; out pValores: variant): boolean; virtual;
     function GetPackageName: string; virtual; abstract;
   public
@@ -22,9 +26,16 @@ type
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; virtual;
     function Ler: boolean; virtual;
+    function Inserir(out pNovaId: Variant): boolean; virtual;
+    function Alterar: boolean; virtual;
+    function Gravar: boolean; virtual;
     function GarantirReg: boolean;
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil); virtual;
     function AtivoSet(const pId: integer; Value: boolean): boolean; virtual;
+
+    property EntEd: IEntEd  read GetEntEd write SetEntEd;
+
+    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
   end;
 
 implementation
@@ -32,6 +43,11 @@ implementation
 uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u;
 
 { TEntDBI }
+
+function TEntDBI.Alterar: boolean;
+begin
+  Result := False;
+end;
 
 function TEntDBI.AtivoSet(const pId: integer; Value: boolean): boolean;
 var
@@ -60,6 +76,12 @@ begin
   Result := False;
 end;
 
+constructor TEntDBI.Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
+begin
+  inherited Create(pDBConnection);
+  FEntEd := pEntEd;
+end;
+
 function TEntDBI.GarantirReg: boolean;
 var
   sFormat: string;
@@ -83,6 +105,11 @@ begin
   end;
 end;
 
+function TEntDBI.GetEntEd: IEntEd;
+begin
+  Result := FEntEd;
+end;
+
 function TEntDBI.GetExistente(pValues: variant; out pRetorno: string): variant;
 var
   sFormat: string;
@@ -98,6 +125,26 @@ begin
   finally
     DBConnection.Fechar;
   end;
+end;
+
+function TEntDBI.Gravar: boolean;
+var
+  i: variant;
+begin
+  if EntEd.State = dsInsert then
+  begin
+    Result := Inserir(i);
+    if Result then
+      SetNovaId(i);
+  end
+  else
+    Result := Alterar;
+end;
+
+function TEntDBI.Inserir(out pNovaId: Variant): boolean;
+begin
+  pNovaId := 0;
+  Result := False;
 end;
 
 function TEntDBI.Ler: boolean;
@@ -184,6 +231,11 @@ begin
   finally
     DBConnection.Fechar;
   end;
+end;
+
+procedure TEntDBI.SetEntEd(Value: IEntEd);
+begin
+  FEntEd := Value;
 end;
 
 end.
