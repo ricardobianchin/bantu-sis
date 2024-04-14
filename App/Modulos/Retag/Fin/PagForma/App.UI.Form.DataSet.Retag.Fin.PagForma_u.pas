@@ -41,7 +41,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Fin.Factory,
-  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid;
+  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
+  App.Retag.Fin.PagForma.Ed.DBI;
 
 { TTabSheetDataSetBasForm1 }
 
@@ -120,6 +121,7 @@ var
   oDBConnection: IDBConnection;
 
   oAppInfo: IAppInfo;
+  oPagFormaEdDBI: IPagFormaEdDBI;
 begin
   inherited;
   oAppInfo := AppInfo;
@@ -130,7 +132,8 @@ begin
   oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +
     '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
 
-  Result := PagFormaPerg(Self, oAppInfo, EntEd, EntDBI);
+  oPagFormaEdDBI := PagFormaEdDBICreate(oDBConnection);
+  Result := PagFormaPerg(Self, oAppInfo, EntEd, EntDBI, oPagFormaEdDBI);
 end;
 
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;

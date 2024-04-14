@@ -21,10 +21,12 @@ function RetagFinPagFormaDBICreate(pDBConnection: IDBConnection;
   pPagFormaEnt: IEntEd): IEntDBI;
 
 function PagFormaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
-  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI): TEdBasForm;
+  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI)
+  : TEdBasForm;
 
 function PagFormaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
-  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI): boolean;
+  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
+  pPagFormaEdDBI: IPagFormaEdDBI): boolean;
 
 // function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 
@@ -75,18 +77,21 @@ begin
 end;
 
 function PagFormaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
-  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI): TEdBasForm;
+  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI)
+  : TEdBasForm;
 begin
-  Result := TPagFormaEdForm.Create(AOwner, pAppInfo, pPagFormaEnt,
-    pPagFormaDBI);
+  Result := TPagFormaEdForm.Create(AOwner, pAppInfo, pPagFormaEnt, pPagFormaDBI,
+    pPagFormaEdDBI);
 end;
 
 function PagFormaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
-  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI): boolean;
+  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
+  pPagFormaEdDBI: IPagFormaEdDBI): boolean;
 var
   F: TEdBasForm;
 begin
-  F := PagFormaEdFormCreate(AOwner, pAppInfo, pPagFormaEnt, pPagFormaDBI);
+  F := PagFormaEdFormCreate(AOwner, pAppInfo, pPagFormaEnt, pPagFormaDBI,
+    pPagFormaEdDBI);
   Result := F.Perg;
 end;
 
