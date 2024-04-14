@@ -8,15 +8,13 @@ uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Variants,
 type
   TPagFormaDBI = class(TEntDBI)
   private
-    FPagFormaEnt: IPagFormaEnt;
+    function GetPagFormaEnt: IPagFormaEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pIds: variant); override;
+    procedure SetNovaId(pId: variant); override;
     function GetPackageName: string; override;
-  public
-    constructor Create(pDBConnection: IDBConnection; pPagFormaEnt: IPagFormaEnt);
   end;
 
 implementation
@@ -25,16 +23,14 @@ uses System.SysUtils, Sis.Types.strings_u, App.Retag.Fin.Factory;
 
 { TPagFormaDBI }
 
-constructor TPagFormaDBI.Create(pDBConnection: IDBConnection;
-  pPagFormaEnt: IPagFormaEnt);
-begin
-  inherited Create(pDBConnection);
-  FPagFormaEnt := pPagFormaEnt;
-end;
-
 function TPagFormaDBI.GetPackageName: string;
 begin
   Result := 'PAGAMENTO_FORMA_PA';
+end;
+
+function TPagFormaDBI.GetPagFormaEnt: IPagFormaEnt;
+begin
+  Result := EntEdCastToPagFormaEnt(EntEd);
 end;
 
 function TPagFormaDBI.GetSqlGarantirRegId: string;
@@ -60,7 +56,7 @@ begin
     ;
 end;
 
-procedure TPagFormaDBI.SetNovaId(pIds: variant);
+procedure TPagFormaDBI.SetNovaId(pId: variant);
 begin
   inherited;
 
