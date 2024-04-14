@@ -15,7 +15,6 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.Prod.ICMS.Ent // icms ent
 
     , App.Retag.Est.Prod.Ent // prod ent
-    , App.Retag.Est.Prod.DBI // prod dbi
 
     , App.Retag.Est.Prod.Fabr.Ent // fabr ent
 
@@ -151,7 +150,7 @@ function RetagEstProdEntCreate(pLojaId: smallint; //
   pId: integer = 0; pDescr: string = ''; pDescrRed: string = ''): IProdEnt;
 
 function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IEntEd)
-  : IProdDBI;
+  : IEntDBI;
 
 function ProdEdFormCreate(AOwner: TComponent;
   //
@@ -198,7 +197,6 @@ function ProdPerg(AOwner: TComponent;
 // function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
 
 function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
-function EntDBICastToProdDBI(pEntDBI: IEntDBI): IProdDBI;
 
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
@@ -515,7 +513,7 @@ begin
 end;
 
 function RetagEstProdDBICreate(pDBConnection: IDBConnection; pProdEnt: IEntEd)
-  : IProdDBI;
+  : IEntDBI;
 begin
   Result := TProdDBI.Create(pDBConnection, pProdEnt);
 end;
@@ -587,11 +585,6 @@ end;
 function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 begin
   Result := TProdEnt(pEntEd);
-end;
-
-function EntDBICastToProdDBI(pEntDBI: IEntDBI): IProdDBI;
-begin
-  Result := TProdDBI(pEntDBI);
 end;
 
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
