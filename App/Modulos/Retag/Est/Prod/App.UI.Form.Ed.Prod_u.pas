@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Retag.Est.Prod.Ent,
-  App.Retag.Est.Prod.DBI, Data.DB, App.Ent.DBI, Sis.Usuario,
+  Data.DB, App.Ent.DBI, Sis.Usuario,
   App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig,
   Sis.UI.Frame.Bas_u, App.UI.Frame.Bas.Retag.Ed_u,
   App.UI.Frame.Bas.Retag.Prod.Ed_u, App.Est.Prod.Barras.DBI
@@ -33,9 +33,6 @@ type
 
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
-
-    function GetProdDBI: IProdDBI;
-    property ProdDBI: IProdDBI read GetProdDBI;
 
     function GetAlterado: boolean;
 
@@ -269,7 +266,7 @@ begin
   FICMSDBI := pICMSDBI;
 
   FComunsFr := TRetagProdEdComunsFrame.Create(ComunsPanel, SelecioneProximo,
-    ProdEnt, ProdDBI, pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI, pBarrasDBI,
+    ProdEnt, EntDBI, pFabrDBI, pTipoDBI, pUnidDBI, pICMSDBI, pBarrasDBI,
     pFabrDataSetFormCreator //
     , pProdTipoDataSetFormCreator //
     , pProdUnidDataSetFormCreator //
@@ -606,11 +603,6 @@ begin
   Result := Format(sFormat, [sTit, sNom, sDes]);
 end;
 
-function TProdEdForm.GetProdDBI: IProdDBI;
-begin
-  Result := EntDBICastToProdDBI(EntDBI);
-end;
-
 function TProdEdForm.GetProdEnt: IProdEnt;
 begin
   Result := EntEdCastToProdEnt(EntEd);
@@ -620,15 +612,7 @@ function TProdEdForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  Result := true;
-  try
-  if EntEd.State = dsInsert then
-  begin
-    ProdEnt.Id := ProdDBI.InsertInto;
-  end;
-  except
-    Result := False;
-  end;
+  Result := EntDBI.Gravar;
 end;
 
 procedure TProdEdForm.PrecoChange(Sender: TObject);
