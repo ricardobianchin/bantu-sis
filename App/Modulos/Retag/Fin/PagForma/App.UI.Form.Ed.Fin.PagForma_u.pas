@@ -40,6 +40,8 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure DescrLabeledEditExit(Sender: TObject);
     procedure DescrRedLabeledEditExit(Sender: TObject);
+    procedure DescrLabeledEditChange(Sender: TObject);
+    procedure DescrRedLabeledEditChange(Sender: TObject);
   private
     { Private declarations }
     FWinControlList: TList<Vcl.Controls.TWinControl>;
@@ -80,7 +82,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Data.DB, Sis.Types.strings_u;
+uses Sis.UI.Controls.Utils, Data.DB, Sis.Types.strings_u, App.Retag.Fin.Factory;
 
 { TPagFormaEdForm }
 
@@ -238,6 +240,13 @@ begin
     exit;
 end;
 
+procedure TPagFormaEdForm.DescrLabeledEditChange(Sender: TObject);
+begin
+  inherited;
+  DescrErroLabel.Caption := '';
+
+end;
+
 procedure TPagFormaEdForm.DescrLabeledEditExit(Sender: TObject);
 var
   Ed: TLabeledEdit;
@@ -275,7 +284,6 @@ begin
   if (DescrLabeledEdit.Text = '') and pAvisaDescrVazia then
   begin
     DescrErroLabel.Caption := 'Obrigatório';
-    DescrErroLabel.Visible := True;
 
     Result := False;
   end;
@@ -283,7 +291,6 @@ begin
   if (DescrRedLabeledEdit.Text = '') and pAvisaDescrVazia then
   begin
     DescrRedErroLabel.Caption := 'Obrigatório';
-    DescrRedErroLabel.Visible := True;
 
     Result := False;
   end;
@@ -322,6 +329,12 @@ begin
   finally
     oResultSL.Free;
   end;
+end;
+
+procedure TPagFormaEdForm.DescrRedLabeledEditChange(Sender: TObject);
+begin
+  inherited;
+  DescrRedErroLabel.Caption := '';
 end;
 
 procedure TPagFormaEdForm.DescrRedLabeledEditExit(Sender: TObject);

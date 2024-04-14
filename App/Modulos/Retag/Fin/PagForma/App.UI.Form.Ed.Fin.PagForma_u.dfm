@@ -95,6 +95,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     LabelSpacing = 4
     TabOrder = 9
     Text = ''
+    OnChange = DescrRedLabeledEditChange
     OnExit = DescrRedLabeledEditExit
   end
   object VendaExigeGroupBox: TGroupBox [10]
@@ -273,6 +274,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     LabelSpacing = 4
     TabOrder = 8
     Text = ''
+    OnChange = DescrLabeledEditChange
     OnExit = DescrLabeledEditExit
   end
   object UsoComboBox: TComboBox [18]
