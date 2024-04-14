@@ -32,6 +32,8 @@ const
   DBMSNames: array [TDBMSType] of string = ('NAOINDICADO', 'FIREBIRD', 'MYSQL',
     'POSTGRESQL', 'ORACLE', 'SQLSERVER', 'SQLITE');
 
+  ID_INT_INVALIDA: Integer = 0;
+  ID_CHAR_INVALIDA: Char = #32;
 type
   IDBMSConfig = interface(IConfigXMLI)
     ['{5A1A706A-6F4C-43B8-9F12-D815CC4B23D0}']
