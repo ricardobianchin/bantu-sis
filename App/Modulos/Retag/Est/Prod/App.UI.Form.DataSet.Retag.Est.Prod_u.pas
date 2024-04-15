@@ -142,7 +142,7 @@ end;
 
 procedure TRetagEstProdDataSetForm.DoLer;
 var
-  oProdDBI: IEntDBI;
+  oDBI: IEntDBI;
   Resultado: boolean;
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
@@ -154,8 +154,8 @@ begin
   oConn := DBConnectionCreate('Retag.Prod.Ed.Ler.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
-  oProdDBI.Ler;
+  oDBI := RetagEstProdDBICreate(oConn, ProdEnt);
+  oDBI.Ler;
 end;
 
 function TRetagEstProdDataSetForm.PergEd(pDataSetStateAbrev

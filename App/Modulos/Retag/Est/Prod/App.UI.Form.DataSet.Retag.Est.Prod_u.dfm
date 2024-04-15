@@ -6,19 +6,17 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
   ExplicitHeight = 439
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
-    Top = 408
+    Top = 410
     Width = 688
-    ExplicitTop = 408
+    ExplicitTop = 410
     ExplicitWidth = 688
     inherited TitToolBar1_BasTabSheet: TToolBar
       Width = 688
-      Height = 29
       ExplicitWidth = 688
-      ExplicitHeight = 29
     end
   end
   inherited DBGrid1: TDBGrid
     Width = 688
-    Height = 408
+    Height = 410
   end
 end
