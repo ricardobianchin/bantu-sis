@@ -39,9 +39,9 @@ type
     procedure SetTaxaAdmPerc(Value: Currency);
     property TaxaAdmPerc: Currency read GetTaxaAdmPerc write SetTaxaAdmPerc;
 
-    function GetVendaMinima: Currency;
-    procedure SetVendaMinima(Value: Currency);
-    property VendaMinima: Currency read GetVendaMinima write SetVendaMinima;
+    function GetValorMinimo: Currency;
+    procedure SetValorMinimo(Value: Currency);
+    property ValorMinimo: Currency read GetValorMinimo write SetValorMinimo;
 
     function GetComissaoAbaterPerc: Currency;
     procedure SetComissaoAbaterPerc(Value: Currency);

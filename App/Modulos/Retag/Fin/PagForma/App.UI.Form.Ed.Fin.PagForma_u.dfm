@@ -2,8 +2,8 @@ inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
   ClientHeight = 279
   ClientWidth = 584
-  ExplicitWidth = 596
-  ExplicitHeight = 317
+  ExplicitWidth = 600
+  ExplicitHeight = 318
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 207
@@ -110,52 +110,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
     end
   end
-  object ComissGroupBox: TGroupBox [9]
-    Left = 283
-    Top = 108
-    Width = 204
-    Height = 45
-    Caption = 'Comiss'#227'o'
-    TabOrder = 6
-    object ComissPermiteCheckBox: TCheckBox
-      Left = 8
-      Top = 19
-      Width = 63
-      Height = 17
-      Caption = 'Permite'
-      TabOrder = 0
-    end
-    object MoldeComissAbaterLabeledEdit: TLabeledEdit
-      Left = 146
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 56
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Abater (%)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 1
-      Text = '123,45'
-    end
-  end
-  object DescrLabeledEdit: TLabeledEdit [10]
-    Left = 58
-    Top = 27
-    Width = 329
-    Height = 23
-    EditLabel.Width = 51
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    TabOrder = 8
-    Text = ''
-    OnChange = DescrLabeledEditChange
-    OnExit = DescrLabeledEditExit
-  end
-  object DescrRedLabeledEdit: TLabeledEdit [11]
+  object DescrRedLabeledEdit: TLabeledEdit [9]
     Left = 499
     Top = 27
     Width = 82
@@ -170,7 +125,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     OnChange = DescrRedLabeledEditChange
     OnExit = DescrRedLabeledEditExit
   end
-  object AdminstradoraGroupBox: TGroupBox [12]
+  object AdminstradoraGroupBox: TGroupBox [10]
     Left = 3
     Top = 108
     Width = 273
@@ -206,7 +161,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object RecebComboBox: TComboBox [13]
+  object RecebComboBox: TComboBox [11]
     Left = 347
     Top = 71
     Width = 81
@@ -219,7 +174,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'A VISTA'
       'A PRAZO')
   end
-  object AtivoCheckBox: TCheckBox [14]
+  object AtivoCheckBox: TCheckBox [12]
     Left = 438
     Top = 74
     Width = 49
@@ -227,7 +182,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Ativa'
     TabOrder = 2
   end
-  object PromoGroupBox: TGroupBox [15]
+  object PromoGroupBox: TGroupBox [13]
     Left = 493
     Top = 108
     Width = 86
@@ -243,7 +198,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 0
     end
   end
-  object UsoComboBox: TComboBox [16]
+  object UsoComboBox: TComboBox [14]
     Left = 184
     Top = 71
     Width = 81
@@ -256,7 +211,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'VENDA'
       'COMPRA')
   end
-  object PagFormaTipoComboBox: TComboBox [17]
+  object PagFormaTipoComboBox: TComboBox [15]
     Left = 30
     Top = 71
     Width = 122
@@ -270,6 +225,51 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'DEBITO'
       'CREDITO'
       'TRANSFERENCIA')
+  end
+  object DescrLabeledEdit: TLabeledEdit [16]
+    Left = 58
+    Top = 27
+    Width = 329
+    Height = 23
+    EditLabel.Width = 51
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    TabOrder = 8
+    Text = ''
+    OnChange = DescrLabeledEditChange
+    OnExit = DescrLabeledEditExit
+  end
+  object ComissGroupBox: TGroupBox [17]
+    Left = 283
+    Top = 108
+    Width = 204
+    Height = 45
+    Caption = 'Comiss'#227'o'
+    TabOrder = 6
+    object ComissPermiteCheckBox: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 63
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
+    object MoldeComissAbaterLabeledEdit: TLabeledEdit
+      Left = 146
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 56
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Abater (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
   end
   inherited BasePanel: TPanel
     Top = 242

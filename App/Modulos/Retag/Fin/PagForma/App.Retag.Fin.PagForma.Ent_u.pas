@@ -16,7 +16,7 @@ type
     FPromocaoPermite: boolean;
     FComicaoPermite: boolean;
     FTaxaAdmPerc: Currency;
-    FVendaMinima: Currency;
+    FValorMinimo: Currency;
     FComissaoAbaterPerc: Currency;
     FReembolsoDias: smallint;
     FTEFUsa: boolean;
@@ -52,8 +52,8 @@ type
     function GetTaxaAdmPerc: Currency;
     procedure SetTaxaAdmPerc(Value: Currency);
 
-    function GetVendaMinima: Currency;
-    procedure SetVendaMinima(Value: Currency);
+    function GetValorMinimo: Currency;
+    procedure SetValorMinimo(Value: Currency);
 
     function GetComissaoAbaterPerc: Currency;
     procedure SetComissaoAbaterPerc(Value: Currency);
@@ -101,7 +101,7 @@ type
     property ComicaoPermite: boolean read GetComicaoPermite write SetComicaoPermite;
 
     property TaxaAdmPerc: Currency read GetTaxaAdmPerc write SetTaxaAdmPerc;
-    property VendaMinima: Currency read GetVendaMinima write SetVendaMinima;
+    property ValorMinimo: Currency read GetValorMinimo write SetValorMinimo;
     property ComissaoAbaterPerc: Currency read GetComissaoAbaterPerc write SetComissaoAbaterPerc;
     property ReembolsoDias: smallint read GetReembolsoDias write SetReembolsoDias;
 
@@ -269,9 +269,9 @@ begin
   Result := FUsuarioId;
 end;
 
-function TPagFormaEnt.GetVendaMinima: Currency;
+function TPagFormaEnt.GetValorMinimo: Currency;
 begin
-  Result := FVendaMinima;
+  Result := FValorMinimo;
 end;
 
 procedure TPagFormaEnt.LimparEnt;
@@ -285,7 +285,7 @@ begin
   FPromocaoPermite := True;
   FComicaoPermite := True;
   FTaxaAdmPerc := 0;
-  FVendaMinima := 0;
+  FValorMinimo := 0;
   FComissaoAbaterPerc := 0;
   FReembolsoDias := 0;
   FTEFUsa := False;
@@ -367,9 +367,9 @@ begin
   FTEFUsa := Value;
 end;
 
-procedure TPagFormaEnt.SetVendaMinima(Value: Currency);
+procedure TPagFormaEnt.SetValorMinimo(Value: Currency);
 begin
-  FVendaMinima := Value;
+  FValorMinimo := Value;
 end;
 
 end.

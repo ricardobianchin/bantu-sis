@@ -151,7 +151,7 @@ begin
   PagFormaEnt.ComicaoPermite := ComissPermiteCheckBox.Checked;
 
   PagFormaEnt.TaxaAdmPerc := FTaxaAdmEdit.Valor;
-  PagFormaEnt.VendaMinima := FValorMinimoEdit.Valor;
+  PagFormaEnt.ValorMinimo := FValorMinimoEdit.Valor;
   PagFormaEnt.ComissaoAbaterPerc := FComissAbaterEdit.Valor;
   PagFormaEnt.ReembolsoDias := FReembolsoDiasEdit.Valor;
 
@@ -385,7 +385,7 @@ begin
   ComissPermiteCheckBox.Checked := PagFormaEnt.ComicaoPermite;
 
   FTaxaAdmEdit.Valor := PagFormaEnt.TaxaAdmPerc;
-  FValorMinimoEdit.Valor := PagFormaEnt.VendaMinima;
+  FValorMinimoEdit.Valor := PagFormaEnt.ValorMinimo;
   FComissAbaterEdit.Valor := PagFormaEnt.ComissaoAbaterPerc;
   FReembolsoDiasEdit.Valor := PagFormaEnt.ReembolsoDias;
 
