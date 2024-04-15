@@ -64,7 +64,7 @@ begin
     + ',' + QuotedStr(Ent.Localiz) //
     + ',' + CurrencyToStrPonto(Ent.Margem) //
 
-    + ',' + Ent.ProdBalancaEnt.BalancaTipoStr //
+    + ',' + Ent.ProdBalancaEnt.BalancaUsoStr //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.DptoCod) //
     + ',' + Ent.ProdBalancaEnt.ValidadeDias.ToString //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
@@ -142,7 +142,7 @@ begin
     + ',' + QuotedStr(Ent.Localiz) //
     + ',' + CurrencyToStrPonto(Ent.Margem) //
 
-    + ',' + Ent.ProdBalancaEnt.BalancaTipoStr //
+    + ',' + Ent.ProdBalancaEnt.BalancaUsoStr //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.DptoCod) //
     + ',' + Ent.ProdBalancaEnt.ValidadeDias.ToString //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
@@ -220,7 +220,7 @@ begin
     Ent.CapacEmb := q.Fields[12].AsCurrency;
     Ent.Margem := q.Fields[13].AsCurrency;
 
-    Ent.ProdBalancaEnt.BalancaTipo := TBalancaTipo(q.Fields[14].AsInteger);
+    Ent.ProdBalancaEnt.BalancaUso := TBalancaUso(q.Fields[14].AsInteger);
     Ent.ProdBalancaEnt.DptoCod := q.Fields[15].AsString.Trim;
     Ent.ProdBalancaEnt.ValidadeDias := q.Fields[16].AsInteger;
     Ent.ProdBalancaEnt.TextoEtiq := q.Fields[17].AsString.Trim;

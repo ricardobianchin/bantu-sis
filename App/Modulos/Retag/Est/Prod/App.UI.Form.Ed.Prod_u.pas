@@ -210,7 +210,7 @@ end;
 
 procedure TProdEdForm.ControlesToEnt;
 var
-  BalTipo: TBalancaTipo;
+  BalUso: TBalancaUso;
   cCapac: Currency;
   cMargem: Currency;
 begin
@@ -235,8 +235,8 @@ begin
   ProdEnt.PrecoAtual := FComunsFr.PrecoAtuEdit.Valor;
   ProdEnt.PrecoNovo := FComunsFr.PrecoNovEdit.Valor;
 
-  BalTipo := TBalancaTipo(FComunsFr.BalUtilizaComboBox.ItemIndex);
-  ProdEnt.ProdBalancaEnt.BalancaTipo := BalTipo;
+  BalUso := TBalancaUso(FComunsFr.BalUtilizaComboBox.ItemIndex);
+  ProdEnt.ProdBalancaEnt.BalancaUso := BalUso;
 
   ProdEnt.ProdBalancaEnt.DptoCod := FComunsFr.BalDpto.Valor;
   ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
@@ -492,7 +492,7 @@ begin
   FComunsFr.PrecoAtuEdit.Valor := ProdEnt.PrecoAtual;
   FComunsFr.PrecoNovEdit.Valor := ProdEnt.PrecoNovo;
 
-  iBalUso := Integer(ProdEnt.ProdBalancaEnt.BalancaTipo);
+  iBalUso := Integer(ProdEnt.ProdBalancaEnt.BalancaUso);
 
   FComunsFr.BalUtilizaComboBox.ItemIndex := iBalUso;
   FComunsFr.BalDpto.Valor := ProdEnt.ProdBalancaEnt.DptoCod;

@@ -5,14 +5,14 @@ interface
 uses System.Classes;
 
 type
-  TBalancaTipo = (baltNaoUtiliza, baltUtiliza, baltUsuPrecoTot,
+  TBalancaUso = (baltNaoUtiliza, baltUtiliza, baltUsuPrecoTot,
     baltUsoPrecoUnitQtd);
 
   TProdNatu = (pnatuNaoIndicado = 32, pnatuProduto = 33, pnatuServico = 34,
     pnatuMateriaPrima = 35, pnatuCombo = 36, pnatuComposto = 37);
 
 const
-  BalancaTipoStr: array [TBalancaTipo] of string = (
+  BalancaUsoStr: array [TBalancaUso] of string = (
     'Não utiliza'//
     , 'Utiliza'//
     , 'Usuário indicará preço total'//
@@ -28,7 +28,7 @@ const
     , 'Composto'//
     );
 
-procedure BalancaTipoStrToSL(pSL: TStrings);
+procedure BalancaUsoStrToSL(pSL: TStrings);
 function ProdNatuToChar(pProdNatu: TProdNatu): char;
 function ProdNatuToSql(pProdNatu: TProdNatu): string;
 
@@ -36,14 +36,14 @@ implementation
 
 uses System.SysUtils;
 
-procedure BalancaTipoStrToSL(pSL: TStrings);
+procedure BalancaUsoStrToSL(pSL: TStrings);
 var
-  Tipo: TBalancaTipo;
+  Tipo: TBalancaUso;
 begin
   pSL.Clear;
 
-  for Tipo := Low(TBalancaTipo) to High(TBalancaTipo) do
-    pSL.Add(BalancaTipoStr[Tipo]);
+  for Tipo := Low(TBalancaUso) to High(TBalancaUso) do
+    pSL.Add(BalancaUsoStr[Tipo]);
 end;
 
 function ProdNatuToChar(pProdNatu: TProdNatu): char;

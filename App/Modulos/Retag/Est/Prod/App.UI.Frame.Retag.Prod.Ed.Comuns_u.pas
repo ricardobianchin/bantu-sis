@@ -451,7 +451,7 @@ begin
   MoldeBalValidEditLabeledEdit.Free;
   MoldeBalDptoLabeledEdit.Free;
 
-  App.Est.Types_u.BalancaTipoStrToSL(BalUtilizaComboBox.Items);
+  App.Est.Types_u.BalancaUsoStrToSL(BalUtilizaComboBox.Items);
   BalUtilizaComboBox.ItemIndex := 0;
   BalDpto.Valor := 1;
   BalValidEdit.Valor := 0;
