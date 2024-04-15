@@ -91,8 +91,8 @@ OBJETO_NOME=PAGAMENTO_FORMA_PA
 /*---------
 NAO ALTERAR AQUI, MAS, NO ARQLUIVO:
 Complementos\PAGAMENTO\pagamento_forma_pa.sql
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\PAGAMENTO\pagamento_forma_pa.sql
-IN C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\PAGAMENTO\pagamento_forma_pa.sql;
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Fin\pagamento_forma_pa.sql
+IN C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Fin\pagamento_forma_pa.sql;
 */---------
 
 SET TERM ^;
