@@ -62,9 +62,6 @@ begin
     + ',' + BooleanToStrSQL(Ent.AVista)
     + ');';
 
-{$IFDEF DEBUG}
-  SetClipboardText(sSql);
-{$ENDIF}
   bResultado := DBConnection.Abrir;
   if not bResultado then
   begin
@@ -139,9 +136,6 @@ begin
     + ',' + BooleanToStrSQL(Ent.AVista)
     + ');';
 
-{$IFDEF DEBUG}
-  SetClipboardText(sSql);
-{$ENDIF}
   bResultado := DBConnection.Abrir;
   if not bResultado then
   begin
