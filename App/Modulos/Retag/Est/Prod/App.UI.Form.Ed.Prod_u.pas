@@ -69,6 +69,8 @@ type
 
     function GravouOk: boolean; override;
     function DadosOk: boolean; override;
+    function ControlesOk: boolean; override;
+
 
   public
     { Public declarations }
@@ -194,9 +196,23 @@ begin
 
 end;
 
+function TProdEdForm.ControlesOk: boolean;
+begin
+  Result := True;
+  if FComunsFr.BarrasFr.LabeledEdit1.Text = '' then
+  begin
+    if FComunsFr.BarrasFr.ProdBarrasList.Count > 0 then
+    begin
+      FComunsFr.BarrasFr.ProdBarrasList.ApaguePrimeiro;
+    end;
+  end;
+end;
+
 procedure TProdEdForm.ControlesToEnt;
 var
+  BalTipo: TBalancaTipo;
   cCapac: Currency;
+  cMargem: Currency;
 begin
   inherited;
   ProdEnt.Descr := FComunsFr.DescrEdit.Text;
@@ -219,10 +235,12 @@ begin
   ProdEnt.PrecoAtual := FComunsFr.PrecoAtuEdit.Valor;
   ProdEnt.PrecoNovo := FComunsFr.PrecoNovEdit.Valor;
 
-  ProdEnt.ProdBalancaEnt.BalancaTipo :=
-    TBalancaTipo(FComunsFr.BalUtilizaComboBox.ItemIndex);
+  BalTipo := TBalancaTipo(FComunsFr.BalUtilizaComboBox.ItemIndex);
+  ProdEnt.ProdBalancaEnt.BalancaTipo := BalTipo;
+
   ProdEnt.ProdBalancaEnt.DptoCod := FComunsFr.BalDpto.Valor;
   ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
+  ProdEnt.ProdBalancaEnt.TextoEtiq := FComunsFr.BalTextoEtiqMemo.Text;
 
   ProdEnt.Ativo := FComunsFr.AtivoCheckBox.Checked;
 
@@ -231,8 +249,8 @@ begin
 
   ProdEnt.Localiz := FComunsFr.LocalizLabeledEdit.Text;
 
-  cCapac := FComunsFr.MargemEdit.AsCurrency;
-  ProdEnt.Margem := cCapac;
+  cMargem := FComunsFr.MargemEdit.AsCurrency;
+  ProdEnt.Margem := cMargem;
 
 
 end;
@@ -461,6 +479,8 @@ begin
 end;
 
 procedure TProdEdForm.EntToControles;
+var
+  iBalUso: integer;
 begin
   inherited;
   FComunsFr.IdEdit.Valor := ProdEnt.Id;
@@ -472,10 +492,12 @@ begin
   FComunsFr.PrecoAtuEdit.Valor := ProdEnt.PrecoAtual;
   FComunsFr.PrecoNovEdit.Valor := ProdEnt.PrecoNovo;
 
-  FComunsFr.BalUtilizaComboBox.ItemIndex :=
-    Integer(ProdEnt.ProdBalancaEnt.BalancaTipo);
+  iBalUso := Integer(ProdEnt.ProdBalancaEnt.BalancaTipo);
+
+  FComunsFr.BalUtilizaComboBox.ItemIndex := iBalUso;
   FComunsFr.BalDpto.Valor := ProdEnt.ProdBalancaEnt.DptoCod;
   FComunsFr.BalValidEdit.Valor := ProdEnt.ProdBalancaEnt.ValidadeDias;
+  FComunsFr.BalTextoEtiqMemo.Text := ProdEnt.ProdBalancaEnt.TextoEtiq;
 
   FComunsFr.AtivoCheckBox.Checked := ProdEnt.Ativo;
   FComunsFr.CapacEmbEdit.Valor := ProdEnt.CapacEmb;
