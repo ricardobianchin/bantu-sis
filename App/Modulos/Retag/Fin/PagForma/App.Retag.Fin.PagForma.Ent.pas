@@ -31,9 +31,9 @@ type
     procedure SetPromocaoPermite(Value: boolean);
     property PromocaoPermite: boolean read GetPromocaoPermite write SetPromocaoPermite;
 
-    function GetComicaoPermite: boolean;
-    procedure SetComicaoPermite(Value: boolean);
-    property ComicaoPermite: boolean read GetComicaoPermite write SetComicaoPermite;
+    function GetComissaoPermite: boolean;
+    procedure SetComissaoPermite(Value: boolean);
+    property ComissaoPermite: boolean read GetComissaoPermite write SetComissaoPermite;
 
     function GetTaxaAdmPerc: Currency;
     procedure SetTaxaAdmPerc(Value: Currency);

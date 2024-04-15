@@ -49,7 +49,7 @@ begin
     + ',' + BooleanToStrSQL(Ent.ParaVenda)
     + ', FALSE'//SIS
     + ',' + BooleanToStrSQL(Ent.PromocaoPermite)
-    + ',' + BooleanToStrSQL(Ent.ComicaoPermite)
+    + ',' + BooleanToStrSQL(Ent.ComissaoPermite)
     + ',' + CurrencyToStrPonto(Ent.TaxaAdmPerc) //
     + ',' + CurrencyToStrPonto(Ent.ValorMinimo) //
 
@@ -125,7 +125,7 @@ begin
     + ',' + BooleanToStrSQL(Ent.ParaVenda)
     + ', FALSE'//SIS
     + ',' + BooleanToStrSQL(Ent.PromocaoPermite)
-    + ',' + BooleanToStrSQL(Ent.ComicaoPermite)
+    + ',' + BooleanToStrSQL(Ent.ComissaoPermite)
     + ',' + CurrencyToStrPonto(Ent.TaxaAdmPerc) //
     + ',' + CurrencyToStrPonto(Ent.ValorMinimo) //
     + ',' + CurrencyToStrPonto(Ent.ComissaoAbaterPerc) //
@@ -209,7 +209,7 @@ begin
     Ent.ParaVenda := q.Fields[7].AsBoolean;
     //sis [8]
     Ent.PromocaoPermite := q.Fields[9].AsBoolean;
-    Ent.ComicaoPermite := q.Fields[10].AsBoolean;
+    Ent.ComissaoPermite := q.Fields[10].AsBoolean;
     Ent.TaxaAdmPerc := q.Fields[11].AsCurrency;
     Ent.ValorMinimo := q.Fields[12].AsCurrency;
     Ent.ComissaoAbaterPerc := q.Fields[13].AsCurrency;

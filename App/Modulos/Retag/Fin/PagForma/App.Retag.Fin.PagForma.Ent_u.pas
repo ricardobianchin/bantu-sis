@@ -14,7 +14,7 @@ type
     FAtivo: boolean;
     FSis: boolean;
     FPromocaoPermite: boolean;
-    FComicaoPermite: boolean;
+    FComissaoPermite: boolean;
     FTaxaAdmPerc: Currency;
     FValorMinimo: Currency;
     FComissaoAbaterPerc: Currency;
@@ -46,8 +46,8 @@ type
     function GetPromocaoPermite: boolean;
     procedure SetPromocaoPermite(Value: boolean);
 
-    function GetComicaoPermite: boolean;
-    procedure SetComicaoPermite(Value: boolean);
+    function GetComissaoPermite: boolean;
+    procedure SetComissaoPermite(Value: boolean);
 
     function GetTaxaAdmPerc: Currency;
     procedure SetTaxaAdmPerc(Value: Currency);
@@ -98,7 +98,7 @@ type
     property Sis: boolean read GetSis write SetSis;
 
     property PromocaoPermite: boolean read GetPromocaoPermite write SetPromocaoPermite;
-    property ComicaoPermite: boolean read GetComicaoPermite write SetComicaoPermite;
+    property ComissaoPermite: boolean read GetComissaoPermite write SetComissaoPermite;
 
     property TaxaAdmPerc: Currency read GetTaxaAdmPerc write SetTaxaAdmPerc;
     property ValorMinimo: Currency read GetValorMinimo write SetValorMinimo;
@@ -155,9 +155,9 @@ begin
   Result := FAVista;
 end;
 
-function TPagFormaEnt.GetComicaoPermite: boolean;
+function TPagFormaEnt.GetComissaoPermite: boolean;
 begin
-  Result := FComicaoPermite;
+  Result := FComissaoPermite;
 end;
 
 function TPagFormaEnt.GetComissaoAbaterPerc: Currency;
@@ -283,7 +283,7 @@ begin
   FAtivo := True;
   FSis := False;
   FPromocaoPermite := True;
-  FComicaoPermite := True;
+  FComissaoPermite := True;
   FTaxaAdmPerc := 0;
   FValorMinimo := 0;
   FComissaoAbaterPerc := 0;
@@ -309,9 +309,9 @@ begin
   FAVista := Value;
 end;
 
-procedure TPagFormaEnt.SetComicaoPermite(Value: boolean);
+procedure TPagFormaEnt.SetComissaoPermite(Value: boolean);
 begin
-  FComicaoPermite := Value;
+  FComissaoPermite := Value;
 end;
 
 procedure TPagFormaEnt.SetComissaoAbaterPerc(Value: Currency);

@@ -148,7 +148,7 @@ begin
 
   PagFormaEnt.Ativo := AtivoCheckBox.Checked;
   PagFormaEnt.PromocaoPermite := PromoPermiteCheckBox.Checked;
-  PagFormaEnt.ComicaoPermite := ComissPermiteCheckBox.Checked;
+  PagFormaEnt.ComissaoPermite := ComissPermiteCheckBox.Checked;
 
   PagFormaEnt.TaxaAdmPerc := FTaxaAdmEdit.Valor;
   PagFormaEnt.ValorMinimo := FValorMinimoEdit.Valor;
@@ -382,7 +382,7 @@ begin
   UsoComboBox.ItemIndex := Iif(PagFormaEnt.ParaVenda, 0, 1);
   AtivoCheckBox.Checked := PagFormaEnt.Ativo;
   PromoPermiteCheckBox.Checked := PagFormaEnt.PromocaoPermite;
-  ComissPermiteCheckBox.Checked := PagFormaEnt.ComicaoPermite;
+  ComissPermiteCheckBox.Checked := PagFormaEnt.ComissaoPermite;
 
   FTaxaAdmEdit.Valor := PagFormaEnt.TaxaAdmPerc;
   FValorMinimoEdit.Valor := PagFormaEnt.ValorMinimo;
