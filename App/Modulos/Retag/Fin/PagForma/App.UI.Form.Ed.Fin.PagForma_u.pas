@@ -66,7 +66,6 @@ type
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
 
-    function ControlesOk: boolean; override;
     function DadosOk: boolean; override;
     function GravouOk: boolean; override;
   public
@@ -131,11 +130,6 @@ begin
     dsInsert:
       ;
   end;
-end;
-
-function TPagFormaEdForm.ControlesOk: boolean;
-begin
-
 end;
 
 procedure TPagFormaEdForm.ControlesToEnt;
