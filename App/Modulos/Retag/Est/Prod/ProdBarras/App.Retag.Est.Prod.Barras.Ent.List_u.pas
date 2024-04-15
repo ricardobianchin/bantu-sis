@@ -15,6 +15,7 @@ type
     procedure PegarBarras(pBarras: string; pOndeInserir: TPosicaoList);
     function IndexOfBarras(pBarras: string): integer;
     function GetAsString(pSeparador: string): string;
+    procedure ApaguePrimeiro;
   end;
 
 implementation
@@ -22,6 +23,12 @@ implementation
 { TProdBarrasList }
 
 uses App.Retag.Est.Factory, System.SysUtils;
+
+procedure TProdBarrasList.ApaguePrimeiro;
+begin
+  Delete(0);
+  RenumereOrdem;
+end;
 
 function TProdBarrasList.GetAsString(pSeparador: string): string;
 var

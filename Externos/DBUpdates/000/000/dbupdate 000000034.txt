@@ -16,8 +16,8 @@ TIPO_COMANDO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=PAGAMENTO_FORMA_ED_PA
 
 /*
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\PAGAMENTO\PAGAMENTO_FORMA_ED_PA.sql";
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\PAGAMENTO\PAGAMENTO_FORMA_ED_PA.sql
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Fin\PAGAMENTO_FORMA_ED_PA.sql";
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Fin\PAGAMENTO_FORMA_ED_PA.sql
 Complementos\PAGAMENTO\PAGAMENTO_FORMA_ED_PA.sql
 */
 ```FIREBIRD

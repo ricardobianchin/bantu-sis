@@ -1,32 +1,3 @@
-PROD_PA
-PROD
-
-//INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=PROD_PA
-DBATUALIZ_OBJETIVO=CRIA PROD_PA
-DBATUALIZ_OBS=
-
-
-
-
-
-// PACKAGE PROD_PA
-COMANDO INI
-TIPO_COMANDO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=PROD_PA
-
-/*
-Complementos\Est\prod_pa.txt
-
-Externos\DBUpdates\000\000\Complementos\Est\prod_pa.sql
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Est\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Est\prod_pa.sql
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Est\prod_pa.sql";
-*/
-
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE PROD_PA
 AS
@@ -577,7 +548,3 @@ BEGIN
   END
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM

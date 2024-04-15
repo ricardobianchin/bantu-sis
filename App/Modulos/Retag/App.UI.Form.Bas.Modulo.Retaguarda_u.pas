@@ -379,8 +379,8 @@ begin
   // RetagEstProdFabrAction.Execute;
 //  RetagEstProdAction.Execute;
 
-  MenuPageControl.ActivePage := EstoqueTabSheet;
-  FinanceiroPagamentoFormaAction.Execute
+//  MenuPageControl.ActivePage := EstoqueTabSheet;
+//  FinanceiroPagamentoFormaAction.Execute
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator

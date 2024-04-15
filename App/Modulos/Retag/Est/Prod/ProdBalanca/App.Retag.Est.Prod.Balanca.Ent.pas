@@ -7,12 +7,12 @@ uses App.Est.Types_u;
 type
   IProdBalancaEnt = interface(IInterface)
     ['{2B8CB064-EE47-43EC-8F8E-214867847F60}']
-    function GetBalancaTipo: TBalancaTipo;
-    procedure SetBalancaTipo(Value: TBalancaTipo);
-    property BalancaTipo: TBalancaTipo read GetBalancaTipo write SetBalancaTipo;
+    function GetBalancaUso: TBalancaUso;
+    procedure SetBalancaUso(Value: TBalancaUso);
+    property BalancaUso: TBalancaUso read GetBalancaUso write SetBalancaUso;
 
-    function GetBalancaTipoStr: string;
-    property BalancaTipoStr: string read GetBalancaTipoStr;
+    function GetBalancaUsoStr: string;
+    property BalancaUsoStr: string read GetBalancaUsoStr;
 
     function GetDptoCod: string;
     procedure SetDptoCod(Value: string);

@@ -7,13 +7,13 @@ uses App.Retag.Est.Prod.Balanca.Ent, App.Est.Types_u;
 type
   TProdBalancaEnt = class(TInterfacedObject, IProdBalancaEnt)
   private
-    FBalancaTipo: TBalancaTipo;
+    FBalancaUso: TBalancaUso;
     FDptoCod: string;
     FValidadeDias: smallint;
     FTextoEtiq: string;
 
-    function GetBalancaTipo: TBalancaTipo;
-    procedure SetBalancaTipo(Value: TBalancaTipo);
+    function GetBalancaUso: TBalancaUso;
+    procedure SetBalancaUso(Value: TBalancaUso);
 
     function GetDptoCod: string;
     procedure SetDptoCod(Value: string);
@@ -24,15 +24,15 @@ type
     function GetTextoEtiq: string;
     procedure SetTextoEtiq(Value: string);
 
-    function GetBalancaTipoStr: string;
+    function GetBalancaUsoStr: string;
   public
-    property BalancaTipo: TBalancaTipo read GetBalancaTipo write SetBalancaTipo;
+    property BalancaUso: TBalancaUso read GetBalancaUso write SetBalancaUso;
     property DptoCod: string read GetDptoCod write SetDptoCod;
     property ValidadeDias: smallint read GetValidadeDias write SetValidadeDias;
     property TextoEtiq: string read GetTextoEtiq write SetTextoEtiq;
 
     procedure LimparEnt;
-    property BalancaTipoStr: string read GetBalancaTipoStr;
+    property BalancaUsoStr: string read GetBalancaUsoStr;
   end;
 
 implementation
@@ -41,9 +41,9 @@ uses System.SysUtils;
 
 { TProdBalancaEnt }
 
-function TProdBalancaEnt.GetBalancaTipoStr: string;
+function TProdBalancaEnt.GetBalancaUsoStr: string;
 begin
-  Result := Integer(FBalancaTipo).ToString;
+  Result := Integer(FBalancaUso).ToString;
 end;
 
 function TProdBalancaEnt.GetDptoCod: string;
@@ -51,9 +51,9 @@ begin
   Result := FDptoCod;
 end;
 
-function TProdBalancaEnt.GetBalancaTipo: TBalancaTipo;
+function TProdBalancaEnt.GetBalancaUso: TBalancaUso;
 begin
-  Result := FBalancaTipo;
+  Result := FBalancaUso;
 end;
 
 function TProdBalancaEnt.GetTextoEtiq: string;
@@ -68,15 +68,15 @@ end;
 
 procedure TProdBalancaEnt.LimparEnt;
 begin
-  FBalancaTipo := TBalancaTipo.baltNaoUtiliza;
+  FBalancaUso := TBalancaUso.baltNaoUtiliza;
   FDptoCod := '001';
   FValidadeDias := 0;
   FTextoEtiq := '';
 end;
 
-procedure TProdBalancaEnt.SetBalancaTipo(Value: TBalancaTipo);
+procedure TProdBalancaEnt.SetBalancaUso(Value: TBalancaUso);
 begin
-  FBalancaTipo := Value;
+  FBalancaUso := Value;
 end;
 
 procedure TProdBalancaEnt.SetDptoCod(Value: string);

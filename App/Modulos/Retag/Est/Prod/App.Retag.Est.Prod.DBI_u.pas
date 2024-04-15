@@ -11,7 +11,7 @@ type
   TProdDBI = class(TEntDBI)
   private
     function GetProdEnt: IProdEnt;
-    property ProdEnt: IProdEnt read GetProdEnt;
+    property Ent: IProdEnt read GetProdEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure SetNovaId(pId: variant); override;
@@ -29,8 +29,61 @@ uses System.SysUtils, Sis.Types.strings_u, App.Est.Types_u, Sis.Lists.Types,
 { TProdDBI }
 
 function TProdDBI.Alterar: boolean;
+var
+  sSql: string;
+  sMens: string;
+  bResultado: boolean;
+  sBarras: string;
 begin
+  Result := False;
 
+  sBarras := Ent.ProdBarrasList.GetAsString(';');
+
+  sSql := 'EXECUTE PROCEDURE prod_PA.ALTERAR_DO(' //
+    + Ent.Id.ToString //
+    + ',' + QuotedStr(Ent.Descr) //
+    + ',' + QuotedStr(Ent.DescrRed) //
+
+    + ',' + Ent.ProdFabrEnt.Id.ToString //
+    + ',' + Ent.ProdTipoEnt.Id.ToString //
+    + ',' + Ent.ProdUnidEnt.Id.ToString //
+    + ',' + Ent.ProdICMSEnt.Id.ToString //
+  //
+    + ',' + ProdNatuToSql(pnatuProduto) //
+    + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
+
+    + ',' + Ent.LojaId.ToString //
+    + ',' + Ent.UsuarioId.ToString //
+    + ',' + Ent.MachineIdentId.ToString //
+
+    + ',' + CurrencyToStrPonto(Ent.CustoNovo) //
+    + ', 1' // + 1 PROD_PRECO_TABELA_ID
+    + ',' + CurrencyToStrPonto(Ent.PrecoNovo) //
+
+    + ',' + BooleanToStrSql(Ent.Ativo) //
+    + ',' + QuotedStr(Ent.Localiz) //
+    + ',' + CurrencyToStrPonto(Ent.Margem) //
+
+    + ',' + Ent.ProdBalancaEnt.BalancaUsoStr //
+    + ',' + QuotedStr(Ent.ProdBalancaEnt.DptoCod) //
+    + ',' + Ent.ProdBalancaEnt.ValidadeDias.ToString //
+    + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
+
+    + ',' + QuotedStr(sBarras) //
+    + ');';
+
+  bResultado := DBConnection.Abrir;
+  if not bResultado then
+  begin
+    sMens := DBConnection.UltimoErro;
+    exit;
+  end;
+  try
+    DBConnection.ExecuteSQL(sSql);
+  finally
+    DBConnection.Fechar;
+    Result := True;
+  end;
 end;
 
 function TProdDBI.GetProdEnt: IProdEnt;
@@ -51,7 +104,7 @@ begin
 
     ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
 
-    ' FROM PROD_PA.LISTA_GET(' + ProdEnt.LojaId.ToString + ');';
+    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ');';
   // SetClipboardText(Result);
 end;
 
@@ -64,41 +117,38 @@ var
 begin
   Result := False;
 
-  sBarras := ProdEnt.ProdBarrasList.GetAsString(';');
+  sBarras := Ent.ProdBarrasList.GetAsString(';');
 
-  sSql := 'SELECT PROD_ID FROM PROD_PA.INSERT_INTO_PROD(' +
-    QuotedStr(ProdEnt.Descr) + ',' + QuotedStr(ProdEnt.DescrRed)
+  sSql := 'SELECT PROD_ID FROM PROD_PA.INSERIR_DO(' + QuotedStr(Ent.Descr) + ','
+    + QuotedStr(Ent.DescrRed)
 
-    + ',' + ProdEnt.ProdFabrEnt.Id.ToString //
-    + ',' + ProdEnt.ProdTipoEnt.Id.ToString //
-    + ',' + ProdEnt.ProdUnidEnt.Id.ToString //
-    + ',' + ProdEnt.ProdICMSEnt.Id.ToString //
+    + ',' + Ent.ProdFabrEnt.Id.ToString //
+    + ',' + Ent.ProdTipoEnt.Id.ToString //
+    + ',' + Ent.ProdUnidEnt.Id.ToString //
+    + ',' + Ent.ProdICMSEnt.Id.ToString //
   //
     + ',' + ProdNatuToSql(pnatuProduto) //
-    + ',' + CurrencyToStrPonto(ProdEnt.CapacEmb) //
+    + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
 
-    + ',' + ProdEnt.LojaId.ToString //
-    + ',' + ProdEnt.UsuarioId.ToString //
-    + ',' + ProdEnt.MachineIdentId.ToString //
+    + ',' + Ent.LojaId.ToString //
+    + ',' + Ent.UsuarioId.ToString //
+    + ',' + Ent.MachineIdentId.ToString //
 
-    + ',' + CurrencyToStrPonto(ProdEnt.CustoNovo) //
+    + ',' + CurrencyToStrPonto(Ent.CustoNovo) //
     + ', 1' // + 1 PROD_PRECO_TABELA_ID
-    + ',' + CurrencyToStrPonto(ProdEnt.PrecoNovo) //
+    + ',' + CurrencyToStrPonto(Ent.PrecoNovo) //
 
-    + ',' + BooleanToStrSql(ProdEnt.Ativo) //
-    + ',' + QuotedStr(ProdEnt.Localiz) //
-    + ',' + CurrencyToStrPonto(ProdEnt.Margem) //
+    + ',' + BooleanToStrSql(Ent.Ativo) //
+    + ',' + QuotedStr(Ent.Localiz) //
+    + ',' + CurrencyToStrPonto(Ent.Margem) //
 
-    + ',' + ProdEnt.ProdBalancaEnt.BalancaTipoStr //
-    + ',' + QuotedStr(ProdEnt.ProdBalancaEnt.DptoCod) //
-    + ',' + ProdEnt.ProdBalancaEnt.ValidadeDias.ToString //
-    + ',' + QuotedStr(ProdEnt.ProdBalancaEnt.TextoEtiq) //
+    + ',' + Ent.ProdBalancaEnt.BalancaUsoStr //
+    + ',' + QuotedStr(Ent.ProdBalancaEnt.DptoCod) //
+    + ',' + Ent.ProdBalancaEnt.ValidadeDias.ToString //
+    + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
 
     + ',' + QuotedStr(sBarras) + ');'; //
 
-{$IFDEF DEBUG}
-  SetClipboardText(sSql);
-{$ENDIF}
   bResultado := DBConnection.Abrir;
   if not bResultado then
   begin
@@ -144,8 +194,8 @@ begin
     ', BAL_VALIDADE_DIAS' + // 16
     ', BAL_TEXTO_ETIQ' + // 17
 
-    ' FROM PROD_PA.LISTA_GET(' + ProdEnt.LojaId.ToString + ')' +
-    ' WHERE PROD_ID = ' + ProdEnt.Id.ToString + ';';
+    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ')' + ' WHERE PROD_ID = '
+    + Ent.Id.ToString + ';';
 
   DBConnection.Abrir;
   try
@@ -154,31 +204,31 @@ begin
     if not Result then
       exit;
 
-    ProdEnt.Descr := q.Fields[1].AsString.Trim;
-    ProdEnt.DescrRed := q.Fields[2].AsString.Trim;
+    Ent.Descr := q.Fields[1].AsString.Trim;
+    Ent.DescrRed := q.Fields[2].AsString.Trim;
 
-    ProdEnt.ProdFabrEnt.Id := q.Fields[3].AsInteger;
-    ProdEnt.ProdTipoEnt.Id := q.Fields[4].AsInteger;
-    ProdEnt.ProdUnidEnt.Id := q.Fields[5].AsInteger;
-    ProdEnt.ProdICMSEnt.Id := q.Fields[6].AsInteger;
+    Ent.ProdFabrEnt.Id := q.Fields[3].AsInteger;
+    Ent.ProdTipoEnt.Id := q.Fields[4].AsInteger;
+    Ent.ProdUnidEnt.Id := q.Fields[5].AsInteger;
+    Ent.ProdICMSEnt.Id := q.Fields[6].AsInteger;
 
-    ProdEnt.CustoAtual := q.Fields[8].AsCurrency;
-    ProdEnt.PrecoAtual := q.Fields[9].AsCurrency;
+    Ent.CustoAtual := q.Fields[8].AsCurrency;
+    Ent.PrecoAtual := q.Fields[9].AsCurrency;
 
-    ProdEnt.Ativo := q.Fields[10].AsBoolean;
-    ProdEnt.Localiz := q.Fields[11].AsString.Trim;
-    ProdEnt.CapacEmb := q.Fields[12].AsCurrency;
-    ProdEnt.Margem := q.Fields[13].AsCurrency;
+    Ent.Ativo := q.Fields[10].AsBoolean;
+    Ent.Localiz := q.Fields[11].AsString.Trim;
+    Ent.CapacEmb := q.Fields[12].AsCurrency;
+    Ent.Margem := q.Fields[13].AsCurrency;
 
-    ProdEnt.ProdBalancaEnt.BalancaTipo := TBalancaTipo(q.Fields[14].AsInteger);
-    ProdEnt.ProdBalancaEnt.DptoCod := q.Fields[15].AsString.Trim;
-    ProdEnt.ProdBalancaEnt.ValidadeDias := q.Fields[16].AsInteger;
-    ProdEnt.ProdBalancaEnt.TextoEtiq := q.Fields[17].AsString.Trim;
+    Ent.ProdBalancaEnt.BalancaUso := TBalancaUso(q.Fields[14].AsInteger);
+    Ent.ProdBalancaEnt.DptoCod := q.Fields[15].AsString.Trim;
+    Ent.ProdBalancaEnt.ValidadeDias := q.Fields[16].AsInteger;
+    Ent.ProdBalancaEnt.TextoEtiq := q.Fields[17].AsString.Trim;
 
-    ProdEnt.ProdBarrasList.Clear;
+    Ent.ProdBarrasList.Clear;
     while not q.eof do
     begin
-      ProdEnt.ProdBarrasList.PegarBarras(q.Fields[7].AsString.Trim, plFim);
+      Ent.ProdBarrasList.PegarBarras(q.Fields[7].AsString.Trim, plFim);
       q.next;
     end;
   finally
@@ -190,7 +240,7 @@ end;
 procedure TProdDBI.SetNovaId(pId: variant);
 begin
   inherited;
-  ProdEnt.Id := VarToInteger(pId);
+  Ent.Id := VarToInteger(pId);
 end;
 
 end.

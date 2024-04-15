@@ -15,6 +15,7 @@ type
     function IndexOfBarras(pBarras: string): integer;
 
     function GetAsString(pSeparador: string): string;
+    procedure ApaguePrimeiro;
   end;
 
 implementation

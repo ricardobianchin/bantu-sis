@@ -31,17 +31,17 @@ type
     procedure SetPromocaoPermite(Value: boolean);
     property PromocaoPermite: boolean read GetPromocaoPermite write SetPromocaoPermite;
 
-    function GetComicaoPermite: boolean;
-    procedure SetComicaoPermite(Value: boolean);
-    property ComicaoPermite: boolean read GetComicaoPermite write SetComicaoPermite;
+    function GetComissaoPermite: boolean;
+    procedure SetComissaoPermite(Value: boolean);
+    property ComissaoPermite: boolean read GetComissaoPermite write SetComissaoPermite;
 
     function GetTaxaAdmPerc: Currency;
     procedure SetTaxaAdmPerc(Value: Currency);
     property TaxaAdmPerc: Currency read GetTaxaAdmPerc write SetTaxaAdmPerc;
 
-    function GetVendaMinima: Currency;
-    procedure SetVendaMinima(Value: Currency);
-    property VendaMinima: Currency read GetVendaMinima write SetVendaMinima;
+    function GetValorMinimo: Currency;
+    procedure SetValorMinimo(Value: Currency);
+    property ValorMinimo: Currency read GetValorMinimo write SetValorMinimo;
 
     function GetComissaoAbaterPerc: Currency;
     procedure SetComissaoAbaterPerc(Value: Currency);
