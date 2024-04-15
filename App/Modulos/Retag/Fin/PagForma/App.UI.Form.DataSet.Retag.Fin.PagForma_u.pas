@@ -21,6 +21,7 @@ type
   protected
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
+    procedure DoLer; override;
     procedure DoAlterar; override;
 
     function GetNomeArqTabView: string; override;
@@ -47,9 +48,17 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Fin.Factory,
 { TTabSheetDataSetBasForm1 }
 
 procedure TRetagFinPagFormaDataSetForm.DoAlterar;
+var
+  Resultado: boolean;
 begin
-  inherited;
+  Resultado := PergEd('Alt');
 
+  if not Resultado then
+    exit;
+
+  FDMemTable.Edit;
+  EntToRecord;
+  FDMemTable.Post;
 end;
 
 procedure TRetagFinPagFormaDataSetForm.DoAtualizar(Sender: TObject);
@@ -82,6 +91,24 @@ begin
   FDMemTable.Fields[0].AsInteger := PagFormaEnt.Id;
   EntToRecord;
   FDMemTable.Post;
+end;
+
+procedure TRetagFinPagFormaDataSetForm.DoLer;
+var
+  oDBI: IEntDBI;
+  Resultado: boolean;
+  oDBConnectionParams: TDBConnectionParams;
+  oConn: IDBConnection;
+begin
+  inherited;
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  oDBI := RetagFinPagFormaDBICreate(oConn, EntEd);
+  oDBI.Ler;
 end;
 
 procedure TRetagFinPagFormaDataSetForm.EntToRecord;
@@ -139,7 +166,7 @@ end;
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;
 begin
   inherited;
-
+  PagFormaEnt.Id := FDMemTable.Fields[0].AsInteger;
 end;
 
 procedure TRetagFinPagFormaDataSetForm.ToolBar1CrieBotoes;
