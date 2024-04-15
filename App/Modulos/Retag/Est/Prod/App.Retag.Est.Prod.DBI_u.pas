@@ -182,6 +182,7 @@ begin
       q.next;
     end;
   finally
+    q.Free;
     DBConnection.Fechar;
   end;
 end;
