@@ -614,7 +614,7 @@ begin
     exit;
   end;
 
-  CharSemAcento(Key);
+//  CharSemAcento(Key);
 end;
 
 procedure TStarterFormConfig.UsuGerenteSenha2LabeledEditChange(Sender: TObject);
