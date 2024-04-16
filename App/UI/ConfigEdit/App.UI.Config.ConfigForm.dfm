@@ -7118,7 +7118,7 @@ object StarterFormConfig: TStarterFormConfig
     end
     object ToolBar2: TToolBar
       Left = 262
-      Top = 42
+      Top = 43
       Width = 31
       Height = 29
       Align = alNone
