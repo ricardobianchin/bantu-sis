@@ -108,9 +108,9 @@
         </BuildGroupProject>
         <BuildGroupProject Include="LogMonitor\LogMonitor.dproj">
             <ProjectGuid>{51185958-76FB-4A72-B6D7-0E23BADB628C}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="App\App.dproj">
             <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
