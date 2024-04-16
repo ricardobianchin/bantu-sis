@@ -101,11 +101,11 @@ var
 begin
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
   try
-{$IFDEF DEBUG}
-    sLog := 'Config=DEBUG, abortando';
-    Result := False;
-    Exit;
-{$ENDIF}
+//{$IFDEF DEBUG}
+//    sLog := 'Config=DEBUG, abortando';
+//    Result := False;
+//    Exit;
+//{$ENDIF}
     oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
       FProcessLog);
     bPrecisaResetar := oAtualizaVersao.Execute;
