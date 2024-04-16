@@ -93,7 +93,7 @@ type
 
 implementation
 
-uses Sis.UI.IO.Files, Sis.UI.Controls.Utils;
+uses Sis.UI.IO.Files, Sis.UI.Controls.Utils, System.SysUtils;
 
 { TAppInfo }
 
@@ -104,11 +104,22 @@ begin
   FPastaBin := GetPastaDoArquivo(FExeName);
   FPasta := PastaAcima(FPastaBin);
   FPastaConfigs := FPasta + 'Configs\';
+  ForceDirectories(FPastaConfigs);
+
   FPastaImg := FPasta + 'Img\';
+  ForceDirectories(FPastaImg);
+
   FPastaComandos := FPasta + 'Comandos\';
+  ForceDirectories(FPastaComandos);
+
   FPastaDados := FPasta + 'Dados\';
+  ForceDirectories(FPastaDados);
+
   FPastaConsultas := FPasta + 'Cons\';
+  ForceDirectories(FPastaConsultas);
+
   FPastaConsTabViews := FPastaConsultas + 'TabViews\';
+  ForceDirectories(FPastaConsTabViews);
 end;
 
 function TAppInfo.GetAtualizExeSubPasta: string;
