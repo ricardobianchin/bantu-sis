@@ -29,12 +29,12 @@ object StarterFormConfig: TStarterFormConfig
     BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitHeight = 561
+    ExplicitHeight = 559
     object Image1: TImage
       Left = 0
       Top = 0
       Width = 175
-      Height = 562
+      Height = 560
       Align = alClient
       Center = True
       Picture.Data = {
@@ -7063,8 +7063,8 @@ object StarterFormConfig: TStarterFormConfig
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 757
-    ExplicitHeight = 561
+    ExplicitWidth = 749
+    ExplicitHeight = 559
     DesignSize = (
       753
       560)
@@ -7084,7 +7084,7 @@ object StarterFormConfig: TStarterFormConfig
       TabOrder = 0
       Transparent = True
       StyleElements = []
-      ExplicitTop = 525
+      ExplicitTop = 523
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -7117,8 +7117,8 @@ object StarterFormConfig: TStarterFormConfig
       OnKeyPress = EhServidorCheckBoxKeyPress
     end
     object ToolBar2: TToolBar
-      Left = 270
-      Top = 42
+      Left = 262
+      Top = 43
       Width = 31
       Height = 29
       Align = alNone
@@ -7156,7 +7156,7 @@ object StarterFormConfig: TStarterFormConfig
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 69
+        Width = 296
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -7167,6 +7167,7 @@ object StarterFormConfig: TStarterFormConfig
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9

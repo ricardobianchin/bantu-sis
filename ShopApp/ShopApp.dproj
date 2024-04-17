@@ -111,7 +111,7 @@
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
-        <PostBuildEvent><![CDATA[copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin
+        <PostBuildEvent><![CDATA[copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin
 $(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
@@ -943,7 +943,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -951,7 +951,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTPATH) \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

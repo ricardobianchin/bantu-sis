@@ -614,7 +614,7 @@ begin
     exit;
   end;
 
-  CharSemAcento(Key);
+//  CharSemAcento(Key);
 end;
 
 procedure TStarterFormConfig.UsuGerenteSenha2LabeledEditChange(Sender: TObject);
@@ -671,7 +671,9 @@ end;
 procedure TStarterFormConfig.ShowTimerTimer(Sender: TObject);
 begin
   ShowTimer.Enabled := false;
+{$IFDEF DEBUG}
   CarregTesteStarterIni;
+{$ENDIF}
   OkAct.Execute;
 end;
 

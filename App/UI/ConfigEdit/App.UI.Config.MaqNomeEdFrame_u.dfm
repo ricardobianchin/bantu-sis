@@ -1,7 +1,7 @@
 object MaqNomeEdFrame: TMaqNomeEdFrame
   Left = 0
   Top = 0
-  Width = 279
+  Width = 300
   Height = 109
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,7 +13,7 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
   object ErroLabel: TLabel
     Left = 0
     Top = 96
-    Width = 279
+    Width = 300
     Height = 13
     Align = alBottom
     Caption = 'ErroLabel'
@@ -29,11 +29,12 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 279
+    Width = 300
     Height = 96
     Align = alClient
     Caption = 'GroupBox1'
     TabOrder = 0
+    ExplicitWidth = 279
     object ObsLabel: TLabel
       Left = 9
       Top = 70

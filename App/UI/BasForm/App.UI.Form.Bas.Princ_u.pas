@@ -99,7 +99,11 @@ var
   bPrecisaResetar: boolean;
   sLog: string;
 begin
+  Result := False;
+  exit;
+
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
+
   try
 {$IFDEF DEBUG}
     sLog := 'Config=DEBUG, abortando';
