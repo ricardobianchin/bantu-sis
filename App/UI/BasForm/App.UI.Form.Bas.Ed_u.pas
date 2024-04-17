@@ -11,7 +11,6 @@ uses
 type
   TEdBasForm = class(TDiagBtnBasForm)
     ObjetivoLabel: TLabel;
-    procedure CancelAct_DiagExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
@@ -122,15 +121,6 @@ begin
   sCaption := Format('%s - %s', [sTitulo, sState]);
 
   Caption := sCaption;
-end;
-
-procedure TEdBasForm.CancelAct_DiagExecute(Sender: TObject);
-begin
-{$IFNDEF DEBUG}
-  if not PergBool('Sair sem gravar?') then
-    exit;
-{$ENDIF}
-  inherited;
 end;
 
 procedure TEdBasForm.ComboExit(Sender: TObject);
