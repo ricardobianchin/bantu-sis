@@ -17,9 +17,6 @@ type
     property DataSetFormClass: TTabSheetDataSetBasFormClass
       read GetDataSetFormClass;
 
-  protected
-    function GetTitulo: string; override;
-
   public
     function FormCreate(AOwner: TComponent): TForm; override;
     function FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm; override;
@@ -42,7 +39,7 @@ constructor TDataSetFormCreator.Create(pFormClass: TTabSheetDataSetBasFormClass;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
-  inherited Create(pFormClass, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS,
+  inherited Create(pFormClass, pEntEd.Titulo, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS,
     pOutput, pProcessLog, pOutputNotify);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
@@ -65,11 +62,6 @@ end;
 function TDataSetFormCreator.GetDataSetFormClass: TTabSheetDataSetBasFormClass;
 begin
   Result := TTabSheetDataSetBasFormClass(FormClass);
-end;
-
-function TDataSetFormCreator.GetTitulo: string;
-begin
-  Result := FEntEd.Titulo;
 end;
 
 function TDataSetFormCreator.PergSelect(var pSelectItem: TSelectItem): boolean;
