@@ -3,8 +3,8 @@ unit App.UI.FormCreator.TabSheet_u;
 interface
 
 uses Sis.UI.FormCreator_u, VCL.Forms, App.UI.Form.Bas.TabSheet_u, Sis.Usuario,
-  System.Classes, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes
-  , Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
+  System.Classes, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes, App.Retag,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
   TTabSheetFormCreator = class(TFormCreator)
@@ -18,6 +18,7 @@ type
     FOutput: IOutput;
     FProcessLog: IProcessLog;
     FOutputNotify: IOutput;
+    FRetag: IRetag;
 
     function GetFormClassNamesSL: TStringList;
     function GetAppInfo: IAppInfo;
@@ -39,6 +40,7 @@ type
     property Output: IOutput read GetOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
     property OutputNotify: IOutput read GetOutputNotify;
+    property Retag: IRetag read FRetag;
 
   public
     function FormCreate(AOwner: TComponent): TForm; override;
@@ -86,7 +88,7 @@ end;
 function TTabSheetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
   Result := TabSheetFormClass.Create(AOwner, FormClassNamesSL, FAppInfo,
-    FSisConfig, FUsuario, FDBMS, FOutput, FProcessLog, FOutputNotify);
+    FSisConfig, FRetag, FUsuario, FDBMS, FOutput, FProcessLog, FOutputNotify);
 end;
 
 function TTabSheetFormCreator.GetAppInfo: IAppInfo;
