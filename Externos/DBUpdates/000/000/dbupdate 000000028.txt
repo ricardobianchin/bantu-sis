@@ -20,10 +20,10 @@ OBJETO_NOME=PROD_PA
 /*
 Complementos\Est\prod_pa.txt
 
-Externos\DBUpdates\000\000\Complementos\Est\prod_pa.sql
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Est\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Est\prod_pa.sql
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Est\prod_pa.sql";
+Externos\DBUpdates Complementos\Complementos\Est\prod_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\prod_pa.sql
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\prod_pa.sql";
 */
 
 ```FIREBIRD
@@ -31,6 +31,12 @@ SET TERM ^;
 CREATE OR ALTER PACKAGE PROD_PA
 AS
 BEGIN
+  PROCEDURE PROD_RECORD_COUNT_GET
+  RETURNS
+  (
+    RECORD_COUNT INTEGER
+  );
+
   PROCEDURE LISTA_GET(P_LOJA_ID ID_SHORT_DOM NOT NULL)
   RETURNS
   (
@@ -176,6 +182,16 @@ END^
 RECREATE PACKAGE BODY PROD_PA
 AS
 BEGIN
+  PROCEDURE PROD_RECORD_COUNT_GET
+  RETURNS
+  (
+    RECORD_COUNT INTEGER
+  )
+  AS
+  BEGIN
+    SELECT COUNT(PROD_ID) FROM PROD INTO RECORD_COUNT;
+  END
+
   PROCEDURE LISTA_GET(P_LOJA_ID ID_SHORT_DOM NOT NULL)
   RETURNS
   (
