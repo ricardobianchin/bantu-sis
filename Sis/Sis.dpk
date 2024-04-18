@@ -255,6 +255,7 @@ contains
   Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas',
   Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas',
   Sis.DB.UltimoId in 'DB\UltimoId\Sis.DB.UltimoId.pas',
-  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas';
+  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas',
+  App.Retag in '..\App\Modulos\Retag\App.Retag.pas';
 
 end.
