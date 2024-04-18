@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario, App.Retag;
 
 type
   TTabSheetAppBasForm = class(TTabSheetBasForm)
@@ -20,6 +20,7 @@ type
     FOutput: IOutput;
     FOutputNotify: IOutput;
     FProcessLog: IProcessLog;
+    FRetag: IRetag;
 
     function GetSisConfig: ISisConfig;
   protected
@@ -31,12 +32,13 @@ type
     property Output: IOutput read FOutput;
     property OutputNotify: IOutput read FOutputNotify;
     property ProcessLog: IProcessLog read FProcessLog;
+    property Retag: IRetag read FRetag;
   public
     { Public declarations }
     property Titulo: string read GetTitulo;
     property DBMS: IDBMS read FDBMS;
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pRetag: IRetag; pUsuario: IUsuario; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
   end;
 
@@ -57,7 +59,7 @@ implementation
 { TTabSheetAppBasForm }
 
 constructor TTabSheetAppBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pRetag: IRetag; pUsuario: IUsuario;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput);
 var
   sFormCaption: string;
@@ -71,6 +73,7 @@ begin
   FUsuario := pUsuario;
   FOutputNotify := pOutputNotify;
   FProcessLog := pProcessLog;
+  FRetag := pRetag;
 
   sFormCaption := Titulo;
   sFecharCaption := 'Fechar ' { + Titulo };
