@@ -10,8 +10,15 @@ uses
 
 type
   TConfigModuloBasForm = class(TModuloBasForm)
+    TopoPanel: TPanel;
+    MenuPageControl: TPageControl;
+    ImportTabSheet: TTabSheet;
+    ImportOrigemComboBox: TComboBox;
+    ImportOrigemTitLabel: TLabel;
   private
     { Private declarations }
+  protected
+    procedure ImportPrepForm; virtual;
   public
     { Public declarations }
   end;
@@ -22,5 +29,13 @@ var
 implementation
 
 {$R *.dfm}
+
+{ TConfigModuloBasForm }
+
+procedure TConfigModuloBasForm.ImportPrepForm;
+begin
+  ImportOrigemComboBox.Text := '';
+  ImportOrigemComboBox.Clear;
+end;
 
 end.
