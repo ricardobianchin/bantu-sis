@@ -1,12 +1,18 @@
 inherited SessoesPrincBasForm: TSessoesPrincBasForm
   Caption = 'SessoesPrincBasForm'
   ClientHeight = 583
+  ClientWidth = 670
+  Position = poDesktopCenter
   OnKeyDown = FormKeyDown
+  ExplicitWidth = 670
   ExplicitHeight = 583
   DesignSize = (
-    628
+    670
     583)
   TextHeight = 15
+  inherited Logo1Image: TImage
+    Width = 670
+  end
   inherited AndamentoTitLabel: TLabel
     Left = 223
     Top = 443
@@ -30,6 +36,12 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
     ExplicitLeft = 136
     ExplicitTop = 450
   end
+  inherited TitleBarPanel: TPanel
+    Width = 670
+    inherited ToolBar1: TToolBar
+      Left = 569
+    end
+  end
   inherited StatusMemo: TMemo
     Left = 8
     Top = 488
@@ -44,12 +56,13 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   object BasePanel: TPanel [6]
     Left = 0
     Top = 528
-    Width = 628
+    Width = 670
     Height = 55
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
+    ExplicitWidth = 628
     object DtHCompilePanel: TPanel
       Left = 11
       Top = 2
