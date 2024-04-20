@@ -9,6 +9,7 @@ type
   TRetagImgDM = class(TDataModule)
     ImageList_16_16: TImageList;
     ImageList_24_24: TImageList;
+    PrincImageList: TImageList;
   private
     { Private declarations }
   public
