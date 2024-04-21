@@ -256,6 +256,9 @@ contains
   Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas',
   Sis.DB.UltimoId in 'DB\UltimoId\Sis.DB.UltimoId.pas',
   Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas',
-  App.Retag in '..\App\Modulos\Retag\App.Retag.pas';
+  Sis.DB.Import in 'DB\DBImport\Sis.DB.Import.pas',
+  Sis.DB.Import_u in 'DB\DBImport\Sis.DB.Import_u.pas',
+  Sis.DB.Import.Origem in 'DB\DBImport\Sis.DB.Import.Origem.pas',
+  Sis.DB.Import.Form_u in 'DB\DBImport\Sis.DB.Import.Form_u.pas' {DBImportForm};
 
 end.
