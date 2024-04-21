@@ -42,6 +42,10 @@ contains
   AppShop.UI.Form.Modulo.PDV_u in 'Modulos\PDV\AppShop.UI.Form.Modulo.PDV_u.pas' {ShopPDVModuloForm},
   AppShop.UI.Form.Modulo.Config_u in 'Modulos\Config\AppShop.UI.Form.Modulo.Config_u.pas',
   ShopApp.UI.Sessao.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessao.Frame_u.pas' {ShopSessaoFrame: TFrame},
-  ShopApp.UI.Sessoes.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessoes.Frame_u.pas' {ShopSessoesFrame: TFrame};
+  ShopApp.UI.Sessoes.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessoes.Frame_u.pas' {ShopSessoesFrame: TFrame},
+  AppShop.Import.Origem.PLUBase_u in 'Modulos\Config\Imports\PLUBase\AppShop.Import.Origem.PLUBase_u.pas',
+  AppShop.Import.Origem.i9PDV_u in 'Modulos\Config\Imports\i9PDV\AppShop.Import.Origem.i9PDV_u.pas',
+  ShopApp.Import_u in 'Imports\ShopApp.Import_u.pas',
+  AppShop.Import.Origem.PLUBase.Form_u in 'Modulos\Config\Imports\PLUBase\AppShop.Import.Origem.PLUBase.Form_u.pas' {DBImportPLUBaseForm};
 
 end.
