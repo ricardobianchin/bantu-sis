@@ -23,6 +23,7 @@ type
     ProdQtdZeroNotifyItemPanel: TPanel;
     Label1: TLabel;
     DadosImportarButton: TButton;
+    Label2: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure AtualizarActionExecute(Sender: TObject);
@@ -71,8 +72,8 @@ begin
     oDBConnection.QueryDataSet(sSql, q);
     ProdQtd := q.Fields[0].AsInteger;
     ProdQtdLabel.Caption := ProdQtd.ToString;
-    if ProdQtd = 0 then
-      ProdQtdZeroNotifyItemPanel.Visible := True;
+//    if ProdQtd = 0 then
+//      ProdQtdZeroNotifyItemPanel.Visible := True;
   finally
     oDBConnection.Fechar;
   end;
@@ -121,6 +122,7 @@ procedure TRetagAjuBemVindoForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   InicieControles;
+  AtualizarAction.Execute;
 end;
 
 end.
