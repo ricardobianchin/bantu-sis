@@ -365,6 +365,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\App.Retag.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_u.pas">
+            <Form>DBImportForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
