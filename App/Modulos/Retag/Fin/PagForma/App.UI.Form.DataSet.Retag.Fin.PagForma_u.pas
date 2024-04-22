@@ -124,7 +124,7 @@ function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'Fin\tabview.fin.pagforma.csv';
+  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Fin\tabview.fin.pagforma.csv';
 
   Result := sNomeArq;
 end;

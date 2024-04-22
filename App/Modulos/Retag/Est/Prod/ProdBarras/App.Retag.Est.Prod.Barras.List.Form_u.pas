@@ -90,7 +90,7 @@ begin
 
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
-  sNomeArq := pAppInfo.PastaConsTabViews + 'Est\tabview.est.prod.barras.csv';
+  sNomeArq := pAppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.barras.csv';
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
 end;
 

@@ -255,7 +255,7 @@ function TRetagEstProdDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'Est\tabview.est.prod.csv';
+  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.csv';
 
   Result := sNomeArq;
 end;
