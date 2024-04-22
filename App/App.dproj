@@ -297,16 +297,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent.List_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Frame_u.pas">
             <Form>ProdBarrasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.List.Form_u.pas">
             <Form>ProdBarrasListForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.UI.Form.Ed.Prod.Barras_u.pas">
             <Form>ProdBarrasEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="SisConfig\App.SisConfig.DBI.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.DBI_u.pas"/>
@@ -318,22 +315,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Custo\App.Retag.Est.Custo_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas">
             <Form>ComplProdEdFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\App.UI.Frame.Bas.Retag.Ed_u.pas">
             <Form>RetagEdBasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Bas.Retag.Prod.Ed_u.pas">
             <Form>RetagProdEdBasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas">
             <Form>RetagProdEdComunsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas"/>
@@ -355,18 +348,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.UI.Form.DataSet.Retag.Fin.PagForma_u.pas">
             <Form>RetagFinPagFormaDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.UI.Form.Ed.Fin.PagForma_u.pas">
             <Form>PagFormaEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\App.Retag.pas"/>
-        <DCCReference Include="DB\DBImport\App.DB.Import_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_u.pas">
             <Form>DBImportForm</Form>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Origem.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import_u.pas"/>
+        <DCCReference Include="..\ShopApp\Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas">
+            <Form>ShopDBImportFormPLUBase</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
