@@ -255,6 +255,7 @@ contains
   Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas',
   Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas',
   Sis.DB.UltimoId in 'DB\UltimoId\Sis.DB.UltimoId.pas',
-  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas';
+  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas',
+  Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame in 'UI\Controls\Files\FileSelectLabeledEdit\Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame.pas' {FileSelectLabeledEditFrame: TFrame};
 
 end.
