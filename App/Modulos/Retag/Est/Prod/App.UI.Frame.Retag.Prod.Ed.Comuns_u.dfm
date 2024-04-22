@@ -78,7 +78,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object CustoErroLabel: TLabel
       Left = 2
       Top = 51
-      Width = 80
+      Width = 249
       Height = 15
       Align = alBottom
       Caption = 'CustoErroLabel'
@@ -89,6 +89,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
+      ExplicitWidth = 80
     end
   end
   object PrecoGroupBox: TGroupBox
@@ -101,7 +102,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object PrecoErroLabel: TLabel
       Left = 2
       Top = 51
-      Width = 79
+      Width = 360
       Height = 15
       Align = alBottom
       Caption = 'PrecoErroLabel'
@@ -112,6 +113,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
+      ExplicitWidth = 79
     end
   end
   object BalGroupBox: TGroupBox
@@ -242,5 +244,20 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     LabelSpacing = 4
     TabOrder = 8
     Text = '123,45'
+  end
+  object NCMLabeledEdit: TLabeledEdit
+    Left = 450
+    Top = 290
+    Width = 80
+    Height = 23
+    EditLabel.Width = 28
+    EditLabel.Height = 23
+    EditLabel.Caption = 'NCM'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    MaxLength = 8
+    NumbersOnly = True
+    TabOrder = 9
+    Text = ''
   end
 end

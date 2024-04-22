@@ -252,6 +252,7 @@ begin
   cMargem := FComunsFr.MargemEdit.AsCurrency;
   ProdEnt.Margem := cMargem;
 
+  ProdEnt.Ncm := Trim(FComunsFr.NcmLabeledEdit.Text);
 
 end;
 
@@ -504,11 +505,14 @@ begin
   FComunsFr.LocalizLabeledEdit.Text := ProdEnt.Localiz;
   FComunsFr.MargemEdit.Valor := ProdEnt.Margem;
 
+  FComunsFr.NcmLabeledEdit.Text := ProdEnt.Ncm;
+
   if ProdEnt.ProdBarrasList.Count = 0 then
   begin
     FComunsFr.BarrasFr.LabeledEdit1.Text := '';
     exit;
   end;
+
   FComunsFr.BarrasFr.LabeledEdit1.Text := ProdEnt.ProdBarrasList[0].Barras;
 end;
 
