@@ -2,7 +2,7 @@ unit AppShop.Import.Origem.PLUBase_u;
 
 interface
 
-uses Sis.DB.Import.Origem;
+uses App.DB.Import.Origem;
 
 type
   TDBImportOrigemPLUBase = class(TInterfacedObject, IDBImportOrigem)
