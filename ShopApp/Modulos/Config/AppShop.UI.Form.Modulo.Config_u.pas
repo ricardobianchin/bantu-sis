@@ -7,8 +7,10 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Modulo.Config_u,
   Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls, Vcl.Menus, Sis.DB.DBTypes, Sis.DB.Import.Origem,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.DB.Import;
+  Vcl.StdCtrls, Vcl.Menus, Sis.DB.DBTypes, App.DB.Import.Origem,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.DB.Import,
+  Sis.ModuloSistema, App.Sessao.Eventos, App.Constants, Sis.Usuario, App.AppObj,
+  Sis.UI.Controls.Utils;
 
 type
   TShopConfigModuloForm = class(TConfigModuloBasForm)
@@ -23,6 +25,9 @@ type
       pProcessLog: IProcessLog = nil): IDBImport; override;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
+      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pUsuario: IUsuario; pAppObj: IAppObj); reintroduce;
   end;
 
 var
@@ -37,17 +42,25 @@ uses Sis.Types, ShopApp.Import_u, AppShop.Import.Origem.PLUBase_u,
 
 { TShopConfigModuloForm }
 
+constructor TShopConfigModuloForm.Create(AOwner: TComponent;
+  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
+begin
+  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
+    pUsuario, pAppObj);
+end;
+
 function TShopConfigModuloForm.DBImportCreate(pDestinoDBConnection
   : IDBConnection; pDBImportOrigem: IDBImportOrigem; pOutput: IOutput;
   pProcessLog: IProcessLog): IDBImport;
 begin
-
+    dbimport create
 end;
 
 function TShopConfigModuloForm.DBImportOrigemCreate(pItemIndex: integer)
   : IDBImportOrigem;
 begin
-  case pItemIndex of
+  case pItemIndex + 1 of
     1:
       Result := TDBImportOrigemPLUBase.Create;
     2:
