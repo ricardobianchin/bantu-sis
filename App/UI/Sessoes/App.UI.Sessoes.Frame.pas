@@ -86,7 +86,7 @@ implementation
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
   Sis.Usuario.Factory, Sis.UI.Form.Login_u, App.Sessao.Factory,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
-  Sis.Types.Factory, App.UI.Retaguarda.ImgDM_u;
+  Sis.Types.Factory, Sis.UI.ImgDM;
 
 constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
   pSessaoEventos: ISessaoEventos; pAppObj: IAppObj);

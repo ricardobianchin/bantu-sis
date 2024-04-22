@@ -17,7 +17,6 @@ object SessoesFrame: TSessoesFrame
     ParentBackground = False
     ParentColor = True
     TabOrder = 0
-    ExplicitWidth = 383
     object TopoPanel: TPanel
       Left = 0
       Top = 0
@@ -36,7 +35,7 @@ object SessoesFrame: TSessoesFrame
         ButtonHeight = 162
         ButtonWidth = 147
         Caption = 'ToolBar1'
-        Images = RetagImgDM.PrincImageList
+        Images = SisImgDataModule.PrincImageList
         ShowCaptions = True
         TabOrder = 0
         StyleElements = []
@@ -51,7 +50,6 @@ object SessoesFrame: TSessoesFrame
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitWidth = 383
     end
     object MeioPanel: TPanel
       Left = 0
@@ -63,9 +61,6 @@ object SessoesFrame: TSessoesFrame
       Caption = ' '
       ParentColor = True
       TabOrder = 2
-      ExplicitTop = 41
-      ExplicitWidth = 383
-      ExplicitHeight = 254
       object SessoesScrollBox: TScrollBox
         Left = 0
         Top = 0
@@ -74,8 +69,6 @@ object SessoesFrame: TSessoesFrame
         Align = alClient
         BorderStyle = bsNone
         TabOrder = 0
-        ExplicitWidth = 383
-        ExplicitHeight = 254
       end
     end
   end
