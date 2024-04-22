@@ -100,6 +100,7 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.Utils, System.SysUtils;
 constructor TAppInfo.Create(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string);
 begin
+  inherited Create;
   FExeName := pExeName;
   FPastaBin := GetPastaDoArquivo(FExeName);
   FPasta := PastaAcima(FPastaBin);

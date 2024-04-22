@@ -20,6 +20,7 @@ type
     function GetSisConfig: ISisConfig;
     function GetAppInfo: IAppInfo;
     function GetDBMS: IDBMS;
+    procedure SetDBMS(Value: IDBMS);
 
     function GetStatusOutput: IOutput;
     function GetProcessOutput: IOutput;
@@ -120,6 +121,11 @@ begin
     ProcessLog.RegistreLog('Fim');
     ProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TAppObj.SetDBMS(Value: IDBMS);
+begin
+  FDBMS := Value;
 end;
 
 end.

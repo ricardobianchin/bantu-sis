@@ -225,13 +225,15 @@ begin
     FLoja := LojaCreate;
     FAppInfo := GetAppInfoCreate;
 
-    FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, FDBMS, FStatusOutput,
-      FProcessOutput, FProcessLog);
-
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
-    bResultado := FAppObj.Inicialize;
 
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
+
+
+    FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, {FDBMS}nil, FStatusOutput,
+      FProcessOutput, FProcessLog);
+
+    bResultado := FAppObj.Inicialize;
 
     GarantaDB;
 
@@ -317,6 +319,7 @@ begin
     oSisConfig := FAppObj.SisConfig;
     FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
     FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
+    FAppObj.DBMS := FDBMS;
   finally
     FProcessLog.RetorneLocal;
   end;
