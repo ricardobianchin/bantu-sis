@@ -1,34 +1,37 @@
 object FileSelectLabeledEditFrame: TFileSelectLabeledEditFrame
   Left = 0
   Top = 0
-  Width = 522
+  Width = 526
   Height = 24
   TabOrder = 0
   object MeioPanel: TPanel
     Left = 0
     Top = 0
-    Width = 522
+    Width = 526
     Height = 24
+    Align = alClient
     BevelOuter = bvNone
     Caption = '   '
     TabOrder = 0
+    ExplicitWidth = 522
     DesignSize = (
-      522
+      526
       24)
     object SpeedButton1: TSpeedButton
-      Left = 494
-      Top = 1
+      Left = 501
+      Top = 0
       Width = 23
       Height = 22
       Anchors = [akTop, akRight]
       ImageIndex = 3
       Images = SisImgDataModule.ImageList16Flat
       OnClick = SpeedButton1Click
+      ExplicitLeft = 585
     end
     object NomeArqLabeledEdit: TLabeledEdit
-      Left = 98
+      Left = 101
       Top = 1
-      Width = 395
+      Width = 400
       Height = 23
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 95
