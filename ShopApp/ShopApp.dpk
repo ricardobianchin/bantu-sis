@@ -44,8 +44,8 @@ contains
   ShopApp.UI.Sessao.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessao.Frame_u.pas' {ShopSessaoFrame: TFrame},
   ShopApp.UI.Sessoes.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessoes.Frame_u.pas' {ShopSessoesFrame: TFrame},
   AppShop.Import.Origem.PLUBase_u in 'Modulos\Config\Imports\PLUBase\AppShop.Import.Origem.PLUBase_u.pas',
-  AppShop.Import.Origem.i9PDV_u in 'Modulos\Config\Imports\i9PDV\AppShop.Import.Origem.i9PDV_u.pas',
   ShopApp.DB.Import.Types_u in 'Imports\ShopApp.DB.Import.Types_u.pas',
-  ShopApp.DB.Import_u in 'Imports\ShopApp.DB.Import_u.pas';
+  ShopApp.DB.Import_u in 'Imports\ShopApp.DB.Import_u.pas',
+  ShopApp.DB.Import.Form.PLUBase in 'Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas' {ShopDBImportFormPLUBase};
 
 end.

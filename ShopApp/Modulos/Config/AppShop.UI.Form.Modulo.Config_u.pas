@@ -10,7 +10,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Sis.DB.DBTypes, App.DB.Import.Origem,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.DB.Import,
   Sis.ModuloSistema, App.Sessao.Eventos, App.Constants, Sis.Usuario, App.AppObj,
-  Sis.UI.Controls.Utils;
+  Sis.UI.Controls.Utils, App.DB.Import.Form_u;
 
 type
   TShopConfigModuloForm = class(TConfigModuloBasForm)
@@ -18,11 +18,7 @@ type
     { Private declarations }
   protected
     procedure DBImportPrep; override;
-    function DBImportOrigemCreate(pItemIndex: integer)
-      : IDBImportOrigem; override;
-    function DBImportCreate(pDestinoDBConnection: IDBConnection;
-      pDBImportOrigem: IDBImportOrigem; pOutput: IOutput = nil;
-      pProcessLog: IProcessLog = nil): IDBImport; override;
+    function DBImportFormCreate(pItemIndex: integer): TDBImportForm; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -37,8 +33,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types, ShopApp.Import_u, AppShop.Import.Origem.PLUBase_u,
-  AppShop.Import.Origem.i9PDV_u;
+uses Sis.Types, AppShop.Import.Origem.PLUBase_u, ShopApp.DB.Import.Form.PLUBase,
+  ShopApp.DB.Import.Types_u;
 
 { TShopConfigModuloForm }
 
@@ -50,21 +46,12 @@ begin
     pUsuario, pAppObj);
 end;
 
-function TShopConfigModuloForm.DBImportCreate(pDestinoDBConnection
-  : IDBConnection; pDBImportOrigem: IDBImportOrigem; pOutput: IOutput;
-  pProcessLog: IProcessLog): IDBImport;
-begin
-    dbimport create
-end;
-
-function TShopConfigModuloForm.DBImportOrigemCreate(pItemIndex: integer)
-  : IDBImportOrigem;
+function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
+  : TDBImportForm;
 begin
   case pItemIndex + 1 of
     1:
-      Result := TDBImportOrigemPLUBase.Create;
-    2:
-      Result := TDBImportOrigemi9PDV.Create;
+      Result := TShopDBImportFormPLUBase.Create(Application, AppObj);
   end;
 end;
 

@@ -152,9 +152,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Config\Imports\PLUBase\AppShop.Import.Origem.PLUBase_u.pas"/>
-        <DCCReference Include="Modulos\Config\Imports\i9PDV\AppShop.Import.Origem.i9PDV_u.pas"/>
         <DCCReference Include="Imports\ShopApp.DB.Import.Types_u.pas"/>
         <DCCReference Include="Imports\ShopApp.DB.Import_u.pas"/>
+        <DCCReference Include="Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas">
+            <Form>ShopDBImportFormPLUBase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
