@@ -361,10 +361,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\DBImport\App.DB.Import.Origem.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import_u.pas"/>
-        <DCCReference Include="..\ShopApp\Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas">
-            <Form>ShopDBImportFormPLUBase</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

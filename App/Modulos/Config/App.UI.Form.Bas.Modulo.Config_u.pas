@@ -9,7 +9,8 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.DB.Import.Origem,
   Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, App.DB.Import, Sis.ModuloSistema, App.Sessao.Eventos,
-  App.Constants, Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils;
+  App.Constants, Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils,
+  App.DB.Import.Form_u;
 
 type
   TConfigModuloBasForm = class(TModuloBasForm)
@@ -27,11 +28,7 @@ type
     { Private declarations }
   protected
     procedure DBImportPrep; virtual;
-    function DBImportOrigemCreate(pItemIndex: integer): IDBImportOrigem;
-      virtual; abstract;
-    function DBImportCreate(pDestinoDBConnection: IDBConnection;
-      pDBImportOrigem: IDBImportOrigem; pOutput: IOutput = nil;
-      pProcessLog: IProcessLog = nil): IDBImport; virtual; abstract;
+    function DBImportFormCreate(pItemIndex: integer): TDBImportForm; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -60,24 +57,11 @@ procedure TConfigModuloBasForm.DBImportActionExecute(Sender: TObject);
 var
   iItemIndex: integer;
   iSelectedImportIndex: integer;
-  oDBImport: IDBImport;
-  oDBImportOrigem: IDBImportOrigem;
-  oDBConnectionParams: TDBConnectionParams;
-  oDBConnectionDestino: IDBConnection;
+  oDBImportForm: TDBImportForm;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppInfo, SisConfig);
-
-  oDBConnectionDestino := DBConnectionCreate('Config.Import.Destino.Conn',
-    SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
-
-  iItemIndex := DBImportOrigemComboBox.ItemIndex;
-  oDBImportOrigem := DBImportOrigemCreate(iItemIndex);
-  oDBImport := DBImportCreate(oDBConnectionDestino, oDBImportOrigem, Output,
-    ProcessLog);
-
-  oDBImport.Execute;
+  oDBImportForm := DBImportFormCreate(DBImportOrigemComboBox.ItemIndex);
+  oDBImportForm.ShowModal;
 end;
 
 procedure TConfigModuloBasForm.DBImportPrep;

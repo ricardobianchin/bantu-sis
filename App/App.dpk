@@ -169,7 +169,6 @@ contains
   App.DB.Import.Form_u in 'DB\DBImport\App.DB.Import.Form_u.pas' {DBImportForm},
   App.DB.Import.Origem in 'DB\DBImport\App.DB.Import.Origem.pas',
   App.DB.Import in 'DB\DBImport\App.DB.Import.pas',
-  App.DB.Import_u in 'DB\DBImport\App.DB.Import_u.pas',
-  ShopApp.DB.Import.Form.PLUBase in '..\ShopApp\Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas' {ShopDBImportFormPLUBase};
+  App.DB.Import_u in 'DB\DBImport\App.DB.Import_u.pas';
 
 end.

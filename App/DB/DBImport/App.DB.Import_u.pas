@@ -39,6 +39,7 @@ begin
   if not Result then
     exit;
   try
+    Output.Exibir('Vai importar');
   finally
     DestinoDBConnection.Fechar;
   end;
