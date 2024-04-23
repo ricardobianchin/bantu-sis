@@ -14,6 +14,7 @@ uses
 
 type
   TShopConfigModuloForm = class(TConfigModuloBasForm)
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -65,6 +66,16 @@ begin
       Pointer(MercadoImportSelectItems[i].Id));
   end;
   DBImportOrigemComboBox.ItemIndex := 0;
+end;
+
+procedure TShopConfigModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+{$IFDEF DEBUG}
+  DBImportAction.Execute;
+  Application.Terminate;
+{$ENDIF}
+
 end;
 
 end.

@@ -14,6 +14,7 @@ type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -66,6 +67,16 @@ begin
     StatusOutput.Exibir('Fim');
     StatusOutput.Exibir('');
   end;
+end;
+
+procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+{$IFDEF DEBUG}
+  FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
+  ExecuteAction_AppDBImport.Execute;
+{$ENDIF}
+
 end;
 
 end.
