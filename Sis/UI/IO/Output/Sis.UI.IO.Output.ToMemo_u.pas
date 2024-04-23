@@ -53,6 +53,7 @@ end;
 procedure TMemoOutput.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
 begin
   Exibir(pFrase);
+  ShowMessage(pFrase);
 end;
 
 function TMemoOutput.GetAtivo: boolean;
