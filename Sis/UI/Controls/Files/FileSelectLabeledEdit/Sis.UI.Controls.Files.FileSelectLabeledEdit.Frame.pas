@@ -16,9 +16,12 @@ type
     procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
+    function GetNomeArq: string;
+    procedure SetNomeArq(Value: string);
   public
     { Public declarations }
     procedure PegarFiltro(pFilterStr: string);
+    property NomeArq: string read GetNomeArq write SetNomeArq;
   end;
 
 implementation
@@ -29,16 +32,26 @@ uses Sis.UI.ImgDM;
 
 { TFileSelectLabeledEditFrame }
 
+function TFileSelectLabeledEditFrame.GetNomeArq: string;
+begin
+  Result := Trim(NomeArqLabeledEdit.Text);
+end;
+
 procedure TFileSelectLabeledEditFrame.PegarFiltro(pFilterStr: string);
 begin
   OpenDialog1.Filter := pFilterStr;
+end;
+
+procedure TFileSelectLabeledEditFrame.SetNomeArq(Value: string);
+begin
+  NomeArqLabeledEdit.Text := Trim(Value);
 end;
 
 procedure TFileSelectLabeledEditFrame.SpeedButton1Click(Sender: TObject);
 begin
   if not OpenDialog1.Execute then
     exit;
-  NomeArqLabeledEdit.Text := OpenDialog1.FileName;
+  SetNomeArq(OpenDialog1.FileName);
 end;
 
 end.
