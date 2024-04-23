@@ -18,10 +18,13 @@ type
     { Private declarations }
     function GetNomeArq: string;
     procedure SetNomeArq(Value: string);
+    function GetEditCaption: string;
+    procedure SetEditCaption(const Value: string);
   public
     { Public declarations }
     procedure PegarFiltro(pFilterStr: string);
     property NomeArq: string read GetNomeArq write SetNomeArq;
+    property EditCaption: string read GetEditCaption write SetEditCaption;
   end;
 
 implementation
@@ -32,6 +35,11 @@ uses Sis.UI.ImgDM;
 
 { TFileSelectLabeledEditFrame }
 
+function TFileSelectLabeledEditFrame.GetEditCaption: string;
+begin
+  Result := NomeArqLabeledEdit.EditLabel.Caption;
+end;
+
 function TFileSelectLabeledEditFrame.GetNomeArq: string;
 begin
   Result := Trim(NomeArqLabeledEdit.Text);
@@ -40,6 +48,21 @@ end;
 procedure TFileSelectLabeledEditFrame.PegarFiltro(pFilterStr: string);
 begin
   OpenDialog1.Filter := pFilterStr;
+end;
+
+procedure TFileSelectLabeledEditFrame.SetEditCaption(const Value: string);
+var
+  L: integer;
+begin
+  NomeArqLabeledEdit.EditLabel.Caption := Value;
+
+  L := NomeArqLabeledEdit.EditLabel.Left;
+
+  if L = 0 then
+    exit;
+
+  NomeArqLabeledEdit.Width := NomeArqLabeledEdit.Width + L;
+  NomeArqLabeledEdit.Left := NomeArqLabeledEdit.Left - L;
 end;
 
 procedure TFileSelectLabeledEditFrame.SetNomeArq(Value: string);

@@ -13,7 +13,6 @@ object FileSelectLabeledEditFrame: TFileSelectLabeledEditFrame
     BevelOuter = bvNone
     Caption = '   '
     TabOrder = 0
-    ExplicitWidth = 522
     DesignSize = (
       526
       24)
