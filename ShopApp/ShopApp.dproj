@@ -151,9 +151,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\Config\Imports\PLUBase\AppShop.Import.Origem.PLUBase_u.pas"/>
         <DCCReference Include="Imports\ShopApp.DB.Import.Types_u.pas"/>
-        <DCCReference Include="Imports\ShopApp.DB.Import_u.pas"/>
         <DCCReference Include="Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas">
             <Form>ShopDBImportFormPLUBase</Form>
             <FormType>dfm</FormType>

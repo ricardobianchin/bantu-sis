@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Vcl.StdCtrls, Sis.UI.IO.Output,
-  Sis.UI.IO.Factory, App.DB.Import.Origem, App.DB.Import, Sis.DB.DBTypes,
+  Sis.UI.IO.Factory, Sis.DB.DBTypes,
   Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, App.AppObj, System.Actions, Vcl.ActnList,
   Vcl.Buttons,
@@ -26,13 +26,10 @@ type
     ExecuteAction_AppDBImport: TAction;
     SplitterStatusMemo: TSplitter;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
-    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
     FStatusOutput: IOutput;
-    FDBImport: IDBImport;
-    FDBImportOrigem: IDBImportOrigem;
     FProdFDMemTable: TFDMemTable;
     FAppObj: IAppObj;
     FDestinoDBConnection: IDBConnection;
@@ -45,13 +42,6 @@ type
     property ProdFDMemTable: TFDMemTable read FProdFDMemTable;
     property AppObj: IAppObj read FAppObj;
 
-    property DBImport: IDBImport read FDBImport;
-    property DBImportOrigem: IDBImportOrigem read FDBImportOrigem;
-
-    function DBImportOrigemCreate: IDBImportOrigem; virtual; abstract;
-    function DBImportCreate(pDestinoDBConnection: IDBConnection;
-      pDBImportOrigem: IDBImportOrigem; pOutput: IOutput = nil;
-      pProcessLog: IProcessLog = nil): IDBImport; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
@@ -97,10 +87,6 @@ begin
 
   FDestinoDBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     AppObj.dbms, oDBConnectionParams, ProcessLog, FStatusOutput);
-
-  FDBImportOrigem := DBImportOrigemCreate;
-  FDBImport := DBImportCreate(FDestinoDBConnection, FDBImportOrigem,
-    FStatusOutput, nil);
 end;
 
 procedure TDBImportForm.DefCampos;
@@ -120,12 +106,6 @@ begin
   finally
     DefsSL.Free;
   end;
-end;
-
-procedure TDBImportForm.ExecuteAction_AppDBImportExecute(Sender: TObject);
-begin
-  inherited;
-  FDBImport.Execute;
 end;
 
 function TDBImportForm.GetNomeArqTabViewProd: string;

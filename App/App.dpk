@@ -166,9 +166,6 @@ contains
   App.Retag.Fin.PagForma.Ed.DBI in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas',
   App.Retag.Fin.PagForma.Ed.DBI_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas',
   App.Retag in 'Modulos\Retag\App.Retag.pas',
-  App.DB.Import.Form_u in 'DB\DBImport\App.DB.Import.Form_u.pas' {DBImportForm},
-  App.DB.Import.Origem in 'DB\DBImport\App.DB.Import.Origem.pas',
-  App.DB.Import in 'DB\DBImport\App.DB.Import.pas',
-  App.DB.Import_u in 'DB\DBImport\App.DB.Import_u.pas';
+  App.DB.Import.Form_u in 'DB\DBImport\App.DB.Import.Form_u.pas' {DBImportForm};
 
 end.

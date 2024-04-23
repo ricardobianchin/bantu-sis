@@ -1,21 +1,21 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
-  ClientHeight = 512
-  ClientWidth = 628
+  ClientHeight = 511
+  ClientWidth = 624
   WindowState = wsMaximized
-  ExplicitTop = -181
-  ExplicitWidth = 640
-  ExplicitHeight = 550
+  ExplicitWidth = 636
+  ExplicitHeight = 549
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 628
+    Width = 624
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitWidth = 620
     object ExecuteBitBtn: TBitBtn
       Left = 536
       Top = 7
@@ -28,30 +28,31 @@ inherited DBImportForm: TDBImportForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 481
-    Width = 628
+    Top = 480
+    Width = 624
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 394
-    ExplicitWidth = 560
+    ExplicitTop = 479
+    ExplicitWidth = 620
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 628
-    Height = 440
+    Width = 624
+    Height = 439
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
-    ExplicitTop = 38
+    ExplicitWidth = 620
+    ExplicitHeight = 438
     object SplitterStatusMemo: TSplitter
       Left = 0
-      Top = 308
-      Width = 628
+      Top = 307
+      Width = 624
       Height = 5
       Cursor = crVSplit
       Align = alBottom
@@ -60,30 +61,31 @@ inherited DBImportForm: TDBImportForm
     end
     object StatusMemo: TMemo
       Left = 0
-      Top = 313
-      Width = 628
+      Top = 312
+      Width = 624
       Height = 127
       Align = alBottom
       BorderStyle = bsNone
       TabOrder = 0
-      ExplicitTop = 312
+      ExplicitTop = 311
+      ExplicitWidth = 620
     end
     object GridsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 628
-      Height = 308
+      Width = 624
+      Height = 307
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitWidth = 564
-      ExplicitHeight = 185
+      ExplicitWidth = 620
+      ExplicitHeight = 306
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
-        Width = 628
-        Height = 308
+        Width = 624
+        Height = 307
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -106,7 +108,6 @@ inherited DBImportForm: TDBImportForm
     Top = 81
     object ExecuteAction_AppDBImport: TAction
       Caption = 'Execute'
-      OnExecute = ExecuteAction_AppDBImportExecute
     end
   end
 end

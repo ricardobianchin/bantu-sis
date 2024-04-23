@@ -6,9 +6,9 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.DB.Import.Origem,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus,
   Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, App.DB.Import, Sis.ModuloSistema, App.Sessao.Eventos,
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos,
   App.Constants, Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils,
   App.DB.Import.Form_u;
 

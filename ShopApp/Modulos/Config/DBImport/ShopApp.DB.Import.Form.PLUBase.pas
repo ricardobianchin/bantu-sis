@@ -7,21 +7,18 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.DB.Import.Form_u, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, App.AppObj, System.Actions, Vcl.ActnList, Vcl.Buttons,
-  App.DB.Import.Origem, App.DB.Import, Sis.UI.IO.Output, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame;
 
 type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
+    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
+    FNomeArq: string;
     FFileSelectFrame: TFileSelectLabeledEditFrame;
   protected
-    function DBImportCreate(pDestinoDBConnection: IDBConnection;
-      pDBImportOrigem: IDBImportOrigem; pOutput: IOutput = nil;
-      pProcessLog: IProcessLog = nil): IDBImport; override;
-    function DBImportOrigemCreate: IDBImportOrigem; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
@@ -35,8 +32,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, AppShop.Import.Origem.PLUBase_u,
-  ShopApp.DB.Import_u;
+uses Sis.UI.Controls.Utils;
 
 { TShopDBImportFormPLUBase }
 
@@ -48,16 +44,25 @@ begin
   PegueFormatoDe(FFileSelectFrame, MoldeFileSelectPanel);
 end;
 
-function TShopDBImportFormPLUBase.DBImportCreate(pDestinoDBConnection
-  : IDBConnection; pDBImportOrigem: IDBImportOrigem; pOutput: IOutput = nil;
-  pProcessLog: IProcessLog = nil): IDBImport;
+procedure TShopDBImportFormPLUBase.ExecuteAction_AppDBImportExecute
+  (Sender: TObject);
+var
+  bResultado: boolean;
 begin
-  Result := TShopDBImport.Create(pDestinoDBConnection, pDBImportOrigem, pOutput, pProcessLog);
-end;
-
-function TShopDBImportFormPLUBase.DBImportOrigemCreate: IDBImportOrigem;
-begin
-  Result := TDBImportOrigemPLUBase.Create;
+  inherited;
+  StatusOutput.Exibir('Inicio');
+  try
+    FNomeArq := FFileSelectFrame.NomeArq;
+    bResultado := FileExists(FNomeArq);
+    if not bResultado then
+    begin
+      StatusOutput.ExibirPausa('Erro: Arquivo nao existe: [' + FNomeArq + ']', TMsgDlgType.mtError);
+      Exit;
+    end;
+  finally
+    StatusOutput.Exibir('Fim');
+    StatusOutput.Exibir('');
+  end;
 end;
 
 end.
