@@ -38,13 +38,12 @@ type
     function GetNomeArqTabViewProd: string;
     procedure DefCampos;
   protected
-    property StatusOutput: IOutput read FStatusOutput write FStatusOutput;
+    property StatusOutput: IOutput read FStatusOutput;
     property ProdFDMemTable: TFDMemTable read FProdFDMemTable;
     property AppObj: IAppObj read FAppObj;
 
-    property DBImport: IDBImport read FDBImport write FDBImport;
-    property DBImportOrigem: IDBImportOrigem read FDBImportOrigem
-      write FDBImportOrigem;
+    property DBImport: IDBImport read FDBImport;
+    property DBImportOrigem: IDBImportOrigem read FDBImportOrigem;
 
     function DBImportOrigemCreate: IDBImportOrigem; virtual; abstract;
     function DBImportCreate(pDestinoDBConnection: IDBConnection;
