@@ -41,6 +41,7 @@ constructor TShopDBImportFormPLUBase.Create(AOwner: TComponent;
 begin
   inherited;
   FFileSelectFrame := TFileSelectLabeledEditFrame.Create(TopoPanel);
+  FFileSelectFrame.EditCaption := 'Arquivo PLUBASE.TXT';
   PegueFormatoDe(FFileSelectFrame, MoldeFileSelectPanel);
 end;
 
@@ -53,6 +54,8 @@ begin
   StatusOutput.Exibir('Inicio');
   try
     FNomeArq := FFileSelectFrame.NomeArq;
+
+    bResultado := FNomeArq <> '';
     bResultado := FileExists(FNomeArq);
     if not bResultado then
     begin
