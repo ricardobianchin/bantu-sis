@@ -19,6 +19,7 @@ type
     { Private declarations }
     FNomeArq: string;
     FFileSelectFrame: TFileSelectLabeledEditFrame;
+    FLinhasSL: TStringList;
   protected
   public
     { Public declarations }
@@ -57,12 +58,29 @@ begin
     FNomeArq := FFileSelectFrame.NomeArq;
 
     bResultado := FNomeArq <> '';
+    if not bResultado then
+    begin
+      StatusOutput.ExibirPausa('Erro: Nome do Arquivo e´ obrigatorio', TMsgDlgType.mtError);
+      Exit;
+    end;
+
     bResultado := FileExists(FNomeArq);
     if not bResultado then
     begin
-      StatusOutput.ExibirPausa('Erro: Arquivo nao existe: [' + FNomeArq + ']', TMsgDlgType.mtError);
+      StatusOutput.ExibirPausa('Erro: Arquivo nao existe: [' + FNomeArq + ']',
+        TMsgDlgType.mtError);
       Exit;
     end;
+
+    FLinhasSL := TStringList.Create;
+    try
+      FLinhasSL.LoadFromFile(FNomeArq);
+      FLinhasSL.Delete(0);
+      StatusOutput.Exibir('Qtd linhas: ' + FLinhasSL.Count.ToString);
+    finally
+      FLinhasSL.Free;
+    end;
+
   finally
     StatusOutput.Exibir('Fim');
     StatusOutput.Exibir('');
@@ -76,7 +94,6 @@ begin
   FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
   ExecuteAction_AppDBImport.Execute;
 {$ENDIF}
-
 end;
 
 end.
