@@ -178,7 +178,8 @@ var
 begin
   Result := False;
 
-  sSql := 'SELECT ' + 'PROD_ID' + // 0
+  sSql := 'SELECT ' + //
+    'PROD_ID' + // 0
     ', DESCR' + // 1
     ', DESCR_RED' + // 2
     ', FABR_ID' + // 3
