@@ -2,6 +2,8 @@ inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
   ClientHeight = 512
   ClientWidth = 628
+  WindowState = wsMaximized
+  ExplicitTop = -181
   ExplicitWidth = 640
   ExplicitHeight = 550
   TextHeight = 15
@@ -45,36 +47,43 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
-    ExplicitTop = 57
-    ExplicitWidth = 560
-    ExplicitHeight = 337
+    ExplicitTop = 38
+    object SplitterStatusMemo: TSplitter
+      Left = 0
+      Top = 308
+      Width = 628
+      Height = 5
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitTop = 185
+      ExplicitWidth = 119
+    end
     object StatusMemo: TMemo
       Left = 0
-      Top = 185
+      Top = 313
       Width = 628
-      Height = 255
-      Align = alClient
+      Height = 127
+      Align = alBottom
       BorderStyle = bsNone
       TabOrder = 0
-      ExplicitTop = 112
-      ExplicitWidth = 564
-      ExplicitHeight = 226
+      ExplicitTop = 312
     end
     object GridsPanel: TPanel
       Left = 0
       Top = 0
       Width = 628
-      Height = 185
-      Align = alTop
+      Height = 308
+      Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
       ExplicitWidth = 564
+      ExplicitHeight = 185
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
         Width = 628
-        Height = 185
+        Height = 308
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource

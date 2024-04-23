@@ -1,5 +1,6 @@
 inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
-  Caption = 'ShopDBImportFormPLUBase'
+  Caption = 'Mercado, Importar PLUBase'
+  ExplicitTop = -99
   TextHeight = 15
   inherited TopoPanel: TPanel
     object MoldeFileSelectPanel: TPanel [0]
@@ -12,21 +13,6 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     end
     inherited ExecuteBitBtn: TBitBtn
       TabOrder = 1
-      OnClick = nil
-    end
-  end
-  inherited BasePanel: TPanel
-    ExplicitWidth = 624
-  end
-  inherited MeioPanel: TPanel
-    ExplicitWidth = 628
-    inherited StatusMemo: TMemo
-      ExplicitTop = 185
-      ExplicitWidth = 624
-      ExplicitHeight = 152
-    end
-    inherited GridsPanel: TPanel
-      ExplicitWidth = 624
     end
   end
 end

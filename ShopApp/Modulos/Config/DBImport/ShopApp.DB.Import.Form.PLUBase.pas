@@ -24,7 +24,8 @@ type
     function DBImportOrigemCreate: IDBImportOrigem; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj);
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pProcessLog: IProcessLog = nil);
   end;
 
 var
@@ -34,12 +35,13 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils;
+uses Sis.UI.Controls.Utils, AppShop.Import.Origem.PLUBase_u,
+  ShopApp.DB.Import_u;
 
 { TShopDBImportFormPLUBase }
 
 constructor TShopDBImportFormPLUBase.Create(AOwner: TComponent;
-  pAppObj: IAppObj);
+  pAppObj: IAppObj; pProcessLog: IProcessLog = nil);
 begin
   inherited;
   FFileSelectFrame := TFileSelectLabeledEditFrame.Create(TopoPanel);
@@ -50,12 +52,12 @@ function TShopDBImportFormPLUBase.DBImportCreate(pDestinoDBConnection
   : IDBConnection; pDBImportOrigem: IDBImportOrigem; pOutput: IOutput = nil;
   pProcessLog: IProcessLog = nil): IDBImport;
 begin
-
+  Result := TShopDBImport.Create(pDestinoDBConnection, pDBImportOrigem, pOutput, pProcessLog);
 end;
 
 function TShopDBImportFormPLUBase.DBImportOrigemCreate: IDBImportOrigem;
 begin
-
+  Result := TDBImportOrigemPLUBase.Create;
 end;
 
 end.

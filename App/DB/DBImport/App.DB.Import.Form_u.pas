@@ -24,10 +24,12 @@ type
     ExecuteBitBtn: TBitBtn;
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
+    SplitterStatusMemo: TSplitter;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
+    FProcessLog: IProcessLog;
     FStatusOutput: IOutput;
     FDBImport: IDBImport;
     FDBImportOrigem: IDBImportOrigem;
@@ -38,6 +40,7 @@ type
     function GetNomeArqTabViewProd: string;
     procedure DefCampos;
   protected
+    property ProcessLog: IProcessLog read FProcessLog;
     property StatusOutput: IOutput read FStatusOutput;
     property ProdFDMemTable: TFDMemTable read FProdFDMemTable;
     property AppObj: IAppObj read FAppObj;
@@ -51,7 +54,8 @@ type
       pProcessLog: IProcessLog = nil): IDBImport; virtual; abstract;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj);
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pProcessLog: IProcessLog = nil);
   end;
 
 var
@@ -61,22 +65,30 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.DataSet.Utils, Sis.DB.Factory, Sis.UI.Controls.Utils, App.DB.Utils;
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
+  Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TDBImportForm }
 
-constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj);
+constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj;
+      pProcessLog: IProcessLog = nil);
 var
   sNomeArq: string;
   oDBConnectionParams: TDBConnectionParams;
 begin
   inherited Create(AOwner);
+  if pProcessLog = nil then
+    FProcessLog := MudoProcessLogCreate
+  else
+    FProcessLog := pProcessLog;
+
   FStatusOutput := MemoOutputCreate(StatusMemo);
 
   FAppObj := pAppObj;
   FProdFDMemTable := TFDMemTable.Create(Self);
   FProdFDMemTable.Name := ClassName + 'ProdFDMemTable';
   // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+
   sNomeArq := GetNomeArqTabViewProd;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdFDMemTable, ProdDBGrid);
 
@@ -84,7 +96,7 @@ begin
     AppObj.AppInfo, AppObj.SisConfig);
 
   FDestinoDBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
-    AppObj.dbms, oDBConnectionParams, nil, FStatusOutput);
+    AppObj.dbms, oDBConnectionParams, ProcessLog, FStatusOutput);
 
   FDBImportOrigem := DBImportOrigemCreate;
   FDBImport := DBImportCreate(FDestinoDBConnection, FDBImportOrigem,

@@ -35,13 +35,32 @@ end;
 
 function TDBImport.Execute: Boolean;
 begin
+  Output.Exibir('');
+  Output.Exibir('-------------');
+  Output.Exibir('Início');
+  Output.Exibir('-------------');
   Result := DestinoDBConnection.Abrir;
   if not Result then
+  begin
+    Output.Exibir('Erro ao Conectar no Banco de Dados');
+    Output.Exibir('Terminando sem importar');
     exit;
+  end;
   try
     Output.Exibir('Vai importar');
+
+    Result := FDBImportOrigem.PodeImportar;
+    if not Result then
+    begin
+      Output.Exibir('Terminando sem importar');
+      exit;
+    end;
+
   finally
     DestinoDBConnection.Fechar;
+  Output.Exibir('-------------');
+  Output.Exibir('Fim');
+  Output.Exibir('-------------');
   end;
 end;
 
