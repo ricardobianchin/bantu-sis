@@ -227,7 +227,7 @@ begin
   MaiorShortCut := MenorShortCut + Count - 1;
   wShortCut := TShortCut(Key);
 
-  Result := (wShortCut >= MenorShortCut) and (wShortCut >= MaiorShortCut);
+  Result := (wShortCut >= MenorShortCut) and (wShortCut <= MaiorShortCut);
   if not Result then
     exit;
 
