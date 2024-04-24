@@ -56,8 +56,13 @@ begin
 end;
 
 function TProdTipoDBI.GetSqlPreencherDataSet(pValues: variant): string;
+var
+  sFormat: string;
+  sBusca: string;
 begin
-  Result := 'SELECT PROD_TIPO_ID, DESCR FROM PROD_TIPO_PA.LISTA_GET;';
+  sFormat := 'SELECT PROD_TIPO_ID, DESCR FROM PROD_TIPO_PA.LISTA_GET(''%s'');';
+  sBusca := VarToString(pValues);
+  Result := Format(sFormat, [sBusca]);
 end;
 
 procedure TProdTipoDBI.SetNovaId(pId: variant);
