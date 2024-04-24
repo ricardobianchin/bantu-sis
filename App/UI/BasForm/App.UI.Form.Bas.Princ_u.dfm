@@ -1293,21 +1293,27 @@ inherited PrincBasForm: TPrincBasForm
     Align = alTop
     BevelOuter = bvNone
     Caption = '   '
+    Color = 3813420
+    ParentBackground = False
     TabOrder = 0
+    StyleElements = []
+    OnMouseDown = TitleBarPanelMouseDown
     DesignSize = (
       628
       41)
     object TitleBarCaptionLabel: TLabel
-      Left = 32
+      Left = 25
       Top = 16
       Width = 109
       Height = 15
       Caption = 'TitleBarCaptionLabel'
+      Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
+      ParentColor = False
       ParentFont = False
       StyleElements = []
     end
@@ -1320,8 +1326,10 @@ inherited PrincBasForm: TPrincBasForm
       Anchors = [akTop, akRight]
       ButtonWidth = 47
       Caption = 'ToolBar1'
+      Color = 3813420
       Flat = False
       Images = SisImgDataModule.ImageList_40_24
+      ParentColor = False
       TabOrder = 0
       Transparent = True
       StyleElements = []

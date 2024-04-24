@@ -114,7 +114,7 @@ constructor TModuloBasForm.Create(AOwner: TComponent;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
-  TitleBarPanel.Color := COR_PRETO_TITLEBAR;
+  TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   FModuloSistema := pModuloSistema;
   FSessaoEventos := pSessaoEventos;
   FSessaoIndex := pSessaoIndex;

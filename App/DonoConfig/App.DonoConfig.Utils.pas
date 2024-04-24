@@ -18,10 +18,11 @@ var
   TmpCliCod: integer;
   TmpFundoCor: TColor;
   TmpFonteCor: TColor;
-  TmpNomeExib: string[200];
+  TmpNomeExib: string;
+  Len: Integer;  // Variável para armazenar o comprimento da string
 
 begin
-  Arquivo := pAppInfo.PastaBin + 'App.bin';
+  Arquivo := pAppInfo.PastaConfigs + 'App.bin';
 
   Stream := TFileStream.Create(Arquivo, fmOpenRead);
   try
@@ -31,7 +32,11 @@ begin
       Stream.Read(TmpCliCod, SizeOf(TmpCliCod));
       Stream.Read(TmpFundoCor, SizeOf(TColor));
       Stream.Read(TmpFonteCor, SizeOf(TColor));
-      Stream.Read(TmpNomeExib[1], 200);
+
+      // Ler a string
+      Stream.Read(Len, SizeOf(Len));  // Ler o comprimento da string
+//      SetLength(TmpNomeExib, Len);  // Definir o comprimento da string
+//      Stream.Read(PChar(TmpNomeExib)^, Len);  // Ler a string
     end;
   finally
     Stream.Free;
@@ -39,7 +44,7 @@ begin
   pAppInfo.PessoaDonoId := TmpCliCod;
   pAppInfo.FundoCor := TmpFundoCor;
   pAppInfo.FonteCor := TmpFonteCor;
-  pAppInfo.NomeExib := TmpNomeExib;
+  pAppInfo.NomeExib := 'Administrador do Sistema Daros';//TmpNomeExib;
 end;
 
 end.

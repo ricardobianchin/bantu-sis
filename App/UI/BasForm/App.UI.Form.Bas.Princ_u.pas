@@ -28,6 +28,8 @@ type
     procedure FormDestroy(Sender: TObject);
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
+    procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -158,6 +160,8 @@ begin
     FProcessLog.RegistreLog(sLog);
 
     TitleBarCaptionLabel.Caption := FAppInfo.NomeExib;
+    TitleBarCaptionLabel.StyleElements := [];
+    TitleBarCaptionLabel.Font.Color := clWhite;
 
     Color := FAppInfo.FundoCor;
     Font.Color := FAppInfo.FonteCor;
@@ -206,8 +210,8 @@ var
 begin
   inherited Create(AOwner);
   Randomize;
-  TitleBarPanel.Color := COR_PRETO_TITLEBAR;
-  ToolBar1.Color := COR_PRETO_TITLEBAR;
+  TitleBarPanel.Color := COR_AZUL_TITLEBAR;
+  ToolBar1.Color := COR_AZUL_TITLEBAR;
 
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
@@ -260,6 +264,8 @@ begin
     CarregarMachineId;
 
     PreenchaAtividade;
+
+    ClearStyleElements(TitleBarPanel);
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -365,10 +371,24 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
   try
     inherited;
+    ToolBar1.Repaint;
     OculteSplashForm;
 
   finally
     FProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+const
+  SC_DRAGMOVE = $F012;
+begin
+  inherited;
+  if Button = mbLeft then
+  begin
+    ReleaseCapture;
+    Perform(WM_SYSCOMMAND, SC_DRAGMOVE, 0);
   end;
 end;
 
