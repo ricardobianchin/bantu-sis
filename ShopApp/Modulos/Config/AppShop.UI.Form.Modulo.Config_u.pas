@@ -51,7 +51,7 @@ function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
 begin
   case pItemIndex + 1 of
     1:
-      Result := TShopDBImportFormPLUBase.Create(Application, AppObj);
+      Result := TShopDBImportFormPLUBase.Create(Application, AppObj, Usuario);
   end;
 end;
 
@@ -71,10 +71,10 @@ end;
 procedure TShopConfigModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-{$IFDEF DEBUG}
-  DBImportAction.Execute;
-  Application.Terminate;
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  DBImportAction.Execute;
+//  Application.Terminate;
+//{$ENDIF}
 
 end;
 

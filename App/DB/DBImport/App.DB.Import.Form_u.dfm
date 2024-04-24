@@ -37,6 +37,14 @@ inherited DBImportForm: TDBImportForm
     TabOrder = 1
     ExplicitTop = 479
     ExplicitWidth = 620
+    object ProgressBar1: TProgressBar
+      Left = 8
+      Top = 8
+      Width = 500
+      Height = 17
+      TabOrder = 0
+      Visible = False
+    end
   end
   object MeioPanel: TPanel [2]
     Left = 0

@@ -10,7 +10,7 @@ uses
   Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, App.AppObj, System.Actions, Vcl.ActnList,
   Vcl.Buttons,
-  Sis.UI.IO.Output.ProcessLog;
+  Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario;
 
 type
   TDBImportForm = class(TBasForm)
@@ -25,6 +25,7 @@ type
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
     SplitterStatusMemo: TSplitter;
+    ProgressBar1: TProgressBar;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
@@ -33,6 +34,7 @@ type
     FProdFDMemTable: TFDMemTable;
     FAppObj: IAppObj;
     FDestinoDBConnection: IDBConnection;
+    FUsuario: IUsuario;
 
     function GetNomeArqTabViewProd: string;
     procedure DefCampos;
@@ -41,10 +43,11 @@ type
     property StatusOutput: IOutput read FStatusOutput;
     property ProdFDMemTable: TFDMemTable read FProdFDMemTable;
     property AppObj: IAppObj read FAppObj;
-
+    property DestinoDBConnection: IDBConnection read FDestinoDBConnection;
+    property Usuario: IUsuario read FUsuario;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
       pProcessLog: IProcessLog = nil);
   end;
 
@@ -60,13 +63,14 @@ uses Sis.DB.DataSet.Utils, Sis.DB.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
 
 { TDBImportForm }
 
-constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj;
+constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
       pProcessLog: IProcessLog = nil);
 var
   sNomeArq: string;
   oDBConnectionParams: TDBConnectionParams;
 begin
   inherited Create(AOwner);
+  FUsuario := pUsuario;
   if pProcessLog = nil then
     FProcessLog := MudoProcessLogCreate
   else
