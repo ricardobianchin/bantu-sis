@@ -37,7 +37,7 @@ type
     DescrRedSL: TStringList;
     ProdTipoSL: TStringList;
 
-    procedure GravarProdTipo;
+    procedure GravarImportProdTipo;
 
     procedure LeiaLinhaAtual;
     procedure GravarLinhaAtual;
@@ -77,6 +77,7 @@ procedure TShopDBImportFormPLUBase.ExecuteAction_AppDBImportExecute
 var
   bResultado: boolean;
   iLinhaAtual: integer;
+  sSql: string;
 begin
   inherited;
   StatusOutput.Exibir('Inicio');
@@ -108,14 +109,15 @@ begin
     ProdTipoSL.Add('NAO INDICADO');
 
     DestinoDBConnection.Abrir;
-
     ProgressBar1.Visible := true;
     try
       bResultado := ZereDados(DestinoDBConnection);
       if not bResultado then
         Exit;
 
-
+      sSql := 'EXECUTE PROCEDURE IMPORT_FABR_PA.GARANTIR_ID_DESCR('
+        +'''PADRAO'', 1);';
+      DestinoDBConnection.ExecuteSQL(sSql);
 
       FLinhasSL.LoadFromFile(FNomeArq);
       FLinhasSL.Delete(0);
@@ -145,105 +147,29 @@ begin
   end;
 end;
 
-procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
+procedure TShopDBImportFormPLUBase.GravarImportProdTipo;
 var
-  s: string;
-begin
-  GravarProdTipo;
-  s := 'EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO(' + iProdId.ToString
-  // PROD_ID INTEGER NOT NULL
-    + ', ' + QuotedStr(sDescr) // DESCR           PROD_DESCR_DOM NOT NULL
-    + ', ' + QuotedStr(sDescrRed) // DESCR_RED     PROD_DESCR_RED_DOM NOT NULL
-
-    + ', 1' // FABR_ID       ID_SHORT_DOM NOT NULL
-    + ', ' + iProdTipoId.ToString // PROD_TIPO_ID  ID_SHORT_DOM NOT NULL
-    + ', 1' // UNID_ID       ID_SHORT_DOM NOT NULL
-    + ', 0' // ICMS_ID       ID_SHORT_DOM NOT NULL
-
-    + ', ' + QuotedStr(#33) // PROD_NATU_ID  ID_CHAR_DOM NOT NULL
-
-    + ', 1' // CAPAC_EMB     NUMERIC(8, 3) NOT NULL
-
-    + ', ' + QuotedStr(sNCM) // NCM           CHAR(8) NOT NULL
-
-    + ', ' + AppObj.Loja.Id.ToString // LOJA_ID            ID_SHORT_DOM NOT NULL
-    + ', ' + Usuario.Id.ToString // USUARIO_ID         ID_DOM NOT NULL
-    + ', ' + AppObj.SisConfig.ServerMachineId.IdentId.ToString
-  // MACHINE_ID         ID_SHORT_DOM
-    + ', ' + CurrencyToStrPonto(cCusto) // CUSTO              CUSTO_DOM
-
-    + ', 1' // PROD_PRECO_TABELA_ID ID_SHORT_DOM
-    + ', ' + CurrencyToStrPonto(cPreco) // PRECO              PRECO_DOM
-
-    + ', TRUE' // ATIVO              BOOLEAN NOT NULL
-    + ', ' + QuotedStr('') // LOCALIZ            NOME_CURTO_DOM NOT NULL
-    + ', 0' // MARGEM             PERC_DOM
-
-    + ', 0' // BAL_USO            SMALLINT NOT NULL
-    + ', 001' // BAL_DPTO           CHAR(3)  NOT NULL
-    + ', 0' // BAL_VALIDADE_DIAS  SMALLINT  NOT NULL
-    + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ     VARCHAR(400)  NOT NULL
-
-    + ', ' + QuotedStr(sBarCod) // CODIGOS_DE_BARRA VARCHAR(2000)
-    + ');';
-  StatusOutput.Exibir(iProdId.ToString);
-  // SetClipboardText(s);
-  DestinoDBConnection.ExecuteSQL(s);
-
-  {
-    PROCEDURE INSERIR_EXISTENTE_DO
-    (
-    PROD_ID INTEGER NOT NULL
-    , DESCR           PROD_DESCR_DOM NOT NULL
-    , DESCR_RED     PROD_DESCR_RED_DOM NOT NULL
-
-    , FABR_ID       ID_SHORT_DOM NOT NULL
-    , PROD_TIPO_ID  ID_SHORT_DOM NOT NULL
-    , UNID_ID       ID_SHORT_DOM NOT NULL
-    , ICMS_ID       ID_SHORT_DOM NOT NULL
-
-    , PROD_NATU_ID  ID_CHAR_DOM NOT NULL
-
-    , CAPAC_EMB     NUMERIC(8, 3) NOT NULL
-
-    , NCM           CHAR(8) NOT NULL
-
-    , LOJA_ID            ID_SHORT_DOM NOT NULL
-    , USUARIO_ID         ID_DOM NOT NULL
-    , MACHINE_ID         ID_SHORT_DOM
-    , CUSTO              CUSTO_DOM
-
-    , PROD_PRECO_TABELA_ID ID_SHORT_DOM
-    , PRECO              PRECO_DOM
-
-    , ATIVO              BOOLEAN NOT NULL
-    , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
-
-    , BAL_USO            SMALLINT NOT NULL
-    , BAL_DPTO           CHAR(3)  NOT NULL
-    , BAL_VALIDADE_DIAS  SMALLINT  NOT NULL
-    , BAL_TEXTO_ETIQ     VARCHAR(400)  NOT NULL
-
-    , CODIGOS_DE_BARRA VARCHAR(2000)
-
-  }
-end;
-
-procedure TShopDBImportFormPLUBase.GravarProdTipo;
-var
-  s: string;
+  sSql: string;
 begin
   iProdTipoId := ProdTipoSL.IndexOf(sProdTipoDescr);
   if iProdTipoId = -1 then
   begin
     ProdTipoSL.Add(sProdTipoDescr);
     iProdTipoId := ProdTipoSL.Count - 1;
-    s := 'insert into prod_tipo(' + 'PROD_TIPO_ID, DESCR' + ') VALUES (' +
-      iProdTipoId.ToString + ', ' + QuotedStr(sProdTipoDescr) + ');';
 
-    DestinoDBConnection.ExecuteSQL(s);
+    sSql := 'EXECUTE PROCEDURE IMPORT_PROD_TIPO_PA.GARANTIR_ID_DESCR('
+      + QuotedStr(sProdTipoDescr) + ', ' + iProdTipoId.ToString
+      + ');';
+
+    DestinoDBConnection.ExecuteSQL(sSql);
   end;
+end;
+
+procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
+var
+  s: string;
+begin
+  GravarImportProdTipo;
 end;
 
 function TShopDBImportFormPLUBase.JaTemDescr(pDescr: string): boolean;
