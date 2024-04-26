@@ -1,15 +1,16 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
   ClientHeight = 511
-  ClientWidth = 624
+  ClientWidth = 708
   WindowState = wsMaximized
-  ExplicitWidth = 636
+  ExplicitLeft = -89
+  ExplicitWidth = 720
   ExplicitHeight = 549
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 624
+    Width = 708
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -17,19 +18,28 @@ inherited DBImportForm: TDBImportForm
     TabOrder = 0
     ExplicitWidth = 620
     object ExecuteBitBtn: TBitBtn
-      Left = 536
+      Left = 537
       Top = 7
-      Width = 75
+      Width = 90
       Height = 25
       Action = ExecuteAction_AppDBImport
       Caption = 'Execute'
       TabOrder = 0
     end
+    object ZerarBitBtn: TBitBtn
+      Left = 633
+      Top = 7
+      Width = 90
+      Height = 25
+      Action = ZerarExecuteAction_AppDBImport
+      Caption = 'Apagar Dados'
+      TabOrder = 1
+    end
   end
   object BasePanel: TPanel [1]
     Left = 0
     Top = 480
-    Width = 624
+    Width = 708
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
@@ -49,7 +59,7 @@ inherited DBImportForm: TDBImportForm
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 624
+    Width = 708
     Height = 439
     Align = alClient
     BevelOuter = bvNone
@@ -60,7 +70,7 @@ inherited DBImportForm: TDBImportForm
     object SplitterStatusMemo: TSplitter
       Left = 0
       Top = 307
-      Width = 624
+      Width = 708
       Height = 5
       Cursor = crVSplit
       Align = alBottom
@@ -70,7 +80,7 @@ inherited DBImportForm: TDBImportForm
     object StatusMemo: TMemo
       Left = 0
       Top = 312
-      Width = 624
+      Width = 708
       Height = 127
       Align = alBottom
       BorderStyle = bsNone
@@ -81,7 +91,7 @@ inherited DBImportForm: TDBImportForm
     object GridsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 624
+      Width = 708
       Height = 307
       Align = alClient
       BevelOuter = bvNone
@@ -92,7 +102,7 @@ inherited DBImportForm: TDBImportForm
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
-        Width = 624
+        Width = 708
         Height = 307
         Align = alClient
         BorderStyle = bsNone
@@ -116,6 +126,10 @@ inherited DBImportForm: TDBImportForm
     Top = 81
     object ExecuteAction_AppDBImport: TAction
       Caption = 'Execute'
+    end
+    object ZerarExecuteAction_AppDBImport: TAction
+      Caption = 'Apagar Dados'
+      OnExecute = ZerarExecuteAction_AppDBImportExecute
     end
   end
 end

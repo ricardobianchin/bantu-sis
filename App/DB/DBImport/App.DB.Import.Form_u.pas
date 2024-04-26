@@ -26,7 +26,10 @@ type
     ExecuteAction_AppDBImport: TAction;
     SplitterStatusMemo: TSplitter;
     ProgressBar1: TProgressBar;
+    ZerarExecuteAction_AppDBImport: TAction;
+    ZerarBitBtn: TBitBtn;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
@@ -39,6 +42,8 @@ type
     function GetNomeArqTabViewProd: string;
     procedure DefCampos;
   protected
+    function ZereDados(pDestinoDBConnection: IDBConnection): boolean;
+
     property ProcessLog: IProcessLog read FProcessLog;
     property StatusOutput: IOutput read FStatusOutput;
     property ProdFDMemTable: TFDMemTable read FProdFDMemTable;
@@ -58,13 +63,14 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.DataSet.Utils, Sis.DB.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
+uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
+  Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TDBImportForm }
 
-constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
-      pProcessLog: IProcessLog = nil);
+constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj;
+  pUsuario: IUsuario; pProcessLog: IProcessLog = nil);
 var
   sNomeArq: string;
   oDBConnectionParams: TDBConnectionParams;
@@ -126,6 +132,41 @@ procedure TDBImportForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   ClearStyleElements(Self);
+end;
+
+procedure TDBImportForm.ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
+begin
+  inherited;
+  ZereDados(nil);
+end;
+
+function TDBImportForm.ZereDados(pDestinoDBConnection: IDBConnection): boolean;
+var
+  bRecebeuConex: boolean;
+  sSql: string;
+begin
+  Result := PergBool('Zerar os dados? Esta ação não poderá ser desfeita');
+  if not Result then
+    exit;
+
+  bRecebeuConex := Assigned(pDestinoDBConnection);
+
+  if not bRecebeuConex then
+  begin
+    Result := FDestinoDBConnection.Abrir;
+    if not Result then
+      exit;
+  end;
+
+  try
+    Result := True;
+    //sSql := 'EXECUTE PROCEDURE ';
+  finally
+    if not bRecebeuConex then
+    begin
+      FDestinoDBConnection.Fechar;
+    end;
+  end;
 end;
 
 end.

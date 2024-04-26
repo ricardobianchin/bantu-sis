@@ -105,14 +105,18 @@ begin
     DescrRedSL := TStringList.Create;
     ProdTipoSL := TStringList.Create;
 
-
     ProdTipoSL.Add('NAO INDICADO');
 
     DestinoDBConnection.Abrir;
 
-    DestinoDBConnection.ExecuteSQL('DELETE FROM PROD_TIPO WHERE PROD_TIPO_ID > 0;');
     ProgressBar1.Visible := true;
     try
+      bResultado := ZereDados(DestinoDBConnection);
+      if not bResultado then
+        Exit;
+
+
+
       FLinhasSL.LoadFromFile(FNomeArq);
       FLinhasSL.Delete(0);
       StatusOutput.Exibir('Qtd linhas: ' + FLinhasSL.Count.ToString);
@@ -120,7 +124,7 @@ begin
       for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
       begin
         ProgressBar1.Position := iLinhaAtual;
-        FLinhaAtual := StrSemAcento( FLinhasSL[iLinhaAtual]);
+        FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
         LeiaLinhaAtual;
         GravarLinhaAtual;
       end;
@@ -146,48 +150,49 @@ var
   s: string;
 begin
   GravarProdTipo;
-  s :='EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO('
-    + iProdId.ToString //PROD_ID INTEGER NOT NULL
-    +', ' + QuotedStr(sDescr) //DESCR           PROD_DESCR_DOM NOT NULL
-    +', ' + QuotedStr(sDescrRed) //DESCR_RED     PROD_DESCR_RED_DOM NOT NULL
+  s := 'EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO(' + iProdId.ToString
+  // PROD_ID INTEGER NOT NULL
+    + ', ' + QuotedStr(sDescr) // DESCR           PROD_DESCR_DOM NOT NULL
+    + ', ' + QuotedStr(sDescrRed) // DESCR_RED     PROD_DESCR_RED_DOM NOT NULL
 
-    +', 1'   //FABR_ID       ID_SHORT_DOM NOT NULL
-    +', ' + iProdTipoId.ToString //PROD_TIPO_ID  ID_SHORT_DOM NOT NULL
-    +', 1'   //UNID_ID       ID_SHORT_DOM NOT NULL
-    +', 0'   //ICMS_ID       ID_SHORT_DOM NOT NULL
+    + ', 1' // FABR_ID       ID_SHORT_DOM NOT NULL
+    + ', ' + iProdTipoId.ToString // PROD_TIPO_ID  ID_SHORT_DOM NOT NULL
+    + ', 1' // UNID_ID       ID_SHORT_DOM NOT NULL
+    + ', 0' // ICMS_ID       ID_SHORT_DOM NOT NULL
 
-    +', ' + QuotedStr(#33) //PROD_NATU_ID  ID_CHAR_DOM NOT NULL
+    + ', ' + QuotedStr(#33) // PROD_NATU_ID  ID_CHAR_DOM NOT NULL
 
-    +', 1'  //CAPAC_EMB     NUMERIC(8, 3) NOT NULL
+    + ', 1' // CAPAC_EMB     NUMERIC(8, 3) NOT NULL
 
-    +', ' + QuotedStr(sNCM) //NCM           CHAR(8) NOT NULL
+    + ', ' + QuotedStr(sNCM) // NCM           CHAR(8) NOT NULL
 
-    +', ' + AppObj.Loja.Id.ToString //LOJA_ID            ID_SHORT_DOM NOT NULL
-    +', ' + Usuario.id.ToString //USUARIO_ID         ID_DOM NOT NULL
-    +', ' + AppObj.SisConfig.ServerMachineId.IdentId.ToString  //MACHINE_ID         ID_SHORT_DOM
-    +', ' + CurrencyToStrPonto(cCusto) //CUSTO              CUSTO_DOM
+    + ', ' + AppObj.Loja.Id.ToString // LOJA_ID            ID_SHORT_DOM NOT NULL
+    + ', ' + Usuario.Id.ToString // USUARIO_ID         ID_DOM NOT NULL
+    + ', ' + AppObj.SisConfig.ServerMachineId.IdentId.ToString
+  // MACHINE_ID         ID_SHORT_DOM
+    + ', ' + CurrencyToStrPonto(cCusto) // CUSTO              CUSTO_DOM
 
-    +', 1'   //PROD_PRECO_TABELA_ID ID_SHORT_DOM
-    +', ' + CurrencyToStrPonto(cPreco) //PRECO              PRECO_DOM
+    + ', 1' // PROD_PRECO_TABELA_ID ID_SHORT_DOM
+    + ', ' + CurrencyToStrPonto(cPreco) // PRECO              PRECO_DOM
 
-    +', TRUE'   //ATIVO              BOOLEAN NOT NULL
-    +', ' +  QuotedStr('') //LOCALIZ            NOME_CURTO_DOM NOT NULL
-    +', 0'   //MARGEM             PERC_DOM
+    + ', TRUE' // ATIVO              BOOLEAN NOT NULL
+    + ', ' + QuotedStr('') // LOCALIZ            NOME_CURTO_DOM NOT NULL
+    + ', 0' // MARGEM             PERC_DOM
 
-    +', 0'   //BAL_USO            SMALLINT NOT NULL
-    +', 001'   //BAL_DPTO           CHAR(3)  NOT NULL
-    +', 0'   //BAL_VALIDADE_DIAS  SMALLINT  NOT NULL
-    +', ' +   QuotedStr('') //BAL_TEXTO_ETIQ     VARCHAR(400)  NOT NULL
+    + ', 0' // BAL_USO            SMALLINT NOT NULL
+    + ', 001' // BAL_DPTO           CHAR(3)  NOT NULL
+    + ', 0' // BAL_VALIDADE_DIAS  SMALLINT  NOT NULL
+    + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ     VARCHAR(400)  NOT NULL
 
-    +', ' +   QuotedStr(sBarCod) //CODIGOS_DE_BARRA VARCHAR(2000)
-    +');';
+    + ', ' + QuotedStr(sBarCod) // CODIGOS_DE_BARRA VARCHAR(2000)
+    + ');';
   StatusOutput.Exibir(iProdId.ToString);
-  //SetClipboardText(s);
+  // SetClipboardText(s);
   DestinoDBConnection.ExecuteSQL(s);
 
-{
-PROCEDURE INSERIR_EXISTENTE_DO
-  (
+  {
+    PROCEDURE INSERIR_EXISTENTE_DO
+    (
     PROD_ID INTEGER NOT NULL
     , DESCR           PROD_DESCR_DOM NOT NULL
     , DESCR_RED     PROD_DESCR_RED_DOM NOT NULL
@@ -222,7 +227,7 @@ PROCEDURE INSERIR_EXISTENTE_DO
 
     , CODIGOS_DE_BARRA VARCHAR(2000)
 
-}
+  }
 end;
 
 procedure TShopDBImportFormPLUBase.GravarProdTipo;
@@ -234,13 +239,8 @@ begin
   begin
     ProdTipoSL.Add(sProdTipoDescr);
     iProdTipoId := ProdTipoSL.Count - 1;
-    s := 'insert into prod_tipo('
-      + 'PROD_TIPO_ID, DESCR'
-      + ') VALUES ('
-      + iProdTipoId.ToString
-      +', '
-      +QuotedStr(sProdTipoDescr)
-      +');';
+    s := 'insert into prod_tipo(' + 'PROD_TIPO_ID, DESCR' + ') VALUES (' +
+      iProdTipoId.ToString + ', ' + QuotedStr(sProdTipoDescr) + ');';
 
     DestinoDBConnection.ExecuteSQL(s);
   end;
@@ -264,7 +264,7 @@ begin
   iProdId := StrToInt(s);
 
   // descr
-  s := StrSemCharRepetido( Copy(FLinhaAtual, 21, 40));
+  s := StrSemCharRepetido(Copy(FLinhaAtual, 21, 40));
   if JaTemDescr(s) then
   begin
     inc(iIndexErro);
@@ -278,7 +278,7 @@ begin
   DescrSL.Add(sDescr);
 
   // descr red
-  s := StrSemCharRepetido( LeftStr(sDescr, 29));
+  s := StrSemCharRepetido(LeftStr(sDescr, 29));
   if JaTemDescrRed(s) then
   begin
     inc(iIndexErro);
@@ -293,15 +293,15 @@ begin
 
   sNCM := Trim(Copy(FLinhaAtual, 168, 8));
 
-  sProdTipoDescr := 'SETOR '+Copy(FLinhaAtual ,85,2);
+  sProdTipoDescr := 'SETOR ' + Copy(FLinhaAtual, 85, 2);
 
-  sBarCod := StrToIntStr(Copy(FLinhaAtual ,8,13));
+  sBarCod := StrToIntStr(Copy(FLinhaAtual, 8, 13));
 
   if sBarCod = '0' then
     sBarCod := '';
 
   // custo
-  s := Copy(FLinhaAtual ,138,10);
+  s := Copy(FLinhaAtual, 138, 10);
   Insert('.', s, 9);
   cCusto := StrToCurrency(s);
 
@@ -309,7 +309,7 @@ begin
     cCusto := 0.01;
 
   // preco
-  s := Copy(FLinhaAtual ,61,10);
+  s := Copy(FLinhaAtual, 61, 10);
   Insert('.', s, 9);
   cPreco := StrToCurrency(s);
 
@@ -326,10 +326,10 @@ end;
 procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//{$IFDEF DEBUG}
-//  FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
-//  ExecuteAction_AppDBImport.Execute;
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
+  // ExecuteAction_AppDBImport.Execute;
+  // {$ENDIF}
 end;
 
 end.
