@@ -28,7 +28,12 @@ type
     sDescr, sDescrRed, sNCM: string;
 
     iProdTipoId: integer;
+
+    sProdFabrDescr: string;
     sProdTipoDescr: string;
+    sProdUnidDescr: string;
+    sProdIcmsDescr: string;
+
     sBarCod: string;
     cCusto: Currency;
     cPreco: Currency;
@@ -108,6 +113,7 @@ begin
     ProdIdSL := TStringList.Create;
     DescrSL := TStringList.Create;
     DescrRedSL := TStringList.Create;
+
     ProdFabrSL := TStringList.Create;
     ProdTipoSL := TStringList.Create;
     ProdUnidSL := TStringList.Create;
@@ -120,8 +126,7 @@ begin
 
 
     begin // especifico plubase
-    ProdFabrSL.Add('PADRAO');
-    GravarTabExtrangeira('FABR', 'PADRAO', ProdFabrSL);
+      sProdFabrDescr := 'PADRAO';
     end;
 
     DestinoDBConnection.Abrir;
@@ -165,7 +170,11 @@ end;
 
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
 begin
+
+  GravarTabExtrangeira('FABR', sProdFabrDescr, ProdFabrSL);
   GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
+  GravarTabExtrangeira('UNID', sProdUnidDescr, ProdUnidSL);
+  GravarTabExtrangeira('ICMS', sProdIcmsDescr, ProdIcmsSL);
 end;
 
 procedure TShopDBImportFormPLUBase.GravarTabExtrangeira(pNomeTab, pDescrVal: string; pValoresSL: TStrings);
