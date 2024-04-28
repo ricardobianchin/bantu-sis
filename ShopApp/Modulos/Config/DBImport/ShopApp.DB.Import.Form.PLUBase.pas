@@ -71,7 +71,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, System.StrUtils, Sis.Types.strings_u,
-  Sis.Types.Integers, Sis.Types.Floats, Sis.Win.Utils_u;
+  Sis.Types.Integers, Sis.Types.Floats, Sis.Win.Utils_u,
+  Sis.Types.strings.abrev_u;
 
 { TShopDBImportFormPLUBase }
 
@@ -148,6 +149,9 @@ begin
       for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
       begin
         ProgressBar1.Position := iLinhaAtual;
+        if ((iLinhaAtual + 1) mod 120) = 0 then
+          Application.ProcessMessages;
+
         FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
         LeiaLinhaAtual;
         GravarLinhaAtual;
@@ -255,32 +259,100 @@ begin
   iProdId := StrToInt(s);
 
   // descr
-  s := StrSemCharRepetido(Copy(FLinhaAtual, 21, 40));
-  if JaTemDescr(s) then
-  begin
-    inc(iIndexErro);
-    while Length(s + ' _ERR' + IntToStr(iIndexErro)) > 120 do
-    begin
-      s := Trim(StrDeleteNoFim(s, 1));
-    end;
-    s := s + '_ERR' + IntToStr(iIndexErro);
-  end;
-  sDescr := s;
-  DescrSL.Add(sDescr);
+  sDescr := StrSemCharRepetido(Copy(FLinhaAtual, 21, 40));
 
   // descr red
-  s := StrSemCharRepetido(LeftStr(sDescr, 29));
-  if JaTemDescrRed(s) then
-  begin
-    inc(iIndexErro);
-    while Length(s + ' _ERR' + IntToStr(iIndexErro)) > 29 do
-    begin
-      s := Trim(StrDeleteNoFim(s, 1));
-    end;
-    s := s + ' _ERR' + IntToStr(iIndexErro);
-  end;
-  sDescrRed := s;
-  DescrRedSL.Add(sDescrRed);
+  sDescrRed := sDescr;
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, ' DE ', ' D ');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, ' DO ', ' D ');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, ' DA ', ' D ');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, ' PARA ', ' P ');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'CARREGADORES', 'CARREG');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'CARREGADOR', 'CARREG');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'ADAPTADORES', 'ADAP');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'ADAPTADOR', 'ADAP');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'MONITORES', 'MONIT');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'MONITOR', 'MONIT');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'TECLADOS', 'TECL');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'TECLADO', 'TECL');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'CAIXAS', 'CX');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'CAIXA', 'CX');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'BATERIAS', 'BATER');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'BATERIA', 'BATER');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'COMPATIVEL', 'COMPAT');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'STANDARD', 'STAN');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'STANDART', 'STAN');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'PROFISSIONAL', 'PRO');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'ORIGINAIS', 'ORI');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'ORIGINAL', 'ORI');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'METROS', 'M');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'METRO', 'M');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'SUPORTES', 'SUP');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'SUPORTE', 'SUP');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'SUPORTE', 'SUP');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'MEMORIAS', 'MEM');
+
+  if Length(sDescrRed)>29 then
+    sDescrRed := ReplaceStr(sDescrRed, 'MEMORIA', 'MEM');
+
+  if Length(sDescrRed)>29 then
+    TStringAbrev.Abrev(sDescrRed, 29);
 
   sNCM := Trim(Copy(FLinhaAtual, 168, 8));
 
