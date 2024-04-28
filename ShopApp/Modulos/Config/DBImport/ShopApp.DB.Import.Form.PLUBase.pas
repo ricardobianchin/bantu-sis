@@ -27,7 +27,10 @@ type
 
     sDescr, sDescrRed, sNCM: string;
 
+    iProdFabrId: integer;
     iProdTipoId: integer;
+    iProdUnidId: integer;
+    iProdIcmsId: integer;
 
     sProdFabrDescr: string;
     sProdTipoDescr: string;
@@ -46,8 +49,9 @@ type
     ProdUnidSL: TStringList;
     ProdIcmsSL: TStringList;
 
-    procedure GravarTabExtrangeira(pNomeTab, pDescrVal: string; pValoresSL: TStrings);
-
+    function GravarTabExtrangeira(pNomeTab, pDescrVal: string;
+      pValoresSL: TStrings): integer;
+    procedure GravarProd;
     procedure LeiaLinhaAtual;
     procedure GravarLinhaAtual;
     function JaTemDescr(pDescr: string): boolean;
@@ -124,7 +128,6 @@ begin
     ProdUnidSL.Add('NAO INDICADO');
     ProdIcmsSL.Add('NAO INDICADO');
 
-
     begin // especifico plubase
       sProdFabrDescr := 'PADRAO';
       sProdIcmsDescr := 'NAO INDICADO';
@@ -141,12 +144,16 @@ begin
       FLinhasSL.Delete(0);
       StatusOutput.Exibir('Qtd linhas: ' + FLinhasSL.Count.ToString);
       ProgressBar1.Max := FLinhasSL.Count - 1;
+      try
       for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
       begin
         ProgressBar1.Position := iLinhaAtual;
         FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
         LeiaLinhaAtual;
         GravarLinhaAtual;
+      end;
+      except on E: Exception do
+        showmessage(e.Message);
       end;
     finally
       DestinoDBConnection.Fechar;
@@ -171,26 +178,60 @@ end;
 
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
 begin
-  GravarTabExtrangeira('FABR', sProdFabrDescr, ProdFabrSL);
-  GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
-  GravarTabExtrangeira('UNID', sProdUnidDescr, ProdUnidSL);
-  GravarTabExtrangeira('ICMS', sProdIcmsDescr, ProdIcmsSL);
+  iProdFabrId := GravarTabExtrangeira('FABR', sProdFabrDescr, ProdFabrSL);
+  iProdTipoId := GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
+  iProdUnidId := GravarTabExtrangeira('UNID', sProdUnidDescr, ProdUnidSL);
+  iProdIcmsId := GravarTabExtrangeira('ICMS', sProdIcmsDescr, ProdIcmsSL);
+GravarProd;
 end;
 
-procedure TShopDBImportFormPLUBase.GravarTabExtrangeira(pNomeTab, pDescrVal: string; pValoresSL: TStrings);
+procedure TShopDBImportFormPLUBase.GravarProd;
 var
   sSql: string;
   iId: integer;
 begin
-  iProdTipoId := ProdTipoSL.IndexOf(pDescrVal);
-  if iProdTipoId = -1 then
+  sSql := 'EXECUTE PROCEDURE import_prod_pa.INSERIR_DO (' //
+    + iProdId.ToString // PROD_ID_STR CHAR(20),
+
+    + ', ' + QuotedStr(sDescr) // DESCR PROD_DESCR_DOM,
+    + ', ' + QuotedStr(sDescrRed) // DESCR_RED PROD_DESCR_RED_DOM,
+
+    + ', ' + iProdFabrId.ToString // IMPORT_FABR_ID ID_DOM,
+    + ', ' + iProdTipoId.ToString // IMPORT_PROD_TIPO_ID ID_DOM,
+    + ', ' + iProdUnidId.ToString // IMPORT_UNID_ID ID_DOM,
+    + ', ' + iProdIcmsId.ToString // IMPORT_ICMS_ID ID_DOM,
+
+    + ', ' + QuotedStr(#33) // PROD_NATU_ID ID_CHAR_DOM,
+
+    + ', 1' // CAPAC_EMB QTD_DOM,
+    + ', ' + QuotedStr(sNCM) // NCM CHAR(8),
+
+    + ', ' + CurrencyToStrPonto(cCusto) // CUSTO CUSTO_DOM,
+    + ', TRUE' // ATIVO BOOLEAN,
+    + ', ' + QuotedStr('') // LOCALIZ NOME_CURTO_DOM,
+    + ', 0'   // MARGEM PERC_DOM,
+    + ', 0'  // BAL_USO SMALLINT,
+    + ', ' + QuotedStr('001') // BAL_DPTO CHAR(3),
+    + ', 0'  // BAL_VALIDADE_DIAS SMALLINT,
+    + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ VARCHAR(400)
+    + ');';
+
+  DestinoDBConnection.ExecuteSQL(sSql);
+end;
+
+function TShopDBImportFormPLUBase.GravarTabExtrangeira(pNomeTab,
+  pDescrVal: string; pValoresSL: TStrings): integer;
+var
+  sSql: string;
+begin
+  Result := pValoresSL.IndexOf(pDescrVal);
+  if Result = -1 then
   begin
     pValoresSL.Add(pDescrVal);
-    iId := pValoresSL.Count - 1;
+    Result := pValoresSL.Count - 1;
 
-    sSql := 'EXECUTE PROCEDURE IMPORT_'+pNomeTab+'_PA.GARANTIR_ID_DESCR('
-      + QuotedStr(pDescrVal) + ', ' + iId.ToString
-      + ');';
+    sSql := 'EXECUTE PROCEDURE IMPORT_' + pNomeTab + '_PA.GARANTIR_ID_DESCR(' +
+      QuotedStr(pDescrVal) + ', ' + Result.ToString + ');';
 
     DestinoDBConnection.ExecuteSQL(sSql);
   end;
@@ -277,10 +318,10 @@ end;
 procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  // {$IFDEF DEBUG}
-  // FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
-  // ExecuteAction_AppDBImport.Execute;
-  // {$ENDIF}
+{$IFDEF DEBUG}
+  FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
+  ExecuteAction_AppDBImport.Execute;
+{$ENDIF}
 end;
 
 end.
