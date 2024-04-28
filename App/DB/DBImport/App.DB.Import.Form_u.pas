@@ -145,7 +145,11 @@ var
   bRecebeuConex: boolean;
   sSql: string;
 begin
+{$IFNDEF DEBUG}
   Result := PergBool('Zerar os dados? Esta ação não poderá ser desfeita');
+{$ELSE}
+  Result := True;
+{$ENDIF}
   if not Result then
     exit;
 
@@ -160,7 +164,8 @@ begin
 
   try
     Result := True;
-    //sSql := 'EXECUTE PROCEDURE ';
+    sSql := 'EXECUTE PROCEDURE IMPORT_PROD_PA.APAGAR_DO;';
+    FDestinoDBConnection.ExecuteSQL(sSql);
   finally
     if not bRecebeuConex then
     begin

@@ -3,9 +3,8 @@ inherited DBImportForm: TDBImportForm
   ClientHeight = 511
   ClientWidth = 708
   WindowState = wsMaximized
-  ExplicitLeft = -89
-  ExplicitWidth = 720
-  ExplicitHeight = 549
+  ExplicitWidth = 724
+  ExplicitHeight = 550
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
