@@ -88,6 +88,7 @@ begin
       S := Strings[IndiceMaisLonga];
       L := Length(S);
       Delete(S, L, 1);
+      Strings[IndiceMaisLonga] := S;
     end;
   end;
 end;
