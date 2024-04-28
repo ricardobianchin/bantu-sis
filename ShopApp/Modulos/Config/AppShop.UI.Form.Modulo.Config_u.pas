@@ -71,11 +71,10 @@ end;
 procedure TShopConfigModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//{$IFDEF DEBUG}
-//  DBImportAction.Execute;
-//  Application.Terminate;
-//{$ENDIF}
-
+{$IFDEF DEBUG}
+  DBImportAction.Execute;
+  Application.Terminate;
+{$ENDIF}
 end;
 
 end.
