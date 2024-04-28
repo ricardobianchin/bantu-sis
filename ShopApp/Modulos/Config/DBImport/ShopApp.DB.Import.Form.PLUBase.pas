@@ -127,6 +127,7 @@ begin
 
     begin // especifico plubase
       sProdFabrDescr := 'PADRAO';
+      sProdIcmsDescr := 'NAO INDICADO';
     end;
 
     DestinoDBConnection.Abrir;
@@ -170,7 +171,6 @@ end;
 
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
 begin
-
   GravarTabExtrangeira('FABR', sProdFabrDescr, ProdFabrSL);
   GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
   GravarTabExtrangeira('UNID', sProdUnidDescr, ProdUnidSL);
