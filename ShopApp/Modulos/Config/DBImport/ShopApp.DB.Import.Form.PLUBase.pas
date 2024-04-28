@@ -41,7 +41,6 @@ type
     ProdUnidSL: TStringList;
     ProdIcmsSL: TStringList;
 
-    procedure GravarImportProdTipo;
     procedure GravarTabExtrangeira(pNomeTab, pDescrVal: string; pValoresSL: TStrings);
 
     procedure LeiaLinhaAtual;
@@ -164,27 +163,8 @@ begin
   end;
 end;
 
-procedure TShopDBImportFormPLUBase.GravarImportProdTipo;
-var
-  sSql: string;
-begin
-  iProdTipoId := ProdTipoSL.IndexOf(sProdTipoDescr);
-  if iProdTipoId = -1 then
-  begin
-    ProdTipoSL.Add(sProdTipoDescr);
-    iProdTipoId := ProdTipoSL.Count - 1;
-
-    sSql := 'EXECUTE PROCEDURE IMPORT_PROD_TIPO_PA.GARANTIR_ID_DESCR('
-      + QuotedStr(sProdTipoDescr) + ', ' + iProdTipoId.ToString
-      + ');';
-
-    DestinoDBConnection.ExecuteSQL(sSql);
-  end;
-end;
-
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
 begin
-  GravarImportProdTipo;
   GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
 end;
 
