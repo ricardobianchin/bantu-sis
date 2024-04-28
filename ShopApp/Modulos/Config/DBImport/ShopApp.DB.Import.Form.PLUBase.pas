@@ -21,6 +21,7 @@ type
     FLinhaAtual: string;
     FFileSelectFrame: TFileSelectLabeledEditFrame;
     FLinhasSL: TStringList;
+
     iIndexErro: integer;
     iProdId: integer;
 
@@ -35,9 +36,13 @@ type
     ProdIdSL: TStringList;
     DescrSL: TStringList;
     DescrRedSL: TStringList;
+    ProdFabrSL: TStringList;
     ProdTipoSL: TStringList;
+    ProdUnidSL: TStringList;
+    ProdIcmsSL: TStringList;
 
     procedure GravarImportProdTipo;
+    procedure GravarTabExtrangeira(pNomeTab, pDescrVal: string; pValoresSL: TStrings);
 
     procedure LeiaLinhaAtual;
     procedure GravarLinhaAtual;
@@ -104,9 +109,21 @@ begin
     ProdIdSL := TStringList.Create;
     DescrSL := TStringList.Create;
     DescrRedSL := TStringList.Create;
+    ProdFabrSL := TStringList.Create;
     ProdTipoSL := TStringList.Create;
+    ProdUnidSL := TStringList.Create;
+    ProdIcmsSL := TStringList.Create;
 
+    ProdFabrSL.Add('NAO INDICADO');
     ProdTipoSL.Add('NAO INDICADO');
+    ProdUnidSL.Add('NAO INDICADO');
+    ProdIcmsSL.Add('NAO INDICADO');
+
+
+    begin // especifico plubase
+    ProdFabrSL.Add('PADRAO');
+    GravarTabExtrangeira('FABR', 'PADRAO', ProdFabrSL);
+    end;
 
     DestinoDBConnection.Abrir;
     ProgressBar1.Visible := true;
@@ -114,10 +131,6 @@ begin
       bResultado := ZereDados(DestinoDBConnection);
       if not bResultado then
         Exit;
-
-      sSql := 'EXECUTE PROCEDURE IMPORT_FABR_PA.GARANTIR_ID_DESCR('
-        +'''PADRAO'', 1);';
-      DestinoDBConnection.ExecuteSQL(sSql);
 
       FLinhasSL.LoadFromFile(FNomeArq);
       FLinhasSL.Delete(0);
@@ -136,7 +149,11 @@ begin
       ProdIdSL.Free;
       DescrSL.Free;
       DescrRedSL.Free;
+
+      ProdFabrSL.Free;
       ProdTipoSL.Free;
+      ProdUnidSL.Free;
+      ProdIcmsSL.Free;
 
       ProgressBar1.Visible := False;
     end;
@@ -166,10 +183,28 @@ begin
 end;
 
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
-var
-  s: string;
 begin
   GravarImportProdTipo;
+  GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
+end;
+
+procedure TShopDBImportFormPLUBase.GravarTabExtrangeira(pNomeTab, pDescrVal: string; pValoresSL: TStrings);
+var
+  sSql: string;
+  iId: integer;
+begin
+  iProdTipoId := ProdTipoSL.IndexOf(pDescrVal);
+  if iProdTipoId = -1 then
+  begin
+    pValoresSL.Add(pDescrVal);
+    iId := pValoresSL.Count - 1;
+
+    sSql := 'EXECUTE PROCEDURE IMPORT_'+pNomeTab+'_PA.GARANTIR_ID_DESCR('
+      + QuotedStr(pDescrVal) + ', ' + iId.ToString
+      + ');';
+
+    DestinoDBConnection.ExecuteSQL(sSql);
+  end;
 end;
 
 function TShopDBImportFormPLUBase.JaTemDescr(pDescr: string): boolean;
