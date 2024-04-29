@@ -149,7 +149,7 @@ begin
       for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
       begin
         ProgressBar1.Position := iLinhaAtual;
-        if ((iLinhaAtual + 1) mod 120) = 0 then
+        if (iLinhaAtual mod 120) = 0 then
           Application.ProcessMessages;
 
         FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
@@ -195,7 +195,9 @@ var
   iId: integer;
 begin
   sSql := 'EXECUTE PROCEDURE import_prod_pa.INSERIR_DO (' //
-    + iProdId.ToString // PROD_ID_STR CHAR(20),
+    + iProdId.ToString // PROD_ID ID_DOM,
+
+    + ', TRUE' //VAI_IMPORTAR BOOLEAN,
 
     + ', ' + QuotedStr(sDescr) // DESCR PROD_DESCR_DOM,
     + ', ' + QuotedStr(sDescrRed) // DESCR_RED PROD_DESCR_RED_DOM,
