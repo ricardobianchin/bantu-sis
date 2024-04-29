@@ -3,6 +3,7 @@ inherited DBImportForm: TDBImportForm
   ClientHeight = 612
   ClientWidth = 938
   WindowState = wsMaximized
+  ExplicitLeft = -319
   ExplicitWidth = 950
   ExplicitHeight = 650
   TextHeight = 15
@@ -15,38 +16,38 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 704
+    ExplicitWidth = 934
     object ExecuteBitBtn: TBitBtn
-      Left = 559
+      Left = 536
       Top = 7
-      Width = 86
+      Width = 56
       Height = 25
       Action = ExecuteAction_AppDBImport
       Caption = 'Execute'
       TabOrder = 0
     end
     object ZerarBitBtn: TBitBtn
-      Left = 651
+      Left = 597
       Top = 7
-      Width = 86
+      Width = 84
       Height = 25
       Action = ZerarExecuteAction_AppDBImport
       Caption = 'Apagar Dados'
       TabOrder = 1
     end
     object AtualizarBitBtn_AppDBImport: TBitBtn
-      Left = 743
+      Left = 686
       Top = 7
-      Width = 86
+      Width = 56
       Height = 25
       Action = AtualizarAction_AppDBImport
       Caption = 'Atualizar'
       TabOrder = 2
     end
     object ValidarBitBtn_AppDBImport: TBitBtn
-      Left = 835
+      Left = 747
       Top = 7
-      Width = 86
+      Width = 56
       Height = 25
       Action = ValidarAction_AppDBImport
       Caption = 'Validar'
@@ -62,19 +63,20 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 838
+    ExplicitTop = 531
+    ExplicitWidth = 934
     DesignSize = (
       938
       80)
     object ProgressBar1: TProgressBar
-      Left = 659
+      Left = 655
       Top = 60
       Width = 276
       Height = 17
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
-      ExplicitLeft = 559
+      ExplicitLeft = 651
     end
     object StatusMemo: TMemo
       Left = 0
@@ -84,7 +86,7 @@ inherited DBImportForm: TDBImportForm
       Align = alTop
       BorderStyle = bsNone
       TabOrder = 1
-      ExplicitWidth = 838
+      ExplicitWidth = 934
     end
   end
   object MeioPanel: TPanel [2]
@@ -96,8 +98,8 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
-    ExplicitWidth = 704
-    ExplicitHeight = 438
+    ExplicitWidth = 934
+    ExplicitHeight = 490
     object SplitterStatusMemo: TSplitter
       Left = 0
       Top = 486
@@ -117,8 +119,8 @@ inherited DBImportForm: TDBImportForm
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 704
-      ExplicitHeight = 306
+      ExplicitWidth = 934
+      ExplicitHeight = 485
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
