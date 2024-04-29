@@ -177,6 +177,8 @@ begin
     end;
   finally
     DBLog.Registre('Fim');
+    s := 'TDBConnection.Destroy,Database=' + FDBConnectionParams.Database;
+    FOutput.Exibir(s);
     FProcessLog.RetorneLocal;
   end;
 end;
