@@ -231,6 +231,14 @@ begin
     + QuotedStr(sBarCod)
     + ');';
   DestinoDBConnection.ExecuteSQL(sSql);
+
+  sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID, PROD_PRECO_TABELA_ID'
+    + ', PRECO) VALUES('
+    + iImportProdId.ToString + ', 1,'
+    + CurrencyToStrPonto(cPreco)
+    +');';
+
+  DestinoDBConnection.ExecuteSQL(sSql);
 end;
 
 function TShopDBImportFormPLUBase.GravarTabExtrangeira(pNomeTab,
