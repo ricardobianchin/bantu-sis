@@ -30,6 +30,8 @@ type
     AtualizarBitBtn_AppDBImport: TBitBtn;
     ProgressBar1: TProgressBar;
     StatusMemo: TMemo;
+    ValidarAction_AppDBImport: TAction;
+    ValidarBitBtn_AppDBImport: TBitBtn;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
   private

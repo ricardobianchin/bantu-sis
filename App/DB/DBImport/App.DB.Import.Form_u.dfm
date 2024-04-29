@@ -1,16 +1,15 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
   ClientHeight = 612
-  ClientWidth = 838
+  ClientWidth = 938
   WindowState = wsMaximized
-  ExplicitTop = -316
-  ExplicitWidth = 850
+  ExplicitWidth = 950
   ExplicitHeight = 650
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 838
+    Width = 938
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -18,68 +17,80 @@ inherited DBImportForm: TDBImportForm
     TabOrder = 0
     ExplicitWidth = 704
     object ExecuteBitBtn: TBitBtn
-      Left = 537
+      Left = 559
       Top = 7
-      Width = 90
+      Width = 86
       Height = 25
       Action = ExecuteAction_AppDBImport
       Caption = 'Execute'
       TabOrder = 0
     end
     object ZerarBitBtn: TBitBtn
-      Left = 633
+      Left = 651
       Top = 7
-      Width = 90
+      Width = 86
       Height = 25
       Action = ZerarExecuteAction_AppDBImport
       Caption = 'Apagar Dados'
       TabOrder = 1
     end
     object AtualizarBitBtn_AppDBImport: TBitBtn
-      Left = 728
+      Left = 743
       Top = 7
-      Width = 75
+      Width = 86
       Height = 25
       Action = AtualizarAction_AppDBImport
       Caption = 'Atualizar'
       TabOrder = 2
     end
+    object ValidarBitBtn_AppDBImport: TBitBtn
+      Left = 835
+      Top = 7
+      Width = 86
+      Height = 25
+      Action = ValidarAction_AppDBImport
+      Caption = 'Validar'
+      TabOrder = 3
+    end
   end
   object BasePanel: TPanel [1]
     Left = 0
     Top = 532
-    Width = 838
+    Width = 938
     Height = 80
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitWidth = 838
     DesignSize = (
-      838
+      938
       80)
     object ProgressBar1: TProgressBar
-      Left = 559
+      Left = 659
       Top = 60
       Width = 276
       Height = 17
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
+      ExplicitLeft = 559
     end
     object StatusMemo: TMemo
       Left = 0
       Top = 0
-      Width = 838
+      Width = 938
       Height = 57
       Align = alTop
       BorderStyle = bsNone
       TabOrder = 1
+      ExplicitWidth = 838
     end
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 838
+    Width = 938
     Height = 491
     Align = alClient
     BevelOuter = bvNone
@@ -90,7 +101,7 @@ inherited DBImportForm: TDBImportForm
     object SplitterStatusMemo: TSplitter
       Left = 0
       Top = 486
-      Width = 838
+      Width = 938
       Height = 5
       Cursor = crVSplit
       Align = alBottom
@@ -100,7 +111,7 @@ inherited DBImportForm: TDBImportForm
     object GridsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 838
+      Width = 938
       Height = 486
       Align = alClient
       BevelOuter = bvNone
@@ -111,7 +122,7 @@ inherited DBImportForm: TDBImportForm
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
-        Width = 838
+        Width = 938
         Height = 486
         Align = alClient
         BorderStyle = bsNone
@@ -142,6 +153,9 @@ inherited DBImportForm: TDBImportForm
     end
     object AtualizarAction_AppDBImport: TAction
       Caption = 'Atualizar'
+    end
+    object ValidarAction_AppDBImport: TAction
+      Caption = 'Validar'
     end
   end
 end
