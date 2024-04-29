@@ -192,7 +192,8 @@ end;
 procedure TShopDBImportFormPLUBase.GravarProd;
 var
   sSql: string;
-  iId: integer;
+  iImportProdId: integer;
+  q: TDataSet;
 begin
   sSql := 'EXECUTE PROCEDURE import_prod_pa.INSERIR_DO (' //
     + iProdId.ToString // PROD_ID ID_DOM,
@@ -222,6 +223,13 @@ begin
     + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ VARCHAR(400)
     + ');';
 
+  iImportProdId := DestinoDBConnection.GetValueInteger(sSql);
+
+  sSql := 'INSERT INTO IMPORT_PROD_BARRAS (IMPORT_PROD_ID, ORDEM, COD_BARRAS'
+    + ') VALUES('
+    + iImportProdId.ToString + ', 1,'
+    + QuotedStr(sBarCod)
+    + ');';
   DestinoDBConnection.ExecuteSQL(sSql);
 end;
 
