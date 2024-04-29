@@ -17,7 +17,6 @@ type
     TopoPanel: TPanel;
     BasePanel: TPanel;
     MeioPanel: TPanel;
-    StatusMemo: TMemo;
     GridsPanel: TPanel;
     ProdDBGrid: TDBGrid;
     ProdDataSource: TDataSource;
@@ -25,9 +24,12 @@ type
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
     SplitterStatusMemo: TSplitter;
-    ProgressBar1: TProgressBar;
     ZerarExecuteAction_AppDBImport: TAction;
     ZerarBitBtn: TBitBtn;
+    AtualizarAction_AppDBImport: TAction;
+    AtualizarBitBtn_AppDBImport: TBitBtn;
+    ProgressBar1: TProgressBar;
+    StatusMemo: TMemo;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
   private
@@ -123,7 +125,7 @@ var
   sNomeArq: string;
 begin
   sNomeArq := AppObj.AppInfo.PastaConsTabViews +
-    'App\Config\Import\tabview.config.import.prod.csv';
+    'App\Config\Import\tabview.config.shop.import.prod.csv';
 
   Result := sNomeArq;
 end;
@@ -132,6 +134,7 @@ procedure TDBImportForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   ClearStyleElements(Self);
+  AtualizarAction_AppDBImport.Execute;
 end;
 
 procedure TDBImportForm.ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
@@ -152,7 +155,7 @@ begin
 {$ENDIF}
   if not Result then
     exit;
-
+  exit;
   bRecebeuConex := Assigned(pDestinoDBConnection);
 
   if not bRecebeuConex then
@@ -171,6 +174,7 @@ begin
     begin
       FDestinoDBConnection.Fechar;
     end;
+    AtualizarAction_AppDBImport.Execute;
   end;
 end;
 
