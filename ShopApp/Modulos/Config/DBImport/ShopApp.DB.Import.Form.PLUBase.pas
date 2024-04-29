@@ -8,13 +8,16 @@ uses
   App.DB.Import.Form_u, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, App.AppObj, System.Actions, Vcl.ActnList, Vcl.Buttons,
   Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame, Vcl.ComCtrls;
+  Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame, Vcl.ComCtrls,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Sis.DB.FDDataSetManager;
 
 type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -56,6 +59,7 @@ type
     procedure GravarLinhaAtual;
     function JaTemDescr(pDescr: string): boolean;
     function JaTemDescrRed(pDescr: string): boolean;
+    procedure QueryToMemTable(pProdFDMemTable: TFDMemTable; pQ: TDataSet);
   protected
   public
     { Public declarations }
@@ -75,6 +79,104 @@ uses Sis.UI.Controls.Utils, System.StrUtils, Sis.Types.strings_u,
   Sis.Types.strings.abrev_u;
 
 { TShopDBImportFormPLUBase }
+
+procedure TShopDBImportFormPLUBase.AtualizarAction_AppDBImportExecute
+  (Sender: TObject);
+var
+  sSql: string;
+  q: TDataSet;
+  iIdAnt: integer;
+  iIdAtu: integer;
+  sBarCodes: string;
+begin
+  // inherited;
+  sSql := 'select'//
+    + ' ip.import_prod_id' // 0
+    + ', ip.vai_importar' //
+    + ', ip.PROD_ID' //
+    + ', ip.DESCR' //
+    + ', ip.DESCR_RED' //
+    + ', ip.NOVO_DESCR' // 5
+    + ', ip.NOVO_DESCR_RED' //
+    + ', ifa.IMPORT_FABR_ID' //
+    + ', ifa.NOME fabr_nome' //
+    + ', it.IMPORT_PROD_TIPO_ID' //
+    + ', it.DESCR tipo_descr' // 10
+    + ', iu.IMPORT_UNID_ID' //
+    + ', iu.unid_sigla' //
+    + ', ii.IMPORT_ICMS_ID' //
+    + ', ii.ICMS_PERC_DESCR' //
+    + ', ip.CAPAC_EMB' // 15
+    + ', ip.NCM' //
+    + ', ip.CUSTO' //
+    + ', ipr.PRECO' //
+    + ', ip.ATIVO' //
+    + ', ip.LOCALIZ' // 20
+    + ', ip.MARGEM' //
+    + ', ip.BAL_USO' //
+    + ', ip.BAL_DPTO' //
+    + ', ib.COD_BARRAS' // 24
+
+    + ' from import_prod ip' //
+
+    + ' join import_fabr ifa on' + ' ip.import_fabr_id=ifa.import_fabr_id' //
+
+    + ' join import_prod_tipo it on' //
+    + ' ip.import_prod_tipo_id=it.import_prod_tipo_id' //
+
+    + ' join import_unid iu on' //
+    + ' ip.import_unid_id=iu.import_unid_id' //
+
+    + ' join import_icms ii on' //
+    + ' ip.import_icms_id=ii.import_icms_id' //
+
+    + ' join import_prod_preco ipr on' //
+    + ' ip.import_prod_id=ipr.import_prod_id' //
+
+    + ' join import_prod_barras ib on' //
+    + ' ip.import_prod_id=ib.import_prod_id' //
+
+    + ' ORDER BY ip.import_prod_id'; //
+
+  DestinoDBConnection.Abrir;
+  DestinoDBConnection.QueryDataSet(sSql, q);
+  iIdAnt := -1;
+  sBarCodes := '';
+  while not q.Eof do
+  begin
+    iIdAtu := q.Fields[0].AsInteger;
+    if iIdAnt <> iIdAtu then
+    begin
+      if ProdFDMemTable.State <> dsBrowse then
+      begin
+        ProdFDMemTable.Fields[24].AsString := sBarCodes;
+        ProdFDMemTable.Post;
+        sBarCodes := '';
+      end;
+      ProdFDMemTable.Append;
+      QueryToMemTable(ProdFDMemTable, q);
+      if sBarCodes <> '' then
+        sBarCodes := sBarCodes + ',';
+      sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
+      iIdAnt := iIdAtu;
+    end
+    else
+    begin
+      if sBarCodes <> '' then
+        sBarCodes := sBarCodes + ',';
+      sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
+    end;
+
+    q.Next;
+  end;
+  if ProdFDMemTable.State <> dsBrowse then
+  begin
+    ProdFDMemTable.Fields[24].AsString := sBarCodes;
+    ProdFDMemTable.Post;
+  end;
+
+  DestinoDBConnection.Fechar;
+end;
 
 constructor TShopDBImportFormPLUBase.Create(AOwner: TComponent;
   pAppObj: IAppObj; pUsuario: IUsuario; pProcessLog: IProcessLog = nil);
@@ -146,18 +248,19 @@ begin
       StatusOutput.Exibir('Qtd linhas: ' + FLinhasSL.Count.ToString);
       ProgressBar1.Max := FLinhasSL.Count - 1;
       try
-      for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
-      begin
-        ProgressBar1.Position := iLinhaAtual;
-        if (iLinhaAtual mod 120) = 0 then
-          Application.ProcessMessages;
+        for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
+        begin
+          ProgressBar1.Position := iLinhaAtual;
+          if (iLinhaAtual mod 120) = 0 then
+            Application.ProcessMessages;
 
-        FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
-        LeiaLinhaAtual;
-        GravarLinhaAtual;
-      end;
-      except on E: Exception do
-        showmessage(e.Message);
+          FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
+          LeiaLinhaAtual;
+          GravarLinhaAtual;
+        end;
+      except
+        on E: Exception do
+          showmessage(E.Message);
       end;
     finally
       DestinoDBConnection.Fechar;
@@ -177,6 +280,7 @@ begin
   finally
     StatusOutput.Exibir('Fim');
     StatusOutput.Exibir('');
+    AtualizarAction_AppDBImport.Execute;
   end;
 end;
 
@@ -196,9 +300,9 @@ var
   q: TDataSet;
 begin
   sSql := 'EXECUTE PROCEDURE import_prod_pa.INSERIR_DO (' //
-    + iProdId.ToString // PROD_ID ID_DOM,
+    + 'TRUE' // VAI_IMPORTAR BOOLEAN,
 
-    + ', TRUE' //VAI_IMPORTAR BOOLEAN,
+    + ', ' + iProdId.ToString // PROD_ID ID_DOM,
 
     + ', ' + QuotedStr(sDescr) // DESCR PROD_DESCR_DOM,
     + ', ' + QuotedStr(sDescrRed) // DESCR_RED PROD_DESCR_RED_DOM,
@@ -216,27 +320,22 @@ begin
     + ', ' + CurrencyToStrPonto(cCusto) // CUSTO CUSTO_DOM,
     + ', TRUE' // ATIVO BOOLEAN,
     + ', ' + QuotedStr('') // LOCALIZ NOME_CURTO_DOM,
-    + ', 0'   // MARGEM PERC_DOM,
-    + ', 0'  // BAL_USO SMALLINT,
+    + ', 0' // MARGEM PERC_DOM,
+    + ', 0' // BAL_USO SMALLINT,
     + ', ' + QuotedStr('001') // BAL_DPTO CHAR(3),
-    + ', 0'  // BAL_VALIDADE_DIAS SMALLINT,
+    + ', 0' // BAL_VALIDADE_DIAS SMALLINT,
     + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ VARCHAR(400)
     + ');';
 
   iImportProdId := DestinoDBConnection.GetValueInteger(sSql);
 
-  sSql := 'INSERT INTO IMPORT_PROD_BARRAS (IMPORT_PROD_ID, ORDEM, COD_BARRAS'
-    + ') VALUES('
-    + iImportProdId.ToString + ', 1,'
-    + QuotedStr(sBarCod)
-    + ');';
+  sSql := 'INSERT INTO IMPORT_PROD_BARRAS (IMPORT_PROD_ID, ORDEM, COD_BARRAS' +
+    ') VALUES(' + iImportProdId.ToString + ', 1,' + QuotedStr(sBarCod) + ');';
   DestinoDBConnection.ExecuteSQL(sSql);
 
   sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID, PROD_PRECO_TABELA_ID'
-    + ', PRECO) VALUES('
-    + iImportProdId.ToString + ', 1,'
-    + CurrencyToStrPonto(cPreco)
-    +');';
+    + ', PRECO) VALUES(' + iImportProdId.ToString + ', 1,' +
+    CurrencyToStrPonto(cPreco) + ');';
 
   DestinoDBConnection.ExecuteSQL(sSql);
 end;
@@ -282,94 +381,94 @@ begin
   // descr red
   sDescrRed := sDescr;
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, ' DE ', ' D ');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, ' DO ', ' D ');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, ' DA ', ' D ');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, ' PARA ', ' P ');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'CARREGADORES', 'CARREG');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'CARREGADOR', 'CARREG');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'ADAPTADORES', 'ADAP');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'ADAPTADOR', 'ADAP');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'MONITORES', 'MONIT');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'MONITOR', 'MONIT');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'TECLADOS', 'TECL');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'TECLADO', 'TECL');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'CAIXAS', 'CX');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'CAIXA', 'CX');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'BATERIAS', 'BATER');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'BATERIA', 'BATER');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'COMPATIVEL', 'COMPAT');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'STANDARD', 'STAN');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'STANDART', 'STAN');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'PROFISSIONAL', 'PRO');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'ORIGINAIS', 'ORI');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'ORIGINAL', 'ORI');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'METROS', 'M');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'METRO', 'M');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'SUPORTES', 'SUP');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'SUPORTE', 'SUP');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'SUPORTE', 'SUP');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'MEMORIAS', 'MEM');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     sDescrRed := ReplaceStr(sDescrRed, 'MEMORIA', 'MEM');
 
-  if Length(sDescrRed)>29 then
+  if Length(sDescrRed) > 29 then
     TStringAbrev.Abrev(sDescrRed, 29);
 
   sNCM := Trim(Copy(FLinhaAtual, 168, 8));
@@ -405,12 +504,23 @@ begin
   }
 end;
 
+procedure TShopDBImportFormPLUBase.QueryToMemTable(pProdFDMemTable: TFDMemTable;
+  pQ: TDataSet);
+var
+  I: integer;
+begin
+  for I := 0 to pProdFDMemTable.fieldcount - 1 do
+  begin
+    pProdFDMemTable.Fields[I].Value := pQ.Fields[I].Value;
+  end;
+end;
+
 procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
 {$IFDEF DEBUG}
   FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
-  ExecuteAction_AppDBImport.Execute;
+//  ExecuteAction_AppDBImport.Execute;
 {$ENDIF}
 end;
 
