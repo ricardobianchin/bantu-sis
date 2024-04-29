@@ -186,7 +186,7 @@ begin
   iProdTipoId := GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
   iProdUnidId := GravarTabExtrangeira('UNID', sProdUnidDescr, ProdUnidSL);
   iProdIcmsId := GravarTabExtrangeira('ICMS', sProdIcmsDescr, ProdIcmsSL);
-GravarProd;
+  GravarProd;
 end;
 
 procedure TShopDBImportFormPLUBase.GravarProd;
