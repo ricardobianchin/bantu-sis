@@ -9,7 +9,6 @@ uses
 type
   TStringAbrev = class
   public
-    class function UltimoChar(const AString: string): string;
     class function ConcatenarStrings(const Strings: TArray<string>): string;
     class function ComprimentoConcatenacao(const Strings: TArray<string>): Integer;
     class function IndiceStringMaisLonga(const Strings: TArray<string>): Integer;
@@ -46,7 +45,7 @@ begin
   for I := 0 to High(Strings) do
   begin
     s := Trim(Strings[I]);
-    if UltimoChar(Result) <> ' ' then
+    if Result <> '' then
       Result := Result + ' '; // Adiciona um espaço em branco entre as strings
     Result := Result + Strings[I];
   end;
@@ -91,20 +90,6 @@ begin
       Strings[IndiceMaisLonga] := S;
     end;
   end;
-end;
-
-class function TStringAbrev.UltimoChar(const AString: string): string;
-var
-  L: integer;
-begin
-  L := Length(AString);
-  if L = 0 then
-  begin
-    Result := '';
-    exit;
-  end;
-
-  Result := AString[L];
 end;
 
 end.
