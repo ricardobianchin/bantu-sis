@@ -19,7 +19,6 @@ type
     MeioPanel: TPanel;
     GridsPanel: TPanel;
     ProdDBGrid: TDBGrid;
-    ProdDataSource: TDataSource;
     ExecuteBitBtn: TBitBtn;
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
@@ -32,6 +31,10 @@ type
     StatusMemo: TMemo;
     ValidarAction_AppDBImport: TAction;
     ValidarBitBtn_AppDBImport: TBitBtn;
+    RejeicaoDBGrid: TDBGrid;
+    SplitterRejeicaoGrid: TSplitter;
+    ProdRejDataSource: TDataSource;
+    ProdDataSource: TDataSource;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
   private
@@ -39,11 +42,13 @@ type
     FProcessLog: IProcessLog;
     FStatusOutput: IOutput;
     FProdFDMemTable: TFDMemTable;
+    FProdRejFDMemTable: TFDMemTable;
     FAppObj: IAppObj;
     FDestinoDBConnection: IDBConnection;
     FUsuario: IUsuario;
 
     function GetNomeArqTabViewProd: string;
+    function GetNomeArqTabViewRej: string;
     procedure DefCampos;
   protected
     function ZereDados(pDestinoDBConnection: IDBConnection): boolean;
@@ -51,6 +56,8 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
     property StatusOutput: IOutput read FStatusOutput;
     property ProdFDMemTable: TFDMemTable read FProdFDMemTable;
+    property ProdRejFDMemTable: TFDMemTable read FProdRejFDMemTable;
+
     property AppObj: IAppObj read FAppObj;
     property DestinoDBConnection: IDBConnection read FDestinoDBConnection;
     property Usuario: IUsuario read FUsuario;
@@ -89,12 +96,21 @@ begin
   FStatusOutput := MemoOutputCreate(StatusMemo);
 
   FAppObj := pAppObj;
+
   FProdFDMemTable := TFDMemTable.Create(Self);
   FProdFDMemTable.Name := ClassName + 'ProdFDMemTable';
   // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
 
+  FProdRejFDMemTable := TFDMemTable.Create(Self);
+  FProdRejFDMemTable.Name := ClassName + 'ProdRejFDMemTable';
+  // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+
+
   sNomeArq := GetNomeArqTabViewProd;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdFDMemTable, ProdDBGrid);
+
+  sNomeArq := GetNomeArqTabViewRej;
+  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdRejFDMemTable, RejeicaoDBGrid);
 
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppObj.AppInfo, AppObj.SisConfig);
@@ -128,6 +144,16 @@ var
 begin
   sNomeArq := AppObj.AppInfo.PastaConsTabViews +
     'App\Config\Import\tabview.config.shop.import.prod.csv';
+
+  Result := sNomeArq;
+end;
+
+function TDBImportForm.GetNomeArqTabViewRej: string;
+var
+  sNomeArq: string;
+begin
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
+    'App\Config\Import\tabview.config.shop.import.prod.rejeicao.csv';
 
   Result := sNomeArq;
 end;

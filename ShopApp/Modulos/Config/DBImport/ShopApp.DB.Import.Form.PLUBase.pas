@@ -18,6 +18,7 @@ type
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
+    procedure ValidarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -76,7 +77,7 @@ implementation
 
 uses Sis.UI.Controls.Utils, System.StrUtils, Sis.Types.strings_u,
   Sis.Types.Integers, Sis.Types.Floats, Sis.Win.Utils_u,
-  Sis.Types.strings.abrev_u;
+  Sis.Types.strings.abrev_u, Sis.DB.Factory;
 
 { TShopDBImportFormPLUBase }
 
@@ -90,7 +91,7 @@ var
   sBarCodes: string;
 begin
   // inherited;
-  sSql := 'select'//
+  sSql := 'select' //
     + ' ip.import_prod_id' // 0
     + ', ip.vai_importar' //
     + ', ip.PROD_ID' //
@@ -139,43 +140,51 @@ begin
     + ' ORDER BY ip.import_prod_id'; //
 
   DestinoDBConnection.Abrir;
-  DestinoDBConnection.QueryDataSet(sSql, q);
-  iIdAnt := -1;
-  sBarCodes := '';
-  while not q.Eof do
-  begin
-    iIdAtu := q.Fields[0].AsInteger;
-    if iIdAnt <> iIdAtu then
-    begin
+  ProdFDMemTable.DisableControls;
+  try
+    DestinoDBConnection.QueryDataSet(sSql, q);
+    try
+      iIdAnt := -1;
+      sBarCodes := '';
+      while not q.Eof do
+      begin
+        iIdAtu := q.Fields[0].AsInteger;
+        if iIdAnt <> iIdAtu then
+        begin
+          if ProdFDMemTable.State <> dsBrowse then
+          begin
+            ProdFDMemTable.Fields[24].AsString := sBarCodes;
+            ProdFDMemTable.Post;
+            sBarCodes := '';
+          end;
+          ProdFDMemTable.Append;
+          QueryToMemTable(ProdFDMemTable, q);
+          if sBarCodes <> '' then
+            sBarCodes := sBarCodes + ',';
+          sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
+          iIdAnt := iIdAtu;
+        end
+        else
+        begin
+          if sBarCodes <> '' then
+            sBarCodes := sBarCodes + ',';
+          sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
+        end;
+
+        q.Next;
+      end;
       if ProdFDMemTable.State <> dsBrowse then
       begin
         ProdFDMemTable.Fields[24].AsString := sBarCodes;
         ProdFDMemTable.Post;
-        sBarCodes := '';
       end;
-      ProdFDMemTable.Append;
-      QueryToMemTable(ProdFDMemTable, q);
-      if sBarCodes <> '' then
-        sBarCodes := sBarCodes + ',';
-      sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
-      iIdAnt := iIdAtu;
+    finally
+      q.Free;
     end
-    else
-    begin
-      if sBarCodes <> '' then
-        sBarCodes := sBarCodes + ',';
-      sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
-    end;
-
-    q.Next;
-  end;
-  if ProdFDMemTable.State <> dsBrowse then
-  begin
-    ProdFDMemTable.Fields[24].AsString := sBarCodes;
-    ProdFDMemTable.Post;
-  end;
-
-  DestinoDBConnection.Fechar;
+  finally
+    DestinoDBConnection.Fechar;
+    ProdFDMemTable.EnableControls;
+  end
 end;
 
 constructor TShopDBImportFormPLUBase.Create(AOwner: TComponent;
@@ -238,6 +247,7 @@ begin
 
     DestinoDBConnection.Abrir;
     ProgressBar1.Visible := true;
+
     try
       bResultado := ZereDados(DestinoDBConnection);
       if not bResultado then
@@ -520,8 +530,170 @@ begin
   inherited;
 {$IFDEF DEBUG}
   FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
-//  ExecuteAction_AppDBImport.Execute;
+  // ExecuteAction_AppDBImport.Execute;
 {$ENDIF}
+end;
+
+procedure TShopDBImportFormPLUBase.ValidarAction_AppDBImportExecute
+  (Sender: TObject);
+var
+  OrigQ: TDataSet;
+  DestDBQuery: IDBQuery;
+  sSqlOrig: string;
+  sSqlQtd: string;
+  sSqlDest: string;
+  sSqlInsRej: string;
+  QtdRegs: integer;
+  RegAtual: integer;
+  InsDBExec: IDBExec;
+
+  RejeicaoIdOrigem, RejeicaoIdDestino, RejeicaoTipoId: integer;
+begin
+  inherited;
+  sSqlQtd := 'SELECT COUNT(*) FROM IMPORT_PROD WHERE VAI_IMPORTAR;';
+
+  // orig ini
+  sSqlOrig := //
+    'WITH IP AS ('#13#10 //
+    + '  SELECT '#13#10 //
+    + '    IMPORT_PROD_ID,'#13#10 //
+    + '    IMPORT_FABR_ID,'#13#10 //
+    + '    CASE'#13#10 //
+    + '        WHEN NOVO_PROD_ID IS NULL OR NOVO_PROD_ID < 1 THEN PROD_ID'#13#10
+  //
+    + '        ELSE NOVO_PROD_ID'#13#10 //
+    + '    END AS PRODUTO_ID,'#13#10 //
+    + '    CASE'#13#10 //
+    + '        WHEN NOVO_DESCR IS NULL OR NOVO_DESCR = '''' THEN DESCR'#13#10 //
+    + '        ELSE NOVO_DESCR'#13#10 //
+    + '    END AS DESCRICAO,'#13#10 //
+    + '    CASE'#13#10 //
+    + '        WHEN NOVO_DESCR_RED IS NULL OR NOVO_DESCR_RED = '''' THEN DESCR_RED'#13#10
+  //
+    + '        ELSE NOVO_DESCR_RED'#13#10 //
+    + '    END AS DESCRICAO_RED '#13#10 //
+    + '  FROM IMPORT_PROD '#13#10 //
+    + '  WHERE VAI_IMPORTAR '#13#10 //
+    + '  ORDER BY IMPORT_PROD_ID'#13#10 //
+    + ') '#13#10 //
+    + 'SELECT '#13#10 //
+    + '  IMPORT_PROD_ID,'#13#10 //
+    + '  IMPORT_FABR_ID,'#13#10 //
+    + '  PRODUTO_ID,'#13#10 //
+    + '  DESCRICAO,'#13#10 //
+    + '  DESCRICAO_RED '#13#10 //
+    + 'FROM IP;'#13#10; //
+  // orig fim
+
+  // dest ini
+  sSqlDest := //
+    'WITH IP AS ('#13#10 //
+    + '  SELECT '#13#10 //
+    + '    IMPORT_PROD_ID,'#13#10 //
+    + '    IMPORT_FABR_ID,'#13#10 //
+    + '    CASE'#13#10 //
+    + '        WHEN NOVO_PROD_ID IS NULL OR NOVO_PROD_ID < 1 THEN PROD_ID'#13#10
+  //
+    + '        ELSE NOVO_PROD_ID'#13#10 //
+    + '    END AS PRODUTO_ID,'#13#10 //
+    + '    CASE'#13#10 //
+    + '        WHEN NOVO_DESCR IS NULL OR NOVO_DESCR = '''' THEN DESCR'#13#10 //
+    + '        ELSE NOVO_DESCR'#13#10 //
+    + '    END AS DESCRICAO,'#13#10 //
+    + '    CASE'#13#10 //
+    + '        WHEN NOVO_DESCR_RED IS NULL OR NOVO_DESCR_RED = '''' THEN DESCR_RED'#13#10
+  //
+    + '        ELSE NOVO_DESCR_RED'#13#10 //
+    + '    END AS DESCRICAO_RED '#13#10 //
+    + '  FROM IMPORT_PROD '#13#10 //
+    + '  WHERE VAI_IMPORTAR '#13#10 //
+    + '  AND IMPORT_PROD_ID > :IMPORT_PROD_ID '#13#10 //
+    + '  ORDER BY IMPORT_PROD_ID'#13#10 //
+    + ') '#13#10 //
+    + 'SELECT '#13#10 //
+    + '  IMPORT_PROD_ID,'#13#10 //
+    + '  IMPORT_FABR_ID,'#13#10 //
+    + '  PRODUTO_ID,'#13#10 //
+    + '  DESCRICAO,'#13#10 //
+    + '  DESCRICAO_RED'#13#10 //
+    + 'FROM IP'#13#10 //
+    + 'WHERE IMPORT_FABR_ID = :IMPORT_FABR_ID '#13#10 //
+    + 'AND (DESCRICAO = :DESCRICAO '#13#10 //
+    + 'OR  DESCRICAO_RED = :DESCRICAO_RED) '#13#10 //
+    + ';'#13#10; //
+  // dest fim
+
+  sSqlInsRej := 'INSERT INTO IMPORT_PROD_REJEICAO('
+    + 'IMPORT_PROD_REJEICAO_ID_ORIGEM, IMPORT_PROD_REJEICAO_ID_DESTINO, IMPORT_REJEICAO_TIPO_ID'
+    + ') VALUES ('
+    + ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
+    + ');';
+
+  DestinoDBConnection.Abrir;
+  DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
+
+  ProgressBar1.Position := 0;
+  ProgressBar1.Visible := true;
+  try
+    QtdRegs := DestinoDBConnection.GetValueInteger(sSqlQtd);
+    ProgressBar1.Max := QtdRegs;
+    // SetClipboardText(sSqlDest);
+
+    DestDBQuery := DBQueryCreate('Config.Import.Prod.Rejeicao.Q',
+      DestinoDBConnection, sSqlDest, ProcessLog, StatusOutput);
+    DestDBQuery.Prepare;
+
+    InsDBExec := DBExecCreate('Config.Import.Prod.Rejeicao.Ins',
+      DestinoDBConnection, sSqlInsRej, ProcessLog, StatusOutput);
+    InsDBExec.Prepare;
+
+    DestinoDBConnection.QueryDataSet(sSqlOrig, OrigQ);
+    RegAtual := 0;
+    while not OrigQ.Eof do
+    begin
+      DestDBQuery.Params[0].AsInteger := OrigQ.Fields[0].AsInteger;
+      DestDBQuery.Params[1].AsInteger := OrigQ.Fields[1].AsInteger;
+      DestDBQuery.Params[2].AsString := Trim(OrigQ.Fields[3].AsString);
+      DestDBQuery.Params[3].AsString := Trim(OrigQ.Fields[4].AsString);
+
+      DestDBQuery.Abrir;
+      try
+        if not DestDBQuery.IsEmpty then
+        begin
+          RejeicaoIdOrigem := OrigQ.Fields[0].AsInteger;
+          RejeicaoIdDestino := DestDBQuery.DataSet.Fields[0].AsInteger;
+
+          if OrigQ.Fields[3].AsString = DestDBQuery.DataSet.Fields[3].AsString then
+          begin
+            RejeicaoTipoId := 1;
+            InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
+            InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
+            InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+          end;
+
+          if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString then
+          begin
+            RejeicaoTipoId := 2;
+            InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
+            InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
+            InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+          end;
+
+          InsDBExec.Execute;
+        end;
+      finally
+        DestDBQuery.Fechar;
+      end;
+      OrigQ.Next;
+    end;
+
+  finally
+    DestDBQuery.Unprepare;
+    InsDBExec.Unprepare;
+    OrigQ.Free;
+    DestinoDBConnection.Fechar;
+    ProgressBar1.Visible := False;
+  end;
 end;
 
 end.

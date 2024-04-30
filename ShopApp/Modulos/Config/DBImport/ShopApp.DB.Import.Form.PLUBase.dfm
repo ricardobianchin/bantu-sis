@@ -1,12 +1,9 @@
 inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   Caption = 'Mercado, Importar PLUBase'
-  ClientWidth = 624
-  ExplicitLeft = 2
-  ExplicitWidth = 636
+  ClientHeight = 613
+  ExplicitHeight = 651
   TextHeight = 15
   inherited TopoPanel: TPanel
-    Width = 624
-    ExplicitWidth = 620
     object MoldeFileSelectPanel: TPanel [0]
       Left = 1
       Top = 8
@@ -23,30 +20,25 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     end
   end
   inherited BasePanel: TPanel
-    Width = 624
-    ExplicitWidth = 620
+    Top = 533
     inherited ProgressBar1: TProgressBar
-      Left = 651
-      ExplicitLeft = 647
-    end
-    inherited StatusMemo: TMemo
-      Width = 624
-      ExplicitWidth = 620
+      Left = 957
+      ExplicitLeft = 953
     end
   end
   inherited MeioPanel: TPanel
-    Width = 624
-    ExplicitWidth = 620
+    Height = 492
+    ExplicitHeight = 491
     inherited SplitterStatusMemo: TSplitter
-      Width = 624
-      ExplicitTop = 307
+      Top = 487
+      ExplicitTop = 487
       ExplicitWidth = 624
     end
     inherited GridsPanel: TPanel
-      Width = 624
-      ExplicitWidth = 620
+      Height = 487
+      ExplicitHeight = 486
       inherited ProdDBGrid: TDBGrid
-        Width = 624
+        Height = 487
       end
     end
   end
@@ -56,6 +48,9 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     end
     inherited AtualizarAction_AppDBImport: TAction
       OnExecute = AtualizarAction_AppDBImportExecute
+    end
+    inherited ValidarAction_AppDBImport: TAction
+      OnExecute = ValidarAction_AppDBImportExecute
     end
   end
 end

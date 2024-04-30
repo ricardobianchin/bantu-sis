@@ -3,7 +3,7 @@ inherited DBImportForm: TDBImportForm
   ClientHeight = 612
   ClientWidth = 938
   WindowState = wsMaximized
-  ExplicitLeft = -319
+  ExplicitTop = -199
   ExplicitWidth = 950
   ExplicitHeight = 650
   TextHeight = 15
@@ -69,14 +69,13 @@ inherited DBImportForm: TDBImportForm
       938
       80)
     object ProgressBar1: TProgressBar
-      Left = 655
+      Left = 3
       Top = 60
       Width = 276
       Height = 17
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
-      ExplicitLeft = 651
     end
     object StatusMemo: TMemo
       Left = 0
@@ -121,11 +120,20 @@ inherited DBImportForm: TDBImportForm
       TabOrder = 0
       ExplicitWidth = 934
       ExplicitHeight = 485
+      object SplitterRejeicaoGrid: TSplitter
+        Left = 0
+        Top = 335
+        Width = 938
+        Height = 5
+        Cursor = crVSplit
+        Align = alBottom
+        ExplicitTop = 370
+      end
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
         Width = 938
-        Height = 486
+        Height = 335
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -137,11 +145,23 @@ inherited DBImportForm: TDBImportForm
         TitleFont.Name = 'Segoe UI'
         TitleFont.Style = []
       end
+      object RejeicaoDBGrid: TDBGrid
+        Left = 0
+        Top = 340
+        Width = 938
+        Height = 146
+        Align = alBottom
+        BorderStyle = bsNone
+        DataSource = ProdRejDataSource
+        Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+      end
     end
-  end
-  object ProdDataSource: TDataSource
-    Left = 304
-    Top = 57
   end
   object ActionList_AppDBImport: TActionList
     Left = 400
@@ -159,5 +179,13 @@ inherited DBImportForm: TDBImportForm
     object ValidarAction_AppDBImport: TAction
       Caption = 'Validar'
     end
+  end
+  object ProdRejDataSource: TDataSource
+    Left = 236
+    Top = 145
+  end
+  object ProdDataSource: TDataSource
+    Left = 128
+    Top = 145
   end
 end
