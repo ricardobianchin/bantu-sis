@@ -9,8 +9,8 @@ uses
   Vcl.DBGrids, App.AppObj, System.Actions, Vcl.ActnList, Vcl.Buttons,
   Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame, Vcl.ComCtrls,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Sis.DB.FDDataSetManager;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Sis.DB.FDDataSetManager,
+  Sis.DB.DataSet.Utils;
 
 type
   TShopDBImportFormPLUBase = class(TDBImportForm)
@@ -60,7 +60,6 @@ type
     procedure GravarLinhaAtual;
     function JaTemDescr(pDescr: string): boolean;
     function JaTemDescrRed(pDescr: string): boolean;
-    procedure QueryToMemTable(pProdFDMemTable: TFDMemTable; pQ: TDataSet);
   protected
   public
     { Public declarations }
@@ -158,7 +157,7 @@ begin
             sBarCodes := '';
           end;
           ProdFDMemTable.Append;
-          QueryToMemTable(ProdFDMemTable, q);
+          QueryToFDMemTable(ProdFDMemTable, q);
           if sBarCodes <> '' then
             sBarCodes := sBarCodes + ',';
           sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
@@ -182,6 +181,7 @@ begin
       q.Free;
     end
   finally
+    CarregarRej;
     DestinoDBConnection.Fechar;
     ProdFDMemTable.EnableControls;
   end
@@ -514,17 +514,6 @@ begin
   }
 end;
 
-procedure TShopDBImportFormPLUBase.QueryToMemTable(pProdFDMemTable: TFDMemTable;
-  pQ: TDataSet);
-var
-  I: integer;
-begin
-  for I := 0 to pProdFDMemTable.fieldcount - 1 do
-  begin
-    pProdFDMemTable.Fields[I].Value := pQ.Fields[I].Value;
-  end;
-end;
-
 procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
@@ -693,6 +682,7 @@ begin
     DestDBQuery.Unprepare;
     InsDBExec.Unprepare;
     OrigQ.Free;
+    CarregarRej;
     DestinoDBConnection.Fechar;
     ProgressBar1.Visible := False;
   end;
