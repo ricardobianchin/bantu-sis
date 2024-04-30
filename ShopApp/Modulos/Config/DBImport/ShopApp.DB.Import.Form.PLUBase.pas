@@ -685,6 +685,8 @@ begin
         DestDBQuery.Fechar;
       end;
       OrigQ.Next;
+      inc(RegAtual);
+      ProgressBar1.Position := RegAtual;
     end;
 
   finally

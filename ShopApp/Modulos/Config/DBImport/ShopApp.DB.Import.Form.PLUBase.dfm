@@ -37,8 +37,14 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     inherited GridsPanel: TPanel
       Height = 487
       ExplicitHeight = 486
+      inherited SplitterRejeicaoGrid: TSplitter
+        Top = 482
+      end
       inherited ProdDBGrid: TDBGrid
-        Height = 487
+        Height = 336
+      end
+      inherited RejeicaoDBGrid: TDBGrid
+        Top = 336
       end
     end
   end
