@@ -3,7 +3,7 @@ inherited DBImportForm: TDBImportForm
   ClientHeight = 612
   ClientWidth = 938
   WindowState = wsMaximized
-  ExplicitTop = -199
+  ExplicitTop = -189
   ExplicitWidth = 950
   ExplicitHeight = 650
   TextHeight = 15
@@ -56,64 +56,42 @@ inherited DBImportForm: TDBImportForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 532
+    Top = 590
     Width = 938
-    Height = 80
+    Height = 22
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 531
-    ExplicitWidth = 934
     DesignSize = (
       938
-      80)
+      22)
     object ProgressBar1: TProgressBar
       Left = 3
-      Top = 60
+      Top = 2
       Width = 276
       Height = 17
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
     end
-    object StatusMemo: TMemo
-      Left = 0
-      Top = 0
-      Width = 938
-      Height = 57
-      Align = alTop
-      BorderStyle = bsNone
-      TabOrder = 1
-      ExplicitWidth = 934
-    end
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
     Width = 938
-    Height = 491
+    Height = 549
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
     ExplicitWidth = 934
     ExplicitHeight = 490
-    object SplitterStatusMemo: TSplitter
-      Left = 0
-      Top = 486
-      Width = 938
-      Height = 5
-      Cursor = crVSplit
-      Align = alBottom
-      ExplicitTop = 185
-      ExplicitWidth = 119
-    end
     object GridsPanel: TPanel
       Left = 0
       Top = 0
       Width = 938
-      Height = 486
+      Height = 549
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
@@ -122,7 +100,7 @@ inherited DBImportForm: TDBImportForm
       ExplicitHeight = 485
       object SplitterRejeicaoGrid: TSplitter
         Left = 0
-        Top = 335
+        Top = 398
         Width = 938
         Height = 5
         Cursor = crVSplit
@@ -133,7 +111,7 @@ inherited DBImportForm: TDBImportForm
         Left = 0
         Top = 0
         Width = 938
-        Height = 335
+        Height = 398
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -147,7 +125,7 @@ inherited DBImportForm: TDBImportForm
       end
       object RejeicaoDBGrid: TDBGrid
         Left = 0
-        Top = 340
+        Top = 403
         Width = 938
         Height = 146
         Align = alBottom

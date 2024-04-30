@@ -21,13 +21,11 @@ type
     ExecuteBitBtn: TBitBtn;
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
-    SplitterStatusMemo: TSplitter;
     ZerarExecuteAction_AppDBImport: TAction;
     ZerarBitBtn: TBitBtn;
     AtualizarAction_AppDBImport: TAction;
     AtualizarBitBtn_AppDBImport: TBitBtn;
     ProgressBar1: TProgressBar;
-    StatusMemo: TMemo;
     ValidarAction_AppDBImport: TAction;
     ValidarBitBtn_AppDBImport: TBitBtn;
     RejeicaoDBGrid: TDBGrid;
@@ -137,7 +135,7 @@ begin
   else
     FProcessLog := pProcessLog;
 
-  FStatusOutput := MemoOutputCreate(StatusMemo);
+  FStatusOutput := MudoOutputCreate;
 
   FAppObj := pAppObj;
 
