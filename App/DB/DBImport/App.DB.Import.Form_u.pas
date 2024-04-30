@@ -24,16 +24,20 @@ type
     ZerarExecuteAction_AppDBImport: TAction;
     ZerarBitBtn: TBitBtn;
     AtualizarAction_AppDBImport: TAction;
-    AtualizarBitBtn_AppDBImport: TBitBtn;
-    ProgressBar1: TProgressBar;
     ValidarAction_AppDBImport: TAction;
     ValidarBitBtn_AppDBImport: TBitBtn;
     RejeicaoDBGrid: TDBGrid;
     SplitterRejeicaoGrid: TSplitter;
     ProdRejDataSource: TDataSource;
     ProdDataSource: TDataSource;
+    StatusPanel: TPanel;
+    ProgressBar1: TProgressBar;
+    ExibirTitLabel: TLabel;
+    ExibirComboBox: TComboBox;
+    AtualizarBitBtn_AppDBImport: TBitBtn;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
+    procedure ExibirComboBoxChange(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
@@ -180,6 +184,12 @@ begin
   end;
 end;
 
+procedure TDBImportForm.ExibirComboBoxChange(Sender: TObject);
+begin
+  inherited;
+  AtualizarAction_AppDBImport.Execute;
+end;
+
 function TDBImportForm.GetNomeArqTabViewProd: string;
 var
   sNomeArq: string;
@@ -204,6 +214,7 @@ procedure TDBImportForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   ClearStyleElements(Self);
+  ProgressBar1.Left := 2;
   AtualizarAction_AppDBImport.Execute;
 end;
 

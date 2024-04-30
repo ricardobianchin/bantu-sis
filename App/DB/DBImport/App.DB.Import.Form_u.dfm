@@ -35,52 +35,61 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Apagar Dados'
       TabOrder = 1
     end
-    object AtualizarBitBtn_AppDBImport: TBitBtn
-      Left = 686
-      Top = 7
-      Width = 56
-      Height = 25
-      Action = AtualizarAction_AppDBImport
-      Caption = 'Atualizar'
-      TabOrder = 2
-    end
     object ValidarBitBtn_AppDBImport: TBitBtn
-      Left = 747
+      Left = 683
       Top = 7
       Width = 56
       Height = 25
       Action = ValidarAction_AppDBImport
       Caption = 'Validar'
-      TabOrder = 3
+      TabOrder = 2
     end
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 590
+    Top = 552
     Width = 938
-    Height = 22
+    Height = 39
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    DesignSize = (
-      938
-      22)
-    object ProgressBar1: TProgressBar
-      Left = 3
-      Top = 2
-      Width = 276
-      Height = 17
-      Anchors = [akTop, akRight]
+    object ExibirTitLabel: TLabel
+      Left = 8
+      Top = 11
+      Width = 29
+      Height = 15
+      Caption = 'Exibir'
+    end
+    object ExibirComboBox: TComboBox
+      Left = 42
+      Top = 8
+      Width = 113
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 0
       TabOrder = 0
-      Visible = False
+      Text = 'Todos'
+      OnChange = ExibirComboBoxChange
+      Items.Strings = (
+        'Todos'
+        'Com Rejei'#231#227'o')
+    end
+    object AtualizarBitBtn_AppDBImport: TBitBtn
+      Left = 160
+      Top = 7
+      Width = 56
+      Height = 25
+      Action = AtualizarAction_AppDBImport
+      Caption = 'Atualizar'
+      TabOrder = 1
     end
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
     Width = 938
-    Height = 549
+    Height = 511
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -91,7 +100,7 @@ inherited DBImportForm: TDBImportForm
       Left = 0
       Top = 0
       Width = 938
-      Height = 549
+      Height = 511
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
@@ -100,7 +109,7 @@ inherited DBImportForm: TDBImportForm
       ExplicitHeight = 485
       object SplitterRejeicaoGrid: TSplitter
         Left = 0
-        Top = 398
+        Top = 360
         Width = 938
         Height = 5
         Cursor = crVSplit
@@ -111,7 +120,7 @@ inherited DBImportForm: TDBImportForm
         Left = 0
         Top = 0
         Width = 938
-        Height = 398
+        Height = 360
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -125,7 +134,7 @@ inherited DBImportForm: TDBImportForm
       end
       object RejeicaoDBGrid: TDBGrid
         Left = 0
-        Top = 403
+        Top = 365
         Width = 938
         Height = 146
         Align = alBottom
@@ -139,6 +148,29 @@ inherited DBImportForm: TDBImportForm
         TitleFont.Name = 'Segoe UI'
         TitleFont.Style = []
       end
+    end
+  end
+  object StatusPanel: TPanel [3]
+    Left = 0
+    Top = 591
+    Width = 938
+    Height = 21
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 3
+    ExplicitTop = 592
+    DesignSize = (
+      938
+      21)
+    object ProgressBar1: TProgressBar
+      Left = 3
+      Top = 2
+      Width = 276
+      Height = 17
+      Anchors = [akTop, akRight]
+      TabOrder = 0
+      Visible = False
     end
   end
   object ActionList_AppDBImport: TActionList

@@ -136,7 +136,17 @@ begin
     + ' join import_prod_barras ib on' //
     + ' ip.import_prod_id=ib.import_prod_id' //
 
-    + ' ORDER BY ip.import_prod_id'; //
+    ;
+
+    if ExibirComboBox.ItemIndex = 1 then
+    begin
+      sSql := sSql + ' JOIN IMPORT_PROD_REJEICAO IR ON'
+        + ' ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_ORIGEM' //
+        + ' or ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_DESTINO' //
+        ;
+    end;
+
+   sSql := sSql + ' ORDER BY ip.import_prod_id'; //
 
   DestinoDBConnection.Abrir;
   ProdFDMemTable.DisableControls;

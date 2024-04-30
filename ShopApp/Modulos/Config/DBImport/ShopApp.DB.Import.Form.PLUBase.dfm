@@ -17,33 +17,33 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
       TabOrder = 1
     end
     inherited ZerarBitBtn: TBitBtn
-      TabOrder = 4
+      TabOrder = 3
     end
   end
   inherited BasePanel: TPanel
-    Top = 591
-    inherited ProgressBar1: TProgressBar
-      Left = 957
-      ExplicitLeft = 957
-    end
+    Top = 574
   end
   inherited MeioPanel: TPanel
-    Height = 550
+    Height = 512
     ExplicitHeight = 491
     inherited GridsPanel: TPanel
-      Height = 550
+      Height = 512
       ExplicitHeight = 486
       inherited SplitterRejeicaoGrid: TSplitter
-        Top = 399
+        Top = 361
         ExplicitTop = 388
       end
       inherited ProdDBGrid: TDBGrid
-        Height = 399
+        Height = 361
       end
       inherited RejeicaoDBGrid: TDBGrid
-        Top = 404
+        Top = 366
       end
     end
+  end
+  inherited StatusPanel: TPanel
+    Top = 553
+    ExplicitTop = 553
   end
   inherited ActionList_AppDBImport: TActionList
     inherited ExecuteAction_AppDBImport: TAction
