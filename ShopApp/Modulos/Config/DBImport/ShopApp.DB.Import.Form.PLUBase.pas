@@ -82,13 +82,32 @@ uses Sis.UI.Controls.Utils, System.StrUtils, Sis.Types.strings_u,
 
 procedure TShopDBImportFormPLUBase.AtualizarAction_AppDBImportExecute
   (Sender: TObject);
+type
+  TConfStatus = (confTodos, confRejeitados, confAceitos);
+  TSelStatus = (selTodos, selRejeitados, selAceitos);
+
 var
   sSql: string;
   q: TDataSet;
   iIdAnt: integer;
   iIdAtu: integer;
   sBarCodes: string;
+  ConfStatus: TConfStatus;
+  SelStatus: TSelStatus;
 begin
+  case FIlConfComboBox.ItemIndex of
+    0: ConfStatus := TConfStatus.confTodos;
+    1: ConfStatus := TConfStatus.confRejeitados;
+    2: ConfStatus := TConfStatus.confAceitos;
+  end;
+
+  case FilSelecComboBox.ItemIndex of
+    0: SelStatus := TSelStatus.SelTodos;
+    1: SelStatus := TSelStatus.SelRejeitados;
+    2: SelStatus := TSelStatus.SelAceitos;
+  end;
+
+
   // inherited;
   sSql := 'select' //
     + ' ip.import_prod_id' // 0
@@ -138,13 +157,31 @@ begin
 
     ;
 
-    if ExibirComboBox.ItemIndex = 1 then
-    begin
-      sSql := sSql + ' JOIN IMPORT_PROD_REJEICAO IR ON'
-        + ' ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_ORIGEM' //
-        + ' or ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_DESTINO' //
-        ;
+    case ConfStatus of
+      confTodos: ;
+      confRejeitados:
+      begin
+        sSql := sSql + ' JOIN IMPORT_PROD_REJEICAO IR ON'
+          + ' ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_ORIGEM' //
+          + ' or ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_DESTINO' //
+          ;
+      end;
+      confAceitos:
+      begin
+        sSql := sSql + ' left JOIN IMPORT_PROD_REJEICAO IR ON'
+          + ' (ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_ORIGEM' //
+          + ' or ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_DESTINO)' //
+          + ' and ip.import_prod_id = NULL'
+          ;
+      end;
     end;
+
+    case SelStatus of
+      selTodos: ;
+      selRejeitados: sSql := sSql + ' where not ip.vai_importar';
+      selAceitos: sSql := sSql + ' where ip.vai_importar';
+    end;
+
 
    sSql := sSql + ' ORDER BY ip.import_prod_id'; //
 
@@ -193,6 +230,7 @@ begin
   finally
     CarregarRej;
     DestinoDBConnection.Fechar;
+    ProdFDMemTable.First;
     ProdFDMemTable.EnableControls;
   end
 end;
