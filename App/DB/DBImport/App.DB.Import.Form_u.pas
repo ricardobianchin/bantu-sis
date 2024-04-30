@@ -9,8 +9,7 @@ uses
   Sis.UI.IO.Factory, Sis.DB.DBTypes,
   Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, App.AppObj, System.Actions, Vcl.ActnList,
-  Vcl.Buttons,
-  Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario;
+  Vcl.Buttons, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario;
 
 type
   TDBImportForm = class(TBasForm)
@@ -61,6 +60,7 @@ type
     property AppObj: IAppObj read FAppObj;
     property DestinoDBConnection: IDBConnection read FDestinoDBConnection;
     property Usuario: IUsuario read FUsuario;
+    procedure CarregarRej;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
@@ -79,6 +79,50 @@ uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TDBImportForm }
+
+procedure TDBImportForm.CarregarRej;
+var
+  sSql: string;
+  q: TDataSet;
+  I: integer;
+begin
+  // inherited;
+  sSql :=
+    'SELECT'#13#10
+    +'  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10
+    +'  r.IMPORT_PROD_REJEICAO_ID_DESTINO,'#13#10
+    +'  t.DESCR'#13#10
+    +'FROM IMPORT_PROD_REJEICAO r'#13#10
+    +'JOIN IMPORT_REJEICAO_TIPO t ON'#13#10
+    +'r.IMPORT_REJEICAO_TIPO_ID = t.IMPORT_REJEICAO_TIPO_ID'#13#10
+//    +'WHERE r.IMPORT_PROD_REJEICAO_ID_ORIGEM = :IMPORT_PROD_ID'#13#10
+//    +'   OR r.IMPORT_PROD_REJEICAO_ID_DESTINO = :IMPORT_PROD_ID;'#13#10
+    +'ORDER BY'#13#10
+    +'  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10
+    +'  r.IMPORT_PROD_REJEICAO_ID_DESTINO'#13#10
+    ;
+
+  DestinoDBConnection.Abrir;
+  ProdRejFDMemTable.DisableControls;
+  try
+    DestinoDBConnection.QueryDataSet(sSql, q);
+    try
+      while not q.Eof do
+      begin
+        ProdRejFDMemTable.Append;
+        QueryToFDMemTable(ProdRejFDMemTable, q);
+        ProdRejFDMemTable.Post;
+
+        q.Next;
+      end;
+    finally
+      q.Free;
+    end
+  finally
+    DestinoDBConnection.Fechar;
+    ProdRejFDMemTable.EnableControls;
+  end
+end;
 
 constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pUsuario: IUsuario; pProcessLog: IProcessLog = nil);
