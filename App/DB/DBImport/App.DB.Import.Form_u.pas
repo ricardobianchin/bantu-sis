@@ -22,22 +22,28 @@ type
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
     ZerarExecuteAction_AppDBImport: TAction;
-    ZerarBitBtn: TBitBtn;
     AtualizarAction_AppDBImport: TAction;
+    AtualizarBitBtn_AppDBImport: TBitBtn;
     ValidarAction_AppDBImport: TAction;
-    ValidarBitBtn_AppDBImport: TBitBtn;
     RejeicaoDBGrid: TDBGrid;
     SplitterRejeicaoGrid: TSplitter;
     ProdRejDataSource: TDataSource;
     ProdDataSource: TDataSource;
     StatusPanel: TPanel;
     ProgressBar1: TProgressBar;
-    ExibirTitLabel: TLabel;
-    ExibirComboBox: TComboBox;
-    AtualizarBitBtn_AppDBImport: TBitBtn;
+    FilConfTitLabel: TLabel;
+    FIlConfComboBox: TComboBox;
+    FilSelecTitLabel: TLabel;
+    FilSelecComboBox: TComboBox;
+    ZerarBitBtn: TBitBtn;
+    ValidarBitBtn_AppDBImport: TBitBtn;
+    EditAction_AppDBImport: TAction;
+    SelecBitBtn_AppDBImport: TBitBtn;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
-    procedure ExibirComboBoxChange(Sender: TObject);
+    procedure FIlConfComboBoxChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
@@ -82,6 +88,12 @@ uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
 
 { TDBImportForm }
 
+procedure TDBImportForm.AtualizarAction_AppDBImportExecute(Sender: TObject);
+begin
+  //inherited;
+//
+end;
+
 procedure TDBImportForm.CarregarRej;
 var
   sSql: string;
@@ -107,6 +119,7 @@ begin
   DestinoDBConnection.Abrir;
   ProdRejFDMemTable.DisableControls;
   try
+    ProdRejFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
       while not q.Eof do
@@ -122,6 +135,7 @@ begin
     end
   finally
     DestinoDBConnection.Fechar;
+    ProdRejFDMemTable.First;
     ProdRejFDMemTable.EnableControls;
   end
 end;
@@ -184,10 +198,16 @@ begin
   end;
 end;
 
-procedure TDBImportForm.ExibirComboBoxChange(Sender: TObject);
+procedure TDBImportForm.FIlConfComboBoxChange(Sender: TObject);
 begin
   inherited;
   AtualizarAction_AppDBImport.Execute;
+end;
+
+procedure TDBImportForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Height := 650;
 end;
 
 function TDBImportForm.GetNomeArqTabViewProd: string;
