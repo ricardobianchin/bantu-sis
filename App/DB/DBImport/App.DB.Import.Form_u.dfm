@@ -1,11 +1,11 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
-  ClientHeight = 612
+  ClientHeight = 343
   ClientWidth = 938
   WindowState = wsMaximized
-  ExplicitTop = -189
+  OnCreate = FormCreate
   ExplicitWidth = 950
-  ExplicitHeight = 650
+  ExplicitHeight = 381
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
@@ -23,93 +23,125 @@ inherited DBImportForm: TDBImportForm
       Width = 56
       Height = 25
       Action = ExecuteAction_AppDBImport
-      Caption = 'Execute'
+      Caption = 'Importar'
       TabOrder = 0
-    end
-    object ZerarBitBtn: TBitBtn
-      Left = 597
-      Top = 7
-      Width = 84
-      Height = 25
-      Action = ZerarExecuteAction_AppDBImport
-      Caption = 'Apagar Dados'
-      TabOrder = 1
-    end
-    object ValidarBitBtn_AppDBImport: TBitBtn
-      Left = 683
-      Top = 7
-      Width = 56
-      Height = 25
-      Action = ValidarAction_AppDBImport
-      Caption = 'Validar'
-      TabOrder = 2
     end
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 552
+    Top = 256
     Width = 938
-    Height = 39
+    Height = 66
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    object ExibirTitLabel: TLabel
-      Left = 8
-      Top = 11
-      Width = 29
+    object FilConfTitLabel: TLabel
+      Left = 4
+      Top = 43
+      Width = 77
       Height = 15
-      Caption = 'Exibir'
+      Caption = 'Conformidade'
     end
-    object ExibirComboBox: TComboBox
-      Left = 42
-      Top = 8
+    object FilSelecTitLabel: TLabel
+      Left = 210
+      Top = 43
+      Width = 69
+      Height = 15
+      Caption = 'Selecionados'
+    end
+    object FIlConfComboBox: TComboBox
+      Left = 88
+      Top = 40
       Width = 113
       Height = 23
       Style = csDropDownList
       ItemIndex = 0
       TabOrder = 0
       Text = 'Todos'
-      OnChange = ExibirComboBoxChange
+      OnChange = FIlConfComboBoxChange
       Items.Strings = (
         'Todos'
-        'Com Rejei'#231#227'o')
+        'Com Rejei'#231#227'o'
+        'Aceitos')
     end
     object AtualizarBitBtn_AppDBImport: TBitBtn
-      Left = 160
-      Top = 7
+      Left = 401
+      Top = 39
       Width = 56
       Height = 25
       Action = AtualizarAction_AppDBImport
       Caption = 'Atualizar'
       TabOrder = 1
     end
+    object FilSelecComboBox: TComboBox
+      Left = 283
+      Top = 40
+      Width = 113
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 2
+      Text = 'Todos'
+      OnChange = FIlConfComboBoxChange
+      Items.Strings = (
+        'Todos'
+        'Selecionados'
+        'N'#227'o Selecionados')
+    end
+    object ZerarBitBtn: TBitBtn
+      Left = 4
+      Top = 3
+      Width = 84
+      Height = 25
+      Action = ZerarExecuteAction_AppDBImport
+      Caption = 'Apagar Dados'
+      TabOrder = 3
+    end
+    object ValidarBitBtn_AppDBImport: TBitBtn
+      Left = 93
+      Top = 3
+      Width = 56
+      Height = 25
+      Action = ValidarAction_AppDBImport
+      Caption = 'Validar'
+      TabOrder = 4
+    end
+    object SelecBitBtn_AppDBImport: TBitBtn
+      Left = 152
+      Top = 3
+      Width = 56
+      Height = 25
+      Action = EditAction_AppDBImport
+      Caption = 'Editar'
+      TabOrder = 5
+    end
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
     Width = 938
-    Height = 511
+    Height = 215
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
     ExplicitWidth = 934
-    ExplicitHeight = 490
+    ExplicitHeight = 278
     object GridsPanel: TPanel
       Left = 0
       Top = 0
       Width = 938
-      Height = 511
+      Height = 215
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
       ExplicitWidth = 934
-      ExplicitHeight = 485
+      ExplicitHeight = 278
       object SplitterRejeicaoGrid: TSplitter
         Left = 0
-        Top = 360
+        Top = 64
         Width = 938
         Height = 5
         Cursor = crVSplit
@@ -120,7 +152,7 @@ inherited DBImportForm: TDBImportForm
         Left = 0
         Top = 0
         Width = 938
-        Height = 360
+        Height = 64
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -134,7 +166,7 @@ inherited DBImportForm: TDBImportForm
       end
       object RejeicaoDBGrid: TDBGrid
         Left = 0
-        Top = 365
+        Top = 69
         Width = 938
         Height = 146
         Align = alBottom
@@ -152,14 +184,15 @@ inherited DBImportForm: TDBImportForm
   end
   object StatusPanel: TPanel [3]
     Left = 0
-    Top = 591
+    Top = 322
     Width = 938
     Height = 21
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
-    ExplicitTop = 592
+    ExplicitTop = 408
+    ExplicitWidth = 934
     DesignSize = (
       938
       21)
@@ -171,13 +204,14 @@ inherited DBImportForm: TDBImportForm
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
+      ExplicitLeft = -1
     end
   end
   object ActionList_AppDBImport: TActionList
     Left = 400
     Top = 81
     object ExecuteAction_AppDBImport: TAction
-      Caption = 'Execute'
+      Caption = 'Importar'
     end
     object ZerarExecuteAction_AppDBImport: TAction
       Caption = 'Apagar Dados'
@@ -185,9 +219,13 @@ inherited DBImportForm: TDBImportForm
     end
     object AtualizarAction_AppDBImport: TAction
       Caption = 'Atualizar'
+      OnExecute = AtualizarAction_AppDBImportExecute
     end
     object ValidarAction_AppDBImport: TAction
       Caption = 'Validar'
+    end
+    object EditAction_AppDBImport: TAction
+      Caption = 'Editar'
     end
   end
   object ProdRejDataSource: TDataSource

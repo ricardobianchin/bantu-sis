@@ -84,7 +84,7 @@ procedure TShopDBImportFormPLUBase.AtualizarAction_AppDBImportExecute
   (Sender: TObject);
 type
   TConfStatus = (confTodos, confRejeitados, confAceitos);
-  TSelStatus = (selTodos, selRejeitados, selAceitos);
+  TSelStatus = (selTodos, selSelecionados, selNaoSelecionados);
 
 var
   sSql: string;
@@ -94,100 +94,138 @@ var
   sBarCodes: string;
   ConfStatus: TConfStatus;
   SelStatus: TSelStatus;
+  WhereStr: string;
 begin
   case FIlConfComboBox.ItemIndex of
-    0: ConfStatus := TConfStatus.confTodos;
-    1: ConfStatus := TConfStatus.confRejeitados;
-    2: ConfStatus := TConfStatus.confAceitos;
+    0:
+      ConfStatus := TConfStatus.confTodos;
+    1:
+      ConfStatus := TConfStatus.confRejeitados;
+    2:
+      ConfStatus := TConfStatus.confAceitos;
   end;
 
   case FilSelecComboBox.ItemIndex of
-    0: SelStatus := TSelStatus.SelTodos;
-    1: SelStatus := TSelStatus.SelRejeitados;
-    2: SelStatus := TSelStatus.SelAceitos;
+    0:
+      SelStatus := TSelStatus.selTodos;
+    1:
+      SelStatus := TSelStatus.selSelecionados;
+    2:
+      SelStatus := TSelStatus.selNaoSelecionados;
   end;
 
-
   // inherited;
-  sSql := 'select' //
-    + ' ip.import_prod_id' // 0
-    + ', ip.vai_importar' //
-    + ', ip.PROD_ID' //
-    + ', ip.DESCR' //
-    + ', ip.DESCR_RED' //
-    + ', ip.NOVO_DESCR' // 5
-    + ', ip.NOVO_DESCR_RED' //
-    + ', ifa.IMPORT_FABR_ID' //
-    + ', ifa.NOME fabr_nome' //
-    + ', it.IMPORT_PROD_TIPO_ID' //
-    + ', it.DESCR tipo_descr' // 10
-    + ', iu.IMPORT_UNID_ID' //
-    + ', iu.unid_sigla' //
-    + ', ii.IMPORT_ICMS_ID' //
-    + ', ii.ICMS_PERC_DESCR' //
-    + ', ip.CAPAC_EMB' // 15
-    + ', ip.NCM' //
-    + ', ip.CUSTO' //
-    + ', ipr.PRECO' //
-    + ', ip.ATIVO' //
-    + ', ip.LOCALIZ' // 20
-    + ', ip.MARGEM' //
-    + ', ip.BAL_USO' //
-    + ', ip.BAL_DPTO' //
-    + ', ib.COD_BARRAS' // 24
+  sSql :=
+    'WITH REJ_ORI AS'#13#10
+    +'('#13#10
+    +'  SELECT IPRO.IMPORT_PROD_REJEICAO_ID_ORIGEM ID'#13#10
+    +'  FROM IMPORT_PROD_REJEICAO IPRO'#13#10
+    +')'#13#10
+    +', REJ_DEST AS'#13#10
+    +'('#13#10
+    +'  SELECT IPRO.IMPORT_PROD_REJEICAO_ID_DESTINO ID'#13#10
+    +'  FROM IMPORT_PROD_REJEICAO IPRO'#13#10
+    +')'#13#10
+    +', REJ AS'#13#10
+    +'('#13#10
+    +'SELECT REJ_ORI.ID FROM REJ_ORI'#13#10
+    +'UNION DISTINCT'#13#10
+    +'SELECT REJ_DEST.ID FROM REJ_DEST'#13#10
+    +')'#13#10
+    +'select'#13#10 //
+    + ' ip.import_prod_id'#13#10 // 0
+    + ', ip.vai_importar'#13#10 //
+    + ', ip.PROD_ID'#13#10 //
+    + ', ip.DESCR'#13#10 //
+    + ', ip.DESCR_RED'#13#10 //
+    + ', ip.NOVO_DESCR'#13#10 // 5
+    + ', ip.NOVO_DESCR_RED'#13#10 //
+    + ', ifa.IMPORT_FABR_ID'#13#10 //
+    + ', ifa.NOME fabr_nome'#13#10 //
+    + ', it.IMPORT_PROD_TIPO_ID'#13#10 //
+    + ', it.DESCR tipo_descr'#13#10 // 10
+    + ', iu.IMPORT_UNID_ID'#13#10 //
+    + ', iu.unid_sigla'#13#10 //
+    + ', ii.IMPORT_ICMS_ID'#13#10 //
+    + ', ii.ICMS_PERC_DESCR'#13#10 //
+    + ', ip.CAPAC_EMB'#13#10 // 15
+    + ', ip.NCM'#13#10 //
+    + ', ip.CUSTO'#13#10 //
+    + ', ipr.PRECO'#13#10 //
+    + ', ip.ATIVO'#13#10 //
+    + ', ip.LOCALIZ'#13#10 // 20
+    + ', ip.MARGEM'#13#10 //
+    + ', ip.BAL_USO'#13#10 //
+    + ', ip.BAL_DPTO'#13#10 //
+    + ', ib.COD_BARRAS'#13#10 // 24
 
-    + ' from import_prod ip' //
+    + 'from import_prod ip'#13#10 //
 
-    + ' join import_fabr ifa on' + ' ip.import_fabr_id=ifa.import_fabr_id' //
+    + 'join import_fabr ifa on'#13#10//
+    + 'ip.import_fabr_id=ifa.import_fabr_id'#13#10 //
 
-    + ' join import_prod_tipo it on' //
-    + ' ip.import_prod_tipo_id=it.import_prod_tipo_id' //
+    + 'join import_prod_tipo it on'#13#10 //
+    + 'ip.import_prod_tipo_id=it.import_prod_tipo_id'#13#10 //
 
-    + ' join import_unid iu on' //
-    + ' ip.import_unid_id=iu.import_unid_id' //
+    + 'join import_unid iu on'#13#10 //
+    + 'ip.import_unid_id=iu.import_unid_id'#13#10 //
 
-    + ' join import_icms ii on' //
-    + ' ip.import_icms_id=ii.import_icms_id' //
+    + 'join import_icms ii on'#13#10 //
+    + 'ip.import_icms_id=ii.import_icms_id'#13#10 //
 
-    + ' join import_prod_preco ipr on' //
-    + ' ip.import_prod_id=ipr.import_prod_id' //
+    + 'join import_prod_preco ipr on'#13#10 //
+    + 'ip.import_prod_id=ipr.import_prod_id'#13#10 //
 
-    + ' join import_prod_barras ib on' //
-    + ' ip.import_prod_id=ib.import_prod_id' //
+    + 'join import_prod_barras ib on'#13#10 //
+    + 'ip.import_prod_id=ib.import_prod_id'#13#10 //
 
     ;
 
-    case ConfStatus of
-      confTodos: ;
-      confRejeitados:
+  WhereStr := '';
+  case SelStatus of
+    selSelecionados:
+    begin
+      if WhereStr <> '' then
+        WhereStr := WhereStr + ' and ';
+      WhereStr := '(ip.vai_importar)'#13#10;
+    end;
+    selNaoSelecionados:
+    begin
+      if WhereStr <> '' then
+        WhereStr := WhereStr + ' and ';
+      WhereStr := '(not ip.vai_importar)'#13#10;
+    end;
+  end;
+
+
+  case ConfStatus of
+    confRejeitados:
       begin
-        sSql := sSql + ' JOIN IMPORT_PROD_REJEICAO IR ON'
-          + ' ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_ORIGEM' //
-          + ' or ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_DESTINO' //
+        sSql := sSql
+          + 'JOIN rej ON'#13#10 //
+          +'ip.import_prod_id=rej.id'#13#10 //
           ;
       end;
-      confAceitos:
+    confAceitos:
       begin
-        sSql := sSql + ' left JOIN IMPORT_PROD_REJEICAO IR ON'
-          + ' (ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_ORIGEM' //
-          + ' or ip.import_prod_id=ir.IMPORT_PROD_REJEICAO_ID_DESTINO)' //
-          + ' and ip.import_prod_id = NULL'
+        if WhereStr <> '' then
+          WhereStr := WhereStr + ' and ';
+        WhereStr := WhereStr +' (rej.id is NULL)';
+        sSql := sSql
+          + 'LEFT JOIN rej ON'#13#10 //
+          +'ip.import_prod_id=rej.id'#13#10 //
           ;
       end;
-    end;
+  end;
+  if WhereStr <> '' then
+    sSql := sSql + 'WHERE ' + WhereStr + #13#10;
 
-    case SelStatus of
-      selTodos: ;
-      selRejeitados: sSql := sSql + ' where not ip.vai_importar';
-      selAceitos: sSql := sSql + ' where ip.vai_importar';
-    end;
-
-
-   sSql := sSql + ' ORDER BY ip.import_prod_id'; //
-
-  DestinoDBConnection.Abrir;
+  sSql := sSql + 'ORDER BY ip.import_prod_id'#13#10; //
+  SetClipboardText(sSql);
+  //DestinoDBConnection.Abrir;
   ProdFDMemTable.DisableControls;
   try
+    ProdFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
       iIdAnt := -1;
@@ -660,10 +698,10 @@ begin
     + ';'#13#10; //
   // dest fim
 
-  sSqlInsRej := 'INSERT INTO IMPORT_PROD_REJEICAO('
-    + 'IMPORT_PROD_REJEICAO_ID_ORIGEM, IMPORT_PROD_REJEICAO_ID_DESTINO, IMPORT_REJEICAO_TIPO_ID'
-    + ') VALUES ('
-    + ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
+  sSqlInsRej := 'INSERT INTO IMPORT_PROD_REJEICAO(' +
+    'IMPORT_PROD_REJEICAO_ID_ORIGEM, IMPORT_PROD_REJEICAO_ID_DESTINO, IMPORT_REJEICAO_TIPO_ID'
+    + ') VALUES (' +
+    ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
     + ');';
 
   DestinoDBConnection.Abrir;
@@ -674,8 +712,8 @@ begin
   try
     QtdRegs := DestinoDBConnection.GetValueInteger(sSqlQtd);
     ProgressBar1.Max := QtdRegs;
-    // SetClipboardText(sSqlDest);
 
+     SetClipboardText(sSqlDest);
     DestDBQuery := DBQueryCreate('Config.Import.Prod.Rejeicao.Q',
       DestinoDBConnection, sSqlDest, ProcessLog, StatusOutput);
     DestDBQuery.Prepare;
@@ -684,7 +722,9 @@ begin
       DestinoDBConnection, sSqlInsRej, ProcessLog, StatusOutput);
     InsDBExec.Prepare;
 
+    SetClipboardText(sSqlOrig);
     DestinoDBConnection.QueryDataSet(sSqlOrig, OrigQ);
+
     RegAtual := 0;
     while not OrigQ.Eof do
     begin
@@ -695,12 +735,13 @@ begin
 
       DestDBQuery.Abrir;
       try
-        if not DestDBQuery.IsEmpty then
+        while not DestDBQuery.DataSet.Eof do
         begin
           RejeicaoIdOrigem := OrigQ.Fields[0].AsInteger;
           RejeicaoIdDestino := DestDBQuery.DataSet.Fields[0].AsInteger;
 
-          if OrigQ.Fields[3].AsString = DestDBQuery.DataSet.Fields[3].AsString then
+          if OrigQ.Fields[3].AsString = DestDBQuery.DataSet.Fields[3].AsString
+          then
           begin
             RejeicaoTipoId := 1;
             InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
@@ -708,7 +749,10 @@ begin
             InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
           end;
 
-          if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString then
+          InsDBExec.Execute;
+
+          if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString
+          then
           begin
             RejeicaoTipoId := 2;
             InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
@@ -717,6 +761,7 @@ begin
           end;
 
           InsDBExec.Execute;
+          DestDBQuery.DataSet.Next;
         end;
       finally
         DestDBQuery.Fechar;
