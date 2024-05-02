@@ -22,6 +22,7 @@ type
     FUsuario: IUsuario;
     FProcessLog: IProcessLog;
     FOutput: IOutput;
+    FProdFDMemTable: TFDMemTable;
     FProdRejFDMemTable: TFDMemTable;
     FIdsIntegerList: IIntegerList;
 
@@ -31,18 +32,26 @@ type
     property FDMemTable: TFDMemTable read FFDMemTable;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
-      pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
-      pIdsIntegerList: IIntegerList;
-      pUsuario: IUsuario; pProcessLog: IProcessLog = nil;
-      pOutput: IOutput = nil);
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;//
+      pDBConnection: IDBConnection;//
+
+      pProdFDMemTable: TFDMemTable;//
+      pProdRejFDMemTable: TFDMemTable;//
+
+      pIdsIntegerList: IIntegerList;//
+      pUsuario: IUsuario; pProcessLog: IProcessLog = nil;//
+      pOutput: IOutput = nil);//
   end;
 
-function Perg(AOwner: TComponent; pAppObj: IAppObj;
-  pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
-  pIdsIntegerList: IIntegerList;
-  pUsuario: IUsuario; pProcessLog: IProcessLog = nil;
-  pOutput: IOutput = nil): boolean;
+function Perg(AOwner: TComponent; pAppObj: IAppObj;//
+      pDBConnection: IDBConnection;//
+
+      pProdFDMemTable: TFDMemTable;//
+      pProdRejFDMemTable: TFDMemTable;//
+
+      pIdsIntegerList: IIntegerList;//
+      pUsuario: IUsuario; pProcessLog: IProcessLog = nil;//
+      pOutput: IOutput = nil): boolean;
 
 var
   ProdRejEdForm: TProdRejEdForm;
@@ -53,27 +62,40 @@ implementation
 
 uses Sis.DB.Factory;
 
-function Perg(AOwner: TComponent; pAppObj: IAppObj;
-  pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
-  pIdsIntegerList: IIntegerList;
-  pUsuario: IUsuario; pProcessLog: IProcessLog;
-  pOutput: IOutput): boolean;
+function Perg(AOwner: TComponent; pAppObj: IAppObj;//
+      pDBConnection: IDBConnection;//
+
+      pProdFDMemTable: TFDMemTable;//
+      pProdRejFDMemTable: TFDMemTable;//
+
+      pIdsIntegerList: IIntegerList;//
+      pUsuario: IUsuario; pProcessLog: IProcessLog;//
+      pOutput: IOutput): boolean;
 begin
-  ProdRejEdForm := TProdRejEdForm.Create(AOwner, pAppObj, pDBConnection,
-    pProdRejFDMemTable, pIdsIntegerList, pUsuario, pProcessLog, pOutput);
+  ProdRejEdForm := TProdRejEdForm.Create(AOwner, pAppObj, pDBConnection,//
+    pProdFDMemTable,//
+    pProdRejFDMemTable,//
+
+    pIdsIntegerList, pUsuario, pProcessLog, pOutput);//
   Result := ProdRejEdForm.Perg;
 end;
 { TProdRejEdForm }
 
-constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
-  pIdsIntegerList: IIntegerList;
-  pUsuario: IUsuario; pProcessLog: IProcessLog; pOutput: IOutput);
+constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;//
+      pDBConnection: IDBConnection;//
+
+      pProdFDMemTable: TFDMemTable;//
+      pProdRejFDMemTable: TFDMemTable;//
+
+      pIdsIntegerList: IIntegerList;//
+      pUsuario: IUsuario; pProcessLog: IProcessLog;//
+      pOutput: IOutput);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
   FUsuario := pUsuario;
+  FProdFDMemTable := pProdFDMemTable;
   FProdRejFDMemTable := pProdRejFDMemTable;
   FIdsIntegerList := pIdsIntegerList;
 
@@ -103,10 +125,10 @@ var
 begin
   DefsSL := TStringList.Create;
   try
-//    sNomeArq := GetNomeArqTabView;
-//    DefsSL.LoadFromFile(sNomeArq);
-//    oFDDataSetManager := FDDataSetManagerCreate(FProdFDMemTable, ProdDBGrid);
-//    oFDDataSetManager.DefinaCampos(DefsSL);
+    sNomeArq := GetNomeArqTabView;
+    DefsSL.LoadFromFile(sNomeArq);
+    oFDDataSetManager := FDDataSetManagerCreate(FFDMemTable, nil);
+    oFDDataSetManager.DefinaCampos(DefsSL);
   finally
     DefsSL.Free;
   end;

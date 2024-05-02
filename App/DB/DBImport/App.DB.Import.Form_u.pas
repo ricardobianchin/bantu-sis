@@ -423,9 +423,14 @@ begin
 
   RejPreencherIntegerList(oIntegerList);
 
-  bResultado := App.DB.Import.Prod.Rej.Ed.Form_u.Perg(Self, AppObj,
-    FDestinoDBConnection, ProdRejFDMemTable, oIntegerList, Usuario, ProcessLog,
-    FStatusOutput);
+  bResultado := App.DB.Import.Prod.Rej.Ed.Form_u.Perg(Self, AppObj,//
+    FDestinoDBConnection,//
+
+    FProdFDMemTable,//
+    ProdRejFDMemTable,//
+
+    oIntegerList, Usuario, ProcessLog,//
+    FStatusOutput);//
 
   if not bResultado then
     exit;
