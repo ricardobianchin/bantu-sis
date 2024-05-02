@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Sis.UI.IO.Factory, Sis.DB.DBTypes, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Sis.DB.FDDataSetManager,
   App.AppObj, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario,
-  Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.DataSet.Utils, Sis.UI.IO.Output;
+  Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.DataSet.Utils, Sis.UI.IO.Output,
+  Sis.Lists.IntegerList;
 
 type
   TProdRejEdForm = class(TDiagBtnBasForm)
@@ -22,6 +23,7 @@ type
     FProcessLog: IProcessLog;
     FOutput: IOutput;
     FProdRejFDMemTable: TFDMemTable;
+    FIdsIntegerList: IIntegerList;
 
     function GetNomeArqTabView: string;
     procedure DefCampos;
@@ -31,13 +33,16 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
       pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
+      pIdsIntegerList: IIntegerList;
       pUsuario: IUsuario; pProcessLog: IProcessLog = nil;
       pOutput: IOutput = nil);
   end;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj;
-  pDBConnection: IDBConnection; pUsuario: IUsuario;
-  pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): boolean;
+  pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
+  pIdsIntegerList: IIntegerList;
+  pUsuario: IUsuario; pProcessLog: IProcessLog = nil;
+  pOutput: IOutput = nil): boolean;
 
 var
   ProdRejEdForm: TProdRejEdForm;
@@ -49,24 +54,28 @@ implementation
 uses Sis.DB.Factory;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj;
-  pDBConnection: IDBConnection; pUsuario: IUsuario;
-  pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): boolean;
+  pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
+  pIdsIntegerList: IIntegerList;
+  pUsuario: IUsuario; pProcessLog: IProcessLog;
+  pOutput: IOutput): boolean;
 begin
   ProdRejEdForm := TProdRejEdForm.Create(AOwner, pAppObj, pDBConnection,
-    pUsuario, pProcessLog, pOutput);
+    pProdRejFDMemTable, pIdsIntegerList, pUsuario, pProcessLog, pOutput);
   Result := ProdRejEdForm.Perg;
 end;
 { TProdRejEdForm }
 
 constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-      pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
-      pUsuario: IUsuario; pProcessLog: IProcessLog; pOutput: IOutput);
+  pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
+  pIdsIntegerList: IIntegerList;
+  pUsuario: IUsuario; pProcessLog: IProcessLog; pOutput: IOutput);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
   FUsuario := pUsuario;
   FProdRejFDMemTable := pProdRejFDMemTable;
+  FIdsIntegerList := pIdsIntegerList;
 
   if pProcessLog = nil then
     FProcessLog := MudoProcessLogCreate
@@ -94,10 +103,10 @@ var
 begin
   DefsSL := TStringList.Create;
   try
-    sNomeArq := GetNomeArqTabView;
-    DefsSL.LoadFromFile(sNomeArq);
-    oFDDataSetManager := FDDataSetManagerCreate(FProdFDMemTable, ProdDBGrid);
-    oFDDataSetManager.DefinaCampos(DefsSL);
+//    sNomeArq := GetNomeArqTabView;
+//    DefsSL.LoadFromFile(sNomeArq);
+//    oFDDataSetManager := FDDataSetManagerCreate(FProdFDMemTable, ProdDBGrid);
+//    oFDDataSetManager.DefinaCampos(DefsSL);
   finally
     DefsSL.Free;
   end;

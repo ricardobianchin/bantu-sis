@@ -411,6 +411,15 @@ begin
 {$IFDEF DEBUG}
   FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
   // ExecuteAction_AppDBImport.Execute;
+
+  ProdRejFDMemTable.First;
+  ProdRejFDMemTable.Next;
+  ProdRejFDMemTable.Next;
+  ProdRejFDMemTable.Next;
+  ProdRejFDMemTable.Next;
+  ProdRejFDMemTable.Next;
+  ProdRejFDMemTable.Next;
+
   RejEdAction_AppDBImport.Execute;
 {$ENDIF}
 end;
