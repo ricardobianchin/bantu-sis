@@ -326,6 +326,7 @@ constructor TDBImportForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pUsuario: IUsuario; pProcessLog: IProcessLog = nil);
 var
   sNomeArq: string;
+  sNomeIndice: String;
   oDBConnectionParams: TDBConnectionParams;
 begin
   inherited Create(AOwner);
@@ -341,10 +342,19 @@ begin
 
   FProdFDMemTable := TFDMemTable.Create(Self);
   FProdFDMemTable.Name := ClassName + 'ProdFDMemTable';
-  // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
 
   sNomeArq := GetNomeArqTabViewProd;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdFDMemTable, ProdDBGrid);
+
+  sNomeIndice := 'I' + FProdFDMemTable.Name + FProdFDMemTable.Fields[0].FieldName;
+  with FProdFDMemTable.Indexes.Add do
+  begin
+    Name := sNomeIndice;
+    Fields := 'import_prod_id';
+    Active := True;
+  end;
+  FProdFDMemTable.IndexesActive := True;
+  // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
 
   FProdRejFDMemTable := TFDMemTable.Create(Self);
   FProdRejFDMemTable.Name := ClassName + 'ProdRejFDMemTable';
