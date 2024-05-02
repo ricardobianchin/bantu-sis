@@ -25,6 +25,8 @@ IMPORT_REJEICAO_TIPO_ID;DB_SESSAO_ID;DESCR
 1;#036;Descr Repetida no Produto
 2;#036;Descr Red Repetetida no Produto
 3;#036;Cod Barras Repetido
+4;#036;CUsto obrigatorio
+5;#036;preco obrigatorio
 
 
 CSV FIM
