@@ -36,6 +36,8 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitTop = 255
+    ExplicitWidth = 934
     object FilConfTitLabel: TLabel
       Left = 4
       Top = 43
@@ -108,13 +110,22 @@ inherited DBImportForm: TDBImportForm
       TabOrder = 4
     end
     object SelecBitBtn_AppDBImport: TBitBtn
-      Left = 152
+      Left = 154
       Top = 3
-      Width = 56
+      Width = 90
       Height = 25
       Action = EditAction_AppDBImport
-      Caption = 'Editar'
+      Caption = 'Editar Produto'
       TabOrder = 5
+    end
+    object RejEdBitBtn_AppDBImport: TBitBtn
+      Left = 248
+      Top = 3
+      Width = 105
+      Height = 25
+      Action = RejEdAction_AppDBImport
+      Caption = 'Resolver Rejei'#231#227'o'
+      TabOrder = 6
     end
   end
   object MeioPanel: TPanel [2]
@@ -127,7 +138,7 @@ inherited DBImportForm: TDBImportForm
     Caption = ' '
     TabOrder = 2
     ExplicitWidth = 934
-    ExplicitHeight = 278
+    ExplicitHeight = 214
     object GridsPanel: TPanel
       Left = 0
       Top = 0
@@ -138,7 +149,7 @@ inherited DBImportForm: TDBImportForm
       Caption = ' '
       TabOrder = 0
       ExplicitWidth = 934
-      ExplicitHeight = 278
+      ExplicitHeight = 214
       object SplitterRejeicaoGrid: TSplitter
         Left = 0
         Top = 64
@@ -191,8 +202,6 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
-    ExplicitTop = 408
-    ExplicitWidth = 934
     DesignSize = (
       938
       21)
@@ -223,9 +232,14 @@ inherited DBImportForm: TDBImportForm
     end
     object ValidarAction_AppDBImport: TAction
       Caption = 'Validar'
+      OnExecute = ValidarAction_AppDBImportExecute
     end
     object EditAction_AppDBImport: TAction
-      Caption = 'Editar'
+      Caption = 'Editar Produto'
+    end
+    object RejEdAction_AppDBImport: TAction
+      Caption = 'Resolver Rejei'#231#227'o'
+      OnExecute = RejEdAction_AppDBImportExecute
     end
   end
   object ProdRejDataSource: TDataSource

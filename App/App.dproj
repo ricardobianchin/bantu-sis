@@ -362,6 +362,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>DBImportProdEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas">
+            <Form>ProdRejEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
