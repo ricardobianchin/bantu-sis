@@ -202,6 +202,8 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitTop = 321
+    ExplicitWidth = 934
     DesignSize = (
       938
       21)
