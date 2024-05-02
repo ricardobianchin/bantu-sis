@@ -428,7 +428,8 @@ var
 begin
 //  inherited;
   bResultado := App.DB.Import.Prod.Rej.Ed.Form_u.Perg(Self, AppObj,
-    FDestinoDBConnection, Usuario, ProcessLog, FStatusOutput);
+    FDestinoDBConnection, ProdRejFDMemTable
+    , Usuario, ProcessLog, FStatusOutput);
   if not bResultado then
     exit;
   ValidarAction_AppDBImport.Execute;

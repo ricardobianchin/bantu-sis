@@ -21,6 +21,7 @@ type
     FUsuario: IUsuario;
     FProcessLog: IProcessLog;
     FOutput: IOutput;
+    FProdRejFDMemTable: TFDMemTable;
 
     function GetNomeArqTabView: string;
     procedure DefCampos;
@@ -29,8 +30,9 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
-      pDBConnection: IDBConnection; pUsuario: IUsuario;
-      pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
+      pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
+      pUsuario: IUsuario; pProcessLog: IProcessLog = nil;
+      pOutput: IOutput = nil);
   end;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj;
@@ -44,6 +46,8 @@ implementation
 
 {$R *.dfm}
 
+uses Sis.DB.Factory;
+
 function Perg(AOwner: TComponent; pAppObj: IAppObj;
   pDBConnection: IDBConnection; pUsuario: IUsuario;
   pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): boolean;
@@ -55,13 +59,15 @@ end;
 { TProdRejEdForm }
 
 constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-      pDBConnection: IDBConnection; pUsuario: IUsuario;
-      pProcessLog: IProcessLog; pOutput: IOutput);
+      pDBConnection: IDBConnection; pProdRejFDMemTable: TFDMemTable;
+      pUsuario: IUsuario; pProcessLog: IProcessLog; pOutput: IOutput);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
   FUsuario := pUsuario;
+  FProdRejFDMemTable := pProdRejFDMemTable;
+
   if pProcessLog = nil then
     FProcessLog := MudoProcessLogCreate
   else
@@ -79,8 +85,22 @@ begin
 end;
 
 procedure TProdRejEdForm.DefCampos;
+var
+  DefsSL: TStringList;
+  sNomeArq: string;
+  sLinhaAtual: string;
+  i: integer;
+  oFDDataSetManager: IFDDataSetManager;
 begin
-
+  DefsSL := TStringList.Create;
+  try
+    sNomeArq := GetNomeArqTabView;
+    DefsSL.LoadFromFile(sNomeArq);
+    oFDDataSetManager := FDDataSetManagerCreate(FProdFDMemTable, ProdDBGrid);
+    oFDDataSetManager.DefinaCampos(DefsSL);
+  finally
+    DefsSL.Free;
+  end;
 end;
 
 function TProdRejEdForm.GetNomeArqTabView: string;
