@@ -81,7 +81,11 @@ uses Sis.UI.Controls.Utils, System.StrUtils, Sis.Types.strings_u,
 constructor TShopDBImportFormPLUBase.Create(AOwner: TComponent;
   pAppObj: IAppObj; pUsuario: IUsuario; pProcessLog: IProcessLog);
 begin
-
+  inherited;
+  FFileSelectFrame := TFileSelectLabeledEditFrame.Create(TopoPanel);
+  FFileSelectFrame.EditCaption := 'Arquivo PLUBASE.TXT';
+  PegueFormatoDe(FFileSelectFrame, MoldeFileSelectPanel);
+  iIndexErro := 0;
 end;
 
 procedure TShopDBImportFormPLUBase.ExecuteAction_AppDBImportExecute
