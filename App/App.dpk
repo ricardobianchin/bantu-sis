@@ -168,6 +168,8 @@ contains
   App.Retag in 'Modulos\Retag\App.Retag.pas',
   App.DB.Import.Form_u in 'DB\DBImport\App.DB.Import.Form_u.pas' {DBImportForm},
   App.DB.Import.Prod.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Ed.Form_u.pas' {DBImportProdEdForm},
-  App.DB.Import.Prod.Rej.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas' {ProdRejEdForm};
+  App.DB.Import.Prod.Rej.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas' {ProdRejEdForm},
+  App.DB.Import.Form_SQL_u in 'DB\DBImport\App.DB.Import.Form_SQL_u.pas',
+  App.DB.Import.Types_u in 'DB\DBImport\App.DB.Import.Types_u.pas';
 
 end.

@@ -9,7 +9,8 @@ uses
   Sis.UI.IO.Factory, Sis.DB.DBTypes,
   Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, App.AppObj, System.Actions, Vcl.ActnList,
-  Vcl.Buttons, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario, Sis.Lists.IntegerList;
+  Vcl.Buttons, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario, Sis.Lists.IntegerList,
+  App.DB.Import.Types_u;
 
 type
   TDBImportForm = class(TBasForm)
@@ -41,13 +42,17 @@ type
     SelecBitBtn_AppDBImport: TBitBtn;
     RejEdAction_AppDBImport: TAction;
     RejEdBitBtn_AppDBImport: TBitBtn;
+
+    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+
     procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
     procedure FIlConfComboBoxChange(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+
     procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
     procedure RejEdAction_AppDBImportExecute(Sender: TObject);
     procedure ValidarAction_AppDBImportExecute(Sender: TObject);
+    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
@@ -89,16 +94,12 @@ implementation
 
 uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
-  Sis.UI.IO.Output.ProcessLog.Factory, Sis.Win.Utils_u,
-  App.DB.Import.Prod.Rej.Ed.Form_u;
+  Sis.UI.IO.Output.ProcessLog.Factory, Sis.Win.Utils_u, App.DB.Import.Form_SQL_u
+  App.DB.Import.Prod.Rej.Ed.Form_u,;
 
 { TDBImportForm }
 
 procedure TDBImportForm.AtualizarAction_AppDBImportExecute(Sender: TObject);
-type
-  TConfStatus = (confTodos, confRejeitados, confAceitos);
-  TSelStatus = (selTodos, selSelecionados, selNaoSelecionados);
-
 var
   sSql: string;
   q: TDataSet;
@@ -109,6 +110,7 @@ var
   SelStatus: TSelStatus;
   WhereStr: string;
 begin
+  // inherited;
   case FIlConfComboBox.ItemIndex of
     0:
       ConfStatus := TConfStatus.confTodos;
@@ -127,111 +129,9 @@ begin
       SelStatus := TSelStatus.selNaoSelecionados;
   end;
 
-  // inherited;
-  sSql := 'WITH REJ_ORI AS'#13#10 //
-    + '('#13#10 //
-    + '  SELECT IPRO.IMPORT_PROD_REJEICAO_ID_ORIGEM ID'#13#10 //
-    + '  FROM IMPORT_PROD_REJEICAO IPRO'#13#10 //
-    + ')'#13#10 //
-    + ', REJ_DEST AS'#13#10 //
-    + '('#13#10 //
-    + '  SELECT IPRO.IMPORT_PROD_REJEICAO_ID_DESTINO ID'#13#10 //
-    + '  FROM IMPORT_PROD_REJEICAO IPRO'#13#10 //
-    + ')'#13#10 //
-    + ', REJ AS'#13#10 //
-    + '('#13#10 //
-    + 'SELECT REJ_ORI.ID FROM REJ_ORI'#13#10 //
-    + 'UNION DISTINCT'#13#10 //
-    + 'SELECT REJ_DEST.ID FROM REJ_DEST'#13#10 //
-    + ')'#13#10 //
-    + 'select'#13#10 //
-    + ' ip.import_prod_id'#13#10 // 0
-    + ', ip.vai_importar'#13#10 //
-    + ', ip.PROD_ID'#13#10 //
-    + ', ip.DESCR'#13#10 //
-    + ', ip.DESCR_RED'#13#10 //
-    + ', ip.NOVO_DESCR'#13#10 // 5
-    + ', ip.NOVO_DESCR_RED'#13#10 //
-    + ', ifa.IMPORT_FABR_ID'#13#10 //
-    + ', ifa.NOME fabr_nome'#13#10 //
-    + ', it.IMPORT_PROD_TIPO_ID'#13#10 //
-    + ', it.DESCR tipo_descr'#13#10 // 10
-    + ', iu.IMPORT_UNID_ID'#13#10 //
-    + ', iu.unid_sigla'#13#10 //
-    + ', ii.IMPORT_ICMS_ID'#13#10 //
-    + ', ii.ICMS_PERC_DESCR'#13#10 //
-    + ', ip.CAPAC_EMB'#13#10 // 15
-    + ', ip.NCM'#13#10 //
-    + ', ip.CUSTO'#13#10 //
-    + ', ipr.PRECO'#13#10 //
-    + ', ip.ATIVO'#13#10 //
-    + ', ip.LOCALIZ'#13#10 // 20
-    + ', ip.MARGEM'#13#10 //
-    + ', ip.BAL_USO'#13#10 //
-    + ', ip.BAL_DPTO'#13#10 //
-    + ', ib.COD_BARRAS'#13#10 // 24
+  sSql := App.DB.Import.Form_SQL_u.AtualizarGetSQL(pConfStatus, pSelStatus);
 
-    + 'from import_prod ip'#13#10 //
-
-    + 'join import_fabr ifa on'#13#10 //
-    + 'ip.import_fabr_id=ifa.import_fabr_id'#13#10 //
-
-    + 'join import_prod_tipo it on'#13#10 //
-    + 'ip.import_prod_tipo_id=it.import_prod_tipo_id'#13#10 //
-
-    + 'join import_unid iu on'#13#10 //
-    + 'ip.import_unid_id=iu.import_unid_id'#13#10 //
-
-    + 'join import_icms ii on'#13#10 //
-    + 'ip.import_icms_id=ii.import_icms_id'#13#10 //
-
-    + 'join import_prod_preco ipr on'#13#10 //
-    + 'ip.import_prod_id=ipr.import_prod_id'#13#10 //
-
-    + 'join import_prod_barras ib on'#13#10 //
-    + 'ip.import_prod_id=ib.import_prod_id'#13#10 //
-
-    ;
-
-  WhereStr := '';
-  case SelStatus of
-    selSelecionados:
-      begin
-        if WhereStr <> '' then
-          WhereStr := WhereStr + ' and ';
-        WhereStr := '(ip.vai_importar)'#13#10;
-      end;
-    selNaoSelecionados:
-      begin
-        if WhereStr <> '' then
-          WhereStr := WhereStr + ' and ';
-        WhereStr := '(not ip.vai_importar)'#13#10;
-      end;
-  end;
-
-  case ConfStatus of
-    confRejeitados:
-      begin
-        sSql := sSql + 'JOIN rej ON'#13#10 //
-          + 'ip.import_prod_id=rej.id'#13#10 //
-          ;
-      end;
-    confAceitos:
-      begin
-        if WhereStr <> '' then
-          WhereStr := WhereStr + ' and ';
-        WhereStr := WhereStr + ' (rej.id is NULL)';
-        sSql := sSql + 'LEFT JOIN rej ON'#13#10 //
-          + 'ip.import_prod_id=rej.id'#13#10 //
-          ;
-      end;
-  end;
-  if WhereStr <> '' then
-    sSql := sSql + 'WHERE ' + WhereStr + #13#10;
-
-  sSql := sSql + 'ORDER BY ip.import_prod_id'#13#10; //
-  SetClipboardText(sSql);
-  // DestinoDBConnection.Abrir;
+  DestinoDBConnection.Abrir;
   ProdFDMemTable.DisableControls;
   try
     ProdFDMemTable.EmptyDataSet;
@@ -268,7 +168,7 @@ begin
       end;
       if ProdFDMemTable.State <> dsBrowse then
       begin
-        ProdFDMemTable.Fields[24].AsString := sBarCodes;
+        ProdFDMemTable.Fields[26].AsString := sBarCodes;
         ProdFDMemTable.Post;
       end;
     finally
@@ -289,14 +189,18 @@ var
   I: integer;
 begin
   // inherited;
-  sSql := 'SELECT'#13#10 + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10 +
-    '  r.IMPORT_PROD_REJEICAO_ID_DESTINO,'#13#10 + '  t.DESCR'#13#10 +
-    'FROM IMPORT_PROD_REJEICAO r'#13#10 + 'JOIN IMPORT_REJEICAO_TIPO t ON'#13#10
-    + 'r.IMPORT_REJEICAO_TIPO_ID = t.IMPORT_REJEICAO_TIPO_ID'#13#10
+  sSql := 'SELECT'#13#10 //
+    + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10
+    + '  r.IMPORT_PROD_REJEICAO_ID_DESTINO,'#13#10 //
+    + '  t.DESCR'#13#10 //
+    + 'FROM IMPORT_PROD_REJEICAO r'#13#10 //
+    + 'JOIN IMPORT_REJEICAO_TIPO t ON'#13#10
+    + 'r.IMPORT_REJEICAO_TIPO_ID = t.IMPORT_REJEICAO_TIPO_ID'#13#10//
   // +'WHERE r.IMPORT_PROD_REJEICAO_ID_ORIGEM = :IMPORT_PROD_ID'#13#10
   // +'   OR r.IMPORT_PROD_REJEICAO_ID_DESTINO = :IMPORT_PROD_ID;'#13#10
-    + 'ORDER BY'#13#10 + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10 +
-    '  r.IMPORT_PROD_REJEICAO_ID_DESTINO'#13#10;
+    + 'ORDER BY'#13#10 //
+    + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10 //
+    + '  r.IMPORT_PROD_REJEICAO_ID_DESTINO'#13#10;//
 
   DestinoDBConnection.Abrir;
   ProdRejFDMemTable.DisableControls;
@@ -388,6 +292,12 @@ begin
   finally
     DefsSL.Free;
   end;
+end;
+
+procedure TDBImportForm.ExecuteAction_AppDBImportExecute(Sender: TObject);
+begin
+  inherited;
+//
 end;
 
 procedure TDBImportForm.FIlConfComboBoxChange(Sender: TObject);
@@ -486,6 +396,7 @@ begin
   ClearStyleElements(Self);
   ProgressBar1.Left := 2;
   AtualizarAction_AppDBImport.Execute;
+  ProdDBGrid.SetFocus;
 end;
 
 procedure TDBImportForm.ValidarAction_AppDBImportExecute(Sender: TObject);

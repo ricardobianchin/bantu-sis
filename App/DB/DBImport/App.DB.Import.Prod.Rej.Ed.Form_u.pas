@@ -176,7 +176,6 @@ end;
 
 procedure TProdRejEdForm.TrazerReg;
 begin
-  Append;
   FFDMemTable.Append;
   FFDMemTable.Fields[0].Value := FProdFDMemTable.Fields[0].Value;//0	import_prod_id 0
   FFDMemTable.Fields[1].Value := FProdFDMemTable.Fields[1].Value;//1	vai_importar 1

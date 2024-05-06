@@ -223,6 +223,7 @@ inherited DBImportForm: TDBImportForm
     Top = 81
     object ExecuteAction_AppDBImport: TAction
       Caption = 'Importar'
+      OnExecute = ExecuteAction_AppDBImportExecute
     end
     object ZerarExecuteAction_AppDBImport: TAction
       Caption = 'Apagar Dados'
