@@ -9,6 +9,8 @@ function AtualizarGetSQL(pConfStatus: TConfStatus; pSelStatus: TSelStatus): stri
 
 implementation
 
+uses Sis.Win.Utils_u;
+
 function AtualizarGetSQL(pConfStatus: TConfStatus; pSelStatus: TSelStatus): string;
 begin
   Result :=
@@ -156,14 +158,12 @@ begin
 
   sSql := sSql + 'ORDER BY ip.import_prod_id'#13#10; //
 
+*)
+
   {$IFDEF DEBUG}
-    SetClipboardText(sSql);
+    SetClipboardText(Result);
   {$ENDIF}
 
-
-
-
-*)
 end;
 
 end.

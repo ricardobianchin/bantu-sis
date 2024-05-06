@@ -94,7 +94,7 @@ implementation
 
 uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
-  Sis.UI.IO.Output.ProcessLog.Factory, Sis.Win.Utils_u, App.DB.Import.Form_SQL_u
+  Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form_SQL_u
   , App.DB.Import.Prod.Rej.Ed.Form_u;
 
 { TDBImportForm }
@@ -475,7 +475,6 @@ begin
     QtdRegs := DestinoDBConnection.GetValueInteger(sSqlQtd);
     ProgressBar1.Max := QtdRegs;
 
-    SetClipboardText(sSqlDest);
     DestDBQuery := DBQueryCreate('Config.Import.Prod.Rejeicao.Q',
       DestinoDBConnection, sSqlDest, ProcessLog, StatusOutput);
     DestDBQuery.Prepare;
@@ -484,7 +483,6 @@ begin
       DestinoDBConnection, sSqlInsRej, ProcessLog, StatusOutput);
     InsDBExec.Prepare;
 
-    SetClipboardText(sSqlOrig);
     DestinoDBConnection.QueryDataSet(sSqlOrig, OrigQ);
 
     RegAtual := 0;
