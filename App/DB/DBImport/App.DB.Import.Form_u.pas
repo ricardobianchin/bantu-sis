@@ -95,7 +95,7 @@ implementation
 uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, Sis.Win.Utils_u, App.DB.Import.Form_SQL_u
-  App.DB.Import.Prod.Rej.Ed.Form_u,;
+  , App.DB.Import.Prod.Rej.Ed.Form_u;
 
 { TDBImportForm }
 
@@ -129,7 +129,7 @@ begin
       SelStatus := TSelStatus.selNaoSelecionados;
   end;
 
-  sSql := App.DB.Import.Form_SQL_u.AtualizarGetSQL(pConfStatus, pSelStatus);
+  sSql := App.DB.Import.Form_SQL_u.AtualizarGetSQL(ConfStatus, SelStatus);
 
   DestinoDBConnection.Abrir;
   ProdFDMemTable.DisableControls;
