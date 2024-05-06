@@ -103,12 +103,8 @@ procedure TDBImportForm.AtualizarAction_AppDBImportExecute(Sender: TObject);
 var
   sSql: string;
   q: TDataSet;
-  iIdAnt: integer;
-  iIdAtu: integer;
-  sBarCodes: string;
   ConfStatus: TConfStatus;
   SelStatus: TSelStatus;
-  WhereStr: string;
 begin
   // inherited;
   case FIlConfComboBox.ItemIndex of
@@ -137,45 +133,18 @@ begin
     ProdFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      iIdAnt := -1;
-      sBarCodes := '';
       while not q.Eof do
       begin
-        iIdAtu := q.Fields[0].AsInteger;
-        if iIdAnt <> iIdAtu then
-        begin
-          if ProdFDMemTable.State <> dsBrowse then
-          begin
-            ProdFDMemTable.Fields[24].AsString := sBarCodes;
-            ProdFDMemTable.Post;
-            sBarCodes := '';
-          end;
-          ProdFDMemTable.Append;
-          QueryToFDMemTable(ProdFDMemTable, q);
-          if sBarCodes <> '' then
-            sBarCodes := sBarCodes + ',';
-          sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
-          iIdAnt := iIdAtu;
-        end
-        else
-        begin
-          if sBarCodes <> '' then
-            sBarCodes := sBarCodes + ',';
-          sBarCodes := sBarCodes + Trim(q.Fields[24].AsString);
-        end;
-
-        q.Next;
-      end;
-      if ProdFDMemTable.State <> dsBrowse then
-      begin
-        ProdFDMemTable.Fields[26].AsString := sBarCodes;
+        ProdFDMemTable.Append;
+        QueryToFDMemTable(ProdFDMemTable, q);
         ProdFDMemTable.Post;
+        q.Next;
       end;
     finally
       q.Free;
     end
   finally
-    CarregarRej;
+//    CarregarRej;
     DestinoDBConnection.Fechar;
     ProdFDMemTable.First;
     ProdFDMemTable.EnableControls;
