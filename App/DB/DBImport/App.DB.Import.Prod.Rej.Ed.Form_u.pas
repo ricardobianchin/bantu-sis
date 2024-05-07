@@ -16,6 +16,8 @@ type
   TProdRejEdForm = class(TDiagBtnBasForm)
     ProdDBGrid: TDBGrid;
     ProdDataSource: TDataSource;
+    procedure ProdDBGridColEnter(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -27,11 +29,13 @@ type
     FProdFDMemTable: TFDMemTable;
     FProdRejFDMemTable: TFDMemTable;
     FIdsIntegerList: IIntegerList;
+    FColEditavelIntegerList: IIntegerList;
 
     function GetNomeArqTabView: string;
     procedure DefCampos;
     procedure ImportarProds;
     procedure TrazerReg;
+    function ColEditavel(pSelectedIndex: integer): boolean;
   protected
     property FDMemTable: TFDMemTable read FFDMemTable;
   public
@@ -64,7 +68,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory;
+uses Sis.DB.Factory, Sis.Lists.Factory;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj;//
       pDBConnection: IDBConnection;//
@@ -83,7 +87,13 @@ begin
     pIdsIntegerList, pUsuario, pProcessLog, pOutput);//
   Result := ProdRejEdForm.Perg;
 end;
+
 { TProdRejEdForm }
+
+function TProdRejEdForm.ColEditavel(pSelectedIndex: integer): boolean;
+begin
+  Result := FColEditavelIntegerList.ValueToIndex(pSelectedIndex) > -1;
+end;
 
 constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;//
       pDBConnection: IDBConnection;//
@@ -125,6 +135,31 @@ begin
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, ProdDBGrid);
 
   ImportarProds;
+
+  FColEditavelIntegerList := IntegerListCreate;
+  FColEditavelIntegerList.Add(5{descr});
+  FColEditavelIntegerList.Add(6{descr red});
+  FColEditavelIntegerList.Add(9{novo custoera 10 mas a 7 nao é criada, acho});
+
+{
+0	import_prod_id
+1	vai_importar
+2	PROD_ID
+3	DESCR
+4	DESCR_RED
+5	NOVO_DESCR//
+6	NOVO_DESCR_RED//
+7	IMPORT_FABR_ID
+8	FABR_NOME
+9	CUSTO
+10	novo_CUSTO//
+11	PRECO
+12	novo_PRECO
+13	codbarras
+14	novo_codbarras
+
+
+}
 end;
 
 procedure TProdRejEdForm.DefCampos;
@@ -180,6 +215,28 @@ begin
     FProdFDMemTable.FreeBookmark(b);
     FProdFDMemTable.EnableControls;
   end;
+end;
+
+procedure TProdRejEdForm.ProdDBGridColEnter(Sender: TObject);
+var
+  bResultado: boolean;
+begin
+  inherited;
+  bResultado := ColEditavel(ProdDBGrid.SelectedIndex);
+  if bResultado then
+  begin
+    ProdDBGrid.Options:=[dgEditing,dgAlwaysShowEditor,dgTitles,dgColLines,dgRowLines,dgConfirmDelete,dgCancelOnExit];
+  end
+  else
+  begin
+    ProdDBGrid.Options:=[dgTitles,dgColLines,dgRowLines,dgConfirmDelete,dgCancelOnExit];
+  end;
+end;
+
+procedure TProdRejEdForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  ProdDBGrid.SetFocus;
 end;
 
 procedure TProdRejEdForm.TrazerReg;

@@ -42,6 +42,7 @@ inherited ProdRejEdForm: TProdRejEdForm
     TitleFont.Height = -12
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    OnColEnter = ProdDBGridColEnter
   end
   object ProdDataSource: TDataSource
     Left = 368
