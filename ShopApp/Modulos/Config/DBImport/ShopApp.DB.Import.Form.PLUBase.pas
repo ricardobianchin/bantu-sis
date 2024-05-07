@@ -51,9 +51,14 @@ type
     ProdUnidSL: TStringList;
     ProdIcmsSL: TStringList;
 
+    OrigBarrasSL: TStringList;
+    OrigPrecoSL: TStringList;
+
     function GravarTabExtrangeira(pNomeTab, pDescrVal: string;
       pValoresSL: TStrings): integer;
-    procedure GravarProd;
+    function GravarProd: integer;
+    procedure GravarProdBarras(piImportProdId: integer);
+    procedure GravarProdPrecos(piImportProdId: integer);
     procedure LeiaLinhaAtual;
     procedure GravarLinhaAtual;
     function JaTemDescr(pDescr: string): boolean;
@@ -126,6 +131,15 @@ begin
     ProdUnidSL := TStringList.Create;
     ProdIcmsSL := TStringList.Create;
 
+    OrigBarrasSL := TStringList.Create;
+    OrigBarrasSL.Delimiter := ',';
+    OrigBarrasSL.QuoteChar := #0;
+
+    OrigPrecoSL := TStringList.Create;
+    OrigPrecoSL.Delimiter := '/';
+    OrigPrecoSL.QuoteChar := #0;
+    OrigPrecoSL.NameValueSeparator := '-';
+
     ProdFabrSL.Add('NAO INDICADO');
     ProdTipoSL.Add('NAO INDICADO');
     ProdUnidSL.Add('NAO INDICADO');
@@ -175,6 +189,9 @@ begin
       ProdUnidSL.Free;
       ProdIcmsSL.Free;
 
+      OrigBarrasSL.Free;
+      OrigPrecoSL.Free;
+
       ProgressBar1.Visible := False;
     end;
 
@@ -186,18 +203,21 @@ begin
 end;
 
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
+var
+  iImportProdId: integer;
 begin
   iProdFabrId := GravarTabExtrangeira('FABR', sProdFabrDescr, ProdFabrSL);
   iProdTipoId := GravarTabExtrangeira('PROD_TIPO', sProdTipoDescr, ProdTipoSL);
   iProdUnidId := GravarTabExtrangeira('UNID', sProdUnidDescr, ProdUnidSL);
   iProdIcmsId := GravarTabExtrangeira('ICMS', sProdIcmsDescr, ProdIcmsSL);
-  GravarProd;
+  iImportProdId := GravarProd;
+  GravarProdBarras(iImportProdId);
+  GravarProdPrecos(iImportProdId);
 end;
 
-procedure TShopDBImportFormPLUBase.GravarProd;
+function TShopDBImportFormPLUBase.GravarProd: integer;
 var
   sSql: string;
-  iImportProdId: integer;
   q: TDataSet;
 begin
   sSql := 'EXECUTE PROCEDURE import_prod_pa.INSERIR_DO (' //
@@ -228,17 +248,72 @@ begin
     + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ VARCHAR(400)
     + ');';
 
-  iImportProdId := DestinoDBConnection.GetValueInteger(sSql);
+  Result := DestinoDBConnection.GetValueInteger(sSql);
 
-  sSql := 'INSERT INTO IMPORT_PROD_BARRAS (IMPORT_PROD_ID, ORDEM, COD_BARRAS' +
-    ') VALUES(' + iImportProdId.ToString + ', 1,' + QuotedStr(sBarCod) + ');';
-  DestinoDBConnection.ExecuteSQL(sSql);
 
-  sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID, PROD_PRECO_TABELA_ID'
-    + ', PRECO) VALUES(' + iImportProdId.ToString + ', 1,' +
-    CurrencyToStrPonto(cPreco) + ');';
+  // sSql := 'INSERT INTO IMPORT_PROD_BARRAS_NOVO (IMPORT_PROD_ID, ORDEM, COD_BARRAS' +
+  // ') VALUES(' + iImportProdId.ToString + ', 1,' + QuotedStr(sBarCod) + ');';
+  // DestinoDBConnection.ExecuteSQL(sSql);
 
-  DestinoDBConnection.ExecuteSQL(sSql);
+  // sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID, PROD_PRECO_TABELA_ID'
+  // + ', PRECO) VALUES(' + iImportProdId.ToString + ', 1,' +
+  // CurrencyToStrPonto(cPreco) + ');';
+  //
+  // DestinoDBConnection.ExecuteSQL(sSql);
+end;
+
+procedure TShopDBImportFormPLUBase.GravarProdBarras(piImportProdId: integer);
+var
+  sSql: string;
+  I: integer;
+begin
+  if sBarCod = '' then
+    exit;
+
+  for I := 0 to OrigBarrasSL.Count - 1 do
+  begin
+    sSql := 'INSERT INTO IMPORT_PROD_BARRAS (IMPORT_PROD_ID,' +
+      'ORDEM, COD_BARRAS) VALUES(' + piImportProdId.ToString + ', 1,' +
+      QuotedStr(OrigBarrasSL[i]) + ');'
+      ;
+    DestinoDBConnection.ExecuteSQL(sSql);
+
+    sSql := 'INSERT INTO IMPORT_PROD_BARRAS_NOVO (IMPORT_PROD_ID,' +
+      'ORDEM, COD_BARRAS) VALUES(' + piImportProdId.ToString + ', 1,' +
+      QuotedStr(OrigBarrasSL[i]) + ');'
+      ;
+    DestinoDBConnection.ExecuteSQL(sSql);
+  end;
+end;
+
+procedure TShopDBImportFormPLUBase.GravarProdPrecos(piImportProdId: integer);
+var
+  sSql: string;
+  I: integer;
+  sItem: string;
+  oItens: TArray<string>;
+begin
+  if cPreco = 0 then
+    exit;
+
+  for I := 0 to OrigPrecoSL.Count - 1 do
+  begin
+    sItem := OrigPrecoSL[I];
+    oItens := sItem.Split(['-']);
+
+    sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID,'
+      +' PROD_PRECO_TABELA_ID, PRECO) VALUES(' + piImportProdId.ToString
+      + ', ' + oItens[0] + ',' + oItens[1] + ');'
+      ;
+    DestinoDBConnection.ExecuteSQL(sSql);
+
+    sSql := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID,'
+      +' PROD_PRECO_TABELA_ID, PRECO) VALUES(' + piImportProdId.ToString
+      + ', ' + oItens[0] + ',' + oItens[1] + ');'
+      ;
+    DestinoDBConnection.ExecuteSQL(sSql);
+
+  end;
 end;
 
 function TShopDBImportFormPLUBase.GravarTabExtrangeira(pNomeTab,
@@ -382,27 +457,27 @@ begin
   if sBarCod = '0' then
     sBarCod := '';
 
+  if sBarCod <> '' then
+  begin
+    OrigBarrasSL.Clear;
+    OrigBarrasSL.Add(sBarCod);
+  end;
+
   // custo
   s := Copy(FLinhaAtual, 138, 10);
   Insert('.', s, 9);
   cCusto := StrToCurrency(s);
-
-  if cCusto = 0 then
-    cCusto := 0.01;
 
   // preco
   s := Copy(FLinhaAtual, 61, 10);
   Insert('.', s, 9);
   cPreco := StrToCurrency(s);
 
-  if cPreco < 0.01 then
-    cPreco := 0.01;
-
-  {
-    s :=
-    sDescr, sDescrRed, sNCM: string;
-    ProdCodStr:=substr(Linha, 1, 7);
-  }
+  if cPreco > 0 then
+  begin
+    OrigPrecoSL.Clear;
+    OrigPrecoSL.Values['1'] := CurrencyToStrPonto(cPreco);
+  end;
 end;
 
 procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
@@ -410,7 +485,7 @@ begin
   inherited;
 {$IFDEF DEBUG}
   FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
-  // ExecuteAction_AppDBImport.Execute;
+  //ExecuteAction_AppDBImport.Execute;
 
   ProdRejFDMemTable.First;
   ProdRejFDMemTable.Next;
