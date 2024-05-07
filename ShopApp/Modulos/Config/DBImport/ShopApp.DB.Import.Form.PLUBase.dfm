@@ -1,9 +1,11 @@
 inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   Caption = 'Mercado, Importar PLUBase'
-  ClientHeight = 343
+  ClientHeight = 344
+  ClientWidth = 938
   ExplicitHeight = 382
   TextHeight = 15
   inherited TopoPanel: TPanel
+    Width = 938
     object MoldeFileSelectPanel: TPanel [0]
       Left = 1
       Top = 8
@@ -14,7 +16,8 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     end
   end
   inherited BasePanel: TPanel
-    Top = 256
+    Top = 257
+    Width = 938
     ExplicitTop = 256
     inherited ValidarBitBtn_AppDBImport: TBitBtn
       TabOrder = 5
@@ -24,7 +27,8 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     end
   end
   inherited MeioPanel: TPanel
-    Height = 215
+    Width = 938
+    Height = 216
     ExplicitHeight = 215
     inherited GridsPanel: TPanel
       Height = 216
@@ -42,10 +46,13 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     end
   end
   inherited StatusPanel: TPanel
-    Top = 322
-    ExplicitWidth = 934
+    Top = 323
+    Width = 938
+    ExplicitTop = 322
+    DesignSize = (
+      938
+      21)
     inherited ProgressBar1: TProgressBar
-      Left = -1
       ExplicitLeft = -5
     end
   end
