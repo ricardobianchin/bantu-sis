@@ -50,21 +50,23 @@ begin
 +')'#13#10 //
 +', PRE AS'#13#10 //
 +'('#13#10 //
++'SELECT IMPORT_PROD_ID, PRECO PRECOS FROM IMPORT_PROD_PRECO'#13#10 //
 //+'  SELECT IMPORT_PROD_ID, LIST(TAB.ID || ''-'' || TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precos'#13#10 //
-+'  SELECT IMPORT_PROD_ID, LIST(TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precos'#13#10 //
-+'  FROM IMPORT_PROD_PRECO'#13#10 //
-+'  JOIN TAB ON'#13#10 //
-+'  PROD_PRECO_TABELA_ID = tAB.id'#13#10 //
-+'  GROUP BY IMPORT_PROD_ID'#13#10 //
+//+'  SELECT IMPORT_PROD_ID, LIST(TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precos'#13#10 //
+//+'  FROM IMPORT_PROD_PRECO'#13#10 //
+//+'  JOIN TAB ON'#13#10 //
+//+'  PROD_PRECO_TABELA_ID = tAB.id'#13#10 //
+//+'  GROUP BY IMPORT_PROD_ID'#13#10 //
 +')'#13#10 //
 +', PREN AS'#13#10 //
 +'('#13#10 //
++'SELECT IMPORT_PROD_ID, PRECO PRECOSN FROM IMPORT_PROD_PRECO_NOVO'#13#10 //
 //+'  SELECT IMPORT_PROD_ID, LIST(TAB.ID || ''-'' || TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precosn'#13#10 //
-+'  SELECT IMPORT_PROD_ID, LIST(TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precosn'#13#10 //
-+'  FROM IMPORT_PROD_PRECO_NOVO'#13#10 //
-+'  JOIN TAB ON'#13#10 //
-+'  PROD_PRECO_TABELA_ID = tAB.id'#13#10 //
-+'  GROUP BY IMPORT_PROD_ID'#13#10 //
+//+'  SELECT IMPORT_PROD_ID, LIST(TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precosn'#13#10 //
+//+'  FROM IMPORT_PROD_PRECO_NOVO'#13#10 //
+//+'  JOIN TAB ON'#13#10 //
+//+'  PROD_PRECO_TABELA_ID = tAB.id'#13#10 //
+//+'  GROUP BY IMPORT_PROD_ID'#13#10 //
 +')'#13#10 //
 +', REJ_ORI AS'#13#10 //
 +' ('#13#10 //
