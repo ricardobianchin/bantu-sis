@@ -13,6 +13,7 @@ type
     procedure SetAceitaRepetidos(Value: boolean);
 
     function GetInteger(Index: integer): integer;
+    function GetAsStringCSV: string;
   public
     function Add(Valor: integer): integer;
 
@@ -20,12 +21,16 @@ type
 
     property AceitaRepetidos: boolean read GetAceitaRepetidos
       write SetAceitaRepetidos;
+    property AsStringCSV: string read GetAsStringCSV;
     property Integers[Index: integer]: integer read GetInteger; default;
 
     constructor Create(pAceitaRepetidos: boolean = True);
+
   end;
 
 implementation
+
+uses System.SysUtils;
 
 { TIntegerList }
 
@@ -55,6 +60,21 @@ end;
 function TIntegerList.GetAceitaRepetidos: boolean;
 begin
   Result := FAceitaRepetidos;
+end;
+
+function TIntegerList.GetAsStringCSV: string;
+var
+  I: integer;
+  iValue: integer;
+begin
+  Result := '';
+  for I := 0 to Count - 1 do
+  begin
+    iValue := GetInteger(I);
+    if Result <> '' then
+      Result := Result + ';';
+    Result := Result + iValue.ToString;
+  end;
 end;
 
 function TIntegerList.GetInteger(Index: integer): integer;

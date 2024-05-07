@@ -15,8 +15,11 @@ type
     function Add(Valor: integer): integer;
 
     function ValueToIndex(Value: integer): integer;
-
     function GetInteger(Index: integer): integer;
+
+    function GetAsStringCSV: string;
+    property AsStringCSV: string read GetAsStringCSV;
+
     property Integers[Index:integer]: integer read GetInteger; default;
   end;
 
