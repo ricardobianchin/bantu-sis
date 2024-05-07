@@ -25,6 +25,7 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FDMemTable1descrValidate(Sender: TField);
     procedure FDMemTable1descrSetText(Sender: TField; const Text: string);
+    procedure ProdDBGridEditButtonClick(Sender: TObject);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -40,6 +41,8 @@ type
     FIndexNovoDescr: integer;
     FIndexNovoDescrRed: integer;
     FIndexNovoCusto: integer;
+    FIndexNovoPreco: integer;
+    FIndexNovoBarras: integer;
 
     function GetNomeArqTabView: string;
     procedure DefCampos;
@@ -47,11 +50,7 @@ type
     procedure TrazerReg;
     function ColEditavel(pSelectedIndex: integer): boolean;
 
-    procedure FFDMemTableNovoDescrValidate(Sender: TField);
-    procedure FFDMemTableNovoCustoValidate(Sender: TField);
-
     procedure FFDMemTableNovoDescrSetText(Sender: TField; const Text: string);
-
   protected
     property FDMemTable: TFDMemTable read FFDMemTable;
   public
@@ -84,7 +83,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.Lists.Factory, Sis.Types.strings_u;
+uses Sis.DB.Factory, Sis.Lists.Factory, Sis.Types.strings_u,
+  Sis.UI.Controls.TDBGrid;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj; //
   pDBConnection: IDBConnection; //
@@ -107,8 +107,13 @@ end;
 { TProdRejEdForm }
 
 function TProdRejEdForm.ColEditavel(pSelectedIndex: integer): boolean;
+var
+  iIndex: integer;
+  s: string;
 begin
-  Result := FColEditavelIntegerList.ValueToIndex(pSelectedIndex) > -1;
+  iIndex := FColEditavelIntegerList.ValueToIndex(pSelectedIndex);
+  s := FColEditavelIntegerList.AsStringCSV;
+  Result := iIndex > -1;
 end;
 
 constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; //
@@ -123,6 +128,7 @@ constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; //
 var
   sNomeArq: string;
   ScreenWidth, ScreenHeight: integer;
+  oColumn: TColumn;
   oField: TField;
 begin
   inherited Create(AOwner);
@@ -151,27 +157,37 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, ProdDBGrid);
 
-  oField := FFDMemTable.FieldByName('novo_descr');
-  FIndexNovoDescr := oField.Index;
-  oField.OnValidate := FFDMemTableNovoDescrValidate;
+  oColumn := DBGridColumnByFieldName(ProdDBGrid, 'novo_descr');
+  FIndexNovoDescr := oColumn.Index;
+  oField := oColumn.Field;
   oField.OnSetText := FFDMemTableNovoDescrSetText;
 
-  oField := FFDMemTable.FieldByName('novo_descr_red');
-  FIndexNovoDescrRed := oField.Index;
-  oField.OnValidate := FFDMemTableNovoDescrValidate;
+  oColumn := DBGridColumnByFieldName(ProdDBGrid, 'novo_descr_red');
+  FIndexNovoDescrRed := oColumn.Index;
+  oField := oColumn.Field;
   oField.OnSetText := FFDMemTableNovoDescrSetText;
 
-  oField := FFDMemTable.FieldByName('novo_custo');
-  FIndexNovoCusto := oField.Index;
-  oField.OnValidate := FFDMemTableNovoCustoValidate;
+  oColumn := DBGridColumnByFieldName(ProdDBGrid, 'novo_custo');
+  FIndexNovoCusto := oColumn.Index;
+  oField := oColumn.Field;
 
+  oColumn := DBGridColumnByFieldName(ProdDBGrid, 'novo_preco');
+  FIndexNovoPreco := oColumn.Index;
+  oField := oColumn.Field;
 
+  oColumn := DBGridColumnByFieldName(ProdDBGrid, 'novo_codbarras');
+  FIndexNovoBarras := oColumn.Index;
+  oField := oColumn.Field;
+
+  ProdDBGrid.Columns[FIndexNovoBarras].ButtonStyle :=
+    TColumnButtonStyle.cbsAuto;
   ImportarProds;
 
   FColEditavelIntegerList := IntegerListCreate;
   FColEditavelIntegerList.Add(FIndexNovoDescr);
   FColEditavelIntegerList.Add(FIndexNovoDescrRed);
-  FColEditavelIntegerList.Add(FIndexNovoCusto)
+  FColEditavelIntegerList.Add(FIndexNovoCusto);
+  FColEditavelIntegerList.Add(FIndexNovoPreco);
 
   {
     0	import_prod_id
@@ -215,29 +231,19 @@ procedure TProdRejEdForm.FDMemTable1descrSetText(Sender: TField;
   const Text: string);
 begin
   inherited;
-//
+  //
 end;
 
 procedure TProdRejEdForm.FDMemTable1descrValidate(Sender: TField);
 begin
   inherited;
-//
-end;
-
-procedure TProdRejEdForm.FFDMemTableNovoCustoValidate(Sender: TField);
-begin
-
+  //
 end;
 
 procedure TProdRejEdForm.FFDMemTableNovoDescrSetText(Sender: TField;
   const Text: string);
 begin
   Sender.AsString := StrSemAcento(Text);
-end;
-
-procedure TProdRejEdForm.FFDMemTableNovoDescrValidate(Sender: TField);
-begin
-
 end;
 
 function TProdRejEdForm.GetNomeArqTabView: string;
@@ -284,14 +290,22 @@ begin
   bResultado := ColEditavel(ProdDBGrid.SelectedIndex);
   if bResultado then
   begin
-    ProdDBGrid.Options := [dgEditing, dgAlwaysShowEditor, dgTitles, dgColLines,
-      dgRowLines, dgConfirmDelete, dgCancelOnExit];
+    ProdDBGrid.Options := [dgEditing, dgAlwaysShowEditor, dgTitles,
+      dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection,
+      dgConfirmDelete, dgTitleClick, dgTitleHotTrack];
   end
   else
   begin
-    ProdDBGrid.Options := [dgTitles, dgColLines, dgRowLines, dgConfirmDelete,
-      dgCancelOnExit];
+    ProdDBGrid.Options := [dgTitles, dgColumnResize, dgColLines, dgRowLines,
+      dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgTitleClick,
+      dgTitleHotTrack];
   end;
+end;
+
+procedure TProdRejEdForm.ProdDBGridEditButtonClick(Sender: TObject);
+begin
+  inherited;
+  showmessage('a');
 end;
 
 procedure TProdRejEdForm.ShowTimer_BasFormTimer(Sender: TObject);

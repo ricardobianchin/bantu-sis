@@ -11,6 +11,7 @@ inherited ProdRejEdForm: TProdRejEdForm
   end
   inherited BasePanel: TPanel
     Width = 988
+    ExplicitTop = 230
     ExplicitWidth = 984
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 653
@@ -41,6 +42,7 @@ inherited ProdRejEdForm: TProdRejEdForm
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
     OnColEnter = ProdDBGridColEnter
+    OnEditButtonClick = ProdDBGridEditButtonClick
   end
   object ProdDataSource: TDataSource
     Left = 368
