@@ -6,8 +6,11 @@ uses Vcl.DBGrids;
 
 function DBGridGetPrimColumnVisible(pDBGrid: TDBGrid): integer;
 procedure DBGridPosicioneColumnVisible(pDBGrid: TDBGrid);
+function DBGridColumnByFieldName(pGrid: TDBGrid; const pFieldName: String): TColumn;
 
 implementation
+
+uses System.SysUtils;
 
 function DBGridGetPrimColumnVisible(pDBGrid: TDBGrid): integer;
 var
@@ -28,13 +31,29 @@ end;
 
 procedure DBGridPosicioneColumnVisible(pDBGrid: TDBGrid);
 var
-  i: integer;
+  I: integer;
 begin
-  i := DBGridGetPrimColumnVisible(pDBGrid);
-  if i = -1 then
+  I := DBGridGetPrimColumnVisible(pDBGrid);
+  if I = -1 then
     exit;
 
-  pDBGrid.SelectedIndex := i;
+  pDBGrid.SelectedIndex := I;
+end;
+
+function DBGridColumnByFieldName(pGrid: TDBGrid; const pFieldName: String): TColumn;
+var
+  I: integer;
+begin
+  Result := Nil;
+  for I := 0 to pGrid.Columns.Count - 1 do
+  begin
+    if (pGrid.Columns[I].Field <> Nil) and
+      (CompareText(pGrid.Columns[I].FieldName, pFieldName) = 0) then
+    begin
+      Result := pGrid.Columns[I];
+      exit;
+    end;
+  end;
 end;
 
 end.
