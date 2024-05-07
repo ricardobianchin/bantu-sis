@@ -2,7 +2,6 @@ inherited ProdRejEdForm: TProdRejEdForm
   Caption = 'Resolver Rejei'#231#227'o'
   ClientWidth = 988
   ExplicitWidth = 1000
-  ExplicitHeight = 322
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 988
@@ -12,7 +11,6 @@ inherited ProdRejEdForm: TProdRejEdForm
   end
   inherited BasePanel: TPanel
     Width = 988
-    ExplicitTop = 231
     ExplicitWidth = 984
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 653
@@ -31,7 +29,7 @@ inherited ProdRejEdForm: TProdRejEdForm
     Left = 0
     Top = 0
     Width = 988
-    Height = 212
+    Height = 211
     Align = alClient
     BorderStyle = bsNone
     DataSource = ProdDataSource
@@ -47,5 +45,25 @@ inherited ProdRejEdForm: TProdRejEdForm
   object ProdDataSource: TDataSource
     Left = 368
     Top = 136
+  end
+  object FDMemTable1: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 440
+    Top = 80
+    object FDMemTable1id: TIntegerField
+      FieldName = 'id'
+    end
+    object FDMemTable1descr: TStringField
+      FieldName = 'descr'
+      OnSetText = FDMemTable1descrSetText
+      OnValidate = FDMemTable1descrValidate
+      Size = 120
+    end
   end
 end

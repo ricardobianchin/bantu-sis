@@ -10,14 +10,21 @@ uses
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Sis.DB.FDDataSetManager,
   App.AppObj, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario,
   Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.DataSet.Utils, Sis.UI.IO.Output,
-  Sis.Lists.IntegerList, Vcl.Grids, Vcl.DBGrids;
+  Sis.Lists.IntegerList, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf;
 
 type
   TProdRejEdForm = class(TDiagBtnBasForm)
     ProdDBGrid: TDBGrid;
     ProdDataSource: TDataSource;
+    FDMemTable1: TFDMemTable;
+    FDMemTable1id: TIntegerField;
+    FDMemTable1descr: TStringField;
     procedure ProdDBGridColEnter(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FDMemTable1descrValidate(Sender: TField);
+    procedure FDMemTable1descrSetText(Sender: TField; const Text: string);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -30,36 +37,45 @@ type
     FProdRejFDMemTable: TFDMemTable;
     FIdsIntegerList: IIntegerList;
     FColEditavelIntegerList: IIntegerList;
+    FIndexNovoDescr: integer;
+    FIndexNovoDescrRed: integer;
+    FIndexNovoCusto: integer;
 
     function GetNomeArqTabView: string;
     procedure DefCampos;
     procedure ImportarProds;
     procedure TrazerReg;
     function ColEditavel(pSelectedIndex: integer): boolean;
+
+    procedure FFDMemTableNovoDescrValidate(Sender: TField);
+    procedure FFDMemTableNovoCustoValidate(Sender: TField);
+
+    procedure FFDMemTableNovoDescrSetText(Sender: TField; const Text: string);
+
   protected
     property FDMemTable: TFDMemTable read FFDMemTable;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj;//
-      pDBConnection: IDBConnection;//
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; //
+      pDBConnection: IDBConnection; //
 
-      pProdFDMemTable: TFDMemTable;//
-      pProdRejFDMemTable: TFDMemTable;//
+      pProdFDMemTable: TFDMemTable; //
+      pProdRejFDMemTable: TFDMemTable; //
 
-      pIdsIntegerList: IIntegerList;//
-      pUsuario: IUsuario; pProcessLog: IProcessLog = nil;//
-      pOutput: IOutput = nil);//
+      pIdsIntegerList: IIntegerList; //
+      pUsuario: IUsuario; pProcessLog: IProcessLog = nil; //
+      pOutput: IOutput = nil); //
   end;
 
-function Perg(AOwner: TComponent; pAppObj: IAppObj;//
-      pDBConnection: IDBConnection;//
+function Perg(AOwner: TComponent; pAppObj: IAppObj; //
+  pDBConnection: IDBConnection; //
 
-      pProdFDMemTable: TFDMemTable;//
-      pProdRejFDMemTable: TFDMemTable;//
+  pProdFDMemTable: TFDMemTable; //
+  pProdRejFDMemTable: TFDMemTable; //
 
-      pIdsIntegerList: IIntegerList;//
-      pUsuario: IUsuario; pProcessLog: IProcessLog = nil;//
-      pOutput: IOutput = nil): boolean;
+  pIdsIntegerList: IIntegerList; //
+  pUsuario: IUsuario; pProcessLog: IProcessLog = nil; //
+  pOutput: IOutput = nil): boolean;
 
 var
   ProdRejEdForm: TProdRejEdForm;
@@ -68,23 +84,23 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.Lists.Factory;
+uses Sis.DB.Factory, Sis.Lists.Factory, Sis.Types.strings_u;
 
-function Perg(AOwner: TComponent; pAppObj: IAppObj;//
-      pDBConnection: IDBConnection;//
+function Perg(AOwner: TComponent; pAppObj: IAppObj; //
+  pDBConnection: IDBConnection; //
 
-      pProdFDMemTable: TFDMemTable;//
-      pProdRejFDMemTable: TFDMemTable;//
+  pProdFDMemTable: TFDMemTable; //
+  pProdRejFDMemTable: TFDMemTable; //
 
-      pIdsIntegerList: IIntegerList;//
-      pUsuario: IUsuario; pProcessLog: IProcessLog;//
-      pOutput: IOutput): boolean;
+  pIdsIntegerList: IIntegerList; //
+  pUsuario: IUsuario; pProcessLog: IProcessLog; //
+  pOutput: IOutput): boolean;
 begin
-  ProdRejEdForm := TProdRejEdForm.Create(AOwner, pAppObj, pDBConnection,//
-    pProdFDMemTable,//
-    pProdRejFDMemTable,//
+  ProdRejEdForm := TProdRejEdForm.Create(AOwner, pAppObj, pDBConnection, //
+    pProdFDMemTable, //
+    pProdRejFDMemTable, //
 
-    pIdsIntegerList, pUsuario, pProcessLog, pOutput);//
+    pIdsIntegerList, pUsuario, pProcessLog, pOutput); //
   Result := ProdRejEdForm.Perg;
 end;
 
@@ -95,18 +111,19 @@ begin
   Result := FColEditavelIntegerList.ValueToIndex(pSelectedIndex) > -1;
 end;
 
-constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;//
-      pDBConnection: IDBConnection;//
+constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; //
+  pDBConnection: IDBConnection; //
 
-      pProdFDMemTable: TFDMemTable;//
-      pProdRejFDMemTable: TFDMemTable;//
+  pProdFDMemTable: TFDMemTable; //
+  pProdRejFDMemTable: TFDMemTable; //
 
-      pIdsIntegerList: IIntegerList;//
-      pUsuario: IUsuario; pProcessLog: IProcessLog;//
-      pOutput: IOutput);
+  pIdsIntegerList: IIntegerList; //
+  pUsuario: IUsuario; pProcessLog: IProcessLog; //
+  pOutput: IOutput);
 var
   sNomeArq: string;
-  ScreenWidth, ScreenHeight: Integer;
+  ScreenWidth, ScreenHeight: integer;
+  oField: TField;
 begin
   inherited Create(AOwner);
   ScreenWidth := Screen.WorkAreaWidth;
@@ -134,32 +151,45 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, ProdDBGrid);
 
+  oField := FFDMemTable.FieldByName('novo_descr');
+  FIndexNovoDescr := oField.Index;
+  oField.OnValidate := FFDMemTableNovoDescrValidate;
+  oField.OnSetText := FFDMemTableNovoDescrSetText;
+
+  oField := FFDMemTable.FieldByName('novo_descr_red');
+  FIndexNovoDescrRed := oField.Index;
+  oField.OnValidate := FFDMemTableNovoDescrValidate;
+  oField.OnSetText := FFDMemTableNovoDescrSetText;
+
+  oField := FFDMemTable.FieldByName('novo_custo');
+  FIndexNovoCusto := oField.Index;
+  oField.OnValidate := FFDMemTableNovoCustoValidate;
+
+
   ImportarProds;
 
   FColEditavelIntegerList := IntegerListCreate;
-  FColEditavelIntegerList.Add(5{descr});
-  FColEditavelIntegerList.Add(6{descr red});
-  FColEditavelIntegerList.Add(9{novo custoera 10 mas a 7 nao é criada, acho});
+  FColEditavelIntegerList.Add(FIndexNovoDescr);
+  FColEditavelIntegerList.Add(FIndexNovoDescrRed);
+  FColEditavelIntegerList.Add(FIndexNovoCusto)
 
-{
-0	import_prod_id
-1	vai_importar
-2	PROD_ID
-3	DESCR
-4	DESCR_RED
-5	NOVO_DESCR//
-6	NOVO_DESCR_RED//
-7	IMPORT_FABR_ID
-8	FABR_NOME
-9	CUSTO
-10	novo_CUSTO//
-11	PRECO
-12	novo_PRECO
-13	codbarras
-14	novo_codbarras
-
-
-}
+  {
+    0	import_prod_id
+    1	vai_importar
+    2	PROD_ID
+    3	DESCR
+    4	DESCR_RED
+    5	NOVO_DESCR//
+    6	NOVO_DESCR_RED//
+    7	IMPORT_FABR_ID
+    8	FABR_NOME
+    9	CUSTO
+    10	novo_CUSTO//
+    11	PRECO
+    12	novo_PRECO
+    13	codbarras
+    14	novo_codbarras
+  }
 end;
 
 procedure TProdRejEdForm.DefCampos;
@@ -181,6 +211,35 @@ begin
   end;
 end;
 
+procedure TProdRejEdForm.FDMemTable1descrSetText(Sender: TField;
+  const Text: string);
+begin
+  inherited;
+//
+end;
+
+procedure TProdRejEdForm.FDMemTable1descrValidate(Sender: TField);
+begin
+  inherited;
+//
+end;
+
+procedure TProdRejEdForm.FFDMemTableNovoCustoValidate(Sender: TField);
+begin
+
+end;
+
+procedure TProdRejEdForm.FFDMemTableNovoDescrSetText(Sender: TField;
+  const Text: string);
+begin
+  Sender.AsString := StrSemAcento(Text);
+end;
+
+procedure TProdRejEdForm.FFDMemTableNovoDescrValidate(Sender: TField);
+begin
+
+end;
+
 function TProdRejEdForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
@@ -193,7 +252,7 @@ end;
 
 procedure TProdRejEdForm.ImportarProds;
 var
-  I: integer;
+  i: integer;
   iId: integer;
   b: TBookmark;
   bResultado: boolean;
@@ -201,15 +260,15 @@ begin
   FProdFDMemTable.DisableControls;
   b := FProdFDMemTable.GetBookmark;
   try
-  for I := 0 to FIdsIntegerList.Count - 1 do
-  begin
-    iId := FIdsIntegerList[I];
-    bResultado := FProdFDMemTable.FindKey([iId]);
-    if bResultado then
+    for i := 0 to FIdsIntegerList.Count - 1 do
     begin
-      TrazerReg;
+      iId := FIdsIntegerList[i];
+      bResultado := FProdFDMemTable.FindKey([iId]);
+      if bResultado then
+      begin
+        TrazerReg;
+      end;
     end;
-  end;
   finally
     FProdFDMemTable.GotoBookmark(b);
     FProdFDMemTable.FreeBookmark(b);
@@ -225,11 +284,13 @@ begin
   bResultado := ColEditavel(ProdDBGrid.SelectedIndex);
   if bResultado then
   begin
-    ProdDBGrid.Options:=[dgEditing,dgAlwaysShowEditor,dgTitles,dgColLines,dgRowLines,dgConfirmDelete,dgCancelOnExit];
+    ProdDBGrid.Options := [dgEditing, dgAlwaysShowEditor, dgTitles, dgColLines,
+      dgRowLines, dgConfirmDelete, dgCancelOnExit];
   end
   else
   begin
-    ProdDBGrid.Options:=[dgTitles,dgColLines,dgRowLines,dgConfirmDelete,dgCancelOnExit];
+    ProdDBGrid.Options := [dgTitles, dgColLines, dgRowLines, dgConfirmDelete,
+      dgCancelOnExit];
   end;
 end;
 
@@ -242,21 +303,35 @@ end;
 procedure TProdRejEdForm.TrazerReg;
 begin
   FFDMemTable.Append;
-  FFDMemTable.Fields[0].Value := FProdFDMemTable.Fields[0].Value;//0	import_prod_id 0
-  FFDMemTable.Fields[1].Value := FProdFDMemTable.Fields[1].Value;//1	vai_importar 1
-  FFDMemTable.Fields[2].Value := FProdFDMemTable.Fields[2].Value;//2	PROD_ID 2
-  FFDMemTable.Fields[3].Value := FProdFDMemTable.Fields[3].Value;//3	DESCR 3
-  FFDMemTable.Fields[4].Value := FProdFDMemTable.Fields[4].Value;//4	DESCR_RED 4
-  FFDMemTable.Fields[5].Value := FProdFDMemTable.Fields[5].Value;//5	NOVO_DESCR 5
-  FFDMemTable.Fields[6].Value := FProdFDMemTable.Fields[6].Value;//6	NOVO_DESCR_RED 6
-  FFDMemTable.Fields[7].Value := FProdFDMemTable.Fields[7].Value;//7	IMPORT_FABR_ID 7
-  FFDMemTable.Fields[8].Value := FProdFDMemTable.Fields[8].Value;//8	FABR_NOME 8
-  FFDMemTable.Fields[9].Value := FProdFDMemTable.Fields[17].Value;//9	codbarras 24
-  FFDMemTable.Fields[10].Value := FProdFDMemTable.Fields[18].Value;//9	codbarras 24
-  FFDMemTable.Fields[11].Value := FProdFDMemTable.Fields[19].Value;//9	codbarras 24
-  FFDMemTable.Fields[12].Value := FProdFDMemTable.Fields[20].Value;//9	codbarras 24
-  FFDMemTable.Fields[13].Value := FProdFDMemTable.Fields[26].Value;//9	codbarras 24
-  FFDMemTable.Fields[14].Value := FProdFDMemTable.Fields[27].Value;//9	codbarras 24
+  FFDMemTable.Fields[0].Value := FProdFDMemTable.Fields[0].Value;
+  // 0	import_prod_id 0
+  FFDMemTable.Fields[1].Value := FProdFDMemTable.Fields[1].Value;
+  // 1	vai_importar 1
+  FFDMemTable.Fields[2].Value := FProdFDMemTable.Fields[2].Value;
+  // 2	PROD_ID 2
+  FFDMemTable.Fields[3].Value := FProdFDMemTable.Fields[3].Value; // 3	DESCR 3
+  FFDMemTable.Fields[4].Value := FProdFDMemTable.Fields[4].Value;
+  // 4	DESCR_RED 4
+  FFDMemTable.Fields[5].Value := FProdFDMemTable.Fields[5].Value;
+  // 5	NOVO_DESCR 5
+  FFDMemTable.Fields[6].Value := FProdFDMemTable.Fields[6].Value;
+  // 6	NOVO_DESCR_RED 6
+  FFDMemTable.Fields[7].Value := FProdFDMemTable.Fields[7].Value;
+  // 7	IMPORT_FABR_ID 7
+  FFDMemTable.Fields[8].Value := FProdFDMemTable.Fields[8].Value;
+  // 8	FABR_NOME 8
+  FFDMemTable.Fields[9].Value := FProdFDMemTable.Fields[17].Value;
+  // 9	codbarras 24
+  FFDMemTable.Fields[10].Value := FProdFDMemTable.Fields[18].Value;
+  // 9	codbarras 24
+  FFDMemTable.Fields[11].Value := FProdFDMemTable.Fields[19].Value;
+  // 9	codbarras 24
+  FFDMemTable.Fields[12].Value := FProdFDMemTable.Fields[20].Value;
+  // 9	codbarras 24
+  FFDMemTable.Fields[13].Value := FProdFDMemTable.Fields[26].Value;
+  // 9	codbarras 24
+  FFDMemTable.Fields[14].Value := FProdFDMemTable.Fields[27].Value;
+  // 9	codbarras 24
   FFDMemTable.Post;
 end;
 
