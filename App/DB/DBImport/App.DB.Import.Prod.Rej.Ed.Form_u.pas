@@ -15,6 +15,7 @@ uses
 type
   TProdRejEdForm = class(TDiagBtnBasForm)
     ProdDBGrid: TDBGrid;
+    ProdDataSource: TDataSource;
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -95,8 +96,15 @@ constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;//
       pOutput: IOutput);
 var
   sNomeArq: string;
+  ScreenWidth, ScreenHeight: Integer;
 begin
   inherited Create(AOwner);
+  ScreenWidth := Screen.WorkAreaWidth;
+  ScreenHeight := Screen.WorkAreaHeight;
+
+  Self.Width := ScreenWidth - 40;
+  Self.Height := ScreenHeight div 2;
+
   FUsuario := pUsuario;
   FProdFDMemTable := pProdFDMemTable;
   FProdRejFDMemTable := pProdRejFDMemTable;
@@ -114,7 +122,7 @@ begin
   // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
 
   sNomeArq := GetNomeArqTabView;
-  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, nil);
+  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, ProdDBGrid);
 
   ImportarProds;
 end;
@@ -186,7 +194,12 @@ begin
   FFDMemTable.Fields[6].Value := FProdFDMemTable.Fields[6].Value;//6	NOVO_DESCR_RED 6
   FFDMemTable.Fields[7].Value := FProdFDMemTable.Fields[7].Value;//7	IMPORT_FABR_ID 7
   FFDMemTable.Fields[8].Value := FProdFDMemTable.Fields[8].Value;//8	FABR_NOME 8
-  FFDMemTable.Fields[9].Value := FProdFDMemTable.Fields[24].Value;//9	codbarras 24
+  FFDMemTable.Fields[9].Value := FProdFDMemTable.Fields[17].Value;//9	codbarras 24
+  FFDMemTable.Fields[10].Value := FProdFDMemTable.Fields[18].Value;//9	codbarras 24
+  FFDMemTable.Fields[11].Value := FProdFDMemTable.Fields[19].Value;//9	codbarras 24
+  FFDMemTable.Fields[12].Value := FProdFDMemTable.Fields[20].Value;//9	codbarras 24
+  FFDMemTable.Fields[13].Value := FProdFDMemTable.Fields[26].Value;//9	codbarras 24
+  FFDMemTable.Fields[14].Value := FProdFDMemTable.Fields[27].Value;//9	codbarras 24
   FFDMemTable.Post;
 end;
 

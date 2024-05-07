@@ -1,4 +1,4 @@
-unit App.DB.Import.Form_SQL_u;
+unit App.DB.Import.Form.SQL.Atualizar_u;
 
 interface
 
@@ -12,6 +12,8 @@ implementation
 uses Sis.Win.Utils_u;
 
 function AtualizarGetSQL(pConfStatus: TConfStatus; pSelStatus: TSelStatus): string;
+var
+  WhereStr: string;
 begin
   Result :=
 'WITH FAB AS'#13#10 //
@@ -48,7 +50,8 @@ begin
 +')'#13#10 //
 +', PRE AS'#13#10 //
 +'('#13#10 //
-+'  SELECT IMPORT_PROD_ID, LIST(TAB.ID || ''-'' || TRIM(CAST(preco AS VARCHAR(20))), ''/'') AS precos'#13#10 //
+//+'  SELECT IMPORT_PROD_ID, LIST(TAB.ID || ''-'' || TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precos'#13#10 //
++'  SELECT IMPORT_PROD_ID, LIST(TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precos'#13#10 //
 +'  FROM IMPORT_PROD_PRECO'#13#10 //
 +'  JOIN TAB ON'#13#10 //
 +'  PROD_PRECO_TABELA_ID = tAB.id'#13#10 //
@@ -56,7 +59,8 @@ begin
 +')'#13#10 //
 +', PREN AS'#13#10 //
 +'('#13#10 //
-+'  SELECT IMPORT_PROD_ID, LIST(TAB.ID || ''-'' || TRIM(CAST(preco AS VARCHAR(20))), ''/'') AS precosn'#13#10 //
+//+'  SELECT IMPORT_PROD_ID, LIST(TAB.ID || ''-'' || TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precosn'#13#10 //
++'  SELECT IMPORT_PROD_ID, LIST(TRIM(CAST(CAST(preco as numeric(12, 2)) AS VARCHAR(20))), ''/'') AS precosn'#13#10 //
 +'  FROM IMPORT_PROD_PRECO_NOVO'#13#10 //
 +'  JOIN TAB ON'#13#10 //
 +'  PROD_PRECO_TABELA_ID = tAB.id'#13#10 //
@@ -116,31 +120,27 @@ begin
 +'JOIN BARN ON PRO.import_prod_id = BARN.IMPORT_PROD_ID'#13#10 //
 +'JOIN PRE ON PRO.import_prod_id = PRE.IMPORT_PROD_ID'#13#10 //
 +'JOIN PREN ON PRO.import_prod_id = PREN.IMPORT_PROD_ID'#13#10 //
-+'ORDER BY PRO.IMPORT_PROD_ID'#13#10 //
 ;
-
-(*
   WhereStr := '';
-  case SelStatus of
+  case pSelStatus of
     selSelecionados:
       begin
         if WhereStr <> '' then
           WhereStr := WhereStr + ' and ';
-        WhereStr := '(ip.vai_importar)'#13#10;
+        WhereStr := '(pro.vai_importar)';
       end;
     selNaoSelecionados:
       begin
         if WhereStr <> '' then
           WhereStr := WhereStr + ' and ';
-        WhereStr := '(not ip.vai_importar)'#13#10;
+        WhereStr := '(not pro.vai_importar)';
       end;
   end;
 
-  case ConfStatus of
+  case pConfStatus of
     confRejeitados:
       begin
-        sSql := sSql + 'JOIN rej ON'#13#10 //
-          + 'ip.import_prod_id=rej.id'#13#10 //
+        Result := Result + 'JOIN rej ON pro.import_prod_id=rej.id'#13#10 //
           ;
       end;
     confAceitos:
@@ -148,17 +148,15 @@ begin
         if WhereStr <> '' then
           WhereStr := WhereStr + ' and ';
         WhereStr := WhereStr + ' (rej.id is NULL)';
-        sSql := sSql + 'LEFT JOIN rej ON'#13#10 //
-          + 'ip.import_prod_id=rej.id'#13#10 //
+        Result := Result + 'LEFT JOIN rej ON ' //
+          + 'pro.import_prod_id=rej.id'#13#10 //
           ;
       end;
   end;
   if WhereStr <> '' then
-    sSql := sSql + 'WHERE ' + WhereStr + #13#10;
+    Result := Result + 'WHERE ' + WhereStr + #13#10;
 
-  sSql := sSql + 'ORDER BY ip.import_prod_id'#13#10; //
-
-*)
+  Result := Result + 'ORDER BY PRO.IMPORT_PROD_ID'#13#10; //
 
   {$IFDEF DEBUG}
     SetClipboardText(Result);

@@ -34,6 +34,7 @@ inherited ProdRejEdForm: TProdRejEdForm
     Height = 212
     Align = alClient
     BorderStyle = bsNone
+    DataSource = ProdDataSource
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -41,5 +42,9 @@ inherited ProdRejEdForm: TProdRejEdForm
     TitleFont.Height = -12
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+  end
+  object ProdDataSource: TDataSource
+    Left = 368
+    Top = 136
   end
 end
