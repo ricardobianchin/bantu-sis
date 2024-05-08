@@ -21,11 +21,14 @@ type
     FDMemTable1: TFDMemTable;
     FDMemTable1id: TIntegerField;
     FDMemTable1descr: TStringField;
-    procedure ProdDBGridColEnter(Sender: TObject);
+
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+
+    procedure ProdDBGridColEnter(Sender: TObject);
+    procedure ProdDBGridEditButtonClick(Sender: TObject);
+
     procedure FDMemTable1descrValidate(Sender: TField);
     procedure FDMemTable1descrSetText(Sender: TField; const Text: string);
-    procedure ProdDBGridEditButtonClick(Sender: TObject);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
@@ -84,7 +87,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.DB.Factory, Sis.Lists.Factory, Sis.Types.strings_u,
-  Sis.UI.Controls.TDBGrid;
+  Sis.UI.Controls.TDBGrid, App.DB.Import.Prod.Barras.Ed.Form_u;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj; //
   pDBConnection: IDBConnection; //
@@ -178,9 +181,8 @@ begin
   oColumn := DBGridColumnByFieldName(ProdDBGrid, 'novo_codbarras');
   FIndexNovoBarras := oColumn.Index;
   oField := oColumn.Field;
+  oColumn.ButtonStyle := TColumnButtonStyle.cbsEllipsis;
 
-  ProdDBGrid.Columns[FIndexNovoBarras].ButtonStyle :=
-    TColumnButtonStyle.cbsAuto;
   ImportarProds;
 
   FColEditavelIntegerList := IntegerListCreate;
@@ -188,6 +190,7 @@ begin
   FColEditavelIntegerList.Add(FIndexNovoDescrRed);
   FColEditavelIntegerList.Add(FIndexNovoCusto);
   FColEditavelIntegerList.Add(FIndexNovoPreco);
+  FColEditavelIntegerList.Add(FIndexNovoBarras);
 
   {
     0	import_prod_id
@@ -287,6 +290,16 @@ var
   bResultado: boolean;
 begin
   inherited;
+  if ProdDBGrid.SelectedIndex = 13 then
+  begin
+    ProdDBGrid.Options := [dgEditing, dgAlwaysShowEditor, dgTitles,
+      dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection,
+      dgConfirmDelete, dgTitleClick, dgTitleHotTrack];
+//    ProdDBGrid.ReadOnly := True;
+    exit;
+  end;
+//  ProdDBGrid.ReadOnly := False;
+
   bResultado := ColEditavel(ProdDBGrid.SelectedIndex);
   if bResultado then
   begin
@@ -303,9 +316,12 @@ begin
 end;
 
 procedure TProdRejEdForm.ProdDBGridEditButtonClick(Sender: TObject);
+var
+  sBarras, sNovoBarras: string;
 begin
   inherited;
-  showmessage('a');
+  sBarras, sNovoBarras
+  App.DB.Import.Prod.Barras.Ed.Form_u
 end;
 
 procedure TProdRejEdForm.ShowTimer_BasFormTimer(Sender: TObject);
