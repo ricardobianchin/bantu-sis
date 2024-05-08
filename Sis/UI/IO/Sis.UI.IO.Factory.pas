@@ -2,7 +2,7 @@ unit Sis.UI.IO.Factory;
 
 interface
 
-uses Sis.UI.IO.Output, Vcl.StdCtrls, Vcl.Controls;
+uses Sis.UI.IO.Output, Vcl.StdCtrls, Vcl.Controls, Sis.UI.IO.Input.Str;
 
 function MudoOutputCreate: IOutput;
 function LabelOutputCreate(pLabel: TLabel): IOutput;
@@ -33,6 +33,5 @@ function BalloonHintOutputCreate(pBalloonHint: TBalloonHint): IOutput;
 begin
   Result := TBalloonHintOutput.Create(pBalloonHint);
 end;
-
 
 end.

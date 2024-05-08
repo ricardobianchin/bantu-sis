@@ -27,7 +27,6 @@ inherited DiagBasForm: TDiagBasForm
     Transparent = True
     WordWrap = True
     StyleElements = [seClient, seBorder]
-    ExplicitTop = 342
     ExplicitWidth = 71
   end
   object AlteracaoTextoLabel: TLabel [1]
@@ -37,7 +36,6 @@ inherited DiagBasForm: TDiagBasForm
     Height = 15
     Align = alBottom
     Caption = 'AlteracaoTextoLabel'
-    ExplicitTop = 327
     ExplicitWidth = 106
   end
   inherited ShowTimer_BasForm: TTimer

@@ -316,7 +316,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas">
             <Form>PergBooleanForm</Form>
         </DCCReference>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Decorator.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Decorator.Form.pas"/>
@@ -395,6 +394,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Types\Sis.Types.strings.abrev_u.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas">
+            <Form>InputStrForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
