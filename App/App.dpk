@@ -170,6 +170,10 @@ contains
   App.DB.Import.Prod.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Ed.Form_u.pas' {DBImportProdEdForm},
   App.DB.Import.Prod.Rej.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas' {ProdRejEdForm},
   App.DB.Import.Form.SQL.Atualizar_u in 'DB\DBImport\App.DB.Import.Form.SQL.Atualizar_u.pas',
-  App.DB.Import.Types_u in 'DB\DBImport\App.DB.Import.Types_u.pas';
+  App.DB.Import.Types_u in 'DB\DBImport\App.DB.Import.Types_u.pas',
+  App.DB.Import.Prod.BarrasList.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.BarrasList.Ed.Form_u.pas' {ImportProdBarrasListEdForm},
+  App.DB.Import.Prod.Barras.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Barras.Ed.Form_u.pas' {ImportBarEdForm},
+  App.DB.Import.Factory in 'DB\DBImport\App.DB.Import.Factory.pas',
+  App.DB.Import.Input.Barras_u in 'DB\DBImport\App.DB.Import.Input.Barras_u.pas';
 
 end.

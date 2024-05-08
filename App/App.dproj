@@ -368,6 +368,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form.SQL.Atualizar_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Types_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.BarrasList.Ed.Form_u.pas">
+            <Form>ImportProdBarrasListEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.Barras.Ed.Form_u.pas">
+            <Form>ImportBarEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Factory.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Input.Barras_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

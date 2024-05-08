@@ -87,7 +87,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.DB.Factory, Sis.Lists.Factory, Sis.Types.strings_u,
-  Sis.UI.Controls.TDBGrid, App.DB.Import.Prod.Barras.Ed.Form_u;
+  Sis.UI.Controls.TDBGrid, App.DB.Import.Prod.BarrasList.Ed.Form_u,
+  Sis.UI.Controls.Utils;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj; //
   pDBConnection: IDBConnection; //
@@ -290,16 +291,6 @@ var
   bResultado: boolean;
 begin
   inherited;
-  if ProdDBGrid.SelectedIndex = 13 then
-  begin
-    ProdDBGrid.Options := [dgEditing, dgAlwaysShowEditor, dgTitles,
-      dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection,
-      dgConfirmDelete, dgTitleClick, dgTitleHotTrack];
-//    ProdDBGrid.ReadOnly := True;
-    exit;
-  end;
-//  ProdDBGrid.ReadOnly := False;
-
   bResultado := ColEditavel(ProdDBGrid.SelectedIndex);
   if bResultado then
   begin
@@ -318,16 +309,24 @@ end;
 procedure TProdRejEdForm.ProdDBGridEditButtonClick(Sender: TObject);
 var
   sBarras, sNovoBarras: string;
+  bResultado: boolean;
 begin
   inherited;
-  sBarras, sNovoBarras
-  App.DB.Import.Prod.Barras.Ed.Form_u
+  sBarras := FFDMemTable.Fields[FIndexNovoBarras - 1].AsString;
+  sNovoBarras := FFDMemTable.Fields[FIndexNovoBarras].AsString;
+
+  bResultado := App.DB.Import.Prod.BarrasList.Ed.Form_u.ImportBarrasEdPerg(sBarras,
+    sNovoBarras);
+
+  if not bResultado then
+    exit;
 end;
 
 procedure TProdRejEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   ProdDBGrid.SetFocus;
+  ClearStyleElements(Self);
 end;
 
 procedure TProdRejEdForm.TrazerReg;
