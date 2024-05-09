@@ -10,6 +10,8 @@ uses
 
 type
   TImportBarEdForm = class(TInputStrForm)
+    Label1: TLabel;
+    procedure Label1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -21,6 +23,14 @@ var
 
 implementation
 
+uses Sis.Types.Codigos.Utils;
+
 {$R *.dfm}
+
+procedure TImportBarEdForm.Label1Click(Sender: TObject);
+begin
+  inherited;
+  LabeledEdit1.Text := EAN13GetRandom;
+end;
 
 end.
