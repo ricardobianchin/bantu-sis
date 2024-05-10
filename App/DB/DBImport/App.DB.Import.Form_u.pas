@@ -39,9 +39,11 @@ type
     ZerarBitBtn: TBitBtn;
     ValidarBitBtn_AppDBImport: TBitBtn;
     EditAction_AppDBImport: TAction;
-    SelecBitBtn_AppDBImport: TBitBtn;
+    EditBitBtn_AppDBImport: TBitBtn;
     RejEdAction_AppDBImport: TAction;
     RejEdBitBtn_AppDBImport: TBitBtn;
+    InclusaoAction_AppDBImport: TAction;
+    InclusaoBitBtn_AppDBImport: TBitBtn;
 
     procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -53,6 +55,7 @@ type
     procedure RejEdAction_AppDBImportExecute(Sender: TObject);
     procedure ValidarAction_AppDBImportExecute(Sender: TObject);
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
+    procedure InclusaoAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
@@ -304,6 +307,12 @@ begin
   Result := sNomeArq;
 end;
 
+procedure TDBImportForm.InclusaoAction_AppDBImportExecute(Sender: TObject);
+begin
+  inherited;
+//
+end;
+
 procedure TDBImportForm.RejEdAction_AppDBImportExecute(Sender: TObject);
 var
   bResultado: boolean;
@@ -326,6 +335,8 @@ begin
 
   if not bResultado then
     exit;
+
+
   ValidarAction_AppDBImport.Execute;
 end;
 

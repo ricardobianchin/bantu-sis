@@ -17,8 +17,6 @@ uses System.SysUtils;
 { TImportInputBarras }
 
 function TImportInputBarras.EditStr(var Value: string; pTit: string = ''; pCaption: string = ''): boolean;
-var
-  bResultado: boolean;
 begin
   ImportBarEdForm := TImportBarEdForm.Create(nil);
   try
@@ -30,9 +28,9 @@ begin
 
     ImportBarEdForm.LabeledEdit1.Text := Value;
 
-    bResultado := ImportBarEdForm.Perg;
+    Result := ImportBarEdForm.Perg;
 
-    if not bResultado then
+    if not Result then
       exit;
 
     Value := ImportBarEdForm.LabeledEdit1.Text;

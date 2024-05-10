@@ -4,8 +4,8 @@ inherited DBImportForm: TDBImportForm
   ClientWidth = 934
   WindowState = wsMaximized
   OnCreate = FormCreate
-  ExplicitWidth = 950
-  ExplicitHeight = 381
+  ExplicitWidth = 946
+  ExplicitHeight = 380
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
@@ -16,6 +16,7 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitWidth = 930
     object ExecuteBitBtn: TBitBtn
       Left = 536
       Top = 7
@@ -35,6 +36,8 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitTop = 254
+    ExplicitWidth = 930
     object FilConfTitLabel: TLabel
       Left = 4
       Top = 43
@@ -45,9 +48,9 @@ inherited DBImportForm: TDBImportForm
     object FilSelecTitLabel: TLabel
       Left = 210
       Top = 43
-      Width = 69
+      Width = 44
       Height = 15
-      Caption = 'Selecionados'
+      Caption = 'Inclus'#227'o'
     end
     object FIlConfComboBox: TComboBox
       Left = 88
@@ -65,7 +68,7 @@ inherited DBImportForm: TDBImportForm
         'Aceitos')
     end
     object AtualizarBitBtn_AppDBImport: TBitBtn
-      Left = 401
+      Left = 375
       Top = 39
       Width = 56
       Height = 25
@@ -74,19 +77,17 @@ inherited DBImportForm: TDBImportForm
       TabOrder = 1
     end
     object FilSelecComboBox: TComboBox
-      Left = 283
+      Left = 257
       Top = 40
       Width = 113
       Height = 23
       Style = csDropDownList
-      ItemIndex = 0
       TabOrder = 2
-      Text = 'Todos'
       OnChange = FIlConfComboBoxChange
       Items.Strings = (
         'Todos'
-        'Selecionados'
-        'N'#227'o Selecionados')
+        'Ser'#227'o Importados'
+        'Ser'#227'o Ignorados')
     end
     object ZerarBitBtn: TBitBtn
       Left = 4
@@ -106,7 +107,7 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Validar'
       TabOrder = 4
     end
-    object SelecBitBtn_AppDBImport: TBitBtn
+    object EditBitBtn_AppDBImport: TBitBtn
       Left = 154
       Top = 3
       Width = 90
@@ -116,13 +117,22 @@ inherited DBImportForm: TDBImportForm
       TabOrder = 5
     end
     object RejEdBitBtn_AppDBImport: TBitBtn
-      Left = 248
+      Left = 314
       Top = 3
       Width = 105
       Height = 25
       Action = RejEdAction_AppDBImport
       Caption = 'Resolver Rejei'#231#227'o'
       TabOrder = 6
+    end
+    object InclusaoBitBtn_AppDBImport: TBitBtn
+      Left = 248
+      Top = 3
+      Width = 62
+      Height = 25
+      Action = InclusaoAction_AppDBImport
+      Caption = 'Inclus'#227'o'
+      TabOrder = 7
     end
   end
   object MeioPanel: TPanel [2]
@@ -134,31 +144,34 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
+    ExplicitWidth = 930
+    ExplicitHeight = 213
     object GridsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 938
-      Height = 215
+      Width = 934
+      Height = 214
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 934
-      ExplicitHeight = 214
+      ExplicitWidth = 930
+      ExplicitHeight = 213
       object SplitterRejeicaoGrid: TSplitter
         Left = 0
-        Top = 64
-        Width = 938
+        Top = 63
+        Width = 934
         Height = 5
         Cursor = crVSplit
         Align = alBottom
         ExplicitTop = 370
+        ExplicitWidth = 938
       end
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
-        Width = 938
-        Height = 64
+        Width = 934
+        Height = 63
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -172,8 +185,8 @@ inherited DBImportForm: TDBImportForm
       end
       object RejeicaoDBGrid: TDBGrid
         Left = 0
-        Top = 69
-        Width = 938
+        Top = 68
+        Width = 934
         Height = 146
         Align = alBottom
         BorderStyle = bsNone
@@ -197,8 +210,8 @@ inherited DBImportForm: TDBImportForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
-    ExplicitTop = 322
-    ExplicitWidth = 938
+    ExplicitTop = 320
+    ExplicitWidth = 930
     DesignSize = (
       934
       21)
@@ -210,6 +223,7 @@ inherited DBImportForm: TDBImportForm
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
+      ExplicitLeft = -5
     end
   end
   object ActionList_AppDBImport: TActionList
@@ -237,6 +251,11 @@ inherited DBImportForm: TDBImportForm
     object RejEdAction_AppDBImport: TAction
       Caption = 'Resolver Rejei'#231#227'o'
       OnExecute = RejEdAction_AppDBImportExecute
+    end
+    object InclusaoAction_AppDBImport: TAction
+      Caption = 'Inclus'#227'o'
+      Hint = 'Liga / Desliga se Registro Ser'#225' Importado'
+      OnExecute = InclusaoAction_AppDBImportExecute
     end
   end
   object ProdRejDataSource: TDataSource

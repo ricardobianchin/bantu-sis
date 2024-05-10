@@ -12,7 +12,7 @@ uses
   Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.DataSet.Utils, Sis.UI.IO.Output,
   Sis.Lists.IntegerList, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf;
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Vcl.Menus;
 
 type
   TProdRejEdForm = class(TDiagBtnBasForm)
@@ -21,6 +21,28 @@ type
     FDMemTable1: TFDMemTable;
     FDMemTable1id: TIntegerField;
     FDMemTable1descr: TStringField;
+    Edicao_ActionList: TActionList;
+    InclusaoAction: TAction;
+    InclusaoBitBtn_DiagBtn: TBitBtn;
+    PopupMenu1: TPopupMenu;
+    Incluso1: TMenuItem;
+    BarrasListEdAction: TAction;
+    CdigodeBarras1: TMenuItem;
+    BarrasListEdBitBtn: TBitBtn;
+    CopiarCelulaAction: TAction;
+    CopiaClula1: TMenuItem;
+    DescrTrazerAction: TAction;
+    DescrRedTrazerAction: TAction;
+    DescrTrazerBitBtn: TBitBtn;
+    DescrRedTrazerBitBtn: TBitBtn;
+    razerDescrio1: TMenuItem;
+    razerDescrioReduzida1: TMenuItem;
+    DescrsTrazerAction: TAction;
+    razerDescries1: TMenuItem;
+    DescrsTrazerBitBtn: TBitBtn;
+    UnificarBitBtn: TBitBtn;
+    UnificarAction: TAction;
+    UnificarProdutos1: TMenuItem;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -29,16 +51,24 @@ type
 
     procedure FDMemTable1descrValidate(Sender: TField);
     procedure FDMemTable1descrSetText(Sender: TField; const Text: string);
+    procedure InclusaoActionExecute(Sender: TObject);
+    procedure BarrasListEdActionExecute(Sender: TObject);
+    procedure CopiarCelulaActionExecute(Sender: TObject);
+    procedure DescrTrazerActionExecute(Sender: TObject);
+    procedure DescrRedTrazerActionExecute(Sender: TObject);
+    procedure DescrsTrazerActionExecute(Sender: TObject);
+    procedure UnificarActionExecute(Sender: TObject);
+    procedure OkAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FFDMemTable: TFDMemTable;
+    FProdFDMemTable: TFDMemTable;
+    FProdRejFDMemTable: TFDMemTable;
     FAppObj: IAppObj;
     FDBConnection: IDBConnection;
     FUsuario: IUsuario;
     FProcessLog: IProcessLog;
     FOutput: IOutput;
-    FProdFDMemTable: TFDMemTable;
-    FProdRejFDMemTable: TFDMemTable;
     FIdsIntegerList: IIntegerList;
     FColEditavelIntegerList: IIntegerList;
     FIndexNovoDescr: integer;
@@ -46,12 +76,16 @@ type
     FIndexNovoCusto: integer;
     FIndexNovoPreco: integer;
     FIndexNovoBarras: integer;
+    FBarrasField: TField;
+    FNovoBarrasField: TField;
 
     function GetNomeArqTabView: string;
     procedure DefCampos;
     procedure ImportarProds;
     procedure TrazerReg;
     function ColEditavel(pSelectedIndex: integer): boolean;
+    procedure CodBarrasListEd;
+    procedure SetInclusao(Value: boolean);
 
     procedure FFDMemTableNovoDescrSetText(Sender: TField; const Text: string);
   protected
@@ -88,7 +122,7 @@ implementation
 
 uses Sis.DB.Factory, Sis.Lists.Factory, Sis.Types.strings_u,
   Sis.UI.Controls.TDBGrid, App.DB.Import.Prod.BarrasList.Ed.Form_u,
-  Sis.UI.Controls.Utils;
+  Sis.UI.Controls.Utils, App.DB.Import.Prod.Rej.Ed.Form.Gravar_u;
 
 function Perg(AOwner: TComponent; pAppObj: IAppObj; //
   pDBConnection: IDBConnection; //
@@ -110,6 +144,33 @@ end;
 
 { TProdRejEdForm }
 
+procedure TProdRejEdForm.BarrasListEdActionExecute(Sender: TObject);
+begin
+  inherited;
+  CodBarrasListEd;
+end;
+
+procedure TProdRejEdForm.CodBarrasListEd;
+var
+  sBarras, sNovoBarras: string;
+  bResultado: boolean;
+begin
+  inherited;
+  sBarras := FBarrasField.AsString;
+  sNovoBarras := FNovoBarrasField.AsString;
+
+  bResultado := App.DB.Import.Prod.BarrasList.Ed.Form_u.ImportBarrasEdPerg(sBarras,
+    sNovoBarras);
+
+  if not bResultado then
+    exit;
+
+  FFDMemTable.Edit;
+  FNovoBarrasField.AsString := sNovoBarras;
+  FFDMemTable.Post;
+
+end;
+
 function TProdRejEdForm.ColEditavel(pSelectedIndex: integer): boolean;
 var
   iIndex: integer;
@@ -118,6 +179,12 @@ begin
   iIndex := FColEditavelIntegerList.ValueToIndex(pSelectedIndex);
   s := FColEditavelIntegerList.AsStringCSV;
   Result := iIndex > -1;
+end;
+
+procedure TProdRejEdForm.CopiarCelulaActionExecute(Sender: TObject);
+begin
+  inherited;
+  CopyTextoSelecionado(ProdDBGrid);
 end;
 
 constructor TProdRejEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; //
@@ -146,6 +213,7 @@ begin
   FProdFDMemTable := pProdFDMemTable;
   FProdRejFDMemTable := pProdRejFDMemTable;
   FIdsIntegerList := pIdsIntegerList;
+  FDBConnection := pDBConnection;
 
   if pProcessLog = nil then
     FProcessLog := MudoProcessLogCreate
@@ -183,6 +251,9 @@ begin
   FIndexNovoBarras := oColumn.Index;
   oField := oColumn.Field;
   oColumn.ButtonStyle := TColumnButtonStyle.cbsEllipsis;
+
+  FNovoBarrasField := oField;
+  FBarrasField := ProdDBGrid.Columns[FIndexNovoBarras - 1].Field;
 
   ImportarProds;
 
@@ -229,6 +300,31 @@ begin
   finally
     DefsSL.Free;
   end;
+end;
+
+procedure TProdRejEdForm.DescrRedTrazerActionExecute(Sender: TObject);
+begin
+  inherited;
+  FFDMemTable.Edit;
+  FFDMemTable.FieldByName('novo_descr_red').AsString := FFDMemTable.FieldByName('descr_red').AsString;
+  FFDMemTable.Post;
+end;
+
+procedure TProdRejEdForm.DescrsTrazerActionExecute(Sender: TObject);
+begin
+  inherited;
+  FFDMemTable.Edit;
+  FFDMemTable.FieldByName('novo_descr').AsString := FFDMemTable.FieldByName('descr').AsString;
+  FFDMemTable.FieldByName('novo_descr_red').AsString := FFDMemTable.FieldByName('descr_red').AsString;
+  FFDMemTable.Post;
+end;
+
+procedure TProdRejEdForm.DescrTrazerActionExecute(Sender: TObject);
+begin
+  inherited;
+  FFDMemTable.Edit;
+  FFDMemTable.FieldByName('novo_descr').AsString := FFDMemTable.FieldByName('descr').AsString;
+  FFDMemTable.Post;
 end;
 
 procedure TProdRejEdForm.FDMemTable1descrSetText(Sender: TField;
@@ -286,6 +382,30 @@ begin
   end;
 end;
 
+procedure TProdRejEdForm.InclusaoActionExecute(Sender: TObject);
+var
+  bValor: Boolean;
+begin
+  inherited;
+  bValor := not FFDMemTable.Fields[1].AsBoolean;
+  SetInclusao(bValor);
+end;
+
+procedure TProdRejEdForm.OkAct_DiagExecute(Sender: TObject);
+var
+  bResultado: Boolean;
+begin
+  bResultado := Gravou(
+    FProdFDMemTable
+    , FFDMemTable
+    , FDBConnection
+    );
+
+  if not bResultado then
+    exit;
+  inherited;
+end;
+
 procedure TProdRejEdForm.ProdDBGridColEnter(Sender: TObject);
 var
   bResultado: boolean;
@@ -307,19 +427,16 @@ begin
 end;
 
 procedure TProdRejEdForm.ProdDBGridEditButtonClick(Sender: TObject);
-var
-  sBarras, sNovoBarras: string;
-  bResultado: boolean;
 begin
   inherited;
-  sBarras := FFDMemTable.Fields[FIndexNovoBarras - 1].AsString;
-  sNovoBarras := FFDMemTable.Fields[FIndexNovoBarras].AsString;
+  CodBarrasListEd;
+end;
 
-  bResultado := App.DB.Import.Prod.BarrasList.Ed.Form_u.ImportBarrasEdPerg(sBarras,
-    sNovoBarras);
-
-  if not bResultado then
-    exit;
+procedure TProdRejEdForm.SetInclusao(Value: boolean);
+begin
+  FFDMemTable.Edit;
+  FFDMemTable.Fields[1].AsBoolean := Value;
+  FFDMemTable.Post;
 end;
 
 procedure TProdRejEdForm.ShowTimer_BasFormTimer(Sender: TObject);
@@ -331,6 +448,7 @@ end;
 
 procedure TProdRejEdForm.TrazerReg;
 begin
+  FFDMemTable.DisableControls;
   FFDMemTable.Append;
   FFDMemTable.Fields[0].Value := FProdFDMemTable.Fields[0].Value;
   // 0	import_prod_id 0
@@ -362,6 +480,49 @@ begin
   FFDMemTable.Fields[14].Value := FProdFDMemTable.Fields[27].Value;
   // 9	codbarras 24
   FFDMemTable.Post;
+  FFDMemTable.First;
+  FFDMemTable.EnableControls;
+end;
+
+procedure TProdRejEdForm.UnificarActionExecute(Sender: TObject);
+var
+  iImporpProdId: integer;
+  oBookmark: TBookmark;
+  sBarCods: string;
+  sBarCodAtual: string;
+begin
+  inherited;
+  if FFDMemTable.RecordCount < 2 then
+    exit;
+  oBookmark := FFDMemTable.GetBookmark;
+  FFDMemTable.DisableControls;
+  try
+    iImporpProdId := FFDMemTable.Fields[0].AsInteger;
+    FFDMemTable.First;
+    sBarCods := '';
+    while not FFDMemTable.Eof do
+    begin
+      sBarCodAtual := Trim(FBarrasField.AsString);
+      if sBarCodAtual <> '' then
+      begin
+        if sBarCods <> '' then
+          sBarCods := sBarCods + ',';
+        sBarCods := sBarCods + sBarCodAtual;
+      end;
+
+      SetInclusao(iImporpProdId = FFDMemTable.Fields[0].AsInteger);
+
+      FFDMemTable.Next;
+    end;
+    FFDMemTable.GotoBookmark(oBookmark);
+    FFDMemTable.Edit;
+    FNovoBarrasField.AsString := sBarCods;
+    FFDMemTable.Post;
+  finally
+    FFDMemTable.FreeBookmark(oBookmark);
+    FFDMemTable.EnableControls;
+  end;
+
 end;
 
 end.

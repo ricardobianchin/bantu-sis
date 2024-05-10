@@ -2,7 +2,7 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
   Caption = 'Novo C'#243'digo de Barras'
   ClientHeight = 362
   ClientWidth = 419
-  OnClose = FormClose
+  OnDestroy = FormDestroy
   ExplicitWidth = 431
   ExplicitHeight = 400
   TextHeight = 15
@@ -44,6 +44,7 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
     Top = 24
     Width = 321
     Height = 23
+    Hint = 'Traz os C'#243'digos Originais'
     EditLabel.Width = 140
     EditLabel.Height = 15
     EditLabel.Caption = 'C'#243'digos de Barra Originais'
@@ -87,14 +88,25 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
       Action = ExcluirAction
     end
   end
+  object UndoBitBtn: TBitBtn [7]
+    Left = 254
+    Top = 72
+    Width = 75
+    Height = 25
+    Hint = 'Traz os C'#243'digos Originais'
+    Caption = 'Desfazer'
+    TabOrder = 4
+    OnClick = UndoBitBtnClick
+  end
   inherited ShowTimer_BasForm: TTimer
-    Left = 192
-    Top = 24
+    Left = 160
+    Top = 80
   end
   inherited ActionList1_Diag: TActionList
-    Left = 312
+    Left = 216
+    Top = 120
   end
-  object ActionList1: TActionList
+  object ListActionList: TActionList
     Images = SisImgDataModule.ImageList24FlatSelect
     Left = 144
     Top = 208
@@ -102,11 +114,13 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
       Caption = 'Inserir'
       Hint = 'Inserir'
       ImageIndex = 2
+      OnExecute = InserirActionExecute
     end
     object ExcluirAction: TAction
       Caption = 'Excluir'
       Hint = 'Excluir'
       ImageIndex = 3
+      OnExecute = ExcluirActionExecute
     end
   end
   object FDMemTable1: TFDMemTable
