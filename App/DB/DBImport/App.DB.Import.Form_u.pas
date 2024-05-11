@@ -9,7 +9,8 @@ uses
   Sis.UI.IO.Factory, Sis.DB.DBTypes,
   Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, App.AppObj, System.Actions, Vcl.ActnList,
-  Vcl.Buttons, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario, Sis.Lists.IntegerList,
+  Vcl.Buttons, Sis.UI.IO.Output.ProcessLog, Vcl.ComCtrls, Sis.Usuario,
+  Sis.Lists.IntegerList,
   App.DB.Import.Types_u;
 
 type
@@ -22,7 +23,7 @@ type
     ExecuteBitBtn: TBitBtn;
     ActionList_AppDBImport: TActionList;
     ExecuteAction_AppDBImport: TAction;
-    ZerarExecuteAction_AppDBImport: TAction;
+    ZerarAction_AppDBImport: TAction;
     AtualizarAction_AppDBImport: TAction;
     AtualizarBitBtn_AppDBImport: TBitBtn;
     ValidarAction_AppDBImport: TAction;
@@ -44,11 +45,13 @@ type
     RejEdBitBtn_AppDBImport: TBitBtn;
     InclusaoAction_AppDBImport: TAction;
     InclusaoBitBtn_AppDBImport: TBitBtn;
+    BitBtn1: TBitBtn;
+    FinalizarAction_AppDBImport: TAction;
 
     procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
-    procedure ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
+    procedure ZerarAction_AppDBImportExecute(Sender: TObject);
     procedure FIlConfComboBoxChange(Sender: TObject);
 
     procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
@@ -56,6 +59,7 @@ type
     procedure ValidarAction_AppDBImportExecute(Sender: TObject);
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
     procedure InclusaoAction_AppDBImportExecute(Sender: TObject);
+    procedure FinalizarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessLog: IProcessLog;
@@ -98,8 +102,8 @@ implementation
 
 uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
-  Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u
-  , App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u;
+  Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
+  App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u;
 
 { TDBImportForm }
 
@@ -129,7 +133,8 @@ begin
       SelStatus := TSelStatus.selNaoSelecionados;
   end;
 
-  sSql := App.DB.Import.Form.SQL.Atualizar_u.AtualizarGetSQL(ConfStatus, SelStatus);
+  sSql := App.DB.Import.Form.SQL.Atualizar_u.AtualizarGetSQL(ConfStatus,
+    SelStatus);
 
   DestinoDBConnection.Abrir;
   ProdFDMemTable.DisableControls;
@@ -163,17 +168,17 @@ var
 begin
   // inherited;
   sSql := 'SELECT'#13#10 //
-    + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10
-    + '  r.IMPORT_PROD_REJEICAO_ID_DESTINO,'#13#10 //
+    + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10 +
+    '  r.IMPORT_PROD_REJEICAO_ID_DESTINO,'#13#10 //
     + '  t.DESCR'#13#10 //
     + 'FROM IMPORT_PROD_REJEICAO r'#13#10 //
-    + 'JOIN IMPORT_REJEICAO_TIPO t ON'#13#10
-    + 'r.IMPORT_REJEICAO_TIPO_ID = t.IMPORT_REJEICAO_TIPO_ID'#13#10//
+    + 'JOIN IMPORT_REJEICAO_TIPO t ON'#13#10 +
+    'r.IMPORT_REJEICAO_TIPO_ID = t.IMPORT_REJEICAO_TIPO_ID'#13#10 //
   // +'WHERE r.IMPORT_PROD_REJEICAO_ID_ORIGEM = :IMPORT_PROD_ID'#13#10
   // +'   OR r.IMPORT_PROD_REJEICAO_ID_DESTINO = :IMPORT_PROD_ID;'#13#10
     + 'ORDER BY'#13#10 //
     + '  r.IMPORT_PROD_REJEICAO_ID_ORIGEM,'#13#10 //
-    + '  r.IMPORT_PROD_REJEICAO_ID_DESTINO'#13#10;//
+    + '  r.IMPORT_PROD_REJEICAO_ID_DESTINO'#13#10; //
 
   DestinoDBConnection.Abrir;
   ProdRejFDMemTable.DisableControls;
@@ -222,7 +227,8 @@ begin
   sNomeArq := GetNomeArqTabViewProd;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdFDMemTable, ProdDBGrid);
 
-  sNomeIndice := 'I' + FProdFDMemTable.Name + FProdFDMemTable.Fields[0].FieldName;
+  sNomeIndice := 'I' + FProdFDMemTable.Name + FProdFDMemTable.Fields[0]
+    .FieldName;
   with FProdFDMemTable.Indexes.Add do
   begin
     Name := sNomeIndice;
@@ -243,8 +249,8 @@ begin
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdRejFDMemTable,
     RejeicaoDBGrid);
 
-  FDestinoDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    AppObj.AppInfo, AppObj.SisConfig);
+  FDestinoDBConnectionParams := LocalDoDBToDBConnectionParams
+    (TLocalDoDB.ldbServidor, AppObj.AppInfo, AppObj.SisConfig);
 
   FDestinoDBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     AppObj.dbms, FDestinoDBConnectionParams, ProcessLog, FStatusOutput);
@@ -272,13 +278,24 @@ end;
 procedure TDBImportForm.ExecuteAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
-//
+  //
 end;
 
 procedure TDBImportForm.FIlConfComboBoxChange(Sender: TObject);
 begin
   inherited;
   AtualizarAction_AppDBImport.Execute;
+end;
+
+procedure TDBImportForm.FinalizarAction_AppDBImportExecute(Sender: TObject);
+begin
+  inherited;
+  FinalizarAction_AppDBImport.Enabled := False;
+  try
+
+  finally
+    FinalizarAction_AppDBImport.Enabled := True;
+  end;
 end;
 
 procedure TDBImportForm.FormCreate(Sender: TObject);
@@ -310,7 +327,7 @@ end;
 procedure TDBImportForm.InclusaoAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
-//
+  //
 end;
 
 procedure TDBImportForm.RejEdAction_AppDBImportExecute(Sender: TObject);
@@ -319,24 +336,29 @@ var
   oIntegerList: IIntegerList;
 begin
   // inherited;
-  oIntegerList := IntegerListCreate;
-  oIntegerList.AceitaRepetidos := False;
+  RejEdAction_AppDBImport.Enabled := False;
+  try
+    oIntegerList := IntegerListCreate;
+    oIntegerList.AceitaRepetidos := False;
 
-  RejPreencherIntegerList(oIntegerList);
+    RejPreencherIntegerList(oIntegerList);
 
-  bResultado := App.DB.Import.Prod.Rej.Ed.Form_u.Perg(Self, AppObj,//
-    FDestinoDBConnection,//
+    bResultado := App.DB.Import.Prod.Rej.Ed.Form_u.Perg(Self, AppObj, //
+      FDestinoDBConnection, //
 
-    FProdFDMemTable,//
-    ProdRejFDMemTable,//
+      FProdFDMemTable, //
+      ProdRejFDMemTable, //
 
-    oIntegerList, Usuario, ProcessLog,//
-    FStatusOutput);//
+      oIntegerList, Usuario, ProcessLog, //
+      FStatusOutput); //
 
-  if not bResultado then
-    exit;
+    if not bResultado then
+      exit;
 
-  ValidarAction_AppDBImport.Execute;
+    ValidarAction_AppDBImport.Execute;
+  finally
+    RejEdAction_AppDBImport.Enabled := True;
+  end;
 end;
 
 procedure TDBImportForm.RejPreencherIntegerList(pIntegerList: IIntegerList);
@@ -356,9 +378,8 @@ begin
   try
     while not FProdRejFDMemTable.Eof do
     begin
-      if (FProdRejFDMemTable.Fields[0].AsInteger = iIdAtual)
-        or (FProdRejFDMemTable.Fields[1].AsInteger = iIdAtual)
-        then
+      if (FProdRejFDMemTable.Fields[0].AsInteger = iIdAtual) or
+        (FProdRejFDMemTable.Fields[1].AsInteger = iIdAtual) then
       begin
         pIntegerList.Add(FProdRejFDMemTable.Fields[0].AsInteger);
         pIntegerList.Add(FProdRejFDMemTable.Fields[1].AsInteger);
@@ -400,6 +421,8 @@ var
   RejeicaoIdOrigem, RejeicaoIdDestino, RejeicaoTipoId: integer;
 begin
   inherited;
+  ValidarAction_AppDBImport.Enabled := False;
+  try
   sSqlQtd := 'SELECT COUNT(*) FROM IMPORT_PROD WHERE VAI_IMPORTAR;';
 
   // orig ini
@@ -479,14 +502,14 @@ begin
     ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
     + ');';
 
-  {$IFDEF DEBUG}
-    SetClipboardText(sSqlInsRej);
-  {$ENDIF}
+{$IFDEF DEBUG}
+  SetClipboardText(sSqlInsRej);
+{$ENDIF}
   DestinoDBConnection.Abrir;
   DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 
   ProgressBar1.Position := 0;
-  ProgressBar1.Visible := true;
+  ProgressBar1.Visible := True;
   try
     QtdRegs := DestinoDBConnection.GetValueInteger(sSqlQtd);
     ProgressBar1.Max := QtdRegs;
@@ -555,45 +578,53 @@ begin
     DestinoDBConnection.Fechar;
     ProgressBar1.Visible := False;
   end;
+
+  finally
+    ValidarAction_AppDBImport.Enabled := True;
+  end;
 end;
 
-procedure TDBImportForm.ZerarExecuteAction_AppDBImportExecute(Sender: TObject);
+procedure TDBImportForm.ZerarAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
-  ZereDados(nil);
+  ZerarAction_AppDBImport.Enabled := False;
+  try
+    ZereDados(nil);
+  finally
+    ZerarAction_AppDBImport.Enabled := True;
+  end;
 end;
 
 function TDBImportForm.ZereDados(pDestinoDBConnection: IDBConnection): boolean;
 var
   bRecebeuConex: boolean;
   sSql: string;
-  sl:tstringlist;
-  i: integer;
+  sl: TStringList;
+  I: integer;
   sAssunto: string;
   sNomeBanco: string;
   sPastaComando: string;
 
+  {
 
-{
+    @echo off
+    set ISQL="C:\caminho\para\isql.exe"
+    set USER=SYSDBA
+    set PASSWORD=masterkey
+    set DB=DELPHI-BTU:C:\Pr\app\bantu\bantu-sis\Exe\Dados\RETAG.FDB
+    set SCRIPT="C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Import\SQL import zerar RETAG 2024-05-06_14-58-54-571.sql"
 
-@echo off
-set ISQL="C:\caminho\para\isql.exe"
-set USER=SYSDBA
-set PASSWORD=masterkey
-set DB=DELPHI-BTU:C:\Pr\app\bantu\bantu-sis\Exe\Dados\RETAG.FDB
-set SCRIPT="C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Import\SQL import zerar RETAG 2024-05-06_14-58-54-571.sql"
-
-%ISQL% -u %USER% -p %PASSWORD% %DB% -i %SCRIPT%
+    %ISQL% -u %USER% -p %PASSWORD% %DB% -i %SCRIPT%
 
 
-C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Comandos\Import\teste.bat
-}
+    C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Comandos\Import\teste.bat
+  }
 
 begin
 {$IFNDEF DEBUG}
   Result := PergBool('Zerar os dados? Esta ação não poderá ser desfeita');
 {$ELSE}
-  Result := true;
+  Result := True;
 {$ENDIF}
   if not Result then
     exit;
@@ -607,33 +638,33 @@ begin
       exit;
   end;
 
-  sl :=tstringlist.Create;
+  sl := TStringList.Create;
   try
-    Result := true;
+    Result := True;
 
     sl.Add('CONNECT "' + FDestinoDBConnectionParams.Database +
       '" USER ''SYSDBA'' PASSWORD ''masterkey'';');
 
-    SL.Add('EXECUTE PROCEDURE IMPORT_PROD_PA.APAGAR_DO;');
-    SL.Add('ALTER SEQUENCE PROD_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE FABR_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE PROD_TIPO_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE UNID_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE ICMS_SEQ RESTART WITH  4;');
-    SL.Add('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE IMPORT_FABR_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE IMPORT_PROD_TIPO_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE IMPORT_UNID_SEQ RESTART WITH  1;');
-    SL.Add('ALTER SEQUENCE IMPORT_ICMS_SEQ RESTART WITH  4;');
-    SL.Add('ALTER SEQUENCE IMPORT_PROD_SEQ RESTART WITH  1;');
+    sl.Add('EXECUTE PROCEDURE IMPORT_PROD_PA.APAGAR_DO;');
+    sl.Add('ALTER SEQUENCE PROD_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE FABR_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE PROD_TIPO_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE UNID_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE ICMS_SEQ RESTART WITH  4;');
+    sl.Add('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE IMPORT_FABR_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE IMPORT_PROD_TIPO_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE IMPORT_UNID_SEQ RESTART WITH  1;');
+    sl.Add('ALTER SEQUENCE IMPORT_ICMS_SEQ RESTART WITH  4;');
+    sl.Add('ALTER SEQUENCE IMPORT_PROD_SEQ RESTART WITH  1;');
 
     sAssunto := 'import zerar';
     sNomeBanco := FDestinoDBConnectionParams.GetNomeBanco;
     sPastaComando := AppObj.AppInfo.PastaComandos + 'Import\';
 
-    AppObj.DBMS.ExecInterative(sAssunto, sl.Text, sNomeBanco, sPastaComando,
+    AppObj.dbms.ExecInterative(sAssunto, sl.Text, sNomeBanco, sPastaComando,
       ProcessLog, StatusOutput);
   finally
     if not bRecebeuConex then

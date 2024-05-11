@@ -94,7 +94,7 @@ inherited DBImportForm: TDBImportForm
       Top = 3
       Width = 84
       Height = 25
-      Action = ZerarExecuteAction_AppDBImport
+      Action = ZerarAction_AppDBImport
       Caption = 'Apagar Dados'
       TabOrder = 3
     end
@@ -119,7 +119,7 @@ inherited DBImportForm: TDBImportForm
     object RejEdBitBtn_AppDBImport: TBitBtn
       Left = 314
       Top = 3
-      Width = 105
+      Width = 107
       Height = 25
       Action = RejEdAction_AppDBImport
       Caption = 'Resolver Rejei'#231#227'o'
@@ -133,6 +133,15 @@ inherited DBImportForm: TDBImportForm
       Action = InclusaoAction_AppDBImport
       Caption = 'Inclus'#227'o'
       TabOrder = 7
+    end
+    object BitBtn1: TBitBtn
+      Left = 423
+      Top = 3
+      Width = 63
+      Height = 25
+      Action = FinalizarAction_AppDBImport
+      Caption = 'Finalizar'
+      TabOrder = 8
     end
   end
   object MeioPanel: TPanel [2]
@@ -233,9 +242,9 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Importar'
       OnExecute = ExecuteAction_AppDBImportExecute
     end
-    object ZerarExecuteAction_AppDBImport: TAction
+    object ZerarAction_AppDBImport: TAction
       Caption = 'Apagar Dados'
-      OnExecute = ZerarExecuteAction_AppDBImportExecute
+      OnExecute = ZerarAction_AppDBImportExecute
     end
     object AtualizarAction_AppDBImport: TAction
       Caption = 'Atualizar'
@@ -256,6 +265,11 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Inclus'#227'o'
       Hint = 'Liga / Desliga se Registro Ser'#225' Importado'
       OnExecute = InclusaoAction_AppDBImportExecute
+    end
+    object FinalizarAction_AppDBImport: TAction
+      Caption = 'Finalizar'
+      Hint = 'Copia dados de importa'#231#227'o para o sistema'
+      OnExecute = FinalizarAction_AppDBImportExecute
     end
   end
   object ProdRejDataSource: TDataSource

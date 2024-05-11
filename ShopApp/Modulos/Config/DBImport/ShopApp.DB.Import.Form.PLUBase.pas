@@ -101,6 +101,8 @@ var
   sSql: string;
 begin
   inherited;
+  ExecuteAction_AppDBImport.Enabled := False;
+  try
   StatusOutput.Exibir('Inicio');
   try
     FNomeArq := FFileSelectFrame.NomeArq;
@@ -199,6 +201,9 @@ begin
     StatusOutput.Exibir('Fim');
     StatusOutput.Exibir('');
     AtualizarAction_AppDBImport.Execute;
+  end;
+  finally
+    ExecuteAction_AppDBImport.Enabled := True;
   end;
 end;
 
