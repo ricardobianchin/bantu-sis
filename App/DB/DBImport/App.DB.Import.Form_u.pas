@@ -336,7 +336,6 @@ begin
   if not bResultado then
     exit;
 
-
   ValidarAction_AppDBImport.Execute;
 end;
 
