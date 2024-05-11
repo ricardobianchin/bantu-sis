@@ -28,7 +28,7 @@ var
 procedure LerCampos;
 begin
   exit;
-  f
+
   iId := oProdFDMemTable.Fields[0].AsInteger;
   bAImportar := oProdFDMemTable.Fields[1].AsBoolean;
   sDescr := oProdFDMemTable.Fields[5].AsString;
@@ -87,9 +87,10 @@ begin
     SetLength(aPreco, 1);
     oProdFDMemTable.First;
 
-    GarantirFabr(oDBConnection);
-    GarantirProdTipo(oDBConnection);
-    GarantirUnid(oDBConnection);
+    //GarantirFabr(oDBConnection);
+    //GarantirProdTipo(oDBConnection);
+    //GarantirUnid(oDBConnection);
+    //nao fiz ainda GarantirICMS. ate unit existe mas nao inserida no projec
 
     while not oProdFDMemTable.Eof do
     begin
