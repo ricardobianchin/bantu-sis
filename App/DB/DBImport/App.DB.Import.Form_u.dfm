@@ -135,7 +135,7 @@ inherited DBImportForm: TDBImportForm
       TabOrder = 7
     end
     object BitBtn1: TBitBtn
-      Left = 423
+      Left = 425
       Top = 3
       Width = 63
       Height = 25

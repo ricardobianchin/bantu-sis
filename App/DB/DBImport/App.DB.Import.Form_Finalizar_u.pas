@@ -8,7 +8,8 @@ procedure Finalizar(pProdFDMemTable: TFDMemTable; pDBConnection: IDBConnection);
 
 implementation
 
-uses System.Classes, System.SysUtils, Sis.Types.Bool_u, Sis.Types.Floats;
+uses System.Classes, System.SysUtils, Sis.Types.Bool_u, Sis.Types.Floats,
+  App.DB.Import.Form_Finalizar_Fabr_u;
 
 var
   oProdFDMemTable: TFDMemTable;
@@ -48,8 +49,11 @@ begin
   ComandosSL := TStringList.Create;
   oDBConnection.Abrir;
   try
-    oProdFDMemTable.First;
     SetLength(aPreco, 1);
+    oProdFDMemTable.First;
+
+    GarantirFabr(oDBConnection);
+
     while not oProdFDMemTable.Eof do
     begin
       LerCampos;

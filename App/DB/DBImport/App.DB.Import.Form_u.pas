@@ -103,7 +103,8 @@ implementation
 uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
-  App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u;
+  App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u,
+  App.DB.Import.Form_Finalizar_u;
 
 { TDBImportForm }
 
@@ -292,7 +293,7 @@ begin
   inherited;
   FinalizarAction_AppDBImport.Enabled := False;
   try
-
+    App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable, FDestinoDBConnection);
   finally
     FinalizarAction_AppDBImport.Enabled := True;
   end;
@@ -398,7 +399,7 @@ begin
   inherited;
   ClearStyleElements(Self);
   ProgressBar1.Left := 2;
-  AtualizarAction_AppDBImport.Execute;
+  FinalizarAction_AppDBImport.Execute;
   ProdDBGrid.SetFocus;
 end;
 
@@ -423,161 +424,163 @@ begin
   inherited;
   ValidarAction_AppDBImport.Enabled := False;
   try
-  sSqlQtd := 'SELECT COUNT(*) FROM IMPORT_PROD WHERE VAI_IMPORTAR;';
+    sSqlQtd := 'SELECT COUNT(*) FROM IMPORT_PROD WHERE VAI_IMPORTAR;';
 
-  // orig ini
-  sSqlOrig := //
-    'WITH IP AS ('#13#10 //
-    + '  SELECT '#13#10 //
-    + '    IMPORT_PROD_ID,'#13#10 //
-    + '    IMPORT_FABR_ID,'#13#10 //
-    + '    CASE'#13#10 //
-    + '        WHEN NOVO_PROD_ID IS NULL OR NOVO_PROD_ID < 1 THEN PROD_ID'#13#10
-  //
-    + '        ELSE NOVO_PROD_ID'#13#10 //
-    + '    END AS PRODUTO_ID,'#13#10 //
-    + '    CASE'#13#10 //
-    + '        WHEN NOVO_DESCR IS NULL OR NOVO_DESCR = '''' THEN DESCR'#13#10 //
-    + '        ELSE NOVO_DESCR'#13#10 //
-    + '    END AS DESCRICAO,'#13#10 //
-    + '    CASE'#13#10 //
-    + '        WHEN NOVO_DESCR_RED IS NULL OR NOVO_DESCR_RED = '''' THEN DESCR_RED'#13#10
-  //
-    + '        ELSE NOVO_DESCR_RED'#13#10 //
-    + '    END AS DESCRICAO_RED '#13#10 //
-    + '  FROM IMPORT_PROD '#13#10 //
-    + '  WHERE VAI_IMPORTAR '#13#10 //
-    + '  ORDER BY IMPORT_PROD_ID'#13#10 //
-    + ') '#13#10 //
-    + 'SELECT '#13#10 //
-    + '  IMPORT_PROD_ID,'#13#10 //
-    + '  IMPORT_FABR_ID,'#13#10 //
-    + '  PRODUTO_ID,'#13#10 //
-    + '  DESCRICAO,'#13#10 //
-    + '  DESCRICAO_RED '#13#10 //
-    + 'FROM IP;'#13#10; //
-  // orig fim
+    // orig ini
+    sSqlOrig := //
+      'WITH IP AS ('#13#10 //
+      + '  SELECT '#13#10 //
+      + '    IMPORT_PROD_ID,'#13#10 //
+      + '    IMPORT_FABR_ID,'#13#10 //
+      + '    CASE'#13#10 //
+      + '        WHEN NOVO_PROD_ID IS NULL OR NOVO_PROD_ID < 1 THEN PROD_ID'#13#10
+    //
+      + '        ELSE NOVO_PROD_ID'#13#10 //
+      + '    END AS PRODUTO_ID,'#13#10 //
+      + '    CASE'#13#10 //
+      + '        WHEN NOVO_DESCR IS NULL OR NOVO_DESCR = '''' THEN DESCR'#13#10
+    //
+      + '        ELSE NOVO_DESCR'#13#10 //
+      + '    END AS DESCRICAO,'#13#10 //
+      + '    CASE'#13#10 //
+      + '        WHEN NOVO_DESCR_RED IS NULL OR NOVO_DESCR_RED = '''' THEN DESCR_RED'#13#10
+    //
+      + '        ELSE NOVO_DESCR_RED'#13#10 //
+      + '    END AS DESCRICAO_RED '#13#10 //
+      + '  FROM IMPORT_PROD '#13#10 //
+      + '  WHERE VAI_IMPORTAR '#13#10 //
+      + '  ORDER BY IMPORT_PROD_ID'#13#10 //
+      + ') '#13#10 //
+      + 'SELECT '#13#10 //
+      + '  IMPORT_PROD_ID,'#13#10 //
+      + '  IMPORT_FABR_ID,'#13#10 //
+      + '  PRODUTO_ID,'#13#10 //
+      + '  DESCRICAO,'#13#10 //
+      + '  DESCRICAO_RED '#13#10 //
+      + 'FROM IP;'#13#10; //
+    // orig fim
 
-  // dest ini
-  sSqlDest := //
-    'WITH IP AS ('#13#10 //
-    + '  SELECT '#13#10 //
-    + '    IMPORT_PROD_ID,'#13#10 //
-    + '    IMPORT_FABR_ID,'#13#10 //
-    + '    CASE'#13#10 //
-    + '        WHEN NOVO_PROD_ID IS NULL OR NOVO_PROD_ID < 1 THEN PROD_ID'#13#10
-  //
-    + '        ELSE NOVO_PROD_ID'#13#10 //
-    + '    END AS PRODUTO_ID,'#13#10 //
-    + '    CASE'#13#10 //
-    + '        WHEN NOVO_DESCR IS NULL OR NOVO_DESCR = '''' THEN DESCR'#13#10 //
-    + '        ELSE NOVO_DESCR'#13#10 //
-    + '    END AS DESCRICAO,'#13#10 //
-    + '    CASE'#13#10 //
-    + '        WHEN NOVO_DESCR_RED IS NULL OR NOVO_DESCR_RED = '''' THEN DESCR_RED'#13#10
-  //
-    + '        ELSE NOVO_DESCR_RED'#13#10 //
-    + '    END AS DESCRICAO_RED '#13#10 //
-    + '  FROM IMPORT_PROD '#13#10 //
-    + '  WHERE VAI_IMPORTAR '#13#10 //
-    + '  AND IMPORT_PROD_ID > :IMPORT_PROD_ID '#13#10 //
-    + '  ORDER BY IMPORT_PROD_ID'#13#10 //
-    + ') '#13#10 //
-    + 'SELECT '#13#10 //
-    + '  IMPORT_PROD_ID,'#13#10 //
-    + '  IMPORT_FABR_ID,'#13#10 //
-    + '  PRODUTO_ID,'#13#10 //
-    + '  DESCRICAO,'#13#10 //
-    + '  DESCRICAO_RED'#13#10 //
-    + 'FROM IP'#13#10 //
-    + 'WHERE IMPORT_FABR_ID = :IMPORT_FABR_ID '#13#10 //
-    + 'AND (DESCRICAO = :DESCRICAO '#13#10 //
-    + 'OR  DESCRICAO_RED = :DESCRICAO_RED) '#13#10 //
-    + ';'#13#10; //
-  // dest fim
+    // dest ini
+    sSqlDest := //
+      'WITH IP AS ('#13#10 //
+      + '  SELECT '#13#10 //
+      + '    IMPORT_PROD_ID,'#13#10 //
+      + '    IMPORT_FABR_ID,'#13#10 //
+      + '    CASE'#13#10 //
+      + '        WHEN NOVO_PROD_ID IS NULL OR NOVO_PROD_ID < 1 THEN PROD_ID'#13#10
+    //
+      + '        ELSE NOVO_PROD_ID'#13#10 //
+      + '    END AS PRODUTO_ID,'#13#10 //
+      + '    CASE'#13#10 //
+      + '        WHEN NOVO_DESCR IS NULL OR NOVO_DESCR = '''' THEN DESCR'#13#10
+    //
+      + '        ELSE NOVO_DESCR'#13#10 //
+      + '    END AS DESCRICAO,'#13#10 //
+      + '    CASE'#13#10 //
+      + '        WHEN NOVO_DESCR_RED IS NULL OR NOVO_DESCR_RED = '''' THEN DESCR_RED'#13#10
+    //
+      + '        ELSE NOVO_DESCR_RED'#13#10 //
+      + '    END AS DESCRICAO_RED '#13#10 //
+      + '  FROM IMPORT_PROD '#13#10 //
+      + '  WHERE VAI_IMPORTAR '#13#10 //
+      + '  AND IMPORT_PROD_ID > :IMPORT_PROD_ID '#13#10 //
+      + '  ORDER BY IMPORT_PROD_ID'#13#10 //
+      + ') '#13#10 //
+      + 'SELECT '#13#10 //
+      + '  IMPORT_PROD_ID,'#13#10 //
+      + '  IMPORT_FABR_ID,'#13#10 //
+      + '  PRODUTO_ID,'#13#10 //
+      + '  DESCRICAO,'#13#10 //
+      + '  DESCRICAO_RED'#13#10 //
+      + 'FROM IP'#13#10 //
+      + 'WHERE IMPORT_FABR_ID = :IMPORT_FABR_ID '#13#10 //
+      + 'AND (DESCRICAO = :DESCRICAO '#13#10 //
+      + 'OR  DESCRICAO_RED = :DESCRICAO_RED) '#13#10 //
+      + ';'#13#10; //
+    // dest fim
 
-  sSqlInsRej := 'INSERT INTO IMPORT_PROD_REJEICAO(' +
-    'IMPORT_PROD_REJEICAO_ID_ORIGEM, IMPORT_PROD_REJEICAO_ID_DESTINO, IMPORT_REJEICAO_TIPO_ID'
-    + ') VALUES (' +
-    ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
-    + ');';
+    sSqlInsRej := 'INSERT INTO IMPORT_PROD_REJEICAO(' +
+      'IMPORT_PROD_REJEICAO_ID_ORIGEM, IMPORT_PROD_REJEICAO_ID_DESTINO, IMPORT_REJEICAO_TIPO_ID'
+      + ') VALUES (' +
+      ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
+      + ');';
 
 {$IFDEF DEBUG}
-  SetClipboardText(sSqlInsRej);
+    SetClipboardText(sSqlInsRej);
 {$ENDIF}
-  DestinoDBConnection.Abrir;
-  DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
+    DestinoDBConnection.Abrir;
+    DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 
-  ProgressBar1.Position := 0;
-  ProgressBar1.Visible := True;
-  try
-    QtdRegs := DestinoDBConnection.GetValueInteger(sSqlQtd);
-    ProgressBar1.Max := QtdRegs;
+    ProgressBar1.Position := 0;
+    ProgressBar1.Visible := True;
+    try
+      QtdRegs := DestinoDBConnection.GetValueInteger(sSqlQtd);
+      ProgressBar1.Max := QtdRegs;
 
-    DestDBQuery := DBQueryCreate('Config.Import.Prod.Rejeicao.Q',
-      DestinoDBConnection, sSqlDest, ProcessLog, StatusOutput);
-    DestDBQuery.Prepare;
+      DestDBQuery := DBQueryCreate('Config.Import.Prod.Rejeicao.Q',
+        DestinoDBConnection, sSqlDest, ProcessLog, StatusOutput);
+      DestDBQuery.Prepare;
 
-    InsDBExec := DBExecCreate('Config.Import.Prod.Rejeicao.Ins',
-      DestinoDBConnection, sSqlInsRej, ProcessLog, StatusOutput);
-    InsDBExec.Prepare;
+      InsDBExec := DBExecCreate('Config.Import.Prod.Rejeicao.Ins',
+        DestinoDBConnection, sSqlInsRej, ProcessLog, StatusOutput);
+      InsDBExec.Prepare;
 
-    DestinoDBConnection.QueryDataSet(sSqlOrig, OrigQ);
+      DestinoDBConnection.QueryDataSet(sSqlOrig, OrigQ);
 
-    RegAtual := 0;
-    while not OrigQ.Eof do
-    begin
-      DestDBQuery.Params[0].AsInteger := OrigQ.Fields[0].AsInteger;
-      DestDBQuery.Params[1].AsInteger := OrigQ.Fields[1].AsInteger;
-      DestDBQuery.Params[2].AsString := Trim(OrigQ.Fields[3].AsString);
-      DestDBQuery.Params[3].AsString := Trim(OrigQ.Fields[4].AsString);
+      RegAtual := 0;
+      while not OrigQ.Eof do
+      begin
+        DestDBQuery.Params[0].AsInteger := OrigQ.Fields[0].AsInteger;
+        DestDBQuery.Params[1].AsInteger := OrigQ.Fields[1].AsInteger;
+        DestDBQuery.Params[2].AsString := Trim(OrigQ.Fields[3].AsString);
+        DestDBQuery.Params[3].AsString := Trim(OrigQ.Fields[4].AsString);
 
-      DestDBQuery.Abrir;
-      try
-        while not DestDBQuery.DataSet.Eof do
-        begin
-          RejeicaoIdOrigem := OrigQ.Fields[0].AsInteger;
-          RejeicaoIdDestino := DestDBQuery.DataSet.Fields[0].AsInteger;
-
-          if OrigQ.Fields[3].AsString = DestDBQuery.DataSet.Fields[3].AsString
-          then
+        DestDBQuery.Abrir;
+        try
+          while not DestDBQuery.DataSet.Eof do
           begin
-            RejeicaoTipoId := 1;
-            InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
-            InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
-            InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+            RejeicaoIdOrigem := OrigQ.Fields[0].AsInteger;
+            RejeicaoIdDestino := DestDBQuery.DataSet.Fields[0].AsInteger;
+
+            if OrigQ.Fields[3].AsString = DestDBQuery.DataSet.Fields[3].AsString
+            then
+            begin
+              RejeicaoTipoId := 1;
+              InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
+              InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
+              InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+            end;
+
+            InsDBExec.Execute;
+
+            if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString
+            then
+            begin
+              RejeicaoTipoId := 2;
+              InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
+              InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
+              InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+            end;
+
+            InsDBExec.Execute;
+            DestDBQuery.DataSet.Next;
           end;
-
-          InsDBExec.Execute;
-
-          if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString
-          then
-          begin
-            RejeicaoTipoId := 2;
-            InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
-            InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
-            InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
-          end;
-
-          InsDBExec.Execute;
-          DestDBQuery.DataSet.Next;
+        finally
+          DestDBQuery.Fechar;
         end;
-      finally
-        DestDBQuery.Fechar;
+        OrigQ.Next;
+        inc(RegAtual);
+        ProgressBar1.Position := RegAtual;
       end;
-      OrigQ.Next;
-      inc(RegAtual);
-      ProgressBar1.Position := RegAtual;
-    end;
 
-  finally
-    DestDBQuery.Unprepare;
-    InsDBExec.Unprepare;
-    OrigQ.Free;
-    AtualizarAction_AppDBImport.Execute;
-    DestinoDBConnection.Fechar;
-    ProgressBar1.Visible := False;
-  end;
+    finally
+      DestDBQuery.Unprepare;
+      InsDBExec.Unprepare;
+      OrigQ.Free;
+      AtualizarAction_AppDBImport.Execute;
+      DestinoDBConnection.Fechar;
+      ProgressBar1.Visible := False;
+    end;
 
   finally
     ValidarAction_AppDBImport.Enabled := True;
