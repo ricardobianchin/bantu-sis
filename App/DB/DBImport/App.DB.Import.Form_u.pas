@@ -399,7 +399,7 @@ begin
   inherited;
   ClearStyleElements(Self);
   ProgressBar1.Left := 2;
-  FinalizarAction_AppDBImport.Execute;
+  AtualizarAction_AppDBImport.Execute;
   ProdDBGrid.SetFocus;
 end;
 

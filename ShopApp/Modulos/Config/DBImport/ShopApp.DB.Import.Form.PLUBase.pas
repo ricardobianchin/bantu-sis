@@ -488,19 +488,22 @@ end;
 procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+
 {$IFDEF DEBUG}
-  FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
+//  FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
+
   //ExecuteAction_AppDBImport.Execute;
 
-  ProdRejFDMemTable.First;
-  ProdRejFDMemTable.Next;
-  ProdRejFDMemTable.Next;
-  ProdRejFDMemTable.Next;
-  ProdRejFDMemTable.Next;
-  ProdRejFDMemTable.Next;
-  ProdRejFDMemTable.Next;
+//  ProdRejFDMemTable.First;
+//  ProdRejFDMemTable.Next;
+//  ProdRejFDMemTable.Next;
+//  ProdRejFDMemTable.Next;
+//  ProdRejFDMemTable.Next;
+//  ProdRejFDMemTable.Next;
+//  ProdRejFDMemTable.Next;
+//  RejEdAction_AppDBImport.Execute;
 
-  RejEdAction_AppDBImport.Execute;
+  FinalizarAction_AppDBImport.Execute;
 {$ENDIF}
 end;
 
