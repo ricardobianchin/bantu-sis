@@ -175,6 +175,7 @@ contains
   App.DB.Import.Prod.Barras.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Barras.Ed.Form_u.pas' {ImportBarEdForm},
   App.DB.Import.Factory in 'DB\DBImport\App.DB.Import.Factory.pas',
   App.DB.Import.Input.Barras_u in 'DB\DBImport\App.DB.Import.Input.Barras_u.pas',
-  App.DB.Import.Prod.Rej.Ed.Form.Gravar_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form.Gravar_u.pas';
+  App.DB.Import.Prod.Rej.Ed.Form.Gravar_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form.Gravar_u.pas',
+  App.DB.Import.Form_Finalizar_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_u.pas';
 
 end.
