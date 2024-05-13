@@ -293,7 +293,8 @@ begin
   inherited;
   FinalizarAction_AppDBImport.Enabled := False;
   try
-    App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable, FDestinoDBConnection);
+    App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable,
+      FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
     FinalizarAction_AppDBImport.Enabled := True;
   end;
@@ -505,9 +506,9 @@ begin
       ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
       + ');';
 
-{$IFDEF DEBUG}
-    SetClipboardText(sSqlInsRej);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//    SetClipboardText(sSqlInsRej);
+//{$ENDIF}
     DestinoDBConnection.Abrir;
     DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 

@@ -160,9 +160,9 @@ begin
 
   Result := Result + 'ORDER BY PRO.IMPORT_PROD_ID'#13#10; //
 
-  {$IFDEF DEBUG}
-    SetClipboardText(Result);
-  {$ENDIF}
+//  {$IFDEF DEBUG}
+//    SetClipboardText(Result);
+//  {$ENDIF}
 
 end;
 

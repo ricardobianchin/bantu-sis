@@ -383,6 +383,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Fabr_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
