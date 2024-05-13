@@ -16,7 +16,6 @@ type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
     procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -483,28 +482,6 @@ begin
     OrigPrecoSL.Clear;
     OrigPrecoSL.Values['1'] := CurrencyToStrPonto(cPreco);
   end;
-end;
-
-procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-
-{$IFDEF DEBUG}
-//  FFileSelectFrame.NomeArq := 'X:\Doc\Bantu\Clientes\Daros\PLUBASE.TXT';
-
-  //ExecuteAction_AppDBImport.Execute;
-
-//  ProdRejFDMemTable.First;
-//  ProdRejFDMemTable.Next;
-//  ProdRejFDMemTable.Next;
-//  ProdRejFDMemTable.Next;
-//  ProdRejFDMemTable.Next;
-//  ProdRejFDMemTable.Next;
-//  ProdRejFDMemTable.Next;
-//  RejEdAction_AppDBImport.Execute;
-
-  FinalizarAction_AppDBImport.Execute;
-{$ENDIF}
 end;
 
 end.
