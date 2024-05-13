@@ -1,18 +1,18 @@
 inherited DiagBasForm: TDiagBasForm
   BorderIcons = []
   Caption = 'DiagBasForm'
-  ClientHeight = 362
-  ClientWidth = 479
+  ClientHeight = 360
+  ClientWidth = 471
   Position = poDesktopCenter
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  ExplicitWidth = 495
-  ExplicitHeight = 401
+  ExplicitWidth = 487
+  ExplicitHeight = 399
   TextHeight = 15
   object MensLabel: TLabel [0]
     Left = 0
-    Top = 342
-    Width = 479
+    Top = 340
+    Width = 471
     Height = 20
     Align = alBottom
     Caption = 'MensLabel'
@@ -27,17 +27,17 @@ inherited DiagBasForm: TDiagBasForm
     Transparent = True
     WordWrap = True
     StyleElements = [seClient, seBorder]
-    ExplicitTop = 343
+    ExplicitTop = 341
     ExplicitWidth = 71
   end
   object AlteracaoTextoLabel: TLabel [1]
     Left = 0
-    Top = 327
-    Width = 479
+    Top = 325
+    Width = 471
     Height = 15
     Align = alBottom
     Caption = 'AlteracaoTextoLabel'
-    ExplicitTop = 328
+    ExplicitTop = 326
     ExplicitWidth = 106
   end
   inherited ShowTimer_BasForm: TTimer

@@ -125,34 +125,31 @@ begin
         ;
     end;
 
-    FFDConnection.Params.Text := 'DriverID=' + sDriver + #13#10 +
-      'Server=' + DBConnectionParams.Server + #13#10 +
-      'Database=' + DBConnectionParams.Arq + #13#10 +
-      'Password=masterkey'#13#10 +
-      'User_Name=sysdba'#13#10 +
-      'Protocol=TCPIP'
-      ;
+    FFDConnection.Params.Text := 'DriverID=' + sDriver + #13#10 + 'Server=' +
+      DBConnectionParams.Server + #13#10 + 'Database=' + DBConnectionParams.Arq
+      + #13#10 + 'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 +
+      'Protocol=TCPIP';
   finally
     DBLog.Registre('Params='#13#10 + FFDConnection.Params.Text);
     ProcessLog.RetorneLocal;
   end;
-    (*
-      object FDConnection1: TFDConnection
-      Params.Strings = (
-      'Database=C:\Pr\app\bantu\bantu-sis\exe\dados\RETAG.FDB'
-      'User_Name=sysdba'
-      'Password=masterkey'
-      'Protocol=TCPIP'
-      'Server=DELPHI-BTU'
-      'DriverID=FB')
-      Connected = True
-      LoginPrompt = False
-      Left = 304
-      Top = 224
-      end
-    *)
+  (*
+    object FDConnection1: TFDConnection
+    Params.Strings = (
+    'Database=C:\Pr\app\bantu\bantu-sis\exe\dados\RETAG.FDB'
+    'User_Name=sysdba'
+    'Password=masterkey'
+    'Protocol=TCPIP'
+    'Server=DELPHI-BTU'
+    'DriverID=FB')
+    Connected = True
+    LoginPrompt = False
+    Left = 304
+    Top = 224
+    end
+  *)
 
-    // FFDConnection.TxOptions.AutoCommit:=true;
+  // FFDConnection.TxOptions.AutoCommit:=true;
 end;
 
 function TDBConnectionFireDAC.ExecuteSQL(pSql: string): LongInt;
@@ -168,8 +165,12 @@ begin
 
     try
       Result := FFDConnection.ExecSQL(pSql);
-    except on E: Exception do
-      sLog := sLog + ',' + E.ClassName + ' ' + E.Message;
+    except
+      on e: exception do
+      begin
+        sLog := sLog + ',' + e.ClassName + ' ' + e.Message;
+        raise;
+      end;
     end;
   finally
     sLog := sLog + ',Result=' + Result.ToString;
@@ -228,7 +229,8 @@ begin
   end;
 end;
 
-procedure TDBConnectionFireDAC.QueryDataSet(pSql: string; var pDataSet: TDataSet);
+procedure TDBConnectionFireDAC.QueryDataSet(pSql: string;
+  var pDataSet: TDataSet);
 var
   sLog: string;
 begin
@@ -239,7 +241,8 @@ begin
 
     FFDConnection.ExecSQL(pSql, pDataSet);
 
-    sLog := sLog + 'Retornou,Assigned(pDataSet)=' + BooleanToStr(Assigned(pDataSet));
+    sLog := sLog + 'Retornou,Assigned(pDataSet)=' +
+      BooleanToStr(Assigned(pDataSet));
   finally
     DBLog.Registre(sLog);
 
@@ -255,7 +258,7 @@ begin
   try
     sLog := 'vai FFDConnection.Rollback';
     FFDConnection.Rollback;
-    sLog := sLog  + ',retornou';
+    sLog := sLog + ',retornou';
   finally
     DBLog.Registre(sLog);
 
@@ -271,7 +274,7 @@ begin
   try
     sLog := 'vai FFDConnection.StartTransaction';
     FFDConnection.StartTransaction;
-    sLog := sLog  + ',retornou';
+    sLog := sLog + ',retornou';
   finally
     DBLog.Registre(sLog);
 

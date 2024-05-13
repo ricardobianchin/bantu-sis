@@ -31,6 +31,7 @@ type
     property AlteracaoTexto: string read GetAlteracaoTexto;
     procedure AtualizeAlteracaoTexto; virtual;
     procedure SelecioneProximo;
+    procedure EditKeyPressUltimo(Sender: TObject; var Key: Char); virtual;
   public
     { Public declarations }
     function Perg: boolean;
@@ -44,7 +45,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Constants;
+uses Sis.UI.Constants, Sis.Types.Utils_u, Sis.Types.strings_u;
 
 procedure TDiagBasForm.AtualizeAlteracaoTexto;
 var
@@ -77,6 +78,18 @@ begin
   FAtualizaAlteracaoTexto := False;
   AlteracaoTextoLabel.Visible := false;
   MensLimpar;
+end;
+
+procedure TDiagBasForm.EditKeyPressUltimo(Sender: TObject; var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    OkAct_Diag.Execute;
+    exit;
+  end;
+
+  CharSemAcento(Key);
 end;
 
 procedure TDiagBasForm.FormKeyDown(Sender: TObject; var Key: Word;

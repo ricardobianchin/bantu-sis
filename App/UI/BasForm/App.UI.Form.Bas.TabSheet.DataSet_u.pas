@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids, Sis.Usuario,
-  FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client, App.Retag,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
   App.Ent.DBI, Sis.UI.ImgDM, Sis.Types;
@@ -102,7 +102,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pRetag: IRetag; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
       pModoForm: TModoForm; pIdPos: integer); reintroduce;
@@ -205,7 +205,7 @@ begin
 end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pRetag: IRetag;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoForm: TModoForm; pIdPos: integer);
@@ -216,7 +216,7 @@ begin
   FEntDBI := pEntDBI;
   FModoForm := pModoForm;
   FIdPos := pIdPos;
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pRetag,  pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify);
 
   State := dsBrowse;

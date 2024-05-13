@@ -7,14 +7,30 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls, App.AppInfo;
+  Vcl.StdCtrls, App.AppInfo, Sis.DB.DBTypes;
 
 type
   TRetagAjuBemVindoForm = class(TTabSheetAppBasForm)
     SaudacaoLabel: TLabel;
+    DireitaPanel: TPanel;
+    ProdutosGroupBox: TGroupBox;
+    ProdQtdTitLabel: TLabel;
+    ProdQtdLabel: TLabel;
+    AtualizarAction: TAction;
+    DireitaBasePanel: TPanel;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
+    ProdQtdZeroNotifyItemPanel: TPanel;
+    Label1: TLabel;
+    DadosImportarButton: TButton;
+    Label2: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure AtualizarActionExecute(Sender: TObject);
+    procedure DadosImportarButtonClick(Sender: TObject);
   private
     { Private declarations }
+    ProdQtd: integer;
     procedure InicieControles;
     procedure InicieSaudacao;
   protected
@@ -30,9 +46,57 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.Times;
+uses Sis.Types.Times, App.DB.Utils, Sis.DB.Factory, Data.DB;
 
 { TRetagAjuBemVindoForm }
+
+procedure TRetagAjuBemVindoForm.AtualizarActionExecute(Sender: TObject);
+var
+  oDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
+  q: TDataSet;
+  sSql: string;
+begin
+  inherited;
+//      SisConfig.
+
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
+
+  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+  sSql := 'SELECT PROD_RECORD_COUNT_RET FROM EST_STAT_PA.STAT_GET;';
+  oDBConnection.Abrir;
+  try
+    oDBConnection.QueryDataSet(sSql, q);
+    ProdQtd := q.Fields[0].AsInteger;
+    ProdQtdLabel.Caption := ProdQtd.ToString;
+//    if ProdQtd = 0 then
+//      ProdQtdZeroNotifyItemPanel.Visible := True;
+  finally
+    oDBConnection.Fechar;
+  end;
+end;
+
+procedure TRetagAjuBemVindoForm.DadosImportarButtonClick(Sender: TObject);
+begin
+  inherited;
+  try
+  DadosImportarButton.Enabled := False;
+    Retag.AbrirImportDados;
+  finally
+    DadosImportarButton.Enabled := True;;
+  end;
+end;
+
+procedure TRetagAjuBemVindoForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+
+  AtualizarAction.Execute;
+end;
 
 function TRetagAjuBemVindoForm.GetTitulo: string;
 begin
@@ -58,6 +122,7 @@ procedure TRetagAjuBemVindoForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   InicieControles;
+  AtualizarAction.Execute;
 end;
 
 end.

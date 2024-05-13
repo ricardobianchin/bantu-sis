@@ -20,6 +20,7 @@ type
     ImageList16Flat: TImageList;
     ImageList_9_9: TImageList;
     ImageList24FlatSelect: TImageList;
+    PrincImageList: TImageList;
   private
     { Private declarations }
   public

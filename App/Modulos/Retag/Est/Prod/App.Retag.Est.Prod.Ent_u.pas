@@ -36,6 +36,7 @@ type
 
     FAtivo: boolean;
     FCapacEmb: Currency;
+    FNCM: string;
     FMargem: Currency;
     FLocaliz: string;
     FLojaId: smallint;
@@ -74,6 +75,9 @@ type
     function GetCapacEmb: Currency;
     procedure SetCapacEmb(Value: Currency);
 
+    function GetNCM:string;
+    procedure SetNCM(Value: string);
+
     function GetLocaliz: string;
     procedure SetLocaliz(Value: string);
 
@@ -106,6 +110,7 @@ type
     property ProdBalancaEnt: IProdBalancaEnt read GetProdBalancaEnt;
     property Ativo: boolean read GetAtivo write SetAtivo;
     property CapacEmb: Currency read GetCapacEmb write SetCapacEmb;
+    property NCM: string read GetNCM write SetNCM;
     property Localiz: string read GetLocaliz write SetLocaliz;
     property Margem: Currency read GetMargem write SetMargem;
 
@@ -134,6 +139,8 @@ type
   end;
 
 implementation
+
+uses System.SysUtils;
 
 // uses Sis.ModuloSistema.Types;
 
@@ -218,6 +225,11 @@ end;
 function TProdEnt.GetMargem: Currency;
 begin
   Result := FMargem;
+end;
+
+function TProdEnt.GetNCM: string;
+begin
+  Result := FNCM;
 end;
 
 function TProdEnt.GetNomeEnt: string;
@@ -343,6 +355,11 @@ end;
 procedure TProdEnt.SetMargem(Value: Currency);
 begin
   FMargem := Value;
+end;
+
+procedure TProdEnt.SetNCM(Value: string);
+begin
+  FNCM := Trim(Value);
 end;
 
 procedure TProdEnt.SetPrecoAtual(Value: Currency);

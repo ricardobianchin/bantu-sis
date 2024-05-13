@@ -10,7 +10,7 @@ uses
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u, Sis.Loja,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
   Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.AppObj,
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.AppObj, App.Retag,
   App.Retag.Est.Factory, App.Ent.Ed, App.Ent.DBI, Sis.Entidade
 
     , App.Retag.Est.Prod.Fabr.Ent //
@@ -25,7 +25,7 @@ uses
     ;
 
 type
-  TRetaguardaModuloBasForm = class(TModuloBasForm)
+  TRetaguardaModuloBasForm = class(TModuloBasForm, IRetag)
     RetagActionList: TActionList;
     MenuPanel: TPanel;
     MenuPageControl: TPageControl;
@@ -144,6 +144,8 @@ type
     // tab crie
     procedure TabSheetCrie(pFormCreator: IFormCreator);
 
+    procedure AbrirImportDados;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -162,6 +164,11 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Types.strings_u, Sis.UI.IO.Factory,
   App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory, App.Retag.Fin.Factory,
   App.FIn.PagFormaTipo;
+
+procedure TRetaguardaModuloBasForm.AbrirImportDados;
+begin
+
+end;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
@@ -326,7 +333,7 @@ end;
 procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);
 begin
   inherited;
-  // TabSheetCrie(RetagAjuBemVindoFormGetClassName, RetagAjuBemVindoFormCreate);
+  TabSheetCrie(FAjuBemVindoTabSheetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
@@ -373,7 +380,7 @@ end;
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  // RetagAjuBemAction.Execute;
+  RetagAjuBemAction.Execute;
   // RetagEstProdICMSAction.Execute;
   // sleep(150);
   // RetagEstProdFabrAction.Execute;

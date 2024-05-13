@@ -16,6 +16,9 @@ procedure DigiteStr(pTexto:string; pEspera:integer);overload;
 
 procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
 
+procedure ClearStyleElements(Control: TControl);
+procedure SetHintToName(Control: TControl);
+
 implementation
 
 uses System.SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
@@ -150,6 +153,26 @@ begin
   pWinControlDestino.Width := pWinControlModelo.Width;
   pWinControlDestino.TabStop := pWinControlModelo.TabStop;
   pWinControlModelo.Free;
+end;
+
+procedure ClearStyleElements(Control: TControl);
+var
+  I: Integer;
+begin
+  Control.StyleElements := [];
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      ClearStyleElements(TWinControl(Control).Controls[I]);
+end;
+
+procedure SetHintToName(Control: TControl);
+var
+  I: Integer;
+begin
+  Control.Hint := Control.Name;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetHintToName(TWinControl(Control).Controls[I]);
 end;
 
 end.

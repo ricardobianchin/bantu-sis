@@ -71,7 +71,7 @@ contains
   App.Sessao.Criador.PDV_u in 'Sessao\App.Sessao.Criador.PDV_u.pas',
   App.Sessao.Criador.Config_u in 'Sessao\App.Sessao.Criador.Config_u.pas',
   App.UI.Sessao.Frame in 'UI\Sessoes\App.UI.Sessao.Frame.pas' {SessaoFrame: TFrame},
-  App.UI.Form.Bas.Modulo.Config in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas' {ConfigModuloBasForm},
+  App.UI.Form.Bas.Modulo.Config_u in 'Modulos\Config\App.UI.Form.Bas.Modulo.Config_u.pas' {ConfigModuloBasForm},
   App.UI.Sessao.Select.DBGrid.Frame in 'UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas' {SessaoSelectDBGridFrame: TFrame},
   App.Constants in 'AppObj\App.Constants.pas',
   App.UI.Sessao.Select.Form_u in 'UI\Sessoes\App.UI.Sessao.Select.Form_u.pas' {SessaoSelectForm},
@@ -164,6 +164,22 @@ contains
   App.UI.Form.DataSet.Retag.Fin.PagForma_u in 'Modulos\Retag\Fin\PagForma\App.UI.Form.DataSet.Retag.Fin.PagForma_u.pas' {RetagFinPagFormaDataSetForm},
   App.UI.Form.Ed.Fin.PagForma_u in 'Modulos\Retag\Fin\PagForma\App.UI.Form.Ed.Fin.PagForma_u.pas' {PagFormaEdForm},
   App.Retag.Fin.PagForma.Ed.DBI in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas',
-  App.Retag.Fin.PagForma.Ed.DBI_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas';
+  App.Retag.Fin.PagForma.Ed.DBI_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas',
+  App.Retag in 'Modulos\Retag\App.Retag.pas',
+  App.DB.Import.Form_u in 'DB\DBImport\App.DB.Import.Form_u.pas' {DBImportForm},
+  App.DB.Import.Prod.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Ed.Form_u.pas' {DBImportProdEdForm},
+  App.DB.Import.Prod.Rej.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas' {ProdRejEdForm},
+  App.DB.Import.Form.SQL.Atualizar_u in 'DB\DBImport\App.DB.Import.Form.SQL.Atualizar_u.pas',
+  App.DB.Import.Types_u in 'DB\DBImport\App.DB.Import.Types_u.pas',
+  App.DB.Import.Prod.BarrasList.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.BarrasList.Ed.Form_u.pas' {ImportProdBarrasListEdForm},
+  App.DB.Import.Prod.Barras.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Barras.Ed.Form_u.pas' {ImportBarEdForm},
+  App.DB.Import.Factory in 'DB\DBImport\App.DB.Import.Factory.pas',
+  App.DB.Import.Input.Barras_u in 'DB\DBImport\App.DB.Import.Input.Barras_u.pas',
+  App.DB.Import.Prod.Rej.Ed.Form.Gravar_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form.Gravar_u.pas',
+  App.DB.Import.Form_Finalizar_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_u.pas',
+  App.DB.Import.Form_Finalizar_Fabr_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Fabr_u.pas',
+  App.DB.Import.Form_Finalizar_ProdTipo_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas',
+  App.DB.Import.Form_Finalizar_Unid_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas',
+  App.DB.Import.Form_Finalizar_Prod_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas';
 
 end.

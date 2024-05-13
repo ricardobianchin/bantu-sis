@@ -15,6 +15,8 @@ type
   TRetagEstProdTipoDataSetForm = class(TTabSheetDataSetBasForm)
   private
     { Private declarations }
+    FFiltroParamsStringFrame: TFiltroParamsStringFrame;
+    procedure CrieFiltroFrame;
     function GetProdTipoEnt: IProdTipoEnt;
     property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
 
@@ -42,6 +44,34 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Tipo.Ent_u;
 
 { TTipoicanteTabSheetDataSetForm }
+
+procedure TRetagEstProdTipoDataSetForm.CrieFiltroFrame;
+var
+  iIndexUltimoBotao: integer;
+  l, w: integer;
+  oToolB: TToolBar;
+begin
+  if Assigned(FFiltroParamsStringFrame) then
+    exit;
+
+  // FFiltroParamsStringFrame
+  oToolB := TitToolBar1_BasTabSheet;
+  FFiltroParamsStringFrame := TFiltroParamsStringFrame.Create(oToolB,
+    DoAtualizar);
+  FFiltroParamsStringFrame.Parent := oToolB;
+
+  iIndexUltimoBotao := oToolB.ButtonCount - 1;
+
+  if iIndexUltimoBotao > -1 then
+  begin
+    l := oToolB.ControlCount;
+    l := oToolB.Buttons[iIndexUltimoBotao].Left;
+    w := oToolB.Buttons[iIndexUltimoBotao].Width;
+    FFiltroParamsStringFrame.Left := l + w;
+  end
+  else
+    FFiltroParamsStringFrame.Left := 0;
+end;
 
 procedure TRetagEstProdTipoDataSetForm.DoAlterar;
 var
@@ -89,7 +119,8 @@ begin
 
   try
     //oTipoDBI.PreencherDataSet(0, LeRegEInsere);
-    EntDBI.PreencherDataSet(0, LeRegEInsere);
+//    EntDBI.PreencherDataSet(0, LeRegEInsere);
+    EntDBI.PreencherDataSet(FFiltroParamsStringFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;
@@ -126,7 +157,7 @@ function TRetagEstProdTipoDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'Est\tabview.est.prod.tipo.csv';
+  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.tipo.csv';
 
   Result := sNomeArq;
 end;
@@ -146,6 +177,7 @@ end;
 procedure TRetagEstProdTipoDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
+  CrieFiltroFrame;
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);

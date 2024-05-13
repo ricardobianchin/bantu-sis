@@ -33,7 +33,6 @@ type
     BalTextoEtiqTitLabel: TLabel;
     BalUtilizaComboBox: TComboBox;
     BalTextoEtiqMemo: TMemo;
-    LocalizLabeledEdit: TLabeledEdit;
     MoldeCapacEmbLabeledEdit: TLabeledEdit;
     AtivoCheckBox: TCheckBox;
     MoldeBalDptoLabeledEdit: TLabeledEdit;
@@ -44,6 +43,8 @@ type
     MoldeMargemLabeledEdit: TLabeledEdit;
     CustoErroLabel: TLabel;
     PrecoErroLabel: TLabel;
+    LocalizLabeledEdit: TLabeledEdit;
+    NcmLabeledEdit: TLabeledEdit;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
@@ -442,9 +443,10 @@ begin
   FWinControlList.Add(BalGroupBox);
 
   FWinControlList.Add(AtivoCheckBox);
-  FWinControlList.Add(LocalizLabeledEdit);
+  FWinControlList.Add(NcmLabeledEdit);
   FWinControlList.Add(CapacEmbEdit);
   FWinControlList.Add(MargemEdit);
+  FWinControlList.Add(NCMLabeledEdit);
 
   MoldeMargemLabeledEdit.Free;
   MoldeCapacEmbLabeledEdit.Free;
@@ -457,6 +459,7 @@ begin
   BalValidEdit.Valor := 0;
   CapacEmbEdit.Valor := 1;
   MargemEdit.Valor := 1;
+  NCMLabeledEdit.Text :='';
 
   for I := 0 to FWinControlList.Count - 1 do
   begin

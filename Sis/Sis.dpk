@@ -203,7 +203,6 @@ contains
   Sis.UI.IO.Input in 'UI\IO\Input\Sis.UI.IO.Input.pas',
   Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
   Sis.UI.IO.Input.Bool.Form in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas' {PergBooleanForm},
-  Sis.UI.IO.Input.Bool_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool_u.pas',
   Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas',
   Sis.UI.Decorator in 'UI\BasForm\Sis.UI.Decorator.pas',
   Sis.UI.Decorator.Form in 'UI\BasForm\Sis.UI.Decorator.Form.pas',
@@ -255,6 +254,10 @@ contains
   Sis.Loja.Factory in 'Entities\Loja\Sis.Loja.Factory.pas',
   Sis.Lists.Types in 'Lists\Sis.Lists.Types.pas',
   Sis.DB.UltimoId in 'DB\UltimoId\Sis.DB.UltimoId.pas',
-  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas';
+  Sis.DB.UltimoId_u in 'DB\UltimoId\Sis.DB.UltimoId_u.pas',
+  Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame in 'UI\Controls\Files\FileSelectLabeledEdit\Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame.pas' {FileSelectLabeledEditFrame: TFrame},
+  Sis.Types.strings.abrev_u in 'Types\Sis.Types.strings.abrev_u.pas',
+  Sis.UI.IO.Input.Str.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas' {InputStrForm},
+  Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas';
 
 end.

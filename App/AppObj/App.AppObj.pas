@@ -18,7 +18,8 @@ type
     property AppInfo: IAppInfo read GetAppInfo;
 
     function GetDBMS: IDBMS;
-    property DBMS: IDBMS read GetDBMS;
+    procedure SetDBMS(Value: IDBMS);
+    property DBMS: IDBMS read GetDBMS write SetDBMS;
 
     function GetStatusOutput: IOutput;
     function GetProcessOutput: IOutput;

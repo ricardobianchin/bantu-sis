@@ -183,7 +183,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>SessaoFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\Config\App.UI.Form.Bas.Modulo.Config.pas">
+        <DCCReference Include="Modulos\Config\App.UI.Form.Bas.Modulo.Config_u.pas">
             <Form>ConfigModuloBasForm</Form>
         </DCCReference>
         <DCCReference Include="UI\Sessoes\App.UI.Sessao.Select.DBGrid.Frame.pas">
@@ -297,16 +297,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Ent.List_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.Frame_u.pas">
             <Form>ProdBarrasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.Retag.Est.Prod.Barras.List.Form_u.pas">
             <Form>ProdBarrasListForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBarras\App.UI.Form.Ed.Prod.Barras_u.pas">
             <Form>ProdBarrasEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="SisConfig\App.SisConfig.DBI.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.DBI_u.pas"/>
@@ -318,22 +315,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Custo\App.Retag.Est.Custo_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas">
             <Form>ComplProdEdFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\App.UI.Frame.Bas.Retag.Ed_u.pas">
             <Form>RetagEdBasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Bas.Retag.Prod.Ed_u.pas">
             <Form>RetagProdEdBasFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas">
             <Form>RetagProdEdComunsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas"/>
@@ -355,14 +348,42 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.UI.Form.DataSet.Retag.Fin.PagForma_u.pas">
             <Form>RetagFinPagFormaDataSetForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.UI.Form.Ed.Fin.PagForma_u.pas">
             <Form>PagFormaEdForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\App.Retag.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_u.pas">
+            <Form>DBImportForm</Form>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.Ed.Form_u.pas">
+            <Form>DBImportProdEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas">
+            <Form>ProdRejEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form.SQL.Atualizar_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Types_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.BarrasList.Ed.Form_u.pas">
+            <Form>ImportProdBarrasListEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.Barras.Ed.Form_u.pas">
+            <Form>ImportBarEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Factory.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Input.Barras_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form.Gravar_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Fabr_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas"/>
+        <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -1155,7 +1176,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
@@ -1163,7 +1184,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

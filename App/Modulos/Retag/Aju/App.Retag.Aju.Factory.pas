@@ -81,7 +81,7 @@ function AjuBemVindoSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput): IFormCreator;
 begin
-  Result := TTabSheetFormCreator.Create(TRetagAjuBemVindoForm,
+  Result := TTabSheetFormCreator.Create(TRetagAjuBemVindoForm, 'Bem-Vindo',
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput, pProcessLog,
     pOutputNotify);
 end;

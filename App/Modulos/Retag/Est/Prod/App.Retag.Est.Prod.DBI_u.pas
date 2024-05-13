@@ -51,6 +51,7 @@ begin
   //
     + ',' + ProdNatuToSql(pnatuProduto) //
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
+    + ',' + QuotedStr(Ent.NCM) //
 
     + ',' + Ent.LojaId.ToString //
     + ',' + Ent.UsuarioId.ToString //
@@ -129,6 +130,7 @@ begin
   //
     + ',' + ProdNatuToSql(pnatuProduto) //
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
+    + ',' + QuotedStr(Ent.NCM) //
 
     + ',' + Ent.LojaId.ToString //
     + ',' + Ent.UsuarioId.ToString //
@@ -141,6 +143,7 @@ begin
     + ',' + BooleanToStrSql(Ent.Ativo) //
     + ',' + QuotedStr(Ent.Localiz) //
     + ',' + CurrencyToStrPonto(Ent.Margem) //
+    + ',' + QuotedStr(Ent.NCM) //
 
     + ',' + Ent.ProdBalancaEnt.BalancaUsoStr //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.DptoCod) //
@@ -175,24 +178,29 @@ var
 begin
   Result := False;
 
-  sSql := 'SELECT ' + 'PROD_ID' + // 0
+  sSql := 'SELECT ' + //
+    'PROD_ID' + // 0
     ', DESCR' + // 1
     ', DESCR_RED' + // 2
     ', FABR_ID' + // 3
     ', TIPO_ID' + // 4
     ', UNID_ID' + // 5
     ', ICMS_ID' + // 6
+
     ', COD_BARRAS' + // 7
+
     ', CUSTO' + // 8
     ', PRECO' + // 9
+
     ', ATIVO' + // 10
     ', LOCALIZ' + // 11
     ', CAPAC_EMB' + // 12
-    ', MARGEM' + // 13
-    ', BAL_USO' + // 14
-    ', BAL_DPTO' + // 15
-    ', BAL_VALIDADE_DIAS' + // 16
-    ', BAL_TEXTO_ETIQ' + // 17
+    ', NCM' + // 13
+    ', MARGEM' + // 14
+    ', BAL_USO' + // 15
+    ', BAL_DPTO' + // 16
+    ', BAL_VALIDADE_DIAS' + // 17
+    ', BAL_TEXTO_ETIQ' + // 18
 
     ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ')' + ' WHERE PROD_ID = '
     + Ent.Id.ToString + ';';
@@ -218,12 +226,15 @@ begin
     Ent.Ativo := q.Fields[10].AsBoolean;
     Ent.Localiz := q.Fields[11].AsString.Trim;
     Ent.CapacEmb := q.Fields[12].AsCurrency;
-    Ent.Margem := q.Fields[13].AsCurrency;
 
-    Ent.ProdBalancaEnt.BalancaUso := TBalancaUso(q.Fields[14].AsInteger);
-    Ent.ProdBalancaEnt.DptoCod := q.Fields[15].AsString.Trim;
-    Ent.ProdBalancaEnt.ValidadeDias := q.Fields[16].AsInteger;
-    Ent.ProdBalancaEnt.TextoEtiq := q.Fields[17].AsString.Trim;
+    Ent.Ncm := Trim(q.Fields[13].AsString);
+
+    Ent.Margem := q.Fields[14].AsCurrency;
+
+    Ent.ProdBalancaEnt.BalancaUso := TBalancaUso(q.Fields[15].AsInteger);
+    Ent.ProdBalancaEnt.DptoCod := q.Fields[16].AsString.Trim;
+    Ent.ProdBalancaEnt.ValidadeDias := q.Fields[17].AsInteger;
+    Ent.ProdBalancaEnt.TextoEtiq := q.Fields[18].AsString.Trim;
 
     Ent.ProdBarrasList.Clear;
     while not q.eof do

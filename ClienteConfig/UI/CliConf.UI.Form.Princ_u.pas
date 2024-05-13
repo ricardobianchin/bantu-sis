@@ -216,8 +216,11 @@ procedure TClienteConfigForm.Gravar;
 var
   Stream: TFileStream;
   Arquivo: string;
+  Len: Integer;
 begin
   Arquivo := PastaArq + 'App.bin';
+  if FileExists(Arquivo) then
+    DeleteFile(Arquivo);
 
   Stream := TFileStream.Create(Arquivo, fmCreate or fmOpenWrite);
   try
@@ -226,7 +229,11 @@ begin
     Stream.Write(TmpCliCod, SizeOf(TmpCliCod));
     Stream.Write(TmpFundoCor, SizeOf(TColor));
     Stream.Write(TmpFonteCor, SizeOf(TColor));
-    Stream.Write(TmpNomeExib[1], 200);
+
+    // Gravar a string
+    Len := Length(TmpNomeExib);
+    Stream.Write(Len, SizeOf(Len));  // Gravar o comprimento da string
+    Stream.Write(TmpNomeExib[1], Len);  // Gravar a string
   finally
     Stream.Free;
   end;
@@ -236,6 +243,7 @@ procedure TClienteConfigForm.Ler;
 var
   Stream: TFileStream;
   Arquivo: string;
+  Len: integer;
 begin
   Arquivo := PastaArq + 'App.bin';
 
@@ -245,6 +253,7 @@ begin
     Stream.Read(TmpCliCod, SizeOf(TmpCliCod));
     Stream.Read(TmpFundoCor, SizeOf(TColor));
     Stream.Read(TmpFonteCor, SizeOf(TColor));
+    Stream.Read(Len, SizeOf(Len));  // Ler o comprimento da string
     Stream.Read(TmpNomeExib[1], 200);
   finally
     Stream.Free;
