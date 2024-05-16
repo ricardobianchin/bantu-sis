@@ -43,8 +43,8 @@ type
     EditBitBtn_AppDBImport: TBitBtn;
     RejEdAction_AppDBImport: TAction;
     RejEdBitBtn_AppDBImport: TBitBtn;
-    InclusaoAction_AppDBImport: TAction;
-    InclusaoBitBtn_AppDBImport: TBitBtn;
+    InclusaoAlterarAction_AppDBImport: TAction;
+    InclusaoAlterarBitBtn_AppDBImport: TBitBtn;
     BitBtn1: TBitBtn;
     FinalizarAction_AppDBImport: TAction;
 
@@ -58,7 +58,7 @@ type
     procedure RejEdAction_AppDBImportExecute(Sender: TObject);
     procedure ValidarAction_AppDBImportExecute(Sender: TObject);
     procedure ImportarAction_AppDBImportExecute(Sender: TObject);
-    procedure InclusaoAction_AppDBImportExecute(Sender: TObject);
+    procedure InclusaoAlterarAction_AppDBImportExecute(Sender: TObject);
     procedure FinalizarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
@@ -105,7 +105,7 @@ uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
   App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u,
-  App.DB.Import.Form_Finalizar_u;
+  App.DB.Import.Form_Finalizar_u, Sis.Types.Bool_u;
 
 { TDBImportForm }
 
@@ -333,10 +333,29 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TDBImportForm.InclusaoAction_AppDBImportExecute(Sender: TObject);
+procedure TDBImportForm.InclusaoAlterarAction_AppDBImportExecute
+  (Sender: TObject);
+var
+  bValor: boolean;
+  sSql: string;
 begin
   inherited;
-  //
+  InclusaoAlterarAction_AppDBImport.Enabled := False;
+  DestinoDBConnection.Abrir;
+  try
+    bValor := not FProdFDMemTable.FieldByName('VAI_IMPORTAR').AsBoolean;
+    sSql := 'UPDATE IMPORT_PROD SET VAI_IMPORTAR=' + BooleanToStrSQL(bValor) +
+      ' WHERE IMPORT_PROD_ID = ' + FProdFDMemTable.FieldByName('IMPORT_PROD_ID')
+      .AsInteger.ToString + ';';
+    DestinoDBConnection.ExecuteSQL(sSql);
+    FProdFDMemTable.Edit;
+    FProdFDMemTable.FieldByName('VAI_IMPORTAR').AsBoolean := bValor;
+    FProdFDMemTable.Post;
+    ValidarAction_AppDBImport.Execute;
+  finally
+    DestinoDBConnection.Fechar;
+    InclusaoAlterarAction_AppDBImport.Enabled := False;
+  end;
 end;
 
 procedure TDBImportForm.RejEdAction_AppDBImportExecute(Sender: TObject);
@@ -518,9 +537,8 @@ begin
     // {$ENDIF}
 
 {$IFDEF DEBUG}
-//    SetClipboardText(sSqlOrig);
+    // SetClipboardText(sSqlOrig);
 {$ENDIF}
-
 {$IFDEF DEBUG}
     SetClipboardText(sSqlDest);
 {$ENDIF}
@@ -529,7 +547,7 @@ begin
     // SetClipboardText(sSqlInsRej);
     // {$ENDIF}
 
-  DestinoDBConnection.Abrir;
+    DestinoDBConnection.Abrir;
     DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 
     ProgressBar1.Position := 0;

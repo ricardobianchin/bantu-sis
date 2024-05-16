@@ -17,7 +17,7 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   end
   inherited BasePanel: TPanel
     Width = 926
-    ExplicitWidth = 922
+    ExplicitWidth = 926
     inherited ValidarBitBtn_AppDBImport: TBitBtn
       TabOrder = 5
     end
@@ -27,7 +27,7 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   end
   inherited MeioPanel: TPanel
     Width = 926
-    ExplicitWidth = 922
+    ExplicitWidth = 926
     inherited GridsPanel: TPanel
       Width = 926
       ExplicitWidth = 922
@@ -46,10 +46,10 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   end
   inherited StatusPanel: TPanel
     Width = 926
-    ExplicitWidth = 922
+    ExplicitWidth = 926
     inherited ProgressBar1: TProgressBar
-      Left = -33
-      ExplicitLeft = -37
+      Left = -37
+      ExplicitLeft = -41
     end
   end
 end
