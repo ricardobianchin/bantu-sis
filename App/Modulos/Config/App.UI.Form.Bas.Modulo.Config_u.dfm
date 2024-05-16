@@ -3,7 +3,6 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   ClientWidth = 604
   StyleElements = []
   ExplicitWidth = 604
-  ExplicitHeight = 480
   TextHeight = 15
   inherited TitleBarPanel: TPanel
     Width = 604
@@ -15,6 +14,12 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   inherited BasePanel: TPanel
     Width = 604
     ExplicitWidth = 604
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object TopoPanel: TPanel [2]
     Left = 0
@@ -51,8 +56,8 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
           Text = 'DBImportOrigemComboBox'
         end
         object DBImportButton: TButton
-          Left = 263
-          Top = 7
+          Left = 265
+          Top = 8
           Width = 112
           Height = 25
           Action = DBImportAction
