@@ -34,10 +34,10 @@ begin
   try
     oProdFDMemTable.First;
 
-    // GarantirFabr(oDBConnection);
-    // GarantirProdTipo(oDBConnection);
-    // GarantirUnid(oDBConnection);
-    // nao fiz ainda GarantirICMS. ate unit existe mas nao inserida no projec
+    GarantirFabr(oDBConnection);
+    GarantirProdTipo(oDBConnection);
+    GarantirUnid(oDBConnection);
+    //nao fiz ainda GarantirICMS. ate unit existe mas nao inserida no projec
     GarantirProd(oDBConnection, pAppObj, pUsuario, pProgressBar1);
 
 //    while not oProdFDMemTable.Eof do
