@@ -22,7 +22,7 @@ inherited DBImportForm: TDBImportForm
       Top = 7
       Width = 56
       Height = 25
-      Action = ExecuteAction_AppDBImport
+      Action = ImportarAction_AppDBImport
       Caption = 'Importar'
       TabOrder = 0
     end
@@ -82,7 +82,9 @@ inherited DBImportForm: TDBImportForm
       Width = 113
       Height = 23
       Style = csDropDownList
+      ItemIndex = 0
       TabOrder = 2
+      Text = 'Todos'
       OnChange = FIlConfComboBoxChange
       Items.Strings = (
         'Todos'
@@ -117,7 +119,7 @@ inherited DBImportForm: TDBImportForm
       TabOrder = 5
     end
     object RejEdBitBtn_AppDBImport: TBitBtn
-      Left = 314
+      Left = 348
       Top = 3
       Width = 107
       Height = 25
@@ -125,17 +127,17 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Resolver Rejei'#231#227'o'
       TabOrder = 6
     end
-    object InclusaoBitBtn_AppDBImport: TBitBtn
+    object InclusaoAlterarBitBtn_AppDBImport: TBitBtn
       Left = 248
       Top = 3
-      Width = 62
+      Width = 97
       Height = 25
-      Action = InclusaoAction_AppDBImport
-      Caption = 'Inclus'#227'o'
+      Action = InclusaoAlterarAction_AppDBImport
+      Caption = 'Alterar Inclus'#227'o'
       TabOrder = 7
     end
     object BitBtn1: TBitBtn
-      Left = 425
+      Left = 459
       Top = 3
       Width = 63
       Height = 25
@@ -238,9 +240,10 @@ inherited DBImportForm: TDBImportForm
   object ActionList_AppDBImport: TActionList
     Left = 400
     Top = 81
-    object ExecuteAction_AppDBImport: TAction
+    object ImportarAction_AppDBImport: TAction
       Caption = 'Importar'
-      OnExecute = ExecuteAction_AppDBImportExecute
+      Hint = 'Importar dados externos'
+      OnExecute = ImportarAction_AppDBImportExecute
     end
     object ZerarAction_AppDBImport: TAction
       Caption = 'Apagar Dados'
@@ -261,10 +264,10 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Resolver Rejei'#231#227'o'
       OnExecute = RejEdAction_AppDBImportExecute
     end
-    object InclusaoAction_AppDBImport: TAction
-      Caption = 'Inclus'#227'o'
+    object InclusaoAlterarAction_AppDBImport: TAction
+      Caption = 'Alterar Inclus'#227'o'
       Hint = 'Liga / Desliga se Registro Ser'#225' Importado'
-      OnExecute = InclusaoAction_AppDBImportExecute
+      OnExecute = InclusaoAlterarAction_AppDBImportExecute
     end
     object FinalizarAction_AppDBImport: TAction
       Caption = 'Finalizar'

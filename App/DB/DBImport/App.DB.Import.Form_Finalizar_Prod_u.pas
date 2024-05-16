@@ -9,8 +9,8 @@ procedure GarantirProd(pDBConnection: IDBConnection; pAppObj: IAppObj;
 
 implementation
 
-uses Data.DB, System.SysUtils, Sis.Types.Floats, Sis.Types.Bool_u,
-  Sis.Win.Utils_u, Sis.Types.strings_u;
+uses Sis.Win.Utils_u, Sis.Types.strings_u, Sis.UI.IO.Files, Data.DB,
+  System.SysUtils, Sis.Types.Floats, Sis.Types.Bool_u, Vcl.Dialogs;
 
 var
   oAppObj: IAppObj;
@@ -90,7 +90,9 @@ begin
     + ',PRO.NCM'#13#10 // 9
 
     + ',CASE'#13#10 //
-    + '    WHEN PRO.NOVO_CUSTO IS NULL OR PRO.NOVO_CUSTO = 0 THEN PRO.CUSTO'#13#10 //
+    + '    WHEN PRO.NOVO_CUSTO IS NULL OR PRO.NOVO_CUSTO = 0'#13#10
+    + '    THEN PRO.CUSTO'#13#10 //
+
     + '    ELSE PRO.NOVO_CUSTO'#13#10 //
     + ' END AS CUS'#13#10 // 10
 
@@ -124,8 +126,7 @@ end;
 
 function GetImportProdCountSQL: string;
 begin
-  Result :=
-    'SELECT'#13#10 //
+  Result := 'SELECT'#13#10 //
     + 'COUNT(*)'#13#10 // 0
     + 'FROM IMPORT_PROD'#13#10 //
     + 'WHERE VAI_IMPORTAR'#13#10 //
@@ -167,8 +168,8 @@ begin
   iTabPrecoId := 1;
   aPreco[0] := StrToCurrency(q.Fields[11].AsString);
 
-  if ucusto = 0 then
-    ucusto := 0.01;
+  if uCusto = 0 then
+    uCusto := 0.01;
 
   if aPreco[0] = 0 then
     aPreco[0] := 0.01;
@@ -184,45 +185,35 @@ end;
 
 function GetImportProdInserirExistenteSQL: string;
 begin
-  Result := 'EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO('
-    + iProdId.ToString
+  Result := 'EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO(' + iProdId.ToString
 
-    +',' + QuotedStr(sDescr)
-    +',' + QuotedStr(sDescrRed)
+    + ',' + QuotedStr(sDescr) + ',' + QuotedStr(sDescrRed)
 
-    +',' + iFabrId.ToString
-    +',' + iTipoId.ToString
-    +',' + iUnidId.ToString
-    +',' + iICMSId.ToString
+    + ',' + iFabrId.ToString + ',' + iTipoId.ToString + ',' + iUnidId.ToString +
+    ',' + iICMSId.ToString
 
-    +',' + QuotedStr(sProdNatuId)
+    + ',' + QuotedStr(sProdNatuId)
 
-    +',' + CurrencyToStrPonto(uCapacEmb)
+    + ',' + CurrencyToStrPonto(uCapacEmb)
 
-    +',' + QuotedStr(NCM)
+    + ',' + QuotedStr(NCM)
 
-    +',' + iLojaId.ToString
-    +',' + iUsuarioId.ToString
-    +',' + iMachineId.ToString
+    + ',' + iLojaId.ToString + ',' + iUsuarioId.ToString + ',' +
+    iMachineId.ToString
 
-    +',' + CurrencyToStrPonto(uCusto)
-    +',' + iTabPrecoId.ToString
-    +',' + CurrencyToStrPonto(aPreco[0])
+    + ',' + CurrencyToStrPonto(uCusto) + ',' + iTabPrecoId.ToString + ',' +
+    CurrencyToStrPonto(aPreco[0])
 
-    +',' + BooleanToStrSQL(bAtivo)
-    +',' + QuotedStr(sLocaliz)
-    +',' + CurrencyToStrPonto(uMargem)
+    + ',' + BooleanToStrSQL(bAtivo) + ',' + QuotedStr(sLocaliz) + ',' +
+    CurrencyToStrPonto(uMargem)
 
-    +',' + iBalUso.ToString
-    +',' + QuotedStr(sBalDpto)
-    +',' + iBalValidadeDias.ToString
-    +',' + QuotedStr(sBalTextoEtiq)
+    + ',' + iBalUso.ToString + ',' + QuotedStr(sBalDpto) + ',' +
+    iBalValidadeDias.ToString + ',' + QuotedStr(sBalTextoEtiq)
 
-    +',' + QuotedStr(sBarras)
+    + ',' + QuotedStr(sBarras)
 
-    +');';
+    + ');';
 end;
-
 
 procedure GarantirProd(pDBConnection: IDBConnection; pAppObj: IAppObj;
   pUsuario: IUsuario; pProgressBar1: TProgressBar);
@@ -233,7 +224,7 @@ var
   sProdSigla: string;
   iQtdRegs: integer;
   iRegAtual: integer;
-
+  sNomeArqLog: string;
   F: TextFile;
 begin
   oAppObj := pAppObj;
@@ -247,8 +238,9 @@ begin
 
   pProgressBar1.Position := 0;
   pProgressBar1.Max := iQtdRegs;
-
-  AssignFile(F, oAppObj.AppInfo.Pasta+'Tmp\DBImport\Log DBImport Prod.txt');
+  sNomeArqLog := oAppObj.AppInfo.Pasta + 'Tmp\DBImport\Log DBImport Prod.txt';
+  GarantirPastaDoArquivo(sNomeArqLog);
+  AssignFile(F, sNomeArqLog);
   Rewrite(F);
   try
     SetLength(aPreco, 1);
@@ -263,8 +255,12 @@ begin
 
       try
         pDBConnection.ExecuteSQL(sSql);
-      except on E: Exception do
-        WriteLn(F, E.Message);
+      except
+        on E: Exception do
+        begin
+          WriteLn(F, E.Message);
+          showmessage(E.Message);
+        end;
       end;
 
       q.Next;
@@ -273,7 +269,7 @@ begin
     end;
   finally
     q.Free;
-    Writeln(F, 'Terminou');
+    WriteLn(F, 'Terminou');
     CloseFile(F);
   end;
 end;

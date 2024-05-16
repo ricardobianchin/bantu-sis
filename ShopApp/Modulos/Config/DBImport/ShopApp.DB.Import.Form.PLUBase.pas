@@ -15,7 +15,6 @@ uses
 type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
-    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -63,6 +62,7 @@ type
     function JaTemDescr(pDescr: string): boolean;
     function JaTemDescrRed(pDescr: string): boolean;
   protected
+    procedure DoImport; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
@@ -92,16 +92,12 @@ begin
   iIndexErro := 0;
 end;
 
-procedure TShopDBImportFormPLUBase.ExecuteAction_AppDBImportExecute
-  (Sender: TObject);
+procedure TShopDBImportFormPLUBase.DoImport;
 var
   bResultado: boolean;
   iLinhaAtual: integer;
   sSql: string;
 begin
-  inherited;
-  ExecuteAction_AppDBImport.Enabled := False;
-  try
   StatusOutput.Exibir('Inicio');
   try
     FNomeArq := FFileSelectFrame.NomeArq;
@@ -176,7 +172,10 @@ begin
         end;
       except
         on E: Exception do
+        begin
           showmessage(E.Message);
+          raise;
+        end;
       end;
     finally
       DestinoDBConnection.Fechar;
@@ -199,10 +198,6 @@ begin
   finally
     StatusOutput.Exibir('Fim');
     StatusOutput.Exibir('');
-    AtualizarAction_AppDBImport.Execute;
-  end;
-  finally
-    ExecuteAction_AppDBImport.Enabled := True;
   end;
 end;
 

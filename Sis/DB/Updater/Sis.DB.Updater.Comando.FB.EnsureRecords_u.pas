@@ -89,12 +89,13 @@ begin
     try
       try
 
-        {$IFDEF DEBUG}
-        iQtdRegs := Min(25, FRegistrosSL.count - 1);
-        {$ELSE}
+//        {$IFDEF DEBUG}
+//        iQtdRegs := Min(25, FRegistrosSL.count - 1);
+//        {$ELSE}
+//        iQtdRegs := FRegistrosSL.count - 1;
+//        {$ENDIF}
+//
         iQtdRegs := FRegistrosSL.count - 1;
-        {$ENDIF}
-
 
         for I := 0 to iQtdRegs do
         begin

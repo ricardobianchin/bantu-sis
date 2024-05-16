@@ -1,42 +1,46 @@
 inherited ProdRejEdForm: TProdRejEdForm
   Caption = 'Resolver Rejei'#231#227'o'
+  ClientHeight = 282
   ClientWidth = 988
+  ExplicitTop = -46
   ExplicitWidth = 1000
-  ExplicitHeight = 321
   TextHeight = 15
   inherited MensLabel: TLabel
+    Top = 210
     Width = 988
   end
   inherited AlteracaoTextoLabel: TLabel
+    Top = 267
     Width = 988
   end
   inherited BasePanel: TPanel
+    Top = 230
     Width = 988
-    ExplicitTop = 230
+    ExplicitTop = 229
     ExplicitWidth = 984
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 716
-      ExplicitLeft = 716
+      Left = 712
+      ExplicitLeft = 708
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 829
-      ExplicitLeft = 829
+      Left = 825
+      ExplicitLeft = 821
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 909
-      ExplicitLeft = 909
+      Left = 905
+      ExplicitLeft = 901
     end
     object InclusaoBitBtn_DiagBtn: TBitBtn
       Left = 5
       Top = 5
-      Width = 62
+      Width = 93
       Height = 25
       Action = InclusaoAction
-      Caption = 'Inclus'#227'o'
+      Caption = 'Alterar Inclus'#227'o'
       TabOrder = 3
     end
     object BarrasListEdBitBtn: TBitBtn
-      Left = 71
+      Left = 102
       Top = 5
       Width = 110
       Height = 25
@@ -45,7 +49,7 @@ inherited ProdRejEdForm: TProdRejEdForm
       TabOrder = 4
     end
     object DescrTrazerBitBtn: TBitBtn
-      Left = 185
+      Left = 216
       Top = 5
       Width = 97
       Height = 25
@@ -54,7 +58,7 @@ inherited ProdRejEdForm: TProdRejEdForm
       TabOrder = 5
     end
     object DescrRedTrazerBitBtn: TBitBtn
-      Left = 286
+      Left = 317
       Top = 5
       Width = 146
       Height = 25
@@ -63,7 +67,7 @@ inherited ProdRejEdForm: TProdRejEdForm
       TabOrder = 6
     end
     object DescrsTrazerBitBtn: TBitBtn
-      Left = 436
+      Left = 467
       Top = 5
       Width = 100
       Height = 25
@@ -72,7 +76,7 @@ inherited ProdRejEdForm: TProdRejEdForm
       TabOrder = 7
     end
     object UnificarBitBtn: TBitBtn
-      Left = 540
+      Left = 571
       Top = 5
       Width = 109
       Height = 25
@@ -85,7 +89,7 @@ inherited ProdRejEdForm: TProdRejEdForm
     Left = 0
     Top = 0
     Width = 988
-    Height = 211
+    Height = 210
     Align = alClient
     BorderStyle = bsNone
     DataSource = ProdDataSource
@@ -128,7 +132,7 @@ inherited ProdRejEdForm: TProdRejEdForm
     Left = 200
     Top = 104
     object InclusaoAction: TAction
-      Caption = 'Inclus'#227'o'
+      Caption = 'Alterar Inclus'#227'o'
       Hint = 'Liga / Desliga se Registro Ser'#225' Importado'
       OnExecute = InclusaoActionExecute
     end

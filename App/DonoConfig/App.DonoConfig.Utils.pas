@@ -22,7 +22,13 @@ var
   Len: Integer;  // Variável para armazenar o comprimento da string
 
 begin
-  Arquivo := pAppInfo.PastaConfigs + 'App.bin';
+  pAppInfo.PessoaDonoId := 1;
+  pAppInfo.FundoCor := $1F0E0A;
+  pAppInfo.FonteCor := $00A66644;
+  pAppInfo.NomeExib := 'Administrador do Sistema Daros';//TmpNomeExib;
+
+exit;
+  Arquivo := pAppInfo.PastaConfigs + 'AppId.bin';
 
   Stream := TFileStream.Create(Arquivo, fmOpenRead);
   try

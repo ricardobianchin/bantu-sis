@@ -22,7 +22,7 @@ type
     ProdDBGrid: TDBGrid;
     ExecuteBitBtn: TBitBtn;
     ActionList_AppDBImport: TActionList;
-    ExecuteAction_AppDBImport: TAction;
+    ImportarAction_AppDBImport: TAction;
     ZerarAction_AppDBImport: TAction;
     AtualizarAction_AppDBImport: TAction;
     AtualizarBitBtn_AppDBImport: TBitBtn;
@@ -43,8 +43,8 @@ type
     EditBitBtn_AppDBImport: TBitBtn;
     RejEdAction_AppDBImport: TAction;
     RejEdBitBtn_AppDBImport: TBitBtn;
-    InclusaoAction_AppDBImport: TAction;
-    InclusaoBitBtn_AppDBImport: TBitBtn;
+    InclusaoAlterarAction_AppDBImport: TAction;
+    InclusaoAlterarBitBtn_AppDBImport: TBitBtn;
     BitBtn1: TBitBtn;
     FinalizarAction_AppDBImport: TAction;
 
@@ -57,8 +57,8 @@ type
     procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
     procedure RejEdAction_AppDBImportExecute(Sender: TObject);
     procedure ValidarAction_AppDBImportExecute(Sender: TObject);
-    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
-    procedure InclusaoAction_AppDBImportExecute(Sender: TObject);
+    procedure ImportarAction_AppDBImportExecute(Sender: TObject);
+    procedure InclusaoAlterarAction_AppDBImportExecute(Sender: TObject);
     procedure FinalizarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
@@ -87,6 +87,7 @@ type
     property DestinoDBConnection: IDBConnection read FDestinoDBConnection;
     property Usuario: IUsuario read FUsuario;
     procedure CarregarRej;
+    procedure DoImport; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
@@ -104,7 +105,7 @@ uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
   App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u,
-  App.DB.Import.Form_Finalizar_u;
+  App.DB.Import.Form_Finalizar_u, Sis.Types.Bool_u;
 
 { TDBImportForm }
 
@@ -158,6 +159,7 @@ begin
     DestinoDBConnection.Fechar;
     ProdFDMemTable.First;
     ProdFDMemTable.EnableControls;
+    ProdDBGrid.Repaint;
   end
 end;
 
@@ -276,10 +278,16 @@ begin
   end;
 end;
 
-procedure TDBImportForm.ExecuteAction_AppDBImportExecute(Sender: TObject);
+procedure TDBImportForm.ImportarAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
-  //
+  ImportarAction_AppDBImport.Enabled := False;
+  try
+    DoImport;
+    ValidarAction_AppDBImport.Execute;
+  finally
+    ImportarAction_AppDBImport.Enabled := True;
+  end;
 end;
 
 procedure TDBImportForm.FIlConfComboBoxChange(Sender: TObject);
@@ -293,6 +301,10 @@ begin
   inherited;
   FinalizarAction_AppDBImport.Enabled := False;
   try
+    ValidarAction_AppDBImport.Execute;
+
+    if not FProdRejFDMemTable.IsEmpty then
+      raise Exception.Create('Não pode ser finalizado existindo ainda rejeições');
     App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable,
       FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
@@ -326,10 +338,37 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TDBImportForm.InclusaoAction_AppDBImportExecute(Sender: TObject);
+procedure TDBImportForm.InclusaoAlterarAction_AppDBImportExecute
+  (Sender: TObject);
+var
+  bValor: boolean;
+  sSql: string;
+  oBookmark: TBookmark;
 begin
   inherited;
-  //
+  if FProdFDMemTable.IsEmpty then
+    exit;
+
+  InclusaoAlterarAction_AppDBImport.Enabled := False;
+  DestinoDBConnection.Abrir;
+  oBookmark := FProdFDMemTable.GetBookmark;
+  try
+    bValor := not FProdFDMemTable.FieldByName('VAI_IMPORTAR').AsBoolean;
+    sSql := 'UPDATE IMPORT_PROD SET VAI_IMPORTAR=' + BooleanToStrSQL(bValor) +
+      ' WHERE IMPORT_PROD_ID = ' + FProdFDMemTable.FieldByName('IMPORT_PROD_ID')
+      .AsInteger.ToString + ';';
+    DestinoDBConnection.ExecuteSQL(sSql);
+
+    FProdFDMemTable.Edit;
+    FProdFDMemTable.FieldByName('VAI_IMPORTAR').AsBoolean := bValor;
+    FProdFDMemTable.Post;
+    ValidarAction_AppDBImport.Execute;
+  finally
+    DestinoDBConnection.Fechar;
+    FProdFDMemTable.GotoBookmark(oBookmark);
+    FProdFDMemTable.FreeBookmark(oBookmark);
+    InclusaoAlterarAction_AppDBImport.Enabled := True;
+  end;
 end;
 
 procedure TDBImportForm.RejEdAction_AppDBImportExecute(Sender: TObject);
@@ -506,9 +545,21 @@ begin
       ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
       + ');';
 
-//{$IFDEF DEBUG}
-//    SetClipboardText(sSqlInsRej);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // SetClipboardText(sSqlQtd);
+    // {$ENDIF}
+
+{$IFDEF DEBUG}
+    // SetClipboardText(sSqlOrig);
+{$ENDIF}
+{$IFDEF DEBUG}
+    SetClipboardText(sSqlDest);
+{$ENDIF}
+
+    // {$IFDEF DEBUG}
+    // SetClipboardText(sSqlInsRej);
+    // {$ENDIF}
+
     DestinoDBConnection.Abrir;
     DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 
@@ -550,9 +601,8 @@ begin
               InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
               InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
               InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+              InsDBExec.Execute;
             end;
-
-            InsDBExec.Execute;
 
             if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString
             then
@@ -561,9 +611,9 @@ begin
               InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
               InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
               InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+              InsDBExec.Execute;
             end;
 
-            InsDBExec.Execute;
             DestDBQuery.DataSet.Next;
           end;
         finally
@@ -582,7 +632,6 @@ begin
       DestinoDBConnection.Fechar;
       ProgressBar1.Visible := False;
     end;
-
   finally
     ValidarAction_AppDBImport.Enabled := True;
   end;

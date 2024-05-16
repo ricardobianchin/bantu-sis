@@ -259,6 +259,8 @@ begin
 
     DBConnection.Fechar;
     //updater fim aqui
+    //updater aqui
+    //update aqui
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;
