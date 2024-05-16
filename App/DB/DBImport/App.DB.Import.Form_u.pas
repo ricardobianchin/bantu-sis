@@ -518,12 +518,18 @@ begin
     // {$ENDIF}
 
 {$IFDEF DEBUG}
-    SetClipboardText(sSqlOrig);
+//    SetClipboardText(sSqlOrig);
 {$ENDIF}
+
+{$IFDEF DEBUG}
+    SetClipboardText(sSqlDest);
+{$ENDIF}
+
     // {$IFDEF DEBUG}
     // SetClipboardText(sSqlInsRej);
     // {$ENDIF}
-    DestinoDBConnection.Abrir;
+
+  DestinoDBConnection.Abrir;
     DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 
     ProgressBar1.Position := 0;
@@ -564,9 +570,8 @@ begin
               InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
               InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
               InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+              InsDBExec.Execute;
             end;
-
-            InsDBExec.Execute;
 
             if OrigQ.Fields[4].AsString = DestDBQuery.DataSet.Fields[4].AsString
             then
@@ -575,9 +580,9 @@ begin
               InsDBExec.Params[0].AsInteger := RejeicaoIdOrigem;
               InsDBExec.Params[1].AsInteger := RejeicaoIdDestino;
               InsDBExec.Params[2].AsInteger := RejeicaoTipoId;
+              InsDBExec.Execute;
             end;
 
-            InsDBExec.Execute;
             DestDBQuery.DataSet.Next;
           end;
         finally
