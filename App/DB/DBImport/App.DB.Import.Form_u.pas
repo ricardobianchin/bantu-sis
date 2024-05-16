@@ -300,6 +300,10 @@ begin
   inherited;
   FinalizarAction_AppDBImport.Enabled := False;
   try
+    ValidarAction_AppDBImport.Execute;
+
+    if not FProdRejFDMemTable.IsEmpty then
+      raise Exception.Create('Não pode ser finalizado existindo ainda rejeições');
     App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable,
       FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
