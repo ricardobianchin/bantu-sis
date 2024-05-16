@@ -218,7 +218,7 @@ var
   Arquivo: string;
   Len: Integer;
 begin
-  Arquivo := PastaArq + 'App.bin';
+  Arquivo := PastaArq + 'AppId.bin';
   if FileExists(Arquivo) then
     DeleteFile(Arquivo);
 
