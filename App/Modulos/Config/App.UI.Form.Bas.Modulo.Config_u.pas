@@ -34,7 +34,8 @@ type
     { Private declarations }
   protected
     procedure DBImportPrep; virtual;
-    function DBImportFormCreate(pItemIndex: integer): TDBImportForm; virtual; abstract;
+    function DBImportFormCreate(pItemIndex: integer): TDBImportForm;
+      virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -59,15 +60,21 @@ begin
   DBImportPrep;
 end;
 
-procedure TConfigModuloBasForm.ConfigDBImportAbrirActionExecute(Sender: TObject);
+procedure TConfigModuloBasForm.ConfigDBImportAbrirActionExecute
+  (Sender: TObject);
 var
   iItemIndex: integer;
   iSelectedImportIndex: integer;
   oDBImportForm: TDBImportForm;
 begin
   inherited;
-  oDBImportForm := DBImportFormCreate(DBImportOrigemComboBox.ItemIndex);
-  oDBImportForm.ShowModal;
+  ConfigDBImportAbrirAction.Enabled := False;
+  try
+    oDBImportForm := DBImportFormCreate(DBImportOrigemComboBox.ItemIndex);
+    oDBImportForm.ShowModal;
+  finally
+    ConfigDBImportAbrirAction.Enabled := True;
+  end;
 end;
 
 procedure TConfigModuloBasForm.DBImportPrep;
