@@ -35,10 +35,40 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
       Top = 0
       Width = 604
       Height = 66
-      ActivePage = ImportTabSheet
+      ActivePage = ConfigImportTabSheet
       Align = alTop
       TabOrder = 0
-      object ImportTabSheet: TTabSheet
+      object ConfigAmbienteTabSheet: TTabSheet
+        Caption = 'Ambiente'
+        ImageIndex = 1
+        object ConfigAmbienteToolBar: TToolBar
+          Left = 0
+          Top = 0
+          Width = 596
+          Height = 21
+          AutoSize = True
+          ButtonHeight = 21
+          ButtonWidth = 104
+          Caption = 'EstoqueToolBar'
+          Ctl3D = False
+          EdgeInner = esNone
+          EdgeOuter = esNone
+          List = True
+          ShowCaptions = True
+          TabOrder = 0
+          object ConfigAmbienteLojasToolButton: TToolButton
+            Left = 0
+            Top = 0
+            Action = ConfigAmbienteLojasAction
+          end
+          object ConfigTerminaisToolButton: TToolButton
+            Left = 104
+            Top = 0
+            Action = ConfigTerminaisAction
+          end
+        end
+      end
+      object ConfigImportTabSheet: TTabSheet
         Caption = 'Importar Dados'
         object ImportOrigemTitLabel: TLabel
           Left = 2
@@ -48,30 +78,51 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
           Caption = 'Origem'
         end
         object DBImportOrigemComboBox: TComboBox
-          Left = 48
+          Left = 47
           Top = 8
           Width = 211
           Height = 23
           TabOrder = 0
           Text = 'DBImportOrigemComboBox'
         end
-        object DBImportButton: TButton
-          Left = 265
-          Top = 8
-          Width = 112
+        object ConfigDBImportButton: TButton
+          Left = 263
+          Top = 7
+          Width = 124
           Height = 25
-          Action = DBImportAction
+          Action = ConfigDBImportAbrirAction
           TabOrder = 1
         end
       end
     end
   end
+  inherited ShowTimer_BasForm: TTimer
+    Left = 160
+    Top = 104
+  end
+  inherited TitleBarActionList_ModuloBasForm: TActionList
+    Left = 336
+    Top = 104
+  end
+  inherited PopupMenu1: TPopupMenu
+    Left = 40
+    Top = 104
+  end
   object ConfigActionList: TActionList
-    Left = 400
-    Top = 208
-    object DBImportAction: TAction
-      Caption = 'Importar Dados...'
-      OnExecute = DBImportActionExecute
+    Left = 336
+    Top = 192
+    object ConfigDBImportAbrirAction: TAction
+      Caption = 'Abrir Importa'#231#227'o...'
+      Hint = 'Abre a importa'#231#227'o da oridem selecionada'
+      OnExecute = ConfigDBImportAbrirActionExecute
+    end
+    object ConfigAmbienteLojasAction: TAction
+      Caption = 'Estabelecimentos'
+      Hint = 'Cadastro dos estabelecimentos atual e rede'
+    end
+    object ConfigTerminaisAction: TAction
+      Caption = 'Terminais'
+      Hint = 'Castastro dos terminais da loja atual'
     end
   end
 end
