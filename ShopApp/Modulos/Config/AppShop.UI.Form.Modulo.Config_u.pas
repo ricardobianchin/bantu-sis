@@ -45,7 +45,6 @@ begin
   inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
     pUsuario, pAppObj);
 end;
-
 function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
   : TDBImportForm;
 begin
@@ -74,7 +73,6 @@ begin
 //{$IFDEF DEBUG}
 //  DBImportAction.Execute;
 //  Application.Terminate;
-//{$ENDIF}
 end;
 
 end.
