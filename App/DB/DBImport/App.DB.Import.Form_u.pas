@@ -159,6 +159,7 @@ begin
     DestinoDBConnection.Fechar;
     ProdFDMemTable.First;
     ProdFDMemTable.EnableControls;
+    ProdDBGrid.Repaint;
   end
 end;
 

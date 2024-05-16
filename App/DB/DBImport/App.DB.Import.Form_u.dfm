@@ -4,6 +4,7 @@ inherited DBImportForm: TDBImportForm
   ClientWidth = 934
   WindowState = wsMaximized
   OnCreate = FormCreate
+  ExplicitTop = -106
   ExplicitWidth = 946
   ExplicitHeight = 380
   TextHeight = 15
@@ -82,7 +83,9 @@ inherited DBImportForm: TDBImportForm
       Width = 113
       Height = 23
       Style = csDropDownList
+      ItemIndex = 0
       TabOrder = 2
+      Text = 'Todos'
       OnChange = FIlConfComboBoxChange
       Items.Strings = (
         'Todos'
