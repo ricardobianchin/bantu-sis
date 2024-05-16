@@ -4,7 +4,6 @@ inherited DBImportForm: TDBImportForm
   ClientWidth = 934
   WindowState = wsMaximized
   OnCreate = FormCreate
-  ExplicitTop = -106
   ExplicitWidth = 946
   ExplicitHeight = 380
   TextHeight = 15
