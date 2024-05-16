@@ -73,6 +73,7 @@ begin
 //{$IFDEF DEBUG}
 //  DBImportAction.Execute;
 //  Application.Terminate;
+//{$ENDIF}
 end;
 
 end.
