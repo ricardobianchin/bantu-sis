@@ -22,7 +22,7 @@ inherited DBImportForm: TDBImportForm
       Top = 7
       Width = 56
       Height = 25
-      Action = ExecuteAction_AppDBImport
+      Action = ImportarAction_AppDBImport
       Caption = 'Importar'
       TabOrder = 0
     end
@@ -238,9 +238,10 @@ inherited DBImportForm: TDBImportForm
   object ActionList_AppDBImport: TActionList
     Left = 400
     Top = 81
-    object ExecuteAction_AppDBImport: TAction
+    object ImportarAction_AppDBImport: TAction
       Caption = 'Importar'
-      OnExecute = ExecuteAction_AppDBImportExecute
+      Hint = 'Importar dados externos'
+      OnExecute = ImportarAction_AppDBImportExecute
     end
     object ZerarAction_AppDBImport: TAction
       Caption = 'Apagar Dados'

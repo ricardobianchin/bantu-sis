@@ -22,7 +22,7 @@ type
     ProdDBGrid: TDBGrid;
     ExecuteBitBtn: TBitBtn;
     ActionList_AppDBImport: TActionList;
-    ExecuteAction_AppDBImport: TAction;
+    ImportarAction_AppDBImport: TAction;
     ZerarAction_AppDBImport: TAction;
     AtualizarAction_AppDBImport: TAction;
     AtualizarBitBtn_AppDBImport: TBitBtn;
@@ -57,7 +57,7 @@ type
     procedure AtualizarAction_AppDBImportExecute(Sender: TObject);
     procedure RejEdAction_AppDBImportExecute(Sender: TObject);
     procedure ValidarAction_AppDBImportExecute(Sender: TObject);
-    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
+    procedure ImportarAction_AppDBImportExecute(Sender: TObject);
     procedure InclusaoAction_AppDBImportExecute(Sender: TObject);
     procedure FinalizarAction_AppDBImportExecute(Sender: TObject);
   private
@@ -87,6 +87,7 @@ type
     property DestinoDBConnection: IDBConnection read FDestinoDBConnection;
     property Usuario: IUsuario read FUsuario;
     procedure CarregarRej;
+    procedure DoImport; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
@@ -276,10 +277,11 @@ begin
   end;
 end;
 
-procedure TDBImportForm.ExecuteAction_AppDBImportExecute(Sender: TObject);
+procedure TDBImportForm.ImportarAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
-  //
+  DoImport;
+  ValidarAction_AppDBImport.Execute;
 end;
 
 procedure TDBImportForm.FIlConfComboBoxChange(Sender: TObject);
@@ -582,7 +584,6 @@ begin
       DestinoDBConnection.Fechar;
       ProgressBar1.Visible := False;
     end;
-
   finally
     ValidarAction_AppDBImport.Enabled := True;
   end;
