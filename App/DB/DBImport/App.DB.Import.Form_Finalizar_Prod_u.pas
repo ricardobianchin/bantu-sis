@@ -9,8 +9,7 @@ procedure GarantirProd(pDBConnection: IDBConnection; pAppObj: IAppObj;
 
 implementation
 
-uses Data.DB, System.SysUtils, Sis.Types.Floats, Sis.Types.Bool_u,
-  Sis.Win.Utils_u, Sis.Types.strings_u;
+  Sis.Win.Utils_u, Sis.Types.strings_u, Sis.UI.IO.Files;
 
 var
   oAppObj: IAppObj;
@@ -233,7 +232,7 @@ var
   sProdSigla: string;
   iQtdRegs: integer;
   iRegAtual: integer;
-
+  sNomeArqLog: string;
   F: TextFile;
 begin
   oAppObj := pAppObj;
@@ -247,8 +246,9 @@ begin
 
   pProgressBar1.Position := 0;
   pProgressBar1.Max := iQtdRegs;
-
-  AssignFile(F, oAppObj.AppInfo.Pasta+'Tmp\DBImport\Log DBImport Prod.txt');
+  sNomeArqLog := oAppObj.AppInfo.Pasta+'Tmp\DBImport\Log DBImport Prod.txt';
+  GarantirPastaDoArquivo(sNomeArqLog);
+  AssignFile(F, sNomeArqLog);
   Rewrite(F);
   try
     SetLength(aPreco, 1);
@@ -264,7 +264,10 @@ begin
       try
         pDBConnection.ExecuteSQL(sSql);
       except on E: Exception do
+      begin
         WriteLn(F, E.Message);
+        showmessage(E.Message);
+      end;
       end;
 
       q.Next;
