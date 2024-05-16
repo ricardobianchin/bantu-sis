@@ -338,23 +338,31 @@ procedure TDBImportForm.InclusaoAlterarAction_AppDBImportExecute
 var
   bValor: boolean;
   sSql: string;
+  oBookmark: TBookmark;
 begin
   inherited;
+  if FProdFDMemTable.IsEmpty then
+    exit;
+
   InclusaoAlterarAction_AppDBImport.Enabled := False;
   DestinoDBConnection.Abrir;
+  oBookmark := FProdFDMemTable.GetBookmark;
   try
     bValor := not FProdFDMemTable.FieldByName('VAI_IMPORTAR').AsBoolean;
     sSql := 'UPDATE IMPORT_PROD SET VAI_IMPORTAR=' + BooleanToStrSQL(bValor) +
       ' WHERE IMPORT_PROD_ID = ' + FProdFDMemTable.FieldByName('IMPORT_PROD_ID')
       .AsInteger.ToString + ';';
     DestinoDBConnection.ExecuteSQL(sSql);
+
     FProdFDMemTable.Edit;
     FProdFDMemTable.FieldByName('VAI_IMPORTAR').AsBoolean := bValor;
     FProdFDMemTable.Post;
     ValidarAction_AppDBImport.Execute;
   finally
     DestinoDBConnection.Fechar;
-    InclusaoAlterarAction_AppDBImport.Enabled := False;
+    FProdFDMemTable.GotoBookmark(oBookmark);
+    FProdFDMemTable.FreeBookmark(oBookmark);
+    InclusaoAlterarAction_AppDBImport.Enabled := True;
   end;
 end;
 
