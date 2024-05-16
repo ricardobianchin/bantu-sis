@@ -15,7 +15,7 @@ uses
 type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
-    procedure ExecuteAction_AppDBImportExecute(Sender: TObject);
+    procedure ImportarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -90,120 +90,6 @@ begin
   FFileSelectFrame.EditCaption := 'Arquivo PLUBASE.TXT';
   PegueFormatoDe(FFileSelectFrame, MoldeFileSelectPanel);
   iIndexErro := 0;
-end;
-
-procedure TShopDBImportFormPLUBase.ExecuteAction_AppDBImportExecute
-  (Sender: TObject);
-var
-  bResultado: boolean;
-  iLinhaAtual: integer;
-  sSql: string;
-begin
-  inherited;
-  ExecuteAction_AppDBImport.Enabled := False;
-  try
-  StatusOutput.Exibir('Inicio');
-  try
-    FNomeArq := FFileSelectFrame.NomeArq;
-
-    bResultado := FNomeArq <> '';
-    if not bResultado then
-    begin
-      StatusOutput.ExibirPausa('Erro: Nome do Arquivo e´ obrigatorio',
-        TMsgDlgType.mtError);
-      Exit;
-    end;
-
-    bResultado := FileExists(FNomeArq);
-    if not bResultado then
-    begin
-      StatusOutput.ExibirPausa('Erro: Arquivo nao existe: [' + FNomeArq + ']',
-        TMsgDlgType.mtError);
-      Exit;
-    end;
-
-    FLinhasSL := TStringList.Create;
-    ProdIdSL := TStringList.Create;
-    DescrSL := TStringList.Create;
-    DescrRedSL := TStringList.Create;
-
-    ProdFabrSL := TStringList.Create;
-    ProdTipoSL := TStringList.Create;
-    ProdUnidSL := TStringList.Create;
-    ProdIcmsSL := TStringList.Create;
-
-    OrigBarrasSL := TStringList.Create;
-    OrigBarrasSL.Delimiter := ',';
-    OrigBarrasSL.QuoteChar := #0;
-
-    OrigPrecoSL := TStringList.Create;
-    OrigPrecoSL.Delimiter := '/';
-    OrigPrecoSL.QuoteChar := #0;
-    OrigPrecoSL.NameValueSeparator := '-';
-
-    ProdFabrSL.Add('NAO INDICADO');
-    ProdTipoSL.Add('NAO INDICADO');
-    ProdUnidSL.Add('NAO INDICADO');
-    ProdIcmsSL.Add('NAO INDICADO');
-
-    begin // especifico plubase
-      sProdFabrDescr := 'PADRAO';
-      sProdIcmsDescr := 'NAO INDICADO';
-    end;
-
-    DestinoDBConnection.Abrir;
-    ProgressBar1.Visible := true;
-
-    try
-      bResultado := ZereDados(DestinoDBConnection);
-      if not bResultado then
-        Exit;
-
-      FLinhasSL.LoadFromFile(FNomeArq);
-      FLinhasSL.Delete(0);
-      StatusOutput.Exibir('Qtd linhas: ' + FLinhasSL.Count.ToString);
-      ProgressBar1.Max := FLinhasSL.Count - 1;
-      try
-        for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
-        begin
-          ProgressBar1.Position := iLinhaAtual;
-          if (iLinhaAtual mod 120) = 0 then
-            Application.ProcessMessages;
-
-          FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
-          LeiaLinhaAtual;
-          GravarLinhaAtual;
-        end;
-      except
-        on E: Exception do
-          showmessage(E.Message);
-      end;
-    finally
-      DestinoDBConnection.Fechar;
-      FLinhasSL.Free;
-      ProdIdSL.Free;
-      DescrSL.Free;
-      DescrRedSL.Free;
-
-      ProdFabrSL.Free;
-      ProdTipoSL.Free;
-      ProdUnidSL.Free;
-      ProdIcmsSL.Free;
-
-      OrigBarrasSL.Free;
-      OrigPrecoSL.Free;
-
-      ProgressBar1.Visible := False;
-    end;
-
-  finally
-    StatusOutput.Exibir('Fim');
-    StatusOutput.Exibir('');
-    AtualizarAction_AppDBImport.Execute;
-  end;
-  finally
-    ExecuteAction_AppDBImport.Enabled := True;
-  end;
 end;
 
 procedure TShopDBImportFormPLUBase.GravarLinhaAtual;
@@ -335,6 +221,120 @@ begin
       QuotedStr(pDescrVal) + ', ' + Result.ToString + ');';
 
     DestinoDBConnection.ExecuteSQL(sSql);
+  end;
+end;
+
+procedure TShopDBImportFormPLUBase.ImportarAction_AppDBImportExecute(
+  Sender: TObject);
+var
+  bResultado: boolean;
+  iLinhaAtual: integer;
+  sSql: string;
+begin
+  inherited;
+  ExecuteAction_AppDBImport.Enabled := False;
+  try
+  StatusOutput.Exibir('Inicio');
+  try
+    FNomeArq := FFileSelectFrame.NomeArq;
+
+    bResultado := FNomeArq <> '';
+    if not bResultado then
+    begin
+      StatusOutput.ExibirPausa('Erro: Nome do Arquivo e´ obrigatorio',
+        TMsgDlgType.mtError);
+      Exit;
+    end;
+
+    bResultado := FileExists(FNomeArq);
+    if not bResultado then
+    begin
+      StatusOutput.ExibirPausa('Erro: Arquivo nao existe: [' + FNomeArq + ']',
+        TMsgDlgType.mtError);
+      Exit;
+    end;
+
+    FLinhasSL := TStringList.Create;
+    ProdIdSL := TStringList.Create;
+    DescrSL := TStringList.Create;
+    DescrRedSL := TStringList.Create;
+
+    ProdFabrSL := TStringList.Create;
+    ProdTipoSL := TStringList.Create;
+    ProdUnidSL := TStringList.Create;
+    ProdIcmsSL := TStringList.Create;
+
+    OrigBarrasSL := TStringList.Create;
+    OrigBarrasSL.Delimiter := ',';
+    OrigBarrasSL.QuoteChar := #0;
+
+    OrigPrecoSL := TStringList.Create;
+    OrigPrecoSL.Delimiter := '/';
+    OrigPrecoSL.QuoteChar := #0;
+    OrigPrecoSL.NameValueSeparator := '-';
+
+    ProdFabrSL.Add('NAO INDICADO');
+    ProdTipoSL.Add('NAO INDICADO');
+    ProdUnidSL.Add('NAO INDICADO');
+    ProdIcmsSL.Add('NAO INDICADO');
+
+    begin // especifico plubase
+      sProdFabrDescr := 'PADRAO';
+      sProdIcmsDescr := 'NAO INDICADO';
+    end;
+
+    DestinoDBConnection.Abrir;
+    ProgressBar1.Visible := true;
+
+    try
+      bResultado := ZereDados(DestinoDBConnection);
+      if not bResultado then
+        Exit;
+
+      FLinhasSL.LoadFromFile(FNomeArq);
+      FLinhasSL.Delete(0);
+      StatusOutput.Exibir('Qtd linhas: ' + FLinhasSL.Count.ToString);
+      ProgressBar1.Max := FLinhasSL.Count - 1;
+      try
+        for iLinhaAtual := 0 to FLinhasSL.Count - 1 do
+        begin
+          ProgressBar1.Position := iLinhaAtual;
+          if (iLinhaAtual mod 120) = 0 then
+            Application.ProcessMessages;
+
+          FLinhaAtual := StrSemAcento(FLinhasSL[iLinhaAtual]);
+          LeiaLinhaAtual;
+          GravarLinhaAtual;
+        end;
+      except
+        on E: Exception do
+          showmessage(E.Message);
+      end;
+    finally
+      DestinoDBConnection.Fechar;
+      FLinhasSL.Free;
+      ProdIdSL.Free;
+      DescrSL.Free;
+      DescrRedSL.Free;
+
+      ProdFabrSL.Free;
+      ProdTipoSL.Free;
+      ProdUnidSL.Free;
+      ProdIcmsSL.Free;
+
+      OrigBarrasSL.Free;
+      OrigPrecoSL.Free;
+
+      ProgressBar1.Visible := False;
+    end;
+
+  finally
+    StatusOutput.Exibir('Fim');
+    StatusOutput.Exibir('');
+    AtualizarAction_AppDBImport.Execute;
+  end;
+  finally
+    ExecuteAction_AppDBImport.Enabled := True;
   end;
 end;
 
