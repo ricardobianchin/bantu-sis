@@ -12,6 +12,7 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   TextHeight = 15
   inherited Logo1Image: TImage
     Width = 670
+    ExplicitWidth = 670
   end
   inherited AndamentoTitLabel: TLabel
     Left = 223
@@ -38,8 +39,13 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   end
   inherited TitleBarPanel: TPanel
     Width = 670
+    ExplicitWidth = 670
+    DesignSize = (
+      670
+      41)
     inherited ToolBar1: TToolBar
       Left = 569
+      ExplicitLeft = 569
     end
   end
   inherited StatusMemo: TMemo
