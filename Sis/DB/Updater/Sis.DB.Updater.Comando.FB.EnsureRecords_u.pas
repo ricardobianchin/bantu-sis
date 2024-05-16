@@ -95,6 +95,7 @@ begin
         iQtdRegs := FRegistrosSL.count - 1;
         {$ENDIF}
 
+//        iQtdRegs := FRegistrosSL.count - 1;
 
         for I := 0 to iQtdRegs do
         begin
