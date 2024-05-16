@@ -172,7 +172,10 @@ begin
         end;
       except
         on E: Exception do
+        begin
           showmessage(E.Message);
+          raise;
+        end;
       end;
     finally
       DestinoDBConnection.Fechar;
