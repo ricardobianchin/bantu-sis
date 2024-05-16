@@ -280,8 +280,13 @@ end;
 procedure TDBImportForm.ImportarAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
-  DoImport;
-  ValidarAction_AppDBImport.Execute;
+  ImportarAction_AppDBImport.Enabled := False;
+  try
+    DoImport;
+    ValidarAction_AppDBImport.Execute;
+  finally
+    ImportarAction_AppDBImport.Enabled := True;
+  end;
 end;
 
 procedure TDBImportForm.FIlConfComboBoxChange(Sender: TObject);
@@ -508,9 +513,16 @@ begin
       ':IMPORT_PROD_REJEICAO_ID_ORIGEM, :IMPORT_PROD_REJEICAO_ID_DESTINO, :IMPORT_REJEICAO_TIPO_ID'
       + ');';
 
-//{$IFDEF DEBUG}
-//    SetClipboardText(sSqlInsRej);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // SetClipboardText(sSqlQtd);
+    // {$ENDIF}
+
+{$IFDEF DEBUG}
+    SetClipboardText(sSqlOrig);
+{$ENDIF}
+    // {$IFDEF DEBUG}
+    // SetClipboardText(sSqlInsRej);
+    // {$ENDIF}
     DestinoDBConnection.Abrir;
     DestinoDBConnection.ExecuteSQL('DELETE FROM IMPORT_PROD_REJEICAO;');
 
