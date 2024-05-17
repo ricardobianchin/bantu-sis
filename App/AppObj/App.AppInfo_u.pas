@@ -101,6 +101,9 @@ constructor TAppInfo.Create(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string);
 begin
   inherited Create;
+  FAtualizExeURL := pAtualizExeURL;
+  FAtualizExeSubPasta := pAtualizExeSubPasta;
+
   FExeName := pExeName;
   FPastaBin := GetPastaDoArquivo(FExeName);
   FPasta := PastaAcima(FPastaBin);

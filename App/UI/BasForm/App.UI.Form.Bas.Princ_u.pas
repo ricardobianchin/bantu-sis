@@ -101,9 +101,6 @@ var
   bPrecisaResetar: boolean;
   sLog: string;
 begin
-  Result := False;
-  exit;
-
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
 
   try
@@ -112,6 +109,7 @@ begin
     Result := False;
     Exit;
 {$ENDIF}
+
     oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
       FProcessLog);
     bPrecisaResetar := oAtualizaVersao.Execute;
@@ -239,6 +237,15 @@ begin
 
     bResultado := FAppObj.Inicialize;
 
+    bResultado := AtualizeVersaoExecutaveis;
+    if bResultado then
+    begin
+      FProcessLog.RegistreLog
+        ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
+      Application.Terminate;
+      Exit;
+    end;
+
     GarantaDB;
 
     if FLoja.Id < 1 then
@@ -290,15 +297,6 @@ var
 begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
-    bResultado := AtualizeVersaoExecutaveis;
-    if bResultado then
-    begin
-      FProcessLog.RegistreLog
-        ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
-      Application.Terminate;
-      Exit;
-    end;
-
     oUsuarioGerente := UsuarioCreate;
 
     bResultado := GarantirConfig(FLoja, oUsuarioGerente);
