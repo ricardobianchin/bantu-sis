@@ -21,6 +21,9 @@
         <Projects Include="LogMonitor\LogMonitor.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="VersaoAtu\VersaoAtu.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -83,17 +86,38 @@
     <Target Name="LogMonitor:Make">
         <MSBuild Projects="LogMonitor\LogMonitor.dproj" Targets="Make"/>
     </Target>
+    <Target Name="VersaoAtu">
+        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj"/>
+    </Target>
+    <Target Name="VersaoAtu:Clean">
+        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VersaoAtu:Make">
+        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor;VersaoAtu"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean;VersaoAtu:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make;VersaoAtu:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
+        <BuildGroupProject Include="App\App.dproj">
+            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Adm\Adm.dproj">
+            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
         <BuildGroupProject Include="ShopApp\ShopApp.dproj">
             <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
             <Configurations>Release</Configurations>
@@ -112,20 +136,14 @@
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="App\App.dproj">
-            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Adm\Adm.dproj">
-            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
         <BuildGroupProject Include="ClienteConfig\ClienteConfig.dproj">
             <ProjectGuid>{B90DB9FC-DA54-4AE0-9B2F-CA9CA01680CF}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="VersaoAtu\VersaoAtu.dproj">
+            <ProjectGuid>{AC45A207-335A-40F5-9A82-E885A7795CB1}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
