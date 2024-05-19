@@ -1,9 +1,0 @@
-desejo abrir o isql do Firebird através do cmd do windows.
-ele está localizado neste caminho:
-"C:\Program Files\Firebird\Firebird_4_0\isql.exe"
-e eu quero que ele conecte neste banco de dados:
-"C:\Pr\app\bantu\bantu-sis\retag\DADOS.FDB"
-
-como ficaria a linha decomando?
-
-"C:\Program Files\Firebird\Firebird_4_0\isql.exe" -u SYSDBA -p MASTERKEY "C:\Pr\app\bantu\bantu-sis\retag\DADOS.FDB" 
