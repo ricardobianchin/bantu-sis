@@ -180,6 +180,7 @@ contains
   App.DB.Import.Form_Finalizar_Fabr_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Fabr_u.pas',
   App.DB.Import.Form_Finalizar_ProdTipo_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas',
   App.DB.Import.Form_Finalizar_Unid_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas',
-  App.DB.Import.Form_Finalizar_Prod_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas';
+  App.DB.Import.Form_Finalizar_Prod_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas',
+  App.Versao_u in 'AppVersao\App.Versao_u.pas';
 
 end.
