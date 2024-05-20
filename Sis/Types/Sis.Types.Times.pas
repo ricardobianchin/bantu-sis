@@ -8,6 +8,7 @@ function ConvertGMTToTDateTime(const GMT: string): TDateTime;
 function ConvertTDateTimeToGMT(const DT: TDateTime): string;
 function ConvertGMTToTDateTimeStr(const GMT: string): string;
 function DateTimeToSaudacao(const pDtH: TDateTime): string;
+function ConvertISO8601ToTDateTimeStr(const GMT: string): string;
 
 var
   MonthNames: TStringList;
@@ -57,7 +58,6 @@ var
   FormatSettings: TFormatSettings;
   //myDate, myTime: string;
 begin
-
   Day := Copy(GMT, 6, 2);
   Month := IntToStr(MonthNames.IndexOf(Copy(GMT, 9, 3)) + 1);
   Year := Copy(GMT, 13, 4);
@@ -91,6 +91,33 @@ begin
     Result := 'Boa tarde!'
   else
     Result := 'Boa noite!';
+end;
+
+function ConvertISO8601ToTDateTimeStr(const GMT: string): string;
+var
+  Day, Month, Year, Time: string;
+  DT: TDateTime;
+  FormatSettings: TFormatSettings;
+  sDtH: string;
+//  sDeslocamento: string;
+  //myDate, myTime: string;
+begin
+  Day := Copy(GMT, 9, 2);
+  Month := Copy(GMT, 6, 2);
+  Year := Copy(GMT, 1, 4);
+  Time := Copy(GMT, 12, 8);
+
+  sDtH := Day + '/' + Month + '/' + Year + ' ' + Time;
+
+  FormatSettings := TFormatSettings.Create;
+  FormatSettings.ShortDateFormat := 'dd/mm/yyyy';
+  FormatSettings.DateSeparator := '/';
+  FormatSettings.LongTimeFormat := 'hh:nn:ss';
+
+  DT := StrToDateTime(sDtH, FormatSettings);
+  DT := IncHour(DT, -3); // Subtrai 3 horas
+
+  Result := DateTimeToStr(DT);
 end;
 
 initialization
