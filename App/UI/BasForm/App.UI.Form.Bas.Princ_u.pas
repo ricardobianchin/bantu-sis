@@ -20,9 +20,6 @@ type
     MinimizeAction_PrincBasForm: TAction;
     TitleBarCaptionLabel: TLabel;
     Logo1Image: TImage;
-    AndamentoTitLabel: TLabel;
-    StatusLabel: TLabel;
-    StatusMemo: TMemo;
     DtHCompileLabel: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -164,12 +161,6 @@ begin
     Color := FAppInfo.FundoCor;
     Font.Color := FAppInfo.FonteCor;
 
-    StatusLabel.Color := FAppInfo.FundoCor;
-    StatusLabel.Font.Color := FAppInfo.FonteCor;
-
-    StatusMemo.Color := FAppInfo.FundoCor;
-    StatusMemo.Font.Color := FAppInfo.FonteCor;
-
     Sis.UI.Controls.TImage.TImageCarretarJpg(Logo1Image, FsLogo1NomeArq);
     FProcessLog.RegistreLog('Fim');
   finally
@@ -214,8 +205,8 @@ begin
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
-  FStatusOutput := LabelOutputCreate(StatusLabel);
-  FProcessOutput := MemoOutputCreate(StatusMemo);
+  FStatusOutput := MudoOutputCreate;
+  FProcessOutput := MudoOutputCreate;
   FProcessLog := ProcessLogFileCreate(Name);
 
   FProcessLog.PegueLocal('TPrincBasForm.FormCreate');

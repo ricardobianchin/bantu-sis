@@ -4,6 +4,7 @@ inherited PrincBasForm: TPrincBasForm
   ClientHeight = 477
   ClientWidth = 628
   OnDestroy = FormDestroy
+  ExplicitTop = -26
   ExplicitWidth = 628
   ExplicitHeight = 477
   TextHeight = 15
@@ -15,33 +16,7 @@ inherited PrincBasForm: TPrincBasForm
     Align = alTop
     Center = True
   end
-  object AndamentoTitLabel: TLabel [1]
-    Left = 24
-    Top = 224
-    Width = 63
-    Height = 15
-    Caption = 'Andamento'
-    StyleElements = []
-  end
-  object StatusLabel: TLabel [2]
-    Left = 58
-    Top = 160
-    Width = 480
-    Height = 57
-    Alignment = taCenter
-    AutoSize = False
-    Caption = 'Buscando atualiza'#231#227'o...'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -19
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    ParentFont = False
-    Layout = tlCenter
-    WordWrap = True
-    StyleElements = []
-  end
-  object DtHCompileLabel: TLabel [3]
+  object DtHCompileLabel: TLabel [1]
     Left = 24
     Top = 454
     Width = 94
@@ -49,7 +24,7 @@ inherited PrincBasForm: TPrincBasForm
     Caption = 'DtHCompileLabel'
     StyleElements = []
   end
-  object TitleBarPanel: TPanel [4]
+  object TitleBarPanel: TPanel [2]
     Left = 0
     Top = 0
     Width = 628
@@ -108,17 +83,6 @@ inherited PrincBasForm: TPrincBasForm
         Action = FecharAction_ActBasForm
       end
     end
-  end
-  object StatusMemo: TMemo [5]
-    Left = 25
-    Top = 252
-    Width = 561
-    Height = 177
-    BorderStyle = bsNone
-    ParentColor = True
-    ReadOnly = True
-    TabOrder = 1
-    StyleElements = [seFont]
   end
   inherited ActionList1_ActBasForm: TActionList
     inherited FecharAction_ActBasForm: TAction

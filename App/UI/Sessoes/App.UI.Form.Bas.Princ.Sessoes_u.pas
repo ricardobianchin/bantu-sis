@@ -14,7 +14,6 @@ type
   TSessoesPrincBasForm = class(TPrincBasForm, ISessaoEventos)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
-    StatusPanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -121,12 +120,8 @@ begin
   DtHCompileLabel.Parent := DtHCompilePanel;
   DtHCompileLabel.Left := 3;
   DtHCompileLabel.Top := 10;
-  StatusLabel.Parent := StatusPanel;
-  StatusLabel.Align := alClient;
   // StatusLabel.left := 30;
-  AndamentoTitLabel.Visible := false;
   ProcessOutput.Ativo := false;
-  StatusMemo.Visible := false;
 end;
 
 procedure TSessoesPrincBasForm.SessoesFrameCriar;
