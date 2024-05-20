@@ -2,28 +2,27 @@ unit VersaoAtu.SrcAtu_u;
 
 interface
 
-procedure SrcAtuExecute(pDescribe, pISO8601DtH, pHash: string);
+procedure SrcAtuExecute(pDescribe, pDtH, pHash: string);
 
 implementation
 
-uses System.Classes, System.SysUtils, Sis.Types.Times, System.DateUtils;
+uses System.Classes, System.SysUtils, Vcl.Dialogs;
 
 const
-  VERSAO_SRC_FILENAME = 'C:\Pr\app\bantu\bantu-sis\Src\App\AppVersao\App.Versao_u.pas';
+  VERSAO_SRC_FILENAME = 'C:\Pr\app\bantu\bantu-sis\Src\App\AppVersao\AppVersao_u.pas';
   MARCA_VERSAO = '{versaoatu versao}';
+  MARCA_VERSAO_RESUMIDA = '{versaoatu versao resumida}';
   MARCA_COMMIT_DTH = '{versaoatu datahora commit}';
   MARCA_COMPILE_DTH = '{versaoatu datahora compile}';
   MARCA_HASH = '{versaoatu Hash}';
 
-procedure SrcAtuExecute(pDescribe, pISO8601DtH, pHash: string);
+procedure SrcAtuExecute(pDescribe, pDtH, pHash: string);
 var
   sl: TStringList;
   I: Integer;
   sLinha: string;
-  CommitDtH: TDateTime;
-  sCommitDtH: string;
+  aItens: TArray<string>;
 begin //ConvertImportarActionToTDateTimeStr
-  sCommitDtH := ConvertISO8601ToTDateTimeStr(pISO8601DtH);
   sl := TStringList.Create;
   try
     sl.LoadFromFile(VERSAO_SRC_FILENAME);
@@ -35,9 +34,15 @@ begin //ConvertImportarActionToTDateTimeStr
         sLinha := '    ' + QuotedStr(pDescribe) + MARCA_VERSAO;
         sl[i] := sLinha;
       end
+      else if Pos(MARCA_VERSAO_RESUMIDA, sLinha) > 0 then
+      begin
+        aItens := pDescribe.Split(['-']);
+        sLinha := '    ' + QuotedStr(aItens[0]) + MARCA_VERSAO_RESUMIDA;
+        sl[i] := sLinha;
+      end
       else if Pos(MARCA_COMMIT_DTH, sLinha) > 0 then
       begin
-        sLinha := '    ' + QuotedStr(sCommitDtH) + MARCA_COMMIT_DTH;
+        sLinha := '    ' + QuotedStr(pDtH) + MARCA_COMMIT_DTH;
         sl[i] := sLinha;
       end
       else if Pos(MARCA_COMPILE_DTH, sLinha) > 0 then

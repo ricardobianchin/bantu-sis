@@ -15,15 +15,6 @@
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
         </Projects>
-        <Projects Include="ClienteConfig\ClienteConfig.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="LogMonitor\LogMonitor.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="VersaoAtu\VersaoAtu.dproj">
-            <Dependencies>Sis\Sis.dproj</Dependencies>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -68,41 +59,14 @@
     <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ClienteConfig">
-        <MSBuild Projects="ClienteConfig\ClienteConfig.dproj"/>
-    </Target>
-    <Target Name="ClienteConfig:Clean">
-        <MSBuild Projects="ClienteConfig\ClienteConfig.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ClienteConfig:Make">
-        <MSBuild Projects="ClienteConfig\ClienteConfig.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="LogMonitor">
-        <MSBuild Projects="LogMonitor\LogMonitor.dproj"/>
-    </Target>
-    <Target Name="LogMonitor:Clean">
-        <MSBuild Projects="LogMonitor\LogMonitor.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="LogMonitor:Make">
-        <MSBuild Projects="LogMonitor\LogMonitor.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="VersaoAtu" DependsOnTargets="Sis">
-        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj"/>
-    </Target>
-    <Target Name="VersaoAtu:Clean" DependsOnTargets="Sis:Clean">
-        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="VersaoAtu:Make" DependsOnTargets="Sis:Make">
-        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;ClienteConfig;LogMonitor;VersaoAtu"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ClienteConfig:Clean;LogMonitor:Clean;VersaoAtu:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ClienteConfig:Make;LogMonitor:Make;VersaoAtu:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -129,24 +93,6 @@
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="LogMonitor\LogMonitor.dproj">
-            <ProjectGuid>{51185958-76FB-4A72-B6D7-0E23BADB628C}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="ClienteConfig\ClienteConfig.dproj">
-            <ProjectGuid>{B90DB9FC-DA54-4AE0-9B2F-CA9CA01680CF}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="VersaoAtu\VersaoAtu.dproj">
-            <ProjectGuid>{AC45A207-335A-40F5-9A82-E885A7795CB1}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>

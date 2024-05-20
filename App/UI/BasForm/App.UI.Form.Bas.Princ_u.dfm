@@ -3,6 +3,7 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   ExplicitTop = -26
   ExplicitWidth = 628
@@ -21,8 +22,10 @@ inherited PrincBasForm: TPrincBasForm
     Top = 454
     Width = 94
     Height = 15
+    Cursor = crHandPoint
     Caption = 'DtHCompileLabel'
     StyleElements = []
+    OnClick = DtHCompileLabelClick
   end
   object TitleBarPanel: TPanel [2]
     Left = 0
