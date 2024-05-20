@@ -15,6 +15,9 @@
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
         </Projects>
+        <Projects Include="VersaoAtu\VersaoAtu.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
+    <Target Name="VersaoAtu">
+        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj"/>
+    </Target>
+    <Target Name="VersaoAtu:Clean">
+        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VersaoAtu:Make">
+        <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;VersaoAtu"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;VersaoAtu:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;VersaoAtu:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -93,6 +105,12 @@
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="VersaoAtu\VersaoAtu.dproj">
+            <ProjectGuid>{AC45A207-335A-40F5-9A82-E885A7795CB1}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>

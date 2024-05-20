@@ -32,16 +32,17 @@ begin
   Time := Copy(GMT, 12, 8);
 
   sDtH := Day + '/' + Month + '/' + Year + ' ' + Time;
+  Result := sDtH;
 
-  FormatSettings := TFormatSettings.Create;
-  FormatSettings.ShortDateFormat := 'dd/mm/yyyy';
-  FormatSettings.DateSeparator := '/';
-  FormatSettings.LongTimeFormat := 'hh:nn:ss';
-
-  DT := StrToDateTime(sDtH, FormatSettings);
-  DT := IncHour(DT, -3); // Subtrai 3 horas
-
-  Result := DateTimeToStr(DT);
+//  FormatSettings := TFormatSettings.Create;
+//  FormatSettings.ShortDateFormat := 'dd/mm/yyyy';
+//  FormatSettings.DateSeparator := '/';
+//  FormatSettings.LongTimeFormat := 'hh:nn:ss';
+//
+//  DT := StrToDateTime(sDtH, FormatSettings);
+//  DT := IncHour(DT, -3); // Subtrai 3 horas
+//
+//  Result := DateTimeToStr(DT);
 end;
 
 procedure LeiaStdIn;
