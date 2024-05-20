@@ -4,7 +4,7 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   ClientWidth = 670
   Position = poDesktopCenter
   OnKeyDown = FormKeyDown
-  ExplicitTop = -132
+  ExplicitTop = -260
   ExplicitWidth = 670
   ExplicitHeight = 583
   TextHeight = 15
@@ -41,7 +41,7 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
     object DtHCompilePanel: TPanel
       Left = 11
       Top = 2
-      Width = 206
+      Width = 94
       Height = 36
       Caption = ' '
       TabOrder = 0

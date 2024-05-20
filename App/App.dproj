@@ -5,7 +5,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -119,7 +119,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <PreBuildEvent><![CDATA[C:\Pr\app\bantu\bantu-sis\Controle\sis.git.describe.bat
+        <PreBuildEvent><![CDATA[C:\Pr\app\bantu\bantu-sis\Controle\GitDescribe_SaveTo_VersaoAtu.bat
 $(PreBuildEvent)]]></PreBuildEvent>
     </PropertyGroup>
     <ItemGroup>
@@ -386,7 +386,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas"/>
-        <DCCReference Include="AppVersao\App.Versao_u.pas"/>
+        <DCCReference Include="AppVersao\AppVersao_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -1183,7 +1183,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
-        <PreBuildEvent>C:\Pr\app\bantu\bantu-sis\Controle\sis.git.describe.bat</PreBuildEvent>
+        <PreBuildEvent>C:\Pr\app\bantu\bantu-sis\Controle\GitDescribe_SaveTo_VersaoAtu.bat</PreBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>

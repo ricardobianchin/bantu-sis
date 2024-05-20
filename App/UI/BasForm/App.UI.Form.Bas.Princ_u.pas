@@ -27,6 +27,8 @@ type
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure FormCreate(Sender: TObject);
+    procedure DtHCompileLabelClick(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -90,7 +92,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
   Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
-  App.SisConfig.DBI, App.DB.Utils;
+  App.SisConfig.DBI, App.DB.Utils, AppVersao_u;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -267,6 +269,18 @@ begin
   finally
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
+begin
+  inherited;
+  ShowMessage(AppVersao_u.GetInfos);
+end;
+
+procedure TPrincBasForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  DtHCompileLabel.Caption := AppVersao_u.VERSAO_RESUMIDA;
 end;
 
 procedure TPrincBasForm.FormDestroy(Sender: TObject);

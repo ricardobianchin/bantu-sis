@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -130,6 +130,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <PostBuildEvent><![CDATA[copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin
+C:\Pr\app\bantu\bantu-sis\Controle\AdmPostBuild.bat
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -1035,7 +1038,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
+        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin&amp;&amp;C:\Pr\app\bantu\bantu-sis\Controle\AdmPostBuild.bat&amp;&amp;copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
