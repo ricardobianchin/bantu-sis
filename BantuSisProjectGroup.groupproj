@@ -22,7 +22,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="VersaoAtu\VersaoAtu.dproj">
-            <Dependencies/>
+            <Dependencies>Sis\Sis.dproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -86,13 +86,13 @@
     <Target Name="LogMonitor:Make">
         <MSBuild Projects="LogMonitor\LogMonitor.dproj" Targets="Make"/>
     </Target>
-    <Target Name="VersaoAtu">
+    <Target Name="VersaoAtu" DependsOnTargets="Sis">
         <MSBuild Projects="VersaoAtu\VersaoAtu.dproj"/>
     </Target>
-    <Target Name="VersaoAtu:Clean">
+    <Target Name="VersaoAtu:Clean" DependsOnTargets="Sis:Clean">
         <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="VersaoAtu:Make">
+    <Target Name="VersaoAtu:Make" DependsOnTargets="Sis:Make">
         <MSBuild Projects="VersaoAtu\VersaoAtu.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
@@ -144,8 +144,8 @@
         </BuildGroupProject>
         <BuildGroupProject Include="VersaoAtu\VersaoAtu.dproj">
             <ProjectGuid>{AC45A207-335A-40F5-9A82-E885A7795CB1}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
