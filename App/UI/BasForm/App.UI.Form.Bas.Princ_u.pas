@@ -281,6 +281,7 @@ procedure TPrincBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
   DtHCompileLabel.Caption := AppVersao_u.VERSAO_RESUMIDA;
+  DtHCompileLabel.Hint := AppVersao_u.GetInfos;
 end;
 
 procedure TPrincBasForm.FormDestroy(Sender: TObject);
