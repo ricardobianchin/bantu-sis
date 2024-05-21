@@ -477,7 +477,7 @@ var
 begin
   if FLoja.Descr <> '' then
   begin
-    s := 'EXECUTE PROCEDURE LOJA_PA.LOJA_GARANTIR(' + FLoja.Id.ToString + ',' +
+    s := 'EXECUTE PROCEDURE LOJA_PA.GARANTIR(' + FLoja.Id.ToString + ',' +
       FLoja.Descr.QuotedString + ', TRUE);';
     pDBConnection.ExecuteSql(s);
   end;
@@ -486,7 +486,7 @@ begin
   begin
     Encriptar(1, '123', sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.USUARIO_GARANTIR(' +
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR(' +
       FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
       'SUP'.QuotedString + ',' + sSenha.QuotedString + ',1,' +
       'SUPORTE'.QuotedString + ',' + ' 1);';
@@ -500,7 +500,7 @@ begin
 
     Encriptar(1, FUsuarioGerente.Senha, sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.USUARIO_GARANTIR(' +
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR(' +
       FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ','
       + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',1,' +
       FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
