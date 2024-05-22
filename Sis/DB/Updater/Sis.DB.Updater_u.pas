@@ -486,14 +486,14 @@ begin
   begin
     Encriptar(1, '123', sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR(' +
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES(' +
       FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
       'SUP'.QuotedString + ',' + sSenha.QuotedString + ',1,' +
       'SUPORTE'.QuotedString + ',' + ' 1);';
 
     { iPessoaId := } pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR_NOMES(' +
       FLoja.Id.ToString + ',1,1);';
 
     pDBConnection.ExecuteSql(s);
