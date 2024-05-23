@@ -39,6 +39,7 @@ copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 00000001
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000012.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000013.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000011.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000012.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000010.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000011.txt"
+exit
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000009.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000010.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000008.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000009.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000007.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000008.txt"
