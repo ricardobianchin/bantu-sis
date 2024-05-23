@@ -1,0 +1,37 @@
+unit App.Retag.Aju.VersaoDB.DBI_u;
+
+interface
+
+uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
+  System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
+  Sis.UI.Frame.Bas.FiltroParams_u, App.Ent.Ed, App.Retag.Aju.VersaoDB.Ent;
+
+type
+  TVersaoDBDBI = class(TEntDBI)
+  private
+  protected
+    function GetSqlPreencherDataSet(pValues: variant): string; override;
+  public
+  end;
+
+implementation
+
+uses System.SysUtils;
+
+{ TVersaoDBDBI }
+
+function TVersaoDBDBI.GetSqlPreencherDataSet(pValues: variant): string;
+var
+  sBusca: string;
+begin
+  sBusca := vartostr(pValues);
+
+  Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' //
+    + ' NUM, DTH_INS, ASSUNTO, OBJETIVO, OBS' //
+    + ' FROM DBUPDATE_PA.LISTA_GET(' + QuotedStr(sBusca) + ');' //
+    ; //
+
+  // SetClipboardText(Result);
+end;
+
+end.

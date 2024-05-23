@@ -387,6 +387,13 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas"/>
         <DCCReference Include="AppVersao\AppVersao_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.UI.Form.DataSet.Retag.Aju.VersaoDB_u.pas">
+            <Form>RetagAjuVersaoDBDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

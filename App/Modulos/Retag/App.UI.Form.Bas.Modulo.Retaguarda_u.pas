@@ -20,7 +20,7 @@ uses
     , App.Retag.Est.Prod.Ent //
 
     , App.Retag.Est.Prod.Barras.Ent.List //
-    , App.Retag.Est.Prod.Balanca.Ent //
+    , App.Retag.Est.Prod.Balanca.Ent, App.Retag.Aju.VersaoDB.Ent //
 
     ;
 
@@ -43,7 +43,7 @@ type
     RetagEstProdEnviarTermAction: TAction;
 
     BalloonHint1: TBalloonHint;
-    ToolBar3: TToolBar;
+    AjudaToolBar: TToolBar;
     AjuBemToolButton: TToolButton;
     RetagEstProdICMSAction: TAction;
     ProdTabsTabSheet: TTabSheet;
@@ -102,6 +102,11 @@ type
     FinToolBar: TToolBar;
     PagamentoFormaToolButton: TToolButton;
     FinanceiroPagamentoFormaAction: TAction;
+    SistemaTabSheet: TTabSheet;
+    AcessoToolBar: TToolBar;
+    FuncToolButton: TToolButton;
+    RetagAcessoFuncAction: TAction;
+    RetagAjuVersaoDBAction: TAction;
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -122,6 +127,7 @@ type
     procedure RetagEstProdActionExecute(Sender: TObject);
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
     procedure FinanceiroPagamentoFormaActionExecute(Sender: TObject);
+    procedure RetagAjuVersaoDBActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -130,6 +136,7 @@ type
 
     // aju
     FAjuBemVindoTabSheetFormCreator: IFormCreator;
+    FAjuVersaoDBTabSheetFormCreator: IFormCreator;
 
     // est
     FFabrDataSetFormCreator: IFormCreator;
@@ -176,6 +183,9 @@ constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
+
+  oVersaoDBEnt: IVersaoDBEnt;
+  oVersaoDBDBI: IEntDBI;
 
   oFabrEnt: IProdFabrEnt;
   oFabrDBI: IEntDBI;
@@ -225,10 +235,20 @@ begin
   oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
+  // aju
   // aju bem vindo
   FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
     (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify);
+
+  oVersaoDBEnt := RetagEstVersaoDBEntCreate;
+  oVersaoDBDBI := RetagAjuVersaoDBDBICreate(oDBConnection, oVersaoDBEnt);
+
+  // aju versao db
+  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate(
+    FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oVersaoDBEnt, oVersaoDBDBI);
+
 
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, oFabrEnt);
@@ -334,6 +354,13 @@ procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FAjuBemVindoTabSheetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagAjuVersaoDBActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAjuVersaoDBTabSheetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);

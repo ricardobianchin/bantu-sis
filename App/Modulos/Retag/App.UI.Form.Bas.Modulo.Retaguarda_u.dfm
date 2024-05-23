@@ -30,7 +30,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = EstoqueTabSheet
+      ActivePage = AjudaTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -145,10 +145,36 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           end
         end
       end
+      object SistemaTabSheet: TTabSheet
+        Caption = 'Acesso ao Sistema'
+        ImageIndex = 4
+        object AcessoToolBar: TToolBar
+          Left = 0
+          Top = 0
+          Width = 582
+          Height = 30
+          AutoSize = True
+          ButtonHeight = 30
+          ButtonWidth = 103
+          Caption = 'AcessoToolBar'
+          Ctl3D = False
+          EdgeInner = esNone
+          EdgeOuter = esNone
+          Images = RetagImgDM.ImageList_24_24
+          List = True
+          ShowCaptions = True
+          TabOrder = 0
+          object FuncToolButton: TToolButton
+            Left = 0
+            Top = 0
+            Action = RetagAcessoFuncAction
+          end
+        end
+      end
       object AjudaTabSheet: TTabSheet
         Caption = 'Ajuda'
         ImageIndex = 1
-        object ToolBar3: TToolBar
+        object AjudaToolBar: TToolBar
           Left = 0
           Top = 0
           Width = 582
@@ -156,7 +182,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           AutoSize = True
           ButtonHeight = 30
           ButtonWidth = 94
-          Caption = 'EstoqueToolBar'
+          Caption = 'AjudaToolBar'
           Ctl3D = False
           EdgeInner = esNone
           EdgeOuter = esNone
@@ -312,6 +338,15 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Category = 'Financeiro'
       Caption = 'Formas de Pagamento'
       OnExecute = FinanceiroPagamentoFormaActionExecute
+    end
+    object RetagAcessoFuncAction: TAction
+      Category = 'Acesso'
+      Caption = 'Funcion'#225'rios'
+    end
+    object RetagAjuVersaoDBAction: TAction
+      Category = 'Ajuda'
+      Caption = 'RetagAjuVersaoDBAction'
+      OnExecute = RetagAjuVersaoDBActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

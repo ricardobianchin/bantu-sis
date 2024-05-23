@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -181,6 +181,10 @@ contains
   App.DB.Import.Form_Finalizar_ProdTipo_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas',
   App.DB.Import.Form_Finalizar_Unid_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas',
   App.DB.Import.Form_Finalizar_Prod_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas',
-  AppVersao_u in 'AppVersao\AppVersao_u.pas';
+  AppVersao_u in 'AppVersao\AppVersao_u.pas',
+  App.UI.Form.DataSet.Retag.Aju.VersaoDB_u in 'Modulos\Retag\Aju\VersaoDB\App.UI.Form.DataSet.Retag.Aju.VersaoDB_u.pas' {RetagAjuVersaoDBDataSetForm},
+  App.Retag.Aju.VersaoDB.Ent in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas',
+  App.Retag.Aju.VersaoDB.Ent_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas',
+  App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas';
 
 end.

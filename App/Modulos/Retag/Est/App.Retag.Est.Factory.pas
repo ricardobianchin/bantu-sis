@@ -316,6 +316,7 @@ begin
 end;
 
 {$ENDREGION}
+
 {$REGION 'prod tipo impl'}
 
 function EntEdCastToProdTipoEnt(pEntEd: IEntEd): IProdTipoEnt;
