@@ -58,7 +58,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    oVersaoDBDBI.PreencherDataSet(0, LeRegEInsere);
+    oVersaoDBDBI.PreencherDataSet('', LeRegEInsere);
 
   finally
     FDMemTable.First;

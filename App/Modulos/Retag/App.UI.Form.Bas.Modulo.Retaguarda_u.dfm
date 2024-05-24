@@ -181,7 +181,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Height = 30
           AutoSize = True
           ButtonHeight = 30
-          ButtonWidth = 94
+          ButtonWidth = 104
           Caption = 'AjudaToolBar'
           Ctl3D = False
           EdgeInner = esNone
@@ -194,6 +194,11 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Left = 0
             Top = 0
             Action = RetagAjuBemAction
+          end
+          object AjuVersaoDBToolButton: TToolButton
+            Left = 104
+            Top = 0
+            Action = RetagAjuVersaoDBAction
           end
         end
       end
@@ -345,7 +350,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagAjuVersaoDBAction: TAction
       Category = 'Ajuda'
-      Caption = 'RetagAjuVersaoDBAction'
+      Caption = 'Vers'#227'o do DB'
       OnExecute = RetagAjuVersaoDBActionExecute
     end
   end

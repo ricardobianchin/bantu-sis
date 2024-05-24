@@ -107,6 +107,7 @@ type
     FuncToolButton: TToolButton;
     RetagAcessoFuncAction: TAction;
     RetagAjuVersaoDBAction: TAction;
+    AjuVersaoDBToolButton: TToolButton;
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 

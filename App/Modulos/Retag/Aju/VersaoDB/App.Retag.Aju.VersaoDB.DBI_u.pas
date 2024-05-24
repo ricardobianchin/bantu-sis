@@ -26,9 +26,9 @@ var
 begin
   sBusca := vartostr(pValues);
 
-  Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' //
-    + ' NUM, DTH_INS, ASSUNTO, OBJETIVO, OBS' //
-    + ' FROM DBUPDATE_PA.LISTA_GET(' + QuotedStr(sBusca) + ');' //
+  Result := 'SELECT NUM, DTH_INS, ASSUNTO, OBJETIVO, OBS' //
+    + ' FROM DBUPDATE_PA.LISTA_GET(' + QuotedStr(sBusca) + ')' //
+    + ' ORDER BY NUM DESC;' //
     ; //
 
   // SetClipboardText(Result);
