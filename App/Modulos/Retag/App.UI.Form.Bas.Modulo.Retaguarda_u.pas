@@ -129,6 +129,7 @@ type
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
     procedure FinanceiroPagamentoFormaActionExecute(Sender: TObject);
     procedure RetagAjuVersaoDBActionExecute(Sender: TObject);
+    procedure RetagAcessoFuncActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -349,6 +350,13 @@ begin
   end;
   sTexto := TTabControl(Control).Tabs[TabIndex];
   Control.Canvas.TextRect(vRect, sTexto, [tfCenter, tfVerticalCenter]);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagAcessoFuncActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAjuBemVindoTabSheetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);

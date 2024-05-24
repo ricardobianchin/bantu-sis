@@ -30,7 +30,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = AjudaTabSheet
+      ActivePage = ProdTabsTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -347,6 +347,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagAcessoFuncAction: TAction
       Category = 'Acesso'
       Caption = 'Funcion'#225'rios'
+      OnExecute = RetagAcessoFuncActionExecute
     end
     object RetagAjuVersaoDBAction: TAction
       Category = 'Ajuda'
