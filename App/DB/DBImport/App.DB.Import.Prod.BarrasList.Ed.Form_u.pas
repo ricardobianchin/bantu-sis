@@ -3,7 +3,8 @@ unit App.DB.Import.Prod.BarrasList.Ed.Form_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Diag.Btn_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.Mask, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
@@ -55,7 +56,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM, Sis.Types.strings_u, Sis.UI.Controls.Utils,
-  App.DB.Import.Factory, Sis.UI.IO.Input.Str;
+  Sis.UI.IO.Input.Str, App.DB.Import.Factory;
 
 function ImportBarrasEdPerg(pBarras: string; var pNovoBarras: string): Boolean;
 begin
@@ -83,12 +84,13 @@ begin
   FDMemTable1.Delete;
 end;
 
-procedure TImportProdBarrasListEdForm.FDMemTable1BeforeInsert(DataSet: TDataSet);
+procedure TImportProdBarrasListEdForm.FDMemTable1BeforeInsert
+  (DataSet: TDataSet);
 begin
   inherited;
-//  if ActiveControl <> DBGrid1 then
-//    exit;
-//  Abort;
+  // if ActiveControl <> DBGrid1 then
+  // exit;
+  // Abort;
 end;
 
 procedure TImportProdBarrasListEdForm.FormCreate(Sender: TObject);
@@ -123,7 +125,7 @@ procedure TImportProdBarrasListEdForm.InserirActionExecute(Sender: TObject);
 var
   sBarras: string;
   oInputBarras: IInputStr;
-  bResultado: boolean;
+  bResultado: Boolean;
 begin
   inherited;
   sBarras := '';

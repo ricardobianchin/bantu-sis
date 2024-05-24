@@ -9,10 +9,12 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
   inherited MensLabel: TLabel
     Top = 290
     Width = 419
+    ExplicitTop = 290
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 347
     Width = 419
+    ExplicitTop = 347
   end
   object Label1: TLabel [2]
     Left = 8
@@ -21,25 +23,7 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
     Height = 15
     Caption = 'Novos C'#243'digos de Barra'
   end
-  inherited BasePanel: TPanel
-    Top = 310
-    Width = 419
-    ExplicitTop = 230
-    ExplicitWidth = 443
-    inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 80
-      ExplicitLeft = 104
-    end
-    inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 193
-      ExplicitLeft = 217
-    end
-    inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 273
-      ExplicitLeft = 297
-    end
-  end
-  object BarrasLabeledEdit: TLabeledEdit [4]
+  object BarrasLabeledEdit: TLabeledEdit [3]
     Left = 8
     Top = 24
     Width = 321
@@ -52,7 +36,7 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
     TabOrder = 1
     Text = ''
   end
-  object DBGrid1: TDBGrid [5]
+  object DBGrid1: TDBGrid [4]
     Left = 8
     Top = 72
     Width = 185
@@ -66,7 +50,7 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
   end
-  object ToolBar1: TToolBar [6]
+  object ToolBar1: TToolBar [5]
     Left = 8
     Top = 240
     Width = 217
@@ -88,7 +72,7 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
       Action = ExcluirAction
     end
   end
-  object UndoBitBtn: TBitBtn [7]
+  object UndoBitBtn: TBitBtn [6]
     Left = 254
     Top = 72
     Width = 75
@@ -97,6 +81,24 @@ inherited ImportProdBarrasListEdForm: TImportProdBarrasListEdForm
     Caption = 'Desfazer'
     TabOrder = 4
     OnClick = UndoBitBtnClick
+  end
+  inherited BasePanel: TPanel
+    Top = 310
+    Width = 419
+    ExplicitTop = 309
+    ExplicitWidth = 415
+    inherited MensCopyBitBtn_DiagBtn: TBitBtn
+      Left = 76
+      ExplicitLeft = 72
+    end
+    inherited OkBitBtn_DiagBtn: TBitBtn
+      Left = 189
+      ExplicitLeft = 185
+    end
+    inherited CancelBitBtn_DiagBtn: TBitBtn
+      Left = 269
+      ExplicitLeft = 265
+    end
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 160

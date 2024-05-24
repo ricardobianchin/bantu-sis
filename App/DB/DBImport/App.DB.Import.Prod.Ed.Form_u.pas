@@ -10,6 +10,7 @@ uses
 type
   TDBImportProdEdForm = class(TDiagBtnBasForm)
     SelCheckBox: TCheckBox;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,5 +23,13 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.UI.Controls.Utils;
+
+procedure TDBImportProdEdForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  ClearStyleElements(Self);
+end;
 
 end.
