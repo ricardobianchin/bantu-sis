@@ -493,14 +493,14 @@ begin
 
     { iPessoaId := } pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR_NOMES(' +
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
       FLoja.Id.ToString + ',1,1);';
 
     pDBConnection.ExecuteSql(s);
 
     Encriptar(1, FUsuarioGerente.Senha, sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR(' +
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES(' +
       FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ','
       + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',1,' +
       FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
