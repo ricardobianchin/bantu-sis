@@ -31,11 +31,12 @@ object SplashForm: TSplashForm
     Caption = 'Iniciando...'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -16
+    Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
     Layout = tlCenter
+    WordWrap = True
     StyleElements = []
   end
 end
