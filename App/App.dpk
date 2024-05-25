@@ -185,6 +185,8 @@ contains
   App.UI.Form.DataSet.Retag.Aju.VersaoDB_u in 'Modulos\Retag\Aju\VersaoDB\App.UI.Form.DataSet.Retag.Aju.VersaoDB_u.pas' {RetagAjuVersaoDBDataSetForm},
   App.Retag.Aju.VersaoDB.Ent in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas',
   App.Retag.Aju.VersaoDB.Ent_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas',
-  App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas';
+  App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas',
+  App.Config.Amb.Loja.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Factory_u.pas',
+  App.UI.Form.DataSet.Config.Ambi.Loja_u in 'Modulos\Config\Ambi\Loja\App.UI.Form.DataSet.Config.Ambi.Loja_u.pas' {ConfigAmbiLojaDataSetForm};
 
 end.

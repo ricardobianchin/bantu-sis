@@ -116,6 +116,7 @@ type
 
     // Aju
     procedure RetagAjuBemActionExecute(Sender: TObject);
+    procedure RetagAjuVersaoDBActionExecute(Sender: TObject);
 
     // Est
 
@@ -128,7 +129,6 @@ type
     procedure RetagEstProdActionExecute(Sender: TObject);
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
     procedure FinanceiroPagamentoFormaActionExecute(Sender: TObject);
-    procedure RetagAjuVersaoDBActionExecute(Sender: TObject);
     procedure RetagAcessoFuncActionExecute(Sender: TObject);
   private
     { Private declarations }

@@ -210,12 +210,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
-    inherited Panel1: TPanel
-      inherited OutputLabel: TLabel
-        Width = 203
-        Height = 23
-      end
-    end
   end
   object PageControl1: TPageControl [3]
     Left = 0

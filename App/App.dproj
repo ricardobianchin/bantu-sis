@@ -394,6 +394,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Factory_u.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Loja\App.UI.Form.DataSet.Config.Ambi.Loja_u.pas">
+            <Form>ConfigAmbiLojaDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

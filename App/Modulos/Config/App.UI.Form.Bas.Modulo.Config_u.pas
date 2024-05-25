@@ -6,11 +6,11 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.UI.FormCreator,
   Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos,
-  App.Constants, Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils,
-  App.DB.Import.Form_u;
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
+  Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils, App.DB.Import.Form_u,
+  Sis.Types.Contador;
 
 type
   TConfigModuloBasForm = class(TModuloBasForm)
@@ -26,12 +26,22 @@ type
     ConfigAmbienteToolBar: TToolBar;
     ConfigAmbienteLojasToolButton: TToolButton;
     ConfigTerminaisToolButton: TToolButton;
-    ConfigAmbienteLojasAction: TAction;
+    ConfigAmbiLojasAction: TAction;
     ConfigTerminaisAction: TAction;
+    PageControl1: TPageControl;
+    BalloonHint1: TBalloonHint;
     procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure ConfigAmbiLojasActionExecute(Sender: TObject);
   private
     { Private declarations }
+    FFormClassNamesSL: TStringList;
+    FContador: IContador;
+    FOutputNotify: IOutput;
+
+    FAmbiLojasDataSetFormCreator: IFormCreator;
+
+    procedure TabSheetCrie(pFormCreator: IFormCreator);
   protected
     procedure DBImportPrep; virtual;
     function DBImportFormCreate(pItemIndex: integer): TDBImportForm;
@@ -49,15 +59,44 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.Types.Factory, Sis.UI.IO.Factory, App.AppInfo, Sis.Config.SisConfig,
+  App.Config.Amb.Loja.Factory_u;
+
 { TConfigModuloBasForm }
 
 constructor TConfigModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
+var
+  oAppInfo: IAppInfo;
+  oSisConfig: ISisConfig;
 begin
   inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
     pUsuario, pAppObj);
   DBImportPrep;
+  FFormClassNamesSL := TStringList.Create;
+
+  FContador := ContadorCreate;
+  FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
+
+//  FAmbiLojasDataSetFormCreator := AmbiLojaDataSetFormCreatorCreate
+//    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+//    FOutputNotify);
+
+
+{$IFDEF DEBUG}
+  MenuPageControl.ActivePageIndex := 0;
+{$ELSE}
+  MenuPageControl.ActivePageIndex := 0;
+{$ENDIF}
+end;
+
+procedure TConfigModuloBasForm.ConfigAmbiLojasActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAmbiLojasDataSetFormCreator);
 end;
 
 procedure TConfigModuloBasForm.ConfigDBImportAbrirActionExecute
@@ -87,6 +126,11 @@ procedure TConfigModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   ClearStyleElements(Self);
+
+end;
+
+procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);
+begin
 
 end;
 
