@@ -477,7 +477,7 @@ var
 begin
   if FLoja.Descr <> '' then
   begin
-    s := 'EXECUTE PROCEDURE LOJA_PA.GARANTIR(' + FLoja.Id.ToString + ',' +
+    s := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' + FLoja.Id.ToString + ',' +
       FLoja.Descr.QuotedString + ', TRUE);';
     pDBConnection.ExecuteSql(s);
   end;
