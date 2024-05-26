@@ -399,6 +399,16 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>ConfigAmbiLojaDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\App.UI.Form.DataSet.Pess_u.pas">
+            <Form>TabSheetDataSetBasForm1</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\App.Pess.Loja.pas"/>
+        <DCCReference Include="Pess\App.Pess.Factory_u.pas"/>
+        <DCCReference Include="Pess\App.Generos.pas"/>
+        <DCCReference Include="Pess\App.Generos_u.pas"/>
+        <DCCReference Include="Pess\App.EstadosCivis.pas"/>
+        <DCCReference Include="Pess\App.EstadosCivis_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

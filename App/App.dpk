@@ -187,6 +187,13 @@ contains
   App.Retag.Aju.VersaoDB.Ent_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas',
   App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas',
   App.Config.Amb.Loja.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Factory_u.pas',
-  App.UI.Form.DataSet.Config.Ambi.Loja_u in 'Modulos\Config\Ambi\Loja\App.UI.Form.DataSet.Config.Ambi.Loja_u.pas' {ConfigAmbiLojaDataSetForm};
+  App.UI.Form.DataSet.Config.Ambi.Loja_u in 'Modulos\Config\Ambi\Loja\App.UI.Form.DataSet.Config.Ambi.Loja_u.pas' {ConfigAmbiLojaDataSetForm},
+  App.UI.Form.DataSet.Pess_u in 'Pess\App.UI.Form.DataSet.Pess_u.pas' {TabSheetDataSetBasForm1},
+  App.Pess.Loja in 'Pess\App.Pess.Loja.pas',
+  App.Pess.Factory_u in 'Pess\App.Pess.Factory_u.pas',
+  App.Generos in 'Pess\App.Generos.pas',
+  App.Generos_u in 'Pess\App.Generos_u.pas',
+  App.EstadosCivis in 'Pess\App.EstadosCivis.pas',
+  App.EstadosCivis_u in 'Pess\App.EstadosCivis_u.pas';
 
 end.
