@@ -409,8 +409,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Generos_u.pas"/>
         <DCCReference Include="Pess\App.EstadosCivis.pas"/>
         <DCCReference Include="Pess\App.EstadosCivis_u.pas"/>
-        <DCCReference Include="Pess\App.UI.Form.DataSet.Pess.Empr_u.pas">
-            <Form>AppPessEmprDataSetForm</Form>
+        <DCCReference Include="Pess\App.UI.Form.DataSet.Pess.Loja_u.pas">
+            <Form>AppPessLojaDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

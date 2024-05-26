@@ -195,6 +195,6 @@ contains
   App.Generos_u in 'Pess\App.Generos_u.pas',
   App.EstadosCivis in 'Pess\App.EstadosCivis.pas',
   App.EstadosCivis_u in 'Pess\App.EstadosCivis_u.pas',
-  App.UI.Form.DataSet.Pess.Empr_u in 'Pess\App.UI.Form.DataSet.Pess.Empr_u.pas' {AppPessEmprDataSetForm};
+  App.UI.Form.DataSet.Pess.Loja_u in 'Pess\App.UI.Form.DataSet.Pess.Loja_u.pas' {AppPessLojaDataSetForm};
 
 end.

@@ -1,4 +1,4 @@
-unit App.UI.Form.DataSet.Pess.Empr_u;
+unit App.UI.Form.DataSet.Pess.Loja_u;
 
 interface
 
@@ -9,7 +9,7 @@ uses
   Vcl.DBGrids, Vcl.ToolWin;
 
 type
-  TAppPessEmprDataSetForm = class(TAppPessDataSetForm)
+  TAppPessLojaDataSetForm = class(TAppPessDataSetForm)
   private
     { Private declarations }
   public
@@ -17,7 +17,7 @@ type
   end;
 
 var
-  AppPessEmprDataSetForm: TAppPessEmprDataSetForm;
+  AppPessLojaDataSetForm: TAppPessLojaDataSetForm;
 
 implementation
 
