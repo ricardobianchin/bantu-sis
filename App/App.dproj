@@ -400,7 +400,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\App.UI.Form.DataSet.Pess_u.pas">
-            <Form>TabSheetDataSetBasForm1</Form>
+            <Form>AppPessDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\App.Pess.Loja.pas"/>
@@ -409,6 +409,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Generos_u.pas"/>
         <DCCReference Include="Pess\App.EstadosCivis.pas"/>
         <DCCReference Include="Pess\App.EstadosCivis_u.pas"/>
+        <DCCReference Include="Pess\App.UI.Form.DataSet.Pess.Empr_u.pas">
+            <Form>AppPessEmprDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
