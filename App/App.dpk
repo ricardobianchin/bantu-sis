@@ -189,12 +189,16 @@ contains
   App.Config.Amb.Loja.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Factory_u.pas',
   App.UI.Form.DataSet.Config.Ambi.Loja_u in 'Modulos\Config\Ambi\Loja\App.UI.Form.DataSet.Config.Ambi.Loja_u.pas' {ConfigAmbiLojaDataSetForm},
   App.UI.Form.DataSet.Pess_u in 'Pess\App.UI.Form.DataSet.Pess_u.pas' {AppPessDataSetForm},
-  App.Pess.Loja in 'Pess\App.Pess.Loja.pas',
+  App.Pess.Ent in 'Pess\App.Pess.Ent.pas',
   App.Pess.Factory_u in 'Pess\App.Pess.Factory_u.pas',
   App.Generos in 'Pess\App.Generos.pas',
   App.Generos_u in 'Pess\App.Generos_u.pas',
   App.EstadosCivis in 'Pess\App.EstadosCivis.pas',
   App.EstadosCivis_u in 'Pess\App.EstadosCivis_u.pas',
-  App.UI.Form.DataSet.Pess.Loja_u in 'Pess\App.UI.Form.DataSet.Pess.Loja_u.pas' {AppPessLojaDataSetForm};
+  App.UI.Form.DataSet.Pess.Loja_u in 'Pess\App.UI.Form.DataSet.Pess.Loja_u.pas' {AppPessLojaDataSetForm},
+  App.PessEnder in 'Pess\App.PessEnder.pas',
+  App.Pess.Loja.DBI_u in 'Pess\App.Pess.Loja.DBI_u.pas',
+  App.Pess.Ent_u in 'Pess\App.Pess.Ent_u.pas',
+  App.PessEnder_u in 'Pess\App.PessEnder_u.pas';
 
 end.

@@ -403,7 +403,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>AppPessDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Pess\App.Pess.Loja.pas"/>
+        <DCCReference Include="Pess\App.Pess.Ent.pas"/>
         <DCCReference Include="Pess\App.Pess.Factory_u.pas"/>
         <DCCReference Include="Pess\App.Generos.pas"/>
         <DCCReference Include="Pess\App.Generos_u.pas"/>
@@ -413,6 +413,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>AppPessLojaDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\App.PessEnder.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.DBI_u.pas"/>
+        <DCCReference Include="Pess\App.Pess.Ent_u.pas"/>
+        <DCCReference Include="Pess\App.PessEnder_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
