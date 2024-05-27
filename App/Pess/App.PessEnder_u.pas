@@ -5,7 +5,7 @@ interface
 uses App.PessEnder;
 
 type
-  TEnder = class(TInterfacedObject, IEnder)
+  TPessEnder = class(TInterfacedObject, IPessEnder)
   private
     FOrdem: smallint;
     FLogradouro: string;
@@ -103,184 +103,184 @@ type
 
 implementation
 
-{ TEnder }
+{ TPessEnder }
 
-function TEnder.GetBairro: string;
+function TPessEnder.GetBairro: string;
 begin
   Result := FBairro;
 end;
 
-function TEnder.GetCEP: string;
+function TPessEnder.GetCEP: string;
 begin
   Result := FCEP;
 end;
 
-function TEnder.GetComplemento: string;
+function TPessEnder.GetComplemento: string;
 begin
   Result := FComplemento;
 end;
 
-function TEnder.GetContato: string;
+function TPessEnder.GetContato: string;
 begin
   Result := FContato;
 end;
 
-function TEnder.GetCriadoEm: TDateTime;
+function TPessEnder.GetCriadoEm: TDateTime;
 begin
   Result := FCriadoEm;
 end;
 
-function TEnder.GetDDD: string;
+function TPessEnder.GetDDD: string;
 begin
   Result := FDDD;
 end;
 
-function TEnder.GetEditadoEm: TDateTime;
+function TPessEnder.GetEditadoEm: TDateTime;
 begin
   Result := FEditadoEm;
 end;
 
-function TEnder.GetEMail: string;
+function TPessEnder.GetEMail: string;
 begin
   Result := FEMail;
 end;
 
-function TEnder.GetFone1: string;
+function TPessEnder.GetFone1: string;
 begin
   Result := FFone1;
 end;
 
-function TEnder.GetFone2: string;
+function TPessEnder.GetFone2: string;
 begin
   Result := FFone2;
 end;
 
-function TEnder.GetFone3: string;
+function TPessEnder.GetFone3: string;
 begin
   Result := FFone3;
 end;
 
-function TEnder.GetLogradouro: string;
+function TPessEnder.GetLogradouro: string;
 begin
   Result := FLogradouro;
 end;
 
-function TEnder.GetMunicipio: string;
+function TPessEnder.GetMunicipio: string;
 begin
   Result := FMunicipio;
 end;
 
-function TEnder.GetMunicipioIbgeId: string;
+function TPessEnder.GetMunicipioIbgeId: string;
 begin
   Result := FMunicipioIbgeId;
 end;
 
-function TEnder.GetNumero: string;
+function TPessEnder.GetNumero: string;
 begin
   Result := FNumero;
 end;
 
-function TEnder.GetOrdem: smallint;
+function TPessEnder.GetOrdem: smallint;
 begin
   Result := FOrdem;
 end;
 
-function TEnder.GetReferencia: string;
+function TPessEnder.GetReferencia: string;
 begin
   Result := FReferencia;
 end;
 
-function TEnder.GetUFSigla: string;
+function TPessEnder.GetUFSigla: string;
 begin
   Result := FUFSigla;
 end;
 
-procedure TEnder.SetBairro(const Value: string);
+procedure TPessEnder.SetBairro(const Value: string);
 begin
   FBairro := Value;
 end;
 
-procedure TEnder.SetCEP(const Value: string);
+procedure TPessEnder.SetCEP(const Value: string);
 begin
   FCEP := Value;
 end;
 
-procedure TEnder.SetComplemento(const Value: string);
+procedure TPessEnder.SetComplemento(const Value: string);
 begin
   FComplemento := Value;
 end;
 
-procedure TEnder.SetContato(const Value: string);
+procedure TPessEnder.SetContato(const Value: string);
 begin
   FContato := Value;
 end;
 
-procedure TEnder.SetCriadoEm(const Value: TDateTime);
+procedure TPessEnder.SetCriadoEm(const Value: TDateTime);
 begin
   FCriadoEm := Value;
 end;
 
-procedure TEnder.SetDDD(const Value: string);
+procedure TPessEnder.SetDDD(const Value: string);
 begin
   FDDD := Value;
 end;
 
-procedure TEnder.SetEditadoEm(const Value: TDateTime);
+procedure TPessEnder.SetEditadoEm(const Value: TDateTime);
 begin
   FEditadoEm := Value;
 end;
 
-procedure TEnder.SetEMail(const Value: string);
+procedure TPessEnder.SetEMail(const Value: string);
 begin
   FEMail := Value;
 end;
 
-procedure TEnder.SetFone1(const Value: string);
+procedure TPessEnder.SetFone1(const Value: string);
 begin
   FFone1 := Value;
 end;
 
-procedure TEnder.SetFone2(const Value: string);
+procedure TPessEnder.SetFone2(const Value: string);
 begin
   FFone2 := Value;
 end;
 
-procedure TEnder.SetFone3(const Value: string);
+procedure TPessEnder.SetFone3(const Value: string);
 begin
   FFone3 := Value;
 end;
 
-procedure TEnder.SetLogradouro(const Value: string);
+procedure TPessEnder.SetLogradouro(const Value: string);
 begin
   FLogradouro := Value;
 end;
 
-procedure TEnder.SetMunicipio(const Value: string);
+procedure TPessEnder.SetMunicipio(const Value: string);
 begin
   FMunicipio := Value;
 end;
 
-procedure TEnder.SetMunicipioIbgeId(const Value: string);
+procedure TPessEnder.SetMunicipioIbgeId(const Value: string);
 begin
   FMunicipioIbgeId := Value;
 end;
 
-procedure TEnder.SetNumero(const Value: string);
+procedure TPessEnder.SetNumero(const Value: string);
 begin
   FNumero := Value;
 end;
 
-procedure TEnder.SetOrdem(const Value: smallint);
+procedure TPessEnder.SetOrdem(const Value: smallint);
 begin
   FOrdem := Value;
 end;
 
-procedure TEnder.SetReferencia(const Value: string);
+procedure TPessEnder.SetReferencia(const Value: string);
 begin
   FReferencia := Value;
 end;
 
-procedure TEnder.SetUFSigla(const Value: string);
+procedure TPessEnder.SetUFSigla(const Value: string);
 begin
   FUFSigla := Value;
 end;

@@ -3,7 +3,7 @@ unit App.PessEnder;
 interface
 
 type
-  IEnder = interface(IInterface)
+  IPessEnder = interface(IInterface)
     ['{38263291-0E56-4DB5-A18A-DBB53DA7C285}']
     function GetOrdem: smallint;
     procedure SetOrdem(const Value: smallint);
