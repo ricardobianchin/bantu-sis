@@ -417,6 +417,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Pess.Loja.DBI_u.pas"/>
         <DCCReference Include="Pess\App.Pess.Ent_u.pas"/>
         <DCCReference Include="Pess\App.PessEnder_u.pas"/>
+        <DCCReference Include="Pess\App.PessEnder.List.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -199,6 +199,7 @@ contains
   App.PessEnder in 'Pess\App.PessEnder.pas',
   App.Pess.Loja.DBI_u in 'Pess\App.Pess.Loja.DBI_u.pas',
   App.Pess.Ent_u in 'Pess\App.Pess.Ent_u.pas',
-  App.PessEnder_u in 'Pess\App.PessEnder_u.pas';
+  App.PessEnder_u in 'Pess\App.PessEnder_u.pas',
+  App.PessEnder.List in 'Pess\App.PessEnder.List.pas';
 
 end.
