@@ -2,7 +2,7 @@ unit App.Pess.Ent;
 
 interface
 
-uses App.Ent.Ed.Id;
+uses App.Ent.Ed.Id, App.PessEnder.List, App.Pess.Types;
 
 type
   IPessEnt = interface(IEntEdId)
@@ -47,7 +47,6 @@ type
     procedure SetI(const Value: string);
     property I: string read GetI write SetI;
 
-
     function GetM: string;
     procedure SetM(const Value: string);
     property M: string read GetM write SetM;
@@ -59,6 +58,13 @@ type
     function GetDtNasc: TDateTime;
     procedure SetDtNasc(const Value: TDateTime);
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
+
+    function GetPessEnderList: IPessEnderList;
+    procedure SetPessEnderList(const Value: IPessEnderList);
+    property PessEnderList: IPessEnderList read GetPessEnderList write SetPessEnderList;
+
+    function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
+    property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
   end;
 
 implementation

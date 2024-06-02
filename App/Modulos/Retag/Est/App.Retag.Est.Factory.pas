@@ -58,6 +58,7 @@ function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
 
 {$ENDREGION}
+
 {$REGION 'prod tipo'}
 function EntEdCastToProdTipoEnt(pEntEd: IEntEd): IProdTipoEnt;
 function EntDBICastToProdTipoDBI(pEntDBI: IEntDBI): IEntDBI;
@@ -221,36 +222,46 @@ implementation
 
 uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Retag.Est.Custo_u
 
+{$REGION 'uses fabr'}
   // fabr
     , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
     , App.Retag.Est.Prod.Fabr.DBI_u // fabr dbi
     , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
     , App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
+{$ENDREGION}
 
+{$REGION 'uses tipo'}
   // tipo
     , App.Retag.Est.Prod.Tipo.Ent_u // tipo ent
     , App.Retag.Est.Prod.Tipo.DBI_u // tipo dbi
     , App.UI.Form.Ed.Prod.Tipo_u // tipo ed form
     , App.UI.Form.DataSet.Retag.Est.Prod.Tipo_u //
+{$ENDREGION}
 
+{$REGION 'uses unid'}
   // unid
     , App.Retag.Est.Prod.Unid.Ent_u // ent
     , App.Retag.Est.Prod.Unid.DBI_u // unid dbi
     , App.UI.Form.Ed.Prod.Unid_u // Unid ed form
     , App.UI.Form.DataSet.Retag.Est.Prod.Unid_u //
+{$ENDREGION}
 
+{$REGION 'uses icms'}
   // icms
     , App.Retag.Est.Prod.ICMS.Ent_u // icms ent
     , App.Retag.Est.Prod.ICMS.DBI_u // icms dbi
     , App.UI.Form.Ed.Prod.ICMS_u // icms ed form
     , App.UI.Form.DataSet.Retag.Est.Prod.ICMS_u //
+{$ENDREGION}
 
+{$REGION 'uses prod'}
   // prod
     , App.Retag.Est.Prod.Ent_u // prod ent
     , App.Retag.Est.Prod.DBI_u // prod dbi
     , App.UI.Form.Ed.Prod_u // prod ed form
     , App.UI.Form.DataSet.Retag.Est.Prod_u //
     , App.Retag.Est.Prod.UltimoId_u //
+{$ENDREGION}
 
   // prod barras
     , App.Retag.Est.Prod.Barras.Ent_u, App.Retag.Est.Prod.Barras.Ent.List_u

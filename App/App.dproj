@@ -127,10 +127,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
-        <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="vcledge.dcp"/>
         <DCCReference Include="vclie.dcp"/>
+        <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
         <DCCReference Include="AppObj\App.Factory.pas"/>
@@ -418,6 +418,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Pess.Ent_u.pas"/>
         <DCCReference Include="Pess\App.PessEnder_u.pas"/>
         <DCCReference Include="Pess\App.PessEnder.List.pas"/>
+        <DCCReference Include="Pess\App.PessEnder.List_u.pas"/>
+        <DCCReference Include="Pess\App.Pess.Types.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.Ent.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.Ent_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

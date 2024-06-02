@@ -5,10 +5,10 @@ interface
 uses App.Pess.Ent;
 
 type
-  ILojaEnt = interface(IPessEnt)
-    ['{F1CA136B-47C7-4092-A651-E66B2D1FF420}']
-
+  IPessLojaEnt = interface(IPessEnt)
+    ['{9FF020CB-8EC5-495D-82BE-669B04AC1718}']
   end;
+
 
 implementation
 

@@ -2,7 +2,7 @@ unit App.Pess.Ent_u;
 
 interface
 
-uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB;
+uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List, App.Pess.Types;
 
 type
   TPessEnt = class (TEntEdId, IPessEnt)
@@ -20,6 +20,8 @@ type
     FM: string;
     FMUF: string;
     FDtNasc: TDateTime;
+    FPessEnderList: IPessEnderList;
+    FEnderQuantidadePermitida: TEnderQuantidadePermitida;
 
     function GetPessoaId: integer;
     procedure SetPessoaId(const Value: integer);
@@ -59,6 +61,11 @@ type
 
     function GetDtNasc: TDateTime;
     procedure SetDtNasc(const Value: TDateTime);
+
+    function GetPessEnderList: IPessEnderList;
+    procedure SetPessEnderList(const Value: IPessEnderList);
+
+    function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
   public
     property PessoaId: integer read GetPessoaId write SetPessoaId;
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
@@ -73,17 +80,21 @@ type
     property M: string read GetM write SetM;
     property MUF: string read GetMUF write SetMUF;
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
+    property PessEnderList: IPessEnderList read GetPessEnderList write SetPessEnderList;
+    property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
 
-    constructor Create(pState: TDataSetState);
+    constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList; pEnderQuantidadePermitida: TEnderQuantidadePermitida);
   end;
 
 implementation
 
 { TPessEnt }
 
-constructor TPessEnt.Create(pState: TDataSetState);
+constructor TPessEnt.Create(pState: TDataSetState; pPessEnderList: IPessEnderList; pEnderQuantidadePermitida: TEnderQuantidadePermitida);
 begin
   inherited Create(dsBrowse, 0);
+  FPessEnderList := pPessEnderList;
+  FEnderQuantidadePermitida := pEnderQuantidadePermitida;
 end;
 
 function TPessEnt.GetApelido: string;
@@ -99,6 +110,11 @@ end;
 function TPessEnt.GetDtNasc: TDateTime;
 begin
   Result := FDtNasc;
+end;
+
+function TPessEnt.GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
+begin
+  Result := FEnderQuantidadePermitida;
 end;
 
 function TPessEnt.GetEstadoCivil: char;
@@ -139,6 +155,11 @@ end;
 function TPessEnt.GetNomeFantasia: string;
 begin
   Result := FNomeFantasia;
+end;
+
+function TPessEnt.GetPessEnderList: IPessEnderList;
+begin
+
 end;
 
 function TPessEnt.GetPessoaId: integer;
@@ -204,6 +225,11 @@ end;
 procedure TPessEnt.SetNomeFantasia(const Value: string);
 begin
   FNomeFantasia := Value;
+end;
+
+procedure TPessEnt.SetPessEnderList(const Value: IPessEnderList);
+begin
+
 end;
 
 procedure TPessEnt.SetPessoaId(const Value: integer);

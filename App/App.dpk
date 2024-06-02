@@ -29,10 +29,10 @@ package App;
 
 requires
   rtl,
-  Sis,
   vclimg,
   vcledge,
-  vclie;
+  vclie,
+  Sis;
 
 contains
   App.AppObj in 'AppObj\App.AppObj.pas',
@@ -200,6 +200,10 @@ contains
   App.Pess.Loja.DBI_u in 'Pess\App.Pess.Loja.DBI_u.pas',
   App.Pess.Ent_u in 'Pess\App.Pess.Ent_u.pas',
   App.PessEnder_u in 'Pess\App.PessEnder_u.pas',
-  App.PessEnder.List in 'Pess\App.PessEnder.List.pas';
+  App.PessEnder.List in 'Pess\App.PessEnder.List.pas',
+  App.PessEnder.List_u in 'Pess\App.PessEnder.List_u.pas',
+  App.Pess.Types in 'Pess\App.Pess.Types.pas',
+  App.Pess.Loja.Ent in 'Pess\App.Pess.Loja.Ent.pas',
+  App.Pess.Loja.Ent_u in 'Pess\App.Pess.Loja.Ent_u.pas';
 
 end.
