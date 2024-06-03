@@ -1,5 +1,6 @@
 POPULAR GENERO, ESTADO_CIVIL, UF, MUN
 ENSURE RECORDS
+
     inicio
 -----------------------------
 DBATUALIZ INI
