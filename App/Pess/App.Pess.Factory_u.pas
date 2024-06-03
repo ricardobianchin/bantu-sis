@@ -2,9 +2,9 @@ unit App.Pess.Factory_u;
 
 interface
 
-uses App.Generos, Sis.DB.DBTypes, App.Pess.Ent, Data.DB, Sis.DB.DBTypes,
+uses App.Generos, Sis.DB.DBTypes, App.Ent.Ed, App.Pess.Loja.Ent, Data.DB,
   Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, System.Classes,
-  Sis.Entidade, Sis.Loja, Sis.Usuario, App.UI.Form.Bas.Ed_u,
+  Sis.Entidade, Sis.Loja, Sis.Usuario, App.UI.Form.Bas.Ed_u, App.Ent.DBI,
   Sis.UI.Controls.ComboBoxManager, App.AppInfo, Sis.Config.SisConfig,
   Sis.UI.FormCreator;
 
@@ -36,15 +36,15 @@ function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 implementation
 
-uses App.Generos_u, App.Pess.Ent_u;
-
-, Vcl.Controls, App.UI.FormCreator.DataSet_u
+uses App.Generos_u, App.Pess.Ent_u//, Vcl.Controls, App.UI.FormCreator.DataSet_u
 
 {$REGION 'uses loja'}
-  , App.Retag.Est.Prod.Fabr.Ent_u // fabr ent
-  , App.Retag.Est.Prod.Fabr.DBI_u // fabr dbi
-  , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
-  , App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
+  , App.PessEnder.List
+  , App.PessEnder.List_u
+  , App.Pess.Loja.Ent_u // loja ent
+  , App.Pess.Loja.DBI_u // loja dbi
+//  , App.UI.Form.Ed.Prod.Fabr_u // fabr ed form
+//  , App.UI.Form.DataSet.Retag.Est.Prod.Fabr_u
 {$ENDREGION}
   ;
 
@@ -57,6 +57,11 @@ end;
 
 {$REGION 'loja impl'}
 
+function PessEnderListCreate: IPessEnderList;//privativo desta unit
+begin
+  Result := TPessEnderList.Create;
+end;
+
 function EntEdCastToPessLojaEnt(pEntEd: IEntEd): IPessLojaEnt;
 begin
   Result := TPessLojaEnt(pEntEd);
@@ -68,8 +73,12 @@ begin
 end;
 
 function RetagEstPessLojaEntCreate: IPessLojaEnt;
+var
+  oPessEnderList: IPessEnderList;
 begin
-  Result := TPessLojaEnt.Create(pState, pId, pDescr);
+  oPessEnderList := PessEnderListCreate;
+
+  Result := TPessLojaEnt.Create(oPessEnderList);
 end;
 
 function RetagEstPessLojaDBICreate(pDBConnection: IDBConnection;
@@ -81,7 +90,7 @@ end;
 function PessLojaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pPessLoja: IEntEd; pPessLojaDBI: IEntDBI): TEdBasForm;
 begin
-  Result := TPessLojaEdForm.Create(AOwner, pAppInfo, pPessLoja, pPessLojaDBI);
+  Result := nil; // TPessLojaEdForm.Create(AOwner, pAppInfo, pPessLoja, pPessLojaDBI);
 end;
 
 function PessLojaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
@@ -103,9 +112,10 @@ function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
 begin
-  Result := TDataSetFormCreator.Create(TRetagEstPessLojaDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+  Result := nil;
+//  TDataSetFormCreator.Create(TRetagEstPessLojaDataSetForm,
+//    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+//    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
 end;
 
 {$ENDREGION}

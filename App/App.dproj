@@ -422,6 +422,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Pess.Types.pas"/>
         <DCCReference Include="Pess\App.Pess.Loja.Ent.pas"/>
         <DCCReference Include="Pess\App.Pess.Loja.Ent_u.pas"/>
+        <DCCReference Include="Pess\App.UI.Form.Bas.Ed.Pess_u.pas">
+            <Form>PessEdBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
