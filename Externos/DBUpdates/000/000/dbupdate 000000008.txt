@@ -65,5 +65,69 @@ COMANDO FIM
 
 
 
+//////////////////////////////////
+//
+// PACKAGE LOJA_MANUT_PA
+//
+//////////////////////////////////
+COMANDO INI
+TIPO_COMANDO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=LOJA_MANUT_PA
+
+/*
+Complementos\Est\prod_pa.txt
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\loja_manut_pa.sql
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\loja_manut_pa.sql";
+*/
+
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE LOJA_MANUT_PA
+AS
+BEGIN
+  PROCEDURE LISTA_GET
+  RETURNS
+  (
+
+  LO.LOJA_ID,
+  LO.APELIDO, 
+  LO.ATIVO,
+  PE.PESSOA_ID, 
+  PE.NOME, 
+  PE.NOME_FANTASIA, 
+  PE.GENERO_ID, 
+  PE.ESTADO_CIVIL_ID, 
+  PE.C, 
+  PE.I, 
+  PE.M, 
+  PE.M_UF, 
+  PE.EMAIL, 
+  PE.DT_NASC, 
+  PE.EDITADO_EM, 
+  PE.CRIADO_EM
+
+
+    NUM Integer
+    , DTH_INS DTH_INS_DOM
+    , ASSUNTO VARCHAR(200)
+    , OBJETIVO OBS1_DOM
+    , OBS VARCHAR(1000)
+  );
+END^
+
+RECREATE PACKAGE BODY LOJA_MANUT_PA
+AS
+BEGIN
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+//PACKAGE DBUPDATE_PA
+
+
 
 DBATUALIZ FIM
