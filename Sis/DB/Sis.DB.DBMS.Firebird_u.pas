@@ -241,7 +241,7 @@ end;
 {
 function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
   pOutput: IOutput): boolean;
-var                                      UPDATER SAI DAQUI
+var
   oUpdater: IDBUpdater;
   s: string;
 begin
