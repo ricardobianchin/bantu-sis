@@ -191,6 +191,7 @@ BEGIN
         FROM 
           LOJA
         WHERE (:P_LOJA_ID = 0) OR (:P_LOJA_ID = LOJA_ID)
+        ORDER BY LOJA_ID
       )
       , PE AS
       (
@@ -318,7 +319,7 @@ SET TERM ;^
 ```
 COMANDO FIM
 
-//PACKAGE DBUPDATE_PA
+//PACKAGE LOJA_MANUT_PA
 
 
 
