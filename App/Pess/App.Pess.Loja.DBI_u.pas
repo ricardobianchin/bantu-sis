@@ -34,7 +34,7 @@ end;
 
 function TPessLojaDBI.GetPessLojaEnt: IPessLojaEnt;
 begin
-
+  Result := EntEdCastToPessLojaEnt(EntEd);
 end;
 
 function TPessLojaDBI.GetSqlPreencherDataSet(pValues: variant): string;
