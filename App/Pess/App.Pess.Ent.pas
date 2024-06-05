@@ -60,8 +60,7 @@ type
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
 
     function GetPessEnderList: IPessEnderList;
-    procedure SetPessEnderList(const Value: IPessEnderList);
-    property PessEnderList: IPessEnderList read GetPessEnderList write SetPessEnderList;
+    property PessEnderList: IPessEnderList read GetPessEnderList;
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;

@@ -63,7 +63,6 @@ type
     procedure SetDtNasc(const Value: TDateTime);
 
     function GetPessEnderList: IPessEnderList;
-    procedure SetPessEnderList(const Value: IPessEnderList);
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
   public
@@ -80,7 +79,7 @@ type
     property M: string read GetM write SetM;
     property MUF: string read GetMUF write SetMUF;
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
-    property PessEnderList: IPessEnderList read GetPessEnderList write SetPessEnderList;
+    property PessEnderList: IPessEnderList read GetPessEnderList;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
 
     constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList; pEnderQuantidadePermitida: TEnderQuantidadePermitida);
@@ -159,7 +158,7 @@ end;
 
 function TPessEnt.GetPessEnderList: IPessEnderList;
 begin
-
+  Result := FPessEnderList;
 end;
 
 function TPessEnt.GetPessoaId: integer;
@@ -225,11 +224,6 @@ end;
 procedure TPessEnt.SetNomeFantasia(const Value: string);
 begin
   FNomeFantasia := Value;
-end;
-
-procedure TPessEnt.SetPessEnderList(const Value: IPessEnderList);
-begin
-
 end;
 
 procedure TPessEnt.SetPessoaId(const Value: integer);
