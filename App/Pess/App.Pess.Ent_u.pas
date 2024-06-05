@@ -7,7 +7,6 @@ uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List, 
 type
   TPessEnt = class (TEntEdId, IPessEnt)
   private
-    //FPessoaId: integer; nao tem, usa inherited id
     FTerminalId: smallint;
     FLojaId: smallint;
     FNome: string;
@@ -22,9 +21,6 @@ type
     FDtNasc: TDateTime;
     FPessEnderList: IPessEnderList;
     FEnderQuantidadePermitida: TEnderQuantidadePermitida;
-
-    function GetPessoaId: integer;
-    procedure SetPessoaId(const Value: integer);
 
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
@@ -66,7 +62,6 @@ type
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
   public
-    property PessoaId: integer read GetPessoaId write SetPessoaId;
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
     property Nome: string read GetNome write SetNome;
@@ -161,11 +156,6 @@ begin
   Result := FPessEnderList;
 end;
 
-function TPessEnt.GetPessoaId: integer;
-begin
-  Result := inherited Id;
-end;
-
 function TPessEnt.GetTerminalId: smallint;
 begin
   Result := FTerminalId;
@@ -224,11 +214,6 @@ end;
 procedure TPessEnt.SetNomeFantasia(const Value: string);
 begin
   FNomeFantasia := Value;
-end;
-
-procedure TPessEnt.SetPessoaId(const Value: integer);
-begin
-  inherited Id := Value;
 end;
 
 procedure TPessEnt.SetTerminalId(const Value: smallint);
