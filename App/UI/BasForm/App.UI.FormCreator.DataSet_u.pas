@@ -38,9 +38,12 @@ constructor TDataSetFormCreator.Create(pFormClass: TTabSheetDataSetBasFormClass;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
   pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI);
+var
+  sTitulo: string;
 begin
-  inherited Create(pFormClass, pEntEd.Titulo, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS,
-    pOutput, pProcessLog, pOutputNotify);
+  sTitulo := pEntEd.Titulo;
+  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pAppInfo, pSisConfig,
+    pUsuario, pDBMS, pOutput, pProcessLog, pOutputNotify);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
 end;

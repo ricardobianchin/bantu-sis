@@ -147,7 +147,7 @@ type
     FProdICMSDataSetFormCreator: IFormCreator;
     FProdDataSetFormCreator: IFormCreator;
 
-    //fin
+    // fin
     FPagFormaDataSetFormCreator: IFormCreator;
 
     // tab crie
@@ -172,7 +172,7 @@ implementation
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Types.strings_u, Sis.UI.IO.Factory,
   App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory, App.Retag.Fin.Factory,
-  App.FIn.PagFormaTipo;
+  App.Fin.PagFormaTipo;
 
 procedure TRetaguardaModuloBasForm.AbrirImportDados;
 begin
@@ -230,7 +230,6 @@ begin
   oAppInfo := AppInfo;
   oSisConfig := SisConfig;
 
-
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
@@ -247,17 +246,16 @@ begin
   oVersaoDBDBI := RetagAjuVersaoDBDBICreate(oDBConnection, oVersaoDBEnt);
 
   // aju versao db
-  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate(
-    FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify, oVersaoDBEnt, oVersaoDBDBI);
-
 
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, oFabrEnt);
 
   FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
-    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oFabrEnt,
-    oFabrDBI);
+    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oFabrEnt, oFabrDBI);
 
   oTipoEnt := RetagEstProdTipoEntCreate;
   oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, oTipoEnt);
@@ -283,15 +281,16 @@ begin
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
 
-  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, Usuario.Id, oSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, Usuario.Id,
+    oSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
     oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(oDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
-    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
-    oProdDBI);
+    oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oProdEnt, oProdDBI);
 
-//        pPagFormaTipo: IPagFormaTipo
+  // pPagFormaTipo: IPagFormaTipo
   oPagFormaTipo := PagFormaTipoCreate;
 
   oPagFormaEnt := RetagFinPagFormaEntCreate(AppObj.Loja.Id, Usuario.Id,
@@ -299,14 +298,14 @@ begin
   oPagFormaDBI := RetagFinPagFormaDBICreate(oDBConnection, oPagFormaEnt);
 
   // fin pag forma
-  FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate(
-    FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
+  FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
+    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify, oPagFormaEnt, oPagFormaDBI);
 
 end;
 
-procedure TRetaguardaModuloBasForm.FinanceiroPagamentoFormaActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.FinanceiroPagamentoFormaActionExecute
+  (Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FPagFormaDataSetFormCreator);
@@ -352,8 +351,8 @@ begin
   Control.Canvas.TextRect(vRect, sTexto, [tfCenter, tfVerticalCenter]);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagAcessoFuncActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagAcessoFuncActionExecute
+  (Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FAjuBemVindoTabSheetFormCreator);
@@ -365,8 +364,8 @@ begin
   TabSheetCrie(FAjuBemVindoTabSheetFormCreator);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagAjuVersaoDBActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagAjuVersaoDBActionExecute
+  (Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FAjuVersaoDBTabSheetFormCreator);
@@ -420,10 +419,10 @@ begin
   // RetagEstProdICMSAction.Execute;
   // sleep(150);
   // RetagEstProdFabrAction.Execute;
-//  RetagEstProdAction.Execute;
+  // RetagEstProdAction.Execute;
 
-//  MenuPageControl.ActivePage := EstoqueTabSheet;
-//  FinanceiroPagamentoFormaAction.Execute
+  // MenuPageControl.ActivePage := EstoqueTabSheet;
+  // FinanceiroPagamentoFormaAction.Execute
 end;
 
 procedure TRetaguardaModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator

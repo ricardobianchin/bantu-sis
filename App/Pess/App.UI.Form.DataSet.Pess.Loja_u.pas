@@ -10,6 +10,7 @@ uses
 
 type
   TAppPessLojaDataSetForm = class(TAppPessDataSetForm)
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,5 +23,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+//
+end;
 
 end.

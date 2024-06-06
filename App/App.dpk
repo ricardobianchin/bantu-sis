@@ -186,7 +186,6 @@ contains
   App.Retag.Aju.VersaoDB.Ent in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas',
   App.Retag.Aju.VersaoDB.Ent_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas',
   App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas',
-  App.Config.Amb.Loja.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Factory_u.pas',
   App.UI.Form.DataSet.Config.Ambi.Loja_u in 'Modulos\Config\Ambi\Loja\App.UI.Form.DataSet.Config.Ambi.Loja_u.pas' {ConfigAmbiLojaDataSetForm},
   App.UI.Form.DataSet.Pess_u in 'Pess\App.UI.Form.DataSet.Pess_u.pas' {AppPessDataSetForm},
   App.Pess.Ent in 'Pess\App.Pess.Ent.pas',
@@ -205,6 +204,9 @@ contains
   App.Pess.Types in 'Pess\App.Pess.Types.pas',
   App.Pess.Loja.Ent in 'Pess\App.Pess.Loja.Ent.pas',
   App.Pess.Loja.Ent_u in 'Pess\App.Pess.Loja.Ent_u.pas',
-  App.UI.Form.Bas.Ed.Pess_u in 'Pess\App.UI.Form.Bas.Ed.Pess_u.pas' {PessEdBasForm};
+  App.UI.Form.Bas.Ed.Pess_u in 'Pess\App.UI.Form.Bas.Ed.Pess_u.pas' {PessEdBasForm},
+  App.Config.Amb.Loja.Ent.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Ent.Factory_u.pas',
+  App.Config.Amb.Loja.UI.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.UI.Factory_u.pas',
+  App.Pess.Loja.DBI in 'Pess\App.Pess.Loja.DBI.pas';
 
 end.

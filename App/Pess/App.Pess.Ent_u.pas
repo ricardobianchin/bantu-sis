@@ -78,6 +78,8 @@ type
     property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
 
     constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList; pEnderQuantidadePermitida: TEnderQuantidadePermitida);
+
+    procedure LimparEnt; override;
   end;
 
 implementation
@@ -159,6 +161,24 @@ end;
 function TPessEnt.GetTerminalId: smallint;
 begin
   Result := FTerminalId;
+end;
+
+procedure TPessEnt.LimparEnt;
+begin
+  inherited;
+  FTerminalId := 0; //: smallint;
+  FLojaId := 0; //: smallint;
+  FNome := ''; //: string;
+  FNomeFantasia := ''; //: string;
+  FApelido := ''; //: string;
+  FEstadoCivil := ' '; //: char;
+  FGenero := ' '; //: char;
+  FC := ''; //: string;
+  FI := ''; //: string;
+  FM := ''; //: string;
+  FMUF := '  '; //: string;
+  FDtNasc := 0; //: TDateTime;
+  FPessEnderList.Clear;
 end;
 
 procedure TPessEnt.SetApelido(const Value: string);

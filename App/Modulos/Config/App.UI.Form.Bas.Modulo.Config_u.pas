@@ -30,9 +30,14 @@ type
     ConfigTerminaisAction: TAction;
     PageControl1: TPageControl;
     BalloonHint1: TBalloonHint;
-    procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
+
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+
+    // ambiente
     procedure ConfigAmbiLojasActionExecute(Sender: TObject);
+
+    // dbimport
+    procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -61,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Factory, Sis.UI.IO.Factory, App.AppInfo, Sis.Config.SisConfig,
-  App.Config.Amb.Loja.Factory_u;
+  App.Config.Amb.Loja.UI.Factory_u;
 
 { TConfigModuloBasForm }
 
@@ -80,10 +85,9 @@ begin
   FContador := ContadorCreate;
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 
-//  FAmbiLojasDataSetFormCreator := AmbiLojaDataSetFormCreatorCreate
-//    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
-//    FOutputNotify);
-
+  FAmbiLojasDataSetFormCreator := AmbiLojaDataSetFormCreatorCreate
+    (FFormClassNamesSL, AppInfo, SisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify);
 
 {$IFDEF DEBUG}
   MenuPageControl.ActivePageIndex := 0;
@@ -92,8 +96,7 @@ begin
 {$ENDIF}
 end;
 
-procedure TConfigModuloBasForm.ConfigAmbiLojasActionExecute(
-  Sender: TObject);
+procedure TConfigModuloBasForm.ConfigAmbiLojasActionExecute(Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FAmbiLojasDataSetFormCreator);
@@ -130,8 +133,47 @@ begin
 end;
 
 procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);
-begin
+var
+  oTabSheet: TTabSheet;
+  oForm: TForm;
+  sFormClassName: string;
+  iExistenteIndex: integer;
 
+  oFormOwner: TComponent;
+  oAppInfo: IAppInfo;
+  oSisConfig: ISisConfig;
+begin
+  sFormClassName := pFormCreator.FormClassName;
+
+  iExistenteIndex := FFormClassNamesSL.IndexOf(sFormClassName);
+  if iExistenteIndex > -1 then
+  begin
+    oTabSheet := TTabSheet(FFormClassNamesSL.Objects[iExistenteIndex]);
+    PageControl1.ActivePage := oTabSheet;
+    FOutputNotify.Exibir('Opção já aberta');
+    exit;
+  end;
+
+  oTabSheet := TTabSheet.Create(PageControl1);
+  oTabSheet.PageControl := PageControl1;
+  oTabSheet.Name := sFormClassName + 'TabSheet';
+  PageControl1.ActivePage := oTabSheet;
+
+  oFormOwner := oTabSheet;
+
+  oAppInfo := AppInfo;
+  oSisConfig := SisConfig;
+
+  oForm := pFormCreator.FormCreate(oFormOwner);
+  oForm.Parent := oTabSheet;
+
+  FFormClassNamesSL.AddObject(sFormClassName, oTabSheet);
+
+  oTabSheet.Caption := pFormCreator.Titulo;
+
+  ClearStyleElements(oTabSheet);
+
+  oForm.Show;
 end;
 
 end.

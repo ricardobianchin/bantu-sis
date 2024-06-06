@@ -14,6 +14,12 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   inherited BasePanel: TPanel
     Width = 604
     ExplicitWidth = 604
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object TopoPanel: TPanel [2]
     Left = 0
@@ -97,9 +103,6 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
     Height = 346
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 95
-    ExplicitWidth = 592
-    ExplicitHeight = 338
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 160
