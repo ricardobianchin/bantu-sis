@@ -30,17 +30,17 @@ end;
 
 function TPessLojaEnt.GetNomeEnt: string;
 begin
-
+  Result := 'Estabelecimento';
 end;
 
 function TPessLojaEnt.GetNomeEntAbrev: string;
 begin
-
+  Result := 'Estabel.';
 end;
 
 function TPessLojaEnt.GetTitulo: string;
 begin
-
+  Result := 'Estabelecimentos';
 end;
 
 procedure TPessLojaEnt.LimparEnt;
