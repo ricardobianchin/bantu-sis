@@ -102,7 +102,7 @@ begin
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.Prod.Ed.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
   oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
@@ -151,7 +151,7 @@ begin
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.Prod.Ed.Ler.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
   oDBI := RetagEstProdDBICreate(oConn, ProdEnt);
