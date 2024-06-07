@@ -10,6 +10,7 @@ uses
 
 type
   TAppPessDataSetForm = class(TTabSheetDataSetBasForm)
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,5 +23,13 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.UI.Controls.Utils;
+
+procedure TAppPessDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  ClearStyleElements(Self);
+end;
 
 end.
