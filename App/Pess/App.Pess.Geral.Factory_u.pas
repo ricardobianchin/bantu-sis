@@ -7,7 +7,6 @@ uses App.Generos, Sis.DB.DBTypes, App.Ent.Ed, App.Pess.Loja.Ent, Data.DB,
   Sis.Entidade, Sis.Loja, Sis.Usuario, App.UI.Form.Bas.Ed_u, App.Ent.DBI,
   Sis.UI.Controls.ComboBoxManager, App.AppInfo, Sis.Config.SisConfig,
   Sis.UI.FormCreator
-  , //
   ;
 
 function GenerosCreate(pDBConnection: IDBConnection): IGeneros;
