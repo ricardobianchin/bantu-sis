@@ -51,14 +51,14 @@ end;
 function TDataSetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
   Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
-    SisConfig, Retag, Usuario, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
     mfBrowse, 0);
 end;
 
 function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm;
 begin
   Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
-    SisConfig, Retag, Usuario, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
+    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
     mfSelect, pIdPos);
 end;
 
