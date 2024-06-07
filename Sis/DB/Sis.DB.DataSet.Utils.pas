@@ -12,7 +12,7 @@ procedure QueryToFDMemTable(pFDMemTable: TFDMemTable; pQ: TDataSet);
 
 implementation
 
-uses System.Classes, Sis.DB.FDDataSetManager, Sis.DB.Factory;
+uses System.Classes, Sis.DB.FDDataSetManager, Sis.DB.Factory, System.SysUtils;
 
 procedure DefCamposSL(DefsSL: TStringList; pFDMemTable: TFDMemTable;
   pDBGrid: TDBGrid);
@@ -28,6 +28,11 @@ procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
 var
   DefsSL: TStringList;
 begin
+  if not FileExists(pNomeArq) then
+  begin
+    raise Exception.Create('Definindo campos, arquivo nao encontrado '+pNomeArq);
+  end;
+
   DefsSL := TStringList.Create;
   try
     DefsSL.LoadFromFile(pNomeArq);
