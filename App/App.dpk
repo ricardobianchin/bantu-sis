@@ -203,8 +203,7 @@ contains
   App.Pess.Loja.Ent in 'Pess\App.Pess.Loja.Ent.pas',
   App.Pess.Loja.Ent_u in 'Pess\App.Pess.Loja.Ent_u.pas',
   App.UI.Form.Bas.Ed.Pess_u in 'Pess\App.UI.Form.Bas.Ed.Pess_u.pas' {PessEdBasForm},
-  App.Config.Amb.Loja.Ent.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.Ent.Factory_u.pas',
-  App.Config.Amb.Loja.UI.Factory_u in 'Modulos\Config\Ambi\Loja\App.Config.Amb.Loja.UI.Factory_u.pas',
+  App.Pess.UI.Factory_u in 'Pess\App.Pess.UI.Factory_u.pas',
   App.Pess.Loja.DBI in 'Pess\App.Pess.Loja.DBI.pas',
   App.Pess.Ent.Factory_u in 'Pess\App.Pess.Ent.Factory_u.pas';
 

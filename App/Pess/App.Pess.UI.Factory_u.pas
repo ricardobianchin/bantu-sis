@@ -6,8 +6,6 @@ uses App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
   Sis.Config.SisConfig, Sis.Usuario, Sis.UI.FormCreator,
   App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes;
 
-
-
 {$REGION 'loja'}
 //function PessLojaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
 //  pPessLoja: IEntEd; pPessLojaDBI: IEntDBI): TEdBasForm;
@@ -24,7 +22,7 @@ function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 implementation
 
-uses App.Pess.Loja.Ent, App.Config.Amb.Loja.Ent.Factory_u, Sis.Loja.DBI,
+uses App.Pess.Loja.Ent, Sis.Loja.DBI,
   App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory;
 
 {$REGION 'loja impl'}
