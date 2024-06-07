@@ -32,10 +32,13 @@ begin
   Result := TPessLojaEnt.Create(oPessEnderList);
 end;
 
-function EntDBICastToPessLojaDBI(pPessLojaDBI: IPessLojaDBI): IPessLojaDBI;
+function PessLojaDBICreate(pDBConnection: IDBConnection;
+  pPessLojaEnt: IPessLojaEnt): IPessLojaDBI;//IEntDBI;
 begin
-  Result := TPessLojaDBI(pPessLojaDBI);
+////  Result := TPessLojaDBI.Create(pDBConnection, TPessLojaEnt(pPessLojaEnt));
+  Result := TPessLojaDBI.Create(pDBConnection, pPessLojaEnt);
 end;
+
 
 (*
 
@@ -65,6 +68,13 @@ begin
 ////  Result := TPessLojaDBI.Create(pDBConnection, TPessLojaEnt(pPessLojaEnt));
   Result := TPessLojaDBI.Create(pDBConnection, pPessLojaEnt);
 end;
+
+function EntDBICastToPessLojaDBI(pPessLojaDBI: IPessLojaDBI): IPessLojaDBI;
+begin
+  Result := TPessLojaDBI(pPessLojaDBI);
+end;
+
+
 
 *)
 
