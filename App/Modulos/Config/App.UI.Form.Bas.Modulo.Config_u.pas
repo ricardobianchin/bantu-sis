@@ -66,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Factory, Sis.UI.IO.Factory, App.AppInfo, Sis.Config.SisConfig,
-  App.Config.Amb.Loja.UI.Factory_u;
+  App.Pess.UI.Factory_u;
 
 { TConfigModuloBasForm }
 

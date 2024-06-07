@@ -423,6 +423,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Pess.UI.Factory_u.pas"/>
         <DCCReference Include="Pess\App.Pess.Loja.DBI.pas"/>
         <DCCReference Include="Pess\App.Pess.Ent.Factory_u.pas"/>
+        <DCCReference Include="UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -10,8 +10,9 @@ uses
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl, App.Ent.Ed,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator,
-  App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId, }Sis.Config.SisConfig,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
+  App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId,} Sis.Config.SisConfig,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
+  App.UI.TabSheet.DataSet.Types_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -22,7 +23,7 @@ type
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
 
-//    FProdUltimoId: IUltimoId;
+    // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 
@@ -48,7 +49,7 @@ type
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoForm: TModoForm; pIdPos: integer); reintroduce;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); reintroduce;
   end;
 
 var
@@ -69,12 +70,12 @@ constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoForm: TModoForm; pIdPos: integer);
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoForm,
-    pIdPos);
-//  FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
+    pModoDataSetForm, pIdPos);
+  // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
 end;
 
@@ -111,7 +112,7 @@ begin
   FDMemTable.BeginBatch;
   FDMemTable.EmptyDataSet;
 
-//  FProdUltimoId.Zerar;
+  // FProdUltimoId.Zerar;
   FUltimoId := -1;
   FCodsBarrasAcumulando := '';
 
@@ -158,8 +159,7 @@ begin
   oDBI.Ler;
 end;
 
-function TRetagEstProdDataSetForm.PergEd(pDataSetStateAbrev
-  : string): boolean;
+function TRetagEstProdDataSetForm.PergEd(pDataSetStateAbrev: string): boolean;
 var
   oProdDBI: IEntDBI;
 
@@ -229,25 +229,27 @@ end;
 
 procedure TRetagEstProdDataSetForm.EntToRecord;
 begin
-  FDMemTable.Fields[1	{descr}]    .AsString := ProdEnt.Descr;
-  FDMemTable.Fields[2	{descr_red}].AsString := ProdEnt.DescrRed;
-  FDMemTable.Fields[3	{fabr_id}]  .AsInteger := ProdEnt.ProdFabrEnt.Id;
-  FDMemTable.Fields[4	{fabr_nome}].AsString := ProdEnt.ProdFabrEnt.Descr;
-  FDMemTable.Fields[5	{tipo_id}]   .AsInteger := ProdEnt.ProdTipoEnt.Id;
-  FDMemTable.Fields[6	{tipo_descr}].AsString := ProdEnt.ProdTipoEnt.Descr;
-  FDMemTable.Fields[7	{unid_id}]   .AsInteger := ProdEnt.ProdUnidEnt.Id;
-  FDMemTable.Fields[8	{unid_sigla}].AsString := ProdEnt.ProdUnidEnt.Descr;
-  FDMemTable.Fields[9	{icms_id}]   .AsInteger := ProdEnt.ProdUnidEnt.Id;
-  FDMemTable.Fields[10	{icms_descr_perc}].AsString := ProdEnt.ProdICMSEnt.Descr;
-  FDMemTable.Fields[11	{codbarras}].AsString := ProdEnt.ProdBarrasList.GetAsString(', ');
-  FDMemTable.Fields[12	{Custo}].AsCurrency := iif(ProdEnt.CustoNovo > 0, ProdEnt.CustoNovo, ProdEnt.CustoAtual);
-  FDMemTable.Fields[13	{Preco}].AsCurrency := iif(ProdEnt.PrecoNovo > 0, ProdEnt.PrecoNovo, ProdEnt.PrecoAtual);
-  FDMemTable.Fields[14	{Ativo}].AsBoolean := ProdEnt.Ativo;
-  FDMemTable.Fields[15	{Localiz}]   .AsString := ProdEnt.Localiz;
-  FDMemTable.Fields[16	{Capac_emb}].AsCurrency := ProdEnt.CapacEmb;
-  FDMemTable.Fields[17	{Margem}]   .AsCurrency := ProdEnt.Margem;
-
-
+  FDMemTable.Fields[1 { descr } ].AsString := ProdEnt.Descr;
+  FDMemTable.Fields[2 { descr_red } ].AsString := ProdEnt.DescrRed;
+  FDMemTable.Fields[3 { fabr_id } ].AsInteger := ProdEnt.ProdFabrEnt.Id;
+  FDMemTable.Fields[4 { fabr_nome } ].AsString := ProdEnt.ProdFabrEnt.Descr;
+  FDMemTable.Fields[5 { tipo_id } ].AsInteger := ProdEnt.ProdTipoEnt.Id;
+  FDMemTable.Fields[6 { tipo_descr } ].AsString := ProdEnt.ProdTipoEnt.Descr;
+  FDMemTable.Fields[7 { unid_id } ].AsInteger := ProdEnt.ProdUnidEnt.Id;
+  FDMemTable.Fields[8 { unid_sigla } ].AsString := ProdEnt.ProdUnidEnt.Descr;
+  FDMemTable.Fields[9 { icms_id } ].AsInteger := ProdEnt.ProdUnidEnt.Id;
+  FDMemTable.Fields[10 { icms_descr_perc } ].AsString :=
+    ProdEnt.ProdICMSEnt.Descr;
+  FDMemTable.Fields[11 { codbarras } ].AsString :=
+    ProdEnt.ProdBarrasList.GetAsString(', ');
+  FDMemTable.Fields[12 { Custo } ].AsCurrency :=
+    iif(ProdEnt.CustoNovo > 0, ProdEnt.CustoNovo, ProdEnt.CustoAtual);
+  FDMemTable.Fields[13 { Preco } ].AsCurrency :=
+    iif(ProdEnt.PrecoNovo > 0, ProdEnt.PrecoNovo, ProdEnt.PrecoAtual);
+  FDMemTable.Fields[14 { Ativo } ].AsBoolean := ProdEnt.Ativo;
+  FDMemTable.Fields[15 { Localiz } ].AsString := ProdEnt.Localiz;
+  FDMemTable.Fields[16 { Capac_emb } ].AsCurrency := ProdEnt.CapacEmb;
+  FDMemTable.Fields[17 { Margem } ].AsCurrency := ProdEnt.Margem;
 
 end;
 
@@ -308,10 +310,10 @@ begin
   end
   else
   begin
-    if sBarrasAtual <>'' then
+    if sBarrasAtual <> '' then
     begin
       if FCodsBarrasAcumulando <> '' then
-        FCodsBarrasAcumulando := FCodsBarrasAcumulando+', ';
+        FCodsBarrasAcumulando := FCodsBarrasAcumulando + ', ';
       FCodsBarrasAcumulando := FCodsBarrasAcumulando + sBarrasAtual
     end;
   end;
@@ -321,10 +323,10 @@ procedure TRetagEstProdDataSetForm.RecordToEnt;
 begin
   inherited;
   ProdEnt.Id := FDMemTable.Fields[0].AsInteger;
-//  ProdEnt.Descr := FDMemTable.Fields[1].AsString;
-//  ProdEnt.DescrRed := FDMemTable.Fields[2].AsString;
-//  ProdEnt.ProdFabrEnt.Id := FDMemTable.Fields[3].AsInteger;
-//  ProdEnt.ProdFabrEnt.Descr := FDMemTable.Fields[4].AsString;
+  // ProdEnt.Descr := FDMemTable.Fields[1].AsString;
+  // ProdEnt.DescrRed := FDMemTable.Fields[2].AsString;
+  // ProdEnt.ProdFabrEnt.Id := FDMemTable.Fields[3].AsInteger;
+  // ProdEnt.ProdFabrEnt.Descr := FDMemTable.Fields[4].AsString;
 end;
 
 procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
