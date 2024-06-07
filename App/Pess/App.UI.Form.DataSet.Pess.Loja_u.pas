@@ -33,6 +33,20 @@ implementation
 
 {$R *.dfm}
 
+constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput; pPessLojaEnt: IPessLojaEnt;
+  pPessLojaDBI: IPessLojaDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer);
+begin
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pPessLojaEnt, pPessLojaDBI,
+    pModoDataSetForm, pIdPos);
+  FPessLojaEnt := pPessLojaEnt;
+  FPessLojaDBI := pPessLojaDBI;
+end;
+
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
