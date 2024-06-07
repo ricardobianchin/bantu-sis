@@ -4,7 +4,7 @@ interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u, App.Pess.Loja.DBI,
-  App.Pess.Loja.Ent, App.Ent.Ed, App.Pess.Factory_u;
+  App.Pess.Loja.Ent, App.Ent.Ed, App.Pess.Geral.Factory_u;
 
 type
   TPessLojaDBI = class(TEntDBI, IPessLojaDBI)
