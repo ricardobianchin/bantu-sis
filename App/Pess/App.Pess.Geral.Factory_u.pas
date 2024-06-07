@@ -1,4 +1,4 @@
-unit App.Pess.Factory_u;
+unit App.Pess.Geral.Factory_u;
 
 interface
 
@@ -7,11 +7,10 @@ uses App.Generos, Sis.DB.DBTypes, App.Ent.Ed, App.Pess.Loja.Ent, Data.DB,
   Sis.Entidade, Sis.Loja, Sis.Usuario, App.UI.Form.Bas.Ed_u, App.Ent.DBI,
   Sis.UI.Controls.ComboBoxManager, App.AppInfo, Sis.Config.SisConfig,
   Sis.UI.FormCreator
-  , App.PessEnder.List//
+  , //
   ;
 
 function GenerosCreate(pDBConnection: IDBConnection): IGeneros;
-function PessEnderListCreate: IPessEnderList;//privativo desta unit
 
 implementation
 
@@ -31,11 +30,6 @@ var
   s: string;
 begin
   Result := TGeneros.Create;
-end;
-
-function PessEnderListCreate: IPessEnderList;//privativo desta unit
-begin
-  Result := TPessEnderList.Create;
 end;
 
 end.
