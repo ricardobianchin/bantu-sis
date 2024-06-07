@@ -4,7 +4,8 @@ interface
 
 uses App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
   Sis.Config.SisConfig, Sis.Usuario, Sis.UI.FormCreator,
-  App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes;
+  App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes,
+  App.UI.Form.DataSet.Pess.Loja_u;
 
 {$REGION 'loja'}
 //function PessLojaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
@@ -22,7 +23,7 @@ function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 implementation
 
-uses App.Pess.Loja.Ent, Sis.Loja.DBI,
+uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Ent.Factory_u,
   App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory;
 
 {$REGION 'loja impl'}
@@ -61,7 +62,7 @@ begin
   oEnt := PessLojaEntCreate;
   oDBI := PessLojaDBICreate(oDBConnection, oEnt);
 
-  Result := TDataSetFormCreator.Create(TConfigAmbiLojaDataSetForm,
+  Result := TDataSetFormCreator.Create(TAppPessLojaDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
     pProcessLog, pOutputNotify, oEnt, oDBI);
 end;
