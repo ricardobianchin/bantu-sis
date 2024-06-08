@@ -17,6 +17,8 @@ type
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
     FPessLojaDBI: IPessLojaDBI;
+  protected
+    function GetNomeArqTabView: string; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -45,6 +47,14 @@ begin
     pModoDataSetForm, pIdPos);
   FPessLojaEnt := pPessLojaEnt;
   FPessLojaDBI := pPessLojaDBI;
+end;
+
+function TAppPessLojaDataSetForm.GetNomeArqTabView: string;
+var
+  sNomeArq: string;
+begin
+  sNomeArq := AppInfo.PastaConsTabViews + 'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
+  Result := sNomeArq;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);

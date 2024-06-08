@@ -20,7 +20,6 @@ type
     procedure DoLer; override;
     procedure DoAlterar; override;
 
-    function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
     procedure EntToRecord; override;
@@ -79,11 +78,6 @@ end;
 procedure TAppPessDataSetForm.EntToRecord;
 begin
   inherited;
-
-end;
-
-function TAppPessDataSetForm.GetNomeArqTabView: string;
-begin
 
 end;
 
