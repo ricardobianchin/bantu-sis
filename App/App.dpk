@@ -185,7 +185,7 @@ contains
   App.Retag.Aju.VersaoDB.Ent in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas',
   App.Retag.Aju.VersaoDB.Ent_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas',
   App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas',
-  App.UI.Form.DataSet.Pess_u in 'Pess\App.UI.Form.DataSet.Pess_u.pas' {AppPessDataSetForm},
+  App.UI.Form.Bas.DataSet.Pess_u in 'Pess\App.UI.Form.Bas.DataSet.Pess_u.pas' {AppPessDataSetForm},
   App.Pess.Ent in 'Pess\App.Pess.Ent.pas',
   App.Pess.Geral.Factory_u in 'Pess\App.Pess.Geral.Factory_u.pas',
   App.Generos in 'Pess\App.Generos.pas',
@@ -206,6 +206,8 @@ contains
   App.Pess.UI.Factory_u in 'Pess\App.Pess.UI.Factory_u.pas',
   App.Pess.Loja.DBI in 'Pess\App.Pess.Loja.DBI.pas',
   App.Pess.Ent.Factory_u in 'Pess\App.Pess.Ent.Factory_u.pas',
-  App.UI.TabSheet.DataSet.Types_u in 'UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas';
+  App.UI.TabSheet.DataSet.Types_u in 'UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas',
+  App.Pess.DBI in 'Pess\App.Pess.DBI.pas',
+  App.Pess.DBI_u in 'Pess\App.Pess.DBI_u.pas';
 
 end.

@@ -2,10 +2,11 @@ unit App.Pess.Ent_u;
 
 interface
 
-uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List, App.Pess.Types;
+uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List,
+  App.Pess.Types;
 
 type
-  TPessEnt = class (TEntEdId, IPessEnt)
+  TPessEnt = class(TEntEdId, IPessEnt)
   private
     FTerminalId: smallint;
     FLojaId: smallint;
@@ -61,6 +62,7 @@ type
     function GetPessEnderList: IPessEnderList;
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
+
   public
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
@@ -75,9 +77,11 @@ type
     property MUF: string read GetMUF write SetMUF;
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
     property PessEnderList: IPessEnderList read GetPessEnderList;
-    property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
+    property EnderQuantidadePermitida: TEnderQuantidadePermitida
+      read GetEnderQuantidadePermitida;
 
-    constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList; pEnderQuantidadePermitida: TEnderQuantidadePermitida);
+    constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList;
+      pEnderQuantidadePermitida: TEnderQuantidadePermitida);
 
     procedure LimparEnt; override;
   end;
@@ -86,7 +90,9 @@ implementation
 
 { TPessEnt }
 
-constructor TPessEnt.Create(pState: TDataSetState; pPessEnderList: IPessEnderList; pEnderQuantidadePermitida: TEnderQuantidadePermitida);
+constructor TPessEnt.Create(pState: TDataSetState;
+  pPessEnderList: IPessEnderList;
+  pEnderQuantidadePermitida: TEnderQuantidadePermitida);
 begin
   inherited Create(dsBrowse, 0);
   FPessEnderList := pPessEnderList;
@@ -166,18 +172,18 @@ end;
 procedure TPessEnt.LimparEnt;
 begin
   inherited;
-  FTerminalId := 0; //: smallint;
-  FLojaId := 0; //: smallint;
-  FNome := ''; //: string;
-  FNomeFantasia := ''; //: string;
-  FApelido := ''; //: string;
-  FEstadoCivil := ' '; //: char;
-  FGenero := ' '; //: char;
-  FC := ''; //: string;
-  FI := ''; //: string;
-  FM := ''; //: string;
-  FMUF := '  '; //: string;
-  FDtNasc := 0; //: TDateTime;
+  FTerminalId := 0; // : smallint;
+  FLojaId := 0; // : smallint;
+  FNome := ''; // : string;
+  FNomeFantasia := ''; // : string;
+  FApelido := ''; // : string;
+  FEstadoCivil := ' '; // : char;
+  FGenero := ' '; // : char;
+  FC := ''; // : string;
+  FI := ''; // : string;
+  FM := ''; // : string;
+  FMUF := '  '; // : string;
+  FDtNasc := 0; // : TDateTime;
   FPessEnderList.Clear;
 end;
 
