@@ -19,6 +19,7 @@ type
     FI: string;
     FM: string;
     FMUF: string;
+    FEMail: string;
     FDtNasc: TDateTime;
     FPessEnderList: IPessEnderList;
     FEnderQuantidadePermitida: TEnderQuantidadePermitida;
@@ -56,6 +57,9 @@ type
     function GetMUF: string;
     procedure SetMUF(const Value: string);
 
+    function GetEMail: string;
+    procedure SetEMail(const Value: string);
+
     function GetDtNasc: TDateTime;
     procedure SetDtNasc(const Value: TDateTime);
 
@@ -75,6 +79,7 @@ type
     property I: string read GetI write SetI;
     property M: string read GetM write SetM;
     property MUF: string read GetMUF write SetMUF;
+    property EMail: string read GetEMail write SetEMail;
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
     property PessEnderList: IPessEnderList read GetPessEnderList;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida
@@ -112,6 +117,11 @@ end;
 function TPessEnt.GetDtNasc: TDateTime;
 begin
   Result := FDtNasc;
+end;
+
+function TPessEnt.GetEMail: string;
+begin
+  Result := FEMail;
 end;
 
 function TPessEnt.GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
@@ -200,6 +210,11 @@ end;
 procedure TPessEnt.SetDtNasc(const Value: TDateTime);
 begin
   FDtNasc := Value;
+end;
+
+procedure TPessEnt.SetEMail(const Value: string);
+begin
+  FEMail := Value;
 end;
 
 procedure TPessEnt.SetEstadoCivil(const Value: char);

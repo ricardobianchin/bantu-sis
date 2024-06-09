@@ -51,6 +51,10 @@ type
     procedure SetMUF(const Value: string);
     property MUF: string read GetMUF write SetMUF;
 
+    function GetEMail: string;
+    procedure SetEMail(const Value: string);
+    property EMail: string read GetEMail write SetEMail;
+
     function GetDtNasc: TDateTime;
     procedure SetDtNasc(const Value: TDateTime);
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;

@@ -61,10 +61,6 @@ type
     procedure SetContato(const Value: string);
     property Contato: string read GetContato write SetContato;
 
-    function GetEMail: string;
-    procedure SetEMail(const Value: string);
-    property EMail: string read GetEMail write SetEMail;
-
     function GetReferencia: string;
     procedure SetReferencia(const Value: string);
     property Referencia: string read GetReferencia write SetReferencia;

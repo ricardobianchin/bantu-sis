@@ -21,7 +21,6 @@ type
     FFone2: string;
     FFone3: string;
     FContato: string;
-    FEMail: string;
     FReferencia: string;
     FCriadoEm: TDateTime;
     FEditadoEm: TDateTime;
@@ -68,9 +67,6 @@ type
     function GetContato: string;
     procedure SetContato(const Value: string);
 
-    function GetEMail: string;
-    procedure SetEMail(const Value: string);
-
     function GetReferencia: string;
     procedure SetReferencia(const Value: string);
 
@@ -95,7 +91,6 @@ type
     property Fone2: string read GetFone2 write SetFone2;
     property Fone3: string read GetFone3 write SetFone3;
     property Contato: string read GetContato write SetContato;
-    property EMail: string read GetEMail write SetEMail;
     property Referencia: string read GetReferencia write SetReferencia;
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
     property EditadoEm: TDateTime read GetEditadoEm write SetEditadoEm;
@@ -138,11 +133,6 @@ end;
 function TPessEnder.GetEditadoEm: TDateTime;
 begin
   Result := FEditadoEm;
-end;
-
-function TPessEnder.GetEMail: string;
-begin
-  Result := FEMail;
 end;
 
 function TPessEnder.GetFone1: string;
@@ -228,11 +218,6 @@ end;
 procedure TPessEnder.SetEditadoEm(const Value: TDateTime);
 begin
   FEditadoEm := Value;
-end;
-
-procedure TPessEnder.SetEMail(const Value: string);
-begin
-  FEMail := Value;
 end;
 
 procedure TPessEnder.SetFone1(const Value: string);
