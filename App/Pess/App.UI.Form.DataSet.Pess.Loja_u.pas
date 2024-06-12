@@ -22,7 +22,7 @@ type
     iQ_Ativo: integer;
   protected
     function GetNomeArqTabView: string; override;
-    procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
+    procedure QToMemTable(q: TDataSet); override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -101,7 +101,7 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TAppPessLojaDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
+procedure TAppPessLojaDataSetForm.QToMemTable(q: TDataSet);
 begin
   inherited;
   FDMemTable.Fields[iMemTab_Ativo].AsBoolean := Q.Fields[iQ_Ativo].AsBoolean;

@@ -95,6 +95,7 @@ type
     procedure EntToRecord; override;
 
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
+    procedure QToMemTable(q: TDataSet); virtual;
 
   public
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -205,6 +206,18 @@ begin
 end;
 
 procedure TAppPessDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
+var
+  i: integer;
+begin
+  if pRecno = -1 then
+    exit;
+
+  FDMemTable.Append;
+  QToMemTable(q);
+  FDMemTable.Post;
+end;
+
+procedure TAppPessDataSetForm.QToMemTable(q: TDataSet);
 var
   sFormat: string;
   sCod: string;
