@@ -45,7 +45,7 @@ begin
   iLojaId := pValues[0];
 
   Result := inherited//
-    +', ATIVO'//31
+    +', ATIVO'#13#10//31
     + 'FROM LOJA_MANUT_PA.LISTA_GET(' //
     + iLojaId.ToString //
     + ');'#13#10 //
