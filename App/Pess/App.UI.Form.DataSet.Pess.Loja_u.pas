@@ -48,9 +48,6 @@ constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
 var
   iAtual: integer;
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pPessLojaEnt, pPessLojaDBI,
-    pModoDataSetForm, pIdPos);
   FPessLojaEnt := pPessLojaEnt;
   FPessLojaDBI := pPessLojaDBI;
 
@@ -91,6 +88,9 @@ begin
   iMemTab_ENDER_ALTERADO_EM := iAtual; inc(iAtual);
 
   iQ_Ativo := 31;
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pPessLojaEnt, pPessLojaDBI,
+    pModoDataSetForm, pIdPos);
 end;
 
 function TAppPessLojaDataSetForm.GetNomeArqTabView: string;

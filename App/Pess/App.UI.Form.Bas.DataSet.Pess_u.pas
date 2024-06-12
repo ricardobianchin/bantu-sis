@@ -121,10 +121,6 @@ constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig,
-    pUsuario, pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos);
-
   iQ_LOJA_ID := 0;
   iQ_TERMINAL_ID := 1;
   iQ_PESSOA_ID := 2;
@@ -156,6 +152,10 @@ begin
   iQ_REFERENCIA := 28;
   iQ_ENDER_CRIADO_EM := 29;
   iQ_ENDER_ALTERADO_EM := 30;
+
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig,
+    pUsuario, pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
+    pModoDataSetForm, pIdPos);
 end;
 
 procedure TAppPessDataSetForm.DoAlterar;
