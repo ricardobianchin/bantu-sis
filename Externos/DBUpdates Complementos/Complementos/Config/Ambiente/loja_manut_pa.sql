@@ -10,6 +10,7 @@ BEGIN
   (
     ATIVO BOOLEAN
     , LOJA_ID ID_SHORT_DOM
+    , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
     , APELIDO NOME_REDU_DOM
     
@@ -35,6 +36,7 @@ BEGIN
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
     , MUNICIPIO_IBGE_ID    CHAR(5)
+    , MUNICIPIO_NOME    NOME_DOM
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
     , FONE2                NOME_CURTO_DOM
@@ -59,6 +61,7 @@ BEGIN
   (
     ATIVO BOOLEAN
     , LOJA_ID ID_SHORT_DOM
+    , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
     , APELIDO NOME_REDU_DOM
 
@@ -84,6 +87,7 @@ BEGIN
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
     , MUNICIPIO_IBGE_ID    CHAR(5)
+    , MUNICIPIO_NOME    NOME_DOM
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
     , FONE2                NOME_CURTO_DOM
@@ -105,11 +109,17 @@ BEGIN
         FROM 
           LOJA
         WHERE (:P_LOJA_ID = 0) OR (:P_LOJA_ID = LOJA_ID)
+        ORDER BY LOJA_ID
+      )
+      , MU AS
+      (
+        SELECT MUNICIPIO_IBGE_ID, NOME FROM MUNICIPIO
       )
       , PE AS
       (
         SELECT
           P.LOJA_ID,
+          P.TERMINAL_ID,
           P.PESSOA_ID, 
           P.NOME, 
           P.NOME_FANTASIA, 
@@ -132,6 +142,7 @@ BEGIN
           E.UF_SIGLA,
           E.CEP,
           E.MUNICIPIO_IBGE_ID,
+          MU.NOME MUNICIPIO_NOME,
           E.DDD,
           E.FONE1,
           E.FONE2,
@@ -145,11 +156,15 @@ BEGIN
           LOJA_EH_PESSOA LP 
         JOIN 
           PESSOA P ON LP.LOJA_ID = P.LOJA_ID AND LP.TERMINAL_ID = P.TERMINAL_ID AND LP.PESSOA_ID = P.PESSOA_ID
-        LEFT JOIN ENDERECO E ON P.LOJA_ID = E.LOJA_ID AND P.TERMINAL_ID = E.TERMINAL_ID AND P.PESSOA_ID = E.PESSOA_ID AND E.ORDEM = 1
+        LEFT JOIN 
+          ENDERECO E ON P.LOJA_ID = E.LOJA_ID AND P.TERMINAL_ID = E.TERMINAL_ID AND P.PESSOA_ID = E.PESSOA_ID AND E.ORDEM = 1
+        LEFT JOIN
+          MU ON MU.MUNICIPIO_IBGE_ID = E.MUNICIPIO_IBGE_ID
       )
       SELECT 
         LO.ATIVO,
         LO.LOJA_ID,
+        PE.TERMINAL_ID,
         PE.PESSOA_ID, 
         LO.APELIDO, 
         
@@ -175,6 +190,7 @@ BEGIN
         PE.UF_SIGLA,
         PE.CEP,
         PE.MUNICIPIO_IBGE_ID,
+        PE.MUNICIPIO_NOME,
         PE.DDD,
         PE.FONE1,
         PE.FONE2,
@@ -190,6 +206,7 @@ BEGIN
     INTO 
       :ATIVO
       , :LOJA_ID
+      , :TERMINAL_ID
       , :PESSOA_ID
       , :APELIDO
 
@@ -215,6 +232,7 @@ BEGIN
       , :UF_SIGLA
       , :CEP
       , :MUNICIPIO_IBGE_ID
+      , :MUNICIPIO_NOME
       , :DDD
       , :FONE1
       , :FONE2
