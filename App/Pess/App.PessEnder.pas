@@ -41,6 +41,10 @@ type
     procedure SetMunicipioIbgeId(const Value: string);
     property MunicipioIbgeId: string read GetMunicipioIbgeId write SetMunicipioIbgeId;
 
+    function GetMunicipioNome: string;
+    procedure SetMunicipioNome(const Value: string);
+    property MunicipioNome: string read GetMunicipioNome write SetMunicipioNome;
+
     function GetDDD: string;
     procedure SetDDD(const Value: string);
     property DDD: string read GetDDD write SetDDD;

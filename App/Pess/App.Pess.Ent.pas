@@ -59,6 +59,14 @@ type
     procedure SetDtNasc(const Value: TDateTime);
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
 
+    function GetCriadoEm: TDateTime;
+    procedure SetCriadoEm(const Value: TDateTime);
+    property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
+
+    function GetEditadoEm: TDateTime;
+    procedure SetEditadoEm(const Value: TDateTime);
+    property EditadoEm: TDateTime read GetEditadoEm write SetEditadoEm;
+
     function GetPessEnderList: IPessEnderList;
     property PessEnderList: IPessEnderList read GetPessEnderList;
 

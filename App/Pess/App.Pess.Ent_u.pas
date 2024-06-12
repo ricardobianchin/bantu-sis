@@ -21,6 +21,9 @@ type
     FMUF: string;
     FEMail: string;
     FDtNasc: TDateTime;
+    FCriadoEm: TDateTime;
+    FEditadoEm: TDateTime;
+
     FPessEnderList: IPessEnderList;
     FEnderQuantidadePermitida: TEnderQuantidadePermitida;
 
@@ -63,6 +66,13 @@ type
     function GetDtNasc: TDateTime;
     procedure SetDtNasc(const Value: TDateTime);
 
+    function GetCriadoEm: TDateTime;
+    procedure SetCriadoEm(const Value: TDateTime);
+
+    function GetEditadoEm: TDateTime;
+    procedure SetEditadoEm(const Value: TDateTime);
+
+
     function GetPessEnderList: IPessEnderList;
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
@@ -81,6 +91,9 @@ type
     property MUF: string read GetMUF write SetMUF;
     property EMail: string read GetEMail write SetEMail;
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
+    property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
+    property EditadoEm: TDateTime read GetEditadoEm write SetEditadoEm;
+
     property PessEnderList: IPessEnderList read GetPessEnderList;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida
       read GetEnderQuantidadePermitida;
@@ -114,9 +127,19 @@ begin
   Result := FC;
 end;
 
+function TPessEnt.GetCriadoEm: TDateTime;
+begin
+  Result := FCriadoEm;
+end;
+
 function TPessEnt.GetDtNasc: TDateTime;
 begin
   Result := FDtNasc;
+end;
+
+function TPessEnt.GetEditadoEm: TDateTime;
+begin
+  Result := FEditadoEm;
 end;
 
 function TPessEnt.GetEMail: string;
@@ -207,9 +230,19 @@ begin
   FC := Value;
 end;
 
+procedure TPessEnt.SetCriadoEm(const Value: TDateTime);
+begin
+  FCriadoEm := Value;
+end;
+
 procedure TPessEnt.SetDtNasc(const Value: TDateTime);
 begin
   FDtNasc := Value;
+end;
+
+procedure TPessEnt.SetEditadoEm(const Value: TDateTime);
+begin
+  FEditadoEm := Value;
 end;
 
 procedure TPessEnt.SetEMail(const Value: string);
