@@ -242,8 +242,10 @@ begin
   FDMemTable.Fields[iMemTab_M_UF].AsString := Q.Fields[iQ_M_UF].AsString;
   FDMemTable.Fields[iMemTab_EMAIL].AsString := Q.Fields[iQ_EMAIL].AsString;
   FDMemTable.Fields[iMemTab_DT_NASC].AsDateTime := Q.Fields[iQ_DT_NASC].AsDateTime;
-  FDMemTable.Fields[iMemTab_PESS_CRIADO_EM].AsDateTime := Q.Fields[iQ_ENDER_ORDEM].AsDateTime;
+
+  FDMemTable.Fields[iMemTab_PESS_CRIADO_EM].AsDateTime := Q.Fields[iQ_PESS_CRIADO_EM].AsDateTime;
   FDMemTable.Fields[iMemTab_PESS_ALTERADO_EM].AsDateTime := Q.Fields[iQ_PESS_ALTERADO_EM].AsDateTime;
+
   FDMemTable.Fields[iMemTab_ENDER_ORDEM].AsInteger := Q.Fields[iQ_ENDER_ORDEM].AsInteger;
   FDMemTable.Fields[iMemTab_LOGRADOURO].AsString := Q.Fields[iQ_LOGRADOURO].AsString;
   FDMemTable.Fields[iMemTab_NUMERO].AsString := Q.Fields[iQ_NUMERO].AsString;

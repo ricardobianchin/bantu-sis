@@ -62,25 +62,27 @@ begin
   iMemTab_I := 9;
   iMemTab_M := 10;
   iMemTab_EMAIL := 11;
-  iMemTab_PESS_CRIADO_EM := 12;
-  iMemTab_PESS_ALTERADO_EM := 13;
-  iMemTab_LOGRADOURO := 14;
-  iMemTab_NUMERO := 15;
-  iMemTab_COMPLEMENTO := 16;
-  iMemTab_BAIRRO := 17;
-  iMemTab_MUNICIPIO_NOME := 18;
-  iMemTab_UF_SIGLA := 19;
-  iMemTab_CEP := 20;
-  iMemTab_DDD := 21;
-  iMemTab_FONE1 := 22;
-  iMemTab_FONE2 := 23;
-  iMemTab_FONE3 := 24;
-  iMemTab_CONTATO := 25;
-  iMemTab_REFERENCIA := 26;
-  iMemTab_MUNICIPIO_IBGE_ID := 27;
-  iMemTab_ENDER_CRIADO_EM := 28;
-  iMemTab_ENDER_ALTERADO_EM := 29;
+  iMemTab_DT_NASC := 12;
+  iMemTab_PESS_CRIADO_EM := 13;
+  iMemTab_PESS_ALTERADO_EM := 14;
+  iMemTab_ENDER_ORDEM := 15;
+  iMemTab_LOGRADOURO := 16;
+  iMemTab_NUMERO := 17;
+  iMemTab_COMPLEMENTO := 18;
+  iMemTab_BAIRRO := 19;
+  iMemTab_MUNICIPIO_NOME := 20;
+  iMemTab_UF_SIGLA := 21;
+  iMemTab_CEP := 22;
+  iMemTab_DDD := 23;
+  iMemTab_FONE1 := 24;
+  iMemTab_FONE2 := 25;
+  iMemTab_FONE3 := 26;
+  iMemTab_CONTATO := 27;
+  iMemTab_REFERENCIA := 28;
+  iMemTab_MUNICIPIO_IBGE_ID := 29;
+  iMemTab_ENDER_CRIADO_EM := 30;
 
+  iMemTab_ENDER_ALTERADO_EM :=
   iQ_Ativo := 31;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
