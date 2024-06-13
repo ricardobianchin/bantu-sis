@@ -26,6 +26,7 @@ type
 
     FPessEnderList: IPessEnderList;
     FEnderQuantidadePermitida: TEnderQuantidadePermitida;
+    FCodUsaTerminalId: boolean;
 
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
@@ -76,6 +77,7 @@ type
     function GetPessEnderList: IPessEnderList;
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
+    function GetCodUsaTerminalId: boolean;
 
   public
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
@@ -98,8 +100,10 @@ type
     property EnderQuantidadePermitida: TEnderQuantidadePermitida
       read GetEnderQuantidadePermitida;
 
+    property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
+
     constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList;
-      pEnderQuantidadePermitida: TEnderQuantidadePermitida);
+      pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
 
     procedure LimparEnt; override;
   end;
@@ -110,11 +114,12 @@ implementation
 
 constructor TPessEnt.Create(pState: TDataSetState;
   pPessEnderList: IPessEnderList;
-  pEnderQuantidadePermitida: TEnderQuantidadePermitida);
+  pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
 begin
   inherited Create(dsBrowse, 0);
   FPessEnderList := pPessEnderList;
   FEnderQuantidadePermitida := pEnderQuantidadePermitida;
+  FCodUsaTerminalId := pCodUsaTerminalId;
 end;
 
 function TPessEnt.GetApelido: string;
@@ -125,6 +130,11 @@ end;
 function TPessEnt.GetC: string;
 begin
   Result := FC;
+end;
+
+function TPessEnt.GetCodUsaTerminalId: boolean;
+begin
+  Result := FCodUsaTerminalId;
 end;
 
 function TPessEnt.GetCriadoEm: TDateTime;

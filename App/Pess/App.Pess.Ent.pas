@@ -72,6 +72,9 @@ type
 
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
+
+    function GetCodUsaTerminalId: boolean;
+    property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
   end;
 
 implementation

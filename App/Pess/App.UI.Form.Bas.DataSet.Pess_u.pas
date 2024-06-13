@@ -9,13 +9,15 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, Sis.Config.SisConfig, Sis.Usuario_u,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   Sis.DB.DBTypes, App.AppInfo, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed,
-  App.Ent.DBI;
+  App.Ent.DBI, App.Pess.Ent, App.Pess.DBI;
 
 type
   TAppPessDataSetForm = class(TTabSheetDataSetBasForm)
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
+    FPessEnt: IPessEnt;
+    FPessDBI: IPessDBI;
   protected
     { Protected declarations }
 
@@ -113,7 +115,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid;
+uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid, App.Pess.Ent.Factory_u;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -121,6 +123,9 @@ constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 begin
+  FPessEnt := EntEdCastToPessEnt(pEntEd);
+  FPessDBI := EntDBICastToPessDBI(pEntDBI);
+
   iQ_LOJA_ID := 0;
   iQ_TERMINAL_ID := 1;
   iQ_PESSOA_ID := 2;
@@ -227,10 +232,19 @@ begin
   FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger := Q.Fields[iQ_TERMINAL_ID].AsInteger;
   FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger := Q.Fields[iQ_PESSOA_ID].AsInteger;
 
-  sFormat := '%.2d-%.2d-%.7d';
-  sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
-    FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger,
-    FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
+  if FPessEnt.CodUsaTerminalId then
+  begin
+    sFormat := '%.2d-%.7d';
+    sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
+  end
+  else
+  begin
+    sFormat := '%.2d-%.2d-%.7d';
+    sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
+  end;
   FDMemTable.Fields[iMemTab_PESS_COD].AsString := sCod;
 
   FDMemTable.Fields[iMemTab_APELIDO].AsString := Q.Fields[iQ_APELIDO].AsString;

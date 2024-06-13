@@ -3,7 +3,7 @@ unit App.Pess.Ent.Factory_u;
 interface
 
 uses App.Pess.Loja.Ent, App.Pess.Loja.DBI, Sis.DB.DBTypes, App.Ent.DBI,
-  App.Ent.Ed;
+  App.Ent.Ed, App.Pess.Ent, App.Pess.DBI;
 
 //loja
 //loja ent
@@ -12,17 +12,31 @@ function PessLojaEntCreate: IPessLojaEnt;
 function PessLojaDBICreate(pDBConnection: IDBConnection;
   pPessLojaEnt: IPessLojaEnt): IPessLojaDBI;//IEntDBI;
 
+function EntEdCastToPessEnt(pEntEd: IEntEd): IPessEnt;
+function EntDBICastToPessDBI(pEntDBI: IEntDBI): IPessDBI;
+
 function EntEdCastToPessLojaEnt(pEntEd: IEntEd): IPessLojaEnt;
 function EntDBICastToPessLojaDBI(pEntDBI: IEntDBI): IPessLojaDBI;
 
 implementation
 
-uses App.PessEnder.List, App.PessEnder.List_u, App.Pess.Loja.Ent_u, App.Pess.Loja.DBI_u;
+uses App.PessEnder.List, App.PessEnder.List_u, App.Pess.Loja.Ent_u, App.Pess.Loja.DBI_u,
+  App.Pess.DBI_u, App.Pess.Ent_u;
 
 //ender list
 function PessEnderListCreate: IPessEnderList;//privativo desta unit
 begin
   Result := TPessEnderList.Create;
+end;
+
+function EntEdCastToPessEnt(pEntEd: IEntEd): IPessEnt;
+begin
+  Result := TPessEnt(pEntEd);
+end;
+
+function EntDBICastToPessDBI(pEntDBI: IEntDBI): IPessDBI;
+begin
+  Result := TPessDBI(pEntDBI);
 end;
 
 function EntEdCastToPessLojaEnt(pEntEd: IEntEd): IPessLojaEnt;

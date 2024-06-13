@@ -31,7 +31,7 @@ uses Data.DB;
 constructor TPessLojaEnt.Create(pPessEnderList: IPessEnderList);
 begin
   inherited Create(dsBrowse, pPessEnderList,
-    TEnderQuantidadePermitida.endqtdUm);
+    TEnderQuantidadePermitida.endqtdUm, False);
 end;
 
 function TPessLojaEnt.GetAtivo: boolean;
