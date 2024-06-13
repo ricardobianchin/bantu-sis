@@ -3,7 +3,8 @@ unit App.UI.Form.DataSet.Pess.Loja_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.DataSet.Pess_u, Data.DB,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
   Vcl.DBGrids, Vcl.ToolWin, App.Pess.Loja.DBI, App.Pess.Loja.Ent, App.AppInfo,
@@ -45,47 +46,40 @@ constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
-var
-  iAtual: integer;
 begin
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
 
-  iAtual := 0;
-
-  iMemTab_Ativo := iAtual; inc(iAtual);
-  iMemTab_LOJA_ID := iAtual; inc(iAtual);
-  iMemTab_TERMINAL_ID := iAtual; inc(iAtual);
-  iMemTab_PESSOA_ID := iAtual; inc(iAtual);
-  iMemTab_PESS_COD := iAtual; inc(iAtual);
-  iMemTab_APELIDO := iAtual; inc(iAtual);
-  iMemTab_NOME := iAtual; inc(iAtual);
-  iMemTab_NOME_FANTASIA := iAtual; inc(iAtual);
-  iMemTab_C := iAtual; inc(iAtual);
-  iMemTab_I := iAtual; inc(iAtual);
-  iMemTab_M := iAtual; inc(iAtual);
-  iMemTab_M_UF := iAtual; inc(iAtual);
-  iMemTab_EMAIL := iAtual; inc(iAtual);
-  iMemTab_DT_NASC := iAtual; inc(iAtual);
-  iMemTab_PESS_EDITADO_EM := iAtual; inc(iAtual);
-  iMemTab_PESS_CRIADO_EM := iAtual; inc(iAtual);
-  iMemTab_ENDER_ORDEM := iAtual; inc(iAtual);
-  iMemTab_LOGRADOURO := iAtual; inc(iAtual);
-  iMemTab_NUMERO := iAtual; inc(iAtual);
-  iMemTab_COMPLEMENTO := iAtual; inc(iAtual);
-  iMemTab_BAIRRO := iAtual; inc(iAtual);
-  iMemTab_UF_SIGLA := iAtual; inc(iAtual);
-  iMemTab_CEP := iAtual; inc(iAtual);
-  iMemTab_MUNICIPIO_IBGE_ID := iAtual; inc(iAtual);
-  iMemTab_MUNICIPIO_NOME := iAtual; inc(iAtual);
-  iMemTab_DDD := iAtual; inc(iAtual);
-  iMemTab_FONE1 := iAtual; inc(iAtual);
-  iMemTab_FONE2 := iAtual; inc(iAtual);
-  iMemTab_FONE3 := iAtual; inc(iAtual);
-  iMemTab_CONTATO := iAtual; inc(iAtual);
-  iMemTab_REFERENCIA := iAtual; inc(iAtual);
-  iMemTab_ENDER_CRIADO_EM := iAtual; inc(iAtual);
-  iMemTab_ENDER_ALTERADO_EM := iAtual; inc(iAtual);
+  iMemTab_Ativo := 0;
+  iMemTab_PESSOA_ID := 1;
+  iMemTab_LOJA_ID := 2;
+  iMemTab_TERMINAL_ID := 3;
+  iMemTab_PESS_COD := 4;
+  iMemTab_NOME := 5;
+  iMemTab_NOME_FANTASIA := 6;
+  iMemTab_APELIDO := 7;
+  iMemTab_C := 8;
+  iMemTab_I := 9;
+  iMemTab_M := 10;
+  iMemTab_EMAIL := 11;
+  iMemTab_PESS_CRIADO_EM := 12;
+  iMemTab_PESS_ALTERADO_EM := 13;
+  iMemTab_LOGRADOURO := 14;
+  iMemTab_NUMERO := 15;
+  iMemTab_COMPLEMENTO := 16;
+  iMemTab_BAIRRO := 17;
+  iMemTab_MUNICIPIO_NOME := 18;
+  iMemTab_UF_SIGLA := 19;
+  iMemTab_CEP := 20;
+  iMemTab_DDD := 21;
+  iMemTab_FONE1 := 22;
+  iMemTab_FONE2 := 23;
+  iMemTab_FONE3 := 24;
+  iMemTab_CONTATO := 25;
+  iMemTab_REFERENCIA := 26;
+  iMemTab_MUNICIPIO_IBGE_ID := 27;
+  iMemTab_ENDER_CRIADO_EM := 28;
+  iMemTab_ENDER_ALTERADO_EM := 29;
 
   iQ_Ativo := 31;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
@@ -97,20 +91,21 @@ function TAppPessLojaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
+  sNomeArq := AppInfo.PastaConsTabViews +
+    'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
   Result := sNomeArq;
 end;
 
 procedure TAppPessLojaDataSetForm.QToMemTable(q: TDataSet);
 begin
   inherited;
-  FDMemTable.Fields[iMemTab_Ativo].AsBoolean := Q.Fields[iQ_Ativo].AsBoolean;
+  FDMemTable.Fields[iMemTab_Ativo].AsBoolean := q.Fields[iQ_Ativo].AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//
+  //
 end;
 
 end.
