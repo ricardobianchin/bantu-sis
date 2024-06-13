@@ -8,7 +8,8 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
   Vcl.DBGrids, Vcl.ToolWin, App.Pess.Loja.DBI, App.Pess.Loja.Ent, App.AppInfo,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, Sis.Usuario, App.UI.TabSheet.DataSet.Types_u;
+  Sis.DB.DBTypes, Sis.Usuario, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed,
+  App.Ent.DBI, App.Pess.Ent.Factory_u;
 
 type
   TAppPessLojaDataSetForm = class(TAppPessDataSetForm)
@@ -28,8 +29,8 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pPessLojaEnt: IPessLojaEnt; pPessLojaDBI: IPessLojaDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); reintroduce;
+      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); override;
   end;
 
 var
@@ -42,14 +43,13 @@ implementation
 constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pPessLojaEnt: IPessLojaEnt;
-  pPessLojaDBI: IPessLojaDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer);
+  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 var
   iAtual: integer;
 begin
-  FPessLojaEnt := pPessLojaEnt;
-  FPessLojaDBI := pPessLojaDBI;
+  FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
+  FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
 
   iAtual := 0;
 
@@ -89,7 +89,7 @@ begin
 
   iQ_Ativo := 31;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pPessLojaEnt, pPessLojaDBI,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
     pModoDataSetForm, pIdPos);
 end;
 

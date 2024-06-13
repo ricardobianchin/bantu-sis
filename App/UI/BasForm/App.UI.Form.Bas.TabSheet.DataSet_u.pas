@@ -103,7 +103,7 @@ type
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); reintroduce;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;

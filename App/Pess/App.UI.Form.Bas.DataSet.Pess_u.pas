@@ -98,12 +98,12 @@ type
     procedure QToMemTable(q: TDataSet); virtual;
 
   public
+    { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); reintroduce;
-    { Public declarations }
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); override;
   end;
 
 var
