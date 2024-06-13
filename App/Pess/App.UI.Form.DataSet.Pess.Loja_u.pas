@@ -81,8 +81,8 @@ begin
   iMemTab_REFERENCIA := 28;
   iMemTab_MUNICIPIO_IBGE_ID := 29;
   iMemTab_ENDER_CRIADO_EM := 30;
+  iMemTab_ENDER_ALTERADO_EM :=31;
 
-  iMemTab_ENDER_ALTERADO_EM :=
   iQ_Ativo := 31;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
