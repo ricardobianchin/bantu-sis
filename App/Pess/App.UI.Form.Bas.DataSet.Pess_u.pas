@@ -234,15 +234,15 @@ begin
 
   if FPessEnt.CodUsaTerminalId then
   begin
-    sFormat := '%.2d-%.7d';
+    sFormat := '%.2d-%.2d-%.7d';
     sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger,
       FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
   end
   else
   begin
-    sFormat := '%.2d-%.2d-%.7d';
+    sFormat := '%.2d-%.7d';
     sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
-      FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger,
       FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
   end;
   FDMemTable.Fields[iMemTab_PESS_COD].AsString := sCod;
