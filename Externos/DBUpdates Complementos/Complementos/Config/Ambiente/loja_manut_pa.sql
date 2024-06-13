@@ -26,7 +26,7 @@ BEGIN
     , DT_NASC DATE
     
     , PESS_CRIADO_EM TIMESTAMP
-    , PESS_EDITADO_EM TIMESTAMP
+    , PESS_ALTERADO_EM TIMESTAMP
     
     , ENDER_ORDEM SMALLINT
     , LOGRADOURO           VARCHAR(70)
@@ -77,7 +77,7 @@ BEGIN
     , DT_NASC DATE
     
     , PESS_CRIADO_EM TIMESTAMP
-    , PESS_EDITADO_EM TIMESTAMP
+    , PESS_ALTERADO_EM TIMESTAMP
     
     , ENDER_ORDEM SMALLINT
     , LOGRADOURO           VARCHAR(70)
@@ -132,7 +132,7 @@ BEGIN
           P.EMAIL, 
           P.DT_NASC, 
           P.CRIADO_EM PESS_CRIADO_EM,
-          P.EDITADO_EM PESS_EDITADO_EM, 
+          P.ALTERADO_EM PESS_ALTERADO_EM, 
           
           E.ORDEM ENDER_ORDEM,
           E.LOGRADOURO,
@@ -179,7 +179,7 @@ BEGIN
         PE.EMAIL, 
         PE.DT_NASC, 
         
-        PE.PESS_EDITADO_EM, 
+        PE.PESS_ALTERADO_EM, 
         PE.PESS_CRIADO_EM, 
         
         PE.ENDER_ORDEM,
@@ -221,7 +221,7 @@ BEGIN
       , :EMAIL
       , :DT_NASC
       
-      , :PESS_EDITADO_EM
+      , :PESS_ALTERADO_EM
       , :PESS_CRIADO_EM
       
       , :ENDER_ORDEM

@@ -63,9 +63,9 @@ type
     procedure SetCriadoEm(const Value: TDateTime);
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
 
-    function GetEditadoEm: TDateTime;
-    procedure SetEditadoEm(const Value: TDateTime);
-    property EditadoEm: TDateTime read GetEditadoEm write SetEditadoEm;
+    function GetAlteradoEm: TDateTime;
+    procedure SetAlteradoEm(const Value: TDateTime);
+    property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
 
     function GetPessEnderList: IPessEnderList;
     property PessEnderList: IPessEnderList read GetPessEnderList;

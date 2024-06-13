@@ -24,7 +24,7 @@ type
     FContato: string;
     FReferencia: string;
     FCriadoEm: TDateTime;
-    FEditadoEm: TDateTime;
+    FAlteradoEm: TDateTime;
 
     function GetOrdem: smallint;
     procedure SetOrdem(const Value: smallint);
@@ -77,8 +77,8 @@ type
     function GetCriadoEm: TDateTime;
     procedure SetCriadoEm(const Value: TDateTime);
 
-    function GetEditadoEm: TDateTime;
-    procedure SetEditadoEm(const Value: TDateTime);
+    function GetAlteradoEm: TDateTime;
+    procedure SetAlteradoEm(const Value: TDateTime);
 
   public
     property Ordem: smallint read GetOrdem write SetOrdem;
@@ -100,7 +100,7 @@ type
     property Contato: string read GetContato write SetContato;
     property Referencia: string read GetReferencia write SetReferencia;
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
-    property EditadoEm: TDateTime read GetEditadoEm write SetEditadoEm;
+    property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
   end;
 
 implementation
@@ -137,9 +137,9 @@ begin
   Result := FDDD;
 end;
 
-function TPessEnder.GetEditadoEm: TDateTime;
+function TPessEnder.GetAlteradoEm: TDateTime;
 begin
-  Result := FEditadoEm;
+  Result := FAlteradoEm;
 end;
 
 function TPessEnder.GetFone1: string;
@@ -227,9 +227,9 @@ begin
   FDDD := Value;
 end;
 
-procedure TPessEnder.SetEditadoEm(const Value: TDateTime);
+procedure TPessEnder.SetAlteradoEm(const Value: TDateTime);
 begin
-  FEditadoEm := Value;
+  FAlteradoEm := Value;
 end;
 
 procedure TPessEnder.SetFone1(const Value: string);

@@ -52,7 +52,7 @@ begin
 //  FPessEnt.EMail := q.Fields[ 9 {EMAIL}].As;
 //  FPessEnt.DtNasc := q.Fields[10 {DT_NASC}].As;
 //  FPessEnt.CriadoEm := q.Fields[12 {PESS_CRIADO_EM}].As;
-//  FPessEnt.EditadoEm := q.Fields[11 {PESS_EDITADO_EM}].As;
+//  FPessEnt.AlteradoEm := q.Fields[11 {PESS_ALTERADO_EM}].As;
 //  FPessEnt.PessEnderList. := q.Fields[13 {ENDER_ORDEM}].As;
 //  FPessEnt.PessEnderList. := q.Fields[14 {LOGRADOURO}].As;
 //  FPessEnt.PessEnderList. := q.Fields[15 {NUMERO}].As;
@@ -87,7 +87,7 @@ begin
 //Contato
 //Referencia
 //CriadoEm
-//EditadoEm
+//AlteradoEm
 end;
 
 function TPessDBI.GetSqlPreencherDataSet(pValues: variant): string;
@@ -106,8 +106,8 @@ begin
     + ', M_UF'#13#10 // 9
     + ', EMAIL'#13#10 // 10
     + ', DT_NASC'#13#10 // 11
-    + ', PESS_EDITADO_EM'#13#10 // 12
-    + ', PESS_CRIADO_EM'#13#10 // 13
+    + ', PESS_CRIADO_EM'#13#10 // 12
+    + ', PESS_ALTERADO_EM'#13#10 // 13
     + ', ENDER_ORDEM'#13#10 // 14
     + ', LOGRADOURO'#13#10 // 15
     + ', NUMERO'#13#10 // 16
