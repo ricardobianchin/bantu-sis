@@ -115,7 +115,10 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid, App.Pess.Ent.Factory_u;
+uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid, App.Pess.Ent.Factory_u,
+  Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
+  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg,
+  Sis.Types.Bool_u;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -294,7 +297,9 @@ end;
 procedure TAppPessDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
-
+  ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;
 
 end.
