@@ -208,6 +208,7 @@ contains
   App.Pess.Ent.Factory_u in 'Pess\App.Pess.Ent.Factory_u.pas',
   App.UI.TabSheet.DataSet.Types_u in 'UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas',
   App.Pess.DBI in 'Pess\App.Pess.DBI.pas',
-  App.Pess.DBI_u in 'Pess\App.Pess.DBI_u.pas';
+  App.Pess.DBI_u in 'Pess\App.Pess.DBI_u.pas',
+  App.UI.Form.Bas.Ed.Pess.Loja_u in 'Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas' {PessLojaEdForm};
 
 end.
