@@ -45,7 +45,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); reintroduce;
+      pEntDBI: IEntDBI); virtual;
   end;
 
 var
