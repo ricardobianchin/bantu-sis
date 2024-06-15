@@ -2,8 +2,15 @@ unit Sis.UI.Controls.TLabeledEdit;
 
 interface
 
-uses Vcl.ExtCtrls, Sis.UI.IO.Output, Data.DB;
+uses Vcl.StdCtrls, Vcl.ExtCtrls, Sis.UI.IO.Output, Data.DB;
 
+function TesteEditVazio(pEdit: TEdit; pNomeCampo: string; pErroOutput: IOutput): boolean;
+
+function TesteEditValorInalterado(pEdit: TEdit; pNomeCampo: string;
+  pValorOriginal: string; pDataSetState: TDataSetState;
+  pErroOutput: IOutput): boolean;
+
+////
 function TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
   pErroOutput: IOutput): boolean;
 
@@ -14,6 +21,53 @@ function TesteLabeledEditValorInalterado(pLabeledEdit: TLabeledEdit;
 implementation
 
 uses Sis.Types.strings_u, System.SysUtils;
+
+function TesteEditVazio(pEdit: TEdit; pNomeCampo: string; pErroOutput: IOutput): boolean;
+var
+  sFrase: string;
+  iId: smallint;
+  sValorDigitado: string;
+  sFormat: string;
+begin
+  pEdit.Text := StrSemCharRepetido(pEdit.Text, #32);
+  sValorDigitado := pEdit.Text;
+
+  Result := sValorDigitado <> '';
+  if not Result then
+  begin
+    sFormat := 'Campo ''%s'' é obrigatório';
+    sFrase := Format(sFormat, [pNomeCampo]);
+    pErroOutput.Exibir(sFrase);
+    pEdit.SetFocus;
+  end;
+end;
+
+
+function TesteEditValorInalterado(pEdit: TEdit; pNomeCampo: string;
+  pValorOriginal: string; pDataSetState: TDataSetState;
+  pErroOutput: IOutput): boolean;
+var
+  sFrase: string;
+  iId: smallint;
+  sValorDigitado: string;
+  sFormat: string;
+begin
+  sValorDigitado := pEdit.Text;
+
+  Result := pDataSetState <> dsEdit;
+  if Result then
+    exit;
+
+  Result := sValorDigitado <> pValorOriginal;
+
+  if not Result then
+  begin
+    sFormat := 'Campo %s igual ao já existente';
+    sFrase := Format(sFormat, [pNomeCampo]);
+    pErroOutput.Exibir(sFrase);
+    pEdit.SetFocus;
+  end;
+end;
 
 function TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
   pErroOutput: IOutput): boolean;
