@@ -6,10 +6,10 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet.DataSet_u,
   Data.DB, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ToolWin, Sis.Config.SisConfig, Sis.Usuario_u,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  Sis.DB.DBTypes, App.AppInfo, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed,
-  App.Ent.DBI, App.Pess.Ent, App.Pess.DBI;
+  Vcl.DBGrids, Vcl.ToolWin, Sis.Config.SisConfig, Sis.Usuario_u, App.Pess.Types,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario, Sis.DB.DBTypes,
+  App.AppInfo, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI,
+  App.Pess.Ent, App.Pess.DBI;
 
 type
   TAppPessDataSetForm = class(TTabSheetDataSetBasForm)
@@ -18,6 +18,7 @@ type
     { Private declarations }
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
+
   protected
     { Protected declarations }
 
@@ -97,8 +98,9 @@ type
     procedure EntToRecord; override;
 
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); override;
-    procedure QToMemTable(q: TDataSet); virtual;
 
+    procedure QToMemTable(q: TDataSet); virtual;
+    function PergEd: boolean; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -129,37 +131,41 @@ begin
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
-  iQ_LOJA_ID := 0;
-  iQ_TERMINAL_ID := 1;
-  iQ_PESSOA_ID := 2;
-  iQ_APELIDO := 3;
-  iQ_NOME := 4;
-  iQ_NOME_FANTASIA := 5;
-  iQ_C := 6;
-  iQ_I := 7;
-  iQ_M := 8;
-  iQ_M_UF := 9;
-  iQ_EMAIL := 10;
-  iQ_DT_NASC := 11;
-  iQ_PESS_CRIADO_EM := 12;
-  iQ_PESS_ALTERADO_EM := 13;
-  iQ_ENDER_ORDEM := 14;
-  iQ_LOGRADOURO := 15;
-  iQ_NUMERO := 16;
-  iQ_COMPLEMENTO := 17;
-  iQ_BAIRRO := 18;
-  iQ_UF_SIGLA := 19;
-  iQ_CEP := 20;
-  iQ_MUNICIPIO_IBGE_ID := 21;
-  iQ_MUNICIPIO_NOME := 22;
-  iQ_DDD := 23;
-  iQ_FONE1 := 24;
-  iQ_FONE2 := 25;
-  iQ_FONE3 := 26;
-  iQ_CONTATO := 27;
-  iQ_REFERENCIA := 28;
-  iQ_ENDER_CRIADO_EM := 29;
-  iQ_ENDER_ALTERADO_EM := 30;
+  if FPessEnt.EnderQuantidadePermitida = TEnderQuantidadePermitida.endqtdUm then
+  begin
+    iQ_LOJA_ID := 0;
+    iQ_TERMINAL_ID := 1;
+    iQ_PESSOA_ID := 2;
+    iQ_APELIDO := 3;
+    iQ_NOME := 4;
+    iQ_NOME_FANTASIA := 5;
+    iQ_C := 6;
+    iQ_I := 7;
+    iQ_M := 8;
+    iQ_M_UF := 9;
+    iQ_EMAIL := 10;
+    iQ_DT_NASC := 11;
+    iQ_PESS_CRIADO_EM := 12;
+    iQ_PESS_ALTERADO_EM := 13;
+
+    iQ_ENDER_ORDEM := 14;
+    iQ_LOGRADOURO := 15;
+    iQ_NUMERO := 16;
+    iQ_COMPLEMENTO := 17;
+    iQ_BAIRRO := 18;
+    iQ_UF_SIGLA := 19;
+    iQ_CEP := 20;
+    iQ_MUNICIPIO_IBGE_ID := 21;
+    iQ_MUNICIPIO_NOME := 22;
+    iQ_DDD := 23;
+    iQ_FONE1 := 24;
+    iQ_FONE2 := 25;
+    iQ_FONE3 := 26;
+    iQ_CONTATO := 27;
+    iQ_REFERENCIA := 28;
+    iQ_ENDER_CRIADO_EM := 29;
+    iQ_ENDER_ALTERADO_EM := 30;
+  end;
 
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig,
     pUsuario, pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
@@ -167,9 +173,17 @@ begin
 end;
 
 procedure TAppPessDataSetForm.DoAlterar;
+var
+  Resultado: boolean;
 begin
-  inherited;
+  Resultado := PergEd;
 
+  if not Resultado then
+    exit;
+
+  FDMemTable.Edit;
+  EntToRecord;
+  FDMemTable.Post;
 end;
 
 procedure TAppPessDataSetForm.DoAtualizar(Sender: TObject);
@@ -208,9 +222,59 @@ begin
 end;
 
 procedure TAppPessDataSetForm.EntToRecord;
+var
+  sFormat: string;
+  sCod: string;
 begin
   inherited;
+  FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger := FPessEnt.LojaId;
+  FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger := FPessEnt.TerminalId;
+  FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger := FPessEnt.Id;
 
+  if FPessEnt.CodUsaTerminalId then
+  begin
+    sFormat := '%.2d-%.2d-%.7d';
+    sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
+  end
+  else
+  begin
+    sFormat := '%.2d-%.7d';
+    sCod := Format(sFormat, [FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger,
+      FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger]);
+  end;
+  FDMemTable.Fields[iMemTab_PESS_COD].AsString := sCod;
+
+  FDMemTable.Fields[iMemTab_APELIDO].AsString := FPessEnt.Apelido;
+  FDMemTable.Fields[iMemTab_NOME].AsString := FPessEnt.Nome;
+  FDMemTable.Fields[iMemTab_NOME_FANTASIA].AsString := FPessEnt.NomeFantasia;
+  FDMemTable.Fields[iMemTab_C].AsString := FPessEnt.C;
+  FDMemTable.Fields[iMemTab_I].AsString := FPessEnt.I;
+  FDMemTable.Fields[iMemTab_M].AsString := FPessEnt.M;
+  FDMemTable.Fields[iMemTab_M_UF].AsString := FPessEnt.MUF;
+  FDMemTable.Fields[iMemTab_EMAIL].AsString := FPessEnt.EMail;
+  FDMemTable.Fields[iMemTab_DT_NASC].AsDateTime := FPessEnt.DtNasc;
+  FDMemTable.Fields[iMemTab_PESS_CRIADO_EM].AsDateTime := FPessEnt.CriadoEm;
+  FDMemTable.Fields[iMemTab_PESS_ALTERADO_EM].AsDateTime := FPessEnt.AlteradoEm;
+
+  FDMemTable.Fields[iMemTab_ENDER_ORDEM].AsInteger := 0;
+  FDMemTable.Fields[iMemTab_LOGRADOURO].AsString := FPessEnt.PessEnderList[1].Logradouro;
+  FDMemTable.Fields[iMemTab_NUMERO].AsString := FPessEnt.PessEnderList[1].Numero;
+  FDMemTable.Fields[iMemTab_COMPLEMENTO].AsString := FPessEnt.PessEnderList[1].Complemento;
+  FDMemTable.Fields[iMemTab_BAIRRO].AsString := FPessEnt.PessEnderList[1].Bairro;
+  FDMemTable.Fields[iMemTab_UF_SIGLA].AsString := FPessEnt.PessEnderList[1].UFSigla;
+  FDMemTable.Fields[iMemTab_CEP].AsString := FPessEnt.PessEnderList[1].CEP;
+  FDMemTable.Fields[iMemTab_MUNICIPIO_IBGE_ID].AsString := FPessEnt.PessEnderList[1].MunicipioIbgeId;
+  FDMemTable.Fields[iMemTab_MUNICIPIO_NOME].AsString := FPessEnt.PessEnderList[1].MunicipioNome;
+  FDMemTable.Fields[iMemTab_DDD].AsString := FPessEnt.PessEnderList[1].DDD;
+  FDMemTable.Fields[iMemTab_FONE1].AsString := FPessEnt.PessEnderList[1].Fone1;
+  FDMemTable.Fields[iMemTab_FONE2].AsString := FPessEnt.PessEnderList[1].Fone2;
+  FDMemTable.Fields[iMemTab_FONE3].AsString := FPessEnt.PessEnderList[1].Fone3;
+  FDMemTable.Fields[iMemTab_CONTATO].AsString := FPessEnt.PessEnderList[1].Contato;
+  FDMemTable.Fields[iMemTab_REFERENCIA].AsString := FPessEnt.PessEnderList[1].Referencia;
+  FDMemTable.Fields[iMemTab_ENDER_CRIADO_EM].AsDateTime := FPessEnt.PessEnderList[1].CriadoEm;
+  FDMemTable.Fields[iMemTab_ENDER_ALTERADO_EM].AsDateTime := FPessEnt.PessEnderList[1].AlteradoEm;
 end;
 
 procedure TAppPessDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
@@ -284,8 +348,38 @@ end;
 
 procedure TAppPessDataSetForm.RecordToEnt;
 begin
-  inherited;
+  FPessEnt.LojaId := FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger;
+  FPessEnt.TerminalId := FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger;
+  FPessEnt.Id := FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger;
+  FPessEnt.Apelido := FDMemTable.Fields[iMemTab_APELIDO].AsString;
+  FPessEnt.Nome := FDMemTable.Fields[iMemTab_NOME].AsString;
+  FPessEnt.NomeFantasia := FDMemTable.Fields[iMemTab_NOME_FANTASIA].AsString;
+  FPessEnt.C := FDMemTable.Fields[iMemTab_C].AsString;
+  FPessEnt.I := FDMemTable.Fields[iMemTab_I].AsString;
+  FPessEnt.M := FDMemTable.Fields[iMemTab_M].AsString;
+  FPessEnt.MUF := FDMemTable.Fields[iMemTab_M_UF].AsString;
+  FPessEnt.EMail := FDMemTable.Fields[iMemTab_EMAIL].AsString;
+  FPessEnt.DtNasc := FDMemTable.Fields[iMemTab_DT_NASC].AsDateTime;
+  FPessEnt.CriadoEm := FDMemTable.Fields[iMemTab_PESS_CRIADO_EM].AsDateTime;
+  FPessEnt.AlteradoEm := FDMemTable.Fields[iMemTab_PESS_ALTERADO_EM].AsDateTime;
 
+//  FDMemTable.Fields[iMemTab_ENDER_ORDEM].AsInteger := 0;
+  FPessEnt.PessEnderList[1].Logradouro := FDMemTable.Fields[iMemTab_LOGRADOURO].AsString;
+  FPessEnt.PessEnderList[1].Numero := FDMemTable.Fields[iMemTab_NUMERO].AsString;
+  FPessEnt.PessEnderList[1].Complemento := FDMemTable.Fields[iMemTab_COMPLEMENTO].AsString;
+  FPessEnt.PessEnderList[1].Bairro := FDMemTable.Fields[iMemTab_BAIRRO].AsString;
+  FPessEnt.PessEnderList[1].UFSigla := FDMemTable.Fields[iMemTab_UF_SIGLA].AsString;
+  FPessEnt.PessEnderList[1].CEP := FDMemTable.Fields[iMemTab_CEP].AsString;
+  FPessEnt.PessEnderList[1].MunicipioIbgeId := FDMemTable.Fields[iMemTab_MUNICIPIO_IBGE_ID].AsString;
+  FPessEnt.PessEnderList[1].MunicipioNome := FDMemTable.Fields[iMemTab_MUNICIPIO_NOME].AsString;
+  FPessEnt.PessEnderList[1].DDD := FDMemTable.Fields[iMemTab_DDD].AsString;
+  FPessEnt.PessEnderList[1].Fone1 := FDMemTable.Fields[iMemTab_FONE1].AsString;
+  FPessEnt.PessEnderList[1].Fone2 := FDMemTable.Fields[iMemTab_FONE2].AsString;
+  FPessEnt.PessEnderList[1].Fone3 := FDMemTable.Fields[iMemTab_FONE3].AsString;
+  FPessEnt.PessEnderList[1].Contato := FDMemTable.Fields[iMemTab_CONTATO].AsString;
+  FPessEnt.PessEnderList[1].Referencia := FDMemTable.Fields[iMemTab_REFERENCIA].AsString;
+  FPessEnt.PessEnderList[1].CriadoEm := FDMemTable.Fields[iMemTab_ENDER_CRIADO_EM].AsDateTime;
+  FPessEnt.PessEnderList[1].AlteradoEm := FDMemTable.Fields[iMemTab_ENDER_ALTERADO_EM].AsDateTime;
 end;
 
 procedure TAppPessDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);

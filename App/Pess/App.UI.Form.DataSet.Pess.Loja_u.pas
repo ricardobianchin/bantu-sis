@@ -25,6 +25,9 @@ type
   protected
     function GetNomeArqTabView: string; override;
     procedure QToMemTable(q: TDataSet); override;
+    procedure RecordToEnt; override;
+    procedure EntToRecord; override;
+    function PergEd: boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -40,6 +43,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses App.Pess.UI.Factory_u;
 
 constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -89,6 +94,12 @@ begin
     pModoDataSetForm, pIdPos);
 end;
 
+procedure TAppPessLojaDataSetForm.EntToRecord;
+begin
+  inherited;
+  FDMemTable.Fields[iMemTab_Ativo].AsBoolean := FPessLojaEnt.Ativo;
+end;
+
 function TAppPessLojaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
@@ -98,10 +109,21 @@ begin
   Result := sNomeArq;
 end;
 
+function TAppPessLojaDataSetForm.PergEd: boolean;
+begin
+  Result := PessLojaPerg(nil, AppInfo, FPessLojaEnt, FPessLojaDBI);
+end;
+
 procedure TAppPessLojaDataSetForm.QToMemTable(q: TDataSet);
 begin
   inherited;
   FDMemTable.Fields[iMemTab_Ativo].AsBoolean := q.Fields[iQ_Ativo].AsBoolean;
+end;
+
+procedure TAppPessLojaDataSetForm.RecordToEnt;
+begin
+  inherited;
+  FPessLojaEnt.Ativo := FDMemTable.Fields[iMemTab_Ativo].AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
