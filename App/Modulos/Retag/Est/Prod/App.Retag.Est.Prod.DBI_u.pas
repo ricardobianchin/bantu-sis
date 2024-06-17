@@ -250,7 +250,7 @@ end;
 
 procedure TProdDBI.SetNovaId(pId: variant);
 begin
-  inherited;
+//  inherited;
   Ent.Id := VarToInteger(pId);
 end;
 
