@@ -353,7 +353,7 @@ begin
   FPessEnt.LojaId := FDMemTable.Fields[iMemTab_LOJA_ID].AsInteger;
   FPessEnt.TerminalId := FDMemTable.Fields[iMemTab_TERMINAL_ID].AsInteger;
   FPessEnt.Id := FDMemTable.Fields[iMemTab_PESSOA_ID].AsInteger;
-  FPessEnt.Apelido := FDMemTable.Fields[iMemTab_APELIDO].AsString;
+{  FPessEnt.Apelido := FDMemTable.Fields[iMemTab_APELIDO].AsString;
   FPessEnt.Nome := FDMemTable.Fields[iMemTab_NOME].AsString;
   FPessEnt.NomeFantasia := FDMemTable.Fields[iMemTab_NOME_FANTASIA].AsString;
   FPessEnt.C := FDMemTable.Fields[iMemTab_C].AsString;
@@ -364,13 +364,13 @@ begin
   FPessEnt.DtNasc := FDMemTable.Fields[iMemTab_DT_NASC].AsDateTime;
   FPessEnt.CriadoEm := FDMemTable.Fields[iMemTab_PESS_CRIADO_EM].AsDateTime;
   FPessEnt.AlteradoEm := FDMemTable.Fields[iMemTab_PESS_ALTERADO_EM].AsDateTime;
-
+}
   if FPessEnt.EnderQuantidadePermitida <> TEnderQuantidadePermitida.endqtdNenhum
   then
   begin
     PessEnderListGarantirUmItem(FPessEnt.PessEnderList);
   end;
-
+ {
   iOrdem := 0;
   // nao é aqui: FDMemTable.Fields[iMemTab_ENDER_ORDEM].AsInteger := iOrdem;
 
@@ -390,6 +390,7 @@ begin
   FPessEnt.PessEnderList[iOrdem].Referencia := FDMemTable.Fields[iMemTab_REFERENCIA].AsString;
   FPessEnt.PessEnderList[iOrdem].CriadoEm := FDMemTable.Fields[iMemTab_ENDER_CRIADO_EM].AsDateTime;
   FPessEnt.PessEnderList[iOrdem].AlteradoEm := FDMemTable.Fields[iMemTab_ENDER_ALTERADO_EM].AsDateTime;
+  }
 end;
 
 procedure TAppPessDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
