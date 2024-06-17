@@ -39,55 +39,50 @@ begin
 end;
 
 procedure TPessDBI.DataSetToEnt(Q: TDataSet);
+var
+  iOrdem: integer;
 begin
-//  FPessEnt.LojaId := q.Fields[ 0 {LOJA_ID}].As;
-//  FPessEnt.TerminalId := q.Fields[ 1 {PESSOA_ID}].As;
-//  FPessEnt.Apelido := q.Fields[ 2 {APELIDO}].As;
-//  FPessEnt.Nome := q.Fields[ 3 {NOME}].As;
-//  FPessEnt.NomeFantasia := q.Fields[ 4 {NOME_FANTASIA}].As;
-//  FPessEnt.C := q.Fields[ 5 {C}].As;
-//  FPessEnt.I := q.Fields[ 6 {I}].As;
-//  FPessEnt.M := q.Fields[ 7 {M}].As;
-//  FPessEnt.MUF := q.Fields[ 8 {M_UF}].As;
-//  FPessEnt.EMail := q.Fields[ 9 {EMAIL}].As;
-//  FPessEnt.DtNasc := q.Fields[10 {DT_NASC}].As;
-//  FPessEnt.CriadoEm := q.Fields[12 {PESS_CRIADO_EM}].As;
-//  FPessEnt.AlteradoEm := q.Fields[11 {PESS_ALTERADO_EM}].As;
-//  FPessEnt.PessEnderList. := q.Fields[13 {ENDER_ORDEM}].As;
-//  FPessEnt.PessEnderList. := q.Fields[14 {LOGRADOURO}].As;
-//  FPessEnt.PessEnderList. := q.Fields[15 {NUMERO}].As;
-//  FPessEnt.PessEnderList. := q.Fields[16 {COMPLEMENTO}].As;
-//  FPessEnt.PessEnderList. := q.Fields[17 {BAIRRO}].As;
-//  FPessEnt.PessEnderList. := q.Fields[18 {UF_SIGLA}].As;
-//  FPessEnt.PessEnderList. := q.Fields[19 {CEP}].As;
-//  FPessEnt.PessEnderList. := q.Fields[20 {MUNICIPIO_IBGE_ID}].As;
-//  FPessEnt.PessEnderList. := q.Fields[20 {MUNICIPIO_IBGE_ID}].As;
-//  FPessEnt.PessEnderList. := q.Fields[21 {DDD}].As;
-//  FPessEnt.PessEnderList. := q.Fields[22 {FONE1}].As;
-//  FPessEnt.PessEnderList. := q.Fields[23 {FONE2}].As;
-//  FPessEnt.PessEnderList. := q.Fields[24 {FONE3}].As;
-//  FPessEnt.PessEnderList. := q.Fields[25 {CONTATO}].As;
-//  FPessEnt.PessEnderList. := q.Fields[26 {REFERENCIA}].As;
-//  FPessEnt.PessEnderList. := q.Fields[27 {ENDER_CRIADO_EM}].As;
-//  FPessEnt.PessEnderList. := q.Fields[28 {ENDER_ALTERADO_EM}].As;
-//
-//Ordem
-//Logradouro
-//Numero
-//Complemento
-//Bairro
-//Municipio
-//UFSigla
-//CEP
-//MunicipioIbgeId
-//DDD
-//Fone1
-//Fone2
-//Fone3
-//Contato
-//Referencia
-//CriadoEm
-//AlteradoEm
+  FPessEnt.LojaId := q.Fields[0 {LOJA_ID}].AsInteger;
+  FPessEnt.TerminalId := q.Fields[1 {TERMINAL_ID}].AsInteger;
+  FPessEnt.Id := q.Fields[2 {PESSOA_ID}].AsInteger;
+
+  FPessEnt.Apelido := q.Fields[3 {APELIDO}].AsString;
+  FPessEnt.Nome := q.Fields[4 {NOME}].AsString;
+  FPessEnt.NomeFantasia := q.Fields[5 {NOME_FANTASIA}].AsString;
+
+  FPessEnt.C := q.Fields[6 {C}].AsString;
+  FPessEnt.I := q.Fields[7 {I}].AsString;
+  FPessEnt.M := q.Fields[8 {M}].AsString;
+  FPessEnt.MUF := q.Fields[9 {M_UF}].AsString;
+
+  FPessEnt.EMail := q.Fields[10 {EMAIL}].AsString;
+  FPessEnt.DtNasc := q.Fields[11 {DT_NASC}].AsDateTime;
+
+  FPessEnt.CriadoEm := q.Fields[12 {PESS_CRIADO_EM}].AsDateTime;
+  FPessEnt.AlteradoEm := q.Fields[13 {PESS_ALTERADO_EM}].AsDateTime;
+
+  repeat
+    if q.Eof then
+      break;
+    iOrdem := q.Fields[14 {ENDER_ORDEM}].AsInteger;
+
+    FPessEnt.PessEnderList[iOrdem].Logradouro := q.Fields[15 {LOGRADOURO}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Numero := q.Fields[16 {NUMERO}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Complemento := q.Fields[17 {COMPLEMENTO}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Bairro := q.Fields[18 {BAIRRO}].AsString;
+    FPessEnt.PessEnderList[iOrdem].UFSigla := q.Fields[19 {UF_SIGLA}].AsString;
+    FPessEnt.PessEnderList[iOrdem].CEP := q.Fields[20 {CEP}].AsString;
+    FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId := q.Fields[21 {MUNICIPIO_IBGE_ID}].AsString;
+    FPessEnt.PessEnderList[iOrdem].MunicipioNome := q.Fields[22 {MUNICIPIO_NOME}].AsString;
+    FPessEnt.PessEnderList[iOrdem].DDD := q.Fields[23 {DDD}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Fone1 := q.Fields[24 {FONE1}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Fone2 := q.Fields[25 {FONE2}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Fone3 := q.Fields[26 {FONE3}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Contato := q.Fields[27 {CONTATO}].AsString;
+    FPessEnt.PessEnderList[iOrdem].Referencia := q.Fields[28 {REFERENCIA}].AsString;
+    FPessEnt.PessEnderList[iOrdem].CriadoEm := q.Fields[29 {ENDER_CRIADO_EM}].AsDateTime;
+    FPessEnt.PessEnderList[iOrdem].AlteradoEm := q.Fields[30 {ENDER_ALTERADO_EM}].AsDateTime;
+  until false;
 end;
 
 function TPessDBI.GetSqlPreencherDataSet(pValues: variant): string;
