@@ -165,10 +165,9 @@ end;
 procedure TPessDBI.SetNovaId(pId: variant);
 begin
 //  inherited;
-//  LojaId := pId[0];
-//  TerminalId := pId[1];
-//  Id := pId[2];
-
+  FPessEnt.LojaId := pId[0];
+  FPessEnt.TerminalId := pId[1];
+  FPessEnt.Id := pId[2];
 end;
 
 end.
