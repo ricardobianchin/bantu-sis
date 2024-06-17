@@ -209,6 +209,8 @@ contains
   App.UI.TabSheet.DataSet.Types_u in 'UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas',
   App.Pess.DBI in 'Pess\App.Pess.DBI.pas',
   App.Pess.DBI_u in 'Pess\App.Pess.DBI_u.pas',
-  App.UI.Form.Bas.Ed.Pess.Loja_u in 'Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas' {PessLojaEdForm};
+  App.UI.Form.Bas.Ed.Pess.Loja_u in 'Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas' {PessLojaEdForm},
+  App.Testes.Config_u in 'AppObj\App.Testes.Config_u.pas',
+  App.Testes.Config in 'AppObj\App.Testes.Config.pas';
 
 end.

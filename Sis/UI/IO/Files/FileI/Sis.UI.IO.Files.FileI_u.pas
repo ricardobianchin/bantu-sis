@@ -11,7 +11,7 @@ type
     FExt: string;
     FPasta: string;
     FNomeCompletoArq: string;
-    FAutoCreate: boolean;
+    FAutoCreateFile: boolean;
 
     FProcessLog: IProcessLog;
     FOutput: IOutput;
@@ -26,7 +26,7 @@ type
     function Ler: boolean; virtual;
     function Gravar: boolean; virtual; abstract;
     constructor Create(pNomeArq: string; pExt: string = '';
-      pPasta: string = ''; pAutoCreate: boolean = false;
+      pPasta: string = ''; pAutoCreateFile: boolean = false;
       pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
   end;
 
@@ -36,7 +36,7 @@ uses System.SysUtils, Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TFileI }
 
-constructor TFileI.Create(pNomeArq, pExt, pPasta: string; pAutoCreate: boolean;
+constructor TFileI.Create(pNomeArq, pExt, pPasta: string; pAutoCreateFile: boolean;
   pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   FNomeArq := pNomeArq;
@@ -56,8 +56,8 @@ begin
   if pOutput = nil then
     FOutput := MudoOutputCreate;
 
-  FAutoCreate := pAutoCreate;
-  if FAutoCreate then
+  FAutoCreateFile := pAutoCreateFile;
+  if FAutoCreateFile then
     ForceDirectories(pPasta);
 end;
 

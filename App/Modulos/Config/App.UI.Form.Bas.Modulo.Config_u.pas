@@ -129,7 +129,8 @@ procedure TConfigModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   ClearStyleElements(Self);
-
+  if AppObj.AppTestesConfig.ModuConfAmbiLojaAutoExec then
+    ConfigAmbiLojasAction.Execute;
 end;
 
 procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);

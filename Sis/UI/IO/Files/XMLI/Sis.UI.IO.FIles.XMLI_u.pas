@@ -23,7 +23,7 @@ type
     function Gravar: boolean; virtual;
 
     constructor Create(pRootNodeName: string; pNomeArq: string; pExt: string = '';
-      pPasta: string = ''; pAutoCreate: boolean = false;
+      pPasta: string = ''; pAutoCreateFile: boolean = false;
       pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
 
   end;
@@ -34,10 +34,10 @@ uses WinApi.ActiveX;
 
 { TXMLI }
 
-constructor TXMLI.Create(pRootNodeName: string; pNomeArq, pExt, pPasta: string; pAutoCreate: boolean;
+constructor TXMLI.Create(pRootNodeName: string; pNomeArq, pExt, pPasta: string; pAutoCreateFile: boolean;
   pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create(pNomeArq, pExt, pPasta, pAutoCreate, pProcessLog, pOutput);
+  inherited Create(pNomeArq, pExt, pPasta, pAutoCreateFile, pProcessLog, pOutput);
   FRootNodeName := pRootNodeName;
 end;
 
