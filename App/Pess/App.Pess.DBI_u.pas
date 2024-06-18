@@ -15,7 +15,7 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; override;
 
     procedure SetNovaId(pId: variant); override;
-    procedure DataSetToEnt(Q: TDataSet); virtual;
+    procedure RegAtualToEnt(Q: TDataSet); virtual;
   public
     function Inserir(out pNovaId: variant): boolean; override;
     function Alterar: boolean; override;
@@ -26,6 +26,8 @@ type
 implementation
 
 { TPessDBI }
+
+uses App.PessEnder, App.Pess.Ent.Factory_u;
 
 function TPessDBI.Alterar: boolean;
 begin
@@ -38,8 +40,9 @@ begin
   FPessEnt := pPessEnt;
 end;
 
-procedure TPessDBI.DataSetToEnt(Q: TDataSet);
+procedure TPessDBI.RegAtualToEnt(Q: TDataSet);
 var
+  oEnder: IPessEnder;
   iOrdem: integer;
 begin
   FPessEnt.LojaId := q.Fields[0 {LOJA_ID}].AsInteger;
@@ -61,28 +64,36 @@ begin
   FPessEnt.CriadoEm := q.Fields[12 {PESS_CRIADO_EM}].AsDateTime;
   FPessEnt.AlteradoEm := q.Fields[13 {PESS_ALTERADO_EM}].AsDateTime;
 
-  repeat
-    if q.Eof then
-      break;
-    iOrdem := q.Fields[14 {ENDER_ORDEM}].AsInteger;
+  iOrdem := q.Fields[14 {ENDER_ORDEM}].AsInteger;
 
-    FPessEnt.PessEnderList[iOrdem].Logradouro := q.Fields[15 {LOGRADOURO}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Numero := q.Fields[16 {NUMERO}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Complemento := q.Fields[17 {COMPLEMENTO}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Bairro := q.Fields[18 {BAIRRO}].AsString;
-    FPessEnt.PessEnderList[iOrdem].UFSigla := q.Fields[19 {UF_SIGLA}].AsString;
-    FPessEnt.PessEnderList[iOrdem].CEP := q.Fields[20 {CEP}].AsString;
-    FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId := q.Fields[21 {MUNICIPIO_IBGE_ID}].AsString;
-    FPessEnt.PessEnderList[iOrdem].MunicipioNome := q.Fields[22 {MUNICIPIO_NOME}].AsString;
-    FPessEnt.PessEnderList[iOrdem].DDD := q.Fields[23 {DDD}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Fone1 := q.Fields[24 {FONE1}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Fone2 := q.Fields[25 {FONE2}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Fone3 := q.Fields[26 {FONE3}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Contato := q.Fields[27 {CONTATO}].AsString;
-    FPessEnt.PessEnderList[iOrdem].Referencia := q.Fields[28 {REFERENCIA}].AsString;
-    FPessEnt.PessEnderList[iOrdem].CriadoEm := q.Fields[29 {ENDER_CRIADO_EM}].AsDateTime;
-    FPessEnt.PessEnderList[iOrdem].AlteradoEm := q.Fields[30 {ENDER_ALTERADO_EM}].AsDateTime;
-  until false;
+  while FPessEnt.PessEnderList.Count < (iOrdem + 1) do
+  begin
+    oEnder := PessEnderCreate;
+    FPessEnt.PessEnderList.Add(oEnder);
+  end;
+
+  FPessEnt.PessEnderList[iOrdem].Ordem := iOrdem;
+
+  FPessEnt.PessEnderList[iOrdem].Logradouro := q.Fields[15 {LOGRADOURO}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Numero := q.Fields[16 {NUMERO}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Complemento := q.Fields[17 {COMPLEMENTO}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Bairro := q.Fields[18 {BAIRRO}].AsString;
+
+  FPessEnt.PessEnderList[iOrdem].UFSigla := q.Fields[19 {UF_SIGLA}].AsString;
+  FPessEnt.PessEnderList[iOrdem].CEP := q.Fields[20 {CEP}].AsString;
+  FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId := q.Fields[21 {MUNICIPIO_IBGE_ID}].AsString;
+  FPessEnt.PessEnderList[iOrdem].MunicipioNome := q.Fields[22 {MUNICIPIO_NOME}].AsString;
+
+  FPessEnt.PessEnderList[iOrdem].DDD := q.Fields[23 {DDD}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Fone1 := q.Fields[24 {FONE1}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Fone2 := q.Fields[25 {FONE2}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Fone3 := q.Fields[26 {FONE3}].AsString;
+
+  FPessEnt.PessEnderList[iOrdem].Contato := q.Fields[27 {CONTATO}].AsString;
+  FPessEnt.PessEnderList[iOrdem].Referencia := q.Fields[28 {REFERENCIA}].AsString;
+
+  FPessEnt.PessEnderList[iOrdem].CriadoEm := q.Fields[29 {ENDER_CRIADO_EM}].AsDateTime;
+  FPessEnt.PessEnderList[iOrdem].AlteradoEm := q.Fields[30 {ENDER_ALTERADO_EM}].AsDateTime;
 end;
 
 function TPessDBI.GetSqlPreencherDataSet(pValues: variant): string;
@@ -148,9 +159,11 @@ begin
     Result := not q.isempty;
     if not Result then
       exit;
-
-    DataSetToEnt(q);
-
+    while not q.Eof do
+    begin
+      RegAtualToEnt(q);
+      q.Next;
+    end;
   finally
     q.Free;
     DBConnection.Fechar;

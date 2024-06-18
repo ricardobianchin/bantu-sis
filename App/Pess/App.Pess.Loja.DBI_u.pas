@@ -12,7 +12,7 @@ type
     FPessLojaEnt: IPessLojaEnt;
     FAtivoFieldIndex: integer;
   protected
-    procedure DataSetToEnt(Q: TDataSet); override;
+    procedure RegAtualToEnt(Q: TDataSet); override;
     function GetSqlPreencherDataSet(pValues: variant): string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
@@ -40,7 +40,7 @@ begin
   FPessLojaEnt := pPessLojaEnt;
 end;
 
-procedure TPessLojaDBI.DataSetToEnt(Q: TDataSet);
+procedure TPessLojaDBI.RegAtualToEnt(Q: TDataSet);
 begin
   inherited;
   FPessLojaEnt.Ativo := q.Fields[FAtivoFieldIndex {ATIVO}].AsBoolean;
