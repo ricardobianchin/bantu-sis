@@ -13,6 +13,20 @@ type
   TPessEdBasForm = class(TEdBasForm)
     NomePessLabel: TLabel;
     NomePessEdit: TEdit;
+    NomeFantaPessLabel: TLabel;
+    NomeFantaPessEdit: TEdit;
+    Label1: TLabel;
+    ApelidoPessEdit: TEdit;
+    CPessLabel: TLabel;
+    CPessEdit: TEdit;
+    IPessLabel: TLabel;
+    Edit1: TEdit;
+    MPessLabel: TLabel;
+    Edit2: TEdit;
+    Label2: TLabel;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Label3: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomePessEditChange(Sender: TObject);
