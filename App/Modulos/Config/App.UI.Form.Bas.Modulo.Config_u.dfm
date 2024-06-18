@@ -127,7 +127,6 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
     object ConfigAmbiLojasAction: TAction
       Caption = 'Estabelecimentos'
       Hint = 'Cadastro dos estabelecimentos atual e rede'
-      OnExecute = ConfigAmbiLojasActionExecute
     end
     object ConfigTerminaisAction: TAction
       Caption = 'Terminais'

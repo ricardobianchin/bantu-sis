@@ -33,9 +33,6 @@ type
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
-    // ambiente
-    procedure ConfigAmbiLojasActionExecute(Sender: TObject);
-
     // dbimport
     procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
   private
@@ -94,12 +91,6 @@ begin
 {$ELSE}
   MenuPageControl.ActivePageIndex := 0;
 {$ENDIF}
-end;
-
-procedure TConfigModuloBasForm.ConfigAmbiLojasActionExecute(Sender: TObject);
-begin
-  inherited;
-  TabSheetCrie(FAmbiLojasDataSetFormCreator);
 end;
 
 procedure TConfigModuloBasForm.ConfigDBImportAbrirActionExecute
