@@ -7,7 +7,9 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Data.DB,
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppInfo, App.Pess.Ent,
-  App.Pess.DBI;
+  App.Pess.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TPessEdBasForm = class(TEdBasForm)
@@ -27,6 +29,11 @@ type
     Edit3: TEdit;
     Edit4: TEdit;
     Label3: TLabel;
+    EnderPessFDMemTable: TFDMemTable;
+    EnderPessFDMemTableOrdem: TIntegerField;
+    EnderPessFDMemTableLogradouro: TStringField;
+    EnderPessFDMemTableNumero: TStringField;
+    EnderPessFDMemTableComplemento: TStringField;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomePessEditChange(Sender: TObject);

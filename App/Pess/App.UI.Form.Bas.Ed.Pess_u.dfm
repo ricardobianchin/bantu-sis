@@ -2,6 +2,7 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 282
   ClientWidth = 988
+  ExplicitTop = -3
   ExplicitWidth = 1000
   TextHeight = 15
   inherited MensLabel: TLabel
@@ -183,5 +184,31 @@ inherited PessEdBasForm: TPessEdBasForm
   inherited ActionList1_Diag: TActionList
     Left = 160
     Top = 160
+  end
+  object EnderPessFDMemTable: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 360
+    Top = 136
+    object EnderPessFDMemTableOrdem: TIntegerField
+      FieldName = 'Ordem'
+    end
+    object EnderPessFDMemTableLogradouro: TStringField
+      FieldName = 'Logradouro'
+      Size = 70
+    end
+    object EnderPessFDMemTableNumero: TStringField
+      FieldName = 'Numero'
+      Size = 60
+    end
+    object EnderPessFDMemTableComplemento: TStringField
+      FieldName = 'Complemento'
+      Size = 60
+    end
   end
 end
