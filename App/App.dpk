@@ -210,7 +210,14 @@ contains
   App.Pess.DBI in 'Pess\App.Pess.DBI.pas',
   App.Pess.DBI_u in 'Pess\App.Pess.DBI_u.pas',
   App.UI.Form.Bas.Ed.Pess.Loja_u in 'Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas' {PessLojaEdForm},
-  App.Testes.Config_u in 'AppObj\App.Testes.Config_u.pas',
-  App.Testes.Config in 'AppObj\App.Testes.Config.pas';
+  App.Testes.Config_u in 'AppObj\TestesConfig\App.Testes.Config_u.pas',
+  App.Testes.Config in 'AppObj\TestesConfig\App.Testes.Config.pas',
+  App.Testes.Config.ModuConf in 'AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf.pas',
+  App.Testes.Config.ModuConf.Ambi in 'AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi.pas',
+  App.Testes.Config.Factory in 'AppObj\TestesConfig\App.Testes.Config.Factory.pas',
+  App.Testes.Config.ModuConf_u in 'AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf_u.pas',
+  App.Testes.Config.ModuConf.Ambi_u in 'AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi_u.pas',
+  App.Testes.Config.ModuConf.Ambi.Loja in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas',
+  App.Testes.Config.ModuConf.Ambi.Loja_u in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas';
 
 end.

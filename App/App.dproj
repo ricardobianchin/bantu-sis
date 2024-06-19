@@ -430,8 +430,15 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PessLojaEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="AppObj\App.Testes.Config_u.pas"/>
-        <DCCReference Include="AppObj\App.Testes.Config.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App.Testes.Config_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App.Testes.Config.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App.Testes.Config.Factory.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
