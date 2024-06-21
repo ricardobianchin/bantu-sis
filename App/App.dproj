@@ -439,6 +439,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App\App.Testes.Config.App.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App\App.Testes.Config.App_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

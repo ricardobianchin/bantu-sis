@@ -218,6 +218,8 @@ contains
   App.Testes.Config.ModuConf_u in 'AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf_u.pas',
   App.Testes.Config.ModuConf.Ambi_u in 'AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi_u.pas',
   App.Testes.Config.ModuConf.Ambi.Loja in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas',
-  App.Testes.Config.ModuConf.Ambi.Loja_u in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas';
+  App.Testes.Config.ModuConf.Ambi.Loja_u in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas',
+  App.Testes.Config.App in 'AppObj\TestesConfig\App\App.Testes.Config.App.pas',
+  App.Testes.Config.App_u in 'AppObj\TestesConfig\App\App.Testes.Config.App_u.pas';
 
 end.
