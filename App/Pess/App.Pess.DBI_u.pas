@@ -146,12 +146,20 @@ var
   q: TDataSet;
   Resultado: variant;
   sResultado: string;
-  iId: integer;
   sNome: string;
+
+  aValores: variant;
 begin
+
   Result := False;
 
-  sSql := GetSqlPreencherDataSet(FPessEnt);
+  aValores := VarArrayCreate([0, 2], varInteger);
+  aValores[0] := FPessEnt.LojaId;
+  aValores[1] := FPessEnt.TerminalId;
+  aValores[2] := FPessEnt.Id;
+
+
+  sSql := GetSqlPreencherDataSet(aValores);
 
   DBConnection.Abrir;
   try
