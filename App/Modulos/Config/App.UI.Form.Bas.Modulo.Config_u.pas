@@ -35,6 +35,7 @@ type
 
     // dbimport
     procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
+    procedure ConfigAmbiLojasActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -91,6 +92,12 @@ begin
 {$ELSE}
   MenuPageControl.ActivePageIndex := 0;
 {$ENDIF}
+end;
+
+procedure TConfigModuloBasForm.ConfigAmbiLojasActionExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAmbiLojasDataSetFormCreator);
 end;
 
 procedure TConfigModuloBasForm.ConfigDBImportAbrirActionExecute

@@ -3,7 +3,6 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   ClientWidth = 604
   StyleElements = []
   ExplicitWidth = 604
-  ExplicitHeight = 480
   TextHeight = 15
   inherited TitleBarPanel: TPanel
     Width = 604
@@ -15,6 +14,12 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   inherited BasePanel: TPanel
     Width = 604
     ExplicitWidth = 604
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object TopoPanel: TPanel [2]
     Left = 0
@@ -122,6 +127,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
     object ConfigAmbiLojasAction: TAction
       Caption = 'Estabelecimentos'
       Hint = 'Cadastro dos estabelecimentos atual e rede'
+      OnExecute = ConfigAmbiLojasActionExecute
     end
     object ConfigTerminaisAction: TAction
       Caption = 'Terminais'
