@@ -217,8 +217,8 @@ end;
 
 procedure TAppPessDataSetForm.DoLer;
 begin
-  inherited;
-
+  //inherited;
+  EntDBI.Ler;
 end;
 
 procedure TAppPessDataSetForm.EntToRecord;
