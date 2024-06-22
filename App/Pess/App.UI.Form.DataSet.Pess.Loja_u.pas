@@ -123,12 +123,13 @@ end;
 procedure TAppPessLojaDataSetForm.RecordToEnt;
 begin
   inherited;
-  FPessLojaEnt.Ativo := FDMemTable.Fields[iMemTab_Ativo].AsBoolean;
+//  FPessLojaEnt.Ativo := FDMemTable.Fields[iMemTab_Ativo].AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+  AltAction_DatasetTabSheet.Execute;
   //
 end;
 
