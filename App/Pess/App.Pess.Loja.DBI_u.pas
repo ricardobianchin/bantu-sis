@@ -12,8 +12,8 @@ type
     FPessLojaEnt: IPessLojaEnt;
     FAtivoFieldIndex: integer;
   protected
-    procedure RegAtualToEnt(Q: TDataSet); override;
     function GetSqlPreencherDataSet(pValues: variant): string; override;
+    procedure RegAtualToEnt(Q: TDataSet); override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
 
