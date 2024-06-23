@@ -1,0 +1,2 @@
+inherited EnderControlsFrame: TEnderControlsFrame
+end

@@ -1,0 +1,2 @@
+inherited EnderDBGridFrame: TEnderDBGridFrame
+end

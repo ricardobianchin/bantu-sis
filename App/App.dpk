@@ -220,6 +220,9 @@ contains
   App.Testes.Config.ModuConf.Ambi.Loja in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas',
   App.Testes.Config.ModuConf.Ambi.Loja_u in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas',
   App.Testes.Config.App in 'AppObj\TestesConfig\App\App.Testes.Config.App.pas',
-  App.Testes.Config.App_u in 'AppObj\TestesConfig\App\App.Testes.Config.App_u.pas';
+  App.Testes.Config.App_u in 'AppObj\TestesConfig\App\App.Testes.Config.App_u.pas',
+  App.Pess.Ender.Controls.Frame_u in 'Pess\Ender\App.Pess.Ender.Controls.Frame_u.pas' {EnderControlsFrame: TFrame},
+  App.Pess.Ender.DBGrid.Frame_u in 'Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas' {EnderDBGridFrame: TFrame},
+  App.Pess.Ender.Frame_u in 'Pess\Ender\App.Pess.Ender.Frame_u.pas' {EnderFrame: TFrame};
 
 end.

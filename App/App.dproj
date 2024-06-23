@@ -441,6 +441,21 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\App\App.Testes.Config.App.pas"/>
         <DCCReference Include="AppObj\TestesConfig\App\App.Testes.Config.App_u.pas"/>
+        <DCCReference Include="Pess\Ender\App.Pess.Ender.Controls.Frame_u.pas">
+            <Form>EnderControlsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas">
+            <Form>EnderDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Pess\Ender\App.Pess.Ender.Frame_u.pas">
+            <Form>EnderFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

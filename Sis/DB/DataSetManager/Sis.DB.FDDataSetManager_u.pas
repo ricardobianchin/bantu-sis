@@ -230,10 +230,11 @@ begin
 
   FLargurasList.Clear;
   FAlignmentList.Clear;
-  for I := 2 to pDefsSL.Count - 1 do
+  for I := 0 to pDefsSL.Count - 1 do
   begin
     sLinhaAtual := pDefsSL[I];
     Parametros := sLinhaAtual.Split([',']);
+    Parametros[0] := I.ToString;
     DefinaCampo(Parametros);
   end;
 
