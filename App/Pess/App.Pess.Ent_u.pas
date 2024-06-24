@@ -3,7 +3,7 @@ unit App.Pess.Ent_u;
 interface
 
 uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List,
-  App.Pess.Types;
+  App.Pess.Utils;
 
 type
   TPessEnt = class(TEntEdId, IPessEnt)
@@ -79,6 +79,7 @@ type
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
     function GetCodUsaTerminalId: boolean;
 
+    function GetCodAsString: string;
   public
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
@@ -99,8 +100,9 @@ type
     property PessEnderList: IPessEnderList read GetPessEnderList;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida
       read GetEnderQuantidadePermitida;
-
     property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
+    property CodAsString: string read GetCodAsString;
+
 
     constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList;
       pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
@@ -109,6 +111,8 @@ type
   end;
 
 implementation
+
+uses System.SysUtils;
 
 { TPessEnt }
 
@@ -130,6 +134,11 @@ end;
 function TPessEnt.GetC: string;
 begin
   Result := FC;
+end;
+
+function TPessEnt.GetCodAsString: string;
+begin
+  Result := CodsToCodAsString(LojaId, TerminalId, Id, CodUsaTerminalId);
 end;
 
 function TPessEnt.GetCodUsaTerminalId: boolean;

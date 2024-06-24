@@ -20,7 +20,7 @@ type
     FPessLojaEnt: IPessLojaEnt;
     FPessLojaDBI: IPessLojaDBI;
 
-    iMemTab_Ativo: integer;
+    iT_Ativo: integer;
     iQ_Ativo: integer;
   protected
     function GetNomeArqTabView: string; override;
@@ -55,38 +55,38 @@ begin
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
 
-  iMemTab_Ativo := 0;
-  iMemTab_PESSOA_ID := 1;
-  iMemTab_LOJA_ID := 2;
-  iMemTab_TERMINAL_ID := 3;
-  iMemTab_PESS_COD := 4;
-  iMemTab_NOME := 5;
-  iMemTab_NOME_FANTASIA := 6;
-  iMemTab_APELIDO := 7;
-  iMemTab_C := 8;
-  iMemTab_I := 9;
-  iMemTab_M := 10;
-  iMemTab_EMAIL := 11;
-  iMemTab_DT_NASC := 12;
-  iMemTab_PESS_CRIADO_EM := 13;
-  iMemTab_PESS_ALTERADO_EM := 14;
-  iMemTab_ENDER_ORDEM := 15;
-  iMemTab_LOGRADOURO := 16;
-  iMemTab_NUMERO := 17;
-  iMemTab_COMPLEMENTO := 18;
-  iMemTab_BAIRRO := 19;
-  iMemTab_MUNICIPIO_NOME := 20;
-  iMemTab_UF_SIGLA := 21;
-  iMemTab_CEP := 22;
-  iMemTab_DDD := 23;
-  iMemTab_FONE1 := 24;
-  iMemTab_FONE2 := 25;
-  iMemTab_FONE3 := 26;
-  iMemTab_CONTATO := 27;
-  iMemTab_REFERENCIA := 28;
-  iMemTab_MUNICIPIO_IBGE_ID := 29;
-  iMemTab_ENDER_CRIADO_EM := 30;
-  iMemTab_ENDER_ALTERADO_EM :=31;
+  iT_Ativo := 0;
+  iT_PESSOA_ID := 1;
+  iT_LOJA_ID := 2;
+  iT_TERMINAL_ID := 3;
+  iT_PESS_COD := 4;
+  iT_NOME := 5;
+  iT_NOME_FANTASIA := 6;
+  iT_APELIDO := 7;
+  iT_C := 8;
+  iT_I := 9;
+  iT_M := 10;
+  iT_EMAIL := 11;
+  iT_DT_NASC := 12;
+  iT_PESS_CRIADO_EM := 13;
+  iT_PESS_ALTERADO_EM := 14;
+  iT_ENDER_ORDEM := 15;
+  iT_LOGRADOURO := 16;
+  iT_NUMERO := 17;
+  iT_COMPLEMENTO := 18;
+  iT_BAIRRO := 19;
+  iT_MUNICIPIO_NOME := 20;
+  iT_UF_SIGLA := 21;
+  iT_CEP := 22;
+  iT_DDD := 23;
+  iT_FONE1 := 24;
+  iT_FONE2 := 25;
+  iT_FONE3 := 26;
+  iT_CONTATO := 27;
+  iT_REFERENCIA := 28;
+  iT_MUNICIPIO_IBGE_ID := 29;
+  iT_ENDER_CRIADO_EM := 30;
+  iT_ENDER_ALTERADO_EM :=31;
 
   iQ_Ativo := 31;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
@@ -97,7 +97,7 @@ end;
 procedure TAppPessLojaDataSetForm.EntToRecord;
 begin
   inherited;
-  FDMemTable.Fields[iMemTab_Ativo].AsBoolean := FPessLojaEnt.Ativo;
+  FDMemTable.Fields[iT_Ativo].AsBoolean := FPessLojaEnt.Ativo;
 end;
 
 function TAppPessLojaDataSetForm.GetNomeArqTabView: string;
@@ -117,13 +117,13 @@ end;
 procedure TAppPessLojaDataSetForm.QToMemTable(q: TDataSet);
 begin
   inherited;
-  FDMemTable.Fields[iMemTab_Ativo].AsBoolean := q.Fields[iQ_Ativo].AsBoolean;
+  FDMemTable.Fields[iT_Ativo].AsBoolean := q.Fields[iQ_Ativo].AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.RecordToEnt;
 begin
   inherited;
-//  FPessLojaEnt.Ativo := FDMemTable.Fields[iMemTab_Ativo].AsBoolean;
+//  FPessLojaEnt.Ativo := FDMemTable.Fields[iT_Ativo].AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);

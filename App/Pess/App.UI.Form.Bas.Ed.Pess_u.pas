@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppInfo, App.Pess.Ent,
   App.Pess.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Pess.Ender.Frame_u;
 
 type
   TPessEdBasForm = class(TEdBasForm)
@@ -37,10 +37,10 @@ type
     { Private declarations }
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
-    FEnderPessFDMemTable: TFDMemTable;
-    function GetNomeArqTabViewEndereco: string;
+
+    FEnderFrame: TEnderFrame;
+
     procedure PreenchaControles;
-    procedure EnderecoFDMemTableAfterScroll(DataSet: TDataSet);
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -64,7 +64,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.DB.DataSet.Utils;
+uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit;
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -108,28 +108,15 @@ end;
 
 constructor TPessEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
-var
-  sNomeArq: string;
 begin
+  inherited;
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
-  FEnderPessFDMemTable := TFDMemTable.Create(Self);
-  FEnderPessFDMemTable.Name := ClassName + 'FDMemTable';
-  FEnderPessFDMemTable.AfterScroll := EnderecoFDMemTableAfterScroll;
-
-  sNomeArq := GetNomeArqTabViewEndereco;
-  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FEnderPessFDMemTable, DBGrid1);
-
-  inherited;
+  FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppInfo);
 end;
 
 function TPessEdBasForm.DadosOk: boolean;
-begin
-
-end;
-
-procedure TPessEdBasForm.EnderecoFDMemTableAfterScroll(DataSet: TDataSet);
 begin
 
 end;
@@ -138,15 +125,6 @@ procedure TPessEdBasForm.EntToControles;
 begin
   inherited;
   FPessEnt.Nome := NomePessEdit.Text;
-end;
-
-function TPessEdBasForm.GetNomeArqTabViewEndereco: string;
-var
-  sNomeArq: string;
-begin
-  sNomeArq := AppInfo.PastaConsTabViews +
-    'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
-  Result := sNomeArq;
 end;
 
 function TPessEdBasForm.GetObjetivoStr: string;

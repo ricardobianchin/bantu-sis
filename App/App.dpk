@@ -199,7 +199,7 @@ contains
   App.PessEnder_u in 'Pess\App.PessEnder_u.pas',
   App.PessEnder.List in 'Pess\App.PessEnder.List.pas',
   App.PessEnder.List_u in 'Pess\App.PessEnder.List_u.pas',
-  App.Pess.Types in 'Pess\App.Pess.Types.pas',
+  App.Pess.Utils in 'Pess\App.Pess.Utils.pas',
   App.Pess.Loja.Ent in 'Pess\App.Pess.Loja.Ent.pas',
   App.Pess.Loja.Ent_u in 'Pess\App.Pess.Loja.Ent_u.pas',
   App.UI.Form.Bas.Ed.Pess_u in 'Pess\App.UI.Form.Bas.Ed.Pess_u.pas' {PessEdBasForm},

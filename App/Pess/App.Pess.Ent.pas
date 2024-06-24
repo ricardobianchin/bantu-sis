@@ -2,7 +2,7 @@ unit App.Pess.Ent;
 
 interface
 
-uses App.Ent.Ed.Id, App.PessEnder.List, App.Pess.Types;
+uses App.Ent.Ed.Id, App.PessEnder.List, App.Pess.Utils;
 
 type
   IPessEnt = interface(IEntEdId)
@@ -75,6 +75,9 @@ type
 
     function GetCodUsaTerminalId: boolean;
     property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
+
+    function GetCodAsString: string;
+    property CodAsString: string read GetCodAsString;
   end;
 
 implementation

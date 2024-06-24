@@ -2,7 +2,7 @@ unit App.Pess.Loja.Ent_u;
 
 interface
 
-uses App.Pess.Loja.Ent, App.Pess.Ent_u, App.PessEnder.List, App.Pess.Types;
+uses App.Pess.Loja.Ent, App.Pess.Ent_u, App.PessEnder.List, App.Pess.Utils;
 
 type
   TPessLojaEnt = class(TPessEnt, IPessLojaEnt)
