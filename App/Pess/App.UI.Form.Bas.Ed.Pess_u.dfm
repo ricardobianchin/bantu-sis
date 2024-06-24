@@ -1,18 +1,18 @@
 inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
-  ClientHeight = 535
-  ClientWidth = 961
+  ClientHeight = 536
+  ClientWidth = 965
   ExplicitWidth = 977
   ExplicitHeight = 574
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 463
-    Width = 961
+    Top = 464
+    Width = 965
     ExplicitTop = 464
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 483
-    Width = 961
+    Top = 484
+    Width = 965
     ExplicitTop = 484
   end
   object NomePessLabel: TLabel [3]
@@ -31,8 +31,8 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = 'Nome Fantasia'
     FocusControl = NomeFantaPessEdit
   end
-  object Label1: TLabel [5]
-    Left = 326
+  object ApelidoPessLabel: TLabel [5]
+    Left = 374
     Top = 61
     Width = 61
     Height = 15
@@ -53,7 +53,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Width = 64
     Height = 15
     Caption = 'Id./Inscr.Est.'
-    FocusControl = Edit1
+    FocusControl = IPessEdit
   end
   object MPessLabel: TLabel [8]
     Left = 473
@@ -61,68 +61,86 @@ inherited PessEdBasForm: TPessEdBasForm
     Width = 56
     Height = 15
     Caption = 'Inscr.Mun.'
-    FocusControl = Edit2
+    FocusControl = MPessEditEdit
   end
-  object Label2: TLabel [9]
-    Left = 702
+  object MUFPessLabel: TLabel [9]
+    Left = 689
     Top = 93
     Width = 77
     Height = 15
     Caption = #211'rg'#227'o Emissor'
-    FocusControl = Edit3
+    FocusControl = MUFPessEdit
   end
-  object Label3: TLabel [10]
+  object NomeFantasiaPessLabel: TLabel [10]
     Left = 8
     Top = 124
     Width = 79
     Height = 15
     Caption = 'Nome Fantasia'
-    FocusControl = Edit4
+    FocusControl = NomeFantasiaPessEdit
+  end
+  object DtNascPessLabel: TLabel [11]
+    Left = 329
+    Top = 124
+    Width = 56
+    Height = 15
+    Caption = 'Data Nasc.'
   end
   inherited BasePanel: TPanel
-    Top = 498
-    Width = 961
+    Top = 499
+    Width = 965
+    TabOrder = 9
     ExplicitTop = 498
     ExplicitWidth = 961
     DesignSize = (
-      961
+      965
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 558
-      ExplicitLeft = 558
+      ExplicitLeft = 554
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
       Left = 671
-      ExplicitLeft = 671
+      ExplicitLeft = 667
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
       Left = 751
-      ExplicitLeft = 751
+      ExplicitLeft = 747
     end
   end
-  object NomePessEdit: TEdit [12]
+  object NomePessEdit: TEdit [13]
     Left = 47
     Top = 29
     Width = 480
+    Height = 23
+    MaxLength = 60
+    TabOrder = 0
+    OnChange = NomePessEditChange
+    OnKeyPress = NomePessEditKeyPress
+  end
+  object NomeFantaPessEdit: TEdit [14]
+    Left = 94
+    Top = 58
+    Width = 274
     Height = 23
     MaxLength = 60
     TabOrder = 1
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object NomeFantaPessEdit: TEdit [13]
-    Left = 94
+  object ApelidoPessEdit: TEdit [15]
+    Left = 440
     Top = 58
-    Width = 226
+    Width = 161
     Height = 23
-    MaxLength = 60
+    MaxLength = 20
     TabOrder = 2
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object ApelidoPessEdit: TEdit [14]
-    Left = 392
-    Top = 58
+  object CPessEdit: TEdit [16]
+    Left = 68
+    Top = 90
     Width = 161
     Height = 23
     MaxLength = 20
@@ -130,8 +148,8 @@ inherited PessEdBasForm: TPessEdBasForm
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object CPessEdit: TEdit [15]
-    Left = 68
+  object IPessEdit: TEdit [17]
+    Left = 305
     Top = 90
     Width = 161
     Height = 23
@@ -140,61 +158,60 @@ inherited PessEdBasForm: TPessEdBasForm
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object Edit1: TEdit [16]
-    Left = 305
+  object MPessEditEdit: TEdit [18]
+    Left = 534
     Top = 90
-    Width = 161
+    Width = 147
     Height = 23
     MaxLength = 20
     TabOrder = 5
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object Edit2: TEdit [17]
-    Left = 534
+  object MUFPessEdit: TEdit [19]
+    Left = 772
     Top = 90
-    Width = 161
+    Width = 87
     Height = 23
     MaxLength = 20
     TabOrder = 6
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object Edit3: TEdit [18]
-    Left = 786
-    Top = 90
-    Width = 161
-    Height = 23
-    MaxLength = 20
-    TabOrder = 7
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
-  end
-  object Edit4: TEdit [19]
+  object NomeFantasiaPessEdit: TEdit [20]
     Left = 94
     Top = 121
     Width = 226
     Height = 23
     MaxLength = 60
-    TabOrder = 8
+    TabOrder = 7
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object EnderecoPanel: TPanel [20]
+  object EnderecoPanel: TPanel [21]
     Left = 8
     Top = 150
     Width = 939
     Height = 291
     BevelOuter = bvNone
     Caption = ' '
-    TabOrder = 9
+    TabOrder = 8
+  end
+  object DateTimePicker1: TDateTimePicker [22]
+    Left = 391
+    Top = 120
+    Width = 89
+    Height = 23
+    Date = 45467.000000000000000000
+    Time = 0.703898645835579400
+    TabOrder = 10
   end
   inherited ShowTimer_BasForm: TTimer
-    Left = 240
-    Top = 24
+    Left = 176
+    Top = 200
   end
   inherited ActionList1_Diag: TActionList
-    Left = 112
-    Top = 24
+    Left = 96
+    Top = 160
   end
 end

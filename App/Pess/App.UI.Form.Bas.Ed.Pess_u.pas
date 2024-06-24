@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppInfo, App.Pess.Ent,
   App.Pess.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Pess.Ender.Frame_u;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Pess.Ender.Frame_u,
+  Vcl.ComCtrls;
 
 type
   TPessEdBasForm = class(TEdBasForm)
@@ -17,19 +18,21 @@ type
     NomePessEdit: TEdit;
     NomeFantaPessLabel: TLabel;
     NomeFantaPessEdit: TEdit;
-    Label1: TLabel;
+    ApelidoPessLabel: TLabel;
     ApelidoPessEdit: TEdit;
     CPessLabel: TLabel;
     CPessEdit: TEdit;
     IPessLabel: TLabel;
-    Edit1: TEdit;
+    IPessEdit: TEdit;
     MPessLabel: TLabel;
-    Edit2: TEdit;
-    Label2: TLabel;
-    Edit3: TEdit;
-    Edit4: TEdit;
-    Label3: TLabel;
+    MPessEditEdit: TEdit;
+    MUFPessLabel: TLabel;
+    MUFPessEdit: TEdit;
+    NomeFantasiaPessEdit: TEdit;
+    NomeFantasiaPessLabel: TLabel;
     EnderecoPanel: TPanel;
+    DateTimePicker1: TDateTimePicker;
+    DtNascPessLabel: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomePessEditChange(Sender: TObject);
@@ -133,7 +136,10 @@ var
 begin
   sTit := EntEd.StateAsTitulo;
   sNom := EntEd.NomeEnt;
-  sVal := FPessEnt.Nome;
+  if EntEd.State = dsInsert then
+    sVal := ''
+  else
+    sVal := FPessEnt.CodAsString;
 
   sFormat := '%s %s: %s';
   Result := Format(sFormat, [sTit, sNom, sVal]);
@@ -152,12 +158,12 @@ end;
 
 procedure TPessEdBasForm.NomePessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key = #13 then
-  begin
-    Key := #0;
-    //AtivoCheckBox.SetFocus;
-    exit;
-  end;
+//  if Key = #13 then
+//  begin
+//    Key := #0;
+//    //AtivoCheckBox.SetFocus;
+//    exit;
+//  end;
   inherited;
   EditKeyPress(Sender, Key);
 end;
