@@ -2,6 +2,7 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 536
   ClientWidth = 965
+  ExplicitTop = -257
   ExplicitWidth = 977
   ExplicitHeight = 574
   TextHeight = 15
@@ -192,7 +193,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Left = 8
     Top = 150
     Width = 939
-    Height = 291
+    Height = 300
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 8
