@@ -37,6 +37,7 @@ constructor TPessLojaDBI.Create(pDBConnection: IDBConnection;
   pPessLojaEnt: IPessLojaEnt);
 begin
   inherited Create(pDBConnection, pPessLojaEnt);
+  FAtivoFieldIndex := 31;
   FPessLojaEnt := pPessLojaEnt;
 end;
 
