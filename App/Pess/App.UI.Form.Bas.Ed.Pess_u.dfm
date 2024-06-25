@@ -2,7 +2,6 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 536
   ClientWidth = 965
-  ExplicitTop = -257
   ExplicitWidth = 977
   ExplicitHeight = 574
   TextHeight = 15
@@ -198,7 +197,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = ' '
     TabOrder = 8
   end
-  object DateTimePicker1: TDateTimePicker [22]
+  object DtNascDateTimePicker: TDateTimePicker [22]
     Left = 391
     Top = 120
     Width = 89

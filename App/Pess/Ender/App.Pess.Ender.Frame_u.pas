@@ -25,6 +25,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
       pPessDBI: IPessDBI; pAppInfo: IAppInfo); reintroduce;
+    procedure AjusteControles;
   end;
 
 var
@@ -70,6 +71,11 @@ begin
   sNomeArq := FAppInfo.PastaConsTabViews +
     'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
   Result := sNomeArq;
+end;
+
+procedure TEnderFrame.AjusteControles;
+begin
+  FEnderControlsFrame.AjusteControles;
 end;
 
 end.

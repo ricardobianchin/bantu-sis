@@ -31,7 +31,7 @@ type
     NomeFantasiaPessEdit: TEdit;
     NomeFantasiaPessLabel: TLabel;
     EnderecoPanel: TPanel;
-    DateTimePicker1: TDateTimePicker;
+    DtNascDateTimePicker: TDateTimePicker;
     DtNascPessLabel: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
@@ -93,6 +93,7 @@ begin
     dsInsert:
       ;
   end;
+  EnderFrame.AjusteControles;
 end;
 
 function TPessEdBasForm.ControlesOk: boolean;
@@ -117,6 +118,9 @@ begin
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
   FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppInfo);
+
+  DtNascDateTimePicker.Time := 0;
+  DtNascDateTimePicker.Date := Date;
 end;
 
 function TPessEdBasForm.DadosOk: boolean;
