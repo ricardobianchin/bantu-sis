@@ -92,8 +92,14 @@ begin
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
   FFDMemTable := pEnderPessFDMemTable;
+
   UFComboFrame := TComboBoxBasFrame.Create(Self);
+  UFComboFrame.Name := 'UFComboFrame';
+  UFComboFrame.TitLabel.Caption := 'UF';
+
   MunicipioComboFrame := TComboBoxBasFrame.Create(Self);
+  MunicipioComboFrame.Name := 'MunicipioComboFrame';
+  MunicipioComboFrame.TitLabel.Caption := 'Município';
 end;
 
 procedure TEnderControlsFrame.EntToControles;
