@@ -87,6 +87,7 @@ begin
   iT_MUNICIPIO_IBGE_ID := 29;
   iT_ENDER_CRIADO_EM := 30;
   iT_ENDER_ALTERADO_EM :=31;
+  iT_ENDER_PRIMEIRO_CAMPO := iT_ENDER_ORDEM;
 
   iQ_Ativo := 31;
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,

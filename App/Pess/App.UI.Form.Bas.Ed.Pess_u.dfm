@@ -71,16 +71,16 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = #211'rg'#227'o Emissor'
     FocusControl = MUFPessEdit
   end
-  object NomeFantasiaPessLabel: TLabel [10]
+  object EMailPessLabel: TLabel [10]
     Left = 8
     Top = 124
-    Width = 79
+    Width = 34
     Height = 15
-    Caption = 'Nome Fantasia'
-    FocusControl = NomeFantasiaPessEdit
+    Caption = 'e-mail'
+    FocusControl = EMailPessEdit
   end
   object DtNascPessLabel: TLabel [11]
-    Left = 329
+    Left = 284
     Top = 124
     Width = 56
     Height = 15
@@ -96,16 +96,16 @@ inherited PessEdBasForm: TPessEdBasForm
       965
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 558
-      ExplicitLeft = 554
+      Left = 554
+      ExplicitLeft = 550
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 671
-      ExplicitLeft = 667
+      Left = 667
+      ExplicitLeft = 663
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 751
-      ExplicitLeft = 747
+      Left = 747
+      ExplicitLeft = 743
     end
   end
   object NomePessEdit: TEdit [13]
@@ -178,8 +178,8 @@ inherited PessEdBasForm: TPessEdBasForm
     OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
-  object NomeFantasiaPessEdit: TEdit [20]
-    Left = 94
+  object EMailPessEdit: TEdit [20]
+    Left = 50
     Top = 121
     Width = 226
     Height = 23
@@ -198,7 +198,7 @@ inherited PessEdBasForm: TPessEdBasForm
     TabOrder = 8
   end
   object DtNascDateTimePicker: TDateTimePicker [22]
-    Left = 391
+    Left = 345
     Top = 120
     Width = 89
     Height = 23

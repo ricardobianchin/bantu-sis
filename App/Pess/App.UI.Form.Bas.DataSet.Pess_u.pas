@@ -56,6 +56,8 @@ type
     iT_ENDER_CRIADO_EM: integer;
     iT_ENDER_ALTERADO_EM: integer;
 
+    iT_ENDER_PRIMEIRO_CAMPO: integer;
+
     iQ_LOJA_ID: integer;
     iQ_TERMINAL_ID: integer;
     iQ_PESSOA_ID: integer;
@@ -87,6 +89,8 @@ type
     iQ_REFERENCIA: integer;
     iQ_ENDER_CRIADO_EM: integer;
     iQ_ENDER_ALTERADO_EM: integer;
+    iQ_ENDER_PRIMEIRO_CAMPO: integer;
+
 
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
@@ -165,6 +169,7 @@ begin
     iQ_REFERENCIA := 28;
     iQ_ENDER_CRIADO_EM := 29;
     iQ_ENDER_ALTERADO_EM := 30;
+    iQ_ENDER_PRIMEIRO_CAMPO := iQ_ENDER_ORDEM;
   end;
 
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,

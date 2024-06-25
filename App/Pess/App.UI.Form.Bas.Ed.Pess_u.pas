@@ -28,8 +28,8 @@ type
     MPessEditEdit: TEdit;
     MUFPessLabel: TLabel;
     MUFPessEdit: TEdit;
-    NomeFantasiaPessEdit: TEdit;
-    NomeFantasiaPessLabel: TLabel;
+    EMailPessEdit: TEdit;
+    EMailPessLabel: TLabel;
     EnderecoPanel: TPanel;
     DtNascDateTimePicker: TDateTimePicker;
     DtNascPessLabel: TLabel;
@@ -108,6 +108,15 @@ procedure TPessEdBasForm.ControlesToEnt;
 begin
   inherited;
   NomePessEdit.Text := FPessEnt.Nome;
+  NomeFantaPessEdit.Text := FPessEnt.NomeFantasia;
+  ApelidoPessEdit.Text := FPessEnt.Apelido;
+  CPessEdit.Text := FPessEnt.C;
+  IPessEdit.Text := FPessEnt.I;
+  MPessEditEdit.Text := FPessEnt.M;
+  MUFPessEdit.Text := FPessEnt.MUF;
+  EMailPessEdit.Text := FPessEnt.EMail;
+  DtNascDateTimePicker.Date := FPessEnt.DtNasc;
+  FEnderFrame.ControlesToEnt;
 end;
 
 constructor TPessEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
@@ -132,6 +141,15 @@ procedure TPessEdBasForm.EntToControles;
 begin
   inherited;
   FPessEnt.Nome := NomePessEdit.Text;
+  FPessEnt.NomeFantasia := NomeFantaPessEdit.Text;
+  FPessEnt.Apelido := ApelidoPessEdit.Text;
+  FPessEnt.C := CPessEdit.Text;
+  FPessEnt.I := IPessEdit.Text;
+  FPessEnt.M := MPessEditEdit.Text;
+  FPessEnt.MUF := MUFPessEdit.Text;
+  FPessEnt.EMail := EMailPessEdit.Text;
+  FPessEnt.DtNasc := DtNascDateTimePicker.Date;
+  FEnderFrame.EntToControles;
 end;
 
 function TPessEdBasForm.GetObjetivoStr: string;

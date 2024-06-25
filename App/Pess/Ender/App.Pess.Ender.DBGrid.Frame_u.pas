@@ -21,6 +21,9 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
       pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable); reintroduce;
+    procedure AjusteControles;
+    procedure ControlesToEnt;
+    procedure EntToControles;
   end;
 
 var
@@ -32,6 +35,16 @@ implementation
 
 { TEnderDBGridFrame }
 
+procedure TEnderDBGridFrame.AjusteControles;
+begin
+
+end;
+
+procedure TEnderDBGridFrame.ControlesToEnt;
+begin
+
+end;
+
 constructor TEnderDBGridFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
   pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable);
 begin
@@ -39,6 +52,11 @@ begin
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
   FEnderPessFDMemTable := pEnderPessFDMemTable;
+end;
+
+procedure TEnderDBGridFrame.EntToControles;
+begin
+
 end;
 
 end.
