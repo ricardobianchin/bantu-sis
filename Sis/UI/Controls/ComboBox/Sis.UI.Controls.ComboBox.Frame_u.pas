@@ -20,7 +20,7 @@ type
   private
     { Private declarations }
   protected
-    function GetCaption: string; virtual; abstract;
+    function GetCaption: string; virtual;
 
     function GetId: integer; virtual;
     procedure SetId(const Value: integer); virtual;
@@ -96,6 +96,11 @@ end;
 function TComboBoxBasFrame.GetText: string;
 begin
   Result := ComboBox1.Text;
+end;
+
+function TComboBoxBasFrame.GetCaption: string;
+begin
+  Result := '';
 end;
 
 function TComboBoxBasFrame.GetId: integer;
