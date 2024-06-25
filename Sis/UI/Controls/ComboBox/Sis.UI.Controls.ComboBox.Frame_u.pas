@@ -40,6 +40,7 @@ type
     procedure PegarItem(pId: integer; pText: string);
 
     constructor Create(AOwner: TComponent); override;
+    procedure PosicionePeloTexto(pText: string);
   end;
 
 var
@@ -130,6 +131,18 @@ begin
   end;
 
   ComboBox1.Items.AddObject(pText, Pointer(pId));
+end;
+
+procedure TComboBoxBasFrame.PosicionePeloTexto(pText: string);
+var
+  I: integer;
+begin
+  I := ComboBox1.Items.IndexOf(pText);
+
+  if I < 0 then
+    exit;
+
+  ComboBox1.ItemIndex := i;
 end;
 
 procedure TComboBoxBasFrame.SetText(const Value: string);
