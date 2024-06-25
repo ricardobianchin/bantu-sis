@@ -18,18 +18,30 @@ type
     NumeroLabel: TLabel;
     NumeroEdit: TEdit;
     ComplementoLabel: TLabel;
-    Edit1: TEdit;
+    ComplementoEdit: TEdit;
     BairroLabel: TLabel;
-    Edit2: TEdit;
-    Label1: TLabel;
-    Edit3: TEdit;
+    BairroEdit: TEdit;
+    CEPLabel: TLabel;
+    CEPEdit: TEdit;
     MunicipioSubPanel: TPanel;
+    UFSiglaSubPanel: TPanel;
+    DDDLabel: TLabel;
+    DDDEdit: TEdit;
+    TelefonesLabel: TLabel;
+    Fone1Edit: TEdit;
+    Fone2Edit: TEdit;
+    Fone3Edit: TEdit;
+    ContatoLabel: TLabel;
+    ContatoEdit: TEdit;
+    ReferenciaLabel: TLabel;
+    ReferenciaMemo: TMemo;
   private
     { Private declarations }
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
     FEnderPessFDMemTable: TFDMemTable;
-    CEPComboBoxBasFrame: TComboBoxBasFrame;
+    UFComboFrame: TComboBoxBasFrame;
+    MunicipioComboFrame: TComboBoxBasFrame;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
@@ -52,12 +64,14 @@ begin
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
   FEnderPessFDMemTable := pEnderPessFDMemTable;
-  CEPComboBoxBasFrame := TComboBoxBasFrame.Create(Self);
+  UFComboFrame := TComboBoxBasFrame.Create(Self);
+  MunicipioComboFrame := TComboBoxBasFrame.Create(Self);
 end;
 
 procedure TEnderControlsFrame.AjusteControles;
 begin
-  PegueFormatoDe(CEPComboBoxBasFrame, MunicipioSubPanel);
+  PegueFormatoDe(MunicipioComboFrame, MunicipioSubPanel);
+  PegueFormatoDe(UFComboFrame, UFSiglaSubPanel);
 end;
 
 end.
