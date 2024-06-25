@@ -90,6 +90,7 @@ begin
   iT_ENDER_PRIMEIRO_CAMPO := iT_ENDER_ORDEM;
 
   iQ_Ativo := 31;
+
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
     pModoDataSetForm, pIdPos);
