@@ -30,6 +30,7 @@ const
 var
   DefsSL: TStringList;
   QtdLinhasIniciaisAExcluir: integer;
+  i: integer;
 begin
   if not FileExists(pNomeArq) then
   begin
@@ -48,7 +49,12 @@ begin
     end;
 
     QtdLinhasIniciaisAExcluir := QTD_LINHAS_TITULO + pIndexIni;
-    DefsSL.Delete(QtdLinhasIniciaisAExcluir - 1);
+
+    if (QtdLinhasIniciaisAExcluir > 0) and (QtdLinhasIniciaisAExcluir <= DefsSL.Count) then
+    begin
+      for i := 0 to QtdLinhasIniciaisAExcluir - 1 do
+        DefsSL.Delete(0); // Exclui a primeira linha repetidamente
+    end;
 
     DefCamposSL(DefsSL, pFDMemTable, pDBGrid);
   finally
