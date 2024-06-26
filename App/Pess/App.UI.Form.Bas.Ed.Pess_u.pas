@@ -107,15 +107,16 @@ end;
 procedure TPessEdBasForm.ControlesToEnt;
 begin
   inherited;
-  NomePessEdit.Text := FPessEnt.Nome;
-  NomeFantaPessEdit.Text := FPessEnt.NomeFantasia;
-  ApelidoPessEdit.Text := FPessEnt.Apelido;
-  CPessEdit.Text := FPessEnt.C;
-  IPessEdit.Text := FPessEnt.I;
-  MPessEditEdit.Text := FPessEnt.M;
-  MUFPessEdit.Text := FPessEnt.MUF;
-  EMailPessEdit.Text := FPessEnt.EMail;
-  DtNascDateTimePicker.Date := FPessEnt.DtNasc;
+  FPessEnt.Nome := NomePessEdit.Text;
+  FPessEnt.NomeFantasia := NomeFantaPessEdit.Text;
+  FPessEnt.Apelido := ApelidoPessEdit.Text;
+  FPessEnt.C := CPessEdit.Text;
+  FPessEnt.I := IPessEdit.Text;
+  FPessEnt.M := MPessEditEdit.Text;
+  FPessEnt.MUF := MUFPessEdit.Text;
+  FPessEnt.EMail := EMailPessEdit.Text;
+  FPessEnt.DtNasc := DtNascDateTimePicker.Date;
+
   FEnderFrame.ControlesToEnt;
 end;
 
@@ -140,15 +141,16 @@ end;
 procedure TPessEdBasForm.EntToControles;
 begin
   inherited;
-  FPessEnt.Nome := NomePessEdit.Text;
-  FPessEnt.NomeFantasia := NomeFantaPessEdit.Text;
-  FPessEnt.Apelido := ApelidoPessEdit.Text;
-  FPessEnt.C := CPessEdit.Text;
-  FPessEnt.I := IPessEdit.Text;
-  FPessEnt.M := MPessEditEdit.Text;
-  FPessEnt.MUF := MUFPessEdit.Text;
-  FPessEnt.EMail := EMailPessEdit.Text;
-  FPessEnt.DtNasc := DtNascDateTimePicker.Date;
+  NomePessEdit.Text := FPessEnt.Nome;
+  NomeFantaPessEdit.Text := FPessEnt.NomeFantasia;
+  ApelidoPessEdit.Text := FPessEnt.Apelido;
+  CPessEdit.Text := FPessEnt.C;
+  IPessEdit.Text := FPessEnt.I;
+  MPessEditEdit.Text := FPessEnt.M;
+  MUFPessEdit.Text := FPessEnt.MUF;
+  EMailPessEdit.Text := FPessEnt.EMail;
+  DtNascDateTimePicker.Date := FPessEnt.DtNasc;
+
   FEnderFrame.EntToControles;
 end;
 

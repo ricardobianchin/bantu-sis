@@ -2,6 +2,7 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 536
   ClientWidth = 965
+  ExplicitLeft = -331
   ExplicitWidth = 977
   ExplicitHeight = 574
   TextHeight = 15
