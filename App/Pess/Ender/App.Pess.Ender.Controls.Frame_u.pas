@@ -181,10 +181,10 @@ begin
 
   MunComboMan.Clear;
   pUFSigla := Trim(pUFSigla);
-  if pSigla = '' then
+  if pUFSigla = '' then
     exit;
 
-  FPessDBI.MunicipioPrepareLista(pUFSigla);
+  FPessDBI.MunicipioPrepareLista(pUFSigla, MunicipioComboBox.Items);
 end;
 
 procedure TEnderControlsFrame.UFSiglaComboChange(Sender: TObject);

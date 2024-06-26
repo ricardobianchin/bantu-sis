@@ -191,7 +191,7 @@ begin
   if pSL.Count = 0 then
     pSL.Add('');
 
-  pDBConnection.QueryDataSet(sSql, q);
+  DBConnection.QueryDataSet(sSql, q);
   try
     while not q.Eof do
     begin
