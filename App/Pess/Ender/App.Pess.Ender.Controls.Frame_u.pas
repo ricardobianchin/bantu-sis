@@ -47,9 +47,13 @@ type
     UFSiglaComboMan: IComboBoxManager;
     MunComboMan: IComboBoxManager;
 
-    procedure AjusteUFSiglaComboFrame;
+    FMunicipioPodePreparar: boolean;
+    FCEPPodeConsultar: boolean;
+
+
+    procedure AjusteUFSiglaComboBox;
     procedure UFSiglaComboChange(Sender: TObject);
-    procedure MunicipioCarregue(pUFSigla: string);
+    procedure MunicipioPrepareLista(pUFSigla: string);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
@@ -69,7 +73,7 @@ implementation
 uses Sis.UI.Controls.Factory;
 { TEnderControlsFrame }
 
-procedure TEnderControlsFrame.AjusteUFSiglaComboFrame;
+procedure TEnderControlsFrame.AjusteUFSiglaComboBox;
 begin
   UFSiglaComboBox.Items.Add('');
   UFSiglaComboBox.Items.AddObject('AC', Pointer(12));
@@ -127,6 +131,10 @@ constructor TEnderControlsFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
   pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable);
 begin
   inherited Create(AOwner);
+
+  FMunicipioPodePreparar := False;
+  FCEPPodeConsultar := False;
+
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
   FFDMemTable := pEnderPessFDMemTable;
@@ -143,9 +151,15 @@ begin
   inherited;
   Tab := FFDMemTable;
 
+  FCEPPodeConsultar := False;
   CEPMaskEdit.Text := Tab.Fields[7 {CEP}].AsString;
+  FCEPPodeConsultar := True;
 
-  UFSiglaComboMan.Text := Tab.Fields[6 {UF_SIGLA}].AsString;
+  FMunicipioPodePreparar := False;
+  UFSiglaComboMan.Text := Trim(Tab.Fields[6 {UF_SIGLA}].AsString);
+  FMunicipioPodePreparar := True;
+
+  MunicipioPrepareLista(UFSiglaComboMan.Text);
   MunComboMan.Id := Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsInteger;
 
   BairroEdit.Text := Tab.Fields[4 {BAIRRO}].AsString;
@@ -160,23 +174,29 @@ begin
   ReferenciaMemo.Lines.Text := Tab.Fields[13 {REFERENCIA}].AsString;
 end;
 
-procedure TEnderControlsFrame.MunicipioCarregue(pUFSigla: string);
+procedure TEnderControlsFrame.MunicipioPrepareLista(pUFSigla: string);
 begin
+  if not FMunicipioPodePreparar then
+    exit;
+
   MunComboMan.Clear;
-//  FPessDBI
+  pUFSigla := Trim(pUFSigla);
+  if pSigla = '' then
+    exit;
 
-//      procedure AjusteUFSiglaComboFrame;
-
+  FPessDBI.MunicipioPrepareLista(pUFSigla);
 end;
 
 procedure TEnderControlsFrame.UFSiglaComboChange(Sender: TObject);
 begin
-  MunicipioCarregue(UFSiglaComboMan.Text);
+  MunicipioPrepareLista(UFSiglaComboMan.Text);
 end;
 
 procedure TEnderControlsFrame.AjusteControles;
 begin
-  AjusteUFSiglaComboFrame;
+  AjusteUFSiglaComboBox;
+  FMunicipioPodePreparar := True;
+  FCEPPodeConsultar := True;
 end;
 
 end.

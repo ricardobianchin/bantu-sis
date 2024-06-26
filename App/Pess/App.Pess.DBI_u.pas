@@ -2,7 +2,7 @@ unit App.Pess.DBI_u;
 
 interface
 
-uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
+uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Classes,
   System.Variants, Sis.Types.Integers, App.Pess.DBI,
   App.Pess.Ent, App.Pess.Geral.Factory_u, App.Ent.DBI_u;
 
@@ -21,13 +21,14 @@ type
     function Alterar: boolean; override;
     function Ler: boolean; override;
     constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
+    procedure MunicipioPrepareLista(pUFSigla: string; pSL: TStrings);
   end;
 
 implementation
 
 { TPessDBI }
 
-uses App.PessEnder, App.Pess.Ent.Factory_u;
+uses App.PessEnder, App.Pess.Ent.Factory_u, System.SysUtils;
 
 function TPessDBI.Alterar: boolean;
 begin
@@ -174,6 +175,34 @@ begin
   finally
     q.Free;
     DBConnection.Fechar;
+  end;
+end;
+
+procedure TPessDBI.MunicipioPrepareLista(pUFSigla: string; pSL: TStrings);
+var
+  sSql: string;
+  q: TDataSet;
+  iId: integer;
+  sNome: string;
+begin
+  sSql := 'SELECT MUNICIPIO_IBGE_ID, NOME FROM MUNICIPIO_LISTA_GET('
+    +QuotedStr(pUFSigla)+');';
+
+  if pSL.Count = 0 then
+    pSL.Add('');
+
+  pDBConnection.QueryDataSet(sSql, q);
+  try
+    while not q.Eof do
+    begin
+      iId := q.Fields[0].AsInteger;
+      sNome := Trim(q.Fields[1].AsString);
+
+      pSL.AddObject(sNome, Pointer(iId));
+      q.Next;
+    end;
+  finally
+    q.Free;
   end;
 end;
 
