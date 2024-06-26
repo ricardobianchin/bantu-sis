@@ -115,6 +115,7 @@ begin
   FPessEnt.M := MPessEditEdit.Text;
   FPessEnt.MUF := MUFPessEdit.Text;
   FPessEnt.EMail := EMailPessEdit.Text;
+
   FPessEnt.DtNasc := DtNascDateTimePicker.Date;
 
   FEnderFrame.ControlesToEnt;
