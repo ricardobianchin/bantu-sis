@@ -51,7 +51,7 @@ type
     FCEPPodeConsultar: boolean;
 
 
-    procedure AjusteUFSiglaComboBox;
+    procedure UFSiglaComboBoxAjuste;
     procedure UFSiglaComboChange(Sender: TObject);
     procedure MunicipioPrepareLista(pUFSigla: string);
   public
@@ -73,7 +73,7 @@ implementation
 uses Sis.UI.Controls.Factory;
 { TEnderControlsFrame }
 
-procedure TEnderControlsFrame.AjusteUFSiglaComboBox;
+procedure TEnderControlsFrame.UFSiglaComboBoxAjuste;
 begin
   UFSiglaComboBox.Items.Add('');
   UFSiglaComboBox.Items.AddObject('AC', Pointer(12));
@@ -141,6 +141,8 @@ begin
 
   UFSiglaComboMan := ComboBoxManagerCreate(UFSiglaComboBox);
   MunComboMan := ComboBoxManagerCreate(MunicipioComboBox);
+
+  UFSiglaComboBoxAjuste;
 end;
 
 procedure TEnderControlsFrame.EntToControles;
@@ -160,7 +162,8 @@ begin
   FMunicipioPodePreparar := True;
 
   MunicipioPrepareLista(UFSiglaComboMan.Text);
-  MunComboMan.Id := Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsInteger;
+  iId := StrToInteger(Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsString);
+  MunComboMan.Id := iId;
 
   BairroEdit.Text := Tab.Fields[4 {BAIRRO}].AsString;
   LogradouroEdit.Text := Tab.Fields[1 {LOGRADOURO}].AsString;
@@ -194,7 +197,6 @@ end;
 
 procedure TEnderControlsFrame.AjusteControles;
 begin
-  AjusteUFSiglaComboBox;
   FMunicipioPodePreparar := True;
   FCEPPodeConsultar := True;
 end;
