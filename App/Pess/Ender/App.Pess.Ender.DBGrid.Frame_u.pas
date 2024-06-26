@@ -26,8 +26,8 @@ type
     procedure EntToControles;
   end;
 
-var
-  EnderDBGridFrame: TEnderDBGridFrame;
+//var
+//  EnderDBGridFrame: TEnderDBGridFrame;
 
 implementation
 

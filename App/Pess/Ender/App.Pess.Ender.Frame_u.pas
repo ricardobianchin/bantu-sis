@@ -31,8 +31,8 @@ type
     procedure EntToControles;
   end;
 
-var
-  EnderFrame: TEnderFrame;
+//var
+//  EnderFrame: TEnderFrame;
 
 implementation
 
@@ -58,17 +58,18 @@ begin
   FFDMemTable.Name := ClassName + 'FDMemTable';
   FFDMemTable.AfterScroll := EnderecoFDMemTableAfterScroll;
 
-  FEnderControlsFrame := TEnderControlsFrame.Create(Self, pPessEnt, FPessDBI,
+  FEnderControlsFrame := TEnderControlsFrame.Create(Self, FPessEnt, FPessDBI,
     FFDMemTable);
-  FEnderDBGridFrame := TEnderDBGridFrame.Create(Self, pPessEnt, FPessDBI,
+  FEnderDBGridFrame := TEnderDBGridFrame.Create(Self, FPessEnt, FPessDBI,
     FFDMemTable);
 
-  FEnderDBGridFrame.Visible := False;
   FEnderControlsFrame.Visible := True;
+  FEnderDBGridFrame.Visible := False;
 
   sNomeArq := GetNomeArqTabViewEndereco;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable,
     FEnderDBGridFrame.DBGrid1, ENDER_TABVIEW_ORDEM_INDEX);
+
 end;
 
 procedure TEnderFrame.EnderecoFDMemTableAfterScroll(DataSet: TDataSet);

@@ -63,8 +63,8 @@ type
     procedure EntToControles;
   end;
 
-var
-  EnderControlsFrame: TEnderControlsFrame;
+//var
+//  EnderControlsFrame: TEnderControlsFrame;
 
 implementation
 
