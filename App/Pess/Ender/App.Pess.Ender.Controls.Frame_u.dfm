@@ -5,27 +5,27 @@ inherited EnderControlsFrame: TEnderControlsFrame
   ExplicitHeight = 290
   object LogradouroLabel: TLabel
     Left = 4
-    Top = 63
+    Top = 45
     Width = 62
     Height = 15
     Caption = 'Logradouro'
   end
   object NumeroLabel: TLabel
-    Left = 478
-    Top = 63
+    Left = 479
+    Top = 45
     Width = 44
     Height = 15
     Caption = 'N'#250'mero'
   end
   object ComplementoLabel: TLabel
-    Left = 605
-    Top = 63
+    Left = 606
+    Top = 45
     Width = 77
     Height = 15
     Caption = 'Complemento'
   end
   object BairroLabel: TLabel
-    Left = 532
+    Left = 544
     Top = 7
     Width = 31
     Height = 15
@@ -40,35 +40,64 @@ inherited EnderControlsFrame: TEnderControlsFrame
   end
   object DDDLabel: TLabel
     Left = 4
-    Top = 105
+    Top = 84
     Width = 24
     Height = 15
     Caption = 'DDD'
   end
   object TelefonesLabel: TLabel
     Left = 87
-    Top = 105
+    Top = 84
     Width = 49
     Height = 15
     Caption = 'Telefones'
   end
   object ContatoLabel: TLabel
-    Left = 397
-    Top = 105
+    Left = 473
+    Top = 84
     Width = 43
     Height = 15
     Caption = 'Contato'
   end
   object ReferenciaLabel: TLabel
     Left = 4
-    Top = 137
+    Top = 118
     Width = 55
     Height = 15
     Caption = 'Referencia'
   end
+  object UFSiglaLabel: TLabel
+    Left = 98
+    Top = 8
+    Width = 14
+    Height = 15
+    Caption = 'UF'
+  end
+  object MunicipioLabel: TLabel
+    Left = 176
+    Top = 8
+    Width = 54
+    Height = 15
+    Caption = 'Munic'#237'pio'
+  end
+  object UFSiglaStatusLabel: TLabel
+    Left = 115
+    Top = 27
+    Width = 115
+    Height = 13
+    Caption = 'Trazendo munic'#237'pios...'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 192
+    Font.Height = -11
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+    StyleElements = [seClient, seBorder]
+  end
   object LogradouroEdit: TEdit
     Left = 71
-    Top = 60
+    Top = 42
     Width = 400
     Height = 23
     MaxLength = 70
@@ -93,100 +122,102 @@ inherited EnderControlsFrame: TEnderControlsFrame
   end
   object NumeroEdit: TEdit
     Left = 526
-    Top = 60
+    Top = 42
     Width = 73
     Height = 23
     MaxLength = 60
     TabOrder = 2
   end
   object ComplementoEdit: TEdit
-    Left = 687
-    Top = 60
+    Left = 688
+    Top = 42
     Width = 115
     Height = 23
     MaxLength = 60
     TabOrder = 3
   end
   object BairroEdit: TEdit
-    Left = 571
+    Left = 580
     Top = 4
     Width = 219
     Height = 23
     MaxLength = 60
     TabOrder = 4
   end
-  object CEPEdit: TEdit
-    Left = 33
-    Top = 4
-    Width = 65
-    Height = 23
-    MaxLength = 8
-    TabOrder = 5
-    Text = '23070221'
-  end
-  object MunicipioSubPanel: TPanel
-    Left = 212
-    Top = 2
-    Width = 309
-    Height = 41
-    Caption = 'MunicipioSubPanel'
-    TabOrder = 6
-  end
-  object UFSiglaSubPanel: TPanel
-    Left = 104
-    Top = 2
-    Width = 105
-    Height = 41
-    Caption = 'UFSiglaSubPanel'
-    TabOrder = 7
-  end
   object DDDEdit: TEdit
     Left = 33
-    Top = 102
+    Top = 81
     Width = 47
     Height = 23
     MaxLength = 2
-    TabOrder = 8
+    TabOrder = 5
   end
   object Fone1Edit: TEdit
-    Left = 143
-    Top = 102
-    Width = 77
+    Left = 141
+    Top = 81
+    Width = 103
     Height = 23
     MaxLength = 15
-    TabOrder = 9
+    TabOrder = 6
+    Text = '080059121172354'
   end
   object Fone2Edit: TEdit
-    Left = 226
-    Top = 102
-    Width = 77
+    Left = 252
+    Top = 81
+    Width = 103
     Height = 23
     MaxLength = 15
-    TabOrder = 10
+    TabOrder = 7
   end
   object Fone3Edit: TEdit
-    Left = 308
-    Top = 102
-    Width = 77
+    Left = 362
+    Top = 81
+    Width = 103
     Height = 23
     MaxLength = 15
-    TabOrder = 11
+    TabOrder = 8
   end
   object ContatoEdit: TEdit
-    Left = 447
-    Top = 102
+    Left = 521
+    Top = 81
     Width = 115
     Height = 23
     MaxLength = 60
-    TabOrder = 12
+    TabOrder = 9
   end
   object ReferenciaMemo: TMemo
     Left = 4
-    Top = 153
+    Top = 134
     Width = 798
     Height = 81
     MaxLength = 1000
-    TabOrder = 13
+    TabOrder = 10
     WantReturns = False
+  end
+  object UFSiglaComboBox: TComboBox
+    Left = 115
+    Top = 4
+    Width = 53
+    Height = 23
+    TabOrder = 11
+    Text = 'UFSiglaComboBox'
+  end
+  object MunicipioComboBox: TComboBox
+    Left = 236
+    Top = 4
+    Width = 300
+    Height = 23
+    TabOrder = 12
+    Text = 'MunicipioComboBox'
+  end
+  object CEPMaskEdit: TMaskEdit
+    Left = 29
+    Top = 4
+    Width = 60
+    Height = 23
+    EditMask = '00000-000'
+    MaxLength = 9
+    TabOrder = 13
+    Text = '     -   '
   end
 end

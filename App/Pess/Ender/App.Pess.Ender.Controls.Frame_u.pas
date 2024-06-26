@@ -6,8 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas_u, App.Pess.Ent, App.Pess.DBI, Data.DB, FireDAC.Comp.Client,
-  Vcl.ExtCtrls, Vcl.StdCtrls, Sis.UI.Controls.Utils,
-  Sis.UI.Controls.ComboBox.Frame_u, App.PessEnder, Sis.Types.Integers;
+  Vcl.ExtCtrls, Vcl.StdCtrls, Sis.UI.Controls.Utils, App.PessEnder,
+  Sis.UI.Controls.ComboBoxManager, Sis.Types.Integers, Vcl.Mask;
 
 type
   TEnderControlsFrame = class(TBasFrame)
@@ -22,9 +22,6 @@ type
     BairroLabel: TLabel;
     BairroEdit: TEdit;
     CEPLabel: TLabel;
-    CEPEdit: TEdit;
-    MunicipioSubPanel: TPanel;
-    UFSiglaSubPanel: TPanel;
     DDDLabel: TLabel;
     DDDEdit: TEdit;
     TelefonesLabel: TLabel;
@@ -35,14 +32,24 @@ type
     ContatoEdit: TEdit;
     ReferenciaLabel: TLabel;
     ReferenciaMemo: TMemo;
+    UFSiglaLabel: TLabel;
+    UFSiglaComboBox: TComboBox;
+    MunicipioLabel: TLabel;
+    MunicipioComboBox: TComboBox;
+    UFSiglaStatusLabel: TLabel;
+    CEPMaskEdit: TMaskEdit;
   private
     { Private declarations }
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
     FFDMemTable: TFDMemTable;
 
-    UFComboFrame: TComboBoxBasFrame;
-    MunicipioComboFrame: TComboBoxBasFrame;
+    UFSiglaComboMan: IComboBoxManager;
+    MunComboMan: IComboBoxManager;
+
+    procedure AjusteUFSiglaComboFrame;
+    procedure UFSiglaComboChange(Sender: TObject);
+    procedure MunicipioCarregue(pUFSigla: string);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
@@ -58,7 +65,38 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.UI.Controls.Factory;
 { TEnderControlsFrame }
+
+procedure TEnderControlsFrame.AjusteUFSiglaComboFrame;
+begin
+  UFSiglaComboBox.Items.Add('');
+  UFSiglaComboBox.Items.AddObject('AC', Pointer(12));
+  UFSiglaComboBox.Items.AddObject('AL', Pointer(27));
+  UFSiglaComboBox.Items.AddObject('AM', Pointer(13));
+  UFSiglaComboBox.Items.AddObject('AP', Pointer(16));
+  UFSiglaComboBox.Items.AddObject('BA', Pointer(29));
+  UFSiglaComboBox.Items.AddObject('CE', Pointer(23));
+  UFSiglaComboBox.Items.AddObject('ES', Pointer(32));
+  UFSiglaComboBox.Items.AddObject('MA', Pointer(21));
+  UFSiglaComboBox.Items.AddObject('MG', Pointer(31));
+  UFSiglaComboBox.Items.AddObject('MS', Pointer(50));
+  UFSiglaComboBox.Items.AddObject('MT', Pointer(51));
+  UFSiglaComboBox.Items.AddObject('PA', Pointer(15));
+  UFSiglaComboBox.Items.AddObject('PE', Pointer(26));
+  UFSiglaComboBox.Items.AddObject('PI', Pointer(22));
+  UFSiglaComboBox.Items.AddObject('PR', Pointer(41));
+  UFSiglaComboBox.Items.AddObject('RJ', Pointer(33));
+  UFSiglaComboBox.Items.AddObject('RN', Pointer(24));
+  UFSiglaComboBox.Items.AddObject('RO', Pointer(11));
+  UFSiglaComboBox.Items.AddObject('RR', Pointer(14));
+  UFSiglaComboBox.Items.AddObject('RS', Pointer(43));
+  UFSiglaComboBox.Items.AddObject('SC', Pointer(42));
+  UFSiglaComboBox.Items.AddObject('SE', Pointer(28));
+  UFSiglaComboBox.Items.AddObject('SP', Pointer(35));
+  UFSiglaComboBox.Items.AddObject('TO', Pointer(17));
+end;
 
 procedure TEnderControlsFrame.ControlesToEnt;
 var
@@ -67,11 +105,11 @@ begin
   inherited;
   Tab := FFDMemTable;
 
-  Tab.Fields[7 {CEP}].AsString := CEPEdit.Text;
-  Tab.Fields[6 {UF_SIGLA}].AsString := UFComboFrame.Text;
+  Tab.Fields[7 {CEP}].AsString := CEPMaskEdit.Text;
+  Tab.Fields[6 {UF_SIGLA}].AsString := UFSiglaComboMan.Text;
 
-  Tab.Fields[5 {MUNICIPIO_NOME}].AsString := MunicipioComboFrame.Text;
-  Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsString := IntToStrZero( MunicipioComboFrame.Id, 5);
+  Tab.Fields[5 {MUNICIPIO_NOME}].AsString := MunComboMan.Text;
+  Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsString := IntToStrZero( MunComboMan.Id, 5);
 
   Tab.Fields[4 {BAIRRO}].AsString := BairroEdit.Text;
   Tab.Fields[1 {LOGRADOURO}].AsString := LogradouroEdit.Text;
@@ -93,13 +131,8 @@ begin
   FPessDBI := pPessDBI;
   FFDMemTable := pEnderPessFDMemTable;
 
-  UFComboFrame := TComboBoxBasFrame.Create(Self);
-  UFComboFrame.Name := 'UFComboFrame';
-  UFComboFrame.TitLabel.Caption := 'UF';
-
-  MunicipioComboFrame := TComboBoxBasFrame.Create(Self);
-  MunicipioComboFrame.Name := 'MunicipioComboFrame';
-  MunicipioComboFrame.TitLabel.Caption := 'Município';
+  UFSiglaComboMan := ComboBoxManagerCreate(UFSiglaComboBox);
+  MunComboMan := ComboBoxManagerCreate(MunicipioComboBox);
 end;
 
 procedure TEnderControlsFrame.EntToControles;
@@ -110,11 +143,10 @@ begin
   inherited;
   Tab := FFDMemTable;
 
-  CEPEdit.Text := Tab.Fields[7 {CEP}].AsString;
-  UFComboFrame.PosicionePeloTexto(Tab.Fields[6 {UF_SIGLA}].AsString);
+  CEPMaskEdit.Text := Tab.Fields[7 {CEP}].AsString;
 
-  iId := Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsInteger;
-  MunicipioComboFrame.Id := iId;
+  UFSiglaComboMan.Text := Tab.Fields[6 {UF_SIGLA}].AsString;
+  MunComboMan.Id := Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsInteger;
 
   BairroEdit.Text := Tab.Fields[4 {BAIRRO}].AsString;
   LogradouroEdit.Text := Tab.Fields[1 {LOGRADOURO}].AsString;
@@ -128,10 +160,23 @@ begin
   ReferenciaMemo.Lines.Text := Tab.Fields[13 {REFERENCIA}].AsString;
 end;
 
+procedure TEnderControlsFrame.MunicipioCarregue(pUFSigla: string);
+begin
+  MunComboMan.Clear;
+//  FPessDBI
+
+//      procedure AjusteUFSiglaComboFrame;
+
+end;
+
+procedure TEnderControlsFrame.UFSiglaComboChange(Sender: TObject);
+begin
+  MunicipioCarregue(UFSiglaComboMan.Text);
+end;
+
 procedure TEnderControlsFrame.AjusteControles;
 begin
-  PegueFormatoDe(MunicipioComboFrame, MunicipioSubPanel);
-  PegueFormatoDe(UFComboFrame, UFSiglaSubPanel);
+  AjusteUFSiglaComboFrame;
 end;
 
 end.
