@@ -117,21 +117,34 @@ end;
 
 procedure TComboBoxManager.SetId(const pId: integer);
 var
-  i: integer;
+  iIndex: integer;
 begin
   if pId < 1 then
+  begin
+    FComboBox.ItemIndex := -1;
+    FComboBox.Text := '';
+    exit;
+  end;
+
+  iIndex := FComboBox.Items.IndexOfObject(Pointer(pId));
+  if iIndex < 0 then
     exit;
 
-  i := FComboBox.Items.IndexOfObject(Pointer(pId));
-  if i <0 then
-    exit;
-
-  FComboBox.ItemIndex := i;
+  FComboBox.ItemIndex := iIndex;
 end;
 
 procedure TComboBoxManager.SetIdChar(const pId: Char);
+var
+  iId: integer;
 begin
-  SetId(Ord(pId));
+  if (pId=#0) or (pId=#32) then
+  begin
+    iId := 0;
+  end
+  else
+    iId := Ord(pId);
+
+  SetId(iId);
 end;
 
 procedure TComboBoxManager.SetText(const Value: string);
