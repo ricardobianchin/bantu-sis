@@ -185,8 +185,8 @@ var
   iId: integer;
   sNome: string;
 begin
-  sSql := 'SELECT MUNICIPIO_IBGE_ID, NOME FROM MUNICIPIO_LISTA_GET('
-    +QuotedStr(pUFSigla)+');';
+  sSql := 'SELECT MUNICIPIO_IBGE_ID, NOME' +
+    ' FROM ENDERECO_PA.MUNICIPIO_LISTA_GET(' + QuotedStr(pUFSigla) + ');';
 
   if pSL.Count = 0 then
     pSL.Add('');
