@@ -16,16 +16,19 @@ type
     procedure SetIdChar(const pId: Char); virtual;
     function GetIdChar: Char; virtual;
 
-    procedure LimparItens; virtual;
+    function GetText: string; virtual;
+    procedure SetText(const Value: string); virtual;
 
     property ComboBox: TComboBox read GetComboBox;
   public
     procedure Cicle;
+    procedure Clear; virtual;
 
     constructor Create(pComboBox: TComboBox);
 
     property Id: integer read GetId write SetId;
     property IdChar: Char read GetIdChar write SetIdChar;
+    property Text: string read GetText write SetText;
 
     function PegarId(pId: integer; pDescr: string): integer; virtual;
     function PegarIdChar(pId: char; pDescr: string): integer; virtual;
@@ -80,9 +83,15 @@ begin
   Result := char(GetId);
 end;
 
-procedure TComboBoxManager.LimparItens;
+function TComboBoxManager.GetText: string;
+begin
+  Result := FComboBox.Text;
+end;
+
+procedure TComboBoxManager.Clear;
 begin
   FComboBox.Items.Clear;
+  FComboBox.Text := '';
 end;
 
 function TComboBoxManager.PegarIdChar(pId: char; pDescr: string): integer;
@@ -123,6 +132,18 @@ end;
 procedure TComboBoxManager.SetIdChar(const pId: Char);
 begin
   SetId(Ord(pId));
+end;
+
+procedure TComboBoxManager.SetText(const Value: string);
+var
+  I: integer;
+begin
+  I := FComboBox.Items.IndexOf(Value);
+
+  if I < 0 then
+    exit;
+
+  FComboBox.ItemIndex := i;
 end;
 
 end.
