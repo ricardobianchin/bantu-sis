@@ -1,33 +1,34 @@
 inherited PessLojaEdForm: TPessLojaEdForm
   Caption = 'PessLojaEdForm'
+  ExplicitLeft = 2
   TextHeight = 15
   inherited NomePessLabel: TLabel
     Width = 65
     Caption = 'Raz'#227'o Social'
     ExplicitWidth = 65
   end
-  object AtivoCheckBox: TCheckBox [11]
-    Left = 280
-    Top = 104
+  object AtivoCheckBox: TCheckBox [12]
+    Left = 448
+    Top = 122
     Width = 97
     Height = 17
     Caption = 'Ativo'
-    TabOrder = 2
+    TabOrder = 11
     OnKeyPress = AtivoCheckBoxKeyPress
   end
   inherited BasePanel: TPanel
-    ExplicitWidth = 988
+    TabOrder = 8
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 589
-      ExplicitLeft = 589
+      Left = 585
+      ExplicitLeft = 581
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 702
-      ExplicitLeft = 702
+      Left = 698
+      ExplicitLeft = 694
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 782
-      ExplicitLeft = 782
+      Left = 778
+      ExplicitLeft = 774
     end
   end
   inherited NomePessEdit: TEdit
@@ -37,7 +38,25 @@ inherited PessLojaEdForm: TPessLojaEdForm
   inherited NomeFantaPessEdit: TEdit
     TabOrder = 9
   end
+  inherited ApelidoPessEdit: TEdit
+    TabOrder = 1
+  end
+  inherited CPessEdit: TEdit
+    TabOrder = 2
+  end
+  inherited IPessEdit: TEdit
+    TabOrder = 3
+  end
+  inherited MPessEditEdit: TEdit
+    TabOrder = 4
+  end
+  inherited MUFPessEdit: TEdit
+    TabOrder = 5
+  end
+  inherited EMailPessEdit: TEdit
+    TabOrder = 6
+  end
   inherited EnderecoPanel: TPanel
-    TabOrder = 10
+    TabOrder = 7
   end
 end
