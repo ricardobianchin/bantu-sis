@@ -38,6 +38,11 @@ type
     MunicipioComboBox: TComboBox;
     UFSiglaStatusLabel: TLabel;
     CEPMaskEdit: TMaskEdit;
+    MunicipioPrepareListaTimer: TTimer;
+    procedure UFSiglaComboBoxChange(Sender: TObject);
+    procedure UFSiglaComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure MunicipioComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure MunicipioPrepareListaTimerTimer(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -52,7 +57,6 @@ type
 
 
     procedure UFSiglaComboBoxAjuste;
-    procedure UFSiglaComboChange(Sender: TObject);
     procedure MunicipioPrepareLista(pUFSigla: string);
   public
     { Public declarations }
@@ -100,6 +104,21 @@ begin
   UFSiglaComboBox.Items.AddObject('SE', Pointer(28));
   UFSiglaComboBox.Items.AddObject('SP', Pointer(35));
   UFSiglaComboBox.Items.AddObject('TO', Pointer(17));
+end;
+
+procedure TEnderControlsFrame.UFSiglaComboBoxChange(Sender: TObject);
+begin
+  inherited;
+  MunicipioPrepareListaTimer.Enabled := False;
+  MunicipioPrepareListaTimer.Enabled := True;;
+end;
+
+procedure TEnderControlsFrame.UFSiglaComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(UFSiglaComboBox, Key);
+  //
 end;
 
 procedure TEnderControlsFrame.ControlesToEnt;
@@ -177,21 +196,36 @@ begin
   ReferenciaMemo.Lines.Text := Tab.Fields[13 {REFERENCIA}].AsString;
 end;
 
+procedure TEnderControlsFrame.MunicipioComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(MunicipioComboBox, Key);
+end;
+
 procedure TEnderControlsFrame.MunicipioPrepareLista(pUFSigla: string);
 begin
   if not FMunicipioPodePreparar then
     exit;
-
   MunComboMan.Clear;
   pUFSigla := Trim(pUFSigla);
   if pUFSigla = '' then
     exit;
-
-  FPessDBI.MunicipioPrepareLista(pUFSigla, MunicipioComboBox.Items);
+  UFSiglaStatusLabel.Visible := True;
+  UFSiglaStatusLabel.Repaint;
+  try
+    FPessDBI.MunicipioPrepareLista(pUFSigla, MunicipioComboBox.Items);
+    MunicipioComboBox.ItemIndex := 0;
+  finally
+    UFSiglaStatusLabel.Visible := False;
+    Repaint;
+  end;
 end;
 
-procedure TEnderControlsFrame.UFSiglaComboChange(Sender: TObject);
+procedure TEnderControlsFrame.MunicipioPrepareListaTimerTimer(Sender: TObject);
 begin
+  inherited;
+  MunicipioPrepareListaTimer.Enabled := False;
   MunicipioPrepareLista(UFSiglaComboMan.Text);
 end;
 

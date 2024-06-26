@@ -1,6 +1,7 @@
 inherited EnderControlsFrame: TEnderControlsFrame
   Width = 930
   Height = 290
+  Align = alClient
   ExplicitWidth = 930
   ExplicitHeight = 290
   object LogradouroLabel: TLabel
@@ -93,7 +94,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Font.Style = []
     ParentFont = False
     Visible = False
-    StyleElements = [seClient, seBorder]
+    StyleElements = []
   end
   object LogradouroEdit: TEdit
     Left = 71
@@ -180,7 +181,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
   object ContatoEdit: TEdit
     Left = 521
     Top = 81
-    Width = 115
+    Width = 216
     Height = 23
     MaxLength = 60
     TabOrder = 9
@@ -199,16 +200,21 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Top = 4
     Width = 53
     Height = 23
+    MaxLength = 2
     TabOrder = 11
     Text = 'UFSiglaComboBox'
+    OnChange = UFSiglaComboBoxChange
+    OnKeyPress = UFSiglaComboBoxKeyPress
   end
   object MunicipioComboBox: TComboBox
-    Left = 236
-    Top = 4
+    Left = 238
+    Top = 3
     Width = 300
     Height = 23
+    MaxLength = 60
     TabOrder = 12
     Text = 'MunicipioComboBox'
+    OnKeyPress = MunicipioComboBoxKeyPress
   end
   object CEPMaskEdit: TMaskEdit
     Left = 29
@@ -219,5 +225,12 @@ inherited EnderControlsFrame: TEnderControlsFrame
     MaxLength = 9
     TabOrder = 13
     Text = '     -   '
+  end
+  object MunicipioPrepareListaTimer: TTimer
+    Enabled = False
+    Interval = 333
+    OnTimer = MunicipioPrepareListaTimerTimer
+    Left = 448
+    Top = 128
   end
 end
