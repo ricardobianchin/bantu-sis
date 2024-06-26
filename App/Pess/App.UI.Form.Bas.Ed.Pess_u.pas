@@ -93,7 +93,7 @@ begin
     dsInsert:
       ;
   end;
-  EnderFrame.AjusteControles;
+  FEnderFrame.AjusteControles;
 end;
 
 function TPessEdBasForm.ControlesOk: boolean;
