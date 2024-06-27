@@ -28,11 +28,11 @@ type
     MPessEditEdit: TEdit;
     MUFPessLabel: TLabel;
     MUFPessEdit: TEdit;
-    EMailPessEdit: TEdit;
     EMailPessLabel: TLabel;
-    EnderecoPanel: TPanel;
-    DtNascDateTimePicker: TDateTimePicker;
+    EMailPessEdit: TEdit;
     DtNascPessLabel: TLabel;
+    DtNascDateTimePicker: TDateTimePicker;
+    EnderecoPanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -62,6 +62,7 @@ type
     function ControlesOk: boolean; override;
     function DadosOk: boolean; override;
     function GravouOk: boolean; override;
+    procedure AjusteTabOrder; virtual;
 
   public
     { Public declarations }
@@ -76,7 +77,8 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates;
+uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates, Sis.UI.Controls.Utils;
+
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -104,6 +106,20 @@ begin
   end;
   FEnderFrame.AjusteControles;
   NomePessEdit.SetFocus;
+  AjusteTabOrder;
+end;
+
+procedure TPessEdBasForm.AjusteTabOrder;
+begin
+  NomePessEdit.TabOrder := 0;
+  NomeFantaPessEdit.TabOrder := 1;
+  ApelidoPessEdit.TabOrder := 2;
+  CPessEdit.TabOrder := 3;
+  IPessEdit.TabOrder := 4;
+  MPessEditEdit.TabOrder := 5;
+  MUFPessEdit.TabOrder := 6;
+  EMailPessEdit.TabOrder := 7;
+  DtNascDateTimePicker.TabOrder := 8;
 end;
 
 procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
@@ -156,6 +172,7 @@ begin
 
   DtNascDateTimePicker.Time := 0;
   DtNascDateTimePicker.Date := Date;
+
 end;
 
 function TPessEdBasForm.DadosOk: boolean;
@@ -166,9 +183,9 @@ end;
 procedure TPessEdBasForm.DtNascDateTimePickerKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  inherited;
   //inherited;
   EditKeyPress(Sender, Key);
+//  FEnderFrame.FoqueOPrimeiro;
 end;
 
 procedure TPessEdBasForm.EMailPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -242,6 +259,9 @@ procedure TPessEdBasForm.NomePessEditKeyPress(Sender: TObject; var Key: Char);
 begin
   //inherited;
   EditKeyPress(Sender, Key);
+  if key = #13 then
+    NomeFantaPessEdit.SetFocus;
+//SelectNext(NomePessEdit,True, True);
 end;
 
 procedure TPessEdBasForm.OkAct_DiagExecute(Sender: TObject);
@@ -259,6 +279,7 @@ procedure TPessEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   NomePessEdit.SetFocus;
+  SetTabOrderToHint(Self)
 end;
 
 end.

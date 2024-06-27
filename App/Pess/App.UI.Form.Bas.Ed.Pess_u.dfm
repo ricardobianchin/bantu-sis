@@ -89,23 +89,23 @@ inherited PessEdBasForm: TPessEdBasForm
   inherited BasePanel: TPanel
     Top = 499
     Width = 965
-    TabOrder = 9
+    TabOrder = 10
     ExplicitTop = 498
     ExplicitWidth = 961
     DesignSize = (
       965
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 554
-      ExplicitLeft = 550
+      Left = 550
+      ExplicitLeft = 546
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 667
-      ExplicitLeft = 663
+      Left = 663
+      ExplicitLeft = 659
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 747
-      ExplicitLeft = 743
+      Left = 743
+      ExplicitLeft = 739
     end
   end
   object NomePessEdit: TEdit [13]
@@ -115,7 +115,6 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 60
     TabOrder = 0
-    OnKeyPress = NomePessEditKeyPress
   end
   object NomeFantaPessEdit: TEdit [14]
     Left = 94
@@ -180,24 +179,24 @@ inherited PessEdBasForm: TPessEdBasForm
     TabOrder = 7
     OnKeyPress = EMailPessEditKeyPress
   end
-  object EnderecoPanel: TPanel [21]
-    Left = 8
-    Top = 150
-    Width = 939
-    Height = 300
-    BevelOuter = bvNone
-    Caption = ' '
-    TabOrder = 8
-  end
-  object DtNascDateTimePicker: TDateTimePicker [22]
+  object DtNascDateTimePicker: TDateTimePicker [21]
     Left = 345
     Top = 120
     Width = 89
     Height = 23
     Date = 45467.000000000000000000
     Time = 0.703898645835579400
-    TabOrder = 10
+    TabOrder = 8
     OnKeyPress = DtNascDateTimePickerKeyPress
+  end
+  object EnderecoPanel: TPanel [22]
+    Left = 8
+    Top = 150
+    Width = 939
+    Height = 300
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 9
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 176

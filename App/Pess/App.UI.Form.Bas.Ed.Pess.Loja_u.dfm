@@ -1,6 +1,5 @@
 inherited PessLojaEdForm: TPessLojaEdForm
   Caption = 'PessLojaEdForm'
-  ExplicitLeft = 2
   TextHeight = 15
   inherited NomePessLabel: TLabel
     Width = 65
@@ -17,22 +16,22 @@ inherited PessLojaEdForm: TPessLojaEdForm
     OnKeyPress = AtivoCheckBoxKeyPress
   end
   inherited BasePanel: TPanel
-    TabOrder = 8
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 585
-      ExplicitLeft = 581
+      Left = 581
+      ExplicitLeft = 577
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 698
-      ExplicitLeft = 694
+      Left = 694
+      ExplicitLeft = 690
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 778
-      ExplicitLeft = 774
+      Left = 774
+      ExplicitLeft = 770
     end
   end
   inherited NomePessEdit: TEdit
     Left = 78
+    OnKeyPress = nil
     ExplicitLeft = 78
   end
   inherited NomeFantaPessEdit: TEdit

@@ -20,6 +20,8 @@ type
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
     FPessLojaDBI: IPessLojaDBI;
+  protected
+    procedure AjusteTabOrder; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
@@ -32,6 +34,15 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TPessLojaEdForm.AjusteTabOrder;
+var
+  iTabOrder: integer;
+begin
+  inherited;
+  iTabOrder := DtNascDateTimePicker.TabOrder + 1;
+  AtivoCheckBox.TabOrder := iTabOrder;
+end;
 
 procedure TPessLojaEdForm.AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
 begin
