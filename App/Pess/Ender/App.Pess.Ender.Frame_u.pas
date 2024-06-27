@@ -31,6 +31,7 @@ type
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
+    function DadosOk: boolean;
   end;
 
 //var
@@ -73,6 +74,11 @@ begin
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable,
     FEnderDBGridFrame.DBGrid1, ENDER_TABVIEW_ORDEM_INDEX);
 
+end;
+
+function TEnderFrame.DadosOk: boolean;
+begin
+  Result := FEnderControlsFrame.DadosOk;
 end;
 
 procedure TEnderFrame.EnderecoFDMemTableAfterScroll(DataSet: TDataSet);

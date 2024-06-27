@@ -68,6 +68,9 @@ type
 
     FOkExecute: TNotifyEvent;
 
+    function CepDadosOk: boolean;
+
+
     procedure UFSiglaComboBoxAjuste;
     procedure MunicipioPrepareLista(pUFSigla: string);
   public
@@ -79,6 +82,7 @@ type
     procedure EntToControles;
     procedure Exiba;
     procedure Oculte;
+    function DadosOk: boolean;
   end;
 
 //var
@@ -140,6 +144,17 @@ begin
   inherited;
   EditKeyPress(Sender, Key);
 
+end;
+
+function TEnderControlsFrame.CepDadosOk: boolean;
+var
+  L: integer;
+  sText: string;
+begin
+  sText := CEPMaskEdit.EditText;
+  sText := CEPMaskEdit.Text;
+  L := Length(sText);
+  Result := (L = 0) or (L=8);
 end;
 
 procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
@@ -206,6 +221,11 @@ begin
   MunComboMan := ComboBoxManagerCreate(MunicipioComboBox);
 
   UFSiglaComboBoxAjuste;
+end;
+
+function TEnderControlsFrame.DadosOk: boolean;
+begin
+  Result := CepDadosOk;
 end;
 
 procedure TEnderControlsFrame.DDDEditKeyPress(Sender: TObject; var Key: Char);
@@ -328,7 +348,11 @@ procedure TEnderControlsFrame.ReferenciaMemoKeyPress(Sender: TObject;
 begin
   inherited;
   EditKeyPress(Sender, Key);
-  FOkExecute(Sender);
+  if Key = #13 then
+  begin
+    if DadosOk then
+      FOkExecute(Sender);
+  end;
 end;
 
 procedure TEnderControlsFrame.AjusteControles;
