@@ -29,7 +29,6 @@ var
 implementation
 
 {$R *.dfm}
-
 { TRetagProdEdBasFrame }
 
 function TRetagProdEdBasFrame.GetProdEnt: IProdEnt;
