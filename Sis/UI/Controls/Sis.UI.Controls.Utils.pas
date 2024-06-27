@@ -18,6 +18,7 @@ procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
 
 procedure ClearStyleElements(Control: TControl);
 procedure SetHintToName(Control: TControl);
+procedure SetTabOrderToHint(Control: TControl);
 
 implementation
 
@@ -173,6 +174,19 @@ begin
   if Control is TWinControl then
     for I := 0 to TWinControl(Control).ControlCount - 1 do
       SetHintToName(TWinControl(Control).Controls[I]);
+end;
+
+procedure SetTabOrderToHint(Control: TControl);
+var
+  I: Integer;
+begin
+  if Control is TWinControl then
+  begin
+    Control.Hint := IntToStr(TWinControl(Control).TabOrder);
+
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetTabOrderToHint(TWinControl(Control).Controls[I]);
+  end;
 end;
 
 end.
