@@ -43,7 +43,6 @@ type
     procedure MUFPessEditKeyPress(Sender: TObject; var Key: Char);
     procedure EMailPessEditKeyPress(Sender: TObject; var Key: Char);
     procedure DtNascDateTimePickerKeyPress(Sender: TObject; var Key: Char);
-    procedure OkAct_DiagExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -53,7 +52,6 @@ type
 
     FEnderFrame: TEnderFrame;
 
-    procedure PreenchaControles;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -252,7 +250,7 @@ end;
 
 function TPessEdBasForm.GravouOk: boolean;
 begin
-
+  Result := EntDBI.Gravar;
 end;
 
 procedure TPessEdBasForm.IPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -287,17 +285,6 @@ begin
   if key = #13 then
     NomeFantaPessEdit.SetFocus;
 //SelectNext(NomePessEdit,True, True);
-end;
-
-procedure TPessEdBasForm.OkAct_DiagExecute(Sender: TObject);
-begin
-  inherited;
-//
-end;
-
-procedure TPessEdBasForm.PreenchaControles;
-begin
-
 end;
 
 procedure TPessEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);

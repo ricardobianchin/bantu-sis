@@ -92,7 +92,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Factory;
+uses Sis.UI.Controls.Factory, Sis.Types.Utils_u;
 { TEnderControlsFrame }
 
 procedure TEnderControlsFrame.UFSiglaComboBoxAjuste;
@@ -347,12 +347,13 @@ procedure TEnderControlsFrame.ReferenciaMemoKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  EditKeyPress(Sender, Key);
-  if Key = #13 then
+  if Key = CHAR_ENTER then
   begin
+    Key := CHAR_NULO;
     if DadosOk then
       FOkExecute(Sender);
   end;
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TEnderControlsFrame.AjusteControles;
