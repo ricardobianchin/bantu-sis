@@ -401,6 +401,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
+        <DCCReference Include="Types\Sis.Types.Dates.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

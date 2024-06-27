@@ -258,6 +258,7 @@ contains
   Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame in 'UI\Controls\Files\FileSelectLabeledEdit\Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame.pas' {FileSelectLabeledEditFrame: TFrame},
   Sis.Types.strings.abrev_u in 'Types\Sis.Types.strings.abrev_u.pas',
   Sis.UI.IO.Input.Str.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas' {InputStrForm},
-  Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas';
+  Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas',
+  Sis.Types.Dates in 'Types\Sis.Types.Dates.pas';
 
 end.
