@@ -44,6 +44,8 @@ type
     procedure EMailPessEditKeyPress(Sender: TObject; var Key: Char);
     procedure DtNascDateTimePickerKeyPress(Sender: TObject; var Key: Char);
     procedure OkAct_DiagExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -107,6 +109,16 @@ begin
   FEnderFrame.AjusteControles;
   NomePessEdit.SetFocus;
   AjusteTabOrder;
+
+  NomePessEdit.OnKeyPress :=          NomePessEditKeyPress;
+  NomeFantaPessEdit.OnKeyPress :=     NomeFantaPessEditKeyPress;
+  ApelidoPessEdit.OnKeyPress :=       ApelidoPessEditKeyPress;
+  CPessEdit.OnKeyPress :=             CPessEditKeyPress;
+  IPessEdit.OnKeyPress :=             IPessEditKeyPress;
+  MPessEditEdit.OnKeyPress :=         MPessEditEditKeyPress;
+  MUFPessEdit.OnKeyPress :=           MUFPessEditKeyPress;
+  EMailPessEdit.OnKeyPress :=         EMailPessEditKeyPress;
+  DtNascDateTimePicker.OnKeyPress :=  DtNascDateTimePickerKeyPress;
 end;
 
 procedure TPessEdBasForm.AjusteTabOrder;
@@ -177,7 +189,7 @@ end;
 
 function TPessEdBasForm.DadosOk: boolean;
 begin
-
+  Result := FEnderFrame.DadosOk;
 end;
 
 procedure TPessEdBasForm.DtNascDateTimePickerKeyPress(Sender: TObject;
@@ -208,6 +220,19 @@ begin
   DtNascDateTimePicker.Date := GetValidDate(FPessEnt.DtNasc);
 
   FEnderFrame.EntToControles;
+end;
+
+procedure TPessEdBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+//
+end;
+
+procedure TPessEdBasForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+//
 end;
 
 function TPessEdBasForm.GetObjetivoStr: string;
