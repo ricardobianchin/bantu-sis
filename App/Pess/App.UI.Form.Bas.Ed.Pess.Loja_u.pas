@@ -47,12 +47,7 @@ end;
 procedure TPessLojaEdForm.AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  if Key = #13 then
-  begin
-    Key := #0;
-    OkAct_Diag.Execute;
-    exit;
-  end;
+  ComboKeyPress(Sender, Key);
 end;
 
 constructor TPessLojaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;

@@ -17,16 +17,16 @@ inherited PessLojaEdForm: TPessLojaEdForm
   end
   inherited BasePanel: TPanel
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 581
-      ExplicitLeft = 577
+      Left = 577
+      ExplicitLeft = 573
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 694
-      ExplicitLeft = 690
+      Left = 690
+      ExplicitLeft = 686
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 774
-      ExplicitLeft = 770
+      Left = 770
+      ExplicitLeft = 766
     end
   end
   inherited NomePessEdit: TEdit
