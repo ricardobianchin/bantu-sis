@@ -35,7 +35,15 @@ type
     DtNascPessLabel: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
-    procedure NomePessEditChange(Sender: TObject);
+    procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ApelidoPessEditKeyPress(Sender: TObject; var Key: Char);
+    procedure CPessEditKeyPress(Sender: TObject; var Key: Char);
+    procedure IPessEditKeyPress(Sender: TObject; var Key: Char);
+    procedure MPessEditEditKeyPress(Sender: TObject; var Key: Char);
+    procedure MUFPessEditKeyPress(Sender: TObject; var Key: Char);
+    procedure EMailPessEditKeyPress(Sender: TObject; var Key: Char);
+    procedure DtNascDateTimePickerKeyPress(Sender: TObject; var Key: Char);
+    procedure OkAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -54,6 +62,7 @@ type
     function ControlesOk: boolean; override;
     function DadosOk: boolean; override;
     function GravouOk: boolean; override;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
@@ -67,7 +76,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit;
+uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates;
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -94,6 +103,14 @@ begin
       ;
   end;
   FEnderFrame.AjusteControles;
+  NomePessEdit.SetFocus;
+end;
+
+procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  //inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 function TPessEdBasForm.ControlesOk: boolean;
@@ -121,6 +138,12 @@ begin
   FEnderFrame.ControlesToEnt;
 end;
 
+procedure TPessEdBasForm.CPessEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  //inherited;
+  EditKeyPress(Sender, Key);
+end;
+
 constructor TPessEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
@@ -128,7 +151,8 @@ begin
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
-  FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppInfo);
+  FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppInfo,
+    OkAct_DiagExecute);
 
   DtNascDateTimePicker.Time := 0;
   DtNascDateTimePicker.Date := Date;
@@ -137,6 +161,20 @@ end;
 function TPessEdBasForm.DadosOk: boolean;
 begin
 
+end;
+
+procedure TPessEdBasForm.DtNascDateTimePickerKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  //inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.EMailPessEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  //inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TPessEdBasForm.EntToControles;
@@ -150,7 +188,7 @@ begin
   MPessEditEdit.Text := FPessEnt.M;
   MUFPessEdit.Text := FPessEnt.MUF;
   EMailPessEdit.Text := FPessEnt.EMail;
-  DtNascDateTimePicker.Date := FPessEnt.DtNasc;
+  DtNascDateTimePicker.Date := GetValidDate(FPessEnt.DtNasc);
 
   FEnderFrame.EntToControles;
 end;
@@ -175,22 +213,41 @@ begin
 
 end;
 
-procedure TPessEdBasForm.NomePessEditChange(Sender: TObject);
+procedure TPessEdBasForm.IPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  inherited;
-  MensLimpar;
+  //inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.MPessEditEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  //inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.MUFPessEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  //inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.NomeFantaPessEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  //inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TPessEdBasForm.NomePessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-//  if Key = #13 then
-//  begin
-//    Key := #0;
-//    //AtivoCheckBox.SetFocus;
-//    exit;
-//  end;
-  inherited;
+  //inherited;
   EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.OkAct_DiagExecute(Sender: TObject);
+begin
+  inherited;
+//
 end;
 
 procedure TPessEdBasForm.PreenchaControles;

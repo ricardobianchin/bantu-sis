@@ -103,6 +103,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 70
     TabOrder = 0
+    OnKeyPress = LogradouroEditKeyPress
   end
   object TopoPanel: TPanel
     Left = 0
@@ -128,6 +129,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 60
     TabOrder = 2
+    OnKeyPress = NumeroEditKeyPress
   end
   object ComplementoEdit: TEdit
     Left = 688
@@ -136,6 +138,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 60
     TabOrder = 3
+    OnKeyPress = ComplementoEditKeyPress
   end
   object BairroEdit: TEdit
     Left = 580
@@ -144,6 +147,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 60
     TabOrder = 4
+    OnKeyPress = BairroEditKeyPress
   end
   object DDDEdit: TEdit
     Left = 33
@@ -152,6 +156,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 2
     TabOrder = 5
+    OnKeyPress = DDDEditKeyPress
   end
   object Fone1Edit: TEdit
     Left = 141
@@ -161,6 +166,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     MaxLength = 15
     TabOrder = 6
     Text = '080059121172354'
+    OnKeyPress = Fone1EditKeyPress
   end
   object Fone2Edit: TEdit
     Left = 252
@@ -169,6 +175,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 15
     TabOrder = 7
+    OnKeyPress = Fone2EditKeyPress
   end
   object Fone3Edit: TEdit
     Left = 362
@@ -177,6 +184,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 15
     TabOrder = 8
+    OnKeyPress = Fone3EditKeyPress
   end
   object ContatoEdit: TEdit
     Left = 521
@@ -185,6 +193,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 23
     MaxLength = 60
     TabOrder = 9
+    OnKeyPress = ContatoEditKeyPress
   end
   object ReferenciaMemo: TMemo
     Left = 4
@@ -194,6 +203,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     MaxLength = 1000
     TabOrder = 10
     WantReturns = False
+    OnKeyPress = ReferenciaMemoKeyPress
   end
   object UFSiglaComboBox: TComboBox
     Left = 115
@@ -225,6 +235,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     MaxLength = 9
     TabOrder = 13
     Text = '     -   '
+    OnKeyPress = CEPMaskEditKeyPress
   end
   object MunicipioPrepareListaTimer: TTimer
     Enabled = False

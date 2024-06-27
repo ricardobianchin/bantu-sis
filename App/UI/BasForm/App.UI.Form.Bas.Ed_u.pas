@@ -45,7 +45,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); virtual;
+      pEntDBI: IEntDBI); reintroduce; virtual;
   end;
 
 var
@@ -135,6 +135,7 @@ begin
 
   if not(Combo.Owner is TComboBoxSelectDBFrame) then
     exit;
+
   Fr := TComboBoxSelectDBFrame(Combo.Owner);
   if Fr.Id = 0 then
   begin

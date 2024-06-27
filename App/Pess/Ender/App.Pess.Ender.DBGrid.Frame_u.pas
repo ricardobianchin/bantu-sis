@@ -17,13 +17,17 @@ type
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
     FEnderPessFDMemTable: TFDMemTable;
+    FOkExecute: TNotifyEvent;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
-      pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable); reintroduce;
+      pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable; pOkExecute: TNotifyEvent); reintroduce;
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
+    procedure Exiba;
+    procedure Oculte;
   end;
 
 //var
@@ -46,17 +50,28 @@ begin
 end;
 
 constructor TEnderDBGridFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
-  pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable);
+  pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable; pOkExecute: TNotifyEvent);
 begin
   inherited Create(AOwner);
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
   FEnderPessFDMemTable := pEnderPessFDMemTable;
+  FOkExecute := pOkExecute;
 end;
 
 procedure TEnderDBGridFrame.EntToControles;
 begin
 
+end;
+
+procedure TEnderDBGridFrame.Exiba;
+begin
+  Visible := True;
+end;
+
+procedure TEnderDBGridFrame.Oculte;
+begin
+  Visible := False;
 end;
 
 end.

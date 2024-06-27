@@ -2,7 +2,6 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 536
   ClientWidth = 965
-  ExplicitLeft = -331
   ExplicitWidth = 977
   ExplicitHeight = 574
   TextHeight = 15
@@ -116,7 +115,6 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 60
     TabOrder = 0
-    OnChange = NomePessEditChange
     OnKeyPress = NomePessEditKeyPress
   end
   object NomeFantaPessEdit: TEdit [14]
@@ -126,8 +124,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 60
     TabOrder = 1
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = NomeFantaPessEditKeyPress
   end
   object ApelidoPessEdit: TEdit [15]
     Left = 440
@@ -136,8 +133,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 20
     TabOrder = 2
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = ApelidoPessEditKeyPress
   end
   object CPessEdit: TEdit [16]
     Left = 68
@@ -146,8 +142,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 20
     TabOrder = 3
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = CPessEditKeyPress
   end
   object IPessEdit: TEdit [17]
     Left = 305
@@ -156,8 +151,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 20
     TabOrder = 4
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = IPessEditKeyPress
   end
   object MPessEditEdit: TEdit [18]
     Left = 534
@@ -166,8 +160,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 20
     TabOrder = 5
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = MPessEditEditKeyPress
   end
   object MUFPessEdit: TEdit [19]
     Left = 772
@@ -176,8 +169,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 20
     TabOrder = 6
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = MUFPessEditKeyPress
   end
   object EMailPessEdit: TEdit [20]
     Left = 50
@@ -186,8 +178,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Height = 23
     MaxLength = 60
     TabOrder = 7
-    OnChange = NomePessEditChange
-    OnKeyPress = NomePessEditKeyPress
+    OnKeyPress = EMailPessEditKeyPress
   end
   object EnderecoPanel: TPanel [21]
     Left = 8
@@ -206,6 +197,7 @@ inherited PessEdBasForm: TPessEdBasForm
     Date = 45467.000000000000000000
     Time = 0.703898645835579400
     TabOrder = 10
+    OnKeyPress = DtNascDateTimePickerKeyPress
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 176

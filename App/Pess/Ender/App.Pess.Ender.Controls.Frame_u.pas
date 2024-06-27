@@ -43,6 +43,17 @@ type
     procedure UFSiglaComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioPrepareListaTimerTimer(Sender: TObject);
+    procedure ReferenciaMemoKeyPress(Sender: TObject; var Key: Char);
+    procedure CEPMaskEditKeyPress(Sender: TObject; var Key: Char);
+    procedure BairroEditKeyPress(Sender: TObject; var Key: Char);
+    procedure LogradouroEditKeyPress(Sender: TObject; var Key: Char);
+    procedure NumeroEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ComplementoEditKeyPress(Sender: TObject; var Key: Char);
+    procedure DDDEditKeyPress(Sender: TObject; var Key: Char);
+    procedure Fone1EditKeyPress(Sender: TObject; var Key: Char);
+    procedure Fone2EditKeyPress(Sender: TObject; var Key: Char);
+    procedure Fone3EditKeyPress(Sender: TObject; var Key: Char);
+    procedure ContatoEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -55,16 +66,19 @@ type
     FMunicipioPodePreparar: boolean;
     FCEPPodeConsultar: boolean;
 
+    FOkExecute: TNotifyEvent;
 
     procedure UFSiglaComboBoxAjuste;
     procedure MunicipioPrepareLista(pUFSigla: string);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
-      pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable); reintroduce;
+      pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable; pOkExecute: TNotifyEvent); reintroduce;
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
+    procedure Exiba;
+    procedure Oculte;
   end;
 
 //var
@@ -117,8 +131,37 @@ procedure TEnderControlsFrame.UFSiglaComboBoxKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  EditKeyPress(UFSiglaComboBox, Key);
-  //
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.BairroEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+
+end;
+
+procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+
+end;
+
+procedure TEnderControlsFrame.ComplementoEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.ContatoEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TEnderControlsFrame.ControlesToEnt;
@@ -147,9 +190,10 @@ begin
 end;
 
 constructor TEnderControlsFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
-  pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable);
+  pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable; pOkExecute: TNotifyEvent);
 begin
   inherited Create(AOwner);
+  FOkExecute := pOkExecute;
 
   FMunicipioPodePreparar := False;
   FCEPPodeConsultar := False;
@@ -162,6 +206,12 @@ begin
   MunComboMan := ComboBoxManagerCreate(MunicipioComboBox);
 
   UFSiglaComboBoxAjuste;
+end;
+
+procedure TEnderControlsFrame.DDDEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TEnderControlsFrame.EntToControles;
@@ -196,11 +246,42 @@ begin
   ReferenciaMemo.Lines.Text := Tab.Fields[13 {REFERENCIA}].AsString;
 end;
 
+procedure TEnderControlsFrame.Exiba;
+begin
+  CEPMaskEdit.SetFocus;
+  Visible := True;
+end;
+
+procedure TEnderControlsFrame.Fone1EditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.Fone2EditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.Fone3EditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.LogradouroEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+end;
+
 procedure TEnderControlsFrame.MunicipioComboBoxKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  EditKeyPress(MunicipioComboBox, Key);
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TEnderControlsFrame.MunicipioPrepareLista(pUFSigla: string);
@@ -227,6 +308,27 @@ begin
   inherited;
   MunicipioPrepareListaTimer.Enabled := False;
   MunicipioPrepareLista(UFSiglaComboMan.Text);
+end;
+
+procedure TEnderControlsFrame.NumeroEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+
+end;
+
+procedure TEnderControlsFrame.Oculte;
+begin
+  Visible := False;
+end;
+
+procedure TEnderControlsFrame.ReferenciaMemoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+  FOkExecute(Sender);
 end;
 
 procedure TEnderControlsFrame.AjusteControles;

@@ -20,12 +20,14 @@ type
     FEnderControlsFrame: TEnderControlsFrame;
     FEnderDBGridFrame: TEnderDBGridFrame;
     FAppInfo: IAppInfo;
+    FOkExecute: TNotifyEvent;
+
     function GetNomeArqTabViewEndereco: string;
     procedure EnderecoFDMemTableAfterScroll(DataSet: TDataSet);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
-      pPessDBI: IPessDBI; pAppInfo: IAppInfo); reintroduce;
+      pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent); reintroduce;
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
@@ -46,11 +48,12 @@ begin
 end;
 
 constructor TEnderFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
-  pPessDBI: IPessDBI; pAppInfo: IAppInfo);
+  pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
+  FOkExecute := pOkExecute;
   FAppInfo := pAppInfo;
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
@@ -59,9 +62,9 @@ begin
   FFDMemTable.AfterScroll := EnderecoFDMemTableAfterScroll;
 
   FEnderControlsFrame := TEnderControlsFrame.Create(Self, FPessEnt, FPessDBI,
-    FFDMemTable);
+    FFDMemTable, FOkExecute);
   FEnderDBGridFrame := TEnderDBGridFrame.Create(Self, FPessEnt, FPessDBI,
-    FFDMemTable);
+    FFDMemTable, FOkExecute);
 
   FEnderControlsFrame.Visible := True;
   FEnderDBGridFrame.Visible := False;
