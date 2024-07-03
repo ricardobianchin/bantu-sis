@@ -260,6 +260,7 @@ begin
   FDMemTable.Fields[iT_M_UF].AsString := FPessEnt.MUF;
   FDMemTable.Fields[iT_EMAIL].AsString := FPessEnt.EMail;
   FDMemTable.Fields[iT_DT_NASC].AsDateTime := FPessEnt.DtNasc;
+
   FDMemTable.Fields[iT_PESS_CRIADO_EM].AsDateTime := FPessEnt.CriadoEm;
   FDMemTable.Fields[iT_PESS_ALTERADO_EM].AsDateTime := FPessEnt.AlteradoEm;
 
@@ -329,6 +330,9 @@ begin
   Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := q.Fields[iQ_PESS_CRIADO_EM].AsDateTime; //
   Tab.Fields[iT_PESS_ALTERADO_EM].AsDateTime := q.Fields[iQ_PESS_ALTERADO_EM].AsDateTime; //
 
+  if Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime = 0 then
+    Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := now;
+
   Tab.Fields[iT_ENDER_ORDEM].AsInteger := q.Fields[iQ_ENDER_ORDEM].AsInteger; //
   Tab.Fields[iT_LOGRADOURO].AsString := q.Fields[iQ_LOGRADOURO].AsString; //
   Tab.Fields[iT_NUMERO].AsString := q.Fields[iQ_NUMERO].AsString; //
@@ -347,6 +351,10 @@ begin
 
   Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime := q.Fields[iQ_ENDER_CRIADO_EM].AsDateTime; //
   Tab.Fields[iT_ENDER_ALTERADO_EM].AsDateTime := q.Fields[iQ_ENDER_ALTERADO_EM].AsDateTime; //
+
+  if Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime = 0 then
+    Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime := now;
+
 end;
 
 procedure TAppPessDataSetForm.RecordToEnt;
