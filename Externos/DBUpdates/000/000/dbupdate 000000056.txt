@@ -1,103 +1,35 @@
-ENDERECO_PA
+POPULAR IMPORT_REJEICAO_TIPO
 
 
-//INICIO
+    inicio
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=ENDERECO
-DBATUALIZ_OBJETIVO=CRIA ENDERECO_PA
+DBATUALIZ_ASSUNTO=IMPORT_REJEICAO_TIPO
+DBATUALIZ_OBJETIVO=POPULAR IMPORT_REJEICAO_TIPO
 DBATUALIZ_OBS=
 
 
 
 
-
-// PACKAGE ENDERECO_PA
+///////////////////////////
+//
+// IMPORT_REJEICAO_TIPO, ENSURE RECORDS
+//
+///////////////////////////
 COMANDO INI
-TIPO_COMANDO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=ENDERECO_PA
+TIPO_COMANDO=ENSURE RECORDS
+OBJETO_NOME=IMPORT_REJEICAO_TIPO
 
-/*
-Complementos\Est\prod_pa.txt
+CSV INI
+IMPORT_REJEICAO_TIPO_ID;DB_SESSAO_ID;DESCR
+1;#036;Descr Repetida no Produto
+2;#036;Descr Red Repetetida no Produto
+3;#036;Cod Barras Repetido
+4;#036;CUsto obrigatorio
+5;#036;preco obrigatorio
 
-Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
-*/
 
-```FIREBIRD
-SET TERM ^;
-CREATE OR ALTER PACKAGE ENDERECO_PA
-AS
-BEGIN
-  PROCEDURE UF_SIGLA_LISTA_GET
-  RETURNS (
-      UF_SIGLA CHAR(2),
-      UF_IBGE_ID ID_SHORT_DOM
-  );
-  
-  PROCEDURE MUNICIPIO_LISTA_GET
-  (
-    UF_SIGLA CHAR(2)
-  )
-  RETURNS
-  (
-    MUNICIPIO_IBGE_ID CHAR(5)
-    , NOME NOME_DOM
-  );
-END^
-
-RECREATE PACKAGE BODY ENDERECO_PA
-AS
-BEGIN
-  PROCEDURE UF_SIGLA_LISTA_GET
-  RETURNS (
-      UF_SIGLA CHAR(2),
-      UF_IBGE_ID ID_SHORT_DOM
-  )
-  AS
-  BEGIN
-    FOR SELECT
-      UF_SIGLA,
-      UF_IBGE_ID
-    FROM UF
-    ORDER BY UF_SIGLA
-    INTO :UF_SIGLA,
-      :UF_IBGE_ID
-    DO
-    BEGIN
-      SUSPEND;
-    END
-  END
-  
-  PROCEDURE MUNICIPIO_LISTA_GET
-  (
-    UF_SIGLA CHAR(2)
-  )
-  RETURNS
-  (
-    MUNICIPIO_IBGE_ID CHAR(5)
-    , NOME NOME_DOM
-  )
-  AS
-  BEGIN
-    FOR SELECT
-      MUNICIPIO_IBGE_ID,
-      NOME
-    FROM MUNICIPIO
-    WHERE UF_SIGLA = :UF_SIGLA
-    ORDER BY NOME
-    INTO :MUNICIPIO_IBGE_ID,
-        :NOME
-    DO
-    BEGIN
-      SUSPEND;
-    END
-  END
-END^
-SET TERM ;^
-```
+CSV FIM
 COMANDO FIM
 
 DBATUALIZ FIM
