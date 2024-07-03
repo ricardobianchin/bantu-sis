@@ -8,8 +8,7 @@ BEGIN
   )
   RETURNS
   (
-    ATIVO BOOLEAN
-    , LOJA_ID ID_SHORT_DOM
+    LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
     , APELIDO NOME_REDU_DOM
@@ -45,7 +44,46 @@ BEGIN
     , REFERENCIA           OBS1_DOM
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
+    , ATIVO BOOLEAN
+  );--LISTA_GET FIM
+
+  PROCEDURE GARANTIR(
+    LOJA_ID SMALLINT NOT NULL,
+    TERMINAL_ID SMALLINT NOT NULL,
+    NOME VARCHAR(60),
+    NOME_FANTASIA VARCHAR(60),
+    APELIDO VARCHAR(20),
+    GENERO_ID CHAR(1),
+    ESTADO_CIVIL_ID CHAR(1),
+    C VARCHAR(15),
+    I VARCHAR(15),
+    M VARCHAR(15),
+    M_UF CHAR(2),
+    EMAIL VARCHAR(50),
+    DT_NASC DATE,
+    PESSOA_ID INTEGER,
+
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(5),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM,
+
+    ATIVO BOOLEAN
+  )
+  RETURNS
+  (
+    PESSOA_ID_GRAVADA INTEGER
   );
+
 END^
 
 ----- body -----
@@ -59,8 +97,7 @@ BEGIN
   )
   RETURNS
   (
-    ATIVO BOOLEAN
-    , LOJA_ID ID_SHORT_DOM
+    LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
     , APELIDO NOME_REDU_DOM
@@ -96,6 +133,7 @@ BEGIN
     , REFERENCIA           OBS1_DOM
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
+    , ATIVO BOOLEAN
   )
   AS
   BEGIN
@@ -162,7 +200,6 @@ BEGIN
           MU ON MU.MUNICIPIO_IBGE_ID = E.MUNICIPIO_IBGE_ID
       )
       SELECT 
-        LO.ATIVO,
         LO.LOJA_ID,
         PE.TERMINAL_ID,
         PE.PESSOA_ID, 
@@ -179,8 +216,8 @@ BEGIN
         PE.EMAIL, 
         PE.DT_NASC, 
         
-        PE.PESS_ALTERADO_EM, 
         PE.PESS_CRIADO_EM, 
+        PE.PESS_ALTERADO_EM, 
         
         PE.ENDER_ORDEM,
         PE.LOGRADOURO,
@@ -198,14 +235,14 @@ BEGIN
         PE.CONTATO,
         PE.REFERENCIA,
         PE.ENDER_CRIADO_EM,
-        PE.ENDER_ALTERADO_EM
-      FROM LO
+        PE.ENDER_ALTERADO_EM,
+        LO.ATIVO
+     FROM LO
       LEFT JOIN PE ON
       LO.LOJA_ID = PE.LOJA_ID
 
     INTO 
-      :ATIVO
-      , :LOJA_ID
+      :LOJA_ID
       , :TERMINAL_ID
       , :PESSOA_ID
       , :APELIDO
@@ -221,8 +258,8 @@ BEGIN
       , :EMAIL
       , :DT_NASC
       
-      , :PESS_ALTERADO_EM
       , :PESS_CRIADO_EM
+      , :PESS_ALTERADO_EM
       
       , :ENDER_ORDEM
       , :LOGRADOURO
@@ -239,11 +276,86 @@ BEGIN
       , :FONE3
       , :CONTATO
       , :REFERENCIA
+
       , :ENDER_CRIADO_EM
-      , :ENDER_ALTERADO_EM      
+      , :ENDER_ALTERADO_EM
+
+      , :ATIVO
     
     DO 
       SUSPEND; 
+  END
+
+
+  PROCEDURE GARANTIR(
+    LOJA_ID SMALLINT NOT NULL,
+    TERMINAL_ID SMALLINT NOT NULL,
+    NOME VARCHAR(60),
+    NOME_FANTASIA VARCHAR(60),
+    APELIDO VARCHAR(20),
+    GENERO_ID CHAR(1),
+    ESTADO_CIVIL_ID CHAR(1),
+    C VARCHAR(15),
+    I VARCHAR(15),
+    M VARCHAR(15),
+    M_UF CHAR(2),
+    EMAIL VARCHAR(50),
+    DT_NASC DATE,
+    PESSOA_ID INTEGER,
+
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(5),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM,
+
+    ATIVO BOOLEAN
+  )
+  RETURNS
+  (
+    PESSOA_ID_GRAVADA INTEGER
+  )
+  AS
+  BEGIN
+    EXECUTE PROCEDURE PESSOA_PA.GARANTIR(
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :NOME,
+      :NOME_FANTASIA,
+      :APELIDO,
+      :GENERO_ID,
+      :ESTADO_CIVIL_ID,
+      :C,
+      :I,
+      :M,
+      :M_UF,
+      :EMAIL,
+      :DT_NASC,
+      :PESSOA_ID,
+      :LOGRADOURO,
+      :NUMERO,
+      :COMPLEMENTO,
+      :BAIRRO,
+      :UF_SIGLA,
+      :CEP,
+      :MUNICIPIO_IBGE_ID,
+      :DDD,
+      :FONE1,
+      :FONE2,
+      :FONE3,
+      :CONTATO,
+      :REFERENCIA
+    )
+    RETURNING_VALUES :PESSOA_ID_GRAVADA;
+    EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(:LOJA_ID, :APELIDO, :ATIVO);
   END
 END^
 SET TERM ;^
