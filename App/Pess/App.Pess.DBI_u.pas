@@ -113,8 +113,10 @@ begin
     + ', M_UF'#13#10 // 9
     + ', EMAIL'#13#10 // 10
     + ', DT_NASC'#13#10 // 11
+
     + ', PESS_CRIADO_EM'#13#10 // 12
     + ', PESS_ALTERADO_EM'#13#10 // 13
+
     + ', ENDER_ORDEM'#13#10 // 14
     + ', LOGRADOURO'#13#10 // 15
     + ', NUMERO'#13#10 // 16
@@ -130,6 +132,7 @@ begin
     + ', FONE3'#13#10 // 26
     + ', CONTATO'#13#10 // 27
     + ', REFERENCIA'#13#10 // 28
+
     + ', ENDER_CRIADO_EM'#13#10 // 29
     + ', ENDER_ALTERADO_EM'#13#10 // 30
     ;
