@@ -39,7 +39,7 @@ var
 begin
   sBarras := Ent.ProdBarrasList.GetAsString(';');
 
-  Result := 'EXECUTE PROCEDURE prod_PA.ALTERAR_DO(' //
+  Result := 'EXECUTE PROCEDURE PROD_PA.ALTERAR_DO(' //
     + Ent.Id.ToString //
     + ',' + QuotedStr(Ent.Descr) //
     + ',' + QuotedStr(Ent.DescrRed) //
