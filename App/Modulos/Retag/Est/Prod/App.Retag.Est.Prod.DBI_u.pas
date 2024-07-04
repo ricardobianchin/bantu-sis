@@ -14,9 +14,9 @@ type
     property Ent: IProdEnt read GetProdEnt;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
-    procedure SetNovaId(pId: variant); override;
+    procedure SetVarArrayToId(pNovaId: Variant); override;
   public
-    function Inserir(out pNovaId: variant): boolean; override;
+    function Inserir(out pNovaId: Variant): boolean; override;
     function Alterar: boolean; override;
     function Ler: boolean; override;
   end;
@@ -109,7 +109,7 @@ begin
   // SetClipboardText(Result);
 end;
 
-function TProdDBI.Inserir(out pNovaId: variant): boolean;
+function TProdDBI.Inserir(out pNovaId: Variant): boolean;
 var
   sSql: string;
   sMens: string;
@@ -159,7 +159,8 @@ begin
     exit;
   end;
   try
-    pNovaId := DBConnection.GetValueInteger(sSql);
+    pNovaId := VarArrayCreate([0, 0], varVariant);
+    pNovaId[0] := DBConnection.GetValue(sSql);
   finally
     DBConnection.Fechar;
     Result := True;
@@ -248,10 +249,10 @@ begin
   end;
 end;
 
-procedure TProdDBI.SetNovaId(pId: variant);
+procedure TProdDBI.SetVarArrayToId(pNovaId: Variant);
 begin
 //  inherited;
-  Ent.Id := VarToInteger(pId);
+  Ent.Id := VarToInteger(pNovaId[0]);
 end;
 
 end.

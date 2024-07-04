@@ -13,8 +13,8 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pId: variant); override;
+    function GetSqlGaranteRegRetId: string; override;
+    procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   public
     function Inserir(out pNovaId: Variant): boolean; override;
@@ -86,7 +86,7 @@ begin
   Result := EntEdCastToPagFormaEnt(EntEd);
 end;
 
-function TPagFormaDBI.GetSqlGarantirRegId: string;
+function TPagFormaDBI.GetSqlGaranteRegRetId: string;
 begin
 
 end;
@@ -143,7 +143,8 @@ begin
     exit;
   end;
   try
-    pNovaId := DBConnection.GetValueInteger(sSql);
+    pNovaId := VarArrayCreate([0, 0], varVariant);
+    pNovaId[0] := DBConnection.GetValue(sSql);
   finally
     DBConnection.Fechar;
     Result := True;
@@ -225,10 +226,10 @@ begin
   end;
 end;
 
-procedure TPagFormaDBI.SetNovaId(pId: variant);
+procedure TPagFormaDBI.SetVarArrayToId(pNovaId: Variant);
 begin
   inherited;
-  Ent.Id := pId;
+  Ent.Id := pNovaId[0];
 end;
 
 end.

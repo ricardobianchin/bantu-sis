@@ -1,12 +1,15 @@
 inherited ProdTipoEdForm: TProdTipoEdForm
   Caption = 'ProdTipoEdForm'
   ClientWidth = 487
-  ExplicitWidth = 499
+  ExplicitWidth = 503
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 487
   end
-  object LabeledEdit1: TLabeledEdit [2]
+  inherited AlteracaoTextoLabel: TLabel
+    Width = 487
+  end
+  object LabeledEdit1: TLabeledEdit [3]
     Left = 8
     Top = 48
     Width = 260

@@ -1,7 +1,7 @@
 inherited ProdUnidEdForm: TProdUnidEdForm
   Caption = 'ProdUnidEdForm'
   ClientWidth = 495
-  ExplicitWidth = 507
+  ExplicitWidth = 511
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 495
@@ -11,19 +11,8 @@ inherited ProdUnidEdForm: TProdUnidEdForm
     Caption = '   '
     ExplicitWidth = 9
   end
-  object DescrLabeledEdit: TLabeledEdit [2]
-    Left = 8
-    Top = 48
-    Width = 260
-    Height = 23
-    EditLabel.Width = 51
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Descri'#231#227'o'
-    MaxLength = 40
-    TabOrder = 0
-    Text = ''
-    OnChange = DescrLabeledEditChange
-    OnKeyPress = DescrLabeledEditKeyPress
+  inherited AlteracaoTextoLabel: TLabel
+    Width = 495
   end
   object SiglaLabeledEdit: TLabeledEdit [3]
     Left = 273
@@ -37,6 +26,20 @@ inherited ProdUnidEdForm: TProdUnidEdForm
     Text = ''
     OnChange = SiglaLabeledEditChange
     OnKeyPress = SiglaLabeledEditKeyPress
+  end
+  object DescrLabeledEdit: TLabeledEdit [4]
+    Left = 8
+    Top = 48
+    Width = 260
+    Height = 23
+    EditLabel.Width = 51
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Descri'#231#227'o'
+    MaxLength = 40
+    TabOrder = 0
+    Text = ''
+    OnChange = DescrLabeledEditChange
+    OnKeyPress = DescrLabeledEditKeyPress
   end
   inherited BasePanel: TPanel
     Width = 495

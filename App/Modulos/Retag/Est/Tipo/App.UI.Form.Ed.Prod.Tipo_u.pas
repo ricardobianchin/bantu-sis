@@ -148,7 +148,7 @@ function TProdTipoEdForm.GravouOk: boolean;
 var
   sFrase: string;
 begin
-  Result := EntDBI.GarantirReg;
+  Result := EntDBI.Garantir;
   if not Result then
   begin
     sFrase := 'Erro ao gravar ' + EntEd.NomeEnt;

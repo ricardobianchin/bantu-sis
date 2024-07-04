@@ -13,8 +13,8 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pId: variant); override;
+    function GetSqlGaranteRegRetId: string; override;
+    procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   public
     function GetExistente(pValues: variant; out pRetorno: string)
@@ -94,7 +94,7 @@ begin
 
 end;
 
-function TProdUnidDBI.GetSqlGarantirRegId: string;
+function TProdUnidDBI.GetSqlGaranteRegRetId: string;
 var
   sFormat: string;
 begin
@@ -123,10 +123,10 @@ begin
   Result := 'SELECT UNID_ID, DESCR, SIGLA FROM UNID_PA.LISTA_GET;';
 end;
 
-procedure TProdUnidDBI.SetNovaId(pId: variant);
+procedure TProdUnidDBI.SetVarArrayToId(pNovaId: Variant);
 begin
   inherited;
-  GetProdUnidEnt.Id := VarToInteger(pId);
+  GetProdUnidEnt.Id := VarToInteger(pNovaId[0]);
 end;
 
 end.

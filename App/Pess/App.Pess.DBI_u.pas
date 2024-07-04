@@ -11,13 +11,11 @@ type
   private
     FPessEnt: IPessEnt;
   protected
-    //usado no atualizar
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
-
-    procedure SetNovaId(pId: variant); override;
+    procedure SetVarArrayToId(pNovaId: variant); override;
     procedure RegAtualToEnt(Q: TDataSet); virtual;
+    function GetFieldNames: string; virtual;
   public
-    function Inserir(out pNovaId: variant): boolean; override;
+    function Inserir(out pNovaId: Variant): boolean; override;
     function Alterar: boolean; override;
     function Ler: boolean; override;
     constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
@@ -97,11 +95,10 @@ begin
   FPessEnt.PessEnderList[iOrdem].AlteradoEm := q.Fields[30 {ENDER_ALTERADO_EM}].AsDateTime;
 end;
 
-function TPessDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TPessDBI.GetFieldNames: string;
 begin
-  Result :=//
-      'Select'#13#10//
-    + ' LOJA_ID'#13#10 // 0
+  Result :=
+      ' LOJA_ID'#13#10 // 0
     + ', TERMINAL_ID'#13#10 // 1
     + ', PESSOA_ID'#13#10 // 2
     + ', APELIDO'#13#10 // 3
@@ -138,7 +135,7 @@ begin
     ;
 end;
 
-function TPessDBI.Inserir(out pNovaId: variant): boolean;
+function TPessDBI.Inserir(out pNovaId: Variant): boolean;
 begin
 
 end;
@@ -209,12 +206,12 @@ begin
   end;
 end;
 
-procedure TPessDBI.SetNovaId(pId: variant);
+procedure TPessDBI.SetVarArrayToId(pNovaId: variant);
 begin
 //  inherited;
-  FPessEnt.LojaId := pId[0];
-  FPessEnt.TerminalId := pId[1];
-  FPessEnt.Id := pId[2];
+  FPessEnt.LojaId := pNovaId[0];
+  FPessEnt.TerminalId := pNovaId[1];
+  FPessEnt.Id := pNovaId[2];
 end;
 
 end.

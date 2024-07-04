@@ -14,11 +14,11 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure RegAtualToEnt(Q: TDataSet); override;
+    function GetFieldNames: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
 
     function Inserir(out pNovaId: variant): boolean; override;
-    function Alterar: boolean; override;
   end;
 
 implementation
@@ -27,11 +27,6 @@ uses System.SysUtils, Sis.Types.strings_u, App.Est.Types_u, Sis.Lists.Types,
   Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats;
 
 { TPessLojaDBI }
-
-function TPessLojaDBI.Alterar: boolean;
-begin
-
-end;
 
 constructor TPessLojaDBI.Create(pDBConnection: IDBConnection;
   pPessLojaEnt: IPessLojaEnt);
@@ -47,30 +42,25 @@ begin
   FPessLojaEnt.Ativo := q.Fields[FAtivoFieldIndex {ATIVO}].AsBoolean;
 end;
 
+function TPessLojaDBI.GetFieldNames: string;
+begin
+  Result := inherited
+    +', ATIVO'#13#10//31
+    ;
+end;
+
 function TPessLojaDBI.GetSqlPreencherDataSet(pValues: variant): string;
 var
   iLojaId: integer;
 begin
   iLojaId := pValues[0];
 
-  Result := inherited//
-    +', ATIVO'#13#10//31
+  Result := 'SELECT'#13#10
+    + GetFieldNames
     + 'FROM LOJA_MANUT_PA.LISTA_GET(' //
     + iLojaId.ToString //
     + ');'#13#10 //
     ;
-end;
-
-function TPessLojaDBI.Inserir(out pNovaId: variant): boolean;
-var
-  aValores: variant;
-begin
-  aValores := VarArrayCreate([0, 2], varInteger);
-  aValores[0] := 0;
-  aValores[1] := 0;
-  aValores[2] := 0;
-  pNovaId := aValores;
-
 end;
 
 end.

@@ -2,7 +2,7 @@ unit App.Ent.DBI_u;
 
 interface
 
-uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u,
+uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u, System.Variants,
   Sis.UI.Frame.Bas.FiltroParams_u, System.Classes, App.Ent.Ed;
 
 type
@@ -15,8 +15,8 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; virtual;
       abstract;
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
-    function GetSqlGarantirRegId: string; virtual; abstract;
-    procedure SetNovaId(pId: variant); virtual; abstract;
+    function GetSqlGaranteRegRetId: string; virtual;
+    procedure SetVarArrayToId(pNovaId: Variant); virtual; abstract;
     function ById(pId: variant; out pValores: variant): boolean; virtual;
     function GetPackageName: string; virtual; abstract;
   public
@@ -29,7 +29,7 @@ type
     function Inserir(out pNovaId: Variant): boolean; virtual;
     function Alterar: boolean; virtual;
     function Gravar: boolean; virtual;
-    function GarantirReg: boolean;
+    function Garantir: boolean;
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil); virtual;
     function AtivoSet(const pId: integer; Value: boolean): boolean; virtual;
 
@@ -40,7 +40,8 @@ type
 
 implementation
 
-uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u;
+uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u,
+  Sis.DB.DataSet.Utils;
 
 { TEntDBI }
 
@@ -82,25 +83,34 @@ begin
   FEntEd := pEntEd;
 end;
 
-function TEntDBI.GarantirReg: boolean;
+function TEntDBI.Garantir: boolean;
 var
   sFormat: string;
-  sSql: string;
+  sSqlGaranteRegRetId: string;
   q: TDataSet;
   Resultado: variant;
   sResultado: string;
-  iId: integer;
   sNome: string;
+  aValues: Variant;
 begin
   Result := False;
-  sSql := GetSqlGarantirRegId;
+  sSqlGaranteRegRetId := GetSqlGaranteRegRetId;
 
-  DBConnection.Abrir;
+  Result := DBConnection.Abrir;
+  if not Result then
+    exit;
+
   try
-    iId := DBConnection.GetValueInteger(sSql);
-    SetNovaId(iId);
-    Result := True;
+    DBConnection.QueryDataSet(sSqlGaranteRegRetId, q);
+
+    Result := RecordToVarArray(aValues, Q);
+    if not Result then
+      exit;
+
+    SetVarArrayToId(aValues);
   finally
+    if Assigned(q) then
+      q.Free;
     DBConnection.Fechar;
   end;
 end;
@@ -127,6 +137,11 @@ begin
   end;
 end;
 
+function TEntDBI.GetSqlGaranteRegRetId: string;
+begin
+  Result := '';
+end;
+
 function TEntDBI.Gravar: boolean;
 var
   i: variant;
@@ -135,7 +150,7 @@ begin
   begin
     Result := Inserir(i);
     if Result then
-      SetNovaId(i);
+      SetVarArrayToId(i);
   end
   else
     Result := Alterar;
@@ -143,7 +158,6 @@ end;
 
 function TEntDBI.Inserir(out pNovaId: Variant): boolean;
 begin
-  pNovaId := 0;
   Result := False;
 end;
 

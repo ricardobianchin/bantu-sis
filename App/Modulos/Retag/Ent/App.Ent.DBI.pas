@@ -10,7 +10,7 @@ type
     procedure PreencherDataSet(pValues: variant;
       pProcLeReg: TProcDataSetOfObject);
     function GetExistente(pValues: variant; out pRetorno: string): variant;
-    function GarantirReg: boolean;
+    function Garantir: boolean;
 
     //recebe uma id ou array de loja term id
     //retorna array com os valores do reg
