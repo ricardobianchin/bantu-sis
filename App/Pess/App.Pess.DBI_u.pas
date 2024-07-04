@@ -26,11 +26,6 @@ implementation
 
 uses App.PessEnder, App.Pess.Ent.Factory_u, System.SysUtils;
 
-function TPessDBI.Alterar: boolean;
-begin
-
-end;
-
 constructor TPessDBI.Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
 begin
   inherited Create(pDBConnection, pPessEnt);

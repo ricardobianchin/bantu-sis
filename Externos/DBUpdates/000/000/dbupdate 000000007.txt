@@ -45,7 +45,7 @@ BEGIN
     , NOME NOME_DOM
   );
 
-  PROCEDURE GARANANTIR 
+  PROCEDURE GARANTIR 
   (
     LOJA_ID           ID_SHORT_DOM,
     TERMINAL_ID       ID_SHORT_DOM,
@@ -121,7 +121,7 @@ BEGIN
     END
   END
 
-  PROCEDURE GARANANTIR 
+  PROCEDURE GARANTIR 
   (
     LOJA_ID           ID_SHORT_DOM,
     TERMINAL_ID       ID_SHORT_DOM,
@@ -142,7 +142,6 @@ BEGIN
     REFERENCIA        OBS1_DOM
   )
   AS
-  DECLARE VARIABLE ALTERADO_EM TIMESTAMP;
   BEGIN
     UPDATE OR INSERT INTO ENDERECO (
         LOJA_ID,
@@ -161,9 +160,7 @@ BEGIN
         FONE2,
         FONE3,
         CONTATO,
-        REFERENCIA,
-        CRIADO_EM,
-        ALTERADO_EM
+        REFERENCIA
     )
     VALUES (
         :LOJA_ID,
@@ -182,9 +179,7 @@ BEGIN
         :FONE2,
         :FONE3,
         :CONTATO,
-        :REFERENCIA,
-        :CRIADO_EM,
-        :ALTERADO_EM
+        :REFERENCIA
     )
     MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM);
   END

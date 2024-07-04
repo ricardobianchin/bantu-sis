@@ -261,6 +261,8 @@ begin
     //updater fim aqui
     //updater aqui
     //update aqui
+    //dbupdate aqui
+    //db update aqui
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;

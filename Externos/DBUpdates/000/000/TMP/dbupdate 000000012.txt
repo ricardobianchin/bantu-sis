@@ -9,13 +9,20 @@ DBATUALIZ_OBS=
 
 //PACKAGE FUNCIONARIO_PA
 
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\funcionario_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\funcionario_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\funcionario_pa.sql";
+*/
+
+/*
+
 COMANDO INI
 TIPO_COMANDO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=FUNCIONARIO_PA
-/*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Sis\funcionario_pa.sql
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Sis\funcionario_pa.sql";
-*/
+
 ```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE FUNCIONARIO_PA
@@ -119,5 +126,5 @@ SET TERM ;^
 ```
 COMANDO FIM
 //PACKAGE FUNCIONARIO_PA FIM
-
+*/
 DBATUALIZ FIM

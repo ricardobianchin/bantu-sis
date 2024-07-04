@@ -15,11 +15,12 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; virtual;
       abstract;
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
-    function GetSqlGaranteRegRetId: string; virtual;
+
     procedure SetVarArrayToId(pNovaId: Variant); virtual; abstract;
     function ById(pId: variant; out pValores: variant): boolean; virtual;
     function GetPackageName: string; virtual; abstract;
 
+    function GetSqlGaranteRegRetId: string; virtual;
     function GetSqlInserirDoRetId: string; virtual;
     function GetSqlAlterarDo: string; virtual;
   public

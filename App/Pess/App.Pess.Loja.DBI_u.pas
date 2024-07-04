@@ -15,6 +15,8 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure RegAtualToEnt(Q: TDataSet); override;
     function GetFieldNames: string; override;
+
+    function GetSqlGaranteRegRetId: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
   end;
@@ -45,6 +47,11 @@ begin
   Result := inherited
     +', ATIVO'#13#10//31
     ;
+end;
+
+function TPessLojaDBI.GetSqlGaranteRegRetId: string;
+begin
+
 end;
 
 function TPessLojaDBI.GetSqlPreencherDataSet(pValues: variant): string;
