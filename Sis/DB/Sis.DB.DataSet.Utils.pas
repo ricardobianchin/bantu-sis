@@ -3,12 +3,13 @@ unit Sis.DB.DataSet.Utils;
 interface
 
 uses
-  FireDAC.Comp.Client, Vcl.DBGrids, Data.DB, Sis.Sis.Constants;
+  FireDAC.Comp.Client, Vcl.DBGrids, Data.DB, Sis.Sis.Constants, System.Variants;
 
 procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
   pDBGrid: TDBGrid; pIndexIni: integer = 0; pIndexFin: integer = INDEX_ILIMITADO);
 
 procedure QueryToFDMemTable(pFDMemTable: TFDMemTable; pQ: TDataSet);
+function RecordToVarArray(out pVarArray: variant; pQ: TDataSet): variant;
 
 implementation
 
@@ -72,5 +73,33 @@ begin
   end;
 end;
 
+function RecordToVarArray(out pVarArray: variant; pQ: TDataSet): variant;
+var
+  iQtdCampos: integer;
+  iFieldIndex: integer;
+begin
+  pVarArray := vaNull;
+
+  Result := Assigned(pQ);
+  if not Result then
+    exit;
+
+  Result := pQ.Active;
+  if not Result then
+    exit;
+
+  iQtdCampos := pQ.FieldCount;
+
+  Result := iQtdCampos > 0;
+  if Result then
+    exit;
+
+  pVarArray := VarArrayCreate([0, iQtdCampos - 1], varVariant);
+
+  for iFieldIndex := 0 to iQtdCampos - 1 do
+  begin
+    pVarArray[iFieldIndex] := pQ.Fields[iFieldIndex].Value;
+  end;
+end;
 
 end.
