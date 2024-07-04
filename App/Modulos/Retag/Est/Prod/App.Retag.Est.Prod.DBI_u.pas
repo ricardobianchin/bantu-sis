@@ -15,9 +15,9 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
+    function GetSqlInserirDoRetId: string; override;
+    function GetSqlAlterarDo: string; override;
   public
-    function Inserir(out pNovaId: Variant): boolean; override;
-    function Alterar: boolean; override;
     function Ler: boolean; override;
   end;
 
@@ -28,18 +28,18 @@ uses System.SysUtils, Sis.Types.strings_u, App.Est.Types_u, Sis.Lists.Types,
 
 { TProdDBI }
 
-function TProdDBI.Alterar: boolean;
+function TProdDBI.GetProdEnt: IProdEnt;
+begin
+  Result := EntEdCastToProdEnt(EntEd);
+end;
+
+function TProdDBI.GetSqlAlterarDo: string;
 var
-  sSql: string;
-  sMens: string;
-  bResultado: boolean;
   sBarras: string;
 begin
-  Result := False;
-
   sBarras := Ent.ProdBarrasList.GetAsString(';');
 
-  sSql := 'EXECUTE PROCEDURE prod_PA.ALTERAR_DO(' //
+  Result := 'EXECUTE PROCEDURE prod_PA.ALTERAR_DO(' //
     + Ent.Id.ToString //
     + ',' + QuotedStr(Ent.Descr) //
     + ',' + QuotedStr(Ent.DescrRed) //
@@ -72,56 +72,17 @@ begin
 
     + ',' + QuotedStr(sBarras) //
     + ');';
-
-  bResultado := DBConnection.Abrir;
-  if not bResultado then
-  begin
-    sMens := DBConnection.UltimoErro;
-    exit;
-  end;
-  try
-    DBConnection.ExecuteSQL(sSql);
-  finally
-    DBConnection.Fechar;
-    Result := True;
-  end;
 end;
 
-function TProdDBI.GetProdEnt: IProdEnt;
-begin
-  Result := EntEdCastToProdEnt(EntEd);
-end;
-
-function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
-begin
-  Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
-  // 5           6         7        8         9            10
-    ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
-
-  // 11
-    ', COD_BARRAS' +
-
-    ', CUSTO, PRECO' +
-
-    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
-
-    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ');';
-  // SetClipboardText(Result);
-end;
-
-function TProdDBI.Inserir(out pNovaId: Variant): boolean;
+function TProdDBI.GetSqlInserirDoRetId: string;
 var
-  sSql: string;
-  sMens: string;
-  bResultado: boolean;
   sBarras: string;
 begin
-  Result := False;
-
   sBarras := Ent.ProdBarrasList.GetAsString(';');
 
-  sSql := 'SELECT PROD_ID FROM PROD_PA.INSERIR_DO(' + QuotedStr(Ent.Descr) + ','
-    + QuotedStr(Ent.DescrRed)
+  Result := 'SELECT PROD_ID FROM PROD_PA.INSERIR_DO('//
+    + QuotedStr(Ent.Descr) //
+    + ',' + QuotedStr(Ent.DescrRed) //
 
     + ',' + Ent.ProdFabrEnt.Id.ToString //
     + ',' + Ent.ProdTipoEnt.Id.ToString //
@@ -151,20 +112,23 @@ begin
     + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
 
     + ',' + QuotedStr(sBarras) + ');'; //
+end;
 
-  bResultado := DBConnection.Abrir;
-  if not bResultado then
-  begin
-    sMens := DBConnection.UltimoErro;
-    exit;
-  end;
-  try
-    pNovaId := VarArrayCreate([0, 0], varVariant);
-    pNovaId[0] := DBConnection.GetValue(sSql);
-  finally
-    DBConnection.Fechar;
-    Result := True;
-  end;
+function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
+begin
+  Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
+  // 5           6         7        8         9            10
+    ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
+
+  // 11
+    ', COD_BARRAS' +
+
+    ', CUSTO, PRECO' +
+
+    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
+
+    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ');';
+  // SetClipboardText(Result);
 end;
 
 function TProdDBI.Ler: boolean;

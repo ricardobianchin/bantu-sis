@@ -13,12 +13,12 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGaranteRegRetId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
+
+    function GetSqlInserirDoRetId: string; override;
+    function GetSqlAlterarDo: string; override;
   public
-    function Inserir(out pNovaId: Variant): boolean; override;
-    function Alterar: boolean; override;
     function Ler: boolean; override;
 
   end;
@@ -30,15 +30,19 @@ uses System.SysUtils, Sis.Types.strings_u, App.Retag.Fin.Factory,
 
 { TPagFormaDBI }
 
-function TPagFormaDBI.Alterar: boolean;
-var
-  sSql: string;
-  sMens: string;
-  bResultado: boolean;
+function TPagFormaDBI.GetPackageName: string;
 begin
-  Result := False;
+  Result := 'PAGAMENTO_FORMA_PA';
+end;
 
-  sSql := 'EXECUTE PROCEDURE PAGAMENTO_FORMA_PA.ALTERAR_DO('
+function TPagFormaDBI.GetPagFormaEnt: IPagFormaEnt;
+begin
+  Result := EntEdCastToPagFormaEnt(EntEd);
+end;
+
+function TPagFormaDBI.GetSqlAlterarDo: string;
+begin
+  Result := 'EXECUTE PROCEDURE PAGAMENTO_FORMA_PA.ALTERAR_DO('
     + Ent.Id.ToString
     + ',' + QuotedStr(Ent.FormaTipo)
 
@@ -61,34 +65,6 @@ begin
     + ',' + BooleanToStrSQL(Ent.PessoaExige)
     + ',' + BooleanToStrSQL(Ent.AVista)
     + ');';
-
-  bResultado := DBConnection.Abrir;
-  if not bResultado then
-  begin
-    sMens := DBConnection.UltimoErro;
-    exit;
-  end;
-  try
-    DBConnection.ExecuteSQL(sSql);
-  finally
-    DBConnection.Fechar;
-    Result := True;
-  end;
-end;
-
-function TPagFormaDBI.GetPackageName: string;
-begin
-  Result := 'PAGAMENTO_FORMA_PA';
-end;
-
-function TPagFormaDBI.GetPagFormaEnt: IPagFormaEnt;
-begin
-  Result := EntEdCastToPagFormaEnt(EntEd);
-end;
-
-function TPagFormaDBI.GetSqlGaranteRegRetId: string;
-begin
-
 end;
 
 function TPagFormaDBI.GetSqlGetExistente(pValues: variant): string;
@@ -96,28 +72,9 @@ begin
 
 end;
 
-function TPagFormaDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TPagFormaDBI.GetSqlInserirDoRetId: string;
 begin
-  Result := 'SELECT'
-    +' FORMA_ID' //ID_SHORT_DOM
-    +', FORMA_TIPO_DESCR' //NOME_INTERM_DOM
-    +', DESCR' //NOME_INTERM_DOM
-    +', DESCR_RED' //CHAR(8)
-    +', PARA_VENDA' //BOOLEAN
-    +', ATIVO' //BOOLEAN
-    +' FROM PAGAMENTO_FORMA_PA.LISTA_GET;'
-    ;
-end;
-
-function TPagFormaDBI.Inserir(out pNovaId: Variant): boolean;
-var
-  sSql: string;
-  sMens: string;
-  bResultado: boolean;
-begin
-  Result := False;
-
-  sSql := 'SELECT PAGAMENTO_FORMA_ID FROM PAGAMENTO_FORMA_PA.INSERIR_DO('
+  Result := 'SELECT PAGAMENTO_FORMA_ID FROM PAGAMENTO_FORMA_PA.INSERIR_DO('
     + QuotedStr(Ent.FormaTipo)
     + ',' + QuotedStr(Ent.Descr)
     + ',' + QuotedStr(Ent.DescrRed)
@@ -135,20 +92,19 @@ begin
     + ',' + BooleanToStrSQL(Ent.PessoaExige)
     + ',' + BooleanToStrSQL(Ent.AVista)
     + ');';
+end;
 
-  bResultado := DBConnection.Abrir;
-  if not bResultado then
-  begin
-    sMens := DBConnection.UltimoErro;
-    exit;
-  end;
-  try
-    pNovaId := VarArrayCreate([0, 0], varVariant);
-    pNovaId[0] := DBConnection.GetValue(sSql);
-  finally
-    DBConnection.Fechar;
-    Result := True;
-  end;
+function TPagFormaDBI.GetSqlPreencherDataSet(pValues: variant): string;
+begin
+  Result := 'SELECT'
+    +' FORMA_ID' //ID_SHORT_DOM
+    +', FORMA_TIPO_DESCR' //NOME_INTERM_DOM
+    +', DESCR' //NOME_INTERM_DOM
+    +', DESCR_RED' //CHAR(8)
+    +', PARA_VENDA' //BOOLEAN
+    +', ATIVO' //BOOLEAN
+    +' FROM PAGAMENTO_FORMA_PA.LISTA_GET;'
+    ;
 end;
 
 function TPagFormaDBI.Ler: boolean;

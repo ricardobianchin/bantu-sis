@@ -17,8 +17,6 @@ type
     function GetFieldNames: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
-
-    function Inserir(out pNovaId: variant): boolean; override;
   end;
 
 implementation

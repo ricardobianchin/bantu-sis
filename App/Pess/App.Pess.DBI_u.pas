@@ -15,8 +15,6 @@ type
     procedure RegAtualToEnt(Q: TDataSet); virtual;
     function GetFieldNames: string; virtual;
   public
-    function Inserir(out pNovaId: Variant): boolean; override;
-    function Alterar: boolean; override;
     function Ler: boolean; override;
     constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
     procedure MunicipioPrepareLista(pUFSigla: string; pSL: TStrings);
@@ -133,11 +131,6 @@ begin
     + ', ENDER_CRIADO_EM'#13#10 // 29
     + ', ENDER_ALTERADO_EM'#13#10 // 30
     ;
-end;
-
-function TPessDBI.Inserir(out pNovaId: Variant): boolean;
-begin
-
 end;
 
 function TPessDBI.Ler: boolean;
