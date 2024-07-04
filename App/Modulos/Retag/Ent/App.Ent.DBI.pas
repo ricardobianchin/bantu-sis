@@ -10,7 +10,6 @@ type
     procedure PreencherDataSet(pValues: variant;
       pProcLeReg: TProcDataSetOfObject);
     function GetExistente(pValues: variant; out pRetorno: string): variant;
-    function Garantir: boolean;
 
     //recebe uma id ou array de loja term id
     //retorna array com os valores do reg
@@ -23,9 +22,18 @@ type
     function AtivoSet(const pId: integer; Value: boolean): boolean;
     function Ler: boolean;
 
+
+    //quando usuario pode indicar a id, usar estes
     function Inserir(out pNovaId: Variant): boolean;
     function Alterar: boolean;
     function Gravar: boolean;
+    ///
+
+
+    //quando usuario NAO pode indicar a id, usar estes
+    function Garantir: boolean;
+    ///
+
 
     function GetEntEd: IEntEd;
     procedure SetEntEd(Value: IEntEd);
