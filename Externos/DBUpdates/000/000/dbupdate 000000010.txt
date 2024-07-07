@@ -64,6 +64,16 @@ COMANDO FIM
 
 
 
+/*
+Complementos\Est\prod_pa.txt
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql";
+*/
 
 //////////////////////////////////
 //
@@ -73,18 +83,6 @@ COMANDO FIM
 COMANDO INI
 TIPO_COMANDO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=LOJA_MANUT_PA
-
-/*
-Complementos\Est\prod_pa.txt
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\loja_manut_pa.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\loja_manut_pa.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\loja_manut_pa.sql";
-*/
-
 
 ```FIREBIRD
 SET TERM ^;

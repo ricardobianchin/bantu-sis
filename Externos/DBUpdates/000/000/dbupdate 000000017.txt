@@ -1,3 +1,34 @@
+USUARIO
+
+//INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=USUARIOS
+DBATUALIZ_OBJETIVO=CRIA USUARIO_PA
+DBATUALIZ_OBS=
+
+
+
+
+//////////////////////////////////
+//
+// PACKAGE USUARIO_PA
+//
+//////////////////////////////////
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa.sql";
+
+*/
+
+COMANDO INI
+TIPO_COMANDO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=USUARIO_PA
+
+```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE USUARIO_PA
 AS
@@ -293,3 +324,9 @@ BEGIN
   END
 END^
 SET TERM ;^
+```
+COMANDO FIM
+//PACKAGE USUARIO_PA FIM
+
+
+DBATUALIZ FIM

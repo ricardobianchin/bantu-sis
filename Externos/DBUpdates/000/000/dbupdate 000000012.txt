@@ -1,3 +1,27 @@
+FUNCIONARIO
+    inicio
+
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=FUNCIONARIO
+DBATUALIZ_OBJETIVO=CRIA PACKAGE FUNCIONARIO_PA
+DBATUALIZ_OBS=
+
+//PACKAGE FUNCIONARIO_PA
+
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\funcionario_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\funcionario_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\funcionario_pa.sql";
+*/
+
+COMANDO INI
+TIPO_COMANDO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=FUNCIONARIO_PA
+
+```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE FUNCIONARIO_PA
 AS
@@ -160,3 +184,8 @@ BEGIN
   END
 END^
 SET TERM ;^
+```
+COMANDO FIM
+//PACKAGE FUNCIONARIO_PA FIM
+
+DBATUALIZ FIM
