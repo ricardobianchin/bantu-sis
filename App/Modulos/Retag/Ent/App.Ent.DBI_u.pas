@@ -23,6 +23,9 @@ type
     function GetSqlGaranteRegRetId: string; virtual;
     function GetSqlInserirDoRetId: string; virtual;
     function GetSqlAlterarDo: string; virtual;
+
+    function GetFieldNames: string; virtual;
+    function GetFieldValues: string; virtual;
   public
     property PackageName: string read GetPackageName;
     procedure PreencherDataSet(pValues: variant;
@@ -158,6 +161,16 @@ begin
   finally
     DBConnection.Fechar;
   end;
+end;
+
+function TEntDBI.GetFieldNames: string;
+begin
+  Result := '';
+end;
+
+function TEntDBI.GetFieldValues: string;
+begin
+  Result := '';
 end;
 
 function TEntDBI.GetSqlAlterarDo: string;

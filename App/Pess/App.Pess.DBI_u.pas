@@ -13,7 +13,8 @@ type
   protected
     procedure SetVarArrayToId(pNovaId: variant); override;
     procedure RegAtualToEnt(Q: TDataSet); virtual;
-    function GetFieldNames: string; virtual;
+    function GetFieldNames: string; override;
+    function GetFieldValues: string; override;
   public
     function Ler: boolean; override;
     constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
