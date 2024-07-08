@@ -76,6 +76,11 @@ type
     function GetCodUsaTerminalId: boolean;
     property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
 
+    function GetCObrigatorio: boolean;
+    procedure SetCObrigatorio(const Value: Boolean);
+    property CObrigatorio: boolean read GetCObrigatorio write SetCObrigatorio;
+
+
     function GetCodAsString: string;
     property CodAsString: string read GetCodAsString;
   end;
