@@ -42,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.Times, App.DB.Utils, Sis.DB.Factory, Data.DB;
+uses Sis.Types.Dates, App.DB.Utils, Sis.DB.Factory, Data.DB;
 
 { TRetagAjuBemVindoForm }
 
