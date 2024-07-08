@@ -73,6 +73,8 @@ C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
 "C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql"
 
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql";
+
+show procedure LOJA_MANUT_PA.GARANTIR;
 */
 
 //////////////////////////////////
