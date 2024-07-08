@@ -101,7 +101,6 @@ contains
   Sis.DB.DBQuery.FireDAC_u in 'DB\Sis.DB.DBQuery.FireDAC_u.pas',
   Sis.DB.DBExec.FireDAC_u in 'DB\Sis.DB.DBExec.FireDAC_u.pas',
   Sis.UI.IO.Output.ProcessLog.Mudo in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas',
-  Sis.Types.Times in 'Types\Sis.Types.Times.pas',
   Sis.UI.IO.Files.FileInfo in 'UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas',
   Sis.UI.IO.Files.FileInfo_u in 'UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas',
   Sis.UI.IO.Files.Sync in 'UI\IO\Files\Sis.UI.IO.Files.Sync.pas',

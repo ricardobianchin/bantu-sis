@@ -201,7 +201,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Sis.DB.DBQuery.FireDAC_u.pas"/>
         <DCCReference Include="DB\Sis.DB.DBExec.FireDAC_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas"/>
-        <DCCReference Include="Types\Sis.Types.Times.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Sync.pas"/>
