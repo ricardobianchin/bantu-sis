@@ -92,7 +92,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Factory, Sis.Types.Utils_u;
+uses Sis.UI.Controls.Factory, Sis.Types.Utils_u, Sis.Types.strings_u;
 { TEnderControlsFrame }
 
 procedure TEnderControlsFrame.UFSiglaComboBoxAjuste;
@@ -151,8 +151,11 @@ var
   L: integer;
   sText: string;
 begin
-  sText := CEPMaskEdit.EditText;
-  sText := CEPMaskEdit.Text;
+//  sText := CEPMaskEdit.EditText;
+//  sText := CEPMaskEdit.Text;
+
+  sText := StrToOnlyDigit(CEPMaskEdit.Text);
+
   L := Length(sText);
   Result := (L = 0) or (L=8);
 end;
