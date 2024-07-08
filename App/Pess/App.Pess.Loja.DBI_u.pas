@@ -15,6 +15,7 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure RegAtualToEnt(Q: TDataSet); override;
     function GetFieldNames: string; override;
+    function GetFieldValues: string; override;
 
     function GetSqlGaranteRegRetId: string; override;
   public
@@ -49,9 +50,20 @@ begin
     ;
 end;
 
+function TPessLojaDBI.GetFieldValues: string;
+begin
+  Result := inherited
+    + BooleanToStrSQL(FPessLojaEnt.Ativo) + #13#10
+    ;
+end;
+
 function TPessLojaDBI.GetSqlGaranteRegRetId: string;
 begin
-
+  Result := 'EXECUTE PROCEDURE LOJA_MANUT_PA.GARANTIR('#13#10
+    + GetFieldValues
+    + 'RETURNING_VALUES LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_GRAVADA'#13#10
+    +';'#13#10
+    ;
 end;
 
 function TPessLojaDBI.GetSqlPreencherDataSet(pValues: variant): string;
