@@ -20,6 +20,7 @@ type
     FFezShow: boolean;
 //    function GetDisparaShowTimer: Boolean;
 //    procedure SetDisparaShowTimer(Value: Boolean);
+
     procedure DispareShowTimer;
 
     function GetSelecionaProximo: boolean;
@@ -39,6 +40,7 @@ type
     procedure SetKeyPressFiltraTeclado(Value: boolean);
     property KeyPressFiltraTeclado: boolean read GetKeyPressFiltraTeclado write SetKeyPressFiltraTeclado;
 
+    procedure DebugImporteTeclas;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -51,7 +53,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u;
+uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u, Sis.UI.Controls.Utils,
+  Sis.UI.IO.Files.Factory, Sis.UI.IO.Files;
 
 procedure TBasForm.CheckBoxKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -71,6 +74,51 @@ begin
 //  FDisparaShowTimer := False;
   FSelecionaProximo := True;
   FFezShow := False;
+end;
+
+procedure TBasForm.DebugImporteTeclas;
+var
+  sNomeArq: string;
+  sl: TStringList;
+  s: string;
+  Resultado: Boolean;
+  sPastaDebug: string;
+begin
+  inherited;
+  // s := ActiveControl.Name;
+
+  sPastaDebug := GetPastaDoArquivo(ParamStr(0));
+  sPastaDebug := PastaAcima(sPastaDebug);
+  sPastaDebug := sPastaDebug+'Config\Debug\';
+  sPastaDebug := sPastaDebug + Sis.Types.Utils_u.ObterHierarquiaDeClasses(ClassType);
+  sNomeArq := sPastaDebug + '\' + 'Teclas.txt';
+  GarantirPastaDoArquivo(sNomeArq);
+  Resultado := FileExists(sNomeArq);
+  if not Resultado then
+    exit;
+
+  sl := TStringList.Create;
+  try
+    sl.LoadFromFile(sNomeArq);
+    s := sl.Text;
+    DigiteStr(s, 0);
+  finally
+    sl.Free;
+  end;
+  // FObrigFrame.Foque;
+  // FObrigFrame.SimuleDig;
+
+  // OkAct_Diag.Execute;
+
+  // ObrigatoriosProdEdFrame.FCustoAtualNumEdit
+  // ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
+
+
+
+  // FFabrSelectEditFrame.IdNumEdit.Valor := 2;
+
+  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
+  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
 end;
 
 procedure TBasForm.DispareShowTimer;
