@@ -11,7 +11,10 @@ function VaParaPastaDoArquivo(const pNomeArq: string;
 function PastaCriarEntrar(const pCaminho: string): boolean;
 function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
+
+// garantir pasta
 procedure GarantirPasta(const pPasta: string);
+function GarantirPastaDoArquivo(const pNomeArq: string): string;
 
 // date time
 function DateTimeToNomeArq(pDtH: TDateTime = 0): string;
@@ -19,7 +22,6 @@ function DateToPath(pDtH: TDateTime = 0): string;
 
 // fragmenta caminho
 function GetPastaDoArquivo(const pNomeArq: string): string;
-function GarantirPastaDoArquivo(const pNomeArq: string): string;
 
 // dir
 procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings;
@@ -37,8 +39,8 @@ function EscolhaArquivo(var pNomeArq: string; pFiltros: string = '';
 
 implementation
 
-uses System.SysUtils, System.IOUtils, System.StrUtils, Sis.Types.Utils_u,
-  Sis.Types.strings_u, Vcl.Dialogs;
+uses System.SysUtils, System.IOUtils, System.StrUtils, Vcl.Dialogs,
+  Sis.Types.strings_u;
 
 function DateTimeToNomeArq(pDtH: TDateTime): string;
 var
