@@ -401,6 +401,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
         <DCCReference Include="Types\Sis.Types.Dates.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

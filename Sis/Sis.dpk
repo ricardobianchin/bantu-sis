@@ -258,6 +258,7 @@ contains
   Sis.Types.strings.abrev_u in 'Types\Sis.Types.strings.abrev_u.pas',
   Sis.UI.IO.Input.Str.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas' {InputStrForm},
   Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas',
-  Sis.Types.Dates in 'Types\Sis.Types.Dates.pas';
+  Sis.Types.Dates in 'Types\Sis.Types.Dates.pas',
+  Sis.Web.HTTPGet.Net_u in 'Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas';
 
 end.
