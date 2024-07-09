@@ -16,6 +16,7 @@ type
   TPessLojaEdForm = class(TPessEdBasForm)
     AtivoCheckBox: TCheckBox;
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
@@ -34,6 +35,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils;
 
 procedure TPessLojaEdForm.AjusteTabOrder;
 var
@@ -55,7 +58,23 @@ constructor TPessLojaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
 begin
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
+  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+end;
+
+procedure TPessLojaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
+//var
+//  s: string;
+begin
   inherited;
+  SetTabOrderToHint(Self);
+  DtNascPessLabel.Visible := False;
+  DtNascDateTimePicker.Visible := False;
+  AtivoCheckBox.Left := DtNascPessLabel.Left;
+
+{$IFDEF DEBUG}
+//  s := CNPJGetRandom;
+//  DebugImporteTeclas;
+{$ENDIF}
 end;
 
 end.

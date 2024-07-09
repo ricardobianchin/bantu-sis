@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas_u, App.Pess.Ent, App.Pess.DBI, Data.DB, FireDAC.Comp.Client,
   Vcl.ExtCtrls, Vcl.StdCtrls, Sis.UI.Controls.Utils, App.PessEnder,
-  Sis.UI.Controls.ComboBoxManager, Sis.Types.Integers, Vcl.Mask;
+  Sis.UI.Controls.ComboBoxManager, Sis.Types.Integers, Vcl.Mask,
+  Sis.UI.IO.Output;
 
 type
   TEnderControlsFrame = class(TBasFrame)
@@ -39,6 +40,7 @@ type
     UFSiglaStatusLabel: TLabel;
     CEPMaskEdit: TMaskEdit;
     MunicipioPrepareListaTimer: TTimer;
+    CEPStatusLabel: TLabel;
     procedure UFSiglaComboBoxChange(Sender: TObject);
     procedure UFSiglaComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioComboBoxKeyPress(Sender: TObject; var Key: Char);
@@ -59,6 +61,7 @@ type
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
     FFDMemTable: TFDMemTable;
+    FErroOutput: IOutput;
 
     UFSiglaComboMan: IComboBoxManager;
     MunComboMan: IComboBoxManager;
@@ -73,10 +76,13 @@ type
 
     procedure UFSiglaComboBoxAjuste;
     procedure MunicipioPrepareLista(pUFSigla: string);
+    procedure PesquiseCEP;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
-      pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable; pOkExecute: TNotifyEvent); reintroduce;
+      pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable;
+      pOkExecute: TNotifyEvent; pErroOutput: IOutput); reintroduce;
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
@@ -92,7 +98,9 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Factory, Sis.Types.Utils_u, Sis.Types.strings_u;
+uses Sis.UI.Controls.Factory, Sis.Types.Utils_u, Sis.Types.strings_u,
+  Sis.Web.HTTPGet.Net_u, Sis.Types.TStrings_u, System.StrUtils;
+
 { TEnderControlsFrame }
 
 procedure TEnderControlsFrame.UFSiglaComboBoxAjuste;
@@ -151,21 +159,23 @@ var
   L: integer;
   sText: string;
 begin
-//  sText := CEPMaskEdit.EditText;
-//  sText := CEPMaskEdit.Text;
-
   sText := StrToOnlyDigit(CEPMaskEdit.Text);
 
   L := Length(sText);
   Result := (L = 0) or (L=8);
+
+  if Result then
+    exit;
+  FErroOutput.Exibir('CEP inválido. Corrija o campo ou deixe-o em branco')
 end;
 
 procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
+  if Key = CHAR_ENTER then
+    PesquiseCEP;
   EditKeyPress(Sender, Key);
-
 end;
 
 procedure TEnderControlsFrame.ComplementoEditKeyPress(Sender: TObject;
@@ -208,9 +218,11 @@ begin
 end;
 
 constructor TEnderControlsFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
-  pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable; pOkExecute: TNotifyEvent);
+  pPessDBI: IPessDBI; pEnderPessFDMemTable: TFDMemTable;
+  pOkExecute: TNotifyEvent; pErroOutput: IOutput);
 begin
   inherited Create(AOwner);
+  FErroOutput := pErroOutput;
   FOkExecute := pOkExecute;
 
   FMunicipioPodePreparar := False;
@@ -344,6 +356,99 @@ end;
 procedure TEnderControlsFrame.Oculte;
 begin
   Visible := False;
+end;
+
+procedure TEnderControlsFrame.PesquiseCEP;
+var
+  SL: TStringList;
+  L: integer;
+  iLin: integer;
+  sText: string;
+  sLin: string;
+  iId: integer;
+begin
+  if not FCEPPodeConsultar then
+    exit;
+
+//  sText := StrToOnlyDigit(CEPMaskEdit.Text);
+//
+//  L := Length(sText);
+//  if L<> 8 then
+//    exit;
+
+  CEPStatusLabel.Visible := True;
+  CEPStatusLabel.Repaint;
+  SL := TStringList.Create;
+  try
+    BuscarCepViaWeb(sText, SL);
+    if sl.Count = 0 then
+      exit;
+  // uf
+  iLin := SLNLinhaQTem(SL, 'uf');
+  if iLin = -1 then
+    exit;
+  sLin := Trim(SL[iLin]);
+  sLin := Copy(sLin,8,2);
+
+  FMunicipioPodePreparar := False;
+  UFSiglaComboMan.Text := sLin;
+  FMunicipioPodePreparar := True;
+
+  MunicipioPrepareLista(sLin);
+
+  // municipio
+  iLin := SLNLinhaQTem(SL, 'ibge');
+  if iLin = -1 then
+    exit;
+
+  sLin := Trim(SL[iLin]);
+  sLin := Copy(sLin,12,5);
+
+  iId := StrToInteger(sLin);
+  MunComboMan.Id := iId;
+
+  // bairro
+  iLin := SLNLinhaQTem(SL, 'bairro');
+  if iLin = -1 then
+    exit;
+
+  sLin := Trim(SL[iLin]);
+  Delete(sLin, 1, 11);
+  sLin := StrDeleteNoFim(sLIn, 2);
+
+  sLin := StrSemAcento(sLin);
+  sLin := StrSemCharRepetido(sLin, #32);
+
+  BairroEdit.Text := sLin;
+
+  // logradouro
+  iLin := SLNLinhaQTem(SL, 'logradouro');
+  if iLin = -1 then
+    exit;
+
+  sLin := Trim(SL[iLin]);
+  Delete(sLin, 1, 15);
+  sLin := StrDeleteNoFim(sLIn, 2);
+
+  sLin := StrSemAcento(sLin);
+  sLin := StrSemCharRepetido(sLin, #32);
+
+  LogradouroEdit.Text := sLin;
+
+{
+  "cep": "23070-221",
+  "logradouro": "Estrada do Campinho",
+  "complemento": "até 2995 - lado ímpar",
+  "bairro": "Campo Grande",
+  "localidade": "Rio de Janeiro",
+  "uf": "RJ",
+  "ibge": "3304557"
+}
+
+  finally
+    SL.Free;
+    CEPStatusLabel.Visible := False;
+  end;
 end;
 
 procedure TEnderControlsFrame.ReferenciaMemoKeyPress(Sender: TObject;

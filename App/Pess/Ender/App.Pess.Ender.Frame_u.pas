@@ -8,7 +8,7 @@ uses
   Sis.UI.Frame.Bas_u, Data.DB, App.Pess.Ender.Controls.Frame_u,
   App.Pess.Ender.DBGrid.Frame_u, App.Pess.Ent, Sis.DB.DataSet.Utils,
   App.Pess.DBI, FireDAC.Comp.Client, App.AppInfo, App.Pess.Utils,
-  App.PessEnder.List, App.PessEnder;
+  App.PessEnder.List, App.PessEnder, Sis.UI.IO.Output;
 
 type
   TEnderFrame = class(TBasFrame)
@@ -21,13 +21,14 @@ type
     FEnderDBGridFrame: TEnderDBGridFrame;
     FAppInfo: IAppInfo;
     FOkExecute: TNotifyEvent;
+    FErroOutput: IOutput;
 
     function GetNomeArqTabViewEndereco: string;
     procedure EnderecoFDMemTableAfterScroll(DataSet: TDataSet);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
-      pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent); reintroduce;
+      pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent; pErroOutput: IOutput); reintroduce;
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
@@ -49,12 +50,13 @@ begin
 end;
 
 constructor TEnderFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
-  pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent);
+  pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent; pErroOutput: IOutput);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
   FOkExecute := pOkExecute;
+  FErroOutput := pErroOutput;
   FAppInfo := pAppInfo;
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
@@ -63,7 +65,7 @@ begin
   FFDMemTable.AfterScroll := EnderecoFDMemTableAfterScroll;
 
   FEnderControlsFrame := TEnderControlsFrame.Create(Self, FPessEnt, FPessDBI,
-    FFDMemTable, FOkExecute);
+    FFDMemTable, FOkExecute, FErroOutput);
   FEnderDBGridFrame := TEnderDBGridFrame.Create(Self, FPessEnt, FPessDBI,
     FFDMemTable, FOkExecute);
 

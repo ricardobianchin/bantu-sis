@@ -52,6 +52,11 @@ type
 
     FEnderFrame: TEnderFrame;
 
+    function NomeOk: boolean;
+    function NomeFantasiaOk: boolean;
+    function ApelidoOk: boolean;
+    function COk: boolean;
+
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -77,7 +82,8 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates, Sis.UI.Controls.Utils;
+uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
+  Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils;
 
 
 procedure TPessEdBasForm.AjusteControles;
@@ -139,6 +145,39 @@ begin
   EditKeyPress(Sender, Key);
 end;
 
+function TPessEdBasForm.COk: boolean;
+var
+  sMens: string;
+begin
+  CPessEdit.Text := Trim(CPessEdit.Text);
+
+  try
+    if CPessEdit.Text = '' then
+    begin
+      Result := not FPessEnt.CObrigatorio;
+      if Result then
+        exit;
+
+      sMens := CPessLabel.Caption + ' é obrigatório';
+    end
+    else
+    begin
+      Result := Sis.Types.Codigos.Utils.CNPJValido(CPessEdit.Text, False);
+      if Result then
+        exit;
+      sMens := CPessLabel.Caption + ' inválido';
+      if not FPessEnt.CObrigatorio then
+        sMens := sMens + '. Corrija o campo ou deixe-o vazio';
+    end;
+  finally
+    if not Result then
+    begin
+      ErroOutput.Exibir(sMens);
+      CPessEdit.SetFocus;
+    end;
+  end;
+end;
+
 function TPessEdBasForm.ControlesOk: boolean;
 begin
   Result := TesteEditVazio(NomePessEdit, 'Nome', ErroOutput);
@@ -173,12 +212,12 @@ end;
 constructor TPessEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
-  inherited;
+  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
   FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppInfo,
-    OkAct_DiagExecute);
+    OkAct_DiagExecute, ErroOutput);
 
   DtNascDateTimePicker.Time := 0;
   DtNascDateTimePicker.Date := Date;
@@ -187,6 +226,22 @@ end;
 
 function TPessEdBasForm.DadosOk: boolean;
 begin
+  Result := NomeOk;
+  if not Result then
+    exit;
+
+  Result := NomeFantasiaOk;
+  if not Result then
+    exit;
+
+  Result := ApelidoOk;
+  if not Result then
+    exit;
+
+  Result := COk;
+  if not Result then
+    exit;
+
   Result := FEnderFrame.DadosOk;
 end;
 
@@ -235,7 +290,7 @@ end;
 
 function TPessEdBasForm.GetObjetivoStr: string;
 var
-  sFormat, sTit, sNom, sId, sVal: string;
+  sFormat, sTit, sNom, sVal: string;
 begin
   sTit := EntEd.StateAsTitulo;
   sNom := EntEd.NomeEnt;
@@ -271,11 +326,52 @@ begin
   EditKeyPress(Sender, Key);
 end;
 
+function TPessEdBasForm.ApelidoOk: boolean;
+begin
+  Result := not ApelidoPessLabel.Visible;
+
+  if Result then
+    exit;
+
+  ApelidoPessEdit.Text := Trim(ApelidoPessEdit.Text);
+  Result := ApelidoPessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir(ApelidoPessLabel.Caption + ' é obrigatório');
+  ApelidoPessEdit.SetFocus
+end;
+
 procedure TPessEdBasForm.NomeFantaPessEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   //inherited;
   EditKeyPress(Sender, Key);
+end;
+
+function TPessEdBasForm.NomeFantasiaOk: boolean;
+begin
+  NomeFantaPessEdit.Text := Trim(NomeFantaPessEdit.Text);
+  Result := NomeFantaPessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir('Nome Fantasia é obrigatório');
+  NomeFantaPessEdit.SetFocus
+end;
+
+function TPessEdBasForm.NomeOk: boolean;
+begin
+  NomePessEdit.Text := Trim(NomePessEdit.Text);
+  Result := NomePessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir('Nome é obrigatório');
+  NomePessEdit.SetFocus
 end;
 
 procedure TPessEdBasForm.NomePessEditKeyPress(Sender: TObject; var Key: Char);
@@ -291,7 +387,6 @@ procedure TPessEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   NomePessEdit.SetFocus;
-  SetTabOrderToHint(Self)
 end;
 
 end.

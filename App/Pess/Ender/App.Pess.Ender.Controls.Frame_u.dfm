@@ -68,7 +68,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Caption = 'Referencia'
   end
   object UFSiglaLabel: TLabel
-    Left = 97
+    Left = 98
     Top = 8
     Width = 14
     Height = 15
@@ -87,6 +87,21 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Width = 115
     Height = 13
     Caption = 'Trazendo munic'#237'pios...'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 192
+    Font.Height = -11
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+    StyleElements = []
+  end
+  object CEPStatusLabel: TLabel
+    Left = 4
+    Top = 27
+    Width = 81
+    Height = 13
+    Caption = 'Buscando CEP...'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 192
     Font.Height = -11
@@ -229,12 +244,12 @@ inherited EnderControlsFrame: TEnderControlsFrame
   object CEPMaskEdit: TMaskEdit
     Left = 30
     Top = 4
-    Width = 60
+    Width = 63
     Height = 23
     EditMask = '00000-000'
     MaxLength = 9
     TabOrder = 0
-    Text = '     -   '
+    Text = '23070-221'
     OnKeyPress = CEPMaskEditKeyPress
   end
   object MunicipioPrepareListaTimer: TTimer
