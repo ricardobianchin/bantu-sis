@@ -4,25 +4,28 @@ interface
 
 uses System.Classes;
 
-procedure SLRemoveCommentsSingleLine(pSL:TStrings);
-procedure SLRemoveCommentsMultiLine(pSL:TStrings);
-procedure SLManterEntre(pSL:TStrings; pStrIni, pStrFin: string);
-procedure SLRemoveVazias(pSL:TStrings);
-procedure SLUpperCase(pSL:TStrings);
-function SLGetAsString(pSL:TStrings; pSeparador: string): string;
+procedure SLRemoveCommentsSingleLine(pSL: TStrings);
+procedure SLRemoveCommentsMultiLine(pSL: TStrings);
+procedure SLManterEntre(pSL: TStrings; pStrIni, pStrFin: string);
+procedure SLRemoveVazias(pSL: TStrings);
+procedure SLUpperCase(pSL: TStrings);
+function SLGetAsString(pSL: TStrings; pSeparador: string): string;
 
 // o uso de tstrings.duplicate so funciona se sort=true
-//quando nao posso alterar a ordem dos itens, uso esta funcion
-procedure SLAddUnique(pSL:TStrings; pStr: string);
+// quando nao posso alterar a ordem dos itens, uso esta funcion
+procedure SLAddUnique(pSL: TStrings; pStr: string);
+
+function SLNLinhaQTem(pSL: TStrings; pS: string; pNLinhaInic: integer = 0;
+  IgnoraCase: boolean = true): integer;
 
 implementation
 
 uses System.SysUtils, Sis.Types.strings_u;
 
-procedure SLRemoveCommentsSingleLine(pSL:TStrings);
+procedure SLRemoveCommentsSingleLine(pSL: TStrings);
 var
-  iLin: Integer;
-  iPos: Integer;
+  iLin: integer;
+  iPos: integer;
   sLinha: string;
 begin
   for iLin := 0 to pSL.Count - 1 do
@@ -39,11 +42,11 @@ begin
   end;
 end;
 
-procedure SLRemoveCommentsMultiLine(pSL:TStrings);
+procedure SLRemoveCommentsMultiLine(pSL: TStrings);
 var
-  i: Integer;
+  i: integer;
   s: string;
-  inComment: Boolean;
+  inComment: boolean;
 begin
   inComment := False; // flag para indicar se estamos dentro de um comentário
   for i := 0 to pSL.Count - 1 do
@@ -53,7 +56,8 @@ begin
     begin
       if Pos('*/', s) > 0 then // procurar pelo fim do comentário
       begin
-        s := Copy(s, Pos('*/', s) + 2, Length(s)); // remover tudo até o fim do comentário
+        s := Copy(s, Pos('*/', s) + 2, Length(s));
+        // remover tudo até o fim do comentário
         inComment := False; // atualizar a flag
       end
       else // se não há fim do comentário na linha atual
@@ -65,15 +69,18 @@ begin
     begin
       if Pos('/*', s) > 0 then // procurar pelo início do comentário
       begin
-        inComment := True; // atualizar a flag
-        if Pos('*/', s) > 0 then // procurar pelo fim do comentário na mesma linha
+        inComment := true; // atualizar a flag
+        if Pos('*/', s) > 0 then
+        // procurar pelo fim do comentário na mesma linha
         begin
-          s := Copy(s, 1, Pos('/*', s) - 1) + ' ' + Copy(s, Pos('*/', s) + 2, Length(s)); // remover o comentário da linha
+          s := Copy(s, 1, Pos('/*', s) - 1) + ' ' + Copy(s, Pos('*/', s) + 2,
+            Length(s)); // remover o comentário da linha
           inComment := False; // atualizar a flag novamente
         end
         else // se não há fim do comentário na mesma linha
         begin
-          s := Copy(s, 1, Pos('/*', s) - 1); // remover tudo a partir do início do comentário
+          s := Copy(s, 1, Pos('/*', s) - 1);
+          // remover tudo a partir do início do comentário
         end;
       end;
     end;
@@ -81,10 +88,10 @@ begin
   end;
 end;
 
-procedure SLManterEntre(pSL:TStrings; pStrIni, pStrFin: string);
+procedure SLManterEntre(pSL: TStrings; pStrIni, pStrFin: string);
 var
-  i, j: Integer;
-  flag: Boolean;
+  i, j: integer;
+  flag: boolean;
   sLinha: string;
 begin
   pStrIni := UpperCase(pStrIni);
@@ -97,7 +104,7 @@ begin
     sLinha := UpperCase(pSL[i]);
     if sLinha = pStrIni then // se encontrou a linha inicial
     begin
-      flag := True; // ativa o flag
+      flag := true; // ativa o flag
       for j := 0 to i do // apaga as linhas anteriores e a atual
         pSL.Delete(0);
       i := 0; // reinicia o índice
@@ -115,56 +122,82 @@ begin
   end;
 end;
 
-procedure SLRemoveVazias(pSL:TStrings);
+procedure SLRemoveVazias(pSL: TStrings);
 var
-  I: Integer;
-  S: string;
+  i: integer;
+  s: string;
 begin
-  I := 0;
-  while I < pSL.Count do
+  i := 0;
+  while i < pSL.Count do
   begin
-    S := StrSemCharRepetido(pSL[I]);
-    if S = '' then
-      pSL.Delete(I)
+    s := StrSemCharRepetido(pSL[i]);
+    if s = '' then
+      pSL.Delete(i)
     else
     begin
-      pSL[I] := S;
-      inc(I);
+      pSL[i] := s;
+      Inc(i);
     end;
   end;
 end;
 
-procedure SLUpperCase(pSL:TStrings);
+procedure SLUpperCase(pSL: TStrings);
 var
-  I: Integer;
+  i: integer;
 begin
-  for I := 0 to pSL.Count - 1 do
+  for i := 0 to pSL.Count - 1 do
   begin
-    pSL[I] := UpperCase(pSL[I]);
+    pSL[i] := UpperCase(pSL[i]);
   end;
 end;
 
-procedure SLAddUnique(pSL:TStrings; pStr: string);
+procedure SLAddUnique(pSL: TStrings; pStr: string);
 var
-  I: integer;
+  i: integer;
 begin
-  I := pSL.IndexOf(pStr);
-  if I > -1 then
+  i := pSL.IndexOf(pStr);
+  if i > -1 then
     exit;
   pSL.Add(pStr);
 end;
 
-function SLGetAsString(pSL:TStrings; pSeparador: string): string;
+function SLGetAsString(pSL: TStrings; pSeparador: string): string;
 var
-  I: integer;
+  i: integer;
 begin
   Result := '';
 
-  for I := 0 to pSL.Count - 1 do
+  for i := 0 to pSL.Count - 1 do
   begin
     if Result <> '' then
       Result := Result + ', ';
-    Result := Result + pSL[I];
+    Result := Result + pSL[i];
+  end;
+end;
+
+function SLNLinhaQTem(pSL: TStrings; pS: string; pNLinhaInic: integer = 0;
+  IgnoraCase: boolean = true): integer;
+var
+  t: integer;
+begin
+  Result := -1;
+  if IgnoraCase then
+  begin
+    for t := pNLinhaInic to pSL.Count - 1 do
+      if Pos(ansiuppercase(pS), ansiuppercase(pSL[t])) <> 0 then
+      begin
+        Result := t;
+        Break;
+      end
+  end
+  else
+  begin
+    for t := pNLinhaInic to pSL.Count - 1 do
+      if Pos(pS, pSL[t]) <> 0 then
+      begin
+        Result := t;
+        Break;
+      end;
   end;
 end;
 
