@@ -96,16 +96,16 @@ inherited PessEdBasForm: TPessEdBasForm
       965
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 546
-      ExplicitLeft = 542
+      Left = 538
+      ExplicitLeft = 534
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 659
-      ExplicitLeft = 655
+      Left = 651
+      ExplicitLeft = 647
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 739
-      ExplicitLeft = 735
+      Left = 731
+      ExplicitLeft = 727
     end
   end
   object NomePessEdit: TEdit [13]
@@ -198,6 +198,24 @@ inherited PessEdBasForm: TPessEdBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 9
+  end
+  object Button1: TButton [23]
+    Left = 185
+    Top = 104
+    Width = 26
+    Height = 17
+    Caption = 'cnpj'
+    TabOrder = 11
+    OnClick = Button1Click
+  end
+  object Button2: TButton [24]
+    Left = 217
+    Top = 104
+    Width = 26
+    Height = 17
+    Caption = 'cpf'
+    TabOrder = 12
+    OnClick = Button2Click
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 176

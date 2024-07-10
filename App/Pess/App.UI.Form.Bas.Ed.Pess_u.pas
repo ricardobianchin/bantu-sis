@@ -33,6 +33,8 @@ type
     DtNascPessLabel: TLabel;
     DtNascDateTimePicker: TDateTimePicker;
     EnderecoPanel: TPanel;
+    Button1: TButton;
+    Button2: TButton;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -45,6 +47,8 @@ type
     procedure DtNascDateTimePickerKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -143,6 +147,25 @@ procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
 begin
   //inherited;
   EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.Button1Click(Sender: TObject);
+var
+  s: string;
+begin
+  inherited;
+  s := CNPJGetRandom;
+  CPessEdit.Text := s
+//function CPFGetRandom: string;
+end;
+
+procedure TPessEdBasForm.Button2Click(Sender: TObject);
+var
+  s: string;
+begin
+  inherited;
+  s := CPFGetRandom;
+  CPessEdit.Text := s
 end;
 
 function TPessEdBasForm.COk: boolean;
