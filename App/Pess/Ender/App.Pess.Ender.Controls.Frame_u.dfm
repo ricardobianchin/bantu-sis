@@ -26,7 +26,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Caption = 'Complemento'
   end
   object BairroLabel: TLabel
-    Left = 593
+    Left = 591
     Top = 7
     Width = 31
     Height = 15
@@ -68,21 +68,21 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Caption = 'Referencia'
   end
   object UFSiglaLabel: TLabel
-    Left = 147
+    Left = 145
     Top = 8
     Width = 14
     Height = 15
     Caption = 'UF'
   end
   object MunicipioLabel: TLabel
-    Left = 226
-    Top = 8
+    Left = 224
+    Top = 6
     Width = 54
     Height = 15
     Caption = 'Munic'#237'pio'
   end
   object MunicipioStatusLabel: TLabel
-    Left = 286
+    Left = 284
     Top = 27
     Width = 115
     Height = 13
@@ -176,7 +176,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = ComplementoEditKeyPress
   end
   object BairroEdit: TEdit
-    Left = 630
+    Left = 628
     Top = 4
     Width = 219
     Height = 23
@@ -241,7 +241,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = ReferenciaMemoKeyPress
   end
   object UFSiglaComboBox: TComboBox
-    Left = 166
+    Left = 164
     Top = 3
     Width = 53
     Height = 23
@@ -252,7 +252,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = UFSiglaComboBoxKeyPress
   end
   object MunicipioComboBox: TComboBox
-    Left = 286
+    Left = 284
     Top = 3
     Width = 300
     Height = 23
