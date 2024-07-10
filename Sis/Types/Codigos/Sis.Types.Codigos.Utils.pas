@@ -4,6 +4,8 @@ interface
 
 function CNPJValido(pCNPJ: string; AceitaNulo: Boolean = True): Boolean;
 function CPFValido(pCPF: string): Boolean;
+function CValido(pC: string): Boolean;
+
 function BarCodValido(pCod: string): Boolean;
 function EAN8Valido(pCod: string): Boolean;
 function EAN13Valido(pCod: string): Boolean;
@@ -232,6 +234,26 @@ begin
     exit;
   result := True;
 
+end;
+
+function CValido(pC: string): Boolean;
+var
+  L: integer;
+begin
+  pC := Trim(pC);
+
+  result := StrIsOnlyDigit(pC);
+  if not result then
+    exit;
+
+  L := Length(pC);
+
+  case L of
+    11:
+      result := CPFValido(pC);
+  else
+    result := CNPJValido(pC, False);
+  end;
 end;
 
 function BarCodValido(pCod: string): Boolean;
@@ -624,15 +646,15 @@ var
   cAtual: char;
   i, ic: integer;
 begin
-  Result := PREFIXO;
+  result := PREFIXO;
   for i := 1 to LEN_DESEJADO do
   begin
     ic := Random(Length(Digitos));
     cAtual := Digitos[ic];
-    Result := Result + cAtual
+    result := result + cAtual
   end;
 
-  Result := Result + CNPJDig(Result);
+  result := result + CNPJDig(result);
 end;
 
 function CPFGetRandom: string;
@@ -647,15 +669,15 @@ var
   cAtual: char;
   i, ic: integer;
 begin
-  Result := PREFIXO;
+  result := PREFIXO;
   for i := 1 to LEN_DESEJADO do
   begin
     ic := Random(Length(Digitos));
     cAtual := Digitos[ic];
-    Result := Result + cAtual
+    result := result + cAtual
   end;
 
-  Result := Result + CPFDig(Result);
+  result := result + CPFDig(result);
 end;
 
 function CNPJDig(pCod: string): string;
@@ -708,7 +730,7 @@ function CPFDig(pCod: string): string;
 var
   soma, p, resto, dv1, dv2: integer;
 begin
-//50419560068
+  // 50419560068
   soma := 0;
   for p := 1 to 9 do
     inc(soma, strtoint(pCod[p]) * (11 - p));
