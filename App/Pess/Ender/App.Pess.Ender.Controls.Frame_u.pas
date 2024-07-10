@@ -246,23 +246,28 @@ begin
   inherited;
   Tab := FFDMemTable;
 
-  Tab.Fields[7 { CEP } ].AsString := CEPMaskEdit.Text;
-  Tab.Fields[6 { UF_SIGLA } ].AsString := UFSiglaComboMan.Text;
+  Tab.Edit;
+  try
+    Tab.Fields[7 { CEP } ].AsString := CEPMaskEdit.Text;
+    Tab.Fields[6 { UF_SIGLA } ].AsString := UFSiglaComboMan.Text;
 
-  Tab.Fields[5 { MUNICIPIO_NOME } ].AsString := MunComboMan.Text;
-  Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString :=
-    IntToStrZero(MunComboMan.Id, 5);
+    Tab.Fields[5 { MUNICIPIO_NOME } ].AsString := MunComboMan.Text;
+    Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString :=
+      IntToStrZero(MunComboMan.Id, 5);
 
-  Tab.Fields[4 { BAIRRO } ].AsString := BairroEdit.Text;
-  Tab.Fields[1 { LOGRADOURO } ].AsString := LogradouroEdit.Text;
-  Tab.Fields[2 { NUMERO } ].AsString := NumeroEdit.Text;
-  Tab.Fields[3 { COMPLEMENTO } ].AsString := ComplementoEdit.Text;
-  Tab.Fields[8 { DDD } ].AsString := DDDEdit.Text;
-  Tab.Fields[9 { FONE1 } ].AsString := Fone1Edit.Text;
-  Tab.Fields[10 { FONE2 } ].AsString := Fone2Edit.Text;
-  Tab.Fields[11 { FONE3 } ].AsString := Fone3Edit.Text;
-  Tab.Fields[12 { CONTATO } ].AsString := ContatoEdit.Text;
-  Tab.Fields[13 { REFERENCIA } ].AsString := ReferenciaMemo.Lines.Text;
+    Tab.Fields[4 { BAIRRO } ].AsString := BairroEdit.Text;
+    Tab.Fields[1 { LOGRADOURO } ].AsString := LogradouroEdit.Text;
+    Tab.Fields[2 { NUMERO } ].AsString := NumeroEdit.Text;
+    Tab.Fields[3 { COMPLEMENTO } ].AsString := ComplementoEdit.Text;
+    Tab.Fields[8 { DDD } ].AsString := DDDEdit.Text;
+    Tab.Fields[9 { FONE1 } ].AsString := Fone1Edit.Text;
+    Tab.Fields[10 { FONE2 } ].AsString := Fone2Edit.Text;
+    Tab.Fields[11 { FONE3 } ].AsString := Fone3Edit.Text;
+    Tab.Fields[12 { CONTATO } ].AsString := ContatoEdit.Text;
+    Tab.Fields[13 { REFERENCIA } ].AsString := ReferenciaMemo.Lines.Text;
+  finally
+    Tab.Post;
+  end;
 end;
 
 constructor TEnderControlsFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
@@ -439,7 +444,7 @@ begin
       finally
         CEPStatusLabel.Visible := False;
         CEPStatusLabel.Repaint;
-    end;
+      end;
 
       if SL.Count = 0 then
         exit;
