@@ -37,11 +37,10 @@ type
     UFSiglaComboBox: TComboBox;
     MunicipioLabel: TLabel;
     MunicipioComboBox: TComboBox;
-    UFSiglaStatusLabel: TLabel;
+    MunicipioStatusLabel: TLabel;
     CEPMaskEdit: TMaskEdit;
     MunicipioPrepareListaTimer: TTimer;
     CEPStatusLabel: TLabel;
-    CepNaoSeiBitBtn: TBitBtn;
     CEPColarSpeedButton: TSpeedButton;
     SpeedButton1: TSpeedButton;
     procedure CEPMaskEditKeyPress(Sender: TObject; var Key: Char);
@@ -75,12 +74,12 @@ type
     UFSiglaComboMan: IComboBoxManager;
     MunComboMan: IComboBoxManager;
 
-    FMunicipioPodePreparar: boolean;
-    FCEPPodeConsultar: boolean;
+    FMunicipioPodePreparar: Boolean;
+    FCEPPodeConsultar: Boolean;
 
     FOkExecute: TNotifyEvent;
 
-    function CepDadosOk: boolean;
+    function CepDadosOk: Boolean;
 
     procedure UFSiglaComboBoxAjuste;
     procedure MunicipioPrepareLista(pUFSigla: string);
@@ -97,7 +96,7 @@ type
     procedure EntToControles;
     procedure Exiba;
     procedure Oculte;
-    function DadosOk: boolean;
+    function DadosOk: Boolean;
   end;
 
   // var
@@ -170,7 +169,7 @@ begin
   ColarCEP;
 end;
 
-function TEnderControlsFrame.CepDadosOk: boolean;
+function TEnderControlsFrame.CepDadosOk: Boolean;
 var
   L: integer;
   sText: string;
@@ -288,7 +287,7 @@ begin
   UFSiglaComboBoxAjuste;
 end;
 
-function TEnderControlsFrame.DadosOk: boolean;
+function TEnderControlsFrame.DadosOk: Boolean;
 begin
   Result := CepDadosOk;
 end;
@@ -377,13 +376,13 @@ begin
   pUFSigla := Trim(pUFSigla);
   if pUFSigla = '' then
     exit;
-  UFSiglaStatusLabel.Visible := True;
-  UFSiglaStatusLabel.Repaint;
+  MunicipioStatusLabel.Visible := True;
+  MunicipioStatusLabel.Repaint;
   try
     FPessDBI.MunicipioPrepareLista(pUFSigla, MunicipioComboBox.Items);
     MunicipioComboBox.ItemIndex := 0;
   finally
-    UFSiglaStatusLabel.Visible := False;
+    MunicipioStatusLabel.Visible := False;
     Repaint;
   end;
 end;
@@ -425,88 +424,93 @@ begin
 
   FPesquisandoCEP := True;
   try
-  sText := StrToOnlyDigit(CEPMaskEdit.Text);
+    sText := StrToOnlyDigit(CEPMaskEdit.Text);
 
-  L := Length(sText);
-  if L <> 8 then
-    exit;
-
-  CEPStatusLabel.Visible := True;
-  CEPStatusLabel.Repaint;
-  SL := TStringList.Create;
-  try
-    BuscarCepViaWeb(sText, SL);
-    if SL.Count = 0 then
-      exit;
-    // uf
-    iLin := SLNLinhaQTem(SL, 'uf');
-    if iLin = -1 then
-      exit;
-    sLin := Trim(SL[iLin]);
-    sLin := Copy(sLin, 8, 2);
-
-    FMunicipioPodePreparar := False;
-    UFSiglaComboMan.Text := sLin;
-    FMunicipioPodePreparar := True;
-
-    MunicipioPrepareLista(sLin);
-
-    // municipio
-    iLin := SLNLinhaQTem(SL, 'ibge');
-    if iLin = -1 then
+    L := Length(sText);
+    if L <> 8 then
       exit;
 
-    sLin := Trim(SL[iLin]);
-    sLin := Copy(sLin, 12, 5);
+    SL := TStringList.Create;
+    try
+      CEPStatusLabel.Visible := True;
+      CEPStatusLabel.Repaint;
+      try
+        BuscarCepViaWeb(sText, SL);
+      finally
+        CEPStatusLabel.Visible := False;
+        CEPStatusLabel.Repaint;
+    end;
 
-    iId := StrToInteger(sLin);
-    MunComboMan.Id := iId;
+      if SL.Count = 0 then
+        exit;
+      // uf
+      iLin := SLNLinhaQTem(SL, 'uf');
+      if iLin = -1 then
+        exit;
+      sLin := Trim(SL[iLin]);
+      sLin := Copy(sLin, 8, 2);
 
-    // bairro
-    iLin := SLNLinhaQTem(SL, 'bairro');
-    if iLin = -1 then
-      exit;
+      FMunicipioPodePreparar := False;
+      UFSiglaComboMan.Text := sLin;
+      FMunicipioPodePreparar := True;
 
-    sLin := Trim(SL[iLin]);
-    Delete(sLin, 1, 11);
-    sLin := StrDeleteNoFim(sLin, 2);
+      MunicipioPrepareLista(sLin);
 
-    sLin := StrSemAcento(sLin);
-    sLin := StrSemCharRepetido(sLin, #32);
+      // municipio
+      iLin := SLNLinhaQTem(SL, 'ibge');
+      if iLin = -1 then
+        exit;
 
-    BairroEdit.Text := sLin;
+      sLin := Trim(SL[iLin]);
+      sLin := Copy(sLin, 12, 5);
 
-    // logradouro
-    iLin := SLNLinhaQTem(SL, 'logradouro');
-    if iLin = -1 then
-      exit;
+      iId := StrToInteger(sLin);
+      MunComboMan.Id := iId;
 
-    sLin := Trim(SL[iLin]);
-    Delete(sLin, 1, 15);
-    sLin := StrDeleteNoFim(sLin, 2);
+      // bairro
+      iLin := SLNLinhaQTem(SL, 'bairro');
+      if iLin = -1 then
+        exit;
 
-    sLin := StrSemAcento(sLin);
-    sLin := StrSemCharRepetido(sLin, #32);
+      sLin := Trim(SL[iLin]);
+      Delete(sLin, 1, 11);
+      sLin := StrDeleteNoFim(sLin, 2);
 
-    LogradouroEdit.Text := sLin;
+      sLin := StrSemAcento(sLin);
+      sLin := StrSemCharRepetido(sLin, #32);
 
-    {
-      "cep": "23070-221",
-      "logradouro": "Estrada do Campinho",
-      "complemento": "até 2995 - lado ímpar",
-      "bairro": "Campo Grande",
-      "localidade": "Rio de Janeiro",
-      "uf": "RJ",
-      "ibge": "3304557"
-    }
+      BairroEdit.Text := sLin;
 
-  finally
-    SL.Free;
-    CEPStatusLabel.Visible := False;
-  end;
+      // logradouro
+      iLin := SLNLinhaQTem(SL, 'logradouro');
+      if iLin = -1 then
+        exit;
+
+      sLin := Trim(SL[iLin]);
+      Delete(sLin, 1, 15);
+      sLin := StrDeleteNoFim(sLin, 2);
+
+      sLin := StrSemAcento(sLin);
+      sLin := StrSemCharRepetido(sLin, #32);
+
+      LogradouroEdit.Text := sLin;
+
+      {
+        "cep": "23070-221",
+        "logradouro": "Estrada do Campinho",
+        "complemento": "até 2995 - lado ímpar",
+        "bairro": "Campo Grande",
+        "localidade": "Rio de Janeiro",
+        "uf": "RJ",
+        "ibge": "3304557"
+      }
+
+    finally
+      SL.Free;
+      CEPStatusLabel.Visible := False;
+    end;
   finally
     FPesquisandoCEP := False;
-
   end;
 end;
 
@@ -527,13 +531,13 @@ procedure TEnderControlsFrame.SpeedButton1Click(Sender: TObject);
 var
   Url: string;
 begin
-  CepNaoSeiBitBtn.Enabled := False;
+  SpeedButton1.Enabled := False;
   Application.ProcessMessages;
   try
     Url := 'https://buscacepinter.correios.com.br/';
     ShellExecute(0, 'open', PChar(Url), nil, nil, SW_SHOWNORMAL);
   finally
-    CepNaoSeiBitBtn.Enabled := True;
+    SpeedButton1.Enabled := True;
   end;
 end;
 

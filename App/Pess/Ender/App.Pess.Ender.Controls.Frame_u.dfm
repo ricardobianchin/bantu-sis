@@ -81,8 +81,8 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Height = 15
     Caption = 'Munic'#237'pio'
   end
-  object UFSiglaStatusLabel: TLabel
-    Left = 115
+  object MunicipioStatusLabel: TLabel
+    Left = 286
     Top = 27
     Width = 115
     Height = 13
@@ -112,7 +112,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     StyleElements = []
   end
   object CEPColarSpeedButton: TSpeedButton
-    Left = 93
+    Left = 92
     Top = 4
     Width = 23
     Height = 22
@@ -122,7 +122,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnClick = CEPColarSpeedButtonClick
   end
   object SpeedButton1: TSpeedButton
-    Left = 115
+    Left = 114
     Top = 4
     Width = 23
     Height = 22
@@ -272,16 +272,6 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Text = '23070-221'
     OnKeyDown = CEPMaskEditKeyDown
     OnKeyPress = CEPMaskEditKeyPress
-  end
-  object CepNaoSeiBitBtn: TBitBtn
-    Left = 82
-    Top = 144
-    Width = 108
-    Height = 25
-    Caption = 'N'#227'o sei o CEP'
-    ImageIndex = 2
-    Images = SisImgDataModule.ImageList16Flat
-    TabOrder = 14
   end
   object MunicipioPrepareListaTimer: TTimer
     Enabled = False
