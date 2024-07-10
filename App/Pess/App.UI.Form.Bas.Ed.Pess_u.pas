@@ -87,8 +87,7 @@ implementation
 {$R *.dfm}
 
 uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
-  Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils;
-
+  Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types;
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -118,15 +117,15 @@ begin
   NomePessEdit.SetFocus;
   AjusteTabOrder;
 
-  NomePessEdit.OnKeyPress :=          NomePessEditKeyPress;
-  NomeFantaPessEdit.OnKeyPress :=     NomeFantaPessEditKeyPress;
-  ApelidoPessEdit.OnKeyPress :=       ApelidoPessEditKeyPress;
-  CPessEdit.OnKeyPress :=             CPessEditKeyPress;
-  IPessEdit.OnKeyPress :=             IPessEditKeyPress;
-  MPessEditEdit.OnKeyPress :=         MPessEditEditKeyPress;
-  MUFPessEdit.OnKeyPress :=           MUFPessEditKeyPress;
-  EMailPessEdit.OnKeyPress :=         EMailPessEditKeyPress;
-  DtNascDateTimePicker.OnKeyPress :=  DtNascDateTimePickerKeyPress;
+  NomePessEdit.OnKeyPress := NomePessEditKeyPress;
+  NomeFantaPessEdit.OnKeyPress := NomeFantaPessEditKeyPress;
+  ApelidoPessEdit.OnKeyPress := ApelidoPessEditKeyPress;
+  CPessEdit.OnKeyPress := CPessEditKeyPress;
+  IPessEdit.OnKeyPress := IPessEditKeyPress;
+  MPessEditEdit.OnKeyPress := MPessEditEditKeyPress;
+  MUFPessEdit.OnKeyPress := MUFPessEditKeyPress;
+  EMailPessEdit.OnKeyPress := EMailPessEditKeyPress;
+  DtNascDateTimePicker.OnKeyPress := DtNascDateTimePickerKeyPress;
 end;
 
 procedure TPessEdBasForm.AjusteTabOrder;
@@ -145,7 +144,7 @@ end;
 procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
@@ -156,7 +155,7 @@ begin
   inherited;
   s := CNPJGetRandom;
   CPessEdit.Text := s
-//function CPFGetRandom: string;
+  // function CPFGetRandom: string;
 end;
 
 procedure TPessEdBasForm.Button2Click(Sender: TObject);
@@ -171,6 +170,9 @@ end;
 function TPessEdBasForm.COk: boolean;
 var
   sMens: string;
+  iLojaId, iTerminalId: smallint;
+  iPessoaId: integer;
+  sNome: string;
 begin
   CPessEdit.Text := Trim(CPessEdit.Text);
 
@@ -185,12 +187,19 @@ begin
     end
     else
     begin
-      Result := Sis.Types.Codigos.Utils.CNPJValido(CPessEdit.Text, False);
+      Result := Sis.Types.Codigos.Utils.CValido(CPessEdit.Text);
       if Result then
         exit;
       sMens := CPessLabel.Caption + ' inválido';
       if not FPessEnt.CObrigatorio then
         sMens := sMens + '. Corrija o campo ou deixe-o vazio';
+
+      Result := not FPessDBI.CToIdLojaTermRecord(CPessEdit.Text, iLojaId,
+        iTerminalId, iPessoaId, sNome);
+      if not Result then
+        sMens := 'Já existe um registro com este ' + string(CPessLabel.Caption) +
+          CodsToCodAsString(iLojaId, iTerminalId, iPessoaId,
+          FPessEnt.CodUsaTerminalId) + ' ' + sNome;
     end;
   finally
     if not Result then
@@ -228,7 +237,7 @@ end;
 
 procedure TPessEdBasForm.CPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
@@ -271,14 +280,14 @@ end;
 procedure TPessEdBasForm.DtNascDateTimePickerKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
-//  FEnderFrame.FoqueOPrimeiro;
+  // FEnderFrame.FoqueOPrimeiro;
 end;
 
 procedure TPessEdBasForm.EMailPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
@@ -302,13 +311,13 @@ procedure TPessEdBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-//
+  //
 end;
 
 procedure TPessEdBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-//
+  //
 end;
 
 function TPessEdBasForm.GetObjetivoStr: string;
@@ -328,24 +337,24 @@ end;
 
 function TPessEdBasForm.GravouOk: boolean;
 begin
-  Result := EntDBI.Gravar;
+  Result := EntDBI.Garantir;
 end;
 
 procedure TPessEdBasForm.IPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
 procedure TPessEdBasForm.MPessEditEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
 procedure TPessEdBasForm.MUFPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
@@ -369,7 +378,7 @@ end;
 procedure TPessEdBasForm.NomeFantaPessEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
 end;
 
@@ -399,11 +408,11 @@ end;
 
 procedure TPessEdBasForm.NomePessEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  //inherited;
+  // inherited;
   EditKeyPress(Sender, Key);
-  if key = #13 then
+  if Key = #13 then
     NomeFantaPessEdit.SetFocus;
-//SelectNext(NomePessEdit,True, True);
+  // SelectNext(NomePessEdit,True, True);
 end;
 
 procedure TPessEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);

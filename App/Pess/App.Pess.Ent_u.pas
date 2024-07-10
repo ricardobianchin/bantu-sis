@@ -3,7 +3,7 @@ unit App.Pess.Ent_u;
 interface
 
 uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List,
-  App.Pess.Utils;
+  Sis.Types, App.Pess.Utils;
 
 type
   TPessEnt = class(TEntEdId, IPessEnt)
