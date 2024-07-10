@@ -26,7 +26,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Caption = 'Complemento'
   end
   object BairroLabel: TLabel
-    Left = 544
+    Left = 593
     Top = 7
     Width = 31
     Height = 15
@@ -47,14 +47,14 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Caption = 'DDD'
   end
   object TelefonesLabel: TLabel
-    Left = 87
+    Left = 84
     Top = 84
     Width = 49
     Height = 15
     Caption = 'Telefones'
   end
   object ContatoLabel: TLabel
-    Left = 473
+    Left = 470
     Top = 84
     Width = 43
     Height = 15
@@ -68,14 +68,14 @@ inherited EnderControlsFrame: TEnderControlsFrame
     Caption = 'Referencia'
   end
   object UFSiglaLabel: TLabel
-    Left = 98
+    Left = 147
     Top = 8
     Width = 14
     Height = 15
     Caption = 'UF'
   end
   object MunicipioLabel: TLabel
-    Left = 177
+    Left = 226
     Top = 8
     Width = 54
     Height = 15
@@ -110,6 +110,26 @@ inherited EnderControlsFrame: TEnderControlsFrame
     ParentFont = False
     Visible = False
     StyleElements = []
+  end
+  object CEPColarSpeedButton: TSpeedButton
+    Left = 93
+    Top = 4
+    Width = 23
+    Height = 22
+    Hint = 'Colar CEP'
+    ImageIndex = 4
+    Images = SisImgDataModule.ImageList16Flat
+    OnClick = CEPColarSpeedButtonClick
+  end
+  object SpeedButton1: TSpeedButton
+    Left = 115
+    Top = 4
+    Width = 23
+    Height = 22
+    Hint = 'N'#227'o sei o CEP...'
+    ImageIndex = 2
+    Images = SisImgDataModule.ImageList16Flat
+    OnClick = SpeedButton1Click
   end
   object LogradouroEdit: TEdit
     Left = 71
@@ -156,7 +176,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = ComplementoEditKeyPress
   end
   object BairroEdit: TEdit
-    Left = 581
+    Left = 630
     Top = 4
     Width = 219
     Height = 23
@@ -174,7 +194,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = DDDEditKeyPress
   end
   object Fone1Edit: TEdit
-    Left = 141
+    Left = 138
     Top = 81
     Width = 103
     Height = 23
@@ -184,7 +204,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = Fone1EditKeyPress
   end
   object Fone2Edit: TEdit
-    Left = 252
+    Left = 249
     Top = 81
     Width = 103
     Height = 23
@@ -193,7 +213,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = Fone2EditKeyPress
   end
   object Fone3Edit: TEdit
-    Left = 362
+    Left = 359
     Top = 81
     Width = 103
     Height = 23
@@ -202,9 +222,9 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = Fone3EditKeyPress
   end
   object ContatoEdit: TEdit
-    Left = 521
+    Left = 518
     Top = 81
-    Width = 216
+    Width = 192
     Height = 23
     MaxLength = 60
     TabOrder = 11
@@ -221,7 +241,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = ReferenciaMemoKeyPress
   end
   object UFSiglaComboBox: TComboBox
-    Left = 117
+    Left = 166
     Top = 3
     Width = 53
     Height = 23
@@ -232,7 +252,7 @@ inherited EnderControlsFrame: TEnderControlsFrame
     OnKeyPress = UFSiglaComboBoxKeyPress
   end
   object MunicipioComboBox: TComboBox
-    Left = 237
+    Left = 286
     Top = 3
     Width = 300
     Height = 23
@@ -250,7 +270,18 @@ inherited EnderControlsFrame: TEnderControlsFrame
     MaxLength = 9
     TabOrder = 0
     Text = '23070-221'
+    OnKeyDown = CEPMaskEditKeyDown
     OnKeyPress = CEPMaskEditKeyPress
+  end
+  object CepNaoSeiBitBtn: TBitBtn
+    Left = 82
+    Top = 144
+    Width = 108
+    Height = 25
+    Caption = 'N'#227'o sei o CEP'
+    ImageIndex = 2
+    Images = SisImgDataModule.ImageList16Flat
+    TabOrder = 14
   end
   object MunicipioPrepareListaTimer: TTimer
     Enabled = False

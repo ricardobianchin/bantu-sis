@@ -8,7 +8,7 @@ uses
   Sis.UI.Frame.Bas_u, App.Pess.Ent, App.Pess.DBI, Data.DB, FireDAC.Comp.Client,
   Vcl.ExtCtrls, Vcl.StdCtrls, Sis.UI.Controls.Utils, App.PessEnder,
   Sis.UI.Controls.ComboBoxManager, Sis.Types.Integers, Vcl.Mask,
-  Sis.UI.IO.Output;
+  Sis.UI.IO.Output, Vcl.Buttons;
 
 type
   TEnderControlsFrame = class(TBasFrame)
@@ -41,12 +41,18 @@ type
     CEPMaskEdit: TMaskEdit;
     MunicipioPrepareListaTimer: TTimer;
     CEPStatusLabel: TLabel;
+    CepNaoSeiBitBtn: TBitBtn;
+    CEPColarSpeedButton: TSpeedButton;
+    SpeedButton1: TSpeedButton;
+    procedure CEPMaskEditKeyPress(Sender: TObject; var Key: Char);
+    procedure CEPMaskEditKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+
     procedure UFSiglaComboBoxChange(Sender: TObject);
     procedure UFSiglaComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioPrepareListaTimerTimer(Sender: TObject);
     procedure ReferenciaMemoKeyPress(Sender: TObject; var Key: Char);
-    procedure CEPMaskEditKeyPress(Sender: TObject; var Key: Char);
     procedure BairroEditKeyPress(Sender: TObject; var Key: Char);
     procedure LogradouroEditKeyPress(Sender: TObject; var Key: Char);
     procedure NumeroEditKeyPress(Sender: TObject; var Key: Char);
@@ -56,12 +62,15 @@ type
     procedure Fone2EditKeyPress(Sender: TObject; var Key: Char);
     procedure Fone3EditKeyPress(Sender: TObject; var Key: Char);
     procedure ContatoEditKeyPress(Sender: TObject; var Key: Char);
+    procedure CEPColarSpeedButtonClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
     FPessDBI: IPessDBI;
     FFDMemTable: TFDMemTable;
     FErroOutput: IOutput;
+    FPesquisandoCEP: Boolean;
 
     UFSiglaComboMan: IComboBoxManager;
     MunComboMan: IComboBoxManager;
@@ -73,10 +82,10 @@ type
 
     function CepDadosOk: boolean;
 
-
     procedure UFSiglaComboBoxAjuste;
     procedure MunicipioPrepareLista(pUFSigla: string);
     procedure PesquiseCEP;
+    procedure ColarCEP;
 
   public
     { Public declarations }
@@ -91,15 +100,16 @@ type
     function DadosOk: boolean;
   end;
 
-//var
-//  EnderControlsFrame: TEnderControlsFrame;
+  // var
+  // EnderControlsFrame: TEnderControlsFrame;
 
 implementation
 
 {$R *.dfm}
 
 uses Sis.UI.Controls.Factory, Sis.Types.Utils_u, Sis.Types.strings_u,
-  Sis.Web.HTTPGet.Net_u, Sis.Types.TStrings_u, System.StrUtils;
+  Sis.UI.ImgDM, Sis.Web.HTTPGet.Net_u, Sis.Types.TStrings_u, System.StrUtils,
+  Sis.Win.Utils_u, Winapi.ShellAPI;
 
 { TEnderControlsFrame }
 
@@ -154,6 +164,12 @@ begin
 
 end;
 
+procedure TEnderControlsFrame.CEPColarSpeedButtonClick(Sender: TObject);
+begin
+  inherited;
+  ColarCEP;
+end;
+
 function TEnderControlsFrame.CepDadosOk: boolean;
 var
   L: integer;
@@ -162,11 +178,28 @@ begin
   sText := StrToOnlyDigit(CEPMaskEdit.Text);
 
   L := Length(sText);
-  Result := (L = 0) or (L=8);
+  Result := (L = 0) or (L = 8);
 
   if Result then
     exit;
-  FErroOutput.Exibir('CEP inválido. Corrija o campo ou deixe-o em branco')
+  FErroOutput.Exibir('O campo CEP deve ter 8 dígitos ou ser deixado vazio')
+end;
+
+procedure TEnderControlsFrame.CEPMaskEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  sText: string;
+begin
+  inherited;
+  case Key of
+    ord('v'), ord('V'):
+      begin
+        if Shift = [ssCtrl] then
+        begin
+          ColarCEP;
+        end;
+      end;
+  end;
 end;
 
 procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
@@ -176,6 +209,21 @@ begin
   if Key = CHAR_ENTER then
     PesquiseCEP;
   EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.ColarCEP;
+var
+  sText: string;
+begin
+  inherited;
+  sText := GetClipboardText;
+  sText := StrToOnlyDigit(sText);
+
+  if sText = '' then
+    exit;
+
+  sText := LeftStr(sText, 8);
+  CEPMaskEdit.Text := sText;
 end;
 
 procedure TEnderControlsFrame.ComplementoEditKeyPress(Sender: TObject;
@@ -199,22 +247,23 @@ begin
   inherited;
   Tab := FFDMemTable;
 
-  Tab.Fields[7 {CEP}].AsString := CEPMaskEdit.Text;
-  Tab.Fields[6 {UF_SIGLA}].AsString := UFSiglaComboMan.Text;
+  Tab.Fields[7 { CEP } ].AsString := CEPMaskEdit.Text;
+  Tab.Fields[6 { UF_SIGLA } ].AsString := UFSiglaComboMan.Text;
 
-  Tab.Fields[5 {MUNICIPIO_NOME}].AsString := MunComboMan.Text;
-  Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsString := IntToStrZero( MunComboMan.Id, 5);
+  Tab.Fields[5 { MUNICIPIO_NOME } ].AsString := MunComboMan.Text;
+  Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString :=
+    IntToStrZero(MunComboMan.Id, 5);
 
-  Tab.Fields[4 {BAIRRO}].AsString := BairroEdit.Text;
-  Tab.Fields[1 {LOGRADOURO}].AsString := LogradouroEdit.Text;
-  Tab.Fields[2 {NUMERO}].AsString := NumeroEdit.Text;
-  Tab.Fields[3 {COMPLEMENTO}].AsString := ComplementoEdit.Text;
-  Tab.Fields[8 {DDD}].AsString := DDDEdit.Text;
-  Tab.Fields[9 {FONE1}].AsString := Fone1Edit.Text;
-  Tab.Fields[10 {FONE2}].AsString := Fone2Edit.Text;
-  Tab.Fields[11 {FONE3}].AsString := Fone3Edit.Text;
-  Tab.Fields[12 {CONTATO}].AsString := ContatoEdit.Text;
-  Tab.Fields[13 {REFERENCIA}].AsString := ReferenciaMemo.Lines.Text;
+  Tab.Fields[4 { BAIRRO } ].AsString := BairroEdit.Text;
+  Tab.Fields[1 { LOGRADOURO } ].AsString := LogradouroEdit.Text;
+  Tab.Fields[2 { NUMERO } ].AsString := NumeroEdit.Text;
+  Tab.Fields[3 { COMPLEMENTO } ].AsString := ComplementoEdit.Text;
+  Tab.Fields[8 { DDD } ].AsString := DDDEdit.Text;
+  Tab.Fields[9 { FONE1 } ].AsString := Fone1Edit.Text;
+  Tab.Fields[10 { FONE2 } ].AsString := Fone2Edit.Text;
+  Tab.Fields[11 { FONE3 } ].AsString := Fone3Edit.Text;
+  Tab.Fields[12 { CONTATO } ].AsString := ContatoEdit.Text;
+  Tab.Fields[13 { REFERENCIA } ].AsString := ReferenciaMemo.Lines.Text;
 end;
 
 constructor TEnderControlsFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
@@ -227,6 +276,7 @@ begin
 
   FMunicipioPodePreparar := False;
   FCEPPodeConsultar := False;
+  FPesquisandoCEP := False;
 
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
@@ -258,27 +308,27 @@ begin
   Tab := FFDMemTable;
 
   FCEPPodeConsultar := False;
-  CEPMaskEdit.Text := Tab.Fields[7 {CEP}].AsString;
+  CEPMaskEdit.Text := Tab.Fields[7 { CEP } ].AsString;
   FCEPPodeConsultar := True;
 
   FMunicipioPodePreparar := False;
-  UFSiglaComboMan.Text := Trim(Tab.Fields[6 {UF_SIGLA}].AsString);
+  UFSiglaComboMan.Text := Trim(Tab.Fields[6 { UF_SIGLA } ].AsString);
   FMunicipioPodePreparar := True;
 
   MunicipioPrepareLista(UFSiglaComboMan.Text);
-  iId := StrToInteger(Tab.Fields[14 {MUNICIPIO_IBGE_ID}].AsString);
+  iId := StrToInteger(Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString);
   MunComboMan.Id := iId;
 
-  BairroEdit.Text := Tab.Fields[4 {BAIRRO}].AsString;
-  LogradouroEdit.Text := Tab.Fields[1 {LOGRADOURO}].AsString;
-  NumeroEdit.Text := Tab.Fields[2 {NUMERO}].AsString;
-  ComplementoEdit.Text := Tab.Fields[3 {COMPLEMENTO}].AsString;
-  DDDEdit.Text := Tab.Fields[8 {DDD}].AsString;
-  Fone1Edit.Text := Tab.Fields[9 {FONE1}].AsString;
-  Fone2Edit.Text := Tab.Fields[10 {FONE2}].AsString;
-  Fone3Edit.Text := Tab.Fields[11 {FONE3}].AsString;
-  ContatoEdit.Text := Tab.Fields[12 {CONTATO}].AsString;
-  ReferenciaMemo.Lines.Text := Tab.Fields[13 {REFERENCIA}].AsString;
+  BairroEdit.Text := Tab.Fields[4 { BAIRRO } ].AsString;
+  LogradouroEdit.Text := Tab.Fields[1 { LOGRADOURO } ].AsString;
+  NumeroEdit.Text := Tab.Fields[2 { NUMERO } ].AsString;
+  ComplementoEdit.Text := Tab.Fields[3 { COMPLEMENTO } ].AsString;
+  DDDEdit.Text := Tab.Fields[8 { DDD } ].AsString;
+  Fone1Edit.Text := Tab.Fields[9 { FONE1 } ].AsString;
+  Fone2Edit.Text := Tab.Fields[10 { FONE2 } ].AsString;
+  Fone3Edit.Text := Tab.Fields[11 { FONE3 } ].AsString;
+  ContatoEdit.Text := Tab.Fields[12 { CONTATO } ].AsString;
+  ReferenciaMemo.Lines.Text := Tab.Fields[13 { REFERENCIA } ].AsString;
 end;
 
 procedure TEnderControlsFrame.Exiba;
@@ -370,84 +420,93 @@ begin
   if not FCEPPodeConsultar then
     exit;
 
-//  sText := StrToOnlyDigit(CEPMaskEdit.Text);
-//
-//  L := Length(sText);
-//  if L<> 8 then
-//    exit;
+  if FPesquisandoCEP then
+    exit;
+
+  FPesquisandoCEP := True;
+  try
+  sText := StrToOnlyDigit(CEPMaskEdit.Text);
+
+  L := Length(sText);
+  if L <> 8 then
+    exit;
 
   CEPStatusLabel.Visible := True;
   CEPStatusLabel.Repaint;
   SL := TStringList.Create;
   try
     BuscarCepViaWeb(sText, SL);
-    if sl.Count = 0 then
+    if SL.Count = 0 then
       exit;
-  // uf
-  iLin := SLNLinhaQTem(SL, 'uf');
-  if iLin = -1 then
-    exit;
-  sLin := Trim(SL[iLin]);
-  sLin := Copy(sLin,8,2);
+    // uf
+    iLin := SLNLinhaQTem(SL, 'uf');
+    if iLin = -1 then
+      exit;
+    sLin := Trim(SL[iLin]);
+    sLin := Copy(sLin, 8, 2);
 
-  FMunicipioPodePreparar := False;
-  UFSiglaComboMan.Text := sLin;
-  FMunicipioPodePreparar := True;
+    FMunicipioPodePreparar := False;
+    UFSiglaComboMan.Text := sLin;
+    FMunicipioPodePreparar := True;
 
-  MunicipioPrepareLista(sLin);
+    MunicipioPrepareLista(sLin);
 
-  // municipio
-  iLin := SLNLinhaQTem(SL, 'ibge');
-  if iLin = -1 then
-    exit;
+    // municipio
+    iLin := SLNLinhaQTem(SL, 'ibge');
+    if iLin = -1 then
+      exit;
 
-  sLin := Trim(SL[iLin]);
-  sLin := Copy(sLin,12,5);
+    sLin := Trim(SL[iLin]);
+    sLin := Copy(sLin, 12, 5);
 
-  iId := StrToInteger(sLin);
-  MunComboMan.Id := iId;
+    iId := StrToInteger(sLin);
+    MunComboMan.Id := iId;
 
-  // bairro
-  iLin := SLNLinhaQTem(SL, 'bairro');
-  if iLin = -1 then
-    exit;
+    // bairro
+    iLin := SLNLinhaQTem(SL, 'bairro');
+    if iLin = -1 then
+      exit;
 
-  sLin := Trim(SL[iLin]);
-  Delete(sLin, 1, 11);
-  sLin := StrDeleteNoFim(sLIn, 2);
+    sLin := Trim(SL[iLin]);
+    Delete(sLin, 1, 11);
+    sLin := StrDeleteNoFim(sLin, 2);
 
-  sLin := StrSemAcento(sLin);
-  sLin := StrSemCharRepetido(sLin, #32);
+    sLin := StrSemAcento(sLin);
+    sLin := StrSemCharRepetido(sLin, #32);
 
-  BairroEdit.Text := sLin;
+    BairroEdit.Text := sLin;
 
-  // logradouro
-  iLin := SLNLinhaQTem(SL, 'logradouro');
-  if iLin = -1 then
-    exit;
+    // logradouro
+    iLin := SLNLinhaQTem(SL, 'logradouro');
+    if iLin = -1 then
+      exit;
 
-  sLin := Trim(SL[iLin]);
-  Delete(sLin, 1, 15);
-  sLin := StrDeleteNoFim(sLIn, 2);
+    sLin := Trim(SL[iLin]);
+    Delete(sLin, 1, 15);
+    sLin := StrDeleteNoFim(sLin, 2);
 
-  sLin := StrSemAcento(sLin);
-  sLin := StrSemCharRepetido(sLin, #32);
+    sLin := StrSemAcento(sLin);
+    sLin := StrSemCharRepetido(sLin, #32);
 
-  LogradouroEdit.Text := sLin;
+    LogradouroEdit.Text := sLin;
 
-{
-  "cep": "23070-221",
-  "logradouro": "Estrada do Campinho",
-  "complemento": "até 2995 - lado ímpar",
-  "bairro": "Campo Grande",
-  "localidade": "Rio de Janeiro",
-  "uf": "RJ",
-  "ibge": "3304557"
-}
+    {
+      "cep": "23070-221",
+      "logradouro": "Estrada do Campinho",
+      "complemento": "até 2995 - lado ímpar",
+      "bairro": "Campo Grande",
+      "localidade": "Rio de Janeiro",
+      "uf": "RJ",
+      "ibge": "3304557"
+    }
 
   finally
     SL.Free;
     CEPStatusLabel.Visible := False;
+  end;
+  finally
+    FPesquisandoCEP := False;
+
   end;
 end;
 
@@ -462,6 +521,20 @@ begin
       FOkExecute(Sender);
   end;
   EditKeyPress(Sender, Key);
+end;
+
+procedure TEnderControlsFrame.SpeedButton1Click(Sender: TObject);
+var
+  Url: string;
+begin
+  CepNaoSeiBitBtn.Enabled := False;
+  Application.ProcessMessages;
+  try
+    Url := 'https://buscacepinter.correios.com.br/';
+    ShellExecute(0, 'open', PChar(Url), nil, nil, SW_SHOWNORMAL);
+  finally
+    CepNaoSeiBitBtn.Enabled := True;
+  end;
 end;
 
 procedure TEnderControlsFrame.AjusteControles;
