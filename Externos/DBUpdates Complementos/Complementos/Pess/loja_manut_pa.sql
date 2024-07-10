@@ -85,7 +85,6 @@ BEGIN
     TERMINAL_ID_RET SMALLINT,
     PESSOA_ID_GRAVADA INTEGER
   );
-
 END^
 
 ----- body -----

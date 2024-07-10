@@ -18,6 +18,9 @@ OBJETO_NOME=PESSOA_PA
 Externos\DBUpdates Complementos\Complementos\Pess\pessoa_pa.sql
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\pessoa_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\pessoa_pa.sql"
+
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\pessoa_pa.sql";
 */
 
@@ -73,12 +76,21 @@ BEGIN
     PESSOA_ID_GRAVADA INTEGER
   );
 
+  PROCEDURE ID_BY_C 
+  (
+    C VARCHAR(15)
+  )
+  RETURNS 
+  (
+    LOJA_ID ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    PESSOA_ID ID_DOM,
+    NOME NOME_DOM 
+  );
 END^
 
 /*
-----------
--- BODY
-----------
+  body
 */
 
 RECREATE PACKAGE BODY PESSOA_PA
@@ -171,6 +183,27 @@ BEGIN
       :NUMERO, :COMPLEMENTO, :BAIRRO, :UF_SIGLA, :CEP, :MUNICIPIO_IBGE_ID,
       :DDD, :FONE1, :FONE2, :FONE3, :CONTATO, :REFERENCIA);
 
+    SUSPEND;
+  END
+  
+  PROCEDURE ID_BY_C
+  (
+    C VARCHAR(15)
+  )
+  RETURNS 
+  (
+    LOJA_ID ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    PESSOA_ID ID_DOM,
+    NOME NOME_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME
+      FROM PESSOA
+      WHERE C = :C
+      INTO :LOJA_ID, :TERMINAL_ID, :PESSOA_ID, :NOME
+  DO
     SUSPEND;
   END
 END^
