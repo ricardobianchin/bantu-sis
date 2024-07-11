@@ -282,7 +282,7 @@ begin
     ' FROM ENDERECO_PA.MUNICIPIO_LISTA_GET(' + QuotedStr(pUFSigla) + ');';
 
   if pSL.Count = 0 then
-    pSL.Add('');
+    pSL.Add('NAO INDICADO');
 
   DBConnection.QueryDataSet(sSql, Q);
   try
