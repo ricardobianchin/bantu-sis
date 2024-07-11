@@ -131,6 +131,7 @@ begin
   FEnderQuantidadePermitida := pEnderQuantidadePermitida;
   CObrigatorio := True;
   FCodUsaTerminalId := pCodUsaTerminalId;
+  LimparEnt;
 end;
 
 function TPessEnt.GetApelido: string;
