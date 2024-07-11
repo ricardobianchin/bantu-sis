@@ -91,7 +91,7 @@ begin
   iQtdCampos := pQ.FieldCount;
 
   Result := iQtdCampos > 0;
-  if Result then
+  if not Result then
     exit;
 
   pVarArray := VarArrayCreate([0, iQtdCampos - 1], varVariant);
