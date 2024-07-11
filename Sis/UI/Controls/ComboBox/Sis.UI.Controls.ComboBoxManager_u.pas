@@ -73,6 +73,12 @@ var
   Resultado: integer;
 begin
   I := FComboBox.ItemIndex;
+  if I < 0 then
+  begin
+    Result := 0;
+    exit;
+  end;
+
   P := FComboBox.Items.Objects[I];
   Resultado := integer(P);
   Result := Resultado;
