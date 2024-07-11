@@ -84,6 +84,9 @@ begin
   FPessEnt.PessEnderList[iOrdem].MunicipioNome :=
     Q.Fields[22 { MUNICIPIO_NOME } ].AsString;
 
+  if FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId = '' then
+    FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId := '     ';
+
   FPessEnt.PessEnderList[iOrdem].DDD := Q.Fields[23 { DDD } ].AsString;
   FPessEnt.PessEnderList[iOrdem].Fone1 := Q.Fields[24 { FONE1 } ].AsString;
   FPessEnt.PessEnderList[iOrdem].Fone2 := Q.Fields[25 { FONE2 } ].AsString;
@@ -174,63 +177,34 @@ end;
 
 function TPessDBI.GetFieldValues: string;
 begin
-  Result := FPessEnt.LojaId.ToString + #13#10 // LOJA_ID */'
-    + ', ' + FPessEnt.TerminalId.ToString + #13#10 // TERMINAL_ID    SMALLINT
-    + ', ' + QuotedStr(FPessEnt.Nome) + #13#10
-  // NOME                VARCHAR(60) CHA+ #13#10 // SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.NomeFantasia) + #13#10
-  // NOME_FANTASIA  VARCHAR(60) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.Apelido) + #13#10
-  // APELIDO         VARCHAR(20) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.Genero) + #13#10
-  // GENERO_ID        CHAR(1) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.EstadoCivil) + #13#10
-  // ESTADO_CIVIL_ID  CHAR(1) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.C) + #13#10
-  // C       VARCHAR(15) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.I) + #13#10
-  // I       VARCHAR(15) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.M) + #13#10
-  // M       VARCHAR(15) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.MUF) + #13#10
-  // M_UF      CHAR(2) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.EMail) + #13#10
-  // EMAIL     VARCHAR(50) CHARACTER SET WIN1252
-    + ', ' + DataSQLFirebird(FPessEnt.DtNasc) + #13#10
-  // DT_NASC            DATE
-    + ', ' + FPessEnt.Id.ToString + #13#10 // PESSOA_ID          INTEGER
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Logradouro) + #13#10
-  // LOGRADOURO         VARCHAR(70) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Numero) + #13#10
-  // NUMERO             (NOME_DOM) VARCHAR(60) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Complemento) + #13#10
-  // COMPLEMENTO        (NOME_DOM) VARCHAR(60) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Bairro) + #13#10
-  // BAIRRO             (NOME_DOM) VARCHAR(60) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].UFSigla) + #13#10
-  // UF_SIGLA           CHAR(2) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].CEP) + #13#10
-  // CEP                CHAR(8) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].MunicipioIbgeId) + #13#10
-  // MUNICIPIO_IBGE_ID  CHAR(5) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].DDD) + #13#10
-  // DDD                CHAR(2) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone1) + #13#10
-  // FONE1              (NOME_CURTO_DOM) VARCHAR(15) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone2) + #13#10
-  // FONE2              (NOME_CURTO_DOM) VARCHAR(15) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone3) + #13#10
-  // FONE3              (NOME_CURTO_DOM) VARCHAR(15) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Contato) + #13#10
-  // CONTATO            (NOME_DOM) VARCHAR(60) CHARACTER SET WIN1252
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Referencia) + #13#10
-  // REFERENCIA         (OBS1_DOM) VARCHAR(1000) CHARACTER SET WIN1252
+  Result := FPessEnt.LojaId.ToString + '-- LOJA_ID'#13#10
+    + ', ' + FPessEnt.TerminalId.ToString + ' -- TERMINAL_ID '#13#10
+    + ', ' + QuotedStr(FPessEnt.Nome) + ' -- NOME'#13#10
+    + ', ' + QuotedStr(FPessEnt.NomeFantasia) + ' -- NOME_FANTASIA'#13#10
+    + ', ' + QuotedStr(FPessEnt.Apelido) + ' -- APELIDO'#13#10
+    + ', ' + QuotedStr(FPessEnt.Genero) + ' -- GENERO_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.EstadoCivil) + ' -- ESTADO_CIVIL_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.C) + ' -- C'#13#10
+    + ', ' + QuotedStr(FPessEnt.I) + ' -- I'#13#10
+    + ', ' + QuotedStr(FPessEnt.M) + ' -- M'#13#10
+    + ', ' + QuotedStr(FPessEnt.MUF) + ' -- M_UF'#13#10
+    + ', ' + QuotedStr(FPessEnt.EMail) + ' -- EMAIL'#13#10
+    + ', ' + DataSQLFirebird(FPessEnt.DtNasc) + ' -- DT_NASC'#13#10
+    + ', ' + FPessEnt.Id.ToString + ' -- PESSOA_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Logradouro) + ' -- LOGRADOURO'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Numero) + ' -- NUMERO'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Complemento) + ' -- COMPLEMENTO'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Bairro) + ' -- BAIRRO'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].UFSigla) + ' -- UF_SIGLA'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].CEP) + ' -- CEP'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].DDD) + ' -- DDD'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone1) + ' -- FONE1'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone2) + ' -- FONE2'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone3) + ' -- FONE3'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Contato) + ' -- CONTATO'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Referencia) + ' -- REFERENCIA'#13#10
     ;
-  {
-
-    LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_GRAVADA
-
-  }
 end;
 
 function TPessDBI.Ler: boolean;
