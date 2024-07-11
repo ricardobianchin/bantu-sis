@@ -198,16 +198,26 @@ begin
           ColarCEP;
         end;
       end;
+    13:
+    begin
+        if Shift = [] then
+        begin
+          PesquiseCEP;
+        end;
+    end;
   end;
 end;
 
 procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  inherited;
-  if Key = CHAR_ENTER then
-    PesquiseCEP;
-  EditKeyPress(Sender, Key);
+  //inherited;
+  if key = #13 then
+  begin
+    key := #0;
+    UFSiglaComboBox.SetFocus;
+  end;
+  //EditKeyPress(Sender, Key);
 end;
 
 procedure TEnderControlsFrame.ColarCEP;
@@ -252,8 +262,15 @@ begin
     Tab.Fields[6 { UF_SIGLA } ].AsString := UFSiglaComboMan.Text;
 
     Tab.Fields[5 { MUNICIPIO_NOME } ].AsString := MunComboMan.Text;
-    Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString :=
-      IntToStrZero(MunComboMan.Id, 5);
+    if MunComboMan.Id = 0 then
+    begin
+      Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString := '     ';
+    end
+    else
+    begin
+      Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString :=
+        IntToStrZero(MunComboMan.Id, 5);
+    end;
 
     Tab.Fields[4 { BAIRRO } ].AsString := BairroEdit.Text;
     Tab.Fields[1 { LOGRADOURO } ].AsString := LogradouroEdit.Text;
