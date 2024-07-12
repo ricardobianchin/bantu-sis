@@ -2,18 +2,18 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 535
   ClientWidth = 961
-  ExplicitWidth = 977
-  ExplicitHeight = 574
+  ExplicitWidth = 973
+  ExplicitHeight = 573
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 463
     Width = 961
-    ExplicitTop = 464
+    ExplicitTop = 463
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 483
     Width = 961
-    ExplicitTop = 484
+    ExplicitTop = 483
   end
   object NomePessLabel: TLabel [3]
     Left = 8
@@ -90,22 +90,22 @@ inherited PessEdBasForm: TPessEdBasForm
     Top = 498
     Width = 961
     TabOrder = 10
-    ExplicitTop = 498
-    ExplicitWidth = 961
+    ExplicitTop = 497
+    ExplicitWidth = 957
     DesignSize = (
       961
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 534
-      ExplicitLeft = 534
+      Left = 530
+      ExplicitLeft = 526
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 647
-      ExplicitLeft = 647
+      Left = 643
+      ExplicitLeft = 639
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 727
-      ExplicitLeft = 727
+      Left = 723
+      ExplicitLeft = 719
     end
   end
   object NomePessEdit: TEdit [13]
@@ -141,7 +141,9 @@ inherited PessEdBasForm: TPessEdBasForm
     Width = 161
     Height = 23
     MaxLength = 20
+    NumbersOnly = True
     TabOrder = 3
+    OnExit = CPessEditExit
     OnKeyPress = CPessEditKeyPress
   end
   object IPessEdit: TEdit [17]
