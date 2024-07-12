@@ -154,7 +154,8 @@ var
 begin
   inherited;
   s := CNPJGetRandom;
-  CPessEdit.Text := s
+  CPessEdit.Text := s;
+  IPessEdit.SetFocus;
   // function CPFGetRandom: string;
 end;
 
@@ -165,6 +166,7 @@ begin
   inherited;
   s := CPFGetRandom;
   CPessEdit.Text := s
+  IPessEdit.SetFocus;
 end;
 
 function TPessEdBasForm.COk: boolean;
