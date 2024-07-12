@@ -65,19 +65,19 @@ begin
       oEnder.CEP := Tab.Fields[7 { CEP } ].AsString;
       oEnder.UFSigla := Tab.Fields[6 { UF_SIGLA } ].AsString;
 
-      oEnder.Municipio :=Tab.Fields[5 { MUNICIPIO_NOME } ].AsString;
+      oEnder.MunicipioNome :=Tab.Fields[5 { MUNICIPIO_NOME } ].AsString;
       oEnder.MunicipioIbgeId := Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString;
 
-      oEnder. := Tab.Fields[4 { BAIRRO } ].AsString;
-      oEnder. := Tab.Fields[1 { LOGRADOURO } ].AsString;
-      oEnder. := Tab.Fields[2 { NUMERO } ].AsString;
-      oEnder. := Tab.Fields[3 { COMPLEMENTO } ].AsString;
-      oEnder. := Tab.Fields[8 { DDD } ].AsString;
-      oEnder. := Tab.Fields[9 { FONE1 } ].AsString;
-      oEnder. := Tab.Fields[10 { FONE2 } ].AsString;
-      oEnder. := Tab.Fields[11 { FONE3 } ].AsString;
-      oEnder. := Tab.Fields[12 { CONTATO } ].AsString;
-      oEnder. := Tab.Fields[13 { REFERENCIA } ].AsString;
+      oEnder.Bairro := Tab.Fields[4 { BAIRRO } ].AsString;
+      oEnder.Logradouro := Tab.Fields[1 { LOGRADOURO } ].AsString;
+      oEnder.Numero := Tab.Fields[2 { NUMERO } ].AsString;
+      oEnder.Complemento := Tab.Fields[3 { COMPLEMENTO } ].AsString;
+      oEnder.DDD := Tab.Fields[8 { DDD } ].AsString;
+      oEnder.Fone1 := Tab.Fields[9 { FONE1 } ].AsString;
+      oEnder.Fone2 := Tab.Fields[10 { FONE2 } ].AsString;
+      oEnder.Fone3 := Tab.Fields[11 { FONE3 } ].AsString;
+      oEnder.Contato := Tab.Fields[12 { CONTATO } ].AsString;
+      oEnder.Referencia := Tab.Fields[13 { REFERENCIA } ].AsString;
     end;
   finally
     Tab.GotoBookmark(bm);

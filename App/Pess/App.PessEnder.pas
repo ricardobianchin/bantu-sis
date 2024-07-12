@@ -25,10 +25,6 @@ type
     procedure SetBairro(const Value: string);
     property Bairro: string read GetBairro write SetBairro;
 
-    function GetMunicipio: string;
-    procedure SetMunicipio(const Value: string);
-    property Municipio: string read GetMunicipio write SetMunicipio;
-
     function GetUFSigla: string;
     procedure SetUFSigla(const Value: string);
     property UFSigla: string read GetUFSigla write SetUFSigla;
@@ -41,9 +37,9 @@ type
     procedure SetMunicipioIbgeId(const Value: string);
     property MunicipioIbgeId: string read GetMunicipioIbgeId write SetMunicipioIbgeId;
 
-//    function GetMunicipioNome: string;
-//    procedure SetMunicipioNome(const Value: string);
-//    property MunicipioNome: string read GetMunicipioNome write SetMunicipioNome;
+    function GetMunicipioNome: string;
+    procedure SetMunicipioNome(const Value: string);
+    property MunicipioNome: string read GetMunicipioNome write SetMunicipioNome;
 
     function GetDDD: string;
     procedure SetDDD(const Value: string);
