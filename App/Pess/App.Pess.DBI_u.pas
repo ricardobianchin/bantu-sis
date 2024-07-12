@@ -68,38 +68,33 @@ begin
     FPessEnt.PessEnderList.Add(oEnder);
   end;
 
-  FPessEnt.PessEnderList[iOrdem].Ordem := iOrdem;
+  oEnder := FPessEnt.PessEnderList[iOrdem];
 
-  FPessEnt.PessEnderList[iOrdem].Logradouro :=
-    Q.Fields[15 { LOGRADOURO } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Numero := Q.Fields[16 { NUMERO } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Complemento :=
-    Q.Fields[17 { COMPLEMENTO } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Bairro := Q.Fields[18 { BAIRRO } ].AsString;
+  oEnder.Ordem := iOrdem;
 
-  FPessEnt.PessEnderList[iOrdem].UFSigla := Q.Fields[19 { UF_SIGLA } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].CEP := Q.Fields[20 { CEP } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId :=
-    Q.Fields[21 { MUNICIPIO_IBGE_ID } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].MunicipioNome :=
-    Q.Fields[22 { MUNICIPIO_NOME } ].AsString;
+  oEnder.Logradouro := Q.Fields[15 { LOGRADOURO } ].AsString;
+  oEnder.Numero := Q.Fields[16 { NUMERO } ].AsString;
+  oEnder.Complemento := Q.Fields[17 { COMPLEMENTO } ].AsString;
+  oEnder.Bairro := Q.Fields[18 { BAIRRO } ].AsString;
 
-  if FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId = '' then
-    FPessEnt.PessEnderList[iOrdem].MunicipioIbgeId := '     ';
+  oEnder.UFSigla := Q.Fields[19 { UF_SIGLA } ].AsString;
+  oEnder.CEP := Q.Fields[20 { CEP } ].AsString;
+  oEnder.MunicipioIbgeId := Q.Fields[21 { MUNICIPIO_IBGE_ID } ].AsString;
+  oEnder.MunicipioNome :=  Q.Fields[22 { MUNICIPIO_NOME } ].AsString;
 
-  FPessEnt.PessEnderList[iOrdem].DDD := Q.Fields[23 { DDD } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Fone1 := Q.Fields[24 { FONE1 } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Fone2 := Q.Fields[25 { FONE2 } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Fone3 := Q.Fields[26 { FONE3 } ].AsString;
+  if oEnder.MunicipioIbgeId = '' then
+    oEnder.MunicipioIbgeId := '     ';
 
-  FPessEnt.PessEnderList[iOrdem].Contato := Q.Fields[27 { CONTATO } ].AsString;
-  FPessEnt.PessEnderList[iOrdem].Referencia :=
-    Q.Fields[28 { REFERENCIA } ].AsString;
+  oEnder.DDD := Q.Fields[23 { DDD } ].AsString;
+  oEnder.Fone1 := Q.Fields[24 { FONE1 } ].AsString;
+  oEnder.Fone2 := Q.Fields[25 { FONE2 } ].AsString;
+  oEnder.Fone3 := Q.Fields[26 { FONE3 } ].AsString;
 
-  FPessEnt.PessEnderList[iOrdem].CriadoEm := Q.Fields[29 { ENDER_CRIADO_EM } ]
-    .AsDateTime;
-  FPessEnt.PessEnderList[iOrdem].AlteradoEm :=
-    Q.Fields[30 { ENDER_ALTERADO_EM } ].AsDateTime;
+  oEnder.Contato := Q.Fields[27 { CONTATO } ].AsString;
+  oEnder.Referencia := Q.Fields[28 { REFERENCIA } ].AsString;
+
+  oEnder.CriadoEm := Q.Fields[29 { ENDER_CRIADO_EM } ].AsDateTime;
+  oEnder.AlteradoEm := Q.Fields[30 { ENDER_ALTERADO_EM } ].AsDateTime;
 end;
 
 function TPessDBI.CToIdLojaTermRecord(const C: string; out pLojaId: smallint;
@@ -177,7 +172,7 @@ end;
 
 function TPessDBI.GetFieldValues: string;
 begin
-  Result := FPessEnt.LojaId.ToString + '-- LOJA_ID'#13#10
+  Result := FPessEnt.LojaId.ToString + ' -- LOJA_ID'#13#10
     + ', ' + FPessEnt.TerminalId.ToString + ' -- TERMINAL_ID '#13#10
     + ', ' + QuotedStr(FPessEnt.Nome) + ' -- NOME'#13#10
     + ', ' + QuotedStr(FPessEnt.NomeFantasia) + ' -- NOME_FANTASIA'#13#10
