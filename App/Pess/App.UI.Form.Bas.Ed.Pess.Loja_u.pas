@@ -15,8 +15,9 @@ uses
 type
   TPessLojaEdForm = class(TPessEdBasForm)
     AtivoCheckBox: TCheckBox;
-    procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+
+    procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
