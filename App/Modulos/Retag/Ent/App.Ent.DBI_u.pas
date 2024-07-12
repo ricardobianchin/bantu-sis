@@ -48,7 +48,7 @@ type
 implementation
 
 uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u,
-  Sis.DB.DataSet.Utils;
+  Sis.DB.DataSet.Utils, Sis.Win.Utils_u;
 
 { TEntDBI }
 
@@ -295,14 +295,17 @@ end;
 procedure TEntDBI.PreencherDataSet(pValues: variant;
   pProcLeReg: TProcDataSetOfObject);
 var
-  sSql: string;
+  sSqlRetRegs: string;
   q: TDataSet;
   iRecNo: integer;
 begin
   DBConnection.Abrir;
   try
-    sSql := GetSqlPreencherDataSet(pValues);
-    DBConnection.QueryDataSet(sSql, q);
+    sSqlRetRegs := GetSqlPreencherDataSet(pValues);
+{$IFDEF DEBUG}
+  CopyTextToClipboard(sSqlRetRegs);
+{$ENDIF}
+    DBConnection.QueryDataSet(sSqlRetRegs, q);
     try
       iRecNo := 0;
       while not q.Eof do

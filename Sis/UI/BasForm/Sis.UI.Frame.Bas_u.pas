@@ -34,6 +34,7 @@ uses Sis.Types.strings_u, Sis.Types.Utils_u;
 constructor TBasFrame.Create(AOwner: TComponent);
 begin
   inherited;
+  FSelecionaProximo := True;
   if AOwner is TWinControl then
     Parent := TWinControl(AOwner);
   ShowHint := True;
