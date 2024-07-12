@@ -122,7 +122,8 @@ implementation
 
 uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid, App.Pess.Ent.Factory_u,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Pess.Utils, Sis.DB.Factory,
-  App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u, App.PessEnder;
+  App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u, App.PessEnder,
+  Sis.Types.strings_u;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -214,8 +215,17 @@ begin
 end;
 
 function TAppPessDataSetForm.DoInserir: boolean;
+var
+  Resultado: boolean;
 begin
+  Resultado := PergEd;
 
+  if not Resultado then
+    exit;
+
+  FDMemTable.Edit;
+  EntToRecord;
+  FDMemTable.Post;
 end;
 
 procedure TAppPessDataSetForm.DoLer;
@@ -276,7 +286,7 @@ begin
   Tab.Fields[iT_COMPLEMENTO].AsString := oEnder.Complemento;
   Tab.Fields[iT_BAIRRO].AsString := oEnder.Bairro;
   Tab.Fields[iT_UF_SIGLA].AsString := oEnder.UFSigla;
-  Tab.Fields[iT_CEP].AsString := oEnder.CEP;
+  Tab.Fields[iT_CEP].AsString := StrToOnlyDigit(oEnder.CEP);
 
   if oEnder.MunicipioIbgeId = '' then
     oEnder.MunicipioIbgeId := '     ';
@@ -348,7 +358,7 @@ begin
   Tab.Fields[iT_COMPLEMENTO].AsString := q.Fields[iQ_COMPLEMENTO].AsString; //
   Tab.Fields[iT_BAIRRO].AsString := q.Fields[iQ_BAIRRO].AsString; //
   Tab.Fields[iT_UF_SIGLA].AsString := q.Fields[iQ_UF_SIGLA].AsString; //
-  Tab.Fields[iT_CEP].AsString := q.Fields[iQ_CEP].AsString; //
+  Tab.Fields[iT_CEP].AsString := StrToOnlyDigit(q.Fields[iQ_CEP].AsString); //
   Tab.Fields[iT_MUNICIPIO_IBGE_ID].AsString := q.Fields[iQ_MUNICIPIO_IBGE_ID]
     .AsString; //
   Tab.Fields[iT_MUNICIPIO_NOME].AsString := q.Fields[iQ_MUNICIPIO_NOME]
