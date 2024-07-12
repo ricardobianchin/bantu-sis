@@ -16,7 +16,7 @@ type
     FUFSigla: string;
     FCEP: string;
     FMunicipioIbgeId: string;
-    FMunicipioNome: string;
+//    FMunicipioNome: string;
     FDDD: string;
     FFone1: string;
     FFone2: string;
@@ -44,8 +44,8 @@ type
     function GetMunicipio: string;
     procedure SetMunicipio(const Value: string);
 
-    function GetMunicipioNome: string;
-    procedure SetMunicipioNome(const Value: string);
+//    function GetMunicipioNome: string;
+//    procedure SetMunicipioNome(const Value: string);
 
     function GetUFSigla: string;
     procedure SetUFSigla(const Value: string);
@@ -91,7 +91,7 @@ type
     property CEP: string read GetCEP write SetCEP;
     property MunicipioIbgeId: string read GetMunicipioIbgeId write SetMunicipioIbgeId;
 
-    property MunicipioNome: string read GetMunicipioNome write SetMunicipioNome;
+//    property MunicipioNome: string read GetMunicipioNome write SetMunicipioNome;
 
     property DDD: string read GetDDD write SetDDD;
     property Fone1: string read GetFone1 write SetFone1;
@@ -172,10 +172,10 @@ begin
   Result := FMunicipioIbgeId;
 end;
 
-function TPessEnder.GetMunicipioNome: string;
-begin
-  Result := FMunicipioNome;
-end;
+//function TPessEnder.GetMunicipioNome: string;
+//begin
+//  Result := FMunicipioNome;
+//end;
 
 function TPessEnder.GetNumero: string;
 begin
@@ -262,10 +262,10 @@ begin
   FMunicipioIbgeId := Value;
 end;
 
-procedure TPessEnder.SetMunicipioNome(const Value: string);
-begin
-  FMunicipioNome := Value;
-end;
+//procedure TPessEnder.SetMunicipioNome(const Value: string);
+//begin
+//  FMunicipioNome := Value;
+//end;
 
 procedure TPessEnder.SetNumero(const Value: string);
 begin

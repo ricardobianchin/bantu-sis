@@ -1,18 +1,18 @@
 inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
-  ClientHeight = 536
-  ClientWidth = 965
+  ClientHeight = 535
+  ClientWidth = 961
   ExplicitWidth = 977
   ExplicitHeight = 574
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 464
-    Width = 965
+    Top = 463
+    Width = 961
     ExplicitTop = 464
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 484
-    Width = 965
+    Top = 483
+    Width = 961
     ExplicitTop = 484
   end
   object NomePessLabel: TLabel [3]
@@ -87,24 +87,24 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = 'Data Nasc.'
   end
   inherited BasePanel: TPanel
-    Top = 499
-    Width = 965
+    Top = 498
+    Width = 961
     TabOrder = 10
     ExplicitTop = 498
     ExplicitWidth = 961
     DesignSize = (
-      965
+      961
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 538
+      Left = 534
       ExplicitLeft = 534
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 651
+      Left = 647
       ExplicitLeft = 647
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 731
+      Left = 727
       ExplicitLeft = 727
     end
   end
