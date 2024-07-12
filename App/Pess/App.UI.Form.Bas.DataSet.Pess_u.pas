@@ -91,7 +91,6 @@ type
     iQ_ENDER_ALTERADO_EM: integer;
     iQ_ENDER_PRIMEIRO_CAMPO: integer;
 
-
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
     procedure DoLer; override;
@@ -123,7 +122,7 @@ implementation
 
 uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid, App.Pess.Ent.Factory_u,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Pess.Utils, Sis.DB.Factory,
-  App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u;
+  App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u, App.PessEnder;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -229,64 +228,72 @@ procedure TAppPessDataSetForm.EntToRecord;
 var
   sFormat: string;
   sCod: string;
+  Tab: TFDMemTable;
+  oEnder: IPessEnder;
+  iOrdem: integer;
 begin
   inherited;
-  FDMemTable.Fields[iT_LOJA_ID].AsInteger := FPessEnt.LojaId;
-  FDMemTable.Fields[iT_TERMINAL_ID].AsInteger := FPessEnt.TerminalId;
-  FDMemTable.Fields[iT_PESSOA_ID].AsInteger := FPessEnt.Id;
+  Tab := FDMemTable;
+
+  Tab.Fields[iT_LOJA_ID].AsInteger := FPessEnt.LojaId;
+  Tab.Fields[iT_TERMINAL_ID].AsInteger := FPessEnt.TerminalId;
+  Tab.Fields[iT_PESSOA_ID].AsInteger := FPessEnt.Id;
 
   if FPessEnt.CodUsaTerminalId then
   begin
     sFormat := '%.2d-%.2d-%.7d';
-    sCod := Format(sFormat, [FDMemTable.Fields[iT_LOJA_ID].AsInteger,
-      FDMemTable.Fields[iT_TERMINAL_ID].AsInteger,
-      FDMemTable.Fields[iT_PESSOA_ID].AsInteger]);
+    sCod := Format(sFormat, [Tab.Fields[iT_LOJA_ID].AsInteger,
+      Tab.Fields[iT_TERMINAL_ID].AsInteger,
+      Tab.Fields[iT_PESSOA_ID].AsInteger]);
   end
   else
   begin
     sFormat := '%.2d-%.7d';
-    sCod := Format(sFormat, [FDMemTable.Fields[iT_LOJA_ID].AsInteger,
-      FDMemTable.Fields[iT_PESSOA_ID].AsInteger]);
+    sCod := Format(sFormat, [Tab.Fields[iT_LOJA_ID].AsInteger,
+      Tab.Fields[iT_PESSOA_ID].AsInteger]);
   end;
-  FDMemTable.Fields[iT_PESS_COD].AsString := sCod;
+  Tab.Fields[iT_PESS_COD].AsString := sCod;
 
-  FDMemTable.Fields[iT_APELIDO].AsString := FPessEnt.Apelido;
-  FDMemTable.Fields[iT_NOME].AsString := FPessEnt.Nome;
-  FDMemTable.Fields[iT_NOME_FANTASIA].AsString := FPessEnt.NomeFantasia;
-  FDMemTable.Fields[iT_C].AsString := FPessEnt.C;
-  FDMemTable.Fields[iT_I].AsString := FPessEnt.I;
-  FDMemTable.Fields[iT_M].AsString := FPessEnt.M;
-  FDMemTable.Fields[iT_M_UF].AsString := FPessEnt.MUF;
-  FDMemTable.Fields[iT_EMAIL].AsString := FPessEnt.EMail;
-  FDMemTable.Fields[iT_DT_NASC].AsDateTime := FPessEnt.DtNasc;
+  Tab.Fields[iT_APELIDO].AsString := FPessEnt.Apelido;
+  Tab.Fields[iT_NOME].AsString := FPessEnt.Nome;
+  Tab.Fields[iT_NOME_FANTASIA].AsString := FPessEnt.NomeFantasia;
+  Tab.Fields[iT_C].AsString := FPessEnt.C;
+  Tab.Fields[iT_I].AsString := FPessEnt.I;
+  Tab.Fields[iT_M].AsString := FPessEnt.M;
+  Tab.Fields[iT_M_UF].AsString := FPessEnt.MUF;
+  Tab.Fields[iT_EMAIL].AsString := FPessEnt.EMail;
+  Tab.Fields[iT_DT_NASC].AsDateTime := FPessEnt.DtNasc;
 
-  FDMemTable.Fields[iT_PESS_CRIADO_EM].AsDateTime := FPessEnt.CriadoEm;
-  FDMemTable.Fields[iT_PESS_ALTERADO_EM].AsDateTime := FPessEnt.AlteradoEm;
+  Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := FPessEnt.CriadoEm;
+  Tab.Fields[iT_PESS_ALTERADO_EM].AsDateTime := FPessEnt.AlteradoEm;
 
-  FDMemTable.Fields[iT_ENDER_ORDEM].AsInteger := 0;
-  FDMemTable.Fields[iT_LOGRADOURO].AsString := FPessEnt.PessEnderList[1]
-    .Logradouro;
-  FDMemTable.Fields[iT_NUMERO].AsString := FPessEnt.PessEnderList[1].Numero;
-  FDMemTable.Fields[iT_COMPLEMENTO].AsString := FPessEnt.PessEnderList[1]
-    .Complemento;
-  FDMemTable.Fields[iT_BAIRRO].AsString := FPessEnt.PessEnderList[1].Bairro;
-  FDMemTable.Fields[iT_UF_SIGLA].AsString := FPessEnt.PessEnderList[1].UFSigla;
-  FDMemTable.Fields[iT_CEP].AsString := FPessEnt.PessEnderList[1].CEP;
-  FDMemTable.Fields[iT_MUNICIPIO_IBGE_ID].AsString := FPessEnt.PessEnderList[1]
-    .MunicipioIbgeId;
-  FDMemTable.Fields[iT_MUNICIPIO_NOME].AsString := FPessEnt.PessEnderList[1]
-    .MunicipioNome;
-  FDMemTable.Fields[iT_DDD].AsString := FPessEnt.PessEnderList[1].DDD;
-  FDMemTable.Fields[iT_FONE1].AsString := FPessEnt.PessEnderList[1].Fone1;
-  FDMemTable.Fields[iT_FONE2].AsString := FPessEnt.PessEnderList[1].Fone2;
-  FDMemTable.Fields[iT_FONE3].AsString := FPessEnt.PessEnderList[1].Fone3;
-  FDMemTable.Fields[iT_CONTATO].AsString := FPessEnt.PessEnderList[1].Contato;
-  FDMemTable.Fields[iT_REFERENCIA].AsString := FPessEnt.PessEnderList[1]
-    .Referencia;
-  FDMemTable.Fields[iT_ENDER_CRIADO_EM].AsDateTime := FPessEnt.PessEnderList
-    [1].CriadoEm;
-  FDMemTable.Fields[iT_ENDER_ALTERADO_EM].AsDateTime := FPessEnt.PessEnderList
-    [1].AlteradoEm;
+  iOrdem := 0;
+  oEnder := FPessEnt.PessEnderList[iOrdem];
+  Tab.Fields[iT_ENDER_ORDEM].AsInteger := iOrdem;
+
+  Tab.Fields[iT_LOGRADOURO].AsString := oEnder.Logradouro;
+  Tab.Fields[iT_NUMERO].AsString := oEnder.Numero;
+  Tab.Fields[iT_COMPLEMENTO].AsString := oEnder.Complemento;
+  Tab.Fields[iT_BAIRRO].AsString := oEnder.Bairro;
+  Tab.Fields[iT_UF_SIGLA].AsString := oEnder.UFSigla;
+  Tab.Fields[iT_CEP].AsString := oEnder.CEP;
+
+  if oEnder.MunicipioIbgeId = '' then
+    oEnder.MunicipioIbgeId := '     ';
+
+  Tab.Fields[iT_MUNICIPIO_IBGE_ID].AsString := oEnder.MunicipioIbgeId;
+  Tab.Fields[iT_MUNICIPIO_NOME].AsString := oEnder.MunicipioNome;
+
+  Tab.Fields[iT_DDD].AsString := oEnder.DDD;
+  Tab.Fields[iT_FONE1].AsString := oEnder.Fone1;
+  Tab.Fields[iT_FONE2].AsString := oEnder.Fone2;
+  Tab.Fields[iT_FONE3].AsString := oEnder.Fone3;
+
+  Tab.Fields[iT_CONTATO].AsString := oEnder.Contato;
+  Tab.Fields[iT_REFERENCIA].AsString := oEnder.Referencia;
+
+  Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime := oEnder.CriadoEm;
+  Tab.Fields[iT_ENDER_ALTERADO_EM].AsDateTime := oEnder.AlteradoEm;
 end;
 
 procedure TAppPessDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
@@ -318,7 +325,8 @@ begin
 
   Tab.Fields[iT_APELIDO].AsString := q.Fields[iQ_APELIDO].AsString; //
   Tab.Fields[iT_NOME].AsString := q.Fields[iQ_NOME].AsString; //
-  Tab.Fields[iT_NOME_FANTASIA].AsString := q.Fields[iQ_NOME_FANTASIA].AsString; //
+  Tab.Fields[iT_NOME_FANTASIA].AsString := q.Fields[iQ_NOME_FANTASIA].AsString;
+  //
   Tab.Fields[iT_C].AsString := q.Fields[iQ_C].AsString; //
   Tab.Fields[iT_I].AsString := q.Fields[iQ_I].AsString; //
   Tab.Fields[iT_M].AsString := q.Fields[iQ_M].AsString; //
@@ -326,8 +334,10 @@ begin
   Tab.Fields[iT_EMAIL].AsString := q.Fields[iQ_EMAIL].AsString; //
   Tab.Fields[iT_DT_NASC].AsDateTime := q.Fields[iQ_DT_NASC].AsDateTime; //
 
-  Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := q.Fields[iQ_PESS_CRIADO_EM].AsDateTime; //
-  Tab.Fields[iT_PESS_ALTERADO_EM].AsDateTime := q.Fields[iQ_PESS_ALTERADO_EM].AsDateTime; //
+  Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := q.Fields[iQ_PESS_CRIADO_EM]
+    .AsDateTime; //
+  Tab.Fields[iT_PESS_ALTERADO_EM].AsDateTime := q.Fields[iQ_PESS_ALTERADO_EM]
+    .AsDateTime; //
 
   if Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime = 0 then
     Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := now;
@@ -339,8 +349,10 @@ begin
   Tab.Fields[iT_BAIRRO].AsString := q.Fields[iQ_BAIRRO].AsString; //
   Tab.Fields[iT_UF_SIGLA].AsString := q.Fields[iQ_UF_SIGLA].AsString; //
   Tab.Fields[iT_CEP].AsString := q.Fields[iQ_CEP].AsString; //
-  Tab.Fields[iT_MUNICIPIO_IBGE_ID].AsString := q.Fields[iQ_MUNICIPIO_IBGE_ID].AsString; //
-  Tab.Fields[iT_MUNICIPIO_NOME].AsString := q.Fields[iQ_MUNICIPIO_NOME].AsString; //
+  Tab.Fields[iT_MUNICIPIO_IBGE_ID].AsString := q.Fields[iQ_MUNICIPIO_IBGE_ID]
+    .AsString; //
+  Tab.Fields[iT_MUNICIPIO_NOME].AsString := q.Fields[iQ_MUNICIPIO_NOME]
+    .AsString; //
   Tab.Fields[iT_DDD].AsString := q.Fields[iQ_DDD].AsString; //
   Tab.Fields[iT_FONE1].AsString := q.Fields[iQ_FONE2].AsString; //
   Tab.Fields[iT_FONE2].AsString := q.Fields[iQ_FONE2].AsString; //
@@ -348,8 +360,10 @@ begin
   Tab.Fields[iT_CONTATO].AsString := q.Fields[iQ_CONTATO].AsString; //
   Tab.Fields[iT_REFERENCIA].AsString := q.Fields[iQ_REFERENCIA].AsString; //
 
-  Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime := q.Fields[iQ_ENDER_CRIADO_EM].AsDateTime; //
-  Tab.Fields[iT_ENDER_ALTERADO_EM].AsDateTime := q.Fields[iQ_ENDER_ALTERADO_EM].AsDateTime; //
+  Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime := q.Fields[iQ_ENDER_CRIADO_EM]
+    .AsDateTime; //
+  Tab.Fields[iT_ENDER_ALTERADO_EM].AsDateTime := q.Fields[iQ_ENDER_ALTERADO_EM]
+    .AsDateTime; //
 
   if Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime = 0 then
     Tab.Fields[iT_ENDER_CRIADO_EM].AsDateTime := now;
