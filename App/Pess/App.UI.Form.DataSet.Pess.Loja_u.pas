@@ -131,7 +131,7 @@ end;
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  AltAction_DatasetTabSheet.Execute;
+  //AltAction_DatasetTabSheet.Execute;
   //
 end;
 
