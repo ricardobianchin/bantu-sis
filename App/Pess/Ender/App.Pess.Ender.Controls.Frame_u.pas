@@ -51,7 +51,6 @@ type
     procedure UFSiglaComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure MunicipioPrepareListaTimerTimer(Sender: TObject);
-    procedure ReferenciaMemoKeyPress(Sender: TObject; var Key: Char);
     procedure BairroEditKeyPress(Sender: TObject; var Key: Char);
     procedure LogradouroEditKeyPress(Sender: TObject; var Key: Char);
     procedure NumeroEditKeyPress(Sender: TObject; var Key: Char);
@@ -61,8 +60,10 @@ type
     procedure Fone2EditKeyPress(Sender: TObject; var Key: Char);
     procedure Fone3EditKeyPress(Sender: TObject; var Key: Char);
     procedure ContatoEditKeyPress(Sender: TObject; var Key: Char);
-    procedure CEPColarSpeedButtonClick(Sender: TObject);
+    procedure ReferenciaMemoKeyPress(Sender: TObject; var Key: Char);
+
     procedure SpeedButton1Click(Sender: TObject);
+    procedure CEPColarSpeedButtonClick(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -160,7 +161,6 @@ procedure TEnderControlsFrame.BairroEditKeyPress(Sender: TObject;
 begin
   inherited;
   EditKeyPress(Sender, Key);
-
 end;
 
 procedure TEnderControlsFrame.CEPColarSpeedButtonClick(Sender: TObject);
@@ -211,13 +211,8 @@ end;
 procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  //inherited;
-  if key = #13 then
-  begin
-    key := #0;
-    UFSiglaComboBox.SetFocus;
-  end;
-  //EditKeyPress(Sender, Key);
+  inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 procedure TEnderControlsFrame.ColarCEP;
