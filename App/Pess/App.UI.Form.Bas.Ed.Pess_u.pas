@@ -50,6 +50,8 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure CPessEditExit(Sender: TObject);
+    procedure CPessEditKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -61,6 +63,7 @@ type
     function NomeFantasiaOk: boolean;
     function ApelidoOk: boolean;
     function COk: boolean;
+    procedure ColarC;
 
   protected
     function GetObjetivoStr: string; override;
@@ -89,7 +92,7 @@ implementation
 
 uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
   Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, Sis.Win.Utils_u, System.StrUtils;
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -214,6 +217,21 @@ begin
   end;
 end;
 
+procedure TPessEdBasForm.ColarC;
+var
+  sText: string;
+begin
+  inherited;
+  sText := GetClipboardText;
+  sText := StrToOnlyDigit(sText);
+
+  if sText = '' then
+    exit;
+
+  sText := LeftStr(sText, 8);
+  CPessEdit.Text := sText;
+end;
+
 function TPessEdBasForm.ControlesOk: boolean;
 begin
   Result := TesteEditVazio(NomePessEdit, 'Nome', ErroOutput);
@@ -243,6 +261,23 @@ procedure TPessEdBasForm.CPessEditExit(Sender: TObject);
 begin
   inherited;
   CPessEdit.Text := StrToOnlyDigit(CPessEdit.Text);
+end;
+
+procedure TPessEdBasForm.CPessEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  sText: string;
+begin
+  inherited;
+  case Key of
+    ord('v'), ord('V'):
+      begin
+        if Shift = [ssCtrl] then
+        begin
+          ColarC;
+        end;
+      end;
+  end;
 end;
 
 procedure TPessEdBasForm.CPessEditKeyPress(Sender: TObject; var Key: Char);

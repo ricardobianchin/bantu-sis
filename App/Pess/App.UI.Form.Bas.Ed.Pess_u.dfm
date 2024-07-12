@@ -144,6 +144,7 @@ inherited PessEdBasForm: TPessEdBasForm
     NumbersOnly = True
     TabOrder = 3
     OnExit = CPessEditExit
+    OnKeyDown = CPessEditKeyDown
     OnKeyPress = CPessEditKeyPress
   end
   object IPessEdit: TEdit [17]
