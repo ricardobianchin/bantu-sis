@@ -21,6 +21,9 @@ OBJETO_NOME=ENDERECO_PA
 Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql"
+
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
 */
 
