@@ -49,6 +49,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure CPessEditExit(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -87,7 +88,8 @@ implementation
 {$R *.dfm}
 
 uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
-  Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types;
+  Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types,
+  Sis.Types.strings_u;
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -237,10 +239,18 @@ begin
   FEnderFrame.ControlesToEnt;
 end;
 
+procedure TPessEdBasForm.CPessEditExit(Sender: TObject);
+begin
+  inherited;
+  CPessEdit.Text := StrToOnlyDigit(CPessEdit.Text);
+end;
+
 procedure TPessEdBasForm.CPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
   // inherited;
   EditKeyPress(Sender, Key);
+  if Key = #0 then
+    exit;
 end;
 
 constructor TPessEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
