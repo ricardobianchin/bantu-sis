@@ -41,6 +41,8 @@ type
 implementation
 
 {$R *.dfm}
+
+uses App.Pess.Ent.Factory_u, Sis.Types.strings_u;
 { TEnderFrame }
 
 procedure TEnderFrame.ControlesToEnt;
@@ -55,6 +57,12 @@ begin
 
   Tab := FFDMemTable;
 
+  while FPessEnt.PessEnderList.Count < (Tab.RecordCount) do
+  begin
+    oEnder := PessEnderCreate;
+    FPessEnt.PessEnderList.Add(oEnder);
+  end;
+
   bm := Tab.GetBookmark;
   Tab.First;
   try
@@ -62,7 +70,7 @@ begin
     begin
       iOrdem := Tab.Fields[0].AsInteger;
       oEnder := FPessEnt.PessEnderList[iOrdem];
-      oEnder.CEP := Tab.Fields[7 { CEP } ].AsString;
+      oEnder.CEP := StrToOnlyDigit(Tab.Fields[7 { CEP } ].AsString);
       oEnder.UFSigla := Tab.Fields[6 { UF_SIGLA } ].AsString;
 
       oEnder.MunicipioNome :=Tab.Fields[5 { MUNICIPIO_NOME } ].AsString;
@@ -146,7 +154,7 @@ begin
     Tab.Fields[4 {BAIRRO}].AsString := oEnder.Bairro;
     Tab.Fields[5 {MUNICIPIO_NOME}].AsString := oEnder.MunicipioNome;
     Tab.Fields[6 {UF_SIGLA}].AsString := oEnder.UFSigla;
-    Tab.Fields[7 {CEP}].AsString := oEnder.CEP;
+    Tab.Fields[7 {CEP}].AsString := StrToOnlyDigit(oEnder.CEP);
     Tab.Fields[8 {DDD}].AsString := oEnder.DDD;
     Tab.Fields[9 {FONE1}].AsString := oEnder.Fone1;
     Tab.Fields[10 {FONE2}].AsString := oEnder.Fone2;
