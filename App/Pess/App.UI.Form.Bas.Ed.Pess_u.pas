@@ -165,7 +165,7 @@ var
 begin
   inherited;
   s := CPFGetRandom;
-  CPessEdit.Text := s
+  CPessEdit.Text := s;
   IPessEdit.SetFocus;
 end;
 
