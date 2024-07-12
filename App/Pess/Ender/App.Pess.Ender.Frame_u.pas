@@ -78,6 +78,8 @@ begin
       oEnder.Fone3 := Tab.Fields[11 { FONE3 } ].AsString;
       oEnder.Contato := Tab.Fields[12 { CONTATO } ].AsString;
       oEnder.Referencia := Tab.Fields[13 { REFERENCIA } ].AsString;
+
+      Tab.Next;
     end;
   finally
     Tab.GotoBookmark(bm);
