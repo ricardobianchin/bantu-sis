@@ -20,6 +20,7 @@ type
     function GetSqlGaranteRegRetId: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
+    function LojaIdExiste(pLojaId: SmallInt; out pApelido: string): boolean;
   end;
 
 implementation
@@ -78,6 +79,30 @@ begin
     + iLojaId.ToString //
     + ');'#13#10 //
     ;
+end;
+
+function TPessLojaDBI.LojaIdExiste(pLojaId: SmallInt; out pApelido: string): boolean;
+var
+  sFormat: string;
+  sSql: string;
+  vResult: Variant;
+begin
+  Result := False;
+  sFormat := 'SELECT APELIDO FROM LOJA_INICIAL_PA.BYID_GET(%d);';
+  sSql := Format(sFormat, [pLojaId]);
+
+  DBConnection.Abrir;
+  try
+    vResult := DBConnection.GetValue(sSql);
+    if VarIsNull(vResult) then
+      pApelido := ''
+    else
+      pApelido := Trim(vResult);
+
+    Result := pApelido <> '';
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 end.
