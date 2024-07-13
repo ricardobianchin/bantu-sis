@@ -223,7 +223,7 @@ begin
   if not Resultado then
     exit;
 
-  FDMemTable.Edit;
+  FDMemTable.Append;
   EntToRecord;
   FDMemTable.Post;
 end;
