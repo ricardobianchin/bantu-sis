@@ -3,11 +3,14 @@ unit App.AppObj;
 interface
 
 uses Sis.Config.SisConfig, App.AppInfo, Sis.UI.IO.Output, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.Loja;
+  Sis.UI.IO.Output.ProcessLog, Sis.Loja, App.Testes.Config;
 
 type
   IAppObj = interface(IInterface)
     ['{DC6EC674-3089-4213-8542-65232780AE51}']
+
+    function GetAppTestesConfig: IAppTestesConfig;
+    property AppTestesConfig: IAppTestesConfig read GetAppTestesConfig;
 
     function GetSisConfig: ISisConfig;
     property SisConfig: ISisConfig read GetSisConfig;

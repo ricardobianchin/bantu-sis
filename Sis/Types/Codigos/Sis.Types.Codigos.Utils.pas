@@ -4,6 +4,8 @@ interface
 
 function CNPJValido(pCNPJ: string; AceitaNulo: Boolean = True): Boolean;
 function CPFValido(pCPF: string): Boolean;
+function CValido(pC: string): Boolean;
+
 function BarCodValido(pCod: string): Boolean;
 function EAN8Valido(pCod: string): Boolean;
 function EAN13Valido(pCod: string): Boolean;
@@ -20,8 +22,12 @@ function FoneComMasc(psFone: string): string;
 function EAN8Dig(pCod: string): char;
 function EAN13Dig(pCod: string): char;
 function EAN14Dig(pCod: string): char;
+function CNPJDig(pCod: string): string;
+function CPFDig(pCod: string): string;
 
 function EAN13GetRandom: string;
+function CNPJGetRandom: string;
+function CPFGetRandom: string;
 
 function IdToEan13(pId: integer): string;
 
@@ -228,6 +234,26 @@ begin
     exit;
   result := True;
 
+end;
+
+function CValido(pC: string): Boolean;
+var
+  L: integer;
+begin
+  pC := Trim(pC);
+
+  result := StrIsOnlyDigit(pC);
+  if not result then
+    exit;
+
+  L := Length(pC);
+
+  case L of
+    11:
+      result := CPFValido(pC);
+  else
+    result := CNPJValido(pC, False);
+  end;
 end;
 
 function BarCodValido(pCod: string): Boolean;
@@ -587,24 +613,149 @@ end;
 
 function EAN13GetRandom: string;
 const
-  Digitos: array[0..9] of Char = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+  Digitos: array [0 .. 9] of char = ('0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9');
   LEN_CODIGO = 13;
   PREFIXO = '2';
-  LEN_DESEJADO = LEN_CODIGO - 1{dig} - Length(PREFIXO);
+  LEN_DESEJADO = LEN_CODIGO - 1 { dig } - Length(PREFIXO);
 
 var
   cAtual: char;
-  I, ic: integer;
+  i, ic: integer;
 begin
-  Result := '2';
-  for I := 1 to LEN_DESEJADO do
+  result := PREFIXO;
+  for i := 1 to LEN_DESEJADO do
   begin
     ic := Random(Length(Digitos));
     cAtual := Digitos[ic];
-    Result := Result + cAtual
+    result := result + cAtual
   end;
 
-  Result := Result + EAN13Dig(result);
+  result := result + EAN13Dig(result);
+end;
+
+function CNPJGetRandom: string;
+const
+  Digitos: array [0 .. 9] of char = ('0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9');
+  LEN_CODIGO = 14;
+  PREFIXO = '0000';
+  LEN_DESEJADO = LEN_CODIGO - 2 { dig } - Length(PREFIXO);
+
+var
+  cAtual: char;
+  i, ic: integer;
+begin
+  result := PREFIXO;
+  for i := 1 to LEN_DESEJADO do
+  begin
+    ic := Random(Length(Digitos));
+    cAtual := Digitos[ic];
+    result := result + cAtual
+  end;
+
+  result := result + CNPJDig(result);
+end;
+
+function CPFGetRandom: string;
+const
+  Digitos: array [0 .. 9] of char = ('0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9');
+  LEN_CODIGO = 11;
+  PREFIXO = '000';
+  LEN_DESEJADO = LEN_CODIGO - 2 { dig } - Length(PREFIXO);
+
+var
+  cAtual: char;
+  i, ic: integer;
+begin
+  result := PREFIXO;
+  for i := 1 to LEN_DESEJADO do
+  begin
+    ic := Random(Length(Digitos));
+    cAtual := Digitos[ic];
+    result := result + cAtual
+  end;
+
+  result := result + CPFDig(result);
+end;
+
+function CNPJDig(pCod: string): string;
+var
+  L, soma, ind, i, resto, dv1, dv2: integer;
+begin
+  pCod := Trim(pCod);
+
+  L := Length(pCod);
+
+  soma := 0;
+  ind := 5;
+  for i := 1 to 12 do
+  begin
+    inc(soma, strtoint(pCod[i]) * ind);
+    dec(ind);
+    if ind = 1 then
+      ind := 9;
+  end;
+
+  resto := soma mod 11;
+
+  if (resto = 0) or (resto = 1) then
+    dv1 := 0
+  else
+    dv1 := 11 - resto;
+
+  pCod := pCod + Chr(Ord('0') + dv1);
+
+  soma := 0;
+  ind := 6;
+
+  for i := 1 to 13 do
+  begin
+    inc(soma, strtoint(pCod[i]) * ind);
+    dec(ind);
+    if ind = 1 then
+      ind := 9;
+  end;
+  resto := soma mod 11;
+  if (resto = 0) or (resto = 1) then
+    dv2 := 0
+  else
+    dv2 := 11 - resto;
+
+  result := Chr(Ord('0') + dv1) + Chr(Ord('0') + dv2);
+end;
+
+function CPFDig(pCod: string): string;
+var
+  soma, p, resto, dv1, dv2: integer;
+begin
+  // 50419560068
+  soma := 0;
+  for p := 1 to 9 do
+    inc(soma, strtoint(pCod[p]) * (11 - p));
+
+  resto := soma mod 11;
+
+  if (resto = 0) or (resto = 1) then
+    dv1 := 0
+  else
+    dv1 := 11 - resto;
+
+  pCod := pCod + Chr(Ord('0') + dv1);
+
+  soma := 0;
+  for p := 1 to 10 do
+    inc(soma, strtoint(pCod[p]) * (12 - p));
+
+  resto := soma mod 11;
+
+  if (resto = 0) or (resto = 1) then
+    dv2 := 0
+  else
+    dv2 := 11 - resto;
+
+  result := Chr(Ord('0') + dv1) + Chr(Ord('0') + dv2);
 end;
 
 end.

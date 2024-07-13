@@ -216,7 +216,15 @@ begin
     Abrir;
     sLog := sLog + ',retornou,vai FFDConnection.ExecSQLScalar';
     try
-      Result := FFDConnection.ExecSQLScalar(pSql);
+      try
+        Result := FFDConnection.ExecSQLScalar(pSql);
+      except
+        on e: exception do
+        begin
+          sLog := sLog + #13#10 + e.ClassName + ' ' + e.Message + #13#10;
+          raise;
+        end;
+      end;
     finally
       sLog := sLog + 'Result=' + VarToStrDef(Result, 'nil') + ', vai fechar';
       Fechar;
@@ -238,9 +246,15 @@ begin
   ProcessLog.PegueLocal('TDBConnectionFireDAC.QueryDataSet');
   try
     sLog := #13#10 + pSql + #13#10'vai executar FFDConnection.ExecSQL';
-
-    FFDConnection.ExecSQL(pSql, pDataSet);
-
+    try
+      FFDConnection.ExecSQL(pSql, pDataSet);
+    except
+      on e: exception do
+      begin
+        sLog := sLog + #13#10 + e.ClassName + ' ' + e.Message + #13#10;
+        raise;
+      end;
+    end;
     sLog := sLog + 'Retornou,Assigned(pDataSet)=' +
       BooleanToStr(Assigned(pDataSet));
   finally

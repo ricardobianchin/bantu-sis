@@ -8,29 +8,29 @@ inherited DBImportProdEdForm: TDBImportProdEdForm
   inherited MensLabel: TLabel
     Top = 295
     Width = 590
-    ExplicitTop = 211
+    ExplicitTop = 295
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 352
     Width = 590
-    ExplicitTop = 268
+    ExplicitTop = 352
   end
   inherited BasePanel: TPanel
     Top = 315
     Width = 590
-    ExplicitTop = 230
-    ExplicitWidth = 443
+    ExplicitTop = 314
+    ExplicitWidth = 586
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 251
-      ExplicitLeft = 104
+      Left = 247
+      ExplicitLeft = 243
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 364
-      ExplicitLeft = 217
+      Left = 360
+      ExplicitLeft = 356
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 444
-      ExplicitLeft = 297
+      Left = 440
+      ExplicitLeft = 436
     end
   end
   object SelCheckBox: TCheckBox [3]

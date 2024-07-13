@@ -13,8 +13,8 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pId: variant); override;
+    function GetSqlGaranteRegRetId: string; override;
+    procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   end;
 
@@ -36,7 +36,7 @@ begin
   Result := EntEdCastToProdICMSEnt(EntEd);
 end;
 
-function TProdICMSDBI.GetSqlGarantirRegId: string;
+function TProdICMSDBI.GetSqlGaranteRegRetId: string;
 var
   sFormat: string;
   sId, sSigla, sDescr, sPerc, sAtivo: string;
@@ -68,10 +68,10 @@ begin
   Result := 'SELECT ICMS_ID, SIGLA, DESCR, PERC, ATIVO FROM ICMS_PA.LISTA_GET;';
 end;
 
-procedure TProdICMSDBI.SetNovaId(pId: variant);
+procedure TProdICMSDBI.SetVarArrayToId(pNovaId: Variant);
 begin
   inherited;
-  GetProdICMSEnt.Id := VarToInteger(pId);
+  GetProdICMSEnt.Id := VarToInteger(pNovaId[0]);
 end;
 
 end.

@@ -1,136 +1,194 @@
-MODULO
+ENDERECO_PA
 
+
+//INICIO
+-----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=MODULO
-DBATUALIZ_OBJETIVO=CRIA MODULO, MODULO_PA
+DBATUALIZ_ASSUNTO=PESSOA
+DBATUALIZ_OBJETIVO=CRIA ENDERECO_PA
 DBATUALIZ_OBS=
 
 
-//TABELA MODULO
-
-COMANDO INI
-TIPO_COMANDO=CREATE TABLE
-OBJETO_NOME=MODULO
-
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
-
-MODULO_ID;ID_CHAR_DOM;S;S
-DESCR;NOME_CURTO_NOTN_DOM
-
-COLUNAS FIM
-COMANDO FIM
-
-//TABELA MODULO FIM
 
 
 
-//TABELA ATIV_SIS_OFERECE_MODULO
-
-COMANDO INI
-TIPO_COMANDO=CREATE TABLE
-OBJETO_NOME=ATIV_SIS_OFERECE_MODULO
-
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
-
-ATIV_SIS_ID;ID_CHAR_DOM;S;S
-MODULO_ID;ID_CHAR_DOM;S;S
-
-COLUNAS FIM
-COMANDO FIM
-
-//TABELA ATIV_SIS_OFERECE_MODULO FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY ATIV_SIS ATIV_SIS_OFERECE_MODULO
-//
-//////////////////////////////////
-COMANDO INI
-TIPO_COMANDO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=ATIV_SIS_OFERECE_MODULO
-CAMPOS_FK=ATIV_SIS_ID
-TABELA_PK=ATIV_SIS
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY ATIV_SIS ATIV_SIS_OFERECE_MODULO FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY MODULO ATIV_SIS_OFERECE_MODULO
-//
-//////////////////////////////////
-COMANDO INI
-TIPO_COMANDO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=ATIV_SIS_OFERECE_MODULO
-CAMPOS_FK=MODULO_ID
-TABELA_PK=MODULO
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY MODULO ATIV_SIS_OFERECE_MODULO FIM
-
-
-
-//PACKAGE MODULO_PA
-
+// PACKAGE ENDERECO_PA
 COMANDO INI
 TIPO_COMANDO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=MODULO_PA
+OBJETO_NOME=ENDERECO_PA
+
+/*
+Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
+*/
 
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE MODULO_PA
+CREATE OR ALTER PACKAGE ENDERECO_PA
 AS
 BEGIN
-  PROCEDURE MODULOS_DA_ATIV_SIS_GET
-  (
-    ATIV_SIS_ID CHAR
-  )
-  RETURNS
-  (
-   MODULO_ID_RET CHAR
-   , MODULO_DESCR_RET NOME_CURTO_DOM
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
   );
   
-END^
-
-RECREATE PACKAGE BODY MODULO_PA
-AS
-BEGIN
-  PROCEDURE MODULOS_DA_ATIV_SIS_GET
+  PROCEDURE MUNICIPIO_LISTA_GET
   (
-   ATIV_SIS_ID CHAR
+    UF_SIGLA CHAR(2)
   )
   RETURNS
   (
-   MODULO_ID_RET CHAR
-   , MODULO_DESCR_RET NOME_CURTO_DOM
-  ) 
+    MUNICIPIO_IBGE_ID CHAR(5)
+    , NOME NOME_DOM
+  );
+
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(5),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+  );
+END^
+
+/*
+--------
+-- BODY
+--------
+*/
+
+RECREATE PACKAGE BODY ENDERECO_PA
+AS
+BEGIN
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
+  )
   AS
   BEGIN
-    FOR SELECT M.MODULO_ID, M.DESCR 
-    FROM MODULO M
-    JOIN ATIV_SIS_OFERECE_MODULO OFER ON
-    OFER.ATIV_SIS_ID = :ATIV_SIS_ID
-    AND M.MODULO_ID = OFER.MODULO_ID
-    INTO :MODULO_ID_RET, :MODULO_DESCR_RET 
-    DO 
-    SUSPEND; 
+    FOR SELECT
+      UF_SIGLA,
+      UF_IBGE_ID
+    FROM UF
+    ORDER BY UF_SIGLA
+    INTO :UF_SIGLA,
+      :UF_IBGE_ID
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
+  (
+    UF_SIGLA CHAR(2)
+  )
+  RETURNS
+  (
+    MUNICIPIO_IBGE_ID CHAR(5)
+    , NOME NOME_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT
+      MUNICIPIO_IBGE_ID,
+      NOME
+    FROM MUNICIPIO
+    WHERE UF_SIGLA = :UF_SIGLA
+    ORDER BY NOME
+    INTO :MUNICIPIO_IBGE_ID,
+        :NOME
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(5),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO ENDERECO (
+        LOJA_ID,
+        TERMINAL_ID,
+        PESSOA_ID,
+        ORDEM,
+        LOGRADOURO,
+        NUMERO,
+        COMPLEMENTO,
+        BAIRRO,
+        UF_SIGLA,
+        CEP,
+        MUNICIPIO_IBGE_ID,
+        DDD,
+        FONE1,
+        FONE2,
+        FONE3,
+        CONTATO,
+        REFERENCIA
+    )
+    VALUES (
+        :LOJA_ID,
+        :TERMINAL_ID,
+        :PESSOA_ID,
+        :ORDEM,
+        :LOGRADOURO,
+        :NUMERO,
+        :COMPLEMENTO,
+        :BAIRRO,
+        :UF_SIGLA,
+        :CEP,
+        :MUNICIPIO_IBGE_ID,
+        :DDD,
+        :FONE1,
+        :FONE2,
+        :FONE3,
+        :CONTATO,
+        :REFERENCIA
+    )
+    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM);
   END
 END^
 SET TERM ;^
 ```
 COMANDO FIM
-
-//PACKAGE ATIV_SIS_PA FIM
 
 DBATUALIZ FIM

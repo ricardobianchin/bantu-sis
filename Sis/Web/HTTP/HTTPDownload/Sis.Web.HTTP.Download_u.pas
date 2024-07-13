@@ -26,7 +26,7 @@ type
 
 implementation
 
-uses System.DateUtils, System.SysUtils, Sis.Types.Times, Sis.UI.IO.Files.Sync,
+uses System.DateUtils, System.SysUtils, Sis.Types.Dates, Sis.UI.IO.Files.Sync,
   Sis.Web.HTTPDownload.NET;
 
 { THTTPDownload }

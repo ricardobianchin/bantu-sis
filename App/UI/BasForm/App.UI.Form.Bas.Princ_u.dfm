@@ -5,7 +5,6 @@ inherited PrincBasForm: TPrincBasForm
   ClientWidth = 628
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitTop = -26
   ExplicitWidth = 628
   ExplicitHeight = 477
   TextHeight = 15

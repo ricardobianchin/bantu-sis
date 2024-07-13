@@ -31,7 +31,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
     object Label2: TLabel
       Left = 0
       Top = 0
-      Width = 185
+      Width = 35
       Height = 15
       Align = alTop
       Alignment = taCenter
@@ -42,7 +42,6 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 35
     end
     object ProdutosGroupBox: TGroupBox
       Left = 0
@@ -96,36 +95,6 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
           Action = AtualizarAction
         end
       end
-    end
-  end
-  object ProdQtdZeroNotifyItemPanel: TPanel [3]
-    Left = 8
-    Top = 42
-    Width = 420
-    Height = 63
-    Caption = ' '
-    ParentBackground = False
-    TabOrder = 2
-    Visible = False
-    object Label1: TLabel
-      Left = 2
-      Top = 1
-      Width = 415
-      Height = 30
-      AutoSize = False
-      Caption = 
-        'Foi detectado que n'#227'o h'#225' produtos cadastrados. Deseja importar o' +
-        's dados?'
-      WordWrap = True
-    end
-    object DadosImportarButton: TButton
-      Left = 112
-      Top = 34
-      Width = 116
-      Height = 25
-      Caption = 'Importar dados...'
-      TabOrder = 0
-      OnClick = DadosImportarButtonClick
     end
   end
   inherited ShowTimer_BasForm: TTimer

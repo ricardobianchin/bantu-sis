@@ -9,30 +9,30 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
 requires
   rtl,
-  Sis,
   vclimg,
   vcledge,
-  vclie;
+  vclie,
+  Sis;
 
 contains
   App.AppObj in 'AppObj\App.AppObj.pas',
@@ -165,7 +165,6 @@ contains
   App.UI.Form.Ed.Fin.PagForma_u in 'Modulos\Retag\Fin\PagForma\App.UI.Form.Ed.Fin.PagForma_u.pas' {PagFormaEdForm},
   App.Retag.Fin.PagForma.Ed.DBI in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas',
   App.Retag.Fin.PagForma.Ed.DBI_u in 'Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas',
-  App.Retag in 'Modulos\Retag\App.Retag.pas',
   App.DB.Import.Form_u in 'DB\DBImport\App.DB.Import.Form_u.pas' {DBImportForm},
   App.DB.Import.Prod.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Ed.Form_u.pas' {DBImportProdEdForm},
   App.DB.Import.Prod.Rej.Ed.Form_u in 'DB\DBImport\App.DB.Import.Prod.Rej.Ed.Form_u.pas' {ProdRejEdForm},
@@ -181,6 +180,49 @@ contains
   App.DB.Import.Form_Finalizar_ProdTipo_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_ProdTipo_u.pas',
   App.DB.Import.Form_Finalizar_Unid_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas',
   App.DB.Import.Form_Finalizar_Prod_u in 'DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas',
-  AppVersao_u in 'AppVersao\AppVersao_u.pas';
+  AppVersao_u in 'AppVersao\AppVersao_u.pas',
+  App.UI.Form.DataSet.Retag.Aju.VersaoDB_u in 'Modulos\Retag\Aju\VersaoDB\App.UI.Form.DataSet.Retag.Aju.VersaoDB_u.pas' {RetagAjuVersaoDBDataSetForm},
+  App.Retag.Aju.VersaoDB.Ent in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas',
+  App.Retag.Aju.VersaoDB.Ent_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas',
+  App.Retag.Aju.VersaoDB.DBI_u in 'Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas',
+  App.UI.Form.Bas.DataSet.Pess_u in 'Pess\App.UI.Form.Bas.DataSet.Pess_u.pas' {AppPessDataSetForm},
+  App.Pess.Ent in 'Pess\App.Pess.Ent.pas',
+  App.Pess.Geral.Factory_u in 'Pess\App.Pess.Geral.Factory_u.pas',
+  App.Generos in 'Pess\App.Generos.pas',
+  App.Generos_u in 'Pess\App.Generos_u.pas',
+  App.EstadosCivis in 'Pess\App.EstadosCivis.pas',
+  App.EstadosCivis_u in 'Pess\App.EstadosCivis_u.pas',
+  App.UI.Form.DataSet.Pess.Loja_u in 'Pess\App.UI.Form.DataSet.Pess.Loja_u.pas' {AppPessLojaDataSetForm},
+  App.PessEnder in 'Pess\App.PessEnder.pas',
+  App.Pess.Loja.DBI_u in 'Pess\App.Pess.Loja.DBI_u.pas',
+  App.Pess.Ent_u in 'Pess\App.Pess.Ent_u.pas',
+  App.PessEnder_u in 'Pess\App.PessEnder_u.pas',
+  App.PessEnder.List in 'Pess\App.PessEnder.List.pas',
+  App.PessEnder.List_u in 'Pess\App.PessEnder.List_u.pas',
+  App.Pess.Utils in 'Pess\App.Pess.Utils.pas',
+  App.Pess.Loja.Ent in 'Pess\App.Pess.Loja.Ent.pas',
+  App.Pess.Loja.Ent_u in 'Pess\App.Pess.Loja.Ent_u.pas',
+  App.UI.Form.Bas.Ed.Pess_u in 'Pess\App.UI.Form.Bas.Ed.Pess_u.pas' {PessEdBasForm},
+  App.Pess.UI.Factory_u in 'Pess\App.Pess.UI.Factory_u.pas',
+  App.Pess.Loja.DBI in 'Pess\App.Pess.Loja.DBI.pas',
+  App.Pess.Ent.Factory_u in 'Pess\App.Pess.Ent.Factory_u.pas',
+  App.UI.TabSheet.DataSet.Types_u in 'UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas',
+  App.Pess.DBI in 'Pess\App.Pess.DBI.pas',
+  App.Pess.DBI_u in 'Pess\App.Pess.DBI_u.pas',
+  App.UI.Form.Bas.Ed.Pess.Loja_u in 'Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas' {PessLojaEdForm},
+  App.Testes.Config_u in 'AppObj\TestesConfig\App.Testes.Config_u.pas',
+  App.Testes.Config in 'AppObj\TestesConfig\App.Testes.Config.pas',
+  App.Testes.Config.ModuConf in 'AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf.pas',
+  App.Testes.Config.ModuConf.Ambi in 'AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi.pas',
+  App.Testes.Config.Factory in 'AppObj\TestesConfig\App.Testes.Config.Factory.pas',
+  App.Testes.Config.ModuConf_u in 'AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf_u.pas',
+  App.Testes.Config.ModuConf.Ambi_u in 'AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi_u.pas',
+  App.Testes.Config.ModuConf.Ambi.Loja in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas',
+  App.Testes.Config.ModuConf.Ambi.Loja_u in 'AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas',
+  App.Testes.Config.App in 'AppObj\TestesConfig\App\App.Testes.Config.App.pas',
+  App.Testes.Config.App_u in 'AppObj\TestesConfig\App\App.Testes.Config.App_u.pas',
+  App.Pess.Ender.Controls.Frame_u in 'Pess\Ender\App.Pess.Ender.Controls.Frame_u.pas' {EnderControlsFrame: TFrame},
+  App.Pess.Ender.DBGrid.Frame_u in 'Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas' {EnderDBGridFrame: TFrame},
+  App.Pess.Ender.Frame_u in 'Pess\Ender\App.Pess.Ender.Frame_u.pas' {EnderFrame: TFrame};
 
 end.

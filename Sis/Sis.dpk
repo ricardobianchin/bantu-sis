@@ -9,21 +9,21 @@ package Sis;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -101,7 +101,6 @@ contains
   Sis.DB.DBQuery.FireDAC_u in 'DB\Sis.DB.DBQuery.FireDAC_u.pas',
   Sis.DB.DBExec.FireDAC_u in 'DB\Sis.DB.DBExec.FireDAC_u.pas',
   Sis.UI.IO.Output.ProcessLog.Mudo in 'UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas',
-  Sis.Types.Times in 'Types\Sis.Types.Times.pas',
   Sis.UI.IO.Files.FileInfo in 'UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas',
   Sis.UI.IO.Files.FileInfo_u in 'UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas',
   Sis.UI.IO.Files.Sync in 'UI\IO\Files\Sis.UI.IO.Files.Sync.pas',
@@ -258,6 +257,8 @@ contains
   Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame in 'UI\Controls\Files\FileSelectLabeledEdit\Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame.pas' {FileSelectLabeledEditFrame: TFrame},
   Sis.Types.strings.abrev_u in 'Types\Sis.Types.strings.abrev_u.pas',
   Sis.UI.IO.Input.Str.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas' {InputStrForm},
-  Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas';
+  Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas',
+  Sis.Types.Dates in 'Types\Sis.Types.Dates.pas',
+  Sis.Web.HTTPGet.Net_u in 'Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas';
 
 end.

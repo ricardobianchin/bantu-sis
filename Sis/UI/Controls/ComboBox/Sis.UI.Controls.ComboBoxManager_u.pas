@@ -16,16 +16,19 @@ type
     procedure SetIdChar(const pId: Char); virtual;
     function GetIdChar: Char; virtual;
 
-    procedure LimparItens; virtual;
+    function GetText: string; virtual;
+    procedure SetText(const Value: string); virtual;
 
     property ComboBox: TComboBox read GetComboBox;
   public
     procedure Cicle;
+    procedure Clear; virtual;
 
     constructor Create(pComboBox: TComboBox);
 
     property Id: integer read GetId write SetId;
     property IdChar: Char read GetIdChar write SetIdChar;
+    property Text: string read GetText write SetText;
 
     function PegarId(pId: integer; pDescr: string): integer; virtual;
     function PegarIdChar(pId: char; pDescr: string): integer; virtual;
@@ -70,6 +73,12 @@ var
   Resultado: integer;
 begin
   I := FComboBox.ItemIndex;
+  if I < 0 then
+  begin
+    Result := 0;
+    exit;
+  end;
+
   P := FComboBox.Items.Objects[I];
   Resultado := integer(P);
   Result := Resultado;
@@ -80,9 +89,15 @@ begin
   Result := char(GetId);
 end;
 
-procedure TComboBoxManager.LimparItens;
+function TComboBoxManager.GetText: string;
+begin
+  Result := FComboBox.Text;
+end;
+
+procedure TComboBoxManager.Clear;
 begin
   FComboBox.Items.Clear;
+  FComboBox.Text := '';
 end;
 
 function TComboBoxManager.PegarIdChar(pId: char; pDescr: string): integer;
@@ -108,21 +123,46 @@ end;
 
 procedure TComboBoxManager.SetId(const pId: integer);
 var
-  i: integer;
+  iIndex: integer;
 begin
   if pId < 1 then
+  begin
+    FComboBox.ItemIndex := -1;
+    FComboBox.Text := '';
+    exit;
+  end;
+
+  iIndex := FComboBox.Items.IndexOfObject(Pointer(pId));
+  if iIndex < 0 then
     exit;
 
-  i := FComboBox.Items.IndexOfObject(Pointer(pId));
-  if i <0 then
-    exit;
-
-  FComboBox.ItemIndex := i;
+  FComboBox.ItemIndex := iIndex;
 end;
 
 procedure TComboBoxManager.SetIdChar(const pId: Char);
+var
+  iId: integer;
 begin
-  SetId(Ord(pId));
+  if (pId=#0) or (pId=#32) then
+  begin
+    iId := 0;
+  end
+  else
+    iId := Ord(pId);
+
+  SetId(iId);
+end;
+
+procedure TComboBoxManager.SetText(const Value: string);
+var
+  I: integer;
+begin
+  I := FComboBox.Items.IndexOf(Value);
+
+  if I < 0 then
+    exit;
+
+  FComboBox.ItemIndex := i;
 end;
 
 end.

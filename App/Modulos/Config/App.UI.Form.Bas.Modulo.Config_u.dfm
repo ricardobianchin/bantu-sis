@@ -35,7 +35,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
       Top = 0
       Width = 604
       Height = 66
-      ActivePage = ConfigImportTabSheet
+      ActivePage = ConfigAmbienteTabSheet
       Align = alTop
       TabOrder = 0
       object ConfigAmbienteTabSheet: TTabSheet
@@ -59,7 +59,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
           object ConfigAmbienteLojasToolButton: TToolButton
             Left = 0
             Top = 0
-            Action = ConfigAmbienteLojasAction
+            Action = ConfigAmbiLojasAction
           end
           object ConfigTerminaisToolButton: TToolButton
             Left = 104
@@ -96,6 +96,14 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
       end
     end
   end
+  object PageControl1: TPageControl [3]
+    Left = 0
+    Top = 105
+    Width = 604
+    Height = 346
+    Align = alClient
+    TabOrder = 3
+  end
   inherited ShowTimer_BasForm: TTimer
     Left = 160
     Top = 104
@@ -116,13 +124,19 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
       Hint = 'Abre a importa'#231#227'o da oridem selecionada'
       OnExecute = ConfigDBImportAbrirActionExecute
     end
-    object ConfigAmbienteLojasAction: TAction
+    object ConfigAmbiLojasAction: TAction
       Caption = 'Estabelecimentos'
       Hint = 'Cadastro dos estabelecimentos atual e rede'
+      OnExecute = ConfigAmbiLojasActionExecute
     end
     object ConfigTerminaisAction: TAction
       Caption = 'Terminais'
       Hint = 'Castastro dos terminais da loja atual'
     end
+  end
+  object BalloonHint1: TBalloonHint
+    Delay = 100
+    Left = 160
+    Top = 184
   end
 end

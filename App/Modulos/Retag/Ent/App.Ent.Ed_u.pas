@@ -25,6 +25,7 @@ implementation
 
 constructor TEntEd.Create(pState: TDataSetState);
 begin
+  inherited Create;
   FState := pState;
 end;
 

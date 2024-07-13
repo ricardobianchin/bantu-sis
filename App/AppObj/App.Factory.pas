@@ -4,7 +4,7 @@ interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.AtualizaVersao, Sis.Config.SisConfig, App.SisConfig.Garantir, Sis.Loja,
-  Sis.Usuario, Sis.DB.DBTypes, App.DB.Log;
+  Sis.Usuario, Sis.DB.DBTypes, App.DB.Log, App.Testes.Config;
 
 function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
@@ -19,10 +19,12 @@ function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
   pProcessLog: IProcessLog): IAppSisConfigGarantirXML;
 
+function AppTestesConfigCreate(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): IAppTestesConfig;
+
 implementation
 
 uses App.AppObj_u, App.AppInfo_u, App.AtualizaVersao_u, Sis.Config.SisConfig_u,
-  App.SisConfig.Garantir_u, App.DB.Log_u;
+  App.SisConfig.Garantir_u, App.DB.Log_u, App.Testes.Config_u;
 
 function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
@@ -49,6 +51,12 @@ function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
 begin
   Result := TAppSisConfigGarantirXML.Create(pAppInfo, pSisConfig, pUsuarioGerente,
     pLoja, pOutput, pProcessLog);
+end;
+
+function AppTestesConfigCreate(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): IAppTestesConfig;
+begin
+  Result := TAppTestesConfig.Create(pProcessLog, pOutput);
+
 end;
 
 end.

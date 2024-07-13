@@ -13,8 +13,8 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGarantirRegId: string; override;
-    procedure SetNovaId(pId: variant); override;
+    function GetSqlGaranteRegRetId: string; override;
+    procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   end;
 
@@ -34,7 +34,7 @@ begin
   Result := EntEdCastToProdTipoEnt(EntEd);
 end;
 
-function TProdTipoDBI.GetSqlGarantirRegId: string;
+function TProdTipoDBI.GetSqlGaranteRegRetId: string;
 var
   sFormat: string;
 begin
@@ -65,10 +65,10 @@ begin
   Result := Format(sFormat, [sBusca]);
 end;
 
-procedure TProdTipoDBI.SetNovaId(pId: variant);
+procedure TProdTipoDBI.SetVarArrayToId(pNovaId: Variant);
 begin
   inherited;
-  GetProdTipoEnt.Id := VarToInteger(pId);
+  GetProdTipoEnt.Id := VarToInteger(pNovaId[0]);
 end;
 
 end.

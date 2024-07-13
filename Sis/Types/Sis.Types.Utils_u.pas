@@ -19,6 +19,15 @@ const
   sNOVALIN = sLineBreak;
   CHAR_TAB: char = #9;
 
+function ObterHierarquiaDeClasses(pClasse: TClass): string;
+
 implementation
+
+function ObterHierarquiaDeClasses(pClasse: TClass): string;
+begin
+  Result := pClasse.ClassName;
+  if pClasse <> TObject then
+    Result := ObterHierarquiaDeClasses(pClasse.ClassParent) + '\' + Result;
+end;
 
 end.

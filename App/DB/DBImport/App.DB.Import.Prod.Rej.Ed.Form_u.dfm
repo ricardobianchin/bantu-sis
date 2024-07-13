@@ -2,7 +2,6 @@ inherited ProdRejEdForm: TProdRejEdForm
   Caption = 'Resolver Rejei'#231#227'o'
   ClientHeight = 282
   ClientWidth = 988
-  ExplicitTop = -46
   ExplicitWidth = 1000
   TextHeight = 15
   inherited MensLabel: TLabel
@@ -16,19 +15,18 @@ inherited ProdRejEdForm: TProdRejEdForm
   inherited BasePanel: TPanel
     Top = 230
     Width = 988
-    ExplicitTop = 229
     ExplicitWidth = 984
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 712
-      ExplicitLeft = 708
+      Left = 708
+      ExplicitLeft = 704
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 825
-      ExplicitLeft = 821
+      Left = 821
+      ExplicitLeft = 817
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 905
-      ExplicitLeft = 901
+      Left = 901
+      ExplicitLeft = 897
     end
     object InclusaoBitBtn_DiagBtn: TBitBtn
       Left = 5

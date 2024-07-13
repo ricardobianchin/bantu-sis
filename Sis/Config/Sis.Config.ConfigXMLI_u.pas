@@ -9,7 +9,7 @@ type
   TConfigXMLI = class(TXMLI, IConfigXMLI)
   public
     constructor Create(pRootNodeName: string; pNomeArq: string;
-      pExt: string = ''; pPasta: string = ''; pAutoCreate: boolean = false;
+      pExt: string = ''; pPasta: string = ''; pAutoCreateFile: boolean = false;
       pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
   end;
 
@@ -20,7 +20,7 @@ implementation
 uses Sis.UI.IO.FIles, System.SysUtils;
 
 constructor TConfigXMLI.Create(pRootNodeName: string;
-  pNomeArq, pExt, pPasta: string; pAutoCreate: boolean;
+  pNomeArq, pExt, pPasta: string; pAutoCreateFile: boolean;
   pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   if pPasta = '' then
@@ -37,7 +37,7 @@ begin
   if pRootNodeName = '' then
     pRootNodeName := 'root';
 
-  inherited Create(pRootNodeName, pNomeArq, pExt, pPasta, pAutoCreate, pProcessLog, pOutput);
+  inherited Create(pRootNodeName, pNomeArq, pExt, pPasta, pAutoCreateFile, pProcessLog, pOutput);
 end;
 
 end.

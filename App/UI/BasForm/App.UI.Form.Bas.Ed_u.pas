@@ -11,7 +11,6 @@ uses
 type
   TEdBasForm = class(TDiagBtnBasForm)
     ObjetivoLabel: TLabel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FEntEd: IEntEd;
@@ -19,7 +18,6 @@ type
     FAppInfo: IAppInfo;
     procedure AjusteCaption;
     procedure AjusteObjetivo;
-    procedure DebugImporteTeclas;
   protected
     property AppInfo: IAppInfo read FAppInfo;
     property EntEd: IEntEd read FEntEd;
@@ -42,10 +40,11 @@ type
     procedure ComboKeyPress(Sender: TObject; var Key: Char);
     procedure ComboExit(Sender: TObject);
 
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); reintroduce;
+      pEntDBI: IEntDBI); reintroduce; virtual;
   end;
 
 var
@@ -55,8 +54,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.Utils,
-  App.UI.Controls.ComboBox.Select.DB.Frame_u;
+uses App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Controls.ComboBox.Select.DB.Frame_u;
 
 { TEdBasForm }
 
@@ -135,6 +133,7 @@ begin
 
   if not(Combo.Owner is TComboBoxSelectDBFrame) then
     exit;
+
   Fr := TComboBoxSelectDBFrame(Combo.Owner);
   if Fr.Id = 0 then
   begin
@@ -192,45 +191,6 @@ begin
   end;
 end;
 
-procedure TEdBasForm.DebugImporteTeclas;
-var
-  sNomeArq: string;
-  sl: TStringList;
-  s: string;
-  Resultado: Boolean;
-begin
-  inherited;
-  // s := ActiveControl.Name;
-  sNomeArq := FAppInfo.PastaConfigs + 'Debug\' + ClassName + '\' + 'Teclas.txt';
-
-  Resultado := FileExists(sNomeArq);
-  if not Resultado then
-    exit;
-
-  sl := TStringList.Create;
-  try
-    sl.LoadFromFile(sNomeArq);
-    s := sl.Text;
-    DigiteStr(s, 0);
-  finally
-    sl.Free;
-  end;
-  // FObrigFrame.Foque;
-  // FObrigFrame.SimuleDig;
-
-  // OkAct_Diag.Execute;
-
-  // ObrigatoriosProdEdFrame.FCustoAtualNumEdit
-  // ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
-
-
-
-  // FFabrSelectEditFrame.IdNumEdit.Valor := 2;
-
-  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
-  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
-end;
-
 function TEdBasForm.PodeOk: Boolean;
 begin
   Result := Inherited PodeOk;
@@ -250,12 +210,6 @@ begin
   Result := GravouOk;
   if not Result then
     exit;
-end;
-
-procedure TEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  DebugImporteTeclas;
 end;
 
 end.

@@ -40,7 +40,8 @@ type
     procedure DefinaGridCol(pIndex: integer);
   public
     procedure DefinaCampos(pDefsSL: TStringList);
-    constructor Create(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid);
+    procedure PegarDBGrid(pDBGrid: TDBGrid);
+    constructor Create(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid = nil);
   end;
 
 implementation
@@ -230,10 +231,11 @@ begin
 
   FLargurasList.Clear;
   FAlignmentList.Clear;
-  for I := 2 to pDefsSL.Count - 1 do
+  for I := 0 to pDefsSL.Count - 1 do
   begin
     sLinhaAtual := pDefsSL[I];
     Parametros := sLinhaAtual.Split([',']);
+    Parametros[0] := I.ToString;
     DefinaCampo(Parametros);
   end;
 
@@ -242,13 +244,7 @@ begin
   if not Assigned(FDBGrid) then
     exit;
 
-  if Assigned(FDBGrid.DataSource) then
-    FDBGrid.DataSource.DataSet := FFDMemTable;
-
-  for I := 0 to FDBGrid.Columns.Count - 1 do
-  begin
-    DefinaGridCol(I);
-  end;
+  PegarDBGrid(FDBGrid);
 end;
 
 procedure TFDDataSetManager.DefinaGridCol(pIndex: integer);
@@ -280,6 +276,21 @@ begin
   Result.Name := FFDMemTable.Name + Result.FieldName;
   Result.DataSet := FFDMemTable;
   Result.Visible := pVisible;
+end;
+
+procedure TFDDataSetManager.PegarDBGrid(pDBGrid: TDBGrid);
+var
+  I: integer;
+begin
+  FDBGrid := pDBGrid;
+
+  if Assigned(FDBGrid.DataSource) then
+    FDBGrid.DataSource.DataSet := FFDMemTable;
+
+  for I := 0 to FDBGrid.Columns.Count - 1 do
+  begin
+    DefinaGridCol(I);
+  end;
 end;
 
 procedure TFDDataSetManager.ZereDefs;

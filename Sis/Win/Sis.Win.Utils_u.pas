@@ -27,6 +27,8 @@ function GetProgramFilesPath: string;
 
 function ExecutePrograma(Nome, Parametros, Pasta: string; out pErro: string): boolean;
 
+procedure CopyTextToClipboard(const AText: string);
+
 function GetClipboardText: string;
 procedure SetClipboardText(const AText: string);
 
@@ -147,6 +149,11 @@ begin
   else
     // retorna uma string vazia se não houver texto
     Result := '';
+end;
+
+procedure CopyTextToClipboard(const AText: string);
+begin
+  SetClipboardText(AText);
 end;
 
 // procedimento que recebe uma string e coloca na área de transferência

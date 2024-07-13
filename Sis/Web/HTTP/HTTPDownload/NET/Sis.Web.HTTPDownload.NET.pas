@@ -11,7 +11,7 @@ implementation
 
 uses
   System.NET.HttpClient, System.NET.URLClient, System.SysUtils, System.Classes,
-  Sis.Types.Times, Sis.UI.IO.Files.Sync, System.IOUtils, dialogs;
+  Sis.Types.Dates, Sis.UI.IO.Files.Sync, System.IOUtils, dialogs;
 
 function GetValueByName(pName: string; pNetHeaders: TNetHeaders): string;
 var

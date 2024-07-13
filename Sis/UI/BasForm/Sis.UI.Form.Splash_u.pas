@@ -11,9 +11,11 @@ type
   TSplashForm = class(TForm, IOutput)
     Image1: TImage;
     MensLabel: TLabel;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FAtivo: boolean;
+    FQtdExibiu: integer;
 
     function GetAtivo: boolean;
     procedure SetAtivo(Value: boolean);
@@ -48,12 +50,27 @@ begin
   if not Ativo then
     exit;
 
+  inc(FQtdExibiu);
+
   MensLabel.Caption := pFrase;
+  if (FQtdExibiu > 19) then
+  begin
+    FQtdExibiu := 0;
+    Application.ProcessMessages;
+  end
+  else
+    MensLabel.Repaint;
 end;
 
 procedure TSplashForm.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
 begin
   Exibir(pFrase);
+end;
+
+procedure TSplashForm.FormCreate(Sender: TObject);
+begin
+  FAtivo := True;
+  FQtdExibiu := 0;
 end;
 
 function TSplashForm.GetAtivo: boolean;

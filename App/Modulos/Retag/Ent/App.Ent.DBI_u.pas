@@ -2,7 +2,7 @@ unit App.Ent.DBI_u;
 
 interface
 
-uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u,
+uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u, System.Variants,
   Sis.UI.Frame.Bas.FiltroParams_u, System.Classes, App.Ent.Ed;
 
 type
@@ -15,10 +15,17 @@ type
     function GetSqlPreencherDataSet(pValues: variant): string; virtual;
       abstract;
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
-    function GetSqlGarantirRegId: string; virtual; abstract;
-    procedure SetNovaId(pId: variant); virtual; abstract;
+
+    procedure SetVarArrayToId(pNovaId: Variant); virtual; abstract;
     function ById(pId: variant; out pValores: variant): boolean; virtual;
     function GetPackageName: string; virtual; abstract;
+
+    function GetSqlGaranteRegRetId: string; virtual;
+    function GetSqlInserirDoRetId: string; virtual;
+    function GetSqlAlterarDo: string; virtual;
+
+    function GetFieldNames: string; virtual;
+    function GetFieldValues: string; virtual;
   public
     property PackageName: string read GetPackageName;
     procedure PreencherDataSet(pValues: variant;
@@ -29,7 +36,7 @@ type
     function Inserir(out pNovaId: Variant): boolean; virtual;
     function Alterar: boolean; virtual;
     function Gravar: boolean; virtual;
-    function GarantirReg: boolean;
+    function Garantir: boolean;
     procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil); virtual;
     function AtivoSet(const pId: integer; Value: boolean): boolean; virtual;
 
@@ -40,13 +47,33 @@ type
 
 implementation
 
-uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u;
+uses Sis.Types.Integers, System.SysUtils, Sis.Types.Bool_u,
+  Sis.DB.DataSet.Utils, Sis.Win.Utils_u;
 
 { TEntDBI }
 
 function TEntDBI.Alterar: boolean;
+var
+  sSqlAlterarDo: string;
+  sMens: string;
 begin
   Result := False;
+
+  sSqlAlterarDo := GetSqlAlterarDo;
+
+  Result := DBConnection.Abrir;
+  if not Result then
+  begin
+    sMens := DBConnection.UltimoErro;
+    exit;
+  end;
+
+  try
+    DBConnection.ExecuteSQL(sSqlAlterarDo);
+  finally
+    DBConnection.Fechar;
+    Result := True;
+  end;
 end;
 
 function TEntDBI.AtivoSet(const pId: integer; Value: boolean): boolean;
@@ -82,25 +109,34 @@ begin
   FEntEd := pEntEd;
 end;
 
-function TEntDBI.GarantirReg: boolean;
+function TEntDBI.Garantir: boolean;
 var
   sFormat: string;
-  sSql: string;
+  sSqlGaranteRegRetId: string;
   q: TDataSet;
   Resultado: variant;
   sResultado: string;
-  iId: integer;
   sNome: string;
+  aNovaId: Variant;
 begin
   Result := False;
-  sSql := GetSqlGarantirRegId;
+  sSqlGaranteRegRetId := GetSqlGaranteRegRetId;
 
-  DBConnection.Abrir;
+  Result := DBConnection.Abrir;
+  if not Result then
+    exit;
+
   try
-    iId := DBConnection.GetValueInteger(sSql);
-    SetNovaId(iId);
-    Result := True;
+    DBConnection.QueryDataSet(sSqlGaranteRegRetId, q);
+
+    Result := RecordToVarArray(aNovaId, Q);
+    if not Result then
+      exit;
+
+    SetVarArrayToId(aNovaId);
   finally
+    if Assigned(q) then
+      q.Free;
     DBConnection.Fechar;
   end;
 end;
@@ -127,6 +163,31 @@ begin
   end;
 end;
 
+function TEntDBI.GetFieldNames: string;
+begin
+  Result := '';
+end;
+
+function TEntDBI.GetFieldValues: string;
+begin
+  Result := '';
+end;
+
+function TEntDBI.GetSqlAlterarDo: string;
+begin
+  Result := '';
+end;
+
+function TEntDBI.GetSqlGaranteRegRetId: string;
+begin
+  Result := '';
+end;
+
+function TEntDBI.GetSqlInserirDoRetId: string;
+begin
+  Result := '';
+end;
+
 function TEntDBI.Gravar: boolean;
 var
   i: variant;
@@ -135,16 +196,42 @@ begin
   begin
     Result := Inserir(i);
     if Result then
-      SetNovaId(i);
+      SetVarArrayToId(i);
   end
   else
     Result := Alterar;
 end;
 
 function TEntDBI.Inserir(out pNovaId: Variant): boolean;
+var
+  sSqlInserirDoRetId: string;
+  sMens: string;
+  q: TDataSet;
 begin
-  pNovaId := 0;
   Result := False;
+
+  sSqlInserirDoRetId := GetSqlInserirDoRetId;
+
+  Result := DBConnection.Abrir;
+  if not Result then
+  begin
+    sMens := DBConnection.UltimoErro;
+    exit;
+  end;
+
+  try
+    DBConnection.QueryDataSet(sSqlInserirDoRetId, Q);
+
+    Result := RecordToVarArray(pNovaId, Q);
+    if not Result then
+      exit;
+
+    SetVarArrayToId(pNovaId);
+  finally
+    FreeAndNil(Q);
+    DBConnection.Fechar;
+    Result := True;
+  end;
 end;
 
 function TEntDBI.Ler: boolean;
@@ -208,14 +295,14 @@ end;
 procedure TEntDBI.PreencherDataSet(pValues: variant;
   pProcLeReg: TProcDataSetOfObject);
 var
-  sSql: string;
+  sSqlRetRegs: string;
   q: TDataSet;
   iRecNo: integer;
 begin
   DBConnection.Abrir;
   try
-    sSql := GetSqlPreencherDataSet(pValues);
-    DBConnection.QueryDataSet(sSql, q);
+    sSqlRetRegs := GetSqlPreencherDataSet(pValues);
+    DBConnection.QueryDataSet(sSqlRetRegs, q);
     try
       iRecNo := 0;
       while not q.Eof do

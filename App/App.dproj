@@ -5,7 +5,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -127,10 +127,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
-        <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="vcledge.dcp"/>
         <DCCReference Include="vclie.dcp"/>
+        <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
         <DCCReference Include="AppObj\App.Factory.pas"/>
@@ -356,7 +356,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\PagForma\App.Retag.Fin.PagForma.Ed.DBI_u.pas"/>
-        <DCCReference Include="Modulos\Retag\App.Retag.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_u.pas">
             <Form>DBImportForm</Form>
         </DCCReference>
@@ -387,6 +386,76 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Unid_u.pas"/>
         <DCCReference Include="DB\DBImport\App.DB.Import.Form_Finalizar_Prod_u.pas"/>
         <DCCReference Include="AppVersao\AppVersao_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.UI.Form.DataSet.Retag.Aju.VersaoDB_u.pas">
+            <Form>RetagAjuVersaoDBDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoDB\App.Retag.Aju.VersaoDB.DBI_u.pas"/>
+        <DCCReference Include="Pess\App.UI.Form.Bas.DataSet.Pess_u.pas">
+            <Form>AppPessDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\App.Pess.Ent.pas"/>
+        <DCCReference Include="Pess\App.Pess.Geral.Factory_u.pas"/>
+        <DCCReference Include="Pess\App.Generos.pas"/>
+        <DCCReference Include="Pess\App.Generos_u.pas"/>
+        <DCCReference Include="Pess\App.EstadosCivis.pas"/>
+        <DCCReference Include="Pess\App.EstadosCivis_u.pas"/>
+        <DCCReference Include="Pess\App.UI.Form.DataSet.Pess.Loja_u.pas">
+            <Form>AppPessLojaDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\App.PessEnder.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.DBI_u.pas"/>
+        <DCCReference Include="Pess\App.Pess.Ent_u.pas"/>
+        <DCCReference Include="Pess\App.PessEnder_u.pas"/>
+        <DCCReference Include="Pess\App.PessEnder.List.pas"/>
+        <DCCReference Include="Pess\App.PessEnder.List_u.pas"/>
+        <DCCReference Include="Pess\App.Pess.Utils.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.Ent.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.Ent_u.pas"/>
+        <DCCReference Include="Pess\App.UI.Form.Bas.Ed.Pess_u.pas">
+            <Form>PessEdBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\App.Pess.UI.Factory_u.pas"/>
+        <DCCReference Include="Pess\App.Pess.Loja.DBI.pas"/>
+        <DCCReference Include="Pess\App.Pess.Ent.Factory_u.pas"/>
+        <DCCReference Include="UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas"/>
+        <DCCReference Include="Pess\App.Pess.DBI.pas"/>
+        <DCCReference Include="Pess\App.Pess.DBI_u.pas"/>
+        <DCCReference Include="Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas">
+            <Form>PessLojaEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="AppObj\TestesConfig\App.Testes.Config_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App.Testes.Config.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App.Testes.Config.Factory.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\App.Testes.Config.ModuConf_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\App.Testes.Config.ModuConf.Ambi_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Ambi\Loja\App.Testes.Config.ModuConf.Ambi.Loja_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App\App.Testes.Config.App.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\App\App.Testes.Config.App_u.pas"/>
+        <DCCReference Include="Pess\Ender\App.Pess.Ender.Controls.Frame_u.pas">
+            <Form>EnderControlsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas">
+            <Form>EnderDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Pess\Ender\App.Pess.Ender.Frame_u.pas">
+            <Form>EnderFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

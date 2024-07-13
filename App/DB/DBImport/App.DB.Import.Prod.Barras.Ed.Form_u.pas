@@ -12,6 +12,7 @@ type
   TImportBarEdForm = class(TInputStrForm)
     Label1: TLabel;
     procedure Label1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -23,9 +24,16 @@ var
 
 implementation
 
-uses Sis.Types.Codigos.Utils;
+uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils;
 
 {$R *.dfm}
+
+procedure TImportBarEdForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  ClearStyleElements(Self);
+
+end;
 
 procedure TImportBarEdForm.Label1Click(Sender: TObject);
 begin

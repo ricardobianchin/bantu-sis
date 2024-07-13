@@ -9,6 +9,8 @@ function StrToBoolean(pStr: string): boolean;
 function Iif(pTeste: boolean; pSeTrue: string; pSeFalse: string): string; overload;
 function Iif(pTeste: boolean; pSeTrue: Currency; pSeFalse: Currency): Currency; overload;
 function Iif(pTeste: boolean; pSeTrue: integer; pSeFalse: integer): integer; overload;
+function Iif(pTeste: boolean; pSeTrue: TDateTime; pSeFalse: TDateTime): TDateTime; overload;
+
 procedure InicializeBool;
 function BooleanToStrSQL(pBoolValue: boolean): string;
 
@@ -56,6 +58,13 @@ begin
     result := pSeFalse;
 end;
 
+function Iif(pTeste: boolean; pSeTrue: TDateTime; pSeFalse: TDateTime): TDateTime; overload;
+begin
+  if pTeste then
+    result := pSeTrue
+  else
+    result := pSeFalse;
+end;
 
 function BooleanToStr(pBoolValue: boolean): string;
 begin

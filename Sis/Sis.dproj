@@ -5,7 +5,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -201,7 +201,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Sis.DB.DBQuery.FireDAC_u.pas"/>
         <DCCReference Include="DB\Sis.DB.DBExec.FireDAC_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas"/>
-        <DCCReference Include="Types\Sis.Types.Times.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Sync.pas"/>
@@ -401,6 +400,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
+        <DCCReference Include="Types\Sis.Types.Dates.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -103,11 +103,12 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
 
   try
-{$IFDEF DEBUG}
-    sLog := 'Config=DEBUG, abortando';
-    Result := False;
-    Exit;
-{$ENDIF}
+    Result := AppObj.AppTestesConfig.App.ExecsAtu;
+    if not Result then
+    begin
+      sLog := 'AppTestesConfig.App.ExecsAtu=N, abortando';
+      Exit;
+    end;
 
     oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
       FProcessLog);
@@ -207,9 +208,10 @@ begin
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
-  FStatusOutput := MudoOutputCreate;
-  FProcessOutput := MudoOutputCreate;
   FProcessLog := ProcessLogFileCreate(Name);
+  FStatusOutput := MudoOutputCreate;
+  FProcessOutput := nil;
+//  FProcessOutput := SplashForm;
 
   FProcessLog.PegueLocal('TPrincBasForm.FormCreate');
   try
@@ -223,6 +225,12 @@ begin
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
 
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
+
+
+    ConfigureSplashForm;
+    FProcessOutput := SplashForm;
+    SplashForm.Show;
+    Application.ProcessMessages;
 
 
     FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, {FDBMS}nil, FStatusOutput,
@@ -239,6 +247,7 @@ begin
       Exit;
     end;
 
+
     GarantaDB;
 
     if FLoja.Id < 1 then
@@ -254,10 +263,6 @@ begin
     end;
 
     ConfigureForm;
-
-    ConfigureSplashForm;
-
-    SplashForm.Show;
 
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
 
@@ -281,6 +286,7 @@ procedure TPrincBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
   DtHCompileLabel.Caption := AppVersao_u.VERSAO_RESUMIDA;
+  DtHCompileLabel.Hint := AppVersao_u.GetInfos;
 end;
 
 procedure TPrincBasForm.FormDestroy(Sender: TObject);
@@ -365,6 +371,7 @@ end;
 
 procedure TPrincBasForm.OculteSplashForm;
 begin
+  FProcessOutput := MudoOutputCreate;
   if Assigned(SplashForm) then
     FreeAndNil(SplashForm);
 end;

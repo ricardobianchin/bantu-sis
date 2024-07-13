@@ -12,7 +12,7 @@ object SplashForm: TSplashForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poDesktopCenter
-  StyleElements = []
+  OnCreate = FormCreate
   TextHeight = 15
   object Image1: TImage
     Left = 114
@@ -28,14 +28,15 @@ object SplashForm: TSplashForm
     Height = 89
     Alignment = taCenter
     AutoSize = False
-    Caption = 'MensLabel'
+    Caption = 'Iniciando...'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -16
+    Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
     Layout = tlCenter
+    WordWrap = True
     StyleElements = []
   end
 end

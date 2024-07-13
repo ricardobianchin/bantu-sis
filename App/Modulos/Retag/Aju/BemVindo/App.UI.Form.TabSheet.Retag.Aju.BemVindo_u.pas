@@ -20,14 +20,10 @@ type
     DireitaBasePanel: TPanel;
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
-    ProdQtdZeroNotifyItemPanel: TPanel;
-    Label1: TLabel;
-    DadosImportarButton: TButton;
     Label2: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure AtualizarActionExecute(Sender: TObject);
-    procedure DadosImportarButtonClick(Sender: TObject);
   private
     { Private declarations }
     ProdQtd: integer;
@@ -46,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.Times, App.DB.Utils, Sis.DB.Factory, Data.DB;
+uses Sis.Types.Dates, App.DB.Utils, Sis.DB.Factory, Data.DB;
 
 { TRetagAjuBemVindoForm }
 
@@ -76,17 +72,6 @@ begin
 //      ProdQtdZeroNotifyItemPanel.Visible := True;
   finally
     oDBConnection.Fechar;
-  end;
-end;
-
-procedure TRetagAjuBemVindoForm.DadosImportarButtonClick(Sender: TObject);
-begin
-  inherited;
-  try
-  DadosImportarButton.Enabled := False;
-    Retag.AbrirImportDados;
-  finally
-    DadosImportarButton.Enabled := True;;
   end;
 end;
 

@@ -7,14 +7,12 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids, Sis.Usuario,
-  FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client, App.Retag,
+  FireDAC.Comp.DataSet, App.AppInfo, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
-  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types;
+  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types, App.UI.TabSheet.DataSet.Types_u;
 
 type
-  TModoForm = (mfBrowse, mfSelect);
-
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
@@ -49,7 +47,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
-    FModoForm: TModoForm;
+    FModoDataSetForm: TModoDataSetForm;
     FFDMemTable: TFDMemTable;
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
@@ -63,7 +61,7 @@ type
     function GetState: TDataSetState;
     procedure SetState(const Value: TDataSetState);
 
-    function GetModoForm: TModoForm;
+    function GetModoDataSetForm: TModoDataSetForm;
     procedure AjusteBotoesSelect;
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
@@ -97,15 +95,15 @@ type
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
     function SelectPodeOk: boolean; virtual;
 
-    property ModoForm: TModoForm read GetModoForm;
+    property ModoDataSetForm: TModoDataSetForm read GetModoDataSetForm;
 
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pRetag: IRetag; pUsuario: IUsuario;
+      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoForm: TModoForm; pIdPos: integer); reintroduce;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
@@ -129,7 +127,7 @@ var
   LastButton: TToolButton;
   i: integer;
 begin
-  if ModoForm = mfBrowse then
+  if ModoDataSetForm = mdfBrowse then
     exit;
 
   // Encontra o último botão na toolbar
@@ -205,18 +203,18 @@ begin
 end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pRetag: IRetag;
+  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoForm: TModoForm; pIdPos: integer);
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 var
   sNomeArq: string;
 begin
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
-  FModoForm := pModoForm;
+  FModoDataSetForm := pModoDataSetForm;
   FIdPos := pIdPos;
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pRetag,  pUsuario,
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig,  pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify);
 
   State := dsBrowse;
@@ -235,7 +233,7 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
 
-  if ModoForm = mfSelect then
+  if ModoDataSetForm = mdfSelect then
   begin
     Position := poDesktopCenter;
     BorderStyle := bsDialog;
@@ -247,7 +245,7 @@ end;
 procedure TTabSheetDataSetBasForm.DBGrid1DblClick(Sender: TObject);
 begin
   inherited;
-  if FModoForm = mfBrowse then
+  if FModoDataSetForm = mdfBrowse then
     AltAction_DatasetTabSheet.Execute
   else
     OkAction.Execute;
@@ -319,7 +317,7 @@ end;
 procedure TTabSheetDataSetBasForm.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  if ModoForm = mfBrowse then
+  if ModoDataSetForm = mdfBrowse then
     inherited;
 
 end;
@@ -354,9 +352,9 @@ begin
   Result.Descr := FDMemTable.Fields[1].AsString;
 end;
 
-function TTabSheetDataSetBasForm.GetModoForm: TModoForm;
+function TTabSheetDataSetBasForm.GetModoDataSetForm: TModoDataSetForm;
 begin
-  Result := FModoForm;
+  Result := FModoDataSetForm;
 end;
 
 function TTabSheetDataSetBasForm.GetSelectValues: variant;
@@ -442,7 +440,7 @@ end;
 
 function TTabSheetDataSetBasForm.SelectPodeOk: boolean;
 begin
-  Result := ModoForm = mfSelect;
+  Result := ModoDataSetForm = mdfSelect;
   if not Result then
     exit;
 
@@ -467,7 +465,7 @@ begin
   AtuAction_DatasetTabSheet.Execute;
   FFiltroEditAutomatico := True;
 
-  if ModoForm = TModoForm.mfBrowse then
+  if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
     exit;
 
   if FIdPos = 0 then
