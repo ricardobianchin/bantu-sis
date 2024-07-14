@@ -3,10 +3,9 @@ unit Sis.DB.Updater_u;
 interface
 
 uses
-  Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs,
-  Sis.Config.SisConfig,
-  Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes, Sis.DB.Updater.Comando.List,
-  Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario;
+  Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs, Sis.Types,
+  Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
+  Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -33,6 +32,8 @@ type
     FLoja: ILoja;
     FUsuarioGerente: IUsuario;
 
+    FCriouDB: Boolean;
+
     procedure SetiVersao(const Value: integer);
 
     function CarreguouArqComando(piVersao: integer): boolean;
@@ -47,6 +48,8 @@ type
     procedure GravarVersao;
 
     procedure GravarIniciais(pDBConnection: IDBConnection);
+
+    procedure DoAposCriarBanco;
 
   protected
     property SisConfig: ISisConfig read FSisConfig;
@@ -86,7 +89,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Sis.constants, Sis.DB.Factory, Sis.DB.Updater.Constants_u,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
-  Sis.Win.Utils_u;
+  Sis.Win.Utils_u, Sis.UI.IO.Files, Sis.Win.Execute, Sis.Win.Factory;
 
 constructor TDBUpdater.Create(pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
@@ -104,6 +107,7 @@ begin
   FDBMS := pDBMS;
   FLoja := pLoja;
   FUsuarioGerente := pUsuarioGerente;
+  FCriouDB := False;
 
   FProcessLog.PegueLocal('TDBUpdater.Create');
 
@@ -139,6 +143,7 @@ begin
     begin
       FProcessLog.RegistreLog('banco nao existia, vai CrieDB');
       CrieDB;
+      FCriouDB := True;
       FProcessLog.RegistreLog
         ('vai novamente GetDBExiste, testar se o banco existe');
       if not GetDBExiste then
@@ -187,6 +192,30 @@ begin
     FProcessLog.RetorneLocal;
   end;
   inherited;
+end;
+
+procedure TDBUpdater.DoAposCriarBanco;
+var
+  sNomeArqBat: string;
+  sPastaBin: string;
+  sPastaExe: string;
+  sPastaEventos: string;
+  OWinExecute: IWinExecute;
+begin
+  sPastaBin := IncludeTrailingPathDelimiter( ExtractFilePath(ParamStr(0)));
+  sPastaExe := PastaAcima(sPastaBin);
+  sPastaEventos := sPastaExe +'Comandos\Eventos\';
+
+  GarantirPasta(sPastaEventos);
+
+  sNomeArqBat := sPastaEventos + 'Exec Apos Criar DB.bat';
+
+  if not FileExists(sNomeArqBat) then
+    exit;
+
+  OWinExecute := WinExecuteCreate(sNomeArqBat, '', sPastaEventos, True, 1);
+  OWinExecute.EspereExecucao(Output, 16);
+//C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Eventos\Exec Apos Criar DB.bat
 end;
 
 function TDBUpdater.Execute: boolean;
@@ -258,12 +287,16 @@ begin
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
     DBConnection.Fechar;
-    //updater fim aqui
-    //updater aqui
-    //update fim aqui
-    //update aqui
-    //dbupdate aqui
-    //db update aqui
+    // updater fim aqui
+    // updater aqui
+    // update fim aqui
+    // update aqui
+    // dbupdate aqui
+    // db update aqui
+
+    if FCriouDB then
+      DoAposCriarBanco;
+
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;
@@ -328,7 +361,7 @@ begin
     FOutput.Exibir('iVersao=' + piVersao.ToString);
 
     FLinhasSL.LoadFromFile(sNomeArq);
-//    FLinhasSL.LoadFromFile(sNomeArq, TEncoding.GetEncoding(1252));
+    // FLinhasSL.LoadFromFile(sNomeArq, TEncoding.GetEncoding(1252));
 
     Result := FLinhasSL.Text <> '';
 
@@ -412,7 +445,7 @@ begin
     if iQtdComandos > 0 then
       InsertCabecalho;
   finally
-    FProcessLog.RegistreLog('iQtdComandos='+iQtdComandos.ToString);
+    FProcessLog.RegistreLog('iQtdComandos=' + iQtdComandos.ToString);
     FProcessLog.RetorneLocal;
   end;
 end;
@@ -436,8 +469,8 @@ begin
       begin
         sMensagemErro := 'Erro DB UPDATER, vr ' + iVersao.ToString + ', ' +
           oComando.UltimoErro;
-      //  Sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro,
-//          TMsgDlgType.mtError);
+        // Sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro,
+        // TMsgDlgType.mtError);
         FProcessLog.PegueLocal(sMensagemErro);
         raise Exception.Create(sMensagemErro);
       end;
@@ -459,7 +492,7 @@ begin
   FProcessLog.PegueLocal('TDBUpdater.ExecuteSql');
   try
     FOutput.Exibir('Executando comandos...');
-    FProcessLog.RegistreLog('Executando '+iVersao.ToString);
+    FProcessLog.RegistreLog('Executando ' + iVersao.ToString);
 
     sAssunto := 'DBUpdate ' + IntToStrZero(iVersao, 9);
     sSql := FDestinoSL.Text;
@@ -480,8 +513,8 @@ var
 begin
   if FLoja.Descr <> '' then
   begin
-    s := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' + FLoja.Id.ToString + ',' +
-      FLoja.Descr.QuotedString + ', TRUE);';
+    s := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' + FLoja.Id.ToString + ','
+      + FLoja.Descr.QuotedString + ', TRUE);';
     pDBConnection.ExecuteSql(s);
   end;
 
@@ -505,8 +538,8 @@ begin
 
     s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES(' +
       FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ','
-      + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',1,' +
-      FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
+      + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',1,'
+      + FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
 
     { iPessoaId := } pDBConnection.GetValue(s);
 

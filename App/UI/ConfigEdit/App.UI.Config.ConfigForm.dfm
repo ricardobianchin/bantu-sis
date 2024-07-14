@@ -7210,7 +7210,7 @@ object StarterFormConfig: TStarterFormConfig
         EditLabel.Width = 119
         EditLabel.Height = 17
         EditLabel.Caption = 'Nome para exibi'#231#227'o'
-        MaxLength = 32
+        MaxLength = 20
         TabOrder = 1
         Text = ''
         OnChange = UsuGerenteNomeExibLabeledEditChange
@@ -7224,7 +7224,7 @@ object StarterFormConfig: TStarterFormConfig
         EditLabel.Width = 102
         EditLabel.Height = 17
         EditLabel.Caption = 'Nome de usu'#225'rio'
-        MaxLength = 32
+        MaxLength = 20
         TabOrder = 2
         Text = ''
         OnChange = UsuGerenteNomeUsuLabeledEditChange
@@ -7238,7 +7238,7 @@ object StarterFormConfig: TStarterFormConfig
         EditLabel.Width = 35
         EditLabel.Height = 17
         EditLabel.Caption = 'Senha'
-        MaxLength = 32
+        MaxLength = 20
         PasswordChar = '*'
         TabOrder = 3
         Text = ''
@@ -7253,7 +7253,7 @@ object StarterFormConfig: TStarterFormConfig
         EditLabel.Width = 86
         EditLabel.Height = 17
         EditLabel.Caption = 'Repita a senha'
-        MaxLength = 32
+        MaxLength = 20
         PasswordChar = '*'
         TabOrder = 4
         Text = ''
