@@ -634,7 +634,7 @@ begin
     exit;
   end;
 
-  CharSemAcento(Key);
+  //CharSemAcento(Key);
 end;
 
 function TStarterFormConfig.PodeOk: boolean;
@@ -673,8 +673,8 @@ begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
-{$ENDIF}
   OkAct.Execute;
+{$ENDIF}
 end;
 
 function TStarterFormConfig.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
