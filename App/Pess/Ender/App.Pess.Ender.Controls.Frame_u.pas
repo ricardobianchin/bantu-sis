@@ -109,7 +109,7 @@ implementation
 
 uses Sis.UI.Controls.Factory, Sis.Types.Utils_u, Sis.Types.strings_u,
   Sis.UI.ImgDM, Sis.Web.HTTPGet.Net_u, Sis.Types.TStrings_u, System.StrUtils,
-  Sis.Win.Utils_u, Winapi.ShellAPI;
+  Sis.Win.Utils_u, Winapi.ShellAPI, Sis.UI.IO.Input.Perg;
 
 { TEnderControlsFrame }
 
@@ -199,12 +199,12 @@ begin
         end;
       end;
     13:
-    begin
+      begin
         if Shift = [] then
         begin
           PesquiseCEP;
         end;
-    end;
+      end;
   end;
 end;
 
@@ -253,7 +253,7 @@ begin
 
   Tab.Edit;
   try
-    Tab.Fields[7 { CEP } ].AsString := CEPMaskEdit.Text;
+    Tab.Fields[7 { CEP } ].AsString := StrToOnlyDigit(CEPMaskEdit.Text);
     Tab.Fields[6 { UF_SIGLA } ].AsString := UFSiglaComboMan.Text;
 
     Tab.Fields[5 { MUNICIPIO_NOME } ].AsString := MunComboMan.Text;
@@ -319,12 +319,18 @@ procedure TEnderControlsFrame.EntToControles;
 var
   Tab: TFDMemTable;
   iId: integer;
+  s: string;
 begin
   inherited;
   Tab := FFDMemTable;
 
   FCEPPodeConsultar := False;
-  CEPMaskEdit.Text := Tab.Fields[7 { CEP } ].AsString;
+  s := StrToOnlyDigit(Tab.Fields[7 { CEP } ].AsString);
+  
+  if s <> '' then
+    insert('-', s, 6);
+    
+  CEPMaskEdit.Text := s;
   FCEPPodeConsultar := True;
 
   FMunicipioPodePreparar := False;
@@ -432,6 +438,7 @@ var
   sText: string;
   sLin: string;
   iId: integer;
+  sMens: string;
 begin
   if not FCEPPodeConsultar then
     exit;
@@ -440,7 +447,19 @@ begin
     exit;
 
   FPesquisandoCEP := True;
+
   try
+    if //
+      (UFSiglaComboBox.ItemIndex > 0) //
+      or (MunicipioComboBox.ItemIndex > 0) //
+      or (BairroEdit.Text <> '') //
+      or (LogradouroEdit.Text <> '') //
+    then
+    begin
+      if not PergBool('Consulta CEP e substitui os dados existentes?') then
+        exit;
+    end;
+
     sText := StrToOnlyDigit(CEPMaskEdit.Text);
 
     L := Length(sText);
