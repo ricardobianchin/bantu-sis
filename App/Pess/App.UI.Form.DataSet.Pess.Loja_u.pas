@@ -25,7 +25,6 @@ type
   protected
     function GetNomeArqTabView: string; override;
     procedure QToMemTable(q: TDataSet); override;
-    procedure RecordToEnt; override;
     procedure EntToRecord; override;
     function PergEd: boolean; override;
   public
@@ -73,17 +72,17 @@ begin
   iT_PESS_ALTERADO_EM := 15;
   iT_ENDER_ORDEM := 16;
   iT_LOGRADOURO := 17;
-  iT_NUMERO := 17;
+  iT_NUMERO := 18;
   iT_COMPLEMENTO := 19;
   iT_BAIRRO := 20;
   iT_MUNICIPIO_NOME := 21;
   iT_UF_SIGLA := 22;
-  iT_CEP := 22;
+  iT_CEP := 23;
   iT_DDD := 24;
   iT_FONE1 := 25;
   iT_FONE2 := 26;
   iT_FONE3 := 27;
-  iT_CONTATO := 27;
+  iT_CONTATO := 28;
   iT_REFERENCIA := 29;
   iT_MUNICIPIO_IBGE_ID := 30;
   iT_ENDER_CRIADO_EM := 31;
@@ -121,12 +120,6 @@ procedure TAppPessLojaDataSetForm.QToMemTable(q: TDataSet);
 begin
   inherited;
   FDMemTable.Fields[iT_Ativo].AsBoolean := q.Fields[iQ_Ativo].AsBoolean;
-end;
-
-procedure TAppPessLojaDataSetForm.RecordToEnt;
-begin
-  inherited;
-//  FPessLojaEnt.Ativo := FDMemTable.Fields[iT_Ativo].AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
