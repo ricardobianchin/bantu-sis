@@ -120,7 +120,7 @@ begin
 
   sNomeArq := GetNomeArqTabViewEndereco;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable,
-    FEnderDBGridFrame.DBGrid1, ENDER_TABVIEW_ORDEM_INDEX);
+    FEnderDBGridFrame.DBGrid1, TABVIEW_ENDER_ORDEM_INDEX);
 
 end;
 
