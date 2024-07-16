@@ -282,6 +282,9 @@ begin
     if not SisConfig.LocalMachineIsServer then
       exit;
 
+    if FCriouDB then
+      DoAposCriarBanco;
+
     GravarIniciais(DBConnection);
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
@@ -293,9 +296,6 @@ begin
     // update aqui
     // dbupdate aqui
     // db update aqui
-
-    if FCriouDB then
-      DoAposCriarBanco;
 
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
