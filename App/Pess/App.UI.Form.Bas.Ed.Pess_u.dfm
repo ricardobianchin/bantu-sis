@@ -184,8 +184,8 @@ inherited PessEdBasForm: TPessEdBasForm
     OnKeyPress = EMailPessEditKeyPress
   end
   object DtNascDateTimePicker: TDateTimePicker [21]
-    Left = 345
-    Top = 120
+    Left = 346
+    Top = 119
     Width = 89
     Height = 23
     Date = 45467.000000000000000000
@@ -219,6 +219,16 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = 'cpf'
     TabOrder = 12
     OnClick = Button2Click
+  end
+  object AtivoPessCheckBox: TCheckBox [25]
+    Left = 444
+    Top = 122
+    Width = 48
+    Height = 17
+    Hint = 'Registro Ativo no Sistema'
+    Caption = 'Ativo'
+    TabOrder = 13
+    OnKeyPress = AtivoPessCheckBoxKeyPress
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 176

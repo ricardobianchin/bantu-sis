@@ -53,6 +53,7 @@ BEGIN
     M_UF CHAR(2),
     EMAIL VARCHAR(50),
     DT_NASC DATE,
+    ATIVO BOOLEAN,
     PESSOA_ID INTEGER,
     
     LOGRADOURO        VARCHAR(70),
@@ -118,6 +119,7 @@ BEGIN
     M_UF CHAR(2),
     EMAIL VARCHAR(50),
     DT_NASC DATE,
+    ATIVO BOOLEAN,
     PESSOA_ID INTEGER,
     
     LOGRADOURO        VARCHAR(70),
@@ -156,6 +158,7 @@ BEGIN
       :M_UF,
       :EMAIL,
       :DT_NASC,
+      :ATIVO,
       :PESSOA_ID,
       :LOGRADOURO,
       :NUMERO,

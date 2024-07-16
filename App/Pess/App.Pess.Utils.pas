@@ -3,7 +3,7 @@ unit App.Pess.Utils;
 interface
 
 const
-  ENDER_TABVIEW_ORDEM_INDEX = 16;
+  TABVIEW_ENDER_ORDEM_INDEX = 17;
 
 type
   TEnderQuantidadePermitida = (endqtdNenhum, endqtdUm, endqtdVarios);

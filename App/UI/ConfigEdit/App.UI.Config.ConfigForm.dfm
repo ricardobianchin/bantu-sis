@@ -7117,7 +7117,7 @@ object StarterFormConfig: TStarterFormConfig
       OnKeyPress = EhServidorCheckBoxKeyPress
     end
     object ToolBar2: TToolBar
-      Left = 262
+      Left = 268
       Top = 43
       Width = 31
       Height = 29

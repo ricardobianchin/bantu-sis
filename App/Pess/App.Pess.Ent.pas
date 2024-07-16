@@ -59,6 +59,10 @@ type
     procedure SetDtNasc(const Value: TDateTime);
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
 
+    function GetAtivo: boolean;
+    procedure SetAtivo(const Value: boolean);
+    property Ativo: boolean read GetAtivo write SetAtivo;
+
     function GetCriadoEm: TDateTime;
     procedure SetCriadoEm(const Value: TDateTime);
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
