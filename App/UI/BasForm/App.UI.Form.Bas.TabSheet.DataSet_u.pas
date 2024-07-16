@@ -56,6 +56,8 @@ type
 
     FFiltroEditAutomatico: boolean;
 
+    FAtualizaAposEd: boolean;
+
     // oDBConnection: IDBConnection;
     // FDBConnectionParams: TDBConnectionParams;
     function GetState: TDataSetState;
@@ -65,6 +67,8 @@ type
     procedure AjusteBotoesSelect;
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
+
+    property AtualizaAposEd: boolean read FAtualizaAposEd write FAtualizaAposEd;
 
     function GetFDMemTable: TFDMemTable;
     procedure Inicialize; override;
@@ -96,6 +100,9 @@ type
     function SelectPodeOk: boolean; virtual;
 
     property ModoDataSetForm: TModoDataSetForm read GetModoDataSetForm;
+
+    procedure DoAntesAtualizar; virtual;
+    procedure DoAposAtualizar; virtual;
 
   public
     { Public declarations }
@@ -174,7 +181,20 @@ begin
     State := dsBrowse;
     DBGrid1.SetFocus;
     AltExecutando := False;
+
+    if AtualizaAposEd then
+      AtuAction_DatasetTabSheet.Execute;
   end;
+end;
+
+procedure TTabSheetDataSetBasForm.DoAntesAtualizar;
+begin
+
+end;
+
+procedure TTabSheetDataSetBasForm.DoAposAtualizar;
+begin
+
 end;
 
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
@@ -189,7 +209,9 @@ begin
   try
     AtuExecutando := True;
 
+    DoAntesAtualizar;
     DoAtualizar(Self);
+    DoAposAtualizar;
   finally
     DBGrid1.SetFocus;
     AtuExecutando := False;
@@ -210,6 +232,7 @@ constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
 var
   sNomeArq: string;
 begin
+  FAtualizaAposEd := False;
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
   FModoDataSetForm := pModoDataSetForm;
@@ -406,6 +429,9 @@ begin
     InsExecutando := False;
     State := dsBrowse;
     DBGrid1.SetFocus;
+
+    if AtualizaAposEd then
+      AtuAction_DatasetTabSheet.Execute;
   end;
 end;
 
