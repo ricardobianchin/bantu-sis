@@ -456,6 +456,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent.pas"/>
+        <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

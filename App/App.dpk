@@ -223,6 +223,8 @@ contains
   App.Testes.Config.App_u in 'AppObj\TestesConfig\App\App.Testes.Config.App_u.pas',
   App.Pess.Ender.Controls.Frame_u in 'Pess\Ender\App.Pess.Ender.Controls.Frame_u.pas' {EnderControlsFrame: TFrame},
   App.Pess.Ender.DBGrid.Frame_u in 'Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas' {EnderDBGridFrame: TFrame},
-  App.Pess.Ender.Frame_u in 'Pess\Ender\App.Pess.Ender.Frame_u.pas' {EnderFrame: TFrame};
+  App.Pess.Ender.Frame_u in 'Pess\Ender\App.Pess.Ender.Frame_u.pas' {EnderFrame: TFrame},
+  App.Pess.PerfilUso.Ent in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent.pas',
+  App.Pess.PerfilUso.Ent_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas';
 
 end.
