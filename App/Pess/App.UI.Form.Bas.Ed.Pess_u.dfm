@@ -96,16 +96,16 @@ inherited PessEdBasForm: TPessEdBasForm
       961
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 530
-      ExplicitLeft = 526
+      Left = 526
+      ExplicitLeft = 522
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 643
-      ExplicitLeft = 639
+      Left = 639
+      ExplicitLeft = 635
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 723
-      ExplicitLeft = 719
+      Left = 719
+      ExplicitLeft = 715
     end
   end
   object NomePessEdit: TEdit [13]
