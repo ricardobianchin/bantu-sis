@@ -94,10 +94,18 @@ COMANDO FIM
 
 
 
+/*
+Complementos\Est\prod_pa.txt
 
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\perfil_uso_pa.sql
 
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\perfil_uso_pa.sql"
 
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\perfil_uso_pa.sql";
 
+show procedure PERFIL_USO_PA.GARANTIR;
+*/
 
 //PACKAGE PERFIL_USO_PA
 
@@ -130,7 +138,18 @@ BEGIN
     MODULO_ID CHAR
     , DESCR NOME_CURTO_DOM
   );
+
+  PROCEDURE LISTA_GET
+  RETURNS 
+  (
+      PERFIL_USO_ID ID_SHORT_DOM,
+      NOME NOME_REDU_NOTN_DOM,
+      DE_SISTEMA BOOLEAN
+  );
+
 END^
+
+----- body -----
 
 RECREATE PACKAGE BODY PERFIL_USO_PA
 AS
@@ -169,6 +188,23 @@ BEGIN
     INTO :MODULO_ID, :DESCR
     DO SUSPEND; 
   END
+  
+  PROCEDURE LISTA_GET
+  RETURNS (
+    PERFIL_USO_ID ID_SHORT_DOM,
+    NOME NOME_REDU_NOTN_DOM,
+    DE_SISTEMA BOOLEAN
+  )
+  AS
+  BEGIN
+    FOR SELECT PERFIL_USO_ID, NOME, DE_SISTEMA FROM perfil_uso
+    INTO :PERFIL_USO_ID, :NOME, :DE_SISTEMA
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+  
 END^
 SET TERM ;^
 ```
