@@ -458,6 +458,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent.pas"/>
         <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas"/>
+        <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.DBI_u.pas"/>
+        <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

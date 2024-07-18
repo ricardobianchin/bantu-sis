@@ -225,6 +225,8 @@ contains
   App.Pess.Ender.DBGrid.Frame_u in 'Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas' {EnderDBGridFrame: TFrame},
   App.Pess.Ender.Frame_u in 'Pess\Ender\App.Pess.Ender.Frame_u.pas' {EnderFrame: TFrame},
   App.Pess.PerfilUso.Ent in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent.pas',
-  App.Pess.PerfilUso.Ent_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas';
+  App.Pess.PerfilUso.Ent_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas',
+  App.Pess.PerfilUso.DBI_u in 'Pess\PerfilUso\App.Pess.PerfilUso.DBI_u.pas',
+  App.Pess.PerfilUso.Ent.Factory_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent.Factory_u.pas';
 
 end.
