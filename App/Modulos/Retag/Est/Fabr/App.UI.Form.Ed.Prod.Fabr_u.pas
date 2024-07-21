@@ -163,7 +163,6 @@ end;
 
 procedure TProdFabrEdForm.LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
 begin
-  inherited;
   if Key = #13 then
   begin
     Key := #0;
