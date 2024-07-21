@@ -23,7 +23,7 @@ function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 implementation
 
-uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Ent.Factory_u,
+uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.Ent.Factory_u,
   App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory,
   App.UI.Form.Bas.Ed.Pess.Loja_u;
 

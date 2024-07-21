@@ -28,8 +28,8 @@ implementation
 
 { TPessDBI }
 
-uses App.PessEnder, App.Pess.Ent.Factory_u, System.SysUtils, Sis.Types.Dates,
-  Sis.Types.Bool_u;
+uses App.PessEnder, App.Pess.Loja.Ent.Factory_u, System.SysUtils,
+  Sis.Types.Dates, Sis.Types.Bool_u, App.Pess.Ent.Factory_u;
 
 constructor TPessDBI.Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
 begin
