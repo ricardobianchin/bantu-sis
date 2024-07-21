@@ -403,30 +403,30 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\App.Generos_u.pas"/>
         <DCCReference Include="Pess\App.EstadosCivis.pas"/>
         <DCCReference Include="Pess\App.EstadosCivis_u.pas"/>
-        <DCCReference Include="Pess\App.UI.Form.DataSet.Pess.Loja_u.pas">
+        <DCCReference Include="Pess\Loja\App.UI.Form.DataSet.Pess.Loja_u.pas">
             <Form>AppPessLojaDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\App.PessEnder.pas"/>
-        <DCCReference Include="Pess\App.Pess.Loja.DBI_u.pas"/>
+        <DCCReference Include="Pess\Loja\App.Pess.Loja.DBI_u.pas"/>
         <DCCReference Include="Pess\App.Pess.Ent_u.pas"/>
         <DCCReference Include="Pess\App.PessEnder_u.pas"/>
         <DCCReference Include="Pess\App.PessEnder.List.pas"/>
         <DCCReference Include="Pess\App.PessEnder.List_u.pas"/>
         <DCCReference Include="Pess\App.Pess.Utils.pas"/>
-        <DCCReference Include="Pess\App.Pess.Loja.Ent.pas"/>
-        <DCCReference Include="Pess\App.Pess.Loja.Ent_u.pas"/>
+        <DCCReference Include="Pess\Loja\App.Pess.Loja.Ent.pas"/>
+        <DCCReference Include="Pess\Loja\App.Pess.Loja.Ent_u.pas"/>
         <DCCReference Include="Pess\App.UI.Form.Bas.Ed.Pess_u.pas">
             <Form>PessEdBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\App.Pess.UI.Factory_u.pas"/>
-        <DCCReference Include="Pess\App.Pess.Loja.DBI.pas"/>
+        <DCCReference Include="Pess\Loja\App.Pess.Loja.DBI.pas"/>
         <DCCReference Include="Pess\App.Pess.Ent.Factory_u.pas"/>
         <DCCReference Include="UI\BasForm\App.UI.TabSheet.DataSet.Types_u.pas"/>
         <DCCReference Include="Pess\App.Pess.DBI.pas"/>
         <DCCReference Include="Pess\App.Pess.DBI_u.pas"/>
-        <DCCReference Include="Pess\App.UI.Form.Bas.Ed.Pess.Loja_u.pas">
+        <DCCReference Include="Pess\Loja\App.UI.Form.Bas.Ed.Pess.Loja_u.pas">
             <Form>PessLojaEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
@@ -460,6 +460,15 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas"/>
         <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.DBI_u.pas"/>
         <DCCReference Include="Pess\PerfilUso\App.Pess.PerfilUso.Ent.Factory_u.pas"/>
+        <DCCReference Include="Pess\PerfilUso\App.UI.Form.Ed.Pess.PerfilUso_u.pas">
+            <Form>PerfilUsoEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Loja\App.Pess.Loja.Ent.Factory_u.pas"/>
+        <DCCReference Include="Pess\PerfilUso\App.UI.Form.DataSet.Pess.PerfilUso_u.pas">
+            <Form>PerfilUsoDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
