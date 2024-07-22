@@ -156,6 +156,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ShopDBImportFormPLUBase</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="ShopAppObj\ShopApp.DBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

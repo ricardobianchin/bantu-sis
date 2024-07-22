@@ -230,6 +230,7 @@ contains
   App.Pess.PerfilUso.Ent.Factory_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent.Factory_u.pas',
   App.UI.Form.Ed.Pess.PerfilUso_u in 'Pess\PerfilUso\App.UI.Form.Ed.Pess.PerfilUso_u.pas' {PerfilUsoEdForm},
   App.Pess.Loja.Ent.Factory_u in 'Pess\Loja\App.Pess.Loja.Ent.Factory_u.pas',
-  App.UI.Form.DataSet.Pess.PerfilUso_u in 'Pess\PerfilUso\App.UI.Form.DataSet.Pess.PerfilUso_u.pas' {PerfilUsoDataSetForm};
+  App.UI.Form.DataSet.Pess.PerfilUso_u in 'Pess\PerfilUso\App.UI.Form.DataSet.Pess.PerfilUso_u.pas' {PerfilUsoDataSetForm},
+  App.DBI in 'AppObj\App.DBI.pas';
 
 end.

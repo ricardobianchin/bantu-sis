@@ -469,6 +469,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PerfilUsoDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="AppObj\App.DBI.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
