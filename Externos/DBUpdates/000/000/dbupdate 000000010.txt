@@ -1,161 +1,59 @@
-LOJA_MANUT_PA
+ENDERECO_PA
 
-LOJA EH PESSOA
-    inicio
 
+//INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=LOJA
-DBATUALIZ_OBJETIVO=CRIA LOJA MANUT
+DBATUALIZ_ASSUNTO=PESSOA
+DBATUALIZ_OBJETIVO=CRIA ENDERECO_PA
 DBATUALIZ_OBS=
 
-//////////////////////////////////
-//
-// TABELA LOJA_EH_PESSOA
-//
-//////////////////////////////////
-COMANDO INI
-TIPO_COMANDO=CREATE TABLE
-OBJETO_NOME=LOJA_EH_PESSOA
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
-
-LOJA_ID;ID_SHORT_NOTN_DOM
-TERMINAL_ID;ID_SHORT_NOTN_DOM
-PESSOA_ID;ID_NOTN_DOM
-
-COLUNAS FIM
-COMANDO FIM
-//TABELA LOJA_EH_PESSOA FIM
 
 
 
-//////////////////////////////////
-//
-// FOREIGN KEY LOJA_EH_PESSOA x PESSOA
-//
-//////////////////////////////////
-COMANDO INI
-TIPO_COMANDO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=LOJA_EH_PESSOA
-CAMPOS_FK=LOJA_ID,TERMINAL_ID,PESSOA_ID
-TABELA_PK=PESSOA
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY LOJA PESSOA PESSOA FIM
 
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY LOJA_EH_PESSOA x LOJA
-//
-//////////////////////////////////
-COMANDO INI
-TIPO_COMANDO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=LOJA_EH_PESSOA
-CAMPOS_FK=LOJA_ID
-TABELA_PK=LOJA
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY LOJA PESSOA PESSOA FIM
-
-
-
-/*
-Complementos\Est\prod_pa.txt
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql";
-
-show procedure LOJA_MANUT_PA.GARANTIR;
-*/
-
-//////////////////////////////////
-//
-// PACKAGE LOJA_MANUT_PA
-//
-//////////////////////////////////
+// PACKAGE ENDERECO_PA
 COMANDO INI
 TIPO_COMANDO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=LOJA_MANUT_PA
+OBJETO_NOME=ENDERECO_PA
+
+/*
+Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
+*/
 
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE LOJA_MANUT_PA
+CREATE OR ALTER PACKAGE ENDERECO_PA
 AS
 BEGIN
-  PROCEDURE LISTA_GET
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
+  );
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
   (
-    P_LOJA_ID ID_SHORT_DOM NOT NULL
+    UF_SIGLA CHAR(2)
   )
   RETURNS
   (
-    LOJA_ID ID_SHORT_DOM
-    , TERMINAL_ID ID_SHORT_DOM
-    , PESSOA_ID ID_DOM
-    , APELIDO NOME_REDU_DOM
-    
+    MUNICIPIO_IBGE_ID CHAR(5)
     , NOME NOME_DOM
-    , NOME_FANTASIA NOME_DOM
-    
-    , C VARCHAR(15)
-    , I VARCHAR(15)
-    , M VARCHAR(15)
-    , M_UF CHAR(2)
-    
-    , EMAIL VARCHAR(50)
-    , DT_NASC DATE
-    , ATIVO BOOLEAN
+  );
 
-    , PESS_CRIADO_EM TIMESTAMP
-    , PESS_ALTERADO_EM TIMESTAMP
-    
-    , ENDER_ORDEM SMALLINT
-    , LOGRADOURO           VARCHAR(70)
-    , NUMERO               NOME_DOM
-    , COMPLEMENTO          NOME_DOM
-    , BAIRRO               NOME_DOM
-    , UF_SIGLA             CHAR(2)
-    , CEP                  CHAR(8)
-    , MUNICIPIO_IBGE_ID    CHAR(5)
-    , MUNICIPIO_NOME    NOME_DOM
-    , DDD                  CHAR(2)
-    , FONE1                NOME_CURTO_DOM
-    , FONE2                NOME_CURTO_DOM
-    , FONE3                NOME_CURTO_DOM
-    , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
-    , ENDER_CRIADO_EM            TIMESTAMP
-    , ENDER_ALTERADO_EM          TIMESTAMP
-    , SELECIONADO BOOLEAN
-  );--LISTA_GET FIM
-
-  PROCEDURE GARANTIR(
-    LOJA_ID SMALLINT NOT NULL,
-    TERMINAL_ID SMALLINT NOT NULL,
-    NOME VARCHAR(60),
-    NOME_FANTASIA VARCHAR(60),
-    APELIDO VARCHAR(20),
-    GENERO_ID CHAR(1),
-    ESTADO_CIVIL_ID CHAR(1),
-    C VARCHAR(15),
-    I VARCHAR(15),
-    M VARCHAR(15),
-    M_UF CHAR(2),
-    EMAIL VARCHAR(50),
-    DT_NASC DATE,
-    ATIVO BOOLEAN,
-    PESSOA_ID INTEGER,
-
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
     LOGRADOURO        VARCHAR(70),
     NUMERO            NOME_DOM,
     COMPLEMENTO       NOME_DOM,
@@ -168,235 +66,70 @@ BEGIN
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM,
-    SELECIONADO       BOOLEAN
-)
-  RETURNS
-  (
-    LOJA_ID_RET SMALLINT,
-    TERMINAL_ID_RET SMALLINT,
-    PESSOA_ID_RET INTEGER
+    REFERENCIA        OBS1_DOM
   );
 END^
 
------ body -----
+/*
+--------
+-- BODY
+--------
+*/
 
-RECREATE PACKAGE BODY LOJA_MANUT_PA
+RECREATE PACKAGE BODY ENDERECO_PA
 AS
 BEGIN
-  PROCEDURE LISTA_GET
-  (
-    P_LOJA_ID ID_SHORT_DOM NOT NULL
-  )
-  RETURNS
-  (
-    LOJA_ID ID_SHORT_DOM
-    , TERMINAL_ID ID_SHORT_DOM
-    , PESSOA_ID ID_DOM
-    , APELIDO NOME_REDU_DOM
-
-    , NOME NOME_DOM
-    , NOME_FANTASIA NOME_DOM
-    
-    , C VARCHAR(15)
-    , I VARCHAR(15)
-    , M VARCHAR(15)
-    , M_UF CHAR(2)
-    
-    , EMAIL VARCHAR(50)
-    , DT_NASC DATE
-    , ATIVO BOOLEAN
-
-    , PESS_CRIADO_EM TIMESTAMP
-    , PESS_ALTERADO_EM TIMESTAMP
-    
-    , ENDER_ORDEM SMALLINT
-    , LOGRADOURO           VARCHAR(70)
-    , NUMERO               NOME_DOM
-    , COMPLEMENTO          NOME_DOM
-    , BAIRRO               NOME_DOM
-    , UF_SIGLA             CHAR(2)
-    , CEP                  CHAR(8)
-    , MUNICIPIO_IBGE_ID    CHAR(5)
-    , MUNICIPIO_NOME    NOME_DOM
-    , DDD                  CHAR(2)
-    , FONE1                NOME_CURTO_DOM
-    , FONE2                NOME_CURTO_DOM
-    , FONE3                NOME_CURTO_DOM
-    , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
-    , ENDER_CRIADO_EM      TIMESTAMP
-    , ENDER_ALTERADO_EM    TIMESTAMP
-    , SELECIONADO          BOOLEAN
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
   )
   AS
   BEGIN
-    FOR
-      WITH LO AS
-      (
-        SELECT 
-          LOJA_ID, 
-          APELIDO, 
-          SELECIONADO
-        FROM 
-          LOJA
-        WHERE (:P_LOJA_ID = 0) OR (:P_LOJA_ID = LOJA_ID)
-        ORDER BY LOJA_ID
-      )
-      , PE AS
-      (
-        SELECT
-          P.LOJA_ID,
-          P.TERMINAL_ID,
-          P.PESSOA_ID, 
-          P.NOME, 
-          P.NOME_FANTASIA, 
-          P.GENERO_ID, 
-          P.ESTADO_CIVIL_ID, 
-          P.C, 
-          P.I, 
-          P.M, 
-          P.M_UF, 
-          P.EMAIL, 
-          P.DT_NASC, 
-          P.ATIVO,
-          P.CRIADO_EM PESS_CRIADO_EM,
-          P.ALTERADO_EM PESS_ALTERADO_EM, 
-          
-          E.ORDEM ENDER_ORDEM,
-          E.LOGRADOURO,
-          E.NUMERO,
-          E.COMPLEMENTO,
-          E.BAIRRO,
-          E.UF_SIGLA,
-          E.CEP,
-          E.MUNICIPIO_IBGE_ID,
-          MU.NOME MUNICIPIO_NOME,
-          E.DDD,
-          E.FONE1,
-          E.FONE2,
-          E.FONE3,
-          E.CONTATO,
-          E.REFERENCIA,
-          E.CRIADO_EM ENDER_CRIADO_EM,
-          E.ALTERADO_EM ENDER_ALTERADO_EM
-          
-        FROM 
-          LOJA_EH_PESSOA LP 
-        JOIN 
-          PESSOA P ON LP.LOJA_ID = P.LOJA_ID AND LP.TERMINAL_ID = P.TERMINAL_ID AND LP.PESSOA_ID = P.PESSOA_ID
-        LEFT JOIN 
-          ENDERECO E ON P.LOJA_ID = E.LOJA_ID AND P.TERMINAL_ID = E.TERMINAL_ID AND P.PESSOA_ID = E.PESSOA_ID AND E.ORDEM = 0
-        LEFT JOIN
-          MUNICIPIO MU ON MU.MUNICIPIO_IBGE_ID = E.MUNICIPIO_IBGE_ID AND MU.UF_SIGLA = E.UF_SIGLA
-      )
-      SELECT 
-        LO.LOJA_ID,
-        PE.TERMINAL_ID,
-        PE.PESSOA_ID, 
-        LO.APELIDO, 
-        
-        PE.NOME, 
-        PE.NOME_FANTASIA, 
-        
-        PE.C, 
-        PE.I, 
-        PE.M, 
-        PE.M_UF, 
-        
-        PE.EMAIL, 
-        PE.DT_NASC, 
-        PE.ATIVO,
-        
-        PE.PESS_CRIADO_EM, 
-        PE.PESS_ALTERADO_EM, 
-        
-        PE.ENDER_ORDEM,
-        PE.LOGRADOURO,
-        PE.NUMERO,
-        PE.COMPLEMENTO,
-        PE.BAIRRO,
-        PE.UF_SIGLA,
-        PE.CEP,
-        PE.MUNICIPIO_IBGE_ID,
-        PE.MUNICIPIO_NOME,
-        PE.DDD,
-        PE.FONE1,
-        PE.FONE2,
-        PE.FONE3,
-        PE.CONTATO,
-        PE.REFERENCIA,
-        PE.ENDER_CRIADO_EM,
-        PE.ENDER_ALTERADO_EM,
-        LO.SELECIONADO
-     FROM LO
-      LEFT JOIN PE ON
-      LO.LOJA_ID = PE.LOJA_ID
-
-    INTO 
-      :LOJA_ID
-      , :TERMINAL_ID
-      , :PESSOA_ID
-      , :APELIDO
-
-      , :NOME
-      , :NOME_FANTASIA
-      
-      , :C
-      , :I
-      , :M
-      , :M_UF
-      
-      , :EMAIL
-      , :DT_NASC
-      , :ATIVO
-      
-      , :PESS_CRIADO_EM
-      , :PESS_ALTERADO_EM
-      
-      , :ENDER_ORDEM
-      , :LOGRADOURO
-      , :NUMERO
-      , :COMPLEMENTO
-      , :BAIRRO
-      , :UF_SIGLA
-      , :CEP
-      , :MUNICIPIO_IBGE_ID
-      , :MUNICIPIO_NOME
-      , :DDD
-      , :FONE1
-      , :FONE2
-      , :FONE3
-      , :CONTATO
-      , :REFERENCIA
-
-      , :ENDER_CRIADO_EM
-      , :ENDER_ALTERADO_EM
-
-      , :SELECIONADO
-    
-    DO 
-      SUSPEND; 
+    FOR SELECT
+      UF_SIGLA,
+      UF_IBGE_ID
+    FROM UF
+    ORDER BY UF_SIGLA
+    INTO :UF_SIGLA,
+      :UF_IBGE_ID
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
+  (
+    UF_SIGLA CHAR(2)
+  )
+  RETURNS
+  (
+    MUNICIPIO_IBGE_ID CHAR(5)
+    , NOME NOME_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT
+      MUNICIPIO_IBGE_ID,
+      NOME
+    FROM MUNICIPIO
+    WHERE UF_SIGLA = :UF_SIGLA
+    ORDER BY NOME
+    INTO :MUNICIPIO_IBGE_ID,
+        :NOME
+    DO
+    BEGIN
+      SUSPEND;
+    END
   END
 
-
-  PROCEDURE GARANTIR(
-    LOJA_ID SMALLINT NOT NULL,
-    TERMINAL_ID SMALLINT NOT NULL,
-    NOME VARCHAR(60),
-    NOME_FANTASIA VARCHAR(60),
-    APELIDO VARCHAR(20),
-    GENERO_ID CHAR(1),
-    ESTADO_CIVIL_ID CHAR(1),
-    C VARCHAR(15),
-    I VARCHAR(15),
-    M VARCHAR(15),
-    M_UF CHAR(2),
-    EMAIL VARCHAR(50),
-    DT_NASC DATE,
-    ATIVO BOOLEAN,
-    PESSOA_ID INTEGER,
-
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
     LOGRADOURO        VARCHAR(70),
     NUMERO            NOME_DOM,
     COMPLEMENTO       NOME_DOM,
@@ -409,72 +142,53 @@ BEGIN
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM,
-
-    SELECIONADO BOOLEAN
-  )
-  RETURNS
-  (
-    LOJA_ID_RET SMALLINT,
-    TERMINAL_ID_RET SMALLINT,
-    PESSOA_ID_RET INTEGER
+    REFERENCIA        OBS1_DOM
   )
   AS
   BEGIN
-    SELECT PESSOA_ID_GRAVADA FROM PESSOA_PA.GARANTIR(
-      :LOJA_ID,
-      :TERMINAL_ID,
-      :NOME,
-      :NOME_FANTASIA,
-      :APELIDO,
-      :GENERO_ID,
-      :ESTADO_CIVIL_ID,
-      :C,
-      :I,
-      :M,
-      :M_UF,
-      :EMAIL,
-      :DT_NASC,
-      :ATIVO,
-      :PESSOA_ID,
-      :LOGRADOURO,
-      :NUMERO,
-      :COMPLEMENTO,
-      :BAIRRO,
-      :UF_SIGLA,
-      :CEP,
-      :MUNICIPIO_IBGE_ID,
-      :DDD,
-      :FONE1,
-      :FONE2,
-      :FONE3,
-      :CONTATO,
-      :REFERENCIA
-    ) INTO :PESSOA_ID_RET;
-
-    :LOJA_ID_RET = :LOJA_ID;
-    :TERMINAL_ID_RET = :TERMINAL_ID;
-
-    IF (:SELECIONADO IS NULL) THEN
-      :SELECIONADO = FALSE;
-    ELSE IF (:SELECIONADO = TRUE) THEN
-      UPDATE LOJA SET SELECIONADO = FALSE;
-
-    EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(:LOJA_ID, :APELIDO, :SELECIONADO);
-
-    UPDATE OR INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID)
-    VALUES (:LOJA_ID_RET, :TERMINAL_ID_RET, :PESSOA_ID_RET)
-    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID);
-    
-    SUSPEND;
+    UPDATE OR INSERT INTO ENDERECO (
+        LOJA_ID,
+        TERMINAL_ID,
+        PESSOA_ID,
+        ORDEM,
+        LOGRADOURO,
+        NUMERO,
+        COMPLEMENTO,
+        BAIRRO,
+        UF_SIGLA,
+        CEP,
+        MUNICIPIO_IBGE_ID,
+        DDD,
+        FONE1,
+        FONE2,
+        FONE3,
+        CONTATO,
+        REFERENCIA
+    )
+    VALUES (
+        :LOJA_ID,
+        :TERMINAL_ID,
+        :PESSOA_ID,
+        :ORDEM,
+        :LOGRADOURO,
+        :NUMERO,
+        :COMPLEMENTO,
+        :BAIRRO,
+        :UF_SIGLA,
+        :CEP,
+        :MUNICIPIO_IBGE_ID,
+        :DDD,
+        :FONE1,
+        :FONE2,
+        :FONE3,
+        :CONTATO,
+        :REFERENCIA
+    )
+    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM);
   END
 END^
 SET TERM ;^
 ```
 COMANDO FIM
-
-//PACKAGE LOJA_MANUT_PA
-
-
 
 DBATUALIZ FIM
