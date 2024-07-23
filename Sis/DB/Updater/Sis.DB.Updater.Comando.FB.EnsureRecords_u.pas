@@ -72,6 +72,7 @@ var
   s: string;
   perc: double;
   iQtdRegs: integer;
+  iRegAtual: integer;
 begin
   Result := '';
   ProcessLog.PegueLocal('TComandoFBEnsureRecords.GetAsSql');
@@ -80,8 +81,7 @@ begin
     ProcessLog.RegistreLog(AsText + ' Inicio');
     // ProcessLog.RegistreLog('StartTransaction');
     // DBConnection.StartTransaction;
-    if FRegistrosSL.count < 100 then
-      iPasso := 0;
+
 
     Output.Exibir('Processando ' + FRegistrosSL.count.ToString + ' registros');
     ProcessLog.RegistreLog('Processando ' + FRegistrosSL.count.ToString +
@@ -89,16 +89,27 @@ begin
     try
       try
 
-//        {$IFDEF DEBUG}
-//        iQtdRegs := Min(25, FRegistrosSL.count - 1);
-//        {$ELSE}
-//        iQtdRegs := FRegistrosSL.count - 1;
-//        {$ENDIF}
-
+        {$IFDEF DEBUG}
+        iQtdRegs := Min(25, FRegistrosSL.count - 1);
+        {$ELSE}
         iQtdRegs := FRegistrosSL.count - 1;
+        {$ENDIF}
+
+//        iQtdRegs := FRegistrosSL.count - 1;
+
+        if iQtdRegs < 100 then
+          iPasso := 0
+        else
+          iPasso := 50;
 
         for I := 0 to iQtdRegs do
         begin
+          if iPasso > 0 then
+          begin
+           if (I mod iPasso) = 0 then
+              Output.Exibir('Processando ' + I.ToString + ' / ' + FRegistrosSL.count.ToString + ' registros');
+          end;
+
           sLog := I.ToString;
           try
             sReg := FRegistrosSL[I];
