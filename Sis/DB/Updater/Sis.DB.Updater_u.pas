@@ -279,6 +279,8 @@ begin
       end;
     end;
 
+    // updater fim aqui
+    // update fim aqui
     if not SisConfig.LocalMachineIsServer then
       exit;
 
