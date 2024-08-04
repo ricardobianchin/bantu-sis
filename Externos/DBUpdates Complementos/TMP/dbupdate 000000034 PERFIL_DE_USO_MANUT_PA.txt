@@ -1,0 +1,50 @@
+PERFIL_DE_USO_MANUT_PA
+
+    inicio
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=PESSOA
+DBATUALIZ_OBJETIVO=CRIA PERFIL_DE_USO_MANUT_PA
+DBATUALIZ_OBS=
+
+
+
+//////////////////////////////////
+//
+// PACKAGE PERFIL_DE_USO_MANUT_PA
+//
+//////////////////////////////////
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\PERFIL_DE_USO_MANUT_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\PERFIL_DE_USO_MANUT_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\PERFIL_DE_USO_MANUT_PA.sql";
+
+*/
+
+COMANDO INI
+TIPO_COMANDO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=PERFIL_DE_USO_PA
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE PERFIL_DE_USO_PA
+AS
+BEGIN
+
+END^
+
+RECREATE PACKAGE BODY PERFIL_DE_USO_PA
+AS
+BEGIN
+
+
+END^
+SET TERM ;^
+```
+COMANDO FIM
+//PACKAGE PERFIL_DE_USO_MANUT_PA FIM
+
+
+DBATUALIZ FIM
