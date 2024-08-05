@@ -77,7 +77,7 @@ begin
     end;
 
     iLojaId := q.FieldByName('LOJA_ID').AsInteger;
-    iPessoaId := q.FieldByName('USUARIO_ID').AsInteger;
+    iPessoaId := q.FieldByName('PESSOA_ID').AsInteger;
     sNomeCompleto := q.FieldByName('NOME').AsString.Trim;
     sApelido := q.FieldByName('APELIDO').AsString.Trim;
 
