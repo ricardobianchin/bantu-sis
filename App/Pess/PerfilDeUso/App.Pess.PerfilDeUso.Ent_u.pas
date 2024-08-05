@@ -1,11 +1,11 @@
-unit App.Pess.PerfilUso.Ent_u;
+unit App.Pess.PerfilDeUso.Ent_u;
 
 interface
 
-uses Data.DB, App.Ent.Ed.Id.Descr_u, App.Pess.PerfilUso.Ent;
+uses Data.DB, App.Ent.Ed.Id.Descr_u, App.Pess.PerfilDeUso.Ent;
 
 type
-  TPerfilUsoEnt = class(TEntIdDescr, IPerfilUsoEnt)
+  TPerfilDeUsoEnt = class(TEntIdDescr, IPerfilDeUsoEnt)
   private
     FDeSistema: boolean;
 
@@ -22,34 +22,34 @@ type
 
 implementation
 
-{ TPerfilUsoEnt }
+{ TPerfilDeUsoEnt }
 
-function TPerfilUsoEnt.GetDescrCaption: string;
+function TPerfilDeUsoEnt.GetDescrCaption: string;
 begin
   Result := 'Perfil de Uso';
 end;
 
-function TPerfilUsoEnt.GetDeSistema: boolean;
+function TPerfilDeUsoEnt.GetDeSistema: boolean;
 begin
   Result := FDeSistema;
 end;
 
-function TPerfilUsoEnt.GetNomeEnt: string;
+function TPerfilDeUsoEnt.GetNomeEnt: string;
 begin
-  Result := 'PerfilUso';
+  Result := 'PerfilDeUso';
 end;
 
-function TPerfilUsoEnt.GetNomeEntAbrev: string;
+function TPerfilDeUsoEnt.GetNomeEntAbrev: string;
 begin
-  Result := 'PerfilUso';
+  Result := 'PerfilDeUso';
 end;
 
-function TPerfilUsoEnt.GetTitulo: string;
+function TPerfilDeUsoEnt.GetTitulo: string;
 begin
   Result := 'Perfis de Uso';
 end;
 
-procedure TPerfilUsoEnt.SetDeSistema(Value: boolean);
+procedure TPerfilDeUsoEnt.SetDeSistema(Value: boolean);
 begin
   FDeSistema := Value;
 end;

@@ -1,11 +1,11 @@
-unit App.Pess.PerfilUso.Ent;
+unit App.Pess.PerfilDeUso.Ent;
 
 interface
 
 uses App.Ent.Ed.Id.Descr;
 
 type
-  IPerfilUsoEnt = interface(IEntIdDescr)
+  IPerfilDeUsoEnt = interface(IEntIdDescr)
     ['{90FCC616-CC4B-49AC-B57D-F31296B03DBF}']
     function GetDeSistema: boolean;
     procedure SetDeSistema(Value: boolean);

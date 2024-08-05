@@ -545,7 +545,7 @@ begin
 
     { iPessoaId := } pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' +
       FLoja.Id.ToString + ',2,2);';
 
     pDBConnection.ExecuteSql(s);

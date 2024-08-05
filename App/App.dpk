@@ -224,13 +224,13 @@ contains
   App.Pess.Ender.Controls.Frame_u in 'Pess\Ender\App.Pess.Ender.Controls.Frame_u.pas' {EnderControlsFrame: TFrame},
   App.Pess.Ender.DBGrid.Frame_u in 'Pess\Ender\App.Pess.Ender.DBGrid.Frame_u.pas' {EnderDBGridFrame: TFrame},
   App.Pess.Ender.Frame_u in 'Pess\Ender\App.Pess.Ender.Frame_u.pas' {EnderFrame: TFrame},
-  App.Pess.PerfilUso.Ent in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent.pas',
-  App.Pess.PerfilUso.Ent_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent_u.pas',
-  App.Pess.PerfilUso.DBI_u in 'Pess\PerfilUso\App.Pess.PerfilUso.DBI_u.pas',
-  App.Pess.PerfilUso.Ent.Factory_u in 'Pess\PerfilUso\App.Pess.PerfilUso.Ent.Factory_u.pas',
-  App.UI.Form.Ed.Pess.PerfilUso_u in 'Pess\PerfilUso\App.UI.Form.Ed.Pess.PerfilUso_u.pas' {PerfilUsoEdForm},
+  App.Pess.PerfilDeUso.Ent in 'Pess\PerfilDeUso\App.Pess.PerfilDeUso.Ent.pas',
+  App.Pess.PerfilDeUso.Ent_u in 'Pess\PerfilDeUso\App.Pess.PerfilDeUso.Ent_u.pas',
+  App.Pess.PerfilDeUso.DBI_u in 'Pess\PerfilDeUso\App.Pess.PerfilDeUso.DBI_u.pas',
+  App.Pess.PerfilDeUso.Ent.Factory_u in 'Pess\PerfilDeUso\App.Pess.PerfilDeUso.Ent.Factory_u.pas',
+  App.UI.Form.Ed.Pess.PerfilDeUso_u in 'Pess\PerfilDeUso\App.UI.Form.Ed.Pess.PerfilDeUso_u.pas' {PerfilDeUsoEdForm},
   App.Pess.Loja.Ent.Factory_u in 'Pess\Loja\App.Pess.Loja.Ent.Factory_u.pas',
-  App.UI.Form.DataSet.Pess.PerfilUso_u in 'Pess\PerfilUso\App.UI.Form.DataSet.Pess.PerfilUso_u.pas' {PerfilUsoDataSetForm},
+  App.UI.Form.DataSet.Pess.PerfilDeUso_u in 'Pess\PerfilDeUso\App.UI.Form.DataSet.Pess.PerfilDeUso_u.pas' {PerfilDeUsoDataSetForm},
   App.DBI in 'AppObj\App.DBI.pas';
 
 end.
