@@ -108,6 +108,9 @@ type
     RetagAcessoFuncAction: TAction;
     RetagAjuVersaoDBAction: TAction;
     AjuVersaoDBToolButton: TToolButton;
+    RetagAcessoPerfilAction: TAction;
+    PerfilToolButton: TToolButton;
+
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -130,6 +133,7 @@ type
     procedure RetagEstProdEnviarTermActionExecute(Sender: TObject);
     procedure FinanceiroPagamentoFormaActionExecute(Sender: TObject);
     procedure RetagAcessoFuncActionExecute(Sender: TObject);
+    procedure RetagAcessoPerfilActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -139,6 +143,10 @@ type
     // aju
     FAjuBemVindoTabSheetFormCreator: IFormCreator;
     FAjuVersaoDBTabSheetFormCreator: IFormCreator;
+
+    // ace
+    FAcessoUsuarioTabSheetFormCreator: IFormCreator;
+    FAcessoPerfilTabSheetFormCreator: IFormCreator;
 
     // est
     FFabrDataSetFormCreator: IFormCreator;
@@ -152,6 +160,10 @@ type
 
     // tab crie
     procedure TabSheetCrie(pFormCreator: IFormCreator);
+
+    procedure CreateIniciais;
+    procedure CreateFormCreator(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+    procedure CreateFormCreatorAju(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
 
   public
     { Public declarations }
@@ -178,9 +190,6 @@ constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
-
-  oVersaoDBEnt: IVersaoDBEnt;
-  oVersaoDBDBI: IEntDBI;
 
   oFabrEnt: IProdFabrEnt;
   oFabrDBI: IEntDBI;
@@ -209,14 +218,8 @@ var
 begin
   inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
     pUsuario, pAppObj);
-  if not Assigned(RetagImgDM) then
-  begin
-    RetagImgDM := TRetagImgDM.Create(Application);
-  end;
-  FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 
-  FFormClassNamesSL := TStringList.Create;
-  FContador := ContadorCreate;
+  CreateIniciais;
 
   MenuPageControl.ActivePage := EstoqueTabSheet;
 
@@ -229,19 +232,7 @@ begin
   oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-  // aju
-  // aju bem vindo
-  FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
-
-  oVersaoDBEnt := RetagEstVersaoDBEntCreate;
-  oVersaoDBDBI := RetagAjuVersaoDBDBICreate(oDBConnection, oVersaoDBEnt);
-
-  // aju versao db
-  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oVersaoDBEnt, oVersaoDBDBI);
+  CreateFormCreator(AppInfo, SisConfig, oDBConnection);
 
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, oFabrEnt);
@@ -297,6 +288,45 @@ begin
 
 end;
 
+procedure TRetaguardaModuloBasForm.CreateFormCreator(pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+begin
+  CreateFormCreatorAju(pAppInfo, pSisConfig, pDBConnection);
+end;
+
+procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+var
+  oVersaoDBEnt: IVersaoDBEnt;
+  oVersaoDBDBI: IEntDBI;
+
+begin
+  // aju bem-vindo
+  FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
+    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify);
+
+  // aju versao
+  oVersaoDBEnt := RetagEstVersaoDBEntCreate;
+  oVersaoDBDBI := RetagAjuVersaoDBDBICreate(pDBConnection, oVersaoDBEnt);
+
+  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
+    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oVersaoDBEnt, oVersaoDBDBI);
+end;
+
+procedure TRetaguardaModuloBasForm.CreateIniciais;
+begin
+  if not Assigned(RetagImgDM) then
+  begin
+    RetagImgDM := TRetagImgDM.Create(Application);
+  end;
+  FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
+
+  FFormClassNamesSL := TStringList.Create;
+  FContador := ContadorCreate;
+end;
+
 procedure TRetaguardaModuloBasForm.FinanceiroPagamentoFormaActionExecute
   (Sender: TObject);
 begin
@@ -348,7 +378,15 @@ procedure TRetaguardaModuloBasForm.RetagAcessoFuncActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetCrie(FAjuBemVindoTabSheetFormCreator);
+  // TabSheetCrie(FAcessoUsuarioTabSheetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagAcessoPerfilActionExecute
+  (Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAcessoPerfilTabSheetFormCreator);
+
 end;
 
 procedure TRetaguardaModuloBasForm.RetagAjuBemActionExecute(Sender: TObject);
