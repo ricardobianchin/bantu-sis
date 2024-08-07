@@ -165,6 +165,7 @@ type
     procedure CreateFormCreator(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
     procedure CreateFormCreatorAju(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
     procedure CreateFormCreatorProd(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+    procedure CreateFormCreatorFin(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
 
   public
     { Public declarations }
@@ -192,11 +193,6 @@ var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
 
-
-  oPagFormaTipo: IPagFormaTipo;
-  oPagFormaEnt: IEntEd;
-  oPagFormaDBI: IEntDBI;
-
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
@@ -217,20 +213,6 @@ begin
     oDBConnectionParams, ProcessLog, Output);
 
   CreateFormCreator(AppInfo, SisConfig, oDBConnection);
-
-
-  // pPagFormaTipo: IPagFormaTipo
-  oPagFormaTipo := PagFormaTipoCreate;
-
-  oPagFormaEnt := RetagFinPagFormaEntCreate(AppObj.Loja.Id, Usuario.Id,
-    oSisConfig.ServerMachineId.IdentId, oPagFormaTipo);
-  oPagFormaDBI := RetagFinPagFormaDBICreate(oDBConnection, oPagFormaEnt);
-
-  // fin pag forma
-  FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
-    (FFormClassNamesSL, oAppInfo, oSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oPagFormaEnt, oPagFormaDBI);
-
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreator(pAppInfo: IAppInfo;
@@ -238,6 +220,7 @@ procedure TRetaguardaModuloBasForm.CreateFormCreator(pAppInfo: IAppInfo;
 begin
   CreateFormCreatorAju(pAppInfo, pSisConfig, pDBConnection);
   CreateFormCreatorProd(pAppInfo, pSisConfig, pDBConnection);
+  CreateFormCreatorFin(pAppInfo, pSisConfig, pDBConnection);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;
@@ -259,6 +242,27 @@ begin
   FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify, oVersaoDBEnt, oVersaoDBDBI);
+end;
+
+procedure TRetaguardaModuloBasForm.CreateFormCreatorFin(pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+var
+  oPagFormaTipo: IPagFormaTipo;
+  oPagFormaEnt: IEntEd;
+  oPagFormaDBI: IEntDBI;
+begin
+
+  // pPagFormaTipo: IPagFormaTipo
+  oPagFormaTipo := PagFormaTipoCreate;
+
+  oPagFormaEnt := RetagFinPagFormaEntCreate(AppObj.Loja.Id, Usuario.Id,
+    pSisConfig.ServerMachineId.IdentId, oPagFormaTipo);
+  oPagFormaDBI := RetagFinPagFormaDBICreate(pDBConnection, oPagFormaEnt);
+
+  // fin pag forma
+  FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
+    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oPagFormaEnt, oPagFormaDBI);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppInfo: IAppInfo;
