@@ -20,7 +20,10 @@ uses
     , App.Retag.Est.Prod.Ent //
 
     , App.Retag.Est.Prod.Barras.Ent.List //
-    , App.Retag.Est.Prod.Balanca.Ent, App.Retag.Aju.VersaoDB.Ent //
+    , App.Retag.Est.Prod.Balanca.Ent //
+    , App.Retag.Aju.VersaoDB.Ent //
+    , App.Acesso.PerfilDeUso.DBI //
+    , App.Acesso.PerfilDeUso.Ent //
 
     ;
 
@@ -164,6 +167,7 @@ type
     procedure CreateIniciais;
     procedure CreateFormCreator(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
     procedure CreateFormCreatorAju(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+    procedure CreateFormCreatorAcesso(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
     procedure CreateFormCreatorProd(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
     procedure CreateFormCreatorFin(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
 
@@ -184,7 +188,7 @@ implementation
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Types.strings_u, Sis.UI.IO.Factory,
   App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory, App.Retag.Fin.Factory,
-  App.Fin.PagFormaTipo;
+  App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
@@ -219,8 +223,26 @@ procedure TRetaguardaModuloBasForm.CreateFormCreator(pAppInfo: IAppInfo;
   pSisConfig: ISisConfig; pDBConnection: IDBConnection);
 begin
   CreateFormCreatorAju(pAppInfo, pSisConfig, pDBConnection);
+  CreateFormCreatorAcesso(pAppInfo, pSisConfig, pDBConnection);
   CreateFormCreatorProd(pAppInfo, pSisConfig, pDBConnection);
   CreateFormCreatorFin(pAppInfo, pSisConfig, pDBConnection);
+end;
+
+procedure TRetaguardaModuloBasForm.CreateFormCreatorAcesso(pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+var
+  oPerfilDeUsoEnt: IPerfilDeUsoEnt;
+  oPerfilDeUsoDBI: IPerfilDeUsoDBI;
+
+begin
+  // acesso perfil de uso
+  oPerfilDeUsoEnt := PerfilDeUsoEntCreate;
+
+  oPerfilDeUsoDBI := PerfilDeUsoDBICreate(pDBConnection, oPerfilDeUsoEnt);
+
+  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
+    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oPerfilDeUsoEnt, oPerfilDeUsoDBI);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;

@@ -1,4 +1,4 @@
-unit App.UI.Form.DataSet.Pess.PerfilDeUso_u;
+unit App.UI.Form.DataSet.Acesso.PerfilDeUso_u;
 
 interface
 
@@ -6,8 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet.DataSet_u,
   Data.DB, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ToolWin, App.Pess.PerfilDeUso.Ent.Factory_u,
-  App.Pess.PerfilDeUso.Ent, App.AppInfo, Sis.Config.SisConfig, Sis.Usuario,
+  Vcl.DBGrids, Vcl.ToolWin, App.Acesso.PerfilDeUso.Ent.Factory_u,
+  App.Acesso.PerfilDeUso.Ent, App.AppInfo, Sis.Config.SisConfig, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
   App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u;
 
@@ -17,11 +17,12 @@ type
     { Private declarations }
     FPerfilDeUsoEnt: IPerfilDeUsoEnt;
   protected
+    function GetNomeArqTabView: string; override;
+
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
     procedure DoAlterar; override;
 
-    function GetNomeArqTabView: string; override;
     procedure ToolBar1CrieBotoes; override;
     procedure RecordToEnt; override;
   public
@@ -70,8 +71,12 @@ begin
 end;
 
 function TPerfilDeUsoDataSetForm.GetNomeArqTabView: string;
+var
+  sNomeArq: string;
 begin
-
+  sNomeArq := AppInfo.PastaConsTabViews +
+    'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
+  Result := sNomeArq;
 end;
 
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;

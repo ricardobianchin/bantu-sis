@@ -1,8 +1,8 @@
-unit App.Pess.PerfilDeUso.Ent_u;
+unit App.Acesso.PerfilDeUso.Ent_u;
 
 interface
 
-uses Data.DB, App.Ent.Ed.Id.Descr_u, App.Pess.PerfilDeUso.Ent;
+uses Data.DB, App.Ent.Ed.Id.Descr_u, App.Acesso.PerfilDeUso.Ent;
 
 type
   TPerfilDeUsoEnt = class(TEntIdDescr, IPerfilDeUsoEnt)

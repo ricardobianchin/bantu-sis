@@ -1,12 +1,13 @@
-unit App.Pess.PerfilDeUso.DBI_u;
+unit App.Acesso.PerfilDeUso.DBI_u;
 
 interface
 
 uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Variants,
-  Sis.Types.Integers, App.Ent.DBI_u, App.Pess.PerfilDeUso.Ent;
+  Sis.Types.Integers, App.Ent.DBI_u, App.Acesso.PerfilDeUso.Ent,
+  App.Acesso.PerfilDeUso.DBI;
 
 type
-  TPerfilDeUsoDBI = class(TEntDBI)
+  TPerfilDeUsoDBI = class(TEntDBI, IPerfilDeUsoDBI)
   private
     function GetPerfilDeUsoEnt: IPerfilDeUsoEnt;
   protected
@@ -19,7 +20,7 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.Types.strings_u, App.Pess.PerfilDeUso.Ent.Factory_u,
+uses System.SysUtils, Sis.Types.strings_u, App.Acesso.PerfilDeUso.Ent.Factory_u,
   Sis.Types.Bool_u;
 
 { TPerfilDeUsoDBI }
@@ -48,7 +49,8 @@ var
   sFormat: string;
   sDescr: string;
 begin
-  sFormat := 'SELECT PERFIL_DE_USO_ID FROM PERFIL_DE_USO_PA.BYNOME_GET(''%s'');';
+  sFormat :=
+    'SELECT PERFIL_DE_USO_ID FROM PERFIL_DE_USO_PA.BYNOME_GET(''%s'');';
   sDescr := VarToString(pValues);
   Result := Format(sFormat, [sDescr]);
 end;
@@ -58,7 +60,8 @@ var
   sFormat: string;
   sBusca: string;
 begin
-  sFormat := 'select PERFIL_DE_USO_ID, NOME, DE_SISTEMA from PERFIL_DE_USO_PA.LISTA_GET();';
+  sFormat :=
+    'select PERFIL_DE_USO_ID, NOME, DE_SISTEMA from PERFIL_DE_USO_PA.LISTA_GET();';
   sBusca := VarToString(pValues);
   Result := Format(sFormat, [sBusca]);
 end;

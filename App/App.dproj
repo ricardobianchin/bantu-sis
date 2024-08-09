@@ -456,20 +456,22 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Pess\PerfilDeUso\App.Pess.PerfilDeUso.Ent.pas"/>
-        <DCCReference Include="Pess\PerfilDeUso\App.Pess.PerfilDeUso.Ent_u.pas"/>
-        <DCCReference Include="Pess\PerfilDeUso\App.Pess.PerfilDeUso.DBI_u.pas"/>
-        <DCCReference Include="Pess\PerfilDeUso\App.Pess.PerfilDeUso.Ent.Factory_u.pas"/>
-        <DCCReference Include="Pess\PerfilDeUso\App.UI.Form.Ed.Pess.PerfilDeUso_u.pas">
+        <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.Ent.pas"/>
+        <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.Ent_u.pas"/>
+        <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.DBI_u.pas"/>
+        <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.Ent.Factory_u.pas"/>
+        <DCCReference Include="Pess\PerfilDeUso\App.UI.Form.Ed.Acesso.PerfilDeUso_u.pas">
             <Form>PerfilDeUsoEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\Loja\App.Pess.Loja.Ent.Factory_u.pas"/>
-        <DCCReference Include="Pess\PerfilDeUso\App.UI.Form.DataSet.Pess.PerfilDeUso_u.pas">
+        <DCCReference Include="Pess\PerfilDeUso\App.UI.Form.DataSet.Acesso.PerfilDeUso_u.pas">
             <Form>PerfilDeUsoDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="AppObj\App.DBI.pas"/>
+        <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.DBI.pas"/>
+        <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.UI.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -1,4 +1,4 @@
-unit App.UI.Form.Ed.Pess.PerfilDeUso_u;
+unit App.UI.Form.Ed.Acesso.PerfilDeUso_u;
 
 interface
 
@@ -6,8 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Pess.PerfilDeUso.Ent,
-  App.Pess.PerfilDeUso.Ent.Factory_u, App.AppInfo, App.Ent.Ed, App.Ent.DBI;
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Acesso.PerfilDeUso.Ent,
+  App.Acesso.PerfilDeUso.Ent.Factory_u, App.AppInfo, App.Ent.Ed, App.Ent.DBI;
 
 type
   TPerfilDeUsoEdForm = class(TEdBasForm)
