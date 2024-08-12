@@ -75,7 +75,7 @@ var
   sNomeArq: string;
 begin
   sNomeArq := AppInfo.PastaConsTabViews +
-    'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
+    'App\Retag\Acesso\tabview.retag.acesso.perfil_de_uso.csv';
   Result := sNomeArq;
 end;
 
