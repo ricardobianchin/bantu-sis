@@ -472,6 +472,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\App.DBI.pas"/>
         <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.DBI.pas"/>
         <DCCReference Include="Pess\PerfilDeUso\App.Acesso.PerfilDeUso.UI.Factory_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\App.Testes.Config.ModuRetag.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\App.Testes.Config.ModuRetag.Acesso.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\PerfilDeUso\App.Testes.Config.ModuRetag.Acesso.PerfilDeUso.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\App.Testes.Config.ModuRetag_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\PerfilDeUso\App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\App.Testes.Config.ModuRetag.Acesso_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

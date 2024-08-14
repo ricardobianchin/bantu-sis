@@ -2,9 +2,27 @@ unit App.AppObj;
 
 interface
 
-uses Sis.Config.SisConfig, App.AppInfo, Sis.UI.IO.Output, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.Loja, App.Testes.Config;
+uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog //
 
+  , App.Testes.Config //
+
+  , Sis.Config.SisConfig //
+
+  , App.AppInfo //
+
+  , Sis.Loja //
+
+  ; //
+
+{
+  AppTestesConfig = da camada App, configuracoes dos testes
+  pode ter, por exemplo, uma flag Loja.AutoExec que se for true, assim que entra
+  no modulo, abre a janela de Lojas
+
+  os objetos imitam a estrutur do arquivo
+    C:\Pr\app\bantu\bantu-sis\Exe\Configs\app.testes.config.xml
+    .\Exe\Configs\app.testes.config.xml
+}
 type
   IAppObj = interface(IInterface)
     ['{DC6EC674-3089-4213-8542-65232780AE51}']

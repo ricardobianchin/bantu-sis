@@ -30,7 +30,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = SistemaTabSheet
+      ActivePage = AcessoTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -145,7 +145,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           end
         end
       end
-      object SistemaTabSheet: TTabSheet
+      object AcessoTabSheet: TTabSheet
         Caption = 'Acesso ao Sistema'
         ImageIndex = 4
         object AcessoToolBar: TToolBar
@@ -217,6 +217,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0

@@ -105,7 +105,7 @@ type
     FinToolBar: TToolBar;
     PagamentoFormaToolButton: TToolButton;
     FinanceiroPagamentoFormaAction: TAction;
-    SistemaTabSheet: TTabSheet;
+    AcessoTabSheet: TTabSheet;
     AcessoToolBar: TToolBar;
     FuncToolButton: TToolButton;
     RetagAcessoFuncAction: TAction;
@@ -171,6 +171,7 @@ type
     procedure CreateFormCreatorProd(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
     procedure CreateFormCreatorFin(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
 
+    procedure TestaTesteConfig;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -480,7 +481,9 @@ end;
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+
   RetagAjuBemAction.Execute;
+  TestaTesteConfig;
   // RetagEstProdICMSAction.Execute;
   // sleep(150);
   // RetagEstProdFabrAction.Execute;
@@ -550,6 +553,20 @@ begin
 
   oTabSheet.Caption := pFormCreator.Titulo;
   oForm.Show;
+end;
+
+procedure TRetaguardaModuloBasForm.TestaTesteConfig;
+var
+  bDeveExecutar: boolean;
+begin
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Acesso.PerfilDeUso.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := AcessoTabSheet;
+    RetagAcessoPerfilAction.Execute;
+  end;
+
 end;
 
 end.

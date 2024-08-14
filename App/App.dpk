@@ -233,6 +233,12 @@ contains
   App.UI.Form.DataSet.Acesso.PerfilDeUso_u in 'Pess\PerfilDeUso\App.UI.Form.DataSet.Acesso.PerfilDeUso_u.pas' {PerfilDeUsoDataSetForm},
   App.DBI in 'AppObj\App.DBI.pas',
   App.Acesso.PerfilDeUso.DBI in 'Pess\PerfilDeUso\App.Acesso.PerfilDeUso.DBI.pas',
-  App.Acesso.PerfilDeUso.UI.Factory_u in 'Pess\PerfilDeUso\App.Acesso.PerfilDeUso.UI.Factory_u.pas';
+  App.Acesso.PerfilDeUso.UI.Factory_u in 'Pess\PerfilDeUso\App.Acesso.PerfilDeUso.UI.Factory_u.pas',
+  App.Testes.Config.ModuRetag in 'AppObj\TestesConfig\ModuRetag\App.Testes.Config.ModuRetag.pas',
+  App.Testes.Config.ModuRetag.Acesso in 'AppObj\TestesConfig\ModuRetag\Acesso\App.Testes.Config.ModuRetag.Acesso.pas',
+  App.Testes.Config.ModuRetag.Acesso.PerfilDeUso in 'AppObj\TestesConfig\ModuRetag\Acesso\PerfilDeUso\App.Testes.Config.ModuRetag.Acesso.PerfilDeUso.pas',
+  App.Testes.Config.ModuRetag_u in 'AppObj\TestesConfig\ModuRetag\App.Testes.Config.ModuRetag_u.pas',
+  App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u in 'AppObj\TestesConfig\ModuRetag\Acesso\PerfilDeUso\App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u.pas',
+  App.Testes.Config.ModuRetag.Acesso_u in 'AppObj\TestesConfig\ModuRetag\Acesso\App.Testes.Config.ModuRetag.Acesso_u.pas';
 
 end.
