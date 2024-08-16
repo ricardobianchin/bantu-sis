@@ -17,6 +17,7 @@ type
     function GetTitulo: string; override;
     function GetDescrCaption: string; override;
   public
+    procedure LimparEnt; override;
     property DeSistema: boolean read GetDeSistema write SetDeSistema;
   end;
 
@@ -47,6 +48,12 @@ end;
 function TPerfilDeUsoEnt.GetTitulo: string;
 begin
   Result := 'Perfis de Uso';
+end;
+
+procedure TPerfilDeUsoEnt.LimparEnt;
+begin
+  inherited;
+  FDeSistema := False;
 end;
 
 procedure TPerfilDeUsoEnt.SetDeSistema(Value: boolean);

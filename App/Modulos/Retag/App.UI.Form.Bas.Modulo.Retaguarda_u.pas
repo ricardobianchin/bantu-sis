@@ -165,11 +165,16 @@ type
     procedure TabSheetCrie(pFormCreator: IFormCreator);
 
     procedure CreateIniciais;
-    procedure CreateFormCreator(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-    procedure CreateFormCreatorAju(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-    procedure CreateFormCreatorAcesso(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-    procedure CreateFormCreatorProd(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-    procedure CreateFormCreatorFin(pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+    procedure CreateFormCreator(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+      pDBConnection: IDBConnection);
+    procedure CreateFormCreatorAju(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+      pDBConnection: IDBConnection);
+    procedure CreateFormCreatorAcesso(pAppInfo: IAppInfo;
+      pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+    procedure CreateFormCreatorProd(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+      pDBConnection: IDBConnection);
+    procedure CreateFormCreatorFin(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+      pDBConnection: IDBConnection);
 
     procedure TestaTesteConfig;
   public
@@ -187,9 +192,10 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
-  Sis.Types.strings_u, Sis.UI.IO.Factory,
-  App.DB.Utils, Sis.DB.Factory, App.Retag.Aju.Factory, App.Retag.Fin.Factory,
-  App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u;
+  Sis.Types.strings_u, Sis.UI.IO.Factory, App.DB.Utils, Sis.DB.Factory,
+  App.Retag.Aju.Factory, App.Retag.Fin.Factory,
+  App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
+  App.Acesso.PerfilDeUso.UI.Factory_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
@@ -231,19 +237,19 @@ end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAcesso(pAppInfo: IAppInfo;
   pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-var
-  oPerfilDeUsoEnt: IPerfilDeUsoEnt;
-  oPerfilDeUsoDBI: IPerfilDeUsoDBI;
+//var
+//  oPerfilDeUsoEnt: IPerfilDeUsoEnt;
+//  oPerfilDeUsoDBI: IPerfilDeUsoDBI;
 
 begin
-  // acesso perfil de uso
-  oPerfilDeUsoEnt := PerfilDeUsoEntCreate;
+//  // acesso perfil de uso
+//  oPerfilDeUsoEnt := PerfilDeUsoEntCreate;
+//
+//  oPerfilDeUsoDBI := PerfilDeUsoDBICreate(pDBConnection, oPerfilDeUsoEnt);
 
-  oPerfilDeUsoDBI := PerfilDeUsoDBICreate(pDBConnection, oPerfilDeUsoEnt);
-
-  FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
+  FAcessoPerfilTabSheetFormCreator := PerfilDeUsoDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oPerfilDeUsoEnt, oPerfilDeUsoDBI);
+    FOutputNotify{, oPerfilDeUsoEnt, oPerfilDeUsoDBI});
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;
@@ -557,7 +563,7 @@ end;
 
 procedure TRetaguardaModuloBasForm.TestaTesteConfig;
 var
-  bDeveExecutar: boolean;
+  bDeveExecutar: Boolean;
 begin
   bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Acesso.PerfilDeUso.AutoExec;
 

@@ -38,10 +38,17 @@ end;
 function TPerfilDeUsoDBI.GetSqlGaranteRegRetId: string;
 var
   sFormat: string;
+
+  iId: integer;
+  sDescr: string;
+  sSis: string;
 begin
+  iId := GetPerfilDeUsoEnt.Id;
+  sDescr := GetPerfilDeUsoEnt.Descr;
+  sSis := BooleanToStrSQL(GetPerfilDeUsoEnt.DeSistema);
+
   sFormat := 'SELECT ID_GRAVADO FROM PERFIL_DE_USO_PA.GARANTIR(%d,''%s'', %s);';
-  Result := Format(sFormat, [GetPerfilDeUsoEnt.Id, GetPerfilDeUsoEnt.Descr,
-    BooleanToStrSQL(GetPerfilDeUsoEnt.DeSistema)]);
+  Result := Format(sFormat, [iId, sDescr, sSis]);
 end;
 
 function TPerfilDeUsoDBI.GetSqlGetExistente(pValues: variant): string;
@@ -61,7 +68,7 @@ var
   sBusca: string;
 begin
   sFormat :=
-    'select PERFIL_DE_USO_ID, NOME, DE_SISTEMA from PERFIL_DE_USO_PA.LISTA_GET();';
+    'select PERFIL_DE_USO_ID, NOME, DE_SISTEMA, USUARIOS_APELIDOS from PERFIL_DE_USO_PA.LISTA_GET;';
   sBusca := VarToString(pValues);
   Result := Format(sFormat, [sBusca]);
 end;

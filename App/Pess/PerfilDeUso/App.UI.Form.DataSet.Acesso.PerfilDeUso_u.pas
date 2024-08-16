@@ -41,6 +41,10 @@ implementation
 
 {$R *.dfm}
 
+uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
+  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
+  App.Acesso.PerfilDeUso.UI.Factory_u;
+
 { TPerfilDeUsoDataSetForm }
 
 constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent;
@@ -61,13 +65,42 @@ end;
 
 procedure TPerfilDeUsoDataSetForm.DoAtualizar(Sender: TObject);
 begin
-  inherited;
+  FDMemTable.DisableControls;
+  FDMemTable.BeginBatch;
+  FDMemTable.EmptyDataSet;
 
+  try
+    EntDBI.PreencherDataSet(0, LeRegEInsere);
+
+  finally
+    FDMemTable.First;
+    FDMemTable.EndBatch;
+    FDMemTable.EnableControls;
+    DBGridPosicioneColumnVisible(DBGrid1);
+  end;
 end;
 
 function TPerfilDeUsoDataSetForm.DoInserir: boolean;
+var
+  oDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
 begin
+  inherited;
+  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    AppInfo, SisConfig);
 
+  oDBConnection := DBConnectionCreate('Retag.PerfilDeUso.Ed.Ins.Conn', SisConfig, DBMS,
+    oDBConnectionParams, ProcessLog, Output);
+
+   Result := PerfilDeUsoEdFormCreate(Self, AppInfo, EntEd, EntDBI);
+
+  if not Result then
+    exit;
+
+  FDMemTable.InsertRecord([ProdICMSEnt.Id, ProdICMSEnt.Sigla, ProdICMSEnt.Descr,
+    ProdICMSEnt.Perc, ProdICMSEnt.Ativo]);
+
+  Result := PessLojaPerg(nil, AppInfo, FPessLojaEnt, FPessLojaDBI);
 end;
 
 function TPerfilDeUsoDataSetForm.GetNomeArqTabView: string;
@@ -88,7 +121,9 @@ end;
 procedure TPerfilDeUsoDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
-
+  ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;
 
 end.
