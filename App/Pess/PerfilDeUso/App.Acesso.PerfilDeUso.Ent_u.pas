@@ -8,17 +8,24 @@ type
   TPerfilDeUsoEnt = class(TEntIdDescr, IPerfilDeUsoEnt)
   private
     FDeSistema: boolean;
+    FUsuariosApelidos: string;
 
     function GetDeSistema: boolean;
     procedure SetDeSistema(Value: boolean);
+
+    function GetUsuariosApelidos: string;
+    procedure SetUsuariosApelidos(Value: string);
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
     function GetDescrCaption: string; override;
+
   public
     procedure LimparEnt; override;
+
     property DeSistema: boolean read GetDeSistema write SetDeSistema;
+    property UsuariosApelidos: string read GetUsuariosApelidos write SetUsuariosApelidos;
   end;
 
 implementation
@@ -50,15 +57,26 @@ begin
   Result := 'Perfis de Uso';
 end;
 
+function TPerfilDeUsoEnt.GetUsuariosApelidos: string;
+begin
+  Result := FUsuariosApelidos;
+end;
+
 procedure TPerfilDeUsoEnt.LimparEnt;
 begin
   inherited;
   FDeSistema := False;
+  FUsuariosApelidos := '';
 end;
 
 procedure TPerfilDeUsoEnt.SetDeSistema(Value: boolean);
 begin
   FDeSistema := Value;
+end;
+
+procedure TPerfilDeUsoEnt.SetUsuariosApelidos(Value: string);
+begin
+  FUsuariosApelidos := Value;
 end;
 
 end.

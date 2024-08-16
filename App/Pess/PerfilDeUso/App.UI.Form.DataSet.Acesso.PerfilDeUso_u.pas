@@ -92,15 +92,14 @@ begin
   oDBConnection := DBConnectionCreate('Retag.PerfilDeUso.Ed.Ins.Conn', SisConfig, DBMS,
     oDBConnectionParams, ProcessLog, Output);
 
-   Result := PerfilDeUsoEdFormCreate(Self, AppInfo, EntEd, EntDBI);
+  Result := PerfilDeUsoPerg(Self, AppInfo, EntEd, EntDBI);
 
   if not Result then
     exit;
 
-  FDMemTable.InsertRecord([ProdICMSEnt.Id, ProdICMSEnt.Sigla, ProdICMSEnt.Descr,
-    ProdICMSEnt.Perc, ProdICMSEnt.Ativo]);
-
-  Result := PessLojaPerg(nil, AppInfo, FPessLojaEnt, FPessLojaDBI);
+  FDMemTable.Append;
+  EntToRecord;
+  FDMemTable.Post;
 end;
 
 function TPerfilDeUsoDataSetForm.GetNomeArqTabView: string;
