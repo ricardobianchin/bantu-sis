@@ -167,8 +167,9 @@ begin
     ', BAL_VALIDADE_DIAS' + // 17
     ', BAL_TEXTO_ETIQ' + // 18
 
-    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ')' + ' WHERE PROD_ID = '
-    + Ent.Id.ToString + ';';
+    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ')' + //
+    ' WHERE PROD_ID = ' + Ent.Id.ToString + ';' //
+    ;
 
   DBConnection.Abrir;
   try
