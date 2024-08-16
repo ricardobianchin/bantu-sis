@@ -5,6 +5,7 @@ inherited TabSheetBasForm: TTabSheetBasForm
   ClientHeight = 477
   ClientWidth = 632
   OnClose = FormClose
+  ExplicitWidth = 632
   ExplicitHeight = 477
   TextHeight = 15
   object TitPanel_BasTabSheet: TPanel [0]

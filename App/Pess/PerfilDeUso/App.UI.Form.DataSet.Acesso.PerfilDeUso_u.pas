@@ -13,7 +13,9 @@ uses
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
+    FundoPanel_PerfilDeUsoDataSetForm: TPanel;
+    DBGridSplitter_PerfilDeUsoDataSetForm: TSplitter;
+    OpcaoSisTreeView_PerfilDeUsoDataSetForm: TTreeView;
   private
     { Private declarations }
     FPerfilDeUsoEnt: IPerfilDeUsoEnt;
@@ -28,6 +30,9 @@ type
 
     procedure RecordToEnt; override;
     procedure EntToRecord; override;
+
+    procedure PrepareControls; override;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -134,6 +139,23 @@ begin
   Result := sNomeArq;
 end;
 
+procedure TPerfilDeUsoDataSetForm.PrepareControls;
+begin
+  inherited;
+  FundoPanel_PerfilDeUsoDataSetForm.Visible := True;
+
+  FundoPanel_PerfilDeUsoDataSetForm.Align := alClient;
+  FundoPanel_PerfilDeUsoDataSetForm.Caption := '';
+
+  DBGrid1.Parent := FundoPanel_PerfilDeUsoDataSetForm;
+  DBGrid1.Align := alLeft;
+  DBGrid1.Width :=  (Width * 5) div 10;
+
+  DBGridSplitter_PerfilDeUsoDataSetForm.Left := DBGrid1.Width + 4;
+
+  OpcaoSisTreeView_PerfilDeUsoDataSetForm.Align := alClient;
+end;
+
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;
 var
   Tab: TFDMemTable;
@@ -144,12 +166,6 @@ begin
   FPerfilDeUsoEnt.Id := Tab.Fields[0{perfil_de_uso_id}].AsInteger;
   FPerfilDeUsoEnt.Descr := Trim(Tab.Fields[1{nome}].AsString);
   FPerfilDeUsoEnt.DeSistema := Tab.Fields[2{de_sistema}].AsBoolean;
-end;
-
-procedure TPerfilDeUsoDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  InsAction_DatasetTabSheet.Execute;
 end;
 
 procedure TPerfilDeUsoDataSetForm.ToolBar1CrieBotoes;

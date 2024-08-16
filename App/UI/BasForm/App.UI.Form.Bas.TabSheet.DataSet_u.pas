@@ -29,7 +29,6 @@ type
     OkAction: TAction;
     CancelAction: TAction;
     Panel1: TPanel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);
@@ -71,7 +70,7 @@ type
     property AtualizaAposEd: boolean read FAtualizaAposEd write FAtualizaAposEd;
 
     function GetFDMemTable: TFDMemTable;
-    procedure Inicialize; override;
+    procedure PrepareControls; override;
     property FDMemTable: TFDMemTable read GetFDMemTable;
 
     function GetFDDataSetManager: IFDDataSetManager;
@@ -409,10 +408,24 @@ begin
   Result := FEntEd.Titulo;
 end;
 
-procedure TTabSheetDataSetBasForm.Inicialize;
+procedure TTabSheetDataSetBasForm.PrepareControls;
+var
+  sNomeCampo: string;
 begin
   inherited;
+  FFiltroEditAutomatico := True;
   AjusteBotoesSelect;
+
+  AtuAction_DatasetTabSheet.Execute;
+
+  if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
+    exit;
+
+  if FIdPos = 0 then
+    exit;
+
+  sNomeCampo := FDMemTable.Fields[0].FieldName;
+  FDMemTable.Locate(sNomeCampo, FIdPos, []);
 end;
 
 procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute
@@ -481,24 +494,6 @@ end;
 procedure TTabSheetDataSetBasForm.SetState(const Value: TDataSetState);
 begin
   FEntEd.State := Value;
-end;
-
-procedure TTabSheetDataSetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-var
-  sNomeCampo: string;
-begin
-  inherited;
-  AtuAction_DatasetTabSheet.Execute;
-  FFiltroEditAutomatico := True;
-
-  if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
-    exit;
-
-  if FIdPos = 0 then
-    exit;
-
-  sNomeCampo := FDMemTable.Fields[0].FieldName;
-  FDMemTable.Locate(sNomeCampo, FIdPos, []);
 end;
 
 end.
