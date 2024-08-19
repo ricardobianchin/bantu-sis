@@ -99,7 +99,7 @@ type
     procedure EntToRecord; virtual;
     function SelectPodeOk: boolean; virtual;
 
-    procedure FDMemTable1AfterOpen(DataSet: TDataSet); virtual;
+    //afteropen foi cortado. pois quando é aberta é no defcampos. onde nem tudo foi inicializado
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
 
     property ModoDataSetForm: TModoDataSetForm read GetModoDataSetForm;
@@ -260,9 +260,6 @@ begin
   FFiltroEditAutomatico := False;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
-  FDMemTableColocarEventos;
-  FFDMemTable.AfterOpen := FDMemTable1AfterOpen;
-  FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
 
   // DefCampos;
 
@@ -276,6 +273,8 @@ begin
     Align := alNone;
     Caption := 'Selecionando ' + EntEd.NomeEnt;
   end;
+
+  FDMemTableColocarEventos;
 end;
 
 procedure TTabSheetDataSetBasForm.DBGrid1DblClick(Sender: TObject);
@@ -327,11 +326,6 @@ begin
 
 end;
 
-procedure TTabSheetDataSetBasForm.FDMemTable1AfterOpen(DataSet: TDataSet);
-begin
-
-end;
-
 procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
 
@@ -339,13 +333,11 @@ end;
 
 procedure TTabSheetDataSetBasForm.FDMemTableColocarEventos;
 begin
-  FFDMemTable.AfterOpen := FDMemTable1AfterOpen;
   FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
 end;
 
 procedure TTabSheetDataSetBasForm.FDMemTableRetirarEventos;
 begin
-  FFDMemTable.AfterOpen := nil;
   FFDMemTable.AfterScroll := nil;
 end;
 

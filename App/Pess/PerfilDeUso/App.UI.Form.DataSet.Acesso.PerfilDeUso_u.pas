@@ -31,6 +31,7 @@ type
     function GetNomeArqTabView: string; override;
 
     procedure DoAtualizar(Sender: TObject); override;
+
     function DoInserir: boolean; override;
     procedure DoAlterar; override;
 
@@ -41,7 +42,6 @@ type
 
     procedure PrepareControls; override;
 
-    procedure FDMemTable1AfterOpen(DataSet: TDataSet); override;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); override;
 
   public
@@ -142,11 +142,6 @@ begin
   Tab.Fields[2 { de_sistema } ].AsBoolean := FPerfilDeUsoEnt.DeSistema;
 end;
 
-procedure TPerfilDeUsoDataSetForm.FDMemTable1AfterOpen(DataSet: TDataSet);
-begin
-  PreenchaTreeView;
-end;
-
 procedure TPerfilDeUsoDataSetForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
   PreenchaTreeView;
@@ -189,6 +184,7 @@ begin
     'Opções que o Perfil de Uso pode utilizar', GetSQLOpcoesPerfil, AppInfo, SisConfig, DBMS,
     SisImgDataModule.ImageList_9_9);
 
+  PreenchaTreeView;
 end;
 
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;
