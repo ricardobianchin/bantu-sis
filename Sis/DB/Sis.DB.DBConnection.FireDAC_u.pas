@@ -35,7 +35,7 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.Types.Bool_u;
+uses System.SysUtils, Sis.Types.Bool_u, Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TDBConnectionFireDAC }
 
@@ -97,11 +97,17 @@ constructor TDBConnectionFireDAC.Create(pNomeComponente: string;
 var
   sDriver: string;
   s: string;
+  oProcessLog: IProcessLog;
 begin
+  if Assigned(pProcessLog) then
+    oProcessLog := pProcessLog
+  else
+    oProcessLog := MudoProcessLogCreate;
+
   FDManager.SilentMode := true;
-  pProcessLog.PegueLocal('TDBConnectionFireDAC.Create');
+  oProcessLog.PegueLocal('TDBConnectionFireDAC.Create');
   try
-    inherited Create(pNomeComponente, pDBConnectionParams, pProcessLog,
+    inherited Create(pNomeComponente, pDBConnectionParams, oProcessLog,
       pOutput);
     DBLog.Registre('voltou de inherited Create');
 
