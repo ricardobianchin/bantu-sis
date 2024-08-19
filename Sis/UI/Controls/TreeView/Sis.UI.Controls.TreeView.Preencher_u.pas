@@ -3,18 +3,16 @@ unit Sis.UI.Controls.TreeView.Preencher_u;
 interface
 
 uses VCL.Controls, Sis.UI.Controls.TreeView.Preencher, System.ImageList,
-  VCL.ComCtrls, Sis.UI.Controls.TreeView.DBI;
+  VCL.ComCtrls;
 
 type
   TTreeViewPreencher = class(TInterfacedObject, ITreeViewPreencher)
   private
     FTreeView: TTreeView;
     FImageList: TImageList;
-    FTreeViewDBI: ITreeViewDBI;
   public
     procedure Preencher; virtual;
-    constructor Create(pTreeView: TTreeView; pImageList: TImageList = nil;
-      pTreeViewDBI: ITreeViewDBI = nil);
+    constructor Create(pTreeView: TTreeView; pImageList: TImageList = nil);
   end;
 
 implementation
@@ -22,11 +20,10 @@ implementation
 { TTreeViewPreencher }
 
 constructor TTreeViewPreencher.Create(pTreeView: TTreeView;
-  pImageList: TImageList; pTreeViewDBI: ITreeViewDBI);
+  pImageList: TImageList);
 begin
   FTreeView := pTreeView;
   FImageList := pImageList;
-  FTreeViewDBI := pTreeViewDBI;
 end;
 
 procedure TTreeViewPreencher.Preencher;

@@ -1,4 +1,4 @@
-inherited ControlBasFrame1: TControlBasFrame1
+inherited TreeViewFrame: TTreeViewFrame
   object TitLabel: TLabel
     Left = 0
     Top = 0

@@ -8,7 +8,7 @@ uses
   Vcl.ComCtrls, Vcl.StdCtrls;
 
 type
-  TControlBasFrame1 = class(TControlBasFrame)
+  TTreeViewFrame = class(TControlBasFrame)
     TitLabel: TLabel;
     CaminhoLabel: TLabel;
     TreeView1: TTreeView;
@@ -18,8 +18,8 @@ type
     { Public declarations }
   end;
 
-var
-  ControlBasFrame1: TControlBasFrame1;
+//var
+//  TreeViewFrame: TTreeViewFrame;
 
 implementation
 

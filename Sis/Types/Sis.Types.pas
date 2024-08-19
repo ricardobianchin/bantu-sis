@@ -4,6 +4,7 @@ interface
 
 type
   TProcedureOfObject = procedure of object;
+  TFunctionStringOfObject = function: string of object;
 
   TSelectItem = record
     Id: integer;

@@ -260,10 +260,10 @@ contains
   Sis.UI.IO.Input.Str in 'UI\IO\Input\Sis.UI.IO.Input.Str.pas',
   Sis.Types.Dates in 'Types\Sis.Types.Dates.pas',
   Sis.Web.HTTPGet.Net_u in 'Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas',
-  Sis.UI.Controls.TreeView.Frame_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame_u.pas' {ControlBasFrame1: TFrame},
+  Sis.UI.Controls.TreeView.Frame_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame_u.pas' {TreeViewFrame: TFrame},
   Sis.UI.Controls.TreeView.Preencher_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Preencher_u.pas',
   Sis.UI.Controls.TreeView.Preencher in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Preencher.pas',
-  Sis.UI.Controls.TreeView.DBI in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.DBI.pas',
-  Sis.UI.Controls.TreeView.DBI_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.DBI_u.pas';
+  Sis.UI.Controls.TreeView.Frame.Preenchedor in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor.pas',
+  Sis.UI.Controls.TreeView.Frame.Preenchedor_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor_u.pas';
 
 end.
