@@ -17,13 +17,5 @@ inherited PerfilDeUsoDataSetForm: TPerfilDeUsoDataSetForm
       Beveled = True
       MinSize = 60
     end
-    object OpcaoSisTreeView_PerfilDeUsoDataSetForm: TTreeView
-      Left = 232
-      Top = 192
-      Width = 121
-      Height = 97
-      Indent = 19
-      TabOrder = 0
-    end
   end
 end

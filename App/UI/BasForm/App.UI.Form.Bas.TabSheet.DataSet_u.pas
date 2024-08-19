@@ -57,6 +57,8 @@ type
 
     FAtualizaAposEd: boolean;
 
+    FFDMemTablePodeEventos: boolean;
+
     // oDBConnection: IDBConnection;
     // FDBConnectionParams: TDBConnectionParams;
     function GetState: TDataSetState;
@@ -95,14 +97,20 @@ type
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); virtual;
     procedure RecordToEnt; virtual;
     procedure EntToRecord; virtual;
-    procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
     function SelectPodeOk: boolean; virtual;
+
+    procedure FDMemTable1AfterOpen(DataSet: TDataSet); virtual;
+    procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
 
     property ModoDataSetForm: TModoDataSetForm read GetModoDataSetForm;
 
     procedure DoAntesAtualizar; virtual;
     procedure DoAposAtualizar; virtual;
 
+    procedure FDMemTableColocarEventos;
+    procedure FDMemTableRetirarEventos;
+
+    property FDMemTablePodeEventos: boolean read FFDMemTablePodeEventos write FFDMemTablePodeEventos;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -188,12 +196,14 @@ end;
 
 procedure TTabSheetDataSetBasForm.DoAntesAtualizar;
 begin
-
+  FFDMemTablePodeEventos := False;
+  FDMemTableRetirarEventos;
 end;
 
 procedure TTabSheetDataSetBasForm.DoAposAtualizar;
 begin
-
+  FFDMemTablePodeEventos := True;
+  FDMemTableColocarEventos;
 end;
 
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
@@ -231,6 +241,7 @@ constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
 var
   sNomeArq: string;
 begin
+  FFDMemTablePodeEventos := True;
   FAtualizaAposEd := False;
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
@@ -249,7 +260,10 @@ begin
   FFiltroEditAutomatico := False;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
+  FDMemTableColocarEventos;
+  FFDMemTable.AfterOpen := FDMemTable1AfterOpen;
   FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+
   // DefCampos;
 
   sNomeArq := GetNomeArqTabView;
@@ -313,9 +327,26 @@ begin
 
 end;
 
+procedure TTabSheetDataSetBasForm.FDMemTable1AfterOpen(DataSet: TDataSet);
+begin
+
+end;
+
 procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
 
+end;
+
+procedure TTabSheetDataSetBasForm.FDMemTableColocarEventos;
+begin
+  FFDMemTable.AfterOpen := FDMemTable1AfterOpen;
+  FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+end;
+
+procedure TTabSheetDataSetBasForm.FDMemTableRetirarEventos;
+begin
+  FFDMemTable.AfterOpen := nil;
+  FFDMemTable.AfterScroll := nil;
 end;
 
 procedure TTabSheetDataSetBasForm.FiltroAtualizarTimerTimer(Sender: TObject);

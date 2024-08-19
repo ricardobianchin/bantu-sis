@@ -9,16 +9,22 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, App.Acesso.PerfilDeUso.Ent.Factory_u,
   App.Acesso.PerfilDeUso.Ent, App.AppInfo, Sis.Config.SisConfig, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
-  App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client;
+  App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client,
+  Sis.UI.Controls.TreeView.Frame_u, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, Sis.UI.Controls.TreeView.Frame.Preenchedor;
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)
     FundoPanel_PerfilDeUsoDataSetForm: TPanel;
     DBGridSplitter_PerfilDeUsoDataSetForm: TSplitter;
-    OpcaoSisTreeView_PerfilDeUsoDataSetForm: TTreeView;
   private
     { Private declarations }
     FPerfilDeUsoEnt: IPerfilDeUsoEnt;
+    FTreeViewFrame: TTreeViewFrame;
+    FTreeViewPreenchedor: ITreeViewPreenchedor;
+
+    procedure PreenchaTreeView;
   protected
     function GetNomeArqTabView: string; override;
 
@@ -32,6 +38,9 @@ type
     procedure EntToRecord; override;
 
     procedure PrepareControls; override;
+
+    procedure FDMemTable1AfterOpen(DataSet: TDataSet); override;
+    procedure FDMemTable1AfterScroll(DataSet: TDataSet); override;
 
   public
     { Public declarations }
@@ -51,7 +60,7 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
-  App.Acesso.PerfilDeUso.UI.Factory_u;
+  App.Acesso.PerfilDeUso.UI.Factory_u, Sis.UI.ImgDM;
 
 { TPerfilDeUsoDataSetForm }
 
@@ -130,6 +139,16 @@ begin
   Tab.Fields[2{de_sistema}].AsBoolean := FPerfilDeUsoEnt.DeSistema;
 end;
 
+procedure TPerfilDeUsoDataSetForm.FDMemTable1AfterOpen(DataSet: TDataSet);
+begin
+  PreenchaTreeView;
+end;
+
+procedure TPerfilDeUsoDataSetForm.FDMemTable1AfterScroll(DataSet: TDataSet);
+begin
+  PreenchaTreeView;
+end;
+
 function TPerfilDeUsoDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
@@ -137,6 +156,14 @@ begin
   sNomeArq := AppInfo.PastaConsTabViews +
     'App\Retag\Acesso\tabview.retag.acesso.perfil_de_uso.csv';
   Result := sNomeArq;
+end;
+
+procedure TPerfilDeUsoDataSetForm.PreenchaTreeView;
+var
+  iFiltroId: integer;
+begin
+  iFiltroId := FDMemTable.Fields[0{perfil_de_uso_id}].AsInteger;
+  FTreeViewPreenchedor.PreenchaTreeView(iFiltroId, '');
 end;
 
 procedure TPerfilDeUsoDataSetForm.PrepareControls;
@@ -153,7 +180,11 @@ begin
 
   DBGridSplitter_PerfilDeUsoDataSetForm.Left := DBGrid1.Width + 4;
 
-  OpcaoSisTreeView_PerfilDeUsoDataSetForm.Align := alClient;
+  FTreeViewFrame := TTreeViewFrame.Create(FundoPanel_PerfilDeUsoDataSetForm);
+  FTreeViewFrame.Align := alClient;
+  FTreeViewPreenchedor := PerfilTreeViewPreenchedorCreate(FTreeViewFrame,
+    AppInfo, SisConfig, DBMS, SisImgDataModule.ImageList_9_9);
+
 end;
 
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;
