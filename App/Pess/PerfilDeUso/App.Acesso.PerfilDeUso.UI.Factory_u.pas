@@ -22,7 +22,7 @@ function PerfilDeUsoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   : IFormCreator;
 
 function PerfilTreeViewPreenchedorCreate(pTreeViewFrame: TTreeViewFrame;
-  pTitulo: string; pFuncGetSQL: TFunctionStringOfObject; pAppInfo: IAppInfo;
+  pTitulo: string; pFuncGetSQL: TFunctionString; pAppInfo: IAppInfo;
   pSisConfig: ISisConfig; pDBMS: IDBMS; pImageList: TImageList)
   : ITreeViewPreenchedor;
 
@@ -79,7 +79,7 @@ begin
 end;
 
 function PerfilTreeViewPreenchedorCreate(pTreeViewFrame: TTreeViewFrame;
-  pTitulo: string; pFuncGetSQL: TFunctionStringOfObject; pAppInfo: IAppInfo;
+  pTitulo: string; pFuncGetSQL: TFunctionString; pAppInfo: IAppInfo;
   pSisConfig: ISisConfig; pDBMS: IDBMS; pImageList: TImageList)
   : ITreeViewPreenchedor;
 begin

@@ -13,7 +13,7 @@ type
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
     FDBQuery: IDBQuery;
-    FFuncGetSQL: TFunctionStringOfObject;
+    FFuncGetSQL: TFunctionString;
 
     procedure InserirFilhos(pNode: TTreeNode; pOpcaoSisSuperior: integer);
   protected
@@ -21,7 +21,7 @@ type
     procedure PreenchaTreeView(pFiltroId: integer;
       pNovoTitulo: string); override;
     constructor Create(pTreeViewFrame: TTreeViewFrame; pTitulo: string;
-      pFuncGetSQL: TFunctionStringOfObject; pAppInfo: IAppInfo;
+      pFuncGetSQL: TFunctionString; pAppInfo: IAppInfo;
       pSisConfig: ISisConfig; pDBMS: IDBMS; pImageList: TImageList);
   end;
 
@@ -32,7 +32,7 @@ uses App.DB.Utils, Sis.UI.ImgDM, Sis.DB.Factory, System.SysUtils;
 { TPerfilDeUsoTreeViewPreenchedor }
 
 constructor TPerfilDeUsoTreeViewPreenchedor.Create(pTreeViewFrame
-  : TTreeViewFrame; pTitulo: string; pFuncGetSQL: TFunctionStringOfObject;
+  : TTreeViewFrame; pTitulo: string; pFuncGetSQL: TFunctionString;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
   pImageList: TImageList);
 begin

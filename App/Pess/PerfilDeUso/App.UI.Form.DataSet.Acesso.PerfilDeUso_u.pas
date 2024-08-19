@@ -3,7 +3,8 @@ unit App.UI.Form.DataSet.Acesso.PerfilDeUso_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet.DataSet_u,
   Data.DB, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
   Vcl.DBGrids, Vcl.ToolWin, App.Acesso.PerfilDeUso.Ent.Factory_u,
@@ -12,7 +13,8 @@ uses
   App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client,
   Sis.UI.Controls.TreeView.Frame_u, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, Sis.UI.Controls.TreeView.Frame.Preenchedor;
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  Sis.UI.Controls.TreeView.Frame.Preenchedor;
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)
@@ -60,7 +62,8 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
-  App.Acesso.PerfilDeUso.UI.Factory_u, Sis.UI.ImgDM;
+  App.Acesso.PerfilDeUso.UI.Factory_u, Sis.UI.ImgDM,
+  App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor.SQL_u;
 
 { TPerfilDeUsoDataSetForm }
 
@@ -71,7 +74,7 @@ constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 begin
   inherited;
-  FPerfilDeUsoEnt :=EntEdCastToPerfilDeUsoEnt(pEntEd);
+  FPerfilDeUsoEnt := EntEdCastToPerfilDeUsoEnt(pEntEd);
 end;
 
 procedure TPerfilDeUsoDataSetForm.DoAlterar;
@@ -106,16 +109,16 @@ begin
 end;
 
 function TPerfilDeUsoDataSetForm.DoInserir: boolean;
-//var
-//  oDBConnectionParams: TDBConnectionParams;
-//  oDBConnection: IDBConnection;
+// var
+// oDBConnectionParams: TDBConnectionParams;
+// oDBConnection: IDBConnection;
 begin
   inherited;
-//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-//    AppInfo, SisConfig);
+  // oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  // AppInfo, SisConfig);
 
-//  oDBConnection := DBConnectionCreate('Retag.PerfilDeUso.Ed.Ins.Conn', SisConfig, DBMS,
-//    oDBConnectionParams, ProcessLog, Output);
+  // oDBConnection := DBConnectionCreate('Retag.PerfilDeUso.Ed.Ins.Conn', SisConfig, DBMS,
+  // oDBConnectionParams, ProcessLog, Output);
 
   Result := PerfilDeUsoPerg(Self, AppInfo, EntEd, EntDBI);
 
@@ -134,9 +137,9 @@ begin
   inherited;
   Tab := FDMemTable;
 
-  Tab.Fields[0{perfil_de_uso_id}].AsInteger := FPerfilDeUsoEnt.Id;
-  Tab.Fields[1{nome}].AsString := FPerfilDeUsoEnt.Descr;
-  Tab.Fields[2{de_sistema}].AsBoolean := FPerfilDeUsoEnt.DeSistema;
+  Tab.Fields[0 { perfil_de_uso_id } ].AsInteger := FPerfilDeUsoEnt.Id;
+  Tab.Fields[1 { nome } ].AsString := FPerfilDeUsoEnt.Descr;
+  Tab.Fields[2 { de_sistema } ].AsBoolean := FPerfilDeUsoEnt.DeSistema;
 end;
 
 procedure TPerfilDeUsoDataSetForm.FDMemTable1AfterOpen(DataSet: TDataSet);
@@ -162,7 +165,7 @@ procedure TPerfilDeUsoDataSetForm.PreenchaTreeView;
 var
   iFiltroId: integer;
 begin
-  iFiltroId := FDMemTable.Fields[0{perfil_de_uso_id}].AsInteger;
+  iFiltroId := FDMemTable.Fields[0 { perfil_de_uso_id } ].AsInteger;
   FTreeViewPreenchedor.PreenchaTreeView(iFiltroId, '');
 end;
 
@@ -176,14 +179,15 @@ begin
 
   DBGrid1.Parent := FundoPanel_PerfilDeUsoDataSetForm;
   DBGrid1.Align := alLeft;
-  DBGrid1.Width :=  (Width * 5) div 10;
+  DBGrid1.Width := (Width * 5) div 10;
 
   DBGridSplitter_PerfilDeUsoDataSetForm.Left := DBGrid1.Width + 4;
 
   FTreeViewFrame := TTreeViewFrame.Create(FundoPanel_PerfilDeUsoDataSetForm);
   FTreeViewFrame.Align := alClient;
   FTreeViewPreenchedor := PerfilTreeViewPreenchedorCreate(FTreeViewFrame,
-    AppInfo, SisConfig, DBMS, SisImgDataModule.ImageList_9_9);
+    'Opções que o Perfil de Uso pode utilizar', GetSQLOpcoesPerfil, AppInfo, SisConfig, DBMS,
+    SisImgDataModule.ImageList_9_9);
 
 end;
 
@@ -194,9 +198,9 @@ begin
   inherited;
   Tab := FDMemTable;
 
-  FPerfilDeUsoEnt.Id := Tab.Fields[0{perfil_de_uso_id}].AsInteger;
-  FPerfilDeUsoEnt.Descr := Trim(Tab.Fields[1{nome}].AsString);
-  FPerfilDeUsoEnt.DeSistema := Tab.Fields[2{de_sistema}].AsBoolean;
+  FPerfilDeUsoEnt.Id := Tab.Fields[0 { perfil_de_uso_id } ].AsInteger;
+  FPerfilDeUsoEnt.Descr := Trim(Tab.Fields[1 { nome } ].AsString);
+  FPerfilDeUsoEnt.DeSistema := Tab.Fields[2 { de_sistema } ].AsBoolean;
 end;
 
 procedure TPerfilDeUsoDataSetForm.ToolBar1CrieBotoes;
