@@ -21,7 +21,7 @@ inherited TreeViewFrame: TTreeViewFrame
     Width = 385
     Height = 13
     Align = alTop
-    Caption = 'TitLabel'
+    Caption = 'CaminhoLabel'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -29,7 +29,7 @@ inherited TreeViewFrame: TTreeViewFrame
     Font.Style = []
     ParentFont = False
     StyleElements = []
-    ExplicitWidth = 40
+    ExplicitWidth = 73
   end
   object TreeView1: TTreeView
     Left = 0
@@ -40,5 +40,7 @@ inherited TreeViewFrame: TTreeViewFrame
     BorderStyle = bsNone
     Indent = 19
     TabOrder = 0
+    OnChange = TreeView1Change
+    OnKeyPress = TreeView1KeyPress
   end
 end
