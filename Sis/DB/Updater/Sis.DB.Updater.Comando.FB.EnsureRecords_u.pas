@@ -5,6 +5,15 @@ interface
 uses System.Classes, Sis.DB.Updater.Comando.FB_u, Sis.DB.DBTypes,
   Sis.DB.Updater.Operations, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
 
+{$IFDEF DEBUG}
+const
+//  QTD_PARCIAL = TRUE;
+  QTD_PARCIAL = FALSE;
+{$ELSE}
+const
+  QTD_PARCIAL = FALSE;
+{$ENDIF}
+
 type
   TComandoFBEnsureRecords = class(TComandoFB)
   private
@@ -89,13 +98,10 @@ begin
     try
       try
 
-//        {$IFDEF DEBUG}
-//        iQtdRegs := Min(25, FRegistrosSL.count - 1);
-//        {$ELSE}
-//        iQtdRegs := FRegistrosSL.count - 1;
-//        {$ENDIF}
-
-        iQtdRegs := FRegistrosSL.count - 1;
+        if QTD_PARCIAL then
+          iQtdRegs := Min(25, FRegistrosSL.count - 1)
+        else
+          iQtdRegs := FRegistrosSL.count - 1;
 
         if iQtdRegs < 100 then
           iPasso := 0
