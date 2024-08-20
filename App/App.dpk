@@ -240,7 +240,7 @@ contains
   App.Testes.Config.ModuRetag_u in 'AppObj\TestesConfig\ModuRetag\App.Testes.Config.ModuRetag_u.pas',
   App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u in 'AppObj\TestesConfig\ModuRetag\Acesso\PerfilDeUso\App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u.pas',
   App.Testes.Config.ModuRetag.Acesso_u in 'AppObj\TestesConfig\ModuRetag\Acesso\App.Testes.Config.ModuRetag.Acesso_u.pas',
-  App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor_u in 'Pess\PerfilDeUso\App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor_u.pas',
-  App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor.SQL_u in 'Pess\PerfilDeUso\App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor.SQL_u.pas';
+  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u in 'Modulos\Retag\Acesso\OpcaoSis\App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u.pas',
+  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor.SQL_u in 'Modulos\Retag\Acesso\OpcaoSis\App.UI.Acesso.OpcaoSis.TreeView.Preenchedor.SQL_u.pas';
 
 end.

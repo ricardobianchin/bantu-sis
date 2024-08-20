@@ -31,7 +31,7 @@ implementation
 uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.Ent.Factory_u,
   App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory,
   App.UI.Form.Ed.Acesso.PerfilDeUso_u,
-  App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor_u, Sis.UI.ImgDM;
+  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u, Sis.UI.ImgDM;
 
 function PerfilDeUsoEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pPerfilDeUso: IEntEd; pPerfilDeUsoDBI: IEntDBI): TEdBasForm;
@@ -83,7 +83,7 @@ function PerfilTreeViewPreenchedorCreate(pTreeViewFrame: TTreeViewFrame;
   pSisConfig: ISisConfig; pDBMS: IDBMS; pImageList: TImageList)
   : ITreeViewPreenchedor;
 begin
-  Result := TPerfilDeUsoTreeViewPreenchedor.Create(pTreeViewFrame, pTitulo,
+  Result := TOpcaoSisTreeViewPreenchedor.Create(pTreeViewFrame, pTitulo,
     pFuncGetSQL, pAppInfo, pSisConfig, pDBMS, pImageList);
 end;
 

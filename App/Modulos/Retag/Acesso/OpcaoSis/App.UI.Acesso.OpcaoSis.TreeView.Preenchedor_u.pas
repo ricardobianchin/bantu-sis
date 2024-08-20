@@ -1,4 +1,4 @@
-unit App.UI.Acesso.PerfilDeUso.TreeView.Preenchedor_u;
+unit App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u;
 
 interface
 
@@ -7,7 +7,7 @@ uses Sis.UI.Controls.TreeView.Frame.Preenchedor_u, App.AppInfo, Vcl.ComCtrls,
   Data.DB, Vcl.Controls, Sis.Types;
 
 type
-  TPerfilDeUsoTreeViewPreenchedor = class(TTreeViewPreenchedor)
+  TOpcaoSisTreeViewPreenchedor = class(TTreeViewPreenchedor)
   private
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
@@ -27,11 +27,13 @@ type
 
 implementation
 
-uses App.DB.Utils, Sis.UI.ImgDM, Sis.DB.Factory, System.SysUtils;
+uses App.DB.Utils, Sis.UI.ImgDM, Sis.DB.Factory, System.SysUtils
+//  , Sis.Win.Utils_u
+  ;
 
-{ TPerfilDeUsoTreeViewPreenchedor }
+{ TOpcaoSisTreeViewPreenchedor }
 
-constructor TPerfilDeUsoTreeViewPreenchedor.Create(pTreeViewFrame
+constructor TOpcaoSisTreeViewPreenchedor.Create(pTreeViewFrame
   : TTreeViewFrame; pTitulo: string; pFuncGetSQL: TFunctionString;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS;
   pImageList: TImageList);
@@ -43,7 +45,7 @@ begin
   FFuncGetSQL := pFuncGetSQL;
 end;
 
-procedure TPerfilDeUsoTreeViewPreenchedor.InserirFilhos(pNode: TTreeNode;
+procedure TOpcaoSisTreeViewPreenchedor.InserirFilhos(pNode: TTreeNode;
   pOpcaoSisSuperior: integer);
 var
   q: TDataSet;
@@ -70,7 +72,7 @@ begin
   end;
 end;
 
-procedure TPerfilDeUsoTreeViewPreenchedor.PreenchaTreeView(pFiltroId: integer;
+procedure TOpcaoSisTreeViewPreenchedor.PreenchaTreeView(pFiltroId: integer;
   pNovoTitulo: string);
 var
   oDBConnectionParams: TDBConnectionParams;
@@ -85,7 +87,7 @@ begin
     FAppInfo, FSisConfig);
 
   oDBConnection := DBConnectionCreate
-    ('Retag.Acesso.PerfilDeUso.OpcaoSis.TreeView.Conn', FSisConfig, FDBMS,
+    ('Retag.Acesso.OpcaoSis.OpcaoSis.TreeView.Conn', FSisConfig, FDBMS,
     oDBConnectionParams, nil, nil);
   // Result := inherited;
   // if not Result then
@@ -96,9 +98,14 @@ begin
     exit;
   try
     sSql := FFuncGetSQL;
+    //CopyTextToClipboard(sSql);
 
     FDBQuery := DBQueryCreate('Config.Import.Prod.Rejeicao.Q', oDBConnection,
       sSql, nil, nil);
+
+    //FDBQuery.Params[0].DataType := TFieldType.ftInteger;
+    //FDBQuery.Params[1].DataType := TFieldType.ftInteger;
+
     FDBQuery.Prepare;
     TreeViewFrame.TreeView1.Items.BeginUpdate;
     try
