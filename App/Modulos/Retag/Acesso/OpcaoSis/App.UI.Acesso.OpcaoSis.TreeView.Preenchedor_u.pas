@@ -17,6 +17,7 @@ type
 
     procedure InserirFilhos(pNode: TTreeNode; pOpcaoSisSuperior: integer);
   protected
+    procedure ExecNode(pTreeNode: TTreeNode); override;
   public
     procedure PreenchaTreeView(pFiltroId: integer;
       pNovoTitulo: string); override;
@@ -45,6 +46,18 @@ begin
   FFuncGetSQL := pFuncGetSQL;
 end;
 
+procedure TOpcaoSisTreeViewPreenchedor.ExecNode(pTreeNode: TTreeNode);
+begin
+  if pTreeNode = nil then
+    exit;
+  inherited;
+
+  if pTreeNode.ImageIndex = 2 then
+    pTreeNode.ImageIndex := 3
+  else
+    pTreeNode.ImageIndex := 2;
+end;
+
 procedure TOpcaoSisTreeViewPreenchedor.InserirFilhos(pNode: TTreeNode;
   pOpcaoSisSuperior: integer);
 var
@@ -65,6 +78,14 @@ begin
       s := Trim(q.Fields[1].AsString);
       oNode := TreeViewFrame.TreeView1.Items.AddChildObject(pNode, s,
         Pointer(i));
+      if q.Fields[3].AsBoolean then
+      begin
+        oNode.ImageIndex := 3;
+      end
+      else
+      begin
+        oNode.ImageIndex := 2;
+      end;
       q.Next;
     end;
   finally
@@ -110,13 +131,13 @@ begin
     TreeViewFrame.TreeView1.Items.BeginUpdate;
     try
       TreeViewFrame.TreeView1.Items.Clear;
-      RaizNode := TreeViewFrame.TreeView1.Items.AddChild(nil,
-        'Opções do Sistema');
+      RaizNode := TreeViewFrame.TreeView1.Items.AddChild(nil, 'Opções do Sistema');
       FDBQuery.Params[1 { perfil_de_uso_id } ].AsInteger := FiltroId;
-      InserirFilhos(RaizNode { nil } , 0);
+      InserirFilhos(RaizNode{nil}, 0);
     finally
       FDBQuery.Unprepare;
       TreeViewFrame.TreeView1.Items.EndUpdate;
+      TreeViewFrame.AtualizeCaminhoLabel;
     end;
   finally
     oDBConnection.Fechar;
