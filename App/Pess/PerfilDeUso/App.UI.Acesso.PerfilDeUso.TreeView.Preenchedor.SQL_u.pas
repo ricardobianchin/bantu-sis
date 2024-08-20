@@ -18,7 +18,7 @@ begin
       + '  SELECT'#13#10 //
       + '    OPCAO_SIS_ID,'#13#10 //
       + '    NOME,'#13#10 //
-      + '    OPCAO_TIPO_SIS_ID,'#13#10 //
+      + '    OPCAO_TIPO_SIS_ID'#13#10 //
       + '  FROM OPCAO_SIS'#13#10 //
                                      // param 0
       + '  WHERE OPCAO_SIS_ID_SUPERIOR = :OPCAO_SIS_ID_SUPERIOR'#13#10 //
