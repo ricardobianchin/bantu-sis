@@ -31,7 +31,6 @@ type
     procedure PreencherTreeView; override;
     function GetSql: string; virtual; abstract;
     function GetSqlGravar: string; virtual; abstract;
-    function GetPackageName: string; virtual; abstract;
 
     procedure InserirFilhos(pNodePai: TTreeNode; pOpcaoSisIdSuperior: integer);
 
