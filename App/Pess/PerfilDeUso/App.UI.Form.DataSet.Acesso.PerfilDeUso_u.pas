@@ -80,7 +80,7 @@ begin
   if not Resultado then
     exit;
 
-  FDMemTable.Append;
+  FDMemTable.Edit;
   EntToRecord;
   FDMemTable.Post;
 end;
@@ -103,17 +103,8 @@ begin
 end;
 
 function TPerfilDeUsoDataSetForm.DoInserir: boolean;
-// var
-// oDBConnectionParams: TDBConnectionParams;
-// oDBConnection: IDBConnection;
 begin
   inherited;
-  // oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-  // AppInfo, SisConfig);
-
-  // oDBConnection := DBConnectionCreate('Retag.PerfilDeUso.Ed.Ins.Conn', SisConfig, DBMS,
-  // oDBConnectionParams, ProcessLog, Output);
-
   Result := PerfilDeUsoPerg(Self, AppInfo, EntEd, EntDBI);
 
   if not Result then
@@ -122,6 +113,9 @@ begin
   FDMemTable.Append;
   EntToRecord;
   FDMemTable.Post;
+  DBGrid1.Repaint;
+
+  OpcaoSisAction_PerfilDeUsoDataSetForm.Execute;
 end;
 
 procedure TPerfilDeUsoDataSetForm.EntToRecord;
