@@ -478,8 +478,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\App.Testes.Config.ModuRetag_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\PerfilDeUso\App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\App.Testes.Config.ModuRetag.Acesso_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Acesso\OpcaoSis\App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Acesso\OpcaoSis\App.UI.Acesso.OpcaoSis.TreeView.Preenchedor.SQL_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis_u.pas">
+            <Form>OpcaoSisTreeViewForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u.pas">
+            <Form>OpcaoSisPerfilUsoTreeViewForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
