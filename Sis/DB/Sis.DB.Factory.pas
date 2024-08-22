@@ -106,7 +106,20 @@ end;
 
 function DBExecCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBExec;
+var
+  oProcessLog: IProcessLog;
+  oOutput: IOutput;
 begin
+  if Assigned(pProcessLog) then
+    oProcessLog := pProcessLog
+  else
+    oProcessLog := MudoProcessLogCreate;
+
+  if Assigned(pOutput) then
+    oOutput := pOutput
+  else
+    oOutput := MudoOutputCreate;
+
   Result := TDBExecFireDac.Create(pNomeComponente, pDBConnection, pSql,
     pProcessLog, pOutput);
 end;
