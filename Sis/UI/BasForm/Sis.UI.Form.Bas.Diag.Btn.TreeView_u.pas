@@ -108,6 +108,7 @@ procedure TTreeViewDiagBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   PreencherTreeView;
+  TreeView1.SetFocus;
 end;
 
 end.
