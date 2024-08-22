@@ -83,10 +83,6 @@ begin
 
   Result := 'EXECUTE PROCEDURE PERFIL_DE_USO_PA.PODE_OPCOES_GARANTIR(' +
     AssociadaId.ToString + ', ' + QuotedStr(sLista) + ');';
-
-{$IFDEF DEBUG}
-  CopyTextToClipboard(Result);
-{$ENDIF}
 end;
 
 end.
