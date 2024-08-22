@@ -68,7 +68,11 @@ var
   sBusca: string;
 begin
   sFormat :=
-    'select PERFIL_DE_USO_ID, NOME, DE_SISTEMA, USUARIOS_APELIDOS from PERFIL_DE_USO_PA.LISTA_GET;';
+    'select PERFIL_DE_USO_ID, NOME, DE_SISTEMA, USUARIOS_APELIDOS'#13#10
+    +'from PERFIL_DE_USO_PA.LISTA_GET'#13#10
+    +'where PERFIL_DE_USO_ID > 0'#13#10
+    +';'#13#10;
+
   sBusca := VarToString(pValues);
   Result := Format(sFormat, [sBusca]);
 end;
