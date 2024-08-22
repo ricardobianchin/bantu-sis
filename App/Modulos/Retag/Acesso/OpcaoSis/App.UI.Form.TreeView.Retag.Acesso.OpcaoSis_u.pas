@@ -98,10 +98,8 @@ begin
   if not Resultado then
     exit;
 
-
   try
     sSql := GetSqlGravar;
-    // CopyTextToClipboard(sSql);
 
     oDBExec := DBExecCreate('Config.Import.Prod.Rejeicao.Exec', FDBConnection,
       sSql, nil, nil);
@@ -148,16 +146,22 @@ function TOpcaoSisTreeViewForm.NodesListAsString: string;
 var
   i: integer;
   iOpcaoSisId: integer;
+  bOpcaoPode: boolean;
   oNodeAtual: TTreeNode;
 begin
   Result := '';
   for I := 0 to NodeList.Count - 1 do
   begin
     oNodeAtual := NodeList[I];
-    iOpcaoSisId := integer(oNodeAtual.Data);
-    if Result <> '' then
-      Result := Result + ';';
-    Result := iOpcaoSisId.ToString;
+    bOpcaoPode := oNodeAtual.Checked;
+    if bOpcaoPode then
+    begin
+      iOpcaoSisId := integer(oNodeAtual.Data);
+
+      if Result <> '' then
+        Result := Result + ';';
+      Result := Result + iOpcaoSisId.ToString;
+    end;
   end;
 end;
 
