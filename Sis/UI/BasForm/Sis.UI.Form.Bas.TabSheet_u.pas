@@ -19,7 +19,7 @@ type
     FFormClassNamesSL: TStringList;
   protected
     procedure ToolBar1CrieBotoes;virtual;
-    procedure Inicialize; virtual;
+    procedure PrepareControls; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList); reintroduce;
@@ -64,7 +64,7 @@ begin
   end;
 end;
 
-procedure TTabSheetBasForm.Inicialize;
+procedure TTabSheetBasForm.PrepareControls;
 begin
   ToolBar1CrieBotoes;
 end;
@@ -72,7 +72,7 @@ end;
 procedure TTabSheetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  Inicialize;
+  PrepareControls;
 end;
 
 procedure TTabSheetBasForm.ToolBar1CrieBotoes;

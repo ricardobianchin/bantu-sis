@@ -66,7 +66,7 @@ type
 implementation
 
 uses System.SysUtils, Sis.Types.Bool_u, Sis.UI.IO.Output.ProcessLog.Factory,
-  Sis.Types.Integers;
+  Sis.Types.Integers, Sis.UI.IO.Factory;
 
 { TDBConnection }
 
@@ -131,7 +131,12 @@ begin
   try
     FNome := pNomeComponente;
     FUltimoErro := '';
-    FOutput := pOutput;
+
+    if Assigned(pOutput) then
+      FOutput := pOutput
+    else
+      FOutput := MudoOutputCreate;
+
     FProcessLog := pProcessLog;
 
     FDBLog := ProcessLogRegistradorCreate(FProcessLog,

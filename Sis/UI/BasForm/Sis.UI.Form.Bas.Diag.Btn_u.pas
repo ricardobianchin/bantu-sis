@@ -16,7 +16,6 @@ type
     CancelBitBtn_DiagBtn: TBitBtn;
     MensCopyAct_Diag: TAction;
     MensCopyBitBtn_DiagBtn: TBitBtn;
-    procedure FormCreate(Sender: TObject);
     procedure MensCopyAct_DiagExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
@@ -26,6 +25,7 @@ type
     procedure AjusteControles; virtual;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -50,12 +50,7 @@ begin
   oControlsAlinhador.Execute;
 end;
 
-procedure TDiagBtnBasForm.CriarControles;
-begin
-
-end;
-
-procedure TDiagBtnBasForm.FormCreate(Sender: TObject);
+constructor TDiagBtnBasForm.Create(AOwner: TComponent);
 begin
   inherited;
   MensLabel.Top := BasePanel.Top - CancelBitBtn_DiagBtn.Height - 3;
@@ -63,6 +58,11 @@ begin
 //  MensLabel.Font.Color := 192;//iceberg
   MensLabel.Font.Color := 166;//iceberg
   CriarControles;
+end;
+
+procedure TDiagBtnBasForm.CriarControles;
+begin
+
 end;
 
 procedure TDiagBtnBasForm.MensCopyAct_DiagExecute(Sender: TObject);

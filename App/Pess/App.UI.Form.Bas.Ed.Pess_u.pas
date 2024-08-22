@@ -35,6 +35,7 @@ type
     EnderecoPanel: TPanel;
     Button1: TButton;
     Button2: TButton;
+    AtivoPessCheckBox: TCheckBox;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -52,6 +53,7 @@ type
     procedure CPessEditExit(Sender: TObject);
     procedure CPessEditKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure AtivoPessCheckBoxKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -131,6 +133,7 @@ begin
   MUFPessEdit.OnKeyPress := MUFPessEditKeyPress;
   EMailPessEdit.OnKeyPress := EMailPessEditKeyPress;
   DtNascDateTimePicker.OnKeyPress := DtNascDateTimePickerKeyPress;
+  AtivoPessCheckBox.OnKeyPress := AtivoPessCheckBoxKeyPress;
 end;
 
 procedure TPessEdBasForm.AjusteTabOrder;
@@ -144,6 +147,7 @@ begin
   MUFPessEdit.TabOrder := 6;
   EMailPessEdit.TabOrder := 7;
   DtNascDateTimePicker.TabOrder := 8;
+  AtivoPessCheckBox.TabOrder := 9;
 end;
 
 procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
@@ -151,6 +155,13 @@ procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
 begin
   // inherited;
   EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.AtivoPessCheckBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  CheckBoxKeyPress(Sender, Key);
 end;
 
 procedure TPessEdBasForm.Button1Click(Sender: TObject);
@@ -253,6 +264,7 @@ begin
   FPessEnt.EMail := EMailPessEdit.Text;
 
   FPessEnt.DtNasc := DtNascDateTimePicker.Date;
+  FPessEnt.Ativo := AtivoPessCheckBox.Checked;
 
   FEnderFrame.ControlesToEnt;
 end;
@@ -350,6 +362,7 @@ begin
   MUFPessEdit.Text := FPessEnt.MUF;
   EMailPessEdit.Text := FPessEnt.EMail;
   DtNascDateTimePicker.Date := GetValidDate(FPessEnt.DtNasc);
+  AtivoPessCheckBox.Checked := FPessEnt.Ativo;
 
   FEnderFrame.EntToControles;
 end;

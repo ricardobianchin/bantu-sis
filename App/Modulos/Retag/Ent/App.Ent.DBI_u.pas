@@ -302,6 +302,7 @@ begin
   DBConnection.Abrir;
   try
     sSqlRetRegs := GetSqlPreencherDataSet(pValues);
+
     DBConnection.QueryDataSet(sSqlRetRegs, q);
     try
       iRecNo := 0;

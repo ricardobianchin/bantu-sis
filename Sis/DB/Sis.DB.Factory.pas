@@ -32,7 +32,8 @@ implementation
 uses Sis.DB.DBMS.Info_u, Sis.DB.DBMS.DBMSConfig.Firebird_u,
   Sis.DB.DBMS.Firebird_u, Sis.DB.DBConnection.FireDAC_u,
   Sis.DB.DBExec.FireDAC_u, Sis.DB.DBQuery.FireDAC_u, Sis.UI.ImgDM,
-  Sis.DB.FDDataSetManager_u;
+  Sis.DB.FDDataSetManager_u, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog.Factory;
 
 function DBMSInfoCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
   : IDBMSInfo;
@@ -105,16 +106,42 @@ end;
 
 function DBExecCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBExec;
+var
+  oProcessLog: IProcessLog;
+  oOutput: IOutput;
 begin
+  if Assigned(pProcessLog) then
+    oProcessLog := pProcessLog
+  else
+    oProcessLog := MudoProcessLogCreate;
+
+  if Assigned(pOutput) then
+    oOutput := pOutput
+  else
+    oOutput := MudoOutputCreate;
+
   Result := TDBExecFireDac.Create(pNomeComponente, pDBConnection, pSql,
-    pProcessLog, pOutput);
+    oProcessLog, oOutput);
 end;
 
 function DBQueryCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBQuery;
+var
+  oProcessLog: IProcessLog;
+  oOutput: IOutput;
 begin
+  if Assigned(pProcessLog) then
+    oProcessLog := pProcessLog
+  else
+    oProcessLog := MudoProcessLogCreate;
+
+  if Assigned(pOutput) then
+    oOutput := pOutput
+  else
+    oOutput := MudoOutputCreate;
+
   Result := TDBQueryFireDac.Create(pNomeComponente, pDBConnection, pSql,
-    pProcessLog, pOutput);
+    oProcessLog, oOutput);
 end;
 
 function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid): IFDDataSetManager;

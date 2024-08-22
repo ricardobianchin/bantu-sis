@@ -1,18 +1,18 @@
 inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
-  ClientHeight = 535
-  ClientWidth = 961
+  ClientHeight = 534
+  ClientWidth = 957
   ExplicitWidth = 973
   ExplicitHeight = 573
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 463
-    Width = 961
+    Top = 462
+    Width = 957
     ExplicitTop = 463
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 483
-    Width = 961
+    Top = 482
+    Width = 957
     ExplicitTop = 483
   end
   object NomePessLabel: TLabel [3]
@@ -87,25 +87,25 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = 'Data Nasc.'
   end
   inherited BasePanel: TPanel
-    Top = 498
-    Width = 961
+    Top = 497
+    Width = 957
     TabOrder = 10
     ExplicitTop = 497
     ExplicitWidth = 957
     DesignSize = (
-      961
+      957
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 530
-      ExplicitLeft = 526
+      Left = 518
+      ExplicitLeft = 522
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 643
-      ExplicitLeft = 639
+      Left = 631
+      ExplicitLeft = 635
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 723
-      ExplicitLeft = 719
+      Left = 711
+      ExplicitLeft = 715
     end
   end
   object NomePessEdit: TEdit [13]
@@ -184,8 +184,8 @@ inherited PessEdBasForm: TPessEdBasForm
     OnKeyPress = EMailPessEditKeyPress
   end
   object DtNascDateTimePicker: TDateTimePicker [21]
-    Left = 345
-    Top = 120
+    Left = 346
+    Top = 119
     Width = 89
     Height = 23
     Date = 45467.000000000000000000
@@ -219,6 +219,16 @@ inherited PessEdBasForm: TPessEdBasForm
     Caption = 'cpf'
     TabOrder = 12
     OnClick = Button2Click
+  end
+  object AtivoPessCheckBox: TCheckBox [25]
+    Left = 444
+    Top = 122
+    Width = 48
+    Height = 17
+    Hint = 'Registro Ativo no Sistema'
+    Caption = 'Ativo'
+    TabOrder = 13
+    OnKeyPress = AtivoPessCheckBoxKeyPress
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 176

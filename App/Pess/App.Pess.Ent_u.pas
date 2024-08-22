@@ -21,6 +21,8 @@ type
     FMUF: string;
     FEMail: string;
     FDtNasc: TDateTime;
+    FAtivo: boolean;
+
     FCriadoEm: TDateTime;
     FAlteradoEm: TDateTime;
 
@@ -69,6 +71,9 @@ type
     function GetDtNasc: TDateTime;
     procedure SetDtNasc(const Value: TDateTime);
 
+    function GetAtivo: boolean;
+    procedure SetAtivo(const Value: boolean);
+
     function GetCriadoEm: TDateTime;
     procedure SetCriadoEm(const Value: TDateTime);
 
@@ -99,6 +104,7 @@ type
     property MUF: string read GetMUF write SetMUF;
     property EMail: string read GetEMail write SetEMail;
     property DtNasc: TDateTime read GetDtNasc write SetDtNasc;
+    property Ativo: boolean read GetAtivo write SetAtivo;
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
 
@@ -137,6 +143,11 @@ end;
 function TPessEnt.GetApelido: string;
 begin
   Result := FApelido;
+end;
+
+function TPessEnt.GetAtivo: boolean;
+begin
+  Result := FAtivo;
 end;
 
 function TPessEnt.GetC: string;
@@ -249,12 +260,18 @@ begin
   FM := ''; // : string;
   FMUF := '  '; // : string;
   FDtNasc := 0; // : TDateTime;
+  FAtivo := True;
   FPessEnderList.Clear;
 end;
 
 procedure TPessEnt.SetApelido(const Value: string);
 begin
   FApelido := Value;
+end;
+
+procedure TPessEnt.SetAtivo(const Value: boolean);
+begin
+  FAtivo := Value;
 end;
 
 procedure TPessEnt.SetC(const Value: string);

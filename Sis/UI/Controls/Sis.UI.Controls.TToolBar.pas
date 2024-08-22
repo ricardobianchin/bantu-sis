@@ -34,6 +34,8 @@ begin
   else
     NovoBotao.Left := 0;
   NovoBotao.Parent := pToolBar;
+
+  NovoBotao.AutoSize := True;
 end;
 
 end.

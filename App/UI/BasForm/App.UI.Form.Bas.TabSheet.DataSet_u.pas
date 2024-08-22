@@ -29,7 +29,6 @@ type
     OkAction: TAction;
     CancelAction: TAction;
     Panel1: TPanel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);
@@ -56,6 +55,10 @@ type
 
     FFiltroEditAutomatico: boolean;
 
+    FAtualizaAposEd: boolean;
+
+    FFDMemTablePodeEventos: boolean;
+
     // oDBConnection: IDBConnection;
     // FDBConnectionParams: TDBConnectionParams;
     function GetState: TDataSetState;
@@ -66,8 +69,10 @@ type
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
 
+    property AtualizaAposEd: boolean read FAtualizaAposEd write FAtualizaAposEd;
+
     function GetFDMemTable: TFDMemTable;
-    procedure Inicialize; override;
+    procedure PrepareControls; override;
     property FDMemTable: TFDMemTable read GetFDMemTable;
 
     function GetFDDataSetManager: IFDDataSetManager;
@@ -92,11 +97,20 @@ type
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer); virtual;
     procedure RecordToEnt; virtual;
     procedure EntToRecord; virtual;
-    procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
     function SelectPodeOk: boolean; virtual;
+
+    //afteropen foi cortado. pois quando é aberta é no defcampos. onde nem tudo foi inicializado
+    procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
 
     property ModoDataSetForm: TModoDataSetForm read GetModoDataSetForm;
 
+    procedure DoAntesAtualizar; virtual;
+    procedure DoAposAtualizar; virtual;
+
+    procedure FDMemTableColocarEventos;
+    procedure FDMemTableRetirarEventos;
+
+    property FDMemTablePodeEventos: boolean read FFDMemTablePodeEventos write FFDMemTablePodeEventos;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -174,7 +188,22 @@ begin
     State := dsBrowse;
     DBGrid1.SetFocus;
     AltExecutando := False;
+
+    if AtualizaAposEd then
+      AtuAction_DatasetTabSheet.Execute;
   end;
+end;
+
+procedure TTabSheetDataSetBasForm.DoAntesAtualizar;
+begin
+  FFDMemTablePodeEventos := False;
+  FDMemTableRetirarEventos;
+end;
+
+procedure TTabSheetDataSetBasForm.DoAposAtualizar;
+begin
+  FFDMemTablePodeEventos := True;
+  FDMemTableColocarEventos;
 end;
 
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
@@ -189,7 +218,9 @@ begin
   try
     AtuExecutando := True;
 
+    DoAntesAtualizar;
     DoAtualizar(Self);
+    DoAposAtualizar;
   finally
     DBGrid1.SetFocus;
     AtuExecutando := False;
@@ -210,6 +241,8 @@ constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
 var
   sNomeArq: string;
 begin
+  FFDMemTablePodeEventos := True;
+  FAtualizaAposEd := False;
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
   FModoDataSetForm := pModoDataSetForm;
@@ -227,7 +260,7 @@ begin
   FFiltroEditAutomatico := False;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
-  FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+
   // DefCampos;
 
   sNomeArq := GetNomeArqTabView;
@@ -240,6 +273,8 @@ begin
     Align := alNone;
     Caption := 'Selecionando ' + EntEd.NomeEnt;
   end;
+
+  FDMemTableColocarEventos;
 end;
 
 procedure TTabSheetDataSetBasForm.DBGrid1DblClick(Sender: TObject);
@@ -294,6 +329,16 @@ end;
 procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
 
+end;
+
+procedure TTabSheetDataSetBasForm.FDMemTableColocarEventos;
+begin
+  FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+end;
+
+procedure TTabSheetDataSetBasForm.FDMemTableRetirarEventos;
+begin
+  FFDMemTable.AfterScroll := nil;
 end;
 
 procedure TTabSheetDataSetBasForm.FiltroAtualizarTimerTimer(Sender: TObject);
@@ -386,10 +431,24 @@ begin
   Result := FEntEd.Titulo;
 end;
 
-procedure TTabSheetDataSetBasForm.Inicialize;
+procedure TTabSheetDataSetBasForm.PrepareControls;
+var
+  sNomeCampo: string;
 begin
   inherited;
+  FFiltroEditAutomatico := True;
   AjusteBotoesSelect;
+
+  AtuAction_DatasetTabSheet.Execute;
+
+  if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
+    exit;
+
+  if FIdPos = 0 then
+    exit;
+
+  sNomeCampo := FDMemTable.Fields[0].FieldName;
+  FDMemTable.Locate(sNomeCampo, FIdPos, []);
 end;
 
 procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute
@@ -406,6 +465,9 @@ begin
     InsExecutando := False;
     State := dsBrowse;
     DBGrid1.SetFocus;
+
+    if AtualizaAposEd then
+      AtuAction_DatasetTabSheet.Execute;
   end;
 end;
 
@@ -455,24 +517,6 @@ end;
 procedure TTabSheetDataSetBasForm.SetState(const Value: TDataSetState);
 begin
   FEntEd.State := Value;
-end;
-
-procedure TTabSheetDataSetBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-var
-  sNomeCampo: string;
-begin
-  inherited;
-  AtuAction_DatasetTabSheet.Execute;
-  FFiltroEditAutomatico := True;
-
-  if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
-    exit;
-
-  if FIdPos = 0 then
-    exit;
-
-  sNomeCampo := FDMemTable.Fields[0].FieldName;
-  FDMemTable.Locate(sNomeCampo, FIdPos, []);
 end;
 
 end.

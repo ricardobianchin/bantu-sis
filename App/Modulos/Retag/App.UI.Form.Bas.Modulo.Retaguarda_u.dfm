@@ -30,7 +30,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = ProdTabsTabSheet
+      ActivePage = AcessoTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -145,7 +145,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           end
         end
       end
-      object SistemaTabSheet: TTabSheet
+      object AcessoTabSheet: TTabSheet
         Caption = 'Acesso ao Sistema'
         ImageIndex = 4
         object AcessoToolBar: TToolBar
@@ -164,10 +164,17 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           List = True
           ShowCaptions = True
           TabOrder = 0
-          object FuncToolButton: TToolButton
+          object PerfilToolButton: TToolButton
             Left = 0
             Top = 0
+            Action = RetagAcessoPerfilAction
+            AutoSize = True
+          end
+          object FuncToolButton: TToolButton
+            Left = 79
+            Top = 0
             Action = RetagAcessoFuncAction
+            AutoSize = True
           end
         end
       end
@@ -347,6 +354,11 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Category = 'Ajuda'
       Caption = 'Vers'#227'o do DB'
       OnExecute = RetagAjuVersaoDBActionExecute
+    end
+    object RetagAcessoPerfilAction: TAction
+      Category = 'Acesso'
+      Caption = 'Perfis de Uso'
+      OnExecute = RetagAcessoPerfilActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

@@ -1,13 +1,18 @@
 inherited PessLojaEdForm: TPessLojaEdForm
   Caption = 'PessLojaEdForm'
-  ClientWidth = 953
-  ExplicitWidth = 969
+  ClientHeight = 535
+  ClientWidth = 949
+  ExplicitWidth = 961
   TextHeight = 15
   inherited MensLabel: TLabel
-    Width = 953
+    Top = 463
+    Width = 949
+    ExplicitTop = 462
   end
   inherited AlteracaoTextoLabel: TLabel
-    Width = 953
+    Top = 483
+    Width = 949
+    ExplicitTop = 482
   end
   inherited NomePessLabel: TLabel
     Width = 65
@@ -15,36 +20,39 @@ inherited PessLojaEdForm: TPessLojaEdForm
     ExplicitWidth = 65
   end
   object LojaIdLabel: TLabel [12]
-    Left = 513
+    Left = 606
     Top = 124
     Width = 39
     Height = 15
     Caption = 'C'#243'digo'
     FocusControl = CPessEdit
   end
-  object AtivoCheckBox: TCheckBox [13]
-    Left = 448
+  object SelecionadoCheckBox: TCheckBox [13]
+    Left = 507
     Top = 122
-    Width = 57
+    Width = 86
     Height = 17
-    Caption = 'Ativo'
+    Hint = 'Ligado indica que '
+    CustomHint = SisImgDataModule.BalloonHint1
+    Caption = 'Selecionado'
     TabOrder = 13
-    OnKeyPress = AtivoCheckBoxKeyPress
+    OnKeyPress = SelecionadoCheckBoxKeyPress
   end
   inherited BasePanel: TPanel
-    Width = 953
-    ExplicitWidth = 953
+    Top = 498
+    Width = 949
+    ExplicitWidth = 949
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 549
-      ExplicitLeft = 549
+      Left = 537
+      ExplicitLeft = 537
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 662
-      ExplicitLeft = 662
+      Left = 650
+      ExplicitLeft = 650
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 742
-      ExplicitLeft = 742
+      Left = 730
+      ExplicitLeft = 730
     end
   end
   inherited NomePessEdit: TEdit
@@ -77,8 +85,8 @@ inherited PessLojaEdForm: TPessLojaEdForm
     TabOrder = 7
   end
   object LojaIdEdit: TEdit [27]
-    Left = 559
-    Top = 120
+    Left = 650
+    Top = 119
     Width = 45
     Height = 23
     MaxLength = 5
@@ -86,5 +94,8 @@ inherited PessLojaEdForm: TPessLojaEdForm
     TabOrder = 14
     OnExit = LojaIdEditExit
     OnKeyPress = CPessEditKeyPress
+  end
+  inherited AtivoPessCheckBox: TCheckBox
+    TabOrder = 15
   end
 end

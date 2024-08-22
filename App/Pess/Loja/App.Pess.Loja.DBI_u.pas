@@ -10,7 +10,7 @@ type
   TPessLojaDBI = class(TPessDBI, IPessLojaDBI)
   private
     FPessLojaEnt: IPessLojaEnt;
-    FAtivoFieldIndex: integer;
+    FSelecionadoFieldIndex: integer;
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure RegAtualToEnt(Q: TDataSet); override;
@@ -34,27 +34,27 @@ constructor TPessLojaDBI.Create(pDBConnection: IDBConnection;
   pPessLojaEnt: IPessLojaEnt);
 begin
   inherited Create(pDBConnection, pPessLojaEnt);
-  FAtivoFieldIndex := 31;
+  FSelecionadoFieldIndex := 32;
   FPessLojaEnt := pPessLojaEnt;
 end;
 
 procedure TPessLojaDBI.RegAtualToEnt(Q: TDataSet);
 begin
   inherited;
-  FPessLojaEnt.Ativo := q.Fields[FAtivoFieldIndex {ATIVO}].AsBoolean;
+  FPessLojaEnt.Selecionado := q.Fields[FSelecionadoFieldIndex {Selecionado}].AsBoolean;
 end;
 
 function TPessLojaDBI.GetFieldNames: string;
 begin
   Result := inherited
-    +', ATIVO'#13#10//31
+    +', Selecionado'#13#10//32
     ;
 end;
 
 function TPessLojaDBI.GetFieldValues: string;
 begin
   Result := inherited
-    + ', ' + BooleanToStrSQL(FPessLojaEnt.Ativo) +' -- ATIVO'+ #13#10
+    + ', ' + BooleanToStrSQL(FPessLojaEnt.Selecionado) +' -- Selecionado'+ #13#10
     ;
 end;
 

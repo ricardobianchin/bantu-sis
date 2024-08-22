@@ -19,8 +19,8 @@ type
     function PrepGravar: boolean; virtual;
     function GetRootNodeName: string; virtual; abstract;
   public
-    function Ler: boolean; virtual;
-    function Gravar: boolean; virtual;
+    function Ler: boolean; override;
+    function Gravar: boolean; override;
 
     constructor Create(pRootNodeName: string; pNomeArq: string; pExt: string = '';
       pPasta: string = ''; pAutoCreateFile: boolean = false;

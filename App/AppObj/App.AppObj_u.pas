@@ -70,7 +70,10 @@ begin
   try
     ProcessLog.RegistreLog('Create, vai criar FSisConfig');
     FSisConfig := SisConfigCreate;
-    FAppTestesConfig.Ler;
+    {$IFDEF DEBUG}
+      FAppTestesConfig.Ler;
+      FAppTestesConfig.Gravar;
+    {$ENDIF}
   finally
     ProcessLog.RetorneLocal;
   end;

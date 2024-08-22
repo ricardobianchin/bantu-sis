@@ -279,8 +279,13 @@ begin
       end;
     end;
 
+    // updater fim aqui
+    // update fim aqui
     if not SisConfig.LocalMachineIsServer then
       exit;
+
+    if FCriouDB then
+      DoAposCriarBanco;
 
     GravarIniciais(DBConnection);
   finally
@@ -293,9 +298,6 @@ begin
     // update aqui
     // dbupdate aqui
     // db update aqui
-
-    if FCriouDB then
-      DoAposCriarBanco;
 
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
@@ -529,7 +531,7 @@ begin
 
     { iPessoaId := } pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' +
       FLoja.Id.ToString + ',1,1);';
 
     pDBConnection.ExecuteSql(s);
@@ -543,7 +545,7 @@ begin
 
     { iPessoaId := } pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_USO_GARANTIR(' +
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' +
       FLoja.Id.ToString + ',2,2);';
 
     pDBConnection.ExecuteSql(s);

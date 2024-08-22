@@ -2,31 +2,20 @@ unit App.Pess.Ent.Factory_u;
 
 interface
 
-uses App.PessEnder.List, App.Pess.Loja.Ent, App.Pess.Loja.DBI, Sis.DB.DBTypes,
-  App.Ent.DBI, App.Ent.Ed, App.Pess.Ent, App.Pess.DBI, App.PessEnder;
+uses App.PessEnder.List, Sis.DB.DBTypes, App.Ent.DBI, App.Ent.Ed, App.Pess.Ent,
+  App.Pess.DBI, App.PessEnder;
 
 //ender list
 function PessEnderListCreate: IPessEnderList;//privativo desta unit
 function PessEnderCreate: IPessEnder;//privativo desta unit
 procedure PessEnderListGarantirUmItem(pPessEnderList: IPessEnderList);
 
-//loja
-//loja ent
-function PessLojaEntCreate: IPessLojaEnt;
-//loja dbi
-function PessLojaDBICreate(pDBConnection: IDBConnection;
-  pPessLojaEnt: IPessLojaEnt): IPessLojaDBI;//IEntDBI;
-
 function EntEdCastToPessEnt(pEntEd: IEntEd): IPessEnt;
 function EntDBICastToPessDBI(pEntDBI: IEntDBI): IPessDBI;
 
-function EntEdCastToPessLojaEnt(pEntEd: IEntEd): IPessLojaEnt;
-function EntDBICastToPessLojaDBI(pEntDBI: IEntDBI): IPessLojaDBI;
-
 implementation
 
-uses App.PessEnder.List_u, App.Pess.Loja.Ent_u, App.Pess.Loja.DBI_u,
-  App.Pess.DBI_u, App.Pess.Ent_u, App.PessEnder_u;
+uses App.PessEnder.List_u, App.Pess.DBI_u, App.Pess.Ent_u, App.PessEnder_u;
 
 //ender
 function PessEnderListCreate: IPessEnderList;//privativo desta unit
@@ -59,34 +48,6 @@ function EntDBICastToPessDBI(pEntDBI: IEntDBI): IPessDBI;
 begin
   Result := TPessDBI(pEntDBI);
 end;
-
-function EntEdCastToPessLojaEnt(pEntEd: IEntEd): IPessLojaEnt;
-begin
-  Result := TPessLojaEnt(pEntEd);
-end;
-
-function EntDBICastToPessLojaDBI(pEntDBI: IEntDBI): IPessLojaDBI;
-begin
-  Result := TPessLojaDBI(pEntDBI);
-end;
-
-//loja
-function PessLojaEntCreate: IPessLojaEnt;
-var
-  oPessEnderList: IPessEnderList;
-begin
-  oPessEnderList := PessEnderListCreate;
-
-  Result := TPessLojaEnt.Create(oPessEnderList);
-end;
-
-function PessLojaDBICreate(pDBConnection: IDBConnection;
-  pPessLojaEnt: IPessLojaEnt): IPessLojaDBI;//IEntDBI;
-begin
-////  Result := TPessLojaDBI.Create(pDBConnection, TPessLojaEnt(pPessLojaEnt));
-  Result := TPessLojaDBI.Create(pDBConnection, pPessLojaEnt);
-end;
-
 
 (*
 

@@ -89,7 +89,7 @@ begin
 
   sPastaDebug := GetPastaDoArquivo(ParamStr(0));
   sPastaDebug := PastaAcima(sPastaDebug);
-  sPastaDebug := sPastaDebug+'Config\Debug\';
+  sPastaDebug := sPastaDebug+'Configs\Debug\';
   sPastaDebug := sPastaDebug + Sis.Types.Utils_u.ObterHierarquiaDeClasses(ClassType);
   sNomeArq := sPastaDebug + '\' + 'Teclas.txt';
   GarantirPastaDoArquivo(sNomeArq);

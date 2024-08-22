@@ -7,16 +7,16 @@ uses App.Pess.Loja.Ent, App.Pess.Ent_u, App.PessEnder.List, App.Pess.Utils;
 type
   TPessLojaEnt = class(TPessEnt, IPessLojaEnt)
   private
-    FAtivo: boolean;
+    FSelecionado: boolean;
 
-    function GetAtivo: boolean;
-    procedure SetAtivo(const Value: boolean);
+    function GetSelecionado: boolean;
+    procedure SetSelecionado(const Value: boolean);
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
   public
-    property Ativo: boolean read GetAtivo write SetAtivo;
+    property Selecionado: boolean read GetSelecionado write SetSelecionado;
 
     constructor Create(pPessEnderList: IPessEnderList);
     procedure LimparEnt; override;
@@ -34,9 +34,9 @@ begin
     TEnderQuantidadePermitida.endqtdUm, False);
 end;
 
-function TPessLojaEnt.GetAtivo: boolean;
+function TPessLojaEnt.GetSelecionado: boolean;
 begin
-  Result := FAtivo;
+  Result := FSelecionado;
 end;
 
 function TPessLojaEnt.GetNomeEnt: string;
@@ -57,12 +57,12 @@ end;
 procedure TPessLojaEnt.LimparEnt;
 begin
   inherited;
-  FAtivo := False;
+  FSelecionado := False;
 end;
 
-procedure TPessLojaEnt.SetAtivo(const Value: boolean);
+procedure TPessLojaEnt.SetSelecionado(const Value: boolean);
 begin
-  FAtivo := Value;
+  FSelecionado := Value;
 end;
 
 end.

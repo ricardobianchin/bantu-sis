@@ -1,142 +1,77 @@
-POPULAR NATU PROD_NATU
+USUARIO_PODE_OPCAO_SIS
 
-
-P;PRODUTO;Movimenta estoque e n&atilde;o permite alterar pre&ccedil;o na venda.
-S;SERVI&Ccedil;O;N&atilde;o movimenta estoque e permite alterar pre&ccedil;o na venda.
-B;COMBO;Grupo de produtos. O seu nome n&atilde;o &eacute; impresso no cupom fiscal, mas s&atilde;o impressos os nomes dos produtos que o comp&otilde;em.
-M;MAT&eacute;RIA-PRIMA;Usado como item dos produtos compostos. N&atilde;o pode ser vendido.
-C;COMPOSTO;Somente o seu nome &eacute; impresso no cupom fiscal. Subtrai estoque das mat&eacute;rias-primas
-
-
-P;PRODUTO;Movimenta estoque. Nao permite alterar preco na venda.
-S;SERVICO;Nao movimenta estoque. Permite alterar preco na venda.
-B;COMBO;Grupo de produtos. O seu nome nao imprime no cupom fiscal, mas sao impressos os nomes dos produtos que o compoem.
-M;MATERIA-PRIMA;Usado como item dos produtos compostos. Nao pode ser vendido.
-C;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das materias-primas
-
-
-
-
-
-    inicio
+//INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=POPULAR TABS DE ICMS
-DBATUALIZ_OBJETIVO=POPULA ICMS E PROD_ICMS
+DBATUALIZ_ASSUNTO=ACESSO, PESSOA, USUARIO
+DBATUALIZ_OBJETIVO=CRIA USUARIO_PODE_OPCAO_SIS
 DBATUALIZ_OBS=
 
 
-///////////////////////////
+
+
+/////////////////////////
 //
-// NA TABELA PROD_NATU, ENSURE RECORDS
+// TABELA USUARIO_PODE_OPCAO_SIS
 //
-///////////////////////////
+/////////////////////////
 COMANDO INI
-TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=PROD_NATU
 
-CSV INI
-PROD_NATU_ID;NOME;DESCR
+TIPO_COMANDO=CREATE TABLE
+OBJETO_NOME=USUARIO_PODE_OPCAO_SIS
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM;UNIQUE
 
-#032;NAO INDICADO;NAO INDICADO
-#033;PRODUTO;Movimenta estoque. Nao permite alterar preco na venda.
-#034;SERVICO;Nao movimenta estoque. Permite alterar preco na venda.
-#035;MATERIA-PRIMA;Usado como item dos produtos compostos. Nao pode ser vendido.
-#036;COMBO;Grupo de produtos. O seu nome nao imprime no cupom fiscal, mas sao impressos os nomes dos produtos que o compoem.
-#037;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das materias-primas
+LOJA_ID;ID_SHORT_DOM;S;S
+TERMINAL_ID;ID_SHORT_DOM;S;S
+PESSOA_ID;ID_DOM;S;S
+OPCAO_SIS_ID;ID_DOM;S;S
 
-CSV FIM
-COMANDO FIM
-
-
-
-
-///////////////////////////
-//
-// NA TABELA FABR, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=FABR
-
-CSV INI
-FABR_ID;NOME
-
-0;NAO INDICADO
-1;PADRAO
-//2;PILOT
-//3;SAMSUNG
-
-CSV FIM
-COMANDO FIM
-
-
-///////////////////////////
-//
-// NA TABELA PROD_TIPO, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=PROD_TIPO
-
-CSV INI
-PROD_TIPO_ID;DESCR
-
-0;NAO INDICADO
-1;PADRAO
-//2;ESCRITORIO
-//3;MONITORES
-
-CSV FIM
-COMANDO FIM
-
-
-///////////////////////////
-//
-// NA TABELA UNID, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=UNID
-
-CSV INI
-UNID_ID;DESCR;SIGLA
-
-0;NAO INDICADO;N/IND
-1;UNIDADE;UN
-
-CSV FIM
+COLUNAS FIM
 COMANDO FIM
 
 
 
 
 
-///////////////////////////
+//////////////////////////////////
 //
-// NA TABELA ICMS, ENSURE RECORDS
+// FOREIGN KEY USUARIO_PODE_OPCAO_SIS X USUARIO
 //
-///////////////////////////
+//////////////////////////////////
 COMANDO INI
-TIPO_COMANDO=ENSURE RECORDS
-OBJETO_NOME=ICMS
-
-CSV INI
-ICMS_ID;SIGLA;DESCR;PERC;ATIVO
-0;;NAO INDICADO;0;TRUE
-1;I;ISENTO;0;TRUE
-2;N;NAO INCIDENCIA;0;TRUE
-3;F;SUBSTITUICAO TRIBUTARIA-RETIDO NA FONTE;0;TRUE
-4;;;18;TRUE
-5;;;20;TRUE
-6;;;22;TRUE
-7;;;37;TRUE
-8;;;39;TRUE
-
-CSV FIM
+TIPO_COMANDO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=USUARIO_PODE_OPCAO_SIS
+CAMPOS_FK=LOJA_ID,TERMINAL_ID,PESSOA_ID
+TABELA_PK=USUARIO
+//CAMPOS_PK=
 COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY USUARIO_PODE_OPCAO_SIS X USUARIO FIM
+
+
+
+
+
+//////////////////////////////////
+//
+// FOREIGN KEY USUARIO_PODE_OPCAO_SIS X OPCAO
+//
+//////////////////////////////////
+COMANDO INI
+TIPO_COMANDO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=USUARIO_PODE_OPCAO_SIS
+CAMPOS_FK=OPCAO_SIS_ID
+TABELA_PK=OPCAO_SIS
+//CAMPOS_PK=
+COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY USUARIO_PODE_OPCAO_SIS X USUARIO FIM
+
+
+
+
 
 DBATUALIZ FIM

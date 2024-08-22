@@ -23,7 +23,8 @@ BEGIN
     
     , EMAIL VARCHAR(50)
     , DT_NASC DATE
-    
+    , ATIVO BOOLEAN
+
     , PESS_CRIADO_EM TIMESTAMP
     , PESS_ALTERADO_EM TIMESTAMP
     
@@ -44,7 +45,7 @@ BEGIN
     , REFERENCIA           OBS1_DOM
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
-    , ATIVO BOOLEAN
+    , SELECIONADO BOOLEAN
   );--LISTA_GET FIM
 
   PROCEDURE GARANTIR(
@@ -61,6 +62,7 @@ BEGIN
     M_UF CHAR(2),
     EMAIL VARCHAR(50),
     DT_NASC DATE,
+    ATIVO BOOLEAN,
     PESSOA_ID INTEGER,
 
     LOGRADOURO        VARCHAR(70),
@@ -76,9 +78,8 @@ BEGIN
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
     REFERENCIA        OBS1_DOM,
-
-    ATIVO BOOLEAN
-  )
+    SELECIONADO       BOOLEAN
+)
   RETURNS
   (
     LOJA_ID_RET SMALLINT,
@@ -113,7 +114,8 @@ BEGIN
     
     , EMAIL VARCHAR(50)
     , DT_NASC DATE
-    
+    , ATIVO BOOLEAN
+
     , PESS_CRIADO_EM TIMESTAMP
     , PESS_ALTERADO_EM TIMESTAMP
     
@@ -132,9 +134,9 @@ BEGIN
     , FONE3                NOME_CURTO_DOM
     , CONTATO              NOME_DOM
     , REFERENCIA           OBS1_DOM
-    , ENDER_CRIADO_EM            TIMESTAMP
-    , ENDER_ALTERADO_EM          TIMESTAMP
-    , ATIVO BOOLEAN
+    , ENDER_CRIADO_EM      TIMESTAMP
+    , ENDER_ALTERADO_EM    TIMESTAMP
+    , SELECIONADO          BOOLEAN
   )
   AS
   BEGIN
@@ -144,7 +146,7 @@ BEGIN
         SELECT 
           LOJA_ID, 
           APELIDO, 
-          ATIVO
+          SELECIONADO
         FROM 
           LOJA
         WHERE (:P_LOJA_ID = 0) OR (:P_LOJA_ID = LOJA_ID)
@@ -166,6 +168,7 @@ BEGIN
           P.M_UF, 
           P.EMAIL, 
           P.DT_NASC, 
+          P.ATIVO,
           P.CRIADO_EM PESS_CRIADO_EM,
           P.ALTERADO_EM PESS_ALTERADO_EM, 
           
@@ -212,6 +215,7 @@ BEGIN
         
         PE.EMAIL, 
         PE.DT_NASC, 
+        PE.ATIVO,
         
         PE.PESS_CRIADO_EM, 
         PE.PESS_ALTERADO_EM, 
@@ -233,7 +237,7 @@ BEGIN
         PE.REFERENCIA,
         PE.ENDER_CRIADO_EM,
         PE.ENDER_ALTERADO_EM,
-        LO.ATIVO
+        LO.SELECIONADO
      FROM LO
       LEFT JOIN PE ON
       LO.LOJA_ID = PE.LOJA_ID
@@ -254,6 +258,7 @@ BEGIN
       
       , :EMAIL
       , :DT_NASC
+      , :ATIVO
       
       , :PESS_CRIADO_EM
       , :PESS_ALTERADO_EM
@@ -277,7 +282,7 @@ BEGIN
       , :ENDER_CRIADO_EM
       , :ENDER_ALTERADO_EM
 
-      , :ATIVO
+      , :SELECIONADO
     
     DO 
       SUSPEND; 
@@ -298,6 +303,7 @@ BEGIN
     M_UF CHAR(2),
     EMAIL VARCHAR(50),
     DT_NASC DATE,
+    ATIVO BOOLEAN,
     PESSOA_ID INTEGER,
 
     LOGRADOURO        VARCHAR(70),
@@ -314,7 +320,7 @@ BEGIN
     CONTATO           NOME_DOM,
     REFERENCIA        OBS1_DOM,
 
-    ATIVO BOOLEAN
+    SELECIONADO BOOLEAN
   )
   RETURNS
   (
@@ -338,6 +344,7 @@ BEGIN
       :M_UF,
       :EMAIL,
       :DT_NASC,
+      :ATIVO,
       :PESSOA_ID,
       :LOGRADOURO,
       :NUMERO,
@@ -356,8 +363,13 @@ BEGIN
 
     :LOJA_ID_RET = :LOJA_ID;
     :TERMINAL_ID_RET = :TERMINAL_ID;
-    
-    EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(:LOJA_ID, :APELIDO, :ATIVO);
+
+    IF (:SELECIONADO IS NULL) THEN
+      :SELECIONADO = FALSE;
+    ELSE IF (:SELECIONADO = TRUE) THEN
+      UPDATE LOJA SET SELECIONADO = FALSE;
+
+    EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(:LOJA_ID, :APELIDO, :SELECIONADO);
 
     UPDATE OR INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID)
     VALUES (:LOJA_ID_RET, :TERMINAL_ID_RET, :PESSOA_ID_RET)

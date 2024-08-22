@@ -72,8 +72,8 @@ begin
 end;
 
 procedure TRetagEstProdFabrDataSetForm.DoAtualizar(Sender: TObject);
-var
-  Resultado: boolean;
+//var
+//  Resultado: boolean;
 begin
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;

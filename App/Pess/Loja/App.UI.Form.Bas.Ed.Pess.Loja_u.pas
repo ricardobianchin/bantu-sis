@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed.Pess_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, App.Pess.Ent.Factory_u, App.Pess.Loja.DBI,
+  Vcl.StdCtrls, Vcl.Buttons, App.Pess.Loja.Ent.Factory_u, App.Pess.Loja.DBI,
   App.Pess.Loja.Ent, App.AppInfo, App.Ent.Ed, App.Ent.DBI, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
@@ -14,13 +14,14 @@ uses
 
 type
   TPessLojaEdForm = class(TPessEdBasForm)
-    AtivoCheckBox: TCheckBox;
+    SelecionadoCheckBox: TCheckBox;
     LojaIdEdit: TEdit;
     LojaIdLabel: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
-    procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure LojaIdEditExit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
@@ -49,19 +50,19 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils, Sis.Types.strings_u,
-  Sis.Types.Integers;
+  Sis.Types.Integers, Sis.UI.ImgDM;
 
 procedure TPessLojaEdForm.AjusteTabOrder;
 var
   iTabOrder: integer;
 begin
   inherited;
-  iTabOrder := DtNascDateTimePicker.TabOrder + 1;
-  AtivoCheckBox.TabOrder := iTabOrder; Inc(iTabOrder);
+  iTabOrder := AtivoPessCheckBox.TabOrder + 1;
+  SelecionadoCheckBox.TabOrder := iTabOrder; Inc(iTabOrder);
   LojaIdEdit.TabOrder := iTabOrder;
 end;
 
-procedure TPessLojaEdForm.AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+procedure TPessLojaEdForm.SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   CheckBoxKeyPress(Sender, Key);
@@ -70,7 +71,7 @@ end;
 procedure TPessLojaEdForm.ControlesToEnt;
 begin
   inherited;
-  FPessLojaEnt.Ativo := AtivoCheckBox.Checked;
+  FPessLojaEnt.Selecionado := SelecionadoCheckBox.Checked;
   FPessLojaEnt.LojaId := StrToInt(LojaIdEdit.Text);
 end;
 
@@ -96,13 +97,22 @@ end;
 procedure TPessLojaEdForm.EntToControles;
 begin
   inherited;
-  AtivoCheckBox.Checked := FPessLojaEnt.Ativo;
+  SelecionadoCheckBox.Checked := FPessLojaEnt.Selecionado;
   if FPessLojaEnt.LojaId < 1 then
     LojaIdEdit.Text := ''
   else
     LojaIdEdit.Text := FPessLojaEnt.LojaId.ToString;
 
   LojaIdEdit.ReadOnly := FPessLojaEnt.State <> dsInsert;
+end;
+
+procedure TPessLojaEdForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
+    + ' estabelecimento a que pertence o sistema.'#13#10
+    + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
+    + 'Ao ligar esta opção, ela será desligada nos demais registros';
 end;
 
 function TPessLojaEdForm.LojaIdDigitada: smallint;
@@ -151,12 +161,17 @@ procedure TPessLojaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 //  s: string;
 begin
   inherited;
-  SetTabOrderToHint(Self);
+//{$IFDEF DEBUG}
+  //SetTabOrderToHint(Self);
+//{$ENDIF}
+
   DtNascPessLabel.Visible := False;
   DtNascDateTimePicker.Visible := False;
-  AtivoCheckBox.Left := DtNascPessLabel.Left;
-  LojaIdLabel.Left := AtivoCheckBox.Left + 3 + AtivoCheckBox.Width;
-  LojaIdEdit.Left := LojaIdLabel.Left + 3 + LojaIdLabel.Width;
+
+  AtivoPessCheckBox.Left := EMailPessEdit.Left + 5 + EMailPessEdit.Width;
+  SelecionadoCheckBox.Left := AtivoPessCheckBox.Left + 5 + AtivoPessCheckBox.Width;
+  LojaIdLabel.Left := SelecionadoCheckBox.Left + 7 + SelecionadoCheckBox.Width;
+  LojaIdEdit.Left := LojaIdLabel.Left + 5 + LojaIdLabel.Width;
 
 //{$IFDEF DEBUG}
 ////  s := CNPJGetRandom;

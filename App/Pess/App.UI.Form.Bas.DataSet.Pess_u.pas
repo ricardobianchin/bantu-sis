@@ -36,6 +36,7 @@ type
     iT_M_UF: integer;
     iT_EMAIL: integer;
     iT_DT_NASC: integer;
+    iT_ATIVO: integer;
     iT_PESS_CRIADO_EM: integer;
     iT_PESS_ALTERADO_EM: integer;
     iT_ENDER_ORDEM: integer;
@@ -70,6 +71,7 @@ type
     iQ_M_UF: integer;
     iQ_EMAIL: integer;
     iQ_DT_NASC: integer;
+    iQ_ATIVO: integer;
     iQ_PESS_CRIADO_EM: integer;
     iQ_PESS_ALTERADO_EM: integer;
     iQ_ENDER_ORDEM: integer;
@@ -89,6 +91,7 @@ type
     iQ_REFERENCIA: integer;
     iQ_ENDER_CRIADO_EM: integer;
     iQ_ENDER_ALTERADO_EM: integer;
+    iQ_PESS_ENDER_ULTIMO_INDEX: integer;
     iQ_ENDER_PRIMEIRO_CAMPO: integer;
 
     procedure DoAtualizar(Sender: TObject); override;
@@ -120,10 +123,10 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid, App.Pess.Ent.Factory_u,
+uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Pess.Utils, Sis.DB.Factory,
   App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u, App.PessEnder,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, App.Pess.Ent.Factory_u;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
@@ -148,26 +151,28 @@ begin
     iQ_M_UF := 9;
     iQ_EMAIL := 10;
     iQ_DT_NASC := 11;
-    iQ_PESS_CRIADO_EM := 12;
-    iQ_PESS_ALTERADO_EM := 13;
+    iQ_ATIVO := 12;
+    iQ_PESS_CRIADO_EM := 13;
+    iQ_PESS_ALTERADO_EM := 14;
 
-    iQ_ENDER_ORDEM := 14;
-    iQ_LOGRADOURO := 15;
-    iQ_NUMERO := 16;
-    iQ_COMPLEMENTO := 17;
-    iQ_BAIRRO := 18;
-    iQ_UF_SIGLA := 19;
-    iQ_CEP := 20;
-    iQ_MUNICIPIO_IBGE_ID := 21;
-    iQ_MUNICIPIO_NOME := 22;
-    iQ_DDD := 23;
-    iQ_FONE1 := 24;
-    iQ_FONE2 := 25;
-    iQ_FONE3 := 26;
-    iQ_CONTATO := 27;
-    iQ_REFERENCIA := 28;
-    iQ_ENDER_CRIADO_EM := 29;
-    iQ_ENDER_ALTERADO_EM := 30;
+    iQ_ENDER_ORDEM := 15;
+    iQ_LOGRADOURO := 16;
+    iQ_NUMERO := 17;
+    iQ_COMPLEMENTO := 18;
+    iQ_BAIRRO := 19;
+    iQ_UF_SIGLA :=20;
+    iQ_CEP := 21;
+    iQ_MUNICIPIO_IBGE_ID := 22;
+    iQ_MUNICIPIO_NOME := 23;
+    iQ_DDD := 24;
+    iQ_FONE1 := 25;
+    iQ_FONE2 := 26;
+    iQ_FONE3 := 27;
+    iQ_CONTATO := 28;
+    iQ_REFERENCIA := 29;
+    iQ_ENDER_CRIADO_EM := 30;
+    iQ_ENDER_ALTERADO_EM := 31;
+    iQ_PESS_ENDER_ULTIMO_INDEX := iQ_ENDER_ALTERADO_EM;
     iQ_ENDER_PRIMEIRO_CAMPO := iQ_ENDER_ORDEM;
   end;
 
@@ -273,6 +278,7 @@ begin
   Tab.Fields[iT_M_UF].AsString := FPessEnt.MUF;
   Tab.Fields[iT_EMAIL].AsString := FPessEnt.EMail;
   Tab.Fields[iT_DT_NASC].AsDateTime := FPessEnt.DtNasc;
+  Tab.Fields[iT_ATIVO].AsBoolean := FPessEnt.Ativo;
 
   Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := FPessEnt.CriadoEm;
   Tab.Fields[iT_PESS_ALTERADO_EM].AsDateTime := FPessEnt.AlteradoEm;
@@ -320,9 +326,27 @@ end;
 
 procedure TAppPessDataSetForm.QToMemTable(q: TDataSet);
 var
+{$IFDEF DEBUG}
+  S: string;
+{$ENDIF}
   Tab: TFDMemTable;
 begin
   inherited;
+{$IFDEF DEBUG}
+  s := FDMemTable.Fields[iT_LOJA_ID].FieldName;
+  s := FDMemTable.Fields[iT_DT_NASC].FieldName;
+
+  s := FDMemTable.Fields[iT_ATIVO].FieldName;
+  s := q.Fields[iQ_ATIVO].FieldName;
+
+  s := FDMemTable.Fields[iT_PESS_CRIADO_EM].FieldName;
+  s := q.Fields[iQ_PESS_CRIADO_EM].FieldName;
+
+  s := Tab.Fields[iT_PESS_ALTERADO_EM].FieldName;
+  s := q.Fields[iQ_PESS_ALTERADO_EM].FieldName;
+
+{$ENDIF}
+
   Tab := FDMemTable;
   Tab.Fields[iT_LOJA_ID].AsInteger := q.Fields[iQ_LOJA_ID].AsInteger; //
   Tab.Fields[iT_TERMINAL_ID].AsInteger := q.Fields[iQ_TERMINAL_ID].AsInteger; //
@@ -343,6 +367,7 @@ begin
   Tab.Fields[iT_M_UF].AsString := q.Fields[iQ_M_UF].AsString; //
   Tab.Fields[iT_EMAIL].AsString := q.Fields[iQ_EMAIL].AsString; //
   Tab.Fields[iT_DT_NASC].AsDateTime := q.Fields[iQ_DT_NASC].AsDateTime; //
+  Tab.Fields[iT_ATIVO].AsBoolean := q.Fields[iQ_ATIVO].AsBoolean; //
 
   Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := q.Fields[iQ_PESS_CRIADO_EM]
     .AsDateTime; //
@@ -387,18 +412,7 @@ begin
   FPessEnt.LojaId := FDMemTable.Fields[iT_LOJA_ID].AsInteger;
   FPessEnt.TerminalId := FDMemTable.Fields[iT_TERMINAL_ID].AsInteger;
   FPessEnt.Id := FDMemTable.Fields[iT_PESSOA_ID].AsInteger;
-  { FPessEnt.Apelido := FDMemTable.Fields[iT_APELIDO].AsString;
-    FPessEnt.Nome := FDMemTable.Fields[iT_NOME].AsString;
-    FPessEnt.NomeFantasia := FDMemTable.Fields[iT_NOME_FANTASIA].AsString;
-    FPessEnt.C := FDMemTable.Fields[iT_C].AsString;
-    FPessEnt.I := FDMemTable.Fields[iT_I].AsString;
-    FPessEnt.M := FDMemTable.Fields[iT_M].AsString;
-    FPessEnt.MUF := FDMemTable.Fields[iT_M_UF].AsString;
-    FPessEnt.EMail := FDMemTable.Fields[iT_EMAIL].AsString;
-    FPessEnt.DtNasc := FDMemTable.Fields[iT_DT_NASC].AsDateTime;
-    FPessEnt.CriadoEm := FDMemTable.Fields[iT_PESS_CRIADO_EM].AsDateTime;
-    FPessEnt.AlteradoEm := FDMemTable.Fields[iT_PESS_ALTERADO_EM].AsDateTime;
-  }
+
   if FPessEnt.EnderQuantidadePermitida <> TEnderQuantidadePermitida.endqtdNenhum
   then
   begin
