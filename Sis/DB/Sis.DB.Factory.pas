@@ -121,7 +121,7 @@ begin
     oOutput := MudoOutputCreate;
 
   Result := TDBExecFireDac.Create(pNomeComponente, pDBConnection, pSql,
-    pProcessLog, pOutput);
+    oProcessLog, oOutput);
 end;
 
 function DBQueryCreate(pNomeComponente: string; pDBConnection: IDBConnection;
