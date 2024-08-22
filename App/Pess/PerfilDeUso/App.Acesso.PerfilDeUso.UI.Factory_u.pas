@@ -25,10 +25,9 @@ function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;
 
 implementation
 
-uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.Ent.Factory_u,
-  App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory,
-  App.UI.Form.Ed.Acesso.PerfilDeUso_u, System.SysUtils,
-  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u, Sis.UI.ImgDM,
+uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.DBI, App.DB.Utils,
+  Sis.DB.Factory, Sis.UI.ImgDM, System.SysUtils, App.Pess.Loja.Ent.Factory_u,
+  App.UI.Form.Ed.Acesso.PerfilDeUso_u,
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u;
 
 function PerfilDeUsoEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
