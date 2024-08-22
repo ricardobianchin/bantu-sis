@@ -7,8 +7,7 @@ uses App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
   App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes,
   App.UI.Form.DataSet.Acesso.PerfilDeUso_u, App.Acesso.PerfilDeUso.Ent,
   App.Acesso.PerfilDeUso.DBI, App.Acesso.PerfilDeUso.Ent.Factory_u, Sis.Types,
-  Sis.UI.Controls.TreeView.Frame.Preenchedor, VCL.Controls,
-  Sis.UI.Controls.TreeView.Frame_u;
+  VCL.Controls, VCL.Forms;
 
 function PerfilDeUsoEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pPerfilDeUso: IEntEd; pPerfilDeUsoDBI: IEntDBI): TEdBasForm;
@@ -21,17 +20,16 @@ function PerfilDeUsoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
   : IFormCreator;
 
-function PerfilTreeViewPreenchedorCreate(pTreeViewFrame: TTreeViewFrame;
-  pTitulo: string; pFuncGetSQL: TFunctionString; pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBMS: IDBMS; pImageList: TImageList)
-  : ITreeViewPreenchedor;
+function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS): boolean;
 
 implementation
 
 uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.Ent.Factory_u,
   App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory,
-  App.UI.Form.Ed.Acesso.PerfilDeUso_u,
-  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u, Sis.UI.ImgDM;
+  App.UI.Form.Ed.Acesso.PerfilDeUso_u, System.SysUtils,
+  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor_u, Sis.UI.ImgDM,
+  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u;
 
 function PerfilDeUsoEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pPerfilDeUso: IEntEd; pPerfilDeUsoDBI: IEntDBI): TEdBasForm;
@@ -78,13 +76,19 @@ begin
     pProcessLog, pOutputNotify, oEnt, oDBI);
 end;
 
-function PerfilTreeViewPreenchedorCreate(pTreeViewFrame: TTreeViewFrame;
-  pTitulo: string; pFuncGetSQL: TFunctionString; pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBMS: IDBMS; pImageList: TImageList)
-  : ITreeViewPreenchedor;
+function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;
+  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS): boolean;
+var
+  oForm: TOpcaoSisPerfilUsoTreeViewForm;
 begin
-  Result := TOpcaoSisTreeViewPreenchedor.Create(pTreeViewFrame, pTitulo,
-    pFuncGetSQL, pAppInfo, pSisConfig, pDBMS, pImageList);
+  oForm := TOpcaoSisPerfilUsoTreeViewForm.Create(Application, pPerfiDeUsoId,
+    pPerfilDeUsoNome, pAppInfo, pSisConfig, pDBMS);
+
+  try
+    Result := oForm.Perg;
+  finally
+    FreeAndNil(oForm);
+  end;
 end;
 
 end.
