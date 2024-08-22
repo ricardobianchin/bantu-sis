@@ -11,22 +11,21 @@ uses
   App.Acesso.PerfilDeUso.Ent, App.AppInfo, Sis.Config.SisConfig, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
   App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client,
-  Sis.UI.Controls.TreeView.Frame_u, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+   FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  Sis.UI.Controls.TreeView.Frame.Preenchedor;
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet;
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)
-    FundoPanel_PerfilDeUsoDataSetForm: TPanel;
-    DBGridSplitter_PerfilDeUsoDataSetForm: TSplitter;
+    OpcaoSisAction_PerfilDeUsoDataSetForm: TAction;
+
+    procedure OpcaoSisAction_PerfilDeUsoDataSetFormExecute(Sender: TObject);
+
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPerfilDeUsoEnt: IPerfilDeUsoEnt;
-    FTreeViewFrame: TTreeViewFrame;
-    FTreeViewPreenchedor: ITreeViewPreenchedor;
 
-    procedure PreenchaTreeView;
   protected
     function GetNomeArqTabView: string; override;
 
@@ -39,10 +38,6 @@ type
 
     procedure RecordToEnt; override;
     procedure EntToRecord; override;
-
-    procedure PrepareControls; override;
-
-    procedure FDMemTable1AfterScroll(DataSet: TDataSet); override;
 
   public
     { Public declarations }
@@ -62,8 +57,7 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
-  App.Acesso.PerfilDeUso.UI.Factory_u, Sis.UI.ImgDM,
-  App.UI.Acesso.OpcaoSis.TreeView.Preenchedor.SQL_u;
+  App.Acesso.PerfilDeUso.UI.Factory_u, Sis.UI.ImgDM;
 
 { TPerfilDeUsoDataSetForm }
 
@@ -142,11 +136,6 @@ begin
   Tab.Fields[2 { de_sistema } ].AsBoolean := FPerfilDeUsoEnt.DeSistema;
 end;
 
-procedure TPerfilDeUsoDataSetForm.FDMemTable1AfterScroll(DataSet: TDataSet);
-begin
-  PreenchaTreeView;
-end;
-
 function TPerfilDeUsoDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
@@ -156,35 +145,18 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TPerfilDeUsoDataSetForm.PreenchaTreeView;
+procedure TPerfilDeUsoDataSetForm.OpcaoSisAction_PerfilDeUsoDataSetFormExecute(
+  Sender: TObject);
 var
-  iFiltroId: integer;
-begin
-  iFiltroId := FDMemTable.Fields[0 { perfil_de_uso_id } ].AsInteger;
-  FTreeViewPreenchedor.PreenchaTreeView(iFiltroId, '');
-end;
-
-procedure TPerfilDeUsoDataSetForm.PrepareControls;
+  iPerfilDeUsoId: integer;
+  sPerfilDeUsoNome: string;
 begin
   inherited;
-  FundoPanel_PerfilDeUsoDataSetForm.Visible := True;
+  iPerfilDeUsoId := FDMemTable.Fields[0].AsInteger;
+  sPerfilDeUsoNome := Trim(FDMemTable.Fields[1].AsString);
 
-  FundoPanel_PerfilDeUsoDataSetForm.Align := alClient;
-  FundoPanel_PerfilDeUsoDataSetForm.Caption := '';
-
-  DBGrid1.Parent := FundoPanel_PerfilDeUsoDataSetForm;
-  DBGrid1.Align := alLeft;
-  DBGrid1.Width := (Width * 5) div 10;
-
-  DBGridSplitter_PerfilDeUsoDataSetForm.Left := DBGrid1.Width + 4;
-
-  FTreeViewFrame := TTreeViewFrame.Create(FundoPanel_PerfilDeUsoDataSetForm);
-  FTreeViewFrame.Align := alClient;
-  FTreeViewPreenchedor := PerfilTreeViewPreenchedorCreate(FTreeViewFrame,
-    'Opções que o Perfil de Uso pode utilizar', GetSQLOpcoesPerfil, AppInfo, SisConfig, DBMS,
-    SisImgDataModule.ImageList_9_9);
-
-  PreenchaTreeView;
+  OpcaoSisPerfilUsoPerg(iPerfilDeUsoId, sPerfilDeUsoNome, AppInfo, SisConfig,
+    DBMS);
 end;
 
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;
@@ -199,12 +171,19 @@ begin
   FPerfilDeUsoEnt.DeSistema := Tab.Fields[2 { de_sistema } ].AsBoolean;
 end;
 
+procedure TPerfilDeUsoDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  OpcaoSisAction_PerfilDeUsoDataSetForm.Execute;
+end;
+
 procedure TPerfilDeUsoDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(OpcaoSisAction_PerfilDeUsoDataSetForm, TitToolBar1_BasTabSheet);
 end;
 
 end.
