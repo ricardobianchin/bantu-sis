@@ -56,7 +56,7 @@ COMANDO FIM
 
 
 ///////////////////////////////////////////
-// TABELA IMPORT_PROD_BARRAS
+// TABELA IMPORT_PROD_BARRAS_NOVO
 ///////////////////////////////////////////
 COMANDO INI
 TIPO_COMANDO=CREATE TABLE
