@@ -85,7 +85,7 @@ begin
   oEnder.MunicipioNome :=  Q.Fields[23 { MUNICIPIO_NOME } ].AsString;
 
   if oEnder.MunicipioIbgeId = '' then
-    oEnder.MunicipioIbgeId := '     ';
+    oEnder.MunicipioIbgeId := '       ';
 
   oEnder.DDD := Q.Fields[24 { DDD } ].AsString;
   oEnder.Fone1 := Q.Fields[25 { FONE1 } ].AsString;

@@ -295,7 +295,7 @@ begin
   Tab.Fields[iT_CEP].AsString := StrToOnlyDigit(oEnder.CEP);
 
   if oEnder.MunicipioIbgeId = '' then
-    oEnder.MunicipioIbgeId := '     ';
+    oEnder.MunicipioIbgeId := '       ';
 
   Tab.Fields[iT_MUNICIPIO_IBGE_ID].AsString := oEnder.MunicipioIbgeId;
   Tab.Fields[iT_MUNICIPIO_NOME].AsString := oEnder.MunicipioNome;

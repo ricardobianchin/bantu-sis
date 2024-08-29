@@ -44,7 +44,7 @@ BEGIN
   )
   RETURNS
   (
-    MUNICIPIO_IBGE_ID CHAR(5)
+    MUNICIPIO_IBGE_ID CHAR(7)
     , NOME NOME_DOM
   );
 
@@ -60,7 +60,7 @@ BEGIN
     BAIRRO            NOME_DOM,
     UF_SIGLA          CHAR(2),
     CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(5),
+    MUNICIPIO_IBGE_ID CHAR(7),
     DDD               CHAR(2),
     FONE1             NOME_CURTO_DOM,
     FONE2             NOME_CURTO_DOM,
@@ -105,7 +105,7 @@ BEGIN
   )
   RETURNS
   (
-    MUNICIPIO_IBGE_ID CHAR(5)
+    MUNICIPIO_IBGE_ID CHAR(7)
     , NOME NOME_DOM
   )
   AS
@@ -136,7 +136,7 @@ BEGIN
     BAIRRO            NOME_DOM,
     UF_SIGLA          CHAR(2),
     CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(5),
+    MUNICIPIO_IBGE_ID CHAR(7),
     DDD               CHAR(2),
     FONE1             NOME_CURTO_DOM,
     FONE2             NOME_CURTO_DOM,

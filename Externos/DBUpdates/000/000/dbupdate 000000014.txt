@@ -68,7 +68,7 @@ BEGIN
     , BAIRRO               NOME_DOM
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
-    , MUNICIPIO_IBGE_ID    CHAR(5)
+    , MUNICIPIO_IBGE_ID    CHAR(7)
     , MUNICIPIO_NOME    NOME_DOM
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
@@ -104,7 +104,7 @@ BEGIN
     BAIRRO            NOME_DOM,
     UF_SIGLA          CHAR(2),
     CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(5),
+    MUNICIPIO_IBGE_ID CHAR(7),
     DDD               CHAR(2),
     FONE1             NOME_CURTO_DOM,
     FONE2             NOME_CURTO_DOM,
@@ -159,7 +159,7 @@ BEGIN
     , BAIRRO               NOME_DOM
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
-    , MUNICIPIO_IBGE_ID    CHAR(5)
+    , MUNICIPIO_IBGE_ID    CHAR(7)
     , MUNICIPIO_NOME    NOME_DOM
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
@@ -230,7 +230,7 @@ BEGIN
         LEFT JOIN 
           ENDERECO E ON P.LOJA_ID = E.LOJA_ID AND P.TERMINAL_ID = E.TERMINAL_ID AND P.PESSOA_ID = E.PESSOA_ID AND E.ORDEM = 0
         LEFT JOIN
-          MUNICIPIO MU ON MU.MUNICIPIO_IBGE_ID = E.MUNICIPIO_IBGE_ID AND MU.UF_SIGLA = E.UF_SIGLA
+          MUNICIPIO MU ON MU.MUNICIPIO_IBGE_ID = E.MUNICIPIO_IBGE_ID
       )
       SELECT 
         LO.LOJA_ID,
@@ -345,7 +345,7 @@ BEGIN
     BAIRRO            NOME_DOM,
     UF_SIGLA          CHAR(2),
     CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(5),
+    MUNICIPIO_IBGE_ID CHAR(7),
     DDD               CHAR(2),
     FONE1             NOME_CURTO_DOM,
     FONE2             NOME_CURTO_DOM,

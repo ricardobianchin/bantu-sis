@@ -259,12 +259,12 @@ begin
     Tab.Fields[5 { MUNICIPIO_NOME } ].AsString := MunComboMan.Text;
     if MunComboMan.Id = 0 then
     begin
-      Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString := '     ';
+      Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString := '       ';
     end
     else
     begin
       Tab.Fields[14 { MUNICIPIO_IBGE_ID } ].AsString :=
-        IntToStrZero(MunComboMan.Id, 5);
+        IntToStrZero(MunComboMan.Id, 7);
     end;
 
     Tab.Fields[4 { BAIRRO } ].AsString := BairroEdit.Text;
@@ -498,7 +498,7 @@ begin
         exit;
 
       sLin := Trim(SL[iLin]);
-      sLin := Copy(sLin, 12, 5);
+      sLin := Copy(sLin, 10, 7);
 
       iId := StrToInteger(sLin);
       MunComboMan.Id := iId;
