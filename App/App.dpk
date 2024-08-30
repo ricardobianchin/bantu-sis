@@ -245,6 +245,7 @@ contains
   App.Pess.Funcionario.Ent_u in 'Pess\Funcionario\App.Pess.Funcionario.Ent_u.pas',
   App.Pess.Funcionario.Ent in 'Pess\Funcionario\App.Pess.Funcionario.Ent.pas',
   App.Pess.Funcionario.DBI in 'Pess\Funcionario\App.Pess.Funcionario.DBI.pas',
-  App.Pess.Funcionario.DBI_u in 'Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas';
+  App.Pess.Funcionario.DBI_u in 'Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas',
+  App.Pess.Funcionario.Ent.Factory in 'Pess\Funcionario\App.Pess.Funcionario.Ent.Factory.pas';
 
 end.
