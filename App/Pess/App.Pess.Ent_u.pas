@@ -27,10 +27,10 @@ type
     FAlteradoEm: TDateTime;
 
     FPessEnderList: IPessEnderList;
-    FEnderQuantidadePermitida: TEnderQuantidadePermitida;
-    FCodUsaTerminalId: boolean;
+    //FEnderQuantidadePermitida: TEnderQuantidadePermitida;
+    //FCodUsaTerminalId: boolean;
 
-    FCObrigatorio: boolean;
+    //FCObrigatorio: boolean;
 
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
@@ -80,16 +80,14 @@ type
     function GetAlteradoEm: TDateTime;
     procedure SetAlteradoEm(const Value: TDateTime);
 
-
     function GetPessEnderList: IPessEnderList;
 
-    function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
-    function GetCodUsaTerminalId: boolean;
-
-    function GetCObrigatorio: boolean;
-    procedure SetCObrigatorio(const Value: Boolean);
-
     function GetCodAsString: string;
+    procedure SetCObrigatorio(const Value: boolean);
+  protected
+    function GetCObrigatorio: boolean; virtual;
+    function GetEnderQuantidadePermitida: TEnderQuantidadePermitida; virtual;
+    function GetCodUsaTerminalId: boolean; virtual;
   public
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
@@ -116,8 +114,7 @@ type
 
     property CObrigatorio: boolean read GetCObrigatorio write SetCObrigatorio;
 
-    constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList;
-      pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
+    constructor Create(pPessEnderList: IPessEnderList);
 
     procedure LimparEnt; override;
   end;
@@ -128,15 +125,10 @@ uses System.SysUtils;
 
 { TPessEnt }
 
-constructor TPessEnt.Create(pState: TDataSetState;
-  pPessEnderList: IPessEnderList;
-  pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
+constructor TPessEnt.Create(pPessEnderList: IPessEnderList);
 begin
   inherited Create(dsBrowse, 0);
   FPessEnderList := pPessEnderList;
-  FEnderQuantidadePermitida := pEnderQuantidadePermitida;
-  CObrigatorio := True;
-  FCodUsaTerminalId := pCodUsaTerminalId;
   LimparEnt;
 end;
 
@@ -157,7 +149,7 @@ end;
 
 function TPessEnt.GetCObrigatorio: boolean;
 begin
-  Result := FCObrigatorio;
+  Result := True;
 end;
 
 function TPessEnt.GetCodAsString: string;
@@ -167,7 +159,7 @@ end;
 
 function TPessEnt.GetCodUsaTerminalId: boolean;
 begin
-  Result := FCodUsaTerminalId;
+  Result := False;
 end;
 
 function TPessEnt.GetCriadoEm: TDateTime;
@@ -192,7 +184,7 @@ end;
 
 function TPessEnt.GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
 begin
-  Result := FEnderQuantidadePermitida;
+  Result := TEnderQuantidadePermitida.endqtdUm;
 end;
 
 function TPessEnt.GetEstadoCivil: char;
@@ -279,9 +271,9 @@ begin
   FC := Value;
 end;
 
-procedure TPessEnt.SetCObrigatorio(const Value: Boolean);
+procedure TPessEnt.SetCObrigatorio(const Value: boolean);
 begin
-  FCObrigatorio := Value;
+
 end;
 
 procedure TPessEnt.SetCriadoEm(const Value: TDateTime);

@@ -486,6 +486,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>OpcaoSisPerfilUsoTreeViewForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.Ent_u.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.Ent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

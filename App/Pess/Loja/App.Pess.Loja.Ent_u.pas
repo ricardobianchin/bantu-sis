@@ -15,10 +15,10 @@ type
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
+
   public
     property Selecionado: boolean read GetSelecionado write SetSelecionado;
 
-    constructor Create(pPessEnderList: IPessEnderList);
     procedure LimparEnt; override;
   end;
 
@@ -27,12 +27,6 @@ implementation
 uses Data.DB;
 
 { TPessLojaEnt }
-
-constructor TPessLojaEnt.Create(pPessEnderList: IPessEnderList);
-begin
-  inherited Create(dsBrowse, pPessEnderList,
-    TEnderQuantidadePermitida.endqtdUm, False);
-end;
 
 function TPessLojaEnt.GetSelecionado: boolean;
 begin
@@ -46,7 +40,7 @@ end;
 
 function TPessLojaEnt.GetNomeEntAbrev: string;
 begin
-  Result := 'Estabel.';
+  Result := 'Estabel';
 end;
 
 function TPessLojaEnt.GetTitulo: string;
