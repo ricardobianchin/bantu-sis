@@ -71,7 +71,9 @@ end;
 procedure TPessFuncionarioEnt.LimparEnt;
 begin
   inherited;
-
+  FNomeDeUsuario := '';
+  FSenha := '';
+  FCryVer := 1;
 end;
 
 procedure TPessFuncionarioEnt.SetCryVer(const Value: smallint);
