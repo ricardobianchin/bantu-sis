@@ -243,6 +243,8 @@ contains
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis_u in 'Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis_u.pas' {OpcaoSisTreeViewForm},
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u in 'Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u.pas' {OpcaoSisPerfilUsoTreeViewForm},
   App.Pess.Funcionario.Ent_u in 'Pess\Funcionario\App.Pess.Funcionario.Ent_u.pas',
-  App.Pess.Funcionario.Ent in 'Pess\Funcionario\App.Pess.Funcionario.Ent.pas';
+  App.Pess.Funcionario.Ent in 'Pess\Funcionario\App.Pess.Funcionario.Ent.pas',
+  App.Pess.Funcionario.DBI in 'Pess\Funcionario\App.Pess.Funcionario.DBI.pas',
+  App.Pess.Funcionario.DBI_u in 'Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas';
 
 end.
