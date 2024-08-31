@@ -248,6 +248,9 @@ contains
   App.Pess.Funcionario.DBI_u in 'Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas',
   App.Pess.Funcionario.Ent.Factory in 'Pess\Funcionario\App.Pess.Funcionario.Ent.Factory.pas',
   App.Pess.Cliente.Ent in 'Pess\Cliente\App.Pess.Cliente.Ent.pas',
-  App.Pess.Cliente.Ent_u in 'Pess\Cliente\App.Pess.Cliente.Ent_u.pas';
+  App.Pess.Cliente.Ent_u in 'Pess\Cliente\App.Pess.Cliente.Ent_u.pas',
+  App.Pess.Cliente.Ent.Factory in 'Pess\Cliente\App.Pess.Cliente.Ent.Factory.pas',
+  App.Pess.Cliente.DBI in 'Pess\Cliente\App.Pess.Cliente.DBI.pas',
+  App.Pess.Cliente.DBI_u in 'Pess\Cliente\App.Pess.Cliente.DBI_u.pas';
 
 end.
