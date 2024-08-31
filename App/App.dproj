@@ -491,6 +491,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.DBI.pas"/>
         <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas"/>
         <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.Ent.Factory.pas"/>
+        <DCCReference Include="Pess\Cliente\App.Pess.Cliente.Ent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
