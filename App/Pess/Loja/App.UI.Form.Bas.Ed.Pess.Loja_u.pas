@@ -21,7 +21,6 @@ type
 
     procedure SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure LojaIdEditExit(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
@@ -78,6 +77,11 @@ end;
 constructor TPessLojaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
+  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
+    + ' estabelecimento a que pertence o sistema.'#13#10
+    + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
+    + 'Ao ligar esta opção, ela será desligada nos demais registros';
+
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
   inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
@@ -104,15 +108,6 @@ begin
     LojaIdEdit.Text := FPessLojaEnt.LojaId.ToString;
 
   LojaIdEdit.ReadOnly := FPessLojaEnt.State <> dsInsert;
-end;
-
-procedure TPessLojaEdForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
-    + ' estabelecimento a que pertence o sistema.'#13#10
-    + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
-    + 'Ao ligar esta opção, ela será desligada nos demais registros';
 end;
 
 function TPessLojaEdForm.LojaIdDigitada: smallint;

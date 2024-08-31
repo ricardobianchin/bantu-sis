@@ -246,11 +246,13 @@ contains
   App.Pess.Funcionario.Ent in 'Pess\Funcionario\App.Pess.Funcionario.Ent.pas',
   App.Pess.Funcionario.DBI in 'Pess\Funcionario\App.Pess.Funcionario.DBI.pas',
   App.Pess.Funcionario.DBI_u in 'Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas',
-  App.Pess.Funcionario.Ent.Factory in 'Pess\Funcionario\App.Pess.Funcionario.Ent.Factory.pas',
+  App.Pess.Funcionario.Ent.Factory_u in 'Pess\Funcionario\App.Pess.Funcionario.Ent.Factory_u.pas',
   App.Pess.Cliente.Ent in 'Pess\Cliente\App.Pess.Cliente.Ent.pas',
   App.Pess.Cliente.Ent_u in 'Pess\Cliente\App.Pess.Cliente.Ent_u.pas',
-  App.Pess.Cliente.Ent.Factory in 'Pess\Cliente\App.Pess.Cliente.Ent.Factory.pas',
+  App.Pess.Cliente.Ent.Factory_u in 'Pess\Cliente\App.Pess.Cliente.Ent.Factory_u.pas',
   App.Pess.Cliente.DBI in 'Pess\Cliente\App.Pess.Cliente.DBI.pas',
-  App.Pess.Cliente.DBI_u in 'Pess\Cliente\App.Pess.Cliente.DBI_u.pas';
+  App.Pess.Cliente.DBI_u in 'Pess\Cliente\App.Pess.Cliente.DBI_u.pas',
+  App.UI.Form.Bas.Ed.Pess.Funcionario_u in 'Pess\Funcionario\App.UI.Form.Bas.Ed.Pess.Funcionario_u.pas' {PessFuncionarioEdBasForm},
+  App.UI.Form.Bas.Ed.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas' {PessClienteEdBasForm};
 
 end.
