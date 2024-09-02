@@ -1,28 +1,22 @@
-inherited PessClienteEdBasForm: TPessClienteEdBasForm
-  Caption = 'PessClienteEdBasForm'
-  ExplicitWidth = 965
-  ExplicitHeight = 571
+inherited PessClienteEdForm: TPessClienteEdForm
+  Caption = 'PessClienteEdForm'
+  ExplicitWidth = 969
+  ExplicitHeight = 572
   TextHeight = 15
-  inherited MensLabel: TLabel
-    ExplicitTop = 461
-  end
-  inherited AlteracaoTextoLabel: TLabel
-    ExplicitTop = 481
-  end
   inherited BasePanel: TPanel
-    ExplicitTop = 495
-    ExplicitWidth = 949
+    ExplicitTop = 496
+    ExplicitWidth = 953
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 506
-      ExplicitLeft = 502
+      Left = 502
+      ExplicitLeft = 498
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 619
-      ExplicitLeft = 615
+      Left = 615
+      ExplicitLeft = 611
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 699
-      ExplicitLeft = 695
+      Left = 695
+      ExplicitLeft = 691
     end
   end
 end

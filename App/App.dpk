@@ -253,6 +253,9 @@ contains
   App.Pess.Cliente.DBI in 'Pess\Cliente\App.Pess.Cliente.DBI.pas',
   App.Pess.Cliente.DBI_u in 'Pess\Cliente\App.Pess.Cliente.DBI_u.pas',
   App.UI.Form.Bas.Ed.Pess.Funcionario_u in 'Pess\Funcionario\App.UI.Form.Bas.Ed.Pess.Funcionario_u.pas' {PessFuncionarioEdBasForm},
-  App.UI.Form.Bas.Ed.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas' {PessClienteEdBasForm};
+  App.UI.Form.Bas.Ed.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas' {PessClienteEdForm},
+  App.UI.Form.DataSet.Pess.Funcionario_u in 'Pess\Funcionario\App.UI.Form.DataSet.Pess.Funcionario_u.pas' {AppPessFuncionarioDataSetForm},
+  App.UI.Form.DataSet.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas' {AppPessClienteDataSetForm},
+  App.Acesso.Cliente.UI.Factory_u in 'Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas';
 
 end.

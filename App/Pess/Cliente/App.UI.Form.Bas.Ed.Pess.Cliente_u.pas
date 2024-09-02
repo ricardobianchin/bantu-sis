@@ -13,7 +13,7 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
 
 type
-  TPessClienteEdBasForm = class(TPessEdBasForm)
+  TPessClienteEdForm = class(TPessEdBasForm)
   private
     { Private declarations }
     FPessClienteEnt: IPessClienteEnt;
@@ -32,7 +32,7 @@ type
   end;
 
 var
-  PessClienteEdBasForm: TPessClienteEdBasForm;
+  PessClienteEdForm: TPessClienteEdForm;
 
 implementation
 
@@ -43,19 +43,19 @@ uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils, Sis.Types.strings_u,
 
 { TPessClienteEdBasForm }
 
-procedure TPessClienteEdBasForm.AjusteTabOrder;
+procedure TPessClienteEdForm.AjusteTabOrder;
 begin
   inherited;
 //
 end;
 
-procedure TPessClienteEdBasForm.ControlesToEnt;
+procedure TPessClienteEdForm.ControlesToEnt;
 begin
   inherited;
 //
 end;
 
-constructor TPessClienteEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+constructor TPessClienteEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   FPessClienteEnt := EntEdCastToPessClienteEnt(pEntEd);
@@ -64,14 +64,14 @@ begin
   inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
 end;
 
-function TPessClienteEdBasForm.DadosOk: boolean;
+function TPessClienteEdForm.DadosOk: boolean;
 begin
   Result := Inherited;
   if not Result then
     exit;
 end;
 
-procedure TPessClienteEdBasForm.EntToControles;
+procedure TPessClienteEdForm.EntToControles;
 begin
   inherited;
 //

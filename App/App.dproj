@@ -501,9 +501,18 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas">
-            <Form>PessClienteEdBasForm</Form>
+            <Form>PessClienteEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\Funcionario\App.UI.Form.DataSet.Pess.Funcionario_u.pas">
+            <Form>AppPessFuncionarioDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas">
+            <Form>AppPessClienteDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
