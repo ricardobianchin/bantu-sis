@@ -30,7 +30,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = AcessoTabSheet
+      ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -75,6 +75,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Top = 0
             Caption = 'Vendas'
             OnClick = RetagEstProdEnviarTermActionExecute
+          end
+          object ToolButton8: TToolButton
+            Left = 375
+            Top = 0
+            Caption = 'ToolButton8'
+            ImageIndex = 0
           end
         end
       end
@@ -217,6 +223,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
+    inherited Panel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -359,6 +371,11 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Category = 'Acesso'
       Caption = 'Perfis de Uso'
       OnExecute = RetagAcessoPerfilActionExecute
+    end
+    object RetagEstVenClienteAction: TAction
+      Category = 'Estoque'
+      Caption = 'RetagEstVenClienteAction'
+      OnExecute = RetagEstVenClienteActionExecute
     end
   end
   object BalloonHint1: TBalloonHint
