@@ -27,13 +27,21 @@ type
     procedure SetApelido(const Value: string);
     property Apelido: string read GetApelido write SetApelido;
 
-    function GetEstadoCivil: char;
-    procedure SetEstadoCivil(const Value: char);
-    property EstadoCivil: char read GetEstadoCivil write SetEstadoCivil;
+    function GetGeneroId: char;
+    procedure SetGeneroId(const Value: char);
+    property GeneroId: char read GetGeneroId write SetGeneroId;
 
-    function GetGenero: char;
-    procedure SetGenero(const Value: char);
-    property Genero: char read GetGenero write SetGenero;
+    function GetGeneroDescr: string;
+    procedure SetGeneroDescr(const Value: string);
+    property GeneroDescr: string read GetGeneroDescr write SetGeneroDescr;
+
+    function GetEstadoCivilId: char;
+    procedure SetEstadoCivilId(const Value: char);
+    property EstadoCivilId: char read GetEstadoCivilId write SetEstadoCivilId;
+
+    function GetEstadoCivilDescr: string;
+    procedure SetEstadoCivilDescr(const Value: string);
+    property EstadoCivilDescr: string read GetEstadoCivilDescr write SetEstadoCivilDescr;
 
     function GetC: string;
     procedure SetC(const Value: string);

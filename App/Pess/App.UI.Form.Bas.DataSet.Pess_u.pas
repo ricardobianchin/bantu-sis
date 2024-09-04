@@ -30,6 +30,12 @@ type
     iT_APELIDO: integer;
     iT_NOME: integer;
     iT_NOME_FANTASIA: integer;
+
+    iT_GENERO_ID: integer;
+    iT_GENERO_DESCR: integer;
+    iT_ESTADO_CIVIL_ID: integer;
+    iT_ESTADO_CIVIL_DESCR: integer;
+
     iT_C: integer;
     iT_I: integer;
     iT_M: integer;
@@ -65,6 +71,12 @@ type
     iQ_APELIDO: integer;
     iQ_NOME: integer;
     iQ_NOME_FANTASIA: integer;
+
+    iQ_GENERO_ID: integer;
+    iQ_GENERO_DESCR: integer;
+    iQ_ESTADO_CIVIL_ID: integer;
+    iQ_ESTADO_CIVIL_DESCR: integer;
+
     iQ_C: integer;
     iQ_I: integer;
     iQ_M: integer;
@@ -145,33 +157,43 @@ begin
     iQ_APELIDO := 3;
     iQ_NOME := 4;
     iQ_NOME_FANTASIA := 5;
-    iQ_C := 6;
-    iQ_I := 7;
-    iQ_M := 8;
-    iQ_M_UF := 9;
-    iQ_EMAIL := 10;
-    iQ_DT_NASC := 11;
-    iQ_ATIVO := 12;
-    iQ_PESS_CRIADO_EM := 13;
-    iQ_PESS_ALTERADO_EM := 14;
 
-    iQ_ENDER_ORDEM := 15;
-    iQ_LOGRADOURO := 16;
-    iQ_NUMERO := 17;
-    iQ_COMPLEMENTO := 18;
-    iQ_BAIRRO := 19;
-    iQ_UF_SIGLA :=20;
-    iQ_CEP := 21;
-    iQ_MUNICIPIO_IBGE_ID := 22;
-    iQ_MUNICIPIO_NOME := 23;
-    iQ_DDD := 24;
-    iQ_FONE1 := 25;
-    iQ_FONE2 := 26;
-    iQ_FONE3 := 27;
-    iQ_CONTATO := 28;
-    iQ_REFERENCIA := 29;
-    iQ_ENDER_CRIADO_EM := 30;
-    iQ_ENDER_ALTERADO_EM := 31;
+    iQ_GENERO_ID := 6;
+    iQ_GENERO_DESCR := 7;
+    iQ_ESTADO_CIVIL_ID := 8;
+    iQ_ESTADO_CIVIL_DESCR := 9;
+
+    iQ_C := 10;
+    iQ_I := 11;
+    iQ_M := 12;
+    iQ_M_UF := 13;
+
+    iQ_EMAIL := 14;
+    iQ_DT_NASC := 15;
+    iQ_ATIVO := 16;
+
+    iQ_PESS_CRIADO_EM := 17;
+    iQ_PESS_ALTERADO_EM := 18;
+
+    iQ_ENDER_ORDEM := 19;
+    iQ_LOGRADOURO := 20;
+    iQ_NUMERO := 21;
+    iQ_COMPLEMENTO := 22;
+    iQ_BAIRRO := 23;
+    iQ_UF_SIGLA :=24;
+    iQ_CEP := 25;
+
+    iQ_MUNICIPIO_IBGE_ID := 26;
+    iQ_MUNICIPIO_NOME := 27;
+
+    iQ_DDD := 28;
+    iQ_FONE1 := 29;
+    iQ_FONE2 := 30;
+    iQ_FONE3 := 31;
+    iQ_CONTATO := 32;
+    iQ_REFERENCIA := 33;
+    iQ_ENDER_CRIADO_EM := 34;
+    iQ_ENDER_ALTERADO_EM := 35;
     iQ_PESS_ENDER_ULTIMO_INDEX := iQ_ENDER_ALTERADO_EM;
     iQ_ENDER_PRIMEIRO_CAMPO := iQ_ENDER_ORDEM;
   end;

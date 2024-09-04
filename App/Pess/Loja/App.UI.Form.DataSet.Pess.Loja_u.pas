@@ -74,36 +74,41 @@ begin
   iT_NOME := 5;
   iT_NOME_FANTASIA := 6;
   iT_APELIDO := 7;
-  iT_C := 8;
-  iT_I := 9;
-  iT_M := 10;
-  iT_M_UF := 11;
-  iT_EMAIL := 12;
-  iT_DT_NASC := 13;
-  iT_ATIVO := 14;
-  iT_PESS_CRIADO_EM := 15;
-  iT_PESS_ALTERADO_EM := 16;
-  iT_ENDER_ORDEM := 17;
-  iT_LOGRADOURO := 18;
-  iT_NUMERO := 19;
-  iT_COMPLEMENTO := 20;
-  iT_BAIRRO := 21;
-  iT_MUNICIPIO_NOME := 22;
-  iT_UF_SIGLA := 23;
-  iT_CEP := 24;
-  iT_DDD := 25;
-  iT_FONE1 := 26;
-  iT_FONE2 := 27;
-  iT_FONE3 := 28;
-  iT_CONTATO := 29;
-  iT_REFERENCIA := 30;
-  iT_MUNICIPIO_IBGE_ID := 31;
-  iT_ENDER_CRIADO_EM := 32;
-  iT_ENDER_ALTERADO_EM := 33;
+
+  iT_GENERO_ID := 8;
+  iT_GENERO_DESCR := 9;
+  iT_ESTADO_CIVIL_ID := 10;
+  iT_ESTADO_CIVIL_DESCR := 11;
+
+  iT_C := 12;
+  iT_I := 13;
+  iT_M := 14;
+  iT_M_UF := 15;
+  iT_EMAIL := 16;
+  iT_DT_NASC := 17;
+  iT_ATIVO := 18;
+  iT_PESS_CRIADO_EM := 19;
+  iT_PESS_ALTERADO_EM := 20;
+  iT_ENDER_ORDEM := 21;
+  iT_LOGRADOURO := 22;
+  iT_NUMERO := 23;
+  iT_COMPLEMENTO := 24;
+  iT_BAIRRO := 25;
+  iT_MUNICIPIO_NOME := 26;
+  iT_UF_SIGLA := 27;
+  iT_CEP := 28;
+  iT_DDD := 29;
+  iT_FONE1 := 30;
+  iT_FONE2 := 31;
+  iT_FONE3 := 32;
+  iT_CONTATO := 33;
+  iT_REFERENCIA := 34;
+  iT_MUNICIPIO_IBGE_ID := 35;
+  iT_ENDER_CRIADO_EM := 36;
+  iT_ENDER_ALTERADO_EM := 37;
   iT_ENDER_PRIMEIRO_CAMPO := iT_ENDER_ORDEM;
 
   iQ_Selecionado := iQ_PESS_ENDER_ULTIMO_INDEX + 1;
-
 end;
 
 procedure TAppPessLojaDataSetForm.DoAntesAtualizar;

@@ -13,8 +13,8 @@ type
   protected
     function GetSqlPreencherDataSet(pValues: variant): string; override;
     procedure RegAtualToEnt(Q: TDataSet); override;
-    function GetFieldNames: string; override;
-    function GetFieldValues: string; override;
+    function GetFieldNamesListaGet: string; override;
+    function GetFieldValuesGravar: string; override;
 
     function GetSqlGaranteRegRetId: string; override;
   public
@@ -36,7 +36,7 @@ begin
   FPessFuncionarioEnt := pPessFuncionarioEnt;
 end;
 
-function TPessFuncionarioDBI.GetFieldNames: string;
+function TPessFuncionarioDBI.GetFieldNamesListaGet: string;
 begin
   Result := inherited
     + ', NOME_DE_USUARIO'#13#10 // 32
@@ -45,7 +45,7 @@ begin
     ;
 end;
 
-function TPessFuncionarioDBI.GetFieldValues: string;
+function TPessFuncionarioDBI.GetFieldValuesGravar: string;
 begin
   Result := inherited
     + ', ' + QuotedStr(FPessFuncionarioEnt.NomeDeUsuario) + ' -- nome_de_usuario' + #13#10 //
@@ -59,7 +59,7 @@ begin
   Result :=
     'SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET'#13#10 //
     + 'FROM USUARIO_PA.GARANTIR('#13#10 //
-    + GetFieldValues //
+    + GetFieldValuesGravar //
     + ');'#13#10 //
     ;
 end;
@@ -71,14 +71,14 @@ begin
   // iLojaId := pValues[0];
 
   Result := 'SELECT'#13#10 //
-    + GetFieldNames //
+    + GetFieldNamesListaGet //
     + 'FROM FUNCIONARIO_USUARIO_MANUT_PA.LISTA_GET' //
     + ';'#13#10 //
     ;
 
 {
   Result := 'SELECT'#13#10
-    + GetFieldNames
+    + GetFieldNamesListaGet
     + 'FROM LOJA_MANUT_PA.LISTA_GET(' //
     + iLojaId.ToString //
     + ');'#13#10 //
