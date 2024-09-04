@@ -62,25 +62,28 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Left = 0
             Top = 0
             Action = RetagEstProdAction
+            AutoSize = True
           end
           object ToolButton9: TToolButton
-            Left = 125
+            Left = 59
             Top = 0
             Hint = 'Produtos'
+            AutoSize = True
             Caption = 'Entrada de Notas'
             OnClick = RetagEstProdActionExecute
           end
           object ToolButton10: TToolButton
-            Left = 250
+            Left = 160
             Top = 0
+            AutoSize = True
             Caption = 'Vendas'
             OnClick = RetagEstProdEnviarTermActionExecute
           end
           object ToolButton8: TToolButton
-            Left = 375
+            Left = 208
             Top = 0
-            Caption = 'ToolButton8'
-            ImageIndex = 0
+            Action = RetagEstVenClienteAction
+            AutoSize = True
           end
         end
       end
@@ -223,12 +226,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
-    inherited Panel1: TPanel
-      inherited OutputLabel: TLabel
-        Width = 203
-        Height = 23
-      end
-    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -374,7 +371,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagEstVenClienteAction: TAction
       Category = 'Estoque'
-      Caption = 'RetagEstVenClienteAction'
+      Caption = 'Clientes'
       OnExecute = RetagEstVenClienteActionExecute
     end
   end

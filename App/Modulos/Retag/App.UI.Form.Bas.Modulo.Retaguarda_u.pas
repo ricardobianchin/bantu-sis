@@ -586,6 +586,14 @@ begin
     RetagAcessoPerfilAction.Execute;
   end;
 
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Est.Cliente.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := EstoqueTabSheet;
+    RetagEstVenClienteAction.Execute;
+  end;
+
 end;
 
 end.

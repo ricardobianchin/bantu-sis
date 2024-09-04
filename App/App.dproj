@@ -508,11 +508,15 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>AppPessFuncionarioDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente_u.pas"/>
         <DCCReference Include="Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas">
             <Form>AppPessClienteDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

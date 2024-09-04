@@ -255,7 +255,11 @@ contains
   App.UI.Form.Bas.Ed.Pess.Funcionario_u in 'Pess\Funcionario\App.UI.Form.Bas.Ed.Pess.Funcionario_u.pas' {PessFuncionarioEdBasForm},
   App.UI.Form.Bas.Ed.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas' {PessClienteEdForm},
   App.UI.Form.DataSet.Pess.Funcionario_u in 'Pess\Funcionario\App.UI.Form.DataSet.Pess.Funcionario_u.pas' {AppPessFuncionarioDataSetForm},
-  App.UI.Form.DataSet.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas' {AppPessClienteDataSetForm},
-  App.Acesso.Cliente.UI.Factory_u in 'Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas';
+  App.Acesso.Cliente.UI.Factory_u in 'Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas',
+  App.Testes.Config.ModuRetag.Est in 'AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est.pas',
+  App.Testes.Config.ModuRetag.Est.Cliente in 'AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente.pas',
+  App.Testes.Config.ModuRetag.Est_u in 'AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est_u.pas',
+  App.Testes.Config.ModuRetag.Est.Cliente_u in 'AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente_u.pas',
+  App.UI.Form.DataSet.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas' {AppPessClienteDataSetForm};
 
 end.

@@ -11,6 +11,9 @@ uses
   , App.Testes.Config.ModuRetag.Acesso
   , App.Testes.Config.ModuRetag.Acesso.PerfilDeUso //
 
+  , App.Testes.Config.ModuRetag.Est
+  , App.Testes.Config.ModuRetag.Est.Cliente //
+
   , App.Testes.Config.App//
 
   ; //
@@ -22,6 +25,9 @@ function ModuConfAmbiLojaCreate: ITesteConfigModuConfAmbiLoja;
 function ModuRetagCreate: ITesteConfigModuRetag;
 function ModuRetagAcessoCreate: ITesteConfigModuRetagAcesso;
 function ModuRetagAcessoPerfilDeUsoCreate: ITesteConfigModuRetagAcessoPerfilDeUso;
+
+function ModuRetagEstCreate: ITesteConfigModuRetagEst;
+function ModuRetagEstClienteCreate: ITesteConfigModuRetagEstCliente;
 
 function AppCreate: ITesteConfigApp;
 
@@ -35,6 +41,9 @@ uses
   , App.Testes.Config.ModuRetag_u //
   , App.Testes.Config.ModuRetag.Acesso_u //
   , App.Testes.Config.ModuRetag.Acesso.PerfilDeUso_u //
+
+  , App.Testes.Config.ModuRetag.Est_u //
+  , App.Testes.Config.ModuRetag.Est.Cliente_u //
 
   , App.Testes.Config.App_u //
 
@@ -73,6 +82,16 @@ end;
 function AppCreate: ITesteConfigApp;
 begin
   Result := TTesteConfigApp.Create;
+end;
+
+function ModuRetagEstCreate: ITesteConfigModuRetagEst;
+begin
+  Result := TTesteConfigModuRetagEst.Create;
+end;
+
+function ModuRetagEstClienteCreate: ITesteConfigModuRetagEstCliente;
+begin
+  Result := TTesteConfigModuRetagEstCliente.Create;
 end;
 
 end.

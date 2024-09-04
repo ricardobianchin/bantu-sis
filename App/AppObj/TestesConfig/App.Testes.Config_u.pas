@@ -31,6 +31,11 @@ type
     , ModuRetag_Acesso_Node //
     , ModuRetag_Acesso_PerfilDeUso_Node //
     , ModuRetag_Acesso_PerfilDeUso_AutoExec_Node //
+
+    , ModuRetag_Est_Node //
+    , ModuRetag_Est_Cliente_Node //
+    , ModuRetag_Est_Cliente_AutoExec_Node //
+
       : IXMLNODE; //
 
     App_Node //
@@ -130,6 +135,19 @@ begin
         end;
       end;
     end;
+
+    begin
+      ModuRetag_Est_Node := ModuRetagNode.AddChild('est');
+      begin
+        ModuRetag_Est_Cliente_Node := ModuRetag_Est_Node.AddChild
+          ('cliente');
+        begin
+
+          ModuRetag_Est_Cliente_AutoExec_Node :=
+            ModuRetag_Est_Cliente_Node.AddChild('autoexec');
+        end;
+      end;
+    end;
   end;
 
   App_Node := RootNode.AddChild('app');
@@ -141,8 +159,13 @@ begin
 
   ModuConf_Ambi_Loja_AutoExec_Node.Text :=
     BooleanToStr(FModuConf.Ambi.Loja.AutoExec);
+
   ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Acesso.PerfilDeUso.AutoExec);
+
+  ModuRetag_Est_Cliente_AutoExec_Node.Text :=
+    BooleanToStr(FModuRetag.Est.Cliente.AutoExec);
+
   App_ExecsAtu_Node.Text := BooleanToStr(FApp.ExecsAtu);
 end;
 
@@ -181,6 +204,18 @@ begin
         end;
       end;
     end;
+
+    begin
+      ModuRetag_Est_Node := ModuRetagNode.ChildNodes['est'];
+      begin
+        ModuRetag_Est_Cliente_Node := ModuRetag_Est_Node.ChildNodes
+          ['cliente'];
+        begin
+          ModuRetag_Est_Cliente_AutoExec_Node :=
+            ModuRetag_Est_Cliente_Node.ChildNodes['autoexec'];
+        end;
+      end;
+    end;
   end;
 
   App_Node := RootNode.ChildNodes['app'];
@@ -195,6 +230,9 @@ begin
 
   s := ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text;
   FModuRetag.Acesso.PerfilDeUso.AutoExec := StrToBoolean(s);
+
+  s := ModuRetag_Est_Cliente_AutoExec_Node.Text;
+  FModuRetag.Est.Cliente.AutoExec := StrToBoolean(s);
 
   s := App_ExecsAtu_Node.Text;
   FApp.ExecsAtu := StrToBoolean(s);
