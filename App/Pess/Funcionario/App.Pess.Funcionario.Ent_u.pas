@@ -24,6 +24,7 @@ type
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
+    function GetPessTipoAceito: TPessTipoAceito; override;
   public
     property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
     property Senha: string read GetSenha write SetSenha;
@@ -56,6 +57,11 @@ end;
 function TPessFuncionarioEnt.GetNomeEntAbrev: string;
 begin
   Result := 'Func';
+end;
+
+function TPessFuncionarioEnt.GetPessTipoAceito: TPessTipoAceito;
+begin
+  Result := TPessTipoAceito.pestipacSoPessFisica;
 end;
 
 function TPessFuncionarioEnt.GetSenha: string;

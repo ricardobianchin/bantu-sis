@@ -29,10 +29,6 @@ type
     FAlteradoEm: TDateTime;
 
     FPessEnderList: IPessEnderList;
-    //FEnderQuantidadePermitida: TEnderQuantidadePermitida;
-    //FCodUsaTerminalId: boolean;
-
-    //FCObrigatorio: boolean;
 
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
@@ -96,6 +92,7 @@ type
     function GetCObrigatorio: boolean; virtual;
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida; virtual;
     function GetCodUsaTerminalId: boolean; virtual;
+    function GetPessTipoAceito: TPessTipoAceito; virtual;
   public
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
@@ -122,6 +119,9 @@ type
     property PessEnderList: IPessEnderList read GetPessEnderList;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida
       read GetEnderQuantidadePermitida;
+
+    property PessTipoAceito: TPessTipoAceito read GetPessTipoAceito;
+
     property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
     property CodAsString: string read GetCodAsString;
 
@@ -253,6 +253,11 @@ end;
 function TPessEnt.GetPessEnderList: IPessEnderList;
 begin
   Result := FPessEnderList;
+end;
+
+function TPessEnt.GetPessTipoAceito: TPessTipoAceito;
+begin
+  Result := TPessTipoAceito.pestipacPessFisEJur;
 end;
 
 function TPessEnt.GetTerminalId: smallint;
