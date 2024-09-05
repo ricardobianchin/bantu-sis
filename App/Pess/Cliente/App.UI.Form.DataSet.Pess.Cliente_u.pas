@@ -67,6 +67,7 @@ begin
   iT_LOJA_ID := 1;
   iT_TERMINAL_ID := 2;
   iT_PESS_COD := 3;
+
   iT_NOME := 4;
   iT_NOME_FANTASIA := 5;
   iT_APELIDO := 6;
@@ -80,11 +81,14 @@ begin
   iT_I := 12;
   iT_M := 13;
   iT_M_UF := 14;
+
   iT_EMAIL := 15;
   iT_DT_NASC := 16;
   iT_ATIVO := 17;
+
   iT_PESS_CRIADO_EM := 18;
   iT_PESS_ALTERADO_EM := 19;
+
   iT_ENDER_ORDEM := 20;
   iT_LOGRADOURO := 21;
   iT_NUMERO := 22;
@@ -102,6 +106,7 @@ begin
   iT_MUNICIPIO_IBGE_ID := 34;
   iT_ENDER_CRIADO_EM := 35;
   iT_ENDER_ALTERADO_EM := 36;
+
   iT_ENDER_PRIMEIRO_CAMPO := iT_ENDER_ORDEM;
 
 //  iQ_Selecionado := iQ_PESS_ENDER_ULTIMO_INDEX + 1;
