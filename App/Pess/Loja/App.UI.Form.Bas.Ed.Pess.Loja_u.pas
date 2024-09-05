@@ -77,14 +77,15 @@ end;
 constructor TPessLojaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
+  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
+  FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
+
   SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
     + ' estabelecimento a que pertence o sistema.'#13#10
     + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
     + 'Ao ligar esta opção, ela será desligada nos demais registros';
 
-  FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
-  FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
 end;
 
 function TPessLojaEdForm.DadosOk: boolean;
