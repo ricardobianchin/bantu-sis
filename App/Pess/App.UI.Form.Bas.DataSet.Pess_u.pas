@@ -354,14 +354,16 @@ var
   Tab: TFDMemTable;
 begin
   inherited;
-{$IFDEF DEBUG}
-  s := FDMemTable.Fields[iT_LOJA_ID].FieldName;
-  s := FDMemTable.Fields[iT_DT_NASC].FieldName;
+  Tab := FDMemTable;
 
-  s := FDMemTable.Fields[iT_ATIVO].FieldName;
+{$IFDEF DEBUG}
+  s := Tab.Fields[iT_LOJA_ID].FieldName;
+  s := Tab.Fields[iT_DT_NASC].FieldName;
+
+  s := Tab.Fields[iT_ATIVO].FieldName;
   s := q.Fields[iQ_ATIVO].FieldName;
 
-  s := FDMemTable.Fields[iT_PESS_CRIADO_EM].FieldName;
+  s := Tab.Fields[iT_PESS_CRIADO_EM].FieldName;
   s := q.Fields[iQ_PESS_CRIADO_EM].FieldName;
 
   s := Tab.Fields[iT_PESS_ALTERADO_EM].FieldName;
@@ -369,7 +371,6 @@ begin
 
 {$ENDIF}
 
-  Tab := FDMemTable;
   Tab.Fields[iT_LOJA_ID].AsInteger := q.Fields[iQ_LOJA_ID].AsInteger; //
   Tab.Fields[iT_TERMINAL_ID].AsInteger := q.Fields[iQ_TERMINAL_ID].AsInteger; //
   Tab.Fields[iT_PESSOA_ID].AsInteger := q.Fields[iQ_PESSOA_ID].AsInteger; //
