@@ -82,6 +82,9 @@ type
     function GetPessEnderList: IPessEnderList;
     property PessEnderList: IPessEnderList read GetPessEnderList;
 
+    function GetPessTipoAceito: TPessTipoAceito;
+    property PessTipoAceito: TPessTipoAceito read GetPessTipoAceito;
+
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida read GetEnderQuantidadePermitida;
 

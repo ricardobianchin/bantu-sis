@@ -35,6 +35,8 @@ type
     procedure EntToControles; override;
 
     function DadosOk: boolean; override;
+    function NomeFantasiaOk: boolean; override;
+    function ApelidoOk: boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
@@ -65,6 +67,23 @@ procedure TPessLojaEdForm.SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: 
 begin
   inherited;
   CheckBoxKeyPress(Sender, Key);
+end;
+
+function TPessLojaEdForm.ApelidoOk: boolean;
+begin
+  Result := not ApelidoPessLabel.Visible;
+
+  if Result then
+    exit;
+
+  ApelidoPessEdit.Text := Trim(ApelidoPessEdit.Text);
+  Result := ApelidoPessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir(ApelidoPessLabel.Caption + ' é obrigatório');
+  ApelidoPessEdit.SetFocus
 end;
 
 procedure TPessLojaEdForm.ControlesToEnt;
@@ -150,6 +169,18 @@ begin
     LojaIdEdit.SetFocus;
     exit;
   end;
+end;
+
+function TPessLojaEdForm.NomeFantasiaOk: boolean;
+begin
+  NomeFantaPessEdit.Text := Trim(NomeFantaPessEdit.Text);
+  Result := NomeFantaPessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir('Nome Fantasia é obrigatório');
+  NomeFantaPessEdit.SetFocus
 end;
 
 procedure TPessLojaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
