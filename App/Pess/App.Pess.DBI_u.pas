@@ -41,6 +41,7 @@ procedure TPessDBI.RegAtualToEnt(Q: TDataSet);
 var
   oEnder: IPessEnder;
   iOrdem: integer;
+  sIdChar: string;
 begin
   FPessEnt.LojaId := Q.Fields[0 { LOJA_ID } ].AsInteger;
   FPessEnt.TerminalId := Q.Fields[1 { TERMINAL_ID } ].AsInteger;
@@ -50,19 +51,38 @@ begin
   FPessEnt.Nome := Q.Fields[4 { NOME } ].AsString;
   FPessEnt.NomeFantasia := Q.Fields[5 { NOME_FANTASIA } ].AsString;
 
-  FPessEnt.C := Q.Fields[6 { C } ].AsString;
-  FPessEnt.I := Q.Fields[7 { I } ].AsString;
-  FPessEnt.M := Q.Fields[8 { M } ].AsString;
-  FPessEnt.MUF := Q.Fields[9 { M_UF } ].AsString;
+  // genero id
+  sIdChar := Trim(Q.Fields[6 { genero_id } ].AsString);
+  if sIdChar = '' then
+    sIdChar := ' ';
 
-  FPessEnt.EMail := Q.Fields[10 { EMAIL } ].AsString;
-  FPessEnt.DtNasc := Q.Fields[11 { DT_NASC } ].AsDateTime;
-  FPessEnt.Ativo := Q.Fields[12 { ATIVO } ].AsBoolean;
+  FPessEnt.GeneroId := sIdChar[1];
 
-  FPessEnt.CriadoEm := Q.Fields[13 { PESS_CRIADO_EM } ].AsDateTime;
-  FPessEnt.AlteradoEm := Q.Fields[14 { PESS_ALTERADO_EM } ].AsDateTime;
+  // estado_civil id
+  sIdChar := Trim(Q.Fields[8 { estado_civil } ].AsString);
+  if sIdChar = '' then
+    sIdChar := ' ';
 
-  iOrdem := Q.Fields[15 { ENDER_ORDEM } ].AsInteger;
+  FPessEnt.EstadoCivilId := sIdChar[1];
+
+
+  FPessEnt.GeneroDescr := Q.Fields[7 { genero_descr } ].AsString;
+  FPessEnt.EstadoCivilDescr := Q.Fields[9 { estado_civil_descrF } ].AsString;
+
+
+  FPessEnt.C := Q.Fields[10 { C } ].AsString;
+  FPessEnt.I := Q.Fields[11 { I } ].AsString;
+  FPessEnt.M := Q.Fields[12 { M } ].AsString;
+  FPessEnt.MUF := Q.Fields[13 { M_UF } ].AsString;
+
+  FPessEnt.EMail := Q.Fields[14 { EMAIL } ].AsString;
+  FPessEnt.DtNasc := Q.Fields[15 { DT_NASC } ].AsDateTime;
+  FPessEnt.Ativo := Q.Fields[16 { ATIVO } ].AsBoolean;
+
+  FPessEnt.CriadoEm := Q.Fields[17 { PESS_CRIADO_EM } ].AsDateTime;
+  FPessEnt.AlteradoEm := Q.Fields[18 { PESS_ALTERADO_EM } ].AsDateTime;
+
+  iOrdem := Q.Fields[19 { ENDER_ORDEM } ].AsInteger;
 
   while FPessEnt.PessEnderList.Count < (iOrdem + 1) do
   begin
@@ -74,29 +94,29 @@ begin
 
   oEnder.Ordem := iOrdem;
 
-  oEnder.Logradouro := Q.Fields[16 { LOGRADOURO } ].AsString;
-  oEnder.Numero := Q.Fields[17 { NUMERO } ].AsString;
-  oEnder.Complemento := Q.Fields[18 { COMPLEMENTO } ].AsString;
-  oEnder.Bairro := Q.Fields[19 { BAIRRO } ].AsString;
+  oEnder.Logradouro := Q.Fields[20 { LOGRADOURO } ].AsString;
+  oEnder.Numero := Q.Fields[21 { NUMERO } ].AsString;
+  oEnder.Complemento := Q.Fields[22 { COMPLEMENTO } ].AsString;
+  oEnder.Bairro := Q.Fields[23 { BAIRRO } ].AsString;
 
-  oEnder.UFSigla := Q.Fields[20 { UF_SIGLA } ].AsString;
-  oEnder.CEP := Q.Fields[21 { CEP } ].AsString;
-  oEnder.MunicipioIbgeId := Q.Fields[22 { MUNICIPIO_IBGE_ID } ].AsString;
-  oEnder.MunicipioNome :=  Q.Fields[23 { MUNICIPIO_NOME } ].AsString;
+  oEnder.UFSigla := Q.Fields[24 { UF_SIGLA } ].AsString;
+  oEnder.CEP := Q.Fields[25 { CEP } ].AsString;
+  oEnder.MunicipioIbgeId := Q.Fields[26 { MUNICIPIO_IBGE_ID } ].AsString;
+  oEnder.MunicipioNome :=  Q.Fields[27 { MUNICIPIO_NOME } ].AsString;
 
   if oEnder.MunicipioIbgeId = '' then
     oEnder.MunicipioIbgeId := '       ';
 
-  oEnder.DDD := Q.Fields[24 { DDD } ].AsString;
-  oEnder.Fone1 := Q.Fields[25 { FONE1 } ].AsString;
-  oEnder.Fone2 := Q.Fields[26 { FONE2 } ].AsString;
-  oEnder.Fone3 := Q.Fields[27 { FONE3 } ].AsString;
+  oEnder.DDD := Q.Fields[28 { DDD } ].AsString;
+  oEnder.Fone1 := Q.Fields[29 { FONE1 } ].AsString;
+  oEnder.Fone2 := Q.Fields[30 { FONE2 } ].AsString;
+  oEnder.Fone3 := Q.Fields[31 { FONE3 } ].AsString;
 
-  oEnder.Contato := Q.Fields[28 { CONTATO } ].AsString;
-  oEnder.Referencia := Q.Fields[29 { REFERENCIA } ].AsString;
+  oEnder.Contato := Q.Fields[32 { CONTATO } ].AsString;
+  oEnder.Referencia := Q.Fields[33 { REFERENCIA } ].AsString;
 
-  oEnder.CriadoEm := Q.Fields[30 { ENDER_CRIADO_EM } ].AsDateTime;
-  oEnder.AlteradoEm := Q.Fields[31 { ENDER_ALTERADO_EM } ].AsDateTime;
+  oEnder.CriadoEm := Q.Fields[34 { ENDER_CRIADO_EM } ].AsDateTime;
+  oEnder.AlteradoEm := Q.Fields[35 { ENDER_ALTERADO_EM } ].AsDateTime;
 end;
 
 function TPessDBI.CToIdLojaTermRecord(const C: string; out pLojaId: smallint;
