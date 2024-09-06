@@ -1,22 +1,18 @@
 inherited PessClienteEdForm: TPessClienteEdForm
   Caption = 'PessClienteEdForm'
-  ExplicitWidth = 969
-  ExplicitHeight = 572
   TextHeight = 15
   inherited BasePanel: TPanel
-    ExplicitTop = 496
-    ExplicitWidth = 953
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 502
-      ExplicitLeft = 498
+      Left = 494
+      ExplicitLeft = 494
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 615
-      ExplicitLeft = 611
+      Left = 607
+      ExplicitLeft = 607
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 695
-      ExplicitLeft = 691
+      Left = 687
+      ExplicitLeft = 687
     end
   end
 end

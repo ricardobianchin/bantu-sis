@@ -7,7 +7,7 @@ uses App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
   App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes,
   App.UI.Form.DataSet.Pess.Cliente_u, App.Pess.Cliente.Ent,
   App.Pess.Cliente.DBI, App.Pess.Cliente.Ent.Factory_u, Sis.Types,
-  VCL.Controls, VCL.Forms;
+  VCL.Controls, VCL.Forms, App.AppObj;
 
 function ClienteEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pCliente: IEntEd; pClienteDBI: IEntDBI): TEdBasForm;
@@ -16,7 +16,7 @@ function ClientePerg(AOwner: TComponent; pAppInfo: IAppInfo;
   pClienteEnt: IEntEd; pClienteDBI: IEntDBI): boolean;
 
 function ClienteDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
   : IFormCreator;
 
@@ -51,7 +51,7 @@ begin
 end;
 
 function ClienteDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
   : IFormCreator;
 var
@@ -61,16 +61,16 @@ var
   oDBConnection: IDBConnection;
 begin
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    pAppInfo, pSisConfig);
+    pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Cliente.DataSet.Conn',
     pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
 
-  oEnt := PessClienteEntCreate;
+  oEnt := PessClienteEntCreate(pAppObj.Loja.Id, pUsuario.Id, pSisConfig.ServerMachineId.IdentId);
   oDBI := PessClienteDBICreate(oDBConnection, oEnt);
 
   Result := TDataSetFormCreator.Create(TAppPessClienteDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+    pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
     pProcessLog, pOutputNotify, oEnt, oDBI);
 end;
 

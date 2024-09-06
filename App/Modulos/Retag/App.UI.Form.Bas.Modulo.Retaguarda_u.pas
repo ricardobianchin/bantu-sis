@@ -359,7 +359,7 @@ begin
     oProdEnt, oProdDBI);
 
   FClienteDataSetFormCreator := ClienteDataSetFormCreatorCreate(FFormClassNamesSL,
-    pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify);
+    AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;

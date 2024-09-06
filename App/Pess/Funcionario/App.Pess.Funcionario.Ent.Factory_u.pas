@@ -7,7 +7,12 @@ uses App.Pess.Ent.Factory_u, App.Pess.Funcionario.Ent, App.Pess.Funcionario.DBI,
 
 //Funcionario
 //Funcionario ent
-function PessFuncionarioEntCreate: IPessFuncionarioEnt;
+function PessFuncionarioEntCreate(
+  pLojaId: smallint; //
+  pUsuarioId: integer; //
+  pMachineIdentId: smallint //
+  ): IPessFuncionarioEnt;
+
 //Funcionario dbi
 function PessFuncionarioDBICreate(pDBConnection: IDBConnection;
   pPessFuncionarioEnt: IPessFuncionarioEnt): IPessFuncionarioDBI;//IEntDBI;
@@ -20,13 +25,18 @@ implementation
 uses App.PessEnder.List, App.Pess.Funcionario.Ent_u, App.Pess.Funcionario.DBI_u;
 
 //Funcionario
-function PessFuncionarioEntCreate: IPessFuncionarioEnt;
+function PessFuncionarioEntCreate(
+  pLojaId: smallint; //
+  pUsuarioId: integer; //
+  pMachineIdentId: smallint //
+  ): IPessFuncionarioEnt;
 var
   oPessEnderList: IPessEnderList;
 begin
   oPessEnderList := PessEnderListCreate;
 
-  Result := TPessFuncionarioEnt.Create(oPessEnderList);
+  Result := TPessFuncionarioEnt.Create(pLojaId, pUsuarioId, pMachineIdentId,
+    oPessEnderList);
 end;
 
 function PessFuncionarioDBICreate(pDBConnection: IDBConnection;

@@ -7,6 +7,13 @@ uses App.Ent.Ed.Id, App.PessEnder.List, App.Pess.Utils;
 type
   IPessEnt = interface(IEntEdId)
     ['{28F14DDF-1FED-4A58-9BE0-B71F8669261A}']
+
+    function GetUsuarioId: integer;
+    property UsuarioId: integer read GetUsuarioId;
+
+    function GetMachineIdentId: smallint;
+    property MachineIdentId: smallint read GetMachineIdentId;
+
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
     property TerminalId: smallint read GetTerminalId write SetTerminalId;

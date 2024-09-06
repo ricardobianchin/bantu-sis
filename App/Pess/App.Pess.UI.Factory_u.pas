@@ -2,7 +2,7 @@ unit App.Pess.UI.Factory_u;
 
 interface
 
-uses App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
+uses App.AppObj, App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
   Sis.Config.SisConfig, Sis.Usuario, Sis.UI.FormCreator, App.UI.Form.Bas.Ed_u,
   App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes,
   App.UI.Form.DataSet.Pess.Loja_u;
@@ -15,7 +15,7 @@ function PessLojaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
   pPessLojaEnt: IEntEd; pPessLojaDBI: IEntDBI): boolean;
 
 function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput
   ): IFormCreator;
 
@@ -49,7 +49,7 @@ begin
 end;
 
 function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput
   ): IFormCreator;
 var
@@ -59,16 +59,16 @@ var
   oDBConnection: IDBConnection;
 begin
   oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
-    pAppInfo, pSisConfig);
+    pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig, pDBMS,
     oDBConnectionParams, pProcessLog, pOutput);
 
-  oEnt := PessLojaEntCreate;
+  oEnt := PessLojaEntCreate(pAppObj.Loja.Id, pUsuario.Id,  pSisConfig.ServerMachineId.IdentId);
   oDBI := PessLojaDBICreate(oDBConnection, oEnt);
 
   Result := TDataSetFormCreator.Create(TAppPessLojaDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+    pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
     pProcessLog, pOutputNotify, oEnt, oDBI);
 end;
 

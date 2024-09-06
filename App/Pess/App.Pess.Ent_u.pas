@@ -8,8 +8,11 @@ uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List,
 type
   TPessEnt = class(TEntEdId, IPessEnt)
   private
-    FTerminalId: smallint;
     FLojaId: smallint;
+    FUsuarioId: integer;
+    FMachineIdentId: smallint;
+    FTerminalId: smallint;
+
     FNome: string;
     FNomeFantasia: string;
     FApelido: string;
@@ -29,6 +32,10 @@ type
     FAlteradoEm: TDateTime;
 
     FPessEnderList: IPessEnderList;
+
+
+    function GetUsuarioId: integer;
+    function GetMachineIdentId: smallint;
 
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
@@ -87,13 +94,14 @@ type
     function GetPessEnderList: IPessEnderList;
 
     function GetCodAsString: string;
-    procedure SetCObrigatorio(const Value: boolean);
   protected
     function GetCObrigatorio: boolean; virtual;
     function GetEnderQuantidadePermitida: TEnderQuantidadePermitida; virtual;
     function GetCodUsaTerminalId: boolean; virtual;
     function GetPessTipoAceito: TPessTipoAceito; virtual;
   public
+    property UsuarioId: integer read GetUsuarioId;
+    property MachineIdentId: smallint read GetMachineIdentId;
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
     property Nome: string read GetNome write SetNome;
@@ -125,9 +133,14 @@ type
     property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
     property CodAsString: string read GetCodAsString;
 
-    property CObrigatorio: boolean read GetCObrigatorio write SetCObrigatorio;
+    property CObrigatorio: boolean read GetCObrigatorio;
 
-    constructor Create(pPessEnderList: IPessEnderList);
+    constructor Create( //
+      pLojaId: smallint;//
+      pUsuarioId: integer; //
+      pMachineIdentId: smallint; //
+      pPessEnderList: IPessEnderList //
+      ); //
 
     procedure LimparEnt; override;
   end;
@@ -138,9 +151,17 @@ uses System.SysUtils;
 
 { TPessEnt }
 
-constructor TPessEnt.Create(pPessEnderList: IPessEnderList);
+constructor TPessEnt.Create( //
+  pLojaId: smallint;//
+  pUsuarioId: integer; //
+  pMachineIdentId: smallint; //
+  pPessEnderList: IPessEnderList //
+  ); //
 begin
   inherited Create(dsBrowse, 0);
+  FLojaId := pLojaId;
+  FUsuarioId := pUsuarioId;
+  FMachineIdentId := pMachineIdentId;
   FPessEnderList := pPessEnderList;
   LimparEnt;
 end;
@@ -235,6 +256,11 @@ begin
   Result := FM;
 end;
 
+function TPessEnt.GetMachineIdentId: smallint;
+begin
+  Result := FMachineIdentId;
+end;
+
 function TPessEnt.GetMUF: string;
 begin
   Result := FMUF;
@@ -265,11 +291,15 @@ begin
   Result := FTerminalId;
 end;
 
+function TPessEnt.GetUsuarioId: integer;
+begin
+  Result := FUsuarioId;
+end;
+
 procedure TPessEnt.LimparEnt;
 begin
   inherited;
   FTerminalId := 0; // : smallint;
-  FLojaId := 0; // : smallint;
   FNome := ''; // : string;
   FNomeFantasia := ''; // : string;
   FApelido := ''; // : string;
@@ -299,11 +329,6 @@ end;
 procedure TPessEnt.SetC(const Value: string);
 begin
   FC := Value;
-end;
-
-procedure TPessEnt.SetCObrigatorio(const Value: boolean);
-begin
-
 end;
 
 procedure TPessEnt.SetCriadoEm(const Value: TDateTime);

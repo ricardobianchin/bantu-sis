@@ -51,6 +51,7 @@ end;
 procedure TPessLojaEnt.LimparEnt;
 begin
   inherited;
+  LojaId := 0; // : smallint;
   FSelecionado := False;
 end;
 

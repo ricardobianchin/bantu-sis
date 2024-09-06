@@ -503,7 +503,8 @@ begin
   Result := TRetagEstProdEdDBI.Create(pDBConnection);
 end;
 
-function RetagEstProdEntCreate(pLojaId: smallint; //
+function RetagEstProdEntCreate( //
+  pLojaId: smallint; //
   pUsuarioId: integer; //
   pMachineIdentId: smallint; //
   //
