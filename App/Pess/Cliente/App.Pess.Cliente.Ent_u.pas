@@ -11,6 +11,7 @@ type
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
+    function GetCObrigatorio: boolean; override;
   public
   end;
 
@@ -19,6 +20,11 @@ implementation
 uses Data.DB;
 
 { TPessClienteEnt }
+
+function TPessClienteEnt.GetCObrigatorio: boolean;
+begin
+  Result := False;
+end;
 
 function TPessClienteEnt.GetNomeEnt: string;
 begin
