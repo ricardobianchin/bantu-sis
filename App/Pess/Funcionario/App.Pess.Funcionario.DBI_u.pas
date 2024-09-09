@@ -42,6 +42,7 @@ begin
     + ', NOME_DE_USUARIO'#13#10 // 32
     + ', SENHA'#13#10 // 33
     + ', CRY_VER'#13#10 // 34
+    + ', USUARIO_ATIVO'#13#10 // 35
     ;
 end;
 
