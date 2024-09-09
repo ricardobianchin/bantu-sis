@@ -29,43 +29,60 @@ BEGIN
   PROCEDURE LISTA_GET 
   RETURNS 
   (
+    ---------------------------
+    --- LISTA_GET RETURNS INICIO
+    ---------------------------
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
-    , APELIDO NOME_REDU_DOM    
+
     , NOME NOME_DOM
     , NOME_FANTASIA NOME_DOM
+    , APELIDO NOME_REDU_DOM
+
     , GENERO_ID CHAR(1)
     , GENERO_DESCR NOME_CURTO_DOM
+
     , ESTADO_CIVIL_ID CHAR(1)
     , ESTADO_CIVIL_DESCR NOME_CURTO_DOM
+    
     , C VARCHAR(15)
     , I VARCHAR(15)
     , M VARCHAR(15)
     , M_UF CHAR(2)
+
     , EMAIL VARCHAR(50)
     , DT_NASC DATE
     , ATIVO BOOLEAN
+
     , PESS_CRIADO_EM TIMESTAMP
     , PESS_ALTERADO_EM TIMESTAMP
+
     , ENDER_ORDEM SMALLINT
+
     , LOGRADOURO           VARCHAR(70)
     , NUMERO               NOME_DOM
     , COMPLEMENTO          NOME_DOM
     , BAIRRO               NOME_DOM
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
+
     , MUNICIPIO_IBGE_ID    CHAR(7)
     , MUNICIPIO_NOME    NOME_DOM
+
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
     , FONE2                NOME_CURTO_DOM
     , FONE3                NOME_CURTO_DOM
+
     , CONTATO              NOME_DOM
     , REFERENCIA           OBS1_DOM
+
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
-    , SELECIONADO BOOLEAN
+    ---------------------------
+    --- LISTA_GET RETURNS FIM
+    ---------------------------
   );
 
   PROCEDURE GARANTIR
@@ -116,7 +133,9 @@ BEGIN
   );
 END^
 
---- BODY
+---------------------------
+---    BODY
+---------------------------
 
 RECREATE PACKAGE BODY CLIENTE_PA
 AS
@@ -127,40 +146,51 @@ BEGIN
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
-    , APELIDO NOME_REDU_DOM    
+
     , NOME NOME_DOM
     , NOME_FANTASIA NOME_DOM
+    , APELIDO NOME_REDU_DOM
+
     , GENERO_ID CHAR(1)
     , GENERO_DESCR NOME_CURTO_DOM
+
     , ESTADO_CIVIL_ID CHAR(1)
     , ESTADO_CIVIL_DESCR NOME_CURTO_DOM
+    
     , C VARCHAR(15)
     , I VARCHAR(15)
     , M VARCHAR(15)
     , M_UF CHAR(2)
+
     , EMAIL VARCHAR(50)
     , DT_NASC DATE
     , ATIVO BOOLEAN
+
     , PESS_CRIADO_EM TIMESTAMP
     , PESS_ALTERADO_EM TIMESTAMP
+
     , ENDER_ORDEM SMALLINT
+
     , LOGRADOURO           VARCHAR(70)
     , NUMERO               NOME_DOM
     , COMPLEMENTO          NOME_DOM
     , BAIRRO               NOME_DOM
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
+
     , MUNICIPIO_IBGE_ID    CHAR(7)
     , MUNICIPIO_NOME    NOME_DOM
+
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
     , FONE2                NOME_CURTO_DOM
     , FONE3                NOME_CURTO_DOM
+
     , CONTATO              NOME_DOM
     , REFERENCIA           OBS1_DOM
+
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
-    , SELECIONADO BOOLEAN
   )
   AS
   BEGIN 
