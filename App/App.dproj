@@ -517,6 +517,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>AppPessClienteDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

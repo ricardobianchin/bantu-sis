@@ -260,6 +260,8 @@ contains
   App.Testes.Config.ModuRetag.Est.Cliente in 'AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente.pas',
   App.Testes.Config.ModuRetag.Est_u in 'AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est_u.pas',
   App.Testes.Config.ModuRetag.Est.Cliente_u in 'AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente_u.pas',
-  App.UI.Form.DataSet.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas' {AppPessClienteDataSetForm};
+  App.UI.Form.DataSet.Pess.Cliente_u in 'Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas' {AppPessClienteDataSetForm},
+  App.Testes.Config.ModuRetag.Acesso.Funcionario in 'AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario.pas',
+  App.Testes.Config.ModuRetag.Acesso.Funcionario_u in 'AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario_u.pas';
 
 end.

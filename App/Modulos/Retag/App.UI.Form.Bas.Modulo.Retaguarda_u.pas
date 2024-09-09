@@ -183,6 +183,8 @@ type
       pDBConnection: IDBConnection);
 
     procedure TestaTesteConfig;
+    procedure TestaTesteConfig_Acesso;
+    procedure TestaTesteConfig_Est;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -575,6 +577,12 @@ begin
 end;
 
 procedure TRetaguardaModuloBasForm.TestaTesteConfig;
+begin
+  TestaTesteConfig_Acesso;
+  TestaTesteConfig_Est;
+end;
+
+procedure TRetaguardaModuloBasForm.TestaTesteConfig_Acesso;
 var
   bDeveExecutar: Boolean;
 begin
@@ -586,6 +594,19 @@ begin
     RetagAcessoPerfilAction.Execute;
   end;
 
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Acesso.Funcionario.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := AcessoTabSheet;
+    RetagAcessoFuncAction.Execute;
+  end;
+end;
+
+procedure TRetaguardaModuloBasForm.TestaTesteConfig_Est;
+var
+  bDeveExecutar: Boolean;
+begin
   bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Est.Cliente.AutoExec;
 
   if bDeveExecutar then
@@ -593,7 +614,6 @@ begin
     MenuPageControl.ActivePage := EstoqueTabSheet;
     RetagEstVenClienteAction.Execute;
   end;
-
 end;
 
 end.
