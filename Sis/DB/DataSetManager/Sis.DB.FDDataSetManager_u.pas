@@ -205,7 +205,7 @@ begin
   else if sTipo = 'B' then
   begin
     if sDisplayValues = '' then
-      sDisplayValues := 'Sim;Não';
+      sDisplayValues := 'Sim;N'#227'o';
 
     Field := AdBooleanField(sNomeCampo, sTitulo, sDisplayValues, vAlignment, bVisible);
   end
