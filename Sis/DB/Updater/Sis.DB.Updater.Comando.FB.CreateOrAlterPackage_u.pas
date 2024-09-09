@@ -66,7 +66,7 @@ begin
   SetClipboardText(sBody);
   SetClipboardText(FBodyLinhasSL.Text);
   }
-  
+
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
   begin
@@ -136,7 +136,7 @@ begin
 
     if bPegandoCodigo then
     begin
-      if sLinha = SYNTAX_FIM then
+      if Trim(sLinha) = SYNTAX_FIM then
       begin
         bPegandoCodigo := False;
         break;
