@@ -513,41 +513,83 @@ procedure TDBUpdater.GravarIniciais(pDBConnection: IDBConnection);
 var
   s: string;
   sSenha: string;
+  iPessoaId: integer;
 begin
+  //loja inicio
   if FLoja.Descr <> '' then
   begin
-    s := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' + FLoja.Id.ToString + ','
-      + FLoja.Descr.QuotedString + ', TRUE);';
+    s := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
+      + FLoja.Id.ToString + ',' //
+      + FLoja.Descr.QuotedString
+      + ', TRUE);' //
+      ; //
+
+    pDBConnection.ExecuteSql(s);
+
+    s := 'SELECT GEN_ID(PESSOA_SEQ, 1) FROM RDB$DATABASE;';
+    iPessoaId := pDBConnection.GetValueInteger(s);
+
+    s := 'INSERT INTO PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO'//
+      +') VALUES ('//
+      + FLoja.Id.ToString//
+      + ', 0'//
+      + ', ' + iPessoaId.ToString
+      + ', ' + QuotedStr('')
+      + ', ' + FLoja.Descr.QuotedString
+      +');';
+    pDBConnection.ExecuteSql(s);
+
+    s := 'INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID'//
+      +') VALUES ('//
+      + FLoja.Id.ToString//
+      + ', 0'//
+      + ', ' + iPessoaId.ToString
+      +');';
     pDBConnection.ExecuteSql(s);
   end;
+  // loja fim
 
   if FUsuarioGerente.NomeCompleto <> '' then
   begin
     Encriptar(1, '123', sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES(' +
-      FLoja.Id.ToString + ',' + 'SUPORTE TECNICO'.QuotedString + ',' +
-      'SUP'.QuotedString + ',' + sSenha.QuotedString + ',1,' +
-      'SUPORTE'.QuotedString + ',' + ' 1);';
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES('//
+      + FLoja.Id.ToString // LOJA_ID
+      + ', ' + 'SUPORTE TECNICO'.QuotedString // NOME
+      + ', ' + 'SUP'.QuotedString // NOME_DE_USUARIO
+      + ', ' + sSenha.QuotedString // SENHA
+      + ', 1' // CRY_VER
+      + ', ' + 'SUPORTE'.QuotedString // APELIDO
+      + ', NULL);';
 
-    { iPessoaId := } pDBConnection.GetValue(s);
+    iPessoaId := pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' +
-      FLoja.Id.ToString + ',1,1);';
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+      + FLoja.Id.ToString // LOJA_ID
+      + ', ' + iPessoaId.ToString // PESSOA_ID
+      + ', 1' // PERFIL_DE_USO_ID
+      + ');';
 
     pDBConnection.ExecuteSql(s);
 
     Encriptar(1, FUsuarioGerente.Senha, sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES(' +
-      FLoja.Id.ToString + ',' + FUsuarioGerente.NomeCompleto.QuotedString + ','
-      + FUsuarioGerente.NomeUsu.QuotedString + ',' + sSenha.QuotedString + ',1,'
-      + FUsuarioGerente.NomeExib.QuotedString + ',' + '2);';
+    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES('//
+      + FLoja.Id.ToString // LOJA_ID
+      + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
+      + ', ' + FUsuarioGerente.NomeUsu.QuotedString // NOME_DE_USUARIO
+      + ', ' + sSenha.QuotedString // SENHA
+      + ', 1' // CRY_VER
+      + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
+      + ', NULL);';
 
-    { iPessoaId := } pDBConnection.GetValue(s);
+    iPessoaId := pDBConnection.GetValue(s);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' +
-      FLoja.Id.ToString + ',2,2);';
+    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+      + FLoja.Id.ToString // LOJA_ID
+      + ', ' + iPessoaId.ToString // PESSOA_ID
+      + ', 2' // PERFIL_DE_USO_ID
+      + ');';
 
     pDBConnection.ExecuteSql(s);
   end;
