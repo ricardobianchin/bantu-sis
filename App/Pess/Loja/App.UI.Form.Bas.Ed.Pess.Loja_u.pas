@@ -15,8 +15,8 @@ uses
 type
   TPessLojaEdForm = class(TPessEdBasForm)
     SelecionadoCheckBox: TCheckBox;
-    LojaIdEdit: TEdit;
     LojaIdLabel: TLabel;
+    LojaIdEdit: TEdit;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: Char);
