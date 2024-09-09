@@ -497,7 +497,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\Cliente\App.Pess.Cliente.DBI.pas"/>
         <DCCReference Include="Pess\Cliente\App.Pess.Cliente.DBI_u.pas"/>
         <DCCReference Include="Pess\Funcionario\App.UI.Form.Bas.Ed.Pess.Funcionario_u.pas">
-            <Form>PessFuncionarioEdBasForm</Form>
+            <Form>PessFuncionarioEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas">
@@ -519,6 +519,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario_u.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Acesso.Funcionario.UI.Factory_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u.pas">
+            <Form>OpcaoSisUsuarioTreeViewForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

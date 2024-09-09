@@ -1,28 +1,43 @@
-inherited PessFuncionarioEdBasForm: TPessFuncionarioEdBasForm
-  Caption = 'PessFuncionarioEdBasForm'
-  ExplicitWidth = 965
-  ExplicitHeight = 571
+inherited PessFuncionarioEdForm: TPessFuncionarioEdForm
+  Caption = 'PessFuncionarioEdForm'
+  ExplicitWidth = 961
+  ExplicitHeight = 570
   TextHeight = 15
   inherited MensLabel: TLabel
-    ExplicitTop = 461
+    ExplicitTop = 460
   end
   inherited AlteracaoTextoLabel: TLabel
-    ExplicitTop = 481
+    ExplicitTop = 480
   end
   inherited BasePanel: TPanel
-    ExplicitTop = 495
-    ExplicitWidth = 949
+    ExplicitTop = 494
+    ExplicitWidth = 945
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 506
-      ExplicitLeft = 502
+      Left = 502
+      ExplicitLeft = 498
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 619
-      ExplicitLeft = 615
+      Left = 615
+      ExplicitLeft = 611
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 699
-      ExplicitLeft = 695
+      Left = 695
+      ExplicitLeft = 691
     end
+  end
+  inherited EnderecoPanel: TPanel
+    ExplicitWidth = 945
+  end
+  inherited TitPanel: TPanel
+    ExplicitWidth = 945
+  end
+  inherited NomePanel: TPanel
+    ExplicitWidth = 945
+  end
+  inherited PesJurPanel: TPanel
+    ExplicitWidth = 945
+  end
+  inherited DocsPanel: TPanel
+    ExplicitWidth = 945
   end
 end

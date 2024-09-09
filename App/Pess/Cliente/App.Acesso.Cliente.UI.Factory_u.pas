@@ -25,15 +25,14 @@ function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pClienteNome: string;
 
 implementation
 
-uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.DBI, App.DB.Utils,
-  Sis.DB.Factory, Sis.UI.ImgDM, System.SysUtils, App.Pess.Loja.Ent.Factory_u,
-  App.UI.Form.Bas.Ed.Pess.Cliente_u, App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u;
+uses App.DB.Utils, Sis.DB.Factory, Sis.UI.ImgDM, System.SysUtils,
+  App.UI.Form.Bas.Ed.Pess.Cliente_u,
+  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u;
 
 function ClienteEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pCliente: IEntEd; pClienteDBI: IEntDBI): TEdBasForm;
 begin
-  Result := TPessClienteEdForm.Create(AOwner, pAppInfo, pCliente,
-    pClienteDBI);
+  Result := TPessClienteEdForm.Create(AOwner, pAppInfo, pCliente, pClienteDBI);
 end;
 
 function ClientePerg(AOwner: TComponent; pAppInfo: IAppInfo;
@@ -41,8 +40,7 @@ function ClientePerg(AOwner: TComponent; pAppInfo: IAppInfo;
 var
   F: TEdBasForm;
 begin
-  F := ClienteEdFormCreate(AOwner, pAppInfo, pClienteEnt,
-    pClienteDBI);
+  F := ClienteEdFormCreate(AOwner, pAppInfo, pClienteEnt, pClienteDBI);
   try
     Result := F.Perg;
   finally
@@ -66,7 +64,8 @@ begin
   oDBConnection := DBConnectionCreate('Retag.Acesso.Cliente.DataSet.Conn',
     pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
 
-  oEnt := PessClienteEntCreate(pAppObj.Loja.Id, pUsuario.Id, pSisConfig.ServerMachineId.IdentId);
+  oEnt := PessClienteEntCreate(pAppObj.Loja.Id, pUsuario.Id,
+    pSisConfig.ServerMachineId.IdentId);
   oDBI := PessClienteDBICreate(oDBConnection, oEnt);
 
   Result := TDataSetFormCreator.Create(TAppPessClienteDataSetForm,

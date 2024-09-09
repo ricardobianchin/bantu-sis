@@ -151,8 +151,8 @@ type
     FAjuVersaoDBTabSheetFormCreator: IFormCreator;
 
     // ace
-    FAcessoUsuarioTabSheetFormCreator: IFormCreator;
     FAcessoPerfilTabSheetFormCreator: IFormCreator;
+    FAcessoFuncionarioTabSheetFormCreator: IFormCreator;
 
     // est
     FFabrDataSetFormCreator: IFormCreator;
@@ -204,7 +204,7 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Retag.Aju.Factory, App.Retag.Fin.Factory,
   App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
   App.Acesso.PerfilDeUso.UI.Factory_u, App.UI.Form.DataSet.Pess.Cliente_u,
-  App.Acesso.Cliente.UI.Factory_u;
+  App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
@@ -252,9 +252,9 @@ begin
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify);
 
-//  FAcessoUsuarioTabSheetFormCreator := AcessoUsuarioDataSetFormCreatorCreate
-//    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-//    FOutputNotify);
+  FAcessoFuncionarioTabSheetFormCreator := FuncionarioDataSetFormCreatorCreate
+    (FFormClassNamesSL, AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;
@@ -427,7 +427,7 @@ procedure TRetaguardaModuloBasForm.RetagAcessoFuncActionExecute
   (Sender: TObject);
 begin
   inherited;
-  TabSheetCrie(FAcessoUsuarioTabSheetFormCreator);
+  TabSheetCrie(FAcessoFuncionarioTabSheetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagAcessoPerfilActionExecute

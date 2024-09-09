@@ -13,7 +13,7 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
 
 type
-  TPessFuncionarioEdBasForm = class(TPessEdBasForm)
+  TPessFuncionarioEdForm = class(TPessEdBasForm)
   private
     { Private declarations }
     FPessFuncionarioEnt: IPessFuncionarioEnt;
@@ -32,7 +32,7 @@ type
   end;
 
 var
-  PessFuncionarioEdBasForm: TPessFuncionarioEdBasForm;
+  PessFuncionarioEdForm: TPessFuncionarioEdForm;
 
 implementation
 
@@ -43,19 +43,19 @@ uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils, Sis.Types.strings_u,
 
 { TPessFuncionarioEdBasForm }
 
-procedure TPessFuncionarioEdBasForm.AjusteTabOrder;
+procedure TPessFuncionarioEdForm.AjusteTabOrder;
 begin
   inherited;
 //
 end;
 
-procedure TPessFuncionarioEdBasForm.ControlesToEnt;
+procedure TPessFuncionarioEdForm.ControlesToEnt;
 begin
   inherited;
 //
 end;
 
-constructor TPessFuncionarioEdBasForm.Create(AOwner: TComponent;
+constructor TPessFuncionarioEdForm.Create(AOwner: TComponent;
   pAppInfo: IAppInfo; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   FPessFuncionarioEnt := EntEdCastToPessFuncionarioEnt(pEntEd);
@@ -64,14 +64,14 @@ begin
   inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
 end;
 
-function TPessFuncionarioEdBasForm.DadosOk: boolean;
+function TPessFuncionarioEdForm.DadosOk: boolean;
 begin
   Result := Inherited;
   if not Result then
     exit;
 end;
 
-procedure TPessFuncionarioEdBasForm.EntToControles;
+procedure TPessFuncionarioEdForm.EntToControles;
 begin
   inherited;
 //
