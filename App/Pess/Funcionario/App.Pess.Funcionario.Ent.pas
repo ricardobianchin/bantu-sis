@@ -19,10 +19,6 @@ type
     function GetCryVer: smallint;
     procedure SetCryVer(const Value: smallint);
     property CryVer: smallint read GetCryVer write SetCryVer;
-
-    function GetUsuarioAtivo: boolean;
-    procedure SetUsuarioAtivo(Value: boolean);
-    property UsuarioAtivo: boolean read GetUsuarioAtivo write SetUsuarioAtivo;
   end;
 
 implementation

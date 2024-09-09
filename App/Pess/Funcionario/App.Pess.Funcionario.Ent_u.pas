@@ -10,7 +10,6 @@ type
     FNomeDeUsuario: string;
     FSenha: string;
     FCryVer: smallint;
-    FUsuarioAtivo: boolean;
 
     function GetNomeDeUsuario: string;
     procedure SetNomeDeUsuario(const Value: string);
@@ -21,8 +20,6 @@ type
     function GetCryVer: smallint;
     procedure SetCryVer(const Value: smallint);
 
-    function GetUsuarioAtivo: boolean;
-    procedure SetUsuarioAtivo(Value: boolean);
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
@@ -32,7 +29,6 @@ type
     property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
     property Senha: string read GetSenha write SetSenha;
     property CryVer: smallint read GetCryVer write SetCryVer;
-    property UsuarioAtivo: boolean read GetUsuarioAtivo write SetUsuarioAtivo;
 
     procedure LimparEnt; override;
   end;
@@ -78,18 +74,12 @@ begin
   Result := 'Funcionários';
 end;
 
-function TPessFuncionarioEnt.GetUsuarioAtivo: boolean;
-begin
-  Result := FUsuarioAtivo;
-end;
-
 procedure TPessFuncionarioEnt.LimparEnt;
 begin
   inherited;
   FNomeDeUsuario := '';
   FSenha := '';
   FCryVer := 1;
-  FUsuarioAtivo := True;
 end;
 
 procedure TPessFuncionarioEnt.SetCryVer(const Value: smallint);
@@ -105,11 +95,6 @@ end;
 procedure TPessFuncionarioEnt.SetSenha(const Value: string);
 begin
   FSenha := Value;
-end;
-
-procedure TPessFuncionarioEnt.SetUsuarioAtivo(Value: boolean);
-begin
-  FUsuarioAtivo := Value;
 end;
 
 end.
