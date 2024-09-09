@@ -52,8 +52,6 @@ constructor TAppPessClienteDataSetForm.Create(AOwner: TComponent;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 begin
-  // FClienteIdUltima := 0;
-
   FPessClienteEnt := EntEdCastToPessClienteEnt(pEntEd);
   FPessClienteDBI := EntDBICastToPessClienteDBI(pEntDBI);
 
