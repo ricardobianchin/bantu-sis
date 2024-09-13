@@ -39,6 +39,11 @@ CREATE OR ALTER PACKAGE FUNCIONARIO_USUARIO_MANUT_PA
 AS
 BEGIN 
   PROCEDURE LISTA_GET 
+  (
+    LOJA_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    PESSOA_ID_FILTRO INTEGER NOT NULL
+  )
   RETURNS 
   (
     LOJA_ID ID_SHORT_DOM
@@ -97,6 +102,11 @@ RECREATE PACKAGE BODY FUNCIONARIO_USUARIO_MANUT_PA
 AS 
 BEGIN
   PROCEDURE LISTA_GET 
+  (
+    LOJA_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    PESSOA_ID_FILTRO INTEGER NOT NULL
+  )
   RETURNS 
   (
     LOJA_ID ID_SHORT_DOM
@@ -294,8 +304,31 @@ BEGIN
 
       LEFT JOIN PER ON
         PER.PERFIL_DE_USO_ID = UTPER.PERFIL_DE_USO_ID
-          
+
+
+      ----------------------------
+      --- WHERE INICIO
+      ----------------------------
+
+      WHERE 
+        :LOJA_ID_FILTRO = 0
+        OR 
+        (
+        PES.LOJA_ID = :LOJA_ID_FILTRO
+        AND PES.TERMINAL_ID = :TERMINAL_ID_FILTRO
+        AND PES.PESSOA_ID = :PESSOA_ID_FILTRO
+        )
+
+      ----------------------------
+      --- WHERE FIM
+      ----------------------------
+
+
+
       GROUP BY
+      ----------------------------
+      --- GROUP BY CAMPOS INICIO
+      ----------------------------
         PES.LOJA_ID,
         PES.TERMINAL_ID,
         PES.PESSOA_ID,
@@ -348,6 +381,9 @@ BEGIN
         USU.NOME_DE_USUARIO,
         USU.SENHA,
         USU.CRY_VER
+      ----------------------------
+      --- GROUP BY CAMPOS FIM
+      ----------------------------
     INTO 
       :LOJA_ID,
       :TERMINAL_ID,
