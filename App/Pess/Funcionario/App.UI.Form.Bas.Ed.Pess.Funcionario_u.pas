@@ -14,12 +14,17 @@ uses
 
 type
   TPessFuncionarioEdForm = class(TPessEdBasForm)
+    UsuarioPanel: TPanel;
+    FunciNomeDeUsuarioEdit: TEdit;
+    FunciNomeDeUsuarioLabel: TLabel;
+    ApagaSenhaCheckBox: TCheckBox;
   private
     { Private declarations }
     FPessFuncionarioEnt: IPessFuncionarioEnt;
     FPessFuncionarioDBI: IPessFuncionarioDBI;
   protected
     procedure AjusteTabOrder; override;
+    procedure AjusteControles; override;
 
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
@@ -39,9 +44,15 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils, Sis.Types.strings_u,
-  Sis.Types.Integers, Sis.UI.ImgDM;
+  Sis.Types.Integers, Sis.UI.ImgDM, Sis.Sis.Constants;
 
 { TPessFuncionarioEdBasForm }
+
+procedure TPessFuncionarioEdForm.AjusteControles;
+begin
+  inherited;
+  ApagaSenhaCheckBox.Visible := FPessFuncionarioEnt.State = dsEdit;
+end;
 
 procedure TPessFuncionarioEdForm.AjusteTabOrder;
 begin
@@ -52,7 +63,7 @@ end;
 procedure TPessFuncionarioEdForm.ControlesToEnt;
 begin
   inherited;
-//
+  FPessFuncionarioEnt.NomeDeUsuario := FunciNomeDeUsuarioEdit.Text;
 end;
 
 constructor TPessFuncionarioEdForm.Create(AOwner: TComponent;
@@ -65,16 +76,23 @@ begin
 end;
 
 function TPessFuncionarioEdForm.DadosOk: boolean;
+var
+  sMens: string;
 begin
   Result := Inherited;
   if not Result then
     exit;
+  if FPessFuncionarioEnt.State <> dsEdit then
+    exit;
+
+  if ApagaSenhaCheckBox.Checked then
+    FPessFuncionarioDBI.GravarSenha(STR_SENHA_ZERADA, 1, sMens);
 end;
 
 procedure TPessFuncionarioEdForm.EntToControles;
 begin
   inherited;
-//
+  FunciNomeDeUsuarioEdit.Text := FPessFuncionarioEnt.NomeDeUsuario;
 end;
 
 end.

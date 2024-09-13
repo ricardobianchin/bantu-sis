@@ -1,43 +1,93 @@
 inherited PessFuncionarioEdForm: TPessFuncionarioEdForm
   Caption = 'PessFuncionarioEdForm'
-  ExplicitWidth = 961
-  ExplicitHeight = 570
+  ClientWidth = 941
+  ExplicitWidth = 957
   TextHeight = 15
   inherited MensLabel: TLabel
-    ExplicitTop = 460
+    Width = 941
   end
   inherited AlteracaoTextoLabel: TLabel
-    ExplicitTop = 480
+    Width = 941
   end
   inherited BasePanel: TPanel
-    ExplicitTop = 494
-    ExplicitWidth = 945
+    Width = 941
+    ExplicitWidth = 941
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 502
-      ExplicitLeft = 498
+      Left = 490
+      ExplicitLeft = 486
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 615
-      ExplicitLeft = 611
+      Left = 603
+      ExplicitLeft = 599
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 695
-      ExplicitLeft = 691
+      Left = 683
+      ExplicitLeft = 679
     end
   end
   inherited EnderecoPanel: TPanel
-    ExplicitWidth = 945
+    Top = 183
+    Width = 941
+    ExplicitTop = 183
+    ExplicitWidth = 941
   end
   inherited TitPanel: TPanel
-    ExplicitWidth = 945
+    Width = 941
+    ExplicitWidth = 941
   end
   inherited NomePanel: TPanel
-    ExplicitWidth = 945
+    Width = 941
+    ExplicitWidth = 941
   end
   inherited PesJurPanel: TPanel
-    ExplicitWidth = 945
+    Width = 941
+    ExplicitWidth = 941
   end
   inherited DocsPanel: TPanel
-    ExplicitWidth = 945
+    Width = 941
+    ExplicitWidth = 941
+  end
+  object UsuarioPanel: TPanel [9]
+    Left = 0
+    Top = 150
+    Width = 941
+    Height = 33
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 6
+    object FunciNomeDeUsuarioLabel: TLabel
+      Left = 7
+      Top = 5
+      Width = 92
+      Height = 15
+      Caption = 'Nome de Usu'#225'rio'
+      FocusControl = FunciNomeDeUsuarioEdit
+    end
+    object FunciNomeDeUsuarioEdit: TEdit
+      Left = 104
+      Top = 1
+      Width = 161
+      Height = 23
+      MaxLength = 20
+      TabOrder = 0
+      OnKeyPress = ApelidoPessEditKeyPress
+    end
+    object ApagaSenhaCheckBox: TCheckBox
+      Left = 273
+      Top = 4
+      Width = 162
+      Height = 17
+      Caption = 'Ao fechar, apagar a senha'
+      TabOrder = 1
+    end
+  end
+  inherited ShowTimer_BasForm: TTimer
+    Left = 192
+    Top = 40
+  end
+  inherited ActionList1_Diag: TActionList
+    Left = 72
+    Top = 72
   end
 end
