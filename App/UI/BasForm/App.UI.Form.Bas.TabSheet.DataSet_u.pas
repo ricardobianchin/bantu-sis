@@ -442,6 +442,8 @@ begin
 
   AtuAction_DatasetTabSheet.Execute;
 
+  DBGrid1.SetFocus;
+
   if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
     exit;
 
