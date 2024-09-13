@@ -8,7 +8,6 @@ type
 
 const
   SESSAO_INDEX_INVALIDO = TSessaoIndex(-1);// High(TSessaoIndex)//-1;
-  STR_SENHA_ZERADA = 'ZERADA';
 
 implementation
 
