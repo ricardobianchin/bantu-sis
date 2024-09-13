@@ -29,8 +29,8 @@ type
     PopupMenu1: TPopupMenu;
     FecharActionModuloBasForm1: TMenuItem;
     BasePanel: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
+    StatusPanel1: TPanel;
+    StatusLabel1: TLabel;
     OutputLabel: TLabel;
     OcultarActionModuloBasForm2: TMenuItem;
     OcultarEsteMenu1: TMenuItem;
