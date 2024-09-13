@@ -167,6 +167,8 @@ type
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
 
+
+    // abre form
     // tab crie
     procedure TabSheetCrie(pFormCreator: IFormCreator);
 
