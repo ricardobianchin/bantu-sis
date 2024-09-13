@@ -553,7 +553,7 @@ begin
   begin
     Encriptar(1, '123', sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES('//
+    s := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES('//
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + 'SUPORTE TECNICO'.QuotedString // NOME
       + ', ' + 'SUP'.QuotedString // NOME_DE_USUARIO
@@ -574,7 +574,7 @@ begin
 
     Encriptar(1, FUsuarioGerente.Senha, sSenha);
 
-    s := 'SELECT PESSOA_ID_RETORNADA FROM USUARIO_PA.GARANTIR_NOMES('//
+    s := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES('//
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
       + ', ' + FUsuarioGerente.NomeUsu.QuotedString // NOME_DE_USUARIO
