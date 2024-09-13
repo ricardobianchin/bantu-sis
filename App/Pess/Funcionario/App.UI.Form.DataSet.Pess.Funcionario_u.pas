@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.DataSet.Pess_u, Data.DB,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ToolWin, App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent, App.AppInfo,
+  Vcl.DBGrids, Vcl.ToolWin, App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent,
+  App.AppInfo,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.Usuario, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed,
   App.Ent.DBI, App.Pess.Funcionario.Ent.Factory_u;
@@ -61,8 +62,8 @@ begin
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
     pModoDataSetForm, pIdPos);
 
-//  AtualizaAposEd := True;
-//  iT_Selecionado := 0;
+  // AtualizaAposEd := True;
+  // iT_Selecionado := 0;
   iT_PESSOA_ID := 0;
   iT_LOJA_ID := 1;
   iT_TERMINAL_ID := 2;
@@ -112,7 +113,7 @@ begin
 
   iT_ENDER_PRIMEIRO_CAMPO := iT_ENDER_ORDEM;
 
-  iQ_PerfilDeUsoDescrs := iQ_PESS_ENDER_ULTIMO_INDEX + 1;
+  iQ_PerfilDeUsoDescrs := iQ_PESS_ENDER_ULTIMO_INDEX + 4;
 end;
 
 function TAppPessFuncionarioDataSetForm.GetNomeArqTabView: string;
@@ -127,26 +128,29 @@ end;
 
 function TAppPessFuncionarioDataSetForm.PergEd: boolean;
 begin
-
+  Result := FuncionarioPerg(nil, AppInfo, FPessFuncionarioEnt, FPessFuncionarioDBI);
 end;
 
 procedure TAppPessFuncionarioDataSetForm.QToMemTable(q: TDataSet);
 begin
   inherited;
-  FDMemTable.Fields[iT_PerfilDeUsoDescrs].AsString := q.Fields[iQ_PerfilDeUsoDescrs].AsString.Trim;
+  FDMemTable.Fields[iT_PerfilDeUsoDescrs].AsString :=
+    q.Fields[iQ_PerfilDeUsoDescrs].AsString.Trim;
 end;
 
-procedure TAppPessFuncionarioDataSetForm.ShowTimer_BasFormTimer(
-  Sender: TObject);
+procedure TAppPessFuncionarioDataSetForm.ShowTimer_BasFormTimer
+  (Sender: TObject);
 begin
   inherited;
-//
+  //
+  DBGrid1.SetFocus;
+
 end;
 
 procedure TAppPessFuncionarioDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
-//  ToolBarAddButton(OpcaoSisAction_PerfilDeUsoDataSetForm, TitToolBar1_BasTabSheet);
+  // ToolBarAddButton(OpcaoSisAction_PerfilDeUsoDataSetForm, TitToolBar1_BasTabSheet);
 end;
 
 end.
