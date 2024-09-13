@@ -21,22 +21,7 @@ inherited LoginForm: TLoginForm
     Width = 367
     ExplicitTop = 170
   end
-  object SenhaLabeledEdit: TLabeledEdit [2]
-    Left = 24
-    Top = 72
-    Width = 300
-    Height = 23
-    EditLabel.Width = 32
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Senha'
-    MaxLength = 40
-    PasswordChar = '*'
-    TabOrder = 2
-    Text = ''
-    OnChange = SenhaLabeledEditChange
-    OnKeyPress = SenhaLabeledEditKeyPress
-  end
-  object NomeUsuLabeledEdit: TLabeledEdit [3]
+  object NomeUsuLabeledEdit: TLabeledEdit [2]
     Left = 24
     Top = 24
     Width = 300
@@ -50,22 +35,34 @@ inherited LoginForm: TLoginForm
     OnChange = NomeUsuLabeledEditChange
     OnKeyPress = NomeUsuLabeledEditKeyPress
   end
+  object SenhaLabeledEdit: TLabeledEdit [3]
+    Left = 24
+    Top = 72
+    Width = 300
+    Height = 23
+    EditLabel.Width = 32
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Senha'
+    MaxLength = 20
+    PasswordChar = '*'
+    TabOrder = 2
+    Text = ''
+    OnChange = SenhaLabeledEditChange
+    OnKeyPress = SenhaLabeledEditKeyPress
+  end
   inherited BasePanel: TPanel
     Top = 133
     Width = 367
     ExplicitTop = 132
     ExplicitWidth = 363
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 116
-      ExplicitLeft = 112
+      Left = 112
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 229
-      ExplicitLeft = 225
+      Left = 225
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 309
-      ExplicitLeft = 305
+      Left = 305
     end
   end
   inherited ShowTimer_BasForm: TTimer
