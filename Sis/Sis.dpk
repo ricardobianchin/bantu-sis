@@ -265,6 +265,7 @@ contains
   Sis.UI.Controls.TreeView.Preencher in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Preencher.pas',
   Sis.UI.Controls.TreeView.Frame.Preenchedor in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor.pas',
   Sis.UI.Controls.TreeView.Frame.Preenchedor_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor_u.pas',
-  Sis.UI.Form.Bas.Diag.Btn.TreeView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas' {TreeViewDiagBasForm};
+  Sis.UI.Form.Bas.Diag.Btn.TreeView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas' {TreeViewDiagBasForm},
+  Sis.Usuario.Senha_u in 'Usuario\Sis.Usuario.Senha_u.pas';
 
 end.

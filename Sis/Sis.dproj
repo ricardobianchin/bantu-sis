@@ -415,6 +415,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>TreeViewDiagBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
