@@ -92,7 +92,23 @@ end;
 procedure TLoginPergForm.AjusteControles;
 begin
   inherited;
-  LoginPergModoLabel.Caption := LoginPergModoToStr(FLoginPergModo);
+  case FLoginPergModo of
+    ltLogando:
+    begin
+      LoginPergModoLabel.Caption := 'Logando';
+      SenhaAtualLabeledEdit.EditLabel.Caption := 'Senha';
+    end;
+    ltMudandoSenha:
+    begin
+      LoginPergModoLabel.Caption := 'Mudando Senha';
+      SenhaAtualLabeledEdit.EditLabel.Caption := 'Senha Atual';
+    end;
+    ltCriandoSenha:
+    begin
+      LoginPergModoLabel.Caption := 'Criando Senha';
+      SenhaAtualLabeledEdit.EditLabel.Caption := 'Senha';
+    end;
+  end;
 end;
 
 constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
