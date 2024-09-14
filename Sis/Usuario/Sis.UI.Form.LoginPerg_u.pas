@@ -15,6 +15,9 @@ type
   TLoginPergForm = class(TDiagBtnBasForm)
     NomeUsuLabeledEdit: TLabeledEdit;
     SenhaLabeledEdit: TLabeledEdit;
+    TipoPanel: TPanel;
+    ModoTitLabel: TLabel;
+    LoginPergModoLabel: TLabel;
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -32,12 +35,18 @@ type
     FTipoModuloSistema: TTipoModuloSistema;
     FTestaAcessaModuloSistema: boolean;
 
+    FLoginPergModo: TLoginPergModo;
+
+    procedure SetLoginPergModo(Value: TLoginPergModo);
+    property LoginPergModo: TLoginPergModo read FLoginPergModo write SetLoginPergModo;
+
     function NomeUsuOk: boolean;
     function SenhaOk: boolean;
     function UsuEncontrado: boolean;
 
     procedure ExecuteAutoLogin;
   protected
+    procedure AjusteControles; override;
     function PodeOk: boolean; override;
 
   public
@@ -79,6 +88,12 @@ end;
 
 { TLoginPergForm }
 
+procedure TLoginPergForm.AjusteControles;
+begin
+  inherited;
+  LoginPergModoLabel.Caption := LoginPergModoToStr(FLoginPergModo);
+end;
+
 constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
@@ -86,6 +101,7 @@ var
   sNomeTipo: string;
 begin
   inherited Create(nil);
+  FLoginPergModo := TLoginPergModo.ltLogando;
 //  DisparaShowTimer := True;
   FUsuario := pUsuario;
   FUsuarioDBI := pUsuarioDBI;
@@ -198,6 +214,12 @@ begin
 
   ErroOutput.Exibir('Campo Senha é obrigatório');
   SenhaLabeledEdit.SetFocus;
+end;
+
+procedure TLoginPergForm.SetLoginPergModo(Value: TLoginPergModo);
+begin
+  FLoginPergModo := Value;
+  AjusteControles;
 end;
 
 procedure TLoginPergForm.ShowTimer_BasFormTimer(Sender: TObject);
