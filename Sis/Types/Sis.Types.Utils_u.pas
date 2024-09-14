@@ -11,6 +11,7 @@ const
   STR_NULA = '';
 
   CHAR_ENTER = chr(vkReturn);
+  CHAR_ESPACO = chr(vkSpace);
 //  cENTER: char = chr(vkReturn);
   WKEY_ENTER: word = vkReturn;
 //  cESC: char = chr(vkEscape);
