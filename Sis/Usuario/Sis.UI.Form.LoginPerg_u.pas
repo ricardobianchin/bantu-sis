@@ -14,7 +14,7 @@ uses
 type
   TLoginPergForm = class(TDiagBtnBasForm)
     NomeUsuLabeledEdit: TLabeledEdit;
-    SenhaLabeledEdit: TLabeledEdit;
+    SenhaAtualLabeledEdit: TLabeledEdit;
     TipoPanel: TPanel;
     ModoTitLabel: TLabel;
     LoginPergModoLabel: TLabel;
@@ -22,10 +22,10 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure NomeUsuLabeledEditChange(Sender: TObject);
-    procedure SenhaLabeledEditChange(Sender: TObject);
+    procedure SenhaAtualLabeledEditChange(Sender: TObject);
 
     procedure NomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure SenhaLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure SenhaAtualLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -117,7 +117,7 @@ begin
     exit;
 
   NomeUsuLabeledEdit.Text := FLoginConfig.NomeUsu;
-  SenhaLabeledEdit.Text := FLoginConfig.Senha;
+  SenhaAtualLabeledEdit.Text := FLoginConfig.Senha;
 
   if not FLoginConfig.ExecuteOk then
     exit;
@@ -184,14 +184,14 @@ begin
   // exit;
 end;
 
-procedure TLoginPergForm.SenhaLabeledEditChange(Sender: TObject);
+procedure TLoginPergForm.SenhaAtualLabeledEditChange(Sender: TObject);
 begin
   inherited;
   MensLimpar;
 
 end;
 
-procedure TLoginPergForm.SenhaLabeledEditKeyPress(Sender: TObject; var Key: Char);
+procedure TLoginPergForm.SenhaAtualLabeledEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
   begin
@@ -207,13 +207,13 @@ end;
 
 function TLoginPergForm.SenhaOk: boolean;
 begin
-  Result := SenhaLabeledEdit.Text <> '';
+  Result := SenhaAtualLabeledEdit.Text <> '';
 
   if Result then
     exit;
 
   ErroOutput.Exibir('Campo Senha é obrigatório');
-  SenhaLabeledEdit.SetFocus;
+  SenhaAtualLabeledEdit.SetFocus;
 end;
 
 procedure TLoginPergForm.SetLoginPergModo(Value: TLoginPergModo);
@@ -231,7 +231,7 @@ end;
 
 function TLoginPergForm.UsuEncontrado: boolean;
 var
-  sNomeUsuDigitado, sSenhaDigitada, sMens: string;
+  sNomeUsuDigitado, sSenhaAtualDigitada, sMens: string;
   vTipoModuloSistema: TTipoModuloSistema;
 begin
 
@@ -241,9 +241,9 @@ begin
     vTipoModuloSistema := modsisNaoIndicado;
 
   sNomeUsuDigitado := NomeUsuLabeledEdit.Text;
-  sSenhaDigitada := SenhaLabeledEdit.Text;
+  sSenhaAtualDigitada := SenhaAtualLabeledEdit.Text;
 
-  Result := FUsuarioDBI.LoginTente(sNomeUsuDigitado, sSenhaDigitada, sMens,
+  Result := FUsuarioDBI.LoginTente(sNomeUsuDigitado, sSenhaAtualDigitada, sMens,
     vTipoModuloSistema);
 
   if not Result then

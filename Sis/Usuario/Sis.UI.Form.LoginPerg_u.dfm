@@ -21,7 +21,7 @@ inherited LoginPergForm: TLoginPergForm
     Width = 354
     ExplicitTop = 170
   end
-  object SenhaLabeledEdit: TLabeledEdit [2]
+  object SenhaAtualLabeledEdit: TLabeledEdit [2]
     Left = 27
     Top = 88
     Width = 300
@@ -33,8 +33,8 @@ inherited LoginPergForm: TLoginPergForm
     PasswordChar = '*'
     TabOrder = 2
     Text = ''
-    OnChange = SenhaLabeledEditChange
-    OnKeyPress = SenhaLabeledEditKeyPress
+    OnChange = SenhaAtualLabeledEditChange
+    OnKeyPress = SenhaAtualLabeledEditKeyPress
   end
   object NomeUsuLabeledEdit: TLabeledEdit [3]
     Left = 27
