@@ -13,7 +13,7 @@ uses
 
 type
   TLoginPergForm = class(TDiagBtnBasForm)
-    NomeUsuLabeledEdit: TLabeledEdit;
+    NomeDeUsuarioLabeledEdit: TLabeledEdit;
     SenhaAtualLabeledEdit: TLabeledEdit;
     TipoPanel: TPanel;
     ModoTitLabel: TLabel;
@@ -21,10 +21,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
-    procedure NomeUsuLabeledEditChange(Sender: TObject);
+    procedure NomeDeUsuarioLabeledEditChange(Sender: TObject);
     procedure SenhaAtualLabeledEditChange(Sender: TObject);
 
-    procedure NomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure NomeDeUsuarioLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure SenhaAtualLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
   private
@@ -38,9 +38,10 @@ type
     FLoginPergModo: TLoginPergModo;
 
     procedure SetLoginPergModo(Value: TLoginPergModo);
-    property LoginPergModo: TLoginPergModo read FLoginPergModo write SetLoginPergModo;
+    property LoginPergModo: TLoginPergModo read FLoginPergModo
+      write SetLoginPergModo;
 
-    function NomeUsuOk: boolean;
+    function NomeDeUsuarioOk: boolean;
     function SenhaOk: boolean;
     function UsuEncontrado: boolean;
 
@@ -68,7 +69,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u;
+uses Sis.Types.strings_u, Sis.Types.Utils_u;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
@@ -76,8 +77,8 @@ function LoginPerg(pLoginConfig: ILoginConfig;
 var
   Resultado: TModalResult;
 begin
-  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoModuloSistema, pUsuario,
-    pUsuarioDBI, pTestaAcessaModuloSistema);
+  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoModuloSistema,
+    pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema);
   try
     Resultado := LoginPergForm.ShowModal;
     Result := IsPositiveResult(Resultado);
@@ -102,7 +103,7 @@ var
 begin
   inherited Create(nil);
   FLoginPergModo := TLoginPergModo.ltLogando;
-//  DisparaShowTimer := True;
+  // DisparaShowTimer := True;
   FUsuario := pUsuario;
   FUsuarioDBI := pUsuarioDBI;
   FLoginConfig := pLoginConfig;
@@ -116,8 +117,8 @@ begin
   if not FLoginConfig.PreencheLogin then
     exit;
 
-  NomeUsuLabeledEdit.Text := FLoginConfig.NomeUsu;
-  SenhaAtualLabeledEdit.Text := FLoginConfig.Senha;
+  NomeDeUsuarioLabeledEdit.Text := FLoginConfig.NomeDeUsuario;
+  SenhaAtualLabeledEdit.Text := FLoginConfig.SenhaAtual;
 
   if not FLoginConfig.ExecuteOk then
     exit;
@@ -136,39 +137,59 @@ procedure TLoginPergForm.FormShow(Sender: TObject);
 begin
   // era pra ser no create, mas volta a false.
   // está aqui de forma anômala pra se conseguir que DisparaShowTimer fique true
-//  DisparaShowTimer := True;
+  // DisparaShowTimer := True;
 
   inherited;
 end;
 
-procedure TLoginPergForm.NomeUsuLabeledEditChange(Sender: TObject);
+procedure TLoginPergForm.NomeDeUsuarioLabeledEditChange(Sender: TObject);
 begin
   inherited;
   MensLimpar;
 end;
 
-procedure TLoginPergForm.NomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
+procedure TLoginPergForm.NomeDeUsuarioLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+var
+  Resultado: boolean;
+  s: string;
 begin
   inherited;
-  EditKeyPress(Sender, Key);
+  // EditKeyPress(Sender, Key);
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+
+    s := StrSemCharRepetido(NomeDeUsuarioLabeledEdit.Text, CHAR_ESPACO);
+    NomeDeUsuarioLabeledEdit.Text := s;
+
+    Resultado := False; //FUsuarioDBI.UsuarioExiste(s);
+
+    // if SelecionaProximo then
+    SelecioneProximo;
+    exit;
+  end;
+
+  CharSemAcento(Key);
 end;
 
-function TLoginPergForm.NomeUsuOk: boolean;
+function TLoginPergForm.NomeDeUsuarioOk: boolean;
 begin
-  NomeUsuLabeledEdit.Text := StrSemCharRepetido(NomeUsuLabeledEdit.Text);
+  NomeDeUsuarioLabeledEdit.Text :=
+    StrSemCharRepetido(NomeDeUsuarioLabeledEdit.Text);
 
-  Result := NomeUsuLabeledEdit.Text <> '';
+  Result := NomeDeUsuarioLabeledEdit.Text <> '';
 
   if Result then
     exit;
 
   ErroOutput.Exibir('Campo Nome de Usuário é obrigatório');
-  NomeUsuLabeledEdit.SetFocus;
+  NomeDeUsuarioLabeledEdit.SetFocus;
 end;
 
 function TLoginPergForm.PodeOk: boolean;
 begin
-  Result := NomeUsuOk;
+  Result := NomeDeUsuarioOk;
 
   if not Result then
     exit;
@@ -191,13 +212,14 @@ begin
 
 end;
 
-procedure TLoginPergForm.SenhaAtualLabeledEditKeyPress(Sender: TObject; var Key: Char);
+procedure TLoginPergForm.SenhaAtualLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   if Key = #13 then
   begin
     Key := #0;
-    if NomeUsuLabeledEdit.Text = '' then
-      NomeUsuLabeledEdit.SetFocus
+    if NomeDeUsuarioLabeledEdit.Text = '' then
+      NomeDeUsuarioLabeledEdit.SetFocus
     else
       OkAct_Diag.Execute;
     exit;
@@ -225,13 +247,13 @@ end;
 procedure TLoginPergForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  NomeUsuLabeledEdit.SetFocus;
+  NomeDeUsuarioLabeledEdit.SetFocus;
   ExecuteAutoLogin;
 end;
 
 function TLoginPergForm.UsuEncontrado: boolean;
 var
-  sNomeUsuDigitado, sSenhaAtualDigitada, sMens: string;
+  sNomeDeUsuarioDigitado, sSenhaAtualDigitada, sMens: string;
   vTipoModuloSistema: TTipoModuloSistema;
 begin
 
@@ -240,16 +262,16 @@ begin
   else
     vTipoModuloSistema := modsisNaoIndicado;
 
-  sNomeUsuDigitado := NomeUsuLabeledEdit.Text;
+  sNomeDeUsuarioDigitado := NomeDeUsuarioLabeledEdit.Text;
   sSenhaAtualDigitada := SenhaAtualLabeledEdit.Text;
 
-  Result := FUsuarioDBI.LoginTente(sNomeUsuDigitado, sSenhaAtualDigitada, sMens,
-    vTipoModuloSistema);
+  Result := FUsuarioDBI.LoginTente(sNomeDeUsuarioDigitado, sSenhaAtualDigitada,
+    sMens, vTipoModuloSistema);
 
   if not Result then
   begin
     ErroOutput.Exibir(sMens);
-    NomeUsuLabeledEdit.SetFocus;
+    NomeDeUsuarioLabeledEdit.SetFocus;
     exit;
   end;
 end;

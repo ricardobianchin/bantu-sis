@@ -15,13 +15,13 @@ type
     procedure SetTipoModuloSistema(Value: TTipoModuloSistema);
     property TipoModuloSistema: TTipoModuloSistema read GetTipoModuloSistema write SetTipoModuloSistema;
 
-    function GetNomeUsu: string;
-    procedure SetNomeUsu(Value: string);
-    property NomeUsu: string read GetNomeUsu write SetNomeUsu;
+    function GetNomeDeUsuario: string;
+    procedure SetNomeDeUsuario(Value: string);
+    property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
 
-    function GetSenha: string;
-    procedure SetSenha(Value: string);
-    property Senha: string read GetSenha write SetSenha;
+    function GetSenhaAtual: string;
+    procedure SetSenhaAtual(Value: string);
+    property SenhaAtual: string read GetSenhaAtual write SetSenhaAtual;
 
     function GetExecuteOk: boolean;
     procedure SetExecuteOk(Value: boolean);

@@ -36,7 +36,7 @@ inherited LoginPergForm: TLoginPergForm
     OnChange = SenhaAtualLabeledEditChange
     OnKeyPress = SenhaAtualLabeledEditKeyPress
   end
-  object NomeUsuLabeledEdit: TLabeledEdit [3]
+  object NomeDeUsuarioLabeledEdit: TLabeledEdit [3]
     Left = 27
     Top = 45
     Width = 300
@@ -47,8 +47,8 @@ inherited LoginPergForm: TLoginPergForm
     MaxLength = 20
     TabOrder = 1
     Text = ''
-    OnChange = NomeUsuLabeledEditChange
-    OnKeyPress = NomeUsuLabeledEditKeyPress
+    OnChange = NomeDeUsuarioLabeledEditChange
+    OnKeyPress = NomeDeUsuarioLabeledEditKeyPress
   end
   inherited BasePanel: TPanel
     Top = 220
