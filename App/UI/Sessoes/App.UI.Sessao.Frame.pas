@@ -9,7 +9,7 @@ uses
   Vcl.ExtCtrls,
   System.Actions, Vcl.ActnList, App.UI.Form.Bas.Modulo_u,
   Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.Eventos,
-  Sis.UI.Form.Login_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants,
+  Sis.UI.Form.LoginPerg_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type

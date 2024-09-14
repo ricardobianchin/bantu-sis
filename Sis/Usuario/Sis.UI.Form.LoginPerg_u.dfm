@@ -1,4 +1,4 @@
-inherited LoginForm: TLoginForm
+inherited LoginPergForm: TLoginPergForm
   Caption = 'Login'
   ClientHeight = 185
   ClientWidth = 367
@@ -21,21 +21,7 @@ inherited LoginForm: TLoginForm
     Width = 367
     ExplicitTop = 170
   end
-  object NomeUsuLabeledEdit: TLabeledEdit [2]
-    Left = 24
-    Top = 24
-    Width = 300
-    Height = 23
-    EditLabel.Width = 92
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Nome de Usu'#225'rio'
-    MaxLength = 20
-    TabOrder = 1
-    Text = ''
-    OnChange = NomeUsuLabeledEditChange
-    OnKeyPress = NomeUsuLabeledEditKeyPress
-  end
-  object SenhaLabeledEdit: TLabeledEdit [3]
+  object SenhaLabeledEdit: TLabeledEdit [2]
     Left = 24
     Top = 72
     Width = 300
@@ -50,19 +36,36 @@ inherited LoginForm: TLoginForm
     OnChange = SenhaLabeledEditChange
     OnKeyPress = SenhaLabeledEditKeyPress
   end
+  object NomeUsuLabeledEdit: TLabeledEdit [3]
+    Left = 24
+    Top = 24
+    Width = 300
+    Height = 23
+    EditLabel.Width = 92
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Nome de Usu'#225'rio'
+    MaxLength = 20
+    TabOrder = 1
+    Text = ''
+    OnChange = NomeUsuLabeledEditChange
+    OnKeyPress = NomeUsuLabeledEditKeyPress
+  end
   inherited BasePanel: TPanel
     Top = 133
     Width = 367
     ExplicitTop = 132
     ExplicitWidth = 363
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 112
+      Left = 108
+      ExplicitLeft = 104
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 225
+      Left = 221
+      ExplicitLeft = 217
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 305
+      Left = 301
+      ExplicitLeft = 297
     end
   end
   inherited ShowTimer_BasForm: TTimer

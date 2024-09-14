@@ -84,7 +84,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
-  Sis.Usuario.Factory, Sis.UI.Form.Login_u, App.Sessao.Factory,
+  Sis.Usuario.Factory, Sis.UI.Form.LoginPerg_u, App.Sessao.Factory,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
   Sis.Types.Factory, Sis.UI.ImgDM;
 

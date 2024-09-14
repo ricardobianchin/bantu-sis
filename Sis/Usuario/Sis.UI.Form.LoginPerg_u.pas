@@ -1,4 +1,4 @@
-unit Sis.UI.Form.Login_u;
+unit Sis.UI.Form.LoginPerg_u;
 
 interface
 
@@ -9,10 +9,10 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.Mask, Sis.Usuario, Sis.Config.SisConfig, Sis.Usuario.DBI,
   Sis.UI.Form.Login.Config, Sis.ModuloSistema, Sis.ModuloSistema.Types,
-  Vcl.StdActns;
+  Vcl.StdActns, Sis.UI.Form.Login.Types_u;
 
 type
-  TLoginForm = class(TDiagBtnBasForm)
+  TLoginPergForm = class(TDiagBtnBasForm)
     NomeUsuLabeledEdit: TLabeledEdit;
     SenhaLabeledEdit: TLabeledEdit;
     procedure FormShow(Sender: TObject);
@@ -53,7 +53,7 @@ function LoginPerg(pLoginConfig: ILoginConfig;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 
 var
-  LoginForm: TLoginForm;
+  LoginPergForm: TLoginPergForm;
 
 implementation
 
@@ -67,19 +67,19 @@ function LoginPerg(pLoginConfig: ILoginConfig;
 var
   Resultado: TModalResult;
 begin
-  LoginForm := TLoginForm.Create(pLoginConfig, pTipoModuloSistema, pUsuario,
+  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoModuloSistema, pUsuario,
     pUsuarioDBI, pTestaAcessaModuloSistema);
   try
-    Resultado := LoginForm.ShowModal;
+    Resultado := LoginPergForm.ShowModal;
     Result := IsPositiveResult(Resultado);
   finally
-    FreeAndNil(LoginForm);
+    FreeAndNil(LoginPergForm);
   end;
 end;
 
-{ TLoginForm }
+{ TLoginPergForm }
 
-constructor TLoginForm.Create(pLoginConfig: ILoginConfig;
+constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
   pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
 var
@@ -95,7 +95,7 @@ begin
   Caption := Format('Login %s...', [sNomeTipo]);
 end;
 
-procedure TLoginForm.ExecuteAutoLogin;
+procedure TLoginPergForm.ExecuteAutoLogin;
 begin
   if not FLoginConfig.PreencheLogin then
     exit;
@@ -109,14 +109,14 @@ begin
   OkAct_Diag.Execute;
 end;
 
-procedure TLoginForm.FormCreate(Sender: TObject);
+procedure TLoginPergForm.FormCreate(Sender: TObject);
 begin
   inherited;
   MensLabel.Alignment := taCenter;
 
 end;
 
-procedure TLoginForm.FormShow(Sender: TObject);
+procedure TLoginPergForm.FormShow(Sender: TObject);
 begin
   // era pra ser no create, mas volta a false.
   // está aqui de forma anômala pra se conseguir que DisparaShowTimer fique true
@@ -125,19 +125,19 @@ begin
   inherited;
 end;
 
-procedure TLoginForm.NomeUsuLabeledEditChange(Sender: TObject);
+procedure TLoginPergForm.NomeUsuLabeledEditChange(Sender: TObject);
 begin
   inherited;
   MensLimpar;
 end;
 
-procedure TLoginForm.NomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
+procedure TLoginPergForm.NomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   EditKeyPress(Sender, Key);
 end;
 
-function TLoginForm.NomeUsuOk: boolean;
+function TLoginPergForm.NomeUsuOk: boolean;
 begin
   NomeUsuLabeledEdit.Text := StrSemCharRepetido(NomeUsuLabeledEdit.Text);
 
@@ -150,7 +150,7 @@ begin
   NomeUsuLabeledEdit.SetFocus;
 end;
 
-function TLoginForm.PodeOk: boolean;
+function TLoginPergForm.PodeOk: boolean;
 begin
   Result := NomeUsuOk;
 
@@ -168,14 +168,14 @@ begin
   // exit;
 end;
 
-procedure TLoginForm.SenhaLabeledEditChange(Sender: TObject);
+procedure TLoginPergForm.SenhaLabeledEditChange(Sender: TObject);
 begin
   inherited;
   MensLimpar;
 
 end;
 
-procedure TLoginForm.SenhaLabeledEditKeyPress(Sender: TObject; var Key: Char);
+procedure TLoginPergForm.SenhaLabeledEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
   begin
@@ -189,7 +189,7 @@ begin
   inherited;
 end;
 
-function TLoginForm.SenhaOk: boolean;
+function TLoginPergForm.SenhaOk: boolean;
 begin
   Result := SenhaLabeledEdit.Text <> '';
 
@@ -200,14 +200,14 @@ begin
   SenhaLabeledEdit.SetFocus;
 end;
 
-procedure TLoginForm.ShowTimer_BasFormTimer(Sender: TObject);
+procedure TLoginPergForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   NomeUsuLabeledEdit.SetFocus;
   ExecuteAutoLogin;
 end;
 
-function TLoginForm.UsuEncontrado: boolean;
+function TLoginPergForm.UsuEncontrado: boolean;
 var
   sNomeUsuDigitado, sSenhaDigitada, sMens: string;
   vTipoModuloSistema: TTipoModuloSistema;
