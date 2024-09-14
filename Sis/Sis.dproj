@@ -272,8 +272,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas">
             <Form>DiagBtnBasForm</Form>
         </DCCReference>
-        <DCCReference Include="Usuario\Sis.UI.Form.Login_u.pas">
-            <Form>LoginForm</Form>
+        <DCCReference Include="Usuario\Sis.UI.Form.LoginPerg_u.pas">
+            <Form>LoginPergForm</Form>
         </DCCReference>
         <DCCReference Include="DBI\Sis.DBI.pas"/>
         <DCCReference Include="DBI\Sis.DBI_u.pas"/>
@@ -416,6 +416,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Types_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
