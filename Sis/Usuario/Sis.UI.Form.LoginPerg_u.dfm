@@ -23,7 +23,7 @@ inherited LoginPergForm: TLoginPergForm
   end
   object SenhaAtualLabeledEdit: TLabeledEdit [2]
     Left = 27
-    Top = 88
+    Top = 93
     Width = 300
     Height = 23
     EditLabel.Width = 32
@@ -38,7 +38,7 @@ inherited LoginPergForm: TLoginPergForm
   end
   object NomeUsuLabeledEdit: TLabeledEdit [3]
     Left = 27
-    Top = 40
+    Top = 45
     Width = 300
     Height = 23
     EditLabel.Width = 92
@@ -102,9 +102,10 @@ inherited LoginPergForm: TLoginPergForm
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 163
+    Top = 37
   end
   inherited ActionList1_Diag: TActionList
     Left = 163
-    Top = 56
+    Top = 61
   end
 end
