@@ -1,13 +1,13 @@
 inherited LoginPergForm: TLoginPergForm
   Caption = 'Login'
   ClientHeight = 272
-  ClientWidth = 407
-  ExplicitWidth = 419
+  ClientWidth = 354
+  ExplicitWidth = 366
   ExplicitHeight = 310
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 168
-    Width = 407
+    Width = 354
     Height = 52
     Alignment = taCenter
     AutoSize = False
@@ -18,11 +18,11 @@ inherited LoginPergForm: TLoginPergForm
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 257
-    Width = 407
+    Width = 354
     ExplicitTop = 170
   end
   object SenhaLabeledEdit: TLabeledEdit [2]
-    Left = 24
+    Left = 27
     Top = 88
     Width = 300
     Height = 23
@@ -37,7 +37,7 @@ inherited LoginPergForm: TLoginPergForm
     OnKeyPress = SenhaLabeledEditKeyPress
   end
   object NomeUsuLabeledEdit: TLabeledEdit [3]
-    Left = 24
+    Left = 27
     Top = 40
     Width = 300
     Height = 23
@@ -52,31 +52,32 @@ inherited LoginPergForm: TLoginPergForm
   end
   inherited BasePanel: TPanel
     Top = 220
-    Width = 407
+    Width = 354
     ExplicitTop = 132
     ExplicitWidth = 363
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 148
+      Left = 95
       ExplicitLeft = 104
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 261
+      Left = 208
       ExplicitLeft = 217
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 341
+      Left = 288
       ExplicitLeft = 297
     end
   end
   object TipoPanel: TPanel [5]
     Left = 0
     Top = 0
-    Width = 407
+    Width = 354
     Height = 19
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitWidth = 407
     object ModoTitLabel: TLabel
       Left = 0
       Top = 0
@@ -89,7 +90,7 @@ inherited LoginPergForm: TLoginPergForm
     object LoginPergModoLabel: TLabel
       Left = 38
       Top = 0
-      Width = 369
+      Width = 316
       Height = 19
       Align = alClient
       Caption = 'LoginPergModoLabel'
@@ -100,10 +101,10 @@ inherited LoginPergForm: TLoginPergForm
     end
   end
   inherited ShowTimer_BasForm: TTimer
-    Left = 192
+    Left = 163
   end
   inherited ActionList1_Diag: TActionList
-    Left = 264
+    Left = 163
     Top = 56
   end
 end
