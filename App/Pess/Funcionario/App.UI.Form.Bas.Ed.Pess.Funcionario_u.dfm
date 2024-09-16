@@ -1,13 +1,16 @@
 inherited PessFuncionarioEdForm: TPessFuncionarioEdForm
   Caption = 'PessFuncionarioEdForm'
   ClientWidth = 941
-  ExplicitWidth = 957
+  ExplicitWidth = 953
+  ExplicitHeight = 570
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 941
+    ExplicitTop = 460
   end
   inherited AlteracaoTextoLabel: TLabel
     Width = 941
+    ExplicitTop = 480
   end
   inherited BasePanel: TPanel
     Width = 941

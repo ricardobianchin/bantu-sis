@@ -86,7 +86,7 @@ begin
     exit;
 
   if ApagaSenhaCheckBox.Checked then
-    FPessFuncionarioDBI.GravarSenha(STR_SENHA_ZERADA, 1, sMens);
+    FPessFuncionarioDBI.GravarSenha(SENHA_ZERADA, 1, sMens);
 end;
 
 procedure TPessFuncionarioEdForm.EntToControles;
