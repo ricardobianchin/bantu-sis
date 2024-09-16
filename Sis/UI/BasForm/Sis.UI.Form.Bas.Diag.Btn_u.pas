@@ -20,7 +20,9 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
+    FBaseControlsAlinhador: IControlsAlinhador;
   protected
+    procedure PreencherBaseControlsAlinhador(pBaseControlsAlinhador: IControlsAlinhador); virtual;
     procedure CriarControles; virtual;
     procedure AjusteControles; virtual;
   public
@@ -38,21 +40,15 @@ implementation
 uses Sis.UI.Controls.Factory;
 
 procedure TDiagBtnBasForm.AjusteControles;
-var
-  oControlsAlinhador: IControlsAlinhador;
 begin
-  oControlsAlinhador := ControlsAlinhadorADireitaCreate;
-
-  oControlsAlinhador.PegarControl(OkBitBtn_DiagBtn);
-  oControlsAlinhador.PegarControl(CancelBitBtn_DiagBtn);
-  oControlsAlinhador.PegarControl(MensCopyBitBtn_DiagBtn);
-
-  oControlsAlinhador.Execute;
+  PreencherBaseControlsAlinhador(FBaseControlsAlinhador);
+  FBaseControlsAlinhador.Execute;
 end;
 
 constructor TDiagBtnBasForm.Create(AOwner: TComponent);
 begin
   inherited;
+  FBaseControlsAlinhador := ControlsAlinhadorADireitaCreate;
   MensLabel.Top := BasePanel.Top - CancelBitBtn_DiagBtn.Height - 3;
   //MensLabel.Font.Color := $009393FF;//onyx
 //  MensLabel.Font.Color := 192;//iceberg
@@ -74,6 +70,14 @@ begin
     MensLabel.Caption + ']');
   Sleep(200);
   MensCopyAct_Diag.Enabled := True;
+end;
+
+procedure TDiagBtnBasForm.PreencherBaseControlsAlinhador(
+  pBaseControlsAlinhador: IControlsAlinhador);
+begin
+  pBaseControlsAlinhador.PegarControl(OkBitBtn_DiagBtn);
+  pBaseControlsAlinhador.PegarControl(CancelBitBtn_DiagBtn);
+  pBaseControlsAlinhador.PegarControl(MensCopyBitBtn_DiagBtn);
 end;
 
 procedure TDiagBtnBasForm.ShowTimer_BasFormTimer(Sender: TObject);

@@ -31,7 +31,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       443
       37)
     object MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 112
+      Left = 108
       Top = 5
       Width = 108
       Height = 25
@@ -39,10 +39,10 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Copiar Mensagem'
       TabOrder = 2
-      ExplicitLeft = 108
+      ExplicitLeft = 104
     end
     object OkBitBtn_DiagBtn: TBitBtn
-      Left = 225
+      Left = 221
       Top = 5
       Width = 75
       Height = 25
@@ -50,10 +50,10 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Ok'
       TabOrder = 0
-      ExplicitLeft = 221
+      ExplicitLeft = 217
     end
     object CancelBitBtn_DiagBtn: TBitBtn
-      Left = 305
+      Left = 301
       Top = 5
       Width = 75
       Height = 25
@@ -61,7 +61,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Cancelar'
       TabOrder = 1
-      ExplicitLeft = 301
+      ExplicitLeft = 297
     end
   end
   inherited ShowTimer_BasForm: TTimer
