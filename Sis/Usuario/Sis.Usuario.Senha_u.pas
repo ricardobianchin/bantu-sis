@@ -27,7 +27,7 @@ begin
     + ', ' + pCryVer.ToString //
     + ');'; //
 
-  Result := not pDBConnection.Abrir;
+  Result := pDBConnection.Abrir;
   if not Result then
   begin
     pMens := 'Erro abrindo o banco ao tentar gravar a senha';
