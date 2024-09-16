@@ -30,11 +30,12 @@ type
     function GetProcessLog: IProcessLog;
     function GetLoja: ILoja;
 
+    procedure SetProcessOutput(Value: IOutput);
 
   public
     property AppTestesConfig: IAppTestesConfig read GetAppTestesConfig;
     property StatusOutput: IOutput read FStatusOutput;
-    property ProcessOutput: IOutput read FProcessOutput;
+    property ProcessOutput: IOutput read GetProcessOutput write SetProcessOutput;
     property ProcessLog: IProcessLog read FProcessLog;
     property SisConfig: ISisConfig read GetSisConfig;
     property AppInfo: IAppInfo read GetAppInfo;
@@ -143,6 +144,11 @@ end;
 procedure TAppObj.SetDBMS(Value: IDBMS);
 begin
   FDBMS := Value;
+end;
+
+procedure TAppObj.SetProcessOutput(Value: IOutput);
+begin
+  FProcessOutput := Value;
 end;
 
 end.

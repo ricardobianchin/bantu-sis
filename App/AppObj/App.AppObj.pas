@@ -46,8 +46,10 @@ type
     function GetProcessOutput: IOutput;
     function GetProcessLog: IProcessLog;
 
+    procedure SetProcessOutput(Value: IOutput);
+
     property StatusOutput: IOutput read GetStatusOutput;
-    property ProcessOutput: IOutput read GetProcessOutput;
+    property ProcessOutput: IOutput read GetProcessOutput write SetProcessOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
 
     function GetLoja: ILoja;
