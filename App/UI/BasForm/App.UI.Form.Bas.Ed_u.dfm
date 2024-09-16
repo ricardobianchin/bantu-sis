@@ -2,7 +2,6 @@ inherited EdBasForm: TEdBasForm
   Caption = 'EdBasForm'
   ClientWidth = 431
   ExplicitWidth = 443
-  ExplicitHeight = 319
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 431
@@ -16,12 +15,12 @@ inherited EdBasForm: TEdBasForm
     Caption = '    '
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 229
+    Top = 230
     Width = 431
     ExplicitTop = 229
   end
   inherited BasePanel: TPanel
-    Top = 244
+    Top = 245
     Width = 431
     ExplicitTop = 245
     ExplicitWidth = 431
