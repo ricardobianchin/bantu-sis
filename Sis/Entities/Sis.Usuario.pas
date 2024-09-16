@@ -23,6 +23,10 @@ type
     function GetSenha: string;
     procedure SetSenha(const Value: string);
     property Senha: string read GetSenha write SetSenha;
+
+    function GetCryVer: smallint;
+    procedure SetCryVer(const Value: smallint);
+    property CryVer: smallint read GetCryVer write SetCryVer;
   end;
 
 implementation
