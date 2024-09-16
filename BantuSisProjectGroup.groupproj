@@ -15,9 +15,6 @@
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
         </Projects>
-        <Projects Include="Teste\Chars\TestaChar\TestaChar.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -62,23 +59,14 @@
     <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
-    <Target Name="TestaChar">
-        <MSBuild Projects="Teste\Chars\TestaChar\TestaChar.dproj"/>
-    </Target>
-    <Target Name="TestaChar:Clean">
-        <MSBuild Projects="Teste\Chars\TestaChar\TestaChar.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TestaChar:Make">
-        <MSBuild Projects="Teste\Chars\TestaChar\TestaChar.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;TestaChar"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;TestaChar:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;TestaChar:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -105,12 +93,6 @@
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Teste\Chars\TestaChar\TestaChar.dproj">
-            <ProjectGuid>{E2CEB927-9688-4591-93DB-40C9106F497E}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>
