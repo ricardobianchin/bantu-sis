@@ -272,6 +272,7 @@ begin
 
     ClearStyleElements(TitleBarPanel);
   finally
+    FAppObj.ProcessOutput := MudoOutputCreate;
     FProcessLog.RetorneLocal;
   end;
 end;
