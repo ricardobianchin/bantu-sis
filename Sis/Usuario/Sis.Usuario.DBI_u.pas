@@ -10,8 +10,11 @@ type
   private
     FUsuario: IUsuario;
   public
-    function LoginTente(pNomeUsuDig: string; pSenhaDig: string;
-      out pMens: string; pTipoModuloSistema: TTipoModuloSistema): boolean;
+    function UsuarioPeloNomeDeUsuario(pNomeUsuDig: string; out pCryVer: integer;
+      out Senha, pApelido, pModulosSistema, pMens: string;
+      out pEncontrado: boolean): boolean;
+
+    function GravarSenha(out pMens: string): boolean;
 
     constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario);
   end;
@@ -19,7 +22,7 @@ type
 implementation
 
 uses Sis.Types.strings.Crypt_u, Sis.Usuario.DBI.GetSQL_u, Data.DB,
-  System.SysUtils;
+  System.SysUtils, Sis.Sis.Constants, Sis.Win.Utils_u, Sis.Usuario.Senha_u;
 
 { TUsuarioDBI }
 
@@ -30,14 +33,29 @@ begin
   FUsuario := pUsuario;
 end;
 
-function TUsuarioDBI.LoginTente(pNomeUsuDig: string; pSenhaDig: string;
-  out pMens: string; pTipoModuloSistema: TTipoModuloSistema): boolean;
+function TUsuarioDBI.GravarSenha(out pMens: string): boolean;
+var
+  sSenhaEncriptada: string;
+begin
+  Encriptar(FUsuario.CryVer, FUsuario.Senha, sSenhaEncriptada);
+
+  // nao retire o nome da unit para nao conflitar com o identificador local
+  // Sis.Usuario.Senha_u fica
+  Result := Sis.Usuario.Senha_u.GravarSenha(sSenhaEncriptada, FUsuario.CryVer,
+    FUsuario.LojaId, FUsuario.TerminalId, FUsuario.Id,
+    DBConnection, pMens);
+end;
+
+function TUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeUsuDig: string; out pCryVer: integer;
+  out Senha, pApelido, pModulosSistema, pMens: string;
+  out pEncontrado: boolean): boolean;
 var
   sSql: string;
   sSenhaDigEncriptada: string;
   q: TDataSet;
   iLojaId, iPessoaId: integer;
-  sNomeCompleto, sApelido, sSenhaDBEncriptada, sSenhaDigitadaEncriptada: string;
+  sSenhaDBDesencriptada, sSenhaDBEncriptada: string;
+  sNomeCompleto, sApelido: string;
   CryVer: Word;
   sTipoModuloSistema: string;
   // LOJA_ID SMALLINT, PESSOA_ID INTEGER, NOME VARCHAR(90), APELIDO VARCHAR(20),
@@ -51,69 +69,95 @@ begin
   end;
 
   try
-    sSql := GetSQLUsuarioPeloNomeUsu(pNomeUsuDig);
+    sSql := GetSQLUsuarioPeloNomeDeUsuario(pNomeUsuDig);
+    //{$IFDEF DEBUG}
+    //SetClipboardText(sSql);
+    //{$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
-    Result := not q.IsEmpty;
+    try
+      pEncontrado := not q.IsEmpty;
 
-    if not Result then
-    begin
+      if not pEncontrado then
+      begin
+        pMens := 'Nome de Usuário não encontrado';
+        exit;
+      end;
+
+      iLojaId := q.FieldByName('LOJA_ID').AsInteger;
+      iPessoaId := q.FieldByName('PESSOA_ID').AsInteger;
+      sNomeCompleto := q.FieldByName('NOME').AsString.Trim;
+      sApelido := q.FieldByName('APELIDO').AsString.Trim;
+
+      FUsuario.Pegar(iLojaId, 0, iPessoaId);
+      FUsuario.NomeCompleto := sNomeCompleto;
+      FUsuario.NomeExib := sApelido;
+
+      sSenhaDBEncriptada := q.FieldByName('SENHA').AsString.Trim;
+
+      if sSenhaDBEncriptada = SENHA_ZERADA then
+      begin
+        pMens := SENHA_ZERADA_MENS;
+        exit;
+      end;
+
+      CryVer := Word(q.FieldByName('CRY_VER').AsInteger);
+      Desencriptar(CryVer, sSenhaDBEncriptada, sSenhaDBDesencriptada);
+
+      FUsuario.Senha := sSenhaDBDesencriptada;
+      {
+      Result := sSenhaDBEncriptada = sSenhaDigEncriptada;
+
+      if not Result then
+      begin
+        pMens := 'Nome de Usuário ou Senha incorretos';
+        exit;
+      end;
+      }
+    finally
       q.Free;
-      pMens := 'Nome de Usuário ou Senha incorretos';
-      exit;
     end;
 
-    CryVer := Word(q.FieldByName('CRY_VER').AsInteger);
-    sSenhaDBEncriptada := q.FieldByName('SENHA').AsString.Trim;
+    {
 
-    Encriptar(CryVer, pSenhaDig, sSenhaDigEncriptada);
 
-    Result := sSenhaDBEncriptada = sSenhaDigEncriptada;
+      iLojaId := q.FieldByName('LOJA_ID').AsInteger;
+      iPessoaId := q.FieldByName('PESSOA_ID').AsInteger;
+      sNomeCompleto := q.FieldByName('NOME').AsString.Trim;
+      sApelido := q.FieldByName('APELIDO').AsString.Trim;
 
-    if not Result then
-    begin
       q.Free;
-      pMens := 'Nome de Usuário ou Senha incorretos';
-      exit;
-    end;
 
-    iLojaId := q.FieldByName('LOJA_ID').AsInteger;
-    iPessoaId := q.FieldByName('PESSOA_ID').AsInteger;
-    sNomeCompleto := q.FieldByName('NOME').AsString.Trim;
-    sApelido := q.FieldByName('APELIDO').AsString.Trim;
+      FUsuario.Pegar(iLojaId, 0, iPessoaId);
+      FUsuario.NomeCompleto := sNomeCompleto;
+      FUsuario.NomeExib := sApelido;
 
-    q.Free;
-
-    FUsuario.Pegar(iLojaId, 0, iPessoaId);
-    FUsuario.NomeCompleto := sNomeCompleto;
-    FUsuario.NomeExib := sApelido;
-
-    if pTipoModuloSistema = modsisNaoIndicado then
+      if pTipoModuloSistema = modsisNaoIndicado then
       exit;
 
-    sSql := GetSQLUsuarioAcessaModuloSistema(iLojaId, iPessoaId,
+      sSql := GetSQLUsuarioAcessaModuloSistema(iLojaId, iPessoaId,
       pTipoModuloSistema);
-    //sSql := 'SELECT ACESSA FROM USUARIO_PA.USUARIO_ACESSA_MODULO_GET(1, 2,''!'');';
-    DBConnection.QueryDataSet(sSql, q);
-    Result := not q.IsEmpty;
+      // sSql := 'SELECT ACESSA FROM USUARIO_PA.USUARIO_ACESSA_MODULO_GET(1, 2,''!'');';
+      DBConnection.QueryDataSet(sSql, q);
+      Result := not q.IsEmpty;
 
-    if not Result then
-    begin
+      if not Result then
+      begin
       q.Free;
       sTipoModuloSistema := TipoModuloSistemaToStr(pTipoModuloSistema);
-      pMens := 'Usuário sem direitos para abrir o módulo '+sTipoModuloSistema;
+      pMens := 'Usuário sem direitos para abrir o módulo ' + sTipoModuloSistema;
       exit;
-    end;
+      end;
 
-    Result := q.Fields[0].AsBoolean;
-    q.Free;
+      Result := q.Fields[0].AsBoolean;
+      q.Free;
 
-    if not Result then
-    begin
+      if not Result then
+      begin
       sTipoModuloSistema := TipoModuloSistemaToStr(pTipoModuloSistema);
-      pMens := 'Usuário sem direitos para abrir o módulo '+sTipoModuloSistema;
+      pMens := 'Usuário sem direitos para abrir o módulo ' + sTipoModuloSistema;
       exit;
-    end;
-
+      end;
+    }
   finally
     DBConnection.Fechar;
   end;
