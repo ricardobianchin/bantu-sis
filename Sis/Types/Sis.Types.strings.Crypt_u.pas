@@ -9,42 +9,34 @@ implementation
 
 uses System.SysUtils;
 
-// Define um array de dois bytes com os três maiores primos menores do que 255
 const
-  Primos: array[0..2] of Byte = (239, 241, 251);
+  Primos: array[0..6] of Byte = (223, 227, 229, 233, 239, 241, 251);
 
 // Encripta uma string usando os primos como fatores
-procedure Encriptar1(pStr: string; out pEncriptado: string);
+procedure Encriptar1(pStrDesencriptada: string; out pStrEncriptada: string);
 var
   i, j: Integer;
   c: Char;
   w: Word;
 begin
   // Se pStr for nula, finaliza retornando pEncriptado como uma string nula
-  if pStr = '' then
+  if pStrDesencriptada = '' then
   begin
-    pEncriptado := '';
+    pStrEncriptada := '';
     Exit;
   end;
 
-  // Zera pEncriptado
-  pEncriptado := '';
+  pStrEncriptada := '';
 
-  // Percorre cada caractere de pStr
-  j := 0; // Índice do primo a ser usado
-  for i := 1 to Length(pStr) do
+  for i := 1 to Length(pStrDesencriptada) do
   begin
-    c := pStr[i]; // Caractere atual
+    c := pStrDesencriptada[i];
 
-    // Multiplica o caractere pelo primo correspondente
+    j := Random(Length(Primos));
+
     w := Ord(c) * Primos[j];
 
-    // Converte o produto para um número hexadecimal de 4 casas
-    pEncriptado := pEncriptado + IntToHex(w, 4);
-
-    // Incrementa o índice do primo, voltando ao início se necessário
-    Inc(j);
-    if j > 2 then j := 0;
+    pStrEncriptada := pStrEncriptada + IntToHex(w, 4);
   end;
 end;
 
@@ -56,49 +48,51 @@ begin
 end;
 
 // Desencripta uma string encriptada usando os primos como divisores
-procedure Desencriptar1(pEncriptado: string; out pStr: string);
+procedure Desencriptar1(pStrEncriptada: string; out pStrDesencriptada: string);
 var
   i, j: Integer;
-  s: string;
-  w: Word;
+  sHex: string;
+  wOriginal: Word;
+  iResto: byte;
+  iAscii: byte;
   c: Char;
+  iQtdPrimos: integer;
+  iQtdCharsFinal: integer;
+  iPrimoUsado: byte;
 begin
-  // Se pEncriptado for uma string nula, deve abortar, retornando pStr como uma string nula
-  if pEncriptado = '' then
+  if pStrEncriptada = '' then
   begin
-    pStr := '';
+    pStrDesencriptada := '';
     Exit;
   end;
 
-  // Se o comprimento de pEncriptado não for múltiplo de 4, deve levantar uma exceção
-  if Length(pEncriptado) mod 4 <> 0 then
+  if Length(pStrEncriptada) mod 4 <> 0 then
     raise Exception.Create('String encriptada inválida');
 
-  // Zera pStr
-  pStr := '';
+  pStrDesencriptada := '';
+  iQtdPrimos := Length(Primos);
 
-  // Percorre os caracteres de pEncriptado de 4 em 4
-  j := 0; // Índice do primo a ser usado
-  for i := 1 to Length(pEncriptado) div 4 do
+  iQtdCharsFinal := Length(pStrEncriptada) div 4;
+  for i := 1 to iQtdCharsFinal do
   begin
-    // Extrai a substring de quatro caracteres correspondente ao hexadecimal
-    s := Copy(pEncriptado, (i - 1) * 4 + 1, 4);
+    sHex := Copy(pStrEncriptada, (i - 1) * 4 + 1, 4);
 
     // Converte a substring para um número inteiro (word)
-    w := StrToInt('$' + s);
+    wOriginal := StrToInt('$' + sHex);
 
-    // Divide o número pelo primo correspondente
-    w := w div Primos[j];
+    for j := 0 to iQtdPrimos - 1 do
+    begin
+      iPrimoUsado := Primos[j];
+      iResto := wOriginal mod iPrimoUsado;
+      if iResto = 0 then
+        break;
+    end;
 
-    // Converte o quociente para um caractere ASCII e adiciona em pStr
-    c := Chr(w);
-    pStr := pStr + c;
+    iAscii := wOriginal div iPrimoUsado;
 
-    // Incrementa o índice do primo, voltando ao início se necessário
-    Inc(j);
-    if j > 2 then j := 0;
-
-   end;
+    c := Chr(iAscii);
+    pStrDesencriptada := pStrDesencriptada + c;
+  end;
 end;
 
 procedure Desencriptar(pCryVer: integer; pEncriptado: string; out pStr: string);
