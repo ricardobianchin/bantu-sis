@@ -204,10 +204,10 @@ inherited LoginPergForm: TLoginPergForm
       Top = 6
       Width = 96
       Height = 25
-      Action = MensCopyAct_Diag
       Anchors = [akTop, akRight]
       Caption = 'Alterar a Senha'
       TabOrder = 3
+      OnClick = MensCopyAct_DiagExecute
       ExplicitLeft = 51
     end
   end

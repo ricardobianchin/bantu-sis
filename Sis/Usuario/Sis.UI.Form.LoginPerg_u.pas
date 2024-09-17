@@ -33,7 +33,6 @@ type
     procedure Senha1LabeledEditChange(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
-    procedure MensCopyAct_DiagExecute(Sender: TObject);
     procedure UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
 
     // retiram o foco do controle se enter
@@ -51,6 +50,7 @@ type
     procedure Senha3LabeledEditExit(Sender: TObject);
 
     procedure OkAct_DiagExecute(Sender: TObject);
+    procedure MensCopyAct_DiagExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -258,8 +258,11 @@ begin
     Senha1LabeledEdit.SetFocus;
     exit;
   end;
+  Senha1LabeledEdit.Clear;
+  Senha2LabeledEdit.Clear;
+  Senha3LabeledEdit.Clear;
   SetLoginPergModo(TLoginPergModo.ltMudandoSenha);
-  NomeDeUsuarioLabeledEdit.SetFocus;
+  Senha1LabeledEdit.SetFocus;
 end;
 
 procedure TLoginPergForm.NomeDeUsuarioLabeledEditChange(Sender: TObject);
@@ -630,8 +633,8 @@ begin
     end;
     ltMudandoSenha:
     begin
-      sSenhaDig2 := Senha1LabeledEdit.Text;
-      sSenhaDig3 := Senha2LabeledEdit.Text;
+      sSenhaDig2 := Senha2LabeledEdit.Text;
+      sSenhaDig3 := Senha3LabeledEdit.Text;
       Result := sSenhaDig2 = sSenhaDig3;
 
       if not Result then
@@ -643,7 +646,7 @@ begin
         sMens := Format(sFormat, [sCaption2, sCaption3]);
 
         ErroOutput.Exibir(sMens);
-        Senha1LabeledEdit.SetFocus;
+        Senha2LabeledEdit.SetFocus;
         exit;
       end;
     end;
