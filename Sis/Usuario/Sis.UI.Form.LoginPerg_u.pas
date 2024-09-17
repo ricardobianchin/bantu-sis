@@ -28,20 +28,29 @@ type
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
+    // oculta mensagens de erro que estiverem visiveis
     procedure NomeDeUsuarioLabeledEditChange(Sender: TObject);
     procedure Senha1LabeledEditChange(Sender: TObject);
 
-    procedure NomeDeUsuarioLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
-    procedure NomeDeUsuarioLabeledEditExit(Sender: TObject);
     procedure MensCopyAct_DiagExecute(Sender: TObject);
     procedure UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
 
+    // retiram o foco do controle se enter
+    // garantem maiusculas exceto pra senha
+    procedure NomeDeUsuarioLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure Senha1LabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure Senha2LabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure OkAct_DiagExecute(Sender: TObject);
+    procedure Senha3LabeledEditKeyPress(Sender: TObject; var Key: Char);
+
+    // testam se ao sair, o foco deve voltar ao controle
+    // basta colocar a function que testar o controle
+    procedure NomeDeUsuarioLabeledEditExit(Sender: TObject);
     procedure Senha1LabeledEditExit(Sender: TObject);
     procedure Senha2LabeledEditExit(Sender: TObject);
+    procedure Senha3LabeledEditExit(Sender: TObject);
+
+    procedure OkAct_DiagExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -59,11 +68,17 @@ type
     property LoginPergModo: TLoginPergModo read FLoginPergModo
       write SetLoginPergModo;
 
-    function NomeDeUsuarioOk: boolean;
-    function Senha1Ok: boolean;
-    function Senha2Ok: boolean;
-    function Senha3Ok: boolean;
-    function DadosSenha1Ok: boolean;
+    // controle = Vcl.Controls.TControl
+    // func ControleOk = se o conteudo do controle está aceitavel
+    // func DadosOk = se o conteudo do controle nao conflitará com regras de negocio
+    // primeiro o usuario so sofre com as 'controle'
+    // so na hora do ok da janela de dialogo é que executarah as dados
+    function NomeDeUsuarioControleDadosOk: boolean;
+    function Senha1ControleOk: boolean;
+    function Senha2ControleOk: boolean;
+    function Senha3ControleOk: boolean;
+    function Senha1DadosOk: boolean;
+    function Senha2DadosOk: boolean;
 
     procedure ExecuteAutoLogin;
 
@@ -74,6 +89,8 @@ type
     procedure PreencherBaseControlsAlinhador(pBaseControlsAlinhador
       : IControlsAlinhador); override;
     function PodeOk: boolean; override;
+    procedure AjusteControles; override;
+
 
   public
     { Public declarations }
@@ -115,6 +132,12 @@ end;
 
 { TLoginPergForm }
 
+procedure TLoginPergForm.AjusteControles;
+begin
+  inherited;
+  NomeDeUsuarioLabeledEdit.SetFocus;
+end;
+
 function TLoginPergForm.ConsultaNomeDeUsuario(pNomeDeUsuario: string;
   out pCryVer: integer; out pSenha, pApelido, pModulosSistema, pMens: string;
   out pEncontrado: boolean): boolean;
@@ -148,16 +171,15 @@ begin
   Caption := Format('Login %s...', [sNomeTipo]);
 end;
 
-function TLoginPergForm.DadosSenha1Ok: boolean;
+function TLoginPergForm.Senha1DadosOk: boolean;
 var
   sSenha: string;
   sMens: string;
 begin
-  sSenha := Senha1LabeledEdit.Text;
-
   case FLoginPergModo of
     ltLogando:
     begin
+      sSenha := Senha1LabeledEdit.Text;
       Result := sSenha = FUsuario.Senha;
       if not Result then
       begin
@@ -168,11 +190,11 @@ begin
     end;
     ltMudandoSenha:
     begin
-
+      Result := True;
     end;
     ltCriandoSenha:
     begin
-      Result := True;
+      sSenha := Senha1LabeledEdit.Text;
       FUsuario.Senha := sSenha;
       Result := FUsuarioDBI.GravarSenha(sMens);
     end;
@@ -220,7 +242,7 @@ end;
 procedure TLoginPergForm.MensCopyAct_DiagExecute(Sender: TObject);
 begin
   inherited;
-  if not NomeDeUsuarioOk then
+  if not NomeDeUsuarioControleDadosOk then
     exit;
 
   if LoginPergModo = TLoginPergModo.ltCriandoSenha then
@@ -244,7 +266,7 @@ end;
 procedure TLoginPergForm.NomeDeUsuarioLabeledEditExit(Sender: TObject);
 begin
   inherited;
-  NomeDeUsuarioOk;
+  NomeDeUsuarioControleDadosOk;
 end;
 
 procedure TLoginPergForm.NomeDeUsuarioLabeledEditKeyPress(Sender: TObject;
@@ -254,7 +276,7 @@ begin
   EditKeyPress(Sender, Key);
 end;
 
-function TLoginPergForm.NomeDeUsuarioOk: boolean;
+function TLoginPergForm.NomeDeUsuarioControleDadosOk: boolean;
 var
   sNomeDeUsuario: string;
 
@@ -306,7 +328,6 @@ begin
     SetLoginPergModo(TLoginPergModo.ltCriandoSenha);
     exit;
   end;
-
 end;
 
 procedure TLoginPergForm.OkAct_DiagExecute(Sender: TObject);
@@ -315,7 +336,10 @@ begin
   if not PodeOk then
     exit;
 
-  if not DadosSenha1Ok then
+  if not Senha1DadosOk then
+    exit;
+
+  if not Senha2DadosOk then
     exit;
 
   ModalResult := mrOk;
@@ -323,20 +347,20 @@ end;
 
 function TLoginPergForm.PodeOk: boolean;
 begin
-  Result := NomeDeUsuarioOk;
+  Result := NomeDeUsuarioControleDadosOk;
 
   if not Result then
     exit;
 
-  Result := Senha1Ok;
+  Result := Senha1ControleOk;
   if not Result then
     exit;
 
-  Result := Senha2Ok;
+  Result := Senha2ControleOk;
   if not Result then
     exit;
 
-  Result := Senha3Ok;
+  Result := Senha3ControleOk;
   if not Result then
     exit;
 end;
@@ -359,7 +383,7 @@ end;
 procedure TLoginPergForm.Senha1LabeledEditExit(Sender: TObject);
 begin
   inherited;
-  Senha1Ok;
+  Senha1ControleOk;
 end;
 
 procedure TLoginPergForm.Senha1LabeledEditKeyPress(Sender: TObject;
@@ -393,13 +417,13 @@ begin
     end;
     exit;
   end;
-  inherited;
+  //inherited;
 end;
 
 procedure TLoginPergForm.Senha2LabeledEditExit(Sender: TObject);
 begin
   inherited;
-  Senha2Ok
+  Senha2ControleOk
 end;
 
 procedure TLoginPergForm.Senha2LabeledEditKeyPress(Sender: TObject;
@@ -418,8 +442,8 @@ begin
             NomeDeUsuarioLabeledEdit.SetFocus
           else if Senha1LabeledEdit.Text = '' then
             Senha1LabeledEdit.SetFocus
-          else if Senha1LabeledEdit.Text <> '' then
-            Senha2LabeledEdit.SetFocus;
+          else
+            Senha3LabeledEdit.SetFocus;
         end;
       ltCriandoSenha:
         begin
@@ -433,11 +457,10 @@ begin
     end;
     exit;
   end;
-  inherited;
-
+  //inherited;
 end;
 
-function TLoginPergForm.Senha2Ok: boolean;
+function TLoginPergForm.Senha2ControleOk: boolean;
 var
   sCaption1: string;
   sCaption2: string;
@@ -465,7 +488,7 @@ begin
     begin
       sSenhaDig1 := Senha1LabeledEdit.Text;
       sSenhaDig2 := Senha2LabeledEdit.Text;
-      Result := sSenhaDig1 = sSenhaDig2;
+      Result := sSenhaDig1 <> sSenhaDig2;
 
       if not Result then
       begin
@@ -510,12 +533,75 @@ begin
   end;
 end;
 
-function TLoginPergForm.Senha3Ok: boolean;
+function TLoginPergForm.Senha2DadosOk: boolean;
 var
-  sCaption1: string;
+  sSenha: string;
+  sMens: string;
+begin
+  case FLoginPergModo of
+    ltLogando:
+    begin
+      Result := True;
+    end;
+    ltMudandoSenha:
+    begin
+      sSenha := Senha2LabeledEdit.Text;
+      FUsuario.Senha := sSenha;
+      Result := FUsuarioDBI.GravarSenha(sMens);
+    end;
+    ltCriandoSenha:
+    begin
+      Result := True;
+    end;
+  end;
+  if not Result then
+    ErroOutput.Exibir(sMens);
+end;
+
+procedure TLoginPergForm.Senha3LabeledEditExit(Sender: TObject);
+begin
+  inherited;
+  Senha3ControleOk;
+end;
+
+procedure TLoginPergForm.Senha3LabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    case FLoginPergModo of
+      ltLogando:
+        begin
+        end;
+      ltMudandoSenha:
+        begin
+          if NomeDeUsuarioLabeledEdit.Text = '' then
+            NomeDeUsuarioLabeledEdit.SetFocus
+          else if Senha1LabeledEdit.Text = '' then
+            Senha1LabeledEdit.SetFocus
+          else if Senha2LabeledEdit.Text = '' then
+            Senha2LabeledEdit.SetFocus
+          else
+            OkAct_Diag.Execute;
+        end;
+      ltCriandoSenha:
+        begin
+        end;
+    end;
+    exit;
+  end;
+  inherited;
+end;
+
+function TLoginPergForm.Senha3ControleOk: boolean;
+var
   sCaption2: string;
-  sSenhaDig1: string;
+  sCaption3: string;
+
   sSenhaDig2: string;
+  sSenhaDig3: string;
+
   sFormat: string;
   sMens: string;
 begin
@@ -523,6 +609,7 @@ begin
     (ActiveControl = CancelBitBtn_DiagBtn) or //
     (ActiveControl = NomeDeUsuarioLabeledEdit) or //
     (ActiveControl = Senha1LabeledEdit) or //
+    (ActiveControl = Senha2LabeledEdit) or //
     (ActiveControl = SenhaMudarBitBtn_LoginPerg) //
     ;//
 
@@ -536,17 +623,17 @@ begin
     end;
     ltMudandoSenha:
     begin
-      sSenhaDig1 := Senha1LabeledEdit.Text;
-      sSenhaDig2 := Senha2LabeledEdit.Text;
-      Result := sSenhaDig1 = sSenhaDig2;
+      sSenhaDig2 := Senha1LabeledEdit.Text;
+      sSenhaDig3 := Senha2LabeledEdit.Text;
+      Result := sSenhaDig2 = sSenhaDig3;
 
       if not Result then
       begin
-        sCaption1 := Senha1LabeledEdit.EditLabel.Caption;
         sCaption2 := Senha2LabeledEdit.EditLabel.Caption;
+        sCaption3 := Senha3LabeledEdit.EditLabel.Caption;
 
-        sFormat := 'Campo ''%s'' deve ser DIFERENTE do campo ''%s''';
-        sMens := Format(sFormat, [sCaption1, sCaption2]);
+        sFormat := 'Campo ''%s'' deve ser igual do campo ''%s''';
+        sMens := Format(sFormat, [sCaption2, sCaption3]);
 
         ErroOutput.Exibir(sMens);
         Senha1LabeledEdit.SetFocus;
@@ -560,7 +647,7 @@ begin
   end;
 end;
 
-function TLoginPergForm.Senha1Ok: boolean;
+function TLoginPergForm.Senha1ControleOk: boolean;
 var
   sEditCaption: string;
 begin
@@ -599,8 +686,12 @@ begin
       begin
         LoginPergModoLabel.Caption := 'Mudando Senha';
         Senha1LabeledEdit.EditLabel.Caption := 'Senha Atual';
-        Senha2LabeledEdit.EditLabel.Visible := True;
-        Senha3LabeledEdit.EditLabel.Visible := True;
+
+        Senha2LabeledEdit.EditLabel.Caption := 'Nova Senha';
+        Senha3LabeledEdit.EditLabel.Caption := 'Repita a Nova Senha';
+
+        Senha2LabeledEdit.Visible := True;
+        Senha3LabeledEdit.Visible := True;
       end;
     ltCriandoSenha:
       begin
@@ -618,7 +709,6 @@ end;
 procedure TLoginPergForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  NomeDeUsuarioLabeledEdit.SetFocus;
   ExecuteAutoLogin;
 end;
 
