@@ -1,9 +1,9 @@
-unit Sis.Types.strings.Crypt_u;
+unit Sis.Types.strings.Crypt1_u;
 
 interface
 
-procedure Encriptar(pCryVer: integer; pStr: string; out pEncriptado: string);
-procedure Desencriptar(pCryVer: integer; pEncriptado: string; out pStr: string);
+procedure Encriptar1(pStrDesencriptada: string; out pStrEncriptada: string);
+procedure Desencriptar1(pStrEncriptada: string; out pStrDesencriptada: string);
 
 implementation
 
@@ -12,7 +12,16 @@ uses System.SysUtils;
 const
   Primos: array[0..6] of Byte = (223, 227, 229, 233, 239, 241, 251);
 
-// Encripta uma string usando os primos como fatores
+function HexToWord(const Hex: string): Word; inline;
+begin
+  Result := StrToInt('$' + Hex);
+end;
+
+function WordToHex(Value: Word): string; inline;
+begin
+  Result := IntToHex(Value, 4);
+end;
+
 procedure Encriptar1(pStrDesencriptada: string; out pStrEncriptada: string);
 var
   i, j: Integer;
@@ -36,14 +45,7 @@ begin
 
     w := Ord(c) * Primos[j];
 
-    pStrEncriptada := pStrEncriptada + IntToHex(w, 4);
-  end;
-end;
-
-procedure Encriptar(pCryVer: integer; pStr: string; out pEncriptado: string);
-begin
-  case pCryVer of
-    1: Encriptar1(pStr, pEncriptado);
+    pStrEncriptada := pStrEncriptada + WordToHex(w);
   end;
 end;
 
@@ -56,7 +58,6 @@ var
   iResto: byte;
   iAscii: byte;
   c: Char;
-  iQtdPrimos: integer;
   iQtdCharsFinal: integer;
   iPrimoUsado: byte;
 begin
@@ -70,17 +71,15 @@ begin
     raise Exception.Create('String encriptada inválida');
 
   pStrDesencriptada := '';
-  iQtdPrimos := Length(Primos);
 
   iQtdCharsFinal := Length(pStrEncriptada) div 4;
   for i := 1 to iQtdCharsFinal do
   begin
     sHex := Copy(pStrEncriptada, (i - 1) * 4 + 1, 4);
 
-    // Converte a substring para um número inteiro (word)
-    wOriginal := StrToInt('$' + sHex);
+    wOriginal := HexToWord(sHex);
 
-    for j := 0 to iQtdPrimos - 1 do
+    for j := Low(Primos) to High(Primos) do
     begin
       iPrimoUsado := Primos[j];
       iResto := wOriginal mod iPrimoUsado;
@@ -92,13 +91,6 @@ begin
 
     c := Chr(iAscii);
     pStrDesencriptada := pStrDesencriptada + c;
-  end;
-end;
-
-procedure Desencriptar(pCryVer: integer; pEncriptado: string; out pStr: string);
-begin
-  case pCryVer of
-    1: Desencriptar1(pEncriptado, pStr);
   end;
 end;
 

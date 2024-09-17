@@ -161,7 +161,7 @@ contains
   Sis.Types.TStrings_u in 'Types\Sis.Types.TStrings_u.pas',
   Sis.DB.Updater_u_GetStrings in 'DB\Updater\Sis.DB.Updater_u_GetStrings.pas',
   Sis.Types.Integers in 'Types\Sis.Types.Integers.pas',
-  Sis.Types.strings.Crypt_u in 'Types\Sis.Types.strings.Crypt_u.pas',
+  Sis.Types.strings.Crypt_u in 'Types\Crypt\Sis.Types.strings.Crypt_u.pas',
   Sis.ModuloSistema in 'Entities\Sis.ModuloSistema.pas',
   Sis.ModuloSistema.Types in 'Entities\Sis.ModuloSistema.Types.pas',
   Sis.UI.Form.Bas.Diag_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas' {DiagBasForm},
@@ -267,6 +267,7 @@ contains
   Sis.UI.Controls.TreeView.Frame.Preenchedor_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor_u.pas',
   Sis.UI.Form.Bas.Diag.Btn.TreeView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas' {TreeViewDiagBasForm},
   Sis.Usuario.Senha_u in 'Usuario\Sis.Usuario.Senha_u.pas',
-  Sis.UI.Form.Login.Types_u in 'Usuario\Sis.UI.Form.Login.Types_u.pas';
+  Sis.UI.Form.Login.Types_u in 'Usuario\Sis.UI.Form.Login.Types_u.pas',
+  Sis.Types.strings.Crypt1_u in 'Types\Crypt\Sis.Types.strings.Crypt1_u.pas';
 
 end.
