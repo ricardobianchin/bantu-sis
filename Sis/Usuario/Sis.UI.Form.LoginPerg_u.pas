@@ -190,7 +190,14 @@ begin
     end;
     ltMudandoSenha:
     begin
-      Result := True;
+      sSenha := Senha1LabeledEdit.Text;
+      Result := sSenha = FUsuario.Senha;
+      if not Result then
+      begin
+        ErroOutput.Exibir(Senha1LabeledEdit.EditLabel.Caption + ' incorreta');
+        Senha1LabeledEdit.SetFocus;
+        exit;
+      end;
     end;
     ltCriandoSenha:
     begin
