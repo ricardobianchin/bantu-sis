@@ -20,7 +20,7 @@ function FuncionarioDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
   : IFormCreator;
 
-function UsuarioSisPerfilUsoPerg(pPerfiDeUsoId: integer;
+function OpcaoSisFuncionarioPerg(pLojaId: smallint; pPerfiDeUsoId: integer;
   pFuncionarioNome: string; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS): boolean;
 
@@ -75,14 +75,14 @@ begin
     pProcessLog, pOutputNotify, oEnt, oDBI);
 end;
 
-function UsuarioSisPerfilUsoPerg(pPerfiDeUsoId: integer;
+function OpcaoSisFuncionarioPerg(pLojaId: smallint; pPerfiDeUsoId: integer;
   pFuncionarioNome: string; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS): boolean;
 var
   oForm: TOpcaoSisUsuarioTreeViewForm;
 begin
-  oForm := TOpcaoSisUsuarioTreeViewForm.Create(Application, pPerfiDeUsoId,
-    pFuncionarioNome, pAppInfo, pSisConfig, pDBMS);
+  oForm := TOpcaoSisUsuarioTreeViewForm.Create(Application, pLojaId,
+    pPerfiDeUsoId, pFuncionarioNome, pAppInfo, pSisConfig, pDBMS);
 
   try
     Result := oForm.Perg;
