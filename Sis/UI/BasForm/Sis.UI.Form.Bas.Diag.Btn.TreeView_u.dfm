@@ -1,11 +1,12 @@
 inherited TreeViewDiagBasForm: TTreeViewDiagBasForm
   Caption = 'TreeViewDiagBasForm'
-  ExplicitWidth = 451
+  ExplicitWidth = 455
+  ExplicitHeight = 320
   TextHeight = 15
   object TituloLabel: TLabel [2]
     Left = 0
     Top = 0
-    Width = 439
+    Width = 443
     Height = 15
     Align = alTop
     Caption = 'TituloLabel'
@@ -15,7 +16,7 @@ inherited TreeViewDiagBasForm: TTreeViewDiagBasForm
   object CaminhoLabel: TLabel [3]
     Left = 0
     Top = 15
-    Width = 439
+    Width = 443
     Height = 15
     Align = alTop
     Caption = 'CaminhoLabel'
@@ -23,10 +24,8 @@ inherited TreeViewDiagBasForm: TTreeViewDiagBasForm
     ExplicitWidth = 77
   end
   inherited BasePanel: TPanel
-    ExplicitWidth = 435
-    DesignSize = (
-      439
-      37)
+    ExplicitTop = 229
+    ExplicitWidth = 439
   end
   object TreeView1: TTreeView [5]
     Left = 168

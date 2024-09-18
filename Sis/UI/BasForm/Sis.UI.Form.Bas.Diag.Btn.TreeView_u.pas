@@ -14,7 +14,6 @@ type
     TreeView1: TTreeView;
     TituloLabel: TLabel;
     CaminhoLabel: TLabel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FNodeList: TList<TTreeNode>;
@@ -23,6 +22,7 @@ type
     procedure PreencherTreeView; virtual;
     function GetPath(pTreeNode: TTreeNode): string;
     procedure AtualizeCaminho;
+    procedure AjusteControles; override;
 
     function AddChildNode(Parent: TTreeNode; const S: string; Ptr: TCustomData): TTreeNode;
 
@@ -47,6 +47,13 @@ function TTreeViewDiagBasForm.AddChildNode(Parent: TTreeNode; const S: string;
 begin
   Result := TreeView1.Items.AddChildObject(Parent, S, Ptr);
   NodeList.Add(Result);
+end;
+
+procedure TTreeViewDiagBasForm.AjusteControles;
+begin
+  inherited;
+  PreencherTreeView;
+  TreeView1.SetFocus;
 end;
 
 procedure TTreeViewDiagBasForm.AtualizeCaminho;
@@ -95,13 +102,6 @@ end;
 procedure TTreeViewDiagBasForm.PreencherTreeView;
 begin
 
-end;
-
-procedure TTreeViewDiagBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  PreencherTreeView;
-  TreeView1.SetFocus;
 end;
 
 end.
