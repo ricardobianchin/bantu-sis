@@ -219,10 +219,10 @@ begin
 
   NomeDeUsuarioLabeledEdit.Text := FLoginConfig.NomeDeUsuario;
 
-//  Key := #13;
-//  NomeDeUsuarioLabeledEditKeyPress(NomeDeUsuarioLabeledEdit, Key);
+  Key := #13;
+  NomeDeUsuarioLabeledEditKeyPress(NomeDeUsuarioLabeledEdit, Key);
 
-  // Senha1LabeledEdit.Text := FLoginConfig.SenhaAtual;
+  Senha1LabeledEdit.Text := FLoginConfig.SenhaAtual;
 
   if not FLoginConfig.ExecuteOk then
     exit;
