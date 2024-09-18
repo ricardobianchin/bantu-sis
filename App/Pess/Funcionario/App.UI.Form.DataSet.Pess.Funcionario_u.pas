@@ -15,7 +15,9 @@ uses
 
 type
   TAppPessFuncionarioDataSetForm = class(TAppPessDataSetForm)
+    OpcaoSisAction_FunciDataSetForm: TAction;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure OpcaoSisAction_FunciDataSetFormExecute(Sender: TObject);
   private
     { Private declarations }
     FPessFuncionarioEnt: IPessFuncionarioEnt;
@@ -28,7 +30,7 @@ type
     procedure QToMemTable(q: TDataSet); override;
     function PergEd: boolean; override;
     procedure ToolBar1CrieBotoes; override;
-
+    procedure PrepareControls; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -45,7 +47,9 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u;
+uses App.Pess.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
+  Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, Sis.DB.Factory, App.DB.Utils,
+  Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid, Sis.UI.ImgDM;
 
 { TAppPessFuncionarioDataSetForm }
 
@@ -126,9 +130,32 @@ begin
   Result := sNomeArq;
 end;
 
+procedure TAppPessFuncionarioDataSetForm.OpcaoSisAction_FunciDataSetFormExecute
+  (Sender: TObject);
+var
+  iLojaId: smallint;
+  iPessoaId: integer;
+  sApelido: string;
+begin
+  inherited;
+  iLojaId := FDMemTable.Fields[iT_LOJA_ID].AsInteger;
+  iPessoaId := FDMemTable.Fields[iT_PESSOA_ID].AsInteger;
+  sApelido := Trim(FDMemTable.Fields[iT_APELIDO].AsString);
+
+  OpcaoSisFuncionarioPerg(iLojaId, iPessoaId, sApelido, AppInfo, SisConfig,
+    DBMS);
+end;
+
 function TAppPessFuncionarioDataSetForm.PergEd: boolean;
 begin
-  Result := FuncionarioPerg(nil, AppInfo, FPessFuncionarioEnt, FPessFuncionarioDBI);
+  Result := FuncionarioPerg(nil, AppInfo, FPessFuncionarioEnt,
+    FPessFuncionarioDBI);
+end;
+
+procedure TAppPessFuncionarioDataSetForm.PrepareControls;
+begin
+  inherited;
+  ToolBarAjustarAutoSize(TitToolBar1_BasTabSheet, True);
 end;
 
 procedure TAppPessFuncionarioDataSetForm.QToMemTable(q: TDataSet);
@@ -150,7 +177,7 @@ end;
 procedure TAppPessFuncionarioDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
-  // ToolBarAddButton(OpcaoSisAction_PerfilDeUsoDataSetForm, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(OpcaoSisAction_FunciDataSetForm, TitToolBar1_BasTabSheet);
 end;
 
 end.
