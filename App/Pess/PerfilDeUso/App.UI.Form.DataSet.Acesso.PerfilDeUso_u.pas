@@ -20,8 +20,6 @@ type
     OpcaoSisAction_PerfilDeUsoDataSetForm: TAction;
 
     procedure OpcaoSisAction_PerfilDeUsoDataSetFormExecute(Sender: TObject);
-
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPerfilDeUsoEnt: IPerfilDeUsoEnt;
@@ -67,7 +65,9 @@ constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 begin
-  inherited;
+  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
+    pModoDataSetForm, pIdPos);
   FPerfilDeUsoEnt := EntEdCastToPerfilDeUsoEnt(pEntEd);
 end;
 
@@ -163,12 +163,6 @@ begin
   FPerfilDeUsoEnt.Id := Tab.Fields[0 { perfil_de_uso_id } ].AsInteger;
   FPerfilDeUsoEnt.Descr := Trim(Tab.Fields[1 { nome } ].AsString);
   FPerfilDeUsoEnt.DeSistema := Tab.Fields[2 { de_sistema } ].AsBoolean;
-end;
-
-procedure TPerfilDeUsoDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  OpcaoSisAction_PerfilDeUsoDataSetForm.Execute;
 end;
 
 procedure TPerfilDeUsoDataSetForm.ToolBar1CrieBotoes;
