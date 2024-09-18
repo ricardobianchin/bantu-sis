@@ -81,7 +81,7 @@ end;
 
 destructor TTreeViewDiagBasForm.Destroy;
 begin
-  TreeView1.Free;
+  FNodeList.Free;
   inherited;
 end;
 
