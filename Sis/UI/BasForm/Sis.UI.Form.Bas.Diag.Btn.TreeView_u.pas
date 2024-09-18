@@ -14,7 +14,6 @@ type
     TreeView1: TTreeView;
     TituloLabel: TLabel;
     CaminhoLabel: TLabel;
-    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
@@ -77,12 +76,6 @@ destructor TTreeViewDiagBasForm.Destroy;
 begin
   TreeView1.Free;
   inherited;
-end;
-
-procedure TTreeViewDiagBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  TreeView1.Align := alClient;
 end;
 
 function TTreeViewDiagBasForm.GetPath(pTreeNode: TTreeNode): string;

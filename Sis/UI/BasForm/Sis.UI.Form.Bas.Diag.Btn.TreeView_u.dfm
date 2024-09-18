@@ -1,16 +1,7 @@
 inherited TreeViewDiagBasForm: TTreeViewDiagBasForm
   Caption = 'TreeViewDiagBasForm'
-  ClientWidth = 439
   ExplicitWidth = 451
   TextHeight = 15
-  inherited MensLabel: TLabel
-    Width = 439
-    ExplicitTop = 209
-  end
-  inherited AlteracaoTextoLabel: TLabel
-    Width = 439
-    ExplicitTop = 266
-  end
   object TituloLabel: TLabel [2]
     Left = 0
     Top = 0
@@ -32,7 +23,7 @@ inherited TreeViewDiagBasForm: TTreeViewDiagBasForm
     ExplicitWidth = 77
   end
   inherited BasePanel: TPanel
-    Width = 439
+    ExplicitWidth = 435
     DesignSize = (
       439
       37)
