@@ -23,6 +23,7 @@ type
     FDBConnection: IDBConnection;
     FDBQuery: IDBQuery;
 
+
     procedure Gravar;
   protected
     property AssociadaId: integer read FAssociadaId;
