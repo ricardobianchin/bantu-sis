@@ -5,6 +5,7 @@ interface
 uses Vcl.ComCtrls, Vcl.ActnList;
 
 procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar);
+procedure ToolBarAjustarAutoSize(pToolBar: TToolBar; pAutoSize: Boolean);
 
 implementation
 
@@ -36,6 +37,19 @@ begin
   NovoBotao.Parent := pToolBar;
 
   NovoBotao.AutoSize := False;
+end;
+
+procedure ToolBarAjustarAutoSize(pToolBar: TToolBar; pAutoSize: Boolean);
+var
+  i: Integer;
+begin
+  for i := 0 to pToolBar.ButtonCount - 1 do
+  begin
+    if pToolBar.Buttons[i] is TToolButton then
+    begin
+      TToolButton(pToolBar.Buttons[i]).AutoSize := pAutoSize;
+    end;
+  end;
 end;
 
 end.
