@@ -42,7 +42,8 @@ end;
 
 function TPessFuncionarioDBI.GetFieldNamesListaGet: string;
 begin
-  Result := inherited + ', NOME_DE_USUARIO'#13#10 // 32
+  Result := inherited //
+    + ', NOME_DE_USUARIO'#13#10 // 32
     + ', SENHA'#13#10 // 33
     + ', CRY_VER'#13#10 // 34
     + ', PERFIL_DE_USO_DESCRS'#13#10 // 35
@@ -50,11 +51,14 @@ begin
 end;
 
 function TPessFuncionarioDBI.GetFieldValuesGravar: string;
+var
+  e: IPessFuncionarioEnt;
 begin
-  Result := inherited + ', ' + QuotedStr(FPessFuncionarioEnt.NomeDeUsuario) +
-    ' -- nome_de_usuario' + #13#10 //
-    + ', ' + QuotedStr(FPessFuncionarioEnt.Senha) + ' -- senha' + #13#10 //
-    + ', ' + FPessFuncionarioEnt.CryVer.ToString + ' -- cry_ver' + #13#10 //
+  e := FPessFuncionarioEnt;
+  Result := inherited //
+    + ', ' + QuotedStr(e.NomeDeUsuario) + ' -- nome_de_usuario' + #13#10 //
+    + ', ' + QuotedStr(e.Senha) + ' -- senha' + #13#10 //
+    + ', ' + e.CryVer.ToString + ' -- cry_ver' + #13#10 //
     ;
 end;
 
@@ -97,9 +101,9 @@ begin
   FPessFuncionarioEnt.Senha := pNovaSenha;
   FPessFuncionarioEnt.CryVer := pCryVer;
 
-  Result := Sis.Usuario.Senha_u.GravarSenha(pNovaSenha, pCryVer, FPessFuncionarioEnt.LojaId,
-    FPessFuncionarioEnt.TerminalId, FPessFuncionarioEnt.Id,
-    DBConnection, pMens);
+  Result := Sis.Usuario.Senha_u.GravarSenha(pNovaSenha, pCryVer,
+    FPessFuncionarioEnt.LojaId, FPessFuncionarioEnt.TerminalId,
+    FPessFuncionarioEnt.Id, DBConnection, pMens);
 end;
 
 procedure TPessFuncionarioDBI.RegAtualToEnt(Q: TDataSet);
