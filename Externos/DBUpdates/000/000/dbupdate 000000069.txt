@@ -21,11 +21,12 @@ C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
 "C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\FUNCIONARIO_USUARIO_MANUT_PA.sql"
  
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\FUNCIONARIO_USUARIO_MANUT_PA.sql";
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\FUNCIONARIO_USUARIO_MANUT_PA Teste.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\FUNCIONARIO_USUARIO_MANUT_PA_teste.sql";
 
-IN "C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Updater\SQL DBUpdate 000000069 RETAG 2024-09-08_22-28-34-721.sql";
 
 SELECT PERFIL_DE_USO_DESCRS FROM FUNCIONARIO_USUARIO_MANUT_PA.LISTA_GET;
+
+SELECT * FROM FUNCIONARIO_USUARIO_MANUT_PA.PERFIL_DE_USO_IDS_GET(1,0,1);
 
  */
 
@@ -100,6 +101,20 @@ BEGIN
     , CRY_VER ID_SHORT_DOM
     , PERFIL_DE_USO_DESCRS VARCHAR(1024)
   );
+  
+  PROCEDURE PERFIL_DE_USO_IDS_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    PESSOA_ID ID_DOM NOT NULL
+  )
+  RETURNS
+  (
+    PERFIL_DE_USO_ID ID_DOM,
+    NOME NOME_REDU_DOM,
+    TEM BOOLEAN
+  );
+  
 END^
 
 ----- BODY -----
@@ -446,6 +461,45 @@ BEGIN
       :PERFIL_DE_USO_DESCRS      
     DO 
       SUSPEND;
+  END
+  
+  PROCEDURE PERFIL_DE_USO_IDS_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    PESSOA_ID ID_DOM NOT NULL
+  )
+  RETURNS
+  (
+    PERFIL_DE_USO_ID ID_DOM,
+    NOME NOME_REDU_DOM,
+    TEM BOOLEAN
+  )
+  AS
+  BEGIN
+    WITH P AS (
+      SELECT PERFIL_DE_USO_ID, NOME
+      FROM PERFIL_DE_USO
+    ), UTP AS (
+      SELECT PERFIL_DE_USO_ID
+      FROM USUARIO_TEM_PERFIL_DE_USO
+      WHERE LOJA_ID = :LOJA_ID
+        AND TERMINAL_ID = :TERMINAL_ID
+        AND PESSOA_ID = :PESSOA_ID
+    )
+    SELECT 
+      P.PERFIL_DE_USO_ID,
+      P.NOME,
+      (UTP.PERFIL_DE_USO_ID IS NOT NULL) AS TEM
+    FROM P
+    LEFT JOIN UTP ON
+      P.PERFIL_DE_USO_ID = UTP.PERFIL_DE_USO_ID
+    INTO
+      :PERFIL_DE_USO_ID,
+      :NOME,
+      :TEM;
+
+    SUSPEND;
   END
 END^
 SET TERM ;^

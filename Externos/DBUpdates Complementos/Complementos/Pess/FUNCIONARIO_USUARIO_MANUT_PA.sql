@@ -3,6 +3,11 @@ CREATE OR ALTER PACKAGE FUNCIONARIO_USUARIO_MANUT_PA
 AS
 BEGIN 
   PROCEDURE LISTA_GET 
+  (
+    LOJA_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    PESSOA_ID_FILTRO INTEGER NOT NULL
+  )
   RETURNS 
   (
     LOJA_ID ID_SHORT_DOM
@@ -15,6 +20,7 @@ BEGIN
 
     , GENERO_ID CHAR(1)
     , GENERO_DESCR NOME_CURTO_DOM
+
     , ESTADO_CIVIL_ID CHAR(1)
     , ESTADO_CIVIL_DESCR NOME_CURTO_DOM
     
@@ -31,29 +37,45 @@ BEGIN
     , PESS_ALTERADO_EM TIMESTAMP
 
     , ENDER_ORDEM SMALLINT
+
     , LOGRADOURO           VARCHAR(70)
     , NUMERO               NOME_DOM
     , COMPLEMENTO          NOME_DOM
     , BAIRRO               NOME_DOM
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
+
     , MUNICIPIO_IBGE_ID    CHAR(7)
     , MUNICIPIO_NOME    NOME_DOM
+
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
     , FONE2                NOME_CURTO_DOM
     , FONE3                NOME_CURTO_DOM
+    
     , CONTATO              NOME_DOM
     , REFERENCIA           OBS1_DOM
+
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
     
     , NOME_DE_USUARIO NOME_REDU_DOM
     , SENHA SENHA_DOM
     , CRY_VER ID_SHORT_DOM
-    , USUARIO_ATIVO BOOLEAN
     , PERFIL_DE_USO_DESCRS VARCHAR(1024)
   );
+  
+  PROCEDURE PERFIL_DE_USO_IDS_GET (
+    LOJA_ID ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    PESSOA_ID ID_DOM NOT NULL
+  )
+  RETURNS (
+    PERFIL_DE_USO_ID ID_DOM,
+    NOME NOME_REDU_DOM,
+    TEM BOOLEAN
+  );
+  
 END^
 
 ----- BODY -----
@@ -62,6 +84,11 @@ RECREATE PACKAGE BODY FUNCIONARIO_USUARIO_MANUT_PA
 AS 
 BEGIN
   PROCEDURE LISTA_GET 
+  (
+    LOJA_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    PESSOA_ID_FILTRO INTEGER NOT NULL
+  )
   RETURNS 
   (
     LOJA_ID ID_SHORT_DOM
@@ -116,7 +143,6 @@ BEGIN
     , NOME_DE_USUARIO NOME_REDU_DOM
     , SENHA SENHA_DOM
     , CRY_VER ID_SHORT_DOM
-    , USUARIO_ATIVO BOOLEAN
     , PERFIL_DE_USO_DESCRS VARCHAR(1024)
   )
   AS
@@ -224,7 +250,6 @@ BEGIN
         USU.NOME_DE_USUARIO,
         USU.SENHA,
         USU.CRY_VER,
-        NOT (USU.PESSOA_ID IS NULL) USUARIO_ATIVO,
         LIST(PER.NOME, ', ') AS PERFIL_DE_USO_DESCRS
           
       ----------------------------
@@ -246,7 +271,7 @@ BEGIN
       LEFT JOIN MU ON 
         ENDER.MUNICIPIO_IBGE_ID = MU.MUNICIPIO_IBGE_ID
       
-      LEFT JOIN FUNCI ON
+      JOIN FUNCI ON
         FUNCI.LOJA_ID = PES.LOJA_ID
         AND FUNCI.TERMINAL_ID = PES.TERMINAL_ID
         AND FUNCI.PESSOA_ID = PES.PESSOA_ID
@@ -261,8 +286,31 @@ BEGIN
 
       LEFT JOIN PER ON
         PER.PERFIL_DE_USO_ID = UTPER.PERFIL_DE_USO_ID
-          
+
+
+      ----------------------------
+      --- WHERE INICIO
+      ----------------------------
+
+      WHERE 
+        :LOJA_ID_FILTRO = 0
+        OR 
+        (
+        PES.LOJA_ID = :LOJA_ID_FILTRO
+        AND PES.TERMINAL_ID = :TERMINAL_ID_FILTRO
+        AND PES.PESSOA_ID = :PESSOA_ID_FILTRO
+        )
+
+      ----------------------------
+      --- WHERE FIM
+      ----------------------------
+
+
+
       GROUP BY
+      ----------------------------
+      --- GROUP BY CAMPOS INICIO
+      ----------------------------
         PES.LOJA_ID,
         PES.TERMINAL_ID,
         PES.PESSOA_ID,
@@ -314,8 +362,10 @@ BEGIN
     
         USU.NOME_DE_USUARIO,
         USU.SENHA,
-        USU.CRY_VER,
-        NOT (USU.PESSOA_ID IS NULL)
+        USU.CRY_VER
+      ----------------------------
+      --- GROUP BY CAMPOS FIM
+      ----------------------------
     INTO 
       :LOJA_ID,
       :TERMINAL_ID,
@@ -369,9 +419,46 @@ BEGIN
       :NOME_DE_USUARIO,
       :SENHA,
       :CRY_VER,
-      :USUARIO_ATIVO,
       :PERFIL_DE_USO_DESCRS      
     DO 
+      SUSPEND;
+  END
+  
+  PROCEDURE PERFIL_DE_USO_IDS_GET (
+    LOJA_ID ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    PESSOA_ID ID_DOM NOT NULL
+  )
+  RETURNS (
+    PERFIL_DE_USO_ID ID_DOM,
+    NOME NOME_REDU_DOM,
+    TEM BOOLEAN
+  )
+  AS
+  BEGIN
+    FOR
+      WITH P AS (
+        SELECT PERFIL_DE_USO_ID, NOME
+        FROM PERFIL_DE_USO
+      ), UTP AS (
+        SELECT PERFIL_DE_USO_ID
+        FROM USUARIO_TEM_PERFIL_DE_USO
+        WHERE LOJA_ID = :LOJA_ID
+          AND TERMINAL_ID = :TERMINAL_ID
+          AND PESSOA_ID = :PESSOA_ID
+      )
+      SELECT 
+        P.PERFIL_DE_USO_ID,
+        P.NOME,
+        (UTP.PERFIL_DE_USO_ID IS NOT NULL) AS TEM
+      FROM P
+      LEFT JOIN UTP ON
+        P.PERFIL_DE_USO_ID = UTP.PERFIL_DE_USO_ID
+      INTO
+        :PERFIL_DE_USO_ID,
+        :NOME,
+        :TEM
+    DO
       SUSPEND;
   END
 END^
