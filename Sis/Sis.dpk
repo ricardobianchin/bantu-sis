@@ -268,6 +268,7 @@ contains
   Sis.UI.Form.Bas.Diag.Btn.TreeView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas' {TreeViewDiagBasForm},
   Sis.Usuario.Senha_u in 'Usuario\Sis.Usuario.Senha_u.pas',
   Sis.UI.Form.Login.Types_u in 'Usuario\Sis.UI.Form.Login.Types_u.pas',
-  Sis.Types.strings.Crypt1_u in 'Types\Crypt\Sis.Types.strings.Crypt1_u.pas';
+  Sis.Types.strings.Crypt1_u in 'Types\Crypt\Sis.Types.strings.Crypt1_u.pas',
+  Sis.UI.Form.Bas.Diag.Btn.CheckListView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas' {CheckListViewDiagBasForm};
 
 end.

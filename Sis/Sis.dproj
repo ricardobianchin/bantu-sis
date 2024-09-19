@@ -418,6 +418,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
         <DCCReference Include="Usuario\Sis.UI.Form.Login.Types_u.pas"/>
         <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt1_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas">
+            <Form>CheckListViewDiagBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
