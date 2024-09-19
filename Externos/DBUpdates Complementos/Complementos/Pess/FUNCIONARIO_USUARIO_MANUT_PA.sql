@@ -454,6 +454,7 @@ BEGIN
       FROM P
       LEFT JOIN UTP ON
         P.PERFIL_DE_USO_ID = UTP.PERFIL_DE_USO_ID
+      ORDER BY P.NOME  
       INTO
         :PERFIL_DE_USO_ID,
         :NOME,
