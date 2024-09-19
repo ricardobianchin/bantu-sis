@@ -19,7 +19,7 @@ type
     FNodeList: TList<TTreeNode>;
   protected
     property NodeList: TList<TTreeNode> read FNodeList;
-    procedure PreencherTreeView; virtual;
+    procedure PreencherTreeView; virtual; abstract;
     function GetPath(pTreeNode: TTreeNode): string;
     procedure AtualizeCaminho;
     procedure AjusteControles; override;
@@ -41,6 +41,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.UI.Controls.Utils;
 
 function TTreeViewDiagBasForm.AddChildNode(Parent: TTreeNode; const S: string;
   Ptr: TCustomData): TTreeNode;
@@ -76,7 +78,7 @@ begin
   Caption := pCaption;
   TituloLabel.Caption := pTitulo;
   TreeView1.Align := alClient;
-  Height := (Screen.Height * 8) div 10;
+  Height := GetToolFormHeight;
 end;
 
 destructor TTreeViewDiagBasForm.Destroy;
@@ -97,11 +99,6 @@ begin
       Result := pTreeNode.Text + ' / ' + Result;
     pTreeNode := pTreeNode.Parent;
   end;
-end;
-
-procedure TTreeViewDiagBasForm.PreencherTreeView;
-begin
-
 end;
 
 end.
