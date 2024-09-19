@@ -33,6 +33,7 @@ type
     function PergEd: boolean; override;
     procedure ToolBar1CrieBotoes; override;
     procedure PrepareControls; override;
+    procedure RecordToEnt; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -152,6 +153,7 @@ procedure TAppPessFuncionarioDataSetForm.PerfilDeUsoAction_FunciDataSetFormExecu
   Sender: TObject);
 begin
   inherited;
+  RecordToEnt;
   PerfilDeUsoFuncionarioPerg(FPessFuncionarioEnt, FPessFuncionarioDBI);
 end;
 
@@ -172,6 +174,12 @@ begin
   inherited;
   FDMemTable.Fields[iT_PerfilDeUsoDescrs].AsString :=
     q.Fields[iQ_PerfilDeUsoDescrs].AsString.Trim;
+end;
+
+procedure TAppPessFuncionarioDataSetForm.RecordToEnt;
+begin
+  inherited;
+
 end;
 
 procedure TAppPessFuncionarioDataSetForm.ShowTimer_BasFormTimer
