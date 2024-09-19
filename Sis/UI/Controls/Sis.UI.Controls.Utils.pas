@@ -20,6 +20,8 @@ procedure ClearStyleElements(Control: TControl);
 procedure SetHintToName(Control: TControl);
 procedure SetTabOrderToHint(Control: TControl);
 
+function GetToolFormHeight: integer;
+
 implementation
 
 uses System.SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
@@ -187,6 +189,11 @@ begin
     for I := 0 to TWinControl(Control).ControlCount - 1 do
       SetTabOrderToHint(TWinControl(Control).Controls[I]);
   end;
+end;
+
+function GetToolFormHeight: integer;
+begin
+  Result := (Screen.Height * 8) div 10;
 end;
 
 end.
