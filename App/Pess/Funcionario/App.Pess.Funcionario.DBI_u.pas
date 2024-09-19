@@ -2,9 +2,10 @@ unit App.Pess.Funcionario.DBI_u;
 
 interface
 
-uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
+uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, Vcl.CheckLst,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u, App.Pess.Funcionario.DBI,
-  App.Pess.Funcionario.Ent, App.Pess.Geral.Factory_u, App.Pess.DBI_u;
+  App.Pess.Funcionario.Ent, App.Pess.Geral.Factory_u, App.Pess.DBI_u,
+  Sis.UI.IO.Output;
 
 type
   TPessFuncionarioDBI = class(TPessDBI, IPessFuncionarioDBI)
@@ -23,6 +24,8 @@ type
       pPessFuncionarioEnt: IPessFuncionarioEnt);
     function GravarSenha(pNovaSenha: string; pCryVer: integer;
       out pMens: string): Boolean;
+    function PreencherCheckListBox(pCheckListBox: TCheckListBox;
+      pErroOutput: IOutput): Boolean;
   end;
 
 implementation
@@ -104,6 +107,64 @@ begin
   Result := Sis.Usuario.Senha_u.GravarSenha(pNovaSenha, pCryVer,
     FPessFuncionarioEnt.LojaId, FPessFuncionarioEnt.TerminalId,
     FPessFuncionarioEnt.Id, DBConnection, pMens);
+end;
+
+function TPessFuncionarioDBI.PreencherCheckListBox(pCheckListBox: TCheckListBox;
+  pErroOutput: IOutput): Boolean;
+var
+  Q: TDataSet;
+  sSql: string;
+  iPessoaId: integer;
+  PPessoaId: Pointer;
+  sPerfilNome: string;
+  bTem: Boolean;
+  iIndex: integer;
+begin
+  pCheckListBox.Clear;
+
+  sSql := 'select PERFIL_DE_USO_ID, NOME, TEM'#13#10 //
+    + 'FROM PERFIL_DE_USO_IDS_GET('#13#10 //
+    + FPessFuncionarioEnt.LojaId.ToString + ','#13#10 //
+    + FPessFuncionarioEnt.TerminalId.ToString + ','#13#10 //
+    + FPessFuncionarioEnt.Id.ToString + #13#10 //
+    + ');'; //
+
+  Result := DBConnection.Abrir;
+  if not Result then
+  begin
+    pErroOutput.Exibir(DBConnection.UltimoErro);
+    exit;
+  end;
+  try
+    DBConnection.QueryDataSet(sSql, Q);
+
+    Result := Q <> nil;
+    if not Result then
+    begin
+      pErroOutput.Exibir('Erro consultando perfis de uso');
+      exit;
+    end;
+    try
+      iIndex := 0;
+      while not Q.Eof do
+      begin
+        iPessoaId := Q.Fields[0].AsInteger;
+        sPerfilNome := Q.Fields[1].AsString.Trim;
+        bTem :=  Q.Fields[2].AsBoolean;
+
+        PPessoaId := Pointer(iPessoaId);
+
+        pCheckListBox.Items.AddObject(sPerfilNome, PPessoaId);
+        pCheckListBox.Checked[iIndex] := bTem;
+        Q.Next;
+        inc(iIndex);
+      end;
+    finally
+      Q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 procedure TPessFuncionarioDBI.RegAtualToEnt(Q: TDataSet);

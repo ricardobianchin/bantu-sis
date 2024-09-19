@@ -94,7 +94,7 @@ type
     EntradadeNotas4: TMenuItem;
     Inventrio1: TMenuItem;
     Inventrio2: TMenuItem;
-    PerfisdeUso1: TMenuItem;
+    PerfildeUso1: TMenuItem;
     Usurios2: TMenuItem;
     DireitosdeAcesso1: TMenuItem;
     ToolBar4: TToolBar;

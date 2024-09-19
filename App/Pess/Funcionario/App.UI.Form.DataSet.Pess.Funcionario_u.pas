@@ -16,8 +16,10 @@ uses
 type
   TAppPessFuncionarioDataSetForm = class(TAppPessDataSetForm)
     OpcaoSisAction_FunciDataSetForm: TAction;
+    PerfilDeUsoAction_FunciDataSetForm: TAction;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure OpcaoSisAction_FunciDataSetFormExecute(Sender: TObject);
+    procedure PerfilDeUsoAction_FunciDataSetFormExecute(Sender: TObject);
   private
     { Private declarations }
     FPessFuncionarioEnt: IPessFuncionarioEnt;
@@ -146,6 +148,13 @@ begin
     DBMS);
 end;
 
+procedure TAppPessFuncionarioDataSetForm.PerfilDeUsoAction_FunciDataSetFormExecute(
+  Sender: TObject);
+begin
+  inherited;
+  PerfilDeUsoFuncionarioPerg(FPessFuncionarioEnt, FPessFuncionarioDBI);
+end;
+
 function TAppPessFuncionarioDataSetForm.PergEd: boolean;
 begin
   Result := FuncionarioPerg(nil, AppInfo, FPessFuncionarioEnt,
@@ -171,13 +180,13 @@ begin
   inherited;
   //
   DBGrid1.SetFocus;
-
 end;
 
 procedure TAppPessFuncionarioDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   ToolBarAddButton(OpcaoSisAction_FunciDataSetForm, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(PerfilDeUsoAction_FunciDataSetForm, TitToolBar1_BasTabSheet);
 end;
 
 end.

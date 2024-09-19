@@ -524,6 +524,9 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>OpcaoSisUsuarioTreeViewForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas">
+            <Form>FuncionarioPerfilDeUsoDiagForm</Form>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

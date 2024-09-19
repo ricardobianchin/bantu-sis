@@ -6,5 +6,9 @@ inherited AppPessFuncionarioDataSetForm: TAppPessFuncionarioDataSetForm
       Caption = 'Op'#231#245'es do Sistema'
       OnExecute = OpcaoSisAction_FunciDataSetFormExecute
     end
+    object PerfilDeUsoAction_FunciDataSetForm: TAction
+      Caption = 'Perfil de Uso'
+      OnExecute = PerfilDeUsoAction_FunciDataSetFormExecute
+    end
   end
 end

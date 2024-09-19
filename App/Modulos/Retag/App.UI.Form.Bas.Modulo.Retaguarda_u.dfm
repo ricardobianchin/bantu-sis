@@ -180,7 +180,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             AutoSize = True
           end
           object FuncToolButton: TToolButton
-            Left = 79
+            Left = 77
             Top = 0
             Action = RetagAcessoFuncAction
             AutoSize = True
@@ -306,8 +306,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       object Usurios2: TMenuItem
         Caption = 'Usu'#225'rios'
       end
-      object PerfisdeUso1: TMenuItem
-        Caption = 'Perfis de Uso'
+      object PerfildeUso1: TMenuItem
+        Caption = 'Perfil de Uso'
       end
     end
   end
@@ -372,7 +372,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagAcessoPerfilAction: TAction
       Category = 'Acesso'
-      Caption = 'Perfis de Uso'
+      Caption = 'Perfil de Uso'
       OnExecute = RetagAcessoPerfilActionExecute
     end
     object RetagEstVenClienteAction: TAction

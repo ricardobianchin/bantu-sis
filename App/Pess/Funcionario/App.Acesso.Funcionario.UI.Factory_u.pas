@@ -24,10 +24,14 @@ function OpcaoSisFuncionarioPerg(pLojaId: smallint; pPerfiDeUsoId: integer;
   pFuncionarioNome: string; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pDBMS: IDBMS): boolean;
 
+function PerfilDeUsoFuncionarioPerg(pFuncionarioEnt: IPessFuncionarioEnt;
+  pFuncionarioDBI: IPessFuncionarioDBI): boolean;
+
 implementation
 
 uses App.UI.Form.Bas.Ed.Pess.Funcionario_u, App.DB.Utils, Sis.DB.Factory,
-  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u, System.SysUtils;
+  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u, System.SysUtils,
+  App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u;
 
 function FuncionarioEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pFuncionario: IEntEd; pFuncionarioDBI: IEntDBI): TEdBasForm;
@@ -83,6 +87,22 @@ var
 begin
   oForm := TOpcaoSisUsuarioTreeViewForm.Create(Application, pLojaId,
     pPerfiDeUsoId, pFuncionarioNome, pAppInfo, pSisConfig, pDBMS);
+
+  try
+    Result := oForm.Perg;
+  finally
+    FreeAndNil(oForm);
+  end;
+end;
+
+function PerfilDeUsoFuncionarioPerg(pFuncionarioEnt: IPessFuncionarioEnt;
+  pFuncionarioDBI: IPessFuncionarioDBI): boolean;
+var
+  oForm: TFuncionarioPerfilDeUsoDiagForm;
+begin
+
+  oForm := TFuncionarioPerfilDeUsoDiagForm.Create(Application, pFuncionarioEnt,
+    pFuncionarioDBI);
 
   try
     Result := oForm.Perg;
