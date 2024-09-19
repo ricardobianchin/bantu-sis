@@ -123,7 +123,7 @@ begin
   pCheckListBox.Clear;
 
   sSql := 'select PERFIL_DE_USO_ID, NOME, TEM'#13#10 //
-    + 'FROM PERFIL_DE_USO_IDS_GET('#13#10 //
+    + 'FROM FUNCIONARIO_USUARIO_MANUT_PA.PERFIL_DE_USO_IDS_GET('#13#10 //
     + FPessFuncionarioEnt.LojaId.ToString + ','#13#10 //
     + FPessFuncionarioEnt.TerminalId.ToString + ','#13#10 //
     + FPessFuncionarioEnt.Id.ToString + #13#10 //
