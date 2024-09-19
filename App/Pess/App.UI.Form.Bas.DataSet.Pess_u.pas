@@ -435,6 +435,7 @@ begin
   FPessEnt.LojaId := FDMemTable.Fields[iT_LOJA_ID].AsInteger;
   FPessEnt.TerminalId := FDMemTable.Fields[iT_TERMINAL_ID].AsInteger;
   FPessEnt.Id := FDMemTable.Fields[iT_PESSOA_ID].AsInteger;
+  FPessEnt.Apelido := FDMemTable.Fields[iT_APELIDO].AsString;
 
   if FPessEnt.EnderQuantidadePermitida <> TEnderQuantidadePermitida.endqtdNenhum
   then
