@@ -26,6 +26,8 @@ type
       out pMens: string): Boolean;
     function PreencherCheckListBox(pCheckListBox: TCheckListBox;
       pErroOutput: IOutput): Boolean;
+    function GravarPerfis(pLojaId: smallint; pPessoaId: integer;
+      pStrPerfisId: string; pErroOutput: IOutput): Boolean;
   end;
 
 implementation
@@ -98,6 +100,36 @@ begin
   // {$ENDIF}
 end;
 
+function TPessFuncionarioDBI.GravarPerfis(pLojaId: smallint; pPessoaId: integer;
+  pStrPerfisId: string; pErroOutput: IOutput): Boolean;
+var
+  sSql: string;
+begin
+  Result := DBConnection.Abrir;
+  if not Result then
+  begin
+    pErroOutput.Exibir(DBConnection.UltimoErro);
+    exit;
+  end;
+  try
+    sSql := 'EXECUTE PROCEDURE USUARIO_PA.TEM_PERFIS_GARANTIR('
+      + pLojaId.ToString
+      + ', ' + pPessoaId.ToString
+      + ', ' + QuotedStr(pStrPerfisId)
+      +');';
+    try
+      DBConnection.ExecuteSQL(sSql);
+    except on E:Exception do
+    begin
+      pErroOutput.Exibir(DBConnection.UltimoErro);
+      Result := False;
+    end;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
 function TPessFuncionarioDBI.GravarSenha(pNovaSenha: string; pCryVer: integer;
   out pMens: string): Boolean;
 begin
@@ -115,7 +147,7 @@ var
   Q: TDataSet;
   sSql: string;
   iPessoaId: integer;
-  PPessoaId: Pointer;
+  pPessoaId: Pointer;
   sPerfilNome: string;
   bTem: Boolean;
   iIndex: integer;
@@ -150,11 +182,11 @@ begin
       begin
         iPessoaId := Q.Fields[0].AsInteger;
         sPerfilNome := Q.Fields[1].AsString.Trim;
-        bTem :=  Q.Fields[2].AsBoolean;
+        bTem := Q.Fields[2].AsBoolean;
 
-        PPessoaId := Pointer(iPessoaId);
+        pPessoaId := Pointer(iPessoaId);
 
-        pCheckListBox.Items.AddObject(sPerfilNome, PPessoaId);
+        pCheckListBox.Items.AddObject(sPerfilNome, pPessoaId);
         pCheckListBox.Checked[iIndex] := bTem;
         Q.Next;
         inc(iIndex);

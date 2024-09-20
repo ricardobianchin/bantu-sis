@@ -12,6 +12,9 @@ type
 
     function PreencherCheckListBox(pCheckListBox: TCheckListBox;
       pErroOutput: IOutput): Boolean;
+
+    function GravarPerfis(pLojaId: smallint; pPessoaId: integer;
+      pStrPerfisId: string; pErroOutput: IOutput): Boolean;
   end;
 
 implementation
