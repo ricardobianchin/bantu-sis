@@ -17,6 +17,7 @@ type
     FFuncionarioDBI: IPessFuncionarioDBI;
   protected
     procedure PreencherCheckListBox; override;
+    function PodeOk: Boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFuncionarioEnt: IPessFuncionarioEnt;
@@ -42,9 +43,27 @@ begin
   FFuncionarioDBI := pFuncionarioDBI;
 
   sCaption := 'Perfis de Uso do Funcionário';
-  sTitulo := 'Perfis de '+FFuncionarioEnt.Apelido;
+  sTitulo := 'Perfis de Uso de: ' + FFuncionarioEnt.Apelido;
 
   inherited Create(AOwner, sCaption, sTitulo);
+end;
+
+function TFuncionarioPerfilDeUsoDiagForm.PodeOk: Boolean;
+var
+  iLojaId: smallint;
+  iPessoaId: integer;
+  sStrPerfisId: string;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+
+  iLojaId := FFuncionarioEnt.LojaId;
+  iPessoaId := FFuncionarioEnt.Id;
+  sStrPerfisId := IdsSelecionadasAsStringCSV;
+
+  Result := FFuncionarioDBI.GravarPerfis(iLojaId, iPessoaId, sStrPerfisId,
+    ErroOutput);
 end;
 
 procedure TFuncionarioPerfilDeUsoDiagForm.PreencherCheckListBox;
