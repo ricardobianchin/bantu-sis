@@ -48,7 +48,7 @@ type
       : TModuloBasForm; virtual; abstract;
 
     function SessaoFrameCreate(AOwner: TComponent;
-      pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
       virtual; abstract;
@@ -110,7 +110,7 @@ var
   oUsuarioDBI: IUsuarioDBI;
   oDBConnection: IDBConnection;
   DBConnectionParams: TDBConnectionParams;
-  vTipoModuloSistema: TTipoModuloSistema;
+  vTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
   iActionIndex: integer;
   oAction: TAction;
   sNomeTipo: string;
@@ -123,9 +123,9 @@ var
 begin
   oAction := TAction(Sender);
   iActionIndex := oAction.Index;
-  vTipoModuloSistema := TTipoModuloSistema(oAction.Tag);
-  sNameTipo := TipoModuloSistemaToNameStr(vTipoModuloSistema);
-  sNomeTipo := TipoModuloSistemaToStr(vTipoModuloSistema);
+  vTipoOpcaoSisModulo := TTipoOpcaoSisModulo(oAction.Tag);
+  sNameTipo := TipoOpcaoSisModuloToName(vTipoOpcaoSisModulo);
+  sNomeTipo := TipoOpcaoSisModuloToStr(vTipoOpcaoSisModulo);
 
   sNameConex := Format('Abr.%s.DBConn', [sNameTipo]);
   oUsuario := UsuarioCreate();
@@ -137,7 +137,7 @@ begin
     FAppObj.ProcessOutput);
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
-  bResultado := LoginPerg(FLoginConfig, vTipoModuloSistema, oUsuario,
+  bResultado := LoginPerg(FLoginConfig, vTipoOpcaoSisModulo, oUsuario,
     oUsuarioDBI, true);
 
   if not bResultado then
@@ -145,12 +145,12 @@ begin
 
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate
-    (vTipoModuloSistema);
+    (vTipoOpcaoSisModulo);
 
   oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex,
     oUsuario, FAppObj);
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
-  FSessaoFrame := SessaoFrameCreate(Self, vTipoModuloSistema, oUsuario,
+  FSessaoFrame := SessaoFrameCreate(Self, vTipoOpcaoSisModulo, oUsuario,
     oModuloBasForm, iSessaoIndex, FAppObj.DBMS, FAppObj.ProcessOutput,
     FAppObj.ProcessLog);
 
@@ -197,14 +197,14 @@ end;
 
 procedure TSessoesFrame.ExecuteAutoLogin;
 var
-  iTipoModuloSistema: integer;
+  iTipoOpcaoSisModulo: integer;
   oAction: TAction;
 begin
   if not FLoginConfig.PreencheLogin then
     exit;
 
-  iTipoModuloSistema := integer(FLoginConfig.TipoModuloSistema);
-  oAction := ActionByTag(ActionList1, iTipoModuloSistema);
+  iTipoOpcaoSisModulo := integer(FLoginConfig.TipoOpcaoSisModulo);
+  oAction := ActionByTag(ActionList1, iTipoOpcaoSisModulo);
   if not Assigned(oAction) then
     exit;
 
@@ -298,15 +298,14 @@ var
 begin
   FSessaoCriadorList := SessaoCriadorListCreate;
 
-  oSessaoCriador := SessaoCriadorCreate(modsisRetaguarda);
+  oSessaoCriador := SessaoCriadorCreate(moduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
 
-  oSessaoCriador := SessaoCriadorCreate(modsisPDV);
+  oSessaoCriador := SessaoCriadorCreate(moduPDV);
   FSessaoCriadorList.Add(oSessaoCriador);
 
-  oSessaoCriador := SessaoCriadorCreate(modsisConfiguracoes);
+  oSessaoCriador := SessaoCriadorCreate(moduConfiguracoes);
   FSessaoCriadorList.Add(oSessaoCriador);
-
 end;
 
 procedure TSessoesFrame.SessaoCriadorListPrepActionList;
@@ -326,13 +325,13 @@ begin
 
     oAction := TAction.Create(ActionList1);
 
-    sNameTipo := TipoModuloSistemaToNameStr(oSessaoCriador.TipoModuloSistema);
-    sDescr := TipoModuloSistemaToStr(oSessaoCriador.TipoModuloSistema);;
+    sNameTipo := TipoOpcaoSisModuloToName(oSessaoCriador.TipoOpcaoSisModulo);
+    sDescr := TipoOpcaoSisModuloToStr(oSessaoCriador.TipoOpcaoSisModulo);;
     sShortCut := ShortCutToText(wShortCut);
 
     oAction.Name := Format('Criar%sAction', [sNameTipo]);
     oAction.Hint := Format('Abrir %s...', [sDescr]);
-    oAction.Tag := integer(oSessaoCriador.TipoModuloSistema);
+    oAction.Tag := integer(oSessaoCriador.TipoOpcaoSisModulo);
     oAction.Caption := Format('%s - %s', [sShortCut, sDescr]);
     oAction.ImageIndex := I;
 
@@ -359,7 +358,7 @@ begin
     NovoBotao := TToolButton.Create(Self);
     // Definir as propriedades do botão
 
-    sNameTipo := TipoModuloSistemaToNameStr(oSessaoCriador.TipoModuloSistema);
+    sNameTipo := TipoOpcaoSisModuloToName(oSessaoCriador.TipoOpcaoSisModulo);
     NovoBotao.Name := Format('Criar%sToolButton', [sNameTipo]);
     NovoBotao.Style := tbsButton; // Definir o estilo do botão
     NovoBotao.Action := ActionList1.Actions[I];

@@ -120,7 +120,7 @@ begin
   FSessaoIndex := pSessaoIndex;
   FUsuario := pUsuario;
   FAppObj := pAppObj;
-  TitleBarText := FModuloSistema.TipoModuloSistemaDescr + ' - ' +
+  TitleBarText := FModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
     FUsuario.NomeExib;
 //  FOutput := MudoOutputCreate;
 //  FProcessLog := MudoProcessLogCreate;
@@ -267,7 +267,7 @@ var
 begin
   inherited;
   sMens := 'Deseja finalizar o módulo ' +
-    FModuloSistema.TipoModuloSistemaDescr + '?';
+    FModuloSistema.TipoOpcaoSisModuloDescr + '?';
   Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
     [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
   Result := IsPositiveResult(Resultado);

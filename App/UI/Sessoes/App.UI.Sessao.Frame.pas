@@ -26,7 +26,7 @@ type
   private
     { Private declarations }
     FModuloBasForm: TModuloBasForm;
-    FTipoModuloSistema: TTipoModuloSistema;
+    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
     FUsuario: IUsuario;
     FIndex: TSessaoIndex;
     FSessaoEventos: ISessaoEventos;
@@ -53,7 +53,7 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
 
     constructor Create(AOwner: TComponent;
-      pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
       pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
       //; pLoginConfig: ILoginConfig
@@ -74,7 +74,7 @@ begin
 end;
 
 constructor TSessaoFrame.Create(AOwner: TComponent;
-  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
   pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
   {; pLoginConfig: ILoginConfig}
@@ -84,7 +84,7 @@ var
 begin
   inherited Create(AOwner);
   FModuloBasForm := pModuloBasForm;
-  FTipoModuloSistema := pTipoModuloSistema;
+  FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
   FUsuario := pUsuario;
   FIndex := pIndex;
   FSessaoEventos := pSessaoEventos;
@@ -97,7 +97,7 @@ begin
   s := FUsuario.NomeExib;
   ApelidoLabel.Caption := s;
 
-  s := TipoModuloSistemaToStr(FTipoModuloSistema);
+  s := TipoOpcaoSisModuloToStr(FTipoOpcaoSisModulo);
   ModuloLabel.Caption := s;
 end;
 

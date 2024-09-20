@@ -57,7 +57,7 @@ type
     FUsuario: IUsuario;
     FUsuarioDBI: IUsuarioDBI;
     FLoginConfig: ILoginConfig;
-    FTipoModuloSistema: TTipoModuloSistema;
+    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
 
     FLoginPergModo: TLoginPergModo;
     FNomeDeUsuarioStatus: IOutput;
@@ -95,13 +95,13 @@ type
   public
     { Public declarations }
     constructor Create(pLoginConfig: ILoginConfig;
-      pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
       pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
       reintroduce;
   end;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
-  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 
 var
@@ -115,12 +115,12 @@ uses Sis.Types.strings_u, Sis.Types.Utils_u, Sis.Sis.Constants,
   Sis.UI.IO.Factory, Sis.Types.Bool_u;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
-  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 var
   Resultado: TModalResult;
 begin
-  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoModuloSistema,
+  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoOpcaoSisModulo,
     pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema);
   try
     Resultado := LoginPergForm.ShowModal;
@@ -152,7 +152,7 @@ begin
 end;
 
 constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
-  pTipoModuloSistema: TTipoModuloSistema; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
 var
   sNomeTipo: string;
@@ -166,8 +166,8 @@ begin
   FUsuario := pUsuario;
   FUsuarioDBI := pUsuarioDBI;
   FLoginConfig := pLoginConfig;
-  FTipoModuloSistema := pTipoModuloSistema;
-  sNomeTipo := TipoModuloSistemaToStr(pTipoModuloSistema);
+  FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
+  sNomeTipo := TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo);
   Caption := Format('Login %s...', [sNomeTipo]);
 end;
 
@@ -234,7 +234,6 @@ procedure TLoginPergForm.FormCreate(Sender: TObject);
 begin
   inherited;
   MensLabel.Alignment := taCenter;
-
 end;
 
 procedure TLoginPergForm.FormShow(Sender: TObject);
@@ -380,14 +379,12 @@ procedure TLoginPergForm.PreencherBaseControlsAlinhador(pBaseControlsAlinhador
 begin
   inherited;
   pBaseControlsAlinhador.PegarControl(SenhaMudarBitBtn_LoginPerg);
-
 end;
 
 procedure TLoginPergForm.Senha1LabeledEditChange(Sender: TObject);
 begin
   inherited;
   MensLimpar;
-
 end;
 
 procedure TLoginPergForm.Senha1LabeledEditExit(Sender: TObject);

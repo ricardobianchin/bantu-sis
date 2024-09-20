@@ -9,19 +9,19 @@ type
   TLoginConfig = class(TConfigXMLI, ILoginConfig)
   private
     FPreencheLogin: boolean;
-    FTipoModuloSistema: TTipoModuloSistema;
+    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
     FNomeDeUsuario: string;
     FSenhaAtual: string;
     FExecuteOk: boolean;
 
-    PreencheLoginNode, TipoModuloSistemaNode, NomeDeUsuarioNode, SenhaAtualNode,
-      ExecuteOkNode: IXMLNODE;
+    PreencheLoginNode, TipoOpcaoSisModuloNode, NomeDeUsuarioNode,
+      SenhaAtualNode, ExecuteOkNode: IXMLNODE;
 
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);
 
-    function GetTipoModuloSistema: TTipoModuloSistema;
-    procedure SetTipoModuloSistema(Value: TTipoModuloSistema);
+    function GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+    procedure SetTipoOpcaoSisModulo(Value: TTipoOpcaoSisModulo);
 
     function GetNomeDeUsuario: string;
     procedure SetNomeDeUsuario(Value: string);
@@ -40,8 +40,8 @@ type
   public
     property PreencheLogin: boolean read GetPreencheLogin
       write SetPreencheLogin;
-    property TipoModuloSistema: TTipoModuloSistema read GetTipoModuloSistema
-      write SetTipoModuloSistema;
+    property TipoOpcaoSisModulo: TTipoOpcaoSisModulo read GetTipoOpcaoSisModulo
+      write SetTipoOpcaoSisModulo;
     property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
     property SenhaAtual: string read GetSenhaAtual write SetSenhaAtual;
     property ExecuteOk: boolean read GetExecuteOk write SetExecuteOk;
@@ -54,14 +54,15 @@ uses System.SysUtils, Sis.Types.Bool_u;
 
 { TLoginConfig }
 
-function TLoginConfig.GetTipoModuloSistema: TTipoModuloSistema;
+function TLoginConfig.GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
 begin
-  Result := FTipoModuloSistema;
+  Result := FTipoOpcaoSisModulo;
 end;
 
 constructor TLoginConfig.Create(pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create('login', 'Login.Config', '.xml', '', False, pProcessLog, pOutput);
+  inherited Create('login', 'Login.Config', '.xml', '', False,
+    pProcessLog, pOutput);
 end;
 
 function TLoginConfig.GetExecuteOk: boolean;
@@ -91,24 +92,23 @@ begin
     exit;
 
   PreencheLoginNode := RootNode.AddChild('preenche_login');
-  TipoModuloSistemaNode := RootNode.AddChild('modulo_sistema');
+  TipoOpcaoSisModuloNode := RootNode.AddChild('modulo_sistema');
   NomeDeUsuarioNode := RootNode.AddChild('nome_de_usuario');
   SenhaAtualNode := RootNode.AddChild('senha_atual');
   ExecuteOkNode := RootNode.AddChild('execute_ok');
 
   PreencheLoginNode.Text := BooleanToStr(FPreencheLogin);
-  TipoModuloSistemaNode.Text := TipoModuloSistemaToNameStr(FTipoModuloSistema);
+  TipoOpcaoSisModuloNode.Text := TipoOpcaoSisModuloToName(FTipoOpcaoSisModulo);
   NomeDeUsuarioNode.Text := FNomeDeUsuario;
   SenhaAtualNode.Text := FSenhaAtual;
   ExecuteOkNode.Text := BooleanToStr(FExecuteOk);
-
 end;
 
 procedure TLoginConfig.Inicialize;
 begin
   inherited;
   FPreencheLogin := False;
-  FTipoModuloSistema := modsisNaoIndicado;
+  FTipoOpcaoSisModulo := TTipoOpcaoSisModulo.moduRetaguarda;
   FNomeDeUsuario := '';
   FSenhaAtual := '';
   FExecuteOk := True;
@@ -123,7 +123,7 @@ begin
     exit;
 
   PreencheLoginNode := RootNode.ChildNodes['preenche_login'];
-  TipoModuloSistemaNode := RootNode.ChildNodes['modulo_sistema'];
+  TipoOpcaoSisModuloNode := RootNode.ChildNodes['modulo_sistema'];
   NomeDeUsuarioNode := RootNode.ChildNodes['nome_de_usuario'];
   SenhaAtualNode := RootNode.ChildNodes['senha_atual'];
   ExecuteOkNode := RootNode.ChildNodes['execute_ok'];
@@ -131,8 +131,8 @@ begin
   s := PreencheLoginNode.Text;
   FPreencheLogin := StrToBoolean(s);
 
-  s := TipoModuloSistemaNode.Text;
-  FTipoModuloSistema := NameStrToTipoModuloSistema(s);
+  s := TipoOpcaoSisModuloNode.Text;
+  FTipoOpcaoSisModulo := NameToTipoOpcaoSisModulo(s);
 
   s := NomeDeUsuarioNode.Text;
   FNomeDeUsuario := s;
@@ -144,9 +144,9 @@ begin
   FExecuteOk := StrToBoolean(s);
 end;
 
-procedure TLoginConfig.SetTipoModuloSistema(Value: TTipoModuloSistema);
+procedure TLoginConfig.SetTipoOpcaoSisModulo(Value: TTipoOpcaoSisModulo);
 begin
-  FTipoModuloSistema := Value;
+  FTipoOpcaoSisModulo := Value;
 end;
 
 procedure TLoginConfig.SetExecuteOk(Value: boolean);

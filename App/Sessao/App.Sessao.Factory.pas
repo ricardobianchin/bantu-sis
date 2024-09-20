@@ -5,7 +5,7 @@ interface
 uses App.Sessao.Criador.List, App.Sessao.Eventos, Vcl.Forms, App.Sessao.Criador,
   Sis.ModuloSistema.Types;
 
-function SessaoCriadorCreate(pTipoModuloSistema: TTipoModuloSistema)
+function SessaoCriadorCreate(pTipoOpcaoSisModulo: TTipoOpcaoSisModulo)
   : ISessaoCriador;
 function SessaoCriadorListCreate: ISessaoCriadorList;
 
@@ -15,15 +15,15 @@ uses App.Sessao.Criador.List_u, App.Sessao.Criador.Config_u,
   App.Sessao.Criador.PDV_u,
   App.Sessao.Criador.Retag_u;
 
-function SessaoCriadorCreate(pTipoModuloSistema: TTipoModuloSistema)
+function SessaoCriadorCreate(pTipoOpcaoSisModulo: TTipoOpcaoSisModulo)
   : ISessaoCriador;
 begin
-  case pTipoModuloSistema of
-    modsisConfiguracoes:
+  case pTipoOpcaoSisModulo of
+    moduConfiguracoes:
       Result := TSessaoCriadorConfig.Create;
-    modsisRetaguarda:
+    moduRetaguarda:
       Result := TSessaoCriadorRetag.Create;
-    modsisPDV:
+    moduPDV:
       Result := TSessaoCriadorPDV.Create;
   else { moduloNaoIndicado: }
     Result := nil;
