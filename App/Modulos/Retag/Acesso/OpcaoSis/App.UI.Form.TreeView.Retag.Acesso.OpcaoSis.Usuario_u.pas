@@ -93,7 +93,8 @@ begin
   sLista := NodesListAsString;
 
   Result := 'EXECUTE PROCEDURE USUARIO_PA.PODE_OPCOES_GARANTIR(' +
-    AssociadaId.ToString + ', ' + QuotedStr(sLista) + ');';
+    FLojaId.ToString + ', ' + AssociadaId.ToString + ', ' +
+    QuotedStr(sLista) + ');';
 end;
 
 end.
