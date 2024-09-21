@@ -10,9 +10,8 @@ type
   private
     FUsuario: IUsuario;
   public
-    function UsuarioPeloNomeDeUsuario(pNomeUsuDig: string; out pCryVer: integer;
-      out Senha, pApelido, pModulosSistema, pMens: string;
-      out pEncontrado: boolean): boolean;
+    function UsuarioPeloNomeDeUsuario(pNomeUsuDig: string; out pApelido,
+      pModulosSistema, pMens: string; out pEncontrado: boolean): boolean;
 
     function GravarSenha(out pMens: string): boolean;
 
