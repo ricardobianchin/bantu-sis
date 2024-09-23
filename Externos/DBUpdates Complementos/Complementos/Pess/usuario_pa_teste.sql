@@ -1,37 +1,3 @@
-USUARIO
-
-//INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=USUARIOS
-DBATUALIZ_OBJETIVO=CRIA USUARIO_PA
-DBATUALIZ_OBS=
-
-
-
-
-//////////////////////////////////
-//
-// PACKAGE USUARIO_PA
-//
-//////////////////////////////////
-
-/*
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa.sql";
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\usuario_pa_teste.sql";
-
-*/
-
-COMANDO INI
-TIPO_COMANDO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=USUARIO_PA
-
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE USUARIO_PA
 AS
@@ -131,8 +97,7 @@ BEGIN
     TERMINAL_ID ID_SHORT_DOM,
     PESSOA_ID ID_DOM,
     NOME NOME_DOM,
-    APELIDO NOME_REDU_DOM,
-    SENHA_ZERADA BOOLEAN
+    APELIDO NOME_REDU_DOM
   );
 
   PROCEDURE USUARIO_PODE_OPCAO_SIS_GET 
@@ -411,8 +376,7 @@ SELECT * FROM USUARIO_PODE_OPCAO_SIS;
     TERMINAL_ID ID_SHORT_DOM,
     PESSOA_ID ID_DOM,
     NOME NOME_DOM,
-    APELIDO NOME_REDU_DOM,
-    SENHA_ZERADA BOOLEAN
+    APELIDO NOME_REDU_DOM
   )
   AS
   BEGIN
@@ -422,7 +386,7 @@ SELECT * FROM USUARIO_PODE_OPCAO_SIS;
         FROM PESSOA
         WHERE TERMINAL_ID = 0
       ), U AS (  
-        SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID, (SENHA = 'ZERADA') SENHA_ZERADA
+        SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID
         FROM USUARIO
         WHERE NOME_DE_USUARIO = :NOME_DE_USUARIO
       )
@@ -431,14 +395,13 @@ SELECT * FROM USUARIO_PODE_OPCAO_SIS;
         P.TERMINAL_ID,
         P.PESSOA_ID,
         P.NOME,
-        P.APELIDO,
-        U.SENHA_ZERADA
+        P.APELIDO
       FROM P
       JOIN U ON
         P.LOJA_ID = U.LOJA_ID 
         AND P.TERMINAL_ID = U.TERMINAL_ID 
         AND P.PESSOA_ID = U.PESSOA_ID
-    INTO :LOJA_ID, :TERMINAL_ID, :PESSOA_ID, :NOME, :APELIDO, :SENHA_ZERADA
+    INTO :LOJA_ID, :TERMINAL_ID, :PESSOA_ID, :NOME, :APELIDO
     DO
     BEGIN
       SUSPEND;
@@ -581,16 +544,9 @@ SHOW PACKAGE USUARIO_PA;
       AND OPCAO_SIS_ID = :OPCAO_SIS_ID_MODULO_TENTANDO
     INTO :OPCAO_SIS_ID_EXISTE;
 
-    OPCAO_SIS_ID_MODULO_PODE = COALESCE(OPCAO_SIS_ID_EXISTE = 1, FALSE);
+    OPCAO_SIS_ID_MODULO_PODE = (OPCAO_SIS_ID_EXISTE = 1);
 
     SUSPEND;
   END
 END^
 SET TERM ;^
-```
-
-COMANDO FIM
-//PACKAGE USUARIO_PA FIM
-
-
-DBATUALIZ FIM
