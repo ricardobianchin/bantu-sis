@@ -10,8 +10,11 @@ type
   private
     FUsuario: IUsuario;
   public
-    function UsuarioPeloNomeDeUsuario(pNomeUsuDig: string; out pApelido,
-      pModulosSistema, pMens: string; out pEncontrado: boolean): boolean;
+    function UsuarioPeloNomeDeUsuario(pNomeUsuDig: string;
+      out pApelido, pMens: string; out pEncontrado: boolean): boolean;
+
+    function LoginValide(pOpcaoSisIdModuloTentando: TOpcaoSisId;
+      out pAceito: boolean; out pMens: string): boolean;
 
     function GravarSenha(out pMens: string): boolean;
 
@@ -41,24 +44,118 @@ begin
   // nao retire o nome da unit para nao conflitar com o identificador local
   // Sis.Usuario.Senha_u fica
   Result := Sis.Usuario.Senha_u.GravarSenha(sSenhaEncriptada, FUsuario.CryVer,
-    FUsuario.LojaId, FUsuario.TerminalId, FUsuario.Id,
-    DBConnection, pMens);
+    FUsuario.LojaId, FUsuario.TerminalId, FUsuario.Id, DBConnection, pMens);
 end;
 
-function TUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeUsuDig: string; out pCryVer: integer;
-  out Senha, pApelido, pModulosSistema, pMens: string;
-  out pEncontrado: boolean): boolean;
+function TUsuarioDBI.LoginValide(pOpcaoSisIdModuloTentando: TOpcaoSisId;
+  out pAceito: boolean; out pMens: string): boolean;
 var
   sSql: string;
-  sSenhaDigEncriptada: string;
+  q: TDataSet;
+  iCryVer: smallint;
+  sSenhaEncriptada: string;
+  sSenhaDesencriptada: string;
+  bOpcaoSisIdModuloPode: boolean;
+begin
+  Result := DBConnection.Abrir;
+  if not Result then
+  begin
+    pMens := DBConnection.UltimoErro;
+    exit;
+  end;
+
+  sSql := 'SELECT'#13#10 //
+    + 'NOME_DE_USUARIO_OK -- 0'#13#10 //
+    + ', CRY_VER -- 1'#13#10 //
+    + ', SENHA -- 2'#13#10 //
+    + ', OPCAO_SIS_ID_MODULO_PODE -- 3'#13#10 //
+
+    + 'FROM USUARIO_PA.LOGIN_VALID_GET('#13#10 //
+
+    + FUsuario.LojaId.ToString + ' -- LOJA_ID'#13#10 //
+    + ', ' + FUsuario.Id.ToString + ' -- PESSOA_ID'#13#10 //
+    + ', ' + FUsuario.NomeDeUsuario.QuotedString + ' -- NOME_DE_USUAR'#13#10 //
+    + ', ' + pOpcaoSisIdModuloTentando.ToString + ' -- OPCAO_SIS_ID'#13#10 //
+
+    + ');'; //
+  {$IFDEF DEBUG}
+    SetClipboardText(sSql);
+  {$ENDIF}
+  try
+    try
+      DBConnection.QueryDataSet(sSql, q);
+    except
+      on E: Exception do
+      begin
+        pMens := DBConnection.UltimoErro;
+        Result := False;
+        raise;
+      end;
+    end;
+
+    try
+      pAceito := not q.IsEmpty;
+
+      if not pAceito then
+      begin
+        pMens := 'Erro buscando o registro do Usuário';
+        exit;
+      end;
+
+      pAceito := q.Fields[0 { NOME_DE_USUARIO_OK } ].AsBoolean;
+
+      if not pAceito then
+      begin
+        pMens := 'Nome de Usuário incorreto';
+        exit;
+      end;
+
+      iCryVer := q.Fields[1{CRY_VER}].AsInteger;
+      sSenhaEncriptada := q.Fields[2{SENHA}].AsString.Trim;
+
+      Desencriptar(iCryVer, sSenhaEncriptada, sSenhaDesencriptada);
+
+      pAceito := sSenhaDesencriptada <> SENHA_ZERADA;
+      if not pAceito then
+      begin
+        pMens := SENHA_ZERADA_MENS;
+        exit;
+      end;
+
+      pAceito := FUsuario.Senha = sSenhaDesencriptada;
+      if not pAceito then
+      begin
+        pMens := 'Senha incorreta';
+        exit;
+      end;
+
+      FUsuario.CryVer := iCryVer;
+
+      bOpcaoSisIdModuloPode := q.FieldByName('OPCAO_SIS_ID_MODULO_PODE')
+        .AsBoolean;
+
+      pAceito := bOpcaoSisIdModuloPode;
+
+      if not pAceito then
+      begin
+        pMens := 'Usuário sem direitos de acesso a este módulo do sistema';
+        exit;
+      end;
+    finally
+      q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+function TUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeUsuDig: string;
+  out pApelido, pMens: string; out pEncontrado: boolean): boolean;
+var
+  sSql: string;
   q: TDataSet;
   iLojaId, iPessoaId: integer;
-  sSenhaDBDesencriptada, sSenhaDBEncriptada: string;
   sNomeCompleto, sApelido: string;
-  CryVer: Word;
-  sTipoModuloSistema: string;
-  // LOJA_ID SMALLINT, PESSOA_ID INTEGER, NOME VARCHAR(90), APELIDO VARCHAR(20),
-  // , SENHA VARCHAR(80))
 begin
   Result := DBConnection.Abrir;
   if not Result then
@@ -69,9 +166,9 @@ begin
 
   try
     sSql := GetSQLUsuarioPeloNomeDeUsuario(pNomeUsuDig);
-    //{$IFDEF DEBUG}
-    //SetClipboardText(sSql);
-    //{$ENDIF}
+    // {$IFDEF DEBUG}
+    // SetClipboardText(sSql);
+    // {$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
     try
       pEncontrado := not q.IsEmpty;
@@ -89,29 +186,14 @@ begin
 
       FUsuario.Pegar(iLojaId, 0, iPessoaId);
       FUsuario.NomeCompleto := sNomeCompleto;
+      FUsuario.NomeDeUsuario  := pNomeUsuDig;
       FUsuario.NomeExib := sApelido;
 
-      sSenhaDBEncriptada := q.FieldByName('SENHA').AsString.Trim;
-
-      if sSenhaDBEncriptada = SENHA_ZERADA then
+      if q.FieldByName('SENHA_ZERADA').AsBoolean then
       begin
         pMens := SENHA_ZERADA_MENS;
         exit;
       end;
-
-      CryVer := Word(q.FieldByName('CRY_VER').AsInteger);
-      Desencriptar(CryVer, sSenhaDBEncriptada, sSenhaDBDesencriptada);
-
-      FUsuario.Senha := sSenhaDBDesencriptada;
-      {
-      Result := sSenhaDBEncriptada = sSenhaDigEncriptada;
-
-      if not Result then
-      begin
-        pMens := 'Nome de Usuário ou Senha incorretos';
-        exit;
-      end;
-      }
     finally
       q.Free;
     end;
