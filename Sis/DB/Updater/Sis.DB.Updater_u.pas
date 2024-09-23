@@ -577,7 +577,7 @@ begin
     s := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES('//
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
-      + ', ' + FUsuarioGerente.NomeUsu.QuotedString // NOME_DE_USUARIO
+      + ', ' + FUsuarioGerente.NomeDeUsuario.QuotedString // NOME_DE_USUARIO
       + ', ' + sSenha.QuotedString // SENHA
       + ', 1' // CRY_VER
       + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
