@@ -18,7 +18,7 @@ implementation
 
 constructor TSessaoCriadorConfig.Create;
 begin
-  TipoOpcaoSisModulo := TTipoOpcaoSisModulo.moduConfiguracoes;
+  TipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduConfiguracoes;
 end;
 
 end.

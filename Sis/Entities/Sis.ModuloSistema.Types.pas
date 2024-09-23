@@ -3,56 +3,58 @@ unit Sis.ModuloSistema.Types;
 interface
 
 type
-  TTipoOpcaoSisModulo = (moduConfiguracoes = 1, moduRetaguarda = 2,
-    moduPDV = 3);
+  TOpcaoSisId = integer;
 
-  TTiposOpcaoSisModulo = set of TTipoOpcaoSisModulo;
+  TOpcaoSisIdModulo = (opmoduConfiguracoes = 1, opmoduRetaguarda = 2,
+    opmoduPDV = 3);
 
-function TipoOpcaoSisModuloToStr(pTipoModulo: TTipoOpcaoSisModulo): string;
-function TipoOpcaoSisModuloToName(pTipoModulo: TTipoOpcaoSisModulo): string;
-function NameToTipoOpcaoSisModulo(pName: string): TTipoOpcaoSisModulo;
+  TTiposOpcaoSisModulo = set of TOpcaoSisIdModulo;
+
+function TipoOpcaoSisModuloToStr(pTipoModulo: TOpcaoSisIdModulo): string;
+function TipoOpcaoSisModuloToName(pTipoModulo: TOpcaoSisIdModulo): string;
+function NameToTipoOpcaoSisModulo(pName: string): TOpcaoSisIdModulo;
 
 implementation
 
 uses Sis.Types.strings_u;
 
-function TipoOpcaoSisModuloToStr(pTipoModulo: TTipoOpcaoSisModulo): string;
+function TipoOpcaoSisModuloToStr(pTipoModulo: TOpcaoSisIdModulo): string;
 begin
   case pTipoModulo of
-    moduConfiguracoes:
-      Result := 'Configuracoes';
-    moduRetaguarda:
+    opmoduConfiguracoes:
+      Result := 'Configurações';
+    opmoduRetaguarda:
       Result := 'Retaguarda';
-    moduPDV:
+    opmoduPDV:
       Result := 'PDV';
   else
     Result := 'Nao indicado';
   end;
 end;
 
-function TipoOpcaoSisModuloToName(pTipoModulo: TTipoOpcaoSisModulo): string;
+function TipoOpcaoSisModuloToName(pTipoModulo: TOpcaoSisIdModulo): string;
 begin
   case pTipoModulo of
-    moduConfiguracoes:
+    opmoduConfiguracoes:
       Result := 'CONFIG';
-    moduRetaguarda:
+    opmoduRetaguarda:
       Result := 'RETAG';
-    moduPDV:
+    opmoduPDV:
       Result := 'PDV';
   else
     Result := 'NAO_INDICADO';
   end;
 end;
 
-function NameToTipoOpcaoSisModulo(pName: string): TTipoOpcaoSisModulo;
+function NameToTipoOpcaoSisModulo(pName: string): TOpcaoSisIdModulo;
 begin
   pName := StrToName(pName);
   if pName = 'CONFIG' then
-    Result := moduConfiguracoes
+    Result := opmoduConfiguracoes
   else if pName = 'PDV' then
-    Result := moduPDV
+    Result := opmoduPDV
   else //if pName = 'RETAG' then
-    Result := moduRetaguarda;
+    Result := opmoduRetaguarda;
 end;
 
 end.

@@ -9,7 +9,7 @@ type
   TLoginConfig = class(TConfigXMLI, ILoginConfig)
   private
     FPreencheLogin: boolean;
-    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     FNomeDeUsuario: string;
     FSenhaAtual: string;
     FExecuteOk: boolean;
@@ -20,8 +20,8 @@ type
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);
 
-    function GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
-    procedure SetTipoOpcaoSisModulo(Value: TTipoOpcaoSisModulo);
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    procedure SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
 
     function GetNomeDeUsuario: string;
     procedure SetNomeDeUsuario(Value: string);
@@ -40,7 +40,7 @@ type
   public
     property PreencheLogin: boolean read GetPreencheLogin
       write SetPreencheLogin;
-    property TipoOpcaoSisModulo: TTipoOpcaoSisModulo read GetTipoOpcaoSisModulo
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo
       write SetTipoOpcaoSisModulo;
     property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
     property SenhaAtual: string read GetSenhaAtual write SetSenhaAtual;
@@ -54,7 +54,7 @@ uses System.SysUtils, Sis.Types.Bool_u;
 
 { TLoginConfig }
 
-function TLoginConfig.GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+function TLoginConfig.GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 begin
   Result := FTipoOpcaoSisModulo;
 end;
@@ -108,7 +108,7 @@ procedure TLoginConfig.Inicialize;
 begin
   inherited;
   FPreencheLogin := False;
-  FTipoOpcaoSisModulo := TTipoOpcaoSisModulo.moduRetaguarda;
+  FTipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduConfiguracoes;
   FNomeDeUsuario := '';
   FSenhaAtual := '';
   FExecuteOk := True;
@@ -144,7 +144,7 @@ begin
   FExecuteOk := StrToBoolean(s);
 end;
 
-procedure TLoginConfig.SetTipoOpcaoSisModulo(Value: TTipoOpcaoSisModulo);
+procedure TLoginConfig.SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
 begin
   FTipoOpcaoSisModulo := Value;
 end;

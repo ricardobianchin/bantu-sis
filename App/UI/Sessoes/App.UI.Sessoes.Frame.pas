@@ -48,7 +48,7 @@ type
       : TModuloBasForm; virtual; abstract;
 
     function SessaoFrameCreate(AOwner: TComponent;
-      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
       virtual; abstract;
@@ -110,7 +110,7 @@ var
   oUsuarioDBI: IUsuarioDBI;
   oDBConnection: IDBConnection;
   DBConnectionParams: TDBConnectionParams;
-  vTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+  vTipoOpcaoSisModulo: TOpcaoSisIdModulo;
   iActionIndex: integer;
   oAction: TAction;
   sNomeTipo: string;
@@ -123,7 +123,7 @@ var
 begin
   oAction := TAction(Sender);
   iActionIndex := oAction.Index;
-  vTipoOpcaoSisModulo := TTipoOpcaoSisModulo(oAction.Tag);
+  vTipoOpcaoSisModulo := TOpcaoSisIdModulo(oAction.Tag);
   sNameTipo := TipoOpcaoSisModuloToName(vTipoOpcaoSisModulo);
   sNomeTipo := TipoOpcaoSisModuloToStr(vTipoOpcaoSisModulo);
 
@@ -298,14 +298,15 @@ var
 begin
   FSessaoCriadorList := SessaoCriadorListCreate;
 
-  oSessaoCriador := SessaoCriadorCreate(moduRetaguarda);
+  oSessaoCriador := SessaoCriadorCreate(opmoduConfiguracoes);
   FSessaoCriadorList.Add(oSessaoCriador);
 
-  oSessaoCriador := SessaoCriadorCreate(moduPDV);
+  oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
 
-  oSessaoCriador := SessaoCriadorCreate(moduConfiguracoes);
+  oSessaoCriador := SessaoCriadorCreate(opmoduPDV);
   FSessaoCriadorList.Add(oSessaoCriador);
+
 end;
 
 procedure TSessoesFrame.SessaoCriadorListPrepActionList;

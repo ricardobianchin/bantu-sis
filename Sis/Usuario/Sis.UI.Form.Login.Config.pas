@@ -11,9 +11,9 @@ type
     procedure SetPreencheLogin(Value: boolean);
     property PreencheLogin: boolean read GetPreencheLogin write SetPreencheLogin;
 
-    function GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
-    procedure SetTipoOpcaoSisModulo(Value: TTipoOpcaoSisModulo);
-    property TipoOpcaoSisModulo: TTipoOpcaoSisModulo read GetTipoOpcaoSisModulo write SetTipoOpcaoSisModulo;
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    procedure SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo write SetTipoOpcaoSisModulo;
 
     function GetNomeDeUsuario: string;
     procedure SetNomeDeUsuario(Value: string);

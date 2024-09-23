@@ -7,8 +7,8 @@ uses Sis.ModuloSistema.Types;
 type
   IModuloSistema = interface(IInterface)
     ['{2D1DB5D8-BECB-48B7-AA43-57D1F8144A42}']
-    function GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
-    property TipoOpcaoSisModulo: TTipoOpcaoSisModulo read GetTipoOpcaoSisModulo;
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo;
 
     function GetTipoOpcaoSisModuloDescr: string;
     property TipoOpcaoSisModuloDescr: string read GetTipoOpcaoSisModuloDescr;

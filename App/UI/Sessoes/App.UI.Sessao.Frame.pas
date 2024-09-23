@@ -26,7 +26,7 @@ type
   private
     { Private declarations }
     FModuloBasForm: TModuloBasForm;
-    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     FUsuario: IUsuario;
     FIndex: TSessaoIndex;
     FSessaoEventos: ISessaoEventos;
@@ -53,7 +53,7 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
 
     constructor Create(AOwner: TComponent;
-      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
       pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
       //; pLoginConfig: ILoginConfig
@@ -74,7 +74,7 @@ begin
 end;
 
 constructor TSessaoFrame.Create(AOwner: TComponent;
-  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
   pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
   {; pLoginConfig: ILoginConfig}

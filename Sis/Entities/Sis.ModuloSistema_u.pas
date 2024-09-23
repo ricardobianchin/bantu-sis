@@ -4,52 +4,38 @@ interface
 
 uses Sis.ModuloSistema, Sis.ModuloSistema.Types;
 
-//  TTipoOpcaoSisModulo = (moduConfiguracoes = 1, moduRetaguarda = 2,
-//    moduPDV = 3);
-
-{
-    function GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
-    property TipoOpcaoSisModulo: TTipoOpcaoSisModulo read GetTipoOpcaoSisModulo;
-
-    function GetTipoOpcaoSisModuloDescr: string;
-    property TipoOpcaoSisModuloDescr: string read GetTipoOpcaoSisModuloDescr;
-
-    function GetTipoModuloSistemaInt: integer;
-    property TipoModuloSistemaInt: integer read GetTipoModuloSistemaInt;
-
-}
 type
   TModuloSistema = class(TInterfacedObject, IModuloSistema)
   private
-    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     FTipoOpcaoSisModuloDescr: string;
     FTipoOpcaoSisModuloInt: integer;
 
-    function GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     function GetTipoOpcaoSisModuloDescr: string;
 
     function GetTipoModuloSistemaInt: integer;
 
   public
-    property TipoOpcaoSisModulo: TTipoOpcaoSisModulo read GetTipoOpcaoSisModulo;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo;
     property TipoModuloSistemaDescr: string read GetTipoOpcaoSisModuloDescr;
     property TipoModuloSistemaInt: integer read GetTipoModuloSistemaInt;
 
-    constructor Create(pTipoOpcaoSisModulo: TTipoOpcaoSisModulo);
+    constructor Create(pTipoOpcaoSisModulo: TOpcaoSisIdModulo);
   end;
 
 implementation
 
 { TModuloSistema }
 
-constructor TModuloSistema.Create(pTipoOpcaoSisModulo: TTipoOpcaoSisModulo);
+constructor TModuloSistema.Create(pTipoOpcaoSisModulo: TOpcaoSisIdModulo);
 begin
   FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
   FTipoOpcaoSisModuloDescr := TipoOpcaoSisModuloToStr(FTipoOpcaoSisModulo);
   FTipoOpcaoSisModuloInt := integer(FTipoOpcaoSisModulo);
 end;
 
-function TModuloSistema.GetTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+function TModuloSistema.GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 begin
   Result := FTipoOpcaoSisModulo;
 end;

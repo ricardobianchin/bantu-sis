@@ -19,7 +19,7 @@ type
     { Private declarations }
   protected
     function SessaoFrameCreate(AOwner: TComponent;
-      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog)
       : TSessaoFrame; override;
 
@@ -45,13 +45,13 @@ function TShopSessoesFrame.ModuloBasFormCreate(pModuloSistema: IModuloSistema;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj): TModuloBasForm;
 begin
   case pModuloSistema.TipoOpcaoSisModulo of
-    moduConfiguracoes:
+    opmoduConfiguracoes:
       Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
         SessaoEventos, pSessaoIndex, pUsuario, AppObj);
-    moduRetaguarda:
+    opmoduRetaguarda:
       Result := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
         SessaoEventos, pSessaoIndex, pUsuario, AppObj);
-    moduPDV:
+    opmoduPDV:
       Result := TShopPDVModuloForm.Create(Application, pModuloSistema,
         SessaoEventos, pSessaoIndex, pUsuario, AppObj);
   else // modsisNaoIndicado:
@@ -60,7 +60,7 @@ begin
 end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
-  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoOpcaoSisModulo, pUsuario,

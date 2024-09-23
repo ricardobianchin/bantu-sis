@@ -57,7 +57,7 @@ type
     FUsuario: IUsuario;
     FUsuarioDBI: IUsuarioDBI;
     FLoginConfig: ILoginConfig;
-    FTipoOpcaoSisModulo: TTipoOpcaoSisModulo;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 
     FLoginPergModo: TLoginPergModo;
     FNomeDeUsuarioStatus: IOutput;
@@ -77,31 +77,30 @@ type
     function Senha1ControleOk: boolean;
     function Senha2ControleOk: boolean;
     function Senha3ControleOk: boolean;
+
     function Senha1DadosOk: boolean;
     function Senha2DadosOk: boolean;
 
     procedure ExecuteAutoLogin;
 
-    function ConsultaNomeDeUsuario(pNomeDeUsuario: string; out pCryVer: integer;
-      out pSenha, pApelido, pModulosSistema, pMens: string;
-      out pEncontrado: boolean): boolean;
+    function ConsultaNomeDeUsuario(pNomeDeUsuario: string;
+      out pApelido, pMens: string; out pEncontrado: boolean): boolean;
   protected
     procedure PreencherBaseControlsAlinhador(pBaseControlsAlinhador
       : IControlsAlinhador); override;
     function PodeOk: boolean; override;
     procedure AjusteControles; override;
 
-
   public
     { Public declarations }
     constructor Create(pLoginConfig: ILoginConfig;
-      pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
       pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
       reintroduce;
   end;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 
 var
@@ -115,7 +114,7 @@ uses Sis.Types.strings_u, Sis.Types.Utils_u, Sis.Sis.Constants,
   Sis.UI.IO.Factory, Sis.Types.Bool_u;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
 var
   Resultado: TModalResult;
@@ -139,20 +138,20 @@ begin
 end;
 
 function TLoginPergForm.ConsultaNomeDeUsuario(pNomeDeUsuario: string;
-  out pCryVer: integer; out pSenha, pApelido, pModulosSistema, pMens: string;
-  out pEncontrado: boolean): boolean;
+  out pApelido, pMens: string; out pEncontrado: boolean): boolean;
 begin
+  ErroOutput.Exibir('');
   FNomeDeUsuarioStatus.Exibir('Buscando usuário...');
   try
-    Result := FUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeDeUsuario, pCryVer,
-      pSenha, pApelido, pModulosSistema, pMens, pEncontrado);
+    Result := FUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeDeUsuario, pApelido,
+      pMens, pEncontrado);
   finally
     FNomeDeUsuarioStatus.Exibir('');
   end;
 end;
 
 constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TTipoOpcaoSisModulo; pUsuario: IUsuario;
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
 var
   sNomeTipo: string;
@@ -167,44 +166,89 @@ begin
   FUsuarioDBI := pUsuarioDBI;
   FLoginConfig := pLoginConfig;
   FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
-  sNomeTipo := TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo);
-  Caption := Format('Login %s...', [sNomeTipo]);
+  sNomeTipo := AnsiUpperCase(TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo));
+  Caption := Format('Login em %s...', [sNomeTipo]);
 end;
 
 function TLoginPergForm.Senha1DadosOk: boolean;
 var
   sSenha: string;
   sMens: string;
+  bAceito: Boolean;
 begin
   case FLoginPergModo of
     ltLogando:
-    begin
-      sSenha := Senha1LabeledEdit.Text;
-      Result := sSenha = FUsuario.Senha;
-      if not Result then
       begin
-        ErroOutput.Exibir('Senha incorreta');
-        Senha1LabeledEdit.SetFocus;
-        exit;
+        FUsuario.Senha := Senha1LabeledEdit.Text;
+
+        ErroOutput.Exibir('');
+        Result := FUsuarioDBI.LoginValide(TOpcaoSisId(FTipoOpcaoSisModulo),
+          bAceito, sMens);
+
+        if not Result then
+        begin
+          ErroOutput.Exibir(sMens);
+          NomeDeUsuarioLabeledEdit.SetFocus;
+          exit;
+        end;
+
+        Result := sMens <> SENHA_ZERADA_MENS;
+        if not Result then
+        begin
+          SetLoginPergModo(TLoginPergModo.ltCriandoSenha);
+          exit;
+        end;
+
+        Result := bAceito;
+
+        if not Result then
+        begin
+          ErroOutput.Exibir(sMens);
+          NomeDeUsuarioLabeledEdit.SetFocus;
+          exit;
+        end;
       end;
-    end;
     ltMudandoSenha:
-    begin
-      sSenha := Senha1LabeledEdit.Text;
-      Result := sSenha = FUsuario.Senha;
-      if not Result then
       begin
-        ErroOutput.Exibir(Senha1LabeledEdit.EditLabel.Caption + ' incorreta');
-        Senha1LabeledEdit.SetFocus;
-        exit;
+        FUsuario.Senha := Senha1LabeledEdit.Text;
+
+        ErroOutput.Exibir('');
+        Result := FUsuarioDBI.LoginValide(TOpcaoSisId(FTipoOpcaoSisModulo),
+          bAceito, sMens);
+
+        if not Result then
+        begin
+          ErroOutput.Exibir(sMens);
+          NomeDeUsuarioLabeledEdit.SetFocus;
+          exit;
+        end;
+
+        Result := sMens <> SENHA_ZERADA_MENS;
+        if not Result then
+        begin
+          SetLoginPergModo(TLoginPergModo.ltCriandoSenha);
+          exit;
+        end;
+
+        Result := bAceito;
+
+        if not Result then
+        begin
+          if sMens = SENHA_INCORRETA_MENS then
+            ErroOutput.Exibir('Senha atual incorreta')
+          else
+            ErroOutput.Exibir(sMens);
+          NomeDeUsuarioLabeledEdit.SetFocus;
+          exit;
+        end;
       end;
-    end;
     ltCriandoSenha:
-    begin
-      sSenha := Senha1LabeledEdit.Text;
-      FUsuario.Senha := sSenha;
-      Result := FUsuarioDBI.GravarSenha(sMens);
-    end;
+      begin
+        sSenha := Senha1LabeledEdit.Text;
+        FUsuario.Senha := sSenha;
+        ErroOutput.Exibir('');
+        Result := FUsuarioDBI.GravarSenha(sMens);
+      end;
   end;
   if not Result then
     ErroOutput.Exibir(sMens);
@@ -289,12 +333,10 @@ function TLoginPergForm.NomeDeUsuarioControleDadosOk: boolean;
 var
   sNomeDeUsuario: string;
 
-  iCryVer: integer;
-  sSenha, sApelido, sModulosSistema, sMens: string;
+  sApelido, sMens: string;
   bEncontrado: boolean;
 begin
-  Result :=
-    (ActiveControl = CancelBitBtn_DiagBtn) or //
+  Result := (ActiveControl = CancelBitBtn_DiagBtn) or //
     (ActiveControl = NomeDeUsuarioLabeledEdit) //
     ; //
 
@@ -315,8 +357,7 @@ begin
     exit;
   end;
 
-  Result := ConsultaNomeDeUsuario(sNomeDeUsuario, iCryVer, sSenha, sApelido,
-    sModulosSistema, sMens, bEncontrado);
+  Result := ConsultaNomeDeUsuario(sNomeDeUsuario, sApelido, sMens, bEncontrado);
 
   if not Result then
   begin
@@ -341,7 +382,7 @@ end;
 
 procedure TLoginPergForm.OkAct_DiagExecute(Sender: TObject);
 begin
-//  inherited;
+  // inherited;
   if not PodeOk then
     exit;
 
@@ -424,7 +465,7 @@ begin
     end;
     exit;
   end;
-  //inherited;
+  // inherited;
 end;
 
 procedure TLoginPergForm.Senha2LabeledEditExit(Sender: TObject);
@@ -464,7 +505,7 @@ begin
     end;
     exit;
   end;
-  //inherited;
+  // inherited;
 end;
 
 function TLoginPergForm.Senha2ControleOk: boolean;
@@ -476,67 +517,66 @@ var
   sFormat: string;
   sMens: string;
 begin
-  Result :=
-    (ActiveControl = CancelBitBtn_DiagBtn) or //
+  Result := (ActiveControl = CancelBitBtn_DiagBtn) or //
     (ActiveControl = NomeDeUsuarioLabeledEdit) or //
     (ActiveControl = Senha1LabeledEdit) or //
     (ActiveControl = SenhaMudarBitBtn_LoginPerg) //
-    ;//
+    ; //
 
   if Result then
     exit;
 
   case FLoginPergModo of
     ltLogando:
-    begin
-      Result := True;
-    end;
-    ltMudandoSenha:
-    begin
-      sSenhaDig1 := Senha1LabeledEdit.Text;
-      sSenhaDig2 := Senha2LabeledEdit.Text;
-      Result := sSenhaDig1 <> sSenhaDig2;
-
-      if not Result then
       begin
-        sCaption1 := Senha1LabeledEdit.EditLabel.Caption;
+        Result := True;
+      end;
+    ltMudandoSenha:
+      begin
+        sSenhaDig1 := Senha1LabeledEdit.Text;
+        sSenhaDig2 := Senha2LabeledEdit.Text;
+        Result := sSenhaDig1 <> sSenhaDig2;
+
+        if not Result then
+        begin
+          sCaption1 := Senha1LabeledEdit.EditLabel.Caption;
+          sCaption2 := Senha2LabeledEdit.EditLabel.Caption;
+
+          sFormat := 'Campo ''%s'' deve ser DIFERENTE do campo ''%s''';
+          sMens := Format(sFormat, [sCaption1, sCaption2]);
+
+          ErroOutput.Exibir(sMens);
+          Senha1LabeledEdit.SetFocus;
+          exit;
+        end;
+      end;
+    ltCriandoSenha:
+      begin
+        sSenhaDig2 := Senha2LabeledEdit.Text;
         sCaption2 := Senha2LabeledEdit.EditLabel.Caption;
 
-        sFormat := 'Campo ''%s'' deve ser DIFERENTE do campo ''%s''';
-        sMens := Format(sFormat, [sCaption1, sCaption2]);
+        if sSenhaDig2 = '' then
+        begin
+          ErroOutput.Exibir('Campo ''' + sCaption2 + ''' é obrigatório');
+          Senha2LabeledEdit.SetFocus;
+          exit;
+        end;
 
-        ErroOutput.Exibir(sMens);
-        Senha1LabeledEdit.SetFocus;
-        exit;
+        sSenhaDig1 := Senha1LabeledEdit.Text;
+        Result := sSenhaDig1 = sSenhaDig2;
+
+        if not Result then
+        begin
+          sCaption1 := Senha1LabeledEdit.EditLabel.Caption;
+
+          sFormat := 'Campo ''%s'' deve ser igual ao campo ''%s''';
+          sMens := Format(sFormat, [sCaption1, sCaption2]);
+
+          ErroOutput.Exibir(sMens);
+          Senha1LabeledEdit.SetFocus;
+          exit;
+        end;
       end;
-    end;
-    ltCriandoSenha:
-    begin
-      sSenhaDig2 := Senha2LabeledEdit.Text;
-      sCaption2 := Senha2LabeledEdit.EditLabel.Caption;
-
-      if sSenhaDig2 = '' then
-      begin
-        ErroOutput.Exibir('Campo ''' + sCaption2 + ''' é obrigatório');
-        Senha2LabeledEdit.SetFocus;
-        exit;
-      end;
-
-      sSenhaDig1 := Senha1LabeledEdit.Text;
-      Result := sSenhaDig1 = sSenhaDig2;
-
-      if not Result then
-      begin
-        sCaption1 := Senha1LabeledEdit.EditLabel.Caption;
-
-        sFormat := 'Campo ''%s'' deve ser igual ao campo ''%s''';
-        sMens := Format(sFormat, [sCaption1, sCaption2]);
-
-        ErroOutput.Exibir(sMens);
-        Senha1LabeledEdit.SetFocus;
-        exit;
-      end;
-    end;
   end;
 end;
 
@@ -547,19 +587,19 @@ var
 begin
   case FLoginPergModo of
     ltLogando:
-    begin
-      Result := True;
-    end;
+      begin
+        Result := True;
+      end;
     ltMudandoSenha:
-    begin
-      sSenha := Senha2LabeledEdit.Text;
-      FUsuario.Senha := sSenha;
-      Result := FUsuarioDBI.GravarSenha(sMens);
-    end;
+      begin
+        sSenha := Senha2LabeledEdit.Text;
+        FUsuario.Senha := sSenha;
+        Result := FUsuarioDBI.GravarSenha(sMens);
+      end;
     ltCriandoSenha:
-    begin
-      Result := True;
-    end;
+      begin
+        Result := True;
+      end;
   end;
   if not Result then
     ErroOutput.Exibir(sMens);
@@ -612,45 +652,44 @@ var
   sFormat: string;
   sMens: string;
 begin
-  Result :=
-    (ActiveControl = CancelBitBtn_DiagBtn) or //
+  Result := (ActiveControl = CancelBitBtn_DiagBtn) or //
     (ActiveControl = NomeDeUsuarioLabeledEdit) or //
     (ActiveControl = Senha1LabeledEdit) or //
     (ActiveControl = Senha2LabeledEdit) or //
     (ActiveControl = SenhaMudarBitBtn_LoginPerg) //
-    ;//
+    ; //
 
   if Result then
     exit;
 
   case FLoginPergModo of
     ltLogando:
-    begin
-      Result := True;
-    end;
-    ltMudandoSenha:
-    begin
-      sSenhaDig2 := Senha2LabeledEdit.Text;
-      sSenhaDig3 := Senha3LabeledEdit.Text;
-      Result := sSenhaDig2 = sSenhaDig3;
-
-      if not Result then
       begin
-        sCaption2 := Senha2LabeledEdit.EditLabel.Caption;
-        sCaption3 := Senha3LabeledEdit.EditLabel.Caption;
-
-        sFormat := 'Campo ''%s'' deve ser igual do campo ''%s''';
-        sMens := Format(sFormat, [sCaption2, sCaption3]);
-
-        ErroOutput.Exibir(sMens);
-        Senha2LabeledEdit.SetFocus;
-        exit;
+        Result := True;
       end;
-    end;
+    ltMudandoSenha:
+      begin
+        sSenhaDig2 := Senha2LabeledEdit.Text;
+        sSenhaDig3 := Senha3LabeledEdit.Text;
+        Result := sSenhaDig2 = sSenhaDig3;
+
+        if not Result then
+        begin
+          sCaption2 := Senha2LabeledEdit.EditLabel.Caption;
+          sCaption3 := Senha3LabeledEdit.EditLabel.Caption;
+
+          sFormat := 'Campo ''%s'' deve ser igual do campo ''%s''';
+          sMens := Format(sFormat, [sCaption2, sCaption3]);
+
+          ErroOutput.Exibir(sMens);
+          Senha2LabeledEdit.SetFocus;
+          exit;
+        end;
+      end;
     ltCriandoSenha:
-    begin
-      Result := True;
-    end;
+      begin
+        Result := True;
+      end;
   end;
 end;
 
@@ -658,11 +697,10 @@ function TLoginPergForm.Senha1ControleOk: boolean;
 var
   sEditCaption: string;
 begin
-  Result :=
-    (ActiveControl = CancelBitBtn_DiagBtn) or //
+  Result := (ActiveControl = CancelBitBtn_DiagBtn) or //
     (ActiveControl = NomeDeUsuarioLabeledEdit) or //
     (ActiveControl = SenhaMudarBitBtn_LoginPerg) //
-    ;//
+    ; //
 
   if Result then
     exit;
@@ -672,7 +710,7 @@ begin
   if not Result then
   begin
     sEditCaption := Senha1LabeledEdit.EditLabel.Caption;
-    ErroOutput.Exibir('Campo '''+sEditCaption+''' é obrigatório');
+    ErroOutput.Exibir('Campo ''' + sEditCaption + ''' é obrigatório');
     Senha1LabeledEdit.SetFocus;
     exit;
   end;

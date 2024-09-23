@@ -1,13 +1,13 @@
 inherited LoginPergForm: TLoginPergForm
   Caption = 'Login'
-  ClientHeight = 389
-  ClientWidth = 428
-  ExplicitWidth = 444
-  ExplicitHeight = 428
+  ClientHeight = 388
+  ClientWidth = 424
+  ExplicitWidth = 440
+  ExplicitHeight = 427
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 285
-    Width = 428
+    Top = 284
+    Width = 424
     Height = 52
     Alignment = taCenter
     AutoSize = False
@@ -17,9 +17,9 @@ inherited LoginPergForm: TLoginPergForm
     ExplicitHeight = 52
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 374
-    Width = 428
-    ExplicitTop = 374
+    Top = 373
+    Width = 424
+    ExplicitTop = 373
   end
   object NomeDeUsuarioStatusLabel: TLabel [2]
     Left = 27
@@ -69,15 +69,31 @@ inherited LoginPergForm: TLoginPergForm
     Visible = False
     StyleElements = []
   end
-  object TipoPanel: TPanel [5]
+  object NomeDeUsuarioLabeledEdit: TLabeledEdit [5]
+    Left = 27
+    Top = 45
+    Width = 300
+    Height = 23
+    EditLabel.Width = 92
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Nome de Usu'#225'rio'
+    MaxLength = 20
+    TabOrder = 1
+    Text = ''
+    OnChange = NomeDeUsuarioLabeledEditChange
+    OnExit = NomeDeUsuarioLabeledEditExit
+    OnKeyPress = NomeDeUsuarioLabeledEditKeyPress
+  end
+  object TipoPanel: TPanel [6]
     Left = 0
     Top = 0
-    Width = 428
+    Width = 424
     Height = 19
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitWidth = 432
     object ModoTitLabel: TLabel
       Left = 0
       Top = 0
@@ -95,39 +111,7 @@ inherited LoginPergForm: TLoginPergForm
       Caption = 'LoginPergModoLabel'
     end
   end
-  object NomeDeUsuarioLabeledEdit: TLabeledEdit [6]
-    Left = 27
-    Top = 45
-    Width = 300
-    Height = 23
-    EditLabel.Width = 92
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Nome de Usu'#225'rio'
-    MaxLength = 20
-    TabOrder = 1
-    Text = ''
-    OnChange = NomeDeUsuarioLabeledEditChange
-    OnExit = NomeDeUsuarioLabeledEditExit
-    OnKeyPress = NomeDeUsuarioLabeledEditKeyPress
-  end
-  object Senha3LabeledEdit: TLabeledEdit [7]
-    Left = 27
-    Top = 210
-    Width = 300
-    Height = 23
-    EditLabel.Width = 77
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Repita a Senha'
-    MaxLength = 20
-    PasswordChar = '*'
-    TabOrder = 5
-    Text = ''
-    Visible = False
-    OnChange = Senha1LabeledEditChange
-    OnExit = Senha3LabeledEditExit
-    OnKeyPress = Senha3LabeledEditKeyPress
-  end
-  object UsuGerenteExibSenhaCheckBox: TCheckBox [8]
+  object UsuGerenteExibSenhaCheckBox: TCheckBox [7]
     Left = 8
     Top = 251
     Width = 97
@@ -142,7 +126,7 @@ inherited LoginPergForm: TLoginPergForm
     TabOrder = 6
     OnClick = UsuGerenteExibSenhaCheckBoxClick
   end
-  object Senha1LabeledEdit: TLabeledEdit [9]
+  object Senha1LabeledEdit: TLabeledEdit [8]
     Left = 27
     Top = 100
     Width = 300
@@ -158,7 +142,7 @@ inherited LoginPergForm: TLoginPergForm
     OnExit = Senha1LabeledEditExit
     OnKeyPress = Senha1LabeledEditKeyPress
   end
-  object Senha2LabeledEdit: TLabeledEdit [10]
+  object Senha2LabeledEdit: TLabeledEdit [9]
     Left = 27
     Top = 155
     Width = 300
@@ -175,28 +159,45 @@ inherited LoginPergForm: TLoginPergForm
     OnExit = Senha2LabeledEditExit
     OnKeyPress = Senha2LabeledEditKeyPress
   end
+  object Senha3LabeledEdit: TLabeledEdit [10]
+    Left = 27
+    Top = 210
+    Width = 300
+    Height = 23
+    EditLabel.Width = 77
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Repita a Senha'
+    MaxLength = 20
+    PasswordChar = '*'
+    TabOrder = 5
+    Text = ''
+    Visible = False
+    OnChange = Senha1LabeledEditChange
+    OnExit = Senha3LabeledEditExit
+    OnKeyPress = Senha3LabeledEditKeyPress
+  end
   inherited BasePanel: TPanel
-    Top = 337
-    Width = 428
-    ExplicitTop = 337
-    ExplicitWidth = 428
+    Top = 336
+    Width = 424
+    ExplicitTop = 336
+    ExplicitWidth = 424
     DesignSize = (
-      428
+      424
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 149
-      ExplicitLeft = 149
+      Left = 145
+      ExplicitLeft = 153
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 262
-      ExplicitLeft = 262
+      Left = 258
+      ExplicitLeft = 266
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 342
-      ExplicitLeft = 342
+      Left = 338
+      ExplicitLeft = 346
     end
     object SenhaMudarBitBtn_LoginPerg: TBitBtn
-      Left = 47
+      Left = 43
       Top = 6
       Width = 96
       Height = 25
@@ -204,6 +205,7 @@ inherited LoginPergForm: TLoginPergForm
       Caption = 'Alterar a Senha'
       TabOrder = 3
       OnClick = MensCopyAct_DiagExecute
+      ExplicitLeft = 51
     end
   end
   inherited ShowTimer_BasForm: TTimer
