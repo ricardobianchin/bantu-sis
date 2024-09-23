@@ -317,7 +317,7 @@ begin
 
   FUsuarioGerente.NomeCompleto := UsuGerenteNomeCompletoLabeledEdit.Text;
   FUsuarioGerente.NomeExib := UsuGerenteNomeExibLabeledEdit.Text;
-  FUsuarioGerente.NomeUsu := UsuGerenteNomeUsuLabeledEdit.Text;
+  FUsuarioGerente.NomeDeUsuario := UsuGerenteNomeUsuLabeledEdit.Text;
   FUsuarioGerente.Senha := UsuGerenteSenha1LabeledEdit.Text;
 
   FLoja.Id := StrToInt(LojaIdLabeledEdit.Text);
