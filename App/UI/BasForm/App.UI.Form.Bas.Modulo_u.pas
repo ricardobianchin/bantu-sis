@@ -29,8 +29,8 @@ type
     PopupMenu1: TPopupMenu;
     FecharActionModuloBasForm1: TMenuItem;
     BasePanel: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
+    StatusPanel1: TPanel;
+    StatusLabel1: TLabel;
     OutputLabel: TLabel;
     OcultarActionModuloBasForm2: TMenuItem;
     OcultarEsteMenu1: TMenuItem;
@@ -120,7 +120,7 @@ begin
   FSessaoIndex := pSessaoIndex;
   FUsuario := pUsuario;
   FAppObj := pAppObj;
-  TitleBarText := FModuloSistema.TipoModuloSistemaDescr + ' - ' +
+  TitleBarText := FModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
     FUsuario.NomeExib;
 //  FOutput := MudoOutputCreate;
 //  FProcessLog := MudoProcessLogCreate;
@@ -267,7 +267,7 @@ var
 begin
   inherited;
   sMens := 'Deseja finalizar o módulo ' +
-    FModuloSistema.TipoModuloSistemaDescr + '?';
+    FModuloSistema.TipoOpcaoSisModuloDescr + '?';
   Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
     [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
   Result := IsPositiveResult(Resultado);

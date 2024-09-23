@@ -7,49 +7,47 @@ uses Sis.ModuloSistema, Sis.ModuloSistema.Types;
 type
   TModuloSistema = class(TInterfacedObject, IModuloSistema)
   private
-    FTipoModuloSistema: TTipoModuloSistema;
-    FTipoModuloSistemaDescr: string;
-    FTipoModuloSistemaChar: char;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    FTipoOpcaoSisModuloDescr: string;
+    FTipoOpcaoSisModuloInt: integer;
 
-    function GetTipoModuloSistema: TTipoModuloSistema;
-    function GetTipoModuloSistemaDescr: string;
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    function GetTipoOpcaoSisModuloDescr: string;
 
-    function GetTipoModuloSistemaChar: char;
+    function GetTipoModuloSistemaInt: integer;
 
   public
-    property TipoModuloSistema: TTipoModuloSistema read GetTipoModuloSistema;
-    property TipoModuloSistemaDescr: string read GetTipoModuloSistemaDescr;
-    property TipoModuloSistemaChar: char read GetTipoModuloSistemaChar;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo;
+    property TipoModuloSistemaDescr: string read GetTipoOpcaoSisModuloDescr;
+    property TipoModuloSistemaInt: integer read GetTipoModuloSistemaInt;
 
-    constructor Create(pTipoModuloSistema: TTipoModuloSistema);
+    constructor Create(pTipoOpcaoSisModulo: TOpcaoSisIdModulo);
   end;
 
 implementation
 
 { TModuloSistema }
 
-constructor TModuloSistema.Create(pTipoModuloSistema: TTipoModuloSistema);
+constructor TModuloSistema.Create(pTipoOpcaoSisModulo: TOpcaoSisIdModulo);
 begin
-  FTipoModuloSistema := pTipoModuloSistema;
-  FTipoModuloSistemaDescr := TipoModuloSistemaToStr(FTipoModuloSistema);
-  FTipoModuloSistemaChar := TipoModuloSistemaToChar(FTipoModuloSistema);
+  FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
+  FTipoOpcaoSisModuloDescr := TipoOpcaoSisModuloToStr(FTipoOpcaoSisModulo);
+  FTipoOpcaoSisModuloInt := integer(FTipoOpcaoSisModulo);
 end;
 
-function TModuloSistema.GetTipoModuloSistema: TTipoModuloSistema;
+function TModuloSistema.GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 begin
-  Result := FTipoModuloSistema;
+  Result := FTipoOpcaoSisModulo;
 end;
 
-function TModuloSistema.GetTipoModuloSistemaChar: char;
+function TModuloSistema.GetTipoModuloSistemaInt: integer;
 begin
-  Result := FTipoModuloSistemaChar;
+  Result := FTipoOpcaoSisModuloInt;
 end;
 
-function TModuloSistema.GetTipoModuloSistemaDescr: string;
+function TModuloSistema.GetTipoOpcaoSisModuloDescr: string;
 begin
-  Result := FTipoModuloSistemaDescr;
+  Result := FTipoOpcaoSisModuloDescr;
 end;
-
-end.
 
 end.

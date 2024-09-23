@@ -24,8 +24,8 @@ type
     function GetSqlInserirDoRetId: string; virtual;
     function GetSqlAlterarDo: string; virtual;
 
-    function GetFieldNames: string; virtual;
-    function GetFieldValues: string; virtual;
+    function GetFieldNamesListaGet: string; virtual;
+    function GetFieldValuesGravar: string; virtual;
   public
     property PackageName: string read GetPackageName;
     procedure PreencherDataSet(pValues: variant;
@@ -121,6 +121,9 @@ var
 begin
   Result := False;
   sSqlGaranteRegRetId := GetSqlGaranteRegRetId;
+  //{$IFDEF DEBUG}
+  //CopyTextToClipboard(sSqlGaranteRegRetId);
+  //{$ENDIF}
 
   Result := DBConnection.Abrir;
   if not Result then
@@ -163,12 +166,12 @@ begin
   end;
 end;
 
-function TEntDBI.GetFieldNames: string;
+function TEntDBI.GetFieldNamesListaGet: string;
 begin
   Result := '';
 end;
 
-function TEntDBI.GetFieldValues: string;
+function TEntDBI.GetFieldValuesGravar: string;
 begin
   Result := '';
 end;
@@ -302,6 +305,9 @@ begin
   DBConnection.Abrir;
   try
     sSqlRetRegs := GetSqlPreencherDataSet(pValues);
+    //{$IFDEF DEBUG}
+    //CopyTextToClipboard(sSqlRetRegs);
+    //{$ENDIF}
 
     DBConnection.QueryDataSet(sSqlRetRegs, q);
     try

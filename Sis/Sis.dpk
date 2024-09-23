@@ -161,12 +161,12 @@ contains
   Sis.Types.TStrings_u in 'Types\Sis.Types.TStrings_u.pas',
   Sis.DB.Updater_u_GetStrings in 'DB\Updater\Sis.DB.Updater_u_GetStrings.pas',
   Sis.Types.Integers in 'Types\Sis.Types.Integers.pas',
-  Sis.Types.strings.Crypt_u in 'Types\Sis.Types.strings.Crypt_u.pas',
+  Sis.Types.strings.Crypt_u in 'Types\Crypt\Sis.Types.strings.Crypt_u.pas',
   Sis.ModuloSistema in 'Entities\Sis.ModuloSistema.pas',
   Sis.ModuloSistema.Types in 'Entities\Sis.ModuloSistema.Types.pas',
   Sis.UI.Form.Bas.Diag_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas' {DiagBasForm},
   Sis.UI.Form.Bas.Diag.Btn_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas' {DiagBtnBasForm},
-  Sis.UI.Form.Login_u in 'Usuario\Sis.UI.Form.Login_u.pas' {LoginForm},
+  Sis.UI.Form.LoginPerg_u in 'Usuario\Sis.UI.Form.LoginPerg_u.pas' {LoginPergForm},
   Sis.DBI in 'DBI\Sis.DBI.pas',
   Sis.DBI_u in 'DBI\Sis.DBI_u.pas',
   Sis.Usuario.DBI in 'Usuario\Sis.Usuario.DBI.pas',
@@ -265,6 +265,10 @@ contains
   Sis.UI.Controls.TreeView.Preencher in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Preencher.pas',
   Sis.UI.Controls.TreeView.Frame.Preenchedor in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor.pas',
   Sis.UI.Controls.TreeView.Frame.Preenchedor_u in 'UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor_u.pas',
-  Sis.UI.Form.Bas.Diag.Btn.TreeView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas' {TreeViewDiagBasForm};
+  Sis.UI.Form.Bas.Diag.Btn.TreeView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas' {TreeViewDiagBasForm},
+  Sis.Usuario.Senha_u in 'Usuario\Sis.Usuario.Senha_u.pas',
+  Sis.UI.Form.Login.Types_u in 'Usuario\Sis.UI.Form.Login.Types_u.pas',
+  Sis.Types.strings.Crypt1_u in 'Types\Crypt\Sis.Types.strings.Crypt1_u.pas',
+  Sis.UI.Form.Bas.Diag.Btn.CheckListView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas' {CheckListViewDiagBasForm};
 
 end.

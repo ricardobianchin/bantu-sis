@@ -97,7 +97,7 @@ inherited ModuloBasForm: TModuloBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    object Panel1: TPanel
+    object StatusPanel1: TPanel
       Left = 13
       Top = 0
       Width = 205
@@ -105,7 +105,7 @@ inherited ModuloBasForm: TModuloBasForm
       BevelOuter = bvLowered
       Caption = ' '
       TabOrder = 0
-      object Label1: TLabel
+      object StatusLabel1: TLabel
         Left = 6
         Top = 7
         Width = 3
@@ -115,13 +115,11 @@ inherited ModuloBasForm: TModuloBasForm
       object OutputLabel: TLabel
         Left = 1
         Top = 1
-        Width = 203
-        Height = 23
+        Width = 12
+        Height = 15
         Align = alClient
         Caption = '    '
         Layout = tlCenter
-        ExplicitWidth = 12
-        ExplicitHeight = 15
       end
     end
   end

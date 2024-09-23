@@ -3,64 +3,58 @@ unit Sis.ModuloSistema.Types;
 interface
 
 type
-  TTipoModuloSistema = (modsisNaoIndicado = 32, modsisConfiguracoes = 33,
-    modsisRetaguarda = 34, modsisPDV = 35);
+  TOpcaoSisId = integer;
 
-  TTiposModuloSistema = set of TTipoModuloSistema;
+  TOpcaoSisIdModulo = (opmoduConfiguracoes = 1, opmoduRetaguarda = 2,
+    opmoduPDV = 3);
 
-function TipoModuloSistemaToChar(pTipoModuloSistema: TTipoModuloSistema): char;
-function TipoModuloSistemaToStr(pTipoModuloSistema: TTipoModuloSistema): string;
-function TipoModuloSistemaToNameStr(pTipoModuloSistema: TTipoModuloSistema): string;
-function NameStrToTipoModuloSistema(pNameStr: string): TTipoModuloSistema;
+  TTiposOpcaoSisModulo = set of TOpcaoSisIdModulo;
+
+function TipoOpcaoSisModuloToStr(pTipoModulo: TOpcaoSisIdModulo): string;
+function TipoOpcaoSisModuloToName(pTipoModulo: TOpcaoSisIdModulo): string;
+function NameToTipoOpcaoSisModulo(pName: string): TOpcaoSisIdModulo;
 
 implementation
 
 uses Sis.Types.strings_u;
 
-function TipoModuloSistemaToChar(pTipoModuloSistema: TTipoModuloSistema): char;
+function TipoOpcaoSisModuloToStr(pTipoModulo: TOpcaoSisIdModulo): string;
 begin
-  Result := Chr(Integer(pTipoModuloSistema));
-end;
-
-function TipoModuloSistemaToStr(pTipoModuloSistema: TTipoModuloSistema): string;
-begin
-  case pTipoModuloSistema of
-    modsisConfiguracoes:
-      Result := 'Configuracoes';
-    modsisRetaguarda:
+  case pTipoModulo of
+    opmoduConfiguracoes:
+      Result := 'Configurações';
+    opmoduRetaguarda:
       Result := 'Retaguarda';
-    modsisPDV:
+    opmoduPDV:
       Result := 'PDV';
   else
-    Result := 'Nao indicado'; // moduloNaoIndicado: ;
+    Result := 'Nao indicado';
   end;
 end;
 
-function TipoModuloSistemaToNameStr(pTipoModuloSistema: TTipoModuloSistema): string;
+function TipoOpcaoSisModuloToName(pTipoModulo: TOpcaoSisIdModulo): string;
 begin
-  case pTipoModuloSistema of
-    modsisConfiguracoes:
+  case pTipoModulo of
+    opmoduConfiguracoes:
       Result := 'CONFIG';
-    modsisRetaguarda:
+    opmoduRetaguarda:
       Result := 'RETAG';
-    modsisPDV:
+    opmoduPDV:
       Result := 'PDV';
   else
-    Result := 'NAO_INDICADO'; // moduloNaoIndicado: ;
+    Result := 'NAO_INDICADO';
   end;
 end;
 
-function NameStrToTipoModuloSistema(pNameStr: string): TTipoModuloSistema;
+function NameToTipoOpcaoSisModulo(pName: string): TOpcaoSisIdModulo;
 begin
-  pNameStr := StrToName(pNameStr);
-  if pNameStr = 'CONFIG' then
-    Result := modsisConfiguracoes
-  else if pNameStr = 'RETAG' then
-    Result := modsisRetaguarda
-  else if pNameStr = 'PDV' then
-    Result := modsisPDV
-  else
-    Result := modsisNaoIndicado;
+  pName := StrToName(pName);
+  if pName = 'CONFIG' then
+    Result := opmoduConfiguracoes
+  else if pName = 'PDV' then
+    Result := opmoduPDV
+  else //if pName = 'RETAG' then
+    Result := opmoduRetaguarda;
 end;
 
 end.

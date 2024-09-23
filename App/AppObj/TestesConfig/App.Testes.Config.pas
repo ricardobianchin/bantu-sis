@@ -3,18 +3,20 @@ unit App.Testes.Config;
 interface
 
 {
-  o nome do objeto tem a palavra config no nome
-  nao confundir com o nome do mudulo config que tem a mesma palavra
-
-  AppTestesConfig este objeto, configuracoes de testes da camada APP
-
-  ModuConf é um dos modulos do sistema, junto com:
-  ModuRetag
-  ModuPDV
-
+  o nome do objeto tem a palavra config no nome, 
+  mas, nao confundir com opcao_sis de modulo config, junto com:
+  opmoduConf
+  opmoduRetag
+  opmoduPDV
+  
+  neste contexto, o objeto
+  AppTestesConfig = configuracoes de testes da camada APP
+  possui pastas:
   ModuConf: ITesteConfigModuConf
   ModuRetag: ITesteConfigModuRetag
   ModuPDV: ITesteConfigModuPDV
+  
+  
 }
 
 uses Sis.ModuloSistema.Types, Sis.Config.ConfigXMLI //

@@ -486,6 +486,47 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>OpcaoSisPerfilUsoTreeViewForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.Ent_u.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.Ent.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.DBI.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.DBI_u.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Pess.Funcionario.Ent.Factory_u.pas"/>
+        <DCCReference Include="Pess\Cliente\App.Pess.Cliente.Ent.pas"/>
+        <DCCReference Include="Pess\Cliente\App.Pess.Cliente.Ent_u.pas"/>
+        <DCCReference Include="Pess\Cliente\App.Pess.Cliente.Ent.Factory_u.pas"/>
+        <DCCReference Include="Pess\Cliente\App.Pess.Cliente.DBI.pas"/>
+        <DCCReference Include="Pess\Cliente\App.Pess.Cliente.DBI_u.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.UI.Form.Bas.Ed.Pess.Funcionario_u.pas">
+            <Form>PessFuncionarioEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Cliente\App.UI.Form.Bas.Ed.Pess.Cliente_u.pas">
+            <Form>PessClienteEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Funcionario\App.UI.Form.DataSet.Pess.Funcionario_u.pas">
+            <Form>AppPessFuncionarioDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Cliente\App.Acesso.Cliente.UI.Factory_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\App.Testes.Config.ModuRetag.Est_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Cli\App.Testes.Config.ModuRetag.Est.Cliente_u.pas"/>
+        <DCCReference Include="Pess\Cliente\App.UI.Form.DataSet.Pess.Cliente_u.pas">
+            <Form>AppPessClienteDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario_u.pas"/>
+        <DCCReference Include="Pess\Funcionario\App.Acesso.Funcionario.UI.Factory_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u.pas">
+            <Form>OpcaoSisUsuarioTreeViewForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas">
+            <Form>FuncionarioPerfilDeUsoDiagForm</Form>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

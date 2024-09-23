@@ -7,14 +7,14 @@ uses Sis.ModuloSistema.Types;
 type
   IModuloSistema = interface(IInterface)
     ['{2D1DB5D8-BECB-48B7-AA43-57D1F8144A42}']
-    function GetTipoModuloSistema: TTipoModuloSistema;
-    property TipoModuloSistema: TTipoModuloSistema read GetTipoModuloSistema;
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo;
 
-    function GetTipoModuloSistemaDescr: string;
-    property TipoModuloSistemaDescr: string read GetTipoModuloSistemaDescr;
+    function GetTipoOpcaoSisModuloDescr: string;
+    property TipoOpcaoSisModuloDescr: string read GetTipoOpcaoSisModuloDescr;
 
-    function GetTipoModuloSistemaChar: char;
-    property TipoModuloSistemaChar: char read GetTipoModuloSistemaChar;
+    function GetTipoModuloSistemaInt: integer;
+    property TipoModuloSistemaInt: integer read GetTipoModuloSistemaInt;
   end;
 
 implementation

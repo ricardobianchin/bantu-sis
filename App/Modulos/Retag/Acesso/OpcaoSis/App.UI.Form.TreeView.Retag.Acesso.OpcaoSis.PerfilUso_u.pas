@@ -41,7 +41,6 @@ end;
 function TOpcaoSisPerfilUsoTreeViewForm.GetSql: string;
 begin
   Result :=
-
     'WITH O AS ('#13#10 //
     + '  SELECT'#13#10 //
     + '    OPCAO_SIS_ID,'#13#10 //
@@ -72,7 +71,6 @@ begin
     + 'ORDER BY O.OPCAO_TIPO_SIS_ID DESC, O.NOME ASC'#13#10 //
     + ';'#13#10 //
     ;
-
 end;
 
 function TOpcaoSisPerfilUsoTreeViewForm.GetSqlGravar: string;

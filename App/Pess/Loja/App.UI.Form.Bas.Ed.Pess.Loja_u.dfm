@@ -1,101 +1,102 @@
 inherited PessLojaEdForm: TPessLojaEdForm
   Caption = 'PessLojaEdForm'
-  ClientHeight = 535
-  ClientWidth = 949
-  ExplicitWidth = 961
+  ClientHeight = 532
+  ClientWidth = 941
+  ExplicitLeft = -86
+  ExplicitWidth = 953
+  ExplicitHeight = 570
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 463
-    Width = 949
-    ExplicitTop = 462
+    Top = 460
+    Width = 941
+    ExplicitTop = 460
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 483
-    Width = 949
-    ExplicitTop = 482
-  end
-  inherited NomePessLabel: TLabel
-    Width = 65
-    Caption = 'Raz'#227'o Social'
-    ExplicitWidth = 65
-  end
-  object LojaIdLabel: TLabel [12]
-    Left = 606
-    Top = 124
-    Width = 39
-    Height = 15
-    Caption = 'C'#243'digo'
-    FocusControl = CPessEdit
-  end
-  object SelecionadoCheckBox: TCheckBox [13]
-    Left = 507
-    Top = 122
-    Width = 86
-    Height = 17
-    Hint = 'Ligado indica que '
-    CustomHint = SisImgDataModule.BalloonHint1
-    Caption = 'Selecionado'
-    TabOrder = 13
-    OnKeyPress = SelecionadoCheckBoxKeyPress
+    Top = 480
+    Width = 941
+    ExplicitTop = 480
   end
   inherited BasePanel: TPanel
-    Top = 498
-    Width = 949
-    ExplicitWidth = 949
+    Top = 495
+    Width = 941
+    TabOrder = 0
+    ExplicitTop = 494
+    ExplicitWidth = 937
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 537
-      ExplicitLeft = 537
+      Left = 517
+      ExplicitLeft = 513
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 650
-      ExplicitLeft = 650
+      Left = 630
+      ExplicitLeft = 626
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 730
-      ExplicitLeft = 730
+      Left = 710
+      ExplicitLeft = 706
     end
   end
-  inherited NomePessEdit: TEdit
-    Left = 78
-    OnKeyPress = nil
-    ExplicitLeft = 78
-  end
-  inherited NomeFantaPessEdit: TEdit
-    TabOrder = 9
-  end
-  inherited ApelidoPessEdit: TEdit
-    TabOrder = 1
-  end
-  inherited CPessEdit: TEdit
-    TabOrder = 2
-  end
-  inherited IPessEdit: TEdit
-    TabOrder = 3
-  end
-  inherited MPessEditEdit: TEdit
-    TabOrder = 4
-  end
-  inherited MUFPessEdit: TEdit
-    TabOrder = 5
-  end
-  inherited EMailPessEdit: TEdit
-    TabOrder = 6
-  end
   inherited EnderecoPanel: TPanel
-    TabOrder = 7
+    Width = 941
+    TabOrder = 5
+    ExplicitWidth = 937
   end
-  object LojaIdEdit: TEdit [27]
-    Left = 650
-    Top = 119
-    Width = 45
-    Height = 23
-    MaxLength = 5
-    NumbersOnly = True
-    TabOrder = 14
-    OnExit = LojaIdEditExit
-    OnKeyPress = CPessEditKeyPress
+  inherited TitPanel: TPanel
+    Width = 941
+    TabOrder = 1
+    ExplicitWidth = 937
   end
-  inherited AtivoPessCheckBox: TCheckBox
-    TabOrder = 15
+  inherited NomePanel: TPanel
+    Width = 941
+    TabOrder = 2
+    ExplicitWidth = 937
+    inherited NomePessLabel: TLabel
+      Width = 65
+      Caption = 'Raz'#227'o Social'
+      ExplicitWidth = 65
+    end
+    inherited NomePessEdit: TEdit
+      Left = 78
+      OnKeyPress = nil
+      ExplicitLeft = 78
+    end
+  end
+  inherited PesJurPanel: TPanel
+    Width = 941
+    TabOrder = 3
+    ExplicitWidth = 937
+  end
+  inherited DocsPanel: TPanel
+    Width = 941
+    TabOrder = 4
+    ExplicitWidth = 937
+    object LojaIdLabel: TLabel [6]
+      Left = 606
+      Top = 37
+      Width = 39
+      Height = 15
+      Caption = 'C'#243'digo'
+      FocusControl = CPessEdit
+    end
+    object SelecionadoCheckBox: TCheckBox
+      Left = 507
+      Top = 36
+      Width = 86
+      Height = 17
+      Hint = 'Ligado indica que '
+      CustomHint = SisImgDataModule.BalloonHint1
+      Caption = 'Selecionado'
+      TabOrder = 9
+      OnKeyPress = SelecionadoCheckBoxKeyPress
+    end
+    object LojaIdEdit: TEdit
+      Left = 650
+      Top = 33
+      Width = 45
+      Height = 23
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 10
+      OnExit = LojaIdEditExit
+    end
   end
 end

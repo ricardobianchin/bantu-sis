@@ -15,13 +15,12 @@ uses
 type
   TPessLojaEdForm = class(TPessEdBasForm)
     SelecionadoCheckBox: TCheckBox;
-    LojaIdEdit: TEdit;
     LojaIdLabel: TLabel;
+    LojaIdEdit: TEdit;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure LojaIdEditExit(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FPessLojaEnt: IPessLojaEnt;
@@ -36,6 +35,8 @@ type
     procedure EntToControles; override;
 
     function DadosOk: boolean; override;
+    function NomeFantasiaOk: boolean; override;
+    function ApelidoOk: boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
@@ -68,6 +69,23 @@ begin
   CheckBoxKeyPress(Sender, Key);
 end;
 
+function TPessLojaEdForm.ApelidoOk: boolean;
+begin
+  Result := not ApelidoPessLabel.Visible;
+
+  if Result then
+    exit;
+
+  ApelidoPessEdit.Text := Trim(ApelidoPessEdit.Text);
+  Result := ApelidoPessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir(ApelidoPessLabel.Caption + ' é obrigatório');
+  ApelidoPessEdit.SetFocus
+end;
+
 procedure TPessLojaEdForm.ControlesToEnt;
 begin
   inherited;
@@ -78,9 +96,15 @@ end;
 constructor TPessLojaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
+  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+
+  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
+    + ' estabelecimento a que pertence o sistema.'#13#10
+    + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
+    + 'Ao ligar esta opção, ela será desligada nos demais registros';
+
 end;
 
 function TPessLojaEdForm.DadosOk: boolean;
@@ -104,15 +128,6 @@ begin
     LojaIdEdit.Text := FPessLojaEnt.LojaId.ToString;
 
   LojaIdEdit.ReadOnly := FPessLojaEnt.State <> dsInsert;
-end;
-
-procedure TPessLojaEdForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
-    + ' estabelecimento a que pertence o sistema.'#13#10
-    + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
-    + 'Ao ligar esta opção, ela será desligada nos demais registros';
 end;
 
 function TPessLojaEdForm.LojaIdDigitada: smallint;
@@ -154,6 +169,18 @@ begin
     LojaIdEdit.SetFocus;
     exit;
   end;
+end;
+
+function TPessLojaEdForm.NomeFantasiaOk: boolean;
+begin
+  NomeFantaPessEdit.Text := Trim(NomeFantaPessEdit.Text);
+  Result := NomeFantaPessEdit.Text <> '';
+
+  if Result then
+    exit;
+
+  ErroOutput.Exibir('Nome Fantasia é obrigatório');
+  NomeFantaPessEdit.SetFocus
 end;
 
 procedure TPessLojaEdForm.ShowTimer_BasFormTimer(Sender: TObject);

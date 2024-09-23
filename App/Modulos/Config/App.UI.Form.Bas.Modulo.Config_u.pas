@@ -84,7 +84,7 @@ begin
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 
   FAmbiLojasDataSetFormCreator := AmbiLojaDataSetFormCreatorCreate
-    (FFormClassNamesSL, AppInfo, SisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, AppObj, SisConfig, Usuario, DBMS, Output, ProcessLog,
     FOutputNotify);
 
 {$IFDEF DEBUG}

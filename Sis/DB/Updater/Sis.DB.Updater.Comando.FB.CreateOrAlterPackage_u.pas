@@ -60,8 +60,13 @@ var
   sBody: string;
 begin
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
-//  SetClipboardText(sCabec);
-//  SetClipboardText(sBody);
+  {
+  SetClipboardText(sCabec);
+  SetClipboardText(FCabecLinhasSL.Text);
+  SetClipboardText(sBody);
+  SetClipboardText(FBodyLinhasSL.Text);
+  }
+
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
   begin
@@ -131,7 +136,7 @@ begin
 
     if bPegandoCodigo then
     begin
-      if sLinha = SYNTAX_FIM then
+      if Trim(sLinha) = SYNTAX_FIM then
       begin
         bPegandoCodigo := False;
         break;
@@ -152,7 +157,7 @@ begin
       if bPegandoCabec then
       begin
         FCabecLinhasSL.Add(sLinha);
-        if sLinha = 'END^' then
+        if Trim(sLinha) = 'END^' then
         begin
           bPegandoCabec := False
         end;
@@ -160,7 +165,7 @@ begin
       else if bPegandoBody then
       begin
         FBodyLinhasSL.Add(sLinha);
-        if sLinha = 'END^' then
+        if Trim(sLinha) = 'END^' then
         begin
           bPegandoBody := False
         end;

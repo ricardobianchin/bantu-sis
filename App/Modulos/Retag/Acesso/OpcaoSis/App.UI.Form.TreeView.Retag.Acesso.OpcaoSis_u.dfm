@@ -1,18 +1,36 @@
 inherited OpcaoSisTreeViewForm: TOpcaoSisTreeViewForm
   Caption = 'OpcaoSisTreeViewForm'
+  ClientWidth = 435
+  ExplicitWidth = 447
+  ExplicitHeight = 319
   TextHeight = 15
+  inherited MensLabel: TLabel
+    Width = 435
+    ExplicitTop = 209
+  end
+  inherited AlteracaoTextoLabel: TLabel
+    Width = 435
+    ExplicitTop = 266
+  end
+  inherited TituloLabel: TLabel
+    Width = 435
+  end
+  inherited CaminhoLabel: TLabel
+    Width = 435
+  end
   inherited BasePanel: TPanel
+    Width = 435
+    DesignSize = (
+      435
+      37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 108
-      ExplicitLeft = 104
+      ExplicitLeft = 100
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 221
-      ExplicitLeft = 217
+      ExplicitLeft = 213
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 301
-      ExplicitLeft = 297
+      ExplicitLeft = 293
     end
   end
 end

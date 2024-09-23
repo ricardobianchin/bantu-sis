@@ -155,6 +155,7 @@ begin
   // Muda o parent do panel para a toolbar
   SelectPanel.Parent := TitToolBar1_BasTabSheet;
   // Posiciona o left do panel
+
   if LastButton <> nil then
     SelectPanel.Left := LastButton.Left + LastButton.Width + 1
   else
@@ -440,6 +441,8 @@ begin
   AjusteBotoesSelect;
 
   AtuAction_DatasetTabSheet.Execute;
+
+  DBGrid1.SetFocus;
 
   if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
     exit;

@@ -263,7 +263,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Types\Sis.Types.TStrings_u.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater_u_GetStrings.pas"/>
         <DCCReference Include="Types\Sis.Types.Integers.pas"/>
-        <DCCReference Include="Types\Sis.Types.strings.Crypt_u.pas"/>
+        <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt_u.pas"/>
         <DCCReference Include="Entities\Sis.ModuloSistema.pas"/>
         <DCCReference Include="Entities\Sis.ModuloSistema.Types.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas">
@@ -272,8 +272,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas">
             <Form>DiagBtnBasForm</Form>
         </DCCReference>
-        <DCCReference Include="Usuario\Sis.UI.Form.Login_u.pas">
-            <Form>LoginForm</Form>
+        <DCCReference Include="Usuario\Sis.UI.Form.LoginPerg_u.pas">
+            <Form>LoginPergForm</Form>
         </DCCReference>
         <DCCReference Include="DBI\Sis.DBI.pas"/>
         <DCCReference Include="DBI\Sis.DBI_u.pas"/>
@@ -413,6 +413,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas">
             <Form>TreeViewDiagBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Types_u.pas"/>
+        <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt1_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas">
+            <Form>CheckListViewDiagBasForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

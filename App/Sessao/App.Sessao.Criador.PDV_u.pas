@@ -18,7 +18,8 @@ implementation
 
 constructor TSessaoCriadorPDV.Create;
 begin
-  TipoModuloSistema := TTipoModuloSistema.modsisPDV;
+  inherited;
+  TipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduPDV;
 end;
 
 end.

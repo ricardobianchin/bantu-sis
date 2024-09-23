@@ -7,18 +7,17 @@ uses App.Sessao.Criador, App.Sessao, Sis.ModuloSistema.Types;
 type
   TSessaoCriador = class(TInterfacedObject, ISessaoCriador)
   private
-    FTipoModuloSistema: TTipoModuloSistema;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     function GetCaption: string;
   protected
-    function GetTipoModuloSistema: TTipoModuloSistema;
-    procedure SetTipoModuloSistema(Value: TTipoModuloSistema);
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    procedure SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
   public
-    property TipoModuloSistema: TTipoModuloSistema read GetTipoModuloSistema write SetTipoModuloSistema;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo
+      write SetTipoOpcaoSisModulo;
     function SessaoCreate: ISessao; virtual; abstract;
     procedure CriarActionExecute(Sender: TObject);
-
   end;
-
 
 implementation
 
@@ -31,17 +30,17 @@ end;
 
 function TSessaoCriador.GetCaption: string;
 begin
-  Result := TipoModuloSistemaToStr(FTipoModuloSistema);
+  Result := TipoOpcaoSisModuloToStr(FTipoOpcaoSisModulo);
 end;
 
-function TSessaoCriador.GetTipoModuloSistema: TTipoModuloSistema;
+function TSessaoCriador.GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 begin
-  Result := FTipoModuloSistema;
+  Result := FTipoOpcaoSisModulo;
 end;
 
-procedure TSessaoCriador.SetTipoModuloSistema(Value: TTipoModuloSistema);
+procedure TSessaoCriador.SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
 begin
-  FTipoModuloSistema := Value;
+  FTipoOpcaoSisModulo := Value;
 end;
 
 end.

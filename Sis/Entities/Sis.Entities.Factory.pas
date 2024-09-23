@@ -4,15 +4,15 @@ interface
 
 uses Sis.ModuloSistema, Sis.ModuloSistema.Types;
 
-function ModuloSistemaCreate(pTipoModuloSistema: TTipoModuloSistema): IModuloSistema;
+function ModuloSistemaCreate(pTipoOpcaoSisModulo: TOpcaoSisIdModulo): IModuloSistema;
 
 implementation
 
 uses Sis.ModuloSistema_u;
 
-function ModuloSistemaCreate(pTipoModuloSistema: TTipoModuloSistema): IModuloSistema;
+function ModuloSistemaCreate(pTipoOpcaoSisModulo: TOpcaoSisIdModulo): IModuloSistema;
 begin
-  Result := TModuloSistema.Create(pTipoModuloSistema);
+  Result := TModuloSistema.Create(pTipoOpcaoSisModulo);
 end;
 
 end.

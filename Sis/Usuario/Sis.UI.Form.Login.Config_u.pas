@@ -9,25 +9,25 @@ type
   TLoginConfig = class(TConfigXMLI, ILoginConfig)
   private
     FPreencheLogin: boolean;
-    FTipoModuloSistema: TTipoModuloSistema;
-    FNomeUsu: string;
-    FSenha: string;
+    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    FNomeDeUsuario: string;
+    FSenhaAtual: string;
     FExecuteOk: boolean;
 
-    PreencheLoginNode, TipoModuloSistemaNode, NomeUsuNode, SenhaNode,
-      ExecuteOkNode: IXMLNODE;
+    PreencheLoginNode, TipoOpcaoSisModuloNode, NomeDeUsuarioNode,
+      SenhaAtualNode, ExecuteOkNode: IXMLNODE;
 
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);
 
-    function GetTipoModuloSistema: TTipoModuloSistema;
-    procedure SetTipoModuloSistema(Value: TTipoModuloSistema);
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    procedure SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
 
-    function GetNomeUsu: string;
-    procedure SetNomeUsu(Value: string);
+    function GetNomeDeUsuario: string;
+    procedure SetNomeDeUsuario(Value: string);
 
-    function GetSenha: string;
-    procedure SetSenha(Value: string);
+    function GetSenhaAtual: string;
+    procedure SetSenhaAtual(Value: string);
 
     function GetExecuteOk: boolean;
     procedure SetExecuteOk(Value: boolean);
@@ -40,10 +40,10 @@ type
   public
     property PreencheLogin: boolean read GetPreencheLogin
       write SetPreencheLogin;
-    property TipoModuloSistema: TTipoModuloSistema read GetTipoModuloSistema
-      write SetTipoModuloSistema;
-    property NomeUsu: string read GetNomeUsu write SetNomeUsu;
-    property Senha: string read GetSenha write SetSenha;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo
+      write SetTipoOpcaoSisModulo;
+    property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
+    property SenhaAtual: string read GetSenhaAtual write SetSenhaAtual;
     property ExecuteOk: boolean read GetExecuteOk write SetExecuteOk;
     constructor Create(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
   end;
@@ -54,14 +54,15 @@ uses System.SysUtils, Sis.Types.Bool_u;
 
 { TLoginConfig }
 
-function TLoginConfig.GetTipoModuloSistema: TTipoModuloSistema;
+function TLoginConfig.GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 begin
-  Result := FTipoModuloSistema;
+  Result := FTipoOpcaoSisModulo;
 end;
 
 constructor TLoginConfig.Create(pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create('login', 'Login.Config', '.xml', '', False, pProcessLog, pOutput);
+  inherited Create('login', 'Login.Config', '.xml', '', False,
+    pProcessLog, pOutput);
 end;
 
 function TLoginConfig.GetExecuteOk: boolean;
@@ -69,9 +70,9 @@ begin
   Result := FExecuteOk;
 end;
 
-function TLoginConfig.GetNomeUsu: string;
+function TLoginConfig.GetNomeDeUsuario: string;
 begin
-  Result := FNomeUsu;
+  Result := FNomeDeUsuario;
 end;
 
 function TLoginConfig.GetPreencheLogin: boolean;
@@ -79,9 +80,9 @@ begin
   Result := FPreencheLogin;
 end;
 
-function TLoginConfig.GetSenha: string;
+function TLoginConfig.GetSenhaAtual: string;
 begin
-  Result := FSenha;
+  Result := FSenhaAtual;
 end;
 
 function TLoginConfig.PrepGravar: boolean;
@@ -91,26 +92,25 @@ begin
     exit;
 
   PreencheLoginNode := RootNode.AddChild('preenche_login');
-  TipoModuloSistemaNode := RootNode.AddChild('modulo_sistema');
-  NomeUsuNode := RootNode.AddChild('nome_usu');
-  SenhaNode := RootNode.AddChild('senha');
+  TipoOpcaoSisModuloNode := RootNode.AddChild('modulo_sistema');
+  NomeDeUsuarioNode := RootNode.AddChild('nome_de_usuario');
+  SenhaAtualNode := RootNode.AddChild('senha_atual');
   ExecuteOkNode := RootNode.AddChild('execute_ok');
 
   PreencheLoginNode.Text := BooleanToStr(FPreencheLogin);
-  TipoModuloSistemaNode.Text := TipoModuloSistemaToNameStr(FTipoModuloSistema);
-  NomeUsuNode.Text := FNomeUsu;
-  SenhaNode.Text := FSenha;
+  TipoOpcaoSisModuloNode.Text := TipoOpcaoSisModuloToName(FTipoOpcaoSisModulo);
+  NomeDeUsuarioNode.Text := FNomeDeUsuario;
+  SenhaAtualNode.Text := FSenhaAtual;
   ExecuteOkNode.Text := BooleanToStr(FExecuteOk);
-
 end;
 
 procedure TLoginConfig.Inicialize;
 begin
   inherited;
   FPreencheLogin := False;
-  FTipoModuloSistema := modsisNaoIndicado;
-  FNomeUsu := '';
-  FSenha := '';
+  FTipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduConfiguracoes;
+  FNomeDeUsuario := '';
+  FSenhaAtual := '';
   FExecuteOk := True;
 end;
 
@@ -123,30 +123,30 @@ begin
     exit;
 
   PreencheLoginNode := RootNode.ChildNodes['preenche_login'];
-  TipoModuloSistemaNode := RootNode.ChildNodes['modulo_sistema'];
-  NomeUsuNode := RootNode.ChildNodes['nome_usu'];
-  SenhaNode := RootNode.ChildNodes['senha'];
+  TipoOpcaoSisModuloNode := RootNode.ChildNodes['modulo_sistema'];
+  NomeDeUsuarioNode := RootNode.ChildNodes['nome_de_usuario'];
+  SenhaAtualNode := RootNode.ChildNodes['senha_atual'];
   ExecuteOkNode := RootNode.ChildNodes['execute_ok'];
 
   s := PreencheLoginNode.Text;
   FPreencheLogin := StrToBoolean(s);
 
-  s := TipoModuloSistemaNode.Text;
-  FTipoModuloSistema := NameStrToTipoModuloSistema(s);
+  s := TipoOpcaoSisModuloNode.Text;
+  FTipoOpcaoSisModulo := NameToTipoOpcaoSisModulo(s);
 
-  s := NomeUsuNode.Text;
-  FNomeUsu := s;
+  s := NomeDeUsuarioNode.Text;
+  FNomeDeUsuario := s;
 
-  s := SenhaNode.Text;
-  FSenha := s;
+  s := SenhaAtualNode.Text;
+  FSenhaAtual := s;
 
   s := ExecuteOkNode.Text;
   FExecuteOk := StrToBoolean(s);
 end;
 
-procedure TLoginConfig.SetTipoModuloSistema(Value: TTipoModuloSistema);
+procedure TLoginConfig.SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
 begin
-  FTipoModuloSistema := Value;
+  FTipoOpcaoSisModulo := Value;
 end;
 
 procedure TLoginConfig.SetExecuteOk(Value: boolean);
@@ -154,9 +154,9 @@ begin
   FExecuteOk := Value;
 end;
 
-procedure TLoginConfig.SetNomeUsu(Value: string);
+procedure TLoginConfig.SetNomeDeUsuario(Value: string);
 begin
-  FNomeUsu := Value;
+  FNomeDeUsuario := Value;
 end;
 
 procedure TLoginConfig.SetPreencheLogin(Value: boolean);
@@ -164,9 +164,9 @@ begin
   FPreencheLogin := Value;
 end;
 
-procedure TLoginConfig.SetSenha(Value: string);
+procedure TLoginConfig.SetSenhaAtual(Value: string);
 begin
-  FSenha := Value;
+  FSenhaAtual := Value;
 end;
 
 end.

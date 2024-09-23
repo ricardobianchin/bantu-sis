@@ -62,19 +62,28 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Left = 0
             Top = 0
             Action = RetagEstProdAction
+            AutoSize = True
           end
           object ToolButton9: TToolButton
-            Left = 125
+            Left = 59
             Top = 0
             Hint = 'Produtos'
+            AutoSize = True
             Caption = 'Entrada de Notas'
             OnClick = RetagEstProdActionExecute
           end
           object ToolButton10: TToolButton
-            Left = 250
+            Left = 160
             Top = 0
+            AutoSize = True
             Caption = 'Vendas'
             OnClick = RetagEstProdEnviarTermActionExecute
+          end
+          object ToolButton8: TToolButton
+            Left = 208
+            Top = 0
+            Action = RetagEstVenClienteAction
+            AutoSize = True
           end
         end
       end
@@ -171,7 +180,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             AutoSize = True
           end
           object FuncToolButton: TToolButton
-            Left = 79
+            Left = 77
             Top = 0
             Action = RetagAcessoFuncAction
             AutoSize = True
@@ -217,6 +226,12 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     TabOrder = 2
     ExplicitTop = 433
     ExplicitWidth = 592
+    inherited StatusPanel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -291,8 +306,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       object Usurios2: TMenuItem
         Caption = 'Usu'#225'rios'
       end
-      object PerfisdeUso1: TMenuItem
-        Caption = 'Perfis de Uso'
+      object PerfildeUso1: TMenuItem
+        Caption = 'Perfil de Uso'
       end
     end
   end
@@ -357,8 +372,13 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagAcessoPerfilAction: TAction
       Category = 'Acesso'
-      Caption = 'Perfis de Uso'
+      Caption = 'Perfil de Uso'
       OnExecute = RetagAcessoPerfilActionExecute
+    end
+    object RetagEstVenClienteAction: TAction
+      Category = 'Estoque'
+      Caption = 'Clientes'
+      OnExecute = RetagEstVenClienteActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

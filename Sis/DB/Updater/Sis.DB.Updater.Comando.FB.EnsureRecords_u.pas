@@ -7,8 +7,8 @@ uses System.Classes, Sis.DB.Updater.Comando.FB_u, Sis.DB.DBTypes,
 
 {$IFDEF DEBUG}
 const
-//  QTD_PARCIAL = TRUE;
-  QTD_PARCIAL = FALSE;
+  QTD_PARCIAL = TRUE;
+  //QTD_PARCIAL = FALSE;
 {$ELSE}
 const
   QTD_PARCIAL = FALSE;
@@ -82,6 +82,7 @@ var
   perc: double;
   iQtdRegs: integer;
   iRegAtual: integer;
+  sUltimoState: string;
 begin
   Result := '';
   ProcessLog.PegueLocal('TComandoFBEnsureRecords.GetAsSql');
@@ -90,7 +91,6 @@ begin
     ProcessLog.RegistreLog(AsText + ' Inicio');
     // ProcessLog.RegistreLog('StartTransaction');
     // DBConnection.StartTransaction;
-
 
     Output.Exibir('Processando ' + FRegistrosSL.count.ToString + ' registros');
     ProcessLog.RegistreLog('Processando ' + FRegistrosSL.count.ToString +
@@ -112,8 +112,9 @@ begin
         begin
           if iPasso > 0 then
           begin
-           if (I mod iPasso) = 0 then
-              Output.Exibir('Processando ' + I.ToString + ' / ' + FRegistrosSL.count.ToString + ' registros');
+            if (I mod iPasso) = 0 then
+              Output.Exibir('Processando ' + I.ToString + ' / ' +
+                FRegistrosSL.count.ToString + ' registros');
           end;
 
           sLog := I.ToString;
@@ -140,6 +141,7 @@ begin
             if bRegistroTem and assigned(FUpdDBExec) then
             begin
               // sLog := sLog + ';TY';
+              sUltimoState := 'Update';
               iParamIndice := 0;
               for J := FiQtdIndices to Length(aValores) - 1 do
               begin
@@ -155,6 +157,7 @@ begin
             end
             else
             begin
+              sUltimoState := 'Insert';
               // sLog := sLog + ';TN';
               for J := 0 to Length(aValores) - 1 do
               begin
@@ -170,7 +173,8 @@ begin
         on E: Exception do
         begin
           sErro := AsText + 'TComandoFBEnsureRecords.GetAsSql Erro ' +
-            E.ClassName + ' ' + E.Message;
+            E.ClassName + ' Tabela=' + FNomeTabela + ' state=' + sUltimoState +
+            ' Record=' + I.ToString + ' ' + E.Message;
           ProcessLog.RegistreLog(sErro);
           Output.Exibir(sErro);
           // DBConnection.Rollback;
@@ -273,7 +277,8 @@ begin
       sSqlUpd := '';
     end;
 
-    FInsDBExec := DBExecCreate('EnsureRecInsQ',DBConnection, sSqlIns, ProcessLog, Output);
+    FInsDBExec := DBExecCreate('EnsureRecInsQ', DBConnection, sSqlIns,
+      ProcessLog, Output);
     try
       FInsDBExec.Prepare;
     except
@@ -318,7 +323,7 @@ var
   sObjetoNome: string;
   iQtdRegs: integer;
 begin
-  bPegandoRegistros := false;
+  bPegandoRegistros := FALSE;
   iQtdRegs := 0;
   while piLin < pSL.count - 1 do
   begin
@@ -332,7 +337,7 @@ begin
     begin
       if sLinha = DBATUALIZ_CSV_FIM_CHAVE then
       begin
-        bPegandoRegistros := false;
+        bPegandoRegistros := FALSE;
         break;
       end;
       if iQtdRegs = 0 then

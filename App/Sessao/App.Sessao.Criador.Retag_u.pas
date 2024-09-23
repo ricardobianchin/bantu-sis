@@ -18,7 +18,7 @@ implementation
 
 constructor TSessaoCriadorRetag.Create;
 begin
-  TipoModuloSistema := TTipoModuloSistema.modsisRetaguarda;
+  TipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduRetaguarda;
 end;
 
 end.

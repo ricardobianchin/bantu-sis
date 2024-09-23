@@ -28,7 +28,8 @@ begin
 
   iX := oParent.Width;
 
-  for i := ControlsList.Count -1 downto 0 do
+//  for i := ControlsList.Count -1 downto 0 do
+  for i := 0 to ControlsList.Count -1 do
   begin
     c := ControlsList[i];
     Dec(iX, (c.Width + 5));

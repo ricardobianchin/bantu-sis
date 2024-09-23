@@ -94,7 +94,7 @@ type
     EntradadeNotas4: TMenuItem;
     Inventrio1: TMenuItem;
     Inventrio2: TMenuItem;
-    PerfisdeUso1: TMenuItem;
+    PerfildeUso1: TMenuItem;
     Usurios2: TMenuItem;
     DireitosdeAcesso1: TMenuItem;
     ToolBar4: TToolBar;
@@ -113,6 +113,8 @@ type
     AjuVersaoDBToolButton: TToolButton;
     RetagAcessoPerfilAction: TAction;
     PerfilToolButton: TToolButton;
+    ToolButton8: TToolButton;
+    RetagEstVenClienteAction: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -137,6 +139,7 @@ type
     procedure FinanceiroPagamentoFormaActionExecute(Sender: TObject);
     procedure RetagAcessoFuncActionExecute(Sender: TObject);
     procedure RetagAcessoPerfilActionExecute(Sender: TObject);
+    procedure RetagEstVenClienteActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -148,8 +151,8 @@ type
     FAjuVersaoDBTabSheetFormCreator: IFormCreator;
 
     // ace
-    FAcessoUsuarioTabSheetFormCreator: IFormCreator;
     FAcessoPerfilTabSheetFormCreator: IFormCreator;
+    FAcessoFuncionarioTabSheetFormCreator: IFormCreator;
 
     // est
     FFabrDataSetFormCreator: IFormCreator;
@@ -158,9 +161,14 @@ type
     FProdICMSDataSetFormCreator: IFormCreator;
     FProdDataSetFormCreator: IFormCreator;
 
+    // est ven
+    FClienteDataSetFormCreator: IFormCreator;
+
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
 
+
+    // abre form
     // tab crie
     procedure TabSheetCrie(pFormCreator: IFormCreator);
 
@@ -177,6 +185,8 @@ type
       pDBConnection: IDBConnection);
 
     procedure TestaTesteConfig;
+    procedure TestaTesteConfig_Acesso;
+    procedure TestaTesteConfig_Est;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -195,7 +205,8 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Types.strings_u, Sis.UI.IO.Factory, App.DB.Utils, Sis.DB.Factory,
   App.Retag.Aju.Factory, App.Retag.Fin.Factory,
   App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
-  App.Acesso.PerfilDeUso.UI.Factory_u;
+  App.Acesso.PerfilDeUso.UI.Factory_u, App.UI.Form.DataSet.Pess.Cliente_u,
+  App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
@@ -237,19 +248,15 @@ end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAcesso(pAppInfo: IAppInfo;
   pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-//var
-//  oPerfilDeUsoEnt: IPerfilDeUsoEnt;
-//  oPerfilDeUsoDBI: IPerfilDeUsoDBI;
-
 begin
-//  // acesso perfil de uso
-//  oPerfilDeUsoEnt := PerfilDeUsoEntCreate;
-//
-//  oPerfilDeUsoDBI := PerfilDeUsoDBICreate(pDBConnection, oPerfilDeUsoEnt);
 
   FAcessoPerfilTabSheetFormCreator := PerfilDeUsoDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify{, oPerfilDeUsoEnt, oPerfilDeUsoDBI});
+    FOutputNotify);
+
+  FAcessoFuncionarioTabSheetFormCreator := FuncionarioDataSetFormCreatorCreate
+    (FFormClassNamesSL, AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    FOutputNotify);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;
@@ -354,6 +361,9 @@ begin
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
     pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
     oProdEnt, oProdDBI);
+
+  FClienteDataSetFormCreator := ClienteDataSetFormCreatorCreate(FFormClassNamesSL,
+    AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -419,7 +429,7 @@ procedure TRetaguardaModuloBasForm.RetagAcessoFuncActionExecute
   (Sender: TObject);
 begin
   inherited;
-  // TabSheetCrie(FAcessoUsuarioTabSheetFormCreator);
+  TabSheetCrie(FAcessoFuncionarioTabSheetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagAcessoPerfilActionExecute
@@ -482,6 +492,13 @@ procedure TRetaguardaModuloBasForm.RetagEstProdUnidActionExecute
 begin
   inherited;
   TabSheetCrie(FProdUnidDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstVenClienteActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FClienteDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
@@ -562,6 +579,12 @@ begin
 end;
 
 procedure TRetaguardaModuloBasForm.TestaTesteConfig;
+begin
+  TestaTesteConfig_Acesso;
+  TestaTesteConfig_Est;
+end;
+
+procedure TRetaguardaModuloBasForm.TestaTesteConfig_Acesso;
 var
   bDeveExecutar: Boolean;
 begin
@@ -573,6 +596,26 @@ begin
     RetagAcessoPerfilAction.Execute;
   end;
 
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Acesso.Funcionario.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := AcessoTabSheet;
+    RetagAcessoFuncAction.Execute;
+  end;
+end;
+
+procedure TRetaguardaModuloBasForm.TestaTesteConfig_Est;
+var
+  bDeveExecutar: Boolean;
+begin
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Est.Cliente.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := EstoqueTabSheet;
+    RetagEstVenClienteAction.Execute;
+  end;
 end;
 
 end.

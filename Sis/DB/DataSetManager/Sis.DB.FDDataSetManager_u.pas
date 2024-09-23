@@ -204,6 +204,9 @@ begin
   end
   else if sTipo = 'B' then
   begin
+    if sDisplayValues = '' then
+      sDisplayValues := 'Sim;N'#227'o';
+
     Field := AdBooleanField(sNomeCampo, sTitulo, sDisplayValues, vAlignment, bVisible);
   end
   else if sTipo = 'U' then

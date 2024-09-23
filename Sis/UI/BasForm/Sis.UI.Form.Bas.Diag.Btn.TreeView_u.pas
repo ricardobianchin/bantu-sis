@@ -14,16 +14,15 @@ type
     TreeView1: TTreeView;
     TituloLabel: TLabel;
     CaminhoLabel: TLabel;
-    procedure FormCreate(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FNodeList: TList<TTreeNode>;
   protected
     property NodeList: TList<TTreeNode> read FNodeList;
-    procedure PreencherTreeView; virtual;
+    procedure PreencherTreeView; virtual; abstract;
     function GetPath(pTreeNode: TTreeNode): string;
     procedure AtualizeCaminho;
+    procedure AjusteControles; override;
 
     function AddChildNode(Parent: TTreeNode; const S: string; Ptr: TCustomData): TTreeNode;
 
@@ -43,11 +42,20 @@ implementation
 
 {$R *.dfm}
 
+uses Sis.UI.Controls.Utils;
+
 function TTreeViewDiagBasForm.AddChildNode(Parent: TTreeNode; const S: string;
   Ptr: TCustomData): TTreeNode;
 begin
   Result := TreeView1.Items.AddChildObject(Parent, S, Ptr);
   NodeList.Add(Result);
+end;
+
+procedure TTreeViewDiagBasForm.AjusteControles;
+begin
+  inherited;
+  PreencherTreeView;
+  TreeView1.SetFocus;
 end;
 
 procedure TTreeViewDiagBasForm.AtualizeCaminho;
@@ -70,19 +78,13 @@ begin
   Caption := pCaption;
   TituloLabel.Caption := pTitulo;
   TreeView1.Align := alClient;
-  Height := (Screen.Height * 8) div 10;
+  Height := GetToolFormHeight;
 end;
 
 destructor TTreeViewDiagBasForm.Destroy;
 begin
-  TreeView1.Free;
+  FNodeList.Free;
   inherited;
-end;
-
-procedure TTreeViewDiagBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  TreeView1.Align := alClient;
 end;
 
 function TTreeViewDiagBasForm.GetPath(pTreeNode: TTreeNode): string;
@@ -97,18 +99,6 @@ begin
       Result := pTreeNode.Text + ' / ' + Result;
     pTreeNode := pTreeNode.Parent;
   end;
-end;
-
-procedure TTreeViewDiagBasForm.PreencherTreeView;
-begin
-
-end;
-
-procedure TTreeViewDiagBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  PreencherTreeView;
-  TreeView1.SetFocus;
 end;
 
 end.

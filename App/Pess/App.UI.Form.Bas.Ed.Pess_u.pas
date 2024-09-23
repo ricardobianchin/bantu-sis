@@ -10,32 +10,36 @@ uses
   App.Pess.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Pess.Ender.Frame_u,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, App.Pess.Utils;
 
 type
   TPessEdBasForm = class(TEdBasForm)
-    NomePessLabel: TLabel;
+    EnderecoPanel: TPanel;
+    TitPanel: TPanel;
+    NomePanel: TPanel;
     NomePessEdit: TEdit;
+    NomePessLabel: TLabel;
+    PesJurPanel: TPanel;
     NomeFantaPessLabel: TLabel;
     NomeFantaPessEdit: TEdit;
     ApelidoPessLabel: TLabel;
     ApelidoPessEdit: TEdit;
-    CPessLabel: TLabel;
+    DocsPanel: TPanel;
     CPessEdit: TEdit;
-    IPessLabel: TLabel;
     IPessEdit: TEdit;
-    MPessLabel: TLabel;
     MPessEditEdit: TEdit;
-    MUFPessLabel: TLabel;
     MUFPessEdit: TEdit;
-    EMailPessLabel: TLabel;
-    EMailPessEdit: TEdit;
-    DtNascPessLabel: TLabel;
+    MUFPessLabel: TLabel;
+    MPessLabel: TLabel;
+    AtivoPessCheckBox: TCheckBox;
     DtNascDateTimePicker: TDateTimePicker;
-    EnderecoPanel: TPanel;
+    DtNascPessLabel: TLabel;
+    EMailPessEdit: TEdit;
+    EMailPessLabel: TLabel;
+    CPessLabel: TLabel;
+    IPessLabel: TLabel;
     Button1: TButton;
     Button2: TButton;
-    AtivoPessCheckBox: TCheckBox;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -62,8 +66,6 @@ type
     FEnderFrame: TEnderFrame;
 
     function NomeOk: boolean;
-    function NomeFantasiaOk: boolean;
-    function ApelidoOk: boolean;
     function COk: boolean;
     procedure ColarC;
 
@@ -79,6 +81,8 @@ type
     function GravouOk: boolean; override;
     procedure AjusteTabOrder; virtual;
 
+    function NomeFantasiaOk: boolean; virtual;
+    function ApelidoOk: boolean; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
@@ -313,6 +317,11 @@ begin
   DtNascDateTimePicker.Time := 0;
   DtNascDateTimePicker.Date := Date;
 
+  ObjetivoLabel.Parent := TitPanel;
+  ObjetivoLabel.Top := 1;
+
+  if FPessEnt.PessTipoAceito = TPessTipoAceito.pestipacSoPessFisica then
+    PesJurPanel.Visible := False;
 end;
 
 function TPessEdBasForm.DadosOk: boolean;
@@ -420,19 +429,7 @@ end;
 
 function TPessEdBasForm.ApelidoOk: boolean;
 begin
-  Result := not ApelidoPessLabel.Visible;
-
-  if Result then
-    exit;
-
-  ApelidoPessEdit.Text := Trim(ApelidoPessEdit.Text);
-  Result := ApelidoPessEdit.Text <> '';
-
-  if Result then
-    exit;
-
-  ErroOutput.Exibir(ApelidoPessLabel.Caption + ' é obrigatório');
-  ApelidoPessEdit.SetFocus
+  Result := True;
 end;
 
 procedure TPessEdBasForm.NomeFantaPessEditKeyPress(Sender: TObject;
@@ -444,14 +441,7 @@ end;
 
 function TPessEdBasForm.NomeFantasiaOk: boolean;
 begin
-  NomeFantaPessEdit.Text := Trim(NomeFantaPessEdit.Text);
-  Result := NomeFantaPessEdit.Text <> '';
-
-  if Result then
-    exit;
-
-  ErroOutput.Exibir('Nome Fantasia é obrigatório');
-  NomeFantaPessEdit.SetFocus
+  Result := true;
 end;
 
 function TPessEdBasForm.NomeOk: boolean;
@@ -471,7 +461,12 @@ begin
   // inherited;
   EditKeyPress(Sender, Key);
   if Key = #13 then
-    NomeFantaPessEdit.SetFocus;
+  begin
+    if FPessEnt.PessTipoAceito = TPessTipoAceito.pestipacSoPessFisica then
+      CPessEdit.SetFocus
+    else
+      NomeFantaPessEdit.SetFocus;
+  end;
   // SelectNext(NomePessEdit,True, True);
 end;
 

@@ -9,6 +9,9 @@ type
     ['{3DF3FC1F-5402-416A-94D5-D56DAE945182}']
     function GetDBConnection: IDBConnection;
     property DBConnection: IDBConnection read GetDBConnection;
+    function ExecuteSQL(pComandoSQL: string; out pMens: string): boolean;
+    function GetValue(pConsultaSQL: string; out pMens: string): variant;
+    function GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
   end;
 
 implementation

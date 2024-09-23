@@ -13,8 +13,8 @@ type
   protected
     procedure SetVarArrayToId(pNovaId: variant); override;
     procedure RegAtualToEnt(Q: TDataSet); virtual;
-    function GetFieldNames: string; override;
-    function GetFieldValues: string; override;
+    function GetFieldNamesListaGet: string; override;
+    function GetFieldValuesGravar: string; override;
   public
     function Ler: boolean; override;
     constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
@@ -41,6 +41,7 @@ procedure TPessDBI.RegAtualToEnt(Q: TDataSet);
 var
   oEnder: IPessEnder;
   iOrdem: integer;
+  sIdChar: string;
 begin
   FPessEnt.LojaId := Q.Fields[0 { LOJA_ID } ].AsInteger;
   FPessEnt.TerminalId := Q.Fields[1 { TERMINAL_ID } ].AsInteger;
@@ -50,19 +51,38 @@ begin
   FPessEnt.Nome := Q.Fields[4 { NOME } ].AsString;
   FPessEnt.NomeFantasia := Q.Fields[5 { NOME_FANTASIA } ].AsString;
 
-  FPessEnt.C := Q.Fields[6 { C } ].AsString;
-  FPessEnt.I := Q.Fields[7 { I } ].AsString;
-  FPessEnt.M := Q.Fields[8 { M } ].AsString;
-  FPessEnt.MUF := Q.Fields[9 { M_UF } ].AsString;
+  // genero id
+  sIdChar := Trim(Q.Fields[6 { genero_id } ].AsString);
+  if sIdChar = '' then
+    sIdChar := ' ';
 
-  FPessEnt.EMail := Q.Fields[10 { EMAIL } ].AsString;
-  FPessEnt.DtNasc := Q.Fields[11 { DT_NASC } ].AsDateTime;
-  FPessEnt.Ativo := Q.Fields[12 { ATIVO } ].AsBoolean;
+  FPessEnt.GeneroId := sIdChar[1];
 
-  FPessEnt.CriadoEm := Q.Fields[13 { PESS_CRIADO_EM } ].AsDateTime;
-  FPessEnt.AlteradoEm := Q.Fields[14 { PESS_ALTERADO_EM } ].AsDateTime;
+  // estado_civil id
+  sIdChar := Trim(Q.Fields[8 { estado_civil } ].AsString);
+  if sIdChar = '' then
+    sIdChar := ' ';
 
-  iOrdem := Q.Fields[15 { ENDER_ORDEM } ].AsInteger;
+  FPessEnt.EstadoCivilId := sIdChar[1];
+
+
+  FPessEnt.GeneroDescr := Q.Fields[7 { genero_descr } ].AsString;
+  FPessEnt.EstadoCivilDescr := Q.Fields[9 { estado_civil_descrF } ].AsString;
+
+
+  FPessEnt.C := Q.Fields[10 { C } ].AsString;
+  FPessEnt.I := Q.Fields[11 { I } ].AsString;
+  FPessEnt.M := Q.Fields[12 { M } ].AsString;
+  FPessEnt.MUF := Q.Fields[13 { M_UF } ].AsString;
+
+  FPessEnt.EMail := Q.Fields[14 { EMAIL } ].AsString;
+  FPessEnt.DtNasc := Q.Fields[15 { DT_NASC } ].AsDateTime;
+  FPessEnt.Ativo := Q.Fields[16 { ATIVO } ].AsBoolean;
+
+  FPessEnt.CriadoEm := Q.Fields[17 { PESS_CRIADO_EM } ].AsDateTime;
+  FPessEnt.AlteradoEm := Q.Fields[18 { PESS_ALTERADO_EM } ].AsDateTime;
+
+  iOrdem := Q.Fields[19 { ENDER_ORDEM } ].AsInteger;
 
   while FPessEnt.PessEnderList.Count < (iOrdem + 1) do
   begin
@@ -74,29 +94,29 @@ begin
 
   oEnder.Ordem := iOrdem;
 
-  oEnder.Logradouro := Q.Fields[16 { LOGRADOURO } ].AsString;
-  oEnder.Numero := Q.Fields[17 { NUMERO } ].AsString;
-  oEnder.Complemento := Q.Fields[18 { COMPLEMENTO } ].AsString;
-  oEnder.Bairro := Q.Fields[19 { BAIRRO } ].AsString;
+  oEnder.Logradouro := Q.Fields[20 { LOGRADOURO } ].AsString;
+  oEnder.Numero := Q.Fields[21 { NUMERO } ].AsString;
+  oEnder.Complemento := Q.Fields[22 { COMPLEMENTO } ].AsString;
+  oEnder.Bairro := Q.Fields[23 { BAIRRO } ].AsString;
 
-  oEnder.UFSigla := Q.Fields[20 { UF_SIGLA } ].AsString;
-  oEnder.CEP := Q.Fields[21 { CEP } ].AsString;
-  oEnder.MunicipioIbgeId := Q.Fields[22 { MUNICIPIO_IBGE_ID } ].AsString;
-  oEnder.MunicipioNome :=  Q.Fields[23 { MUNICIPIO_NOME } ].AsString;
+  oEnder.UFSigla := Q.Fields[24 { UF_SIGLA } ].AsString;
+  oEnder.CEP := Q.Fields[25 { CEP } ].AsString;
+  oEnder.MunicipioIbgeId := Q.Fields[26 { MUNICIPIO_IBGE_ID } ].AsString;
+  oEnder.MunicipioNome :=  Q.Fields[27 { MUNICIPIO_NOME } ].AsString;
 
   if oEnder.MunicipioIbgeId = '' then
-    oEnder.MunicipioIbgeId := '     ';
+    oEnder.MunicipioIbgeId := '       ';
 
-  oEnder.DDD := Q.Fields[24 { DDD } ].AsString;
-  oEnder.Fone1 := Q.Fields[25 { FONE1 } ].AsString;
-  oEnder.Fone2 := Q.Fields[26 { FONE2 } ].AsString;
-  oEnder.Fone3 := Q.Fields[27 { FONE3 } ].AsString;
+  oEnder.DDD := Q.Fields[28 { DDD } ].AsString;
+  oEnder.Fone1 := Q.Fields[29 { FONE1 } ].AsString;
+  oEnder.Fone2 := Q.Fields[30 { FONE2 } ].AsString;
+  oEnder.Fone3 := Q.Fields[31 { FONE3 } ].AsString;
 
-  oEnder.Contato := Q.Fields[28 { CONTATO } ].AsString;
-  oEnder.Referencia := Q.Fields[29 { REFERENCIA } ].AsString;
+  oEnder.Contato := Q.Fields[32 { CONTATO } ].AsString;
+  oEnder.Referencia := Q.Fields[33 { REFERENCIA } ].AsString;
 
-  oEnder.CriadoEm := Q.Fields[30 { ENDER_CRIADO_EM } ].AsDateTime;
-  oEnder.AlteradoEm := Q.Fields[31 { ENDER_ALTERADO_EM } ].AsDateTime;
+  oEnder.CriadoEm := Q.Fields[34 { ENDER_CRIADO_EM } ].AsDateTime;
+  oEnder.AlteradoEm := Q.Fields[35 { ENDER_ALTERADO_EM } ].AsDateTime;
 end;
 
 function TPessDBI.CToIdLojaTermRecord(const C: string; out pLojaId: smallint;
@@ -133,74 +153,97 @@ begin
   end;
 end;
 
-function TPessDBI.GetFieldNames: string;
+function TPessDBI.GetFieldNamesListaGet: string;
 begin
-  Result := ' LOJA_ID'#13#10 // 0
+  Result :=
+      ' LOJA_ID'#13#10 // 0
     + ', TERMINAL_ID'#13#10 // 1
     + ', PESSOA_ID'#13#10 // 2
+
     + ', APELIDO'#13#10 // 3
     + ', NOME'#13#10 // 4
     + ', NOME_FANTASIA'#13#10 // 5
-    + ', C'#13#10 // 6
-    + ', I'#13#10 // 7
-    + ', M'#13#10 // 8
-    + ', M_UF'#13#10 // 9
-    + ', EMAIL'#13#10 // 10
-    + ', DT_NASC'#13#10 // 11
-    + ', ATIVO'#13#10 // 12
 
-    + ', PESS_CRIADO_EM'#13#10 // 13
-    + ', PESS_ALTERADO_EM'#13#10 // 14
+    + ', GENERO_ID' // 6
+    + ', GENERO_DESCR' // 7
 
-    + ', ENDER_ORDEM'#13#10 // 15
-    + ', LOGRADOURO'#13#10 // 16
-    + ', NUMERO'#13#10 // 17
-    + ', COMPLEMENTO'#13#10 // 18
-    + ', BAIRRO'#13#10 // 19
-    + ', UF_SIGLA'#13#10 // 20
-    + ', CEP'#13#10 // 21
-    + ', MUNICIPIO_IBGE_ID'#13#10 // 22
-    + ', MUNICIPIO_NOME'#13#10 // 23
-    + ', DDD'#13#10 // 24
-    + ', FONE1'#13#10 // 25
-    + ', FONE2'#13#10 // 26
-    + ', FONE3'#13#10 // 27
-    + ', CONTATO'#13#10 // 28
-    + ', REFERENCIA'#13#10 // 29
+    + ', ESTADO_CIVIL_ID' // 8
+    + ', ESTADO_CIVIL_DESCR' // 9
 
-    + ', ENDER_CRIADO_EM'#13#10 // 30
-    + ', ENDER_ALTERADO_EM'#13#10 // 31
+    + ', C'#13#10 // 10
+    + ', I'#13#10 // 11
+    + ', M'#13#10 // 12
+    + ', M_UF'#13#10 // 13
+
+    + ', EMAIL'#13#10 // 14
+    + ', DT_NASC'#13#10 // 15
+    + ', ATIVO'#13#10 // 16
+
+    + ', PESS_CRIADO_EM'#13#10 // 17
+    + ', PESS_ALTERADO_EM'#13#10 // 18
+
+    + ', ENDER_ORDEM'#13#10 // 19
+    + ', LOGRADOURO'#13#10 // 20
+    + ', NUMERO'#13#10 // 21
+    + ', COMPLEMENTO'#13#10 // 22
+
+    + ', BAIRRO'#13#10 // 23
+    + ', UF_SIGLA'#13#10 // 24
+    + ', CEP'#13#10 // 25
+
+    + ', MUNICIPIO_IBGE_ID'#13#10 // 26
+    + ', MUNICIPIO_NOME'#13#10 // 27
+
+    + ', DDD'#13#10 // 28
+    + ', FONE1'#13#10 // 29
+    + ', FONE2'#13#10 // 30
+    + ', FONE3'#13#10 // 31
+
+    + ', CONTATO'#13#10 // 32
+    + ', REFERENCIA'#13#10 // 33
+
+    + ', ENDER_CRIADO_EM'#13#10 // 34
+    + ', ENDER_ALTERADO_EM'#13#10 // 35
     ;
 end;
 
-function TPessDBI.GetFieldValues: string;
+function TPessDBI.GetFieldValuesGravar: string;
 begin
   Result := FPessEnt.LojaId.ToString + ' -- LOJA_ID'#13#10
     + ', ' + FPessEnt.TerminalId.ToString + ' -- TERMINAL_ID '#13#10
+
     + ', ' + QuotedStr(FPessEnt.Nome) + ' -- NOME'#13#10
     + ', ' + QuotedStr(FPessEnt.NomeFantasia) + ' -- NOME_FANTASIA'#13#10
     + ', ' + QuotedStr(FPessEnt.Apelido) + ' -- APELIDO'#13#10
-    + ', ' + QuotedStr(FPessEnt.Genero) + ' -- GENERO_ID'#13#10
-    + ', ' + QuotedStr(FPessEnt.EstadoCivil) + ' -- ESTADO_CIVIL_ID'#13#10
+
+    + ', ' + QuotedStr(FPessEnt.GeneroId) + ' -- GENERO_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.EstadoCivilId) + ' -- ESTADO_CIVIL_ID'#13#10
+
     + ', ' + QuotedStr(FPessEnt.C) + ' -- C'#13#10
     + ', ' + QuotedStr(FPessEnt.I) + ' -- I'#13#10
     + ', ' + QuotedStr(FPessEnt.M) + ' -- M'#13#10
     + ', ' + QuotedStr(FPessEnt.MUF) + ' -- M_UF'#13#10
+
     + ', ' + QuotedStr(FPessEnt.EMail) + ' -- EMAIL'#13#10
     + ', ' + DataSQLFirebird(FPessEnt.DtNasc) + ' -- DT_NASC'#13#10
     + ', ' + BooleanToStrSQL(FPessEnt.Ativo) +' -- ATIVO'+ #13#10
+
     + ', ' + FPessEnt.Id.ToString + ' -- PESSOA_ID'#13#10
+
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Logradouro) + ' -- LOGRADOURO'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Numero) + ' -- NUMERO'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Complemento) + ' -- COMPLEMENTO'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Bairro) + ' -- BAIRRO'#13#10
+
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].UFSigla) + ' -- UF_SIGLA'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].CEP) + ' -- CEP'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10
+
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].DDD) + ' -- DDD'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone1) + ' -- FONE1'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone2) + ' -- FONE2'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone3) + ' -- FONE3'#13#10
+
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Contato) + ' -- CONTATO'#13#10
     + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Referencia) + ' -- REFERENCIA'#13#10
     ;

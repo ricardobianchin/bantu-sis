@@ -8,13 +8,18 @@ uses App.Pess.Ent, App.Ent.Ed.Id, App.Ent.Ed.Id_u, Data.DB, App.PessEnder.List,
 type
   TPessEnt = class(TEntEdId, IPessEnt)
   private
-    FTerminalId: smallint;
     FLojaId: smallint;
+    FUsuarioId: integer;
+    FMachineIdentId: smallint;
+    FTerminalId: smallint;
+
     FNome: string;
     FNomeFantasia: string;
     FApelido: string;
-    FEstadoCivil: char;
-    FGenero: char;
+    FGeneroId: char;
+    FGeneroDescr: string;
+    FEstadoCivilId: char;
+    FEstadoCivilDescr: string;
     FC: string;
     FI: string;
     FM: string;
@@ -27,10 +32,10 @@ type
     FAlteradoEm: TDateTime;
 
     FPessEnderList: IPessEnderList;
-    FEnderQuantidadePermitida: TEnderQuantidadePermitida;
-    FCodUsaTerminalId: boolean;
 
-    FCObrigatorio: boolean;
+
+    function GetUsuarioId: integer;
+    function GetMachineIdentId: smallint;
 
     function GetTerminalId: smallint;
     procedure SetTerminalId(const Value: smallint);
@@ -47,11 +52,17 @@ type
     function GetApelido: string;
     procedure SetApelido(const Value: string);
 
-    function GetEstadoCivil: char;
-    procedure SetEstadoCivil(const Value: char);
+    function GetGeneroId: char;
+    procedure SetGeneroId(const Value: char);
 
-    function GetGenero: char;
-    procedure SetGenero(const Value: char);
+    function GetGeneroDescr: string;
+    procedure SetGeneroDescr(const Value: string);
+
+    function GetEstadoCivilId: char;
+    procedure SetEstadoCivilId(const Value: char);
+
+    function GetEstadoCivilDescr: string;
+    procedure SetEstadoCivilDescr(const Value: string);
 
     function GetC: string;
     procedure SetC(const Value: string);
@@ -80,24 +91,29 @@ type
     function GetAlteradoEm: TDateTime;
     procedure SetAlteradoEm(const Value: TDateTime);
 
-
     function GetPessEnderList: IPessEnderList;
 
-    function GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
-    function GetCodUsaTerminalId: boolean;
-
-    function GetCObrigatorio: boolean;
-    procedure SetCObrigatorio(const Value: Boolean);
-
     function GetCodAsString: string;
+  protected
+    function GetCObrigatorio: boolean; virtual;
+    function GetEnderQuantidadePermitida: TEnderQuantidadePermitida; virtual;
+    function GetCodUsaTerminalId: boolean; virtual;
+    function GetPessTipoAceito: TPessTipoAceito; virtual;
   public
+    property UsuarioId: integer read GetUsuarioId;
+    property MachineIdentId: smallint read GetMachineIdentId;
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
     property Nome: string read GetNome write SetNome;
     property NomeFantasia: string read GetNomeFantasia write SetNomeFantasia;
     property Apelido: string read GetApelido write SetApelido;
-    property EstadoCivil: char read GetEstadoCivil write SetEstadoCivil;
-    property Genero: char read GetGenero write SetGenero;
+
+    property GeneroId: char read GetGeneroId write SetGeneroId;
+    property GeneroDescr: string read GetGeneroDescr write SetGeneroDescr;
+
+    property EstadoCivilId: char read GetEstadoCivilId write SetEstadoCivilId;
+    property EstadoCivilDescr: string read GetEstadoCivilDescr write SetEstadoCivilDescr;
+
     property C: string read GetC write SetC;
     property I: string read GetI write SetI;
     property M: string read GetM write SetM;
@@ -111,13 +127,20 @@ type
     property PessEnderList: IPessEnderList read GetPessEnderList;
     property EnderQuantidadePermitida: TEnderQuantidadePermitida
       read GetEnderQuantidadePermitida;
+
+    property PessTipoAceito: TPessTipoAceito read GetPessTipoAceito;
+
     property CodUsaTerminalId: boolean read GetCodUsaTerminalId;
     property CodAsString: string read GetCodAsString;
 
-    property CObrigatorio: boolean read GetCObrigatorio write SetCObrigatorio;
+    property CObrigatorio: boolean read GetCObrigatorio;
 
-    constructor Create(pState: TDataSetState; pPessEnderList: IPessEnderList;
-      pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
+    constructor Create( //
+      pLojaId: smallint;//
+      pUsuarioId: integer; //
+      pMachineIdentId: smallint; //
+      pPessEnderList: IPessEnderList //
+      ); //
 
     procedure LimparEnt; override;
   end;
@@ -128,15 +151,18 @@ uses System.SysUtils;
 
 { TPessEnt }
 
-constructor TPessEnt.Create(pState: TDataSetState;
-  pPessEnderList: IPessEnderList;
-  pEnderQuantidadePermitida: TEnderQuantidadePermitida; pCodUsaTerminalId: boolean);
+constructor TPessEnt.Create( //
+  pLojaId: smallint;//
+  pUsuarioId: integer; //
+  pMachineIdentId: smallint; //
+  pPessEnderList: IPessEnderList //
+  ); //
 begin
   inherited Create(dsBrowse, 0);
+  FLojaId := pLojaId;
+  FUsuarioId := pUsuarioId;
+  FMachineIdentId := pMachineIdentId;
   FPessEnderList := pPessEnderList;
-  FEnderQuantidadePermitida := pEnderQuantidadePermitida;
-  CObrigatorio := True;
-  FCodUsaTerminalId := pCodUsaTerminalId;
   LimparEnt;
 end;
 
@@ -157,7 +183,7 @@ end;
 
 function TPessEnt.GetCObrigatorio: boolean;
 begin
-  Result := FCObrigatorio;
+  Result := True;
 end;
 
 function TPessEnt.GetCodAsString: string;
@@ -167,7 +193,7 @@ end;
 
 function TPessEnt.GetCodUsaTerminalId: boolean;
 begin
-  Result := FCodUsaTerminalId;
+  Result := False;
 end;
 
 function TPessEnt.GetCriadoEm: TDateTime;
@@ -192,17 +218,27 @@ end;
 
 function TPessEnt.GetEnderQuantidadePermitida: TEnderQuantidadePermitida;
 begin
-  Result := FEnderQuantidadePermitida;
+  Result := TEnderQuantidadePermitida.endqtdUm;
 end;
 
-function TPessEnt.GetEstadoCivil: char;
+function TPessEnt.GetEstadoCivilDescr: string;
 begin
-  Result := FEstadoCivil;
+  Result := FEstadoCivilDescr;
 end;
 
-function TPessEnt.GetGenero: char;
+function TPessEnt.GetEstadoCivilId: char;
 begin
-  Result := FGenero;
+  Result := FEstadoCivilId;
+end;
+
+function TPessEnt.GetGeneroDescr: string;
+begin
+  Result := FGeneroDescr;
+end;
+
+function TPessEnt.GetGeneroId: char;
+begin
+  Result := FGeneroId;
 end;
 
 function TPessEnt.GetI: string;
@@ -218,6 +254,11 @@ end;
 function TPessEnt.GetM: string;
 begin
   Result := FM;
+end;
+
+function TPessEnt.GetMachineIdentId: smallint;
+begin
+  Result := FMachineIdentId;
 end;
 
 function TPessEnt.GetMUF: string;
@@ -240,21 +281,32 @@ begin
   Result := FPessEnderList;
 end;
 
+function TPessEnt.GetPessTipoAceito: TPessTipoAceito;
+begin
+  Result := TPessTipoAceito.pestipacPessFisEJur;
+end;
+
 function TPessEnt.GetTerminalId: smallint;
 begin
   Result := FTerminalId;
+end;
+
+function TPessEnt.GetUsuarioId: integer;
+begin
+  Result := FUsuarioId;
 end;
 
 procedure TPessEnt.LimparEnt;
 begin
   inherited;
   FTerminalId := 0; // : smallint;
-  FLojaId := 0; // : smallint;
   FNome := ''; // : string;
   FNomeFantasia := ''; // : string;
   FApelido := ''; // : string;
-  FEstadoCivil := ' '; // : char;
-  FGenero := ' '; // : char;
+  FEstadoCivilId := ' '; // : char;
+  FEstadoCivilDescr := 'Nao Indicado'; // : char;
+  FGeneroId := ' '; // : char;
+  FGeneroDescr := 'Nao Indicado'; // : char;
   FC := ''; // : string;
   FI := ''; // : string;
   FM := ''; // : string;
@@ -279,11 +331,6 @@ begin
   FC := Value;
 end;
 
-procedure TPessEnt.SetCObrigatorio(const Value: Boolean);
-begin
-  FCObrigatorio := Value;
-end;
-
 procedure TPessEnt.SetCriadoEm(const Value: TDateTime);
 begin
   FCriadoEm := Value;
@@ -304,14 +351,24 @@ begin
   FEMail := Value;
 end;
 
-procedure TPessEnt.SetEstadoCivil(const Value: char);
+procedure TPessEnt.SetEstadoCivilDescr(const Value: string);
 begin
-  FEstadoCivil := Value;
+  FEstadoCivilDescr := Value;
 end;
 
-procedure TPessEnt.SetGenero(const Value: char);
+procedure TPessEnt.SetEstadoCivilId(const Value: char);
 begin
-  FGenero := Value;
+  FEstadoCivilId := Value;
+end;
+
+procedure TPessEnt.SetGeneroId(const Value: char);
+begin
+  FGeneroId := Value;
+end;
+
+procedure TPessEnt.SetGeneroDescr(const Value: string);
+begin
+  FGeneroDescr := Value;
 end;
 
 procedure TPessEnt.SetI(const Value: string);
