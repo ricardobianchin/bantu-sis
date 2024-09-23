@@ -9,15 +9,15 @@ type
   private
     FNomeCompleto: string;
     FNomeExib: string;
-    FNomeUsu: string;
+    FNomeDeUsuario: string;
     FSenha: string;
     FCryVer: smallint;
 
     function GetNomeExib: string;
     procedure SetNomeExib(const Value: string);
 
-    function GetNomeUsu: string;
-    procedure SetNomeUsu(const Value: string);
+    function GetNomeDeUsuario: string;
+    procedure SetNomeDeUsuario(const Value: string);
 
     function GetSenha: string;
     procedure SetSenha(const Value: string);
@@ -31,7 +31,7 @@ type
   public
     property NomeCompleto: string read GetNomeCompleto write SetNomeCompleto;
     property NomeExib: string read GetNomeExib write SetNomeExib;
-    property NomeUsu: string read GetNomeUsu write SetNomeUsu;
+    property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
     property Senha: string read GetSenha write SetSenha;
     property CryVer: smallint read GetCryVer write SetCryVer;
 
@@ -53,9 +53,9 @@ begin
   inherited Create(pLojaId, pTerminalId, pId);
   SetNomeCompleto(pNomeCompleto);
   SetNomeExib(pNomeExib);
-  SetNomeUsu(pNomeUsu);
+  SetNomeDeUsuario(pNomeUsu);
   SetSenha(pSenha);
-  SetCryVer(1)
+  SetCryVer(1);
 end;
 
 function TUsuario.GetCryVer: smallint;
@@ -73,9 +73,9 @@ begin
   Result := FNomeExib;
 end;
 
-function TUsuario.GetNomeUsu: string;
+function TUsuario.GetNomeDeUsuario: string;
 begin
-  Result := FNomeUsu;
+  Result := FNomeDeUsuario;
 end;
 
 function TUsuario.GetSenha: string;
@@ -98,9 +98,9 @@ begin
   FNomeExib := value;
 end;
 
-procedure TUsuario.SetNomeUsu(const Value: string);
+procedure TUsuario.SetNomeDeUsuario(const Value: string);
 begin
-  FNomeUsu := value;
+  FNomeDeUsuario := value;
 end;
 
 procedure TUsuario.SetSenha(const Value: string);

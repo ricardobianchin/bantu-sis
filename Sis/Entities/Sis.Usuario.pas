@@ -16,9 +16,9 @@ type
     procedure SetNomeExib(const Value: string);
     property NomeExib: string read GetNomeExib write SetNomeExib;
 
-    function GetNomeUsu: string;
-    procedure SetNomeUsu(const Value: string);
-    property NomeUsu: string read GetNomeUsu write SetNomeUsu;
+    function GetNomeDeUsuario: string;
+    procedure SetNomeDeUsuario(const Value: string);
+    property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
 
     function GetSenha: string;
     procedure SetSenha(const Value: string);
