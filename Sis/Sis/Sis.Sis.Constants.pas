@@ -9,6 +9,7 @@ const
   INDEX_ILIMITADO = -1;
   SENHA_ZERADA = 'ZERADA';
   SENHA_ZERADA_MENS = 'Senha zerada';
+  SENHA_INCORRETA_MENS = 'Senha incorreta';
 
 implementation
 
