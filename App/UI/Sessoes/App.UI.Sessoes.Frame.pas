@@ -76,7 +76,6 @@ type
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
       pSessaoEventos: ISessaoEventos; pAppObj: IAppObj); reintroduce;
-
   end;
 
 implementation
