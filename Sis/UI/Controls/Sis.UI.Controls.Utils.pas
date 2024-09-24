@@ -22,6 +22,8 @@ procedure SetTabOrderToHint(Control: TControl);
 
 function GetToolFormHeight: integer;
 
+procedure ControlAlignToCenter(pControl: TControl);
+
 implementation
 
 uses System.SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
@@ -195,5 +197,27 @@ function GetToolFormHeight: integer;
 begin
   Result := (Screen.Height * 8) div 10;
 end;
+
+procedure ControlAlignToCenter(pControl: TControl);
+var
+  iLargTotal: integer;
+  oParent: TControl;
+  iDif: integer;
+  iLeft: integer;
+begin
+  oParent := pControl.Parent;
+
+  if not Assigned(oParent) then
+    exit;
+
+  iLargTotal := oParent.Width;
+
+  iDif := iLargTotal - pControl.Width;
+
+  iLeft := iDif div 2;
+
+  pControl.Left := iLeft;
+end;
+
 
 end.

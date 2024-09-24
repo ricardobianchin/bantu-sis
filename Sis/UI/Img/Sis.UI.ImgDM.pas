@@ -21,6 +21,7 @@ type
     ImageList_9_9: TImageList;
     ImageList24FlatSelect: TImageList;
     PrincImageList: TImageList;
+    PrincImageList72: TImageList;
   private
     { Private declarations }
   public

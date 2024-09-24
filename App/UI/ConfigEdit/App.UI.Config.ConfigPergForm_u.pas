@@ -1,4 +1,4 @@
-unit App.UI.Config.ConfigForm;
+unit App.UI.Config.ConfigPergForm_u;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Sis.Usuario, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Mask,
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
-  Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigForm.Testes,
+  Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
   App.UI.Config.MaqNomeEdFrame_u;
 
 type
@@ -17,7 +17,7 @@ type
     property AutoSize;
     end;
   }
-  TStarterFormConfig = class(TForm)
+  TConfigPergForm = class(TForm)
     Panel1: TPanel;
     Image1: TImage;
     Panel2: TPanel;
@@ -104,7 +104,7 @@ type
     FUsuarioGerente: IUsuario;
     FLoja: ILoja;
 
-    FTesteConfig: TTesteConfig;
+    FConfigPergTeste: TConfigPergTeste;
 
     LocalMaqNomeEdFrame: TMaqNomeEdFrame;
     ServerMaqNomeEdFrame: TMaqNomeEdFrame;
@@ -131,7 +131,7 @@ type
   end;
 
 var
-  StarterFormConfig: TStarterFormConfig;
+  ConfigPergForm: TConfigPergForm;
 
 implementation
 
@@ -202,7 +202,7 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.BuscaNomeActionExecute(Sender: TObject);
+procedure TConfigPergForm.BuscaNomeActionExecute(Sender: TObject);
 var
   sNome, sIp: string;
 begin
@@ -211,43 +211,43 @@ begin
   LocalMaqNomeEdFrame.IpLabeledEdit.Text := sIp;
 end;
 
-procedure TStarterFormConfig.CancelActExecute(Sender: TObject);
+procedure TConfigPergForm.CancelActExecute(Sender: TObject);
 begin
   modalresult := mrCancel;
 end;
 
-procedure TStarterFormConfig.CarregTesteStarterIni;
+procedure TConfigPergForm.CarregTesteStarterIni;
 begin
-  FTesteConfig.LerIni;
+  FConfigPergTeste.LerIni;
 
-  if FTesteConfig.TesteMaqLocalBuscaNome then
+  if FConfigPergTeste.TesteMaqLocalBuscaNome then
   begin
     BuscaNomeAction.Execute;
   end;
 
-  if FTesteConfig.TesteEhServ then
+  if FConfigPergTeste.TesteEhServ then
   begin
     EhServidorCheckBox.Checked := true;
   end;
 
-  if FTesteConfig.TesteUsuPreenche then
+  if FConfigPergTeste.TesteUsuPreenche then
   begin
-    UsuGerenteNomeCompletoLabeledEdit.Text := FTesteConfig.TesteUsuNomeCompleto;
-    UsuGerenteNomeExibLabeledEdit.Text := FTesteConfig.TesteUsuNomeExib;
-    UsuGerenteNomeUsuLabeledEdit.Text := FTesteConfig.TesteUsuNomeUsu;
-    UsuGerenteSenha1LabeledEdit.Text := FTesteConfig.TesteUsuSenha1;
-    UsuGerenteSenha2LabeledEdit.Text := FTesteConfig.TesteUsuSenha2;
-    UsuGerenteExibSenhaCheckBox.Checked := FTesteConfig.TesteUsuExibSenha;
+    UsuGerenteNomeCompletoLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeCompleto;
+    UsuGerenteNomeExibLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeExib;
+    UsuGerenteNomeUsuLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeUsu;
+    UsuGerenteSenha1LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha1;
+    UsuGerenteSenha2LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha2;
+    UsuGerenteExibSenhaCheckBox.Checked := FConfigPergTeste.TesteUsuExibSenha;
   end;
 
-  if FTesteConfig.TesteLojaPreenche then
+  if FConfigPergTeste.TesteLojaPreenche then
   begin
-    LojaIdLabeledEdit.Text := FTesteConfig.TesteLojaId.ToString;
-    LojaApelidoLabeledEdit.Text := FTesteConfig.TesteLojaApelido;
+    LojaIdLabeledEdit.Text := FConfigPergTeste.TesteLojaId.ToString;
+    LojaApelidoLabeledEdit.Text := FConfigPergTeste.TesteLojaApelido;
   end;
 end;
 
-procedure TStarterFormConfig.EhServidorCheckBoxClick(Sender: TObject);
+procedure TConfigPergForm.EhServidorCheckBoxClick(Sender: TObject);
 begin
   if EhServidorCheckBox.Checked then
   begin
@@ -269,7 +269,7 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.EhServidorCheckBoxKeyPress(Sender: TObject;
+procedure TConfigPergForm.EhServidorCheckBoxKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
@@ -284,7 +284,7 @@ begin
   CharSemAcento(Key);
 end;
 
-constructor TStarterFormConfig.Create(AOwner: TComponent;
+constructor TConfigPergForm.Create(AOwner: TComponent;
   pSisConfig: ISisConfig; pUsuarioGerente: IUsuario; pLoja: ILoja);
 begin
   inherited Create(AOwner);
@@ -293,7 +293,7 @@ begin
   FLoja := pLoja;
 end;
 
-procedure TStarterFormConfig.CtrlToObj;
+procedure TConfigPergForm.CtrlToObj;
 begin
   FSisConfig.LocalMachineId.Name := LocalMaqNomeEdFrame.NomeLabeledEdit.Text;
   FSisConfig.LocalMachineId.IP := LocalMaqNomeEdFrame.IpLabeledEdit.Text;
@@ -324,13 +324,13 @@ begin
   FLoja.Descr := LojaApelidoLabeledEdit.Text;
 end;
 
-procedure TStarterFormConfig.FormCreate(Sender: TObject);
+procedure TConfigPergForm.FormCreate(Sender: TObject);
 begin
   BorderIcons := [];
 
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   FPastaConfigs := PastaAcima(FPastaBin)+'Configs\';
-  FTesteConfig := TTesteConfig.Create(FPastaBin, FPastaConfigs);
+  FConfigPergTeste := TConfigPergTeste.Create(FPastaBin, FPastaConfigs);
 
   AjudaLojaLabel.Font.Color := COR_AZUL_LINK;
   AjudaLojaLabel.Hint := LOJAID_DESCR;
@@ -359,12 +359,12 @@ begin
   // ServerGroupBox.AutoSize := true;
 end;
 
-procedure TStarterFormConfig.FormDestroy(Sender: TObject);
+procedure TConfigPergForm.FormDestroy(Sender: TObject);
 begin
-  FTesteConfig.Free;
+  FConfigPergTeste.Free;
 end;
 
-procedure TStarterFormConfig.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TConfigPergForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Key = WKEY_ENTER then
@@ -376,7 +376,7 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.FormKeyPress(Sender: TObject; var Key: Char);
+procedure TConfigPergForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = CHAR_ESC then
   begin
@@ -386,7 +386,7 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.FormResize(Sender: TObject);
+procedure TConfigPergForm.FormResize(Sender: TObject);
 begin
   // RepositionControls( LocalGroupBox, 9, 35);
   // LocalGroupBox.Width := FlowPanel1.Width;
@@ -395,13 +395,13 @@ begin
   // LocalGroupBox.Height := FlowPanel2.Height+10;
 end;
 
-procedure TStarterFormConfig.FormShow(Sender: TObject);
+procedure TConfigPergForm.FormShow(Sender: TObject);
 begin
   ShowTimer.Enabled := true;
 
 end;
 
-procedure TStarterFormConfig.LojaApelidoLabeledEditKeyPress(Sender: TObject;
+procedure TConfigPergForm.LojaApelidoLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
@@ -415,7 +415,7 @@ begin
   CharSemAcento(Key);
 end;
 
-procedure TStarterFormConfig.LocalMaqNomeEdFrameIpLabeledEditKeyPress
+procedure TConfigPergForm.LocalMaqNomeEdFrameIpLabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -429,12 +429,12 @@ begin
   CharSemAcento(Key);
 end;
 
-function TStarterFormConfig.LocalMaqPodeOk: boolean;
+function TConfigPergForm.LocalMaqPodeOk: boolean;
 begin
   result := LocalMaqNomeEdFrame.PodeOk;
 end;
 
-procedure TStarterFormConfig.LojaIdLabeledEditKeyPress(Sender: TObject;
+procedure TConfigPergForm.LojaIdLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
@@ -448,7 +448,7 @@ begin
   CharSemAcento(Key);
 end;
 
-function TStarterFormConfig.LojaPodeOk: boolean;
+function TConfigPergForm.LojaPodeOk: boolean;
 var
   iId: integer;
 begin
@@ -493,7 +493,7 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
+procedure TConfigPergForm.UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
 begin
   if UsuGerenteExibSenhaCheckBox.Checked then
   begin
@@ -510,7 +510,7 @@ begin
 
 end;
 
-procedure TStarterFormConfig.UsuGerenteNomeCompletoLabeledEditKeyPress
+procedure TConfigPergForm.UsuGerenteNomeCompletoLabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -524,13 +524,13 @@ begin
   CharSemAcento(Key);
 end;
 
-procedure TStarterFormConfig.UsuGerenteNomeExibLabeledEditChange
+procedure TConfigPergForm.UsuGerenteNomeExibLabeledEditChange
   (Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 end;
 
-procedure TStarterFormConfig.UsuGerenteNomeExibLabeledEditKeyPress
+procedure TConfigPergForm.UsuGerenteNomeExibLabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -544,14 +544,14 @@ begin
   CharSemAcento(Key);
 end;
 
-procedure TStarterFormConfig.UsuGerenteNomeUsuLabeledEditChange
+procedure TConfigPergForm.UsuGerenteNomeUsuLabeledEditChange
   (Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TStarterFormConfig.UsuGerenteNomeUsuLabeledEditKeyPress
+procedure TConfigPergForm.UsuGerenteNomeUsuLabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -565,7 +565,7 @@ begin
   CharSemAcento(Key);
 end;
 
-function TStarterFormConfig.UsuGerentePodeOk: boolean;
+function TConfigPergForm.UsuGerentePodeOk: boolean;
 begin
   UsuGerenteNomeCompletoLabeledEdit.Text :=
     Trim(StrSemAcento(UsuGerenteNomeCompletoLabeledEdit.Text));
@@ -597,13 +597,13 @@ begin
   // exit;
 end;
 
-procedure TStarterFormConfig.UsuGerenteSenha1LabeledEditChange(Sender: TObject);
+procedure TConfigPergForm.UsuGerenteSenha1LabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TStarterFormConfig.UsuGerenteSenha1LabeledEditKeyPress
+procedure TConfigPergForm.UsuGerenteSenha1LabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -617,13 +617,13 @@ begin
 //  CharSemAcento(Key);
 end;
 
-procedure TStarterFormConfig.UsuGerenteSenha2LabeledEditChange(Sender: TObject);
+procedure TConfigPergForm.UsuGerenteSenha2LabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TStarterFormConfig.UsuGerenteSenha2LabeledEditKeyPress
+procedure TConfigPergForm.UsuGerenteSenha2LabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -637,7 +637,7 @@ begin
   //CharSemAcento(Key);
 end;
 
-function TStarterFormConfig.PodeOk: boolean;
+function TConfigPergForm.PodeOk: boolean;
 begin
   result := LocalMaqPodeOk;
   if not result then
@@ -653,7 +653,7 @@ begin
   end;
 end;
 
-function TStarterFormConfig.ServerPodeOk: boolean;
+function TConfigPergForm.ServerPodeOk: boolean;
 begin
   result := ServerMaqNomeEdFrame.PodeOk;
   if not result then
@@ -668,7 +668,7 @@ begin
     exit;
 end;
 
-procedure TStarterFormConfig.ShowTimerTimer(Sender: TObject);
+procedure TConfigPergForm.ShowTimerTimer(Sender: TObject);
 begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
@@ -677,7 +677,7 @@ begin
 {$ENDIF}
 end;
 
-function TStarterFormConfig.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
+function TConfigPergForm.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
   pErroLabel: TLabel): boolean;
 begin
   result := not EditVazio(pLabeledEdit);
@@ -690,7 +690,7 @@ begin
   end;
 end;
 
-procedure TStarterFormConfig.OkActExecute(Sender: TObject);
+procedure TConfigPergForm.OkActExecute(Sender: TObject);
 begin
   if not PodeOk then
     exit;

@@ -27,15 +27,15 @@ object SessoesFrame: TSessoesFrame
       Caption = ' '
       TabOrder = 0
       object ToolBar1: TToolBar
-        Left = 105
+        Left = 8
         Top = 0
-        Width = 449
+        Width = 617
         Height = 162
         Align = alNone
         ButtonHeight = 162
         ButtonWidth = 147
         Caption = 'ToolBar1'
-        Images = SisImgDataModule.PrincImageList
+        Images = SisImgDataModule.PrincImageList72
         ShowCaptions = True
         TabOrder = 0
         StyleElements = []

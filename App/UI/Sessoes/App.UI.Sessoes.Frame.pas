@@ -4,14 +4,14 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
-  System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Sis.DB.DBTypes,
-  Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppObj,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
+  Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.UI.IO.Output, App.Sessao.Eventos, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
-  Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants;
+  Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants,
+  Sis.UI.Controls.Utils;
 
 type
   TSessoesFrame = class(TFrame, ISessaoList)
@@ -97,6 +97,9 @@ begin
   FSessaoIndexContador := ContadorCreate;
 
   FPrimeiroShortCut := VK_F3;
+
+  ToolBar1.Images := SisImgDataModule.PrincImageList72;
+  ActionList1.Images := SisImgDataModule.PrincImageList72;
 
   SessaoCriadorListPrep;
   SessaoCriadorListPrepActionList;
@@ -297,10 +300,10 @@ var
 begin
   FSessaoCriadorList := SessaoCriadorListCreate;
 
-  oSessaoCriador := SessaoCriadorCreate(opmoduConfiguracoes);
+  oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
 
-  oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
+  oSessaoCriador := SessaoCriadorCreate(opmoduConfiguracoes);
   FSessaoCriadorList.Add(oSessaoCriador);
 
   oSessaoCriador := SessaoCriadorCreate(opmoduPDV);
@@ -334,6 +337,7 @@ begin
     oAction.Tag := integer(oSessaoCriador.TipoOpcaoSisModulo);
     oAction.Caption := Format('%s - %s', [sShortCut, sDescr]);
     oAction.ImageIndex := I;
+    oAction.ShortCut := wShortCut;
 
     inc(wShortCut);
 
@@ -371,6 +375,9 @@ begin
       NovoBotao.Left := 0;
     NovoBotao.Parent := ToolBar1;
   end;
+  ToolBar1.AutoSize := True;
+  ToolBar1.AutoSize := False;
+  ControlAlignToCenter(ToolBar1);
 end;
 
 end.

@@ -34,7 +34,7 @@ implementation
 
 uses Sis.Sis.Constants, System.SysUtils, Sis.Config.SisConfig.XMLI, Sis.Win.Utils_u,
   Sis.Config.Factory, Sis.UI.IO.Files.Sync, Vcl.Controls,
-  App.UI.Config.ConfigForm;
+  App.UI.Config.ConfigPergForm_u;
 
 { TAppSisConfigGarantirXML }
 
@@ -47,13 +47,13 @@ function TAppSisConfigGarantirXML.ConfigEdit: boolean;
 var
   r: tmodalresult;
 begin
-  StarterFormConfig := TStarterFormConfig.Create(nil, FSisConfig,
+  ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig,
     FUsuarioGerente, FLoja);
   try
-    r := StarterFormConfig.ShowModal;
+    r := ConfigPergForm.ShowModal;
     Result := IsPositiveResult(r);
   finally
-    StarterFormConfig.Free;
+    ConfigPergForm.Free;
   end;
 end;
 
