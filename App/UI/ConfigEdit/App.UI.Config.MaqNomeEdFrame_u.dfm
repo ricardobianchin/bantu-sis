@@ -1,15 +1,8 @@
-object MaqNomeEdFrame: TMaqNomeEdFrame
-  Left = 0
-  Top = 0
+inherited MaqNomeEdFrame: TMaqNomeEdFrame
   Width = 300
   Height = 109
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -13
-  Font.Name = 'Segoe UI'
-  Font.Style = []
-  ParentFont = False
-  TabOrder = 0
+  ExplicitWidth = 300
+  ExplicitHeight = 109
   object ErroLabel: TLabel
     Left = 0
     Top = 96
@@ -34,7 +27,6 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
     Align = alClient
     Caption = 'GroupBox1'
     TabOrder = 0
-    ExplicitWidth = 279
     object ObsLabel: TLabel
       Left = 9
       Top = 70
@@ -55,9 +47,9 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
       Left = 9
       Top = 39
       Width = 135
-      Height = 25
-      EditLabel.Width = 36
-      EditLabel.Height = 17
+      Height = 23
+      EditLabel.Width = 33
+      EditLabel.Height = 15
       EditLabel.Caption = 'Nome'
       MaxLength = 20
       TabOrder = 0
@@ -70,9 +62,9 @@ object MaqNomeEdFrame: TMaqNomeEdFrame
       Left = 150
       Top = 39
       Width = 106
-      Height = 25
+      Height = 23
       EditLabel.Width = 10
-      EditLabel.Height = 17
+      EditLabel.Height = 15
       EditLabel.Caption = 'IP'
       MaxLength = 20
       TabOrder = 1
