@@ -49,7 +49,6 @@ contains
   App.AtualizaVersao_u in 'AtualizaVersao\App.AtualizaVersao_u.pas',
   App.SisConfig.Garantir in 'SisConfig\App.SisConfig.Garantir.pas',
   App.SisConfig.Garantir_u in 'SisConfig\App.SisConfig.Garantir_u.pas',
-  App.UI.Config.MaqNomeEdFrame_u in 'UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas',
   App.UI.Config.ConfigPergForm_u in 'UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.pas' {ConfigPergForm},
   App.UI.Config.ConfigPergForm.Testes in 'UI\ConfigEdit\App.UI.Config.ConfigPergForm.Testes.pas',
   App.UI.Config.Constants in 'UI\ConfigEdit\App.UI.Config.Constants.pas',
@@ -265,6 +264,7 @@ contains
   App.Testes.Config.ModuRetag.Acesso.Funcionario_u in 'AppObj\TestesConfig\ModuRetag\Acesso\Funcionario\App.Testes.Config.ModuRetag.Acesso.Funcionario_u.pas',
   App.Acesso.Funcionario.UI.Factory_u in 'Pess\Funcionario\App.Acesso.Funcionario.UI.Factory_u.pas',
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u in 'Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u.pas' {OpcaoSisUsuarioTreeViewForm},
-  App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u in 'Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas' {FuncionarioPerfilDeUsoDiagForm};
+  App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u in 'Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas' {FuncionarioPerfilDeUsoDiagForm},
+  App.UI.Config.MaqNomeEdFrame_u in 'UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas' {MaqNomeEdFrame: TFrame};
 
 end.

@@ -149,7 +149,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AtualizaVersao\App.AtualizaVersao_u.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.Garantir.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.Garantir_u.pas"/>
-        <DCCReference Include="UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas"/>
         <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.pas">
             <Form>ConfigPergForm</Form>
         </DCCReference>
@@ -526,6 +525,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas">
             <Form>FuncionarioPerfilDeUsoDiagForm</Form>
+        </DCCReference>
+        <DCCReference Include="UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas">
+            <Form>MaqNomeEdFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
