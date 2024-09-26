@@ -2,8 +2,8 @@ object ConfigPergForm: TConfigPergForm
   Left = 0
   Top = 0
   Caption = 'ConfigPergForm'
-  ClientHeight = 558
-  ClientWidth = 920
+  ClientHeight = 559
+  ClientWidth = 988
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,20 +23,20 @@ object ConfigPergForm: TConfigPergForm
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 920
-    Height = 558
+    Width = 988
+    Height = 559
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitLeft = 175
-    ExplicitWidth = 745
+    ExplicitWidth = 984
+    ExplicitHeight = 558
     DesignSize = (
-      920
-      558)
+      988
+      559)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 522
+      Top = 523
       Width = 417
       Height = 28
       Align = alNone
@@ -50,6 +50,7 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
+      ExplicitTop = 522
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -69,8 +70,8 @@ object ConfigPergForm: TConfigPergForm
     object EhServidorCheckBox: TCheckBox
       AlignWithMargins = True
       Left = 16
-      Top = 123
-      Width = 191
+      Top = 141
+      Width = 178
       Height = 17
       Margins.Left = 15
       Margins.Top = 15
@@ -94,13 +95,13 @@ object ConfigPergForm: TConfigPergForm
       object ToolButton5: TToolButton
         Left = 0
         Top = 0
-        Action = BuscaNomeAction
+        Action = BuscaLocalNomeAction
       end
     end
     object ServerConfigLabeledEdit: TLabeledEdit
       AlignWithMargins = True
-      Left = 331
-      Top = 135
+      Left = 199
+      Top = 137
       Width = 440
       Height = 25
       EditLabel.Width = 180
@@ -110,14 +111,16 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 6
       Text = ''
     end
-    object UsuGerenteGroupBox: TGroupBox
-      Left = 7
+    object UsuGerGroupBox: TGroupBox
+      Left = 671
       Top = 162
       Width = 300
       Height = 337
+      Anchors = [akTop, akRight]
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
+      ExplicitLeft = 667
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
@@ -167,7 +170,7 @@ object ConfigPergForm: TConfigPergForm
         Visible = False
         StyleElements = []
       end
-      object UsuGerenteNomeExibLabeledEdit: TLabeledEdit
+      object UsuGerNomeExibLabeledEdit: TLabeledEdit
         Left = 8
         Top = 99
         Width = 285
@@ -178,10 +181,10 @@ object ConfigPergForm: TConfigPergForm
         MaxLength = 20
         TabOrder = 1
         Text = ''
-        OnChange = UsuGerenteNomeExibLabeledEditChange
-        OnKeyPress = UsuGerenteNomeExibLabeledEditKeyPress
+        OnChange = UsuGerNomeExibLabeledEditChange
+        OnKeyPress = UsuGerNomeExibLabeledEditKeyPress
       end
-      object UsuGerenteNomeUsuLabeledEdit: TLabeledEdit
+      object UsuGerNomeUsuLabeledEdit: TLabeledEdit
         Left = 8
         Top = 148
         Width = 285
@@ -192,10 +195,10 @@ object ConfigPergForm: TConfigPergForm
         MaxLength = 20
         TabOrder = 2
         Text = ''
-        OnChange = UsuGerenteNomeUsuLabeledEditChange
-        OnKeyPress = UsuGerenteNomeUsuLabeledEditKeyPress
+        OnChange = UsuGerNomeUsuLabeledEditChange
+        OnKeyPress = UsuGerNomeUsuLabeledEditKeyPress
       end
-      object UsuGerenteSenha1LabeledEdit: TLabeledEdit
+      object UsuGerSenha1LabeledEdit: TLabeledEdit
         Left = 8
         Top = 198
         Width = 285
@@ -207,10 +210,10 @@ object ConfigPergForm: TConfigPergForm
         PasswordChar = '*'
         TabOrder = 3
         Text = ''
-        OnChange = UsuGerenteSenha1LabeledEditChange
-        OnKeyPress = UsuGerenteSenha1LabeledEditKeyPress
+        OnChange = UsuGerSenha1LabeledEditChange
+        OnKeyPress = UsuGerSenha1LabeledEditKeyPress
       end
-      object UsuGerenteSenha2LabeledEdit: TLabeledEdit
+      object UsuGerSenha2LabeledEdit: TLabeledEdit
         Left = 8
         Top = 247
         Width = 285
@@ -222,8 +225,8 @@ object ConfigPergForm: TConfigPergForm
         PasswordChar = '*'
         TabOrder = 4
         Text = ''
-        OnChange = UsuGerenteSenha2LabeledEditChange
-        OnKeyPress = UsuGerenteSenha2LabeledEditKeyPress
+        OnChange = UsuGerSenha2LabeledEditChange
+        OnKeyPress = UsuGerSenha2LabeledEditKeyPress
       end
       object LoginToolBar: TToolBar
         Left = 329
@@ -242,7 +245,7 @@ object ConfigPergForm: TConfigPergForm
           ImageIndex = 0
         end
       end
-      object UsuGerenteExibSenhaCheckBox: TCheckBox
+      object UsuGerExibSenhaCheckBox: TCheckBox
         Left = 8
         Top = 285
         Width = 97
@@ -255,9 +258,9 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         TabOrder = 6
-        OnClick = UsuGerenteExibSenhaCheckBoxClick
+        OnClick = UsuGerExibSenhaCheckBoxClick
       end
-      object UsuGerenteNomeCompletoLabeledEdit: TLabeledEdit
+      object UsuGerNomeCompletoLabeledEdit: TLabeledEdit
         Left = 9
         Top = 49
         Width = 285
@@ -268,21 +271,21 @@ object ConfigPergForm: TConfigPergForm
         MaxLength = 60
         TabOrder = 0
         Text = ''
-        OnChange = UsuGerenteNomeExibLabeledEditChange
-        OnKeyPress = UsuGerenteNomeCompletoLabeledEditKeyPress
+        OnChange = UsuGerNomeExibLabeledEditChange
+        OnKeyPress = UsuGerNomeCompletoLabeledEditKeyPress
       end
     end
     object LojaIdGroupBox: TGroupBox
       Left = 313
-      Top = 162
+      Top = 7
       Width = 300
-      Height = 143
+      Height = 109
       Caption = 'Loja'
       TabOrder = 3
       Visible = False
       DesignSize = (
         300
-        143)
+        109)
       object AjudaLojaLabel: TLabel
         Left = 246
         Top = 16
@@ -305,7 +308,7 @@ object ConfigPergForm: TConfigPergForm
       end
       object LojaErroLabel: TLabel
         Left = 2
-        Top = 128
+        Top = 94
         Width = 296
         Height = 13
         Align = alBottom
@@ -335,8 +338,8 @@ object ConfigPergForm: TConfigPergForm
         OnKeyPress = LojaIdLabeledEditKeyPress
       end
       object LojaApelidoLabeledEdit: TLabeledEdit
-        Left = 9
-        Top = 94
+        Left = 68
+        Top = 46
         Width = 201
         Height = 25
         EditLabel.Width = 45
@@ -349,12 +352,20 @@ object ConfigPergForm: TConfigPergForm
       end
     end
     object ServerConfigSelectButton: TButton
-      Left = 778
-      Top = 135
+      Left = 642
+      Top = 137
       Width = 25
       Height = 25
       Caption = '...'
       TabOrder = 5
+    end
+    object TerminaisGroupBox: TGroupBox
+      Left = 6
+      Top = 162
+      Width = 666
+      Height = 337
+      Caption = 'Terminais'
+      TabOrder = 7
     end
   end
   object ActionList1: TActionList
@@ -385,11 +396,11 @@ object ConfigPergForm: TConfigPergForm
     Images = SisImgDataModule.ImageListLogin16
     Left = 23
     Top = 216
-    object BuscaNomeAction: TAction
+    object BuscaLocalNomeAction: TAction
       Caption = 'Buscar nome'
       Hint = 'Descobre o nome da m'#225'quina local'
       ImageIndex = 2
-      OnExecute = BuscaNomeActionExecute
+      OnExecute = BuscaLocalNomeActionExecute
     end
   end
   object OpenDialog1: TOpenDialog

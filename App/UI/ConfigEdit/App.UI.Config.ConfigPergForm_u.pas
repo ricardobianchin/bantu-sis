@@ -8,7 +8,7 @@ uses
   Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Mask,
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
-  App.UI.Config.MaqNomeEdFrame_u;
+  App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u;
 
 type
   {
@@ -24,7 +24,7 @@ type
     ReloadAct: TAction;
     BalloonHint1: TBalloonHint;
     ActionList2: TActionList;
-    BuscaNomeAction: TAction;
+    BuscaLocalNomeAction: TAction;
     OpenDialog1: TOpenDialog;
     ShowTimer: TTimer;
     Panel2: TPanel;
@@ -36,24 +36,25 @@ type
     ToolBar2: TToolBar;
     ToolButton5: TToolButton;
     ServerConfigLabeledEdit: TLabeledEdit;
-    UsuGerenteGroupBox: TGroupBox;
+    UsuGerGroupBox: TGroupBox;
     LoginErroLabel: TLabel;
     ObsLabel: TLabel;
     AvisoSenhaLabel: TLabel;
-    UsuGerenteNomeExibLabeledEdit: TLabeledEdit;
-    UsuGerenteNomeUsuLabeledEdit: TLabeledEdit;
-    UsuGerenteSenha1LabeledEdit: TLabeledEdit;
-    UsuGerenteSenha2LabeledEdit: TLabeledEdit;
+    UsuGerNomeExibLabeledEdit: TLabeledEdit;
+    UsuGerNomeUsuLabeledEdit: TLabeledEdit;
+    UsuGerSenha1LabeledEdit: TLabeledEdit;
+    UsuGerSenha2LabeledEdit: TLabeledEdit;
     LoginToolBar: TToolBar;
     ToolButton4: TToolButton;
-    UsuGerenteExibSenhaCheckBox: TCheckBox;
-    UsuGerenteNomeCompletoLabeledEdit: TLabeledEdit;
+    UsuGerExibSenhaCheckBox: TCheckBox;
+    UsuGerNomeCompletoLabeledEdit: TLabeledEdit;
     LojaIdGroupBox: TGroupBox;
     AjudaLojaLabel: TLabel;
     LojaErroLabel: TLabel;
     LojaIdLabeledEdit: TLabeledEdit;
     LojaApelidoLabeledEdit: TLabeledEdit;
     ServerConfigSelectButton: TButton;
+    TerminaisGroupBox: TGroupBox;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -64,38 +65,42 @@ type
     procedure OkActExecute(Sender: TObject);
     procedure CancelActExecute(Sender: TObject);
 
-    procedure BuscaNomeActionExecute(Sender: TObject);
+    procedure BuscaLocalNomeActionExecute(Sender: TObject);
 
     procedure EhServidorCheckBoxClick(Sender: TObject);
 
-    procedure UsuGerenteNomeExibLabeledEditChange(Sender: TObject);
-    procedure UsuGerenteNomeUsuLabeledEditChange(Sender: TObject);
-    procedure UsuGerenteSenha1LabeledEditChange(Sender: TObject);
-    procedure UsuGerenteSenha2LabeledEditChange(Sender: TObject);
+    procedure UsuGerNomeExibLabeledEditChange(Sender: TObject);
+    procedure UsuGerNomeUsuLabeledEditChange(Sender: TObject);
+    procedure UsuGerSenha1LabeledEditChange(Sender: TObject);
+    procedure UsuGerSenha2LabeledEditChange(Sender: TObject);
 
-    procedure UsuGerenteNomeExibLabeledEditKeyPress(Sender: TObject;
+    procedure UsuGerNomeExibLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
-    procedure UsuGerenteNomeUsuLabeledEditKeyPress(Sender: TObject;
+    procedure UsuGerNomeUsuLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
-    procedure UsuGerenteSenha1LabeledEditKeyPress(Sender: TObject;
+    procedure UsuGerSenha1LabeledEditKeyPress(Sender: TObject;
       var Key: Char);
-    procedure UsuGerenteSenha2LabeledEditKeyPress(Sender: TObject;
+    procedure UsuGerSenha2LabeledEditKeyPress(Sender: TObject;
       var Key: Char);
 
-    procedure UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
+    procedure UsuGerExibSenhaCheckBoxClick(Sender: TObject);
 
     procedure LojaIdLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure LojaApelidoLabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure LocalMaqNomeEdFrameIpLabeledEditKeyPress(Sender: TObject;
+    procedure LocalMaqFrameIpLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
     procedure EhServidorCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure UsuGerenteNomeCompletoLabeledEditKeyPress(Sender: TObject;
+    procedure UsuGerNomeCompletoLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
+
+    PosCol1: TPoint;
+    PosCol2: TPoint;
+
     FPastaBin: string;
     FPastaConfigs: string;
     FSisConfig: ISisConfig;
@@ -104,15 +109,17 @@ type
 
     FConfigPergTeste: TConfigPergTeste;
 
-    LocalMaqNomeEdFrame: TMaqNomeEdFrame;
-    ServerMaqNomeEdFrame: TMaqNomeEdFrame;
+    LocalMaqFrame: TMaqNomeEdFrame;
+    ServerMaqFrame: TMaqNomeEdFrame;
+
+    FTerminaisDBGridFrame: TTerminaisDBGridFrame;
 
     function PodeOk: boolean;
 
     function LocalMaqPodeOk: boolean;
 
     function ServerPodeOk: boolean;
-    function UsuGerentePodeOk: boolean;
+    function UsuGerPodeOk: boolean;
     function LojaPodeOk: boolean;
 
     function TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
@@ -200,13 +207,13 @@ begin
   end;
 end;
 
-procedure TConfigPergForm.BuscaNomeActionExecute(Sender: TObject);
+procedure TConfigPergForm.BuscaLocalNomeActionExecute(Sender: TObject);
 var
   sNome, sIp: string;
 begin
   PegarIdMaquina(sNome, sIp);
-  LocalMaqNomeEdFrame.NomeLabeledEdit.Text := sNome;
-  LocalMaqNomeEdFrame.IpLabeledEdit.Text := sIp;
+  LocalMaqFrame.NomeLabeledEdit.Text := sNome;
+  LocalMaqFrame.IpLabeledEdit.Text := sIp;
 end;
 
 procedure TConfigPergForm.CancelActExecute(Sender: TObject);
@@ -220,22 +227,20 @@ begin
 
   if FConfigPergTeste.TesteMaqLocalBuscaNome then
   begin
-    BuscaNomeAction.Execute;
+    BuscaLocalNomeAction.Execute;
   end;
 
-  if FConfigPergTeste.TesteEhServ then
-  begin
-    EhServidorCheckBox.Checked := true;
-  end;
+  EhServidorCheckBox.Checked := FConfigPergTeste.TesteEhServ;
 
   if FConfigPergTeste.TesteUsuPreenche then
   begin
-    UsuGerenteNomeCompletoLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeCompleto;
-    UsuGerenteNomeExibLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeExib;
-    UsuGerenteNomeUsuLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeUsu;
-    UsuGerenteSenha1LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha1;
-    UsuGerenteSenha2LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha2;
-    UsuGerenteExibSenhaCheckBox.Checked := FConfigPergTeste.TesteUsuExibSenha;
+    UsuGerNomeCompletoLabeledEdit.Text :=
+      FConfigPergTeste.TesteUsuNomeCompleto;
+    UsuGerNomeExibLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeExib;
+    UsuGerNomeUsuLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeUsu;
+    UsuGerSenha1LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha1;
+    UsuGerSenha2LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha2;
+    UsuGerExibSenhaCheckBox.Checked := FConfigPergTeste.TesteUsuExibSenha;
   end;
 
   if FConfigPergTeste.TesteLojaPreenche then
@@ -249,20 +254,20 @@ procedure TConfigPergForm.EhServidorCheckBoxClick(Sender: TObject);
 begin
   if EhServidorCheckBox.Checked then
   begin
-    ServerMaqNomeEdFrame.Visible := false;
+    ServerMaqFrame.Visible := false;
     ServerConfigLabeledEdit.Visible := false;
     ServerConfigSelectButton.Visible := false;
 
-    UsuGerenteGroupBox.Visible := true;
+    UsuGerGroupBox.Visible := true;
     LojaIdGroupBox.Visible := true;
   end
   else
   begin
-    ServerMaqNomeEdFrame.Visible := true;
+    ServerMaqFrame.Visible := true;
     ServerConfigLabeledEdit.Visible := true;
     ServerConfigSelectButton.Visible := true;
 
-    UsuGerenteGroupBox.Visible := false;
+    UsuGerGroupBox.Visible := false;
     LojaIdGroupBox.Visible := false;
   end;
 end;
@@ -275,26 +280,32 @@ begin
   begin
     Key := CHAR_NULO;
     if EhServidorCheckBox.Checked then
-      UsuGerenteNomeCompletoLabeledEdit.SetFocus;
+      UsuGerNomeCompletoLabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-constructor TConfigPergForm.Create(AOwner: TComponent;
-  pSisConfig: ISisConfig; pUsuarioGerente: IUsuario; pLoja: ILoja);
+constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
+  pUsuarioGerente: IUsuario; pLoja: ILoja);
 begin
   inherited Create(AOwner);
+
+  PosCol1 := Point(7, 3);
+  PosCol2 := Point(312, 3);
+
   FSisConfig := pSisConfig;
   FUsuarioGerente := pUsuarioGerente;
   FLoja := pLoja;
+  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(TerminaisGroupBox);
+  FTerminaisDBGridFrame.Preparar;
 end;
 
 procedure TConfigPergForm.CtrlToObj;
 begin
-  FSisConfig.LocalMachineId.Name := LocalMaqNomeEdFrame.NomeLabeledEdit.Text;
-  FSisConfig.LocalMachineId.IP := LocalMaqNomeEdFrame.IpLabeledEdit.Text;
+  FSisConfig.LocalMachineId.Name := LocalMaqFrame.NomeLabeledEdit.Text;
+  FSisConfig.LocalMachineId.IP := LocalMaqFrame.IpLabeledEdit.Text;
 
   FSisConfig.LocalMachineIsServer := EhServidorCheckBox.Checked;
 
@@ -305,18 +316,17 @@ begin
   end
   else
   begin
-    FSisConfig.ServerMachineId.Name :=
-      ServerMaqNomeEdFrame.NomeLabeledEdit.Text;
-    FSisConfig.ServerMachineId.IP := ServerMaqNomeEdFrame.IpLabeledEdit.Text;
+    FSisConfig.ServerMachineId.Name := ServerMaqFrame.NomeLabeledEdit.Text;
+    FSisConfig.ServerMachineId.IP := ServerMaqFrame.IpLabeledEdit.Text;
   end;
 
   FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
   FSisConfig.DBMSInfo.Version := 4.0;
 
-  FUsuarioGerente.NomeCompleto := UsuGerenteNomeCompletoLabeledEdit.Text;
-  FUsuarioGerente.NomeExib := UsuGerenteNomeExibLabeledEdit.Text;
-  FUsuarioGerente.NomeDeUsuario := UsuGerenteNomeUsuLabeledEdit.Text;
-  FUsuarioGerente.Senha := UsuGerenteSenha1LabeledEdit.Text;
+  FUsuarioGerente.NomeCompleto := UsuGerNomeCompletoLabeledEdit.Text;
+  FUsuarioGerente.NomeExib := UsuGerNomeExibLabeledEdit.Text;
+  FUsuarioGerente.NomeDeUsuario := UsuGerNomeUsuLabeledEdit.Text;
+  FUsuarioGerente.Senha := UsuGerSenha1LabeledEdit.Text;
 
   FLoja.Id := StrToInt(LojaIdLabeledEdit.Text);
   FLoja.Descr := LojaApelidoLabeledEdit.Text;
@@ -327,34 +337,31 @@ begin
   BorderIcons := [];
 
   FPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
-  FPastaConfigs := PastaAcima(FPastaBin)+'Configs\';
+  FPastaConfigs := PastaAcima(FPastaBin) + 'Configs\';
   FConfigPergTeste := TConfigPergTeste.Create(FPastaBin, FPastaConfigs);
 
   AjudaLojaLabel.Font.Color := COR_AZUL_LINK;
   AjudaLojaLabel.Hint := LOJAID_DESCR;
 
-  LocalMaqNomeEdFrame := TMaqNomeEdFrame.Create(Panel2);
-  LocalMaqNomeEdFrame.Name := 'LocalMaqNomeEdFrame';
+  LocalMaqFrame := TMaqNomeEdFrame.Create(Panel2);
+  LocalMaqFrame.Name := 'LocalMaqFrame';
 
-  ServerMaqNomeEdFrame := TMaqNomeEdFrame.Create(Panel2);
-  ServerMaqNomeEdFrame.Name := 'ServerMaqNomeEdFrame';
+  ServerMaqFrame := TMaqNomeEdFrame.Create(Panel2);
+  ServerMaqFrame.Name := 'ServerMaqFrame';
 
-  LocalMaqNomeEdFrame.Parent := Panel2;
-  ServerMaqNomeEdFrame.Parent := Panel2;
+  LocalMaqFrame.Top := PosCol1.Y;
+  ServerMaqFrame.Top := LocalMaqFrame.Top;
 
-  LocalMaqNomeEdFrame.Top := 3;
-  ServerMaqNomeEdFrame.Top := 3;
+  LocalMaqFrame.Left := PosCol1.X;
+  ServerMaqFrame.Left := PosCol2.X;
 
-  LocalMaqNomeEdFrame.Left := 7;
-  ServerMaqNomeEdFrame.Left := 312;
-
-  LocalMaqNomeEdFrame.GroupBox1.Caption := 'Máquina Local';
-  ServerMaqNomeEdFrame.GroupBox1.Caption := 'Servidor';
+  LocalMaqFrame.GroupBox1.Caption := 'Máquina Local';
+  ServerMaqFrame.GroupBox1.Caption := 'Servidor';
 
   ToolBar2.BringToFront;
 
-  // LocalGroupBox.AutoSize := true;
-  // ServerGroupBox.AutoSize := true;
+  LojaIdGroupBox.Left := ServerMaqFrame.Left;
+  LojaIdGroupBox.Top := ServerMaqFrame.Top;
 end;
 
 procedure TConfigPergForm.FormDestroy(Sender: TObject);
@@ -413,8 +420,8 @@ begin
   CharSemAcento(Key);
 end;
 
-procedure TConfigPergForm.LocalMaqNomeEdFrameIpLabeledEditKeyPress
-  (Sender: TObject; var Key: Char);
+procedure TConfigPergForm.LocalMaqFrameIpLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
@@ -429,7 +436,7 @@ end;
 
 function TConfigPergForm.LocalMaqPodeOk: boolean;
 begin
-  result := LocalMaqNomeEdFrame.PodeOk;
+  result := LocalMaqFrame.PodeOk;
 end;
 
 procedure TConfigPergForm.LojaIdLabeledEditKeyPress(Sender: TObject;
@@ -491,138 +498,136 @@ begin
   end;
 end;
 
-procedure TConfigPergForm.UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
+procedure TConfigPergForm.UsuGerExibSenhaCheckBoxClick(Sender: TObject);
 begin
-  if UsuGerenteExibSenhaCheckBox.Checked then
+  if UsuGerExibSenhaCheckBox.Checked then
   begin
-    UsuGerenteSenha1LabeledEdit.PasswordChar := CHAR_NULO;
-    UsuGerenteSenha2LabeledEdit.PasswordChar := CHAR_NULO;
+    UsuGerSenha1LabeledEdit.PasswordChar := CHAR_NULO;
+    UsuGerSenha2LabeledEdit.PasswordChar := CHAR_NULO;
     AvisoSenhaLabel.Visible := true;
   end
   else
   begin
-    UsuGerenteSenha1LabeledEdit.PasswordChar := '*';
-    UsuGerenteSenha2LabeledEdit.PasswordChar := '*';
+    UsuGerSenha1LabeledEdit.PasswordChar := '*';
+    UsuGerSenha2LabeledEdit.PasswordChar := '*';
     AvisoSenhaLabel.Visible := false;
   end;
 
 end;
 
-procedure TConfigPergForm.UsuGerenteNomeCompletoLabeledEditKeyPress
+procedure TConfigPergForm.UsuGerNomeCompletoLabeledEditKeyPress
   (Sender: TObject; var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    UsuGerenteNomeExibLabeledEdit.SetFocus;
+    UsuGerNomeExibLabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-procedure TConfigPergForm.UsuGerenteNomeExibLabeledEditChange
-  (Sender: TObject);
+procedure TConfigPergForm.UsuGerNomeExibLabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 end;
 
-procedure TConfigPergForm.UsuGerenteNomeExibLabeledEditKeyPress
-  (Sender: TObject; var Key: Char);
+procedure TConfigPergForm.UsuGerNomeExibLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    UsuGerenteNomeUsuLabeledEdit.SetFocus;
+    UsuGerNomeUsuLabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-procedure TConfigPergForm.UsuGerenteNomeUsuLabeledEditChange
-  (Sender: TObject);
+procedure TConfigPergForm.UsuGerNomeUsuLabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TConfigPergForm.UsuGerenteNomeUsuLabeledEditKeyPress
-  (Sender: TObject; var Key: Char);
+procedure TConfigPergForm.UsuGerNomeUsuLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    UsuGerenteSenha1LabeledEdit.SetFocus;
+    UsuGerSenha1LabeledEdit.SetFocus;
     exit;
   end;
 
   CharSemAcento(Key);
 end;
 
-function TConfigPergForm.UsuGerentePodeOk: boolean;
+function TConfigPergForm.UsuGerPodeOk: boolean;
 begin
-  UsuGerenteNomeCompletoLabeledEdit.Text :=
-    Trim(StrSemAcento(UsuGerenteNomeCompletoLabeledEdit.Text));
-  UsuGerenteNomeExibLabeledEdit.Text :=
-    Trim(StrSemAcento(UsuGerenteNomeExibLabeledEdit.Text));
-  UsuGerenteNomeUsuLabeledEdit.Text :=
-    Trim(StrToName(UsuGerenteNomeUsuLabeledEdit.Text));
+  UsuGerNomeCompletoLabeledEdit.Text :=
+    Trim(StrSemAcento(UsuGerNomeCompletoLabeledEdit.Text));
+  UsuGerNomeExibLabeledEdit.Text :=
+    Trim(StrSemAcento(UsuGerNomeExibLabeledEdit.Text));
+  UsuGerNomeUsuLabeledEdit.Text :=
+    Trim(StrToName(UsuGerNomeUsuLabeledEdit.Text));
 
-  result := TesteLabeledEditVazio(UsuGerenteNomeCompletoLabeledEdit,
+  result := TesteLabeledEditVazio(UsuGerNomeCompletoLabeledEdit,
     LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuGerenteNomeExibLabeledEdit,
+  result := TesteLabeledEditVazio(UsuGerNomeExibLabeledEdit,
     LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuGerenteNomeUsuLabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsuGerNomeUsuLabeledEdit, LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuGerenteSenha1LabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsuGerSenha1LabeledEdit, LoginErroLabel);
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuGerenteSenha2LabeledEdit, LoginErroLabel);
+  result := TesteLabeledEditVazio(UsuGerSenha2LabeledEdit, LoginErroLabel);
   // if not result then
   // exit;
 end;
 
-procedure TConfigPergForm.UsuGerenteSenha1LabeledEditChange(Sender: TObject);
+procedure TConfigPergForm.UsuGerSenha1LabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TConfigPergForm.UsuGerenteSenha1LabeledEditKeyPress
-  (Sender: TObject; var Key: Char);
+procedure TConfigPergForm.UsuGerSenha1LabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    UsuGerenteSenha2LabeledEdit.SetFocus;
+    UsuGerSenha2LabeledEdit.SetFocus;
     exit;
   end;
 
-//  CharSemAcento(Key);
+  // CharSemAcento(Key);
 end;
 
-procedure TConfigPergForm.UsuGerenteSenha2LabeledEditChange(Sender: TObject);
+procedure TConfigPergForm.UsuGerSenha2LabeledEditChange(Sender: TObject);
 begin
   LoginErroLabel.Visible := false;
 
 end;
 
-procedure TConfigPergForm.UsuGerenteSenha2LabeledEditKeyPress
-  (Sender: TObject; var Key: Char);
+procedure TConfigPergForm.UsuGerSenha2LabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
@@ -632,7 +637,7 @@ begin
     exit;
   end;
 
-  //CharSemAcento(Key);
+  // CharSemAcento(Key);
 end;
 
 function TConfigPergForm.PodeOk: boolean;
@@ -653,11 +658,11 @@ end;
 
 function TConfigPergForm.ServerPodeOk: boolean;
 begin
-  result := ServerMaqNomeEdFrame.PodeOk;
+  result := ServerMaqFrame.PodeOk;
   if not result then
     exit;
 
-  result := UsuGerentePodeOk;
+  result := UsuGerPodeOk;
   if not result then
     exit;
 
@@ -671,8 +676,9 @@ begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
-  //OkAct.Execute;
+  // OkAct.Execute;
 {$ENDIF}
+
 end;
 
 function TConfigPergForm.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
