@@ -291,10 +291,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Sis.ModuloSistema_u.pas"/>
         <DCCReference Include="Types\Contador\Sis.Types.Contador.pas"/>
         <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
-        <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
-            <Form>DBGridFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager.pas"/>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas">
@@ -421,6 +417,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas">
             <Form>CheckListViewDiagBasForm</Form>
             <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
+            <Form>DBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
