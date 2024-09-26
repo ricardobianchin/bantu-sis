@@ -531,6 +531,13 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="AppObj\App.Terminal.pas"/>
+        <DCCReference Include="App\App.Types.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.UI.Frame.DBGrid.Config.Ambi.Terminal_u.pas">
+            <Form>TerminaisDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

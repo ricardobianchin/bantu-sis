@@ -1,0 +1,2 @@
+inherited TerminaisDBGridFrame: TTerminaisDBGridFrame
+end
