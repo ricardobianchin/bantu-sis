@@ -70,3 +70,4 @@ copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 00000000
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000002.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000003.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000001.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000002.txt"
 
+pause
