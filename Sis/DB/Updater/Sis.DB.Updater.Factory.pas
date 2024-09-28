@@ -7,7 +7,7 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
   Sis.DB.Updater.Comando, Sis.DB.Updater.Campo, Sis.DB.Updater.Campo.List,
   Sis.DB.Updater.Comando.List, Sis.Loja, Sis.Usuario;
 
-function DBUpdaterFirebirdCreate(pDBConnectionParams: TDBConnectionParams;
+function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
   pUsuarioGerente: IUsuario): IDBUpdater;
@@ -38,12 +38,12 @@ uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,System.StrUtils,
   Sis.DB.Updater.Comando.List_u, Sis.DB.Updater.Operations.FB_u,
   Sis.DB.Updater.Comando.FB.CreateIndex_u;
 
-function DBUpdaterFirebirdCreate(pDBConnectionParams: TDBConnectionParams;
+function DBUpdaterFirebirdCreate(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
   pUsuarioGerente: IUsuario): IDBUpdater;
 begin
-  result := TDBUpdaterFirebird.Create( pDBConnectionParams, pPastaProduto,
+  result := TDBUpdaterFirebird.Create(pLocalDoDB, pDBConnectionParams, pPastaProduto,
     pDBMS, pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioGerente);
 end;
 

@@ -37,8 +37,8 @@ var
   sNomeArq: string;
 begin
   inherited;
-  sNomeArq := GetNomeArqTabView;
-  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDMemTable1, DBGrid1);
+//  sNomeArq := GetNomeArqTabView;
+//  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDMemTable1, DBGrid1);
 end;
 
 function TTerminaisDBGridFrame.GetNomeArqTabView: string;

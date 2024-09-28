@@ -18,7 +18,7 @@ type
     // function GetSqlDbUpdateIns: string; override;
     // function GetSqlDbUpdateGetMax: string; override;
   public
-    constructor Create(pDBConnectionParams: TDBConnectionParams;
+    constructor Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
       pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
       pUsuarioGerente: IUsuario);
@@ -32,7 +32,7 @@ uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
 
 { TDBUpdaterFirebird }
 
-constructor TDBUpdaterFirebird.Create(pDBConnectionParams: TDBConnectionParams;
+constructor TDBUpdaterFirebird.Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
   pUsuarioGerente: IUsuario);
@@ -40,7 +40,7 @@ begin
   pProcessLog.PegueLocal('TDBUpdaterFirebird.Create');
   try
     pProcessLog.RegistreLog('vai inherited Create');
-    inherited Create(pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
+    inherited Create(pLocalDoDB, pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
       pProcessLog, pOutput, pLoja, pUsuarioGerente);
   finally
     pProcessLog.RegistreLog('fim');

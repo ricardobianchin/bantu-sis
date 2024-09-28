@@ -676,7 +676,7 @@ begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
-  // OkAct.Execute;
+  OkAct.Execute;
 {$ENDIF}
 
 end;

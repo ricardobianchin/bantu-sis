@@ -10,6 +10,7 @@ uses
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
+    FLocalDoDB: TLocalDoDB;
     FDBConnectionParams: TDBConnectionParams;
     FSisConfig: ISisConfig;
     FProcessLog: IProcessLog;
@@ -74,7 +75,7 @@ type
   public
     function Execute: boolean;
 
-    constructor Create(pDBConnectionParams: TDBConnectionParams;
+    constructor Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
       pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
       pUsuarioGerente: IUsuario);
@@ -91,13 +92,14 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
   Sis.Win.Utils_u, Sis.UI.IO.Files, Sis.Win.Execute, Sis.Win.Factory;
 
-constructor TDBUpdater.Create(pDBConnectionParams: TDBConnectionParams;
+constructor TDBUpdater.Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
   pUsuarioGerente: IUsuario);
 var
   sSql: string;
 begin
+  FLocalDoDB := pLocalDoDB;
   FPastaProduto := pPastaProduto;
   FDestinoSL := TStringList.Create;
   FDBConnectionParams := pDBConnectionParams;

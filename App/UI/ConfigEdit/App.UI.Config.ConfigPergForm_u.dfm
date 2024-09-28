@@ -2,8 +2,8 @@ object ConfigPergForm: TConfigPergForm
   Left = 0
   Top = 0
   Caption = 'ConfigPergForm'
-  ClientHeight = 559
-  ClientWidth = 988
+  ClientHeight = 558
+  ClientWidth = 984
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,20 +23,18 @@ object ConfigPergForm: TConfigPergForm
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 988
-    Height = 559
+    Width = 984
+    Height = 558
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 984
-    ExplicitHeight = 558
     DesignSize = (
-      988
-      559)
+      984
+      558)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 523
+      Top = 522
       Width = 417
       Height = 28
       Align = alNone
@@ -50,7 +48,6 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
-      ExplicitTop = 522
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -112,7 +109,7 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuGerGroupBox: TGroupBox
-      Left = 671
+      Left = 663
       Top = 162
       Width = 300
       Height = 337
@@ -120,7 +117,6 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
-      ExplicitLeft = 667
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322

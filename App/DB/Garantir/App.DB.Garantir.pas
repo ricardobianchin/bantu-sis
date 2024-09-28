@@ -29,7 +29,7 @@ begin
     rDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
       pAppInfo, pSisConfig);
 
-    oUpdater := DBUpdaterFirebirdCreate(rDBConnectionParams, pAppInfo.Pasta,
+    oUpdater := DBUpdaterFirebirdCreate(TLocalDoDB.ldbServidor, rDBConnectionParams, pAppInfo.Pasta,
       DBMS, pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioGerente);
 
     Result := oUpdater.Execute;

@@ -7,6 +7,13 @@ uses
   Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI;
 
 type
+  TLocalDoDB = (ldbNaoIndicado, ldbServidor, ldbTerminal);
+
+const
+  LocalDBDescr: array [TLocalDoDB] of string = ('NAOINDICADO', 'SERVIDOR',
+    'TERMINAL');
+
+type
   TIdLojaTermRecord = record LojaId, TerminalId: smallint; Id: integer; end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);

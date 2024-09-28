@@ -4,13 +4,6 @@ interface
 
 uses Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes, Data.DB;
 
-type
-  TLocalDoDB = (ldbNaoIndicado, ldbServidor, ldbTerminal);
-
-const
-  LocalDBDescr: array [TLocalDoDB] of string = ('NAOINDICADO', 'SERVIDOR',
-    'TERMINAL');
-
 function LocalDoDBToDBConnectionParams(pLocalDoDB: TLocalDoDB;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
 
