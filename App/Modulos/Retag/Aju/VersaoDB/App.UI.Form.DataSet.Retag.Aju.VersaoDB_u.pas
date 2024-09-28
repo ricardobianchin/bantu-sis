@@ -34,7 +34,7 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, Sis.DB.Factory, App.DB.Utils,
   Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u, Sis.UI.Controls.TDBGrid,
-  Sis.Types.Bool_u, App.Retag.Aju.Factory;
+  Sis.Types.Bool_u, App.Retag.Aju.Factory, Sis.Sis.Constants;
 
 { TRetagAjuVersaoDBDataSetForm }
 
@@ -45,7 +45,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.VersaoDB.Atu.Conn', SisConfig, DBMS,

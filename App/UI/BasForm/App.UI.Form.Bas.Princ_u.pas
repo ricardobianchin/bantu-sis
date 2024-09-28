@@ -92,7 +92,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
   Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
-  App.SisConfig.DBI, App.DB.Utils, AppVersao_u;
+  App.SisConfig.DBI, App.DB.Utils, AppVersao_u, Sis.Sis.Constants;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -128,7 +128,7 @@ var
   DBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, AppObj.SisConfig);
 
   DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig, dbms,

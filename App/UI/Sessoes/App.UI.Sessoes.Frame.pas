@@ -11,7 +11,7 @@ uses
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
   Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants,
-  Sis.UI.Controls.Utils;
+  Sis.UI.Controls.Utils, Sis.Sis.Constants;
 
 type
   TSessoesFrame = class(TFrame, ISessaoList)
@@ -132,7 +132,7 @@ begin
   sNameConex := Format('Abr.%s.DBConn', [sNameTipo]);
   oUsuario := UsuarioCreate();
 
-  DBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppObj.AppInfo, FAppObj.SisConfig);
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     FAppObj.DBMS, DBConnectionParams, FAppObj.ProcessLog,

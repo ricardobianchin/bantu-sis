@@ -5,12 +5,13 @@ interface
 uses
   Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs, Sis.Types,
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
-  Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario;
+  Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
+  Sis.Entities.Types;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
-    FLocalDoDB: TLocalDoDB;
+    FTerminalId: TTerminalId;
     FDBConnectionParams: TDBConnectionParams;
     FSisConfig: ISisConfig;
     FProcessLog: IProcessLog;
@@ -75,7 +76,7 @@ type
   public
     function Execute: boolean;
 
-    constructor Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
+    constructor Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
       pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
       pUsuarioGerente: IUsuario);
@@ -92,14 +93,14 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
   Sis.Win.Utils_u, Sis.UI.IO.Files, Sis.Win.Execute, Sis.Win.Factory;
 
-constructor TDBUpdater.Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
+constructor TDBUpdater.Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
   pUsuarioGerente: IUsuario);
 var
   sSql: string;
 begin
-  FLocalDoDB := pLocalDoDB;
+  FTerminalId := pTerminalId;
   FPastaProduto := pPastaProduto;
   FDestinoSL := TStringList.Create;
   FDBConnectionParams := pDBConnectionParams;

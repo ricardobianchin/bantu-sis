@@ -23,7 +23,7 @@ implementation
 
 { TSisConfigDBI }
 
-uses App.DB.Utils, Sis.DB.Factory;
+uses App.DB.Utils, Sis.DB.Factory, Sis.Sis.Constants;
 
 constructor TSisConfigDBI.Create(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
   pDBMS: IDBMS; pProcessLog: IProcessLog; pOutput: IOutput);
@@ -43,7 +43,7 @@ var
   sSql: string;
   ODBQuery: IDBQuery;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppInfo, FSisConfig);
 
   oDBConnection := DBConnectionCreate('TSisConfigDBI.LerMachineIdent.Conn',

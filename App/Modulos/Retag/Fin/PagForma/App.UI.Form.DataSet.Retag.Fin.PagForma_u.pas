@@ -43,7 +43,7 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Fin.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
-  App.Retag.Fin.PagForma.Ed.DBI;
+  App.Retag.Fin.PagForma.Ed.DBI, Sis.Sis.Constants;
 
 { TTabSheetDataSetBasForm1 }
 
@@ -101,7 +101,7 @@ var
   oConn: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', SisConfig, DBMS,
@@ -153,7 +153,7 @@ begin
   inherited;
   oAppInfo := AppInfo;
 
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     oAppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +

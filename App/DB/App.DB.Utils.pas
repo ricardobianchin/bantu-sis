@@ -2,19 +2,21 @@ unit App.DB.Utils;
 
 interface
 
-uses Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes, Data.DB;
+uses Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes, Data.DB, Sis.Entities.Types;
 
-function LocalDoDBToDBConnectionParams(pLocalDoDB: TLocalDoDB;
+function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
 
 function DataSetStateToTitulo(pDataSetState: TDataSetState): string;
 
 implementation
 
-function LocalDoDBToDBConnectionParams(pLocalDoDB: TLocalDoDB;
+uses Sis.Sis.Constants;
+
+function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
 begin
-  if pLocalDoDB = ldbNaoIndicado then
+  if pTerminalId = TERMINAL_ID_NAO_INDICADO then
   begin
     Result.Server := '';
     Result.Arq := '';
@@ -24,7 +26,7 @@ begin
 
   if pSisConfig.LocalMachineIsServer then
   begin
-    if pLocalDoDB = ldbServidor then
+    if pTerminalId = TERMINAL_ID_RETAGUARDA then
     begin
       Result.Server := pSisConfig.ServerMachineId.Name;
       Result.Arq := pAppInfo.PastaDados + 'RETAG.FDB';
@@ -39,7 +41,7 @@ begin
     exit;
   end;
 
-  if pLocalDoDB = ldbServidor then// fantando fazer
+  if pTerminalId = TERMINAL_ID_RETAGUARDA then// fantando fazer
   begin
     Result.Server := '';
     Result.Arq := '';

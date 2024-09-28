@@ -27,7 +27,7 @@ implementation
 
 uses App.DB.Utils, Sis.DB.Factory, Sis.UI.ImgDM, System.SysUtils,
   App.UI.Form.Bas.Ed.Pess.Cliente_u,
-  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u;
+  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u, Sis.Sis.Constants;
 
 function ClienteEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pCliente: IEntEd; pClienteDBI: IEntDBI): TEdBasForm;
@@ -58,7 +58,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Cliente.DataSet.Conn',

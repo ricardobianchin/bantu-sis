@@ -28,7 +28,7 @@ implementation
 uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.DBI, App.DB.Utils,
   Sis.DB.Factory, Sis.UI.ImgDM, System.SysUtils, App.Pess.Loja.Ent.Factory_u,
   App.UI.Form.Ed.Acesso.PerfilDeUso_u,
-  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u;
+  App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.PerfilUso_u, Sis.Sis.Constants;
 
 function PerfilDeUsoEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pPerfilDeUso: IEntEd; pPerfilDeUsoDBI: IEntDBI): TEdBasForm;
@@ -61,7 +61,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     pAppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.PerfilDeUso.DataSet.Conn',

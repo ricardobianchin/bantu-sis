@@ -40,7 +40,7 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
-  Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Unid.Ent_u;
+  Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Unid.Ent_u, Sis.Sis.Constants;
 
 { TRetagEstProdUnidDataSetForm }
 
@@ -52,7 +52,7 @@ var
   sBusca: string;
   Resultado: boolean;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig, DBMS,
@@ -77,7 +77,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig, DBMS,
@@ -107,7 +107,7 @@ var
   oDBConnection: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', SisConfig, DBMS,

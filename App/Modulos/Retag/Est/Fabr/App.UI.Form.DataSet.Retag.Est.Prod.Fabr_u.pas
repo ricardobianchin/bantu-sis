@@ -54,7 +54,7 @@ var
 //  oConn: IDBConnection;
   Resultado: boolean;
 begin
-//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
 //    AppInfo, SisConfig);
 //
 //  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,

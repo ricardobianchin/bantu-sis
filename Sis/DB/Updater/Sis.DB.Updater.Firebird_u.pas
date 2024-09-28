@@ -3,7 +3,7 @@ unit Sis.DB.Updater.Firebird_u;
 interface
 
 uses Sis.DB.Updater_u, Sis.DB.DBTypes, Sis.Config.SisConfig,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario, Sis.Entities.Types;
 
 // upd ates especifico para firebird, no pai, funcito q diz se existe o arq dados
 type
@@ -18,7 +18,7 @@ type
     // function GetSqlDbUpdateIns: string; override;
     // function GetSqlDbUpdateGetMax: string; override;
   public
-    constructor Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
+    constructor Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
       pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
       pUsuarioGerente: IUsuario);
@@ -32,7 +32,7 @@ uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
 
 { TDBUpdaterFirebird }
 
-constructor TDBUpdaterFirebird.Create(pLocalDoDB: TLocalDoDB; pDBConnectionParams: TDBConnectionParams;
+constructor TDBUpdaterFirebird.Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
   pUsuarioGerente: IUsuario);
@@ -40,7 +40,7 @@ begin
   pProcessLog.PegueLocal('TDBUpdaterFirebird.Create');
   try
     pProcessLog.RegistreLog('vai inherited Create');
-    inherited Create(pLocalDoDB, pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
+    inherited Create(pTerminalId, pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
       pProcessLog, pOutput, pLoja, pUsuarioGerente);
   finally
     pProcessLog.RegistreLog('fim');

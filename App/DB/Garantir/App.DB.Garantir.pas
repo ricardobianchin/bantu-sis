@@ -10,7 +10,7 @@ function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
 
 implementation
 
-uses Sis.DB.Factory, Sis.DB.Updater, Sis.DB.Updater.Factory, App.DB.Utils;
+uses Sis.DB.Factory, Sis.DB.Updater, Sis.DB.Updater.Factory, App.DB.Utils, Sis.Sis.Constants;
 
 var
   DBMSConfig: IDBMSConfig;
@@ -26,10 +26,10 @@ begin
   pProcessLog.PegueLocal('App.DB.Garantir,GarantirDBServ');
 
   try
-    rDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+    rDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
       pAppInfo, pSisConfig);
 
-    oUpdater := DBUpdaterFirebirdCreate(TLocalDoDB.ldbServidor, rDBConnectionParams, pAppInfo.Pasta,
+    oUpdater := DBUpdaterFirebirdCreate(TERMINAL_ID_RETAGUARDA, rDBConnectionParams, pAppInfo.Pasta,
       DBMS, pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioGerente);
 
     Result := oUpdater.Execute;

@@ -2,7 +2,7 @@ unit App.Terminal;
 
 interface
 
-uses App.Types;
+uses Sis.Entities.Types;
 
 type
   ITerminal = interface(IInterface)

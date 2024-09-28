@@ -62,7 +62,7 @@ implementation
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
-  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u;
+  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants;
 
 { TRetagEstProdDataSetForm }
 
@@ -100,7 +100,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', SisConfig, DBMS,
@@ -149,7 +149,7 @@ var
   oConn: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', SisConfig, DBMS,
@@ -184,7 +184,7 @@ begin
   inherited;
   oAppInfo := AppInfo;
 
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     oAppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Prod.Ed.' + pDataSetStateAbrev +
