@@ -23,9 +23,9 @@ type
     FDtHExec: TDateTime;
     FSqlDestinoSL: TStringList;
     FsAssunto: string;
-    FsObjetivo: string;
-    FsDBUpdaterDestino: string;
-    FDBUpdaterDestino: TDBUpdaterDestino;
+    FsVersaoObjetivo: string;
+    FsDBUpdaterAlvo: string;
+    FDBUpdaterAlvo: TDBUpdaterAlvo;
     FsObs: string;
     FComandoList: IComandoList;
     FPastaProduto: string;
@@ -75,8 +75,8 @@ type
     property DBConnectionParams: TDBConnectionParams read FDBConnectionParams;
     property PastaProduto: string read FPastaProduto;
 
-    property sDBUpdaterDestino: string read FsDBUpdaterDestino;
-    property DBUpdaterDestino: TDBUpdaterDestino read FDBUpdaterDestino;
+    property sDBUpdaterAlvo: string read FsDBUpdaterAlvo;
+    property DBUpdaterAlvo: TDBUpdaterAlvo read FDBUpdaterAlvo;
   public
     function Execute: boolean;
 
@@ -228,6 +228,7 @@ end;
 function TDBUpdater.Execute: boolean;
 var
   s: string;
+  bSeAplica: boolean;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
@@ -257,18 +258,22 @@ begin
           RemoveExcedentes(FLinhasSL);
           LerUpdateProperties(FLinhasSL);
 
-          FProcessLog.RegistreLog('ComandosCarregar');
-          ComandosCarregar;
+          bSeAplica := SeAplica( FTerminalId, FDBUpdaterAlvo);
 
-          FProcessLog.RegistreLog('ComandosGetSql');
-          ComandosGetSql;
+          if bSeAplica then
+          begin
+            FProcessLog.RegistreLog('ComandosCarregar');
+            ComandosCarregar;
 
-          FProcessLog.RegistreLog('ExecuteSql');
-          ExecuteSql;
+            FProcessLog.RegistreLog('ComandosGetSql');
+            ComandosGetSql;
 
-          FProcessLog.RegistreLog('ComandosTesteFuncionou');
-          ComandosTesteFuncionou;
+            FProcessLog.RegistreLog('ExecuteSql');
+            ExecuteSql;
 
+            FProcessLog.RegistreLog('ComandosTesteFuncionou');
+            ComandosTesteFuncionou;
+          end;
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
         until False;
@@ -317,7 +322,7 @@ procedure TDBUpdater.InsertCabecalho;
 var
   sLinhas: string;
 begin
-  sLinhas := GetUpdaterCabecalho(iVersao, FsObjetivo, FsObs, FsAssunto,
+  sLinhas := GetUpdaterCabecalho(iVersao, FsVersaoObjetivo, FsObs, FsAssunto,
     FDBConnectionParams.Database, FDtHExec);
 
   FSqlDestinoSL.Text := sLinhas + FSqlDestinoSL.Text;
@@ -335,13 +340,13 @@ begin
     FsAssunto := pSL.Values[DBATUALIZ_ASSUNTO_CHAVE];
     sOutput := sOutput + 'FsAssunto=' + FsAssunto + #13#10;
 
-    FsObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
-    sOutput := sOutput + 'sObjetivo=' + FsObjetivo + #13#10;
+    FsVersaoObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
+    sOutput := sOutput + 'sVersaoObjetivo=' + FsVersaoObjetivo + #13#10;
 
-    FsDBUpdaterDestino := pSL.Values[DBATUALIZ_DESTINO_CHAVE];
-    sOutput := sOutput + 'sDestino=' + FsDBUpdaterDestino + #13#10;
+    FsDBUpdaterAlvo := pSL.Values[DBATUALIZ_ALVO_CHAVE];
+    sOutput := sOutput + 'sAlvo=' + FsDBUpdaterAlvo + #13#10;
 
-    FDBUpdaterDestino := StrToDestino(FsDBUpdaterDestino);
+    FDBUpdaterAlvo := StrToAlvo(FsDBUpdaterAlvo);
 
     FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
     sOutput := sOutput + 'sObs=' + FsObs + #13#10;
@@ -397,6 +402,7 @@ var
   bComandAberto: boolean;
   oComando: IComando;
   sTipoComando: string;
+  bSeAplica: Boolean;
 begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosCarregar');
   FOutput.Exibir('Carregando comandos...');
@@ -405,6 +411,7 @@ begin
     bComandAberto := False;
     iLin := 0;
     FComandoList.Clear;
+    bSeAplica := True;
     while iLin < FLinhasSL.Count do
     begin
       sLin := FLinhasSL[iLin];
@@ -416,15 +423,23 @@ begin
       else if sLin = DBATUALIZ_COMANDO_FIM_CHAVE then
       begin
         bComandAberto := False;
+        bSeAplica := True;
+      end
+      else if Pos(DBATUALIZ_COMANDO_ALVO + '=', sLin) = 1 then
+      begin
+        bSeAplica := ComandoSeAplica(FTerminalId, sLin);
       end
       else if Pos(DBATUALIZ_COMANDO_TIPO + '=', sLin) = 1 then
       begin
-        sTipoComando := StrApos(sLin, '=');
-        FProcessLog.RegistreLog('sTipoComando=' + sTipoComando);
-        oComando := TipoToComando(sTipoComando, FDBConnection,
-          FDBUpdaterOperations, FProcessLog, FOutput);
-        FComandoList.Add(oComando);
-        oComando.PegarLinhas(iLin, FLinhasSL);
+        if bSeAplica then
+        begin
+          sTipoComando := StrApos(sLin, '=');
+          FProcessLog.RegistreLog('sTipoComando=' + sTipoComando);
+          oComando := TipoToComando(sTipoComando, FDBConnection,
+            FDBUpdaterOperations, FProcessLog, FOutput);
+          FComandoList.Add(oComando);
+          oComando.PegarLinhas(iLin, FLinhasSL);
+        end;
       end;
 
       inc(iLin);
@@ -615,7 +630,7 @@ begin
     FDBUpdaterOperations.PrepareVersoes;
 
     FProcessLog.RegistreLog('FDBUpdaterOperations.HistIns');
-    FDBUpdaterOperations.HistIns(FiVersao, FsAssunto, FsObjetivo, FsObs);
+    FDBUpdaterOperations.HistIns(FiVersao, FsAssunto, FsVersaoObjetivo, FsObs);
   finally
     FProcessLog.RetorneLocal;
   end;
