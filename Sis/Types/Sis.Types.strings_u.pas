@@ -33,6 +33,7 @@ function IsWindowsFilenameValid(filename: string): boolean;
 function RightPos(pCar: Char; pStr: string): integer;
 
 function StrApos(pStr, pBusca: string): string;
+function StrValue(pStr: string): string;
 
 function StrGarantirTermino(pStr, pTermino: string): string;
 
@@ -60,6 +61,7 @@ function StrCheckSum32(pStr: string): string; overload;
 function VarToString(pValue: variant): string;
 
 function ConvertHTMLChars(pStr: string): string;
+
 
 implementation
 
@@ -247,6 +249,18 @@ begin
     exit;
 
   Delete(Result, 1, iPosNaStr);
+end;
+
+function StrValue(pStr: string): string;
+var
+  iPos: integer;
+begin
+  Result := '';
+  iPos := Pos('=', pStr);
+  if iPos = 0 then
+    exit;
+
+  Result := RightStr(pStr, Length(pStr)-iPos);
 end;
 
 function StrSemStr(pStr: string; pStrARemover: string = #32): string;
