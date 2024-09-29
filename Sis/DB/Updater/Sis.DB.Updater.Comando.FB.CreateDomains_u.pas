@@ -154,8 +154,16 @@ begin
   if Result = '' then
     Exit;
 
-  Result := #13#10 + '/*******'#13#10 + '*'#13#10 + '* ' + GetAsText + #13#10 +
-    '*'#13#10 + '*******/'#13#10 + Result;
+  Result := #13#10 //
+    + '/*******'#13#10 //
+    + '*'#13#10 //
+    + '* ' //
+    + GetAsText //
+    + #13#10 //
+    + '*'#13#10 //
+    + '*******/'#13#10 //
+    + Result //
+    ; //
 end;
 
 function TComandoFBCreateDomains.GetAsText: string;
