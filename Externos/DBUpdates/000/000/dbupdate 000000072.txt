@@ -18,7 +18,7 @@ in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\P
 */
 
 COMANDO INI
-TIPO_COMANDO=CREATE OR ALTER PACKAGE
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=CLIENTE_PA
 
 ```FIREBIRD

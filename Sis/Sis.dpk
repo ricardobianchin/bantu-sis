@@ -270,6 +270,7 @@ contains
   Sis.Types.strings.Crypt1_u in 'Types\Crypt\Sis.Types.strings.Crypt1_u.pas',
   Sis.UI.Form.Bas.Diag.Btn.CheckListView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas' {CheckListViewDiagBasForm},
   Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
-  Sis.Entities.Types in 'Entities\Sis.Entities.Types.pas';
+  Sis.Entities.Types in 'Entities\Sis.Entities.Types.pas',
+  Sis.DB.Updater.Destino.Utils_u in 'DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas';
 
 end.

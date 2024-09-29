@@ -161,7 +161,7 @@ end;
 function TComandoFBCreateDomains.GetAsText: string;
 begin
 
-  Result := DBATUALIZ_TIPO_COMANDO_CREATE_DOMAINS + ' ' +
+  Result := DBATUALIZ_COMANDO_TIPO_CREATE_DOMAINS + ' ' +
     FComandosTextoList.TitulosComVirgulas;
 end;
 

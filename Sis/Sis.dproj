@@ -424,6 +424,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Entities\Sis.Entities.Types.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -51,39 +51,39 @@ function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
   pOutput: IOutput): IComando;
 begin
-  if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_TABLE then
+  if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_TABLE then
     result := TComandoFBCreateTable.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_OR_ALTER_PROCEDURE then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_OR_ALTER_PROCEDURE then
     result := TComandoFBCreateOrAlterProcedure.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_OR_ALTER_PACKAGE then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_OR_ALTER_PACKAGE then
     result := TComandoFBCreateOrAlterPackage.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_DOMAINS then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_DOMAINS then
     result := TComandoFBCreateDomains.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_ENSURE_RECORDS then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_ENSURE_RECORDS then
     result := TComandoFBEnsureRecords.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_SEQUENCE then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_SEQUENCE then
     result := TComandoFBCreateSequence.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_FOREIGN_KEY then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_FOREIGN_KEY then
     result := TComandoFBCreateForeignKey.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_UNIQUE_KEY then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_UNIQUE_KEY then
     result := TComandoFBCreateUniqueKey.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_INDEX then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_INDEX then
     result := TComandoFBCreateIndex.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 

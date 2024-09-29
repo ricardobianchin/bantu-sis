@@ -6,7 +6,7 @@ uses
   Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs, Sis.Types,
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
   Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
-  Sis.Entities.Types;
+  Sis.Entities.Types, Sis.DB.Updater.Destino.Utils_u;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -21,9 +21,11 @@ type
     FCaminhoComandos: string;
     FLinhasSL: TStringList;
     FDtHExec: TDateTime;
-    FDestinoSL: TStringList;
+    FSqlDestinoSL: TStringList;
     FsAssunto: string;
     FsObjetivo: string;
+    FsDBUpdaterDestino: string;
+    FDBUpdaterDestino: TDBUpdaterDestino;
     FsObs: string;
     FComandoList: IComandoList;
     FPastaProduto: string;
@@ -73,6 +75,8 @@ type
     property DBConnectionParams: TDBConnectionParams read FDBConnectionParams;
     property PastaProduto: string read FPastaProduto;
 
+    property sDBUpdaterDestino: string read FsDBUpdaterDestino;
+    property DBUpdaterDestino: TDBUpdaterDestino read FDBUpdaterDestino;
   public
     function Execute: boolean;
 
@@ -102,7 +106,7 @@ var
 begin
   FTerminalId := pTerminalId;
   FPastaProduto := pPastaProduto;
-  FDestinoSL := TStringList.Create;
+  FSqlDestinoSL := TStringList.Create;
   FDBConnectionParams := pDBConnectionParams;
   FSisConfig := pSisConfig;
   FProcessLog := pProcessLog;
@@ -189,8 +193,8 @@ destructor TDBUpdater.Destroy;
 begin
   FProcessLog.PegueLocal('TDBUpdater.Destroy');
   try
-    FProcessLog.RegistreLog('FDestinoSL.Free');
-    FDestinoSL.Free;
+    FProcessLog.RegistreLog('FSqlDestinoSL.Free');
+    FSqlDestinoSL.Free;
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -316,7 +320,7 @@ begin
   sLinhas := GetUpdaterCabecalho(iVersao, FsObjetivo, FsObs, FsAssunto,
     FDBConnectionParams.Database, FDtHExec);
 
-  FDestinoSL.Text := sLinhas + FDestinoSL.Text;
+  FSqlDestinoSL.Text := sLinhas + FSqlDestinoSL.Text;
 end;
 
 procedure TDBUpdater.LerUpdateProperties(pSL: TStrings);
@@ -333,6 +337,11 @@ begin
 
     FsObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
     sOutput := sOutput + 'sObjetivo=' + FsObjetivo + #13#10;
+
+    FsDBUpdaterDestino := pSL.Values[DBATUALIZ_DESTINO_CHAVE];
+    sOutput := sOutput + 'sDestino=' + FsDBUpdaterDestino + #13#10;
+
+    FDBUpdaterDestino := StrToDestino(FsDBUpdaterDestino);
 
     FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
     sOutput := sOutput + 'sObs=' + FsObs + #13#10;
@@ -408,7 +417,7 @@ begin
       begin
         bComandAberto := False;
       end
-      else if Pos(DBATUALIZ_TIPO_COMANDO + '=', sLin) = 1 then
+      else if Pos(DBATUALIZ_COMANDO_TIPO + '=', sLin) = 1 then
       begin
         sTipoComando := StrApos(sLin, '=');
         FProcessLog.RegistreLog('sTipoComando=' + sTipoComando);
@@ -434,7 +443,7 @@ begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosGetSql');
   try
     FOutput.Exibir('Montando comandos...');
-    FDestinoSL.Clear;
+    FSqlDestinoSL.Clear;
     iQtdComandos := 0;
 
     for I := 0 to FComandoList.Count - 1 do
@@ -444,7 +453,7 @@ begin
       if sComandosSql <> '' then
       begin
         inc(iQtdComandos);
-        FDestinoSL.Text := FDestinoSL.Text + sComandosSql;
+        FSqlDestinoSL.Text := FSqlDestinoSL.Text + sComandosSql;
       end;
     end;
 
@@ -501,7 +510,7 @@ begin
     FProcessLog.RegistreLog('Executando ' + iVersao.ToString);
 
     sAssunto := 'DBUpdate ' + IntToStrZero(iVersao, 9);
-    sSql := FDestinoSL.Text;
+    sSql := FSqlDestinoSL.Text;
     sNomeBanco := FDBConnectionParams.GetNomeBanco;
     sPastaComandos := FPastaProduto + 'Comandos\Updater\';
 
