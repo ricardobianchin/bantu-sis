@@ -7,6 +7,9 @@ uses Sis.Entities.Types;
 type
   TDBUpdaterAlvo = (udAmbos, udServidor, udTerminal);
 
+const
+  DBUpdaterAlvoNomes: array[TDBUpdaterAlvo] of string = ('Ambos', 'Servidor', 'Terminal');
+
 function StrToAlvo(pStr: string): TDBUpdaterAlvo;
 function TerminalIdToAlvo(pTerminalId: TTerminalId): TDBUpdaterAlvo;
 function SeAplica(pTerminalId: TTerminalId; pDBUpdaterAlvo: TDBUpdaterAlvo): boolean;
