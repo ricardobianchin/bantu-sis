@@ -23,7 +23,27 @@ var
   iLenSENAO: integer;
   iLenFIMSE: integer;
 
-procedure ProcessarVariavel(pLinhasSL: TStrings; pVar, pValor: string);
+  oVariaveisSL: TStringList;
+
+procedure ProcessarValor(pLinhasSL: TStrings; pVar, pValor: string);
+var
+  sBusca: string;
+  sOrigem: string;
+  sDestino: string;
+  bEncontrouVar: boolean;
+begin
+  sOrigem := pLinhasSL.Text;
+  sBusca := sDiretivaAbre + pVar + sDiretivaFecha;
+  bEncontrouVar := Pos(sBusca, sOrigem) > 0;
+  if not bEncontrouVar then
+    exit;
+
+  sDestino := ReplaceStr(sOrigem, sBusca, pValor);
+  pLinhasSL.Text := sDestino;
+end;
+
+
+procedure ProcessarSE(pLinhasSL: TStrings; pVar, pValor: string);
 var
   sBuscaSE: string;
   iPosSE: integer;
@@ -120,7 +140,6 @@ end;
 procedure ProcessarDiretivas(pLinhasSL: TStrings;
   pVariaveis, pDiretivaAbre, pDiretivaFecha: string);
 var
-  VariaveisSL: TStringList;
   iVar: integer;
   sVar: string;
   sValor: string;
@@ -136,19 +155,26 @@ begin
   iLenSENAO := Length(sSENAO);
   iLenFIMSE := Length(sFIMSE);
 
-  VariaveisSL := TStringList.Create;
+  oVariaveisSL := TStringList.Create;
   try
-    VariaveisSL.Text := pVariaveis;
-    for iVar := 0 to VariaveisSL.Count - 1 do
+    oVariaveisSL.Text := pVariaveis;
+
+    for iVar := 0 to oVariaveisSL.Count - 1 do
     begin
-      sVar := VariaveisSL.KeyNames[iVar];
-      sValor := VariaveisSL.Values[sVar];
-      ProcessarVariavel(pLinhasSL, sVar, sValor);
+      sVar := oVariaveisSL.KeyNames[iVar];
+      sValor := oVariaveisSL.Values[sVar];
+      ProcessarSE(pLinhasSL, sVar, sValor);
+    end;
+
+    for iVar := 0 to oVariaveisSL.Count - 1 do
+    begin
+      sVar := oVariaveisSL.KeyNames[iVar];
+      sValor := oVariaveisSL.Values[sVar];
+      ProcessarValor(pLinhasSL, sVar, sValor);
     end;
   finally
-    VariaveisSL.Free;
+    oVariaveisSL.Free;
   end;
-
 end;
 
 end.

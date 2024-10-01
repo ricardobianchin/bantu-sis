@@ -244,8 +244,9 @@ end;
 
 function TDBUpdater.Execute: Boolean;
 var
-  s: string;
+  sVariaveis: string;
   bSeAplica: Boolean;
+
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
@@ -274,19 +275,27 @@ begin
 
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
-          ///teste
-//          FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
-//          
-//          ProcessarDiretivas(FLinhasSL, 'ALVO=TERMINAL', '{', '}');
-//          FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino terminal.txt');
-//
-//          FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
-//          ProcessarDiretivas(FLinhasSL, 'ALVO=SERVIDOR', '{', '}');
-//          FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino servidor.txt');
-//
-//          Halt(0);
-          ///fim do teste
-          ProcessarDiretivas(FLinhasSL, 'ALVO=' + FsDBUpdaterAlvo, FsDiretivaAbre, FsDiretivaFecha);
+          //teste
+          //FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
+          //
+          //ProcessarDiretivas(FLinhasSL,
+          //  'ALVO=TERMINAL'#13#10'TERMINAL_ID=1', '{', '}');
+          //FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino terminal.txt');
+          //
+          //FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
+          //ProcessarDiretivas(FLinhasSL,
+          //  'ALVO=SERVIDOR'#13#10'TERMINAL_ID=1', '{', '}');
+          //FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino servidor.txt');
+          //
+          //Halt(0);
+          //fim do teste            testar acima, add aqui terminal_id=
+
+          sVariaveis := //
+            'ALVO=' + FsDBUpdaterAlvo + #13#10 + //
+            'TERMINAL_ID='+FTerminalId.ToString + #13#10 //
+            ; //
+
+          ProcessarDiretivas(FLinhasSL, sVariaveis, FsDiretivaAbre, FsDiretivaFecha);
           LerUpdateProperties(FLinhasSL);
 
           bSeAplica := SeAplica(FTerminalId, FDBAtualizAlvo);
