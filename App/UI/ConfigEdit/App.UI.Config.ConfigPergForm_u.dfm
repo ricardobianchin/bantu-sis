@@ -362,7 +362,7 @@ object ConfigPergForm: TConfigPergForm
     object TerminaisGroupBox: TGroupBox
       Left = 6
       Top = 162
-      Width = 666
+      Width = 650
       Height = 337
       Caption = 'Terminais'
       TabOrder = 7
