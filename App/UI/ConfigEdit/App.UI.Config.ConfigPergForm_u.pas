@@ -680,7 +680,6 @@ begin
   FTerminaisDBGridFrame.InsAction.Execute;
   //OkAct.Execute;
 {$ENDIF}
-
 end;
 
 function TConfigPergForm.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
