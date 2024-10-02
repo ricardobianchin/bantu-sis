@@ -8,10 +8,18 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
-  Sis.DB.DataSet.Utils;
+  Sis.DB.DataSet.Utils, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin;
 
 type
   TTerminaisDBGridFrame = class(TDBGridFrame)
+    ToolBar1: TToolBar;
+    InsToolButton: TToolButton;
+    AltToolButton: TToolButton;
+    ExclToolButton: TToolButton;
+    ActionList1: TActionList;
+    InsAction: TAction;
+    AltAction: TAction;
+    ExclAction: TAction;
   private
     { Private declarations }
     function GetNomeArqTabView: string;
@@ -33,12 +41,8 @@ uses Sis.UI.IO.Files;
 { TDBGridFrame1 }
 
 constructor TTerminaisDBGridFrame.Create(AOwner: TComponent);
-var
-  sNomeArq: string;
 begin
   inherited;
-//  sNomeArq := GetNomeArqTabView;
-//  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDMemTable1, DBGrid1);
 end;
 
 function TTerminaisDBGridFrame.GetNomeArqTabView: string;
@@ -65,7 +69,11 @@ begin
 end;
 
 procedure TTerminaisDBGridFrame.Preparar;
+var
+  sNomeArq: string;
 begin
+  sNomeArq := GetNomeArqTabView;
+  Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDMemTable1, DBGrid1);
   DBGrid1.Align := alClient;
 end;
 
