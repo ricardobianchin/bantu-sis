@@ -299,6 +299,7 @@ begin
   FUsuarioGerente := pUsuarioGerente;
   FLoja := pLoja;
   FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(TerminaisGroupBox);
+  FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.Preparar;
 end;
 
