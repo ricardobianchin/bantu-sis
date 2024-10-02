@@ -677,6 +677,7 @@ begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
+  FTerminaisDBGridFrame.InsAction.Execute;
   //OkAct.Execute;
 {$ENDIF}
 
