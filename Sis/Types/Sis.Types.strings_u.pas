@@ -62,6 +62,7 @@ function VarToString(pValue: variant): string;
 
 function ConvertHTMLChars(pStr: string): string;
 
+//function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
 implementation
 
