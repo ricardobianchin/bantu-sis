@@ -167,6 +167,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     NumbersOnly = True
     TabOrder = 2
     Text = '123456789 12345'
+    OnKeyPress = NomeNaRedeEditKeyPress
   end
   object LetraDoDriveComboBox: TComboBox [17]
     Left = 154
@@ -244,6 +245,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Style = csDropDownList
       TabOrder = 0
       OnChange = BalancaModoComboBoxChange
+      OnKeyPress = BalancaModoComboBoxKeyPress
       Items.Strings = (
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
@@ -309,7 +311,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       NumbersOnly = True
       TabOrder = 0
       Text = '23'
-      OnKeyPress = TerminalIdEditKeyPress
+      OnKeyPress = BarCodigoIniEditKeyPress
     end
     object BarCodigoTamEdit: TEdit
       Left = 128
@@ -321,7 +323,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       NumbersOnly = True
       TabOrder = 1
       Text = '123'
-      OnKeyPress = TerminalIdEditKeyPress
+      OnKeyPress = BarCodigoTamEditKeyPress
     end
   end
   object Edit2: TEdit [22]
@@ -345,6 +347,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     CustomHint = BalloonHint1
     Caption = 'Sempre offline'
     TabOrder = 3
+    OnKeyPress = SempreOffLineCheckBoxKeyPress
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 96

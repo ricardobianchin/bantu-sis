@@ -48,13 +48,17 @@ type
     procedure TerminalIdEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoEditKeyPress(Sender: TObject; var Key: Char);
     procedure BalancaModoComboBoxChange(Sender: TObject);
+    procedure NomeNaRedeEditKeyPress(Sender: TObject; var Key: Char);
+    procedure SempreOffLineCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure BalancaModoComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure BarCodigoIniEditKeyPress(Sender: TObject; var Key: Char);
+    procedure BarCodigoTamEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
     FState: TDataSetState;
 
     procedure Zerar;
-    procedure AjusteControles; override;
 
     function TerminaIdOk: Boolean;
     procedure Gravar;
@@ -71,6 +75,7 @@ type
     procedure BalancaComboBoxPreencha;
 
   protected
+    procedure AjusteControles; override;
     function PodeOk: Boolean; override;
 
   public
@@ -86,7 +91,7 @@ implementation
 
 {$R *.dfm}
 
-uses System.Math, Sis.Types.Utils_u;
+uses System.Math, Sis.Types.Utils_u, Sis.Types.strings_u;
 
 { TTerminalEdDiagForm }
 
@@ -181,6 +186,16 @@ begin
   BalancaComboBox.Visible := bVisivel;
 end;
 
+procedure TTerminalEdDiagForm.BalancaModoComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if BalancaComboBox.Visible then
+    BalancaComboBox.SetFocus
+  else
+    BarCodigoIniEdit.SetFocus;
+end;
+
 procedure TTerminalEdDiagForm.BalancaModoComboBoxPreencha;
 begin
   BalancaModoComboBox.Items.Clear;
@@ -189,6 +204,32 @@ begin
   BalancaModoComboBox.Items.Add('BALANCA CONECTADA');
   BalancaModoComboBox.Items.Add('BALANCA NAO CONECTADA. O USUARIO VAI DIGITAR O PESO');
   BalancaModoComboBox.Items.Add('O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO');
+end;
+
+procedure TTerminalEdDiagForm.BarCodigoIniEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    BarCodigoTamEdit.SetFocus;
+    exit;
+  end;
+  inherited;
+end;
+
+procedure TTerminalEdDiagForm.BarCodigoTamEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    OkAct_Diag.Execute;
+    //.SetFocus;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TTerminalEdDiagForm.ControlesToDataSet;
@@ -242,6 +283,20 @@ begin
   end;
 end;
 
+procedure TTerminalEdDiagForm.NomeNaRedeEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    SempreOffLineCheckBox.SetFocus;
+    exit;
+  end;
+  CharSemAcento(Key);
+  inherited;
+end;
+
 procedure TTerminalEdDiagForm.TerminalIdEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
@@ -253,7 +308,6 @@ begin
     exit;
   end;
   inherited;
-
 end;
 
 function TTerminalEdDiagForm.TerminalIdMaior: integer;
@@ -290,29 +344,22 @@ begin
   Gravar;
 end;
 
-function TTerminalEdDiagForm.TerminaIdOk: Boolean;
-var
-  i: integer;
+procedure TTerminalEdDiagForm.SempreOffLineCheckBoxKeyPress(Sender: TObject;
+  var Key: Char);
 begin
-  Result := ActiveControl = CancelBitBtn_DiagBtn;
-  if Result then
-    exit;
-
-  Result := ActiveControl = MensCopyBitBtn_DiagBtn;
-  if Result then
-    exit;
-
-  Result := FState = dsEdit;
-  if Result then
-    exit;
-
-  if FState = dsInsert then
+  if Key = CHAR_ENTER then
   begin
-    i := StrToInteger(TerminalIdEdit.Text);
-    Result := not TerminaIdTem(i);
-    if not Result then
-      ErroOutput.Exibir('Já existe ' + TerminalIdTitLabel.Caption)
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    BalancaModoComboBox.SetFocus;
+    exit;
   end;
+  inherited;
+end;
+
+function TTerminalEdDiagForm.TerminaIdOk: Boolean;
+begin
+  Result := True;
 end;
 
 function TTerminalEdDiagForm.TerminaIdTem(pTerminalId: integer): Boolean;
