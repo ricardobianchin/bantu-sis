@@ -273,7 +273,9 @@ contains
   Sis.Entities.Types in 'Entities\Sis.Entities.Types.pas',
   Sis.DB.Updater.Destino.Utils_u in 'DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas',
   Sis.DB.Updater.Diretivas_u in 'DB\Updater\Sis.DB.Updater.Diretivas_u.pas',
-  Sis.DB.Terminal in 'DB\Sis.DB.Terminal.pas',
-  Sis.DB.Terminal_u in 'DB\Sis.DB.Terminal_u.pas';
+  Sis.Entities.Terminal in 'Entities\Terminal\Sis.Entities.Terminal.pas',
+  Sis.Entities.Terminal_u in 'Entities\Terminal\Sis.Entities.Terminal_u.pas',
+  Sis.Entities.TerminalList in 'Entities\Terminal\Sis.Entities.TerminalList.pas',
+  Sis.Entities.TerminalList_u in 'Entities\Terminal\Sis.Entities.TerminalList_u.pas';
 
 end.

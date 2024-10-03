@@ -1,8 +1,8 @@
-unit Sis.DB.Terminal_u;
+unit Sis.Entities.Terminal_u;
 
 interface
 
-uses Sis.Entities.Types, Sis.DB.TerminalRec;
+uses Sis.Entities.Types, Sis.Entities.Terminal;
 
 type
   TTerminal =  class(TInterfacedObject, ITerminal)

@@ -426,8 +426,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Sis.Entities.Types.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Diretivas_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.Terminal.pas"/>
-        <DCCReference Include="DB\Sis.DB.Terminal_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.Terminal.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.Terminal_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.TerminalList.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.TerminalList_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

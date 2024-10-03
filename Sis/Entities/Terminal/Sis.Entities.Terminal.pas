@@ -1,4 +1,4 @@
-unit Sis.DB.Terminal;
+unit Sis.Entities.Terminal;
 
 interface
 
