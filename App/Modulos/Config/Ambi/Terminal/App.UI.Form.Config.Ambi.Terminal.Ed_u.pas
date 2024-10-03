@@ -47,7 +47,6 @@ type
     BarCodigoAjudaLabel: TLabel;
     TerminalIdObrigatorioLabel: TLabel;
     NomeNaRedeObrigatorioLabel: TLabel;
-    Label4: TLabel;
     procedure TerminalIdEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoEditKeyPress(Sender: TObject; var Key: Char);
     procedure BalancaModoComboBoxChange(Sender: TObject);
@@ -247,9 +246,11 @@ var
 begin
   i := StrToInteger(TerminalIdEdit.Text);
   FTerminaisDataSet.FieldByName('TERMINAL_ID').AsInteger := i;
-  FTerminaisDataSet.FieldByName('APELIDO').AsString := NomeNaRedeEdit.Text;
+  FTerminaisDataSet.FieldByName('APELIDO').AsString := ApelidoEdit.Text;
+  FTerminaisDataSet.FieldByName('NOME_NA_REDE').AsString := NomeNaRedeEdit.Text;
 
   i := StrToInteger(NFSerieEdit.Text);
+  NFSerieEdit.Text := i.ToString;
   FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger := i;
 
   FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE').AsString := LetraDoDriveComboBox.Text;
@@ -257,18 +258,22 @@ begin
   FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean := GavetaTemCheckBox.Checked;
 
   FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger := BalancaModoComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_MODO_DESCR').AsString := BalancaModoComboBox.Text;
   FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger := BalancaComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_DESCR').AsString := BalancaComboBox.Text;
 
   i := StrToInteger(BarCodigoIniEdit.Text);
+  BarCodigoIniEdit.Text := i.ToString;
   FTerminaisDataSet.FieldByName('BARRAS_COD_INI').AsInteger := i;
 
   i := StrToInteger(BarCodigoTamEdit.Text);
+  BarCodigoTamEdit.Text := i.ToString;
   FTerminaisDataSet.FieldByName('BARRAS_COD_TAM').AsInteger := i;
 
   i := StrToInteger(CuponNLinsFinalEdit.Text);
   FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger := i;
 
-  FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
+  //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
   FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean := SempreOffLineCheckBox.Checked;
 end;

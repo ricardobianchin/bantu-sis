@@ -200,7 +200,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Width = 105
     Height = 23
     MaxLength = 15
-    NumbersOnly = True
     TabOrder = 2
     Text = '123456789 12345'
     OnKeyPress = NomeNaRedeEditKeyPress
@@ -247,7 +246,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       105)
     object BalancaModoLabel: TLabel
       Left = 6
-      Top = 34
+      Top = 37
       Width = 32
       Height = 15
       Caption = 'Modo'
@@ -277,7 +276,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BalancaModoComboBox: TComboBox
       Left = 44
-      Top = 31
+      Top = 34
       Width = 375
       Height = 23
       Style = csDropDownList
@@ -292,9 +291,10 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Top = 71
       Width = 116
       Height = 23
+      Style = csDropDownList
       ItemIndex = 0
       TabOrder = 1
-      Text = 'SEM BALANCA'
+      Text = '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO'
       Items.Strings = (
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
@@ -311,14 +311,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       105)
     object BarCodigoIniLabel: TLabel
       Left = 6
-      Top = 34
+      Top = 37
       Width = 29
       Height = 15
       Caption = 'In'#237'cio'
     end
     object BarCodigoTamLabel: TLabel
       Left = 76
-      Top = 34
+      Top = 37
       Width = 49
       Height = 15
       Caption = 'Tamanho'
@@ -339,27 +339,9 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Font.Style = []
       ParentFont = False
     end
-    object Label4: TLabel
-      Left = 2
-      Top = 16
-      Width = 84
-      Height = 12
-      Caption = 'Campos Obrigat'#243'rios'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 166
-      Font.Height = -9
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-      WordWrap = True
-      StyleElements = [seClient, seBorder]
-    end
     object BarCodigoIniEdit: TEdit
       Left = 38
-      Top = 31
+      Top = 34
       Width = 30
       Height = 23
       Alignment = taCenter
@@ -371,7 +353,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BarCodigoTamEdit: TEdit
       Left = 128
-      Top = 31
+      Top = 34
       Width = 30
       Height = 23
       Alignment = taCenter
