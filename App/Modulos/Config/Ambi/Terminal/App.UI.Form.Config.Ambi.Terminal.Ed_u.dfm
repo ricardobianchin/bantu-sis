@@ -212,8 +212,9 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Height = 23
     Style = csDropDownList
     TabOrder = 5
+    OnKeyPress = LetraDoDriveComboBoxKeyPress
   end
-  object Edit1: TEdit [20]
+  object NFSerieEdit: TEdit [20]
     Left = 72
     Top = 71
     Width = 41
@@ -223,7 +224,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     NumbersOnly = True
     TabOrder = 4
     Text = '123'
-    OnKeyPress = TerminalIdEditKeyPress
+    OnKeyPress = NFSerieEditKeyPress
   end
   object GavetaTemCheckBox: TCheckBox [21]
     Left = 214
@@ -232,6 +233,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Height = 17
     Caption = 'Gaveta de Dinheiro'
     TabOrder = 6
+    OnKeyPress = GavetaTemCheckBoxKeyPress
   end
   object BalancaGroupBox: TGroupBox [22]
     Left = 2
@@ -380,7 +382,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       OnKeyPress = BarCodigoTamEditKeyPress
     end
   end
-  object Edit2: TEdit [24]
+  object CuponNLinsFinalEdit: TEdit [24]
     Left = 404
     Top = 71
     Width = 30
@@ -390,7 +392,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     NumbersOnly = True
     TabOrder = 7
     Text = '23'
-    OnKeyPress = TerminalIdEditKeyPress
+    OnKeyPress = CuponNLinsFinalEditKeyPress
   end
   object SempreOffLineCheckBox: TCheckBox [25]
     Left = 547

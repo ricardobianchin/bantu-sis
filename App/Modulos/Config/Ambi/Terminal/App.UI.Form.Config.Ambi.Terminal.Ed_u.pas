@@ -25,7 +25,7 @@ type
     Label1: TLabel;
     LetraDoDriveAjudaLabel: TLabel;
     LetraDoDriveComboBox: TComboBox;
-    Edit1: TEdit;
+    NFSerieEdit: TEdit;
     NFSerieLabel: TLabel;
     NFSerieAjudaLabel: TLabel;
     GavetaTemCheckBox: TCheckBox;
@@ -40,7 +40,7 @@ type
     BarCodigoIniLabel: TLabel;
     BarCodigoTamEdit: TEdit;
     BarCodigoTamLabel: TLabel;
-    Edit2: TEdit;
+    CuponNLinsFinalEdit: TEdit;
     Label2: TLabel;
     Label3: TLabel;
     SempreOffLineCheckBox: TCheckBox;
@@ -56,6 +56,10 @@ type
     procedure BalancaModoComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure BarCodigoIniEditKeyPress(Sender: TObject; var Key: Char);
     procedure BarCodigoTamEditKeyPress(Sender: TObject; var Key: Char);
+    procedure NFSerieEditKeyPress(Sender: TObject; var Key: Char);
+    procedure LetraDoDriveComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure GavetaTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure CuponNLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -243,7 +247,30 @@ var
 begin
   i := StrToInteger(TerminalIdEdit.Text);
   FTerminaisDataSet.FieldByName('TERMINAL_ID').AsInteger := i;
+  FTerminaisDataSet.FieldByName('APELIDO').AsString := NomeNaRedeEdit.Text;
 
+  i := StrToInteger(NFSerieEdit.Text);
+  FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger := i;
+
+  FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE').AsString := LetraDoDriveComboBox.Text;
+
+  FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean := GavetaTemCheckBox.Checked;
+
+  FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger := BalancaModoComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger := BalancaComboBox.ItemIndex;
+
+  i := StrToInteger(BarCodigoIniEdit.Text);
+  FTerminaisDataSet.FieldByName('BARRAS_COD_INI').AsInteger := i;
+
+  i := StrToInteger(BarCodigoTamEdit.Text);
+  FTerminaisDataSet.FieldByName('BARRAS_COD_TAM').AsInteger := i;
+
+  i := StrToInteger(CuponNLinsFinalEdit.Text);
+  FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger := i;
+
+  FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
+
+  FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean := SempreOffLineCheckBox.Checked;
 end;
 
 constructor TTerminalEdDiagForm.Create(AOwner: TComponent;
@@ -254,6 +281,19 @@ begin
   FState := pDataSetState;
 end;
 
+procedure TTerminalEdDiagForm.CuponNLinsFinalEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    BalancaModoComboBox.SetFocus;
+    exit;
+  end;
+
+end;
+
 procedure TTerminalEdDiagForm.DataSetToControles;
 begin
 
@@ -262,6 +302,18 @@ end;
 function TTerminalEdDiagForm.EscolheuSemBalanca: boolean;
 begin
   Result := BalancaModoComboBox.ItemIndex <> 1;
+end;
+
+procedure TTerminalEdDiagForm.GavetaTemCheckBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    CuponNLinsFinalEdit.SetFocus;
+    exit;
+  end;
 end;
 
 procedure TTerminalEdDiagForm.Gravar;
@@ -275,6 +327,19 @@ begin
     FTerminaisDataSet.Edit;
   end;
   ControlesToDataSet;
+end;
+
+procedure TTerminalEdDiagForm.LetraDoDriveComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    GavetaTemCheckBox.SetFocus;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TTerminalEdDiagForm.LetraDoDriveComboPreencha;
@@ -291,6 +356,19 @@ begin
     s := c + ':';
     LetraDoDriveComboBox.Items.Add(s);
   end;
+end;
+
+procedure TTerminalEdDiagForm.NFSerieEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    LetraDoDriveComboBox.SetFocus;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TTerminalEdDiagForm.NomeNaRedeEditKeyPress(Sender: TObject;
@@ -379,10 +457,6 @@ begin
   if not Result then
     exit;
 
-  Result := BarCodigoOk;
-  if not Result then
-    exit;
-
   Gravar;
 end;
 
@@ -393,7 +467,7 @@ begin
   begin
     Key := CHAR_NULO;
     // OkAct_Diag.Execute;
-    BalancaModoComboBox.SetFocus;
+    NFSerieEdit.SetFocus;
     exit;
   end;
   inherited;
@@ -472,8 +546,16 @@ begin
   TerminalIdEdit.Clear;
   ApelidoEdit.Clear;
   NomeNaRedeEdit.Clear;
-
-  LetraDoDriveComboBox.ItemIndex := -1;
+  SempreOffLineCheckBox.Checked := False;
+  NFSerieEdit.Clear;
+  LetraDoDriveComboBox.ItemIndex := 2;
+  GavetaTemCheckBox.Checked := False;
+  CuponNLinsFinalEdit.Text := '0';
+  BalancaModoComboBox.ItemIndex := 0;
+  BalancaModoComboBoxChange(BalancaModoComboBox);
+  BalancaComboBox.ItemIndex := 0;
+  BarCodigoIniEdit.Text := '2';
+  BarCodigoTamEdit.Text := '6';
 end;
 
 end.
