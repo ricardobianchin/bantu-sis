@@ -358,8 +358,38 @@ begin
 end;
 
 function TTerminalEdDiagForm.TerminaIdOk: Boolean;
+var
+  i: integer;
+  sTit: string;
 begin
-  Result := True;
+  Result := ActiveControl = CancelBitBtn_DiagBtn;
+  if Result then
+    exit;
+
+  Result := ActiveControl = MensCopyBitBtn_DiagBtn;
+  if Result then
+    exit;
+
+  Result := FState = dsEdit;
+  if Result then
+    exit;
+
+  sTit := QuotedStr(Trim(TerminalIdTitLabel.Caption));
+
+  i := StrToInteger(TerminalIdEdit.Text);
+  Result := i > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir(sTit + ' deve ser maior do que zero');
+    exit;
+  end;
+
+  Result := not TerminaIdTem(i);
+  if not Result then
+  begin
+    ErroOutput.Exibir('Já existe um registro com este ' + sTit);
+    exit;
+  end;
 end;
 
 function TTerminalEdDiagForm.TerminaIdTem(pTerminalId: integer): Boolean;
