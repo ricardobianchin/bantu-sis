@@ -45,6 +45,9 @@ type
     Label3: TLabel;
     SempreOffLineCheckBox: TCheckBox;
     BarCodigoAjudaLabel: TLabel;
+    TerminalIdObrigatorioLabel: TLabel;
+    NomeNaRedeObrigatorioLabel: TLabel;
+    Label4: TLabel;
     procedure TerminalIdEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoEditKeyPress(Sender: TObject; var Key: Char);
     procedure BalancaModoComboBoxChange(Sender: TObject);
@@ -61,6 +64,10 @@ type
     procedure Zerar;
 
     function TerminaIdOk: Boolean;
+    function NomeNaRedeOk: Boolean;
+
+    function EscolheuSemBalanca: boolean;
+
     procedure Gravar;
 
     procedure ControlesToDataSet;
@@ -111,13 +118,11 @@ begin
   s :=  'Série das notas fiscais eletrônicas emitidas neste terminal. Deixando zero, será usado o mesmo número do Código do Terminal. Geralmente é deixado, mesmo, como zero';
   NFSerieAjudaLabel.Hint := WrapText(s);
 
-  s := 'Refere-se à balança contectada ao terminal, não à balança que imprime etiquetas';
+  s := 'Modo em que o sistema receberá o peso do item vendido. Não se refere à balança que imprime etiquetas';
   BalancaAjudaLabel.Hint := WrapText(s);
 
   s := 'As etiquetas de peso tem o código do produto dentro do código de barras. Aqui você indica a casa do código de barras onde inicia o código do produto e quantas casas ele ocupa';
   BarCodigoAjudaLabel.Hint := WrapText(s);
-
-
 end;
 
 procedure TTerminalEdDiagForm.AjusteControles;
@@ -254,6 +259,11 @@ begin
 
 end;
 
+function TTerminalEdDiagForm.EscolheuSemBalanca: boolean;
+begin
+  Result := BalancaModoComboBox.ItemIndex <> 1;
+end;
+
 procedure TTerminalEdDiagForm.Gravar;
 begin
   if FState = dsInsert then
@@ -295,6 +305,30 @@ begin
   end;
   CharSemAcento(Key);
   inherited;
+end;
+
+function TTerminalEdDiagForm.NomeNaRedeOk: Boolean;
+var
+  s: string;
+  sTit: string;
+begin
+  Result := ActiveControl = CancelBitBtn_DiagBtn;
+  if Result then
+    exit;
+
+  Result := ActiveControl = MensCopyBitBtn_DiagBtn;
+  if Result then
+    exit;
+
+  sTit := NomeNaRedeLabel.Caption;
+  s := Trim(NomeNaRedeEdit.Text);
+  NomeNaRedeEdit.Text := s;
+  Result := s <> '';
+  if not Result then
+  begin
+    ErroOutput.Exibir(sTit + ' é obrigatório');
+    NomeNaRedeEdit.SetFocus;
+  end;
 end;
 
 procedure TTerminalEdDiagForm.TerminalIdEditKeyPress(Sender: TObject;
@@ -341,6 +375,14 @@ begin
   if not Result then
     exit;
 
+  Result := NomeNaRedeOk;
+  if not Result then
+    exit;
+
+  Result := BarCodigoOk;
+  if not Result then
+    exit;
+
   Gravar;
 end;
 
@@ -361,6 +403,7 @@ function TTerminalEdDiagForm.TerminaIdOk: Boolean;
 var
   i: integer;
   sTit: string;
+  sMens: string;
 begin
   Result := ActiveControl = CancelBitBtn_DiagBtn;
   if Result then
@@ -376,19 +419,27 @@ begin
 
   sTit := QuotedStr(Trim(TerminalIdTitLabel.Caption));
 
-  i := StrToInteger(TerminalIdEdit.Text);
-  Result := i > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir(sTit + ' deve ser maior do que zero');
-    exit;
-  end;
+  try
+    i := StrToInteger(TerminalIdEdit.Text);
+    Result := i > 0;
+    if not Result then
+    begin
+      sMens := sTit + ' deve ser maior do que zero';
+      exit;
+    end;
 
-  Result := not TerminaIdTem(i);
-  if not Result then
-  begin
-    ErroOutput.Exibir('Já existe um registro com este ' + sTit);
-    exit;
+    Result := not TerminaIdTem(i);
+    if not Result then
+    begin
+      sMens := 'Já existe um registro com este ' + sTit;
+      exit;
+    end;
+  finally
+    if not Result then
+    begin
+      ErroOutput.Exibir(sMens);
+      TerminalIdEdit.SetFocus;
+    end;
   end;
 end;
 

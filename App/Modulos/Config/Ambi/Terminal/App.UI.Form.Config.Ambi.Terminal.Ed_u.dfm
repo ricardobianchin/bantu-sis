@@ -116,6 +116,42 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Height = 15
     Caption = 'linhas no fim do cupom'
   end
+  object TerminalIdObrigatorioLabel: TLabel [13]
+    Left = 42
+    Top = 26
+    Width = 6
+    Height = 20
+    Caption = '*'
+    Color = clBtnFace
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 166
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+    WordWrap = True
+    StyleElements = []
+  end
+  object NomeNaRedeObrigatorioLabel: TLabel [14]
+    Left = 429
+    Top = 22
+    Width = 6
+    Height = 20
+    Caption = '*'
+    Color = clBtnFace
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 166
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+    WordWrap = True
+    StyleElements = []
+  end
   inherited BasePanel: TPanel
     Top = 245
     Width = 654
@@ -135,8 +171,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       ExplicitLeft = 496
     end
   end
-  object TerminalIdEdit: TEdit [14]
-    Left = 46
+  object TerminalIdEdit: TEdit [16]
+    Left = 50
     Top = 27
     Width = 41
     Height = 23
@@ -148,7 +184,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123'
     OnKeyPress = TerminalIdEditKeyPress
   end
-  object ApelidoEdit: TEdit [15]
+  object ApelidoEdit: TEdit [17]
     Left = 206
     Top = 27
     Width = 137
@@ -158,8 +194,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123456789 1234567890'
     OnKeyPress = ApelidoEditKeyPress
   end
-  object NomeNaRedeEdit: TEdit [16]
-    Left = 434
+  object NomeNaRedeEdit: TEdit [18]
+    Left = 437
     Top = 27
     Width = 105
     Height = 23
@@ -169,7 +205,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123456789 12345'
     OnKeyPress = NomeNaRedeEditKeyPress
   end
-  object LetraDoDriveComboBox: TComboBox [17]
+  object LetraDoDriveComboBox: TComboBox [19]
     Left = 154
     Top = 71
     Width = 49
@@ -177,7 +213,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Style = csDropDownList
     TabOrder = 5
   end
-  object Edit1: TEdit [18]
+  object Edit1: TEdit [20]
     Left = 72
     Top = 71
     Width = 41
@@ -189,7 +225,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123'
     OnKeyPress = TerminalIdEditKeyPress
   end
-  object GavetaTemCheckBox: TCheckBox [19]
+  object GavetaTemCheckBox: TCheckBox [21]
     Left = 214
     Top = 72
     Width = 128
@@ -197,7 +233,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'Gaveta de Dinheiro'
     TabOrder = 6
   end
-  object BalancaGroupBox: TGroupBox [20]
+  object BalancaGroupBox: TGroupBox [22]
     Left = 2
     Top = 104
     Width = 441
@@ -261,7 +297,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
   end
-  object BarCodigoGroupBox: TGroupBox [21]
+  object BarCodigoGroupBox: TGroupBox [23]
     Left = 456
     Top = 104
     Width = 169
@@ -301,6 +337,24 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Font.Style = []
       ParentFont = False
     end
+    object Label4: TLabel
+      Left = 2
+      Top = 16
+      Width = 84
+      Height = 12
+      Caption = 'Campos Obrigat'#243'rios'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 166
+      Font.Height = -9
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      WordWrap = True
+      StyleElements = [seClient, seBorder]
+    end
     object BarCodigoIniEdit: TEdit
       Left = 38
       Top = 31
@@ -326,7 +380,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       OnKeyPress = BarCodigoTamEditKeyPress
     end
   end
-  object Edit2: TEdit [22]
+  object Edit2: TEdit [24]
     Left = 404
     Top = 71
     Width = 30
@@ -338,8 +392,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '23'
     OnKeyPress = TerminalIdEditKeyPress
   end
-  object SempreOffLineCheckBox: TCheckBox [23]
-    Left = 546
+  object SempreOffLineCheckBox: TCheckBox [25]
+    Left = 547
     Top = 30
     Width = 103
     Height = 17
@@ -350,15 +404,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = SempreOffLineCheckBoxKeyPress
   end
   inherited ShowTimer_BasForm: TTimer
-    Left = 96
-    Top = 136
+    Left = 80
+    Top = 224
   end
   inherited ActionList1_Diag: TActionList
-    Left = 80
-    Top = 16
+    Left = 168
+    Top = 192
   end
   object BalloonHint1: TBalloonHint
-    Left = 159
-    Top = 16
+    Left = 191
+    Top = 200
   end
 end
