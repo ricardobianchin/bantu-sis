@@ -35,6 +35,7 @@ inherited TerminaisDBGridFrame: TTerminaisDBGridFrame
     Top = 104
     object InsAction: TAction
       Caption = 'Novo'
+      OnExecute = InsActionExecute
     end
     object AltAction: TAction
       Caption = 'Alterar'

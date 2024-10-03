@@ -20,6 +20,7 @@ type
     InsAction: TAction;
     AltAction: TAction;
     ExclAction: TAction;
+    procedure InsActionExecute(Sender: TObject);
   private
     { Private declarations }
     function GetNomeArqTabView: string;
@@ -36,7 +37,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files;
+uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u;
 
 { TDBGridFrame1 }
 
@@ -66,6 +67,14 @@ begin
     'App\Config\Ambiente\tabview.config.ambi.terminais.csv';
 
   Result := sNomeArq;
+end;
+
+procedure TTerminaisDBGridFrame.InsActionExecute(Sender: TObject);
+begin
+  inherited;
+  TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1, TDataSetState.dsInsert);
+  if TerminalEdDiagForm.Perg then
+    DBGrid1.Repaint;
 end;
 
 procedure TTerminaisDBGridFrame.Preparar;
