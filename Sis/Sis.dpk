@@ -272,6 +272,8 @@ contains
   Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
   Sis.Entities.Types in 'Entities\Sis.Entities.Types.pas',
   Sis.DB.Updater.Destino.Utils_u in 'DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas',
-  Sis.DB.Updater.Diretivas_u in 'DB\Updater\Sis.DB.Updater.Diretivas_u.pas';
+  Sis.DB.Updater.Diretivas_u in 'DB\Updater\Sis.DB.Updater.Diretivas_u.pas',
+  Sis.DB.Terminal in 'DB\Sis.DB.Terminal.pas',
+  Sis.DB.Terminal_u in 'DB\Sis.DB.Terminal_u.pas';
 
 end.
