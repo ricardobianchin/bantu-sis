@@ -678,6 +678,7 @@ begin
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
   FTerminaisDBGridFrame.InsAction.Execute;
+  FTerminaisDBGridFrame.AltAction.Execute;
   //OkAct.Execute;
 {$ENDIF}
 end;
