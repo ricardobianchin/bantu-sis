@@ -666,7 +666,8 @@ begin
 
       Terminal.TerminalId := Tab.FieldByName('TERMINAL_ID').AsInteger;
       Terminal.Apelido := Trim(Tab.FieldByName('APELIDO').AsString);
-      Terminal.NomeDaRede := Trim(Tab.FieldByName('NOME_NA_REDE').AsString);
+      Terminal.NomeNaRede := Trim(Tab.FieldByName('NOME_NA_REDE').AsString);
+      Terminal.IP := Trim(Tab.FieldByName('IP').AsString);
       Terminal.NFSerie := Tab.FieldByName('NF_SERIE').AsInteger;
       Terminal.LetraDoDrive := Tab.FieldByName('LETRA_DO_DRIVE').AsString[1];
       Terminal.GavetaTem := Tab.FieldByName('GAVETA_TEM').AsBoolean;

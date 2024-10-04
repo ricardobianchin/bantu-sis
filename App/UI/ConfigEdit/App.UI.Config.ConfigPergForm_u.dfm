@@ -112,7 +112,7 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuGerGroupBox: TGroupBox
-      Left = 666
+      Left = 662
       Top = 146
       Width = 300
       Height = 337
@@ -120,6 +120,7 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
+      ExplicitLeft = 658
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
@@ -319,7 +320,6 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
-        ExplicitTop = 94
         ExplicitWidth = 69
       end
       object LojaIdLabeledEdit: TLabeledEdit
@@ -408,8 +408,8 @@ object ConfigPergForm: TConfigPergForm
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 247
-    Top = 224
+    Left = 279
+    Top = 216
   end
   object ShowTimer: TTimer
     Enabled = False
