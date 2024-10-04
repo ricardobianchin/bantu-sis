@@ -125,16 +125,18 @@ begin
       end;
     end;
     // {$IFDEF DEBUG}
-    CopyTextToClipboard(sOrigem);
+//    CopyTextToClipboard(sOrigem);
     // {$ENDIF}
     Delete(sOrigem, 1, iPosFIMSE + (iLenFIMSE - 1));
     if Copy(sTextoVai, 1, 2) = #13#10 then
       Delete(sTextoVai, 1, 2);
 
   until False;
-  sDestino := sDestino + sOrigem;
   if iQtdEncontrada > 0 then
+  begin
+    sDestino := sDestino + sOrigem;
     pLinhasSL.Text := sDestino;
+  end;
 end;
 
 procedure ProcessarDiretivas(pLinhasSL: TStrings;
