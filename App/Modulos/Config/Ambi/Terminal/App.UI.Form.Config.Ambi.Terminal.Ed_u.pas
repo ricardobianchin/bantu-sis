@@ -59,6 +59,7 @@ type
     procedure LetraDoDriveComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure GavetaTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CuponNLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -83,6 +84,8 @@ type
     procedure LetraDoDriveComboPreencha;
     procedure BalancaModoComboBoxPreencha;
     procedure BalancaComboBoxPreencha;
+
+    procedure PosicioneLetraDoDrive(pText: string);
 
   protected
     procedure AjusteControles; override;
@@ -140,19 +143,18 @@ begin
 
   if FState = dsInsert then
   begin
+    Zerar;
     ObjetivoLabel.Caption := 'Inserindo Terminal';
 
     TerminalIdEdit.Enabled := True;
 
-    Zerar;
     i := TerminalIdMaior + 1;
     TerminalIdEdit.Text := i.ToString;
   end
   else
   begin
-    ObjetivoLabel.Caption := 'Alterando Terminal ' + TerminalIdEdit.Text;
-
     DataSetToControles;
+    ObjetivoLabel.Caption := 'Alterando Terminal ' + TerminalIdEdit.Text;
 
     TerminalIdEdit.Enabled := False;
   end;
@@ -243,6 +245,7 @@ end;
 procedure TTerminalEdDiagForm.ControlesToDataSet;
 var
   i: integer;
+  s: string;
 begin
   i := StrToInteger(TerminalIdEdit.Text);
   FTerminaisDataSet.FieldByName('TERMINAL_ID').AsInteger := i;
@@ -258,9 +261,14 @@ begin
   FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean := GavetaTemCheckBox.Checked;
 
   FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger := BalancaModoComboBox.ItemIndex;
-  FTerminaisDataSet.FieldByName('BALANCA_MODO_DESCR').AsString := BalancaModoComboBox.Text;
   FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger := BalancaComboBox.ItemIndex;
-  FTerminaisDataSet.FieldByName('BALANCA_DESCR').AsString := BalancaComboBox.Text;
+
+  if BalancaModoComboBox.ItemIndex = 1 then
+    s := BalancaComboBox.Text
+  else
+    s := BalancaModoComboBox.Text;
+
+  FTerminaisDataSet.FieldByName('BALANCA_DESCR').AsString := s;
 
   i := StrToInteger(BarCodigoIniEdit.Text);
   BarCodigoIniEdit.Text := i.ToString;
@@ -284,6 +292,7 @@ begin
   inherited Create(AOwner);
   FTerminaisDataSet := pTerminaisDataSet;
   FState := pDataSetState;
+  NomeNaRedeEdit.Text := 'TERM1';
 end;
 
 procedure TTerminalEdDiagForm.CuponNLinsFinalEditKeyPress(Sender: TObject;
@@ -300,8 +309,39 @@ begin
 end;
 
 procedure TTerminalEdDiagForm.DataSetToControles;
+var
+  i: integer;
 begin
+  i := FTerminaisDataSet.FieldByName('TERMINAL_ID').AsInteger;
+  TerminalIdEdit.Text := i.ToString;
 
+  ApelidoEdit.Text := Trim(FTerminaisDataSet.FieldByName('APELIDO').AsString);
+  NomeNaRedeEdit.Text := Trim(FTerminaisDataSet.FieldByName('NOME_NA_REDE').AsString);
+
+  i := FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger;
+  NFSerieEdit.Text := i.ToString;
+
+  PosicioneLetraDoDrive(FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE').AsString);
+
+  GavetaTemCheckBox.Checked := FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean;
+
+  BalancaModoComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger;
+
+  BalancaComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger;
+
+  i := FTerminaisDataSet.FieldByName('BARRAS_COD_INI').AsInteger;
+  BarCodigoIniEdit.Text := i.ToString;
+
+  i := FTerminaisDataSet.FieldByName('BARRAS_COD_TAM').AsInteger;
+  BarCodigoTamEdit.Text := i.ToString;
+
+
+  i := FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
+  CuponNLinsFinalEdit.Text := i.ToString;
+
+  //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
+
+  SempreOffLineCheckBox.Checked := FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean;
 end;
 
 function TTerminalEdDiagForm.EscolheuSemBalanca: boolean;
@@ -435,7 +475,9 @@ begin
   Result := 0;
   Tab := FTerminaisDataSet;
   b := Tab.GetBookmark;
+  Tab.DisableControls;
   try
+
     Tab.First;
     while not Tab.Eof do
     begin
@@ -445,6 +487,7 @@ begin
   finally
     Tab.GotoBookmark(b);
     Tab.FreeBookmark(b);
+    Tab.EnableControls;
   end;
 end;
 
@@ -465,6 +508,21 @@ begin
   Gravar;
 end;
 
+procedure TTerminalEdDiagForm.PosicioneLetraDoDrive(pText: string);
+var
+  c: char;
+  s: string;
+  i: integer;
+begin
+  s := Trim(pText);
+  if s = '' then
+    s := 'C:';
+
+  c := s[1];
+  i := ord(c) - ord('A');
+  LetraDoDriveComboBox.ItemIndex := i;
+end;
+
 procedure TTerminalEdDiagForm.SempreOffLineCheckBoxKeyPress(Sender: TObject;
   var Key: Char);
 begin
@@ -476,6 +534,12 @@ begin
     exit;
   end;
   inherited;
+end;
+
+procedure TTerminalEdDiagForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  OkAct_Diag.Execute;
 end;
 
 function TTerminalEdDiagForm.TerminaIdOk: Boolean;
@@ -530,6 +594,7 @@ begin
   Result := False;
   Tab := FTerminaisDataSet;
   b := Tab.GetBookmark;
+  Tab.DisableControls;
   try
     Tab.First;
     while not Tab.Eof do
@@ -543,6 +608,7 @@ begin
   finally
     Tab.GotoBookmark(b);
     Tab.FreeBookmark(b);
+    Tab.EnableControls;
   end;
 end;
 

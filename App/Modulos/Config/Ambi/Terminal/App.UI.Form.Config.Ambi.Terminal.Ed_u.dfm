@@ -1,5 +1,5 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
-  Caption = 'TerminalEdDiagForm'
+  Caption = 'Terminais'
   ClientHeight = 297
   ClientWidth = 654
   ExplicitWidth = 666
@@ -159,16 +159,16 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     ExplicitTop = 244
     ExplicitWidth = 650
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 307
-      ExplicitLeft = 303
+      Left = 303
+      ExplicitLeft = 299
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 420
-      ExplicitLeft = 416
+      Left = 416
+      ExplicitLeft = 412
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 500
-      ExplicitLeft = 496
+      Left = 496
+      ExplicitLeft = 492
     end
   end
   object TerminalIdEdit: TEdit [16]
@@ -237,12 +237,12 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   object BalancaGroupBox: TGroupBox [22]
     Left = 2
     Top = 104
-    Width = 441
+    Width = 425
     Height = 105
     Caption = 'Modo da Balan'#231'a'
     TabOrder = 8
     DesignSize = (
-      441
+      425
       105)
     object BalancaModoLabel: TLabel
       Left = 6
@@ -252,7 +252,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Caption = 'Modo'
     end
     object BalancaAjudaLabel: TLabel
-      Left = 401
+      Left = 385
       Top = 16
       Width = 35
       Height = 12
@@ -266,6 +266,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 401
     end
     object BalancaLabel: TLabel
       Left = 6
@@ -300,7 +301,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   object BarCodigoGroupBox: TGroupBox [23]
-    Left = 456
+    Left = 434
     Top = 104
     Width = 169
     Height = 105
