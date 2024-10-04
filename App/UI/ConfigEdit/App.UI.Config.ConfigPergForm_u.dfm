@@ -70,7 +70,7 @@ object ConfigPergForm: TConfigPergForm
     object EhServidorCheckBox: TCheckBox
       AlignWithMargins = True
       Left = 16
-      Top = 141
+      Top = 122
       Width = 178
       Height = 17
       Margins.Left = 15
@@ -82,9 +82,9 @@ object ConfigPergForm: TConfigPergForm
       OnClick = EhServidorCheckBoxClick
       OnKeyPress = EhServidorCheckBoxKeyPress
     end
-    object ToolBar2: TToolBar
-      Left = 268
-      Top = 43
+    object MaqLocalToolBar: TToolBar
+      Left = 320
+      Top = 28
       Width = 31
       Height = 29
       Align = alNone
@@ -101,7 +101,7 @@ object ConfigPergForm: TConfigPergForm
     object ServerConfigLabeledEdit: TLabeledEdit
       AlignWithMargins = True
       Left = 199
-      Top = 137
+      Top = 118
       Width = 440
       Height = 25
       EditLabel.Width = 180
@@ -112,15 +112,14 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuGerGroupBox: TGroupBox
-      Left = 651
-      Top = 162
+      Left = 666
+      Top = 146
       Width = 300
       Height = 337
       Anchors = [akTop, akRight]
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
-      ExplicitLeft = 647
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
@@ -276,21 +275,21 @@ object ConfigPergForm: TConfigPergForm
       end
     end
     object LojaIdGroupBox: TGroupBox
-      Left = 313
+      Left = 362
       Top = 7
-      Width = 300
-      Height = 109
+      Width = 368
+      Height = 86
       Caption = 'Loja'
       TabOrder = 3
       Visible = False
       DesignSize = (
-        300
-        109)
+        368
+        86)
       object AjudaLojaLabel: TLabel
-        Left = 246
-        Top = 16
-        Width = 46
-        Height = 13
+        Left = 325
+        Top = 62
+        Width = 35
+        Height = 12
         Hint = 
           #201' o respons'#225'vel t'#233'cnico quem vai cadastrar os funcion'#225'rios, incl' +
           'uindo da ger'#234'ncia, mas n'#227'o ter'#225' direitos de visualizar informa'#231#245 +
@@ -301,15 +300,15 @@ object ConfigPergForm: TConfigPergForm
         Caption = 'O que '#233'?'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -9
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
       end
       object LojaErroLabel: TLabel
         Left = 2
-        Top = 94
-        Width = 296
+        Top = 71
+        Width = 364
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -320,17 +319,20 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitTop = 94
         ExplicitWidth = 69
       end
       object LojaIdLabeledEdit: TLabeledEdit
-        Left = 9
-        Top = 46
+        Left = 52
+        Top = 23
         Width = 53
         Height = 25
         Alignment = taCenter
         EditLabel.Width = 43
-        EditLabel.Height = 17
+        EditLabel.Height = 25
         EditLabel.Caption = 'C'#243'digo'
+        LabelPosition = lpLeft
+        LabelSpacing = 4
         MaxLength = 3
         NumbersOnly = True
         TabOrder = 0
@@ -338,13 +340,15 @@ object ConfigPergForm: TConfigPergForm
         OnKeyPress = LojaIdLabeledEditKeyPress
       end
       object LojaApelidoLabeledEdit: TLabeledEdit
-        Left = 68
-        Top = 46
+        Left = 159
+        Top = 23
         Width = 201
         Height = 25
         EditLabel.Width = 45
-        EditLabel.Height = 17
+        EditLabel.Height = 25
         EditLabel.Caption = 'Apelido'
+        LabelPosition = lpLeft
+        LabelSpacing = 4
         MaxLength = 20
         TabOrder = 1
         Text = ''
@@ -352,8 +356,8 @@ object ConfigPergForm: TConfigPergForm
       end
     end
     object ServerConfigSelectButton: TButton
-      Left = 642
-      Top = 137
+      Left = 641
+      Top = 118
       Width = 25
       Height = 25
       Caption = '...'
@@ -361,8 +365,8 @@ object ConfigPergForm: TConfigPergForm
     end
     object TerminaisGroupBox: TGroupBox
       Left = 6
-      Top = 162
-      Width = 650
+      Top = 146
+      Width = 657
       Height = 337
       Caption = 'Terminais'
       TabOrder = 7
@@ -370,8 +374,8 @@ object ConfigPergForm: TConfigPergForm
   end
   object ActionList1: TActionList
     Images = SisImgDataModule.ImageList24Flat
-    Left = 23
-    Top = 96
+    Left = 239
+    Top = 248
     object OkAct: TAction
       Caption = 'Salvar e fechar'
       ImageIndex = 0
@@ -404,8 +408,8 @@ object ConfigPergForm: TConfigPergForm
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 103
-    Top = 96
+    Left = 247
+    Top = 224
   end
   object ShowTimer: TTimer
     Enabled = False

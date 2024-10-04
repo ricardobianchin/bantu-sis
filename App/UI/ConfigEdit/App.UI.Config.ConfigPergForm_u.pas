@@ -10,7 +10,8 @@ uses
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
   App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
   Sis.Entities.TerminalList, Sis.Entities.Terminal, Data.DB;
-
+const
+  COL_2_X = 362;
 type
   {
     TGroupBox = class(Vcl.StdCtrls.TGroupBox)
@@ -34,7 +35,7 @@ type
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     EhServidorCheckBox: TCheckBox;
-    ToolBar2: TToolBar;
+    MaqLocalToolBar: TToolBar;
     ToolButton5: TToolButton;
     ServerConfigLabeledEdit: TLabeledEdit;
     UsuGerGroupBox: TGroupBox;
@@ -293,7 +294,7 @@ begin
   FTerminalList := pTerminalList;
 
   PosCol1 := Point(7, 3);
-  PosCol2 := Point(312, 3);
+  PosCol2 := Point(COL_2_X, 3);
 
   FSisConfig := pSisConfig;
   FUsuarioGerente := pUsuarioGerente;
@@ -335,6 +336,8 @@ begin
 end;
 
 procedure TConfigPergForm.FormCreate(Sender: TObject);
+var
+  FrL, FrW, Off: integer;
 begin
   BorderIcons := [];
 
@@ -357,10 +360,17 @@ begin
   LocalMaqFrame.Left := PosCol1.X;
   ServerMaqFrame.Left := PosCol2.X;
 
+  LocalMaqFrame.Width := (PosCol2.X -4) - LocalMaqFrame.Left;
+
+  FrL := LocalMaqFrame.IpLabeledEdit.Left;
+  FrW := LocalMaqFrame.IpLabeledEdit.Width;
+  Off := 8;
+  MaqLocalToolBar.Left := FrL + FrW + Off;
+
   LocalMaqFrame.GroupBox1.Caption := 'Máquina Local';
   ServerMaqFrame.GroupBox1.Caption := 'Servidor';
 
-  ToolBar2.BringToFront;
+  MaqLocalToolBar.BringToFront;
 
   LojaIdGroupBox.Left := ServerMaqFrame.Left;
   LojaIdGroupBox.Top := ServerMaqFrame.Top;
@@ -712,7 +722,7 @@ begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
-  FTerminaisDBGridFrame.InsAction.Execute;
+//  FTerminaisDBGridFrame.InsAction.Execute;
   //FTerminaisDBGridFrame.AltAction.Execute;
   // OkAct.Execute;
 {$ENDIF}
