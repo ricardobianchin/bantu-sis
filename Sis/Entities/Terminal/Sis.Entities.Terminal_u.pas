@@ -9,7 +9,8 @@ type
   private
     FTerminalId: TTerminalId;
     FApelido: string;
-    FNomeDaRede: string;
+    FNomeNaRede: string;
+    FIP: string;
     FNFSerie: smallint;
     FLetraDoDrive: string;
     FGavetaTem: Boolean;
@@ -26,8 +27,11 @@ type
     function GetApelido: string;
     procedure SetApelido(Value: string);
 
-    function GetNomeDaRede: string;
-    procedure SetNomeDaRede(Value: string);
+    function GetNomeNaRede: string;
+    procedure SetNomeNaRede(Value: string);
+
+    function GetIP: string;
+    procedure SetIP(Value: string);
 
     function GetNFSerie: smallint;
     procedure SetNFSerie(Value: smallint);
@@ -58,7 +62,8 @@ type
   public
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property Apelido: string read GetApelido write SetApelido;
-    property NomeDaRede: string read GetNomeDaRede write SetNomeDaRede;
+    property NomeNaRede: string read GetNomeNaRede write SetNomeNaRede;
+    property IP: string read GetIP write SetIP;
     property NFSerie: smallint read GetNFSerie write SetNFSerie;
     property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
@@ -110,6 +115,11 @@ begin
   Result := FGavetaTem;
 end;
 
+function TTerminal.GetIP: string;
+begin
+  Result := FIP;
+end;
+
 function TTerminal.GetLetraDoDrive: string;
 begin
   Result := FLetraDoDrive;
@@ -120,9 +130,9 @@ begin
   Result := FNFSerie;
 end;
 
-function TTerminal.GetNomeDaRede: string;
+function TTerminal.GetNomeNaRede: string;
 begin
-  Result := FNomeDaRede;
+  Result := FNomeNaRede;
 end;
 
 function TTerminal.GetSempreOffLine: Boolean;
@@ -170,6 +180,11 @@ begin
   FGavetaTem := Value;
 end;
 
+procedure TTerminal.SetIP(Value: string);
+begin
+  FIP := Value;
+end;
+
 procedure TTerminal.SetLetraDoDrive(Value: string);
 begin
   FLetraDoDrive := Value;
@@ -180,9 +195,9 @@ begin
   FNFSerie := Value;
 end;
 
-procedure TTerminal.SetNomeDaRede(Value: string);
+procedure TTerminal.SetNomeNaRede(Value: string);
 begin
-  FNomeDaRede := Value;
+  FNomeNaRede := Value;
 end;
 
 procedure TTerminal.SetSempreOffLine(Value: Boolean);

@@ -15,9 +15,13 @@ type
     procedure SetApelido(Value: string);
     property Apelido: string read GetApelido write SetApelido;
 
-    function GetNomeDaRede: string;
-    procedure SetNomeDaRede(Value: string);
-    property NomeDaRede: string read GetNomeDaRede write SetNomeDaRede;
+    function GetNomeNaRede: string;
+    procedure SetNomeNaRede(Value: string);
+    property NomeNaRede: string read GetNomeNaRede write SetNomeNaRede;
+
+    function GetIP: string;
+    procedure SetIP(Value: string);
+    property IP: string read GetIP write SetIP;
 
     function GetNFSerie: smallint;
     procedure SetNFSerie(Value: smallint);

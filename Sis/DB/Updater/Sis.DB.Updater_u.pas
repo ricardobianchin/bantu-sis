@@ -674,6 +674,7 @@ begin
       + 'TERMINAL_ID,' //
       + 'APELIDO,' //
       + 'NOME_NA_REDE,' //
+      + 'IP,' //
       + 'NF_SERIE,' //
       + 'LETRA_DO_DRIVE,' //
       + 'GAVETA_TEM,' //
@@ -686,7 +687,8 @@ begin
       + ') VALUES (' //
       + oTerminal.TerminalId.ToString //
       + ', ' + oTerminal.Apelido.QuotedString //
-      + ', ' + oTerminal.NomeDaRede.QuotedString //
+      + ', ' + oTerminal.NomeNaRede.QuotedString //
+      + ', ' + oTerminal.IP.QuotedString //
       + ', ' + oTerminal.NFSerie.ToString //
       + ', ' + oTerminal.LetraDoDrive.QuotedString //
       + ', ' + BooleanToStrSQL(oTerminal.GavetaTem) //
