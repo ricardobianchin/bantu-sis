@@ -47,4 +47,8 @@ inherited TerminaisDBGridFrame: TTerminaisDBGridFrame
       OnExecute = ExclActionExecute
     end
   end
+  object BalloonHint1: TBalloonHint
+    Left = 191
+    Top = 171
+  end
 end

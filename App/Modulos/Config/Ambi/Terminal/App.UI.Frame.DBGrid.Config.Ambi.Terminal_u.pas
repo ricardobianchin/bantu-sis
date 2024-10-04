@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
-  Sis.DB.DataSet.Utils, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin;
+  Sis.DB.DataSet.Utils, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Sis.UI.IO.Output;
 
 type
   TTerminaisDBGridFrame = class(TDBGridFrame)
@@ -20,12 +20,17 @@ type
     InsAction: TAction;
     AltAction: TAction;
     ExclAction: TAction;
+    BalloonHint1: TBalloonHint;
     procedure InsActionExecute(Sender: TObject);
     procedure AltActionExecute(Sender: TObject);
     procedure ExclActionExecute(Sender: TObject);
+
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
+    FOutputNotify: IOutput;
     function GetNomeArqTabView: string;
   public
     { Public declarations }
@@ -40,13 +45,19 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u;
+uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory;
 
 { TDBGridFrame1 }
 
 procedure TTerminaisDBGridFrame.AltActionExecute(Sender: TObject);
 begin
   inherited;
+  if FDMemTable1.IsEmpty then
+  begin
+    FOutputNotify.Exibir('Não há registro visível a alterar');
+    exit;
+  end;
+
   TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1, TDataSetState.dsEdit);
   if TerminalEdDiagForm.Perg then
     DBGrid1.Repaint;
@@ -55,6 +66,7 @@ end;
 constructor TTerminaisDBGridFrame.Create(AOwner: TComponent);
 begin
   inherited;
+  FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 end;
 
 procedure TTerminaisDBGridFrame.DBGrid1DblClick(Sender: TObject);
@@ -63,8 +75,43 @@ begin
   AltAction.Execute;
 end;
 
-procedure TTerminaisDBGridFrame.ExclActionExecute(Sender: TObject);
+procedure TTerminaisDBGridFrame.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
+  if key = VK_DELETE then
+  begin
+    Key := 0;
+    ExclAction.Execute;
+    exit;
+  end;
+  inherited;
+end;
+
+procedure TTerminaisDBGridFrame.ExclActionExecute(Sender: TObject);
+var
+  sMens: string;
+  Resultado: TModalResult;
+  bAceitou: Boolean;
+begin
+  inherited;
+  if FDMemTable1.IsEmpty then
+  begin
+    FOutputNotify.Exibir('Não há registro visível a excluir');
+    exit;
+  end;
+
+  sMens := 'Esta ação vai excluir o terminal no sistema.'#13#10 +
+    'O Banco de Dados NÃO será excluído. Apenas não será usado pelo sistema até que seja reinserido nesta lista'#13#10 +
+    'Deseja excluir?';
+
+  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
+    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+
+  bAceitou := IsPositiveResult(Resultado);
+  if not bAceitou then
+    exit;
+
+  FDMemTable1.Delete;
 end;
 
 function TTerminaisDBGridFrame.GetNomeArqTabView: string;
