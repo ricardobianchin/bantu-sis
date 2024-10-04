@@ -4,19 +4,20 @@ interface
 
 uses App.SisConfig.Garantir, Sis.Sis.Executavel_u, Sis.Config.SisConfig,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppInfo, Sis.Usuario,
-  Sis.Loja;
+  Sis.Loja, Sis.Entities.TerminalList;
 
 type
   TAppSisConfigGarantirXML = class(TExecutavel, IAppSisConfigGarantirXML)
   private
     FAppInfo: IAppInfo;
     FSisConfig: ISisConfig;
-//    FOutput: IOutput;
-//    FProcessLog: IProcessLog;
+    // FOutput: IOutput;
+    // FProcessLog: IProcessLog;
     FNomeArqXML: string;
 
     FUsuarioGerente: IUsuario;
     FLoja: ILoja;
+    FTerminalList: ITerminalList;
 
     function ArqXmlExiste: boolean;
     procedure CopieInicial;
@@ -27,12 +28,13 @@ type
     function Execute: boolean; override;
     constructor Create(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
       pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
-      pProcessLog: IProcessLog);
+      pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
 implementation
 
-uses Sis.Sis.Constants, System.SysUtils, Sis.Config.SisConfig.XMLI, Sis.Win.Utils_u,
+uses Sis.Sis.Constants, System.SysUtils, Sis.Config.SisConfig.XMLI,
+  Sis.Win.Utils_u,
   Sis.Config.Factory, Sis.UI.IO.Files.Sync, Vcl.Controls,
   App.UI.Config.ConfigPergForm_u;
 
@@ -47,8 +49,8 @@ function TAppSisConfigGarantirXML.ConfigEdit: boolean;
 var
   r: tmodalresult;
 begin
-  ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig,
-    FUsuarioGerente, FLoja);
+  ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig, FUsuarioGerente,
+    FLoja, FTerminalList);
   try
     r := ConfigPergForm.ShowModal;
     Result := IsPositiveResult(r);
@@ -97,18 +99,20 @@ begin
   end;
 end;
 
-constructor TAppSisConfigGarantirXML.Create(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-      pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
-      pProcessLog: IProcessLog);
+constructor TAppSisConfigGarantirXML.Create(pAppInfo: IAppInfo;
+  pSisConfig: ISisConfig; pUsuarioGerente: IUsuario; pLoja: ILoja;
+  pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   inherited Create(pOutput, pProcessLog);
   FAppInfo := pAppInfo;
   FSisConfig := pSisConfig;
   FLoja := pLoja;
   FUsuarioGerente := pUsuarioGerente;
+  FTerminalList := pTerminalList;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');
-  FNomeArqXML := FAppInfo.PastaConfigs + Sis.Sis.Constants.CONFIG_ARQ_NOME+CONFIG_ARQ_EXT;
+  FNomeArqXML := FAppInfo.PastaConfigs + Sis.Sis.Constants.CONFIG_ARQ_NOME +
+    CONFIG_ARQ_EXT;
   ProcessLog.RegistreLog('NomeArqXML=' + FNomeArqXML);
   ProcessLog.RetorneLocal;
 end;
