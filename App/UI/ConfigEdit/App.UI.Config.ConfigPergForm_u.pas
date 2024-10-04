@@ -8,7 +8,8 @@ uses
   Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Mask,
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
-  App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u;
+  App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
+  Sis.Entities.TerminalList, Sis.Entities.Terminal, Data.DB;
 
 type
   {
@@ -74,14 +75,10 @@ type
     procedure UsuGerSenha1LabeledEditChange(Sender: TObject);
     procedure UsuGerSenha2LabeledEditChange(Sender: TObject);
 
-    procedure UsuGerNomeExibLabeledEditKeyPress(Sender: TObject;
-      var Key: Char);
-    procedure UsuGerNomeUsuLabeledEditKeyPress(Sender: TObject;
-      var Key: Char);
-    procedure UsuGerSenha1LabeledEditKeyPress(Sender: TObject;
-      var Key: Char);
-    procedure UsuGerSenha2LabeledEditKeyPress(Sender: TObject;
-      var Key: Char);
+    procedure UsuGerNomeExibLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuGerNomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuGerSenha1LabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuGerSenha2LabeledEditKeyPress(Sender: TObject; var Key: Char);
 
     procedure UsuGerExibSenhaCheckBoxClick(Sender: TObject);
 
@@ -114,6 +111,8 @@ type
 
     FTerminaisDBGridFrame: TTerminaisDBGridFrame;
 
+    FTerminalList: ITerminalList;
+
     function PodeOk: boolean;
 
     function LocalMaqPodeOk: boolean;
@@ -127,12 +126,13 @@ type
 
     procedure CarregTesteStarterIni;
 
-    procedure CtrlToObj;
-
+    procedure ControlesToObjetos;
+    procedure PegarTerminais;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
-      pUsuarioGerente: IUsuario; pLoja: ILoja); reintroduce;
+      pUsuarioGerente: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList);
+      reintroduce;
   end;
 
 var
@@ -145,7 +145,7 @@ implementation
 uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
   Sis.Types.Utils_u,
   Sis.Types.strings_u, Sis.DB.DBTypes, Sis.UI.Constants,
-  App.UI.Config.Constants, Sis.UI.IO.Files;
+  App.UI.Config.Constants, Sis.UI.IO.Files, Sis.Entities.Factory;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -234,8 +234,7 @@ begin
 
   if FConfigPergTeste.TesteUsuPreenche then
   begin
-    UsuGerNomeCompletoLabeledEdit.Text :=
-      FConfigPergTeste.TesteUsuNomeCompleto;
+    UsuGerNomeCompletoLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeCompleto;
     UsuGerNomeExibLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeExib;
     UsuGerNomeUsuLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeUsu;
     UsuGerSenha1LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha1;
@@ -288,9 +287,10 @@ begin
 end;
 
 constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
-  pUsuarioGerente: IUsuario; pLoja: ILoja);
+  pUsuarioGerente: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList);
 begin
   inherited Create(AOwner);
+  FTerminalList := pTerminalList;
 
   PosCol1 := Point(7, 3);
   PosCol2 := Point(312, 3);
@@ -303,7 +303,7 @@ begin
   FTerminaisDBGridFrame.Preparar;
 end;
 
-procedure TConfigPergForm.CtrlToObj;
+procedure TConfigPergForm.ControlesToObjetos;
 begin
   FSisConfig.LocalMachineId.Name := LocalMaqFrame.NomeLabeledEdit.Text;
   FSisConfig.LocalMachineId.IP := LocalMaqFrame.IpLabeledEdit.Text;
@@ -331,6 +331,7 @@ begin
 
   FLoja.Id := StrToInt(LojaIdLabeledEdit.Text);
   FLoja.Descr := LojaApelidoLabeledEdit.Text;
+  PegarTerminais;
 end;
 
 procedure TConfigPergForm.FormCreate(Sender: TObject);
@@ -516,8 +517,8 @@ begin
 
 end;
 
-procedure TConfigPergForm.UsuGerNomeCompletoLabeledEditKeyPress
-  (Sender: TObject; var Key: Char);
+procedure TConfigPergForm.UsuGerNomeCompletoLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
@@ -583,8 +584,7 @@ begin
   if not result then
     exit;
 
-  result := TesteLabeledEditVazio(UsuGerNomeExibLabeledEdit,
-    LoginErroLabel);
+  result := TesteLabeledEditVazio(UsuGerNomeExibLabeledEdit, LoginErroLabel);
   if not result then
     exit;
 
@@ -641,6 +641,41 @@ begin
   // CharSemAcento(Key);
 end;
 
+procedure TConfigPergForm.PegarTerminais;
+var
+  Tab: TDataSet;
+  Terminal: ITerminal;
+begin
+  Tab := FTerminaisDBGridFrame.FDMemTable1;
+  Tab.DisableControls;
+  try
+    Tab.First;
+    while not Tab.Eof do
+    begin
+      Terminal := TerminalCreate;
+
+      Terminal.TerminalId := Tab.FieldByName('TERMINAL_ID').AsInteger;
+      Terminal.Apelido := Trim(Tab.FieldByName('APELIDO').AsString);
+      Terminal.NomeDaRede := Trim(Tab.FieldByName('NOME_NA_REDE').AsString);
+      Terminal.NFSerie := Tab.FieldByName('NF_SERIE').AsInteger;
+      Terminal.LetraDoDrive := Tab.FieldByName('LETRA_DO_DRIVE').AsString[1];
+      Terminal.GavetaTem := Tab.FieldByName('GAVETA_TEM').AsBoolean;
+      Terminal.BalancaModoId := Tab.FieldByName('BALANCA_MODO_ID').AsInteger;
+      Terminal.BalancaId := Tab.FieldByName('BALANCA_ID').AsInteger;
+      Terminal.BarCodigoIni := Tab.FieldByName('BARRAS_COD_INI').AsInteger;
+      Terminal.BarCodigoTam := Tab.FieldByName('BARRAS_COD_TAM').AsInteger;
+      Terminal.CupomNLinsFinal := Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
+      Terminal.SempreOffLine := Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean;
+
+      FTerminalList.Add(Terminal);
+      Tab.Next;
+    end;
+  finally
+    Tab.EnableControls;
+  end;
+
+end;
+
 function TConfigPergForm.PodeOk: boolean;
 begin
   result := LocalMaqPodeOk;
@@ -678,8 +713,8 @@ begin
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
   FTerminaisDBGridFrame.InsAction.Execute;
-  FTerminaisDBGridFrame.AltAction.Execute;
-  //OkAct.Execute;
+  //FTerminaisDBGridFrame.AltAction.Execute;
+  // OkAct.Execute;
 {$ENDIF}
 end;
 
@@ -703,7 +738,7 @@ begin
 
   modalresult := mrOk;
 
-  CtrlToObj;
+  ControlesToObjetos;
 end;
 
 end.
