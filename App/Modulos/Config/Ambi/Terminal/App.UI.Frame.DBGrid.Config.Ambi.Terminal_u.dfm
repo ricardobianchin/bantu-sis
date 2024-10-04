@@ -1,6 +1,7 @@
 inherited TerminaisDBGridFrame: TTerminaisDBGridFrame
   inherited DBGrid1: TDBGrid
     Height = 174
+    OnDblClick = DBGrid1DblClick
   end
   object ToolBar1: TToolBar [1]
     Left = 0
@@ -39,9 +40,11 @@ inherited TerminaisDBGridFrame: TTerminaisDBGridFrame
     end
     object AltAction: TAction
       Caption = 'Alterar'
+      OnExecute = AltActionExecute
     end
     object ExclAction: TAction
       Caption = 'Excluir'
+      OnExecute = ExclActionExecute
     end
   end
 end

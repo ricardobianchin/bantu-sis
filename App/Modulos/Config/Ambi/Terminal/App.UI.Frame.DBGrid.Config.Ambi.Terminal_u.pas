@@ -21,6 +21,9 @@ type
     AltAction: TAction;
     ExclAction: TAction;
     procedure InsActionExecute(Sender: TObject);
+    procedure AltActionExecute(Sender: TObject);
+    procedure ExclActionExecute(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
     function GetNomeArqTabView: string;
@@ -41,9 +44,27 @@ uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u;
 
 { TDBGridFrame1 }
 
+procedure TTerminaisDBGridFrame.AltActionExecute(Sender: TObject);
+begin
+  inherited;
+  TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1, TDataSetState.dsEdit);
+  if TerminalEdDiagForm.Perg then
+    DBGrid1.Repaint;
+end;
+
 constructor TTerminaisDBGridFrame.Create(AOwner: TComponent);
 begin
   inherited;
+end;
+
+procedure TTerminaisDBGridFrame.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  AltAction.Execute;
+end;
+
+procedure TTerminaisDBGridFrame.ExclActionExecute(Sender: TObject);
+begin
 end;
 
 function TTerminaisDBGridFrame.GetNomeArqTabView: string;
