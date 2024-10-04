@@ -1,19 +1,19 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 297
-  ClientWidth = 654
-  ExplicitWidth = 666
-  ExplicitHeight = 335
+  ClientHeight = 347
+  ClientWidth = 788
+  ExplicitWidth = 800
+  ExplicitHeight = 385
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 225
-    Width = 654
-    ExplicitTop = 225
+    Top = 275
+    Width = 788
+    ExplicitTop = 275
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 282
-    Width = 654
-    ExplicitTop = 282
+    Top = 332
+    Width = 788
+    ExplicitTop = 332
   end
   object ObjetivoLabel: TLabel [2]
     Left = 2
@@ -52,7 +52,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     ParentFont = False
   end
   object NomeNaRedeLabel: TLabel [6]
-    Left = 351
+    Left = 350
     Top = 30
     Width = 78
     Height = 15
@@ -60,14 +60,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object Label1: TLabel [7]
     Left = 122
-    Top = 74
+    Top = 77
     Width = 27
     Height = 15
     Caption = 'Drive'
   end
   object LetraDoDriveAjudaLabel: TLabel [8]
     Left = 168
-    Top = 58
+    Top = 61
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -82,14 +82,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object NFSerieLabel: TLabel [9]
     Left = 2
-    Top = 74
+    Top = 77
     Width = 65
     Height = 15
     Caption = 'S'#233'rie da NFE'
   end
   object NFSerieAjudaLabel: TLabel [10]
     Left = 77
-    Top = 58
+    Top = 61
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -104,14 +104,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object Label2: TLabel [11]
     Left = 355
-    Top = 74
+    Top = 77
     Width = 43
     Height = 15
     Caption = 'Avan'#231'ar'
   end
   object Label3: TLabel [12]
     Left = 439
-    Top = 74
+    Top = 77
     Width = 127
     Height = 15
     Caption = 'linhas no fim do cupom'
@@ -134,16 +134,18 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     WordWrap = True
     StyleElements = []
   end
-  object NomeNaRedeObrigatorioLabel: TLabel [14]
-    Left = 429
-    Top = 22
-    Width = 6
-    Height = 20
-    Caption = '*'
+  object NomeNaRedeAjudaLabel: TLabel [14]
+    Left = 350
+    Top = 50
+    Width = 313
+    Height = 12
+    Caption = 
+      'Ou o '#39'Nome'#39' ou o '#39'IP'#39' devem ser preenchidos, ou ambos. IP pode s' +
+      'er IPv4 ou IPv6'
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = 166
-    Font.Height = -15
+    Font.Color = clWindowText
+    Font.Height = -9
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentColor = False
@@ -152,26 +154,33 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     WordWrap = True
     StyleElements = []
   end
+  object IPLabel: TLabel [15]
+    Left = 544
+    Top = 30
+    Width = 10
+    Height = 15
+    Caption = 'IP'
+  end
   inherited BasePanel: TPanel
-    Top = 245
-    Width = 654
+    Top = 295
+    Width = 788
     TabOrder = 10
-    ExplicitTop = 244
-    ExplicitWidth = 650
+    ExplicitTop = 294
+    ExplicitWidth = 784
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 303
-      ExplicitLeft = 299
+      Left = 417
+      ExplicitLeft = 413
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 416
-      ExplicitLeft = 412
+      Left = 530
+      ExplicitLeft = 526
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 496
-      ExplicitLeft = 492
+      Left = 610
+      ExplicitLeft = 606
     end
   end
-  object TerminalIdEdit: TEdit [16]
+  object TerminalIdEdit: TEdit [17]
     Left = 50
     Top = 27
     Width = 41
@@ -184,7 +193,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123'
     OnKeyPress = TerminalIdEditKeyPress
   end
-  object ApelidoEdit: TEdit [17]
+  object ApelidoEdit: TEdit [18]
     Left = 206
     Top = 27
     Width = 137
@@ -194,8 +203,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123456789 1234567890'
     OnKeyPress = ApelidoEditKeyPress
   end
-  object NomeNaRedeEdit: TEdit [18]
-    Left = 437
+  object NomeNaRedeEdit: TEdit [19]
+    Left = 432
     Top = 27
     Width = 105
     Height = 23
@@ -204,18 +213,18 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123456789 12345'
     OnKeyPress = NomeNaRedeEditKeyPress
   end
-  object LetraDoDriveComboBox: TComboBox [19]
+  object LetraDoDriveComboBox: TComboBox [20]
     Left = 154
-    Top = 71
+    Top = 74
     Width = 49
     Height = 23
     Style = csDropDownList
     TabOrder = 5
     OnKeyPress = LetraDoDriveComboBoxKeyPress
   end
-  object NFSerieEdit: TEdit [20]
+  object NFSerieEdit: TEdit [21]
     Left = 72
-    Top = 71
+    Top = 74
     Width = 41
     Height = 23
     Alignment = taCenter
@@ -225,18 +234,18 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '123'
     OnKeyPress = NFSerieEditKeyPress
   end
-  object GavetaTemCheckBox: TCheckBox [21]
+  object GavetaTemCheckBox: TCheckBox [22]
     Left = 214
-    Top = 72
+    Top = 75
     Width = 128
     Height = 17
     Caption = 'Gaveta de Dinheiro'
     TabOrder = 6
     OnKeyPress = GavetaTemCheckBoxKeyPress
   end
-  object BalancaGroupBox: TGroupBox [22]
+  object BalancaGroupBox: TGroupBox [23]
     Left = 2
-    Top = 104
+    Top = 107
     Width = 425
     Height = 105
     Caption = 'Modo da Balan'#231'a'
@@ -300,9 +309,9 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
   end
-  object BarCodigoGroupBox: TGroupBox [23]
+  object BarCodigoGroupBox: TGroupBox [24]
     Left = 434
-    Top = 104
+    Top = 107
     Width = 169
     Height = 105
     Caption = 'Layout C'#243'd.Barras de Balan'#231'a'
@@ -365,9 +374,9 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       OnKeyPress = BarCodigoTamEditKeyPress
     end
   end
-  object CuponNLinsFinalEdit: TEdit [24]
+  object CuponNLinsFinalEdit: TEdit [25]
     Left = 404
-    Top = 71
+    Top = 74
     Width = 30
     Height = 23
     Alignment = taCenter
@@ -377,8 +386,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Text = '23'
     OnKeyPress = CuponNLinsFinalEditKeyPress
   end
-  object SempreOffLineCheckBox: TCheckBox [25]
-    Left = 547
+  object SempreOffLineCheckBox: TCheckBox [26]
+    Left = 673
     Top = 30
     Width = 103
     Height = 17
@@ -388,16 +397,26 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     TabOrder = 3
     OnKeyPress = SempreOffLineCheckBoxKeyPress
   end
+  object IPEdit: TEdit [27]
+    Left = 557
+    Top = 27
+    Width = 105
+    Height = 23
+    MaxLength = 39
+    TabOrder = 11
+    Text = '123456789 12345'
+    OnKeyPress = IPEditKeyPress
+  end
   inherited ShowTimer_BasForm: TTimer
     Left = 80
-    Top = 224
+    Top = 195
   end
   inherited ActionList1_Diag: TActionList
     Left = 168
-    Top = 192
+    Top = 195
   end
   object BalloonHint1: TBalloonHint
     Left = 191
-    Top = 200
+    Top = 171
   end
 end

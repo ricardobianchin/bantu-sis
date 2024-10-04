@@ -46,10 +46,16 @@ type
     SempreOffLineCheckBox: TCheckBox;
     BarCodigoAjudaLabel: TLabel;
     TerminalIdObrigatorioLabel: TLabel;
-    NomeNaRedeObrigatorioLabel: TLabel;
+    NomeNaRedeAjudaLabel: TLabel;
+    IPLabel: TLabel;
+    IPEdit: TEdit;
+
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
+
+    procedure BalancaModoComboBoxChange(Sender: TObject);
+
     procedure TerminalIdEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoEditKeyPress(Sender: TObject; var Key: Char);
-    procedure BalancaModoComboBoxChange(Sender: TObject);
     procedure NomeNaRedeEditKeyPress(Sender: TObject; var Key: Char);
     procedure SempreOffLineCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure BalancaModoComboBoxKeyPress(Sender: TObject; var Key: Char);
@@ -59,7 +65,7 @@ type
     procedure LetraDoDriveComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure GavetaTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CuponNLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure IPEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -129,6 +135,9 @@ begin
 
   s := 'As etiquetas de peso tem o código do produto dentro do código de barras. Aqui você indica a casa do código de barras onde inicia o código do produto e quantas casas ele ocupa';
   BarCodigoAjudaLabel.Hint := WrapText(s);
+
+  s := 'Ou o ''Nome na Rede'' ou o IP devem ser preenchidos. Ou ambos. IP pode ser IPv4 ou IPv6';
+  NomeNaRedeAjudaLabel.Hint := s;
 end;
 
 procedure TTerminalEdDiagForm.AjusteControles;
@@ -251,6 +260,7 @@ begin
   FTerminaisDataSet.FieldByName('TERMINAL_ID').AsInteger := i;
   FTerminaisDataSet.FieldByName('APELIDO').AsString := ApelidoEdit.Text;
   FTerminaisDataSet.FieldByName('NOME_NA_REDE').AsString := NomeNaRedeEdit.Text;
+  FTerminaisDataSet.FieldByName('IP').AsString := IPEdit.Text;
 
   i := StrToInteger(NFSerieEdit.Text);
   NFSerieEdit.Text := i.ToString;
@@ -317,6 +327,7 @@ begin
 
   ApelidoEdit.Text := Trim(FTerminaisDataSet.FieldByName('APELIDO').AsString);
   NomeNaRedeEdit.Text := Trim(FTerminaisDataSet.FieldByName('NOME_NA_REDE').AsString);
+  IPEdit.Text := Trim(FTerminaisDataSet.FieldByName('IP').AsString);
 
   i := FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger;
   NFSerieEdit.Text := i.ToString;
@@ -342,6 +353,17 @@ begin
   //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
   SempreOffLineCheckBox.Checked := FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean;
+end;
+
+procedure TTerminalEdDiagForm.IPEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    // OkAct_Diag.Execute;
+    SempreOffLineCheckBox.SetFocus;
+    exit;
+  end;
 end;
 
 function TTerminalEdDiagForm.EscolheuSemBalanca: boolean;
@@ -423,7 +445,7 @@ begin
   begin
     Key := CHAR_NULO;
     // OkAct_Diag.Execute;
-    SempreOffLineCheckBox.SetFocus;
+    IPEdit.SetFocus;
     exit;
   end;
   CharSemAcento(Key);
@@ -432,7 +454,7 @@ end;
 
 function TTerminalEdDiagForm.NomeNaRedeOk: Boolean;
 var
-  s: string;
+  sNome, sIP: string;
   sTit: string;
 begin
   Result := ActiveControl = CancelBitBtn_DiagBtn;
@@ -444,12 +466,16 @@ begin
     exit;
 
   sTit := NomeNaRedeLabel.Caption;
-  s := Trim(NomeNaRedeEdit.Text);
-  NomeNaRedeEdit.Text := s;
-  Result := s <> '';
+  sNome := Trim(NomeNaRedeEdit.Text);
+  sIP := Trim(IPEdit.Text);
+
+  NomeNaRedeEdit.Text := sNome;
+  IPEdit.Text := sIP;
+
+  Result := (sNome <> '') or (sIP <> '');
   if not Result then
   begin
-    ErroOutput.Exibir(sTit + ' é obrigatório');
+    ErroOutput.Exibir('Ou o ''Nome na Rede'' ou o ''IP'' devem ser preenchidos');
     NomeNaRedeEdit.SetFocus;
   end;
 end;
@@ -539,7 +565,7 @@ end;
 procedure TTerminalEdDiagForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  OkAct_Diag.Execute;
+  //
 end;
 
 function TTerminalEdDiagForm.TerminaIdOk: Boolean;
@@ -617,6 +643,7 @@ begin
   TerminalIdEdit.Clear;
   ApelidoEdit.Clear;
   NomeNaRedeEdit.Clear;
+  IPEdit.Clear;
   SempreOffLineCheckBox.Checked := False;
   NFSerieEdit.Clear;
   LetraDoDriveComboBox.ItemIndex := 2;
