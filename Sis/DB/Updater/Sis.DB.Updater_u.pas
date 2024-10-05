@@ -341,9 +341,11 @@ begin
       exit;
 
     if FCriouDB then
+    begin
       DoAposCriarBanco;
-    // podeaqui
-    GravarIniciais(DBConnection);
+      GravarIniciais(DBConnection);
+    end;
+
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
