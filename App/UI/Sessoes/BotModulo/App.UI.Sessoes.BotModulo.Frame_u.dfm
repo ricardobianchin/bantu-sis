@@ -1,21 +1,21 @@
 inherited BotaoModuloFrame: TBotaoModuloFrame
   Width = 110
-  Height = 130
+  Height = 140
+  Cursor = crHandPoint
   ParentColor = False
   ExplicitWidth = 110
-  ExplicitHeight = 130
+  ExplicitHeight = 140
   object FundoPanel: TPanel
     Left = 1
     Top = 1
     Width = 108
-    Height = 128
-    BevelOuter = bvNone
+    Height = 137
     Caption = ' '
     TabOrder = 0
     object TitLabel: TLabel
-      Left = 0
-      Top = 89
-      Width = 108
+      Left = 1
+      Top = 90
+      Width = 106
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -28,11 +28,12 @@ inherited BotaoModuloFrame: TBotaoModuloFrame
       ParentFont = False
       ExplicitLeft = -10
       ExplicitTop = 108
+      ExplicitWidth = 108
     end
     object ApelidoLabel: TLabel
-      Left = 0
-      Top = 102
-      Width = 108
+      Left = 1
+      Top = 103
+      Width = 106
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -45,17 +46,17 @@ inherited BotaoModuloFrame: TBotaoModuloFrame
       ParentFont = False
       ExplicitLeft = -10
       ExplicitTop = 121
+      ExplicitWidth = 108
     end
     object IconPanel: TPanel
-      Left = 0
-      Top = 0
-      Width = 108
+      Left = 1
+      Top = 1
+      Width = 106
       Height = 89
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 185
       object IconImage: TImage
         Left = 9
         Top = 0

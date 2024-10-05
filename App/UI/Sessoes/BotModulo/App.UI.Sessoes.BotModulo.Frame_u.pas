@@ -17,18 +17,22 @@ type
   private
     { Private declarations }
     FImageIndex: TImageIndex;
+    FOnBotClick: TNotifyEvent;
     function GetImageIndex: TImageIndex;
     procedure SetImageIndex(Value: TImageIndex);
     function GetBotCaption: string;
     procedure SetBotCaption(const Value: string);
     function GetBotComments: string;
     procedure SetBotComments(const Value: string);
+    function GetOnBotClick: TNotifyEvent;
+    procedure SetOnBotClick(const Value: TNotifyEvent);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     property ImageIndex: TImageIndex read GetImageIndex write SetImageIndex;
     property BotCaption: string read GetBotCaption write SetBotCaption;
     property BotComments: string read GetBotComments write SetBotComments;
+    property OnBotClick: TNotifyEvent read GetOnBotClick write SetOnBotClick;
   end;
 
 var
@@ -45,6 +49,7 @@ uses Sis.UI.Controls.Utils, Sis.UI.ImgDM;
 constructor TBotaoModuloFrame.Create(AOwner: TComponent);
 begin
   inherited;
+  SetCursorToChilds(Self, crHandPoint);
 //  ClearStyleElements(Self);
 end;
 
@@ -63,6 +68,11 @@ begin
   Result := FImageIndex;
 end;
 
+function TBotaoModuloFrame.GetOnBotClick: TNotifyEvent;
+begin
+  Result := FOnBotClick;
+end;
+
 procedure TBotaoModuloFrame.SetBotCaption(const Value: string);
 begin
   TitLabel.Caption := Value;
@@ -77,6 +87,12 @@ procedure TBotaoModuloFrame.SetImageIndex(Value: TImageIndex);
 begin
   FImageIndex := Value;
   SisImgDataModule.PrincImageList89.GetBitmap(Value, IconImage.Picture.Bitmap);
+end;
+
+procedure TBotaoModuloFrame.SetOnBotClick(const Value: TNotifyEvent);
+begin
+  FOnBotClick := Value;
+  SetOnClickToChilds(Self, Value);
 end;
 
 end.
