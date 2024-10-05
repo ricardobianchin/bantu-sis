@@ -13725,7 +13725,7 @@ object SisImgDataModule: TSisImgDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
   end
-  object PrincImageList72: TImageList
+  object PrincImageList89: TImageList
     Height = 89
     Width = 89
     Left = 336
