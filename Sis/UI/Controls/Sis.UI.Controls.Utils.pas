@@ -19,6 +19,8 @@ procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
 procedure ClearStyleElements(Control: TControl);
 procedure SetHintToName(Control: TControl);
 procedure SetTabOrderToHint(Control: TControl);
+procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
+procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
 
 function GetToolFormHeight: integer;
 
@@ -191,6 +193,29 @@ begin
     for I := 0 to TWinControl(Control).ControlCount - 1 do
       SetTabOrderToHint(TWinControl(Control).Controls[I]);
   end;
+end;
+
+procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
+var
+  I: Integer;
+begin
+  Control.Cursor := pCursor;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetCursorToChilds(TWinControl(Control).Controls[I], pCursor);
+end;
+
+type
+  TMyControl = class(TControl);
+
+procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
+var
+  I: Integer;
+begin
+  TMyControl(Control).OnClick := pOnClick;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetOnClickToChilds(TWinControl(Control).Controls[I], pOnClick);
 end;
 
 function GetToolFormHeight: integer;
