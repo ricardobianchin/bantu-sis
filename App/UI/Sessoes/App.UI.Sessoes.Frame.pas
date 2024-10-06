@@ -401,7 +401,7 @@ var
   oSessaoCriador: ISessaoCriador;
   oDBConnection: IDBConnection;
   DBConnectionParams: TDBConnectionParams;
-  sSql, sN, sI: string;
+  sSql, sN, sI, sCom: string;
   Q: TDataSet;
   vShortCut: TShortCut;
   oBotaoModuloFrame: TBotaoModuloFrame;
@@ -479,7 +479,22 @@ begin
         FBotList.Add(oBotaoModuloFrame);
         oBotaoModuloFrame.ImageIndex := 2;
         oBotaoModuloFrame.BotCaption := oSessaoCriador.Titulo;
-        oBotaoModuloFrame.BotComments := oSessaoCriador.Apelido;
+        sCom := Trim(oSessaoCriador.Apelido);
+        if oSessaoCriador.NFSerie > 0 then
+        begin
+          if sCom <> '' then
+            sCom := sCom + ' ';
+          sCom := sCom + 'NF:'+oSessaoCriador.NFSerie.ToString;
+        end;
+
+        if oSessaoCriador.SempreOffline then
+        begin
+          if sCom <> '' then
+            sCom := sCom + ' ';
+          sCom := sCom + 'OffLine';
+        end;
+
+        oBotaoModuloFrame.BotComments := sCom;
       end;
     finally
       if Assigned(Q) then
