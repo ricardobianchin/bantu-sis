@@ -276,6 +276,8 @@ contains
   Sis.Entities.Terminal in 'Entities\Terminal\Sis.Entities.Terminal.pas',
   Sis.Entities.Terminal_u in 'Entities\Terminal\Sis.Entities.Terminal_u.pas',
   Sis.Entities.TerminalList in 'Entities\Terminal\Sis.Entities.TerminalList.pas',
-  Sis.Entities.TerminalList_u in 'Entities\Terminal\Sis.Entities.TerminalList_u.pas';
+  Sis.Entities.TerminalList_u in 'Entities\Terminal\Sis.Entities.TerminalList_u.pas',
+  Sis.UI.Controls.BotaoFrame_u in 'UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas' {BotaoFrame: TFrame},
+  App.UI.Sessoes.BotModulo.Frame_u in '..\App\UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame};
 
 end.
