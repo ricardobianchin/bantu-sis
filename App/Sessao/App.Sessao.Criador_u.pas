@@ -38,7 +38,6 @@ type
     property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo
       write SetTipoOpcaoSisModulo;
     function SessaoCreate: ISessao; virtual; abstract;
-    procedure CriarActionExecute(Sender: TObject);
 
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property Titulo: string read GetTitulo write SetTitulo;
@@ -50,11 +49,6 @@ type
 implementation
 
 { TSessaoCriador }
-
-procedure TSessaoCriador.CriarActionExecute(Sender: TObject);
-begin
-
-end;
 
 function TSessaoCriador.GetApelido: string;
 begin

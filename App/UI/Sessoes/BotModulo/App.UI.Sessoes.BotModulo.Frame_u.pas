@@ -4,35 +4,24 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas_u, Vcl.ExtCtrls,
-  Vcl.StdCtrls, System.UITypes;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Controls.BotaoFrame_u,
+  Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes, Sis.ModuloSistema.Types, Sis.Entities.Types;
 
 type
-  TBotaoModuloFrame = class(TBasFrame)
-    FundoPanel: TPanel;
-    IconPanel: TPanel;
-    IconImage: TImage;
-    TitLabel: TLabel;
-    ApelidoLabel: TLabel;
+  TBotaoModuloFrame = class(TBotaoFrame)
   private
     { Private declarations }
-    FImageIndex: TImageIndex;
-    FOnBotClick: TNotifyEvent;
-    function GetImageIndex: TImageIndex;
-    procedure SetImageIndex(Value: TImageIndex);
-    function GetBotCaption: string;
-    procedure SetBotCaption(const Value: string);
-    function GetBotComments: string;
-    procedure SetBotComments(const Value: string);
-    function GetOnBotClick: TNotifyEvent;
-    procedure SetOnBotClick(const Value: TNotifyEvent);
+    FOpcaoSisIdModulo: TOpcaoSisIdModulo;
+    FTerminalId: TTerminalId;
+
+    function GetTerminalId: TTerminalId;
+    procedure SetTerminalId(const Value: TTerminalId);
+  protected
+    procedure SetImageIndex(Value: TImageIndex); override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
-    property ImageIndex: TImageIndex read GetImageIndex write SetImageIndex;
-    property BotCaption: string read GetBotCaption write SetBotCaption;
-    property BotComments: string read GetBotComments write SetBotComments;
-    property OnBotClick: TNotifyEvent read GetOnBotClick write SetOnBotClick;
+    property OpcaoSisIdModulo: TOpcaoSisIdModulo read FOpcaoSisIdModulo write FOpcaoSisIdModulo;
+    property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
   end;
 
 var
@@ -44,55 +33,22 @@ implementation
 
 uses Sis.UI.Controls.Utils, Sis.UI.ImgDM;
 
-{ TBotaoModuloFrame }
+{ TBotModuloFrame }
 
-constructor TBotaoModuloFrame.Create(AOwner: TComponent);
+function TBotaoModuloFrame.GetTerminalId: TTerminalId;
 begin
-  inherited;
-  SetCursorToChilds(Self, crHandPoint);
-//  ClearStyleElements(Self);
-end;
-
-function TBotaoModuloFrame.GetBotCaption: string;
-begin
-  Result := TitLabel.Caption;
-end;
-
-function TBotaoModuloFrame.GetBotComments: string;
-begin
-  Result := ApelidoLabel.Caption;
-end;
-
-function TBotaoModuloFrame.GetImageIndex: TImageIndex;
-begin
-  Result := FImageIndex;
-end;
-
-function TBotaoModuloFrame.GetOnBotClick: TNotifyEvent;
-begin
-  Result := FOnBotClick;
-end;
-
-procedure TBotaoModuloFrame.SetBotCaption(const Value: string);
-begin
-  TitLabel.Caption := Value;
-end;
-
-procedure TBotaoModuloFrame.SetBotComments(const Value: string);
-begin
-  ApelidoLabel.Caption := Value;
+  Result := FTerminalId;
 end;
 
 procedure TBotaoModuloFrame.SetImageIndex(Value: TImageIndex);
 begin
-  FImageIndex := Value;
+  inherited;
   SisImgDataModule.PrincImageList89.GetBitmap(Value, IconImage.Picture.Bitmap);
 end;
 
-procedure TBotaoModuloFrame.SetOnBotClick(const Value: TNotifyEvent);
+procedure TBotaoModuloFrame.SetTerminalId(const Value: TTerminalId);
 begin
-  FOnBotClick := Value;
-  SetOnClickToChilds(Self, Value);
+  FTerminalId := Value;
 end;
 
 end.

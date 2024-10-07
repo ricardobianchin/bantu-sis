@@ -267,7 +267,6 @@ contains
   App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u in 'Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas' {FuncionarioPerfilDeUsoDiagForm},
   App.UI.Config.MaqNomeEdFrame_u in 'UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas' {MaqNomeEdFrame: TFrame},
   App.UI.Frame.DBGrid.Config.Ambi.Terminal_u in 'Modulos\Config\Ambi\Terminal\App.UI.Frame.DBGrid.Config.Ambi.Terminal_u.pas' {TerminaisDBGridFrame: TFrame},
-  App.UI.Form.Config.Ambi.Terminal.Ed_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.Config.Ambi.Terminal.Ed_u.pas' {TerminalEdDiagForm},
-  App.UI.Sessoes.BotModulo.Frame_u in 'UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame};
+  App.UI.Form.Config.Ambi.Terminal.Ed_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.Config.Ambi.Terminal.Ed_u.pas' {TerminalEdDiagForm};
 
 end.
