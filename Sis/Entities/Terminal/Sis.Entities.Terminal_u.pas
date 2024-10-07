@@ -21,6 +21,9 @@ type
     FCupomNLinsFinal: smallint;
     FSempreOffLine: Boolean;
 
+    FLocalArqDados: string;
+    FDatabase: string;
+
     function GetTerminalId: TTerminalId;
     procedure SetTerminalId(Value: TTerminalId);
 
@@ -59,6 +62,13 @@ type
 
     function GetSempreOffLine: Boolean;
     procedure SetSempreOffLine(Value: Boolean);
+
+    function GetLocalArqDados: string;
+    procedure SetLocalArqDados(Value: string);
+
+    function GetDatabase: string;
+    procedure SetDatabase(Value: string);
+
   public
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property Apelido: string read GetApelido write SetApelido;
@@ -73,6 +83,10 @@ type
     property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
     property CupomNLinsFinal: smallint read GetCupomNLinsFinal write SetCupomNLinsFinal;
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
+
+    property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;
+    property Database: string read GetDatabase write SetDatabase;
+
   end;
 
 
@@ -110,6 +124,11 @@ begin
   Result := FCupomNLinsFinal;
 end;
 
+function TTerminal.GetDatabase: string;
+begin
+  Result := FDatabase;
+end;
+
 function TTerminal.GetGavetaTem: Boolean;
 begin
   Result := FGavetaTem;
@@ -123,6 +142,11 @@ end;
 function TTerminal.GetLetraDoDrive: string;
 begin
   Result := FLetraDoDrive;
+end;
+
+function TTerminal.GetLocalArqDados: string;
+begin
+  Result := FLocalArqDados;
 end;
 
 function TTerminal.GetNFSerie: smallint;
@@ -175,6 +199,11 @@ begin
   FCupomNLinsFinal := Value;
 end;
 
+procedure TTerminal.SetDatabase(Value: string);
+begin
+  FDatabase := Value;
+end;
+
 procedure TTerminal.SetGavetaTem(Value: Boolean);
 begin
   FGavetaTem := Value;
@@ -188,6 +217,11 @@ end;
 procedure TTerminal.SetLetraDoDrive(Value: string);
 begin
   FLetraDoDrive := Value;
+end;
+
+procedure TTerminal.SetLocalArqDados(Value: string);
+begin
+  FLocalArqDados := Value;
 end;
 
 procedure TTerminal.SetNFSerie(Value: smallint);

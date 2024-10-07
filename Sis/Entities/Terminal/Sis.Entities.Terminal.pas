@@ -58,6 +58,14 @@ type
     function GetSempreOffLine: Boolean;
     procedure SetSempreOffLine(Value: Boolean);
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
+
+    function GetLocalArqDados: string;
+    procedure SetLocalArqDados(Value: string);
+    property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;
+
+    function GetDatabase: string;
+    procedure SetDatabase(Value: string);
+    property Database: string read GetDatabase write SetDatabase;
   end;
 
 implementation
