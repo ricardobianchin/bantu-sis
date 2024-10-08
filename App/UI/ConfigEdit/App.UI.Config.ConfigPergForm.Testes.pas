@@ -28,6 +28,8 @@ type
     TesteLojaId: integer;
     TesteLojaApelido: string;
 
+    TesteExecutaOk: boolean;
+
     procedure LerIni;
     procedure GravarIni;
     procedure Zerar;
@@ -79,6 +81,8 @@ begin
     IniFile.WriteString('form', 'usugerente_senha1', TesteUsuSenha1);
     IniFile.WriteString('form', 'usugerente_senha2', TesteUsuSenha2);
     IniFile.WriteBool('form', 'usugerente_exibsenha', TesteUsuExibSenha);
+    IniFile.WriteBool('form', 'executa_ok', TesteExecutaOk);
+
 
     // LOJA
     IniFile.WriteBool('form', 'loja_preenche', TesteLojaPreenche);
@@ -120,6 +124,7 @@ begin
     TesteUsuSenha2 := IniFile.ReadString('form', 'usugerente_senha2', '');
     TesteUsuExibSenha := IniFile.ReadBool('form',
       'usugerente_exibsenha', False);
+    TesteExecutaOk := IniFile.ReadBool('form', 'executa_ok', False);
 
     // LOJA
     TesteLojaPreenche := IniFile.ReadBool('form', 'loja_preenche', False);

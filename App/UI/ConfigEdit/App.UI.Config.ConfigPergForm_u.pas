@@ -233,6 +233,12 @@ begin
 
   EhServidorCheckBox.Checked := FConfigPergTeste.TesteEhServ;
 
+  if FConfigPergTeste.TesteLojaPreenche then
+  begin
+    LojaIdLabeledEdit.Text := FConfigPergTeste.TesteLojaId.ToString;
+    LojaApelidoLabeledEdit.Text := FConfigPergTeste.TesteLojaApelido;
+  end;
+
   if FConfigPergTeste.TesteUsuPreenche then
   begin
     UsuGerNomeCompletoLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeCompleto;
@@ -241,13 +247,11 @@ begin
     UsuGerSenha1LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha1;
     UsuGerSenha2LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha2;
     UsuGerExibSenhaCheckBox.Checked := FConfigPergTeste.TesteUsuExibSenha;
+    FTerminaisDBGridFrame.SimuleIns;
   end;
 
-  if FConfigPergTeste.TesteLojaPreenche then
-  begin
-    LojaIdLabeledEdit.Text := FConfigPergTeste.TesteLojaId.ToString;
-    LojaApelidoLabeledEdit.Text := FConfigPergTeste.TesteLojaApelido;
-  end;
+  if FConfigPergTeste.TesteExecutaOk then
+    OkAct.Execute;
 end;
 
 procedure TConfigPergForm.EhServidorCheckBoxClick(Sender: TObject);
