@@ -105,7 +105,7 @@ uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
   App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u,
-  App.DB.Import.Form_Finalizar_u, Sis.Types.Bool_u;
+  App.DB.Import.Form_Finalizar_u, Sis.Types.Bool_u, Sis.Sis.Constants;
 
 { TDBImportForm }
 
@@ -252,8 +252,8 @@ begin
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FProdRejFDMemTable,
     RejeicaoDBGrid);
 
-  FDestinoDBConnectionParams := LocalDoDBToDBConnectionParams
-    (TLocalDoDB.ldbServidor, AppObj.AppInfo, AppObj.SisConfig);
+  FDestinoDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj.AppInfo, AppObj.SisConfig);
 
   FDestinoDBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     AppObj.dbms, FDestinoDBConnectionParams, ProcessLog, FStatusOutput);

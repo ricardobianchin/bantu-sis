@@ -4,7 +4,7 @@ interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.AtualizaVersao, Sis.Config.SisConfig, App.SisConfig.Garantir, Sis.Loja,
-  Sis.Usuario, Sis.DB.DBTypes, App.DB.Log, App.Testes.Config;
+  Sis.Usuario, Sis.DB.DBTypes, App.DB.Log, App.Testes.Config, Sis.Entities.TerminalList;
 
 function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
@@ -17,7 +17,7 @@ function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
 
 function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
-  pProcessLog: IProcessLog): IAppSisConfigGarantirXML;
+  pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 
 function AppTestesConfigCreate(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): IAppTestesConfig;
 
@@ -47,10 +47,10 @@ end;
 
 function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
-  pProcessLog: IProcessLog): IAppSisConfigGarantirXML;
+  pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 begin
   Result := TAppSisConfigGarantirXML.Create(pAppInfo, pSisConfig, pUsuarioGerente,
-    pLoja, pOutput, pProcessLog);
+    pLoja, pOutput, pProcessLog, pTerminalList);
 end;
 
 function AppTestesConfigCreate(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): IAppTestesConfig;

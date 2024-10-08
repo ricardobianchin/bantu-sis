@@ -31,7 +31,7 @@ implementation
 
 uses App.UI.Form.Bas.Ed.Pess.Funcionario_u, App.DB.Utils, Sis.DB.Factory,
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u, System.SysUtils,
-  App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u;
+  App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u, Sis.Sis.Constants;
 
 function FuncionarioEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pFuncionario: IEntEd; pFuncionarioDBI: IEntDBI): TEdBasForm;
@@ -64,7 +64,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Funcionario.DataSet.Conn',

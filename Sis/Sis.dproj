@@ -291,10 +291,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Sis.ModuloSistema_u.pas"/>
         <DCCReference Include="Types\Contador\Sis.Types.Contador.pas"/>
         <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
-        <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
-            <Form>DBGridFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager.pas"/>
         <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas">
@@ -421,6 +417,28 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas">
             <Form>CheckListViewDiagBasForm</Form>
             <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
+            <Form>DBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Entities\Sis.Entities.Types.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Diretivas_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.Terminal.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.Terminal_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.TerminalList.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Entities.TerminalList_u.pas"/>
+        <DCCReference Include="UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas">
+            <Form>BotaoFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\App\UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas">
+            <Form>BotaoModuloFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

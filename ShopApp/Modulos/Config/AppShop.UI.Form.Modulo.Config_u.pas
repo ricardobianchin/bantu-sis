@@ -10,7 +10,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.ModuloSistema, App.Sessao.Eventos, App.Constants, Sis.Usuario, App.AppObj,
-  Sis.UI.Controls.Utils, App.DB.Import.Form_u;
+  Sis.UI.Controls.Utils, App.DB.Import.Form_u, Sis.Entities.Types;
 
 type
   TShopConfigModuloForm = class(TConfigModuloBasForm)
@@ -24,7 +24,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario; pAppObj: IAppObj); reintroduce;
+      pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId); reintroduce;
   end;
 
 var
@@ -40,10 +40,10 @@ uses Sis.Types, ShopApp.DB.Import.Form.PLUBase, ShopApp.DB.Import.Types_u;
 
 constructor TShopConfigModuloForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
 begin
   inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
-    pUsuario, pAppObj);
+    pUsuario, pAppObj, pTerminalId);
 end;
 function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
   : TDBImportForm;

@@ -51,8 +51,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils,
-  Sis.UI.ImgDM, Sis.DB.Factory
+uses App.DB.Utils, Sis.UI.ImgDM, Sis.DB.Factory, Sis.Sis.Constants
   // , Sis.Win.Utils_u
     ;
 
@@ -79,7 +78,7 @@ begin
   FSisConfig := pSisConfig;
   FDBMS := pDBMS;
 
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppInfo, FSisConfig);
 
   FDBConnection := DBConnectionCreate

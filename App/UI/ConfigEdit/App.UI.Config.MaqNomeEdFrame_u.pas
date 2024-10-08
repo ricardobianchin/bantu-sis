@@ -3,16 +3,16 @@ unit App.UI.Config.MaqNomeEdFrame_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask,
-  Vcl.ExtCtrls;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas_u, Vcl.StdCtrls,
+  Vcl.Mask, Vcl.ExtCtrls;
 
 type
-  TMaqNomeEdFrame = class(TFrame)
+  TMaqNomeEdFrame = class(TBasFrame)
     GroupBox1: TGroupBox;
+    ObsLabel: TLabel;
     NomeLabeledEdit: TLabeledEdit;
     IpLabeledEdit: TLabeledEdit;
-    ObsLabel: TLabel;
     ErroLabel: TLabel;
     procedure IpLabeledEditExit(Sender: TObject);
     procedure NomeLabeledEditChange(Sender: TObject);
@@ -28,13 +28,12 @@ type
     function PodeOk: boolean;
   end;
 
+var
+  MaqNomeEdFrame: TMaqNomeEdFrame;
+
 implementation
 
 {$R *.dfm}
-
-uses Sis.Types.strings_u;
-
-{ TMaqNomeEdFrame }
 
 procedure TMaqNomeEdFrame.EsconderErro;
 begin
@@ -47,10 +46,23 @@ begin
   ErroLabel.Visible := true;
 end;
 
+procedure TMaqNomeEdFrame.IpLabeledEditChange(Sender: TObject);
+begin
+  inherited;
+  EsconderErro;
+end;
+
+procedure TMaqNomeEdFrame.IpLabeledEditExit(Sender: TObject);
+begin
+  inherited;
+  PodeOk;
+
+end;
+
 function TMaqNomeEdFrame.IsDataOk: boolean;
 begin
-  result := not Visible;
-  if result then
+  Result := not Visible;
+  if Result then
     exit;
 
   NomeLabeledEdit.Text := Trim(NomeLabeledEdit.Text);
@@ -61,22 +73,14 @@ end;
 
 procedure TMaqNomeEdFrame.NomeLabeledEditChange(Sender: TObject);
 begin
+  inherited;
   EsconderErro;
 end;
 
-procedure TMaqNomeEdFrame.NomeLabeledEditKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TMaqNomeEdFrame.NomeLabeledEditKeyPress(Sender: TObject; var Key: Char);
 begin
-  // inherited;
-  if Key = #13 then
-  begin
-    key := #0;
-    IpLabeledEdit.SetFocus;
-    exit;
-  end;
-
-  CharSemAcento(Key, true);
-
+  inherited;
+  EditKeyPress(Sender, Key);
 end;
 
 function TMaqNomeEdFrame.PodeOk: boolean;
@@ -85,16 +89,6 @@ begin
 
   if not result then
     ExibirErro('Confira os dados da '+GroupBox1.Caption);
-end;
-
-procedure TMaqNomeEdFrame.IpLabeledEditChange(Sender: TObject);
-begin
-  EsconderErro;
-end;
-
-procedure TMaqNomeEdFrame.IpLabeledEditExit(Sender: TObject);
-begin
-  PodeOk;
 end;
 
 end.

@@ -183,7 +183,6 @@ contains
   Sis.ModuloSistema_u in 'Entities\Sis.ModuloSistema_u.pas',
   Sis.Types.Contador in 'Types\Contador\Sis.Types.Contador.pas',
   Sis.Types.Contador_u in 'Types\Contador\Sis.Types.Contador_u.pas',
-  Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
   Sis.DB.FDDataSetManager in 'DB\DataSetManager\Sis.DB.FDDataSetManager.pas',
   Sis.DB.FDDataSetManager_u in 'DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas',
   Sis.UI.Form.Bas.TabSheet_u in 'UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas' {TabSheetBasForm},
@@ -269,6 +268,16 @@ contains
   Sis.Usuario.Senha_u in 'Usuario\Sis.Usuario.Senha_u.pas',
   Sis.UI.Form.Login.Types_u in 'Usuario\Sis.UI.Form.Login.Types_u.pas',
   Sis.Types.strings.Crypt1_u in 'Types\Crypt\Sis.Types.strings.Crypt1_u.pas',
-  Sis.UI.Form.Bas.Diag.Btn.CheckListView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas' {CheckListViewDiagBasForm};
+  Sis.UI.Form.Bas.Diag.Btn.CheckListView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas' {CheckListViewDiagBasForm},
+  Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
+  Sis.Entities.Types in 'Entities\Sis.Entities.Types.pas',
+  Sis.DB.Updater.Destino.Utils_u in 'DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas',
+  Sis.DB.Updater.Diretivas_u in 'DB\Updater\Sis.DB.Updater.Diretivas_u.pas',
+  Sis.Entities.Terminal in 'Entities\Terminal\Sis.Entities.Terminal.pas',
+  Sis.Entities.Terminal_u in 'Entities\Terminal\Sis.Entities.Terminal_u.pas',
+  Sis.Entities.TerminalList in 'Entities\Terminal\Sis.Entities.TerminalList.pas',
+  Sis.Entities.TerminalList_u in 'Entities\Terminal\Sis.Entities.TerminalList_u.pas',
+  Sis.UI.Controls.BotaoFrame_u in 'UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas' {BotaoFrame: TFrame},
+  App.UI.Sessoes.BotModulo.Frame_u in '..\App\UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame};
 
 end.

@@ -1,0 +1,2 @@
+inherited BotaoModuloFrame: TBotaoModuloFrame
+end

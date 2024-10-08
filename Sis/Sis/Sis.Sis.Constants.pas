@@ -11,6 +11,8 @@ const
   SENHA_ZERADA_MENS = 'Senha zerada';
   SENHA_INCORRETA_MENS = 'Senha incorreta';
 
+  TERMINAL_ID_NAO_INDICADO = -1;
+  TERMINAL_ID_RETAGUARDA = 0;
 implementation
 
 end.

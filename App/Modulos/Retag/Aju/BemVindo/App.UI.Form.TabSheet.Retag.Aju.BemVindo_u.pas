@@ -42,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.Dates, App.DB.Utils, Sis.DB.Factory, Data.DB;
+uses Sis.Types.Dates, App.DB.Utils, Sis.DB.Factory, Data.DB, Sis.Sis.Constants;
 
 { TRetagAjuBemVindoForm }
 
@@ -56,7 +56,7 @@ begin
   inherited;
 //      SisConfig.
 
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,

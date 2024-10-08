@@ -1,12 +1,13 @@
-unit App.UI.Config.ConfigForm.Testes;
+unit App.UI.Config.ConfigPergForm.Testes;
 
 interface
 
 const
-  CRIA_ARQ = False;
+  CRIA_ARQ = True;
+//  CRIA_ARQ = False;
 
 type
-  TTesteConfig = class(TObject)
+  TConfigPergTeste = class(TObject)
   private
     FPastaBin: string;
     FPastaConfigs: string;
@@ -39,23 +40,23 @@ implementation
 
 uses System.IniFiles, System.SysUtils;
 
-{ TTesteConfig }
+{ TConfigPergTeste }
 
-constructor TTesteConfig.Create(pPastaBin, pPastaConfigs: string);
+constructor TConfigPergTeste.Create(pPastaBin, pPastaConfigs: string);
 begin
   FPastaBin := pPastaBin;
   FPastaConfigs := pPastaConfigs;
   Zerar;
 end;
 
-destructor TTesteConfig.Destroy;
+destructor TConfigPergTeste.Destroy;
 begin
   if CRIA_ARQ then
     GravarIni;
   inherited;
 end;
 
-procedure TTesteConfig.GravarIni;
+procedure TConfigPergTeste.GravarIni;
 var
   sNomeArq: string;
   IniFile: TIniFile;
@@ -88,7 +89,7 @@ begin
   end;
 end;
 
-procedure TTesteConfig.LerIni;
+procedure TConfigPergTeste.LerIni;
 var
   sNomeArq: string;
   IniFile: TIniFile;
@@ -130,7 +131,7 @@ begin
   end;
 end;
 
-procedure TTesteConfig.Zerar;
+procedure TConfigPergTeste.Zerar;
 begin
   TesteEhServ := False;
   TesteMaqLocalBuscaNome := False;

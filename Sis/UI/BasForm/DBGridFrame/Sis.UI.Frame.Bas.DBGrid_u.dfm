@@ -1,11 +1,10 @@
-object DBGridFrame: TDBGridFrame
-  Left = 0
-  Top = 0
+inherited DBGridFrame: TDBGridFrame
   Width = 542
   Height = 272
-  TabOrder = 0
+  ExplicitWidth = 542
+  ExplicitHeight = 272
   object DBGrid1: TDBGrid
-    Left = 3
+    Left = 0
     Top = 3
     Width = 526
     Height = 254
@@ -19,11 +18,6 @@ object DBGridFrame: TDBGridFrame
     TitleFont.Style = []
     OnKeyDown = DBGrid1KeyDown
   end
-  object DataSource1: TDataSource
-    DataSet = FDMemTable1
-    Left = 128
-    Top = 64
-  end
   object FDMemTable1: TFDMemTable
     BeforeDelete = FDMemTable1BeforeDelete
     FetchOptions.AssignedValues = [evMode]
@@ -35,5 +29,10 @@ object DBGridFrame: TDBGridFrame
     UpdateOptions.AutoCommitUpdates = True
     Left = 264
     Top = 80
+  end
+  object DataSource1: TDataSource
+    DataSet = FDMemTable1
+    Left = 128
+    Top = 64
   end
 end

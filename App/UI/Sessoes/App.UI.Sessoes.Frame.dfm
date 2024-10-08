@@ -25,21 +25,8 @@ object SessoesFrame: TSessoesFrame
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
+      ParentColor = True
       TabOrder = 0
-      object ToolBar1: TToolBar
-        Left = 105
-        Top = 0
-        Width = 449
-        Height = 162
-        Align = alNone
-        ButtonHeight = 162
-        ButtonWidth = 147
-        Caption = 'ToolBar1'
-        Images = SisImgDataModule.PrincImageList
-        ShowCaptions = True
-        TabOrder = 0
-        StyleElements = []
-      end
     end
     object BasePanel: TPanel
       Left = 0
@@ -75,5 +62,9 @@ object SessoesFrame: TSessoesFrame
   object ActionList1: TActionList
     Left = 184
     Top = 97
+    object Action1: TAction
+      Caption = 'Action1'
+      ImageIndex = 2
+    end
   end
 end

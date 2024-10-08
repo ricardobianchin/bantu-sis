@@ -5,12 +5,14 @@ interface
 uses Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
   Sis.Config.SisConfig, Sis.DB.Updater, Sis.DB.Updater.Operations,
   Sis.DB.Updater.Comando, Sis.DB.Updater.Campo, Sis.DB.Updater.Campo.List,
-  Sis.DB.Updater.Comando.List, Sis.Loja, Sis.Usuario;
+  Sis.DB.Updater.Comando.List, Sis.Loja, Sis.Usuario, Sis.Entities.Types,
+  Sis.Entities.TerminalList;
 
-function DBUpdaterFirebirdCreate(pDBConnectionParams: TDBConnectionParams;
-  pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario): IDBUpdater;
+function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
+  pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList)
+  : IDBUpdater;
 
 function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
@@ -25,7 +27,7 @@ function DBUpdaterOperationsCreate(pDBConnection: IDBConnection;
 
 implementation
 
-uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,System.StrUtils,
+uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u, System.StrUtils,
   Sis.DB.Updater.Comando.FB.CreateDomains_u,
   Sis.DB.Updater.Comando.FB.CreateForeignKey_u,
   Sis.DB.Updater.Comando.FB.CreateUniqueKey_u,
@@ -38,54 +40,56 @@ uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u,System.StrUtils,
   Sis.DB.Updater.Comando.List_u, Sis.DB.Updater.Operations.FB_u,
   Sis.DB.Updater.Comando.FB.CreateIndex_u;
 
-function DBUpdaterFirebirdCreate(pDBConnectionParams: TDBConnectionParams;
-  pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario): IDBUpdater;
+function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
+  pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList)
+  : IDBUpdater;
 begin
-  result := TDBUpdaterFirebird.Create( pDBConnectionParams, pPastaProduto,
-    pDBMS, pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioGerente);
+  result := TDBUpdaterFirebird.Create(pTerminalId, pDBConnectionParams,
+    pPastaProduto, pDBMS, pSisConfig, pProcessLog, pOutput, pLoja,
+    pUsuarioGerente, pTerminalList);
 end;
 
 function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
   pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
   pOutput: IOutput): IComando;
 begin
-  if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_TABLE then
+  if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_TABLE then
     result := TComandoFBCreateTable.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_OR_ALTER_PROCEDURE then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_OR_ALTER_PROCEDURE then
     result := TComandoFBCreateOrAlterProcedure.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_OR_ALTER_PACKAGE then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_OR_ALTER_PACKAGE then
     result := TComandoFBCreateOrAlterPackage.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_DOMAINS then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_DOMAINS then
     result := TComandoFBCreateDomains.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_ENSURE_RECORDS then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_ENSURE_RECORDS then
     result := TComandoFBEnsureRecords.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_SEQUENCE then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_SEQUENCE then
     result := TComandoFBCreateSequence.Create(pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_FOREIGN_KEY then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_FOREIGN_KEY then
     result := TComandoFBCreateForeignKey.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_UNIQUE_KEY then
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_UNIQUE_KEY then
     result := TComandoFBCreateUniqueKey.Create(pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
-  else if pTipoStr = DBATUALIZ_TIPO_COMANDO_CREATE_INDEX then
-    result := TComandoFBCreateIndex.Create(pDBConnection,
-      pUpdaterOperations, pProcessLog, pOutput)
+  else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_INDEX then
+    result := TComandoFBCreateIndex.Create(pDBConnection, pUpdaterOperations,
+      pProcessLog, pOutput)
 
       ;
 end;

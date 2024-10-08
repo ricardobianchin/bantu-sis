@@ -9,7 +9,7 @@ uses
   App.AppInfo, App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.Usuario, Sis.Loja, Sis.UI.Constants;
+  Sis.Usuario, Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -54,7 +54,8 @@ type
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario): boolean;
+    function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+
     procedure CarregarMachineId;
     procedure CarregarLoja;
 
@@ -92,7 +93,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
   Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
-  App.SisConfig.DBI, App.DB.Utils, AppVersao_u;
+  App.SisConfig.DBI, App.DB.Utils, AppVersao_u, Sis.Sis.Constants;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -128,7 +129,7 @@ var
   DBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, AppObj.SisConfig);
 
   DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig, dbms,
@@ -306,12 +307,13 @@ var
   bResultado: boolean;
   oUsuarioGerente: IUsuario;
   oSisConfig: ISisConfig;
+  oTerminalList: ITerminalList;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
     oUsuarioGerente := UsuarioCreate;
-
-    bResultado := GarantirConfig(FLoja, oUsuarioGerente);
+    oTerminalList := TerminalListCreate;
+    bResultado := GarantirConfig(FLoja, oUsuarioGerente, oTerminalList);
 
     if not bResultado then
     begin
@@ -323,7 +325,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      FLoja, oUsuarioGerente);
+      FLoja, oUsuarioGerente, oTerminalList);
 
     if not bResultado then
     begin
@@ -342,7 +344,7 @@ begin
 end;
 
 function TPrincBasForm.GarantirConfig(pLoja: ILoja;
-  pUsuarioGerente: IUsuario): boolean;
+  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
@@ -353,7 +355,7 @@ begin
     oSisConfig := FAppObj.SisConfig;
 
     oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppInfo, oSisConfig,
-      pUsuarioGerente, pLoja, FProcessOutput, FProcessLog);
+      pUsuarioGerente, pLoja, FProcessOutput, FProcessLog, pTerminalList);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
     Result := oAppSisConfigGarantirXML.Execute;
 

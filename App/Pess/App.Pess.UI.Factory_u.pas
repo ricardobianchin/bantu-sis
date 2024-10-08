@@ -25,7 +25,7 @@ implementation
 
 uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.Ent.Factory_u,
   App.Pess.Loja.DBI, App.DB.Utils, Sis.DB.Factory,
-  App.UI.Form.Bas.Ed.Pess.Loja_u;
+  App.UI.Form.Bas.Ed.Pess.Loja_u, Sis.Sis.Constants;
 
 {$REGION 'loja impl'}
 
@@ -58,7 +58,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig, pDBMS,

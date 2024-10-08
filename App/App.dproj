@@ -149,11 +149,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AtualizaVersao\App.AtualizaVersao_u.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.Garantir.pas"/>
         <DCCReference Include="SisConfig\App.SisConfig.Garantir_u.pas"/>
-        <DCCReference Include="UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas"/>
-        <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigForm.pas">
-            <Form>StarterFormConfig</Form>
+        <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.pas">
+            <Form>ConfigPergForm</Form>
         </DCCReference>
-        <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigForm.Testes.pas"/>
+        <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm.Testes.pas"/>
         <DCCReference Include="UI\ConfigEdit\App.UI.Config.Constants.pas"/>
         <DCCReference Include="DB\Garantir\App.DB.Garantir.pas"/>
         <DCCReference Include="DB\App.DB.Utils.pas"/>
@@ -526,6 +525,20 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas">
             <Form>FuncionarioPerfilDeUsoDiagForm</Form>
+        </DCCReference>
+        <DCCReference Include="UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas">
+            <Form>MaqNomeEdFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.UI.Frame.DBGrid.Config.Ambi.Terminal_u.pas">
+            <Form>TerminaisDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.UI.Form.Config.Ambi.Terminal.Ed_u.pas">
+            <Form>TerminalEdDiagForm</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

@@ -9,7 +9,7 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
   App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog, App.AppInfo, App.AppObj;
+  Sis.UI.IO.Output.ProcessLog, App.AppInfo, App.AppObj, Sis.Entities.Types;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -51,8 +51,7 @@ type
     FSessaoIndex: TSessaoIndex;
     FUsuario: IUsuario;
     FAppObj: IAppObj;
-
-
+    FTerminalId: TTerminalId;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
@@ -85,7 +84,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario; pAppObj: IAppObj); reintroduce;
+      pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId); reintroduce;
 
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
   end;
@@ -111,9 +110,10 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
 begin
   inherited Create(AOwner);
+  FTerminalId := pTerminalId;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   FModuloSistema := pModuloSistema;
   FSessaoEventos := pSessaoEventos;

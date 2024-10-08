@@ -81,7 +81,7 @@ var
 //  sBusca: string;
   Resultado: boolean;
 begin
-//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
 //    AppInfo, SisConfig);
 //
 //  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
@@ -105,7 +105,7 @@ var
 //  oConn: IDBConnection;
   Resultado: boolean;
 begin
-//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
 //    AppInfo, SisConfig);
 //
 //  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
@@ -137,7 +137,7 @@ function TRetagEstProdTipoDataSetForm.DoInserir: boolean;
 //  oDBConnection: IDBConnection;
 begin
   inherited;
-//  oDBConnectionParams := LocalDoDBToDBConnectionParams(TLocalDoDB.ldbServidor,
+//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
 //    AppInfo, SisConfig);
 //
 //  oDBConnection := DBConnectionCreate('Retag.Tipo.Ed.Ins.Conn', SisConfig, DBMS,

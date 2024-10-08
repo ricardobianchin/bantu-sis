@@ -5,11 +5,16 @@ interface
 uses
   Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs, Sis.Types,
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
-  Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario;
+  Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
+  Sis.Entities.Types, Sis.DB.Updater.Destino.Utils_u, Vcl.Forms,
+  Sis.Entities.TerminalList;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
+    FTerminalId: TTerminalId;
+    FDBUpdaterAlvo: TDBUpdaterAlvo;
+    FsDBUpdaterAlvo: string;
     FDBConnectionParams: TDBConnectionParams;
     FSisConfig: ISisConfig;
     FProcessLog: IProcessLog;
@@ -19,24 +24,30 @@ type
     FCaminhoComandos: string;
     FLinhasSL: TStringList;
     FDtHExec: TDateTime;
-    FDestinoSL: TStringList;
+    FSqlDestinoSL: TStringList;
     FsAssunto: string;
-    FsObjetivo: string;
+    FsVersaoObjetivo: string;
+    FsDBAtualizAlvo: string;
+    FDBAtualizAlvo: TDBUpdaterAlvo;
     FsObs: string;
     FComandoList: IComandoList;
     FPastaProduto: string;
     FDBConnection: IDBConnection;
 
     FDBUpdaterOperations: IDBUpdaterOperations;
+    FTerminalList: ITerminalList;
 
     FLoja: ILoja;
     FUsuarioGerente: IUsuario;
 
     FCriouDB: Boolean;
 
+    FsDiretivaAbre: string;
+    FsDiretivaFecha: string;
+
     procedure SetiVersao(const Value: integer);
 
-    function CarreguouArqComando(piVersao: integer): boolean;
+    function CarreguouArqComando(piVersao: integer): Boolean;
     procedure RemoveExcedentes(pSL: TStrings);
     procedure LerUpdateProperties(pSL: TStrings);
 
@@ -57,7 +68,7 @@ type
     property output: IOutput read FOutput;
     property dbms: IDBMS read FDBMS;
     property iVersao: integer read FiVersao write SetiVersao;
-    function GetDBExiste: boolean; virtual; abstract;
+    function GetDBExiste: Boolean; virtual; abstract;
     function DBDescubraVersaoEConecte: integer; virtual;
     property LinhasSL: TStringList read FLinhasSL;
 
@@ -71,13 +82,19 @@ type
     property DBConnectionParams: TDBConnectionParams read FDBConnectionParams;
     property PastaProduto: string read FPastaProduto;
 
-  public
-    function Execute: boolean;
+    property sDBAtualizAlvo: string read FsDBAtualizAlvo;
+    property DBAtualizAlvo: TDBUpdaterAlvo read FDBAtualizAlvo;
 
-    constructor Create(pDBConnectionParams: TDBConnectionParams;
-      pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-      pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-      pUsuarioGerente: IUsuario);
+    procedure DiretivasAjustaCaracteres; virtual;
+    property TerminalId: TTerminalId read FTerminalId;
+  public
+    function Execute: Boolean;
+
+    constructor Create(pTerminalId: TTerminalId;
+      pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
+      pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
+      pOutput: IOutput; pLoja: ILoja; pUsuarioGerente: IUsuario;
+      pTerminalList: ITerminalList);
     destructor Destroy; override;
   end;
 
@@ -89,17 +106,23 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Sis.constants, Sis.DB.Factory, Sis.DB.Updater.Constants_u,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
-  Sis.Win.Utils_u, Sis.UI.IO.Files, Sis.Win.Execute, Sis.Win.Factory;
+  Sis.Win.Utils_u, Sis.ui.io.Files, Sis.Win.Execute, Sis.Win.Factory,
+  Sis.DB.Updater.Diretivas_u, Sis.Entities.Terminal, Sis.Types.Bool_u;
 
-constructor TDBUpdater.Create(pDBConnectionParams: TDBConnectionParams;
-  pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario);
+constructor TDBUpdater.Create(pTerminalId: TTerminalId;
+  pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList);
 var
   sSql: string;
 begin
+  FTerminalId := pTerminalId;
+  FTerminalList := pTerminalList;
+  FDBUpdaterAlvo := TerminalIdToAlvo(FTerminalId);
+  FsDBUpdaterAlvo := UpperCase(DBUpdaterAlvoNomes[FDBUpdaterAlvo]);
+
   FPastaProduto := pPastaProduto;
-  FDestinoSL := TStringList.Create;
+  FSqlDestinoSL := TStringList.Create;
   FDBConnectionParams := pDBConnectionParams;
   FSisConfig := pSisConfig;
   FProcessLog := pProcessLog;
@@ -186,12 +209,18 @@ destructor TDBUpdater.Destroy;
 begin
   FProcessLog.PegueLocal('TDBUpdater.Destroy');
   try
-    FProcessLog.RegistreLog('FDestinoSL.Free');
-    FDestinoSL.Free;
+    FProcessLog.RegistreLog('FSqlDestinoSL.Free');
+    FSqlDestinoSL.Free;
   finally
     FProcessLog.RetorneLocal;
   end;
   inherited;
+end;
+
+procedure TDBUpdater.DiretivasAjustaCaracteres;
+begin
+  FsDiretivaAbre := '{';
+  FsDiretivaFecha := '}';
 end;
 
 procedure TDBUpdater.DoAposCriarBanco;
@@ -202,28 +231,39 @@ var
   sPastaEventos: string;
   OWinExecute: IWinExecute;
 begin
-  sPastaBin := IncludeTrailingPathDelimiter( ExtractFilePath(ParamStr(0)));
+  if FTerminalId > 1 then
+    exit;
+
+  sPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   sPastaExe := PastaAcima(sPastaBin);
-  sPastaEventos := sPastaExe +'Comandos\Eventos\';
+  sPastaEventos := sPastaExe + 'Comandos\Eventos\';
 
   GarantirPasta(sPastaEventos);
 
-  sNomeArqBat := sPastaEventos + 'Exec Apos Criar DB.bat';
+  sNomeArqBat := sPastaEventos + 'Exec Apos Criar DB';
+  if FTerminalId = 0 then
+    sNomeArqBat := sNomeArqBat + ' Server'
+  else
+    sNomeArqBat := sNomeArqBat + ' Term' + FTerminalId.ToString;
+  sNomeArqBat := sNomeArqBat + '.bat';
 
   if not FileExists(sNomeArqBat) then
     exit;
 
-  OWinExecute := WinExecuteCreate(sNomeArqBat, '', sPastaEventos, True, 1);
-  OWinExecute.EspereExecucao(Output, 16);
-//C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Eventos\Exec Apos Criar DB.bat
+  OWinExecute := WinExecuteCreate(sNomeArqBat, '"' + FDBConnectionParams.Arq +
+    '"', sPastaEventos, True, 1);
+  OWinExecute.EspereExecucao(output, 16);
+  // C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Eventos\Exec Apos Criar DB.bat
 end;
 
-function TDBUpdater.Execute: boolean;
+function TDBUpdater.Execute: Boolean;
 var
-  s: string;
+  sVariaveis: string;
+  bSeAplica: Boolean;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
+  DiretivasAjustaCaracteres;
   FLinhasSL := TStringList.Create;
   try
     try
@@ -248,20 +288,46 @@ begin
 
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
+          // teste
+          // FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
+          //
+          // ProcessarDiretivas(FLinhasSL,
+          // 'ALVO=TERMINAL'#13#10'TERMINAL_ID=1', '{', '}');
+          // FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino terminal.txt');
+          //
+          // FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
+          // ProcessarDiretivas(FLinhasSL,
+          // 'ALVO=SERVIDOR'#13#10'TERMINAL_ID=1', '{', '}');
+          // FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino servidor.txt');
+          //
+          // Halt(0);
+          // fim do teste            testar acima, add aqui terminal_id=
+
+          sVariaveis := //
+            'ALVO=' + FsDBUpdaterAlvo + #13#10 + //
+            'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
+            ; //
+
+          ProcessarDiretivas(FLinhasSL, sVariaveis, FsDiretivaAbre,
+            FsDiretivaFecha);
           LerUpdateProperties(FLinhasSL);
 
-          FProcessLog.RegistreLog('ComandosCarregar');
-          ComandosCarregar;
+          bSeAplica := SeAplica(FTerminalId, FDBAtualizAlvo);
 
-          FProcessLog.RegistreLog('ComandosGetSql');
-          ComandosGetSql;
+          if bSeAplica then
+          begin
+            FProcessLog.RegistreLog('ComandosCarregar');
+            ComandosCarregar;
 
-          FProcessLog.RegistreLog('ExecuteSql');
-          ExecuteSql;
+            FProcessLog.RegistreLog('ComandosGetSql');
+            ComandosGetSql;
 
-          FProcessLog.RegistreLog('ComandosTesteFuncionou');
-          ComandosTesteFuncionou;
+            FProcessLog.RegistreLog('ExecuteSql');
+            ExecuteSql;
 
+            FProcessLog.RegistreLog('ComandosTesteFuncionou');
+            ComandosTesteFuncionou;
+          end;
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
         until False;
@@ -285,9 +351,11 @@ begin
       exit;
 
     if FCriouDB then
+    begin
       DoAposCriarBanco;
+      GravarIniciais(DBConnection);
+    end;
 
-    GravarIniciais(DBConnection);
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
@@ -310,10 +378,10 @@ procedure TDBUpdater.InsertCabecalho;
 var
   sLinhas: string;
 begin
-  sLinhas := GetUpdaterCabecalho(iVersao, FsObjetivo, FsObs, FsAssunto,
+  sLinhas := GetUpdaterCabecalho(iVersao, FsVersaoObjetivo, FsObs, FsAssunto,
     FDBConnectionParams.Database, FDtHExec);
 
-  FDestinoSL.Text := sLinhas + FDestinoSL.Text;
+  FSqlDestinoSL.Text := sLinhas + FSqlDestinoSL.Text;
 end;
 
 procedure TDBUpdater.LerUpdateProperties(pSL: TStrings);
@@ -328,8 +396,13 @@ begin
     FsAssunto := pSL.Values[DBATUALIZ_ASSUNTO_CHAVE];
     sOutput := sOutput + 'FsAssunto=' + FsAssunto + #13#10;
 
-    FsObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
-    sOutput := sOutput + 'sObjetivo=' + FsObjetivo + #13#10;
+    FsVersaoObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
+    sOutput := sOutput + 'sVersaoObjetivo=' + FsVersaoObjetivo + #13#10;
+
+    FsDBAtualizAlvo := pSL.Values[DBATUALIZ_ALVO_CHAVE];
+    sOutput := sOutput + 'sAlvo=' + FsDBAtualizAlvo + #13#10;
+
+    FDBAtualizAlvo := StrToAlvo(FsDBAtualizAlvo);
 
     FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
     sOutput := sOutput + 'sObs=' + FsObs + #13#10;
@@ -342,7 +415,7 @@ begin
   end;
 end;
 
-function TDBUpdater.CarreguouArqComando(piVersao: integer): boolean;
+function TDBUpdater.CarreguouArqComando(piVersao: integer): Boolean;
 var
   sNomeArq: string;
   sLog: string;
@@ -382,9 +455,10 @@ procedure TDBUpdater.ComandosCarregar;
 var
   iLin: integer;
   sLin: string;
-  bComandAberto: boolean;
+  bComandAberto: Boolean;
   oComando: IComando;
   sTipoComando: string;
+  bSeAplica: Boolean;
 begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosCarregar');
   FOutput.Exibir('Carregando comandos...');
@@ -393,6 +467,7 @@ begin
     bComandAberto := False;
     iLin := 0;
     FComandoList.Clear;
+    bSeAplica := True;
     while iLin < FLinhasSL.Count do
     begin
       sLin := FLinhasSL[iLin];
@@ -404,15 +479,23 @@ begin
       else if sLin = DBATUALIZ_COMANDO_FIM_CHAVE then
       begin
         bComandAberto := False;
+        bSeAplica := True;
       end
-      else if Pos(DBATUALIZ_TIPO_COMANDO + '=', sLin) = 1 then
+      else if Pos(DBATUALIZ_COMANDO_ALVO + '=', sLin) = 1 then
       begin
-        sTipoComando := StrApos(sLin, '=');
-        FProcessLog.RegistreLog('sTipoComando=' + sTipoComando);
-        oComando := TipoToComando(sTipoComando, FDBConnection,
-          FDBUpdaterOperations, FProcessLog, FOutput);
-        FComandoList.Add(oComando);
-        oComando.PegarLinhas(iLin, FLinhasSL);
+        bSeAplica := ComandoSeAplica(FTerminalId, sLin);
+      end
+      else if Pos(DBATUALIZ_COMANDO_TIPO + '=', sLin) = 1 then
+      begin
+        if bSeAplica then
+        begin
+          sTipoComando := StrApos(sLin, '=');
+          FProcessLog.RegistreLog('sTipoComando=' + sTipoComando);
+          oComando := TipoToComando(sTipoComando, FDBConnection,
+            FDBUpdaterOperations, FProcessLog, FOutput);
+          FComandoList.Add(oComando);
+          oComando.PegarLinhas(iLin, FLinhasSL);
+        end;
       end;
 
       inc(iLin);
@@ -431,7 +514,7 @@ begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosGetSql');
   try
     FOutput.Exibir('Montando comandos...');
-    FDestinoSL.Clear;
+    FSqlDestinoSL.Clear;
     iQtdComandos := 0;
 
     for I := 0 to FComandoList.Count - 1 do
@@ -441,7 +524,7 @@ begin
       if sComandosSql <> '' then
       begin
         inc(iQtdComandos);
-        FDestinoSL.Text := FDestinoSL.Text + sComandosSql;
+        FSqlDestinoSL.Text := FSqlDestinoSL.Text + sComandosSql;
       end;
     end;
 
@@ -457,7 +540,7 @@ procedure TDBUpdater.ComandosTesteFuncionou;
 var
   oComando: IComando;
   I: integer;
-  Resultado: boolean;
+  Resultado: Boolean;
   sMensagemErro: string;
 begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosTesteFuncionou');
@@ -498,7 +581,7 @@ begin
     FProcessLog.RegistreLog('Executando ' + iVersao.ToString);
 
     sAssunto := 'DBUpdate ' + IntToStrZero(iVersao, 9);
-    sSql := FDestinoSL.Text;
+    sSql := FSqlDestinoSL.Text;
     sNomeBanco := FDBConnectionParams.GetNomeBanco;
     sPastaComandos := FPastaProduto + 'Comandos\Updater\';
 
@@ -511,41 +594,43 @@ end;
 
 procedure TDBUpdater.GravarIniciais(pDBConnection: IDBConnection);
 var
-  s: string;
   sSenha: string;
   iPessoaId: integer;
+  oTerminal: ITerminal;
+  I: integer;
+  sSql: string;
 begin
-  //loja inicio
+  // loja inicio
+  if FTerminalId > 0 then
+    exit;
+
   if FLoja.Descr <> '' then
   begin
-    s := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
+    sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
       + FLoja.Id.ToString + ',' //
-      + FLoja.Descr.QuotedString
-      + ', TRUE);' //
+      + FLoja.Descr.QuotedString + ', TRUE);' //
       ; //
 
-    pDBConnection.ExecuteSql(s);
+    pDBConnection.ExecuteSql(sSql);
 
-    s := 'SELECT GEN_ID(PESSOA_SEQ, 1) FROM RDB$DATABASE;';
-    iPessoaId := pDBConnection.GetValueInteger(s);
+    sSql := 'SELECT GEN_ID(PESSOA_SEQ, 1) FROM RDB$DATABASE;';
+    iPessoaId := pDBConnection.GetValueInteger(sSql);
 
-    s := 'INSERT INTO PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO'//
-      +') VALUES ('//
-      + FLoja.Id.ToString//
-      + ', 0'//
-      + ', ' + iPessoaId.ToString
-      + ', ' + QuotedStr('')
-      + ', ' + FLoja.Descr.QuotedString
-      +');';
-    pDBConnection.ExecuteSql(s);
+    sSql := 'INSERT INTO PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO'
+    //
+      + ') VALUES (' //
+      + FLoja.Id.ToString //
+      + ', 0' //
+      + ', ' + iPessoaId.ToString + ', ' + QuotedStr('') + ', ' +
+      FLoja.Descr.QuotedString + ');';
+    pDBConnection.ExecuteSql(sSql);
 
-    s := 'INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID'//
-      +') VALUES ('//
-      + FLoja.Id.ToString//
-      + ', 0'//
-      + ', ' + iPessoaId.ToString
-      +');';
-    pDBConnection.ExecuteSql(s);
+    sSql := 'INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID' //
+      + ') VALUES (' //
+      + FLoja.Id.ToString //
+      + ', 0' //
+      + ', ' + iPessoaId.ToString + ');';
+    pDBConnection.ExecuteSql(sSql);
   end;
   // loja fim
 
@@ -553,7 +638,7 @@ begin
   begin
     Encriptar(1, '123', sSenha);
 
-    s := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES('//
+    sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + 'SUPORTE TECNICO'.QuotedString // NOME
       + ', ' + 'SUP'.QuotedString // NOME_DE_USUARIO
@@ -562,19 +647,20 @@ begin
       + ', ' + 'SUPORTE'.QuotedString // APELIDO
       + ', NULL);';
 
-    iPessoaId := pDBConnection.GetValue(s);
+    iPessoaId := pDBConnection.GetValue(sSql);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
+    //
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + iPessoaId.ToString // PESSOA_ID
       + ', 1' // PERFIL_DE_USO_ID
       + ');';
 
-    pDBConnection.ExecuteSql(s);
+    pDBConnection.ExecuteSql(sSql);
 
     Encriptar(1, FUsuarioGerente.Senha, sSenha);
 
-    s := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES('//
+    sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
       + ', ' + FUsuarioGerente.NomeDeUsuario.QuotedString // NOME_DE_USUARIO
@@ -583,15 +669,55 @@ begin
       + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
       + ', NULL);';
 
-    iPessoaId := pDBConnection.GetValue(s);
+    iPessoaId := pDBConnection.GetValue(sSql);
 
-    s := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
+    //
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + iPessoaId.ToString // PESSOA_ID
       + ', 2' // PERFIL_DE_USO_ID
       + ');';
 
-    pDBConnection.ExecuteSql(s);
+    pDBConnection.ExecuteSql(sSql);
+  end;
+
+  sSql := 'DELETE FROM TERMINAL;';
+  pDBConnection.ExecuteSql(sSql);
+
+  for I := 0 to FTerminalList.Count - 1 do
+  begin
+    oTerminal := FTerminalList[I];
+    sSql := 'INSERT INTO TERMINAL (' //
+      + 'TERMINAL_ID,' //
+      + 'APELIDO,' //
+      + 'NOME_NA_REDE,' //
+      + 'IP,' //
+      + 'NF_SERIE,' //
+      + 'LETRA_DO_DRIVE,' //
+      + 'GAVETA_TEM,' //
+      + 'BALANCA_MODO_ID,' //
+      + 'BALANCA_ID,' //
+      + 'BARRAS_COD_INI,' //
+      + 'BARRAS_COD_TAM,' //
+      + 'CUPOM_NLINS_FINAL,' //
+      + 'SEMPRE_OFFLINE' //
+      + ') VALUES (' //
+      + oTerminal.TerminalId.ToString //
+      + ', ' + oTerminal.Apelido.QuotedString //
+      + ', ' + oTerminal.NomeNaRede.QuotedString //
+      + ', ' + oTerminal.IP.QuotedString //
+      + ', ' + oTerminal.NFSerie.ToString //
+      + ', ' + oTerminal.LetraDoDrive.QuotedString //
+      + ', ' + BooleanToStrSQL(oTerminal.GavetaTem) //
+      + ', ' + oTerminal.BalancaModoId.ToString //
+      + ', ' + oTerminal.BalancaId.ToString //
+      + ', ' + oTerminal.BarCodigoIni.ToString //
+      + ', ' + oTerminal.BarCodigoTam.ToString //
+      + ', ' + oTerminal.CupomNLinsFinal.ToString //
+      + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) //
+      + ');'; //
+
+    pDBConnection.ExecuteSql(sSql);
   end;
 end;
 
@@ -603,7 +729,7 @@ begin
     FDBUpdaterOperations.PrepareVersoes;
 
     FProcessLog.RegistreLog('FDBUpdaterOperations.HistIns');
-    FDBUpdaterOperations.HistIns(FiVersao, FsAssunto, FsObjetivo, FsObs);
+    FDBUpdaterOperations.HistIns(FiVersao, FsAssunto, FsVersaoObjetivo, FsObs);
   finally
     FProcessLog.RetorneLocal;
   end;
