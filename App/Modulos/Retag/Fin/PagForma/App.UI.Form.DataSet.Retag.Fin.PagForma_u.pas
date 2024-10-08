@@ -104,7 +104,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oDBI := RetagFinPagFormaDBICreate(oConn, EntEd);
@@ -157,7 +157,7 @@ begin
     oAppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +
-    '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
+    '.Conn', SisConfig, oDBConnectionParams, ProcessLog, Output);
 
   oPagFormaEdDBI := PagFormaEdDBICreate(oDBConnection);
   Result := PagFormaPerg(Self, oAppInfo, EntEd, EntDBI, oPagFormaEdDBI);

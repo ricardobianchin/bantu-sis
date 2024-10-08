@@ -231,7 +231,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
+  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   CreateFormCreator(AppInfo, SisConfig, oDBConnection);

@@ -82,7 +82,7 @@ begin
     FAppInfo, FSisConfig);
 
   FDBConnection := DBConnectionCreate
-    ('Retag.Acesso.OpcaoSis.OpcaoSis.TreeView.Conn', FSisConfig, FDBMS,
+    ('Retag.Acesso.OpcaoSis.OpcaoSis.TreeView.Conn', FSisConfig,
     oDBConnectionParams, nil, nil);
 end;
 

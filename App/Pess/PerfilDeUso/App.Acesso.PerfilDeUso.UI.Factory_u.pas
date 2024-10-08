@@ -65,7 +65,7 @@ begin
     pAppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.PerfilDeUso.DataSet.Conn',
-    pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
+    pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PerfilDeUsoEntCreate;
   oDBI := PerfilDeUsoDBICreate(oDBConnection, oEnt);

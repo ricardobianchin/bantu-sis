@@ -137,8 +137,7 @@ begin
   DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppObj.AppInfo, FAppObj.SisConfig);
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
-    FAppObj.DBMS, DBConnectionParams, FAppObj.ProcessLog,
-    FAppObj.ProcessOutput);
+    DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
 
@@ -420,8 +419,7 @@ begin
   DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppObj.AppInfo, FAppObj.SisConfig);
   oDBConnection := DBConnectionCreate('App.Sessoes.Conn', FAppObj.SisConfig,
-    FAppObj.DBMS, DBConnectionParams, FAppObj.ProcessLog,
-    FAppObj.ProcessOutput);
+    DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
   sN := FAppObj.SisConfig.ServerMachineId.Name;
   sI := FAppObj.SisConfig.ServerMachineId.IP;

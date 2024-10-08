@@ -256,7 +256,7 @@ begin
     (TERMINAL_ID_RETAGUARDA, AppObj.AppInfo, AppObj.SisConfig);
 
   FDestinoDBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
-    AppObj.dbms, FDestinoDBConnectionParams, ProcessLog, FStatusOutput);
+    FDestinoDBConnectionParams, ProcessLog, FStatusOutput);
 end;
 
 procedure TDBImportForm.DefCampos;

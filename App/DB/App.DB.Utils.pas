@@ -89,7 +89,7 @@ var
 begin
   pTerminalList.Clear;
   oDBConnectio := DBConnectionCreate('PreencherTerminalList.conn', pSisConfig,
-    pDBMS, pDBConnectionParams, nil, nil);
+    pDBConnectionParams, nil, nil);
   if not oDBConnectio.Abrir then
     exit;
   try

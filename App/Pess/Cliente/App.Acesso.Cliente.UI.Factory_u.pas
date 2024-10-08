@@ -62,7 +62,7 @@ begin
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Cliente.DataSet.Conn',
-    pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
+    pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PessClienteEntCreate(pAppObj.Loja.Id, pUsuario.Id,
     pSisConfig.ServerMachineId.IdentId);

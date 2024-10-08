@@ -103,7 +103,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
@@ -152,7 +152,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oDBI := RetagEstProdDBICreate(oConn, ProdEnt);
@@ -188,7 +188,7 @@ begin
     oAppInfo, SisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Prod.Ed.' + pDataSetStateAbrev +
-    '.Conn', SisConfig, DBMS, oDBConnectionParams, ProcessLog, Output);
+    '.Conn', SisConfig, oDBConnectionParams, ProcessLog, Output);
 
   oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
   oProdFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, ProdEnt.ProdFabrEnt);

@@ -141,7 +141,7 @@ begin
       FDBConnectionParams.Database + ',FCaminhoComandos=' + FCaminhoComandos);
 
     FDBConnection := DBConnectionCreate('UpdaterDBConnection', FSisConfig,
-      FDBMS, FDBConnectionParams, FProcessLog, FOutput);
+      FDBConnectionParams, FProcessLog, FOutput);
 
     FDBUpdaterOperations := DBUpdaterOperationsCreate(FDBConnection,
       FProcessLog, FOutput);

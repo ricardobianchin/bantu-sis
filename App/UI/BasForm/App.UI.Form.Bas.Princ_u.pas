@@ -132,7 +132,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, AppObj.SisConfig);
 
-  DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig, dbms,
+  DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, FProcessOutput);
 
   LojaLeia(FLoja, DBConnection);

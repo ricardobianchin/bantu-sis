@@ -85,7 +85,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.ICMS.AtivoSet.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.ICMS.AtivoSet.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oICMSDBI := RetagEstProdICMSDBICreate(oConn, ProdICMSEnt);
@@ -122,7 +122,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.ICMS.Ed.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.ICMS.Ed.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oICMSDBI := RetagEstProdICMSDBICreate(oConn, ProdICMSEnt);
@@ -151,7 +151,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oDBConnection := DBConnectionCreate('Retag.ICMS.Ed.Ins.Conn', SisConfig, DBMS,
+  oDBConnection := DBConnectionCreate('Retag.ICMS.Ed.Ins.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
   ProdICMSEnt.Id := 0;
   ProdICMSEnt.Sigla := '';

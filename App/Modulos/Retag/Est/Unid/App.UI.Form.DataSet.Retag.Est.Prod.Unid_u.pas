@@ -55,7 +55,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oConn, EntEd);
@@ -80,7 +80,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oConn, EntEd);
@@ -110,7 +110,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', SisConfig, DBMS,
+  oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, EntEd);

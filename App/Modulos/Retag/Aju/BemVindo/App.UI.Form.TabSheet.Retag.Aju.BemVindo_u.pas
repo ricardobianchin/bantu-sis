@@ -69,7 +69,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig, DBMS,
+  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   sSql := 'SELECT PROD_RECORD_COUNT_RET FROM EST_STAT_PA.STAT_GET;';

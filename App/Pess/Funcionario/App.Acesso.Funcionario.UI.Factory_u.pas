@@ -68,7 +68,7 @@ begin
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Funcionario.DataSet.Conn',
-    pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
+    pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PessFuncionarioEntCreate(pAppObj.Loja.Id, pUsuario.Id,
     pSisConfig.ServerMachineId.IdentId);

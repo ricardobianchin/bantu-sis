@@ -48,7 +48,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppInfo, SisConfig);
 
-  oConn := DBConnectionCreate('Retag.VersaoDB.Atu.Conn', SisConfig, DBMS,
+  oConn := DBConnectionCreate('Retag.VersaoDB.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oVersaoDBDBI := RetagAjuVersaoDBDBICreate(oConn, EntEd);
