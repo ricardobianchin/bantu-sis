@@ -28,7 +28,7 @@ implementation
 
 uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
   Sis.win.VersionInfo, dialogs, Sis.UI.IO.Files, Sis.win.Utils_u,
-  Sis.Types.Bool_u, Sis.DB.Updater.Firebird.GetSql_u;
+  Sis.Types.Bool_u, Sis.DB.Updater.Firebird.GetSql_u, Sis.Types.strings_u;
 
 { TDBUpdaterFirebird }
 
@@ -100,6 +100,11 @@ begin
 
     GarantirPasta(sPastaInstDados);
     sNomeArqInstDados := ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
+    if TerminalId > 0 then
+    begin
+      sNomeArqInstDados := StrDeleteNoFim(sNomeArqInstDados, 3);
+    end;
+
     if SisConfig.WinVersionInfo.Version <= 6.1 then
     begin
 
