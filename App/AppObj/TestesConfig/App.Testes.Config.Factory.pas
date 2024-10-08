@@ -15,14 +15,18 @@ uses
   , App.Testes.Config.ModuRetag.Est
   , App.Testes.Config.ModuRetag.Est.Cliente //
 
-  , App.Testes.Config.App//
+  , App.Testes.Config.App, App.Testes.Config.ModuConf.Import//
 
   ; //
 
+// confi
 function ModuConfCreate: ITesteConfigModuConf;
 function ModuConfAmbiCreate: ITesteConfigModuConfAmbi;
 function ModuConfAmbiLojaCreate: ITesteConfigModuConfAmbiLoja;
 
+function ModuConfImportCreate: ITesteConfigModuConfImport;
+
+// retag
 function ModuRetagCreate: ITesteConfigModuRetag;
 function ModuRetagAcessoCreate: ITesteConfigModuRetagAcesso;
 function ModuRetagAcessoPerfilDeUsoCreate: ITesteConfigModuRetagAcessoPerfilDeUso;
@@ -50,7 +54,7 @@ uses
 
   , App.Testes.Config.App_u //
 
-  ; //
+  , App.Testes.Config.ModuConf.Import_u; //
 
 function ModuConfCreate: ITesteConfigModuConf;
 begin
@@ -65,6 +69,11 @@ end;
 function ModuConfAmbiLojaCreate: ITesteConfigModuConfAmbiLoja;
 begin
   Result := TTesteConfigModuConfAmbiLoja.Create;
+end;
+
+function ModuConfImportCreate: ITesteConfigModuConfImport;
+begin
+  Result := TTesteConfigModuConfImport.Create;
 end;
 
 function ModuRetagCreate: ITesteConfigModuRetag;

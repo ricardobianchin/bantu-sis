@@ -545,6 +545,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

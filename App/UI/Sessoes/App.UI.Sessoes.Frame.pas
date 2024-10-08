@@ -44,6 +44,8 @@ type
     function GetSessao(Index: integer): ISessao;
     function GetCount: integer;
 
+    function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
+
   protected
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
@@ -256,18 +258,17 @@ end;
 
 procedure TSessoesFrame.ExecuteAutoLogin;
 var
-  iTipoOpcaoSisModulo: integer;
   oAction: TAction;
+  oBot: TBotaoModuloFrame;
 begin
   if not FLoginConfig.PreencheLogin then
     exit;
 
-  iTipoOpcaoSisModulo := integer(FLoginConfig.TipoOpcaoSisModulo);
-  oAction := ActionByTag(ActionList1, iTipoOpcaoSisModulo);
-  if not Assigned(oAction) then
+  oBot := GetBotByTipoOpcao(FLoginConfig.TipoOpcaoSisModulo);
+  if not Assigned(oBot) then
     exit;
 
-  oAction.Execute;
+  oBot.BotaoClick;
 end;
 
 function TSessoesFrame.ExecutouPeloShortCut(var Key: word;
@@ -300,6 +301,23 @@ end;
 function TSessoesFrame.GetAppObj: IAppObj;
 begin
   Result := FAppObj;
+end;
+
+function TSessoesFrame.GetBotByTipoOpcao(
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
+var
+  oBotaoModuloFrame: TBotaoModuloFrame;
+begin
+  Result := nil;
+
+  for oBotaoModuloFrame in FBotList do
+  begin
+    if oBotaoModuloFrame.OpcaoSisIdModulo = pTipoOpcaoSisModulo then
+    begin
+      Result := oBotaoModuloFrame;
+      break;
+    end;
+  end;
 end;
 
 function TSessoesFrame.GetCount: integer;

@@ -25,6 +25,10 @@ type
       , ModuConf_Ambi_Node //
       , ModuConf_Ambi_Loja_Node //
       , ModuConf_Ambi_Loja_AutoExec_Node //
+
+      , ModuConf_Import_Node //
+      , ModuConf_Import_AutoExec_Node //
+      , ModuConf_Import_Origem_Node //
       : IXMLNODE; //
 
     ModuRetagNode //
@@ -121,6 +125,12 @@ begin
             ('autoexec');
         end;
       end;
+
+      ModuConf_Import_Node := ModuConfNode.AddChild('import');
+      begin
+        ModuConf_Import_AutoExec_Node := ModuConf_Import_Node.AddChild('autoexec');
+        ModuConf_Import_Origem_Node := ModuConf_Import_Node.AddChild('origem');
+      end;
     end;
   end;
 
@@ -165,9 +175,14 @@ begin
     end;
   end;
 
+  // conf
   ModuConf_Ambi_Loja_AutoExec_Node.Text :=
     BooleanToStr(FModuConf.Ambi.Loja.AutoExec);
 
+  ModuConf_Import_AutoExec_Node.Text := BooleanToStr(FModuConf.Import.AutoExec);
+  ModuConf_Import_Origem_Node.Text := AnsiUpperCase(FModuConf.Import.Origem);
+
+  // retag
   ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Acesso.PerfilDeUso.AutoExec);
 
@@ -198,6 +213,14 @@ begin
           ModuConf_Ambi_Loja_AutoExec_Node := ModuConf_Ambi_Loja_Node.ChildNodes
             ['autoexec'];
         end;
+      end;
+    end;
+
+    begin
+      ModuConf_Import_Node := ModuConfNode.ChildNodes['import'];
+      begin
+        ModuConf_Import_AutoExec_Node := ModuConf_Import_Node.ChildNodes['autoexec'];
+        ModuConf_Import_Origem_Node := ModuConf_Import_Node.ChildNodes['origem'];
       end;
     end;
   end;
@@ -242,9 +265,20 @@ begin
     end;
   end;
 
+
+  // conf
+  //conf ambi loja
   s := ModuConf_Ambi_Loja_AutoExec_Node.Text;
   FModuConf.Ambi.Loja.AutoExec := StrToBoolean(s);
 
+  // conf import
+  s := ModuConf_Import_AutoExec_Node.Text;
+  FModuConf.Import.AutoExec := StrToBoolean(s);
+
+  s := AnsiUpperCase(ModuConf_Import_Origem_Node.Text);
+  FModuConf.Import.Origem := s;
+
+  // retag
   s := ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text;
   FModuRetag.Acesso.PerfilDeUso.AutoExec := StrToBoolean(s);
 
