@@ -85,7 +85,8 @@ type
     property sDBAtualizAlvo: string read FsDBAtualizAlvo;
     property DBAtualizAlvo: TDBUpdaterAlvo read FDBAtualizAlvo;
 
-    procedure DireitivasAjustaCaracteres; virtual;
+    procedure DiretivasAjustaCaracteres; virtual;
+    property TerminalId: TTerminalId read FTerminalId;
   public
     function Execute: Boolean;
 
@@ -216,7 +217,7 @@ begin
   inherited;
 end;
 
-procedure TDBUpdater.DireitivasAjustaCaracteres;
+procedure TDBUpdater.DiretivasAjustaCaracteres;
 begin
   FsDiretivaAbre := '{';
   FsDiretivaFecha := '}';
@@ -230,18 +231,27 @@ var
   sPastaEventos: string;
   OWinExecute: IWinExecute;
 begin
+  if FTerminalId > 1 then
+    exit;
+
   sPastaBin := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
   sPastaExe := PastaAcima(sPastaBin);
   sPastaEventos := sPastaExe + 'Comandos\Eventos\';
 
   GarantirPasta(sPastaEventos);
 
-  sNomeArqBat := sPastaEventos + 'Exec Apos Criar DB.bat';
+  sNomeArqBat := sPastaEventos + 'Exec Apos Criar DB';
+  if FTerminalId = 0 then
+    sNomeArqBat := sNomeArqBat + ' Server'
+  else
+    sNomeArqBat := sNomeArqBat + ' Term' + FTerminalId.ToString;
+  sNomeArqBat := sNomeArqBat + '.bat';
 
   if not FileExists(sNomeArqBat) then
     exit;
 
-  OWinExecute := WinExecuteCreate(sNomeArqBat, '', sPastaEventos, True, 1);
+  OWinExecute := WinExecuteCreate(sNomeArqBat, '"' + FDBConnectionParams.Arq +
+    '"', sPastaEventos, True, 1);
   OWinExecute.EspereExecucao(output, 16);
   // C:\Pr\app\bantu\bantu-sis\Exe\Comandos\Eventos\Exec Apos Criar DB.bat
 end;
@@ -253,7 +263,7 @@ var
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
-  DireitivasAjustaCaracteres;
+  DiretivasAjustaCaracteres;
   FLinhasSL := TStringList.Create;
   try
     try
@@ -587,10 +597,13 @@ var
   sSenha: string;
   iPessoaId: integer;
   oTerminal: ITerminal;
-  i: integer;
+  I: integer;
   sSql: string;
 begin
   // loja inicio
+  if FTerminalId > 0 then
+    exit;
+
   if FLoja.Descr <> '' then
   begin
     sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
@@ -603,7 +616,8 @@ begin
     sSql := 'SELECT GEN_ID(PESSOA_SEQ, 1) FROM RDB$DATABASE;';
     iPessoaId := pDBConnection.GetValueInteger(sSql);
 
-    sSql := 'INSERT INTO PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO' //
+    sSql := 'INSERT INTO PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO'
+    //
       + ') VALUES (' //
       + FLoja.Id.ToString //
       + ', 0' //
@@ -635,7 +649,8 @@ begin
 
     iPessoaId := pDBConnection.GetValue(sSql);
 
-    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
+    //
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + iPessoaId.ToString // PESSOA_ID
       + ', 1' // PERFIL_DE_USO_ID
@@ -656,7 +671,8 @@ begin
 
     iPessoaId := pDBConnection.GetValue(sSql);
 
-    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
+    //
       + FLoja.Id.ToString // LOJA_ID
       + ', ' + iPessoaId.ToString // PESSOA_ID
       + ', 2' // PERFIL_DE_USO_ID
@@ -665,13 +681,12 @@ begin
     pDBConnection.ExecuteSql(sSql);
   end;
 
-
   sSql := 'DELETE FROM TERMINAL;';
   pDBConnection.ExecuteSql(sSql);
 
-  for i := 0 to FTerminalList.Count - 1 do
+  for I := 0 to FTerminalList.Count - 1 do
   begin
-    oTerminal := FTerminalList[i];
+    oTerminal := FTerminalList[I];
     sSql := 'INSERT INTO TERMINAL (' //
       + 'TERMINAL_ID,' //
       + 'APELIDO,' //
