@@ -23,6 +23,10 @@ type
     function GetDBMSInfo: IDBMSInfo;
     property DBMSInfo: IDBMSInfo read GetDBMSInfo;
 
+    function GetServerLetraDoDrive: char;
+    procedure SetServerLetraDoDrive(Value: char);
+    property ServerLetraDoDrive: char read GetServerLetraDoDrive write SetServerLetraDoDrive;
+
   end;
 
 implementation
