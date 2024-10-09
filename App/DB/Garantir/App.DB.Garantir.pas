@@ -50,9 +50,9 @@ function GarantirDBTerms(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
   oTerminal: ITerminal;
-  i: integer;
-  s: string;
+  iIndex: integer;
 begin
   pProcessLog.PegueLocal('App.DB.Garantir,GarantirDBTerms');
   {
@@ -65,14 +65,17 @@ begin
     rDBConnectionParams := TerminalIdToDBConnectionParams
       (TERMINAL_ID_RETAGUARDA, pAppInfo, pSisConfig);
 
-    PreencherTerminalList(pSisConfig, pAppInfo, DBMS, rDBConnectionParams,
-      pSisConfig.LocalMachineId.Name, pTerminalList);
+    oDBConnection := DBConnectionCreate('App.DB.Garantir.GarantirDBTerms.conn',
+      pSisConfig, rDBConnectionParams, pProcessLog, pOutput);
+
+    PreencherTerminalList(oDBConnection, pAppInfo, pTerminalList,
+      pSisConfig.LocalMachineId.Name);
   end;
 
   try
-    for i := 0 to pTerminalList.count - 1 do
+    for iIndex := 0 to pTerminalList.count - 1 do
     begin
-      oTerminal := pTerminalList[i];
+      oTerminal := pTerminalList[iIndex];
 
       rDBConnectionParams.Server := oTerminal.NomeNaRede;
       rDBConnectionParams.Arq := oTerminal.LocalArqDados;
