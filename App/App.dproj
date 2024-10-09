@@ -547,6 +547,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import_u.pas"/>
+        <DCCReference Include="DB\DBConnections\App.DB.DBConnectionList.pas"/>
+        <DCCReference Include="DB\DBConnections\App.DB.DBConnectionList_u.pas"/>
+        <DCCReference Include="DB\DBConnections\App.DB.DBIntegracao.pas"/>
+        <DCCReference Include="DB\Term\App.DB.Term.Utils_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

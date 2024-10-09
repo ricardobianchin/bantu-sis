@@ -270,6 +270,10 @@ contains
   App.UI.Form.Config.Ambi.Terminal.Ed_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.Config.Ambi.Terminal.Ed_u.pas' {TerminalEdDiagForm},
   App.DB.Term.Carga.Frame_u in 'DB\Term\Carga\App.DB.Term.Carga.Frame_u.pas' {TermCargaFrameFrame: TFrame},
   App.Testes.Config.ModuConf.Import in 'AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import.pas',
-  App.Testes.Config.ModuConf.Import_u in 'AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import_u.pas';
+  App.Testes.Config.ModuConf.Import_u in 'AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import_u.pas',
+  App.DB.DBConnectionList in 'DB\DBConnections\App.DB.DBConnectionList.pas',
+  App.DB.DBConnectionList_u in 'DB\DBConnections\App.DB.DBConnectionList_u.pas',
+  App.DB.DBIntegracao in 'DB\DBConnections\App.DB.DBIntegracao.pas',
+  App.DB.Term.Utils_u in 'DB\Term\App.DB.Term.Utils_u.pas';
 
 end.
