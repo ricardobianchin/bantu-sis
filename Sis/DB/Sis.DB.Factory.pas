@@ -16,8 +16,8 @@ function DBMSCreate(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
   pProcessLog: IProcessLog; pOutput: IOutput): IDBMS;
 
 function DBConnectionCreate(pNomeComponente: string; pSisConfig: ISisConfig;
-  pDBConnectionParams: TDBConnectionParams;
-  pProcessLog: IProcessLog; pOutput: IOutput): IDBConnection;
+  pDBConnectionParams: TDBConnectionParams; pProcessLog: IProcessLog;
+  pOutput: IOutput): IDBConnection;
 
 function DBExecCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBExec;
