@@ -69,6 +69,9 @@ type
     function GetDatabase: string;
     procedure SetDatabase(Value: string);
 
+    function GetAsText: string;
+
+    function GetIdentStr: string;
   public
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property Apelido: string read GetApelido write SetApelido;
@@ -87,16 +90,38 @@ type
     property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;
     property Database: string read GetDatabase write SetDatabase;
 
+
+    property AsText: string read GetAsText;
+    property IdentStr: string read GetIdentStr;
   end;
 
 
 implementation
+
+uses System.SysUtils;
 
 { TTerminal }
 
 function TTerminal.GetApelido: string;
 begin
   Result := FApelido;
+end;
+
+function TTerminal.GetAsText: string;
+begin
+  Result := FTerminalId.ToStrZero + ' '+IdentStr;
+  if FApelido <> '' then
+  begin
+    Result := Result + ' ' + FApelido;
+  end;
+
+  if FNFSerie > 0 then
+  begin
+    Result := Result + ' NFe:' + FNFSerie.ToString;
+  end;
+
+  if SempreOffLine then
+    Result := Result + ' Sem WEB';
 end;
 
 function TTerminal.GetBalancaId: smallint;
@@ -132,6 +157,14 @@ end;
 function TTerminal.GetGavetaTem: Boolean;
 begin
   Result := FGavetaTem;
+end;
+
+function TTerminal.GetIdentStr: string;
+begin
+  if NomeNaRede <> '' then
+    Result := NomeNaRede
+  else
+    Result := IP;
 end;
 
 function TTerminal.GetIP: string;

@@ -66,6 +66,12 @@ type
     function GetDatabase: string;
     procedure SetDatabase(Value: string);
     property Database: string read GetDatabase write SetDatabase;
+
+    function GetAsText: string;
+    property AsText: string read GetAsText;
+
+    function GetIdentStr: string;
+    property IdentStr: string read GetIdentStr;
   end;
 
 implementation
