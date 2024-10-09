@@ -31,7 +31,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
     object Label2: TLabel
       Left = 0
       Top = 0
-      Width = 35
+      Width = 185
       Height = 15
       Align = alTop
       Alignment = taCenter
@@ -42,6 +42,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitWidth = 35
     end
     object ProdutosGroupBox: TGroupBox
       Left = 0
@@ -101,7 +102,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
     Left = 8
     Top = 21
     Width = 377
-    Height = 220
+    Height = 164
     Caption = 'Terminais'
     TabOrder = 2
   end

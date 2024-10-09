@@ -91,7 +91,8 @@ constructor TRetagAjuBemVindoForm.Create(AOwner: TComponent;
   pOutputNotify: IOutput);
 begin
   inherited;
-//  FTermCargaFrameFrame := TTermCargaFrameFrame.Create(TerminaisGroupBox);
+  FTermCargaFrameFrame := TTermCargaFrameFrame.Create(TerminaisGroupBox, pAppInfo, pSisConfig);
+  FTermCargaFrameFrame.Align := alClient;
 end;
 
 procedure TRetagAjuBemVindoForm.FormKeyDown(Sender: TObject; var Key: Word;
