@@ -460,7 +460,7 @@ begin
         begin
           if sTit2 <> '' then
             sTit2 := sTit2 + ' ';
-          sTit2 := sTit2 + 'NF:' + oSessaoCriador.NFSerie.ToString;
+          sTit2 := sTit2 + 'NFe:' + oSessaoCriador.NFSerie.ToString;
         end;
 
         if oSessaoCriador.SempreOffline then
