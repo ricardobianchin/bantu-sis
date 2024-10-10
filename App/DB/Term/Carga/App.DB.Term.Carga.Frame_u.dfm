@@ -18,7 +18,6 @@ inherited TermCargaFrameFrame: TTermCargaFrameFrame
     Anchors = [akLeft, akTop, akRight, akBottom]
     ItemHeight = 15
     TabOrder = 1
-    ExplicitTop = 15
   end
   object TermCargaBitBtn: TBitBtn
     Left = 112

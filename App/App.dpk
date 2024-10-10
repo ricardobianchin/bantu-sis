@@ -274,6 +274,12 @@ contains
   App.DB.DBConnectionList in 'DB\DBConnections\App.DB.DBConnectionList.pas',
   App.DB.DBConnectionList_u in 'DB\DBConnections\App.DB.DBConnectionList_u.pas',
   App.DB.DBIntegracao in 'DB\DBConnections\App.DB.DBIntegracao.pas',
-  App.DB.Term.Utils_u in 'DB\Term\App.DB.Term.Utils_u.pas';
+  App.DB.Term.Utils_u in 'DB\Term\App.DB.Term.Utils_u.pas',
+  App.Testes.Config.ModuRetag.Ajuda in 'AppObj\TestesConfig\ModuRetag\Ajuda\App.Testes.Config.ModuRetag.Ajuda.pas',
+  App.Testes.Config.ModuRetag.Ajuda_u in 'AppObj\TestesConfig\ModuRetag\Ajuda\App.Testes.Config.ModuRetag.Ajuda_u.pas',
+  App.Testes.Config.ModuRetag.Ajuda.BemVindo in 'AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\App.Testes.Config.ModuRetag.Ajuda.BemVindo.pas',
+  App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais in 'AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\Terminais\App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais.pas',
+  App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais_u in 'AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\Terminais\App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais_u.pas',
+  App.Testes.Config.ModuRetag.Ajuda.BemVindo_u in 'AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\App.Testes.Config.ModuRetag.Ajuda.BemVindo_u.pas';
 
 end.

@@ -551,6 +551,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\DBConnections\App.DB.DBConnectionList_u.pas"/>
         <DCCReference Include="DB\DBConnections\App.DB.DBIntegracao.pas"/>
         <DCCReference Include="DB\Term\App.DB.Term.Utils_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\App.Testes.Config.ModuRetag.Ajuda.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\App.Testes.Config.ModuRetag.Ajuda_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\App.Testes.Config.ModuRetag.Ajuda.BemVindo.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\Terminais\App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\Terminais\App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\App.Testes.Config.ModuRetag.Ajuda.BemVindo_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

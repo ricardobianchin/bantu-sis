@@ -29,6 +29,8 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
       reintroduce; virtual;
+//    procedure MarcarPelosTerminalIds(pStr: string);
+
   end;
 
 var

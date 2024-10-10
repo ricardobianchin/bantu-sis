@@ -15,6 +15,10 @@ uses
   , App.Testes.Config.ModuRetag.Est
   , App.Testes.Config.ModuRetag.Est.Cliente //
 
+  , App.Testes.Config.ModuRetag.Ajuda
+  , App.Testes.Config.ModuRetag.Ajuda.BemVindo //
+  , App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais //
+
   , App.Testes.Config.App, App.Testes.Config.ModuConf.Import//
 
   ; //
@@ -28,12 +32,20 @@ function ModuConfImportCreate: ITesteConfigModuConfImport;
 
 // retag
 function ModuRetagCreate: ITesteConfigModuRetag;
+
+//retag acesso
 function ModuRetagAcessoCreate: ITesteConfigModuRetagAcesso;
 function ModuRetagAcessoPerfilDeUsoCreate: ITesteConfigModuRetagAcessoPerfilDeUso;
 function ModuRetagAcessoFuncionarioCreate: ITesteConfigModuRetagAcessoFuncionario;
 
+// retag est
 function ModuRetagEstCreate: ITesteConfigModuRetagEst;
 function ModuRetagEstClienteCreate: ITesteConfigModuRetagEstCliente;
+
+//retag ajuda
+function ModuRetagAjudaCreate: ITesteConfigModuRetagAjuda;
+function ModuRetagAjudaBemVindoCreate: ITesteConfigModuRetagAjudaBemVindo;
+function ModuRetagAjudaBemVindoTerminaisCreate: ITesteConfigModuRetagAjudaBemVindoTerminais;
 
 function AppCreate: ITesteConfigApp;
 
@@ -51,6 +63,10 @@ uses
 
   , App.Testes.Config.ModuRetag.Est_u //
   , App.Testes.Config.ModuRetag.Est.Cliente_u //
+
+  , App.Testes.Config.ModuRetag.Ajuda_u
+  , App.Testes.Config.ModuRetag.Ajuda.BemVindo_u //
+  , App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais_u //
 
   , App.Testes.Config.App_u //
 
@@ -110,5 +126,22 @@ function ModuRetagEstClienteCreate: ITesteConfigModuRetagEstCliente;
 begin
   Result := TTesteConfigModuRetagEstCliente.Create;
 end;
+
+function ModuRetagAjudaCreate: ITesteConfigModuRetagAjuda;
+begin
+  Result := TTesteConfigModuRetagAjuda.Create;
+end;
+
+function ModuRetagAjudaBemVindoCreate: ITesteConfigModuRetagAjudaBemVindo;
+begin
+  Result := TTesteConfigModuRetagAjudaBemVindo.Create;
+end;
+
+function ModuRetagAjudaBemVindoTerminaisCreate: ITesteConfigModuRetagAjudaBemVindoTerminais;
+begin
+  Result := TTesteConfigModuRetagAjudaBemVindoTerminais.Create;
+end;
+
+
 
 end.
