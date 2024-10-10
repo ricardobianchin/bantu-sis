@@ -209,7 +209,7 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
   App.Acesso.PerfilDeUso.UI.Factory_u, App.UI.Form.DataSet.Pess.Cliente_u,
   App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
-  Sis.Sis.Constants, Generics.Collections;
+  Sis.Sis.Constants;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
