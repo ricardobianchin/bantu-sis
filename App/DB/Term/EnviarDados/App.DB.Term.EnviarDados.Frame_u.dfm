@@ -1,4 +1,4 @@
-inherited TermCargaFrameFrame: TTermCargaFrameFrame
+inherited TermEnviarDadosFrame: TTermEnviarDadosFrame
   object AtualizarListaBitBtn: TBitBtn
     Left = 8
     Top = 146
@@ -24,7 +24,7 @@ inherited TermCargaFrameFrame: TTermCargaFrameFrame
     Top = 146
     Width = 92
     Height = 25
-    Action = TermCargaAction
+    Action = TermEnviarDadosAction
     Anchors = [akLeft, akBottom]
     Caption = 'Enviar Dados'
     TabOrder = 2
@@ -36,7 +36,7 @@ inherited TermCargaFrameFrame: TTermCargaFrameFrame
       Caption = 'Atualizar Lista'
       OnExecute = AtualizarListaActionExecute
     end
-    object TermCargaAction: TAction
+    object TermEnviarDadosAction: TAction
       Caption = 'Enviar Dados'
     end
   end

@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.StdCtrls, App.AppObj, App.AppInfo, Sis.DB.DBTypes, Vcl.Buttons,
-  App.DB.Term.Carga.Frame_u,
+  App.DB.Term.EnviarDados.Frame_u,
   Sis.UI.Form.Bas.TabSheet_u, Sis.Config.SisConfig,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
 
@@ -30,7 +30,7 @@ type
     procedure AtualizarActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FTermCargaFrameFrame: TTermCargaFrameFrame;
+    FTermEnviarDadosFrame: TTermEnviarDadosFrame;
 
     ProdQtd: integer;
     procedure InicieControles;
@@ -91,9 +91,9 @@ constructor TRetagAjuBemVindoForm.Create(AOwner: TComponent;
   pOutputNotify: IOutput; pAppObj: IAppObj);
 begin
   inherited;
-  FTermCargaFrameFrame := TTermCargaFrameFrame.Create(TerminaisGroupBox,
+  FTermEnviarDadosFrame := TTermEnviarDadosFrame.Create(TerminaisGroupBox,
     pAppObj);
-  FTermCargaFrameFrame.Align := alClient;
+  FTermEnviarDadosFrame.Align := alClient;
 end;
 
 procedure TRetagAjuBemVindoForm.FormKeyDown(Sender: TObject; var Key: Word;
