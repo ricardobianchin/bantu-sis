@@ -4,7 +4,7 @@ interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
-  App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppInfo,
+  App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj, App.AppInfo,
   Sis.Config.SisConfig, Sis.UI.FormCreator, App.Retag.Est.Custo,
   Sis.DB.UltimoId
 
@@ -30,7 +30,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Est.Prod.Barras.DBI //
 
   // prod balanca
-    , App.Retag.Est.Prod.Balanca.Ent, App.Retag.Est.Prod.Ed.DBI, App.AppObj
+    , App.Retag.Est.Prod.Balanca.Ent, App.Retag.Est.Prod.Ed.DBI
 
     ;
 
@@ -55,7 +55,7 @@ function ProdFabrPerg(AOwner: TComponent; pAppInfo: IAppInfo; pProdFabrEnt: IEnt
 function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 {$ENDREGION}
 
@@ -80,7 +80,7 @@ function ProdTipoPerg(AOwner: TComponent; pAppInfo: IAppInfo; pProdTipoEnt: IEnt
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 {$ENDREGION}
 {$REGION 'prod unid'}
@@ -104,7 +104,7 @@ function ProdUnidPerg(AOwner: TComponent; pAppInfo: IAppInfo; pProdUnidEnt: IEnt
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 {$ENDREGION}
 {$REGION 'prod ICMS'}
 function EntEdCastToProdICMSEnt(pEntEd: IEntEd): IProdICMSEnt;
@@ -127,7 +127,7 @@ function ProdICMSPerg(AOwner: TComponent; pAppInfo: IAppInfo; pProdICMSEnt: IEnt
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 {$ENDREGION}
 {$REGION 'prod'}
@@ -202,7 +202,7 @@ function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;
 {$ENDREGION}
@@ -319,11 +319,11 @@ end;
 function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdFabrDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -375,11 +375,11 @@ end;
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdTipoDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -430,11 +430,11 @@ end;
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdUnidDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -487,11 +487,11 @@ end;
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdICMSDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -603,11 +603,11 @@ end;
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 
 function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;

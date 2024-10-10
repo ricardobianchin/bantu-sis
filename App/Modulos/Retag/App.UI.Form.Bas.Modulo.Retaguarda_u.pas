@@ -216,6 +216,7 @@ constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
 var
+  oAppObj: IAppObj;
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
 
@@ -229,6 +230,7 @@ begin
 
   MenuPageControl.ActivePage := EstoqueTabSheet;
 
+  oAppObj := AppObj;
   oAppInfo := AppInfo;
   oSisConfig := SisConfig;
 
@@ -256,7 +258,7 @@ begin
 
   FAcessoPerfilTabSheetFormCreator := PerfilDeUsoDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
+    FOutputNotify, AppObj);
 
   FAcessoFuncionarioTabSheetFormCreator := FuncionarioDataSetFormCreatorCreate
     (FFormClassNamesSL, AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog,
@@ -273,7 +275,7 @@ begin
   // aju bem-vindo
   FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
+    FOutputNotify, AppObj);
 
   // aju versao
   oVersaoDBEnt := RetagEstVersaoDBEntCreate;
@@ -281,7 +283,7 @@ begin
 
   FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oVersaoDBEnt, oVersaoDBDBI);
+    FOutputNotify, oVersaoDBEnt, oVersaoDBDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorFin(pAppInfo: IAppInfo;
@@ -302,7 +304,7 @@ begin
   // fin pag forma
   FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oPagFormaEnt, oPagFormaDBI);
+    FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppInfo: IAppInfo;
@@ -331,28 +333,28 @@ begin
 
   FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
     pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
-    oFabrEnt, oFabrDBI);
+    oFabrEnt, oFabrDBI, AppObj);
 
   oTipoEnt := RetagEstProdTipoEntCreate;
   oTipoDBI := RetagEstProdTipoDBICreate(pDBConnection, oTipoEnt);
 
   FProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oTipoEnt, oTipoDBI);
+    FOutputNotify, oTipoEnt, oTipoDBI, AppObj);
 
   oUnidEnt := RetagEstProdUnidEntCreate;
   oUnidDBI := RetagEstProdUnidDBICreate(pDBConnection, oUnidEnt);
 
   FProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oUnidEnt, oUnidDBI);
+    FOutputNotify, oUnidEnt, oUnidDBI, AppObj);
 
   oICMSEnt := RetagEstProdICMSEntCreate;
   oICMSDBI := RetagEstProdICMSDBICreate(pDBConnection, oICMSEnt);
 
   FProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate
     (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oICMSEnt, oICMSDBI);
+    FOutputNotify, oICMSEnt, oICMSDBI, AppObj);
 
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
@@ -364,7 +366,7 @@ begin
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
     pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
-    oProdEnt, oProdDBI);
+    oProdEnt, oProdDBI, AppObj);
 
   FClienteDataSetFormCreator := ClienteDataSetFormCreatorCreate
     (FFormClassNamesSL, AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog,

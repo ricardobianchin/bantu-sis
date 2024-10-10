@@ -4,9 +4,9 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Sis.Entities.TerminalList, Sis.Config.SisConfig,
+  System.Classes, Vcl.Graphics, Sis.Entities.TerminalList,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas_u, Vcl.StdCtrls,
-  Vcl.Buttons, App.AppInfo, Sis.DB.DBTypes, System.Actions, Vcl.ActnList,
+  Vcl.Buttons, App.AppObj, Sis.DB.DBTypes, System.Actions, Vcl.ActnList,
   Vcl.CheckLst;
 
 type
@@ -20,16 +20,15 @@ type
     procedure AtualizarListaActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FAppInfo: IAppInfo;
-    FSisConfig: ISisConfig;
+    FAppObj: IAppObj;
     FServerDBConnection: IDBConnection;
     FTerminalList: ITerminalList;
     procedure PreencherTermListBox;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj);
       reintroduce; virtual;
-//    procedure MarcarPelosTerminalIds(pStr: string);
+    // procedure MarcarPelosTerminalIds(pStr: string);
 
   end;
 
@@ -49,11 +48,10 @@ begin
   PreencherTermListBox;
 end;
 
-constructor TTermCargaFrameFrame.Create(AOwner: TComponent; pAppInfo: IAppInfo; pSisConfig: ISisConfig);
+constructor TTermCargaFrameFrame.Create(AOwner: TComponent; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
-  FAppInfo := pAppInfo;
-  FSisConfig := pSisConfig;
+  FAppObj := pAppObj;
   FTerminalList := TerminalListCreate;
 end;
 
@@ -66,12 +64,12 @@ var
   sText: string;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppInfo, FSisConfig);
+    FAppObj.AppInfo, FAppObj.SisConfig);
 
   oDBConnection := DBConnectionCreate('CargaFrame.PreencherList.Conn',
-    FSisConfig, oDBConnectionParams, nil, nil);
+    FAppObj.SisConfig, oDBConnectionParams, nil, nil);
 
-  PreencherTerminalList(oDBConnection, FAppInfo, FTerminalList);
+  PreencherTerminalList(oDBConnection, FAppObj.AppInfo, FTerminalList);
 
   TermCheckListBox.Items.Clear;
   for I := 0 to FTerminalList.Count - 1 do

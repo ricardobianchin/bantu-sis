@@ -69,7 +69,7 @@ begin
 
   Result := TDataSetFormCreator.Create(TAppPessLojaDataSetForm,
     pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, oEnt, oDBI);
+    pProcessLog, pOutputNotify, oEnt, oDBI, pAppObj);
 end;
 
 {$ENDREGION}

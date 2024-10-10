@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls, App.AppInfo, Sis.DB.DBTypes, Vcl.Buttons,
+  Vcl.StdCtrls, App.AppObj, App.AppInfo, Sis.DB.DBTypes, Vcl.Buttons,
   App.DB.Term.Carga.Frame_u,
   Sis.UI.Form.Bas.TabSheet_u, Sis.Config.SisConfig,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
@@ -42,7 +42,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput); override;
+      pOutputNotify: IOutput; pAppObj: IAppObj); override;
   end;
 
 var
@@ -88,10 +88,11 @@ end;
 constructor TRetagAjuBemVindoForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput);
+  pOutputNotify: IOutput; pAppObj: IAppObj);
 begin
   inherited;
-  FTermCargaFrameFrame := TTermCargaFrameFrame.Create(TerminaisGroupBox, pAppInfo, pSisConfig);
+  FTermCargaFrameFrame := TTermCargaFrameFrame.Create(TerminaisGroupBox,
+    pAppObj);
   FTermCargaFrameFrame.Align := alClient;
 end;
 

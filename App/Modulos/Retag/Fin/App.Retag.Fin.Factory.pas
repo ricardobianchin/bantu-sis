@@ -6,7 +6,7 @@ uses App.Fin.PagFormaTipo, App.Ent.Ed, App.Ent.DBI, App.Retag.Fin.PagForma.Ent,
   Data.DB, Sis.DB.DBTypes, App.UI.Form.Bas.Ed_u, Vcl.StdCtrls, System.Classes,
   Sis.Config.SisConfig, Sis.Loja, Sis.Usuario, Sis.UI.IO.Output.ProcessLog,
   App.AppInfo, Sis.UI.IO.Output, Sis.UI.FormCreator,
-  App.Retag.Fin.PagForma.Ed.DBI;
+  App.Retag.Fin.PagForma.Ed.DBI, App.AppObj;
 
 function PagFormaTipoCreate: IPagFormaTipo;
 
@@ -33,7 +33,7 @@ function PagFormaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
 function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
 
@@ -103,11 +103,11 @@ end;
 function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI): IFormCreator;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagFinPagFormaDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI);
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 
 function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
