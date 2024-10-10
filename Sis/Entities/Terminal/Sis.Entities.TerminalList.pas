@@ -10,6 +10,7 @@ type
     function GetTerminal(Index: Integer): ITerminal;
     property Terminal[Index: integer]: ITerminal read GetTerminal; default;
     function TerminalIdToTerminal(pTerminalId: TTerminalId): ITerminal;
+    function TerminalIdToIndex(pTerminalId: TTerminalId): integer;
   end;
 
 implementation

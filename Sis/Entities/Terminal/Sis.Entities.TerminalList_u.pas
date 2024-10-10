@@ -12,6 +12,7 @@ type
   public
     property Terminal[Index: Integer]: ITerminal read GetTerminal; default;
     function TerminalIdToTerminal(pTerminalId: TTerminalId): ITerminal;
+    function TerminalIdToIndex(pTerminalId: TTerminalId): integer;
   end;
 
 implementation
@@ -21,6 +22,23 @@ implementation
 function TTerminalList.GetTerminal(Index: Integer): ITerminal;
 begin
   Result := ITerminal(Items[Index]);
+end;
+
+function TTerminalList.TerminalIdToIndex(pTerminalId: TTerminalId): integer;
+var
+  oTerminal: ITerminal;
+  i: integer;
+begin
+  Result := -1;
+  for i := 0 to Count - 1 do
+  begin
+    oTerminal := Terminal[i];
+    if oTerminal.TerminalId = pTerminalId then
+    begin
+      Result := i;
+      break;
+    end;
+  end;
 end;
 
 function TTerminalList.TerminalIdToTerminal(
