@@ -46,13 +46,19 @@ implementation
 {$R *.dfm}
 
 uses App.DB.Utils, Sis.Sis.Constants, Sis.DB.Factory, Sis.Entities.Terminal,
-  Sis.Entities.Factory, App.DB.Term.EnviarDados, App.DB.Term.EnviarDados.Factory_u,
+  Sis.Entities.Factory, App.DB.Term.EnviarDados,
+  App.DB.Term.EnviarDados.Factory_u,
   Sis.UI.IO.Factory;
 
 procedure TTermEnviarDadosFrame.AtualizarListaActionExecute(Sender: TObject);
 begin
   inherited;
-  PreencherTermListBox;
+  AtualizarListaAction.Enabled := False;
+  try
+    PreencherTermListBox;
+  finally
+    AtualizarListaAction.Enabled := True;
+  end;
 end;
 
 constructor TTermEnviarDadosFrame.Create(AOwner: TComponent; pAppObj: IAppObj);
@@ -70,7 +76,8 @@ begin
   if not bExec then
     exit;
 
-  sIds := FAppObj.AppTestesConfig.ModuRetag.Ajuda.BemVindo.Terminais.SelectTerminalIds;
+  sIds := FAppObj.AppTestesConfig.ModuRetag.Ajuda.BemVindo.Terminais.
+    SelectTerminalIds;
 
   if sIds = '' then
     exit;
@@ -88,47 +95,53 @@ var
   oTerminal: ITerminal;
   sText: string;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj.AppInfo, FAppObj.SisConfig);
+  FStatusOutput.Exibir('Consultando Terminais');
+  try
+    oDBConnectionParams := TerminalIdToDBConnectionParams
+      (TERMINAL_ID_RETAGUARDA, FAppObj.AppInfo, FAppObj.SisConfig);
 
-  oDBConnection := DBConnectionCreate('TermEnviarDadosFrame.PreencherList.Conn',
-    FAppObj.SisConfig, oDBConnectionParams, nil, nil);
+    oDBConnection := DBConnectionCreate
+      ('TermEnviarDadosFrame.PreencherList.Conn', FAppObj.SisConfig,
+      oDBConnectionParams, nil, nil);
 
-  PreencherTerminalList(oDBConnection, FAppObj.AppInfo, FTerminalList);
+    PreencherTerminalList(oDBConnection, FAppObj.AppInfo, FTerminalList);
 
-  TermCheckListBox.Items.Clear;
-  for I := 0 to FTerminalList.Count - 1 do
-  begin
-    oTerminal := FTerminalList[I];
-    sText := oTerminal.AsText;
-    TermCheckListBox.Items.Add(sText);
+    TermCheckListBox.Items.Clear;
+    for I := 0 to FTerminalList.Count - 1 do
+    begin
+      oTerminal := FTerminalList[I];
+      sText := oTerminal.AsText;
+      TermCheckListBox.Items.Add(sText);
+    end;
+  finally
+    FStatusOutput.Exibir('Lista atualizada');
   end;
 end;
 
 procedure TTermEnviarDadosFrame.SelecionePorTerminalIds(pIds: string);
 var
   a: TArray<string>;
-  l: integer;
-  i: integer;
+  l: Integer;
+  I: Integer;
   s: string;
   iTerminalId: TTerminalId;
-  iIndice: integer;
+  iIndice: Integer;
 begin
-  a := pIds.Split([',',';']);
+  a := pIds.Split([',', ';']);
 
   l := Length(a);
   if l = 0 then
     exit;
 
-  for i := 0 to l-1 do
+  for I := 0 to l - 1 do
   begin
-    s := a[i];
+    s := a[I];
     iTerminalId := StrToInteger(s);
     iIndice := FTerminalList.TerminalIdToIndex(iTerminalId);
     if iIndice < 0 then
       continue;
 
-    TermCheckListBox.Checked[i] := True;
+    TermCheckListBox.Checked[I] := True;
   end;
 end;
 
@@ -138,34 +151,43 @@ var
   oServDBConnection: IDBConnection;
   oTermDBConnection: IDBConnection;
 
-  i: integer;
+  I: Integer;
   oTerminal: ITerminal;
   oTermEnviarDados: ITermEnviarDados;
 begin
   inherited;
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj.AppInfo, FAppObj.SisConfig);
+  TermEnviarDadosAction.Enabled := False;
+  FStatusOutput.Exibir('Iniciou o envio');
+  try
+    oDBConnectionParams := TerminalIdToDBConnectionParams
+      (TERMINAL_ID_RETAGUARDA, FAppObj.AppInfo, FAppObj.SisConfig);
 
-  oServDBConnection := DBConnectionCreate('CargaFrame.TermEnviarDados.Serv.Conn',
-    FAppObj.SisConfig, oDBConnectionParams, nil, nil);
+    oServDBConnection := DBConnectionCreate
+      ('CargaFrame.TermEnviarDados.Serv.Conn', FAppObj.SisConfig,
+      oDBConnectionParams, nil, nil);
 
-  for i := 0 to FTerminalList.Count - 1 do
-  begin
-    if not TermCheckListBox.Checked[i] then
-      continue;
+    for I := 0 to FTerminalList.Count - 1 do
+    begin
+      if not TermCheckListBox.Checked[I] then
+        continue;
 
-    oTerminal := FTerminalList.Terminal[i];
+      oTerminal := FTerminalList.Terminal[I];
 
-    oDBConnectionParams.Server := oTerminal.NomeNaRede;
-    oDBConnectionParams.Arq := oTerminal.LocalArqDados;
-    oDBConnectionParams.Database := oTerminal.Database;
+      oDBConnectionParams.Server := oTerminal.NomeNaRede;
+      oDBConnectionParams.Arq := oTerminal.LocalArqDados;
+      oDBConnectionParams.Database := oTerminal.Database;
 
+      oTermDBConnection := DBConnectionCreate
+        ('CargaFrame.TermEnviarDados.Term.Conn', FAppObj.SisConfig,
+        oDBConnectionParams, nil, nil);
 
-    oTermDBConnection := DBConnectionCreate('CargaFrame.TermEnviarDados.Term.Conn',
-    FAppObj.SisConfig, oDBConnectionParams, nil, nil);
-
-    oTermEnviarDados := TermEnviarDadosCreate(oServDBConnection, oTermDBConnection);
-    oTermEnviarDados.Execute;
+      oTermEnviarDados := TermEnviarDadosCreate(oServDBConnection,
+        oTermDBConnection);
+      oTermEnviarDados.Execute;
+    end;
+  finally
+    TermEnviarDadosAction.Enabled := True;
+    FStatusOutput.Exibir('Envio Terminado');
   end;
 end;
 

@@ -20,7 +20,6 @@ inherited TermEnviarDadosFrame: TTermEnviarDadosFrame
     Anchors = [akLeft, akBottom]
     Caption = 'Atualizar Lista'
     TabOrder = 0
-    ExplicitTop = 146
   end
   object TermCheckListBox: TCheckListBox
     Left = 0
@@ -41,7 +40,6 @@ inherited TermEnviarDadosFrame: TTermEnviarDadosFrame
     Anchors = [akLeft, akBottom]
     Caption = 'Enviar Dados'
     TabOrder = 2
-    ExplicitTop = 146
   end
   object ProgressBar1: TProgressBar
     Left = 0
@@ -50,9 +48,6 @@ inherited TermEnviarDadosFrame: TTermEnviarDadosFrame
     Height = 17
     Align = alTop
     TabOrder = 3
-    ExplicitLeft = 272
-    ExplicitTop = 136
-    ExplicitWidth = 150
   end
   object ActionList1: TActionList
     Left = 128

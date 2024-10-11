@@ -2,11 +2,12 @@ unit App.DB.Term.EnviarTabela;
 
 interface
 
-uses Sis.Sis.Executavel, Sis.DB.DBTypes;
+uses Sis.DB.DBTypes;
 
 type
-  IEnviarTabela = interface(IExecutavel)
+  IEnviarTabela = interface(IInterface)
     ['{5ADD75AF-694D-43B9-949F-A00AE09FFCD4}']
+    function Execute: Boolean;
   end;
 
 implementation

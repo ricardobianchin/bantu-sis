@@ -37,8 +37,12 @@ begin
   FTermDBConnection.Abrir;
 
   try
-    oEnviarTabela := EnviaTabelaTerminal(FServDBConnection, FTermDBConnection);
+    oEnviarTabela := EnvTabTerminal(FServDBConnection, FTermDBConnection);
     oEnviarTabela.Execute;
+
+    oEnviarTabela := EnvTabPagamentoForma(FServDBConnection, FTermDBConnection);
+    oEnviarTabela.Execute;
+
   finally
     FServDBConnection.Fechar;
     FTermDBConnection.Fechar;

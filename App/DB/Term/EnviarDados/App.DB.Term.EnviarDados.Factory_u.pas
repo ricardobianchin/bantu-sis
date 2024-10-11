@@ -6,7 +6,7 @@ uses App.DB.Term.EnviarDados, Sis.DB.DBTypes, App.DB.Term.EnviarTabela;
 
 function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
 
-function EnviaTabelaTerminal(serv, term: IDBConnection): IEnviarTabela;
+function EnvTabTerminal(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 
 implementation
 
@@ -19,9 +19,9 @@ begin
   Result := TTermEnviarDados.Create(Serv, Term);
 end;
 
-function EnviaTabelaTerminal(Serv, Term: IDBConnection): IEnviarTabela;
+function EnvTabTerminal(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 begin
-  Result := TEnviarTabelaTerminal.Create(Serv, Term);
+  Result := TEnviarTabelaTerminal.Create(pServConn, pTermConn);
 end;
 
 end.

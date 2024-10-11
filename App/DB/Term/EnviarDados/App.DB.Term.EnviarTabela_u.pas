@@ -2,31 +2,23 @@ unit App.DB.Term.EnviarTabela_u;
 
 interface
 
-uses Sis.Sis.Executavel_u, Sis.DB.DBTypes, App.DB.Term.EnviarTabela;
+uses Sis.DB.DBTypes, App.DB.Term.EnviarTabela, Data.DB;
 
 type
-  TEnviarTabela = class(TExecutavel, IEnviarTabela)
+  TEnviarTabela = class(TInterfacedObject, IEnviarTabela)
   private
-    FServDBConnection, FTermDBConnection: IDBConnection;
+  protected
   public
-    constructor Create(pServ, pTerm: IDBConnection);
-    function Execute: Boolean;
+    function Execute: Boolean; virtual;
   end;
 
 implementation
 
 { TEnviarTabela }
 
-constructor TEnviarTabela.Create(pServ, pTerm: IDBConnection);
-begin
-  inherited Create;
-  FServDBConnection := pServ;
-  FTermDBConnection := pTerm;
-end;
-
 function TEnviarTabela.Execute: Boolean;
 begin
-
+  Result := True;
 end;
 
 end.
