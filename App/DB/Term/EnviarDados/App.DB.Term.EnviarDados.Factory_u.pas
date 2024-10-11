@@ -1,0 +1,27 @@
+unit App.DB.Term.EnviarDados.Factory_u;
+
+interface
+
+uses App.DB.Term.EnviarDados, Sis.DB.DBTypes, App.DB.Term.EnviarTabela;
+
+function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
+
+function EnviaTabelaTerminal(serv, term: IDBConnection): IEnviarTabela;
+
+implementation
+
+uses App.DB.Term.EnviarDados_u //
+  , App.DB.Term.EnviarTabela.Terminal_u //
+  ; //
+
+function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
+begin
+  Result := TTermEnviarDados.Create(Serv, Term);
+end;
+
+function EnviaTabelaTerminal(Serv, Term: IDBConnection): IEnviarTabela;
+begin
+  Result := TEnviarTabelaTerminal.Create(Serv, Term);
+end;
+
+end.

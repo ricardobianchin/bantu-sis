@@ -172,7 +172,7 @@ begin
       end;
 
     end
-    else if sLinha = SYNTAX_FIREBIRD_INI then
+    else if StrSemStr(sLinha) = SYNTAX_FIREBIRD_INI then
     begin
       bPegandoCodigo := true;
     end
