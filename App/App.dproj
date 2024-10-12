@@ -564,6 +564,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Terminal_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PagamentoFormaTipo_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

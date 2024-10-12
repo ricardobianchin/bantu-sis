@@ -29,19 +29,20 @@ begin
 end;
 
 function TTermEnviarDados.Execute: Boolean;
-var
-  oEnviarTabela: IEnviarTabela;
+//var
+//  oEnviarTabela: IEnviarTabela;
 begin
   Result := true;
   FServDBConnection.Abrir;
   FTermDBConnection.Abrir;
 
   try
-    oEnviarTabela := EnvTabTerminal(FServDBConnection, FTermDBConnection);
-    oEnviarTabela.Execute;
+//    oEnviarTabela := EnvTabTerminal(FServDBConnection, FTermDBConnection);
+//    oEnviarTabela.Execute;
 
-    oEnviarTabela := EnvTabPagamentoForma(FServDBConnection, FTermDBConnection);
-    oEnviarTabela.Execute;
+    EnvTabTerminal(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabPagamentoFormaTipo(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;
