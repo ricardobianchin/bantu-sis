@@ -41,8 +41,8 @@ begin
 //    oEnviarTabela.Execute;
 
     EnvTabTerminal(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
     EnvTabPagamentoFormaTipo(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;
