@@ -25,7 +25,7 @@ type
   TRegistrosArray = Array of TRegistro;
   TResultadoBusca = (rbNaoTem, rbTemDiferente, rbTemIgual);
 
-  TEnviarTabelaTerminal = class(TEnviarTabela)
+  TEnvTabTerminal = class(TEnviarTabela)
   private
     Conn: array [TDBConnectionLocation] of IDBConnection;
     Arr: array [TDBConnectionLocation] of TRegistrosArray;
@@ -57,11 +57,11 @@ type
 
 implementation
 
-{ TEnviarTabelaTerminal }
+{ TEnvTabTerminal }
 
 uses System.SysUtils, Sis.DB.Factory, Sis.Win.Utils_u;
 
-function TEnviarTabelaTerminal.Atualizar(pLocal: TDBConnectionLocation;
+function TEnvTabTerminal.Atualizar(pLocal: TDBConnectionLocation;
   pReg: TRegistro): Boolean;
 begin
   Result := True;
@@ -81,7 +81,7 @@ begin
   FAltDBExec.Execute;
 end;
 
-function TEnviarTabelaTerminal.BusqueRegNoArr(pReg: TRegistro;
+function TEnvTabTerminal.BusqueRegNoArr(pReg: TRegistro;
   pLocal: TDBConnectionLocation): TResultadoBusca;
 var
   i: integer;
@@ -185,7 +185,7 @@ begin
   end;
 end;
 
-function TEnviarTabelaTerminal.CompareLocais: Boolean;
+function TEnvTabTerminal.CompareLocais: Boolean;
 var
   Q: TDataSet;
   sSql: string;
@@ -232,7 +232,7 @@ begin
   end;
 end;
 
-constructor TEnviarTabelaTerminal.Create(pServ, pTerm: IDBConnection);
+constructor TEnvTabTerminal.Create(pServ, pTerm: IDBConnection);
 begin
   Conn[loServ] := pServ;
   Conn[loTerm] := pTerm;
@@ -240,7 +240,7 @@ begin
   FTabelaNome := 'TERMINAL';
 end;
 
-procedure TEnviarTabelaTerminal.DataSetToItemArray
+procedure TEnvTabTerminal.DataSetToItemArray
   (pLocal: TDBConnectionLocation; Q: TDataSet; i: integer);
 var
   A: TRegistrosArray;
@@ -261,7 +261,7 @@ begin
   A[i].SEMPRE_OFFLINE := Q.Fields[12].AsBoolean;
 end;
 
-function TEnviarTabelaTerminal.DataSetToRecord(Q: TDataSet): TRegistro;
+function TEnvTabTerminal.DataSetToRecord(Q: TDataSet): TRegistro;
 begin
   Result.TERMINAL_ID := Q.Fields[0].AsInteger;
   Result.APELIDO := Trim(Q.Fields[1].AsString);
@@ -278,10 +278,7 @@ begin
   Result.SEMPRE_OFFLINE := Q.Fields[12].AsBoolean;
 end;
 
-function TEnviarTabelaTerminal.Execute: Boolean;
-var
-  sSql: string;
-  i: integer;
+function TEnvTabTerminal.Execute: Boolean;
 begin
   FiQtdRegsTerm := GetQtdRegs(loTerm);
 
@@ -292,7 +289,7 @@ begin
   Result := CompareLocais;
 end;
 
-function TEnviarTabelaTerminal.GetQtdRegs
+function TEnvTabTerminal.GetQtdRegs
   (pLocal: TDBConnectionLocation): integer;
 var
   sSql: string;
@@ -302,7 +299,7 @@ begin
   Result := Conn[pLocal].GetValueInteger(sSql);
 end;
 
-function TEnviarTabelaTerminal.GetSqlAlt: string;
+function TEnvTabTerminal.GetSqlAlt: string;
 begin
   Result := //
     'UPDATE TERMINAL SET' //
@@ -322,10 +319,9 @@ begin
 
     + ' WHERE TERMINAL_ID = :TERMINAL_ID' //
     + ';';
-
 end;
 
-function TEnviarTabelaTerminal.GetSqlIns: string;
+function TEnvTabTerminal.GetSqlIns: string;
 begin
   Result := //
     'INSERT INTO TERMINAL (' //
@@ -362,12 +358,12 @@ begin
     + ');'; //
 end;
 
-function TEnviarTabelaTerminal.GetSqlQtdRegs: string;
+function TEnvTabTerminal.GetSqlQtdRegs: string;
 begin
   Result := 'select count(*) from ' + FTabelaNome + ';';
 end;
 
-function TEnviarTabelaTerminal.GetSqlTodos: string;
+function TEnvTabTerminal.GetSqlTodos: string;
 begin
   Result := 'SELECT TERMINAL_ID, APELIDO, NOME_NA_REDE, IP, NF_SERIE,'#13#13 +
     'LETRA_DO_DRIVE, GAVETA_TEM, BALANCA_MODO_ID, BALANCA_ID,'#13#13 +
@@ -377,7 +373,7 @@ begin
     'ORDER BY TERMINAL_ID'#13#13;
 end;
 
-function TEnviarTabelaTerminal.Inserir(pLocal: TDBConnectionLocation;
+function TEnvTabTerminal.Inserir(pLocal: TDBConnectionLocation;
   pReg: TRegistro): Boolean;
 begin
   Result := True;
@@ -399,7 +395,7 @@ begin
   FInsDBExec.Execute;
 end;
 
-procedure TEnviarTabelaTerminal.PreenchaArr(pLocal: TDBConnectionLocation);
+procedure TEnvTabTerminal.PreenchaArr(pLocal: TDBConnectionLocation);
 var
   sSql: string;
   i: integer;

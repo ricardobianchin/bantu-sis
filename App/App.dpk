@@ -286,6 +286,7 @@ contains
   App.DB.Term.EnviarDados_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarDados_u.pas',
   App.DB.Term.EnviarTabela in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.pas',
   App.DB.Term.EnviarTabela.Terminal_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Terminal_u.pas',
-  App.DB.Term.EnviarTabela_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela_u.pas';
+  App.DB.Term.EnviarTabela_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela_u.pas',
+  App.DB.Term.EnviarTabela.PagamentoForma_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PagamentoForma_u.pas';
 
 end.

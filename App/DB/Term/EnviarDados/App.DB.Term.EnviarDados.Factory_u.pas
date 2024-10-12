@@ -7,11 +7,13 @@ uses App.DB.Term.EnviarDados, Sis.DB.DBTypes, App.DB.Term.EnviarTabela;
 function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
 
 function EnvTabTerminal(pServConn, pTermConn: IDBConnection): IEnviarTabela;
+function EnvTabPagamentoForma(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 
 implementation
 
 uses App.DB.Term.EnviarDados_u //
   , App.DB.Term.EnviarTabela.Terminal_u //
+  , App.DB.Term.EnviarTabela.PagamentoForma_u //
   ; //
 
 function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
@@ -21,7 +23,12 @@ end;
 
 function EnvTabTerminal(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 begin
-  Result := TEnviarTabelaTerminal.Create(pServConn, pTermConn);
+  Result := TEnvTabTerminal.Create(pServConn, pTermConn);
+end;
+
+function EnvTabPagamentoForma(pServConn, pTermConn: IDBConnection): IEnviarTabela;
+begin
+  Result := TEnvTabPagamentoForma.Create(pServConn, pTermConn);
 end;
 
 end.
