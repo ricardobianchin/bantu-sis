@@ -114,20 +114,23 @@ begin
   Result := True;
 
   sSql := GetSqlIns;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
   FInsDBExec := DBExecCreate('env.ins.exec', Conn[loTerm], sSql, nil, nil);
   FInsDBExec.Prepare;
 
   sSql := GetSqlAlt;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
   FAltDBExec := DBExecCreate('env.alt.exec', Conn[loTerm], sSql, nil, nil);
   FAltDBExec.Prepare;
 
   sSql := GetSqlTodos;
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
   Conn[loServ].QueryDataSet(sSql, Q);
   try
     while not Q.Eof do
@@ -205,7 +208,7 @@ begin
   Result := //
     'UPDATE PAGAMENTO_FORMA_TIPO SET' //
 
-    + ', DESCR = :DESCR' //
+    + ' DESCR = :DESCR' //
     + ', DESCR_RED = :DESCR_RED' //
     + ', ATIVO = :ATIVO' //
 
@@ -219,7 +222,7 @@ begin
   Result := //
     'INSERT INTO PAGAMENTO_FORMA_TIPO (' //
 
-    + ' PAGAMENTO_FORMA_TIPO_ID' //
+    + 'PAGAMENTO_FORMA_TIPO_ID' //
     + ', DESCR' //
     + ', DESCR_RED' //
     + ', ATIVO' //
