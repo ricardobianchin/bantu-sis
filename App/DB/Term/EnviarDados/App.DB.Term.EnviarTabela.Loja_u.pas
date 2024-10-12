@@ -229,6 +229,7 @@ function TEnvTabLoja.GetSqlTodos: string;
 begin
   Result := 'SELECT LOJA_ID, APELIDO, SELECIONADO' //
     + ' FROM LOJA' //
+    + ' WHERE SELECIONADO' //
     + ' ORDER BY LOJA_ID' //
     + ';'; //
 end;
