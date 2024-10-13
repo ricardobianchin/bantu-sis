@@ -188,7 +188,8 @@ begin
 
   SetLength(Arr[loTerm], FiQtdRegsTerm);
   try
-  PreenchaArr(loTerm);
+    if FiQtdRegsTerm > 0 then
+      PreenchaArr(loTerm);
 
   Result := CompareLocais;
   finally
