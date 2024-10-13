@@ -327,10 +327,13 @@ begin
   FiQtdRegsTerm := GetQtdRegs(loTerm);
 
   SetLength(Arr[loTerm], FiQtdRegsTerm);
-
+  try
   PreenchaArr(loTerm);
 
   Result := CompareLocais;
+  finally
+    SetLength(Arr[loTerm], 0);
+  end;
 end;
 
 function TEnvTabPagamentoForma.GetQtdRegs
