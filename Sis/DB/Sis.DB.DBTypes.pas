@@ -4,10 +4,14 @@ interface
 
 uses
   FireDAC.Stan.Param, System.Classes, Data.DB, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI;
+  Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI, Sis.Entities.Types;
 
 type
-  TIdLojaTermRecord = record LojaId, TerminalId: smallint; Id: integer; end;
+  TIdLojaTermRecord = record
+    LojaId: TLojaId;
+    TerminalId: TTerminalId;
+    Id: integer;
+  end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
   TProcDataSetOfObject = procedure (q: TDataSet; pRecNo: integer) of object;
