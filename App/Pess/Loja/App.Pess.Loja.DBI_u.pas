@@ -34,14 +34,13 @@ constructor TPessLojaDBI.Create(pDBConnection: IDBConnection;
   pPessLojaEnt: IPessLojaEnt);
 begin
   inherited Create(pDBConnection, pPessLojaEnt);
-  FSelecionadoFieldIndex := 32;
   FPessLojaEnt := pPessLojaEnt;
 end;
 
 procedure TPessLojaDBI.RegAtualToEnt(Q: TDataSet);
 begin
   inherited;
-  FPessLojaEnt.Selecionado := q.Fields[FSelecionadoFieldIndex {Selecionado}].AsBoolean;
+  FPessLojaEnt.Selecionado := q.FieldByName('SELECIONADO').AsBoolean;
 end;
 
 function TPessLojaDBI.GetFieldNamesListaGet: string;
@@ -65,6 +64,10 @@ begin
     + GetFieldValuesGravar
     + ');'#13#10
     ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
+
 end;
 
 function TPessLojaDBI.GetSqlPreencherDataSet(pValues: variant): string;
