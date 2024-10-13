@@ -44,6 +44,7 @@ begin
     EnvTabPagamentoFormaTipo(FServDBConnection, FTermDBConnection).Execute;
     EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
     EnvTabLoja(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabPessoa(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;
