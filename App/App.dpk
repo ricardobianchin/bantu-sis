@@ -291,6 +291,8 @@ contains
   App.DB.Term.EnviarTabela.PagamentoFormaTipo_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PagamentoFormaTipo_u.pas',
   App.DB.Term.EnviarTabela.Loja_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Loja_u.pas',
   App.DB.Term.EnviarTabela.Pessoa_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Pessoa_u.pas',
-  App.DB.Term.EnviarTabela.PessoaReg_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PessoaReg_u.pas';
+  App.DB.Term.EnviarTabela.PessoaReg_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PessoaReg_u.pas',
+  App.DB.Term.EnviarTabela.EnderecoReg_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.EnderecoReg_u.pas',
+  App.DB.Term.EnviarTabela.Endereco_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Endereco_u.pas';
 
 end.

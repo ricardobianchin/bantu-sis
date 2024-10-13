@@ -28,7 +28,9 @@ type
     procedure DataSetToItemArray(pLocal: TDBConnectionLocation; Q: TDataSet;
       i: integer);
     function GetSqlQtdRegs: string;
+    function GetSqlQtdRegsTerm: string;
     function GetSqlTodos: string;
+    function GetSqlTodosTerm: string;
     function GetSqlIns: string;
     function GetSqlAlt: string;
 
@@ -60,10 +62,13 @@ begin
   FAltDBExec.Params[7].AsString := pReg.M;
   FAltDBExec.Params[8].AsString := pReg.M_UF;
   FAltDBExec.Params[9].AsString := pReg.EMAIL;
-  FAltDBExec.Params[10].AsDate := Trunc(pReg.DT_NASC);
+
+  SetParamDateTime(FInsDBExec.Params[10], pReg.DT_NASC);
+
   FAltDBExec.Params[11].AsBoolean := pReg.ATIVO;
-  FAltDBExec.Params[12].Value := pReg.CRIADO_EM;
-  FAltDBExec.Params[13].Value := pReg.ALTERADO_EM;
+
+  SetParamDateTime(FAltDBExec.Params[12], pReg.CRIADO_EM);
+  SetParamDateTime(FAltDBExec.Params[13], pReg.ALTERADO_EM);
 
   FAltDBExec.Params[14].AsSmallInt := pReg.LOJA_ID;
   FAltDBExec.Params[15].AsSmallInt := pReg.TERMINAL_ID;
@@ -300,7 +305,8 @@ begin
 
   SetLength(Arr[loTerm], FiQtdRegsTerm);
   try
-  PreenchaArr(loTerm);
+    if FiQtdRegsTerm > 0 then
+      PreenchaArr(loTerm);
 
   Result := CompareLocais;
   finally
@@ -312,7 +318,10 @@ function TEnvTabPessoa.GetQtdRegs(pLocal: TDBConnectionLocation): integer;
 var
   sSql: string;
 begin
-  sSql := GetSqlQtdRegs;
+  if pLocal = TDBConnectionLocation.loServ then
+    sSql := GetSqlQtdRegs
+  else
+    sSql := GetSqlQtdRegsTerm;
 
   Result := Conn[pLocal].GetValueInteger(sSql);
 end;
@@ -390,7 +399,7 @@ end;
 
 function TEnvTabPessoa.GetSqlQtdRegs: string;
 begin
-   Result :=
+  Result :=
     'select count(*) from ('#13#10 //
     +'  SELECT'#13#10 //
     +'    pu.LOJA_ID,'#13#10 //
@@ -416,7 +425,7 @@ begin
     +#13#10 //
     +'UNION'#13#10 //
     +#13#10 //
-    +'  SELECT DISTINCT'#13#10 //
+    +'  SELECT'#13#10 //
     +'    pl.LOJA_ID,'#13#10 //
     +'    pl.TERMINAL_ID,'#13#10 //
     +'    pl.PESSOA_ID'#13#10 //
@@ -430,6 +439,54 @@ begin
     +'  AND PE.SELECIONADO'#13#10 //
     +') tab_pessoa;'#13#10 //
     ;
+end;
+
+function TEnvTabPessoa.GetSqlQtdRegsTerm: string;
+begin
+  Result :=
+    'select count(*) from pessoa'#13#10; //
+{
+  Result :=
+    'select count(*) from ('#13#10 //
+    +'  SELECT'#13#10 //
+    +'    pu.LOJA_ID,'#13#10 //
+    +'    pu.TERMINAL_ID,'#13#10 //
+    +'    pu.PESSOA_ID'#13#10 //
+    +'  FROM PESSOA pu'#13#10 //
+    +'  INNER JOIN USUARIO u ON'#13#10 //
+    +'    pu.LOJA_ID = u.LOJA_ID'#13#10 //
+    +'    AND pu.TERMINAL_ID = u.TERMINAL_ID'#13#10 //
+    +'    AND pu.PESSOA_ID = u.PESSOA_ID'#13#10 //
+    +#13#10 //
+    +'UNION'#13#10 //
+    +#13#10 //
+    +'  SELECT'#13#10 //
+    +'    pf.LOJA_ID,'#13#10 //
+    +'    pf.TERMINAL_ID,'#13#10 //
+    +'    pf.PESSOA_ID'#13#10 //
+    +'  FROM PESSOA pf'#13#10 //
+    +'  INNER JOIN FUNCIONARIO f ON'#13#10 //
+    +'  pf.LOJA_ID = f.LOJA_ID'#13#10 //
+    +'  AND pf.TERMINAL_ID = f.TERMINAL_ID'#13#10 //
+    +'  AND pf.PESSOA_ID = f.PESSOA_ID'#13#10 //
+    +#13#10 //
+    +'UNION'#13#10 //
+    +#13#10 //
+    +'  SELECT'#13#10 //
+    +'    pl.LOJA_ID,'#13#10 //
+    +'    pl.TERMINAL_ID,'#13#10 //
+    +'    pl.PESSOA_ID'#13#10 //
+    +'  FROM PESSOA pl'#13#10 //
+    +'  INNER JOIN LOJA_EH_PESSOA l ON'#13#10 //
+    +'  pl.LOJA_ID = l.LOJA_ID'#13#10 //
+    +'  AND pl.TERMINAL_ID = l.TERMINAL_ID'#13#10 //
+    +'  AND pl.PESSOA_ID = l.PESSOA_ID'#13#10 //
+    +'  INNER JOIN LOJA PE ON'#13#10 //
+    +'  pE.LOJA_ID = Pl.LOJA_ID'#13#10 //
+    +'  AND PE.SELECIONADO'#13#10 //
+    +') tab_pessoa;'#13#10 //
+    ;
+    }
 end;
 
 function TEnvTabPessoa.GetSqlTodos: string;
@@ -487,7 +544,7 @@ begin
     +#13#10 //
     +'UNION'#13#10 //
     +#13#10 //
-    +'  SELECT DISTINCT'#13#10 //
+    +'  SELECT'#13#10 //
     +'    pl.LOJA_ID,'#13#10 //
     +'    pl.TERMINAL_ID,'#13#10 //
     +'    pl.PESSOA_ID,'#13#10 //
@@ -520,6 +577,31 @@ begin
     ;
 end;
 
+function TEnvTabPessoa.GetSqlTodosTerm: string;
+begin
+   Result := //
+    '  SELECT'#13#10 //
+    +'    LOJA_ID,'#13#10 //
+    +'    TERMINAL_ID,'#13#10 //
+    +'    PESSOA_ID,'#13#10 //
+    +'    NOME,'#13#10 //
+    +'    NOME_FANTASIA,'#13#10 //
+    +'    APELIDO,'#13#10 //
+    +'    GENERO_ID,'#13#10 //
+    +'    ESTADO_CIVIL_ID,'#13#10 //
+    +'    C,'#13#10 //
+    +'    I,'#13#10 //
+    +'    M,'#13#10 //
+    +'    M_UF,'#13#10 //
+    +'    EMAIL,'#13#10 //
+    +'    DT_NASC,'#13#10 //
+    +'    ATIVO,'#13#10 //
+    +'    CRIADO_EM,'#13#10 //
+    +'    ALTERADO_EM'#13#10 //
+    +'  FROM PESSOA'#13#10 //
+    ;
+end;
+
 function TEnvTabPessoa.Inserir(pLocal: TDBConnectionLocation;
   pReg: TRegistro): Boolean;
 begin
@@ -537,10 +619,13 @@ begin
   FInsDBExec.Params[10].AsString := pReg.M;
   FInsDBExec.Params[11].AsString := pReg.M_UF;
   FInsDBExec.Params[12].AsString := pReg.EMAIL;
-  FInsDBExec.Params[13].AsDate := Trunc(pReg.DT_NASC);
+
+  SetParamDateTime(FInsDBExec.Params[13], pReg.DT_NASC);
+
   FInsDBExec.Params[14].AsBoolean := pReg.ATIVO;
-  FInsDBExec.Params[15].Value := pReg.CRIADO_EM;
-  FInsDBExec.Params[16].Value := pReg.ALTERADO_EM;
+
+  SetParamDateTime(FInsDBExec.Params[15], pReg.CRIADO_EM);
+  SetParamDateTime(FInsDBExec.Params[16], pReg.ALTERADO_EM);
 
   FInsDBExec.Execute;
 end;
@@ -551,7 +636,10 @@ var
   i: integer;
   Q: TDataSet;
 begin
-  sSql := GetSqlTodos;
+  if pLocal = TDBConnectionLocation.loServ then
+    sSql := GetSqlTodos
+  else
+    sSql := GetSqlTodosTerm;
 //  {$IFDEF DEBUG}
 //  CopyTextToClipboard(sSql);
 //  {$ENDIF}
