@@ -213,23 +213,23 @@ begin
   Result := True;
 
   sSql := GetSqlIns;
-  {$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-  {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
   FInsDBExec := DBExecCreate('env.ins.exec', Conn[loTerm], sSql, nil, nil);
   FInsDBExec.Prepare;
 
   sSql := GetSqlAlt;
-  {$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-  {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
   FAltDBExec := DBExecCreate('env.alt.exec', Conn[loTerm], sSql, nil, nil);
   FAltDBExec.Prepare;
 
   sSql := GetSqlTodos;
-  {$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-  {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
 
   Conn[loServ].QueryDataSet(sSql, Q);
   try
@@ -603,9 +603,9 @@ begin
     sSql := GetSqlTodos
   else
     sSql := GetSqlTodosTerm;
-  {$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-  {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
 
   Conn[pLocal].QueryDataSet(sSql, Q);
 
