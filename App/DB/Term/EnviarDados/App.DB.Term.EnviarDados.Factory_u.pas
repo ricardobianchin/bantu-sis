@@ -13,6 +13,7 @@ function EnvTabLoja(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabPessoa(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabEndereco(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabFUncionario(pServConn, pTermConn: IDBConnection): IEnviarTabela;
+function EnvTabLojaEhPessoa(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 
 implementation
 
@@ -24,6 +25,7 @@ uses App.DB.Term.EnviarDados_u //
   , App.DB.Term.EnviarTabela.Pessoa_u //
   , App.DB.Term.EnviarTabela.Endereco_u //
   , App.DB.Term.EnviarTabela.Funcionario_u //
+  , App.DB.Term.EnviarTabela.LojaEhPessoa_u //
   ; //
 
 function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
@@ -64,6 +66,11 @@ end;
 function EnvTabFUncionario(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 begin
   Result := TEnvTabFuncionario.Create(pServConn, pTermConn);
+end;
+
+function EnvTabLojaEhPessoa(pServConn, pTermConn: IDBConnection): IEnviarTabela;
+begin
+  Result := TEnvTabLojaEhPessoa.Create(pServConn, pTermConn);
 end;
 
 end.
