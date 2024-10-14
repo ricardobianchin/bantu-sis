@@ -15,6 +15,7 @@ function EnvTabEndereco(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabFUncionario(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabLojaEhPessoa(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabUsuario(pServConn, pTermConn: IDBConnection): IEnviarTabela;
+function EnvTabUsuarioPodeOpcaoSis(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 
 implementation
 
@@ -28,6 +29,7 @@ uses App.DB.Term.EnviarDados_u //
   , App.DB.Term.EnviarTabela.Funcionario_u //
   , App.DB.Term.EnviarTabela.LojaEhPessoa_u //
   , App.DB.Term.EnviarTabela.Usuario_u //
+  , App.DB.Term.EnviarTabela.UsuarioPodeOpcaoSis_u //
   ; //
 
 function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
@@ -80,5 +82,9 @@ begin
   Result := TEnvTabUsuario.Create(pServConn, pTermConn);
 end;
 
+function EnvTabUsuarioPodeOpcaoSis(pServConn, pTermConn: IDBConnection): IEnviarTabela;
+begin
+  Result := TEnvTabUsuarioPodeOpcaoSis.Create(pServConn, pTermConn);
+end;
 
 end.
