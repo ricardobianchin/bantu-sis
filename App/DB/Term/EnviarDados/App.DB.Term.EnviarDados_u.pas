@@ -40,12 +40,13 @@ begin
 //    oEnviarTabela := EnvTabTerminal(FServDBConnection, FTermDBConnection);
 //    oEnviarTabela.Execute;
 
-    EnvTabTerminal(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabPagamentoFormaTipo(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabLoja(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabPessoa(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabEndereco(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabTerminal(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabPagamentoFormaTipo(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabLoja(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabPessoa(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabEndereco(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabFuncionario(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;
