@@ -46,7 +46,6 @@ begin
     EnvTabLoja(FServDBConnection, FTermDBConnection).Execute;
     EnvTabPessoa(FServDBConnection, FTermDBConnection).Execute;
     EnvTabEndereco(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabProdPrecoTabela(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;

@@ -570,7 +570,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PessoaReg_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.EnderecoReg_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Endereco_u.pas"/>
-        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.ProdPrecoTabela_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

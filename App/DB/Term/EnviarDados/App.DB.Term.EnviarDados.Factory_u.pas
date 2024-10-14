@@ -12,7 +12,6 @@ function EnvTabPagamentoFormaTipo(pServConn, pTermConn: IDBConnection): IEnviarT
 function EnvTabLoja(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabPessoa(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 function EnvTabEndereco(pServConn, pTermConn: IDBConnection): IEnviarTabela;
-function EnvTabProdPrecoTabela(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 
 implementation
 
@@ -23,7 +22,6 @@ uses App.DB.Term.EnviarDados_u //
   , App.DB.Term.EnviarTabela.Loja_u //
   , App.DB.Term.EnviarTabela.Pessoa_u //
   , App.DB.Term.EnviarTabela.Endereco_u //
-  , App.DB.Term.EnviarTabela.ProdPrecoTabela_u //
   ; //
 
 function TermEnviarDadosCreate(serv, term: IDBConnection): ITermEnviarDados;
@@ -59,11 +57,6 @@ end;
 function EnvTabEndereco(pServConn, pTermConn: IDBConnection): IEnviarTabela;
 begin
   Result := TEnvTabEndereco.Create(pServConn, pTermConn);
-end;
-
-function EnvTabProdPrecoTabela(pServConn, pTermConn: IDBConnection): IEnviarTabela;
-begin
-  Result := TEnvTabProdPrecoTabela.Create(pServConn, pTermConn);
 end;
 
 end.
