@@ -44,6 +44,8 @@ type
     function GetSessao(Index: integer): ISessao;
     function GetCount: integer;
 
+    function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
+
   protected
     property SessaoEventos: ISessaoEventos read FSessaoEventos;
 
@@ -135,8 +137,7 @@ begin
   DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppObj.AppInfo, FAppObj.SisConfig);
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
-    FAppObj.DBMS, DBConnectionParams, FAppObj.ProcessLog,
-    FAppObj.ProcessOutput);
+    DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
 
@@ -256,18 +257,17 @@ end;
 
 procedure TSessoesFrame.ExecuteAutoLogin;
 var
-  iTipoOpcaoSisModulo: integer;
   oAction: TAction;
+  oBot: TBotaoModuloFrame;
 begin
   if not FLoginConfig.PreencheLogin then
     exit;
 
-  iTipoOpcaoSisModulo := integer(FLoginConfig.TipoOpcaoSisModulo);
-  oAction := ActionByTag(ActionList1, iTipoOpcaoSisModulo);
-  if not Assigned(oAction) then
+  oBot := GetBotByTipoOpcao(FLoginConfig.TipoOpcaoSisModulo);
+  if not Assigned(oBot) then
     exit;
 
-  oAction.Execute;
+  oBot.BotaoClick;
 end;
 
 function TSessoesFrame.ExecutouPeloShortCut(var Key: word;
@@ -300,6 +300,23 @@ end;
 function TSessoesFrame.GetAppObj: IAppObj;
 begin
   Result := FAppObj;
+end;
+
+function TSessoesFrame.GetBotByTipoOpcao(
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
+var
+  oBotaoModuloFrame: TBotaoModuloFrame;
+begin
+  Result := nil;
+
+  for oBotaoModuloFrame in FBotList do
+  begin
+    if oBotaoModuloFrame.OpcaoSisIdModulo = pTipoOpcaoSisModulo then
+    begin
+      Result := oBotaoModuloFrame;
+      break;
+    end;
+  end;
 end;
 
 function TSessoesFrame.GetCount: integer;
@@ -402,8 +419,7 @@ begin
   DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppObj.AppInfo, FAppObj.SisConfig);
   oDBConnection := DBConnectionCreate('App.Sessoes.Conn', FAppObj.SisConfig,
-    FAppObj.DBMS, DBConnectionParams, FAppObj.ProcessLog,
-    FAppObj.ProcessOutput);
+    DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
   sN := FAppObj.SisConfig.ServerMachineId.Name;
   sI := FAppObj.SisConfig.ServerMachineId.IP;
@@ -444,7 +460,7 @@ begin
         begin
           if sTit2 <> '' then
             sTit2 := sTit2 + ' ';
-          sTit2 := sTit2 + 'NF:' + oSessaoCriador.NFSerie.ToString;
+          sTit2 := sTit2 + 'NFe:' + oSessaoCriador.NFSerie.ToString;
         end;
 
         if oSessaoCriador.SempreOffline then

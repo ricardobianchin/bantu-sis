@@ -68,7 +68,7 @@ begin
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Funcionario.DataSet.Conn',
-    pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
+    pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PessFuncionarioEntCreate(pAppObj.Loja.Id, pUsuario.Id,
     pSisConfig.ServerMachineId.IdentId);
@@ -76,7 +76,7 @@ begin
 
   Result := TDataSetFormCreator.Create(TAppPessFuncionarioDataSetForm,
     pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, oEnt, oDBI);
+    pProcessLog, pOutputNotify, oEnt, oDBI, pAppObj);
 end;
 
 function OpcaoSisFuncionarioPerg(pLojaId: smallint; pPerfiDeUsoId: integer;

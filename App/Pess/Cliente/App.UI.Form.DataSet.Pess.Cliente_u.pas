@@ -9,7 +9,7 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, App.Pess.Cliente.DBI, App.Pess.Cliente.Ent,
   App.AppInfo, Sis.Config.SisConfig, Sis.Usuario, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed, App.Ent.DBI,
-  App.UI.TabSheet.DataSet.Types_u;
+  App.UI.TabSheet.DataSet.Types_u, App.AppObj;
 
 type
   TAppPessClienteDataSetForm = class(TAppPessDataSetForm)
@@ -31,7 +31,7 @@ type
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); override;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
     { Public declarations }
   end;
 
@@ -50,14 +50,14 @@ constructor TAppPessClienteDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
 begin
   FPessClienteEnt := EntEdCastToPessClienteEnt(pEntEd);
   FPessClienteDBI := EntDBICastToPessClienteDBI(pEntDBI);
 
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos);
+    pModoDataSetForm, pIdPos, pAppObj);
 
 //  AtualizaAposEd := True;
 //  iT_Selecionado := 0;

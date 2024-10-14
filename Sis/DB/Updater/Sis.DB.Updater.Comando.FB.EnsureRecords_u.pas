@@ -89,8 +89,6 @@ begin
   try
     Output.Exibir(AsText + ' Inicio');
     ProcessLog.RegistreLog(AsText + ' Inicio');
-    // ProcessLog.RegistreLog('StartTransaction');
-    // DBConnection.StartTransaction;
 
     Output.Exibir('Processando ' + FRegistrosSL.count.ToString + ' registros');
     ProcessLog.RegistreLog('Processando ' + FRegistrosSL.count.ToString +
@@ -177,15 +175,10 @@ begin
             ' Record=' + I.ToString + ' ' + E.Message;
           ProcessLog.RegistreLog(sErro);
           Output.Exibir(sErro);
-          // DBConnection.Rollback;
           raise Exception.Create(sErro);
         end;
       end;
     finally
-      // DBConnection.Commit;
-      // ProcessLog.RegistreLog('Commit');
-      // DBConnection.Abrir;
-      // DBConnection.Fechar;
     end;
   finally
     Output.Exibir('Terminado');

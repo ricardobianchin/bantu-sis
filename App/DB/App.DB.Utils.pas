@@ -11,9 +11,8 @@ function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
 
 function DataSetStateToTitulo(pDataSetState: TDataSetState): string;
 
-procedure PreencherTerminalList(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
-  pDBMS: IDBMS; pDBConnectionParams: TDBConnectionParams;
-  pNomeDaMaquina: string; pTerminalList: ITerminalList);
+procedure PreencherTerminalList(pDBConnection: IDBConnection;pAppInfo: IAppInfo;
+  pTerminalList: ITerminalList; pNomeDaMaquina: string = '');
 
 implementation
 
@@ -34,6 +33,8 @@ begin
   begin
     Result.Server := pSisConfig.ServerMachineId.Name;
     Result.Arq := pAppInfo.PastaDados + 'RETAG.FDB';
+
+    Result.Arq[1] := pSisConfig.ServerLetraDoDrive;
     Result.Database := Result.Server + ':' + Result.Arq;
     exit;
   end;
@@ -77,20 +78,16 @@ begin
   end;
 end;
 
-procedure PreencherTerminalList(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
-  pDBMS: IDBMS; pDBConnectionParams: TDBConnectionParams;
-  pNomeDaMaquina: string; pTerminalList: ITerminalList);
+procedure PreencherTerminalList(pDBConnection: IDBConnection;pAppInfo: IAppInfo;
+  pTerminalList: ITerminalList; pNomeDaMaquina: string);
 var
   sSql: string;
-  oDBConnectio: IDBConnection;
   q: TDataSet;
   oTerminal: ITerminal;
   sNomeArq: string;
 begin
   pTerminalList.Clear;
-  oDBConnectio := DBConnectionCreate('PreencherTerminalList.conn', pSisConfig,
-    pDBMS, pDBConnectionParams, nil, nil);
-  if not oDBConnectio.Abrir then
+  if not pDBConnection.Abrir then
     exit;
   try
     sSql := 'SELECT'#13#10 //
@@ -108,17 +105,23 @@ begin
       + ', CUPOM_NLINS_FINAL'#13#10 // 11
       + ', SEMPRE_OFFLINE'#13#10 // 12
       + ' FROM TERMINAL'#13#10 // 13
-      + ' where NOME_NA_REDE=' + pNomeDaMaquina.QuotedString // 14
-      + 'ORDER BY TERMINAL_ID'#13#10; // 15
+      ;
 
-    oDBConnectio.QueryDataSet(sSql, q);
+    if pNomeDaMaquina <> '' then
+      sSql := sSql + ' where NOME_NA_REDE=' + pNomeDaMaquina.QuotedString+#13#10 //
+      ;
+
+    sSql := sSql + 'ORDER BY TERMINAL_ID'#13#10; //
+
+    pDBConnection.QueryDataSet(sSql, q);
     while not q.Eof do
     begin
       oTerminal := TerminalCreate;
       pTerminalList.Add(oTerminal);
       oTerminal.TerminalId := q.Fields[0].AsInteger;
       oTerminal.Apelido := Trim(q.Fields[1].AsString);
-      oTerminal.NomeNaRede := pNomeDaMaquina;
+      oTerminal.NomeNaRede := Trim(q.Fields[2].AsString);
+      oTerminal.IP := Trim(q.Fields[3].AsString);
       oTerminal.NFSerie := q.Fields[4].AsInteger;
       oTerminal.LetraDoDrive := Trim(q.Fields[5].AsString);
 
@@ -127,12 +130,12 @@ begin
       sNomeArq[1] := oTerminal.LetraDoDrive[1];
 
       oTerminal.LocalArqDados := sNomeArq;
-      oTerminal.Database := oTerminal.NomeNaRede+':'+sNomeArq;
+      oTerminal.Database := oTerminal.NomeNaRede + ':' + sNomeArq;
 
       q.Next;
     end;
   finally
-    oDBConnectio.Fechar;
+    pDBConnection.Fechar;
   end;
 end;
 

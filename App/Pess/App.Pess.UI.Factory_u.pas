@@ -61,7 +61,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     pAppObj.AppInfo, pSisConfig);
 
-  oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig, pDBMS,
+  oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig,
     oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PessLojaEntCreate(pAppObj.Loja.Id, pUsuario.Id,  pSisConfig.ServerMachineId.IdentId);
@@ -69,7 +69,7 @@ begin
 
   Result := TDataSetFormCreator.Create(TAppPessLojaDataSetForm,
     pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, oEnt, oDBI);
+    pProcessLog, pOutputNotify, oEnt, oDBI, pAppObj);
 end;
 
 {$ENDREGION}

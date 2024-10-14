@@ -540,6 +540,42 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>TerminalEdDiagForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarDados.Frame_u.pas">
+            <Form>TermEnviarDadosFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import_u.pas"/>
+        <DCCReference Include="DB\DBConnections\App.DB.DBConnectionList.pas"/>
+        <DCCReference Include="DB\DBConnections\App.DB.DBConnectionList_u.pas"/>
+        <DCCReference Include="DB\DBConnections\App.DB.DBIntegracao.pas"/>
+        <DCCReference Include="DB\Term\App.DB.Term.Utils_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\App.Testes.Config.ModuRetag.Ajuda.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\App.Testes.Config.ModuRetag.Ajuda_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\App.Testes.Config.ModuRetag.Ajuda.BemVindo.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\Terminais\App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\Terminais\App.Testes.Config.ModuRetag.Ajuda.BemVindo.Terminais_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Ajuda\BemVindo\App.Testes.Config.ModuRetag.Ajuda.BemVindo_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarDados.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarDados.Factory_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarDados_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Terminal_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PagamentoFormaTipo_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Loja_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Pessoa_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.PessoaReg_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.EnderecoReg_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Endereco_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Funcionario_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.LojaEhPessoa_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Usuario_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.UsuarioPodeOpcaoSis_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSis_u.pas"/>
+        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

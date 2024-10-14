@@ -7,7 +7,7 @@ uses App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
   App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes,
   App.UI.Form.DataSet.Acesso.PerfilDeUso_u, App.Acesso.PerfilDeUso.Ent,
   App.Acesso.PerfilDeUso.DBI, App.Acesso.PerfilDeUso.Ent.Factory_u, Sis.Types,
-  VCL.Controls, VCL.Forms;
+  VCL.Controls, VCL.Forms, App.AppObj;
 
 function PerfilDeUsoEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
   pPerfilDeUso: IEntEd; pPerfilDeUsoDBI: IEntDBI): TEdBasForm;
@@ -17,7 +17,7 @@ function PerfilDeUsoPerg(AOwner: TComponent; pAppInfo: IAppInfo;
 
 function PerfilDeUsoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj)
   : IFormCreator;
 
 function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;
@@ -53,7 +53,7 @@ end;
 
 function PerfilDeUsoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj)
   : IFormCreator;
 var
   oEnt: IPerfilDeUsoEnt;
@@ -65,14 +65,14 @@ begin
     pAppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.PerfilDeUso.DataSet.Conn',
-    pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
+    pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PerfilDeUsoEntCreate;
   oDBI := PerfilDeUsoDBICreate(oDBConnection, oEnt);
 
   Result := TDataSetFormCreator.Create(TPerfilDeUsoDataSetForm,
     pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, oEnt, oDBI);
+    pProcessLog, pOutputNotify, oEnt, oDBI, pAppObj);
 end;
 
 function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;

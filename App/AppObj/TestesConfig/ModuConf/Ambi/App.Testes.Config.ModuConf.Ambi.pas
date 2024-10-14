@@ -2,7 +2,9 @@ unit App.Testes.Config.ModuConf.Ambi;
 
 interface
 
-uses App.Testes.Config.ModuConf.Ambi.Loja;
+uses //
+  App.Testes.Config.ModuConf.Ambi.Loja //
+  ; //
 
 type
   ITesteConfigModuConfAmbi = interface(IInterface)

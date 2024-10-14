@@ -97,6 +97,14 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
       end
     end
   end
+  object TerminaisGroupBox: TGroupBox [3]
+    Left = 8
+    Top = 21
+    Width = 377
+    Height = 164
+    Caption = 'Terminais'
+    TabOrder = 2
+  end
   inherited ShowTimer_BasForm: TTimer
     Left = 384
     Top = 96

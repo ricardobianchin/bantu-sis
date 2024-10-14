@@ -11,9 +11,10 @@ uses
   App.Acesso.PerfilDeUso.Ent, App.AppInfo, Sis.Config.SisConfig, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
   App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client,
-   FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  App.AppObj;
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)
@@ -43,7 +44,7 @@ type
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); override;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
   end;
 
 var
@@ -63,11 +64,11 @@ constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos);
+    pModoDataSetForm, pIdPos, pAppObj);
   FPerfilDeUsoEnt := EntEdCastToPerfilDeUsoEnt(pEntEd);
 end;
 
@@ -139,8 +140,8 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TPerfilDeUsoDataSetForm.OpcaoSisAction_PerfilDeUsoDataSetFormExecute(
-  Sender: TObject);
+procedure TPerfilDeUsoDataSetForm.OpcaoSisAction_PerfilDeUsoDataSetFormExecute
+  (Sender: TObject);
 var
   iPerfilDeUsoId: integer;
   sPerfilDeUsoNome: string;
@@ -149,8 +150,8 @@ begin
   iPerfilDeUsoId := FDMemTable.Fields[0].AsInteger;
   sPerfilDeUsoNome := Trim(FDMemTable.Fields[1].AsString);
 
-  OpcaoSisPerfilUsoPerg(iPerfilDeUsoId, sPerfilDeUsoNome, AppInfo, SisConfig,
-    DBMS);
+  OpcaoSisPerfilUsoPerg(iPerfilDeUsoId, sPerfilDeUsoNome, AppInfo,
+    SisConfig, DBMS);
 end;
 
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;
@@ -171,7 +172,8 @@ begin
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
-  ToolBarAddButton(OpcaoSisAction_PerfilDeUsoDataSetForm, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(OpcaoSisAction_PerfilDeUsoDataSetForm,
+    TitToolBar1_BasTabSheet);
 end;
 
 end.

@@ -2,7 +2,7 @@ unit Sis.Types.Utils_u;
 
 interface
 
-uses System.UITypes;
+uses System.UITypes, Data.FmtBcd;
 
 const
   ZERO_CURRENCY: currency = 0.0;
@@ -19,6 +19,9 @@ const
   CHAR_NULO: char = #0;
   sNOVALIN = sLineBreak;
   CHAR_TAB: char = #9;
+
+type
+  TPreco = TBcd;
 
 function ObterHierarquiaDeClasses(pClasse: TClass): string;
 

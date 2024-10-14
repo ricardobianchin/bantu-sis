@@ -124,11 +124,27 @@ begin
 end;
 
 procedure TConfigModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  i: integer;
+  sText: string;
 begin
   inherited;
   ClearStyleElements(Self);
   if AppObj.AppTestesConfig.ModuConf.Ambi.Loja.AutoExec then
     ConfigAmbiLojasAction.Execute;
+
+  if AppObj.AppTestesConfig.ModuConf.Import.AutoExec then
+  begin
+    MenuPageControl.ActivePage := ConfigImportTabSheet;
+
+    sText := DBImportOrigemComboBox.Text;
+    i := DBImportOrigemComboBox.Items.IndexOf(sText);
+    if i >= 0 then
+    begin
+      DBImportOrigemComboBox.ItemIndex := i;
+      ConfigDBImportAbrirAction.Execute;
+    end;
+  end;
 end;
 
 procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);

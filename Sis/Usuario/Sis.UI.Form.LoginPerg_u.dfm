@@ -69,55 +69,53 @@ inherited LoginPergForm: TLoginPergForm
     Visible = False
     StyleElements = []
   end
-  object TipoPanel: TPanel [5]
-    Left = 0
-    Top = 0
-    Width = 424
-    Height = 19
-    Align = alTop
-    BevelOuter = bvNone
-    Caption = ' '
-    TabOrder = 3
-    ExplicitWidth = 420
-    object ModoTitLabel: TLabel
-      Left = 0
-      Top = 0
-      Width = 9
-      Height = 19
-      Align = alLeft
-      Caption = '   '
-      ExplicitHeight = 15
-    end
-    object LoginPergModoLabel: TLabel
-      Left = 9
-      Top = 0
-      Width = 415
-      Height = 19
-      Align = alClient
-      Caption = 'LoginPergModoLabel'
-      ExplicitLeft = 38
-      ExplicitWidth = 114
-      ExplicitHeight = 15
-    end
-  end
-  object Senha3LabeledEdit: TLabeledEdit [6]
+  object Senha1LabeledEdit: TLabeledEdit [5]
     Left = 27
-    Top = 210
+    Top = 100
     Width = 300
     Height = 23
-    EditLabel.Width = 77
+    EditLabel.Width = 32
     EditLabel.Height = 15
-    EditLabel.Caption = 'Repita a Senha'
+    EditLabel.Caption = 'Senha'
     MaxLength = 20
     PasswordChar = '*'
-    TabOrder = 5
+    TabOrder = 2
     Text = ''
-    Visible = False
     OnChange = Senha1LabeledEditChange
-    OnExit = Senha3LabeledEditExit
-    OnKeyPress = Senha3LabeledEditKeyPress
+    OnExit = Senha1LabeledEditExit
+    OnKeyPress = Senha1LabeledEditKeyPress
   end
-  object Senha2LabeledEdit: TLabeledEdit [7]
+  object NomeDeUsuarioLabeledEdit: TLabeledEdit [6]
+    Left = 27
+    Top = 45
+    Width = 300
+    Height = 23
+    EditLabel.Width = 92
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Nome de Usu'#225'rio'
+    MaxLength = 20
+    TabOrder = 1
+    Text = ''
+    OnChange = NomeDeUsuarioLabeledEditChange
+    OnExit = NomeDeUsuarioLabeledEditExit
+    OnKeyPress = NomeDeUsuarioLabeledEditKeyPress
+  end
+  object UsuGerenteExibSenhaCheckBox: TCheckBox [7]
+    Left = 8
+    Top = 251
+    Width = 97
+    Height = 17
+    Caption = 'E&xibir senha'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 6
+    OnClick = UsuGerenteExibSenhaCheckBoxClick
+  end
+  object Senha2LabeledEdit: TLabeledEdit [8]
     Left = 27
     Top = 155
     Width = 300
@@ -134,51 +132,58 @@ inherited LoginPergForm: TLoginPergForm
     OnExit = Senha2LabeledEditExit
     OnKeyPress = Senha2LabeledEditKeyPress
   end
-  object Senha1LabeledEdit: TLabeledEdit [8]
+  object Senha3LabeledEdit: TLabeledEdit [9]
     Left = 27
-    Top = 100
+    Top = 210
     Width = 300
     Height = 23
-    EditLabel.Width = 32
+    EditLabel.Width = 77
     EditLabel.Height = 15
-    EditLabel.Caption = 'Senha'
+    EditLabel.Caption = 'Repita a Senha'
     MaxLength = 20
     PasswordChar = '*'
-    TabOrder = 2
+    TabOrder = 5
     Text = ''
+    Visible = False
     OnChange = Senha1LabeledEditChange
-    OnExit = Senha1LabeledEditExit
-    OnKeyPress = Senha1LabeledEditKeyPress
+    OnExit = Senha3LabeledEditExit
+    OnKeyPress = Senha3LabeledEditKeyPress
   end
-  object UsuGerenteExibSenhaCheckBox: TCheckBox [9]
-    Left = 8
-    Top = 251
-    Width = 97
-    Height = 17
-    Caption = 'E&xibir senha'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 6
-    OnClick = UsuGerenteExibSenhaCheckBoxClick
-  end
-  object NomeDeUsuarioLabeledEdit: TLabeledEdit [10]
-    Left = 27
-    Top = 45
-    Width = 300
-    Height = 23
-    EditLabel.Width = 92
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Nome de Usu'#225'rio'
-    MaxLength = 20
-    TabOrder = 1
-    Text = ''
-    OnChange = NomeDeUsuarioLabeledEditChange
-    OnExit = NomeDeUsuarioLabeledEditExit
-    OnKeyPress = NomeDeUsuarioLabeledEditKeyPress
+  object TipoPanel: TPanel [10]
+    Left = 0
+    Top = 0
+    Width = 424
+    Height = 22
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 3
+    object ModoTitLabel: TLabel
+      Left = 0
+      Top = 0
+      Width = 9
+      Height = 22
+      Align = alLeft
+      Caption = '   '
+      ExplicitHeight = 15
+    end
+    object LoginPergModoLabel: TLabel
+      Left = 9
+      Top = 0
+      Width = 415
+      Height = 22
+      Align = alClient
+      Caption = 'LoginPergModoLabel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 7798858
+      Font.Height = -15
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      StyleElements = []
+      ExplicitWidth = 142
+      ExplicitHeight = 20
+    end
   end
   inherited BasePanel: TPanel
     Top = 336
@@ -189,19 +194,19 @@ inherited LoginPergForm: TLoginPergForm
       424
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 141
-      ExplicitLeft = 137
+      Left = 137
+      ExplicitLeft = 133
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 254
-      ExplicitLeft = 250
+      Left = 250
+      ExplicitLeft = 246
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 334
-      ExplicitLeft = 330
+      Left = 330
+      ExplicitLeft = 326
     end
     object SenhaMudarBitBtn_LoginPerg: TBitBtn
-      Left = 39
+      Left = 35
       Top = 6
       Width = 96
       Height = 25
@@ -209,7 +214,7 @@ inherited LoginPergForm: TLoginPergForm
       Caption = 'Alterar a Senha'
       TabOrder = 3
       OnClick = MensCopyAct_DiagExecute
-      ExplicitLeft = 35
+      ExplicitLeft = 31
     end
   end
   inherited ShowTimer_BasForm: TTimer

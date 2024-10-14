@@ -47,7 +47,7 @@ begin
     FAppInfo, FSisConfig);
 
   oDBConnection := DBConnectionCreate('TSisConfigDBI.LerMachineIdent.Conn',
-    FSisConfig, FDBMS, oDBConnectionParams, FProcessLog, FOutput);
+    FSisConfig, oDBConnectionParams, FProcessLog, FOutput);
 
   oDBConnection.Abrir;
   try

@@ -29,7 +29,7 @@ implementation
 { TPessDBI }
 
 uses App.PessEnder, App.Pess.Loja.Ent.Factory_u, System.SysUtils,
-  Sis.Types.Dates, Sis.Types.Bool_u, App.Pess.Ent.Factory_u;
+  Sis.Types.Dates, Sis.Types.Bool_u, App.Pess.Ent.Factory_u, Sis.Win.Utils_u;
 
 constructor TPessDBI.Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
 begin
@@ -269,7 +269,9 @@ begin
   aValores[2] := FPessEnt.Id;
 
   sSql := GetSqlPreencherDataSet(aValores);
-
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, Q);

@@ -4,13 +4,17 @@ interface
 
 uses
   FireDAC.Stan.Param, System.Classes, Data.DB, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI;
+  Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI, Sis.Entities.Types;
 
 type
-  TIdLojaTermRecord = record LojaId, TerminalId: smallint; Id: integer; end;
+  TIdLojaTermRecord = record
+    LojaId: TLojaId;
+    TerminalId: TTerminalId;
+    Id: integer;
+  end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
-  TProcDataSetOfObject = procedure (q: TDataSet; pRecNo: integer) of object;
+  TProcDataSetOfObject = procedure(q: TDataSet; pRecNo: integer) of object;
 
   TDBVersion = double;
 
@@ -26,20 +30,24 @@ type
 
   TFirebirdVersion = TDBVersion;
 
+procedure SetParamDateTime(pFDParam: TFDParam; pDt: TDateTime);
+
 const
   DBFrameworkNames: array [TDBFramework] of string = ('NAOINDICADO', 'FIREDAC');
 
   DBMSNames: array [TDBMSType] of string = ('NAOINDICADO', 'FIREBIRD', 'MYSQL',
     'POSTGRESQL', 'ORACLE', 'SQLSERVER', 'SQLITE');
 
-  ID_INT_INVALIDA: Integer = 0;
+  ID_INT_INVALIDA: integer = 0;
   ID_CHAR_INVALIDA: Char = #32;
+
 type
   IDBMSConfig = interface(IConfigXMLI)
     ['{5A1A706A-6F4C-43B8-9F12-D815CC4B23D0}']
     function GetPausaAntesExec: boolean;
     procedure SetPausaAntesExec(Value: boolean);
-    property PausaAntesExec: boolean read GetPausaAntesExec write SetPausaAntesExec;
+    property PausaAntesExec: boolean read GetPausaAntesExec
+      write SetPausaAntesExec;
   end;
 
   // DBMS (Database Management System)
@@ -64,20 +72,19 @@ type
   // DBMS (Database Management System)
   IDBMS = interface(IInterface)
     ['{538EDEC7-A17C-4F0B-80C0-F55CE89435AB}']
-//    function LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB): TDBConnectionParams;
-//    function LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
-//    function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
-//    function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
+    // function LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB): TDBConnectionParams;
+    // function LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
+    // function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
+    // function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
-    function GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput): boolean;
-//    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
-//      pOutput: IOutput): boolean;
+    function GarantirDBMSInstalado(pProcessLog: IProcessLog;
+      pOutput: IOutput): boolean;
+    // function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
+    // pOutput: IOutput): boolean;
 
     // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
-    procedure ExecInterative(pAssunto: string; pSql: string;
-      pNomeBanco: string;
-      pPastaComandos: string;
-      pProcessLog: IProcessLog;
+    procedure ExecInterative(pAssunto: string; pSql: string; pNomeBanco: string;
+      pPastaComandos: string; pProcessLog: IProcessLog;
       pOutput: IOutput); overload;
 
     function GetVendorHome: string;
@@ -166,7 +173,7 @@ function StrToDBMSType(pStr: string): TDBMSType;
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, Data.SqlTimSt;
 
 function StrToDBFramework(pStr: string): TDBFramework;
 begin
@@ -202,6 +209,28 @@ var
 begin
   sNome := ChangeFileExt(ExtractFileName(Arq), '');
   Result := sNome;
+end;
+
+procedure SetParamDateTime(pFDParam: TFDParam; pDt: TDateTime);
+begin
+  if pDt = 0 then
+  begin
+    pFDParam.Clear;
+    exit;
+  end;
+
+  case pFDParam.DataType of
+    ftDate:
+      pFDParam.AsDate := Trunc(pDt);
+    ftTime:
+      pFDParam.AsTime := Frac(pDt);
+    ftDateTime:
+      pFDParam.AsDateTIme := pDt;
+    ftTimeStamp:
+      pFDParam.AsSQLTimeStamp := DateTimeToSQLTimeStamp(pDt);
+    else //ftTimeStampOffset:
+      pFDParam.Value := pDt;
+  end;
 end;
 
 end.

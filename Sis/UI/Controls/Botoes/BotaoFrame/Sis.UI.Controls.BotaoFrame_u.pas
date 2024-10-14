@@ -37,6 +37,8 @@ type
     property Tit2: string read GetTit2 write SetTit2;
     property OnBotaoClick: TNotifyEvent read GetOnBotaoClick write SetOnBotaoClick;
     property ShortCut: TShortCut read FShortCut write FShortCut;
+
+    procedure BotaoClick;
   end;
 
 var
@@ -49,6 +51,14 @@ implementation
 uses Sis.UI.Controls.Utils;
 
 { TBotaoModuloFrame }
+
+procedure TBotaoFrame.BotaoClick;
+begin
+  if not Assigned(FOnBotaoClick) then
+   exit;
+
+  FOnBotaoClick(Self);
+end;
 
 constructor TBotaoFrame.Create(AOwner: TComponent);
 begin

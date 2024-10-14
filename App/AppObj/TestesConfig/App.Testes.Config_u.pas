@@ -25,6 +25,10 @@ type
       , ModuConf_Ambi_Node //
       , ModuConf_Ambi_Loja_Node //
       , ModuConf_Ambi_Loja_AutoExec_Node //
+
+      , ModuConf_Import_Node //
+      , ModuConf_Import_AutoExec_Node //
+      , ModuConf_Import_Origem_Node //
       : IXMLNODE; //
 
     ModuRetagNode //
@@ -38,6 +42,12 @@ type
       , ModuRetag_Est_Node //
       , ModuRetag_Est_Cliente_Node //
       , ModuRetag_Est_Cliente_AutoExec_Node //
+
+      , ModuRetag_Ajuda_Node //
+      , ModuRetag_Ajuda_BemVindo_Node //
+      , ModuRetag_Ajuda_BemVindo_Terminais_Node //
+      , ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node //
+      , ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node //
 
       : IXMLNODE; //
 
@@ -121,6 +131,13 @@ begin
             ('autoexec');
         end;
       end;
+
+      ModuConf_Import_Node := ModuConfNode.AddChild('import');
+      begin
+        ModuConf_Import_AutoExec_Node := ModuConf_Import_Node.AddChild
+          ('autoexec');
+        ModuConf_Import_Origem_Node := ModuConf_Import_Node.AddChild('origem');
+      end;
     end;
   end;
 
@@ -155,6 +172,19 @@ begin
             ModuRetag_Est_Cliente_Node.AddChild('autoexec');
         end;
       end;
+
+      ModuRetag_Ajuda_Node := ModuRetagNode.AddChild('ajuda');
+      begin
+        ModuRetag_Ajuda_BemVindo_Node := ModuRetag_Ajuda_Node.AddChild
+          ('bemvindo');
+        begin
+          ModuRetag_Ajuda_BemVindo_Terminais_Node := ModuRetag_Ajuda_BemVindo_Node.AddChild('terminais');
+          begin
+            ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.AddChild('autoexec');
+            ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.AddChild('select_terminal_ids');
+          end;
+        end;
+      end;
     end;
   end;
 
@@ -165,17 +195,39 @@ begin
     end;
   end;
 
+  // conf
   ModuConf_Ambi_Loja_AutoExec_Node.Text :=
     BooleanToStr(FModuConf.Ambi.Loja.AutoExec);
 
+  ModuConf_Import_AutoExec_Node.Text := BooleanToStr(FModuConf.Import.AutoExec);
+  ModuConf_Import_Origem_Node.Text := AnsiUpperCase(FModuConf.Import.Origem);
+
+  // retag
+
+  // retag acesso
+
+  // retag acesso perfil de uso
   ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Acesso.PerfilDeUso.AutoExec);
 
+  // retag acess funcionario
   ModuRetag_Acesso_Funcionario_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Acesso.Funcionario.AutoExec);
 
+
+  // retag est
+
+  // retag est cliente
   ModuRetag_Est_Cliente_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Est.Cliente.AutoExec);
+
+  // retag ajuda
+
+  // retag ajuda bemvindo
+
+  // retab ajuda bemvindo terminais
+  ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node.Text := BooleanToStr(FModuRetag.Ajuda.BemVindo.Terminais.AutoExec);
+  ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node.Text :=  FModuRetag.Ajuda.BemVindo.Terminais.SelectTerminalIds;
 
   App_ExecsAtu_Node.Text := BooleanToStr(FApp.ExecsAtu);
 end;
@@ -198,6 +250,16 @@ begin
           ModuConf_Ambi_Loja_AutoExec_Node := ModuConf_Ambi_Loja_Node.ChildNodes
             ['autoexec'];
         end;
+      end;
+    end;
+
+    begin
+      ModuConf_Import_Node := ModuConfNode.ChildNodes['import'];
+      begin
+        ModuConf_Import_AutoExec_Node := ModuConf_Import_Node.ChildNodes
+          ['autoexec'];
+        ModuConf_Import_Origem_Node := ModuConf_Import_Node.ChildNodes
+          ['origem'];
       end;
     end;
   end;
@@ -233,6 +295,20 @@ begin
         end;
       end;
     end;
+
+    begin
+      ModuRetag_Ajuda_Node := ModuRetagNode.ChildNodes['ajuda'];
+      begin
+        ModuRetag_Ajuda_BemVindo_Node := ModuRetag_Ajuda_Node.ChildNodes['bemvindo'];
+        begin
+          ModuRetag_Ajuda_BemVindo_Terminais_Node := ModuRetag_Ajuda_BemVindo_Node.ChildNodes['terminais'];
+          begin
+            ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.ChildNodes['autoexec'];
+            ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.ChildNodes['select_terminal_ids'];
+          end;
+        end;
+      end;
+    end;
   end;
 
   App_Node := RootNode.ChildNodes['app'];
@@ -242,9 +318,19 @@ begin
     end;
   end;
 
+  // conf
+  // conf ambi loja
   s := ModuConf_Ambi_Loja_AutoExec_Node.Text;
   FModuConf.Ambi.Loja.AutoExec := StrToBoolean(s);
 
+  // conf import
+  s := ModuConf_Import_AutoExec_Node.Text;
+  FModuConf.Import.AutoExec := StrToBoolean(s);
+
+  s := AnsiUpperCase(ModuConf_Import_Origem_Node.Text);
+  FModuConf.Import.Origem := s;
+
+  // retag
   s := ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text;
   FModuRetag.Acesso.PerfilDeUso.AutoExec := StrToBoolean(s);
 
@@ -254,6 +340,16 @@ begin
   s := ModuRetag_Est_Cliente_AutoExec_Node.Text;
   FModuRetag.Est.Cliente.AutoExec := StrToBoolean(s);
 
+  // retag ajuda bemvindo terminais
+
+  s := ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node.Text;
+  FModuRetag.Ajuda.BemVindo.Terminais.AutoExec := StrToBoolean(s);
+
+  s := ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node.Text;
+  FModuRetag.Ajuda.BemVindo.Terminais.SelectTerminalIds := s;
+
+
+  // atu
   s := App_ExecsAtu_Node.Text;
   FApp.ExecsAtu := StrToBoolean(s);
 end;

@@ -17,8 +17,7 @@ function ClientePerg(AOwner: TComponent; pAppInfo: IAppInfo;
 
 function ClienteDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
-  : IFormCreator;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput): IFormCreator;
 
 function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pClienteNome: string;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS): boolean;
@@ -50,8 +49,7 @@ end;
 
 function ClienteDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput)
-  : IFormCreator;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput): IFormCreator;
 var
   oEnt: IPessClienteEnt;
   oDBI: IPessClienteDBI;
@@ -62,7 +60,7 @@ begin
     pAppObj.AppInfo, pSisConfig);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Cliente.DataSet.Conn',
-    pSisConfig, pDBMS, oDBConnectionParams, pProcessLog, pOutput);
+    pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
   oEnt := PessClienteEntCreate(pAppObj.Loja.Id, pUsuario.Id,
     pSisConfig.ServerMachineId.IdentId);
@@ -70,7 +68,7 @@ begin
 
   Result := TDataSetFormCreator.Create(TAppPessClienteDataSetForm,
     pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, oEnt, oDBI);
+    pProcessLog, pOutputNotify, oEnt, oDBI, pAppObj);
 end;
 
 function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pClienteNome: string;

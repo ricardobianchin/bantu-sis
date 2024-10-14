@@ -10,7 +10,7 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, App.Pess.Loja.DBI, App.Pess.Loja.Ent, App.AppInfo,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.Usuario, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed,
-  App.Ent.DBI, App.Pess.Loja.Ent.Factory_u;
+  App.Ent.DBI, App.Pess.Loja.Ent.Factory_u, App.AppObj;
 
 type
   TAppPessLojaDataSetForm = class(TAppPessDataSetForm)
@@ -39,7 +39,7 @@ type
       pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer); override;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
   end;
 
 var
@@ -55,7 +55,7 @@ constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
   pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
 begin
   FLojaIdUltima := 0;
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
@@ -63,7 +63,7 @@ begin
 
   inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos);
+    pModoDataSetForm, pIdPos, pAppObj);
 
   AtualizaAposEd := True;
   iT_Selecionado := 0;

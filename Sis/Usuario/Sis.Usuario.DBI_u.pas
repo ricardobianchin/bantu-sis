@@ -78,9 +78,9 @@ begin
     + ', ' + pOpcaoSisIdModuloTentando.ToString + ' -- OPCAO_SIS_ID'#13#10 //
 
     + ');'; //
-  {$IFDEF DEBUG}
-    SetClipboardText(sSql);
-  {$ENDIF}
+//  {$IFDEF DEBUG}
+//    SetClipboardText(sSql);
+//  {$ENDIF}
   try
     try
       DBConnection.QueryDataSet(sSql, q);
