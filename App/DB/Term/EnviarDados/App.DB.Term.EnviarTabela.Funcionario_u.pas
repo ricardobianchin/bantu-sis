@@ -23,7 +23,6 @@ TRegistrosArray = Array of TRegistro;
     FiQtdRegsTerm: integer;
     FTabelaNome: string;
     FInsDBExec: IDBExec;
-    //FAltDBExec: IDBExec;
     function DataSetToRecord(Q: TDataSet): TRegistro;
     function Inserir(pLocal: TDBConnectionLocation; pReg: TRegistro): Boolean;
     function Atualizar(pLocal: TDBConnectionLocation; pReg: TRegistro): Boolean;
@@ -59,16 +58,6 @@ function TEnvTabFuncionario.Atualizar(pLocal: TDBConnectionLocation;
   pReg: TRegistro): Boolean;
 begin
   Result := True;
-  {
-  FAltDBExec.Params[0].AsString := pReg.APELIDO;
-  FAltDBExec.Params[1].AsBoolean := pReg.SELECIONADO;
-  FAltDBExec.Params[2].AsSmallInt := pReg.LOJA_ID;
-  FAltDBExec.Execute;
-
-    LOJA_ID: TLojaId;
-    TERMINAL_ID: TTerminalId;
-    PESSOA_ID: integer;
-  }
 end;
 
 function TEnvTabFuncionario.BusqueRegNoArr(pReg: TRegistro;
@@ -79,20 +68,13 @@ var
   Iguais: Boolean;
 begin
   Result := TResultadoBusca.rbNaoTem;
+
   for i := 0 to Length(Arr[pLocal]) - 1 do
   begin
     RegAtual := Arr[pLocal][i];
     if pReg.MesmoCod(RegAtual) then
     begin
       Result := TResultadoBusca.rbTemIgual;
-      {
-      Iguais := RegAtual.APELIDO = pReg.APELIDO;
-      if not Iguais then
-      begin
-        Result := TResultadoBusca.rbTemDiferente;
-        break;
-      end;
-      }
 
       break;
     end;
@@ -145,7 +127,6 @@ begin
   finally
     Q.Free;
     FInsDBExec.Unprepare;
-//    FAltDBExec.Unprepare;
   end;
 end;
 
@@ -239,7 +220,6 @@ begin
     'SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID'#13#10 //
     +'FROM FUNCIONARIO'#13#10 //
     +'ORDER BY LOJA_ID, TERMINAL_ID, PESSOA_ID;'#13#10 //
-
 end;
 
 function TEnvTabFuncionario.GetSqlTodosTerm: string;
