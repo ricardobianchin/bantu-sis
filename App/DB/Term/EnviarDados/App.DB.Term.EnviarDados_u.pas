@@ -47,7 +47,8 @@ begin
 //    EnvTabPessoa(FServDBConnection, FTermDBConnection).Execute;
 //    EnvTabEndereco(FServDBConnection, FTermDBConnection).Execute;
 //    EnvTabFuncionario(FServDBConnection, FTermDBConnection).Execute;
-    EnvTabLojaEhPessoa(FServDBConnection, FTermDBConnection).Execute;
+//    EnvTabLojaEhPessoa(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabUsuario(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;

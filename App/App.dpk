@@ -295,6 +295,7 @@ contains
   App.DB.Term.EnviarTabela.EnderecoReg_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.EnderecoReg_u.pas',
   App.DB.Term.EnviarTabela.Endereco_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Endereco_u.pas',
   App.DB.Term.EnviarTabela.Funcionario_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Funcionario_u.pas',
-  App.DB.Term.EnviarTabela.LojaEhPessoa_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.LojaEhPessoa_u.pas';
+  App.DB.Term.EnviarTabela.LojaEhPessoa_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.LojaEhPessoa_u.pas',
+  App.DB.Term.EnviarTabela.Usuario_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Usuario_u.pas';
 
 end.
