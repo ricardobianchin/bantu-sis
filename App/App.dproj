@@ -576,9 +576,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.UsuarioPodeOpcaoSis_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSis_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u.pas"/>
-        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioTemPerfilDeUso_u.pas"/>
-        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioTemPerfilDeUsoList_u.pas"/>
-        <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.UsuarioTemPerfilDeUso_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
