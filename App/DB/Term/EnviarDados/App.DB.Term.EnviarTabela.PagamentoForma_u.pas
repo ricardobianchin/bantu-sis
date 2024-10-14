@@ -12,7 +12,7 @@ type
     DESCR_RED: string;
     ATIVO: Boolean;
     PARA_VENDA: Boolean;
-    Sis: Boolean;
+    DE_SISTEMA: Boolean;
     PROMOCAO_PERMITE: Boolean;
     COMISSAO_PERMITE: Boolean;
     TAXA_ADM_PERC: Currency;
@@ -74,7 +74,7 @@ begin
   FAltDBExec.Params[2].AsString := pReg.DESCR_RED;
   FAltDBExec.Params[3].AsBoolean := pReg.ATIVO;
   FAltDBExec.Params[4].AsBoolean := pReg.PARA_VENDA;
-  FAltDBExec.Params[5].AsBoolean := pReg.Sis;
+  FAltDBExec.Params[5].AsBoolean := pReg.DE_SISTEMA;
   FAltDBExec.Params[6].AsBoolean := pReg.PROMOCAO_PERMITE;
   FAltDBExec.Params[7].AsBoolean := pReg.COMISSAO_PERMITE;
   FAltDBExec.Params[8].AsCurrency := pReg.TAXA_ADM_PERC;
@@ -139,7 +139,7 @@ begin
         break;
       end;
 
-      Iguais := RegAtual.Sis = pReg.Sis;
+      Iguais := RegAtual.DE_SISTEMA = pReg.DE_SISTEMA;
       if not Iguais then
       begin
         Result := TResultadoBusca.rbTemDiferente;
@@ -288,7 +288,7 @@ begin
   A[i].DESCR_RED := Q.Fields[3].AsString;
   A[i].ATIVO := Q.Fields[4].AsBoolean;
   A[i].PARA_VENDA := Q.Fields[5].AsBoolean;
-  A[i].Sis := Q.Fields[6].AsBoolean;
+  A[i].DE_SISTEMA := Q.Fields[6].AsBoolean;
   A[i].PROMOCAO_PERMITE := Q.Fields[7].AsBoolean;
   A[i].COMISSAO_PERMITE := Q.Fields[8].AsBoolean;
   A[i].TAXA_ADM_PERC := Q.Fields[9].AsCurrency;
@@ -309,7 +309,7 @@ begin
   Result.DESCR_RED := Q.Fields[3].AsString;
   Result.ATIVO := Q.Fields[4].AsBoolean;
   Result.PARA_VENDA := Q.Fields[5].AsBoolean;
-  Result.Sis := Q.Fields[6].AsBoolean;
+  Result.DE_SISTEMA := Q.Fields[6].AsBoolean;
   Result.PROMOCAO_PERMITE := Q.Fields[7].AsBoolean;
   Result.COMISSAO_PERMITE := Q.Fields[8].AsBoolean;
   Result.TAXA_ADM_PERC := Q.Fields[9].AsCurrency;
@@ -357,7 +357,7 @@ begin
     + ', DESCR_RED = :DESCR_RED' //
     + ', ATIVO = :ATIVO' //
     + ', PARA_VENDA = :PARA_VENDA' //
-    + ', SIS = :SIS' //
+    + ', DE_SISTEMA = :DE_SISTEMA' //
     + ', PROMOCAO_PERMITE = :PROMOCAO_PERMITE' //
     + ', COMISSAO_PERMITE = :COMISSAO_PERMITE' //
     + ', TAXA_ADM_PERC = :TAXA_ADM_PERC' //
@@ -384,7 +384,7 @@ begin
     + ', DESCR_RED' //
     + ', ATIVO' //
     + ', PARA_VENDA' //
-    + ', SIS' //
+    + ', DE_SISTEMA' //
     + ', PROMOCAO_PERMITE' //
     + ', COMISSAO_PERMITE' //
     + ', TAXA_ADM_PERC' //
@@ -404,7 +404,7 @@ begin
     + ', :DESCR_RED' //
     + ', :ATIVO' //
     + ', :PARA_VENDA' //
-    + ', :SIS' //
+    + ', :DE_SISTEMA' //
     + ', :PROMOCAO_PERMITE' //
     + ', :COMISSAO_PERMITE' //
     + ', :TAXA_ADM_PERC' //
@@ -427,7 +427,7 @@ end;
 function TEnvTabPagamentoForma.GetSqlTodos: string;
 begin
   Result := 'SELECT PAGAMENTO_FORMA_ID, PAGAMENTO_FORMA_TIPO_ID, DESCR' //
-    + ', DESCR_RED, ATIVO, PARA_VENDA, SIS, PROMOCAO_PERMITE, COMISSAO_PERMITE'
+    + ', DESCR_RED, ATIVO, PARA_VENDA, DE_SISTEMA, PROMOCAO_PERMITE, COMISSAO_PERMITE'
     + ', TAXA_ADM_PERC, VALOR_MINIMO, COMISSAO_ABATER_PERC, REEMBOLSO_DIAS' //
     + ', TEF_USA, AUTORIZACAO_EXIGE, PESSOA_EXIGE, A_VISTA' //
     + ' FROM PAGAMENTO_FORMA' //
@@ -444,7 +444,7 @@ begin
   FInsDBExec.Params[3].AsString := pReg.DESCR_RED;
   FInsDBExec.Params[4].AsBoolean := pReg.ATIVO;
   FInsDBExec.Params[5].AsBoolean := pReg.PARA_VENDA;
-  FInsDBExec.Params[6].AsBoolean := pReg.Sis;
+  FInsDBExec.Params[6].AsBoolean := pReg.DE_SISTEMA;
   FInsDBExec.Params[7].AsBoolean := pReg.PROMOCAO_PERMITE;
   FInsDBExec.Params[8].AsBoolean := pReg.COMISSAO_PERMITE;
   FInsDBExec.Params[9].AsCurrency := pReg.TAXA_ADM_PERC;

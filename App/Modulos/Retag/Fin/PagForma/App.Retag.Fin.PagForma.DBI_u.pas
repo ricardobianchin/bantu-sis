@@ -51,7 +51,7 @@ begin
 
     + ',' + BooleanToStrSQL(Ent.Ativo)
     + ',' + BooleanToStrSQL(Ent.ParaVenda)
-    + ', FALSE'//SIS
+    + ', FALSE'//DE_SISTEMA
     + ',' + BooleanToStrSQL(Ent.PromocaoPermite)
     + ',' + BooleanToStrSQL(Ent.ComissaoPermite)
     + ',' + CurrencyToStrPonto(Ent.TaxaAdmPerc) //
@@ -80,7 +80,7 @@ begin
     + ',' + QuotedStr(Ent.DescrRed)
     + ',' + BooleanToStrSQL(Ent.Ativo)
     + ',' + BooleanToStrSQL(Ent.ParaVenda)
-    + ', FALSE'//SIS
+    + ', FALSE'//DE_SISTEMA
     + ',' + BooleanToStrSQL(Ent.PromocaoPermite)
     + ',' + BooleanToStrSQL(Ent.ComissaoPermite)
     + ',' + CurrencyToStrPonto(Ent.TaxaAdmPerc) //
@@ -129,7 +129,7 @@ begin
       ', DESCR_RED' + //5
       ', ATIVO' + //6
       ', PARA_VENDA' + //7
-      ', SIS' + //8
+      ', DE_SISTEMA' + //8
       ', PROMOCAO_PERMITE' + //9
       ', COMISSAO_PERMITE' + //10
       ', TAXA_ADM_PERC' + //11
@@ -164,7 +164,7 @@ begin
 
     Ent.Ativo := q.Fields[6].AsBoolean;
     Ent.ParaVenda := q.Fields[7].AsBoolean;
-    //sis [8]
+    //DE_SISTEMA [8]
     Ent.PromocaoPermite := q.Fields[9].AsBoolean;
     Ent.ComissaoPermite := q.Fields[10].AsBoolean;
     Ent.TaxaAdmPerc := q.Fields[11].AsCurrency;
