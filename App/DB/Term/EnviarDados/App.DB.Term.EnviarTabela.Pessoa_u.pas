@@ -443,50 +443,7 @@ end;
 
 function TEnvTabPessoa.GetSqlQtdRegsTerm: string;
 begin
-  Result :=
-    'select count(*) from pessoa'#13#10; //
-{
-  Result :=
-    'select count(*) from ('#13#10 //
-    +'  SELECT'#13#10 //
-    +'    pu.LOJA_ID,'#13#10 //
-    +'    pu.TERMINAL_ID,'#13#10 //
-    +'    pu.PESSOA_ID'#13#10 //
-    +'  FROM PESSOA pu'#13#10 //
-    +'  INNER JOIN USUARIO u ON'#13#10 //
-    +'    pu.LOJA_ID = u.LOJA_ID'#13#10 //
-    +'    AND pu.TERMINAL_ID = u.TERMINAL_ID'#13#10 //
-    +'    AND pu.PESSOA_ID = u.PESSOA_ID'#13#10 //
-    +#13#10 //
-    +'UNION'#13#10 //
-    +#13#10 //
-    +'  SELECT'#13#10 //
-    +'    pf.LOJA_ID,'#13#10 //
-    +'    pf.TERMINAL_ID,'#13#10 //
-    +'    pf.PESSOA_ID'#13#10 //
-    +'  FROM PESSOA pf'#13#10 //
-    +'  INNER JOIN FUNCIONARIO f ON'#13#10 //
-    +'  pf.LOJA_ID = f.LOJA_ID'#13#10 //
-    +'  AND pf.TERMINAL_ID = f.TERMINAL_ID'#13#10 //
-    +'  AND pf.PESSOA_ID = f.PESSOA_ID'#13#10 //
-    +#13#10 //
-    +'UNION'#13#10 //
-    +#13#10 //
-    +'  SELECT'#13#10 //
-    +'    pl.LOJA_ID,'#13#10 //
-    +'    pl.TERMINAL_ID,'#13#10 //
-    +'    pl.PESSOA_ID'#13#10 //
-    +'  FROM PESSOA pl'#13#10 //
-    +'  INNER JOIN LOJA_EH_PESSOA l ON'#13#10 //
-    +'  pl.LOJA_ID = l.LOJA_ID'#13#10 //
-    +'  AND pl.TERMINAL_ID = l.TERMINAL_ID'#13#10 //
-    +'  AND pl.PESSOA_ID = l.PESSOA_ID'#13#10 //
-    +'  INNER JOIN LOJA PE ON'#13#10 //
-    +'  pE.LOJA_ID = Pl.LOJA_ID'#13#10 //
-    +'  AND PE.SELECIONADO'#13#10 //
-    +') tab_pessoa;'#13#10 //
-    ;
-    }
+  RESULT := 'SELECT COUNT(*) FROM PESSOA'#13#10; //
 end;
 
 function TEnvTabPessoa.GetSqlTodos: string;
