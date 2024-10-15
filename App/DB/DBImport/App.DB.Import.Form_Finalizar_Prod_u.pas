@@ -46,6 +46,73 @@ var
   sBarras: string;
   sComando: string;
 
+  oFieldFin_PROD_ID, //
+  oFieldFin_DESCR, //
+  oFieldFin_DESCR_RED, //
+  oFieldFin_IMPORT_FABR_ID, //
+  oFieldFin_IMPORT_PROD_TIPO_ID, //
+  oFieldFin_IMPORT_UNID_ID, //
+  oFieldFin_IMPORT_ICMS_ID, //
+  oFieldFin_CAPAC_EMB, //
+  oFieldFin_NCM, //
+  oFieldFin_CUS, //
+  oFieldFin_PRECO, //
+  oFieldFin_ATIVO, //
+  oFieldFin_LOCALIZ, //
+  oFieldFin_MARGEM, //
+  oFieldFin_BAL_USO, //
+  oFieldFin_BAL_DPTO, //
+  oFieldFin_BAL_VALIDADE_DIAS, //
+  oFieldFin_BAL_TEXTO_ETIQ, //
+  oFieldFin_CODIGOS //
+    : TField;
+
+procedure AtribuaCamposFin(Q: TDataSet);
+begin
+  oFieldFin_PROD_ID:= Q.FieldByName('PROD_ID');
+  oFieldFin_DESCR:= Q.FieldByName('DESCR');
+  oFieldFin_DESCR_RED:= Q.FieldByName('DESCR_RED');
+  oFieldFin_IMPORT_FABR_ID:= Q.FieldByName('IMPORT_FABR_ID');
+  oFieldFin_IMPORT_PROD_TIPO_ID:= Q.FieldByName('IMPORT_PROD_TIPO_ID');
+  oFieldFin_IMPORT_UNID_ID:= Q.FieldByName('IMPORT_UNID_ID');
+  oFieldFin_IMPORT_ICMS_ID:= Q.FieldByName('IMPORT_ICMS_ID');
+  oFieldFin_CAPAC_EMB:= Q.FieldByName('CAPAC_EMB');
+  oFieldFin_NCM:= Q.FieldByName('NCM');
+  oFieldFin_CUS:= Q.FieldByName('CUS');
+  oFieldFin_PRECO:= Q.FieldByName('PRECO');
+  oFieldFin_ATIVO:= Q.FieldByName('ATIVO');
+  oFieldFin_LOCALIZ:= Q.FieldByName('LOCALIZ');
+  oFieldFin_MARGEM:= Q.FieldByName('MARGEM');
+  oFieldFin_BAL_USO := Q.FieldByName('BAL_USO');
+  oFieldFin_BAL_DPTO := Q.FieldByName('BAL_DPTO');
+  oFieldFin_BAL_VALIDADE_DIAS := Q.FieldByName('BAL_VALIDADE_DIAS');
+  oFieldFin_BAL_TEXTO_ETIQ := Q.FieldByName('BAL_TEXTO_ETIQ');
+  oFieldFin_CODIGOS := Q.FieldByName('CODIGOS');
+end;
+
+procedure LibereCamposFin;
+begin
+  oFieldFin_PROD_ID:= nil;
+  oFieldFin_DESCR:= nil;
+  oFieldFin_DESCR_RED:= nil;
+  oFieldFin_IMPORT_FABR_ID:= nil;
+  oFieldFin_IMPORT_PROD_TIPO_ID:= nil;
+  oFieldFin_IMPORT_UNID_ID:= nil;
+  oFieldFin_IMPORT_ICMS_ID:= nil;
+  oFieldFin_CAPAC_EMB:= nil;
+  oFieldFin_NCM:= nil;
+  oFieldFin_CUS:= nil;
+  oFieldFin_PRECO:= nil;
+  oFieldFin_ATIVO:= nil;
+  oFieldFin_LOCALIZ:= nil;
+  oFieldFin_MARGEM:= nil;
+  oFieldFin_BAL_USO := nil;
+  oFieldFin_BAL_DPTO := nil;
+  oFieldFin_BAL_VALIDADE_DIAS := nil;
+  oFieldFin_BAL_TEXTO_ETIQ := nil;
+  oFieldFin_CODIGOS := nil;
+end;
+
 function GetImportProdSelectSQL: string;
 begin
   Result := 'WITH BARRAS AS'#13#10 //
@@ -54,11 +121,14 @@ begin
     + 'FROM IMPORT_PROD_BARRAS_NOVO'#13#10 //
     + 'ORDER BY IMPORT_PROD_ID, ORDEM'#13#10 //
     + ')'#13#10 //
+
     + ', BARLIST AS ('#13#10 //
     + 'SELECT'#13#10 //
     + 'BARRAS.IMPORT_PROD_ID'#13#10 //
     + ', LIST(BARRAS.COD_BARRAS, '','') CODIGOS'#13#10 //
+
     + 'FROM BARRAS'#13#10 //
+
     + 'GROUP BY BARRAS.IMPORT_PROD_ID'#13#10 //
     + 'ORDER BY BARRAS.IMPORT_PROD_ID'#13#10 //
     + ')'#13#10 //
@@ -135,38 +205,38 @@ end;
 
 procedure LeiaQCampos(q: TDataSet);
 begin
-  iProdId := q.Fields[0].AsInteger;
+  iProdId := oFieldFin_PROD_ID.AsInteger;
   if iProdId < 1 then
     raise Exception.Create('Erro prod_id zerado');
 
-  sDescr := Trim(q.Fields[1].AsString);
-  sDescrRed := Trim(q.Fields[2].AsString);
+  sDescr := Trim(oFieldFin_DESCR.AsString);
+  sDescrRed := Trim(oFieldFin_DESCR_RED.AsString);
 
-  iFabrId := q.Fields[3].AsInteger;
-  iTipoId := q.Fields[4].AsInteger;
-  iUnidId := q.Fields[5].AsInteger;
-  iICMSId := q.Fields[6].AsInteger;
+  iFabrId := oFieldFin_IMPORT_FABR_ID.AsInteger;
+  iTipoId := oFieldFin_IMPORT_PROD_TIPO_ID.AsInteger;
+  iUnidId := oFieldFin_IMPORT_UNID_ID.AsInteger;
+  iICMSId := oFieldFin_IMPORT_ICMS_ID.AsInteger;
 
 //  sProdNatuId := #033; // q.Fields[7].AsString
 
-  uCapacEmb := q.Fields[8].AsCurrency;
+  uCapacEmb := oFieldFin_CAPAC_EMB.AsCurrency;
 
   if uCapacEmb = 0 then
     uCapacEmb := 1;
 
-  NCM := Trim(q.Fields[9].AsString);
+  NCM := Trim(oFieldFin_NCM.AsString);
 
   iLojaId := oAppObj.Loja.Id;
   iUsuarioId := oUsuario.Id;
   iMachineId := oAppObj.SisConfig.ServerMachineId.IdentId;
 
-  bAtivo := q.Fields[12].AsBoolean;
-  sLocaliz := Trim(q.Fields[13].AsString);
-  uMargem := q.Fields[14].AsCurrency;
+  bAtivo := oFieldFin_ATIVO.AsBoolean;
+  sLocaliz := Trim(oFieldFin_LOCALIZ.AsString);
+  uMargem := oFieldFin_MARGEM.AsCurrency;
 
-  uCusto := StrToCurrency(q.Fields[10].AsString);
+  uCusto := StrToCurrency(oFieldFin_CUS.AsString);
 //  iTabPrecoId := 1;
-  aPreco[0] := StrToCurrency(q.Fields[11].AsString);
+  aPreco[0] := StrToCurrency(oFieldFin_PRECO.AsString);
 
   if uCusto = 0 then
     uCusto := 0.01;
@@ -174,12 +244,12 @@ begin
   if aPreco[0] = 0 then
     aPreco[0] := 0.01;
 
-  iBalUso := q.Fields[15].AsInteger;
-  sBalDpto := Trim(q.Fields[16].AsString);
-  iBalValidadeDias := q.Fields[17].AsInteger;
-  sBalTextoEtiq := Trim(q.Fields[18].AsString);
+  iBalUso := oFieldFin_BAL_USO.AsInteger;
+  sBalDpto := Trim(oFieldFin_BAL_DPTO.AsString);
+  iBalValidadeDias := oFieldFin_BAL_VALIDADE_DIAS.AsInteger;
+  sBalTextoEtiq := Trim(oFieldFin_BAL_TEXTO_ETIQ.AsString);
 
-  sBarras := StrSemCharRepetido(q.Fields[19].AsString);
+  sBarras := StrSemCharRepetido(oFieldFin_CODIGOS.AsString);
   sBarras := StringReplace(sBarras, ',', ';', [rfReplaceAll]);
 end;
 
@@ -231,7 +301,13 @@ begin
   oAppObj := pAppObj;
   oUsuario := pUsuario;
   sSql := GetImportProdSelectSQL;
+
+{$IFDEF DEBUG}
+  CopyTextToClipboard(sSql);
+{$ENDIF}
+
   pDBConnection.QueryDataSet(sSql, q);
+  AtribuaCamposFin(q);
 
   sSql := GetImportProdCountSQL;
 
@@ -269,6 +345,7 @@ begin
       pProgressBar1.Position := iRegAtual;
     end;
   finally
+    LibereCamposFin;
     q.Free;
     WriteLn(F, 'Terminou');
     CloseFile(F);

@@ -294,15 +294,17 @@ var
 begin
   if cPreco = 0 then
     exit;
-
+  //o loop é pro form pois tem sempre so uma tabela de precos
+  //em atividades com mais de uma tabela de precos, este loop fará sentido
+  // e PROD_PRECO_TABELA_ID passará a ser usada
   for I := 0 to OrigPrecoSL.Count - 1 do
   begin
     sItem := OrigPrecoSL[I];
     oItens := sItem.Split(['-']);
 
     sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID,'
-      //+' PROD_PRECO_TABELA_ID
-      +', PRECO) VALUES(' + piImportProdId.ToString
+      //+' PROD_PRECO_TABELA_ID,
+      +' PRECO) VALUES(' + piImportProdId.ToString
       {+ ', ' + oItens[0] }+ ',' + oItens[1] + ');'
       ;
     DestinoDBConnection.ExecuteSQL(sSql);
@@ -313,7 +315,6 @@ begin
       {+ ', ' + oItens[0]} + ',' + oItens[1] + ');'
       ;
     DestinoDBConnection.ExecuteSQL(sSql);
-
   end;
 end;
 
@@ -478,6 +479,9 @@ begin
   begin
     OrigPrecoSL.Clear;
     OrigPrecoSL.Values['1'] := CurrencyToStrPonto(cPreco);
+    //em mercado, so tem tabela 1
+    //por isto aqui 1 é constante
+    //em atividades com tabelas de preco, o value deverá ser uma variaven
   end;
 end;
 
