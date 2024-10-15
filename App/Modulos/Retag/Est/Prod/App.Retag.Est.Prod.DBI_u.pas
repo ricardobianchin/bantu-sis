@@ -49,7 +49,7 @@ begin
     + ',' + Ent.ProdUnidEnt.Id.ToString //
     + ',' + Ent.ProdICMSEnt.Id.ToString //
   //
-    + ',' + ProdNatuToSql(pnatuProduto) //
+//    + ',' + ProdNatuToSql(pnatuProduto) //
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
     + ',' + QuotedStr(Ent.NCM) //
 
@@ -58,7 +58,7 @@ begin
     + ',' + Ent.MachineIdentId.ToString //
 
     + ',' + CurrencyToStrPonto(Ent.CustoNovo) //
-    + ', 1' // + 1 PROD_PRECO_TABELA_ID
+//    + ', 1' // + 1 PROD_PRECO_TABELA_ID
     + ',' + CurrencyToStrPonto(Ent.PrecoNovo) //
 
     + ',' + BooleanToStrSql(Ent.Ativo) //
@@ -89,7 +89,7 @@ begin
     + ',' + Ent.ProdUnidEnt.Id.ToString //
     + ',' + Ent.ProdICMSEnt.Id.ToString //
   //
-    + ',' + ProdNatuToSql(pnatuProduto) //
+//    + ',' + ProdNatuToSql(pnatuProduto) //
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
     + ',' + QuotedStr(Ent.NCM) //
 
@@ -98,7 +98,7 @@ begin
     + ',' + Ent.MachineIdentId.ToString //
 
     + ',' + CurrencyToStrPonto(Ent.CustoNovo) //
-    + ', 1' // + 1 PROD_PRECO_TABELA_ID
+//    + ', 1' // + 1 PROD_PRECO_TABELA_ID
     + ',' + CurrencyToStrPonto(Ent.PrecoNovo) //
 
     + ',' + BooleanToStrSql(Ent.Ativo) //

@@ -22,7 +22,7 @@ var
   sDescrRed: string[29];
 
   iFabrId, iTipoId, iUnidId, iICMSId: integer;
-  sProdNatuId: string;
+//  sProdNatuId: string;
 
   uCapacEmb: Currency;
 
@@ -31,7 +31,7 @@ var
   iLojaId, iUsuarioId, iMachineId: integer;
 
   uCusto: Currency;
-  iTabPrecoId: integer;
+//  iTabPrecoId: integer;
   aPreco: TArray<Currency>;
 
   bAtivo: boolean;
@@ -83,7 +83,7 @@ begin
     + ',PRO.IMPORT_UNID_ID'#13#10 // 5
     + ',PRO.IMPORT_ICMS_ID'#13#10 // 6
 
-    + ',PRO.PROD_NATU_ID'#13#10 // 7
+//    + ',PRO.PROD_NATU_ID'#13#10 // 7
 
     + ',PRO.CAPAC_EMB'#13#10 // 8
 
@@ -147,7 +147,7 @@ begin
   iUnidId := q.Fields[5].AsInteger;
   iICMSId := q.Fields[6].AsInteger;
 
-  sProdNatuId := #033; // q.Fields[7].AsString
+//  sProdNatuId := #033; // q.Fields[7].AsString
 
   uCapacEmb := q.Fields[8].AsCurrency;
 
@@ -165,7 +165,7 @@ begin
   uMargem := q.Fields[14].AsCurrency;
 
   uCusto := StrToCurrency(q.Fields[10].AsString);
-  iTabPrecoId := 1;
+//  iTabPrecoId := 1;
   aPreco[0] := StrToCurrency(q.Fields[11].AsString);
 
   if uCusto = 0 then
@@ -192,7 +192,7 @@ begin
     + ',' + iFabrId.ToString + ',' + iTipoId.ToString + ',' + iUnidId.ToString +
     ',' + iICMSId.ToString
 
-    + ',' + QuotedStr(sProdNatuId)
+//    + ',' + QuotedStr(sProdNatuId)
 
     + ',' + CurrencyToStrPonto(uCapacEmb)
 
@@ -201,7 +201,8 @@ begin
     + ',' + iLojaId.ToString + ',' + iUsuarioId.ToString + ',' +
     iMachineId.ToString
 
-    + ',' + CurrencyToStrPonto(uCusto) + ',' + iTabPrecoId.ToString + ',' +
+    + ',' + CurrencyToStrPonto(uCusto) + ',' +
+    //iTabPrecoId.ToString + ',' +
     CurrencyToStrPonto(aPreco[0])
 
     + ',' + BooleanToStrSQL(bAtivo) + ',' + QuotedStr(sLocaliz) + ',' +

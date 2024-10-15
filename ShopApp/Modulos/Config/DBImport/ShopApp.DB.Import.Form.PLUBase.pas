@@ -232,7 +232,7 @@ begin
     + ', ' + iProdUnidId.ToString // IMPORT_UNID_ID ID_DOM,
     + ', ' + iProdIcmsId.ToString // IMPORT_ICMS_ID ID_DOM,
 
-    + ', ' + QuotedStr(#33) // PROD_NATU_ID ID_CHAR_DOM,
+//    + ', ' + QuotedStr(#33) // PROD_NATU_ID ID_CHAR_DOM,
 
     + ', 1' // CAPAC_EMB QTD_DOM,
     + ', ' + QuotedStr(sNCM) // NCM CHAR(8),
@@ -301,14 +301,16 @@ begin
     oItens := sItem.Split(['-']);
 
     sSql := 'INSERT INTO IMPORT_PROD_PRECO (IMPORT_PROD_ID,'
-      +' PROD_PRECO_TABELA_ID, PRECO) VALUES(' + piImportProdId.ToString
-      + ', ' + oItens[0] + ',' + oItens[1] + ');'
+      //+' PROD_PRECO_TABELA_ID
+      +', PRECO) VALUES(' + piImportProdId.ToString
+      {+ ', ' + oItens[0] }+ ',' + oItens[1] + ');'
       ;
     DestinoDBConnection.ExecuteSQL(sSql);
 
     sSql := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID,'
-      +' PROD_PRECO_TABELA_ID, PRECO) VALUES(' + piImportProdId.ToString
-      + ', ' + oItens[0] + ',' + oItens[1] + ');'
+      //+' PROD_PRECO_TABELA_ID
+      +', PRECO) VALUES(' + piImportProdId.ToString
+      {+ ', ' + oItens[0]} + ',' + oItens[1] + ');'
       ;
     DestinoDBConnection.ExecuteSQL(sSql);
 
