@@ -1,6 +1,8 @@
 DOMAINS
 VERSAO DO BANCO DE DADOS.
 
+'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
+
 inicio
 -----------------------------
 
