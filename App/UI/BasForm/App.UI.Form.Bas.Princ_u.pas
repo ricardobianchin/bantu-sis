@@ -243,6 +243,8 @@ begin
 
     bResultado := FAppObj.Inicialize;
 
+    PreenchaAtividade;
+
     bResultado := AtualizeVersaoExecutaveis;
     if bResultado then
     begin
@@ -272,8 +274,6 @@ begin
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
 
     CarregarMachineId;
-
-    PreenchaAtividade;
 
     ClearStyleElements(TitleBarPanel);
   finally
