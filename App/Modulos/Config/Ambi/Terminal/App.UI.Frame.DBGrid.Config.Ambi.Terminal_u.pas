@@ -180,6 +180,7 @@ begin
   Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  False;
   Tab.Post;
 
+  {
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
   Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTO';
@@ -195,6 +196,7 @@ begin
   Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
   Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  True;
   Tab.Post;
+  }
 end;
 
 end.

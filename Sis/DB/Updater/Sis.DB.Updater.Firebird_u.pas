@@ -21,7 +21,7 @@ type
     constructor Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
       pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-      pUsuarioGerente: IUsuario; pTerminalList: ITerminalList);
+      pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string);
   end;
 
 implementation
@@ -35,13 +35,13 @@ uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
 constructor TDBUpdaterFirebird.Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList);
+  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string);
 begin
   pProcessLog.PegueLocal('TDBUpdaterFirebird.Create');
   try
     pProcessLog.RegistreLog('vai inherited Create');
     inherited Create(pTerminalId, pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
-      pProcessLog, pOutput, pLoja, pUsuarioGerente, pTerminalList);
+      pProcessLog, pOutput, pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal;

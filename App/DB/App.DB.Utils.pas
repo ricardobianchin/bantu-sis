@@ -16,7 +16,7 @@ procedure PreencherTerminalList(pDBConnection: IDBConnection;pAppInfo: IAppInfo;
 
 implementation
 
-uses Sis.Sis.Constants, Sis.DB.Factory, System.SysUtils;
+uses Sis.Sis.Constants, Sis.DB.Factory, System.SysUtils, App.AppInfo.Types;
 
 function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
@@ -32,7 +32,11 @@ begin
   if pTerminalId = TERMINAL_ID_RETAGUARDA then
   begin
     Result.Server := pSisConfig.ServerMachineId.Name;
-    Result.Arq := pAppInfo.PastaDados + 'RETAG.FDB';
+    Result.Arq :=
+      pAppInfo.PastaDados + //
+      'Dados_' + //
+      TipoAtividadeNegocioDescr[pAppInfo.SisTipoAtividade] + //
+      '_Retaguarda.FDB';
 
     Result.Arq[1] := pSisConfig.ServerLetraDoDrive;
     Result.Database := Result.Server + ':' + Result.Arq;
@@ -125,8 +129,15 @@ begin
       oTerminal.NFSerie := q.Fields[4].AsInteger;
       oTerminal.LetraDoDrive := Trim(q.Fields[5].AsString);
 
-      sNomeArq := pAppInfo.PastaDados + 'Term' +
-        oTerminal.TerminalId.ToStrZero + '.fdb';
+      sNomeArq := //
+        pAppInfo.PastaDados + //
+        'Dados_' + //
+        TipoAtividadeNegocioDescr[pAppInfo.SisTipoAtividade] + //
+        '_Terminal_' +
+        oTerminal.TerminalId.ToStrZero + //
+        '.fdb'
+        ;
+
       sNomeArq[1] := oTerminal.LetraDoDrive[1];
 
       oTerminal.LocalArqDados := sNomeArq;

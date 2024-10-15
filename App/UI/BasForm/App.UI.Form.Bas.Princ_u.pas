@@ -43,6 +43,8 @@ type
     FDBMSConfig: IDBMSConfig;
     FDBMS: IDBMS;
 
+    FDBUpdaterVariaveis: string;
+
     // FSisConfig: ISisConfig;
 
     // FUsuarioGerente: IUsuario;
@@ -75,6 +77,8 @@ type
     property DBMS: IDBMS read FDBMS;
 
     procedure PreenchaAtividade; virtual; abstract;
+    property DBUpdaterVariaveis: string read FDBUpdaterVariaveis write FDBUpdaterVariaveis;
+    procedure PreenchaDBUpdaterVariaveis; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -205,7 +209,7 @@ begin
   Randomize;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
-
+  PreenchaDBUpdaterVariaveis;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
@@ -325,7 +329,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      FLoja, oUsuarioGerente, oTerminalList);
+      FLoja, oUsuarioGerente, oTerminalList, DBUpdaterVariaveis);
 
     if not bResultado then
     begin
@@ -377,6 +381,11 @@ begin
   FProcessOutput := MudoOutputCreate;
   if Assigned(SplashForm) then
     FreeAndNil(SplashForm);
+end;
+
+procedure TPrincBasForm.PreenchaDBUpdaterVariaveis;
+begin
+  FDBUpdaterVariaveis := '';
 end;
 
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
