@@ -3,13 +3,13 @@ unit App.SisConfig.Garantir_u;
 interface
 
 uses App.SisConfig.Garantir, Sis.Sis.Executavel_u, Sis.Config.SisConfig,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppInfo, Sis.Usuario,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Usuario,
   Sis.Loja, Sis.Entities.TerminalList;
 
 type
   TAppSisConfigGarantirXML = class(TExecutavel, IAppSisConfigGarantirXML)
   private
-    FAppInfo: IAppInfo;
+    FAppObj: IAppObj;
     FSisConfig: ISisConfig;
     // FOutput: IOutput;
     // FProcessLog: IProcessLog;
@@ -26,7 +26,7 @@ type
     procedure PreenchaSisConfigVersao;
   public
     function Execute: boolean; override;
-    constructor Create(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+    constructor Create(pAppObj: IAppObj; pSisConfig: ISisConfig;
       pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
       pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
@@ -49,8 +49,9 @@ function TAppSisConfigGarantirXML.ConfigEdit: boolean;
 var
   r: tmodalresult;
 begin
+
   ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig, FUsuarioGerente,
-    FLoja, FTerminalList);
+    FLoja, FTerminalList, FAppObj);
   try
     r := ConfigPergForm.ShowModal;
     Result := IsPositiveResult(r);
@@ -66,8 +67,8 @@ var
 begin
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.CopieAtu');
   try
-    sOrig := FAppInfo.Pasta + 'Inst\inst-bin\';
-    sDest := FAppInfo.PastaBin;
+    sOrig := FAppObj.AppInfo.Pasta + 'Inst\inst-bin\';
+    sDest := FAppObj.AppInfo.PastaBin;
 
     ProcessLog.RegistreLog('Sis.UI.IO.Files.Sync.AtualizarArquivos,sOrig=' +
       sOrig + ',sDest=' + sDest);
@@ -86,8 +87,8 @@ var
 begin
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.CopieInicial');
   try
-    sOrig := FAppInfo.Pasta + 'Inst\Inst-Delphi-redist\Redist\win64\';
-    sDest := FAppInfo.PastaBin;
+    sOrig := FAppObj.AppInfo.Pasta + 'Inst\Inst-Delphi-redist\Redist\win64\';
+    sDest := FAppObj.AppInfo.PastaBin;
 
     ProcessLog.RegistreLog('Sis.UI.IO.Files.Sync.AtualizarArquivos,sOrig=' +
       sOrig + ',sDest=' + sDest);
@@ -99,19 +100,19 @@ begin
   end;
 end;
 
-constructor TAppSisConfigGarantirXML.Create(pAppInfo: IAppInfo;
+constructor TAppSisConfigGarantirXML.Create(pAppObj: IAppObj;
   pSisConfig: ISisConfig; pUsuarioGerente: IUsuario; pLoja: ILoja;
   pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   inherited Create(pOutput, pProcessLog);
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
   FSisConfig := pSisConfig;
   FLoja := pLoja;
   FUsuarioGerente := pUsuarioGerente;
   FTerminalList := pTerminalList;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');
-  FNomeArqXML := FAppInfo.PastaConfigs + Sis.Sis.Constants.CONFIG_ARQ_NOME +
+  FNomeArqXML := FAppObj.AppInfo.PastaConfigs + Sis.Sis.Constants.CONFIG_ARQ_NOME +
     CONFIG_ARQ_EXT;
   ProcessLog.RegistreLog('NomeArqXML=' + FNomeArqXML);
   ProcessLog.RetorneLocal;

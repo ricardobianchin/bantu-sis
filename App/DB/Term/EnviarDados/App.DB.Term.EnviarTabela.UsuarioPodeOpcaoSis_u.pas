@@ -41,8 +41,6 @@ var
   Q: TDataSet;
   i: integer;
 begin
-  FTermList.Clear;
-
   sSql := 'SELECT LOJA_ID, PESSOA_ID, OPCAO_SIS_ID'#13#10 //
     +'FROM USUARIO_PODE_OPCAO_SIS'#13#10 //
     +'ORDER BY LOJA_ID, TERMINAL_ID, PESSOA_ID, OPCAO_SIS_ID'#13#10 //

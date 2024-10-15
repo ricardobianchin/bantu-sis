@@ -313,6 +313,11 @@ begin
 
           ProcessarDiretivas(FLinhasSL, FVariaveis+ sVariaveisAdicionais, FsDiretivaAbre,
             FsDiretivaFecha);
+//{$IFDEF DEBUG}
+//if iVersao=2 then
+//  CopyTextToClipboard(FLinhasSL.Text);
+//{$ENDIF}
+
           LerUpdateProperties(FLinhasSL);
 
           bSeAplica := SeAplica(FTerminalId, FDBAtualizAlvo);

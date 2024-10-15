@@ -316,7 +316,7 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
     oUsuarioGerente := UsuarioCreate;
-    oTerminalList := TerminalListCreate;
+    oTerminalList := TerminalListCreate;//aqui
     bResultado := GarantirConfig(FLoja, oUsuarioGerente, oTerminalList);
 
     if not bResultado then
@@ -358,7 +358,7 @@ begin
   try
     oSisConfig := FAppObj.SisConfig;
 
-    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppInfo, oSisConfig,
+    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
       pUsuarioGerente, pLoja, FProcessOutput, FProcessLog, pTerminalList);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
     Result := oAppSisConfigGarantirXML.Execute;

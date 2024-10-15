@@ -308,8 +308,8 @@ begin
     DestinoDBConnection.ExecuteSQL(sSql);
 
     sSql := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID,'
-      //+' PROD_PRECO_TABELA_ID
-      +', PRECO) VALUES(' + piImportProdId.ToString
+      //+' PROD_PRECO_TABELA_ID,
+      +' PRECO) VALUES(' + piImportProdId.ToString
       {+ ', ' + oItens[0]} + ',' + oItens[1] + ');'
       ;
     DestinoDBConnection.ExecuteSQL(sSql);
