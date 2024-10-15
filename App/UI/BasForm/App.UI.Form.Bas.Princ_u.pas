@@ -43,6 +43,8 @@ type
     FDBMSConfig: IDBMSConfig;
     FDBMS: IDBMS;
 
+    FDBUpdaterVariaveis: string;
+
     // FSisConfig: ISisConfig;
 
     // FUsuarioGerente: IUsuario;
@@ -75,6 +77,8 @@ type
     property DBMS: IDBMS read FDBMS;
 
     procedure PreenchaAtividade; virtual; abstract;
+    property DBUpdaterVariaveis: string read FDBUpdaterVariaveis write FDBUpdaterVariaveis;
+    procedure PreenchaDBUpdaterVariaveis; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -205,7 +209,7 @@ begin
   Randomize;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
-
+  PreenchaDBUpdaterVariaveis;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
@@ -239,6 +243,8 @@ begin
 
     bResultado := FAppObj.Inicialize;
 
+    PreenchaAtividade;
+
     bResultado := AtualizeVersaoExecutaveis;
     if bResultado then
     begin
@@ -268,8 +274,6 @@ begin
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
 
     CarregarMachineId;
-
-    PreenchaAtividade;
 
     ClearStyleElements(TitleBarPanel);
   finally
@@ -312,7 +316,7 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
     oUsuarioGerente := UsuarioCreate;
-    oTerminalList := TerminalListCreate;
+    oTerminalList := TerminalListCreate;//aqui
     bResultado := GarantirConfig(FLoja, oUsuarioGerente, oTerminalList);
 
     if not bResultado then
@@ -325,7 +329,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      FLoja, oUsuarioGerente, oTerminalList);
+      FLoja, oUsuarioGerente, oTerminalList, DBUpdaterVariaveis);
 
     if not bResultado then
     begin
@@ -354,7 +358,7 @@ begin
   try
     oSisConfig := FAppObj.SisConfig;
 
-    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppInfo, oSisConfig,
+    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
       pUsuarioGerente, pLoja, FProcessOutput, FProcessLog, pTerminalList);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
     Result := oAppSisConfigGarantirXML.Execute;
@@ -377,6 +381,11 @@ begin
   FProcessOutput := MudoOutputCreate;
   if Assigned(SplashForm) then
     FreeAndNil(SplashForm);
+end;
+
+procedure TPrincBasForm.PreenchaDBUpdaterVariaveis;
+begin
+  FDBUpdaterVariaveis := '';
 end;
 
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);

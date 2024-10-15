@@ -8,7 +8,7 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
 
 function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
 
 implementation
 
@@ -22,7 +22,7 @@ var
 
 function GarantirDBServ(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -35,7 +35,7 @@ begin
 
     oUpdater := DBUpdaterFirebirdCreate(TERMINAL_ID_RETAGUARDA,
       rDBConnectionParams, pAppInfo.Pasta, DBMS, pSisConfig, pProcessLog,
-      pOutput, pLoja, pUsuarioGerente, pTerminalList);
+      pOutput, pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
 
     Result := oUpdater.Execute;
   finally
@@ -46,7 +46,7 @@ end;
 
 function GarantirDBTerms(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -83,7 +83,7 @@ begin
 
       oUpdater := DBUpdaterFirebirdCreate(oTerminal.TerminalId,
         rDBConnectionParams, pAppInfo.Pasta, DBMS, pSisConfig, pProcessLog,
-        pOutput, pLoja, pUsuarioGerente, pTerminalList);
+        pOutput, pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
 
       Result := oUpdater.Execute;
     end;
@@ -95,7 +95,7 @@ end;
 
 function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
 var
   sLog: string;
 begin
@@ -118,7 +118,7 @@ begin
       sLog := 'pSisConfig.LocalMachineIsServer=true, vai GarantirDBServ';
       pProcessLog.RegistreLog(sLog);
       Result := GarantirDBServ(pSisConfig, pAppInfo, pProcessLog, pOutput,
-        pLoja, pUsuarioGerente, pTerminalList);
+        pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
       if not Result then
       begin
         pProcessLog.RegistreLog('retornou false');
@@ -127,7 +127,7 @@ begin
     end;
 
     GarantirDBTerms(pSisConfig, pAppInfo, pProcessLog, pOutput, pLoja,
-      pUsuarioGerente, pTerminalList)
+      pUsuarioGerente, pTerminalList, pVariaveis);
 
   finally
     pProcessLog.RegistreLog('fim');

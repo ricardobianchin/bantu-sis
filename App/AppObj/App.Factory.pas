@@ -15,7 +15,7 @@ function AppObjCreate(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOut
 function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
   pProcessLog: IProcessLog): IAtualizaVersao;
 
-function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+function SisConfigGarantirCreate(pAppObj: IAppObj; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
   pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 
@@ -45,11 +45,11 @@ begin
   Result := TAtualizaVersao.Create(pAppInfo, pOutput, pProcessLog);
 end;
 
-function SisConfigGarantirCreate(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+function SisConfigGarantirCreate(pAppObj: IAppObj; pSisConfig: ISisConfig;
   pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
   pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 begin
-  Result := TAppSisConfigGarantirXML.Create(pAppInfo, pSisConfig, pUsuarioGerente,
+  Result := TAppSisConfigGarantirXML.Create(pAppObj, pSisConfig, pUsuarioGerente,
     pLoja, pOutput, pProcessLog, pTerminalList);
 end;
 

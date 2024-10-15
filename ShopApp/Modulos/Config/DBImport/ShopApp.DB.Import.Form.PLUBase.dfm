@@ -50,7 +50,6 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   inherited StatusPanel: TPanel
     Top = 321
     Width = 926
-    ExplicitTop = 320
     ExplicitWidth = 922
     inherited ProgressBar1: TProgressBar
       Left = -45

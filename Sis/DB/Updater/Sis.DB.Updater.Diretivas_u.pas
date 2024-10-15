@@ -2,7 +2,7 @@ unit Sis.DB.Updater.Diretivas_u;
 
 interface
 
-uses System.Classes;
+uses System.Classes, System.Generics.Collections;
 
 procedure ProcessarDiretivas(pLinhasSL: TStrings;
   pVariaveis, pDiretivaAbre, pDiretivaFecha: string);
@@ -26,6 +26,8 @@ var
   oVariaveisSL: TStringList;
 
 procedure ProcessarValor(pLinhasSL: TStrings; pVar, pValor: string);
+//semelhante do #define do C
+//por exemplo {ALVO} substitui por SERVIDOR
 var
   sBusca: string;
   sOrigem: string;
@@ -42,100 +44,94 @@ begin
   pLinhasSL.Text := sDestino;
 end;
 
-
 procedure ProcessarSE(pLinhasSL: TStrings; pVar, pValor: string);
 var
   sBuscaSE: string;
-  iPosSE: integer;
-  iPosFechaSE: integer;
-  iPosSENAO: integer;
-  iPosFIMSE: integer;
-  bTemSenao: boolean;
-  sOrigem: string;
-  sDestino: string;
-  iQtdEncontrada: integer;
-  iPosIgual: integer;
-  sValorArquivo: string;
-  bExpressaoVerdadeira: boolean;
-  sTextoVai: string;
-  i, c: integer;
+  iPosSE, iPosFechaSE, iPosSENAO, iPosFIMSE, iPosIgual: Integer;
+  bTemSenao, bExpressaoVerdadeira: Boolean;
+  sOrigem, sDestino, sValorArquivo, sTextoVai: string;
+  i, c: Integer;
+  Pilha: TStack<Integer>;
 begin
-  iQtdEncontrada := 0;
-  sBuscaSE := sAbreSE + pVar + '=';
+  sBuscaSE := '{SE ' + pVar + '=';
   sOrigem := pLinhasSL.Text;
   sDestino := '';
-  repeat
-    iPosSE := Pos(sBuscaSE, sOrigem);
-    if iPosSE < 1 then
-      break;
-    inc(iQtdEncontrada);
+  Pilha := TStack<Integer>.Create;
+  try
+    repeat
+      iPosSE := Pos(sBuscaSE, sOrigem);
+      if iPosSE < 1 then
+        Break;
 
-    if iPosSE > 1 then
-    begin
-      sDestino := sDestino + Copy(sOrigem, 1, iPosSE - 1);
-      Delete(sOrigem, 1, iPosSE - 1);
-    end;
-
-    iPosIgual := Pos('=', sOrigem);
-    iPosFechaSE := Pos(sDiretivaFecha, sOrigem);
-    iPosSENAO := Pos(sSENAO, sOrigem);
-    iPosFIMSE := Pos(sFIMSE, sOrigem);
-
-    i := iPosIgual + 1;
-    c := iPosFechaSE - (iPosIgual + 1);
-    sValorArquivo := Trim(Copy(sOrigem, i, c));
-    bExpressaoVerdadeira := sValorArquivo = pValor;
-
-    bTemSenao := (iPosSENAO > 0) and (iPosSENAO < iPosFIMSE);
-
-    if bTemSenao then
-    begin // tem senao
-      if bExpressaoVerdadeira then
+      if iPosSE > 1 then
       begin
-        i := iPosFechaSE + 1;
-        c := iPosSENAO - (iPosFechaSE + 1);
-        sTextoVai := Copy(sOrigem, i, c);
+        sDestino := sDestino + Copy(sOrigem, 1, iPosSE - 1);
+        Delete(sOrigem, 1, iPosSE - 1);
+      end;
 
-        if Copy(sTextoVai, 1, 2) = #13#10 then
-          Delete(sTextoVai, 1, 2);
-        sDestino := sDestino + sTextoVai;
+      iPosIgual := Pos('=', sOrigem);
+      iPosFechaSE := Pos('}', sOrigem);
+      i := iPosIgual + 1;
+      c := iPosFechaSE - (iPosIgual + 1);
+      sValorArquivo := Trim(Copy(sOrigem, i, c));
+      bExpressaoVerdadeira := sValorArquivo = pValor;
+
+      Pilha.Push(iPosSE);
+      iPosFIMSE := 0;
+      repeat
+        iPosSE := PosEx('{SE ', sOrigem, iPosFechaSE + 1);
+        iPosFIMSE := PosEx('{FIMSE}', sOrigem, iPosFechaSE + 1);
+        if (iPosSE > 0) and (iPosSE < iPosFIMSE) then
+        begin
+          Pilha.Push(iPosSE);
+          iPosFechaSE := PosEx('}', sOrigem, iPosSE + 1);
+        end
+        else
+        begin
+          Pilha.Pop;
+          if Pilha.Count > 0 then
+            iPosFechaSE := PosEx('}', sOrigem, iPosFIMSE + 1);
+        end;
+      until Pilha.Count = 0;
+
+      iPosSENAO := PosEx('{SENAO}', sOrigem, iPosFechaSE + 1);
+      bTemSenao := (iPosSENAO > 0) and (iPosSENAO < iPosFIMSE);
+
+      if bTemSenao then
+      begin
+        if bExpressaoVerdadeira then
+        begin
+          i := iPosFechaSE + 1;
+          c := iPosSENAO - (iPosFechaSE + 1);
+          sTextoVai := Copy(sOrigem, i, c);
+        end
+        else
+        begin
+          i := iPosSENAO + 8;
+          c := iPosFIMSE - (iPosSENAO + 8);
+          sTextoVai := Copy(sOrigem, i, c);
+        end;
       end
       else
       begin
-        i := iPosSENAO + iLenSENAO;
-        c := iPosFIMSE -(iPosSENAO + iLenSENAO);
-        sTextoVai := Copy(sOrigem, i, c);
-
-        if Copy(sTextoVai, 1, 2) = #13#10 then
-          Delete(sTextoVai, 1, 2);
-        sDestino := sDestino + sTextoVai;
+        if bExpressaoVerdadeira then
+        begin
+          i := iPosFechaSE + 1;
+          c := iPosFIMSE - (iPosFechaSE + 1);
+          sTextoVai := Copy(sOrigem, i, c);
+        end
+        else
+          sTextoVai := '';
       end;
-    end
-    else
-    begin // nao tem senao
-      if bExpressaoVerdadeira then
-      begin
-        i := iPosFechaSE + 1;
-        c := iPosFIMSE - (iPosFechaSE + 1);
-        sTextoVai := Copy(sOrigem, i, c);
 
-        if Copy(sTextoVai, 1, 2) = #13#10 then
-          Delete(sTextoVai, 1, 2);
-        sDestino := sDestino + sTextoVai;
-      end;
-    end;
-    // {$IFDEF DEBUG}
-//    CopyTextToClipboard(sOrigem);
-    // {$ENDIF}
-    Delete(sOrigem, 1, iPosFIMSE + (iLenFIMSE - 1));
-    if Copy(sTextoVai, 1, 2) = #13#10 then
-      Delete(sTextoVai, 1, 2);
+      sDestino := sDestino + sTextoVai;
+      Delete(sOrigem, 1, iPosFIMSE + 6);
+    until False;
 
-  until False;
-  if iQtdEncontrada > 0 then
-  begin
     sDestino := sDestino + sOrigem;
     pLinhasSL.Text := sDestino;
+  finally
+    Pilha.Free;
   end;
 end;
 

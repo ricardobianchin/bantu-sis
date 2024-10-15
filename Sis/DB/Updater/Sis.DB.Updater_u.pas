@@ -45,6 +45,8 @@ type
     FsDiretivaAbre: string;
     FsDiretivaFecha: string;
 
+    FVariaveis: string;
+
     procedure SetiVersao(const Value: integer);
 
     function CarreguouArqComando(piVersao: integer): Boolean;
@@ -94,7 +96,7 @@ type
       pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
       pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
       pOutput: IOutput; pLoja: ILoja; pUsuarioGerente: IUsuario;
-      pTerminalList: ITerminalList);
+      pTerminalList: ITerminalList; pVariaveis: string);
     destructor Destroy; override;
   end;
 
@@ -112,10 +114,11 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList);
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string);
 var
   sSql: string;
 begin
+  FVariaveis := pVariaveis;
   FTerminalId := pTerminalId;
   FTerminalList := pTerminalList;
   FDBUpdaterAlvo := TerminalIdToAlvo(FTerminalId);
@@ -258,7 +261,7 @@ end;
 
 function TDBUpdater.Execute: Boolean;
 var
-  sVariaveis: string;
+  sVariaveisAdicionais: string;
   bSeAplica: Boolean;
 begin
   Result := True;
@@ -303,13 +306,18 @@ begin
           // Halt(0);
           // fim do teste            testar acima, add aqui terminal_id=
 
-          sVariaveis := //
+          sVariaveisAdicionais := //
             'ALVO=' + FsDBUpdaterAlvo + #13#10 + //
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
-          ProcessarDiretivas(FLinhasSL, sVariaveis, FsDiretivaAbre,
+          ProcessarDiretivas(FLinhasSL, FVariaveis+ sVariaveisAdicionais, FsDiretivaAbre,
             FsDiretivaFecha);
+//{$IFDEF DEBUG}
+//if iVersao=2 then
+//  CopyTextToClipboard(FLinhasSL.Text);
+//{$ENDIF}
+
           LerUpdateProperties(FLinhasSL);
 
           bSeAplica := SeAplica(FTerminalId, FDBAtualizAlvo);

@@ -29,8 +29,6 @@ object ConfigPergForm: TConfigPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 976
-    ExplicitHeight = 556
     DesignSize = (
       980
       557)
@@ -124,7 +122,7 @@ object ConfigPergForm: TConfigPergForm
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 296
+        Width = 69
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -135,7 +133,6 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
-        ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9

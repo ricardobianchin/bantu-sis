@@ -11,12 +11,16 @@ function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
 
 function DataSetStateToTitulo(pDataSetState: TDataSetState): string;
 
-procedure PreencherTerminalList(pDBConnection: IDBConnection;pAppInfo: IAppInfo;
-  pTerminalList: ITerminalList; pNomeDaMaquina: string = '');
+procedure PreencherTerminalList(pDBConnection: IDBConnection;
+  pAppInfo: IAppInfo; pTerminalList: ITerminalList;
+  pNomeDaMaquina: string = '');
+
+procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
+  pAppInfo: IAppInfo);
 
 implementation
 
-uses Sis.Sis.Constants, Sis.DB.Factory, System.SysUtils;
+uses Sis.Sis.Constants, Sis.DB.Factory, System.SysUtils, App.AppInfo.Types;
 
 function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
   pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
@@ -32,7 +36,10 @@ begin
   if pTerminalId = TERMINAL_ID_RETAGUARDA then
   begin
     Result.Server := pSisConfig.ServerMachineId.Name;
-    Result.Arq := pAppInfo.PastaDados + 'RETAG.FDB';
+    Result.Arq := pAppInfo.PastaDados + //
+      'Dados_' + //
+      TipoAtividadeNegocioDescr[pAppInfo.SisTipoAtividade] + //
+      '_Retaguarda.FDB';
 
     Result.Arq[1] := pSisConfig.ServerLetraDoDrive;
     Result.Database := Result.Server + ':' + Result.Arq;
@@ -78,13 +85,12 @@ begin
   end;
 end;
 
-procedure PreencherTerminalList(pDBConnection: IDBConnection;pAppInfo: IAppInfo;
-  pTerminalList: ITerminalList; pNomeDaMaquina: string);
+procedure PreencherTerminalList(pDBConnection: IDBConnection;
+  pAppInfo: IAppInfo; pTerminalList: ITerminalList; pNomeDaMaquina: string);
 var
   sSql: string;
-  q: TDataSet;
+  Q: TDataSet;
   oTerminal: ITerminal;
-  sNomeArq: string;
 begin
   pTerminalList.Clear;
   if not pDBConnection.Abrir then
@@ -108,35 +114,67 @@ begin
       ;
 
     if pNomeDaMaquina <> '' then
-      sSql := sSql + ' where NOME_NA_REDE=' + pNomeDaMaquina.QuotedString+#13#10 //
-      ;
+      sSql := sSql + ' where NOME_NA_REDE=' + pNomeDaMaquina.QuotedString
+        + #13#10 //
+        ;
 
     sSql := sSql + 'ORDER BY TERMINAL_ID'#13#10; //
 
-    pDBConnection.QueryDataSet(sSql, q);
-    while not q.Eof do
+    pDBConnection.QueryDataSet(sSql, Q);
+    while not Q.Eof do
     begin
       oTerminal := TerminalCreate;
       pTerminalList.Add(oTerminal);
-      oTerminal.TerminalId := q.Fields[0].AsInteger;
-      oTerminal.Apelido := Trim(q.Fields[1].AsString);
-      oTerminal.NomeNaRede := Trim(q.Fields[2].AsString);
-      oTerminal.IP := Trim(q.Fields[3].AsString);
-      oTerminal.NFSerie := q.Fields[4].AsInteger;
-      oTerminal.LetraDoDrive := Trim(q.Fields[5].AsString);
 
-      sNomeArq := pAppInfo.PastaDados + 'Term' +
-        oTerminal.TerminalId.ToStrZero + '.fdb';
-      sNomeArq[1] := oTerminal.LetraDoDrive[1];
+      DataSetToTerminal(Q, oTerminal, pAppInfo);
 
-      oTerminal.LocalArqDados := sNomeArq;
-      oTerminal.Database := oTerminal.NomeNaRede + ':' + sNomeArq;
-
-      q.Next;
+      Q.Next;
     end;
   finally
     pDBConnection.Fechar;
   end;
+end;
+
+procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
+  pAppInfo: IAppInfo);
+var
+  sLetraDoDrive: string;
+  sNomeArq: string;
+  sFormat: string;
+  sPasta, sAtiv: string;
+  iTerm: TTerminalId;
+begin
+  pTerminal.TerminalId := Q.FieldByName('TERMINAL_ID').AsInteger;
+  pTerminal.Apelido := Trim(Q.FieldByName('APELIDO').AsString);
+  pTerminal.NomeNaRede := Trim(Q.FieldByName('NOME_NA_REDE').AsString);
+  pTerminal.IP := Trim(Q.FieldByName('IP').AsString);
+  pTerminal.NFSerie := Q.FieldByName('NF_SERIE').AsInteger;
+
+  sLetraDoDrive := Q.FieldByName('LETRA_DO_DRIVE').AsString.Trim;
+  if sLetraDoDrive = '' then
+    sLetraDoDrive := 'C';
+
+  pTerminal.LetraDoDrive := sLetraDoDrive[1];
+
+  pTerminal.GavetaTem := Q.FieldByName('GAVETA_TEM').AsBoolean;
+  pTerminal.BalancaModoId := Q.FieldByName('BALANCA_MODO_ID').AsInteger;
+  pTerminal.BalancaId := Q.FieldByName('BALANCA_ID').AsInteger;
+  pTerminal.BarCodigoIni := Q.FieldByName('BARRAS_COD_INI').AsInteger;
+  pTerminal.BarCodigoTam := Q.FieldByName('BARRAS_COD_TAM').AsInteger;
+  pTerminal.CupomNLinsFinal := Q.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
+  pTerminal.SempreOffLine := Q.FieldByName('SEMPRE_OFFLINE').AsBoolean;
+
+  sFormat := '%sDados_%s_Terminal_%.3d.fdb';
+  sPasta := pAppInfo.PastaDados;
+  sAtiv := TipoAtividadeNegocioDescr[pAppInfo.SisTipoAtividade];
+  iTerm := pTerminal.TerminalId;
+
+  sNomeArq := Format(sFormat, [sPasta, sAtiv, iTerm]);
+  sNomeArq[1] := pTerminal.LetraDoDrive[1];
+
+  pTerminal.LocalArqDados := sNomeArq;
+  pTerminal.Database := pTerminal.NomeNaRede + ':' + sNomeArq;
+
 end;
 
 end.

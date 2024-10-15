@@ -9,7 +9,7 @@ uses
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
   App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
-  Sis.Entities.TerminalList, Sis.Entities.Terminal, Data.DB;
+  Sis.Entities.TerminalList, Sis.Entities.Terminal, Data.DB, App.AppObj;
 const
   COL_2_X = 362;
 type
@@ -101,6 +101,7 @@ type
 
     FPastaBin: string;
     FPastaConfigs: string;
+    FAppObj: IAppObj;
     FSisConfig: ISisConfig;
     FUsuarioGerente: IUsuario;
     FLoja: ILoja;
@@ -132,7 +133,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
-      pUsuarioGerente: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList);
+      pUsuarioGerente: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
       reintroduce;
   end;
 
@@ -144,7 +145,7 @@ implementation
 {$R *.dfm}
 
 uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
-  Sis.Types.Utils_u,
+  Sis.Types.Utils_u, App.DB.Utils,
   Sis.Types.strings_u, Sis.DB.DBTypes, Sis.UI.Constants,
   App.UI.Config.Constants, Sis.UI.IO.Files, Sis.Entities.Factory;
 
@@ -292,7 +293,7 @@ begin
 end;
 
 constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
-  pUsuarioGerente: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList);
+  pUsuarioGerente: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FTerminalList := pTerminalList;
@@ -300,6 +301,7 @@ begin
   PosCol1 := Point(7, 3);
   PosCol2 := Point(COL_2_X, 3);
 
+  FAppObj := pAppObj;
   FSisConfig := pSisConfig;
   FUsuarioGerente := pUsuarioGerente;
   FLoja := pLoja;
@@ -667,22 +669,8 @@ begin
     while not Tab.Eof do
     begin
       Terminal := TerminalCreate;
-
-      Terminal.TerminalId := Tab.FieldByName('TERMINAL_ID').AsInteger;
-      Terminal.Apelido := Trim(Tab.FieldByName('APELIDO').AsString);
-      Terminal.NomeNaRede := Trim(Tab.FieldByName('NOME_NA_REDE').AsString);
-      Terminal.IP := Trim(Tab.FieldByName('IP').AsString);
-      Terminal.NFSerie := Tab.FieldByName('NF_SERIE').AsInteger;
-      Terminal.LetraDoDrive := Tab.FieldByName('LETRA_DO_DRIVE').AsString[1];
-      Terminal.GavetaTem := Tab.FieldByName('GAVETA_TEM').AsBoolean;
-      Terminal.BalancaModoId := Tab.FieldByName('BALANCA_MODO_ID').AsInteger;
-      Terminal.BalancaId := Tab.FieldByName('BALANCA_ID').AsInteger;
-      Terminal.BarCodigoIni := Tab.FieldByName('BARRAS_COD_INI').AsInteger;
-      Terminal.BarCodigoTam := Tab.FieldByName('BARRAS_COD_TAM').AsInteger;
-      Terminal.CupomNLinsFinal := Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
-      Terminal.SempreOffLine := Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean;
-
       FTerminalList.Add(Terminal);
+      DataSetToTerminal(Tab, Terminal, FAppObj.AppInfo);
       Tab.Next;
     end;
   finally

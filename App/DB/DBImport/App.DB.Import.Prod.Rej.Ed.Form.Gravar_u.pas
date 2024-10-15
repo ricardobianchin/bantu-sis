@@ -67,7 +67,8 @@ begin
   // ComandosSL.Add(sComando);
 
   sComando := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID' +
-    ', PROD_PRECO_TABELA_ID, PRECO) VALUES(' + iId.ToString + ', 1, ' +
+    //', PROD_PRECO_TABELA_ID
+    ', PRECO) VALUES(' + iId.ToString + //', 1, ' +
     CurrencyToStrPonto(aPreco[0]) + ');';
   oDBConnection.ExecuteSQL(sComando);
   // ComandosSL.Add(sComando);
