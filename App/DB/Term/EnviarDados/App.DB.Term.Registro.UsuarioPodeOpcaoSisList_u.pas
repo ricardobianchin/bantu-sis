@@ -6,7 +6,7 @@ uses Sis.Entities.Types, System.Contnrs,
   App.DB.Term.Registro.UsuarioPodeOpcaoSis_u;
 
 type
-  TUsuarioPodeOpcaoSisListList = class(TObjectList)
+  TUsuarioPodeOpcaoSisList = class(TObjectList)
   private
     function GetUsuarioPodeOpcaoSis(Index: integer): TUsuarioPodeOpcaoSis;
   public
@@ -21,7 +21,7 @@ implementation
 
 { TUsuarioPodeOpcaoSisListList }
 
-procedure TUsuarioPodeOpcaoSisListList.Adicionar(pLOJA_ID: TLojaId;
+procedure TUsuarioPodeOpcaoSisList.Adicionar(pLOJA_ID: TLojaId;
   pPESSOA_ID, pOPCAO_SIS_ID: integer);
 var
   up: TUsuarioPodeOpcaoSis;
@@ -30,13 +30,13 @@ begin
   Add(up);
 end;
 
-function TUsuarioPodeOpcaoSisListList.GetUsuarioPodeOpcaoSis(Index: integer)
+function TUsuarioPodeOpcaoSisList.GetUsuarioPodeOpcaoSis(Index: integer)
   : TUsuarioPodeOpcaoSis;
 begin
   Result := TUsuarioPodeOpcaoSis(Items[Index]);
 end;
 
-function TUsuarioPodeOpcaoSisListList.IndexOfValores(pLOJA_ID: TLojaId;
+function TUsuarioPodeOpcaoSisList.IndexOfValores(pLOJA_ID: TLojaId;
   pPESSOA_ID, pOPCAO_SIS_ID: integer): integer;
 var
   i: integer;

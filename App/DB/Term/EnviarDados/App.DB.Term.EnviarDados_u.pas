@@ -50,6 +50,8 @@ begin
     EnvTabLojaEhPessoa(FServDBConnection, FTermDBConnection).Execute;
     EnvTabUsuario(FServDBConnection, FTermDBConnection).Execute;
     EnvTabUsuarioPodeOpcaoSis(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabProd(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabProdBarras(FServDBConnection, FTermDBConnection).Execute;
 
   finally
     FServDBConnection.Fechar;

@@ -6,7 +6,6 @@ uses Sis.DB.DBTypes, App.DB.Term.EnviarTabela_u, Data.DB {, Data.FmtBcd} ,
   Sis.Entities.Types, App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u;
 
 type
-
   TDBConnectionLocation = (loServ, loTerm);
   TResultadoBusca = (rbNaoTem, rbTemDiferente, rbTemIgual);
 
@@ -16,7 +15,7 @@ type
     FTabelaNome: string;
     FInsDBExec: IDBExec;
     FDelDBExec: IDBExec;
-    FTermList: TUsuarioPodeOpcaoSisListList;
+    FTermList: TUsuarioPodeOpcaoSisList;
     procedure InicializeCommands;
     procedure LibereCommands;
     procedure PreencherTermList;
@@ -72,7 +71,7 @@ begin
   Conn[loTerm] := pTerm;
 
   FTabelaNome := 'USUARIO_PODE_OPCAO_SIS';
-  FTermList := TUsuarioPodeOpcaoSisListList.Create;
+  FTermList := TUsuarioPodeOpcaoSisList.Create;
 end;
 
 destructor TEnvTabUsuarioPodeOpcaoSis.Destroy;

@@ -31,6 +31,7 @@ type
   TFirebirdVersion = TDBVersion;
 
 procedure SetParamDateTime(pFDParam: TFDParam; pDt: TDateTime);
+procedure SetParamCurrency(pFDParam: TFDParam; pCurr: Currency);
 
 const
   DBFrameworkNames: array [TDBFramework] of string = ('NAOINDICADO', 'FIREDAC');
@@ -220,16 +221,74 @@ begin
   end;
 
   case pFDParam.DataType of
+    ftTimeStamp:
+      pFDParam.AsSQLTimeStamp := DateTimeToSQLTimeStamp(pDt);
     ftDate:
       pFDParam.AsDate := Trunc(pDt);
     ftTime:
       pFDParam.AsTime := Frac(pDt);
     ftDateTime:
       pFDParam.AsDateTIme := pDt;
-    ftTimeStamp:
-      pFDParam.AsSQLTimeStamp := DateTimeToSQLTimeStamp(pDt);
     else //ftTimeStampOffset:
       pFDParam.Value := pDt;
+  end;
+end;
+
+procedure SetParamCurrency(pFDParam: TFDParam; pCurr: Currency);
+begin
+  case pFDParam.DataType of
+    ftUnknown: ;
+    ftString: ;
+    ftSmallint: ;
+    ftInteger: ;
+    ftWord: ;
+    ftBoolean: ;
+    ftFloat: pFDParam.AsFloat := pCurr;
+    ftCurrency: pFDParam.AsCurrency := pCurr;
+    ftBCD: pFDParam.AsBCD := pCurr;
+    ftDate: ;
+    ftTime: ;
+    ftDateTime: ;
+    ftBytes: ;
+    ftVarBytes: ;
+    ftAutoInc: ;
+    ftBlob: ;
+    ftMemo: ;
+    ftGraphic: ;
+    ftFmtMemo: ;
+    ftParadoxOle: ;
+    ftDBaseOle: ;
+    ftTypedBinary: ;
+    ftCursor: ;
+    ftFixedChar: ;
+    ftWideString: ;
+    ftLargeint: ;
+    ftADT: ;
+    ftArray: ;
+    ftReference: ;
+    ftDataSet: ;
+    ftOraBlob: ;
+    ftOraClob: ;
+    ftVariant: ;
+    ftInterface: ;
+    ftIDispatch: ;
+    ftGuid: ;
+    ftTimeStamp: ;
+    ftFMTBcd: pFDParam.AsFMTBCD := pCurr;
+    ftFixedWideChar: ;
+    ftWideMemo: ;
+    ftOraTimeStamp: ;
+    ftOraInterval: ;
+    ftLongWord: ;
+    ftShortint: ;
+    ftByte: ;
+    ftExtended: pFDParam.AsExtended := pCurr;
+    ftConnection: ;
+    ftParams: ;
+    ftStream: ;
+    ftTimeStampOffset: ;
+    ftObject: ;
+    ftSingle: pFDParam.AsSingle := pCurr;
   end;
 end;
 
