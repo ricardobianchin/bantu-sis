@@ -299,6 +299,7 @@ contains
   App.DB.Term.EnviarTabela.Usuario_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Usuario_u.pas',
   App.DB.Term.EnviarTabela.UsuarioPodeOpcaoSis_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.UsuarioPodeOpcaoSis_u.pas',
   App.DB.Term.Registro.UsuarioPodeOpcaoSis_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSis_u.pas',
-  App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u.pas';
+  App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.UsuarioPodeOpcaoSisList_u.pas',
+  App.DB.Term.EnviarTabela.Prod_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Prod_u.pas';
 
 end.
