@@ -100,12 +100,14 @@ begin
   FAltDBExec.Params[16].AsBoolean := pReg.ATIVO;
   FAltDBExec.Params[17].AsString := pReg.LOCALIZ;
   FAltDBExec.Params[18].AsSmallInt := pReg.BAL_USO;
-  FAltDBExec.Params[19].AsFMTBCD := pReg.CUSTO;
-  FAltDBExec.Params[20].AsFMTBCD := pReg.PRECO;
-  FAltDBExec.Params[21].AsInteger := pReg.PROD_ID;
 
-  SetParamDateTime(FAltDBExec.Params[22], pReg.CRIADO_EM);
-  SetParamDateTime(FAltDBExec.Params[23], pReg.ALTERADO_EM);
+  SetParamCurrency(FInsDBExec.Params[19], pReg.CUSTO);
+  SetParamCurrency(FInsDBExec.Params[20], pReg.PRECO);
+
+  SetParamDateTime(FAltDBExec.Params[21], pReg.CRIADO_EM);
+  SetParamDateTime(FAltDBExec.Params[22], pReg.ALTERADO_EM);
+
+  FAltDBExec.Params[23].AsInteger := pReg.PROD_ID;
 
   FAltDBExec.Execute;
 end;
