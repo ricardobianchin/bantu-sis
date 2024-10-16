@@ -220,14 +220,14 @@ begin
   end;
 
   case pFDParam.DataType of
+    ftTimeStamp:
+      pFDParam.AsSQLTimeStamp := DateTimeToSQLTimeStamp(pDt);
     ftDate:
       pFDParam.AsDate := Trunc(pDt);
     ftTime:
       pFDParam.AsTime := Frac(pDt);
     ftDateTime:
       pFDParam.AsDateTIme := pDt;
-    ftTimeStamp:
-      pFDParam.AsSQLTimeStamp := DateTimeToSQLTimeStamp(pDt);
     else //ftTimeStampOffset:
       pFDParam.Value := pDt;
   end;
