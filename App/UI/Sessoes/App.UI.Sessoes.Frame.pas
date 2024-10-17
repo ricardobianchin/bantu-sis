@@ -260,7 +260,7 @@ var
   oAction: TAction;
   oBot: TBotaoModuloFrame;
 begin
-  if not FLoginConfig.PreencheLogin then
+  if not FLoginConfig.AbreModulo then
     exit;
 
   oBot := GetBotByTipoOpcao(FLoginConfig.TipoOpcaoSisModulo);

@@ -7,6 +7,10 @@ uses Sis.ModuloSistema.Types, Sis.Config.ConfigXMLI;
 type
   ILoginConfig = interface(IConfigXMLI)
     ['{1EFB09EA-5B92-449E-9C26-9ECCA3FB5E8F}']
+    function GetAbreModulo: boolean;
+    procedure SetAbreModulo(Value: boolean);
+    property AbreModulo: boolean read GetAbreModulo write SetAbreModulo;
+
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);
     property PreencheLogin: boolean read GetPreencheLogin write SetPreencheLogin;
