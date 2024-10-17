@@ -21,6 +21,9 @@ type
     TitleBarCaptionLabel: TLabel;
     Logo1Image: TImage;
     DtHCompileLabel: TLabel;
+    GerenciadorDeTarefas_PrincBasForm: TAction;
+    SisToolBar_PrincBasForm: TToolBar;
+    ToolButton1: TToolButton;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
 
@@ -29,6 +32,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure DtHCompileLabelClick(Sender: TObject);
+    procedure GerenciadorDeTarefas_PrincBasFormExecute(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -368,6 +372,13 @@ begin
   finally
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.GerenciadorDeTarefas_PrincBasFormExecute(
+  Sender: TObject);
+begin
+  inherited;
+  GerenciadorDeTarefas_PrincBasForm.Checked := not GerenciadorDeTarefas_PrincBasForm.Checked;
 end;
 
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);

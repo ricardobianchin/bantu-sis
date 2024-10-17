@@ -14,6 +14,7 @@ type
   TSessoesPrincBasForm = class(TPrincBasForm, ISessaoEventos)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
+    SisToolBarPanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -121,6 +122,11 @@ begin
   DtHCompileLabel.Left := 3;
   DtHCompileLabel.Top := 10;
   // StatusLabel.left := 30;
+
+  SisToolBar_PrincBasForm.Parent := SisToolBarPanel;
+  SisToolBar_PrincBasForm.Left := 0;
+  SisToolBar_PrincBasForm.Top := 0;
+
   ProcessOutput.Ativo := false;
 end;
 

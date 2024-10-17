@@ -5,6 +5,7 @@ inherited PrincBasForm: TPrincBasForm
   ClientWidth = 628
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  ExplicitTop = -26
   ExplicitWidth = 628
   ExplicitHeight = 477
   TextHeight = 15
@@ -86,6 +87,24 @@ inherited PrincBasForm: TPrincBasForm
       end
     end
   end
+  object SisToolBar_PrincBasForm: TToolBar [3]
+    Left = 448
+    Top = 424
+    Width = 150
+    Height = 29
+    Align = alNone
+    ButtonHeight = 21
+    ButtonWidth = 109
+    Caption = 'SisToolBar_PrincBasForm'
+    List = True
+    ShowCaptions = True
+    TabOrder = 1
+    object ToolButton1: TToolButton
+      Left = 0
+      Top = 0
+      Action = GerenciadorDeTarefas_PrincBasForm
+    end
+  end
   inherited ActionList1_ActBasForm: TActionList
     inherited FecharAction_ActBasForm: TAction
       Caption = 'Fechar o Sistema'
@@ -96,6 +115,10 @@ inherited PrincBasForm: TPrincBasForm
       Hint = 'Minimize'
       ImageIndex = 1
       OnExecute = MinimizeAction_PrincBasFormExecute
+    end
+    object GerenciadorDeTarefas_PrincBasForm: TAction
+      Caption = 'Tarefas do Sistema'
+      OnExecute = GerenciadorDeTarefas_PrincBasFormExecute
     end
   end
 end
