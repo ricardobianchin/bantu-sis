@@ -145,8 +145,7 @@ begin
   iPessoaId := FDMemTable.Fields[iT_PESSOA_ID].AsInteger;
   sApelido := Trim(FDMemTable.Fields[iT_APELIDO].AsString);
 
-  OpcaoSisFuncionarioPerg(iLojaId, iPessoaId, sApelido, AppInfo, SisConfig,
-    DBMS);
+  OpcaoSisFuncionarioPerg(iLojaId, iPessoaId, sApelido, AppObj, DBMS);
 end;
 
 procedure TAppPessFuncionarioDataSetForm.PerfilDeUsoAction_FunciDataSetFormExecute(

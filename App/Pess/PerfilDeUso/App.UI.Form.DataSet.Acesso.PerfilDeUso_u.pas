@@ -150,8 +150,7 @@ begin
   iPerfilDeUsoId := FDMemTable.Fields[0].AsInteger;
   sPerfilDeUsoNome := Trim(FDMemTable.Fields[1].AsString);
 
-  OpcaoSisPerfilUsoPerg(iPerfilDeUsoId, sPerfilDeUsoNome, AppInfo,
-    SisConfig, DBMS);
+  OpcaoSisPerfilUsoPerg(iPerfilDeUsoId, sPerfilDeUsoNome, AppObj, DBMS);
 end;
 
 procedure TPerfilDeUsoDataSetForm.RecordToEnt;

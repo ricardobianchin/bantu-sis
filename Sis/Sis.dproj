@@ -436,6 +436,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas"/>
+        <DCCReference Include="Threads\Sis.Treads.StatusFrame_u.pas">
+            <Form>StatusFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

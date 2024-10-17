@@ -67,7 +67,7 @@ begin
   // SisConfig.
 
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);

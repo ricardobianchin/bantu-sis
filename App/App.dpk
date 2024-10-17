@@ -304,6 +304,7 @@ contains
   App.DB.Term.EnviarTabela.ProdBarras_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.ProdBarras_u.pas',
   App.DB.Term.Registro.ProdBarras_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarras_u.pas',
   App.DB.Term.Registro.ProdBarrasList_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarrasList_u.pas',
-  App.UI.Sessoes.BotModulo.Frame_u in 'UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame};
+  App.UI.Sessoes.BotModulo.Frame_u in 'UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame},
+  App.Ger.GerForm_u in 'Ger\App.Ger.GerForm_u.pas' {GerAppForm};
 
 end.

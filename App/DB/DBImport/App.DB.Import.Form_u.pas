@@ -253,7 +253,7 @@ begin
     RejeicaoDBGrid);
 
   FDestinoDBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, AppObj.AppInfo, AppObj.SisConfig);
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
   FDestinoDBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     FDestinoDBConnectionParams, ProcessLog, FStatusOutput);

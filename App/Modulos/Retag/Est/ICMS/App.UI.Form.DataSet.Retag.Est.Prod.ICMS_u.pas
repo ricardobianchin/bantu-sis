@@ -83,7 +83,7 @@ begin
     exit;
 
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oConn := DBConnectionCreate('Retag.ICMS.AtivoSet.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -120,7 +120,7 @@ var
   oConn: IDBConnection;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oConn := DBConnectionCreate('Retag.ICMS.Ed.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -149,7 +149,7 @@ var
 begin
   inherited;
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oDBConnection := DBConnectionCreate('Retag.ICMS.Ed.Ins.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);

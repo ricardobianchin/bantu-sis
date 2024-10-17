@@ -10,7 +10,7 @@ uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog //
 
   , App.AppInfo //
 
-  , Sis.Loja //
+  , Sis.Loja, Sis.Entities.TerminalList //
 
   ; //
 
@@ -54,6 +54,10 @@ type
 
     function GetLoja: ILoja;
     property Loja: ILoja read GetLoja;
+
+    function GetTerminalList: ITerminalList;
+    property TerminalList: ITerminalList read GetTerminalList;
+
   end;
 
 implementation

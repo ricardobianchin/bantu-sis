@@ -9,7 +9,7 @@ uses
   App.AppInfo, App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.Usuario, Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList;
+  Sis.Usuario, Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList, App.Ger.GerForm_u, Sis.Entities.Factory;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -21,9 +21,11 @@ type
     TitleBarCaptionLabel: TLabel;
     Logo1Image: TImage;
     DtHCompileLabel: TLabel;
-    GerenciadorDeTarefas_PrincBasForm: TAction;
-    SisToolBar_PrincBasForm: TToolBar;
-    ToolButton1: TToolButton;
+    GerenciadorDeTarefasAbrirAction_PrincBasForm: TAction;
+    GerenciadorDeTarefasCentralizarAction_PrincBasForm: TAction;
+    GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
+    AbrirButton_PrincBasForm: TButton;
+    CentrButton_PrincBasForm: TButton;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
 
@@ -32,11 +34,14 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure DtHCompileLabelClick(Sender: TObject);
-    procedure GerenciadorDeTarefas_PrincBasFormExecute(Sender: TObject);
+    procedure GerenciadorDeTarefasAbrirAction_PrincBasFormExecute(Sender: TObject);
+    procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(
+      Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
     FAppInfo: IAppInfo;
+    FTerminalList: ITerminalList;
     FAppObj: IAppObj;
     FLoja: ILoja;
 
@@ -49,13 +54,8 @@ type
 
     FDBUpdaterVariaveis: string;
 
-    // FSisConfig: ISisConfig;
+    FGerForm: TGerAppForm;
 
-    // FUsuarioGerente: IUsuario;
-    // FLoja: ILoja;
-    // FDBMSConfig: IDBMSConfig;
-    // FDBMS: IDBMS;
-    // FServConnection: IDBConnection;
     procedure GarantaDB;
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
@@ -66,6 +66,8 @@ type
     procedure CarregarLoja;
 
   protected
+    procedure GerFormInicializar; virtual; abstract;
+
     property StatusOutput: IOutput read FStatusOutput;
     property ProcessOutput: IOutput read FProcessOutput;
     property ProcessLog: IProcessLog read FProcessLog;
@@ -83,6 +85,8 @@ type
     procedure PreenchaAtividade; virtual; abstract;
     property DBUpdaterVariaveis: string read FDBUpdaterVariaveis write FDBUpdaterVariaveis;
     procedure PreenchaDBUpdaterVariaveis; virtual;
+
+    property GerForm: TGerAppForm read FGerForm write FGerForm;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -98,7 +102,7 @@ implementation
 uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
-  System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Entities.Factory,
+  System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u,
   Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
   Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
   App.SisConfig.DBI, App.DB.Utils, AppVersao_u, Sis.Sis.Constants;
@@ -138,7 +142,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, AppObj.SisConfig);
+    FAppObj);
 
   DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, FProcessOutput);
@@ -150,8 +154,7 @@ procedure TPrincBasForm.CarregarMachineId;
 var
   oSisConfigDBI: ISisConfigDBI;
 begin
-  oSisConfigDBI := SisConfigDBICreate(AppObj.SisConfig, AppInfo, DBMS,
-    FProcessLog, FProcessOutput);
+  oSisConfigDBI := SisConfigDBICreate( FAppObj, DBMS, FProcessLog, FProcessOutput);
 
   oSisConfigDBI.LerMachineIdent;
 end;
@@ -230,7 +233,7 @@ begin
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FLoja := LojaCreate;
     FAppInfo := GetAppInfoCreate;
-
+    FTerminalList := TerminalListCreate;
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
 
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
@@ -243,7 +246,7 @@ begin
 
 
     FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, {FDBMS}nil, FStatusOutput,
-      FProcessOutput, FProcessLog);
+      FProcessOutput, FProcessLog, FTerminalList);
 
     bResultado := FAppObj.Inicialize;
 
@@ -280,6 +283,8 @@ begin
     CarregarMachineId;
 
     ClearStyleElements(TitleBarPanel);
+
+    GerFormInicializar;
   finally
     FAppObj.ProcessOutput := MudoOutputCreate;
     FProcessLog.RetorneLocal;
@@ -297,6 +302,7 @@ begin
   inherited;
   DtHCompileLabel.Caption := AppVersao_u.VERSAO_RESUMIDA;
   DtHCompileLabel.Hint := AppVersao_u.GetInfos;
+
 end;
 
 procedure TPrincBasForm.FormDestroy(Sender: TObject);
@@ -320,7 +326,7 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
     oUsuarioGerente := UsuarioCreate;
-    oTerminalList := TerminalListCreate;//aqui
+    oTerminalList := TerminalListCreate;
     bResultado := GarantirConfig(FLoja, oUsuarioGerente, oTerminalList);
 
     if not bResultado then
@@ -332,8 +338,8 @@ begin
     end;
 
     oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(oSisConfig, FAppInfo, FProcessLog, FProcessOutput,
-      FLoja, oUsuarioGerente, oTerminalList, DBUpdaterVariaveis);
+    bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput,
+      FLoja, oUsuarioGerente, DBUpdaterVariaveis);
 
     if not bResultado then
     begin
@@ -374,11 +380,19 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.GerenciadorDeTarefas_PrincBasFormExecute(
+procedure TPrincBasForm.GerenciadorDeTarefasAbrirAction_PrincBasFormExecute(
   Sender: TObject);
 begin
   inherited;
-  GerenciadorDeTarefas_PrincBasForm.Checked := not GerenciadorDeTarefas_PrincBasForm.Checked;
+  FGerForm.Show;
+end;
+
+procedure TPrincBasForm.GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(
+  Sender: TObject);
+begin
+  inherited;
+  ControlAlignToRect(FGerForm, Screen.WorkAreaRect);
+  FGerForm.BringToFront;
 end;
 
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);

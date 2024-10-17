@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis_u, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, App.AppInfo;
+  Sis.DB.DBTypes, App.AppObj;
 
 type
   TOpcaoSisUsuarioTreeViewForm = class(TOpcaoSisTreeViewForm)
@@ -23,8 +23,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pLojaId: smallint;
-      pAssociadaId: integer; pAssociadaNome: string; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pDBMS: IDBMS); reintroduce;
+      pAssociadaId: integer; pAssociadaNome: string; pAppObj: IAppObj;
+      pDBMS: IDBMS); reintroduce;
   end;
 
 var
@@ -37,11 +37,10 @@ implementation
 
 constructor TOpcaoSisUsuarioTreeViewForm.Create(AOwner: TComponent;
   pLojaId: smallint; pAssociadaId: integer; pAssociadaNome: string;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS);
+  pAppObj: IAppObj; pDBMS: IDBMS);
 begin
   FLojaId := pLojaId;
-  inherited Create(AOwner, pAssociadaId, pAssociadaNome, pAppInfo,
-    pSisConfig, pDBMS);
+  inherited Create(AOwner, pAssociadaId, pAssociadaNome, pAppObj, pDBMS);
 end;
 
 function TOpcaoSisUsuarioTreeViewForm.GetEntidadeAssociada: string;

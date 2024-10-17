@@ -10,7 +10,7 @@ function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
 
 function AppObjCreate(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
-  pProcessOutput: IOutput; pProcessLog: IProcessLog): IAppObj;
+  pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppObj;
 
 function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
   pProcessLog: IProcessLog): IAtualizaVersao;
@@ -33,10 +33,10 @@ begin
 end;
 
 function AppObjCreate(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
-  pProcessOutput: IOutput; pProcessLog: IProcessLog): IAppObj;
+  pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppObj;
 begin
   Result := TAppObj.Create(pAppInfo, pLoja, pDBMS, pStatusOutput, pProcessOutput,
-    pProcessLog);
+    pProcessLog, pTerminalList);
 end;
 
 function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;

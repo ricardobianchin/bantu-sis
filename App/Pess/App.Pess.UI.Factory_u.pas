@@ -59,7 +59,7 @@ var
   oDBConnection: IDBConnection;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    pAppObj.AppInfo, pSisConfig);
+    pAppObj);
 
   oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig,
     oDBConnectionParams, pProcessLog, pOutput);

@@ -3,7 +3,8 @@ unit App.AppObj_u;
 interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config;
+  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config,
+  Sis.Entities.TerminalList;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
@@ -17,6 +18,10 @@ type
     FProcessLog: IProcessLog;
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
+    FTerminalList: ITerminalList;
+
+    function GetTerminalList: ITerminalList;
+
 
     function GetAppTestesConfig: IAppTestesConfig;
 
@@ -40,11 +45,12 @@ type
     property SisConfig: ISisConfig read GetSisConfig;
     property AppInfo: IAppInfo read GetAppInfo;
     property Loja: ILoja read GetLoja;
+    property TerminalList: ITerminalList read GetTerminalList;
 
 
     function Inicialize: boolean;
     constructor Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
-      pProcessOutput: IOutput; pProcessLog: IProcessLog);
+      pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
 implementation
@@ -55,11 +61,11 @@ uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory,
 { TAppObj }
 
 constructor TAppObj.Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS;
-  pStatusOutput: IOutput; pProcessOutput: IOutput; pProcessLog: IProcessLog);
+  pStatusOutput: IOutput; pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   FAppTestesConfig := App.Factory.AppTestesConfigCreate(pProcessLog,
     pStatusOutput);
-
+  FTerminalList := pTerminalList;
   FAppInfo := pAppInfo;
   FLoja := pLoja;
   FDBMS := pDBMS;
@@ -118,6 +124,11 @@ end;
 function TAppObj.GetStatusOutput: IOutput;
 begin
   Result := FStatusOutput;
+end;
+
+function TAppObj.GetTerminalList: ITerminalList;
+begin
+  Result := FTerminalList;
 end;
 
 function TAppObj.Inicialize: boolean;

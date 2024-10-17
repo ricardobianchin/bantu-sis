@@ -3,12 +3,12 @@ unit App.DB.Garantir;
 interface
 
 uses Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.Config.SisConfig, App.AppInfo, Sis.Usuario, Sis.Loja,
+  App.AppObj, Sis.Usuario, Sis.Loja,
   Sis.Entities.TerminalList;
 
-function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
+function GarantirDB(pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
+  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
 
 implementation
 
@@ -20,9 +20,9 @@ var
   DBMSConfig: IDBMSConfig;
   DBMS: IDBMS;
 
-function GarantirDBServ(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
+function GarantirDBServ(pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
+  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -31,11 +31,11 @@ begin
 
   try
     rDBConnectionParams := TerminalIdToDBConnectionParams
-      (TERMINAL_ID_RETAGUARDA, pAppInfo, pSisConfig);
+      (TERMINAL_ID_RETAGUARDA, pAppObj);
 
     oUpdater := DBUpdaterFirebirdCreate(TERMINAL_ID_RETAGUARDA,
-      rDBConnectionParams, pAppInfo.Pasta, DBMS, pSisConfig, pProcessLog,
-      pOutput, pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
+      rDBConnectionParams, pAppObj.AppInfo.Pasta, DBMS, pAppObj.SisConfig, pProcessLog,
+      pOutput, pLoja, pUsuarioGerente, pAppObj.TerminalList, pVariaveis);
 
     Result := oUpdater.Execute;
   finally
@@ -44,9 +44,9 @@ begin
   end;
 end;
 
-function GarantirDBTerms(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
+function GarantirDBTerms(pAppObj: iAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
+  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -60,30 +60,30 @@ begin
     pProcessLog.PegueLocal('App.DB.Garantir,GarantirDBServ');
   }
 
-  if pTerminalList.Count = 0 then
+  if pAppObj.TerminalList.Count = 0 then
   begin
     rDBConnectionParams := TerminalIdToDBConnectionParams
-      (TERMINAL_ID_RETAGUARDA, pAppInfo, pSisConfig);
+      (TERMINAL_ID_RETAGUARDA, pAppObj);
 
     oDBConnection := DBConnectionCreate('App.DB.Garantir.GarantirDBTerms.conn',
-      pSisConfig, rDBConnectionParams, pProcessLog, pOutput);
+      pAppObj.SisConfig, rDBConnectionParams, pProcessLog, pOutput);
 
-    PreencherTerminalList(oDBConnection, pAppInfo, pTerminalList,
-      pSisConfig.LocalMachineId.Name);
+    PreencherTerminalList(oDBConnection, pAppObj, pAppObj.TerminalList,
+      pAppObj.SisConfig.LocalMachineId.Name);
   end;
 
   try
-    for iIndex := 0 to pTerminalList.count - 1 do
+    for iIndex := 0 to pAppObj.TerminalList.count - 1 do
     begin
-      oTerminal := pTerminalList[iIndex];
+      oTerminal := pAppObj.TerminalList[iIndex];
 
       rDBConnectionParams.Server := oTerminal.NomeNaRede;
       rDBConnectionParams.Arq := oTerminal.LocalArqDados;
       rDBConnectionParams.Database := oTerminal.Database;
 
       oUpdater := DBUpdaterFirebirdCreate(oTerminal.TerminalId,
-        rDBConnectionParams, pAppInfo.Pasta, DBMS, pSisConfig, pProcessLog,
-        pOutput, pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
+        rDBConnectionParams, pAppObj.AppInfo.Pasta, DBMS, pAppObj.SisConfig, pProcessLog,
+        pOutput, pLoja, pUsuarioGerente, pAppObj.TerminalList, pVariaveis);
 
       Result := oUpdater.Execute;
     end;
@@ -93,17 +93,17 @@ begin
   end;
 end;
 
-function GarantirDB(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
+function GarantirDB(pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string): boolean;
+  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
 var
   sLog: string;
 begin
   Result := False;
   pProcessLog.PegueLocal('App.DB.Garantir.GarantirDB');
   try
-    DBMSConfig := DBMSConfigCreate(pSisConfig, pProcessLog, pOutput);
-    DBMS := DBMSCreate(pSisConfig, DBMSConfig, pProcessLog, pOutput);
+    DBMSConfig := DBMSConfigCreate(pAppObj.SisConfig, pProcessLog, pOutput);
+    DBMS := DBMSCreate(pAppObj.SisConfig, DBMSConfig, pProcessLog, pOutput);
 
     pProcessLog.RegistreLog('vai DBMS.GarantirDBMSInstalado');
     Result := DBMS.GarantirDBMSInstalado(pProcessLog, pOutput);
@@ -113,12 +113,12 @@ begin
       exit;
     end;
 
-    if pSisConfig.LocalMachineIsServer then
+    if pAppObj.SisConfig.LocalMachineIsServer then
     begin
       sLog := 'pSisConfig.LocalMachineIsServer=true, vai GarantirDBServ';
       pProcessLog.RegistreLog(sLog);
-      Result := GarantirDBServ(pSisConfig, pAppInfo, pProcessLog, pOutput,
-        pLoja, pUsuarioGerente, pTerminalList, pVariaveis);
+      Result := GarantirDBServ(pAppObj, pProcessLog, pOutput,
+        pLoja, pUsuarioGerente, pVariaveis);
       if not Result then
       begin
         pProcessLog.RegistreLog('retornou false');
@@ -126,9 +126,7 @@ begin
       end;
     end;
 
-    GarantirDBTerms(pSisConfig, pAppInfo, pProcessLog, pOutput, pLoja,
-      pUsuarioGerente, pTerminalList, pVariaveis);
-
+    GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioGerente, pVariaveis);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal

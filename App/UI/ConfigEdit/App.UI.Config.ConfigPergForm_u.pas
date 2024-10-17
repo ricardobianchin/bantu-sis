@@ -670,7 +670,7 @@ begin
     begin
       Terminal := TerminalCreate;
       FTerminalList.Add(Terminal);
-      DataSetToTerminal(Tab, Terminal, FAppObj.AppInfo);
+      DataSetToTerminal(Tab, Terminal, FAppObj);
       Tab.Next;
     end;
   finally

@@ -157,6 +157,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ShopAppObj\ShopApp.DBI_u.pas"/>
+        <DCCReference Include="Ger\ShopApp.Ger.GerForm_u.pas">
+            <Form>GerShopAppForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -21,7 +21,7 @@ function PerfilDeUsoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   : IFormCreator;
 
 function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS): boolean;
+  pAppObj: IAppObj; pDBMS: IDBMS): boolean;
 
 implementation
 
@@ -62,7 +62,7 @@ var
   oDBConnection: IDBConnection;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    pAppInfo, pSisConfig);
+    pAppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.PerfilDeUso.DataSet.Conn',
     pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
@@ -76,12 +76,12 @@ begin
 end;
 
 function OpcaoSisPerfilUsoPerg(pPerfiDeUsoId: integer; pPerfilDeUsoNome: string;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS): boolean;
+  pAppObj: IAppObj; pDBMS: IDBMS): boolean;
 var
   oForm: TOpcaoSisPerfilUsoTreeViewForm;
 begin
   oForm := TOpcaoSisPerfilUsoTreeViewForm.Create(Application, pPerfiDeUsoId,
-    pPerfilDeUsoNome, pAppInfo, pSisConfig, pDBMS);
+    pPerfilDeUsoNome, pAppObj, pDBMS);
 
   try
     Result := oForm.Perg;

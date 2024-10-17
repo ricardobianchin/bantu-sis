@@ -2,20 +2,20 @@ unit App.SisConfig.DBI_u;
 
 interface
 
-uses App.SisConfig.DBI, Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes,
+uses App.SisConfig.DBI, Sis.Config.SisConfig, App.AppObj, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
   TSisConfigDBI = class(TInterfacedObject, ISisConfigDBI)
   private
     FSisConfig: ISisConfig;
-    FAppInfo: IAppInfo;
+    FAppObj: IAppObj;
     FDBMS: IDBMS;
     FProcessLog: IProcessLog;
     FOutput: IOutput;
   public
     procedure LerMachineIdent;
-    constructor Create(pSisConfig: ISisConfig; pAppInfo: IAppInfo; pDBMS: IDBMS;
+    constructor Create(pAppObj: IAppObj; pDBMS: IDBMS;
       pProcessLog: IProcessLog; pOutput: IOutput);
   end;
 
@@ -25,12 +25,11 @@ implementation
 
 uses App.DB.Utils, Sis.DB.Factory, Sis.Sis.Constants;
 
-constructor TSisConfigDBI.Create(pSisConfig: ISisConfig; pAppInfo: IAppInfo;
+constructor TSisConfigDBI.Create(pAppObj: IAppObj;
   pDBMS: IDBMS; pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   inherited Create;
-  FSisConfig := pSisConfig;
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
   FDBMS := pDBMS;
   FProcessLog := pProcessLog;
   FOutput := pOutput;
@@ -44,7 +43,7 @@ var
   ODBQuery: IDBQuery;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppInfo, FSisConfig);
+    FAppObj);
 
   oDBConnection := DBConnectionCreate('TSisConfigDBI.LerMachineIdent.Conn',
     FSisConfig, oDBConnectionParams, FProcessLog, FOutput);

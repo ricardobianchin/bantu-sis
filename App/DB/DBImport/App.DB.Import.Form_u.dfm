@@ -1,21 +1,22 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
-  ClientHeight = 341
-  ClientWidth = 930
+  ClientHeight = 340
+  ClientWidth = 926
   WindowState = wsMaximized
   OnCreate = FormCreate
-  ExplicitWidth = 946
-  ExplicitHeight = 380
+  ExplicitWidth = 942
+  ExplicitHeight = 379
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 930
+    Width = 926
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitWidth = 930
     object ExecuteBitBtn: TBitBtn
       Left = 536
       Top = 7
@@ -28,13 +29,15 @@ inherited DBImportForm: TDBImportForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 254
-    Width = 930
+    Top = 253
+    Width = 926
     Height = 66
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitTop = 254
+    ExplicitWidth = 930
     object FilConfTitLabel: TLabel
       Left = 4
       Top = 43
@@ -146,12 +149,14 @@ inherited DBImportForm: TDBImportForm
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 930
-    Height = 213
+    Width = 926
+    Height = 212
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
+    ExplicitWidth = 930
+    ExplicitHeight = 213
     object GridsPanel: TPanel
       Left = 0
       Top = 0
@@ -209,24 +214,27 @@ inherited DBImportForm: TDBImportForm
   end
   object StatusPanel: TPanel [3]
     Left = 0
-    Top = 320
-    Width = 930
+    Top = 319
+    Width = 926
     Height = 21
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitTop = 320
+    ExplicitWidth = 930
     DesignSize = (
-      930
+      926
       21)
     object ProgressBar1: TProgressBar
-      Left = -5
+      Left = -9
       Top = 2
       Width = 276
       Height = 17
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
+      ExplicitLeft = -5
     end
   end
   object ActionList_AppDBImport: TActionList

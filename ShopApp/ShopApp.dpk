@@ -45,6 +45,7 @@ contains
   ShopApp.UI.Sessoes.Frame_u in 'UI\Sessoes\ShopApp.UI.Sessoes.Frame_u.pas' {ShopSessoesFrame: TFrame},
   ShopApp.DB.Import.Types_u in 'Imports\ShopApp.DB.Import.Types_u.pas',
   ShopApp.DB.Import.Form.PLUBase in 'Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas' {ShopDBImportFormPLUBase},
-  ShopApp.DBI_u in 'ShopAppObj\ShopApp.DBI_u.pas';
+  ShopApp.DBI_u in 'ShopAppObj\ShopApp.DBI_u.pas',
+  ShopApp.Ger.GerForm_u in 'Ger\ShopApp.Ger.GerForm_u.pas' {GerShopAppForm};
 
 end.

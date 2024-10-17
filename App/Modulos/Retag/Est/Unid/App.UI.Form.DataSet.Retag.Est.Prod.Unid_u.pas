@@ -53,7 +53,7 @@ var
   Resultado: boolean;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -78,7 +78,7 @@ var
   oConn: IDBConnection;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -108,7 +108,7 @@ var
 begin
   inherited;
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);

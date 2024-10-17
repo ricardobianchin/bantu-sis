@@ -21,8 +21,7 @@ function FuncionarioDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   : IFormCreator;
 
 function OpcaoSisFuncionarioPerg(pLojaId: smallint; pPerfiDeUsoId: integer;
-  pFuncionarioNome: string; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS): boolean;
+  pFuncionarioNome: string; pAppObj: IAppObj; pDBMS: IDBMS): boolean;
 
 function PerfilDeUsoFuncionarioPerg(pFuncionarioEnt: IPessFuncionarioEnt;
   pFuncionarioDBI: IPessFuncionarioDBI): boolean;
@@ -65,7 +64,7 @@ var
   oDBConnection: IDBConnection;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    pAppObj.AppInfo, pSisConfig);
+    pAppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Acesso.Funcionario.DataSet.Conn',
     pSisConfig, oDBConnectionParams, pProcessLog, pOutput);
@@ -80,13 +79,12 @@ begin
 end;
 
 function OpcaoSisFuncionarioPerg(pLojaId: smallint; pPerfiDeUsoId: integer;
-  pFuncionarioNome: string; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pDBMS: IDBMS): boolean;
+  pFuncionarioNome: string; pAppObj: IAppObj; pDBMS: IDBMS): boolean;
 var
   oForm: TOpcaoSisUsuarioTreeViewForm;
 begin
   oForm := TOpcaoSisUsuarioTreeViewForm.Create(Application, pLojaId,
-    pPerfiDeUsoId, pFuncionarioNome, pAppInfo, pSisConfig, pDBMS);
+    pPerfiDeUsoId, pFuncionarioNome, pAppObj, pDBMS);
 
   try
     Result := oForm.Perg;

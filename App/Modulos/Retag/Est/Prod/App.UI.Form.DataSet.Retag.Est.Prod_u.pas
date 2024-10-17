@@ -101,7 +101,7 @@ var
   oConn: IDBConnection;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -150,7 +150,7 @@ var
 begin
   inherited;
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
   oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -187,7 +187,7 @@ begin
   oAppObj := AppObj;
 
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    oAppInfo, SisConfig);
+    oAppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Prod.Ed.' + pDataSetStateAbrev +
     '.Conn', SisConfig, oDBConnectionParams, ProcessLog, Output);

@@ -4,8 +4,7 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   ClientWidth = 670
   Position = poDesktopCenter
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -12
-  ExplicitTop = -132
+  ExplicitTop = 2
   ExplicitWidth = 670
   ExplicitHeight = 583
   TextHeight = 15
@@ -32,16 +31,14 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   end
   object BasePanel: TPanel [3]
     Left = 0
-    Top = 528
+    Top = 518
     Width = 670
-    Height = 55
+    Height = 65
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    DesignSize = (
-      670
-      55)
+    ExplicitTop = 519
     object DtHCompilePanel: TPanel
       Left = 11
       Top = 2
@@ -50,19 +47,8 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
       Caption = ' '
       TabOrder = 0
     end
-    object SisToolBarPanel: TPanel
-      Left = 482
-      Top = 2
-      Width = 176
-      Height = 36
-      Anchors = [akTop, akRight]
-      BevelOuter = bvNone
-      Caption = ' '
-      TabOrder = 1
-    end
   end
-  inherited SisToolBar_PrincBasForm: TToolBar
-    Width = 670
+  inherited GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox
     TabOrder = 2
   end
 end

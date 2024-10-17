@@ -17,6 +17,7 @@ type
     function GetAppInfoCreate: IAppInfo; override;
     procedure PreenchaAtividade; override;
     procedure PreenchaDBUpdaterVariaveis; override;
+    procedure GerFormInicializar; override;
 
   public
     { Public declarations }
@@ -30,7 +31,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.Factory, ShopApp.Constants, ShopApp.UI.Sessoes.Frame_u, App.AppInfo.Types;
+uses App.Factory, ShopApp.Constants, ShopApp.UI.Sessoes.Frame_u, App.AppInfo.Types, ShopApp.Ger.GerForm_u;
 
 { TShopPrincForm }
 
@@ -42,6 +43,12 @@ begin
   finally
     ProcessLog.RetorneAssunto;
   end;
+end;
+
+procedure TShopPrincForm.GerFormInicializar;
+begin
+  inherited;
+  gerform := TGerShopAppForm.Create(Self);
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;

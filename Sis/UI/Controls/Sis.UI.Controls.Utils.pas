@@ -2,7 +2,7 @@ unit Sis.UI.Controls.Utils;
 
 interface
 
-uses Vcl.StdCtrls, Controls, messages, System.Classes;
+uses Vcl.StdCtrls, Controls, messages, System.Classes, System.Types;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 procedure SimuleTecla(VkKeyCode: integer; pControl: TControl = nil);
@@ -25,10 +25,11 @@ procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
 function GetToolFormHeight: integer;
 
 procedure ControlAlignToCenter(pControl: TControl);
+procedure ControlAlignToRect(pControl: TControl; pRect: TRect; pAlignment: TAlignment = taCenter);
 
 implementation
 
-uses System.SysUtils, ComCtrls, types, windows, ExtCtrls, CheckLst, Vcl.Forms,
+uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst, Vcl.Forms,
   Sis.UI.Constants, Vcl.Graphics, sndkey32, System.StrUtils;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
@@ -244,5 +245,16 @@ begin
   pControl.Left := iLeft;
 end;
 
+procedure ControlAlignToRect(pControl: TControl; pRect: TRect; pAlignment: TAlignment = taCenter);
+var
+  LargDif: integer;
+  AltuDif: integer;
+begin
+  LargDif := pRect.Width - pControl.Width;
+  pControl.Left := LargDif div 2;
+
+  AltuDif := pRect.Height - pControl.Height;
+  pControl.Top := AltuDif div 2;
+end;
 
 end.

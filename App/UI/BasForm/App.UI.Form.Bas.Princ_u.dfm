@@ -87,22 +87,29 @@ inherited PrincBasForm: TPrincBasForm
       end
     end
   end
-  object SisToolBar_PrincBasForm: TToolBar [3]
-    Left = 448
-    Top = 424
-    Width = 150
-    Height = 29
-    Align = alNone
-    ButtonHeight = 21
-    ButtonWidth = 109
-    Caption = 'SisToolBar_PrincBasForm'
-    List = True
-    ShowCaptions = True
+  object GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox [3]
+    Left = 59
+    Top = 202
+    Width = 172
+    Height = 50
+    Anchors = [akTop, akRight]
+    Caption = 'Tarefas do Sistema'
     TabOrder = 1
-    object ToolButton1: TToolButton
-      Left = 0
-      Top = 0
-      Action = GerenciadorDeTarefas_PrincBasForm
+    object AbrirButton_PrincBasForm: TButton
+      Left = 8
+      Top = 18
+      Width = 75
+      Height = 25
+      Action = GerenciadorDeTarefasAbrirAction_PrincBasForm
+      TabOrder = 0
+    end
+    object CentrButton_PrincBasForm: TButton
+      Left = 88
+      Top = 18
+      Width = 75
+      Height = 25
+      Action = GerenciadorDeTarefasCentralizarAction_PrincBasForm
+      TabOrder = 1
     end
   end
   inherited ActionList1_ActBasForm: TActionList
@@ -116,9 +123,13 @@ inherited PrincBasForm: TPrincBasForm
       ImageIndex = 1
       OnExecute = MinimizeAction_PrincBasFormExecute
     end
-    object GerenciadorDeTarefas_PrincBasForm: TAction
-      Caption = 'Tarefas do Sistema'
-      OnExecute = GerenciadorDeTarefas_PrincBasFormExecute
+    object GerenciadorDeTarefasAbrirAction_PrincBasForm: TAction
+      Caption = 'Abrir'
+      OnExecute = GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+    end
+    object GerenciadorDeTarefasCentralizarAction_PrincBasForm: TAction
+      Caption = 'Centralizar'
+      OnExecute = GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
     end
   end
 end
