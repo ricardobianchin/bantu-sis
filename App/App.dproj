@@ -580,6 +580,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.ProdBarras_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarras_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarrasList_u.pas"/>
+        <DCCReference Include="UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas">
+            <Form>BotaoModuloFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

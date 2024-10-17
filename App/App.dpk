@@ -303,6 +303,7 @@ contains
   App.DB.Term.EnviarTabela.Prod_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.Prod_u.pas',
   App.DB.Term.EnviarTabela.ProdBarras_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarTabela.ProdBarras_u.pas',
   App.DB.Term.Registro.ProdBarras_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarras_u.pas',
-  App.DB.Term.Registro.ProdBarrasList_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarrasList_u.pas';
+  App.DB.Term.Registro.ProdBarrasList_u in 'DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarrasList_u.pas',
+  App.UI.Sessoes.BotModulo.Frame_u in 'UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame};
 
 end.
