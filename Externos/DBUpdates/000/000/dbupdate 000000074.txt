@@ -1,442 +1,203 @@
-CLIENTE
+IMPORT_PROD_PA
     inicio
 
 -----------------------------
 DBATUALIZ INI
+DBATUALIZ_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=CLIENTE
-DBATUALIZ_OBJETIVO=CRIA PACKAGE CLIENTE_PA
+DBATUALIZ_OBJETIVO=CRIA PACKAGE IMPORT_PROD_PA
 DBATUALIZ_OBS=
 
-//PACKAGE CLIENTE_PA
+//PACKAGE IMPORT_PROD_PA
 
 /*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\CLIENTE_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\import_prod_pa.sql
 
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\CLIENTE_pa.sql"
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\import_prod_pa.sql"
 
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\CLIENTE_pa.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\import_prod_pa.sql";
+
+--execute procedure IMPORT_PROD_PA.APAGAR_DO;
+
+
+
 */
 
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=CLIENTE_PA
+OBJETO_NOME=IMPORT_PROD_PA
 
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE CLIENTE_PA
+CREATE OR ALTER PACKAGE IMPORT_PROD_PA
 AS
 BEGIN
-  PROCEDURE LISTA_GET 
-  RETURNS 
-  (
-    ---------------------------
-    --- LISTA_GET RETURNS INICIO
-    ---------------------------
-    LOJA_ID ID_SHORT_DOM
-    , TERMINAL_ID ID_SHORT_DOM
-    , PESSOA_ID ID_DOM
+  PROCEDURE INSERIR_DO (
+    VAI_IMPORTAR BOOLEAN,
 
-    , NOME NOME_DOM
-    , NOME_FANTASIA NOME_DOM
-    , APELIDO NOME_REDU_DOM
+    PROD_ID ID_DOM,
 
-    , GENERO_ID CHAR(1)
-    , GENERO_DESCR NOME_CURTO_DOM
+    DESCR PROD_DESCR_DOM,
+    DESCR_RED PROD_DESCR_DOM,
 
-    , ESTADO_CIVIL_ID CHAR(1)
-    , ESTADO_CIVIL_DESCR NOME_CURTO_DOM
-    
-    , C VARCHAR(15)
-    , I VARCHAR(15)
-    , M VARCHAR(15)
-    , M_UF CHAR(2)
+    IMPORT_FABR_ID ID_DOM,
+    IMPORT_PROD_TIPO_ID ID_DOM,
+    IMPORT_UNID_ID ID_DOM,
+    IMPORT_ICMS_ID ID_DOM,
+{se usa_natu=s}
+    PROD_NATU_ID ID_CHAR_DOM,
+{fimse}
+    CAPAC_EMB QTD_DOM,
+    NCM CHAR(8),
 
-    , EMAIL VARCHAR(50)
-    , DT_NASC DATE
-    , ATIVO BOOLEAN
+    CUSTO CUSTO_DOM,
 
-    , PESS_CRIADO_EM TIMESTAMP
-    , PESS_ALTERADO_EM TIMESTAMP
-
-    , ENDER_ORDEM SMALLINT
-
-    , LOGRADOURO           VARCHAR(70)
-    , NUMERO               NOME_DOM
-    , COMPLEMENTO          NOME_DOM
-    , BAIRRO               NOME_DOM
-    , UF_SIGLA             CHAR(2)
-    , CEP                  CHAR(8)
-
-    , MUNICIPIO_IBGE_ID    CHAR(7)
-    , MUNICIPIO_NOME    NOME_DOM
-
-    , DDD                  CHAR(2)
-    , FONE1                NOME_CURTO_DOM
-    , FONE2                NOME_CURTO_DOM
-    , FONE3                NOME_CURTO_DOM
-
-    , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
-
-    , ENDER_CRIADO_EM            TIMESTAMP
-    , ENDER_ALTERADO_EM          TIMESTAMP
-    ---------------------------
-    --- LISTA_GET RETURNS FIM
-    ---------------------------
-  );
-
-  PROCEDURE GARANTIR
-  (
-    LOJA_ID SMALLINT NOT NULL,
-    TERMINAL_ID SMALLINT NOT NULL,
-    
-    NOME VARCHAR(60),
-    NOME_FANTASIA VARCHAR(60),
-    APELIDO VARCHAR(20),
-    
-    GENERO_ID CHAR(1),
-    ESTADO_CIVIL_ID CHAR(1),
-    
-    C VARCHAR(15),
-    I VARCHAR(15),
-    M VARCHAR(15),
-    M_UF CHAR(2),
-    
-    EMAIL VARCHAR(50),
-    DT_NASC DATE,
     ATIVO BOOLEAN,
-    
-    PESSOA_ID INTEGER,
+    LOCALIZ NOME_CURTO_DOM,
+    MARGEM PERC_DOM,
 
-    LOGRADOURO        VARCHAR(70),
-    NUMERO            NOME_DOM,
-    COMPLEMENTO       NOME_DOM,
-    BAIRRO            NOME_DOM,
-    
-    UF_SIGLA          CHAR(2),
-    CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(7),
-    
-    DDD               CHAR(2),
-    FONE1             NOME_CURTO_DOM,
-    FONE2             NOME_CURTO_DOM,
-    FONE3             NOME_CURTO_DOM,
-    
-    CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    BAL_USO SMALLINT,
+    BAL_DPTO CHAR(3),
+    BAL_VALIDADE_DIAS SMALLINT,
+    BAL_TEXTO_ETIQ VARCHAR(400)
   )
   RETURNS
-  (
-    LOJA_ID_RET SMALLINT,
-    TERMINAL_ID_RET SMALLINT,
-    PESSOA_ID_RET INTEGER
+  (  
+    IMPORT_PROD_ID ID_DOM
   );
+
+  PROCEDURE APAGAR_DO;  
 END^
 
----------------------------
----    BODY
----------------------------
+----- body -----
 
-RECREATE PACKAGE BODY CLIENTE_PA
+RECREATE PACKAGE BODY IMPORT_PROD_PA
 AS
 BEGIN
-  PROCEDURE LISTA_GET 
-  RETURNS 
-  (
-    LOJA_ID ID_SHORT_DOM
-    , TERMINAL_ID ID_SHORT_DOM
-    , PESSOA_ID ID_DOM
-
-    , NOME NOME_DOM
-    , NOME_FANTASIA NOME_DOM
-    , APELIDO NOME_REDU_DOM
-
-    , GENERO_ID CHAR(1)
-    , GENERO_DESCR NOME_CURTO_DOM
-
-    , ESTADO_CIVIL_ID CHAR(1)
-    , ESTADO_CIVIL_DESCR NOME_CURTO_DOM
-    
-    , C VARCHAR(15)
-    , I VARCHAR(15)
-    , M VARCHAR(15)
-    , M_UF CHAR(2)
-
-    , EMAIL VARCHAR(50)
-    , DT_NASC DATE
-    , ATIVO BOOLEAN
-
-    , PESS_CRIADO_EM TIMESTAMP
-    , PESS_ALTERADO_EM TIMESTAMP
-
-    , ENDER_ORDEM SMALLINT
-
-    , LOGRADOURO           VARCHAR(70)
-    , NUMERO               NOME_DOM
-    , COMPLEMENTO          NOME_DOM
-    , BAIRRO               NOME_DOM
-    , UF_SIGLA             CHAR(2)
-    , CEP                  CHAR(8)
-
-    , MUNICIPIO_IBGE_ID    CHAR(7)
-    , MUNICIPIO_NOME    NOME_DOM
-
-    , DDD                  CHAR(2)
-    , FONE1                NOME_CURTO_DOM
-    , FONE2                NOME_CURTO_DOM
-    , FONE3                NOME_CURTO_DOM
-
-    , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
-
-    , ENDER_CRIADO_EM            TIMESTAMP
-    , ENDER_ALTERADO_EM          TIMESTAMP
-  )
-  AS
-  BEGIN 
-    FOR
-      WITH ECIVIL AS (
-        SELECT ESTADO_CIVIL_ID, DESCR FROM ESTADO_CIVIL
-      ), MU AS(
-         SELECT UF_SIGLA, MUNICIPIO_IBGE_ID, NOME FROM MUNICIPIO
-      ), GEN AS (
-        SELECT GENERO_ID, DESCR FROM GENERO
-      ), PES AS (
-        SELECT
-          LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO,
-          COALESCE(GENERO_ID, ' ') GENERO_ID,
-          COALESCE(ESTADO_CIVIL_ID, ' ') ESTADO_CIVIL_ID,
-          C, I, M, M_UF, EMAIL, DT_NASC, ATIVO,
-          CRIADO_EM, ALTERADO_EM
-        FROM
-          PESSOA
-        WHERE
-          TERMINAL_ID = 0
-      ), CLI AS(
-        SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID FROM CLIENTE
-      ), ENDER AS(
-        SELECT
-          LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM, LOGRADOURO, NUMERO,
-          COMPLEMENTO, BAIRRO, UF_SIGLA, CEP, MUNICIPIO_IBGE_ID,
-          DDD, FONE1, FONE2, FONE3, CONTATO, REFERENCIA,
-          CRIADO_EM, ALTERADO_EM
-        FROM
-          ENDERECO
-        WHERE
-          ORDEM = 0
-      )
-      SELECT
-        PES.LOJA_ID,
-        PES.TERMINAL_ID,
-        PES.PESSOA_ID,
-        
-        PES.NOME,
-        PES.APELIDO,
-        
-        GEN.GENERO_ID,
-        GEN.DESCR GENERO_DESCR,
-        
-        ECIVIL.ESTADO_CIVIL_ID,
-        ECIVIL.DESCR ESTADO_CIVIL_DESCR,
-        
-        PES.C,
-        PES.I,
-        PES.M,
-        PES.M_UF,
-        
-        PES.EMAIL,
-        PES.DT_NASC,
-        PES.ATIVO,
-        
-        PES.CRIADO_EM PESS_CRIADO_EM,
-        PES.ALTERADO_EM PESS_ALTERADO_EM,
-        
-        ENDER.LOGRADOURO,
-        ENDER.NUMERO,
-        ENDER.COMPLEMENTO,
-        ENDER.BAIRRO,
-        
-        ENDER.UF_SIGLA,
-        ENDER.CEP,
-        
-        ENDER.MUNICIPIO_IBGE_ID,
-        MU.NOME MUNICIPIO_NOME,
-        
-        ENDER.DDD,
-        ENDER.FONE1,
-        ENDER.FONE2,
-        ENDER.FONE3,
-        
-        ENDER.CONTATO,
-        ENDER.REFERENCIA,
-        
-        ENDER.CRIADO_EM ENDER_CRIADO_EM,
-        ENDER.ALTERADO_EM ENDER_ALTERADO_EM
-    
-      FROM PES
-
-      LEFT JOIN ENDER ON 
-      ENDER.LOJA_ID = PES.LOJA_ID
-      AND ENDER.TERMINAL_ID = PES.TERMINAL_ID
-      AND ENDER.PESSOA_ID = PES.PESSOA_ID
-
-      LEFT JOIN MU ON ENDER.MUNICIPIO_IBGE_ID = MU.MUNICIPIO_IBGE_ID
-
-      JOIN GEN ON
-      GEN.GENERO_ID = PES.GENERO_ID
-
-      JOIN ECIVIL ON
-      ECIVIL.ESTADO_CIVIL_ID = PES.ESTADO_CIVIL_ID
-      
-      JOIN CLI ON
-      CLI.LOJA_ID = PES.LOJA_ID
-      AND CLI.TERMINAL_ID = PES.TERMINAL_ID
-      AND CLI.PESSOA_ID = PES.PESSOA_ID 
-    INTO 
-      :LOJA_ID,
-      :TERMINAL_ID,
-      :PESSOA_ID,
-      
-      :NOME,
-      :APELIDO,
-      
-      :GENERO_ID,
-      :GENERO_DESCR,
-      
-      :ESTADO_CIVIL_ID,
-      :ESTADO_CIVIL_DESCR,
-      
-      :C,
-      :I,
-      :M,
-      :M_UF,
-      
-      :EMAIL,
-      :DT_NASC,
-      :ATIVO,
-      
-      :PESS_CRIADO_EM,
-      :PESS_ALTERADO_EM ,
-      
-      :LOGRADOURO,
-      :NUMERO,
-      :COMPLEMENTO,
-      :BAIRRO,
-      
-      :UF_SIGLA,
-      :CEP,
-      
-      :MUNICIPIO_IBGE_ID,
-      :MUNICIPIO_NOME,
-      
-      :DDD,
-      :FONE1,
-      :FONE2,
-      :FONE3,
-      
-      :CONTATO,
-      :REFERENCIA,
-      
-      :ENDER_CRIADO_EM,
-      :ENDER_ALTERADO_EM
-      
-    DO 
-      SUSPEND;
-  END
-  
-  PROCEDURE GARANTIR
-  (
-    LOJA_ID SMALLINT NOT NULL,
-    TERMINAL_ID SMALLINT NOT NULL,
-    
-    NOME VARCHAR(60),
-    NOME_FANTASIA VARCHAR(60),
-    APELIDO VARCHAR(20),
-    
-    GENERO_ID CHAR(1),
-    ESTADO_CIVIL_ID CHAR(1),
-    
-    C VARCHAR(15),
-    I VARCHAR(15),
-    M VARCHAR(15),
-    M_UF CHAR(2),
-    
-    EMAIL VARCHAR(50),
-    DT_NASC DATE,
+  PROCEDURE INSERIR_DO (
+    VAI_IMPORTAR BOOLEAN,
+    PROD_ID ID_DOM,
+    DESCR PROD_DESCR_DOM,
+    DESCR_RED PROD_DESCR_DOM,
+    IMPORT_FABR_ID ID_DOM,
+    IMPORT_PROD_TIPO_ID ID_DOM,
+    IMPORT_UNID_ID ID_DOM,
+    IMPORT_ICMS_ID ID_DOM,
+{se usa_natu=s}
+    PROD_NATU_ID ID_CHAR_DOM,
+{fimse}    
+    CAPAC_EMB QTD_DOM,
+    NCM CHAR(8),
+    CUSTO CUSTO_DOM,
     ATIVO BOOLEAN,
-    
-    PESSOA_ID INTEGER,
-
-    LOGRADOURO        VARCHAR(70),
-    NUMERO            NOME_DOM,
-    COMPLEMENTO       NOME_DOM,
-    BAIRRO            NOME_DOM,
-    
-    UF_SIGLA          CHAR(2),
-    CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(7),
-    
-    DDD               CHAR(2),
-    FONE1             NOME_CURTO_DOM,
-    FONE2             NOME_CURTO_DOM,
-    FONE3             NOME_CURTO_DOM,
-    
-    CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    LOCALIZ NOME_CURTO_DOM,
+    MARGEM PERC_DOM,
+    BAL_USO SMALLINT,
+    BAL_DPTO CHAR(3),
+    BAL_VALIDADE_DIAS SMALLINT,
+    BAL_TEXTO_ETIQ VARCHAR(400)
   )
   RETURNS
-  (
-    LOJA_ID_RET SMALLINT,
-    TERMINAL_ID_RET SMALLINT,
-    PESSOA_ID_RET INTEGER
+  (  
+    IMPORT_PROD_ID ID_DOM
   )
   AS
   BEGIN
-    EXECUTE PROCEDURE PESSOA_PA.GARANTIR(
-      :LOJA_ID,
-      :TERMINAL_ID,
-      :NOME,
-      :NOME_FANTASIA,
-      :APELIDO,
-      :GENERO_ID,
-      :ESTADO_CIVIL_ID,
-      :C,
-      :I,
-      :M,
-      :M_UF,
-      :EMAIL,
-      :DT_NASC,
+    IMPORT_PROD_ID = NEXT VALUE FOR IMPORT_PROD_SEQ;
+
+    INSERT INTO IMPORT_PROD (
+      IMPORT_PROD_ID,
+      PROD_ID,
+      VAI_IMPORTAR,
+      DESCR,
+      DESCR_RED,
+      IMPORT_FABR_ID,
+      IMPORT_PROD_TIPO_ID,
+      IMPORT_UNID_ID,
+      IMPORT_ICMS_ID,
+{se usa_natu=s}
+      PROD_NATU_ID,
+{fimse}      
+      CAPAC_EMB,
+      NCM,
+      CUSTO,
+      ATIVO,
+      LOCALIZ,
+      MARGEM,
+      BAL_USO,
+      BAL_DPTO,
+      BAL_VALIDADE_DIAS,
+      BAL_TEXTO_ETIQ)
+    VALUES 
+    (
+      :IMPORT_PROD_ID,
+      :PROD_ID,
+      :VAI_IMPORTAR,
+      :DESCR,
+      :DESCR_RED,
+      :IMPORT_FABR_ID,
+      :IMPORT_PROD_TIPO_ID,
+      :IMPORT_UNID_ID,
+      :IMPORT_ICMS_ID,
+{se usa_natu=s}
+      :PROD_NATU_ID,
+{fimse}      
+      :CAPAC_EMB,
+      :NCM,
+      :CUSTO,
       :ATIVO,
-      :PESSOA_ID,
-      :LOGRADOURO,
-      :NUMERO,
-      :COMPLEMENTO,
-      :BAIRRO,
-      :UF_SIGLA,
-      :CEP,
-      :MUNICIPIO_IBGE_ID,
-      :DDD,
-      :FONE1,
-      :FONE2,
-      :FONE3,
-      :CONTATO,
-      :REFERENCIA
-    )
-    RETURNING_VALUES :PESSOA_ID_RET;
+      :LOCALIZ,
+      :MARGEM,
+      :BAL_USO,
+      :BAL_DPTO,
+      :BAL_VALIDADE_DIAS,
+      :BAL_TEXTO_ETIQ
+    );
+  END
 
-    UPDATE OR INSERT INTO CLIENTE (LOJA_ID, TERMINAL_ID, PESSOA_ID)
-    VALUES (:LOJA_ID, :TERMINAL_ID, :PESSOA_ID_RET)
-    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID);
-
-    :LOJA_ID_RET = :LOJA_ID;
-    :TERMINAL_ID_RET = :TERMINAL_ID;
-    
-    SUSPEND;
+  PROCEDURE APAGAR_DO
+  AS
+  BEGIN
+    DELETE FROM PROD_BARRAS;
+    DELETE FROM PROD_COMPL;
+    DELETE FROM PROD_CUSTO;
+    DELETE FROM PROD_CUSTO_HIST;
+    DELETE FROM PROD_PRECO;
+    DELETE FROM PROD_PRECO_HIST;
+    DELETE FROM PROD;
+    DELETE FROM LOG_PK;
+    DELETE FROM LOG;
+    DELETE FROM FABR WHERE FABR_ID > 0;
+    DELETE FROM PROD_TIPO WHERE PROD_TIPO_ID > 0;
+    DELETE FROM ICMS WHERE ICMS_ID > 3;
+    DELETE FROM UNID WHERE UNID_ID > 0;
+    DELETE FROM IMPORT_PROD_REJEICAO;
+    DELETE FROM IMPORT_PROD_BARRAS;
+    DELETE FROM IMPORT_PROD_BARRAS_NOVO;
+    DELETE FROM IMPORT_PROD_PRECO;
+    DELETE FROM IMPORT_PROD;
+    DELETE FROM IMPORT_FABR WHERE IMPORT_FABR_ID > 0;
+    DELETE FROM IMPORT_PROD_TIPO WHERE IMPORT_PROD_TIPO_ID > 0;
+    DELETE FROM IMPORT_UNID WHERE IMPORT_UNID_ID > 0;
+    DELETE FROM IMPORT_ICMS WHERE IMPORT_ICMS_ID > 3;
+    EXECUTE STATEMENT('ALTER SEQUENCE PROD_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE FABR_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE PROD_TIPO_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE UNID_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE ICMS_SEQ RESTART WITH  4;');
+    EXECUTE STATEMENT('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE IMPORT_FABR_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE IMPORT_PROD_TIPO_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE IMPORT_UNID_SEQ RESTART WITH  1;');
+    EXECUTE STATEMENT('ALTER SEQUENCE IMPORT_ICMS_SEQ RESTART WITH  4;');
+    EXECUTE STATEMENT('ALTER SEQUENCE IMPORT_PROD_SEQ RESTART WITH  1;');
   END
 END^
 SET TERM ;^
 ```
 COMANDO FIM
-//PACKAGE CLIENTE_PA FIM
+//PACKAGE IMPORT_PROD_PA FIM
 
 DBATUALIZ FIM

@@ -1,66 +1,194 @@
-LOJA EH PESSOA
-    inicio
+ENDERECO_PA
 
+
+//INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=PESSOA, AMBIENTE, LOJA
-DBATUALIZ_OBJETIVO=CRIA LOJA_EH_PESSOA
+DBATUALIZ_ASSUNTO=PESSOA
+DBATUALIZ_OBJETIVO=CRIA ENDERECO_PA
 DBATUALIZ_OBS=
 
-//////////////////////////////////
-//
-// TABELA LOJA_EH_PESSOA
-//
-//////////////////////////////////
+
+
+
+
+// PACKAGE ENDERECO_PA
 COMANDO INI
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=LOJA_EH_PESSOA
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=ENDERECO_PA
 
-LOJA_ID;ID_SHORT_NOTN_DOM
-TERMINAL_ID;ID_SHORT_NOTN_DOM
-PESSOA_ID;ID_NOTN_DOM
+/*
+Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
 
-COLUNAS FIM
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
+*/
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE ENDERECO_PA
+AS
+BEGIN
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
+  );
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
+  (
+    UF_SIGLA CHAR(2)
+  )
+  RETURNS
+  (
+    MUNICIPIO_IBGE_ID CHAR(7)
+    , NOME NOME_DOM
+  );
+
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(7),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+  );
+END^
+
+/*
+--------
+-- BODY
+--------
+*/
+
+RECREATE PACKAGE BODY ENDERECO_PA
+AS
+BEGIN
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT
+      UF_SIGLA,
+      UF_IBGE_ID
+    FROM UF
+    ORDER BY UF_SIGLA
+    INTO :UF_SIGLA,
+      :UF_IBGE_ID
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
+  (
+    UF_SIGLA CHAR(2)
+  )
+  RETURNS
+  (
+    MUNICIPIO_IBGE_ID CHAR(7)
+    , NOME NOME_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT
+      MUNICIPIO_IBGE_ID,
+      NOME
+    FROM MUNICIPIO
+    WHERE UF_SIGLA = :UF_SIGLA
+    ORDER BY NOME
+    INTO :MUNICIPIO_IBGE_ID,
+        :NOME
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(7),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO ENDERECO (
+        LOJA_ID,
+        TERMINAL_ID,
+        PESSOA_ID,
+        ORDEM,
+        LOGRADOURO,
+        NUMERO,
+        COMPLEMENTO,
+        BAIRRO,
+        UF_SIGLA,
+        CEP,
+        MUNICIPIO_IBGE_ID,
+        DDD,
+        FONE1,
+        FONE2,
+        FONE3,
+        CONTATO,
+        REFERENCIA
+    )
+    VALUES (
+        :LOJA_ID,
+        :TERMINAL_ID,
+        :PESSOA_ID,
+        :ORDEM,
+        :LOGRADOURO,
+        :NUMERO,
+        :COMPLEMENTO,
+        :BAIRRO,
+        :UF_SIGLA,
+        :CEP,
+        :MUNICIPIO_IBGE_ID,
+        :DDD,
+        :FONE1,
+        :FONE2,
+        :FONE3,
+        :CONTATO,
+        :REFERENCIA
+    )
+    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM);
+  END
+END^
+SET TERM ;^
+```
 COMANDO FIM
-//TABELA LOJA_EH_PESSOA FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY LOJA_EH_PESSOA x PESSOA
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=LOJA_EH_PESSOA
-CAMPOS_FK=LOJA_ID,TERMINAL_ID,PESSOA_ID
-TABELA_PK=PESSOA
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY LOJA PESSOA PESSOA FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY LOJA_EH_PESSOA x LOJA
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=LOJA_EH_PESSOA
-CAMPOS_FK=LOJA_ID
-TABELA_PK=LOJA
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY LOJA PESSOA PESSOA FIM
-
 
 DBATUALIZ FIM

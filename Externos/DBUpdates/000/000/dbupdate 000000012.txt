@@ -1,194 +1,80 @@
-ENDERECO_PA
+PESSOA ESTADO CIVIL
 
-
-//INICIO
------------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
-DBATUALIZ_OBJETIVO=CRIA ENDERECO_PA
+DBATUALIZ_OBJETIVO=CRIA ESTADO CIVIL, ESTADO_CIVIL_PA
 DBATUALIZ_OBS=
 
 
 
+///////////////////////////
+//
+// TABELA ESTADO_CIVIL
+//
+///////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE TABLE
+OBJETO_NOME=ESTADO_CIVIL
+
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM
+ESTADO_CIVIL_ID;ID_CHAR_DOM;S;S
+DESCR;NOME_CURTO_NOTN_DOM
+COLUNAS FIM
+COMANDO FIM
+//TABELA ESTADO_CIVIL FIM
 
 
-// PACKAGE ENDERECO_PA
+
+///////////////////////////
+//
+// PACKAGE ESTADO_CIVIL_PA
+//
+///////////////////////////
+
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=ENDERECO_PA
-
-/*
-Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
-*/
+OBJETO_NOME=ESTADO_CIVIL_PA
 
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE ENDERECO_PA
+CREATE OR ALTER PACKAGE ESTADO_CIVIL_PA
 AS
 BEGIN
-  PROCEDURE UF_SIGLA_LISTA_GET
-  RETURNS (
-      UF_SIGLA CHAR(2),
-      UF_IBGE_ID ID_SHORT_DOM
-  );
-  
-  PROCEDURE MUNICIPIO_LISTA_GET
-  (
-    UF_SIGLA CHAR(2)
-  )
+  PROCEDURE LISTA_GET
   RETURNS
   (
-    MUNICIPIO_IBGE_ID CHAR(7)
-    , NOME NOME_DOM
-  );
-
-  PROCEDURE GARANTIR 
-  (
-    LOJA_ID           ID_SHORT_DOM,
-    TERMINAL_ID       ID_SHORT_DOM,
-    PESSOA_ID         ID_DOM,
-    ORDEM             ID_SHORT_DOM,
-    LOGRADOURO        VARCHAR(70),
-    NUMERO            NOME_DOM,
-    COMPLEMENTO       NOME_DOM,
-    BAIRRO            NOME_DOM,
-    UF_SIGLA          CHAR(2),
-    CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(7),
-    DDD               CHAR(2),
-    FONE1             NOME_CURTO_DOM,
-    FONE2             NOME_CURTO_DOM,
-    FONE3             NOME_CURTO_DOM,
-    CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
-  );
+    ESTADO_CIVIL_ID CHAR
+   , DESCR NOME_CURTO_DOM
+  );  
+  
 END^
 
-/*
---------
--- BODY
---------
-*/
-
-RECREATE PACKAGE BODY ENDERECO_PA
+RECREATE PACKAGE BODY ESTADO_CIVIL_PA
 AS
 BEGIN
-  PROCEDURE UF_SIGLA_LISTA_GET
-  RETURNS (
-      UF_SIGLA CHAR(2),
-      UF_IBGE_ID ID_SHORT_DOM
-  )
-  AS
-  BEGIN
-    FOR SELECT
-      UF_SIGLA,
-      UF_IBGE_ID
-    FROM UF
-    ORDER BY UF_SIGLA
-    INTO :UF_SIGLA,
-      :UF_IBGE_ID
-    DO
-    BEGIN
-      SUSPEND;
-    END
-  END
-  
-  PROCEDURE MUNICIPIO_LISTA_GET
-  (
-    UF_SIGLA CHAR(2)
-  )
+  PROCEDURE LISTA_GET
   RETURNS
   (
-    MUNICIPIO_IBGE_ID CHAR(7)
-    , NOME NOME_DOM
+    ESTADO_CIVIL_ID CHAR
+    , DESCR NOME_CURTO_DOM
   )
   AS
   BEGIN
-    FOR SELECT
-      MUNICIPIO_IBGE_ID,
-      NOME
-    FROM MUNICIPIO
-    WHERE UF_SIGLA = :UF_SIGLA
-    ORDER BY NOME
-    INTO :MUNICIPIO_IBGE_ID,
-        :NOME
-    DO
-    BEGIN
-      SUSPEND;
-    END
-  END
-
-  PROCEDURE GARANTIR 
-  (
-    LOJA_ID           ID_SHORT_DOM,
-    TERMINAL_ID       ID_SHORT_DOM,
-    PESSOA_ID         ID_DOM,
-    ORDEM             ID_SHORT_DOM,
-    LOGRADOURO        VARCHAR(70),
-    NUMERO            NOME_DOM,
-    COMPLEMENTO       NOME_DOM,
-    BAIRRO            NOME_DOM,
-    UF_SIGLA          CHAR(2),
-    CEP               CHAR(8),
-    MUNICIPIO_IBGE_ID CHAR(7),
-    DDD               CHAR(2),
-    FONE1             NOME_CURTO_DOM,
-    FONE2             NOME_CURTO_DOM,
-    FONE3             NOME_CURTO_DOM,
-    CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
-  )
-  AS
-  BEGIN
-    UPDATE OR INSERT INTO ENDERECO (
-        LOJA_ID,
-        TERMINAL_ID,
-        PESSOA_ID,
-        ORDEM,
-        LOGRADOURO,
-        NUMERO,
-        COMPLEMENTO,
-        BAIRRO,
-        UF_SIGLA,
-        CEP,
-        MUNICIPIO_IBGE_ID,
-        DDD,
-        FONE1,
-        FONE2,
-        FONE3,
-        CONTATO,
-        REFERENCIA
-    )
-    VALUES (
-        :LOJA_ID,
-        :TERMINAL_ID,
-        :PESSOA_ID,
-        :ORDEM,
-        :LOGRADOURO,
-        :NUMERO,
-        :COMPLEMENTO,
-        :BAIRRO,
-        :UF_SIGLA,
-        :CEP,
-        :MUNICIPIO_IBGE_ID,
-        :DDD,
-        :FONE1,
-        :FONE2,
-        :FONE3,
-        :CONTATO,
-        :REFERENCIA
-    )
-    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM);
+    FOR SELECT E.ESTADO_CIVIL_ID, E.DESCR 
+    FROM ESTADO_CIVIL E
+    ORDER BY E.DESCR
+    INTO :ESTADO_CIVIL_ID, :DESCR 
+    DO 
+    SUSPEND; 
   END
 END^
 SET TERM ;^
 ```
 COMANDO FIM
 
+//PACKAGE ESTADO_CIVIL_PA
+
 DBATUALIZ FIM
+
+

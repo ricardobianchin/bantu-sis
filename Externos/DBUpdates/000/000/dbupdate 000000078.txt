@@ -1,0 +1,71 @@
+CLIENTE
+    inicio
+
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=ENVIA DADOS
+DBATUALIZ_OBJETIVO=CRIA PACKAGE SERV_ENV_DADOS_PA
+DBATUALIZ_OBS=
+
+//PACKAGE SERV_ENV_DADOS_PA
+
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Term\SERV_ENV_DADOS_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Term\SERV_ENV_DADOS_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Term\SERV_ENV_DADOS_PA.sql";
+*/
+
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=SERV_ENV_DADOS_PA
+
+``` FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE SERV_ENV_DADOS_PA
+AS
+BEGIN
+  PROCEDURE QTD_REGS_GET
+  RETURNS 
+  (
+    QTD_REGS INTEGER
+  );
+END^
+
+---------------------------
+---    BODY
+---------------------------
+
+RECREATE PACKAGE BODY SERV_ENV_DADOS_PA
+AS
+BEGIN
+  PROCEDURE QTD_REGS_GET
+  RETURNS 
+  (
+    QTD_REGS INTEGER
+  )
+  AS
+  DECLARE VARIABLE QTD INTEGER;
+  BEGIN
+    QTD_REGS = 0;
+
+    SELECT COUNT(*) FROM PESSOA INTO :QTD;
+    QTD_REGS = QTD_REGS + :QTD;
+
+    SELECT COUNT(*) FROM TERMINAL INTO :QTD;
+    QTD_REGS = QTD_REGS + :QTD;
+
+    SELECT COUNT(*) FROM PROD INTO :QTD;
+    QTD_REGS = QTD_REGS + :QTD;
+
+    SELECT COUNT(*) FROM PROD_BARRAS INTO :QTD;
+    QTD_REGS = QTD_REGS + :QTD;
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+//PACKAGE SERV_ENV_DADOS_PA FIM
+
+DBATUALIZ FIM
