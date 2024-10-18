@@ -695,34 +695,20 @@ begin
   for I := 0 to FTerminalList.Count - 1 do
   begin
     oTerminal := FTerminalList[I];
-    sSql := 'INSERT INTO TERMINAL (' //
-      + 'TERMINAL_ID,' //
-      + 'APELIDO,' //
-      + 'NOME_NA_REDE,' //
-      + 'IP,' //
-      + 'NF_SERIE,' //
-      + 'LETRA_DO_DRIVE,' //
-      + 'GAVETA_TEM,' //
-      + 'BALANCA_MODO_ID,' //
-      + 'BALANCA_ID,' //
-      + 'BARRAS_COD_INI,' //
-      + 'BARRAS_COD_TAM,' //
-      + 'CUPOM_NLINS_FINAL,' //
-      + 'SEMPRE_OFFLINE' //
-      + ') VALUES (' //
-      + oTerminal.TerminalId.ToString //
-      + ', ' + oTerminal.Apelido.QuotedString //
-      + ', ' + oTerminal.NomeNaRede.QuotedString //
-      + ', ' + oTerminal.IP.QuotedString //
-      + ', ' + oTerminal.NFSerie.ToString //
-      + ', ' + oTerminal.LetraDoDrive.QuotedString //
-      + ', ' + BooleanToStrSQL(oTerminal.GavetaTem) //
-      + ', ' + oTerminal.BalancaModoId.ToString //
-      + ', ' + oTerminal.BalancaId.ToString //
-      + ', ' + oTerminal.BarCodigoIni.ToString //
-      + ', ' + oTerminal.BarCodigoTam.ToString //
-      + ', ' + oTerminal.CupomNLinsFinal.ToString //
-      + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) //
+    sSql := 'EXECUTE PROCEDURE TERMINAL_PA.GARANTIR (' //
+      + oTerminal.TerminalId.ToString // TERMINAL_ID
+      + ', ' + oTerminal.Apelido.QuotedString // APELIDO
+      + ', ' + oTerminal.NomeNaRede.QuotedString // NOME_NA_REDE
+      + ', ' + oTerminal.IP.QuotedString // IP
+      + ', ' + oTerminal.NFSerie.ToString // NF_SERIE
+      + ', ' + oTerminal.LetraDoDrive.QuotedString // LETRA_DO_DRIVE
+      + ', ' + BooleanToStrSQL(oTerminal.GavetaTem) // GAVETA_TEM
+      + ', ' + oTerminal.BalancaModoId.ToString // BALANCA_MODO_ID
+      + ', ' + oTerminal.BalancaId.ToString // BALANCA_ID
+      + ', ' + oTerminal.BarCodigoIni.ToString // BARRAS_COD_INI
+      + ', ' + oTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
+      + ', ' + oTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
+      + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) // SEMPRE_OFFLINE
       + ');'; //
 
     pDBConnection.ExecuteSql(sSql);
