@@ -70,11 +70,12 @@ copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 00000007
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000071.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000070.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000072.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000071.txt"
 copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000073.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000072.txt"
-copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000074.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000073.txt"
+rem copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000074.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000073.txt"
 rem copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000075.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000074.txt"
 
 rem del "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000075.txt"
-del "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000074.txt"
+rem del "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000074.txt"
+del "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000073.txt"
 
 REM copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000000.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000000.txt"
 REM copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000001.txt" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000002.txt"
