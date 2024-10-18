@@ -1,240 +1,145 @@
-PRODUTO
-PROD
+POPULAR NATU PROD_NATU
 
-//INICIO
+
+P;PRODUTO;Movimenta estoque e n&atilde;o permite alterar pre&ccedil;o na venda.
+S;SERVI&Ccedil;O;N&atilde;o movimenta estoque e permite alterar pre&ccedil;o na venda.
+B;COMBO;Grupo de produtos. O seu nome n&atilde;o &eacute; impresso no cupom fiscal, mas s&atilde;o impressos os nomes dos produtos que o comp&otilde;em.
+M;MAT&eacute;RIA-PRIMA;Usado como item dos produtos compostos. N&atilde;o pode ser vendido.
+C;COMPOSTO;Somente o seu nome &eacute; impresso no cupom fiscal. Subtrai estoque das mat&eacute;rias-primas
+
+
+P;PRODUTO;Movimenta estoque. Nao permite alterar preco na venda.
+S;SERVICO;Nao movimenta estoque. Permite alterar preco na venda.
+B;COMBO;Grupo de produtos. O seu nome nao imprime no cupom fiscal, mas sao impressos os nomes dos produtos que o compoem.
+M;MATERIA-PRIMA;Usado como item dos produtos compostos. Nao pode ser vendido.
+C;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das materias-primas
+
+
+
+
+
+    inicio
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=PRODUTO
-DBATUALIZ_OBJETIVO=CRIA PROD
+DBATUALIZ_ALVO=SERVIDOR
+DBATUALIZ_ASSUNTO=PROD, PROD_NATU
+DBATUALIZ_OBJETIVO=POPULAR PROD_NATU
 DBATUALIZ_OBS=
+{se usa_natu=S}
 
 
-/////////////////////////
-// DOMAINS PROD
-/////////////////////////
+///////////////////////////
+//
+// NA TABELA PROD_NATU, ENSURE RECORDS
+//
+///////////////////////////
 COMANDO INI
-COMANDO_TIPO=CREATE DOMAINS
-```FIREBIRD
-CREATE DOMAIN PROD_DESCR_DOM     AS VARCHAR(120);
-CREATE DOMAIN PROD_DESCR_RED_DOM AS VARCHAR(29);
-CREATE DOMAIN CUSTO_DOM AS NUMERIC(12,4);
-CREATE DOMAIN PRECO_DOM AS NUMERIC(12,3);
-```
+COMANDO_TIPO=ENSURE RECORDS
+OBJETO_NOME=PROD_NATU
+
+CSV INI
+PROD_NATU_ID;NOME;DESCR
+
+#032;NAO INDICADO;NAO INDICADO
+#033;PRODUTO;Movimenta estoque. Nao permite alterar preco na venda.
+#034;SERVICO;Nao movimenta estoque. Permite alterar preco na venda.
+#035;MATERIA-PRIMA;Usado como item dos produtos compostos. Nao pode ser vendido.
+#036;COMBO;Grupo de produtos. O seu nome nao imprime no cupom fiscal, mas sao impressos os nomes dos produtos que o compoem.
+#037;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das materias-primas
+
+CSV FIM
+COMANDO FIM
+
+{fimse}
+
+
+
+///////////////////////////
+//
+// NA TABELA FABR, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+COMANDO_TIPO=ENSURE RECORDS
+OBJETO_NOME=FABR
+
+CSV INI
+FABR_ID;NOME
+
+0;NAO INDICADO
+1;PADRAO
+//2;PILOT
+//3;SAMSUNG
+
+CSV FIM
+COMANDO FIM
+
+
+///////////////////////////
+//
+// NA TABELA PROD_TIPO, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+COMANDO_TIPO=ENSURE RECORDS
+OBJETO_NOME=PROD_TIPO
+
+CSV INI
+PROD_TIPO_ID;DESCR
+
+0;NAO INDICADO
+1;PADRAO
+//2;ESCRITORIO
+//3;MONITORES
+
+CSV FIM
+COMANDO FIM
+
+
+///////////////////////////
+//
+// NA TABELA UNID, ENSURE RECORDS
+//
+///////////////////////////
+COMANDO INI
+COMANDO_TIPO=ENSURE RECORDS
+OBJETO_NOME=UNID
+
+CSV INI
+UNID_ID;DESCR;SIGLA
+
+0;NAO INDICADO;N/IND
+1;UNIDADE;UN
+
+CSV FIM
 COMANDO FIM
 
 
 
 
 
-/////////////////////////
-// SEQUENCE PROD_SEQ
-/////////////////////////
+///////////////////////////
+//
+// NA TABELA ICMS, ENSURE RECORDS
+//
+///////////////////////////
 COMANDO INI
-COMANDO_ALVO=SERVIDR
-COMANDO_TIPO=CREATE SEQUENCE
-OBJETO_NOME=PROD_SEQ
-//VALOR_INICIAL=2
+COMANDO_TIPO=ENSURE RECORDS
+OBJETO_NOME=ICMS
+
+CSV INI
+ICMS_ID;SIGLA;DESCR;PERC;ATIVO
+0;;NAO INDICADO;0;TRUE
+1;I;ISENTO;0;TRUE
+2;N;NAO INCIDENCIA;0;TRUE
+3;F;SUBSTITUICAO TRIBUTARIA-RETIDO NA FONTE;0;TRUE
+4;;;18;TRUE
+5;;;20;TRUE
+6;;;22;TRUE
+7;;;37;TRUE
+8;;;39;TRUE
+
+CSV FIM
 COMANDO FIM
-// SEQUENCE PESSOA_SEQ FIM
-
-
-
-
-
-/////////////////////////
-//
-// TABELA PROD CREATE TABLE PROD
-//
-/////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=PROD
-
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM;UNIQUE
-
-PROD_ID;ID_DOM;S;S;N
-
-DESCR;PROD_DESCR_DOM;S;N;N
-DESCR_RED;PROD_DESCR_RED_DOM;S;N;N
-
-FABR_ID;ID_SHORT_DOM;S
-PROD_TIPO_ID;ID_SHORT_DOM;S
-UNID_ID;ID_SHORT_DOM;S
-ICMS_ID;ID_SHORT_DOM;S
-
-{SE USA_NATU=S}
-PROD_NATU_ID;ID_CHAR_DOM;S
-{FIMSE}
-
-CAPAC_EMB;NUMERIC(8, 3)
-NCM;CHAR(8)
-
-DE_SISTEMA;BOOLEAN DEFAULT FALSE
-{SE ALVO=TERMINAL}
-FABR_NOME;NOME_REDU_DOM
-
-PROD_TIPO_DESCR;NOME_INTERM_DOM
-
-UNID_DESCR;NOME_INTERM_NOTN_DOM
-UNID_SIGLA;CHAR(6)
-
-ICMS_SIGLA;ID_CHAR_DOM
-ICMS_DESCR;NOME_INTERM_DOM
-ICMS_PERC;PERC_DOM
-
-ATIVO;BOOLEAN DEFAULT TRUE
-LOCALIZ;NOME_CURTO_DOM
-BAL_USO;SMALLINT
-CUSTO;CUSTO_DOM
-{SE USA_TABPRECO=S}
-PRECO1;PRECO_DOM
-PRECO2;PRECO_DOM
-PRECO3;PRECO_DOM
-PRECO4;PRECO_DOM
-PRECO5;PRECO_DOM
-{SENAO}
-PRECO;PRECO_DOM
-{FIMSE}
-{FIMSE}
-
-
-CRIADO_EM;DTH_INS_DOM
-ALTERADO_EM;TIMESTAMP
-
-COLUNAS FIM
-COMANDO FIM
-
-
-
-//////////////////////////////////
-//
-// UNIQUE KEY FABR_ID, DESCR
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE UNIQUE KEY
-OBJETO_NOME=
-TABELA=PROD
-CAMPOS=FABR_ID, DESCR
-COMANDO FIM
-//OBJETO_NOME Nao É obrigatorio
-// UNIQUE KEY FABR_ID, DESCR
-
-
-
-//////////////////////////////////
-//
-// UNIQUE KEY FABR_ID, DESCR_RED
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE UNIQUE KEY
-OBJETO_NOME=
-TABELA=PROD
-CAMPOS=FABR_ID, DESCR_RED
-COMANDO FIM
-//OBJETO_NOME Nao É obrigatorio
-// UNIQUE KEY FABR_ID, DESCR_RED
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY PROD FABR
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=PROD
-CAMPOS_FK=FABR_ID
-TABELA_PK=FABR
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PROD FABR FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY PROD PROD_TIPO
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=PROD
-CAMPOS_FK=PROD_TIPO_ID
-TABELA_PK=PROD_TIPO
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PROD PROD_TIPO FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY PROD UNID
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=PROD
-CAMPOS_FK=UNID_ID
-TABELA_PK=UNID
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PROD UNID FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY PROD ICMS
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=PROD
-CAMPOS_FK=ICMS_ID
-TABELA_PK=ICMS
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PROD ICMS FIM
-
-
-{SE USA_NATU=S}
-//////////////////////////////////
-//
-// FOREIGN KEY PROD NATU
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_ALVO=SERVIDOR
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=PROD
-CAMPOS_FK=PROD_NATU_ID
-TABELA_PK=PROD_NATU
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PROD PROD_NATU FIM
-{FIMSE}
-
-
 
 DBATUALIZ FIM
