@@ -1,244 +1,194 @@
-PESSOA
+ENDERECO_PA
 
+
+//INICIO
+-----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
-DBATUALIZ_OBJETIVO=CRIAR PESSOA, ENDER
+DBATUALIZ_OBJETIVO=CRIA ENDERECO_PA
 DBATUALIZ_OBS=
 
 
-///////////////////////////
-//
-// SEQUENCE PESSOA_SEQ
-//
-///////////////////////////
+
+
+
+// PACKAGE ENDERECO_PA
 COMANDO INI
-COMANDO_TIPO=CREATE SEQUENCE
-OBJETO_NOME=PESSOA_SEQ
-//VALOR_INICIAL=2
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=ENDERECO_PA
+
+/*
+Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\endereco_pa.sql";
+*/
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE ENDERECO_PA
+AS
+BEGIN
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
+  );
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
+  (
+    UF_SIGLA CHAR(2)
+  )
+  RETURNS
+  (
+    MUNICIPIO_IBGE_ID CHAR(7)
+    , NOME NOME_DOM
+  );
+
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(7),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+  );
+END^
+
+/*
+--------
+-- BODY
+--------
+*/
+
+RECREATE PACKAGE BODY ENDERECO_PA
+AS
+BEGIN
+  PROCEDURE UF_SIGLA_LISTA_GET
+  RETURNS (
+      UF_SIGLA CHAR(2),
+      UF_IBGE_ID ID_SHORT_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT
+      UF_SIGLA,
+      UF_IBGE_ID
+    FROM UF
+    ORDER BY UF_SIGLA
+    INTO :UF_SIGLA,
+      :UF_IBGE_ID
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+  
+  PROCEDURE MUNICIPIO_LISTA_GET
+  (
+    UF_SIGLA CHAR(2)
+  )
+  RETURNS
+  (
+    MUNICIPIO_IBGE_ID CHAR(7)
+    , NOME NOME_DOM
+  )
+  AS
+  BEGIN
+    FOR SELECT
+      MUNICIPIO_IBGE_ID,
+      NOME
+    FROM MUNICIPIO
+    WHERE UF_SIGLA = :UF_SIGLA
+    ORDER BY NOME
+    INTO :MUNICIPIO_IBGE_ID,
+        :NOME
+    DO
+    BEGIN
+      SUSPEND;
+    END
+  END
+
+  PROCEDURE GARANTIR 
+  (
+    LOJA_ID           ID_SHORT_DOM,
+    TERMINAL_ID       ID_SHORT_DOM,
+    PESSOA_ID         ID_DOM,
+    ORDEM             ID_SHORT_DOM,
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(7),
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO ENDERECO (
+        LOJA_ID,
+        TERMINAL_ID,
+        PESSOA_ID,
+        ORDEM,
+        LOGRADOURO,
+        NUMERO,
+        COMPLEMENTO,
+        BAIRRO,
+        UF_SIGLA,
+        CEP,
+        MUNICIPIO_IBGE_ID,
+        DDD,
+        FONE1,
+        FONE2,
+        FONE3,
+        CONTATO,
+        REFERENCIA
+    )
+    VALUES (
+        :LOJA_ID,
+        :TERMINAL_ID,
+        :PESSOA_ID,
+        :ORDEM,
+        :LOGRADOURO,
+        :NUMERO,
+        :COMPLEMENTO,
+        :BAIRRO,
+        :UF_SIGLA,
+        :CEP,
+        :MUNICIPIO_IBGE_ID,
+        :DDD,
+        :FONE1,
+        :FONE2,
+        :FONE3,
+        :CONTATO,
+        :REFERENCIA
+    )
+    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM);
+  END
+END^
+SET TERM ;^
+```
 COMANDO FIM
-// SEQUENCE PESSOA_SEQ FIM
-
-
-
-
-///////////////////////////
-//
-// TABELA PESSOA
-//
-///////////////////////////
-COMANDO INI
-
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=PESSOA
-
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
-
-LOJA_ID;ID_SHORT_DOM;S;S
-TERMINAL_ID;ID_SHORT_DOM;S;S
-PESSOA_ID;ID_DOM;S;S
-
-NOME;NOME_DOM NOT NULL
-NOME_FANTASIA;NOME_DOM
-APELIDO;NOME_REDU_DOM
-
-GENERO_ID;CHAR DEFAULT ' ';S
-ESTADO_CIVIL_ID;CHAR DEFAULT ' ';S
-C;VARCHAR(15)
-I;VARCHAR(15)
-M;VARCHAR(15)
-M_UF;CHAR(2)
-EMAIL;VARCHAR(50)
-DT_NASC;DATE
-ATIVO;ATIVO_DOM
-
-CRIADO_EM;DTH_INS_DOM
-ALTERADO_EM;TIMESTAMP
-
-COLUNAS FIM
-
-COMANDO FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY PESSOA GENERO
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=PESSOA
-CAMPOS_FK=GENERO_ID
-TABELA_PK=GENERO
-//CAMPOS_PK=GENERO_ID
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PESSOA GENERO FIM
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY PESSOA ESTADO CIVIL
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=PESSOA_REFER_ESTADO_CIVIL_FK
-TABELA_FK=PESSOA
-CAMPOS_FK=ESTADO_CIVIL_ID
-TABELA_PK=ESTADO_CIVIL
-//CAMPOS_PK=ESTADO_CIVIL_ID
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY PESSOA ESTADO CIVIL FIM
-
-
-
-//////////////////////////////////
-//
-// TABELA UF
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=UF
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
-
-UF_SIGLA;CHAR(2);S;S
-UF_NOME;NOME_REDU_NOTN_DOM
-UF_IBGE_ID;ID_SHORT_NOTN_DOM
-
-COLUNAS FIM
-COMANDO FIM
-//TABELA UF FIM
-
-
-
-
-
-//////////////////////////////////
-//
-// TABELA MUNICIPIO
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=MUNICIPIO
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM;UNIQUE
-
-MUNICIPIO_IBGE_ID;CHAR(7);S;S
-UF_SIGLA;CHAR(2);S
-NOME;NOME_DOM;S
-
-COLUNAS FIM
-COMANDO FIM
-//TABELA MUNICIPIO FIM
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY MUN_UF_FK
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=MUNICIPIO
-CAMPOS_FK=UF_SIGLA
-TABELA_PK=UF
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY MUN_UF_FK FIM
-
-
-
-
-//////////////////////////////////
-//
-// TABELA ENDERECO
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=ENDERECO
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM
-
-LOJA_ID;ID_SHORT_DOM;S;S
-TERMINAL_ID;ID_SHORT_DOM;S;S
-PESSOA_ID;ID_DOM;S;S
-ORDEM;ID_SHORT_DOM;S;S
-
-LOGRADOURO;VARCHAR(70)
-NUMERO;NOME_DOM
-COMPLEMENTO;NOME_DOM
-BAIRRO;NOME_DOM
-//MUNICIPIO;NOME_DOM
-
-UF_SIGLA;CHAR(2) DEFAULT '  '
-CEP;CHAR(8)
-
-MUNICIPIO_IBGE_ID;CHAR(7) DEFAULT '       '
-
-DDD;CHAR(2)
-FONE1;NOME_CURTO_DOM
-FONE2;NOME_CURTO_DOM
-FONE3;NOME_CURTO_DOM
-
-CONTATO;NOME_DOM
-REFERENCIA;OBS1_DOM
-
-CRIADO_EM;DTH_INS_DOM
-ALTERADO_EM;TIMESTAMP
-
-COLUNAS FIM
-COMANDO FIM
-//TABELA ENDER FIM
-
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY ENDERECO PESSOA
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=ENDERECO
-CAMPOS_FK=LOJA_ID,TERMINAL_ID,PESSOA_ID
-TABELA_PK=PESSOA
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY ENDERECO PESSOA FIM
-
-
-
-
-//////////////////////////////////
-//
-// FOREIGN KEY ENDERECO MUNICIPIO
-//
-//////////////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE FOREIGN KEY
-//OBJETO_NOME=
-TABELA_FK=ENDERECO
-CAMPOS_FK=MUNICIPIO_IBGE_ID
-TABELA_PK=MUNICIPIO
-//CAMPOS_PK=
-COMANDO FIM
-//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
-// FOREIGN KEY ENDERECO PESSOA FIM
 
 DBATUALIZ FIM
-
-
