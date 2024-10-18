@@ -114,7 +114,8 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string);
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
+  pVariaveis: string);
 var
   sSql: string;
 begin
@@ -311,12 +312,12 @@ begin
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
-          ProcessarDiretivas(FLinhasSL, FVariaveis+ sVariaveisAdicionais, FsDiretivaAbre,
-            FsDiretivaFecha);
-//{$IFDEF DEBUG}
-//if iVersao=2 then
-//  CopyTextToClipboard(FLinhasSL.Text);
-//{$ENDIF}
+          ProcessarDiretivas(FLinhasSL, FVariaveis + sVariaveisAdicionais,
+            FsDiretivaAbre, FsDiretivaFecha);
+          // {$IFDEF DEBUG}
+          // if iVersao=2 then
+          // CopyTextToClipboard(FLinhasSL.Text);
+          // {$ENDIF}
 
           LerUpdateProperties(FLinhasSL);
 
@@ -607,6 +608,7 @@ var
   oTerminal: ITerminal;
   I: integer;
   sSql: string;
+  oDBQuery: IDBQuery;
 begin
   // loja inicio
   if FTerminalId > 0 then
@@ -689,6 +691,26 @@ begin
     pDBConnection.ExecuteSql(sSql);
   end;
 
+  sSql := 'select MACHINE_ID_RET' +
+    ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
+
+  oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
+    sSql, FProcessLog, FOutput);
+
+  oDBQuery.Prepare;
+  try
+    oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
+    oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
+    oDBQuery.Abrir;
+    try
+      FSisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[1].AsInteger;
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    oDBQuery.Unprepare;
+  end;
+
   sSql := 'DELETE FROM TERMINAL;';
   pDBConnection.ExecuteSql(sSql);
 
@@ -709,6 +731,8 @@ begin
       + ', ' + oTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
       + ', ' + oTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
       + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) // SEMPRE_OFFLINE
+      + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
+      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
       + ');'; //
 
     pDBConnection.ExecuteSql(sSql);
