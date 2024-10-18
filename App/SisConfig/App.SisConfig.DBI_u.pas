@@ -40,7 +40,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
   sSql: string;
-  ODBQuery: IDBQuery;
+  oDBQuery: IDBQuery;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     FAppObj);
@@ -50,27 +50,33 @@ begin
 
   oDBConnection.Abrir;
   try
-    sSql := 'select MACHINE_ID_SERVER_RET, MACHINE_ID_TERMINAL_RET' +
-      ' from machine_pa.BYIDENTS_GET (:IDENT_SERVER, :IDENT_TERMINAL);';
+    sSql := 'select MACHINE_ID_RET' +
+      ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
 
-    ODBQuery := DBQueryCreate('TSisConfigDBI.LerMachineIdent.Query',
+    oDBQuery := DBQueryCreate('TSisConfigDBI.LerMachineIdent.Query',
       oDBConnection, sSql, FProcessLog, FOutput);
-    ODBQuery.Prepare;
+    oDBQuery.Prepare;
     try
-      ODBQuery.Params[0].AsString := FSisConfig.ServerMachineId.GetIdent;
-      ODBQuery.Params[1].AsString := FSisConfig.LocalMachineId.GetIdent;
-      ODBQuery.Abrir;
+      oDBQuery.Params[0].AsString := FSisConfig.ServerMachineId.Name;
+      oDBQuery.Params[1].AsString := FSisConfig.ServerMachineId.IP;
+      oDBQuery.Abrir;
       try
-        FSisConfig.ServerMachineId.IdentId := ODBQuery.DataSet.Fields[0].AsInteger;
-        FSisConfig.LocalMachineId.IdentId := ODBQuery.DataSet.Fields[1].AsInteger;
-
+        FSisConfig.ServerMachineId.IdentId := oDBQuery.DataSet.Fields[0].AsInteger;
       finally
-        ODBQuery.Fechar;
+        oDBQuery.Fechar;
+      end;
+
+      oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
+      oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
+      oDBQuery.Abrir;
+      try
+        FSisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[1].AsInteger;
+      finally
+        oDBQuery.Fechar;
       end;
     finally
-      ODBQuery.Unprepare;
+      oDBQuery.Unprepare;
     end;
-    // FSisConfig
   finally
     oDBConnection.Fechar;
   end;
