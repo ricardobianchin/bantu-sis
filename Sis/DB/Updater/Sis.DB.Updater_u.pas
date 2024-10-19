@@ -614,11 +614,32 @@ begin
   if FTerminalId > 0 then
     exit;
 
+  sSql := 'select MACHINE_ID_RET' +
+    ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
+
+  oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
+    sSql, FProcessLog, FOutput);
+
+  oDBQuery.Prepare;
+  try
+    oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
+    oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
+    oDBQuery.Abrir;
+    try
+      FSisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[1].AsInteger;
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    oDBQuery.Unprepare;
+  end;
+
   if FLoja.Descr <> '' then
   begin
     sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
-      + FLoja.Id.ToString + ',' //
-      + FLoja.Descr.QuotedString + ', TRUE);' //
+      + FLoja.Id.ToString //
+      + ',' + FLoja.Descr.QuotedString //
+      + ', TRUE);' //
       ; //
 
     pDBConnection.ExecuteSql(sSql);
@@ -691,26 +712,6 @@ begin
     pDBConnection.ExecuteSql(sSql);
   end;
 
-  sSql := 'select MACHINE_ID_RET' +
-    ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
-
-  oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
-    sSql, FProcessLog, FOutput);
-
-  oDBQuery.Prepare;
-  try
-    oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
-    oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
-    oDBQuery.Abrir;
-    try
-      FSisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[1].AsInteger;
-    finally
-      oDBQuery.Fechar;
-    end;
-  finally
-    oDBQuery.Unprepare;
-  end;
-
   sSql := 'DELETE FROM TERMINAL;';
   pDBConnection.ExecuteSql(sSql);
 
@@ -731,6 +732,7 @@ begin
       + ', ' + oTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
       + ', ' + oTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
       + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) // SEMPRE_OFFLINE
+      + ', ' + FLoja.Id.ToString // LOJA_ID
       + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
       + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
       + ');'; //
