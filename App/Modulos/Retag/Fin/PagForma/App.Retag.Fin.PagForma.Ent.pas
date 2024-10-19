@@ -72,6 +72,14 @@ type
     function GetFormaTipo: char;
     procedure SetFormaTipo(Value: char);
     property FormaTipo: char read GetFormaTipo write SetFormaTipo;
+
+    function GetLojaId: smallint;
+    function GetUsuarioId: integer;
+    property UsuarioId: integer read GetUsuarioId;
+
+    property LojaId: smallint read GetLojaId;
+    function GetMachineIdentId: smallint;
+    property MachineIdentId: smallint read GetMachineIdentId;
   end;
 
 implementation
