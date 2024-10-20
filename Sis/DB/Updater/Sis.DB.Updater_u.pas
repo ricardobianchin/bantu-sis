@@ -10,7 +10,7 @@ uses
   Sis.Entities.TerminalList;
 
 const
-  VERSAO_PARAR = 0;
+  VERSAO_ULTIMA_A_PROCESSAR = 5;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -342,7 +342,7 @@ begin
           end;
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
-          if iVersao = VERSAO_PARAR then
+          if iVersao = VERSAO_ULTIMA_A_PROCESSAR then
             break;
         until False;
       finally
@@ -364,14 +364,12 @@ begin
     if not SisConfig.LocalMachineIsServer then
       exit;
 
-    if FCriouDB then
+    if FCriouDB and (VERSAO_ULTIMA_A_PROCESSAR = -1) then
     begin
       DoAposCriarBanco;
       GravarIniciais(DBConnection);
     end;
 
-    if VERSAO_PARAR > -1 then
-      Halt(0);
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
@@ -387,6 +385,10 @@ begin
     FreeAndNil(FLinhasSL);
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;
+
+    if VERSAO_ULTIMA_A_PROCESSAR > -1 then
+      Halt(0);
+
   end;
 end;
 

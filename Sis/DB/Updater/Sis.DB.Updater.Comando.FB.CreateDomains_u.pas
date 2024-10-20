@@ -20,7 +20,7 @@ type
   public
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); override;
     function GetAsSql: string; override;
-    constructor Create(pDBConnection: IDBConnection;
+    constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
       pOutput: IOutput);
     function Funcionou: boolean; override;
@@ -34,11 +34,11 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Factory, Sis.Lists.TextoItem,
 
 { TComandoFBCreateDomains }
 
-constructor TComandoFBCreateDomains.Create(pDBConnection: IDBConnection;
-  pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
-  pOutput: IOutput);
+constructor TComandoFBCreateDomains.Create(pVersaoDB: integer;
+  pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
+  pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create(pDBConnection, pUpdaterOperations, pProcessLog, pOutput);
+  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations, pProcessLog, pOutput);
   FDomainsDefSL := TStringList.Create;
   // FDomainNamesSL := TStringList.Create;
   FComandosTextoList := TextoListCreate;
