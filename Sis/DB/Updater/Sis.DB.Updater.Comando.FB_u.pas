@@ -47,15 +47,15 @@ implementation
 
 { TComandoFB }
 
-constructor TComandoFB.Create(pDBConnection: IDBConnection;
+constructor TComandoFB.Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
 begin
+  FVersaoDB := pVersaoDB;
   FDBConnection := pDBConnection;
   FProcessLog := pProcessLog;
   FOutput := pOutput;
   FUltimoErro := '';
   FDBUpdaterOperations := pUpdaterOperations;
-  FVersaoDB := pVersaoDB;
 end;
 
 function TComandoFB.GetDBConnection: IDBConnection;
