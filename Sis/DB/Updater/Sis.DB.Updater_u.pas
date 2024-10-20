@@ -9,6 +9,9 @@ uses
   Sis.Entities.Types, Sis.DB.Updater.Destino.Utils_u, Vcl.Forms,
   Sis.Entities.TerminalList;
 
+const
+  VERSAO_PARAR = 0;
+
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
@@ -339,6 +342,8 @@ begin
           end;
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
+          if iVersao = VERSAO_PARAR then
+            break;
         until False;
       finally
         FProcessLog.RegistreLog('FDBUpdaterOperations.Unprepare');
@@ -365,6 +370,8 @@ begin
       GravarIniciais(DBConnection);
     end;
 
+    if VERSAO_PARAR > -1 then
+      Halt(0);
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
