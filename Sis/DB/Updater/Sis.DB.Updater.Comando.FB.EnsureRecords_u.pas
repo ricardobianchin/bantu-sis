@@ -6,10 +6,12 @@ uses System.Classes, Sis.DB.Updater.Comando.FB_u, Sis.DB.DBTypes,
   Sis.DB.Updater.Operations, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
 
 {$IFDEF DEBUG}
+
 const
   QTD_PARCIAL = TRUE;
-  //QTD_PARCIAL = FALSE;
+  // QTD_PARCIAL = FALSE;
 {$ELSE}
+
 const
   QTD_PARCIAL = FALSE;
 {$ENDIF}
@@ -52,7 +54,8 @@ constructor TComandoFBEnsureRecords.Create(pVersaoDB: integer;
   pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
   pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations, pProcessLog, pOutput);
+  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations,
+    pProcessLog, pOutput);
   FRegistrosSL := TStringList.Create;
 end;
 
@@ -64,7 +67,7 @@ end;
 
 function TComandoFBEnsureRecords.Funcionou: boolean;
 begin
-  Result := True;
+  Result := TRUE;
 end;
 
 function TComandoFBEnsureRecords.GetAsSql: string;
@@ -170,9 +173,10 @@ begin
       except
         on E: Exception do
         begin
-          sErro := AsText + 'TComandoFBEnsureRecords.GetAsSql Erro ' +
-            E.ClassName + ' Tabela=' + FNomeTabela + ' state=' + sUltimoState +
-            ' Record=' + I.ToString + ' ' + E.Message;
+          sErro := AsText + 'TComandoFBEnsureRecords.GetAsSql Erro Versao=' +
+            VersaoDB.ToString +' '+ E.ClassName + ' Tabela=' + FNomeTabela +
+            ' state=' + sUltimoState + ' Record=' + I.ToString + ' ' +
+            E.Message;
           ProcessLog.RegistreLog(sErro);
           Output.Exibir(sErro);
           raise Exception.Create(sErro);
@@ -341,7 +345,7 @@ begin
     end
     else if sLinha = DBATUALIZ_CSV_INI_CHAVE then
     begin
-      bPegandoRegistros := True;
+      bPegandoRegistros := TRUE;
     end
     else if Pos(DBATUALIZ_OBJETO_NOME_CHAVE + '=', sLinha) = 1 then
     begin
