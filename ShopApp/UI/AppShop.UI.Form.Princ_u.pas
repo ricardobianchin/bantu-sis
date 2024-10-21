@@ -60,15 +60,21 @@ end;
 procedure TShopPrincForm.PreenchaAtividade;
 begin
 //  inherited;
-  AppObj.AppInfo.SisTipoAtividade := TSisTipoAtividade.stativMercado;
+  AppObj.AppInfo.AtividadeEconomicaSis := TAtividadeEconomicaSis.stativMercado;
 end;
 
 procedure TShopPrincForm.PreenchaDBUpdaterVariaveis;
 begin
   inherited;
-  DBUpdaterVariaveis := 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
-    AppObj.AppInfo.SisTipoAtividade
-
+  {
+  classe mae preenche algo em DBUpdaterVariaveis
+  geralmente aqui se faz:
+  DBUpdaterVariaveis := DBUpdaterVariaveis + '...';
+  ao invés de
+  DBUpdaterVariaveis := '...';
+  toda entrada precisa terminar com #13#10 pois alimentará TStrings.Text
+  }
+  DBUpdaterVariaveis := DBUpdaterVariaveis + 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
 end;
 
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;

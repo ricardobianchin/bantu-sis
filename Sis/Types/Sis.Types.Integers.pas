@@ -4,6 +4,7 @@ interface
 
 function IntToStrZero(pInt: Int64; pNCasas: word): string;
 function StrToIntStr(S:string):string;
+function IntToExpandedASCII(pInt: byte): string;
 function StrToSmallInt(S:string): SmallInt;
 function StrToInteger(S:string): integer;
 function StrToInteger64(S:string): int64;
@@ -56,6 +57,12 @@ begin
   if result='' then
     result:='0';
 end;
+
+function IntToExpandedASCII(pInt: byte): string;
+begin
+  Result := '#' + Format('%.3d', [pInt]);
+end;
+
 
 function StrToSmallInt(S:string): SmallInt;
 begin

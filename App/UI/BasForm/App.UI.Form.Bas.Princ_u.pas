@@ -4,12 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Act_u, System.Actions,
-  App.AppInfo, App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls,
-  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.Usuario, Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList, App.Ger.GerForm_u, Sis.Entities.Factory;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Sis.UI.Form.Bas.Act_u, System.Actions, App.AppInfo,
+  App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Vcl.ActnList,
+  Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg,
+  Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Usuario,
+  Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList, App.Ger.GerForm_u,
+  Sis.Entities.Factory;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -34,9 +35,10 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure DtHCompileLabelClick(Sender: TObject);
-    procedure GerenciadorDeTarefasAbrirAction_PrincBasFormExecute(Sender: TObject);
-    procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(
-      Sender: TObject);
+    procedure GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+      (Sender: TObject);
+    procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
+      (Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -60,7 +62,8 @@ type
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+    function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario;
+      pTerminalList: ITerminalList): boolean;
 
     procedure CarregarMachineId;
     procedure CarregarLoja;
@@ -83,7 +86,8 @@ type
     property DBMS: IDBMS read FDBMS;
 
     procedure PreenchaAtividade; virtual; abstract;
-    property DBUpdaterVariaveis: string read FDBUpdaterVariaveis write FDBUpdaterVariaveis;
+    property DBUpdaterVariaveis: string read FDBUpdaterVariaveis
+      write FDBUpdaterVariaveis;
 
     procedure PreenchaDBUpdaterVariaveis; virtual;
 
@@ -103,10 +107,10 @@ implementation
 uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
-  System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u,
-  Sis.Usuario.Factory, App.SisConfig.Garantir, App.DB.Garantir,
-  Sis.Loja.Factory, Sis.UI.ImgsList.Prepare, App.SisConfig.Factory,
-  App.SisConfig.DBI, App.DB.Utils, AppVersao_u, Sis.Sis.Constants;
+  System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Usuario.Factory,
+  App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory,
+  Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
+  App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -142,8 +146,8 @@ var
   DBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
 
   DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, FProcessOutput);
@@ -155,7 +159,8 @@ procedure TPrincBasForm.CarregarMachineId;
 var
   oSisConfigDBI: ISisConfigDBI;
 begin
-  oSisConfigDBI := SisConfigDBICreate( FAppObj, DBMS, FProcessLog, FProcessOutput);
+  oSisConfigDBI := SisConfigDBICreate(FAppObj, DBMS, FProcessLog,
+    FProcessOutput);
 
   oSisConfigDBI.LerMachineIdent;
 end;
@@ -217,15 +222,13 @@ begin
   Randomize;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
-  PreenchaAtividade;
-  PreenchaDBUpdaterVariaveis;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
   FProcessLog := ProcessLogFileCreate(Name);
   FStatusOutput := MudoOutputCreate;
   FProcessOutput := nil;
-//  FProcessOutput := SplashForm;
+  // FProcessOutput := SplashForm;
 
   FProcessLog.PegueLocal('TPrincBasForm.FormCreate');
   try
@@ -235,21 +238,22 @@ begin
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FLoja := LojaCreate;
     FAppInfo := GetAppInfoCreate;
+
     FTerminalList := TerminalListCreate;
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
 
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
-
 
     ConfigureSplashForm;
     FProcessOutput := SplashForm;
     SplashForm.Show;
     Application.ProcessMessages;
 
+    FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, { FDBMS } nil,
+      FStatusOutput, FProcessOutput, FProcessLog, FTerminalList);
 
-    FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, {FDBMS}nil, FStatusOutput,
-      FProcessOutput, FProcessLog, FTerminalList);
-
+    PreenchaAtividade;
+    PreenchaDBUpdaterVariaveis;
     bResultado := FAppObj.Inicialize;
 
     bResultado := AtualizeVersaoExecutaveis;
@@ -260,7 +264,6 @@ begin
       Application.Terminate;
       Exit;
     end;
-
 
     GarantaDB;
 
@@ -338,8 +341,8 @@ begin
     end;
 
     oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput,
-      FLoja, oUsuarioGerente, DBUpdaterVariaveis);
+    bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
+      oUsuarioGerente, DBUpdaterVariaveis);
 
     if not bResultado then
     begin
@@ -357,8 +360,8 @@ begin
   end;
 end;
 
-function TPrincBasForm.GarantirConfig(pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pTerminalList: ITerminalList): boolean;
+function TPrincBasForm.GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario;
+  pTerminalList: ITerminalList): boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
@@ -380,15 +383,15 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.GerenciadorDeTarefasAbrirAction_PrincBasFormExecute(
-  Sender: TObject);
+procedure TPrincBasForm.GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+  (Sender: TObject);
 begin
   inherited;
   FGerForm.Show;
 end;
 
-procedure TPrincBasForm.GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(
-  Sender: TObject);
+procedure TPrincBasForm.
+  GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(Sender: TObject);
 begin
   inherited;
   ControlAlignToRect(FGerForm, Screen.WorkAreaRect);
@@ -409,8 +412,20 @@ begin
 end;
 
 procedure TPrincBasForm.PreenchaDBUpdaterVariaveis;
+var
+  eAtiv: TAtividadeEconomicaSis;
+  sVarNome: string;
+  sVarValor: string;
+  sEntrada: string;
 begin
-  FDBUpdaterVariaveis := '';
+  eAtiv := AppObj.AppInfo.AtividadeEconomicaSis;
+
+  sVarNome := 'ATIVIDADE_ECONOMICA_ID';
+  sVarValor := eAtiv.ToExpandedASCII;
+
+  sEntrada := sVarNome + '=' +sVarValor;
+
+  FDBUpdaterVariaveis := sEntrada + #13#10;
 end;
 
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);

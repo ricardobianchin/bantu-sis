@@ -37,7 +37,7 @@ begin
     Result.Server := pAppObj.SisConfig.ServerMachineId.Name;
     Result.Arq := pAppObj.AppInfo.PastaDados + //
       'Dados_' + //
-      TipoAtividadeNegocioDescr[pAppObj.AppInfo.SisTipoAtividade] + //
+      AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis] + //
       '_Retaguarda.FDB';
 
     Result.Arq[1] := pAppObj.SisConfig.ServerLetraDoDrive;
@@ -165,7 +165,7 @@ begin
 
   sFormat := '%sDados_%s_Terminal_%.3d.fdb';
   sPasta := pAppObj.AppInfo.PastaDados;
-  sAtiv := TipoAtividadeNegocioDescr[pAppObj.AppInfo.SisTipoAtividade];
+  sAtiv := AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis];
   iTerm := pTerminal.TerminalId;
 
   sNomeArq := Format(sFormat, [sPasta, sAtiv, iTerm]);
