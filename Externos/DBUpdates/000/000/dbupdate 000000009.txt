@@ -5,16 +5,11 @@ TERMINAL
 TESTES INICIO
 -----------------------------
 
-SHOW TABLE ;
-
-SELECT * FROM ;
-
+SHOW TABLE TERMINAL;
 
 -----------------------------
 TESTES FIM 
 -----------------------------
-
-SHOW TABLE TERMINAL;
 
 -----------------------------
 INICIO
