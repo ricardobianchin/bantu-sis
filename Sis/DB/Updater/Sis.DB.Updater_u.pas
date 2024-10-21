@@ -312,6 +312,7 @@ begin
 
           sVariaveisAdicionais := //
             'ALVO=' + FsDBUpdaterAlvo + #13#10 + //
+            'LOJA_ID=' + FLoja.Id.ToString + #13#10 + //
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
@@ -509,7 +510,7 @@ begin
         begin
           sTipoComando := StrApos(sLin, '=');
           FProcessLog.RegistreLog('sTipoComando=' + sTipoComando);
-          oComando := TipoToComando(sTipoComando, FDBConnection,
+          oComando := TipoToComando(sTipoComando, FiVersao, FDBConnection,
             FDBUpdaterOperations, FProcessLog, FOutput);
           FComandoList.Add(oComando);
           oComando.PegarLinhas(iLin, FLinhasSL);
