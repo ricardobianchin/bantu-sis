@@ -1,6 +1,22 @@
 PESSOA
 ESTADO CIVIL
 
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE ;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
+-----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
 DBATUALIZ_OBJETIVO=CRIA ESTADO CIVIL, ESTADO_CIVIL_PA
@@ -20,7 +36,7 @@ OBJETO_NOME=ESTADO_CIVIL
 COLUNAS INI
 //NOME;TIPO;NOT NULL;PRIM
 ESTADO_CIVIL_ID;ID_CHAR_DOM;S;S
-DESCR;NOME_CURTO_NOTN_DOM
+DESCR;NOME_CURTO_DOM;S
 COLUNAS FIM
 COMANDO FIM
 //TABELA ESTADO_CIVIL FIM
