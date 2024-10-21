@@ -1,7 +1,18 @@
 TERMINAL, ENSURE RECORDS
 CRIA REGISTRO TERMINAL 0 = RETAGUARDA
 
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SELECT * FROM TERMINAL;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=TERMINAL, ENSURE RECORDS
