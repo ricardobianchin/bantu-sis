@@ -10,7 +10,8 @@ uses
   Sis.Entities.TerminalList;
 
 const
-  VERSAO_ULTIMA_A_PROCESSAR = 4;
+//  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
+  VERSAO_ULTIMA_A_PROCESSAR = 12; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
