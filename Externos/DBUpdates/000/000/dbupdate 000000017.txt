@@ -1,6 +1,16 @@
 FUNCIONARIO
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
 
+SHOW TABLE FUNCIONARIO;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA

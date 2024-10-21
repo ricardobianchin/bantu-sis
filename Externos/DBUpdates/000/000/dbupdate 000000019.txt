@@ -1,6 +1,18 @@
 OPCAO_TIPO_SIS, ENSURE RECORDS
 
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SELECT * FROM OPCAO_TIPO_SIS;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=ACESSO
