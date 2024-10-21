@@ -84,6 +84,7 @@ type
 
     procedure PreenchaAtividade; virtual; abstract;
     property DBUpdaterVariaveis: string read FDBUpdaterVariaveis write FDBUpdaterVariaveis;
+
     procedure PreenchaDBUpdaterVariaveis; virtual;
 
     property GerForm: TGerAppForm read FGerForm write FGerForm;
@@ -216,6 +217,7 @@ begin
   Randomize;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
+  PreenchaAtividade;
   PreenchaDBUpdaterVariaveis;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
@@ -249,8 +251,6 @@ begin
       FProcessOutput, FProcessLog, FTerminalList);
 
     bResultado := FAppObj.Inicialize;
-
-    PreenchaAtividade;
 
     bResultado := AtualizeVersaoExecutaveis;
     if bResultado then

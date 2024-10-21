@@ -5,9 +5,11 @@ inherited PrincBasForm: TPrincBasForm
   ClientWidth = 628
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitTop = -26
   ExplicitWidth = 628
   ExplicitHeight = 477
+  DesignSize = (
+    628
+    477)
   TextHeight = 15
   object Logo1Image: TImage [0]
     Left = 0

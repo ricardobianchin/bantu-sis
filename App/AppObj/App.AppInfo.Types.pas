@@ -9,6 +9,9 @@ const
   TipoAtividadeNegocioDescr: array [TSisTipoAtividade] of string =
     ('Nao indicado', 'Mercado');
 
+  TipoAtividadeNegocioscr: array [TSisTipoAtividade] of string =
+    ('Nao indicado', 'Mercado');
+
 implementation
 
 end.

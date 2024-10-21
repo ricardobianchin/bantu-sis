@@ -67,6 +67,8 @@ procedure TShopPrincForm.PreenchaDBUpdaterVariaveis;
 begin
   inherited;
   DBUpdaterVariaveis := 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
+    AppObj.AppInfo.SisTipoAtividade
+
 end;
 
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
