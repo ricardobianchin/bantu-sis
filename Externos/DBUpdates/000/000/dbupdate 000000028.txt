@@ -1,7 +1,21 @@
 PERFIL_DE_USO
 
+-----------------------------
+TESTES INICIO
+-----------------------------
 
-//INICIO
+SHOW TABLE ;
+
+SELECT * FROM ;
+
+SHOW PACKAGE PERFIL_DE_USO_PA;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ALVO=SERVIDOR

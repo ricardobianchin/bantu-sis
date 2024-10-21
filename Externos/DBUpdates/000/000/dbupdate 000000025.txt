@@ -1,4 +1,18 @@
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE ;
+
+SELECT * FROM PERFIL_DE_USO_PODE_OPCAO_SIS;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ALVO=SERVIDOR

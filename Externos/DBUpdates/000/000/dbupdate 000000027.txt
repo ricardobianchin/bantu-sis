@@ -1,6 +1,20 @@
-USUARIO
+USUARIO_TEM_PERFIL_DE_USO
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE USUARIO_TEM_PERFIL_DE_USO;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ALVO=SERVIDOR

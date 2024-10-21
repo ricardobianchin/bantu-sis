@@ -1,6 +1,20 @@
 PERFIL_DE_USO_PODE_OPCAO_SIS
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE PERFIL_DE_USO_PODE_OPCAO_SIS;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ALVO=SERVIDOR

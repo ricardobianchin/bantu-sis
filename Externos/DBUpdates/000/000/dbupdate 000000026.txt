@@ -1,6 +1,20 @@
 USUARIO
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE USUARIO;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=ACESSO, PESSOA, USUARIO
