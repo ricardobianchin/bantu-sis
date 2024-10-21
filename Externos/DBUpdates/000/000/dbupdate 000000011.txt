@@ -1,6 +1,26 @@
 PESSOA
 GENERO
 
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE GENERO;
+
+
+SELECT * FROM GENERO;
+
+
+SHOW PACKAGE GENERO_PA;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
+-----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
 DBATUALIZ_OBJETIVO=CRIAR GENERO, GENERO_PA
