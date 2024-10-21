@@ -11,7 +11,7 @@ uses
 
 const
 //  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  VERSAO_ULTIMA_A_PROCESSAR = 12; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  VERSAO_ULTIMA_A_PROCESSAR = 10; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -346,7 +346,7 @@ begin
 
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
-          if iVersao = VERSAO_ULTIMA_A_PROCESSAR then
+          if iVersao >= VERSAO_ULTIMA_A_PROCESSAR then
             break;
         until False;
       finally
