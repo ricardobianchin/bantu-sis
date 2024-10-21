@@ -24,7 +24,6 @@ TESTES FIM
 -----------------------------
 INICIO
 -----------------------------
-
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=SIS
 DBATUALIZ_OBJETIVO=CRIA SYNC_DO_SERVIDOR_SIS
