@@ -1,6 +1,19 @@
 LOJA EH PESSOA
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
 
+SHOW TABLE LOJA_EH_PESSOA;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA, AMBIENTE, LOJA
@@ -18,9 +31,9 @@ OBJETO_NOME=LOJA_EH_PESSOA
 COLUNAS INI
 //NOME;TIPO;NOT NULL;PRIM
 
-LOJA_ID;ID_SHORT_NOTN_DOM
-TERMINAL_ID;ID_SHORT_NOTN_DOM
-PESSOA_ID;ID_NOTN_DOM
+LOJA_ID;ID_SHORT_DOM;S
+TERMINAL_ID;ID_SHORT_DOM;S
+PESSOA_ID;ID_DOM;S
 
 COLUNAS FIM
 COMANDO FIM
