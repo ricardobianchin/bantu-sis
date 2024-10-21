@@ -1,7 +1,19 @@
 ENDERECO_PA
 
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW PACKAGE ENDERECO_PA;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
