@@ -3,7 +3,22 @@ CRIA TABELAS
 BALANCA_MODO
 BALANCA
 
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE BALANCA_MODO;
+SHOW TABLE BALANCA;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PERIFERICOS
