@@ -147,7 +147,7 @@ var
 begin
   for i := 0 to pSL.Count - 1 do
   begin
-    pSL[i] := UpperCase(pSL[i]);
+    pSL[i] := AnsiUpperCase(pSL[i]);
   end;
 end;
 
