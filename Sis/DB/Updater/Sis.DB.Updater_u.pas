@@ -312,16 +312,17 @@ begin
 
           sVariaveisAdicionais := //
             'ALVO=' + FsDBUpdaterAlvo + #13#10 + //
-            'LOJA_ID=' + FLoja.Id.ToString + #13#10 + //
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
           ProcessarDiretivas(FLinhasSL, FVariaveis + sVariaveisAdicionais,
             FsDiretivaAbre, FsDiretivaFecha);
-           {$IFDEF DEBUG}
-           if iVersao=2 then
-             CopyTextToClipboard(FLinhasSL.Text);
-           {$ENDIF}
+//           {$IFDEF DEBUG}
+//           if iVersao=2 then
+//           begin
+//             CopyTextToClipboard(FLinhasSL.Text);
+//           end;
+//           {$ENDIF}
 
           LerUpdateProperties(FLinhasSL);
 
@@ -341,6 +342,7 @@ begin
             FProcessLog.RegistreLog('ComandosTesteFuncionou');
             ComandosTesteFuncionou;
           end;
+
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
           if iVersao = VERSAO_ULTIMA_A_PROCESSAR then
