@@ -3,7 +3,22 @@ ENSURE RECORDS
 BALANCA_MODO
 BALANCA
 
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+
+SELECT * FROM BALANCA_MODO;
+
+SELECT * FROM BALANCA;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=BALANCA, ENSURE RECORDS
