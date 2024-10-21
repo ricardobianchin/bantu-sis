@@ -10,7 +10,7 @@ uses
   Sis.Entities.TerminalList;
 
 const
-  VERSAO_ULTIMA_A_PROCESSAR = 5;
+  VERSAO_ULTIMA_A_PROCESSAR = 4;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -126,7 +126,7 @@ begin
   FTerminalId := pTerminalId;
   FTerminalList := pTerminalList;
   FDBUpdaterAlvo := TerminalIdToAlvo(FTerminalId);
-  FsDBUpdaterAlvo := UpperCase(DBUpdaterAlvoNomes[FDBUpdaterAlvo]);
+  FsDBUpdaterAlvo := AnsiUpperCase(DBUpdaterAlvoNomes[FDBUpdaterAlvo]);
 
   FPastaProduto := pPastaProduto;
   FSqlDestinoSL := TStringList.Create;
