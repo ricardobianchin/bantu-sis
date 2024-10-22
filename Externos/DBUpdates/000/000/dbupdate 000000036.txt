@@ -1,6 +1,24 @@
 LOJA_MANUT_PA
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
 
+SHOW SEQUENCE ;
+
+SHOW TABLE ;
+
+SELECT * FROM ;
+
+SHOW PACKAGE LOJA_MANUT_PA;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+show procedure LOJA_MANUT_PA.GARANTIR;
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA, AMBIENTE, LOJA
@@ -18,7 +36,6 @@ C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\
 
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql";
 
-show procedure LOJA_MANUT_PA.GARANTIR;
 */
 
 //////////////////////////////////
@@ -119,9 +136,13 @@ BEGIN
     FONE3             NOME_CURTO_DOM,
     
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM,
+    REFERENCIA        OBS1_DOM
     
-    SELECIONADO       BOOLEAN
+    , SELECIONADO BOOLEAN
+
+    , LOG_LOJA_ID ID_DOM NOT NULL
+    , LOG_PESSOA_ID ID_DOM NOT NULL
+    , MACHINE_ID ID_SHORT_DOM
 )
   RETURNS
   (
@@ -332,35 +353,48 @@ BEGIN
   PROCEDURE GARANTIR(
     LOJA_ID SMALLINT NOT NULL,
     TERMINAL_ID SMALLINT NOT NULL,
+
     NOME VARCHAR(60),
     NOME_FANTASIA VARCHAR(60),
     APELIDO VARCHAR(20),
+
     GENERO_ID CHAR(1),
     ESTADO_CIVIL_ID CHAR(1),
+
     C VARCHAR(15),
     I VARCHAR(15),
     M VARCHAR(15),
     M_UF CHAR(2),
+
     EMAIL VARCHAR(50),
     DT_NASC DATE,
     ATIVO BOOLEAN,
+
     PESSOA_ID INTEGER,
 
     LOGRADOURO        VARCHAR(70),
     NUMERO            NOME_DOM,
     COMPLEMENTO       NOME_DOM,
     BAIRRO            NOME_DOM,
+
     UF_SIGLA          CHAR(2),
     CEP               CHAR(8),
     MUNICIPIO_IBGE_ID CHAR(7),
+
     DDD               CHAR(2),
     FONE1             NOME_CURTO_DOM,
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
-    CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM,
 
-    SELECIONADO BOOLEAN
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS1_DOM
+
+    , SELECIONADO BOOLEAN
+
+    , LOG_LOJA_ID ID_DOM NOT NULL
+    , LOG_PESSOA_ID ID_DOM NOT NULL
+    , MACHINE_ID ID_SHORT_DOM
+
   )
   RETURNS
   (
@@ -409,7 +443,7 @@ BEGIN
     ELSE IF (:SELECIONADO = TRUE) THEN
       UPDATE LOJA SET SELECIONADO = FALSE;
 
-    EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(:LOJA_ID, :APELIDO, :SELECIONADO);
+    EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(:LOJA_ID, :APELIDO, :SELECIONADO, :LOG_LOJA_ID, :LOG_PESSOA_ID, :MACHINE_ID);
 
     UPDATE OR INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID)
     VALUES (:LOJA_ID_RET, :TERMINAL_ID_RET, :PESSOA_ID_RET)
@@ -421,9 +455,6 @@ END^
 SET TERM ;^
 ```
 COMANDO FIM
-
 //PACKAGE LOJA_MANUT_PA
-
-
 
 DBATUALIZ FIM
