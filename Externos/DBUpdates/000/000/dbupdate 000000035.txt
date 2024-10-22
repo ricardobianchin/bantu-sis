@@ -1,5 +1,21 @@
 PESSOA
 
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+
+SELECT * FROM ;
+
+SHOW PACKAGE PESSOA_PA;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
+-----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
 DBATUALIZ_OBJETIVO=CRIAR PACKAGE PESSOA_PA
