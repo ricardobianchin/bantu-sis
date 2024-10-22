@@ -1,31 +1,3 @@
-CRIA
-TERMINAL_PA
-
-
-INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=AMBIENTE, TERMINAL_PA
-DBATUALIZ_OBJETIVO=CRIAR PACKAGE TERMINAL_PA
-DBATUALIZ_OBS=
-
-
-
--- PACKAGE TERMINAL_PA
-/*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\terminal_pa.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\terminal_pa.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\Ambiente\terminal_pa.sql";
-*/
-
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=TERMINAL_PA
-
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE TERMINAL_PA
 AS
@@ -121,7 +93,3 @@ BEGIN
     END
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM
