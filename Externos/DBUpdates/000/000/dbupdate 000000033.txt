@@ -187,13 +187,21 @@ COMANDO FIM
 
 
 
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\log_pa.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\log_pa.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\log_pa.sql";
+*/
+
 //PACKAGE LOG_PA
 
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=LOG_PA
 ```FIREBIRD
-
 SET TERM ^;
 CREATE OR ALTER PACKAGE LOG_PA
 AS
@@ -321,7 +329,6 @@ BEGIN
   END
 END^
 SET TERM ;^
-
 ```
 COMANDO FIM
 //PACKAGE LOG_PA FIM
