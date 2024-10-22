@@ -287,10 +287,6 @@ begin
           if VERSAO_ULTIMA_A_PROCESSAR > -1 then
             if iVersao > VERSAO_ULTIMA_A_PROCESSAR then
               break;
-          begin
-            raise Exception.Create
-              ('Debug, iVersao > VERSAO_ULTIMA_A_PROCESSAR');
-          end;
 
           FProcessLog.RegistreLog('iVersao' + iVersao.ToString +
             ',vai CarreguouArqComando');
