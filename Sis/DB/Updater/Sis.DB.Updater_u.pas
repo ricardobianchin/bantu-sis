@@ -10,8 +10,8 @@ uses
   Sis.Entities.TerminalList;
 
 const
-//  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  VERSAO_ULTIMA_A_PROCESSAR = 10; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  // VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
+  VERSAO_ULTIMA_A_PROCESSAR = 34; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -278,11 +278,19 @@ begin
       FProcessLog.RegistreLog('vai iVersao := DBDescubraVersaoEConecte');
       iVersao := DBDescubraVersaoEConecte;
       FProcessLog.RegistreLog('iVersao' + iVersao.ToString);
+
       try
         repeat
           FOutput.Exibir('');
           iVersao := iVersao + 1;
           FOutput.Exibir('Versao=' + iVersao.ToString);
+          if VERSAO_ULTIMA_A_PROCESSAR > -1 then
+            if iVersao > VERSAO_ULTIMA_A_PROCESSAR then
+              break;
+          begin
+            raise Exception.Create
+              ('Debug, iVersao > VERSAO_ULTIMA_A_PROCESSAR');
+          end;
 
           FProcessLog.RegistreLog('iVersao' + iVersao.ToString +
             ',vai CarreguouArqComando');
@@ -318,12 +326,12 @@ begin
 
           ProcessarDiretivas(FLinhasSL, FVariaveis + sVariaveisAdicionais,
             FsDiretivaAbre, FsDiretivaFecha);
-//           {$IFDEF DEBUG}
-//           if iVersao=2 then
-//           begin
-//             CopyTextToClipboard(FLinhasSL.Text);
-//           end;
-//           {$ENDIF}
+          // {$IFDEF DEBUG}
+          // if iVersao=2 then
+          // begin
+          // CopyTextToClipboard(FLinhasSL.Text);
+          // end;
+          // {$ENDIF}
 
           LerUpdateProperties(FLinhasSL);
 
@@ -346,8 +354,6 @@ begin
 
           FProcessLog.RegistreLog('GravarVersao');
           GravarVersao;
-          if iVersao >= VERSAO_ULTIMA_A_PROCESSAR then
-            break;
         until False;
       finally
         FProcessLog.RegistreLog('FDBUpdaterOperations.Unprepare');
