@@ -1,8 +1,39 @@
 POPULAR TABELAS LOG TIPO E LOG USO
 
 
+-----------------------------
+TESTES INICIO
+-----------------------------
 
-    inicio
+SHOW SEQUENCE ;
+
+SHOW TABLE ;
+
+SELECT * FROM ACAO_SIS;
+
+
+
+
+SELECT * FROM FEATURE;
+
+
+
+
+SELECT FEATURE_ID, NAME, SUBSTRING(DESCR FROM 1 FOR 50) AS DESCR FROM FEATURE;
+
+
+
+
+
+
+SHOW PACKAGE ;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=POPULAR LOG TIPO E LOG USO

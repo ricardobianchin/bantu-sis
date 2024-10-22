@@ -1,7 +1,31 @@
 ACAO_SIS
 
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW SEQUENCE ;
+
+
+SHOW TABLE ACAO_SIS;
+
+
+
+SHOW TABLE FEATURE;
+
+
+
+SELECT * FROM ;
+
+SHOW PACKAGE ;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=LOG BASICOS, ACAO_SIS

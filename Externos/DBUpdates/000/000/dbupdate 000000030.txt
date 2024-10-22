@@ -1,7 +1,28 @@
 MACHINE
 MAQUINA, NOME DA MAQUINA NA REDE
+MACHINE_SEQ, MACHINE, MACHINE_PA
+-----------------------------
+TESTES INICIO
+-----------------------------
 
-//INICIO
+
+SELECT * FROM ;
+
+SHOW SEQUENCE MACHINE_SEQ;
+
+
+SHOW TABLE MACHINE;
+
+
+SHOW PACKAGE MACHINE_PA;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=MACHINE
@@ -57,7 +78,7 @@ BEGIN
   PROCEDURE BYIDENT_GET
   (
     NOME_NA_REDE VARCHAR(15)
-    IP IPV6_DOM
+    , IP IPV6_DOM
   )
   RETURNS
   (
@@ -72,8 +93,8 @@ AS
 BEGIN
   PROCEDURE BYIDENT_GET
   (
-    NOME_NA_REDE VARCHAR(15),
-    IP IPV6_DOM
+    NOME_NA_REDE VARCHAR(15)
+    , IP IPV6_DOM
   )
   RETURNS
   (
@@ -91,7 +112,7 @@ BEGIN
     END
     ELSE
     BEGIN
-      UPDATE MACHINE SET NOME_NA_REDE = :NOME_NA_REDE, IP = :IP WHERE MACHINE_ID = :MACHINE_ID;
+      UPDATE MACHINE SET NOME_NA_REDE = :NOME_NA_REDE, IP = :IP WHERE MACHINE_ID = :MACHINE_ID_RET;
     END
     
     SUSPEND;
