@@ -11,7 +11,7 @@ uses
 
 const
   // VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  VERSAO_ULTIMA_A_PROCESSAR = 34; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  VERSAO_ULTIMA_A_PROCESSAR = 37; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -778,6 +778,14 @@ begin
   FProcessLog.PegueLocal('TDBUpdater.RemoveExcedentes');
   try
     sLog := 'TDBUpdater.RemoveExcedentes,' + pSL.Count.ToString + ' linhas,';
+
+//    {$IFDEF DEBUG}
+//    if iVersao=2 then
+//    begin
+//    CopyTextToClipboard(psl.Text);
+//    end;
+//    {$ENDIF}
+
     SLRemoveCommentsSingleLine(pSL);
     SLRemoveCommentsMultiLine(pSL);
     SLManterEntre(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
