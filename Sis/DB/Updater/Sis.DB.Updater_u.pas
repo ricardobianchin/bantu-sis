@@ -747,8 +747,8 @@ begin
       + ', ' + oTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
       + ', ' + oTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
       + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) // SEMPRE_OFFLINE
-      + ', ' + FLoja.Id.ToString // LOJA_ID
-      + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
+      + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
+      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
       + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
       + ');'; //
 
