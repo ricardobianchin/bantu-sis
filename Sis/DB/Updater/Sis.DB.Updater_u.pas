@@ -653,32 +653,15 @@ begin
   begin
     sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
       + FLoja.Id.ToString //
-      + ',' + FLoja.Descr.QuotedString //
-      + ', TRUE);' //
-      ; //
+      + ', ' + FLoja.Descr.QuotedString //
+      + ', TRUE' //
+      + ', ' + FLoja.Id.ToString //
+      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+      + ');'; //
 
-    pDBConnection.ExecuteSql(sSql);
-
-    sSql := 'SELECT GEN_ID(PESSOA_SEQ, 1) FROM RDB$DATABASE;';
-    iPessoaId := pDBConnection.GetValueInteger(sSql);
-
-    sSql := 'INSERT INTO PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME, APELIDO'
-    //
-      + ') VALUES (' //
-      + FLoja.Id.ToString //
-      + ', 0' //
-      + ', ' + iPessoaId.ToString + ', ' + QuotedStr('') + ', ' +
-      FLoja.Descr.QuotedString + ');';
-    pDBConnection.ExecuteSql(sSql);
-
-    sSql := 'INSERT INTO LOJA_EH_PESSOA (LOJA_ID, TERMINAL_ID, PESSOA_ID' //
-      + ') VALUES (' //
-      + FLoja.Id.ToString //
-      + ', 0' //
-      + ', ' + iPessoaId.ToString + ');';
     pDBConnection.ExecuteSql(sSql);
   end;
-  // loja fim
 
   if FUsuarioGerente.NomeCompleto <> '' then
   begin
