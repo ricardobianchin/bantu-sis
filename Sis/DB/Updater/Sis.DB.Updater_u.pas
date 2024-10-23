@@ -11,7 +11,7 @@ uses
 
 const
   VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  //VERSAO_ULTIMA_A_PROCESSAR = 54; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  // VERSAO_ULTIMA_A_PROCESSAR = 54; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -665,6 +665,7 @@ begin
 
   if FUsuarioGerente.NomeCompleto <> '' then
   begin
+    // DEFINE USUARIO SUPORTE INICIO
     Encriptar(1, '123', sSenha);
 
     sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
@@ -674,7 +675,13 @@ begin
       + ', ' + sSenha.QuotedString // SENHA
       + ', 1' // CRY_VER
       + ', ' + 'SUPORTE'.QuotedString // APELIDO
-      + ', NULL);';
+
+    // COMO É NULL, GERA NOVO NUM QUE SERÁ ARMAZENADO EM iPessoaId
+      + ', NULL' // PESSOA_ID
+
+      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+      + ');';
 
     iPessoaId := pDBConnection.GetValue(sSql);
 
@@ -686,7 +693,10 @@ begin
       + ');';
 
     pDBConnection.ExecuteSql(sSql);
+    // DEFINE USUARIO SUPORTE FIM
 
+
+    // DEFINE USUARIO GERENTE INICIO
     Encriptar(1, FUsuarioGerente.Senha, sSenha);
 
     sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
@@ -696,7 +706,13 @@ begin
       + ', ' + sSenha.QuotedString // SENHA
       + ', 1' // CRY_VER
       + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
-      + ', NULL);';
+
+    // COMO É NULL, GERA NOVO NUM QUE SERÁ ARMAZENADO EM iPessoaId
+      + ', NULL' // PESSOA_ID
+
+      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+      + ');';
 
     iPessoaId := pDBConnection.GetValue(sSql);
 
@@ -708,6 +724,7 @@ begin
       + ');';
 
     pDBConnection.ExecuteSql(sSql);
+    // DEFINE USUARIO GERENTE FIM
   end;
 
   sSql := 'DELETE FROM TERMINAL;';
@@ -762,12 +779,12 @@ begin
   try
     sLog := 'TDBUpdater.RemoveExcedentes,' + pSL.Count.ToString + ' linhas,';
 
-//    {$IFDEF DEBUG}
-//    if iVersao=2 then
-//    begin
-//    CopyTextToClipboard(psl.Text);
-//    end;
-//    {$ENDIF}
+    // {$IFDEF DEBUG}
+    // if iVersao=2 then
+    // begin
+    // CopyTextToClipboard(psl.Text);
+    // end;
+    // {$ENDIF}
 
     SLRemoveCommentsSingleLine(pSL);
     SLRemoveCommentsMultiLine(pSL);
