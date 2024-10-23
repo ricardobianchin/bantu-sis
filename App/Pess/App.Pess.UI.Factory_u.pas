@@ -64,7 +64,7 @@ begin
   oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig,
     oDBConnectionParams, pProcessLog, pOutput);
 
-  oEnt := PessLojaEntCreate(pAppObj.Loja.Id, pUsuario.Id,  pSisConfig.ServerMachineId.IdentId);
+  oEnt := PessLojaEntCreate(pAppObj.Loja.Id, pAppObj.Loja.Id, pUsuario.Id,  pSisConfig.ServerMachineId.IdentId);
   oDBI := PessLojaDBICreate(oDBConnection, oEnt);
 
   Result := TDataSetFormCreator.Create(TAppPessLojaDataSetForm,

@@ -8,6 +8,7 @@ uses App.Pess.Ent.Factory_u, App.Pess.Loja.Ent, App.Pess.Loja.DBI,
 //loja
 //loja ent
 function PessLojaEntCreate(
+  pLogLojaId: smallint; //
   pLojaId: smallint; //
   pUsuarioId: integer; //
   pMachineIdentId: smallint //
@@ -26,6 +27,7 @@ uses App.PessEnder.List, App.Pess.Loja.Ent_u, App.Pess.Loja.DBI_u;
 
 //loja
 function PessLojaEntCreate(
+  pLogLojaId: smallint; //
   pLojaId: smallint; //
   pUsuarioId: integer; //
   pMachineIdentId: smallint //
@@ -35,7 +37,7 @@ var
 begin
   oPessEnderList := PessEnderListCreate;
 
-  Result := TPessLojaEnt.Create(pLojaId, pUsuarioId, pMachineIdentId,
+  Result := TPessLojaEnt.Create(pLogLojaId, pLojaId, pUsuarioId, pMachineIdentId,
     oPessEnderList);
 end;
 
