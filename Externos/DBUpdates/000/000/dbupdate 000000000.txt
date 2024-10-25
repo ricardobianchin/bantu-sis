@@ -1,7 +1,16 @@
-DOMAINS
+DBUPDATE_HIST
+DBUPDATE_PA
+
 VERSAO DO BANCO DE DADOS.
 
 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
+
+---------------------------------------
+TESTES DBUPDATE_HIST
+---------------------------------------
+DBUPDATE_HIST
+
+TESTES
 
 # versao 000.000.000
 
@@ -84,24 +93,6 @@ COMMIT;
 ```
 
 
------------------------------
-INICIO
------------------------------
-
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=VERSAO DATABASE
-DBATUALIZ_OBJETIVO=CRIAR VERSAO DATABASE, DBUPDATE_HIST, PACKAGE DBUPDATE_PA, DOMAINS BASICOS, COMO O ID_DOM
-DBATUALIZ_DESTINO=TERMINAL
-DBATUALIZ_OBS=
-
-/*
----------------------------------------
-TESTES DBUPDATE_HIST
----------------------------------------
-DBUPDATE_HIST
-
-TESTES
-
 SHOW DOMAINS;
 SHOW TABLE DBUPDATE_HIST;
 SELECT * FROM DBUPDATE_HIST;
@@ -114,7 +105,17 @@ DROP TABLE DBUPDATE_HIST;
 ---------------------------------------
 FIM TESTES
 ---------------------------------------
-*/
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=VERSAO DATABASE
+DBATUALIZ_OBJETIVO=CRIAR VERSAO DATABASE, DBUPDATE_HIST, PACKAGE DBUPDATE_PA, DOMAINS BASICOS, COMO O ID_DOM
+DBATUALIZ_DESTINO=TERMINAL
+DBATUALIZ_OBS=
+
+
 
 /////////////////////////
 //
