@@ -10,8 +10,8 @@ uses
   Sis.Entities.TerminalList, Sis.Entities.Terminal;
 
 const
-  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  // VERSAO_ULTIMA_A_PROCESSAR = 39; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  //VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
+  VERSAO_ULTIMA_A_PROCESSAR = 39; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -95,8 +95,8 @@ type
       : SmallInt;
     function GravarIniciais_CrieGerenteInicial(pDBConnection
       : IDBConnection): integer;
-    function GravarIniciais_CrieGerenteFinal(pDBConnection
-      : IDBConnection): integer;
+    procedure GravarIniciais_CrieGerenteFinal(pDBConnection
+      : IDBConnection);
     procedure GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieSuporte(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieTerminal(pDBConnection: IDBConnection;
@@ -807,8 +807,8 @@ begin
   pDBConnection.ExecuteSql(sSql);
 end;
 
-function TDBUpdater.GravarIniciais_CrieGerenteFinal(pDBConnection
-  : IDBConnection): integer;
+procedure TDBUpdater.GravarIniciais_CrieGerenteFinal(pDBConnection
+  : IDBConnection);
 var
   sSql: string;
   sSenha: string;
