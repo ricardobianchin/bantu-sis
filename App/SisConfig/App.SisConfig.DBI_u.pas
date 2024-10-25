@@ -8,7 +8,6 @@ uses App.SisConfig.DBI, Sis.Config.SisConfig, App.AppObj, Sis.DB.DBTypes,
 type
   TSisConfigDBI = class(TInterfacedObject, ISisConfigDBI)
   private
-    FSisConfig: ISisConfig;
     FAppObj: IAppObj;
     FDBMS: IDBMS;
     FProcessLog: IProcessLog;
@@ -46,7 +45,7 @@ begin
     FAppObj);
 
   oDBConnection := DBConnectionCreate('TSisConfigDBI.LerMachineIdent.Conn',
-    FSisConfig, oDBConnectionParams, FProcessLog, FOutput);
+    FAppObj.SisConfig, oDBConnectionParams, FProcessLog, FOutput);
 
   oDBConnection.Abrir;
   try
@@ -57,20 +56,20 @@ begin
       oDBConnection, sSql, FProcessLog, FOutput);
     oDBQuery.Prepare;
     try
-      oDBQuery.Params[0].AsString := FSisConfig.ServerMachineId.Name;
-      oDBQuery.Params[1].AsString := FSisConfig.ServerMachineId.IP;
+      oDBQuery.Params[0].AsString := FAppObj.SisConfig.ServerMachineId.Name;
+      oDBQuery.Params[1].AsString := FAppObj.SisConfig.ServerMachineId.IP;
       oDBQuery.Abrir;
       try
-        FSisConfig.ServerMachineId.IdentId := oDBQuery.DataSet.Fields[0].AsInteger;
+        FAppObj.SisConfig.ServerMachineId.IdentId := oDBQuery.DataSet.Fields[0].AsInteger;
       finally
         oDBQuery.Fechar;
       end;
 
-      oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
-      oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
+      oDBQuery.Params[0].AsString := FAppObj.SisConfig.LocalMachineId.Name;
+      oDBQuery.Params[1].AsString := FAppObj.SisConfig.LocalMachineId.IP;
       oDBQuery.Abrir;
       try
-        FSisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[1].AsInteger;
+        FAppObj.SisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[0].AsInteger;
       finally
         oDBQuery.Fechar;
       end;
