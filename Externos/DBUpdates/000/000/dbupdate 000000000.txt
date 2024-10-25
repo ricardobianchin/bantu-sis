@@ -1,6 +1,11 @@
 DBUPDATE_HIST
 DBUPDATE_PA
 
+-------
+feature_sis arquivo
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000032.txt
+-------
+
 VERSAO DO BANCO DE DADOS.
 
 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
