@@ -7,11 +7,11 @@ uses
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
   Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
   Sis.Entities.Types, Sis.DB.Updater.Destino.Utils_u, Vcl.Forms,
-  Sis.Entities.TerminalList;
+  Sis.Entities.TerminalList, Sis.Entities.Terminal;
 
 const
   VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  // VERSAO_ULTIMA_A_PROCESSAR = 54; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  // VERSAO_ULTIMA_A_PROCESSAR = 39; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -64,7 +64,43 @@ type
     procedure ComandosTesteFuncionou;
     procedure GravarVersao;
 
+    /// <summary>
+    /// Grava os dados iniciais no banco de dados.
+    /// </summary>
+    /// <param name="pDBConnection">Conexão com o banco de dados.</param>
+    /// <remarks>
+    /// Este método realiza várias operações de inicialização,
+    /// incluindo a criação de registros de gerente, loja e suporte.
+    /// </remarks>
+    /// <remarks>
+    /// Quando ainda não existe pessoa, não é possível gerar um log.
+    /// Logs aqui são necessários pois serão usados para notificar os PDVs
+    /// destes novos registros.
+    ///
+    /// Primeiro, chama <c>GravarIniciais_CrieGerenteInicial</c>
+    /// que gera a pessoa sem o uso de stored procedures,
+    /// apenas <c>INSERT INTO</c>.
+    ///
+    /// Depois que o registro da pessoa do gerente já existe,
+    /// pode-se criar a loja e as demais tabelas.
+    /// Mesmo o gerente agora será regravado usando stored procedures
+    /// e todos terão os seus logs registrados.
+    ///
+    /// aí que entra a <c>GravarIniciais_CrieGerenteFinal</c>
+    /// </remarks>
+    /// <exception cref="EAbort">Lança uma exceção se estiver em um terminal.</exception>
     procedure GravarIniciais(pDBConnection: IDBConnection);
+
+    function GravarIniciais_CrieMachineIdLocal(pDBConnection: IDBConnection)
+      : SmallInt;
+    function GravarIniciais_CrieGerenteInicial(pDBConnection
+      : IDBConnection): integer;
+    function GravarIniciais_CrieGerenteFinal(pDBConnection
+      : IDBConnection): integer;
+    procedure GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
+    procedure GravarIniciais_CrieSuporte(pDBConnection: IDBConnection);
+    procedure GravarIniciais_CrieTerminal(pDBConnection: IDBConnection;
+      pTerminal: ITerminal);
 
     procedure DoAposCriarBanco;
 
@@ -113,7 +149,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
   Sis.Win.Utils_u, Sis.ui.io.Files, Sis.Win.Execute, Sis.Win.Factory,
-  Sis.DB.Updater.Diretivas_u, Sis.Entities.Terminal, Sis.Types.Bool_u;
+  Sis.DB.Updater.Diretivas_u, Sis.Types.Bool_u;
 
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
@@ -618,17 +654,198 @@ end;
 
 procedure TDBUpdater.GravarIniciais(pDBConnection: IDBConnection);
 var
-  sSenha: string;
-  iPessoaId: integer;
-  oTerminal: ITerminal;
   I: integer;
+begin
+  if FTerminalId > 0 then // se estou em terminal, aborta
+    exit;
+
+  FSisConfig.LocalMachineId.IdentId := GravarIniciais_CrieMachineIdLocal
+    (pDBConnection);
+  if FUsuarioGerente.Id < 1 then
+    FUsuarioGerente.Id := GravarIniciais_CrieGerenteInicial(pDBConnection);
+
+  if FLoja.Descr <> '' then
+  begin
+    GravarIniciais_CrieLoja(pDBConnection);
+  end;
+
+  if FUsuarioGerente.NomeCompleto <> '' then
+  begin
+    GravarIniciais_CrieSuporte(pDBConnection);
+    GravarIniciais_CrieGerenteFinal(pDBConnection);
+  end;
+
+  pDBConnection.ExecuteSql('DELETE FROM TERMINAL;');
+
+  for I := 0 to FTerminalList.Count - 1 do
+  begin
+    GravarIniciais_CrieTerminal(pDBConnection, FTerminalList[I]);
+  end;
+end;
+
+function TDBUpdater.GravarIniciais_CrieGerenteInicial(pDBConnection
+  : IDBConnection): integer;
+var
   sSql: string;
   oDBQuery: IDBQuery;
 begin
-  // loja inicio
-  if FTerminalId > 0 then
-    exit;
+  sSql := 'SELECT PROXIMO_ID_GET() AS PESSOA_ID_RET FROM RDB$DATABASE';
 
+  oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
+    sSql, FProcessLog, FOutput);
+
+  oDBQuery.Abrir;
+  Result := oDBQuery.DataSet.Fields[0].AsInteger;
+  oDBQuery.Fechar;
+
+  sSql := 'INSERT INTO PESSOA'#13#10 //
+    + '('#13#10 //
+
+    + '  LOJA_ID'#13#10 //
+    + '  , TERMINAL_ID'#13#10 //
+    + '  , PESSOA_ID'#13#10 //
+    + '  , NOME'#13#10 //
+
+    + ')'#13#10 //
+    + 'VALUES'#13#10 //
+    + '('#13#10 //
+
+    + '  ' + FLoja.Id.ToString + ' -- LOJA_ID' //
+    + '  , 0 -- TERMINAL_ID'#13#10 //
+    + '  , ' + Result.ToString + ' -- LOJA_ID' //
+    + ', ' + FUsuarioGerente.NomeCompleto.QuotedString + ' -- NOME' //
+
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+procedure TDBUpdater.GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
+var
+  sSql: string;
+begin
+  sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
+    + FLoja.Id.ToString //
+    + ', ' + FLoja.Descr.QuotedString //
+    + ', TRUE' //
+    + ', ' + FLoja.Id.ToString //
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');'; //
+
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+procedure TDBUpdater.GravarIniciais_CrieSuporte(pDBConnection: IDBConnection);
+var
+  sSql: string;
+  oDBQuery: IDBQuery;
+  sSenha: string;
+  iSuportePessoaId: integer;
+begin
+  Encriptar(1, '123', sSenha);
+
+  sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + 'SUPORTE TECNICO'.QuotedString // NOME
+    + ', ' + 'SUP'.QuotedString // NOME_DE_USUARIO
+    + ', ' + sSenha.QuotedString // SENHA
+    + ', 1' // CRY_VER
+    + ', ' + 'SUPORTE'.QuotedString // APELIDO
+    + ', NULL' // PESSOA_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+  iSuportePessoaId := pDBConnection.GetValue(sSql);
+
+  sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
+  //
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + iSuportePessoaId.ToString // USUARIO_PESSOA_ID
+    + ', 1' // PERFIL_DE_USO_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+procedure TDBUpdater.GravarIniciais_CrieTerminal(pDBConnection: IDBConnection;
+  pTerminal: ITerminal);
+var
+  sSql: string;
+begin
+  sSql := 'EXECUTE PROCEDURE TERMINAL_PA.GARANTIR (' //
+    + pTerminal.TerminalId.ToString // TERMINAL_ID
+    + ', ' + pTerminal.Apelido.QuotedString // APELIDO
+    + ', ' + pTerminal.NomeNaRede.QuotedString // NOME_NA_REDE
+    + ', ' + pTerminal.IP.QuotedString // IP
+    + ', ' + pTerminal.NFSerie.ToString // NF_SERIE
+    + ', ' + pTerminal.LetraDoDrive.QuotedString // LETRA_DO_DRIVE
+    + ', ' + BooleanToStrSQL(pTerminal.GavetaTem) // GAVETA_TEM
+    + ', ' + pTerminal.BalancaModoId.ToString // BALANCA_MODO_ID
+    + ', ' + pTerminal.BalancaId.ToString // BALANCA_ID
+    + ', ' + pTerminal.BarCodigoIni.ToString // BARRAS_COD_INI
+    + ', ' + pTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
+    + ', ' + pTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
+    + ', ' + BooleanToStrSQL(pTerminal.SempreOffLine) // SEMPRE_OFFLINE
+    + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');'; //
+
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+function TDBUpdater.GravarIniciais_CrieGerenteFinal(pDBConnection
+  : IDBConnection): integer;
+var
+  sSql: string;
+  sSenha: string;
+begin
+  Encriptar(1, FUsuarioGerente.Senha, sSenha);
+
+  sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
+    + ', ' + FUsuarioGerente.NomeDeUsuario.QuotedString // NOME_DE_USUARIO
+    + ', ' + sSenha.QuotedString // SENHA
+    + ', 1' // CRY_VER
+    + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
+    + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');';
+
+  pDBConnection.GetValue(sSql);
+
+  sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
+    + ', 2' // PERFIL_DE_USO_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');';
+
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+function TDBUpdater.GravarIniciais_CrieMachineIdLocal(pDBConnection
+  : IDBConnection): SmallInt;
+var
+  sSql: string;
+  oDBQuery: IDBQuery;
+begin
   sSql := 'select MACHINE_ID_RET' +
     ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
 
@@ -641,118 +858,12 @@ begin
     oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
     oDBQuery.Abrir;
     try
-      FSisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[1].AsInteger;
+      Result := oDBQuery.DataSet.Fields[0].AsInteger;
     finally
       oDBQuery.Fechar;
     end;
   finally
     oDBQuery.Unprepare;
-  end;
-
-  if FLoja.Descr <> '' then
-  begin
-    sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
-      + FLoja.Id.ToString //
-      + ', ' + FLoja.Descr.QuotedString //
-      + ', TRUE' //
-      + ', ' + FLoja.Id.ToString //
-      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
-      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-      + ');'; //
-
-    pDBConnection.ExecuteSql(sSql);
-  end;
-
-  if FUsuarioGerente.NomeCompleto <> '' then
-  begin
-    // DEFINE USUARIO SUPORTE INICIO
-    Encriptar(1, '123', sSenha);
-
-    sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
-      + FLoja.Id.ToString // LOJA_ID
-      + ', ' + 'SUPORTE TECNICO'.QuotedString // NOME
-      + ', ' + 'SUP'.QuotedString // NOME_DE_USUARIO
-      + ', ' + sSenha.QuotedString // SENHA
-      + ', 1' // CRY_VER
-      + ', ' + 'SUPORTE'.QuotedString // APELIDO
-
-    // COMO É NULL, GERA NOVO NUM QUE SERÁ ARMAZENADO EM iPessoaId
-      + ', NULL' // PESSOA_ID
-
-      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
-      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-      + ');';
-
-    iPessoaId := pDBConnection.GetValue(sSql);
-
-    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
-    //
-      + FLoja.Id.ToString // LOJA_ID
-      + ', ' + iPessoaId.ToString // PESSOA_ID
-      + ', 1' // PERFIL_DE_USO_ID
-      + ');';
-
-    pDBConnection.ExecuteSql(sSql);
-    // DEFINE USUARIO SUPORTE FIM
-
-
-    // DEFINE USUARIO GERENTE INICIO
-    Encriptar(1, FUsuarioGerente.Senha, sSenha);
-
-    sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
-      + FLoja.Id.ToString // LOJA_ID
-      + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
-      + ', ' + FUsuarioGerente.NomeDeUsuario.QuotedString // NOME_DE_USUARIO
-      + ', ' + sSenha.QuotedString // SENHA
-      + ', 1' // CRY_VER
-      + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
-
-    // COMO É NULL, GERA NOVO NUM QUE SERÁ ARMAZENADO EM iPessoaId
-      + ', NULL' // PESSOA_ID
-
-      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
-      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-      + ');';
-
-    iPessoaId := pDBConnection.GetValue(sSql);
-
-    sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
-    //
-      + FLoja.Id.ToString // LOJA_ID
-      + ', ' + iPessoaId.ToString // PESSOA_ID
-      + ', 2' // PERFIL_DE_USO_ID
-      + ');';
-
-    pDBConnection.ExecuteSql(sSql);
-    // DEFINE USUARIO GERENTE FIM
-  end;
-
-  sSql := 'DELETE FROM TERMINAL;';
-  pDBConnection.ExecuteSql(sSql);
-
-  for I := 0 to FTerminalList.Count - 1 do
-  begin
-    oTerminal := FTerminalList[I];
-    sSql := 'EXECUTE PROCEDURE TERMINAL_PA.GARANTIR (' //
-      + oTerminal.TerminalId.ToString // TERMINAL_ID
-      + ', ' + oTerminal.Apelido.QuotedString // APELIDO
-      + ', ' + oTerminal.NomeNaRede.QuotedString // NOME_NA_REDE
-      + ', ' + oTerminal.IP.QuotedString // IP
-      + ', ' + oTerminal.NFSerie.ToString // NF_SERIE
-      + ', ' + oTerminal.LetraDoDrive.QuotedString // LETRA_DO_DRIVE
-      + ', ' + BooleanToStrSQL(oTerminal.GavetaTem) // GAVETA_TEM
-      + ', ' + oTerminal.BalancaModoId.ToString // BALANCA_MODO_ID
-      + ', ' + oTerminal.BalancaId.ToString // BALANCA_ID
-      + ', ' + oTerminal.BarCodigoIni.ToString // BARRAS_COD_INI
-      + ', ' + oTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
-      + ', ' + oTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
-      + ', ' + BooleanToStrSQL(oTerminal.SempreOffLine) // SEMPRE_OFFLINE
-      + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
-      + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
-      + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-      + ');'; //
-
-    pDBConnection.ExecuteSql(sSql);
   end;
 end;
 
