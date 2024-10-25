@@ -79,6 +79,7 @@ function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
   sPastaInstDados, sNomeArqInstDados: string;
 begin
+  Result := False;
   ProcessLog.PegueLocal('TDBUpdaterFirebird.GetDBExiste');
   try
     ProcessLog.RegistreLog('vai testar se existe DBConnectionParams.Arq=' +
