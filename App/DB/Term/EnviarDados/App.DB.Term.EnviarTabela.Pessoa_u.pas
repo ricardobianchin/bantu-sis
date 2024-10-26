@@ -439,6 +439,9 @@ begin
     +'  AND PE.SELECIONADO'#13#10 //
     +') tab_pessoa;'#13#10 //
     ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
 end;
 
 function TEnvTabPessoa.GetSqlQtdRegsTerm: string;
@@ -532,6 +535,9 @@ begin
     +'  AND PE.SELECIONADO'#13#10 //
 
     ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
 end;
 
 function TEnvTabPessoa.GetSqlTodosTerm: string;
@@ -557,6 +563,9 @@ begin
     +'    ALTERADO_EM'#13#10 //
     +'  FROM PESSOA'#13#10 //
     ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
 end;
 
 function TEnvTabPessoa.Inserir(pLocal: TDBConnectionLocation;
