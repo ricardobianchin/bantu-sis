@@ -207,25 +207,72 @@ end;
 
 function TEnvTabLojaEhPessoa.GetSqlQtdRegs: string;
 begin
-  RESULT := 'SELECT COUNT(*) FROM LOJA_EH_PESSOA'#13#10; //
+  Result := //
+    'SELECT COUNT(PESSOA_ID)'#13#10 //
+
+    +'FROM LOJA_EH_PESSOA'#13#10 //
+
+    +'JOIN LOJA ON'#13#10 //
+    +'LOJA_EH_PESSOA.LOJA_ID = LOJA.LOJA_ID'#13#10 //
+    +'AND LOJA.SELECIONADO'#13#10 //
+
+    +'ORDER BY'#13#10 //
+    +'  LOJA_EH_PESSOA.LOJA_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.TERMINAL_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.PESSOA_ID;'#13#10 //
+    ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
 end;
 
 function TEnvTabLojaEhPessoa.GetSqlQtdRegsTerm: string;
 begin
-  Result := GetSqlQtdRegs;
+  RESULT := 'SELECT COUNT(*) FROM LOJA_EH_PESSOA'#13#10; //
 end;
 
 function TEnvTabLojaEhPessoa.GetSqlTodos: string;
 begin
   Result := //
-    'SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID'#13#10 //
+    'SELECT'#13#10 //
+    +'  LOJA_EH_PESSOA.LOJA_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.TERMINAL_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.PESSOA_ID'#13#10 //
+
     +'FROM LOJA_EH_PESSOA'#13#10 //
-    +'ORDER BY LOJA_ID, TERMINAL_ID, PESSOA_ID;'#13#10 //
+
+    +'JOIN LOJA ON'#13#10 //
+    +'LOJA_EH_PESSOA.LOJA_ID = LOJA.LOJA_ID'#13#10 //
+    +'AND LOJA.SELECIONADO'#13#10 //
+
+    +'ORDER BY'#13#10 //
+    +'  LOJA_EH_PESSOA.LOJA_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.TERMINAL_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.PESSOA_ID;'#13#10 //
+    ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
 end;
 
 function TEnvTabLojaEhPessoa.GetSqlTodosTerm: string;
 begin
-  Result := GetSqlTodos;
+  Result :=
+    'SELECT'#13#10 //
+    +'  LOJA_EH_PESSOA.LOJA_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.TERMINAL_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.PESSOA_ID'#13#10 //
+
+    +'FROM LOJA_EH_PESSOA'#13#10 //
+
+    +'ORDER BY'#13#10 //
+    +'  LOJA_EH_PESSOA.LOJA_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.TERMINAL_ID'#13#10 //
+    +'  , LOJA_EH_PESSOA.PESSOA_ID;'#13#10 //
+    ;
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//  {$ENDIF}
 end;
 
 function TEnvTabLojaEhPessoa.Inserir(pLocal: TDBConnectionLocation;
