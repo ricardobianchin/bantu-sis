@@ -67,7 +67,7 @@ uses App.Pess.Loja.Ent_u, App.Pess.Loja.DBI_u, App.Pess.Geral.Factory_u;
 function PessLojaDBICreate(pDBConnection: IDBConnection;
   pPessLojaEnt: IPessLojaEnt): IPessLojaDBI;//IEntDBI;
 begin
-////  Result := TPessLojaDBI.Create(pDBConnection, TPessLojaEnt(pPessLojaEnt));
+//  Result := TPessLojaDBI.Create(pDBConnection, TPessLojaEnt(pPessLojaEnt));
   Result := TPessLojaDBI.Create(pDBConnection, pPessLojaEnt);
 end;
 

@@ -728,14 +728,13 @@ var
   sSql: string;
 begin
   sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
-    + FLoja.Id.ToString //
-    + ', ' + FLoja.Descr.QuotedString //
-    + ', TRUE' //
-    + ', ' + FLoja.Id.ToString //
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + FLoja.Descr.QuotedString // APELIDO
+    + ', TRUE' // SELECIONADO
+    + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
     + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');'; //
-
   pDBConnection.ExecuteSql(sSql);
 end;
 
