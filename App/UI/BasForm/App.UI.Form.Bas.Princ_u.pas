@@ -324,13 +324,12 @@ var
   bResultado: boolean;
   oUsuarioGerente: IUsuario;
   oSisConfig: ISisConfig;
-  oTerminalList: ITerminalList;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
     oUsuarioGerente := UsuarioCreate;
-    oTerminalList := TerminalListCreate;
-    bResultado := GarantirConfig(FLoja, oUsuarioGerente, oTerminalList);
+
+    bResultado := GarantirConfig(FLoja, oUsuarioGerente, FAppObj.TerminalList);
 
     if not bResultado then
     begin
