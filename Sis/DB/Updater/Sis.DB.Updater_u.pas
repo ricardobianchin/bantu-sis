@@ -671,8 +671,8 @@ begin
 
   if FUsuarioGerente.NomeCompleto <> '' then
   begin
-    GravarIniciais_CrieSuporte(pDBConnection);
     GravarIniciais_CrieGerenteFinal(pDBConnection);
+    GravarIniciais_CrieSuporte(pDBConnection);
   end;
 
   pDBConnection.ExecuteSql('DELETE FROM TERMINAL;');
