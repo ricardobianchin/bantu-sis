@@ -689,7 +689,7 @@ var
   sSql: string;
   oDBQuery: IDBQuery;
 begin
-  sSql := 'SELECT PROXIMO_ID_GET() AS PESSOA_ID_RET FROM RDB$DATABASE';
+  sSql := 'SELECT PESSOA_PA.PROXIMO_ID_GET() AS PESSOA_ID_RET FROM RDB$DATABASE';
 
   oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
     sSql, FProcessLog, FOutput);
@@ -710,16 +710,16 @@ begin
     + 'VALUES'#13#10 //
     + '('#13#10 //
 
-    + '  ' + FLoja.Id.ToString + ' -- LOJA_ID' //
+    + '  ' + FLoja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , 0 -- TERMINAL_ID'#13#10 //
-    + '  , ' + Result.ToString + ' -- LOJA_ID' //
-    + ', ' + FUsuarioGerente.NomeCompleto.QuotedString + ' -- NOME' //
+    + '  , ' + Result.ToString + ' -- LOJA_ID'#13#10 //
+    + '  , ' + FUsuarioGerente.NomeCompleto.QuotedString + ' -- NOME'#13#10 //
 
-    + ');';
+    + ');'#13#10;
 
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+   {$IFDEF DEBUG}
+   CopyTextToClipboard(sSql);
+   {$ENDIF}
   pDBConnection.ExecuteSql(sSql);
 end;
 
