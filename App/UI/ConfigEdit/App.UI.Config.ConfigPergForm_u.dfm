@@ -29,8 +29,8 @@ object ConfigPergForm: TConfigPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 980
-    ExplicitHeight = 557
+    ExplicitWidth = 972
+    ExplicitHeight = 555
     DesignSize = (
       976
       556)
@@ -50,6 +50,7 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
+      ExplicitTop = 519
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -111,7 +112,7 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuGerGroupBox: TGroupBox
-      Left = 654
+      Left = 670
       Top = 146
       Width = 300
       Height = 337
@@ -119,11 +120,10 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
-      ExplicitLeft = 658
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 69
+        Width = 296
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -134,6 +134,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9
