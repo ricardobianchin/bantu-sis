@@ -21,6 +21,7 @@ type
     procedure SetCryVer(const Value: smallint);
 
   protected
+    function GetCodUsaTerminalId: boolean; override;
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
     function GetTitulo: string; override;
@@ -38,6 +39,11 @@ implementation
 uses Data.DB;
 
 { TPessFuncionarioEnt }
+
+function TPessFuncionarioEnt.GetCodUsaTerminalId: boolean;
+begin
+  Result := False;
+end;
 
 function TPessFuncionarioEnt.GetCryVer: smallint;
 begin
