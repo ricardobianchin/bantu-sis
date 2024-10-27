@@ -279,6 +279,6 @@ contains
   Sis.Entities.TerminalList_u in 'Entities\Terminal\Sis.Entities.TerminalList_u.pas',
   Sis.UI.Controls.BotaoFrame_u in 'UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas' {BotaoFrame: TFrame},
   Sil.UI.Controls.Lists.Utils_u in 'UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas',
-  Sis.Treads.StatusFrame_u in 'Threads\Sis.Treads.StatusFrame_u.pas' {StatusFrame: TFrame};
+  Sis.Threads.StatusFrame_u in 'Threads\Sis.Threads.StatusFrame_u.pas' {StatusFrame: TFrame};
 
 end.

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas_u, Vcl.ExtCtrls,Sis.UI.Constants,
-  Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.Treads.StatusFrame_u;
+  Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.Threads.StatusFrame_u;
 
 type
   TGerAppForm = class(TBasForm)
