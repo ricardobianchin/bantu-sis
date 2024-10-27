@@ -209,44 +209,45 @@ end;
 
 function TPessDBI.GetFieldValuesGravar: string;
 begin
-  Result := FPessEnt.LojaId.ToString + ' -- LOJA_ID'#13#10
-    + ', ' + FPessEnt.TerminalId.ToString + ' -- TERMINAL_ID '#13#10
+  Result := //
+    FPessEnt.LojaId.ToString + ' -- LOJA_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.Nome) + ' -- NOME'#13#10
-    + ', ' + QuotedStr(FPessEnt.NomeFantasia) + ' -- NOME_FANTASIA'#13#10
-    + ', ' + QuotedStr(FPessEnt.Apelido) + ' -- APELIDO'#13#10
+    + ', ' + FPessEnt.TerminalId.ToString + ' -- TERMINAL_ID '#13#10 //
+    + ', ' + QuotedStr(FPessEnt.Nome) + ' -- NOME'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.NomeFantasia) + ' -- NOME_FANTASIA'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.Apelido) + ' -- APELIDO'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.GeneroId) + ' -- GENERO_ID'#13#10
-    + ', ' + QuotedStr(FPessEnt.EstadoCivilId) + ' -- ESTADO_CIVIL_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.GeneroId) + ' -- GENERO_ID'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.EstadoCivilId) + ' -- ESTADO_CIVIL_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.C) + ' -- C'#13#10
-    + ', ' + QuotedStr(FPessEnt.I) + ' -- I'#13#10
-    + ', ' + QuotedStr(FPessEnt.M) + ' -- M'#13#10
-    + ', ' + QuotedStr(FPessEnt.MUF) + ' -- M_UF'#13#10
+    + ', ' + QuotedStr(FPessEnt.C) + ' -- C'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.I) + ' -- I'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.M) + ' -- M'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.MUF) + ' -- M_UF'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.EMail) + ' -- EMAIL'#13#10
-    + ', ' + DataSQLFirebird(FPessEnt.DtNasc) + ' -- DT_NASC'#13#10
-    + ', ' + BooleanToStrSQL(FPessEnt.Ativo) +' -- ATIVO'+ #13#10
+    + ', ' + QuotedStr(FPessEnt.EMail) + ' -- EMAIL'#13#10 //
+    + ', ' + DataSQLFirebird(FPessEnt.DtNasc) + ' -- DT_NASC'#13#10 //
+    + ', ' + BooleanToStrSQL(FPessEnt.Ativo) +' -- ATIVO'+ #13#10 //
 
-    + ', ' + FPessEnt.Id.ToString + ' -- PESSOA_ID'#13#10
+    + ', ' + FPessEnt.Id.ToString + ' -- PESSOA_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Logradouro) + ' -- LOGRADOURO'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Numero) + ' -- NUMERO'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Complemento) + ' -- COMPLEMENTO'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Bairro) + ' -- BAIRRO'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Logradouro) + ' -- LOGRADOURO'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Numero) + ' -- NUMERO'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Complemento) + ' -- COMPLEMENTO'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Bairro) + ' -- BAIRRO'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].UFSigla) + ' -- UF_SIGLA'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].CEP) + ' -- CEP'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].UFSigla) + ' -- UF_SIGLA'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].CEP) + ' -- CEP'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].DDD) + ' -- DDD'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone1) + ' -- FONE1'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone2) + ' -- FONE2'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone3) + ' -- FONE3'#13#10
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].DDD) + ' -- DDD'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone1) + ' -- FONE1'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone2) + ' -- FONE2'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone3) + ' -- FONE3'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Contato) + ' -- CONTATO'#13#10
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Referencia) + ' -- REFERENCIA'#13#10
-    ;
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Contato) + ' -- CONTATO'#13#10 //
+    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Referencia) + ' -- REFERENCIA'#13#10 //
+    ; //
 end;
 
 function TPessDBI.Ler: boolean;
