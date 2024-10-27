@@ -14,7 +14,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pNovoName: string); reintroduce;
   end;
 
 //var
@@ -23,13 +22,5 @@ type
 implementation
 
 {$R *.dfm}
-
-{ TStatusFrame }
-
-constructor TStatusFrame.Create(AOwner: TComponent; pNovoName: string);
-begin
-  Name := pNovoName;
-  inherited Create(AOwner);
-end;
 
 end.
