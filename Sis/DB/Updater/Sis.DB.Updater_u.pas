@@ -675,7 +675,7 @@ begin
     GravarIniciais_CrieSuporte(pDBConnection);
   end;
 
-  pDBConnection.ExecuteSql('DELETE FROM TERMINAL;');
+  pDBConnection.ExecuteSql('DELETE FROM TERMINAL where terminal_id > 0;');
 
   for I := 0 to FTerminalList.Count - 1 do
   begin

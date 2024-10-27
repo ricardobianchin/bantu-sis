@@ -110,10 +110,11 @@ begin
       + ', CUPOM_NLINS_FINAL'#13#10 // 11
       + ', SEMPRE_OFFLINE'#13#10 // 12
       + ' FROM TERMINAL'#13#10 // 13
+      + 'WHERE TERMINAL_ID > 0'#13#10 // 13
       ;
 
     if pNomeDaMaquina <> '' then
-      sSql := sSql + ' where NOME_NA_REDE=' + pNomeDaMaquina.QuotedString
+      sSql := sSql + 'AND NOME_NA_REDE=' + pNomeDaMaquina.QuotedString
         + #13#10 //
         ;
 
