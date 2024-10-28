@@ -4,7 +4,7 @@ interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config,
-  Sis.Entities.TerminalList;
+  Sis.Entities.TerminalList, App.AppObj.CriticalSections_u;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
@@ -12,13 +12,13 @@ type
     FAppInfo: IAppInfo;
     FLoja: ILoja;
     FAppTestesConfig: IAppTestesConfig;
-
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
     FProcessLog: IProcessLog;
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
     FTerminalList: ITerminalList;
+    FCriticalSections: TCriticalSections;
 
     function GetTerminalList: ITerminalList;
 
@@ -36,6 +36,7 @@ type
     function GetLoja: ILoja;
 
     procedure SetProcessOutput(Value: IOutput);
+    function GetCriticalSections: TCriticalSections;
 
   public
     property AppTestesConfig: IAppTestesConfig read GetAppTestesConfig;
@@ -46,11 +47,13 @@ type
     property AppInfo: IAppInfo read GetAppInfo;
     property Loja: ILoja read GetLoja;
     property TerminalList: ITerminalList read GetTerminalList;
+    property CriticalSections: TCriticalSections read GetCriticalSections;
 
 
     function Inicialize: boolean;
     constructor Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
       pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
+    destructor Destroy; override;
   end;
 
 implementation
@@ -73,6 +76,8 @@ begin
   FProcessOutput := pProcessOutput;
   FProcessLog := pProcessLog;
 
+  FCriticalSections.Inicialize;
+
   ProcessLog.PegueLocal('TAppObj.Create');
   try
     ProcessLog.RegistreLog('Create, vai criar FSisConfig');
@@ -86,6 +91,12 @@ begin
   end;
 end;
 
+destructor TAppObj.Destroy;
+begin
+  FCriticalSections.Libere;
+  inherited;
+end;
+
 function TAppObj.GetAppInfo: IAppInfo;
 begin
   Result := FAppInfo;
@@ -94,6 +105,11 @@ end;
 function TAppObj.GetAppTestesConfig: IAppTestesConfig;
 begin
   Result := FAppTestesConfig;
+end;
+
+function TAppObj.GetCriticalSections: TCriticalSections;
+begin
+  Result := FCriticalSections;
 end;
 
 function TAppObj.GetDBMS: IDBMS;

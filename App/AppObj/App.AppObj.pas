@@ -2,17 +2,18 @@ unit App.AppObj;
 
 interface
 
-uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog //
+uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
+  App.AppObj.CriticalSections_u
 
-  , App.Testes.Config //
+    , App.Testes.Config //
 
-  , Sis.Config.SisConfig //
+    , Sis.Config.SisConfig //
 
-  , App.AppInfo //
+    , App.AppInfo //
 
-  , Sis.Loja, Sis.Entities.TerminalList //
+    , Sis.Loja, Sis.Entities.TerminalList //
 
-  ; //
+    ; //
 
 {
   AppTestesConfig = da camada App, configuracoes dos testes
@@ -20,8 +21,8 @@ uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog //
   no modulo, abre a janela de Lojas
 
   os objetos imitam a estrutur do arquivo
-    C:\Pr\app\bantu\bantu-sis\Exe\Configs\app.testes.config.xml
-    .\Exe\Configs\app.testes.config.xml
+  C:\Pr\app\bantu\bantu-sis\Exe\Configs\app.testes.config.xml
+  .\Exe\Configs\app.testes.config.xml
 }
 type
   IAppObj = interface(IInterface)
@@ -49,7 +50,8 @@ type
     procedure SetProcessOutput(Value: IOutput);
 
     property StatusOutput: IOutput read GetStatusOutput;
-    property ProcessOutput: IOutput read GetProcessOutput write SetProcessOutput;
+    property ProcessOutput: IOutput read GetProcessOutput
+      write SetProcessOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
 
     function GetLoja: ILoja;
@@ -57,6 +59,11 @@ type
 
     function GetTerminalList: ITerminalList;
     property TerminalList: ITerminalList read GetTerminalList;
+
+    function GetCriticalSections: TCriticalSections;
+    property CriticalSections: TCriticalSections read GetCriticalSections;
+
+
 
   end;
 

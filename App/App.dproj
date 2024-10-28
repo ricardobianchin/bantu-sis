@@ -589,6 +589,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>GerAppForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="AppObj\App.AppObj.CriticalSections_u.pas"/>
+        <DCCReference Include="Threads\App.Threads.Thread_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
