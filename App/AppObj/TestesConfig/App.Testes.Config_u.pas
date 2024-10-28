@@ -65,7 +65,6 @@ type
     procedure Inicialize; override;
     function PrepLer: boolean; override;
     function PrepGravar: boolean; override;
-
   public
     property ModuConf: ITesteConfigModuConf read GetModuConf;
 

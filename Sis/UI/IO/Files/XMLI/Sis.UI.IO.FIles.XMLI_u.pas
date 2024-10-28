@@ -17,7 +17,6 @@ type
 
     function PrepLer: boolean; virtual;
     function PrepGravar: boolean; virtual;
-    function GetRootNodeName: string; virtual; abstract;
   public
     function Ler: boolean; override;
     function Gravar: boolean; override;
