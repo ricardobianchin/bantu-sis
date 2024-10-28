@@ -1,0 +1,2 @@
+inherited ThreadStatusFrame: TThreadStatusFrame
+end
