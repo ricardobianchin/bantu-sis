@@ -302,9 +302,9 @@ begin
   oUsuario := pUsuario;
   sSql := GetImportProdSelectSQL;
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
 
   pDBConnection.QueryDataSet(sSql, q);
   AtribuaCamposFin(q);
