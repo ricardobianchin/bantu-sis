@@ -59,8 +59,8 @@ type
     procedure GravarProdPrecos(piImportProdId: integer);
     procedure LeiaLinhaAtual;
     procedure GravarLinhaAtual;
-    function JaTemDescr(pDescr: string): boolean;
-    function JaTemDescrRed(pDescr: string): boolean;
+//    function JaTemDescr(pDescr: string): boolean;
+//    function JaTemDescrRed(pDescr: string): boolean;
   protected
     procedure DoImport; override;
   public
@@ -336,15 +336,15 @@ begin
   end;
 end;
 
-function TShopDBImportFormPLUBase.JaTemDescr(pDescr: string): boolean;
-begin
-  Result := DescrSL.IndexOf(pDescr) > -1;
-end;
-
-function TShopDBImportFormPLUBase.JaTemDescrRed(pDescr: string): boolean;
-begin
-  Result := DescrRedSL.IndexOf(pDescr) > -1;
-end;
+//function TShopDBImportFormPLUBase.JaTemDescr(pDescr: string): boolean;
+//begin
+//  Result := DescrSL.IndexOf(pDescr) > -1;
+//end;
+//
+//function TShopDBImportFormPLUBase.JaTemDescrRed(pDescr: string): boolean;
+//begin
+//  Result := DescrRedSL.IndexOf(pDescr) > -1;
+//end;
 
 procedure TShopDBImportFormPLUBase.LeiaLinhaAtual;
 var
