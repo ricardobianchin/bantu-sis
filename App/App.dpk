@@ -307,6 +307,8 @@ contains
   App.UI.Sessoes.BotModulo.Frame_u in 'UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame},
   App.Ger.GerForm_u in 'Ger\App.Ger.GerForm_u.pas' {GerAppForm},
   App.AppObj.CriticalSections_u in 'AppObj\App.AppObj.CriticalSections_u.pas',
-  App.Threads.Thread_u in 'Threads\App.Threads.Thread_u.pas';
+  App.Threads.Thread_u in 'Threads\App.Threads.Thread_u.pas',
+  App.Threads.TermThread_u in 'DB\Term\App.Threads.TermThread_u.pas',
+  App.Threads.SyncTermThread_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas';
 
 end.

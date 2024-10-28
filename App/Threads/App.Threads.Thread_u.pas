@@ -14,17 +14,19 @@ type
     property AppObj: IAppObj read FAppObj;
   public
     constructor Create(pAppObj: IAppObj; pTitOutput: IOutput = nil;
-      pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil);
+      pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+      pThreadTitulo: string = '');
   end;
 
 implementation
 
 { TAppThread }
 
-constructor TAppThread.Create(pAppObj: IAppObj; pTitOutput,
-  pStatusOutput: IOutput; pProcessLog: IProcessLog);
+constructor TAppThread.Create(pAppObj: IAppObj;
+  pTitOutput, pStatusOutput: IOutput; pProcessLog: IProcessLog;
+  pThreadTitulo: string);
 begin
-  inherited Create(pTitOutput, pStatusOutput, pProcessLog);
+  inherited Create(pTitOutput, pStatusOutput, pProcessLog, pThreadTitulo);
   FAppObj := pAppObj
 end;
 

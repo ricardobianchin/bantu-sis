@@ -591,6 +591,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="AppObj\App.AppObj.CriticalSections_u.pas"/>
         <DCCReference Include="Threads\App.Threads.Thread_u.pas"/>
+        <DCCReference Include="DB\Term\App.Threads.TermThread_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

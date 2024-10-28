@@ -1,16 +1,16 @@
 inherited GerAppForm: TGerAppForm
   Caption = 'GerAppForm'
-  ClientHeight = 226
-  ClientWidth = 352
+  ClientHeight = 224
+  ClientWidth = 344
   Position = poDesktopCenter
   OnCreate = FormCreate
-  ExplicitWidth = 364
-  ExplicitHeight = 264
+  ExplicitWidth = 360
+  ExplicitHeight = 263
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 352
+    Width = 344
     Height = 41
     Cursor = crSizeAll
     Align = alTop
@@ -18,7 +18,7 @@ inherited GerAppForm: TGerAppForm
     Caption = ' '
     TabOrder = 0
     OnMouseDown = TitleBarPanelMouseDown
-    ExplicitWidth = 348
+    ExplicitWidth = 356
     object TitleToolBar: TToolBar
       Left = 252
       Top = 12
@@ -37,7 +37,6 @@ inherited GerAppForm: TGerAppForm
     Height = 25
     Caption = 'Button1'
     TabOrder = 1
-    OnClick = Button1Click
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 192
