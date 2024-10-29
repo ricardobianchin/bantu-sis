@@ -131,8 +131,8 @@ begin
       SelStatus := TSelStatus.selTodos;
     1:
       SelStatus := TSelStatus.selSelecionados;
-    2:
-      SelStatus := TSelStatus.selNaoSelecionados;
+  else // 2:
+    SelStatus := TSelStatus.selNaoSelecionados;
   end;
 
   sSql := App.DB.Import.Form.SQL.Atualizar_u.AtualizarGetSQL(ConfStatus,
@@ -263,8 +263,8 @@ procedure TDBImportForm.DefCampos;
 var
   DefsSL: TStringList;
   sNomeArq: string;
-  sLinhaAtual: string;
-  I: integer;
+//  sLinhaAtual: string;
+//  I: integer;
   oFDDataSetManager: IFDDataSetManager;
 begin
   DefsSL := TStringList.Create;
@@ -304,7 +304,8 @@ begin
     ValidarAction_AppDBImport.Execute;
 
     if not FProdRejFDMemTable.IsEmpty then
-      raise Exception.Create('Não pode ser finalizado existindo ainda rejeições');
+      raise Exception.Create
+        ('Não pode ser finalizado existindo ainda rejeições');
     App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable,
       FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
@@ -706,7 +707,7 @@ begin
     sl.Add('ALTER SEQUENCE ICMS_SEQ RESTART WITH  4;');
     sl.Add('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
-    sl.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  1;');
+//    sl.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  3;');
     sl.Add('ALTER SEQUENCE IMPORT_FABR_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE IMPORT_PROD_TIPO_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE IMPORT_UNID_SEQ RESTART WITH  1;');
