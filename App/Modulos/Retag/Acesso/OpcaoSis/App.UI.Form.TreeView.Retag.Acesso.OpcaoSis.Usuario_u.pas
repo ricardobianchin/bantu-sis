@@ -15,7 +15,7 @@ type
   private
     { Private declarations }
     FLojaId: smallint;
-    FUsuarioId: integer;
+    FUsuarioIdLog: integer;
   protected
     function GetSql: string; override;
     function GetSqlGravar: string; override;
@@ -24,8 +24,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pLojaId: smallint;
-      pUsuarioId: integer; pAssociadaId: integer; pAssociadaNome: string;
-      pAppObj: IAppObj; pDBMS: IDBMS); reintroduce;
+      pUsuarioIdLog: integer; pUsuarioIdEnvolvido: integer;
+      pUsuarioNomeEnvolvido: string; pAppObj: IAppObj; pDBMS: IDBMS); reintroduce;
   end;
 
 var
@@ -36,13 +36,13 @@ implementation
 {$R *.dfm}
 { TOpcaoSisUsuarioTreeViewForm }
 
-constructor TOpcaoSisUsuarioTreeViewForm.Create(AOwner: TComponent;
-  pLojaId: smallint; pUsuarioId: integer; pAssociadaId: integer;
-  pAssociadaNome: string; pAppObj: IAppObj; pDBMS: IDBMS);
+constructor TOpcaoSisUsuarioTreeViewForm.Create(AOwner: TComponent; pLojaId: smallint;
+      pUsuarioIdLog: integer; pUsuarioIdEnvolvido: integer;
+      pUsuarioNomeEnvolvido: string; pAppObj: IAppObj; pDBMS: IDBMS);
 begin
   FLojaId := pLojaId;
-  FUsuarioId := pUsuarioId;
-  inherited Create(AOwner, pAssociadaId, pAssociadaNome, pAppObj, pDBMS);
+  FUsuarioIdLog := pUsuarioIdLog;
+  inherited Create(AOwner, pUsuarioIdEnvolvido, pUsuarioNomeEnvolvido, pAppObj, pDBMS);
 end;
 
 function TOpcaoSisUsuarioTreeViewForm.GetEntidadeAssociada: string;
@@ -96,8 +96,8 @@ begin
   Result := 'EXECUTE PROCEDURE USUARIO_PA.PODE_OPCOES_GARANTIR(' //
     + AppObj.Loja.Id.ToString // LOJA_ID
     + ', ' + AssociadaId.ToString // USUARIO_PESSOA_ID
-    + ', ' + FUsuarioId.ToString // LOG_PESSOA_ID
-    + ', ' + AppObj.SisConfig.ServerMachineId.IdentId.ToString // MACHINE_ID
+    + ', ' + FUsuarioIdLog.ToString // LOG_PESSOA_ID
+    + ', ' + AppObj.SisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ', ' + QuotedStr(sLista) // STR_OPCOES_ID
     + ');' //
     ;

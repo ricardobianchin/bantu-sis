@@ -1,16 +1,14 @@
 inherited OpcaoSisTreeViewForm: TOpcaoSisTreeViewForm
   Caption = 'OpcaoSisTreeViewForm'
-  ClientHeight = 282
   ClientWidth = 427
   ExplicitWidth = 439
+  ExplicitHeight = 319
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 210
     Width = 427
     ExplicitTop = 209
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 267
     Width = 427
     ExplicitTop = 266
   end
@@ -21,7 +19,6 @@ inherited OpcaoSisTreeViewForm: TOpcaoSisTreeViewForm
     Width = 427
   end
   inherited BasePanel: TPanel
-    Top = 230
     Width = 427
     ExplicitWidth = 427
     DesignSize = (

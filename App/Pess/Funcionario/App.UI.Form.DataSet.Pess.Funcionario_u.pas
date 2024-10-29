@@ -4,14 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.DataSet.Pess_u, Data.DB,
-  System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ToolWin, App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent,
-  App.AppInfo, App.AppObj,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, Sis.Usuario, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed,
-  App.Ent.DBI, App.Pess.Funcionario.Ent.Factory_u;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  App.UI.Form.Bas.DataSet.Pess_u, Data.DB, System.Actions, Vcl.ActnList,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin,
+  App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent, App.AppObj,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes, Sis.Usuario,
+  App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI,
+  App.Pess.Funcionario.Ent.Factory_u;
 
 type
   TAppPessFuncionarioDataSetForm = class(TAppPessDataSetForm)
@@ -37,10 +36,10 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -57,17 +56,17 @@ uses App.Pess.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
 { TAppPessFuncionarioDataSetForm }
 
 constructor TAppPessFuncionarioDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
 begin
   FPessFuncionarioEnt := EntEdCastToPessFuncionarioEnt(pEntEd);
   FPessFuncionarioDBI := EntDBICastToPessFuncionarioDBI(pEntDBI);
 
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos, pAppObj);
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
+    pIdPos, pAppObj);
 
   // AtualizaAposEd := True;
   // iT_Selecionado := 0;
@@ -127,7 +126,7 @@ function TAppPessFuncionarioDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews +
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
     'App\Retag\Acesso\tabview.retag.acesso.pess.funcionario.csv';
 
   Result := sNomeArq;
@@ -137,19 +136,25 @@ procedure TAppPessFuncionarioDataSetForm.OpcaoSisAction_FunciDataSetFormExecute
   (Sender: TObject);
 var
   iLojaId: smallint;
-  iPessoaId: integer;
-  sApelido: string;
+  iUsuarioIdEnvolvido: integer;
+  sUsuarioNomeEnvolvido: string;
+  iLogUsuarioId: integer;
 begin
   inherited;
   iLojaId := FDMemTable.Fields[iT_LOJA_ID].AsInteger;
-  iPessoaId := FDMemTable.Fields[iT_PESSOA_ID].AsInteger;
-  sApelido := Trim(FDMemTable.Fields[iT_APELIDO].AsString);
+  iUsuarioIdEnvolvido := FDMemTable.Fields[iT_PESSOA_ID].AsInteger;
+  sUsuarioNomeEnvolvido := Trim(FDMemTable.Fields[iT_APELIDO].AsString);
+  iLogUsuarioId := FPessFuncionarioEnt.LogUsuarioId;
 
-  OpcaoSisFuncionarioPerg(iLojaId, iPessoaId, sApelido, AppObj, DBMS);
+  OpcaoSisFuncionarioPerg(iLojaId, iLogUsuarioId, iUsuarioIdEnvolvido,
+    sUsuarioNomeEnvolvido, AppObj, DBMS);
+
+  OpcaoSisFuncionarioPerg(iLojaId, iLogUsuarioId, iUsuarioIdEnvolvido,
+    sUsuarioNomeEnvolvido, AppObj, DBMS);
 end;
 
-procedure TAppPessFuncionarioDataSetForm.PerfilDeUsoAction_FunciDataSetFormExecute(
-  Sender: TObject);
+procedure TAppPessFuncionarioDataSetForm.
+  PerfilDeUsoAction_FunciDataSetFormExecute(Sender: TObject);
 begin
   inherited;
   RecordToEnt;
@@ -158,7 +163,7 @@ end;
 
 function TAppPessFuncionarioDataSetForm.PergEd: boolean;
 begin
-  Result := FuncionarioPerg(nil, AppInfo, FPessFuncionarioEnt,
+  Result := FuncionarioPerg(nil, AppObj, FPessFuncionarioEnt,
     FPessFuncionarioDBI);
 end;
 

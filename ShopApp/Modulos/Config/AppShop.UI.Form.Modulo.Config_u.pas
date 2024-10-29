@@ -53,7 +53,7 @@ function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
 begin
   case pItemIndex + 1 of
     1:
-      Result := TShopDBImportFormPLUBase.Create(Application, AppObj, Usuario);
+      Result := TShopDBImportFormPLUBase.Create(Application, AppObj, LogUsuario);
   else
     Result := nil;
   end;

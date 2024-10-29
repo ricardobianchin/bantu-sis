@@ -118,9 +118,15 @@ begin
     exit;
   end;
   try
+
     sSql := 'EXECUTE PROCEDURE USUARIO_PA.TEM_PERFIS_GARANTIR(' +
-      pLojaId.ToString + ', ' + pPessoaId.ToString + ', ' +
-      QuotedStr(pStrPerfisId) + ');';
+      pLojaId.ToString // LOJA_ID
+      + ', ' + pPessoaId.ToString // USUARIO_PESSOA_ID
+      + ', ' + QuotedStr(pStrPerfisId) // STR_PERFIS_ID
+      + ', ' + FPessFuncionarioEnt.LogUsuarioId.ToString
+      + ', ' + FPessFuncionarioEnt.MachineIdentId.ToString // MACHINE_ID
+      + ');';
+
     try
       DBConnection.ExecuteSQL(sSql);
     except
