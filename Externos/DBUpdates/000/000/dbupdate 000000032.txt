@@ -65,7 +65,7 @@ ACAO_SIS_ID;DESCR
 #035;Errou a Senha
 #036;Comando Executado
 #037;Inserir
-#038;Alterarir
+#038;Alterar
 #039;Garantir Registro
 #040;Registro Excluido
 #041;Registro Cancelado/Estornado
