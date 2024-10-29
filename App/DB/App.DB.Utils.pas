@@ -38,7 +38,6 @@ begin
     Result.Arq := pAppObj.AppInfo.PastaDados + //
       'Dados_' + //
       AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis] + //
-      '_Loja_' + pAppObj.Loja.GetToStrZero(3) + //
       '_Retaguarda.FDB' //
       ;
 
@@ -144,7 +143,6 @@ var
   sNomeArq: string;
   sFormat: string;
   sPasta, sAtiv: string;
-  iLojaId: SmallInt;
   iTerm: TTerminalId;
 begin
   pTerminal.TerminalId := Q.FieldByName('TERMINAL_ID').AsInteger;
@@ -167,13 +165,12 @@ begin
   pTerminal.CupomNLinsFinal := Q.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
   pTerminal.SempreOffLine := Q.FieldByName('SEMPRE_OFFLINE').AsBoolean;
 
-  sFormat := '%sDados_%s_Loja_%.3d_Terminal_%.3d.fdb';
+  sFormat := '%sDados_%s_Terminal_%.3d.fdb';
   sPasta := pAppObj.AppInfo.PastaDados;
   sAtiv := AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis];
-  iLojaId := pAppObj.Loja.Id;
   iTerm := pTerminal.TerminalId;
 
-  sNomeArq := Format(sFormat, [sPasta, sAtiv, iLojaId, iTerm]);
+  sNomeArq := Format(sFormat, [sPasta, sAtiv, iTerm]);
   sNomeArq[1] := pTerminal.LetraDoDrive[1];
 
   pTerminal.LocalArqDados := sNomeArq;
