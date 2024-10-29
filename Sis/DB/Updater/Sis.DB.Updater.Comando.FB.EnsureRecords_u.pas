@@ -8,8 +8,8 @@ uses System.Classes, Sis.DB.Updater.Comando.FB_u, Sis.DB.DBTypes,
 {$IFDEF DEBUG}
 
 const
-  QTD_PARCIAL = TRUE;
-  // QTD_PARCIAL = FALSE;
+  //QTD_PARCIAL = TRUE;
+  QTD_PARCIAL = FALSE;
 {$ELSE}
 
 const
