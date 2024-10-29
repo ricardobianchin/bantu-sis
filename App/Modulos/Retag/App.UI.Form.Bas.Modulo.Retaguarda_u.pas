@@ -9,8 +9,8 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u, Sis.Loja,
   Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
-  Sis.Usuario, App.AppInfo, Sis.Config.SisConfig, Sis.DB.DBTypes,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator, App.AppObj,
+  Sis.Usuario, App.AppObj, Sis.DB.DBTypes,
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator,
   Sis.Entities.Types,
   App.Retag.Est.Factory, App.Ent.Ed, App.Ent.DBI, Sis.Entidade
 
@@ -173,15 +173,14 @@ type
     procedure TabSheetCrie(pFormCreator: IFormCreator);
 
     procedure CreateIniciais;
-    procedure CreateFormCreator(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+    procedure CreateFormCreator(pAppObj: IAppObj; pDBConnection: IDBConnection);
+    procedure CreateFormCreatorAju(pAppObj: IAppObj;
       pDBConnection: IDBConnection);
-    procedure CreateFormCreatorAju(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+    procedure CreateFormCreatorAcesso(pAppObj: IAppObj;
       pDBConnection: IDBConnection);
-    procedure CreateFormCreatorAcesso(pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pDBConnection: IDBConnection);
-    procedure CreateFormCreatorProd(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+    procedure CreateFormCreatorProd(pAppObj: IAppObj;
       pDBConnection: IDBConnection);
-    procedure CreateFormCreatorFin(pAppInfo: IAppInfo; pSisConfig: ISisConfig;
+    procedure CreateFormCreatorFin(pAppObj: IAppObj;
       pDBConnection: IDBConnection);
 
     procedure TestaTesteConfig;
@@ -217,8 +216,6 @@ constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pTerminalId: TTerminalId);
 var
   oAppObj: IAppObj;
-  oAppInfo: IAppInfo;
-  oSisConfig: ISisConfig;
 
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
@@ -231,42 +228,40 @@ begin
   MenuPageControl.ActivePage := EstoqueTabSheet;
 
   oAppObj := AppObj;
-  oAppInfo := AppInfo;
-  oSisConfig := SisConfig;
 
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppObj);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig,
+  oDBConnection := DBConnectionCreate('Retag.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
-  CreateFormCreator(AppInfo, SisConfig, oDBConnection);
+  CreateFormCreator(AppObj, oDBConnection);
 end;
 
-procedure TRetaguardaModuloBasForm.CreateFormCreator(pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+procedure TRetaguardaModuloBasForm.CreateFormCreator(pAppObj: IAppObj;
+  pDBConnection: IDBConnection);
 begin
-  CreateFormCreatorAju(pAppInfo, pSisConfig, pDBConnection);
-  CreateFormCreatorAcesso(pAppInfo, pSisConfig, pDBConnection);
-  CreateFormCreatorProd(pAppInfo, pSisConfig, pDBConnection);
-  CreateFormCreatorFin(pAppInfo, pSisConfig, pDBConnection);
+  CreateFormCreatorAju(AppObj, pDBConnection);
+  CreateFormCreatorAcesso(AppObj, pDBConnection);
+  CreateFormCreatorProd(AppObj, pDBConnection);
+  CreateFormCreatorFin(AppObj, pDBConnection);
 end;
 
-procedure TRetaguardaModuloBasForm.CreateFormCreatorAcesso(pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+procedure TRetaguardaModuloBasForm.CreateFormCreatorAcesso(pAppObj: IAppObj;
+  pDBConnection: IDBConnection);
 begin
 
   FAcessoPerfilTabSheetFormCreator := PerfilDeUsoDataSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, AppObj);
 
   FAcessoFuncionarioTabSheetFormCreator := FuncionarioDataSetFormCreatorCreate
-    (FFormClassNamesSL, AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
 end;
 
-procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+procedure TRetaguardaModuloBasForm.CreateFormCreatorAju(pAppObj: IAppObj;
+  pDBConnection: IDBConnection);
 var
   oVersaoDBEnt: IVersaoDBEnt;
   oVersaoDBDBI: IEntDBI;
@@ -274,7 +269,7 @@ var
 begin
   // aju bem-vindo
   FAjuBemVindoTabSheetFormCreator := AjuBemVindoSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, AppObj);
 
   // aju versao
@@ -282,12 +277,12 @@ begin
   oVersaoDBDBI := RetagAjuVersaoDBDBICreate(pDBConnection, oVersaoDBEnt);
 
   FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oVersaoDBEnt, oVersaoDBDBI, AppObj);
 end;
 
-procedure TRetaguardaModuloBasForm.CreateFormCreatorFin(pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+procedure TRetaguardaModuloBasForm.CreateFormCreatorFin(pAppObj: IAppObj;
+  pDBConnection: IDBConnection);
 var
   oPagFormaTipo: IPagFormaTipo;
   oPagFormaEnt: IEntEd;
@@ -297,18 +292,18 @@ begin
   // pPagFormaTipo: IPagFormaTipo
   oPagFormaTipo := PagFormaTipoCreate;
 
-  oPagFormaEnt := RetagFinPagFormaEntCreate(AppObj.Loja.Id, Usuario.Id,
-    pSisConfig.ServerMachineId.IdentId, oPagFormaTipo);
+  oPagFormaEnt := RetagFinPagFormaEntCreate(AppObj.Loja.Id, LogUsuario.Id,
+    pAppObj.SisConfig.ServerMachineId.IdentId, oPagFormaTipo);
   oPagFormaDBI := RetagFinPagFormaDBICreate(pDBConnection, oPagFormaEnt);
 
   // fin pag forma
   FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
 end;
 
-procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBConnection: IDBConnection);
+procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppObj: IAppObj;
+  pDBConnection: IDBConnection);
 var
   oFabrEnt: IProdFabrEnt;
   oFabrDBI: IEntDBI;
@@ -332,45 +327,45 @@ begin
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
 
   FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
-    pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
+    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
     oFabrEnt, oFabrDBI, AppObj);
 
   oTipoEnt := RetagEstProdTipoEntCreate;
   oTipoDBI := RetagEstProdTipoDBICreate(pDBConnection, oTipoEnt);
 
   FProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oTipoEnt, oTipoDBI, AppObj);
 
   oUnidEnt := RetagEstProdUnidEntCreate;
   oUnidDBI := RetagEstProdUnidDBICreate(pDBConnection, oUnidEnt);
 
   FProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oUnidEnt, oUnidDBI, AppObj);
 
   oICMSEnt := RetagEstProdICMSEntCreate;
   oICMSDBI := RetagEstProdICMSDBICreate(pDBConnection, oICMSEnt);
 
   FProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate
-    (FFormClassNamesSL, pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog,
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oICMSEnt, oICMSDBI, AppObj);
 
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
 
-  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, Usuario.Id,
-    pSisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
+  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, LogUsuario.Id,
+    pAppObj.SisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
     oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(pDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
-    pAppInfo, pSisConfig, Usuario, DBMS, Output, ProcessLog, FOutputNotify,
+    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
     oProdEnt, oProdDBI, AppObj);
 
   FClienteDataSetFormCreator := ClienteDataSetFormCreatorCreate
-    (FFormClassNamesSL, AppObj, pSisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -537,8 +532,6 @@ var
   iExistenteIndex: Integer;
 
   oFormOwner: TComponent;
-  oAppInfo: IAppInfo;
-  oSisConfig: ISisConfig;
 begin
   sFormClassName := pFormCreator.FormClassName;
 
@@ -568,9 +561,6 @@ begin
   PageControl1.ActivePage := oTabSheet;
 
   oFormOwner := oTabSheet;
-
-  oAppInfo := AppInfo;
-  oSisConfig := SisConfig;
 
   // oTabSheetBasForm := FFabrDataSetFormCreator.FormCreate(oFormOwner);
   oForm := pFormCreator.FormCreate(oFormOwner);
@@ -613,16 +603,16 @@ begin
 end;
 
 procedure TRetaguardaModuloBasForm.TestaTesteConfig_Ajuda;
-//var
-//  bDeveExecutar: Boolean;
+// var
+// bDeveExecutar: Boolean;
 begin
-//  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Ajuda.BemVindo.
-//    Terminais.AutoExec;
-//
-//  if bDeveExecutar then
-//  begin
-//    MenuPageControl.ActivePage := AjudaTabSheet;
-//  end;
+  // bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Ajuda.BemVindo.
+  // Terminais.AutoExec;
+  //
+  // if bDeveExecutar then
+  // begin
+  // MenuPageControl.ActivePage := AjudaTabSheet;
+  // end;
 end;
 
 procedure TRetaguardaModuloBasForm.TestaTesteConfig_Est;

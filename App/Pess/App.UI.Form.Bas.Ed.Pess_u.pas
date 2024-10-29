@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Data.DB,
-  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppInfo, App.Pess.Ent,
+  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppObj, App.Pess.Ent,
   App.Pess.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Pess.Ender.Frame_u,
@@ -85,8 +85,8 @@ type
     function ApelidoOk: boolean; virtual;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); override;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+      pEntDBI: IEntDBI); reintroduce; virtual;
   end;
 
 var
@@ -304,14 +304,14 @@ begin
     exit;
 end;
 
-constructor TPessEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+constructor TPessEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
-  FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppInfo,
+  FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppObj,
     OkAct_DiagExecute, ErroOutput);
 
   DtNascDateTimePicker.Time := 0;

@@ -4,8 +4,8 @@ interface
 
 uses App.Fin.PagFormaTipo, App.Ent.Ed, App.Ent.DBI, App.Retag.Fin.PagForma.Ent,
   Data.DB, Sis.DB.DBTypes, App.UI.Form.Bas.Ed_u, Vcl.StdCtrls, System.Classes,
-  Sis.Config.SisConfig, Sis.Loja, Sis.Usuario, Sis.UI.IO.Output.ProcessLog,
-  App.AppInfo, Sis.UI.IO.Output, Sis.UI.FormCreator,
+  Sis.Loja, Sis.Usuario, Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Output, Sis.UI.FormCreator,
   App.Retag.Fin.PagForma.Ed.DBI, App.AppObj;
 
 function PagFormaTipoCreate: IPagFormaTipo;
@@ -20,18 +20,18 @@ function RetagFinPagFormaEntCreate(pLojaId: smallint; pUsuarioId: integer;
 function RetagFinPagFormaDBICreate(pDBConnection: IDBConnection;
   pPagFormaEnt: IEntEd): IEntDBI;
 
-function PagFormaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
+function PagFormaEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI)
   : TEdBasForm;
 
-function PagFormaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
+function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
   pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
   pPagFormaEdDBI: IPagFormaEdDBI): boolean;
 
 // function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 
 function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
@@ -76,21 +76,21 @@ begin
   Result := TPagFormaDBI.Create(pDBConnection, TPagFormaEnt(pPagFormaEnt));
 end;
 
-function PagFormaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
+function PagFormaEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI)
   : TEdBasForm;
 begin
-  Result := TPagFormaEdForm.Create(AOwner, pAppInfo, pPagFormaEnt, pPagFormaDBI,
+  Result := TPagFormaEdForm.Create(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
     pPagFormaEdDBI);
 end;
 
-function PagFormaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
+function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
   pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
   pPagFormaEdDBI: IPagFormaEdDBI): boolean;
 var
   F: TEdBasForm;
 begin
-  F := PagFormaEdFormCreate(AOwner, pAppInfo, pPagFormaEnt, pPagFormaDBI,
+  F := PagFormaEdFormCreate(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
     pPagFormaEdDBI);
   Result := F.Perg;
 end;
@@ -101,12 +101,12 @@ end;
 // end;
 
 function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagFinPagFormaDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 

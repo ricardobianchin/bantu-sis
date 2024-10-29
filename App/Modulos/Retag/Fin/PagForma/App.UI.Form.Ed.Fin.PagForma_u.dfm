@@ -1,13 +1,13 @@
 inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
-  ClientHeight = 279
-  ClientWidth = 584
+  ClientHeight = 278
+  ClientWidth = 580
   ExplicitWidth = 596
   ExplicitHeight = 317
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 207
-    Width = 584
+    Top = 206
+    Width = 580
     ExplicitTop = 207
   end
   object TipoTitLabel: TLabel [2]
@@ -32,8 +32,8 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Tipo'
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 227
-    Width = 584
+    Top = 226
+    Width = 580
     ExplicitTop = 227
   end
   object DescrErroLabel: TLabel [6]
@@ -64,23 +64,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     ParentFont = False
     StyleElements = []
   end
-  object DescrRedLabeledEdit: TLabeledEdit [8]
-    Left = 499
-    Top = 27
-    Width = 82
-    Height = 23
-    EditLabel.Width = 102
-    EditLabel.Height = 23
-    EditLabel.Caption = 'Descri'#231#227'o Reduzida'
-    LabelPosition = lpLeft
-    LabelSpacing = 4
-    MaxLength = 6
-    TabOrder = 9
-    Text = ''
-    OnChange = DescrRedLabeledEditChange
-    OnExit = DescrRedLabeledEditExit
-  end
-  object AdminstradoraGroupBox: TGroupBox [9]
+  object AdminstradoraGroupBox: TGroupBox [8]
     Left = 3
     Top = 108
     Width = 273
@@ -116,7 +100,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object RecebComboBox: TComboBox [10]
+  object RecebComboBox: TComboBox [9]
     Left = 347
     Top = 71
     Width = 81
@@ -129,7 +113,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'A VISTA'
       'A PRAZO')
   end
-  object AtivoCheckBox: TCheckBox [11]
+  object AtivoCheckBox: TCheckBox [10]
     Left = 438
     Top = 74
     Width = 49
@@ -137,7 +121,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Ativa'
     TabOrder = 2
   end
-  object PromoGroupBox: TGroupBox [12]
+  object PromoGroupBox: TGroupBox [11]
     Left = 493
     Top = 108
     Width = 86
@@ -153,20 +137,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 0
     end
   end
-  object UsoComboBox: TComboBox [13]
-    Left = 184
-    Top = 71
-    Width = 81
-    Height = 23
-    Style = csDropDownList
-    ItemIndex = 1
-    TabOrder = 1
-    Text = 'COMPRA'
-    Items.Strings = (
-      'VENDA'
-      'COMPRA')
-  end
-  object DescrLabeledEdit: TLabeledEdit [14]
+  object DescrLabeledEdit: TLabeledEdit [12]
     Left = 58
     Top = 27
     Width = 329
@@ -181,7 +152,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     OnChange = DescrLabeledEditChange
     OnExit = DescrLabeledEditExit
   end
-  object ComissGroupBox: TGroupBox [15]
+  object ComissGroupBox: TGroupBox [13]
     Left = 283
     Top = 108
     Width = 204
@@ -211,7 +182,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object PagFormaTipoComboBox: TComboBox [16]
+  object PagFormaTipoComboBox: TComboBox [14]
     Left = 30
     Top = 71
     Width = 122
@@ -226,7 +197,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'CREDITO'
       'TRANSFERENCIA')
   end
-  object VendaExigeGroupBox: TGroupBox [17]
+  object VendaExigeGroupBox: TGroupBox [15]
     Left = 3
     Top = 163
     Width = 408
@@ -272,9 +243,38 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
     end
   end
+  object UsoComboBox: TComboBox [16]
+    Left = 184
+    Top = 71
+    Width = 81
+    Height = 23
+    Style = csDropDownList
+    ItemIndex = 1
+    TabOrder = 1
+    Text = 'COMPRA'
+    Items.Strings = (
+      'VENDA'
+      'COMPRA')
+  end
+  object DescrRedLabeledEdit: TLabeledEdit [17]
+    Left = 499
+    Top = 27
+    Width = 82
+    Height = 23
+    EditLabel.Width = 102
+    EditLabel.Height = 23
+    EditLabel.Caption = 'Descri'#231#227'o Reduzida'
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    MaxLength = 6
+    TabOrder = 9
+    Text = ''
+    OnChange = DescrRedLabeledEditChange
+    OnExit = DescrRedLabeledEditExit
+  end
   inherited BasePanel: TPanel
-    Top = 242
-    Width = 584
+    Top = 241
+    Width = 580
     ExplicitTop = 241
     ExplicitWidth = 580
     inherited MensCopyBitBtn_DiagBtn: TBitBtn

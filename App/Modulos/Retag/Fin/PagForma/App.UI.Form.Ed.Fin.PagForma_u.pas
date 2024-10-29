@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.UI.Controls.ComboBox.Select.DB.Frame_u,
   Vcl.Mask, App.Retag.Fin.PagForma.Ent, App.Ent.Ed, App.Ent.DBI, NumEditBtu,
-  System.Generics.Collections, App.AppInfo,
+  System.Generics.Collections, App.AppObj,
   Sis.Types.Bool_u, Sis.Usuario, App.Retag.Fin.PagForma.Ed.DBI;
 
 type
@@ -70,7 +70,7 @@ type
     function GravouOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
       pEntDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI); reintroduce;
   end;
 
@@ -162,10 +162,10 @@ begin
   PagFormaEnt.AVista := RecebComboBox.ItemIndex = 0;
 end;
 
-constructor TPagFormaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+constructor TPagFormaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI);
 begin
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FPagFormaEdDBI := pPagFormaEdDBI;
 end;
 

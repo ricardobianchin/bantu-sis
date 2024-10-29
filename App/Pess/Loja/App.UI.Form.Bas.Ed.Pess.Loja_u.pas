@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed.Pess_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.Pess.Loja.Ent.Factory_u, App.Pess.Loja.DBI,
-  App.Pess.Loja.Ent, App.AppInfo, App.Ent.Ed, App.Ent.DBI, FireDAC.Stan.Intf,
+  App.Pess.Loja.Ent, App.AppObj, App.Ent.Ed, App.Ent.DBI, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls;
@@ -39,8 +39,8 @@ type
     function ApelidoOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); override;
+    constructor Create(AOwner: TComponent;
+      pAppObj: IAppObj; pEntEd: IEntEd; pEntDBI: IEntDBI); override;
   end;
 
 var
@@ -59,11 +59,13 @@ var
 begin
   inherited;
   iTabOrder := AtivoPessCheckBox.TabOrder + 1;
-  SelecionadoCheckBox.TabOrder := iTabOrder; Inc(iTabOrder);
+  SelecionadoCheckBox.TabOrder := iTabOrder;
+  Inc(iTabOrder);
   LojaIdEdit.TabOrder := iTabOrder;
 end;
 
-procedure TPessLojaEdForm.SelecionadoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+procedure TPessLojaEdForm.SelecionadoCheckBoxKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   inherited;
   CheckBoxKeyPress(Sender, Key);
@@ -93,17 +95,17 @@ begin
   FPessLojaEnt.LojaId := StrToInt(LojaIdEdit.Text);
 end;
 
-constructor TPessLojaEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
-  pEntEd: IEntEd; pEntDBI: IEntDBI);
+constructor TPessLojaEdForm.Create(AOwner: TComponent;
+      pAppObj: IAppObj; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
 
-  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao'
-    + ' estabelecimento a que pertence o sistema.'#13#10
-    + 'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10
-    + 'Ao ligar esta opção, ela será desligada nos demais registros';
+  SelecionadoCheckBox.Hint := 'Ligado indica que este registro se refere ao' +
+    ' estabelecimento a que pertence o sistema.'#13#10 +
+    'Desligado, indica que se refere a outro estabelecimento da rede.'#13#10 +
+    'Ao ligar esta opção, ela será desligada nos demais registros';
 
 end;
 
@@ -144,7 +146,7 @@ end;
 
 function TPessLojaEdForm.LojaIdOk: boolean;
 var
-  iLojaId: SmallInt;
+  iLojaId: smallint;
   sApelido: string;
 begin
   iLojaId := LojaIdDigitada;
@@ -165,7 +167,7 @@ begin
 
   if not Result then
   begin
-    ErroOutput.Exibir('Código já é usado na loja '+sApelido);
+    ErroOutput.Exibir('Código já é usado na loja ' + sApelido);
     LojaIdEdit.SetFocus;
     exit;
   end;
@@ -184,26 +186,27 @@ begin
 end;
 
 procedure TPessLojaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
-//var
-//  s: string;
+// var
+// s: string;
 begin
   inherited;
-//{$IFDEF DEBUG}
-  //SetTabOrderToHint(Self);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // SetTabOrderToHint(Self);
+  // {$ENDIF}
 
   DtNascPessLabel.Visible := False;
   DtNascDateTimePicker.Visible := False;
 
   AtivoPessCheckBox.Left := EMailPessEdit.Left + 5 + EMailPessEdit.Width;
-  SelecionadoCheckBox.Left := AtivoPessCheckBox.Left + 5 + AtivoPessCheckBox.Width;
+  SelecionadoCheckBox.Left := AtivoPessCheckBox.Left + 5 +
+    AtivoPessCheckBox.Width;
   LojaIdLabel.Left := SelecionadoCheckBox.Left + 7 + SelecionadoCheckBox.Width;
   LojaIdEdit.Left := LojaIdLabel.Left + 5 + LojaIdLabel.Width;
 
-//{$IFDEF DEBUG}
-////  s := CNPJGetRandom;
-//  DebugImporteTeclas;
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  /// /  s := CNPJGetRandom;
+  // DebugImporteTeclas;
+  // {$ENDIF}
 end;
 
 end.

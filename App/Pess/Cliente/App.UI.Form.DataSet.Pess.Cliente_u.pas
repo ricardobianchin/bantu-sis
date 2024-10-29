@@ -3,11 +3,12 @@ unit App.UI.Form.DataSet.Pess.Cliente_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.DataSet.Pess_u, Data.DB,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
   Vcl.DBGrids, Vcl.ToolWin, App.Pess.Cliente.DBI, App.Pess.Cliente.Ent,
-  App.AppInfo, Sis.Config.SisConfig, Sis.Usuario, Sis.DB.DBTypes,
+  Sis.Usuario, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed, App.Ent.DBI,
   App.UI.TabSheet.DataSet.Types_u, App.AppObj;
 
@@ -28,10 +29,10 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
     { Public declarations }
   end;
 
@@ -47,20 +48,20 @@ uses App.Acesso.Cliente.UI.Factory_u, App.Pess.Cliente.Ent.Factory_u;
 { TAppPessClienteDataSetForm }
 
 constructor TAppPessClienteDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
 begin
   FPessClienteEnt := EntEdCastToPessClienteEnt(pEntEd);
   FPessClienteDBI := EntDBICastToPessClienteDBI(pEntDBI);
 
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
     pModoDataSetForm, pIdPos, pAppObj);
 
-//  AtualizaAposEd := True;
-//  iT_Selecionado := 0;
+  // AtualizaAposEd := True;
+  // iT_Selecionado := 0;
   iT_PESSOA_ID := 0;
   iT_LOJA_ID := 1;
   iT_TERMINAL_ID := 2;
@@ -107,57 +108,57 @@ begin
 
   iT_ENDER_PRIMEIRO_CAMPO := iT_ENDER_ORDEM;
 
-//  iQ_Selecionado := iQ_PESS_ENDER_ULTIMO_INDEX + 1;
+  // iQ_Selecionado := iQ_PESS_ENDER_ULTIMO_INDEX + 1;
 
 end;
 
 procedure TAppPessClienteDataSetForm.DoAntesAtualizar;
 begin
   inherited;
-//  FClienteIdUltima := FDMemTable.Fields[iT_Cliente_Id].AsInteger
+  // FClienteIdUltima := FDMemTable.Fields[iT_Cliente_Id].AsInteger
 end;
 
 procedure TAppPessClienteDataSetForm.DoAposAtualizar;
-//var
-//  bResultado: boolean;
+// var
+// bResultado: boolean;
 begin
   inherited;
-//  bResultado := FDMemTable.locate('Cliente_ID', FClienteIdUltima, []);
+  // bResultado := FDMemTable.locate('Cliente_ID', FClienteIdUltima, []);
 end;
 
 procedure TAppPessClienteDataSetForm.EntToRecord;
 begin
   inherited;
-//  FDMemTable.Fields[iT_Selecionado].AsBoolean := FPessClienteEnt.Selecionado;
+  // FDMemTable.Fields[iT_Selecionado].AsBoolean := FPessClienteEnt.Selecionado;
 end;
 
 function TAppPessClienteDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews +
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
     'App\Retag\Est\Ven\tabview.config.ambi.pess.cliente.csv';
   Result := sNomeArq;
 end;
 
 function TAppPessClienteDataSetForm.PergEd: boolean;
 begin
-  Result := ClientePerg(nil, AppInfo, FPessClienteEnt, FPessClienteDBI);
+  Result := ClientePerg(nil, FPessClienteEnt, FPessClienteDBI, AppObj);
 end;
 
 procedure TAppPessClienteDataSetForm.QToMemTable(q: TDataSet);
-//{$IFDEF DEBUG}
-//var
-//  S: string;
-//{$ENDIF}
+// {$IFDEF DEBUG}
+// var
+// S: string;
+// {$ENDIF}
 begin
-//{$IFDEF DEBUG}
-//  s := FDMemTable.Fields[iT_Selecionado].FieldName;
-//  s := q.Fields[iQ_Selecionado].FieldName;
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // s := FDMemTable.Fields[iT_Selecionado].FieldName;
+  // s := q.Fields[iQ_Selecionado].FieldName;
+  // {$ENDIF}
   inherited;
 
-//  FDMemTable.Fields[iT_Selecionado].AsBoolean := q.Fields[iQ_Selecionado].AsBoolean;
+  // FDMemTable.Fields[iT_Selecionado].AsBoolean := q.Fields[iQ_Selecionado].AsBoolean;
 end;
 
 end.

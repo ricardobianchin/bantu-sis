@@ -8,13 +8,12 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet.DataSet_u,
   Data.DB, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
   Vcl.DBGrids, Vcl.ToolWin, App.Acesso.PerfilDeUso.Ent.Factory_u,
-  App.Acesso.PerfilDeUso.Ent, App.AppInfo, Sis.Config.SisConfig, Sis.Usuario,
-  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
-  App.Ent.DBI, App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  App.AppObj;
+  App.Acesso.PerfilDeUso.Ent, Sis.Usuario, Sis.DB.DBTypes, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, App.Ent.Ed, App.Ent.DBI,
+  App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, App.AppObj;
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)
@@ -41,10 +40,11 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+      pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -60,13 +60,14 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 { TPerfilDeUsoDataSetForm }
 
-constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
+      pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj);
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
     pModoDataSetForm, pIdPos, pAppObj);
   FPerfilDeUsoEnt := EntEdCastToPerfilDeUsoEnt(pEntEd);
@@ -76,7 +77,7 @@ procedure TPerfilDeUsoDataSetForm.DoAlterar;
 var
   Resultado: boolean;
 begin
-  Resultado := PerfilDeUsoPerg(Self, AppInfo, EntEd, EntDBI);
+  Resultado := PerfilDeUsoPerg(Self, AppObj, EntEd, EntDBI);
 
   if not Resultado then
     exit;
@@ -106,7 +107,7 @@ end;
 function TPerfilDeUsoDataSetForm.DoInserir: boolean;
 begin
   inherited;
-  Result := PerfilDeUsoPerg(Self, AppInfo, EntEd, EntDBI);
+  Result := PerfilDeUsoPerg(Self, AppObj, EntEd, EntDBI);
 
   if not Result then
     exit;
@@ -135,7 +136,7 @@ function TPerfilDeUsoDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews +
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
     'App\Retag\Acesso\tabview.retag.acesso.perfil_de_uso.csv';
   Result := sNomeArq;
 end;

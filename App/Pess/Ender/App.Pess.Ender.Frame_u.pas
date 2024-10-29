@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas_u, Data.DB, App.Pess.Ender.Controls.Frame_u,
   App.Pess.Ender.DBGrid.Frame_u, App.Pess.Ent, Sis.DB.DataSet.Utils,
-  App.Pess.DBI, FireDAC.Comp.Client, App.AppInfo, App.Pess.Utils,
+  App.Pess.DBI, FireDAC.Comp.Client, App.AppObj, App.Pess.Utils,
   App.PessEnder.List, App.PessEnder, Sis.UI.IO.Output;
 
 type
@@ -19,7 +19,7 @@ type
     FFDMemTable: TFDMemTable;
     FEnderControlsFrame: TEnderControlsFrame;
     FEnderDBGridFrame: TEnderDBGridFrame;
-    FAppInfo: IAppInfo;
+    FAppObj: IAppObj;
     FOkExecute: TNotifyEvent;
     FErroOutput: IOutput;
 
@@ -28,7 +28,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
-      pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent; pErroOutput: IOutput); reintroduce;
+      pPessDBI: IPessDBI; pAppObj: IAppObj; pOkExecute: TNotifyEvent; pErroOutput: IOutput); reintroduce;
     procedure AjusteControles;
     procedure ControlesToEnt;
     procedure EntToControles;
@@ -96,14 +96,14 @@ begin
 end;
 
 constructor TEnderFrame.Create(AOwner: TComponent; pPessEnt: IPessEnt;
-  pPessDBI: IPessDBI; pAppInfo: IAppInfo; pOkExecute: TNotifyEvent; pErroOutput: IOutput);
+  pPessDBI: IPessDBI; pAppObj: IAppObj; pOkExecute: TNotifyEvent; pErroOutput: IOutput);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
   FOkExecute := pOkExecute;
   FErroOutput := pErroOutput;
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
   FPessEnt := pPessEnt;
   FPessDBI := pPessDBI;
   FFDMemTable := TFDMemTable.Create(Self);
@@ -175,7 +175,7 @@ function TEnderFrame.GetNomeArqTabViewEndereco: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := FAppInfo.PastaConsTabViews +
+  sNomeArq := FAppObj.AppInfo.PastaConsTabViews +
     'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
   Result := sNomeArq;
 end;

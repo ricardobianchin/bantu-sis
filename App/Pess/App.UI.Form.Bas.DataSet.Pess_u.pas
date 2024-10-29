@@ -122,7 +122,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+      pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
       pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
@@ -141,8 +141,8 @@ uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid,
   Sis.Types.strings_u, App.Pess.Ent.Factory_u;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
   pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
 begin
@@ -198,7 +198,7 @@ begin
     iQ_ENDER_PRIMEIRO_CAMPO := iQ_ENDER_ORDEM;
   end;
 
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
     pModoDataSetForm, pIdPos, pAppObj);
 end;

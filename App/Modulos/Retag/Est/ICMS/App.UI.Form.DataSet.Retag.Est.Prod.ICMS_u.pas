@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u, Sis.Types, Sis.Types.Utils_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.ICMS.Ent, FireDAC.Stan.Intf,
@@ -85,7 +85,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oConn := DBConnectionCreate('Retag.ICMS.AtivoSet.Atu.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.ICMS.AtivoSet.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oICMSDBI := RetagEstProdICMSDBICreate(oConn, ProdICMSEnt);
@@ -122,7 +122,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oConn := DBConnectionCreate('Retag.ICMS.Ed.Atu.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.ICMS.Ed.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oICMSDBI := RetagEstProdICMSDBICreate(oConn, ProdICMSEnt);
@@ -151,7 +151,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oDBConnection := DBConnectionCreate('Retag.ICMS.Ed.Ins.Conn', SisConfig,
+  oDBConnection := DBConnectionCreate('Retag.ICMS.Ed.Ins.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
   ProdICMSEnt.Id := 0;
   ProdICMSEnt.Sigla := '';
@@ -161,7 +161,7 @@ begin
 
    oICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, ProdICMSEnt);
 
-   Result := ProdICMSPerg(Self, AppInfo, EntEd, oICMSDBI);
+   Result := ProdICMSPerg(Self, AppObj, EntEd, oICMSDBI);
 
   if not Result then
     exit;
@@ -174,7 +174,7 @@ function TRetagEstProdICMSDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.icms.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.icms.csv';
 
   Result := sNomeArq;
 end;

@@ -1,71 +1,74 @@
 inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
-  ClientHeight = 534
-  ClientWidth = 957
-  ExplicitWidth = 969
-  ExplicitHeight = 572
+  ClientHeight = 530
+  ClientWidth = 941
+  ExplicitWidth = 957
+  ExplicitHeight = 569
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 462
-    Width = 957
-    ExplicitTop = 462
+    Top = 458
+    Width = 941
+    ExplicitTop = 459
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 482
-    Width = 957
-    ExplicitTop = 482
+    Top = 478
+    Width = 941
+    ExplicitTop = 479
   end
   inherited BasePanel: TPanel
-    Top = 497
-    Width = 957
+    Top = 493
+    Width = 941
     TabOrder = 1
-    ExplicitTop = 496
-    ExplicitWidth = 953
+    ExplicitTop = 493
+    ExplicitWidth = 941
     DesignSize = (
-      957
+      941
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 514
+      Left = 482
       ExplicitLeft = 510
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 627
+      Left = 595
       ExplicitLeft = 623
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 707
+      Left = 675
       ExplicitLeft = 703
     end
   end
   object EnderecoPanel: TPanel [4]
     Left = 0
     Top = 150
-    Width = 957
+    Width = 941
     Height = 305
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitWidth = 957
   end
   object TitPanel: TPanel [5]
     Left = 0
     Top = 0
-    Width = 957
+    Width = 941
     Height = 18
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
+    ExplicitWidth = 957
   end
   object NomePanel: TPanel [6]
     Left = 0
     Top = 18
-    Width = 957
+    Width = 941
     Height = 33
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitWidth = 957
     object NomePessLabel: TLabel
       Left = 8
       Top = 4
@@ -87,12 +90,13 @@ inherited PessEdBasForm: TPessEdBasForm
   object PesJurPanel: TPanel [7]
     Left = 0
     Top = 51
-    Width = 957
+    Width = 941
     Height = 33
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 4
+    ExplicitWidth = 957
     object NomeFantaPessLabel: TLabel
       Left = 8
       Top = 4
@@ -131,12 +135,13 @@ inherited PessEdBasForm: TPessEdBasForm
   object DocsPanel: TPanel [8]
     Left = 0
     Top = 84
-    Width = 957
+    Width = 941
     Height = 66
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 5
+    ExplicitWidth = 957
     object MUFPessLabel: TLabel
       Left = 692
       Top = 4

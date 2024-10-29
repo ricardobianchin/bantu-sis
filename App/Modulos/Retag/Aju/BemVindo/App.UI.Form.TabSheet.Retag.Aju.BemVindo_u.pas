@@ -7,9 +7,9 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls, App.AppObj, App.AppInfo, Sis.DB.DBTypes, Vcl.Buttons,
+  Vcl.StdCtrls, App.AppObj, Sis.DB.DBTypes, Vcl.Buttons,
   App.DB.Term.EnviarDados.Frame_u,
-  Sis.UI.Form.Bas.TabSheet_u, Sis.Config.SisConfig,
+  Sis.UI.Form.Bas.TabSheet_u,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
 
 type
@@ -40,7 +40,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
+      pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pAppObj: IAppObj); override;
   end;
@@ -64,12 +64,10 @@ var
   sSql: string;
 begin
   inherited;
-  // SisConfig.
-
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oDBConnection := DBConnectionCreate('Retag.Conn', SisConfig,
+  oDBConnection := DBConnectionCreate('Retag.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   sSql := 'SELECT PROD_RECORD_COUNT_RET FROM EST_STAT_PA.STAT_GET;';
@@ -86,8 +84,8 @@ begin
 end;
 
 constructor TRetagAjuBemVindoForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pAppObj: IAppObj);
 begin
   inherited;

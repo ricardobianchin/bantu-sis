@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.Diag.Btn_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, Data.DB, App.Ent.Ed, App.Ent.DBI, App.AppInfo;
+  Vcl.StdCtrls, Vcl.Buttons, Data.DB, App.Ent.Ed, App.Ent.DBI, App.AppObj;
 
 type
   TEdBasForm = class(TDiagBtnBasForm)
@@ -15,11 +15,11 @@ type
     { Private declarations }
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
-    FAppInfo: IAppInfo;
+    FAppObj: IAppObj;
     procedure AjusteCaption;
     procedure AjusteObjetivo;
   protected
-    property AppInfo: IAppInfo read FAppInfo;
+    property AppObj: IAppObj read FAppObj;
     property EntEd: IEntEd read FEntEd;
     property EntDBI: IEntDBI read FEntDBI;
 
@@ -43,7 +43,7 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
       pEntDBI: IEntDBI); reintroduce; virtual;
   end;
 
@@ -169,11 +169,11 @@ begin
   Result := True;
 end;
 
-constructor TEdBasForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+constructor TEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner);
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
 end;

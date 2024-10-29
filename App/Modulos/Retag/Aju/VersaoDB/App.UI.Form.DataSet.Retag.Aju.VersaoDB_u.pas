@@ -48,7 +48,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oConn := DBConnectionCreate('Retag.VersaoDB.Atu.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.VersaoDB.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oVersaoDBDBI := RetagAjuVersaoDBDBICreate(oConn, EntEd);
@@ -72,7 +72,7 @@ function TRetagAjuVersaoDBDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Aju\tabview.aju.versaodb.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Aju\tabview.aju.versaodb.csv';
 
   Result := sNomeArq;
 end;

@@ -115,10 +115,10 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppObj: IAppObj; pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
       pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-      pIdPos: integer); virtual;
+      pIdPos: integer; pAppObj: IAppObj); virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
@@ -235,11 +235,11 @@ begin
   ModalResult := mrCancel;
 end;
 
-constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppObj: IAppObj; pUsuarioLog: IUsuario;
-  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
+constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+      pIdPos: integer; pAppObj: IAppObj);
 var
   sNomeArq: string;
 begin

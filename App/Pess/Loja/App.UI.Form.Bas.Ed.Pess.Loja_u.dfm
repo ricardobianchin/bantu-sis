@@ -1,26 +1,23 @@
 inherited PessLojaEdForm: TPessLojaEdForm
   Caption = 'PessLojaEdForm'
-  ClientHeight = 532
-  ClientWidth = 941
-  ExplicitLeft = -86
-  ExplicitWidth = 953
-  ExplicitHeight = 570
+  ClientHeight = 531
+  ClientWidth = 937
+  ExplicitWidth = 949
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 460
-    Width = 941
-    ExplicitTop = 460
+    Top = 459
+    Width = 937
+    ExplicitTop = 458
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 480
-    Width = 941
-    ExplicitTop = 480
+    Top = 479
+    Width = 937
+    ExplicitTop = 478
   end
   inherited BasePanel: TPanel
-    Top = 495
-    Width = 941
+    Top = 494
+    Width = 937
     TabOrder = 0
-    ExplicitTop = 494
     ExplicitWidth = 937
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 517
@@ -36,17 +33,17 @@ inherited PessLojaEdForm: TPessLojaEdForm
     end
   end
   inherited EnderecoPanel: TPanel
-    Width = 941
+    Width = 937
     TabOrder = 5
     ExplicitWidth = 937
   end
   inherited TitPanel: TPanel
-    Width = 941
+    Width = 937
     TabOrder = 1
     ExplicitWidth = 937
   end
   inherited NomePanel: TPanel
-    Width = 941
+    Width = 937
     TabOrder = 2
     ExplicitWidth = 937
     inherited NomePessLabel: TLabel
@@ -61,12 +58,12 @@ inherited PessLojaEdForm: TPessLojaEdForm
     end
   end
   inherited PesJurPanel: TPanel
-    Width = 941
+    Width = 937
     TabOrder = 3
     ExplicitWidth = 937
   end
   inherited DocsPanel: TPanel
-    Width = 941
+    Width = 937
     TabOrder = 4
     ExplicitWidth = 937
     object LojaIdLabel: TLabel [6]

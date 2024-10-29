@@ -42,9 +42,9 @@ type
   public
     function FormCreate(AOwner: TComponent): TForm; override;
     constructor Create(pFormClass: TTabSheetAppBasFormClass; pTitulo: string;
-      pFormClassNamesSL: TStringList; pAppObj: IAppObj; pUsuarioLog: IUsuario;
+      pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput); reintroduce;
+      pOutputNotify: IOutput; pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
 
   end;
@@ -54,9 +54,9 @@ implementation
 { TTabSheetFormCreator }
 
 constructor TTabSheetFormCreator.Create(pFormClass: TTabSheetAppBasFormClass;
-  pTitulo: string; pFormClassNamesSL: TStringList; pAppObj: IAppObj;
+  pTitulo: string; pFormClassNamesSL: TStringList;
   pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-  pProcessLog: IProcessLog; pOutputNotify: IOutput);
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj);
 begin
   inherited Create(pFormClass, pTitulo);
   InstanciouSL := not Assigned(pFormClassNamesSL);

@@ -1,20 +1,19 @@
 inherited PessFuncionarioEdForm: TPessFuncionarioEdForm
   Caption = 'PessFuncionarioEdForm'
-  ClientWidth = 941
-  ExplicitWidth = 953
-  ExplicitHeight = 570
+  ClientWidth = 937
+  ExplicitWidth = 949
+  ExplicitHeight = 568
   TextHeight = 15
   inherited MensLabel: TLabel
-    Width = 941
-    ExplicitTop = 460
+    Width = 937
+    ExplicitTop = 458
   end
   inherited AlteracaoTextoLabel: TLabel
-    Width = 941
-    ExplicitTop = 480
+    Width = 937
+    ExplicitTop = 478
   end
   inherited BasePanel: TPanel
-    Width = 941
-    ExplicitWidth = 941
+    Width = 937
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 490
       ExplicitLeft = 486
@@ -30,35 +29,36 @@ inherited PessFuncionarioEdForm: TPessFuncionarioEdForm
   end
   inherited EnderecoPanel: TPanel
     Top = 183
-    Width = 941
+    Width = 937
     ExplicitTop = 183
     ExplicitWidth = 941
   end
   inherited TitPanel: TPanel
-    Width = 941
+    Width = 937
     ExplicitWidth = 941
   end
   inherited NomePanel: TPanel
-    Width = 941
+    Width = 937
     ExplicitWidth = 941
   end
   inherited PesJurPanel: TPanel
-    Width = 941
+    Width = 937
     ExplicitWidth = 941
   end
   inherited DocsPanel: TPanel
-    Width = 941
+    Width = 937
     ExplicitWidth = 941
   end
   object UsuarioPanel: TPanel [9]
     Left = 0
     Top = 150
-    Width = 941
+    Width = 937
     Height = 33
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 6
+    ExplicitWidth = 941
     object FunciNomeDeUsuarioLabel: TLabel
       Left = 7
       Top = 5

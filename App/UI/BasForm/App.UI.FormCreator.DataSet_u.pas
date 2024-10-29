@@ -44,25 +44,25 @@ var
   sTitulo: string;
 begin
   sTitulo := pEntEd.Titulo;
-  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pAppObj, pUsuarioLog,
-    pDBMS, pOutput, pProcessLog, pOutputNotify);
+  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pUsuarioLog,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
 end;
 
 function TDataSetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
-  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppObj,
+  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL,
     UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
-    mdfBrowse, 0);
+    mdfBrowse, 0, AppObj);
 end;
 
 function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent;
   pIdPos: integer): TForm;
 begin
-  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppObj,
+  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL,
     UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
-    mdfSelect, pIdPos);
+    mdfSelect, pIdPos, AppObj);
 end;
 
 function TDataSetFormCreator.GetDataSetFormClass: TTabSheetDataSetBasFormClass;

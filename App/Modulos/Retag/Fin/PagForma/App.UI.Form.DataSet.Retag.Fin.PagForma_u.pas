@@ -104,7 +104,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oDBI := RetagFinPagFormaDBICreate(oConn, EntEd);
@@ -124,7 +124,7 @@ function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Fin\tabview.fin.pagforma.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Fin\tabview.fin.pagforma.csv';
 
   Result := sNomeArq;
 end;
@@ -154,10 +154,10 @@ begin
     AppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +
-    '.Conn', SisConfig, oDBConnectionParams, ProcessLog, Output);
+    '.Conn', AppObj.SisConfig, oDBConnectionParams, ProcessLog, Output);
 
   oPagFormaEdDBI := PagFormaEdDBICreate(oDBConnection);
-  Result := PagFormaPerg(Self, AppInfo, EntEd, EntDBI, oPagFormaEdDBI);
+  Result := PagFormaPerg(Self, AppObj, EntEd, EntDBI, oPagFormaEdDBI);
 end;
 
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;

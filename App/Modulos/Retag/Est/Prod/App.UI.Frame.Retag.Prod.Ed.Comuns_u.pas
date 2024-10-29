@@ -9,7 +9,7 @@ uses
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output, NumEditBtu,
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
   Sis.DB.DBTypes, System.Generics.Collections, Sis.UI.FormCreator,
-  App.Retag.Est.Prod.Barras.Frame_u, App.AppInfo, sndkey32, Data.DB, Sis.Types
+  App.Retag.Est.Prod.Barras.Frame_u, App.AppObj, sndkey32, Data.DB, Sis.Types
   //
     , App.Retag.Est.Prod.Fabr.Ent //
     , App.Retag.Est.Prod.Tipo.Ent //
@@ -59,7 +59,7 @@ type
     FProdUnidDataSetFormCreator: IFormCreator;
     FProdICMSDataSetFormCreator: IFormCreator;
 
-    FAppInfo: IAppInfo;
+    FAppObj: IAppObj;
 
     SelecioneProximoProc: TProcedureOfObject;
   public
@@ -106,7 +106,7 @@ type
       pProdICMSDataSetFormCreator: IFormCreator;
 
       //
-      pAppInfo: IAppInfo;
+      pAppObj: IAppObj;
       //
       pErroOutput: IOutput); reintroduce;
     destructor Destroy; override;
@@ -153,7 +153,7 @@ constructor TRetagProdEdComunsFrame.Create(AOwner: TComponent; //
   pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  pAppInfo: IAppInfo;
+  pAppObj: IAppObj;
   //
   pErroOutput: IOutput);
 var
@@ -168,7 +168,7 @@ begin
   PrecoErroLabel.Caption := '';
 
   SelecioneProximoProc := pSelecioneProximoProc;
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
 
   IdEdit := TNumEditBtu.Create(Self);
   IdEdit.Parent := Self;
@@ -183,7 +183,7 @@ begin
 
   IdEdit.Valor := pProdEnt.Id;
 
-  BarrasFr := TProdBarrasFrame.Create(Self, ProdEnt.ProdBarrasList, FAppInfo,
+  BarrasFr := TProdBarrasFrame.Create(Self, ProdEnt.ProdBarrasList, FAppObj,
     pBarrasDBI, pProdEnt.Id);
 
   BarrasFr.Parent := Self;

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Fabr.Ent;
@@ -54,15 +54,7 @@ var
 //  oConn: IDBConnection;
   Resultado: boolean;
 begin
-//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-//    AppInfo, SisConfig);
-//
-//  oConn := DBConnectionCreate('Retag.Fabr.Ed.Atu.Conn', SisConfig, DBMS,
-//    oDBConnectionParams, ProcessLog, Output);
-//
-//  oFabrDBI := RetagEstProdFabrDBICreate(oConn, EntEd);
-
-  Resultado := ProdFabrPerg(Self, AppInfo, EntEd, EntDBI{oFabrDBI});
+  Resultado := ProdFabrPerg( Self, AppObj, EntEd, EntDBI{oFabrDBI});
   if not Resultado then
     exit;
 
@@ -93,7 +85,7 @@ end;
 function TRetagEstProdFabrDataSetForm.DoInserir: boolean;
 begin
   inherited;
-  Result := ProdFabrPerg(Self, AppInfo, EntEd, EntDBI {oFabrDBI});
+  Result := ProdFabrPerg(Self, AppObj, EntEd, EntDBI {oFabrDBI});
 
   if not Result then
     exit;
@@ -170,7 +162,7 @@ function TRetagEstProdFabrDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.fabr.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.fabr.csv';
 
   Result := sNomeArq;
 end;

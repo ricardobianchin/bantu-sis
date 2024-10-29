@@ -65,7 +65,7 @@ begin
     + ', ' + QuotedStr(e.Senha) + ' -- senha' + #13#10 //
     + ', ' + e.CryVer.ToString + ' -- cry_ver' + #13#10 //
 
-    + ', ' + e.UsuarioId.ToString + ' -- LOG_PESSOA_ID' + #13#10 //
+    + ', ' + e.LogUsuarioId.ToString + ' -- LOG_PESSOA_ID' + #13#10 //
     + ', ' + e.MachineIdentId.ToString + ' -- MACHINE_ID' + #13#10 //
 
     ;

@@ -78,7 +78,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object CustoErroLabel: TLabel
       Left = 2
       Top = 51
-      Width = 249
+      Width = 80
       Height = 15
       Align = alBottom
       Caption = 'CustoErroLabel'
@@ -89,7 +89,6 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
-      ExplicitWidth = 80
     end
   end
   object PrecoGroupBox: TGroupBox
@@ -102,7 +101,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object PrecoErroLabel: TLabel
       Left = 2
       Top = 51
-      Width = 360
+      Width = 79
       Height = 15
       Align = alBottom
       Caption = 'PrecoErroLabel'
@@ -113,7 +112,6 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
-      ExplicitWidth = 79
     end
   end
   object BalGroupBox: TGroupBox

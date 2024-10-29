@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u, Sis.Types,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Unid.Ent;
@@ -55,12 +55,12 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig,
+  oConn := DBConnectionCreate( 'Retag.Unid.Ed.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oConn, EntEd);
 
-  Resultado := ProdUnidPerg(Self, AppInfo, EntEd, oUnidDBI);
+  Resultado := ProdUnidPerg(Self, AppObj, EntEd, oUnidDBI);
   if not Resultado then
     exit;
 
@@ -80,7 +80,7 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oConn, EntEd);
@@ -110,12 +110,12 @@ begin
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
     AppObj);
 
-  oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', SisConfig,
+  oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, EntEd);
 
-  Result := ProdUnidPerg(Self, AppInfo, EntEd, oUnidDBI);
+  Result := ProdUnidPerg(Self, AppObj, EntEd, oUnidDBI);
 
   if not Result then
     exit;
@@ -127,7 +127,7 @@ function TRetagEstProdUnidDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.unid.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.unid.csv';
 
   Result := sNomeArq;
 end;

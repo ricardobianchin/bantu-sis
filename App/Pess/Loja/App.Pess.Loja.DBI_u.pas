@@ -56,7 +56,7 @@ begin
     + ', ' + BooleanToStrSQL(FPessLojaEnt.Selecionado) +' -- Selecionado'+ #13#10
 
     + ', ' + FPessLojaEnt.LogLojaId.ToString +' -- LOG_LOJA_ID'+ #13#10
-    + ', ' + FPessLojaEnt.UsuarioId.ToString +' -- LOG_PESSOA_ID'+ #13#10
+    + ', ' + FPessLojaEnt.LogUsuarioId.ToString +' -- LOG_PESSOA_ID'+ #13#10
     + ', ' + FPessLojaEnt.MachineIdentId.ToString +' -- MACHINE_ID'+ #13#10
 
     ;
