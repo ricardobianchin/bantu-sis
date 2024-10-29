@@ -67,7 +67,7 @@ begin
       oDBQuery.Params[2].AsInteger := pUsuario.Id;
       oDBQuery.Params[3].AsString := '!';
       oDBQuery.Params[4].AsString := '''';
-      oDBQuery.Params[5].AsSmallInt := 7;
+      oDBQuery.Params[5].AsSmallInt := 8;
       oDBQuery.Params[6].AsSmallInt := pAppObj.SisConfig.ServerMachineId.IdentId;
 
       oDBQuery.Open;
