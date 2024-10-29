@@ -15,6 +15,7 @@ type
   private
     { Private declarations }
     FLojaId: smallint;
+    FUsuarioId: integer;
   protected
     function GetSql: string; override;
     function GetSqlGravar: string; override;
@@ -23,8 +24,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pLojaId: smallint;
-      pAssociadaId: integer; pAssociadaNome: string; pAppObj: IAppObj;
-      pDBMS: IDBMS); reintroduce;
+      pUsuarioId: integer; pAssociadaId: integer; pAssociadaNome: string;
+      pAppObj: IAppObj; pDBMS: IDBMS); reintroduce;
   end;
 
 var
@@ -36,10 +37,11 @@ implementation
 { TOpcaoSisUsuarioTreeViewForm }
 
 constructor TOpcaoSisUsuarioTreeViewForm.Create(AOwner: TComponent;
-  pLojaId: smallint; pAssociadaId: integer; pAssociadaNome: string;
-  pAppObj: IAppObj; pDBMS: IDBMS);
+  pLojaId: smallint; pUsuarioId: integer; pAssociadaId: integer;
+  pAssociadaNome: string; pAppObj: IAppObj; pDBMS: IDBMS);
 begin
   FLojaId := pLojaId;
+  FUsuarioId := pUsuarioId;
   inherited Create(AOwner, pAssociadaId, pAssociadaNome, pAppObj, pDBMS);
 end;
 
@@ -91,9 +93,14 @@ var
 begin
   sLista := NodesListAsString;
 
-  Result := 'EXECUTE PROCEDURE USUARIO_PA.PODE_OPCOES_GARANTIR(' +
-    FLojaId.ToString + ', ' + AssociadaId.ToString + ', ' +
-    QuotedStr(sLista) + ');';
+  Result := 'EXECUTE PROCEDURE USUARIO_PA.PODE_OPCOES_GARANTIR(' //
+    + AppObj.Loja.Id.ToString // LOJA_ID
+    + ', ' + AssociadaId.ToString // USUARIO_PESSOA_ID
+    + ', ' + FUsuarioId.ToString // LOG_PESSOA_ID
+    + ', ' + AppObj.SisConfig.ServerMachineId.IdentId.ToString // MACHINE_ID
+    + ', ' + QuotedStr(sLista) // STR_OPCOES_ID
+    + ');' //
+    ;
 end;
 
 end.
