@@ -36,6 +36,7 @@ type
 
     function GetEntidadeAssociada: string; virtual; abstract;
     function NodesListAsString: string;
+    property AppObj: IAppObj read FAppObj;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent;
