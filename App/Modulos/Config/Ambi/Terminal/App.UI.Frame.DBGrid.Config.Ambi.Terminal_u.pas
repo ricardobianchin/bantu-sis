@@ -164,6 +164,8 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
+//  exit;
+
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
   Tab.FieldByName('APELIDO').AsString := 'TECIDOS';
