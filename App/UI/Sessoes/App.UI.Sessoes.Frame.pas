@@ -139,7 +139,7 @@ begin
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
-  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
+  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
 
   bResultado := LoginPerg(FLoginConfig, iOpcaoSisIdModulo, oUsuario,
     oUsuarioDBI, true);

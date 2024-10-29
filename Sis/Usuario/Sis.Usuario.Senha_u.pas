@@ -5,7 +5,7 @@ interface
 uses Sis.DB.DBTypes;
 
 function GravarSenha(pNovaSenha: string; pCryVer: integer; pLojaId: smallint;
-  pTerminalId: smallint; pPessoaId: integer; pDBConnection: IDBConnection;
+  pUsuarioPessoaId, pLogPessoaId: integer; pMachineId: smallint; pDBConnection: IDBConnection;
   out pMens: string): Boolean;
 
 implementation
@@ -13,16 +13,19 @@ implementation
 uses System.SysUtils;
 
 function GravarSenha(pNovaSenha: string; pCryVer: integer; pLojaId: smallint;
-  pTerminalId: smallint; pPessoaId: integer; pDBConnection: IDBConnection;
+  pUsuarioPessoaId, pLogPessoaId: integer; pMachineId: smallint; pDBConnection: IDBConnection;
   out pMens: string): Boolean;
 var
   sComandoSql: string;
 begin
   Result := False;
+
   sComandoSql := 'EXECUTE PROCEDURE USUARIO_PA.SENHA_SET(' //
     + pLojaId.ToString //
-    + ', ' + pTerminalId.ToString //
-    + ', ' + pPessoaId.ToString //
+    + ', ' + pUsuarioPessoaId.ToString //
+    + ', ' + pLogPessoaId.ToString //
+    + ', ' + pMachineId.ToString //
+
     + ', ' + QuotedStr(pNovaSenha) //
     + ', ' + pCryVer.ToString //
     + ');'; //

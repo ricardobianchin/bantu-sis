@@ -148,8 +148,8 @@ begin
   FPessFuncionarioEnt.CryVer := pCryVer;
 
   Result := Sis.Usuario.Senha_u.GravarSenha(pNovaSenha, pCryVer,
-    FPessFuncionarioEnt.LojaId, FPessFuncionarioEnt.TerminalId,
-    FPessFuncionarioEnt.Id, DBConnection, pMens);
+    FPessFuncionarioEnt.LojaId, FPessFuncionarioEnt.Id,
+    FPessFuncionarioEnt.LogUsuarioId, FPessFuncionarioEnt.MachineIdentId, DBConnection, pMens);
 end;
 
 function TPessFuncionarioDBI.PreencherCheckListBox(pCheckListBox: TCheckListBox;
