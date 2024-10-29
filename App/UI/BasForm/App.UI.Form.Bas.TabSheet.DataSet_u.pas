@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ComCtrls, Vcl.ToolWin, Data.DB, Vcl.Grids, Vcl.DBGrids, Sis.Usuario,
-  FireDAC.Comp.DataSet, App.AppObj, App.AppInfo, FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet, App.AppObj, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
   App.Ent.DBI, Sis.UI.ImgDM, Sis.Types, App.UI.TabSheet.DataSet.Types_u;
@@ -99,7 +99,7 @@ type
     procedure EntToRecord; virtual;
     function SelectPodeOk: boolean; virtual;
 
-    //afteropen foi cortado. pois quando é aberta é no defcampos. onde nem tudo foi inicializado
+    // afteropen foi cortado. pois quando é aberta é no defcampos. onde nem tudo foi inicializado
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); virtual;
 
     property ModoDataSetForm: TModoDataSetForm read GetModoDataSetForm;
@@ -110,14 +110,15 @@ type
     procedure FDMemTableColocarEventos;
     procedure FDMemTableRetirarEventos;
 
-    property FDMemTablePodeEventos: boolean read FFDMemTablePodeEventos write FFDMemTablePodeEventos;
+    property FDMemTablePodeEventos: boolean read FFDMemTablePodeEventos
+      write FFDMemTablePodeEventos;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); virtual;
+      pAppObj: IAppObj; pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+      pIdPos: integer); virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
@@ -235,10 +236,10 @@ begin
 end;
 
 constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pFormClassNamesSL: TStringList; pAppObj: IAppObj; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
   pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+  pModoDataSetForm: TModoDataSetForm; pIdPos: integer);
 var
   sNomeArq: string;
 begin
@@ -248,8 +249,8 @@ begin
   FEntDBI := pEntDBI;
   FModoDataSetForm := pModoDataSetForm;
   FIdPos := pIdPos;
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig,  pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj);
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify, pAppObj);
 
   State := dsBrowse;
 
@@ -292,9 +293,12 @@ procedure TTabSheetDataSetBasForm.DBGrid1KeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
   case Key of
-    VK_INSERT: InsAction_DatasetTabSheet.Execute;
-    VK_RETURN: OkAction.Execute;
-    VK_SPACE: AltAction_DatasetTabSheet.Execute;
+    VK_INSERT:
+      InsAction_DatasetTabSheet.Execute;
+    VK_RETURN:
+      OkAction.Execute;
+    VK_SPACE:
+      AltAction_DatasetTabSheet.Execute;
   end;
 end;
 
@@ -373,7 +377,8 @@ procedure TTabSheetDataSetBasForm.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
   case Key of
-    VK_F5: AtuAction_DatasetTabSheet.Execute;
+    VK_F5:
+      AtuAction_DatasetTabSheet.Execute;
   end;
 end;
 
@@ -478,7 +483,7 @@ procedure TTabSheetDataSetBasForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
 var
   i: integer;
 begin
-  if pRecno = -1 then
+  if pRecNo = -1 then
     exit;
 
   FDMemTable.Append;
