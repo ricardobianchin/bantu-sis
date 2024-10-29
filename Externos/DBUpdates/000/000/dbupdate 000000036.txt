@@ -11,6 +11,45 @@ SELECT * FROM ;
 
 SHOW PACKAGE LOJA_MANUT_PA;
 
+
+
+SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET
+FROM LO JA_MANUT_PA.G ARANTIR(
+1 -- LOJA_ID
+, 0 -- TERMINAL_ID 
+, 'DD' -- NOME
+, 'DD' -- NOME_FANTASIA
+, 'CENTRO' -- APELIDO
+, ' ' -- GENERO_ID
+, ' ' -- ESTADO_CIVIL_ID
+, '00007998235200' -- C
+, '' -- I
+, '' -- M
+, '' -- M_UF
+, '' -- EMAIL
+, '28.10.2024' -- DT_NASC
+, FALSE -- ATIVO
+, 0 -- PESSOA_ID
+, '' -- LOGRADOURO
+, '' -- NUMERO
+, '' -- COMPLEMENTO
+, '' -- BAIRRO
+, '' -- UF_SIGLA
+, '' -- CEP
+, '       ' -- MUNICIPIO_IBGE_ID
+, '' -- DDD
+, '' -- FONE1
+, '' -- FONE2
+, '' -- FONE3
+, '' -- CONTATO
+, '' -- REFERENCIA
+, TRUE -- Selecionado
+, 1 -- LOG_LOJA_ID
+, 2 -- LOG_PESSOA_ID
+, 1 -- MACHINE_ID
+);
+
+
 -----------------------------
 TESTES FIM 
 -----------------------------
