@@ -1,0 +1,109 @@
+GER_FORM_PA
+
+-----------------------------
+INICIO GER_FORM_PA
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=SIS
+DBATUALIZ_OBJETIVO=CRIAR GER_FORM_PA
+DBATUALIZ_OBS=
+DBATUALIZ_ALVO=SERVIDOR
+
+
+
+
+
+
+
+/////////////////////////
+//
+// PACKAGE GER_FORM_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=GER_FORM_PA
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\GER_FORM_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\GER_FORM_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\GER_FORM_PA.sql";
+*/
+```FIREBIRD
+SET TERM ^;
+
+CREATE OR ALTER PACKAGE GER_FORM_PA
+AS
+BEGIN
+  PROCEDURE CONFIGS_GET
+  RETURNS
+  (
+    SEMPRE_VISIVEL BOOLEAN,
+    AUTO_OPEN BOOLEAN
+  );
+  
+  PROCEDURE SEMPRE_VISIVEL_SET
+  (
+    VALOR BOOLEAN
+  );
+
+  PROCEDURE AUTO_OPEN_SET
+  (
+    VALOR BOOLEAN
+  );
+
+END^
+
+RECREATE PACKAGE BODY GER_FORM_PA
+AS
+BEGIN
+  PROCEDURE CONFIGS_GET
+  RETURNS
+  (
+    SEMPRE_VISIVEL BOOLEAN,
+    AUTO_OPEN BOOLEAN
+  )
+  AS
+    DECLARE STMP CONFIG_VALOR_DOM;
+  BEGIN
+    STMP = CONFIG_SIS_PA.VALOR_GET('GER_FORM/SEMPRE_VISIVEL');
+    SEMPRE_VISIVEL = COALESCE(UPPER(STMP) = 'S', FALSE);
+
+    STMP = CONFIG_SIS_PA.VALOR_GET('GER_FORM/AUTO_OPEN');
+    AUTO_OPEN = COALESCE(UPPER(STMP) = 'S', FALSE);
+
+    SUSPEND;
+  END
+
+  PROCEDURE SEMPRE_VISIVEL_SET
+  (
+    VALOR BOOLEAN
+  )
+  AS
+    DECLARE STMP CONFIG_VALOR_DOM;
+  BEGIN
+    STMP = IIF(VALOR, 'S', NULL);
+    
+    EXECUTE PROCEDURE CONFIG_SIS_PA.GARANTIR('GER_FORM/SEMPRE_VISIVEL', STMP);
+  END
+  
+  PROCEDURE AUTO_OPEN_SET
+  (
+    VALOR BOOLEAN
+  )
+  AS
+    DECLARE STMP CONFIG_VALOR_DOM;
+  BEGIN
+    STMP = IIF(VALOR, 'S', NULL);
+    
+    EXECUTE PROCEDURE CONFIG_SIS_PA.GARANTIR('GER_FORM/AUTO_OPEN', STMP);
+  END
+  
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM
