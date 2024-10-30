@@ -285,6 +285,8 @@ contains
   Sis.Threads.SafeBool in 'Threads\Sis.Threads.SafeBool.pas',
   Sis.Threads.SafeBool_u in 'Threads\Sis.Threads.SafeBool_u.pas',
   Sis.Threads.Factory_u in 'Threads\Sis.Threads.Factory_u.pas',
-  Sis.UI.Frame.Status.Thread_u in 'Threads\Sis.UI.Frame.Status.Thread_u.pas' {ThreadStatusFrame: TFrame};
+  Sis.UI.Frame.Status.Thread_u in 'Threads\Sis.UI.Frame.Status.Thread_u.pas' {ThreadStatusFrame: TFrame},
+  Sis.DB.DBConfig in 'DB\DBConfig\Sis.DB.DBConfig.pas',
+  Sis.Types.Dado in 'Types\Sis.Types.Dado.pas';
 
 end.
