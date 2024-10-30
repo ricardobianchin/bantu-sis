@@ -1,46 +1,112 @@
-CRIA
-LOJA
+CONFIG_SIS
 
-
------------------------------
-TESTES INICIO
------------------------------
-
-SHOW TABLE LOJA;
-
-SELECT * FROM LOJA;
-
-
------------------------------
-TESTES FIM 
------------------------------
-
------------------------------
 INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=AMBIENTE, LOJA
-DBATUALIZ_OBJETIVO=CRIAR LOJA
+DBATUALIZ_ASSUNTO=SIS
+DBATUALIZ_OBJETIVO=CRIAR CONFIG_SIS E CONFIG_SIS_PA
 DBATUALIZ_OBS=
 
 
 
-// TABELA LOJA
+
+/////////////////////////
+//
+// TABELA CONFIG_SIS
+//
+/////////////////////////
 COMANDO INI
 COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=LOJA
-
+OBJETO_NOME=CONFIG_SIS
 COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM;UNIQUE
+//NOME;TIPO;NOT NULL;PRIM
 
-//NOME    TIPO    NOTNULL    PRIM    UNIQUE
-
-LOJA_ID;ID_SHORT_DOM;S;S;N
-APELIDO;NOME_REDU_DOM;S;N;S
-SELECIONADO;SELECIONADO_DOM
+CHAVE;VARCHAR(89);S,S
+VALOR;VARCHAR(144)
 
 COLUNAS FIM
 COMANDO FIM
 
+
+
+
+
+/////////////////////////
+//
+// TABELA CONFIG_SIS_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=CONFIG_SIS_PA
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\CONFIG_SIS_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\CONFIG_SIS_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\CONFIG_SIS_PA.sql";
+*/
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE CONFIG_SIS_PA
+AS
+BEGIN
+  PROCEDURE GARANTIR
+  (
+    CHAVE VARCHAR(89) NOT NULL, 
+    VALOR VARCHAR(144)
+  );
+
+  FUNCTION VALOR_GET
+  (
+    CHAVE VARCHAR(89),
+    VALOR_DEFAULT VARCHAR(144) DEFAULT NULL
+  ) RETURNS VARCHAR(144);
+END^
+
+RECREATE PACKAGE BODY CONFIG_SIS_PA
+AS
+BEGIN
+  PROCEDURE GARANTIR
+  (
+    CHAVE VARCHAR(89) NOT NULL, 
+    VALOR VARCHAR(144)
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO CONFIG_SIS (CHAVE, VALOR)
+    VALUES (:CHAVE, :VALOR)
+    MATCHING (CHAVE);
+  END
+  
+  FUNCTION VALOR_GET
+  (
+    CHAVE VARCHAR(89),
+    VALOR_DEFAULT VARCHAR(144)-- DEFAULT NULL
+  ) RETURNS VARCHAR(144) 
+  AS
+    DECLARE VARIABLE VALOR_RET VARCHAR(144);
+  BEGIN
+    SELECT VALOR 
+    FROM CONFIG_SIS 
+    WHERE CHAVE = :CHAVE 
+    INTO :VALOR_RET;
+
+    IF (VALOR_RET IS NULL) THEN
+    BEGIN
+      IF (VALOR_DEFAULT IS NOT NULL) THEN
+      BEGIN
+        EXECUTE PROCEDURE GARANTIR(:CHAVE, :VALOR_DEFAULT);
+        VALOR_RET = :VALOR_DEFAULT;
+      END
+    END
+
+    RETURN VALOR_RET;
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
 
 DBATUALIZ FIM
