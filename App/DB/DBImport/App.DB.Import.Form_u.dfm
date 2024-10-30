@@ -1,16 +1,16 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
-  ClientHeight = 339
-  ClientWidth = 922
+  ClientHeight = 338
+  ClientWidth = 918
   WindowState = wsMaximized
   OnCreate = FormCreate
-  ExplicitWidth = 938
-  ExplicitHeight = 378
+  ExplicitWidth = 934
+  ExplicitHeight = 377
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 922
+    Width = 918
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -29,13 +29,15 @@ inherited DBImportForm: TDBImportForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 252
-    Width = 922
+    Top = 251
+    Width = 918
     Height = 66
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitTop = 252
+    ExplicitWidth = 922
     object FilConfTitLabel: TLabel
       Left = 4
       Top = 43
@@ -147,8 +149,8 @@ inherited DBImportForm: TDBImportForm
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 922
-    Height = 211
+    Width = 918
+    Height = 210
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -212,18 +214,20 @@ inherited DBImportForm: TDBImportForm
   end
   object StatusPanel: TPanel [3]
     Left = 0
-    Top = 318
-    Width = 922
+    Top = 317
+    Width = 918
     Height = 21
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitTop = 318
+    ExplicitWidth = 922
     DesignSize = (
-      922
+      918
       21)
     object ProgressBar1: TProgressBar
-      Left = -13
+      Left = -17
       Top = 2
       Width = 276
       Height = 17
