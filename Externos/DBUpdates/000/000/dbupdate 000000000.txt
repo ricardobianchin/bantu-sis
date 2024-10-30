@@ -176,7 +176,7 @@ COMANDO FIM
 
 /////////////////////////
 //
-// TABELA DBUPDATE_PA
+// PACKAGE DBUPDATE_PA
 //
 /////////////////////////
 COMANDO INI
