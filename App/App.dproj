@@ -590,13 +590,16 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="AppObj\App.AppObj.CriticalSections_u.pas"/>
-        <DCCReference Include="Threads\App.Threads.Thread_u.pas"/>
+        <DCCReference Include="Threads\App.Threads.AppThread_u.pas"/>
         <DCCReference Include="DB\Term\App.Threads.TermThread_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas"/>
         <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI.pas"/>
         <DCCReference Include="Ger\App.Ger.Factory.pas"/>
         <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI_u.pas"/>
         <DCCReference Include="Ger\GerForm\App.Ger.GerForm.Constants_u.pas"/>
+        <DCCReference Include="Threads\App.Threads.AppThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\App.Threads.TermThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

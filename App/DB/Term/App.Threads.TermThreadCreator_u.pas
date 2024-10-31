@@ -1,17 +1,16 @@
-unit App.Threads.TermThread_u;
+unit App.Threads.TermThreadCreator_u;
 
 interface
 
-uses Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, System.Classes,
-  Sis.Threads.ThreadBas_u, App.AppObj, Sis.Entities.Terminal,
-  App.Threads.AppThread_u, Sis.Threads.SafeBool;
+uses App.Threads.AppThreadCreator_u, Sis.Threads.ThreadBas_u,
+  Sis.Threads.ThreadCreator, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.SafeBool,
+  Sis.Entities.Terminal, App.AppObj;
 
 type
-  TTermThread = class(TAppThread)
+  TTermThreadCreator = class(TAppThreadCreator)
   private
     FTerminal: ITerminal;
-  protected
-    property Terminal: ITerminal read FTerminal;
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
       pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;
@@ -21,9 +20,9 @@ type
 
 implementation
 
-{ TTermThread }
+{ TTermThreadCreator }
 
-constructor TTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj;
+constructor TTermThreadCreator.Create(pTerminal: ITerminal; pAppObj: IAppObj;
   pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;
   pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
   pThreadTitulo: string = '');

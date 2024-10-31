@@ -307,12 +307,15 @@ contains
   App.UI.Sessoes.BotModulo.Frame_u in 'UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas' {BotaoModuloFrame: TFrame},
   App.Ger.GerForm_u in 'Ger\GerForm\App.Ger.GerForm_u.pas' {GerAppForm},
   App.AppObj.CriticalSections_u in 'AppObj\App.AppObj.CriticalSections_u.pas',
-  App.Threads.Thread_u in 'Threads\App.Threads.Thread_u.pas',
+  App.Threads.AppThread_u in 'Threads\App.Threads.AppThread_u.pas',
   App.Threads.TermThread_u in 'DB\Term\App.Threads.TermThread_u.pas',
   App.Threads.SyncTermThread_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas',
   App.Ger.GerForm.DBI in 'Ger\GerForm\App.Ger.GerForm.DBI.pas',
   App.Ger.Factory in 'Ger\App.Ger.Factory.pas',
   App.Ger.GerForm.DBI_u in 'Ger\GerForm\App.Ger.GerForm.DBI_u.pas',
-  App.Ger.GerForm.Constants_u in 'Ger\GerForm\App.Ger.GerForm.Constants_u.pas';
+  App.Ger.GerForm.Constants_u in 'Ger\GerForm\App.Ger.GerForm.Constants_u.pas',
+  App.Threads.AppThreadCreator_u in 'Threads\App.Threads.AppThreadCreator_u.pas',
+  App.Threads.TermThreadCreator_u in 'DB\Term\App.Threads.TermThreadCreator_u.pas',
+  App.Threads.SyncTermThreadCreator_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas';
 
 end.

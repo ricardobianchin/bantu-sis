@@ -1,14 +1,14 @@
 inherited GerAppForm: TGerAppForm
   Caption = 'GerAppForm'
-  ClientHeight = 241
-  ClientWidth = 344
-  ExplicitWidth = 356
-  ExplicitHeight = 279
+  ClientHeight = 378
+  ClientWidth = 386
+  ExplicitWidth = 398
+  ExplicitHeight = 416
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 344
+    Width = 386
     Height = 41
     Cursor = crSizeAll
     Align = alTop
@@ -16,7 +16,7 @@ inherited GerAppForm: TGerAppForm
     Caption = ' '
     TabOrder = 0
     OnMouseDown = TitleBarPanelMouseDown
-    ExplicitWidth = 340
+    ExplicitWidth = 382
     object TitleToolBar: TToolBar
       Left = 252
       Top = 12
@@ -30,15 +30,15 @@ inherited GerAppForm: TGerAppForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 216
-    Width = 344
+    Top = 353
+    Width = 386
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 215
-    ExplicitWidth = 340
+    ExplicitTop = 352
+    ExplicitWidth = 382
     object SempreVisivelCheckBox: TCheckBox
       Left = -1
       Top = 1
@@ -58,14 +58,34 @@ inherited GerAppForm: TGerAppForm
       OnClick = AutoOpenCheckBoxClick
     end
   end
+  object StatusFrameScrollBox: TScrollBox [2]
+    Left = 0
+    Top = 41
+    Width = 386
+    Height = 297
+    Align = alTop
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    BorderStyle = bsNone
+    TabOrder = 2
+    object StatusFlowPanel: TFlowPanel
+      Left = 0
+      Top = 0
+      Width = 386
+      Height = 121
+      Align = alTop
+      BevelOuter = bvLowered
+      Caption = '  '
+      TabOrder = 0
+    end
+  end
   inherited ShowTimer_BasForm: TTimer
-    Left = 192
-    Top = 32
+    Left = 96
+    Top = 8
   end
   object TitActionList: TActionList
     Images = SisImgDataModule.ImageList_13_8
-    Left = 104
-    Top = 72
+    Left = 24
+    Top = 8
     object FecharAction_GerAppForm: TAction
       Caption = 'Fechar'
       OnExecute = FecharAction_GerAppFormExecute

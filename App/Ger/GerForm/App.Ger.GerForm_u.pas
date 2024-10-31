@@ -18,6 +18,8 @@ type
     BasePanel: TPanel;
     SempreVisivelCheckBox: TCheckBox;
     AutoOpenCheckBox: TCheckBox;
+    StatusFrameScrollBox: TScrollBox;
+    StatusFlowPanel: TFlowPanel;
 
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -47,6 +49,7 @@ type
     destructor Destroy; override;
 
     procedure EspereTerminar;
+    function StatusFrameCreate: TStatusFrame;
   end;
 
   // var
@@ -118,6 +121,19 @@ procedure TGerAppForm.FecharAction_GerAppFormExecute(Sender: TObject);
 begin
   // inherited;
   Hide;
+end;
+
+function TGerAppForm.StatusFrameCreate: TStatusFrame;
+var
+  sName: string;
+begin
+  sName := 'StatusFrame' + (StatusFrameScrollBox.ControlCount+1).ToString;
+
+  Result := TStatusFrame.Create(StatusFlowPanel);
+  Result.Name := sName;
+  Result.Parent := StatusFlowPanel;
+
+  FFramesList.Add(Result);
 end;
 
 procedure TGerAppForm.SetAutoOpen(Value: Boolean);
