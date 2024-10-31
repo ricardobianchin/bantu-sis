@@ -18,11 +18,10 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
-//    FSessaoCriadorList: ISessaoCriadorList;
+    // FSessaoCriadorList: ISessaoCriadorList;
     FSessoesFrame: TSessoesFrame;
 
     FLoginConfig: ILoginConfig;
-    procedure ControlesAjustar;
     procedure SessoesFrameCriar;
     procedure DoAbrirSessao(pSessaoIndex: TSessaoIndex);
   protected
@@ -34,7 +33,7 @@ type
     procedure DoAposModuloOcultar;
     procedure DoFecharSessao(pSessaoIndex: TSessaoIndex);
     procedure DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
-
+    procedure AjusteControles; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -58,7 +57,7 @@ begin
     FLoginConfig.Ler;
 
     SessoesFrameCriar;
-//    FSessaoCriadorList := SessaoCriadorListCreate;
+    // FSessaoCriadorList := SessaoCriadorListCreate;
   finally
     ProcessLog.RetorneLocal;
   end;
@@ -115,16 +114,21 @@ begin
   FSessoesFrame.ExecutouPeloShortCut(Key, Shift);
 end;
 
-procedure TSessoesPrincBasForm.ControlesAjustar;
+procedure TSessoesPrincBasForm.AjusteControles;
 begin
+  inherited;
   DtHCompileLabel.Parent := DtHCompilePanel;
   DtHCompileLabel.Left := 3;
   DtHCompileLabel.Top := 10;
   // StatusLabel.left := 30;
 
   GerenciadorDeTarefasGroupBox_PrincBasForm.Parent := BasePanel;
-  GerenciadorDeTarefasGroupBox_PrincBasForm.Left := BasePanel.Width - 5 - GerenciadorDeTarefasGroupBox_PrincBasForm.Width;
-  GerenciadorDeTarefasGroupBox_PrincBasForm.Top := 0;
+  // GerenciadorDeTarefasGroupBox_PrincBasForm.Left := BasePanel.Width - 5 - GerenciadorDeTarefasGroupBox_PrincBasForm.Width;
+  GerenciadorDeTarefasGroupBox_PrincBasForm.Left := DtHCompilePanel.Left + 5 +
+    DtHCompilePanel.Width;
+
+  // GerenciadorDeTarefasGroupBox_PrincBasForm.Top := 0;
+  GerenciadorDeTarefasGroupBox_PrincBasForm.Top := DtHCompilePanel.Top;
 
   ProcessOutput.Ativo := false;
 end;
@@ -133,8 +137,6 @@ procedure TSessoesPrincBasForm.SessoesFrameCriar;
 var
   iBaseLogo: integer;
 begin
-  ControlesAjustar;
-
   FSessoesFrame := SessoesFrameCreate;
   FSessoesFrame.Parent := Self;
 
@@ -151,6 +153,8 @@ end;
 procedure TSessoesPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+
+
   FSessoesFrame.ExecuteAutoLogin;
 end;
 
