@@ -161,6 +161,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>GerShopAppForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThreadCreator_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
