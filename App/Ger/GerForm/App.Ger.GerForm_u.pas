@@ -13,7 +13,6 @@ type
   TGerAppForm = class(TBasForm)
     TitleBarPanel: TPanel;
     TitleToolBar: TToolBar;
-    Button1: TButton;
     TitActionList: TActionList;
     FecharAction_GerAppForm: TAction;
     BasePanel: TPanel;

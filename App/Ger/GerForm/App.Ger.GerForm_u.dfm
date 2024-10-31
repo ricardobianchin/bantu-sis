@@ -28,15 +28,7 @@ inherited GerAppForm: TGerAppForm
       TabOrder = 0
     end
   end
-  object Button1: TButton [1]
-    Left = 16
-    Top = 80
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 1
-  end
-  object BasePanel: TPanel [2]
+  object BasePanel: TPanel [1]
     Left = 0
     Top = 216
     Width = 344
@@ -44,8 +36,9 @@ inherited GerAppForm: TGerAppForm
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
-    TabOrder = 2
+    TabOrder = 1
     ExplicitTop = 215
+    ExplicitWidth = 340
     object SempreVisivelCheckBox: TCheckBox
       Left = -1
       Top = 1
