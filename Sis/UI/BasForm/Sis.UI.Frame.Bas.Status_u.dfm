@@ -6,7 +6,7 @@ inherited StatusFrame: TStatusFrame
   object TitLabel: TLabel
     Left = 0
     Top = 0
-    Width = 235
+    Width = 44
     Height = 15
     Align = alTop
     Caption = 'TitLabel'
@@ -16,16 +16,14 @@ inherited StatusFrame: TStatusFrame
     Font.Name = 'Segoe UI'
     Font.Style = [fsBold]
     ParentFont = False
-    ExplicitWidth = 44
   end
   object Label1: TLabel
     Left = 0
     Top = 15
-    Width = 235
+    Width = 60
     Height = 15
     Align = alTop
     Caption = 'StatusLabel'
     WordWrap = True
-    ExplicitWidth = 60
   end
 end

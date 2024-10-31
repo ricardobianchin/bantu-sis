@@ -14,6 +14,8 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure PrevineFechamento; virtual;
+    function PodeFechar: boolean; virtual;
   end;
 
 //var
@@ -22,5 +24,17 @@ type
 implementation
 
 {$R *.dfm}
+
+{ TStatusFrame }
+
+function TStatusFrame.PodeFechar: boolean;
+begin
+  Result := True;
+end;
+
+procedure TStatusFrame.PrevineFechamento;
+begin
+
+end;
 
 end.
