@@ -27,7 +27,6 @@ type
     GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
     AbrirButton_PrincBasForm: TButton;
     CentrButton_PrincBasForm: TButton;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
@@ -39,6 +38,7 @@ type
       (Sender: TObject);
     procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
       (Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -92,6 +92,8 @@ type
     procedure PreenchaDBUpdaterVariaveis; virtual;
 
     property GerForm: TGerAppForm read FGerForm write FGerForm;
+
+    procedure AjusteControles; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -111,6 +113,19 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types;
+
+procedure TPrincBasForm.AjusteControles;
+begin
+  inherited;
+  FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
+  try
+    inherited;
+    ToolBar1.Repaint;
+    OculteSplashForm;
+  finally
+    FProcessLog.RetorneLocal;
+  end;
+end;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
 var
@@ -300,6 +315,12 @@ begin
   ShowMessage(AppVersao_u.GetInfos);
 end;
 
+procedure TPrincBasForm.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  GerForm.EspereTerminar;
+end;
+
 procedure TPrincBasForm.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -425,19 +446,6 @@ begin
   sEntrada := sVarNome + '=' +sVarValor;
 
   FDBUpdaterVariaveis := sEntrada + #13#10;
-end;
-
-procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
-  try
-    inherited;
-    ToolBar1.Repaint;
-    OculteSplashForm;
-
-  finally
-    FProcessLog.RetorneLocal;
-  end;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;
