@@ -453,6 +453,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.pas"/>
         <DCCReference Include="Types\Sis.Types.Dado.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -287,6 +287,9 @@ contains
   Sis.Threads.Factory_u in 'Threads\Sis.Threads.Factory_u.pas',
   Sis.UI.Frame.Status.Thread_u in 'Threads\Sis.UI.Frame.Status.Thread_u.pas' {ThreadStatusFrame: TFrame},
   Sis.DB.DBConfig in 'DB\DBConfig\Sis.DB.DBConfig.pas',
-  Sis.Types.Dado in 'Types\Sis.Types.Dado.pas';
+  Sis.Types.Dado in 'Types\Sis.Types.Dado.pas',
+  Sis.DB.DBConfigDBI in 'DB\DBConfig\Sis.DB.DBConfigDBI.pas',
+  Sis.DB.DBConfig.Factory_u in 'DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas',
+  Sis.DB.DBConfigDBI_u in 'DB\DBConfig\Sis.DB.DBConfigDBI_u.pas';
 
 end.
