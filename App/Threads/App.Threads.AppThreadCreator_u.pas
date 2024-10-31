@@ -9,6 +9,8 @@ type
   TAppThreadCreator = class(TThreadCreator)
   private
     FAppObj: IAppObj;
+  protected
+    property AppObj: IAppObj read FAppObj;
   public
     constructor Create(pAppObj: IAppObj; pExecutandoSafeBool: ISafeBool;
       pTitOutput: IOutput = nil; pStatusOutput: IOutput = nil;

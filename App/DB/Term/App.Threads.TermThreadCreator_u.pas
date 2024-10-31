@@ -11,6 +11,8 @@ type
   TTermThreadCreator = class(TAppThreadCreator)
   private
     FTerminal: ITerminal;
+  protected
+    property Terminal: ITerminal read FTerminal;
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
       pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;
