@@ -456,6 +456,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI.pas"/>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas"/>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.ThreadCreator.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.ThreadBasCreator_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

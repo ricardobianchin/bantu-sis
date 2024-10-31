@@ -290,6 +290,8 @@ contains
   Sis.Types.Dado in 'Types\Sis.Types.Dado.pas',
   Sis.DB.DBConfigDBI in 'DB\DBConfig\Sis.DB.DBConfigDBI.pas',
   Sis.DB.DBConfig.Factory_u in 'DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas',
-  Sis.DB.DBConfigDBI_u in 'DB\DBConfig\Sis.DB.DBConfigDBI_u.pas';
+  Sis.DB.DBConfigDBI_u in 'DB\DBConfig\Sis.DB.DBConfigDBI_u.pas',
+  Sis.Threads.ThreadCreator in 'Threads\Sis.Threads.ThreadCreator.pas',
+  Sis.Threads.ThreadBasCreator_u in 'Threads\Sis.Threads.ThreadBasCreator_u.pas';
 
 end.
