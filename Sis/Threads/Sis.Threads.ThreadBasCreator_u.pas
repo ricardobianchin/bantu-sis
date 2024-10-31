@@ -13,6 +13,12 @@ type
     FStatusOutput: IOutput;
     FProcessLog: IProcessLog;
     FThreadTitulo: string;
+  protected
+    property Executando: ISafeBool read FExecutando;
+    property TitOutput: IOutput read FTitOutput;
+    property StatusOutput: IOutput read FStatusOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
+    property ThreadTitulo: string read FThreadTitulo;
   public
     function TThreadBasCreate: TThreadBas; virtual;
     constructor Create(pExecutando: ISafeBool; pTitOutput: IOutput = nil;
