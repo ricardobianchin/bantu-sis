@@ -585,7 +585,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Ger\App.Ger.GerForm_u.pas">
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm_u.pas">
             <Form>GerAppForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
@@ -593,6 +593,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Threads\App.Threads.Thread_u.pas"/>
         <DCCReference Include="DB\Term\App.Threads.TermThread_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas"/>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI.pas"/>
+        <DCCReference Include="Ger\App.Ger.Factory.pas"/>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI_u.pas"/>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.Constants_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
