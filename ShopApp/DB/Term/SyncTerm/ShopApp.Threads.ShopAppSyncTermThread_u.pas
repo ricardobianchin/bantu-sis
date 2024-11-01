@@ -10,10 +10,24 @@ type
   TShopAppAppSyncTermThread = class(TAppSyncTermThread)
   private
   protected
+      procedure Execute; override;
 
   public
   end;
 
 implementation
+
+{ TShopAppAppSyncTermThread }
+
+procedure TShopAppAppSyncTermThread.Execute;
+begin
+  SetExecutando(True);
+  try
+    inherited;
+  finally
+    SetExecutando(False);
+  end;
+
+end;
 
 end.
