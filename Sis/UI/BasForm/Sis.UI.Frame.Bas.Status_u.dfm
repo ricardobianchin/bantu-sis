@@ -1,7 +1,7 @@
 inherited StatusFrame: TStatusFrame
-  Width = 235
+  Width = 321
   Height = 62
-  ExplicitWidth = 235
+  ExplicitWidth = 321
   ExplicitHeight = 62
   object TitLabel: TLabel
     Left = 0
@@ -16,8 +16,9 @@ inherited StatusFrame: TStatusFrame
     Font.Name = 'Segoe UI'
     Font.Style = [fsBold]
     ParentFont = False
+    WordWrap = True
   end
-  object Label1: TLabel
+  object StatusLabel: TLabel
     Left = 0
     Top = 15
     Width = 60
