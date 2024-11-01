@@ -19,27 +19,57 @@ type
     property ThreadBas: TThreadBas read FThreadBas;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pThreadCreator: IThreadCreator; pExecutandoSafeBool: ISafeBool);
-      reintroduce;
-    procedure PrevineFechamento; override;
-    function PodeFechar: boolean; override;
+    constructor Create(AOwner: TComponent); override;
+    procedure DoTerminate(Sender: TObject);
+    procedure Terminate; //override;
+    function PodeFechar: boolean; //override;
+    property ThreadCreator: IThreadCreator read FThreadCreator write FThreadCreator;
+    property Executando: ISafeBool read FExecutandoSafeBool;
+    procedure Execute;
   end;
 
-var
-  ThreadStatusFrame: TThreadStatusFrame;
+  TThreadStatusFrameProcedure = reference to procedure(pFrame: TThreadStatusFrame);
+
+//var
+//  ThreadStatusFrame: TThreadStatusFrame;
 
 implementation
 
 {$R *.dfm}
+
+uses Sis.Threads.Factory_u, Sis.UI.Controls.Utils;
+
 { TThreadStatusFrame }
 
-constructor TThreadStatusFrame.Create(AOwner: TComponent;
-  pThreadCreator: IThreadCreator; pExecutandoSafeBool: ISafeBool);
+constructor TThreadStatusFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FThreadBas := nil;
-  FThreadCreator := pThreadCreator;
-  FExecutandoSafeBool := pExecutandoSafeBool;
+  FExecutandoSafeBool := SafeBoolCreate(False);
+  ClearStyleElements(Self);
+end;
+
+procedure TThreadStatusFrame.DoTerminate(Sender: TObject);
+begin
+  StatusOutput.Exibir('Parado');
+  FThreadBas := nil;
+end;
+
+procedure TThreadStatusFrame.Execute;
+var
+  s: string;
+begin
+  s := name;
+  if Executando.AsBoolean then
+    exit;
+  //Sleep(1000);
+  if not Assigned(FThreadBas) then
+    FThreadBas := ThreadCreator.TThreadBasCreate;
+  FThreadBas.OnTerminate := DoTerminate;
+  if FThreadBas.Suspended then
+    FThreadBas.Resume
+  else
+    FThreadBas.Start;
 end;
 
 function TThreadStatusFrame.PodeFechar: boolean;
@@ -48,18 +78,24 @@ begin
   if Result then
     exit;
 
-  Result := not FThreadBas.Executando;
-  if Result then
-    exit;
-
-  FThreadBas.WaitFor;
-  Result := True;
+  Result := not Executando.AsBoolean;
+//  if Result then
+//    exit;
+//  if not FThreadBas.Suspended then
+//    FThreadBas.WaitFor;
+//  Result := True;
 end;
 
-procedure TThreadStatusFrame.PrevineFechamento;
+procedure TThreadStatusFrame.Terminate;
 begin
   inherited;
+//  Result := not Assigned(FThreadBas);
+//  if Result then
+//    exit;
 
+  if not Executando.AsBoolean then
+    Exit;
+  FThreadBas.Terminate
 end;
 
 end.
