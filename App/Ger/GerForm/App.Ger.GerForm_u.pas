@@ -6,8 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.UI.Constants, Vcl.ToolWin, Vcl.ComCtrls,
-  Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.UI.Frame.Bas.Status_u,
-  System.Generics.Collections, App.Ger.GerForm.DBI;
+  Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.UI.Frame.Status.Thread_u,
+  System.Generics.Collections, App.Ger.GerForm.DBI, App.AppObj;
 
 type
   TGerAppForm = class(TBasForm)
@@ -19,37 +19,49 @@ type
     SempreVisivelCheckBox: TCheckBox;
     AutoOpenCheckBox: TCheckBox;
     StatusFrameScrollBox: TScrollBox;
-    StatusFlowPanel: TFlowPanel;
+    ExecuteTimer: TTimer;
 
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FecharAction_GerAppFormExecute(Sender: TObject);
     procedure SempreVisivelCheckBoxClick(Sender: TObject);
     procedure AutoOpenCheckBoxClick(Sender: TObject);
+    procedure ExecuteTimerTimer(Sender: TObject);
   private
     { Private declarations }
-    FFramesList: TList<TStatusFrame>;
+    FFramesList: TList<TThreadStatusFrame>;
     FAutoOpen: Boolean;
     FSempreVisivel: Boolean;
     FProcessaControles: Boolean;
     FGerFormDBI: IGerFormDBI;
+    FAppObj: IAppObj;
+    FPodeExecutar: Boolean;
 
     procedure CarregConfig;
 
     procedure SetSempreVisivel(Value: Boolean);
     procedure SetAutoOpen(Value: Boolean);
 
+    procedure GerFormDBIInicialize;
+
+  protected
+      procedure AjusteControles; override;
+    property FramesList: TList<TThreadStatusFrame> read FFramesList;
+    property AppObj: IAppObj read FAppObj;
+    procedure ExecuteForAllFrames(const Proc: TThreadStatusFrameProcedure);
+
   public
     { Public declarations }
+    property PodeExecutar: Boolean read FPodeExecutar write FPodeExecutar;
+
     property AutoOpen: Boolean read FAutoOpen write SetAutoOpen;
     property SempreVisivel: Boolean read FSempreVisivel write SetSempreVisivel;
 
-    constructor Create(AOwner: TComponent; pGerFormDBI: IGerFormDBI);
-      reintroduce;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
 
+    procedure Terminate;
     procedure EspereTerminar;
-    function StatusFrameCreate: TStatusFrame;
   end;
 
   // var
@@ -59,7 +71,14 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, System.DateUtils, Sis.Types.Bool_u;
+uses Sis.UI.ImgDM, System.DateUtils, Sis.Types.Bool_u, Sis.DB.DBTypes,
+  App.DB.Utils, Sis.Sis.Constants, Sis.DB.DBConfig.Factory_u,
+  Sis.DB.DBConfigDBI, Sis.DB.Factory, App.Ger.Factory, Sis.UI.Controls.Utils;
+
+procedure TGerAppForm.AjusteControles;
+begin
+  inherited;
+end;
 
 procedure TGerAppForm.AutoOpenCheckBoxClick(Sender: TObject);
 begin
@@ -71,18 +90,16 @@ begin
 end;
 
 procedure TGerAppForm.CarregConfig;
-var
-  bSempreVisivel, bAutoOpen: Boolean;
 begin
-  FGerFormDBI.PegarConfigs(bSempreVisivel, bAutoOpen);
+  FGerFormDBI.PegarConfigs(FSempreVisivel, FAutoOpen);
 
-  if bSempreVisivel then
+  if FSempreVisivel then
     FormStyle := fsStayOnTop
   else
     FormStyle := fsNormal;
 
-  SempreVisivelCheckBox.Checked := bSempreVisivel;
-  AutoOpenCheckBox.Checked := bAutoOpen;
+  SempreVisivelCheckBox.Checked := FSempreVisivel;
+  AutoOpenCheckBox.Checked := FAutoOpen;
 end;
 
 procedure TGerAppForm.SempreVisivelCheckBoxClick(Sender: TObject);
@@ -94,16 +111,22 @@ begin
   SempreVisivel := SempreVisivelCheckBox.Checked;
 end;
 
-constructor TGerAppForm.Create(AOwner: TComponent; pGerFormDBI: IGerFormDBI);
+constructor TGerAppForm.Create(AOwner: TComponent; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FProcessaControles := False;
-  FFramesList := TList<TStatusFrame>.Create;
-  FGerFormDBI := pGerFormDBI;
+  FFramesList := TList<TThreadStatusFrame>.Create;
+  FAppObj := pAppObj;
+
+  GerFormDBIInicialize;
+
   CarregConfig;
   FProcessaControles := True;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   TitleToolBar.Color := COR_AZUL_TITLEBAR;
+
+  FPodeExecutar := True;
+  ClearStyleElements(Self);
 end;
 
 destructor TGerAppForm.Destroy;
@@ -113,7 +136,64 @@ begin
 end;
 
 procedure TGerAppForm.EspereTerminar;
+var
+  oFrame: TThreadStatusFrame;
+  bTerminou: Boolean;
 begin
+  repeat
+    for oFrame in FFramesList do
+    begin
+      Sleep(200);
+      bTerminou := oFrame.PodeFechar;
+      if not bTerminou then
+        break;
+
+    end;
+    if bTerminou then
+      break;
+    Application.ProcessMessages;
+    Sleep(1000);
+  until (False);
+
+//  ExecuteForAllFrames(
+//    procedure(pFrame: TThreadStatusFrame)
+//    begin
+//      pFrame.PodeFechar;
+//    end);
+end;
+
+procedure TGerAppForm.ExecuteForAllFrames(const Proc: TThreadStatusFrameProcedure);
+var
+  oFrame: TThreadStatusFrame;
+begin
+  // Percorre a lista de frames e executa o procedimento para cada frame
+  for oFrame in FFramesList do
+  begin
+    Proc(oFrame);
+  end;
+
+end;
+
+procedure TGerAppForm.ExecuteTimerTimer(Sender: TObject);
+begin
+  inherited;
+  if not PodeExecutar then
+    exit;
+  ExecuteForAllFrames(
+    procedure(pFrame: TThreadStatusFrame)
+    begin
+      pFrame.Execute;
+    end);
+end;
+
+procedure TGerAppForm.Terminate;
+begin
+  FPodeExecutar := False;
+  ExecuteForAllFrames(
+    procedure(pFrame: TThreadStatusFrame)
+    begin
+      pFrame.Terminate;
+    end);
 
 end;
 
@@ -123,17 +203,20 @@ begin
   Hide;
 end;
 
-function TGerAppForm.StatusFrameCreate: TStatusFrame;
+procedure TGerAppForm.GerFormDBIInicialize;
 var
-  sName: string;
+  rDBConnectionParams: TDBConnectionParams;
+  oDBConnection: IDBConnection;
+  oDBConfigDBI: IDBConfigDBI;
 begin
-  sName := 'StatusFrame' + (StatusFrameScrollBox.ControlCount+1).ToString;
+  rDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
 
-  Result := TStatusFrame.Create(StatusFlowPanel);
-  Result.Name := sName;
-  Result.Parent := StatusFlowPanel;
+  oDBConnection := DBConnectionCreate('App.GerForm.CarregConfig.conn',
+    FAppObj.SisConfig, rDBConnectionParams, nil, nil);
 
-  FFramesList.Add(Result);
+  oDBConfigDBI := DBConfigDBICreate(oDBConnection);
+  FGerFormDBI := GerFormDBICreate(oDBConnection, oDBConfigDBI);
 end;
 
 procedure TGerAppForm.SetAutoOpen(Value: Boolean);
@@ -154,7 +237,7 @@ begin
 end;
 
 procedure TGerAppForm.TitleBarPanelMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 const
   SC_DRAGMOVE = $F012;
 begin

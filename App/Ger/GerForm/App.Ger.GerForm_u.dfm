@@ -1,9 +1,12 @@
 inherited GerAppForm: TGerAppForm
+  BorderStyle = bsNone
+  BorderWidth = 2
   Caption = 'GerAppForm'
-  ClientHeight = 378
+  ClientHeight = 496
   ClientWidth = 386
-  ExplicitWidth = 398
-  ExplicitHeight = 416
+  ExplicitTop = -27
+  ExplicitWidth = 390
+  ExplicitHeight = 500
   TextHeight = 15
   object TitleBarPanel: TPanel [0]
     Left = 0
@@ -16,7 +19,7 @@ inherited GerAppForm: TGerAppForm
     Caption = ' '
     TabOrder = 0
     OnMouseDown = TitleBarPanelMouseDown
-    ExplicitWidth = 382
+    ExplicitWidth = 374
     object TitleToolBar: TToolBar
       Left = 252
       Top = 12
@@ -30,15 +33,15 @@ inherited GerAppForm: TGerAppForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 353
+    Top = 471
     Width = 386
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 352
-    ExplicitWidth = 382
+    ExplicitTop = 350
+    ExplicitWidth = 374
     object SempreVisivelCheckBox: TCheckBox
       Left = -1
       Top = 1
@@ -62,21 +65,13 @@ inherited GerAppForm: TGerAppForm
     Left = 0
     Top = 41
     Width = 386
-    Height = 297
+    Height = 415
     Align = alTop
     Anchors = [akLeft, akTop, akRight, akBottom]
     BorderStyle = bsNone
     TabOrder = 2
-    object StatusFlowPanel: TFlowPanel
-      Left = 0
-      Top = 0
-      Width = 386
-      Height = 121
-      Align = alTop
-      BevelOuter = bvLowered
-      Caption = '  '
-      TabOrder = 0
-    end
+    ExplicitWidth = 374
+    ExplicitHeight = 294
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 96
@@ -90,5 +85,10 @@ inherited GerAppForm: TGerAppForm
       Caption = 'Fechar'
       OnExecute = FecharAction_GerAppFormExecute
     end
+  end
+  object ExecuteTimer: TTimer
+    OnTimer = ExecuteTimerTimer
+    Left = 208
+    Top = 8
   end
 end
