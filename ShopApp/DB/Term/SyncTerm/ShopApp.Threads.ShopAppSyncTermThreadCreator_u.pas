@@ -10,7 +10,6 @@ uses App.Threads.SyncTermThreadCreator_u, Sis.Threads.ThreadCreator,
 type
   TShopAppSyncTermThreadCreator = class(TAppSyncTermThreadCreator)
   protected
-
   public
     function TThreadBasCreate: TThreadBas; override;
 
@@ -22,7 +21,8 @@ implementation
 
 function TShopAppSyncTermThreadCreator.TThreadBasCreate: TThreadBas;
 begin
-  Result := TShopAppAppSyncTermThread.Create()
+  Result := TShopAppAppSyncTermThread.Create(Terminal, AppObj, Executando,
+    TitOutput, StatusOutput, ProcessLog);
 end;
 
 end.
