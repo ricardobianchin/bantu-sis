@@ -12,6 +12,11 @@ type
     FStatusOutput: IOutput;
     FProcessLog: IProcessLog;
     FExecutandoSafeBool: ISafeBool;
+
+    FProximaMensOutput: string;
+    FProximoOutput: IOutput;
+
+    procedure ExibaProximaMensOutput;
     function GetExecutando: boolean;
   protected
     property TitOutput: IOutput read FTitOutput;
@@ -19,6 +24,7 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
     property ThreadTitulo: string read FThreadTitulo write FThreadTitulo;
     procedure SetExecutando(const Value: boolean);
+    procedure OutputSafe(pOutput: IOutput; pMens: string);
   public
     constructor Create(pExecutandoSafeBool: ISafeBool;
       pTitOutput: IOutput = nil; pStatusOutput: IOutput = nil;
@@ -37,6 +43,7 @@ constructor TThreadBas.Create(pExecutandoSafeBool: ISafeBool;
   pThreadTitulo: string);
 begin
   inherited Create(True);
+  FreeOnTerminate := True;
   FExecutandoSafeBool := pExecutandoSafeBool;
   SetExecutando(False);
 
@@ -50,9 +57,21 @@ begin
   FProcessLog := pProcessLog;
 end;
 
+procedure TThreadBas.ExibaProximaMensOutput;
+begin
+  FProximoOutput.Exibir(FProximaMensOutput);
+end;
+
 function TThreadBas.GetExecutando: boolean;
 begin
   Result := FExecutandoSafeBool.AsBoolean;
+end;
+
+procedure TThreadBas.OutputSafe(pOutput: IOutput; pMens: string);
+begin
+  FProximoOutput := pOutput;
+  FProximaMensOutput := pMens;
+  Synchronize(ExibaProximaMensOutput);
 end;
 
 procedure TThreadBas.SetExecutando(const Value: boolean);
