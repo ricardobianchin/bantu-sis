@@ -37,12 +37,15 @@ end;
 
 procedure TAppSyncTermThread.Execute;
 var
-  i: integer;
+  i, m: integer;
 begin
   inherited;
-  for i := 1 to 10 do
+  m := 5+random(10);
+  for i := 1 to m do
   begin
-    TitOutput.Exibir(i.ToString);
+    OutputSafe(StatusOutput, i.ToString+'/'+m.ToString);
+    if Terminated then
+      break;
     Sleep(1000);
   end;
 end;
