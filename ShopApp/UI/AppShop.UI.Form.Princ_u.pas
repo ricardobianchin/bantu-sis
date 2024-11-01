@@ -18,9 +18,9 @@ type
     function GetAppInfoCreate: IAppInfo; override;
     procedure PreenchaAtividade; override;
     procedure PreenchaDBUpdaterVariaveis; override;
-    procedure GerFormInicializar; override;
-
     procedure AjusteControles; override;
+
+    procedure GerFormInicializar; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -33,10 +33,10 @@ implementation
 
 {$R *.dfm}
 
-uses App.Factory, ShopApp.Constants, ShopApp.UI.Sessoes.Frame_u,Sis.DB.Factory,
-  App.AppInfo.Types, ShopApp.Ger.GerForm_u, Sis.DB.DBTypes, App.DB.Utils,
-  Sis.Sis.Constants, App.Ger.GerForm.DBI, App.Ger.Factory,
-  Sis.DB.DBConfig.Factory_u, Sis.DB.DBConfigDBI;
+uses App.Factory, ShopApp.Constants,Sis.DB.Factory, App.AppInfo.Types,
+  ShopApp.UI.Sessoes.Frame_u, ShopApp.Ger.GerForm_u,
+  Sis.DB.DBTypes, App.DB.Utils, Sis.Sis.Constants,
+  App.Ger.GerForm.DBI, App.Ger.Factory;
 
 { TShopPrincForm }
 
@@ -69,23 +69,9 @@ begin
 end;
 
 procedure TShopPrincForm.GerFormInicializar;
-var
-  rDBConnectionParams: TDBConnectionParams;
-  oDBConnection: IDBConnection;
-  oDBConfigDBI: IDBConfigDBI;
-  oGerFormDBI: IGerFormDBI;
 begin
   // inherited;
-  rDBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, AppObj);
-
-  oDBConnection := DBConnectionCreate('App.GerForm.CarregConfig.conn',
-    AppObj.SisConfig, rDBConnectionParams, nil, nil);
-
-  oDBConfigDBI := DBConfigDBICreate(oDBConnection);
-  oGerFormDBI := GerFormDBICreate(oDBConnection, oDBConfigDBI);
-
-  GerForm := TGerShopAppForm.Create(Self, oGerFormDBI);
+  GerForm := TGerShopAppForm.Create(Self, AppObj);
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
