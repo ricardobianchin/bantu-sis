@@ -4,15 +4,15 @@ interface
 
 uses Sis.Threads.SafeBool;
 
-function SafeBoolCreate: ISafeBool;
+function SafeBoolCreate(pValorInicial: Boolean = false): ISafeBool;
 
 implementation
 
 uses Sis.Threads.SafeBool_u;
 
-function SafeBoolCreate: ISafeBool;
+function SafeBoolCreate(pValorInicial: Boolean = false): ISafeBool;
 begin
-  Result := TSafeBool.Create;
+  Result := TSafeBool.Create(pValorInicial);
 end;
 
 end.
