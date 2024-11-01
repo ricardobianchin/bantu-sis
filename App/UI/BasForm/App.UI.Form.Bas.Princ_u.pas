@@ -38,7 +38,7 @@ type
       (Sender: TObject);
     procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
       (Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FecharAction_ActBasFormExecute(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -315,10 +315,13 @@ begin
   ShowMessage(AppVersao_u.GetInfos);
 end;
 
-procedure TPrincBasForm.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
-  inherited;
+  GerenciadorDeTarefasAbrirAction_PrincBasForm.Execute;
+  GerForm.Terminate;
   GerForm.EspereTerminar;
+  inherited;
+
 end;
 
 procedure TPrincBasForm.FormCreate(Sender: TObject);

@@ -3,10 +3,8 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
-  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitTop = -26
   ExplicitWidth = 628
   ExplicitHeight = 477
   DesignSize = (
