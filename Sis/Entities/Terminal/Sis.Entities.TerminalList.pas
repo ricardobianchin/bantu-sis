@@ -11,7 +11,9 @@ type
     property Terminal[Index: integer]: ITerminal read GetTerminal; default;
     function TerminalIdToTerminal(pTerminalId: TTerminalId): ITerminal;
     function TerminalIdToIndex(pTerminalId: TTerminalId): integer;
+    procedure ExecuteForAll(const Proc: TTerminalProcedure; const pNomeNaRede: string= '');
   end;
+
 
 implementation
 

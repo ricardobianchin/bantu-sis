@@ -13,11 +13,27 @@ type
     property Terminal[Index: Integer]: ITerminal read GetTerminal; default;
     function TerminalIdToTerminal(pTerminalId: TTerminalId): ITerminal;
     function TerminalIdToIndex(pTerminalId: TTerminalId): integer;
+    procedure ExecuteForAll(const Proc: TTerminalProcedure; const pNomeNaRede: string= '');
   end;
 
 implementation
 
 { TTerminalList }
+
+procedure TTerminalList.ExecuteForAll(const Proc: TTerminalProcedure; const pNomeNaRede: string= '');
+var
+  oTerminal: ITerminal;
+  i: integer;
+begin
+  for i := 0 to Count - 1 do
+  begin
+    oTerminal := Terminal[i];
+    if pNomeNaRede <> '' then
+      if oTerminal.NomeNaRede <> pNomeNaRede then
+        continue;
+    Proc(oTerminal);
+  end;
+end;
 
 function TTerminalList.GetTerminal(Index: Integer): ITerminal;
 begin

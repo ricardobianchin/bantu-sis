@@ -74,6 +74,8 @@ type
     property IdentStr: string read GetIdentStr;
   end;
 
+  TTerminalProcedure = reference to procedure(pFrame: ITerminal);
+
 implementation
 
 end.
