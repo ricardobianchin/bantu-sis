@@ -46,7 +46,7 @@ contains
   ShopApp.DB.Import.Types_u in 'Imports\ShopApp.DB.Import.Types_u.pas',
   ShopApp.DB.Import.Form.PLUBase in 'Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas' {ShopDBImportFormPLUBase},
   ShopApp.DBI_u in 'ShopAppObj\ShopApp.DBI_u.pas',
-  ShopApp.Ger.GerForm_u in 'Ger\ShopApp.Ger.GerForm_u.pas' {GerShopAppForm},
+  ShopApp.Ger.GerForm_u in 'Ger\GerForm\ShopApp.Ger.GerForm_u.pas' {GerShopAppForm},
   ShopApp.Threads.ShopAppSyncTermThread_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_u.pas',
   ShopApp.Threads.ShopAppSyncTermThreadCreator_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThreadCreator_u.pas';
 
