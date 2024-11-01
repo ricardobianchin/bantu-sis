@@ -62,9 +62,6 @@ type
 
     function GetCriticalSections: TCriticalSections;
     property CriticalSections: TCriticalSections read GetCriticalSections;
-
-
-
   end;
 
 implementation
