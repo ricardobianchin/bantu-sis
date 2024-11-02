@@ -156,8 +156,6 @@ constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
   pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string);
-var
-  sSql: string;
 begin
   FVariaveis := pVariaveis;
   FTerminalId := pTerminalId;
