@@ -3,17 +3,8 @@ unit App.AppObj;
 interface
 
 uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
-  App.AppObj.CriticalSections_u
-
-    , App.Testes.Config //
-
-    , Sis.Config.SisConfig //
-
-    , App.AppInfo //
-
-    , Sis.Loja, Sis.Entities.TerminalList //
-
-    ; //
+  Sis.Threads.Crit.CriticalSections, App.Testes.Config, Sis.Config.SisConfig,
+  App.AppInfo, Sis.Loja, Sis.Entities.TerminalList;
 
 {
   AppTestesConfig = da camada App, configuracoes dos testes
@@ -60,8 +51,8 @@ type
     function GetTerminalList: ITerminalList;
     property TerminalList: ITerminalList read GetTerminalList;
 
-    function GetCriticalSections: TCriticalSections;
-    property CriticalSections: TCriticalSections read GetCriticalSections;
+    function GetCriticalSections: ICriticalSections;
+    property CriticalSections: ICriticalSections read GetCriticalSections;
   end;
 
 implementation

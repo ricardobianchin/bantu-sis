@@ -4,7 +4,7 @@ interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config,
-  Sis.Entities.TerminalList, App.AppObj.CriticalSections_u;
+  Sis.Entities.TerminalList, Sis.Threads.Crit.CriticalSections;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
@@ -18,7 +18,7 @@ type
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
     FTerminalList: ITerminalList;
-    FCriticalSections: TCriticalSections;
+    FCriticalSections: ICriticalSections;
 
     function GetTerminalList: ITerminalList;
 
@@ -36,7 +36,8 @@ type
     function GetLoja: ILoja;
 
     procedure SetProcessOutput(Value: IOutput);
-    function GetCriticalSections: TCriticalSections;
+    function GetCriticalSections: ICriticalSections;
+    function GeICriticalSections: ICriticalSections;
 
   public
     property AppTestesConfig: IAppTestesConfig read GetAppTestesConfig;
@@ -47,19 +48,18 @@ type
     property AppInfo: IAppInfo read GetAppInfo;
     property Loja: ILoja read GetLoja;
     property TerminalList: ITerminalList read GetTerminalList;
-    property CriticalSections: TCriticalSections read GetCriticalSections;
+    property CriticalSections: ICriticalSections read GeICriticalSections;
 
 
     function Inicialize: boolean;
     constructor Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
       pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
-    destructor Destroy; override;
   end;
 
 implementation
 
 uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory,
-  App.Factory, App.DonoConfig.Utils;
+  App.Factory, App.DonoConfig.Utils, Sis.Threads.Factory_u;
 
 { TAppObj }
 
@@ -76,7 +76,7 @@ begin
   FProcessOutput := pProcessOutput;
   FProcessLog := pProcessLog;
 
-  FCriticalSections.Inicialize;
+  FCriticalSections := CriticalSectionsCreate;
 
   ProcessLog.PegueLocal('TAppObj.Create');
   try
@@ -91,12 +91,6 @@ begin
   end;
 end;
 
-destructor TAppObj.Destroy;
-begin
-  FCriticalSections.Libere;
-  inherited;
-end;
-
 function TAppObj.GetAppInfo: IAppInfo;
 begin
   Result := FAppInfo;
@@ -107,7 +101,12 @@ begin
   Result := FAppTestesConfig;
 end;
 
-function TAppObj.GetCriticalSections: TCriticalSections;
+function TAppObj.GetCriticalSections: ICriticalSections;
+begin
+  Result := FCriticalSections;
+end;
+
+function TAppObj.GeICriticalSections: ICriticalSections;
 begin
   Result := FCriticalSections;
 end;

@@ -589,7 +589,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>GerAppForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="AppObj\App.AppObj.CriticalSections_u.pas"/>
         <DCCReference Include="Threads\App.Threads.AppThread_u.pas"/>
         <DCCReference Include="DB\Term\App.Threads.TermThread_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas"/>
@@ -600,6 +599,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Threads\App.Threads.AppThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\App.Threads.TermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
