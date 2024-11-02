@@ -1,0 +1,69 @@
+LOG_HIST_PA
+
+-----------------------------
+INICIO LOG_HIST_PA
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=SIS, SYNC
+DBATUALIZ_OBJETIVO=CRIAR LOG_HIST_PA
+DBATUALIZ_OBS=
+DBATUALIZ_ALVO=SERVIDOR
+
+
+
+
+
+
+
+/////////////////////////
+//
+// PACKAGE LOG_HIST_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=LOG_HIST_PA
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA2.sql";
+
+
+
+*/
+```FIREBIRD
+SET TERM ^;
+
+CREATE OR ALTER PACKAGE GER_FORM_PA
+AS
+BEGIN
+  PROCEDURE TEVE_LOJA
+  RETURNS
+  (
+  );
+  
+END^
+
+RECREATE PACKAGE BODY GER_FORM_PA
+AS
+BEGIN
+  PROCEDURE TEVE_LOJA
+  RETURNS
+  (
+  )
+  AS
+    DECLARE STMP CONFIG_VALOR_DOM;
+  BEGIN
+
+    SUSPEND;
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM
