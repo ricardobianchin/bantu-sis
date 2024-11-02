@@ -26,18 +26,16 @@ end;
 
 procedure TDBConfigDBI.Gravar(pChave, pValor: string);
 var
-  rDBConnectionParams: TDBConnectionParams;
-  oDBConnection: IDBConnection;
   sSql: string;
   sFormat: string;
   oDBExec: IDBExec;
 begin
-  if not oDBConnection.Abrir then
+  if not DBConnection.Abrir then
     exit;
   try
     sSql := 'EXECUTE PROCEDURE CONFIG_SIS_PA.GARANTIR(:CHAVE, :VALOR);';
 
-    oDBExec := DBExecCreate('TDBConfigDBI.Gravar.Exec', oDBConnection, sSql,
+    oDBExec := DBExecCreate('TDBConfigDBI.Gravar.Exec', DBConnection, sSql,
       nil, nil);
     oDBExec.Prepare;
     try
@@ -49,7 +47,7 @@ begin
       oDBExec.Unprepare;
     end;
   finally
-    oDBConnection.Fechar;
+    DBConnection.Fechar;
   end;
 end;
 
