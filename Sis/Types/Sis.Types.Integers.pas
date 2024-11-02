@@ -9,6 +9,7 @@ function StrToSmallInt(S:string): SmallInt;
 function StrToInteger(S:string): integer;
 function StrToInteger64(S:string): int64;
 function VarToInteger(Value: Variant): integer;
+function VarToInteger64(Value: Variant): integer;
 
 implementation
 
@@ -85,6 +86,14 @@ var
 begin
   sResultado := System.Variants.VarToStrDef(Value, '0');
   Result := StrToInteger(sResultado);
+end;
+
+function VarToInteger64(Value: Variant): integer;
+var
+  sResultado: string;
+begin
+  sResultado := System.Variants.VarToStrDef(Value, '0');
+  Result := StrToInteger64(sResultado);
 end;
 
 end.

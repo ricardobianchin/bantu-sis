@@ -54,6 +54,7 @@ type
 
     function GetValue(pSql: string): Variant; virtual; abstract;
     function GetValueInteger(pSql: string): integer;
+    function GetValueInteger64(pSql: string): Int64;
     function ExecuteSQL(pSql: string): LongInt; virtual; abstract;
 
     constructor Create(pNomeComponente: string;
@@ -199,6 +200,14 @@ end;
 function TDBConnection.GetUltimoErro: string;
 begin
   result := FUltimoErro;
+end;
+
+function TDBConnection.GetValueInteger64(pSql: string): Int64;
+var
+  Resultado: Variant;
+begin
+  Resultado := GetValue(pSql);
+  result := VarToInteger64(Resultado);
 end;
 
 function TDBConnection.GetValueInteger(pSql: string): integer;

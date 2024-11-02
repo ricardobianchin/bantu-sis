@@ -115,6 +115,7 @@ type
 
     function GetValue(pSql: string): Variant;
     function GetValueInteger(pSql: string): integer;
+    function GetValueInteger64(pSql: string): Int64;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
 
     function ExecuteSQL(pSql: string): LongInt;
