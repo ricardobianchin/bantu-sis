@@ -6,7 +6,9 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Status_u, Vcl.StdCtrls,
-  Sis.Threads.ThreadBas_u, Sis.Threads.ThreadCreator, Sis.Threads.SafeBool;
+  Sis.Threads.ThreadBas_u, Sis.Threads.ThreadCreator, Sis.Threads.SafeBool,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Output.ProcessLog.Factory;
 
 type
   TThreadStatusFrame = class(TStatusFrame)
@@ -15,6 +17,10 @@ type
     FThreadCreator: IThreadCreator;
     FThreadBas: TThreadBas;
     FExecutandoSafeBool: ISafeBool;
+
+    FTitOutput: IOutput;
+    FStatusOutput: IOutput;
+    FProcessLog: IProcessLog;
   protected
     property ThreadBas: TThreadBas read FThreadBas;
   public
@@ -26,6 +32,9 @@ type
     property ThreadCreator: IThreadCreator read FThreadCreator write FThreadCreator;
     property Executando: ISafeBool read FExecutandoSafeBool;
     procedure Execute;
+    property TitOutput: IOutput read FTitOutput;
+    property StatusOutput: IOutput read FStatusOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
   end;
 
   TThreadStatusFrameProcedure = reference to procedure(pFrame: TThreadStatusFrame);
@@ -37,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Threads.Factory_u, Sis.UI.Controls.Utils;
+uses Sis.Threads.Factory_u, Sis.UI.Controls.Utils, Sis.UI.IO.Output.ToLabel_u, Sis.UI.IO.Factory;
 
 { TThreadStatusFrame }
 
@@ -47,6 +56,10 @@ begin
   FThreadBas := nil;
   FExecutandoSafeBool := SafeBoolCreate(False);
   ClearStyleElements(Self);
+  FTitOutput := LabelSafeOutputCreate(TitLabel);
+  FStatusOutput := LabelSafeOutputCreate(StatusLabel);
+  FProcessLog := mudoprocesslogcreate;
+
 end;
 
 procedure TThreadStatusFrame.DoTerminate(Sender: TObject);
@@ -79,11 +92,6 @@ begin
     exit;
 
   Result := not Executando.AsBoolean;
-//  if Result then
-//    exit;
-//  if not FThreadBas.Suspended then
-//    FThreadBas.WaitFor;
-//  Result := True;
 end;
 
 procedure TThreadStatusFrame.Terminate;
