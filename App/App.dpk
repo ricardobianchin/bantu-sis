@@ -316,6 +316,7 @@ contains
   App.Threads.AppThreadCreator_u in 'Threads\App.Threads.AppThreadCreator_u.pas',
   App.Threads.TermThreadCreator_u in 'DB\Term\App.Threads.TermThreadCreator_u.pas',
   App.Threads.SyncTermThreadCreator_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas',
-  App.Threads.SyncTermThread_u_SyncLoja in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas';
+  App.Threads.SyncTermThread_u_SyncLoja in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas',
+  App.Threads.SyncTermThread_u_PegarFaixa in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas';
 
 end.

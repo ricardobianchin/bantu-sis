@@ -600,6 +600,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\App.Threads.TermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

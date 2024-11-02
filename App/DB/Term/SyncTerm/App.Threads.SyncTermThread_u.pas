@@ -11,10 +11,12 @@ type
   TAppSyncTermThread = class(TTermThread)
   private
     FServCon, FTermCon: IDBConnection;
+    FLogIdIni, FLogIdFin: Int64;
     function Conectou: boolean;
     procedure FecharConexoes;
   protected
     procedure Execute; override;
+    procedure PegarFaixa; virtual;
     procedure SyncLoja; virtual;
 
   public
@@ -25,7 +27,9 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.Config.SisConfig;
+uses System.SysUtils, Sis.Config.SisConfig //
+    , App.Threads.SyncTermThread_u_PegarFaixa //
+    ;
 
 { TAppSyncTermThread }
 
@@ -47,7 +51,7 @@ begin
   rDBConnectionParams.Arq := Terminal.LocalArqDados;
   rDBConnectionParams.Database := Terminal.Database;
 
-  FTermCon:= DBConnectionCreate('TAppSyncTermThread.term.con', s,
+  FTermCon := DBConnectionCreate('TAppSyncTermThread.term.con', s,
     rDBConnectionParams, ProcessLog, StatusOutput);
 
   Result := FServCon.Abrir;
@@ -82,35 +86,46 @@ begin
     exit;
   if not Conectou then
     exit;
+
   try
     if Terminated then
       exit;
+
+    PegarFaixa;
+    if Terminated then
+      exit;
+
     StatusOutput.Exibir('Iniciou')
   finally
     FecharConexoes;
   end;
   {
-  m := 5 + random(10);
-  for i := 1 to m do
-  begin
+    m := 5 + random(10);
+    for i := 1 to m do
+    begin
     OutputSafe(StatusOutput, i.ToString + '/' + m.ToString);
     if Terminated then
-      break;
+    break;
     Sleep(1000);
-  end;
+    end;
   }
 end;
 
 procedure TAppSyncTermThread.FecharConexoes;
 begin
   FServCon.Fechar;
-  FServCon.Fechar;
+  FTermCon.Fechar;
+end;
+
+procedure TAppSyncTermThread.PegarFaixa;
+begin
+  App.Threads.SyncTermThread_u_PegarFaixa.PegarFaixa(AppObj, Terminal, FServCon,
+    FTermCon, FLogIdIni, FLogIdFin);
 end;
 
 procedure TAppSyncTermThread.SyncLoja;
 begin
-Terminal.Database
-  SyncLoja(FServCon, FTermCon, appobj.CriticalSections.ServerDB,, pTermCrit: TFixecCriticalSection);
+  // SyncLoja(FServCon, FTermCon, AppObj, Terminal);
 
 end;
 
