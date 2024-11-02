@@ -280,7 +280,7 @@ contains
   Sis.UI.Controls.BotaoFrame_u in 'UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas' {BotaoFrame: TFrame},
   Sil.UI.Controls.Lists.Utils_u in 'UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas',
   Sis.UI.Frame.Bas.Status_u in 'UI\BasForm\Sis.UI.Frame.Bas.Status_u.pas' {StatusFrame: TFrame},
-  Sis.Threads.FixedCriticalSection_u in 'Threads\Sis.Threads.FixedCriticalSection_u.pas',
+  Sis.Threads.Crit.FixedCriticalSection_u in 'Threads\Crit\Sis.Threads.Crit.FixedCriticalSection_u.pas',
   Sis.Threads.ThreadBas_u in 'Threads\Sis.Threads.ThreadBas_u.pas',
   Sis.Threads.SafeBool in 'Threads\Sis.Threads.SafeBool.pas',
   Sis.Threads.SafeBool_u in 'Threads\Sis.Threads.SafeBool_u.pas',
@@ -292,6 +292,9 @@ contains
   Sis.DB.DBConfig.Factory_u in 'DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas',
   Sis.DB.DBConfigDBI_u in 'DB\DBConfig\Sis.DB.DBConfigDBI_u.pas',
   Sis.Threads.ThreadCreator in 'Threads\Sis.Threads.ThreadCreator.pas',
-  Sis.Threads.ThreadBasCreator_u in 'Threads\Sis.Threads.ThreadBasCreator_u.pas';
+  Sis.Threads.ThreadBasCreator_u in 'Threads\Sis.Threads.ThreadBasCreator_u.pas',
+  Sis.UI.IO.Output.Safe.ToLabel_u in 'UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas',
+  Sis.Threads.Crit.CriticalSections in 'Threads\Crit\Sis.Threads.Crit.CriticalSections.pas',
+  Sis.Threads.Crit.CriticalSections_u in 'Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas';
 
 end.

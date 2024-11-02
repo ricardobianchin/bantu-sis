@@ -2,8 +2,7 @@ unit Sis.Threads.SafeBool_u;
 
 interface
 
-uses Sis.Threads.FixedCriticalSection_u,
-  Sis.Threads.SafeBool;
+uses Sis.Threads.Crit.FixedCriticalSection_u, Sis.Threads.SafeBool;
 
 type
   TSafeBool = class(TInterfacedObject, ISafeBool)

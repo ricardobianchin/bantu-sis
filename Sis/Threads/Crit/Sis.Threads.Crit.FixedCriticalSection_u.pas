@@ -1,4 +1,4 @@
-unit Sis.Threads.FixedCriticalSection_u;
+unit Sis.Threads.Crit.FixedCriticalSection_u;
 
 interface
 

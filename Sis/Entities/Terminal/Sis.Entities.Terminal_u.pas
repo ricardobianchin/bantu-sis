@@ -2,7 +2,7 @@ unit Sis.Entities.Terminal_u;
 
 interface
 
-uses Sis.Entities.Types, Sis.Entities.Terminal;
+uses Sis.Entities.Types, Sis.Entities.Terminal, Sis.Threads.Crit.CriticalSections;
 
 type
   TTerminal =  class(TInterfacedObject, ITerminal)
@@ -23,6 +23,8 @@ type
 
     FLocalArqDados: string;
     FDatabase: string;
+
+    FCriticalSections: ICriticalSections;
 
     function GetTerminalId: TTerminalId;
     procedure SetTerminalId(Value: TTerminalId);
@@ -72,6 +74,7 @@ type
     function GetAsText: string;
 
     function GetIdentStr: string;
+    function GetCriticalSections: ICriticalSections;
   public
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property Apelido: string read GetApelido write SetApelido;
@@ -93,14 +96,22 @@ type
 
     property AsText: string read GetAsText;
     property IdentStr: string read GetIdentStr;
+
+    property CriticalSections: ICriticalSections read GetCriticalSections;
+    constructor Create;
   end;
 
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, Sis.Threads.Factory_u;
 
 { TTerminal }
+
+constructor TTerminal.Create;
+begin
+  FCriticalSections := CriticalSectionsCreate;
+end;
 
 function TTerminal.GetApelido: string;
 begin
@@ -142,6 +153,11 @@ end;
 function TTerminal.GetBarCodigoTam: smallint;
 begin
   Result := FBarCodigoTam;
+end;
+
+function TTerminal.GetCriticalSections: ICriticalSections;
+begin
+
 end;
 
 function TTerminal.GetCupomNLinsFinal: smallint;
