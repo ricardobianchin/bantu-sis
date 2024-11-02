@@ -157,7 +157,7 @@ end;
 
 function TTerminal.GetCriticalSections: ICriticalSections;
 begin
-
+  Result := FCriticalSections;
 end;
 
 function TTerminal.GetCupomNLinsFinal: smallint;
