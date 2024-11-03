@@ -182,21 +182,21 @@ begin
   Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  False;
   Tab.Post;
 
-  Tab.append;
-  Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
-  Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTO';
-  Tab.FieldByName('NOME_NA_REDE').AsString := 'DELPHI-BTU';
-  Tab.FieldByName('IP').AsString := '192.168.1.144';
-  Tab.FieldByName('NF_SERIE').AsInteger := 3;
-  Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
-  Tab.FieldByName('GAVETA_TEM').AsBoolean := True;
-  Tab.FieldByName('BALANCA_MODO_ID').AsInteger := 0;
-  Tab.FieldByName('BALANCA_ID').AsInteger := 0;
-  Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
-  Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
-  Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
-  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  True;
-  Tab.Post;
+//  Tab.append;
+//  Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
+//  Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTO';
+//  Tab.FieldByName('NOME_NA_REDE').AsString := 'DELPHI-BTU';
+//  Tab.FieldByName('IP').AsString := '192.168.1.144';
+//  Tab.FieldByName('NF_SERIE').AsInteger := 3;
+//  Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
+//  Tab.FieldByName('GAVETA_TEM').AsBoolean := True;
+//  Tab.FieldByName('BALANCA_MODO_ID').AsInteger := 0;
+//  Tab.FieldByName('BALANCA_ID').AsInteger := 0;
+//  Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
+//  Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
+//  Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
+//  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  True;
+//  Tab.Post;
 end;
 
 end.
