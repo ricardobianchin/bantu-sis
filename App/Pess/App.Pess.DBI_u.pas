@@ -3,7 +3,7 @@ unit App.Pess.DBI_u;
 interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Classes,
-  System.Variants, Sis.Types.Integers, App.Pess.DBI,
+  System.Variants, Sis.Types.Integers, App.Pess.DBI, App.PessEnder.List,
   App.Pess.Ent, App.Pess.Geral.Factory_u, App.Ent.DBI_u;
 
 type
@@ -65,10 +65,8 @@ begin
 
   FPessEnt.EstadoCivilId := sIdChar[1];
 
-
   FPessEnt.GeneroDescr := Q.Fields[7 { genero_descr } ].AsString;
   FPessEnt.EstadoCivilDescr := Q.Fields[9 { estado_civil_descrF } ].AsString;
-
 
   FPessEnt.C := Q.Fields[10 { C } ].AsString;
   FPessEnt.I := Q.Fields[11 { I } ].AsString;
@@ -102,7 +100,7 @@ begin
   oEnder.UFSigla := Q.Fields[24 { UF_SIGLA } ].AsString;
   oEnder.CEP := Q.Fields[25 { CEP } ].AsString;
   oEnder.MunicipioIbgeId := Q.Fields[26 { MUNICIPIO_IBGE_ID } ].AsString;
-  oEnder.MunicipioNome :=  Q.Fields[27 { MUNICIPIO_NOME } ].AsString;
+  oEnder.MunicipioNome := Q.Fields[27 { MUNICIPIO_NOME } ].AsString;
 
   if oEnder.MunicipioIbgeId = '' then
     oEnder.MunicipioIbgeId := '       ';
@@ -155,8 +153,7 @@ end;
 
 function TPessDBI.GetFieldNamesListaGet: string;
 begin
-  Result :=
-      ' LOJA_ID'#13#10 // 0
+  Result := ' LOJA_ID'#13#10 // 0
     + ', TERMINAL_ID'#13#10 // 1
     + ', PESSOA_ID'#13#10 // 2
 
@@ -208,45 +205,51 @@ begin
 end;
 
 function TPessDBI.GetFieldValuesGravar: string;
+var
+  p: IPessEnt;
+  el: IPessEnderList;
 begin
+  p := FPessEnt;
+  el := p.PessEnderList;
+
   Result := //
-    FPessEnt.LojaId.ToString + ' -- LOJA_ID'#13#10 //
+    p.LojaId.ToString + ' -- LOJA_ID'#13#10 //
 
-    + ', ' + FPessEnt.TerminalId.ToString + ' -- TERMINAL_ID '#13#10 //
-    + ', ' + QuotedStr(FPessEnt.Nome) + ' -- NOME'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.NomeFantasia) + ' -- NOME_FANTASIA'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.Apelido) + ' -- APELIDO'#13#10 //
+    + ', ' + p.TerminalId.ToString + ' -- TERMINAL_ID '#13#10 //
+    + ', ' + QuotedStr(p.Nome) + ' -- NOME'#13#10 //
+    + ', ' + QuotedStr(p.NomeFantasia) + ' -- NOME_FANTASIA'#13#10 //
+    + ', ' + QuotedStr(p.Apelido) + ' -- APELIDO'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.GeneroId) + ' -- GENERO_ID'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.EstadoCivilId) + ' -- ESTADO_CIVIL_ID'#13#10 //
+    + ', ' + QuotedStr(p.GeneroId) + ' -- GENERO_ID'#13#10 //
+    + ', ' + QuotedStr(p.EstadoCivilId) + ' -- ESTADO_CIVIL_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.C) + ' -- C'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.I) + ' -- I'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.M) + ' -- M'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.MUF) + ' -- M_UF'#13#10 //
+    + ', ' + QuotedStr(p.C) + ' -- C'#13#10 //
+    + ', ' + QuotedStr(p.I) + ' -- I'#13#10 //
+    + ', ' + QuotedStr(p.M) + ' -- M'#13#10 //
+    + ', ' + QuotedStr(p.MUF) + ' -- M_UF'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.EMail) + ' -- EMAIL'#13#10 //
-    + ', ' + DataSQLFirebird(FPessEnt.DtNasc) + ' -- DT_NASC'#13#10 //
-    + ', ' + BooleanToStrSQL(FPessEnt.Ativo) +' -- ATIVO'+ #13#10 //
+    + ', ' + QuotedStr(p.EMail) + ' -- EMAIL'#13#10 //
+    + ', ' + DataSQLFirebird(p.DtNasc) + ' -- DT_NASC'#13#10 //
+    + ', ' + BooleanToStrSQL(p.Ativo) + ' -- ATIVO' + #13#10 //
 
-    + ', ' + FPessEnt.Id.ToString + ' -- PESSOA_ID'#13#10 //
+    + ', ' + p.Id.ToString + ' -- PESSOA_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Logradouro) + ' -- LOGRADOURO'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Numero) + ' -- NUMERO'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Complemento) + ' -- COMPLEMENTO'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Bairro) + ' -- BAIRRO'#13#10 //
+    + ', ' + QuotedStr(el[0].Logradouro) + ' -- LOGRADOURO'#13#10 //
+    + ', ' + QuotedStr(el[0].Numero) + ' -- NUMERO'#13#10 //
+    + ', ' + QuotedStr(el[0].Complemento) + ' -- COMPLEMENTO'#13#10 //
+    + ', ' + QuotedStr(el[0].Bairro) + ' -- BAIRRO'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].UFSigla) + ' -- UF_SIGLA'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].CEP) + ' -- CEP'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10 //
+    + ', ' + QuotedStr(el[0].UFSigla) + ' -- UF_SIGLA'#13#10 //
+    + ', ' + QuotedStr(el[0].CEP) + ' -- CEP'#13#10 //
+    + ', ' + QuotedStr(el[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].DDD) + ' -- DDD'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone1) + ' -- FONE1'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone2) + ' -- FONE2'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Fone3) + ' -- FONE3'#13#10 //
+    + ', ' + QuotedStr(el[0].DDD) + ' -- DDD'#13#10 //
+    + ', ' + QuotedStr(el[0].Fone1) + ' -- FONE1'#13#10 //
+    + ', ' + QuotedStr(el[0].Fone2) + ' -- FONE2'#13#10 //
+    + ', ' + QuotedStr(el[0].Fone3) + ' -- FONE3'#13#10 //
 
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Contato) + ' -- CONTATO'#13#10 //
-    + ', ' + QuotedStr(FPessEnt.PessEnderList[0].Referencia) + ' -- REFERENCIA'#13#10 //
+    + ', ' + QuotedStr(el[0].Contato) + ' -- CONTATO'#13#10 //
+    + ', ' + QuotedStr(el[0].Referencia) + ' -- REFERENCIA'#13#10 //
     ; //
 end;
 
@@ -270,9 +273,9 @@ begin
   aValores[2] := FPessEnt.Id;
 
   sSql := GetSqlPreencherDataSet(aValores);
-//  {$IFDEF DEBUG}
-//  CopyTextToClipboard(sSql);
-//  {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, Q);
@@ -297,8 +300,11 @@ var
   iId: integer;
   sNome: string;
 begin
-  sSql := 'SELECT MUNICIPIO_IBGE_ID, NOME' +
-    ' FROM ENDERECO_PA.MUNICIPIO_LISTA_GET(' + QuotedStr(pUFSigla) + ');';
+  sSql := 'SELECT MUNICIPIO_IBGE_ID, NOME' //
+    + ' FROM ENDERECO_PA.MUNICIPIO_LISTA_GET(' //
+    + QuotedStr(pUFSigla) //
+    + ');' //
+    ;
 
   if pSL.Count = 0 then
     pSL.Add('NAO INDICADO');
