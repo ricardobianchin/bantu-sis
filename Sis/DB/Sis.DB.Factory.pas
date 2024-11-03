@@ -25,15 +25,24 @@ function DBExecCreate(pNomeComponente: string; pDBConnection: IDBConnection;
 function DBQueryCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBQuery;
 
-function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid): IFDDataSetManager;
+function DBExecScriptCreate(pNomeComponente: string;
+  pDBConnection: IDBConnection; pSql: string; pProcessLog: IProcessLog;
+  pOutput: IOutput): IDBExecScript;
+
+function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid)
+  : IFDDataSetManager;
 
 implementation
 
 uses Sis.DB.DBMS.Info_u, Sis.DB.DBMS.DBMSConfig.Firebird_u,
-  Sis.DB.DBMS.Firebird_u, Sis.DB.DBConnection.FireDAC_u,
-  Sis.DB.DBExec.FireDAC_u, Sis.DB.DBQuery.FireDAC_u, Sis.UI.ImgDM,
+  Sis.DB.DBMS.Firebird_u, Sis.DB.DBConnection.FireDAC_u, Sis.UI.ImgDM,
   Sis.DB.FDDataSetManager_u, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog.Factory;
+  Sis.UI.IO.Output.ProcessLog.Factory//
+
+  , Sis.DB.DBQuery.FireDAC_u //
+  , Sis.DB.DBExec.FireDAC_u //
+  , Sis.DB.DBExecScript.FireDAC_u //
+  ;
 
 function DBMSInfoCreate(pVersion: TDBVersion; pDatabaseType: TDBMSType)
   : IDBMSInfo;
@@ -89,7 +98,8 @@ begin
 end;
 
 function DBConnectionCreate(pNomeComponente: string; pSisConfig: ISisConfig;
-  pDBConnectionParams: TDBConnectionParams; pProcessLog: IProcessLog; pOutput: IOutput): IDBConnection;
+  pDBConnectionParams: TDBConnectionParams; pProcessLog: IProcessLog;
+  pOutput: IOutput): IDBConnection;
 var
   oDBMSInfo: IDBMSInfo;
 begin
@@ -143,10 +153,31 @@ begin
     oProcessLog, oOutput);
 end;
 
-function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid): IFDDataSetManager;
+function DBExecScriptCreate(pNomeComponente: string;
+  pDBConnection: IDBConnection; pSql: string; pProcessLog: IProcessLog;
+  pOutput: IOutput): IDBExecScript;
+var
+  oProcessLog: IProcessLog;
+  oOutput: IOutput;
+begin
+  if Assigned(pProcessLog) then
+    oProcessLog := pProcessLog
+  else
+    oProcessLog := MudoProcessLogCreate;
+
+  if Assigned(pOutput) then
+    oOutput := pOutput
+  else
+    oOutput := MudoOutputCreate;
+
+  Result := TDBExecScriptFireDac.Create(pNomeComponente, pDBConnection, pSql,
+    oProcessLog, oOutput);
+end;
+
+function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid)
+  : IFDDataSetManager;
 begin
   Result := TFDDataSetManager.Create(pFDMemTable, pDBGrid);
 end;
-
 
 end.

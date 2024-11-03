@@ -461,6 +461,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas"/>
         <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections.pas"/>
         <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExecScript_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExecScript.FireDAC_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

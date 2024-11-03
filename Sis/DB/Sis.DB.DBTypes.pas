@@ -170,6 +170,12 @@ type
     procedure Execute;
   end;
 
+  IDBExecScript = interface(INomeavel)
+    ['{4548FEFF-5026-4E84-B0DC-E31D7EFD28FC}']
+    procedure PegueComando(pComando: string);
+    procedure Execute;
+  end;
+
 function StrToDBFramework(pStr: string): TDBFramework;
 function StrToDBMSType(pStr: string): TDBMSType;
 
