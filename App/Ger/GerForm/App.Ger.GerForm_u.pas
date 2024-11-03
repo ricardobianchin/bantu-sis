@@ -9,6 +9,10 @@ uses
   Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.UI.Frame.Status.Thread_u,
   System.Generics.Collections, App.Ger.GerForm.DBI, App.AppObj;
 
+const
+  // FRAME_EXECUTE_TODOS = True;
+  FRAME_EXECUTE_TODOS = False;
+
 type
   TGerAppForm = class(TBasForm)
     TitleBarPanel: TPanel;
@@ -45,7 +49,7 @@ type
     procedure GerFormDBIInicialize;
 
   protected
-      procedure AjusteControles; override;
+    procedure AjusteControles; override;
     property FramesList: TList<TThreadStatusFrame> read FFramesList;
     property AppObj: IAppObj read FAppObj;
     procedure ExecuteForAllFrames(const Proc: TThreadStatusFrameProcedure);
@@ -140,6 +144,7 @@ var
   oFrame: TThreadStatusFrame;
   bTerminou: Boolean;
 begin
+  bTerminou := False;
   repeat
     for oFrame in FFramesList do
     begin
@@ -155,14 +160,15 @@ begin
     Sleep(1000);
   until (False);
 
-//  ExecuteForAllFrames(
-//    procedure(pFrame: TThreadStatusFrame)
-//    begin
-//      pFrame.PodeFechar;
-//    end);
+  // ExecuteForAllFrames(
+  // procedure(pFrame: TThreadStatusFrame)
+  // begin
+  // pFrame.PodeFechar;
+  // end);
 end;
 
-procedure TGerAppForm.ExecuteForAllFrames(const Proc: TThreadStatusFrameProcedure);
+procedure TGerAppForm.ExecuteForAllFrames(const Proc
+  : TThreadStatusFrameProcedure);
 var
   oFrame: TThreadStatusFrame;
 begin
@@ -171,7 +177,6 @@ begin
   begin
     Proc(oFrame);
   end;
-
 end;
 
 procedure TGerAppForm.ExecuteTimerTimer(Sender: TObject);
@@ -179,11 +184,19 @@ begin
   inherited;
   if not PodeExecutar then
     exit;
-  ExecuteForAllFrames(
-    procedure(pFrame: TThreadStatusFrame)
-    begin
-      pFrame.Execute;
-    end);
+
+  if FRAME_EXECUTE_TODOS then
+  begin
+    ExecuteForAllFrames(
+      procedure(pFrame: TThreadStatusFrame)
+      begin
+        pFrame.Execute;
+      end);
+  end
+  else
+  begin
+    FFramesList[0].Execute;
+  end;
 end;
 
 procedure TGerAppForm.Terminate;

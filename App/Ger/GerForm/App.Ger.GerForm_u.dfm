@@ -4,7 +4,6 @@ inherited GerAppForm: TGerAppForm
   Caption = 'GerAppForm'
   ClientHeight = 496
   ClientWidth = 386
-  ExplicitTop = -27
   ExplicitWidth = 390
   ExplicitHeight = 500
   TextHeight = 15
@@ -19,7 +18,6 @@ inherited GerAppForm: TGerAppForm
     Caption = ' '
     TabOrder = 0
     OnMouseDown = TitleBarPanelMouseDown
-    ExplicitWidth = 374
     object TitleToolBar: TToolBar
       Left = 252
       Top = 12
@@ -40,8 +38,6 @@ inherited GerAppForm: TGerAppForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 350
-    ExplicitWidth = 374
     object SempreVisivelCheckBox: TCheckBox
       Left = -1
       Top = 1
@@ -70,8 +66,6 @@ inherited GerAppForm: TGerAppForm
     Anchors = [akLeft, akTop, akRight, akBottom]
     BorderStyle = bsNone
     TabOrder = 2
-    ExplicitWidth = 374
-    ExplicitHeight = 294
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 96
