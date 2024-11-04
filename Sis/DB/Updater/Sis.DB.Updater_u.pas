@@ -10,8 +10,8 @@ uses
   Sis.Entities.TerminalList, Sis.Entities.Terminal;
 
 const
-  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  //VERSAO_ULTIMA_A_PROCESSAR = 6; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  //VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
+  VERSAO_ULTIMA_A_PROCESSAR = 36; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -93,11 +93,14 @@ type
 
     function GravarIniciais_CrieMachineIdLocal(pDBConnection: IDBConnection)
       : SmallInt;
+    procedure GravarIniciais_CrieSistemaInicial(pDBConnection
+      : IDBConnection);
     function GravarIniciais_CrieGerenteInicial(pDBConnection
       : IDBConnection): integer;
     procedure GravarIniciais_CrieGerenteFinal(pDBConnection
       : IDBConnection);
     procedure GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
+    procedure GravarIniciais_CrieSistemaFinal(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieSuporte(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieTerminal(pDBConnection: IDBConnection;
       pTerminal: ITerminal);
@@ -660,8 +663,10 @@ begin
   FSisConfig.LocalMachineId.IdentId := GravarIniciais_CrieMachineIdLocal
     (pDBConnection);
   if FUsuarioGerente.Id < 1 then
+  begin
+    GravarIniciais_CrieSistemaInicial(pDBConnection);
     FUsuarioGerente.Id := GravarIniciais_CrieGerenteInicial(pDBConnection);
-
+  end;
   if FLoja.Descr <> '' then
   begin
     GravarIniciais_CrieLoja(pDBConnection);
@@ -669,8 +674,9 @@ begin
 
   if FUsuarioGerente.NomeCompleto <> '' then
   begin
-    GravarIniciais_CrieGerenteFinal(pDBConnection);
+    GravarIniciais_CrieSistemaFinal(pDBConnection);
     GravarIniciais_CrieSuporte(pDBConnection);
+    GravarIniciais_CrieGerenteFinal(pDBConnection);
   end;
 
   pDBConnection.ExecuteSql('DELETE FROM TERMINAL where terminal_id > 0;');
@@ -710,14 +716,14 @@ begin
 
     + '  ' + FLoja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , 0 -- TERMINAL_ID'#13#10 //
-    + '  , ' + Result.ToString + ' -- LOJA_ID'#13#10 //
+    + '  , ' + Result.ToString + ' -- PESSOA_ID'#13#10 //
     + '  , ' + FUsuarioGerente.NomeCompleto.QuotedString + ' -- NOME'#13#10 //
 
     + ');'#13#10;
 
-   {$IFDEF DEBUG}
-   CopyTextToClipboard(sSql);
-   {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(sSql);
+//   {$ENDIF}
   pDBConnection.ExecuteSql(sSql);
 end;
 
@@ -725,7 +731,7 @@ procedure TDBUpdater.GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
 var
   sSql: string;
 begin
-  sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
+  sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GAR_COM_LOG(' //
     + FLoja.Id.ToString // LOJA_ID
     + ', ' + FLoja.Descr.QuotedString // APELIDO
     + ', TRUE' // SELECIONADO
@@ -733,6 +739,78 @@ begin
     + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');'; //
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+procedure TDBUpdater.GravarIniciais_CrieSistemaFinal(pDBConnection: IDBConnection);
+var
+  sSql: string;
+  oDBQuery: IDBQuery;
+  sSenha: string;
+  iSistemaPessoaId: integer;
+begin
+  Encriptar(1, '123', sSenha);
+
+  sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + USUARIO_SISTEMA_NOME.QuotedString // NOME
+    + ', ' + USUARIO_SISTEMA_NOME_DE_USUARIO.QuotedString // NOME_DE_USUARIO
+    + ', ' + sSenha.QuotedString // SENHA
+    + ', 1' // CRY_VER
+    + ', ' + 'SISTEMA'.QuotedString // APELIDO
+    + ', ' + USUARIO_SISTEMA_PESSOA_ID.ToString // PESSOA_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ', TRUE'
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+  iSistemaPessoaId := pDBConnection.GetValue(sSql);
+
+  sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
+    + FLoja.Id.ToString // LOJA_ID
+    + ', ' + iSistemaPessoaId.ToString // USUARIO_PESSOA_ID
+    + ', 1' // PERFIL_DE_USO_ID
+    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+  pDBConnection.ExecuteSql(sSql);
+end;
+
+procedure TDBUpdater.GravarIniciais_CrieSistemaInicial(
+  pDBConnection: IDBConnection);
+var
+  sSql: string;
+begin
+
+  sSql := 'INSERT INTO PESSOA'#13#10 //
+    + '('#13#10 //
+
+    + '  LOJA_ID'#13#10 //
+    + '  , TERMINAL_ID'#13#10 //
+    + '  , PESSOA_ID'#13#10 //
+    + '  , NOME'#13#10 //
+
+    + ')'#13#10 //
+    + 'VALUES'#13#10 //
+    + '('#13#10 //
+
+    + '  ' + FLoja.Id.ToString + ' -- LOJA_ID'#13#10 //
+    + '  , 0 -- TERMINAL_ID'#13#10 //
+    + '  , ' + USUARIO_SISTEMA_PESSOA_ID.ToString + ' -- PESSOA_ID'#13#10 //
+    + '  , ' + USUARIO_SISTEMA_NOME.QuotedString + ' -- NOME'#13#10 //
+
+    + ');'#13#10;
+
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(sSql);
+//   {$ENDIF}
   pDBConnection.ExecuteSql(sSql);
 end;
 
@@ -752,9 +830,10 @@ begin
     + ', ' + sSenha.QuotedString // SENHA
     + ', 1' // CRY_VER
     + ', ' + 'SUPORTE'.QuotedString // APELIDO
-    + ', NULL' // PESSOA_ID
+    + ', ' + USUARIO_SUPORTE_PESSOA_ID.ToString // PESSOA_ID
     + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ', TRUE'
     + ');';
 
   // {$IFDEF DEBUG}
