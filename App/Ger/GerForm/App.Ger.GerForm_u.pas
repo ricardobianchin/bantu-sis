@@ -9,9 +9,12 @@ uses
   Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.UI.Frame.Status.Thread_u,
   System.Generics.Collections, App.Ger.GerForm.DBI, App.AppObj;
 
+type
+  TExecuteTeste = (etNenhum, etUm, etTodos);
+
 const
-  // FRAME_EXECUTE_TODOS = True;
-  FRAME_EXECUTE_TODOS = False;
+  //FRAME_EXECUTAR: TExecuteTeste = etNenhum;
+  FRAME_EXECUTAR: TExecuteTeste = etUm;
 
 type
   TGerAppForm = class(TBasForm)
@@ -184,18 +187,16 @@ begin
   inherited;
   if not PodeExecutar then
     exit;
-
-  if FRAME_EXECUTE_TODOS then
-  begin
+  case FRAME_EXECUTAR of
+    etNenhum:;//exit;
+    etUm:
+      FFramesList[0].Execute;
+  else // etTodos:
     ExecuteForAllFrames(
       procedure(pFrame: TThreadStatusFrame)
       begin
         pFrame.Execute;
       end);
-  end
-  else
-  begin
-    FFramesList[0].Execute;
   end;
 end;
 
