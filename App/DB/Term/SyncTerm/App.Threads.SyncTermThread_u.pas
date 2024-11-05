@@ -29,6 +29,7 @@ implementation
 
 uses System.SysUtils, Sis.Config.SisConfig //
     , App.Threads.SyncTermThread_u_PegarFaixa //
+    , App.Threads.SyncTermThread_u_SyncLoja //
     ;
 
 { TAppSyncTermThread }
@@ -74,7 +75,7 @@ var
 begin
   sThreadTitulo := 'Sincronização ' + pTerminal.AsText;
   inherited Create(pTerminal, pAppObj, pExecutandoSafeBool, pTitOutput,
-    pStatusOutput, pProcessLog, sThreadTitulo)
+    pStatusOutput, pProcessLog, sThreadTitulo);
 end;
 
 procedure TAppSyncTermThread.Execute;
@@ -92,6 +93,10 @@ begin
       exit;
 
     PegarFaixa;
+    if Terminated then
+      exit;
+
+    SyncLoja;
     if Terminated then
       exit;
 
@@ -125,7 +130,8 @@ end;
 
 procedure TAppSyncTermThread.SyncLoja;
 begin
-  // SyncLoja(FServCon, FTermCon, AppObj, Terminal);
+  App.Threads.SyncTermThread_u_SyncLoja.SyncLoja(AppObj, Terminal, FServCon,
+    FTermCon, FLogIdIni, FLogIdFin);
 
 end;
 
