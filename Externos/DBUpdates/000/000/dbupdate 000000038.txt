@@ -50,11 +50,13 @@ BEGIN
     MACHINE_ID ID_SHORT_DOM
   );
 END^
+
 /*
 ----------
 BODY
 ----------
 */
+
 RECREATE PACKAGE BODY TERMINAL_PA
 AS
 BEGIN
@@ -121,7 +123,7 @@ BEGIN
       NULL, --ID_ENVOLVIDO INTEGER,
       0 --ORDEM_ENVOLVIDO SMALLINT
     );
-    END
+  END
 END^
 SET TERM ;^
 ```
