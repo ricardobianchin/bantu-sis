@@ -65,6 +65,9 @@ BEGIN
     , DT_NASC DATE
     , ATIVO BOOLEAN
 
+    , PESS_CRIADO_EM TIMESTAMP
+    , PESS_ALTERADO_EM TIMESTAMP
+
     , LOGRADOURO           VARCHAR(70)
     , NUMERO               NOME_DOM
     , COMPLEMENTO          NOME_DOM
@@ -112,6 +115,8 @@ BEGIN
     , DT_NASC DATE
     , ATIVO BOOLEAN
 
+    , PESS_ALTERADO_EM TIMESTAMP
+
     , LOGRADOURO           VARCHAR(70)
     , NUMERO               NOME_DOM
     , COMPLEMENTO          NOME_DOM
@@ -149,6 +154,8 @@ BEGIN
       , P.EMAIL
       , P.DT_NASC
       , P.ATIVO
+
+      , P.ALTERADO_EM
       
       , E.LOGRADOURO
       , E.NUMERO
