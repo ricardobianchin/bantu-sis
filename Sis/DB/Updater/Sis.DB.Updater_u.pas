@@ -10,8 +10,8 @@ uses
   Sis.Entities.TerminalList, Sis.Entities.Terminal;
 
 const
-  //VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  VERSAO_ULTIMA_A_PROCESSAR = 36; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
+  //VERSAO_ULTIMA_A_PROCESSAR = 37; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -731,7 +731,7 @@ procedure TDBUpdater.GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
 var
   sSql: string;
 begin
-  sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GAR_COM_LOG(' //
+  sSql := 'EXECUTE PROCEDURE LOJA_INICIAL_PA.GARANTIR(' //
     + FLoja.Id.ToString // LOJA_ID
     + ', ' + FLoja.Descr.QuotedString // APELIDO
     + ', TRUE' // SELECIONADO
