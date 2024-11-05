@@ -26,7 +26,7 @@ function DBQueryCreate(pNomeComponente: string; pDBConnection: IDBConnection;
   pSql: string; pProcessLog: IProcessLog; pOutput: IOutput): IDBQuery;
 
 function DBExecScriptCreate(pNomeComponente: string;
-  pDBConnection: IDBConnection; pSql: string; pProcessLog: IProcessLog;
+  pDBConnection: IDBConnection; pProcessLog: IProcessLog;
   pOutput: IOutput): IDBExecScript;
 
 function FDDataSetManagerCreate(pFDMemTable: TFDMemTable; pDBGrid: TDBGrid)
@@ -154,7 +154,7 @@ begin
 end;
 
 function DBExecScriptCreate(pNomeComponente: string;
-  pDBConnection: IDBConnection; pSql: string; pProcessLog: IProcessLog;
+  pDBConnection: IDBConnection; pProcessLog: IProcessLog;
   pOutput: IOutput): IDBExecScript;
 var
   oProcessLog: IProcessLog;
@@ -170,7 +170,7 @@ begin
   else
     oOutput := MudoOutputCreate;
 
-  Result := TDBExecScriptFireDac.Create(pNomeComponente, pDBConnection, pSql,
+  Result := TDBExecScriptFireDac.Create(pNomeComponente, pDBConnection,
     oProcessLog, oOutput);
 end;
 

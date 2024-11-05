@@ -25,7 +25,7 @@ type
     procedure Execute; override;
     procedure PegueComando(pComando: string); override;
     constructor Create(pNomeComponente: string; pDBConnection: IDBConnection;
-      pSql: string; pProcessLog: IProcessLog; pOutput: IOutput);
+      pProcessLog: IProcessLog; pOutput: IOutput);
     destructor Destroy; override;
   end;
 
@@ -36,8 +36,7 @@ uses System.SysUtils;
 { TDBExecScriptFireDac }
 
 constructor TDBExecScriptFireDac.Create(pNomeComponente: string;
-  pDBConnection: IDBConnection; pSql: string; pProcessLog: IProcessLog;
-  pOutput: IOutput);
+  pDBConnection: IDBConnection; pProcessLog: IProcessLog; pOutput: IOutput);
 var
   sLog: string;
 begin
