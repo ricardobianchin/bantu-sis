@@ -40,7 +40,6 @@ type
     procedure ComboKeyPress(Sender: TObject; var Key: Char);
     procedure ComboExit(Sender: TObject);
 
-
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
@@ -54,7 +53,8 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Controls.ComboBox.Select.DB.Frame_u;
+uses App.DB.Utils, Sis.UI.IO.Input.Perg,
+  App.UI.Controls.ComboBox.Select.DB.Frame_u;
 
 { TEdBasForm }
 
@@ -200,16 +200,20 @@ begin
   Result := ControlesOk;
   if not Result then
     exit;
+  AppObj.CriticalSections.DB.Acquire;
+  try
+    Result := DadosOk;
+    if not Result then
+      exit;
 
-  Result := DadosOk;
-  if not Result then
-    exit;
+    ControlesToEnt;
 
-  ControlesToEnt;
-
-  Result := GravouOk;
-  if not Result then
-    exit;
+    Result := GravouOk;
+    if not Result then
+      exit;
+  finally
+    AppObj.CriticalSections.DB.Release;
+  end;
 end;
 
 end.
