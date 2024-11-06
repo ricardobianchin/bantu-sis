@@ -177,12 +177,13 @@ begin
 
       GarantirPasta(pPastaComandos);
 
-      sNomeArqTmp := Trim(pPastaComandos + 'SQL ' + pAssunto);
-
-      sNomeArqTmp := sNomeArqTmp + ' ' + pNomeBanco + ' ' +
-        DateTimeToNomeArq();
-
-      sNomeArqTmp := sNomeArqTmp + '.sql';
+      sNomeArqTmp :=
+        pPastaComandos
+        + DateTimeToNomeArq()
+        + ' ' + Trim('SQL ' + pAssunto)
+        + ' ' + pNomeBanco
+        + '.sql'
+        ;
 
       sLog := sLog + ',sNomeArqTmp=' + sNomeArqTmp;
 
