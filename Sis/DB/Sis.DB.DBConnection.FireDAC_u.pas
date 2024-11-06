@@ -251,14 +251,14 @@ begin
   inherited;
   ProcessLog.PegueLocal('TDBConnectionFireDAC.QueryDataSet');
   try
-    sLog := #13#10 + pSql + #13#10'vai executar FFDConnection.ExecSQL';
+    sLog := #13#10+pSql + #13#10'vai fazer select com ExecSQL';
     try
       FFDConnection.ExecSQL(pSql, pDataSet);
     except
       on e: exception do
       begin
         sLog := sLog + #13#10 + e.ClassName + ' ' + e.Message + #13#10;
-        raise;
+        raise Exception.Create('Error. '+sLog);
       end;
     end;
     sLog := sLog + 'Retornou,Assigned(pDataSet)=' +
