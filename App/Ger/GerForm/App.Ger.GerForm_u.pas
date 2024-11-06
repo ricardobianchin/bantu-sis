@@ -187,8 +187,9 @@ begin
   inherited;
   if not PodeExecutar then
     exit;
+
   case FRAME_EXECUTAR of
-    etNenhum:;//exit;
+    etNenhum: ExecuteTimer.Enabled := False;//exit;
     etUm:
       FFramesList[0].Execute;
   else // etTodos:
