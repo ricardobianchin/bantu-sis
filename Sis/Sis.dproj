@@ -463,6 +463,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas"/>
         <DCCReference Include="DB\Sis.DB.DBExecScript_u.pas"/>
         <DCCReference Include="DB\Sis.DB.DBExecScript.FireDAC_u.pas"/>
+        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator.pas"/>
+        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator_u.pas"/>
+        <DCCReference Include="DB\SqlUtils\Sis.DB.SqlUtils_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

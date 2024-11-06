@@ -297,6 +297,9 @@ contains
   Sis.Threads.Crit.CriticalSections in 'Threads\Crit\Sis.Threads.Crit.CriticalSections.pas',
   Sis.Threads.Crit.CriticalSections_u in 'Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas',
   Sis.DB.DBExecScript_u in 'DB\Sis.DB.DBExecScript_u.pas',
-  Sis.DB.DBExecScript.FireDAC_u in 'DB\Sis.DB.DBExecScript.FireDAC_u.pas';
+  Sis.DB.DBExecScript.FireDAC_u in 'DB\Sis.DB.DBExecScript.FireDAC_u.pas',
+  Sis.DB.SqlCreator in 'DB\SqlCreator\Sis.DB.SqlCreator.pas',
+  Sis.DB.SqlCreator_u in 'DB\SqlCreator\Sis.DB.SqlCreator_u.pas',
+  Sis.DB.SqlUtils_u in 'DB\SqlUtils\Sis.DB.SqlUtils_u.pas';
 
 end.
