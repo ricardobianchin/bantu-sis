@@ -7,9 +7,10 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.DB,
   Sis.DB.DBExecScript_u, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output,
-  FireDAC.Comp.Script, FireDAC.Comp.ScriptCommands,
-  FireDAC.Stan.Async;
+  Sis.UI.IO.Output, FireDAC.Comp.Script, FireDAC.Comp.ScriptCommands,
+  FireDAC.Stan.Async, Sis.Types,
+  Sis.UI.IO.Output.ProcessLog.Registrador,
+  Sis.Threads.Crit.FixedCriticalSection_u;
 
 type
   TDBExecScriptFireDac = class(TDBExecScript)
@@ -19,13 +20,18 @@ type
   const
     SQL_MAXLENGTH = 9000;
   protected
+    function GetParams: TFDParams; override;
+    function GetSQL: string; override;
+    procedure SetSQL(Value: string); override;
+
     function GetScriptTamanhoMaximo: integer; override;
     function GetScriptTamanho: integer; override;
+    procedure ExecuteNormal; override;
   public
-    procedure Execute; override;
     procedure PegueComando(pComando: string); override;
     constructor Create(pNomeComponente: string; pDBConnection: IDBConnection;
-      pProcessLog: IProcessLog; pOutput: IOutput);
+      pProcessLog: IProcessLog; pOutput: IOutput;
+      pCritcalSection: TFixedCriticalSection; pThreadSafe: Boolean = True);
     destructor Destroy; override;
   end;
 
@@ -36,13 +42,15 @@ uses System.SysUtils;
 { TDBExecScriptFireDac }
 
 constructor TDBExecScriptFireDac.Create(pNomeComponente: string;
-  pDBConnection: IDBConnection; pProcessLog: IProcessLog; pOutput: IOutput);
+  pDBConnection: IDBConnection; pProcessLog: IProcessLog; pOutput: IOutput;
+  pCritcalSection: TFixedCriticalSection; pThreadSafe: Boolean);
 var
   sLog: string;
 begin
   pProcessLog.PegueLocal('TDBExecScriptFireDac.Create');
   try
-    inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput);
+    inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput,
+      pCritcalSection, pThreadSafe);
     sLog := 'retornou de inherited Create,vai FFDScript := TFDScript.Create(nil);';
     FFDScript := TFDScript.Create(nil);
     FFDScript.Connection := TFDConnection(pDBConnection.ConnectionObject);
@@ -65,17 +73,20 @@ begin
   end;
 end;
 
-procedure TDBExecScriptFireDac.Execute;
+procedure TDBExecScriptFireDac.ExecuteNormal;
 var
   sLog: string;
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Execute');
   try
+    if ScriptTamanho = 0 then
+      exit;
+
     // inherited;
     try
-      sLog := SQL + ',' + GetParamsAsStr + ', vai FFDScript.ValidateAll';
+      sLog := SQL + ', vai FFDScript.ValidateAll';
       FFDScript.ValidateAll;
-      sLog := SQL + ', vai FFDScript.ExecuteAll';
+      sLog := sLog + ', vai FFDScript.ExecuteAll';
       FFDScript.ExecuteAll;
     except
       on E: Exception do
@@ -95,6 +106,11 @@ begin
   end;
 end;
 
+function TDBExecScriptFireDac.GetParams: TFDParams;
+begin
+  Result := FFDScript.Params;
+end;
+
 function TDBExecScriptFireDac.GetScriptTamanho: integer;
 begin
   Result := FFDScript.SQLScripts[0].SQL.Text.Length
@@ -105,11 +121,22 @@ begin
   Result := SQL_MAXLENGTH;
 end;
 
+function TDBExecScriptFireDac.GetSQL: string;
+begin
+  Result := FFDScript.SQLScripts[0].SQL.Text
+end;
+
 procedure TDBExecScriptFireDac.PegueComando(pComando: string);
 begin
   inherited;
   // precisa manter este inherited. tem testes feitos na classe ancestral
-  FFDScript.SQLScripts[0].SQL.Add(pComando);
-END;
+  FFDScript.SQLScripts[0].SQL.Add(pComando+#13#10);
+end;
+
+procedure TDBExecScriptFireDac.SetSQL(Value: string);
+begin
+  inherited;
+  FFDScript.SQLScripts[0].SQL.Text := Value;
+end;
 
 end.
