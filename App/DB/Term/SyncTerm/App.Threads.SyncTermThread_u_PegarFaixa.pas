@@ -11,7 +11,7 @@ procedure PegarFaixa(pAppObj: IAppObj; pTerminal: ITerminal;
 
 implementation
 
-uses System.Math;
+uses System.Math, Sis.Win.Utils_u;
 
 procedure PegarFaixa(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, FTermCon: IDBConnection; out pLogIdIni: Int64;
@@ -43,7 +43,10 @@ begin
       + 'JOIN AMBIENTE_SIS ON'#13#10 //
       + 'AMBIENTE_SIS.LOJA_ID = LOG.LOJA_ID'#13#10 //
       + 'WHERE LOG.TERMINAL_ID = 0'#13#10 //
-      ; //
+      ;
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(sSql);
+//   {$ENDIF}
     iUltimoLogIdCriado := pServCon.GetValueInteger64(sSql);
   finally
     pAppObj.CriticalSections.DB.Release;
