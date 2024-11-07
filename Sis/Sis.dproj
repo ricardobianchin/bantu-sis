@@ -466,6 +466,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator.pas"/>
         <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator_u.pas"/>
         <DCCReference Include="DB\SqlUtils\Sis.DB.SqlUtils_u.pas"/>
+        <DCCReference Include="Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
