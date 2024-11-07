@@ -12,10 +12,12 @@ type
   private
     FServCon, FTermCon: IDBConnection;
     FLogIdIni, FLogIdFin: Int64;
+    FDBExecScript: IDBExecScript;
     function Conectou: boolean;
     procedure FecharConexoes;
   protected
     procedure Execute; override;
+
     procedure PegarFaixa; virtual;
     procedure SyncLoja; virtual;
 
@@ -81,18 +83,28 @@ end;
 procedure TAppSyncTermThread.Execute;
 var
   i, m: integer;
+  sMens: string;
 begin
   inherited;
+  StatusOutput.Exibir('Iniciou');
   if Terminated then
     exit;
   if not Conectou then
     exit;
-
   try
     if Terminated then
       exit;
 
+    FDBExecScript := DBExecScriptCreate('TAppSyncTermThread.ExecScript',
+      FTermCon, ProcessLog, StatusOutput, Terminal.CriticalSections.DB);
+
     PegarFaixa;
+
+    if FLogIdIni = FLogIdFin then
+      Exit;
+
+    sMens := FLogIdIni.ToString + ' a '+FLogIdFin.ToString;
+    StatusOutput.Exibir(sMens);
     if Terminated then
       exit;
 
@@ -100,10 +112,16 @@ begin
     if Terminated then
       exit;
 
-    StatusOutput.Exibir('Iniciou')
+    FDBExecScript.PegueComando('EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR('+FLogIdFin.ToString+');');
+    if Terminated then
+      exit;
+
+    FDBExecScript.Execute;
   finally
     FecharConexoes;
   end;
+end;
+
   {
     m := 5 + random(10);
     for i := 1 to m do
@@ -114,7 +132,6 @@ begin
     Sleep(1000);
     end;
   }
-end;
 
 procedure TAppSyncTermThread.FecharConexoes;
 begin
@@ -130,9 +147,8 @@ end;
 
 procedure TAppSyncTermThread.SyncLoja;
 begin
-  App.Threads.SyncTermThread_u_SyncLoja.SyncLoja(AppObj, Terminal, FServCon,
-    FTermCon, FLogIdIni, FLogIdFin);
-
+  App.Threads.SyncTermThread_u_SyncLoja.SyncLoja(AppObj, Terminal,
+    FServCon, FTermCon, FLogIdIni, FLogIdFin, FDBExecScript);
 end;
 
 end.
