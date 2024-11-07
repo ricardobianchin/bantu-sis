@@ -2,30 +2,6 @@ AMBIENTE_SIS
 ENSURE RECORDS
 
 
-/*
----------------------------------------
-TESTES AMBIENTE_SIS ENSURE RECORDS
----------------------------------------
-DBUPDATE_HIST
-
-TESTES
-
-SELECT * FROM AMBIENTE_SIS;
-
-
-DESFAZER
-DELETE FROM AMBIENTE_SIS;
-COMMIT;
-
-
-
----------------------------------------
-FIM TESTES
----------------------------------------
-*/
-
-
-
 INICIO
 
 -----------------------------
