@@ -37,7 +37,7 @@ type
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, System.StrUtils, Sis.Types.strings_u;
 
 { TDBExecScriptFireDac }
 
@@ -127,8 +127,25 @@ begin
 end;
 
 procedure TDBExecScriptFireDac.PegueComando(pComando: string);
+var
+  UltimoChar: char;
 begin
   inherited;
+  pComando := Trim(pComando);
+  if pComando = '' then
+    exit;
+  repeat
+    UltimoChar := pComando[Length(pComando)];
+    if not CharInSet(UltimoChar, [#32, #13, #13]) then
+      break;
+    pComando := StrDeleteNoFim(pComando, 1);
+  until False;
+
+  if UltimoChar <> ';' then
+    pComando := pComando + ';';
+
+  pComando := pComando + #13#10;
+
   // precisa manter este inherited. tem testes feitos na classe ancestral
   FFDScript.SQLScripts[0].SQL.Add(pComando+#13#10);
 end;
