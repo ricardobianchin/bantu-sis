@@ -2,15 +2,27 @@ unit Sis.DB.SqlUtils_u;
 
 interface
 
-uses Data.DB;
+uses Data.DB, System.Generics.Collections, System.Generics.Defaults;
+//  System.SysUtils;
+
 
 function FieldToSqlConstant(pField: TField): string;
-function DataSetToSqlGarantir(q: TDataSet; pNomeTabela, pPrimaryKeyFieldNames: string): string; overload;
-function DataSetToSqlGarantir(q: TDataSet; pNomeTabela: string; pPrimaryKeyFieldNames: string; pFieldIndexes: TArray<Integer>): string; overload;
+
+function DataSetToSqlGarantir(q: TDataSet;
+  pNomeTabela, pPrimaryKeyFieldNames: string): string; overload;
+function DataSetToSqlGarantir(q: TDataSet; pNomeTabela: string;
+  pPrimaryKeyFieldNames: string; pFieldIndexes: TArray<Integer>)
+  : string; overload;
+
+function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
+  pPrimaryKeyFieldIndexes: TArray<Integer>): string; overload;
+function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
+  pFieldIndexes: TArray<Integer>; pPrimaryKeyFieldIndexes: TArray<Integer>)
+  : string; overload;
 
 implementation
 
-uses System.SysUtils, Sis.Types.Bool_u, Sis.Types.Dates;
+uses System.SysUtils, Sis.Types.Bool_u, Sis.Types.Dates, Sis.Types.Arrays.ArrayUtils_u;
 
 function FieldToSqlConstant(pField: TField): string;
 begin
@@ -119,7 +131,8 @@ begin
   end;
 end;
 
-function DataSetToSqlGarantir(q: TDataSet; pNomeTabela, pPrimaryKeyFieldNames: string): string; overload;
+function DataSetToSqlGarantir(q: TDataSet;
+  pNomeTabela, pPrimaryKeyFieldNames: string): string; overload;
 var
   i: Integer;
   oField: TField;
@@ -140,14 +153,16 @@ begin
     SqlConstants := SqlConstants + FieldToSqlConstant(oField);
   end;
 
-  Result :=  'UPDATE OR INSERT INTO ' + pNomeTabela + //
-             ' ('+ FieldNames + ')' + //
-             ' VALUES ' + //
-             ' ('+ SqlConstants + ')' + //
-             ' MATCHING ('+ pPrimaryKeyFieldNames +');'; //
+  Result := 'UPDATE OR INSERT INTO ' + pNomeTabela + //
+    ' (' + FieldNames + ')' + //
+    ' VALUES ' + //
+    ' (' + SqlConstants + ')' + //
+    ' MATCHING (' + pPrimaryKeyFieldNames + ');'; //
 end;
 
-function DataSetToSqlGarantir(q: TDataSet; pNomeTabela: string; pPrimaryKeyFieldNames: string; pFieldIndexes: TArray<Integer>): string; overload;
+function DataSetToSqlGarantir(q: TDataSet; pNomeTabela: string;
+  pPrimaryKeyFieldNames: string; pFieldIndexes: TArray<Integer>)
+  : string; overload;
 var
   i: Integer;
   oField: TField;
@@ -171,12 +186,101 @@ begin
     end;
   end;
 
-  Result :=  'UPDATE OR INSERT INTO ' + pNomeTabela + //
-             ' ('+ FieldNames + ')' + //
-             ' VALUES ' + //
-             ' ('+ SqlConstants + ')' + //
-             ' MATCHING ('+ pPrimaryKeyFieldNames +');'; //
+  Result := 'UPDATE OR INSERT INTO ' + pNomeTabela + //
+    ' (' + FieldNames + ')' + //
+    ' VALUES ' + //
+    ' (' + SqlConstants + ')' + //
+    ' MATCHING (' + pPrimaryKeyFieldNames + ');'; //
+end;
+
+function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
+  pPrimaryKeyFieldIndexes: TArray<Integer>): string; overload;
+var
+  i: Integer;
+  oField: TField;
+  UpdatePairs, WhereClause: string;
+  IsPrimaryKey: Boolean;
+begin
+  UpdatePairs := '';
+  WhereClause := '';
+
+  for i := 0 to q.FieldCount - 1 do
+  begin
+    IsPrimaryKey := False;
+    if Length(pPrimaryKeyFieldIndexes) > 0 then
+    begin
+      for var j in pPrimaryKeyFieldIndexes do
+      begin
+        if i = j then
+        begin
+          IsPrimaryKey := True;
+          if WhereClause <> '' then
+            WhereClause := WhereClause + ' AND ';
+          oField := q.Fields[i];
+          WhereClause := WhereClause + oField.FieldName + '=' +
+            FieldToSqlConstant(oField);
+          Break;
+        end;
+      end;
+    end;
+
+    if not IsPrimaryKey then
+    begin
+      oField := q.Fields[i];
+      if UpdatePairs <> '' then
+        UpdatePairs := UpdatePairs + ', ';
+      UpdatePairs := UpdatePairs + oField.FieldName + '=' +
+        FieldToSqlConstant(oField);
+    end;
+  end;
+
+  Result := 'UPDATE ' + pNomeTabela + ' SET ' + UpdatePairs + ' WHERE ' +
+    WhereClause + ';';
+end;
+
+function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
+  pFieldIndexes: TArray<Integer>; pPrimaryKeyFieldIndexes: TArray<Integer>)
+  : string; overload;
+var
+  i, j: Integer;
+  oField: TField;
+  UpdatePairs, WhereClause: string;
+begin
+  // Validate field indexes
+  if Length(pFieldIndexes) = 0 then
+    raise Exception.Create('No fields specified for update');
+  if Length(pPrimaryKeyFieldIndexes) = 0 then
+    raise Exception.Create('No primary key fields specified');
+
+  UpdatePairs := '';
+  WhereClause := '';
+
+  for i in pFieldIndexes do
+  begin
+    if (i >= 0) and (i < q.FieldCount) then
+    begin
+      oField := q.Fields[i];
+      if UpdatePairs <> '' then
+        UpdatePairs := UpdatePairs + ', ';
+      UpdatePairs := UpdatePairs + oField.FieldName + '=' +
+        FieldToSqlConstant(oField);
+    end;
+  end;
+
+  for j in pPrimaryKeyFieldIndexes do
+  begin
+    if (j >= 0) and (j < q.FieldCount) then
+    begin
+      oField := q.Fields[j];
+      if WhereClause <> '' then
+        WhereClause := WhereClause + ' AND ';
+      WhereClause := WhereClause + oField.FieldName + '=' +
+        FieldToSqlConstant(oField);
+    end;
+  end;
+
+  Result := 'UPDATE ' + pNomeTabela + ' SET ' + UpdatePairs + ' WHERE ' +
+    WhereClause + ';';
 end;
 
 end.
-
