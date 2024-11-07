@@ -8,24 +8,18 @@ uses
   FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client, System.Classes, Data.DB,
   Sis.DB.DBExecScript_u, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, FireDAC.Comp.Script, FireDAC.Comp.ScriptCommands,
-  FireDAC.Stan.Async, Sis.Types,
+  FireDAC.Stan.Async, Sis.Types, System.Generics.Collections,
   Sis.UI.IO.Output.ProcessLog.Registrador,
   Sis.Threads.Crit.FixedCriticalSection_u;
 
 type
   TDBExecScriptFireDac = class(TDBExecScript)
   private
-    FFDScript: TFDScript;
-
-  const
-    SQL_MAXLENGTH = 9000;
+    FFDCommand: TFDCommand;
+    FCommands: TArray<string>;
   protected
     function GetParams: TFDParams; override;
-    function GetSQL: string; override;
-    procedure SetSQL(Value: string); override;
 
-    function GetScriptTamanhoMaximo: integer; override;
-    function GetScriptTamanho: integer; override;
     procedure ExecuteNormal; override;
   public
     procedure PegueComando(pComando: string); override;
@@ -51,11 +45,12 @@ begin
   try
     inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput,
       pCritcalSection, pThreadSafe);
-    sLog := 'retornou de inherited Create,vai FFDScript := TFDScript.Create(nil);';
-    FFDScript := TFDScript.Create(nil);
-    FFDScript.Connection := TFDConnection(pDBConnection.ConnectionObject);
-    FFDScript.SQLScripts.Add;
-    FFDScript.SQLScripts[0].SQL.Clear;
+    sLog := 'retornou de inherited Create,vai FFDScript := FFDCommand.Create(nil);';
+
+    FFDCommand := TFDCommand.Create(nil);
+    FFDCommand.Connection := TFDConnection(pDBConnection.ConnectionObject);
+
+    SetLength(FCommands, 0);
   finally
     DBLog.Registre(sLog);
     ProcessLog.RetorneLocal;
@@ -66,7 +61,8 @@ destructor TDBExecScriptFireDac.Destroy;
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Destroy');
   try
-    FFDScript.Free;
+    SetLength(FCommands, 0);
+    FreeAndNil(FFDCommand);
     inherited;
   finally
     ProcessLog.RetorneLocal;
@@ -76,30 +72,37 @@ end;
 procedure TDBExecScriptFireDac.ExecuteNormal;
 var
   sLog: string;
+  iQtdCommands: integer;
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Execute');
   try
-    if ScriptTamanho = 0 then
-      exit;
 
-    // inherited;
+    sLog := 'vai executar os comandos';
+    DBConnection.StartTransaction;
     try
-      sLog := SQL + ', vai FFDScript.ValidateAll';
-      FFDScript.ValidateAll;
-      sLog := sLog + ', vai FFDScript.ExecuteAll';
-      FFDScript.ExecuteAll;
+      iQtdCommands := 0;
+      for var comando in FCommands do
+      begin
+        FFDCommand.CommandText.Text := comando;
+        FFDCommand.Execute;
+        // inc(iQtdCommands);
+        // if (iQtdCommands mod 1000) = 0 then
+        // Sleep(5);
+      end;
+      DBConnection.Commit;
     except
       on E: Exception do
       begin
         UltimoErro := 'TDBExecScriptFireDac.Execute Erro'#13#10#13#10 +
           E.classname + #13#10 + E.message + #13#10 + #13#10 +
-          'ao tentar executar:'#13#10#13#10 + SQL;
+          'ao tentar executar:'#13#10'-------'#13#10 +
+          FFDCommand.CommandText.Text + #13#10'-------'#13#10;
         sLog := sLog + ',' + UltimoErro;
         Output.Exibir(UltimoErro);
+        DBConnection.Rollback;
         raise Exception.Create(UltimoErro);
       end;
     end;
-    FFDScript.SQLScripts[0].SQL.Clear;
   finally
     DBLog.Registre(sLog);
     ProcessLog.RetorneLocal;
@@ -108,22 +111,7 @@ end;
 
 function TDBExecScriptFireDac.GetParams: TFDParams;
 begin
-  Result := FFDScript.Params;
-end;
-
-function TDBExecScriptFireDac.GetScriptTamanho: integer;
-begin
-  Result := FFDScript.SQLScripts[0].SQL.Text.Length
-end;
-
-function TDBExecScriptFireDac.GetScriptTamanhoMaximo: integer;
-begin
-  Result := SQL_MAXLENGTH;
-end;
-
-function TDBExecScriptFireDac.GetSQL: string;
-begin
-  Result := FFDScript.SQLScripts[0].SQL.Text
+  Result := FFDCommand.Params;
 end;
 
 procedure TDBExecScriptFireDac.PegueComando(pComando: string);
@@ -136,7 +124,7 @@ begin
     exit;
   repeat
     UltimoChar := pComando[Length(pComando)];
-    if not CharInSet(UltimoChar, [#32, #13, #13]) then
+    if not CharInSet(UltimoChar, [#9, #32, #10, #13]) then
       break;
     pComando := StrDeleteNoFim(pComando, 1);
   until False;
@@ -144,16 +132,8 @@ begin
   if UltimoChar <> ';' then
     pComando := pComando + ';';
 
-  pComando := pComando + #13#10;
-
-  // precisa manter este inherited. tem testes feitos na classe ancestral
-  FFDScript.SQLScripts[0].SQL.Add(pComando+#13#10);
-end;
-
-procedure TDBExecScriptFireDac.SetSQL(Value: string);
-begin
-  inherited;
-  FFDScript.SQLScripts[0].SQL.Text := Value;
+  SetLength(FCommands, Length(FCommands) + 1);
+  FCommands[High(FCommands)] := pComando;
 end;
 
 end.

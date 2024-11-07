@@ -27,14 +27,9 @@ type
   protected
     procedure ExecuteNormal; virtual; abstract;
 
-    function GetScriptTamanhoMaximo: integer; virtual; abstract;
-    function GetScriptTamanho: integer; virtual; abstract;
-
-    property ScriptTamanhoMaximo: integer read GetScriptTamanhoMaximo;
-    property ScriptTamanho: integer read GetScriptTamanho;
   public
     procedure Execute;
-    procedure PegueComando(pComando: string); virtual;
+    procedure PegueComando(pComando: string); virtual; abstract;
     property ThreadSafe: Boolean read GetThreadSafe write SetThreadSafe;
     constructor Create(pNomeComponente: string; pDBConnection: IDBConnection;
       pProcessLog: IProcessLog; pOutput: IOutput;
@@ -81,16 +76,6 @@ end;
 function TDBExecScript.GetThreadSafe: Boolean;
 begin
   Result := FThreadSafe;
-end;
-
-procedure TDBExecScript.PegueComando(pComando: string);
-var
-  iTamanhoFuturo: integer;
-begin
-  iTamanhoFuturo := ScriptTamanho + 4 { enteres } + Length(pComando);
-  if iTamanhoFuturo > ScriptTamanhoMaximo then
-    Execute;
-  //na classe filha deve ser fieto o add pcommand
 end;
 
 procedure TDBExecScript.SetExecute(const Value: TProcedureOfObject);
