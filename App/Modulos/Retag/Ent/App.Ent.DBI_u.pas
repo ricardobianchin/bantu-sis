@@ -305,9 +305,9 @@ begin
   DBConnection.Abrir;
   try
     sSqlRetRegs := GetSqlPreencherDataSet(pValues);
-    //{$IFDEF DEBUG}
-    //CopyTextToClipboard(sSqlRetRegs);
-    //{$ENDIF}
+//    {$IFDEF DEBUG}
+//    CopyTextToClipboard(sSqlRetRegs);
+//    {$ENDIF}
 
     DBConnection.QueryDataSet(sSqlRetRegs, q);
     try
