@@ -75,7 +75,7 @@ begin
 
   FPessEnt.EMail := Q.Fields[14 { EMAIL } ].AsString;
   FPessEnt.DtNasc := Q.Fields[15 { DT_NASC } ].AsDateTime;
-  FPessEnt.Ativo := Q.Fields[16 { ATIVO } ].AsBoolean;
+  FPessEnt.Ativo := iif(FPessEnt.Id = 0, True, Q.Fields[16 { ATIVO } ].AsBoolean);
 
   FPessEnt.CriadoEm := Q.Fields[17 { PESS_CRIADO_EM } ].AsDateTime;
   FPessEnt.AlteradoEm := Q.Fields[18 { PESS_ALTERADO_EM } ].AsDateTime;
