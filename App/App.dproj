@@ -601,6 +601,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

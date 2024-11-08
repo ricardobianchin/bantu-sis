@@ -317,6 +317,10 @@ contains
   App.Threads.TermThreadCreator_u in 'DB\Term\App.Threads.TermThreadCreator_u.pas',
   App.Threads.SyncTermThreadCreator_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas',
   App.Threads.SyncTermThread_u_SyncLoja in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas',
-  App.Threads.SyncTermThread_u_PegarFaixa in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas';
+  App.Threads.SyncTermThread_u_PegarFaixa in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas',
+  App.Testes.Config.ModuRetag.Fin in 'AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas',
+  App.Testes.Config.ModuRetag.Fin_u in 'AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas',
+  App.Testes.Config.ModuRetag.Fin.PagamentoForma in 'AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma.pas',
+  App.Testes.Config.ModuRetag.Fin.PagamentoForma_u in 'AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma_u.pas';
 
 end.

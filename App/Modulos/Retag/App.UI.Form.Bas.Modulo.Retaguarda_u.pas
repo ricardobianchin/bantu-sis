@@ -186,6 +186,7 @@ type
     procedure TestaTesteConfig;
     procedure TestaTesteConfig_Acesso;
     procedure TestaTesteConfig_Est;
+    procedure TestaTesteConfig_Fin;
     procedure TestaTesteConfig_Ajuda;
   public
     { Public declarations }
@@ -578,6 +579,7 @@ procedure TRetaguardaModuloBasForm.TestaTesteConfig;
 begin
   TestaTesteConfig_Acesso;
   TestaTesteConfig_Est;
+  TestaTesteConfig_Fin;
   TestaTesteConfig_Ajuda;
 end;
 
@@ -625,6 +627,19 @@ begin
   begin
     MenuPageControl.ActivePage := EstoqueTabSheet;
     RetagEstVenClienteAction.Execute;
+  end;
+end;
+
+procedure TRetaguardaModuloBasForm.TestaTesteConfig_Fin;
+var
+  bDeveExecutar: Boolean;
+begin
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Fin.PagamentoForma.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := FinTabSheet;
+    FinanceiroPagamentoFormaAction.Execute;
   end;
 end;
 
