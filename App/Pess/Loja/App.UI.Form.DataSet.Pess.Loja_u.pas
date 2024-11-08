@@ -49,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.UI.Factory_u;
+uses App.Pess.UI.Factory_u, Sis.UI.Controls.Utils;
 
 constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
@@ -165,6 +165,7 @@ end;
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+  ClearStyleElements(Self);
   // AltAction_DatasetTabSheet.Execute;
   //
 end;

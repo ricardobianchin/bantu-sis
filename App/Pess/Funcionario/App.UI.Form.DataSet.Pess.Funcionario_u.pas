@@ -51,7 +51,7 @@ implementation
 
 uses App.Pess.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, Sis.DB.Factory, App.DB.Utils,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid, Sis.UI.ImgDM;
+  Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid, Sis.UI.ImgDM, Sis.UI.Controls.Utils;
 
 { TAppPessFuncionarioDataSetForm }
 
@@ -191,7 +191,7 @@ procedure TAppPessFuncionarioDataSetForm.ShowTimer_BasFormTimer
 begin
   inherited;
   //
-  DBGrid1.SetFocus;
+  TrySetFocus(DBGrid1);
 end;
 
 procedure TAppPessFuncionarioDataSetForm.ToolBar1CrieBotoes;

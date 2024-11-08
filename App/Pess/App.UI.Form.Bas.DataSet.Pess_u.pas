@@ -14,7 +14,6 @@ uses
 
 type
   TAppPessDataSetForm = class(TTabSheetDataSetBasForm)
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -466,12 +465,6 @@ begin
     FPessEnt.PessEnderList[iOrdem].CriadoEm := FDMemTable.Fields[iT_ENDER_CRIADO_EM].AsDateTime;
     FPessEnt.PessEnderList[iOrdem].AlteradoEm := FDMemTable.Fields[iT_ENDER_ALTERADO_EM].AsDateTime;
   }
-end;
-
-procedure TAppPessDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  ClearStyleElements(Self);
 end;
 
 procedure TAppPessDataSetForm.ToolBar1CrieBotoes;

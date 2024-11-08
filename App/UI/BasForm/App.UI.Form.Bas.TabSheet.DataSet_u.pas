@@ -133,7 +133,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.DataSet.Utils;
+uses Sis.DB.DataSet.Utils, Sis.UI.Controls.Utils;
 
 { TTabSheetDataSetBasForm }
 
@@ -188,7 +188,7 @@ begin
     DoAlterar;
   finally
     State := dsBrowse;
-    DBGrid1.SetFocus;
+    TrySetFocus(DBGrid1);
     AltExecutando := False;
 
     if AtualizaAposEd then
@@ -224,7 +224,7 @@ begin
     DoAtualizar(Self);
     DoAposAtualizar;
   finally
-    DBGrid1.SetFocus;
+    TrySetFocus(DBGrid1);
     AtuExecutando := False;
   end;
 end;
@@ -447,7 +447,7 @@ begin
 
   AtuAction_DatasetTabSheet.Execute;
 
-  DBGrid1.SetFocus;
+  TrySetFocus(DBGrid1);
 
   if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
     exit;
@@ -472,7 +472,7 @@ begin
   finally
     InsExecutando := False;
     State := dsBrowse;
-    DBGrid1.SetFocus;
+    TrySetFocus(DBGrid1);
 
     if AtualizaAposEd then
       AtuAction_DatasetTabSheet.Execute;
