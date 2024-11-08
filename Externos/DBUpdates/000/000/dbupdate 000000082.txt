@@ -4,16 +4,33 @@ LOG_HIST_PA
 INICIO LOG_HIST_PA
 -----------------------------
 DBATUALIZ INI
+DBATUALIZ_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=SIS, SYNC
 DBATUALIZ_OBJETIVO=CRIAR LOG_HIST_PA
 DBATUALIZ_OBS=
-DBATUALIZ_ALVO=SERVIDOR
 
 
 
 
 
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql
 
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
+
+SELECT  SEMPRE_VISIVEL, AUTO_OPEN BOOLEAN
+FROM GER_FORM_PA.CONFIGS_GET;
+
+EXECUTE PROCEDURE GER_FORM_PA.SEMPRE_VISIVEL_SET(TRUE);
+EXECUTE PROCEDURE GER_FORM_PA.AUTO_OPEN_SET(TRUE);
+
+DELETE FROM SYNC_DO_SERVIDOR_SIS;
+COMMIT;
+
+*/
 
 /////////////////////////
 //
@@ -23,24 +40,11 @@ DBATUALIZ_ALVO=SERVIDOR
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=LOG_HIST_PA
-/*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
-
-
-
-*/
 ```FIREBIRD
 SET TERM ^;
-
 CREATE OR ALTER PACKAGE LOG_HIST_PA
 AS
 BEGIN
-  -- LOG_HIST_PA.TEVE_LOJA DEF
   PROCEDURE TEVE_LOJA
   (
     LOG_ID_INI BIGINT
@@ -65,7 +69,7 @@ BEGIN
     , EMAIL VARCHAR(50)
     , DT_NASC DATE
     , ATIVO BOOLEAN
-
+    
     , PESS_CRIADO_EM TIMESTAMP
     , PESS_ALTERADO_EM TIMESTAMP
 
@@ -86,12 +90,38 @@ BEGIN
     , REFERENCIA           OBS1_DOM
     , SELECIONADO BOOLEAN
   );  
+  
+  
+  PROCEDURE TEVE_TERMINAL
+  (
+    TERMINAL_ID_ALVO ID_SHORT_DOM
+    , LOG_ID_INI BIGINT
+    , LOG_ID_FIN BIGINT
+  )
+  RETURNS
+  (
+    TERMINAL_ID_RET ID_SHORT_DOM
+    , APELIDO NOME_REDU_DOM
+    , NOME_NA_REDE VARCHAR(15)
+    , IP IPV6_DOM
+    , NF_SERIE SMALLINT
+    , LETRA_DO_DRIVE CHAR(1)
+    , GAVETA_TEM BOOLEAN
+    , BALANCA_MODO_ID ID_SHORT_DOM
+    , BALANCA_ID ID_SHORT_DOM
+    , BARRAS_COD_INI SMALLINT
+    , BARRAS_COD_TAM SMALLINT
+    , CUPOM_NLINS_FINAL SMALLINT
+    , SEMPRE_OFFLINE BOOLEAN
+  );  
+  
 END^
+
+------ BODY
 
 RECREATE PACKAGE BODY LOG_HIST_PA
 AS
 BEGIN
-  -- LOG_HIST_PA.TEVE_LOJA IMP
   PROCEDURE TEVE_LOJA
   (
     LOG_ID_INI BIGINT
@@ -116,7 +146,7 @@ BEGIN
     , EMAIL VARCHAR(50)
     , DT_NASC DATE
     , ATIVO BOOLEAN
-
+    
     , PESS_CRIADO_EM TIMESTAMP
     , PESS_ALTERADO_EM TIMESTAMP
 
@@ -140,9 +170,8 @@ BEGIN
   AS
     --DECLARE STMP CONFIG_VALOR_DOM;
   BEGIN
-    -- LOG_HIST_PA.TEVE_LOJA IMP
     SELECT FIRST(1)
-      LOJA.LOJA_ID
+      P.LOJA_ID
       , P.TERMINAL_ID
       , P.PESSOA_ID
       
@@ -158,7 +187,7 @@ BEGIN
       , P.EMAIL
       , P.DT_NASC
       , P.ATIVO
-
+      
       , P.CRIADO_EM
       , P.ALTERADO_EM
       
@@ -228,7 +257,7 @@ BEGIN
       , :EMAIL
       , :DT_NASC
       , :ATIVO
-
+      
       , :PESS_CRIADO_EM
       , :PESS_ALTERADO_EM
 
@@ -249,6 +278,80 @@ BEGIN
       , :CONTATO
       , :REFERENCIA
       , :SELECIONADO
+      ;
+    SUSPEND;
+  END
+  
+  PROCEDURE TEVE_TERMINAL
+  (
+    TERMINAL_ID_ALVO ID_SHORT_DOM
+    , LOG_ID_INI BIGINT
+    , LOG_ID_FIN BIGINT
+  )
+  RETURNS
+  (
+    TERMINAL_ID_RET ID_SHORT_DOM
+    , APELIDO NOME_REDU_DOM
+    , NOME_NA_REDE VARCHAR(15)
+    , IP IPV6_DOM
+    , NF_SERIE SMALLINT
+    , LETRA_DO_DRIVE CHAR(1)
+    , GAVETA_TEM BOOLEAN
+    , BALANCA_MODO_ID ID_SHORT_DOM
+    , BALANCA_ID ID_SHORT_DOM
+    , BARRAS_COD_INI SMALLINT
+    , BARRAS_COD_TAM SMALLINT
+    , CUPOM_NLINS_FINAL SMALLINT
+    , SEMPRE_OFFLINE BOOLEAN
+  )
+  AS
+  BEGIN
+    SELECT   
+      T.TERMINAL_ID TERMINAL_ID_RET
+        , T.APELIDO
+        , T.NOME_NA_REDE
+        , T.IP
+        , T.NF_SERIE
+        , T.LETRA_DO_DRIVE
+        , T.GAVETA_TEM
+        , T.BALANCA_MODO_ID
+        , T.BALANCA_ID
+        , T.BARRAS_COD_INI
+        , T.BARRAS_COD_TAM
+        , T.CUPOM_NLINS_FINAL
+        , T.SEMPRE_OFFLINE
+        
+      FROM AMBIENTE_SIS AMBI
+
+      JOIN LOG ON 
+        AMBI.LOJA_ID = LOG.LOJA_ID
+        AND LOG.TERMINAL_ID = 0 -- TERM RETAGUARDA
+        AND FEATURE_SIS_ID = 2 -- FEATURE TERMINAL
+        AND LOG_ID >= :LOG_ID_INI
+        AND LOG_ID <= :LOG_ID_FIN
+        
+      JOIN LOG_ENVOLVE_ID LOG_EN ON
+        LOG_EN.LOJA_ID = LOG.LOJA_ID
+        AND LOG_EN.TERMINAL_ID = LOG.TERMINAL_ID
+        AND LOG_EN.LOG_ID = LOG.LOG_ID
+        AND LOG_EN.TERMINAL_ID_ENVOLVIDO = :TERMINAL_ID_ALVO
+
+      JOIN TERMINAL t ON
+        T.TERMINAL_ID = :TERMINAL_ID_ALVO
+    INTO
+      :TERMINAL_ID_RET
+      , :APELIDO
+      , :NOME_NA_REDE
+      , :IP
+      , :NF_SERIE
+      , :LETRA_DO_DRIVE
+      , :GAVETA_TEM
+      , :BALANCA_MODO_ID
+      , :BALANCA_ID
+      , :BARRAS_COD_INI
+      , :BARRAS_COD_TAM
+      , :CUPOM_NLINS_FINAL
+      , :SEMPRE_OFFLINE
       ;
     SUSPEND;
   END
