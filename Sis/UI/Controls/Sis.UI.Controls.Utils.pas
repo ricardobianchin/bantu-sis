@@ -27,6 +27,10 @@ function GetToolFormHeight: integer;
 procedure ControlAlignToCenter(pControl: TControl);
 procedure ControlAlignToRect(pControl: TControl; pRect: TRect; pAlignment: TAlignment = taCenter);
 
+function ControlIsVisible(pControl: TControl): Boolean;
+
+procedure TrySetFocus(pWinControl: TWinControl);
+
 implementation
 
 uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst, Vcl.Forms,
@@ -255,6 +259,35 @@ begin
 
   AltuDif := pRect.Height - pControl.Height;
   pControl.Top := AltuDif div 2;
+end;
+
+function ControlIsVisible(pControl: TControl): Boolean;
+begin
+  // Verifica se o controle inicial já está invisível
+  Result := pControl.Visible;
+  if not Result then
+    Exit;
+
+  while pControl.Parent <> nil do
+  begin
+    pControl := pControl.Parent;
+
+    // Se o parent não estiver visível, saia do loop e retorne False
+    Result := pControl.Visible;
+    if not Result then
+      Break;
+  end;
+end;
+
+procedure TrySetFocus(pWinControl: TWinControl);
+var
+  bVisible: Boolean;
+begin
+  bVisible := ControlIsVisible(pWinControl);
+  if not bVisible then
+    Exit;
+
+  pWinControl.SetFocus;
 end;
 
 end.
