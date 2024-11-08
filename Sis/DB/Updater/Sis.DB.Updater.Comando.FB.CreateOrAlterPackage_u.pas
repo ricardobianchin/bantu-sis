@@ -60,12 +60,11 @@ var
   sBody: string;
 begin
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
-  {
-  SetClipboardText(sCabec);
-  SetClipboardText(FCabecLinhasSL.Text);
-  SetClipboardText(sBody);
-  SetClipboardText(FBodyLinhasSL.Text);
-  }
+
+//  SetClipboardText(sCabec);
+//  SetClipboardText(FCabecLinhasSL.Text);
+//  SetClipboardText(sBody);
+//  SetClipboardText(FBodyLinhasSL.Text);
 
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
