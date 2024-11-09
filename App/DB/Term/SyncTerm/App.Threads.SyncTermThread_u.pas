@@ -5,7 +5,8 @@ interface
 uses App.Threads.TermThread_u, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   System.Classes, Sis.Threads.ThreadBas_u, App.AppObj, Sis.Entities.Terminal,
   Sis.Threads.SafeBool, Sis.DB.Factory, Sis.DB.DBTypes, App.DB.Utils,
-  Sis.Sis.Constants;
+  Sis.Sis.Constants, App.Threads.SyncTermThread_AddComandos,
+  System.Generics.Collections;
 
 type
   TAppSyncTermThread = class(TTermThread)
@@ -13,26 +14,29 @@ type
     FServCon, FTermCon: IDBConnection;
     FLogIdIni, FLogIdFin: Int64;
     FDBExecScript: IDBExecScript;
+    FAddCommandsList: TList<ISyncTermAddComandos>;
     function Conectou: boolean;
     procedure FecharConexoes;
+    procedure Sync(pAtualIni, pAtualFIn: Int64);
   protected
+    procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
+      pServCon, pTermCon: IDBConnection; pSql: TStrings); virtual;
     procedure Execute; override;
 
-    procedure PegarFaixa; virtual;
-    procedure SyncLoja; virtual;
+    procedure PegarFaixa(out FLogIdIni, FLogIdFin: Int64); virtual;
 
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
       pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;
       pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil);
+    destructor Destroy; override;
+
   end;
 
 implementation
 
-uses System.SysUtils, Sis.Config.SisConfig //
-    , App.Threads.SyncTermThread_u_PegarFaixa //
-    , App.Threads.SyncTermThread_u_SyncLoja //
-    ;
+uses System.SysUtils, Sis.Config.SisConfig, System.Math, App.Constants,
+  App.Threads.SyncTermThread_u_PegarFaixa, App.Threads.SyncTermThread.Factory_u;
 
 { TAppSyncTermThread }
 
@@ -78,14 +82,21 @@ begin
   sThreadTitulo := 'Sincronização ' + pTerminal.AsText;
   inherited Create(pTerminal, pAppObj, pExecutandoSafeBool, pTitOutput,
     pStatusOutput, pProcessLog, sThreadTitulo);
+  FAddCommandsList := TList<ISyncTermAddComandos>.Create;
+end;
+
+destructor TAppSyncTermThread.Destroy;
+begin
+  FreeAndNil(FAddCommandsList);
+  inherited;
 end;
 
 procedure TAppSyncTermThread.Execute;
 var
   i, m: integer;
-  sMens: string;
+  iAtualIni, iAtualFIn: Int64;
 begin
-  inherited;
+//  inherited;
   StatusOutput.Exibir('Iniciou');
   if Terminated then
     exit;
@@ -98,40 +109,41 @@ begin
     FDBExecScript := DBExecScriptCreate('TAppSyncTermThread.ExecScript',
       FTermCon, ProcessLog, StatusOutput, Terminal.CriticalSections.DB);
 
-    PegarFaixa;
+    RegistreAddComands(AppObj, Terminal, FServCon, FTermCon, FDBExecScript.Sql);
+
+    PegarFaixa(FLogIdIni, FLogIdFin);
 
     if FLogIdIni = FLogIdFin then
-      Exit;
-
-    sMens := FLogIdIni.ToString + ' a '+FLogIdFin.ToString;
-    StatusOutput.Exibir(sMens);
-    if Terminated then
       exit;
 
-    SyncLoja;
-    if Terminated then
-      exit;
+    iAtualIni := FLogIdIni;
 
-    FDBExecScript.PegueComando('EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR('+FLogIdFin.ToString+');');
-    if Terminated then
-      exit;
+    while iAtualIni <= FLogIdFin do
+    begin
+      if Terminated then
+        exit;
 
-    FDBExecScript.Execute;
+      iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
+
+      Sync(iAtualIni, iAtualFIn);
+
+      Inc(iAtualIni, TERMINAL_SYNC_PASSO);
+    end;
   finally
     FecharConexoes;
   end;
 end;
 
-  {
-    m := 5 + random(10);
-    for i := 1 to m do
-    begin
-    OutputSafe(StatusOutput, i.ToString + '/' + m.ToString);
-    if Terminated then
-    break;
-    Sleep(1000);
-    end;
-  }
+{
+  m := 5 + random(10);
+  for i := 1 to m do
+  begin
+  OutputSafe(StatusOutput, i.ToString + '/' + m.ToString);
+  if Terminated then
+  break;
+  Sleep(1000);
+  end;
+}
 
 procedure TAppSyncTermThread.FecharConexoes;
 begin
@@ -139,16 +151,36 @@ begin
   FTermCon.Fechar;
 end;
 
-procedure TAppSyncTermThread.PegarFaixa;
+procedure TAppSyncTermThread.PegarFaixa(out FLogIdIni, FLogIdFin: Int64);
 begin
   App.Threads.SyncTermThread_u_PegarFaixa.PegarFaixa(AppObj, Terminal, FServCon,
     FTermCon, FLogIdIni, FLogIdFin);
 end;
 
-procedure TAppSyncTermThread.SyncLoja;
+procedure TAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
+  pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
-  App.Threads.SyncTermThread_u_SyncLoja.SyncLoja(AppObj, Terminal,
-    FServCon, FTermCon, FLogIdIni, FLogIdFin, FDBExecScript);
+  FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon, pTermCon,
+    pSql));
+end;
+
+procedure TAppSyncTermThread.Sync(pAtualIni, pAtualFIn: Int64);
+var
+  sFormat: string;
+  sMens: string;
+begin
+  sFormat := 'Logs de %d a %d. Fin: %d';
+  sMens := Format(sFormat, [pAtualIni, pAtualFIn, FLogIdFin]);
+  StatusOutput.Exibir(sMens);
+
+  for var Adder in FAddCommandsList do
+    Adder.Execute(pAtualIni, pAtualFIn);
+
+  FDBExecScript.PegueComando
+    ('EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
+    FLogIdFin.ToString + ');');
+
+  FDBExecScript.Execute;
 end;
 
 end.

@@ -599,12 +599,15 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Threads\App.Threads.AppThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\App.Threads.TermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_SyncLoja.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread.Factory_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Loja_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
