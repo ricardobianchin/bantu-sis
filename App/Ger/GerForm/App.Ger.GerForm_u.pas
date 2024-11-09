@@ -215,6 +215,9 @@ end;
 procedure TGerAppForm.FecharAction_GerAppFormExecute(Sender: TObject);
 begin
   // inherited;
+  if not FPodeExecutar then
+    exit;
+
   Hide;
 end;
 
