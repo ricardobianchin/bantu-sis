@@ -16,8 +16,7 @@ type
 
   protected
     function GetParams: TFDParams; override;
-    procedure SetSQL(Value: string); override;
-    function GetSQL: string; override;
+    function GetSQL: TStrings; override;
     function GetIsEmpty: boolean; override;
     function GetDataSet: TDataSet; override;
 
@@ -52,7 +51,7 @@ begin
   ProcessLog.PegueLocal('TDBQueryFireDac.Abrir');
   try
     try
-      sLog := SQL + ',' + GetParamsAsStr + ', vai FFDQuery.Open';
+      sLog := SQL.Text + ',' + GetParamsAsStr + ', vai FFDQuery.Open';
       FFDQuery.Open;
       if FFDQuery.Active then
       begin
@@ -96,7 +95,7 @@ begin
     FFDQuery.Connection := TFDConnection(pDBConnection.ConnectionObject);
 
     sLog := sLog + #13#10'pSql='#13#10 + pSql + #13#10;
-    SetSQL(pSql);
+    SQL.Text := pSql;
 
   finally
     DBLog.Registre(sLog);
@@ -152,9 +151,9 @@ begin
   Result := FFDQuery.Prepared;
 end;
 
-function TDBQueryFireDac.GetSQL: string;
+function TDBQueryFireDac.GetSQL: TStrings;
 begin
-  Result := FFDQuery.SQL.Text;
+  Result := FFDQuery.SQL;
 end;
 
 procedure TDBQueryFireDac.Prepare;
@@ -183,11 +182,6 @@ procedure TDBQueryFireDac.SetPrepared(Value: boolean);
 begin
   inherited;
   FFDQuery.Prepared := Value;
-end;
-
-procedure TDBQueryFireDac.SetSQL(Value: string);
-begin
-  FFDQuery.SQL.Text := Value;
 end;
 
 procedure TDBQueryFireDac.Unprepare;

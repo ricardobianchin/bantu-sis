@@ -16,9 +16,10 @@ type
   TDBExecScriptFireDac = class(TDBExecScript)
   private
     FFDCommand: TFDCommand;
-    FCommands: TArray<string>;
+    FSql: TStringList;
   protected
     function GetParams: TFDParams; override;
+    function GetSQL: TStrings; override;
 
     procedure ExecuteNormal; override;
   public
@@ -49,8 +50,7 @@ begin
 
     FFDCommand := TFDCommand.Create(nil);
     FFDCommand.Connection := TFDConnection(pDBConnection.ConnectionObject);
-
-    SetLength(FCommands, 0);
+    FSql := TStringList.Create;
   finally
     DBLog.Registre(sLog);
     ProcessLog.RetorneLocal;
@@ -61,7 +61,7 @@ destructor TDBExecScriptFireDac.Destroy;
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Destroy');
   try
-    SetLength(FCommands, 0);
+    FreeAndNil(FSql);
     FreeAndNil(FFDCommand);
     inherited;
   finally
@@ -73,6 +73,7 @@ procedure TDBExecScriptFireDac.ExecuteNormal;
 var
   sLog: string;
   iQtdCommands: integer;
+  sComando: string;
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Execute');
   try
@@ -81,22 +82,25 @@ begin
     DBConnection.StartTransaction;
     try
       iQtdCommands := 0;
-      for var comando in FCommands do
+      for var i := 0 to FSql.Count - 1 do
       begin
-        FFDCommand.CommandText.Text := comando;
+        sComando := FSql[i];
+        FFDCommand.CommandText.Text := sComando;
         FFDCommand.Execute;
-        // inc(iQtdCommands);
-        // if (iQtdCommands mod 1000) = 0 then
-        // Sleep(5);
+
+       inc(iQtdCommands);
+       if (iQtdCommands mod 333) = 0 then
+         Sleep(5);
       end;
       DBConnection.Commit;
+      FSql.Clear;
     except
       on E: Exception do
       begin
         UltimoErro := 'TDBExecScriptFireDac.Execute Erro'#13#10#13#10 +
           E.classname + #13#10 + E.message + #13#10 + #13#10 +
           'ao tentar executar:'#13#10'-------'#13#10 +
-          FFDCommand.CommandText.Text + #13#10'-------'#13#10;
+          sComando + #13#10'-------'#13#10;
         sLog := sLog + ',' + UltimoErro;
         Output.Exibir(UltimoErro);
         DBConnection.Rollback;
@@ -112,6 +116,11 @@ end;
 function TDBExecScriptFireDac.GetParams: TFDParams;
 begin
   Result := FFDCommand.Params;
+end;
+
+function TDBExecScriptFireDac.GetSQL: TStrings;
+begin
+  Result := FSql;
 end;
 
 procedure TDBExecScriptFireDac.PegueComando(pComando: string);
@@ -132,8 +141,7 @@ begin
   if UltimoChar <> ';' then
     pComando := pComando + ';';
 
-  SetLength(FCommands, Length(FCommands) + 1);
-  FCommands[High(FCommands)] := pComando;
+  FSql.Add(pComando);
 end;
 
 end.

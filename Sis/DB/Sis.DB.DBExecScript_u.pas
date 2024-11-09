@@ -18,16 +18,17 @@ type
     function GetThreadSafe: Boolean;
     procedure SetThreadSafe(const Value: Boolean);
 
-    function GetExecute: TProcedureOfObject;
-    procedure SetExecute(const Value: TProcedureOfObject);
+    function GetProcExecute: TProcedureOfObject;
+    procedure SetProcExecute(const Value: TProcedureOfObject);
 
-    property ProcExecute: TProcedureOfObject read GetExecute write SetExecute;
+    property ProcExecute: TProcedureOfObject read GetProcExecute write SetProcExecute;
 
     procedure ExecuteSafe;
   protected
     procedure ExecuteNormal; virtual; abstract;
 
   public
+
     procedure Execute;
     procedure PegueComando(pComando: string); virtual; abstract;
     property ThreadSafe: Boolean read GetThreadSafe write SetThreadSafe;
@@ -68,7 +69,7 @@ begin
   end;
 end;
 
-function TDBExecScript.GetExecute: TProcedureOfObject;
+function TDBExecScript.GetProcExecute: TProcedureOfObject;
 begin
   Result := FProcExecute;
 end;
@@ -78,7 +79,7 @@ begin
   Result := FThreadSafe;
 end;
 
-procedure TDBExecScript.SetExecute(const Value: TProcedureOfObject);
+procedure TDBExecScript.SetProcExecute(const Value: TProcedureOfObject);
 begin
   FProcExecute := Value;
 end;

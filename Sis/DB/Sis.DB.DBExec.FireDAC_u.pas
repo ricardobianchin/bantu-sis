@@ -16,8 +16,7 @@ type
 
   protected
     function GetParams: TFDParams; override;
-    procedure SetSQL(Value: string); override;
-    function GetSQL: string; override;
+    function GetSQL: TStrings; override;
 
     function GetPrepared: boolean; override;
     procedure SetPrepared(Value: boolean); override;
@@ -48,7 +47,7 @@ begin
     sLog := 'retornou de inherited Create,vai FFDCommand := TFDCommand.Create';
     FFDCommand := TFDCommand.Create(nil);
     FFDCommand.Connection := TFDConnection(pDBConnection.ConnectionObject);
-    Sql := pSql;
+    Sql.Text := pSql;
     sLog := sLog + ','#13#10 + pSql + #13#10;
   finally
     DBLog.Registre(sLog);
@@ -78,7 +77,7 @@ begin
   try
     inherited;
     try
-      sLog := Sql + ',' + GetParamsAsStr + ', vai FFDCommand.Execute';
+      sLog := Sql.Text + ',' + GetParamsAsStr + ', vai FFDCommand.Execute';
 
       FFDCommand.Execute;
     except
@@ -86,7 +85,7 @@ begin
       begin
         UltimoErro := 'TDBExecFireDac.Execute Erro'#13#10#13#10 + e.classname +
           #13#10 + e.message + #13#10 + #13#10 +
-          'ao tentar executar:'#13#10#13#10 + Sql;
+          'ao tentar executar:'#13#10#13#10 + Sql.Text;
         sLog := sLog + ',' + UltimoErro;
         Output.Exibir(UltimoErro);
         raise exception.Create(UltimoErro);
@@ -108,9 +107,9 @@ begin
   Result := FFDCommand.Prepared;
 end;
 
-function TDBExecFireDac.GetSQL: string;
+function TDBExecFireDac.GetSQL: TStrings;
 begin
-  Result := FFDCommand.CommandText.Text;
+  Result := FFDCommand.CommandText;
 end;
 
 procedure TDBExecFireDac.Prepare;
@@ -141,12 +140,6 @@ begin
   finally
     ProcessLog.RetorneLocal;
   end;
-end;
-
-procedure TDBExecFireDac.SetSQL(Value: string);
-begin
-  inherited;
-  FFDCommand.CommandText.Text := Value;
 end;
 
 procedure TDBExecFireDac.Unprepare;

@@ -131,9 +131,8 @@ type
     function GetNome: string;
     property Nome: string read GetNome;
 
-    function GetSql: string;
-    procedure SetSql(Value: string);
-    property Sql: string read GetSql write SetSql;
+    function GetSql: TStrings;
+    property Sql: TStrings read GetSql;
 
     function GetParams: TFDParams;
     property Params: TFDParams read GetParams;
@@ -170,10 +169,10 @@ type
     procedure Execute;
   end;
 
-  IDBExecScript = interface(INomeavel)
+  IDBExecScript = interface(IDBSqlOperation)
     ['{4548FEFF-5026-4E84-B0DC-E31D7EFD28FC}']
-    procedure PegueComando(pComando: string);
     procedure Execute;
+    procedure PegueComando(pComando: string);
   end;
 
 function StrToDBFramework(pStr: string): TDBFramework;
