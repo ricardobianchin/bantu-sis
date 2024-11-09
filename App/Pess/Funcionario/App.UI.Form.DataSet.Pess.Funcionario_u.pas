@@ -148,9 +148,6 @@ begin
 
   OpcaoSisFuncionarioPerg(iLojaId, iLogUsuarioId, iUsuarioIdEnvolvido,
     sUsuarioNomeEnvolvido, AppObj, DBMS);
-
-  OpcaoSisFuncionarioPerg(iLojaId, iLogUsuarioId, iUsuarioIdEnvolvido,
-    sUsuarioNomeEnvolvido, AppObj, DBMS);
 end;
 
 procedure TAppPessFuncionarioDataSetForm.
