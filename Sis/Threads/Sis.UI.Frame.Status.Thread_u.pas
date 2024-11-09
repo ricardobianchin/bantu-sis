@@ -27,9 +27,10 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     procedure DoTerminate(Sender: TObject);
-    procedure Terminate; //override;
-    function PodeFechar: boolean; //override;
-    property ThreadCreator: IThreadCreator read FThreadCreator write FThreadCreator;
+    procedure Terminate; // override;
+    function PodeFechar: boolean; // override;
+    property ThreadCreator: IThreadCreator read FThreadCreator
+      write FThreadCreator;
     property Executando: ISafeBool read FExecutandoSafeBool;
     procedure Execute;
     property TitOutput: IOutput read FTitOutput;
@@ -37,16 +38,18 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
   end;
 
-  TThreadStatusFrameProcedure = reference to procedure(pFrame: TThreadStatusFrame);
+  TThreadStatusFrameProcedure = reference to procedure
+    (pFrame: TThreadStatusFrame);
 
-//var
-//  ThreadStatusFrame: TThreadStatusFrame;
+  // var
+  // ThreadStatusFrame: TThreadStatusFrame;
 
 implementation
 
 {$R *.dfm}
 
-uses Sis.Threads.Factory_u, Sis.UI.Controls.Utils, Sis.UI.IO.Output.ToLabel_u, Sis.UI.IO.Factory;
+uses Sis.Threads.Factory_u, Sis.UI.Controls.Utils, Sis.UI.IO.Output.ToLabel_u,
+  Sis.UI.IO.Factory;
 
 { TThreadStatusFrame }
 
@@ -75,14 +78,22 @@ begin
   s := name;
   if Executando.AsBoolean then
     exit;
-  //Sleep(1000);
+  if Assigned(FThreadBas) then
+    exit;
+
   if not Assigned(FThreadBas) then
     FThreadBas := ThreadCreator.TThreadBasCreate;
   FThreadBas.OnTerminate := DoTerminate;
-  if FThreadBas.Suspended then
-    FThreadBas.Resume
-  else
-    FThreadBas.Start;
+
+  try
+    if FThreadBas.Suspended then
+      FThreadBas.Resume
+    else
+      FThreadBas.Start;
+  except
+    on e: exception do
+      StatusOutput.Exibir(e.Message);
+  end;
 end;
 
 function TThreadStatusFrame.PodeFechar: boolean;
@@ -97,12 +108,12 @@ end;
 procedure TThreadStatusFrame.Terminate;
 begin
   inherited;
-//  Result := not Assigned(FThreadBas);
-//  if Result then
-//    exit;
+  // Result := not Assigned(FThreadBas);
+  // if Result then
+  // exit;
 
   if not Executando.AsBoolean then
-    Exit;
+    exit;
   FThreadBas.Terminate
 end;
 

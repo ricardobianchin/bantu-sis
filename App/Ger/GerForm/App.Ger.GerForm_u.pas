@@ -187,7 +187,6 @@ begin
   inherited;
   if not PodeExecutar then
     exit;
-
   case FRAME_EXECUTAR of
     etNenhum: ExecuteTimer.Enabled := False;//exit;
     etUm:

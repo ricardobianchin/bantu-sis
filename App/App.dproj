@@ -608,6 +608,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread.Factory_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Loja_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Terminal_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

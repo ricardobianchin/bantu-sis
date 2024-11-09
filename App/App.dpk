@@ -324,6 +324,7 @@ contains
   App.Threads.SyncTermThread_AddComandos_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos_u.pas',
   App.Threads.SyncTermThread.Factory_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread.Factory_u.pas',
   App.Threads.SyncTermThread_AddComandos.Loja_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Loja_u.pas',
-  App.Threads.SyncTermThread_AddComandos in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas';
+  App.Threads.SyncTermThread_AddComandos in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas',
+  App.Threads.SyncTermThread_AddComandos.Terminal_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Terminal_u.pas';
 
 end.

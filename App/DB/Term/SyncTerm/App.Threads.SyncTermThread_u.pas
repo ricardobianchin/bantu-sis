@@ -96,7 +96,7 @@ var
   i, m: integer;
   iAtualIni, iAtualFIn: Int64;
 begin
-//  inherited;
+  // inherited;
   StatusOutput.Exibir('Iniciou');
   if Terminated then
     exit;
@@ -160,8 +160,10 @@ end;
 procedure TAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
-  FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon, pTermCon,
-    pSql));
+  FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon,
+    pTermCon, pSql));
+  FAddCommandsList.Add(AddComandosTerminal(pAppObj, pTerminal, pServCon,
+    pTermCon, pSql));
 end;
 
 procedure TAppSyncTermThread.Sync(pAtualIni, pAtualFIn: Int64);
