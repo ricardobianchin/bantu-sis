@@ -318,6 +318,7 @@ end;
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
   GerenciadorDeTarefasAbrirAction_PrincBasForm.Execute;
+  Application.ProcessMessages;
   GerForm.Terminate;
   GerForm.EspereTerminar;
   inherited;
