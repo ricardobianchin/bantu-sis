@@ -131,16 +131,9 @@ begin
   pComando := Trim(pComando);
   if pComando = '' then
     exit;
-  repeat
-    UltimoChar := pComando[Length(pComando)];
-    if not CharInSet(UltimoChar, [#9, #32, #10, #13]) then
-      break;
-    pComando := StrDeleteNoFim(pComando, 1);
-  until False;
 
-  if UltimoChar <> ';' then
-    pComando := pComando + ';';
-
+  StrDeleteTrailingChars(pComando, [#9, #32, #10, #13]);
+  StrGarantirTermino(pComando, ';');
   FSql.Add(pComando);
 end;
 
