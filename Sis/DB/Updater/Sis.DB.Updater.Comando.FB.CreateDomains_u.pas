@@ -70,7 +70,8 @@ begin
     begin
       aPalavras := s.Split([' ']);
       sTit := aPalavras[2];
-      sTex := StrGarantirTermino(s, ';');
+      StrGarantirTermino(s, ';');
+      sTex := s;
       FComandosTextoList.PegarTextoItem(TextoItemCreate(sTit, sTex));
     end;
   end;
