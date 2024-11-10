@@ -32,7 +32,7 @@ type
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure FormCreate(Sender: TObject);
+
     procedure DtHCompileLabelClick(Sender: TObject);
     procedure GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
       (Sender: TObject);
@@ -249,6 +249,14 @@ begin
   try
     // FSisConfig := SisConfigCreate;
 
+    DtHCompileLabel.Caption := AppVersao_u.VERSAO_RESUMIDA;
+    DtHCompileLabel.Hint := AppVersao_u.GetInfos;
+
+    FProcessLog.RegistreLog('DtHCompileLabel.Caption = ' +
+      QuotedStr(DtHCompileLabel.Caption));
+    FProcessLog.RegistreLog('DtHCompileLabel.Hint = ' +
+      QuotedStr(DtHCompileLabel.Hint));
+
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FLoja := LojaCreate;
@@ -322,14 +330,6 @@ begin
   GerForm.Terminate;
   GerForm.EspereTerminar;
   inherited;
-
-end;
-
-procedure TPrincBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  DtHCompileLabel.Caption := AppVersao_u.VERSAO_RESUMIDA;
-  DtHCompileLabel.Hint := AppVersao_u.GetInfos;
 
 end;
 
@@ -447,7 +447,7 @@ begin
   sVarNome := 'ATIVIDADE_ECONOMICA_ID';
   sVarValor := eAtiv.ToExpandedASCII;
 
-  sEntrada := sVarNome + '=' +sVarValor;
+  sEntrada := sVarNome + '=' + sVarValor;
 
   FDBUpdaterVariaveis := sEntrada + #13#10;
 end;
