@@ -103,7 +103,7 @@ begin
     sNomeArqInstDados := ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
     if TerminalId > 0 then
     begin
-      sNomeArqInstDados := StrDeleteNoFim(sNomeArqInstDados, 3);
+      StrDeleteNoFim(sNomeArqInstDados, 3);
     end;
 
     if SisConfig.WinVersionInfo.Version <= 6.1 then
