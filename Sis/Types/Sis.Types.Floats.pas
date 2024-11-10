@@ -71,7 +71,7 @@ begin
     end;
   end;
 
-  result := SemCharAEsquerda(result, '0');
+  SemCharAEsquerda(result, '0');
 
   if result = '' then
     result := '0';
@@ -153,12 +153,10 @@ end;
 
 function DinheiroStr(v: currency; pTrunc: boolean = false): string;
 begin
-  // result := FormatFloat('R$ ###,###,##0.00',v);
   if pTrunc then
   begin
     result := FormatFloat('###,###,##0.00000000000', v);
-    result := StrDeleteNoFim(result, 9);
-    // result:=StrComerDaDir(result,9);
+    StrDeleteNoFim(result, 9);
   end
   else
   begin
