@@ -27,9 +27,9 @@ begin
   AppObj.CriticalSections.DB.Acquire;
   try
     sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
-//     {$IFDEF DEBUG}
-//     CopyTextToClipboard(sSql);
-//     {$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
 
     ServCon.QueryDataSet(sSql, q);
   finally
@@ -40,15 +40,16 @@ begin
     exit;
 
   try
-    if q.IsEmpty then
-      exit;
+    while not q.Eof do
+    begin
+      sSql := DataSetToSqlUpdate(q, 'PAGAMENTO_FORMA', [0]);
+      // {$IFDEF DEBUG}
+      // CopyTextToClipboard(sSql);
+      // {$ENDIF}
 
-    sSql := DataSetToSqlUpdate(q, 'PAGAMENTO_FORMA', [0]);
-    // {$IFDEF DEBUG}
-    // CopyTextToClipboard(sSql);
-    // {$ENDIF}
-
-    Sql.Add(sSql);
+      DBExecScript.PegueComando(sSql);
+      q.Next;
+    end;
   finally
     q.Free
   end;
@@ -60,23 +61,23 @@ begin
   Result := //
     'SELECT'#13#10 //
 
-    +'PAGAMENTO_FORMA_ID'#13#10 //
-    +', PAGAMENTO_FORMA_TIPO_ID'#13#10 //
-    +', DESCR'#13#10 //
-    +', DESCR_RED'#13#10 //
-    +', ATIVO'#13#10 //
-    +', PARA_VENDA'#13#10 //
-    +', DE_SISTEMA'#13#10 //
-    +', PROMOCAO_PERMITE'#13#10 //
-    +', COMISSAO_PERMITE'#13#10 //
-    +', TAXA_ADM_PERC'#13#10 //
-    +', VALOR_MINIMO'#13#10 //
-    +', COMISSAO_ABATER_PERC'#13#10 //
-    +', REEMBOLSO_DIAS'#13#10 //
-    +', TEF_USA'#13#10 //
-    +', AUTORIZACAO_EXIGE'#13#10 //
-    +', PESSOA_EXIGE'#13#10 //
-    +', A_VISTA'#13#10 //
+    + 'PAGAMENTO_FORMA_ID'#13#10 //
+    + ', PAGAMENTO_FORMA_TIPO_ID'#13#10 //
+    + ', DESCR'#13#10 //
+    + ', DESCR_RED'#13#10 //
+    + ', ATIVO'#13#10 //
+    + ', PARA_VENDA'#13#10 //
+    + ', DE_SISTEMA'#13#10 //
+    + ', PROMOCAO_PERMITE'#13#10 //
+    + ', COMISSAO_PERMITE'#13#10 //
+    + ', TAXA_ADM_PERC'#13#10 //
+    + ', VALOR_MINIMO'#13#10 //
+    + ', COMISSAO_ABATER_PERC'#13#10 //
+    + ', REEMBOLSO_DIAS'#13#10 //
+    + ', TEF_USA'#13#10 //
+    + ', AUTORIZACAO_EXIGE'#13#10 //
+    + ', PESSOA_EXIGE'#13#10 //
+    + ', A_VISTA'#13#10 //
 
     + 'FROM LOG_HIST_PA.TEVE_PAGAMENTO_FORMA('#13#10 //
 
@@ -85,9 +86,9 @@ begin
 
     + ');' //
     ;
-   {$IFDEF DEBUG}
-   CopyTextToClipboard(Result);
-   {$ENDIF}
+{$IFDEF DEBUG}
+  CopyTextToClipboard(Result);
+{$ENDIF}
 end;
 
 end.

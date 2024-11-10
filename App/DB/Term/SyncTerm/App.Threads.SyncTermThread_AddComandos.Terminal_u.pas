@@ -45,7 +45,7 @@ begin
     // CopyTextToClipboard(sSql);
     // {$ENDIF}
 
-    Sql.Add(sSql);
+    DBExecScript.PegueComando(sSql);
   finally
     q.Free
   end;

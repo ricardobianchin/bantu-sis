@@ -12,18 +12,18 @@ type
     FTerminal: ITerminal;
     FServCon: IDBConnection;
     FTermCon: IDBConnection;
-    FSql: TStrings;
+    FDBExecScript: IDBExecScript;
 
   protected
     property AppObj: IAppObj read FAppObj;
     property Terminal: ITerminal read FTerminal;
     property ServCon: IDBConnection read FServCon;
     property TermCon: IDBConnection read FTermCon;
-    property Sql: TStrings read FSql;
+    property DBExecScript: IDBExecScript read FDBExecScript;
   public
     procedure Execute(pLogIdIni: Int64; pLogIdFin: Int64); virtual; abstract;
     constructor Create(pAppObj: IAppObj; pTerminal: ITerminal;
-      pServCon, pTermCon: IDBConnection; pSql: TStrings);
+      pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript);
   end;
 
 implementation
@@ -33,13 +33,13 @@ uses Sis.Win.Utils_u;
 { TSyncTermAddComandos }
 
 constructor TSyncTermAddComandos.Create(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings);
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript);
 begin
   FAppObj := pAppObj;
   FTerminal := pTerminal;
   FServCon := pServCon;
   FTermCon := pTermCon;
-  FSql := pSql;
+  FDBExecScript := pDBExecScript;
 end;
 
 end.

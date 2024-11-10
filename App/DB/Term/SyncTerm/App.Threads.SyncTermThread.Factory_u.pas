@@ -6,13 +6,13 @@ uses App.Threads.SyncTermThread_AddComandos, Sis.DB.DBTypes, App.AppObj,
   Sis.Entities.Terminal, System.Classes;
 
 function AddComandosLoja(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript): ISyncTermAddComandos;
 
 function AddComandosTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript): ISyncTermAddComandos;
 
 function AddComandosPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript): ISyncTermAddComandos;
 
 implementation
 
@@ -23,24 +23,24 @@ uses
   ;
 
 function AddComandosLoja(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript): ISyncTermAddComandos;
 begin
   Result := TSyncTermAddComandosLoja.Create(pAppObj, pTerminal, pServCon,
-    pTermCon, pSql);
+    pTermCon, pDBExecScript);
 end;
 
 function AddComandosTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript): ISyncTermAddComandos;
 begin
   Result := TSyncTermAddComandosTerminal.Create(pAppObj, pTerminal, pServCon,
-    pTermCon, pSql);
+    pTermCon, pDBExecScript);
 end;
 
 function AddComandosPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
-  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+  pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript): ISyncTermAddComandos;
 begin
   Result := TSyncTermAddComandosPagamentoForma.Create(pAppObj, pTerminal, pServCon,
-    pTermCon, pSql);
+    pTermCon, pDBExecScript);
 end;
 
 end.

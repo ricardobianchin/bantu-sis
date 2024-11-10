@@ -53,13 +53,13 @@ begin
     // CopyTextToClipboard(sSql);
     // {$ENDIF}
 
-    Sql.Add(sSql);
+    DBExecScript.PegueComando(sSql);
 
     sSql := 'UPDATE AMBIENTE_SIS SET LOJA_ID='+iLojaId.ToString;
     // {$IFDEF DEBUG}
     // CopyTextToClipboard(sSql);
     // {$ENDIF}
-    Sql.Add(sSql);
+    DBExecScript.PegueComando(sSql);
 
     iPessoaId := q.FieldByName('pessoa_id').AsInteger;
 
@@ -71,7 +71,7 @@ begin
 //{$IFDEF DEBUG}
 //    CopyTextToClipboard(sSql);
 //{$ENDIF}
-    Sql.Add(sSql);
+    DBExecScript.PegueComando(sSql);
 
     sSql := DataSetToSqlGarantir(q, 'ENDERECO', //
       'LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM', //
@@ -79,14 +79,14 @@ begin
 //{$IFDEF DEBUG}
 //    CopyTextToClipboard(sSql);
 //{$ENDIF}
-    Sql.Add(sSql);
+    DBExecScript.PegueComando(sSql);
 
     sSql := DataSetToSqlGarantir(q, 'LOJA_EH_PESSOA',
       'LOJA_ID, TERMINAL_ID, PESSOA_ID', [0, 1, 2]);
 //{$IFDEF DEBUG}
 //    CopyTextToClipboard(sSql);
 //{$ENDIF}
-    Sql.Add(sSql);
+    DBExecScript.PegueComando(sSql);
   finally
     q.Free
   end;

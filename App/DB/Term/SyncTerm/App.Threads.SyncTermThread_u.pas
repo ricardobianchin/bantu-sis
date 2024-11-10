@@ -161,11 +161,11 @@ procedure TAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
   FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon,
-    pTermCon, pSql));
+    pTermCon, FDBExecScript));
   FAddCommandsList.Add(AddComandosTerminal(pAppObj, pTerminal, pServCon,
-    pTermCon, pSql));
+    pTermCon, FDBExecScript));
   FAddCommandsList.Add(AddComandosPagamentoForma(pAppObj, pTerminal, pServCon,
-    pTermCon, pSql));
+    pTermCon, FDBExecScript));
 end;
 
 procedure TAppSyncTermThread.Sync(pAtualIni, pAtualFIn: Int64);
