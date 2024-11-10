@@ -11,11 +11,15 @@ function AddComandosLoja(pAppObj: IAppObj; pTerminal: ITerminal;
 function AddComandosTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
 
+function AddComandosPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
+  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+
 implementation
 
 uses
   App.Threads.SyncTermThread_AddComandos.Loja_u //
   , App.Threads.SyncTermThread_AddComandos.Terminal_u //
+  , App.Threads.SyncTermThread_AddComandos.PagamentoForma_u //
   ;
 
 function AddComandosLoja(pAppObj: IAppObj; pTerminal: ITerminal;
@@ -29,6 +33,13 @@ function AddComandosTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
 begin
   Result := TSyncTermAddComandosTerminal.Create(pAppObj, pTerminal, pServCon,
+    pTermCon, pSql);
+end;
+
+function AddComandosPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
+  pServCon, pTermCon: IDBConnection; pSql: TStrings): ISyncTermAddComandos;
+begin
+  Result := TSyncTermAddComandosPagamentoForma.Create(pAppObj, pTerminal, pServCon,
     pTermCon, pSql);
 end;
 

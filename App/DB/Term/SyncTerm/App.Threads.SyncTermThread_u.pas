@@ -164,6 +164,8 @@ begin
     pTermCon, pSql));
   FAddCommandsList.Add(AddComandosTerminal(pAppObj, pTerminal, pServCon,
     pTermCon, pSql));
+  FAddCommandsList.Add(AddComandosPagamentoForma(pAppObj, pTerminal, pServCon,
+    pTermCon, pSql));
 end;
 
 procedure TAppSyncTermThread.Sync(pAtualIni, pAtualFIn: Int64);

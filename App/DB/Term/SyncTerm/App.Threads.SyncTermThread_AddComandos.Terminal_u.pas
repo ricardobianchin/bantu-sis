@@ -24,9 +24,9 @@ begin
   AppObj.CriticalSections.DB.Acquire;
   try
     sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
-     {$IFDEF DEBUG}
-     CopyTextToClipboard(sSql);
-     {$ENDIF}
+//     {$IFDEF DEBUG}
+//     CopyTextToClipboard(sSql);
+//     {$ENDIF}
 
     ServCon.QueryDataSet(sSql, q);
   finally

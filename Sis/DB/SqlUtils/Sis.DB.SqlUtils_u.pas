@@ -3,8 +3,7 @@ unit Sis.DB.SqlUtils_u;
 interface
 
 uses Data.DB, System.Generics.Collections, System.Generics.Defaults;
-//  System.SysUtils;
-
+// System.SysUtils;
 
 function FieldToSqlConstant(pField: TField): string;
 
@@ -22,11 +21,15 @@ function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
 
 implementation
 
-uses System.SysUtils, Sis.Types.Bool_u, Sis.Types.Dates, Sis.Types.Arrays.ArrayUtils_u;
+uses System.SysUtils, Sis.Types.Bool_u, Sis.Types.Dates,
+  Sis.Types.Arrays.ArrayUtils_u, Sis.Types.Floats;
 
 function FieldToSqlConstant(pField: TField): string;
+var
+  sName: string;
 begin
   Result := '';
+  sName := pField.FieldName;
   if pField.IsNull then
   begin
     Result := 'NULL';
@@ -58,7 +61,15 @@ begin
 
     ftCurrency:
       begin
-        Result := pField.AsCurrency.ToString;
+        Result := CurrencyToStrPonto(pField.AsCurrency);
+//        Result := Format('%0.4f', [pField.AsCurrency]);
+        // Result := pField.AsCurrency.ToString;
+        Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+      end;
+
+    ftFMTBcd:
+      begin
+        Result := CurrencyToStrPonto(pField.AsCurrency);
         Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
       end;
 
