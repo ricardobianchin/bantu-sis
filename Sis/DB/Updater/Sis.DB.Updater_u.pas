@@ -31,8 +31,12 @@ type
     FSqlDestinoSL: TStringList;
     FsAssunto: string;
     FsVersaoObjetivo: string;
+
     FsDBAtualizPontoAlvo: string;
     FDBAtualizPontoAlvo: TDBUpdaterPontoAlvo;
+
+    FsDBAtualizAtividadeAlvo: string;
+
     FsObs: string;
     FComandoList: IComandoList;
     FPastaProduto: string;
@@ -49,7 +53,7 @@ type
     FsDiretivaAbre: string;
     FsDiretivaFecha: string;
 
-    FVariaveis: string;
+    FVariaveis: TStringList;
 
     procedure SetiVersao(const Value: integer);
 
@@ -130,6 +134,8 @@ type
     property sDBAtualizPontoAlvo: string read FsDBAtualizPontoAlvo;
     property DBAtualizPontoAlvo: TDBUpdaterPontoAlvo read FDBAtualizPontoAlvo;
 
+    property sDBAtualizAtividadeAlvo: string read FsDBAtualizAtividadeAlvo;
+
     procedure DiretivasAjustaCaracteres; virtual;
     property TerminalId: TTerminalId read FTerminalId;
   public
@@ -160,7 +166,9 @@ constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string);
 begin
-  FVariaveis := pVariaveis;
+  FVariaveis := TStringList.Create;
+
+  FVariaveis.Text := pVariaveis;
   FTerminalId := pTerminalId;
   FTerminalList := pTerminalList;
   FDBUpdaterPontoAlvo := TerminalIdToPontoAlvo(FTerminalId);
@@ -256,6 +264,7 @@ begin
   try
     FProcessLog.RegistreLog('FSqlDestinoSL.Free');
     FSqlDestinoSL.Free;
+    FVariaveis.Free;
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -304,7 +313,9 @@ end;
 function TDBUpdater.Execute: Boolean;
 var
   sVariaveisAdicionais: string;
-  bSeAplica: Boolean;
+  bPontoSeAplica: Boolean;
+  bAtividadeSeAplica: Boolean;
+  sAtividadeEconomicaId: string;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
@@ -357,7 +368,7 @@ begin
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
-          ProcessarDiretivas(FLinhasSL, FVariaveis + sVariaveisAdicionais,
+          ProcessarDiretivas(FLinhasSL, FVariaveis.Text+#13#10 + sVariaveisAdicionais,
             FsDiretivaAbre, FsDiretivaFecha);
           // {$IFDEF DEBUG}
           // if iVersao=2 then
@@ -367,10 +378,13 @@ begin
           // {$ENDIF}
 
           LerUpdateProperties(FLinhasSL);
+          sAtividadeEconomicaId := FVariaveis.Values['ATIVIDADE_ECONOMICA_ID'];
+          bAtividadeSeAplica := Iif(FsDBAtualizAtividadeAlvo = '#032', True, //
+            FsDBAtualizAtividadeAlvo = sAtividadeEconomicaId);
 
-          bSeAplica := SeAplica(FTerminalId, FDBAtualizPontoAlvo);
+          bPontoSeAplica := PontoSeAplica(FTerminalId, FDBAtualizPontoAlvo);
 
-          if bSeAplica then
+          if bPontoSeAplica and bAtividadeSeAplica then
           begin
             FProcessLog.RegistreLog('ComandosCarregar');
             ComandosCarregar;
@@ -460,10 +474,18 @@ begin
     FsVersaoObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
     sOutput := sOutput + 'sVersaoObjetivo=' + FsVersaoObjetivo + #13#10;
 
+    // pega ponto alvo
     FsDBAtualizPontoAlvo := pSL.Values[DBATUALIZ_PONTO_ALVO_CHAVE];
     sOutput := sOutput + 'sPontoAlvo=' + FsDBAtualizPontoAlvo + #13#10;
 
     FDBAtualizPontoAlvo := StrToPontoAlvo(FsDBAtualizPontoAlvo);
+
+    // pega atividade alvo
+    FsDBAtualizAtividadeAlvo := pSL.Values[DBATUALIZ_ATIVIDADE_ALVO_CHAVE];
+    if FsDBAtualizAtividadeAlvo = '' then
+      FsDBAtualizAtividadeAlvo := '#032';
+    sOutput := sOutput + 'sAtividadeAlvo=' + FsDBAtualizAtividadeAlvo + #13#10;
+
 
     FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
     sOutput := sOutput + 'sObs=' + FsObs + #13#10;
@@ -544,7 +566,7 @@ begin
       end
       else if Pos(DBATUALIZ_COMANDO_PONTO_ALVO + '=', sLin) = 1 then
       begin
-        bSeAplica := ComandoSeAplica(FTerminalId, sLin);
+        bSeAplica := ComandoPontoSeAplica(FTerminalId, sLin);
       end
       else if Pos(DBATUALIZ_COMANDO_TIPO + '=', sLin) = 1 then
       begin

@@ -8,12 +8,15 @@ type
   TDBUpdaterPontoAlvo = (upontoAmbos, upontoServidor, upontoTerminal);
 
 const
-  DBUpdaterPontoAlvoNomes: array[TDBUpdaterPontoAlvo] of string = ('Ambos', 'Servidor', 'Terminal');
+  DBUpdaterPontoAlvoNomes: array [TDBUpdaterPontoAlvo] of string = ('Ambos',
+    'Servidor', 'Terminal');
 
 function StrToPontoAlvo(pStr: string): TDBUpdaterPontoAlvo;
 function TerminalIdToPontoAlvo(pTerminalId: TTerminalId): TDBUpdaterPontoAlvo;
-function SeAplica(pTerminalId: TTerminalId; pDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo): boolean;
-function ComandoSeAplica(pTerminalId: TTerminalId;pLin: string): Boolean;
+function PontoSeAplica(pTerminalId: TTerminalId;
+  pDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo): boolean;
+function ComandoPontoSeAplica(pTerminalId: TTerminalId; pLin: string): boolean;
+function StrToAtividadeExandedAscii(pStr: string): string;
 
 implementation
 
@@ -26,7 +29,7 @@ begin
     Result := TDBUpdaterPontoAlvo.upontoTerminal
   else if pStr = 'SERVIDOR' then
     Result := TDBUpdaterPontoAlvo.upontoServidor
-  else //if pStr = 'AMBOS' then
+  else // if pStr = 'AMBOS' then
     Result := TDBUpdaterPontoAlvo.upontoAmbos;
 end;
 
@@ -36,28 +39,44 @@ begin
     Result := TDBUpdaterPontoAlvo.upontoAmbos
   else if pTerminalId = 0 then
     Result := TDBUpdaterPontoAlvo.upontoServidor
-  else //if pTerminalId > 0 then
+  else // if pTerminalId > 0 then
     Result := TDBUpdaterPontoAlvo.upontoTerminal;
 end;
 
-function SeAplica(pTerminalId: TTerminalId; pDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo): boolean;
+
+function PontoSeAplica(pTerminalId: TTerminalId;
+  pDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo): boolean;
 begin
   case pDBUpdaterPontoAlvo of
-    upontoServidor: Result := pTerminalId = TERMINAL_ID_RETAGUARDA;
-    upontoTerminal: Result := pTerminalId > TERMINAL_ID_RETAGUARDA;
-    else //upontoAmbos: ;
-      Result := True;
+    upontoServidor:
+      Result := pTerminalId = TERMINAL_ID_RETAGUARDA;
+    upontoTerminal:
+      Result := pTerminalId > TERMINAL_ID_RETAGUARDA;
+  else // upontoAmbos: ;
+    Result := True;
   end;
 end;
 
-function ComandoSeAplica(pTerminalId: TTerminalId; pLin: string): Boolean;
+function ComandoPontoSeAplica(pTerminalId: TTerminalId; pLin: string): boolean;
 var
   sPontoAlvo: string;
   iDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo;
 begin
   sPontoAlvo := StrApos(pLin, '=');
   iDBUpdaterPontoAlvo := StrToPontoAlvo(sPontoAlvo);
-  Result := SeAplica(pTerminalId, iDBUpdaterPontoAlvo);
+  Result := PontoSeAplica(pTerminalId, iDBUpdaterPontoAlvo);
+end;
+
+function StrToAtividadeExandedAscii(pStr: string): string;
+begin
+  pStr := Trim(UpperCase(pStr));
+
+  if pStr = 'MERCADO' then
+    Result := '#033'
+  else if pStr = 'FARMACIA' then
+    Result := '#034'
+  else
+    Result := '#032';
 end;
 
 end.
