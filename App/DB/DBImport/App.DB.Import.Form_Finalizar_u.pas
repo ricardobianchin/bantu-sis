@@ -75,6 +75,7 @@ begin
     finally
       oDBQuery.Unprepare;
     end;
+
   finally
     pProdFDMemTable.First;
     pProdFDMemTable.EnableControls;
