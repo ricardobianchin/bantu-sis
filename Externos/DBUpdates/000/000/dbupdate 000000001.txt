@@ -32,7 +32,6 @@ SELECT * FROM AMBIENTE_SIS;
 ROLLBACK;
 SELECT * FROM AMBIENTE_SIS;
 
-
 ---------------------------------------
 FIM TESTES
 ---------------------------------------
@@ -40,6 +39,13 @@ FIM TESTES
 
 
 
+ATIVIDADE_ECONOMICA_ID
+33;!;MERCADO
+34;";FARMACIA
+
+------------
+INICIO
+-----------
 // TABELA AMBIENTE_SIS
 COMANDO INI
 COMANDO_TIPO=CREATE TABLE
