@@ -3,7 +3,7 @@ unit App.AppInfo.Types;
 interface
 
 type
-  TAtividadeEconomicaSis = (stativNaoIndicado = 32, stativMercado = 33);
+  TAtividadeEconomicaSis = (ativeconNaoIndicado = 32, ativeconMercado = 33, ativeconFarmacia = 34);
 
   TAtividadeEconomicaSisHelper = record helper for TAtividadeEconomicaSis
     function ToExpandedASCII: string;
@@ -11,10 +11,10 @@ type
 
 const
   AtividadeEconomicaSisDescr: array [TAtividadeEconomicaSis] of string =
-    ('Nao indicado', 'Mercado');
+    ('Nao indicado', 'Mercado', 'Farmácia');
 
   AtividadeEconomicaSisName: array [TAtividadeEconomicaSis] of string =
-    ('NAO_INDICADO', 'MERCADO');
+    ('NAO_INDICADO', 'MERCADO', 'FARMACIA');
 
 implementation
 

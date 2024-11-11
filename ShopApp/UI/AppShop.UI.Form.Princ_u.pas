@@ -83,7 +83,7 @@ end;
 procedure TShopPrincForm.PreenchaAtividade;
 begin
   // inherited;
-  AppObj.AppInfo.AtividadeEconomicaSis := TAtividadeEconomicaSis.stativMercado;
+  AppObj.AppInfo.AtividadeEconomicaSis := TAtividadeEconomicaSis.ativeconMercado;
 end;
 
 procedure TShopPrincForm.PreenchaDBUpdaterVariaveis;

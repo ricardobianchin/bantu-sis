@@ -69,6 +69,8 @@ type
     procedure CarregarLoja;
 
   protected
+    procedure DBUpdaterVariaveisPegar(pChave, pValor: string);
+
     procedure GerFormInicializar; virtual; abstract;
 
     property StatusOutput: IOutput read FStatusOutput;
@@ -317,6 +319,11 @@ begin
   end;
 end;
 
+procedure TPrincBasForm.DBUpdaterVariaveisPegar(pChave, pValor: string);
+begin
+  FDBUpdaterVariaveis := FDBUpdaterVariaveis + pChave + '=' + pValor + #13#10;
+end;
+
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
 begin
   inherited;
@@ -446,10 +453,13 @@ begin
 
   sVarNome := 'ATIVIDADE_ECONOMICA_ID';
   sVarValor := eAtiv.ToExpandedASCII;
+  DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
-  sEntrada := sVarNome + '=' + sVarValor;
+  sVarNome := 'ATIVIDADE_ECONOMICA_NAME';
+  sVarValor := AtividadeEconomicaSisName[eAtiv];
+  DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
-  FDBUpdaterVariaveis := sEntrada + #13#10;
+
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;
