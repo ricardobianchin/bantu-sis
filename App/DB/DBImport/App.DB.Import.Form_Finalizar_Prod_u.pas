@@ -312,13 +312,14 @@ begin
   sSql := GetImportProdCountSQL;
 
   iQtdRegs := pDBConnection.GetValueInteger(sSql);
-
   pProgressBar1.Position := 0;
   pProgressBar1.Max := iQtdRegs;
   sNomeArqLog := oAppObj.AppInfo.Pasta + 'Tmp\DBImport\Log DBImport Prod.txt';
   GarantirPastaDoArquivo(sNomeArqLog);
   AssignFile(F, sNomeArqLog);
   Rewrite(F);
+  pAppObj.CriticalSections.DB.Acquire;
+  pAppObj.CriticalSections.Files.Acquire;
   try
     SetLength(aPreco, 1);
     iRegAtual := 0;
@@ -349,6 +350,9 @@ begin
     q.Free;
     WriteLn(F, 'Terminou');
     CloseFile(F);
+
+    pAppObj.CriticalSections.DB.Release;
+    pAppObj.CriticalSections.Files.Release;
   end;
 end;
 
