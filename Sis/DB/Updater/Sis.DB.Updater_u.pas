@@ -17,8 +17,8 @@ type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
     FTerminalId: TTerminalId;
-    FDBUpdaterAlvo: TDBUpdaterAlvo;
-    FsDBUpdaterAlvo: string;
+    FDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo;
+    FsDBUpdaterPontoAlvo: string;
     FDBConnectionParams: TDBConnectionParams;
     FSisConfig: ISisConfig;
     FProcessLog: IProcessLog;
@@ -31,8 +31,8 @@ type
     FSqlDestinoSL: TStringList;
     FsAssunto: string;
     FsVersaoObjetivo: string;
-    FsDBAtualizAlvo: string;
-    FDBAtualizAlvo: TDBUpdaterAlvo;
+    FsDBAtualizPontoAlvo: string;
+    FDBAtualizPontoAlvo: TDBUpdaterPontoAlvo;
     FsObs: string;
     FComandoList: IComandoList;
     FPastaProduto: string;
@@ -127,8 +127,8 @@ type
     property DBConnectionParams: TDBConnectionParams read FDBConnectionParams;
     property PastaProduto: string read FPastaProduto;
 
-    property sDBAtualizAlvo: string read FsDBAtualizAlvo;
-    property DBAtualizAlvo: TDBUpdaterAlvo read FDBAtualizAlvo;
+    property sDBAtualizPontoAlvo: string read FsDBAtualizPontoAlvo;
+    property DBAtualizPontoAlvo: TDBUpdaterPontoAlvo read FDBAtualizPontoAlvo;
 
     procedure DiretivasAjustaCaracteres; virtual;
     property TerminalId: TTerminalId read FTerminalId;
@@ -163,8 +163,8 @@ begin
   FVariaveis := pVariaveis;
   FTerminalId := pTerminalId;
   FTerminalList := pTerminalList;
-  FDBUpdaterAlvo := TerminalIdToAlvo(FTerminalId);
-  FsDBUpdaterAlvo := AnsiUpperCase(DBUpdaterAlvoNomes[FDBUpdaterAlvo]);
+  FDBUpdaterPontoAlvo := TerminalIdToPontoAlvo(FTerminalId);
+  FsDBUpdaterPontoAlvo := AnsiUpperCase(DBUpdaterPontoAlvoNomes[FDBUpdaterPontoAlvo]);
 
   FPastaProduto := pPastaProduto;
   FSqlDestinoSL := TStringList.Create;
@@ -341,19 +341,19 @@ begin
           // FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
           //
           // ProcessarDiretivas(FLinhasSL,
-          // 'ALVO=TERMINAL'#13#10'TERMINAL_ID=1', '{', '}');
+          // 'PONTO_ALVO=TERMINAL'#13#10'TERMINAL_ID=1', '{', '}');
           // FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino terminal.txt');
           //
           // FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
           // ProcessarDiretivas(FLinhasSL,
-          // 'ALVO=SERVIDOR'#13#10'TERMINAL_ID=1', '{', '}');
+          // 'PONTO_ALVO=SERVIDOR'#13#10'TERMINAL_ID=1', '{', '}');
           // FLinhasSL.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\destino servidor.txt');
           //
           // Halt(0);
           // fim do teste            testar acima, add aqui terminal_id=
 
           sVariaveisAdicionais := //
-            'ALVO=' + FsDBUpdaterAlvo + #13#10 + //
+            'PONTO_ALVO=' + FsDBUpdaterPontoAlvo + #13#10 + //
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
@@ -368,7 +368,7 @@ begin
 
           LerUpdateProperties(FLinhasSL);
 
-          bSeAplica := SeAplica(FTerminalId, FDBAtualizAlvo);
+          bSeAplica := SeAplica(FTerminalId, FDBAtualizPontoAlvo);
 
           if bSeAplica then
           begin
@@ -460,10 +460,10 @@ begin
     FsVersaoObjetivo := pSL.Values[DBATUALIZ_OBJETIVO_CHAVE];
     sOutput := sOutput + 'sVersaoObjetivo=' + FsVersaoObjetivo + #13#10;
 
-    FsDBAtualizAlvo := pSL.Values[DBATUALIZ_ALVO_CHAVE];
-    sOutput := sOutput + 'sAlvo=' + FsDBAtualizAlvo + #13#10;
+    FsDBAtualizPontoAlvo := pSL.Values[DBATUALIZ_PONTO_ALVO_CHAVE];
+    sOutput := sOutput + 'sPontoAlvo=' + FsDBAtualizPontoAlvo + #13#10;
 
-    FDBAtualizAlvo := StrToAlvo(FsDBAtualizAlvo);
+    FDBAtualizPontoAlvo := StrToPontoAlvo(FsDBAtualizPontoAlvo);
 
     FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
     sOutput := sOutput + 'sObs=' + FsObs + #13#10;
@@ -542,7 +542,7 @@ begin
         bComandAberto := False;
         bSeAplica := True;
       end
-      else if Pos(DBATUALIZ_COMANDO_ALVO + '=', sLin) = 1 then
+      else if Pos(DBATUALIZ_COMANDO_PONTO_ALVO + '=', sLin) = 1 then
       begin
         bSeAplica := ComandoSeAplica(FTerminalId, sLin);
       end

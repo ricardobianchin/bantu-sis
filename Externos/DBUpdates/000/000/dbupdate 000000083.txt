@@ -6,7 +6,7 @@ INICIO LOG_HIST_PA
 DBATUALIZ INI
 DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=SIS, SYNC
-DBATUALIZ_OBJETIVO=CRIAR LOG_HIST_PA
+DBATUALIZ_OBJETIVO=CRIAR LOG_HIST_SHOP_PA
 DBATUALIZ_OBS=
 
 
@@ -15,13 +15,13 @@ DBATUALIZ_OBS=
 
 /*
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql
                                             
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql"
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql"
 
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql";
 
-SHOW PACKAGE LOG_HIST_PA;
+SHOW PACKAGE LOG_HIST_PROD_PA;
 
 SELECT LOG_HIST_PA.ULTIMO_LOG_ID_GET() AS ULTIMO_LOG_ID FROM RDB$DATABASE;
 

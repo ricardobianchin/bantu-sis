@@ -57,7 +57,7 @@ COMANDO FIM
 
 
 
-{SE ALVO=TERMINAL}
+{SE PONTO_ALVO=TERMINAL}
 //////////////////////////////////
 //
 // FOREIGN KEY TERMINAL AMBIENTE_SIS

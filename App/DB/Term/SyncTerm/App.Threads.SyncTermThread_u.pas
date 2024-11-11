@@ -27,7 +27,6 @@ type
 
     property AddCommandsList: TList<ISyncTermAddComandos> read FAddCommandsList;
     property DBExecScript: IDBExecScript read FDBExecScript;
-
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
       pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;

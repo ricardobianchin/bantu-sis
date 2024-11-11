@@ -27,7 +27,7 @@ var
 
 procedure ProcessarValor(pLinhasSL: TStrings; pVar, pValor: string);
 //semelhante do #define do C
-//por exemplo {ALVO} substitui por SERVIDOR
+//por exemplo {PontoAlvo} substitui por SERVIDOR
 var
   sBusca: string;
   sOrigem: string;
