@@ -86,9 +86,9 @@ begin
 
     + ');' //
     ;
-{$IFDEF DEBUG}
-  CopyTextToClipboard(Result);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 end.
