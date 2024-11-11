@@ -610,6 +610,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Terminal_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

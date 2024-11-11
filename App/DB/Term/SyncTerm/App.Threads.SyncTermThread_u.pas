@@ -166,6 +166,10 @@ begin
     pTermCon, FDBExecScript));
   FAddCommandsList.Add(AddComandosPagamentoForma(pAppObj, pTerminal, pServCon,
     pTermCon, FDBExecScript));
+  FAddCommandsList.Add(AddComandosFuncUsu(pAppObj, pTerminal, pServCon,
+    pTermCon, FDBExecScript));
+  FAddCommandsList.Add(AddComandosUsuPode(pAppObj, pTerminal, pServCon,
+    pTermCon, FDBExecScript));
 end;
 
 procedure TAppSyncTermThread.Sync(pAtualIni, pAtualFIn: Int64);
