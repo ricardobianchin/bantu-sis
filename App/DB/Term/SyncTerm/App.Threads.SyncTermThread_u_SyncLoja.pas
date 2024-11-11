@@ -127,9 +127,9 @@ begin
     sSql := DataSetToSqlGarantir(q, 'ENDERECO', //
       'LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM', //
       [0, 1, 2, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
-{$IFDEF DEBUG}
-    CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//    CopyTextToClipboard(sSql);
+//{$ENDIF}
     pDBExecScript.PegueComando(sSql);
 
     sSql := DataSetToSqlGarantir(q, 'LOJA_EH_PESSOA',
