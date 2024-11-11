@@ -45,6 +45,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+     destructor Destroy; override;
+
   end;
 
 var
@@ -125,6 +127,12 @@ begin
 
   // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
   // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
+end;
+
+destructor TBasForm.Destroy;
+begin
+  sleep(5);
+  inherited;
 end;
 
 procedure TBasForm.DispareShowTimer;
