@@ -315,7 +315,7 @@ var
   sVariaveisAdicionais: string;
   bPontoSeAplica: Boolean;
   bAtividadeSeAplica: Boolean;
-  sAtividadeEconomicaId: string;
+  sAtividadeEconomicaName: string;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
@@ -378,9 +378,9 @@ begin
           // {$ENDIF}
 
           LerUpdateProperties(FLinhasSL);
-          sAtividadeEconomicaId := FVariaveis.Values['ATIVIDADE_ECONOMICA_ID'];
+          sAtividadeEconomicaName := FVariaveis.Values['ATIVIDADE_ECONOMICA_NAME'];
           bAtividadeSeAplica := Iif(FsDBAtualizAtividadeAlvo = '#032', True, //
-            FsDBAtualizAtividadeAlvo = sAtividadeEconomicaId);
+            FsDBAtualizAtividadeAlvo = sAtividadeEconomicaName);
 
           bPontoSeAplica := PontoSeAplica(FTerminalId, FDBAtualizPontoAlvo);
 
