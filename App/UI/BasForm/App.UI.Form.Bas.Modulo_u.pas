@@ -75,6 +75,7 @@ type
     property Output: IOutput read GetOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
     property LogUsuario: IUsuario read FLogUsuario;
+    property TerminalId: TTerminalId read FTerminalId write FTerminalId;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;

@@ -328,6 +328,9 @@ contains
   App.Threads.SyncTermThread_AddComandos.Terminal_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Terminal_u.pas',
   App.Threads.SyncTermThread_AddComandos.PagamentoForma_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.PagamentoForma_u.pas',
   App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u.pas',
-  App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u.pas';
+  App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u.pas',
+  App.UI.Form.PDV.Preco.Perg_u in 'Modulos\PDV\Preco\PrecoPerg\App.UI.Form.PDV.Preco.Perg_u.pas' {PrecoPregForm},
+  App.Types in 'App.Types.pas',
+  App.PDV.PrecoPerg.Um.Frame_u in 'Modulos\PDV\Preco\PrecoPerg\App.PDV.PrecoPerg.Um.Frame_u.pas' {PrecoPergUmFrame: TFrame};
 
 end.

@@ -3,6 +3,7 @@ unit Sis.Types;
 interface
 
 type
+  TQuantidade = (qtdNenhu, qtdUm, qtdTodos);
   TProcedureOfObject = procedure of object;
 
   TFunctionString = function: string;

@@ -1,0 +1,2 @@
+inherited PrecoPergUmFrame: TPrecoPergUmFrame
+end

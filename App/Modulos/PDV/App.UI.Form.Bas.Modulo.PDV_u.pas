@@ -10,6 +10,9 @@ uses
 
 type
   TPDVModuloBasForm = class(TModuloBasForm)
+    PrecoPergAction_ModuloBasForm: TAction;
+    N1: TMenuItem;
+    ConsultaPreo1: TMenuItem;
   private
     { Private declarations }
   public
