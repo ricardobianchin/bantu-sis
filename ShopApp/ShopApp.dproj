@@ -165,6 +165,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread.Factory_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -2,7 +2,7 @@ unit ShopApp.Threads.ShopAppSyncTermThread_u;
 
 interface
 
-uses App.Threads.SyncTermThread_u, Sis.UI.IO.Output,
+uses App.Threads.SyncTermThread_u, Sis.UI.IO.Output, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.ThreadBas_u,
   App.AppObj, Sis.Entities.Terminal, Sis.Threads.SafeBool;
 
@@ -10,6 +10,8 @@ type
   TShopAppAppSyncTermThread = class(TAppSyncTermThread)
   private
   protected
+    procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
+      pServCon, pTermCon: IDBConnection; pSql: TStrings); override;
       procedure Execute; override;
 
   public
@@ -20,7 +22,7 @@ type
 
 implementation
 
-uses Sis.Entities.Types;
+uses Sis.Entities.Types, ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 
 { TShopAppAppSyncTermThread }
 
@@ -41,6 +43,18 @@ begin
   finally
     SetExecutando(False);
   end;
+end;
+
+procedure TShopAppAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
+  pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
+begin
+  inherited;
+  AddCommandsList.Add(AddComandosProdShop(pAppObj, pTerminal, pServCon,
+    pTermCon, DBExecScript));
+  AddCommandsList.Add(AddComandosProdCustoShop(pAppObj, pTerminal, pServCon,
+    pTermCon, DBExecScript));
+  AddCommandsList.Add(AddComandosProdPrecoShop(pAppObj, pTerminal, pServCon,
+    pTermCon, DBExecScript));
 end;
 
 end.
