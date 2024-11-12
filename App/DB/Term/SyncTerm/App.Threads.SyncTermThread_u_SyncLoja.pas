@@ -134,9 +134,9 @@ begin
 
     sSql := DataSetToSqlGarantir(q, 'LOJA_EH_PESSOA',
       'LOJA_ID, TERMINAL_ID, PESSOA_ID', [0, 1, 2]);
-{$IFDEF DEBUG}
-    CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//    CopyTextToClipboard(sSql);
+//{$ENDIF}
     pDBExecScript.PegueComando(sSql);
 
     {
