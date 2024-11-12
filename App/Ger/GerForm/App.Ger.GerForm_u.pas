@@ -13,8 +13,9 @@ type
   TExecuteTeste = (etNenhum, etUm, etTodos);
 
 const
+  FRAME_EXECUTAR: TExecuteTeste = etTodos;
   //FRAME_EXECUTAR: TExecuteTeste = etNenhum;
-  FRAME_EXECUTAR: TExecuteTeste = etUm;
+  //FRAME_EXECUTAR: TExecuteTeste = etUm;
 
 type
   TGerAppForm = class(TBasForm)
