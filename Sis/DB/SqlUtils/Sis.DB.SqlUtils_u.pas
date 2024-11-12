@@ -73,6 +73,12 @@ begin
         Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
       end;
 
+    ftBCD:
+      begin
+        Result := CurrencyToStrPonto(pField.AsCurrency);
+        Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+      end;
+
     ftSingle:
       begin
         Result := pField.AsSingle.ToString;
@@ -106,7 +112,6 @@ begin
 
     {
       ftUnknown: ;
-      ftBCD: ;
       ftBytes: ;
       ftVarBytes: ;
       ftBlob: ;
