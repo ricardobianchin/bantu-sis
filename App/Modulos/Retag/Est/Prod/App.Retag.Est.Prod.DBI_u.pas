@@ -88,8 +88,7 @@ begin
     + ',' + Ent.ProdTipoEnt.Id.ToString //
     + ',' + Ent.ProdUnidEnt.Id.ToString //
     + ',' + Ent.ProdICMSEnt.Id.ToString //
-  //
-//    + ',' + ProdNatuToSql(pnatuProduto) //
+
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
     + ',' + QuotedStr(Ent.NCM) //
 
@@ -104,7 +103,6 @@ begin
     + ',' + BooleanToStrSql(Ent.Ativo) //
     + ',' + QuotedStr(Ent.Localiz) //
     + ',' + CurrencyToStrPonto(Ent.Margem) //
-    + ',' + QuotedStr(Ent.NCM) //
 
     + ',' + Ent.ProdBalancaEnt.BalancaUsoStr //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.DptoCod) //
