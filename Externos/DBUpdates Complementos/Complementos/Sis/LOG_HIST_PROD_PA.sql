@@ -1,61 +1,3 @@
-LOG_HIST_PROD_PA
-
------------------------------
-INICIO LOG_HIST_PROD_PA
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ATIVIDADE_ALVO=MERCADO
-DBATUALIZ_PONTO_ALVO=SERVIDOR
-DBATUALIZ_ASSUNTO=SIS, SYNC
-DBATUALIZ_OBJETIVO=CRIAR LOG_HIST_PROD_PA
-DBATUALIZ_OBS=
-
-
-
-
-/*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql
-                                            
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql";
-
-SHOW PACKAGE LOG_HIST_PROD_PA;
-
-SELECT LOG_HIST_PA.ULTIMO_LOG_ID_GET() AS ULTIMO_LOG_ID FROM RDB$DATABASE;
-
-select * from LOG_HIST_PROD_PA.teve_terminal(0, 100);
-
-update SYNC_DO_SERVIDOR_SIS set LOG_ID_SERV_ULTIMO_TRAZIDO = 0;
-commit;
-
-
-
-TESTAR SE FUNCIONOU
-NO TERMINAL
-
-SELECT * FROM LOJA;
-SELECT * FROM SYNC_DO_SERVIDOR_SIS;
-
-
-SELECT * FROM PESSOA;
-SELECT * FROM LOJA_EH_PESSOA;
-
-DELETE FROM SYNC_DO_SERVIDOR_SIS;
-COMMIT;
-
-*/
-
-/////////////////////////
-//
-// PACKAGE LOG_HIST_PROD_PA
-//
-/////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=LOG_HIST_PROD_PA
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE LOG_HIST_PROD_PA
 AS
@@ -399,7 +341,3 @@ BEGIN
   END
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM
