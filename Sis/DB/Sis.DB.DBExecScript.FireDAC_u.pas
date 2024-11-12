@@ -77,7 +77,6 @@ var
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Execute');
   try
-
     sLog := 'vai executar os comandos';
     DBConnection.StartTransaction;
     try
@@ -88,9 +87,9 @@ begin
         FFDCommand.CommandText.Text := sComando;
         FFDCommand.Execute;
 
-       inc(iQtdCommands);
-       if (iQtdCommands mod 333) = 0 then
-         Sleep(5);
+        inc(iQtdCommands);
+        if (iQtdCommands mod 333) = 0 then
+          Sleep(5);
       end;
       DBConnection.Commit;
       FSql.Clear;
@@ -99,8 +98,9 @@ begin
       begin
         UltimoErro := 'TDBExecScriptFireDac.Execute Erro'#13#10#13#10 +
           E.classname + #13#10 + E.message + #13#10 + #13#10 +
-          'ao tentar executar:'#13#10'-------'#13#10 +
-          sComando + #13#10'-------'#13#10;
+          'ao tentar executar:'#13#10'-------'#13#10 + sComando +
+          #13#10'-------'#13#10 + UltimoErro + #13#10'Conexao=' +
+          DBConnection.Nome + #13#10'Componente=' + Nome;
         sLog := sLog + ',' + UltimoErro;
         Output.Exibir(UltimoErro);
         DBConnection.Rollback;
