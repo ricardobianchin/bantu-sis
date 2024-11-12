@@ -10,6 +10,7 @@ uses
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
+    procedure PrecoPergAction_ModuloBasFormExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,5 +23,15 @@ var
 implementation
 
 {$R *.dfm}
+
+uses AppShop.UI.Form.PDV.Preco.Perg_u;
+
+procedure TShopPDVModuloForm.PrecoPergAction_ModuloBasFormExecute(
+  Sender: TObject);
+begin
+  inherited;
+//  pAppObj: IAppObj; pTerminalId: TTerminalId
+  AppShop.UI.Form.PDV.Preco.Perg_u.PrecoPerg(AppObj, TerminalId);
+end;
 
 end.

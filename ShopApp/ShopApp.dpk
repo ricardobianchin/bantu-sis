@@ -52,6 +52,7 @@ contains
   ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u.pas',
   ShopApp.Threads.ShopAppSyncTermThread.Factory_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread.Factory_u.pas',
   ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u.pas',
-  ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u.pas';
+  ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u.pas',
+  AppShop.UI.Form.PDV.Preco.Perg_u in 'Modulos\PDV\AppShop.UI.Form.PDV.Preco.Perg_u.pas' {ShopPrecoPregForm};
 
 end.
