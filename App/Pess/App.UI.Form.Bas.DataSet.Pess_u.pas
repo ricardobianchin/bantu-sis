@@ -14,7 +14,6 @@ uses
 
 type
   TAppPessDataSetForm = class(TTabSheetDataSetBasForm)
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -122,10 +121,10 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -141,10 +140,10 @@ uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid,
   Sis.Types.strings_u, App.Pess.Ent.Factory_u;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
 begin
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
@@ -180,7 +179,7 @@ begin
     iQ_NUMERO := 21;
     iQ_COMPLEMENTO := 22;
     iQ_BAIRRO := 23;
-    iQ_UF_SIGLA :=24;
+    iQ_UF_SIGLA := 24;
     iQ_CEP := 25;
 
     iQ_MUNICIPIO_IBGE_ID := 26;
@@ -198,9 +197,9 @@ begin
     iQ_ENDER_PRIMEIRO_CAMPO := iQ_ENDER_ORDEM;
   end;
 
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos, pAppObj);
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
+    pIdPos, pAppObj);
 end;
 
 procedure TAppPessDataSetForm.DoAlterar;
@@ -352,28 +351,29 @@ var
   S: string;
 {$ENDIF}
   Tab: TFDMemTable;
+  iPessoaId: integer;
 begin
   inherited;
   Tab := FDMemTable;
 
 {$IFDEF DEBUG}
-  s := Tab.Fields[iT_LOJA_ID].FieldName;
-  s := Tab.Fields[iT_DT_NASC].FieldName;
+  S := Tab.Fields[iT_LOJA_ID].FieldName;
+  S := Tab.Fields[iT_DT_NASC].FieldName;
 
-  s := Tab.Fields[iT_ATIVO].FieldName;
-  s := q.Fields[iQ_ATIVO].FieldName;
+  S := Tab.Fields[iT_ATIVO].FieldName;
+  S := q.Fields[iQ_ATIVO].FieldName;
 
-  s := Tab.Fields[iT_PESS_CRIADO_EM].FieldName;
-  s := q.Fields[iQ_PESS_CRIADO_EM].FieldName;
+  S := Tab.Fields[iT_PESS_CRIADO_EM].FieldName;
+  S := q.Fields[iQ_PESS_CRIADO_EM].FieldName;
 
-  s := Tab.Fields[iT_PESS_ALTERADO_EM].FieldName;
-  s := q.Fields[iQ_PESS_ALTERADO_EM].FieldName;
+  S := Tab.Fields[iT_PESS_ALTERADO_EM].FieldName;
+  S := q.Fields[iQ_PESS_ALTERADO_EM].FieldName;
 
 {$ENDIF}
-
   Tab.Fields[iT_LOJA_ID].AsInteger := q.Fields[iQ_LOJA_ID].AsInteger; //
   Tab.Fields[iT_TERMINAL_ID].AsInteger := q.Fields[iQ_TERMINAL_ID].AsInteger; //
   Tab.Fields[iT_PESSOA_ID].AsInteger := q.Fields[iQ_PESSOA_ID].AsInteger; //
+  iPessoaId := q.Fields[iQ_PESSOA_ID].AsInteger;
 
   Tab.Fields[iT_PESS_COD].AsString := //
     CodsToCodAsString(q.Fields[iQ_LOJA_ID].AsInteger, //
@@ -390,7 +390,9 @@ begin
   Tab.Fields[iT_M_UF].AsString := q.Fields[iQ_M_UF].AsString; //
   Tab.Fields[iT_EMAIL].AsString := q.Fields[iQ_EMAIL].AsString; //
   Tab.Fields[iT_DT_NASC].AsDateTime := q.Fields[iQ_DT_NASC].AsDateTime; //
-  Tab.Fields[iT_ATIVO].AsBoolean := q.Fields[iQ_ATIVO].AsBoolean; //
+
+  Tab.Fields[iT_ATIVO].AsBoolean := Iif(iPessoaId = 0, True,
+    q.Fields[iQ_ATIVO].AsBoolean); //
 
   Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := q.Fields[iQ_PESS_CRIADO_EM]
     .AsDateTime; //
@@ -463,12 +465,6 @@ begin
     FPessEnt.PessEnderList[iOrdem].CriadoEm := FDMemTable.Fields[iT_ENDER_CRIADO_EM].AsDateTime;
     FPessEnt.PessEnderList[iOrdem].AlteradoEm := FDMemTable.Fields[iT_ENDER_ALTERADO_EM].AsDateTime;
   }
-end;
-
-procedure TAppPessDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  ClearStyleElements(Self);
 end;
 
 procedure TAppPessDataSetForm.ToolBar1CrieBotoes;

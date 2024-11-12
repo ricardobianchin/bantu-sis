@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
   Vcl.StdCtrls, App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Fin.PagForma.Ent;
 
@@ -102,9 +102,9 @@ var
 begin
   inherited;
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+    AppObj);
 
-  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.PagForma.Ed.Ler.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oDBI := RetagFinPagFormaDBICreate(oConn, EntEd);
@@ -124,7 +124,7 @@ function TRetagFinPagFormaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Fin\tabview.fin.pagforma.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Fin\tabview.fin.pagforma.csv';
 
   Result := sNomeArq;
 end;
@@ -147,20 +147,17 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 
-  oAppInfo: IAppInfo;
   oPagFormaEdDBI: IPagFormaEdDBI;
 begin
   inherited;
-  oAppInfo := AppInfo;
-
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    oAppInfo, SisConfig);
+    AppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Fin.PagForma.Ed.' + pDataSetStateAbrev +
-    '.Conn', SisConfig, oDBConnectionParams, ProcessLog, Output);
+    '.Conn', AppObj.SisConfig, oDBConnectionParams, ProcessLog, Output);
 
   oPagFormaEdDBI := PagFormaEdDBICreate(oDBConnection);
-  Result := PagFormaPerg(Self, oAppInfo, EntEd, EntDBI, oPagFormaEdDBI);
+  Result := PagFormaPerg(Self, AppObj, EntEd, EntDBI, oPagFormaEdDBI);
 end;
 
 procedure TRetagFinPagFormaDataSetForm.RecordToEnt;

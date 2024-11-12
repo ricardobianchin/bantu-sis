@@ -8,8 +8,8 @@ uses
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
   App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
-  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog, App.AppInfo, App.AppObj, Sis.Entities.Types;
+  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -49,15 +49,14 @@ type
     FModuloSistema: IModuloSistema;
     FSessaoEventos: ISessaoEventos;
     FSessaoIndex: TSessaoIndex;
-    FUsuario: IUsuario;
+    FLogUsuario: IUsuario;
     FAppObj: IAppObj;
     FTerminalId: TTerminalId;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
     procedure MenuExibir;
-    function GetSisConfig: ISisConfig;
-
+    
     function GetDBMS: IDBMS;
     function GetOutput: IOutput;
     function GetProcessLog: IProcessLog;
@@ -69,22 +68,18 @@ type
     procedure DoFechar; virtual;
     function Fechou: boolean; virtual;
 
-    function GetAppInfo: IAppInfo;
-    property AppInfo: IAppInfo read GetAppInfo;
-
     function GetAppObj: IAppObj;
     property AppObj: IAppObj read GetAppObj;
 
-    property SisConfig: ISisConfig read GetSisConfig;
     property DBMS: IDBMS read GetDBMS;
     property Output: IOutput read GetOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
-    property Usuario: IUsuario read FUsuario;
+    property LogUsuario: IUsuario read FLogUsuario;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId); reintroduce;
+      pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId); reintroduce;
 
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
   end;
@@ -110,7 +105,7 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
+  pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
 begin
   inherited Create(AOwner);
   FTerminalId := pTerminalId;
@@ -118,10 +113,10 @@ begin
   FModuloSistema := pModuloSistema;
   FSessaoEventos := pSessaoEventos;
   FSessaoIndex := pSessaoIndex;
-  FUsuario := pUsuario;
+  FLogUsuario := pLogUsuario;
   FAppObj := pAppObj;
   TitleBarText := FModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
-    FUsuario.NomeExib;
+    FLogUsuario.NomeExib;
 //  FOutput := MudoOutputCreate;
 //  FProcessLog := MudoProcessLogCreate;
 
@@ -202,11 +197,6 @@ begin
   end;
 end;
 
-function TModuloBasForm.GetAppInfo: IAppInfo;
-begin
-  Result := FAppObj.AppInfo;
-end;
-
 function TModuloBasForm.GetAppObj: IAppObj;
 begin
   Result := FAppObj;
@@ -225,11 +215,6 @@ end;
 function TModuloBasForm.GetProcessLog: IProcessLog;
 begin
   Result := FAppObj.ProcessLog;
-end;
-
-function TModuloBasForm.GetSisConfig: ISisConfig;
-begin
-  Result := FAppObj.SisConfig;
 end;
 
 function TModuloBasForm.GetTitleBarText: string;

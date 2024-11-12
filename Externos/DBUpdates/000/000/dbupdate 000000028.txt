@@ -1,9 +1,23 @@
-USUARIO
+USUARIO_TEM_PERFIL_DE_USO
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE USUARIO_TEM_PERFIL_DE_USO;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ALVO=SERVIDOR
+DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=ACESSO, PESSOA, USUARIO
 DBATUALIZ_OBJETIVO=CRIA USUARIO_TEM_PERFIL_DE_USO
 DBATUALIZ_OBS=

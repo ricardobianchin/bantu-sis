@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed.Pess_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.Pess.Cliente.Ent.Factory_u,
-  App.Pess.Cliente.DBI, App.Pess.Cliente.Ent, App.AppInfo, App.Ent.Ed,
+  App.Pess.Cliente.DBI, App.Pess.Cliente.Ent, App.AppObj, App.Ent.Ed,
   App.Ent.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
@@ -27,7 +27,7 @@ type
     function DadosOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
       pEntDBI: IEntDBI); override;
   end;
 
@@ -55,13 +55,13 @@ begin
 //
 end;
 
-constructor TPessClienteEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
-  pEntEd: IEntEd; pEntDBI: IEntDBI);
+constructor TPessClienteEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+      pEntDBI: IEntDBI);
 begin
   FPessClienteEnt := EntEdCastToPessClienteEnt(pEntEd);
   FPessClienteDBI := EntDBICastToPessClienteDBI(pEntDBI);
 
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
 end;
 
 function TPessClienteEdForm.DadosOk: boolean;

@@ -3,12 +3,13 @@ unit Sis.Usuario.DBI_u;
 interface
 
 uses Sis.Usuario.DBI, Sis.DBI_u, Sis.Usuario, Sis.DB.DBTypes,
-  Sis.ModuloSistema.Types;
+  Sis.ModuloSistema.Types, Sis.Config.SisConfig;
 
 type
   TUsuarioDBI = class(TDBI, IUsuarioDBI)
   private
     FUsuario: IUsuario;
+    FSisConfig: ISisConfig;
   public
     function UsuarioPeloNomeDeUsuario(pNomeUsuDig: string;
       out pApelido, pMens: string; out pEncontrado: boolean): boolean;
@@ -18,7 +19,7 @@ type
 
     function GravarSenha(out pMens: string): boolean;
 
-    constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario);
+    constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario; pSisConfig: ISisConfig);
   end;
 
 implementation
@@ -29,10 +30,11 @@ uses Sis.Types.strings.Crypt_u, Sis.Usuario.DBI.GetSQL_u, Data.DB,
 { TUsuarioDBI }
 
 constructor TUsuarioDBI.Create(pDBConnection: IDBConnection;
-  pUsuario: IUsuario);
+  pUsuario: IUsuario; pSisConfig: ISisConfig);
 begin
   inherited Create(pDBConnection);
   FUsuario := pUsuario;
+  FSisConfig := pSisConfig;
 end;
 
 function TUsuarioDBI.GravarSenha(out pMens: string): boolean;
@@ -43,8 +45,16 @@ begin
 
   // nao retire o nome da unit para nao conflitar com o identificador local
   // Sis.Usuario.Senha_u fica
-  Result := Sis.Usuario.Senha_u.GravarSenha(sSenhaEncriptada, FUsuario.CryVer,
-    FUsuario.LojaId, FUsuario.TerminalId, FUsuario.Id, DBConnection, pMens);
+  Result := Sis.Usuario.Senha_u.GravarSenha( //
+    sSenhaEncriptada // pNovaSenha
+    , FUsuario.CryVer // pCryVer
+    , FUsuario.LojaId // pLojaId
+    , FUsuario.Id // pUsuarioPessoaId
+    , FUsuario.Id // pLogPessoaId
+    , FSisConfig.LocalMachineId.IdentId // pMachineId
+    , DBConnection // pDBConnection
+    , pMens // pMens
+    );
 end;
 
 function TUsuarioDBI.LoginValide(pOpcaoSisIdModuloTentando: TOpcaoSisId;

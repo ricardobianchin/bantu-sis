@@ -43,6 +43,10 @@ type
       , ModuRetag_Est_Cliente_Node //
       , ModuRetag_Est_Cliente_AutoExec_Node //
 
+      , ModuRetag_Fin_Node //
+      , ModuRetag_Fin_PagamentoForma_Node //
+      , ModuRetag_Fin_PagamentoForma_AutoExec_Node //
+
       , ModuRetag_Ajuda_Node //
       , ModuRetag_Ajuda_BemVindo_Node //
       , ModuRetag_Ajuda_BemVindo_Terminais_Node //
@@ -65,7 +69,6 @@ type
     procedure Inicialize; override;
     function PrepLer: boolean; override;
     function PrepGravar: boolean; override;
-
   public
     property ModuConf: ITesteConfigModuConf read GetModuConf;
 
@@ -173,15 +176,30 @@ begin
         end;
       end;
 
+      ModuRetag_Fin_Node := ModuRetagNode.AddChild('fin');
+      begin
+        ModuRetag_Fin_PagamentoForma_Node := ModuRetag_Fin_Node.AddChild
+          ('pagamento_forma');
+        begin
+
+          ModuRetag_Fin_PagamentoForma_AutoExec_Node :=
+            ModuRetag_Fin_PagamentoForma_Node.AddChild('autoexec');
+        end;
+      end;
+
       ModuRetag_Ajuda_Node := ModuRetagNode.AddChild('ajuda');
       begin
         ModuRetag_Ajuda_BemVindo_Node := ModuRetag_Ajuda_Node.AddChild
           ('bemvindo');
         begin
-          ModuRetag_Ajuda_BemVindo_Terminais_Node := ModuRetag_Ajuda_BemVindo_Node.AddChild('terminais');
+          ModuRetag_Ajuda_BemVindo_Terminais_Node :=
+            ModuRetag_Ajuda_BemVindo_Node.AddChild('terminais');
           begin
-            ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.AddChild('autoexec');
-            ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.AddChild('select_terminal_ids');
+            ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node :=
+              ModuRetag_Ajuda_BemVindo_Terminais_Node.AddChild('autoexec');
+            ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node :=
+              ModuRetag_Ajuda_BemVindo_Terminais_Node.AddChild
+              ('select_terminal_ids');
           end;
         end;
       end;
@@ -217,17 +235,23 @@ begin
 
   // retag est
 
-  // retag est cliente
+  // retag est Cliente
   ModuRetag_Est_Cliente_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Est.Cliente.AutoExec);
+
+  // retag fin PagamentoForma
+  ModuRetag_Fin_PagamentoForma_AutoExec_Node.Text :=
+    BooleanToStr(FModuRetag.Fin.PagamentoForma.AutoExec);
 
   // retag ajuda
 
   // retag ajuda bemvindo
 
   // retab ajuda bemvindo terminais
-  ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node.Text := BooleanToStr(FModuRetag.Ajuda.BemVindo.Terminais.AutoExec);
-  ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node.Text :=  FModuRetag.Ajuda.BemVindo.Terminais.SelectTerminalIds;
+  ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node.Text :=
+    BooleanToStr(FModuRetag.Ajuda.BemVindo.Terminais.AutoExec);
+  ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node.Text :=
+    FModuRetag.Ajuda.BemVindo.Terminais.SelectTerminalIds;
 
   App_ExecsAtu_Node.Text := BooleanToStr(FApp.ExecsAtu);
 end;
@@ -297,14 +321,31 @@ begin
     end;
 
     begin
+      ModuRetag_Fin_Node := ModuRetagNode.ChildNodes['fin'];
+      begin
+        ModuRetag_Fin_PagamentoForma_Node := ModuRetag_Fin_Node.ChildNodes
+          ['pagamento_forma'];
+        begin
+          ModuRetag_Fin_PagamentoForma_AutoExec_Node :=
+            ModuRetag_Fin_PagamentoForma_Node.ChildNodes['autoexec'];
+        end;
+      end;
+    end;
+
+    begin
       ModuRetag_Ajuda_Node := ModuRetagNode.ChildNodes['ajuda'];
       begin
-        ModuRetag_Ajuda_BemVindo_Node := ModuRetag_Ajuda_Node.ChildNodes['bemvindo'];
+        ModuRetag_Ajuda_BemVindo_Node := ModuRetag_Ajuda_Node.ChildNodes
+          ['bemvindo'];
         begin
-          ModuRetag_Ajuda_BemVindo_Terminais_Node := ModuRetag_Ajuda_BemVindo_Node.ChildNodes['terminais'];
+          ModuRetag_Ajuda_BemVindo_Terminais_Node :=
+            ModuRetag_Ajuda_BemVindo_Node.ChildNodes['terminais'];
           begin
-            ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.ChildNodes['autoexec'];
-            ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node := ModuRetag_Ajuda_BemVindo_Terminais_Node.ChildNodes['select_terminal_ids'];
+            ModuRetag_Ajuda_BemVindo_Terminais_AutoExec_Node :=
+              ModuRetag_Ajuda_BemVindo_Terminais_Node.ChildNodes['autoexec'];
+            ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node :=
+              ModuRetag_Ajuda_BemVindo_Terminais_Node.ChildNodes
+              ['select_terminal_ids'];
           end;
         end;
       end;
@@ -331,14 +372,22 @@ begin
   FModuConf.Import.Origem := s;
 
   // retag
+
+  // retag acesso perfil de uso
   s := ModuRetag_Acesso_PerfilDeUso_AutoExec_Node.Text;
   FModuRetag.Acesso.PerfilDeUso.AutoExec := StrToBoolean(s);
 
+  // retag acesso funcionario
   s := ModuRetag_Acesso_Funcionario_AutoExec_Node.Text;
   FModuRetag.Acesso.Funcionario.AutoExec := StrToBoolean(s);
 
+  // retag est cliente
   s := ModuRetag_Est_Cliente_AutoExec_Node.Text;
   FModuRetag.Est.Cliente.AutoExec := StrToBoolean(s);
+
+  // retag fin pagamento forma
+  s := ModuRetag_Fin_PagamentoForma_AutoExec_Node.Text;
+  FModuRetag.Fin.PagamentoForma.AutoExec := StrToBoolean(s);
 
   // retag ajuda bemvindo terminais
 
@@ -347,7 +396,6 @@ begin
 
   s := ModuRetag_Ajuda_BemVindo_Terminais_SelectTerminalIds_Node.Text;
   FModuRetag.Ajuda.BemVindo.Terminais.SelectTerminalIds := s;
-
 
   // atu
   s := App_ExecsAtu_Node.Text;

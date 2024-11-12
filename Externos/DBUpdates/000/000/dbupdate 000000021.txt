@@ -1,6 +1,17 @@
 OPCAO_TIPO_SIS
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
 
+SHOW TABLE OPCAO_SIS;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=ACESSO

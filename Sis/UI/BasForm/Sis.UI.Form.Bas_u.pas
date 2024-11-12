@@ -41,9 +41,12 @@ type
     property KeyPressFiltraTeclado: boolean read GetKeyPressFiltraTeclado write SetKeyPressFiltraTeclado;
 
     procedure DebugImporteTeclas;
+    procedure AjusteControles; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+     destructor Destroy; override;
+
   end;
 
 var
@@ -55,6 +58,11 @@ implementation
 
 uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u, Sis.UI.Controls.Utils,
   Sis.UI.IO.Files.Factory, Sis.UI.IO.Files;
+
+procedure TBasForm.AjusteControles;
+begin
+
+end;
 
 procedure TBasForm.CheckBoxKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -119,6 +127,12 @@ begin
 
   // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
   // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
+end;
+
+destructor TBasForm.Destroy;
+begin
+  sleep(5);
+  inherited;
 end;
 
 procedure TBasForm.DispareShowTimer;
@@ -198,6 +212,7 @@ end;
 procedure TBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   ShowTimer_BasForm.Enabled := False;
+  AjusteControles;
 end;
 
 end.

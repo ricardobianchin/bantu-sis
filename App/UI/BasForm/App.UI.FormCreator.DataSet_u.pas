@@ -2,7 +2,8 @@ unit App.UI.FormCreator.DataSet_u;
 
 interface
 
-uses VCL.Forms, App.UI.Form.Bas.TabSheet.DataSet_u, System.Classes, App.AppObj, App.AppInfo,
+uses VCL.Forms, App.UI.Form.Bas.TabSheet.DataSet_u, System.Classes, App.AppObj,
+  App.AppInfo,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.Usuario,
   Sis.UI.IO.Output.ProcessLog, App.Ent.Ed, App.Ent.DBI,
   App.UI.Form.Bas.TabSheet_u, App.UI.FormCreator.TabSheet_u, Sis.Types,
@@ -23,8 +24,7 @@ type
     function FormCreateSelect(AOwner: TComponent; pIdPos: integer)
       : TForm; override;
     constructor Create(pFormClass: TTabSheetDataSetBasFormClass;
-      pFormClassNamesSL: TStringList; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+      pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
       pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj); reintroduce;
     function PergSelect(var pSelectItem: TSelectItem): boolean; override;
@@ -37,31 +37,31 @@ uses VCL.Controls;
 { TDataSetFormCreator }
 
 constructor TDataSetFormCreator.Create(pFormClass: TTabSheetDataSetBasFormClass;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj);
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj);
 var
   sTitulo: string;
 begin
   sTitulo := pEntEd.Titulo;
-  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pAppInfo, pSisConfig,
-    pUsuario, pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj);
+  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pUsuarioLog,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
 end;
 
 function TDataSetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
-  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
+  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL,
+    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
     mdfBrowse, 0, AppObj);
 end;
 
 function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent;
   pIdPos: integer): TForm;
 begin
-  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
+  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL,
+    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
     mdfSelect, pIdPos, AppObj);
 end;
 

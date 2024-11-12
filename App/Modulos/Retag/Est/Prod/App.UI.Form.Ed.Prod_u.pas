@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Retag.Est.Prod.Ent,
   Data.DB, App.Ent.DBI, Sis.Usuario,
-  App.Ent.Ed, Sis.UI.FormCreator, App.AppInfo, Sis.Config.SisConfig,
+  App.Ent.Ed, Sis.UI.FormCreator, App.AppObj,
   Sis.UI.Frame.Bas_u, App.UI.Frame.Bas.Retag.Ed_u,
   App.UI.Frame.Bas.Retag.Prod.Ed_u, App.Est.Prod.Barras.DBI
 
@@ -92,9 +92,9 @@ type
       pProdICMSDataSetFormCreator: IFormCreator;
 
       //
-      pAppInfo: IAppInfo; //
+      pAppObj: IAppObj; //
       pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
-      pUsuario: IUsuario
+      pUsuarioLog: IUsuario
       ); reintroduce;
   end;
 
@@ -273,12 +273,12 @@ constructor TProdEdForm.Create(AOwner: TComponent; pEntEd: IEntEd;
   pProdICMSDataSetFormCreator: IFormCreator;
 
   //
-  pAppInfo: IAppInfo; //
+  pAppObj: IAppObj; //
   pRetagEstProdEdDBI: IRetagEstProdEdDBI;//
-  pUsuario: IUsuario
+  pUsuarioLog: IUsuario
   );
 begin
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FFabrDBI := pFabrDBI;
   FTipoDBI := pTipoDBI;
   FUnidDBI := pUnidDBI;
@@ -290,7 +290,7 @@ begin
     , pProdTipoDataSetFormCreator //
     , pProdUnidDataSetFormCreator //
     , pProdICMSDataSetFormCreator //
-    , pAppInfo, ErroOutput);
+    , pAppObj, ErroOutput);
 
   FRetagEstProdEdDBI := pRetagEstProdEdDBI;
 

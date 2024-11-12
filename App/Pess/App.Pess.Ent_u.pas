@@ -9,7 +9,7 @@ type
   TPessEnt = class(TEntEdId, IPessEnt)
   private
     FLojaId: smallint;
-    FUsuarioId: integer;
+    FLogUsuarioId: integer;
     FMachineIdentId: smallint;
     FTerminalId: smallint;
 
@@ -34,7 +34,7 @@ type
     FPessEnderList: IPessEnderList;
 
 
-    function GetUsuarioId: integer;
+    function GetLogUsuarioId: integer;
     function GetMachineIdentId: smallint;
 
     function GetTerminalId: smallint;
@@ -100,7 +100,7 @@ type
     function GetCodUsaTerminalId: boolean; virtual;
     function GetPessTipoAceito: TPessTipoAceito; virtual;
   public
-    property UsuarioId: integer read GetUsuarioId;
+    property LogUsuarioId: integer read GetLogUsuarioId;
     property MachineIdentId: smallint read GetMachineIdentId;
     property TerminalId: smallint read GetTerminalId write SetTerminalId;
     property LojaId: smallint read GetLojaId write SetLojaId;
@@ -137,7 +137,7 @@ type
 
     constructor Create( //
       pLojaId: smallint;//
-      pUsuarioId: integer; //
+      pLogUsuarioId: integer; //
       pMachineIdentId: smallint; //
       pPessEnderList: IPessEnderList //
       ); //
@@ -153,14 +153,14 @@ uses System.SysUtils;
 
 constructor TPessEnt.Create( //
   pLojaId: smallint;//
-  pUsuarioId: integer; //
+  pLogUsuarioId: integer; //
   pMachineIdentId: smallint; //
   pPessEnderList: IPessEnderList //
   ); //
 begin
   inherited Create(dsBrowse, 0);
   FLojaId := pLojaId;
-  FUsuarioId := pUsuarioId;
+  FLogUsuarioId := pLogUsuarioId;
   FMachineIdentId := pMachineIdentId;
   FPessEnderList := pPessEnderList;
   LimparEnt;
@@ -291,9 +291,9 @@ begin
   Result := FTerminalId;
 end;
 
-function TPessEnt.GetUsuarioId: integer;
+function TPessEnt.GetLogUsuarioId: integer;
 begin
-  Result := FUsuarioId;
+  Result := FLogUsuarioId;
 end;
 
 procedure TPessEnt.LimparEnt;

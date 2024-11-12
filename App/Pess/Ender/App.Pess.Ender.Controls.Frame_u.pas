@@ -510,7 +510,7 @@ begin
 
       sLin := Trim(SL[iLin]);
       Delete(sLin, 1, 11);
-      sLin := StrDeleteNoFim(sLin, 2);
+      StrDeleteNoFim(sLin, 2);
 
       sLin := StrSemAcento(sLin);
       sLin := StrSemCharRepetido(sLin, #32);
@@ -524,7 +524,7 @@ begin
 
       sLin := Trim(SL[iLin]);
       Delete(sLin, 1, 15);
-      sLin := StrDeleteNoFim(sLin, 2);
+      StrDeleteNoFim(sLin, 2);
 
       sLin := StrSemAcento(sLin);
       sLin := StrSemCharRepetido(sLin, #32);

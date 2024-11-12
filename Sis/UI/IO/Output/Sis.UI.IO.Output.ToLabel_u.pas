@@ -39,7 +39,7 @@ begin
     exit;
 
   FLabel.Caption := pFrase;
-  FLabel.Visible := true;
+  FLabel.Visible := True;
 
   if (FQtdExib > 5) then
   begin

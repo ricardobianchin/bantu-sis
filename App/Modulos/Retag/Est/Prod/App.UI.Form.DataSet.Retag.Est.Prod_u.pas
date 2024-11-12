@@ -6,13 +6,13 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl, App.Ent.Ed,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator,
-  App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId,} Sis.Config.SisConfig,
+  App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId,}
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  App.UI.TabSheet.DataSet.Types_u, App.AppObj;
+  App.UI.TabSheet.DataSet.Types_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -46,10 +46,10 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+      pIdPos: integer; pAppObj: IAppObj); override;
   end;
 
 var
@@ -66,15 +66,15 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 { TRetagEstProdDataSetForm }
 
-constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+      pIdPos: integer; pAppObj: IAppObj);
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos, pAppObj);
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS,
+    pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
+    pIdPos, pAppObj);
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
 end;
@@ -100,10 +100,10 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.Dataset.Prod.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oProdDBI := RetagEstProdDBICreate(oConn, ProdEnt);
@@ -149,10 +149,10 @@ var
   oConn: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppInfo, SisConfig);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', SisConfig,
+  oConn := DBConnectionCreate('Retag.DataSet.Prod.Ler.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oDBI := RetagEstProdDBICreate(oConn, ProdEnt);
@@ -178,19 +178,17 @@ var
   oProdUnidDataSetFormCreator: IFormCreator;
   oProdICMSDataSetFormCreator: IFormCreator;
 
-  oAppInfo: IAppInfo;
   oAppObj: IAppObj;
   oRetagEstProdEdDBI: IRetagEstProdEdDBI;
 begin
   inherited;
-  oAppInfo := AppInfo;
   oAppObj := AppObj;
 
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    oAppInfo, SisConfig);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, oAppObj);
 
   oDBConnection := DBConnectionCreate('Retag.Prod.Ed.' + pDataSetStateAbrev +
-    '.Conn', SisConfig, oDBConnectionParams, ProcessLog, Output);
+    '.Conn', oAppObj.SisConfig, oDBConnectionParams, ProcessLog, Output);
 
   oProdDBI := RetagEstProdDBICreate(oDBConnection, ProdEnt);
   oProdFabrDBI := RetagEstProdFabrDBICreate(oDBConnection, ProdEnt.ProdFabrEnt);
@@ -199,20 +197,19 @@ begin
   oProdICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, ProdEnt.ProdICMSEnt);
   oBarrasDBI := AppEstBarrasDBICreate(oDBConnection);
 
-  oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
-    ProdEnt.ProdFabrEnt, oProdFabrDBI, oAppObj);
+  oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, UsuarioLog,
+    DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt, oProdFabrDBI, oAppObj);
 
-  oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+  oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil, UsuarioLog,
+    DBMS, Output, ProcessLog, OutputNotify,
     ProdEnt.ProdTipoEnt, oProdTipoDBI, oAppObj);
 
-  oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+  oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, UsuarioLog,
+    DBMS, Output, ProcessLog, OutputNotify,
     ProdEnt.ProdUnidEnt, oProdUnidDBI, oAppObj);
 
-  oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, AppInfo,
-    SisConfig, Usuario, DBMS, Output, ProcessLog, OutputNotify,
+  oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, UsuarioLog,
+    DBMS, Output, ProcessLog, OutputNotify,
     ProdEnt.ProdICMSEnt, oProdICMSDBI, oAppObj);
 
   oRetagEstProdEdDBI := RetagEstProdEdDBICreate(oDBConnection);
@@ -226,7 +223,7 @@ begin
     , oFabrDataSetFormCreator, oProdTipoDataSetFormCreator,
     oProdUnidDataSetFormCreator, oProdICMSDataSetFormCreator
     //
-    , AppInfo, oRetagEstProdEdDBI, Usuario);
+    , AppObj, oRetagEstProdEdDBI, UsuarioLog);
 end;
 
 procedure TRetagEstProdDataSetForm.EntToRecord;
@@ -259,7 +256,7 @@ function TRetagEstProdDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.csv';
 
   Result := sNomeArq;
 end;

@@ -115,6 +115,7 @@ type
 
     function GetValue(pSql: string): Variant;
     function GetValueInteger(pSql: string): integer;
+    function GetValueInteger64(pSql: string): Int64;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
 
     function ExecuteSQL(pSql: string): LongInt;
@@ -130,9 +131,8 @@ type
     function GetNome: string;
     property Nome: string read GetNome;
 
-    function GetSql: string;
-    procedure SetSql(Value: string);
-    property Sql: string read GetSql write SetSql;
+    function GetSql: TStrings;
+    property Sql: TStrings read GetSql;
 
     function GetParams: TFDParams;
     property Params: TFDParams read GetParams;
@@ -167,6 +167,12 @@ type
   IDBExec = interface(IDBSqlOperation)
     ['{97F1A38D-F2DD-4B0F-9CFE-7AE9F50232EC}']
     procedure Execute;
+  end;
+
+  IDBExecScript = interface(IDBSqlOperation)
+    ['{4548FEFF-5026-4E84-B0DC-E31D7EFD28FC}']
+    procedure Execute;
+    procedure PegueComando(pComando: string);
   end;
 
 function StrToDBFramework(pStr: string): TDBFramework;

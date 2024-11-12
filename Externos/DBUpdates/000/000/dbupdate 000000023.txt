@@ -1,10 +1,26 @@
 PERFIL_DE_USO
 
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW SEQUENCE PERFIL_DE_USO_SEQ;
+
+SHOW TABLE PERFIL_DE_USO;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ALVO=SERVIDOR
+DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=ACESSO
 DBATUALIZ_OBJETIVO=CRIA PERFIL_DE_USO
 DBATUALIZ_OBS=

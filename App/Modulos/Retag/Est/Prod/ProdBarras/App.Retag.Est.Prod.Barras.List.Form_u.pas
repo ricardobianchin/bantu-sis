@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, App.AppInfo,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, App.AppObj,
   FireDAC.Comp.Client, App.Est.Prod.Barras.DBI;
 
 type
@@ -43,7 +43,7 @@ type
     { Public declarations }
     property AsString: string read GetAsString;
     property FDMemTable: TFDMemTable read FFDMemTable;
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer); reintroduce;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pBarrasDBI: IBarrasDBI; pProdId: integer); reintroduce;
   end;
 
 var
@@ -80,7 +80,7 @@ begin
 
 end;
 
-constructor TProdBarrasListForm.Create(AOwner: TComponent; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer);
+constructor TProdBarrasListForm.Create(AOwner: TComponent; pAppObj: IAppObj; pBarrasDBI: IBarrasDBI; pProdId: integer);
 var
   sNomeArq: string;
 begin
@@ -90,7 +90,7 @@ begin
 
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
-  sNomeArq := pAppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.barras.csv';
+  sNomeArq := pAppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.barras.csv';
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
 end;
 

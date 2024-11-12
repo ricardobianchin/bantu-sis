@@ -3,7 +3,8 @@ unit App.AppObj_u;
 interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config;
+  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config,
+  Sis.Entities.TerminalList, Sis.Threads.Crit.CriticalSections;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
@@ -11,12 +12,16 @@ type
     FAppInfo: IAppInfo;
     FLoja: ILoja;
     FAppTestesConfig: IAppTestesConfig;
-
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
     FProcessLog: IProcessLog;
     FSisConfig: ISisConfig;
     FDBMS: IDBMS;
+    FTerminalList: ITerminalList;
+    FCriticalSections: ICriticalSections;
+
+    function GetTerminalList: ITerminalList;
+
 
     function GetAppTestesConfig: IAppTestesConfig;
 
@@ -31,6 +36,8 @@ type
     function GetLoja: ILoja;
 
     procedure SetProcessOutput(Value: IOutput);
+    function GetCriticalSections: ICriticalSections;
+    function GeICriticalSections: ICriticalSections;
 
   public
     property AppTestesConfig: IAppTestesConfig read GetAppTestesConfig;
@@ -40,32 +47,36 @@ type
     property SisConfig: ISisConfig read GetSisConfig;
     property AppInfo: IAppInfo read GetAppInfo;
     property Loja: ILoja read GetLoja;
+    property TerminalList: ITerminalList read GetTerminalList;
+    property CriticalSections: ICriticalSections read GeICriticalSections;
 
 
     function Inicialize: boolean;
     constructor Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
-      pProcessOutput: IOutput; pProcessLog: IProcessLog);
+      pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
 implementation
 
 uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory,
-  App.Factory, App.DonoConfig.Utils;
+  App.Factory, App.DonoConfig.Utils, Sis.Threads.Factory_u;
 
 { TAppObj }
 
 constructor TAppObj.Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS;
-  pStatusOutput: IOutput; pProcessOutput: IOutput; pProcessLog: IProcessLog);
+  pStatusOutput: IOutput; pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   FAppTestesConfig := App.Factory.AppTestesConfigCreate(pProcessLog,
     pStatusOutput);
-
+  FTerminalList := pTerminalList;
   FAppInfo := pAppInfo;
   FLoja := pLoja;
   FDBMS := pDBMS;
   FStatusOutput := pStatusOutput;
   FProcessOutput := pProcessOutput;
   FProcessLog := pProcessLog;
+
+  FCriticalSections := CriticalSectionsCreate;
 
   ProcessLog.PegueLocal('TAppObj.Create');
   try
@@ -88,6 +99,16 @@ end;
 function TAppObj.GetAppTestesConfig: IAppTestesConfig;
 begin
   Result := FAppTestesConfig;
+end;
+
+function TAppObj.GetCriticalSections: ICriticalSections;
+begin
+  Result := FCriticalSections;
+end;
+
+function TAppObj.GeICriticalSections: ICriticalSections;
+begin
+  Result := FCriticalSections;
 end;
 
 function TAppObj.GetDBMS: IDBMS;
@@ -118,6 +139,11 @@ end;
 function TAppObj.GetStatusOutput: IOutput;
 begin
   Result := FStatusOutput;
+end;
+
+function TAppObj.GetTerminalList: ITerminalList;
+begin
+  Result := FTerminalList;
 end;
 
 function TAppObj.Inicialize: boolean;

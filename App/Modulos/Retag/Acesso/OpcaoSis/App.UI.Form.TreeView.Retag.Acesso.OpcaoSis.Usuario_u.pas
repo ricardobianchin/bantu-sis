@@ -8,13 +8,14 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis_u, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Sis.Config.SisConfig,
-  Sis.DB.DBTypes, App.AppInfo;
+  Sis.DB.DBTypes, App.AppObj;
 
 type
   TOpcaoSisUsuarioTreeViewForm = class(TOpcaoSisTreeViewForm)
   private
     { Private declarations }
     FLojaId: smallint;
+    FUsuarioIdLog: integer;
   protected
     function GetSql: string; override;
     function GetSqlGravar: string; override;
@@ -23,8 +24,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pLojaId: smallint;
-      pAssociadaId: integer; pAssociadaNome: string; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pDBMS: IDBMS); reintroduce;
+      pUsuarioIdLog: integer; pUsuarioIdEnvolvido: integer;
+      pUsuarioNomeEnvolvido: string; pAppObj: IAppObj; pDBMS: IDBMS); reintroduce;
   end;
 
 var
@@ -35,13 +36,13 @@ implementation
 {$R *.dfm}
 { TOpcaoSisUsuarioTreeViewForm }
 
-constructor TOpcaoSisUsuarioTreeViewForm.Create(AOwner: TComponent;
-  pLojaId: smallint; pAssociadaId: integer; pAssociadaNome: string;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pDBMS: IDBMS);
+constructor TOpcaoSisUsuarioTreeViewForm.Create(AOwner: TComponent; pLojaId: smallint;
+      pUsuarioIdLog: integer; pUsuarioIdEnvolvido: integer;
+      pUsuarioNomeEnvolvido: string; pAppObj: IAppObj; pDBMS: IDBMS);
 begin
   FLojaId := pLojaId;
-  inherited Create(AOwner, pAssociadaId, pAssociadaNome, pAppInfo,
-    pSisConfig, pDBMS);
+  FUsuarioIdLog := pUsuarioIdLog;
+  inherited Create(AOwner, pUsuarioIdEnvolvido, pUsuarioNomeEnvolvido, pAppObj, pDBMS);
 end;
 
 function TOpcaoSisUsuarioTreeViewForm.GetEntidadeAssociada: string;
@@ -92,9 +93,14 @@ var
 begin
   sLista := NodesListAsString;
 
-  Result := 'EXECUTE PROCEDURE USUARIO_PA.PODE_OPCOES_GARANTIR(' +
-    FLojaId.ToString + ', ' + AssociadaId.ToString + ', ' +
-    QuotedStr(sLista) + ');';
+  Result := 'EXECUTE PROCEDURE USUARIO_PA.PODE_OPCOES_GARANTIR(' //
+    + AppObj.Loja.Id.ToString // LOJA_ID
+    + ', ' + AssociadaId.ToString // USUARIO_PESSOA_ID
+    + ', ' + FUsuarioIdLog.ToString // LOG_PESSOA_ID
+    + ', ' + AppObj.SisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
+    + ', ' + QuotedStr(sLista) // STR_OPCOES_ID
+    + ');' //
+    ;
 end;
 
 end.

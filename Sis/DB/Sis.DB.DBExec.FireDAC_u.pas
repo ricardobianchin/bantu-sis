@@ -12,12 +12,11 @@ uses
 type
   TDBExecFireDac = class(TDBExec)
   private
-    FDCommand: TFDCommand;
+    FFDCommand: TFDCommand;
 
   protected
     function GetParams: TFDParams; override;
-    procedure SetSQL(Value: string); override;
-    function GetSQL: string; override;
+    function GetSQL: TStrings; override;
 
     function GetPrepared: boolean; override;
     procedure SetPrepared(Value: boolean); override;
@@ -45,10 +44,10 @@ begin
   pProcessLog.PegueLocal('TDBExecFireDac.Create');
   try
     inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput);
-    sLog := 'retornou de inherited Create,vai FDCommand := TFDCommand.Create';
-    FDCommand := TFDCommand.Create(nil);
-    FDCommand.Connection := TFDConnection(pDBConnection.ConnectionObject);
-    Sql := pSql;
+    sLog := 'retornou de inherited Create,vai FFDCommand := TFDCommand.Create';
+    FFDCommand := TFDCommand.Create(nil);
+    FFDCommand.Connection := TFDConnection(pDBConnection.ConnectionObject);
+    Sql.Text := pSql;
     sLog := sLog + ','#13#10 + pSql + #13#10;
   finally
     DBLog.Registre(sLog);
@@ -63,7 +62,7 @@ begin
   ProcessLog.PegueLocal('TDBExecFireDac.Destroy');
   try
     DBLog.Registre('vai FreeAndNil(FDCommand)');
-    FreeAndNil(FDCommand);
+    FreeAndNil(FFDCommand);
     inherited;
   finally
     ProcessLog.RetorneLocal;
@@ -78,15 +77,15 @@ begin
   try
     inherited;
     try
-      sLog := Sql + ',' + GetParamsAsStr + ', vai FDCommand.Execute';
+      sLog := Sql.Text + ',' + GetParamsAsStr + ', vai FFDCommand.Execute';
 
-      FDCommand.Execute;
+      FFDCommand.Execute;
     except
       on e: exception do
       begin
         UltimoErro := 'TDBExecFireDac.Execute Erro'#13#10#13#10 + e.classname +
           #13#10 + e.message + #13#10 + #13#10 +
-          'ao tentar executar:'#13#10#13#10 + Sql;
+          'ao tentar executar:'#13#10#13#10 + Sql.Text;
         sLog := sLog + ',' + UltimoErro;
         Output.Exibir(UltimoErro);
         raise exception.Create(UltimoErro);
@@ -100,17 +99,17 @@ end;
 
 function TDBExecFireDac.GetParams: TFDParams;
 begin
-  Result := FDCommand.Params;
+  Result := FFDCommand.Params;
 end;
 
 function TDBExecFireDac.GetPrepared: boolean;
 begin
-  Result := FDCommand.Prepared;
+  Result := FFDCommand.Prepared;
 end;
 
-function TDBExecFireDac.GetSQL: string;
+function TDBExecFireDac.GetSQL: TStrings;
 begin
-  Result := FDCommand.CommandText.Text;
+  Result := FFDCommand.CommandText;
 end;
 
 procedure TDBExecFireDac.Prepare;
@@ -120,10 +119,10 @@ begin
   ProcessLog.PegueLocal('TDBExecFireDac.Prepare');
   try
     inherited;
-    if not FDCommand.Prepared then
+    if not FFDCommand.Prepared then
     begin
       DBLog.Registre('vai FDCommand.Prepare');
-      FDCommand.Prepare;
+      FFDCommand.Prepare;
     end;
   finally
     ProcessLog.RetorneLocal;
@@ -135,18 +134,12 @@ begin
   ProcessLog.PegueLocal('TDBExecFireDac.SetPrepared');
   try
     DBLog.Registre('Value=' + BooleanToStr(Value));
-    if FDCommand.Prepared = Value then
+    if FFDCommand.Prepared = Value then
       exit;
-    FDCommand.Prepared := Value;
+    FFDCommand.Prepared := Value;
   finally
     ProcessLog.RetorneLocal;
   end;
-end;
-
-procedure TDBExecFireDac.SetSQL(Value: string);
-begin
-  inherited;
-  FDCommand.CommandText.Text := Value;
 end;
 
 procedure TDBExecFireDac.Unprepare;
@@ -154,10 +147,10 @@ begin
   ProcessLog.PegueLocal('TDBExecFireDac.Unprepare');
   try
     inherited;
-    if FDCommand.Prepared then
+    if FFDCommand.Prepared then
     begin
       DBLog.Registre('vai FDCommand.Unprepare');
-      FDCommand.Unprepare;
+      FFDCommand.Unprepare;
     end;
   finally
     ProcessLog.RetorneLocal;

@@ -84,8 +84,8 @@ begin
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 
   FAmbiLojasDataSetFormCreator := AmbiLojaDataSetFormCreatorCreate
-    (FFormClassNamesSL, AppObj, SisConfig, Usuario, DBMS, Output, ProcessLog,
-    FOutputNotify);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
 
 {$IFDEF DEBUG}
   MenuPageControl.ActivePageIndex := 0;
@@ -175,9 +175,6 @@ begin
   PageControl1.ActivePage := oTabSheet;
 
   oFormOwner := oTabSheet;
-
-  oAppInfo := AppInfo;
-  oSisConfig := SisConfig;
 
   oForm := pFormCreator.FormCreate(oFormOwner);
   oForm.Parent := oTabSheet;

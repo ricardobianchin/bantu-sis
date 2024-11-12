@@ -121,9 +121,9 @@ var
 begin
   Result := False;
   sSqlGaranteRegRetId := GetSqlGaranteRegRetId;
-  //{$IFDEF DEBUG}
-  //CopyTextToClipboard(sSqlGaranteRegRetId);
-  //{$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSqlGaranteRegRetId);
+//  {$ENDIF}
 
   Result := DBConnection.Abrir;
   if not Result then
@@ -305,9 +305,9 @@ begin
   DBConnection.Abrir;
   try
     sSqlRetRegs := GetSqlPreencherDataSet(pValues);
-    //{$IFDEF DEBUG}
-    //CopyTextToClipboard(sSqlRetRegs);
-    //{$ENDIF}
+//    {$IFDEF DEBUG}
+//    CopyTextToClipboard(sSqlRetRegs);
+//    {$ENDIF}
 
     DBConnection.QueryDataSet(sSqlRetRegs, q);
     try

@@ -8,6 +8,7 @@ uses System.Classes, Sis.DB.Updater.Comando, Sis.DB.DBTypes,
 type
   TComandoFB = class(TInterfacedObject, IComando)
   private
+    FVersaoDB: integer;
     FDBConnection: IDBConnection;
     FUltimoErro: string;
     FDBUpdaterOperations: IDBUpdaterOperations;
@@ -23,6 +24,7 @@ type
     function GetDBConnection: IDBConnection;
 
   protected
+    property VersaoDB: integer read FVersaoDB;
     procedure PegarObjeto(pNome: string); virtual; abstract;
     property DBConnection: IDBConnection read GetDBConnection;
     property DBUpdaterOperations: IDBUpdaterOperations read FDBUpdaterOperations;
@@ -37,7 +39,7 @@ type
     property Output: IOutput read GetOutput;
     property AsText: string read GetAsText;
 
-    constructor Create(pDBConnection: IDBConnection;
+    constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
   end;
 
@@ -45,9 +47,10 @@ implementation
 
 { TComandoFB }
 
-constructor TComandoFB.Create(pDBConnection: IDBConnection;
+constructor TComandoFB.Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
 begin
+  FVersaoDB := pVersaoDB;
   FDBConnection := pDBConnection;
   FProcessLog := pProcessLog;
   FOutput := pOutput;

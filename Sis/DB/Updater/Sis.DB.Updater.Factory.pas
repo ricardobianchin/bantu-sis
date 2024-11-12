@@ -11,12 +11,12 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
 function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string)
-  : IDBUpdater;
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
+  pVariaveis: string): IDBUpdater;
 
-function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
-  pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
-  pOutput: IOutput): IComando;
+function TipoToComando(pTipoStr: string; pVersaoDB: integer;
+  pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
+  pProcessLog: IProcessLog; pOutput: IOutput): IComando;
 
 function sLinToCampoCreate(pStr: string): ICampo;
 function CampoListCreate: ICampoList;
@@ -43,52 +43,52 @@ uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u, System.StrUtils,
 function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList; pVariaveis: string)
-  : IDBUpdater;
+  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
+  pVariaveis: string): IDBUpdater;
 begin
   result := TDBUpdaterFirebird.Create(pTerminalId, pDBConnectionParams,
     pPastaProduto, pDBMS, pSisConfig, pProcessLog, pOutput, pLoja,
     pUsuarioGerente, pTerminalList, pVariaveis);
 end;
 
-function TipoToComando(pTipoStr: string; pDBConnection: IDBConnection;
-  pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
-  pOutput: IOutput): IComando;
+function TipoToComando(pTipoStr: string; pVersaoDB: integer;
+  pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
+  pProcessLog: IProcessLog; pOutput: IOutput): IComando;
 begin
   if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_TABLE then
-    result := TComandoFBCreateTable.Create(pDBConnection, pUpdaterOperations,
+    result := TComandoFBCreateTable.Create(pVersaoDB, pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_OR_ALTER_PROCEDURE then
-    result := TComandoFBCreateOrAlterProcedure.Create(pDBConnection,
+    result := TComandoFBCreateOrAlterProcedure.Create(pVersaoDB, pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_OR_ALTER_PACKAGE then
-    result := TComandoFBCreateOrAlterPackage.Create(pDBConnection,
+    result := TComandoFBCreateOrAlterPackage.Create(pVersaoDB, pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_DOMAINS then
-    result := TComandoFBCreateDomains.Create(pDBConnection, pUpdaterOperations,
+    result := TComandoFBCreateDomains.Create(pVersaoDB, pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_ENSURE_RECORDS then
-    result := TComandoFBEnsureRecords.Create(pDBConnection, pUpdaterOperations,
+    result := TComandoFBEnsureRecords.Create(pVersaoDB, pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_SEQUENCE then
-    result := TComandoFBCreateSequence.Create(pDBConnection, pUpdaterOperations,
+    result := TComandoFBCreateSequence.Create(pVersaoDB, pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_FOREIGN_KEY then
-    result := TComandoFBCreateForeignKey.Create(pDBConnection,
+    result := TComandoFBCreateForeignKey.Create(pVersaoDB, pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_UNIQUE_KEY then
-    result := TComandoFBCreateUniqueKey.Create(pDBConnection,
+    result := TComandoFBCreateUniqueKey.Create(pVersaoDB, pDBConnection,
       pUpdaterOperations, pProcessLog, pOutput)
 
   else if pTipoStr = DBATUALIZ_COMANDO_TIPO_CREATE_INDEX then
-    result := TComandoFBCreateIndex.Create(pDBConnection, pUpdaterOperations,
+    result := TComandoFBCreateIndex.Create(pVersaoDB, pDBConnection, pUpdaterOperations,
       pProcessLog, pOutput)
 
       ;

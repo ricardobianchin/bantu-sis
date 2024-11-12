@@ -17,14 +17,13 @@ type
     MensCopyAct_Diag: TAction;
     MensCopyBitBtn_DiagBtn: TBitBtn;
     procedure MensCopyAct_DiagExecute(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FBaseControlsAlinhador: IControlsAlinhador;
   protected
     procedure PreencherBaseControlsAlinhador(pBaseControlsAlinhador: IControlsAlinhador); virtual;
     procedure CriarControles; virtual;
-    procedure AjusteControles; virtual;
+    procedure AjusteControles; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -41,6 +40,7 @@ uses Sis.UI.Controls.Factory;
 
 procedure TDiagBtnBasForm.AjusteControles;
 begin
+  inherited;
   PreencherBaseControlsAlinhador(FBaseControlsAlinhador);
   FBaseControlsAlinhador.Execute;
 end;
@@ -78,12 +78,6 @@ begin
   pBaseControlsAlinhador.PegarControl(OkBitBtn_DiagBtn);
   pBaseControlsAlinhador.PegarControl(CancelBitBtn_DiagBtn);
   pBaseControlsAlinhador.PegarControl(MensCopyBitBtn_DiagBtn);
-end;
-
-procedure TDiagBtnBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  AjusteControles;
 end;
 
 end.

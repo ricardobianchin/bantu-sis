@@ -3,10 +3,12 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   ExplicitWidth = 628
   ExplicitHeight = 477
+  DesignSize = (
+    628
+    477)
   TextHeight = 15
   object Logo1Image: TImage [0]
     Left = 0
@@ -86,6 +88,31 @@ inherited PrincBasForm: TPrincBasForm
       end
     end
   end
+  object GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox [3]
+    Left = 59
+    Top = 202
+    Width = 172
+    Height = 50
+    Anchors = [akTop, akRight]
+    Caption = 'Tarefas do Sistema'
+    TabOrder = 1
+    object AbrirButton_PrincBasForm: TButton
+      Left = 8
+      Top = 18
+      Width = 75
+      Height = 25
+      Action = GerenciadorDeTarefasAbrirAction_PrincBasForm
+      TabOrder = 0
+    end
+    object CentrButton_PrincBasForm: TButton
+      Left = 88
+      Top = 18
+      Width = 75
+      Height = 25
+      Action = GerenciadorDeTarefasCentralizarAction_PrincBasForm
+      TabOrder = 1
+    end
+  end
   inherited ActionList1_ActBasForm: TActionList
     inherited FecharAction_ActBasForm: TAction
       Caption = 'Fechar o Sistema'
@@ -96,6 +123,14 @@ inherited PrincBasForm: TPrincBasForm
       Hint = 'Minimize'
       ImageIndex = 1
       OnExecute = MinimizeAction_PrincBasFormExecute
+    end
+    object GerenciadorDeTarefasAbrirAction_PrincBasForm: TAction
+      Caption = 'Abrir'
+      OnExecute = GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+    end
+    object GerenciadorDeTarefasCentralizarAction_PrincBasForm: TAction
+      Caption = 'Centralizar'
+      OnExecute = GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
     end
   end
 end

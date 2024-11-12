@@ -24,7 +24,8 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
-      pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId); reintroduce;
+      pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
+      reintroduce;
   end;
 
 var
@@ -40,17 +41,21 @@ uses Sis.Types, ShopApp.DB.Import.Form.PLUBase, ShopApp.DB.Import.Types_u;
 
 constructor TShopConfigModuloForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
+  pTerminalId: TTerminalId);
 begin
   inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
     pUsuario, pAppObj, pTerminalId);
 end;
+
 function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
   : TDBImportForm;
 begin
   case pItemIndex + 1 of
     1:
-      Result := TShopDBImportFormPLUBase.Create(Application, AppObj, Usuario);
+      Result := TShopDBImportFormPLUBase.Create(Application, AppObj, LogUsuario);
+  else
+    Result := nil;
   end;
 end;
 
@@ -70,10 +75,10 @@ end;
 procedure TShopConfigModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//{$IFDEF DEBUG}
-//  DBImportAction.Execute;
-//  Application.Terminate;
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // DBImportAction.Execute;
+  // Application.Terminate;
+  // {$ENDIF}
 end;
 
 end.

@@ -2,8 +2,8 @@ object ConfigPergForm: TConfigPergForm
   Left = 0
   Top = 0
   Caption = 'ConfigPergForm'
-  ClientHeight = 557
-  ClientWidth = 980
+  ClientHeight = 556
+  ClientWidth = 976
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,18 +23,20 @@ object ConfigPergForm: TConfigPergForm
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 980
-    Height = 557
+    Width = 976
+    Height = 556
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitWidth = 972
+    ExplicitHeight = 555
     DesignSize = (
-      980
-      557)
+      976
+      556)
     object ToolBar1: TToolBar
       Left = 16
-      Top = 521
+      Top = 520
       Width = 417
       Height = 28
       Align = alNone
@@ -48,7 +50,7 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
-      ExplicitTop = 520
+      ExplicitTop = 519
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -110,7 +112,7 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuGerGroupBox: TGroupBox
-      Left = 662
+      Left = 670
       Top = 146
       Width = 300
       Height = 337
@@ -118,11 +120,10 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Login do Gerente'
       TabOrder = 1
       Visible = False
-      ExplicitLeft = 658
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 69
+        Width = 296
         Height = 13
         Align = alBottom
         Caption = 'LojaErroLabel'
@@ -133,6 +134,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitWidth = 69
       end
       object ObsLabel: TLabel
         Left = 9

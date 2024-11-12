@@ -8,14 +8,18 @@ uses Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Xml.XMLDoc, Xml.XMLIntf,
 type
   TLoginConfig = class(TConfigXMLI, ILoginConfig)
   private
+    FAbreModulo: boolean;
     FPreencheLogin: boolean;
     FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     FNomeDeUsuario: string;
     FSenhaAtual: string;
     FExecuteOk: boolean;
 
-    PreencheLoginNode, TipoOpcaoSisModuloNode, NomeDeUsuarioNode,
-      SenhaAtualNode, ExecuteOkNode: IXMLNODE;
+    AbreModuloNode, PreencheLoginNode, TipoOpcaoSisModuloNode,
+      NomeDeUsuarioNode, SenhaAtualNode, ExecuteOkNode: IXMLNODE;
+
+    function GetAbreModulo: boolean;
+    procedure SetAbreModulo(Value: boolean);
 
     function GetPreencheLogin: boolean;
     procedure SetPreencheLogin(Value: boolean);
@@ -38,13 +42,17 @@ type
     function PrepGravar: boolean; override;
 
   public
+    property AbreModulo: boolean read GetAbreModulo
+      write SetAbreModulo;
     property PreencheLogin: boolean read GetPreencheLogin
       write SetPreencheLogin;
     property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo
       write SetTipoOpcaoSisModulo;
+
     property NomeDeUsuario: string read GetNomeDeUsuario write SetNomeDeUsuario;
     property SenhaAtual: string read GetSenhaAtual write SetSenhaAtual;
     property ExecuteOk: boolean read GetExecuteOk write SetExecuteOk;
+
     constructor Create(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
   end;
 
@@ -63,6 +71,11 @@ constructor TLoginConfig.Create(pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   inherited Create('login', 'Login.Config', '.xml', '', False,
     pProcessLog, pOutput);
+end;
+
+function TLoginConfig.GetAbreModulo: boolean;
+begin
+  Result := FAbreModulo;
 end;
 
 function TLoginConfig.GetExecuteOk: boolean;
@@ -91,12 +104,14 @@ begin
   if not Result then
     exit;
 
+  AbreModuloNode := RootNode.AddChild('abre_modulo');
   PreencheLoginNode := RootNode.AddChild('preenche_login');
   TipoOpcaoSisModuloNode := RootNode.AddChild('modulo_sistema');
   NomeDeUsuarioNode := RootNode.AddChild('nome_de_usuario');
   SenhaAtualNode := RootNode.AddChild('senha_atual');
   ExecuteOkNode := RootNode.AddChild('execute_ok');
 
+  AbreModuloNode.Text := BooleanToStr(FAbreModulo);
   PreencheLoginNode.Text := BooleanToStr(FPreencheLogin);
   TipoOpcaoSisModuloNode.Text := TipoOpcaoSisModuloToName(FTipoOpcaoSisModulo);
   NomeDeUsuarioNode.Text := FNomeDeUsuario;
@@ -107,6 +122,7 @@ end;
 procedure TLoginConfig.Inicialize;
 begin
   inherited;
+  FAbreModulo := False;
   FPreencheLogin := False;
   FTipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduConfiguracoes;
   FNomeDeUsuario := '';
@@ -114,19 +130,23 @@ begin
   FExecuteOk := True;
 end;
 
-function TLoginConfig.PrepLer: boolean;
+function TLoginConfig.prepLer: boolean;
 var
   s: string;
 begin
-  Result := inherited PrepLer;
+  Result := inherited prepLer;
   if not Result then
     exit;
 
+  AbreModuloNode := RootNode.ChildNodes['abre_modulo'];
   PreencheLoginNode := RootNode.ChildNodes['preenche_login'];
   TipoOpcaoSisModuloNode := RootNode.ChildNodes['modulo_sistema'];
   NomeDeUsuarioNode := RootNode.ChildNodes['nome_de_usuario'];
   SenhaAtualNode := RootNode.ChildNodes['senha_atual'];
   ExecuteOkNode := RootNode.ChildNodes['execute_ok'];
+
+  s := AbreModuloNode.Text;
+  FAbreModulo := StrToBoolean(s);
 
   s := PreencheLoginNode.Text;
   FPreencheLogin := StrToBoolean(s);
@@ -147,6 +167,11 @@ end;
 procedure TLoginConfig.SetTipoOpcaoSisModulo(Value: TOpcaoSisIdModulo);
 begin
   FTipoOpcaoSisModulo := Value;
+end;
+
+procedure TLoginConfig.SetAbreModulo(Value: boolean);
+begin
+  FAbreModulo := Value;
 end;
 
 procedure TLoginConfig.SetExecuteOk(Value: boolean);

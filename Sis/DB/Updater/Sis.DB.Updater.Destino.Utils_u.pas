@@ -5,59 +5,78 @@ interface
 uses Sis.Entities.Types;
 
 type
-  TDBUpdaterAlvo = (udAmbos, udServidor, udTerminal);
+  TDBUpdaterPontoAlvo = (upontoAmbos, upontoServidor, upontoTerminal);
 
 const
-  DBUpdaterAlvoNomes: array[TDBUpdaterAlvo] of string = ('Ambos', 'Servidor', 'Terminal');
+  DBUpdaterPontoAlvoNomes: array [TDBUpdaterPontoAlvo] of string = ('Ambos',
+    'Servidor', 'Terminal');
 
-function StrToAlvo(pStr: string): TDBUpdaterAlvo;
-function TerminalIdToAlvo(pTerminalId: TTerminalId): TDBUpdaterAlvo;
-function SeAplica(pTerminalId: TTerminalId; pDBUpdaterAlvo: TDBUpdaterAlvo): boolean;
-function ComandoSeAplica(pTerminalId: TTerminalId;pLin: string): Boolean;
+function StrToPontoAlvo(pStr: string): TDBUpdaterPontoAlvo;
+function TerminalIdToPontoAlvo(pTerminalId: TTerminalId): TDBUpdaterPontoAlvo;
+function PontoSeAplica(pTerminalId: TTerminalId;
+  pDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo): boolean;
+function ComandoPontoSeAplica(pTerminalId: TTerminalId; pLin: string): boolean;
+function StrToAtividadeExandedAscii(pStr: string): string;
 
 implementation
 
 uses System.SysUtils, Sis.Sis.Constants, Sis.Types.strings_u;
 
-function StrToAlvo(pStr: string): TDBUpdaterAlvo;
+function StrToPontoAlvo(pStr: string): TDBUpdaterPontoAlvo;
 begin
   pStr := UpperCase(Trim(pStr));
   if pStr = 'TERMINAL' then
-    Result := TDBUpdaterAlvo.udTerminal
+    Result := TDBUpdaterPontoAlvo.upontoTerminal
   else if pStr = 'SERVIDOR' then
-    Result := TDBUpdaterAlvo.udServidor
-  else //if pStr = 'AMBOS' then
-    Result := TDBUpdaterAlvo.udAmbos;
+    Result := TDBUpdaterPontoAlvo.upontoServidor
+  else // if pStr = 'AMBOS' then
+    Result := TDBUpdaterPontoAlvo.upontoAmbos;
 end;
 
-function TerminalIdToAlvo(pTerminalId: TTerminalId): TDBUpdaterAlvo;
+function TerminalIdToPontoAlvo(pTerminalId: TTerminalId): TDBUpdaterPontoAlvo;
 begin
   if pTerminalId < 0 then
-    Result := TDBUpdaterAlvo.udAmbos
+    Result := TDBUpdaterPontoAlvo.upontoAmbos
   else if pTerminalId = 0 then
-    Result := TDBUpdaterAlvo.udServidor
-  else //if pTerminalId > 0 then
-    Result := TDBUpdaterAlvo.udTerminal;
+    Result := TDBUpdaterPontoAlvo.upontoServidor
+  else // if pTerminalId > 0 then
+    Result := TDBUpdaterPontoAlvo.upontoTerminal;
 end;
 
-function SeAplica(pTerminalId: TTerminalId; pDBUpdaterAlvo: TDBUpdaterAlvo): boolean;
+
+function PontoSeAplica(pTerminalId: TTerminalId;
+  pDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo): boolean;
 begin
-  case pDBUpdaterAlvo of
-    udServidor: Result := pTerminalId = TERMINAL_ID_RETAGUARDA;
-    udTerminal: Result := pTerminalId > TERMINAL_ID_RETAGUARDA;
-    else //udAmbos: ;
-      Result := True;
+  case pDBUpdaterPontoAlvo of
+    upontoServidor:
+      Result := pTerminalId = TERMINAL_ID_RETAGUARDA;
+    upontoTerminal:
+      Result := pTerminalId > TERMINAL_ID_RETAGUARDA;
+  else // upontoAmbos: ;
+    Result := True;
   end;
 end;
 
-function ComandoSeAplica(pTerminalId: TTerminalId; pLin: string): Boolean;
+function ComandoPontoSeAplica(pTerminalId: TTerminalId; pLin: string): boolean;
 var
-  sAlvo: string;
-  iDBUpdaterAlvo: TDBUpdaterAlvo;
+  sPontoAlvo: string;
+  iDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo;
 begin
-  sAlvo := StrApos(pLin, '=');
-  iDBUpdaterAlvo := StrToAlvo(sAlvo);
-  Result := SeAplica(pTerminalId, iDBUpdaterAlvo);
+  sPontoAlvo := StrApos(pLin, '=');
+  iDBUpdaterPontoAlvo := StrToPontoAlvo(sPontoAlvo);
+  Result := PontoSeAplica(pTerminalId, iDBUpdaterPontoAlvo);
+end;
+
+function StrToAtividadeExandedAscii(pStr: string): string;
+begin
+  pStr := Trim(UpperCase(pStr));
+
+  if pStr = 'MERCADO' then
+    Result := '#033'
+  else if pStr = 'FARMACIA' then
+    Result := '#034'
+  else
+    Result := '#032';
 end;
 
 end.

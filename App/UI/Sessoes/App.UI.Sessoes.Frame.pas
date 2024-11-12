@@ -135,11 +135,11 @@ begin
   oUsuario := UsuarioCreate();
 
   DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj.AppInfo, FAppObj.SisConfig);
+    FAppObj);
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
-  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario);
+  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
 
   bResultado := LoginPerg(FLoginConfig, iOpcaoSisIdModulo, oUsuario,
     oUsuarioDBI, true);
@@ -260,7 +260,7 @@ var
   oAction: TAction;
   oBot: TBotaoModuloFrame;
 begin
-  if not FLoginConfig.PreencheLogin then
+  if not FLoginConfig.AbreModulo then
     exit;
 
   oBot := GetBotByTipoOpcao(FLoginConfig.TipoOpcaoSisModulo);
@@ -417,7 +417,7 @@ begin
   inc(vShortCut);
 
   DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj.AppInfo, FAppObj.SisConfig);
+    FAppObj);
   oDBConnection := DBConnectionCreate('App.Sessoes.Conn', FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 

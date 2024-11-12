@@ -2,22 +2,22 @@ unit App.Pess.UI.Factory_u;
 
 interface
 
-uses App.AppObj, App.AppInfo, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
-  Sis.Config.SisConfig, Sis.Usuario, Sis.UI.FormCreator, App.UI.Form.Bas.Ed_u,
+uses App.AppObj, App.Ent.Ed, App.Ent.DBI, Sis.UI.IO.Output, System.Classes,
+  Sis.Usuario, Sis.UI.FormCreator, App.UI.Form.Bas.Ed_u,
   App.UI.FormCreator.DataSet_u, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes,
   App.UI.Form.DataSet.Pess.Loja_u;
 
 {$REGION 'loja'}
-function PessLojaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
+function PessLojaEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pPessLoja: IEntEd; pPessLojaDBI: IEntDBI): TEdBasForm;
 
-function PessLojaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
+function PessLojaPerg(AOwner: TComponent; pAppObj: IAppObj;
   pPessLojaEnt: IEntEd; pPessLojaDBI: IEntDBI): boolean;
 
 function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput
-  ): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj)
+  : IFormCreator;
 
 {$ENDREGION}
 
@@ -29,18 +29,18 @@ uses App.Pess.Loja.Ent, Sis.Loja.DBI, App.Pess.Loja.Ent.Factory_u,
 
 {$REGION 'loja impl'}
 
-function PessLojaEdFormCreate(AOwner: TComponent; pAppInfo: IAppInfo;
+function PessLojaEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pPessLoja: IEntEd; pPessLojaDBI: IEntDBI): TEdBasForm;
 begin
-  Result := TPessLojaEdForm.Create(AOwner, pAppInfo, pPessLoja, pPessLojaDBI);
+  Result := TPessLojaEdForm.Create(AOwner, pAppObj, pPessLoja, pPessLojaDBI);
 end;
 
-function PessLojaPerg(AOwner: TComponent; pAppInfo: IAppInfo;
+function PessLojaPerg(AOwner: TComponent; pAppObj: IAppObj;
   pPessLojaEnt: IEntEd; pPessLojaDBI: IEntDBI): boolean;
 var
   F: TEdBasForm;
 begin
-  F := PessLojaEdFormCreate(AOwner, pAppInfo, pPessLojaEnt, pPessLojaDBI);
+  F := PessLojaEdFormCreate(AOwner, pAppObj, pPessLojaEnt, pPessLojaDBI);
   try
     Result := F.Perg;
   finally
@@ -49,26 +49,27 @@ begin
 end;
 
 function AmbiLojaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppObj: IAppObj; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput
-  ): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj)
+  : IFormCreator;
 var
   oEnt: IPessLojaEnt;
   oDBI: IPessLojaDBI;
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    pAppObj.AppInfo, pSisConfig);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, pAppObj);
 
-  oDBConnection := DBConnectionCreate('Config.Ami.Loja.DataSet.Conn', pSisConfig,
-    oDBConnectionParams, pProcessLog, pOutput);
+  oDBConnection := DBConnectionCreate( 'Config.Ami.Loja.DataSet.Conn',
+    pAppObj.SisConfig, oDBConnectionParams, pProcessLog, pOutput);
 
-  oEnt := PessLojaEntCreate(pAppObj.Loja.Id, pUsuario.Id,  pSisConfig.ServerMachineId.IdentId);
+  oEnt := PessLojaEntCreate(pAppObj.Loja.Id, pAppObj.Loja.Id, pUsuarioLog.Id,
+    pAppObj.SisConfig.ServerMachineId.IdentId);
   oDBI := PessLojaDBICreate(oDBConnection, oEnt);
 
   Result := TDataSetFormCreator.Create(TAppPessLojaDataSetForm,
-    pFormClassNamesSL, pAppObj.AppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, oEnt, oDBI, pAppObj);
 end;
 

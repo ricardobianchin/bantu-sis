@@ -25,7 +25,7 @@ type
     FAtualizExeSubPasta: string;
     FAtualizExeURL: string;
 
-    FSisTipoAtividade: TSisTipoAtividade;
+    FAtividadeEconomicaSis: TAtividadeEconomicaSis;
 
 
     function GetExeName: string;
@@ -59,13 +59,13 @@ type
     function Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
 
 
-    function GetSisTipoAtividade: TSisTipoAtividade;
-    procedure SetSisTipoAtividade(Value: TSisTipoAtividade);
+    function GetAtividadeEconomicaSis: TAtividadeEconomicaSis;
+    procedure SetAtividadeEconomicaSis(Value: TAtividadeEconomicaSis);
 
   public
     property ExeName: string read GetExeName;
 
-    property SisTipoAtividade: TSisTipoAtividade read GetSisTipoAtividade write SetSisTipoAtividade;
+    property AtividadeEconomicaSis: TAtividadeEconomicaSis read GetAtividadeEconomicaSis write SetAtividadeEconomicaSis;
     property PessoaDonoId: integer read GetPessoaDonoId write SetPessoaDonoId;
     property FundoCor: TColor read GetFundoCor write SetFundoCor;
     property FonteCor: TColor read GetFonteCor write SetFonteCor;
@@ -201,9 +201,9 @@ begin
   Result := FPessoaDonoId;
 end;
 
-function TAppInfo.GetSisTipoAtividade: TSisTipoAtividade;
+function TAppInfo.GetAtividadeEconomicaSis: TAtividadeEconomicaSis;
 begin
-  Result := FSisTipoAtividade;
+  Result := FAtividadeEconomicaSis;
 end;
 
 function TAppInfo.Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
@@ -231,9 +231,9 @@ begin
   FPessoaDonoId := Value;
 end;
 
-procedure TAppInfo.SetSisTipoAtividade(Value: TSisTipoAtividade);
+procedure TAppInfo.SetAtividadeEconomicaSis(Value: TAtividadeEconomicaSis);
 begin
-  FSisTipoAtividade := Value;
+  FAtividadeEconomicaSis := Value;
 end;
 
 end.

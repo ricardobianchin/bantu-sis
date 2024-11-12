@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Sis.UI.ImgDM, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.Buttons, App.AppInfo,
+  Sis.UI.ImgDM, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.Buttons, App.AppObj,
   App.Retag.Est.Prod.Barras.Ent.List, App.Retag.Est.Prod.Barras.List.Form_u,
   App.Est.Prod.Barras.DBI;
 
@@ -27,7 +27,7 @@ type
   private
     { Private declarations }
     FProdBarrasList: IProdBarrasList;
-    FAppInfo: IAppInfo;
+    FAppObj: IAppObj;
     FBarrasDBI: IBarrasDBI;
     FProdId: integer;
     procedure ErroMens(pFrase: string);
@@ -39,7 +39,7 @@ type
 
     property ProdBarrasList: IProdBarrasList read FProdBarrasList;
     constructor Create(AOwner: TComponent; pProdBarrasList: IProdBarrasList;
-      pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI; pProdId: integer);
+      pAppObj: IAppObj; pBarrasDBI: IBarrasDBI; pProdId: integer);
   end;
 
 implementation
@@ -50,12 +50,12 @@ uses ShellAPI, App.Retag.Est.Prod.Barras.Ent, Data.DB, Sis.Types.Codigos.Utils,
   Sis.Lists.Types;
 
 constructor TProdBarrasFrame.Create(AOwner: TComponent;
-  pProdBarrasList: IProdBarrasList; pAppInfo: IAppInfo; pBarrasDBI: IBarrasDBI;
+  pProdBarrasList: IProdBarrasList; pAppObj: IAppObj; pBarrasDBI: IBarrasDBI;
   pProdId: integer);
 begin
   inherited Create(AOwner);
   FProdBarrasList := pProdBarrasList;
-  FAppInfo := pAppInfo;
+  FAppObj := pAppObj;
   FBarrasDBI := pBarrasDBI;
   FProdId := pProdId;
 
@@ -112,7 +112,7 @@ begin
   if not Resultado then
     exit;
 
-  ProdBarrasListForm := TProdBarrasListForm.Create(Application, FAppInfo,
+  ProdBarrasListForm := TProdBarrasListForm.Create(Application, FAppObj,
     FBarrasDBI, FProdId);
   q := ProdBarrasListForm.FDMemTable;
 

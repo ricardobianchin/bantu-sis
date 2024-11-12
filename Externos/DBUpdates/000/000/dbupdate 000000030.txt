@@ -1,11 +1,28 @@
 USUARIO_PODE_OPCAO_SIS
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE USUARIO_PODE_OPCAO_SIS;
+
+SELECT * FROM ;
+
+SHOW PACKAGE PERFIL_DE_USO_PA;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=ACESSO, PESSOA, USUARIO
 DBATUALIZ_OBJETIVO=CRIA USUARIO_PODE_OPCAO_SIS
 DBATUALIZ_OBS=
+
+
 
 
 

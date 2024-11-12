@@ -64,6 +64,11 @@ begin
     + ',' + BooleanToStrSQL(Ent.AutorizacaoExige)
     + ',' + BooleanToStrSQL(Ent.PessoaExige)
     + ',' + BooleanToStrSQL(Ent.AVista)
+
+    + ',' + Ent.LojaId.ToString //
+    + ',' + Ent.UsuarioId.ToString //
+    + ',' + Ent.MachineIdentId.ToString //
+
     + ');';
 end;
 
@@ -91,6 +96,11 @@ begin
     + ',' + BooleanToStrSQL(Ent.AutorizacaoExige)
     + ',' + BooleanToStrSQL(Ent.PessoaExige)
     + ',' + BooleanToStrSQL(Ent.AVista)
+
+    + ',' + Ent.LojaId.ToString //
+    + ',' + Ent.UsuarioId.ToString //
+    + ',' + Ent.MachineIdentId.ToString //
+
     + ');';
 end;
 

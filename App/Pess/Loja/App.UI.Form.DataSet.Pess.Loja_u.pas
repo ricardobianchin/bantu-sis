@@ -36,10 +36,10 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj); override;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -49,21 +49,21 @@ implementation
 
 {$R *.dfm}
 
-uses App.Pess.UI.Factory_u;
+uses App.Pess.UI.Factory_u, Sis.UI.Controls.Utils;
 
 constructor TAppPessLojaDataSetForm.Create(AOwner: TComponent;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig;
-  pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pAppObj: IAppObj);
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
 begin
   FLojaIdUltima := 0;
   FPessLojaEnt := EntEdCastToPessLojaEnt(pEntEd);
   FPessLojaDBI := EntDBICastToPessLojaDBI(pEntDBI);
 
-  inherited Create(AOwner, pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos, pAppObj);
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
+    pIdPos, pAppObj);
 
   AtualizaAposEd := True;
   iT_Selecionado := 0;
@@ -114,7 +114,7 @@ end;
 procedure TAppPessLojaDataSetForm.DoAntesAtualizar;
 begin
   inherited;
-  FLojaIdUltima := FDMemTable.Fields[iT_Loja_Id].AsInteger
+  FLojaIdUltima := FDMemTable.Fields[iT_LOJA_ID].AsInteger
 
 end;
 
@@ -136,14 +136,14 @@ function TAppPessLojaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews +
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
     'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
   Result := sNomeArq;
 end;
 
 function TAppPessLojaDataSetForm.PergEd: boolean;
 begin
-  Result := PessLojaPerg(nil, AppInfo, FPessLojaEnt, FPessLojaDBI);
+  Result := PessLojaPerg(nil, AppObj, FPessLojaEnt, FPessLojaDBI);
 end;
 
 procedure TAppPessLojaDataSetForm.QToMemTable(q: TDataSet);
@@ -153,18 +153,20 @@ var
 {$ENDIF}
 begin
 {$IFDEF DEBUG}
-  s := FDMemTable.Fields[iT_Selecionado].FieldName;
-  s := q.Fields[iQ_Selecionado].FieldName;
+  S := FDMemTable.Fields[iT_Selecionado].FieldName;
+  S := q.Fields[iQ_Selecionado].FieldName;
 {$ENDIF}
   inherited;
 
-  FDMemTable.Fields[iT_Selecionado].AsBoolean := q.Fields[iQ_Selecionado].AsBoolean;
+  FDMemTable.Fields[iT_Selecionado].AsBoolean := q.Fields[iQ_Selecionado]
+    .AsBoolean;
 end;
 
 procedure TAppPessLojaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //AltAction_DatasetTabSheet.Execute;
+  ClearStyleElements(Self);
+  // AltAction_DatasetTabSheet.Execute;
   //
 end;
 

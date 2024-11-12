@@ -11,6 +11,9 @@ type
     procedure SetSelecionado(const Value: boolean);
     property Selecionado: boolean read GetSelecionado write SetSelecionado;
 
+    function GetLogLojaId: smallint;
+    procedure SetLogLojaId(const Value: smallint);
+    property LogLojaId: smallint read GetLogLojaId write SetLogLojaId;
   end;
 
 

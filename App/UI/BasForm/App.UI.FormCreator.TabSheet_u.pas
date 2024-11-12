@@ -12,33 +12,28 @@ type
     InstanciouSL: boolean;
     FFormClassNamesSL: TStringList;
     FAppObj: IAppObj;
-    FAppInfo: IAppInfo;
-    FSisConfig: ISisConfig;
     FDBMS: IDBMS;
-    FUsuario: IUsuario;
+    FUsuarioLog: IUsuario;
     FOutput: IOutput;
     FProcessLog: IProcessLog;
     FOutputNotify: IOutput;
 
     function GetFormClassNamesSL: TStringList;
     function GetAppObj: IAppObj;
-    function GetAppInfo: IAppInfo;
-    function GetSisConfig: ISisConfig;
     function GetDBMS: IDBMS;
     function GetOutput: IOutput;
     function GetProcessLog: IProcessLog;
     function GetOutputNotify: IOutput;
 
     function GetTabSheetFormClass: TTabSheetAppBasFormClass;
-    property TabSheetFormClass: TTabSheetAppBasFormClass read GetTabSheetFormClass;
+    property TabSheetFormClass: TTabSheetAppBasFormClass
+      read GetTabSheetFormClass;
 
   protected
     property FormClassNamesSL: TStringList read GetFormClassNamesSL;
 
     property AppObj: IAppObj read GetAppObj;
-    property AppInfo: IAppInfo read GetAppInfo;
-    property SisConfig: ISisConfig read GetSisConfig;
-    property Usuario: IUsuario read FUsuario;
+    property UsuarioLog: IUsuario read FUsuarioLog;
     property DBMS: IDBMS read GetDBMS;
     property Output: IOutput read GetOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
@@ -47,9 +42,9 @@ type
   public
     function FormCreate(AOwner: TComponent): TForm; override;
     constructor Create(pFormClass: TTabSheetAppBasFormClass; pTitulo: string;
-      pFormClassNamesSL: TStringList; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-      pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj); reintroduce;
+      pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+      pOutputNotify: IOutput; pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
 
   end;
@@ -58,10 +53,10 @@ implementation
 
 { TTabSheetFormCreator }
 
-constructor TTabSheetFormCreator.Create(pFormClass: TTabSheetAppBasFormClass; pTitulo: string;
-  pFormClassNamesSL: TStringList; pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario;
-  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-  pOutputNotify: IOutput; pAppObj: IAppObj);
+constructor TTabSheetFormCreator.Create(pFormClass: TTabSheetAppBasFormClass;
+  pTitulo: string; pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj);
 begin
   inherited Create(pFormClass, pTitulo);
   InstanciouSL := not Assigned(pFormClassNamesSL);
@@ -71,9 +66,7 @@ begin
     FFormClassNamesSL := pFormClassNamesSL;
 
   FAppObj := pAppObj;
-  FAppInfo := pAppInfo;
-  FSisConfig := pSisConfig;
-  FUsuario := pUsuario;
+  FUsuarioLog := pUsuarioLog;
   FDBMS := pDBMS;
 
   FOutput := pOutput;
@@ -90,13 +83,8 @@ end;
 
 function TTabSheetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
-  Result := TabSheetFormClass.Create(AOwner, FormClassNamesSL, FAppInfo,
-    FSisConfig, FUsuario, FDBMS, FOutput, FProcessLog, FOutputNotify, FAppObj);
-end;
-
-function TTabSheetFormCreator.GetAppInfo: IAppInfo;
-begin
-  Result := FAppInfo;
+  Result := TabSheetFormClass.Create(AOwner, FormClassNamesSL, FUsuarioLog,
+    FDBMS, FOutput, FProcessLog, FOutputNotify, FAppObj);
 end;
 
 function TTabSheetFormCreator.GetAppObj: IAppObj;
@@ -127,11 +115,6 @@ end;
 function TTabSheetFormCreator.GetProcessLog: IProcessLog;
 begin
   Result := FProcessLog;
-end;
-
-function TTabSheetFormCreator.GetSisConfig: ISisConfig;
-begin
-  Result := FSisConfig;
 end;
 
 function TTabSheetFormCreator.GetTabSheetFormClass: TTabSheetAppBasFormClass;

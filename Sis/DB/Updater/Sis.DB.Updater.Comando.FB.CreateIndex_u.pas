@@ -18,7 +18,7 @@ type
   public
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); override;
     function GetAsSql: string; override;
-    constructor Create(pDBConnection: IDBConnection;
+    constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
       pOutput: IOutput);
     function Funcionou: boolean; override;
@@ -31,11 +31,12 @@ uses System.StrUtils, System.SysUtils, Sis.DB.Updater.Constants_u,
 
 { TComandoFBCreateIndex }
 
-constructor TComandoFBCreateIndex.Create(pDBConnection: IDBConnection;
-  pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
-  pOutput: IOutput);
+constructor TComandoFBCreateIndex.Create(pVersaoDB: integer;
+  pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
+  pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create(pDBConnection, pUpdaterOperations, pProcessLog, pOutput);
+  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations,
+    pProcessLog, pOutput);
   FsKeyName := '';
   FsTabelaNome := '';
   FsCampos := '';
@@ -49,7 +50,7 @@ var
   s1, s2: string;
 begin
   Sleep(200);
-  Result := DBUpdaterOperations.GetIndexInfo(FsKeyName,  sCampos);
+  Result := DBUpdaterOperations.GetIndexInfo(FsKeyName, sCampos);
 
   if not Result then
   begin
@@ -87,23 +88,17 @@ begin
   if Resultado then
     exit;
 
-  sDrop := GetSQLDropIndex(FsKeyName)+#13#10;
-  sCreate := GetSQLIndex(FsTabelaNome, FsCampos)+#13#10;
-  sCabec := #13#10 +
-    '/*******'#13#10 +
-    '*'#13#10 +
-    '* ' + GetAsText + #13#10 +
-    '*'#13#10 +
-    '*******/'#13#10 +
-    Result;
+  sDrop := GetSQLDropIndex(FsKeyName) + #13#10;
+  sCreate := GetSQLIndex(FsTabelaNome, FsCampos) + #13#10;
+  sCabec := #13#10 + '/*******'#13#10 + '*'#13#10 + '* ' + GetAsText + #13#10 +
+    '*'#13#10 + '*******/'#13#10 + Result;
 
   Result := sCabec + sDrop + sCreate;
 end;
 
 function TComandoFBCreateIndex.GetAsText: string;
 begin
-  Result := 'INDEX ' + FsKeyName + ' ' + FsTabelaNome + ' (' + FsCampos +
-    ')';
+  Result := 'INDEX ' + FsKeyName + ' ' + FsTabelaNome + ' (' + FsCampos + ')';
 end;
 
 procedure TComandoFBCreateIndex.PegarLinhas(var piLin: integer; pSL: TStrings);

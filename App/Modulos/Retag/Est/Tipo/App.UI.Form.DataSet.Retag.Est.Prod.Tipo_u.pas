@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppInfo,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Tipo.Ent;
@@ -81,15 +81,7 @@ var
 //  sBusca: string;
   Resultado: boolean;
 begin
-//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-//    AppInfo, SisConfig);
-//
-//  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
-//    oDBConnectionParams, ProcessLog, Output);
-//
-//  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
-
-  Resultado := ProdTipoPerg(Self, AppInfo, EntEd, EntDBI);
+  Resultado := ProdTipoPerg(Self, AppObj, EntEd, EntDBI);
   if not Resultado then
     exit;
 
@@ -105,14 +97,6 @@ var
 //  oConn: IDBConnection;
   Resultado: boolean;
 begin
-//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-//    AppInfo, SisConfig);
-//
-//  oConn := DBConnectionCreate('Retag.Tipo.Ed.Atu.Conn', SisConfig, DBMS,
-//    oDBConnectionParams, ProcessLog, Output);
-//
-//  oTipoDBI := RetagEstProdTipoDBICreate(oConn, EntEd);
-
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
   FDMemTable.EmptyDataSet;
@@ -137,15 +121,7 @@ function TRetagEstProdTipoDataSetForm.DoInserir: boolean;
 //  oDBConnection: IDBConnection;
 begin
   inherited;
-//  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-//    AppInfo, SisConfig);
-//
-//  oDBConnection := DBConnectionCreate('Retag.Tipo.Ed.Ins.Conn', SisConfig, DBMS,
-//    oDBConnectionParams, ProcessLog, Output);
-//
-//  oTipoDBI := RetagEstProdTipoDBICreate(oDBConnection, EntEd);
-//
-  Result := ProdTipoPerg(Self, AppInfo, EntEd, EntDBI);
+  Result := ProdTipoPerg(Self, AppObj, EntEd, EntDBI);
 
   if not Result then
     exit;
@@ -157,7 +133,7 @@ function TRetagEstProdTipoDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.tipo.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.tipo.csv';
 
   Result := sNomeArq;
 end;

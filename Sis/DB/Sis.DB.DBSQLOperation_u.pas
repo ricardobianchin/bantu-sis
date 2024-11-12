@@ -22,10 +22,9 @@ type
     procedure SetUltimoErro(Value: string);
   protected
     function GetParams: TFDParams; virtual; abstract;
-    function GetSQL: string; virtual; abstract;
-    procedure SetSQL(Value: string); virtual; abstract;
+    function GetSQL: TStrings; virtual; abstract;
     property DBConnection: IDBConnection read FDBConnection;
-    property SQL: string read GetSQL write SetSQL;
+    property SQL: TStrings read GetSQL;
     property ProcessLog: IProcessLog read FProcessLog;
     property output: IOutput read FOutput;
 

@@ -64,13 +64,19 @@ begin
     + ', ' + QuotedStr(e.NomeDeUsuario) + ' -- nome_de_usuario' + #13#10 //
     + ', ' + QuotedStr(e.Senha) + ' -- senha' + #13#10 //
     + ', ' + e.CryVer.ToString + ' -- cry_ver' + #13#10 //
+
+    + ', ' + e.LogUsuarioId.ToString + ' -- LOG_PESSOA_ID' + #13#10 //
+    + ', ' + e.MachineIdentId.ToString + ' -- MACHINE_ID' + #13#10 //
+
     ;
 end;
 
 function TPessFuncionarioDBI.GetSqlGaranteRegRetId: string;
 begin
   Result := 'SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET'#13#10 //
+
     + 'FROM USUARIO_PA.GARANTIR('#13#10 //
+
     + GetFieldValuesGravar //
     + ');'#13#10 //
     ;
@@ -112,18 +118,23 @@ begin
     exit;
   end;
   try
-    sSql := 'EXECUTE PROCEDURE USUARIO_PA.TEM_PERFIS_GARANTIR('
-      + pLojaId.ToString
-      + ', ' + pPessoaId.ToString
-      + ', ' + QuotedStr(pStrPerfisId)
-      +');';
+
+    sSql := 'EXECUTE PROCEDURE USUARIO_PA.TEM_PERFIS_GARANTIR(' +
+      pLojaId.ToString // LOJA_ID
+      + ', ' + pPessoaId.ToString // USUARIO_PESSOA_ID
+      + ', ' + QuotedStr(pStrPerfisId) // STR_PERFIS_ID
+      + ', ' + FPessFuncionarioEnt.LogUsuarioId.ToString
+      + ', ' + FPessFuncionarioEnt.MachineIdentId.ToString // MACHINE_ID
+      + ');';
+
     try
       DBConnection.ExecuteSQL(sSql);
-    except on E:Exception do
-    begin
-      pErroOutput.Exibir(DBConnection.UltimoErro);
-      Result := False;
-    end;
+    except
+      on e: Exception do
+      begin
+        pErroOutput.Exibir(DBConnection.UltimoErro);
+        Result := False;
+      end;
     end;
   finally
     DBConnection.Fechar;
@@ -137,8 +148,8 @@ begin
   FPessFuncionarioEnt.CryVer := pCryVer;
 
   Result := Sis.Usuario.Senha_u.GravarSenha(pNovaSenha, pCryVer,
-    FPessFuncionarioEnt.LojaId, FPessFuncionarioEnt.TerminalId,
-    FPessFuncionarioEnt.Id, DBConnection, pMens);
+    FPessFuncionarioEnt.LojaId, FPessFuncionarioEnt.Id,
+    FPessFuncionarioEnt.LogUsuarioId, FPessFuncionarioEnt.MachineIdentId, DBConnection, pMens);
 end;
 
 function TPessFuncionarioDBI.PreencherCheckListBox(pCheckListBox: TCheckListBox;

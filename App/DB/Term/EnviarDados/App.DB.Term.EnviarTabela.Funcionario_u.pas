@@ -98,9 +98,9 @@ begin
   FInsDBExec.Prepare;
 
 //  sSql := GetSqlAlt;
-////  {$IFDEF DEBUG}
-////  CopyTextToClipboard(sSql);
-////  {$ENDIF}
+//  {$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//  {$ENDIF}
 //  FAltDBExec := DBExecCreate('env.alt.exec', Conn[loTerm], sSql, nil, nil);
 //  FAltDBExec.Prepare;
 

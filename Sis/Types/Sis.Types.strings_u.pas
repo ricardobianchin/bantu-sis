@@ -2,12 +2,14 @@ unit Sis.Types.strings_u;
 
 interface
 
-uses
-  System.UITypes, System.Hash;
+uses System.UITypes, System.Hash, System.SysUtils;
 
 procedure CharSemAcento(var Key: Char; pTudoMaiusculas: boolean = True);
 function StrSemAcento(const pStr: string;
   pTudoMaiusculas: boolean = True): string;
+
+function CharIsUpper(pC: Char): boolean;
+function CharIsLower(pC: Char): boolean;
 
 function StrSemStr(pStr: string; pStrARemover: string = #32): string;
 function StrSemCharRepetido(pStr: string; pChar: Char = #32): string;
@@ -19,8 +21,9 @@ function StrIsOnlyDigit(const pStr: string): boolean;
 procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
 
-function StrDeleteNoFim(pStr: string; pQtdChars: integer): string;
-function StrDeleteNoInicio(pStr: string; pQtdChars: integer): string;
+procedure StrDeleteNoFim(var pStr: string; pQtdChars: integer);
+procedure StrDeleteNoInicio(var pStr: string; pQtdChars: integer);
+procedure StrDeleteTrailingChars(var pStr: string; const CharSet: TSysCharSet);
 
 procedure StrSepareInicio(pStrOrigem: string; pQtdChars: integer;
   out pStrIni: string; out pStrFim: string);
@@ -35,7 +38,7 @@ function RightPos(pCar: Char; pStr: string): integer;
 function StrApos(pStr, pBusca: string): string;
 function StrValue(pStr: string): string;
 
-function StrGarantirTermino(pStr, pTermino: string): string;
+procedure StrGarantirTermino(var pStr: string; const pTermino: string);
 
 function IsDigit(c: Char): boolean;
 procedure AjusteAsciiCodeToChar(var pStr: string);
@@ -46,7 +49,7 @@ function TruncSnakeCase(pIdentifier: string;
 function ArrayLargestIndex(pPalavras: TArray<string>): integer;
 function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
 function StrCountCharLeft(pStr: string; pCharInicial: Char = '0'): integer;
-function SemCharAEsquerda(pStr: string; pCharInicial: Char = '0'): string;
+procedure SemCharAEsquerda(var pStr: string; pCharInicial: Char = '0');
 function TemChar(pStr: string; pChar: Char): boolean;
 procedure DeleteChar(pStr: string; pCharToDel: Char);
 
@@ -62,12 +65,14 @@ function VarToString(pValue: variant): string;
 
 function ConvertHTMLChars(pStr: string): string;
 
-//function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
+function ClassNameToNome(pClassName: string;
+  pDeleteLastWord: boolean = True): string;
+
+// function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
 implementation
 
-uses
-  System.SysUtils, System.StrUtils, System.Variants;
+uses System.StrUtils, System.Variants, System.Classes;
 
 const
   Imprimiveis = ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -103,7 +108,7 @@ end;
 function StrIsOnlyDigit(const pStr: string): boolean;
 var
   L: integer;
-  I: integer;
+  i: integer;
   sStr: string;
 begin
   sStr := Trim(pStr);
@@ -114,11 +119,11 @@ begin
   Result := True;
 
   L := Length(sStr);
-  for I := 1 to L do
+  for i := 1 to L do
   begin
-    if not CharIsOnlyDigit(sStr[I]) then
+    if not CharIsOnlyDigit(sStr[i]) then
     begin
-      result:=false;
+      Result := false;
       break;
     end;
   end;
@@ -134,6 +139,17 @@ begin
   // Se encontrou, substitui Key com o caractere de mesma posição na segunda constante
   if Posic >= 1 then
     Key := UpCase(SubstSemAcento[Posic]);
+end;
+
+function CharIsUpper(pC: Char): boolean;
+begin
+  Result := (pC >= 'A') and (pC <= 'Z');
+end;
+
+function CharIsLower(pC: Char): boolean;
+begin
+  Result := not CharIsUpper(pC);
+  // Result := (pC >= 'a') and (pC <= 'z');
 end;
 
 // Procedure que recebe um parâmetro var s: string e faz a substituição de cada caractere
@@ -189,8 +205,8 @@ begin
   for c in filename do
     if not IsWindowsFilenameChar(c) then
     begin
-      Result := False;
-      Break;
+      Result := false;
+      break;
     end;
 end;
 
@@ -261,7 +277,7 @@ begin
   if iPos = 0 then
     exit;
 
-  Result := RightStr(pStr, Length(pStr)-iPos);
+  Result := RightStr(pStr, Length(pStr) - iPos);
 end;
 
 function StrSemStr(pStr: string; pStrARemover: string = #32): string;
@@ -302,23 +318,22 @@ begin
   Result := pStr;
 end;
 
-function StrGarantirTermino(pStr, pTermino: string): string;
+procedure StrGarantirTermino(var pStr: string; const pTermino: string);
 var
   iLenTermino: integer;
   sFinalAtual: string;
 begin
-  Result := pStr;
-
   iLenTermino := Length(pTermino);
 
   if iLenTermino = 0 then
-    exit;
+    Exit;
 
   sFinalAtual := RightStr(pStr, iLenTermino);
-  if sFinalAtual = pTermino then
-    exit;
 
-  Result := Result + pTermino;
+  if sFinalAtual = pTermino then
+    Exit;
+
+  pStr := pStr + pTermino;
 end;
 
 // Função que recebe um char e retorna verdadeiro se for um algarismo
@@ -391,7 +406,8 @@ begin
   while SnakeCaseFutureLenght(aPalavras) > pMaxIdentifierLenght do
   begin
     iMaior := ArrayLargestIndex(aPalavras);
-    aPalavras[iMaior] := StrDeleteNoFim(aPalavras[iMaior], 1);
+    StrDeleteNoFim(aPalavras[iMaior], 1);
+//    aPalavras[iMaior] := StrDeleteNoFim(aPalavras[iMaior], 1);
   end;
 
   for i := 0 to Length(aPalavras) - 1 do
@@ -441,54 +457,60 @@ begin
   Result := len;
 end;
 
-function StrDeleteNoFim(pStr: string; pQtdChars: integer): string;
+procedure StrDeleteNoFim(var pStr: string; pQtdChars: integer);
 var
   L: integer;
 begin
-  Result := pStr;
-
   L := pStr.Length;
-  if L = 0 then
-    exit;
 
-  L := L - pQtdChars;
-  if L < 1 then
+  if L = 0 then
   begin
-    Result := '';
-    exit;
+    pStr := '';
+    Exit;
   end;
 
-  Result := LeftStr(pStr, L);
+  L := L - pQtdChars;
+
+  if L < 1 then
+  begin
+    pStr := '';
+    Exit;
+  end;
+
+  SetLength(pStr, L);
 end;
 
-function StrDeleteNoInicio(pStr: string; pQtdChars: integer): string;
+procedure StrDeleteNoInicio(var pStr: string; pQtdChars: integer);
 var
   L: integer;
 begin
-  Result := pStr;
-
   L := pStr.Length;
-  if L = 0 then
-    exit;
 
-  L := L - pQtdChars;
-  if L < 1 then
+  if L = 0 then
   begin
-    Result := '';
-    exit;
+    pStr := '';
+    Exit;
   end;
 
-  Result := RightStr(pStr, L);
-  {
-    // Verifica se a quantidade de caracteres é válida
-    if (pQtdChars > 0) and (pQtdChars < Length(pStr)) then
-    // Retorna a substring a partir da posição pQtdChars + 1
-    Result := Copy(pStr, pQtdChars + 1, Length(pStr) - pQtdChars)
-    else
-    // Retorna a string original se a quantidade de caracteres é inválida
-    Result := pStr;
-  }
+  L := L - pQtdChars;
+
+  if L < 1 then
+  begin
+    pStr := '';
+    Exit;
+  end;
+
+  pStr := Copy(pStr, pQtdChars + 1, L);
 end;
+
+procedure StrDeleteTrailingChars(var pStr: string; const CharSet: TSysCharSet);
+begin
+  while (pStr <> '') and (pStr[Length(pStr)] in CharSet) do
+  begin
+    StrDeleteNoFim(pStr, 1);
+  end;
+end;
+
 
 procedure StrSepareInicio(pStrOrigem: string; pQtdChars: integer;
   out pStrIni: string; out pStrFim: string);
@@ -533,29 +555,24 @@ begin
     if pStr[i] = pCharInicial then
       Inc(count)
     else
-      Break;
+      break;
   end;
 
   Result := count;
 end;
 
-function SemCharAEsquerda(pStr: string; pCharInicial: Char = '0'): string;
+procedure SemCharAEsquerda(var pStr: string; pCharInicial: Char = '0');
 var
   iQtdCharsIniciais: integer;
-  sCortada: string;
 begin
   pStr := Trim(pStr);
 
   iQtdCharsIniciais := StrCountCharLeft(pStr, pCharInicial);
 
   if iQtdCharsIniciais < 1 then
-  begin
-    Result := pStr;
-    exit;
-  end;
+    Exit;
 
-  sCortada := StrDeleteNoInicio(pStr, iQtdCharsIniciais);
-  Result := sCortada;
+  StrDeleteNoInicio(pStr, iQtdCharsIniciais);
 end;
 
 function TemChar(pStr: string; pChar: Char): boolean;
@@ -632,6 +649,69 @@ begin
     &Eacute;
     &otilde;
   }
+end;
+
+(*
+  function ClassNameToNome(pClassName: string): string;
+  var
+  i: Integer;
+  begin
+  Result := '';
+
+  // Remove o primeiro caractere se for 'T'
+  if (Length(pClassName) > 0) and (pClassName[1] = 'T') then
+  Delete(pClassName, 1, 1);
+
+  // Adiciona espaços antes de letras maiúsculas seguidas de minúsculas
+  for i := 1 to Length(pClassName) do
+  begin
+  if (i > 1) and (pClassName[i] in ['A'..'Z']) and (pClassName[i-1] in ['a'..'z']) then
+  Result := Result + ' ';
+  Result := Result + pClassName[i];
+  end;
+  end;
+*)
+
+function ClassNameToNome(pClassName: string;
+  pDeleteLastWord: boolean = True): string;
+var
+  i: integer;
+  Words: TStringList;
+  CurrentWord: string;
+begin
+  Result := '';
+
+  // Remove o primeiro caractere se for 'T'
+  if (Length(pClassName) > 0) and (pClassName[1] = 'T') then
+    Delete(pClassName, 1, 1);
+
+  // Adiciona espaços antes de letras maiúsculas seguidas de minúsculas ou números
+  Words := TStringList.Create;
+  try
+    i := 1;
+    while i <= Length(pClassName) do
+    begin
+      if (i > 1) and ((pClassName[i] in ['A' .. 'Z']) and
+        (pClassName[i - 1] in ['a' .. 'z'])) or (pClassName[i] in ['0' .. '9'])
+      then
+      begin
+        Words.Add(Copy(pClassName, 1, i - 1));
+        pClassName := Copy(pClassName, i, Length(pClassName) - i + 1);
+        i := 1;
+      end
+      else
+        Inc(i);
+    end;
+    Words.Add(pClassName);
+
+    // Ignora a última palavra se houver mais de uma e se pDeleteLastWord for True
+    if pDeleteLastWord and (Words.count > 1) then
+      Words.Delete(Words.count - 1);
+
+    Result := StringReplace(Words.Text, sLineBreak, ' ', [rfReplaceAll]).Trim;
+  finally
+    Words.Free;
+  end;
 end;
 
 end.

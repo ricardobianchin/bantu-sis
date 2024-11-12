@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Acesso.PerfilDeUso.Ent,
-  App.Acesso.PerfilDeUso.Ent.Factory_u, App.AppInfo, App.Ent.Ed, App.Ent.DBI;
+  App.Acesso.PerfilDeUso.Ent.Factory_u, App.AppObj, App.Ent.Ed, App.Ent.DBI;
 
 type
   TPerfilDeUsoEdForm = class(TEdBasForm)
@@ -29,7 +29,7 @@ type
     function GravouOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
       pEntDBI: IEntDBI); override;
   end;
 
@@ -89,7 +89,7 @@ begin
   FPerfilDeUsoEnt.Descr := LabeledEdit1.Text;
 end;
 
-constructor TPerfilDeUsoEdForm.Create(AOwner: TComponent; pAppInfo: IAppInfo;
+constructor TPerfilDeUsoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited;

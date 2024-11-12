@@ -580,6 +580,38 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.EnviarTabela.ProdBarras_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarras_u.pas"/>
         <DCCReference Include="DB\Term\EnviarDados\App.DB.Term.Registro.ProdBarrasList_u.pas"/>
+        <DCCReference Include="UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas">
+            <Form>BotaoModuloFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm_u.pas">
+            <Form>GerAppForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Threads\App.Threads.AppThread_u.pas"/>
+        <DCCReference Include="DB\Term\App.Threads.TermThread_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas"/>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI.pas"/>
+        <DCCReference Include="Ger\App.Ger.Factory.pas"/>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI_u.pas"/>
+        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.Constants_u.pas"/>
+        <DCCReference Include="Threads\App.Threads.AppThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\App.Threads.TermThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma.pas"/>
+        <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread.Factory_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Loja_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Terminal_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

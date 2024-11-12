@@ -79,6 +79,7 @@ function TDBUpdaterFirebird.GetDBExiste: boolean;
 var
   sPastaInstDados, sNomeArqInstDados: string;
 begin
+  Result := False;
   ProcessLog.PegueLocal('TDBUpdaterFirebird.GetDBExiste');
   try
     ProcessLog.RegistreLog('vai testar se existe DBConnectionParams.Arq=' +
@@ -102,7 +103,7 @@ begin
     sNomeArqInstDados := ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
     if TerminalId > 0 then
     begin
-      sNomeArqInstDados := StrDeleteNoFim(sNomeArqInstDados, 3);
+      StrDeleteNoFim(sNomeArqInstDados, 3);
     end;
 
     if SisConfig.WinVersionInfo.Version <= 6.1 then

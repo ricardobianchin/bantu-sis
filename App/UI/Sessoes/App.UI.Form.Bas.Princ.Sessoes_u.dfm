@@ -4,8 +4,12 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   ClientWidth = 670
   Position = poDesktopCenter
   OnKeyDown = FormKeyDown
+  ExplicitTop = 2
   ExplicitWidth = 670
   ExplicitHeight = 583
+  DesignSize = (
+    670
+    583)
   TextHeight = 15
   inherited Logo1Image: TImage
     Width = 670
@@ -30,9 +34,9 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   end
   object BasePanel: TPanel [3]
     Left = 0
-    Top = 528
+    Top = 518
     Width = 670
-    Height = 55
+    Height = 65
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
@@ -41,9 +45,12 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
       Left = 11
       Top = 2
       Width = 94
-      Height = 36
+      Height = 50
       Caption = ' '
       TabOrder = 0
     end
+  end
+  inherited GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox
+    TabOrder = 2
   end
 end

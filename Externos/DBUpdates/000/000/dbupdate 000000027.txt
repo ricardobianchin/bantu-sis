@@ -1,25 +1,25 @@
 USUARIO
 
-//INICIO
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE USUARIO;
+
+SELECT * FROM ;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=ACESSO, PESSOA, USUARIO
 DBATUALIZ_OBJETIVO=CRIA USUARIO
 DBATUALIZ_OBS=
-
-//////////////////////
-//
-// DOMAINS
-//
-//////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE DOMAINS
-
-```FIREBIRD
-CREATE DOMAIN SENHA_DOM AS VARCHAR(80);
-```
-COMANDO FIM
-// DOMAINS FIM
 
 
 
@@ -42,6 +42,8 @@ PESSOA_ID;ID_DOM;S;S
 NOME_DE_USUARIO;NOME_REDU_DOM;N;N;S
 SENHA;SENHA_DOM DEFAULT 'ZERADA';
 CRY_VER;ID_SHORT_DOM
+DE_SISTEMA;BOOLEAN;S
+
 COLUNAS FIM
 COMANDO FIM
 

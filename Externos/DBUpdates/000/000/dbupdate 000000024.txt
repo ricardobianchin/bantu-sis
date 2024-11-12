@@ -1,7 +1,18 @@
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SELECT * FROM PERFIL_DE_USO;
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ALVO=SERVIDOR
+DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=ACESSO
 DBATUALIZ_OBJETIVO=POPULA PERFIL_DE_USO COM INICIAIS
 DBATUALIZ_OBS=

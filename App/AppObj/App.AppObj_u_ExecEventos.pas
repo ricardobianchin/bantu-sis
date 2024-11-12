@@ -28,12 +28,12 @@ begin
     GarantirPasta(sCaminho);
 
     case pSessaoMomento of
-      ssmomNaoIndicado:
-        sNomeArq := '';
       ssmomInicio:
         sNomeArq := 'Exec inicio.bat';
       ssmomFim:
         sNomeArq := 'Exec fim.bat';
+    else // ssmomNaoIndicado:
+      sNomeArq := '';
     end;
 
     sNomeArq := sCaminho + sNomeArq;

@@ -98,13 +98,13 @@ begin
   FStatusOutput.Exibir('Consultando Terminais');
   try
     oDBConnectionParams := TerminalIdToDBConnectionParams
-      (TERMINAL_ID_RETAGUARDA, FAppObj.AppInfo, FAppObj.SisConfig);
+      (TERMINAL_ID_RETAGUARDA, FAppObj);
 
     oDBConnection := DBConnectionCreate
       ('TermEnviarDadosFrame.PreencherList.Conn', FAppObj.SisConfig,
       oDBConnectionParams, nil, nil);
 
-    PreencherTerminalList(oDBConnection, FAppObj.AppInfo, FTerminalList);
+    PreencherTerminalList(oDBConnection, FAppObj, FTerminalList);
 
     TermCheckListBox.Items.Clear;
     for I := 0 to FTerminalList.Count - 1 do
@@ -160,7 +160,7 @@ begin
   FStatusOutput.Exibir('Iniciou o envio');
   try
     oDBConnectionParams := TerminalIdToDBConnectionParams
-      (TERMINAL_ID_RETAGUARDA, FAppObj.AppInfo, FAppObj.SisConfig);
+      (TERMINAL_ID_RETAGUARDA, FAppObj);
 
     oServDBConnection := DBConnectionCreate
       ('CargaFrame.TermEnviarDados.Serv.Conn', FAppObj.SisConfig,

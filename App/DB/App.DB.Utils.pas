@@ -2,28 +2,27 @@ unit App.DB.Utils;
 
 interface
 
-uses Sis.Config.SisConfig, App.AppInfo, Sis.DB.DBTypes, Data.DB,
+uses App.AppObj, Sis.DB.DBTypes, Data.DB,
   Sis.Entities.Types, Sis.Entities.TerminalList, Sis.Entities.Terminal,
   Sis.Entities.Factory;
 
 function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
+  pAppObj: IAppObj): TDBConnectionParams;
 
 function DataSetStateToTitulo(pDataSetState: TDataSetState): string;
 
-procedure PreencherTerminalList(pDBConnection: IDBConnection;
-  pAppInfo: IAppInfo; pTerminalList: ITerminalList;
-  pNomeDaMaquina: string = '');
+procedure PreencherTerminalList(pDBConnection: IDBConnection; pAppObj: IAppObj;
+  pTerminalList: ITerminalList; pNomeDaMaquina: string = '');
 
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
-  pAppInfo: IAppInfo);
+  pAppObj: IAppObj);
 
 implementation
 
 uses Sis.Sis.Constants, Sis.DB.Factory, System.SysUtils, App.AppInfo.Types;
 
 function TerminalIdToDBConnectionParams(pTerminalId: TTerminalId;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig): TDBConnectionParams;
+  pAppObj: IAppObj): TDBConnectionParams;
 begin
   if pTerminalId <= TERMINAL_ID_NAO_INDICADO then
   begin
@@ -35,13 +34,14 @@ begin
 
   if pTerminalId = TERMINAL_ID_RETAGUARDA then
   begin
-    Result.Server := pSisConfig.ServerMachineId.Name;
-    Result.Arq := pAppInfo.PastaDados + //
+    Result.Server := pAppObj.SisConfig.ServerMachineId.Name;
+    Result.Arq := pAppObj.AppInfo.PastaDados + //
       'Dados_' + //
-      TipoAtividadeNegocioDescr[pAppInfo.SisTipoAtividade] + //
-      '_Retaguarda.FDB';
+      AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis] + //
+      '_Retaguarda.FDB' //
+      ;
 
-    Result.Arq[1] := pSisConfig.ServerLetraDoDrive;
+    Result.Arq[1] := pAppObj.SisConfig.ServerLetraDoDrive;
     Result.Database := Result.Server + ':' + Result.Arq;
     exit;
   end;
@@ -86,7 +86,7 @@ begin
 end;
 
 procedure PreencherTerminalList(pDBConnection: IDBConnection;
-  pAppInfo: IAppInfo; pTerminalList: ITerminalList; pNomeDaMaquina: string);
+  pAppObj: IAppObj; pTerminalList: ITerminalList; pNomeDaMaquina: string);
 var
   sSql: string;
   Q: TDataSet;
@@ -111,10 +111,11 @@ begin
       + ', CUPOM_NLINS_FINAL'#13#10 // 11
       + ', SEMPRE_OFFLINE'#13#10 // 12
       + ' FROM TERMINAL'#13#10 // 13
+      + 'WHERE TERMINAL_ID > 0'#13#10 // 13
       ;
 
     if pNomeDaMaquina <> '' then
-      sSql := sSql + ' where NOME_NA_REDE=' + pNomeDaMaquina.QuotedString
+      sSql := sSql + 'AND NOME_NA_REDE=' + pNomeDaMaquina.QuotedString
         + #13#10 //
         ;
 
@@ -126,7 +127,7 @@ begin
       oTerminal := TerminalCreate;
       pTerminalList.Add(oTerminal);
 
-      DataSetToTerminal(Q, oTerminal, pAppInfo);
+      DataSetToTerminal(Q, oTerminal, pAppObj);
 
       Q.Next;
     end;
@@ -136,7 +137,7 @@ begin
 end;
 
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
-  pAppInfo: IAppInfo);
+  pAppObj: IAppObj);
 var
   sLetraDoDrive: string;
   sNomeArq: string;
@@ -165,8 +166,8 @@ begin
   pTerminal.SempreOffLine := Q.FieldByName('SEMPRE_OFFLINE').AsBoolean;
 
   sFormat := '%sDados_%s_Terminal_%.3d.fdb';
-  sPasta := pAppInfo.PastaDados;
-  sAtiv := TipoAtividadeNegocioDescr[pAppInfo.SisTipoAtividade];
+  sPasta := pAppObj.AppInfo.PastaDados;
+  sAtiv := AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis];
   iTerm := pTerminal.TerminalId;
 
   sNomeArq := Format(sFormat, [sPasta, sAtiv, iTerm]);

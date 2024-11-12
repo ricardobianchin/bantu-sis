@@ -435,12 +435,38 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\App\UI\Sessoes\BotModulo\App.UI.Sessoes.BotModulo.Frame_u.pas">
-            <Form>BotaoModuloFrame</Form>
+        <DCCReference Include="UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Status_u.pas">
+            <Form>StatusFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas"/>
+        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.FixedCriticalSection_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.ThreadBas_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.SafeBool.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.SafeBool_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.Factory_u.pas"/>
+        <DCCReference Include="Threads\Sis.UI.Frame.Status.Thread_u.pas">
+            <Form>ThreadStatusFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.pas"/>
+        <DCCReference Include="Types\Sis.Types.Dado.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.ThreadCreator.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.ThreadBasCreator_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas"/>
+        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections.pas"/>
+        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExecScript_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExecScript.FireDAC_u.pas"/>
+        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator.pas"/>
+        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator_u.pas"/>
+        <DCCReference Include="DB\SqlUtils\Sis.DB.SqlUtils_u.pas"/>
+        <DCCReference Include="Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

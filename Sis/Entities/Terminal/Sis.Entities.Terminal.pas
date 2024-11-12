@@ -2,7 +2,7 @@ unit Sis.Entities.Terminal;
 
 interface
 
-uses Sis.Entities.Types;
+uses Sis.Entities.Types, Sis.Threads.Crit.CriticalSections;
 
 type
   ITerminal = interface(IInterface)
@@ -72,7 +72,12 @@ type
 
     function GetIdentStr: string;
     property IdentStr: string read GetIdentStr;
+
+    function GetCriticalSections: ICriticalSections;
+    property CriticalSections: ICriticalSections read GetCriticalSections;
   end;
+
+  TTerminalProcedure = reference to procedure(pFrame: ITerminal);
 
 implementation
 

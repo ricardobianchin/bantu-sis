@@ -1,3 +1,4 @@
+
 unit App.AppInfo;
 
 interface
@@ -8,9 +9,9 @@ type
   IAppInfo = interface(IInterface)
     ['{3F6A4F41-7A6D-4A75-BCE3-66797F458974}']
 
-    function GetSisTipoAtividade: TSisTipoAtividade;
-    procedure SetSisTipoAtividade(Value: TSisTipoAtividade);
-    property SisTipoAtividade: TSisTipoAtividade read GetSisTipoAtividade write SetSisTipoAtividade;
+    function GetAtividadeEconomicaSis: TAtividadeEconomicaSis;
+    procedure SetAtividadeEconomicaSis(Value: TAtividadeEconomicaSis);
+    property AtividadeEconomicaSis: TAtividadeEconomicaSis read GetAtividadeEconomicaSis write SetAtividadeEconomicaSis;
 
     function GetExeName: string;
     property ExeName: string read GetExeName;

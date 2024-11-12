@@ -4,10 +4,10 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Data.DB, App.AppInfo, Vcl.Controls, Vcl.Forms,
+  System.Classes, Vcl.Graphics, Data.DB, App.AppObj, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Sis.UI.Form.Bas.Diag.Btn.TreeView_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons,
-  Sis.Config.SisConfig, Sis.DB.DBTypes;
+  Sis.DB.DBTypes;
 
 type
   TOpcaoSisTreeViewForm = class(TTreeViewDiagBasForm)
@@ -17,8 +17,7 @@ type
     FAssociadaId: integer;
     FAssociadaNome: string;
 
-    FAppInfo: IAppInfo;
-    FSisConfig: ISisConfig;
+    FAppObj: IAppObj;
     FDBMS: IDBMS;
     FDBConnection: IDBConnection;
     FDBQuery: IDBQuery;
@@ -37,11 +36,12 @@ type
 
     function GetEntidadeAssociada: string; virtual; abstract;
     function NodesListAsString: string;
+    property AppObj: IAppObj read FAppObj;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent;
-      pAssociadaId: integer; pAssociadaNome: string; pAppInfo: IAppInfo;
-      pSisConfig: ISisConfig; pDBMS: IDBMS); reintroduce; virtual;
+      pAssociadaId: integer; pAssociadaNome: string; pAppObj: IAppObj;
+      pDBMS: IDBMS); reintroduce; virtual;
   end;
 
 var
@@ -56,8 +56,8 @@ uses App.DB.Utils, Sis.UI.ImgDM, Sis.DB.Factory, Sis.Sis.Constants
     ;
 
 constructor TOpcaoSisTreeViewForm.Create(AOwner: TComponent;
-  pAssociadaId: integer; pAssociadaNome: string; pAppInfo: IAppInfo;
-  pSisConfig: ISisConfig; pDBMS: IDBMS);
+  pAssociadaId: integer; pAssociadaNome: string; pAppObj: IAppObj;
+  pDBMS: IDBMS);
 var
   sCaption: TCaption;
   sTitulo: TCaption;
@@ -74,15 +74,14 @@ begin
 
   TreeView1.CheckBoxes := True;
 
-  FAppInfo := pAppInfo;
-  FSisConfig := pSisConfig;
+  FAppObj := pAppObj;
   FDBMS := pDBMS;
 
   oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppInfo, FSisConfig);
+    FAppObj);
 
   FDBConnection := DBConnectionCreate
-    ('Retag.Acesso.OpcaoSis.OpcaoSis.TreeView.Conn', FSisConfig,
+    ('Retag.Acesso.OpcaoSis.OpcaoSis.TreeView.Conn', FAppObj.SisConfig,
     oDBConnectionParams, nil, nil);
 end;
 

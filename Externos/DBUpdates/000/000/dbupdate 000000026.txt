@@ -1,7 +1,21 @@
-    inicio
+-----------------------------
+TESTES INICIO
+-----------------------------
+
+SHOW TABLE ;
+
+SELECT * FROM PERFIL_DE_USO_PODE_OPCAO_SIS;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+-----------------------------
+INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ALVO=SERVIDOR
+DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_ASSUNTO=SIS
 DBATUALIZ_OBJETIVO=POPULAR TABELA PERFIL_DE_USO_PODE_OPCAO_SIS
 DBATUALIZ_OBS=

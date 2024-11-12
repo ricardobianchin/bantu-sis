@@ -4,8 +4,7 @@ interface
 
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, App.UI.Form.Bas.Ed_u, Sis.Usuario,
-  Sis.UI.Controls.ComboBoxManager, App.AppObj, App.AppInfo,
-  Sis.Config.SisConfig,
+  Sis.UI.Controls.ComboBoxManager, App.AppObj,
   App.UI.FormCreator.TabSheet_u, Sis.UI.FormCreator, App.Ent.Ed,
   App.Ent.DBI
   //
@@ -13,7 +12,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
 
 {$REGION 'BemVindo'}
 function AjuBemVindoSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pAppObj: IAppObj): IFormCreator;
 {$ENDREGION}
@@ -30,7 +29,7 @@ function RetagAjuVersaoDBDBICreate(pDBConnection: IDBConnection;
 // function DecoratorExclVersaoDBCreate(pVersaoDB: IEntEd): IDecoratorExcl;
 
 function AjuVersaoDBDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 {$ENDREGION}
@@ -49,12 +48,12 @@ uses App.UI.Form.TabSheet.Retag.Aju.BemVindo_u, Vcl.Controls,
 {$REGION 'BemVindo' impl}
 
 function AjuBemVindoSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pAppObj: IAppObj): IFormCreator;
 begin
   Result := TTabSheetFormCreator.Create(TRetagAjuBemVindoForm, 'Bem-Vindo',
-    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pAppObj);
 end;
 
@@ -83,12 +82,12 @@ begin
 end;
 
 function AjuVersaoDBDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pAppInfo: IAppInfo; pSisConfig: ISisConfig; pUsuario: IUsuario; pDBMS: IDBMS;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagAjuVersaoDBDataSetForm,
-    pFormClassNamesSL, pAppInfo, pSisConfig, pUsuario, pDBMS, pOutput,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
 end;
 

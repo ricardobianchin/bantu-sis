@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed.Pess_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.Pess.Funcionario.Ent.Factory_u,
-  App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent, App.AppInfo, App.Ent.Ed,
+  App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent, App.AppObj, App.Ent.Ed,
   App.Ent.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
@@ -32,7 +32,7 @@ type
     function DadosOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppInfo: IAppInfo; pEntEd: IEntEd;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
       pEntDBI: IEntDBI); override;
   end;
 
@@ -66,13 +66,13 @@ begin
   FPessFuncionarioEnt.NomeDeUsuario := FunciNomeDeUsuarioEdit.Text;
 end;
 
-constructor TPessFuncionarioEdForm.Create(AOwner: TComponent;
-  pAppInfo: IAppInfo; pEntEd: IEntEd; pEntDBI: IEntDBI);
+constructor TPessFuncionarioEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+      pEntDBI: IEntDBI);
 begin
   FPessFuncionarioEnt := EntEdCastToPessFuncionarioEnt(pEntEd);
   FPessFuncionarioDBI := EntDBICastToPessFuncionarioDBI(pEntDBI);
 
-  inherited Create(AOwner, pAppInfo, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
 end;
 
 function TPessFuncionarioEdForm.DadosOk: boolean;

@@ -5,6 +5,7 @@ interface
 uses
   App.Testes.Config.ModuRetag.Acesso //
   , App.Testes.Config.ModuRetag.Est //
+  , App.Testes.Config.ModuRetag.Fin //
   , App.Testes.Config.ModuRetag.Ajuda //
   ;
 
@@ -16,6 +17,9 @@ type
 
     function GetEst: ITesteConfigModuRetagEst;
     property Est: ITesteConfigModuRetagEst read GetEst;
+
+    function GetFin: ITesteConfigModuRetagFin;
+    property Fin: ITesteConfigModuRetagFin read GetFin;
 
     function GetAjuda: ITesteConfigModuRetagAjuda;
     property Ajuda: ITesteConfigModuRetagAjuda read GetAjuda;

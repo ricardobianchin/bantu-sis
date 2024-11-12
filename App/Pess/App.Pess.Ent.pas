@@ -8,8 +8,8 @@ type
   IPessEnt = interface(IEntEdId)
     ['{28F14DDF-1FED-4A58-9BE0-B71F8669261A}']
 
-    function GetUsuarioId: integer;
-    property UsuarioId: integer read GetUsuarioId;
+    function GetLogUsuarioId: integer;
+    property LogUsuarioId: integer read GetLogUsuarioId;
 
     function GetMachineIdentId: smallint;
     property MachineIdentId: smallint read GetMachineIdentId;

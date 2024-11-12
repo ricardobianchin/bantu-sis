@@ -157,6 +157,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ShopAppObj\ShopApp.DBI_u.pas"/>
+        <DCCReference Include="Ger\GerForm\ShopApp.Ger.GerForm_u.pas">
+            <Form>GerShopAppForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThreadCreator_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread.Factory_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
