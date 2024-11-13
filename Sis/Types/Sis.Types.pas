@@ -4,7 +4,16 @@ interface
 
 type
   TQuantidade = (qtdNenhu, qtdUm, qtdTodos);
+
+{
+  TQuantidadeHelper = record helper for TQuantidade
+  public
+    procedure SetByInt(pQuantidade: Integer);
+  end;
+}
+
   TProcedureOfObject = procedure of object;
+  TProcedureStringOfObject = procedure(pStr: string) of object;
 
   TFunctionString = function: string;
   TFunctionStringOfObject = function: string of object;
@@ -20,6 +29,18 @@ function CodsToCodAsString(pLojaId, pTerminalId: smallint; pId: integer;
 implementation
 
 uses System.SysUtils;
+
+{
+procedure TQuantidadeHelper.SetByInt(pQuantidade: Integer);
+begin
+  if pQuantidade <= 0 then
+    Self := qtdNenhu
+  else if pQuantidade = 1 then
+    Self := qtdUm
+  else
+    Self := qtdTodos;
+end;
+}
 
 function CodsToCodAsString(pLojaId, pTerminalId: smallint; pId: integer;
   pCodUsaTerminalId: boolean): string;
