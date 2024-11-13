@@ -144,13 +144,7 @@ begin
     ProdFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      while not q.Eof do
-      begin
-        ProdFDMemTable.Append;
-        QueryToFDMemTable(ProdFDMemTable, q);
-        ProdFDMemTable.Post;
-        q.Next;
-      end;
+      DataSetAppFDMemTable(q, ProdFDMemTable);
     finally
       q.Free;
     end
@@ -189,14 +183,7 @@ begin
     ProdRejFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      while not q.Eof do
-      begin
-        ProdRejFDMemTable.Append;
-        QueryToFDMemTable(ProdRejFDMemTable, q);
-        ProdRejFDMemTable.Post;
-
-        q.Next;
-      end;
+      DataSetAppFDMemTable(q, ProdRejFDMemTable);
     finally
       q.Free;
     end
