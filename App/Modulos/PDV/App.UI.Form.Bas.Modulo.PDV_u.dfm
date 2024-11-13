@@ -1,8 +1,16 @@
 inherited PDVModuloBasForm: TPDVModuloBasForm
   Caption = 'PDVModuloBasForm'
   TextHeight = 15
+  inherited BasePanel: TPanel
+    inherited StatusPanel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 23
+      end
+    end
+  end
   inherited TitleBarActionList_ModuloBasForm: TActionList
-    object PrecoPergAction_ModuloBasForm: TAction
+    object PrecoBuscaAction_ModuloBasForm: TAction
       Caption = 'Consulta &Pre'#231'o'
     end
   end
@@ -11,7 +19,7 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
       Caption = '-'
     end
     object ConsultaPreo1: TMenuItem
-      Action = PrecoPergAction_ModuloBasForm
+      Action = PrecoBuscaAction_ModuloBasForm
     end
   end
 end
