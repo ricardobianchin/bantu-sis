@@ -9,6 +9,9 @@ type
   private
     FDBConnection: IDBConnection;
     function GetDBConnection: IDBConnection;
+  protected
+    function GetSqlPreencherDataSet(pValues: variant): string; virtual;
+      abstract;
   public
     constructor Create(pDBConnection: IDBConnection);
     property DBConnection: IDBConnection read GetDBConnection;
@@ -16,11 +19,15 @@ type
     function ExecuteSQL(pComandoSQL: string; out pMens: string): boolean;
     function GetValue(pConsultaSQL: string; out pMens: string): variant;
     function GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
+
+    procedure PreencherDataSet(pValues: variant;
+      pProcLeReg: TProcDataSetOfObject); virtual;
+    function GetNomeArqTabView(pValues: variant): string; virtual;
   end;
 
 implementation
 
-uses Sis.Types.Integers;
+uses Sis.Types.Integers, Data.DB;
 
 { TDBI }
 
@@ -53,6 +60,38 @@ begin
   result := VarToInteger(Resultado);
 end;
 
+procedure TDBI.PreencherDataSet(pValues: variant;
+  pProcLeReg: TProcDataSetOfObject);
+var
+  sSqlRetRegs: string;
+  q: TDataSet;
+  iRecNo: integer;
+begin
+  DBConnection.Abrir;
+  try
+    sSqlRetRegs := GetSqlPreencherDataSet(pValues);
+//    {$IFDEF DEBUG}
+//    CopyTextToClipboard(sSqlRetRegs);
+//    {$ENDIF}
+
+    DBConnection.QueryDataSet(sSqlRetRegs, q);
+    try
+      iRecNo := 0;
+      while not q.Eof do
+      begin
+        inc(iRecNo);
+        pProcLeReg(q, iRecNo);
+        q.Next;
+      end;
+      pProcLeReg(q, -1);
+    finally
+      q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
 constructor TDBI.Create(pDBConnection: IDBConnection);
 begin
   FDBConnection := pDBConnection;
@@ -80,6 +119,11 @@ end;
 function TDBI.GetDBConnection: IDBConnection;
 begin
   Result := FDBConnection;
+end;
+
+function TDBI.GetNomeArqTabView(pValues: variant): string;
+begin
+  Result := '';
 end;
 
 end.
