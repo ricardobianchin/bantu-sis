@@ -4,7 +4,7 @@ interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
-  Sis.UI.Frame.Bas.FiltroParams_u, App.Ent.Ed, App.Retag.Aju.VersaoDB.Ent;
+  App.Ent.Ed, App.Retag.Aju.VersaoDB.Ent;
 
 type
   TVersaoDBDBI = class(TEntDBI)
