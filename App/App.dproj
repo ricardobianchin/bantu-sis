@@ -168,9 +168,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\App.UI.Form.Bas.Modulo.Retaguarda_u.pas">
             <Form>RetaguardaModuloBasForm</Form>
         </DCCReference>
-        <DCCReference Include="Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas">
-            <Form>PDVModuloBasForm</Form>
-        </DCCReference>
         <DCCReference Include="UI\Sessoes\App.UI.Sessoes.Frame.pas">
             <Form>SessoesFrame</Form>
             <DesignClass>TFrame</DesignClass>
@@ -612,16 +609,22 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.PagamentoForma_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u.pas"/>
-        <DCCReference Include="Modulos\PDV\Preco\PrecoPerg\App.UI.Form.PDV.Preco.Perg_u.pas">
-            <Form>PrecoPregForm</Form>
+        <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.UI.Form.PDV.Preco.Busca_u.pas">
+            <Form>PrecoBuscaForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="App.Types.pas"/>
-        <DCCReference Include="Modulos\PDV\Preco\PrecoPerg\App.PDV.PrecoPerg.Um.Frame_u.pas">
-            <Form>PrecoPergUmFrame</Form>
+        <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Um.Frame_u.pas">
+            <Form>PrecoBuscaUmFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\Preco\App.PDV.Preco.Utils.pas"/>
+        <DCCReference Include="Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas">
+            <Form>PDVModuloBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
