@@ -1,7 +1,6 @@
 inherited FiltroStringFrame: TFiltroStringFrame
   Width = 160
   Height = 23
-  AutoSize = True
   ExplicitWidth = 160
   ExplicitHeight = 23
   object FiltroTitLabel: TLabel [0]

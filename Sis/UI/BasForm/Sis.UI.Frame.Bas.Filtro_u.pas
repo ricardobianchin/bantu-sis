@@ -5,10 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, Sis.UI.Frame.Bas_u;
 
 type
-  TFiltroFrame = class(TFrame)
+  TFiltroFrame = class(TBasFrame)
     ChangeTimer: TTimer;
     procedure ChangeTimerTimer(Sender: TObject);
   private
@@ -29,14 +29,21 @@ type
     property Values: variant read GetValues write SetValues;
     property OnChange: TNotifyEvent read GetOnChange write SetOnChange;
 
-    constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent);
+    constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent); reintroduce;
   end;
+
+var
+  FiltroFrame: TFiltroFrame;
 
 implementation
 
 {$R *.dfm}
 
-{ TFiltroFrame }
+procedure TFiltroFrame.AgendeChange;
+begin
+  ChangeTimer.Enabled := False;
+  ChangeTimer.Enabled := True;
+end;
 
 procedure TFiltroFrame.AjusteValores;
 begin
@@ -56,12 +63,6 @@ begin
   OnChange := pOnChange;
 end;
 
-procedure TFiltroFrame.AgendeChange;
-begin
-  ChangeTimer.Enabled := False;
-  ChangeTimer.Enabled := True;
-end;
-
 function TFiltroFrame.GetOnChange: TNotifyEvent;
 begin
   Result := FOnChange;
@@ -70,7 +71,7 @@ end;
 function TFiltroFrame.GetValues: variant;
 begin
   AjusteValores;
-  Result := varNull;
+  Result := System.Variants.Null;// varNull;
 end;
 
 procedure TFiltroFrame.SetOnChange(const Value: TNotifyEvent);

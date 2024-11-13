@@ -4,15 +4,15 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Filtro_u,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Sis.Types.strings_u, data.db;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Filtro_u, Vcl.ExtCtrls,
+  Vcl.StdCtrls, Sis.Types.strings_u;
 
 type
   TFiltroStringFrame = class(TFiltroFrame)
     FiltroTitLabel: TLabel;
     BuscaStringEdit: TEdit;
-    procedure BuscaStringEditChange(Sender: TObject);
     procedure BuscaStringEditKeyPress(Sender: TObject; var Key: Char);
+    procedure BuscaStringEditChange(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -42,11 +42,11 @@ begin
   AgendeChange;
 end;
 
-procedure TFiltroStringFrame.BuscaStringEditKeyPress(Sender: TObject; var Key: Char);
+procedure TFiltroStringFrame.BuscaStringEditKeyPress(Sender: TObject;
+  var Key: Char);
 begin
   inherited;
   CharSemAcento(Key);
-
 end;
 
 function TFiltroStringFrame.GetValues: variant;
