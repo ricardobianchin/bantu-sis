@@ -30,7 +30,7 @@ implementation
 procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  PrecoBuscaAction_ModuloBasForm.Execute;
+  //
 end;
 
 end.

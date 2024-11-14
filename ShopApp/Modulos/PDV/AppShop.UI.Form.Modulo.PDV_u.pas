@@ -3,7 +3,8 @@ unit AppShop.UI.Form.Modulo.PDV_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Modulo.PDV_u,
   Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.StdCtrls, Vcl.Menus;
@@ -24,14 +25,30 @@ implementation
 
 {$R *.dfm}
 
-uses AppShop.UI.Form.PDV.Preco.Perg_u;
+uses Sis.DBI, Sis.DB.DBTypes, Sis.DB.Factory
 
-procedure TShopPDVModuloForm.PrecoPergAction_ModuloBasFormExecute(
-  Sender: TObject);
+    , App.PDV.Preco.PrecoBusca.Factory_u //
+    , AppShop.PDV.Preco.PrecoBusca.Factory_u //
+    ;
+
+procedure TShopPDVModuloForm.PrecoPergAction_ModuloBasFormExecute
+  (Sender: TObject);
+var
+  rDBConnectionParams: TDBConnectionParams;
+  ODBConnection: IDBConnection;
+  DBI: IDBI;
 begin
   inherited;
-//  pAppObj: IAppObj; pTerminalId: TTerminalId
-  AppShop.UI.Form.PDV.Preco.Perg_u.PrecoPerg(AppObj, TerminalId);
+  rDBConnectionParams.Server := Terminal.IdentStr;
+  rDBConnectionParams.Arq := Terminal.LocalArqDados;
+  rDBConnectionParams.Database := Terminal.Database;
+
+  ODBConnection := DBConnectionCreate('App.Preco.Busca.Conn', AppObj.SisConfig,
+    rDBConnectionParams, nil, nil);
+
+  DBI := ShopPrecoBuscaDBICreate(ODBConnection, AppObj);
+
+  App.PDV.Preco.PrecoBusca.Factory_u.BuscaPrecoPerg(DBI);
 end;
 
 end.
