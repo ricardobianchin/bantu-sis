@@ -4,108 +4,107 @@ interface
 
 uses System.UITypes;
 
-function BooleanToStr(pBoolValue: Boolean): string;
-function StrToBoolean(pStr: string): Boolean;
+const
+  TrueStrs: array [0 .. 9] of string = ( //
+    'S', 's', //
+    'true', 'TRUE', 'True', //
+    'y', 'Y', //
+    'sim', 'SIM', 'Sim' //
+    );
+  FalseStrs: array [0 .. 11] of string = ( //
+    'N', 'n', //
+    'false', 'FALSE', 'False', //
+    'nao', 'NAO', 'Nao', //
+    'não', 'NÃO', 'Não', //
+    ''); //
 
-function Iif(pTeste: Boolean; pSeTrue: string; pSeFalse: string)
-  : string; overload;
-function Iif(pTeste: Boolean; pSeTrue: Currency; pSeFalse: Currency)
-  : Currency; overload;
-function Iif(pTeste: Boolean; pSeTrue: integer; pSeFalse: integer)
-  : integer; overload;
+function BooleanToStr(pBoolValue: Boolean): string; inline;
+function StrToBoolean(pStr: string): Boolean; inline;
+
+function Iif(pTeste: Boolean; pSeTrue: string; pSeFalse: string): string;
+  inline; overload;
+function Iif(pTeste: Boolean; pSeTrue: Currency; pSeFalse: Currency): Currency;
+  inline; overload;
+function Iif(pTeste: Boolean; pSeTrue: integer; pSeFalse: integer): integer;
+  inline; overload;
 function Iif(pTeste: Boolean; pSeTrue: TDateTime; pSeFalse: TDateTime)
-  : TDateTime; overload;
-function Iif(pTeste: Boolean; pSeTrue: Boolean; pSeFalse: Boolean)
-  : Boolean; overload;
+  : TDateTime; inline; overload;
+function Iif(pTeste: Boolean; pSeTrue: Boolean; pSeFalse: Boolean): Boolean;
+  inline; overload;
 
-procedure InicializeBool;
-function BooleanToStrSQL(pBoolValue: Boolean): string;
+procedure InicializeBool; inline;
+function BooleanToStrSQL(pBoolValue: Boolean): string; inline;
 
 implementation
 
 uses System.SysUtils, System.StrUtils;
 
-procedure InicializeBool;
+procedure InicializeBool; inline;
 begin
-  setlength(TrueBoolStrs, 4);
-  TrueBoolStrs[0] := 'S';
-  TrueBoolStrs[1] := 'true';
-  TrueBoolStrs[2] := 'y';
-  TrueBoolStrs[3] := 'sim';
+  setlength(TrueBoolStrs, Length(TrueStrs));
+  Move(TrueStrs[0], TrueBoolStrs[0], Length(TrueStrs) * SizeOf(string));
 
-  setlength(FalseBoolStrs, 5);
-  FalseBoolStrs[0] := 'N';
-  FalseBoolStrs[1] := 'false';
-  FalseBoolStrs[2] := 'nao';
-  FalseBoolStrs[3] := 'não';
-  FalseBoolStrs[3] := '';
+  setlength(FalseBoolStrs, Length(FalseStrs));
+  Move(FalseStrs[0], FalseBoolStrs[0], Length(FalseStrs) * SizeOf(string));
 end;
 
-function Iif(pTeste: Boolean; pSeTrue, pSeFalse: string): string;
+function Iif(pTeste: Boolean; pSeTrue, pSeFalse: string): string; inline;
 begin
   if pTeste then
-    result := pSeTrue
+    Result := pSeTrue
   else
-    result := pSeFalse;
+    Result := pSeFalse;
 end;
 
-function Iif(pTeste: Boolean; pSeTrue: Currency; pSeFalse: Currency)
-  : Currency; overload;
+function Iif(pTeste: Boolean; pSeTrue: Currency; pSeFalse: Currency): Currency;
+  inline; overload;
 begin
   if pTeste then
-    result := pSeTrue
+    Result := pSeTrue
   else
-    result := pSeFalse;
+    Result := pSeFalse;
 end;
 
-function Iif(pTeste: Boolean; pSeTrue: integer; pSeFalse: integer)
-  : integer; overload;
+function Iif(pTeste: Boolean; pSeTrue: integer; pSeFalse: integer): integer;
+  inline; overload;
 begin
   if pTeste then
-    result := pSeTrue
+    Result := pSeTrue
   else
-    result := pSeFalse;
+    Result := pSeFalse;
 end;
 
 function Iif(pTeste: Boolean; pSeTrue: TDateTime; pSeFalse: TDateTime)
-  : TDateTime; overload;
+  : TDateTime; inline; overload;
 begin
   if pTeste then
-    result := pSeTrue
+    Result := pSeTrue
   else
-    result := pSeFalse;
+    Result := pSeFalse;
 end;
 
-function Iif(pTeste: Boolean; pSeTrue: Boolean; pSeFalse: Boolean)
-  : Boolean; overload;
+function Iif(pTeste: Boolean; pSeTrue: Boolean; pSeFalse: Boolean): Boolean;
+  inline; overload;
 begin
   if pTeste then
-    result := pSeTrue
+    Result := pSeTrue
   else
-    result := pSeFalse;
+    Result := pSeFalse;
 end;
 
-function BooleanToStr(pBoolValue: Boolean): string;
+function BooleanToStr(pBoolValue: Boolean): string; inline;
 begin
-  result := Iif(pBoolValue, 'S', 'N');
-  // Result := BoolToStr(pBoolValue, true);
+  Result := Iif(pBoolValue, 'S', 'N');
 end;
 
-function StrToBoolean(pStr: string): Boolean;
+function StrToBoolean(pStr: string): Boolean; inline;
 begin
-  // pStr := Trim(pStr);
-
-  // Result := pStr <> '';
-
-  // if not Result then
-  // exit;
-
-  result := StrToBool(pStr);
+  Result := StrToBool(pStr);
 end;
 
-function BooleanToStrSQL(pBoolValue: Boolean): string;
+function BooleanToStrSQL(pBoolValue: Boolean): string; inline;
 begin
-  result := Iif(pBoolValue, 'TRUE', 'FALSE');
+  Result := Iif(pBoolValue, 'TRUE', 'FALSE');
 end;
 
 initialization
