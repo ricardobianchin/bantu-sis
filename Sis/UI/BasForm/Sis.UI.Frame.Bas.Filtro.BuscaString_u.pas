@@ -23,8 +23,8 @@ type
     procedure AjusteValores; override;
   end;
 
-var
-  FiltroStringFrame: TFiltroStringFrame;
+//var
+//  FiltroStringFrame: TFiltroStringFrame;
 
 implementation
 
@@ -33,7 +33,7 @@ implementation
 procedure TFiltroStringFrame.AjusteValores;
 begin
   inherited;
-  BuscaStringEdit.Text := StrSemCharRepetido(BuscaStringEdit.Text, #32)
+  //BuscaStringEdit.Text := StrSemCharRepetido(BuscaStringEdit.Text, #32)
 end;
 
 procedure TFiltroStringFrame.BuscaStringEditChange(Sender: TObject);
@@ -46,6 +46,11 @@ procedure TFiltroStringFrame.BuscaStringEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
+  if key = #13 then
+  begin
+    key := #0;
+    DoChange;
+  end;
   CharSemAcento(Key);
 end;
 

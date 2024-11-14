@@ -15,6 +15,7 @@ type
     { Private declarations }
     FOnChange: TNotifyEvent;
   protected
+    procedure DoChange;
     procedure AgendeChange;
 
     function GetOnChange: TNotifyEvent; virtual;
@@ -32,8 +33,8 @@ type
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent); reintroduce;
   end;
 
-var
-  FiltroFrame: TFiltroFrame;
+//var
+//  FiltroFrame: TFiltroFrame;
 
 implementation
 
@@ -53,14 +54,19 @@ end;
 procedure TFiltroFrame.ChangeTimerTimer(Sender: TObject);
 begin
   ChangeTimer.Enabled := False;
-  if Assigned(FOnChange) then
-    FOnChange(Self);
+  DoChange
 end;
 
 constructor TFiltroFrame.Create(AOwner: TComponent; pOnChange: TNotifyEvent);
 begin
   inherited Create(AOwner);
   OnChange := pOnChange;
+end;
+
+procedure TFiltroFrame.DoChange;
+begin
+  if Assigned(FOnChange) then
+    FOnChange(Self);
 end;
 
 function TFiltroFrame.GetOnChange: TNotifyEvent;

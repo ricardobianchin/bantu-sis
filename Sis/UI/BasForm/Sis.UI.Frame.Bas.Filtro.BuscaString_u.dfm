@@ -16,7 +16,6 @@ inherited FiltroStringFrame: TFiltroStringFrame
     Width = 129
     Height = 23
     TabOrder = 0
-    Text = ' '
     OnChange = BuscaStringEditChange
     OnKeyPress = BuscaStringEditKeyPress
   end
