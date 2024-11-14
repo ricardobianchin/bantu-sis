@@ -21,11 +21,14 @@ type
   private
     { Private declarations }
     FErroOutput: IOutput;
+    FAlteracaoOutput: IOutput;
     FAtualizaAlteracaoTexto: boolean;
   protected
     function PodeOk: boolean; virtual;
     procedure MensLimpar;
     property ErroOutput: IOutput read FErroOutput;
+    property AlteracaoOutput: IOutput read FAlteracaoOutput;
+
 
     function GetAlteracaoTexto: string; virtual;
     property AlteracaoTexto: string read GetAlteracaoTexto;
@@ -54,10 +57,12 @@ var
 begin
   s := GetAlteracaoTexto;
   bNaoVazio := S <> '';
-  AlteracaoTextoLabel.Visible := bNaoVazio;
-  if s <> '' then
+  if bNaoVazio then
     s := 'Alteração: ' + s;
-  AlteracaoTextoLabel.Caption := s;
+
+  AlteracaoOutput.Exibir(s);
+//  AlteracaoTextoLabel.Visible := bNaoVazio;
+//  AlteracaoTextoLabel.Caption := s;
 
 end;
 
@@ -71,6 +76,7 @@ constructor TDiagBasForm.Create(AOwner: TComponent);
 begin
   inherited;
   FErroOutput := LabelOutputCreate(MensLabel);
+  FAlteracaoOutput := LabelOutputCreate(AlteracaoTextoLabel, True);
   MensLabel.Alignment := taCenter;
   MensLabel.Font.Color := COR_ERRO;
   //MensLabel.Font.Color := $009393FF;
