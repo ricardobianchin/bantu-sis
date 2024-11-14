@@ -107,6 +107,7 @@ begin
     finally
       pDestino.Post;
     end;
+    pOrigem.Next;
   end;
 end;
 
