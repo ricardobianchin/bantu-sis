@@ -27,7 +27,7 @@ type
 
 implementation
 
-uses Sis.Types.Integers, Data.DB;
+uses Sis.Types.Integers, Data.DB, Sis.Win.Utils_u;
 
 { TDBI }
 
