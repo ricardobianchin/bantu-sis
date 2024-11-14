@@ -19,8 +19,7 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
-  Sis.Types.strings_u, App.Retag.Est.Factory;
+uses System.SysUtils, Sis.Types.strings_u, App.Retag.Est.Factory;
 
 { TProdFabrDBI }
 
@@ -48,7 +47,7 @@ var
   sDescr: string;
 begin
   sFormat := 'SELECT FABR_ID FROM FABR_PA.BYNOME_GET(''%s'');';
-  sDescr := VarToString(pValues);
+  sDescr := VarToString(pValues[0]);
   Result := Format(sFormat, [sDescr]);
 end;
 
@@ -58,7 +57,7 @@ var
   sBusca: string;
 begin
   sFormat := 'select FABR_ID, NOME from FABR_PA.LISTA_GET(''%s'');';
-  sBusca := VarToString(pValues);
+  sBusca := VarToString(pValues[0]);
   Result := Format(sFormat, [sBusca]);
 end;
 

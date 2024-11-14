@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
-  Vcl.StdCtrls, Sis.UI.Frame.Bas.FiltroParams.BuscaString_u,
+  Vcl.StdCtrls, Sis.UI.Frame.Bas.Filtro.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Tipo.Ent;
 
@@ -15,7 +15,7 @@ type
   TRetagEstProdTipoDataSetForm = class(TTabSheetDataSetBasForm)
   private
     { Private declarations }
-    FFiltroParamsStringFrame: TFiltroParamsStringFrame;
+    FFiltroStringFrame: TFiltroStringFrame;
     procedure CrieFiltroFrame;
     function GetProdTipoEnt: IProdTipoEnt;
     property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
@@ -51,14 +51,14 @@ var
   l, w: integer;
   oToolB: TToolBar;
 begin
-  if Assigned(FFiltroParamsStringFrame) then
+  if Assigned(FFiltroStringFrame) then
     exit;
 
-  // FFiltroParamsStringFrame
+  // FFiltroStringFrame
   oToolB := TitToolBar1_BasTabSheet;
-  FFiltroParamsStringFrame := TFiltroParamsStringFrame.Create(oToolB,
+  FFiltroStringFrame := TFiltroStringFrame.Create(oToolB,
     DoAtualizar);
-  FFiltroParamsStringFrame.Parent := oToolB;
+  FFiltroStringFrame.Parent := oToolB;
 
   iIndexUltimoBotao := oToolB.ButtonCount - 1;
 
@@ -67,10 +67,10 @@ begin
     l := oToolB.ControlCount;
     l := oToolB.Buttons[iIndexUltimoBotao].Left;
     w := oToolB.Buttons[iIndexUltimoBotao].Width;
-    FFiltroParamsStringFrame.Left := l + w;
+    FFiltroStringFrame.Left := l + w;
   end
   else
-    FFiltroParamsStringFrame.Left := 0;
+    FFiltroStringFrame.Left := 0;
 end;
 
 procedure TRetagEstProdTipoDataSetForm.DoAlterar;
@@ -104,7 +104,7 @@ begin
   try
     //oTipoDBI.PreencherDataSet(0, LeRegEInsere);
 //    EntDBI.PreencherDataSet(0, LeRegEInsere);
-    EntDBI.PreencherDataSet(FFiltroParamsStringFrame.Values, LeRegEInsere);
+    EntDBI.PreencherDataSet(FFiltroStringFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;

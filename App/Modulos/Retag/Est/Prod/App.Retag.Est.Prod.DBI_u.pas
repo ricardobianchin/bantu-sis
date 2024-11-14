@@ -4,7 +4,7 @@ interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   System.Variants, Sis.Types.Integers, App.Ent.DBI_u,
-  App.Retag.Est.Prod.Ent, Sis.UI.Frame.Bas.FiltroParams_u,
+  App.Retag.Est.Prod.Ent,
   App.Ent.Ed, App.Retag.Est.Factory;
 
 type
