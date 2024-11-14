@@ -167,10 +167,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread.Factory_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u.pas"/>
-        <DCCReference Include="Modulos\PDV\AppShop.UI.Form.PDV.Preco.Perg_u.pas">
-            <Form>ShopPrecoPregForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
+        <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
