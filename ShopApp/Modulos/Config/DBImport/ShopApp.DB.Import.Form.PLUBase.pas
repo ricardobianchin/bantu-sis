@@ -15,6 +15,7 @@ uses
 type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -483,6 +484,12 @@ begin
     //por isto aqui 1 é constante
     //em atividades com tabelas de preco, o value deverá ser uma variaven
   end;
+end;
+
+procedure TShopDBImportFormPLUBase.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  //
 end;
 
 end.

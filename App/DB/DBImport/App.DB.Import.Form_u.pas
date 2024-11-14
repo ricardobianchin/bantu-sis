@@ -47,8 +47,6 @@ type
     InclusaoAlterarBitBtn_AppDBImport: TBitBtn;
     BitBtn1: TBitBtn;
     FinalizarAction_AppDBImport: TAction;
-
-    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure ZerarAction_AppDBImportExecute(Sender: TObject);
@@ -201,6 +199,7 @@ var
   sNomeIndice: String;
 begin
   inherited Create(AOwner);
+  Height := 650;
   FUsuario := pUsuario;
   if pProcessLog = nil then
     FProcessLog := MudoProcessLogCreate
@@ -298,12 +297,6 @@ begin
   finally
     FinalizarAction_AppDBImport.Enabled := True;
   end;
-end;
-
-procedure TDBImportForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  Height := 650;
 end;
 
 function TDBImportForm.GetNomeArqTabViewProd: string;

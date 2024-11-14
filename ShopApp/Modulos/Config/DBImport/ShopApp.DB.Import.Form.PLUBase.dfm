@@ -46,8 +46,8 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
     Top = 320
     ExplicitTop = 319
     inherited ProgressBar1: TProgressBar
-      Left = -49
-      ExplicitLeft = -53
+      Left = -53
+      ExplicitLeft = -57
     end
   end
 end
