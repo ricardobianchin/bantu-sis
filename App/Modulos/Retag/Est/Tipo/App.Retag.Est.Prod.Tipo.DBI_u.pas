@@ -49,7 +49,7 @@ var
   sFormat: string;
   sDescr: string;
 begin
-  sDescr := VarToString(pValues);
+  sDescr := VarToString(pValues[0]);
 
   sFormat := 'SELECT PROD_TIPO_ID FROM PROD_TIPO_PA.BYDESCR_GET(''%s'');';
   Result := Format(sFormat, [sDescr]);
@@ -61,7 +61,7 @@ var
   sBusca: string;
 begin
   sFormat := 'SELECT PROD_TIPO_ID, DESCR FROM PROD_TIPO_PA.LISTA_GET(''%s'');';
-  sBusca := VarToString(pValues);
+  sBusca := VarToString(pValues[0]);
   Result := Format(sFormat, [sBusca]);
 end;
 
