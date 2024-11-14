@@ -3,7 +3,7 @@ unit App.Ent.DBI_u;
 interface
 
 uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u, System.Variants,
-  Sis.UI.Frame.Bas.FiltroParams_u, System.Classes, App.Ent.Ed;
+  System.Classes, App.Ent.Ed;
 
 type
   TEntDBI = class(TDBI, IEntDBI)
