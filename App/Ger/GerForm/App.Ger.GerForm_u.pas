@@ -13,9 +13,14 @@ type
   TExecuteTeste = (etNenhum, etUm, etTodos);
 
 const
+{$IFDEF DEBUG}
+  FRAME_EXECUTAR: TExecuteTeste = etNenhum;
+  //FRAME_EXECUTAR: TExecuteTeste = etUm;
+  NSECS_PAUSA = 1;
+{$ELSE}
   FRAME_EXECUTAR: TExecuteTeste = etTodos;
-  //FRAME_EXECUTAR: TExecuteTeste = etNenhum;
-//  FRAME_EXECUTAR: TExecuteTeste = etUm;
+  NSECS_PAUSA = 15;
+{$ENDIF}
 
 type
   TGerAppForm = class(TBasForm)
@@ -37,6 +42,7 @@ type
     procedure ExecuteTimerTimer(Sender: TObject);
   private
     { Private declarations }
+    FSecPausa: integer;
     FFramesList: TList<TThreadStatusFrame>;
     FAutoOpen: Boolean;
     FSempreVisivel: Boolean;
@@ -122,6 +128,7 @@ end;
 constructor TGerAppForm.Create(AOwner: TComponent; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
+  FSecPausa := 0;
   FProcessaControles := False;
   FFramesList := TList<TThreadStatusFrame>.Create;
   FAppObj := pAppObj;
@@ -188,6 +195,16 @@ begin
   inherited;
   if not PodeExecutar then
     exit;
+  inc(FSecPausa);
+  if FSecPausa = NSECS_PAUSA then
+  begin
+    FSecPausa := 0;
+  end
+  else
+  begin
+    exit;
+  end;
+
   case FRAME_EXECUTAR of
     etNenhum: ExecuteTimer.Enabled := False;//exit;
     etUm:
