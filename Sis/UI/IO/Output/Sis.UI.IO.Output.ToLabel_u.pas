@@ -9,7 +9,8 @@ type
   private
     FLabel: TLabel;
     FQtdExib: integer;
-    FAtivo: boolean;
+    FAtivo: Boolean;
+    FAutoOcultar: Boolean;
 
     function GetAtivo: boolean;
     procedure SetAtivo(Value: boolean);
@@ -17,20 +18,21 @@ type
     procedure Exibir(pFrase: string);
     procedure ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
     property Ativo: boolean read GetAtivo write SetAtivo;
-    constructor Create(pLabel: TLabel);
+    constructor Create(pLabel: TLabel; pAutoOcultar: Boolean = False);
   end;
 
 implementation
 
-uses Vcl.Forms;
+uses Vcl.Forms, Sis.Types.Bool_u;
 
 { TLabelOutput }
 
-constructor TLabelOutput.Create(pLabel: TLabel);
+constructor TLabelOutput.Create(pLabel: TLabel; pAutoOcultar: Boolean);
 begin
   FLabel := pLabel;
   FQtdExib := 0;
   FAtivo := True;
+  FAutoOcultar := pAutoOcultar;
 end;
 
 procedure TLabelOutput.Exibir(pFrase: string);
@@ -39,7 +41,7 @@ begin
     exit;
 
   FLabel.Caption := pFrase;
-  FLabel.Visible := True;
+  FLabel.Visible := Iif(FAutoOcultar, pFrase<>'', True);
 
   if (FQtdExib > 5) then
   begin

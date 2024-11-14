@@ -5,7 +5,7 @@ interface
 uses Sis.UI.IO.Output, Vcl.StdCtrls, Vcl.Controls, Sis.UI.IO.Input.Str;
 
 function MudoOutputCreate: IOutput;
-function LabelOutputCreate(pLabel: TLabel): IOutput;
+function LabelOutputCreate(pLabel: TLabel; pAutoOcultar: Boolean = False): IOutput;
 function LabelSafeOutputCreate(pLabel: TLabel): IOutput;
 function MemoOutputCreate(pMemo: TMemo): IOutput;
 function BalloonHintOutputCreate(pBalloonHint: TBalloonHint): IOutput;
@@ -20,9 +20,9 @@ begin
   Result := TMudoOutput.Create;
 end;
 
-function LabelOutputCreate(pLabel: TLabel): IOutput;
+function LabelOutputCreate(pLabel: TLabel; pAutoOcultar: Boolean): IOutput;
 begin
-  Result := TLabelOutput.Create(pLabel);
+  Result := TLabelOutput.Create(pLabel, pAutoOcultar);
 end;
 
 function LabelSafeOutputCreate(pLabel: TLabel): IOutput;
