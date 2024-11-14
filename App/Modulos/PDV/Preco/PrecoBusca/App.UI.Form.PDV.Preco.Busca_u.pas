@@ -7,15 +7,28 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.Diag_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Sis.UI.Frame.Bas.DBGrid_u, Sis.Types,
-  App.PDV.Preco.PrecoBusca.Um.Frame_u, Vcl.Mask, Sis.DB.DBTypes, Sis.Entities.Types,
-  App.AppObj, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Sis.DB.FDDataSetManager, App.PDV.Preco.Utils, Sis.DBI, Sis.UI.Frame.Bas.Filtro.BuscaString_u;
+  App.PDV.Preco.PrecoBusca.Um.Frame_u, Vcl.Mask, Sis.DB.DBTypes,
+  Sis.Entities.Types, App.AppObj, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Sis.DB.FDDataSetManager, App.PDV.Preco.Utils, Sis.DBI,
+  Sis.UI.Frame.Bas.Filtro.BuscaString_u, Vcl.ComCtrls, Vcl.ToolWin,
+  Sis.UI.Constants;
 
 type
   TPrecoBuscaForm = class(TDiagBasForm)
     FundoPanel: TPanel;
     BasePanel: TPanel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
+    TitleBarPanel: TPanel;
+    TitleBarCaptionLabel: TLabel;
+    ToolBar1: TToolBar;
+    MinimizeToolButton: TToolButton;
+    FecharToolButton: TToolButton;
+    Edit1: TEdit;
+    StatusPanel: TPanel;
+    AjudaPanel: TPanel;
+    AjudaLabel_PrecoBuscaForm: TLabel;
+    TempoPanel: TPanel;
+    TempoLabel_PrecoBuscaForm: TLabel;
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FDBI: IDBI;
@@ -30,18 +43,17 @@ type
     function GetQtdRegsExibindo: TQuantidade;
     procedure SetQtdRegsExibindo(const Value: TQuantidade);
 
-    function BuscaStrToTipo(pStr: string): TProdBuscaTipo;
-    function BuscaStrToProc(pStr: string): TProcedureStringOfObject;
     procedure DispareBuscaTimer;
     procedure DoFiltroChange(Sender: TObject);
     procedure LeReg(q: TDataSet; pRecNo: integer);
+    procedure BuscaStringEditKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   protected
     property DBI: IDBI read FDBI;
     procedure AjusteControles; override;
-    property QtdRegsExibindo: TQuantidade read GetQtdRegsExibindo write SetQtdRegsExibindo;
+    property QtdRegsExibindo: TQuantidade read GetQtdRegsExibindo
+      write SetQtdRegsExibindo;
     property PrecoBuscaTodosFrame: TDBGridFrame read FPrecoBuscaTodosFrame;
-
-    procedure Buscar(pStr: string);
 
     procedure AjusteQtdRegsExibindo(pQtd: integer);
   public
@@ -57,7 +69,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, Sis.Types.strings_u, Sis.Types.Utils_u, System.Math,
-  Sis.DB.Factory, Sis.Entities.Terminal, Sis.DB.DataSet.Utils, Sis.Types.Variants;
+  Sis.DB.Factory, Sis.Entities.Terminal, Sis.DB.DataSet.Utils,
+  Sis.Types.Variants, System.DateUtils;
 
 { TPrecoPregForm }
 
@@ -72,7 +85,9 @@ begin
   begin
     exit;
   end;
+  FFDMemTable.Append;
   RecordToFDMemTable(q, FFDMemTable);
+  FFDMemTable.Post;
 end;
 
 constructor TPrecoBuscaForm.Create(AOwner: TComponent; pDBI: IDBI);
@@ -90,28 +105,49 @@ begin
   SetQtdRegsExibindo(qtdNenhu);
 
   FFiltroFrame := TFiltroStringFrame.Create(BasePanel, DoFiltroChange);
+  FFiltroFrame.BuscaStringEdit.OnKeyDown := BuscaStringEditKeyDown;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
 
   sNomeArq := DBI.GetNomeArqTabView(varNull);
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable,
     FPrecoBuscaTodosFrame.DBGrid1);
+
+  TitleBarPanel.Color := COR_AZUL_TITLEBAR;
+  ToolBar1.Color := COR_AZUL_TITLEBAR;
+  // DisparaShowTimer := True;
+  MakeRounded(Self, 30);
+  ToolBar1.Left := Width - ToolBar1.Width;
+
+  TitleBarCaptionLabel.Caption := 'BUSCA PREÇO';
+  TitleBarCaptionLabel.StyleElements := [];
+  TitleBarCaptionLabel.Font.Color := clWhite;
+  AlteracaoTextoLabel.Parent := FundoPanel;
+
+
+  ///
+  Height := Min(1000, Screen.WorkAreaRect.Height - 10);
+  Width := 700;
+
+  FundoPanel.Align := alClient;
+
+  // WindowState := TWindowState.wsMaximized;
+  BorderStyle := TFormBorderStyle.bsNone;
+  ClearStyleElements(FFiltroFrame);
+  FFiltroFrame.Font.Size := 14;
+  FFiltroFrame.BuscaStringEdit.Width := 150;
+  FFiltroFrame.BuscaStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
+    FFiltroFrame.FiltroTitLabel.Width + 5;
+  FFiltroFrame.AutoSize := True;
+  BasePanel.Height := 50;
+  FPrecoBuscaTodosFrame.DBGrid1.Align := alClient;
+
 end;
 
 procedure TPrecoBuscaForm.AjusteControles;
 begin
   inherited;
-  Height := Min(1000, Screen.WorkAreaRect.Height-10);
-  Width := 700;
-  ControlAlignToRect(Self, Screen.WorkAreaRect);
-
-  // ClearStyleElements(Self);
-  FundoPanel.Align := alClient;
-
-
-  // WindowState := TWindowState.wsMaximized;
-  BorderStyle := TFormBorderStyle.bsNone;
-  ControlAlignToCenter(FFiltroFrame);
+  FFiltroFrame.BuscaStringEdit.SetFocus;
 end;
 
 procedure TPrecoBuscaForm.AjusteQtdRegsExibindo(pQtd: integer);
@@ -120,8 +156,17 @@ begin
     QtdRegsExibindo := qtdNenhu
   else if pQtd = 1 then
     QtdRegsExibindo := qtdUm
-  else {(pQtd <= 0 or pQtd > 1)}
+  else { (pQtd <= 0 or pQtd > 1) }
     QtdRegsExibindo := qtdTodos;
+end;
+
+procedure TPrecoBuscaForm.BuscaStringEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key of
+    VK_PRIOR, VK_NEXT, VK_UP, VK_DOWN:
+      SimuleTecla(Key, PrecoBuscaTodosFrame.DBGrid1);
+  end;
 end;
 
 procedure TPrecoBuscaForm.DispareBuscaTimer;
@@ -132,6 +177,7 @@ end;
 procedure TPrecoBuscaForm.DoFiltroChange(Sender: TObject);
 var
   sBusca: string;
+  ti, tf, delta: TDateTime;
 begin
   FFDMemTable.DisableControls;
   FFDMemTable.EmptyDataSet;
@@ -143,38 +189,35 @@ begin
     begin
       exit;
     end;
-
-    FDBI.PreencherDataSet(FFiltroFrame.Values, LeReg);
+    ti := NOW;
+    FFDMemTable.BeginBatch();
+    try
+      FDBI.PreencherDataSet(FFiltroFrame.Values, LeReg);
+    finally
+      FFDMemTable.EndBatch;
+      tf := NOW;
+      delta := tf - ti;
+    end;
   finally
     FFDMemTable.First;
     FFDMemTable.EnableControls;
     AjusteQtdRegsExibindo(FFDMemTable.RecordCount);
+    TempoLabel_PrecoBuscaForm.Caption := 'Consultado em: ' + DateTimeToStr(NOW)
+      + ' Tempo(s): ' + FormatFloat('######0.000', SecondSpan(ti, tf));
   end;
 end;
 
-procedure TPrecoBuscaForm.Buscar(pStr: string);
-var
-  FProcBuscar: TProcedureStringOfObject;
+procedure TPrecoBuscaForm.FormShow(Sender: TObject);
 begin
-  FProcBuscar := BuscaStrToProc(pStr);
-  FProcBuscar(pStr);
-end;
-
-function TPrecoBuscaForm.BuscaStrToProc(pStr: string): TProcedureStringOfObject;
-begin
-
-end;
-
-function TPrecoBuscaForm.BuscaStrToTipo(pStr: string): TProdBuscaTipo;
-begin
+  inherited;
+  ControlAlignToCenter(TitleBarCaptionLabel);
+  ControlAlignToRect(Self, Screen.WorkAreaRect);
+  ControlAlignToCenter(FFiltroFrame);
 
 end;
 
 procedure TPrecoBuscaForm.SetQtdRegsExibindo(const Value: TQuantidade);
 begin
-  if FQtdRegsExibindo = Value then
-    exit;
-
   FQtdRegsExibindo := Value;
   case FQtdRegsExibindo of
     qtdTodos:
@@ -186,16 +229,9 @@ begin
     begin
       FPrecoBuscaTodosFrame.Visible := False;
       FPrecoBuscaUmFrame.Visible := True;
+      FPrecoBuscaUmFrame.PegarRecord(FFDMemTable);
     end;
   end;
 end;
-
-procedure TPrecoBuscaForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  FFiltroFrame.Values := VarToVarArray('A');
-end;
-
-
 
 end.
