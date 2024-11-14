@@ -7,8 +7,6 @@ uses Sis.DBI, Data.DB, Sis.DB.DBTypes, System.Classes, Sis.Entidade, App.Ent.Ed;
 type
   IEntDBI = interface(IDBI)
     ['{235EBDD0-B948-4D33-929F-ED89EA4BC3EE}']
-    procedure PreencherDataSet(pValues: variant;
-      pProcLeReg: TProcDataSetOfObject);
     function GetExistente(pValues: variant; out pRetorno: string): variant;
 
     //recebe uma id ou array de loja term id

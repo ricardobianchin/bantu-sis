@@ -9,7 +9,8 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
   App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types;
+  Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
+  Sis.Entities.Terminal;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -52,11 +53,12 @@ type
     FLogUsuario: IUsuario;
     FAppObj: IAppObj;
     FTerminalId: TTerminalId;
+    FTerminal: ITerminal;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
     procedure MenuExibir;
-    
+
     function GetDBMS: IDBMS;
     function GetOutput: IOutput;
     function GetProcessLog: IProcessLog;
@@ -75,6 +77,8 @@ type
     property Output: IOutput read GetOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
     property LogUsuario: IUsuario read FLogUsuario;
+    property TerminalId: TTerminalId read FTerminalId write FTerminalId;
+    property Terminal: ITerminal read FTerminal write FTerminal;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -115,6 +119,9 @@ begin
   FSessaoIndex := pSessaoIndex;
   FLogUsuario := pLogUsuario;
   FAppObj := pAppObj;
+
+  FTerminal := FAppObj.TerminalList.TerminalIdToTerminal(FTerminalId);
+
   TitleBarText := FModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
     FLogUsuario.NomeExib;
 //  FOutput := MudoOutputCreate;

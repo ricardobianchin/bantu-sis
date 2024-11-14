@@ -3,7 +3,7 @@ unit App.Ent.DBI_u;
 interface
 
 uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u, System.Variants,
-  Sis.UI.Frame.Bas.FiltroParams_u, System.Classes, App.Ent.Ed;
+  System.Classes, App.Ent.Ed;
 
 type
   TEntDBI = class(TDBI, IEntDBI)
@@ -12,8 +12,6 @@ type
     function GetEntEd: IEntEd ;
     procedure SetEntEd(Value: IEntEd );
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; virtual;
-      abstract;
     function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
 
     procedure SetVarArrayToId(pNovaId: Variant); virtual; abstract;
@@ -28,8 +26,6 @@ type
     function GetFieldValuesGravar: string; virtual;
   public
     property PackageName: string read GetPackageName;
-    procedure PreencherDataSet(pValues: variant;
-      pProcLeReg: TProcDataSetOfObject); virtual;
     function GetExistente(pValues: variant; out pRetorno: string)
       : variant; virtual;
     function Ler: boolean; virtual;
@@ -292,38 +288,6 @@ begin
     end;
   finally
     vDBConnection.Fechar;
-  end;
-end;
-
-procedure TEntDBI.PreencherDataSet(pValues: variant;
-  pProcLeReg: TProcDataSetOfObject);
-var
-  sSqlRetRegs: string;
-  q: TDataSet;
-  iRecNo: integer;
-begin
-  DBConnection.Abrir;
-  try
-    sSqlRetRegs := GetSqlPreencherDataSet(pValues);
-//    {$IFDEF DEBUG}
-//    CopyTextToClipboard(sSqlRetRegs);
-//    {$ENDIF}
-
-    DBConnection.QueryDataSet(sSqlRetRegs, q);
-    try
-      iRecNo := 0;
-      while not q.Eof do
-      begin
-        inc(iRecNo);
-        pProcLeReg(q, iRecNo);
-        q.Next;
-      end;
-      pProcLeReg(q, -1);
-    finally
-      q.Free;
-    end;
-  finally
-    DBConnection.Fechar;
   end;
 end;
 

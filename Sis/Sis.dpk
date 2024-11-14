@@ -193,8 +193,6 @@ contains
   Sis.Lists.IntegerList in 'Lists\Sis.Lists.IntegerList.pas',
   Sis.Lists.IntegerList_u in 'Lists\Sis.Lists.IntegerList_u.pas',
   Sis.UI.Controls.TToolBar in 'UI\Controls\Sis.UI.Controls.TToolBar.pas',
-  Sis.UI.Frame.Bas.FiltroParams_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams_u.pas',
-  Sis.UI.Frame.Bas.FiltroParams.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.FiltroParams.BuscaString_u.pas',
   Sis.Entidade in 'Entities\Sis.Entidade.pas',
   Sis.Entidade_u in 'Entities\Sis.Entidade_u.pas',
   Sis.UI.IO.Output.ToBalloonHint_u in 'UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas',
@@ -301,6 +299,9 @@ contains
   Sis.DB.SqlCreator in 'DB\SqlCreator\Sis.DB.SqlCreator.pas',
   Sis.DB.SqlCreator_u in 'DB\SqlCreator\Sis.DB.SqlCreator_u.pas',
   Sis.DB.SqlUtils_u in 'DB\SqlUtils\Sis.DB.SqlUtils_u.pas',
-  Sis.Types.Arrays.ArrayUtils_u in 'Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas';
+  Sis.Types.Arrays.ArrayUtils_u in 'Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas',
+  Sis.Types.Variants in 'Types\Sis.Types.Variants.pas',
+  Sis.UI.Frame.Bas.Filtro_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro_u.pas' {FiltroFrame: TFrame},
+  Sis.UI.Frame.Bas.Filtro.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas' {FiltroStringFrame: TFrame};
 
 end.

@@ -47,8 +47,6 @@ type
     InclusaoAlterarBitBtn_AppDBImport: TBitBtn;
     BitBtn1: TBitBtn;
     FinalizarAction_AppDBImport: TAction;
-
-    procedure FormCreate(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure ZerarAction_AppDBImportExecute(Sender: TObject);
@@ -144,13 +142,7 @@ begin
     ProdFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      while not q.Eof do
-      begin
-        ProdFDMemTable.Append;
-        QueryToFDMemTable(ProdFDMemTable, q);
-        ProdFDMemTable.Post;
-        q.Next;
-      end;
+      DataSetAppFDMemTable(q, ProdFDMemTable);
     finally
       q.Free;
     end
@@ -189,14 +181,7 @@ begin
     ProdRejFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      while not q.Eof do
-      begin
-        ProdRejFDMemTable.Append;
-        QueryToFDMemTable(ProdRejFDMemTable, q);
-        ProdRejFDMemTable.Post;
-
-        q.Next;
-      end;
+      DataSetAppFDMemTable(q, ProdRejFDMemTable);
     finally
       q.Free;
     end
@@ -214,6 +199,7 @@ var
   sNomeIndice: String;
 begin
   inherited Create(AOwner);
+  Height := 650;
   FUsuario := pUsuario;
   if pProcessLog = nil then
     FProcessLog := MudoProcessLogCreate
@@ -311,12 +297,6 @@ begin
   finally
     FinalizarAction_AppDBImport.Enabled := True;
   end;
-end;
-
-procedure TDBImportForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  Height := 650;
 end;
 
 function TDBImportForm.GetNomeArqTabViewProd: string;

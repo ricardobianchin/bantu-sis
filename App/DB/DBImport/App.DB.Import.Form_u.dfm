@@ -1,22 +1,21 @@
 inherited DBImportForm: TDBImportForm
   Caption = 'DBImportForm'
-  ClientHeight = 338
-  ClientWidth = 918
+  ClientHeight = 337
+  ClientWidth = 914
   WindowState = wsMaximized
-  OnCreate = FormCreate
-  ExplicitWidth = 930
-  ExplicitHeight = 376
+  ExplicitWidth = 926
+  ExplicitHeight = 375
   TextHeight = 15
   object TopoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 918
+    Width = 914
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 914
+    ExplicitWidth = 910
     object ExecuteBitBtn: TBitBtn
       Left = 536
       Top = 7
@@ -29,15 +28,15 @@ inherited DBImportForm: TDBImportForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 251
-    Width = 918
+    Top = 250
+    Width = 914
     Height = 66
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 250
-    ExplicitWidth = 914
+    ExplicitTop = 249
+    ExplicitWidth = 910
     object FilConfTitLabel: TLabel
       Left = 4
       Top = 43
@@ -149,29 +148,29 @@ inherited DBImportForm: TDBImportForm
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 918
-    Height = 210
+    Width = 914
+    Height = 209
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
-    ExplicitWidth = 914
-    ExplicitHeight = 209
+    ExplicitWidth = 910
+    ExplicitHeight = 208
     object GridsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 918
-      Height = 210
+      Width = 914
+      Height = 209
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 914
-      ExplicitHeight = 209
+      ExplicitWidth = 910
+      ExplicitHeight = 208
       object SplitterRejeicaoGrid: TSplitter
         Left = 0
-        Top = 59
-        Width = 918
+        Top = 58
+        Width = 914
         Height = 5
         Cursor = crVSplit
         Align = alBottom
@@ -181,8 +180,8 @@ inherited DBImportForm: TDBImportForm
       object ProdDBGrid: TDBGrid
         Left = 0
         Top = 0
-        Width = 918
-        Height = 59
+        Width = 914
+        Height = 58
         Align = alClient
         BorderStyle = bsNone
         DataSource = ProdDataSource
@@ -196,8 +195,8 @@ inherited DBImportForm: TDBImportForm
       end
       object RejeicaoDBGrid: TDBGrid
         Left = 0
-        Top = 64
-        Width = 918
+        Top = 63
+        Width = 914
         Height = 146
         Align = alBottom
         BorderStyle = bsNone
@@ -214,27 +213,27 @@ inherited DBImportForm: TDBImportForm
   end
   object StatusPanel: TPanel [3]
     Left = 0
-    Top = 317
-    Width = 918
+    Top = 316
+    Width = 914
     Height = 21
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
-    ExplicitTop = 316
-    ExplicitWidth = 914
+    ExplicitTop = 315
+    ExplicitWidth = 910
     DesignSize = (
-      918
+      914
       21)
     object ProgressBar1: TProgressBar
-      Left = -17
+      Left = -21
       Top = 2
       Width = 276
       Height = 17
       Anchors = [akTop, akRight]
       TabOrder = 0
       Visible = False
-      ExplicitLeft = -21
+      ExplicitLeft = -25
     end
   end
   object ActionList_AppDBImport: TActionList

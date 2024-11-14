@@ -6,10 +6,12 @@ uses
   FireDAC.Comp.Client, Vcl.DBGrids, Data.DB, Sis.Sis.Constants, System.Variants;
 
 procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
-  pDBGrid: TDBGrid; pIndexIni: integer = 0; pIndexFin: integer = INDEX_ILIMITADO);
+  pDBGrid: TDBGrid; pIndexIni: integer = 0;
+  pIndexFin: integer = INDEX_ILIMITADO);
 
-procedure QueryToFDMemTable(pFDMemTable: TFDMemTable; pQ: TDataSet);
 function RecordToVarArray(out pVarArray: variant; pQ: TDataSet): variant;
+procedure DataSetAppFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable);
+procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
 
 implementation
 
@@ -25,7 +27,8 @@ begin
 end;
 
 procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
-  pDBGrid: TDBGrid; pIndexIni: integer = 0; pIndexFin: integer = INDEX_ILIMITADO);
+  pDBGrid: TDBGrid; pIndexIni: integer = 0;
+  pIndexFin: integer = INDEX_ILIMITADO);
 const
   QTD_LINHAS_TITULO = 2;
 var
@@ -35,7 +38,8 @@ var
 begin
   if not FileExists(pNomeArq) then
   begin
-    raise Exception.Create('Definindo campos, arquivo nao encontrado '+pNomeArq);
+    raise Exception.Create('Definindo campos, arquivo nao encontrado ' +
+      pNomeArq);
   end;
 
   DefsSL := TStringList.Create;
@@ -51,7 +55,8 @@ begin
 
     QtdLinhasIniciaisAExcluir := QTD_LINHAS_TITULO + pIndexIni;
 
-    if (QtdLinhasIniciaisAExcluir > 0) and (QtdLinhasIniciaisAExcluir <= DefsSL.Count) then
+    if (QtdLinhasIniciaisAExcluir > 0) and
+      (QtdLinhasIniciaisAExcluir <= DefsSL.Count) then
     begin
       for i := 0 to QtdLinhasIniciaisAExcluir - 1 do
         DefsSL.Delete(0); // Exclui a primeira linha repetidamente
@@ -60,16 +65,6 @@ begin
     DefCamposSL(DefsSL, pFDMemTable, pDBGrid);
   finally
     DefsSL.Free;
-  end;
-end;
-
-procedure QueryToFDMemTable(pFDMemTable: TFDMemTable; pQ: TDataSet);
-var
-  I: integer;
-begin
-  for I := 0 to pFDMemTable.fieldcount - 1 do
-  begin
-    pFDMemTable.Fields[I].Value := pQ.Fields[I].Value;
   end;
 end;
 
@@ -88,7 +83,7 @@ begin
   if not Result then
     exit;
 
-  iQtdCampos := pQ.FieldCount;
+  iQtdCampos := pQ.fieldcount;
 
   Result := iQtdCampos > 0;
   if not Result then
@@ -100,6 +95,26 @@ begin
   begin
     pVarArray[iFieldIndex] := pQ.Fields[iFieldIndex].Value;
   end;
+end;
+
+procedure DataSetAppFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable);
+begin
+  while not pOrigem.Eof do
+  begin
+    pDestino.Append;
+    try
+      RecordToFDMemTable(pOrigem, pDestino);
+    finally
+      pDestino.Post;
+    end;
+    pOrigem.Next;
+  end;
+end;
+
+procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
+begin
+  for var i: integer := 0 to pOrigem.fieldcount - 1 do
+    pDestino.Fields[i].Value := pOrigem.Fields[i].Value;
 end;
 
 end.

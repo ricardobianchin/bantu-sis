@@ -10,6 +10,10 @@ uses
 
 type
   TPDVModuloBasForm = class(TModuloBasForm)
+    PrecoBuscaAction_ModuloBasForm: TAction;
+    N1: TMenuItem;
+    ConsultaPreo1: TMenuItem;
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,5 +26,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  //
+end;
 
 end.
