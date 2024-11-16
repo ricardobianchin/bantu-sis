@@ -32,6 +32,7 @@ type
 
 procedure SetParamDateTime(pFDParam: TFDParam; pDt: TDateTime);
 procedure SetParamCurrency(pFDParam: TFDParam; pCurr: Currency);
+procedure SetParamValue(pFDParam: TFDParam; pValor: string);
 
 const
   DBFrameworkNames: array [TDBFramework] of string = ('NAOINDICADO', 'FIREDAC');
@@ -180,7 +181,7 @@ function StrToDBMSType(pStr: string): TDBMSType;
 
 implementation
 
-uses System.SysUtils, Data.SqlTimSt;
+uses System.SysUtils, Data.SqlTimSt, Sis.Types.Bool_u, Sis.Types.Floats;
 
 function StrToDBFramework(pStr: string): TDBFramework;
 begin
@@ -235,29 +236,316 @@ begin
       pFDParam.AsTime := Frac(pDt);
     ftDateTime:
       pFDParam.AsDateTIme := pDt;
-    else //ftTimeStampOffset:
-      pFDParam.Value := pDt;
+  else // ftTimeStampOffset:
+    pFDParam.Value := pDt;
   end;
 end;
 
 procedure SetParamCurrency(pFDParam: TFDParam; pCurr: Currency);
 begin
   case pFDParam.DataType of
+    ftUnknown:
+      ;
+    ftString:
+      ;
+    ftSmallint:
+      ;
+    ftInteger:
+      ;
+    ftWord:
+      ;
+    ftBoolean:
+      ;
+    ftFloat:
+      pFDParam.AsFloat := pCurr;
+    ftCurrency:
+      pFDParam.AsCurrency := pCurr;
+    ftBCD:
+      pFDParam.AsBCD := pCurr;
+    ftDate:
+      ;
+    ftTime:
+      ;
+    ftDateTime:
+      ;
+    ftBytes:
+      ;
+    ftVarBytes:
+      ;
+    ftAutoInc:
+      ;
+    ftBlob:
+      ;
+    ftMemo:
+      ;
+    ftGraphic:
+      ;
+    ftFmtMemo:
+      ;
+    ftParadoxOle:
+      ;
+    ftDBaseOle:
+      ;
+    ftTypedBinary:
+      ;
+    ftCursor:
+      ;
+    ftFixedChar:
+      ;
+    ftWideString:
+      ;
+    ftLargeint:
+      ;
+    ftADT:
+      ;
+    ftArray:
+      ;
+    ftReference:
+      ;
+    ftDataSet:
+      ;
+    ftOraBlob:
+      ;
+    ftOraClob:
+      ;
+    ftVariant:
+      ;
+    ftInterface:
+      ;
+    ftIDispatch:
+      ;
+    ftGuid:
+      ;
+    ftTimeStamp:
+      ;
+    ftFMTBcd:
+      pFDParam.AsFMTBCD := pCurr;
+    ftFixedWideChar:
+      ;
+    ftWideMemo:
+      ;
+    ftOraTimeStamp:
+      ;
+    ftOraInterval:
+      ;
+    ftLongWord:
+      ;
+    ftShortint:
+      ;
+    ftByte:
+      ;
+    ftExtended:
+      pFDParam.AsExtended := pCurr;
+    ftConnection:
+      ;
+    ftParams:
+      ;
+    ftStream:
+      ;
+    ftTimeStampOffset:
+      ;
+    ftObject:
+      ;
+    ftSingle:
+      pFDParam.AsSingle := pCurr;
+  end;
+end;
+
+procedure SetParamValue(pFDParam: TFDParam; pValor: string);
+begin
+  pValor := Uppercase(Trim(pValor));
+  if pValor = 'NULL' then
+  begin
+    pFDParam.Clear;
+    exit;
+  end;
+
+  case pFDParam.DataType of
+    ftUnknown:
+      ;
+    ftWideString, ftString, ftFixedChar: pFDParam.AsString := pValor;
+
+    ftSmallint: pFDParam.AsSmallInt := StrToInt(pValor);
+    ftInteger: pFDParam.AsInteger := StrToInt(pValor);
+    ftLargeint: pFDParam.AsLargeInt := StrToInt64(pValor);
+
+    ftWord: pFDParam.AsInteger := StrToInt(pValor);
+    ftBoolean: pFDParam.AsBoolean := StrToBoolean(pValor);
+
+    ftFloat:
+      pFDParam.AsFloat := StrToFloat(pValor);
+    ftCurrency:
+      pFDParam.AsCurrency := StrToCurrency(pValor);
+    ftBCD:
+      pFDParam.AsBCD := StrToCurrency(pValor);
+    ftSingle: pFDParam.AsSingle := StrToFloat(pValor);
+    ftFMTBcd:
+      pFDParam.AsFMTBCD := StrToCurrency(pValor);//problema aqui
+
+
+    ftTimeStamp:
+      pFDParam.AsSQLTimeStamp := StrToSQLTimeStamp(pValor);
+    ftDate:
+      pFDParam.AsDate := Trunc(StrToDate(pValor));
+    ftTime:
+      pFDParam.AsTime := Frac(StrToTime(pValor));
+    ftDateTime:
+      pFDParam.AsDateTIme := StrToDateTime(pValor);
+    (*
+    ftBytes:
+      ;
+    ftVarBytes:
+      ;
+    ftAutoInc:
+      ;
+    ftBlob:
+      ;
+    ftMemo:
+      ;
+    ftGraphic:
+      ;
+    ftFmtMemo:
+      ;
+    ftParadoxOle:
+      ;
+    ftDBaseOle:
+      ;
+    ftTypedBinary:
+      ;
+    ftCursor:
+      ;
+    ftADT:
+      ;
+    ftArray:
+      ;
+    ftReference:
+      ;
+    ftDataSet:
+      ;
+    ftOraBlob:
+      ;
+    ftOraClob:
+      ;
+    ftVariant:
+      ;
+    ftInterface:
+      ;
+    ftIDispatch:
+      ;
+    ftGuid:
+      ;
+    ftFMTBcd:
+      ;
+    ftFixedWideChar:
+      ;
+    ftWideMemo:
+      ;
+    ftOraTimeStamp:
+      ;
+    ftOraInterval:
+      ;
+    ftLongWord:
+      ;
+    ftShortint:
+      ;
+    ftByte:
+      ;
+    ftExtended:
+      ;
+    ftConnection:
+      ;
+    ftParams:
+      ;
+    ftStream:
+      ;
+    ftTimeStampOffset:
+      ;
+    ftObject:
+      ;
+      *)
+  else
+    raise Exception.Create('SetParamValue: Tipo nao programado. Campo ' +
+      pFDParam.Name + ' tipo:' + FieldTypeNames[pFDParam.DataType]);
+  end;
+
+  (*
+
+
+
+    ftString, ftFixedChar:
+    begin
+    Result := QuotedStr(pField.AsString);
+    end;
+
+    ftSmallint, ftInteger, ftWord, ftWideString, ftLargeint, ftAutoInc,
+    ftShortint, ftByte:
+    begin
+    Result := pField.AsString;
+    end;
+
+    ftBoolean:
+    begin
+    Result := Iif(pField.AsBoolean, 'TRUE', 'FALSE');
+    end;
+
+    ftFloat:
+    begin
+    Result := pField.AsFloat.ToString;
+    Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+    end;
+
+    ftCurrency:
+    begin
+    Result := CurrencyToStrPonto(pField.AsCurrency);
+    //        Result := Format('%0.4f', [pField.AsCurrency]);
+    // Result := pField.AsCurrency.ToString;
+    Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+    end;
+
+    ftFMTBcd:
+    begin
+    Result := CurrencyToStrPonto(pField.AsCurrency);
+    Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+    end;
+
+    ftBCD:
+    begin
+    Result := CurrencyToStrPonto(pField.AsCurrency);
+    Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+    end;
+
+    ftSingle:
+    begin
+    Result := pField.AsSingle.ToString;
+    Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+    end;
+
+    ftExtended:
+    begin
+    Result := pField.AsExtended.ToString;
+    Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+    end;
+
+    ftDate:
+    begin
+    Result := DataSQLFirebird(pField.AsDateTime)
+    end;
+
+    ftTime:
+    begin
+    Result := HoraSQLFirebird(pField.AsDateTime);
+    end;
+
+    ftDateTime, ftTimeStamp:
+    begin
+    Result := DataHoraSQLFirebird(pField.AsDateTime);
+    end;
+
+
+    {
     ftUnknown: ;
-    ftString: ;
-    ftSmallint: ;
-    ftInteger: ;
-    ftWord: ;
-    ftBoolean: ;
-    ftFloat: pFDParam.AsFloat := pCurr;
-    ftCurrency: pFDParam.AsCurrency := pCurr;
-    ftBCD: pFDParam.AsBCD := pCurr;
-    ftDate: ;
-    ftTime: ;
-    ftDateTime: ;
     ftBytes: ;
     ftVarBytes: ;
-    ftAutoInc: ;
     ftBlob: ;
     ftMemo: ;
     ftGraphic: ;
@@ -266,9 +554,6 @@ begin
     ftDBaseOle: ;
     ftTypedBinary: ;
     ftCursor: ;
-    ftFixedChar: ;
-    ftWideString: ;
-    ftLargeint: ;
     ftADT: ;
     ftArray: ;
     ftReference: ;
@@ -279,23 +564,19 @@ begin
     ftInterface: ;
     ftIDispatch: ;
     ftGuid: ;
-    ftTimeStamp: ;
-    ftFMTBcd: pFDParam.AsFMTBCD := pCurr;
+    ftFMTBcd: ;
     ftFixedWideChar: ;
     ftWideMemo: ;
     ftOraTimeStamp: ;
     ftOraInterval: ;
     ftLongWord: ;
-    ftShortint: ;
-    ftByte: ;
-    ftExtended: pFDParam.AsExtended := pCurr;
     ftConnection: ;
     ftParams: ;
     ftStream: ;
     ftTimeStampOffset: ;
     ftObject: ;
-    ftSingle: pFDParam.AsSingle := pCurr;
-  end;
+    }
+  *)
 end;
 
 end.
