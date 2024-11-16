@@ -86,7 +86,7 @@ begin
         UltimoErro := 'TDBExecFireDac.Execute Erro'#13#10#13#10 + e.classname +
           #13#10 + e.message + #13#10 + #13#10 +
           'ao tentar executar:'#13#10#13#10 + Sql.Text;
-        sLog := sLog + ',' + UltimoErro;
+        sLog := sLog + ',' + Nome + ',' + UltimoErro;
         Output.Exibir(UltimoErro);
         raise exception.Create(UltimoErro);
       end;
