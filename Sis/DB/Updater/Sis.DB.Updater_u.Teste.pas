@@ -7,12 +7,12 @@ uses Sis.DB.DBTypes, Sis.DB.Factory, Sis.Entities.Terminal, Sis.Entities.Types,
 
 const
   VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  // VERSAO_ULTIMA_A_PROCESSAR = 86; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  //VERSAO_ULTIMA_A_PROCESSAR = 88; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
-  RESET_VERSAO = 87;
+  RESET_VER = 87;
 
-  //RESET_EXECUTA = False;
-  RESET_EXECUTA = True;
+  RESET_EXECUTA = False;
+  //RESET_EXECUTA = True;
 
 procedure ResetBanco(pDBConnectionParams: TDBConnectionParams; pDBMS: IDBMS;
   pTerminal: ITerminal; pPastaComandos: string; pProcessLog: IProcessLog;
@@ -39,9 +39,10 @@ begin
   pProcessLog.PegueLocal('Updater_u.Teste.ResetBanco');
   try
     oSqlSL.Text :=
-      'DELETE FROM DBUPDATE_HIST WHERE NUM>=' + RESET_VERSAO.ToString + ';'#13#10
+      'DELETE FROM DBUPDATE_HIST WHERE NUM>=' + RESET_VER.ToString + ';'#13#10
       +'COMMIT;'#13#10
-      +'DROP PACKAGE SE_INICIAL_PA;'
+      +'DROP PACKAGE SE_INICIAL_PA;'#13#10
+      +'DROP PACKAGE SESSAO_MANUT_PA;'#13#10
       ;
 
     pOutPut.Exibir('Executando comandos...');
