@@ -111,10 +111,11 @@ begin
   end;
 
   Result := Result //
-    + 'ALTER TABLE ' + FsTabelaFK //
-    + ' ADD CONSTRAINT ' //
-    + FsKeyName + ' FOREIGN KEY (' + FsCamposFK + ')' //
-    + ' REFERENCES ' //
+    + 'ALTER TABLE ' + FsTabelaFK + #13#10 //
+    + 'ADD CONSTRAINT ' //
+    + FsKeyName + #13#10 //
+    + 'FOREIGN KEY (' + FsCamposFK + ')'#13#10 //
+    + 'REFERENCES ' //
     + FsTabelaPK + ' (' + FsCamposPK + ');'#13#10 //
     ;
 
