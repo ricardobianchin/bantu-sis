@@ -7,12 +7,12 @@ uses Sis.DB.DBTypes, Sis.DB.Factory, Sis.Entities.Terminal, Sis.Entities.Types,
 
 const
   VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  //VERSAO_ULTIMA_A_PROCESSAR = 88; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  //VERSAO_ULTIMA_A_PROCESSAR = 86; // INTERROMPE APOS FINALIZAR ESTA VERSAO
 
-  RESET_VER = 87;
+  RESET_VERSAO = -1;
 
   RESET_EXECUTA = False;
-  //RESET_EXECUTA = True;
+  // RESET_EXECUTA = True;
 
 procedure ResetBanco(pDBConnectionParams: TDBConnectionParams; pDBMS: IDBMS;
   pTerminal: ITerminal; pPastaComandos: string; pProcessLog: IProcessLog;
@@ -38,12 +38,15 @@ begin
   oSqlSL := TStringList.Create;
   pProcessLog.PegueLocal('Updater_u.Teste.ResetBanco');
   try
-    oSqlSL.Text :=
-      'DELETE FROM DBUPDATE_HIST WHERE NUM>=' + RESET_VER.ToString + ';'#13#10
-      +'COMMIT;'#13#10
-      +'DROP PACKAGE SE_INICIAL_PA;'#13#10
-      +'DROP PACKAGE SESSAO_MANUT_PA;'#13#10
-      ;
+    if RESET_VERSAO >= 0 then
+    begin
+      oSqlSL.Add('DELETE FROM DBUPDATE_HIST WHERE NUM>=' +
+        RESET_VERSAO.ToString + ';');
+      oSqlSL.Add('COMMIT;');
+    end;
+
+    oSqlSL.Add('DROP PACKAGE SE_INICIAL_PA;');
+    oSqlSL.Add('DROP PACKAGE SESSAO_MANUT_PA;');
 
     pOutPut.Exibir('Executando comandos...');
     pProcessLog.RegistreLog('Executando reset');
