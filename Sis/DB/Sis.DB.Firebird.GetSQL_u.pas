@@ -29,7 +29,9 @@ var
 begin
   sNome := CamposToKeyName(pNomeTabela, pCampos, UKINDEXNAME_SUFIXO);
 
-  sFormat := 'ALTER TABLE %s ADD CONSTRAINT %s UNIQUE (%s);';
+  sFormat := 'ALTER TABLE %s'#13#10 //
+    + 'ADD CONSTRAINT %s'#13#10 //
+    + 'UNIQUE (%s);';
 
   Result := Format(sFormat, [pNomeTabela, sNome, pCampos]);
 end;
