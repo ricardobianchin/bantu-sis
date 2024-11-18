@@ -103,16 +103,31 @@ begin
     if Resultado then
       exit;
 
-    Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' DROP CONSTRAINT ' +
-      FsKeyName + ';'#13#10;
+    Result := Result //
+      + 'ALTER TABLE ' + FsTabelaFK //
+      + ' DROP CONSTRAINT ' //
+      +  FsKeyName + ';'#13#10 //
+      ;
   end;
 
-  Result := Result + 'ALTER TABLE ' + FsTabelaFK + ' ADD CONSTRAINT ' +
-    FsKeyName + ' FOREIGN KEY (' + FsCamposFK + ')' + ' REFERENCES ' +
-    FsTabelaPK + ' (' + FsCamposPK + ');'#13#10;
+  Result := Result //
+    + 'ALTER TABLE ' + FsTabelaFK //
+    + ' ADD CONSTRAINT ' //
+    + FsKeyName + ' FOREIGN KEY (' + FsCamposFK + ')' //
+    + ' REFERENCES ' //
+    + FsTabelaPK + ' (' + FsCamposPK + ');'#13#10 //
+    ;
 
-  Result := #13#10 + '/*******'#13#10 + '*'#13#10 + '* ' + GetAsText + #13#10 +
-    '*'#13#10 + '*******/'#13#10 + Result;
+  Result := //
+    #13#10 //
+    + '/*******'#13#10 //
+    + '*'#13#10 //
+    + '* ' + GetAsText //
+    + #13#10 //
+    + '*'#13#10 //
+    + '*******/'#13#10 //
+    + Result //
+    ;
 end;
 
 function TComandoFBCreateForeignKey.GetAsText: string;
@@ -148,7 +163,7 @@ begin
     else if Pos(DBATUALIZ_CAMPOS_FK_CHAVE + '=', sLinha) = 1 then
     begin
       s := StrApos(sLinha, '=');
-      FsCamposFK := s;
+      FsCamposFK := StrSemStr(s);
     end
 
     else if Pos(DBATUALIZ_TABELA_PK_CHAVE + '=', sLinha) = 1 then
@@ -159,7 +174,7 @@ begin
     else if Pos(DBATUALIZ_CAMPOS_PK_CHAVE + '=', sLinha) = 1 then
     begin
       s := StrApos(sLinha, '=');
-      FsCamposPK := s;
+      FsCamposPK := StrSemStr(s);
     end
 
     else if Pos(DBATUALIZ_OBJETO_NOME_CHAVE + '=', sLinha) = 1 then
