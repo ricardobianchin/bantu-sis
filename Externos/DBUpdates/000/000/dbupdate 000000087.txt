@@ -1,4 +1,4 @@
-SESSAO_INICIAL_PA
+CAIXA_SESSAO_INICIAL_PA
 
 -------
 feature_sis arquivo
@@ -18,7 +18,7 @@ INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=CAIXA
-DBATUALIZ_OBJETIVO=CRIAR SESSAO_INICIAL_PA
+DBATUALIZ_OBJETIVO=CRIAR CAIXA_SESSAO_INICIAL_PA
 //DBATUALIZ_DESTINO=TERMINAL
 DBATUALIZ_OBS=
 
@@ -27,34 +27,34 @@ DBATUALIZ_OBS=
 
 /////////////////////////
 //
-// PACKAGE SESSAO_INICIAL_PA
+// PACKAGE CAIXA_SESSAO_INICIAL_PA
 //
 /////////////////////////
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=SESSAO_INICIAL_PA
+OBJETO_NOME=CAIXA_SESSAO_INICIAL_PA
 /*
 
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SESSAO_INICIAL_PA.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql
 
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SESSAO_INICIAL_PA.sql"
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql"
 
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SESSAO_INICIAL_PA.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql";
 
 show procedure PERFIL_DE_USO_PA.GARANTIR;
 
 */
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE SESSAO_INICIAL_PA
+CREATE OR ALTER PACKAGE CAIXA_SESSAO_INICIAL_PA
 AS
 BEGIN
-  PROCEDURE SESSAO_GAR 
+  PROCEDURE CAIXA_SESSAO_GAR 
   (
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
-    , SESSAO_ID ID_DOM
+    , CAIXA_SESSAO_ID ID_DOM
     , LOG_ID BIGINT
     , ABERTO BOOLEAN
     , REGISTROU_FUNDO_DE_TROCO BOOLEAN
@@ -71,14 +71,14 @@ BEGIN
   );
 END^
 
-RECREATE PACKAGE BODY SESSAO_INICIAL_PA
+RECREATE PACKAGE BODY CAIXA_SESSAO_INICIAL_PA
 AS
 BEGIN
-  PROCEDURE SESSAO_GAR 
+  PROCEDURE CAIXA_SESSAO_GAR 
   (
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
-    , SESSAO_ID ID_DOM
+    , CAIXA_SESSAO_ID ID_DOM
     , LOG_ID BIGINT
     , ABERTO BOOLEAN
     , REGISTROU_FUNDO_DE_TROCO BOOLEAN
@@ -86,11 +86,11 @@ BEGIN
   )
   AS
   BEGIN
-    UPDATE OR INSERT INTO SESSAO 
+    UPDATE OR INSERT INTO CAIXA_SESSAO
     (
       LOJA_ID,
       TERMINAL_ID,
-      SESSAO_ID,
+      CAIXA_SESSAO_ID,
       LOG_ID,
       REGISTROU_FUNDO_DE_TROCO
     )
@@ -98,14 +98,14 @@ BEGIN
     (
       :LOJA_ID,
       :TERMINAL_ID,
-      :SESSAO_ID,
+      :CAIXA_SESSAO_ID,
       :LOG_ID,
       :REGISTROU_FUNDO_DE_TROCO
     )
     MATCHING (
       LOJA_ID,
       TERMINAL_ID,
-      SESSAO_ID
+      CAIXA_SESSAO_ID
     );
   END
 
