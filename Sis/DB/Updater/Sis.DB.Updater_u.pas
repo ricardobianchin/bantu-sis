@@ -7,11 +7,7 @@ uses
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
   Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
   Sis.Entities.Types, Sis.DB.Updater.Destino.Utils_u, Vcl.Forms,
-  Sis.Entities.TerminalList, Sis.Entities.Terminal;
-
-const
-  VERSAO_ULTIMA_A_PROCESSAR = -1; // -1 = RODA SEM INTERRUPCOES
-  //VERSAO_ULTIMA_A_PROCESSAR = 82; // INTERROMPE APOS FINALIZAR ESTA VERSAO
+  Sis.Entities.TerminalList, Sis.Entities.Terminal, Sis.DB.Updater_u.Teste;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
@@ -97,12 +93,10 @@ type
 
     function GravarIniciais_CrieMachineIdLocal(pDBConnection: IDBConnection)
       : SmallInt;
-    procedure GravarIniciais_CrieSistemaInicial(pDBConnection
-      : IDBConnection);
+    procedure GravarIniciais_CrieSistemaInicial(pDBConnection: IDBConnection);
     function GravarIniciais_CrieGerenteInicial(pDBConnection
       : IDBConnection): integer;
-    procedure GravarIniciais_CrieGerenteFinal(pDBConnection
-      : IDBConnection);
+    procedure GravarIniciais_CrieGerenteFinal(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieSistemaFinal(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieSuporte(pDBConnection: IDBConnection);
@@ -172,7 +166,8 @@ begin
   FTerminalId := pTerminalId;
   FTerminalList := pTerminalList;
   FDBUpdaterPontoAlvo := TerminalIdToPontoAlvo(FTerminalId);
-  FsDBUpdaterPontoAlvo := AnsiUpperCase(DBUpdaterPontoAlvoNomes[FDBUpdaterPontoAlvo]);
+  FsDBUpdaterPontoAlvo :=
+    AnsiUpperCase(DBUpdaterPontoAlvoNomes[FDBUpdaterPontoAlvo]);
 
   FPastaProduto := pPastaProduto;
   FSqlDestinoSL := TStringList.Create;
@@ -327,6 +322,9 @@ begin
       iVersao := DBDescubraVersaoEConecte;
       FProcessLog.RegistreLog('iVersao' + iVersao.ToString);
 
+      Sis.DB.Updater_u.Teste.ResetBanco(FDBConnectionParams, FDBMS,
+        FTerminalList.TerminalIdToTerminal(TerminalId),
+        FPastaProduto + 'Comandos\Updater\', FProcessLog, FOutput);
       try
         repeat
           FOutput.Exibir('');
@@ -368,8 +366,8 @@ begin
             'TERMINAL_ID=' + FTerminalId.ToString + #13#10 //
             ; //
 
-          ProcessarDiretivas(FLinhasSL, FVariaveis.Text+#13#10 + sVariaveisAdicionais,
-            FsDiretivaAbre, FsDiretivaFecha);
+          ProcessarDiretivas(FLinhasSL, FVariaveis.Text + #13#10 +
+            sVariaveisAdicionais, FsDiretivaAbre, FsDiretivaFecha);
           // {$IFDEF DEBUG}
           // if iVersao=2 then
           // begin
@@ -378,7 +376,8 @@ begin
           // {$ENDIF}
 
           LerUpdateProperties(FLinhasSL);
-          sAtividadeEconomicaName := FVariaveis.Values['ATIVIDADE_ECONOMICA_NAME'];
+          sAtividadeEconomicaName := FVariaveis.Values
+            ['ATIVIDADE_ECONOMICA_NAME'];
           bAtividadeSeAplica := Iif(FsDBAtualizAtividadeAlvo = '#032', True, //
             FsDBAtualizAtividadeAlvo = sAtividadeEconomicaName);
 
@@ -485,7 +484,6 @@ begin
     if FsDBAtualizAtividadeAlvo = '' then
       FsDBAtualizAtividadeAlvo := '#032';
     sOutput := sOutput + 'sAtividadeAlvo=' + FsDBAtualizAtividadeAlvo + #13#10;
-
 
     FsObs := pSL.Values[DBATUALIZ_OBS_CHAVE];
     sOutput := sOutput + 'sObs=' + FsObs + #13#10;
@@ -743,9 +741,9 @@ begin
 
     + ');'#13#10;
 
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(sSql);
-//   {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
   pDBConnection.ExecuteSql(sSql);
 end;
 
@@ -764,7 +762,8 @@ begin
   pDBConnection.ExecuteSql(sSql);
 end;
 
-procedure TDBUpdater.GravarIniciais_CrieSistemaFinal(pDBConnection: IDBConnection);
+procedure TDBUpdater.GravarIniciais_CrieSistemaFinal(pDBConnection
+  : IDBConnection);
 var
   sSql: string;
   oDBQuery: IDBQuery;
@@ -783,16 +782,15 @@ begin
     + ', ' + USUARIO_SISTEMA_PESSOA_ID.ToString // PESSOA_ID
     + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-    + ', TRUE'
-    + ');';
+    + ', TRUE' + ');';
 
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}
   iSistemaPessoaId := pDBConnection.GetValue(sSql);
 
-  sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR('
-    + FLoja.Id.ToString // LOJA_ID
+  sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' +
+    FLoja.Id.ToString // LOJA_ID
     + ', ' + iSistemaPessoaId.ToString // USUARIO_PESSOA_ID
     + ', 1' // PERFIL_DE_USO_ID
     + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
@@ -805,8 +803,8 @@ begin
   pDBConnection.ExecuteSql(sSql);
 end;
 
-procedure TDBUpdater.GravarIniciais_CrieSistemaInicial(
-  pDBConnection: IDBConnection);
+procedure TDBUpdater.GravarIniciais_CrieSistemaInicial(pDBConnection
+  : IDBConnection);
 var
   sSql: string;
 begin
@@ -830,9 +828,9 @@ begin
 
     + ');'#13#10;
 
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(sSql);
-//   {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
   pDBConnection.ExecuteSql(sSql);
 end;
 
@@ -855,8 +853,7 @@ begin
     + ', ' + USUARIO_SUPORTE_PESSOA_ID.ToString // PESSOA_ID
     + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-    + ', TRUE'
-    + ');';
+    + ', TRUE' + ');';
 
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);

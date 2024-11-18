@@ -302,6 +302,7 @@ contains
   Sis.Types.Arrays.ArrayUtils_u in 'Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas',
   Sis.Types.Variants in 'Types\Sis.Types.Variants.pas',
   Sis.UI.Frame.Bas.Filtro_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro_u.pas' {FiltroFrame: TFrame},
-  Sis.UI.Frame.Bas.Filtro.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas' {FiltroStringFrame: TFrame};
+  Sis.UI.Frame.Bas.Filtro.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas' {FiltroStringFrame: TFrame},
+  Sis.DB.Updater_u.Teste in 'DB\Updater\Sis.DB.Updater_u.Teste.pas';
 
 end.
