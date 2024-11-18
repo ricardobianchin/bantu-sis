@@ -1,0 +1,124 @@
+SE_INICIAL_PA
+
+-------
+feature_sis arquivo
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000032.txt
+-------
+
+
+---------------------------------------
+TESTES 
+---------------------------------------
+---------------------------------------
+FIM TESTES
+---------------------------------------
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=CAIXA
+DBATUALIZ_OBJETIVO=CRIAR SESSAO_INICIAL_PA
+//DBATUALIZ_DESTINO=TERMINAL
+DBATUALIZ_OBS=
+
+
+
+
+/////////////////////////
+//
+// PACKAGE SE_INICIAL_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=SE_INICIAL_PA
+/*
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SE_INICIAL_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SE_INICIAL_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SE_INICIAL_PA.sql";
+
+show procedure PERFIL_DE_USO_PA.GARANTIR;
+
+*/
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE SE_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE SESSAO_GAR 
+  (
+    LOJA_ID ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    SESSAO_ID ID_DOM,
+    LOG_ID BIGINT,
+    REGISTROU_FUNDO_DE_TROCO BOOLEAN
+  );
+
+  PROCEDURE LISTA_GET
+  (
+    TEXTO_BUSCA VARCHAR(100)
+  )
+  RETURNS
+  (
+    NUM Integer
+  );
+END^
+
+RECREATE PACKAGE BODY SE_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE SESSAO_GAR 
+  (
+    LOJA_ID ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    SESSAO_ID ID_DOM,
+    LOG_ID BIGINT,
+    REGISTROU_FUNDO_DE_TROCO BOOLEAN
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO SESSAO 
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      SESSAO_ID,
+      LOG_ID,
+      REGISTROU_FUNDO_DE_TROCO
+    )
+    VALUES 
+    (
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :SESSAO_ID,
+      :LOG_ID,
+      :REGISTROU_FUNDO_DE_TROCO
+    )
+    MATCHING (
+      LOJA_ID,
+      TERMINAL_ID,
+      SESSAO_ID
+    );
+  END
+
+  PROCEDURE LISTA_GET
+  (
+    TEXTO_BUSCA VARCHAR(100)
+  )
+  RETURNS
+  (
+    NUM Integer
+  )
+  AS 
+  BEGIN 
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM
