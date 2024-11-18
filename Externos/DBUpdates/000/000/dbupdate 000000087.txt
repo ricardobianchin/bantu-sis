@@ -1,4 +1,4 @@
-SE_INICIAL_PA
+SESSAO_INICIAL_PA
 
 -------
 feature_sis arquivo
@@ -27,36 +27,38 @@ DBATUALIZ_OBS=
 
 /////////////////////////
 //
-// PACKAGE SE_INICIAL_PA
+// PACKAGE SESSAO_INICIAL_PA
 //
 /////////////////////////
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=SE_INICIAL_PA
+OBJETO_NOME=SESSAO_INICIAL_PA
 /*
 
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SE_INICIAL_PA.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SESSAO_INICIAL_PA.sql
 
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SE_INICIAL_PA.sql"
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SESSAO_INICIAL_PA.sql"
 
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SE_INICIAL_PA.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\SESSAO_INICIAL_PA.sql";
 
 show procedure PERFIL_DE_USO_PA.GARANTIR;
 
 */
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE SE_INICIAL_PA
+CREATE OR ALTER PACKAGE SESSAO_INICIAL_PA
 AS
 BEGIN
   PROCEDURE SESSAO_GAR 
   (
-    LOJA_ID ID_SHORT_DOM,
-    TERMINAL_ID ID_SHORT_DOM,
-    SESSAO_ID ID_DOM,
-    LOG_ID BIGINT,
-    REGISTROU_FUNDO_DE_TROCO BOOLEAN
+    LOJA_ID ID_SHORT_DOM
+    , TERMINAL_ID ID_SHORT_DOM
+    , SESSAO_ID ID_DOM
+    , LOG_ID BIGINT
+    , ABERTO BOOLEAN
+    , REGISTROU_FUNDO_DE_TROCO BOOLEAN
+    , CONFERIDO BOOLEAN
   );
 
   PROCEDURE LISTA_GET
@@ -69,16 +71,18 @@ BEGIN
   );
 END^
 
-RECREATE PACKAGE BODY SE_INICIAL_PA
+RECREATE PACKAGE BODY SESSAO_INICIAL_PA
 AS
 BEGIN
   PROCEDURE SESSAO_GAR 
   (
-    LOJA_ID ID_SHORT_DOM,
-    TERMINAL_ID ID_SHORT_DOM,
-    SESSAO_ID ID_DOM,
-    LOG_ID BIGINT,
-    REGISTROU_FUNDO_DE_TROCO BOOLEAN
+    LOJA_ID ID_SHORT_DOM
+    , TERMINAL_ID ID_SHORT_DOM
+    , SESSAO_ID ID_DOM
+    , LOG_ID BIGINT
+    , ABERTO BOOLEAN
+    , REGISTROU_FUNDO_DE_TROCO BOOLEAN
+    , CONFERIDO BOOLEAN
   )
   AS
   BEGIN
