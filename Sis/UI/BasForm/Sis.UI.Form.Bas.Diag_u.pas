@@ -48,7 +48,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Constants, Sis.Types.Utils_u, Sis.Types.strings_u;
+uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.Types.Utils_u, Sis.Types.strings_u;
 
 procedure TDiagBasForm.AtualizeAlteracaoTexto;
 var
