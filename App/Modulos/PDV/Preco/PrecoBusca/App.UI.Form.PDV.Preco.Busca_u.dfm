@@ -32,7 +32,6 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 407
     end
     object TitleBarPanel: TPanel
       Left = 1
@@ -46,7 +45,6 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
       ParentBackground = False
       TabOrder = 1
       StyleElements = []
-      ExplicitWidth = 407
       DesignSize = (
         670
         41)
@@ -67,12 +65,14 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
         StyleElements = []
       end
       object ToolBar1: TToolBar
-        Left = 625
+        Left = 627
         Top = 9
-        Width = 101
+        Width = 54
         Height = 29
+        Hint = 'Esc - Fechar'
         Align = alNone
         Anchors = [akTop, akRight]
+        ButtonHeight = 24
         ButtonWidth = 47
         Caption = 'ToolBar1'
         Color = 3813420
@@ -82,14 +82,13 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
         TabOrder = 0
         Transparent = True
         StyleElements = []
-        ExplicitLeft = 362
-        object MinimizeToolButton: TToolButton
+        object FecharToolButton: TToolButton
           Left = 0
           Top = 0
-        end
-        object FecharToolButton: TToolButton
-          Left = 47
-          Top = 0
+          Hint = 'Esc - Fechar'
+          Caption = 'CancelAct_Diag'
+          ImageIndex = 0
+          OnClick = FecharToolButtonClick
         end
       end
     end
@@ -147,11 +146,11 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
         object AjudaLabel_PrecoBuscaForm: TLabel
           Left = 3
           Top = 2
-          Width = 336
+          Width = 345
           Height = 15
           Caption = 
-            '[Esc]-Sair   [Enter]-Busca Novamente   ['#8593']['#8595'][PgUp][PgDn]-Navega' +
-            'r'
+            '[Esc]-Fechar   [Enter]-Busca Novamente   ['#8593']['#8595'][PgUp][PgDn]-Nave' +
+            'gar'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -12
@@ -161,5 +160,8 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
         end
       end
     end
+  end
+  inherited ActionList1_Diag: TActionList
+    Left = 232
   end
 end

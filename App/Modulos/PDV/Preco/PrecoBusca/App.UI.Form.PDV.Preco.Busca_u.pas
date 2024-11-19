@@ -20,7 +20,6 @@ type
     TitleBarPanel: TPanel;
     TitleBarCaptionLabel: TLabel;
     ToolBar1: TToolBar;
-    MinimizeToolButton: TToolButton;
     FecharToolButton: TToolButton;
     Edit1: TEdit;
     StatusPanel: TPanel;
@@ -29,6 +28,7 @@ type
     TempoPanel: TPanel;
     TempoLabel_PrecoBuscaForm: TLabel;
     procedure FormShow(Sender: TObject);
+    procedure FecharToolButtonClick(Sender: TObject);
   private
     { Private declarations }
     FDBI: IDBI;
@@ -68,9 +68,9 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.Types.strings_u, Sis.Types.Utils_u, System.Math,
-  Sis.DB.Factory, Sis.Entities.Terminal, Sis.DB.DataSet.Utils,
-  Sis.Types.Variants, System.DateUtils;
+uses Sis.UI.ImgDM, Sis.UI.Controls.Utils, Sis.Types.strings_u,
+  Sis.Types.Utils_u, System.Math, Sis.DB.Factory, Sis.Entities.Terminal,
+  Sis.DB.DataSet.Utils, Sis.Types.Variants, System.DateUtils;
 
 { TPrecoPregForm }
 
@@ -123,7 +123,6 @@ begin
   TitleBarCaptionLabel.StyleElements := [];
   TitleBarCaptionLabel.Font.Color := clWhite;
   AlteracaoTextoLabel.Parent := FundoPanel;
-
 
   ///
   Height := Min(1000, Screen.WorkAreaRect.Height - 10);
@@ -205,6 +204,12 @@ begin
     TempoLabel_PrecoBuscaForm.Caption := 'Consultado em: ' + DateTimeToStr(NOW)
       + ' Tempo(s): ' + FormatFloat('######0.000', SecondSpan(ti, tf));
   end;
+end;
+
+procedure TPrecoBuscaForm.FecharToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  CancelAct_Diag.Execute;
 end;
 
 procedure TPrecoBuscaForm.FormShow(Sender: TObject);
