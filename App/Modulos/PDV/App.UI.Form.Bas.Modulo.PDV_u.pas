@@ -17,6 +17,8 @@ type
     ConsultaPreo1: TMenuItem;
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
+    ToolBar1_PDVModuloBasForm: TToolBar;
+    MenuToolButton_PDVModuloBasForm: TToolButton;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
