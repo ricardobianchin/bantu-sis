@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Menu_u, Vcl.ExtCtrls,
-  Vcl.StdCtrls, System.Actions, Vcl.ActnList;
+  Vcl.StdCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin;
 
 type
   TAppPDVMenuForm = class(TAppMenuForm)

@@ -11,22 +11,31 @@ inherited AppPDVMenuForm: TAppPDVMenuForm
   end
   inherited FundoPanel_AppMenuForm: TPanel
     Width = 482
-    inherited FecharModuloButton_AppMenuForm: TButton
-      Left = 249
-      ExplicitLeft = 249
-    end
-    inherited OcultarModuloButton_AppMenuForm: TButton
-      Left = 124
-      ExplicitLeft = 124
-    end
-    object BuscaPrecoButton: TButton
-      Left = 370
-      Top = 8
+    ExplicitWidth = 482
+    object BuscaPrecoButton: TButton [3]
+      Left = 369
+      Top = 48
       Width = 98
       Height = 25
       Caption = 'B - Busca Pre'#231'o'
-      TabOrder = 3
+      TabOrder = 4
       OnClick = BuscaPrecoButtonClick
+    end
+    inherited StatusPanel: TPanel
+      Width = 480
+      ExplicitTop = 333
+      ExplicitWidth = 480
+    end
+    inherited TitleBarPanel: TPanel
+      Width = 480
+      TabOrder = 5
+      ExplicitWidth = 480
+      inherited ToolBar1: TToolBar
+        OnClick = nil
+        inherited FecharToolButton: TToolButton
+          OnClick = nil
+        end
+      end
     end
   end
 end
