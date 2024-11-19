@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Form.Bas.Diag_u, System.Actions,
-  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls;
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin;
 
 type
   TAppMenuForm = class(TDiagBasForm)
@@ -13,6 +13,13 @@ type
     FecharModuloButton_AppMenuForm: TButton;
     OcultarModuloButton_AppMenuForm: TButton;
     OcultarMenuButton_AppMenuForm: TButton;
+    StatusPanel: TPanel;
+    AjudaPanel: TPanel;
+    AjudaLabel_PrecoBuscaForm: TLabel;
+    TitleBarPanel: TPanel;
+    TitleBarCaptionLabel: TLabel;
+    ToolBar1: TToolBar;
+    FecharToolButton: TToolButton;
     procedure FecharModuloButton_AppMenuFormClick(Sender: TObject);
     procedure OcultarMenuButton_AppMenuFormClick(Sender: TObject);
     procedure OcultarModuloButton_AppMenuFormClick(Sender: TObject);
@@ -47,6 +54,10 @@ begin
   inherited Create(AOwner);
   FFecharAction_ModuloBasForm := pFecharAction_ModuloBasForm;
   FOcultarAction_ModuloBasForm := pOcultarAction_ModuloBasForm;
+
+  TitleBarCaptionLabel.Caption := 'MENU';
+  TitleBarCaptionLabel.StyleElements := [];
+  TitleBarCaptionLabel.Font.Color := clWhite;
 end;
 
 procedure TAppMenuForm.FecharModuloButton_AppMenuFormClick(Sender: TObject);
