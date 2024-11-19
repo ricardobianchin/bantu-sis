@@ -90,18 +90,22 @@ inherited ModuloBasForm: TModuloBasForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 451
+    Top = 447
     Width = 620
-    Height = 25
+    Height = 29
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    DesignSize = (
+      620
+      29)
     object StatusPanel1: TPanel
-      Left = 13
+      Left = 405
       Top = 0
       Width = 205
-      Height = 25
+      Height = 29
+      Anchors = [akTop, akRight]
       BevelOuter = bvLowered
       Caption = ' '
       TabOrder = 0
@@ -116,12 +120,11 @@ inherited ModuloBasForm: TModuloBasForm
         Left = 1
         Top = 1
         Width = 203
-        Height = 23
+        Height = 27
         Align = alClient
         Caption = '    '
         Layout = tlCenter
-        ExplicitWidth = 12
-        ExplicitHeight = 15
+        ExplicitHeight = 24
       end
     end
   end
