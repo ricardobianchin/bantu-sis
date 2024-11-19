@@ -1,17 +1,19 @@
 inherited PDVModuloBasForm: TPDVModuloBasForm
   Caption = 'PDVModuloBasForm'
   TextHeight = 15
-  inherited TitleBarActionList_ModuloBasForm: TActionList
-    object PrecoBuscaAction_ModuloBasForm: TAction
-      Caption = 'Consulta &Pre'#231'o'
-    end
-  end
   inherited PopupMenu1: TPopupMenu
     object N1: TMenuItem
       Caption = '-'
     end
     object ConsultaPreo1: TMenuItem
-      Action = PrecoBuscaAction_ModuloBasForm
+      Caption = 'Consulta &Pre'#231'o'
+    end
+  end
+  object PDVActionList: TActionList
+    Left = 280
+    Top = 56
+    object PrecoBuscaAction_PDVModuloBasForm: TAction
+      Caption = 'Consulta &Pre'#231'o'
     end
   end
 end

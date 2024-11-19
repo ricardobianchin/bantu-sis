@@ -10,7 +10,7 @@ uses
   App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
   Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
-  Sis.Entities.Terminal;
+  Sis.Entities.Terminal, App.UI.Form.Menu_u;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -55,9 +55,10 @@ type
     FTerminalId: TTerminalId;
     FTerminal: ITerminal;
 
+    FMenuUsaForm: Boolean;
+
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
-    procedure MenuExibir;
 
     function GetDBMS: IDBMS;
     function GetOutput: IOutput;
@@ -65,6 +66,7 @@ type
 
 
   protected
+    procedure MenuExibir; virtual;
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
     procedure DoFechar; virtual;
@@ -79,6 +81,8 @@ type
     property LogUsuario: IUsuario read FLogUsuario;
     property TerminalId: TTerminalId read FTerminalId write FTerminalId;
     property Terminal: ITerminal read FTerminal write FTerminal;
+    function AppMenuFormCreate: TAppMenuForm; virtual;
+    property MenuUsaForm: Boolean read FMenuUsaForm write FMenuUsaForm;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -107,6 +111,11 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 // FTipoModuloSistema := moduloNaoIndicado;;
 // end;
 
+function TModuloBasForm.AppMenuFormCreate: TAppMenuForm;
+begin
+  Result := nil;
+end;
+
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
@@ -119,14 +128,13 @@ begin
   FSessaoIndex := pSessaoIndex;
   FLogUsuario := pLogUsuario;
   FAppObj := pAppObj;
-
   FTerminal := FAppObj.TerminalList.TerminalIdToTerminal(FTerminalId);
 
   TitleBarText := FModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
     FLogUsuario.NomeExib;
 //  FOutput := MudoOutputCreate;
 //  FProcessLog := MudoProcessLogCreate;
-
+  FMenuUsaForm := False;
 end;
 
 procedure TModuloBasForm.DoFechar;
@@ -238,11 +246,26 @@ end;
 procedure TModuloBasForm.MenuExibir;
 var
   x, y: integer;
+  oActionEscolhida: TAction;
+  FAppMenuForm: TAppMenuForm;
+  Resultado: Boolean;
 begin
+  if FMenuUsaForm then
+  begin
+    FAppMenuForm := AppMenuFormCreate;
+    try
+      Resultado := FAppMenuForm.Perg(oActionEscolhida);
+    finally
+      FreeAndNil(FAppMenuForm);
+    end;
+    if Resultado then
+      oActionEscolhida.Execute;
+    exit;
+  end;
+
   x := MenuToolButton.Left; //+MenuToolButton.Width;
   y := MenuToolButton.Top + MenuToolButton.Height + 1;
   PopupMenu1.Popup(x, y);
-
 end;
 
 procedure TModuloBasForm.OcultarAction_ModuloBasFormExecute(Sender: TObject);
