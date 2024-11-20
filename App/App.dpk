@@ -340,6 +340,8 @@ contains
   App.PDV.AppPDVObj in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas',
   App.PDV.AppPDVObj_u in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas',
   App.UI.Form.Menu_u in 'UI\AppUI\App.UI.Form.Menu_u.pas' {AppMenuForm},
-  App.UI.Form.Menu.PDV_u in 'Modulos\PDV\UI\App.UI.Form.Menu.PDV_u.pas' {AppPDVMenuForm};
+  App.UI.Form.Menu.PDV_u in 'Modulos\PDV\UI\App.UI.Form.Menu.PDV_u.pas' {AppPDVMenuForm},
+  App.UI.PDV.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.Frame_u.pas' {PDVFrame: TFrame},
+  App.UI.PDV.SessaoAbrir.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.SessaoAbrir.Frame_u.pas' {SessaoAbrirPDVFrame: TFrame};
 
 end.

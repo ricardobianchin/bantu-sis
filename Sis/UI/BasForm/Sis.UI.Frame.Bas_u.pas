@@ -20,6 +20,7 @@ type
     procedure SelecioneProximo(CurControl: TWinControl);
   public
     { Public declarations }
+    procedure AjusteControles; virtual;
     constructor Create(AOwner: TComponent); override;
   end;
 
@@ -30,6 +31,11 @@ implementation
 uses Sis.Types.strings_u, Sis.Types.Utils_u;
 
 { TBasFrame }
+
+procedure TBasFrame.AjusteControles;
+begin
+
+end;
 
 constructor TBasFrame.Create(AOwner: TComponent);
 begin

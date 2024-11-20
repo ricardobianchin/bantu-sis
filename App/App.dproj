@@ -638,6 +638,16 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>AppPDVMenuForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.Frame_u.pas">
+            <Form>PDVFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.SessaoAbrir.Frame_u.pas">
+            <Form>SessaoAbrirPDVFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

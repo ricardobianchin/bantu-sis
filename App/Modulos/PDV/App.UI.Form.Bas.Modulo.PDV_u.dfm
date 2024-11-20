@@ -6,12 +6,6 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   inherited BasePanel: TPanel
     Top = 251
     ExplicitTop = 251
-    inherited StatusPanel1: TPanel
-      inherited OutputLabel: TLabel
-        ExplicitTop = 2
-        ExplicitHeight = 27
-      end
-    end
     object ToolBar1_PDVModuloBasForm: TToolBar
       Left = 0
       Top = 0
@@ -30,6 +24,7 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
         Top = 0
         Caption = 'F2 - Menu'
         ImageIndex = 0
+        OnClick = MenuToolButton_PDVModuloBasFormClick
       end
     end
   end
