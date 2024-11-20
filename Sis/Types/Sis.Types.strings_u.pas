@@ -51,6 +51,7 @@ function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
 function StrCountCharLeft(pStr: string; pCharInicial: Char = '0'): integer;
 procedure SemCharAEsquerda(var pStr: string; pCharInicial: Char = '0');
 function TemChar(pStr: string; pChar: Char): boolean;
+function TemChars(const Str: string; const Chars: TArray<Char>): Boolean;
 procedure DeleteChar(pStr: string; pCharToDel: Char);
 
 procedure StrSemEnterNoFim(var pStr: string);
@@ -578,6 +579,25 @@ end;
 function TemChar(pStr: string; pChar: Char): boolean;
 begin
   Result := Pos(pChar, pStr) > 0;
+end;
+
+function TemChars(const Str: string; const Chars: TArray<Char>): Boolean;
+var
+  I: Integer;
+  C: Char;
+begin
+  Result := False;
+  for C in Chars do
+  begin
+    for I := 1 to Length(Str) do
+    begin
+      if Str[I] = C then
+      begin
+        Result := True;
+        Exit;
+      end;
+    end;
+  end;
 end;
 
 procedure DeleteChar(pStr: string; pCharToDel: Char);
