@@ -1011,21 +1011,39 @@ end;
 
 function TDBUpdater.VersaoToArqComando(pVersao: integer): string;
 var
-  sVersaoPad: string;
-  sSubPastaComando: string;
+  iNumInicialFaixa: integer;
+  sVersaoPastas: string;
+  sNomeArqZeros: string;
   sPastaComando: string;
-  sNomeCompleto: string;
   sNomeArq: string;
 begin
-  sVersaoPad := IntToStrZero(pVersao, 9);
+//C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000084.txt
+//seja pVersao = 84
 
-  sSubPastaComando := LeftStr(sVersaoPad, 6);
-  Insert('\', sSubPastaComando, 4);
+  iNumInicialFaixa := (pVersao div 100) * 100;
+//84 -> iNumInicialFaixa = 0
 
-  sPastaComando := FCaminhoComandos + sSubPastaComando + '\';
+  sVersaoPastas := IntToStrZero(iNumInicialFaixa, 9);
+// sVersaoPastas = 000000084
+
+  Insert('\', sVersaoPastas, 4);
+// sVersaoPastas = 000\000084
+
+  Insert('\', sVersaoPastas, 7);
+// sVersaoPastas = 000\00\0084
+
+  Insert('\', sVersaoPastas, 10);
+// sVersaoPastas = 000\00\00\84
+
+  sNomeArqZeros := IntToStrZero(pVersao, 9);
+// sNomeArqZeros = 000000084
+
+  sPastaComando := FCaminhoComandos + sVersaoPastas + '\';
+//sPastaComando = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\' + '000\00\00\00' + '\'
   ForceDirectories(sPastaComando);
 
-  sNomeArq := sPastaComando + 'dbupdate ' + sVersaoPad + '.txt';
+  sNomeArq := sPastaComando + 'dbupdate ' + sNomeArqZeros + '.txt';
+//sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\' + 'dbupdate ' + 000000084' + '.txt'
   Result := sNomeArq;
 end;
 
