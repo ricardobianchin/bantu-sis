@@ -1,0 +1,53 @@
+SET TERM ^;
+CREATE OR ALTER PACKAGE OBS_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE OBS_GAR
+  (
+    LOJA_ID ID_DOM,
+    TERMINAL_ID ID_DOM,
+    LOG_ID BIGINT,
+    TEXTO OBS_DOM,
+    ATIVO BOOLEAN
+  );
+END^
+
+------- BODY
+
+RECREATE PACKAGE BODY OBS_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE OBS_GAR
+  (
+    LOJA_ID ID_DOM,
+    TERMINAL_ID ID_DOM,
+    LOG_ID BIGINT,
+    TEXTO OBS_DOM,
+    ATIVO BOOLEAN
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO OBS
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      LOG_ID,
+      TEXTO,
+      ATIVO
+    )
+    VALUES 
+    (
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :LOG_ID,
+      :TEXTO,
+      :ATIVO
+    )
+    MATCHING (
+      LOJA_ID,
+      TERMINAL_ID,
+      LOG_ID
+    );
+  END
+END^
+SET TERM ;^
