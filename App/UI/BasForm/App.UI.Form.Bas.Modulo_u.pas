@@ -10,7 +10,7 @@ uses
   App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
   Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
-  Sis.Entities.Terminal, App.UI.Form.Menu_u;
+  Sis.Entities.Terminal, App.UI.Form.Menu_u, Sis.Sis.ExecTardiaDM_u;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -56,6 +56,7 @@ type
     FTerminal: ITerminal;
 
     FMenuUsaForm: Boolean;
+    FExecTardia: TExecTardiaDM;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
@@ -83,6 +84,7 @@ type
     property Terminal: ITerminal read FTerminal write FTerminal;
     function AppMenuFormCreate: TAppMenuForm; virtual;
     property MenuUsaForm: Boolean read FMenuUsaForm write FMenuUsaForm;
+    property ExecTardia: TExecTardiaDM read FExecTardia;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -135,6 +137,7 @@ begin
 //  FOutput := MudoOutputCreate;
 //  FProcessLog := MudoProcessLogCreate;
   FMenuUsaForm := False;
+  FExecTardia := TExecTardiaDM.Create(Self);
 end;
 
 procedure TModuloBasForm.DoFechar;

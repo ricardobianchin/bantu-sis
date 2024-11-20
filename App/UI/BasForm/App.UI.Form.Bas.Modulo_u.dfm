@@ -124,7 +124,8 @@ inherited ModuloBasForm: TModuloBasForm
         Align = alClient
         Caption = '    '
         Layout = tlCenter
-        ExplicitHeight = 24
+        ExplicitWidth = 12
+        ExplicitHeight = 15
       end
     end
   end
