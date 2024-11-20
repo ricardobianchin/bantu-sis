@@ -6,12 +6,10 @@ uses System.Classes, Sis.DB.Updater.Comando.FB_u, Sis.DB.DBTypes,
   Sis.DB.Updater.Operations, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
 
 {$IFDEF DEBUG}
-
 const
-  //QTD_PARCIAL = TRUE;
-  QTD_PARCIAL = FALSE;
+  QTD_PARCIAL = TRUE;
+  //QTD_PARCIAL = FALSE;
 {$ELSE}
-
 const
   QTD_PARCIAL = FALSE;
 {$ENDIF}
@@ -129,7 +127,8 @@ begin
             for J := 0 to FiQtdIndices - 1 do
             begin
               // sLog := sLog + ';' + aValores[J];
-              FTemDBQuery.Params[J].Value := aValores[J];
+              // FTemDBQuery.Params[J].Value := aValores[J];
+              SetParamValue(FTemDBQuery.Params[J], aValores[J]);
             end;
 
             FTemDBQuery.Open;
@@ -146,12 +145,14 @@ begin
               iParamIndice := 0;
               for J := FiQtdIndices to Length(aValores) - 1 do
               begin
-                FUpdDBExec.Params[iParamIndice].Value := aValores[J];
+                //FUpdDBExec.Params[iParamIndice].Value := aValores[J];
+                SetParamValue(FUpdDBExec.Params[iParamIndice], aValores[J]);
                 inc(iParamIndice);
               end;
               for J := 0 to FiQtdIndices - 1 do
               begin
-                FUpdDBExec.Params[iParamIndice].Value := aValores[J];
+                //FUpdDBExec.Params[iParamIndice].Value := aValores[J];
+                SetParamValue(FUpdDBExec.Params[iParamIndice], aValores[J]);
                 inc(iParamIndice);
               end;
               FUpdDBExec.Execute;
@@ -162,7 +163,8 @@ begin
               // sLog := sLog + ';TN';
               for J := 0 to Length(aValores) - 1 do
               begin
-                FInsDBExec.Params[J].Value := aValores[J];
+                //FInsDBExec.Params[J].Value := aValores[J];
+                SetParamValue(FInsDBExec.Params[J], aValores[J]);
               end;
               FInsDBExec.Execute;
             end;
