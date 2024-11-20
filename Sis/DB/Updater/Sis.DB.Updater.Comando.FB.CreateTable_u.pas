@@ -20,12 +20,13 @@ type
     function GetPKName: string;
   protected
     procedure PegarObjeto(pNome: string); override;
-    function GetAsText: string;  override;
+    function GetAsText: string; override;
   public
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); override;
     function GetAsSql: string; override;
     constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
+      pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
+      pOutput: IOutput);
     function Funcionou: boolean; override;
   end;
 
@@ -34,13 +35,14 @@ implementation
 { TSqlGenComandoFBCreateTable }
 
 uses Sis.DB.Updater.Factory, Sis.DB.Updater.Campo, Sis.DB.Updater.Constants_u,
-  Sis.Types.strings_u, Sis.DB.Firebird.GetSQL_u;
+  Sis.Types.strings_u, Sis.DB.Firebird.GetSQL_u, System.SysUtils;
 
 constructor TComandoFBCreateTable.Create(pVersaoDB: integer;
   pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
   pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations, pProcessLog, pOutput);
+  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations,
+    pProcessLog, pOutput);
   FCampoList := CampoListCreate;
 end;
 
@@ -56,7 +58,8 @@ begin
   Result := DBUpdaterOperations.TabelaExiste(FNomeTabela);
   if not Result then
   begin
-    UltimoErro := 'TComandoFBCreateTable, Erro ao criar a tabela ' + FNomeTabela;
+    UltimoErro := 'TComandoFBCreateTable, Erro ao criar a tabela ' +
+      FNomeTabela;
     exit;
   end;
 
@@ -70,7 +73,7 @@ begin
   if not Result then
   begin
     UltimoErro := 'TComandoFBCreateTable, Erro ao criar o índice ' + sPKName;
-//    exit;
+    // exit;
   end;
 end;
 
@@ -80,17 +83,10 @@ begin
   Result := sCodigoRetornado;
 
   if Result = '' then
-    Exit;
+    exit;
 
-  Result :=
-    #13#10
-    +'/*******'#13#10
-    +'*'#13#10
-    +'* ' + GetAsText + #13#10
-    +'*'#13#10
-    +'*******/'#13#10
-    + Result
-    ;
+  Result := #13#10 + '/*******'#13#10 + '*'#13#10 + '* ' + GetAsText + #13#10 +
+    '*'#13#10 + '*******/'#13#10 + Result;
 end;
 
 function TComandoFBCreateTable.GetAsText: string;
@@ -103,7 +99,7 @@ begin
 
   Result := DBUpdaterOperations.NomeTabelaToPKName(FNomeTabela);
 
-//  FNomeTabela + PKINDEXNAME_SUFIXO;
+  // FNomeTabela + PKINDEXNAME_SUFIXO;
 end;
 
 function TComandoFBCreateTable.GetSqlCreatePK: string;
@@ -125,19 +121,12 @@ begin
     exit;
 
   if sCamposPKAtual <> '' then
-    Result := Result
-      + '-- ja existia indice com (' + sCamposPKAtual + ')'#13#10
-      + 'ALTER TABLE ' + FNomeTabela + #13#10
-      + 'DROP CONSTRAINT ' + sPKName + ';'#13#10
-      + #13#10
-      ;
+    Result := Result + '-- ja existia indice com (' + sCamposPKAtual + ')'#13#10
+      + 'ALTER TABLE ' + FNomeTabela + #13#10 + 'DROP CONSTRAINT ' + sPKName +
+      ';'#13#10 + #13#10;
 
-  Result := Result
-    + 'ALTER TABLE ' + FNomeTabela + #13#10
-    +'ADD CONSTRAINT ' + sPKName + #13#10
-    +'PRIMARY KEY (' + sCamposPKDeve +');'#13#10
-    +#13#10
-    ;
+  Result := Result + 'ALTER TABLE ' + FNomeTabela + #13#10 + 'ADD CONSTRAINT ' +
+    sPKName + #13#10 + 'PRIMARY KEY (' + sCamposPKDeve + ');'#13#10 + #13#10;
 end;
 
 function TComandoFBCreateTable.GetSqlCreateTable: string;
@@ -146,18 +135,14 @@ var
 begin
   Result := '';
 
-//  Resultado := TabelaExiste(DBConnection, FNomeTabela);
+  // Resultado := TabelaExiste(DBConnection, FNomeTabela);
   Resultado := DBUpdaterOperations.TabelaExiste(FNomeTabela);
 
   if Resultado then
     exit;
 
-  Result :=
-    'CREATE TABLE ' + FNomeTabela + #13#10
-    +'('#13#10
-    + FCampoList.AsCreateTableFields
-    +');'#13#10
-    ;
+  Result := 'CREATE TABLE ' + FNomeTabela + #13#10 + '('#13#10 +
+    FCampoList.AsCreateTableFields + ');'#13#10;
 end;
 
 function TComandoFBCreateTable.GetSqlCreateUnique: string;
@@ -170,7 +155,7 @@ var
 begin
   Result := '';
 
-  for I := 0 to FCampoList.Count - 1 do
+  for i := 0 to FCampoList.Count - 1 do
   begin
     oCampo := FCampoList[i];
     bUnique := oCampo.Unique;
@@ -186,8 +171,7 @@ begin
     Result := #13#10 + Result + #13#10;
 end;
 
-procedure TComandoFBCreateTable.PegarLinhas(var piLin: integer;
-  pSL: TStrings);
+procedure TComandoFBCreateTable.PegarLinhas(var piLin: integer; pSL: TStrings);
 var
   sLinha: string;
   bPegandoColunas: boolean;
@@ -204,9 +188,16 @@ begin
     begin
       if sLinha = DBATUALIZ_COLUNAS_FIM_CHAVE then
       begin
-        //bPegandoColunas := False;
+        // bPegandoColunas := False;
         break;
       end;
+
+      if TemChars(sLinha, ['"', ':']) then
+      begin
+        raise Exception.Create('Erro, Versao ' + VersaoDB.ToString +
+          ', Caractere invalido na linha ''' + sLinha + '''');
+      end;
+
       oCampo := sLinToCampoCreate(sLinha);
       if Assigned(oCampo) then
         FCampoList.Add(oCampo);
