@@ -477,6 +477,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="DB\Updater\Sis.DB.Updater_u.Teste.pas"/>
+        <DCCReference Include="Sis\ExecTardia\Sis.Sis.ExecTardiaDM_u.pas">
+            <Form>ExecTardiaDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
