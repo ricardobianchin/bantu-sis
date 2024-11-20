@@ -78,7 +78,7 @@ BEGIN
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    REFERENCIA        OBS_GRANDE_DOM
   );
 END^
 
@@ -154,7 +154,7 @@ BEGIN
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    REFERENCIA        OBS_GRANDE_DOM
   )
   AS
   BEGIN

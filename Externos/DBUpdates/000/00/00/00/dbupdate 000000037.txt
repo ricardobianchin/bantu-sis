@@ -86,7 +86,7 @@ BEGIN
     , FONE2                NOME_CURTO_DOM
     , FONE3                NOME_CURTO_DOM
     , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
+    , REFERENCIA           OBS_GRANDE_DOM
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
     , SELECIONADO BOOLEAN
@@ -132,7 +132,7 @@ BEGIN
     FONE3             NOME_CURTO_DOM,
     
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    REFERENCIA        OBS_GRANDE_DOM
     
     , SELECIONADO BOOLEAN
 
@@ -192,7 +192,7 @@ BEGIN
     , FONE2                NOME_CURTO_DOM
     , FONE3                NOME_CURTO_DOM
     , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
+    , REFERENCIA           OBS_GRANDE_DOM
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
     , SELECIONADO BOOLEAN
@@ -384,7 +384,7 @@ BEGIN
     FONE3             NOME_CURTO_DOM,
 
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    REFERENCIA        OBS_GRANDE_DOM
 
     , SELECIONADO BOOLEAN
 

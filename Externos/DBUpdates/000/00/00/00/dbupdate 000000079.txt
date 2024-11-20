@@ -76,7 +76,7 @@ BEGIN
     , FONE3                NOME_CURTO_DOM
 
     , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
+    , REFERENCIA           OBS_GRANDE_DOM
 
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
@@ -123,7 +123,7 @@ BEGIN
     FONE3             NOME_CURTO_DOM,
     
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    REFERENCIA        OBS_GRANDE_DOM
   )
   RETURNS
   (
@@ -187,7 +187,7 @@ BEGIN
     , FONE3                NOME_CURTO_DOM
 
     , CONTATO              NOME_DOM
-    , REFERENCIA           OBS1_DOM
+    , REFERENCIA           OBS_GRANDE_DOM
 
     , ENDER_CRIADO_EM            TIMESTAMP
     , ENDER_ALTERADO_EM          TIMESTAMP
@@ -383,7 +383,7 @@ BEGIN
     FONE3             NOME_CURTO_DOM,
     
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM
+    REFERENCIA        OBS_GRANDE_DOM
   )
   RETURNS
   (

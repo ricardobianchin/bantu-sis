@@ -89,7 +89,7 @@ BEGIN
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM,
+    REFERENCIA        OBS_GRANDE_DOM,
     
     LOG_PESSOA_ID ID_DOM,
     MACHINE_ID ID_SHORT_DOM,
@@ -196,7 +196,7 @@ BEGIN
     FONE2             NOME_CURTO_DOM,
     FONE3             NOME_CURTO_DOM,
     CONTATO           NOME_DOM,
-    REFERENCIA        OBS1_DOM,
+    REFERENCIA        OBS_GRANDE_DOM,
 
     LOG_PESSOA_ID ID_DOM,
     MACHINE_ID ID_SHORT_DOM,
