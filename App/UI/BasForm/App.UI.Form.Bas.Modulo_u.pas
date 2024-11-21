@@ -8,9 +8,9 @@ uses
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
   App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
-  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory,
+  Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory, App.UI.Form.Menu_u,
   Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
-  Sis.Entities.Terminal, App.UI.Form.Menu_u, Sis.Sis.ExecTardiaDM_u;
+  Sis.Entities.Terminal, Sis.Sis.ExecTardiaDM_u, System.UITypes;
 
 type
   TModuloBasForm = class(TBasForm)
@@ -57,6 +57,7 @@ type
 
     FMenuUsaForm: Boolean;
     FExecTardia: TExecTardiaDM;
+    FAppMenuForm: TAppMenuForm;
 
     function GetTitleBarText: string;
     procedure SetTitleBarText(Value: string);
@@ -65,9 +66,8 @@ type
     function GetOutput: IOutput;
     function GetProcessLog: IProcessLog;
 
-
   protected
-    procedure MenuExibir; virtual;
+    procedure ExibaMenu; virtual;
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
     procedure DoFechar; virtual;
@@ -85,6 +85,8 @@ type
     function AppMenuFormCreate: TAppMenuForm; virtual;
     property MenuUsaForm: Boolean read FMenuUsaForm write FMenuUsaForm;
     property ExecTardia: TExecTardiaDM read FExecTardia;
+    property AppMenuForm: TAppMenuForm read FAppMenuForm write FAppMenuForm;
+    property ModuloSistema: IModuloSistema read FModuloSistema;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -115,12 +117,16 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 
 function TModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
-  Result := nil;
+  Result := TAppMenuForm.Create(Self);
+  Result.PegarAction(OcultarAction_ModuloBasForm, [vkF3]);
+  Result.PegarAction(FecharAction_ModuloBasForm, [vkF4]);
 end;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
+var
+  sCaption: string;
 begin
   inherited Create(AOwner);
   FTerminalId := pTerminalId;
@@ -136,8 +142,21 @@ begin
     FLogUsuario.NomeExib;
 //  FOutput := MudoOutputCreate;
 //  FProcessLog := MudoProcessLogCreate;
-  FMenuUsaForm := False;
   FExecTardia := TExecTardiaDM.Create(Self);
+
+  FMenuUsaForm := False;
+  AppMenuForm := nil; //AppMenuFormCreate;
+  sCaption := 'Fechar ' + FModuloSistema.TipoOpcaoSisModuloDescr;
+  if FTerminalId > 0 then
+    sCaption := sCaption +' '+ FTerminalId.ToString;
+
+  FecharAction_ModuloBasForm.Caption := sCaption;
+
+  sCaption := 'Ocultar ' + FModuloSistema.TipoOpcaoSisModuloDescr;
+  if FTerminalId > 0 then
+    sCaption := sCaption +' '+ FTerminalId.ToString;
+
+  OcultarAction_ModuloBasForm.Caption := sCaption;
 end;
 
 procedure TModuloBasForm.DoFechar;
@@ -243,25 +262,33 @@ end;
 procedure TModuloBasForm.MenuAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
-  MenuExibir;
+  ExibaMenu;
 end;
 
-procedure TModuloBasForm.MenuExibir;
+procedure TModuloBasForm.ExibaMenu;
 var
   x, y: integer;
   oActionEscolhida: TAction;
-  FAppMenuForm: TAppMenuForm;
-  Resultado: Boolean;
+//  FAppMenuForm: TAppMenuForm;
+  bResultado: Boolean;
 begin
+//  if FMenuUsaForm then
+//  begin
+//    FAppMenuForm := AppMenuFormCreate;
+//    try
+//      Resultado := FAppMenuForm.Perg(oActionEscolhida);
+//    finally
+//      FreeAndNil(FAppMenuForm);
+//    end;
+//    if Resultado then
+//      oActionEscolhida.Execute;
+//    exit;
+//  end;
+
   if FMenuUsaForm then
   begin
-    FAppMenuForm := AppMenuFormCreate;
-    try
-      Resultado := FAppMenuForm.Perg(oActionEscolhida);
-    finally
-      FreeAndNil(FAppMenuForm);
-    end;
-    if Resultado then
+    bResultado := FAppMenuForm.Perg(oActionEscolhida);
+    if bResultado then
       oActionEscolhida.Execute;
     exit;
   end;
