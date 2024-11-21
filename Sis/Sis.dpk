@@ -304,6 +304,7 @@ contains
   Sis.UI.Frame.Bas.Filtro_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro_u.pas' {FiltroFrame: TFrame},
   Sis.UI.Frame.Bas.Filtro.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas' {FiltroStringFrame: TFrame},
   Sis.DB.Updater_u.Teste in 'DB\Updater\Sis.DB.Updater_u.Teste.pas',
-  Sis.Sis.ExecTardiaDM_u in 'Sis\ExecTardia\Sis.Sis.ExecTardiaDM_u.pas' {ExecTardiaDM: TDataModule};
+  Sis.Sis.ExecTardiaDM_u in 'Sis\ExecTardia\Sis.Sis.ExecTardiaDM_u.pas' {ExecTardiaDM: TDataModule},
+  Sis.UI.Form.Menu_u in 'UI\BasForm\Sis.UI.Form.Menu_u.pas' {MenuForm};
 
 end.

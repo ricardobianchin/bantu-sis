@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas_u, Vcl.ExtCtrls,
-  Vcl.StdCtrls, System.UITypes;
+  Vcl.StdCtrls, System.UITypes, System.ImageList, Vcl.ImgList;
 
 type
   TBotaoFrame = class(TBasFrame)
@@ -16,11 +16,12 @@ type
     Tit2Label: TLabel;
   private
     { Private declarations }
-    FImageIndex: TImageIndex;
+    FImageIndex: System.UITypes.TImageIndex;
     FOnBotaoClick: TNotifyEvent;
     FShortCut: TShortCut;
+    FImageList: TCustomImageList;
 
-    function GetImageIndex: TImageIndex;
+    function GetImageIndex: System.UITypes.TImageIndex;
     function GetTit: string;
     procedure SetTit(const Value: string);
     function GetTit2: string;
@@ -28,15 +29,16 @@ type
     function GetOnBotaoClick: TNotifyEvent;
     procedure SetOnBotaoClick(const Value: TNotifyEvent);
   protected
-    procedure SetImageIndex(Value: TImageIndex); virtual;
+    procedure SetImageIndex(Value: System.UITypes.TImageIndex); virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
-    property ImageIndex: TImageIndex read GetImageIndex write SetImageIndex;
+    property ImageIndex: System.UITypes.TImageIndex read GetImageIndex write SetImageIndex;
     property Tit: string read GetTit write SetTit;
     property Tit2: string read GetTit2 write SetTit2;
     property OnBotaoClick: TNotifyEvent read GetOnBotaoClick write SetOnBotaoClick;
     property ShortCut: TShortCut read FShortCut write FShortCut;
+    property ImageList: TCustomImageList read FImageList write FImageList;
 
     procedure BotaoClick;
   end;
@@ -77,7 +79,7 @@ begin
   Result := Tit2Label.Caption;
 end;
 
-function TBotaoFrame.GetImageIndex: TImageIndex;
+function TBotaoFrame.GetImageIndex: System.UITypes.TImageIndex;
 begin
   Result := FImageIndex;
 end;
@@ -97,7 +99,7 @@ begin
   Tit2Label.Caption := Value;
 end;
 
-procedure TBotaoFrame.SetImageIndex(Value: TImageIndex);
+procedure TBotaoFrame.SetImageIndex(Value: System.UITypes.TImageIndex);
 begin
   FImageIndex := Value;
 end;

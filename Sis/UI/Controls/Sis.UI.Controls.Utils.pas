@@ -2,7 +2,8 @@ unit Sis.UI.Controls.Utils;
 
 interface
 
-uses Vcl.StdCtrls, Controls, messages, System.Classes, System.Types;
+uses Vcl.StdCtrls, Controls, messages, System.Classes, System.Types,
+  Vcl.Graphics;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 procedure SimuleTecla(VkKeyCode: integer; pControl: TControl = nil);
@@ -12,7 +13,7 @@ function PrimeiroWinControl(pWinControl: TWinControl): TWinControl;
 function PrimeiroWinControlVisivel(pWinControl: TWinControl): TWinControl;
 procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean = True);
 function StrToDigiteStr(pStr: string): string;
-procedure DigiteStr(pTexto:string; pEspera:integer);overload;
+procedure DigiteStr(pTexto: string; pEspera: integer); overload;
 
 procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
 
@@ -25,16 +26,21 @@ procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
 function GetToolFormHeight: integer;
 
 procedure ControlAlignToCenter(pControl: TControl);
-procedure ControlAlignToRect(pControl: TControl; pRect: TRect; pAlignment: TAlignment = taCenter);
+procedure ControlAlignToRect(pControl: TControl; pRect: TRect;
+  pAlignment: TAlignment = taCenter);
 
-function ControlIsVisible(pControl: TControl): Boolean;
+function ControlIsVisible(pControl: TControl): boolean;
 
 procedure TrySetFocus(pWinControl: TWinControl);
+
+function ButtonCreate(pOwner: TComponent; pParent: TWinControl;
+  pCaption: string; pLeft, pTop: integer; pClickEvent: TNotifyEvent;
+  pCanvas: TCanvas; pTag: NativeInt = 0): TButton;
 
 implementation
 
 uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst, Vcl.Forms,
-  Sis.UI.Constants, Vcl.Graphics, sndkey32, System.StrUtils;
+  Sis.UI.Constants, sndkey32, System.StrUtils;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 begin
@@ -146,15 +152,15 @@ var
   s: string;
 begin
   s := ReplaceStr(pStr, #$D#$A, SENTER);
-  Result := s;
+  result := s;
 end;
 
-procedure DigiteStr(pTexto: string; pEspera:integer);overload;
+procedure DigiteStr(pTexto: string; pEspera: integer); overload;
 var
   s: string;
 begin
   s := StrToDigiteStr(pTexto);
-  sndkey32.SendKeys(PWideChar(s), true, pEspera);
+  sndkey32.SendKeys(PWideChar(s), True, pEspera);
 end;
 
 procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
@@ -169,7 +175,7 @@ end;
 
 procedure ClearStyleElements(Control: TControl);
 var
-  I: Integer;
+  I: integer;
 begin
   Control.StyleElements := [];
   if Control is TWinControl then
@@ -179,7 +185,7 @@ end;
 
 procedure SetHintToName(Control: TControl);
 var
-  I: Integer;
+  I: integer;
 begin
   Control.Hint := Control.Name;
   if Control is TWinControl then
@@ -189,7 +195,7 @@ end;
 
 procedure SetTabOrderToHint(Control: TControl);
 var
-  I: Integer;
+  I: integer;
 begin
   if Control is TWinControl then
   begin
@@ -202,7 +208,7 @@ end;
 
 procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
 var
-  I: Integer;
+  I: integer;
 begin
   Control.Cursor := pCursor;
   if Control is TWinControl then
@@ -215,7 +221,7 @@ type
 
 procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
 var
-  I: Integer;
+  I: integer;
 begin
   TMyControl(Control).OnClick := pOnClick;
   if Control is TWinControl then
@@ -225,7 +231,7 @@ end;
 
 function GetToolFormHeight: integer;
 begin
-  Result := (Screen.Height * 8) div 10;
+  result := (Screen.Height * 8) div 10;
 end;
 
 procedure ControlAlignToCenter(pControl: TControl);
@@ -249,7 +255,8 @@ begin
   pControl.Left := iLeft;
 end;
 
-procedure ControlAlignToRect(pControl: TControl; pRect: TRect; pAlignment: TAlignment = taCenter);
+procedure ControlAlignToRect(pControl: TControl; pRect: TRect;
+  pAlignment: TAlignment = taCenter);
 var
   LargDif: integer;
   AltuDif: integer;
@@ -261,33 +268,57 @@ begin
   pControl.Top := AltuDif div 2;
 end;
 
-function ControlIsVisible(pControl: TControl): Boolean;
+function ControlIsVisible(pControl: TControl): boolean;
 begin
   // Verifica se o controle inicial já está invisível
-  Result := pControl.Visible;
-  if not Result then
-    Exit;
+  result := pControl.Visible;
+  if not result then
+    exit;
 
   while pControl.Parent <> nil do
   begin
     pControl := pControl.Parent;
 
     // Se o parent não estiver visível, saia do loop e retorne False
-    Result := pControl.Visible;
-    if not Result then
-      Break;
+    result := pControl.Visible;
+    if not result then
+      break;
   end;
 end;
 
 procedure TrySetFocus(pWinControl: TWinControl);
 var
-  bVisible: Boolean;
+  bVisible: boolean;
 begin
   bVisible := ControlIsVisible(pWinControl);
   if not bVisible then
-    Exit;
+    exit;
 
   pWinControl.SetFocus;
+end;
+
+function ButtonCreate(pOwner: TComponent; pParent: TWinControl;
+  pCaption: string; pLeft, pTop: integer; pClickEvent: TNotifyEvent;
+  pCanvas: TCanvas; pTag: NativeInt = 0): TButton;
+var
+  ButtonWidth: integer;
+begin
+  // Criação do botão
+  result := TButton.Create(pOwner);
+  result.Parent := pParent;
+  result.Caption := pCaption;
+  result.OnClick := pClickEvent;
+
+  pCanvas.Font.Assign(result.Font);
+  ButtonWidth := pCanvas.TextWidth(result.Caption) + 20;
+  // Adiciona um pequeno padding
+
+  result.Width := ButtonWidth;
+
+  // Definir posição e outros ajustes adicionais, se necessário
+  result.Left := pLeft;
+  result.Top := pTop; // Exemplo de posição
+  Result.Tag := pTag;
 end;
 
 end.

@@ -1,22 +1,22 @@
 inherited BotaoFrame: TBotaoFrame
   Width = 110
-  Height = 140
+  Height = 90
   Cursor = crHandPoint
   ParentColor = False
   ParentFont = False
   ExplicitWidth = 110
-  ExplicitHeight = 140
+  ExplicitHeight = 90
   object FundoPanel: TPanel
     Left = 1
     Top = 1
     Width = 108
-    Height = 137
+    Height = 87
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
     object TitLabel: TLabel
       Left = 0
-      Top = 89
+      Top = 40
       Width = 19
       Height = 13
       Align = alTop
@@ -31,7 +31,7 @@ inherited BotaoFrame: TBotaoFrame
     end
     object Tit2Label: TLabel
       Left = 0
-      Top = 102
+      Top = 53
       Width = 15
       Height = 12
       Align = alTop
@@ -49,7 +49,7 @@ inherited BotaoFrame: TBotaoFrame
       Left = 0
       Top = 0
       Width = 108
-      Height = 89
+      Height = 40
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
@@ -58,7 +58,7 @@ inherited BotaoFrame: TBotaoFrame
         Left = 9
         Top = 0
         Width = 89
-        Height = 89
+        Height = 40
         Center = True
       end
     end
