@@ -15,7 +15,7 @@ function BotaoFrameCreate(pParent: TWinControl; pTit, pDescr: string;
 
 implementation
 
-uses Sis.UI.Controls.Alinhador.ADireita_u, Sis.UI.Controls.ComboBoxManager_u;
+uses Sis.UI.Controls.Alinhador.ADireita_u, Sis.UI.Controls.ComboBoxManager_u, System.SysUtils;
 
 function ControlsAlinhadorADireitaCreate: IControlsAlinhador;
 begin
@@ -32,6 +32,7 @@ function BotaoFrameCreate(pParent: TWinControl; pTit, pDescr: string;
   pImageIndex: System.UITypes.TImageIndex; pTag: NativeInt): TBotaoFrame;
 begin
   Result := TBotaoFrame.Create(pParent);
+  Result.Name := 'BotaoFrame'+pTag.ToString;
   Result.Tit := pTit;
   Result.Tit2 := pDescr;
   Result.Left := pLeft;
