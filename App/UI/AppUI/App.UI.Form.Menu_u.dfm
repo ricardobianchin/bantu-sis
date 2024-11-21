@@ -1,66 +1,37 @@
 inherited AppMenuForm: TAppMenuForm
-  BorderStyle = bsNone
   Caption = 'AppMenuForm'
-  ClientHeight = 395
-  ClientWidth = 475
-  ExplicitHeight = 395
+  ClientHeight = 500
+  ClientWidth = 800
+  ExplicitWidth = 800
+  ExplicitHeight = 500
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 375
-    Width = 475
-    ExplicitTop = 375
+    Top = 480
+    Width = 800
+    ExplicitTop = 301
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 360
-    Width = 475
-    ExplicitTop = 360
+    Top = 465
+    Width = 800
+    ExplicitTop = 286
   end
-  object FundoPanel_AppMenuForm: TPanel [2]
-    Left = 0
-    Top = 0
-    Width = 475
-    Height = 360
-    Align = alClient
-    Caption = ' '
-    TabOrder = 0
-    object FecharModuloButton_AppMenuForm: TButton
-      Left = 255
-      Top = 48
-      Width = 108
-      Height = 25
-      Caption = 'F4 - Fechar PDV'
-      TabOrder = 2
-      OnClick = FecharModuloButton_AppMenuFormClick
-    end
-    object OcultarModuloButton_AppMenuForm: TButton
-      Left = 143
-      Top = 48
-      Width = 106
-      Height = 25
-      Caption = 'F3 - Ocultar PDV'
-      TabOrder = 1
-      OnClick = OcultarModuloButton_AppMenuFormClick
-    end
-    object OcultarMenuButton_AppMenuForm: TButton
-      Left = 7
-      Top = 48
-      Width = 130
-      Height = 25
-      Caption = 'Esc - Fechar este Menu'
-      TabOrder = 0
-      OnClick = OcultarMenuButton_AppMenuFormClick
-    end
-    object StatusPanel: TPanel
+  inherited FundoPanel_AppMenuForm: TPanel
+    Width = 800
+    Height = 465
+    ExplicitLeft = 0
+    ExplicitWidth = 637
+    ExplicitHeight = 286
+    object StatusPanel: TPanel [0]
       Left = 1
-      Top = 333
-      Width = 473
+      Top = 438
+      Width = 798
       Height = 26
       Align = alBottom
       BevelOuter = bvNone
       Caption = '   '
-      TabOrder = 3
-      ExplicitTop = 166
-      ExplicitWidth = 670
+      TabOrder = 0
+      ExplicitTop = 259
+      ExplicitWidth = 635
       object AjudaPanel: TPanel
         Left = 1
         Top = 3
@@ -84,28 +55,28 @@ inherited AppMenuForm: TAppMenuForm
         end
       end
     end
-    object TitleBarPanel: TPanel
+    object TitleBarPanel: TPanel [1]
       Left = 1
       Top = 1
-      Width = 473
+      Width = 798
       Height = 41
       Align = alTop
       BevelOuter = bvNone
       Caption = '   '
       Color = 3813420
       ParentBackground = False
-      TabOrder = 4
+      TabOrder = 1
       StyleElements = []
-      ExplicitWidth = 670
+      ExplicitWidth = 635
       DesignSize = (
-        473
+        798
         41)
       object TitleBarCaptionLabel: TLabel
         Left = 25
         Top = 9
-        Width = 91
+        Width = 75
         Height = 21
-        Caption = 'Busca Pre'#231'o'
+        Caption = 'F2 - Menu'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHighlightText
@@ -117,7 +88,7 @@ inherited AppMenuForm: TAppMenuForm
         StyleElements = []
       end
       object ToolBar1: TToolBar
-        Left = 428
+        Left = 755
         Top = 9
         Width = 54
         Height = 29
@@ -134,6 +105,7 @@ inherited AppMenuForm: TAppMenuForm
         TabOrder = 0
         Transparent = True
         StyleElements = []
+        ExplicitLeft = 592
         object FecharToolButton: TToolButton
           Left = 0
           Top = 0
@@ -143,13 +115,16 @@ inherited AppMenuForm: TAppMenuForm
         end
       end
     end
-  end
-  inherited ShowTimer_BasForm: TTimer
-    Left = 24
-    Top = 104
-  end
-  inherited ActionList1_Diag: TActionList
-    Left = 144
-    Top = 128
+    inherited BotoesPanel: TPanel
+      Left = 1
+      Top = 42
+      Width = 798
+      Height = 396
+      Align = alClient
+      TabOrder = 2
+      ExplicitLeft = 1
+      ExplicitTop = 42
+      ExplicitWidth = 635
+    end
   end
 end
