@@ -1,20 +1,40 @@
 inherited MenuForm: TMenuForm
   BorderStyle = bsNone
   Caption = 'MenuForm'
-  ClientHeight = 395
-  ClientWidth = 471
-  OnCreate = FormCreate
-  ExplicitWidth = 471
-  ExplicitHeight = 395
+  ClientHeight = 321
+  ClientWidth = 637
+  ExplicitWidth = 637
+  ExplicitHeight = 321
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 375
-    Width = 471
+    Top = 301
+    Width = 637
     ExplicitTop = 375
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 360
-    Width = 471
+    Top = 286
+    Width = 637
     ExplicitTop = 360
+  end
+  object FundoPanel_AppMenuForm: TPanel [2]
+    Left = 0
+    Top = 0
+    Width = 637
+    Height = 286
+    Align = alClient
+    Caption = ' '
+    TabOrder = 0
+    ExplicitLeft = -4
+    ExplicitWidth = 475
+    ExplicitHeight = 360
+    object BotoesPanel: TPanel
+      Left = 16
+      Top = 40
+      Width = 569
+      Height = 217
+      BevelOuter = bvNone
+      Caption = '      '
+      TabOrder = 0
+    end
   end
 end

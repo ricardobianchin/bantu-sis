@@ -15,10 +15,11 @@ type
   end;
 
   TMenuForm = class(TDiagBasForm)
-    procedure FormCreate(Sender: TObject);
+    FundoPanel_AppMenuForm: TPanel;
+    BotoesPanel: TPanel;
   private const
     BUTTON_WIDTH = 110;
-    BUTTON_ROW_HEIGHT = 90;
+    BUTTON_ROW_HEIGHT = 74;
     STARTING_TOP = 10;
     STARTING_LEFT = 10;
   private
@@ -26,8 +27,7 @@ type
     FCurrentTop: integer;
     FCurrentLeft: integer;
     FBotoes: TList<TOpcaoRecord>;
-    FUltimaTag: NativeInt;
-
+    FActionEscolhida: TAction;
     procedure DoBotaoClick(Sender: TObject);
   public
     { Public declarations }
@@ -35,7 +35,8 @@ type
     procedure PegarAction(pAction: TAction; pShortCuts: TArray<TShortCut>);
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-
+    function Perg(out pActionEscolhida: tAction): Boolean;
+    property ActionEscolhida: TAction read FActionEscolhida write FActionEscolhida;
   end;
 
 var
@@ -53,6 +54,7 @@ constructor TMenuForm.Create(AOwner: TComponent);
 begin
   inherited;
   FBotoes := TList<TOpcaoRecord>.Create;
+  ActionEscolhida := nil;
   FCurrentTop := STARTING_TOP;
   FCurrentLeft := STARTING_LEFT;
 end;
@@ -64,14 +66,17 @@ begin
 end;
 
 procedure TMenuForm.DoBotaoClick(Sender: TObject);
+var
+  oControl: TControl;
 begin
+  oControl :=TControl(Sender);
+  while oControl.ClassName <> 'TBotaoFrame' do
+  begin
+    oControl := oControl.Parent;
+  end;
 
-end;
-
-procedure TMenuForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  tag:=0;
+  ActionEscolhida := FBotoes[oControl.Tag].Action;
+  OkAct_Diag.Execute;
 end;
 
 procedure TMenuForm.NovaLinha;
@@ -85,21 +90,30 @@ var
   b: TBotaoFrame;
   o: TOpcaoRecord;
   iProximoLeft: integer;
+  iTag: NativeInt;
 begin
   iProximoLeft := FCurrentLeft + BUTTON_WIDTH + 5;
-  if iProximoLeft > Self.ClientRect.Width then
+  if iProximoLeft > BotoesPanel.ClientRect.Width then
   begin
     NovaLinha;
     iProximoLeft := FCurrentLeft + BUTTON_WIDTH + 5;
   end;
 
-  b := BotaoFrameCreate(Self, pAction.Caption, '', FCurrentLeft, FCurrentTop,
-    DoBotaoClick, pAction.Images, pAction.ImageIndex , FBotoes.Count);
+  iTag := FBotoes.Count;
+  b := BotaoFrameCreate(BotoesPanel, pAction.Caption, '', FCurrentLeft, FCurrentTop,
+    DoBotaoClick, pAction.Images, pAction.ImageIndex , iTag);
 
   o.Action := pAction;
   o.ShortCuts := pShortCuts;
   FBotoes.Add(o);
   FCurrentLeft := iProximoLeft;
+end;
+
+function TMenuForm.Perg(out pActionEscolhida: tAction): Boolean;
+begin
+  Result := inherited Perg;
+  if Result then
+    pActionEscolhida := FActionEscolhida;
 end;
 
 end.
