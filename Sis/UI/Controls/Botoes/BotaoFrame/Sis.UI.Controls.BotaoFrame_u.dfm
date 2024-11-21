@@ -1,23 +1,22 @@
 inherited BotaoFrame: TBotaoFrame
   Width = 110
-  Height = 90
+  Height = 69
   Cursor = crHandPoint
   ParentColor = False
   ParentFont = False
   ExplicitWidth = 110
-  ExplicitHeight = 90
+  ExplicitHeight = 69
   object FundoPanel: TPanel
     Left = 1
     Top = 1
-    Width = 108
-    Height = 87
-    BevelOuter = bvNone
+    Width = 107
+    Height = 67
     Caption = ' '
     TabOrder = 0
     object TitLabel: TLabel
-      Left = 0
-      Top = 40
-      Width = 19
+      Left = 1
+      Top = 41
+      Width = 105
       Height = 13
       Align = alTop
       Alignment = taCenter
@@ -28,11 +27,14 @@ inherited BotaoFrame: TBotaoFrame
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 40
+      ExplicitWidth = 19
     end
     object Tit2Label: TLabel
-      Left = 0
-      Top = 53
-      Width = 15
+      Left = 1
+      Top = 54
+      Width = 105
       Height = 12
       Align = alTop
       Alignment = taCenter
@@ -44,20 +46,25 @@ inherited BotaoFrame: TBotaoFrame
       Font.Style = []
       ParentFont = False
       WordWrap = True
+      ExplicitTop = 53
+      ExplicitWidth = 106
     end
     object IconPanel: TPanel
-      Left = 0
-      Top = 0
-      Width = 108
+      Left = 1
+      Top = 1
+      Width = 105
       Height = 40
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 108
       object IconImage: TImage
-        Left = 9
+        Left = 20
         Top = 0
-        Width = 89
+        Width = 65
         Height = 40
         Center = True
       end
