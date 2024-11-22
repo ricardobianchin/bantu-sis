@@ -81,7 +81,6 @@ begin
     FAppObj.Loja.Id, FTerminalId, FAppObj.SisConfig.LocalMachineId.IdentId);
 end;
 
-//      TCaixaSessaoSituacao = (cxFechado, cxAberto, cxAbertoPorOutroUsuario);
 procedure TCaixaSessaoDM.AbrirAction_CaixaSessaoDMExecute(Sender: TObject);
 begin
   //
@@ -91,11 +90,6 @@ procedure TCaixaSessaoDM.Analisar;
 var
   Resultado: Boolean;
 begin
-
-//    FCaixaSessao: TCaixaSessaoRec;
-//    //  TCaixaSessaoSituacao = (cxFechado, cxAberto, cxAbertoPorOutroUsuario);
-//    FCaixaSessaoSituacao: TCaixaSessaoSituacao;
-
   Resultado := FCaixaSessaoDBI.CaixaSessaoAbertoGet(FCaixaSessao);
   if not Resultado then
     exit;
