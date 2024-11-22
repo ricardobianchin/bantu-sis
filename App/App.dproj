@@ -330,9 +330,9 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas"/>
         <DCCReference Include="Est\App.Est.Types_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent_u.pas"/>
-        <DCCReference Include="Est\App.Est.Prod.Barras.DBI.pas"/>
-        <DCCReference Include="Est\App.Est.Prod.Barras.DBI_u.pas"/>
-        <DCCReference Include="Est\App.Est.Prod.Barras.GetSQL_u.pas"/>
+        <DCCReference Include="Est\Prod\Barras\App.Est.Prod.Barras.DBI.pas"/>
+        <DCCReference Include="Est\Prod\Barras\App.Est.Prod.Barras.DBI_u.pas"/>
+        <DCCReference Include="Est\Prod\Barras\App.Est.Prod.Barras.GetSQL_u.pas"/>
         <DCCReference Include="Est\App.Est.Factory_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ed.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ed.DBI_u.pas"/>
@@ -630,24 +630,28 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\PDV\App.PDV.Factory_u.pas"/>
         <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas"/>
         <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas"/>
-        <DCCReference Include="UI\AppUI\App.UI.Form.Menu_u.pas">
-            <Form>AppMenuForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Modulos\PDV\UI\App.UI.Form.Menu.PDV_u.pas">
-            <Form>AppPDVMenuForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.Frame_u.pas">
             <Form>PDVFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.SessaoAbrir.Frame_u.pas">
-            <Form>SessaoAbrirPDVFrame</Form>
+        <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.Aviso.Frame_u.pas">
+            <Form>AvisoPDVFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoDM_u.pas">
+            <Form>CaixaSessaoDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\AppUI\App.UI.Form.Menu_u.pas">
+            <Form>AppMenuForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

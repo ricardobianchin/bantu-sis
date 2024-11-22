@@ -10,7 +10,8 @@ uses
   Sis.ModuloSistema, App.Sessao.Eventos, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
-  App.UI.PDV.Frame_u;
+  App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
+  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm)
@@ -18,22 +19,34 @@ type
     ConsultaPreo1: TMenuItem;
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
-    ToolBar1_PDVModuloBasForm: TToolBar;
-    MenuToolButton_PDVModuloBasForm: TToolButton;
+    CaixaSessaoAbrirTentarAction: TAction;
+    procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
-    procedure MenuToolButton_PDVModuloBasFormClick(Sender: TObject);
   private
     { Private declarations }
     FAppPDVObj: IAppPDVObj;
-    FFrameAtivo: TPDVFrame;
+    FFrameAtivo: TFrame;
+    FCaixaSessaoDM: TCaixaSessaoDM;
+
+    function GetFramesParent: TWinControl;
+    function GetFrameAtivo: TFrame;
+    procedure SetFrameAtivo(Value: TFrame);
+
+    function GetFecharModuloAction: TAction;
+
   protected
-    property FrameAtivo: TPDVFrame read FFrameAtivo write FFrameAtivo;
+    property FrameAtivo: TFrame read GetFrameAtivo write SetFrameAtivo;
+    property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
+    function AppMenuFormCreate: TAppMenuForm; override;
+    procedure DecidirFrameAtivo; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
       reintroduce; virtual;
+    property FramesParent: TWinControl read GetFramesParent;
+    property FecharModuloAction: TAction read GetFecharModuloAction;
   end;
 
 var
@@ -43,26 +56,77 @@ implementation
 
 {$R *.dfm}
 
+function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
+begin
+  Result := inherited;
+  Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkB]);
+  Result.NovaLinha;
+end;
+
+procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  FCaixaSessaoDM.AbrirAction_CaixaSessaoDM.Execute;
+  DecidirFrameAtivo;
+end;
+
 constructor TPDVModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
 begin
   inherited;
-  FAppPDVObj := AppPDVObjCreate(LogUsuario.LojaId, Terminal.TerminalId, 0);
+  FAppPDVObj := AppPDVObjCreate;
+  FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId, pLogUsuario);
+
+  MenuUsaForm := True;
+  AppMenuForm := AppMenuFormCreate;
 end;
 
-procedure TPDVModuloBasForm.MenuToolButton_PDVModuloBasFormClick(
-  Sender: TObject);
+procedure TPDVModuloBasForm.DecidirFrameAtivo;
 begin
-  inherited;
-  FFrameAtivo := App.PDV.Factory_u.PDVFrameCreate('SESSAOABRIR', Self, ToolBar1);
+  FreeAndNil(FFrameAtivo);
+  if FAppPDVObj.Fiscal then
+  begin
+    FCaixaSessaoDM.Analisar;
+    case FCaixaSessaoDM.CaixaSessaoSituacao of
+      cxFechado:
+      begin
+          FFrameAtivo := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
+            CaixaSessaoAbrirTentarAction);
+        end;
+
+      cxAberto: ;
+      cxAbertoPorOutroUsuario: ;
+    end;
+  end;
+end;
+
+function TPDVModuloBasForm.GetFecharModuloAction: TAction;
+begin
+  Result := FecharAction_ModuloBasForm;
+end;
+
+function TPDVModuloBasForm.GetFrameAtivo: TFrame;
+begin
+  Result := FFrameAtivo;
+end;
+
+function TPDVModuloBasForm.GetFramesParent: TWinControl;
+begin
+  Result := Self;
+end;
+
+procedure TPDVModuloBasForm.SetFrameAtivo(Value: TFrame);
+begin
+  FFrameAtivo := Value;
 end;
 
 procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //
+  DecidirFrameAtivo;
 end;
 
 end.

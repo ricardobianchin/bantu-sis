@@ -145,9 +145,9 @@ contains
   App.Retag.Est.Prod.Balanca.Ent in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent.pas',
   App.Est.Types_u in 'Est\App.Est.Types_u.pas',
   App.Retag.Est.Prod.Balanca.Ent_u in 'Modulos\Retag\Est\Prod\ProdBalanca\App.Retag.Est.Prod.Balanca.Ent_u.pas',
-  App.Est.Prod.Barras.DBI in 'Est\App.Est.Prod.Barras.DBI.pas',
-  App.Est.Prod.Barras.DBI_u in 'Est\App.Est.Prod.Barras.DBI_u.pas',
-  App.Est.Prod.Barras.GetSQL_u in 'Est\App.Est.Prod.Barras.GetSQL_u.pas',
+  App.Est.Prod.Barras.DBI in 'Est\Prod\Barras\App.Est.Prod.Barras.DBI.pas',
+  App.Est.Prod.Barras.DBI_u in 'Est\Prod\Barras\App.Est.Prod.Barras.DBI_u.pas',
+  App.Est.Prod.Barras.GetSQL_u in 'Est\Prod\Barras\App.Est.Prod.Barras.GetSQL_u.pas',
   App.Est.Factory_u in 'Est\App.Est.Factory_u.pas',
   App.Retag.Est.Prod.Ed.DBI in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ed.DBI.pas',
   App.Retag.Est.Prod.Ed.DBI_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.Ed.DBI_u.pas',
@@ -339,9 +339,12 @@ contains
   App.PDV.Factory_u in 'Modulos\PDV\App.PDV.Factory_u.pas',
   App.PDV.AppPDVObj in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas',
   App.PDV.AppPDVObj_u in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas',
-  App.UI.Form.Menu_u in 'UI\AppUI\App.UI.Form.Menu_u.pas' {AppMenuForm},
-  App.UI.Form.Menu.PDV_u in 'Modulos\PDV\UI\App.UI.Form.Menu.PDV_u.pas' {AppPDVMenuForm},
   App.UI.PDV.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.Frame_u.pas' {PDVFrame: TFrame},
-  App.UI.PDV.SessaoAbrir.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.SessaoAbrir.Frame_u.pas' {SessaoAbrirPDVFrame: TFrame};
+  App.UI.PDV.Aviso.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.Aviso.Frame_u.pas' {AvisoPDVFrame: TFrame},
+  App.Est.Venda.CaixaSessao.DBI in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI.pas',
+  App.Est.Venda.CaixaSessao.DBI_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI_u.pas',
+  App.Est.Venda.CaixaSessaoDM_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoDM_u.pas' {CaixaSessaoDM: TDataModule},
+  App.UI.Form.Menu_u in 'UI\AppUI\App.UI.Form.Menu_u.pas' {AppMenuForm},
+  App.Est.Venda.CaixaSessaoRecord_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas';
 
 end.

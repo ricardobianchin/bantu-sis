@@ -117,12 +117,6 @@ begin
   ToolBar1.Color := COR_AZUL_TITLEBAR;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
-  ToolBar1.Left := Width - ToolBar1.Width;
-
-  TitleBarCaptionLabel.Caption := 'BUSCA PREÇO';
-  TitleBarCaptionLabel.StyleElements := [];
-  TitleBarCaptionLabel.Font.Color := clWhite;
-  AlteracaoTextoLabel.Parent := FundoPanel;
 
   ///
   Height := Min(1000, Screen.WorkAreaRect.Height - 10);
@@ -215,6 +209,13 @@ end;
 procedure TPrecoBuscaForm.FormShow(Sender: TObject);
 begin
   inherited;
+  ToolBar1.Left := Width - ToolBar1.Width;
+
+  TitleBarCaptionLabel.Caption := 'BUSCA PREÇO';
+  TitleBarCaptionLabel.StyleElements := [];
+  TitleBarCaptionLabel.Font.Color := clWhite;
+  AlteracaoTextoLabel.Parent := FundoPanel;
+
   ControlAlignToCenter(TitleBarCaptionLabel);
   ControlAlignToRect(Self, Screen.WorkAreaRect);
   ControlAlignToCenter(FFiltroFrame);

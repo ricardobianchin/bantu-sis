@@ -8,6 +8,7 @@ type
   TBalancaUso = (baltNaoUtiliza, baltUtiliza, baltUsuPrecoTot,
     baltUsoPrecoUnitQtd);
 
+  TCaixaSessaoSituacao = (cxFechado, cxAberto, cxAbertoPorOutroUsuario);
 //  TProdNatu = (pnatuNaoIndicado = 32, pnatuProduto = 33, pnatuServico = 34,
 //    pnatuMateriaPrima = 35, pnatuCombo = 36, pnatuComposto = 37);
 

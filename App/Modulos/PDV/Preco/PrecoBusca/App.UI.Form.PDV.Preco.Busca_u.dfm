@@ -2,6 +2,7 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
   Caption = 'PrecoBuscaForm'
   ClientHeight = 272
   ClientWidth = 688
+  ExplicitLeft = -6
   ExplicitWidth = 700
   ExplicitHeight = 310
   TextHeight = 15
@@ -65,7 +66,7 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
         StyleElements = []
       end
       object ToolBar1: TToolBar
-        Left = 627
+        Left = 595
         Top = 9
         Width = 54
         Height = 29

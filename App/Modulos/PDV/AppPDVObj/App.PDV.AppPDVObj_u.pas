@@ -2,31 +2,24 @@ unit App.PDV.AppPDVObj_u;
 
 interface
 
-uses App.PDV.CaixaSessao, App.PDV.AppPDVObj;
+uses App.PDV.AppPDVObj;
 
 type
   TAppPDVObj = class(TInterfacedObject, IAppPDVObj)
   private
-    FCaixaSessao: ICaixaSessao;
 
-    function GetCaixaSessao: ICaixaSessao;
+    function GetFiscal: Boolean;
   public
-    property CaixaSessao: ICaixaSessao read GetCaixaSessao;
-    constructor Create(PCaixaSessao: ICaixaSessao);
+    property Fiscal: Boolean read GetFiscal;
   end;
 
 implementation
 
 { TAppPDVObj }
 
-constructor TAppPDVObj.Create(pCaixaSessao: ICaixaSessao);
+function TAppPDVObj.GetFiscal: Boolean;
 begin
-  FCaixaSessao := pCaixaSessao;
-end;
-
-function TAppPDVObj.GetCaixaSessao: ICaixaSessao;
-begin
-  Result := FCaixaSessao
+  Result := True;
 end;
 
 end.
