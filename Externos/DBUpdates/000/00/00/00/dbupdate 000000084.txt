@@ -38,8 +38,6 @@ LOG_ID;BIGINT;S;S
 
 TEXTO;OBS_DOM;S
 
-//ATIVO BOOLEAN DEFAULT TRUE
-
 COLUNAS FIM
 COMANDO FIM
 
@@ -72,7 +70,6 @@ BEGIN
     TERMINAL_ID ID_DOM,
     LOG_ID BIGINT,
     TEXTO OBS_DOM
-    //, ATIVO BOOLEAN
   );
 END^
 
@@ -87,7 +84,6 @@ BEGIN
     TERMINAL_ID ID_DOM,
     LOG_ID BIGINT,
     TEXTO OBS_DOM
-    //, ATIVO BOOLEAN
   )
   AS
   BEGIN
@@ -97,7 +93,6 @@ BEGIN
       TERMINAL_ID,
       LOG_ID,
       TEXTO
-      //, ATIVO
     )
     VALUES 
     (
@@ -105,7 +100,6 @@ BEGIN
       :TERMINAL_ID,
       :LOG_ID,
       :TEXTO
-      //, :ATIVO
     )
     MATCHING (
       LOJA_ID,
