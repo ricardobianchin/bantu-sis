@@ -29,6 +29,8 @@ procedure ControlAlignToCenter(pControl: TControl);
 procedure ControlAlignToRect(pControl: TControl; pRect: TRect;
   pAlignment: TAlignment = taCenter);
 
+procedure ControlAlignHorizontal(pControl: TControl);
+
 function ControlIsVisible(pControl: TControl): boolean;
 
 procedure TrySetFocus(pWinControl: TWinControl);
@@ -266,6 +268,14 @@ begin
 
   AltuDif := pRect.Height - pControl.Height;
   pControl.Top := AltuDif div 2;
+end;
+
+procedure ControlAlignHorizontal(pControl: TControl);
+var
+  LargDif: integer;
+begin
+  LargDif := pControl.Parent.Width - pControl.Width;
+  pControl.Left := LargDif div 2;
 end;
 
 function ControlIsVisible(pControl: TControl): boolean;

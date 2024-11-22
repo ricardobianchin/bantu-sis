@@ -87,7 +87,7 @@ end;
 
 procedure TMenuForm.PegarAction(pAction: TAction; pShortCuts: TArray<TShortCut>);
 var
-  b: TBotaoFrame;
+  //b: TBotaoFrame;
   o: TOpcaoRecord;
   iProximoLeft: integer;
   iTag: NativeInt;
@@ -100,7 +100,7 @@ begin
   end;
 
   iTag := FBotoes.Count;
-  b := BotaoFrameCreate(BotoesPanel, pAction.Caption, '', FCurrentLeft, FCurrentTop,
+  {b := }BotaoFrameCreate(BotoesPanel, pAction.Caption, '', FCurrentLeft, FCurrentTop,
     DoBotaoClick, pAction.Images, pAction.ImageIndex , iTag);
 
   o.Action := pAction;
