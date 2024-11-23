@@ -49,9 +49,6 @@ begin
 
   AltuDif := rRect.Height - oControl.Height;
   oControl.Top := (AltuDif div 10) * 4;
-  // ControlAlignToRect(Panel1, Parent.ClientRect);
-  Application.ProcessMessages;
-  Button1.Action.Execute;
 end;
 
 constructor TAvisoPDVFrame.Create(AOwner: TComponent; pCaption: TCaption;

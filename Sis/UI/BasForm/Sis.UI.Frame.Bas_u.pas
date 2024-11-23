@@ -44,6 +44,7 @@ begin
   if AOwner is TWinControl then
     Parent := TWinControl(AOwner);
   ShowHint := True;
+  AjusteControles;
 end;
 
 procedure TBasFrame.EditKeyDown(Sender: TObject; var Key: word;
