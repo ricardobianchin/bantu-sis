@@ -3,6 +3,13 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   ClientHeight = 280
   ExplicitHeight = 280
   TextHeight = 15
+  object Label1: TLabel [0]
+    Left = 296
+    Top = 136
+    Width = 102
+    Height = 15
+    Caption = 'Conv'#234'nio Credi'#225'rio'
+  end
   inherited BasePanel: TPanel
     Top = 251
     ExplicitTop = 251

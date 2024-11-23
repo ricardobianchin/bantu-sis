@@ -20,6 +20,7 @@ type
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
+    Label1: TLabel;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
@@ -93,8 +94,13 @@ begin
     case FCaixaSessaoDM.CaixaSessaoSituacao of
       cxFechado:
       begin
+        TitleBarText :=
+          ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' + LogUsuario.NomeExib
+          +' - Caixa Fechado';
+
           FFrameAtivo := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
             CaixaSessaoAbrirTentarAction);
+          //CaixaSessaoAbrirTentarAction.Execute;
         end;
 
       cxAberto: ;
