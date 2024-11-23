@@ -11,7 +11,7 @@ type
     function GetPagFormaEnt: IPagFormaEnt;
     property Ent: IPagFormaEnt read GetPagFormaEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
@@ -104,7 +104,7 @@ begin
     + ');';
 end;
 
-function TPagFormaDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TPagFormaDBI.GetSqlForEach(pValues: variant): string;
 begin
   Result := 'SELECT'
     +' FORMA_ID' //ID_SHORT_DOM

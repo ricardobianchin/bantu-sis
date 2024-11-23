@@ -11,7 +11,7 @@ type
   private
     function GetProdUnidEnt: IProdUnidEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGaranteRegRetId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
@@ -118,7 +118,7 @@ begin
   Result := Format(sFormat, [GetProdUnidEnt.Id, sDescr, sSigla]);
 end;
 
-function TProdUnidDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TProdUnidDBI.GetSqlForEach(pValues: variant): string;
 begin
   Result := 'SELECT UNID_ID, DESCR, SIGLA FROM UNID_PA.LISTA_GET;';
 end;

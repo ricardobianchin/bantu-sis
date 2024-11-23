@@ -132,7 +132,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    oICMSDBI.PreencherDataSet(0, LeRegEInsere);
+    oICMSDBI.ForEach(0, LeRegEInsere);
   finally
     FDMemTable.First;
     FDMemTable.EndBatch;

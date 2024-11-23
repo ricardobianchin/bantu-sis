@@ -185,7 +185,7 @@ begin
     ti := NOW;
     FFDMemTable.BeginBatch();
     try
-      FDBI.PreencherDataSet(FFiltroFrame.Values, LeReg);
+      FDBI.ForEach(FFiltroFrame.Values, LeReg);
     finally
       FFDMemTable.EndBatch;
       tf := NOW;

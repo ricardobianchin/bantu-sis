@@ -117,7 +117,7 @@ begin
   FCodsBarrasAcumulando := '';
 
   try
-    oProdDBI.PreencherDataSet(0, LeRegEInsere);
+    oProdDBI.ForEach(0, LeRegEInsere);
 
   finally
     FDMemTable.First;

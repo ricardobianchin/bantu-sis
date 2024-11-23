@@ -11,7 +11,7 @@ type
   private
     function GetProdICMSEnt: IProdICMSEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGaranteRegRetId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
@@ -63,7 +63,7 @@ begin
   Result := Format(sFormat, [sPerc]);
 end;
 
-function TProdICMSDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TProdICMSDBI.GetSqlForEach(pValues: variant): string;
 begin
   Result := 'SELECT ICMS_ID, SIGLA, DESCR, PERC, ATIVO FROM ICMS_PA.LISTA_GET;';
 end;

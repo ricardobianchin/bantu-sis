@@ -10,7 +10,7 @@ type
   private
     function GetFabrEnt: IProdFabrEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGaranteRegRetId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
@@ -51,7 +51,7 @@ begin
   Result := Format(sFormat, [sDescr]);
 end;
 
-function TProdFabrDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TProdFabrDBI.GetSqlForEach(pValues: variant): string;
 var
   sFormat: string;
   sBusca: string;

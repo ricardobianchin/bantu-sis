@@ -90,7 +90,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    oUnidDBI.PreencherDataSet(0, LeRegEInsere);
+    oUnidDBI.ForEach(0, LeRegEInsere);
 
   finally
     FDMemTable.First;

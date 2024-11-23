@@ -9,7 +9,7 @@ type
   private
     FAppObj: IAppObj;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
   public
     function GetNomeArqTabView(pValues: variant): string; override;
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj); reintroduce;
@@ -37,7 +37,7 @@ begin
   Result := sNomeArq;
 end;
 
-function TShopPrecoBuscaDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TShopPrecoBuscaDBI.GetSqlForEach(pValues: variant): string;
 var
   sBusca: string;
   eBuscaTipo: TProdBuscaTipo;

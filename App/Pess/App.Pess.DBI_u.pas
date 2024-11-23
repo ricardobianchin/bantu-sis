@@ -272,7 +272,7 @@ begin
   aValores[1] := FPessEnt.TerminalId;
   aValores[2] := FPessEnt.Id;
 
-  sSql := GetSqlPreencherDataSet(aValores);
+  sSql := GetSqlForEach(aValores);
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}

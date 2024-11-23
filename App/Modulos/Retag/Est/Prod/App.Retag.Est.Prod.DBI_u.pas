@@ -13,7 +13,7 @@ type
     function GetProdEnt: IProdEnt;
     property Ent: IProdEnt read GetProdEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetSqlInserirDoRetId: string; override;
     function GetSqlAlterarDo: string; override;
@@ -112,7 +112,7 @@ begin
     + ',' + QuotedStr(sBarras) + ');'; //
 end;
 
-function TProdDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TProdDBI.GetSqlForEach(pValues: variant): string;
 begin
   Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
   // 5           6         7        8         9            10

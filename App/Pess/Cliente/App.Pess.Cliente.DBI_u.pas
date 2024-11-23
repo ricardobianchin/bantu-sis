@@ -11,7 +11,7 @@ type
   private
     FPessClienteEnt: IPessClienteEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     procedure RegAtualToEnt(Q: TDataSet); override;
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
@@ -71,7 +71,7 @@ begin
     ;
 end;
 
-function TPessClienteDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TPessClienteDBI.GetSqlForEach(pValues: variant): string;
 // var
 // iLojaId: integer;
 begin

@@ -231,7 +231,7 @@ begin
     aValores[1] := 0;
     aValores[2] := 0;
 
-    EntDBI.PreencherDataSet(aValores, LeRegEInsere);
+    EntDBI.ForEach(aValores, LeRegEInsere);
   finally
     FDMemTable.First;
     FDMemTable.EndBatch;

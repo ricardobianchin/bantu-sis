@@ -10,7 +10,7 @@ type
   TVersaoDBDBI = class(TEntDBI)
   private
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
   public
   end;
 
@@ -20,7 +20,7 @@ uses System.SysUtils;
 
 { TVersaoDBDBI }
 
-function TVersaoDBDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TVersaoDBDBI.GetSqlForEach(pValues: variant): string;
 var
   sBusca: string;
 begin

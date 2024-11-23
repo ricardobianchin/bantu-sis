@@ -10,7 +10,7 @@ type
     FDBConnection: IDBConnection;
     function GetDBConnection: IDBConnection;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; virtual;
+    function GetSqlForEach(pValues: variant): string; virtual;
       abstract;
   public
     constructor Create(pDBConnection: IDBConnection);
@@ -20,7 +20,7 @@ type
     function GetValue(pConsultaSQL: string; out pMens: string): variant;
     function GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
 
-    procedure PreencherDataSet(pValues: variant;
+    procedure ForEach(pValues: variant;
       pProcLeReg: TProcDataSetOfObject); virtual;
     function GetNomeArqTabView(pValues: variant): string; virtual;
   end;
@@ -60,7 +60,7 @@ begin
   result := VarToInteger(Resultado);
 end;
 
-procedure TDBI.PreencherDataSet(pValues: variant;
+procedure TDBI.ForEach(pValues: variant;
   pProcLeReg: TProcDataSetOfObject);
 var
   sSqlRetRegs: string;
@@ -69,7 +69,7 @@ var
 begin
   DBConnection.Abrir;
   try
-    sSqlRetRegs := GetSqlPreencherDataSet(pValues);
+    sSqlRetRegs := GetSqlForEach(pValues);
 //    {$IFDEF DEBUG}
 //    CopyTextToClipboard(sSqlRetRegs);
 //    {$ENDIF}

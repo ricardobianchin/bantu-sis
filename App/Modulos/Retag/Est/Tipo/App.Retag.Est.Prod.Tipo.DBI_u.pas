@@ -11,7 +11,7 @@ type
   private
     function GetProdTipoEnt: IProdTipoEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGaranteRegRetId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
@@ -55,7 +55,7 @@ begin
   Result := Format(sFormat, [sDescr]);
 end;
 
-function TProdTipoDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TProdTipoDBI.GetSqlForEach(pValues: variant): string;
 var
   sFormat: string;
   sBusca: string;

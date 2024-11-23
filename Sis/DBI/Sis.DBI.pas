@@ -14,7 +14,7 @@ type
     function GetValue(pConsultaSQL: string; out pMens: string): variant;
     function GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
 
-    procedure PreencherDataSet(pValues: variant;
+    procedure ForEach(pValues: variant;
       pProcLeReg: TProcDataSetOfObject);
 
     function GetNomeArqTabView(pValues: variant): string;

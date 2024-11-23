@@ -72,7 +72,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    EntDBI.PreencherDataSet(FFiltroStringFrame.Values, LeRegEInsere);
+    EntDBI.ForEach(FFiltroStringFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;

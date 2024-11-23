@@ -102,9 +102,9 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    //oTipoDBI.PreencherDataSet(0, LeRegEInsere);
-//    EntDBI.PreencherDataSet(0, LeRegEInsere);
-    EntDBI.PreencherDataSet(FFiltroStringFrame.Values, LeRegEInsere);
+    //oTipoDBI.ForEach(0, LeRegEInsere);
+//    EntDBI.ForEach(0, LeRegEInsere);
+    EntDBI.ForEach(FFiltroStringFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;

@@ -11,7 +11,7 @@ type
   private
     function GetPerfilDeUsoEnt: IPerfilDeUsoEnt;
   protected
-    function GetSqlPreencherDataSet(pValues: variant): string; override;
+    function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
     function GetSqlGaranteRegRetId: string; override;
     procedure SetVarArrayToId(pNovaId: variant); override;
@@ -62,7 +62,7 @@ begin
   Result := Format(sFormat, [sDescr]);
 end;
 
-function TPerfilDeUsoDBI.GetSqlPreencherDataSet(pValues: variant): string;
+function TPerfilDeUsoDBI.GetSqlForEach(pValues: variant): string;
 var
   sFormat: string;
   sBusca: string;
