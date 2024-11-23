@@ -345,6 +345,11 @@ contains
   App.Est.Venda.CaixaSessao.DBI_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI_u.pas',
   App.Est.Venda.CaixaSessaoDM_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoDM_u.pas' {CaixaSessaoDM: TDataModule},
   App.UI.Form.Menu_u in 'UI\AppUI\App.UI.Form.Menu_u.pas' {AppMenuForm},
-  App.Est.Venda.CaixaSessaoRecord_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas';
+  App.Est.Venda.CaixaSessaoRecord_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u.pas',
+  App.Est.Venda.CaixaSessao.Factory_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.Factory_u.pas';
 
 end.

@@ -652,6 +652,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

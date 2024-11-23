@@ -5,7 +5,8 @@ interface
 uses
   System.SysUtils, System.Classes, App.AppObj, Sis.Entities.Types, App.DB.Utils,
   App.Est.Venda.CaixaSessao.DBI, System.Actions, Vcl.ActnList, Sis.DB.DBTypes,
-  Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, App.Est.Venda.CaixaSessaoRecord_u;
+  Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, App.Est.Venda.CaixaSessaoRecord_u,
+  Vcl.DBActns;
 
 type
   TCaixaSessaoDM = class(TDataModule)
@@ -34,6 +35,7 @@ type
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
       pTerminalId: TTerminalId; pLogUsuario: IUsuario); reintroduce;
+
     procedure Analisar;
   end;
 
@@ -44,7 +46,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Sis.DB.Factory, App.Est.Factory_u;
+uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u;
 
 {$R *.dfm}
 
