@@ -2,16 +2,16 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo;
 
 interface
 
-uses Sis.Lists.HashItem;
+uses Sis.Lists.IdCharHashItem;
 
 type
-  ICxOperacaoTipo = interface(IHashItem)
+  ICxOperacaoTipo = interface(IIdCharHashItem)
     ['{E6FDCE32-E81A-4EDB-ACC1-0A5EC8EFA4E8}']
 
-    //descr armazenará caption. name nao será trazido
-    function GetHabilitado: Boolean;
-    procedure SetHabilitado(Value: Boolean);
-    property Habilitado: Boolean read GetHabilitado write SetHabilitado;
+    //descr armazenará caption. nao usará name
+    function GetHabilitadoDuranteSessao: Boolean;
+    procedure SetHabilitadoDuranteSessao(Value: Boolean);
+    property HabilitadoDuranteSessao: Boolean read GetHabilitadoDuranteSessao write SetHabilitadoDuranteSessao;
   end;
 {
 

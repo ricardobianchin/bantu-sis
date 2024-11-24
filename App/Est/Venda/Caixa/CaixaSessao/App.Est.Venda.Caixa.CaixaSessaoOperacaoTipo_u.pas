@@ -2,17 +2,18 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u;
 
 interface
 
-uses Sis.Lists.HashItem_u, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo;
+uses Sis.Lists.IdCharHashItem_u, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo;
 
 type
-  TCxOperacaoTipo = class(THashItem, ICxOperacaoTipo)
+  TCxOperacaoTipo = class(TIdCharHashItem, ICxOperacaoTipo)
   private
-    Fabilitado: Boolean;
+    FHabilitadoDuranteSessao: Boolean;
 
-    procedure SetHabilitado(Value: Boolean);
-    function GetHabilitado: Boolean;
+    procedure SetHabilitadoDuranteSessao(Value: Boolean);
+    function GetHabilitadoDuranteSessao: Boolean;
   public
-    property Habilitado: Boolean read GetHabilitado write SetHabilitado;
+    property HabilitadoDuranteSessao: Boolean read GetHabilitadoDuranteSessao write SetHabilitadoDuranteSessao;
+    constructor Create(pId: string; pCaption: string;  pHabilitadoDuranteSessao: Boolean);
   end;
 
 
@@ -20,14 +21,20 @@ implementation
 
 { TCxOperacaoTipo }
 
-function TCxOperacaoTipo.GetHabilitado: Boolean;
+constructor TCxOperacaoTipo.Create(pId: string; pCaption: string;  pHabilitadoDuranteSessao: Boolean);
 begin
-  Result := Fabilitado;
+  inherited Create(pCaption, pId);
+  FHabilitadoDuranteSessao := pHabilitadoDuranteSessao;
 end;
 
-procedure TCxOperacaoTipo.SetHabilitado(Value: Boolean);
+function TCxOperacaoTipo.GetHabilitadoDuranteSessao: Boolean;
 begin
-  Fabilitado := Value;
+  Result := FHabilitadoDuranteSessao;
+end;
+
+procedure TCxOperacaoTipo.SetHabilitadoDuranteSessao(Value: Boolean);
+begin
+  FHabilitadoDuranteSessao := Value;
 end;
 
 end.

@@ -350,6 +350,8 @@ contains
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u.pas',
-  App.Est.Venda.CaixaSessao.Factory_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.Factory_u.pas';
+  App.Est.Venda.CaixaSessao.Factory_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.Factory_u.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u.pas';
 
 end.
