@@ -353,7 +353,6 @@ end;
 
 procedure SetParamValue(pFDParam: TFDParam; pValor: string);
 begin
-  pValor := Uppercase(Trim(pValor));
   if pValor = 'NULL' then
   begin
     pFDParam.Clear;
