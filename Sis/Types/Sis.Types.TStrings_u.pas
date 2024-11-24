@@ -94,14 +94,14 @@ var
   flag: boolean;
   sLinha: string;
 begin
-  pStrIni := UpperCase(pStrIni);
-  pStrFin := UpperCase(pStrFin);
+  pStrIni := AnsiUpperCase(pStrIni);
+  pStrFin := AnsiUpperCase(pStrFin);
 
   flag := False; // indica se encontrou a linha inicial
   i := 0; // índice da linha atual
   while i < pSL.Count do
   begin
-    sLinha := UpperCase(pSL[i]);
+    sLinha := AnsiUpperCase(pSL[i]);
     if sLinha = pStrIni then // se encontrou a linha inicial
     begin
       flag := true; // ativa o flag
