@@ -105,6 +105,7 @@ type
 
     procedure DoAposCriarBanco;
 
+    procedure LinhasUppercase(pSL: TStrings);
   protected
     property SisConfig: ISisConfig read FSisConfig;
     property ProcessLog: IProcessLog read FProcessLog;
@@ -346,6 +347,7 @@ begin
 
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
+          LinhasUppercase(FLinhasSL);
           // teste
           // FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
           //
@@ -360,6 +362,9 @@ begin
           //
           // Halt(0);
           // fim do teste            testar acima, add aqui terminal_id=
+
+          //    SLUpperCase(FLinhasSL);
+
 
           sVariaveisAdicionais := //
             'PONTO_ALVO=' + FsDBUpdaterPontoAlvo + #13#10 + //
@@ -493,6 +498,32 @@ begin
   finally
     FProcessLog.RegistreLog(sLog);
     FProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TDBUpdater.LinhasUppercase(pSL: TStrings);
+var
+  i: integer;
+  bNoCSV: Boolean;
+  sOriginal: string;
+  sMaiusculas: string;
+begin
+  bNoCSV := False;
+
+  for i := 0 to pSL.Count - 1 do
+  begin
+    sOriginal := Trim(pSL[i]);
+    sMaiusculas := AnsiUpperCase(sOriginal);
+
+    if sMaiusculas = DBATUALIZ_CSV_INI_CHAVE then
+      bNoCSV := True
+    else if sMaiusculas = DBATUALIZ_CSV_FIM_CHAVE then
+      bNoCSV := False;
+
+    if bNoCSV then
+      pSL[i] := sOriginal
+    else
+      pSL[i] := sMaiusculas;
   end;
 end;
 
@@ -985,18 +1016,12 @@ begin
   try
     sLog := 'TDBUpdater.RemoveExcedentes,' + pSL.Count.ToString + ' linhas,';
 
-    // {$IFDEF DEBUG}
-    // if iVersao=2 then
-    // begin
-    // CopyTextToClipboard(psl.Text);
-    // end;
-    // {$ENDIF}
-
     SLRemoveCommentsSingleLine(pSL);
     SLRemoveCommentsMultiLine(pSL);
     SLManterEntre(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
-    // SLRemoveVazias(FLinhasSL);
-    SLUpperCase(FLinhasSL);
+
+//    SLUpperCase(FLinhasSL);
+
     sLog := sLog + ',sobraram ' + pSL.Count.ToString + ' linhas,';
     FProcessLog.RegistreLog(sLog);
   finally
