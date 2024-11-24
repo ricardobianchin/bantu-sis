@@ -5,8 +5,11 @@ interface
 uses
   System.SysUtils, System.Classes, App.AppObj, Sis.Entities.Types, App.DB.Utils,
   App.Est.Venda.CaixaSessao.DBI, System.Actions, Vcl.ActnList, Sis.DB.DBTypes,
-  Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, App.Est.Venda.CaixaSessaoRecord_u,
-  Vcl.DBActns;
+  Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, Vcl.DBActns, Data.DB,
+  App.Est.Venda.CaixaSessaoRecord_u,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI;
 
 type
   TCaixaSessaoDM = class(TDataModule)
@@ -24,14 +27,17 @@ type
     FLogUsuario: IUsuario;
 
     FCaixaSessao: TCaixaSessaoRec;
-    //  TCaixaSessaoSituacao = (cxFechado, cxAberto, cxAbertoPorOutroUsuario);
     FCaixaSessaoSituacao: TCaixaSessaoSituacao;
+    FCxOperacaoTipoList: ICxOperacaoTipoList;
+    procedure PrepCxOperacaoTipoList;
+    procedure CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
   protected
     property Terminal: ITerminal read FTerminal;
   public
     { Public declarations }
     property CaixaSessao: TCaixaSessaoRec read FCaixaSessao;
-    property CaixaSessaoSituacao: TCaixaSessaoSituacao read FCaixaSessaoSituacao;
+    property CaixaSessaoSituacao: TCaixaSessaoSituacao
+      read FCaixaSessaoSituacao;
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
       pTerminalId: TTerminalId; pLogUsuario: IUsuario); reintroduce;
@@ -49,11 +55,10 @@ implementation
 uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u;
 
 {$R *.dfm}
-
 { TCaixaSessaoDM }
 
 constructor TCaixaSessaoDM.Create(AOwner: TComponent; pAppObj: IAppObj;
-      pTerminalId: TTerminalId; pLogUsuario: IUsuario);
+  pTerminalId: TTerminalId; pLogUsuario: IUsuario);
 var
   rDBConnectionParams: TDBConnectionParams;
 begin
@@ -65,8 +70,7 @@ begin
   if FTerminalId = 0 then
   begin
     FTerminal := nil;
-    rDBConnectionParams := TerminalIdToDBConnectionParams
-      (FTerminalId, FAppObj);
+    rDBConnectionParams := TerminalIdToDBConnectionParams(FTerminalId, FAppObj);
   end
   else
   begin
@@ -81,6 +85,26 @@ begin
 
   FCaixaSessaoDBI := CaixaSessaoDBICreate(FAlvoDBConnection, pLogUsuario,
     FAppObj.Loja.Id, FTerminalId, FAppObj.SisConfig.LocalMachineId.IdentId);
+
+  PrepCxOperacaoTipoList;
+end;
+
+procedure TCaixaSessaoDM.CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
+var
+  o: ICxOperacaoTipo;
+begin
+  o := ICxOperacaoTipoCreate(q.Fields[0].AsString, q.Fields[1].AsString
+  , q.Fields[2].AsBoolean);
+  FCxOperacaoTipoList.Add(o);
+end;
+
+procedure TCaixaSessaoDM.PrepCxOperacaoTipoList;
+var
+  oDBI: ICxOperacaoTipoDBI;
+begin
+  FCxOperacaoTipoList := ICxOperacaoTipoListCreate;
+  oDBI := ICxOperacaoTipoDBICreate(FAlvoDBConnection);
+  oDBI.ForEach(vaNull, CxOperacaoTipoListLeReg);
 end;
 
 procedure TCaixaSessaoDM.AbrirAction_CaixaSessaoDMExecute(Sender: TObject);
