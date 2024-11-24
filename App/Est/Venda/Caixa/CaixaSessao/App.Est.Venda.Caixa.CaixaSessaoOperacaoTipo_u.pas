@@ -16,7 +16,6 @@ type
     constructor Create(pId: string; pCaption: string;  pHabilitadoDuranteSessao: Boolean);
   end;
 
-
 implementation
 
 { TCxOperacaoTipo }
