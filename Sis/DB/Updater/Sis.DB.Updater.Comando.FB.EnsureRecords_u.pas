@@ -96,7 +96,6 @@ begin
       ' registros');
     try
       try
-
         if QTD_PARCIAL then
           iQtdRegs := Min(25, FRegistrosSL.count - 1)
         else
