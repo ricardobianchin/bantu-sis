@@ -305,6 +305,12 @@ contains
   Sis.UI.Frame.Bas.Filtro.BuscaString_u in 'UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas' {FiltroStringFrame: TFrame},
   Sis.DB.Updater_u.Teste in 'DB\Updater\Sis.DB.Updater_u.Teste.pas',
   Sis.Sis.ExecTardiaDM_u in 'Sis\ExecTardia\Sis.Sis.ExecTardiaDM_u.pas' {ExecTardiaDM: TDataModule},
-  Sis.UI.Form.Menu_u in 'UI\BasForm\Sis.UI.Form.Menu_u.pas' {MenuForm};
+  Sis.UI.Form.Menu_u in 'UI\BasForm\Sis.UI.Form.Menu_u.pas' {MenuForm},
+  Sis.Lists.IdCharItem in 'Lists\Sis.Lists.IdCharItem.pas',
+  Sis.Lists.IdCharHashItem in 'Lists\Sis.Lists.IdCharHashItem.pas',
+  Sis.Lists.IdCharItem_u in 'Lists\Sis.Lists.IdCharItem_u.pas',
+  Sis.Lists.IdCharList in 'Lists\Sis.Lists.IdCharList.pas',
+  Sis.Lists.IdCharHashList in 'Lists\Sis.Lists.IdCharHashList.pas',
+  Sis.Lists.IdCharHashItem_u in 'Lists\Sis.Lists.IdCharHashItem_u.pas';
 
 end.

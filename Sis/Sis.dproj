@@ -486,6 +486,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>MenuForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Lists\Sis.Lists.IdCharItem.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharHashItem.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharItem_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharHashList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharHashItem_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

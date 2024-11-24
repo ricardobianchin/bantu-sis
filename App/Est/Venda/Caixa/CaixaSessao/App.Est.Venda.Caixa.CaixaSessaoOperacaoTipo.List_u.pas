@@ -2,12 +2,11 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u;
 
 interface
 
-uses App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List, Sis.Lists.HashItemList_u,
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo;
+uses App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes;
 
 type
-  TCxOperacaoTipoList = class(THashItemList,
-    ICxOperacaoTipoList)
+  TCxOperacaoTipoList = class(TInterfaceList, ICxOperacaoTipoList)
   private
     function GetCxOperacaoTipo(Index: integer)
       : ICxOperacaoTipo;
