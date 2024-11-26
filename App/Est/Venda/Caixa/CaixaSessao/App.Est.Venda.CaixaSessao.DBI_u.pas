@@ -27,6 +27,8 @@ type
 
 implementation
 
+uses Sis.Win.Utils_u;
+
 { TCaixaSessaoDBI }
 
 function TCaixaSessaoDBI.CaixaSessaoAbertoGet(pCaixaSessaoRec
@@ -44,12 +46,15 @@ begin
   try
     sSql :=
       'SELECT'#13#10
-      +'CAIXA_SESSAO_ID'#13#10
+      +'SESS_ID'#13#10
       +', LOG_ID'#13#10
       +', PESSOA_ID'#13#10
       +', APELIDO'#13#10
       +'FROM CAIXA_SESSAO_MANUT_PA.ABERTO_GET'#13#10
       ;
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
 
     Result := Assigned(q);
@@ -74,7 +79,6 @@ begin
     LogId: Int64;
     PessoaId: integer;
     Apelido: string;
-    RegistrouFundoDeTroco: Boolean;
     Conferido: Boolean;
 
   }
