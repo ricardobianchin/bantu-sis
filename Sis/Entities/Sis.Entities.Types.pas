@@ -6,6 +6,11 @@ type
   TLojaId = type Smallint;
   TTerminalId = type SmallInt;
 
+  TLojaIdHelper = record helper for TLojaId
+    function ToString: string;
+    function ToStrZero: string;
+  end;
+
   TTerminalIdHelper = record helper for TTerminalId
     function ToString: string;
     function ToStrZero: string;
@@ -23,6 +28,18 @@ begin
 end;
 
 function TTerminalIdHelper.ToStrZero: string;
+begin
+  Result := Format('%.3d', [Self]);
+end;
+
+{ TLojaIdHelper }
+
+function TLojaIdHelper.ToString: string;
+begin
+  Result := IntToStr(Self);
+end;
+
+function TLojaIdHelper.ToStrZero: string;
 begin
   Result := Format('%.3d', [Self]);
 end;

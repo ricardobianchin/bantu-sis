@@ -19,18 +19,20 @@ type
 
     function GravarSenha(out pMens: string): boolean;
 
-    constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario; pSisConfig: ISisConfig);
+    constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario;
+      pSisConfig: ISisConfig);
   end;
 
 implementation
 
 uses Sis.Types.strings.Crypt_u, Sis.Usuario.DBI.GetSQL_u, Data.DB,
-  System.SysUtils, Sis.Sis.Constants, Sis.Win.Utils_u, Sis.Usuario.Senha_u;
+  System.SysUtils, Sis.Sis.Constants, Sis.Win.Utils_u, Sis.Usuario.Senha_u,
+  Sis.Entities.Types;
 
 { TUsuarioDBI }
 
-constructor TUsuarioDBI.Create(pDBConnection: IDBConnection;
-  pUsuario: IUsuario; pSisConfig: ISisConfig);
+constructor TUsuarioDBI.Create(pDBConnection: IDBConnection; pUsuario: IUsuario;
+  pSisConfig: ISisConfig);
 begin
   inherited Create(pDBConnection);
   FUsuario := pUsuario;
@@ -88,9 +90,9 @@ begin
     + ', ' + pOpcaoSisIdModuloTentando.ToString + ' -- OPCAO_SIS_ID'#13#10 //
 
     + ');'; //
-//  {$IFDEF DEBUG}
-//    SetClipboardText(sSql);
-//  {$ENDIF}
+  // {$IFDEF DEBUG}
+  // SetClipboardText(sSql);
+  // {$ENDIF}
   try
     try
       DBConnection.QueryDataSet(sSql, q);
@@ -120,8 +122,8 @@ begin
         exit;
       end;
 
-      iCryVer := q.Fields[1{CRY_VER}].AsInteger;
-      sSenhaEncriptada := q.Fields[2{SENHA}].AsString.Trim;
+      iCryVer := q.Fields[1 { CRY_VER } ].AsInteger;
+      sSenhaEncriptada := q.Fields[2 { SENHA } ].AsString.Trim;
 
       Desencriptar(iCryVer, sSenhaEncriptada, sSenhaDesencriptada);
 
@@ -196,7 +198,7 @@ begin
 
       FUsuario.Pegar(iLojaId, 0, iPessoaId);
       FUsuario.NomeCompleto := sNomeCompleto;
-      FUsuario.NomeDeUsuario  := pNomeUsuDig;
+      FUsuario.NomeDeUsuario := pNomeUsuDig;
       FUsuario.NomeExib := sApelido;
 
       if q.FieldByName('SENHA_ZERADA').AsBoolean then
