@@ -345,13 +345,17 @@ contains
   App.Est.Venda.CaixaSessao.DBI_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI_u.pas',
   App.Est.Venda.CaixaSessaoDM_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoDM_u.pas' {CaixaSessaoDM: TDataModule},
   App.UI.Form.Menu_u in 'UI\AppUI\App.UI.Form.Menu_u.pas' {AppMenuForm},
-  App.Est.Venda.CaixaSessaoRecord_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u.pas',
   App.Est.Venda.CaixaSessao.Factory_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.Factory_u.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI.pas',
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u.pas';
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u.pas',
+  App.Est.Venda.Caixa.CaixaSessao in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao.pas',
+  App.Est.Venda.Caixa.CaixaSessao_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao_u.pas',
+  App.Est.Venda.CaixaSessaoRecord_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas',
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao.Utils_u.pas';
 
 end.
