@@ -16,18 +16,28 @@ type
 
 implementation
 
-{ TCxOperacaoTipoDBI }
+uses Sis.Win.Utils_u;
 
 { TCxOperacaoTipoDBI }
 
 function TCxOperacaoTipoDBI.GetSqlForEach(pValues: variant): string;
 begin
-  Result := 'SELECT CAIXA_SESSAO_OPERACAO_TIPO_ID, CAPTION'
-    +', HABILITADO_DURANTE_SESSAO'
-    +' FROM CAIXA_SESSAO_OPERACAO_TIPO'
-    +' WHERE ORDEM_EXIB IS NOT NULL'
-    +' ORDER BY ORDEM_EXIB'
+  Result := 'SELECT' //
+
+    +' OPER_TIPO_ID' // 0
+    +', NAME' // 1
+    +', CAPTION' // 2
+    +', HINT' // 3
+    +', SINAL_NUMERICO' // 4
+    +', HABILITADO_DURANTE_SESSAO' // 5
+
+    +' FROM CAIXA_SESSAO_OPERACAO_TIPO' //
+    +' WHERE ORDEM_EXIB IS NOT NULL' //
+    +' ORDER BY ORDEM_EXIB' //
     ;
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 end.
