@@ -11,7 +11,8 @@ uses
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
-  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u;
+  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u,
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm)
@@ -21,8 +22,10 @@ type
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
     Label1: TLabel;
+    PrincToolBar_PDVModuloBasForm: TToolBar;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FAppPDVObj: IAppPDVObj;
@@ -64,11 +67,16 @@ begin
   Result.NovaLinha;
 end;
 
-procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute(
-  Sender: TObject);
+procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute
+  (Sender: TObject);
+var
+  a: TAction;
+  s: string;
 begin
   inherited;
-  FCaixaSessaoDM.AbrirAction_CaixaSessaoDM.Execute;
+  a := FCaixaSessaoDM.GetAction(cxopAbertura);
+  s := a.Name;
+  a.Execute;
   DecidirFrameAtivo;
 end;
 
@@ -79,7 +87,9 @@ constructor TPDVModuloBasForm.Create(AOwner: TComponent;
 begin
   inherited;
   FAppPDVObj := AppPDVObjCreate;
-  FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId, pLogUsuario);
+
+  FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
+    pLogUsuario, PrincToolBar_PDVModuloBasForm);
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
@@ -93,20 +103,27 @@ begin
     FCaixaSessaoDM.Analisar;
     case FCaixaSessaoDM.CaixaSessaoSituacao of
       cxFechado:
-      begin
-        TitleBarText :=
-          ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' + LogUsuario.NomeExib
-          +' - Caixa Fechado';
+        begin
+          TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
+            LogUsuario.NomeExib + ' - Caixa Fechado';
 
           FFrameAtivo := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
             CaixaSessaoAbrirTentarAction);
-          //CaixaSessaoAbrirTentarAction.Execute;
+          // CaixaSessaoAbrirTentarAction.Execute;
         end;
 
-      cxAberto: ;
-      cxAbertoPorOutroUsuario: ;
+      cxAberto:
+        ;
+      cxAbertoPorOutroUsuario:
+        ;
     end;
   end;
+end;
+
+procedure TPDVModuloBasForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(Label1);
 end;
 
 function TPDVModuloBasForm.GetFecharModuloAction: TAction;
