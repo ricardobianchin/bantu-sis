@@ -4,31 +4,52 @@ interface
 
 // System.Classes,
 
-uses
-  // caixa dbi
-  Sis.DB.DBTypes, Sis.Entities.Types, App.Est.Venda.CaixaSessao.DBI, Sis.Usuario
+uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
+  System.Classes
 
-  // opertipo list
-    , App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
+  // uses caixa sessao
+    , App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessao.DBI
+
+  // uses opertipo
+    , App.Est.Venda.Caixa.CaixaSessao.Utils_u,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List;
+
+// function caixa sessao
+function CaixaSessaoCreate(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
+      pTerminalId: TTerminalId = 0; pId: integer = 0): ICaixaSessao;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
   pMachineIdentId: smallint): ICaixaSessaoDBI;
 
-function ICxOperacaoTipoCreate(pId: string; pCaption: string;
-  pHabilitado: Boolean): ICxOperacaoTipo;
+// function operacao tipo
+function CxOperacaoTipoCreate(pIdChar: string; pName: string; pCaption: string; pHint: string;
+  pSinalNumerico: smallint; pHabilitadoDuranteSessao: Boolean): ICxOperacaoTipo;
 function ICxOperacaoTipoListCreate: ICxOperacaoTipoList;
 function ICxOperacaoTipoDBICreate(pDBConnection: IDBConnection)
   : ICxOperacaoTipoDBI;
 
+// function operacao
+function CxOperacaoActionCreate(AOwner: TComponent;
+  pCxOperacaoTipo: ICxOperacaoTipo;
+  pCxOperacaoTipoDBI: ICxOperacaoTipoDBI): TAction;
+
 implementation
 
-uses App.Est.Venda.CaixaSessao.DBI_u,
+uses
+  // uses impl caixa sessao
+  App.Est.Venda.CaixaSessao.DBI_u,
+  App.Est.Venda.Caixa.CaixaSessao_u,
+
+  // uses impl oper tipo
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u,
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u;
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u,
+
+  // uses impl oper
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
@@ -38,10 +59,11 @@ begin
     pTerminalId, pMachineIdentId);
 end;
 
-function ICxOperacaoTipoCreate(pId: string; pCaption: string;
-  pHabilitado: Boolean): ICxOperacaoTipo;
+function CxOperacaoTipoCreate(pIdChar: string; pName: string; pCaption: string; pHint: string;
+  pSinalNumerico: smallint; pHabilitadoDuranteSessao: Boolean): ICxOperacaoTipo;
 begin
-  Result := TCxOperacaoTipo.Create(pId, pCaption, pHabilitado);
+  Result := TCxOperacaoTipo.Create(pIdChar, pName, pCaption, pHint, pSinalNumerico,
+    pHabilitadoDuranteSessao);
 end;
 
 function ICxOperacaoTipoListCreate: ICxOperacaoTipoList;
@@ -53,6 +75,41 @@ function ICxOperacaoTipoDBICreate(pDBConnection: IDBConnection)
   : ICxOperacaoTipoDBI;
 begin
   Result := TCxOperacaoTipoDBI.Create(pDBConnection);
+end;
+
+function CaixaSessaoCreate(pLogUsuario: IUsuario; pLojaId: TLojaId;
+      pTerminalId: TTerminalId; pId: integer): ICaixaSessao;
+begin
+  Result := TCaixaSessao.Create(pLogUsuario, pLojaId, pTerminalId, pId);
+end;
+
+function CxOperacaoActionCreate(AOwner: TComponent;
+  pCxOperacaoTipo: ICxOperacaoTipo;
+  pCxOperacaoTipoDBI: ICxOperacaoTipoDBI): TAction;
+begin
+  Result := nil;
+  case pCxOperacaoTipo.Id of
+    cxopNaoIndicado:
+      ;
+    cxopAbertura //
+      , cxopSangria //
+      , cxopSuprimento //
+      , cxopFechamento: //
+      Result := TCxOperacaoAction.Create(AOwner, pCxOperacaoTipo,
+        pCxOperacaoTipoDBI);
+    cxopVale:
+      ;
+    cxopDespesa:
+      ;
+    cxopConvenio:
+      ;
+    cxopCrediario:
+      ;
+    cxopDevolucao:
+      ;
+    cxopVenda:
+      ;
+  end;
 end;
 
 end.
