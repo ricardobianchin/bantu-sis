@@ -5,7 +5,7 @@ interface
 // System.Classes,
 
 uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
-  System.Classes
+  System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj
 
   // uses caixa sessao
     , App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessao.DBI
@@ -14,7 +14,10 @@ uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
     , App.Est.Venda.Caixa.CaixaSessao.Utils_u,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List;
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent
+  ,App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI
+  ;
 
 // function caixa sessao
 function CaixaSessaoCreate(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
@@ -37,6 +40,9 @@ function CxOperacaoActionCreate(AOwner: TComponent;
   pCxOperacaoTipo: ICxOperacaoTipo;
   pCxOperacaoTipoDBI: ICxOperacaoTipoDBI): TAction;
 
+function EntEdCastToCxOperacaoEnt(pEntEd: IEntEd): ICxOperacaoEnt;
+function EntDBICastToCxOperacaoDBI(pEntDBI: IEntDBI): ICxOperacaoDBI;
+
 implementation
 
 uses
@@ -50,7 +56,10 @@ uses
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u,
 
   // uses impl oper
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u
+  ,App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u
+  ;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
@@ -112,6 +121,16 @@ begin
     cxopVenda:
       ;
   end;
+end;
+
+function EntEdCastToCxOperacaoEnt(pEntEd: IEntEd): ICxOperacaoEnt;
+begin
+  Result := TCxOperacaoEnt(pEntEd);
+end;
+
+function EntDBICastToCxOperacaoDBI(pEntDBI: IEntDBI): ICxOperacaoDBI;
+begin
+  Result := TCxOperacaoDBI(pEntDBI);
 end;
 
 end.
