@@ -1,13 +1,13 @@
-unit App.Est.Venda.Caixa.CaixaSessaoOperacao_u;
+unit App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u;
 
 interface
 
 uses Sis.Types.Utils_u, App.Ent.Ed_u, Sis.Entities.Types,
   App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 
 type
-  TCxOperacao = class(TEntEd, ICxOperacao)
+  TCxOperacaoEnt = class(TEntEd, ICxOperacaoEnt)
   private
     FLojaId: TLojaId;
     FTerminalId: TTerminalId;
@@ -67,81 +67,81 @@ type
 
 implementation
 
-{ TCxOperacao }
+{ TCxOperacaoEnt }
 
-constructor TCxOperacao.Create(pCaixaSessao: ICaixaSessao;
+constructor TCxOperacaoEnt.Create(pCaixaSessao: ICaixaSessao;
   pCxOperacaoTipo: ICxOperacaoTipo);
 begin
   FCaixaSessao := pCaixaSessao;
   FCxOperacaoTipo := pCxOperacaoTipo;
 end;
 
-function TCxOperacao.GetCaixaSessao: ICaixaSessao;
+function TCxOperacaoEnt.GetCaixaSessao: ICaixaSessao;
 begin
-
+  Result := FCaixaSessao;
 end;
 
-function TCxOperacao.GetCancelado: Boolean;
+function TCxOperacaoEnt.GetCancelado: Boolean;
 begin
-
+  Result := FCancelado;
 end;
 
-function TCxOperacao.GetCxOperacaoTipo: ICxOperacaoTipo;
+function TCxOperacaoEnt.GetCxOperacaoTipo: ICxOperacaoTipo;
 begin
-
+  Result := FCxOperacaoTipo;
 end;
 
-function TCxOperacao.GetLogId: Int64;
+function TCxOperacaoEnt.GetLogId: Int64;
 begin
-
+  Result := FLogId;
 end;
 
-function TCxOperacao.GetLojaId: TLojaId;
+function TCxOperacaoEnt.GetLojaId: TLojaId;
 begin
-
+  Result := FLojaId;
 end;
 
-function TCxOperacao.GetNomeEnt: string;
+function TCxOperacaoEnt.GetNomeEnt: string;
 begin
-
+  Result := 'Operação de Caixa '+ FCxOperacaoTipo.Caption;
 end;
 
-function TCxOperacao.GetNomeEntAbrev: string;
+function TCxOperacaoEnt.GetNomeEntAbrev: string;
 begin
-
+  Result := FCxOperacaoTipo.Abrev;
 end;
 
-function TCxOperacao.GetObs: string;
+function TCxOperacaoEnt.GetObs: string;
 begin
-
+  Result := FObs;
 end;
 
-function TCxOperacao.GetOperOrdem: SmallInt;
+function TCxOperacaoEnt.GetOperOrdem: SmallInt;
 begin
-
+  Result := FOperOrdem;
 end;
 
-function TCxOperacao.GetOperTipoOrdem: SmallInt;
+function TCxOperacaoEnt.GetOperTipoOrdem: SmallInt;
 begin
-
+  Result := FOperTipoOrdem;
 end;
 
-function TCxOperacao.GetTerminalId: TTerminalId;
+function TCxOperacaoEnt.GetTerminalId: TTerminalId;
 begin
-
+  Result := FTerminalId;
 end;
 
-function TCxOperacao.GetTitulo: string;
+function TCxOperacaoEnt.GetTitulo: string;
 begin
-
+  Result := 'Operaçoes de Caixa';
 end;
 
-function TCxOperacao.GetValor: Currency;
+function TCxOperacaoEnt.GetValor: Currency;
 begin
-
+  Result := FValor;
 end;
 
-procedure TCxOperacao.LimparEnt;
+procedure TCxOperacaoEnt.LimparEnt;
 begin
   FOperOrdem := 0;
   FLogId := 0;
@@ -151,39 +151,39 @@ begin
   FCancelado := False;
 end;
 
-procedure TCxOperacao.SetCancelado(Value: Boolean);
+procedure TCxOperacaoEnt.SetCancelado(Value: Boolean);
 begin
-
+  FCancelado := Value;
 end;
 
-procedure TCxOperacao.SetLogId(Value: Int64);
+procedure TCxOperacaoEnt.SetLogId(Value: Int64);
 begin
-
+  FLogId := Value;
 end;
 
-procedure TCxOperacao.SetLojaId(Value: TLojaId);
+procedure TCxOperacaoEnt.SetLojaId(Value: TLojaId);
 begin
-
+  FLojaId := Value;
 end;
 
-procedure TCxOperacao.SetObs(Value: string);
+procedure TCxOperacaoEnt.SetObs(Value: string);
 begin
-
+  FObs := Value;
 end;
 
-procedure TCxOperacao.SetOperTipoOrdem(Value: SmallInt);
+procedure TCxOperacaoEnt.SetOperTipoOrdem(Value: SmallInt);
 begin
-
+  FOperTipoOrdem := Value;
 end;
 
-procedure TCxOperacao.SetTerminalId(Value: TTerminalId);
+procedure TCxOperacaoEnt.SetTerminalId(Value: TTerminalId);
 begin
-
+  FTerminalId := Value;
 end;
 
-procedure TCxOperacao.SetValor(Value: Currency);
+procedure TCxOperacaoEnt.SetValor(Value: Currency);
 begin
-
+  FValor := Value;
 end;
 
 end.

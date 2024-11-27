@@ -26,10 +26,11 @@ begin
 
     +' OPER_TIPO_ID' // 0
     +', NAME' // 1
-    +', CAPTION' // 2
-    +', HINT' // 3
-    +', SINAL_NUMERICO' // 4
-    +', HABILITADO_DURANTE_SESSAO' // 5
+    +', ABREV' // 2
+    +', CAPTION' // 3
+    +', HINT' // 4
+    +', SINAL_NUMERICO' // 5
+    +', HABILITADO_DURANTE_SESSAO' // 6
 
     +' FROM CAIXA_SESSAO_OPERACAO_TIPO' //
     +' WHERE ORDEM_EXIB IS NOT NULL' //

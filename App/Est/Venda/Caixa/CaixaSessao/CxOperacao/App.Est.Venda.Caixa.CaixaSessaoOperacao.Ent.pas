@@ -1,4 +1,4 @@
-unit App.Est.Venda.Caixa.CaixaSessaoOperacao;
+unit App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 
 interface
 
@@ -6,7 +6,7 @@ uses App.Est.Venda.Caixa.CaixaSessao, App.Ent.Ed, Sis.Entities.Types,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo;
 
 type
-  ICxOperacao = interface(IEntEd)
+  ICxOperacaoEnt = interface(IEntEd)
     ['{66B85245-BBB5-4671-9C93-E2671C1CAE05}']
     procedure SetLojaId(Value: TLojaId);
     function GetLojaId: TLojaId;

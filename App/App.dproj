@@ -640,8 +640,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.DBI_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoDM_u.pas">
             <Form>CaixaSessaoDM</Form>
             <FormType>dfm</FormType>
@@ -651,20 +651,24 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>AppMenuForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacaoTipo\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacaoTipo\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacaoTipo\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacaoTipo\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessao.Factory_u.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao_u.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacaoTipo\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacaoTipo\App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.Caixa.CaixaSessao.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.Caixa.CaixaSessao_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessaoRecord_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao.Utils_u.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao.pas"/>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\App.UI.Form.Ed.CxOperacao_u.pas">
+            <Form>CxOperacaoEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

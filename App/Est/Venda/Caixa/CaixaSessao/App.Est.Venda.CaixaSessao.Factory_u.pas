@@ -18,15 +18,16 @@ uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
 
 // function caixa sessao
 function CaixaSessaoCreate(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
-      pTerminalId: TTerminalId = 0; pId: integer = 0): ICaixaSessao;
+  pTerminalId: TTerminalId = 0; pId: integer = 0): ICaixaSessao;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
   pMachineIdentId: smallint): ICaixaSessaoDBI;
 
 // function operacao tipo
-function CxOperacaoTipoCreate(pIdChar: string; pName: string; pCaption: string; pHint: string;
-  pSinalNumerico: smallint; pHabilitadoDuranteSessao: Boolean): ICxOperacaoTipo;
+function CxOperacaoTipoCreate(pIdChar: string; pName: string; pAbrev: string;
+  pCaption: string; pHint: string; pSinalNumerico: smallint;
+  pHabilitadoDuranteSessao: Boolean): ICxOperacaoTipo;
 function ICxOperacaoTipoListCreate: ICxOperacaoTipoList;
 function ICxOperacaoTipoDBICreate(pDBConnection: IDBConnection)
   : ICxOperacaoTipoDBI;
@@ -59,11 +60,12 @@ begin
     pTerminalId, pMachineIdentId);
 end;
 
-function CxOperacaoTipoCreate(pIdChar: string; pName: string; pCaption: string; pHint: string;
-  pSinalNumerico: smallint; pHabilitadoDuranteSessao: Boolean): ICxOperacaoTipo;
+function CxOperacaoTipoCreate(pIdChar: string; pName: string; pAbrev: string;
+  pCaption: string; pHint: string; pSinalNumerico: smallint;
+  pHabilitadoDuranteSessao: Boolean): ICxOperacaoTipo;
 begin
-  Result := TCxOperacaoTipo.Create(pIdChar, pName, pCaption, pHint, pSinalNumerico,
-    pHabilitadoDuranteSessao);
+  Result := TCxOperacaoTipo.Create(pIdChar, pName, pAbrev, pCaption, pHint,
+    pSinalNumerico, pHabilitadoDuranteSessao);
 end;
 
 function ICxOperacaoTipoListCreate: ICxOperacaoTipoList;
@@ -78,7 +80,7 @@ begin
 end;
 
 function CaixaSessaoCreate(pLogUsuario: IUsuario; pLojaId: TLojaId;
-      pTerminalId: TTerminalId; pId: integer): ICaixaSessao;
+  pTerminalId: TTerminalId; pId: integer): ICaixaSessao;
 begin
   Result := TCaixaSessao.Create(pLogUsuario, pLojaId, pTerminalId, pId);
 end;

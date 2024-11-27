@@ -15,6 +15,10 @@ type
     procedure SetName(const Value: string);
     property Name: string read GetName write SetName;
 
+    function GetAbrev: string;
+    procedure SetAbrev(const Value: string);
+    property Abrev: string read GetAbrev write SetAbrev;
+
     function GetCaption: string;
     procedure SetCaption(const Value: string);
     property Caption: string read GetCaption write SetCaption;

@@ -10,6 +10,7 @@ type
   private
     FId: TCxOpTipo;
     FName: string;
+    FAbrev: string;
     FCaption: string;
     FHint: string;
     FSinalNumerico: SmallInt;
@@ -21,6 +22,9 @@ type
 
     function GetName: string;
     procedure SetName(const Value: string);
+
+    function GetAbrev: string;
+    procedure SetAbrev(const Value: string);
 
     function GetCaption: string;
     procedure SetCaption(const Value: string);
@@ -40,6 +44,7 @@ type
   public
     property Id: TCxOpTipo read GetId write SetId;
     property Name: string read GetName write SetName;
+    property Abrev: string read GetAbrev write SetAbrev;
     property Caption: string read GetCaption write SetCaption;
     property Hint: string read GetHint write SetHint;
     property HabilitadoDuranteSessao: Boolean read GetHabilitadoDuranteSessao
@@ -47,7 +52,7 @@ type
     property SinalNumerico: SmallInt read GetSinalNumerico
       write SetSinalNumerico;
     property Action: TAction read GetAction write SetAction;
-    constructor Create(pIdChar: string; pName: string; pCaption: string;
+    constructor Create(pIdChar: string; pName: string; pAbrev: string;pCaption: string;
       pHint: string; pSinalNumerico: SmallInt;
       pHabilitadoDuranteSessao: Boolean);
   end;
@@ -56,16 +61,22 @@ implementation
 
 { TCxOperacaoTipo }
 
-constructor TCxOperacaoTipo.Create(pIdChar: string; pName: string;
+constructor TCxOperacaoTipo.Create(pIdChar: string; pName: string;pAbrev: string;
   pCaption: string; pHint: string; pSinalNumerico: SmallInt;
   pHabilitadoDuranteSessao: Boolean);
 begin
   FId := CharToCxOpTipo(pIdChar);
   FName := pName;
+  FAbrev := pAbrev;
   FHint := pHint;
   FCaption := pCaption;
   FSinalNumerico := pSinalNumerico;
   FHabilitadoDuranteSessao := pHabilitadoDuranteSessao;
+end;
+
+function TCxOperacaoTipo.GetAbrev: string;
+begin
+  Result := FAbrev;
 end;
 
 function TCxOperacaoTipo.GetAction: TAction;
@@ -101,6 +112,11 @@ end;
 function TCxOperacaoTipo.GetSinalNumerico: SmallInt;
 begin
   Result := FSinalNumerico;
+end;
+
+procedure TCxOperacaoTipo.SetAbrev(const Value: string);
+begin
+  FAbrev := Value;
 end;
 
 procedure TCxOperacaoTipo.SetAction(Value: TAction);

@@ -123,10 +123,11 @@ begin
   o := CxOperacaoTipoCreate( //
     q.Fields[0 { pIdChar } ].AsString //
     , q.Fields[1 { pName } ].AsString //
-    , q.Fields[2 { pCaption } ].AsString //
-    , q.Fields[3 { pHint } ].AsString //
-    , q.Fields[4 { pSinalNumerico } ].AsInteger //
-    , q.Fields[5 { pHabilitadoDuranteSessao } ].AsBoolean //
+    , q.Fields[2 { pAbrev } ].AsString //
+    , q.Fields[3 { pCaption } ].AsString //
+    , q.Fields[4 { pHint } ].AsString //
+    , q.Fields[5 { pSinalNumerico } ].AsInteger //
+    , q.Fields[6 { pHabilitadoDuranteSessao } ].AsBoolean //
     );
   FCxOperacaoTipoList.Add(o);
 
