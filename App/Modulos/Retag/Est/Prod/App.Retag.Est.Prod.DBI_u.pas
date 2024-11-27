@@ -15,7 +15,7 @@ type
   protected
     function GetSqlForEach(pValues: variant): string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
-    function GetSqlInserirDoRetId: string; override;
+    function GetSqlInserirDoERetornaId: string; override;
     function GetSqlAlterarDo: string; override;
   public
     function Ler: boolean; override;
@@ -74,7 +74,7 @@ begin
     + ');';
 end;
 
-function TProdDBI.GetSqlInserirDoRetId: string;
+function TProdDBI.GetSqlInserirDoERetornaId: string;
 var
   sBarras: string;
 begin

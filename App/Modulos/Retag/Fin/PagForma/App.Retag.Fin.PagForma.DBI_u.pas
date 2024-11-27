@@ -16,7 +16,7 @@ type
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
 
-    function GetSqlInserirDoRetId: string; override;
+    function GetSqlInserirDoERetornaId: string; override;
     function GetSqlAlterarDo: string; override;
   public
     function Ler: boolean; override;
@@ -77,7 +77,7 @@ begin
 
 end;
 
-function TPagFormaDBI.GetSqlInserirDoRetId: string;
+function TPagFormaDBI.GetSqlInserirDoERetornaId: string;
 begin
   Result := 'SELECT PAGAMENTO_FORMA_ID FROM PAGAMENTO_FORMA_PA.INSERIR_DO('
     + QuotedStr(Ent.FormaTipo)

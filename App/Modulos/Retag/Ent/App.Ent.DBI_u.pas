@@ -18,8 +18,8 @@ type
     function ById(pId: variant; out pValores: variant): boolean; virtual;
     function GetPackageName: string; virtual; abstract;
 
-    function GetSqlGaranteRegRetId: string; virtual;
-    function GetSqlInserirDoRetId: string; virtual;
+    function GetSqlGaranteRegERetornaId: string; virtual;
+    function GetSqlInserirDoERetornaId: string; virtual;
     function GetSqlAlterarDo: string; virtual;
 
     function GetFieldNamesListaGet: string; virtual;
@@ -108,7 +108,7 @@ end;
 function TEntDBI.Garantir: boolean;
 var
   sFormat: string;
-  sSqlGaranteRegRetId: string;
+  sSqlGaranteRegERetornaId: string;
   q: TDataSet;
   Resultado: variant;
   sResultado: string;
@@ -116,9 +116,9 @@ var
   aNovaId: Variant;
 begin
   Result := False;
-  sSqlGaranteRegRetId := GetSqlGaranteRegRetId;
+  sSqlGaranteRegERetornaId := GetSqlGaranteRegERetornaId;
 //  {$IFDEF DEBUG}
-//  CopyTextToClipboard(sSqlGaranteRegRetId);
+//  CopyTextToClipboard(sSqlGaranteRegERetornaId);
 //  {$ENDIF}
 
   Result := DBConnection.Abrir;
@@ -126,7 +126,7 @@ begin
     exit;
 
   try
-    DBConnection.QueryDataSet(sSqlGaranteRegRetId, q);
+    DBConnection.QueryDataSet(sSqlGaranteRegERetornaId, q);
 
     Result := RecordToVarArray(aNovaId, Q);
     if not Result then
@@ -177,12 +177,12 @@ begin
   Result := '';
 end;
 
-function TEntDBI.GetSqlGaranteRegRetId: string;
+function TEntDBI.GetSqlGaranteRegERetornaId: string;
 begin
   Result := '';
 end;
 
-function TEntDBI.GetSqlInserirDoRetId: string;
+function TEntDBI.GetSqlInserirDoERetornaId: string;
 begin
   Result := '';
 end;
@@ -203,13 +203,13 @@ end;
 
 function TEntDBI.Inserir(out pNovaId: Variant): boolean;
 var
-  sSqlInserirDoRetId: string;
+  sSqlInserirDoERetornaId: string;
   sMens: string;
   q: TDataSet;
 begin
   Result := False;
 
-  sSqlInserirDoRetId := GetSqlInserirDoRetId;
+  sSqlInserirDoERetornaId := GetSqlInserirDoERetornaId;
 
   Result := DBConnection.Abrir;
   if not Result then
@@ -219,7 +219,7 @@ begin
   end;
 
   try
-    DBConnection.QueryDataSet(sSqlInserirDoRetId, Q);
+    DBConnection.QueryDataSet(sSqlInserirDoERetornaId, Q);
 
     Result := RecordToVarArray(pNovaId, Q);
     if not Result then

@@ -13,7 +13,7 @@ type
   protected
     function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGaranteRegRetId: string; override;
+    function GetSqlGaranteRegERetornaId: string; override;
     procedure SetVarArrayToId(pNovaId: variant); override;
     function GetPackageName: string; override;
   end;
@@ -35,7 +35,7 @@ begin
   Result := EntEdCastToPerfilDeUsoEnt(EntEd);
 end;
 
-function TPerfilDeUsoDBI.GetSqlGaranteRegRetId: string;
+function TPerfilDeUsoDBI.GetSqlGaranteRegERetornaId: string;
 var
   sFormat: string;
 

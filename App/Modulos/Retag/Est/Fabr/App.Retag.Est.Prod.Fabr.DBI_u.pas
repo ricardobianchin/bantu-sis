@@ -12,7 +12,7 @@ type
   protected
     function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetExistente(pValues: variant): string; override;
-    function GetSqlGaranteRegRetId: string; override;
+    function GetSqlGaranteRegERetornaId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   end;
@@ -33,7 +33,7 @@ begin
   Result := 'FABR_PA';
 end;
 
-function TProdFabrDBI.GetSqlGaranteRegRetId: string;
+function TProdFabrDBI.GetSqlGaranteRegERetornaId: string;
 var
   sFormat: string;
 begin

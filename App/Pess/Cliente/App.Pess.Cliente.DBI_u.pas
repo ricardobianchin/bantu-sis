@@ -16,7 +16,7 @@ type
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
 
-    function GetSqlGaranteRegRetId: string; override;
+    function GetSqlGaranteRegERetornaId: string; override;
   public
     constructor Create(pDBConnection: IDBConnection;
       pPessClienteEnt: IPessClienteEnt);
@@ -61,7 +61,7 @@ begin
     ;}
 end;
 
-function TPessClienteDBI.GetSqlGaranteRegRetId: string;
+function TPessClienteDBI.GetSqlGaranteRegERetornaId: string;
 begin
   Result :=
     'SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET'#13#10 //

@@ -17,7 +17,7 @@ type
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
 
-    function GetSqlGaranteRegRetId: string; override;
+    function GetSqlGaranteRegERetornaId: string; override;
   public
     constructor Create(pDBConnection: IDBConnection; pPessLojaEnt: IPessLojaEnt);
     function LojaIdExiste(pLojaId: SmallInt; out pApelido: string): boolean;
@@ -62,7 +62,7 @@ begin
     ;
 end;
 
-function TPessLojaDBI.GetSqlGaranteRegRetId: string;
+function TPessLojaDBI.GetSqlGaranteRegERetornaId: string;
 begin
   Result := 'SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET'#13#10
     + 'FROM LOJA_MANUT_PA.GARANTIR('#13#10
