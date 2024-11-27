@@ -15,12 +15,6 @@ implementation
 uses App.PDV.CaixaSessao_u, App.PDV.AppPDVObj_u, App.UI.PDV.Aviso.Frame_u,
   System.SysUtils;
 
-function CaixaSessaoCreate(pLojaId: TLojaId; pTerminalId: TTerminalId;
-  pId: integer): ICaixaSessao;
-begin
-  Result := TCaixaSessao.Create(pLojaId, pTerminalId, pId);
-end;
-
 function AppPDVObjCreate: IAppPDVObj;
 begin
   Result := TAppPDVObj.Create;
