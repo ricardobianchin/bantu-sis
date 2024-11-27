@@ -100,7 +100,7 @@ begin
   FreeAndNil(FFrameAtivo);
   if FAppPDVObj.Fiscal then
   begin
-    FCaixaSessaoDM.Analisar;
+    FCaixaSessaoDM.AnaliseCaixa;
     case FCaixaSessaoDM.CaixaSessaoSituacao of
       cxFechado:
         begin
