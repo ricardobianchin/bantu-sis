@@ -80,18 +80,18 @@ OBJETO_NOME=CAIXA_SESSAO_OPERACAO_TIPO
 
 CSV INI
 
-OPER_TIPO_ID;NAME;CAPTION;HINT;SINAL_NUMERICO;HABILITADO_DURANTE_SESSAO;ORDEM_EXIB
-#032;NaoIndicado;Não Indicado;Não Indicado;0;FALSE;NULL
-#033;Abertura;Abrir Sess#227o;Iniciar a Sess#227o de Caixa;1;FALSE;1
-#034;Sangria;Sangria;Sa#237da de Dinheiro da Gaveta;-1;TRUE;2
-#035;Suprimento;Suprimento;Entrada de Dinheiro na Gaveta;1;TRUE;3
-#036;Vale;Vale para Funcionario;Pagamento de Vale a Funcionário;-1;TRUE;NULL
-#037;Despesa;Despesa;Pagamento de Despesas;-1;TRUE;NULL
-#038;Convenio;Conv#234nio;Baixa de Convênio;1;TRUE;NULL
-#039;Crediario;Credi#225rio;Baixa de Crediário;1;TRUE;NULL
-#040;Fechamento;Fechar Sess#227o;Terminar a Sess#227o de Caixa;-1;TRUE;9
-#041;Devolucao;Devolu#231#227o;Devolu#231#227o;0;TRUE;NULL
-#042;Venda;Venda;Venda;1;TRUE;NULL
+OPER_TIPO_ID;NAME;ABREV;CAPTION;HINT;SINAL_NUMERICO;HABILITADO_DURANTE_SESSAO;ORDEM_EXIB
+#032;NaoIndicado;NaoInd;Não Indicado;Não Indicado;0;FALSE;NULL
+#033;Abertura;Abe;Abrir Sess#227o;Iniciar a Sess#227o de Caixa;1;FALSE;1
+#034;Sangria;Sang;Sangria;Sa#237da de Dinheiro da Gaveta;-1;TRUE;2
+#035;Suprimento;Sup;Suprimento;Entrada de Dinheiro na Gaveta;1;TRUE;3
+#036;Vale;Vale;Vale para Funcionario;Pagamento de Vale a Funcionário;-1;TRUE;NULL
+#037;Despesa;Desp;Despesa;Pagamento de Despesas;-1;TRUE;NULL
+#038;Convenio;Conv;Conv#234nio;Baixa de Convênio;1;TRUE;NULL
+#039;Crediario;Cre;Credi#225rio;Baixa de Crediário;1;TRUE;NULL
+#040;Fechamento;Fech;Fechar Sess#227o;Terminar a Sess#227o de Caixa;-1;TRUE;9
+#041;Devolucao;Dev;Devolu#231#227o;Devolu#231#227o;0;TRUE;NULL
+#042;Venda;Ven;Venda;Venda;1;TRUE;NULL
 CSV FIM
 COMANDO FIM
 
