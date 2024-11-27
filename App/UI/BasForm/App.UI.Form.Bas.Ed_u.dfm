@@ -1,11 +1,12 @@
 inherited EdBasForm: TEdBasForm
   Caption = 'EdBasForm'
-  ClientHeight = 282
+  ClientHeight = 268
   ClientWidth = 431
   ExplicitWidth = 443
+  ExplicitHeight = 306
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 210
+    Top = 196
     Width = 431
     ExplicitTop = 210
   end
@@ -17,12 +18,12 @@ inherited EdBasForm: TEdBasForm
     Caption = '    '
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 230
+    Top = 216
     Width = 431
     ExplicitTop = 230
   end
   inherited BasePanel: TPanel
-    Top = 245
+    Top = 231
     Width = 431
     ExplicitTop = 244
     ExplicitWidth = 427
@@ -30,16 +31,20 @@ inherited EdBasForm: TEdBasForm
       431
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 20
-      ExplicitLeft = 16
+      Left = 16
+      ExplicitLeft = 12
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 133
+      Left = 129
+      Width = 96
       ExplicitLeft = 129
+      ExplicitWidth = 96
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 213
-      ExplicitLeft = 209
+      Left = 230
+      Width = 96
+      ExplicitLeft = 230
+      ExplicitWidth = 96
     end
   end
 end
