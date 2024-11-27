@@ -2,7 +2,7 @@ unit App.DB.Import.Form_Finalizar_Prod_u;
 
 interface
 
-uses Sis.DB.DBTypes, App.AppObj, Sis.Usuario, Vcl.ComCtrls;
+uses Sis.Types.Utils_u, Sis.DB.DBTypes, App.AppObj, Sis.Usuario, Vcl.ComCtrls;
 
 procedure GarantirProd(pDBConnection: IDBConnection; pAppObj: IAppObj;
   pUsuario: IUsuario; pProgressBar1: TProgressBar);
@@ -239,10 +239,10 @@ begin
   aPreco[0] := StrToCurrency(oFieldFin_PRECO.AsString);
 
   if uCusto = 0 then
-    uCusto := 0.01;
+    uCusto := UM_CENTAVO;
 
   if aPreco[0] = 0 then
-    aPreco[0] := 0.01;
+    aPreco[0] := UM_CENTAVO;
 
   iBalUso := oFieldFin_BAL_USO.AsInteger;
   sBalDpto := Trim(oFieldFin_BAL_DPTO.AsString);
