@@ -8,7 +8,7 @@ type
   TCaixaSessaoRec = record
     LojaId: TLojaId;
     TerminalId: TTerminalId;
-    CaixaSessaoId: integer;
+    SessId: integer;
     LogId: Int64;
     PessoaId: integer;
     Apelido: string;
@@ -27,7 +27,7 @@ procedure TCaixaSessaoRec.Zerar;
 begin
   LojaId := 0;
   TerminalId := 0;
-  CaixaSessaoId := 0;
+  SessId := 0;
   LogId := 0;
   PessoaId := 0;
   Apelido := '';
