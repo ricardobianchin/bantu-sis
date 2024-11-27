@@ -664,6 +664,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao.Utils_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

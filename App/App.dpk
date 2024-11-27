@@ -357,6 +357,7 @@ contains
   App.Est.Venda.Caixa.CaixaSessao_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao_u.pas',
   App.Est.Venda.CaixaSessaoRecord_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoRecord_u.pas',
   App.Est.Venda.Caixa.CaixaSessao.Utils_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessao.Utils_u.pas',
-  App.Est.Venda.Caixa.CaixaSessaoOperacao in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao.pas';
+  App.Est.Venda.Caixa.CaixaSessaoOperacao in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao.pas',
+  App.Est.Venda.Caixa.CaixaSessaoOperacao_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.Caixa.CaixaSessaoOperacao_u.pas';
 
 end.
