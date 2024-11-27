@@ -18,8 +18,8 @@ type
     property CxOperacaoTipo: ICxOperacaoTipo read GetCxOperacaoTipo;
 
     function GetLogId: Int64;
-    procedure SetLogIdI(Value: Int64);
-    property LogId: Int64 read GetLogId;
+    procedure SetLogId(Value: Int64);
+    property LogId: Int64 read GetLogId write SetLogId;
 
     function GetOperTipoOrdem: SmallInt;
     procedure SetOperTipoOrdem(Value: SmallInt);
