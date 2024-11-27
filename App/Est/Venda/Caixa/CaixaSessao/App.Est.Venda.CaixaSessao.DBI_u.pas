@@ -64,7 +64,7 @@ begin
     if q.IsEmpty then
       exit;
 
-    pCaixaSessaoRec.CaixaSessaoId := q.Fields[0].AsInteger;
+    pCaixaSessaoRec.SessId := q.Fields[0].AsInteger;
     pCaixaSessaoRec.LogId := q.Fields[1].AsLargeInt;
     pCaixaSessaoRec.PessoaId := q.Fields[2].AsInteger;
     pCaixaSessaoRec.Apelido := q.Fields[3].AsString;
@@ -75,7 +75,7 @@ begin
   {
     LojaId: TLojaId;
     TerminalId: TTerminalId;
-    CaixaSessaoId: integer;
+    SessId: integer;
     LogId: Int64;
     PessoaId: integer;
     Apelido: string;
