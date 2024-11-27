@@ -6,6 +6,7 @@ uses
   System.SysUtils, System.Classes, App.AppObj, Sis.Entities.Types, App.DB.Utils,
   System.Actions, Vcl.ActnList, Sis.DB.DBTypes, Vcl.ComCtrls, Data.DB,
   Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, Vcl.DBActns,
+  App.Est.Venda.Caixa.CaixaSessao,
   Sis.UI.Controls.TToolBar, App.Est.Venda.Caixa.CaixaSessao.Utils_u,
   App.Est.Venda.CaixaSessaoRecord_u, //
   App.Est.Venda.CaixaSessao.DBI, //
@@ -15,6 +16,11 @@ uses
     ;
 
 type
+  /// <summary>
+  ///  AnaliseCaixa;
+  ///  deve analisar o ambiente
+  ///  detectar como estão a abertura de caixa, se tem venda interrompida...
+  /// </summary>
   TCaixaSessaoDM = class(TDataModule)
     CaixaSessaoActionList: TActionList;
     CaixaSessaoFormAbrirAction_CaixaSessaoDM: TAction;
@@ -22,14 +28,20 @@ type
   private
     { Private declarations }
     FAppObj: IAppObj;
+    {
+      FTerminalId nao seria necessario, pois tem o FTerminal
+      mas este objecto será usado tb na retaguarda, entao
+      FTerminalId = 0 e FTerminal = nil
+    }
     FTerminalId: TTerminalId;
     FTerminal: ITerminal;
+
+    FCaixaSessao: ICaixaSessao;
     FCaixaSessaoDBI: ICaixaSessaoDBI;
     FCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
     FAlvoDBConnection: IDBConnection;
     FLogUsuario: IUsuario;
 
-    FCaixaSessao: TCaixaSessaoRec;
     FCaixaSessaoSituacao: TCaixaSessaoSituacao;
     FCxOperacaoTipoList: ICxOperacaoTipoList;
     FToolBar: TToolBar;
@@ -39,16 +51,16 @@ type
     property Terminal: ITerminal read FTerminal;
   public
     { Public declarations }
-    property CaixaSessao: TCaixaSessaoRec read FCaixaSessao;
+    property CaixaSessao: ICaixaSessao read FCaixaSessao;
     property CaixaSessaoSituacao: TCaixaSessaoSituacao
       read FCaixaSessaoSituacao;
+
+    procedure AnaliseCaixa;
+    function GetAction(pCxOpTipo: TCxOpTipo): TAction;
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
       pTerminalId: TTerminalId; pLogUsuario: IUsuario; pToolBar: TToolBar);
       reintroduce;
-
-    procedure Analisar;
-    function GetAction(pCxOpTipo: TCxOpTipo): TAction;
   end;
 
 var
@@ -89,6 +101,8 @@ begin
   FAlvoDBConnection := DBConnectionCreate('CaixaSessaoDM.Alvo.Conn',
     FAppObj.SisConfig, rDBConnectionParams, nil, nil);
 
+  FCaixaSessao := CaixaSessaoCreate(FLogUsuario, FAppObj.Loja.Id, FTerminalId);
+
   FCaixaSessaoDBI := CaixaSessaoDBICreate(FAlvoDBConnection, pLogUsuario,
     FAppObj.Loja.Id, FTerminalId, FAppObj.SisConfig.LocalMachineId.IdentId);
 
@@ -127,23 +141,28 @@ begin
   Result := FCxOperacaoTipoList.CxOpTipoToOperacaoTipo(pCxOpTipo).Action;
 end;
 
-procedure TCaixaSessaoDM.Analisar;
+procedure TCaixaSessaoDM.AnaliseCaixa;
 var
   Resultado: Boolean;
+  rCaixaSessao: TCaixaSessaoRec;
 begin
-  Resultado := FCaixaSessaoDBI.CaixaSessaoAbertoGet(FCaixaSessao);
+  FCaixaSessao.Zerar;
+
+  Resultado := FCaixaSessaoDBI.CaixaSessaoAbertoGet(rCaixaSessao);
   if not Resultado then
     exit;
 
-  if not FCaixaSessao.Aberto then
+  if not rCaixaSessao.Aberto then
   begin
     FCaixaSessaoSituacao := cxFechado;
     exit;
   end;
 
-  if FLogUsuario.Id = FCaixaSessao.PessoaId then
+  if FLogUsuario.Id = rCaixaSessao.PessoaId then
   begin
     FCaixaSessaoSituacao := cxAberto;
+    FCaixaSessao.Id := rCaixaSessao.SessId;
+    FCaixaSessao.LogId := rCaixaSessao.LogId;
     exit;
   end;
 
