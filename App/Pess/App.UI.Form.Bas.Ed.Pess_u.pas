@@ -86,7 +86,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); reintroduce; virtual;
+      pEntDBI: IEntDBI); override;
   end;
 
 var
