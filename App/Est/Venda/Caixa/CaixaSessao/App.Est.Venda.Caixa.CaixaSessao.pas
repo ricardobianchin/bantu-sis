@@ -2,22 +2,13 @@ unit App.Est.Venda.Caixa.CaixaSessao;
 
 interface
 
-uses Sis.Entities.Types;
+uses Sis.Lists.IdLojaTermItem, Sis.Usuario;
 
 type
-  ICaixaSessao = interface(IInterface)
+  ICaixaSessao = interface(IIdLojaTermItem)
     ['{1CCD0B38-65A8-4CED-AF95-60844D286809}']
-    function GetLojaId: TLojaId;
-    procedure SetLojaId(Value: TLojaId);
-    property LojaId: TLojaId read GetLojaId write SetLojaId;
-
-    function GetTerminalId: TTerminalId;
-    procedure SetTerminalId(Value: TTerminalId);
-    property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
-
-    function GetSessId: integer;
-    procedure SetSesslId(Value: integer);
-    property SesslId: integer read GetSessId write SetSessId;
+    function GetLogUsuario: IUsuario;
+    property LogUsuario: IUsuario read GetLogUsuario;
 
     function GetLogId: Int64;
     procedure SetLogId(Value: Int64);

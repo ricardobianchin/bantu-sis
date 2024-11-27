@@ -2,26 +2,24 @@ unit App.Est.Venda.Caixa.CaixaSessao_u;
 
 interface
 
-uses Sis.Entities.Types, App.Est.Venda.Caixa.CaixaSessao;
+uses Sis.Lists.IdLojaTermItem_u, App.Est.Venda.Caixa.CaixaSessao, Sis.Usuario,
+  Sis.Entities.Types;
 
 type
-  TCaixaSessao = class(TInterfacedObject, ICaixaSessao)
+  /// <summary>
+  /// Zerar nao faz o intuitivo que é zerar tudo
+  /// nao chama o inherited que zeraria os trer primeiros valores
+  /// aí zera somente o id
+  /// pois lojaid e terminalid devem fica intocaveis durante a vida do
+  /// </summary>
+  TCaixaSessao = class(TIdLojaTermItem, ICaixaSessao)
   private
-    FLojaId: TLojaId;
-    FTerminalId: TTerminalId;
-    FSessId: integer;
+    FLogUsuario: IUsuario;
     FLogId: integer;
     FAberto: Boolean;
     FConferido: Boolean;
 
-    function GetLojaId: TLojaId;
-    procedure SetLojaId(Value: TLojaId);
-
-    function GetTerminalId: TTerminalId;
-    procedure SetTerminalId(Value: TTerminalId);
-
-    function GetSessId: integer;
-    procedure SetSesslId(Value: integer);
+    function GetLogUsuario: IUsuario;
 
     function GetLogId: Int64;
     procedure SetLogId(Value: Int64);
@@ -31,28 +29,30 @@ type
 
     function GetConferido: Boolean;
     procedure SetConferido(Value: Boolean);
-    procedure SetSessId(const Value: integer);
+    /// <summary>Criado pois Zerar foi alterado e nao apaga lojaId e TerminalId</summary>
+    procedure Inicialize;
   public
     procedure Zerar; override;
 
-    property LojaId: TLojaId read GetLojaId write SetLojaId;
-    property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
-    property SesslId: integer read GetSessId write SetSessId;
+    property LogUsuario: IUsuario read GetLogUsuario;
     property LogId: Int64 read GetLogId write SetLogId;
     property Aberto: Boolean read GetAberto write SetAberto;
     property Conferido: Boolean read GetConferido write SetConferido;
 
-    constructor Create(pLojaId:integer=0; pTerminalId:integer=0; pId:integer=0);
+    constructor Create(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
+      pTerminalId: TTerminalId = 0; pId: integer = 0);
   end;
 
 implementation
 
 { TCaixaSessao }
 
-constructor TCaixaSessao.Create(pLojaId, pTerminalId, pId: integer);
+constructor TCaixaSessao.Create(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
+  pTerminalId: TTerminalId = 0; pId: integer = 0);
 begin
-  inherited Zerar;
-
+  inherited Create(pLojaId, pTerminalId, pId);
+  FLogUsuario := pLogUsuario;
+  Inicialize;
 end;
 
 function TCaixaSessao.GetAberto: Boolean;
@@ -70,19 +70,16 @@ begin
   Result := FLogId;
 end;
 
-function TCaixaSessao.GetLojaId: TLojaId;
+function TCaixaSessao.GetLogUsuario: IUsuario;
 begin
-  Result := FLojaId;
+  Result := FLogUsuario;
 end;
 
-function TCaixaSessao.GetSessId: integer;
+procedure TCaixaSessao.Inicialize;
 begin
-  Result := FSessId;
-end;
-
-function TCaixaSessao.GetTerminalId: TTerminalId;
-begin
-  Result := FTerminalId;
+  LojaId := 0;
+  TerminalId := 0;
+  Zerar;
 end;
 
 procedure TCaixaSessao.SetAberto(Value: Boolean);
@@ -100,27 +97,10 @@ begin
   FLogId := Value;
 end;
 
-procedure TCaixaSessao.SetLojaId(Value: TLojaId);
-begin
-  FLojaId := Value;
-end;
-
-procedure TCaixaSessao.SetSessId(const Value: integer);
-begin
-  FSessId := Value;
-end;
-
-procedure TCaixaSessao.SetTerminalId(Value: TTerminalId);
-begin
-  FTerminalId := Value;
-end;
-
 procedure TCaixaSessao.Zerar;
 begin
-  inherited;
-  FLojaId := 0;
-  FTerminalId := 0;
-  FSessId := 0;
+  // inherited;
+  Id := 0;
   FLogId := 0;
   FAberto := False;
   FConferido := False;
