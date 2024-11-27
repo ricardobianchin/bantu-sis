@@ -669,6 +669,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>CxOperacaoEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
