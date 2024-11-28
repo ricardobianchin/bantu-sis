@@ -18,6 +18,7 @@ type
     FLogId: integer;
     FAberto: Boolean;
     FConferido: Boolean;
+    FMachineIdentId: SmallInt;
 
     function GetLogUsuario: IUsuario;
 
@@ -29,6 +30,9 @@ type
 
     function GetConferido: Boolean;
     procedure SetConferido(Value: Boolean);
+
+    function GetMachineIdentId: SmallInt;
+
     /// <summary>Criado pois Zerar foi alterado e nao apaga lojaId e TerminalId</summary>
     procedure Inicialize;
   public
@@ -38,8 +42,9 @@ type
     property LogId: Int64 read GetLogId write SetLogId;
     property Aberto: Boolean read GetAberto write SetAberto;
     property Conferido: Boolean read GetConferido write SetConferido;
+    property MachineIdentId: SmallInt read GetMachineIdentId;
 
-    constructor Create(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
+    constructor Create(pLogUsuario: IUsuario; pMachineIdentId: SmallInt; pLojaId: TLojaId = 0;
       pTerminalId: TTerminalId = 0; pId: integer = 0);
   end;
 
@@ -47,11 +52,12 @@ implementation
 
 { TCaixaSessao }
 
-constructor TCaixaSessao.Create(pLogUsuario: IUsuario; pLojaId: TLojaId = 0;
-  pTerminalId: TTerminalId = 0; pId: integer = 0);
+constructor TCaixaSessao.Create(pLogUsuario: IUsuario; pMachineIdentId: SmallInt; pLojaId: TLojaId;
+  pTerminalId: TTerminalId; pId: integer);
 begin
   inherited Create(pLojaId, pTerminalId, pId);
   FLogUsuario := pLogUsuario;
+  FMachineIdentId := pMachineIdentId;
   Inicialize;
 end;
 
@@ -73,6 +79,11 @@ end;
 function TCaixaSessao.GetLogUsuario: IUsuario;
 begin
   Result := FLogUsuario;
+end;
+
+function TCaixaSessao.GetMachineIdentId: SmallInt;
+begin
+  Result := FMachineIdentId;
 end;
 
 procedure TCaixaSessao.Inicialize;

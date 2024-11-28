@@ -21,6 +21,10 @@ type
     function GetConferido: Boolean;
     procedure SetConferido(Value: Boolean);
     property Conferido: Boolean read GetConferido write SetConferido;
+
+    function GetMachineIdentId: SmallInt;
+    property MachineIdentId: SmallInt read GetMachineIdentId;
+
   end;
 
 
