@@ -54,6 +54,8 @@ begin
 
     oDBQuery := DBQueryCreate('TSisConfigDBI.LerMachineIdent.Query',
       oDBConnection, sSql, FProcessLog, FOutput);
+
+    FAppObj.CriticalSections.DB.Acquire;
     oDBQuery.Prepare;
     try
       oDBQuery.Params[0].AsString := FAppObj.SisConfig.ServerMachineId.Name;
@@ -75,6 +77,7 @@ begin
       end;
     finally
       oDBQuery.Unprepare;
+      FAppObj.CriticalSections.DB.Release;
     end;
   finally
     oDBConnection.Fechar;

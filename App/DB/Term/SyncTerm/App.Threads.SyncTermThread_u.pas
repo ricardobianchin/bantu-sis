@@ -18,6 +18,7 @@ type
     function Conectou: boolean;
     procedure FecharConexoes;
     procedure Sync(pAtualIni, pAtualFIn: Int64);
+    procedure AtualizeMachine;
   protected
     procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
       pServCon, pTermCon: IDBConnection; pSql: TStrings); virtual;
@@ -38,9 +39,57 @@ type
 implementation
 
 uses System.SysUtils, Sis.Config.SisConfig, System.Math, App.Constants,
-  App.Threads.SyncTermThread_u_PegarFaixa, App.Threads.SyncTermThread.Factory_u;
+  App.Threads.SyncTermThread_u_PegarFaixa, App.Threads.SyncTermThread.Factory_u,
+  Data.DB;
 
 { TAppSyncTermThread }
+
+procedure TAppSyncTermThread.AtualizeMachine;
+var
+  iMaxTerm: integer;
+  s: string;
+  q: TDataSet;
+begin
+  s := 'select max(machine_id) from machine;';
+  iMaxTerm := FTermCon.GetValueInteger(s);
+
+  s := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' + ' FROM MACHINE' +
+    ' WHERE MACHINE_ID > ' + IntToStr(iMaxTerm) + ' ORDER BY MACHINE_ID';
+
+  AppObj.CriticalSections.DB.Acquire;
+  try
+    FServCon.QueryDataSet(s, q);
+  finally
+    AppObj.CriticalSections.DB.Release;
+  end;
+
+  if not Assigned(q) then
+    exit;
+
+  try
+    if q.IsEmpty then
+      exit;
+
+    Terminal.CriticalSections.DB.Acquire;
+    try
+      while not q.Eof do
+      begin
+        s := 'INSERT INTO MACHINE' + '(MACHINE_ID, NOME_NA_REDE, IP)' //
+          + ' VALUES (' + q.Fields[0].AsInteger.ToString //
+          + ', ' + QuotedStr(q.Fields[1].AsString) //
+          + ', ' + QuotedStr(q.Fields[2].AsString.Trim) //
+          + ');';
+        FTermCon.ExecuteSQL(s);
+        q.Next;
+      end;
+    finally
+      Terminal.CriticalSections.DB.Release;
+    end;
+  finally
+    FreeAndNil(q);
+  end;
+
+end;
 
 function TAppSyncTermThread.Conectou: boolean;
 var
@@ -111,6 +160,8 @@ begin
     FDBExecScript := DBExecScriptCreate('TAppSyncTermThread.ExecScript',
       FTermCon, ProcessLog, StatusOutput, Terminal.CriticalSections.DB);
 
+    AtualizeMachine;
+
     RegistreAddComands(AppObj, Terminal, FServCon, FTermCon, FDBExecScript.Sql);
 
     PegarFaixa(FLogIdIni, FLogIdFin);
@@ -162,8 +213,8 @@ end;
 procedure TAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
-  FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon,
-    pTermCon, FDBExecScript));
+  FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon, pTermCon,
+    FDBExecScript));
   FAddCommandsList.Add(AddComandosTerminal(pAppObj, pTerminal, pServCon,
     pTermCon, FDBExecScript));
   FAddCommandsList.Add(AddComandosPagamentoForma(pAppObj, pTerminal, pServCon,
