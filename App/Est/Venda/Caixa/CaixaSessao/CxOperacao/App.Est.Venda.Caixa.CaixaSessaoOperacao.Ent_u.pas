@@ -2,7 +2,7 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u;
 
 interface
 
-uses Sis.Types.Utils_u, App.Ent.Ed_u, Sis.Entities.Types,
+uses Sis.Types.Utils_u, App.Ent.Ed_u, Sis.Entities.Types, Data.DB,
   App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 
@@ -72,6 +72,7 @@ implementation
 constructor TCxOperacaoEnt.Create(pCaixaSessao: ICaixaSessao;
   pCxOperacaoTipo: ICxOperacaoTipo);
 begin
+  inherited Create(TDataSetState.dsBrowse);
   FCaixaSessao := pCaixaSessao;
   FCxOperacaoTipo := pCxOperacaoTipo;
 end;
