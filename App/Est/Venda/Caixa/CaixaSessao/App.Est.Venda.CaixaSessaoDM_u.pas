@@ -8,11 +8,13 @@ uses
   Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, Vcl.DBActns,
   App.Est.Venda.Caixa.CaixaSessao,
   Sis.UI.Controls.TToolBar, App.Est.Venda.Caixa.CaixaSessao.Utils_u,
-  App.Est.Venda.CaixaSessaoRecord_u, //
-  App.Est.Venda.CaixaSessao.DBI, //
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, //
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List, //
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI //
+  App.Est.Venda.CaixaSessaoRecord_u,
+  App.Est.Venda.CaixaSessao.DBI,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent
+  , App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u
     ;
 
 type
@@ -25,6 +27,8 @@ type
     CaixaSessaoActionList: TActionList;
     CaixaSessaoFormAbrirAction_CaixaSessaoDM: TAction;
     CxOperacaoActionList: TActionList;
+    procedure CxOperacaoActionListExecute(Action: TBasicAction;
+      var Handled: Boolean);
   private
     { Private declarations }
     FAppObj: IAppObj;
@@ -70,7 +74,8 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u;
+uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u;
 
 {$R *.dfm}
 { TCaixaSessaoDM }
@@ -113,9 +118,20 @@ begin
   FCxOperacaoTipoDBI.ForEach(vaNull, CxOperacaoTipoListLeReg);
 end;
 
+procedure TCaixaSessaoDM.CxOperacaoActionListExecute(Action: TBasicAction;
+  var Handled: Boolean);
+begin
+  if action is TCxOperacaoAction then
+  begin
+    TCxOperacaoAction(Action).CxOperacaoEnt.LimparEnt;
+    Handled:= False;
+  end;
+end;
+
 procedure TCaixaSessaoDM.CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
 var
   o: ICxOperacaoTipo;
+  oCxOperacaoEnt: ICxOperacaoEnt;
 begin
   if pRecNo = -1 then
     exit;
@@ -131,10 +147,12 @@ begin
     );
   FCxOperacaoTipoList.Add(o);
 
-  o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
-    FCxOperacaoTipoDBI);
+  oCxOperacaoEnt := CxOperacaoEntCreate(FCaixaSessao, o);
 
-  ToolBarAddButton(o.Action, FToolBar);
+  o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
+    FCxOperacaoTipoDBI, oCxOperacaoEnt);
+  if o.Id <> cxopAbertura then
+    ToolBarAddButton(o.Action, FToolBar);
 end;
 
 function TCaixaSessaoDM.GetAction(pCxOpTipo: TCxOpTipo): TAction;

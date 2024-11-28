@@ -10,6 +10,7 @@ object CaixaSessaoDM: TCaixaSessaoDM
     end
   end
   object CxOperacaoActionList: TActionList
+    OnExecute = CxOperacaoActionListExecute
     Left = 296
     Top = 24
   end
