@@ -1,18 +1,4 @@
 CAIXA_SESSAO_INICIAL_PA
-
--------
-feature_sis arquivo
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\dbupdate 000000032.txt
--------
-
-
----------------------------------------
-TESTES 
----------------------------------------
----------------------------------------
-FIM TESTES
----------------------------------------
-
 -----------------------------
 INICIO
 -----------------------------
@@ -55,7 +41,7 @@ BEGIN
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , SESS_ID ID_DOM
-    , LOG_ID BIGINT
+    , SESS_LOG_ID BIGINT
     , ABERTO BOOLEAN
     , CONFERIDO BOOLEAN
   );
@@ -78,7 +64,7 @@ BEGIN
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , SESS_ID ID_DOM
-    , LOG_ID BIGINT
+    , SESS_LOG_ID BIGINT
     , ABERTO BOOLEAN
     , CONFERIDO BOOLEAN
   )
@@ -89,7 +75,7 @@ BEGIN
       LOJA_ID,
       TERMINAL_ID,
       SESS_ID,
-      LOG_ID,
+      SESS_LOG_ID,
       ABERTO,
       CONFERIDO
     )
@@ -98,7 +84,7 @@ BEGIN
       :LOJA_ID,
       :TERMINAL_ID,
       :SESS_ID,
-      :LOG_ID,
+      :SESS_LOG_ID,
       :ABERTO,
       :CONFERIDO
     )
