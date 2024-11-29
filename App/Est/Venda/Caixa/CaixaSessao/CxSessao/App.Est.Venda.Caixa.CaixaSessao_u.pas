@@ -15,15 +15,11 @@ type
   TCaixaSessao = class(TIdLojaTermItem, ICaixaSessao)
   private
     FLogUsuario: IUsuario;
-    FLogId: integer;
     FAberto: Boolean;
     FConferido: Boolean;
     FMachineIdentId: SmallInt;
 
     function GetLogUsuario: IUsuario;
-
-    function GetLogId: Int64;
-    procedure SetLogId(Value: Int64);
 
     function GetAberto: Boolean;
     procedure SetAberto(Value: Boolean);
@@ -39,7 +35,6 @@ type
     procedure Zerar; override;
 
     property LogUsuario: IUsuario read GetLogUsuario;
-    property LogId: Int64 read GetLogId write SetLogId;
     property Aberto: Boolean read GetAberto write SetAberto;
     property Conferido: Boolean read GetConferido write SetConferido;
     property MachineIdentId: SmallInt read GetMachineIdentId;
@@ -71,11 +66,6 @@ begin
   Result := FConferido;
 end;
 
-function TCaixaSessao.GetLogId: Int64;
-begin
-  Result := FLogId;
-end;
-
 function TCaixaSessao.GetLogUsuario: IUsuario;
 begin
   Result := FLogUsuario;
@@ -103,16 +93,10 @@ begin
   FConferido := Value;
 end;
 
-procedure TCaixaSessao.SetLogId(Value: Int64);
-begin
-  FLogId := Value;
-end;
-
 procedure TCaixaSessao.Zerar;
 begin
   // inherited;
   Id := 0;
-  FLogId := 0;
   FAberto := False;
   FConferido := False;
 end;

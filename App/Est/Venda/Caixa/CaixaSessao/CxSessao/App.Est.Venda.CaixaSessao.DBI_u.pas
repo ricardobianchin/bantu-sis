@@ -47,7 +47,6 @@ begin
     sSql :=
       'SELECT'#13#10
       +'SESS_ID'#13#10
-      +', LOG_ID'#13#10
       +', PESSOA_ID'#13#10
       +', APELIDO'#13#10
       +'FROM CAIXA_SESSAO_MANUT_PA.ABERTO_GET'#13#10
@@ -65,9 +64,8 @@ begin
       exit;
 
     pCaixaSessaoRec.SessId := q.Fields[0].AsInteger;
-    pCaixaSessaoRec.LogId := q.Fields[1].AsLargeInt;
-    pCaixaSessaoRec.PessoaId := q.Fields[2].AsInteger;
-    pCaixaSessaoRec.Apelido := q.Fields[3].AsString;
+    pCaixaSessaoRec.PessoaId := q.Fields[1].AsInteger;
+    pCaixaSessaoRec.Apelido := q.Fields[2].AsString;
     pCaixaSessaoRec.Aberto := True;
   finally
     DBConnection.Fechar;

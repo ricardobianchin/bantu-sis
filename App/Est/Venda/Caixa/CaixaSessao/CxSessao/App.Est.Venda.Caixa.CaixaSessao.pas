@@ -10,10 +10,6 @@ type
     function GetLogUsuario: IUsuario;
     property LogUsuario: IUsuario read GetLogUsuario;
 
-    function GetLogId: Int64;
-    procedure SetLogId(Value: Int64);
-    property LogId: Int64 read GetLogId write SetLogId;
-
     function GetAberto: Boolean;
     procedure SetAberto(Value: Boolean);
     property Aberto: Boolean read GetAberto write SetAberto;

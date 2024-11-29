@@ -181,7 +181,6 @@ begin
   begin
     FCaixaSessaoSituacao := cxAberto;
     FCaixaSessao.Id := rCaixaSessao.SessId;
-    FCaixaSessao.LogId := rCaixaSessao.LogId;
     exit;
   end;
 
