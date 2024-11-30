@@ -109,7 +109,7 @@ begin
 
           FFrameAtivo := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
             CaixaSessaoAbrirTentarAction);
-          // CaixaSessaoAbrirTentarAction.Execute;
+          CaixaSessaoAbrirTentarAction.Execute;
         end;
 
       cxAberto:
