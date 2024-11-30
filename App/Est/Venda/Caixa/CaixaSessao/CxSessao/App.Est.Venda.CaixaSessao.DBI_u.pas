@@ -8,21 +8,57 @@ uses Sis.DBI_u, App.Est.Venda.CaixaSessao.DBI, Sis.DB.DBTypes, Sis.Usuario,
   Sis.Entities.Types, Data.DB;
 
 type
+  /// <summary>
+  /// TCaixaSessaoDBI é uma classe que implementa as funcionalidades de sessão de caixa.
+  /// </summary>
   TCaixaSessaoDBI = class(TDBI, ICaixaSessaoDBI)
   private
+    /// <summary>
+    /// Identificação da loja.
+    /// </summary>
     FLojaId: TLojaId;
+    /// <summary>
+    /// Identificação do terminal.
+    /// </summary>
     FTerminalId: TTerminalId;
+    /// <summary>
+    /// Identificação da máquina.
+    /// </summary>
     FMachineIdentId: smallint;
+    /// <summary>
+    /// Usuário logado no sistema.
+    /// </summary>
     FLogUsuario: IUsuario;
+    /// <summary>
+    /// Mensagem associada à sessão de caixa.
+    /// </summary>
     FMensagem: string;
+    /// <summary>
+    /// Obtém a mensagem associada à sessão de caixa.
+    /// </summary>
     function GetMensagem: string;
   public
+    /// <summary>
+    /// Construtor da classe TCaixaSessaoDBI.
+    /// </summary>
+    /// <param name="pDBConnection">Conexão com o banco de dados.</param>
+    /// <param name="pLogUsuario">Usuário logado no sistema.</param>
+    /// <param name="pLojaId">Identificação da loja.</param>
+    /// <param name="pTerminalId">Identificação do terminal.</param>
+    /// <param name="pMachineIdentId">Identificação da máquina.</param>
     constructor Create(pDBConnection: IDBConnection; pLogUsuario: IUsuario;
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
       reintroduce;
-    function CaixaSessaoAbertoGet(pCaixaSessaoRec: TCaixaSessaoRec): Boolean;
+    /// <summary>
+    /// Verifica se a sessão de caixa está aberta.
+    /// </summary>
+    /// <param name="pCaixaSessaoRec">Registro da sessão de caixa.</param>
+    /// <returns>Retorna true se a sessão estiver aberta; caso contrário, false.</returns>
+    function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec): Boolean;
+    /// <summary>
+    /// Propriedade que obtém a mensagem associada à sessão de caixa.
+    /// </summary>
     property Mensagem: string read GetMensagem;
-
   end;
 
 implementation
@@ -31,7 +67,7 @@ uses Sis.Win.Utils_u;
 
 { TCaixaSessaoDBI }
 
-function TCaixaSessaoDBI.CaixaSessaoAbertoGet(pCaixaSessaoRec
+function TCaixaSessaoDBI.CaixaSessaoAbertoGet(var pCaixaSessaoRec
   : TCaixaSessaoRec): Boolean;
 var
   sSql: string;
@@ -59,14 +95,19 @@ begin
     Result := Assigned(q);
     if not Result then
       exit;
+    try
+      Result := not q.IsEmpty;
 
-    if q.IsEmpty then
-      exit;
+      if not Result then
+        exit;
 
-    pCaixaSessaoRec.SessId := q.Fields[0].AsInteger;
-    pCaixaSessaoRec.PessoaId := q.Fields[1].AsInteger;
-    pCaixaSessaoRec.Apelido := q.Fields[2].AsString;
-    pCaixaSessaoRec.Aberto := True;
+      pCaixaSessaoRec.SessId := q.Fields[0].AsInteger;
+      pCaixaSessaoRec.PessoaId := q.Fields[1].AsInteger;
+      pCaixaSessaoRec.Apelido := q.Fields[2].AsString;
+      pCaixaSessaoRec.Aberto := True;
+    finally
+      q.Free;
+    end;
   finally
     DBConnection.Fechar;
   end;
