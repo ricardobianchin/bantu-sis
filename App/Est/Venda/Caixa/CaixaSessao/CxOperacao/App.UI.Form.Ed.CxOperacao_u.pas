@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppObj, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppObj,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
 
 type
@@ -88,13 +89,10 @@ begin
   sTit := EntEd.StateAsTitulo;
   sNom := EntEd.NomeEnt;
   sVal := '';
-  // if EntEd.State = dsInsert then
-  // sVal := ''
-  // else
-  // sVal := FPessEnt.CodAsString;
 
-  sFormat := '%s %s: %s';
-  Result := Format(sFormat, [sTit, sNom, sVal]);
+//  sFormat := '%s %s: %s';
+//  Result := Format(sFormat, [sTit, sNom, sVal]);
+  Result := sNom;
 end;
 
 function TCxOperacaoEdForm.GravouOk: boolean;

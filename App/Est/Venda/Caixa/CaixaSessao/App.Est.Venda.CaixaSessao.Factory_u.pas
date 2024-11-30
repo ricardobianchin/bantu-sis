@@ -37,8 +37,8 @@ function ICxOperacaoTipoDBICreate(pDBConnection: IDBConnection)
 
 // function operacao
 function CxOperacaoActionCreate(AOwner: TComponent;
-  pCxOperacaoTipo: ICxOperacaoTipo;
-  pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt): TAction;
+  pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
+  pCxOperacaoEnt: ICxOperacaoEnt; pAppObj: IAppObj): TAction;
 
 function CxOperacaoEntCreate(pCaixaSessao: ICaixaSessao;
   pCxOperacaoTipo: ICxOperacaoTipo): ICxOperacaoEnt;
@@ -100,8 +100,8 @@ begin
 end;
 
 function CxOperacaoActionCreate(AOwner: TComponent;
-  pCxOperacaoTipo: ICxOperacaoTipo;
-  pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt): TAction;
+  pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
+  pCxOperacaoEnt: ICxOperacaoEnt; pAppObj: IAppObj): TAction;
 begin
   Result := nil;
   case pCxOperacaoTipo.Id of
@@ -112,7 +112,7 @@ begin
       , cxopSuprimento //
       , cxopFechamento: //
       Result := TCxOperacaoAction.Create(AOwner, pCxOperacaoTipo,
-        pCxOperacaoTipoDBI, pCxOperacaoEnt);
+        pCxOperacaoTipoDBI, pCxOperacaoEnt, pAppObj);
     cxopVale:
       ;
     cxopDespesa:

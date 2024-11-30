@@ -3,7 +3,10 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u;
 interface
 
 uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
+  App.UI.Form.Ed.CxOperacao.UmValor_u, App.AppObj;
 
 type
   TCxOperacaoAction = class(TAction)
@@ -11,7 +14,11 @@ type
     FCxOperacaoTipo: ICxOperacaoTipo;
     FCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
     FCxOperacaoEnt: ICxOperacaoEnt;
+    FCxOperacaoDBI: ICxOperacaoDBI;
+    FAppObj: IAppObj;
+    procedure Exec(Sender: TObject);
   protected
+    function CxOperacaoEdFormCreate: TCxOperacaoEdForm; virtual;
   public
     procedure AjusteEnabled;
     procedure ExecuteTarget(Target: TObject); override;
@@ -19,12 +26,13 @@ type
     property CxOperacaoTipo: ICxOperacaoTipo read FCxOperacaoTipo;
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
     constructor Create(AOwner: TComponent; pCxOperacaoTipo: ICxOperacaoTipo;
-      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt); reintroduce;
+      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt;
+      pAppObj: IAppObj); reintroduce;
   end;
 
 implementation
 
-uses Vcl.Dialogs;
+uses Vcl.Dialogs, Data.DB;
 
 { TCxOperacaoAction }
 
@@ -34,21 +42,39 @@ begin
 end;
 
 constructor TCxOperacaoAction.Create(AOwner: TComponent;
-  pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt);
+  pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
+  pCxOperacaoEnt: ICxOperacaoEnt; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
+  FAppObj := pAppObj;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxOperacaoTipoDBI := pCxOperacaoTipoDBI;
   FCxOperacaoEnt := pCxOperacaoEnt;
   Name := 'CxOperacao' + FCxOperacaoTipo.Name + 'Ins';
   Caption := FCxOperacaoTipo.Caption;
   Hint := FCxOperacaoTipo.Hint;
+  OnExecute := Exec;
+end;
+
+function TCxOperacaoAction.CxOperacaoEdFormCreate: TCxOperacaoEdForm;
+begin
+  Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
+    FCxOperacaoDBI);
+end;
+
+procedure TCxOperacaoAction.Exec(Sender: TObject);
+var
+  f: TCxOperacaoEdForm;
+begin
+  FCxOperacaoEnt.State := TDataSetState.dsInsert;
+  F := CxOperacaoEdFormCreate;
+  F.Perg;
+  F.Free;
 end;
 
 procedure TCxOperacaoAction.ExecuteTarget(Target: TObject);
 begin
   inherited;
-  Showmessage('a');
 end;
 
 function TCxOperacaoAction.HandlesTarget(Target: TObject): Boolean;

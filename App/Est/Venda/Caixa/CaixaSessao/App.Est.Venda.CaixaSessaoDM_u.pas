@@ -150,7 +150,7 @@ begin
   oCxOperacaoEnt := CxOperacaoEntCreate(FCaixaSessao, o);
 
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
-    FCxOperacaoTipoDBI, oCxOperacaoEnt);
+    FCxOperacaoTipoDBI, oCxOperacaoEnt, FAppObj);
   if o.Id <> cxopAbertura then
     ToolBarAddButton(o.Action, FToolBar);
 end;
