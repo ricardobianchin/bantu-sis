@@ -2,36 +2,12 @@ ACAO_SIS
 
 
 -----------------------------
-TESTES INICIO
------------------------------
-
-SHOW SEQUENCE ;
-
-
-SHOW TABLE ACAO_SIS;
-
-
-
-SHOW TABLE FEATURE_SIS;
-
-
-
-SELECT * FROM ;
-
-SHOW PACKAGE ;
-
------------------------------
-TESTES FIM 
------------------------------
-
------------------------------
 INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=LOG BASICOS, ACAO_SIS
 DBATUALIZ_OBJETIVO=CRIA ACAO_SIS, FEATURE_SIS
 DBATUALIZ_OBS=
-
 
 
 
