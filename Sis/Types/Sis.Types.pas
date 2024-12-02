@@ -4,6 +4,8 @@ interface
 
 type
   TQuantidade = (qtdNenhu, qtdUm, qtdTodos);
+  TId = integer;
+  TShortId = SmallInt;
 
 {
   TQuantidadeHelper = record helper for TQuantidade
