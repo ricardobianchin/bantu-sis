@@ -1,5 +1,5 @@
 inherited NumerarioEditFrame: TNumerarioEditFrame
-  Width = 273
+  Width = 366
   Height = 34
   Font.Height = -16
   Padding.Left = 1
@@ -8,14 +8,14 @@ inherited NumerarioEditFrame: TNumerarioEditFrame
   Padding.Bottom = 1
   ParentFont = False
   StyleElements = [seClient, seBorder]
-  ExplicitWidth = 273
+  ExplicitWidth = 366
   ExplicitHeight = 34
   object Image1: TImage
     Left = 1
     Top = 1
-    Width = 87
+    Width = 96
     Height = 32
-    AutoSize = True
+    Center = True
     Picture.Data = {
       0A544A504547496D616765DD060000FFD8FFE000104A46494600010101006000
       600000FFDB0043000302020302020303030304030304050805050404050A0707
@@ -74,32 +74,18 @@ inherited NumerarioEditFrame: TNumerarioEditFrame
       0C3252D20A423CBB7F9F1840DFC9F7144EB8809E35F13176C7A2D1F0C9943DAA
       DBEF589BB5A0D8D0FEF3FFD9}
   end
-  object ExtensoLabel: TLabel
-    Left = 97
+  object Label2: TLabel
+    Left = 228
     Top = 5
-    Width = 99
+    Width = 11
     Height = 21
-    Alignment = taRightJustify
-    Caption = '50 Centavos X'
+    Caption = '='
   end
-  object QtdEdit: TEdit
-    Left = 202
-    Top = 2
-    Width = 54
-    Height = 29
-    Alignment = taCenter
-    TabOrder = 0
-    Text = '999'
-    StyleElements = [seBorder]
-  end
-  object UpDown1: TUpDown
-    Left = 256
-    Top = 2
-    Width = 16
-    Height = 29
-    Associate = QtdEdit
-    Max = 999
-    Position = 999
-    TabOrder = 1
+  object ResultadoLabel: TLabel
+    Left = 243
+    Top = 5
+    Width = 30
+    Height = 21
+    Caption = '0,00'
   end
 end
