@@ -172,6 +172,7 @@ begin
   pWinControlDestino.Left := pWinControlModelo.Left;
   pWinControlDestino.Width := pWinControlModelo.Width;
   pWinControlDestino.TabStop := pWinControlModelo.TabStop;
+
   pWinControlModelo.Free;
 end;
 
