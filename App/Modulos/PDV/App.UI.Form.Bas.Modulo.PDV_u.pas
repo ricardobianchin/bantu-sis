@@ -74,6 +74,8 @@ var
   s: string;
 begin
   inherited;
+//  FreeAndNil(FFrameAtivo);
+
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
   s := a.Name;
   a.Execute;
