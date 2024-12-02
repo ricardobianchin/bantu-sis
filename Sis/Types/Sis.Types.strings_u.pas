@@ -51,7 +51,7 @@ function SnakeCaseFutureLenght(pPalavras: TArray<string>): integer;
 function StrCountCharLeft(pStr: string; pCharInicial: Char = '0'): integer;
 procedure SemCharAEsquerda(var pStr: string; pCharInicial: Char = '0');
 function TemChar(pStr: string; pChar: Char): boolean;
-function TemChars(const Str: string; const Chars: TArray<Char>): Boolean;
+function TemChars(const Str: string; const Chars: TArray<Char>): boolean;
 procedure DeleteChar(pStr: string; pCharToDel: Char);
 
 procedure StrSemEnterNoFim(var pStr: string);
@@ -76,9 +76,9 @@ implementation
 uses System.StrUtils, System.Variants, System.Classes;
 
 const
-  Imprimiveis = ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+  Imprimiveis = ('0123456789_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' +
     '¡·¿‡√„¬‚…È»Ë ÍÕÌ”Û’ı‘Ù⁄˙«Á');
-  SubstSemAcento = ('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+  SubstSemAcento = ('0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ' +
     'AaAaAaAaEeEeEeIiOoOoOoUuCc');
 
   VALID_FILENAME_CHARS: TSysCharSet = ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_',
@@ -327,12 +327,12 @@ begin
   iLenTermino := Length(pTermino);
 
   if iLenTermino = 0 then
-    Exit;
+    exit;
 
   sFinalAtual := RightStr(pStr, iLenTermino);
 
   if sFinalAtual = pTermino then
-    Exit;
+    exit;
 
   pStr := pStr + pTermino;
 end;
@@ -408,7 +408,7 @@ begin
   begin
     iMaior := ArrayLargestIndex(aPalavras);
     StrDeleteNoFim(aPalavras[iMaior], 1);
-//    aPalavras[iMaior] := StrDeleteNoFim(aPalavras[iMaior], 1);
+    // aPalavras[iMaior] := StrDeleteNoFim(aPalavras[iMaior], 1);
   end;
 
   for i := 0 to Length(aPalavras) - 1 do
@@ -467,7 +467,7 @@ begin
   if L = 0 then
   begin
     pStr := '';
-    Exit;
+    exit;
   end;
 
   L := L - pQtdChars;
@@ -475,7 +475,7 @@ begin
   if L < 1 then
   begin
     pStr := '';
-    Exit;
+    exit;
   end;
 
   SetLength(pStr, L);
@@ -490,7 +490,7 @@ begin
   if L = 0 then
   begin
     pStr := '';
-    Exit;
+    exit;
   end;
 
   L := L - pQtdChars;
@@ -498,7 +498,7 @@ begin
   if L < 1 then
   begin
     pStr := '';
-    Exit;
+    exit;
   end;
 
   pStr := Copy(pStr, pQtdChars + 1, L);
@@ -511,7 +511,6 @@ begin
     StrDeleteNoFim(pStr, 1);
   end;
 end;
-
 
 procedure StrSepareInicio(pStrOrigem: string; pQtdChars: integer;
   out pStrIni: string; out pStrFim: string);
@@ -571,7 +570,7 @@ begin
   iQtdCharsIniciais := StrCountCharLeft(pStr, pCharInicial);
 
   if iQtdCharsIniciais < 1 then
-    Exit;
+    exit;
 
   StrDeleteNoInicio(pStr, iQtdCharsIniciais);
 end;
@@ -581,20 +580,20 @@ begin
   Result := Pos(pChar, pStr) > 0;
 end;
 
-function TemChars(const Str: string; const Chars: TArray<Char>): Boolean;
+function TemChars(const Str: string; const Chars: TArray<Char>): boolean;
 var
-  I: Integer;
-  C: Char;
+  i: integer;
+  c: Char;
 begin
-  Result := False;
-  for C in Chars do
+  Result := false;
+  for c in Chars do
   begin
-    for I := 1 to Length(Str) do
+    for i := 1 to Length(Str) do
     begin
-      if Str[I] = C then
+      if Str[i] = c then
       begin
         Result := True;
-        Exit;
+        exit;
       end;
     end;
   end;
