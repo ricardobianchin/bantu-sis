@@ -14,8 +14,10 @@ type
 
 const
 {$IFDEF DEBUG}
-  FRAME_EXECUTAR: TExecuteTeste = etNenhum;
-  //FRAME_EXECUTAR: TExecuteTeste = etUm;
+  //FRAME_EXECUTAR: TExecuteTeste = etTodos;
+//  FRAME_EXECUTAR: TExecuteTeste = etNenhum;
+  FRAME_EXECUTAR: TExecuteTeste = etUm;
+
   NSECS_PAUSA = 1;
 {$ELSE}
   FRAME_EXECUTAR: TExecuteTeste = etTodos;
