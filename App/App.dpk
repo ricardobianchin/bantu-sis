@@ -363,6 +363,9 @@ contains
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI.pas',
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u.pas',
   App.UI.Form.Ed.CxOperacao.UmValor_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\UmValor\App.UI.Form.Ed.CxOperacao.UmValor_u.pas' {CxOperUmValorEdForm},
-  App.UI.Controls.NumerarioEditFrame_u in 'UI\Controls\Numerario\EditFrame\App.UI.Controls.NumerarioEditFrame_u.pas' {NumerarioEditFrame: TFrame};
+  App.UI.Controls.NumerarioEditFrame_u in 'UI\Controls\Numerario\EditFrame\App.UI.Controls.NumerarioEditFrame_u.pas' {NumerarioEditFrame: TFrame},
+  App.UI.Controls.NumerarioListFrame_u in 'UI\Controls\Numerario\EditFrame\App.UI.Controls.NumerarioListFrame_u.pas',
+  App.Est.Venda.Caixa.CxValor.DBI in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.DBI.pas',
+  App.Est.Venda.Caixa.CxValor.DBI_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.DBI_u.pas';
 
 end.
