@@ -26,7 +26,7 @@ var
 begin
   sBusca := vartostr(pValues);
 
-  Result := 'SELECT NUM, DTH_INS, ASSUNTO, OBJETIVO, OBS' //
+  Result := 'SELECT NUM, CRIADO_EM, ASSUNTO, OBJETIVO, OBS' //
     + ' FROM DBUPDATE_PA.LISTA_GET(' + QuotedStr(sBusca) + ')' //
     + ' ORDER BY NUM DESC;' //
     ; //
