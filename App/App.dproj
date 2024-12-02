@@ -683,6 +683,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="UI\Controls\Numerario\EditFrame\App.UI.Controls.NumerarioListFrame_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.DBI.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.DBI_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor_u.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario.pas"/>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
