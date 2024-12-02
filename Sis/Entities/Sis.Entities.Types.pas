@@ -2,9 +2,11 @@ unit Sis.Entities.Types;
 
 interface
 
+uses Sis.Types;
+
 type
-  TLojaId = type Smallint;
-  TTerminalId = type SmallInt;
+  TLojaId = type TShortId;
+  TTerminalId = type TShortId;
 
   TLojaIdHelper = record helper for TLojaId
     function ToString: string;
