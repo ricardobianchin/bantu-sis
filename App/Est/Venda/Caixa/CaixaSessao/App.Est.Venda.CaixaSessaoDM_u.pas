@@ -14,7 +14,8 @@ uses
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent
-  , App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u
+  , App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u,
+  App.Est.Venda.Caixa.CxValor.DBI
     ;
 
 type
@@ -132,6 +133,7 @@ procedure TCaixaSessaoDM.CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
 var
   o: ICxOperacaoTipo;
   oCxOperacaoEnt: ICxOperacaoEnt;
+  oCxValorDBI: ICxValorDBI;
 begin
   if pRecNo = -1 then
     exit;
@@ -148,9 +150,10 @@ begin
   FCxOperacaoTipoList.Add(o);
 
   oCxOperacaoEnt := CxOperacaoEntCreate(FCaixaSessao, o);
+  oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
 
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
-    FCxOperacaoTipoDBI, oCxOperacaoEnt, FAppObj);
+    FCxOperacaoTipoDBI, oCxOperacaoEnt, FAppObj, oCxValorDBI);
   if o.Id <> cxopAbertura then
     ToolBarAddButton(o.Action, FToolBar);
 end;
