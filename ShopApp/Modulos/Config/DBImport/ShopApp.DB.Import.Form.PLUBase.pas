@@ -452,7 +452,7 @@ begin
 
   sNCM := Trim(Copy(FLinhaAtual, 168, 8));
 
-  sProdTipoDescr := 'SETOR ' + Copy(FLinhaAtual, 85, 2);
+  sProdTipoDescr := 'Tipo ' + Copy(FLinhaAtual, 85, 2);
   sProdUnidDescr := Copy(FLinhaAtual, 87, 2);
 
   sBarCod := StrToIntStr(Copy(FLinhaAtual, 8, 13));

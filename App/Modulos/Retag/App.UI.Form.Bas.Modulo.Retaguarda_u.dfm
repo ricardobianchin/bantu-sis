@@ -328,8 +328,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagEstProdTipoAction: TAction
       Category = 'Estoque'
-      Caption = 'Setores'
-      Hint = 'Setores dos produtos'
+      Caption = 'Tipos'
+      Hint = 'Tipos dos produtos'
       OnExecute = RetagEstProdTipoActionExecute
     end
     object RetagAjuBemAction: TAction

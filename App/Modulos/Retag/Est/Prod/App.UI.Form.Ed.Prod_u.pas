@@ -414,7 +414,7 @@ begin
   Result := FComunsFr.TipoFr.Id > 0;
   if not Result then
   begin
-    ErroOutput.Exibir('Setor ' + FComunsFr.TipoFr.MensLabel.Caption);
+    ErroOutput.Exibir('Tipo ' + FComunsFr.TipoFr.MensLabel.Caption);
     exit;
   end;
 

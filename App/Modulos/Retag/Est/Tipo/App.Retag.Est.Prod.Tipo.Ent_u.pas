@@ -25,12 +25,12 @@ end;
 
 function TProdTipoEnt.GetNomeEnt: string;
 begin
-  Result := 'Setor';
+  Result := 'Tipo';
 end;
 
 function TProdTipoEnt.GetTitulo: string;
 begin
-  Result := 'Setores';
+  Result := 'Tipos';
 end;
 
 end.
