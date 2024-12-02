@@ -40,7 +40,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessao.Factory_u, , Sis.Types.Utils_u;
+uses Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessao.Factory_u, Sis.Types.Utils_u;
 
 { TCxOperUmValorEdForm }
 
@@ -58,9 +58,6 @@ begin
   end;
 
 end;
-
-pagamento
-CxVal
 
 procedure TCxOperUmValorEdForm.ControlesToEnt;
 begin
