@@ -33,6 +33,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pCxValorDBI: ICxValorDBI;
       pPastaImagens: string); reintroduce;
+    destructor Destroy; override;
   end;
 
   // var
@@ -64,6 +65,12 @@ begin
   FCxValorDBI.ForEach(vaNull, LeRegCrieEditFrame);
   ReadOnlySet(NumerarioTotLabeledEdit);
   Atualize;
+end;
+
+destructor TNumerarioListFrame.Destroy;
+begin
+  FEditFrameList.Free;
+  inherited;
 end;
 
 procedure TNumerarioListFrame.EditKeyDownUltimo(Sender: TObject; var Key: Word;
