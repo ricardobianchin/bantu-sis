@@ -4,9 +4,9 @@ interface
 
 uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
-  App.UI.Form.Ed.CxOperacao.UmValor_u, App.AppObj;
+  App.UI.Form.Ed.CxOperacao.UmValor_u, App.AppObj, App.Est.Venda.Caixa.CxValor.DBI;
 
 type
   TCxOperacaoAction = class(TAction)
@@ -16,6 +16,7 @@ type
     FCxOperacaoEnt: ICxOperacaoEnt;
     FCxOperacaoDBI: ICxOperacaoDBI;
     FAppObj: IAppObj;
+    FCxValorDBI: ICxValorDBI;
     procedure Exec(Sender: TObject);
   protected
     function CxOperacaoEdFormCreate: TCxOperacaoEdForm; virtual;
@@ -27,12 +28,12 @@ type
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
     constructor Create(AOwner: TComponent; pCxOperacaoTipo: ICxOperacaoTipo;
       pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt;
-      pAppObj: IAppObj); reintroduce;
+      pAppObj: IAppObj; pCxValorDBI: ICxValorDBI); reintroduce;
   end;
 
 implementation
 
-uses Vcl.Dialogs, Data.DB;
+uses Vcl.Dialogs, Data.DB, forms;
 
 { TCxOperacaoAction }
 
@@ -43,13 +44,15 @@ end;
 
 constructor TCxOperacaoAction.Create(AOwner: TComponent;
   pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
-  pCxOperacaoEnt: ICxOperacaoEnt; pAppObj: IAppObj);
+  pCxOperacaoEnt: ICxOperacaoEnt; pAppObj: IAppObj; pCxValorDBI: ICxValorDBI);
 begin
   inherited Create(AOwner);
   FAppObj := pAppObj;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxOperacaoTipoDBI := pCxOperacaoTipoDBI;
   FCxOperacaoEnt := pCxOperacaoEnt;
+  FCxValorDBI := pCxValorDBI;
+
   Name := 'CxOperacao' + FCxOperacaoTipo.Name + 'Ins';
   Caption := FCxOperacaoTipo.Caption;
   Hint := FCxOperacaoTipo.Hint;
@@ -58,8 +61,12 @@ end;
 
 function TCxOperacaoAction.CxOperacaoEdFormCreate: TCxOperacaoEdForm;
 begin
+
   Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
-    FCxOperacaoDBI);
+    FCxOperacaoDBI, FCxValorDBI);
+
+//  Result.Parent := Application.MainForm;
+//  Result.Align :=alclient;
 end;
 
 procedure TCxOperacaoAction.Exec(Sender: TObject);
