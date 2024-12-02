@@ -72,6 +72,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
       pEntDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI); reintroduce;
+    destructor Destroy; override;
   end;
 
 var
@@ -366,6 +367,12 @@ begin
   end;
 
   DescrOk;
+end;
+
+destructor TPagFormaEdForm.Destroy;
+begin
+  FWinControlList.Free;
+  inherited;
 end;
 
 procedure TPagFormaEdForm.EntToControles;

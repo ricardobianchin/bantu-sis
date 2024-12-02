@@ -8,7 +8,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
   inherited MensLabel: TLabel
     Top = 206
     Width = 580
-    ExplicitTop = 207
+    ExplicitTop = 206
   end
   object TipoTitLabel: TLabel [2]
     Left = 160
@@ -34,7 +34,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 226
     Width = 580
-    ExplicitTop = 227
+    ExplicitTop = 226
   end
   object DescrErroLabel: TLabel [6]
     Left = 2
@@ -121,23 +121,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Ativa'
     TabOrder = 2
   end
-  object PromoGroupBox: TGroupBox [11]
-    Left = 493
-    Top = 108
-    Width = 86
-    Height = 45
-    Caption = 'Promo'#231#227'o'
-    TabOrder = 10
-    object PromoPermiteCheckBox: TCheckBox
-      Left = 8
-      Top = 19
-      Width = 122
-      Height = 17
-      Caption = 'Permite'
-      TabOrder = 0
-    end
-  end
-  object DescrLabeledEdit: TLabeledEdit [12]
+  object DescrLabeledEdit: TLabeledEdit [11]
     Left = 58
     Top = 27
     Width = 329
@@ -152,7 +136,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     OnChange = DescrLabeledEditChange
     OnExit = DescrLabeledEditExit
   end
-  object ComissGroupBox: TGroupBox [13]
+  object ComissGroupBox: TGroupBox [12]
     Left = 283
     Top = 108
     Width = 204
@@ -182,7 +166,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       Text = '123,45'
     end
   end
-  object PagFormaTipoComboBox: TComboBox [14]
+  object PagFormaTipoComboBox: TComboBox [13]
     Left = 30
     Top = 71
     Width = 122
@@ -197,7 +181,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'CREDITO'
       'TRANSFERENCIA')
   end
-  object VendaExigeGroupBox: TGroupBox [15]
+  object VendaExigeGroupBox: TGroupBox [14]
     Left = 3
     Top = 163
     Width = 408
@@ -243,20 +227,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
     end
   end
-  object UsoComboBox: TComboBox [16]
-    Left = 184
-    Top = 71
-    Width = 81
-    Height = 23
-    Style = csDropDownList
-    ItemIndex = 1
-    TabOrder = 1
-    Text = 'COMPRA'
-    Items.Strings = (
-      'VENDA'
-      'COMPRA')
-  end
-  object DescrRedLabeledEdit: TLabeledEdit [17]
+  object DescrRedLabeledEdit: TLabeledEdit [15]
     Left = 499
     Top = 27
     Width = 82
@@ -271,6 +242,35 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Text = ''
     OnChange = DescrRedLabeledEditChange
     OnExit = DescrRedLabeledEditExit
+  end
+  object UsoComboBox: TComboBox [16]
+    Left = 184
+    Top = 71
+    Width = 81
+    Height = 23
+    Style = csDropDownList
+    ItemIndex = 1
+    TabOrder = 1
+    Text = 'COMPRA'
+    Items.Strings = (
+      'VENDA'
+      'COMPRA')
+  end
+  object PromoGroupBox: TGroupBox [17]
+    Left = 493
+    Top = 108
+    Width = 86
+    Height = 45
+    Caption = 'Promo'#231#227'o'
+    TabOrder = 10
+    object PromoPermiteCheckBox: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 122
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
   end
   inherited BasePanel: TPanel
     Top = 241
