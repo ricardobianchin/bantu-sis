@@ -16,7 +16,17 @@ uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.Est.Venda.Caixa.CxValor.DBI;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI
+
+
+
+  // uses caixa operacao valor
+  , App.Est.Venda.Caixa.CxValor.DBI
+  , App.Est.Venda.Caixa.CxValor
+
+  // uses caixa operacao valor numerario
+  , App.Est.Venda.Caixa.CxNumerario
+  ;
 
 // function caixa sessao
 function CaixaSessaoCreate(pLogUsuario: IUsuario; pMachineIdentId: SmallInt;
