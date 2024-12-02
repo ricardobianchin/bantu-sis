@@ -492,6 +492,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Lists\Sis.Lists.IdCharList.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdCharHashList.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdCharHashItem_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.WinControlsNavigator.pas"/>
+        <DCCReference Include="Sis\Sis.Sis.Atualizavel_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

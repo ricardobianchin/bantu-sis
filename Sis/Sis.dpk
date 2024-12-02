@@ -311,6 +311,8 @@ contains
   Sis.Lists.IdCharItem_u in 'Lists\Sis.Lists.IdCharItem_u.pas',
   Sis.Lists.IdCharList in 'Lists\Sis.Lists.IdCharList.pas',
   Sis.Lists.IdCharHashList in 'Lists\Sis.Lists.IdCharHashList.pas',
-  Sis.Lists.IdCharHashItem_u in 'Lists\Sis.Lists.IdCharHashItem_u.pas';
+  Sis.Lists.IdCharHashItem_u in 'Lists\Sis.Lists.IdCharHashItem_u.pas',
+  Sis.UI.Controls.WinControlsNavigator in 'UI\Controls\Sis.UI.Controls.WinControlsNavigator.pas',
+  Sis.Sis.Atualizavel_u in 'Sis\Sis.Sis.Atualizavel_u.pas';
 
 end.
