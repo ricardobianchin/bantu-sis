@@ -12,6 +12,14 @@ uses
 
 type
   TCxOperacaoEdForm = class(TEdBasForm)
+    MeioPanel: TPanel;
+    CupomPanel: TPanel;
+    TrabPanel: TPanel;
+    ObsPanel: TPanel;
+    Label2: TLabel;
+    ObsMemo: TMemo;
+    Label1: TLabel;
+    CupomListBox: TListBox;
   private
     { Private declarations }
     FCxOperacaoEnt: ICxOperacaoEnt;
@@ -27,7 +35,8 @@ type
     function DadosOk: boolean; override;
     function GravouOk: boolean; override;
     procedure AjusteTabOrder; virtual;
-
+    property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
+    property CxOperacaoDBI: ICxOperacaoDBI read FCxOperacaoDBI;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
@@ -40,6 +49,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses System.Math, App.Est.Venda.CaixaSessao.Factory_u;
+
 { TCxOperacaoEdForm }
 
 procedure TCxOperacaoEdForm.AjusteControles;
@@ -60,14 +72,16 @@ end;
 
 procedure TCxOperacaoEdForm.ControlesToEnt;
 begin
-  inherited;
-
+  FCxOperacaoEnt.Obs := ObsMemo.Lines.Text;
 end;
 
 constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
+  Height := Min(1000, Screen.WorkAreaRect.Height - 10);
+  Width := 900;
 
 end;
 
@@ -78,8 +92,7 @@ end;
 
 procedure TCxOperacaoEdForm.EntToControles;
 begin
-  inherited;
-
+  ObsMemo.Lines.Text := FCxOperacaoEnt.Obs;
 end;
 
 function TCxOperacaoEdForm.GetObjetivoStr: string;
