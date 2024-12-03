@@ -7,14 +7,13 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Ed_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, NumEditBtu,
-  App.Retag.Est.Prod.ICMS.Ent, Data.DB;
+  App.Retag.Est.Prod.ICMS.Ent, Data.DB, App.Ent.Ed, App.Ent.DBI, App.AppObj;
 
 type
   TProdICMSEdForm = class(TEdBasForm)
     AtivoCheckBox: TCheckBox;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FPercNumEdit: TNumEditBtu;
@@ -34,7 +33,8 @@ type
     function GravouOk: boolean; override;
   public
     { Public declarations }
-
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+      pEntDBI: IEntDBI); override;
   end;
 
 var
@@ -45,7 +45,7 @@ implementation
 {$R *.dfm}
 
 uses App.Retag.Est.Prod.ICMS.Ent_u, Sis.UI.Controls.TLabeledEdit,
-  Sis.Types.Utils_u, Sis.Types.Integers;
+  Sis.Types.Utils_u, Sis.Types.Integers, Sis.Types.Variants;
 
 { TProdICMSEdForm }
 
@@ -90,10 +90,33 @@ begin
   ProdICMSEnt.Ativo := AtivoCheckBox.Checked;
 end;
 
+constructor TProdICMSEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
+  pEntEd: IEntEd; pEntDBI: IEntDBI);
+begin
+  inherited;
+  FPercNumEdit := TNumEditBtu.Create(Self);
+  FPercNumEdit.Parent := Self;
+  FPercNumEdit.NCasas:=5;
+  FPercNumEdit.NCasasEsq:=2;
+
+  FPercNumEdit.Caption := 'Percentual';
+
+  FPercNumEdit.OnKeyPress := PercNumEditKeyPress;
+  FPercNumEdit.OnChange := PercNumEditChange;
+
+  FPercNumEdit.Left := ObjetivoLabel.Left + FPercNumEdit.EditLabel.Width;
+  FPercNumEdit.Top := ObjetivoLabel.Top + Round(ObjetivoLabel.Height * 2.5);
+
+  AtivoCheckBox.Top := FPercNumEdit.Top + 2;
+  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width  + 12;
+
+end;
+
 function TProdICMSEdForm.DadosOk: boolean;
 var
   iId: smallint;
   sFrase: string;
+  aValores: variant;
 begin
   Result := inherited DadosOk;
   if not Result then
@@ -101,8 +124,9 @@ begin
 
   // if ProdICMSEnt.State = dsEdit then
   // begin
+  aValores := VarToVarArray(FPercNumEdit.Valor);
 
-  iId := VarToInteger(EntDBI.GetExistente(FPercNumEdit.Valor, sFrase));
+  iId := VarToInteger(EntDBI.GetExistente(aValores, sFrase));
 
   Result := iId = 0;
   if not Result then
@@ -118,27 +142,6 @@ begin
   inherited;
   FPercNumEdit.Valor := ProdICMSEnt.Perc;
   AtivoCheckBox.Checked := ProdICMSEnt.Ativo;
-end;
-
-procedure TProdICMSEdForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  FPercNumEdit := TNumEditBtu.Create(Self);
-  FPercNumEdit.Parent := Self;
-  FPercNumEdit.NCasas:=5;
-  FPercNumEdit.NCasasEsq:=2;
-
-  FPercNumEdit.Left := ObjetivoLabel.Left;
-  FPercNumEdit.Top := ObjetivoLabel.Top + Round(ObjetivoLabel.Height * 2.5);
-
-  FPercNumEdit.Caption := 'Percentual';
-
-  FPercNumEdit.OnKeyPress := PercNumEditKeyPress;
-  FPercNumEdit.OnChange := PercNumEditChange;
-
-  AtivoCheckBox.Top := FPercNumEdit.Top + 2;
-  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width + 12;
-
 end;
 
 function TProdICMSEdForm.GetObjetivoStr: string;

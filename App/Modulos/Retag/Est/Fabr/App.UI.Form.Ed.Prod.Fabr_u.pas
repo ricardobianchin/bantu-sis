@@ -40,7 +40,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.Integers,
-  Sis.UI.Controls.TLabeledEdit;
+  Sis.UI.Controls.TLabeledEdit, Sis.Types.Variants;
+
 { TProdFabrEdForm }
 
 procedure TProdFabrEdForm.AjusteControles;
@@ -97,15 +98,19 @@ var
   sValorDigitado: string;
   sFormat: string;
   sRetorno: string;
+  aValores: variant;
 begin
   Result := inherited DadosOk;
   if not Result then
     exit;
 
   sValorDigitado := LabeledEdit1.Text;
+
+  aValores := VarToVarArray(sValorDigitado);
+
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
 
-  iId := VarToInteger(EntDBI.GetExistente(sValorDigitado, sRetorno));
+  iId := VarToInteger(EntDBI.GetExistente(aValores, sRetorno));
 
   Result := iId < 1;
   if not Result then

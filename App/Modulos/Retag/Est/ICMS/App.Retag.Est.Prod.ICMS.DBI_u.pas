@@ -7,7 +7,7 @@ uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB,
   App.Retag.Est.Prod.ICMS.Ent, App.Ent.Ed;
 
 type
-  TProdICMSDBI = class(TEntDBI, IEntDBI)
+  TProdICMSDBI = class(TEntDBI)
   private
     function GetProdICMSEnt: IProdICMSEnt;
   protected
@@ -57,8 +57,8 @@ var
   cPerc: currency;
   sPerc: string;
 begin
-  cPerc := vartocurrency(pValues);
-  sPerc := floatToStrponto(pValues);
+  cPerc := vartocurrency(pValues[0]);
+  sPerc := floatToStrponto(cPerc);
   sFormat := 'SELECT ICMS_ID FROM ICMS_PA.BYPERC_GET(%s);';
   Result := Format(sFormat, [sPerc]);
 end;
