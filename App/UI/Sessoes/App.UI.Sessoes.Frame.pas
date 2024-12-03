@@ -36,6 +36,7 @@ type
     FSessaoIndexContador: IContador;
 
     FBotList: TList<TBotaoModuloFrame>;
+    FLogo1NomeArq: string;
 
     procedure SessaoCriadorListPrep;
     procedure BotSessaoAlign;
@@ -142,7 +143,7 @@ begin
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
 
   bResultado := LoginPerg(FLoginConfig, iOpcaoSisIdModulo, oUsuario,
-    oUsuarioDBI, true);
+    oUsuarioDBI, true, FLogo1NomeArq);
 
   if not bResultado then
     exit;
@@ -208,7 +209,7 @@ begin
 
   // ToolBar1.Images := SisImgDataModule.PrincImageList89;
   ActionList1.Images := SisImgDataModule.PrincImageList89;
-
+  FLogo1NomeArq := FAppObj.AppInfo.PastaImg + 'App\Logo Tela.jpg';
   SessaoCriadorListPrep;
   BotSessaoAlign;
   // SessaoCriadorListPrepActionList;
