@@ -2,14 +2,15 @@ unit App.DB.Term.EnviarDados_u;
 
 interface
 
-uses App.DB.Term.EnviarDados, Sis.Sis.Executavel_u, Sis.DB.DBTypes;
+uses App.DB.Term.EnviarDados, Sis.Sis.Executavel_u, Sis.DB.DBTypes, Sis.Entities.Types;
 
 type
   TTermEnviarDados = class(TExecutavel, ITermEnviarDados)
   private
     FServDBConnection, FTermDBConnection: IDBConnection;
+    FTerminalId: TTerminalId;
   public
-    constructor Create(pServ, pTerm: IDBConnection);
+    constructor Create(pServ, pTerm: IDBConnection; pTerminalId: TTerminalId);
     function Execute: Boolean;
   end;
 
@@ -20,12 +21,12 @@ implementation
 
 uses App.DB.Term.EnviarTabela, App.DB.Term.EnviarDados.Factory_u;
 
-constructor TTermEnviarDados.Create(pServ, pTerm: IDBConnection);
+constructor TTermEnviarDados.Create(pServ, pTerm: IDBConnection; pTerminalId: TTerminalId);
 begin
   inherited Create;
   FServDBConnection := pServ;
   FTermDBConnection := pTerm;
-
+  FTerminalId := pTerminalId;
 end;
 
 function TTermEnviarDados.Execute: Boolean;
@@ -40,7 +41,7 @@ begin
 //    oEnviarTabela := EnvTabTerminal(FServDBConnection, FTermDBConnection);
 //    oEnviarTabela.Execute;
 
-    EnvTabTerminal(FServDBConnection, FTermDBConnection).Execute;
+    EnvTabTerminal(FServDBConnection, FTermDBConnection, FTerminalId).Execute;
     EnvTabPagamentoFormaTipo(FServDBConnection, FTermDBConnection).Execute;
     EnvTabPagamentoForma(FServDBConnection, FTermDBConnection).Execute;
     EnvTabLoja(FServDBConnection, FTermDBConnection).Execute;

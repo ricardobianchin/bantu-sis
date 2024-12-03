@@ -2,7 +2,7 @@ unit App.DB.Term.EnviarTabela.Terminal_u;
 
 interface
 
-uses Sis.DB.DBTypes, App.DB.Term.EnviarTabela_u, Data.DB;
+uses Sis.DB.DBTypes, App.DB.Term.EnviarTabela_u, Data.DB, Sis.Entities.Types;
 
 type
   TRegistro = record
@@ -33,6 +33,7 @@ type
     FTabelaNome: string;
     FInsDBExec: IDBExec;
     FAltDBExec: IDBExec;
+    FTerminalId: TTerminalId;
     function DataSetToRecord(Q: TDataSet): TRegistro;
     function Inserir(pLocal: TDBConnectionLocation; pReg: TRegistro): Boolean;
     function Atualizar(pLocal: TDBConnectionLocation; pReg: TRegistro): Boolean;
@@ -52,7 +53,8 @@ type
       : TResultadoBusca;
   public
     function Execute: Boolean; override;
-    constructor Create(pServ, pTerm: IDBConnection);
+    constructor Create(pServ, pTerm: IDBConnection;
+  pTerminalId: TTerminalId);
   end;
 
 implementation
@@ -232,11 +234,12 @@ begin
   end;
 end;
 
-constructor TEnvTabTerminal.Create(pServ, pTerm: IDBConnection);
+constructor TEnvTabTerminal.Create(pServ, pTerm: IDBConnection;
+  pTerminalId: TTerminalId);
 begin
   Conn[loServ] := pServ;
   Conn[loTerm] := pTerm;
-
+  FTerminalId := pTerminalId;
   FTabelaNome := 'TERMINAL';
 end;
 
@@ -364,7 +367,7 @@ end;
 
 function TEnvTabTerminal.GetSqlQtdRegs: string;
 begin
-  Result := 'select count(*) from ' + FTabelaNome + ';';
+  Result := 'select count(*) from ' + FTabelaNome +' where terminal_id = '+FTerminalId.ToString+ ';';
 end;
 
 function TEnvTabTerminal.GetSqlTodos: string;
@@ -373,7 +376,7 @@ begin
     'LETRA_DO_DRIVE, GAVETA_TEM, BALANCA_MODO_ID, BALANCA_ID,'#13#13 +
     'BARRAS_COD_INI, BARRAS_COD_TAM, CUPOM_NLINS_FINAL, SEMPRE_OFFLINE'#13#13 +
     'FROM TERMINAL'#13#13 + //
-    'where TERMINAL_ID > 0'#13#13 + //
+    'where TERMINAL_ID = '+FTerminalId.ToString+#13#13 + //
     'ORDER BY TERMINAL_ID'#13#13;
 end;
 

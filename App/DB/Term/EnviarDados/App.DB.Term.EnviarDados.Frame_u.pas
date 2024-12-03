@@ -182,7 +182,7 @@ begin
         oDBConnectionParams, nil, nil);
 
       oTermEnviarDados := TermEnviarDadosCreate(oServDBConnection,
-        oTermDBConnection);
+        oTermDBConnection, oTerminal.TerminalId);
       oTermEnviarDados.Execute;
     end;
   finally
