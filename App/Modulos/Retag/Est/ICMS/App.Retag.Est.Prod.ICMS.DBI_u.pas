@@ -57,8 +57,8 @@ var
   cPerc: currency;
   sPerc: string;
 begin
-  cPerc := vartocurrency(pValues[0]);
-  sPerc := floatToStrponto(cPerc);
+  cPerc := vartocurrency(pValuesArray[0]);
+  sPerc := FloatToStrponto(cPerc);
   sFormat := 'SELECT ICMS_ID FROM ICMS_PA.BYPERC_GET(%s);';
   Result := Format(sFormat, [sPerc]);
 end;

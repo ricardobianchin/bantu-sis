@@ -8,13 +8,14 @@ uses App.Ent.DBI, Data.DB, Sis.DB.DBTypes, Sis.DBI_u, System.Variants,
 type
   TEntDBI = class(TDBI, IEntDBI)
   private
-    FEntEd : IEntEd ;
-    function GetEntEd: IEntEd ;
-    procedure SetEntEd(Value: IEntEd );
+    FEntEd: IEntEd;
+    function GetEntEd: IEntEd;
+    procedure SetEntEd(Value: IEntEd);
   protected
-    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; virtual; abstract;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
+      virtual; abstract;
 
-    procedure SetVarArrayToId(pNovaId: Variant); virtual; abstract;
+    procedure SetVarArrayToId(pNovaId: variant); virtual; abstract;
     function ById(pId: variant; out pValores: variant): boolean; virtual;
     function GetPackageName: string; virtual; abstract;
 
@@ -26,17 +27,20 @@ type
     function GetFieldValuesGravar: string; virtual;
   public
     property PackageName: string read GetPackageName;
-        function GetRegsJaExistentes(pValuesArray: variant;
-      out pRetorno: string): variant; virtual;
+
+    function GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string)
+      : variant; virtual;
+
     function Ler: boolean; virtual;
-    function Inserir(out pNovaId: Variant): boolean; virtual;
+    function Inserir(out pNovaId: variant): boolean; virtual;
     function Alterar: boolean; virtual;
     function Gravar: boolean; virtual;
     function Garantir: boolean;
-    procedure ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection = nil); virtual;
+    procedure ListaSelectGet(pSL: TStrings;
+      pDBConnection: IDBConnection = nil); virtual;
     function AtivoSet(const pId: integer; Value: boolean): boolean; virtual;
 
-    property EntEd: IEntEd  read GetEntEd write SetEntEd;
+    property EntEd: IEntEd read GetEntEd write SetEntEd;
 
     constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
   end;
@@ -80,7 +84,7 @@ var
 begin
   sId := pId.ToString;
   sVal := BooleanToStrSQL(Value);
-  sFormat := 'EXECUTE PROCEDURE '+PackageName+'.ATIVO_SET(%s, %s);';
+  sFormat := 'EXECUTE PROCEDURE ' + PackageName + '.ATIVO_SET(%s, %s);';
   sSql := Format(sFormat, [sId, sVal]);
 
   Result := DBConnection.Abrir;
@@ -113,13 +117,13 @@ var
   Resultado: variant;
   sResultado: string;
   sNome: string;
-  aNovaId: Variant;
+  aNovaId: variant;
 begin
   Result := False;
   sSqlGaranteRegERetornaId := GetSqlGaranteRegERetornaId;
-//  {$IFDEF DEBUG}
-//  CopyTextToClipboard(sSqlGaranteRegERetornaId);
-//  {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSqlGaranteRegERetornaId);
+  // {$ENDIF}
 
   Result := DBConnection.Abrir;
   if not Result then
@@ -128,7 +132,7 @@ begin
   try
     DBConnection.QueryDataSet(sSqlGaranteRegERetornaId, q);
 
-    Result := RecordToVarArray(aNovaId, Q);
+    Result := RecordToVarArray(aNovaId, q);
     if not Result then
       exit;
 
@@ -145,21 +149,80 @@ begin
   Result := FEntEd;
 end;
 
-function TEntDBI.GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string): variant;
+function TEntDBI.GetRegsJaExistentes(pValuesArray: variant;
+  out pRetorno: string): variant;
 var
   sFormat: string;
   sSql: string;
-  Resultado: variant;
-  sResultado: string;
+
+  q: TDataSet;
+  bNenhumEncontrado: boolean;
+  i: integer;
 begin
-  Result := 0;
+  Result := vaNull;
+  pRetorno := '';
+
   sSql := GetSqlGetRegsJaExistentes(pValuesArray);
   DBConnection.Abrir;
   try
-    Result := DBConnection.GetValueInteger(sSql);
+    DBConnection.QueryDataSet(sSql, q);
+    try
+      bNenhumEncontrado := not Assigned(q);
+      if bNenhumEncontrado then
+        exit;
+
+      bNenhumEncontrado := q.IsEmpty;
+      if bNenhumEncontrado then
+        exit;
+
+      bNenhumEncontrado := q.Fields[0].AsInteger = 0;
+      if bNenhumEncontrado then
+        exit;
+
+      Result := VarArrayCreate([1, q.RecordCount], varVariant);
+
+      while not q.Eof do
+      begin
+        if pRetorno <> '' then
+          pRetorno := pRetorno + '. ';
+        pRetorno := pRetorno + q.Fields[0].AsString;
+
+        Result[q.RecNo] := q.Fields[0].Value;
+
+        if q.FieldCount > 1 then
+        begin
+          for i := 1 to q.FieldCount - 1 do
+          begin
+            if pRetorno <> '' then
+              pRetorno := pRetorno + ',';
+            pRetorno := pRetorno + q.Fields[1].AsString;
+          end;
+        end;
+
+        q.Next;
+      end;
+
+      if pRetorno <> '' then
+      begin
+        pRetorno := 'Já existente: ' + pRetorno;
+      end;
+
+    finally
+      q.Free;
+    end;
   finally
     DBConnection.Fechar;
   end;
+
+  {
+    Result := 0;
+    sSql := GetSqlGetRegsJaExistentes(pValuesArray);
+    DBConnection.Abrir;
+    try
+    Result := DBConnection.GetValueInteger(sSql);
+    finally
+    DBConnection.Fechar;
+    end; }
 end;
 
 function TEntDBI.GetFieldNamesListaGet: string;
@@ -201,7 +264,7 @@ begin
     Result := Alterar;
 end;
 
-function TEntDBI.Inserir(out pNovaId: Variant): boolean;
+function TEntDBI.Inserir(out pNovaId: variant): boolean;
 var
   sSqlInserirDoERetornaId: string;
   sMens: string;
@@ -219,15 +282,15 @@ begin
   end;
 
   try
-    DBConnection.QueryDataSet(sSqlInserirDoERetornaId, Q);
+    DBConnection.QueryDataSet(sSqlInserirDoERetornaId, q);
 
-    Result := RecordToVarArray(pNovaId, Q);
+    Result := RecordToVarArray(pNovaId, q);
     if not Result then
       exit;
 
     SetVarArrayToId(pNovaId);
   finally
-    FreeAndNil(Q);
+    FreeAndNil(q);
     DBConnection.Fechar;
     Result := True;
   end;
@@ -235,7 +298,7 @@ end;
 
 function TEntDBI.Ler: boolean;
 begin
-//
+  //
 end;
 
 procedure TEntDBI.ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection);
@@ -272,13 +335,13 @@ begin
         sDescr := q.Fields[1].AsString.Trim;
         iId := q.Fields[0].AsInteger;
         try
-          if iId <1 then
+          if iId < 1 then
           begin
             pSL.Add(sDescr);
             continue;
           end;
-          p := Pointer(iId);
-          pSL.AddObject(sDescr, P);
+          p := pointer(iId);
+          pSL.AddObject(sDescr, p);
         finally
           q.Next;
         end;

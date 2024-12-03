@@ -17,8 +17,6 @@ type
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   public
-    function GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string)
-      : variant; override;
   end;
 
 implementation
@@ -27,60 +25,6 @@ uses System.SysUtils, Sis.Types.strings_u,
   Sis.Win.Utils_u, Vcl.Dialogs, App.Retag.Est.Factory;
 
 { TProdUnidDBI }
-
-function TProdUnidDBI.GetRegsJaExistentes(pValuesArray: variant;
-  out pRetorno: string): variant;
-var
-  sSql: string;
-  q: TDataSet;
-  sResultado: string;
-  bResultado: boolean;
-begin
-  Result := '';
-  pRetorno := '';
-  sResultado := '';
-
-  sSql := GetSqlGetRegsJaExistentes(pValuesArray);
-  DBConnection.Abrir;
-  try
-    DBConnection.QueryDataSet(sSql, q);
-    try
-    bResultado := Assigned(q);
-    if not bResultado then
-      exit;
-
-    bResultado := q.IsEmpty;
-    if bResultado then
-      exit;
-
-    bResultado := q.Fields[0].AsInteger = 0;
-    if bResultado then
-      exit;
-
-    while not q.Eof do
-    begin
-      if sResultado <> '' then
-        sResultado := sResultado + ',';
-      sResultado := sResultado + q.Fields[0].AsString;
-
-      if pRetorno <> '' then
-        pRetorno := pRetorno + ',';
-      pRetorno := pRetorno + q.Fields[1].AsString + ',' + q.Fields[2].AsString;
-      q.Next;
-    end;
-
-    if pRetorno <> '' then
-    begin
-      pRetorno := 'Já existente: ' + pRetorno;
-      Result := sResultado;
-    end;
-    finally
-      q.Free;
-    end;
-  finally
-    DBConnection.Fechar;
-  end;
-end;
 
 function TProdUnidDBI.GetPackageName: string;
 begin
@@ -109,8 +53,8 @@ var
   sDescr: string;
   sSigla: string;
 begin
-  sDescr := VarToString(pValues[0]);
-  sSigla := VarToString(pValues[1]);
+  sDescr := VarToString(pValuesArray[0]);
+  sSigla := VarToString(pValuesArray[1]);
 
   sFormat := 'SELECT UNID_ID_RET, DESCR_RET, SIGLA_RET'
     + ' FROM UNID_PA.EXISTENTES_GET(%d,''%s'',''%s'');';

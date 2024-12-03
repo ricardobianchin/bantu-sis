@@ -47,7 +47,7 @@ var
   sDescr: string;
 begin
   sFormat := 'SELECT FABR_ID FROM FABR_PA.BYNOME_GET(''%s'');';
-  sDescr := VarToString(pValues[0]);
+  sDescr := VarToString(pValuesArray[0]);
   Result := Format(sFormat, [sDescr]);
 end;
 

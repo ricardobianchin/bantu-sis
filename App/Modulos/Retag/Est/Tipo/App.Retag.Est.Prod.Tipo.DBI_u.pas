@@ -49,7 +49,7 @@ var
   sFormat: string;
   sDescr: string;
 begin
-  sDescr := VarToString(pValues[0]);
+  sDescr := VarToString(pValuesArray[0]);
 
   sFormat := 'SELECT PROD_TIPO_ID FROM PROD_TIPO_PA.BYDESCR_GET(''%s'');';
   Result := Format(sFormat, [sDescr]);

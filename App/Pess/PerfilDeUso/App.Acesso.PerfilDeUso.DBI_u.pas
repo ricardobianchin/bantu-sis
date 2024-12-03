@@ -58,7 +58,7 @@ var
 begin
   sFormat :=
     'SELECT PERFIL_DE_USO_ID FROM PERFIL_DE_USO_PA.BYNOME_GET(''%s'');';
-  sDescr := VarToString(pValues);
+  sDescr := VarToString(pValuesArray[0]);
   Result := Format(sFormat, [sDescr]);
 end;
 
