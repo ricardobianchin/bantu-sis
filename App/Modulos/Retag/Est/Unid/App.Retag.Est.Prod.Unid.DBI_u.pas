@@ -31,7 +31,6 @@ uses System.SysUtils, Sis.Types.strings_u,
 function TProdUnidDBI.GetRegsJaExistentes(pValuesArray: variant;
   out pRetorno: string): variant;
 var
-  sFormat: string;
   sSql: string;
   q: TDataSet;
   sResultado: string;
