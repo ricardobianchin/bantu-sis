@@ -13,18 +13,21 @@ uses
 
 type
   TLoginPergForm = class(TDiagBtnBasForm)
-    NomeDeUsuarioLabeledEdit: TLabeledEdit;
-    Senha1LabeledEdit: TLabeledEdit;
-    TipoPanel: TPanel;
+    SenhaMudarBitBtn_LoginPerg: TBitBtn;
+    Logo1Image: TImage;
+    MeioPanel: TPanel;
+    ControlesPanel: TPanel;
+    NomeDeUsuarioStatusLabel: TLabel;
+    ObsLabel: TLabel;
+    AvisoSenhaLabel: TLabel;
+    TopoPanel: TPanel;
     ModoTitLabel: TLabel;
     LoginPergModoLabel: TLabel;
-    NomeDeUsuarioStatusLabel: TLabel;
+    Senha1LabeledEdit: TLabeledEdit;
+    NomeDeUsuarioLabeledEdit: TLabeledEdit;
     Senha2LabeledEdit: TLabeledEdit;
     Senha3LabeledEdit: TLabeledEdit;
-    SenhaMudarBitBtn_LoginPerg: TBitBtn;
-    ObsLabel: TLabel;
     UsuGerenteExibSenhaCheckBox: TCheckBox;
-    AvisoSenhaLabel: TLabel;
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -61,6 +64,7 @@ type
 
     FLoginPergModo: TLoginPergModo;
     FNomeDeUsuarioStatus: IOutput;
+    FLogo1NomeArq: string;
 
     /// / ajusta modo
     procedure SetLoginPergModo(Value: TLoginPergModo);
@@ -95,13 +99,13 @@ type
     { Public declarations }
     constructor Create(pLoginConfig: ILoginConfig;
       pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-      pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
+      pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string);
       reintroduce;
   end;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string): boolean;
 
 var
   LoginPergForm: TLoginPergForm;
@@ -111,16 +115,16 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, Sis.Types.Utils_u, Sis.Sis.Constants,
-  Sis.UI.IO.Factory, Sis.Types.Bool_u;
+  Sis.UI.IO.Factory, Sis.Types.Bool_u, Sis.UI.Controls.Utils;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean): boolean;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string): boolean;
 var
   Resultado: TModalResult;
 begin
   LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoOpcaoSisModulo,
-    pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema);
+    pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema, pLogo1NomeArq);
   try
     Resultado := LoginPergForm.ShowModal;
     Result := IsPositiveResult(Resultado);
@@ -134,7 +138,13 @@ end;
 procedure TLoginPergForm.AjusteControles;
 begin
   inherited;
-  NomeDeUsuarioLabeledEdit.SetFocus;
+  AlteracaoTextoLabel.Parent := ControlesPanel;
+  BasePanel.Parent := ControlesPanel;
+  MensLabel.Parent := ControlesPanel;
+  ControlAlignToCenter(ControlesPanel);
+  ControlesPanel.Visible := True;
+
+  TrySetFocus(NomeDeUsuarioLabeledEdit);
 end;
 
 function TLoginPergForm.ConsultaNomeDeUsuario(pNomeDeUsuario: string;
@@ -152,7 +162,7 @@ end;
 
 constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean);
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string);
 var
   sNomeTipo: string;
 begin
@@ -168,6 +178,9 @@ begin
   FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
   sNomeTipo := AnsiUpperCase(TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo));
   Caption := Format('Login em %s...', [sNomeTipo]);
+  FLogo1NomeArq := pLogo1NomeArq;
+  Logo1Image.Picture.LoadFromFile(FLogo1NomeArq);
+
 end;
 
 function TLoginPergForm.Senha1DadosOk: boolean;
