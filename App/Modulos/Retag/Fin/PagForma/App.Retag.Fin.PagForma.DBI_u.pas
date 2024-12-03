@@ -12,7 +12,7 @@ type
     property Ent: IPagFormaEnt read GetPagFormaEnt;
   protected
     function GetSqlForEach(pValues: variant): string; override;
-    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
 
@@ -72,7 +72,7 @@ begin
     + ');';
 end;
 
-function TPagFormaDBI.GetSqlGetExistente(pValues: variant): string;
+function TPagFormaDBI.GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
 begin
 
 end;

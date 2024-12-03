@@ -12,7 +12,7 @@ type
     function GetPerfilDeUsoEnt: IPerfilDeUsoEnt;
   protected
     function GetSqlForEach(pValues: variant): string; override;
-    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; override;
     function GetSqlGaranteRegERetornaId: string; override;
     procedure SetVarArrayToId(pNovaId: variant); override;
     function GetPackageName: string; override;
@@ -51,7 +51,7 @@ begin
   Result := Format(sFormat, [iId, sDescr, sSis]);
 end;
 
-function TPerfilDeUsoDBI.GetSqlGetExistente(pValues: variant): string;
+function TPerfilDeUsoDBI.GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
 var
   sFormat: string;
   sDescr: string;

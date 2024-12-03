@@ -110,7 +110,7 @@ begin
 
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
 
-  iId := VarToInteger(EntDBI.GetExistente(aValores, sRetorno));
+  iId := VarToInteger(EntDBI.GetRegsJaExistentes(aValores, sRetorno));
 
   Result := iId < 1;
   if not Result then

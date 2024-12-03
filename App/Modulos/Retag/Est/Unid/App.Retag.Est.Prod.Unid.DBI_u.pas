@@ -12,12 +12,12 @@ type
     function GetProdUnidEnt: IProdUnidEnt;
   protected
     function GetSqlForEach(pValues: variant): string; override;
-    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; override;
     function GetSqlGaranteRegERetornaId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
   public
-    function GetExistente(pValues: variant; out pRetorno: string)
+    function GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string)
       : variant; override;
   end;
 
@@ -28,7 +28,7 @@ uses System.SysUtils, Sis.Types.strings_u,
 
 { TProdUnidDBI }
 
-function TProdUnidDBI.GetExistente(pValues: variant;
+function TProdUnidDBI.GetRegsJaExistentes(pValuesArray: variant;
   out pRetorno: string): variant;
 var
   sFormat: string;
@@ -41,7 +41,7 @@ begin
   pRetorno := '';
   sResultado := '';
 
-  sSql := GetSqlGetExistente(pValues);
+  sSql := GetSqlGetRegsJaExistentes(pValuesArray);
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, q);
@@ -104,7 +104,7 @@ begin
     GetProdUnidEnt.Sigla]);
 end;
 
-function TProdUnidDBI.GetSqlGetExistente(pValues: variant): string;
+function TProdUnidDBI.GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
 var
   sFormat: string;
   sDescr: string;

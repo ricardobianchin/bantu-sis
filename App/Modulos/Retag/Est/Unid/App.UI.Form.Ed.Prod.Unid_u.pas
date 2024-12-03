@@ -112,7 +112,7 @@ begin
   // if ProdUnidEnt.State = dsEdit then
   // begin
 
-  sId := VarToStr(EntDBI.GetExistente(VarArrayOf([DescrLabeledEdit.Text,
+  sId := VarToStr(EntDBI.GetRegsJaExistentes(VarArrayOf([DescrLabeledEdit.Text,
     SiglaLabeledEdit.Text]), sFrase));
 
 //  if ProdUnidEnt.State = dsInsert then

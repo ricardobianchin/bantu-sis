@@ -12,7 +12,7 @@ type
     function GetProdICMSEnt: IProdICMSEnt;
   protected
     function GetSqlForEach(pValues: variant): string; override;
-    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; override;
     function GetSqlGaranteRegERetornaId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
@@ -51,7 +51,7 @@ begin
   Result := Format(sFormat, [sId, sSigla, sDescr, sPerc, sAtivo]);
 end;
 
-function TProdICMSDBI.GetSqlGetExistente(pValues: variant): string;
+function TProdICMSDBI.GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
 var
   sFormat: string;
   cPerc: currency;

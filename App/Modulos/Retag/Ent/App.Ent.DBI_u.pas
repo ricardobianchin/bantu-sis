@@ -12,7 +12,7 @@ type
     function GetEntEd: IEntEd ;
     procedure SetEntEd(Value: IEntEd );
   protected
-    function GetSqlGetExistente(pValues: variant): string; virtual; abstract;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; virtual; abstract;
 
     procedure SetVarArrayToId(pNovaId: Variant); virtual; abstract;
     function ById(pId: variant; out pValores: variant): boolean; virtual;
@@ -26,8 +26,8 @@ type
     function GetFieldValuesGravar: string; virtual;
   public
     property PackageName: string read GetPackageName;
-    function GetExistente(pValues: variant; out pRetorno: string)
-      : variant; virtual;
+        function GetRegsJaExistentes(pValuesArray: variant;
+      out pRetorno: string): variant; virtual;
     function Ler: boolean; virtual;
     function Inserir(out pNovaId: Variant): boolean; virtual;
     function Alterar: boolean; virtual;
@@ -145,7 +145,7 @@ begin
   Result := FEntEd;
 end;
 
-function TEntDBI.GetExistente(pValues: variant; out pRetorno: string): variant;
+function TEntDBI.GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string): variant;
 var
   sFormat: string;
   sSql: string;
@@ -153,7 +153,7 @@ var
   sResultado: string;
 begin
   Result := 0;
-  sSql := GetSqlGetExistente(pValues);
+  sSql := GetSqlGetRegsJaExistentes(pValuesArray);
   DBConnection.Abrir;
   try
     Result := DBConnection.GetValueInteger(sSql);

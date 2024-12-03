@@ -121,7 +121,7 @@ begin
     end;
   end;
 
-  iId := EntDBI.GetExistente(sNomeDigitado, sRetorno);
+  iId := EntDBI.GetRegsJaExistentes(sNomeDigitado, sRetorno);
   Result := iId < 1;
   if not Result then
   begin

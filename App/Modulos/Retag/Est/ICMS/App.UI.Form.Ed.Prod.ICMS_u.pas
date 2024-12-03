@@ -126,7 +126,7 @@ begin
   // begin
   aValores := VarToVarArray(FPercNumEdit.Valor);
 
-  iId := VarToInteger(EntDBI.GetExistente(aValores, sFrase));
+  iId := VarToInteger(EntDBI.GetRegsJaExistentes(aValores, sFrase));
 
   Result := iId = 0;
   if not Result then

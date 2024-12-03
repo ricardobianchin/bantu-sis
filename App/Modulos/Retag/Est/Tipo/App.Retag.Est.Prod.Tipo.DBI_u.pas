@@ -12,7 +12,7 @@ type
     function GetProdTipoEnt: IProdTipoEnt;
   protected
     function GetSqlForEach(pValues: variant): string; override;
-    function GetSqlGetExistente(pValues: variant): string; override;
+    function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; override;
     function GetSqlGaranteRegERetornaId: string; override;
     procedure SetVarArrayToId(pNovaId: Variant); override;
     function GetPackageName: string; override;
@@ -44,7 +44,7 @@ begin
   Result := Format(sFormat, [GetProdTipoEnt.Id, GetProdTipoEnt.Descr]);
 end;
 
-function TProdTipoDBI.GetSqlGetExistente(pValues: variant): string;
+function TProdTipoDBI.GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
 var
   sFormat: string;
   sDescr: string;
