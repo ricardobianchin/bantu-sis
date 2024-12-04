@@ -730,6 +730,7 @@ begin
     GravarIniciais_CrieGerenteFinal(pDBConnection);
   end;
 
+  pDBConnection.ExecuteSql('UPDATE USUARIO SET DE_SISTEMA=TRUE WHERE PESSOA_ID < 0;');
   pDBConnection.ExecuteSql('DELETE FROM TERMINAL where terminal_id > 0;');
 
   for I := 0 to FTerminalList.Count - 1 do
