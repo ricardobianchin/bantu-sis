@@ -1,36 +1,6 @@
 POPULAR TABELAS LOG TIPO E LOG USO
 
 
------------------------------
-TESTES INICIO
------------------------------
-
-SHOW SEQUENCE ;
-
-SHOW TABLE ;
-
-SELECT * FROM ACAO_SIS;
-
-
-
-
-SELECT * FROM FEATURE_SIS;
-
-
-
-
-SELECT FEATURE_SIS_SIS_ID, NAME, SUBSTRING(DESCR FROM 1 FOR 50) AS DESCR FROM FEATURE_SIS;
-
-
-
-
-
-
-SHOW PACKAGE ;
-
------------------------------
-TESTES FIM 
------------------------------
 
 -----------------------------
 INICIO

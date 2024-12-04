@@ -1,20 +1,6 @@
 USUARIO_PODE_OPCAO_SIS
 
 -----------------------------
-TESTES INICIO
------------------------------
-
-SHOW TABLE USUARIO_PODE_OPCAO_SIS;
-
-SELECT * FROM ;
-
-SHOW PACKAGE PERFIL_DE_USO_PA;
-
------------------------------
-TESTES FIM 
------------------------------
-
------------------------------
 INICIO
 -----------------------------
 DBATUALIZ INI

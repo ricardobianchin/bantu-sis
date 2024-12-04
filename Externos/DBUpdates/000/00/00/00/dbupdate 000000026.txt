@@ -1,16 +1,4 @@
------------------------------
-TESTES INICIO
------------------------------
-
-SHOW TABLE ;
-
-SELECT * FROM PERFIL_DE_USO_PODE_OPCAO_SIS;
-
-
------------------------------
-TESTES FIM 
------------------------------
-
+PERFIL_DE_USO_PODE_OPCAO_SIS ENSURE RECORDS
 -----------------------------
 INICIO
 -----------------------------
