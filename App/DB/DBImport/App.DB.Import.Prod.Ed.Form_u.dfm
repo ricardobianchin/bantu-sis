@@ -21,16 +21,13 @@ inherited DBImportProdEdForm: TDBImportProdEdForm
     ExplicitTop = 314
     ExplicitWidth = 586
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 247
-      ExplicitLeft = 243
+      TabOrder = 0
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 360
-      ExplicitLeft = 356
+      TabOrder = 1
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 440
-      ExplicitLeft = 436
+      TabOrder = 2
     end
   end
   object SelCheckBox: TCheckBox [3]
