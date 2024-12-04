@@ -99,22 +99,22 @@ var
   sFormat: string;
   sRetorno: string;
   aValores: variant;
+  vRetorno: variant;
 begin
   Result := inherited DadosOk;
   if not Result then
     exit;
 
   sValorDigitado := LabeledEdit1.Text;
+  sNomeCampo := LabeledEdit1.EditLabel.Caption;
 
   aValores := VarToVarArray(sValorDigitado);
 
-  sNomeCampo := LabeledEdit1.EditLabel.Caption;
+  vRetorno := EntDBI.GetRegsJaExistentes(aValores, sRetorno, Result);
 
-  iId := VarToInteger(EntDBI.GetRegsJaExistentes(aValores, sRetorno));
-
-  Result := iId < 1;
   if not Result then
   begin
+    iId := vRetorno[0];
     sFormat := '''%s'' já está cadastrado sob o código %d';
     sFrase := Format(sFormat, [sValorDigitado, iId]);
     ErroOutput.Exibir(sFrase);
@@ -122,7 +122,43 @@ begin
     exit;
   end;
 end;
+{
+procedure TestGetRegsJaExistentes;
+var
+  vValuesArray: variant;
+  vRetorno: variant;
+  sMensagem: string;
+begin
+  // Inicializando vValuesArray com os valores que deseja verificar
+  vValuesArray := VarArrayCreate([0, 1], varVariant);
+  vValuesArray[0] := 'Valor1';
+  vValuesArray[1] := 'Valor2';
 
+  // Chamando a função GetRegsJaExistentes
+  vRetorno := GetRegsJaExistentes(vValuesArray, sMensagem);
+
+  // Verificando se o array retornado é vazio
+  if VarIsArray(vRetorno) and (VarArrayHighBound(vRetorno, 1) >= 1) then
+  begin
+    // Processar os valores retornados
+    for var i := VarArrayLowBound(vRetorno, 1) to VarArrayHighBound(vRetorno, 1) do
+    begin
+      // Acessando cada valor do array
+      ShowMessage('Valor ' + IntToStr(i) + ': ' + VarToStr(vRetorno[i]));
+    end;
+  end
+  else
+  begin
+    // Tratamento para array vazio ou nulo
+    ShowMessage('Nenhum registro encontrado.');
+  end;
+
+  // Exibindo a mensagem de retorno
+  if sMensagem <> '' then
+    ShowMessage(sMensagem);
+end;
+
+}
 procedure TProdFabrEdForm.EntToControles;
 begin
   inherited;

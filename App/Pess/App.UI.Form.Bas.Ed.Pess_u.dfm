@@ -6,36 +6,19 @@ inherited PessEdBasForm: TPessEdBasForm
   ExplicitHeight = 568
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 458
+    Top = 495
     Width = 941
-    ExplicitTop = 458
+    ExplicitTop = 495
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 478
+    Top = 515
     Width = 941
-    ExplicitTop = 478
+    ExplicitTop = 515
   end
   inherited BasePanel: TPanel
-    Top = 493
+    Top = 458
     Width = 941
     TabOrder = 1
-    ExplicitTop = 492
-    ExplicitWidth = 937
-    DesignSize = (
-      941
-      37)
-    inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 482
-      ExplicitLeft = 478
-    end
-    inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 595
-      ExplicitLeft = 591
-    end
-    inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 675
-      ExplicitLeft = 671
-    end
   end
   object EnderecoPanel: TPanel [4]
     Left = 0

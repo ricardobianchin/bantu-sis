@@ -40,7 +40,8 @@ implementation
 
 {$R *.dfm}
 
-uses Data.DB, Sis.UI.Controls.TLabeledEdit, Sis.Types.Integers;
+uses Data.DB, Sis.UI.Controls.TLabeledEdit, Sis.Types.Integers,
+  Sis.Types.Variants;
 
 procedure TPerfilDeUsoEdForm.AjusteControles;
 var
@@ -93,7 +94,7 @@ constructor TPerfilDeUsoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited;
-  FPerfilDeUsoEnt :=EntEdCastToPerfilDeUsoEnt(pEntEd);
+  FPerfilDeUsoEnt := EntEdCastToPerfilDeUsoEnt(pEntEd);
 end;
 
 function TPerfilDeUsoEdForm.DadosOk: boolean;
@@ -104,6 +105,8 @@ var
   sValorDigitado: string;
   sFormat: string;
   sRetorno: string;
+  aValores: variant;
+  vRetorno: variant;
 begin
   Result := inherited DadosOk;
   if not Result then
@@ -111,13 +114,14 @@ begin
 
   sValorDigitado := LabeledEdit1.Text;
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
+  aValores := VarToVarArray(sValorDigitado);
 
-  iId := VarToInteger(EntDBI.GetRegsJaExistentes(sValorDigitado, sRetorno));
+  vRetorno := EntDBI.GetRegsJaExistentes(aValores, sRetorno, Result);
 
-  Result := iId < 1;
   if not Result then
   begin
     sFormat := '''%s'' já está cadastrado sob o código %d';
+    iId := vRetorno[0];
     sFrase := Format(sFormat, [sValorDigitado, iId]);
     ErroOutput.Exibir(sFrase);
     LabeledEdit1.SetFocus;
@@ -164,7 +168,8 @@ begin
 
 end;
 
-procedure TPerfilDeUsoEdForm.LabeledEdit1KeyPress(Sender: TObject; var Key: Char);
+procedure TPerfilDeUsoEdForm.LabeledEdit1KeyPress(Sender: TObject;
+  var Key: Char);
 begin
   if Key = #13 then
   begin

@@ -32,7 +32,7 @@ type
     /// Array de variantes contendo as ids dos registros já existentes.
     /// </returns>
     function GetRegsJaExistentes(pValuesArray: variant;
-      out pRetorno: string): variant;
+      out pRetorno: string; out pNenhumExistente: Boolean): variant;
 
     // recebe uma id ou array de loja term id
     // retorna array com os valores do reg

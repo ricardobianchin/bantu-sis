@@ -1,8 +1,15 @@
 inherited ProdICMSEdForm: TProdICMSEdForm
   Caption = 'ProdICMSEdForm'
-  ExplicitWidth = 443
+  ClientWidth = 423
+  ExplicitWidth = 435
   ExplicitHeight = 306
   TextHeight = 15
+  inherited MensLabel: TLabel
+    Width = 423
+  end
+  inherited AlteracaoTextoLabel: TLabel
+    Width = 423
+  end
   object AtivoCheckBox: TCheckBox [3]
     Left = 232
     Top = 24
@@ -13,19 +20,6 @@ inherited ProdICMSEdForm: TProdICMSEdForm
     OnKeyPress = AtivoCheckBoxKeyPress
   end
   inherited BasePanel: TPanel
-    ExplicitTop = 230
-    ExplicitWidth = 427
-    inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 108
-      ExplicitLeft = 104
-    end
-    inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 221
-      ExplicitLeft = 217
-    end
-    inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 301
-      ExplicitLeft = 297
-    end
+    Width = 423
   end
 end

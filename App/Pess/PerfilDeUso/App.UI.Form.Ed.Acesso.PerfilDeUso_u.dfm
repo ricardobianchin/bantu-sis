@@ -1,19 +1,19 @@
 inherited PerfilDeUsoEdForm: TPerfilDeUsoEdForm
   Caption = 'PerfilDeUsoEdBasForm'
-  ClientHeight = 187
-  ClientWidth = 516
-  ExplicitWidth = 532
-  ExplicitHeight = 226
+  ClientHeight = 186
+  ClientWidth = 512
+  ExplicitWidth = 524
+  ExplicitHeight = 224
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 115
-    Width = 516
-    ExplicitTop = 116
+    Top = 114
+    Width = 512
+    ExplicitTop = 114
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 135
-    Width = 516
-    ExplicitTop = 136
+    Top = 134
+    Width = 512
+    ExplicitTop = 134
   end
   object LabeledEdit1: TLabeledEdit [3]
     Left = 8
@@ -30,21 +30,16 @@ inherited PerfilDeUsoEdForm: TPerfilDeUsoEdForm
     OnKeyPress = LabeledEdit1KeyPress
   end
   inherited BasePanel: TPanel
-    Top = 150
-    Width = 516
-    ExplicitTop = 280
-    ExplicitWidth = 516
+    Top = 149
+    Width = 512
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 113
-      ExplicitLeft = 109
+      TabOrder = 0
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 226
-      ExplicitLeft = 222
+      TabOrder = 1
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 306
-      ExplicitLeft = 302
+      TabOrder = 2
     end
   end
 end

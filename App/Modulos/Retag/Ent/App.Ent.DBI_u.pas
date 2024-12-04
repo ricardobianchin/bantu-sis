@@ -28,8 +28,8 @@ type
   public
     property PackageName: string read GetPackageName;
 
-    function GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string)
-      : variant; virtual;
+    function GetRegsJaExistentes(pValuesArray: variant; out pRetorno: string;
+      out pNenhumExistente: boolean): variant; virtual;
 
     function Ler: boolean; virtual;
     function Inserir(out pNovaId: variant): boolean; virtual;
@@ -149,18 +149,32 @@ begin
   Result := FEntEd;
 end;
 
+/// <summary>
+/// Função para obter registros já existentes.
+/// </summary>
+/// <param name="pValuesArray">
+/// Array de valores a serem verificados.
+/// </param>
+/// <param name="pRetorno">
+/// Retorno da função, caso necessário.
+/// </param>
+/// <returns>
+/// Array de variantes contendo os registros já existentes.
+/// </returns>
 function TEntDBI.GetRegsJaExistentes(pValuesArray: variant;
-  out pRetorno: string): variant;
+  out pRetorno: string; out pNenhumExistente: boolean): variant;
 var
-  sFormat: string;
   sSql: string;
-
   q: TDataSet;
   bNenhumEncontrado: boolean;
   i: integer;
+  iQtdExistentes: integer;
+  iUltimoIndex: integer;
+
 begin
-  Result := vaNull;
+  Result := VarArrayCreate([1, 0], varVariant);
   pRetorno := '';
+  pNenhumExistente := True;
 
   sSql := GetSqlGetRegsJaExistentes(pValuesArray);
   DBConnection.Abrir;
@@ -179,50 +193,39 @@ begin
       if bNenhumEncontrado then
         exit;
 
-      Result := VarArrayCreate([1, q.RecordCount], varVariant);
+      iQtdExistentes := q.RecordCount;
+      iUltimoIndex := iQtdExistentes - 1;
 
+      Result := VarArrayCreate([0, iUltimoIndex], varVariant);
+      pNenhumExistente := False;
+
+      i := 0;
       while not q.Eof do
       begin
         if pRetorno <> '' then
           pRetorno := pRetorno + '. ';
-        pRetorno := pRetorno + q.Fields[0].AsString;
+        pRetorno := pRetorno + q.Fields[0].AsString.Trim;
 
-        Result[q.RecNo] := q.Fields[0].Value;
+        Result[i] := q.Fields[0].Value;
 
-        if q.FieldCount > 1 then
+        for var j := 1 to q.FieldCount - 1 do
         begin
-          for i := 1 to q.FieldCount - 1 do
-          begin
-            if pRetorno <> '' then
-              pRetorno := pRetorno + ',';
-            pRetorno := pRetorno + q.Fields[1].AsString;
-          end;
+          pRetorno := pRetorno + ', ' + q.Fields[j].AsString.Trim;
         end;
 
+        Inc(i);
         q.Next;
       end;
 
       if pRetorno <> '' then
-      begin
-        pRetorno := 'Já existente: ' + pRetorno;
-      end;
-
+        pRetorno := Iif(iQtdExistentes = 1, 'Já existente: ', 'Já existentes: ')
+          + pRetorno;
     finally
       q.Free;
     end;
   finally
     DBConnection.Fechar;
   end;
-
-  {
-    Result := 0;
-    sSql := GetSqlGetRegsJaExistentes(pValuesArray);
-    DBConnection.Abrir;
-    try
-    Result := DBConnection.GetValueInteger(sSql);
-    finally
-    DBConnection.Fechar;
-    end; }
 end;
 
 function TEntDBI.GetFieldNamesListaGet: string;
@@ -298,7 +301,7 @@ end;
 
 function TEntDBI.Ler: boolean;
 begin
-  //
+  Result := False;
 end;
 
 procedure TEntDBI.ListaSelectGet(pSL: TStrings; pDBConnection: IDBConnection);

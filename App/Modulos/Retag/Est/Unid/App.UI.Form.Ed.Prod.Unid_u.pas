@@ -45,7 +45,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.Retag.Est.Prod.Unid.Ent_u, Sis.UI.Controls.TLabeledEdit;
+uses App.Retag.Est.Prod.Unid.Ent_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Variants;
 
 procedure TProdUnidEdForm.AjusteControles;
 var
@@ -102,39 +102,26 @@ function TProdUnidEdForm.DadosOk: boolean;
 var
   sId: string;
   sIdAtual: string;
-  sFrase: string;
+  sRetorno: string;
+  aValores: variant;
+  vRetorno: variant;
+  sValorDigitado: string;
 begin
   Result := inherited DadosOk;
   if not Result then
     exit;
 
+  aValores := ValuesToVarArray([DescrLabeledEdit.Text,
+    SiglaLabeledEdit.Text]);
 
-  // if ProdUnidEnt.State = dsEdit then
-  // begin
+  vRetorno := EntDBI.GetRegsJaExistentes(aValores, sRetorno, Result);
 
-  sId := VarToStr(EntDBI.GetRegsJaExistentes(VarArrayOf([DescrLabeledEdit.Text,
-    SiglaLabeledEdit.Text]), sFrase));
-
-//  if ProdUnidEnt.State = dsInsert then
-//  begin
-    Result := sId = '';
-    if not Result then
-    begin
-      ErroOutput.Exibir(sFrase);
-      DescrLabeledEdit.SetFocus;
-      exit;
-    end;
-//    exit;
-//  end;
-//
-//  sIdAtual := '/'+ProdUnidEnt.Id.ToString+'/';
-//  Result := Pos(sIdAtual, sId) > 0;
-//  if not Result then
-//  begin
-//    ErroOutput.Exibir('Já existente ' + sFrase);
-//    DescrLabeledEdit.SetFocus;
-//    exit;
-//  end;
+  if not Result then
+  begin
+    ErroOutput.Exibir(sRetorno);
+    DescrLabeledEdit.SetFocus;
+    exit;
+  end;
 end;
 
 procedure TProdUnidEdForm.EntToControles;

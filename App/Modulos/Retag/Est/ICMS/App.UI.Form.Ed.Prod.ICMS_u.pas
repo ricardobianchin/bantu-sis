@@ -96,8 +96,8 @@ begin
   inherited;
   FPercNumEdit := TNumEditBtu.Create(Self);
   FPercNumEdit.Parent := Self;
-  FPercNumEdit.NCasas:=5;
-  FPercNumEdit.NCasasEsq:=2;
+  FPercNumEdit.NCasas := 5;
+  FPercNumEdit.NCasasEsq := 2;
 
   FPercNumEdit.Caption := 'Percentual';
 
@@ -108,7 +108,7 @@ begin
   FPercNumEdit.Top := ObjetivoLabel.Top + Round(ObjetivoLabel.Height * 2.5);
 
   AtivoCheckBox.Top := FPercNumEdit.Top + 2;
-  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width  + 12;
+  AtivoCheckBox.Left := FPercNumEdit.Left + FPercNumEdit.Width + 12;
 
 end;
 
@@ -116,22 +116,24 @@ function TProdICMSEdForm.DadosOk: boolean;
 var
   iId: smallint;
   sFrase: string;
+  sRetorno: string;
   aValores: variant;
+  vRetorno: variant;
 begin
   Result := inherited DadosOk;
   if not Result then
     exit;
 
-  // if ProdICMSEnt.State = dsEdit then
-  // begin
   aValores := VarToVarArray(FPercNumEdit.Valor);
 
-  iId := VarToInteger(EntDBI.GetRegsJaExistentes(aValores, sFrase));
+  vRetorno := EntDBI.GetRegsJaExistentes(aValores, sRetorno, Result);
 
-  Result := iId = 0;
   if not Result then
   begin
-    ErroOutput.Exibir(sFrase);
+    iId := vRetorno[0];
+
+    ErroOutput.Exibir('Tributação ' + FormatFloat('####0.####',
+      FPercNumEdit.AsFloat) + ' já existe sob código ' + iId.ToString);
     FPercNumEdit.SetFocus;
     exit;
   end;

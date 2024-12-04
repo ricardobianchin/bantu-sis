@@ -102,21 +102,22 @@ var
   sFormat: string;
   sRetorno: string;
   aValores: variant;
+  vRetorno: variant;
 begin
   Result := inherited DadosOk;
   if not Result then
     exit;
 
   sValorDigitado := LabeledEdit1.Text;
-  aValores := VarToVarArray(sValorDigitado);
-
   sNomeCampo := LabeledEdit1.EditLabel.Caption;
 
-  iId := EntDBI.GetRegsJaExistentes(aValores, sRetorno);
-  Result := iId < 1;
+  aValores := VarToVarArray(sValorDigitado);
+  vRetorno := EntDBI.GetRegsJaExistentes(aValores, sRetorno, Result);
+
   if not Result then
   begin
     sFormat := '''%s'' já está cadastrado sob o código %d';
+    iId := vRetorno[0];
     sFrase := Format(sFormat, [sValorDigitado, iId]);
     ErroOutput.Exibir(sFrase);
     LabeledEdit1.SetFocus;
