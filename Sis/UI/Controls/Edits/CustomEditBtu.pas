@@ -267,6 +267,7 @@ begin
   case key of
     13:
     begin
+      if Shift = [] then
       if autoexit then
         if owner is twincontrol then
         begin
