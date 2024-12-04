@@ -215,7 +215,7 @@ BEGIN
         SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID FROM FUNCIONARIO 
       ), USU AS(
         SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME_DE_USUARIO, SENHA,
-        CRY_VER
+        CRY_VER, DE_SISTEMA
         FROM USUARIO
       ),
       PER AS (
@@ -331,12 +331,16 @@ BEGIN
       ----------------------------
 
       WHERE 
+        NOT USU.DE_SISTEMA
+        AND
+        (
         :LOJA_ID_FILTRO = 0
         OR 
         (
         PES.LOJA_ID = :LOJA_ID_FILTRO
         AND PES.TERMINAL_ID = :TERMINAL_ID_FILTRO
         AND PES.PESSOA_ID = :PESSOA_ID_FILTRO
+        )
         )
 
       ----------------------------
