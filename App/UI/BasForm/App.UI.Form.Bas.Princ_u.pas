@@ -99,6 +99,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+        destructor Destroy; override;
+
   end;
 
 var
@@ -236,6 +238,7 @@ var
   sMens: string;
 begin
   inherited Create(AOwner);
+//  ReportMemoryLeaksOnShutdown := True;
   Randomize;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
@@ -322,6 +325,12 @@ end;
 procedure TPrincBasForm.DBUpdaterVariaveisPegar(pChave, pValor: string);
 begin
   FDBUpdaterVariaveis := FDBUpdaterVariaveis + pChave + '=' + pValor + #13#10;
+end;
+
+destructor TPrincBasForm.Destroy;
+begin
+  //
+  inherited;
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
