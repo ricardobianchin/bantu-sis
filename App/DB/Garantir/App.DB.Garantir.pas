@@ -107,6 +107,7 @@ begin
 
     pProcessLog.RegistreLog('vai DBMS.GarantirDBMSInstalado');
     Result := DBMS.GarantirDBMSInstalado(pProcessLog, pOutput);
+
     if not Result then
     begin
       pProcessLog.RegistreLog('retornou false');
