@@ -13,10 +13,10 @@ type
     function GetValor: TPreco;
     property Valor: TPreco read GetValor;
 
-    procedure PegueCxNumerario(pValor: TPreco; pQtd: SmallInt);
+    function PegueCxNumerario(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
 
-//    function GetCxNumerario(Index: integer): ICxNumerario;
-//    property CxNumerario[Index: integer]: ICxNumerario read GetCxNumerario: ICxNumerario; default;
+    function GetCxNumerario(Index: integer): ICxNumerario;
+    property CxNumerario[Index: integer]: ICxNumerario read GetCxNumerario; default;
   end;
 
 implementation

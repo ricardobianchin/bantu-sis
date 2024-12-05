@@ -3,7 +3,8 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 interface
 
 uses App.Est.Venda.Caixa.CaixaSessao, App.Ent.Ed, Sis.Entities.Types,
-  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo;
+  App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, App.Est.Venda.Caixa.CxValor,
+  App.Types, Sis.Types;
 
 type
   ICxOperacaoEnt = interface(IEntEd)
@@ -44,6 +45,12 @@ type
     function GetCancelado: Boolean;
     procedure SetCancelado(Value: Boolean);
     property Cancelado: Boolean read GetCancelado write SetCancelado;
+
+    function PegueCxValor(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;
+
+    function GetCxValor(Index: integer): ICxValor;
+    property CxValor[Index: integer]: ICxValor read GetCxValor; default;
+
   end;
 
 implementation

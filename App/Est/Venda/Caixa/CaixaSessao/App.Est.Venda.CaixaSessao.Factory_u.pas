@@ -5,7 +5,7 @@ interface
 // System.Classes,
 
 uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
-  System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj
+  System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj, Sis.Types, App.Types,
 
   // uses caixa sessao
     , App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessao.DBI
@@ -59,7 +59,10 @@ function CxOperacaoDBICreate(pDBConnection: IDBConnection;
 function EntEdCastToCxOperacaoEnt(pEntEd: IEntEd): ICxOperacaoEnt;
 function EntDBICastToCxOperacaoDBI(pEntDBI: IEntDBI): ICxOperacaoDBI;
 
+function CxValorCreate(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;
 function CxValorDBICreate(pDBConnection: IDBConnection): ICxValorDBI;
+
+function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
 
 implementation
 
@@ -77,7 +80,11 @@ uses
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u,
-  App.Est.Venda.Caixa.CxValor.DBI_u;
+  App.Est.Venda.Caixa.CxValor.DBI_u
+  // uses caixa operacao valor numerario
+  , App.Est.Venda.Caixa.CxNumerario_u
+
+  ;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
@@ -165,9 +172,19 @@ begin
   Result := TCxOperacaoDBI.Create(pDBConnection, pCxOperacaoEnt);
 end;
 
+function CxValorCreate(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;
+begin
+  Result := TCxValor.Create(pPagamentoFormaId, pValor);
+end;
+
 function CxValorDBICreate(pDBConnection: IDBConnection): ICxValorDBI;
 begin
   Result := TCxValorDBI.Create(pDBConnection);
+end;
+
+function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
+begin
+  Result := TCxNumerario.Create(pValor, pQtd);
 end;
 
 end.

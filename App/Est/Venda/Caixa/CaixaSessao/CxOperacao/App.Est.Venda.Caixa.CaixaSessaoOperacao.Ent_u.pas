@@ -4,7 +4,8 @@ interface
 
 uses Sis.Types.Utils_u, App.Ent.Ed_u, Sis.Entities.Types, Data.DB,
   App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Est.Venda.Caixa.CxValor,
+  System.Generics.Collections, App.Types, Sis.Types;
 
 type
   TCxOperacaoEnt = class(TEntEd, ICxOperacaoEnt)
@@ -19,6 +20,7 @@ type
     FValor: Currency;
     FObs: string;
     FCancelado: Boolean;
+    FCxValorList: TList<ICxValor>;
 
     function GetLojaId: TLojaId;
     procedure SetLojaId(Value: TLojaId);
@@ -45,6 +47,8 @@ type
     function GetCancelado: Boolean;
     procedure SetCancelado(Value: Boolean);
 
+    function GetCxValor(Index: integer): ICxValor;
+
   protected
     procedure LimparEnt;
     function GetNomeEnt: string; override;
@@ -61,11 +65,19 @@ type
     property Obs: string read GetObs write SetObs;
     property Cancelado: Boolean read GetCancelado write SetCancelado;
 
+    function PegueCxValor(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;
+
+    property CxValor[Index: integer]: ICxValor read GetCxValor; default;
+
     constructor Create(pCaixaSessao: ICaixaSessao;
       pCxOperacaoTipo: ICxOperacaoTipo);
+    destructor Destroy; override;
+
   end;
 
 implementation
+
+uses App.Est.Venda.CaixaSessao.Factory_u;
 
 { TCxOperacaoEnt }
 
@@ -75,6 +87,13 @@ begin
   inherited Create(TDataSetState.dsBrowse);
   FCaixaSessao := pCaixaSessao;
   FCxOperacaoTipo := pCxOperacaoTipo;
+  FCxValorList := TList<ICxValor>.Create;
+end;
+
+destructor TCxOperacaoEnt.Destroy;
+begin
+  FCxValorList.Free;
+  inherited;
 end;
 
 function TCxOperacaoEnt.GetCaixaSessao: ICaixaSessao;
@@ -92,6 +111,11 @@ begin
   Result := FCxOperacaoTipo;
 end;
 
+function TCxOperacaoEnt.GetCxValor(Index: integer): ICxValor;
+begin
+  Result := FCxValorList[Index];
+end;
+
 function TCxOperacaoEnt.GetLogId: Int64;
 begin
   Result := FLogId;
@@ -104,7 +128,7 @@ end;
 
 function TCxOperacaoEnt.GetNomeEnt: string;
 begin
-  Result := 'Operação de Caixa '+ FCxOperacaoTipo.Caption;
+  Result := 'Operação de Caixa ' + FCxOperacaoTipo.Caption;
 end;
 
 function TCxOperacaoEnt.GetNomeEntAbrev: string;
@@ -150,6 +174,13 @@ begin
   FValor := ZERO_CURRENCY;
   FObs := '';
   FCancelado := False;
+end;
+
+function TCxOperacaoEnt.PegueCxValor(pPagamentoFormaId: TId;
+  pValor: TPreco): ICxValor;
+begin
+  Result := CxValorCreate(pPagamentoFormaId, pValor);
+  FCxValorList.Add(Result;
 end;
 
 procedure TCxOperacaoEnt.SetCancelado(Value: Boolean);
