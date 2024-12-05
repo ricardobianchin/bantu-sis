@@ -60,11 +60,11 @@ end;
 
 constructor TShopPrincForm.Create(AOwner: TComponent);
 begin
-  inherited;
-  ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
+  //ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
   try
+    inherited;
   finally
-    ProcessLog.RetorneAssunto;
+//    ProcessLog.RetorneAssunto;
   end;
 end;
 
