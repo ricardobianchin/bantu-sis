@@ -47,15 +47,15 @@ var
 begin
   inherited;
   GerenciadorDeTarefasCentralizarAction_PrincBasForm.Execute;
-  PrincPosDir := Left + Width;
-  GerForm.Left := PrincPosDir + 1;
+//  PrincPosDir := Left + Width;
+//  GerForm.Left := PrincPosDir + 1;
 
-  GerPosDir := GerForm.Left + GerForm.Width;
-  if GerPosDir > Screen.Width then
-    GerForm.Left := Screen.Width - GerForm.Width;
+//  GerPosDir := GerForm.Left + GerForm.Width;
+//  if GerPosDir > Screen.Width then
+//    GerForm.Left := Screen.Width - GerForm.Width;
 
-  if GerForm.AutoOpen then
-    GerForm.Show;
+//  if GerForm.AutoOpen then
+//    GerForm.Show;
 end;
 
 constructor TShopPrincForm.Create(AOwner: TComponent);
@@ -71,7 +71,7 @@ end;
 procedure TShopPrincForm.GerFormInicializar;
 begin
   // inherited;
-  GerForm := TGerShopAppForm.Create(Self, AppObj);
+//  GerForm := TGerShopAppForm.Create(Self, AppObj);
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
