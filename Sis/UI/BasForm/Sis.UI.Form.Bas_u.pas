@@ -113,20 +113,6 @@ begin
   finally
     sl.Free;
   end;
-  // FObrigFrame.Foque;
-  // FObrigFrame.SimuleDig;
-
-  // OkAct_Diag.Execute;
-
-  // ObrigatoriosProdEdFrame.FCustoAtualNumEdit
-  // ObrigatoriosProdEdFrame.FPrecoAtualNumEdit: TNumEditBtu;
-
-
-
-  // FFabrSelectEditFrame.IdNumEdit.Valor := 2;
-
-  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYDOWN, VK_RETURN, 0);
-  // PostMessage(FFabrSelectEditFrame.IdNumEdit.Handle, WM_KEYUP, VK_RETURN, 0);
 end;
 
 destructor TBasForm.Destroy;
