@@ -27,7 +27,6 @@ type
     GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
     AbrirButton_PrincBasForm: TButton;
     CentrButton_PrincBasForm: TButton;
-    procedure FormDestroy(Sender: TObject);
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -99,8 +98,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
-        destructor Destroy; override;
-
+    destructor Destroy; override;
   end;
 
 var
@@ -238,7 +236,7 @@ var
   sMens: string;
 begin
   inherited Create(AOwner);
-//  ReportMemoryLeaksOnShutdown := True;
+  // ReportMemoryLeaksOnShutdown := True;
   Randomize;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
@@ -292,7 +290,6 @@ begin
       Application.Terminate;
       Exit;
     end;
-
     GarantaDB;
 
     if FLoja.Id < 1 then
@@ -329,8 +326,13 @@ end;
 
 destructor TPrincBasForm.Destroy;
 begin
-  //
-  inherited;
+//  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
+  try
+//    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
+    inherited;
+  finally
+//    FProcessLog.RetorneLocal;
+  end;
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
@@ -347,17 +349,6 @@ begin
   GerForm.EspereTerminar;
   inherited;
 
-end;
-
-procedure TPrincBasForm.FormDestroy(Sender: TObject);
-begin
-  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
-  try
-    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
-    inherited;
-  finally
-    FProcessLog.RetorneLocal;
-  end;
 end;
 
 procedure TPrincBasForm.GarantaDB;
@@ -467,7 +458,6 @@ begin
   sVarNome := 'ATIVIDADE_ECONOMICA_NAME';
   sVarValor := AtividadeEconomicaSisName[eAtiv];
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
-
 
 end;
 
