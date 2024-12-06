@@ -51,8 +51,7 @@ end;
 
 function TThreadCreator.ThreadBasCreate: TThreadBas;
 begin
-  Result := TThreadBas.Create(FExecutando, FTitOutput, FStatusOutput,
-    FProcessLog, FThreadTitulo);
+  Result := TThreadBas.Create(FExecutando, FThreadTitulo);
   Result.OnTerminate := OnTerminate;
 end;
 
