@@ -55,7 +55,7 @@ type
 
     FDBUpdaterVariaveis: string;
 
-//    FGerForm: TGerAppForm;
+    FGerForm: TGerAppForm;
 
     procedure GarantaDB;
     function AtualizeVersaoExecutaveis: boolean;
@@ -92,7 +92,7 @@ type
 
     procedure PreenchaDBUpdaterVariaveis; virtual;
 
-//    property GerForm: TGerAppForm read FGerForm write FGerForm;
+    property GerForm: TGerAppForm read FGerForm write FGerForm;
 
     procedure AjusteControles; override;
   public
@@ -135,6 +135,9 @@ var
   bPrecisaResetar: boolean;
   sLog: string;
 begin
+{$IFDEF DEBUG}
+  exit;
+{$ENDIF}
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
 
   try
@@ -345,8 +348,8 @@ procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
   GerenciadorDeTarefasAbrirAction_PrincBasForm.Execute;
   Application.ProcessMessages;
-//  GerForm.Terminate;
-//  GerForm.EspereTerminar;
+  GerForm.Terminate;
+  GerForm.EspereTerminar;
   inherited;
 
 end;
@@ -418,15 +421,15 @@ procedure TPrincBasForm.GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
   (Sender: TObject);
 begin
   inherited;
-//  FGerForm.Show;
+  FGerForm.Show;
 end;
 
 procedure TPrincBasForm.
   GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(Sender: TObject);
 begin
   inherited;
-//  ControlAlignToRect(FGerForm, Screen.WorkAreaRect);
-//  FGerForm.BringToFront;
+  ControlAlignToRect(FGerForm, Screen.WorkAreaRect);
+  FGerForm.BringToFront;
 end;
 
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);
