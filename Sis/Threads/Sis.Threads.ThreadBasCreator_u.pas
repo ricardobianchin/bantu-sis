@@ -23,7 +23,7 @@ type
 
   public
     property OnTerminate: TNotifyEvent read FOnTerminate;
-    function TThreadBasCreate: TThreadBas; virtual;
+    function ThreadBasCreate: TThreadBas; virtual;
     constructor Create(pExecutando: ISafeBool; pOnTerminate: TNotifyEvent; pTitOutput: IOutput = nil;
       pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
       pThreadTitulo: string = '');
@@ -49,7 +49,7 @@ begin
 
 end;
 
-function TThreadCreator.TThreadBasCreate: TThreadBas;
+function TThreadCreator.ThreadBasCreate: TThreadBas;
 begin
   Result := TThreadBas.Create(FExecutando, FTitOutput, FStatusOutput,
     FProcessLog, FThreadTitulo);

@@ -82,7 +82,7 @@ begin
     exit;
 
   if not Assigned(FThreadBas) then
-    FThreadBas := ThreadCreator.TThreadBasCreate;
+    FThreadBas := ThreadCreator.ThreadBasCreate;
   FThreadBas.OnTerminate := DoTerminate;
 
   try

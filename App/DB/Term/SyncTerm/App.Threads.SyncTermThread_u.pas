@@ -22,6 +22,10 @@ type
   protected
     procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
       pServCon, pTermCon: IDBConnection; pSql: TStrings); virtual;
+
+    ///////
+    // EXECUTE
+    ///////
     procedure Execute; override;
 
     procedure PegarFaixa(out FLogIdIni, FLogIdFin: Int64); virtual;

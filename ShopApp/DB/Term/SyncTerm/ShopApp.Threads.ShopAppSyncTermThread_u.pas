@@ -12,7 +12,11 @@ type
   protected
     procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
       pServCon, pTermCon: IDBConnection; pSql: TStrings); override;
-      procedure Execute; override;
+
+    ///////
+    // EXECUTE
+    ///////
+    procedure Execute; override;
 
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
@@ -27,12 +31,12 @@ uses Sis.Entities.Types, ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 { TShopAppAppSyncTermThread }
 
 constructor TShopAppAppSyncTermThread.Create(pTerminal: ITerminal;
-  pAppObj: IAppObj; pExecutandoSafeBool: ISafeBool; pTitOutput,
-  pStatusOutput: IOutput; pProcessLog: IProcessLog);
+  pAppObj: IAppObj; pExecutandoSafeBool: ISafeBool;
+  pTitOutput, pStatusOutput: IOutput; pProcessLog: IProcessLog);
 begin
   inherited Create(pTerminal, pAppObj, pExecutandoSafeBool, pTitOutput,
     pStatusOutput, pProcessLog);
-  NameThreadForDebugging('ShopSyncTerm'+pTerminal.TerminalId.ToString);
+  NameThreadForDebugging('ShopSyncTerm' + pTerminal.TerminalId.ToString);
 end;
 
 procedure TShopAppAppSyncTermThread.Execute;

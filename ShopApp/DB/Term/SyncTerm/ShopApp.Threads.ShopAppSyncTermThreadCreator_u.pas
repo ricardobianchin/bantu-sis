@@ -11,15 +11,14 @@ type
   TShopAppSyncTermThreadCreator = class(TAppSyncTermThreadCreator)
   protected
   public
-    function TThreadBasCreate: TThreadBas; override;
-
+    function ThreadBasCreate: TThreadBas; override;
   end;
 
 implementation
 
 { TShopAppSyncTermThreadCreator }
 
-function TShopAppSyncTermThreadCreator.TThreadBasCreate: TThreadBas;
+function TShopAppSyncTermThreadCreator.ThreadBasCreate: TThreadBas;
 begin
   Result := TShopAppAppSyncTermThread.Create(Terminal, AppObj, Executando,
     TitOutput, StatusOutput, ProcessLog);
