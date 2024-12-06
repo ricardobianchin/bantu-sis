@@ -363,8 +363,7 @@ begin
           // Halt(0);
           // fim do teste            testar acima, add aqui terminal_id=
 
-          //    SLUpperCase(FLinhasSL);
-
+          // SLUpperCase(FLinhasSL);
 
           sVariaveisAdicionais := //
             'PONTO_ALVO=' + FsDBUpdaterPontoAlvo + #13#10 + //
@@ -621,7 +620,7 @@ procedure TDBUpdater.ComandosGetSql;
 var
   oComando: IComando;
   sComandosSql: string;
-  I, iQtdComandos: integer;
+  i, iQtdComandos: integer;
 begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosGetSql');
   try
@@ -629,9 +628,9 @@ begin
     FSqlDestinoSL.Clear;
     iQtdComandos := 0;
 
-    for I := 0 to FComandoList.Count - 1 do
+    for i := 0 to FComandoList.Count - 1 do
     begin
-      oComando := FComandoList[I];
+      oComando := FComandoList[i];
       sComandosSql := oComando.GetAsSql;
       if sComandosSql <> '' then
       begin
@@ -651,7 +650,7 @@ end;
 procedure TDBUpdater.ComandosTesteFuncionou;
 var
   oComando: IComando;
-  I: integer;
+  i: integer;
   Resultado: Boolean;
   sMensagemErro: string;
 begin
@@ -659,9 +658,9 @@ begin
   try
     FOutput.Exibir('Testando os comandos...');
 
-    for I := 0 to FComandoList.Count - 1 do
+    for i := 0 to FComandoList.Count - 1 do
     begin
-      oComando := FComandoList[I];
+      oComando := FComandoList[i];
       Resultado := oComando.Funcionou;
       if not Resultado then
       begin
@@ -706,7 +705,7 @@ end;
 
 procedure TDBUpdater.GravarIniciais(pDBConnection: IDBConnection);
 var
-  I: integer;
+  i: integer;
 begin
   if FTerminalId > 0 then // se estou em terminal, aborta
     exit;
@@ -730,12 +729,13 @@ begin
     GravarIniciais_CrieGerenteFinal(pDBConnection);
   end;
 
-  pDBConnection.ExecuteSql('UPDATE USUARIO SET DE_SISTEMA=TRUE WHERE PESSOA_ID < 0;');
+  pDBConnection.ExecuteSql('UPDATE USUARIO SET DE_SISTEMA=TRUE' +
+    ' WHERE PESSOA_ID < 0;');
   pDBConnection.ExecuteSql('DELETE FROM TERMINAL where terminal_id > 0;');
 
-  for I := 0 to FTerminalList.Count - 1 do
+  for i := 0 to FTerminalList.Count - 1 do
   begin
-    GravarIniciais_CrieTerminal(pDBConnection, FTerminalList[I]);
+    GravarIniciais_CrieTerminal(pDBConnection, FTerminalList[i]);
   end;
 end;
 
@@ -1021,7 +1021,7 @@ begin
     SLRemoveCommentsMultiLine(pSL);
     SLManterEntre(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
 
-//    SLUpperCase(FLinhasSL);
+    // SLUpperCase(FLinhasSL);
 
     sLog := sLog + ',sobraram ' + pSL.Count.ToString + ' linhas,';
     FProcessLog.RegistreLog(sLog);
@@ -1043,33 +1043,33 @@ var
   sPastaComando: string;
   sNomeArq: string;
 begin
-//C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000084.txt
-//seja pVersao = 84
+  // C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000084.txt
+  // seja pVersao = 84
 
   iNumInicialFaixa := (pVersao div 100) * 100;
-//84 -> iNumInicialFaixa = 0
+  // 84 -> iNumInicialFaixa = 0
 
   sVersaoPastas := IntToStrZero(iNumInicialFaixa, 9);
-// sVersaoPastas = 000000084
+  // sVersaoPastas = 000000084
 
   Insert('\', sVersaoPastas, 4);
-// sVersaoPastas = 000\000084
+  // sVersaoPastas = 000\000084
 
   Insert('\', sVersaoPastas, 7);
-// sVersaoPastas = 000\00\0084
+  // sVersaoPastas = 000\00\0084
 
   Insert('\', sVersaoPastas, 10);
-// sVersaoPastas = 000\00\00\84
+  // sVersaoPastas = 000\00\00\84
 
   sNomeArqZeros := IntToStrZero(pVersao, 9);
-// sNomeArqZeros = 000000084
+  // sNomeArqZeros = 000000084
 
   sPastaComando := FCaminhoComandos + sVersaoPastas + '\';
-//sPastaComando = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\' + '000\00\00\00' + '\'
+  // sPastaComando = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\' + '000\00\00\00' + '\'
   ForceDirectories(sPastaComando);
 
   sNomeArq := sPastaComando + 'dbupdate ' + sNomeArqZeros + '.txt';
-//sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\' + 'dbupdate ' + 000000084' + '.txt'
+  // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\' + 'dbupdate ' + 000000084' + '.txt'
   Result := sNomeArq;
 end;
 
