@@ -68,7 +68,7 @@ end;
 procedure TThreadStatusFrame.DoTerminate(Sender: TObject);
 begin
   StatusOutput.Exibir('Parado');
-  FThreadBas := nil;
+//  FThreadBas := nil;
 end;
 
 procedure TThreadStatusFrame.Execute;
