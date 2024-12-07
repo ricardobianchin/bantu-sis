@@ -8,24 +8,17 @@ uses Sis.Threads.ThreadBas_u, Sis.Threads.ThreadCreator, Sis.UI.IO.Output,
 type
   TThreadCreator = class(TInterfacedObject, IThreadCreator)
   private
-    FExecutando: ISafeBool;
-    FTitOutput: IOutput;
-    FStatusOutput: IOutput;
-    FProcessLog: IProcessLog;
+//    FExecutando: ISafeBool;
     FThreadTitulo: string;
     FOnTerminate: TNotifyEvent;
   protected
-    property Executando: ISafeBool read FExecutando;
-    property TitOutput: IOutput read FTitOutput;
-    property StatusOutput: IOutput read FStatusOutput;
-    property ProcessLog: IProcessLog read FProcessLog;
+//    property Executando: ISafeBool read FExecutando;
     property ThreadTitulo: string read FThreadTitulo;
 
   public
     property OnTerminate: TNotifyEvent read FOnTerminate;
     function ThreadBasCreate: TThreadBas; virtual;
-    constructor Create(pExecutando: ISafeBool; pOnTerminate: TNotifyEvent; pTitOutput: IOutput = nil;
-      pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+    constructor Create({pExecutando: ISafeBool; }pOnTerminate: TNotifyEvent;
       pThreadTitulo: string = '');
   end;
 
@@ -33,25 +26,22 @@ implementation
 
 { TThreadCreator }
 
-constructor TThreadCreator.Create(pExecutando: ISafeBool; pOnTerminate: TNotifyEvent;
-  pTitOutput, pStatusOutput: IOutput; pProcessLog: IProcessLog;
+constructor TThreadCreator.Create({pExecutando: ISafeBool; }pOnTerminate: TNotifyEvent;
+
   pThreadTitulo: string);
 begin
-  FExecutando := pExecutando;
+//  FExecutando := pExecutando;
   FOnTerminate := pOnTerminate;
-  FTitOutput := pTitOutput;
-  FStatusOutput := pStatusOutput;
-  FProcessLog := pProcessLog;
   FThreadTitulo := pThreadTitulo;
 
-  FTitOutput.Exibir(FThreadTitulo);
-  FStatusOutput.Exibir('Parado');
+//  FTitOutput.Exibir(FThreadTitulo);
+//  FStatusOutput.Exibir('Parado');
 
 end;
 
 function TThreadCreator.ThreadBasCreate: TThreadBas;
 begin
-  Result := TThreadBas.Create(FExecutando, FThreadTitulo);
+  Result := TThreadBas.Create({FExecutando,} FThreadTitulo);
   Result.OnTerminate := OnTerminate;
 end;
 

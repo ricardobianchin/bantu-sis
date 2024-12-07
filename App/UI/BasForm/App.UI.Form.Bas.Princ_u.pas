@@ -27,6 +27,7 @@ type
     GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
     AbrirButton_PrincBasForm: TButton;
     CentrButton_PrincBasForm: TButton;
+    Timer1: TTimer;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -38,6 +39,8 @@ type
     procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
       (Sender: TObject);
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -462,6 +465,18 @@ begin
   sVarValor := AtividadeEconomicaSisName[eAtiv];
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
+end;
+
+procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+//  Timer1.Enabled := True;
+end;
+
+procedure TPrincBasForm.Timer1Timer(Sender: TObject);
+begin
+  inherited;
+  FecharAction_ActBasForm.Execute;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;

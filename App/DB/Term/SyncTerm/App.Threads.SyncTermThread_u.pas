@@ -6,11 +6,15 @@ uses App.Threads.TermThread_u, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   System.Classes, Sis.Threads.ThreadBas_u, App.AppObj, Sis.Entities.Terminal,
   Sis.Threads.SafeBool, Sis.DB.Factory, Sis.DB.DBTypes, App.DB.Utils,
   Sis.Sis.Constants, App.Threads.SyncTermThread_AddComandos,
-  System.Generics.Collections;
+  System.Generics.Collections, FireDAC.Comp.Client, Sis.DB.FDExecScript_u;
 
 type
   TAppSyncTermThread = class(TTermThread)
   private
+    FServFDConnection: TFDConnection;
+    FTermFDConnection: TFDConnection;
+    FFDExecScript: TFDExecScript;
+
     FServCon, FTermCon: IDBConnection;
     FLogIdIni, FLogIdFin: Int64;
     FDBExecScript: IDBExecScript;
@@ -23,9 +27,9 @@ type
     procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
       pServCon, pTermCon: IDBConnection; pSql: TStrings); virtual;
 
-    ///////
+    /// ////
     // EXECUTE
-    ///////
+    /// ////
     procedure Execute; override;
 
     procedure PegarFaixa(out FLogIdIni, FLogIdFin: Int64); virtual;
@@ -33,9 +37,9 @@ type
     property AddCommandsList: TList<ISyncTermAddComandos> read FAddCommandsList;
     property DBExecScript: IDBExecScript read FDBExecScript;
   public
-    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
-      pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;
-      pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil);
+    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj
+      { pExecutandoSafeBool: ISafeBool; }
+      );
     destructor Destroy; override;
 
   end;
@@ -44,7 +48,7 @@ implementation
 
 uses System.SysUtils, Sis.Config.SisConfig, System.Math, App.Constants,
   App.Threads.SyncTermThread_u_PegarFaixa, App.Threads.SyncTermThread.Factory_u,
-  Data.DB;
+  Data.DB, Sis.Types.Integers;
 
 { TAppSyncTermThread }
 
@@ -52,91 +56,107 @@ procedure TAppSyncTermThread.AtualizeMachine;
 var
   iMaxTerm: integer;
   s: string;
-  q: TDataSet;
+  oFDQuery: TFDQuery;
+  q: TFDQuery;
+  iRowsAfected: LongInt;
 begin
   s := 'select max(machine_id) from machine;';
-  iMaxTerm := FTermCon.GetValueInteger(s);
+  iMaxTerm := VarToInteger(FTermFDConnection.ExecSQLScalar(s));
 
   s := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' + ' FROM MACHINE' +
     ' WHERE MACHINE_ID > ' + IntToStr(iMaxTerm) + ' ORDER BY MACHINE_ID';
-
-  AppObj.CriticalSections.DB.Acquire;
-  try
-    FServCon.QueryDataSet(s, q);
-  finally
-    AppObj.CriticalSections.DB.Release;
-  end;
-
-  if not Assigned(q) then
-    exit;
+  oFDQuery := TFDQuery.Create(nil);
+  oFDQuery.Connection := FServFDConnection;
+  oFDQuery.Sql.Text := s;
 
   try
-    if q.IsEmpty then
-      exit;
-
-    Terminal.CriticalSections.DB.Acquire;
+    AppObj.CriticalSections.DB.Acquire;
     try
-      while not q.Eof do
-      begin
-        s := 'INSERT INTO MACHINE' + '(MACHINE_ID, NOME_NA_REDE, IP)' //
-          + ' VALUES (' + q.Fields[0].AsInteger.ToString //
-          + ', ' + QuotedStr(q.Fields[1].AsString) //
-          + ', ' + QuotedStr(q.Fields[2].AsString.Trim) //
-          + ');';
-        FTermCon.ExecuteSQL(s);
-        q.Next;
+      oFDQuery.Open;
+    finally
+      AppObj.CriticalSections.DB.Release;
+    end;
+
+    try
+      exit;
+      Terminal.CriticalSections.DB.Acquire;
+      try
+        q := oFDQuery;
+        while not q.Eof do
+        begin
+          s := 'INSERT INTO MACHINE' + '(MACHINE_ID, NOME_NA_REDE, IP)' //
+            + ' VALUES (' + q.Fields[0].AsInteger.ToString //
+            + ', ' + QuotedStr(q.Fields[1].AsString) //
+            + ', ' + QuotedStr(q.Fields[2].AsString.Trim) //
+            + ');';
+          FTermFDConnection.ExecSQL(s);
+          q.Next;
+        end;
+      finally
+        Terminal.CriticalSections.DB.Release;
       end;
     finally
-      Terminal.CriticalSections.DB.Release;
+      oFDQuery.Close;
     end;
   finally
-    FreeAndNil(q);
+    oFDQuery.Free;
   end;
-
 end;
 
 function TAppSyncTermThread.Conectou: boolean;
 var
   s: ISisConfig;
   rDBConnectionParams: TDBConnectionParams;
-
+  sDriver: string;
 begin
   s := AppObj.SisConfig;
 
   rDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  FServCon := DBConnectionCreate('TAppSyncTermThread.serv.con', s,
-    rDBConnectionParams, ProcessLog, StatusOutput);
+  FServFDConnection := TFDConnection.Create(nil);
+  FServFDConnection.LoginPrompt := false;
+  sDriver := 'FB';
+
+  FServFDConnection.Params.Text := //
+    'DriverID=' + sDriver + #13#10 //
+    + 'Server=' + rDBConnectionParams.Server + #13#10 //
+    + 'Database=' + rDBConnectionParams.Arq + #13#10 +
+    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
 
   rDBConnectionParams.Server := Terminal.NomeNaRede;
   rDBConnectionParams.Arq := Terminal.LocalArqDados;
   rDBConnectionParams.Database := Terminal.Database;
 
-  FTermCon := DBConnectionCreate('TAppSyncTermThread.term.con', s,
-    rDBConnectionParams, ProcessLog, StatusOutput);
+  FTermFDConnection := TFDConnection.Create(nil);
+  FTermFDConnection.LoginPrompt := false;
+  sDriver := 'FB';
 
-  Result := FServCon.Abrir;
-  if not Result then
-    exit;
+  FTermFDConnection.Params.Text := //
+    'DriverID=' + sDriver + #13#10 //
+    + 'Server=' + rDBConnectionParams.Server + #13#10 //
+    + 'Database=' + rDBConnectionParams.Arq + #13#10 +
+    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
 
-  Result := FTermCon.Abrir;
-  if not Result then
-  begin
-    FServCon.Fechar;
-    exit;
-  end;
+  FServFDConnection.Open;
+  FTermFDConnection.Open;
+
+  FFDExecScript := TFDExecScript.Create('TAppSyncTermThread.execscript',
+    FTermFDConnection, Terminal.CriticalSections.DB);
+
+  Result := True;
+
 end;
 
-constructor TAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj;
-  pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
-  pProcessLog: IProcessLog);
+constructor TAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj
+  { pExecutandoSafeBool: ISafeBool; }
+  );
 var
   sThreadTitulo: string;
 begin
   sThreadTitulo := 'Sincronização ' + pTerminal.AsText;
-  inherited Create(pTerminal, pAppObj, pExecutandoSafeBool, pTitOutput,
-    pStatusOutput, pProcessLog, sThreadTitulo);
+  inherited Create(pTerminal, pAppObj, { pExecutandoSafeBool, }
+    sThreadTitulo);
   FAddCommandsList := TList<ISyncTermAddComandos>.Create;
 end;
 
@@ -152,7 +172,6 @@ var
   iAtualIni, iAtualFIn: Int64;
 begin
   // inherited;
-  StatusOutput.Exibir('Iniciou');
   if Terminated then
     exit;
   if not Conectou then
@@ -160,11 +179,8 @@ begin
   try
     if Terminated then
       exit;
-
-    FDBExecScript := DBExecScriptCreate('TAppSyncTermThread.ExecScript',
-      FTermCon, ProcessLog, StatusOutput, Terminal.CriticalSections.DB);
-
     AtualizeMachine;
+    exit;
 
     RegistreAddComands(AppObj, Terminal, FServCon, FTermCon, FDBExecScript.Sql);
 
@@ -204,8 +220,12 @@ end;
 
 procedure TAppSyncTermThread.FecharConexoes;
 begin
-  FServCon.Fechar;
-  FTermCon.Fechar;
+  FServFDConnection.Close;
+  FTermFDConnection.Close;
+
+  FFDExecScript.Free;
+  FServFDConnection.Free;
+  FTermFDConnection.Free;
 end;
 
 procedure TAppSyncTermThread.PegarFaixa(out FLogIdIni, FLogIdFin: Int64);
@@ -236,7 +256,7 @@ var
 begin
   sFormat := 'Logs de %d a %d. Fin: %d';
   sMens := Format(sFormat, [pAtualIni, pAtualFIn, FLogIdFin]);
-  StatusOutput.Exibir(sMens);
+  // StatusOutput.Exibir(sMens);
 
   for var Adder in FAddCommandsList do
     Adder.Execute(pAtualIni, pAtualFIn);

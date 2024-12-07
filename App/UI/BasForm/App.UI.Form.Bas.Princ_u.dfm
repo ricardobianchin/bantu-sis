@@ -132,4 +132,11 @@ inherited PrincBasForm: TPrincBasForm
       OnExecute = GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
     end
   end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = Timer1Timer
+    Left = 320
+    Top = 176
+  end
 end

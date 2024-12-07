@@ -19,9 +19,8 @@ type
     procedure Execute; override;
 
   public
-    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
-      pExecutandoSafeBool: ISafeBool; pTitOutput: IOutput = nil;
-      pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil);
+    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj{;
+      pExecutandoSafeBool: ISafeBool});
   end;
 
 implementation
@@ -31,21 +30,19 @@ uses Sis.Entities.Types, ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 { TShopAppAppSyncTermThread }
 
 constructor TShopAppAppSyncTermThread.Create(pTerminal: ITerminal;
-  pAppObj: IAppObj; pExecutandoSafeBool: ISafeBool;
-  pTitOutput, pStatusOutput: IOutput; pProcessLog: IProcessLog);
+  pAppObj: IAppObj{; pExecutandoSafeBool: ISafeBool});
 begin
-  inherited Create(pTerminal, pAppObj, pExecutandoSafeBool, pTitOutput,
-    pStatusOutput, pProcessLog);
+  inherited Create(pTerminal, pAppObj{, pExecutandoSafeBool});
   NameThreadForDebugging('ShopSyncTerm' + pTerminal.TerminalId.ToString);
 end;
 
 procedure TShopAppAppSyncTermThread.Execute;
 begin
-  SetExecutando(True);
+//  SetExecutando(True);
   try
     inherited;
   finally
-    SetExecutando(False);
+//    SetExecutando(False);
   end;
 end;
 

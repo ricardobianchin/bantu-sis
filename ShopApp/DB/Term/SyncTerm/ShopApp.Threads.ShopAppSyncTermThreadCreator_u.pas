@@ -20,8 +20,7 @@ implementation
 
 function TShopAppSyncTermThreadCreator.ThreadBasCreate: TThreadBas;
 begin
-  Result := TShopAppAppSyncTermThread.Create(Terminal, AppObj, Executando,
-    TitOutput, StatusOutput, ProcessLog);
+  Result := TShopAppAppSyncTermThread.Create(Terminal, AppObj{, Executando});
 end;
 
 end.

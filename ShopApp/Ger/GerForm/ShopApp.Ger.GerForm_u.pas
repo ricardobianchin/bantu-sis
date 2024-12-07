@@ -52,7 +52,6 @@ end;
 
 function TGerShopAppForm.FrameCreate(pTerminal: ITerminal): TThreadStatusFrame;
 var
-  oCreator: IThreadCreator;
   sName: string;
 begin
   // cria o Frame
@@ -71,11 +70,8 @@ begin
   Result := TShopAppSyncTermThreadCreator.Create( //
     pTerminal //
     , AppObj //
-    , pFrame.Executando //
+    //, pFrame.Executando //
     , pFrame.DoTerminate //
-    , pFrame.titOutput //
-    , pFrame.StatusOutput //
-    , pFrame.ProcessLog //
     , pTerminal.AsText
     );
 end;

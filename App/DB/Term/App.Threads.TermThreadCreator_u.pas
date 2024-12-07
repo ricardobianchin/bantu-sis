@@ -15,8 +15,7 @@ type
     property Terminal: ITerminal read FTerminal;
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
-      pExecutandoSafeBool: ISafeBool; pOnTerminate: TNotifyEvent; pTitOutput: IOutput = nil;
-      pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+      pOnTerminate: TNotifyEvent;
       pThreadTitulo: string = '');
   end;
 
@@ -25,12 +24,11 @@ implementation
 { TTermThreadCreator }
 
 constructor TTermThreadCreator.Create(pTerminal: ITerminal; pAppObj: IAppObj;
-  pExecutandoSafeBool: ISafeBool; pOnTerminate: TNotifyEvent; pTitOutput: IOutput = nil;
-  pStatusOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+  {pExecutandoSafeBool: ISafeBool; }pOnTerminate: TNotifyEvent;
+
   pThreadTitulo: string = '');
 begin
-  inherited Create(pAppObj, pExecutandoSafeBool, pOnTerminate, pTitOutput, pStatusOutput,
-    pProcessLog, pThreadTitulo);
+  inherited Create(pAppObj, {pExecutandoSafeBool, }pOnTerminate, pThreadTitulo);
   FTerminal := pTerminal;
 end;
 

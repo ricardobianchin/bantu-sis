@@ -8,16 +8,16 @@ type
   TThreadBas = class(TThread)
   private
     FThreadTitulo: string;
-    FExecutandoSafeBool: ISafeBool;
+//    FExecutandoSafeBool: ISafeBool;
 
-    function GetExecutando: boolean;
+//    function GetExecutando: boolean;
   protected
     property ThreadTitulo: string read FThreadTitulo write FThreadTitulo;
-    procedure SetExecutando(const Value: boolean);
+  //  procedure SetExecutando(const Value: boolean);
   public
-    constructor Create(pExecutandoSafeBool: ISafeBool;
+    constructor Create(//pExecutandoSafeBool: ISafeBool;
       pThreadTitulo: string = '');
-    property Executando: boolean read GetExecutando;//é read-only. só a thread pode alterá-la
+//    property Executando: boolean read GetExecutando;//é read-only. só a thread pode alterá-la
   end;
 
 implementation
@@ -26,13 +26,13 @@ implementation
 
 uses Sis.Types.strings_u;
 
-constructor TThreadBas.Create(pExecutandoSafeBool: ISafeBool;
+constructor TThreadBas.Create(//pExecutandoSafeBool: ISafeBool;
   pThreadTitulo: string);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
-  FExecutandoSafeBool := pExecutandoSafeBool;
-  SetExecutando(False);
+  //FExecutandoSafeBool := pExecutandoSafeBool;
+//  SetExecutando(False);
 
   if pThreadTitulo = '' then
     FThreadTitulo := ClassNameToNome(ClassName)
@@ -40,14 +40,14 @@ begin
     FThreadTitulo := pThreadTitulo;
 end;
 
-function TThreadBas.GetExecutando: boolean;
-begin
-  Result := FExecutandoSafeBool.AsBoolean;
-end;
-
-procedure TThreadBas.SetExecutando(const Value: boolean);
-begin
-  FExecutandoSafeBool.AsBoolean := Value;
-end;
+//function TThreadBas.GetExecutando: boolean;
+//begin
+//  Result := FExecutandoSafeBool.AsBoolean;
+//end;
+//
+//procedure TThreadBas.SetExecutando(const Value: boolean);
+//begin
+//  FExecutandoSafeBool.AsBoolean := Value;
+//end;
 
 end.

@@ -32,7 +32,7 @@ type
 
 implementation
 
-uses System.SysUtils, System.StrUtils, Sis.Types.strings_u;
+uses System.SysUtils, System.StrUtils, Sis.Types.strings_u, Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TDBExecScriptFireDac }
 
@@ -42,6 +42,8 @@ constructor TDBExecScriptFireDac.Create(pNomeComponente: string;
 var
   sLog: string;
 begin
+  if not Assigned(pProcessLog) then
+    pProcessLog := MudoProcessLogCreate;
   pProcessLog.PegueLocal('TDBExecScriptFireDac.Create');
   try
     inherited Create(pNomeComponente, pDBConnection, pProcessLog, pOutput,
@@ -61,8 +63,8 @@ destructor TDBExecScriptFireDac.Destroy;
 begin
   ProcessLog.PegueLocal('TDBExecScriptFireDac.Destroy');
   try
-    FreeAndNil(FSql);
     FreeAndNil(FFDCommand);
+    FreeAndNil(FSql);
     inherited;
   finally
     ProcessLog.RetorneLocal;

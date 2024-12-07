@@ -370,6 +370,7 @@ contains
   App.Est.Venda.Caixa.CxValor in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.pas',
   App.Est.Venda.Caixa.CxValor_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor_u.pas',
   App.Est.Venda.Caixa.CxNumerario in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario.pas',
-  App.Est.Venda.Caixa.CxNumerario_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas';
+  App.Est.Venda.Caixa.CxNumerario_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas',
+  Sis.DB.FDExecScript_u in '..\Sis\DB\Sis.DB.FDExecScript_u.pas';
 
 end.

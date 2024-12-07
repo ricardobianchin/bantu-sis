@@ -12,10 +12,10 @@ type
   protected
     property AppObj: IAppObj read FAppObj;
   public
-    constructor Create(pAppObj: IAppObj; pExecutandoSafeBool: ISafeBool;
+    constructor Create(pAppObj: IAppObj; {pExecutandoSafeBool: ISafeBool;}
     pOnTerminate: TNotifyEvent;
-      pTitOutput: IOutput = nil; pStatusOutput: IOutput = nil;
-      pProcessLog: IProcessLog = nil; pThreadTitulo: string = '');
+
+      pThreadTitulo: string = '');
   end;
 
 implementation
@@ -23,10 +23,10 @@ implementation
 { TAppThreadCreator }
 
 constructor TAppThreadCreator.Create(pAppObj: IAppObj;
-  pExecutandoSafeBool: ISafeBool; pOnTerminate: TNotifyEvent; pTitOutput, pStatusOutput: IOutput;
-  pProcessLog: IProcessLog; pThreadTitulo: string);
+  {pExecutandoSafeBool: ISafeBool;} pOnTerminate: TNotifyEvent;
+  pThreadTitulo: string);
 begin
-  inherited Create(pExecutandoSafeBool, pOnTerminate, pTitOutput, pStatusOutput, pProcessLog, pThreadTitulo);
+  inherited Create({pExecutandoSafeBool, }pOnTerminate, pThreadTitulo);
   FAppObj := pAppObj;
 end;
 
