@@ -2,7 +2,7 @@ unit Sis.UI.Controls.Utils;
 
 interface
 
-uses Vcl.StdCtrls, Controls, messages, System.Classes, System.Types,
+uses Vcl.StdCtrls, Vcl.Controls, Winapi.Messages, System.Classes, System.Types,
   Vcl.Graphics;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
@@ -17,7 +17,12 @@ procedure DigiteStr(pTexto: string; pEspera: integer); overload;
 
 procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
 
-procedure ClearStyleElements(Control: TControl);
+procedure ClearStyleElements(pControl: TControl);
+
+/// <param name="pStyleElements">
+///     TStyleElements = set of (seFont, seClient, seBorder);
+/// </param>
+procedure SetStyleElementsRecursive(pControl: TControl; pStyleElements: TStyleElements);
 procedure SetHintToName(Control: TControl);
 procedure SetTabOrderToHint(Control: TControl);
 procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
@@ -176,15 +181,26 @@ begin
   pWinControlModelo.Free;
 end;
 
-procedure ClearStyleElements(Control: TControl);
+procedure ClearStyleElements(pControl: TControl);
 var
   I: integer;
 begin
-  Control.StyleElements := [];
-  if Control is TWinControl then
-    for I := 0 to TWinControl(Control).ControlCount - 1 do
-      ClearStyleElements(TWinControl(Control).Controls[I]);
+  pControl.StyleElements := [];
+  if pControl is TWinControl then
+    for I := 0 to TWinControl(pControl).ControlCount - 1 do
+      ClearStyleElements(TWinControl(pControl).Controls[I]);
 end;
+
+procedure SetStyleElementsRecursive(pControl: TControl; pStyleElements: TStyleElements);
+var
+  I: integer;
+begin
+  pControl.StyleElements := pStyleElements;
+  if pControl is TWinControl then
+    for I := 0 to TWinControl(pControl).ControlCount - 1 do
+      ClearStyleElements(TWinControl(pControl).Controls[I]);
+end;
+
 
 procedure SetHintToName(Control: TControl);
 var
