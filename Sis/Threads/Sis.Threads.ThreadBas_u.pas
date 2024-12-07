@@ -2,22 +2,34 @@ unit Sis.Threads.ThreadBas_u;
 
 interface
 
-uses System.Classes, Sis.Threads.SafeBool;
+uses System.Classes, Sis.Threads.SafeBool, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TThreadBas = class(TThread)
   private
     FThreadTitulo: string;
-//    FExecutandoSafeBool: ISafeBool;
 
-//    function GetExecutando: boolean;
+    FExecutandoSafeBool: ISafeBool;
+
+    FTitOutput: IOutput;
+    FStatusOutput: IOutput;
+    FProcessLog: IProcessLog;
+
+    function GetExecutando: Boolean;
+    procedure SetExecutando(const Value: Boolean);
   protected
     property ThreadTitulo: string read FThreadTitulo write FThreadTitulo;
-  //  procedure SetExecutando(const Value: boolean);
+
+    property TitOutput: IOutput read FTitOutput;
+    property StatusOutput: IOutput read FStatusOutput;
+    property ProcessLog: IProcessLog read FProcessLog;
+
+    property Executando: Boolean read GetExecutando write SetExecutando;
   public
-    constructor Create(//pExecutandoSafeBool: ISafeBool;
+    constructor Create(pExecutando: ISafeBool; pTitOutput: IOutput;
+      pStatusOutput: IOutput; pProcessLog: IProcessLog;
       pThreadTitulo: string = '');
-//    property Executando: boolean read GetExecutando;//é read-only. só a thread pode alterá-la
   end;
 
 implementation
@@ -26,13 +38,13 @@ implementation
 
 uses Sis.Types.strings_u;
 
-constructor TThreadBas.Create(//pExecutandoSafeBool: ISafeBool;
-  pThreadTitulo: string);
+constructor TThreadBas.Create(pExecutando: ISafeBool; pTitOutput: IOutput;
+  pStatusOutput: IOutput; pProcessLog: IProcessLog; pThreadTitulo: string);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
-  //FExecutandoSafeBool := pExecutandoSafeBool;
-//  SetExecutando(False);
+  FExecutandoSafeBool := pExecutando;
+  Executando := False;
 
   if pThreadTitulo = '' then
     FThreadTitulo := ClassNameToNome(ClassName)
@@ -40,14 +52,14 @@ begin
     FThreadTitulo := pThreadTitulo;
 end;
 
-//function TThreadBas.GetExecutando: boolean;
-//begin
-//  Result := FExecutandoSafeBool.AsBoolean;
-//end;
-//
-//procedure TThreadBas.SetExecutando(const Value: boolean);
-//begin
-//  FExecutandoSafeBool.AsBoolean := Value;
-//end;
+function TThreadBas.GetExecutando: Boolean;
+begin
+  Result := FExecutandoSafeBool.AsBoolean
+end;
+
+procedure TThreadBas.SetExecutando(const Value: Boolean);
+begin
+  FExecutandoSafeBool.AsBoolean := Value;
+end;
 
 end.
