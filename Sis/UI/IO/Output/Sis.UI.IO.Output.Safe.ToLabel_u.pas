@@ -44,12 +44,6 @@ begin
   if not FAtivo then
     exit;
 
-  if not Assigned(FLabel) then
-  begin
-    FAtivo := False;
-    exit;
-  end;
-
   FProximaFrase := pFrase;
   TThread.Queue(nil, DoExibir);
 end;
