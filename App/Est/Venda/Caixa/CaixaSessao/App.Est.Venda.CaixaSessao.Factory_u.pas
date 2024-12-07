@@ -5,7 +5,7 @@ interface
 // System.Classes,
 
 uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
-  System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj, Sis.Types, App.Types,
+  System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj, Sis.Types, App.Types
 
   // uses caixa sessao
     , App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessao.DBI
@@ -80,8 +80,9 @@ uses
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u,
-  App.Est.Venda.Caixa.CxValor.DBI_u
   // uses caixa operacao valor numerario
+  App.Est.Venda.Caixa.CxValor.DBI_u
+  , App.Est.Venda.Caixa.CxValor_u
   , App.Est.Venda.Caixa.CxNumerario_u
 
   ;

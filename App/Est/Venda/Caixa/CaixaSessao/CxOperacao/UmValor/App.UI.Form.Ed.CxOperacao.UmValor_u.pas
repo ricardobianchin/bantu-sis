@@ -56,7 +56,6 @@ begin
     end;
     exit;
   end;
-
 end;
 
 procedure TCxOperUmValorEdForm.ControlesToEnt;

@@ -15,7 +15,7 @@ type
 const
 {$IFDEF DEBUG}
   //FRAME_EXECUTAR: TExecuteTeste = etTodos;
-//  FRAME_EXECUTAR: TExecuteTeste = etNenhum;
+  //FRAME_EXECUTAR: TExecuteTeste = etNenhum;
   FRAME_EXECUTAR: TExecuteTeste = etUm;
 
   NSECS_PAUSA = 1;
@@ -157,20 +157,23 @@ var
   oFrame: TThreadStatusFrame;
   bTerminou: Boolean;
 begin
-  bTerminou := False;
+  bTerminou := FFramesList.Count = 0;
+  if bTerminou then
+    exit;
+
   repeat
     for oFrame in FFramesList do
     begin
-      Sleep(200);
       bTerminou := oFrame.PodeFechar;
       if not bTerminou then
         break;
+      Sleep(200);
 
     end;
     if bTerminou then
       break;
     Application.ProcessMessages;
-    Sleep(1000);
+    Sleep(250);
   until (False);
 
   // ExecuteForAllFrames(
@@ -210,7 +213,8 @@ begin
   case FRAME_EXECUTAR of
     etNenhum: ExecuteTimer.Enabled := False;//exit;
     etUm:
-      FFramesList[0].Execute;
+      if FFramesList.Count > 0 then
+        FFramesList[0].Execute;
   else // etTodos:
     ExecuteForAllFrames(
       procedure(pFrame: TThreadStatusFrame)
@@ -223,6 +227,10 @@ end;
 procedure TGerAppForm.Terminate;
 begin
   FPodeExecutar := False;
+
+  if  FFramesList.Count = 0 then
+    exit;
+
   ExecuteForAllFrames(
     procedure(pFrame: TThreadStatusFrame)
     begin

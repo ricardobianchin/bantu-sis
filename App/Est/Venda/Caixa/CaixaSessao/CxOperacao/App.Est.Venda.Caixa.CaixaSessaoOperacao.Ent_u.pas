@@ -180,7 +180,7 @@ function TCxOperacaoEnt.PegueCxValor(pPagamentoFormaId: TId;
   pValor: TPreco): ICxValor;
 begin
   Result := CxValorCreate(pPagamentoFormaId, pValor);
-  FCxValorList.Add(Result;
+  FCxValorList.Add(Result);
 end;
 
 procedure TCxOperacaoEnt.SetCancelado(Value: Boolean);
