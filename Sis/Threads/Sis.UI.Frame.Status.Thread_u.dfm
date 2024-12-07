@@ -13,7 +13,6 @@ inherited ThreadStatusFrame: TThreadStatusFrame
     AutoSize = False
     Caption = 'a'#13#10'b'
     StyleElements = []
-    ExplicitWidth = 321
     ExplicitHeight = 30
   end
   inherited StatusLabel: TLabel
