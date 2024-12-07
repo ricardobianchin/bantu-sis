@@ -1,10 +1,10 @@
 object SisImgDataModule: TSisImgDataModule
   Height = 317
-  Width = 613
+  Width = 734
   object FormSysMenuImageList: TImageList
     Width = 24
-    Left = 56
-    Top = 15
+    Left = 72
+    Top = 135
     Bitmap = {
       494C010104000800040018001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000002000000001002000000000000030
@@ -414,8 +414,8 @@ object SisImgDataModule: TSisImgDataModule
     Height = 24
     Masked = False
     Width = 24
-    Left = 136
-    Top = 96
+    Left = 341
+    Top = 8
     Bitmap = {
       494C010103000800040018001800FF00FF00FF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
@@ -724,8 +724,8 @@ object SisImgDataModule: TSisImgDataModule
   object ImageList32Flat: TImageList
     Height = 32
     Width = 32
-    Left = 24
-    Top = 96
+    Left = 437
+    Top = 16
     Bitmap = {
       494C010104000800040020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000004000000001002000000000000080
@@ -1792,8 +1792,8 @@ object SisImgDataModule: TSisImgDataModule
   end
   object ImageList_40_24: TImageList
     Width = 40
-    Left = 232
-    Top = 96
+    Left = 541
+    Top = 24
     Bitmap = {
       494C010107001800040028001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000A00000002000000001002000000000000050
@@ -2464,7 +2464,7 @@ object SisImgDataModule: TSisImgDataModule
   end
   object ImageListLogin16: TImageList
     BkColor = clWhite
-    Left = 208
+    Left = 221
     Top = 8
     Bitmap = {
       494C010103000800040010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
@@ -2610,16 +2610,16 @@ object SisImgDataModule: TSisImgDataModule
     DriverID = 'FB'
     VendorHome = 'C:\Program Files\Firebird\Firebird_5_0'
     VendorLib = 'fbclient.dll'
-    Left = 496
-    Top = 160
+    Left = 328
+    Top = 152
   end
   object BalloonHint1: TBalloonHint
-    Left = 383
-    Top = 104
+    Left = 103
+    Top = 240
   end
   object ImageList16Flat: TImageList
-    Left = 448
-    Top = 40
+    Left = 229
+    Top = 64
     Bitmap = {
       494C010105000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
@@ -2895,8 +2895,8 @@ object SisImgDataModule: TSisImgDataModule
   object ImageList_9_9: TImageList
     Height = 9
     Width = 9
-    Left = 32
-    Top = 176
+    Left = 120
+    Top = 8
     Bitmap = {
       494C010104000800040009000900FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000024000000120000000100200000000000200A
@@ -2993,8 +2993,8 @@ object SisImgDataModule: TSisImgDataModule
   object ImageList24FlatSelect: TImageList
     Height = 24
     Width = 24
-    Left = 152
-    Top = 168
+    Left = 341
+    Top = 72
     Bitmap = {
       494C010105000800040018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000003000000001002000000000000048
@@ -3600,8 +3600,8 @@ object SisImgDataModule: TSisImgDataModule
   object PrincImageList: TImageList
     Height = 140
     Width = 140
-    Left = 264
-    Top = 160
+    Left = 40
+    Top = 200
     Bitmap = {
       494C01010300080004008C008C00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000300200008C000000010020000000000000C9
@@ -13728,8 +13728,8 @@ object SisImgDataModule: TSisImgDataModule
   object PrincImageList89: TImageList
     Height = 89
     Width = 89
-    Left = 336
-    Top = 192
+    Left = 232
+    Top = 216
     Bitmap = {
       494C010103000800040059005900FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000006401000059000000010020000000000010EF
@@ -17836,7 +17836,7 @@ object SisImgDataModule: TSisImgDataModule
     Height = 8
     Width = 13
     Left = 216
-    Top = 232
+    Top = 136
     Bitmap = {
       494C01010100080004000D000800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000340000000800000001002000000000008006
@@ -17898,5 +17898,11 @@ object SisImgDataModule: TSisImgDataModule
       F778000000000000FAF8000000000000FDF8000000000000FAF8000000000000
       F778000000000000FFF800000000000000000000000000000000000000000000
       000000000000}
+  end
+  object ControlesImageList_8_8: TImageList
+    Height = 8
+    Width = 8
+    Left = 504
+    Top = 160
   end
 end
