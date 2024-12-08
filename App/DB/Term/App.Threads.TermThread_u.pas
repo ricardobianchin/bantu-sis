@@ -13,8 +13,8 @@ type
   protected
     property Terminal: ITerminal read FTerminal;
   public
-    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
-      {pExecutandoSafeBool: ISafeBool; }
+    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
+      pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
       pThreadTitulo: string = '');
   end;
 
@@ -22,11 +22,12 @@ implementation
 
 { TTermThread }
 
-constructor TTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj;
-  {pExecutandoSafeBool: ISafeBool;}
-  pThreadTitulo: string = '');
+constructor TTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
+      pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
+      pThreadTitulo: string);
 begin
-  inherited Create(pAppObj, {pExecutandoSafeBool, }pThreadTitulo);
+  inherited Create(pAppObj, pExecutando, pTitOutput, pStatusOutput, pProcessLog,
+    pThreadTitulo);
   FTerminal := pTerminal;
 end;
 

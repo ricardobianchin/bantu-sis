@@ -1,12 +1,12 @@
-unit App.Threads.SyncTermThread_AddComandos_u;
+unit App.Threads.SyncTermThread_ProcLog_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos, Sis.DB.DBTypes, App.AppObj,
+uses App.Threads.SyncTermThread_ProcLog, Sis.DB.DBTypes, App.AppObj,
   Sis.Entities.Terminal, System.Classes;
 
 type
-  TSyncTermAddComandos = class(TInterfacedObject, ISyncTermAddComandos)
+  TSyncTermProcLog = class(TInterfacedObject, ISyncTermProcLog)
   private
     FAppObj: IAppObj;
     FTerminal: ITerminal;
@@ -30,9 +30,9 @@ implementation
 
 uses Sis.Win.Utils_u;
 
-{ TSyncTermAddComandos }
+{ TSyncTermProcLog }
 
-constructor TSyncTermAddComandos.Create(pAppObj: IAppObj; pTerminal: ITerminal;
+constructor TSyncTermProcLog.Create(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript);
 begin
   FAppObj := pAppObj;

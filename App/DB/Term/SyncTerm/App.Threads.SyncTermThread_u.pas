@@ -5,7 +5,7 @@ interface
 uses App.Threads.TermThread_u, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   System.Classes, Sis.Threads.ThreadBas_u, App.AppObj, Sis.Entities.Terminal,
   Sis.Threads.SafeBool, Sis.DB.Factory, Sis.DB.DBTypes, App.DB.Utils,
-  Sis.Sis.Constants, App.Threads.SyncTermThread_AddComandos,
+  Sis.Sis.Constants, App.Threads.SyncTermThread_ProcLog,
   System.Generics.Collections, FireDAC.Comp.Client, Sis.DB.FDExecScript_u;
 
 type
@@ -18,7 +18,7 @@ type
     FServCon, FTermCon: IDBConnection;
     FLogIdIni, FLogIdFin: Int64;
     FDBExecScript: IDBExecScript;
-    FAddCommandsList: TList<ISyncTermAddComandos>;
+    FAddCommandsList: TList<ISyncTermProcLog>;
     function Conectou: boolean;
     procedure FecharConexoes;
     procedure Sync(pAtualIni, pAtualFIn: Int64);
@@ -34,12 +34,12 @@ type
 
     procedure PegarFaixa(out FLogIdIni, FLogIdFin: Int64); virtual;
 
-    property AddCommandsList: TList<ISyncTermAddComandos> read FAddCommandsList;
+    property AddCommandsList: TList<ISyncTermProcLog> read FAddCommandsList;
     property DBExecScript: IDBExecScript read FDBExecScript;
   public
-    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj
-      { pExecutandoSafeBool: ISafeBool; }
-      );
+    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
+      pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
+      pThreadTitulo: string = '');
     destructor Destroy; override;
 
   end;
@@ -148,16 +148,16 @@ begin
 
 end;
 
-constructor TAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj
-  { pExecutandoSafeBool: ISafeBool; }
-  );
+constructor TAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
+      pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
+      pThreadTitulo: string);
 var
   sThreadTitulo: string;
 begin
   sThreadTitulo := 'Sincronização ' + pTerminal.AsText;
-  inherited Create(pTerminal, pAppObj, { pExecutandoSafeBool, }
-    sThreadTitulo);
-  FAddCommandsList := TList<ISyncTermAddComandos>.Create;
+  inherited Create(pTerminal, pAppObj, pExecutando, pTitOutput, pStatusOutput, pProcessLog,
+    pThreadTitulo);
+  FAddCommandsList := TList<ISyncTermProcLog>.Create;
 end;
 
 destructor TAppSyncTermThread.Destroy;
@@ -237,15 +237,15 @@ end;
 procedure TAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
-  FAddCommandsList.Add(AddComandosLoja(pAppObj, pTerminal, pServCon, pTermCon,
+  FAddCommandsList.Add(ProcLogLoja(pAppObj, pTerminal, pServCon, pTermCon,
     FDBExecScript));
-  FAddCommandsList.Add(AddComandosTerminal(pAppObj, pTerminal, pServCon,
+  FAddCommandsList.Add(ProcLogTerminal(pAppObj, pTerminal, pServCon,
     pTermCon, FDBExecScript));
-  FAddCommandsList.Add(AddComandosPagamentoForma(pAppObj, pTerminal, pServCon,
+  FAddCommandsList.Add(ProcLogPagamentoForma(pAppObj, pTerminal, pServCon,
     pTermCon, FDBExecScript));
-  FAddCommandsList.Add(AddComandosFuncUsu(pAppObj, pTerminal, pServCon,
+  FAddCommandsList.Add(ProcLogFuncUsu(pAppObj, pTerminal, pServCon,
     pTermCon, FDBExecScript));
-  FAddCommandsList.Add(AddComandosUsuPode(pAppObj, pTerminal, pServCon,
+  FAddCommandsList.Add(ProcLogUsuPode(pAppObj, pTerminal, pServCon,
     pTermCon, FDBExecScript));
 end;
 

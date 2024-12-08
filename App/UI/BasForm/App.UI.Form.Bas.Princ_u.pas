@@ -22,8 +22,8 @@ type
     TitleBarCaptionLabel: TLabel;
     Logo1Image: TImage;
     DtHCompileLabel: TLabel;
-    GerenciadorDeTarefasAbrirAction_PrincBasForm: TAction;
-    GerenciadorDeTarefasCentralizarAction_PrincBasForm: TAction;
+    GerFormAbrirAction_PrincBasForm: TAction;
+    GerFormCentralizarAction_PrincBasForm: TAction;
     GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
     AbrirButton_PrincBasForm: TButton;
     CentrButton_PrincBasForm: TButton;
@@ -34,9 +34,9 @@ type
       Shift: TShiftState; X, Y: Integer);
 
     procedure DtHCompileLabelClick(Sender: TObject);
-    procedure GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+    procedure GerFormAbrirAction_PrincBasFormExecute
       (Sender: TObject);
-    procedure GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
+    procedure GerFormCentralizarAction_PrincBasFormExecute
       (Sender: TObject);
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -349,12 +349,11 @@ end;
 
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
-  GerenciadorDeTarefasAbrirAction_PrincBasForm.Execute;
+  GerFormAbrirAction_PrincBasForm.Execute;
   Application.ProcessMessages;
   GerForm.Terminate;
   GerForm.EspereTerminar;
   inherited;
-
 end;
 
 procedure TPrincBasForm.GarantaDB;
@@ -420,15 +419,18 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+procedure TPrincBasForm.GerFormAbrirAction_PrincBasFormExecute
   (Sender: TObject);
 begin
   inherited;
-  FGerForm.Show;
+  if FGerForm.Visible then
+    GerFormCentralizarAction_PrincBasForm.Execute
+  else
+    FGerForm.Show;
 end;
 
 procedure TPrincBasForm.
-  GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute(Sender: TObject);
+  GerFormCentralizarAction_PrincBasFormExecute(Sender: TObject);
 begin
   inherited;
   ControlAlignToRect(FGerForm, Screen.WorkAreaRect);

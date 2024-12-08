@@ -1,11 +1,11 @@
-unit App.Threads.SyncTermThread_AddComandos.PagamentoForma_u;
+unit App.Threads.SyncTermThread_ProcLog.PagamentoForma_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos_u, Sis.Entities.Types;
+uses App.Threads.SyncTermThread_ProcLog_u, Sis.Entities.Types;
 
 type
-  TSyncTermAddComandosPagamentoForma = class(TSyncTermAddComandos)
+  TSyncTermProcLogPagamentoForma = class(TSyncTermProcLog)
   private
     function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
   public
@@ -16,9 +16,9 @@ implementation
 
 uses System.SysUtils, Data.DB, Sis.DB.SqlUtils_u, Sis.Win.Utils_u;
 
-{ TSyncTermAddComandosPagamentoForma }
+{ TSyncTermProcLogPagamentoForma }
 
-procedure TSyncTermAddComandosPagamentoForma.Execute(pLogIdIni,
+procedure TSyncTermProcLogPagamentoForma.Execute(pLogIdIni,
   pLogIdFin: Int64);
 var
   sSql: string;
@@ -55,7 +55,7 @@ begin
   end;
 end;
 
-function TSyncTermAddComandosPagamentoForma.GetSqlServLogs(pLogIdIni,
+function TSyncTermProcLogPagamentoForma.GetSqlServLogs(pLogIdIni,
   pLogIdFin: Int64): string;
 begin
   Result := //

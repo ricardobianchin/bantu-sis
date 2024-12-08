@@ -2,50 +2,50 @@ unit ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos, Sis.DB.DBTypes, App.AppObj,
+uses App.Threads.SyncTermThread_ProcLog, Sis.DB.DBTypes, App.AppObj,
   Sis.Entities.Terminal, System.Classes;
 
-function AddComandosProdShop(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogProdShop(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
-function AddComandosProdCustoShop(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogProdCustoShop(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
-function AddComandosProdPrecoShop(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogProdPrecoShop(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
 implementation
 
 uses
-  ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u //
-  , ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u //
-  , ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u //
+  ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod_u //
+  , ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Custo_u //
+  , ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Preco_u //
   ; //
 
-function AddComandosProdShop(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogProdShop(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosProdShop.Create(pAppObj, pTerminal, pServCon,
+  Result := TSyncTermProcLogProdShop.Create(pAppObj, pTerminal, pServCon,
     pTermCon, pDBExecScript);
 end;
 
-function AddComandosProdCustoShop(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogProdCustoShop(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosProdCustoShop.Create(pAppObj, pTerminal, pServCon,
+  Result := TSyncTermProcLogProdCustoShop.Create(pAppObj, pTerminal, pServCon,
     pTermCon, pDBExecScript);
 end;
 
-function AddComandosProdPrecoShop(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogProdPrecoShop(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosProdPrecoShop.Create(pAppObj, pTerminal, pServCon,
+  Result := TSyncTermProcLogProdPrecoShop.Create(pAppObj, pTerminal, pServCon,
     pTermCon, pDBExecScript);
 end;
 

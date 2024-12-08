@@ -2,8 +2,10 @@ unit App.Threads.AppThreadCreator_u;
 
 interface
 
-uses Sis.Threads.ThreadBasCreator_u, Sis.Threads.ThreadBas_u, Sis.Threads.ThreadCreator, Sis.UI.IO.Output,
-  Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.SafeBool, App.AppObj;
+uses Sis.Threads.ThreadBasCreator_u, Sis.Threads.ThreadBas_u,
+  Sis.Threads.ThreadCreator, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.SafeBool, App.AppObj,
+  Sis.UI.Frame.Bas.Status_u, Sis.UI.Frame.Status.Thread_u;
 
 type
   TAppThreadCreator = class(TThreadCreator)
@@ -12,9 +14,7 @@ type
   protected
     property AppObj: IAppObj read FAppObj;
   public
-    constructor Create(pAppObj: IAppObj; {pExecutandoSafeBool: ISafeBool;}
-    pOnTerminate: TNotifyEvent;
-
+    constructor Create(pAppObj: IAppObj; pThreadStatusFrame: TThreadStatusFrame;
       pThreadTitulo: string = '');
   end;
 
@@ -23,10 +23,9 @@ implementation
 { TAppThreadCreator }
 
 constructor TAppThreadCreator.Create(pAppObj: IAppObj;
-  {pExecutandoSafeBool: ISafeBool;} pOnTerminate: TNotifyEvent;
-  pThreadTitulo: string);
+  pThreadStatusFrame: TThreadStatusFrame; pThreadTitulo: string);
 begin
-  inherited Create({pExecutandoSafeBool, }pOnTerminate, pThreadTitulo);
+  inherited Create( pThreadStatusFrame, pThreadTitulo);
   FAppObj := pAppObj;
 end;
 

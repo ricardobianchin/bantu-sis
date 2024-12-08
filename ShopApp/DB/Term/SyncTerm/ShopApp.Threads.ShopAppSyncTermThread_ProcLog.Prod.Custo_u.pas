@@ -1,11 +1,11 @@
-unit ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u;
+unit ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Custo_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos_u, Sis.Entities.Types;
+uses App.Threads.SyncTermThread_ProcLog_u, Sis.Entities.Types;
 
 type
-  TSyncTermAddComandosProdPrecoShop = class(TSyncTermAddComandos)
+  TSyncTermProcLogProdCustoShop = class(TSyncTermProcLog)
   private
     function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
   public
@@ -17,9 +17,9 @@ implementation
 uses System.SysUtils, Data.DB, Sis.DB.SqlUtils_u, Sis.Win.Utils_u,
   Sis.Types.strings_u;
 
-{ TSyncTermAddComandosProdPrecoShop }
+{ TSyncTermProcLogProdCustoShop }
 
-procedure TSyncTermAddComandosProdPrecoShop.Execute(pLogIdIni,
+procedure TSyncTermProcLogProdCustoShop.Execute(pLogIdIni,
   pLogIdFin: Int64);
 var
   sSql: string;
@@ -55,16 +55,16 @@ begin
   end;
 end;
 
-function TSyncTermAddComandosProdPrecoShop.GetSqlServLogs(pLogIdIni,
+function TSyncTermProcLogProdCustoShop.GetSqlServLogs(pLogIdIni,
   pLogIdFin: Int64): string;
 begin
   Result := //
     'SELECT'#13#10 //
 
     + 'PROD_ID'#13#10 // 0
-    + ', Preco'#13#10 // 20
+    + ', CUSTO'#13#10 // 20
 
-    + 'FROM LOG_HIST_PROD_PA.TEVE_PRECO('#13#10 //
+    + 'FROM LOG_HIST_PROD_PA.TEVE_CUSTO('#13#10 //
 
     + pLogIdIni.ToString //
     + ', ' + pLogIdFin.ToString //

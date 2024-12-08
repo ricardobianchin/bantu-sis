@@ -81,6 +81,7 @@ inherited GerAppForm: TGerAppForm
     end
   end
   object ExecuteTimer: TTimer
+    Enabled = False
     OnTimer = ExecuteTimerTimer
     Left = 208
     Top = 8

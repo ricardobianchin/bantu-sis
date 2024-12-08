@@ -1,11 +1,11 @@
-unit App.Threads.SyncTermThread_AddComandos.Loja_u;
+unit App.Threads.SyncTermThread_ProcLog.Loja_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos_u;
+uses App.Threads.SyncTermThread_ProcLog_u;
 
 type
-  TSyncTermAddComandosLoja = class(TSyncTermAddComandos)
+  TSyncTermProcLogLoja = class(TSyncTermProcLog)
   private
     function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
   public
@@ -16,9 +16,9 @@ implementation
 
 uses System.SysUtils, Data.DB, Sis.DB.SqlUtils_u, Sis.Win.Utils_u;
 
-{ TSyncTermAddComandosLoja }
+{ TSyncTermProcLogLoja }
 
-procedure TSyncTermAddComandosLoja.Execute(pLogIdIni, pLogIdFin: Int64);
+procedure TSyncTermProcLogLoja.Execute(pLogIdIni, pLogIdFin: Int64);
 var
   sSql: string;
   q: TDataSet;
@@ -92,7 +92,7 @@ begin
   end;
 end;
 
-function TSyncTermAddComandosLoja.GetSqlServLogs(pLogIdIni,
+function TSyncTermProcLogLoja.GetSqlServLogs(pLogIdIni,
   pLogIdFin: Int64): string;
 begin
   Result := //

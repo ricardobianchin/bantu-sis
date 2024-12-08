@@ -46,7 +46,7 @@ var
   GerPosDir: integer;
 begin
   inherited;
-  GerenciadorDeTarefasCentralizarAction_PrincBasForm.Execute;
+  GerFormCentralizarAction_PrincBasForm.Execute;
   PrincPosDir := Left + Width;
   GerForm.Left := PrincPosDir + 1;
 

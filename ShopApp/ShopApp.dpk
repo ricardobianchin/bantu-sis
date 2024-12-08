@@ -49,10 +49,10 @@ contains
   ShopApp.Ger.GerForm_u in 'Ger\GerForm\ShopApp.Ger.GerForm_u.pas' {GerShopAppForm},
   ShopApp.Threads.ShopAppSyncTermThread_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_u.pas',
   ShopApp.Threads.ShopAppSyncTermThreadCreator_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThreadCreator_u.pas',
-  ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u.pas',
+  ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod_u.pas',
   ShopApp.Threads.ShopAppSyncTermThread.Factory_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread.Factory_u.pas',
-  ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Custo_u.pas',
-  ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod.Preco_u.pas',
+  ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Custo_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Custo_u.pas',
+  ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Preco_u in 'DB\Term\SyncTerm\ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod.Preco_u.pas',
   AppShop.PDV.Preco.PrecoBusca.DBI_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas',
   AppShop.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas';
 

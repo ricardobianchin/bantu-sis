@@ -2,76 +2,76 @@ unit App.Threads.SyncTermThread.Factory_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos, Sis.DB.DBTypes, App.AppObj,
+uses App.Threads.SyncTermThread_ProcLog, Sis.DB.DBTypes, App.AppObj,
   Sis.Entities.Terminal, System.Classes;
 
-function AddComandosLoja(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogLoja(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
-function AddComandosTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
-function AddComandosPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
-function AddComandosFuncUsu(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogFuncUsu(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
-function AddComandosUsuPode(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogUsuPode(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 
 implementation
 
 uses
-  App.Threads.SyncTermThread_AddComandos.Loja_u //
-    , App.Threads.SyncTermThread_AddComandos.Terminal_u //
-    , App.Threads.SyncTermThread_AddComandos.PagamentoForma_u //
-    , App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u //
-    , App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u //
+  App.Threads.SyncTermThread_ProcLog.Loja_u //
+    , App.Threads.SyncTermThread_ProcLog.Terminal_u //
+    , App.Threads.SyncTermThread_ProcLog.PagamentoForma_u //
+    , App.Threads.SyncTermThread_ProcLog.FuncionarioUsuario_u //
+    , App.Threads.SyncTermThread_ProcLog.UsuarioPodeOpcaoSis_u //
     ;
 
-function AddComandosLoja(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogLoja(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosLoja.Create(pAppObj, pTerminal, pServCon,
+  Result := TSyncTermProcLogLoja.Create(pAppObj, pTerminal, pServCon,
     pTermCon, pDBExecScript);
 end;
 
-function AddComandosTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogTerminal(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosTerminal.Create(pAppObj, pTerminal, pServCon,
+  Result := TSyncTermProcLogTerminal.Create(pAppObj, pTerminal, pServCon,
     pTermCon, pDBExecScript);
 end;
 
-function AddComandosPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogPagamentoForma(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosPagamentoForma.Create(pAppObj, pTerminal,
+  Result := TSyncTermProcLogPagamentoForma.Create(pAppObj, pTerminal,
     pServCon, pTermCon, pDBExecScript);
 end;
 
-function AddComandosFuncUsu(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogFuncUsu(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosFuncionarioUsuario.Create(pAppObj, pTerminal,
+  Result := TSyncTermProcLogFuncionarioUsuario.Create(pAppObj, pTerminal,
     pServCon, pTermCon, pDBExecScript);
 end;
 
-function AddComandosUsuPode(pAppObj: IAppObj; pTerminal: ITerminal;
+function ProcLogUsuPode(pAppObj: IAppObj; pTerminal: ITerminal;
   pServCon, pTermCon: IDBConnection; pDBExecScript: IDBExecScript)
-  : ISyncTermAddComandos;
+  : ISyncTermProcLog;
 begin
-  Result := TSyncTermAddComandosUsuarioPodeOpcaoSis.Create(pAppObj, pTerminal,
+  Result := TSyncTermProcLogUsuarioPodeOpcaoSis.Create(pAppObj, pTerminal,
     pServCon, pTermCon, pDBExecScript);
 end;
 

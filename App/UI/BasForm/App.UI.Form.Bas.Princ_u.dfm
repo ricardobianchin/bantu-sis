@@ -100,7 +100,7 @@ inherited PrincBasForm: TPrincBasForm
       Top = 18
       Width = 75
       Height = 25
-      Action = GerenciadorDeTarefasAbrirAction_PrincBasForm
+      Action = GerFormAbrirAction_PrincBasForm
       TabOrder = 0
     end
     object CentrButton_PrincBasForm: TButton
@@ -108,7 +108,7 @@ inherited PrincBasForm: TPrincBasForm
       Top = 18
       Width = 75
       Height = 25
-      Action = GerenciadorDeTarefasCentralizarAction_PrincBasForm
+      Action = GerFormCentralizarAction_PrincBasForm
       TabOrder = 1
     end
   end
@@ -123,13 +123,13 @@ inherited PrincBasForm: TPrincBasForm
       ImageIndex = 1
       OnExecute = MinimizeAction_PrincBasFormExecute
     end
-    object GerenciadorDeTarefasAbrirAction_PrincBasForm: TAction
+    object GerFormAbrirAction_PrincBasForm: TAction
       Caption = 'Abrir'
-      OnExecute = GerenciadorDeTarefasAbrirAction_PrincBasFormExecute
+      OnExecute = GerFormAbrirAction_PrincBasFormExecute
     end
-    object GerenciadorDeTarefasCentralizarAction_PrincBasForm: TAction
+    object GerFormCentralizarAction_PrincBasForm: TAction
       Caption = 'Centralizar'
-      OnExecute = GerenciadorDeTarefasCentralizarAction_PrincBasFormExecute
+      OnExecute = GerFormCentralizarAction_PrincBasFormExecute
     end
   end
   object Timer1: TTimer

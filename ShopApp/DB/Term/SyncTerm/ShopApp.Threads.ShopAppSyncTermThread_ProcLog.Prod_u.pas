@@ -1,11 +1,11 @@
-unit ShopApp.Threads.ShopAppSyncTermThread_AddComandos.Prod_u;
+unit ShopApp.Threads.ShopAppSyncTermThread_ProcLog.Prod_u;
 
 interface
 
-uses App.Threads.SyncTermThread_AddComandos_u, Sis.Entities.Types;
+uses App.Threads.SyncTermThread_ProcLog_u, Sis.Entities.Types;
 
 type
-  TSyncTermAddComandosProdShop = class(TSyncTermAddComandos)
+  TSyncTermProcLogProdShop = class(TSyncTermProcLog)
   private
     function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
   public
@@ -17,9 +17,9 @@ implementation
 uses System.SysUtils, Data.DB, Sis.DB.SqlUtils_u, Sis.Win.Utils_u,
   Sis.Types.strings_u;
 
-{ TSyncTermAddComandosProdShop }
+{ TSyncTermProcLogProdShop }
 
-procedure TSyncTermAddComandosProdShop.Execute(pLogIdIni, pLogIdFin: Int64);
+procedure TSyncTermProcLogProdShop.Execute(pLogIdIni, pLogIdFin: Int64);
 var
   sSql: string;
   q: TDataSet;
@@ -78,7 +78,7 @@ begin
   end;
 end;
 
-function TSyncTermAddComandosProdShop.GetSqlServLogs(pLogIdIni,
+function TSyncTermProcLogProdShop.GetSqlServLogs(pLogIdIni,
   pLogIdFin: Int64): string;
 begin
   Result := //

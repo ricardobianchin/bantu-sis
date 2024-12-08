@@ -3,22 +3,23 @@ unit Sis.Threads.ThreadBasCreator_u;
 interface
 
 uses Sis.Threads.ThreadBas_u, Sis.Threads.ThreadCreator, Sis.UI.IO.Output,
-  Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.SafeBool;
+  Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.SafeBool,
+  Sis.Threads.Factory_u, Sis.UI.Frame.Status.Thread_u;
 
 type
   TThreadCreator = class(TInterfacedObject, IThreadCreator)
   private
-//    FExecutando: ISafeBool;
+    FThreadStatusFrame: TThreadStatusFrame;
+    FExecutando: ISafeBool;
     FThreadTitulo: string;
-    FOnTerminate: TNotifyEvent;
   protected
-//    property Executando: ISafeBool read FExecutando;
+    property Executando: ISafeBool read FExecutando;
     property ThreadTitulo: string read FThreadTitulo;
+    property ThreadStatusFrame: TThreadStatusFrame read FThreadStatusFrame;
 
   public
-    property OnTerminate: TNotifyEvent read FOnTerminate;
-    function ThreadBasCreate: TThreadBas; virtual;
-    constructor Create({pExecutando: ISafeBool; }pOnTerminate: TNotifyEvent;
+    function ThreadBasCreate: TThreadBas; virtual; abstract;
+    constructor Create(pThreadStatusFrame: TThreadStatusFrame;
       pThreadTitulo: string = '');
   end;
 
@@ -26,23 +27,12 @@ implementation
 
 { TThreadCreator }
 
-constructor TThreadCreator.Create({pExecutando: ISafeBool; }pOnTerminate: TNotifyEvent;
-
+constructor TThreadCreator.Create(pThreadStatusFrame: TThreadStatusFrame;
   pThreadTitulo: string);
 begin
-//  FExecutando := pExecutando;
-  FOnTerminate := pOnTerminate;
+  FExecutando := SafeBoolCreate(False);
+  FThreadStatusFrame := pThreadStatusFrame;
   FThreadTitulo := pThreadTitulo;
-
-//  FTitOutput.Exibir(FThreadTitulo);
-//  FStatusOutput.Exibir('Parado');
-
-end;
-
-function TThreadCreator.ThreadBasCreate: TThreadBas;
-begin
-  Result := TThreadBas.Create({FExecutando,} FThreadTitulo);
-  Result.OnTerminate := OnTerminate;
 end;
 
 end.

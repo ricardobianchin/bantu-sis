@@ -15,6 +15,8 @@ type
     { Private declarations }
     function FrameCreate(pTerminal: ITerminal): TThreadStatusFrame;
     function ShopAppSyncTermThreadCreatorCreate(pFrame: TThreadStatusFrame; pTerminal: ITerminal):TShopAppSyncTermThreadCreator;
+    procedure TesteThread;
+
   protected
   public
     { Public declarations }
@@ -37,17 +39,17 @@ var
   sNomeLocal: string;
 begin
   inherited;
-  sNomeLocal := AppObj.SisConfig.LocalMachineId.GetIdent;
-  AppObj.TerminalList.ExecuteForAll(
-    procedure(pTerminal: ITerminal)
-    var
-      oFrame: TThreadStatusFrame;
-      oCreator: TShopAppSyncTermThreadCreator;
-    begin
-      oFrame := FrameCreate(pTerminal);
-      oCreator := ShopAppSyncTermThreadCreatorCreate(oFrame, pTerminal);
-      oFrame.ThreadCreator := oCreator;
-    end, sNomeLocal);
+//  sNomeLocal := AppObj.SisConfig.LocalMachineId.GetIdent;
+//  AppObj.TerminalList.ExecuteForAll(
+//    procedure(pTerminal: ITerminal)
+//    var
+//      oFrame: TThreadStatusFrame;
+//      oCreator: TShopAppSyncTermThreadCreator;
+//    begin
+//      oFrame := FrameCreate(pTerminal);
+//      oCreator := ShopAppSyncTermThreadCreatorCreate(oFrame, pTerminal);
+//      oFrame.ThreadCreator := oCreator;
+//    end, sNomeLocal);
 end;
 
 function TGerShopAppForm.FrameCreate(pTerminal: ITerminal): TThreadStatusFrame;
@@ -61,19 +63,25 @@ begin
   Result.Parent := StatusFrameScrollBox;
 
   FramesList.Add(Result);
+  TesteThread;
 end;
 
 function TGerShopAppForm.ShopAppSyncTermThreadCreatorCreate(
   pFrame: TThreadStatusFrame; pTerminal: ITerminal): TShopAppSyncTermThreadCreator;
 begin
   // cria o creator
-  Result := TShopAppSyncTermThreadCreator.Create( //
-    pTerminal //
-    , AppObj //
-    //, pFrame.Executando //
-    , pFrame.DoTerminate //
-    , pTerminal.AsText
-    );
+//  Result := TShopAppSyncTermThreadCreator.Create( //
+//    pTerminal //
+//    , AppObj //
+//    //, pFrame.Executando //
+//    , pFrame.DoTerminate //
+//    , pTerminal.AsText
+//    );
+end;
+
+procedure TGerShopAppForm.TesteThread;
+begin
+
 end;
 
 end.

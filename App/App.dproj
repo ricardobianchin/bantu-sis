@@ -601,14 +601,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread.Factory_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Loja_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.Terminal_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.PagamentoForma_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.UsuarioPodeOpcaoSis_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_AddComandos.FuncionarioUsuario_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.Loja_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.Terminal_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.PagamentoForma_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.UsuarioPodeOpcaoSis_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.FuncionarioUsuario_u.pas"/>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.UI.Form.PDV.Preco.Busca_u.pas">
             <Form>PrecoBuscaForm</Form>
             <FormType>dfm</FormType>
