@@ -27,7 +27,7 @@ type
     GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
     AbrirButton_PrincBasForm: TButton;
     CentrButton_PrincBasForm: TButton;
-    Timer1: TTimer;
+    TesteFecharTimer: TTimer;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -39,7 +39,7 @@ type
     procedure GerFormCentralizarAction_PrincBasFormExecute
       (Sender: TObject);
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
+    procedure TesteFecharTimerTimer(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
@@ -473,13 +473,15 @@ procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   GerForm.ExecuteTimer.Enabled := True;
-  Timer1.Enabled := True;
+  TesteFecharTimer.Enabled := True;
 end;
 
-procedure TPrincBasForm.Timer1Timer(Sender: TObject);
+procedure TPrincBasForm.TesteFecharTimerTimer(Sender: TObject);
 begin
   inherited;
-  Close;
+  TesteFecharTimer.Enabled := False;
+  //Close;
+
 //  FecharAction_ActBasForm.Execute;
 end;
 

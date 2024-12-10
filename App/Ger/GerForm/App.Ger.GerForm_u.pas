@@ -8,18 +8,20 @@ uses
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.UI.Constants, Vcl.ToolWin, Vcl.ComCtrls,
   Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.UI.Frame.Status.Thread_u,
   System.Generics.Collections, App.Ger.GerForm.DBI, App.AppObj,
-  Sis.Threads.Tarefa, Sis.Entities.Terminal;
+  Sis.Threads.Tarefa, Sis.Entities.Terminal, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.Comp.Client;
 
 type
   TExecuteTeste = (etNenhum, etUm, etTodos);
 
 const
 {$IFDEF DEBUG}
-  FRAME_EXECUTAR: TExecuteTeste = etTodos;
-  // FRAME_EXECUTAR: TExecuteTeste = etNenhum;
-  // FRAME_EXECUTAR: TExecuteTeste = etUm;
+   FRAME_EXECUTAR: TExecuteTeste = etTodos;
+   //FRAME_EXECUTAR: TExecuteTeste = etNenhum;
+  //FRAME_EXECUTAR: TExecuteTeste = etUm;
 
-  NSECS_PAUSA = 1;
+  NSECS_PAUSA = 3;
 {$ELSE}
   FRAME_EXECUTAR: TExecuteTeste = etTodos;
   NSECS_PAUSA = 15;
@@ -36,6 +38,7 @@ type
     AutoOpenCheckBox: TCheckBox;
     StatusFrameScrollBox: TScrollBox;
     ExecuteTimer: TTimer;
+    StatusLabel: TLabel;
     /// <summary>
     /// permite usuario arrastar a janela
     /// </summary>
@@ -86,6 +89,8 @@ type
 
     procedure PreenchaTarefaList; virtual;
     property TarefaList: TList<ITarefa> read FTarefaList;
+
+    procedure ExecuteForAllTarefas(const Proc: TTarefaProcedure);
   public
     { Public declarations }
     property PodeExecutar: Boolean read FPodeExecutar write FPodeExecutar;
@@ -152,6 +157,7 @@ end;
 constructor TGerAppForm.Create(AOwner: TComponent; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
+//  FDManager.ResourceOptions.CmdExecMode := TFDStanAsyncMode.amAsync;
   FSecPausa := 0;
   FProcessaControles := False;
   FAppObj := pAppObj;
@@ -181,80 +187,80 @@ procedure TGerAppForm.EspereTerminar;
 var
   bTerminou: Boolean;
 begin
-  // bTerminou := FFramesList.Count = 0;
-  // if bTerminou then
-  // exit;
-  //
-  // repeat
-  // for oFrame in FFramesList do
-  // begin
-  // bTerminou := oFrame.PodeFechar;
-  // if not bTerminou then
-  // break;
-  // Sleep(200);
-  //
-  // end;
-  // if bTerminou then
-  // break;
-  // Application.ProcessMessages;
-  // Sleep(250);
-  // until (False);
+  bTerminou := FTarefaList.Count = 0;
+  if bTerminou then
+    exit;
 
-  // ExecuteForAllTarefas(
-  // procedure(pFrame: TThreadStatusFrame)
-  // begin
-  // pFrame.PodeFechar;
-  // end);
+  ExecuteForAllTarefas(
+    procedure(pTarefa: ITarefa)
+    begin
+      pTarefa.EspereTerminar;
+    end);
+
+end;
+
+procedure TGerAppForm.ExecuteForAllTarefas(const Proc: TTarefaProcedure);
+var
+  oTarefa: ITarefa;
+  i: Integer;
+begin
+  for i := 0 to FTarefaList.Count - 1 do
+  begin
+    oTarefa := FTarefaList[i];
+    Proc(oTarefa);
+  end;
 end;
 
 procedure TGerAppForm.ExecuteTimerTimer(Sender: TObject);
 begin
   inherited;
-  // if not PodeExecutar then
-  // exit;
-  //
-  // inc(FSecPausa);
-  // if FSecPausa = NSECS_PAUSA then
-  // begin
-  // FSecPausa := 0;
-  // end
-  // else
-  // begin
-  // exit;
-  // end;
-  //
-  // case FRAME_EXECUTAR of
-  // etNenhum: ExecuteTimer.Enabled := False;//exit;
-  // etUm:
-  // if FFramesList.Count > 0 then
-  // FFramesList[0].Execute;
-  // else // etTodos:
-  // ExecuteForAllTarefas(
-  // procedure(pFrame: TThreadStatusFrame)
-  // begin
-  // pFrame.Execute;
-  // end);
-  // end;
+  StatusLabel.Caption := 'Executando: ' + DateTimeToStr(Now);
+  //ExecuteTimer.Enabled := False;
+  if not PodeExecutar then
+    exit;
+
+  inc(FSecPausa);
+  if FSecPausa = NSECS_PAUSA then
+  begin
+    FSecPausa := 0;
+  end
+  else
+  begin
+    exit;
+  end;
+
+  case FRAME_EXECUTAR of
+    etNenhum:
+      ExecuteTimer.Enabled := False; // exit;
+    etUm:
+      if FTarefaList.Count > 0 then
+        FTarefaList[0].Execute;
+  else // etTodos:
+    ExecuteForAllTarefas(
+      procedure(pTarefa: ITarefa)
+      begin
+        pTarefa.Execute;
+      end);
+  end;
 end;
 
 procedure TGerAppForm.Terminate;
 begin
-  // FPodeExecutar := False;
-  //
-  // if  FFramesList.Count = 0 then
-  // exit;
-  //
-  // ExecuteForAllTarefas(
-  // procedure(pFrame: TThreadStatusFrame)
-  // begin
-  // pFrame.Terminate;
-  // end);
+  FPodeExecutar := False;
 
+  if FTarefaList.Count = 0 then
+    exit;
+
+  ExecuteForAllTarefas(
+    procedure(pTarefa: ITarefa)
+    begin
+      pTarefa.Terminate;
+    end);
 end;
 
 procedure TGerAppForm.FecharAction_GerAppFormExecute(Sender: TObject);
 begin
-  // inherited;
+  inherited;
   if not FPodeExecutar then
     exit;
 
@@ -300,7 +306,7 @@ begin
 end;
 
 procedure TGerAppForm.TitleBarPanelMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 const
   SC_DRAGMOVE = $F012;
 begin

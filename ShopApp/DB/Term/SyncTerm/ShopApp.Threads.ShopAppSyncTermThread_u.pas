@@ -10,17 +10,19 @@ type
   TShopAppAppSyncTermThread = class(TAppSyncTermThread)
   private
   protected
-    procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
+    procedure RegistreProcLog(pAppObj: IAppObj; pTerminal: ITerminal;
       pServCon, pTermCon: IDBConnection; pSql: TStrings); override;
 
-    ///////
+    /// ////
     // EXECUTE
-    ///////
+    /// ////
     procedure Execute; override;
 
   public
-    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
-      pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
+    constructor Create(pServDBConnectionParams: TDBConnectionParams;
+      pTermDBConnectionParams: TDBConnectionParams; pTerminal: ITerminal;
+      pAppObj: IAppObj; pExecutando: ISafeBool; pTitOutput: IOutput;
+      pStatusOutput: IOutput; pProcessLog: IProcessLog;
       pOnTerminate: TNotifyEvent; pThreadTitulo: string);
   end;
 
@@ -30,35 +32,39 @@ uses Sis.Entities.Types, ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 
 { TShopAppAppSyncTermThread }
 
-constructor TShopAppAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
-      pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
+constructor TShopAppAppSyncTermThread.Create(pServDBConnectionParams
+  : TDBConnectionParams; pTermDBConnectionParams: TDBConnectionParams;
+  pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
+  pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
+  pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 begin
-  inherited Create(pTerminal, pAppObj, pExecutando, pTitOutput, pStatusOutput,
-    pProcessLog, pOnTerminate, pThreadTitulo);
+  inherited Create(pServDBConnectionParams, pTermDBConnectionParams, pTerminal,
+    pAppObj, pExecutando, pTitOutput, pStatusOutput, pProcessLog, pOnTerminate,
+    pThreadTitulo);
+
   NameThreadForDebugging('ShopSyncTerm' + pTerminal.TerminalId.ToString);
 end;
 
 procedure TShopAppAppSyncTermThread.Execute;
 begin
-  SetExecutando(True);
+  Executando := True;
   try
     inherited;
   finally
-    SetExecutando(False);
+    Executando := False;
   end;
 end;
 
-procedure TShopAppAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
+procedure TShopAppAppSyncTermThread.RegistreProcLog(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
   inherited;
-  ProcLogList.Add(ProcLogProdShop(pAppObj, pTerminal, pServCon,
-    pTermCon, DBExecScript));
-  ProcLogList.Add(ProcLogProdCustoShop(pAppObj, pTerminal, pServCon,
-    pTermCon, DBExecScript));
-  ProcLogList.Add(ProcLogProdPrecoShop(pAppObj, pTerminal, pServCon,
-    pTermCon, DBExecScript));
+  ProcLogList.Add(ProcLogProdShop(pAppObj, pTerminal, pServCon, pTermCon,
+    DBExecScript));
+  ProcLogList.Add(ProcLogProdCustoShop(pAppObj, pTerminal, pServCon, pTermCon,
+    DBExecScript));
+  ProcLogList.Add(ProcLogProdPrecoShop(pAppObj, pTerminal, pServCon, pTermCon,
+    DBExecScript));
 end;
 
 end.

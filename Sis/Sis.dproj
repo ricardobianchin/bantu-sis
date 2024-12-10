@@ -454,8 +454,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI.pas"/>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas"/>
         <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI_u.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.ThreadCreator.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.ThreadBasCreator_u.pas"/>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas"/>
         <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections.pas"/>
         <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas"/>

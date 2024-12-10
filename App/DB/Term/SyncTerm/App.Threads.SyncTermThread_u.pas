@@ -11,6 +11,9 @@ uses App.Threads.TermThread_u, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
 type
   TAppSyncTermThread = class(TTermThread)
   private
+    FServDBConnectionParams: TDBConnectionParams;
+    FTermDBConnectionParams: TDBConnectionParams;
+
     FServFDConnection: TFDConnection;
     FTermFDConnection: TFDConnection;
     FFDExecScript: TFDExecScript;
@@ -19,12 +22,13 @@ type
     FLogIdIni, FLogIdFin: Int64;
     FDBExecScript: IDBExecScript;
     FProcLogList: TList<ISyncTermProcLog>;
+
     function Conectou: boolean;
     procedure FecharConexoes;
     procedure Sync(pAtualIni, pAtualFIn: Int64);
     procedure AtualizeMachine;
   protected
-    procedure RegistreAddComands(pAppObj: IAppObj; pTerminal: ITerminal;
+    procedure RegistreProcLog(pAppObj: IAppObj; pTerminal: ITerminal;
       pServCon, pTermCon: IDBConnection; pSql: TStrings); virtual;
 
     /// ////
@@ -37,10 +41,11 @@ type
     property ProcLogList: TList<ISyncTermProcLog> read FProcLogList;
     property DBExecScript: IDBExecScript read FDBExecScript;
   public
-    constructor Create(pTerminal: ITerminal; pAppObj: IAppObj;
-      pExecutando: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
-      pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent;
-      pThreadTitulo: string);
+    constructor Create(pServDBConnectionParams: TDBConnectionParams;
+      pTermDBConnectionParams: TDBConnectionParams; pTerminal: ITerminal;
+      pAppObj: IAppObj; pExecutando: ISafeBool; pTitOutput: IOutput;
+      pStatusOutput: IOutput; pProcessLog: IProcessLog;
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
     destructor Destroy; override;
 
   end;
@@ -63,14 +68,24 @@ var
 begin
   s := 'select max(machine_id) from machine;';
   iMaxTerm := VarToInteger(FTermFDConnection.ExecSQLScalar(s));
+  // StatusOutput.Exibir(iMaxTerm.ToString);
 
   s := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' + ' FROM MACHINE' +
     ' WHERE MACHINE_ID > ' + IntToStr(iMaxTerm) + ' ORDER BY MACHINE_ID';
   oFDQuery := TFDQuery.Create(nil);
   oFDQuery.Connection := FServFDConnection;
   oFDQuery.Sql.Text := s;
-
+//  AppObj.CriticalSections.DB.Acquire;
+  oFDQuery.Open;
+  oFDQuery.Close;
+//  AppObj.CriticalSections.DB.Release;
+  FreeAndNil(oFDQuery);
+  sleep(100+Random(2000));
+  exit;
   try
+    oFDQuery.Connection := FServFDConnection;
+    oFDQuery.Sql.Text := s;
+
     AppObj.CriticalSections.DB.Acquire;
     try
       oFDQuery.Open;
@@ -139,7 +154,9 @@ begin
     + 'Database=' + rDBConnectionParams.Arq + #13#10 +
     'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
 
+  // StatusOutput.Exibir('Conectando servidor...');
   FServFDConnection.Open;
+  // StatusOutput.Exibir('Conectando terminal...');
   FTermFDConnection.Open;
 
   FFDExecScript := TFDExecScript.Create('TAppSyncTermThread.execscript',
@@ -149,9 +166,11 @@ begin
 
 end;
 
-constructor TAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj;
-  pExecutando: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
-  pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent; pThreadTitulo: string);
+constructor TAppSyncTermThread.Create(pServDBConnectionParams
+  : TDBConnectionParams; pTermDBConnectionParams: TDBConnectionParams;
+  pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
+  pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
+  pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 var
   sThreadTitulo: string;
 begin
@@ -171,7 +190,9 @@ procedure TAppSyncTermThread.Execute;
 var
   i, m: integer;
   iAtualIni, iAtualFIn: Int64;
+  bTerminated: boolean;
 begin
+  exit;
   // inherited;
   if Terminated then
     exit;
@@ -180,29 +201,30 @@ begin
   try
     if Terminated then
       exit;
+
     AtualizeMachine;
     exit;
 
-    RegistreAddComands(AppObj, Terminal, FServCon, FTermCon, FDBExecScript.Sql);
-
-    PegarFaixa(FLogIdIni, FLogIdFin);
-
-    if FLogIdIni = FLogIdFin then
-      exit;
-
-    iAtualIni := FLogIdIni;
-
-    while iAtualIni <= FLogIdFin do
-    begin
-      if Terminated then
-        exit;
-
-      iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
-
-      Sync(iAtualIni, iAtualFIn);
-
-      Inc(iAtualIni, TERMINAL_SYNC_PASSO);
-    end;
+    // RegistreProcLog(AppObj, Terminal, FServCon, FTermCon, FDBExecScript.Sql);
+    //
+    // PegarFaixa(FLogIdIni, FLogIdFin);
+    //
+    // if FLogIdIni = FLogIdFin then
+    // exit;
+    //
+    // iAtualIni := FLogIdIni;
+    //
+    // while iAtualIni <= FLogIdFin do
+    // begin
+    // if Terminated then
+    // exit;
+    //
+    // iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
+    //
+    // Sync(iAtualIni, iAtualFIn);
+    //
+    // Inc(iAtualIni, TERMINAL_SYNC_PASSO);
+    // end;
   finally
     FecharConexoes;
   end;
@@ -221,6 +243,7 @@ end;
 
 procedure TAppSyncTermThread.FecharConexoes;
 begin
+  exit;
   FServFDConnection.Close;
   FTermFDConnection.Close;
 
@@ -235,19 +258,19 @@ begin
     FTermCon, FLogIdIni, FLogIdFin);
 end;
 
-procedure TAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
+procedure TAppSyncTermThread.RegistreProcLog(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
-  FProcLogList.Add(ProcLogLoja(pAppObj, pTerminal, pServCon, pTermCon,
-    FDBExecScript));
-  FProcLogList.Add(ProcLogTerminal(pAppObj, pTerminal, pServCon, pTermCon,
-    FDBExecScript));
-  FProcLogList.Add(ProcLogPagamentoForma(pAppObj, pTerminal, pServCon,
-    pTermCon, FDBExecScript));
-  FProcLogList.Add(ProcLogFuncUsu(pAppObj, pTerminal, pServCon, pTermCon,
-    FDBExecScript));
-  FProcLogList.Add(ProcLogUsuPode(pAppObj, pTerminal, pServCon, pTermCon,
-    FDBExecScript));
+  // FProcLogList.Add(ProcLogLoja(pAppObj, pTerminal, pServCon, pTermCon,
+  // FDBExecScript));
+  // FProcLogList.Add(ProcLogTerminal(pAppObj, pTerminal, pServCon, pTermCon,
+  // FDBExecScript));
+  // FProcLogList.Add(ProcLogPagamentoForma(pAppObj, pTerminal, pServCon, pTermCon,
+  // FDBExecScript));
+  // FProcLogList.Add(ProcLogFuncUsu(pAppObj, pTerminal, pServCon, pTermCon,
+  // FDBExecScript));
+  // FProcLogList.Add(ProcLogUsuPode(pAppObj, pTerminal, pServCon, pTermCon,
+  // FDBExecScript));
 end;
 
 procedure TAppSyncTermThread.Sync(pAtualIni, pAtualFIn: Int64);

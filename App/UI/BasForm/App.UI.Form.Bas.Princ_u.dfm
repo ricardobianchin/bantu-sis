@@ -132,10 +132,10 @@ inherited PrincBasForm: TPrincBasForm
       OnExecute = GerFormCentralizarAction_PrincBasFormExecute
     end
   end
-  object Timer1: TTimer
+  object TesteFecharTimer: TTimer
     Enabled = False
     Interval = 3000
-    OnTimer = Timer1Timer
+    OnTimer = TesteFecharTimerTimer
     Left = 320
     Top = 176
   end

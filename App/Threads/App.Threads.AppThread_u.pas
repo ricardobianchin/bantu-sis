@@ -27,7 +27,7 @@ constructor TAppThread.Create(pAppObj: IAppObj; pExecutando: ISafeBool;
   pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 begin
   inherited Create(pExecutando, pTitOutput, pStatusOutput, pProcessLog,
-    pThreadTitulo, pOnTerminate);
+    pOnTerminate, pThreadTitulo);
   FAppObj := pAppObj
 end;
 

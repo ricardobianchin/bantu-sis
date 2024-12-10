@@ -593,9 +593,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Ger\App.Ger.Factory.pas"/>
         <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI_u.pas"/>
         <DCCReference Include="Ger\GerForm\App.Ger.GerForm.Constants_u.pas"/>
-        <DCCReference Include="Threads\App.Threads.AppThreadCreator_u.pas"/>
-        <DCCReference Include="DB\Term\App.Threads.TermThreadCreator_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas"/>
         <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas"/>
@@ -688,6 +685,9 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas"/>
         <DCCReference Include="..\Sis\DB\Sis.DB.FDExecScript_u.pas"/>
+        <DCCReference Include="Threads\App.Threads.AppTarefa_u.pas"/>
+        <DCCReference Include="DB\Term\App.Threads.TermTarefa_u.pas"/>
+        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermTarefa_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

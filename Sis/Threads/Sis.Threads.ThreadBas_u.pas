@@ -18,6 +18,7 @@ type
 
     function GetExecutando: Boolean;
     procedure SetExecutando(const Value: Boolean);
+
   protected
     property ThreadTitulo: string read FThreadTitulo write FThreadTitulo;
 

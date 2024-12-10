@@ -31,13 +31,20 @@ inherited GerAppForm: TGerAppForm
   end
   object BasePanel: TPanel [1]
     Left = 0
-    Top = 471
+    Top = 456
     Width = 386
-    Height = 25
+    Height = 40
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    object StatusLabel: TLabel
+      Left = 0
+      Top = 21
+      Width = 6
+      Height = 15
+      Caption = '  '
+    end
     object SempreVisivelCheckBox: TCheckBox
       Left = -1
       Top = 1
@@ -61,11 +68,12 @@ inherited GerAppForm: TGerAppForm
     Left = 0
     Top = 41
     Width = 386
-    Height = 415
+    Height = 400
     Align = alTop
     Anchors = [akLeft, akTop, akRight, akBottom]
     BorderStyle = bsNone
     TabOrder = 2
+    ExplicitLeft = -8
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 96

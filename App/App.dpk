@@ -312,9 +312,6 @@ contains
   App.Ger.Factory in 'Ger\App.Ger.Factory.pas',
   App.Ger.GerForm.DBI_u in 'Ger\GerForm\App.Ger.GerForm.DBI_u.pas',
   App.Ger.GerForm.Constants_u in 'Ger\GerForm\App.Ger.GerForm.Constants_u.pas',
-  App.Threads.AppThreadCreator_u in 'Threads\App.Threads.AppThreadCreator_u.pas',
-  App.Threads.TermThreadCreator_u in 'DB\Term\App.Threads.TermThreadCreator_u.pas',
-  App.Threads.SyncTermThreadCreator_u in 'DB\Term\SyncTerm\App.Threads.SyncTermThreadCreator_u.pas',
   App.Threads.SyncTermThread_u_PegarFaixa in 'DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas',
   App.Testes.Config.ModuRetag.Fin in 'AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas',
   App.Testes.Config.ModuRetag.Fin_u in 'AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas',
@@ -371,6 +368,9 @@ contains
   App.Est.Venda.Caixa.CxValor_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor_u.pas',
   App.Est.Venda.Caixa.CxNumerario in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario.pas',
   App.Est.Venda.Caixa.CxNumerario_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas',
-  Sis.DB.FDExecScript_u in '..\Sis\DB\Sis.DB.FDExecScript_u.pas';
+  Sis.DB.FDExecScript_u in '..\Sis\DB\Sis.DB.FDExecScript_u.pas',
+  App.Threads.AppTarefa_u in 'Threads\App.Threads.AppTarefa_u.pas',
+  App.Threads.TermTarefa_u in 'DB\Term\App.Threads.TermTarefa_u.pas',
+  App.Threads.SyncTermTarefa_u in 'DB\Term\SyncTerm\App.Threads.SyncTermTarefa_u.pas';
 
 end.

@@ -4,12 +4,10 @@ interface
 
 uses Sis.Threads.SafeBool, Sis.Threads.Crit.CriticalSections,
   Sis.Threads.Tarefa,
-  Sis.UI.Frame.Status.Thread_u, Sis.Threads.ThreadCreator, Vcl.Controls;
+  Sis.UI.Frame.Status.Thread_u, Vcl.Controls;
 
 function SafeBoolCreate(pValorInicial: Boolean = false): ISafeBool;
 function CriticalSectionsCreate: ICriticalSections;
-function TarefaCreate(pFrame: TThreadStatusFrame;
-  pCreator: IThreadCreator): ITarefa;
 function ThreadFrameCreate(pParent: TWinControl): TThreadStatusFrame;
 
 implementation
@@ -25,12 +23,6 @@ end;
 function CriticalSectionsCreate: ICriticalSections;
 begin
   Result := TCriticalSections.Create;
-end;
-
-function TarefaCreate(pFrame: TThreadStatusFrame;
-  pCreator: IThreadCreator): ITarefa;
-begin
-  Result := TTarefa.Create(pFrame, pCreator);
 end;
 
 function ThreadFrameCreate(pParent: TWinControl): TThreadStatusFrame;

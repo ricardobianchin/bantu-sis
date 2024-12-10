@@ -289,8 +289,6 @@ contains
   Sis.DB.DBConfigDBI in 'DB\DBConfig\Sis.DB.DBConfigDBI.pas',
   Sis.DB.DBConfig.Factory_u in 'DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas',
   Sis.DB.DBConfigDBI_u in 'DB\DBConfig\Sis.DB.DBConfigDBI_u.pas',
-  Sis.Threads.ThreadCreator in 'Threads\Sis.Threads.ThreadCreator.pas',
-  Sis.Threads.ThreadBasCreator_u in 'Threads\Sis.Threads.ThreadBasCreator_u.pas',
   Sis.UI.IO.Output.Safe.ToLabel_u in 'UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas',
   Sis.Threads.Crit.CriticalSections in 'Threads\Crit\Sis.Threads.Crit.CriticalSections.pas',
   Sis.Threads.Crit.CriticalSections_u in 'Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas',
