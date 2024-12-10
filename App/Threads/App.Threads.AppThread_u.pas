@@ -15,7 +15,7 @@ type
   public
     constructor Create(pAppObj: IAppObj; pExecutando: ISafeBool;
       pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pThreadTitulo: string = '');
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
   end;
 
 implementation
@@ -24,10 +24,10 @@ implementation
 
 constructor TAppThread.Create(pAppObj: IAppObj; pExecutando: ISafeBool;
   pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-  pThreadTitulo: string);
+  pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 begin
   inherited Create(pExecutando, pTitOutput, pStatusOutput, pProcessLog,
-    pThreadTitulo);
+    pThreadTitulo, pOnTerminate);
   FAppObj := pAppObj
 end;
 

@@ -15,7 +15,7 @@ type
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
       pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pThreadTitulo: string = '');
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
   end;
 
 implementation
@@ -24,10 +24,10 @@ implementation
 
 constructor TTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
       pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pThreadTitulo: string);
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 begin
   inherited Create(pAppObj, pExecutando, pTitOutput, pStatusOutput, pProcessLog,
-    pThreadTitulo);
+    pOnTerminate, pThreadTitulo);
   FTerminal := pTerminal;
 end;
 

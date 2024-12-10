@@ -313,6 +313,8 @@ contains
   Sis.Lists.IdCharHashList in 'Lists\Sis.Lists.IdCharHashList.pas',
   Sis.Lists.IdCharHashItem_u in 'Lists\Sis.Lists.IdCharHashItem_u.pas',
   Sis.UI.Controls.WinControlsNavigator in 'UI\Controls\Sis.UI.Controls.WinControlsNavigator.pas',
-  Sis.Sis.Atualizavel_u in 'Sis\Sis.Sis.Atualizavel_u.pas';
+  Sis.Sis.Atualizavel_u in 'Sis\Sis.Sis.Atualizavel_u.pas',
+  Sis.Threads.Tarefa in 'Threads\Sis.Threads.Tarefa.pas',
+  Sis.Threads.Tarefa_u in 'Threads\Sis.Threads.Tarefa_u.pas';
 
 end.

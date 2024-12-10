@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.UI.Constants, Vcl.ToolWin, Vcl.ComCtrls,
   Vcl.StdCtrls, System.Actions, Vcl.ActnList, Sis.UI.Frame.Status.Thread_u,
-  System.Generics.Collections, App.Ger.GerForm.DBI, App.AppObj;
+  System.Generics.Collections, App.Ger.GerForm.DBI, App.AppObj,
+  Sis.Threads.Tarefa, Sis.Entities.Terminal;
 
 type
   TExecuteTeste = (etNenhum, etUm, etTodos);
@@ -15,8 +16,8 @@ type
 const
 {$IFDEF DEBUG}
   FRAME_EXECUTAR: TExecuteTeste = etTodos;
-  //FRAME_EXECUTAR: TExecuteTeste = etNenhum;
-  //FRAME_EXECUTAR: TExecuteTeste = etUm;
+  // FRAME_EXECUTAR: TExecuteTeste = etNenhum;
+  // FRAME_EXECUTAR: TExecuteTeste = etUm;
 
   NSECS_PAUSA = 1;
 {$ELSE}
@@ -36,40 +37,41 @@ type
     StatusFrameScrollBox: TScrollBox;
     ExecuteTimer: TTimer;
     /// <summary>
-    ///   permite usuario arrastar a janela
+    /// permite usuario arrastar a janela
     /// </summary>
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
 
     /// <summary>
-    ///   se o sistema nao está fechando, oculta a janela
+    /// se o sistema nao está fechando, oculta a janela
     /// </summary>
     procedure FecharAction_GerAppFormExecute(Sender: TObject);
 
     /// <summary>
-    ///   config, sempre visivel
+    /// config, sempre visivel
     /// </summary>
     procedure SempreVisivelCheckBoxClick(Sender: TObject);
 
     /// <summary>
-    ///    config, autoopen
+    /// config, autoopen
     /// </summary>
     procedure AutoOpenCheckBoxClick(Sender: TObject);
 
     /// <summary>
-    ///   timer dispara execucao
+    /// timer dispara execucao
     /// </summary>
     procedure ExecuteTimerTimer(Sender: TObject);
   private
     { Private declarations }
-    FSecPausa: integer;
-    FFramesList: TList<TThreadStatusFrame>;
+    FSecPausa: Integer;
     FAutoOpen: Boolean;
     FSempreVisivel: Boolean;
     FProcessaControles: Boolean;
     FGerFormDBI: IGerFormDBI;
     FAppObj: IAppObj;
     FPodeExecutar: Boolean;
+
+    FTarefaList: TList<ITarefa>;
 
     procedure CarregConfig;
 
@@ -78,13 +80,12 @@ type
 
     procedure GerFormDBIInicialize;
 
-
   protected
     procedure AjusteControles; override;
-    property FramesList: TList<TThreadStatusFrame> read FFramesList;
     property AppObj: IAppObj read FAppObj;
-    procedure ExecuteForAllFrames(const Proc: TThreadStatusFrameProcedure);
 
+    procedure PreenchaTarefaList; virtual;
+    property TarefaList: TList<ITarefa> read FTarefaList;
   public
     { Public declarations }
     property PodeExecutar: Boolean read FPodeExecutar write FPodeExecutar;
@@ -93,6 +94,7 @@ type
     property SempreVisivel: Boolean read FSempreVisivel write SetSempreVisivel;
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj); reintroduce;
+
     destructor Destroy; override;
 
     procedure Terminate;
@@ -108,7 +110,8 @@ implementation
 
 uses Sis.UI.ImgDM, System.DateUtils, Sis.Types.Bool_u, Sis.DB.DBTypes,
   App.DB.Utils, Sis.Sis.Constants, Sis.DB.DBConfig.Factory_u,
-  Sis.DB.DBConfigDBI, Sis.DB.Factory, App.Ger.Factory, Sis.UI.Controls.Utils;
+  Sis.DB.DBConfigDBI, Sis.DB.Factory, App.Ger.Factory, Sis.UI.Controls.Utils,
+  Sis.Threads.Factory_u;
 
 procedure TGerAppForm.AjusteControles;
 begin
@@ -151,7 +154,6 @@ begin
   inherited Create(AOwner);
   FSecPausa := 0;
   FProcessaControles := False;
-  FFramesList := TList<TThreadStatusFrame>.Create;
   FAppObj := pAppObj;
 
   GerFormDBIInicialize;
@@ -162,99 +164,91 @@ begin
   TitleToolBar.Color := COR_AZUL_TITLEBAR;
 
   FPodeExecutar := True;
-//  ClearStyleElements(Self);
+  // ClearStyleElements(Self);
+
+  FTarefaList := TList<ITarefa>.Create;
+  PreenchaTarefaList;
+
 end;
 
 destructor TGerAppForm.Destroy;
 begin
-  FFramesList.Free;
+  FTarefaList.Free;
   inherited;
 end;
 
 procedure TGerAppForm.EspereTerminar;
 var
-  oFrame: TThreadStatusFrame;
   bTerminou: Boolean;
 begin
-//  bTerminou := FFramesList.Count = 0;
-//  if bTerminou then
-//    exit;
-//
-//  repeat
-//    for oFrame in FFramesList do
-//    begin
-//      bTerminou := oFrame.PodeFechar;
-//      if not bTerminou then
-//        break;
-//      Sleep(200);
-//
-//    end;
-//    if bTerminou then
-//      break;
-//    Application.ProcessMessages;
-//    Sleep(250);
-//  until (False);
+  // bTerminou := FFramesList.Count = 0;
+  // if bTerminou then
+  // exit;
+  //
+  // repeat
+  // for oFrame in FFramesList do
+  // begin
+  // bTerminou := oFrame.PodeFechar;
+  // if not bTerminou then
+  // break;
+  // Sleep(200);
+  //
+  // end;
+  // if bTerminou then
+  // break;
+  // Application.ProcessMessages;
+  // Sleep(250);
+  // until (False);
 
-  // ExecuteForAllFrames(
+  // ExecuteForAllTarefas(
   // procedure(pFrame: TThreadStatusFrame)
   // begin
   // pFrame.PodeFechar;
   // end);
 end;
 
-procedure TGerAppForm.ExecuteForAllFrames(const Proc
-  : TThreadStatusFrameProcedure);
-var
-  oFrame: TThreadStatusFrame;
-begin
-  // Percorre a lista de frames e executa o procedimento para cada frame
-  for oFrame in FFramesList do
-  begin
-    Proc(oFrame);
-  end;
-end;
-
 procedure TGerAppForm.ExecuteTimerTimer(Sender: TObject);
 begin
   inherited;
-//  if not PodeExecutar then
-//    exit;
-//  inc(FSecPausa);
-//  if FSecPausa = NSECS_PAUSA then
-//  begin
-//    FSecPausa := 0;
-//  end
-//  else
-//  begin
-//    exit;
-//  end;
-//
-//  case FRAME_EXECUTAR of
-//    etNenhum: ExecuteTimer.Enabled := False;//exit;
-//    etUm:
-//      if FFramesList.Count > 0 then
-//        FFramesList[0].Execute;
-//  else // etTodos:
-//    ExecuteForAllFrames(
-//      procedure(pFrame: TThreadStatusFrame)
-//      begin
-//        pFrame.Execute;
-//      end);
-//  end;
+  // if not PodeExecutar then
+  // exit;
+  //
+  // inc(FSecPausa);
+  // if FSecPausa = NSECS_PAUSA then
+  // begin
+  // FSecPausa := 0;
+  // end
+  // else
+  // begin
+  // exit;
+  // end;
+  //
+  // case FRAME_EXECUTAR of
+  // etNenhum: ExecuteTimer.Enabled := False;//exit;
+  // etUm:
+  // if FFramesList.Count > 0 then
+  // FFramesList[0].Execute;
+  // else // etTodos:
+  // ExecuteForAllTarefas(
+  // procedure(pFrame: TThreadStatusFrame)
+  // begin
+  // pFrame.Execute;
+  // end);
+  // end;
 end;
 
 procedure TGerAppForm.Terminate;
 begin
-//  FPodeExecutar := False;
-//
-//  if  FFramesList.Count = 0 then
-//    exit;
-//
-//  ExecuteForAllFrames(
-//    procedure(pFrame: TThreadStatusFrame)
-//    begin
-//      pFrame.Terminate;
-//    end);
+  // FPodeExecutar := False;
+  //
+  // if  FFramesList.Count = 0 then
+  // exit;
+  //
+  // ExecuteForAllTarefas(
+  // procedure(pFrame: TThreadStatusFrame)
+  // begin
+  // pFrame.Terminate;
+  // end);
 
 end;
 
@@ -283,6 +277,11 @@ begin
   FGerFormDBI := GerFormDBICreate(oDBConnection, oDBConfigDBI);
 end;
 
+procedure TGerAppForm.PreenchaTarefaList;
+begin
+
+end;
+
 procedure TGerAppForm.SetAutoOpen(Value: Boolean);
 begin
   FAutoOpen := Value;
@@ -301,7 +300,7 @@ begin
 end;
 
 procedure TGerAppForm.TitleBarPanelMouseDown(Sender: TObject;
-Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 const
   SC_DRAGMOVE = $F012;
 begin

@@ -134,7 +134,7 @@ inherited PrincBasForm: TPrincBasForm
   end
   object Timer1: TTimer
     Enabled = False
-    Interval = 2000
+    Interval = 3000
     OnTimer = Timer1Timer
     Left = 320
     Top = 176

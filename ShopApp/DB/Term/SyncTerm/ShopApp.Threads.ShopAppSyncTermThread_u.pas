@@ -21,7 +21,7 @@ type
   public
     constructor Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
       pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pThreadTitulo: string = '');
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
   end;
 
 implementation
@@ -32,20 +32,20 @@ uses Sis.Entities.Types, ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 
 constructor TShopAppAppSyncTermThread.Create(pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
       pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pThreadTitulo: string);
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 begin
   inherited Create(pTerminal, pAppObj, pExecutando, pTitOutput, pStatusOutput,
-    pProcessLog, pThreadTitulo);
+    pProcessLog, pOnTerminate, pThreadTitulo);
   NameThreadForDebugging('ShopSyncTerm' + pTerminal.TerminalId.ToString);
 end;
 
 procedure TShopAppAppSyncTermThread.Execute;
 begin
-//  SetExecutando(True);
+  SetExecutando(True);
   try
     inherited;
   finally
-//    SetExecutando(False);
+    SetExecutando(False);
   end;
 end;
 
@@ -53,11 +53,11 @@ procedure TShopAppAppSyncTermThread.RegistreAddComands(pAppObj: IAppObj;
   pTerminal: ITerminal; pServCon, pTermCon: IDBConnection; pSql: TStrings);
 begin
   inherited;
-  AddCommandsList.Add(ProcLogProdShop(pAppObj, pTerminal, pServCon,
+  ProcLogList.Add(ProcLogProdShop(pAppObj, pTerminal, pServCon,
     pTermCon, DBExecScript));
-  AddCommandsList.Add(ProcLogProdCustoShop(pAppObj, pTerminal, pServCon,
+  ProcLogList.Add(ProcLogProdCustoShop(pAppObj, pTerminal, pServCon,
     pTermCon, DBExecScript));
-  AddCommandsList.Add(ProcLogProdPrecoShop(pAppObj, pTerminal, pServCon,
+  ProcLogList.Add(ProcLogProdPrecoShop(pAppObj, pTerminal, pServCon,
     pTermCon, DBExecScript));
 end;
 

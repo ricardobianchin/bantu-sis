@@ -28,8 +28,6 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
   end;
 
-  TThreadStatusFrameProcedure = reference to procedure(pFrame: TThreadStatusFrame);
-
   // var
   // ThreadStatusFrame: TThreadStatusFrame;
 

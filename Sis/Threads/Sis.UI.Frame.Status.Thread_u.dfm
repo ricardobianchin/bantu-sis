@@ -17,6 +17,7 @@ inherited ThreadStatusFrame: TThreadStatusFrame
   end
   inherited StatusLabel: TLabel
     Top = 30
+    Width = 59
     Height = 39
     AutoSize = False
     Caption = 'a'#13#10'b'#13#10'c'

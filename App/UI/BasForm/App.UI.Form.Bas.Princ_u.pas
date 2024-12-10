@@ -472,13 +472,15 @@ end;
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  Timer1.Enabled := True;
+  GerForm.ExecuteTimer.Enabled := True;
+  Timer1.Enabled := True;
 end;
 
 procedure TPrincBasForm.Timer1Timer(Sender: TObject);
 begin
   inherited;
-  FecharAction_ActBasForm.Execute;
+  Close;
+//  FecharAction_ActBasForm.Execute;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;

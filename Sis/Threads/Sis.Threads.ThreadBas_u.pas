@@ -29,7 +29,7 @@ type
   public
     constructor Create(pExecutando: ISafeBool; pTitOutput: IOutput;
       pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pThreadTitulo: string = '');
+      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
   end;
 
 implementation
@@ -39,17 +39,24 @@ implementation
 uses Sis.Types.strings_u;
 
 constructor TThreadBas.Create(pExecutando: ISafeBool; pTitOutput: IOutput;
-  pStatusOutput: IOutput; pProcessLog: IProcessLog; pThreadTitulo: string);
+  pStatusOutput: IOutput; pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent;
+  pThreadTitulo: string);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
   FExecutandoSafeBool := pExecutando;
   Executando := False;
+  OnTerminate := pOnTerminate;
 
   if pThreadTitulo = '' then
     FThreadTitulo := ClassNameToNome(ClassName)
   else
     FThreadTitulo := pThreadTitulo;
+
+  FTitOutput := pTitOutput;
+  FStatusOutput := pStatusOutput;
+  FProcessLog := pProcessLog;
+
 end;
 
 function TThreadBas.GetExecutando: Boolean;

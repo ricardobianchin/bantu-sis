@@ -20,8 +20,6 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
-  TStatusFrameProcedure = reference to procedure(pFrame: TStatusFrame);
-
   // var
   // StatusFrame: TStatusFrame;
 

@@ -6,18 +6,15 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.Ger.GerForm_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
-  Vcl.ToolWin, Vcl.ComCtrls, App.AppObj, Sis.UI.Frame.Status.Thread_u,
-  Sis.Threads.Factory_u, ShopApp.Threads.ShopAppSyncTermThreadCreator_u, Sis.Entities.Terminal;
+  Vcl.ToolWin, Vcl.ComCtrls, App.AppObj,
+  Sis.Entities.Terminal;
 
 type
   TGerShopAppForm = class(TGerAppForm)
   private
     { Private declarations }
-    function FrameCreate(pTerminal: ITerminal): TThreadStatusFrame;
-    function ShopAppSyncTermThreadCreatorCreate(pFrame: TThreadStatusFrame; pTerminal: ITerminal):TShopAppSyncTermThreadCreator;
-    procedure TesteThread;
-
   protected
+    procedure PreenchaTarefaList; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj); reintroduce;
@@ -30,57 +27,61 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Threads.ThreadCreator, Sis.Threads.SafeBool;
+uses Sis.Threads.ThreadCreator, Sis.Threads.SafeBool, Sis.Threads.Tarefa,
+  ShopApp.Threads.ShopAppSyncTermThread.Factory_u, Sis.Threads.Factory_u,
+  Sis.UI.Frame.Status.Thread_u, Sis.Threads.ThreadBas_u;
 
 { TGerShopAppForm }
 
 constructor TGerShopAppForm.Create(AOwner: TComponent; pAppObj: IAppObj);
+begin
+  inherited;
+end;
+
+procedure TGerShopAppForm.PreenchaTarefaList;
 var
+  oTarefa: ITarefa;
   sNomeLocal: string;
 begin
   inherited;
-//  sNomeLocal := AppObj.SisConfig.LocalMachineId.GetIdent;
-//  AppObj.TerminalList.ExecuteForAll(
-//    procedure(pTerminal: ITerminal)
-//    var
-//      oFrame: TThreadStatusFrame;
-//      oCreator: TShopAppSyncTermThreadCreator;
-//    begin
-//      oFrame := FrameCreate(pTerminal);
-//      oCreator := ShopAppSyncTermThreadCreatorCreate(oFrame, pTerminal);
-//      oFrame.ThreadCreator := oCreator;
-//    end, sNomeLocal);
-end;
+  sNomeLocal := AppObj.SisConfig.LocalMachineId.GetIdent;
+  AppObj.TerminalList.ExecuteForAll(
+    //
+    procedure(pTerminal: ITerminal)
+    var
+      oFrame: TThreadStatusFrame;
+      oCreator: IThreadCreator;
+      oTarefa: ITarefa;
+    begin
+      oFrame := ThreadFrameCreate(StatusFrameScrollBox);
+      oCreator := ShopAppSyncTermThreadCreatorCreate(pTerminal, AppObj,
+        oFrame.TitOutput, oFrame.StatusOutput, oFrame.ProcessLog);
+      oTarefa := TarefaCreate(oFrame, oCreator);
+    end
+  //
+    , sNomeLocal);
 
-function TGerShopAppForm.FrameCreate(pTerminal: ITerminal): TThreadStatusFrame;
-var
-  sName: string;
-begin
-  // cria o Frame
-  sName := 'ThreadStatusFrame' + (StatusFrameScrollBox.ControlCount + 1).ToString;
-  Result := TThreadStatusFrame.Create(StatusFrameScrollBox);
-  Result.Name := sName;
-  Result.Parent := StatusFrameScrollBox;
+  {
 
-  FramesList.Add(Result);
-  TesteThread;
-end;
+    sNomeLocal: string;
+    begin
+    inherited;
+    sNomeLocal := AppObj.SisConfig.LocalMachineId.GetIdent;
 
-function TGerShopAppForm.ShopAppSyncTermThreadCreatorCreate(
-  pFrame: TThreadStatusFrame; pTerminal: ITerminal): TShopAppSyncTermThreadCreator;
-begin
-  // cria o creator
-//  Result := TShopAppSyncTermThreadCreator.Create( //
-//    pTerminal //
-//    , AppObj //
-//    //, pFrame.Executando //
-//    , pFrame.DoTerminate //
-//    , pTerminal.AsText
-//    );
-end;
+    // para cada terminal, cria frames
+    AppObj.TerminalList.ExecuteForAll(
+    procedure(pTerminal: ITerminal)
+    var
+    oFrame: TThreadStatusFrame;
+    oCreator: TShopAppSyncTermThreadCreator;
+    begin
+    oFrame := FrameCreate(pTerminal);
+    oCreator := nil;
+    ShopAppSyncTermThreadCreatorCreate(pTerminal, AppObj, oFrame.TitOutput,
+    oFrame.StatusOutput, oFrame.ProcessLog, '');
+    end, sNomeLocal);
 
-procedure TGerShopAppForm.TesteThread;
-begin
+  }
 
 end;
 
