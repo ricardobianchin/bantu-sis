@@ -11,9 +11,6 @@ uses App.Threads.TermThread_u, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
 type
   TAppSyncTermThread = class(TTermThread)
   private
-    FServDBConnectionParams: TDBConnectionParams;
-    FTermDBConnectionParams: TDBConnectionParams;
-
     FServFDConnection: TFDConnection;
     FTermFDConnection: TFDConnection;
     FFDExecScript: TFDExecScript;
@@ -41,11 +38,11 @@ type
     property ProcLogList: TList<ISyncTermProcLog> read FProcLogList;
     property DBExecScript: IDBExecScript read FDBExecScript;
   public
-    constructor Create(pServDBConnectionParams: TDBConnectionParams;
-      pTermDBConnectionParams: TDBConnectionParams; pTerminal: ITerminal;
-      pAppObj: IAppObj; pExecutando: ISafeBool; pTitOutput: IOutput;
-      pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
+    constructor Create(pServFDConnection: TFDConnection;
+      pTermFDConnection: TFDConnection; pTerminal: ITerminal; pAppObj: IAppObj;
+      pExecutando: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
+      pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent;
+      pThreadTitulo: string);
     destructor Destroy; override;
 
   end;
@@ -75,12 +72,12 @@ begin
   oFDQuery := TFDQuery.Create(nil);
   oFDQuery.Connection := FServFDConnection;
   oFDQuery.Sql.Text := s;
-//  AppObj.CriticalSections.DB.Acquire;
+  // AppObj.CriticalSections.DB.Acquire;
   oFDQuery.Open;
   oFDQuery.Close;
-//  AppObj.CriticalSections.DB.Release;
+  // AppObj.CriticalSections.DB.Release;
   FreeAndNil(oFDQuery);
-  sleep(100+Random(2000));
+  sleep(100 + Random(2000));
   exit;
   try
     oFDQuery.Connection := FServFDConnection;
@@ -120,44 +117,44 @@ begin
 end;
 
 function TAppSyncTermThread.Conectou: boolean;
-var
-  s: ISisConfig;
-  rDBConnectionParams: TDBConnectionParams;
-  sDriver: string;
+//var
+//  s: ISisConfig;
+//  rDBConnectionParams: TDBConnectionParams;
+//  sDriver: string;
 begin
-  s := AppObj.SisConfig;
+//  s := AppObj.SisConfig;
 
-  rDBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, AppObj);
+//  rDBConnectionParams := TerminalIdToDBConnectionParams
+//    (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  FServFDConnection := TFDConnection.Create(nil);
-  FServFDConnection.LoginPrompt := false;
-  sDriver := 'FB';
-
-  FServFDConnection.Params.Text := //
-    'DriverID=' + sDriver + #13#10 //
-    + 'Server=' + rDBConnectionParams.Server + #13#10 //
-    + 'Database=' + rDBConnectionParams.Arq + #13#10 +
-    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
-
-  rDBConnectionParams.Server := Terminal.NomeNaRede;
-  rDBConnectionParams.Arq := Terminal.LocalArqDados;
-  rDBConnectionParams.Database := Terminal.Database;
-
-  FTermFDConnection := TFDConnection.Create(nil);
-  FTermFDConnection.LoginPrompt := false;
-  sDriver := 'FB';
-
-  FTermFDConnection.Params.Text := //
-    'DriverID=' + sDriver + #13#10 //
-    + 'Server=' + rDBConnectionParams.Server + #13#10 //
-    + 'Database=' + rDBConnectionParams.Arq + #13#10 +
-    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
+//  FServFDConnection := TFDConnection.Create(nil);
+//  FServFDConnection.LoginPrompt := false;
+//  sDriver := 'FB';
+//
+//  FServFDConnection.Params.Text := //
+//    'DriverID=' + sDriver + #13#10 //
+//    + 'Server=' + rDBConnectionParams.Server + #13#10 //
+//    + 'Database=' + rDBConnectionParams.Arq + #13#10 +
+//    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
+//
+//  rDBConnectionParams.Server := Terminal.NomeNaRede;
+//  rDBConnectionParams.Arq := Terminal.LocalArqDados;
+//  rDBConnectionParams.Database := Terminal.Database;
+//
+//  FTermFDConnection := TFDConnection.Create(nil);
+//  FTermFDConnection.LoginPrompt := false;
+//  sDriver := 'FB';
+//
+//  FTermFDConnection.Params.Text := //
+//    'DriverID=' + sDriver + #13#10 //
+//    + 'Server=' + rDBConnectionParams.Server + #13#10 //
+//    + 'Database=' + rDBConnectionParams.Arq + #13#10 +
+//    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
 
   // StatusOutput.Exibir('Conectando servidor...');
-  FServFDConnection.Open;
+//  FServFDConnection.Open;
   // StatusOutput.Exibir('Conectando terminal...');
-  FTermFDConnection.Open;
+//  FTermFDConnection.Open;
 
   FFDExecScript := TFDExecScript.Create('TAppSyncTermThread.execscript',
     FTermFDConnection, Terminal.CriticalSections.DB);
@@ -166,11 +163,10 @@ begin
 
 end;
 
-constructor TAppSyncTermThread.Create(pServDBConnectionParams
-  : TDBConnectionParams; pTermDBConnectionParams: TDBConnectionParams;
-  pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
-  pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-  pOnTerminate: TNotifyEvent; pThreadTitulo: string);
+constructor TAppSyncTermThread.Create(pServFDConnection: TFDConnection;
+  pTermFDConnection: TFDConnection; pTerminal: ITerminal; pAppObj: IAppObj;
+  pExecutando: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
+  pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 var
   sThreadTitulo: string;
 begin
@@ -178,6 +174,8 @@ begin
   inherited Create(pTerminal, pAppObj, pExecutando, pTitOutput, pStatusOutput,
     pProcessLog, pOnTerminate, pThreadTitulo);
   FProcLogList := TList<ISyncTermProcLog>.Create;
+  FServFDConnection := pServFDConnection;
+  FTermFDConnection := pTermFDConnection;
 end;
 
 destructor TAppSyncTermThread.Destroy;
@@ -192,7 +190,6 @@ var
   iAtualIni, iAtualFIn: Int64;
   bTerminated: boolean;
 begin
-  exit;
   // inherited;
   if Terminated then
     exit;
@@ -243,13 +240,12 @@ end;
 
 procedure TAppSyncTermThread.FecharConexoes;
 begin
-  exit;
-  FServFDConnection.Close;
-  FTermFDConnection.Close;
+//  FServFDConnection.Close;
+//  FTermFDConnection.Close;
 
   FFDExecScript.Free;
-  FServFDConnection.Free;
-  FTermFDConnection.Free;
+//  FServFDConnection.Free;
+//  FTermFDConnection.Free;
 end;
 
 procedure TAppSyncTermThread.PegarFaixa(out FLogIdIni, FLogIdFin: Int64);

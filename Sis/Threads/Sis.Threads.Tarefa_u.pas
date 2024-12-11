@@ -21,9 +21,9 @@ type
     procedure DoThreadTerminate(Sender: TObject); virtual;
     function ThreadCreate: TThreadBas; virtual; abstract;
   public
-    procedure Execute;
-    procedure Terminate;
-    procedure EspereTerminar;
+    procedure Execute; virtual;
+    procedure Terminate; virtual;
+    procedure EspereTerminar; virtual;
 
     constructor Create(pFrame: TThreadStatusFrame);
   end;

@@ -4,7 +4,7 @@ interface
 
 uses App.Threads.SyncTermThread_u, Sis.UI.IO.Output, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, System.Classes, Sis.Threads.ThreadBas_u,
-  App.AppObj, Sis.Entities.Terminal, Sis.Threads.SafeBool;
+  App.AppObj, Sis.Entities.Terminal, Sis.Threads.SafeBool, FireDAC.Comp.Client;
 
 type
   TShopAppAppSyncTermThread = class(TAppSyncTermThread)
@@ -19,11 +19,11 @@ type
     procedure Execute; override;
 
   public
-    constructor Create(pServDBConnectionParams: TDBConnectionParams;
-      pTermDBConnectionParams: TDBConnectionParams; pTerminal: ITerminal;
-      pAppObj: IAppObj; pExecutando: ISafeBool; pTitOutput: IOutput;
-      pStatusOutput: IOutput; pProcessLog: IProcessLog;
-      pOnTerminate: TNotifyEvent; pThreadTitulo: string);
+    constructor Create(pServFDConnection: TFDConnection;
+      pTermFDConnection: TFDConnection; pTerminal: ITerminal; pAppObj: IAppObj;
+      pExecutando: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
+      pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent;
+      pThreadTitulo: string);
   end;
 
 implementation
@@ -32,14 +32,13 @@ uses Sis.Entities.Types, ShopApp.Threads.ShopAppSyncTermThread.Factory_u;
 
 { TShopAppAppSyncTermThread }
 
-constructor TShopAppAppSyncTermThread.Create(pServDBConnectionParams
-  : TDBConnectionParams; pTermDBConnectionParams: TDBConnectionParams;
-  pTerminal: ITerminal; pAppObj: IAppObj; pExecutando: ISafeBool;
-  pTitOutput: IOutput; pStatusOutput: IOutput; pProcessLog: IProcessLog;
-  pOnTerminate: TNotifyEvent; pThreadTitulo: string);
+constructor TShopAppAppSyncTermThread.Create(pServFDConnection: TFDConnection;
+  pTermFDConnection: TFDConnection; pTerminal: ITerminal; pAppObj: IAppObj;
+  pExecutando: ISafeBool; pTitOutput: IOutput; pStatusOutput: IOutput;
+  pProcessLog: IProcessLog; pOnTerminate: TNotifyEvent; pThreadTitulo: string);
 begin
-  inherited Create(pServDBConnectionParams, pTermDBConnectionParams, pTerminal,
-    pAppObj, pExecutando, pTitOutput, pStatusOutput, pProcessLog, pOnTerminate,
+  inherited Create(pServFDConnection, pTermFDConnection, pTerminal, pAppObj,
+    pExecutando, pTitOutput, pStatusOutput, pProcessLog, pOnTerminate,
     pThreadTitulo);
 
   NameThreadForDebugging('ShopSyncTerm' + pTerminal.TerminalId.ToString);

@@ -332,6 +332,7 @@ end;
 
 destructor TPrincBasForm.Destroy;
 begin
+  FreeAndNil(FGerForm);
 //  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
   try
 //    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);

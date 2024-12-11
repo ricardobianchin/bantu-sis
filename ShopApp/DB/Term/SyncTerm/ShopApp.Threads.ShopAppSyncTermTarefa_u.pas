@@ -25,8 +25,8 @@ end;
 
 function TShopAppSyncTermTarefa.ThreadCreate: TThreadBas;
 begin
-  Result := TShopAppAppSyncTermThread.Create(ServDBConnectionParams,
-    TermDBConnectionParams, Terminal, AppObj, Executando, Frame.TitOutput,
+  Result := TShopAppAppSyncTermThread.Create(ServFDConnection,
+    TermFDConnection, Terminal, AppObj, Executando, Frame.TitOutput,
     Frame.StatusOutput, Frame.ProcessLog, DoThreadTerminate, ThreadTitulo);
 end;
 
