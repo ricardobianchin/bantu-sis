@@ -142,7 +142,8 @@ var
   sLetraDoDrive: string;
   sNomeArq: string;
   sFormat: string;
-  sPasta, sAtiv: string;
+  sPasta: string;
+  sAtiv: string;
   iTerm: TTerminalId;
 begin
   pTerminal.TerminalId := Q.FieldByName('TERMINAL_ID').AsInteger;
