@@ -9,7 +9,7 @@ procedure EnvParaTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses Sis_u, EnvParaTerm_u_AtualizeMachine, EnvParaTerm_u_PegarFaixa, DBServDM_u,
-  System.Math, ExecScript_u, System.SysUtils;
+  System.Math, ExecScript_u, System.SysUtils, EnvParaTerm_u_Loja;
 
 procedure EnvParaTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -45,6 +45,8 @@ begin
     while iAtualIni <= FLogIdFin do
     begin
       iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
+
+      EnvLoja(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
 
       sComando := 'EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
         FLogIdFin.ToString + ');'

@@ -12,7 +12,8 @@ uses
   EnvParaTerm_u in 'EnvParaTerm\EnvParaTerm_u.pas',
   EnvParaTerm_u_AtualizeMachine in 'EnvParaTerm\EnvParaTerm_u_AtualizeMachine.pas',
   ExecScript_u in 'DB\ExecScript_u.pas',
-  EnvParaTerm_u_PegarFaixa in 'EnvParaTerm\EnvParaTerm_u_PegarFaixa.pas';
+  EnvParaTerm_u_PegarFaixa in 'EnvParaTerm\EnvParaTerm_u_PegarFaixa.pas',
+  EnvParaTerm_u_Loja in 'EnvParaTerm\EnvParaTerm_u_Loja.pas';
 
 {$R *.res}
 
