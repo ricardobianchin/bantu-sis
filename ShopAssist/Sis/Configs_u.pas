@@ -46,7 +46,7 @@ function DBServDMCreate: TDBServDM;
 
 implementation
 
-uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc;
+uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u;
 
 function LoadConfigFromXML(const FileName: string): TConfig;
 var
@@ -83,6 +83,7 @@ var
   sServer: string;
   sArq: string;
 begin
+  EscrevaLog('DBServDMCreate');
   Result := TDBServDM.Create(nil);
 
   Result.Connection.LoginPrompt := false;
@@ -108,6 +109,7 @@ begin
   sPastaBin := IncludeTrailingPathDelimiter(GetCurrentDir);
   sPastaProduto := PastaAcima(sPastaBin);
   sPastaDados := sPastaProduto + 'Dados\';
+  sPastaTmp := sPastaProduto + 'Tmp\';
 
   sPastaConfigs := sPastaProduto + 'Configs\';
   sNomeXml := sPastaConfigs + 'Sis.Config.SisConfig.xml';

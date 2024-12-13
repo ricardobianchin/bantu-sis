@@ -19,6 +19,8 @@ function GarantirPastaDoArquivo(const pNomeArq: string): string;
 // date time
 function DateTimeToNomeArq(pDtH: TDateTime = 0): string;
 function DateToPath(pDtH: TDateTime = 0): string;
+function AnoMesToPath(pDtH: TDateTime = 0): string;
+function AnoToPath(pDtH: TDateTime = 0): string;
 
 // fragmenta caminho
 function GetPastaDoArquivo(const pNomeArq: string): string;
@@ -29,6 +31,7 @@ procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings;
 
 // gravar
 procedure EscreverArquivo(pStr: string; pNomeArq: string);
+procedure AdicioneAoArquivo(pStr: string; pNomeArq: string);
 
 // Ler
 function LerDoArquivo(pNomeArq: string; out pConteudo: string): boolean;
@@ -40,7 +43,11 @@ function EscolhaArquivo(var pNomeArq: string; pFiltros: string = '';
 implementation
 
 uses System.SysUtils, System.IOUtils, System.StrUtils, Vcl.Dialogs,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, System.DateUtils;
+
+const
+  MODE_CREATE = fmCreate or fmShareDenyWrite;
+  MODE_APPEND = fmOpenWrite or fmShareDenyWrite;
 
 function DateTimeToNomeArq(pDtH: TDateTime): string;
 var
@@ -70,8 +77,10 @@ procedure EscreverArquivo(pStr: string; pNomeArq: string);
 var
   Arquivo: TFileStream;
   Buffer: TBytes;
+  iMode: word;
 begin
-  Arquivo := TFileStream.Create(pNomeArq, fmCreate or fmShareDenyWrite);
+  iMode := MODE_CREATE;
+  Arquivo := TFileStream.Create(pNomeArq, iMode);
   try
     Buffer := TEncoding.UTF8.GetBytes(pStr);
     Arquivo.Write(Buffer, Length(Buffer));
@@ -79,6 +88,30 @@ begin
     Arquivo.Free;
   end;
 end;
+
+procedure AdicioneAoArquivo(pStr: string; pNomeArq: string);
+var
+  Arquivo: TFileStream;
+  Buffer: TBytes;
+  iMode: word;
+begin
+  if FileExists(pNomeArq) then
+    iMode := MODE_APPEND
+  else
+    iMode := MODE_CREATE;
+
+  Arquivo := TFileStream.Create(pNomeArq, iMode);
+  try
+    if iMode = MODE_APPEND then
+      Arquivo.Seek(0, soEnd); // Posiciona no final do arquivo para append
+
+    Buffer := TEncoding.UTF8.GetBytes(pStr);
+    Arquivo.Write(Buffer, Length(Buffer));
+  finally
+    Arquivo.Free;
+  end;
+end;
+
 
 function LerDoArquivo(pNomeArq: string; out pConteudo: string): boolean;
 var
@@ -155,6 +188,27 @@ begin
   // Formata o resultado no formato YYYY-mm-dd_hh-nn-ss-zzz
   // Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d', [ano, mes, dia, hora, minuto, segundo, milisegundo]);
   Result := Format('%.4d\%.2d\%.2d\', [ano, mes, dia]);
+end;
+
+function AnoMesToPath(pDtH: TDateTime = 0): string;
+var
+  ano, mes, dia: word;
+begin
+  // Se o valor datetime n?o for informado, usa o valor atual
+  if pDtH = 0 then
+    pDtH := Date;
+
+  // Extrai os componentes do valor datetime
+  DecodeDate(pDtH, ano, mes, dia);
+
+  // Formata o resultado no formato YYYY-mm-dd_hh-nn-ss-zzz
+  // Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d', [ano, mes, dia, hora, minuto, segundo, milisegundo]);
+  Result := Format('%.4d\%.2d\', [ano, mes]);
+end;
+
+function AnoToPath(pDtH: TDateTime = 0): string;
+begin
+  Result := Format('%.4d\', [YearOf(Date)]);
 end;
 
 procedure LeDiretorio(pPasta: string; pNomesArqSL: TStrings;

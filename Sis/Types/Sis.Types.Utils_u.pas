@@ -17,7 +17,7 @@ const
 //  cESC: char = chr(vkEscape);
   CHAR_ESC = chr(vkEscape);
   CHAR_NULO: char = #0;
-  sNOVALIN = sLineBreak;
+  sNOVA_LINHA = sLineBreak;
   CHAR_TAB: char = #9;
 
 function ObterHierarquiaDeClasses(pClasse: TClass): string;

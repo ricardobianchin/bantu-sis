@@ -9,6 +9,7 @@ var
   sPastaBin: string;
   sPastaProduto: string;
   sPastaDados: string;
+  sPastaTmp: string;
 
 function GetPrecisaTerminar: Boolean;
 procedure ApaguePrecisaTerminar;

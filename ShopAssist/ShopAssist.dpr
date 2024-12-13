@@ -19,7 +19,9 @@ uses
   EnvParaTerm_u_FuncionarioUsuario in 'EnvParaTerm\EnvParaTerm_u_FuncionarioUsuario.pas',
   EnvParaTerm_u_UsuarioPodeOpcaoSis in 'EnvParaTerm\EnvParaTerm_u_UsuarioPodeOpcaoSis.pas',
   EnvParaTerm_u_Prod in 'EnvParaTerm\EnvParaTerm_u_Prod.pas',
-  EnvParaTerm_u_ProdCusto in 'EnvParaTerm\EnvParaTerm_u_ProdCusto.pas';
+  EnvParaTerm_u_ProdCusto in 'EnvParaTerm\EnvParaTerm_u_ProdCusto.pas',
+  Log_u in 'Sis\Log_u.pas',
+  EnvParaTerm_u_ProdPreco in 'EnvParaTerm\EnvParaTerm_u_ProdPreco.pas';
 
 {$R *.res}
 

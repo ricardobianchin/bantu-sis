@@ -11,7 +11,7 @@ procedure ForEachTerminal(pProc: TProcTermOfObject; var pPrecisaTerminar: boolea
 
 implementation
 
-uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u;
+uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u;
 
 var
   DBTermDMList: TList<TDBTermDM>;
@@ -29,6 +29,7 @@ var
   iId: integer;
   sDriver: string;
 begin
+  EscrevaLog('CrieListaDeTerminais');
   sDriver := 'FB';
   DBTermDMList := TList<TDBTermDM>.Create;
   DBServDM.Connection.Open;
@@ -100,6 +101,7 @@ end;
 
 procedure LibereListaDeTerminais;
 begin
+  EscrevaLog('LibereListaDeTerminais');
   for var oDM in DBTermDMList do
     FreeAndNil(oDM);
   FreeAndNil(DBTermDMList);

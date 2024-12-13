@@ -6,7 +6,8 @@ procedure Execute;
 
 implementation
 
-uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u;
+uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u,
+  Log_u;
 
 procedure Execute;
 var
@@ -15,6 +16,7 @@ var
   iEsperaAtual: integer;
 begin
   CarregarConfigs;
+  InicieLog;
   DBServDM := DBServDMCreate;
   CrieListaDeTerminais;
   bPrecisaTerminar := False;
@@ -36,6 +38,7 @@ begin
     LibereListaDeTerminais;
     FreeAndNil(DBServDM);
     ApaguePrecisaTerminar;
+    EscrevaLog('Terminado');
   end;
 end;
 
