@@ -122,14 +122,6 @@ begin
   DtHCompileLabel.Top := 10;
   // StatusLabel.left := 30;
 
-  GerenciadorDeTarefasGroupBox_PrincBasForm.Parent := BasePanel;
-  // GerenciadorDeTarefasGroupBox_PrincBasForm.Left := BasePanel.Width - 5 - GerenciadorDeTarefasGroupBox_PrincBasForm.Width;
-  GerenciadorDeTarefasGroupBox_PrincBasForm.Left := DtHCompilePanel.Left + 5 +
-    DtHCompilePanel.Width;
-
-  // GerenciadorDeTarefasGroupBox_PrincBasForm.Top := 0;
-  GerenciadorDeTarefasGroupBox_PrincBasForm.Top := DtHCompilePanel.Top;
-
   ProcessOutput.Ativo := false;
 end;
 

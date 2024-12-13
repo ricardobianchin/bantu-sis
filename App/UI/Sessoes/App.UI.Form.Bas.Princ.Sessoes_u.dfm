@@ -6,9 +6,6 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   OnKeyDown = FormKeyDown
   ExplicitWidth = 670
   ExplicitHeight = 583
-  DesignSize = (
-    670
-    583)
   TextHeight = 15
   inherited Logo1Image: TImage
     Width = 670
@@ -49,7 +46,8 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
       TabOrder = 0
     end
   end
-  inherited GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox
-    TabOrder = 2
+  inherited ActionList1_ActBasForm: TActionList
+    Left = 256
+    Top = 56
   end
 end
