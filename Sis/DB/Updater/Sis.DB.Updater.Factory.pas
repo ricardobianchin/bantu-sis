@@ -11,7 +11,7 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
 function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
+  pLoja: ILoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string): IDBUpdater;
 
 function TipoToComando(pTipoStr: string; pVersaoDB: integer;
@@ -43,12 +43,12 @@ uses Sis.DB.Updater.Firebird_u, Sis.DB.Updater.Constants_u, System.StrUtils,
 function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
+  pLoja: ILoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string): IDBUpdater;
 begin
   result := TDBUpdaterFirebird.Create(pTerminalId, pDBConnectionParams,
     pPastaProduto, pDBMS, pSisConfig, pProcessLog, pOutput, pLoja,
-    pUsuarioGerente, pTerminalList, pVariaveis);
+    pUsuarioAdmin, pTerminalList, pVariaveis);
 end;
 
 function TipoToComando(pTipoStr: string; pVersaoDB: integer;

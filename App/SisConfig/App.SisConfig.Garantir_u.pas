@@ -15,7 +15,7 @@ type
     // FProcessLog: IProcessLog;
     FNomeArqXML: string;
 
-    FUsuarioGerente: IUsuario;
+    FUsuarioAdmin: IUsuario;
     FLoja: ILoja;
     FTerminalList: ITerminalList;
 
@@ -27,7 +27,7 @@ type
   public
     function Execute: boolean; override;
     constructor Create(pAppObj: IAppObj; pSisConfig: ISisConfig;
-      pUsuarioGerente: IUsuario; pLoja: ILoja; pOutput: IOutput;
+      pUsuarioAdmin: IUsuario; pLoja: ILoja; pOutput: IOutput;
       pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
@@ -50,7 +50,7 @@ var
   r: tmodalresult;
 begin
 
-  ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig, FUsuarioGerente,
+  ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig, FUsuarioAdmin,
     FLoja, FTerminalList, FAppObj);
   try
     r := ConfigPergForm.ShowModal;
@@ -101,14 +101,14 @@ begin
 end;
 
 constructor TAppSisConfigGarantirXML.Create(pAppObj: IAppObj;
-  pSisConfig: ISisConfig; pUsuarioGerente: IUsuario; pLoja: ILoja;
+  pSisConfig: ISisConfig; pUsuarioAdmin: IUsuario; pLoja: ILoja;
   pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   inherited Create(pOutput, pProcessLog);
   FAppObj := pAppObj;
   FSisConfig := pSisConfig;
   FLoja := pLoja;
-  FUsuarioGerente := pUsuarioGerente;
+  FUsuarioAdmin := pUsuarioAdmin;
   FTerminalList := pTerminalList;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');

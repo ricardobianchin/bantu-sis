@@ -72,15 +72,15 @@ begin
     // SE É SERVIDOR
     IniFile.WriteBool('form', 'ehserver', TesteEhServ);
 
-    // USUARIO GERENTE
-    IniFile.WriteBool('form', 'usugerente_preenche', TesteUsuPreenche);
-    IniFile.WriteString('form', 'usugerente_nomecompleto',
+    // USUARIO ADMINISTRADOR
+    IniFile.WriteBool('form', 'usu_admin_preenche', TesteUsuPreenche);
+    IniFile.WriteString('form', 'usu_admin_nomecompleto',
       TesteUsuNomeCompleto);
-    IniFile.WriteString('form', 'usugerente_nomeexib', TesteUsuNomeExib);
-    IniFile.WriteString('form', 'usugerente_nomeusu', TesteUsuNomeUsu);
-    IniFile.WriteString('form', 'usugerente_senha1', TesteUsuSenha1);
-    IniFile.WriteString('form', 'usugerente_senha2', TesteUsuSenha2);
-    IniFile.WriteBool('form', 'usugerente_exibsenha', TesteUsuExibSenha);
+    IniFile.WriteString('form', 'usu_admin_nomeexib', TesteUsuNomeExib);
+    IniFile.WriteString('form', 'usu_admin_nomeusu', TesteUsuNomeUsu);
+    IniFile.WriteString('form', 'usu_admin_senha1', TesteUsuSenha1);
+    IniFile.WriteString('form', 'usu_admin_senha2', TesteUsuSenha2);
+    IniFile.WriteBool('form', 'usu_admin_exibsenha', TesteUsuExibSenha);
     IniFile.WriteBool('form', 'executa_ok', TesteExecutaOk);
 
 
@@ -114,16 +114,16 @@ begin
     // SE É SERVIDOR
     TesteEhServ := IniFile.ReadBool('form', 'ehserver', False);
 
-    // USUARIO GERENTE
-    TesteUsuPreenche := IniFile.ReadBool('form', 'usugerente_preenche', False);
+    // USUARIO ADMINISTRADOR
+    TesteUsuPreenche := IniFile.ReadBool('form', 'usu_admin_preenche', False);
     TesteUsuNomeCompleto := IniFile.ReadString('form',
-      'usugerente_nomecompleto', '');
-    TesteUsuNomeExib := IniFile.ReadString('form', 'usugerente_nomeexib', '');
-    TesteUsuNomeUsu := IniFile.ReadString('form', 'usugerente_nomeusu', '');
-    TesteUsuSenha1 := IniFile.ReadString('form', 'usugerente_senha1', '');
-    TesteUsuSenha2 := IniFile.ReadString('form', 'usugerente_senha2', '');
+      'usu_admin_nomecompleto', '');
+    TesteUsuNomeExib := IniFile.ReadString('form', 'usu_admin_nomeexib', '');
+    TesteUsuNomeUsu := IniFile.ReadString('form', 'usu_admin_nomeusu', '');
+    TesteUsuSenha1 := IniFile.ReadString('form', 'usu_admin_senha1', '');
+    TesteUsuSenha2 := IniFile.ReadString('form', 'usu_admin_senha2', '');
     TesteUsuExibSenha := IniFile.ReadBool('form',
-      'usugerente_exibsenha', False);
+      'usu_admin_exibsenha', False);
     TesteExecutaOk := IniFile.ReadBool('form', 'executa_ok', False);
 
     // LOJA

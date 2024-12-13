@@ -111,22 +111,23 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 6
       Text = ''
     end
-    object UsuGerGroupBox: TGroupBox
-      Left = 670
+    object UsuAdminGroupBox: TGroupBox
+      Left = 658
       Top = 146
       Width = 300
       Height = 337
       Anchors = [akTop, akRight]
-      Caption = 'Login do Gerente'
+      Caption = 'Login do Administrador'
       TabOrder = 1
       Visible = False
+      ExplicitLeft = 654
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
         Width = 296
         Height = 13
         Align = alBottom
-        Caption = 'LojaErroLabel'
+        Caption = 'LoginErroLabel'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 192
         Font.Height = -11
@@ -134,7 +135,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
-        ExplicitWidth = 69
+        ExplicitWidth = 77
       end
       object ObsLabel: TLabel
         Left = 9
@@ -169,7 +170,7 @@ object ConfigPergForm: TConfigPergForm
         Visible = False
         StyleElements = []
       end
-      object UsuGerNomeExibLabeledEdit: TLabeledEdit
+      object UsuAdminNomeExibLabeledEdit: TLabeledEdit
         Left = 8
         Top = 99
         Width = 285
@@ -180,10 +181,10 @@ object ConfigPergForm: TConfigPergForm
         MaxLength = 20
         TabOrder = 1
         Text = ''
-        OnChange = UsuGerNomeExibLabeledEditChange
-        OnKeyPress = UsuGerNomeExibLabeledEditKeyPress
+        OnChange = UsuAdminNomeExibLabeledEditChange
+        OnKeyPress = UsuAdminNomeExibLabeledEditKeyPress
       end
-      object UsuGerNomeUsuLabeledEdit: TLabeledEdit
+      object UsuAdminNomeUsuLabeledEdit: TLabeledEdit
         Left = 8
         Top = 148
         Width = 285
@@ -194,10 +195,10 @@ object ConfigPergForm: TConfigPergForm
         MaxLength = 20
         TabOrder = 2
         Text = ''
-        OnChange = UsuGerNomeUsuLabeledEditChange
-        OnKeyPress = UsuGerNomeUsuLabeledEditKeyPress
+        OnChange = UsuAdminNomeUsuLabeledEditChange
+        OnKeyPress = UsuAdminNomeUsuLabeledEditKeyPress
       end
-      object UsuGerSenha1LabeledEdit: TLabeledEdit
+      object UsuAdminSenha1LabeledEdit: TLabeledEdit
         Left = 8
         Top = 198
         Width = 285
@@ -209,10 +210,10 @@ object ConfigPergForm: TConfigPergForm
         PasswordChar = '*'
         TabOrder = 3
         Text = ''
-        OnChange = UsuGerSenha1LabeledEditChange
-        OnKeyPress = UsuGerSenha1LabeledEditKeyPress
+        OnChange = UsuAdminSenha1LabeledEditChange
+        OnKeyPress = UsuAdminSenha1LabeledEditKeyPress
       end
-      object UsuGerSenha2LabeledEdit: TLabeledEdit
+      object UsuAdminSenha2LabeledEdit: TLabeledEdit
         Left = 8
         Top = 247
         Width = 285
@@ -224,8 +225,8 @@ object ConfigPergForm: TConfigPergForm
         PasswordChar = '*'
         TabOrder = 4
         Text = ''
-        OnChange = UsuGerSenha2LabeledEditChange
-        OnKeyPress = UsuGerSenha2LabeledEditKeyPress
+        OnChange = UsuAdminSenha2LabeledEditChange
+        OnKeyPress = UsuAdminSenha2LabeledEditKeyPress
       end
       object LoginToolBar: TToolBar
         Left = 329
@@ -244,7 +245,7 @@ object ConfigPergForm: TConfigPergForm
           ImageIndex = 0
         end
       end
-      object UsuGerExibSenhaCheckBox: TCheckBox
+      object UsuAdminExibSenhaCheckBox: TCheckBox
         Left = 8
         Top = 285
         Width = 97
@@ -257,9 +258,9 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         TabOrder = 6
-        OnClick = UsuGerExibSenhaCheckBoxClick
+        OnClick = UsuAdminExibSenhaCheckBoxClick
       end
-      object UsuGerNomeCompletoLabeledEdit: TLabeledEdit
+      object UsuAdminNomeCompletoLabeledEdit: TLabeledEdit
         Left = 9
         Top = 49
         Width = 285
@@ -270,8 +271,8 @@ object ConfigPergForm: TConfigPergForm
         MaxLength = 60
         TabOrder = 0
         Text = ''
-        OnChange = UsuGerNomeExibLabeledEditChange
-        OnKeyPress = UsuGerNomeCompletoLabeledEditKeyPress
+        OnChange = UsuAdminNomeExibLabeledEditChange
+        OnKeyPress = UsuAdminNomeCompletoLabeledEditKeyPress
       end
     end
     object LojaIdGroupBox: TGroupBox
@@ -290,10 +291,7 @@ object ConfigPergForm: TConfigPergForm
         Top = 62
         Width = 35
         Height = 12
-        Hint = 
-          #201' o respons'#225'vel t'#233'cnico quem vai cadastrar os funcion'#225'rios, incl' +
-          'uindo da ger'#234'ncia, mas n'#227'o ter'#225' direitos de visualizar informa'#231#245 +
-          'es cr'#237'ticas da empresa, como RH ou Financeiro'
+        Hint = 'recebe hint de App.UI.Config.Constants.LOJAID_DESCR'
         CustomHint = BalloonHint1
         Alignment = taRightJustify
         Anchors = [akTop, akRight]

@@ -8,7 +8,7 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
 
 function GarantirDB(pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
+  pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 
 implementation
 
@@ -22,7 +22,7 @@ var
 
 function GarantirDBServ(pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
+  pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -35,7 +35,7 @@ begin
 
     oUpdater := DBUpdaterFirebirdCreate(TERMINAL_ID_RETAGUARDA,
       rDBConnectionParams, pAppObj.AppInfo.Pasta, DBMS, pAppObj.SisConfig, pProcessLog,
-      pOutput, pLoja, pUsuarioGerente, pAppObj.TerminalList, pVariaveis);
+      pOutput, pLoja, pUsuarioAdmin, pAppObj.TerminalList, pVariaveis);
 
     Result := oUpdater.Execute;
   finally
@@ -46,7 +46,7 @@ end;
 
 function GarantirDBTerms(pAppObj: iAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
+  pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParams: TDBConnectionParams;
@@ -83,7 +83,7 @@ begin
 
       oUpdater := DBUpdaterFirebirdCreate(oTerminal.TerminalId,
         rDBConnectionParams, pAppObj.AppInfo.Pasta, DBMS, pAppObj.SisConfig, pProcessLog,
-        pOutput, pLoja, pUsuarioGerente, pAppObj.TerminalList, pVariaveis);
+        pOutput, pLoja, pUsuarioAdmin, pAppObj.TerminalList, pVariaveis);
 
       Result := oUpdater.Execute;
     end;
@@ -95,7 +95,7 @@ end;
 
 function GarantirDB(pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
-  pUsuarioGerente: IUsuario; pVariaveis: string): boolean;
+  pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 var
   sLog: string;
 begin
@@ -119,7 +119,7 @@ begin
       sLog := 'pSisConfig.LocalMachineIsServer=true, vai GarantirDBServ';
       pProcessLog.RegistreLog(sLog);
       Result := GarantirDBServ(pAppObj, pProcessLog, pOutput,
-        pLoja, pUsuarioGerente, pVariaveis);
+        pLoja, pUsuarioAdmin, pVariaveis);
       if not Result then
       begin
         pProcessLog.RegistreLog('retornou false');
@@ -127,7 +127,7 @@ begin
       end;
     end;
 
-    GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioGerente, pVariaveis);
+    GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioAdmin, pVariaveis);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal

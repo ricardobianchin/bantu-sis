@@ -27,7 +27,7 @@ type
     NomeDeUsuarioLabeledEdit: TLabeledEdit;
     Senha2LabeledEdit: TLabeledEdit;
     Senha3LabeledEdit: TLabeledEdit;
-    UsuGerenteExibSenhaCheckBox: TCheckBox;
+    UsuAdminiExibSenhaCheckBox: TCheckBox;
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -36,7 +36,7 @@ type
     procedure Senha1LabeledEditChange(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
-    procedure UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
+    procedure UsuAdminiExibSenhaCheckBoxClick(Sender: TObject);
 
     // retiram o foco do controle se enter
     // garantem maiusculas exceto pra senha
@@ -770,10 +770,10 @@ begin
   ExecuteAutoLogin;
 end;
 
-procedure TLoginPergForm.UsuGerenteExibSenhaCheckBoxClick(Sender: TObject);
+procedure TLoginPergForm.UsuAdminiExibSenhaCheckBoxClick(Sender: TObject);
 begin
   inherited;
-  if UsuGerenteExibSenhaCheckBox.Checked then
+  if UsuAdminiExibSenhaCheckBox.Checked then
   begin
     Senha1LabeledEdit.PasswordChar := CHAR_NULO;
     Senha2LabeledEdit.PasswordChar := CHAR_NULO;

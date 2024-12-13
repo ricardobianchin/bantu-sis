@@ -41,19 +41,19 @@ inherited LoginPergForm: TLoginPergForm
       788
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 497
-      ExplicitLeft = 493
+      Left = 485
+      ExplicitLeft = 481
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 610
-      ExplicitLeft = 606
+      Left = 598
+      ExplicitLeft = 594
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 690
-      ExplicitLeft = 686
+      Left = 678
+      ExplicitLeft = 674
     end
     object SenhaMudarBitBtn_LoginPerg: TBitBtn
-      Left = 395
+      Left = 383
       Top = 6
       Width = 96
       Height = 25
@@ -61,7 +61,7 @@ inherited LoginPergForm: TLoginPergForm
       Caption = 'Alterar a Senha'
       TabOrder = 3
       OnClick = MensCopyAct_DiagExecute
-      ExplicitLeft = 391
+      ExplicitLeft = 379
     end
   end
   object MeioPanel: TPanel [4]
@@ -233,7 +233,7 @@ inherited LoginPergForm: TLoginPergForm
         OnExit = Senha3LabeledEditExit
         OnKeyPress = Senha3LabeledEditKeyPress
       end
-      object UsuGerenteExibSenhaCheckBox: TCheckBox
+      object UsuAdminiExibSenhaCheckBox: TCheckBox
         Left = 75
         Top = 259
         Width = 97
@@ -246,7 +246,7 @@ inherited LoginPergForm: TLoginPergForm
         Font.Style = []
         ParentFont = False
         TabOrder = 5
-        OnClick = UsuGerenteExibSenhaCheckBoxClick
+        OnClick = UsuAdminiExibSenhaCheckBoxClick
       end
     end
   end

@@ -49,7 +49,7 @@ type
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario;
+    function GarantirConfig(pLoja: ILoja; pUsuarioAdmin: IUsuario;
       pTerminalList: ITerminalList): boolean;
 
     procedure CarregarMachineId;
@@ -330,14 +330,14 @@ end;
 procedure TPrincBasForm.GarantaDB;
 var
   bResultado: boolean;
-  oUsuarioGerente: IUsuario;
+  oUsuarioAdmin: IUsuario;
   oSisConfig: ISisConfig;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
-    oUsuarioGerente := UsuarioCreate;
+    oUsuarioAdmin := UsuarioCreate;
 
-    bResultado := GarantirConfig(FLoja, oUsuarioGerente, FAppObj.TerminalList);
+    bResultado := GarantirConfig(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
 
     if not bResultado then
     begin
@@ -349,7 +349,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
-      oUsuarioGerente, DBUpdaterVariaveis);
+      oUsuarioAdmin, DBUpdaterVariaveis);
 
     if not bResultado then
     begin
@@ -367,7 +367,7 @@ begin
   end;
 end;
 
-function TPrincBasForm.GarantirConfig(pLoja: ILoja; pUsuarioGerente: IUsuario;
+function TPrincBasForm.GarantirConfig(pLoja: ILoja; pUsuarioAdmin: IUsuario;
   pTerminalList: ITerminalList): boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
@@ -379,7 +379,7 @@ begin
     oSisConfig := FAppObj.SisConfig;
 
     oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
-      pUsuarioGerente, pLoja, FProcessOutput, FProcessLog, pTerminalList);
+      pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
     Result := oAppSisConfigGarantirXML.Execute;
 

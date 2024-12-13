@@ -42,7 +42,7 @@ type
     FTerminalList: ITerminalList;
 
     FLoja: ILoja;
-    FUsuarioGerente: IUsuario;
+    FUsuarioAdmin: IUsuario;
 
     FCriouDB: Boolean;
 
@@ -139,7 +139,7 @@ type
     constructor Create(pTerminalId: TTerminalId;
       pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
       pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
-      pOutput: IOutput; pLoja: ILoja; pUsuarioGerente: IUsuario;
+      pOutput: IOutput; pLoja: ILoja; pUsuarioAdmin: IUsuario;
       pTerminalList: ITerminalList; pVariaveis: string);
     destructor Destroy; override;
   end;
@@ -158,7 +158,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioGerente: IUsuario; pTerminalList: ITerminalList;
+  pLoja: ILoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string);
 begin
   FVariaveis := TStringList.Create;
@@ -178,7 +178,7 @@ begin
   FOutput := pOutput;
   FDBMS := pDBMS;
   FLoja := pLoja;
-  FUsuarioGerente := pUsuarioGerente;
+  FUsuarioAdmin := pUsuarioAdmin;
   FCriouDB := False;
 
   FProcessLog.PegueLocal('TDBUpdater.Create');
@@ -712,17 +712,17 @@ begin
 
   FSisConfig.LocalMachineId.IdentId := GravarIniciais_CrieMachineIdLocal
     (pDBConnection);
-  if FUsuarioGerente.Id < 1 then
+  if FUsuarioAdmin.Id < 1 then
   begin
     GravarIniciais_CrieSistemaInicial(pDBConnection);
-    FUsuarioGerente.Id := GravarIniciais_CrieGerenteInicial(pDBConnection);
+    FUsuarioAdmin.Id := GravarIniciais_CrieGerenteInicial(pDBConnection);
   end;
   if FLoja.Descr <> '' then
   begin
     GravarIniciais_CrieLoja(pDBConnection);
   end;
 
-  if FUsuarioGerente.NomeCompleto <> '' then
+  if FUsuarioAdmin.NomeCompleto <> '' then
   begin
     GravarIniciais_CrieSistemaFinal(pDBConnection);
     GravarIniciais_CrieSuporte(pDBConnection);
@@ -769,7 +769,7 @@ begin
     + '  ' + FLoja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , 0 -- TERMINAL_ID'#13#10 //
     + '  , ' + Result.ToString + ' -- PESSOA_ID'#13#10 //
-    + '  , ' + FUsuarioGerente.NomeCompleto.QuotedString + ' -- NOME'#13#10 //
+    + '  , ' + FUsuarioAdmin.NomeCompleto.QuotedString + ' -- NOME'#13#10 //
 
     + ');'#13#10;
 
@@ -788,7 +788,7 @@ begin
     + ', ' + FLoja.Descr.QuotedString // APELIDO
     + ', TRUE' // SELECIONADO
     + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');'; //
   pDBConnection.ExecuteSql(sSql);
@@ -812,7 +812,7 @@ begin
     + ', 1' // CRY_VER
     + ', ' + 'SISTEMA'.QuotedString // APELIDO
     + ', ' + USUARIO_SISTEMA_PESSOA_ID.ToString // PESSOA_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ', TRUE' + ');';
 
@@ -825,7 +825,7 @@ begin
     FLoja.Id.ToString // LOJA_ID
     + ', ' + iSistemaPessoaId.ToString // USUARIO_PESSOA_ID
     + ', 1' // PERFIL_DE_USO_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');';
 
@@ -883,7 +883,7 @@ begin
     + ', 1' // CRY_VER
     + ', ' + 'SUPORTE'.QuotedString // APELIDO
     + ', ' + USUARIO_SUPORTE_PESSOA_ID.ToString // PESSOA_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ', TRUE' + ');';
 
@@ -897,7 +897,7 @@ begin
     + FLoja.Id.ToString // LOJA_ID
     + ', ' + iSuportePessoaId.ToString // USUARIO_PESSOA_ID
     + ', 1' // PERFIL_DE_USO_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');';
 
@@ -927,7 +927,7 @@ begin
     + ', ' + pTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
     + ', ' + BooleanToStrSQL(pTerminal.SempreOffLine) // SEMPRE_OFFLINE
     + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');'; //
 
@@ -940,17 +940,17 @@ var
   sSql: string;
   sSenha: string;
 begin
-  Encriptar(1, FUsuarioGerente.Senha, sSenha);
+  Encriptar(1, FUsuarioAdmin.Senha, sSenha);
 
   sSql := 'SELECT PESSOA_ID_RET FROM USUARIO_PA.GARANTIR_NOMES(' //
     + FLoja.Id.ToString // LOJA_ID
-    + ', ' + FUsuarioGerente.NomeCompleto.QuotedString // NOME
-    + ', ' + FUsuarioGerente.NomeDeUsuario.QuotedString // NOME_DE_USUARIO
+    + ', ' + FUsuarioAdmin.NomeCompleto.QuotedString // NOME
+    + ', ' + FUsuarioAdmin.NomeDeUsuario.QuotedString // NOME_DE_USUARIO
     + ', ' + sSenha.QuotedString // SENHA
     + ', 1' // CRY_VER
-    + ', ' + FUsuarioGerente.NomeExib.QuotedString // APELIDO
-    + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.NomeExib.QuotedString // APELIDO
+    + ', ' + FUsuarioAdmin.Id.ToString // PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');';
 
@@ -958,9 +958,9 @@ begin
 
   sSql := 'EXECUTE PROCEDURE USUARIO_PA.USUARIO_TEM_PERFIL_DE_USO_GARANTIR(' //
     + FLoja.Id.ToString // LOJA_ID
-    + ', ' + FUsuarioGerente.Id.ToString // PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // PESSOA_ID
     + ', 2' // PERFIL_DE_USO_ID
-    + ', ' + FUsuarioGerente.Id.ToString // LOG_PESSOA_ID
+    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
     + ');';
 
