@@ -3,7 +3,6 @@ inherited LoginPergForm: TLoginPergForm
   ClientHeight = 562
   ClientWidth = 788
   WindowState = wsMaximized
-  ExplicitTop = -108
   ExplicitWidth = 800
   ExplicitHeight = 600
   TextHeight = 15
@@ -74,10 +73,8 @@ inherited LoginPergForm: TLoginPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitLeft = 432
-    ExplicitTop = 152
-    ExplicitWidth = 185
-    ExplicitHeight = 41
+    ExplicitWidth = 784
+    ExplicitHeight = 357
     object ControlesPanel: TPanel
       Left = 61
       Top = -22
@@ -143,7 +140,7 @@ inherited LoginPergForm: TLoginPergForm
         Align = alTop
         BevelOuter = bvNone
         Caption = ' '
-        TabOrder = 0
+        TabOrder = 1
         object ModoTitLabel: TLabel
           Left = 0
           Top = 0
@@ -181,7 +178,7 @@ inherited LoginPergForm: TLoginPergForm
         EditLabel.Caption = 'Senha'
         MaxLength = 20
         PasswordChar = '*'
-        TabOrder = 1
+        TabOrder = 2
         Text = ''
         OnChange = Senha1LabeledEditChange
         OnExit = Senha1LabeledEditExit
@@ -196,7 +193,7 @@ inherited LoginPergForm: TLoginPergForm
         EditLabel.Height = 15
         EditLabel.Caption = 'Nome de Usu'#225'rio'
         MaxLength = 20
-        TabOrder = 2
+        TabOrder = 0
         Text = ''
         OnChange = NomeDeUsuarioLabeledEditChange
         OnExit = NomeDeUsuarioLabeledEditExit
