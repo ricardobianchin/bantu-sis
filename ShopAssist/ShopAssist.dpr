@@ -14,7 +14,12 @@ uses
   ExecScript_u in 'DB\ExecScript_u.pas',
   EnvParaTerm_u_PegarFaixa in 'EnvParaTerm\EnvParaTerm_u_PegarFaixa.pas',
   EnvParaTerm_u_Loja in 'EnvParaTerm\EnvParaTerm_u_Loja.pas',
-  EnvParaTerm_u_Terminal in 'EnvParaTerm\EnvParaTerm_u_Terminal.pas';
+  EnvParaTerm_u_Terminal in 'EnvParaTerm\EnvParaTerm_u_Terminal.pas',
+  EnvParaTerm_u_PagamentoForma in 'EnvParaTerm\EnvParaTerm_u_PagamentoForma.pas',
+  EnvParaTerm_u_FuncionarioUsuario in 'EnvParaTerm\EnvParaTerm_u_FuncionarioUsuario.pas',
+  EnvParaTerm_u_UsuarioPodeOpcaoSis in 'EnvParaTerm\EnvParaTerm_u_UsuarioPodeOpcaoSis.pas',
+  EnvParaTerm_u_Prod in 'EnvParaTerm\EnvParaTerm_u_Prod.pas',
+  EnvParaTerm_u_ProdCusto in 'EnvParaTerm\EnvParaTerm_u_ProdCusto.pas';
 
 {$R *.res}
 

@@ -160,6 +160,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_PegarFaixa.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_Loja.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_Terminal.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_PagamentoForma.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_FuncionarioUsuario.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_UsuarioPodeOpcaoSis.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_Prod.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdCusto.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

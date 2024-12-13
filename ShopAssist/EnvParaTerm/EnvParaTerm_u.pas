@@ -10,7 +10,9 @@ implementation
 
 uses Sis_u, EnvParaTerm_u_AtualizeMachine, EnvParaTerm_u_PegarFaixa, DBServDM_u,
   System.Math, ExecScript_u, System.SysUtils, EnvParaTerm_u_Loja,
-  EnvParaTerm_u_Terminal;
+  EnvParaTerm_u_Terminal, EnvParaTerm_u_PagamentoForma,
+  EnvParaTerm_u_FuncionarioUsuario, EnvParaTerm_u_UsuarioPodeOpcaoSis,
+  EnvParaTerm_u_Prod, EnvParaTerm_u_ProdCusto;
 
 procedure EnvParaTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -49,6 +51,11 @@ begin
 
       EnvLoja(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
       EnvTerminal(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
+      EnvPagamentoForma(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
+      EnvFuncionarioUsuario(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
+      EnvUsuarioPodeOpcaoSis(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
+      EnvProd(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
+      EnvProdCusto(pTermDM, oExecScript, FLogIdIni, FLogIdFin);
 
       sComando := 'EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
         FLogIdFin.ToString + ');'
