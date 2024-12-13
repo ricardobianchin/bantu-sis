@@ -4,7 +4,8 @@ interface
 
 uses DBTermDM_u, ExecScript_u;
 
-procedure EnvLoja(pTermDM: TDBTermDM; oExecScript: TExecScript; pLogIdIni, pLogIdFin: Int64);
+procedure EnvLoja(pTermDM: TDBTermDM; oExecScript: TExecScript;
+  pLogIdIni, pLogIdFin: Int64);
 
 implementation
 
@@ -64,19 +65,20 @@ begin
   // {$ENDIF}
 end;
 
-procedure EnvLoja(pTermDM: TDBTermDM; oExecScript: TExecScript; pLogIdIni, pLogIdFin: Int64);
+procedure EnvLoja(pTermDM: TDBTermDM; oExecScript: TExecScript;
+  pLogIdIni, pLogIdFin: Int64);
 var
   sSql: string;
   q: TDataSet;
   iLojaId: SmallInt;
   iPessoaId: integer;
 begin
-    sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
-    // {$IFDEF DEBUG}
-    // CopyTextToClipboard(sSql);
-    // {$ENDIF}
+  sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
 
-    DBServDM.Connection.ExecSQL(sSql, q);
+  DBServDM.Connection.ExecSQL(sSql, q);
 
   if not Assigned(q) then
     exit;
@@ -96,7 +98,7 @@ begin
 
     oExecScript.PegueComando(sSql);
 
-    sSql := 'UPDATE AMBIENTE_SIS SET LOJA_ID='+iLojaId.ToString;
+    sSql := 'UPDATE AMBIENTE_SIS SET LOJA_ID=' + iLojaId.ToString;
     // {$IFDEF DEBUG}
     // CopyTextToClipboard(sSql);
     // {$ENDIF}
@@ -109,24 +111,24 @@ begin
 
     sSql := DataSetToSqlGarantir(q, 'PESSOA', 'LOJA_ID, TERMINAL_ID, PESSOA_ID',
       [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
-//{$IFDEF DEBUG}
-//    CopyTextToClipboard(sSql);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     oExecScript.PegueComando(sSql);
 
     sSql := DataSetToSqlGarantir(q, 'ENDERECO', //
       'LOJA_ID, TERMINAL_ID, PESSOA_ID, ORDEM', //
       [0, 1, 2, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
-//{$IFDEF DEBUG}
-//    CopyTextToClipboard(sSql);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     oExecScript.PegueComando(sSql);
 
     sSql := DataSetToSqlGarantir(q, 'LOJA_EH_PESSOA',
       'LOJA_ID, TERMINAL_ID, PESSOA_ID', [0, 1, 2]);
-//{$IFDEF DEBUG}
-//    CopyTextToClipboard(sSql);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     oExecScript.PegueComando(sSql);
   finally
     q.Free

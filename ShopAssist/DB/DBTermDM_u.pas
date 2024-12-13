@@ -6,11 +6,11 @@ uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  Data.DB, FireDAC.Comp.Client;
+  Data.DB, FireDAC.Comp.Client, Sis.Entities.Types;
 
 type
   TTerminal = record
-    TerminalId: smallint;
+    TerminalId: TTerminalId;
     NomeNaRede: string;
     LocalArqDados: string;
   end;

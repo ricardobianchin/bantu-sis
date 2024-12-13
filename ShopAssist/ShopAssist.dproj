@@ -159,6 +159,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="DB\ExecScript_u.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_PegarFaixa.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_Loja.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_Terminal.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
