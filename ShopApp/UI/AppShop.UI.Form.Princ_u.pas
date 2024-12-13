@@ -8,8 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Sessoes_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.UI.Sessoes.Frame,
-  FireDAC.Comp.Client, ShopApp.Threads.ShopAppSyncTermThread_u,
-  Sis.Threads.SafeBool;
+  FireDAC.Comp.Client;
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
@@ -19,8 +18,6 @@ type
     FServFDConnection: TFDConnection;
     FTermFDConnection: TFDConnection;
 
-    FThread: TShopAppAppSyncTermThread;
-    FExecutando: ISafeBool;
   protected
     function SessoesFrameCreate: TSessoesFrame; override;
     function GetAppInfoCreate: IAppInfo; override;
@@ -28,7 +25,6 @@ type
     procedure PreenchaDBUpdaterVariaveis; override;
     procedure AjusteControles; override;
 
-    procedure GerFormInicializar; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -44,28 +40,13 @@ implementation
 {$R *.dfm}
 
 uses App.Factory, ShopApp.Constants, Sis.DB.Factory, App.AppInfo.Types,
-  ShopApp.UI.Sessoes.Frame_u, ShopApp.Ger.GerForm_u,
-  Sis.DB.DBTypes, App.DB.Utils, Sis.Sis.Constants,
-  App.Ger.GerForm.DBI, App.Ger.Factory, Sis.Threads.Factory_u;
+  ShopApp.UI.Sessoes.Frame_u, Sis.DB.DBTypes, App.DB.Utils, Sis.Sis.Constants,
+  Sis.Threads.Factory_u;
 
 { TShopPrincForm }
 
 procedure TShopPrincForm.AjusteControles;
-var
-  PrincPosDir: integer;
-  GerPosDir: integer;
 begin
-  inherited;
-  GerFormCentralizarAction_PrincBasForm.Execute;
-  PrincPosDir := Left + Width;
-  GerForm.Left := PrincPosDir + 1;
-
-  GerPosDir := GerForm.Left + GerForm.Width;
-  if GerPosDir > Screen.Width then
-    GerForm.Left := Screen.Width - GerForm.Width;
-
-  if GerForm.AutoOpen then
-    GerForm.Show;
 end;
 
 constructor TShopPrincForm.Create(AOwner: TComponent);
@@ -83,12 +64,6 @@ begin
   FServFDConnection.Free;
   FTermFDConnection.Free;
   inherited;
-end;
-
-procedure TShopPrincForm.GerFormInicializar;
-begin
-  inherited;
-  GerForm := TGerShopAppForm.Create(nil, AppObj);
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
@@ -133,17 +108,18 @@ var
   FTermDBConnectionParams: TDBConnectionParams;
 begin
   inherited;
-  FExecutando :=  SafeBoolCreate(False);
-//  FServDBConnectionParams := TerminalIdToDBConnectionParams
-//    (TERMINAL_ID_RETAGUARDA, AppObj);
+  // FServDBConnectionParams := TerminalIdToDBConnectionParams
+  // (TERMINAL_ID_RETAGUARDA, AppObj);
   FServDBConnectionParams.Server := 'DELPHI-BTU';
-  FServDBConnectionParams.Arq := 'C:\Pr\app\bantu\bantu-sis\exe\dados\dados_mercado_retaguarda.fdb';
-  FServDBConnectionParams.Database := 'DELPHI-BTU:C:\Pr\app\bantu\bantu-sis\exe\dados\dados_mercado_retaguarda.fdb';
+  FServDBConnectionParams.Arq :=
+    'C:\Pr\app\bantu\bantu-sis\exe\dados\dados_mercado_retaguarda.fdb';
+  FServDBConnectionParams.Database :=
+    'DELPHI-BTU:C:\Pr\app\bantu\bantu-sis\exe\dados\dados_mercado_retaguarda.fdb';
 
   // s := AppObj.SisConfig;
 
   FServFDConnection := TFDConnection.Create(nil);
-  FServFDConnection.LoginPrompt := false;
+  FServFDConnection.LoginPrompt := False;
   sDriver := 'FB';
 
   FServFDConnection.Params.Text := //
@@ -157,7 +133,7 @@ begin
   FTermDBConnectionParams.Database := AppObj.TerminalList[0].Database;
 
   FTermFDConnection := TFDConnection.Create(nil);
-  FTermFDConnection.LoginPrompt := false;
+  FTermFDConnection.LoginPrompt := False;
   sDriver := 'FB';
 
   FTermFDConnection.Params.Text := //
@@ -165,12 +141,6 @@ begin
     + 'Server=' + FTermDBConnectionParams.Server + #13#10 //
     + 'Database=' + FTermDBConnectionParams.Arq + #13#10 +
     'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
-
-  FThread := TShopAppAppSyncTermThread.Create(FServFDConnection,
-    FTermFDConnection, AppObj.TerminalList[0], AppObj, FExecutando, nil, nil, nil, nil, '');
-
-
-  FThread.Resume;
 end;
 
 end.

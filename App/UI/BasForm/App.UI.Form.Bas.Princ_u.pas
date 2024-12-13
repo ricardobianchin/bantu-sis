@@ -9,7 +9,7 @@ uses
   App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg,
   Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Usuario,
-  Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList, App.Ger.GerForm_u,
+  Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList,
   Sis.Entities.Factory;
 
 type
@@ -22,25 +22,12 @@ type
     TitleBarCaptionLabel: TLabel;
     Logo1Image: TImage;
     DtHCompileLabel: TLabel;
-    GerFormAbrirAction_PrincBasForm: TAction;
-    GerFormCentralizarAction_PrincBasForm: TAction;
-    GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox;
-    AbrirButton_PrincBasForm: TButton;
-    CentrButton_PrincBasForm: TButton;
-    TesteFecharTimer: TTimer;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
 
     procedure DtHCompileLabelClick(Sender: TObject);
-    procedure GerFormAbrirAction_PrincBasFormExecute
-      (Sender: TObject);
-    procedure GerFormCentralizarAction_PrincBasFormExecute
-      (Sender: TObject);
-    procedure FecharAction_ActBasFormExecute(Sender: TObject);
-    procedure TesteFecharTimerTimer(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -58,8 +45,6 @@ type
 
     FDBUpdaterVariaveis: string;
 
-    FGerForm: TGerAppForm;
-
     procedure GarantaDB;
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
@@ -72,8 +57,6 @@ type
 
   protected
     procedure DBUpdaterVariaveisPegar(pChave, pValor: string);
-
-    procedure GerFormInicializar; virtual; abstract;
 
     property StatusOutput: IOutput read FStatusOutput;
     property ProcessOutput: IOutput read FProcessOutput;
@@ -94,8 +77,6 @@ type
       write FDBUpdaterVariaveis;
 
     procedure PreenchaDBUpdaterVariaveis; virtual;
-
-    property GerForm: TGerAppForm read FGerForm write FGerForm;
 
     procedure AjusteControles; override;
   public
@@ -318,7 +299,6 @@ begin
 
     ClearStyleElements(TitleBarPanel);
 
-    GerFormInicializar;
   finally
     FAppObj.ProcessOutput := MudoOutputCreate;
     FProcessLog.RetorneLocal;
@@ -332,10 +312,9 @@ end;
 
 destructor TPrincBasForm.Destroy;
 begin
-  FreeAndNil(FGerForm);
 //  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
   try
-//    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
+    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
     inherited;
   finally
 //    FProcessLog.RetorneLocal;
@@ -346,15 +325,6 @@ procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
 begin
   inherited;
   ShowMessage(AppVersao_u.GetInfos);
-end;
-
-procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
-begin
-  GerFormAbrirAction_PrincBasForm.Execute;
-  Application.ProcessMessages;
-  GerForm.Terminate;
-  GerForm.EspereTerminar;
-  inherited;
 end;
 
 procedure TPrincBasForm.GarantaDB;
@@ -420,24 +390,6 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.GerFormAbrirAction_PrincBasFormExecute
-  (Sender: TObject);
-begin
-  inherited;
-  if FGerForm.Visible then
-    GerFormCentralizarAction_PrincBasForm.Execute
-  else
-    FGerForm.Show;
-end;
-
-procedure TPrincBasForm.
-  GerFormCentralizarAction_PrincBasFormExecute(Sender: TObject);
-begin
-  inherited;
-  ControlAlignToRect(FGerForm, Screen.WorkAreaRect);
-  FGerForm.BringToFront;
-end;
-
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);
 begin
   inherited;
@@ -468,22 +420,6 @@ begin
   sVarValor := AtividadeEconomicaSisName[eAtiv];
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
-end;
-
-procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  GerForm.ExecuteTimer.Enabled := True;
-  TesteFecharTimer.Enabled := True;
-end;
-
-procedure TPrincBasForm.TesteFecharTimerTimer(Sender: TObject);
-begin
-  inherited;
-  TesteFecharTimer.Enabled := False;
-  //Close;
-
-//  FecharAction_ActBasForm.Execute;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;

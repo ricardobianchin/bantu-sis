@@ -5,9 +5,6 @@ inherited PrincBasForm: TPrincBasForm
   ClientWidth = 628
   ExplicitWidth = 628
   ExplicitHeight = 477
-  DesignSize = (
-    628
-    477)
   TextHeight = 15
   object Logo1Image: TImage [0]
     Left = 0
@@ -87,31 +84,6 @@ inherited PrincBasForm: TPrincBasForm
       end
     end
   end
-  object GerenciadorDeTarefasGroupBox_PrincBasForm: TGroupBox [3]
-    Left = 59
-    Top = 202
-    Width = 172
-    Height = 50
-    Anchors = [akTop, akRight]
-    Caption = 'Tarefas do Sistema'
-    TabOrder = 1
-    object AbrirButton_PrincBasForm: TButton
-      Left = 8
-      Top = 18
-      Width = 75
-      Height = 25
-      Action = GerFormAbrirAction_PrincBasForm
-      TabOrder = 0
-    end
-    object CentrButton_PrincBasForm: TButton
-      Left = 88
-      Top = 18
-      Width = 75
-      Height = 25
-      Action = GerFormCentralizarAction_PrincBasForm
-      TabOrder = 1
-    end
-  end
   inherited ActionList1_ActBasForm: TActionList
     inherited FecharAction_ActBasForm: TAction
       Caption = 'Fechar o Sistema'
@@ -123,20 +95,5 @@ inherited PrincBasForm: TPrincBasForm
       ImageIndex = 1
       OnExecute = MinimizeAction_PrincBasFormExecute
     end
-    object GerFormAbrirAction_PrincBasForm: TAction
-      Caption = 'Abrir'
-      OnExecute = GerFormAbrirAction_PrincBasFormExecute
-    end
-    object GerFormCentralizarAction_PrincBasForm: TAction
-      Caption = 'Centralizar'
-      OnExecute = GerFormCentralizarAction_PrincBasFormExecute
-    end
-  end
-  object TesteFecharTimer: TTimer
-    Enabled = False
-    Interval = 3000
-    OnTimer = TesteFecharTimerTimer
-    Left = 320
-    Top = 176
   end
 end

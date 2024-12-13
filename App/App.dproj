@@ -582,30 +582,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Ger\GerForm\App.Ger.GerForm_u.pas">
-            <Form>GerAppForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Threads\App.Threads.AppThread_u.pas"/>
-        <DCCReference Include="DB\Term\App.Threads.TermThread_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u.pas"/>
-        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI.pas"/>
-        <DCCReference Include="Ger\App.Ger.Factory.pas"/>
-        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.DBI_u.pas"/>
-        <DCCReference Include="Ger\GerForm\App.Ger.GerForm.Constants_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_u_PegarFaixa.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\App.Testes.Config.ModuRetag.Fin_u.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Fin\PagamentoForma\App.Testes.Config.ModuRetag.Fin.PagamentoForma_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread.Factory_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.Loja_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.Terminal_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.PagamentoForma_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.UsuarioPodeOpcaoSis_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermThread_ProcLog.FuncionarioUsuario_u.pas"/>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.UI.Form.PDV.Preco.Busca_u.pas">
             <Form>PrecoBuscaForm</Form>
             <FormType>dfm</FormType>
@@ -684,10 +664,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor_u.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario.pas"/>
         <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas"/>
-        <DCCReference Include="..\Sis\DB\Sis.DB.FDExecScript_u.pas"/>
-        <DCCReference Include="Threads\App.Threads.AppTarefa_u.pas"/>
-        <DCCReference Include="DB\Term\App.Threads.TermTarefa_u.pas"/>
-        <DCCReference Include="DB\Term\SyncTerm\App.Threads.SyncTermTarefa_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
