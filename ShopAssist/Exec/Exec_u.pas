@@ -25,7 +25,7 @@ begin
       ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
       if bPrecisaTerminar then
         break;
-
+      break;
       for iEsperaAtual := 1 to 15 do
       begin
         bPrecisaTerminar := GetPrecisaTerminar;
