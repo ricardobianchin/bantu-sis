@@ -350,6 +350,10 @@ contains
   App.Est.Venda.Caixa.CxValor in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor.pas',
   App.Est.Venda.Caixa.CxValor_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValor_u.pas',
   App.Est.Venda.Caixa.CxNumerario in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario.pas',
-  App.Est.Venda.Caixa.CxNumerario_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas';
+  App.Est.Venda.Caixa.CxNumerario_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerario_u.pas',
+  App.Est.Venda.Caixa.CxValorList in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValorList.pas',
+  App.Est.Venda.Caixa.CxValorList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValorList_u.pas',
+  App.Est.Venda.Caixa.CxNumerarioList in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList.pas',
+  App.Est.Venda.Caixa.CxNumerarioList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList_u.pas';
 
 end.

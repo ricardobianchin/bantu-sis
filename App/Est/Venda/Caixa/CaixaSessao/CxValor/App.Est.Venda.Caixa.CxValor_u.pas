@@ -3,29 +3,25 @@ unit App.Est.Venda.Caixa.CxValor_u;
 interface
 
 uses Sis.Types, App.Types, App.Est.Venda.Caixa.CxValor,
-  System.Generics.Collections, App.Est.Venda.Caixa.CxNumerario;
+  System.Generics.Collections, App.Est.Venda.Caixa.CxNumerarioList;
 
 type
   TCxValor = class(TInterfacedObject, ICxValor)
   private
     FPagamentoFormaId: TId;
     FValor: TPreco;
-    FCxNumerarioList: TList<ICxNumerario>;
+    FCxNumerarioList: ICxNumerarioList;
 
     function GetPagamentoFormaId: TId;
     function GetValor: TPreco;
-    function GetCxNumerario(Index: integer): ICxNumerario;
+    function GetCxNumerarioList: ICxNumerarioList;
   public
     property PagamentoFormaId: TId read GetPagamentoFormaId;
     property Valor: TPreco read GetValor;
 
-    function PegueCxNumerario(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
-
-    property CxNumerario[Index: integer]: ICxNumerario
-      read GetCxNumerario; default;
+    property CxNumerarioList: ICxNumerarioList read GetCxNumerarioList;
 
     constructor Create(pPagamentoFormaId: TId; pValor: TPreco);
-    destructor Destroy; override;
   end;
 
 implementation
@@ -38,18 +34,12 @@ constructor TCxValor.Create(pPagamentoFormaId: TId; pValor: TPreco);
 begin
   FPagamentoFormaId := pPagamentoFormaId;
   FValor := pValor;
-  FCxNumerarioList := TList<ICxNumerario>.Create;
+  FCxNumerarioList := CxNumerarioListCreate;
 end;
 
-destructor TCxValor.Destroy;
+function TCxValor.GetCxNumerarioList: ICxNumerarioList;
 begin
-  FCxNumerarioList.Free;
-  inherited;
-end;
-
-function TCxValor.GetCxNumerario(Index: integer): ICxNumerario;
-begin
-  Result := FCxNumerarioList[Index];
+  Result := FCxNumerarioList;
 end;
 
 function TCxValor.GetPagamentoFormaId: TId;
@@ -60,12 +50,6 @@ end;
 function TCxValor.GetValor: TPreco;
 begin
   Result := FValor;
-end;
-
-function TCxValor.PegueCxNumerario(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
-begin
-  Result := CxNumerarioCreate(pValor, pQtd);
-  FCxNumerarioList.Add(Result);
 end;
 
 end.

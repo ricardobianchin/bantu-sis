@@ -46,6 +46,10 @@ uses Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessao.Factory_u, Sis.Types.Utils
 
 function TCxOperUmValorEdForm.ControlesOk: boolean;
 begin
+  Result := inherited ControlesOk;
+  if not Result then
+    exit;
+
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
     Result := FValorNumEdit.AsCurrency > ZERO_CURRENCY;

@@ -65,7 +65,7 @@ constructor TCxOperacaoTipo.Create(pIdChar: string; pName: string;pAbrev: string
   pCaption: string; pHint: string; pSinalNumerico: SmallInt;
   pHabilitadoDuranteSessao: Boolean);
 begin
-  FId := CharToCxOpTipo(pIdChar);
+  FId.FromString(pIdChar);
   FName := pName;
   FAbrev := pAbrev;
   FHint := pHint;

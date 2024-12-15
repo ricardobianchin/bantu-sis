@@ -17,46 +17,33 @@ type
     , cxopVenda = 042 //
     );
 
-function CharToCxOpTipo(pChar: string): TCxOpTipo;
-function CxOpTipoToSqlConstant(pCxOpTipo: TCxOpTipo): string;
+  TCxOpTipoHelper = record helper for TCxOpTipo
+  public
+    function ToChar: Char;
+    function ToSqlConstant: string;
+    procedure FromString(const S: string);
+  end;
 
 implementation
 
 uses System.SysUtils;
 
-function CharToCxOpTipo(pChar: string): TCxOpTipo;
-var
-  c: Char;
+function TCxOpTipoHelper.ToChar: Char;
 begin
-  pChar := Trim(pChar);
-  if pChar = '' then
-    c := #032
-  else
-    c := pChar[1];
-
-  case c of
-    #033: Result := cxopAbertura;
-    #034: Result := cxopSangria;
-    #035: Result := cxopSuprimento;
-    #036: Result := cxopVale;
-    #037: Result := cxopDespesa;
-    #038: Result := cxopConvenio;
-    #039: Result := cxopCrediario;
-    #040: Result := cxopFechamento;
-    #041: Result := cxopDevolucao;
-    #042: Result := cxopVenda;
-    else {#032:} Result := cxopNaoIndicado;
-  end;
+  Result := Chr(Ord(Self));
 end;
 
-function CxOpTipoToSqlConstant(pCxOpTipo: TCxOpTipo): string;
-var
-  b: Byte;
-  c: Char;
+function TCxOpTipoHelper.ToSqlConstant: string;
 begin
-  b := Integer(pCxOpTipo);
-  c := Chr(b);
-  Result := QuotedStr(c);
+  Result := QuotedStr(ToChar);
+end;
+
+procedure TCxOpTipoHelper.FromString(const S: string);
+begin
+  if S = '' then
+    Self := cxopNaoIndicado
+  else
+    Self := TCxOpTipo(Ord(S[1]));
 end;
 
 end.

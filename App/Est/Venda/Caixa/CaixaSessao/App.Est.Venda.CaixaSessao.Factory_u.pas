@@ -23,9 +23,11 @@ uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
   // uses caixa operacao valor
   , App.Est.Venda.Caixa.CxValor.DBI
   , App.Est.Venda.Caixa.CxValor
+  , App.Est.Venda.Caixa.CxValorList
 
   // uses caixa operacao valor numerario
   , App.Est.Venda.Caixa.CxNumerario
+  , App.Est.Venda.Caixa.CxNumerarioList
   ;
 
 // function caixa sessao
@@ -62,7 +64,10 @@ function EntDBICastToCxOperacaoDBI(pEntDBI: IEntDBI): ICxOperacaoDBI;
 function CxValorCreate(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;
 function CxValorDBICreate(pDBConnection: IDBConnection): ICxValorDBI;
 
+function CxValorListCreate: ICxValorList;
+
 function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
+function CxNumerarioListCreate: ICxNumerarioList;
 
 implementation
 
@@ -83,8 +88,9 @@ uses
   // uses caixa operacao valor numerario
   App.Est.Venda.Caixa.CxValor.DBI_u
   , App.Est.Venda.Caixa.CxValor_u
+  , App.Est.Venda.Caixa.CxValorList_u
   , App.Est.Venda.Caixa.CxNumerario_u
-
+  , App.Est.Venda.Caixa.CxNumerarioList_u
   ;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
@@ -183,9 +189,18 @@ begin
   Result := TCxValorDBI.Create(pDBConnection);
 end;
 
+function CxValorListCreate: ICxValorList;
+begin
+  Result := TCxValorList.Create;
+end;
 function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
 begin
   Result := TCxNumerario.Create(pValor, pQtd);
+end;
+
+function CxNumerarioListCreate: ICxNumerarioList;
+begin
+  Result := TCxNumerarioList.Create;
 end;
 
 end.

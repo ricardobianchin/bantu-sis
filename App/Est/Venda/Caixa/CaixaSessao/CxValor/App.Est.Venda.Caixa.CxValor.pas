@@ -2,7 +2,7 @@ unit App.Est.Venda.Caixa.CxValor;
 
 interface
 
-uses Sis.Types, App.Types, App.Est.Venda.Caixa.CxNumerario;
+uses Sis.Types, App.Types, App.Est.Venda.Caixa.CxNumerarioList;
 
 type
   ICxValor = interface(IInterface)
@@ -13,10 +13,8 @@ type
     function GetValor: TPreco;
     property Valor: TPreco read GetValor;
 
-    function PegueCxNumerario(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
-
-    function GetCxNumerario(Index: integer): ICxNumerario;
-    property CxNumerario[Index: integer]: ICxNumerario read GetCxNumerario; default;
+    function GetCxNumerarioList: ICxNumerarioList;
+    property CxNumerarioList: ICxNumerarioList read GetCxNumerarioList;
   end;
 
 implementation

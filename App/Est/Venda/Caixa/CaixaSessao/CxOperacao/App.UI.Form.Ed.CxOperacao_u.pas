@@ -37,6 +37,8 @@ type
     procedure AjusteTabOrder; virtual;
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
     property CxOperacaoDBI: ICxOperacaoDBI read FCxOperacaoDBI;
+
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
@@ -67,7 +69,7 @@ end;
 
 function TCxOperacaoEdForm.ControlesOk: boolean;
 begin
-
+  Result := True;
 end;
 
 procedure TCxOperacaoEdForm.ControlesToEnt;
@@ -87,7 +89,7 @@ end;
 
 function TCxOperacaoEdForm.DadosOk: boolean;
 begin
-
+  Result := True;
 end;
 
 procedure TCxOperacaoEdForm.EntToControles;
@@ -110,7 +112,7 @@ end;
 
 function TCxOperacaoEdForm.GravouOk: boolean;
 begin
-
+  Result := EntDBI.Gravar;
 end;
 
 end.
