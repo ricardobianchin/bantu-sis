@@ -82,9 +82,10 @@ begin
   try
     sSql :=
       'SELECT'#13#10
-      +'SESS_ID'#13#10
-      +', PESSOA_ID'#13#10
-      +', APELIDO'#13#10
+      +'SESS_ID'#13#10 // 0
+      +', PESSOA_ID'#13#10 // 1
+      +', APELIDO'#13#10 // 2
+      +', ABERTO_EM'#13#10 // 3
       +'FROM CAIXA_SESSAO_MANUT_PA.ABERTO_GET'#13#10
       ;
 //{$IFDEF DEBUG}
@@ -104,6 +105,7 @@ begin
       pCaixaSessaoRec.SessId := q.Fields[0].AsInteger;
       pCaixaSessaoRec.PessoaId := q.Fields[1].AsInteger;
       pCaixaSessaoRec.Apelido := q.Fields[2].AsString;
+      pCaixaSessaoRec.AbertoEm := q.Fields[3].AsDateTime;
       pCaixaSessaoRec.Aberto := True;
     finally
       q.Free;

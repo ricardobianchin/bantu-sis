@@ -7,6 +7,10 @@ type
   TId = integer;
   TShortId = SmallInt;
 
+  TIdHelper = record helper for TId
+    function ToString: string;
+  end;
+
 {
   TQuantidadeHelper = record helper for TQuantidade
   public
@@ -59,6 +63,13 @@ begin
     sFormat := '%.2d-%.7d';
     Result := Format(sFormat, [pLojaId, pId]);
   end;
+end;
+
+{ TIdHelper }
+
+function TIdHelper.ToString: string;
+begin
+  Result := IntToStr(Self);
 end;
 
 end.

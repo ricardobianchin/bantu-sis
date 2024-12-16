@@ -5,7 +5,7 @@ interface
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj,
-  Sis.UI.FormCreator, App.Retag.Est.Custo,
+  Sis.UI.FormCreator,
   Sis.DB.UltimoId
 
   // os dbi que seguem o padrao, retornam iented
@@ -215,11 +215,10 @@ function ProdBalancaEntCreate: IProdBalancaEnt;
 {$ENDREGION}
 {$REGION 'xxx'}
 {$ENDREGION}
-function CustoCreate: ICusto;
 
 implementation
 
-uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Retag.Est.Custo_u
+uses Vcl.Controls, App.UI.FormCreator.DataSet_u
 
 {$REGION 'uses fabr'}
   // fabr
@@ -631,10 +630,5 @@ end;
 {$ENDREGION}
 {$REGION 'xxx impl'}
 {$ENDREGION}
-
-function CustoCreate: ICusto;
-begin
-  Result := TCusto.Create;
-end;
 
 end.

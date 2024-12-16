@@ -13,6 +13,7 @@ type
     Apelido: string;
     Conferido: Boolean;
     Aberto: Boolean;
+    AbertoEm: TDateTime;
     procedure Zerar;
   end;
 

@@ -10,7 +10,11 @@ type
     ['{92529648-34C4-4232-B07F-7EE93969276C}']
     function PegueCxValor(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;
     function GetCxValor(Index: integer): ICxValor;
-    property CxValor[Index: integer]: ICxValor read GetCxValor;
+    property CxValor[Index: integer]: ICxValor read GetCxValor; default;
+    function GetAsList: string;
+    property AsList: string read GetAsList;
+    function GetNumerarioAsList: string;
+    property NumerarioAsList: string read GetNumerarioAsList;
   end;
 
 implementation

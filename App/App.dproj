@@ -309,8 +309,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\App.AppInfo.Types.pas"/>
         <DCCReference Include="DB\Log\App.DB.Log.pas"/>
         <DCCReference Include="DB\Log\App.DB.Log_u.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Custo\App.Retag.Est.Custo.pas"/>
-        <DCCReference Include="Modulos\Retag\Est\Custo\App.Retag.Est.Custo_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas">
             <Form>ComplProdEdFrame</Form>
             <DesignClass>TFrame</DesignClass>

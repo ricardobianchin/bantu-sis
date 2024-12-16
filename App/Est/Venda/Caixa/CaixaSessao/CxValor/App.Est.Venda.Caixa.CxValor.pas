@@ -11,7 +11,8 @@ type
     property PagamentoFormaId: TId read GetPagamentoFormaId;
 
     function GetValor: TPreco;
-    property Valor: TPreco read GetValor;
+    procedure SetValor(Value: TPreco);
+    property Valor: TPreco read GetValor write SetValor;
 
     function GetCxNumerarioList: ICxNumerarioList;
     property CxNumerarioList: ICxNumerarioList read GetCxNumerarioList;

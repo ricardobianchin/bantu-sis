@@ -21,6 +21,9 @@ type
     function GetMachineIdentId: SmallInt;
     property MachineIdentId: SmallInt read GetMachineIdentId;
 
+    function GetAbertoEm: TDateTime;
+    procedure SetAbertoEm(Value: TDateTime);
+    property AbertoEm: TDateTime read GetAbertoEm write SetAbertoEm;
   end;
 
 

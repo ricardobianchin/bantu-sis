@@ -76,7 +76,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u;
+  {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,} App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
 
 {$R *.dfm}
 { TCaixaSessaoDM }
@@ -107,7 +107,10 @@ begin
   FAlvoDBConnection := DBConnectionCreate('CaixaSessaoDM.Alvo.Conn',
     FAppObj.SisConfig, rDBConnectionParams, nil, nil);
 
-  FCaixaSessao := CaixaSessaoCreate(FLogUsuario, FAppObj.Loja.Id, FTerminalId);
+  FCaixaSessao := CaixaSessaoCreate(FLogUsuario //
+    , FAppObj.SisConfig.LocalMachineId.IdentId //
+    , FAppObj.Loja.Id //
+    , FTerminalId);
 
   FCaixaSessaoDBI := CaixaSessaoDBICreate(FAlvoDBConnection, pLogUsuario,
     FAppObj.Loja.Id, FTerminalId, FAppObj.SisConfig.LocalMachineId.IdentId);
@@ -133,6 +136,7 @@ procedure TCaixaSessaoDM.CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
 var
   o: ICxOperacaoTipo;
   oCxOperacaoEnt: ICxOperacaoEnt;
+  oCxOperacaoDBI: ICxOperacaoDBI;
   oCxValorDBI: ICxValorDBI;
 begin
   if pRecNo = -1 then
@@ -150,12 +154,13 @@ begin
   FCxOperacaoTipoList.Add(o);
 
   oCxOperacaoEnt := CxOperacaoEntCreate(FCaixaSessao, o);
+  oCxOperacaoDBI := CxOperacaoDBICreate(FAlvoDBConnection, oCxOperacaoEnt);
   oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
 
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
-    FCxOperacaoTipoDBI, oCxOperacaoEnt, FAppObj, oCxValorDBI);
-  if o.Id <> cxopAbertura then
-    ToolBarAddButton(o.Action, FToolBar);
+    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, oCxValorDBI);
+  //if o.Id <> cxopAbertura then
+//    ToolBarAddButton(o.Action, FToolBar);
 end;
 
 function TCaixaSessaoDM.GetAction(pCxOpTipo: TCxOpTipo): TAction;
@@ -184,6 +189,7 @@ begin
   begin
     FCaixaSessaoSituacao := cxAberto;
     FCaixaSessao.Id := rCaixaSessao.SessId;
+    FCaixaSessao.AbertoEm := rCaixaSessao.AbertoEm;
     exit;
   end;
 

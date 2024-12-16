@@ -23,10 +23,12 @@ type
     { Private declarations }
     FValorNumEdit: TNumEditBtu;
     FNumerarioListFrame: TNumerarioListFrame;
+    function GetValorDoControle: Currency;
   protected
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
     function ControlesOk: boolean; override;
+    function DadosOk: boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
@@ -40,7 +42,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessao.Factory_u, Sis.Types.Utils_u;
+uses Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessao.Factory_u,
+  Sis.Types.Utils_u;
 
 { TCxOperUmValorEdForm }
 
@@ -94,20 +97,57 @@ begin
     pCxValorDBI, AppObj.AppInfo.PastaImg + 'App\Numerario\Indiv\');
 end;
 
+function TCxOperUmValorEdForm.DadosOk: boolean;
+var
+  iQtdValores: integer;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+
+  iQtdValores := CxOperacaoEnt.CxValorList.Count;
+  if iQtdValores = 0 then
+  begin
+    if TrabPageControl.ActivePage = ValorTabSheet then
+    begin
+      CxOperacaoEnt.CxValorList.PegueCxValor(1, FValorNumEdit.AsCurrency);
+    end;
+  end
+  else
+  begin
+    if TrabPageControl.ActivePage = ValorTabSheet then
+    begin
+      CxOperacaoEnt.CxValorList[0].Valor := FValorNumEdit.AsCurrency
+    end;
+  end;
+end;
+
 procedure TCxOperUmValorEdForm.EntToControles;
 begin
   inherited;
-  FValorNumEdit.Valor := CxOperacaoEnt.Valor;
+  if TrabPageControl.ActivePage = ValorTabSheet then
+  begin
+    FValorNumEdit.Valor := CxOperacaoEnt.Valor;
+  end;
+end;
+
+function TCxOperUmValorEdForm.GetValorDoControle: Currency;
+begin
+  Result := 0;
+  if TrabPageControl.ActivePage = ValorTabSheet then
+  begin
+    Result := FValorNumEdit.AsCurrency;
+  end;
 end;
 
 procedure TCxOperUmValorEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   TrabPageControl.ActivePage := ValorTabSheet;
-  FValorNumEdit.valor := 18;
+  FValorNumEdit.Valor := 18;
   ObsMemo.Lines.text := 'Abertra teste';
   OkAct_Diag.Execute;
-//  TrabPageControl.ActivePage := NumerarioTabSheet;
+  // TrabPageControl.ActivePage := NumerarioTabSheet;
 end;
 
 procedure TCxOperUmValorEdForm.TrabPageControlChange(Sender: TObject);

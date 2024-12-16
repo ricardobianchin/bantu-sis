@@ -21,11 +21,9 @@ type
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
-    Label1: TLabel;
     PrincToolBar_PDVModuloBasForm: TToolBar;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FAppPDVObj: IAppPDVObj;
@@ -71,7 +69,7 @@ procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute
   (Sender: TObject);
 var
   a: TAction;
-  s: string;
+  s: string; // so pra visualizar o name durante o debug
 begin
   inherited;
 //  FreeAndNil(FFrameAtivo);
@@ -115,17 +113,17 @@ begin
         end;
 
       cxAberto:
-        ;
+        begin
+          TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
+            LogUsuario.NomeExib + ' - Caixa Fechado';
+
+          FFrameAtivo := nil;
+        end;
+
       cxAbertoPorOutroUsuario:
         ;
     end;
   end;
-end;
-
-procedure TPDVModuloBasForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  FreeAndNil(Label1);
 end;
 
 function TPDVModuloBasForm.GetFecharModuloAction: TAction;

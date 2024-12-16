@@ -27,7 +27,8 @@ type
 
 implementation
 
-uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats;
+uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats,
+  Sis.Win.Utils_u;
 
 { TCxOperacaoDBI }
 
@@ -49,25 +50,67 @@ begin
 end;
 
 function TCxOperacaoDBI.GetSqlInserirDoERetornaId: string;
+var
+  Ent: ICxOperacaoEnt;
 begin
-  Result := 'SELECT '#13#10 + 'SESS_ID_RET'#13#10 + ', OPER_ORDEM_RET'#13#10 +
-    ', OPER_LOG_ID_RET'#13#10 + ', OPER_TIPO_ORDEM_RET'#13#10 +
-    'FROM CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 + '('#13#10 + '  ' +
-    FCxOperacaoEnt.LojaId.ToString // LOJA_ID ID_SHORT_DOM NOT NULL
-    + '  , ' + FCxOperacaoEnt.TerminalId.ToString // TERMINAL_ID ID_SHORT_DOM NOT NULL
-    + '  , ' + FCxOperacaoEnt.CaixaSessao.Id.ToString // SESS_ID ID_DOM
-    + '  , ' + FCxOperacaoEnt.OperOrdem.ToString // OPER_ORDEM SMALLINT
-    + '  , ' + FCxOperacaoEnt.CxOperacaoTipo.Id.ToSqlConstant // OPER_TIPO_ID ID_CHAR_DOM Not Null
-    + '  , ' + FCxOperacaoEnt.LogId.ToString // OPER_LOG_ID BIGINT
-    + '  , ' + FCxOperacaoEnt.OperTipoOrdem.ToString // OPER_TIPO_ORDEM SMALLINT
-    + '  , ' + CurrencyToStrPonto(FCxOperacaoEnt.Valor) // VALOR PRECO_DOM Not Null
-    + '  , ' + QuotedStr(FCxOperacaoEnt.obs) // OBS OBS_DOM
-    + '  , ' + FCxOperacaoEnt.CaixaSessao.LogUsuario.Id.ToString // LOG_PESSOA_ID ID_DOM
-    + '  , ' + FCxOperacaoEnt.CaixaSessao.MachineIdentId.ToString // MACHINE_ID ID_SHORT_DOM
-    + '  , ' + QuotedStr('1,' + CurrencyToStrPonto(FCxOperacaoEnt.Valor)) // PAGAMENTO_LIST VARCHAR(300)
-    + '  , ' + '''' // NUMERARIO_LIST VARCHAR(300)
+  Ent := FCxOperacaoEnt;
+
+  Result := 'SELECT '#13#10
+
+    + 'SESS_ID_RET'#13#10 //
+    + ', OPER_ORDEM_RET'#13#10 //
+    + ', OPER_LOG_ID_RET'#13#10 //
+    + ', OPER_TIPO_ORDEM_RET'#13#10 //
+
+    + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
+
+    + '('#13#10 //
+
+    + '  ' + Ent.CaixaSessao.LojaId.ToString //
+    + ' -- LOJA_ID ID_SHORT_DOM NOT NULL'#13#10 //
+
+    + '  , ' + Ent.CaixaSessao.TerminalId.ToString //
+    + ' -- TERMINAL_ID ID_SHORT_DOM'#13#10 //
+
+    + '  , ' + Ent.CaixaSessao.Id.ToString //
+    + ' -- SESS_ID ID_DOM'#13#10 //
+
+    + '  , ' + Ent.OperOrdem.ToString //
+    + ' -- OPER_ORDEM SMALLINT'#13#10 //
+
+    + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant //
+    + ' -- OPER_TIPO_ID ID_CHAR_DOM'#13#10 //
+
+    + '  , ' + Ent.LogId.ToString //
+    + ' -- OPER_LOG_ID BIGINT'#13#10 //
+
+    + '  , ' + Ent.OperTipoOrdem.ToString //
+    + ' -- OPER_TIPO_ORDEM SMALLINT'#13#10 //
+
+    + '  , ' + CurrencyToStrPonto(Ent.Valor) //
+    + ' -- VALOR PRECO_DOM Not Null'#13#10 //
+
+    + '  , ' + QuotedStr(Ent.obs) //
+    + ' -- OBS OBS_DOM'#13#10 //
+
+    + '  , ' + Ent.CaixaSessao.LogUsuario.Id.ToString //
+    + ' -- LOG_PESSOA_ID ID_DOM'#13#10 //
+
+    + '  , ' + Ent.CaixaSessao.MachineIdentId.ToString //
+    + ' -- MACHINE_ID ID_SHORT_'#13#10 //
+
+    + '  , ' + QuotedStr(Ent.CxValorList.AsList) //
+    + ' -- PAGAMENTO_LIST VARCHAR(300)'#13#10 //
+
+    + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) //
+    + ' -- NUMERARIO_LIST VARCHAR(300)'#13#10 //
+
     + ');' //
     ;
+
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 function TCxOperacaoDBI.Ler: boolean;

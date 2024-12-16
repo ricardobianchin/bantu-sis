@@ -13,11 +13,14 @@ type
     FCxNumerarioList: ICxNumerarioList;
 
     function GetPagamentoFormaId: TId;
+
     function GetValor: TPreco;
+    procedure SetValor(Value: TPreco);
+
     function GetCxNumerarioList: ICxNumerarioList;
   public
     property PagamentoFormaId: TId read GetPagamentoFormaId;
-    property Valor: TPreco read GetValor;
+    property Valor: TPreco read GetValor write SetValor;
 
     property CxNumerarioList: ICxNumerarioList read GetCxNumerarioList;
 
@@ -50,6 +53,11 @@ end;
 function TCxValor.GetValor: TPreco;
 begin
   Result := FValor;
+end;
+
+procedure TCxValor.SetValor(Value: TPreco);
+begin
+  FValor := Value;
 end;
 
 end.

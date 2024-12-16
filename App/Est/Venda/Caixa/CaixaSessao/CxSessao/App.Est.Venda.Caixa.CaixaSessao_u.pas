@@ -18,6 +18,7 @@ type
     FAberto: Boolean;
     FConferido: Boolean;
     FMachineIdentId: SmallInt;
+    FAbertoEm: TDateTime;
 
     function GetLogUsuario: IUsuario;
 
@@ -29,13 +30,16 @@ type
 
     function GetMachineIdentId: SmallInt;
 
+    function GetAbertoEm: TDateTime;
+    procedure SetAbertoEm(Value : TDateTime);
+
     /// <summary>Criado pois Zerar foi alterado e nao apaga lojaId e TerminalId</summary>
-    procedure Inicialize;
   public
     procedure Zerar; override;
 
     property LogUsuario: IUsuario read GetLogUsuario;
     property Aberto: Boolean read GetAberto write SetAberto;
+    property AbertoEm: TDateTime read GetAbertoEm write SetAbertoEm;
     property Conferido: Boolean read GetConferido write SetConferido;
     property MachineIdentId: SmallInt read GetMachineIdentId;
 
@@ -53,12 +57,17 @@ begin
   inherited Create(pLojaId, pTerminalId, pId);
   FLogUsuario := pLogUsuario;
   FMachineIdentId := pMachineIdentId;
-  Inicialize;
+  Zerar;
 end;
 
 function TCaixaSessao.GetAberto: Boolean;
 begin
   Result := FAberto;
+end;
+
+function TCaixaSessao.GetAbertoEm: TDateTime;
+begin
+  Result := FAbertoEm;
 end;
 
 function TCaixaSessao.GetConferido: Boolean;
@@ -76,16 +85,14 @@ begin
   Result := FMachineIdentId;
 end;
 
-procedure TCaixaSessao.Inicialize;
-begin
-  LojaId := 0;
-  TerminalId := 0;
-  Zerar;
-end;
-
 procedure TCaixaSessao.SetAberto(Value: Boolean);
 begin
   FAberto := Value;
+end;
+
+procedure TCaixaSessao.SetAbertoEm(Value: TDateTime);
+begin
+  FAbertoEm := Value;
 end;
 
 procedure TCaixaSessao.SetConferido(Value: Boolean);
@@ -99,6 +106,7 @@ begin
   Id := 0;
   FAberto := False;
   FConferido := False;
+  FAbertoEm := 0;
 end;
 
 end.

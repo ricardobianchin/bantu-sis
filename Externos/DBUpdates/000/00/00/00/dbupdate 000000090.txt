@@ -51,7 +51,8 @@ BEGIN
     SESS_ID ID_DOM
     , PESSOA_ID ID_DOM
     , APELIDO NOME_REDU_DOM
-  );
+    , ABERTO_EM TIMESTAMP
+);
   
   PROCEDURE CAIXA_SESSAO_INS
   (
@@ -176,7 +177,8 @@ BEGIN
     SESS_ID ID_DOM
     , PESSOA_ID ID_DOM
     , APELIDO NOME_REDU_DOM
-  )
+    , ABERTO_EM TIMESTAMP
+)
   AS
   BEGIN
     FOR
@@ -184,6 +186,7 @@ BEGIN
       SESS.SESS_ID
       , PESS.PESSOA_ID
       , PESS.APELIDO
+      , LOG.DTH ABERTO_EM
       
       FROM AMBIENTE_SIS AMBI  
 
@@ -204,6 +207,7 @@ BEGIN
       :SESS_ID
       , :PESSOA_ID
       , :APELIDO
+      , :ABERTO_EM
     DO  
       SUSPEND;
   END

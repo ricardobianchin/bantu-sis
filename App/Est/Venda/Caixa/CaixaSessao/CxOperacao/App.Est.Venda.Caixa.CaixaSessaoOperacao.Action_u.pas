@@ -26,9 +26,15 @@ type
     function HandlesTarget(Target: TObject): Boolean; override;
     property CxOperacaoTipo: ICxOperacaoTipo read FCxOperacaoTipo;
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
-    constructor Create(AOwner: TComponent; pCxOperacaoTipo: ICxOperacaoTipo;
-      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; pCxOperacaoEnt: ICxOperacaoEnt;
-      pAppObj: IAppObj; pCxValorDBI: ICxValorDBI); reintroduce;
+    constructor Create(//
+      AOwner: TComponent;//
+      pCxOperacaoTipo: ICxOperacaoTipo;//
+      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;//
+      pCxOperacaoEnt: ICxOperacaoEnt;//
+      pCxOperacaoDBI: ICxOperacaoDBI;//
+      pAppObj: IAppObj;//
+      pCxValorDBI: ICxValorDBI//
+      ); reintroduce;
   end;
 
 implementation
@@ -42,15 +48,22 @@ begin
   Enabled := True;
 end;
 
-constructor TCxOperacaoAction.Create(AOwner: TComponent;
-  pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
-  pCxOperacaoEnt: ICxOperacaoEnt; pAppObj: IAppObj; pCxValorDBI: ICxValorDBI);
+constructor TCxOperacaoAction.Create(//
+      AOwner: TComponent;//
+      pCxOperacaoTipo: ICxOperacaoTipo;//
+      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;//
+      pCxOperacaoEnt: ICxOperacaoEnt;//
+      pCxOperacaoDBI: ICxOperacaoDBI;//
+      pAppObj: IAppObj;//
+      pCxValorDBI: ICxValorDBI//
+      );
 begin
   inherited Create(AOwner);
   FAppObj := pAppObj;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxOperacaoTipoDBI := pCxOperacaoTipoDBI;
   FCxOperacaoEnt := pCxOperacaoEnt;
+  FCxOperacaoDBI := pCxOperacaoDBI;
   FCxValorDBI := pCxValorDBI;
 
   Name := 'CxOperacao' + FCxOperacaoTipo.Name + 'Ins';
