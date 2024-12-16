@@ -72,7 +72,7 @@ var
   s: string; // so pra visualizar o name durante o debug
 begin
   inherited;
-//  FreeAndNil(FFrameAtivo);
+  // FreeAndNil(FFrameAtivo);
 
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
   s := a.Name;
@@ -109,13 +109,15 @@ begin
 
           FFrameAtivo := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
             CaixaSessaoAbrirTentarAction);
-          //CaixaSessaoAbrirTentarAction.Execute;
+          // CaixaSessaoAbrirTentarAction.Execute;
         end;
 
       cxAberto:
         begin
           TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
-            LogUsuario.NomeExib + ' - Caixa Fechado';
+            LogUsuario.NomeExib + ' - Caixa Aberto em ' +
+            FormatDateTime('ddd dd/mm/yyyy hh:nn',
+            FCaixaSessaoDM.CaixaSessao.AbertoEm);
 
           FFrameAtivo := nil;
         end;
