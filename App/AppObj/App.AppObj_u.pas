@@ -155,7 +155,7 @@ begin
     FStatusOutput.Exibir('App inicializando...');
     FProcessOutput.Exibir('App inicializando...');
 
-    ExecEvento(TSessaoMomento.ssmomInicio, FAppInfo, FStatusOutput, ProcessLog);
+    ExecEvento(TEventoDoSistema.eventosisInicio, FAppInfo, FStatusOutput, ProcessLog);
 
     App.AppObj_u_VaParaPasta.VaParaPastaExe(FAppInfo, ProcessLog);
 

@@ -28,6 +28,7 @@ type
       Shift: TShiftState; X, Y: Integer);
 
     procedure DtHCompileLabelClick(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -314,7 +315,7 @@ destructor TPrincBasForm.Destroy;
 begin
 //  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
   try
-    ExecEvento(TSessaoMomento.ssmomFim, FAppInfo, FStatusOutput, FProcessLog);
+    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput, FProcessLog);
     inherited;
   finally
 //    FProcessLog.RetorneLocal;
@@ -419,6 +420,12 @@ begin
   sVarNome := 'ATIVIDADE_ECONOMICA_NAME';
   sVarValor := AtividadeEconomicaSisName[eAtiv];
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
+end;
+
+procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  ExecEvento(TEventoDoSistema.eventosisPrincFormShow, FAppInfo, FStatusOutput, ProcessLog);
 
 end;
 

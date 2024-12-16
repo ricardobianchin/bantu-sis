@@ -172,7 +172,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>SessoesFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Sessao\App.Sessao.Eventos.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.EventosDeSessao.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.Retag_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.Criador.PDV_u.pas"/>

@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.ModuloSistema.Types, Sis.ModuloSistema,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, System.Actions, Vcl.ActnList,
-  App.Sessao.Eventos, Vcl.Menus, App.Constants, Sis.Usuario,
+  App.Sessao.EventosDeSessao, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory, App.UI.Form.Menu_u,
   Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
   Sis.Entities.Terminal, Sis.Sis.ExecTardiaDM_u, System.UITypes;
@@ -48,7 +48,7 @@ type
   private
     { Private declarations }
     FModuloSistema: IModuloSistema;
-    FSessaoEventos: ISessaoEventos;
+    FEventosDeSessao: IEventosDeSessao;
     FSessaoIndex: TSessaoIndex;
     FLogUsuario: IUsuario;
     FAppObj: IAppObj;
@@ -90,7 +90,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId); reintroduce;
 
     property TitleBarText: string read GetTitleBarText write SetTitleBarText;
@@ -123,7 +123,7 @@ begin
 end;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
-  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
 var
   sCaption: string;
@@ -132,7 +132,7 @@ begin
   FTerminalId := pTerminalId;
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   FModuloSistema := pModuloSistema;
-  FSessaoEventos := pSessaoEventos;
+  FEventosDeSessao := pEventosDeSessao;
   FSessaoIndex := pSessaoIndex;
   FLogUsuario := pLogUsuario;
   FAppObj := pAppObj;
@@ -161,7 +161,7 @@ end;
 
 procedure TModuloBasForm.DoFechar;
 begin
-  FSessaoEventos.DoFecharSessao(FSessaoIndex);
+  FEventosDeSessao.DoFecharSessao(FSessaoIndex);
   Free
 //  Close;
 end;
@@ -302,7 +302,7 @@ procedure TModuloBasForm.OcultarAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
   Hide;
-  FSessaoEventos.DoAposModuloOcultar;
+  FEventosDeSessao.DoAposModuloOcultar;
 end;
 
 function TModuloBasForm.PergFechar: boolean;
@@ -327,7 +327,7 @@ procedure TModuloBasForm.TrocarAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
   OcultarAction_ModuloBasForm.Execute;
-  // FSessaoEventos.DoTrocarDaSessao(FSessaoIndex)
+  // FEventosDeSessao.DoTrocarDaSessao(FSessaoIndex)
 end;
 
 function TModuloBasForm.Voltou: boolean;

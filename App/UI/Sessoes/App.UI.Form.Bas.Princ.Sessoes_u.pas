@@ -7,11 +7,11 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.Imaging.pngimage, App.UI.Sessoes.Frame, App.Sessao.Eventos,
+  Vcl.Imaging.pngimage, App.UI.Sessoes.Frame, App.Sessao.EventosDeSessao,
   Sis.UI.Form.Login.Config, App.Constants, App.Sessao;
 
 type
-  TSessoesPrincBasForm = class(TPrincBasForm, ISessaoEventos)
+  TSessoesPrincBasForm = class(TPrincBasForm, IEventosDeSessao)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);

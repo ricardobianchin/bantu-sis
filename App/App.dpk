@@ -63,7 +63,7 @@ contains
   App.UI.Form.Bas.Modulo_u in 'UI\BasForm\App.UI.Form.Bas.Modulo_u.pas' {ModuloBasForm},
   App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retag\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
   App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {SessoesFrame: TFrame},
-  App.Sessao.Eventos in 'Sessao\App.Sessao.Eventos.pas',
+  App.Sessao.EventosDeSessao in 'Sessao\App.Sessao.EventosDeSessao.pas',
   App.Sessao.Criador_u in 'Sessao\App.Sessao.Criador_u.pas',
   App.Sessao.Criador.Retag_u in 'Sessao\App.Sessao.Criador.Retag_u.pas',
   App.Sessao.Criador.PDV_u in 'Sessao\App.Sessao.Criador.PDV_u.pas',

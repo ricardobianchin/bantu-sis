@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Modulo.PDV_u,
   Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls, Vcl.Menus, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
+  Vcl.StdCtrls, Vcl.Menus, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
   Sis.Usuario, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.AppObj, Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
   App.UI.Form.Menu_u, System.UITypes;
@@ -22,7 +22,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj;
       pTerminalId: TTerminalId); override;
   end;
@@ -47,7 +47,7 @@ begin
 end;
 
 constructor TShopPDVModuloForm.Create(AOwner: TComponent;
-  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
 begin

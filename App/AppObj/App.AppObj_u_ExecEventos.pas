@@ -5,16 +5,17 @@ interface
 uses App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
-  TSessaoMomento = (ssmomNaoIndicado, ssmomInicio, ssmomFim);
+  TEventoDoSistema = (eventosisNaoIndicado, eventosisInicio, eventosisFim,
+    eventosisPrincFormShow);
 
-procedure ExecEvento(pSessaoMomento: TSessaoMomento; pAppInfo: IAppInfo;
+procedure ExecEvento(pEventoDoSistema: TEventoDoSistema; pAppInfo: IAppInfo;
   pOutput: IOutput; pProcessLog: IProcessLog);
 
 implementation
 
 uses Sis.UI.IO.Files, System.SysUtils, Sis.Win.Factory, Sis.Win.Execute;
 
-procedure ExecEvento(pSessaoMomento: TSessaoMomento; pAppInfo: IAppInfo;
+procedure ExecEvento(pEventoDoSistema: TEventoDoSistema; pAppInfo: IAppInfo;
   pOutput: IOutput; pProcessLog: IProcessLog);
 var
   sCaminho: string;
@@ -27,12 +28,14 @@ begin
 
     GarantirPasta(sCaminho);
 
-    case pSessaoMomento of
-      ssmomInicio:
+    case pEventoDoSistema of
+      eventosisInicio:
         sNomeArq := 'Exec inicio.bat';
-      ssmomFim:
+      eventosisFim:
         sNomeArq := 'Exec fim.bat';
-    else // ssmomNaoIndicado:
+      eventosisPrincFormShow:
+        sNomeArq := 'Exec PrincForm Show.bat';
+    else // eventosisNaoIndicado:
       sNomeArq := '';
     end;
 

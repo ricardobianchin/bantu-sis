@@ -8,7 +8,7 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.ExtCtrls,
   System.Actions, Vcl.ActnList, App.UI.Form.Bas.Modulo_u,
-  Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.Eventos,
+  Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.EventosDeSessao,
   Sis.UI.Form.LoginPerg_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
@@ -29,7 +29,7 @@ type
     FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
     FUsuario: IUsuario;
     FIndex: TSessaoIndex;
-    FSessaoEventos: ISessaoEventos;
+    FEventosDeSessao: IEventosDeSessao;
     FDBMS: IDBMS;
     FOutput: IOutput;
     FProcessLog: IProcessLog;
@@ -55,7 +55,7 @@ type
     constructor Create(AOwner: TComponent;
       pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-      pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
+      pEventosDeSessao: IEventosDeSessao; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
       //; pLoginConfig: ILoginConfig
       ); reintroduce;
   end;
@@ -70,13 +70,13 @@ uses App.DB.Utils, Sis.DB.Factory;
 
 procedure TSessaoFrame.AbrirActionExecute(Sender: TObject);
 begin
-  FSessaoEventos.DoAbrirSessao(Index)
+  FEventosDeSessao.DoAbrirSessao(Index)
 end;
 
 constructor TSessaoFrame.Create(AOwner: TComponent;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-  pSessaoEventos: ISessaoEventos; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
+  pEventosDeSessao: IEventosDeSessao; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
   {; pLoginConfig: ILoginConfig}
   );
 var
@@ -87,7 +87,7 @@ begin
   FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
   FUsuario := pUsuario;
   FIndex := pIndex;
-  FSessaoEventos := pSessaoEventos;
+  FEventosDeSessao := pEventosDeSessao;
   FDBMS := pDBMS;
   FOutput := pOutput;
   FProcessLog := pProcessLog;

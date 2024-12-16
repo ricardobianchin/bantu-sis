@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
   Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppObj,
-  Sis.UI.IO.Output, App.Sessao.Eventos, Sis.UI.Form.Login.Config,
+  Sis.UI.IO.Output, App.Sessao.EventosDeSessao, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
   Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants,
@@ -27,7 +27,7 @@ type
     { Private declarations }
     FPrimeiroShortCut: TShortCut;
     FAppObj: IAppObj;
-    FSessaoEventos: ISessaoEventos;
+    FEventosDeSessao: IEventosDeSessao;
     FLoginConfig: ILoginConfig;
 
     FSessaoCriadorList: ISessaoCriadorList;
@@ -48,7 +48,7 @@ type
     function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
 
   protected
-    property SessaoEventos: ISessaoEventos read FSessaoEventos;
+    property EventosDeSessao: IEventosDeSessao read FEventosDeSessao;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
       pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId)
@@ -82,7 +82,7 @@ type
       var Shift: TShiftState): boolean;
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-      pSessaoEventos: ISessaoEventos; pAppObj: IAppObj); reintroduce;
+      pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
 
   end;
@@ -163,7 +163,7 @@ begin
   FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;
   FSessaoFrame.Name := 'SessaoFrame' + iSessaoIndex.ToString;
   oModuloBasForm.Show;
-  FSessaoEventos.DoOk;
+  FEventosDeSessao.DoOk;
 end;
 
 procedure TSessoesFrame.BotSessaoAlign;
@@ -196,12 +196,12 @@ begin
 end;
 
 constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-  pSessaoEventos: ISessaoEventos; pAppObj: IAppObj);
+  pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
-  FSessaoEventos := pSessaoEventos;
+  FEventosDeSessao := pEventosDeSessao;
   FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
 
@@ -240,7 +240,7 @@ begin
     diag
   }
 
-  SessaoEventos.DoAposModuloOcultar;
+  EventosDeSessao.DoAposModuloOcultar;
   {
     Result := nil;
     for I := 0 to SessoesScrollBox.ControlCount - 1 do

@@ -2,7 +2,7 @@ unit App.Sessao.Factory;
 
 interface
 
-uses App.Sessao.Criador.List, App.Sessao.Eventos, Vcl.Forms, App.Sessao.Criador,
+uses App.Sessao.Criador.List, App.Sessao.EventosDeSessao, Vcl.Forms, App.Sessao.Criador,
   Sis.ModuloSistema.Types;
 
 function SessaoCriadorCreate(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)

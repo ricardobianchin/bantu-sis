@@ -1,11 +1,11 @@
-unit App.EventosDoSistema;
+unit App.Sessao.EventosDeSessao;
 
 interface
 
 uses App.Constants;
 
 type
-  ISessaoEventos = interface(IInterface)
+  IEventosDeSessao = interface(IInterface)
     ['{8A393416-9C17-4779-9EEE-3B4E5C2D3340}']
     procedure DoCancel;
     procedure DoOk;

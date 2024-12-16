@@ -48,13 +48,13 @@ begin
   case pModuloSistema.TipoOpcaoSisModulo of
     opmoduConfiguracoes:
       Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex, pUsuario, AppObj, pTerminalId);
+        EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
     opmoduRetaguarda:
       Result := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex, pUsuario, AppObj, pTerminalId);
+        EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
     opmoduPDV:
       Result := TShopPDVModuloForm.Create(Application, pModuloSistema,
-        SessaoEventos, pSessaoIndex, pUsuario, AppObj, pTerminalId);
+        EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
   else // modsisNaoIndicado:
     Result := nil;
   end;
@@ -66,7 +66,7 @@ function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
   pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoOpcaoSisModulo, pUsuario,
-    pModuloBasForm, pSessaoIndex, SessaoEventos, pDBMS, pOutput, pProcessLog);
+    pModuloBasForm, pSessaoIndex, EventosDeSessao, pDBMS, pOutput, pProcessLog);
 end;
 
 end.

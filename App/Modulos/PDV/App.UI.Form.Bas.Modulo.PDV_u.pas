@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.PDV.AppPDVObj,
-  Sis.ModuloSistema, App.Sessao.Eventos, App.Constants, Sis.Usuario,
+  Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
@@ -44,7 +44,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
       reintroduce; virtual;
     property FramesParent: TWinControl read GetFramesParent;
@@ -81,7 +81,7 @@ begin
 end;
 
 constructor TPDVModuloBasForm.Create(AOwner: TComponent;
-  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
 begin

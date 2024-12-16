@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.UI.FormCreator,
   Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
   Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils, App.DB.Import.Form_u,
   Sis.Types.Contador, Sis.Entities.Types;
 
@@ -52,7 +52,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
   end;
 
@@ -69,13 +69,13 @@ uses Sis.Types.Factory, Sis.UI.IO.Factory, App.AppInfo, Sis.Config.SisConfig,
 { TConfigModuloBasForm }
 
 constructor TConfigModuloBasForm.Create(AOwner: TComponent;
-  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
 begin
-  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
+  inherited Create(AOwner, pModuloSistema, pEventosDeSessao, pSessaoIndex,
     pUsuario, pAppObj, pTerminalId);
   DBImportPrep;
   FFormClassNamesSL := TStringList.Create;

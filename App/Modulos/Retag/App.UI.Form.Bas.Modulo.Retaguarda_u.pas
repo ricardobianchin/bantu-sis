@@ -8,7 +8,7 @@ uses
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u, Sis.Loja,
-  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.Eventos, App.Constants,
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
   Sis.Usuario, App.AppObj, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator,
   Sis.Entities.Types,
@@ -191,7 +191,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
-      pSessaoEventos: ISessaoEventos; pSessaoIndex: TSessaoIndex;
+      pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
       reintroduce;
   end;
@@ -212,7 +212,7 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Sis.Constants;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
-  pModuloSistema: IModuloSistema; pSessaoEventos: ISessaoEventos;
+  pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
   pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
 var
@@ -221,7 +221,7 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oDBConnection: IDBConnection;
 begin
-  inherited Create(AOwner, pModuloSistema, pSessaoEventos, pSessaoIndex,
+  inherited Create(AOwner, pModuloSistema, pEventosDeSessao, pSessaoIndex,
     pUsuario, pAppObj, pTerminalId);
 
   CreateIniciais;
