@@ -12,24 +12,18 @@ uses
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FServFDConnection: TFDConnection;
-    FTermFDConnection: TFDConnection;
 
   protected
     function SessoesFrameCreate: TSessoesFrame; override;
     function GetAppInfoCreate: IAppInfo; override;
     procedure PreenchaAtividade; override;
     procedure PreenchaDBUpdaterVariaveis; override;
-    procedure AjusteControles; override;
 
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-
   end;
 
 var
@@ -45,10 +39,6 @@ uses App.Factory, ShopApp.Constants, Sis.DB.Factory, App.AppInfo.Types,
 
 { TShopPrincForm }
 
-procedure TShopPrincForm.AjusteControles;
-begin
-end;
-
 constructor TShopPrincForm.Create(AOwner: TComponent);
 begin
   // ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
@@ -57,13 +47,6 @@ begin
   finally
     // ProcessLog.RetorneAssunto;
   end;
-end;
-
-destructor TShopPrincForm.Destroy;
-begin
-  FServFDConnection.Free;
-  FTermFDConnection.Free;
-  inherited;
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
@@ -97,50 +80,6 @@ end;
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
   Result := TShopSessoesFrame.Create(Self, LoginConfig, Self, AppObj);
-end;
-
-procedure TShopPrincForm.ShowTimer_BasFormTimer(Sender: TObject);
-var
-  // s: ISisConfig;
-  sDriver: string;
-
-  FServDBConnectionParams: TDBConnectionParams;
-  FTermDBConnectionParams: TDBConnectionParams;
-begin
-  inherited;
-  // FServDBConnectionParams := TerminalIdToDBConnectionParams
-  // (TERMINAL_ID_RETAGUARDA, AppObj);
-  FServDBConnectionParams.Server := 'DELPHI-BTU';
-  FServDBConnectionParams.Arq :=
-    'C:\Pr\app\bantu\bantu-sis\exe\dados\dados_mercado_retaguarda.fdb';
-  FServDBConnectionParams.Database :=
-    'DELPHI-BTU:C:\Pr\app\bantu\bantu-sis\exe\dados\dados_mercado_retaguarda.fdb';
-
-  // s := AppObj.SisConfig;
-
-  FServFDConnection := TFDConnection.Create(nil);
-  FServFDConnection.LoginPrompt := False;
-  sDriver := 'FB';
-
-  FServFDConnection.Params.Text := //
-    'DriverID=' + sDriver + #13#10 //
-    + 'Server=' + FServDBConnectionParams.Server + #13#10 //
-    + 'Database=' + FServDBConnectionParams.Arq + #13#10 +
-    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
-
-  FTermDBConnectionParams.Server := AppObj.TerminalList[0].IdentStr;
-  FTermDBConnectionParams.Arq := AppObj.TerminalList[0].LocalArqDados;
-  FTermDBConnectionParams.Database := AppObj.TerminalList[0].Database;
-
-  FTermFDConnection := TFDConnection.Create(nil);
-  FTermFDConnection.LoginPrompt := False;
-  sDriver := 'FB';
-
-  FTermFDConnection.Params.Text := //
-    'DriverID=' + sDriver + #13#10 //
-    + 'Server=' + FTermDBConnectionParams.Server + #13#10 //
-    + 'Database=' + FTermDBConnectionParams.Arq + #13#10 +
-    'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 + 'Protocol=TCPIP';
 end;
 
 end.
