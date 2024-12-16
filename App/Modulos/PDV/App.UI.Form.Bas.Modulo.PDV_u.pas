@@ -21,7 +21,6 @@ type
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
-    PrincToolBar_PDVModuloBasForm: TToolBar;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
@@ -89,7 +88,7 @@ begin
   FAppPDVObj := AppPDVObjCreate;
 
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
-    pLogUsuario, PrincToolBar_PDVModuloBasForm);
+    pLogUsuario);
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
@@ -118,8 +117,6 @@ begin
             LogUsuario.NomeExib + ' - Caixa Aberto em ' +
             FormatDateTime('ddd dd/mm/yyyy hh:nn',
             FCaixaSessaoDM.CaixaSessao.AbertoEm);
-
-          FFrameAtivo := nil;
         end;
 
       cxAbertoPorOutroUsuario:

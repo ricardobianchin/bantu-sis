@@ -6,16 +6,12 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   inherited BasePanel: TPanel
     Top = 251
     ExplicitTop = 251
-  end
-  object PrincToolBar_PDVModuloBasForm: TToolBar [2]
-    Left = 0
-    Top = 30
-    Width = 620
-    Height = 29
-    Caption = 'PrincToolBar_PDVModuloBasForm'
-    List = True
-    ShowCaptions = True
-    TabOrder = 2
+    inherited StatusPanel1: TPanel
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
+      end
+    end
   end
   inherited PopupMenu1: TPopupMenu
     object N1: TMenuItem
