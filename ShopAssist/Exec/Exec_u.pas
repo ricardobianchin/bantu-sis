@@ -7,7 +7,7 @@ procedure Execute;
 implementation
 
 uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u,
-  Log_u;
+  Log_u, Vcl.Dialogs;
 
 procedure Execute;
 var
@@ -15,6 +15,7 @@ var
   iQtdPausa: integer;
   iEsperaAtual: integer;
 begin
+  //ShowMessage('Assist iniciou');
   CarregarConfigs;
   InicieLog;
   DBServDM := DBServDMCreate;
@@ -25,7 +26,7 @@ begin
       ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
       if bPrecisaTerminar then
         break;
-      break;
+      //break;
       for iEsperaAtual := 1 to 15 do
       begin
         bPrecisaTerminar := GetPrecisaTerminar;
@@ -39,6 +40,7 @@ begin
     FreeAndNil(DBServDM);
     ApaguePrecisaTerminar;
     EscrevaLog('Terminado');
+    //ShowMessage('Assist Terminou');
   end;
 end;
 

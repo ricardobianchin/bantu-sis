@@ -20,6 +20,7 @@ type
     function GetAppInfoCreate: IAppInfo; override;
     procedure PreenchaAtividade; override;
     procedure PreenchaDBUpdaterVariaveis; override;
+    procedure AssistAbrir; override;
 
   public
     { Public declarations }
@@ -35,9 +36,21 @@ implementation
 
 uses App.Factory, ShopApp.Constants, Sis.DB.Factory, App.AppInfo.Types,
   ShopApp.UI.Sessoes.Frame_u, Sis.DB.DBTypes, App.DB.Utils, Sis.Sis.Constants,
-  Sis.Threads.Factory_u;
+  Sis.Threads.Factory_u, Sis.Win.Utils_u;
 
 { TShopPrincForm }
+
+procedure TShopPrincForm.AssistAbrir;
+var
+  sPasta, sParams, sNomeArq, sErro: string;
+begin
+  inherited;
+  sPasta := AppObj.AppInfo.PastaBin;
+  sParams := '';
+  sNomeArq := sPasta + 'ShopAssist.exe';
+
+  ExecutePrograma(sNomeArq, sParams, sPasta, sErro);
+end;
 
 constructor TShopPrincForm.Create(AOwner: TComponent);
 begin

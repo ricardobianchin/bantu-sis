@@ -17,10 +17,7 @@ procedure InicializePrecisaTerminar;
 
 implementation
 
-uses System.SysUtils;
-
-const
-  NOME_ARQ_TERMINAR = 'Assist_precisa_fechar.txt';
+uses System.SysUtils, App.Constants;
 
 var
   sNomeArq: string;
@@ -37,7 +34,7 @@ end;
 
 procedure InicializePrecisaTerminar;
 begin
-  sNomeArq := sPastaBin + NOME_ARQ_TERMINAR;
+  sNomeArq := sPastaBin + ASSIST_NOME_ARQ_TERMINAR;
 end;
 
 end.

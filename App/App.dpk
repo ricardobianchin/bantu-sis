@@ -352,6 +352,7 @@ contains
   App.Est.Venda.Caixa.CxValorList in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValorList.pas',
   App.Est.Venda.Caixa.CxValorList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValorList_u.pas',
   App.Est.Venda.Caixa.CxNumerarioList in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList.pas',
-  App.Est.Venda.Caixa.CxNumerarioList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList_u.pas';
+  App.Est.Venda.Caixa.CxNumerarioList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList_u.pas',
+  App.Sis.Assist_u in 'Sis\Assist\App.Sis.Assist_u.pas';
 
 end.

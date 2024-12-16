@@ -56,6 +56,7 @@ type
     procedure CarregarMachineId;
     procedure CarregarLoja;
 
+    procedure AssistPedirPraFechar;
   protected
     procedure DBUpdaterVariaveisPegar(pChave, pValor: string);
 
@@ -80,6 +81,7 @@ type
     procedure PreenchaDBUpdaterVariaveis; virtual;
 
     procedure AjusteControles; override;
+    procedure AssistAbrir; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -97,9 +99,10 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Usuario.Factory,
-  App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory,
+  App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
-  App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types;
+  App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
+  App.Constants;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -112,6 +115,25 @@ begin
   finally
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.AssistAbrir;
+var
+  sNomeArq: string;
+begin
+  sNomeArq := AppObj.AppInfo.PastaBin + ASSIST_NOME_ARQ_TERMINAR;
+  DeleteFile(sNomeArq);
+end;
+
+procedure TPrincBasForm.AssistPedirPraFechar;
+var
+  sMens: string;
+  sNomeArq: string;
+begin
+  sMens := 'Arquivo criado automaticamente para fehcar o Assist.'#13#10'O conteudo deste arquivo é irrelevante.';
+  sNomeArq := AppObj.AppInfo.PastaBin + ASSIST_NOME_ARQ_TERMINAR;
+
+  EscreverArquivo(sMens, sNomeArq);
 end;
 
 function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
@@ -130,7 +152,7 @@ begin
     if not Result then
     begin
       sLog := 'AppTestesConfig.App.ExecsAtu=N, abortando';
-      Exit;
+      exit;
     end;
 
     oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
@@ -276,7 +298,7 @@ begin
       FProcessLog.RegistreLog
         ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
       Application.Terminate;
-      Exit;
+      exit;
     end;
     GarantaDB;
 
@@ -313,12 +335,13 @@ end;
 
 destructor TPrincBasForm.Destroy;
 begin
-//  FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
+  // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
   try
-    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput, FProcessLog);
+    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
+      FProcessLog);
     inherited;
   finally
-//    FProcessLog.RetorneLocal;
+    // FProcessLog.RetorneLocal;
   end;
 end;
 
@@ -345,7 +368,7 @@ begin
       FProcessLog.RegistreLog
         ('GarantirConfig retornou false, Application.Terminate');
       Application.Terminate;
-      Exit;
+      exit;
     end;
 
     oSisConfig := FAppObj.SisConfig;
@@ -357,7 +380,7 @@ begin
       FProcessLog.RegistreLog
         ('GarantirDB retornou false, Application.Terminate');
       Application.Terminate;
-      Exit;
+      exit;
     end;
     oSisConfig := FAppObj.SisConfig;
     FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
@@ -425,8 +448,7 @@ end;
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  ExecEvento(TEventoDoSistema.eventosisPrincFormShow, FAppInfo, FStatusOutput, ProcessLog);
-
+  AssistAbrir;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;
