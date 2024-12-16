@@ -1,4 +1,4 @@
-unit App.Sessao.Eventos;
+unit App.EventosDoSistema;
 
 interface
 
