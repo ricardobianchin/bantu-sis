@@ -47,6 +47,7 @@ contains
   ShopApp.DB.Import.Form.PLUBase in 'Modulos\Config\DBImport\ShopApp.DB.Import.Form.PLUBase.pas' {ShopDBImportFormPLUBase},
   ShopApp.DBI_u in 'ShopAppObj\ShopApp.DBI_u.pas',
   AppShop.PDV.Preco.PrecoBusca.DBI_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas',
-  AppShop.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas';
+  AppShop.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas',
+  ShopApp.PDV.Venda in 'Modulos\PDV\Venda\ShopApp.PDV.Venda.pas';
 
 end.

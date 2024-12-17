@@ -1,0 +1,2 @@
+inherited VendaBasPDVFrame: TVendaBasPDVFrame
+end

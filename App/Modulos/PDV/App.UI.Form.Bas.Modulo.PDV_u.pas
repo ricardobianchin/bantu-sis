@@ -40,6 +40,7 @@ type
     property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
     function AppMenuFormCreate: TAppMenuForm; override;
     procedure DecidirFrameAtivo; virtual;
+    function VendaFrameCreate: TFrame; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;

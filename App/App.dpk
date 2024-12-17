@@ -318,7 +318,7 @@ contains
   App.PDV.AppPDVObj in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas',
   App.PDV.AppPDVObj_u in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas',
   App.UI.PDV.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.Frame_u.pas' {PDVFrame: TFrame},
-  App.UI.PDV.Aviso.Frame_u in 'Modulos\PDV\UI\App.UI.PDV.Aviso.Frame_u.pas' {AvisoPDVFrame: TFrame},
+  App.UI.PDV.Aviso.Frame_u in 'Modulos\PDV\UI\AvisoFrame\App.UI.PDV.Aviso.Frame_u.pas' {AvisoPDVFrame: TFrame},
   App.Est.Venda.CaixaSessao.DBI in 'Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI.pas',
   App.Est.Venda.CaixaSessao.DBI_u in 'Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI_u.pas',
   App.Est.Venda.CaixaSessaoDM_u in 'Est\Venda\Caixa\CaixaSessao\App.Est.Venda.CaixaSessaoDM_u.pas' {CaixaSessaoDM: TDataModule},
@@ -353,6 +353,12 @@ contains
   App.Est.Venda.Caixa.CxValorList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxValorList_u.pas',
   App.Est.Venda.Caixa.CxNumerarioList in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList.pas',
   App.Est.Venda.Caixa.CxNumerarioList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList_u.pas',
-  App.Sis.Assist_u in 'Sis\Assist\App.Sis.Assist_u.pas';
+  App.Sis.Assist_u in 'Sis\Assist\App.Sis.Assist_u.pas',
+  App.UI.PDV.VendaBasFrame_u in 'Modulos\PDV\UI\VendaFrame\App.UI.PDV.VendaBasFrame_u.pas' {VendaBasPDVFrame: TFrame},
+  App.UI.PDV.PagFrame_u in 'Modulos\PDV\UI\PagFrame\App.UI.PDV.PagFrame_u.pas' {PagPDVFrame: TFrame},
+  App.Est.MoviItem in 'Est\Mov\App.Est.MoviItem.pas',
+  App.Est.Mov in 'Est\Mov\App.Est.Mov.pas',
+  App.PDV.Controlador in 'Modulos\PDV\Controlador\App.PDV.Controlador.pas',
+  App.PDV.Venda in 'Modulos\PDV\Venda\App.PDV.Venda.pas';
 
 end.

@@ -19,6 +19,7 @@ type
     { Private declarations }
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
+    function VendaFrameCreate: TFrame; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -73,6 +74,11 @@ begin
   DBI := ShopPrecoBuscaDBICreate(ODBConnection, AppObj);
 
   App.PDV.Preco.PrecoBusca.Factory_u.BuscaPrecoPerg(DBI);
+end;
+
+function TShopPDVModuloForm.VendaFrameCreate: TFrame;
+begin
+
 end;
 
 end.
