@@ -14,6 +14,7 @@ type
   protected
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -24,5 +25,13 @@ implementation
 {$R *.dfm}
 
 { TPDVFrame }
+
+uses Sis.UI.Controls.Utils;
+
+constructor TPDVFrame.Create(AOwner: TComponent);
+begin
+  inherited;
+  ClearStyleElements(Self);
+end;
 
 end.
