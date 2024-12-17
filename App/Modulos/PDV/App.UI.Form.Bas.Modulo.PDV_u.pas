@@ -11,11 +11,11 @@ uses
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
-  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u,
+  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u,App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 type
-  TPDVModuloBasForm = class(TModuloBasForm)
+  TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
     N1: TMenuItem;
     ConsultaPreo1: TMenuItem;
     PDVActionList: TActionList;
@@ -41,6 +41,12 @@ type
     function AppMenuFormCreate: TAppMenuForm; override;
     procedure DecidirFrameAtivo; virtual;
     function VendaFrameCreate: TFrame; virtual; abstract;
+
+    procedure Iniciar; virtual;
+    procedure IrParaVenda; virtual;
+    procedure IrParaPag; virtual;
+    procedure IrParaFinaliza; virtual;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -118,6 +124,7 @@ begin
             LogUsuario.NomeExib + ' - Caixa Aberto em ' +
             FormatDateTime('ddd dd/mm/yyyy hh:nn',
             FCaixaSessaoDM.CaixaSessao.AbertoEm);
+          Iniciar;
         end;
 
       cxAbertoPorOutroUsuario:
@@ -139,6 +146,26 @@ end;
 function TPDVModuloBasForm.GetFramesParent: TWinControl;
 begin
   Result := Self;
+end;
+
+procedure TPDVModuloBasForm.Iniciar;
+begin
+
+end;
+
+procedure TPDVModuloBasForm.IrParaFinaliza;
+begin
+
+end;
+
+procedure TPDVModuloBasForm.IrParaPag;
+begin
+
+end;
+
+procedure TPDVModuloBasForm.IrParaVenda;
+begin
+
 end;
 
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TFrame);
