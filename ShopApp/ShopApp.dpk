@@ -48,6 +48,7 @@ contains
   ShopApp.DBI_u in 'ShopAppObj\ShopApp.DBI_u.pas',
   AppShop.PDV.Preco.PrecoBusca.DBI_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas',
   AppShop.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas',
-  ShopApp.PDV.Venda in 'Modulos\PDV\Venda\ShopApp.PDV.Venda.pas';
+  ShopApp.PDV.Venda in 'Modulos\PDV\Venda\ShopApp.PDV.Venda.pas',
+  ShopApp.UI.PDV.VendaFrame_u in 'UI\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas' {ShopVendaPDVFrame: TFrame};
 
 end.

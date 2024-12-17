@@ -160,6 +160,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas"/>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\ShopApp.PDV.Venda.pas"/>
+        <DCCReference Include="UI\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas">
+            <Form>ShopVendaPDVFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
