@@ -15,6 +15,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure Iniciar; virtual;
     procedure DimensioneControles; virtual;
 
     constructor Create(AOwner: TComponent); override;
@@ -60,6 +61,11 @@ procedure TPDVFrame.FrameResize(Sender: TObject);
 begin
   inherited;
   DimensioneControles;
+end;
+
+procedure TPDVFrame.Iniciar;
+begin
+
 end;
 
 end.
