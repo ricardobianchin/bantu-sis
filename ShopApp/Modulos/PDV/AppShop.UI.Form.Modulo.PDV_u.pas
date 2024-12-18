@@ -10,7 +10,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
   Sis.Usuario, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.AppObj, Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
-  App.UI.Form.Menu_u, System.UITypes;
+  App.UI.Form.Menu_u, System.UITypes, App.UI.PDV.VendaBasFrame_u;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -19,7 +19,7 @@ type
     { Private declarations }
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
-    function VendaFrameCreate: TFrame; override;
+    function VendaFrameCreate: TVendaBasPDVFrame; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -39,7 +39,7 @@ uses Sis.DBI, Sis.DB.Factory //
 
     , App.PDV.Preco.PrecoBusca.Factory_u //
     , AppShop.PDV.Preco.PrecoBusca.Factory_u //
-    ;
+    , ShopApp.UI.PDV.VendaFrame_u;
 
 function TShopPDVModuloForm.AppMenuFormCreate: TAppMenuForm;
 begin
@@ -76,9 +76,10 @@ begin
   App.PDV.Preco.PrecoBusca.Factory_u.BuscaPrecoPerg(DBI);
 end;
 
-function TShopPDVModuloForm.VendaFrameCreate: TFrame;
+function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-
+  Result := TShopVendaPDVFrame.Create(Self);
+  Result.Visible := False;
 end;
 
 end.
