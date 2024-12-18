@@ -5,12 +5,12 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   TextHeight = 15
   inherited TitleBarPanel: TPanel
     inherited TitleBarTextCaptionLabel: TLabel
-      Top = 7
+      Top = 4
       Width = 202
       Height = 21
       Font.Height = -16
       Font.Name = 'Segoe UI Black'
-      ExplicitTop = 7
+      ExplicitTop = 4
       ExplicitWidth = 202
       ExplicitHeight = 21
     end

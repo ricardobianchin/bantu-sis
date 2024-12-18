@@ -12,7 +12,7 @@ uses
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u,App.PDV.Controlador,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -23,11 +23,14 @@ type
     CaixaSessaoAbrirTentarAction: TAction;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FAppPDVObj: IAppPDVObj;
     FFrameAtivo: TFrame;
     FCaixaSessaoDM: TCaixaSessaoDM;
+    FVendaFrame: TVendaBasPDVFrame;
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TFrame;
@@ -40,7 +43,7 @@ type
     property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
     function AppMenuFormCreate: TAppMenuForm; override;
     procedure DecidirFrameAtivo; virtual;
-    function VendaFrameCreate: TFrame; virtual; abstract;
+    function VendaFrameCreate: TVendaBasPDVFrame; virtual; abstract;
 
     procedure Iniciar; virtual;
     procedure IrParaVenda; virtual;
@@ -99,6 +102,7 @@ begin
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
+  FVendaFrame := VendaFrameCreate;
 end;
 
 procedure TPDVModuloBasForm.DecidirFrameAtivo;
@@ -133,6 +137,23 @@ begin
   end;
 end;
 
+procedure TPDVModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if FVendaFrame.Visible then
+    FVendaFrame.ExecKeyDown(Sender, key, Shift)
+  else
+    inherited;
+end;
+
+procedure TPDVModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if FVendaFrame.Visible then
+    FVendaFrame.ExecKeyPress(Sender, key)
+  else
+    inherited;
+end;
+
 function TPDVModuloBasForm.GetFecharModuloAction: TAction;
 begin
   Result := FecharAction_ModuloBasForm;
@@ -150,7 +171,8 @@ end;
 
 procedure TPDVModuloBasForm.Iniciar;
 begin
-
+//  FVendaFrame.DimensioneControles;
+  FVendaFrame.Visible := True;
 end;
 
 procedure TPDVModuloBasForm.IrParaFinaliza;
