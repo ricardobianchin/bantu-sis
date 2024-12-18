@@ -21,6 +21,7 @@ var
   oExecScript: TExecScript;
   sComando: string;
   sLog: string;
+  bDeuErro: Boolean;
 begin
   EscrevaLog('EnvParaTerm;' + pTermDM.Terminal.TerminalId.ToString);
   if pPrecisaTerminar then
@@ -37,9 +38,21 @@ begin
   if pPrecisaTerminar then
     exit;
 
-  EscrevaLog('abrir conexoes');
-  DBServDM.Connection.Open;
-  pTermDM.Connection.Open;
+  try
+    EscrevaLog('abrir conexoes');
+    DBServDM.Connection.Open;
+    pTermDM.Connection.Open;
+    bDeuErro := False;
+  except
+    on E: exception do
+    begin
+      bDeuErro := True;
+      EscrevaLog('Erro ' + E.ClassName + ' ' + E.Message);
+    end;
+  end;
+
+  if bDeuErro then
+    exit;
 
   oExecScript := TExecScript.Create(pTermDM.Connection);
   try
@@ -56,28 +69,28 @@ begin
     begin
       iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
       sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
-        iAtualFIn.ToString+';EnvLoja';
+        iAtualFIn.ToString + ';EnvLoja';
       EnvLoja(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvTerminal';
+      sLog := sLog + ';EnvTerminal';
       EnvTerminal(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvPagamentoForma';
+      sLog := sLog + ';EnvPagamentoForma';
       EnvPagamentoForma(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvFuncionarioUsuario';
+      sLog := sLog + ';EnvFuncionarioUsuario';
       EnvFuncionarioUsuario(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvUsuarioPodeOpcaoSis';
+      sLog := sLog + ';EnvUsuarioPodeOpcaoSis';
       EnvUsuarioPodeOpcaoSis(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvProd';
+      sLog := sLog + ';EnvProd';
       EnvProd(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvProdCusto';
+      sLog := sLog + ';EnvProdCusto';
       EnvProdCusto(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog+';EnvProdPreco';
+      sLog := sLog + ';EnvProdPreco';
       EnvProdPreco(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
       sComando := 'EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
