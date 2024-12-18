@@ -173,6 +173,7 @@ procedure TPDVModuloBasForm.Iniciar;
 begin
 //  FVendaFrame.DimensioneControles;
   FVendaFrame.Visible := True;
+  FVendaFrame.Iniciar;
 end;
 
 procedure TPDVModuloBasForm.IrParaFinaliza;
