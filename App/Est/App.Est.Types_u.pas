@@ -36,13 +36,13 @@ procedure BalancaUsoStrToSL(pSL: TStrings);
 type
   TEstMovTipo = ( //
     emtipoNaoIndicado = 32 //
-    , emtipoCompra = 34 //
-    , emtipoVenda = 35 //
-    , emtipoInventario = 36 //
-    , emtipoDevolucaoDeVenda = 37 //
-    , emtipoDevolucaoDeCompra = 38 //
-    , emtipoSaida = 39 //
-    , emtipoSaidaEstorno = 40 //
+    , emtipoCompra = 33 //
+    , emtipoVenda = 34 //
+    , emtipoInventario = 35 //
+    , emtipoDevolucaoDeVenda = 36 //
+    , emtipoDevolucaoDeCompra = 37 //
+    , emtipoSaida = 38 //
+    , emtipoSaidaEstorno = 39 //
     );
 
 type
@@ -51,7 +51,6 @@ type
     function AsSqlConstant: string;
     procedure SetFromString(const AValue: string);
   end;
-
 
 implementation
 
@@ -96,13 +95,14 @@ function TEstMovTipoHelper.ToNome: string;
 begin
   case Self of
     emtipoCompra: Result := 'Compra';
-    emtipoVenda: Result := 'Venda';
+    emtipoVenda:  Result := 'Venda';
     emtipoInventario: Result := 'Inventário';
-    emtipoDevolucaoDeVenda: Result :=  'Devolução de Venda';
+    emtipoDevolucaoDeVenda: Result := 'Devolução de Venda';
     emtipoDevolucaoDeCompra: Result := 'Devolução de Compra';
     emtipoSaida: Result := 'Saída';
     emtipoSaidaEstorno: Result := 'Estorno de Saída';
-    else {emtipoNaoIndicado: }Result := 'Não indicado';
+  else { emtipoNaoIndicado: }
+    Result := 'Não indicado';
   end;
 end;
 
