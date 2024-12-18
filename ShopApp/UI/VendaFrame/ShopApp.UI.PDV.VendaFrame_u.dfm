@@ -25,9 +25,9 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       DesignSize = (
         513
         65)
-      object BuscaLabel: TLabel
+      object StrBuscaLabel: TLabel
         Left = 42
-        Top = 2
+        Top = 7
         Width = 467
         Height = 45
         Alignment = taRightJustify
@@ -36,12 +36,23 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       end
       object CaretShape: TShape
         Left = 490
-        Top = 47
+        Top = 52
         Width = 19
         Height = 5
+        Anchors = [akTop, akRight]
         Brush.Color = clBtnText
         Pen.Style = psClear
       end
+    end
+    object ListBox1: TListBox
+      Left = 288
+      Top = 0
+      Width = 225
+      Height = 153
+      TabStop = False
+      ItemHeight = 15
+      TabOrder = 1
+      OnEnter = ListBox1Enter
     end
   end
   object CaretTimer: TTimer

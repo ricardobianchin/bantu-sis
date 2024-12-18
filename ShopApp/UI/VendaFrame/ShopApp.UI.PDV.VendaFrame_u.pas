@@ -10,17 +10,28 @@ uses
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
     InputPanel: TPanel;
-    BuscaLabel: TLabel;
+    StrBuscaLabel: TLabel;
     CaretTimer: TTimer;
     CaretShape: TShape;
+    ListBox1: TListBox;
     procedure CaretTimerTimer(Sender: TObject);
+    procedure ListBox1Enter(Sender: TObject);
   private
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
+    FStrBusca: string;
     procedure DimensioneInput;
+    procedure StrBuscaPegueChar(pChar: Char);
+    procedure StrBuscaExec;
+    procedure StrBuscaMudou;
   public
     { Public declarations }
     procedure DimensioneControles; override;
+    procedure ExecKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState); override;
+    procedure ExecKeyPress(Sender: TObject; var Key: Char); override;
+    constructor Create(AOwner: TComponent); override;
+
   end;
 
 var
@@ -29,12 +40,21 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.Types.strings_u;
+
 { TShopVendaPDVFrame }
 
 procedure TShopVendaPDVFrame.CaretTimerTimer(Sender: TObject);
 begin
   inherited;
   CaretShape.Visible := not CaretShape.Visible;
+end;
+
+constructor TShopVendaPDVFrame.Create(AOwner: TComponent);
+begin
+  inherited;
+  FStrBusca := '';
 end;
 
 procedure TShopVendaPDVFrame.DimensioneControles;
@@ -78,6 +98,60 @@ begin
   InputPanel.Font.Color := Rgb(248, 237, 228);
 
   CaretShape.Brush.Color := InputPanel.Font.Color;
+end;
+
+procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+
+end;
+
+procedure TShopVendaPDVFrame.ExecKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  StrBuscaPegueChar(Key);
+end;
+
+procedure TShopVendaPDVFrame.ListBox1Enter(Sender: TObject);
+begin
+  inherited;
+  InputPanel.SetFocus;
+end;
+
+procedure TShopVendaPDVFrame.StrBuscaExec;
+begin
+  ListBox1.Items.Add(FStrBusca);
+  FStrBusca := '';
+  StrBuscaMudou;
+end;
+
+procedure TShopVendaPDVFrame.StrBuscaMudou;
+begin
+  if FStrBusca = '' then
+    StrBuscaLabel.Caption := 'Quantidade * Código / Código'
+  else
+    StrBuscaLabel.Caption := FStrBusca;
+end;
+
+procedure TShopVendaPDVFrame.StrBuscaPegueChar(pChar: Char);
+begin
+  try
+    if pChar = #8 then
+    begin
+      StrDeleteNoFim(FStrBusca, 1);
+      exit;
+    end
+    else if pChar = #13 then
+    begin
+      StrBuscaExec;
+      exit;
+    end;
+    CharSemAcento(pChar);
+    FStrBusca := FStrBusca + pChar;
+  finally
+    StrBuscaMudou;
+  end;
 end;
 
 end.
