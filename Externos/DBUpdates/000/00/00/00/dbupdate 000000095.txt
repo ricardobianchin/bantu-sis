@@ -1,0 +1,254 @@
+EST_MOV_MANUT_PA
+
+
+
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=ESTOQUE
+DBATUALIZ_OBJETIVO=CRIAR EST_MOV_MANUT_PA
+//DBATUALIZ_PONTO_ALVO=TERMINAL
+DBATUALIZ_OBS=
+
+
+
+
+/////////////////////////
+//
+// PACKAGE EST_MOV_MANUT_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=EST_MOV_MANUT_PA
+/*
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_MOV_MANUT_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_MOV_MANUT_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_MOV_MANUT_PA.sql";
+
+
+*/
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE EST_MOV_MANUT_PA
+AS
+BEGIN
+  PROCEDURE EST_MOV_INS
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT 
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP
+    , ALTERADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  RETURNS
+  (
+    EST_MOV_ID_RET BIGINT
+  );
+  
+  PROCEDURE EST_MOV_ITEM_ORDEM_PROXIMO_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , TERMINAL_ID ID_SHORT_DOM NOT NULL
+    , EST_MOV_ID BIGINT NOT NULL
+    , EST_MOV_ITEM_ORDEM SMALLINT
+  )
+  RETURNS
+  (
+    EST_MOV_ITEM_ORDEM_RET SMALLINT
+  );  
+  
+  PROCEDURE EST_MOV_ITEM_INS
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , EST_MOV_ITEM_ORDEM SMALLINT
+    , PROD_ID ID_DOM Not Null
+    , QTD QTD_DOM Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP
+    , ALTERADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  RETURNS
+  (
+    EST_MOV_ID_RET BIGINT
+    , EST_MOV_ITEM_ORDEM_RET SMALLINT
+  );  
+END^
+
+RECREATE PACKAGE BODY EST_MOV_MANUT_PA
+AS
+BEGIN
+  PROCEDURE EST_MOV_INS
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT 
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP
+    , ALTERADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  RETURNS
+  (
+    EST_MOV_ID_RET BIGINT
+  )
+  AS
+  BEGIN
+    :EST_MOV_ID_RET = COALESCE(EST_MOV_ID, 0);
+  
+    IF (:EST_MOV_ID = 0) THEN
+    BEGIN
+      :EST_MOV_ID = NEXT VALUE FOR EST_MOV_SEQ;
+      
+      IF (:CRIADO_EM IS NULL) THEN
+      BEGIN
+        :CRIADO_EM = 'NOW';
+      END
+
+      INSERT INTO EST_MOV (
+        LOJA_ID,
+        TERMINAL_ID,
+        EST_MOV_ID,
+        EST_MOV_TIPO_ID,
+        CANCELADO,
+        CRIADO_EM,
+        ALTERADO_EM,
+        CANCELADO_EM
+      ) VALUES (
+        :LOJA_ID,
+        :TERMINAL_ID,
+        :EST_MOV_ID_RET,
+        :EST_MOV_TIPO_ID,
+        :CANCELADO,
+        :CRIADO_EM,
+        :ALTERADO_EM,
+        :CANCELADO_EM
+      );
+    END
+
+    SUSPEND;
+  END
+  
+  PROCEDURE EST_MOV_ITEM_ORDEM_PROXIMO_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , TERMINAL_ID ID_SHORT_DOM NOT NULL
+    , EST_MOV_ID BIGINT NOT NULL
+    , EST_MOV_ITEM_ORDEM SMALLINT
+  )
+  RETURNS
+  (
+    EST_MOV_ITEM_ORDEM_RET SMALLINT
+  )
+  AS
+  BEGIN
+    :EST_MOV_ITEM_ORDEM_RET = COALESCE(:EST_MOV_ITEM_ORDEM, 0);
+    IF (:EST_MOV_ITEM_ORDEM_RET = 0) THEN
+    BEGIN
+      SELECT COALESCE(MAX(EST_MOV_ITEM_ORDEM), -1) + 1 
+      FROM EST_MOV_ITEM
+      WHERE LOJA_ID = :LOJA_ID
+      AND TERMINAL_ID = :TERMINAL_ID
+      AND EST_MOV_ID = :EST_MOV_ID
+      INTO :EST_MOV_ITEM_ORDEM_RET;
+    END
+    SUSPEND;
+  END  
+  
+  PROCEDURE EST_MOV_ITEM_INS
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , EST_MOV_ITEM_ORDEM SMALLINT
+    , PROD_ID ID_DOM Not Null
+    , QTD QTD_DOM Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP
+    , ALTERADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  RETURNS
+  (
+    EST_MOV_ID_RET BIGINT
+    , EST_MOV_ITEM_ORDEM_RET SMALLINT
+  )
+  AS
+  BEGIN
+    :EST_MOV_ID_RET = COALESCE(EST_MOV_ID, 0);
+    IF (:EST_MOV_ID = 0) THEN
+    BEGIN
+      SELECT EST_MOV_ID_RET FROM EST_MOV_INS
+      (
+        :LOJA_ID
+        , :TERMINAL_ID
+        , :EST_MOV_ID_RET
+        , :EST_MOV_TIPO_ID
+        , FALSE -- CANCELADO
+        , NULL
+        , NULL
+        , NULL
+      )
+      INTO :EST_MOV_ID_RET;
+    END  
+  
+    SELECT EST_MOV_ITEM_ORDEM_RET
+    FROM EST_MOV_ITEM_ORDEM_PROXIMO_GET
+    (:LOJA_ID, :TERMINAL_ID, :EST_MOV_ID, :EST_MOV_ITEM_ORDEM)
+    INTO :EST_MOV_ITEM_ORDEM_RET;
+    
+    IF (:CRIADO_EM IS NULL) THEN
+    BEGIN
+      :CRIADO_EM = 'NOW';
+    END
+
+    INSERT INTO EST_MOV_ITEM
+    (
+      LOJA_ID 
+      , TERMINAL_ID 
+      , EST_MOV_ID 
+      , EST_MOV_ITEM_ORDEM 
+      , PROD_ID 
+      , QTD 
+      , CANCELADO 
+      , CRIADO_EM 
+      , ALTERADO_EM 
+      , CANCELADO_EM 
+    )
+    VALUES
+    (
+      :LOJA_ID 
+      , :TERMINAL_ID 
+      , :EST_MOV_ID 
+      , :EST_MOV_ITEM_ORDEM_RET 
+      , :PROD_ID 
+      , :QTD 
+      , :CANCELADO 
+      , :CRIADO_EM 
+      , :ALTERADO_EM 
+      , :CANCELADO_EM 
+    );
+    
+    SUSPEND;    
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM
