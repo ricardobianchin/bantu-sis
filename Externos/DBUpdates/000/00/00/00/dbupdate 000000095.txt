@@ -45,6 +45,7 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT 
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
     , CANCELADO BOOLEAN Not Null
     , CRIADO_EM TIMESTAMP
     , ALTERADO_EM TIMESTAMP
@@ -73,6 +74,7 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
     , EST_MOV_ITEM_ORDEM SMALLINT
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
@@ -97,6 +99,7 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT 
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
     , CANCELADO BOOLEAN Not Null
     , CRIADO_EM TIMESTAMP
     , ALTERADO_EM TIMESTAMP
@@ -119,11 +122,17 @@ BEGIN
         :CRIADO_EM = 'NOW';
       END
 
+      IF (:DTH_DOC IS NULL) THEN
+      BEGIN
+        :DTH_DOC = :CRIADO_EM;
+      END
+
       INSERT INTO EST_MOV (
         LOJA_ID,
         TERMINAL_ID,
         EST_MOV_ID,
         EST_MOV_TIPO_ID,
+        DTH_DOC,
         CANCELADO,
         CRIADO_EM,
         ALTERADO_EM,
@@ -133,6 +142,7 @@ BEGIN
         :TERMINAL_ID,
         :EST_MOV_ID_RET,
         :EST_MOV_TIPO_ID,
+        :DTH_DOC,
         :CANCELADO,
         :CRIADO_EM,
         :ALTERADO_EM,
@@ -175,6 +185,7 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
     , EST_MOV_ITEM_ORDEM SMALLINT
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
@@ -199,10 +210,11 @@ BEGIN
         , :TERMINAL_ID
         , :EST_MOV_ID_RET
         , :EST_MOV_TIPO_ID
+        , :EST_MOV_DTH_DOC
         , FALSE -- CANCELADO
-        , NULL
-        , NULL
-        , NULL
+        , NULL -- CRIADO_EM
+        , NULL -- ALTERADO_EM
+        , NULL -- CANCELADO_EM
       )
       INTO :EST_MOV_ID_RET;
     END  
@@ -243,7 +255,6 @@ BEGIN
       , :ALTERADO_EM 
       , :CANCELADO_EM 
     );
-    
     SUSPEND;    
   END
 END^
