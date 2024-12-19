@@ -443,6 +443,10 @@ begin
   sVarNome := 'ATIVIDADE_ECONOMICA_NAME';
   sVarValor := AtividadeEconomicaSisName[eAtiv];
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
+
+  sVarNome := 'DATA_ZERADA';
+  sVarValor := QuotedStr('1.1.1900');
+  DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 end;
 
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
