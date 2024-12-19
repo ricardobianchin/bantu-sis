@@ -2,6 +2,63 @@ EST_MOV_MANUT_PA
 
 
 
+SELECT EST_MOV_ID_RET FROM EST_MOV_MANUT_PA.EST_MOV_INS
+  (
+    1 -- LOJA_ID ID_SHORT_DOM Not Null
+    , 1 -- TERMINAL_ID ID_SHORT_DOM Not Null
+    , NULL -- EST_MOV_ID BIGINT 
+    , '"' -- EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , NULL -- DTH_DOC TIMESTAMP
+  );
+
+SELECT * FROM EST_MOV;
+
+ROLLBACK;
+
+
+
+
+SELECT EST_MOV_ID_RET, EST_MOV_ITEM_ORDEM_RET FROM EST_MOV_MANUT_PA.EST_MOV_ITEM_INS
+  (
+    1 -- LOJA_ID ID_SHORT_DOM Not Null
+    , 1 -- TERMINAL_ID ID_SHORT_DOM Not Null
+    , NULL -- EST_MOV_ID BIGINT
+    , '"' -- EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , NULL -- EST_MOV_DTH_DOC TIMESTAMP
+    , NULL -- EST_MOV_ITEM_ORDEM SMALLINT
+    , 2 -- PROD_ID ID_DOM Not Null
+    , 7 -- QTD QTD_DOM Not Null
+  );
+
+
+
+SELECT EST_MOV_ID_RET, EST_MOV_ITEM_ORDEM_RET FROM EST_MOV_MANUT_PA.EST_MOV_ITEM_INS
+  (
+    1 -- LOJA_ID ID_SHORT_DOM Not Null
+    , 1 -- TERMINAL_ID ID_SHORT_DOM Not Null
+    , 7 -- EST_MOV_ID BIGINT
+    , '"' -- EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , NULL -- EST_MOV_DTH_DOC TIMESTAMP
+    , NULL -- EST_MOV_ITEM_ORDEM SMALLINT
+    , 2 -- PROD_ID ID_DOM Not Null
+    , 7 -- QTD QTD_DOM Not Null
+  );
+
+
+
+
+SELECT * FROM EST_MOV;
+
+
+
+SELECT * FROM EST_MOV_ITEM;
+
+
+
+ROLLBACK;
+
+
+
 
 -----------------------------
 INICIO
@@ -46,12 +103,6 @@ BEGIN
     , EST_MOV_ID BIGINT 
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
     , DTH_DOC TIMESTAMP
-    , FINALIZADO BOOLEAN Not Null
-    , CANCELADO BOOLEAN Not Null
-    , CRIADO_EM TIMESTAMP
-    , ALTERADO_EM TIMESTAMP
-    , FINALIZADO_EM TIMESTAMP
-    , CANCELADO_EM TIMESTAMP
   )
   RETURNS
   (
@@ -80,10 +131,6 @@ BEGIN
     , EST_MOV_ITEM_ORDEM SMALLINT
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
-    , CANCELADO BOOLEAN Not Null
-    , CRIADO_EM TIMESTAMP
-    , ALTERADO_EM TIMESTAMP
-    , CANCELADO_EM TIMESTAMP
   )
   RETURNS
   (
@@ -102,59 +149,36 @@ BEGIN
     , EST_MOV_ID BIGINT 
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
     , DTH_DOC TIMESTAMP
-    , FINALIZADO BOOLEAN Not Null
-    , CANCELADO BOOLEAN Not Null
-    , CRIADO_EM TIMESTAMP
-    , ALTERADO_EM TIMESTAMP
-    , FINALIZADO_EM TIMESTAMP
-    , CANCELADO_EM TIMESTAMP
   )
   RETURNS
   (
     EST_MOV_ID_RET BIGINT
   )
   AS
+    DECLARE CRIADO_EM TIMESTAMP;
   BEGIN
     :EST_MOV_ID_RET = COALESCE(EST_MOV_ID, 0);
   
-    IF (:EST_MOV_ID = 0) THEN
+    IF (:EST_MOV_ID_RET = 0) THEN
     BEGIN
-      :EST_MOV_ID = NEXT VALUE FOR EST_MOV_SEQ;
+      :EST_MOV_ID_RET = NEXT VALUE FOR EST_MOV_SEQ;
       
-      IF (:CRIADO_EM IS NULL) THEN
-      BEGIN
-        :CRIADO_EM = 'NOW';
-      END
-
-      IF (:DTH_DOC IS NULL) THEN
-      BEGIN
-        :DTH_DOC = :CRIADO_EM;
-      END
+      :CRIADO_EM = 'NOW';
 
       INSERT INTO EST_MOV (
-        LOJA_ID,
-        TERMINAL_ID,
-        EST_MOV_ID,
-        EST_MOV_TIPO_ID,
-        DTH_DOC,
-        FINALIZADO,
-        CANCELADO,
-        CRIADO_EM,
-        ALTERADO_EM,
-        FINALIZADO_EM,
-        CANCELADO_EM
+        LOJA_ID
+        , TERMINAL_ID
+        , EST_MOV_ID
+        , EST_MOV_TIPO_ID
+        , DTH_DOC
+        , CRIADO_EM
       ) VALUES (
-        :LOJA_ID,
-        :TERMINAL_ID,
-        :EST_MOV_ID,
-        :EST_MOV_TIPO_ID,
-        :DTH_DOC,
-        :FINALIZADO,
-        :CANCELADO,
-        :CRIADO_EM,
-        :ALTERADO_EM,
-        :FINALIZADO_EM,
-        :CANCELADO_EM
+        :LOJA_ID
+        , :TERMINAL_ID
+        , :EST_MOV_ID_RET
+        , :EST_MOV_TIPO_ID
+        , :CRIADO_EM
+        , :CRIADO_EM
       );
     END
 
@@ -197,10 +221,6 @@ BEGIN
     , EST_MOV_ITEM_ORDEM SMALLINT
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
-    , CANCELADO BOOLEAN Not Null
-    , CRIADO_EM TIMESTAMP
-    , ALTERADO_EM TIMESTAMP
-    , CANCELADO_EM TIMESTAMP
   )
   RETURNS
   (
@@ -208,9 +228,10 @@ BEGIN
     , EST_MOV_ITEM_ORDEM_RET SMALLINT
   )
   AS
+    DECLARE CRIADO_EM TIMESTAMP;
   BEGIN
     :EST_MOV_ID_RET = COALESCE(EST_MOV_ID, 0);
-    IF (:EST_MOV_ID = 0) THEN
+    IF (:EST_MOV_ID_RET = 0) THEN
     BEGIN
       SELECT EST_MOV_ID_RET FROM EST_MOV_INS
       (
@@ -219,25 +240,16 @@ BEGIN
         , :EST_MOV_ID_RET
         , :EST_MOV_TIPO_ID
         , :EST_MOV_DTH_DOC
-        , FALSE -- FINALIZADO
-        , FALSE -- CANCELADO
-        , NULL -- CRIADO_EM
-        , NULL -- ALTERADO_EM
-        , NULL -- FINALIZADO_EM
-        , NULL -- CANCELADO_EM
       )
       INTO :EST_MOV_ID_RET;
     END  
   
     SELECT EST_MOV_ITEM_ORDEM_RET
     FROM EST_MOV_ITEM_ORDEM_PROXIMO_GET
-    (:LOJA_ID, :TERMINAL_ID, :EST_MOV_ID, :EST_MOV_ITEM_ORDEM)
+    (:LOJA_ID, :TERMINAL_ID, :EST_MOV_ID_RET, :EST_MOV_ITEM_ORDEM)
     INTO :EST_MOV_ITEM_ORDEM_RET;
     
-    IF (:CRIADO_EM IS NULL) THEN
-    BEGIN
-      :CRIADO_EM = 'NOW';
-    END
+    :CRIADO_EM = 'NOW';
 
     INSERT INTO EST_MOV_ITEM
     (
@@ -247,23 +259,17 @@ BEGIN
       , EST_MOV_ITEM_ORDEM 
       , PROD_ID 
       , QTD 
-      , CANCELADO 
       , CRIADO_EM 
-      , ALTERADO_EM 
-      , CANCELADO_EM 
     )
     VALUES
     (
       :LOJA_ID 
       , :TERMINAL_ID 
-      , :EST_MOV_ID 
+      , :EST_MOV_ID_RET
       , :EST_MOV_ITEM_ORDEM_RET 
       , :PROD_ID 
       , :QTD 
-      , :CANCELADO 
       , :CRIADO_EM 
-      , :ALTERADO_EM 
-      , :CANCELADO_EM 
     );
     SUSPEND;    
   END

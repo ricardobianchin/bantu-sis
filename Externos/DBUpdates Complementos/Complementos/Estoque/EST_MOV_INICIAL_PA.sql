@@ -1,3 +1,8 @@
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000094.txt
+
+*/
+
 SET TERM ^;
 CREATE OR ALTER PACKAGE EST_MOV_INICIAL_PA
 AS
