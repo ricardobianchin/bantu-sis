@@ -15,32 +15,39 @@ var
   iQtdPausa: integer;
   iEsperaAtual: integer;
 begin
-  //ShowMessage('Assist iniciou');
-  CarregarConfigs;
-  InicieLog;
-  DBServDM := DBServDMCreate;
-  CrieListaDeTerminais;
-  bPrecisaTerminar := False;
+  // ShowMessage('Assist iniciou');
   try
-    repeat
-      ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
-      if bPrecisaTerminar then
-        break;
-      //break;
-      for iEsperaAtual := 1 to 15 do
-      begin
-        bPrecisaTerminar := GetPrecisaTerminar;
+    CarregarConfigs;
+    InicieLog;
+    DBServDM := DBServDMCreate;
+    CrieListaDeTerminais;
+    bPrecisaTerminar := False;
+    try
+      repeat
+        ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
         if bPrecisaTerminar then
           break;
-        sleep(1000);
-      end;
-    until False;
-  finally
-    LibereListaDeTerminais;
-    FreeAndNil(DBServDM);
-    ApaguePrecisaTerminar;
-    EscrevaLog('Terminado');
-    //ShowMessage('Assist Terminou');
+        // break;
+        for iEsperaAtual := 1 to 15 do
+        begin
+          bPrecisaTerminar := GetPrecisaTerminar;
+          if bPrecisaTerminar then
+            break;
+          sleep(1000);
+        end;
+      until False;
+    finally
+      LibereListaDeTerminais;
+      FreeAndNil(DBServDM);
+      ApaguePrecisaTerminar;
+      EscrevaLog('Terminado');
+      // ShowMessage('Assist Terminou');
+    end;
+  except
+    on e: exception do
+    begin
+      EscrevaLog('Exec_u.Execute;'+ e.ClassName + ' ' + e.Message);
+    end;
   end;
 end;
 

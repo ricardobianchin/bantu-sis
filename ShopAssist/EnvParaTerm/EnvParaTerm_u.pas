@@ -53,64 +53,69 @@ begin
 
   if bDeuErro then
     exit;
+  TRY
+    oExecScript := TExecScript.Create(pTermDM.Connection);
+    try
+      PegarFaixa(pTermDM, FLogIdIni, FLogIdFin);
+      EscrevaLog('PegarFaixa;FLogIdIni=' + FLogIdIni.ToString + ';FLogIdFin=' +
+        FLogIdFin.ToString);
 
-  oExecScript := TExecScript.Create(pTermDM.Connection);
-  try
-    PegarFaixa(pTermDM, FLogIdIni, FLogIdFin);
-    EscrevaLog('PegarFaixa;FLogIdIni=' + FLogIdIni.ToString + ';FLogIdFin=' +
-      FLogIdFin.ToString);
+      if FLogIdIni = FLogIdFin then
+        exit;
 
-    if FLogIdIni = FLogIdFin then
-      exit;
+      iAtualIni := FLogIdIni;
 
-    iAtualIni := FLogIdIni;
+      while iAtualIni <= FLogIdFin do
+      begin
+        iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
+        sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
+          iAtualFIn.ToString + ';EnvLoja';
+        EnvLoja(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-    while iAtualIni <= FLogIdFin do
-    begin
-      iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
-      sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
-        iAtualFIn.ToString + ';EnvLoja';
-      EnvLoja(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvTerminal';
+        EnvTerminal(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvTerminal';
-      EnvTerminal(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvPagamentoForma';
+        EnvPagamentoForma(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvPagamentoForma';
-      EnvPagamentoForma(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvFuncionarioUsuario';
+        EnvFuncionarioUsuario(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvFuncionarioUsuario';
-      EnvFuncionarioUsuario(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvUsuarioPodeOpcaoSis';
+        EnvUsuarioPodeOpcaoSis(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvUsuarioPodeOpcaoSis';
-      EnvUsuarioPodeOpcaoSis(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvProd';
+        EnvProd(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvProd';
-      EnvProd(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvProdCusto';
+        EnvProdCusto(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvProdCusto';
-      EnvProdCusto(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sLog := sLog + ';EnvProdPreco';
+        EnvProdPreco(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-      sLog := sLog + ';EnvProdPreco';
-      EnvProdPreco(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+        sComando := 'EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
+          FLogIdFin.ToString + ');';
 
-      sComando := 'EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
-        FLogIdFin.ToString + ');';
+        oExecScript.PegueComando(sComando);
 
-      oExecScript.PegueComando(sComando);
-
-      sLog := sLog + ';Vai Executar';
-      oExecScript.Execute;
-      EscrevaLog(sLog);
-      Inc(iAtualIni, TERMINAL_SYNC_PASSO);
+        sLog := sLog + ';Vai Executar';
+        oExecScript.Execute;
+        EscrevaLog(sLog);
+        Inc(iAtualIni, TERMINAL_SYNC_PASSO);
+      end;
+    finally
+      FreeAndNil(oExecScript);
+      EscrevaLog('fechar conexoes');
+      DBServDM.Connection.Close;
+      pTermDM.Connection.Close;
+      EscrevaLog('EnvParaTerm;Fim');
     end;
-  finally
-    FreeAndNil(oExecScript);
-    EscrevaLog('fechar conexoes');
-    DBServDM.Connection.Close;
-    pTermDM.Connection.Close;
-    EscrevaLog('EnvParaTerm;Fim');
+  except
+    on E: exception do
+    begin
+      EscrevaLog('EnvParaTerm_u.EnvParaTerm;'+ e.ClassName + ' ' + e.Message);
+    end;
   end;
-
   pPrecisaTerminar := GetPrecisaTerminar;
 end;
 
