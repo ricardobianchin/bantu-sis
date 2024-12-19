@@ -8,10 +8,12 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT 
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
-    , EST_MOV_TIPO_ORDEM ID_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
+    , FINALIZADO BOOLEAN Not Null
     , CANCELADO BOOLEAN Not Null
     , CRIADO_EM TIMESTAMP
     , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
     , CANCELADO_EM TIMESTAMP
   )
   RETURNS
@@ -37,15 +39,10 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
-    , EST_MOV_TIPO_ORDEM ID_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
     , EST_MOV_ITEM_ORDEM SMALLINT
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
-    , PRECO_UNIT NUMERIC(12, 3) Not Null
-    , DESCONTO NUMERIC(12, 2) Not Null
-    , PRECO NUMERIC(12, 2) Not Null
-    , CUSTO_UNIT NUMERIC(12, 4) Not Null
-    , CUSTO NUMERIC(12, 2) Not Null
     , CANCELADO BOOLEAN Not Null
     , CRIADO_EM TIMESTAMP
     , ALTERADO_EM TIMESTAMP
@@ -67,10 +64,12 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT 
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
-    , EST_MOV_TIPO_ORDEM ID_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
+    , FINALIZADO BOOLEAN Not Null
     , CANCELADO BOOLEAN Not Null
     , CRIADO_EM TIMESTAMP
     , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
     , CANCELADO_EM TIMESTAMP
   )
   RETURNS
@@ -90,26 +89,35 @@ BEGIN
         :CRIADO_EM = 'NOW';
       END
 
+      IF (:DTH_DOC IS NULL) THEN
+      BEGIN
+        :DTH_DOC = :CRIADO_EM;
+      END
+
       INSERT INTO EST_MOV (
         LOJA_ID,
         TERMINAL_ID,
         EST_MOV_ID,
         EST_MOV_TIPO_ID,
-        EST_MOV_TIPO_ORDEM,
+        DTH_DOC,
+        FINALIZADO,
         CANCELADO,
         CRIADO_EM,
         ALTERADO_EM,
+        FINALIZADO_EM,
         CANCELADO_EM
       ) VALUES (
-        :LOJA_ID,
-        :TERMINAL_ID,
-        :EST_MOV_ID_RET,
-        :EST_MOV_TIPO_ID,
-        :EST_MOV_TIPO_ORDEM,
-        :CANCELADO,
-        :CRIADO_EM,
-        :ALTERADO_EM,
-        :CANCELADO_EM
+        LOJA_ID,
+        , TERMINAL_ID,
+        , EST_MOV_ID,
+        , EST_MOV_TIPO_ID,
+        , DTH_DOC,
+        , FINALIZADO,
+        , CANCELADO,
+        , CRIADO_EM,
+        , ALTERADO_EM,
+        , FINALIZADO_EM,
+        , CANCELADO_EM
       );
     END
 
@@ -148,15 +156,10 @@ BEGIN
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT
     , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
-    , EST_MOV_TIPO_ORDEM ID_DOM Not Null
+    , EST_MOV_DTH_DOC TIMESTAMP
     , EST_MOV_ITEM_ORDEM SMALLINT
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
-    , PRECO_UNIT NUMERIC(12, 3) Not Null
-    , DESCONTO NUMERIC(12, 2) Not Null
-    , PRECO NUMERIC(12, 2) Not Null
-    , CUSTO_UNIT NUMERIC(12, 4) Not Null
-    , CUSTO NUMERIC(12, 2) Not Null
     , CANCELADO BOOLEAN Not Null
     , CRIADO_EM TIMESTAMP
     , ALTERADO_EM TIMESTAMP
@@ -178,11 +181,13 @@ BEGIN
         , :TERMINAL_ID
         , :EST_MOV_ID_RET
         , :EST_MOV_TIPO_ID
-        , :EST_MOV_TIPO_ORDEM
+        , :EST_MOV_DTH_DOC
+        , FALSE -- FINALIZADO
         , FALSE -- CANCELADO
-        , NULL
-        , NULL
-        , NULL
+        , NULL -- CRIADO_EM
+        , NULL -- ALTERADO_EM
+        , NULL -- FINALIZADO_EM
+        , NULL -- CANCELADO_EM
       )
       INTO :EST_MOV_ID_RET;
     END  
@@ -205,11 +210,6 @@ BEGIN
       , EST_MOV_ITEM_ORDEM 
       , PROD_ID 
       , QTD 
-      , PRECO_UNIT 
-      , DESCONTO 
-      , PRECO 
-      , CUSTO_UNIT 
-      , CUSTO 
       , CANCELADO 
       , CRIADO_EM 
       , ALTERADO_EM 
@@ -220,20 +220,14 @@ BEGIN
       :LOJA_ID 
       , :TERMINAL_ID 
       , :EST_MOV_ID 
-      , :EST_MOV_ITEM_ORDEM 
+      , :EST_MOV_ITEM_ORDEM_RET 
       , :PROD_ID 
       , :QTD 
-      , :PRECO_UNIT 
-      , :DESCONTO 
-      , :PRECO 
-      , :CUSTO_UNIT 
-      , :CUSTO 
       , :CANCELADO 
       , :CRIADO_EM 
       , :ALTERADO_EM 
       , :CANCELADO_EM 
     );
-    
     SUSPEND;    
   END
 END^
