@@ -6,7 +6,7 @@ uses System.Classes;
 
 procedure SLRemoveCommentsSingleLine(pSL: TStrings);
 procedure SLRemoveCommentsMultiLine(pSL: TStrings);
-procedure SLManterEntre(pSL: TStrings; pStrIni, pStrFin: string);
+procedure SLDeleteLinhasForaDe(pSL: TStrings; pStrIni, pStrFin: string);
 procedure SLRemoveVazias(pSL: TStrings);
 procedure SLUpperCase(pSL: TStrings);
 function SLGetAsString(pSL: TStrings; pSeparador: string): string;
@@ -88,7 +88,7 @@ begin
   end;
 end;
 
-procedure SLManterEntre(pSL: TStrings; pStrIni, pStrFin: string);
+procedure SLDeleteLinhasForaDe(pSL: TStrings; pStrIni, pStrFin: string);
 var
   i, j: integer;
   flag: boolean;

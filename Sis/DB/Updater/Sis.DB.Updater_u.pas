@@ -506,12 +506,24 @@ var
   bNoCSV: Boolean;
   sOriginal: string;
   sMaiusculas: string;
+  bDentroDeBloco: Boolean;
+  iPosBloco: integer;
 begin
   bNoCSV := False;
-
+  bDentroDeBloco := False;
   for i := 0 to pSL.Count - 1 do
   begin
-    sOriginal := Trim(pSL[i]);
+    sOriginal := pSL[i];
+
+    iPosBloco := Pos('```', sOriginal);
+    if iPosBloco > 0 then
+      bDentroDeBloco := not bDentroDeBloco;
+
+    if bDentroDeBloco then
+      continue;
+
+    sOriginal := Trim(sOriginal);
+
     sMaiusculas := AnsiUpperCase(sOriginal);
 
     if sMaiusculas = DBATUALIZ_CSV_INI_CHAVE then
@@ -1019,7 +1031,7 @@ begin
 
     SLRemoveCommentsSingleLine(pSL);
     SLRemoveCommentsMultiLine(pSL);
-    SLManterEntre(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
+    SLDeleteLinhasForaDe(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
 
     // SLUpperCase(FLinhasSL);
 

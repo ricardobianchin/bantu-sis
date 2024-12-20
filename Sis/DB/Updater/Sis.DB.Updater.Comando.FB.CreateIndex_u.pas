@@ -49,7 +49,7 @@ var
   bCamposOk: boolean;
   s1, s2: string;
 begin
-  Sleep(200);
+//  Sleep(200);
   Result := DBUpdaterOperations.GetIndexInfo(FsKeyName, sCampos);
 
   if not Result then
