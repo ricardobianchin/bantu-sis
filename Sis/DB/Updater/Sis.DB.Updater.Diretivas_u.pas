@@ -54,7 +54,7 @@ var
   Pilha: TStack<Integer>;
 begin
   sBuscaSE := '{SE ' + pVar + '=';
-  sOrigem := pLinhasSL.Text;
+  sOrigem := AnsiUpperCase(pLinhasSL.Text);
   sDestino := '';
   Pilha := TStack<Integer>.Create;
   try
@@ -155,7 +155,7 @@ begin
 
   oVariaveisSL := TStringList.Create;
   try
-    oVariaveisSL.Text := pVariaveis;
+    oVariaveisSL.Text := AnsiUpperCase(pVariaveis);
 
     for iVar := 0 to oVariaveisSL.Count - 1 do
     begin
