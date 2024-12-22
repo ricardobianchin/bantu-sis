@@ -445,7 +445,7 @@ begin
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
   sVarNome := 'DATA_ZERADA';
-  sVarValor := QuotedStr('1.1.1900');
+  sVarValor := QuotedStr(DATA_ZERADA_FIREBIRD_STR);
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 end;
 
