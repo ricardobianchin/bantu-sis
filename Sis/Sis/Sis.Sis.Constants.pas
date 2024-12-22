@@ -11,6 +11,10 @@ const
   SENHA_ZERADA_MENS = 'Senha zerada';
   SENHA_INCORRETA_MENS = 'Senha incorreta';
 
+  DATA_ZERADA_FIREBIRD_STR = '1.1.1900';
+  //DATA_ZERADA: TDateTime = 2; //EncodeDate(1900, 1, 1);
+  DATA_ZERADA = 2; //EncodeDate(1900, 1, 1);
+
   TERMINAL_ID_NAO_INDICADO = -1;
   TERMINAL_ID_RETAGUARDA = 0;
   USUARIO_SISTEMA_PESSOA_ID = -1;
