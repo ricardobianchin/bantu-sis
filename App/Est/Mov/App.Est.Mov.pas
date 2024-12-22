@@ -6,7 +6,7 @@ uses Sis.Entities.Types, App.Est.Types_u;
 
 type
   IEstMov = interface(IInterface)
-    ['{840A77FC-2634-402B-952B-BF384CFEA00F}']
+    ['{8FE1D118-7395-4E42-89C6-B5A1581ACCDF}']
     function GetLojaId: TLojaId;
     property LojaId: TLojaId read GetLojaId;
 
@@ -20,15 +20,33 @@ type
     function GetEstMovTipo: TEstMovTipo;
     property EstMovTipo: TEstMovTipo read GetEstMovTipo;
 
-    function GetTipoOrdem: integer;
-    procedure SetTipoOrdem(Value: integer);
-    property TipoOrdem: integer read GetTipoOrdem write SetTipoOrdem;
+    function GetDtHDoc: TDateTime;
+    procedure SetDtHDoc(Value: TDateTime);
+    property DtHDoc: TDateTime read GetDtHDoc write SetDtHDoc;
+
+    function GetFinalizado: Boolean;
+    procedure SetFinalizado(Value: Boolean);
+    property Finalizado: Boolean read GetFinalizado write SetFinalizado;
+
+    function GetCancelado: Boolean;
+    procedure SetCancelado(Value: Boolean);
+    property Cancelado: Boolean read GetCancelado write SetCancelado;
 
     function GetCriadoEm: TDateTime;
     procedure SetCriadoEm(Value: TDateTime);
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
 
+    function GetAlteradoEm: TDateTime;
+    procedure SetAlteradoEm(Value: TDateTime);
+    property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
 
+    function GetFinalizadoEm: TDateTime;
+    procedure SetFinalizadoEm(Value: TDateTime);
+    property FinalizadoEm: TDateTime read GetFinalizadoEm write SetFinalizadoEm;
+
+    function GetCanceladoEm: TDateTime;
+    procedure SetCanceladoEm(Value: TDateTime);
+    property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
   end;
 
 implementation
