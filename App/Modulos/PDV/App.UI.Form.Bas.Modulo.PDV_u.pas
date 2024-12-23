@@ -9,9 +9,9 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.PDV.AppPDVObj,
   Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
-  Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
+  Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u, App.PDV.Venda,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
-  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u,App.PDV.Controlador,
+  App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u;
 
 type
@@ -30,7 +30,9 @@ type
     FAppPDVObj: IAppPDVObj;
     FFrameAtivo: TFrame;
     FCaixaSessaoDM: TCaixaSessaoDM;
+    FPDVVenda: IPDVVenda;
     FVendaFrame: TVendaBasPDVFrame;
+
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TFrame;
@@ -49,6 +51,8 @@ type
     procedure IrParaVenda; virtual;
     procedure IrParaPag; virtual;
     procedure IrParaFinaliza; virtual;
+
+    property PDVVenda: IPDVVenda read FPDVVenda;
 
   public
     { Public declarations }
@@ -141,7 +145,7 @@ procedure TPDVModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if FVendaFrame.Visible then
-    FVendaFrame.ExecKeyDown(Sender, key, Shift)
+    FVendaFrame.ExecKeyDown(Sender, Key, Shift)
   else
     inherited;
 end;
@@ -149,7 +153,7 @@ end;
 procedure TPDVModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if FVendaFrame.Visible then
-    FVendaFrame.ExecKeyPress(Sender, key)
+    FVendaFrame.ExecKeyPress(Sender, Key)
   else
     inherited;
 end;
@@ -171,7 +175,7 @@ end;
 
 procedure TPDVModuloBasForm.Iniciar;
 begin
-//  FVendaFrame.DimensioneControles;
+  // FVendaFrame.DimensioneControles;
   FVendaFrame.Visible := True;
   FVendaFrame.Iniciar;
 end;

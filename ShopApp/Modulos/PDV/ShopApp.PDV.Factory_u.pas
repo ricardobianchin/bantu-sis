@@ -2,8 +2,9 @@ unit ShopApp.PDV.Factory_u;
 
 interface
 
-uses App.Est.Venda.Caixa.CaixaSessao, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
-  Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants, Sis.Types;
+uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
+  ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
+  Sis.Types;
 
 function ShopPDVVendaCreate( //
   pLojaId: TLojaId; //
@@ -49,6 +50,8 @@ function ShopPDVVendaItemCreate(pEstMovOrdem: SmallInt; //
   pEstMovAlteradoEm: TDateTime; //
   pEstMovCanceladoEm: TDateTime //
   ): IShopPDVVendaItem;
+
+function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 
 implementation
 
@@ -144,6 +147,11 @@ begin
     , pEstMovAlteradoEm //
     , pEstMovCanceladoEm //
     );
+end;
+
+function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
+begin
+  Result := TShopPDVVenda(pPdvVenda);
 end;
 
 end.

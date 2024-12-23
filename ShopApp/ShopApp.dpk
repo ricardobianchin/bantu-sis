@@ -53,6 +53,7 @@ contains
   ShopApp.PDV.Venda in 'Modulos\PDV\Venda\ShopApp.PDV.Venda.pas',
   ShopApp.PDV.Venda_u in 'Modulos\PDV\Venda\ShopApp.PDV.Venda_u.pas',
   ShopApp.PDV.VendaItem in 'Modulos\PDV\Venda\ShopApp.PDV.VendaItem.pas',
-  ShopApp.PDV.VendaItem_u in 'Modulos\PDV\Venda\ShopApp.PDV.VendaItem_u.pas';
+  ShopApp.PDV.VendaItem_u in 'Modulos\PDV\Venda\ShopApp.PDV.VendaItem_u.pas',
+  AppShop.PDV.DBI in 'Modulos\PDV\AppShop.PDV.DBI.pas';
 
 end.

@@ -4,13 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Modulo.PDV_u,
-  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.StdCtrls, Vcl.Menus, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
-  Sis.Usuario, Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  App.AppObj, Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u,
-  App.UI.Form.Menu_u, System.UITypes, App.UI.PDV.VendaBasFrame_u;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  App.UI.Form.Bas.Modulo.PDV_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.ModuloSistema,
+  App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario, Sis.DB.DBTypes,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
+  Sis.Entities.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
+  App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -78,7 +78,7 @@ end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  Result := TShopVendaPDVFrame.Create(Self);
+  Result := TShopVendaPDVFrame.Create(Self, PDVVenda);
   Result.Visible := False;
 end;
 

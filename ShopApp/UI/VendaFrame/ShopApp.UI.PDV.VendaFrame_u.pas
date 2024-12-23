@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
-  Vcl.Grids;
+  Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -24,6 +24,7 @@ type
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
     FStrBusca: string;
+    FShopPDVVenda: IShopPDVVenda;
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
     procedure DimensioneFitaStringGrid;
@@ -40,7 +41,7 @@ type
 
     procedure Iniciar; override;
 
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda); override;
 
   end;
 
@@ -51,7 +52,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, Sis.UI.Controls.Utils;
+uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u;
 
 { TShopVendaPDVFrame }
 
@@ -61,9 +62,10 @@ begin
   CaretShape.Visible := not CaretShape.Visible;
 end;
 
-constructor TShopVendaPDVFrame.Create(AOwner: TComponent);
+constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda);
 begin
   inherited;
+  FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
   ItemTotalLabel.Caption := '';
@@ -174,7 +176,11 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.StrBuscaExec;
+var
+  oItem: IShopPdvVendaItem;
 begin
+//  oItem := ShopApp.PDV.Factory_u.ShopPDVVendaItemCreate(
+//   );
   FStrBusca := '';
   StrBuscaMudou;
 end;

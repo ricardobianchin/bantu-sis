@@ -6,8 +6,8 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
   inherited MeioPanel: TPanel
     Width = 1000
     Height = 400
-    ExplicitWidth = 542
-    ExplicitHeight = 311
+    ExplicitWidth = 1000
+    ExplicitHeight = 400
     object InputPanel: TPanel
       Left = 0
       Top = 325
