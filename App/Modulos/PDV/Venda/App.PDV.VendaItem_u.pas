@@ -106,14 +106,14 @@ begin
     , pEstMovCanceladoEm //
     );
 
-  FCustoUnit := pCustoUnit; //
-  FCusto := pCusto; //
-  FPrecoUnitOriginal := pPrecoUnitOriginal; //
-  FPrecoUnitPromo := pPrecoUnitPromo; //
-  FPrecoUnit := pPrecoUnit; //
-  FPrecoBruto := pPrecoBruto; //
-  FDesconto := pDesconto; //
-  FPreco := pPreco; //
+  FCustoUnit := pCustoUnit;
+  FCusto := pCusto;
+  FPrecoUnitOriginal := pPrecoUnitOriginal;
+  FPrecoUnitPromo := pPrecoUnitPromo;
+  FPrecoUnit := pPrecoUnit;
+  FPrecoBruto := pPrecoBruto;
+  FDesconto := pDesconto;
+  FPreco := pPreco;
 end;
 
 function TVendaItem.GetCusto: Currency;
