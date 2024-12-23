@@ -2,7 +2,7 @@ unit App.Est.MoviItem_u;
 
 interface
 
-uses App.Est.MoviItem, Sis.Types;
+uses App.Est.MoviItem, Sis.Types, Sis.Sis.Constants;
 
 type
   TEstMovItem = class(TInterfacedObject, IEstMovItem)
@@ -46,10 +46,10 @@ type
       pOrdem: SmallInt; //
       pProdId: TId; //
       pQtd: Currency; //
-      pCancelado: Boolean; //
       pCriadoEm: TDateTime; //
-      pAlteradoEm: TDateTime; //
-      pCanceladoEm: TDateTime //
+      pCancelado: Boolean = False; //
+      pAlteradoEm: TDateTime = DATA_ZERADA; //
+      pCanceladoEm: TDateTime = DATA_ZERADA //
       );
   end;
 
@@ -57,8 +57,15 @@ implementation
 
 { TEstMovItem }
 
-constructor TEstMovItem.Create(pOrdem: SmallInt; pProdId: TId; pQtd: Currency;
-  pCancelado: Boolean; pCriadoEm, pAlteradoEm, pCanceladoEm: TDateTime);
+constructor TEstMovItem.Create( //
+  pOrdem: SmallInt; //
+  pProdId: TId; //
+  pQtd: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: Boolean; //
+  pAlteradoEm: TDateTime; //
+  pCanceladoEm: TDateTime //
+  );
 begin
   FOrdem := pOrdem;
   FProdId := pProdId;
