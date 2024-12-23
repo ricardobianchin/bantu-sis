@@ -600,8 +600,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Factory_u.pas"/>
-        <DCCReference Include="Modulos\PDV\AppPDVObj\CaixaSessao\App.PDV.CaixaSessao.pas"/>
-        <DCCReference Include="Modulos\PDV\AppPDVObj\CaixaSessao\App.PDV.CaixaSessao_u.pas"/>
         <DCCReference Include="Modulos\PDV\App.PDV.Factory_u.pas"/>
         <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas"/>
         <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas"/>

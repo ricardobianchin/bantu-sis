@@ -312,8 +312,6 @@ contains
   App.PDV.Preco.Utils in 'Modulos\PDV\Preco\App.PDV.Preco.Utils.pas',
   App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm},
   App.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Factory_u.pas',
-  App.PDV.CaixaSessao in 'Modulos\PDV\AppPDVObj\CaixaSessao\App.PDV.CaixaSessao.pas',
-  App.PDV.CaixaSessao_u in 'Modulos\PDV\AppPDVObj\CaixaSessao\App.PDV.CaixaSessao_u.pas',
   App.PDV.Factory_u in 'Modulos\PDV\App.PDV.Factory_u.pas',
   App.PDV.AppPDVObj in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas',
   App.PDV.AppPDVObj_u in 'Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas',

@@ -5,7 +5,7 @@ interface
 uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants;
 
 type
-  TVendaItem = class(TEstMovItem, IVendaItem)
+  TPDVVendaItem = class(TEstMovItem, IPDVVendaItem)
   private
     FCustoUnit: Currency;
     FCusto: Currency;
@@ -74,9 +74,9 @@ type
 
 implementation
 
-{ TVendaItem }
+{ TPDVVendaItem }
 
-constructor TVendaItem.Create( //
+constructor TPDVVendaItem.Create( //
   pEstMovOrdem: SmallInt; //
   pEstMovProdId: TId; //
   pEstMovQtd: Currency; //
@@ -116,84 +116,84 @@ begin
   FPreco := pPreco;
 end;
 
-function TVendaItem.GetCusto: Currency;
+function TPDVVendaItem.GetCusto: Currency;
 begin
-
+  Result := FCusto;
 end;
 
-function TVendaItem.GetCustoUnit: Currency;
+function TPDVVendaItem.GetCustoUnit: Currency;
 begin
-
+  Result := FCustoUnit;
 end;
 
-function TVendaItem.GetDesconto: Currency;
+function TPDVVendaItem.GetDesconto: Currency;
 begin
-
+  Result := FDesconto;
 end;
 
-function TVendaItem.GetPreco: Currency;
+function TPDVVendaItem.GetPreco: Currency;
 begin
-
+  Result := FPreco;
 end;
 
-function TVendaItem.GetPrecoBruto: Currency;
+function TPDVVendaItem.GetPrecoBruto: Currency;
 begin
-
+  Result := FPrecoBruto;
 end;
 
-function TVendaItem.GetPrecoUnit: Currency;
+function TPDVVendaItem.GetPrecoUnit: Currency;
 begin
-
+  Result := FPrecoUnit;
 end;
 
-function TVendaItem.GetPrecoUnitOriginal: Currency;
+function TPDVVendaItem.GetPrecoUnitOriginal: Currency;
 begin
-
+  Result := FPrecoUnitOriginal;
 end;
 
-function TVendaItem.GetPrecoUnitPromo: Currency;
+function TPDVVendaItem.GetPrecoUnitPromo: Currency;
 begin
-
+  Result := FPrecoUnitPromo;
 end;
 
-procedure TVendaItem.SetCusto(Value: Currency);
+procedure TPDVVendaItem.SetCusto(Value: Currency);
 begin
-
+  FCusto := Value;
 end;
 
-procedure TVendaItem.SetCustoUnit(Value: Currency);
+procedure TPDVVendaItem.SetCustoUnit(Value: Currency);
 begin
-
+  FCustoUnit := Value;
 end;
 
-procedure TVendaItem.SetDesconto(Value: Currency);
+procedure TPDVVendaItem.SetDesconto(Value: Currency);
 begin
-
+  FDesconto := Value;
 end;
 
-procedure TVendaItem.SetPreco(Value: Currency);
+procedure TPDVVendaItem.SetPreco(Value: Currency);
 begin
-
+  FPreco := Value;
 end;
 
-procedure TVendaItem.SetPrecoBruto(Value: Currency);
+procedure TPDVVendaItem.SetPrecoBruto(Value: Currency);
 begin
-
+  FPrecoBruto := Value;
 end;
 
-procedure TVendaItem.SetPrecoUnit(Value: Currency);
+procedure TPDVVendaItem.SetPrecoUnit(Value: Currency);
 begin
-
+  FPrecoUnit := Value;
 end;
 
-procedure TVendaItem.SetPrecoUnitOriginal(Value: Currency);
+procedure TPDVVendaItem.SetPrecoUnitOriginal(Value: Currency);
 begin
-
+  FPrecoUnitOriginal := Value;
 end;
 
-procedure TVendaItem.SetPrecoUnitPromo(Value: Currency);
+procedure TPDVVendaItem.SetPrecoUnitPromo(Value: Currency);
 begin
-
+  FPrecoUnitPromo := Value;
 end;
 
 end.

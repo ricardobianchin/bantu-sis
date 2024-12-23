@@ -3,7 +3,7 @@ unit App.PDV.VendaItem;
 interface
 
 type
-  IVendaItem = interface(IInterface)
+  IPDVVendaItem = interface(IInterface)
     ['{A2E2E3F6-98A6-4A7D-935F-8997733192AB}']
     function GetCustoUnit: Currency;
     procedure SetCustoUnit(Value: Currency);
