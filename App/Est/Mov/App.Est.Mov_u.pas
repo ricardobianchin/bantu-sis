@@ -2,10 +2,11 @@ unit App.Est.Mov_u;
 
 interface
 
-uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants;
+uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
+  System.Classes;
 
 type
-  TEstMov = class(TInterfacedObject, IEstMov)
+  TEstMov = class(TInterfaceList, IEstMov)
   private
     FLojaId: TLojaId;
     FTerminalId: TTerminalId;

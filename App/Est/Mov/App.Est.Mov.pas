@@ -2,10 +2,10 @@ unit App.Est.Mov;
 
 interface
 
-uses Sis.Entities.Types, App.Est.Types_u;
+uses Sis.Entities.Types, App.Est.Types_u, System.Classes;
 
 type
-  IEstMov = interface(IInterface)
+  IEstMov = interface(IInterfaceList)
     ['{8FE1D118-7395-4E42-89C6-B5A1581ACCDF}']
     function GetLojaId: TLojaId;
     property LojaId: TLojaId read GetLojaId;
