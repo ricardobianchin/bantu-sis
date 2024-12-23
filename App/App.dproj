@@ -683,6 +683,9 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\PDV\Venda\App.PDV.Venda.pas"/>
         <DCCReference Include="Est\Mov\App.Est.Mov_u.pas"/>
         <DCCReference Include="Est\Mov\App.Est.MoviItem_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaItem.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.Venda_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaItem_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -361,6 +361,9 @@ contains
   App.PDV.Controlador in 'Modulos\PDV\Controlador\App.PDV.Controlador.pas',
   App.PDV.Venda in 'Modulos\PDV\Venda\App.PDV.Venda.pas',
   App.Est.Mov_u in 'Est\Mov\App.Est.Mov_u.pas',
-  App.Est.MoviItem_u in 'Est\Mov\App.Est.MoviItem_u.pas';
+  App.Est.MoviItem_u in 'Est\Mov\App.Est.MoviItem_u.pas',
+  App.PDV.VendaItem in 'Modulos\PDV\Venda\App.PDV.VendaItem.pas',
+  App.PDV.Venda_u in 'Modulos\PDV\Venda\App.PDV.Venda_u.pas',
+  App.PDV.VendaItem_u in 'Modulos\PDV\Venda\App.PDV.VendaItem_u.pas';
 
 end.
