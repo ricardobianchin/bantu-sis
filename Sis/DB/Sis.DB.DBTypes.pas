@@ -11,6 +11,7 @@ type
     LojaId: TLojaId;
     TerminalId: TTerminalId;
     Id: integer;
+    procedure Zerar;
   end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
@@ -576,6 +577,15 @@ begin
     ftObject: ;
     }
   *)
+end;
+
+{ TIdLojaTermRecord }
+
+procedure TIdLojaTermRecord.Zerar;
+begin
+  LojaId := 0;
+  TerminalId := 0;
+  Id := 0;
 end;
 
 end.
