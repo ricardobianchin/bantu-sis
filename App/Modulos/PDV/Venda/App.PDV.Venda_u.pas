@@ -4,7 +4,7 @@ interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
-  Sis.Sis.Constants, App.PDV.VendaItem, System.Generics.Collections;
+  Sis.Sis.Constants, App.PDV.VendaItem;
 
 type
   TPDVVenda = class(TEstMov, IPDVVenda)
@@ -21,8 +21,6 @@ type
     FEntregadorId: TId;
     FEntregaEm: TDateTime;
     FAlteradoEm: TDateTime;
-
-    FItemList: TList<IPDVVendaItem>;
 
     function GetVendaId: TId;
     function GetCaixaSessao: ICaixaSessao;
@@ -54,7 +52,6 @@ type
     function GetAlteradoEm: TDateTime;
     procedure SetAlteradoEm(Value: TDateTime);
   public
-    destructor Destroy; override;
     property VendaId: TId read GetVendaId;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
     property C: string read GetC write SetC;
@@ -68,26 +65,6 @@ type
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
-
-    function PegueItem( //
-      pEstMovOrdem: SmallInt; //
-      pEstMovProdId: TId; //
-      pEstMovQtd: Currency; //
-
-      pCustoUnit: Currency; //
-      pCusto: Currency; //
-      pPrecoUnitOriginal: Currency; //
-      pPrecoUnitPromo: Currency; //
-      pPrecoUnit: Currency; //
-      pPrecoBruto: Currency; //
-      pDesconto: Currency; //
-      pPreco: Currency; //
-
-      pEstMovCancelado: Boolean = False; //
-      pEstMovCriadoEm: TDateTime = DATA_ZERADA; //
-      pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
-      pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
-      ): integer;
 
     constructor Create( //
       pLojaId: TLojaId; //
@@ -124,8 +101,6 @@ implementation
 
 { TPDVVenda }
 
-uses App.PDV.Factory_u;
-
 constructor TPDVVenda.Create( //
   pLojaId: TLojaId; //
   pTerminalId: TTerminalId; //
@@ -155,7 +130,8 @@ constructor TPDVVenda.Create( //
   pEstMovCanceladoEm: TDateTime //
   );
 begin
-  inherited Create(pLojaId //
+  inherited Create( //
+    pLojaId //
     , pTerminalId //
     , pEstMovTipo //
     , pDtHDoc //
@@ -184,15 +160,6 @@ begin
 
   FCli.Zerar;
   FEnder.Zerar;
-
-  FItemList := TList<IPDVVendaItem>.Create;
-
-end;
-
-destructor TPDVVenda.Destroy;
-begin
-  FItemList.Free;
-  inherited;
 end;
 
 function TPDVVenda.GetAlteradoEm: TDateTime;
@@ -253,49 +220,6 @@ end;
 function TPDVVenda.GetVendaId: TId;
 begin
   Result := FVendaId;
-end;
-
-function TPDVVenda.PegueItem(
-  pEstMovOrdem: SmallInt; //
-  pEstMovProdId: TId; //
-  pEstMovQtd: Currency; //
-
-  pCustoUnit: Currency; //
-  pCusto: Currency; //
-  pPrecoUnitOriginal: Currency; //
-  pPrecoUnitPromo: Currency; //
-  pPrecoUnit: Currency; //
-  pPrecoBruto: Currency; //
-  pDesconto: Currency; //
-  pPreco: Currency; //
-
-  pEstMovCancelado: Boolean; //
-  pEstMovCriadoEm: TDateTime; //
-  pEstMovAlteradoEm: TDateTime; //
-  pEstMovCanceladoEm: TDateTime //
-  ): integer;
-var
-  oPdvVendaItem: IPdvVendaItem;
-begin
-  oPdvVendaItem := PdvVendaItemCreate(
-    pEstMovOrdem //
-    , pEstMovProdId //
-    , pEstMovQtd //
-
-    , pCustoUnit //
-    , pCusto //
-    , pPrecoUnitOriginal //
-    , pPrecoUnitPromo //
-    , pPrecoUnit //
-    , pPrecoBruto //
-    , pDesconto //
-    , pPreco //
-
-    , pEstMovCancelado //
-    , pEstMovCriadoEm //
-    , pEstMovAlteradoEm //
-    , pEstMovCanceladoEm //
-    );
 end;
 
 procedure TPDVVenda.SetAlteradoEm(Value: TDateTime);
