@@ -32,7 +32,7 @@ type
     FCaixaSessaoDM: TCaixaSessaoDM;
     FPDVVenda: IPDVVenda;
     FVendaFrame: TVendaBasPDVFrame;
-
+    FTermDBConnection: IDBConnection;
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TFrame;
@@ -54,14 +54,16 @@ type
 
     property PDVVenda: IPDVVenda read FPDVVenda;
 
+    Property TermDBConnection: IDBConnection read FTermDBConnection;
   public
     { Public declarations }
+    property FramesParent: TWinControl read GetFramesParent;
+    property FecharModuloAction: TAction read GetFecharModuloAction;
+
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
       reintroduce; virtual;
-    property FramesParent: TWinControl read GetFramesParent;
-    property FecharModuloAction: TAction read GetFecharModuloAction;
   end;
 
 var
@@ -70,6 +72,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.DB.Factory;
 
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
@@ -97,9 +101,17 @@ constructor TPDVModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
+var
+  rDBConnectionParams: TDBConnectionParams;
 begin
   inherited;
+  rDBConnectionParams.Server := Terminal.IdentStr;
+  rDBConnectionParams.Arq := Terminal.LocalArqDados;
+  rDBConnectionParams.Database := Terminal.Database;
+
   FAppPDVObj := AppPDVObjCreate;
+  FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
+    rDBConnectionParams, nil, nil);
 
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
