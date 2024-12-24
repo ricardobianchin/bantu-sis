@@ -53,6 +53,7 @@ type
     procedure IrParaFinaliza; virtual;
 
     property PDVVenda: IPDVVenda read FPDVVenda;
+    function PDVVendaCreate: IPDVVenda; virtual; abstract;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
   public
@@ -113,6 +114,7 @@ begin
   FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
     rDBConnectionParams, nil, nil);
 
+  FPDVVenda := PDVVendaCreate;
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
 

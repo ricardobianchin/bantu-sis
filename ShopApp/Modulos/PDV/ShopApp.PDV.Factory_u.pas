@@ -9,7 +9,6 @@ uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
 function ShopPDVVendaCreate( //
   pLojaId: TLojaId; //
   pTerminalId: TTerminalId; //
-  pEstMovTipo: TEstMovTipo; //
   pDtHDoc: TDateTime; //
   pEstMovCriadoEm: TDateTime; //
   pCaixaSessao: ICaixaSessao; //
@@ -61,7 +60,6 @@ uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u;
 function ShopPDVVendaCreate( //
   pLojaId: TLojaId; //
   pTerminalId: TTerminalId; //
-  pEstMovTipo: TEstMovTipo; //
   pDtHDoc: TDateTime; //
   pEstMovCriadoEm: TDateTime; //
   pCaixaSessao: ICaixaSessao; //
@@ -87,7 +85,6 @@ begin
   Result := TShopPDVVenda.Create( //
     pLojaId //
     , pTerminalId //
-    , pEstMovTipo //
     , pDtHDoc //
     , pEstMovCriadoEm //
     , pCaixaSessao //

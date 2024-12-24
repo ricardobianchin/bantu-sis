@@ -69,7 +69,6 @@ type
     constructor Create( //
       pLojaId: TLojaId; //
       pTerminalId: TTerminalId; //
-      pEstMovTipo: TEstMovTipo; //
       pDtHDoc: TDateTime; //
       pEstMovCriadoEm: TDateTime; //
       pCaixaSessao: ICaixaSessao; //
@@ -104,7 +103,6 @@ implementation
 constructor TPDVVenda.Create( //
   pLojaId: TLojaId; //
   pTerminalId: TTerminalId; //
-  pEstMovTipo: TEstMovTipo; //
   pDtHDoc: TDateTime; //
   pEstMovCriadoEm: TDateTime; //
   pCaixaSessao: ICaixaSessao; //
@@ -133,7 +131,7 @@ begin
   inherited Create( //
     pLojaId //
     , pTerminalId //
-    , pEstMovTipo //
+    , TEstMovTipo.emtipoVenda //
     , pDtHDoc //
     , pEstMovCriadoEm //
     , pEstMovId
@@ -144,6 +142,7 @@ begin
     , pEstMovFinalizadoEm //
     , pEstMovCanceladoEm //
     );
+
   FCaixaSessao := pCaixaSessao;
 
   FVendaId := pVendaId;

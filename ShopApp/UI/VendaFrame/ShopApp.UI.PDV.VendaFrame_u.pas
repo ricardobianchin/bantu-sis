@@ -35,6 +35,7 @@ type
     procedure StrBuscaExec;
     procedure StrBuscaMudou;
     procedure ZerarItem;
+    procedure PreencherControles;
   public
     { Public declarations }
     procedure DimensioneControles; override;
@@ -45,7 +46,7 @@ type
     procedure Iniciar; override;
 
     constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-      pShopAppPDVDBI: IShopAppPDVDBI); override;
+      pShopAppPDVDBI: IShopAppPDVDBI); reintroduce;
 
   end;
 
@@ -69,7 +70,8 @@ end;
 constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
   pShopAppPDVDBI: IShopAppPDVDBI);
 begin
-  inherited;
+  inherited Create(AOwner, pPDVVenda);
+
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := pShopAppPDVDBI;
 
@@ -182,6 +184,11 @@ begin
   InputPanel.SetFocus;
 end;
 
+procedure TShopVendaPDVFrame.PreencherControles;
+begin
+
+end;
+
 procedure TShopVendaPDVFrame.StrBuscaExec;
 var
   oItem: IShopPdvVendaItem;
@@ -189,8 +196,9 @@ var
   sMensagem: string;
 begin
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
-    sMensagem);
-
+    sMensagem, FShopPDVVenda);
+  FShopPDVVenda.Add(oItem);
+  PreencherControles;
   FStrBusca := '';
   StrBuscaMudou;
 end;

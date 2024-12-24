@@ -10,7 +10,7 @@ uses
   App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
   Sis.Entities.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
-  App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI;
+  App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI, App.PDV.Venda;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -21,6 +21,7 @@ type
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
     function VendaFrameCreate: TVendaBasPDVFrame; override;
+    function PDVVendaCreate: IPDVVenda; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -36,7 +37,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DBI, Sis.DB.Factory //
+uses Sis.DBI, Sis.DB.Factory, sIS.Sis.Constants //
 
     , App.PDV.Preco.PrecoBusca.Factory_u //
     , AppShop.PDV.Preco.PrecoBusca.Factory_u //
@@ -56,6 +57,17 @@ begin
   inherited;
   FShopAppPDVDBI := ShopAppPDVDBICreate(TermDBConnection);
   // AppMenuForm := AppMenuFormCreate;
+end;
+
+function TShopPDVModuloForm.PDVVendaCreate: IPDVVenda;
+begin
+  Result := ShopPDVVendaCreate(
+    AppObj.Loja.Id //
+    , TerminalId //
+    , DATA_ZERADA //
+    , DATA_ZERADA //
+    , CaixaSessaoDM.CaixaSessao
+    );
 end;
 
 procedure TShopPDVModuloForm.PrecoBuscaAction_PDVModuloBasFormExecute
