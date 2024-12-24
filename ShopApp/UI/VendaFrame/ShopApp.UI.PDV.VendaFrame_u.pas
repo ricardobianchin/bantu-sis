@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
-  Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem;
+  Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
+  ShopApp.PDV.DBI;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -25,6 +26,8 @@ type
     FColuna1Rect, FColuna2Rect: TRect;
     FStrBusca: string;
     FShopPDVVenda: IShopPDVVenda;
+    FShopAppPDVDBI: IShopAppPDVDBI;
+
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
     procedure DimensioneFitaStringGrid;
@@ -41,7 +44,8 @@ type
 
     procedure Iniciar; override;
 
-    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda); override;
+    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
+      pShopAppPDVDBI: IShopAppPDVDBI); override;
 
   end;
 
@@ -62,10 +66,13 @@ begin
   CaretShape.Visible := not CaretShape.Visible;
 end;
 
-constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda);
+constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
+  pShopAppPDVDBI: IShopAppPDVDBI);
 begin
   inherited;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
+  FShopAppPDVDBI := pShopAppPDVDBI;
+
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
   ItemTotalLabel.Caption := '';
@@ -125,7 +132,7 @@ begin
   InputPanel.Height := h;
 
   InputPanel.Color := Rgb(16, 21, 36);
-//  InputPanel.BevelOuter := bvNone;
+  // InputPanel.BevelOuter := bvNone;
   InputPanel.Font.Color := Rgb(248, 237, 228);
 
   CaretShape.Brush.Color := InputPanel.Font.Color;
@@ -146,7 +153,7 @@ begin
   ItemPanel.Height := h;
 
   ItemPanel.Color := Rgb(16, 21, 36);
-//  ItemPanel.BevelOuter := bvNone;
+  // ItemPanel.BevelOuter := bvNone;
   ItemPanel.Font.Color := Rgb(248, 237, 228);
 end;
 
@@ -178,9 +185,12 @@ end;
 procedure TShopVendaPDVFrame.StrBuscaExec;
 var
   oItem: IShopPdvVendaItem;
+  bEncontrou: Boolean;
+  sMensagem: string;
 begin
-//  oItem := ShopApp.PDV.Factory_u.ShopPDVVendaItemCreate(
-//   );
+  oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
+    sMensagem);
+
   FStrBusca := '';
   StrBuscaMudou;
 end;

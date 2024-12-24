@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Sessoes.Frame, System.Actions,
   Vcl.ActnList, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ExtCtrls, App.UI.Sessao.Frame,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.Usuario,
-  AppShop.UI.Form.Modulo.Config_u, AppShop.UI.Form.Modulo.PDV_u,
+  AppShop.UI.Form.Modulo.Config_u, ShopApp.UI.Form.Modulo.PDV_u,
   AppShop.UI.Form.Modulo.Retaguarda_u, Sis.ModuloSistema, App.Constants,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output,
   Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types;

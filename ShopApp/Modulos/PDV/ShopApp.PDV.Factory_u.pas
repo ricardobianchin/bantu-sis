@@ -4,7 +4,7 @@ interface
 
 uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
-  Sis.Types;
+  Sis.DBI, Sis.DB.DBTypes, ShopApp.PDV.DBI, Sis.Types;
 
 function ShopPDVVendaCreate( //
   pLojaId: TLojaId; //
@@ -52,10 +52,11 @@ function ShopPDVVendaItemCreate(pEstMovOrdem: SmallInt; //
   ): IShopPDVVendaItem;
 
 function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
+function ShopAppPDVDBICreate(pDBConnection: IDBConnection): IShopAppPDVDBI;
 
 implementation
 
-uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u;
+uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u;
 
 function ShopPDVVendaCreate( //
   pLojaId: TLojaId; //
@@ -152,6 +153,11 @@ end;
 function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 begin
   Result := TShopPDVVenda(pPdvVenda);
+end;
+
+function ShopAppPDVDBICreate(pDBConnection: IDBConnection): IShopAppPDVDBI;
+begin
+  Result := TShopAppPDVDBI.Create(pDBConnection);
 end;
 
 end.

@@ -136,7 +136,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\Retaguarda\AppShop.UI.Form.Modulo.Retaguarda_u.pas"/>
-        <DCCReference Include="Modulos\PDV\AppShop.UI.Form.Modulo.PDV_u.pas">
+        <DCCReference Include="Modulos\PDV\ShopApp.UI.Form.Modulo.PDV_u.pas">
             <Form>ShopPDVModuloForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
@@ -169,7 +169,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\PDV\Venda\ShopApp.PDV.Venda_u.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\ShopApp.PDV.VendaItem.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\ShopApp.PDV.VendaItem_u.pas"/>
-        <DCCReference Include="Modulos\PDV\AppShop.PDV.DBI.pas"/>
+        <DCCReference Include="Modulos\PDV\ShopApp.PDV.DBI.pas"/>
+        <DCCReference Include="Modulos\PDV\ShopApp.PDV.DBI_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
