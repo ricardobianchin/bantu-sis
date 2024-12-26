@@ -22,13 +22,14 @@ type
     { Public declarations }
     procedure AjusteControles; virtual;
     constructor Create(AOwner: TComponent); override;
+    procedure DebugImporteTeclas;
   end;
 
 implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, Sis.Types.Utils_u;
+uses Sis.Types.strings_u, Sis.Types.Utils_u, Sis.UI.IO.Files, Sis.UI.Controls.Utils;
 
 { TBasFrame }
 
@@ -45,6 +46,37 @@ begin
     Parent := TWinControl(AOwner);
   ShowHint := True;
   AjusteControles;
+end;
+
+procedure TBasFrame.DebugImporteTeclas;
+var
+  sNomeArq: string;
+  sl: TStringList;
+  s: string;
+  Resultado: Boolean;
+  sPastaDebug: string;
+begin
+  inherited;
+  // s := ActiveControl.Name;
+
+  sPastaDebug := GetPastaDoArquivo(ParamStr(0));
+  sPastaDebug := PastaAcima(sPastaDebug);
+  sPastaDebug := sPastaDebug+'Configs\Debug\';
+  sPastaDebug := sPastaDebug + Sis.Types.Utils_u.ObterHierarquiaDeClasses(ClassType);
+  sNomeArq := sPastaDebug + '\' + 'Teclas.txt';
+  GarantirPastaDoArquivo(sNomeArq);
+  Resultado := FileExists(sNomeArq);
+  if not Resultado then
+    exit;
+
+  sl := TStringList.Create;
+  try
+    sl.LoadFromFile(sNomeArq);
+    s := sl.Text;
+    DigiteStr(s, 0);
+  finally
+    sl.Free;
+  end;
 end;
 
 procedure TBasFrame.EditKeyDown(Sender: TObject; var Key: word;
