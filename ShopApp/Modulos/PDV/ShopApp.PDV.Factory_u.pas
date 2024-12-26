@@ -64,22 +64,22 @@ function ShopPDVVendaCreate( //
   pEstMovCriadoEm: TDateTime; //
   pCaixaSessao: ICaixaSessao; //
 
-  pVendaId: TId = 0; //
-  pC: string = ''; //
-  pCustoTotal: Currency = 0; //
-  pDescontoTotal: Currency = 0; //
-  pTotalLiquido: Currency = 0; //
-  pEntregaTem: Boolean = False; //
-  pEntregadorId: TId = 0; //
-  pEntregaEm: TDateTime = DATA_ZERADA; //
-  pVendaAlteradoEm: TDateTime = DATA_ZERADA; //
+  pVendaId: TId; //
+  pC: string; //
+  pCustoTotal: Currency; //
+  pDescontoTotal: Currency; //
+  pTotalLiquido: Currency; //
+  pEntregaTem: Boolean; //
+  pEntregadorId: TId; //
+  pEntregaEm: TDateTime; //
+  pVendaAlteradoEm: TDateTime; //
 
-  pEstMovId: Int64 = 0; //
-  pEstMovFinalizado: Boolean = False; //
-  pEstMovCancelado: Boolean = False; //
-  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
-  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
-  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  pEstMovId: Int64; //
+  pEstMovFinalizado: Boolean; //
+  pEstMovCancelado: Boolean; //
+  pEstMovAlteradoEm: TDateTime; //
+  pEstMovFinalizadoEm: TDateTime; //
+  pEstMovCanceladoEm: TDateTime //
   ): IShopPDVVenda;
 begin
   Result := TShopPDVVenda.Create( //
