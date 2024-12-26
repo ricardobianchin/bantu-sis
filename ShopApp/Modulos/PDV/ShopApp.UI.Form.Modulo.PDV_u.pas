@@ -66,7 +66,7 @@ begin
     , TerminalId //
     , DATA_ZERADA //
     , DATA_ZERADA //
-    , CaixaSessaoDM.CaixaSessao
+    , CaixaSessaoDM.CaixaSessao //
     );
 end;
 
