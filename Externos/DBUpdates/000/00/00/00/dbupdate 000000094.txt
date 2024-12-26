@@ -23,7 +23,7 @@ EXECUTE PROCEDURE EST_MOV_INICIAL_PA.EST_MOV_ITEM_GAR
     1 -- LOJA_ID ID_SHORT_DOM Not Null
     , 1 -- TERMINAL_ID ID_SHORT_DOM Not Null
     , 1 -- EST_MOV_ID BIGINT Not Null
-    , 0 -- EST_MOV_ITEM_ORDEM SMALLINT Not Null
+    , 0 -- ORDEM SMALLINT Not Null
     , 2 -- PROD_ID ID_DOM Not Null
     , 3 -- QTD QTD_DOM Not Null
     , FALSE -- FINALIZADO BOOLEAN Not Null
@@ -103,7 +103,7 @@ BEGIN
     LOJA_ID ID_SHORT_DOM Not Null
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT Not Null
-    , EST_MOV_ITEM_ORDEM SMALLINT Not Null
+    , ORDEM SMALLINT Not Null
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
     , FINALIZADO BOOLEAN Not Null
@@ -175,7 +175,7 @@ BEGIN
     LOJA_ID ID_SHORT_DOM Not Null
     , TERMINAL_ID ID_SHORT_DOM Not Null
     , EST_MOV_ID BIGINT Not Null
-    , EST_MOV_ITEM_ORDEM SMALLINT Not Null
+    , ORDEM SMALLINT Not Null
     , PROD_ID ID_DOM Not Null
     , QTD QTD_DOM Not Null
     , FINALIZADO BOOLEAN Not Null
@@ -192,7 +192,7 @@ BEGIN
       LOJA_ID 
       , TERMINAL_ID 
       , EST_MOV_ID 
-      , EST_MOV_ITEM_ORDEM 
+      , ORDEM 
       , PROD_ID 
       , QTD 
       , CANCELADO 
@@ -205,7 +205,7 @@ BEGIN
       :LOJA_ID 
       , :TERMINAL_ID 
       , :EST_MOV_ID 
-      , :EST_MOV_ITEM_ORDEM 
+      , :ORDEM 
       , :PROD_ID 
       , :QTD 
       , :CANCELADO 
@@ -218,7 +218,7 @@ BEGIN
       LOJA_ID 
       , TERMINAL_ID 
       , EST_MOV_ID 
-      , EST_MOV_ITEM_ORDEM 
+      , ORDEM 
     );
   END
 END^
