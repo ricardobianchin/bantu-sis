@@ -114,12 +114,14 @@ begin
   FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
     rDBConnectionParams, nil, nil);
 
-  FPDVVenda := PDVVendaCreate;
+  MenuUsaForm := True;
+  AppMenuForm := AppMenuFormCreate;
+
+
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
 
-  MenuUsaForm := True;
-  AppMenuForm := AppMenuFormCreate;
+  FPDVVenda := PDVVendaCreate;
   FVendaFrame := VendaFrameCreate;
 end;
 
