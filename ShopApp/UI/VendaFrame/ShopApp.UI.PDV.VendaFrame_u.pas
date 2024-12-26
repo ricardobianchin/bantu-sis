@@ -36,6 +36,10 @@ type
     procedure StrBuscaMudou;
     procedure ZerarItem;
     procedure PreencherControles;
+
+    procedure ExibaItemVendido(pDescr: string; pValor: Currency = 0);
+  protected
+    procedure ExibaErro(pMens: string); override;
   public
     { Public declarations }
     procedure DimensioneControles; override;
@@ -57,7 +61,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u;
+uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u, Sis.Types.Floats,
+  Sis.Types.Bool_u;
 
 { TShopVendaPDVFrame }
 
@@ -71,9 +76,8 @@ constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
   pShopAppPDVDBI: IShopAppPDVDBI);
 begin
   inherited Create(AOwner, pPDVVenda);
-
-  FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := pShopAppPDVDBI;
+  FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
 
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
@@ -172,10 +176,22 @@ begin
   StrBuscaPegueChar(Key);
 end;
 
+procedure TShopVendaPDVFrame.ExibaErro(pMens: string);
+begin
+  inherited;
+  ExibaItemVendido(pMens);
+end;
+
+procedure TShopVendaPDVFrame.ExibaItemVendido(pDescr: string; pValor: Currency);
+begin
+  ItemDescrLabel.Caption := pDescr;
+  ItemTotalLabel.Caption := Iif(pValor = 0, '', DinhToStr(pValor));
+end;
+
 procedure TShopVendaPDVFrame.Iniciar;
 begin
   inherited;
-  DigiteStr('2', 0);
+  DigiteStr('2~', 0);
 end;
 
 procedure TShopVendaPDVFrame.ListBox1Enter(Sender: TObject);
@@ -197,6 +213,12 @@ var
 begin
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
     sMensagem, FShopPDVVenda);
+
+  if not bEncontrou then
+  begin
+     ExibaErro(sMensagem);
+     Exit;
+  end;
   FShopPDVVenda.Add(oItem);
   PreencherControles;
   FStrBusca := '';
