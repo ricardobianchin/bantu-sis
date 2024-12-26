@@ -312,6 +312,8 @@ var
   bPontoSeAplica: Boolean;
   bAtividadeSeAplica: Boolean;
   sAtividadeEconomicaName: string;
+  bDeveGravarIniciais: Boolean;
+  bDeveAbortar: Boolean;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
@@ -331,7 +333,7 @@ begin
           FOutput.Exibir('');
           iVersao := iVersao + 1;
           FOutput.Exibir('Versao=' + iVersao.ToString);
-          if VERSAO_ULTIMA_A_PROCESSAR > -1 then
+          if DB_UPDATER_EM_TESTE then
             if iVersao > VERSAO_ULTIMA_A_PROCESSAR then
               break;
 
@@ -424,12 +426,14 @@ begin
     if not SisConfig.LocalMachineIsServer then
       exit;
 
-    if FCriouDB and (VERSAO_ULTIMA_A_PROCESSAR = -1) then
+    bDeveGravarIniciais := FCriouDB and
+      (DB_UPDATER_EM_TESTE or TESTE_GRAVA_INICIAIS);
+
+    if bDeveGravarIniciais then
     begin
       DoAposCriarBanco;
       GravarIniciais(DBConnection);
     end;
-
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
@@ -446,9 +450,9 @@ begin
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;
 
-    if VERSAO_ULTIMA_A_PROCESSAR > -1 then
+    bDeveAbortar := DB_UPDATER_EM_TESTE and TESTE_ABORTA_NO_PRIMEIRO;
+    if bDeveAbortar then
       Halt(0);
-
   end;
 end;
 
