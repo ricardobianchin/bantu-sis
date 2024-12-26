@@ -19,6 +19,9 @@ type
   public
     { Public declarations }
     procedure AjusteControles; override;
+    procedure ExibaControles; override;
+    procedure OculteControles; override;
+
     constructor Create(AOwner: TComponent; pCaption: TCaption;
       pAction: TAction); reintroduce; virtual;
   end;
@@ -60,6 +63,19 @@ begin
   ControlAlignHorizontal(MensagemLabel);
 
   Button1.Action := pAction;
+end;
+
+procedure TAvisoPDVFrame.ExibaControles;
+begin
+  inherited;
+  Panel1.Visible := True;
+  TrySetFocus(Button1);
+end;
+
+procedure TAvisoPDVFrame.OculteControles;
+begin
+  inherited;
+  Panel1.Visible := False;
 end;
 
 end.

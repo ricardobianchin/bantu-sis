@@ -7,7 +7,7 @@ uses Sis.Entities.Types, App.PDV.AppPDVObj, System.Classes,
 
 function AppPDVObjCreate: IAppPDVObj;
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
-  pAction: TAction): TFrame;
+  pAction: TAction): TPdvFrame;
 
 implementation
 
@@ -19,7 +19,7 @@ begin
 end;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
-  pAction: TAction): TFrame;
+  pAction: TAction): TPdvFrame;
 begin
   Result := TAvisoPDVFrame.Create(pParent, pCaption, pAction);
 end;

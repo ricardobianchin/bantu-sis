@@ -12,7 +12,7 @@ uses
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u, App.PDV.Venda,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -28,32 +28,35 @@ type
   private
     { Private declarations }
     FAppPDVObj: IAppPDVObj;
-    FFrameAtivo: TFrame;
+    FFrameAtivo: TPDVFrame;
+    FFrameAviso: TPDVFrame;
     FCaixaSessaoDM: TCaixaSessaoDM;
     FPDVVenda: IPDVVenda;
     FVendaFrame: TVendaBasPDVFrame;
+    FPDVDBI: IDBI;
+
     FTermDBConnection: IDBConnection;
 
     function GetFramesParent: TWinControl;
-    function GetFrameAtivo: TFrame;
-    procedure SetFrameAtivo(Value: TFrame);
+    function GetFrameAtivo: TPDVFrame;
+    procedure SetFrameAtivo(Value: TPDVFrame);
 
     function GetFecharModuloAction: TAction;
 
   protected
-    property FrameAtivo: TFrame read GetFrameAtivo write SetFrameAtivo;
+    property FrameAtivo: TPDVFrame read GetFrameAtivo write SetFrameAtivo;
     property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
     function AppMenuFormCreate: TAppMenuForm; override;
-    procedure DecidirFrameAtivo; virtual;
     function VendaFrameCreate: TVendaBasPDVFrame; virtual; abstract;
+    function PDVVendaCreate: IPDVVenda; virtual; abstract;
+    function PDVDBICreate: IDBI; virtual; abstract;
+    procedure DecidirFrameAtivo; virtual;
 
-    procedure Iniciar; virtual;
     procedure IrParaVenda; virtual;
     procedure IrParaPag; virtual;
     procedure IrParaFinaliza; virtual;
 
     property PDVVenda: IPDVVenda read FPDVVenda;
-    function PDVVendaCreate: IPDVVenda; virtual; abstract;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
   public
@@ -117,42 +120,70 @@ begin
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
 
-
+  FPDVDBI := PDVDBICreate;
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
 
+  FFrameAviso := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
+    CaixaSessaoAbrirTentarAction);
+  FFrameAviso.OculteControles;
+
   FPDVVenda := PDVVendaCreate;
   FVendaFrame := VendaFrameCreate;
+  FVendaFrame.OculteControles;
 end;
 
 procedure TPDVModuloBasForm.DecidirFrameAtivo;
 begin
-  FreeAndNil(FFrameAtivo);
-  if FAppPDVObj.Fiscal then
+  // FreeAndNil(FFrameAtivo);       aqui
+  if Assigned(FFrameAtivo) then
   begin
-    FCaixaSessaoDM.AnaliseCaixa;
-    case FCaixaSessaoDM.CaixaSessaoSituacao of
-      cxFechado:
-        begin
-          TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
-            LogUsuario.NomeExib + ' - Caixa Fechado';
+    FFrameAtivo.Visible := False;
+  end;
 
-          FFrameAtivo := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
-            CaixaSessaoAbrirTentarAction);
-          // CaixaSessaoAbrirTentarAction.Execute;
-        end;
+  try
+    FCaixaSessaoDM.AnaliseCaixa;
+
+    if FAppPDVObj.Fiscal then
+    begin
+      if FCaixaSessaoDM.CaixaSessaoSituacao = cxFechado then
+      begin
+        TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
+          LogUsuario.NomeExib + ' - Caixa Fechado';
+        FFrameAtivo := FFrameAviso;
+        exit;
+      end;
+    end;
+
+    begin // abre tela venda
+      TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
+        LogUsuario.NomeExib + ' - Caixa Aberto em ' +
+        FormatDateTime('ddd dd/mm/yyyy hh:nn',
+        FCaixaSessaoDM.CaixaSessao.AbertoEm);
+      FFrameAtivo := FVendaFrame;
+    end;
+
+    { case FCaixaSessaoDM.CaixaSessaoSituacao of
+      cxFechado:
+      begin
+      end;
 
       cxAberto:
-        begin
-          TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
-            LogUsuario.NomeExib + ' - Caixa Aberto em ' +
-            FormatDateTime('ddd dd/mm/yyyy hh:nn',
-            FCaixaSessaoDM.CaixaSessao.AbertoEm);
-          Iniciar;
-        end;
-
+      begin
+      end;
       cxAbertoPorOutroUsuario:
-        ;
+      ;
+      end; }
+  finally
+    if Assigned(FrameAtivo) then
+    begin
+      FFrameAtivo.OculteControles;
+      FFrameAtivo.Visible := True;
+      FFrameAtivo.DimensioneControles;
+      FFrameAtivo.AjusteControles;
+      FFrameAtivo.ExibaControles;
+      FFrameAtivo.Iniciar;
+//      FFrameAtivo.DebugImporteTeclas;
     end;
   end;
 end;
@@ -179,7 +210,7 @@ begin
   Result := FecharAction_ModuloBasForm;
 end;
 
-function TPDVModuloBasForm.GetFrameAtivo: TFrame;
+function TPDVModuloBasForm.GetFrameAtivo: TPDVFrame;
 begin
   Result := FFrameAtivo;
 end;
@@ -187,13 +218,6 @@ end;
 function TPDVModuloBasForm.GetFramesParent: TWinControl;
 begin
   Result := Self;
-end;
-
-procedure TPDVModuloBasForm.Iniciar;
-begin
-  // FVendaFrame.DimensioneControles;
-  FVendaFrame.Visible := True;
-  FVendaFrame.Iniciar;
 end;
 
 procedure TPDVModuloBasForm.IrParaFinaliza;
@@ -211,7 +235,7 @@ begin
 
 end;
 
-procedure TPDVModuloBasForm.SetFrameAtivo(Value: TFrame);
+procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
 end;

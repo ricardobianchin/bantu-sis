@@ -16,12 +16,15 @@ type
   public
     { Public declarations }
     procedure Iniciar; virtual;
+    procedure OculteControles; virtual;
+    procedure ExibaControles; virtual;
     procedure DimensioneControles; virtual;
 
     constructor Create(AOwner: TComponent); override;
 
     procedure ExecKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); virtual;
     procedure ExecKeyPress(Sender: TObject; var Key: Char); virtual;
+    procedure ExibaErro(pMens: string); virtual;
   end;
 
 var
@@ -57,6 +60,16 @@ begin
 
 end;
 
+procedure TPDVFrame.ExibaErro(pMens: string);
+begin
+
+end;
+
+procedure TPDVFrame.ExibaControles;
+begin
+
+end;
+
 procedure TPDVFrame.FrameResize(Sender: TObject);
 begin
   inherited;
@@ -64,6 +77,11 @@ begin
 end;
 
 procedure TPDVFrame.Iniciar;
+begin
+
+end;
+
+procedure TPDVFrame.OculteControles;
 begin
 
 end;
