@@ -191,7 +191,8 @@ end;
 procedure TShopVendaPDVFrame.Iniciar;
 begin
   inherited;
-  DigiteStr('2~', 0);
+//  DigiteStr('2~', 0);
+  DigiteStr('3*2~', 0);
 end;
 
 procedure TShopVendaPDVFrame.ListBox1Enter(Sender: TObject);
@@ -212,7 +213,7 @@ var
   sMensagem: string;
 begin
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
-    sMensagem, FShopPDVVenda);
+    sMensagem);
 
   if not bEncontrou then
   begin
