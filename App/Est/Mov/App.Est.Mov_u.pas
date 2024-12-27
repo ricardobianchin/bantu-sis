@@ -10,7 +10,7 @@ type
   private
     FLojaId: TLojaId;
     FTerminalId: TTerminalId;
-    FId: Int64;
+    FEstMovId: Int64;
     FEstMovTipo: TEstMovTipo;
     FDtHDoc: TDateTime;
     FFinalizado: Boolean;
@@ -23,8 +23,8 @@ type
     function GetLojaId: TLojaId;
     function GetTerminalId: TTerminalId;
 
-    function GetId: Int64;
-    procedure SetId(Value: Int64);
+    function GetEstMovId: Int64;
+    procedure SetEstMovId(Value: Int64);
 
     function GetEstMovTipo: TEstMovTipo;
 
@@ -52,7 +52,7 @@ type
   public
     property LojaId: TLojaId read GetLojaId;
     property TerminalId: TTerminalId read GetTerminalId;
-    property Id: Int64 read GetId write SetId;
+    property EstMovId: Int64 read GetEstMovId write SetEstMovId;
     property EstMovTipo: TEstMovTipo read GetEstMovTipo;
     property DtHDoc: TDateTime read GetDtHDoc write SetDtHDoc;
     property Finalizado: Boolean read GetFinalizado write SetFinalizado;
@@ -69,7 +69,7 @@ type
       pDtHDoc: TDateTime; //
       pCriadoEm: TDateTime; //
 
-      pId: Int64 = 0; //
+      pEstMovId: Int64 = 0; //
       pFinalizado: Boolean = False; //
       pCancelado: Boolean = False; //
       pAlteradoEm: TDateTime = DATA_ZERADA; //
@@ -84,7 +84,7 @@ implementation
 { TEstMov }
 
 constructor TEstMov.Create(pLojaId: TLojaId; pTerminalId: TTerminalId;
-  pEstMovTipo: TEstMovTipo; pDtHDoc, pCriadoEm: TDateTime; pId: Int64;
+  pEstMovTipo: TEstMovTipo; pDtHDoc, pCriadoEm: TDateTime; pEstMovId: Int64;
   pFinalizado, pCancelado: Boolean; pAlteradoEm, pFinalizadoEm,
   pCanceladoEm: TDateTime);
 begin
@@ -93,7 +93,7 @@ begin
   FEstMovTipo := pEstMovTipo;
   FDtHDoc := pDtHDoc;
   FCriadoEm := pCriadoEm;
-  FId := pId;
+  FEstMovId := pEstMovId;
 
   FFinalizado := pFinalizado;
   FCancelado := pCancelado;
@@ -142,9 +142,9 @@ begin
   Result := FFinalizadoEm;
 end;
 
-function TEstMov.GetId: Int64;
+function TEstMov.GetEstMovId: Int64;
 begin
-  Result := FId;
+  Result := FEstMovId;
 end;
 
 function TEstMov.GetLojaId: TLojaId;
@@ -192,9 +192,9 @@ begin
   FFinalizadoEm := Value;
 end;
 
-procedure TEstMov.SetId(Value: Int64);
+procedure TEstMov.SetEstMovId(Value: Int64);
 begin
-  FId := Value;
+  FEstMovId := Value;
 end;
 
 end.

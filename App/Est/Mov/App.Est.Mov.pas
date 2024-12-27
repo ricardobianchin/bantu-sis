@@ -13,9 +13,9 @@ type
     function GetTerminalId: TTerminalId;
     property TerminalId: TTerminalId read GetTerminalId;
 
-    function GetId: Int64;
-    procedure SetId(Value: Int64);
-    property Id: Int64 read GetId write SetId;
+    function GetEstMovId: Int64;
+    procedure SetEstMovId(Value: Int64);
+    property EstMovId: Int64 read GetEstMovId write SetEstMovId;
 
     function GetEstMovTipo: TEstMovTipo;
     property EstMovTipo: TEstMovTipo read GetEstMovTipo;

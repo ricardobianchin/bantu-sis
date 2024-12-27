@@ -362,6 +362,7 @@ contains
   App.Est.MoviItem_u in 'Est\Mov\App.Est.MoviItem_u.pas',
   App.PDV.VendaItem in 'Modulos\PDV\Venda\App.PDV.VendaItem.pas',
   App.PDV.Venda_u in 'Modulos\PDV\Venda\App.PDV.Venda_u.pas',
-  App.PDV.VendaItem_u in 'Modulos\PDV\Venda\App.PDV.VendaItem_u.pas';
+  App.PDV.VendaItem_u in 'Modulos\PDV\Venda\App.PDV.VendaItem_u.pas',
+  App.PDV.DBI_u in 'Modulos\PDV\App.PDV.DBI_u.pas';
 
 end.

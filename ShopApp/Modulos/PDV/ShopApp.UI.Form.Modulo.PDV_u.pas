@@ -61,7 +61,7 @@ end;
 
 function TShopPDVModuloForm.PDVDBICreate: IDBI;
 begin
-  FShopAppPDVDBI := ShopAppPDVDBICreate(TermDBConnection);
+  FShopAppPDVDBI := ShopAppPDVDBICreate(TermDBConnection, CaixaSessaoDM.CaixaSessao);
   Result := FShopAppPDVDBI;
 end;
 
