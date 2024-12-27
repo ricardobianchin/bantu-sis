@@ -120,7 +120,6 @@ begin
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
 
-  FPDVDBI := PDVDBICreate;
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
 
@@ -129,6 +128,7 @@ begin
   FFrameAviso.OculteControles;
 
   FPDVVenda := PDVVendaCreate;
+  FPDVDBI := PDVDBICreate;
   FVendaFrame := VendaFrameCreate;
   FVendaFrame.OculteControles;
 end;
