@@ -23,6 +23,8 @@ type
     FAlteradoEm: TDateTime;
 
     function GetVendaId: TId;
+    procedure SetVendaId(Value: TId);
+
     function GetCaixaSessao: ICaixaSessao;
 
     function GetC: string;
@@ -52,7 +54,7 @@ type
     function GetAlteradoEm: TDateTime;
     procedure SetAlteradoEm(Value: TDateTime);
   public
-    property VendaId: TId read GetVendaId;
+    property VendaId: TId read GetVendaId Write SetVendaId;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
     property C: string read GetC write SetC;
     property Cli: TIdLojaTermRecord read GetCli;
@@ -65,6 +67,8 @@ type
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
+
+    procedure Zerar; override;
 
     constructor Create( //
       pLojaId: TLojaId; //
@@ -259,6 +263,28 @@ end;
 procedure TPDVVenda.SetTotalLiquido(Value: Currency);
 begin
   FTotalLiquido := Value;
+end;
+
+procedure TPDVVenda.SetVendaId(Value: TId);
+begin
+  FVendaId := Value;
+end;
+
+procedure TPDVVenda.Zerar;
+begin
+  inherited;
+  VendaId := 0;
+  FC := '';
+  FCli.Zerar;
+  FEnder.Zerar;
+  FCustoTotal := 0;
+  FDescontoTotal := 0;
+  FTotalLiquido := 0;
+  FEntregaTem := False;
+  FEntregadorId := 0;
+  FEntregaEm := DATA_ZERADA;
+  FAlteradoEm := DATA_ZERADA;
+  Clear;
 end;
 
 end.

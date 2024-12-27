@@ -32,9 +32,12 @@ function ShopPDVVendaCreate( //
   pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
   ): IShopPDVVenda;
 
-function ShopPDVVendaItemCreate(pEstMovOrdem: SmallInt; //
+function ShopPDVVendaItemCreate( //
+  pEstMovOrdem: SmallInt; //
   pEstMovProdId: TId; //
   pEstMovQtd: Currency; //
+
+  pBalUso: SmallInt; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -53,7 +56,7 @@ function ShopPDVVendaItemCreate(pEstMovOrdem: SmallInt; //
 
 function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pTerminal: ITerminal; pCaixaSessao: ICaixaSessao): IShopAppPDVDBI;
+  pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
 
 implementation
 
@@ -110,9 +113,12 @@ begin
     );
 end;
 
-function ShopPDVVendaItemCreate(pEstMovOrdem: SmallInt; //
+function ShopPDVVendaItemCreate( //
+  pEstMovOrdem: SmallInt; //
   pEstMovProdId: TId; //
   pEstMovQtd: Currency; //
+
+  pBalUso: SmallInt; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -129,9 +135,12 @@ function ShopPDVVendaItemCreate(pEstMovOrdem: SmallInt; //
   pEstMovCanceladoEm: TDateTime //
   ): IShopPDVVendaItem;
 begin
-  Result := TShopPDVVendaItem.Create(pEstMovOrdem //
+  Result := TShopPDVVendaItem.Create( //
+    pEstMovOrdem //
     , pEstMovProdId //
     , pEstMovQtd //
+
+    , pBalUso
 
     , pCustoUnit //
     , pCusto //
@@ -155,10 +164,10 @@ begin
 end;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pTerminal: ITerminal; pCaixaSessao: ICaixaSessao): IShopAppPDVDBI;
+  pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
 begin
   Result := TShopAppPDVDBI.Create(pDBConnection, pAppObj, pTerminal,
-    pCaixaSessao);
+    pShopPDVVenda);
 end;
 
 end.

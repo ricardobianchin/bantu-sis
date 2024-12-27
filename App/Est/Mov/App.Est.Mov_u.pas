@@ -62,6 +62,8 @@ type
     property FinalizadoEm: TDateTime read GetFinalizadoEm write SetFinalizadoEm;
     property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
 
+    procedure Zerar; virtual;
+
     constructor Create(
       pLojaId: TLojaId; //
       pTerminalId: TTerminalId; //
@@ -190,6 +192,20 @@ end;
 procedure TEstMov.SetFinalizadoEm(Value: TDateTime);
 begin
   FFinalizadoEm := Value;
+end;
+
+procedure TEstMov.Zerar;
+begin
+  FLojaId := 0;
+  FTerminalId := 0;
+  FEstMovId := 0;
+  FDtHDoc := DATA_ZERADA;
+  FFinalizado := False;
+  FCancelado := False;
+  FCriadoEm := DATA_ZERADA;
+  FAlteradoEm := DATA_ZERADA;
+  FFinalizadoEm := DATA_ZERADA;
+  FCanceladoEm := DATA_ZERADA;
 end;
 
 procedure TEstMov.SetEstMovId(Value: Int64);

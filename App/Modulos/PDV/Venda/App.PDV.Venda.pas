@@ -11,7 +11,8 @@ type
 //    FCaixaSessao: ICaixaSessao;
 
     function GetVendaId: TId;
-    property VendaId: TId read GetVendaId;
+    procedure SetVendaId(Value: TId);
+    property VendaId: TId read GetVendaId Write SetVendaId;
 
     function GetCaixaSessao: ICaixaSessao;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;

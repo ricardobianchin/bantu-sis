@@ -7,6 +7,7 @@ uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants;
 type
   TPDVVendaItem = class(TEstMovItem, IPDVVendaItem)
   private
+    FBalUso: smallint;
     FCustoUnit: Currency;
     FCusto: Currency;
     FPrecoUnitOriginal: Currency;
@@ -15,6 +16,9 @@ type
     FPrecoBruto: Currency;
     FDesconto: Currency;
     FPreco: Currency;
+
+    function GetBalUso: SmallInt;
+    procedure SetBalUso(Value: SmallInt);
 
     function GetCustoUnit: Currency;
     procedure SetCustoUnit(Value: Currency);
@@ -40,6 +44,7 @@ type
     function GetPreco: Currency;
     procedure SetPreco(Value: Currency);
   public
+    property BalUso: SmallInt read GetBalUso write SetBalUso;
     property CustoUnit: Currency read GetCustoUnit write SetCustoUnit;
     property Custo: Currency read GetCusto write SetCusto;
     property PrecoUnitOriginal: Currency read GetPrecoUnitOriginal
@@ -55,6 +60,8 @@ type
       pEstMovOrdem: SmallInt; //
       pEstMovProdId: TId; //
       pEstMovQtd: Currency; //
+
+      pBalUso: SmallInt; //
 
       pCustoUnit: Currency; //
       pCusto: Currency; //
@@ -81,6 +88,8 @@ constructor TPDVVendaItem.Create( //
   pEstMovProdId: TId; //
   pEstMovQtd: Currency; //
 
+  pBalUso: SmallInt; //
+
   pCustoUnit: Currency; //
   pCusto: Currency; //
   pPrecoUnitOriginal: Currency; //
@@ -106,6 +115,7 @@ begin
     , pEstMovCanceladoEm //
     );
 
+  FBalUso := pBalUso;
   FCustoUnit := pCustoUnit;
   FCusto := pCusto;
   FPrecoUnitOriginal := pPrecoUnitOriginal;
@@ -114,6 +124,11 @@ begin
   FPrecoBruto := pPrecoBruto;
   FDesconto := pDesconto;
   FPreco := pPreco;
+end;
+
+function TPDVVendaItem.GetBalUso: SmallInt;
+begin
+  Result := FBalUso;
 end;
 
 function TPDVVendaItem.GetCusto: Currency;
@@ -154,6 +169,11 @@ end;
 function TPDVVendaItem.GetPrecoUnitPromo: Currency;
 begin
   Result := FPrecoUnitPromo;
+end;
+
+procedure TPDVVendaItem.SetBalUso(Value: SmallInt);
+begin
+  FBalUso := Value;
 end;
 
 procedure TPDVVendaItem.SetCusto(Value: Currency);

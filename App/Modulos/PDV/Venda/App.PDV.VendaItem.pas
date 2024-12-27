@@ -7,6 +7,10 @@ uses App.Est.MoviItem;
 type
   IPDVVendaItem = interface(IEstMovItem)
     ['{A2E2E3F6-98A6-4A7D-935F-8997733192AB}']
+    function GetBalUso: SmallInt;
+    procedure SetBalUso(Value: SmallInt);
+    property BalUso: SmallInt read GetBalUso write SetBalUso;
+
     function GetCustoUnit: Currency;
     procedure SetCustoUnit(Value: Currency);
     property CustoUnit: Currency read GetCustoUnit write SetCustoUnit;

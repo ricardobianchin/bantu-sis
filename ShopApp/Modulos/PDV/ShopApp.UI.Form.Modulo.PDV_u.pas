@@ -17,6 +17,7 @@ type
     procedure PrecoBuscaAction_PDVModuloBasFormExecute(Sender: TObject);
   private
     { Private declarations }
+    FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
@@ -61,19 +62,21 @@ end;
 
 function TShopPDVModuloForm.PDVDBICreate: IDBI;
 begin
-  FShopAppPDVDBI := ShopAppPDVDBICreate(TermDBConnection, CaixaSessaoDM.CaixaSessao);
+  FShopAppPDVDBI := ShopAppPDVDBICreate(TermDBConnection, AppObj, Terminal, FShopPDVVenda);
   Result := FShopAppPDVDBI;
 end;
 
 function TShopPDVModuloForm.PDVVendaCreate: IPDVVenda;
 begin
-  Result := ShopPDVVendaCreate(
+  FShopPDVVenda := ShopPDVVendaCreate(
     AppObj.Loja.Id //
     , TerminalId //
     , DATA_ZERADA //
     , DATA_ZERADA //
     , CaixaSessaoDM.CaixaSessao //
     );
+
+  Result := FShopPDVVenda;
 end;
 
 procedure TShopPDVModuloForm.PrecoBuscaAction_PDVModuloBasFormExecute

@@ -47,6 +47,8 @@ type
     function GetCanceladoEm: TDateTime;
     procedure SetCanceladoEm(Value: TDateTime);
     property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
+
+    procedure Zerar;
   end;
 
 implementation
