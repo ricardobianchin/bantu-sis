@@ -49,8 +49,8 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       Top = 15
       Width = 162
       Height = 120
+      TabStop = False
       BorderStyle = bsNone
-      Color = 16710379
       ColCount = 1
       DefaultRowHeight = 34
       FixedCols = 0
@@ -64,6 +64,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       ParentFont = False
       ScrollBars = ssNone
       TabOrder = 1
+      StyleElements = []
     end
     object ItemPanel: TPanel
       Left = 0
