@@ -18,6 +18,7 @@ function GarantirPastaDoArquivo(const pNomeArq: string): string;
 
 // date time
 function DateTimeToNomeArq(pDtH: TDateTime = 0): string;
+function DateToNomeArq(pDtH: TDateTime = 0): string;
 function DateToPath(pDtH: TDateTime = 0): string;
 function AnoMesToPath(pDtH: TDateTime = 0): string;
 function AnoToPath(pDtH: TDateTime = 0): string;
@@ -48,6 +49,21 @@ uses System.SysUtils, System.IOUtils, System.StrUtils, Vcl.Dialogs,
 const
   MODE_CREATE = fmCreate or fmShareDenyWrite;
   MODE_APPEND = fmOpenWrite or fmShareDenyWrite;
+
+function DateToNomeArq(pDtH: TDateTime = 0): string;
+var
+  ano, mes, dia: word;
+begin
+  // Se o valor datetime n?o for informado, usa o valor atual
+  if pDtH = 0 then
+    pDtH := Now;
+
+  // Extrai os componentes do valor datetime
+  DecodeDate(pDtH, ano, mes, dia);
+
+  // Formata o resultado no formato YYYY-mm-dd
+  Result := Format('%.4d-%.2d-%.2d', [ano, mes, dia]);
+end;
 
 function DateTimeToNomeArq(pDtH: TDateTime): string;
 var
