@@ -3,7 +3,8 @@ unit ShopApp.PDV.DBI_u;
 interface
 
 uses ShopApp.PDV.DBI, App.PDV.DBI_u, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
-  Sis.DB.DBTypes, App.AppObj, Sis.Entities.Terminal, Sis.Types.Floats;
+  Sis.DB.DBTypes, App.AppObj, Sis.Entities.Terminal, Sis.Types.Floats,
+  ShopApp.PDV.Factory_u;
 
 type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
@@ -19,7 +20,8 @@ type
 
 implementation
 
-uses Sis.Win.Utils_u, System.SysUtils, Sis.Entities.Types;
+uses Sis.Win.Utils_u, System.SysUtils, Sis.Entities.Types, Data.DB,
+  App.Est.Prod, App.Est.Factory_u, Sis.Sis.Constants;
 
 { TShopAppPDVDBI }
 
@@ -38,6 +40,8 @@ var
   iQtdElementos: integer;
   uQtd: Currency;
   sBusca: string;
+  q: TDataSet;
+  oProd: IProd;
 begin
   Result := nil;
 
@@ -58,97 +62,109 @@ begin
   sSql := //
     'SELECT'#13#10 //
 
-    + 'EST_MOV_ID_RET'#13#10 //
-    + ', ORDEM_RET'#13#10 //
-    + ', VENDA_ID_RET'#13#10 //
+    + 'EST_MOV_ID_RET'#13#10 // 0
+    + ', VENDA_ID_RET'#13#10 // 1
 
-    + ', DTH_DOC_RET'#13#10 //
-    + ', EST_MOV_CRIADO_EM_RET'#13#10 //
+    + ', DTH_DOC_RET'#13#10 // 2
+    + ', EST_MOV_CRIADO_EM_RET'#13#10 // 3
+    + ', ORDEM_RET'#13#10 // 4
+    + ', EST_MOV_ITEM_CRIADO_EM_RET'#13#10 // 5
 
-    + ', PROD_ID'#13#10 //
-    + ', DESCR_RED'#13#10 //
+    + ', PROD_ID'#13#10 // 6
+    + ', DESCR_RED'#13#10 // 7
 
-    + ', FABR_NOME'#13#10 //
-    + ', UNID_SIGLA'#13#10 //
+    + ', FABR_NOME'#13#10 // 8
+    + ', UNID_SIGLA'#13#10 // 9
 
-    + ', BAL_USO'#13#10 //
+    + ', BAL_USO'#13#10 // 10
 
-    + ', CUSTO_UNIT'#13#10 //
-    + ', CUSTO'#13#10 //
-    + ', PRECO_UNIT_ORIGINAL'#13#10 //
-    + ', PRECO_UNIT_PROMO'#13#10 //
-    + ', PRECO_UNIT'#13#10 //
-    + ', PRECO'#13#10 //
+    + ', CUSTO_UNIT'#13#10 // 11
+    + ', CUSTO'#13#10 // 12
+    + ', PRECO_UNIT_ORIGINAL'#13#10 // 13
+    + ', PRECO_UNIT_PROMO'#13#10 // 14
+    + ', PRECO_UNIT'#13#10 // 15
+    + ', PRECO_BRUTO'#13#10 // 16
 
-    + ', ENCONTRADO'#13#10 //
-    + ', MENSAGEM'#13#10 //
+    + ', ENCONTRADO'#13#10 // 17
+    + ', MENSAGEM'#13#10 // 18
 
-    + 'FROM VENDA_PDV_INS_PA.PEGUE_ITEM('#13#10 //
+    + 'FROM VENDA_PDV_INS_PA.ITEM_BUSQUE'#13#10 //
 
     + '('#13#10 //
-    + '  ' + AppObj.Loja.id.ToString  + ' -- LOJA_ID'#13#10 //
-    + ', ' +  Terminal.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+    + '  ' + AppObj.Loja.id.ToString + ' -- LOJA_ID'#13#10 //
+    + ', ' + Terminal.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+
     + ', ' + PDVVenda.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
     + ', ' + PDVVenda.VendaId.ToString + ' -- VENDA_ID'#13#10 //
-    + ', ' + PDVVenda.CaixaSessao.LojaId.ToString +' -- SESS_LOJA_ID'#13#10 //
-    + ', ' + PDVVenda.CaixaSessao.TerminalId.ToString +' -- SESS_TERMINAL_ID'#13#10 //
-    + ', ' + PDVVenda.CaixaSessao.Id.ToString +' -- SESS_ID'#13#10 //
-    + ', ' + CurrencyToStrPonto(uQtd) +' -- QTD'#13#10 //
-    + ', ' + QuotedStr(sBusca) +' -- STR_BUSCA'#13#10 //
-    +');';
 
-  {
+    + ', ' + PDVVenda.CaixaSessao.LojaId.ToString + ' -- SESS_LOJA_ID'#13#10 //
+    + ', ' + PDVVenda.CaixaSessao.TerminalId.ToString +
+    ' -- SESS_TERMINAL_ID'#13#10 //
+    + ', ' + PDVVenda.CaixaSessao.id.ToString + ' -- SESS_ID'#13#10 //
 
-    PROCEDURE PEGUE_ITEM
-    (
-    LOJA_ID ID_SHORT_DOM NOT NULL
-    , TERMINAL_ID ID_SHORT_DOM NOT NULL
-    , EST_MOV_ID BIGINT NOT NULL
-    , VENDA_ID ID_DOM NOT NULL
-    , SESS_LOJA_ID ID_SHORT_DOM NOT NULL
-    , SESS_TERMINAL_ID ID_SHORT_DOM NOT NULL
-    , SESS_ID ID_DOM NOT NULL
-    , QTD QTD_DOM NOT NULL
-    , STR_BUSCA VARCHAR(30)
-    )
-    RETURNS
-    (
-    EST_MOV_ID_RET BIGINT
-    , ORDEM_RET SMALLINT
-    , VENDA_ID_RET ID_DOM
-    , DTH_DOC_RET TIMESTAMP
-    , EST_MOV_CRIADO_EM_RET TIMESTAMP
-    , PROD_ID ID_DOM
-    , DESCR_RED PROD_DESCR_RED_DOM
-    , FABR_NOME NOME_REDU_DOM
-    , UNID_SIGLA CHAR(6)
-    , BAL_USO SMALLINT
-    , CUSTO CUSTO_DOM
-    , PRECO PRECO_DOM
-    , ENCONTRADO BOOLEAN
-    , MENSAGEM VARCHAR(30)
-    , LOG_STR_RET VARCHAR(200)
+    + ', ' + CurrencyToStrPonto(uQtd) + ' -- QTD'#13#10 //
+    + ', ' + QuotedStr(sBusca) + ' -- STR_BUSCA'#13#10 //
 
-
-
-    SELECT *
-    FROM VENDA_PDV_INS_PA.PEGUE_ITEM(
-    1 -- LOJA_ID
-    , 1 -- TERMINAL_ID
-    , NULL -- EST_MOV_ID
-
-    , 1 -- SESS_LOJA_ID
-    , 1 -- SESS_TERMINAL_ID
-    , 3 -- SESS_ID
-    , 1
-    , '7869549490313'
-    );
-
-  }
+    + ');';
 
 {$IFDEF DEBUG}
-    CopyTextToClipboard(sSql);
+  CopyTextToClipboard(sSql);
 {$ENDIF}
+  DBConnection.QueryDataSet(sSql, q);
+
+  pEncontrou := Assigned(q);
+  if not pEncontrou then
+  begin
+    pMensagem := 'ERRO BUSCANDO ITEM';
+    exit;
   end;
 
-  end.
+  pEncontrou := q.Fields[17 {ENCONTRADO}].AsBoolean;
+
+  if not pEncontrou then
+  begin
+    pMensagem := q.Fields[18 {MENSAGEM}].AsString;
+    exit;
+  end;
+
+  if FShopPdvVenda.VendaId = 0 then
+  begin
+    FShopPdvVenda.EstMovId := q.Fields[0 { EST_MOV_ID_RET } ].AsLargeInt;
+    FShopPdvVenda.VendaId := q.Fields[1 { VENDA_ID_RET } ].AsInteger;
+    FShopPdvVenda.DtHDoc := q.Fields[2 { DTH_DOC_RET } ].AsDateTime;
+    FShopPdvVenda.CriadoEm := q.Fields[3 { EST_MOV_CRIADO_EM_RET } ].AsDateTime;
+  end;
+
+  oProd := ProdCreate( //
+    q.Fields[6 { PROD_ID } ].AsInteger //
+    , q.Fields[7 { DESCR_RED } ].AsString //
+    , q.Fields[8 { FABR_NOME } ].AsString
+    , q.Fields[9 { UNID_SIGLA } ].AsString
+    );
+
+  Result := ShopPDVVendaItemCreate( //
+    q.Fields[1 { ORDEM_RET } ].AsInteger
+    , oProd //
+    , uQtd    //
+
+    , q.Fields[10 { BAL_USO } ].AsInteger//
+
+    , q.Fields[11 { CUSTO_UNIT } ].AsCurrency//
+    , q.Fields[12 { CUSTO } ].AsCurrency//
+
+    , q.Fields[13 { PRECO_UNIT_ORIGINAL } ].AsCurrency//
+    , q.Fields[14 { PRECO_UNIT_PROMO } ].AsCurrency//
+    , q.Fields[15 { PRECO_UNIT } ].AsCurrency
+    , q.Fields[16 { PRECO_BRUTO } ].AsCurrency
+
+    , 0 // desconto
+    , q.Fields[16 { PRECO_BRUTO } ].AsCurrency // preco
+
+    , False // pEstMovItemCancelado
+    , DATA_ZERADA // pEstMovItemCriadoEm
+    , DATA_ZERADA // pEstMovItemAlteradoEm
+    , DATA_ZERADA // pEstMovItemCanceladoEm
+    );
+end;
+
+end.

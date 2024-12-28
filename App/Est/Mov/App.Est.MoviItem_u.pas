@@ -2,13 +2,13 @@ unit App.Est.MoviItem_u;
 
 interface
 
-uses App.Est.MoviItem, Sis.Types, Sis.Sis.Constants;
+uses App.Est.MoviItem, Sis.Types, Sis.Sis.Constants, App.Est.Prod;
 
 type
   TEstMovItem = class(TInterfacedObject, IEstMovItem)
   private
     FOrdem: SmallInt;
-    FProdId: TId;
+    FProd: IProd;
     FQtd: Currency;
     FCancelado: Boolean;
     FCriadoEm: TDateTime;
@@ -17,7 +17,7 @@ type
 
     function GetOrdem: SmallInt;
 
-    function GetProdId: TId;
+    function GetProd: IProd;
 
     function GetQtd: Currency;
     procedure SetQtd(Value: Currency);
@@ -35,7 +35,7 @@ type
     procedure SetCanceladoEm(Value: TDateTime);
   public
     property Ordem: SmallInt read GetOrdem;
-    property ProdId: TId read GetProdId;
+    property Prod: IProd read GetProd;
     property Qtd: Currency read GetQtd write SetQtd;
     property Cancelado: Boolean read GetCancelado write SetCancelado;
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
@@ -44,7 +44,7 @@ type
 
     constructor Create( //
       pOrdem: SmallInt; //
-      pProdId: TId; //
+      pProd: IProd; //
       pQtd: Currency; //
       pCriadoEm: TDateTime; //
       pCancelado: Boolean = False; //
@@ -59,7 +59,7 @@ implementation
 
 constructor TEstMovItem.Create( //
   pOrdem: SmallInt; //
-  pProdId: TId; //
+  pProd: IProd; //
   pQtd: Currency; //
   pCriadoEm: TDateTime; //
   pCancelado: Boolean; //
@@ -68,7 +68,7 @@ constructor TEstMovItem.Create( //
   );
 begin
   FOrdem := pOrdem;
-  FProdId := pProdId;
+  FProd := pProd;
   FQtd := pQtd;
   FCancelado := pCancelado;
   FCriadoEm := pCriadoEm;
@@ -101,9 +101,9 @@ begin
   Result := FOrdem;
 end;
 
-function TEstMovItem.GetProdId: TId;
+function TEstMovItem.GetProd: IProd;
 begin
-  Result := FProdId;
+  Result := FProd;
 end;
 
 function TEstMovItem.GetQtd: Currency;

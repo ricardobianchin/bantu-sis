@@ -2,7 +2,7 @@ unit App.PDV.VendaItem_u;
 
 interface
 
-uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants;
+uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants, App.Est.Prod;
 
 type
   TPDVVendaItem = class(TEstMovItem, IPDVVendaItem)
@@ -58,7 +58,7 @@ type
 
     constructor Create( //
       pEstMovOrdem: SmallInt; //
-      pEstMovProdId: TId; //
+      pProd: IProd; //
       pEstMovQtd: Currency; //
 
       pBalUso: SmallInt; //
@@ -72,10 +72,10 @@ type
       pDesconto: Currency; //
       pPreco: Currency; //
 
-      pEstMovCancelado: Boolean = False; //
-      pEstMovCriadoEm: TDateTime = DATA_ZERADA; //
-      pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
-      pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+      pEstMovItemCancelado: Boolean = False; //
+      pEstMovItemCriadoEm: TDateTime = DATA_ZERADA; //
+      pEstMovItemAlteradoEm: TDateTime = DATA_ZERADA; //
+      pEstMovItemCanceladoEm: TDateTime = DATA_ZERADA //
       );
   end;
 
@@ -85,7 +85,7 @@ implementation
 
 constructor TPDVVendaItem.Create( //
   pEstMovOrdem: SmallInt; //
-  pEstMovProdId: TId; //
+  pProd: IProd; //
   pEstMovQtd: Currency; //
 
   pBalUso: SmallInt; //
@@ -99,20 +99,20 @@ constructor TPDVVendaItem.Create( //
   pDesconto: Currency; //
   pPreco: Currency; //
 
-  pEstMovCancelado: Boolean; //
-  pEstMovCriadoEm: TDateTime; //
-  pEstMovAlteradoEm: TDateTime; //
-  pEstMovCanceladoEm: TDateTime //
+  pEstMovItemCancelado: Boolean; //
+  pEstMovItemCriadoEm: TDateTime; //
+  pEstMovItemAlteradoEm: TDateTime; //
+  pEstMovItemCanceladoEm: TDateTime //
   );
 begin
   inherited Create(
     pEstMovOrdem //
-    , pEstMovProdId //
+    , pProd //
     , pEstMovQtd //
-    , pEstMovCriadoEm //
-    , pEstMovCancelado //
-    , pEstMovAlteradoEm //
-    , pEstMovCanceladoEm //
+    , pEstMovItemCriadoEm //
+    , pEstMovItemCancelado //
+    , pEstMovItemAlteradoEm //
+    , pEstMovItemCanceladoEm //
     );
 
   FBalUso := pBalUso;

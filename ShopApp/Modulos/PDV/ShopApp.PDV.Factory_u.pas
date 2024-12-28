@@ -5,7 +5,7 @@ interface
 uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
   Sis.DBI, Sis.DB.DBTypes, ShopApp.PDV.DBI, Sis.Types, Sis.Entities.Terminal,
-  App.AppObj;
+  App.AppObj, App.Est.Prod;
 
 function ShopPDVVendaCreate( //
   pLojaId: TLojaId; //
@@ -34,7 +34,7 @@ function ShopPDVVendaCreate( //
 
 function ShopPDVVendaItemCreate( //
   pEstMovOrdem: SmallInt; //
-  pEstMovProdId: TId; //
+  pProd: IProd; //
   pEstMovQtd: Currency; //
 
   pBalUso: SmallInt; //
@@ -48,10 +48,10 @@ function ShopPDVVendaItemCreate( //
   pDesconto: Currency; //
   pPreco: Currency; //
 
-  pEstMovCancelado: Boolean; //
-  pEstMovCriadoEm: TDateTime; //
-  pEstMovAlteradoEm: TDateTime; //
-  pEstMovCanceladoEm: TDateTime //
+  pEstMovItemCancelado: Boolean; //
+  pEstMovItemCriadoEm: TDateTime; //
+  pEstMovItemAlteradoEm: TDateTime; //
+  pEstMovItemCanceladoEm: TDateTime //
   ): IShopPDVVendaItem;
 
 function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
@@ -115,7 +115,7 @@ end;
 
 function ShopPDVVendaItemCreate( //
   pEstMovOrdem: SmallInt; //
-  pEstMovProdId: TId; //
+  pProd: IProd; //
   pEstMovQtd: Currency; //
 
   pBalUso: SmallInt; //
@@ -129,15 +129,15 @@ function ShopPDVVendaItemCreate( //
   pDesconto: Currency; //
   pPreco: Currency; //
 
-  pEstMovCancelado: Boolean; //
-  pEstMovCriadoEm: TDateTime; //
-  pEstMovAlteradoEm: TDateTime; //
-  pEstMovCanceladoEm: TDateTime //
+  pEstMovItemCancelado: Boolean; //
+  pEstMovItemCriadoEm: TDateTime; //
+  pEstMovItemAlteradoEm: TDateTime; //
+  pEstMovItemCanceladoEm: TDateTime //
   ): IShopPDVVendaItem;
 begin
   Result := TShopPDVVendaItem.Create( //
     pEstMovOrdem //
-    , pEstMovProdId //
+    , pProd //
     , pEstMovQtd //
 
     , pBalUso
@@ -151,10 +151,10 @@ begin
     , pDesconto //
     , pPreco //
 
-    , pEstMovCancelado //
-    , pEstMovCriadoEm //
-    , pEstMovAlteradoEm //
-    , pEstMovCanceladoEm //
+    , pEstMovItemCancelado //
+    , pEstMovItemCriadoEm //
+    , pEstMovItemAlteradoEm //
+    , pEstMovItemCanceladoEm //
     );
 end;
 

@@ -2,7 +2,7 @@ unit App.Est.MoviItem;
 
 interface
 
-uses Sis.Types;
+uses Sis.Types, App.Est.Prod;
 
 type
   IEstMovItem = interface(IInterface)
@@ -10,8 +10,8 @@ type
     function GetOrdem: SmallInt;
     property Ordem: SmallInt read GetOrdem;
 
-    function GetProdId: TId;
-    property ProdId: TId read GetProdId;
+    function GetProd: IProd;
+    property Prod: IProd read GetProd;
 
     function GetQtd: Currency;
     procedure SetQtd(Value: Currency);
