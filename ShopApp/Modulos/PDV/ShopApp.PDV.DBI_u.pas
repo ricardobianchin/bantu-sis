@@ -10,6 +10,7 @@ type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
   private
     FShopPdvVenda: IShopPdvVenda;
+
   public
     function ItemCreatePelaStrBusca(pStrBusca: string; out pEncontrou: Boolean;
       out pMensagem: string): IShopPDVVendaItem;
@@ -107,9 +108,9 @@ begin
 
     + ');';
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
   DBConnection.QueryDataSet(sSql, q);
 
   pEncontrou := Assigned(q);
@@ -143,7 +144,7 @@ begin
     );
 
   Result := ShopPDVVendaItemCreate( //
-    q.Fields[1 { ORDEM_RET } ].AsInteger
+    q.Fields[4 { ORDEM_RET } ].AsInteger
     , oProd //
     , uQtd    //
 
