@@ -7,7 +7,7 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.Entities.TerminalList;
 
 function GarantirDB(pAppObj: IAppObj;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
   pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 
 implementation
@@ -21,7 +21,7 @@ var
   DBMS: IDBMS;
 
 function GarantirDBServ(pAppObj: IAppObj;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
   pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
@@ -45,7 +45,7 @@ begin
 end;
 
 function GarantirDBTerms(pAppObj: iAppObj;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
   pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 var
   oUpdater: IDBUpdater;
@@ -94,7 +94,7 @@ begin
 end;
 
 function GarantirDB(pAppObj: IAppObj;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
   pUsuarioAdmin: IUsuario; pVariaveis: string): boolean;
 var
   sLog: string;

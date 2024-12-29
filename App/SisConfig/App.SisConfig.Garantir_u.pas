@@ -16,7 +16,7 @@ type
     FNomeArqXML: string;
 
     FUsuarioAdmin: IUsuario;
-    FLoja: ILoja;
+    FLoja: ISisLoja;
     FTerminalList: ITerminalList;
 
     function ArqXmlExiste: boolean;
@@ -27,7 +27,7 @@ type
   public
     function Execute: boolean; override;
     constructor Create(pAppObj: IAppObj; pSisConfig: ISisConfig;
-      pUsuarioAdmin: IUsuario; pLoja: ILoja; pOutput: IOutput;
+      pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pOutput: IOutput;
       pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
@@ -101,7 +101,7 @@ begin
 end;
 
 constructor TAppSisConfigGarantirXML.Create(pAppObj: IAppObj;
-  pSisConfig: ISisConfig; pUsuarioAdmin: IUsuario; pLoja: ILoja;
+  pSisConfig: ISisConfig; pUsuarioAdmin: IUsuario; pLoja: ISisLoja;
   pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   inherited Create(pOutput, pProcessLog);
