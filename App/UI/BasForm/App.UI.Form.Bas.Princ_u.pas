@@ -5,12 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Sis.UI.Form.Bas.Act_u, System.Actions, App.AppInfo,
-  App.AppObj, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Vcl.ActnList,
-  Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg,
+  Sis.UI.Form.Bas.Act_u, System.Actions, App.AppInfo, App.AppObj, App.Loja,
+  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Vcl.ActnList, Vcl.ExtCtrls,
+  Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg, Sis.UI.Constants,
   Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Usuario,
-  Sis.Loja, Sis.UI.Constants, Sis.Entities.TerminalList,
-  Sis.Entities.Factory;
+  Sis.Entities.TerminalList, Sis.Entities.Factory, App.Loja.DBI;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -34,8 +33,8 @@ type
     FsLogo1NomeArq: string;
     FAppInfo: IAppInfo;
     FTerminalList: ITerminalList;
+    FLoja: IAppLoja;
     FAppObj: IAppObj;
-    FLoja: ILoja;
 
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
@@ -50,7 +49,7 @@ type
     function AtualizeVersaoExecutaveis: boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function GarantirConfig(pLoja: ILoja; pUsuarioAdmin: IUsuario;
+    function GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
       pTerminalList: ITerminalList): boolean;
 
     procedure CarregarMachineId;
@@ -66,7 +65,7 @@ type
 
     property AppInfo: IAppInfo read FAppInfo;
     property AppObj: IAppObj read FAppObj;
-    property Loja: ILoja read FLoja;
+    property Loja: IAppLoja read FLoja;
 
     procedure OculteSplashForm;
     function GetAppInfoCreate: IAppInfo; virtual; abstract;
@@ -102,7 +101,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
-  App.Constants;
+  App.Constants, App.Pess.Factory_u;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -172,14 +171,16 @@ procedure TPrincBasForm.CarregarLoja;
 var
   DBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
+  sMens: string;
+  oLojaDBI: IAppLojaDBI;
 begin
   oDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, FAppObj);
 
   DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, FProcessOutput);
-
-  LojaLeia(FLoja, DBConnection);
+  oLojaDBI := AppLojaDBICreate(FLoja, DBConnection);;
+  oLojaDBI.Ler(sMens);
 end;
 
 procedure TPrincBasForm.CarregarMachineId;
@@ -248,11 +249,13 @@ begin
   inherited Create(AOwner);
   // ReportMemoryLeaksOnShutdown := True;
   Randomize;
+
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
   ToolBar1.Left := Width - ToolBar1.Width;
+
   FProcessLog := ProcessLogFileCreate(Name);
   FStatusOutput := MudoOutputCreate;
   FProcessOutput := nil;
@@ -272,7 +275,7 @@ begin
 
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
-    FLoja := LojaCreate;
+    FLoja := AppLojaCreate;
     FAppInfo := GetAppInfoCreate;
 
     FTerminalList := TerminalListCreate;
@@ -302,10 +305,10 @@ begin
     end;
     GarantaDB;
 
-    if FLoja.Id < 1 then
-    begin
+//    if FLoja.Id < 1 then
+//    begin
       CarregarLoja;
-    end;
+//    end;
 
     if FLoja.Id < 1 then
     begin
@@ -391,7 +394,7 @@ begin
   end;
 end;
 
-function TPrincBasForm.GarantirConfig(pLoja: ILoja; pUsuarioAdmin: IUsuario;
+function TPrincBasForm.GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
   pTerminalList: ITerminalList): boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
