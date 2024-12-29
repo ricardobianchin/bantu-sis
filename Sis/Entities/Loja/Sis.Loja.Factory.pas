@@ -4,32 +4,31 @@ interface
 
 uses Sis.Loja, Sis.ModuloSistema.Types, Sis.DB.DBTypes, Sis.Loja.DBI;
 
-function LojaCreate(pDescr:string=''; pId:integer=0): ILoja;
-function LojaDBICreate(pLoja: ILoja; pDBConnection: IDBConnection): ILojaDBI;
-function LojaLeia(pLoja: ILoja; pDBConnection: IDBConnection): ILoja;
+function SisLojaCreate(pDescr:string=''; pId:integer=0): ISisLoja;
+function SisLojaDBICreate(pLoja: ISisLoja; pDBConnection: IDBConnection): ISisLojaDBI;
+function SisLojaLeia(pLoja: ISisLoja; pDBConnection: IDBConnection): ISisLoja;
 
 implementation
 
 uses Sis.Usuario_u, Sis.Loja_u, Sis.Loja.DBI_u;
 
-function LojaCreate(pDescr:string=''; pId:integer=0): ILoja;
+function SisLojaCreate(pDescr:string=''; pId:integer=0): ISisLoja;
 begin
-  Result := TLoja.Create(pDescr, pId);
+  Result := TSisLoja.Create(pDescr, pId);
 end;
 
-function LojaDBICreate(pLoja: ILoja; pDBConnection: IDBConnection): ILojaDBI;
+function SisLojaDBICreate(pLoja: ISisLoja; pDBConnection: IDBConnection): ISisLojaDBI;
 begin
-  Result := TLojaDBI.Create(pLoja, pDBConnection);
+  Result := TSisLojaDBI.Create(pLoja, pDBConnection);
 end;
 
-function LojaLeia(pLoja: ILoja; pDBConnection: IDBConnection): ILoja;
+function SisLojaLeia(pLoja: ISisLoja; pDBConnection: IDBConnection): ISisLoja;
 var
-  oLojaDBI: ILojaDBI;
+  oLojaDBI: ISisLojaDBI;
   sMens: string;
 begin
-  oLojaDBI := LojaDBICreate(pLoja, pDBConnection);
+  oLojaDBI := SisLojaDBICreate(pLoja, pDBConnection);
   oLojaDBI.Ler(sMens);
 end;
-
 
 end.

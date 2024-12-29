@@ -5,12 +5,12 @@ interface
 uses Sis.DBI_u, Sis.Loja.DBI, Sis.Loja, Sis.DB.DBTypes;
 
 type
-  TLojaDBI = class(TDBI, ILojaDBI)
+  TSisLojaDBI = class(TDBI, ISisLojaDBI)
   private
-    FLoja: ILoja;
+    FLoja: ISisLoja;
   public
-    constructor Create(pLoja: ILoja; pDBConnection: IDBConnection);
-    function Ler(out pMens: string): boolean;
+    constructor Create(pLoja: ISisLoja; pDBConnection: IDBConnection);
+    function Ler(out pMens: string): boolean; virtual;
   end;
 
 
@@ -18,15 +18,15 @@ implementation
 
 uses Data.DB;
 
-{ TLojaDBI }
+{ TSisLojaDBI }
 
-constructor TLojaDBI.Create(pLoja: ILoja; pDBConnection: IDBConnection);
+constructor TSisLojaDBI.Create(pLoja: ISisLoja; pDBConnection: IDBConnection);
 begin
   inherited Create(pDBConnection);
   FLoja := pLoja;
 end;
 
-function TLojaDBI.Ler(out pMens: string): boolean;
+function TSisLojaDBI.Ler(out pMens: string): boolean;
 var
   sSql: string;
   q: TDataSet;

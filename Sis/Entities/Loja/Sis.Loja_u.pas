@@ -5,7 +5,7 @@ interface
 uses Sis.Loja, Sis.Lists.HashItem_u;
 
 type
-  TLoja = class(THashItem, ILoja)
+  TSisLoja = class(THashItem, ISisLoja)
 
   end;
 

@@ -20,7 +20,7 @@ type
   public
     constructor Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
       pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-      pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+      pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
       pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList; pVariaveis: string);
   end;
 
@@ -34,7 +34,7 @@ uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
 
 constructor TDBUpdaterFirebird.Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
   pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ILoja;
+  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
   pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList; pVariaveis: string);
 begin
   pProcessLog.PegueLocal('TDBUpdaterFirebird.Create');

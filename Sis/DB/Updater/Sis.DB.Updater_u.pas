@@ -41,7 +41,7 @@ type
     FDBUpdaterOperations: IDBUpdaterOperations;
     FTerminalList: ITerminalList;
 
-    FLoja: ILoja;
+    FLoja: ISisLoja;
     FUsuarioAdmin: IUsuario;
 
     FCriouDB: Boolean;
@@ -139,7 +139,7 @@ type
     constructor Create(pTerminalId: TTerminalId;
       pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
       pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
-      pOutput: IOutput; pLoja: ILoja; pUsuarioAdmin: IUsuario;
+      pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
       pTerminalList: ITerminalList; pVariaveis: string);
     destructor Destroy; override;
   end;
@@ -158,7 +158,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
+  pLoja: ISisLoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string);
 begin
   FVariaveis := TStringList.Create;
