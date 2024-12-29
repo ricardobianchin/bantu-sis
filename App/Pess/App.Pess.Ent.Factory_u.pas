@@ -6,8 +6,8 @@ uses App.PessEnder.List, Sis.DB.DBTypes, App.Ent.DBI, App.Ent.Ed, App.Pess.Ent,
   App.Pess.DBI, App.PessEnder;
 
 //ender list
-function PessEnderListCreate: IPessEnderList;//privativo desta unit
-function PessEnderCreate: IPessEnder;//privativo desta unit
+function PessEnderListCreate: IPessEnderList;
+function PessEnderCreate: IPessEnder;
 procedure PessEnderListGarantirUmItem(pPessEnderList: IPessEnderList);
 
 function EntEdCastToPessEnt(pEntEd: IEntEd): IPessEnt;
