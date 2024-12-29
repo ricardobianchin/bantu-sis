@@ -687,6 +687,11 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\PDV\App.PDV.DBI_u.pas"/>
         <DCCReference Include="Est\Prod\App.Est.Prod.pas"/>
         <DCCReference Include="Est\Prod\App.Est.Prod_u.pas"/>
+        <DCCReference Include="Pess\Loja\App.Loja.pas"/>
+        <DCCReference Include="Pess\Loja\App.Loja.DBI.pas"/>
+        <DCCReference Include="Pess\Loja\App.Loja_u.pas"/>
+        <DCCReference Include="Pess\Loja\App.Loja.DBI_U.pas"/>
+        <DCCReference Include="Pess\App.Pess.Factory_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

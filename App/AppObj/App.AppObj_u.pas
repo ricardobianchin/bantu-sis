@@ -3,14 +3,14 @@ unit App.AppObj_u;
 interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Loja_u, Sis.Loja, App.Testes.Config,
+  Sis.Config.SisConfig, Sis.DB.DBTypes, App.Loja, App.Testes.Config,
   Sis.Entities.TerminalList, Sis.Threads.Crit.CriticalSections;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)
   private
     FAppInfo: IAppInfo;
-    FLoja: ILoja;
+    FLoja: IAppLoja;
     FAppTestesConfig: IAppTestesConfig;
     FStatusOutput: IOutput;
     FProcessOutput: IOutput;
@@ -33,7 +33,7 @@ type
     function GetStatusOutput: IOutput;
     function GetProcessOutput: IOutput;
     function GetProcessLog: IProcessLog;
-    function GetLoja: ILoja;
+    function GetLoja: IAppLoja;
 
     procedure SetProcessOutput(Value: IOutput);
     function GetCriticalSections: ICriticalSections;
@@ -46,13 +46,13 @@ type
     property ProcessLog: IProcessLog read FProcessLog;
     property SisConfig: ISisConfig read GetSisConfig;
     property AppInfo: IAppInfo read GetAppInfo;
-    property Loja: ILoja read GetLoja;
+    property Loja: IAppLoja read GetLoja;
     property TerminalList: ITerminalList read GetTerminalList;
     property CriticalSections: ICriticalSections read GeICriticalSections;
 
 
     function Inicialize: boolean;
-    constructor Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
+    constructor Create(pAppInfo: IAppInfo; pLoja: IAppLoja; pDBMS: IDBMS; pStatusOutput: IOutput;
       pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
@@ -63,7 +63,7 @@ uses App.AppObj_u_VaParaPasta, App.AppObj_u_ExecEventos, Sis.Config.Factory,
 
 { TAppObj }
 
-constructor TAppObj.Create(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS;
+constructor TAppObj.Create(pAppInfo: IAppInfo; pLoja: IAppLoja; pDBMS: IDBMS;
   pStatusOutput: IOutput; pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   FAppTestesConfig := App.Factory.AppTestesConfigCreate(pProcessLog,
@@ -116,7 +116,7 @@ begin
   Result := FDBMS;
 end;
 
-function TAppObj.GetLoja: ILoja;
+function TAppObj.GetLoja: IAppLoja;
 begin
   Result := FLoja;
 end;

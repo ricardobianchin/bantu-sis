@@ -365,6 +365,11 @@ contains
   App.PDV.VendaItem_u in 'Modulos\PDV\Venda\App.PDV.VendaItem_u.pas',
   App.PDV.DBI_u in 'Modulos\PDV\App.PDV.DBI_u.pas',
   App.Est.Prod in 'Est\Prod\App.Est.Prod.pas',
-  App.Est.Prod_u in 'Est\Prod\App.Est.Prod_u.pas';
+  App.Est.Prod_u in 'Est\Prod\App.Est.Prod_u.pas',
+  App.Loja in 'Pess\Loja\App.Loja.pas',
+  App.Loja.DBI in 'Pess\Loja\App.Loja.DBI.pas',
+  App.Loja_u in 'Pess\Loja\App.Loja_u.pas',
+  App.Loja.DBI_U in 'Pess\Loja\App.Loja.DBI_U.pas',
+  App.Pess.Factory_u in 'Pess\App.Pess.Factory_u.pas';
 
 end.
