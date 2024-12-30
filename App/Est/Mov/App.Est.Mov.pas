@@ -2,13 +2,13 @@ unit App.Est.Mov;
 
 interface
 
-uses Sis.Entities.Types, App.Est.Types_u, System.Classes;
+uses Sis.Entities.Types, App.Est.Types_u, System.Classes, App.Loja;
 
 type
   IEstMov = interface(IInterfaceList)
     ['{8FE1D118-7395-4E42-89C6-B5A1581ACCDF}']
-    function GetLojaId: TLojaId;
-    property LojaId: TLojaId read GetLojaId;
+    function GetLoja: IAppLoja;
+    property Loja: IAppLoja read GetLoja;
 
     function GetTerminalId: TTerminalId;
     property TerminalId: TTerminalId read GetTerminalId;

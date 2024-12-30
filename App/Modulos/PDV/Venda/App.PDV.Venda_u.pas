@@ -4,7 +4,7 @@ interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
-  Sis.Sis.Constants, App.PDV.VendaItem;
+  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja;
 
 type
   TPDVVenda = class(TEstMov, IPDVVenda)
@@ -71,7 +71,7 @@ type
     procedure Zerar; override;
 
     constructor Create( //
-      pLojaId: TLojaId; //
+      pLoja: IAppLoja; //
       pTerminalId: TTerminalId; //
       pDtHDoc: TDateTime; //
       pEstMovCriadoEm: TDateTime; //
@@ -105,7 +105,7 @@ implementation
 { TPDVVenda }
 
 constructor TPDVVenda.Create( //
-  pLojaId: TLojaId; //
+  pLoja: IAppLoja; //
   pTerminalId: TTerminalId; //
   pDtHDoc: TDateTime; //
   pEstMovCriadoEm: TDateTime; //
@@ -133,7 +133,7 @@ constructor TPDVVenda.Create( //
   );
 begin
   inherited Create( //
-    pLojaId //
+    pLoja //
     , pTerminalId //
     , TEstMovTipo.emtipoVenda //
     , pDtHDoc //

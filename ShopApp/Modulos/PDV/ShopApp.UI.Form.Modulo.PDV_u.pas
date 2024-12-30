@@ -70,7 +70,7 @@ end;
 function TShopPDVModuloForm.PDVVendaCreate: IPDVVenda;
 begin
   FShopPDVVenda := ShopPDVVendaCreate(
-    AppObj.Loja.Id //
+    AppObj.Loja //
     , TerminalId //
     , DATA_ZERADA //
     , DATA_ZERADA //

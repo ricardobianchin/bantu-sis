@@ -3,12 +3,12 @@ unit App.Est.Mov_u;
 interface
 
 uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
-  System.Classes;
+  System.Classes, App.Loja;
 
 type
   TEstMov = class(TInterfaceList, IEstMov)
   private
-    FLojaId: TLojaId;
+    FLoja: IAppLoja;
     FTerminalId: TTerminalId;
     FEstMovId: Int64;
     FEstMovTipo: TEstMovTipo;
@@ -20,7 +20,7 @@ type
     FFinalizadoEm: TDateTime;
     FCanceladoEm: TDateTime;
 
-    function GetLojaId: TLojaId;
+    function GetLoja: IAppLoja;
     function GetTerminalId: TTerminalId;
 
     function GetEstMovId: Int64;
@@ -50,7 +50,7 @@ type
     procedure SetCanceladoEm(Value: TDateTime);
 
   public
-    property LojaId: TLojaId read GetLojaId;
+    property Loja: IAppLoja read GetLoja;
     property TerminalId: TTerminalId read GetTerminalId;
     property EstMovId: Int64 read GetEstMovId write SetEstMovId;
     property EstMovTipo: TEstMovTipo read GetEstMovTipo;
@@ -65,7 +65,7 @@ type
     procedure Zerar; virtual;
 
     constructor Create(
-      pLojaId: TLojaId; //
+      pLoja: IAppLoja; //
       pTerminalId: TTerminalId; //
       pEstMovTipo: TEstMovTipo; //
       pDtHDoc: TDateTime; //
@@ -85,12 +85,12 @@ implementation
 
 { TEstMov }
 
-constructor TEstMov.Create(pLojaId: TLojaId; pTerminalId: TTerminalId;
+constructor TEstMov.Create(pLoja: IAppLoja; pTerminalId: TTerminalId;
   pEstMovTipo: TEstMovTipo; pDtHDoc, pCriadoEm: TDateTime; pEstMovId: Int64;
   pFinalizado, pCancelado: Boolean; pAlteradoEm, pFinalizadoEm,
   pCanceladoEm: TDateTime);
 begin
-  FLojaId := pLojaId;
+  FLoja := pLoja;
   FTerminalId := pTerminalId;
   FEstMovTipo := pEstMovTipo;
   FDtHDoc := pDtHDoc;
@@ -149,9 +149,9 @@ begin
   Result := FEstMovId;
 end;
 
-function TEstMov.GetLojaId: TLojaId;
+function TEstMov.GetLoja: IAppLoja;
 begin
-  Result := FLojaId;
+  Result := FLoja;
 end;
 
 function TEstMov.GetTerminalId: TTerminalId;
@@ -196,7 +196,6 @@ end;
 
 procedure TEstMov.Zerar;
 begin
-  FLojaId := 0;
   FTerminalId := 0;
   FEstMovId := 0;
   FDtHDoc := DATA_ZERADA;

@@ -6,10 +6,10 @@ uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
   Sis.DB.DBTypes, ShopApp.PDV.DBI, Sis.Types, Sis.Entities.Terminal, Vcl.Grids,
   App.AppObj, App.Est.Prod, App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
-  ShopApp.UI.PDV.Venda.Frame.FitaDraw;
+  ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja;
 
 function ShopPDVVendaCreate( //
-  pLojaId: TLojaId; //
+  pLoja: IAppLoja; //
   pTerminalId: TTerminalId; //
   pDtHDoc: TDateTime; //
   pEstMovCriadoEm: TDateTime; //
@@ -71,7 +71,7 @@ uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u,
   ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u;
 
 function ShopPDVVendaCreate( //
-  pLojaId: TLojaId; //
+  pLoja: IAppLoja; //
   pTerminalId: TTerminalId; //
   pDtHDoc: TDateTime; //
   pEstMovCriadoEm: TDateTime; //
@@ -96,7 +96,7 @@ function ShopPDVVendaCreate( //
   ): IShopPDVVenda;
 begin
   Result := TShopPDVVenda.Create( //
-    pLojaId //
+    pLoja //
     , pTerminalId //
     , pDtHDoc //
     , pEstMovCriadoEm //
