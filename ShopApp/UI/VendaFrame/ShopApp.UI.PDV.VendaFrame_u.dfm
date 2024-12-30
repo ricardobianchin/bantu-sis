@@ -65,6 +65,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       ScrollBars = ssNone
       TabOrder = 1
       StyleElements = []
+      OnDrawCell = FitaStringGridDrawCell
     end
     object ItemPanel: TPanel
       Left = 0

@@ -39,11 +39,12 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, sIS.Sis.Constants //
+uses Sis.DB.Factory, sIS.Sis.Constants, Sis.Sis.Atualizavel //
 
     , App.PDV.Preco.PrecoBusca.Factory_u //
     , AppShop.PDV.Preco.PrecoBusca.Factory_u //
-    , ShopApp.UI.PDV.VendaFrame_u, ShopApp.PDV.Factory_u;
+    , ShopApp.PDV.Factory_u //
+    ;
 
 function TShopPDVModuloForm.AppMenuFormCreate: TAppMenuForm;
 begin
@@ -101,7 +102,7 @@ end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  Result := TShopVendaPDVFrame.Create(Self, PDVVenda, FShopAppPDVDBI);
+  Result := ShopVendaPDVFrameCreate(Self, PDVVenda, FShopAppPDVDBI);
   Result.Visible := False;
 end;
 

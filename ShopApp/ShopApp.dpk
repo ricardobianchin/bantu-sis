@@ -55,6 +55,8 @@ contains
   ShopApp.PDV.VendaItem in 'Modulos\PDV\Venda\ShopApp.PDV.VendaItem.pas',
   ShopApp.PDV.VendaItem_u in 'Modulos\PDV\Venda\ShopApp.PDV.VendaItem_u.pas',
   ShopApp.PDV.DBI in 'Modulos\PDV\ShopApp.PDV.DBI.pas',
-  ShopApp.PDV.DBI_u in 'Modulos\PDV\ShopApp.PDV.DBI_u.pas';
+  ShopApp.PDV.DBI_u in 'Modulos\PDV\ShopApp.PDV.DBI_u.pas',
+  ShopApp.UI.PDV.Venda.Frame.FitaDraw_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw_u.pas',
+  ShopApp.UI.PDV.Venda.Frame.FitaDraw in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw.pas';
 
 end.
