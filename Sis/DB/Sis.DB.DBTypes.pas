@@ -116,6 +116,7 @@ type
     property UltimoErro: string read GetUltimoErro write SetUltimoErro;
 
     function GetValue(pSql: string): Variant;
+    function GetValueString(pSql: string): string;
     function GetValueInteger(pSql: string): integer;
     function GetValueInteger64(pSql: string): Int64;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
