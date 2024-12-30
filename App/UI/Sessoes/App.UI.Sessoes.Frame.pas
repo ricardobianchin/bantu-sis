@@ -45,14 +45,15 @@ type
     function GetSessao(Index: integer): ISessao;
     function GetCount: integer;
 
-    function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
+    function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)
+      : TBotaoModuloFrame;
 
   protected
     property EventosDeSessao: IEventosDeSessao read FEventosDeSessao;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
-      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId)
-      : TModuloBasForm; virtual; abstract;
+      pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
+      pTerminalId: TTerminalId): TModuloBasForm; virtual; abstract;
 
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
@@ -61,7 +62,8 @@ type
       virtual; abstract;
     function GetAppObj: IAppObj;
     property AppObj: IAppObj read GetAppObj;
-
+    function PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
+      pDBConnection: IDBConnection): Boolean; virtual;
   public
     { Public declarations }
 
@@ -79,7 +81,7 @@ type
     property Sessao[Index: integer]: ISessao read GetSessao; default;
 
     function ExecutouPeloShortCut(var Key: word;
-      var Shift: TShiftState): boolean;
+      var Shift: TShiftState): Boolean;
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
       pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj); reintroduce;
@@ -117,7 +119,7 @@ var
   oDBConnection: IDBConnection;
   DBConnectionParams: TDBConnectionParams;
 
-  bResultado: boolean;
+  bResultado: Boolean;
   iSessaoIndex: TSessaoIndex;
   oModuloSistema: IModuloSistema;
 
@@ -133,12 +135,15 @@ begin
   sNomeTipo := TipoOpcaoSisModuloToStr(iOpcaoSisIdModulo);
   sNameConex := Format('Abr.%s.DBConn', [sNameTipo]);
 
-  oUsuario := UsuarioCreate();
-
-  DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj);
+  DBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
+
+  if not PodeAbrirModulo(iOpcaoSisIdModulo, oDBConnection) then
+    exit;
+
+  oUsuario := UsuarioCreate();
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
 
@@ -151,8 +156,8 @@ begin
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate(iOpcaoSisIdModulo);
 
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex,
-    oUsuario, FAppObj, oBotaoModuloFrame.TerminalId);
+  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
+    FAppObj, oBotaoModuloFrame.TerminalId);
 
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
   FSessaoFrame := SessaoFrameCreate(Self, iOpcaoSisIdModulo, oUsuario,
@@ -272,7 +277,7 @@ begin
 end;
 
 function TSessoesFrame.ExecutouPeloShortCut(var Key: word;
-  var Shift: TShiftState): boolean;
+  var Shift: TShiftState): Boolean;
 var
   MenorShortCut: TShortCut;
   MaiorShortCut: TShortCut;
@@ -303,8 +308,8 @@ begin
   Result := FAppObj;
 end;
 
-function TSessoesFrame.GetBotByTipoOpcao(
-  pTipoOpcaoSisModulo: TOpcaoSisIdModulo): TBotaoModuloFrame;
+function TSessoesFrame.GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)
+  : TBotaoModuloFrame;
 var
   oBotaoModuloFrame: TBotaoModuloFrame;
 begin
@@ -369,6 +374,42 @@ begin
   end;
 end;
 
+function TSessoesFrame.PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
+  pDBConnection: IDBConnection): Boolean;
+var
+  SetExigeLoja: set of TOpcaoSisIdModulo;
+  sSql: string;
+  sNome: string;
+begin
+  SetExigeLoja := [TOpcaoSisIdModulo.opmoduRetaguarda,
+    TOpcaoSisIdModulo.opmoduPDV];
+
+  Result := not (pOpcaoSisIdModulo in SetExigeLoja);
+  if Result then
+    exit;
+
+  sSql := //
+    'SELECT PES.NOME'#13#10 + #13#10
+
+    + 'FROM LOJA LOJ'#13#10 + #13#10
+
+    + 'LEFT JOIN LOJA_EH_PESSOA LEP ON'#13#10 +
+    'LOJ.LOJA_ID = LEP.LOJA_ID'#13#10 + #13#10
+
+    + 'LEFT JOIN PESSOA PES ON'#13#10 + 'LEP.LOJA_ID = PES.LOJA_ID'#13#10 +
+    'AND LEP.TERMINAL_ID = PES.TERMINAL_ID'#13#10 +
+    'AND LEP.PESSOA_ID = PES.PESSOA_ID'#13#10;
+
+  sNome := pDBConnection.GetValueString(sSql);
+  Result := sNome <> '';
+  if not Result then
+  begin
+    Showmessage('Antes de utilizar o Módulo ' + TipoOpcaoSisModuloToStr
+      (pOpcaoSisIdModulo) +
+      ', é necessário completar os dados da loja no Módulo de Configurações');
+  end;
+end;
+
 procedure TSessoesFrame.SessaoCriadorListPrep;
 var
   oSessaoCriador: ISessaoCriador;
@@ -417,8 +458,8 @@ begin
   oBotaoModuloFrame.ShortCut := vShortCut;
   inc(vShortCut);
 
-  DBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj);
+  DBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
   oDBConnection := DBConnectionCreate('App.Sessoes.Conn', FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
