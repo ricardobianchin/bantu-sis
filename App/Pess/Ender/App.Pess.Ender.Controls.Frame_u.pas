@@ -227,7 +227,10 @@ begin
     exit;
 
   sText := LeftStr(sText, 8);
+  Insert('-', sText, 6);
   CEPMaskEdit.Text := sText;
+  PesquiseCEP;
+//  CEPMaskEdit.EditText := sText;
 end;
 
 procedure TEnderControlsFrame.ComplementoEditKeyPress(Sender: TObject;
@@ -447,6 +450,7 @@ begin
     exit;
 
   FPesquisandoCEP := True;
+  CEPMaskEdit.SetFocus;
 
   try
     if //
@@ -530,7 +534,7 @@ begin
       sLin := StrSemCharRepetido(sLin, #32);
 
       LogradouroEdit.Text := sLin;
-
+      NumeroEdit.SetFocus;
       {
         "cep": "23070-221",
         "logradouro": "Estrada do Campinho",
