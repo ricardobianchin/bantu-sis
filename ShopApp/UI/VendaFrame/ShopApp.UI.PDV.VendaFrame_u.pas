@@ -130,6 +130,8 @@ begin
   FitaStringGrid.Height := h;
 
   FitaStringGrid.DefaultColWidth := FitaStringGrid.Width - 2;
+
+  FFitaDraw.Prepare;
 end;
 
 procedure TShopVendaPDVFrame.DimensioneInput;
