@@ -62,7 +62,7 @@ begin
     ftCurrency:
       begin
         Result := CurrencyToStrPonto(pField.AsCurrency);
-//        Result := Format('%0.4f', [pField.AsCurrency]);
+        // Result := Format('%0.4f', [pField.AsCurrency]);
         // Result := pField.AsCurrency.ToString;
         Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
       end;
