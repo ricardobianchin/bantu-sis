@@ -14,6 +14,10 @@ type
 
     function GetId: TId;
     procedure SetId(Value: TId);
+    function GetIdAsStrZero: string;
+    procedure SetIdAsStrZero(const Value: string);
+
+    property IdAsStrZero: string read GetIdAsStrZero write SetIdAsStrZero;
 
     function GetDescrRed: string;
     procedure SetDescrRed(Value: string);
@@ -33,6 +37,8 @@ type
   end;
 
 implementation
+
+USES App.Constants, System.SysUtils;
 
 { TProd }
 
@@ -59,6 +65,15 @@ begin
   Result := FId;
 end;
 
+function TProd.GetIdAsStrZero: string;
+var
+  sMascara, sResultado: string;
+begin
+  sMascara := '%.' +  PROD_ID_MAX_LEN.ToString + 'd';
+  sResultado := Format(sMascara, [FId]);
+  Result := sResultado;
+end;
+
 function TProd.GetUnidSigla: string;
 begin
   Result := FUnidSigla;
@@ -77,6 +92,13 @@ end;
 procedure TProd.SetId(Value: TId);
 begin
   FId := Value;
+end;
+
+procedure TProd.SetIdAsStrZero(const Value: string);
+var
+  i: integer;
+begin
+  i := Value.ToInteger;
 end;
 
 procedure TProd.SetUnidSigla(Value: string);

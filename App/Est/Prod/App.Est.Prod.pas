@@ -11,6 +11,10 @@ type
     procedure SetId(Value: TId);
     property Id: TId read GetId write SetId;
 
+    function GetIdAsStrZero: string;
+    procedure SetIdAsStrZero(const Value: string);
+    property IdAsStrZero: string read GetIdAsStrZero write SetIdAsStrZero;
+
     function GetDescrRed: string;
     procedure SetDescrRed(Value: string);
     property DescrRed: string read GetDescrRed write SetDescrRed;
