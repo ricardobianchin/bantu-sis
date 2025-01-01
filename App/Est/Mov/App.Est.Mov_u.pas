@@ -90,6 +90,7 @@ constructor TEstMov.Create(pLoja: IAppLoja; pTerminalId: TTerminalId;
   pFinalizado, pCancelado: Boolean; pAlteradoEm, pFinalizadoEm,
   pCanceladoEm: TDateTime);
 begin
+  inherited Create;
   FLoja := pLoja;
   FTerminalId := pTerminalId;
   FEstMovTipo := pEstMovTipo;
