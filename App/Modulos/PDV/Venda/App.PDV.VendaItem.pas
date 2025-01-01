@@ -42,6 +42,9 @@ type
     function GetPreco: Currency;
     procedure SetPreco(Value: Currency);
     property Preco: Currency read GetPreco write SetPreco;
+
+    function GetQtdVolumes: integer;
+    property QtdVolumes: integer read GetQtdVolumes;
   end;
 
 implementation

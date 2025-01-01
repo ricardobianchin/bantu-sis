@@ -43,6 +43,8 @@ type
 
     function GetPreco: Currency;
     procedure SetPreco(Value: Currency);
+
+    function GetQtdVolumes: integer;
   public
     property BalUso: SmallInt read GetBalUso write SetBalUso;
     property CustoUnit: Currency read GetCustoUnit write SetCustoUnit;
@@ -55,6 +57,8 @@ type
     property PrecoBruto: Currency read GetPrecoBruto write SetPrecoBruto;
     property Desconto: Currency read GetDesconto write SetDesconto;
     property Preco: Currency read GetPreco write SetPreco;
+
+    property QtdVolumes: integer read GetQtdVolumes;
 
     constructor Create( //
       pEstMovOrdem: SmallInt; //
@@ -82,6 +86,8 @@ type
 implementation
 
 { TPDVVendaItem }
+
+uses Sis.Types.Bool_u, Sis.Types.Floats, System.Math;
 
 constructor TPDVVendaItem.Create( //
   pEstMovOrdem: SmallInt; //
@@ -117,11 +123,11 @@ begin
 
   FBalUso := pBalUso;
   FCustoUnit := pCustoUnit;
-  FCusto := pCusto;
+  FCusto := RoundTo(pCusto, -4);
   FPrecoUnitOriginal := pPrecoUnitOriginal;
   FPrecoUnitPromo := pPrecoUnitPromo;
   FPrecoUnit := pPrecoUnit;
-  FPrecoBruto := pPrecoBruto;
+  FPrecoBruto := TruncTo(pPrecoBruto);
   FDesconto := pDesconto;
   FPreco := pPreco;
 end;
@@ -169,6 +175,11 @@ end;
 function TPDVVendaItem.GetPrecoUnitPromo: Currency;
 begin
   Result := FPrecoUnitPromo;
+end;
+
+function TPDVVendaItem.GetQtdVolumes: integer;
+begin
+  Result := Iif(CurrencyEhInteiro(Qtd), Trunc(Qtd), 1);
 end;
 
 procedure TPDVVendaItem.SetBalUso(Value: SmallInt);
