@@ -76,7 +76,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       Caption = '  '
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -27
+      Font.Height = -29
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
@@ -88,8 +88,8 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       object ItemDescrLabel: TLabel
         Left = 5
         Top = 27
-        Width = 200
-        Height = 37
+        Width = 212
+        Height = 40
         Anchors = [akLeft, akBottom]
         Caption = 'ItemDescrLabel'
         StyleElements = []
@@ -102,11 +102,53 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         Alignment = taRightJustify
         Anchors = [akRight, akBottom]
         Caption = 'ItemTotalLabel'
+        StyleElements = []
+      end
+    end
+    object TotalPanel: TPanel
+      Left = 24
+      Top = 15
+      Width = 289
+      Height = 114
+      BevelOuter = bvLowered
+      Caption = '  '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -29
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+      StyleElements = []
+      DesignSize = (
+        289
+        114)
+      object TotalBrutoLabel: TLabel
+        Left = 10
+        Top = 11
+        Width = 206
+        Height = 37
+        Caption = 'TotalBrutoLabel'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -29
+        Font.Height = -27
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
+        ParentFont = False
+        StyleElements = []
+      end
+      object VolumesLabel: TLabel
+        Left = 10
+        Top = 83
+        Width = 97
+        Height = 21
+        Anchors = [akLeft, akBottom]
+        Caption = 'VolumesLabel'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        Font.Style = []
         ParentFont = False
         StyleElements = []
       end

@@ -19,6 +19,9 @@ type
     ItemPanel: TPanel;
     ItemDescrLabel: TLabel;
     ItemTotalLabel: TLabel;
+    TotalPanel: TPanel;
+    TotalBrutoLabel: TLabel;
+    VolumesLabel: TLabel;
     procedure CaretTimerTimer(Sender: TObject);
     procedure ListBox1Enter(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
@@ -44,10 +47,10 @@ type
 
     procedure ExibaItemVendido(pDescr: string; pValor: Currency = 0);
   protected
-    procedure ExibaErro(pMens: string); override;
     procedure SimuleKeyPress(pChar: Char);
   public
     { Public declarations }
+    procedure ExibaErro(pMens: string); override;
     procedure DimensioneControles; override;
     procedure ExecKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState); override;
@@ -66,8 +69,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u, Sis.Types.Floats,
-  Sis.Types.Bool_u;
+uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
+  Sis.Types.Floats, Sis.Types.Bool_u;
 
 { TShopVendaPDVFrame }
 
@@ -85,6 +88,7 @@ begin
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
 
   FFitaDraw := FitaDrawCreate(FShopPDVVenda, FitaStringGrid);
+  FFitaDraw.Atualize;
 
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
@@ -93,8 +97,8 @@ end;
 
 procedure TShopVendaPDVFrame.DimensioneControles;
 var
-  MargHor: integer;
-  MargVer: integer;
+  MargHor: Integer;
+  MargVer: Integer;
 begin
   inherited;
   MargHor := 5;
@@ -117,26 +121,36 @@ end;
 
 procedure TShopVendaPDVFrame.DimensioneFitaStringGrid;
 var
-  l, t, w, h: integer;
+  l, t, w, h: Integer;
+  iDir: Integer;
 begin
-  l := FColuna2Rect.Left;
+  FitaStringGrid.Font.Name := 'Courier New';
+  FitaStringGrid.Font.Size := 12;
+
+  FitaStringGrid.Canvas.Font.Assign(FitaStringGrid.Font);
+
   h := (FColuna2Rect.Height * 56) div 80;
   t := FColuna2Rect.Top;
-  w := FColuna2Rect.Width;
+  // w := FColuna2Rect.Width;
+  w := (FitaStringGrid.Canvas.TextWidth('W') * ((CUPOM_QTD_COLS * 2) +
+    1)) div 2;
+
+  iDir := ItemPanel.Left + ItemPanel.Width;
+  l := iDir - w;
 
   FitaStringGrid.Left := l;
   FitaStringGrid.Top := t;
   FitaStringGrid.Width := w;
   FitaStringGrid.Height := h;
 
-  FitaStringGrid.DefaultColWidth := FitaStringGrid.Width - 2;
+  FitaStringGrid.DefaultColWidth := FitaStringGrid.Width;
 
   FFitaDraw.Prepare;
 end;
 
 procedure TShopVendaPDVFrame.DimensioneInput;
 var
-  l, t, w, h: integer;
+  l, t, w, h: Integer;
 begin
   l := FColuna2Rect.Left;
   h := FColuna2Rect.Height div 8;
@@ -157,7 +171,7 @@ end;
 
 procedure TShopVendaPDVFrame.DimensioneItemPanel;
 var
-  l, t, w, h: integer;
+  l, t, w, h: Integer;
 begin
   l := FColuna1Rect.Left;
   h := InputPanel.Height;
@@ -178,7 +192,18 @@ procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-
+  case key of
+    vk_up:
+    begin
+      if FitaStringGrid.Row > 0 then
+        FitaStringGrid.Row := FitaStringGrid.Row - 1;
+    end;
+    vk_down:
+    begin
+      if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
+        FitaStringGrid.Row := FitaStringGrid.Row + 1;
+    end;
+  end;
 end;
 
 procedure TShopVendaPDVFrame.ExecKeyPress(Sender: TObject; var Key: Char);
@@ -199,8 +224,8 @@ begin
   ItemTotalLabel.Caption := Iif(pValor = 0, '', DinhToStr(pValor));
 end;
 
-procedure TShopVendaPDVFrame.FitaStringGridDrawCell(Sender: TObject; ACol,
-  ARow: Integer; Rect: TRect; State: TGridDrawState);
+procedure TShopVendaPDVFrame.FitaStringGridDrawCell(Sender: TObject;
+  ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
   inherited;
   FFitaDraw.FitaStringGridDrawCell(Sender, ACol, ARow, Rect, State);
@@ -211,13 +236,13 @@ begin
   inherited;
   PreencherControles;
 
-//  SimuleKeyPress('3');
-//  SimuleKeyPress('*');
-//  SimuleKeyPress('2');
+  // SimuleKeyPress('3');
+  // SimuleKeyPress('*');
+  // SimuleKeyPress('2');
 
-//  DigiteStr('2~', 0);
-//  DigiteStr('3*2~', 0);
-//ExecKeyPress(
+  // DigiteStr('2~', 0);
+  // DigiteStr('3*2~', 0);
+  // ExecKeyPress(
 end;
 
 procedure TShopVendaPDVFrame.ListBox1Enter(Sender: TObject);
@@ -227,8 +252,41 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.PreencherControles;
+var
+  i: Integer;
+  oItem: IShopPdvVendaItem;
+  iQtdVolumes: Integer;
+  uTotalLiquido: Currency;
+  s: string;
 begin
+  FFitaDraw.Atualize;
 
+  iQtdVolumes := 0;
+  uTotalLiquido := 0;
+
+  for i := 0 to FShopPDVVenda.Count - 1 do
+  begin
+    oItem := FShopPDVVenda[i];
+    if not oItem.Cancelado then
+    begin
+      Inc(iQtdVolumes, oItem.QtdVolumes);
+      uTotalLiquido := uTotalLiquido + oItem.Preco;
+    end;
+  end;
+
+  if iQtdVolumes = 0 then
+    s := ''
+  else
+    s := iQtdVolumes.ToString;
+
+  VolumesLabel.Caption := 'Volumes: ' + s;
+
+  if uTotalLiquido = 0 then
+    s := ''
+  else
+    s := DinhToStr(uTotalLiquido);
+
+  TotalBrutoLabel.Caption := 'Total: ' + s;
 end;
 
 procedure TShopVendaPDVFrame.SimuleKeyPress(pChar: Char);
@@ -247,10 +305,11 @@ begin
 
   if not bEncontrou then
   begin
-     ExibaErro(sMensagem);
-     Exit;
+    ExibaErro(sMensagem);
+    Exit;
   end;
   FShopPDVVenda.Add(oItem);
+  ExibaItemVendido(oItem.Prod.DescrRed, oItem.PrecoBruto);
   PreencherControles;
   FStrBusca := '';
   StrBuscaMudou;
@@ -270,12 +329,12 @@ begin
     if pChar = #8 then
     begin
       StrDeleteNoFim(FStrBusca, 1);
-      exit;
+      Exit;
     end
     else if pChar = #13 then
     begin
       StrBuscaExec;
-      exit;
+      Exit;
     end;
     CharSemAcento(pChar);
     FStrBusca := FStrBusca + pChar;
