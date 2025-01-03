@@ -11,7 +11,8 @@ type
     property Loja: IAppLoja read GetLoja;
 
     function GetTerminalId: TTerminalId;
-    property TerminalId: TTerminalId read GetTerminalId;
+    procedure SetTerminalId(Value: TTerminalId);
+    property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
 
     function GetEstMovId: Int64;
     procedure SetEstMovId(Value: Int64);

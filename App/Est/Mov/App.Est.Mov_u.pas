@@ -21,6 +21,8 @@ type
     FCanceladoEm: TDateTime;
 
     function GetLoja: IAppLoja;
+
+    procedure SetTerminalId(Value: TTerminalId);
     function GetTerminalId: TTerminalId;
 
     function GetEstMovId: Int64;
@@ -51,7 +53,7 @@ type
 
   public
     property Loja: IAppLoja read GetLoja;
-    property TerminalId: TTerminalId read GetTerminalId;
+    property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property EstMovId: Int64 read GetEstMovId write SetEstMovId;
     property EstMovTipo: TEstMovTipo read GetEstMovTipo;
     property DtHDoc: TDateTime read GetDtHDoc write SetDtHDoc;
@@ -193,6 +195,11 @@ end;
 procedure TEstMov.SetFinalizadoEm(Value: TDateTime);
 begin
   FFinalizadoEm := Value;
+end;
+
+procedure TEstMov.SetTerminalId(Value: TTerminalId);
+begin
+  FTerminalId := Value;
 end;
 
 procedure TEstMov.Zerar;
