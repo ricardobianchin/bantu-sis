@@ -15,9 +15,6 @@
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
         </Projects>
-        <Projects Include="ShopAssist\ShopAssist.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -62,23 +59,14 @@
     <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ShopAssist">
-        <MSBuild Projects="ShopAssist\ShopAssist.dproj"/>
-    </Target>
-    <Target Name="ShopAssist:Clean">
-        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ShopAssist:Make">
-        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;ShopAssist"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ShopAssist:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ShopAssist:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -93,12 +81,6 @@
             <Configurations>Release</Configurations>
             <Platforms>Win64</Platforms>
             <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="ShopAssist\ShopAssist.dproj">
-            <ProjectGuid>{5CCF951A-7526-4516-84EF-4F86814F14D8}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="App\App.dproj">
             <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
