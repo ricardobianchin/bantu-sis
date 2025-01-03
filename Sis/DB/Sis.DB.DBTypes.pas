@@ -12,6 +12,10 @@ type
     TerminalId: TTerminalId;
     Id: integer;
     procedure Zerar;
+    procedure PegarCods(
+      pLojaId: TLojaId;
+      pTerminalId: TTerminalId;
+      pId: integer);
   end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
@@ -581,6 +585,14 @@ begin
 end;
 
 { TIdLojaTermRecord }
+
+procedure TIdLojaTermRecord.PegarCods(pLojaId: TLojaId;
+  pTerminalId: TTerminalId; pId: integer);
+begin
+  LojaId := pLojaId;
+  TerminalId := pTerminalId;
+  Id := pId;
+end;
 
 procedure TIdLojaTermRecord.Zerar;
 begin
