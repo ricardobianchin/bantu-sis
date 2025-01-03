@@ -111,7 +111,7 @@ begin
 
   inc(y, FHLin);
 
-  s := '   ';
+  s := ' ';
   sQtd := FormatFloat('####0.###', oItem.Qtd);
 //  OverwriteStringRight(s, sQtd, iPosQtd);
   s := s + sQtd;
@@ -133,11 +133,11 @@ begin
 
   FStringGrid.Canvas.TextOut(pRect.Left, y, s);
 
-  // if not oItem.Cancelado then
-  // exit;
+  if not oItem.Cancelado then
+    exit;
 
   inc(y, FHLin);
-  s := '    C A N C E L A D O';
+  s := '     C A N C E L A D O';
   FStringGrid.Canvas.TextOut(pRect.Left, y, s);
 end;
 
