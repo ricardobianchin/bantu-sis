@@ -20,7 +20,7 @@ type
     FEntregaTem: Boolean;
     FEntregadorId: TId;
     FEntregaEm: TDateTime;
-    FAlteradoEm: TDateTime;
+    FVendaAlteradoEm: TDateTime;
 
     function GetVendaId: TId;
     procedure SetVendaId(Value: TId);
@@ -51,8 +51,8 @@ type
     function GetEntregaEm: TDateTime;
     procedure SetEntregaEm(Value: TDateTime);
 
-    function GetAlteradoEm: TDateTime;
-    procedure SetAlteradoEm(Value: TDateTime);
+    function GetVendaAlteradoEm: TDateTime;
+    procedure SetVendaAlteradoEm(Value: TDateTime);
   public
     property VendaId: TId read GetVendaId Write SetVendaId;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
@@ -66,7 +66,7 @@ type
     property EntregaTem: Boolean read GetEntregaTem write SetEntregaTem;
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
-    property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
+    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
 
     procedure Zerar; override;
 
@@ -159,15 +159,15 @@ begin
   FEntregaTem := pEntregaTem;
   FEntregadorId := pEntregadorId;
   FEntregaEm := pEntregaEm;
-  FAlteradoEm := pVendaAlteradoEm;
+  FVendaAlteradoEm := pVendaAlteradoEm;
 
   FCli.Zerar;
   FEnder.Zerar;
 end;
 
-function TPDVVenda.GetAlteradoEm: TDateTime;
+function TPDVVenda.GetVendaAlteradoEm: TDateTime;
 begin
-  Result := FAlteradoEm;
+  Result := FVendaAlteradoEm;
 end;
 
 function TPDVVenda.GetC: string;
@@ -225,9 +225,9 @@ begin
   Result := FVendaId;
 end;
 
-procedure TPDVVenda.SetAlteradoEm(Value: TDateTime);
+procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);
 begin
-  FAlteradoEm := Value;
+  FVendaAlteradoEm := Value;
 end;
 
 procedure TPDVVenda.SetC(Value: string);
@@ -283,7 +283,7 @@ begin
   FEntregaTem := False;
   FEntregadorId := 0;
   FEntregaEm := DATA_ZERADA;
-  FAlteradoEm := DATA_ZERADA;
+  FVendaAlteradoEm := DATA_ZERADA;
   Clear;
 end;
 
