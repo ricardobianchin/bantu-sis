@@ -2,12 +2,13 @@ unit App.PDV.VendaItem_u;
 
 interface
 
-uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants, App.Est.Prod;
+uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants,
+  App.Est.Prod;
 
 type
   TPDVVendaItem = class(TEstMovItem, IPDVVendaItem)
   private
-    FBalUso: smallint;
+    FBalUso: SmallInt;
     FCustoUnit: Currency;
     FCusto: Currency;
     FPrecoUnitOriginal: Currency;
@@ -43,8 +44,10 @@ type
 
     function GetPreco: Currency;
     procedure SetPreco(Value: Currency);
-
     function GetQtdVolumes: integer;
+
+  protected
+    function GetAsStringFita: string; virtual;
   public
     property BalUso: SmallInt read GetBalUso write SetBalUso;
     property CustoUnit: Currency read GetCustoUnit write SetCustoUnit;
@@ -59,6 +62,8 @@ type
     property Preco: Currency read GetPreco write SetPreco;
 
     property QtdVolumes: integer read GetQtdVolumes;
+
+    property AsStringFita: string read GetAsStringFita;
 
     constructor Create( //
       pEstMovOrdem: SmallInt; //
@@ -87,7 +92,7 @@ implementation
 
 { TPDVVendaItem }
 
-uses Sis.Types.Bool_u, Sis.Types.Floats, System.Math;
+uses Sis.Types.Bool_u, Sis.Types.Floats, System.Math, System.SysUtils;
 
 constructor TPDVVendaItem.Create( //
   pEstMovOrdem: SmallInt; //
@@ -111,8 +116,7 @@ constructor TPDVVendaItem.Create( //
   pEstMovItemCanceladoEm: TDateTime //
   );
 begin
-  inherited Create(
-    pEstMovOrdem //
+  inherited Create(pEstMovOrdem //
     , pProd //
     , pEstMovQtd //
     , pEstMovItemCriadoEm //
@@ -130,6 +134,11 @@ begin
   FPrecoBruto := TruncTo(pPrecoBruto);
   FDesconto := pDesconto;
   FPreco := pPreco;
+end;
+
+function TPDVVendaItem.GetAsStringFita: string;
+begin
+  Result := '';
 end;
 
 function TPDVVendaItem.GetBalUso: SmallInt;

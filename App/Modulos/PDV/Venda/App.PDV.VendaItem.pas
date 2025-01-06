@@ -45,6 +45,9 @@ type
 
     function GetQtdVolumes: integer;
     property QtdVolumes: integer read GetQtdVolumes;
+
+    function GetAsStringFita: string;
+    property AsStringFita: string read GetAsStringFita;
   end;
 
 implementation
