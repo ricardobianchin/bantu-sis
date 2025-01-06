@@ -159,7 +159,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="ShopAppObj\ShopApp.DBI_u.pas"/>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas"/>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas"/>
-        <DCCReference Include="UI\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas">
+        <DCCReference Include="Modulos\PDV\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas">
             <Form>ShopVendaPDVFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
@@ -173,6 +173,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Modulos\PDV\ShopApp.PDV.DBI_u.pas"/>
         <DCCReference Include="Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw_u.pas"/>
         <DCCReference Include="Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw.pas"/>
+        <DCCReference Include="Modulos\PDV\VendaFrame\ShopApp.UI.PDV.ItemCancelarForm_u.pas">
+            <Form>ItemCancelarForm_ShopApp</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -1,16 +1,16 @@
 inherited ShopVendaPDVFrame: TShopVendaPDVFrame
   Width = 1000
-  Height = 400
+  Height = 313
   ExplicitWidth = 1000
-  ExplicitHeight = 400
+  ExplicitHeight = 313
   inherited MeioPanel: TPanel
     Width = 1000
-    Height = 400
+    Height = 280
     ExplicitWidth = 1000
-    ExplicitHeight = 400
+    ExplicitHeight = 280
     object InputPanel: TPanel
       Left = 0
-      Top = 325
+      Top = 189
       Width = 513
       Height = 65
       BevelOuter = bvLowered
@@ -45,10 +45,10 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       end
     end
     object FitaStringGrid: TStringGrid
-      Left = 308
-      Top = 15
+      Left = 360
+      Top = -1
       Width = 162
-      Height = 120
+      Height = 98
       TabStop = False
       BorderStyle = bsNone
       ColCount = 1
@@ -66,10 +66,11 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       TabOrder = 1
       StyleElements = []
       OnDrawCell = FitaStringGridDrawCell
+      OnEnter = FitaStringGridEnter
     end
     object ItemPanel: TPanel
       Left = 0
-      Top = 225
+      Top = 105
       Width = 513
       Height = 72
       BevelOuter = bvLowered
@@ -151,6 +152,60 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         Font.Style = []
         ParentFont = False
         StyleElements = []
+      end
+    end
+  end
+  object BasePanel: TPanel
+    Left = 0
+    Top = 280
+    Width = 1000
+    Height = 33
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = ' '
+    TabOrder = 1
+    object PDVToolBar: TToolBar
+      Left = 112
+      Top = 1
+      Width = 729
+      Height = 29
+      Align = alNone
+      ButtonHeight = 21
+      ButtonWidth = 124
+      Caption = 'PDVToolBar'
+      List = True
+      ShowCaptions = True
+      TabOrder = 0
+      object ToolButton1: TToolButton
+        Left = 0
+        Top = 0
+        Caption = 'ToolButton1'
+        ImageIndex = 0
+      end
+      object ItemCanceleToolButton: TToolButton
+        Left = 124
+        Top = 0
+        Caption = 'Delete: Cancelar Item'
+        ImageIndex = 1
+        OnClick = ItemCanceleToolButtonClick
+      end
+      object ToolButton3: TToolButton
+        Left = 248
+        Top = 0
+        Caption = 'ToolButton3'
+        ImageIndex = 2
+      end
+      object ToolButton4: TToolButton
+        Left = 372
+        Top = 0
+        Caption = 'ToolButton4'
+        ImageIndex = 3
+      end
+      object ToolButton2: TToolButton
+        Left = 496
+        Top = 0
+        Caption = 'ToolButton2'
+        ImageIndex = 4
       end
     end
   end

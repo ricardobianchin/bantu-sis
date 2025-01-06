@@ -48,7 +48,7 @@ contains
   ShopApp.DBI_u in 'ShopAppObj\ShopApp.DBI_u.pas',
   AppShop.PDV.Preco.PrecoBusca.DBI_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.DBI_u.pas',
   AppShop.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\AppShop.PDV.Preco.PrecoBusca.Factory_u.pas',
-  ShopApp.UI.PDV.VendaFrame_u in 'UI\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas' {ShopVendaPDVFrame: TFrame},
+  ShopApp.UI.PDV.VendaFrame_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas' {ShopVendaPDVFrame: TFrame},
   ShopApp.PDV.Factory_u in 'Modulos\PDV\ShopApp.PDV.Factory_u.pas',
   ShopApp.PDV.Venda in 'Modulos\PDV\Venda\ShopApp.PDV.Venda.pas',
   ShopApp.PDV.Venda_u in 'Modulos\PDV\Venda\ShopApp.PDV.Venda_u.pas',
@@ -57,6 +57,7 @@ contains
   ShopApp.PDV.DBI in 'Modulos\PDV\ShopApp.PDV.DBI.pas',
   ShopApp.PDV.DBI_u in 'Modulos\PDV\ShopApp.PDV.DBI_u.pas',
   ShopApp.UI.PDV.Venda.Frame.FitaDraw_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw_u.pas',
-  ShopApp.UI.PDV.Venda.Frame.FitaDraw in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw.pas';
+  ShopApp.UI.PDV.Venda.Frame.FitaDraw in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw.pas',
+  ShopApp.UI.PDV.ItemCancelarForm_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.ItemCancelarForm_u.pas' {ItemCancelarForm_ShopApp};
 
 end.
