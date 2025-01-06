@@ -123,6 +123,7 @@ type
     function GetValueString(pSql: string): string;
     function GetValueInteger(pSql: string): integer;
     function GetValueInteger64(pSql: string): Int64;
+    function GetValueDateTime(pSql: string): TDateTime;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
 
     function ExecuteSQL(pSql: string): LongInt;

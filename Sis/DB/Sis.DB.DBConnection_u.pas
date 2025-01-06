@@ -56,6 +56,7 @@ type
     function GetValueInteger(pSql: string): integer;
     function GetValueInteger64(pSql: string): Int64;
     function GetValueString(pSql: string): string;
+    function GetValueDateTime(pSql: string): TDateTime;
 
     function ExecuteSQL(pSql: string): LongInt; virtual; abstract;
 
@@ -69,7 +70,7 @@ type
 implementation
 
 uses System.SysUtils, Sis.Types.Bool_u, Sis.UI.IO.Output.ProcessLog.Factory,
-  Sis.Types.Integers, Sis.UI.IO.Factory, Sis.Types.strings_u;
+  Sis.Types.Integers, Sis.UI.IO.Factory, Sis.Types.strings_u, Sis.Types.Dates;
 
 { TDBConnection }
 
@@ -218,6 +219,14 @@ var
 begin
   Resultado := GetValue(pSql);
   result := VarToString(Resultado);
+end;
+
+function TDBConnection.GetValueDateTime(pSql: string): TDateTime;
+var
+  Resultado: Variant;
+begin
+  Resultado := GetValue(pSql);
+  result := VarToDateTime(Resultado);
 end;
 
 function TDBConnection.GetValueInteger(pSql: string): integer;
