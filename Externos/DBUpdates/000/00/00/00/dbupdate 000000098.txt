@@ -457,7 +457,7 @@ BEGIN
   );
 END^
 
-// ...existing code...
+---- BODY
 
 RECREATE PACKAGE BODY VENDA_PDV_INS_PA
 AS
