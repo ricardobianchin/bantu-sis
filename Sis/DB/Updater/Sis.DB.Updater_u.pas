@@ -550,7 +550,13 @@ begin
   FProcessLog.PegueLocal('TDBUpdater.CarreguouArqComando');
   try
     sLog := 'piVersao=' + piVersao.ToString;
+
+//    sNomeArq := VersaoToArqComando(84);
+//    sNomeArq := VersaoToArqComando(100);
+//    sNomeArq := VersaoToArqComando(101);
+
     sNomeArq := VersaoToArqComando(piVersao);
+
     sLog := sLog + ',sNomeArqComando=' + sNomeArq;
     Result := FileExists(sNomeArq);
 
@@ -1053,7 +1059,7 @@ end;
 
 function TDBUpdater.VersaoToArqComando(pVersao: integer): string;
 var
-  iNumInicialFaixa: integer;
+  iPrimNumFaixa: integer;
   sVersaoPastas: string;
   sNomeArqZeros: string;
   sPastaComando: string;
@@ -1062,30 +1068,40 @@ begin
   // C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000084.txt
   // seja pVersao = 84
 
-  iNumInicialFaixa := (pVersao div 100) * 100;
-  // 84 -> iNumInicialFaixa = 0
+  iPrimNumFaixa := (pVersao div 100) * 100;
+  // 84 -> iPrimNumFaixa = 000
+  // 100 -> iPrimNumFaixa = 100
 
-  sVersaoPastas := IntToStrZero(iNumInicialFaixa, 9);
-  // sVersaoPastas = 000000084
+  sVersaoPastas := IntToStrZero(iPrimNumFaixa div 100, 9);
+  // sVersaoPastas = '000000000'
+  // sVersaoPastas = '000000001'
 
   Insert('\', sVersaoPastas, 4);
-  // sVersaoPastas = 000\000084
+  // sVersaoPastas = '000\000000'
+  // sVersaoPastas = '000\000001'
 
   Insert('\', sVersaoPastas, 7);
-  // sVersaoPastas = 000\00\0084
+  // sVersaoPastas = '000\00\0000'
+  // sVersaoPastas = '000\00\0001'
 
   Insert('\', sVersaoPastas, 10);
-  // sVersaoPastas = 000\00\00\84
+  // sVersaoPastas = '000\00\00\00'
+  // sVersaoPastas = '000\00\00\01'
 
   sNomeArqZeros := IntToStrZero(pVersao, 9);
-  // sNomeArqZeros = 000000084
+  // sNomeArqZeros = '000000084'
+  // sNomeArqZeros = '000000100'
 
   sPastaComando := FCaminhoComandos + sVersaoPastas + '\';
-  // sPastaComando = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\' + '000\00\00\00' + '\'
+  // sPastaComando := 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\00\'
+  // sPastaComando := 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\01\'
+
   ForceDirectories(sPastaComando);
 
   sNomeArq := sPastaComando + 'dbupdate ' + sNomeArqZeros + '.txt';
   // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\' + 'dbupdate ' + 000000084' + '.txt'
+  // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\00\dbupdate 000000084.txt'
+  // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\01\dbupdate 000000100.txt'
   Result := sNomeArq;
 end;
 
