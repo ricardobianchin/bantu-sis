@@ -183,6 +183,13 @@ end;
 procedure TModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  if (Key = VK_F4) and (ssAlt in Shift) then
+  begin
+    Key := 0;
+    FecharAction_ModuloBasForm.Execute;
+    Exit;
+  end;
+
   case Key of
     vk_f6:
       begin
