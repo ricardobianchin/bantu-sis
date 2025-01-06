@@ -17,7 +17,15 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   end
   inherited BasePanel: TPanel
     Top = 251
+    Visible = False
     ExplicitTop = 251
+    inherited StatusPanel1: TPanel
+      Visible = False
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
+      end
+    end
   end
   inherited PopupMenu1: TPopupMenu
     object N1: TMenuItem

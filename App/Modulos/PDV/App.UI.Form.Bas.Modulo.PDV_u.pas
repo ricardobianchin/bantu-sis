@@ -28,11 +28,13 @@ type
   private
     { Private declarations }
     FAppPDVObj: IAppPDVObj;
+    FPDVVenda: IPDVVenda;
+
     FFrameAtivo: TPDVFrame;
     FFrameAviso: TPDVFrame;
-    FCaixaSessaoDM: TCaixaSessaoDM;
-    FPDVVenda: IPDVVenda;
     FVendaFrame: TVendaBasPDVFrame;
+
+    FCaixaSessaoDM: TCaixaSessaoDM;
     FPDVDBI: IDBI;
 
     FTermDBConnection: IDBConnection;
@@ -52,9 +54,9 @@ type
     function PDVDBICreate: IDBI; virtual; abstract;
     procedure DecidirFrameAtivo; virtual;
 
-    procedure IrParaVenda; virtual;
-    procedure IrParaPag; virtual;
-    procedure IrParaFinaliza; virtual;
+    procedure VaParaVenda; virtual;
+    procedure VaParaPag; virtual;
+    procedure VaParaFinaliza; virtual;
 
     property PDVVenda: IPDVVenda read FPDVVenda;
 
@@ -93,8 +95,6 @@ var
   s: string; // so pra visualizar o name durante o debug
 begin
   inherited;
-  // FreeAndNil(FFrameAtivo);
-
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
   s := a.Name;
   a.Execute;
@@ -135,7 +135,6 @@ end;
 
 procedure TPDVModuloBasForm.DecidirFrameAtivo;
 begin
-  // FreeAndNil(FFrameAtivo);       aqui
   if Assigned(FFrameAtivo) then
   begin
     FFrameAtivo.Visible := False;
@@ -160,7 +159,7 @@ begin
         LogUsuario.NomeExib + ' - Caixa Aberto em ' +
         FormatDateTime('ddd dd/mm/yyyy hh:nn',
         FCaixaSessaoDM.CaixaSessao.AbertoEm);
-      FFrameAtivo := FVendaFrame;
+      VaParaVenda;
     end;
 
     { case FCaixaSessaoDM.CaixaSessaoSituacao of
@@ -183,7 +182,7 @@ begin
       FFrameAtivo.AjusteControles;
       FFrameAtivo.ExibaControles;
       FFrameAtivo.Iniciar;
-//      FFrameAtivo.DebugImporteTeclas;
+      // FFrameAtivo.DebugImporteTeclas;
     end;
   end;
 end;
@@ -220,19 +219,35 @@ begin
   Result := Self;
 end;
 
-procedure TPDVModuloBasForm.IrParaFinaliza;
+procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
 
 end;
 
-procedure TPDVModuloBasForm.IrParaPag;
+procedure TPDVModuloBasForm.VaParaPag;
 begin
 
 end;
 
-procedure TPDVModuloBasForm.IrParaVenda;
+procedure TPDVModuloBasForm.VaParaVenda;
 begin
+  if Assigned(FFrameAtivo) then
+  begin
+    FFrameAtivo.Visible := False;
+  end;
 
+  FFrameAtivo := FVendaFrame;
+
+  if Assigned(FrameAtivo) then
+  begin
+    FFrameAtivo.OculteControles;
+    FFrameAtivo.Visible := True;
+    FFrameAtivo.DimensioneControles;
+    FFrameAtivo.AjusteControles;
+    FFrameAtivo.ExibaControles;
+    FFrameAtivo.Iniciar;
+    // FFrameAtivo.DebugImporteTeclas;
+  end;
 end;
 
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
