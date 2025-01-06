@@ -4,7 +4,7 @@ interface
 
 uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
   Sis.Threads.Crit.CriticalSections, App.Testes.Config, Sis.Config.SisConfig,
-  App.AppInfo, Sis.Loja, Sis.Entities.TerminalList;
+  App.AppInfo, App.Loja, Sis.Entities.TerminalList;
 
 {
   AppTestesConfig = da camada App, configuracoes dos testes
@@ -45,8 +45,8 @@ type
       write SetProcessOutput;
     property ProcessLog: IProcessLog read GetProcessLog;
 
-    function GetLoja: ILoja;
-    property Loja: ILoja read GetLoja;
+    function GetLoja: IAppLoja;
+    property Loja: IAppLoja read GetLoja;
 
     function GetTerminalList: ITerminalList;
     property TerminalList: ITerminalList read GetTerminalList;

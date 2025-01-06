@@ -20,6 +20,8 @@ function CurrencyToVar(pValue: Currency): variant;
 
 function ValorPorExtenso(vlr: Currency): string;
 
+function CurrencyEhInteiro(pCurr: Currency): boolean;
+
 implementation
 
 uses
@@ -146,11 +148,11 @@ end;
 function TruncTo(const AValue: Currency; const ADigit: TRoundToRange = -2)
   : Currency;
 var
-  LFactor: integer;
+  Factor: integer;
 begin
-  LFactor := Round(IntPower(10, -ADigit));
+  Factor := Round(IntPower(10, -ADigit));
 
-  result := Trunc(AValue * LFactor) / LFactor;
+  result := Trunc(AValue * Factor) / Factor;
 end;
 
 function DinheiroStr(v: Currency; pTrunc: boolean = false): string;
@@ -333,6 +335,11 @@ begin
     end;
   end;
   ValorPorExtenso := S;
+end;
+
+function CurrencyEhInteiro(pCurr: Currency): boolean;
+begin
+  Result := Frac(pCurr) = 0;
 end;
 
 end.

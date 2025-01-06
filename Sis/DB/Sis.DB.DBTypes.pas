@@ -11,6 +11,11 @@ type
     LojaId: TLojaId;
     TerminalId: TTerminalId;
     Id: integer;
+    procedure Zerar;
+    procedure PegarCods(
+      pLojaId: TLojaId;
+      pTerminalId: TTerminalId;
+      pId: integer);
   end;
 
   TProcDataSetRef = reference to procedure(q: TDataSet);
@@ -115,8 +120,10 @@ type
     property UltimoErro: string read GetUltimoErro write SetUltimoErro;
 
     function GetValue(pSql: string): Variant;
+    function GetValueString(pSql: string): string;
     function GetValueInteger(pSql: string): integer;
     function GetValueInteger64(pSql: string): Int64;
+    function GetValueDateTime(pSql: string): TDateTime;
     procedure QueryDataSet(pSql: string; var pDataSet: TDataSet);
 
     function ExecuteSQL(pSql: string): LongInt;
@@ -576,6 +583,23 @@ begin
     ftObject: ;
     }
   *)
+end;
+
+{ TIdLojaTermRecord }
+
+procedure TIdLojaTermRecord.PegarCods(pLojaId: TLojaId;
+  pTerminalId: TTerminalId; pId: integer);
+begin
+  LojaId := pLojaId;
+  TerminalId := pTerminalId;
+  Id := pId;
+end;
+
+procedure TIdLojaTermRecord.Zerar;
+begin
+  LojaId := 0;
+  TerminalId := 0;
+  Id := 0;
 end;
 
 end.

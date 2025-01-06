@@ -54,9 +54,9 @@ var
   q: TDataSet;
 begin
   sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+  //{$IFDEF DEBUG}
+  //CopyTextToClipboard(sSql);
+  //{$ENDIF}
 
   DBServDM.Connection.ExecSQL(sSql, q);
 
@@ -66,10 +66,10 @@ begin
   try
     while not q.Eof do
     begin
-      sSql := DataSetToSqlUpdate(q, 'PAGAMENTO_FORMA', [0]);
-      // {$IFDEF DEBUG}
-      // CopyTextToClipboard(sSql);
-      // {$ENDIF}
+      sSql := DataSetToSqlGarantir(q, 'PAGAMENTO_FORMA', 'PAGAMENTO_FORMA_ID');
+      //{$IFDEF DEBUG}
+      //CopyTextToClipboard(sSql);
+      //{$ENDIF}
 
       oExecScript.PegueComando(sSql);
       q.Next;

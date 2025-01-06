@@ -41,7 +41,7 @@ type
     FDBUpdaterOperations: IDBUpdaterOperations;
     FTerminalList: ITerminalList;
 
-    FLoja: ILoja;
+    FLoja: ISisLoja;
     FUsuarioAdmin: IUsuario;
 
     FCriouDB: Boolean;
@@ -139,7 +139,7 @@ type
     constructor Create(pTerminalId: TTerminalId;
       pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
       pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
-      pOutput: IOutput; pLoja: ILoja; pUsuarioAdmin: IUsuario;
+      pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
       pTerminalList: ITerminalList; pVariaveis: string);
     destructor Destroy; override;
   end;
@@ -158,7 +158,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ILoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
+  pLoja: ISisLoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string);
 begin
   FVariaveis := TStringList.Create;
@@ -312,6 +312,8 @@ var
   bPontoSeAplica: Boolean;
   bAtividadeSeAplica: Boolean;
   sAtividadeEconomicaName: string;
+  bDeveGravarIniciais: Boolean;
+  bDeveAbortar: Boolean;
 begin
   Result := True;
   FProcessLog.PegueLocal('TDBUpdater.Execute');
@@ -331,7 +333,7 @@ begin
           FOutput.Exibir('');
           iVersao := iVersao + 1;
           FOutput.Exibir('Versao=' + iVersao.ToString);
-          if VERSAO_ULTIMA_A_PROCESSAR > -1 then
+          if DB_UPDATER_EM_TESTE then
             if iVersao > VERSAO_ULTIMA_A_PROCESSAR then
               break;
 
@@ -424,12 +426,14 @@ begin
     if not SisConfig.LocalMachineIsServer then
       exit;
 
-    if FCriouDB and (VERSAO_ULTIMA_A_PROCESSAR = -1) then
+    bDeveGravarIniciais := FCriouDB and
+      (DB_UPDATER_EM_TESTE or TESTE_GRAVA_INICIAIS);
+
+    if bDeveGravarIniciais then
     begin
       DoAposCriarBanco;
       GravarIniciais(DBConnection);
     end;
-
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
 
@@ -446,9 +450,9 @@ begin
     FOutput.Exibir('TDBUpdater.Execute,Fim');
     FProcessLog.RetorneLocal;
 
-    if VERSAO_ULTIMA_A_PROCESSAR > -1 then
+    bDeveAbortar := DB_UPDATER_EM_TESTE and TESTE_ABORTA_NO_PRIMEIRO;
+    if bDeveAbortar then
       Halt(0);
-
   end;
 end;
 
@@ -506,12 +510,24 @@ var
   bNoCSV: Boolean;
   sOriginal: string;
   sMaiusculas: string;
+  bDentroDeBloco: Boolean;
+  iPosBloco: integer;
 begin
   bNoCSV := False;
-
+  bDentroDeBloco := False;
   for i := 0 to pSL.Count - 1 do
   begin
-    sOriginal := Trim(pSL[i]);
+    sOriginal := pSL[i];
+
+    iPosBloco := Pos('```', sOriginal);
+    if iPosBloco > 0 then
+      bDentroDeBloco := not bDentroDeBloco;
+
+    if bDentroDeBloco then
+      continue;
+
+    sOriginal := Trim(sOriginal);
+
     sMaiusculas := AnsiUpperCase(sOriginal);
 
     if sMaiusculas = DBATUALIZ_CSV_INI_CHAVE then
@@ -1019,7 +1035,7 @@ begin
 
     SLRemoveCommentsSingleLine(pSL);
     SLRemoveCommentsMultiLine(pSL);
-    SLManterEntre(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
+    SLDeleteLinhasForaDe(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);
 
     // SLUpperCase(FLinhasSL);
 

@@ -1,4 +1,4 @@
-unit Sis.Sis.Atualizavel_u;
+unit Sis.Sis.Atualizavel;
 
 interface
 

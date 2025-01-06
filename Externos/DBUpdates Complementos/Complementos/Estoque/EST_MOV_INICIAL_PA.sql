@@ -1,0 +1,150 @@
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000094.txt
+
+*/
+
+SET TERM ^;
+CREATE OR ALTER PACKAGE EST_MOV_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE EST_MOV_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT  Not Null
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , DTH_DOC TIMESTAMP NOT NULL
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  );
+  
+  
+  PROCEDURE EST_MOV_ITEM_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT Not Null
+    , EST_MOV_ITEM_ORDEM SMALLINT Not Null
+    , PROD_ID ID_DOM Not Null
+    , QTD QTD_DOM Not Null
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  );
+END^
+
+RECREATE PACKAGE BODY EST_MOV_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE EST_MOV_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT  Not Null
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , DTH_DOC TIMESTAMP NOT NULL
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO EST_MOV 
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      EST_MOV_ID,
+      EST_MOV_TIPO_ID,
+      DTH_DOC,
+      FINALIZADO,
+      CANCELADO,
+      CRIADO_EM,
+      ALTERADO_EM,
+      FINALIZADO_EM,
+      CANCELADO_EM
+    ) 
+    VALUES 
+    (
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :EST_MOV_TIPO_ID,
+      :DTH_DOC,
+      :FINALIZADO,
+      :CANCELADO,
+      :CRIADO_EM,
+      :ALTERADO_EM,
+      :FINALIZADO_EM,
+      :CANCELADO_EM
+    ) 
+    MATCHING 
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      EST_MOV_ID
+    );
+  END
+  
+  PROCEDURE EST_MOV_ITEM_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT Not Null
+    , EST_MOV_ITEM_ORDEM SMALLINT Not Null
+    , PROD_ID ID_DOM Not Null
+    , QTD QTD_DOM Not Null
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO EST_MOV_ITEM
+    (
+      LOJA_ID 
+      , TERMINAL_ID 
+      , EST_MOV_ID 
+      , EST_MOV_ITEM_ORDEM 
+      , PROD_ID 
+      , QTD 
+      , CANCELADO 
+      , CRIADO_EM 
+      , ALTERADO_EM 
+      , CANCELADO_EM 
+    )
+    VALUES
+    (
+      :LOJA_ID 
+      , :TERMINAL_ID 
+      , :EST_MOV_ID 
+      , :EST_MOV_ITEM_ORDEM 
+      , :PROD_ID 
+      , :QTD 
+      , :CANCELADO 
+      , :CRIADO_EM 
+      , :ALTERADO_EM 
+      , :CANCELADO_EM 
+    )
+    MATCHING
+    (
+      LOJA_ID 
+      , TERMINAL_ID 
+      , EST_MOV_ID 
+      , EST_MOV_ITEM_ORDEM 
+    );
+  END
+END^
+SET TERM ;^

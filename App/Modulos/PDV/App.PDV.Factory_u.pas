@@ -2,18 +2,16 @@ unit App.PDV.Factory_u;
 
 interface
 
-uses Sis.Entities.Types, App.PDV.CaixaSessao, App.PDV.AppPDVObj, System.Classes,
-  App.UI.PDV.Frame_u, Vcl.ComCtrls, App.Est.Venda.CaixaSessaoDM_u, Vcl.Controls,
-  Vcl.ActnList, Vcl.Forms;
+uses Sis.Entities.Types, App.PDV.AppPDVObj, System.Classes,
+  App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms;
 
 function AppPDVObjCreate: IAppPDVObj;
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
-  pAction: TAction): TFrame;
+  pAction: TAction): TPdvFrame;
 
 implementation
 
-uses App.PDV.CaixaSessao_u, App.PDV.AppPDVObj_u, App.UI.PDV.Aviso.Frame_u,
-  System.SysUtils;
+uses App.PDV.AppPDVObj_u, App.UI.PDV.Aviso.Frame_u, System.SysUtils;
 
 function AppPDVObjCreate: IAppPDVObj;
 begin
@@ -21,7 +19,7 @@ begin
 end;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
-  pAction: TAction): TFrame;
+  pAction: TAction): TPdvFrame;
 begin
   Result := TAvisoPDVFrame.Create(pParent, pCaption, pAction);
 end;

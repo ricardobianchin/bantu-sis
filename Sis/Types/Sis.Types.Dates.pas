@@ -18,6 +18,8 @@ function DataHoraSQLFirebird(pD: TDateTIme): string;
 function HoraSQLFirebird(pD: TDateTIme): string;
 function NowSQLFirebird: string;
 
+function VarToDateTime(Value: Variant): TDateTime;
+
 var
   MonthNames: TStringList;
   MascaraDate, MascaraTime: string;
@@ -25,7 +27,7 @@ var
 implementation
 
 uses Sis.Types.Bool_u, System.SysUtils, DateUtils, Winapi.Windows,
-  Sis.Types.Integers;
+  Sis.Types.Integers, System.Variants;
 
 function GetValidDate(pDate: TDateTIme): TDateTIme;
 begin
@@ -172,6 +174,14 @@ function NowSQLFirebird: string;
 begin
   // sleep(10);
   Result := DataHoraSQLFirebird(now);
+end;
+
+function VarToDateTime(Value: Variant): TDateTime;
+begin
+  if VarIsNull(Value) or VarIsEmpty(Value) then
+    Result := 2 // StrToDate('01/01/1900')
+  else
+    Result := Value;
 end;
 
 initialization

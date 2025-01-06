@@ -49,7 +49,6 @@ type
 
     FCaixaSessaoSituacao: TCaixaSessaoSituacao;
     FCxOperacaoTipoList: ICxOperacaoTipoList;
-    FToolBar: TToolBar;
 
     procedure CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
   protected
@@ -64,7 +63,7 @@ type
     function GetAction(pCxOpTipo: TCxOpTipo): TAction;
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
-      pTerminalId: TTerminalId; pLogUsuario: IUsuario; pToolBar: TToolBar);
+      pTerminalId: TTerminalId; pLogUsuario: IUsuario);
       reintroduce;
   end;
 
@@ -82,7 +81,7 @@ uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
 { TCaixaSessaoDM }
 
 constructor TCaixaSessaoDM.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pTerminalId: TTerminalId; pLogUsuario: IUsuario; pToolBar: TToolBar);
+  pTerminalId: TTerminalId; pLogUsuario: IUsuario);
 var
   rDBConnectionParams: TDBConnectionParams;
 begin
@@ -90,7 +89,6 @@ begin
   FAppObj := pAppObj;
   FLogUsuario := pLogUsuario;
   FTerminalId := pTerminalId;
-  FToolBar := pToolBar;
   if FTerminalId = 0 then
   begin
     FTerminal := nil;
@@ -159,8 +157,6 @@ begin
 
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
     FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, oCxValorDBI);
-  //if o.Id <> cxopAbertura then
-//    ToolBarAddButton(o.Action, FToolBar);
 end;
 
 function TCaixaSessaoDM.GetAction(pCxOpTipo: TCxOpTipo): TAction;

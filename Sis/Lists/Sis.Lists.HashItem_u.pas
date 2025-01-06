@@ -7,17 +7,17 @@ uses Vcl.Controls, Sis.Lists.IdItem_u, Sis.Lists.HashItem;
 type
   THashItem = class(TIdItem, IHashItem)
   private
-    FDescr:string;
-    function GetDescr:string;
-    procedure SetDescr(const Value:string);
+    FDescr: string;
+    function GetDescr: string;
+    procedure SetDescr(const Value: string);
   protected
-    function GetAsStringCSV: string;virtual;
-    function GetAsCaption: TCaption;virtual;
+    function GetAsStringCSV: string; virtual;
+    function GetAsCaption: TCaption; virtual;
   public
-    procedure Zerar;override;
+    procedure Zerar; override;
 
-    property Descr:string read GetDescr write SetDescr;
-    constructor Create(pDescr:string=''; pId:integer=0);
+    property Descr: string read GetDescr write SetDescr;
+    constructor Create(pDescr: string = ''; pId: integer = 0);
 
     property AsStringCSV: string read GetAsStringCSV;
     property AsCaption: TCaption read GetAsCaption;
@@ -37,12 +37,12 @@ end;
 
 function THashItem.GetAsCaption: TCaption;
 begin
-  result := Id.ToString +' - ' +Descr;
+  result := Id.ToString + ' - ' + Descr;
 end;
 
 function THashItem.GetAsStringCSV: string;
 begin
-  result := Id.ToString +';' +Descr;
+  result := Id.ToString + ';' + Descr;
 end;
 
 function THashItem.GetDescr: string;

@@ -3,20 +3,20 @@ unit App.Factory;
 interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  App.AtualizaVersao, Sis.Config.SisConfig, App.SisConfig.Garantir, Sis.Loja,
+  App.AtualizaVersao, Sis.Config.SisConfig, App.SisConfig.Garantir, App.Loja,
   Sis.Usuario, Sis.DB.DBTypes, App.DB.Log, App.Testes.Config, Sis.Entities.TerminalList;
 
 function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
   pAtualizExeURL: string): IAppInfo;
 
-function AppObjCreate(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
+function AppObjCreate(pAppInfo: IAppInfo; pLoja: IAppLoja; pDBMS: IDBMS; pStatusOutput: IOutput;
   pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppObj;
 
 function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
   pProcessLog: IProcessLog): IAtualizaVersao;
 
 function SisConfigGarantirCreate(pAppObj: IAppObj; pSisConfig: ISisConfig;
-  pUsuarioAdmin: IUsuario; pLoja: ILoja; pOutput: IOutput;
+  pUsuarioAdmin: IUsuario; pLoja: IAppLoja; pOutput: IOutput;
   pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 
 function AppTestesConfigCreate(pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): IAppTestesConfig;
@@ -32,7 +32,7 @@ begin
   Result := TAppInfo.Create(pExeName, pAtualizExeSubPasta, pAtualizExeURL);
 end;
 
-function AppObjCreate(pAppInfo: IAppInfo; pLoja: ILoja; pDBMS: IDBMS; pStatusOutput: IOutput;
+function AppObjCreate(pAppInfo: IAppInfo; pLoja: IAppLoja; pDBMS: IDBMS; pStatusOutput: IOutput;
   pProcessOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppObj;
 begin
   Result := TAppObj.Create(pAppInfo, pLoja, pDBMS, pStatusOutput, pProcessOutput,
@@ -46,7 +46,7 @@ begin
 end;
 
 function SisConfigGarantirCreate(pAppObj: IAppObj; pSisConfig: ISisConfig;
-  pUsuarioAdmin: IUsuario; pLoja: ILoja; pOutput: IOutput;
+  pUsuarioAdmin: IUsuario; pLoja: IAppLoja; pOutput: IOutput;
   pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 begin
   Result := TAppSisConfigGarantirXML.Create(pAppObj, pSisConfig, pUsuarioAdmin,

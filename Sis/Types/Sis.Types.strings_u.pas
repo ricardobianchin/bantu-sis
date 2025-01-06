@@ -69,6 +69,12 @@ function ConvertHTMLChars(pStr: string): string;
 function ClassNameToNome(pClassName: string;
   pDeleteLastWord: boolean = True): string;
 
+
+procedure EnsureStringFixedLength(var aStr: string; aLength: Integer);
+procedure EnsureStringMinimalLength(var aStr: string; aLength: Integer);
+procedure OverwriteString(var aTargetStr: string; const aSourceStr: string; pStartPos: Integer);
+procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string; aEndPos: Integer);
+
 // function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
 implementation
@@ -731,6 +737,39 @@ begin
   finally
     Words.Free;
   end;
+end;
+
+procedure EnsureStringFixedLength(var aStr: string; aLength: Integer);
+begin
+  if Length(aStr) < aLength then
+    aStr := aStr + StringOfChar(' ', aLength - Length(aStr))
+  else if Length(aStr) > aLength then
+    aStr := Copy(aStr, 1, aLength);
+end;
+
+procedure EnsureStringMinimalLength(var aStr: string; aLength: Integer);
+begin
+  if Length(aStr) < aLength then
+    aStr := aStr + StringOfChar(' ', aLength - Length(aStr));
+end;
+
+procedure OverwriteString(var aTargetStr: string; const aSourceStr: string; pStartPos: Integer);
+var
+  i: Integer;
+begin
+  EnsureStringMinimalLength(aTargetStr, pStartPos + Length(aSourceStr) - 1);
+  for i := 1 to Length(aSourceStr) do
+    aTargetStr[pStartPos + i - 1] := aSourceStr[i];
+end;
+
+procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string; aEndPos: Integer);
+var
+  StartPos, i: Integer;
+begin
+  StartPos := aEndPos - Length(aSourceStr) + 1;
+  EnsureStringMinimalLength(aTargetStr, aEndPos);
+  for i := 1 to Length(aSourceStr) do
+    aTargetStr[StartPos + i - 1] := aSourceStr[i];
 end;
 
 end.

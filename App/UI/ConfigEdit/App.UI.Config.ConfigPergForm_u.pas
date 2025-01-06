@@ -104,7 +104,7 @@ type
     FAppObj: IAppObj;
     FSisConfig: ISisConfig;
     FUsuarioAdmin: IUsuario;
-    FLoja: ILoja;
+    FLoja: ISisLoja;
 
     FConfigPergTeste: TConfigPergTeste;
 
@@ -133,7 +133,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
-      pUsuarioAdmin: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
+      pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
       reintroduce;
   end;
 
@@ -293,7 +293,7 @@ begin
 end;
 
 constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
-  pUsuarioAdmin: IUsuario; pLoja: ILoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
+  pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FTerminalList := pTerminalList;

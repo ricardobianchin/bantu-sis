@@ -1,0 +1,2 @@
+inherited PagPDVFrame: TPagPDVFrame
+end

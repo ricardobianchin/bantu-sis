@@ -3,19 +3,29 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   ClientHeight = 280
   ExplicitHeight = 280
   TextHeight = 15
+  inherited TitleBarPanel: TPanel
+    inherited TitleBarTextCaptionLabel: TLabel
+      Top = 4
+      Width = 202
+      Height = 21
+      Font.Height = -16
+      Font.Name = 'Segoe UI Black'
+      ExplicitTop = 4
+      ExplicitWidth = 202
+      ExplicitHeight = 21
+    end
+  end
   inherited BasePanel: TPanel
     Top = 251
+    Visible = False
     ExplicitTop = 251
-  end
-  object PrincToolBar_PDVModuloBasForm: TToolBar [2]
-    Left = 0
-    Top = 30
-    Width = 620
-    Height = 29
-    Caption = 'PrincToolBar_PDVModuloBasForm'
-    List = True
-    ShowCaptions = True
-    TabOrder = 2
+    inherited StatusPanel1: TPanel
+      Visible = False
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
+      end
+    end
   end
   inherited PopupMenu1: TPopupMenu
     object N1: TMenuItem

@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas_u, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Imaging.jpeg,
   Vcl.ExtCtrls, NumEditBtu, Sis.UI.Controls.WinControlsNavigator,
-  Sis.Sis.Atualizavel_u;
+  Sis.Sis.Atualizavel;
 
 type
   TNumerarioEditFrame = class(TBasFrame)

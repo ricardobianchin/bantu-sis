@@ -8,7 +8,7 @@ uses
   Sis.UI.Frame.Bas_u, App.Est.Venda.Caixa.CxValor.DBI, Data.DB, Sis.DB.DBTypes,
   App.UI.Controls.NumerarioEditFrame_u, System.Generics.Collections,
   Sis.UI.Controls.WinControlsNavigator, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,
-  Sis.Sis.Atualizavel_u, Sis.Types.Floats;
+  Sis.Sis.Atualizavel, Sis.Types.Floats;
 
 type
   TNumerarioListFrame = class(TBasFrame, IWinControlsNavigator, IAtualizavel)
