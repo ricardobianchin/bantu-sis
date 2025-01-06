@@ -89,9 +89,6 @@ procedure TShopFitaDraw.DrawItem(ARow: integer; pRect: TRect;
 var
   y: integer;
   s: string;
-  sQtd: string;
-  sPrecoUnit: string;
-  sPreco: string;
   oItem: IShopPDVVendaItem;
   iPosQtd: integer;
   iPosPrecoUnit: integer;
@@ -103,41 +100,16 @@ begin
 
   oItem := FVenda[ARow];
 
-  s := oItem.Prod.IdAsStrZero + '  ' + oItem.Prod.DescrRed;
-
+  s := oItem.AsLinha1;
   y := pRect.Top;
-
   FStringGrid.Canvas.TextOut(pRect.Left, y, s);
 
+  s := oItem.AsLinha2;
   inc(y, FHLin);
-
-  s := ' ';
-  sQtd := FormatFloat('####0.###', oItem.Qtd);
-//  OverwriteStringRight(s, sQtd, iPosQtd);
-  s := s + sQtd;
-
-
-  sPrecoUnit := DinhToStr(oItem.PrecoUnit);
-//  OverwriteStringRight(s, sPrecoUnit, iPosPrecoUnit);
-  s := s + ' x '+sPrecoUnit;
-
-  if oItem.Desconto >= 0.01 then
-  begin
-    s := s + ' - ' + DinhToStr(oItem.Desconto);
-  end;
-
-
-  sPreco := DinhToStr(oItem.Preco);
-  s := s + ' = ' + sPreco;
-//  OverwriteStringRight(s, sPreco, iPosPreco);
-
   FStringGrid.Canvas.TextOut(pRect.Left, y, s);
 
-  if not oItem.Cancelado then
-    exit;
-
+  s := oItem.AsLinha3;
   inc(y, FHLin);
-  s := '     C A N C E L A D O';
   FStringGrid.Canvas.TextOut(pRect.Left, y, s);
 end;
 
