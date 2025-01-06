@@ -11,6 +11,9 @@ type
       out pMensagem: string): IShopPDVVendaItem;
 
     procedure CarregueVendaPendente(out pCarregou: Boolean);
+
+    procedure ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
+      out pExecutouOk: Boolean; out pMensagem: string);
   end;
 
 implementation

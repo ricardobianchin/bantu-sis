@@ -24,6 +24,9 @@ type
     // PDV ABRIU, HAVIA VENDA INTERROMPIDA
     procedure CarregueVendaPendente(out pCarregou: Boolean);
 
+    procedure ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
+      out pExecutouOk: Boolean; out pMensagem: string);
+
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
       pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda);
   end;
@@ -129,13 +132,16 @@ begin
 
     + 'ORDER BY E.ORDEM;'#13#10 //
     ;
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(Result);
-//   {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
 end;
 
 function TShopAppPDVDBI.GetVendaPendenteSql: string;
+var
+  c: ICaixaSessao;
 begin
+  c := FShopPdvVenda.CaixaSessao;
   Result := //
     'SELECT'#13#10 //
 
@@ -177,9 +183,9 @@ begin
 
     + 'FROM VENDA_PDV_INS_PA.PENDENTE_GET'#13#10 //
     + '('#13#10 //
-    + '  ' + FShopPdvVenda.CaixaSessao.LojaId.ToString + ' -- SESS_LOJA_ID'#13#10 //
-    + '  , ' + FShopPdvVenda.CaixaSessao.TerminalId.ToString + ' -- SESS_TERMINAL_ID'#13#10
-    + '  , ' + FShopPdvVenda.CaixaSessao.Id.ToString + ' -- SESS_ID ID_DOM'#13#10 //
+    + '  ' + c.LojaId.ToString + ' -- SESS_LOJA_ID'#13#10 //
+    + '  , ' + c.TerminalId.ToString + ' -- SESS_TERMINAL_ID'#13#10 //
+    + '  , ' + c.Id.ToString + ' -- SESS_ID ID_DOM'#13#10 //
     + ');';
 
   // {$IFDEF DEBUG}
@@ -209,11 +215,58 @@ begin
     while not q.Eof do
     begin
       oItem := RecordToItemCreate(q);
-      V.Add(oItem);
+      v.Add(oItem);
       q.Next;
     end;
   finally
     q.Free;
+  end;
+end;
+
+procedure TShopAppPDVDBI.ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
+  out pExecutouOk: Boolean; out pMensagem: string);
+var
+  sSql: string;
+  V: IShopPdvVenda;
+  dCanceladoEm: TDateTime;
+begin
+  V := FShopPdvVenda;
+
+  try
+    sSql := //
+      'SELECT CANCELADO_EM_RET'#13#10 //
+      +'FROM VENDA_PDV_INS_PA.CANCELAR_EST_MOV_ITEM'#13#10 //
+      + '('#13#10 //
+      + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
+      + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+      + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+      + '  , ' + pShopPDVVendaItem.Ordem.ToString + ' -- ORDEM'#13#10 //
+      + ');';
+
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
+
+    pExecutouOk := DBConnection.Abrir;
+    try
+      dCanceladoEm := DBConnection.GetValueDateTime(sSql);
+
+      pShopPDVVendaItem.Cancelado := True;
+      pShopPDVVendaItem.CanceladoEm := dCanceladoEm;
+      pShopPDVVendaItem.AlteradoEm := dCanceladoEm;
+      FShopPdvVenda.AlteradoEm := dCanceladoEm;
+      FShopPdvVenda.VendaAlteradoEm := dCanceladoEm;
+    finally
+      DBConnection.Fechar;
+      pExecutouOk := True;
+    end;
+  except
+    on e: Exception do
+    begin
+      pExecutouOk := False;
+      pMensagem := 'Erro ao tentar cancelar item. ' + e.ClassName + ', ' +
+        e.Message;
+    end;
   end;
 end;
 
