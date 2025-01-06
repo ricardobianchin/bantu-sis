@@ -670,11 +670,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Modulos\PDV\UI\PagFrame\App.UI.PDV.PagFrame_u.pas">
-            <Form>PagPDVFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="Est\Mov\App.Est.MoviItem.pas"/>
         <DCCReference Include="Est\Mov\App.Est.Mov.pas"/>
         <DCCReference Include="Modulos\PDV\Controlador\App.PDV.Controlador.pas"/>
@@ -692,6 +687,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Pess\Loja\App.Loja_u.pas"/>
         <DCCReference Include="Pess\Loja\App.Loja.DBI_U.pas"/>
         <DCCReference Include="Pess\App.Pess.Factory_u.pas"/>
+        <DCCReference Include="Modulos\PDV\App.PDV.DBI.pas"/>
+        <DCCReference Include="Modulos\PDV\UI\PagFrame\App.UI.PDV.PagFrame_u.pas">
+            <Form>PagPDVFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

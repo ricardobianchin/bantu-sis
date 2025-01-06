@@ -5,11 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Sis.UI.Frame.Bas_u, Vcl.ToolWin, Vcl.ComCtrls, App.Est.Venda.CaixaSessaoDM_u,
-  Vcl.StdCtrls;
+  Sis.UI.Frame.Bas_u, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TPDVFrame = class(TBasFrame)
+    MeioPanel: TPanel;
     procedure FrameResize(Sender: TObject);
   private
     { Private declarations }
@@ -22,7 +22,8 @@ type
 
     constructor Create(AOwner: TComponent); override;
 
-    procedure ExecKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); virtual;
+    procedure ExecKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState); virtual;
     procedure ExecKeyPress(Sender: TObject; var Key: Char); virtual;
     procedure ExibaErro(pMens: string); virtual;
   end;
@@ -33,14 +34,13 @@ var
 implementation
 
 {$R *.dfm}
-
 { TPDVFrame }
 
 uses Sis.UI.Controls.Utils;
 
 constructor TPDVFrame.Create(AOwner: TComponent);
 begin
-  inherited;
+  inherited Create(AOwner);
   ClearStyleElements(Self);
 end;
 

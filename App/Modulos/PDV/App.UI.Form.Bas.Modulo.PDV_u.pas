@@ -12,7 +12,8 @@ uses
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u, App.PDV.Venda,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
+  App.PDV.DBI, App.UI.PDV.PagFrame_u;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -33,9 +34,10 @@ type
     FFrameAtivo: TPDVFrame;
     FFrameAviso: TPDVFrame;
     FVendaFrame: TVendaBasPDVFrame;
+    FPagFrame: TPagPDVFrame;
 
     FCaixaSessaoDM: TCaixaSessaoDM;
-    FPDVDBI: IDBI;
+    FPDVDBI: IAppPDVDBI;
 
     FTermDBConnection: IDBConnection;
 
@@ -50,15 +52,18 @@ type
     property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
     function AppMenuFormCreate: TAppMenuForm; override;
     function VendaFrameCreate: TVendaBasPDVFrame; virtual; abstract;
+    function PagFrameCreate: TPagPDVFrame; virtual; abstract;
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
-    function PDVDBICreate: IDBI; virtual; abstract;
+    function PDVDBICreate: IAppPDVDBI; virtual; abstract;
     procedure DecidirFrameAtivo; virtual;
 
     procedure VaParaVenda; virtual;
     procedure VaParaPag; virtual;
     procedure VaParaFinaliza; virtual;
+    procedure PagSomenteDinheiro; virtual;
 
     property PDVVenda: IPDVVenda read FPDVVenda;
+    property PDVDBI: IAppPDVDBI read FPDVDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
   public
@@ -129,8 +134,12 @@ begin
 
   FPDVVenda := PDVVendaCreate;
   FPDVDBI := PDVDBICreate;
+
   FVendaFrame := VendaFrameCreate;
   FVendaFrame.OculteControles;
+
+  FPagFrame := PagFrameCreate;
+  FPagFrame.OculteControles;
 end;
 
 procedure TPDVModuloBasForm.DecidirFrameAtivo;
@@ -219,6 +228,11 @@ begin
   Result := Self;
 end;
 
+procedure TPDVModuloBasForm.PagSomenteDinheiro;
+begin
+  FPagFrame.PagSomenteDinheiro;
+end;
+
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
 
@@ -226,7 +240,23 @@ end;
 
 procedure TPDVModuloBasForm.VaParaPag;
 begin
+  if Assigned(FFrameAtivo) then
+  begin
+    FFrameAtivo.Visible := False;
+  end;
 
+  FFrameAtivo := FPagFrame;
+
+  if Assigned(FrameAtivo) then
+  begin
+    FFrameAtivo.OculteControles;
+    FFrameAtivo.Visible := True;
+    FFrameAtivo.DimensioneControles;
+    FFrameAtivo.AjusteControles;
+    FFrameAtivo.ExibaControles;
+    FFrameAtivo.Iniciar;
+    // FFrameAtivo.DebugImporteTeclas;
+  end;
 end;
 
 procedure TPDVModuloBasForm.VaParaVenda;

@@ -2,11 +2,11 @@ unit App.PDV.DBI_u;
 
 interface
 
-uses Sis.DBI_u, App.AppObj, Sis.DB.DBTypes, Sis.Entities.Terminal,
+uses Sis.DBI_u, App.PDV.DBI, App.AppObj, Sis.DB.DBTypes, Sis.Entities.Terminal,
   App.PDV.Venda;
 
 type
-  TAppPDVDBI = class(TDBI)
+  TAppPDVDBI = class(TDBI, IAppPDVDBI)
   private
     FAppObj: IAppObj;
     FTerminal: ITerminal;

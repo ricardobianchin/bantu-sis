@@ -7,8 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
-  ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw, Vcl.ComCtrls,
-  Vcl.ToolWin;
+  App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
+  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -57,8 +57,8 @@ type
     procedure ExibaItemVendido(pDescr: string; pValor: Currency = 0);
 
     procedure ItemCancele;
-    procedure ItemSelecione(pIndex: integer = -1);
-    function GetItemUltimoIndex: integer;
+    procedure ItemSelecione(pIndex: Integer = -1);
+    function GetItemUltimoIndex: Integer;
   protected
     procedure SimuleKeyPress(pChar: Char);
   public
@@ -76,7 +76,7 @@ type
     procedure Iniciar; override;
 
     constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-      pShopAppPDVDBI: IShopAppPDVDBI); reintroduce;
+      pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador); reintroduce;
   end;
 
 var
@@ -98,11 +98,11 @@ begin
 end;
 
 constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-  pShopAppPDVDBI: IShopAppPDVDBI);
+  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
 begin
-  inherited Create(AOwner, pPDVVenda);
-  FShopAppPDVDBI := pShopAppPDVDBI;
+  inherited Create(AOwner, pPDVVenda, pAppPDVDBI, pPDVControlador);
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
+  FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
 
   FFitaDraw := FitaDrawCreate(FShopPDVVenda, FitaStringGrid);
   FFitaDraw.Atualize;
@@ -212,27 +212,29 @@ procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
   {
-[14:17, 12/14/2024] Anderson Aragão Daros: Page up- totalizar
-Page down- dinheiro
-Insert -cartão
-Home- pix ou transferência
-End devolução
-[14:17, 12/14/2024] Anderson Aragão Daros: Pause cancelamento de item
-}
+    [14:17, 12/14/2024] Anderson Aragão Daros: Page up- totalizar
+    Page down- dinheiro
+    Insert -cartão
+    Home- pix ou transferência
+    End devolução
+    [14:17, 12/14/2024] Anderson Aragão Daros: Pause cancelamento de item
+  }
 
-  case key of
+  case Key of
     VK_UP:
-    begin
-      if FitaStringGrid.Row > 0 then
-        FitaStringGrid.Row := FitaStringGrid.Row - 1;
-    end;
+      begin
+        if FitaStringGrid.Row > 0 then
+          FitaStringGrid.Row := FitaStringGrid.Row - 1;
+      end;
     VK_DOWN:
-    begin
-      if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
-        FitaStringGrid.Row := FitaStringGrid.Row + 1;
-    end;
-    VK_DELETE: ItemCancele;
+      begin
+        if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
+          FitaStringGrid.Row := FitaStringGrid.Row + 1;
+      end;
+    VK_DELETE:
+      ItemCancele;
     VK_NEXT:
+      PDVControlador.PagSomenteDinheiro;
   end;
 end;
 
@@ -265,10 +267,10 @@ procedure TShopVendaPDVFrame.FitaStringGridEnter(Sender: TObject);
 begin
   inherited;
   TForm(Parent).ActiveControl := Nil;
-//  InputPanel.SetFocus;
+  // InputPanel.SetFocus;
 end;
 
-function TShopVendaPDVFrame.GetItemUltimoIndex: integer;
+function TShopVendaPDVFrame.GetItemUltimoIndex: Integer;
 begin
   Result := FShopPDVVenda.Count - 1;
 end;
@@ -301,7 +303,7 @@ begin
     exit;
   end;
 
-  ItemCancelarForm_ShopApp := TItemCancelarForm_ShopApp.Create( FitaStringGrid,
+  ItemCancelarForm_ShopApp := TItemCancelarForm_ShopApp.Create(FitaStringGrid,
     FShopPDVVenda, FShopAppPDVDBI);
   try
     bResultado := ItemCancelarForm_ShopApp.Perg;
@@ -313,9 +315,9 @@ begin
   end;
 end;
 
-procedure TShopVendaPDVFrame.ItemSelecione(pIndex: integer);
+procedure TShopVendaPDVFrame.ItemSelecione(pIndex: Integer);
 var
-  iMax: integer;
+  iMax: Integer;
 begin
   if FitaStringGrid.RowCount < 2 then
     exit;
@@ -372,7 +374,7 @@ begin
   TotalBrutoLabel.Caption := 'Total: ' + s;
 
   ItemSelecione;
-//  InputPanel.SetFocus;
+  // InputPanel.SetFocus;
 end;
 
 procedure TShopVendaPDVFrame.SimuleKeyPress(pChar: Char);
@@ -392,7 +394,7 @@ begin
   if not bEncontrou then
   begin
     ExibaErro(sMensagem);
-    Exit;
+    exit;
   end;
   FShopPDVVenda.Add(oItem);
   ExibaItemVendido(oItem.Prod.DescrRed, oItem.PrecoBruto);
@@ -415,12 +417,12 @@ begin
     if pChar = #8 then
     begin
       StrDeleteNoFim(FStrBusca, 1);
-      Exit;
+      exit;
     end
     else if pChar = #13 then
     begin
       StrBuscaExec;
-      Exit;
+      exit;
     end;
     CharSemAcento(pChar);
     FStrBusca := FStrBusca + pChar;
