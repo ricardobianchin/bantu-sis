@@ -10,7 +10,7 @@ type
   private
     function GetVendaItem(Index: integer): IShopPDVVendaItem;
   public
-    procedure Zerar;
+    procedure Zerar; override;
     property VendaItem[Index: integer]: IShopPDVVendaItem read GetVendaItem; default;
   end;
 
