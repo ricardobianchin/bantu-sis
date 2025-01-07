@@ -6,7 +6,7 @@ uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
   System.Classes, App.Loja, System.Generics.Collections;
 
 type
-  TEstMov = class(TInterfaceList, IEstMov<IInterface>)
+  TEstMov = class(TInterfacedObject, IEstMov<IInterface>)
   private
     FLoja: IAppLoja;
     FTerminalId: TTerminalId;
