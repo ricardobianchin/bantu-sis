@@ -16,6 +16,7 @@ type
     FPDVControlador: IPDVControlador;
   protected
     property PDVControlador: IPDVControlador read FPDVControlador;
+    property PDVDBI: IAppPDVDBI read FPDVDBI;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
