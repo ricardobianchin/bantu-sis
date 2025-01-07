@@ -4,7 +4,7 @@ interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
-  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja;
+  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections;
 
 type
   TPDVVenda = class(TEstMov, IPDVVenda)
@@ -53,6 +53,8 @@ type
 
     function GetVendaAlteradoEm: TDateTime;
     procedure SetVendaAlteradoEm(Value: TDateTime);
+
+    function GetItems: TList<IPDVVendaItem>;
 
   public
     property VendaId: TId read GetVendaId Write SetVendaId;
@@ -225,6 +227,11 @@ end;
 function TPDVVenda.GetVendaId: TId;
 begin
   Result := FVendaId;
+end;
+
+function TPDVVenda.GetItems: TList<IPDVVendaItem>;
+begin
+  Result := TList<IPDVVendaItem>(inherited Items);
 end;
 
 procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);

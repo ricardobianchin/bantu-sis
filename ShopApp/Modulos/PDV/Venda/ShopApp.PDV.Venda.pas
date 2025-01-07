@@ -2,8 +2,8 @@ unit ShopApp.PDV.Venda;
 
 interface
 
-uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
-  Sis.Sis.Constants, ShopApp.PDV.VendaItem;
+uses
+  App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, ShopApp.PDV.VendaItem;
 
 type
   IShopPDVVenda = interface(IPDVVenda)

@@ -202,7 +202,7 @@ var
 begin
   v := FShopPdvVenda;
 
-  v.Clear;
+  v.Items.Clear;
 
   sSql := GetVendaItemPendenteSql;
 
@@ -215,7 +215,7 @@ begin
     while not q.Eof do
     begin
       oItem := RecordToItemCreate(q);
-      v.Add(oItem);
+      v.Items.Add(oItem);
       q.Next;
     end;
   finally

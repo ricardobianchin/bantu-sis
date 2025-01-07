@@ -132,7 +132,7 @@ var
   iRowCount: integer;
 begin
   // iRowCount := Iif(FVenda.Count = 0, 1, FVenda.Count);
-  iRowCount := FVenda.Count + 1;
+  iRowCount := FVenda.Items.Count + 1;
 
   FStringGrid.RowCount := iRowCount;
   FStringGrid.Repaint;

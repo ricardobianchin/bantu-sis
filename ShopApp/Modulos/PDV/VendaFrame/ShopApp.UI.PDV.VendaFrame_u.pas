@@ -289,7 +289,7 @@ end;
 
 function TShopVendaPDVFrame.GetItemUltimoIndex: Integer;
 begin
-  Result := FShopPDVVenda.Count - 1;
+  Result := FShopPDVVenda.Items.Count - 1;
 end;
 
 procedure TShopVendaPDVFrame.Iniciar;
@@ -300,7 +300,7 @@ begin
 
   FShopAppPDVDBI.CarregueVendaPendente(bCarregou);
   PreencherControles;
-  if FShopPDVVenda.Count = 0 then
+  if FShopPDVVenda.Items.Count = 0 then
     ExibaItemVendido('');
 
   // SimuleKeyPress('3');
@@ -368,13 +368,7 @@ begin
   iQtdVolumes := 0;
   uTotalLiquido := 0;
 
-  esc,altf4 = voltar
-  cancelar venda
-  autorizacoes
-  cancelado funco mais escuro
-  pag com grid venda_pag
-
-  for i := 0 to FShopPDVVenda.Count - 1 do
+  for i := 0 to FShopPDVVenda.Items.Count - 1 do
   begin
     oItem := FShopPDVVenda[i];
     if not oItem.Cancelado then
@@ -415,7 +409,7 @@ begin
     ExibaErro(sMensagem);
     exit;
   end;
-  FShopPDVVenda.Add(oItem);
+  FShopPDVVenda.Items.Add(oItem);
   ExibaItemVendido(oItem.Prod.DescrRed, oItem.PrecoBruto);
   PreencherControles;
   FStrBusca := '';
