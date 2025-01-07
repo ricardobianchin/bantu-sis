@@ -21,13 +21,13 @@ type
     ItemDescrLabel: TLabel;
     ItemTotalLabel: TLabel;
     TotalPanel: TPanel;
-    TotalBrutoLabel: TLabel;
+    TotalLiquidoLabel: TLabel;
     VolumesLabel: TLabel;
     BasePanel: TPanel;
     PDVToolBar: TToolBar;
     ToolButton1: TToolButton;
     ItemCanceleToolButton: TToolButton;
-    ToolButton3: TToolButton;
+    PagSomenteDinheiroToolButton: TToolButton;
     ToolButton4: TToolButton;
     ToolButton2: TToolButton;
     procedure CaretTimerTimer(Sender: TObject);
@@ -35,6 +35,7 @@ type
       Rect: TRect; State: TGridDrawState);
     procedure FitaStringGridEnter(Sender: TObject);
     procedure ItemCanceleToolButtonClick(Sender: TObject);
+    procedure PagSomenteDinheiroToolButtonClick(Sender: TObject);
   private
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
@@ -220,21 +221,37 @@ begin
     [14:17, 12/14/2024] Anderson Aragão Daros: Pause cancelamento de item
   }
 
+  if (Key = VK_F4) and (ssAlt in Shift) then
+  begin
+    Key := 0;
+    //FecharAction_ModuloBasForm.Execute;
+    Exit;
+  end;
+
+
   case Key of
     VK_UP:
       begin
+        Key := 0;
         if FitaStringGrid.Row > 0 then
           FitaStringGrid.Row := FitaStringGrid.Row - 1;
       end;
     VK_DOWN:
       begin
+        Key := 0;
         if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
           FitaStringGrid.Row := FitaStringGrid.Row + 1;
       end;
     VK_DELETE:
+    begin
+      Key := 0;
       ItemCancele;
+    end;
     VK_NEXT:
+    begin
+      Key := 0;
       PDVControlador.PagSomenteDinheiro;
+    end;
   end;
 end;
 
@@ -283,6 +300,8 @@ begin
 
   FShopAppPDVDBI.CarregueVendaPendente(bCarregou);
   PreencherControles;
+  if FShopPDVVenda.Count = 0 then
+    ExibaItemVendido('');
 
   // SimuleKeyPress('3');
   // SimuleKeyPress('*');
@@ -349,6 +368,12 @@ begin
   iQtdVolumes := 0;
   uTotalLiquido := 0;
 
+  esc,altf4 = voltar
+  cancelar venda
+  autorizacoes
+  cancelado funco mais escuro
+  pag com grid venda_pag
+
   for i := 0 to FShopPDVVenda.Count - 1 do
   begin
     oItem := FShopPDVVenda[i];
@@ -359,19 +384,13 @@ begin
     end;
   end;
 
-  if iQtdVolumes = 0 then
-    s := ''
-  else
-    s := iQtdVolumes.ToString;
+  s := iQtdVolumes.ToString;
 
   VolumesLabel.Caption := 'Volumes: ' + s;
 
-  if uTotalLiquido = 0 then
-    s := ''
-  else
-    s := DinhToStr(uTotalLiquido);
+  s := DinhToStr(uTotalLiquido);
 
-  TotalBrutoLabel.Caption := 'Total: ' + s;
+  TotalLiquidoLabel.Caption := 'Total: ' + s;
 
   ItemSelecione;
   // InputPanel.SetFocus;
@@ -429,6 +448,12 @@ begin
   finally
     StrBuscaMudou;
   end;
+end;
+
+procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  PDVControlador.PagSomenteDinheiro;
 end;
 
 procedure TShopVendaPDVFrame.ItemCanceleToolButtonClick(Sender: TObject);

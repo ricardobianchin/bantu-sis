@@ -124,12 +124,12 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       DesignSize = (
         289
         114)
-      object TotalBrutoLabel: TLabel
+      object TotalLiquidoLabel: TLabel
         Left = 10
         Top = 11
-        Width = 206
+        Width = 231
         Height = 37
-        Caption = 'TotalBrutoLabel'
+        Caption = 'TotalLiquidoLabel'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -27
@@ -165,14 +165,15 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
     Caption = ' '
     TabOrder = 1
     object PDVToolBar: TToolBar
-      Left = 112
+      Left = 32
       Top = 1
-      Width = 729
+      Width = 929
       Height = 29
       Align = alNone
       ButtonHeight = 21
-      ButtonWidth = 124
+      ButtonWidth = 157
       Caption = 'PDVToolBar'
+      Flat = False
       List = True
       ShowCaptions = True
       TabOrder = 0
@@ -183,26 +184,27 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         ImageIndex = 0
       end
       object ItemCanceleToolButton: TToolButton
-        Left = 124
+        Left = 157
         Top = 0
         Caption = 'Delete: Cancelar Item'
         ImageIndex = 1
         OnClick = ItemCanceleToolButtonClick
       end
-      object ToolButton3: TToolButton
-        Left = 248
+      object PagSomenteDinheiroToolButton: TToolButton
+        Left = 314
         Top = 0
-        Caption = 'ToolButton3'
+        Caption = 'PgDn: Finalize em Dinheiro '
         ImageIndex = 2
+        OnClick = PagSomenteDinheiroToolButtonClick
       end
       object ToolButton4: TToolButton
-        Left = 372
+        Left = 471
         Top = 0
         Caption = 'ToolButton4'
         ImageIndex = 3
       end
       object ToolButton2: TToolButton
-        Left = 496
+        Left = 628
         Top = 0
         Caption = 'ToolButton2'
         ImageIndex = 4
