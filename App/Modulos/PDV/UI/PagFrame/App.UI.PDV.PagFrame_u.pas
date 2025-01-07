@@ -26,7 +26,8 @@ implementation
 
 procedure TPagPDVFrame.PagSomenteDinheiro;
 begin
-
+  PDVDBI.PagSomenteDinheiro;
+  PDVControlador.VaParaFinaliza;
 end;
 
 end.

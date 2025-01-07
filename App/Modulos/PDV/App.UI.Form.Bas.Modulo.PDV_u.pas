@@ -57,6 +57,7 @@ type
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
     procedure DecidirFrameAtivo; virtual;
 
+    procedure IniciarTelaVenda; virtual;
     procedure VaParaVenda; virtual;
     procedure VaParaPag; virtual;
     procedure VaParaFinaliza; virtual;
@@ -168,7 +169,7 @@ begin
         LogUsuario.NomeExib + ' - Caixa Aberto em ' +
         FormatDateTime('ddd dd/mm/yyyy hh:nn',
         FCaixaSessaoDM.CaixaSessao.AbertoEm);
-      VaParaVenda;
+      IniciarTelaVenda;
     end;
 
     { case FCaixaSessaoDM.CaixaSessaoSituacao of
@@ -200,9 +201,9 @@ procedure TPDVModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if FVendaFrame.Visible then
-    FVendaFrame.ExecKeyDown(Sender, Key, Shift)
-  else
-    inherited;
+    FVendaFrame.ExecKeyDown(Sender, Key, Shift);
+
+  inherited;
 end;
 
 procedure TPDVModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
@@ -228,6 +229,11 @@ begin
   Result := Self;
 end;
 
+procedure TPDVModuloBasForm.IniciarTelaVenda;
+begin
+  VaParaVenda;
+end;
+
 procedure TPDVModuloBasForm.PagSomenteDinheiro;
 begin
   FPagFrame.PagSomenteDinheiro;
@@ -235,7 +241,8 @@ end;
 
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
-
+  FPDVVenda.Zerar;
+  IniciarTelaVenda;
 end;
 
 procedure TPDVModuloBasForm.VaParaPag;
