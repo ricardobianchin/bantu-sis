@@ -293,7 +293,7 @@ begin
   FEntregadorId := 0;
   FEntregaEm := DATA_ZERADA;
   FVendaAlteradoEm := DATA_ZERADA;
-  Clear;
+  Items.Clear;
 end;
 
 end.
