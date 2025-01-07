@@ -53,6 +53,7 @@ type
 
     function GetVendaAlteradoEm: TDateTime;
     procedure SetVendaAlteradoEm(Value: TDateTime);
+
   public
     property VendaId: TId read GetVendaId Write SetVendaId;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
@@ -163,6 +164,7 @@ begin
 
   FCli.Zerar;
   FEnder.Zerar;
+
 end;
 
 function TPDVVenda.GetVendaAlteradoEm: TDateTime;

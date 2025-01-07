@@ -5,7 +5,7 @@ interface
 uses Sis.Entities.Types, App.Est.Types_u, System.Classes, App.Loja;
 
 type
-  IEstMov = interface(IInterfaceList)
+  IEstMov = interface(IInterface)
     ['{8FE1D118-7395-4E42-89C6-B5A1581ACCDF}']
     function GetLoja: IAppLoja;
     property Loja: IAppLoja read GetLoja;
