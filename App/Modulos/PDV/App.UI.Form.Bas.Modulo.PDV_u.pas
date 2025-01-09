@@ -23,7 +23,6 @@ type
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
@@ -48,6 +47,7 @@ type
     function GetFecharModuloAction: TAction;
 
   protected
+    procedure AjusteControles; override;
     property FrameAtivo: TPDVFrame read GetFrameAtivo write SetFrameAtivo;
     property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
     function AppMenuFormCreate: TAppMenuForm; override;
@@ -55,9 +55,8 @@ type
     function PagFrameCreate: TPagPDVFrame; virtual; abstract;
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
-    procedure DecidirFrameAtivo; virtual;
+    procedure DecidirPrimeroFrameAtivo; virtual;
 
-    procedure IniciarTelaVenda; virtual;
     procedure VaParaVenda; virtual;
     procedure VaParaPag; virtual;
     procedure VaParaFinaliza; virtual;
@@ -67,6 +66,7 @@ type
     property PDVDBI: IAppPDVDBI read FPDVDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
+
   public
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
@@ -87,6 +87,12 @@ implementation
 
 uses Sis.DB.Factory;
 
+procedure TPDVModuloBasForm.AjusteControles;
+begin
+  inherited;
+  DecidirPrimeroFrameAtivo;
+end;
+
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
   Result := inherited;
@@ -104,7 +110,7 @@ begin
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
   s := a.Name;
   a.Execute;
-  DecidirFrameAtivo;
+  DecidirPrimeroFrameAtivo;
 end;
 
 constructor TPDVModuloBasForm.Create(AOwner: TComponent;
@@ -143,7 +149,7 @@ begin
   FPagFrame.OculteControles;
 end;
 
-procedure TPDVModuloBasForm.DecidirFrameAtivo;
+procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
 begin
   if Assigned(FFrameAtivo) then
   begin
@@ -160,6 +166,7 @@ begin
         TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
           LogUsuario.NomeExib + ' - Caixa Fechado';
         FFrameAtivo := FFrameAviso;
+        FFrameAviso.Iniciar;
         exit;
       end;
     end;
@@ -169,7 +176,9 @@ begin
         LogUsuario.NomeExib + ' - Caixa Aberto em ' +
         FormatDateTime('ddd dd/mm/yyyy hh:nn',
         FCaixaSessaoDM.CaixaSessao.AbertoEm);
-      IniciarTelaVenda;
+
+      FVendaFrame.Iniciar;
+      VaParaVenda;
     end;
 
     { case FCaixaSessaoDM.CaixaSessaoSituacao of
@@ -189,9 +198,7 @@ begin
       FFrameAtivo.OculteControles;
       FFrameAtivo.Visible := True;
       FFrameAtivo.DimensioneControles;
-      FFrameAtivo.AjusteControles;
       FFrameAtivo.ExibaControles;
-      FFrameAtivo.Iniciar;
       // FFrameAtivo.DebugImporteTeclas;
     end;
   end;
@@ -229,11 +236,6 @@ begin
   Result := Self;
 end;
 
-procedure TPDVModuloBasForm.IniciarTelaVenda;
-begin
-  VaParaVenda;
-end;
-
 procedure TPDVModuloBasForm.PagSomenteDinheiro;
 begin
   FPagFrame.PagSomenteDinheiro;
@@ -242,7 +244,7 @@ end;
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
   FPDVVenda.Zerar;
-  IniciarTelaVenda;
+  DecidirPrimeroFrameAtivo;
 end;
 
 procedure TPDVModuloBasForm.VaParaPag;
@@ -259,9 +261,7 @@ begin
     FFrameAtivo.OculteControles;
     FFrameAtivo.Visible := True;
     FFrameAtivo.DimensioneControles;
-    FFrameAtivo.AjusteControles;
     FFrameAtivo.ExibaControles;
-    FFrameAtivo.Iniciar;
     // FFrameAtivo.DebugImporteTeclas;
   end;
 end;
@@ -280,9 +280,7 @@ begin
     FFrameAtivo.OculteControles;
     FFrameAtivo.Visible := True;
     FFrameAtivo.DimensioneControles;
-    FFrameAtivo.AjusteControles;
     FFrameAtivo.ExibaControles;
-    FFrameAtivo.Iniciar;
     // FFrameAtivo.DebugImporteTeclas;
   end;
 end;
@@ -290,12 +288,6 @@ end;
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
-end;
-
-procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  DecidirFrameAtivo;
 end;
 
 end.

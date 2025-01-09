@@ -3,7 +3,7 @@ unit App.PDV.Venda;
 interface
 
 uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
-  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.PDV.VendaItem;
+  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.PDV.VendaItem, App.PDV.VendaPag.List;
 
 type
   IPDVVenda = interface(IEstMov<IPDVVendaItem>)
@@ -53,6 +53,9 @@ type
     function GetVendaAlteradoEm: TDateTime;
     procedure SetVendaAlteradoEm(Value: TDateTime);
     property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
+
+    function GetVendaPagList: IVendaPagList;
+    property VendaPagList: IVendaPagList read GetVendaPagList;
   end;
 
 implementation

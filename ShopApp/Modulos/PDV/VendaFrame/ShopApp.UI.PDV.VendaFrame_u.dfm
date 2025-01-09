@@ -171,12 +171,13 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       Height = 29
       Align = alNone
       ButtonHeight = 21
-      ButtonWidth = 157
+      ButtonWidth = 145
       Caption = 'PDVToolBar'
       Flat = False
       List = True
       ShowCaptions = True
       TabOrder = 0
+      StyleElements = []
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -184,27 +185,28 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         ImageIndex = 0
       end
       object ItemCanceleToolButton: TToolButton
-        Left = 157
+        Left = 145
         Top = 0
         Caption = 'Delete: Cancelar Item'
         ImageIndex = 1
         OnClick = ItemCanceleToolButtonClick
       end
       object PagSomenteDinheiroToolButton: TToolButton
-        Left = 314
+        Left = 290
         Top = 0
-        Caption = 'PgDn: Finalize em Dinheiro '
+        Caption = 'PgDn: Somente Dinheiro '
         ImageIndex = 2
         OnClick = PagSomenteDinheiroToolButtonClick
       end
-      object ToolButton4: TToolButton
-        Left = 471
+      object PagamentoToolButton: TToolButton
+        Left = 435
         Top = 0
-        Caption = 'ToolButton4'
+        Caption = 'PgUp: Finalize'
         ImageIndex = 3
+        OnClick = PagamentoToolButtonClick
       end
       object ToolButton2: TToolButton
-        Left = 628
+        Left = 580
         Top = 0
         Caption = 'ToolButton2'
         ImageIndex = 4

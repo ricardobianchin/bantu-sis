@@ -693,6 +693,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaPag.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaPag_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaPag.List.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaPag.List_u.pas"/>
+        <DCCReference Include="Modulos\PDV\UI\PagFrame\App.UI.PDV.PagPergForm_u.pas">
+            <Form>PagPergForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

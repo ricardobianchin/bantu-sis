@@ -28,7 +28,7 @@ type
     ToolButton1: TToolButton;
     ItemCanceleToolButton: TToolButton;
     PagSomenteDinheiroToolButton: TToolButton;
-    ToolButton4: TToolButton;
+    PagamentoToolButton: TToolButton;
     ToolButton2: TToolButton;
     procedure CaretTimerTimer(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
@@ -36,6 +36,7 @@ type
     procedure FitaStringGridEnter(Sender: TObject);
     procedure ItemCanceleToolButtonClick(Sender: TObject);
     procedure PagSomenteDinheiroToolButtonClick(Sender: TObject);
+    procedure PagamentoToolButtonClick(Sender: TObject);
   private
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
@@ -60,6 +61,7 @@ type
     procedure ItemCancele;
     procedure ItemSelecione(pIndex: Integer = -1);
     function GetItemUltimoIndex: Integer;
+
   protected
     procedure SimuleKeyPress(pChar: Char);
   public
@@ -105,8 +107,7 @@ begin
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
 
-  FFitaDraw := FitaDrawCreate(FShopPDVVenda, FitaStringGrid);
-  FFitaDraw.Atualize;
+  FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid);
 
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
@@ -246,6 +247,11 @@ begin
     begin
       Key := 0;
       ItemCancele;
+    end;
+    VK_PRIOR:
+    begin
+      Key := 0;
+      PDVControlador.VaParaPag;
     end;
     VK_NEXT:
     begin
@@ -387,7 +393,6 @@ begin
   TotalLiquidoLabel.Caption := 'Total: ' + s;
 
   ItemSelecione;
-  // InputPanel.SetFocus;
 end;
 
 procedure TShopVendaPDVFrame.SimuleKeyPress(pChar: Char);
@@ -442,6 +447,12 @@ begin
   finally
     StrBuscaMudou;
   end;
+end;
+
+procedure TShopVendaPDVFrame.PagamentoToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  PDVControlador.VaParaPag;
 end;
 
 procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);

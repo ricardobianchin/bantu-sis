@@ -4,7 +4,7 @@ interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
-  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections;
+  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections, App.PDV.VendaPag.List;
 
 type
   TPDVVenda = class(TEstMov, IPDVVenda)
@@ -21,6 +21,7 @@ type
     FEntregadorId: TId;
     FEntregaEm: TDateTime;
     FVendaAlteradoEm: TDateTime;
+    FVendaPagList: IVendaPagList;
 
     function GetVendaId: TId;
     procedure SetVendaId(Value: TId);
@@ -56,6 +57,8 @@ type
 
     function GetItems: TList<IPDVVendaItem>;
 
+    function GetVendaPagList: IVendaPagList;
+
   public
     property VendaId: TId read GetVendaId Write SetVendaId;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
@@ -70,6 +73,7 @@ type
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
     property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
+    property VendaPagList: IVendaPagList read GetVendaPagList;
 
     procedure Zerar; override;
 
@@ -104,6 +108,8 @@ type
   end;
 
 implementation
+
+uses App.PDV.Factory_u;
 
 { TPDVVenda }
 
@@ -167,6 +173,7 @@ begin
   FCli.Zerar;
   FEnder.Zerar;
 
+  FVendaPagList := VendaPagListCreate;
 end;
 
 function TPDVVenda.GetVendaAlteradoEm: TDateTime;
@@ -232,6 +239,11 @@ end;
 function TPDVVenda.GetItems: TList<IPDVVendaItem>;
 begin
   Result := TList<IPDVVendaItem>(inherited Items);
+end;
+
+function TPDVVenda.GetVendaPagList: IVendaPagList;
+begin
+  Result := FVendaPagList;
 end;
 
 procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);

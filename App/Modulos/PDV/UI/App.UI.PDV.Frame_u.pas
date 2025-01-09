@@ -18,6 +18,7 @@ type
     procedure Iniciar; virtual;
     procedure OculteControles; virtual;
     procedure ExibaControles; virtual;
+
     procedure DimensioneControles; virtual;
 
     constructor Create(AOwner: TComponent); override;

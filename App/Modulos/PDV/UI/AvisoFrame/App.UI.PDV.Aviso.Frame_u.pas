@@ -18,7 +18,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure AjusteControles; override;
+    procedure DimensioneControles; override;
     procedure ExibaControles; override;
     procedure OculteControles; override;
 
@@ -37,7 +37,7 @@ uses Sis.UI.Controls.Utils, Sis.UI.Controls.TToolBar;
 
 { TAvisoPDVFrame }
 
-procedure TAvisoPDVFrame.AjusteControles;
+procedure TAvisoPDVFrame.DimensioneControles;
 var
   LargDif: integer;
   AltuDif: integer;

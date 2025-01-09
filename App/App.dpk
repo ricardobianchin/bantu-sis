@@ -371,6 +371,11 @@ contains
   App.Loja.DBI_U in 'Pess\Loja\App.Loja.DBI_U.pas',
   App.Pess.Factory_u in 'Pess\App.Pess.Factory_u.pas',
   App.PDV.DBI in 'Modulos\PDV\App.PDV.DBI.pas',
-  App.UI.PDV.PagFrame_u in 'Modulos\PDV\UI\PagFrame\App.UI.PDV.PagFrame_u.pas' {PagPDVFrame: TFrame};
+  App.UI.PDV.PagFrame_u in 'Modulos\PDV\UI\PagFrame\App.UI.PDV.PagFrame_u.pas' {PagPDVFrame: TFrame},
+  App.PDV.VendaPag in 'Modulos\PDV\Venda\App.PDV.VendaPag.pas',
+  App.PDV.VendaPag_u in 'Modulos\PDV\Venda\App.PDV.VendaPag_u.pas',
+  App.PDV.VendaPag.List in 'Modulos\PDV\Venda\App.PDV.VendaPag.List.pas',
+  App.PDV.VendaPag.List_u in 'Modulos\PDV\Venda\App.PDV.VendaPag.List_u.pas',
+  App.UI.PDV.PagPergForm_u in 'Modulos\PDV\UI\PagFrame\App.UI.PDV.PagPergForm_u.pas' {PagPergForm};
 
 end.
