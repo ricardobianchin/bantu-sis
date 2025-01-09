@@ -49,6 +49,10 @@ implementation
 uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst, Vcl.Forms,
   Sis.UI.Constants, sndkey32, System.StrUtils;
 
+type
+  TMyCustomEdit = class(TCustomEdit);
+  TMyControl = class(TControl);
+
 function EditVazio(pEdit: TCustomEdit): boolean;
 begin
   pEdit.Text := Trim(pEdit.Text);
@@ -132,9 +136,6 @@ begin
   end;
 end;
 
-type
-  TMyCustomEdit = class(TCustomEdit);
-
 procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean);
 begin
   with TMyCustomEdit(pCustomEdit) do
@@ -177,6 +178,8 @@ begin
   pWinControlDestino.Left := pWinControlModelo.Left;
   pWinControlDestino.Width := pWinControlModelo.Width;
   pWinControlDestino.TabStop := pWinControlModelo.TabStop;
+
+  TMyControl(pWinControlDestino).Font.Assign(TMyControl(pWinControlModelo).Font);
 
   pWinControlModelo.Free;
 end;
@@ -234,9 +237,6 @@ begin
     for I := 0 to TWinControl(Control).ControlCount - 1 do
       SetCursorToChilds(TWinControl(Control).Controls[I], pCursor);
 end;
-
-type
-  TMyControl = class(TControl);
 
 procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
 var
