@@ -10,7 +10,7 @@ procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
   pIndexFin: integer = INDEX_ILIMITADO);
 
 function RecordToVarArray(out pVarArray: variant; pQ: TDataSet): variant;
-procedure DataSetAppFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable);
+procedure FDMemTableAppendDataSet(pOrigem: TDataSet; pDestino: TFDMemTable);
 procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
 
 implementation
@@ -97,8 +97,11 @@ begin
   end;
 end;
 
-procedure DataSetAppFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable);
+procedure FDMemTableAppendDataSet(pOrigem: TDataSet; pDestino: TFDMemTable);
 begin
+  pDestino.BeginBatch;
+  pDestino.DisableControls;
+  try
   while not pOrigem.Eof do
   begin
     pDestino.Append;
@@ -108,6 +111,10 @@ begin
       pDestino.Post;
     end;
     pOrigem.Next;
+  end;
+  finally
+    pDestino.EnableControls;
+    pDestino.EndBatch;
   end;
 end;
 
