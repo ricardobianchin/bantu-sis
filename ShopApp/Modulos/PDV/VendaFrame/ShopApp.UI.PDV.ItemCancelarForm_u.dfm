@@ -11,7 +11,7 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
     Width = 520
     Height = 17
     Font.Height = -13
-    ExplicitTop = 276
+    ExplicitTop = 262
     ExplicitWidth = 63
     ExplicitHeight = 17
   end
@@ -19,18 +19,16 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
     Top = 242
     Width = 520
     Height = 20
-    ExplicitTop = 230
+    ExplicitTop = 242
     ExplicitWidth = 136
     ExplicitHeight = 20
   end
   object InstrucoesLabel: TLabel [2]
     Left = 8
     Top = 8
-    Width = 432
+    Width = 328
     Height = 20
-    Caption = 
-      'Escolha o item a cancelar. Use as setas ['#8593']['#8595'] para escolher o i' +
-      'tem'
+    Caption = 'Use as setas ['#8593']['#8595'] para escolher o item a cancelar'
   end
   object BotaoCancelarLabel: TLabel [3]
     Left = 142
