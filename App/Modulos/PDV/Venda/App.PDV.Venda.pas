@@ -56,6 +56,16 @@ type
 
     function GetVendaPagList: IVendaPagList;
     property VendaPagList: IVendaPagList read GetVendaPagList;
+
+    function GetItensPrecoTot: Currency;
+    function GetFalta: Currency;
+
+    procedure ItensPegarTots( //
+      out pTotalLiquido: Currency; //
+      out pTotalPago: Currency; //
+      out pFalta: Currency; //
+      out pTroco: Currency //
+      );
   end;
 
 implementation

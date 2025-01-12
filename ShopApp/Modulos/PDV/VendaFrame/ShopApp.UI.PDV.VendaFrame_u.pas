@@ -64,6 +64,7 @@ type
 
   protected
     procedure SimuleKeyPress(pChar: Char);
+    procedure ExibaControles; override;
   public
     { Public declarations }
     procedure ExibaErro(pMens: string); override;
@@ -265,6 +266,13 @@ procedure TShopVendaPDVFrame.ExecKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   StrBuscaPegueChar(Key);
+end;
+
+procedure TShopVendaPDVFrame.ExibaControles;
+begin
+  PreencherControles;
+  inherited;
+
 end;
 
 procedure TShopVendaPDVFrame.ExibaErro(pMens: string);

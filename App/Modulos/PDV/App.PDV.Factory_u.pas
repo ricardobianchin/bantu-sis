@@ -13,8 +13,9 @@ function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
 function VendaPagListCreate: IVendaPagList;
 
 function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
-  AValorDevido, AValorEntregue, ATroco: Currency; ACancelado: Boolean)
-  : IVendaPag;
+  APagamentoFormaTipoId: string; APagamentoFormaTipoDescrRed: string;
+  APagamentoFormaDescr: string; AValorDevido, AValorEntregue, ATroco: Currency;
+  ACancelado: Boolean): IVendaPag;
 
 implementation
 
@@ -38,10 +39,13 @@ begin
 end;
 
 function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
-  AValorDevido, AValorEntregue, ATroco: Currency; ACancelado: Boolean)
+  APagamentoFormaTipoId: string; APagamentoFormaTipoDescrRed: string;
+  APagamentoFormaDescr: string; AValorDevido, AValorEntregue, ATroco: Currency;
+  ACancelado: Boolean)
   : IVendaPag;
 begin
-  Result := TVendaPag.Create(AOrdem, APagamentoFormaId, AValorDevido,
+  Result := TVendaPag.Create(AOrdem, APagamentoFormaId, APagamentoFormaTipoId,
+    APagamentoFormaTipoDescrRed, APagamentoFormaDescr, AValorDevido,
     AValorEntregue, ATroco, ACancelado);
 end;
 

@@ -104,7 +104,7 @@ begin
   Expoente:=0;
   TemVirgula:=false;
   Encerrado:=false;
-  AutoSize:=false;
+  AutoSize:=true;
   Ctl3D:=true;
 
   LabelPosition := lpLeft;

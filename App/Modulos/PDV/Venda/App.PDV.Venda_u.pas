@@ -77,6 +77,16 @@ type
 
     procedure Zerar; override;
 
+    function GetItensPrecoTot: Currency;
+    function GetFalta: Currency;
+
+    procedure ItensPegarTots( //
+      out pTotalLiquido: Currency; //
+      out pTotalPago: Currency; //
+      out pFalta: Currency; //
+      out pTroco: Currency //
+      );
+
     constructor Create( //
       pLoja: IAppLoja; //
       pTerminalId: TTerminalId; //
@@ -226,6 +236,18 @@ begin
   Result := FEntregaTem;
 end;
 
+function TPDVVenda.GetFalta: Currency;
+var
+  uItensTot: Currency;
+  uPagTot: Currency;
+  uDif: Currency;
+begin
+  uItensTot := GetItensPrecoTot;
+  uPagTot := VendaPagList.Total;
+  uDif := uItensTot - uPagTot;
+  Result := uDif;
+end;
+
 function TPDVVenda.GetTotalLiquido: Currency;
 begin
   Result := FTotalLiquido;
@@ -241,9 +263,35 @@ begin
   Result := TList<IPDVVendaItem>(inherited Items);
 end;
 
+function TPDVVenda.GetItensPrecoTot: Currency;
+var
+  oItem: IPDVVendaItem;
+  I: Integer;
+begin
+  Result := 0;
+  for I := 0 to Items.Count - 1 do
+  begin
+    oItem := IPDVVendaItem(Items[i]);
+    Result := Result + oItem.Preco;
+  end;
+end;
+
 function TPDVVenda.GetVendaPagList: IVendaPagList;
 begin
   Result := FVendaPagList;
+end;
+
+procedure TPDVVenda.ItensPegarTots( //
+  out pTotalLiquido: Currency; //
+  out pTotalPago: Currency; //
+  out pFalta: Currency; //
+  out pTroco: Currency //
+  );
+begin
+  pTotalLiquido := GetItensPrecoTot;
+
+  FVendaPagList.GetTots(pTotalPago, pTroco);
+  pFalta := pTotalLiquido - pTotalPago;
 end;
 
 procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);

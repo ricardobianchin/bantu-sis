@@ -35,6 +35,7 @@ type
     procedure AtualizeAlteracaoTexto; virtual;
     procedure SelecioneProximo;
     procedure EditKeyPressUltimo(Sender: TObject; var Key: Char); virtual;
+    function Voltou: Boolean; virtual;
   public
     { Public declarations }
     function Perg: boolean;
@@ -117,7 +118,8 @@ begin
   if Key = #27 then
   begin
     Key := #0;
-    CancelAct_Diag.Execute;
+    Voltou;
+    //CancelAct_Diag.Execute;
   end;
 end;
 
@@ -156,6 +158,12 @@ end;
 procedure TDiagBasForm.SelecioneProximo;
 begin
   SelectNext(ActiveControl, true, true);
+end;
+
+function TDiagBasForm.Voltou: Boolean;
+begin
+  Result := True;
+  CancelAct_Diag.Execute;
 end;
 
 end.

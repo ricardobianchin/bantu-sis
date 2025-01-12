@@ -3,7 +3,7 @@ unit App.PDV.VendaPag.List;
 interface
 
 uses
-  App.PDV.VendaPag, System.Classes;
+  App.PDV.VendaPag, System.Classes, Sis.Types;
 
 type
   IVendaPagList = interface(IInterfaceList)
@@ -12,6 +12,14 @@ type
     procedure SetItem(Index: Integer; const Value: IVendaPag);
     function Add(const Item: IVendaPag): Integer;
     property Items[Index: Integer]: IVendaPag read GetItem write SetItem; default;
+
+    function GetTotal: Currency;
+    property Total: Currency read GetTotal;
+
+    procedure GetTots(out pPago: Currency; out pTroco: Currency);
+    function GetProximaOrdem: SmallInt;
+
+    function PagFormaTem(pPagFormaId: TId): Boolean;
   end;
 
 implementation

@@ -217,6 +217,8 @@ procedure TPDVModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if FVendaFrame.Visible then
     FVendaFrame.ExecKeyPress(Sender, Key)
+  else if FPagFrame.Visible then
+    FPagFrame.ExecKeyPress(Sender, Key)
   else
     inherited;
 end;
@@ -263,6 +265,10 @@ begin
     FFrameAtivo.DimensioneControles;
     FFrameAtivo.ExibaControles;
     // FFrameAtivo.DebugImporteTeclas;
+    if FPagFrame.Falta > 0 then
+    begin
+      FPagFrame.PagPerg;
+    end;
   end;
 end;
 
