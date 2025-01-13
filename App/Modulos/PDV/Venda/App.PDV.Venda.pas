@@ -62,7 +62,8 @@ type
 
     procedure ItensPegarTots( //
       out pTotalLiquido: Currency; //
-      out pTotalPago: Currency; //
+      out pTotalDevido: Currency; //
+      out pTotalEntregue: Currency; //
       out pFalta: Currency; //
       out pTroco: Currency //
       );

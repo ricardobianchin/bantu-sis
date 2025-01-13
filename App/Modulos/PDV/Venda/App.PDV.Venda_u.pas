@@ -4,7 +4,8 @@ interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
-  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections, App.PDV.VendaPag.List;
+  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections,
+  App.PDV.VendaPag.List;
 
 type
   TPDVVenda = class(TEstMov, IPDVVenda)
@@ -72,7 +73,8 @@ type
     property EntregaTem: Boolean read GetEntregaTem write SetEntregaTem;
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
-    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
+    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm
+      write SetVendaAlteradoEm;
     property VendaPagList: IVendaPagList read GetVendaPagList;
 
     procedure Zerar; override;
@@ -82,7 +84,8 @@ type
 
     procedure ItensPegarTots( //
       out pTotalLiquido: Currency; //
-      out pTotalPago: Currency; //
+      out pTotalDevido: Currency; //
+      out pTotalEntregue: Currency; //
       out pFalta: Currency; //
       out pTroco: Currency //
       );
@@ -271,7 +274,7 @@ begin
   Result := 0;
   for I := 0 to Items.Count - 1 do
   begin
-    oItem := IPDVVendaItem(Items[i]);
+    oItem := IPDVVendaItem(Items[I]);
     Result := Result + oItem.Preco;
   end;
 end;
@@ -282,16 +285,18 @@ begin
 end;
 
 procedure TPDVVenda.ItensPegarTots( //
-  out pTotalLiquido: Currency; //
-  out pTotalPago: Currency; //
-  out pFalta: Currency; //
-  out pTroco: Currency //
+      out pTotalLiquido: Currency; //
+      out pTotalDevido: Currency; //
+      out pTotalEntregue: Currency; //
+      out pFalta: Currency; //
+      out pTroco: Currency //
   );
 begin
   pTotalLiquido := GetItensPrecoTot;
 
-  FVendaPagList.GetTots(pTotalPago, pTroco);
-  pFalta := pTotalLiquido - pTotalPago;
+  FVendaPagList.GetTots(pTotalDevido, pTotalEntregue, pTroco);
+
+  pFalta := pTotalLiquido - (pTotalEntregue - pTroco);
 end;
 
 procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);
@@ -354,6 +359,7 @@ begin
   FEntregaEm := DATA_ZERADA;
   FVendaAlteradoEm := DATA_ZERADA;
   Items.Clear;
+  FVendaPagList.Clear;
 end;
 
 end.

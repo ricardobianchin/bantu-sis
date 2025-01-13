@@ -27,6 +27,7 @@ type
       Shift: TShiftState); virtual;
     procedure ExecKeyPress(Sender: TObject; var Key: Char); virtual;
     procedure ExibaErro(pMens: string); virtual;
+    procedure ExibaMens(pMens: string); virtual;
   end;
 
 var
@@ -62,6 +63,11 @@ begin
 end;
 
 procedure TPDVFrame.ExibaErro(pMens: string);
+begin
+
+end;
+
+procedure TPDVFrame.ExibaMens(pMens: string);
 begin
 
 end;

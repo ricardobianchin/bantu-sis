@@ -17,7 +17,7 @@ type
     property Items[Index: Integer]: IVendaPag read GetItem
       write SetItem; default;
     property Total: Currency read GetTotal;
-    procedure GetTots(out pPago, pTroco: Currency);
+    procedure GetTots(out pDevido, pEntregue, pTroco: Currency);
     function GetProximaOrdem: SmallInt;
     function PagFormaTem(pPagFormaId: TId): Boolean;
   end;
@@ -43,17 +43,21 @@ begin
   for i := 0 to Count - 1 do
   begin
     oPag := Items[i];
+    if oPag.Cancelado then
+      continue;
+
     Result := Result + oPag.ValorDevido;
   end;
 end;
 
-procedure TVendaPagList.GetTots(out pPago, pTroco: Currency);
+procedure TVendaPagList.GetTots(out pDevido, pEntregue, pTroco: Currency);
 var
   oPag: IVendaPag;
   i: Integer;
 begin
-  pPago := 0;
+  pDevido := 0;
   pTroco := 0;
+  pEntregue := 0;
 
   for i := 0 to Count - 1 do
   begin
@@ -61,7 +65,8 @@ begin
     if oPag.Cancelado then
       Continue;
 
-    pPago := pPago + oPag.ValorDevido;
+    pDevido := pDevido + oPag.ValorDevido;
+    pEntregue := pEntregue + oPag.ValorEntregue;
     pTroco := pTroco + oPag.Troco;
   end;
 end;
@@ -75,6 +80,10 @@ begin
   for i := 0 to Count - 1 do
   begin
     oPag := Items[i];
+
+    if oPag.Cancelado then
+      continue;
+
     if oPag.PagamentoFormaId = pPagFormaId then
     begin
       Result := True;

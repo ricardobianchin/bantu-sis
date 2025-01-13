@@ -25,9 +25,12 @@ type
     procedure InsiraEstItens; virtual;
     procedure PagFormaPreencheDataSet(pFDMemTable: TFDMemTable);
     procedure PagCancelar(pOrdem: SmallInt);
+    procedure VendaFinalize;
 
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
       pTerminal: ITerminal; pPdvVenda: IPDVVenda);
+    procedure EstMovCancele(out pCanceladoEm: TDateTime; out pErroDeu: boolean;
+      out pErroMensagem: string);
   end;
 
 implementation
@@ -55,6 +58,12 @@ var
 begin
   V := FPdvVenda;
 
+  if VALOR_ENTREGUE = 0 then
+  begin
+    VALOR_ENTREGUE := VALOR_DEVIDO;
+    TROCO := 0;
+  end;
+
   sSql := //
     'INSERT INTO VENDA_PAG('#13#10 //
 
@@ -80,9 +89,9 @@ begin
     + '  , ' + CurrencyToStrPonto(TROCO) + #13#10 //
     + '  , FALSE'#13#10 //
     + ');';
-//{$IFDEF DEBUG}
-//  CopyTextToClipboard(sSql);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
   ExecuteSQL(sSql, sMens);
 end;
 
@@ -97,7 +106,7 @@ begin
 
   sSql := //
     'SELECT CANCELADO_EM'#13#10 //
-    +'FROM VENDA_PAG_INS_PA.CANCELE'#13#10 //
+    + 'FROM VENDA_PAG_INS_PA.CANCELE'#13#10 //
     + '('#13#10 //
     + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
@@ -105,9 +114,9 @@ begin
     + '  , ' + pOrdem.ToString + ' -- ORDEM'#13#10 //
     + ');';
 
-//{$IFDEF DEBUG}
-//  CopyTextToClipboard(sSql);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
   vValor := GetValue(sSql, sMens);
 end;
 
@@ -135,7 +144,8 @@ begin
     + '    TEF_USA,'#13#10 //
     + '    AUTORIZACAO_EXIGE,'#13#10 //
     + '    PESSOA_EXIGE,'#13#10 //
-    + '    CASE WHEN PAGAMENTO_FORMA_ID = 1 THEN TRUE ELSE FALSE END AS ACEITA_TROCO'#13#10 //
+    + '    CASE WHEN PAGAMENTO_FORMA_ID = 1 THEN TRUE ELSE FALSE END AS ACEITA_TROCO'#13#10
+  //
     + '  FROM PAGAMENTO_FORMA'#13#10 //
     + '  WHERE ATIVO AND PARA_VENDA'#13#10 //
     + ')'#13#10 //
@@ -184,6 +194,76 @@ begin
     + ', TOTAL_LIQUIDO_RET'#13#10 //
 
     + 'FROM VENDA_PAG_INS_PA.FINALIZE_SO_DIN'#13#10 //
+
+    + '('#13#10 //
+    + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
+    + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+    + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+
+  DBConnection.Abrir;
+  try
+    DBConnection.QueryDataSet(sSql, q);
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TAppPDVDBI.VendaFinalize;//
+var
+  sSql: string;
+  V: IPDVVenda;
+  q: TDataSet;
+begin
+  V := FPdvVenda;
+
+  sSql := //
+    'SELECT'#13#10 //
+
+    + 'FINALIZADO_EM_RET'#13#10 //
+    + ', DESCONTO_TOTAL_RET'#13#10 //
+    + ', CUSTO_TOTAL_RET'#13#10 //
+    + ', TOTAL_LIQUIDO_RET'#13#10 //
+
+    + 'FROM VENDA_PDV_INS_PA.FINALIZE'#13#10 //
+
+    + '('#13#10 //
+    + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
+    + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+    + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+
+  DBConnection.Abrir;
+  try
+    DBConnection.QueryDataSet(sSql, q);
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TAppPDVDBI.EstMovCancele(out pCanceladoEm: TDateTime;
+  out pErroDeu: boolean; out pErroMensagem: string);
+var
+  sSql: string;
+  V: IPDVVenda;
+  q: TDataSet;
+begin
+  V := FPdvVenda;
+
+  sSql := //
+    'SELECT'#13#10 //
+
+    + 'CANCELADO_EM'#13#10 //
+
+    + 'FROM EST_MOV_MANUT_PA.CANCELE'#13#10 //
 
     + '('#13#10 //
     + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //

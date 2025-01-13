@@ -32,17 +32,20 @@ type
     VoltarToolButton: TToolButton;
     CancelarToolButton: TToolButton;
     MensLabel: TLabel;
+    FinalizarToolButton: TToolButton;
     procedure VoltarToolButtonClick(Sender: TObject);
     procedure PagPergToolButtonClick(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure CancelarToolButtonClick(Sender: TObject);
     procedure VendaPagFDMemTableAfterScroll(DataSet: TDataSet);
+    procedure FinalizarToolButtonClick(Sender: TObject);
   private
     { Private declarations }
 
     uTotalLiquido: Currency;
-    uTotalPago: Currency;
+    uTotalDevido: Currency;
+    uTotalEntregue: Currency;
     uFalta: Currency;
     uTroco: Currency;
 
@@ -116,7 +119,7 @@ begin
 
   PreenchaVendaPagFDMemTable;
 
-  Repaint;
+  Application.ProcessMessages;
 end;
 
 procedure TPagPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
@@ -134,7 +137,15 @@ begin
   inherited;
   case Key of
     #27:
+    begin
+      key := #0;
       PDVControlador.VaParaVenda;
+    end;
+    #13:
+    begin
+      key := #0;
+      PDVControlador.VaParaFinaliza;
+    end;
   end;
 end;
 
@@ -156,9 +167,16 @@ begin
   MensLabel.Caption := pFrase;
 end;
 
+procedure TPagPDVFrame.FinalizarToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  PDVControlador.VaParaFinaliza;
+end;
+
 procedure TPagPDVFrame.PagSomenteDinheiro;
 begin
   PDVDBI.PagSomenteDinheiro;
+  PDVVenda.Finalizado := True; // evita que tente salvar de novo
   PDVControlador.VaParaFinaliza;
 end;
 
@@ -233,6 +251,12 @@ procedure TPagPDVFrame.PagPerg;
 var
   bResultado: Boolean;
 begin
+  if uFalta = 0 then
+  begin
+    ExibaErro('Valor da venda já foi recebido. Se deseja inserir outra forma de pagamento, cancele uma das já registradas');
+    exit;
+  end;
+
   ExibaErro('');
   PagPergForm := TPagPergForm.Create(Nil, PDVVenda, PDVDBI, PagInsiraReg,
     PagFormaTem);
@@ -246,9 +270,9 @@ begin
       if uFalta = 0 then
         break;
       // PreenchaVendaPagFDMemTable;
-      PreenchaTotais;
       VendaPagFDMemTable.Last;
-      DBGrid1.Repaint;
+      Application.ProcessMessages;
+//      sleep(10);
     until False;
   finally
     PagPergForm.Free;
@@ -257,10 +281,10 @@ end;
 
 procedure TPagPDVFrame.PreenchaTotais;
 begin
-  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalPago, uFalta, uTroco);
+  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue, uFalta, uTroco);
 
   TotLabel.Caption := 'Total: R$ ' + DinhToStr(uTotalLiquido);
-  PagoLabel.Caption := 'Pago: R$ ' + DinhToStr(uTotalPago);
+  PagoLabel.Caption := 'Recebido: R$ ' + DinhToStr(uTotalEntregue);
   FaltaLabel.Caption := 'Falta: R$ ' + DinhToStr(uFalta);
   TrocoLabel.Caption := 'Troco: R$ ' + DinhToStr(uTroco);
 end;

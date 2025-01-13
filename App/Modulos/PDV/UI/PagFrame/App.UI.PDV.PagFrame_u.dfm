@@ -6,18 +6,18 @@ inherited PagPDVFrame: TPagPDVFrame
   inherited MeioPanel: TPanel
     Left = 16
     Top = 16
-    Width = 600
+    Width = 629
     Height = 233
     Align = alNone
     BevelOuter = bvRaised
     ExplicitLeft = 16
     ExplicitTop = 16
-    ExplicitWidth = 600
+    ExplicitWidth = 629
     ExplicitHeight = 233
     object MensLabel: TLabel
       Left = 1
-      Top = 171
-      Width = 598
+      Top = 186
+      Width = 627
       Height = 20
       Align = alBottom
       Alignment = taCenter
@@ -33,22 +33,24 @@ inherited PagPDVFrame: TPagPDVFrame
       Transparent = True
       WordWrap = True
       StyleElements = [seClient, seBorder]
+      ExplicitTop = 171
       ExplicitWidth = 71
     end
     object TotPanel: TPanel
       Left = 1
       Top = 1
-      Width = 598
+      Width = 627
       Height = 107
       Align = alTop
       Caption = ' '
       TabOrder = 0
+      ExplicitWidth = 598
       object PagoLabel: TLabel
         Left = 5
         Top = 27
-        Width = 42
+        Width = 74
         Height = 23
-        Caption = 'Pago:'
+        Caption = 'Recebido:'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -17
@@ -103,8 +105,8 @@ inherited PagPDVFrame: TPagPDVFrame
     object DBGrid1: TDBGrid
       Left = 1
       Top = 108
-      Width = 598
-      Height = 63
+      Width = 627
+      Height = 78
       Align = alClient
       BorderStyle = bsNone
       DataSource = VendaPagDataSource
@@ -156,17 +158,18 @@ inherited PagPDVFrame: TPagPDVFrame
     end
     object BasePanel: TPanel
       Left = 1
-      Top = 191
-      Width = 598
-      Height = 41
+      Top = 206
+      Width = 627
+      Height = 26
       Align = alBottom
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 2
+      ExplicitWidth = 598
       object ToolBar1: TToolBar
         Left = 0
         Top = 0
-        Width = 598
+        Width = 627
         Height = 25
         AutoSize = True
         ButtonHeight = 23
@@ -182,7 +185,8 @@ inherited PagPDVFrame: TPagPDVFrame
         ParentFont = False
         ShowCaptions = True
         TabOrder = 0
-        StyleElements = []
+        ExplicitWidth = 598
+        ExplicitHeight = 48
         object VoltarToolButton: TToolButton
           Left = 0
           Top = 0
@@ -205,6 +209,14 @@ inherited PagPDVFrame: TPagPDVFrame
           Caption = 'Delete - Cancelar Pagamento'
           ImageIndex = 1
           OnClick = CancelarToolButtonClick
+        end
+        object FinalizarToolButton: TToolButton
+          Left = 427
+          Top = 0
+          AutoSize = True
+          Caption = 'Enter - Finalizar'
+          ImageIndex = 2
+          OnClick = FinalizarToolButtonClick
         end
       end
     end

@@ -16,7 +16,7 @@ type
     function GetTotal: Currency;
     property Total: Currency read GetTotal;
 
-    procedure GetTots(out pPago: Currency; out pTroco: Currency);
+    procedure GetTots(out pDevido, pEntregue, pTroco: Currency);
     function GetProximaOrdem: SmallInt;
 
     function PagFormaTem(pPagFormaId: TId): Boolean;

@@ -66,7 +66,6 @@ type
     property PDVDBI: IAppPDVDBI read FPDVDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
-
   public
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
@@ -85,7 +84,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory;
+uses Sis.DB.Factory, Sis.UI.IO.Input.Perg;
 
 procedure TPDVModuloBasForm.AjusteControles;
 begin
@@ -218,9 +217,8 @@ begin
   if FVendaFrame.Visible then
     FVendaFrame.ExecKeyPress(Sender, Key)
   else if FPagFrame.Visible then
-    FPagFrame.ExecKeyPress(Sender, Key)
-  else
-    inherited;
+    FPagFrame.ExecKeyPress(Sender, Key);
+  inherited;
 end;
 
 function TPDVModuloBasForm.GetFecharModuloAction: TAction;
@@ -245,6 +243,14 @@ end;
 
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
+  if (not FPDVVenda.Cancelado) and (not FPDVVenda.Finalizado) then
+  begin
+    VaParaVenda;
+    FVendaFrame.ExibaMens('Finalizando a venda...');
+    Application.ProcessMessages;
+    FPDVDBI.VendaFinalize;
+  end;
+
   FPDVVenda.Zerar;
   DecidirPrimeroFrameAtivo;
 end;

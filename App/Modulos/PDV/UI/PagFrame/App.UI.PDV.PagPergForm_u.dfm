@@ -7,9 +7,11 @@ inherited PagPergForm: TPagPergForm
   ExplicitHeight = 370
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 312
+    Top = 286
     Width = 641
-    ExplicitTop = 312
+    ExplicitLeft = 8
+    ExplicitTop = 272
+    ExplicitWidth = 641
   end
   inherited AlteracaoTextoLabel: TLabel
     Left = 152
@@ -40,36 +42,7 @@ inherited PagPergForm: TPagPergForm
     Height = 15
     Caption = 'Escolha a Forma de Pagamento com as setas ['#8593']['#8595']'
   end
-  object MoldeValorLabeledEdit: TLabeledEdit [4]
-    Left = 467
-    Top = 57
-    Width = 108
-    Height = 29
-    Alignment = taCenter
-    EditLabel.Width = 36
-    EditLabel.Height = 29
-    EditLabel.Caption = 'Valor'
-    EditLabel.Font.Charset = DEFAULT_CHARSET
-    EditLabel.Font.Color = clWindowText
-    EditLabel.Font.Height = -16
-    EditLabel.Font.Name = 'Segoe UI'
-    EditLabel.Font.Style = []
-    EditLabel.ParentFont = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    LabelPosition = lpLeft
-    LabelSpacing = 6
-    ParentFont = False
-    TabOrder = 0
-    Text = '123,45'
-    StyleElements = [seClient, seBorder]
-    OnChange = MoldeValorLabeledEditChange
-    OnKeyPress = MoldeValorLabeledEditKeyPress
-  end
-  object EntreguePanel: TPanel [5]
+  object EntreguePanel: TPanel [4]
     Left = 397
     Top = 105
     Width = 178
@@ -143,9 +116,9 @@ inherited PagPergForm: TPagPergForm
       OnKeyPress = MoldeEntregueLabeledEditKeyPress
     end
   end
-  object ToolBar1: TToolBar [6]
+  object ToolBar1: TToolBar [5]
     Left = 0
-    Top = 286
+    Top = 306
     Width = 641
     Height = 26
     Align = alBottom
@@ -189,7 +162,7 @@ inherited PagPergForm: TPagPergForm
       ImageIndex = 2
     end
   end
-  object PagFormaDBGrid: TDBGrid [7]
+  object PagFormaDBGrid: TDBGrid [6]
     Left = 3
     Top = 41
     Width = 345
@@ -259,6 +232,35 @@ inherited PagPergForm: TPagPergForm
         FieldName = 'PESSOA_EXIGE'
         Visible = False
       end>
+  end
+  object MoldeValorLabeledEdit: TLabeledEdit [7]
+    Left = 467
+    Top = 57
+    Width = 108
+    Height = 29
+    Alignment = taCenter
+    EditLabel.Width = 36
+    EditLabel.Height = 29
+    EditLabel.Caption = 'Valor'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -16
+    EditLabel.Font.Name = 'Segoe UI'
+    EditLabel.Font.Style = []
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    LabelPosition = lpLeft
+    LabelSpacing = 6
+    ParentFont = False
+    TabOrder = 0
+    Text = '123,45'
+    StyleElements = [seClient, seBorder]
+    OnChange = MoldeValorLabeledEditChange
+    OnKeyPress = MoldeValorLabeledEditKeyPress
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 24

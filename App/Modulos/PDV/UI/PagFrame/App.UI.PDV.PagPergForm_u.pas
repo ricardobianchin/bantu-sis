@@ -40,6 +40,8 @@ type
     PagFormaFDMemTablePESSOA_EXIGE: TBooleanField;
     PagFormaFDMemTableACEITA_TROCO: TBooleanField;
 
+    procedure FormShow(Sender: TObject);
+
     procedure PagFormaFDMemTableAfterScroll(DataSet: TDataSet);
     procedure PagFormaDBGridColEnter(Sender: TObject);
 
@@ -53,6 +55,7 @@ type
 
     procedure ValorFaltaToolButtonClick(Sender: TObject);
     procedure CancelarToolButtonClick(Sender: TObject);
+    procedure OkAct_DiagExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -62,23 +65,23 @@ type
     FEntregueEdit: TNumEditBtu;
     FTrocoEdit: TNumEditBtu;
     FFalta: Currency;
-    FRecebitoTestar: Boolean;
+    FEntregueTestar: Boolean;
 
     FProcedurePagAppend: TVendaPagProcedure;
     FPagFormaTem: TVendaPagTesteForma;
 
-    procedure PegueValor;
     procedure AtualizeTroco;
     procedure FaltaColar;
 
     function ValorOk: Boolean;
-    function EntregueOk(pVal, pRec: Currency): Boolean;
+    function EntregueOk: Boolean;
+    function PagFormaOk: Boolean;
 
     procedure ValorLabeledEditExit(Sender: TObject);
     procedure EntregueLabeledEditExit(Sender: TObject);
-    procedure DecidaRecebidoVisivel;
+
+    procedure DecidaEntregueVisivel;
     function PagFormaPodeInserir(pPagFormaId: TId): Boolean;
-    function NovoPagCreate: IVendaPag;
   protected
     procedure AjusteControles; override;
     function Voltou: Boolean; override;
@@ -103,7 +106,9 @@ uses Sis.UI.Controls.Utils, Sis.Types.Floats;
 procedure TPagPergForm.AjusteControles;
 begin
   inherited;
+  FEntregueTestar := False;
   TrySetFocus(FValorEdit);
+  FEntregueTestar := True;
 end;
 
 procedure TPagPergForm.AtualizeTroco;
@@ -143,10 +148,6 @@ begin
   FPDVVenda := pPDVVenda;
   FPDVDBI := pPDVDBI;
 
-  FFalta := FPDVVenda.GetFalta;
-
-  FaltaLabel.Caption := 'Falta: R$ ' + DinhToStr(FFalta);
-
   FValorEdit := TNumEditBtu.Create(Self);
   FValorEdit.Alignment := taRightJustify;
   FValorEdit.NCasas := 2;
@@ -155,8 +156,8 @@ begin
   FValorEdit.Caption := MoldeValorLabeledEdit.EditLabel.Caption;
   FValorEdit.LabelPosition := lpLeft;
   FValorEdit.LabelSpacing := MoldeValorLabeledEdit.LabelSpacing;
-  FValorEdit.Valor := FFalta;
-  FValorEdit.EditLabel.Font.Assign(FValorEdit.Font);
+  FValorEdit.AutoExit := False;
+  FValorEdit.EditLabel.Font.Assign(MoldeValorLabeledEdit.Font);
 
   PegueFormatoDe(FValorEdit, MoldeValorLabeledEdit);
 
@@ -169,6 +170,7 @@ begin
   FEntregueEdit.LabelPosition := lpLeft;
   FEntregueEdit.LabelSpacing := FValorEdit.LabelSpacing;
   FEntregueEdit.Valor := 0;
+  FEntregueEdit.AutoExit := False;
   FEntregueEdit.EditLabel.Font.Assign(FValorEdit.Font);
 
   PegueFormatoDe(FEntregueEdit, MoldeEntregueLabeledEdit);
@@ -199,16 +201,10 @@ begin
   FEntregueEdit.OnKeyPress := MoldeEntregueLabeledEditKeyPress;
   FEntregueEdit.OnExit := EntregueLabeledEditExit;
 
-  FRecebitoTestar := True;
-
-  PagFormaFDMemTable.AfterScroll := nil;
-
-  FPDVDBI.PagFormaPreencheDataSet(PagFormaFDMemTable);
-  PagFormaFDMemTable.AfterScroll := PagFormaFDMemTableAfterScroll;
-  DecidaRecebidoVisivel;
+  FEntregueTestar := True;
 end;
 
-procedure TPagPergForm.DecidaRecebidoVisivel;
+procedure TPagPergForm.DecidaEntregueVisivel;
 begin
   if PagFormaFDMemTableACEITA_TROCO.AsBoolean then
   begin
@@ -218,7 +214,9 @@ begin
   end
   else
   begin
+    FEntregueTestar := False;
     TrySetFocus(FValorEdit);
+    FEntregueTestar := True;
     EntreguePanel.Visible := False;
   end;
 end;
@@ -246,6 +244,26 @@ begin
   end;
 end;
 
+procedure TPagPergForm.FormShow(Sender: TObject);
+begin
+  inherited;
+  FFalta := FPDVVenda.GetFalta;
+  FaltaLabel.Caption := 'Falta: R$ ' + DinhToStr(FFalta);
+  FValorEdit.Valor := FFalta;
+  FEntregueEdit.Valor := 0;
+
+  FEntregueTestar := False;
+  TrySetFocus(FValorEdit);
+  FEntregueTestar := True;
+
+  PagFormaFDMemTable.AfterScroll := nil;
+  FPDVDBI.PagFormaPreencheDataSet(PagFormaFDMemTable);
+  PagFormaFDMemTable.AfterScroll := PagFormaFDMemTableAfterScroll;
+  DecidaEntregueVisivel;
+
+  MensLimpar;
+end;
+
 procedure TPagPergForm.MoldeEntregueLabeledEditChange(Sender: TObject);
 begin
   inherited;
@@ -261,7 +279,7 @@ begin
     #13:
       begin
         Key := #0;
-        PegueValor;
+        OkAct_Diag.Execute
       end;
   end;
 end;
@@ -275,137 +293,113 @@ end;
 
 procedure TPagPergForm.MoldeValorLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
+var
+  at: Boolean;
+  v: Currency;
 begin
   inherited;
   case Key of
     #13:
       begin
         Key := #0;
-        if PagFormaFDMemTableACEITA_TROCO.AsBoolean then
+        at := PagFormaFDMemTableACEITA_TROCO.AsBoolean;
+        if at then
         begin
-          FEntregueEdit.SetFocus;
-          exit;
+          V := FValorEdit.AsCurrency;
+          if V < FFalta then
+          begin
+            FEntregueEdit.SetFocus;
+            exit;
+          end;
         end;
-        PegueValor;
+
+        OkAct_Diag.Execute
       end;
   end;
 end;
 
-function TPagPergForm.NovoPagCreate: IVendaPag;
+procedure TPagPergForm.OkAct_DiagExecute(Sender: TObject);
 var
-  uDevido, uEntregue, uTroco: Currency;
+  at: Boolean;
+  v, r, t: Currency;
+  i: integer;
+  oPag: IVendaPag;
 begin
-  uDevido := FValorEdit.AsCurrency;
-  if PagFormaFDMemTableACEITA_TROCO.AsBoolean then
+  if not ValorOk then
+    exit;
+  if not entregueok then
+    exit;
+
+  at := PagFormaFDMemTableACEITA_TROCO.AsBoolean;
+  i := PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger;
+  v := FValorEdit.AsCurrency;
+  r := FEntregueEdit.AsCurrency;
+  t := FTrocoEdit.AsCurrency;
+
+  if at then
   begin
-    uEntregue := FEntregueEdit.AsCurrency;
-    uTroco := FTrocoEdit.AsCurrency;
+    if v >= FFalta then
+    begin
+      r := v;
+      v := FFalta;
+      t := r - v;
+    end;
   end
   else
   begin
-    uEntregue := 0;
-    uTroco := 0;
+    r := v;
+    t := 0;
   end;
 
-  Result := VendaPagCreate( //
+  FPDVDBI.PagInserir(i, v, r, t);
+
+  oPag := VendaPagCreate( //
     FPDVVenda.VendaPagList.GetProximaOrdem,
     PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger,
     PagFormaFDMemTablePAGAMENTO_FORMA_TIPO_ID.AsString,
     PagFormaFDMemTableTIPO_DESCR_RED.AsString,
-    PagFormaFDMemTableFORMA_DESCR.AsString, uDevido, uEntregue, uTroco, False);
+    PagFormaFDMemTableFORMA_DESCR.AsString, v, r, t, False);
 
-  {
+  FPDVVenda.VendaPagList.Add(oPag);
 
-    AValorDevido, AValorEntregue, ATroco: Currency;
-    ACancelado: Boolean)
-    : IVendaPag;
-    begin
-    Result := TVendaPag.Create(AOrdem, APagamentoFormaId, APagamentoFormaTipoId,
-    APagamentoFormaTipoDescrRed, APagamentoFormaDescr, AValorDevido,
-    AValorEntregue, ATroco, ACancelado);
-    end;
-
-
-    PagFormaFDMemTableVALOR_MINIMO: TCurrencyField;
-    PagFormaFDMemTablePROMOCAO_PERMITE: TBooleanField;
-    PagFormaFDMemTableTEF_USA: TBooleanField;
-    PagFormaFDMemTableAUTORIZACAO_EXIGE: TBooleanField;
-    PagFormaFDMemTablePESSOA_EXIGE: TBooleanField;
-    PagFormaFDMemTableACEITA_TROCO: TBooleanField;
-
-  }
+  FProcedurePagAppend(oPag);
+  inherited;
 end;
 
 procedure TPagPergForm.PagFormaDBGridColEnter(Sender: TObject);
 begin
   inherited;
+  FEntregueTestar := False;
   TrySetFocus(FValorEdit);
+  FEntregueTestar := True;
 end;
 
 procedure TPagPergForm.PagFormaFDMemTableAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  DecidaRecebidoVisivel;
+  DecidaEntregueVisivel;
 end;
 
-procedure TPagPergForm.PegueValor;
-var
-  v, r, t: Currency;
-  i: integer;
-  oPag: IVendaPag;
+function TPagPergForm.PagFormaOk: Boolean;
 begin
-  inherited;
-  if not ValorOk then
-    exit;
-
-  v := FValorEdit.AsCurrency;
-  r := FEntregueEdit.AsCurrency;
-  t := 0;
-
-  if not EntregueOk(v, r) then
-    exit;
-
-  if PagFormaFDMemTableACEITA_TROCO.AsBoolean then
-  begin
-    if r > 0 then
-      t := r - v;
-  end;
-
-  i := PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger;
-  if not PagFormaPodeInserir(i) then
-    exit;
-
-  FPDVDBI.PagInserir(i, v, r, t);
-
-  oPag := NovoPagCreate;
-
-  FProcedurePagAppend(oPag);
-
-  ModalResult := mrOk;
+  Result := PagFormaPodeInserir(PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger);
 end;
 
 procedure TPagPergForm.EntregueLabeledEditExit(Sender: TObject);
-var
-  v, r, t: Currency;
-  i: integer;
 begin
   inherited;
-  v := FValorEdit.AsCurrency;
-  r := FEntregueEdit.AsCurrency;
-
-  EntregueOk(v, r);
+  EntregueOk;
 end;
 
-function TPagPergForm.EntregueOk(pVal, pRec: Currency): Boolean;
+function TPagPergForm.EntregueOk: Boolean;
+var
+  v, r, t: Currency;
 begin
-  Result := PagFormaPodeInserir(PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger);
-  if not Result then
-  begin
-    TrySetFocus(FValorEdit);
+  Result := not FEntregueTestar;
+  if Result then
     exit;
-  end;
 
-  Result := not FRecebitoTestar;
+  Result := not IsPositiveResult( ModalResult);
   if Result then
     exit;
 
@@ -413,7 +407,18 @@ begin
   if Result then
     exit;
 
-  Result := (pRec = 0) or (pRec >= pVal);
+  Result := PagFormaOk;
+  if not Result then
+  begin
+    FEntregueTestar := False;
+    TrySetFocus(FValorEdit);
+    FEntregueTestar := True;
+    exit;
+  end;
+
+  v := FValorEdit.AsCurrency;
+  r := FEntregueEdit.AsCurrency;
+  Result := (r = 0) or ( r >= v);
   if not Result then
   begin
     ErroOutput.Exibir('''Recebido'' deve ser zero ou maior do que o ''Valor''');
@@ -452,10 +457,16 @@ function TPagPergForm.ValorOk: Boolean;
 var
   v: Currency;
 begin
-  Result := PagFormaPodeInserir(PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger);
+  Result := not IsPositiveResult( ModalResult);
+  if Result then
+    exit;
+
+  Result := PagFormaOk;
   if not Result then
   begin
+    FEntregueTestar := False;
     TrySetFocus(FValorEdit);
+    FEntregueTestar := True;
     exit;
   end;
 
@@ -465,23 +476,11 @@ begin
   if not Result then
   begin
     ErroOutput.Exibir('O valor é obrigatório');
+    FEntregueTestar := False;
     TrySetFocus(FValorEdit);
+    FEntregueTestar := True;
     exit;
   end;
-
-  Result := v <= FFalta;
-  if Result then
-    exit;
-
-  if not PagFormaFDMemTableACEITA_TROCO.AsBoolean then
-  begin
-    ErroOutput.Exibir('O valor não pode ser maior do que o faltante');
-    TrySetFocus(FValorEdit);
-    exit;
-  end;
-
-  FValorEdit.Valor := FFalta;
-  FEntregueEdit.Valor := v;
 end;
 
 function TPagPergForm.Voltou: Boolean;
@@ -489,9 +488,9 @@ begin
   Result := FEntregueEdit.Focused;
   if Result then
   begin
-    FRecebitoTestar := False;
+    FEntregueTestar := False;
     TrySetFocus(FValorEdit);
-    FRecebitoTestar := True;
+    FEntregueTestar := True;
     exit;
   end;
 
