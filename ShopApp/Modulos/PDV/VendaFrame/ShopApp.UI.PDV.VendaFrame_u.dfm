@@ -110,26 +110,28 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
       Left = 24
       Top = 15
       Width = 289
-      Height = 114
-      BevelOuter = bvLowered
+      Height = 68
+      BevelOuter = bvNone
       Caption = '  '
+      Color = 16574927
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -29
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
+      ParentBackground = False
       ParentFont = False
       TabOrder = 3
       StyleElements = []
       DesignSize = (
         289
-        114)
-      object TotalBrutoLabel: TLabel
-        Left = 10
-        Top = 11
-        Width = 206
+        68)
+      object TotalLiquidoLabel: TLabel
+        Left = 8
+        Top = -2
+        Width = 231
         Height = 37
-        Caption = 'TotalBrutoLabel'
+        Caption = 'TotalLiquidoLabel'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -27
@@ -139,8 +141,8 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         StyleElements = []
       end
       object VolumesLabel: TLabel
-        Left = 10
-        Top = 83
+        Left = 8
+        Top = 43
         Width = 97
         Height = 21
         Anchors = [akLeft, akBottom]
@@ -152,6 +154,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         Font.Style = []
         ParentFont = False
         StyleElements = []
+        ExplicitTop = 59
       end
     end
   end
@@ -165,47 +168,70 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
     Caption = ' '
     TabOrder = 1
     object PDVToolBar: TToolBar
-      Left = 112
+      Left = 32
       Top = 1
-      Width = 729
-      Height = 29
+      Width = 657
+      Height = 23
       Align = alNone
       ButtonHeight = 21
-      ButtonWidth = 124
+      ButtonWidth = 145
       Caption = 'PDVToolBar'
+      Flat = False
       List = True
       ShowCaptions = True
       TabOrder = 0
-      object ToolButton1: TToolButton
+      StyleElements = []
+      object VoltouToolButton: TToolButton
         Left = 0
         Top = 0
-        Caption = 'ToolButton1'
+        AutoSize = True
+        Caption = 'Esc - Voltar'
         ImageIndex = 0
       end
       object ItemCanceleToolButton: TToolButton
-        Left = 124
+        Left = 74
         Top = 0
+        AutoSize = True
         Caption = 'Delete: Cancelar Item'
         ImageIndex = 1
         OnClick = ItemCanceleToolButtonClick
       end
-      object ToolButton3: TToolButton
-        Left = 248
+      object PagSomenteDinheiroToolButton: TToolButton
+        Left = 202
         Top = 0
-        Caption = 'ToolButton3'
+        AutoSize = True
+        Caption = 'PgDn: Somente Dinheiro '
         ImageIndex = 2
+        OnClick = PagSomenteDinheiroToolButtonClick
       end
-      object ToolButton4: TToolButton
-        Left = 372
+      object PagamentoToolButton: TToolButton
+        Left = 351
         Top = 0
-        Caption = 'ToolButton4'
+        AutoSize = True
+        Caption = 'PgUp: Finalize'
         ImageIndex = 3
+        OnClick = PagamentoToolButtonClick
       end
       object ToolButton2: TToolButton
-        Left = 496
+        Left = 441
         Top = 0
-        Caption = 'ToolButton2'
+        AutoSize = True
+        Caption = 'C - Cliente'
         ImageIndex = 4
+      end
+      object ToolButton1: TToolButton
+        Left = 513
+        Top = 0
+        AutoSize = True
+        Caption = 'D - CPF'
+        ImageIndex = 5
+      end
+      object ToolButton3: TToolButton
+        Left = 569
+        Top = 0
+        AutoSize = True
+        Caption = 'E - Entrega'
+        ImageIndex = 6
       end
     end
   end

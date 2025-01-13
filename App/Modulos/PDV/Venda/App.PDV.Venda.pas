@@ -3,12 +3,11 @@ unit App.PDV.Venda;
 interface
 
 uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
-  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes;
+  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.PDV.VendaItem, App.PDV.VendaPag.List;
 
 type
-  IPDVVenda = interface(IEstMov)
+  IPDVVenda = interface(IEstMov<IPDVVendaItem>)
     ['{8E776452-E9BC-4D4B-BAAD-47B22DCFB1BE}']
-//    FCaixaSessao: ICaixaSessao;
 
     function GetVendaId: TId;
     procedure SetVendaId(Value: TId);
@@ -54,6 +53,20 @@ type
     function GetVendaAlteradoEm: TDateTime;
     procedure SetVendaAlteradoEm(Value: TDateTime);
     property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
+
+    function GetVendaPagList: IVendaPagList;
+    property VendaPagList: IVendaPagList read GetVendaPagList;
+
+    function GetItensPrecoTot: Currency;
+    function GetFalta: Currency;
+
+    procedure ItensPegarTots( //
+      out pTotalLiquido: Currency; //
+      out pTotalDevido: Currency; //
+      out pTotalEntregue: Currency; //
+      out pFalta: Currency; //
+      out pTroco: Currency //
+      );
   end;
 
 implementation

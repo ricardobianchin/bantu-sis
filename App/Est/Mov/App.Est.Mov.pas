@@ -2,10 +2,11 @@ unit App.Est.Mov;
 
 interface
 
-uses Sis.Entities.Types, App.Est.Types_u, System.Classes, App.Loja;
+uses
+  System.Generics.Collections, Sis.Entities.Types, App.Est.Types_u, System.Classes, App.Loja;
 
 type
-  IEstMov = interface(IInterfaceList)
+  IEstMov<T: IInterface> = interface(IInterface)
     ['{8FE1D118-7395-4E42-89C6-B5A1581ACCDF}']
     function GetLoja: IAppLoja;
     property Loja: IAppLoja read GetLoja;
@@ -48,6 +49,9 @@ type
     function GetCanceladoEm: TDateTime;
     procedure SetCanceladoEm(Value: TDateTime);
     property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
+
+    function GetItems: TList<T>;
+    property Items: TList<T> read GetItems;
 
     procedure Zerar;
   end;

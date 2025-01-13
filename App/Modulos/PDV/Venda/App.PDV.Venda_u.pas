@@ -4,7 +4,8 @@ interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
-  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja;
+  Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections,
+  App.PDV.VendaPag.List;
 
 type
   TPDVVenda = class(TEstMov, IPDVVenda)
@@ -21,6 +22,7 @@ type
     FEntregadorId: TId;
     FEntregaEm: TDateTime;
     FVendaAlteradoEm: TDateTime;
+    FVendaPagList: IVendaPagList;
 
     function GetVendaId: TId;
     procedure SetVendaId(Value: TId);
@@ -53,6 +55,11 @@ type
 
     function GetVendaAlteradoEm: TDateTime;
     procedure SetVendaAlteradoEm(Value: TDateTime);
+
+    function GetItems: TList<IPDVVendaItem>;
+
+    function GetVendaPagList: IVendaPagList;
+
   public
     property VendaId: TId read GetVendaId Write SetVendaId;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
@@ -66,9 +73,22 @@ type
     property EntregaTem: Boolean read GetEntregaTem write SetEntregaTem;
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
-    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
+    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm
+      write SetVendaAlteradoEm;
+    property VendaPagList: IVendaPagList read GetVendaPagList;
 
     procedure Zerar; override;
+
+    function GetItensPrecoTot: Currency;
+    function GetFalta: Currency;
+
+    procedure ItensPegarTots( //
+      out pTotalLiquido: Currency; //
+      out pTotalDevido: Currency; //
+      out pTotalEntregue: Currency; //
+      out pFalta: Currency; //
+      out pTroco: Currency //
+      );
 
     constructor Create( //
       pLoja: IAppLoja; //
@@ -101,6 +121,8 @@ type
   end;
 
 implementation
+
+uses App.PDV.Factory_u;
 
 { TPDVVenda }
 
@@ -163,6 +185,8 @@ begin
 
   FCli.Zerar;
   FEnder.Zerar;
+
+  FVendaPagList := VendaPagListCreate;
 end;
 
 function TPDVVenda.GetVendaAlteradoEm: TDateTime;
@@ -215,6 +239,18 @@ begin
   Result := FEntregaTem;
 end;
 
+function TPDVVenda.GetFalta: Currency;
+var
+  uItensTot: Currency;
+  uPagTot: Currency;
+  uDif: Currency;
+begin
+  uItensTot := GetItensPrecoTot;
+  uPagTot := VendaPagList.Total;
+  uDif := uItensTot - uPagTot;
+  Result := uDif;
+end;
+
 function TPDVVenda.GetTotalLiquido: Currency;
 begin
   Result := FTotalLiquido;
@@ -223,6 +259,44 @@ end;
 function TPDVVenda.GetVendaId: TId;
 begin
   Result := FVendaId;
+end;
+
+function TPDVVenda.GetItems: TList<IPDVVendaItem>;
+begin
+  Result := TList<IPDVVendaItem>(inherited Items);
+end;
+
+function TPDVVenda.GetItensPrecoTot: Currency;
+var
+  oItem: IPDVVendaItem;
+  I: Integer;
+begin
+  Result := 0;
+  for I := 0 to Items.Count - 1 do
+  begin
+    oItem := IPDVVendaItem(Items[I]);
+    Result := Result + oItem.Preco;
+  end;
+end;
+
+function TPDVVenda.GetVendaPagList: IVendaPagList;
+begin
+  Result := FVendaPagList;
+end;
+
+procedure TPDVVenda.ItensPegarTots( //
+      out pTotalLiquido: Currency; //
+      out pTotalDevido: Currency; //
+      out pTotalEntregue: Currency; //
+      out pFalta: Currency; //
+      out pTroco: Currency //
+  );
+begin
+  pTotalLiquido := GetItensPrecoTot;
+
+  FVendaPagList.GetTots(pTotalDevido, pTotalEntregue, pTroco);
+
+  pFalta := pTotalLiquido - (pTotalEntregue - pTroco);
 end;
 
 procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);
@@ -284,7 +358,8 @@ begin
   FEntregadorId := 0;
   FEntregaEm := DATA_ZERADA;
   FVendaAlteradoEm := DATA_ZERADA;
-  Clear;
+  Items.Clear;
+  FVendaPagList.Clear;
 end;
 
 end.

@@ -9,6 +9,7 @@ type
     procedure VaParaVenda;
     procedure VaParaPag;
     procedure VaParaFinaliza;
+    procedure PagSomenteDinheiro;
   end;
 
 implementation

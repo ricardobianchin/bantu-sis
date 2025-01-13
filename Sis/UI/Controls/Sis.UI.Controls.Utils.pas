@@ -15,7 +15,7 @@ procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean = True);
 function StrToDigiteStr(pStr: string): string;
 procedure DigiteStr(pTexto: string; pEspera: integer); overload;
 
-procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
+procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl; pApagaModelo: Boolean = True);
 
 procedure ClearStyleElements(pControl: TControl);
 
@@ -48,6 +48,10 @@ implementation
 
 uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst, Vcl.Forms,
   Sis.UI.Constants, sndkey32, System.StrUtils;
+
+type
+  TMyCustomEdit = class(TCustomEdit);
+  TMyControl = class(TControl);
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 begin
@@ -132,9 +136,6 @@ begin
   end;
 end;
 
-type
-  TMyCustomEdit = class(TCustomEdit);
-
 procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean);
 begin
   with TMyCustomEdit(pCustomEdit) do
@@ -170,7 +171,7 @@ begin
   sndkey32.SendKeys(PWideChar(s), True, pEspera);
 end;
 
-procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl);
+procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl; pApagaModelo: Boolean);
 begin
   pWinControlDestino.Parent := pWinControlModelo.Parent;
   pWinControlDestino.Top := pWinControlModelo.Top;
@@ -178,7 +179,10 @@ begin
   pWinControlDestino.Width := pWinControlModelo.Width;
   pWinControlDestino.TabStop := pWinControlModelo.TabStop;
 
-  pWinControlModelo.Free;
+  TMyControl(pWinControlDestino).Font.Assign(TMyControl(pWinControlModelo).Font);
+
+  if pApagaModelo then
+    pWinControlModelo.Free;
 end;
 
 procedure ClearStyleElements(pControl: TControl);
@@ -234,9 +238,6 @@ begin
     for I := 0 to TWinControl(Control).ControlCount - 1 do
       SetCursorToChilds(TWinControl(Control).Controls[I], pCursor);
 end;
-
-type
-  TMyControl = class(TControl);
 
 procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
 var
@@ -317,11 +318,17 @@ procedure TrySetFocus(pWinControl: TWinControl);
 var
   bVisible: boolean;
 begin
+  if not Assigned(pWinControl) then
+    exit;
+
   bVisible := ControlIsVisible(pWinControl);
   if not bVisible then
     exit;
+  try
+    pWinControl.SetFocus;
+  except
 
-  pWinControl.SetFocus;
+  end;
 end;
 
 function ButtonCreate(pOwner: TComponent; pParent: TWinControl;

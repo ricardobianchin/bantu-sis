@@ -5,17 +5,23 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.PDV.Frame_u, Vcl.StdCtrls,
-  Vcl.ExtCtrls, App.PDV.Venda;
+  Vcl.ExtCtrls, App.PDV.DBI, App.PDV.Venda, App.PDV.Controlador;
 
 type
   TVendaBasPDVFrame = class(TPDVFrame)
-    MeioPanel: TPanel;
   private
     { Private declarations }
     FPDVVenda: IPDVVenda;
+    FPDVDBI: IAppPDVDBI;
+    FPDVControlador: IPDVControlador;
+  protected
+    property PDVControlador: IPDVControlador read FPDVControlador;
+    property PDVDBI: IAppPDVDBI read FPDVDBI;
+    property PDVVenda: IPDVVenda read FPDVVenda;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda); reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
+      pPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador); reintroduce; virtual;
   end;
 
 //var
@@ -27,10 +33,13 @@ implementation
 
 { TVendaBasPDVFrame }
 
-constructor TVendaBasPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda);
+constructor TVendaBasPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
+  pPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
 begin
   inherited Create(AOwner);
-  FPDVVenda := pPDVVenda
+  FPDVVenda := pPDVVenda;
+  FPDVDBI := pPDVDBI;
+  FPDVControlador := pPDVControlador;
 end;
 
 end.

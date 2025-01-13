@@ -132,7 +132,7 @@ var
   iRowCount: integer;
 begin
   // iRowCount := Iif(FVenda.Count = 0, 1, FVenda.Count);
-  iRowCount := FVenda.Count + 1;
+  iRowCount := FVenda.Items.Count + 1;
 
   FStringGrid.RowCount := iRowCount;
   FStringGrid.Repaint;
@@ -142,7 +142,7 @@ procedure TShopFitaDraw.Prepare;
 begin
   if FStringGrid.RowCount < 1 then
     FStringGrid.RowCount := 1;
-  FHLin := (FStringGrid.Canvas.TextHeight('Hj') * 12) div 10;
+  FHLin := (FStringGrid.Canvas.TextHeight('Hj') * 11) div 10;
   FStringGrid.DefaultRowHeight := FHLin * 3 + 1;
   FStringGrid.RowHeights[0] := FHLin * CabecalhoLinhasSL.Count + 1;
 end;

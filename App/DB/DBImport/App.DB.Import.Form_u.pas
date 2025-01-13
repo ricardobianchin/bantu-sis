@@ -142,7 +142,7 @@ begin
     ProdFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      DataSetAppFDMemTable(q, ProdFDMemTable);
+      FDMemTableAppendDataSet(q, ProdFDMemTable);
     finally
       q.Free;
     end
@@ -181,7 +181,7 @@ begin
     ProdRejFDMemTable.EmptyDataSet;
     DestinoDBConnection.QueryDataSet(sSql, q);
     try
-      DataSetAppFDMemTable(q, ProdRejFDMemTable);
+      FDMemTableAppendDataSet(q, ProdRejFDMemTable);
     finally
       q.Free;
     end

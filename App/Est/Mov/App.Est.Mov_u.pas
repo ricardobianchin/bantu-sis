@@ -3,10 +3,10 @@ unit App.Est.Mov_u;
 interface
 
 uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
-  System.Classes, App.Loja;
+  System.Classes, App.Loja, System.Generics.Collections;
 
 type
-  TEstMov = class(TInterfaceList, IEstMov)
+  TEstMov = class(TInterfacedObject, IEstMov<IInterface>)
   private
     FLoja: IAppLoja;
     FTerminalId: TTerminalId;
@@ -19,6 +19,7 @@ type
     FAlteradoEm: TDateTime;
     FFinalizadoEm: TDateTime;
     FCanceladoEm: TDateTime;
+    FItems: TList<IInterface>;
 
     function GetLoja: IAppLoja;
 
@@ -51,6 +52,8 @@ type
     function GetCanceladoEm: TDateTime;
     procedure SetCanceladoEm(Value: TDateTime);
 
+    function GetItems: TList<IInterface>;
+
   public
     property Loja: IAppLoja read GetLoja;
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
@@ -63,6 +66,7 @@ type
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
     property FinalizadoEm: TDateTime read GetFinalizadoEm write SetFinalizadoEm;
     property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
+    property Items: TList<IInterface> read GetItems;
 
     procedure Zerar; virtual;
 
@@ -80,6 +84,7 @@ type
       pFinalizadoEm: TDateTime = DATA_ZERADA; //
       pCanceladoEm: TDateTime = DATA_ZERADA //
       );
+    destructor Destroy; override;
   end;
 
 
@@ -105,6 +110,13 @@ begin
   FAlteradoEm := pAlteradoEm;
   FFinalizadoEm := pFinalizadoEm;
   FCanceladoEm := pCanceladoEm;
+  FItems := TList<IInterface>.Create;
+end;
+
+destructor TEstMov.Destroy;
+begin
+  FItems.Free;
+  inherited;
 end;
 
 function TEstMov.GetAlteradoEm: TDateTime;
@@ -160,6 +172,11 @@ end;
 function TEstMov.GetTerminalId: TTerminalId;
 begin
   Result := FTerminalId;
+end;
+
+function TEstMov.GetItems: TList<IInterface>;
+begin
+  Result := FItems;
 end;
 
 procedure TEstMov.SetAlteradoEm(Value: TDateTime);

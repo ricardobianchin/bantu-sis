@@ -12,7 +12,8 @@ uses
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u, App.PDV.Venda,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
+  App.PDV.DBI, App.UI.PDV.PagFrame_u;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -22,7 +23,6 @@ type
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
@@ -33,9 +33,10 @@ type
     FFrameAtivo: TPDVFrame;
     FFrameAviso: TPDVFrame;
     FVendaFrame: TVendaBasPDVFrame;
+    FPagFrame: TPagPDVFrame;
 
     FCaixaSessaoDM: TCaixaSessaoDM;
-    FPDVDBI: IDBI;
+    FPDVDBI: IAppPDVDBI;
 
     FTermDBConnection: IDBConnection;
 
@@ -46,19 +47,23 @@ type
     function GetFecharModuloAction: TAction;
 
   protected
+    procedure AjusteControles; override;
     property FrameAtivo: TPDVFrame read GetFrameAtivo write SetFrameAtivo;
     property CaixaSessaoDM: TCaixaSessaoDM read FCaixaSessaoDM;
     function AppMenuFormCreate: TAppMenuForm; override;
     function VendaFrameCreate: TVendaBasPDVFrame; virtual; abstract;
+    function PagFrameCreate: TPagPDVFrame; virtual; abstract;
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
-    function PDVDBICreate: IDBI; virtual; abstract;
-    procedure DecidirFrameAtivo; virtual;
+    function PDVDBICreate: IAppPDVDBI; virtual; abstract;
+    procedure DecidirPrimeroFrameAtivo; virtual;
 
     procedure VaParaVenda; virtual;
     procedure VaParaPag; virtual;
     procedure VaParaFinaliza; virtual;
+    procedure PagSomenteDinheiro; virtual;
 
     property PDVVenda: IPDVVenda read FPDVVenda;
+    property PDVDBI: IAppPDVDBI read FPDVDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
   public
@@ -79,7 +84,13 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory;
+uses Sis.DB.Factory, Sis.UI.IO.Input.Perg;
+
+procedure TPDVModuloBasForm.AjusteControles;
+begin
+  inherited;
+  DecidirPrimeroFrameAtivo;
+end;
 
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
@@ -98,7 +109,7 @@ begin
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
   s := a.Name;
   a.Execute;
-  DecidirFrameAtivo;
+  DecidirPrimeroFrameAtivo;
 end;
 
 constructor TPDVModuloBasForm.Create(AOwner: TComponent;
@@ -129,11 +140,15 @@ begin
 
   FPDVVenda := PDVVendaCreate;
   FPDVDBI := PDVDBICreate;
+
   FVendaFrame := VendaFrameCreate;
   FVendaFrame.OculteControles;
+
+  FPagFrame := PagFrameCreate;
+  FPagFrame.OculteControles;
 end;
 
-procedure TPDVModuloBasForm.DecidirFrameAtivo;
+procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
 begin
   if Assigned(FFrameAtivo) then
   begin
@@ -150,6 +165,7 @@ begin
         TitleBarText := ModuloSistema.TipoOpcaoSisModuloDescr + ' - ' +
           LogUsuario.NomeExib + ' - Caixa Fechado';
         FFrameAtivo := FFrameAviso;
+        FFrameAviso.Iniciar;
         exit;
       end;
     end;
@@ -159,6 +175,8 @@ begin
         LogUsuario.NomeExib + ' - Caixa Aberto em ' +
         FormatDateTime('ddd dd/mm/yyyy hh:nn',
         FCaixaSessaoDM.CaixaSessao.AbertoEm);
+
+      FVendaFrame.Iniciar;
       VaParaVenda;
     end;
 
@@ -179,9 +197,7 @@ begin
       FFrameAtivo.OculteControles;
       FFrameAtivo.Visible := True;
       FFrameAtivo.DimensioneControles;
-      FFrameAtivo.AjusteControles;
       FFrameAtivo.ExibaControles;
-      FFrameAtivo.Iniciar;
       // FFrameAtivo.DebugImporteTeclas;
     end;
   end;
@@ -191,17 +207,18 @@ procedure TPDVModuloBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if FVendaFrame.Visible then
-    FVendaFrame.ExecKeyDown(Sender, Key, Shift)
-  else
-    inherited;
+    FVendaFrame.ExecKeyDown(Sender, Key, Shift);
+
+  inherited;
 end;
 
 procedure TPDVModuloBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if FVendaFrame.Visible then
     FVendaFrame.ExecKeyPress(Sender, Key)
-  else
-    inherited;
+  else if FPagFrame.Visible then
+    FPagFrame.ExecKeyPress(Sender, Key);
+  inherited;
 end;
 
 function TPDVModuloBasForm.GetFecharModuloAction: TAction;
@@ -219,14 +236,46 @@ begin
   Result := Self;
 end;
 
+procedure TPDVModuloBasForm.PagSomenteDinheiro;
+begin
+  FPagFrame.PagSomenteDinheiro;
+end;
+
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
+  if (not FPDVVenda.Cancelado) and (not FPDVVenda.Finalizado) then
+  begin
+    VaParaVenda;
+    FVendaFrame.ExibaMens('Finalizando a venda...');
+    Application.ProcessMessages;
+    FPDVDBI.VendaFinalize;
+  end;
 
+  FPDVVenda.Zerar;
+  DecidirPrimeroFrameAtivo;
 end;
 
 procedure TPDVModuloBasForm.VaParaPag;
 begin
+  if Assigned(FFrameAtivo) then
+  begin
+    FFrameAtivo.Visible := False;
+  end;
 
+  FFrameAtivo := FPagFrame;
+
+  if Assigned(FrameAtivo) then
+  begin
+    FFrameAtivo.OculteControles;
+    FFrameAtivo.Visible := True;
+    FFrameAtivo.DimensioneControles;
+    FFrameAtivo.ExibaControles;
+    // FFrameAtivo.DebugImporteTeclas;
+    if FPagFrame.Falta > 0 then
+    begin
+      FPagFrame.PagPerg;
+    end;
+  end;
 end;
 
 procedure TPDVModuloBasForm.VaParaVenda;
@@ -243,9 +292,7 @@ begin
     FFrameAtivo.OculteControles;
     FFrameAtivo.Visible := True;
     FFrameAtivo.DimensioneControles;
-    FFrameAtivo.AjusteControles;
     FFrameAtivo.ExibaControles;
-    FFrameAtivo.Iniciar;
     // FFrameAtivo.DebugImporteTeclas;
   end;
 end;
@@ -253,12 +300,6 @@ end;
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
-end;
-
-procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  DecidirFrameAtivo;
 end;
 
 end.

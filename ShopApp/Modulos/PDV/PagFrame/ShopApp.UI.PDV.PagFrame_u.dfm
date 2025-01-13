@@ -1,0 +1,2 @@
+inherited ShopPagPDVFrame: TShopPagPDVFrame
+end

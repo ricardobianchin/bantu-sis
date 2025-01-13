@@ -10,6 +10,7 @@ type
   private
     function GetVendaItem(Index: integer): IShopPDVVendaItem;
   public
+    procedure Zerar; override;
     property VendaItem[Index: integer]: IShopPDVVendaItem read GetVendaItem; default;
   end;
 
@@ -20,6 +21,12 @@ implementation
 function TShopPDVVenda.GetVendaItem(Index: integer): IShopPDVVendaItem;
 begin
   Result := IShopPDVVendaItem(Items[Index]);
+end;
+
+procedure TShopPDVVenda.Zerar;
+begin
+  inherited;
+  TerminalId := CaixaSessao.TerminalId;
 end;
 
 end.

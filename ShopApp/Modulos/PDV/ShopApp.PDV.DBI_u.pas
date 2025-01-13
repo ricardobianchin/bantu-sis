@@ -12,10 +12,11 @@ type
     FShopPdvVenda: IShopPdvVenda;
     function RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;
     procedure RecordPreencheVenda(q: TDataSet);
-    procedure InsiraItens;
 
     function GetVendaPendenteSql: string;
     function GetVendaItemPendenteSql: string;
+  protected
+    procedure InsiraEstItens; override;
   public
     // LEU CODIGO, CRIA ITEM
     function ItemCreatePelaStrBusca(pStrBusca: string; out pEncontrou: Boolean;
@@ -68,7 +69,8 @@ begin
       q.Free;
     end;
 
-    InsiraItens;
+    InsiraEstItens;
+    InsiraPagItens;
   finally
     DBConnection.Fechar;
   end;
@@ -193,7 +195,7 @@ begin
   // {$ENDIF}
 end;
 
-procedure TShopAppPDVDBI.InsiraItens;
+procedure TShopAppPDVDBI.InsiraEstItens;
 var
   sSql: string;
   q: TDataSet;
@@ -202,7 +204,7 @@ var
 begin
   v := FShopPdvVenda;
 
-  v.Clear;
+  v.Items.Clear;
 
   sSql := GetVendaItemPendenteSql;
 
@@ -215,7 +217,7 @@ begin
     while not q.Eof do
     begin
       oItem := RecordToItemCreate(q);
-      v.Add(oItem);
+      v.Items.Add(oItem);
       q.Next;
     end;
   finally

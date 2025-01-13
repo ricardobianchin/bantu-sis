@@ -7,8 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
-  ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw, Vcl.ComCtrls,
-  Vcl.ToolWin;
+  App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
+  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -21,20 +21,24 @@ type
     ItemDescrLabel: TLabel;
     ItemTotalLabel: TLabel;
     TotalPanel: TPanel;
-    TotalBrutoLabel: TLabel;
+    TotalLiquidoLabel: TLabel;
     VolumesLabel: TLabel;
     BasePanel: TPanel;
     PDVToolBar: TToolBar;
-    ToolButton1: TToolButton;
+    VoltouToolButton: TToolButton;
     ItemCanceleToolButton: TToolButton;
-    ToolButton3: TToolButton;
-    ToolButton4: TToolButton;
+    PagSomenteDinheiroToolButton: TToolButton;
+    PagamentoToolButton: TToolButton;
     ToolButton2: TToolButton;
+    ToolButton1: TToolButton;
+    ToolButton3: TToolButton;
     procedure CaretTimerTimer(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure FitaStringGridEnter(Sender: TObject);
     procedure ItemCanceleToolButtonClick(Sender: TObject);
+    procedure PagSomenteDinheiroToolButtonClick(Sender: TObject);
+    procedure PagamentoToolButtonClick(Sender: TObject);
   private
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
@@ -57,13 +61,16 @@ type
     procedure ExibaItemVendido(pDescr: string; pValor: Currency = 0);
 
     procedure ItemCancele;
-    procedure ItemSelecione(pIndex: integer = -1);
-    function GetItemUltimoIndex: integer;
+    procedure ItemSelecione(pIndex: Integer = -1);
+    function GetItemUltimoIndex: Integer;
+
   protected
     procedure SimuleKeyPress(pChar: Char);
+    procedure ExibaControles; override;
   public
     { Public declarations }
     procedure ExibaErro(pMens: string); override;
+    procedure ExibaMens(pMens: string); override;
     procedure DimensioneControles; override;
 
     // TECLADO KEYDOWN
@@ -76,7 +83,7 @@ type
     procedure Iniciar; override;
 
     constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-      pShopAppPDVDBI: IShopAppPDVDBI); reintroduce;
+      pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador); reintroduce;
   end;
 
 var
@@ -87,7 +94,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
-  Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u;
+  Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
+  Sis.UI.IO.Input.Perg;
 
 { TShopVendaPDVFrame }
 
@@ -98,14 +106,13 @@ begin
 end;
 
 constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-  pShopAppPDVDBI: IShopAppPDVDBI);
+  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
 begin
-  inherited Create(AOwner, pPDVVenda);
-  FShopAppPDVDBI := pShopAppPDVDBI;
+  inherited Create(AOwner, pPDVVenda, pAppPDVDBI, pPDVControlador);
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
+  FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
 
-  FFitaDraw := FitaDrawCreate(FShopPDVVenda, FitaStringGrid);
-  FFitaDraw.Atualize;
+  FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid);
 
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
@@ -135,7 +142,7 @@ begin
   DimensioneItemPanel;
   DimensioneFitaStringGrid;
   ControlAlignToCenter(PDVToolBar);
-
+  PDVToolBar.StyleElements := [seFont, seClient, seBorder];
 end;
 
 procedure TShopVendaPDVFrame.DimensioneFitaStringGrid;
@@ -212,34 +219,84 @@ procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
   {
-[14:17, 12/14/2024] Anderson Aragão Daros: Page up- totalizar
-Page down- dinheiro
-Insert -cartão
-Home- pix ou transferência
-End devolução
-[14:17, 12/14/2024] Anderson Aragão Daros: Pause cancelamento de item
-}
+    [14:17, 12/14/2024] Anderson Aragão Daros: Page up- totalizar
+    Page down- dinheiro
+    Insert -cartão
+    Home- pix ou transferência
+    End devolução
+    [14:17, 12/14/2024] Anderson Aragão Daros: Pause cancelamento de item
+  }
 
-  case key of
+  if (Key = VK_F4) and (ssAlt in Shift) then
+  begin
+    Key := 0;
+    // FecharAction_ModuloBasForm.Execute;
+    Exit;
+  end;
+
+  case Key of
     VK_UP:
-    begin
-      if FitaStringGrid.Row > 0 then
-        FitaStringGrid.Row := FitaStringGrid.Row - 1;
-    end;
+      begin
+        Key := 0;
+        if FitaStringGrid.Row > 0 then
+          FitaStringGrid.Row := FitaStringGrid.Row - 1;
+      end;
     VK_DOWN:
-    begin
-      if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
-        FitaStringGrid.Row := FitaStringGrid.Row + 1;
-    end;
-    VK_DELETE: ItemCancele;
+      begin
+        Key := 0;
+        if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
+          FitaStringGrid.Row := FitaStringGrid.Row + 1;
+      end;
+    VK_DELETE:
+      begin
+        Key := 0;
+        ItemCancele;
+      end;
+    VK_PRIOR:
+      begin
+        Key := 0;
+        PDVControlador.VaParaPag;
+      end;
     VK_NEXT:
+      begin
+        Key := 0;
+        PDVControlador.PagSomenteDinheiro;
+      end;
   end;
 end;
 
 procedure TShopVendaPDVFrame.ExecKeyPress(Sender: TObject; var Key: Char);
+var
+  dtCanceladoEm: TDateTime;
+  bResultado: Boolean;
+  sMens: string;
 begin
   inherited;
+  if Key = #27 then
+  begin
+    if PDVVenda.VendaId = 0 then
+      Exit;
+
+    Key := #0;
+
+    bResultado := PergBool('Deseja cancelar a venda?');
+    if not bResultado then
+      Exit;
+
+    PDVDBI.EstMovCancele(dtCanceladoEm, bResultado, sMens);
+
+    PDVVenda.Cancelado := True;
+    PDVControlador.VaParaFinaliza;
+    exit;
+  end;
   StrBuscaPegueChar(Key);
+end;
+
+procedure TShopVendaPDVFrame.ExibaControles;
+begin
+  PreencherControles;
+  inherited;
+
 end;
 
 procedure TShopVendaPDVFrame.ExibaErro(pMens: string);
@@ -254,6 +311,11 @@ begin
   ItemTotalLabel.Caption := Iif(pValor = 0, '', DinhToStr(pValor));
 end;
 
+procedure TShopVendaPDVFrame.ExibaMens(pMens: string);
+begin
+  ExibaItemVendido(pMens);
+end;
+
 procedure TShopVendaPDVFrame.FitaStringGridDrawCell(Sender: TObject;
   ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
@@ -265,12 +327,12 @@ procedure TShopVendaPDVFrame.FitaStringGridEnter(Sender: TObject);
 begin
   inherited;
   TForm(Parent).ActiveControl := Nil;
-//  InputPanel.SetFocus;
+  // InputPanel.SetFocus;
 end;
 
-function TShopVendaPDVFrame.GetItemUltimoIndex: integer;
+function TShopVendaPDVFrame.GetItemUltimoIndex: Integer;
 begin
-  Result := FShopPDVVenda.Count - 1;
+  Result := FShopPDVVenda.Items.Count - 1;
 end;
 
 procedure TShopVendaPDVFrame.Iniciar;
@@ -281,6 +343,8 @@ begin
 
   FShopAppPDVDBI.CarregueVendaPendente(bCarregou);
   PreencherControles;
+  if FShopPDVVenda.Items.Count = 0 then
+    ExibaItemVendido('');
 
   // SimuleKeyPress('3');
   // SimuleKeyPress('*');
@@ -298,10 +362,10 @@ begin
   if FitaStringGrid.RowCount = 0 then
   begin
     ShowMessage('Nenhum item a cancelar');
-    exit;
+    Exit;
   end;
 
-  ItemCancelarForm_ShopApp := TItemCancelarForm_ShopApp.Create( FitaStringGrid,
+  ItemCancelarForm_ShopApp := TItemCancelarForm_ShopApp.Create(FitaStringGrid,
     FShopPDVVenda, FShopAppPDVDBI);
   try
     bResultado := ItemCancelarForm_ShopApp.Perg;
@@ -313,12 +377,12 @@ begin
   end;
 end;
 
-procedure TShopVendaPDVFrame.ItemSelecione(pIndex: integer);
+procedure TShopVendaPDVFrame.ItemSelecione(pIndex: Integer);
 var
-  iMax: integer;
+  iMax: Integer;
 begin
   if FitaStringGrid.RowCount < 2 then
-    exit;
+    Exit;
 
   iMax := GetItemUltimoIndex;
 
@@ -347,7 +411,7 @@ begin
   iQtdVolumes := 0;
   uTotalLiquido := 0;
 
-  for i := 0 to FShopPDVVenda.Count - 1 do
+  for i := 0 to FShopPDVVenda.Items.Count - 1 do
   begin
     oItem := FShopPDVVenda[i];
     if not oItem.Cancelado then
@@ -357,22 +421,15 @@ begin
     end;
   end;
 
-  if iQtdVolumes = 0 then
-    s := ''
-  else
-    s := iQtdVolumes.ToString;
+  s := iQtdVolumes.ToString;
 
   VolumesLabel.Caption := 'Volumes: ' + s;
 
-  if uTotalLiquido = 0 then
-    s := ''
-  else
-    s := DinhToStr(uTotalLiquido);
+  s := DinhToStr(uTotalLiquido);
 
-  TotalBrutoLabel.Caption := 'Total: ' + s;
+  TotalLiquidoLabel.Caption := 'Total: ' + s;
 
   ItemSelecione;
-//  InputPanel.SetFocus;
 end;
 
 procedure TShopVendaPDVFrame.SimuleKeyPress(pChar: Char);
@@ -394,7 +451,7 @@ begin
     ExibaErro(sMensagem);
     Exit;
   end;
-  FShopPDVVenda.Add(oItem);
+  FShopPDVVenda.Items.Add(oItem);
   ExibaItemVendido(oItem.Prod.DescrRed, oItem.PrecoBruto);
   PreencherControles;
   FStrBusca := '';
@@ -427,6 +484,18 @@ begin
   finally
     StrBuscaMudou;
   end;
+end;
+
+procedure TShopVendaPDVFrame.PagamentoToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  PDVControlador.VaParaPag;
+end;
+
+procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  PDVControlador.PagSomenteDinheiro;
 end;
 
 procedure TShopVendaPDVFrame.ItemCanceleToolButtonClick(Sender: TObject);
