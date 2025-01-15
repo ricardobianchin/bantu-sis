@@ -3,18 +3,62 @@ unit Sis.DB.SqlUtils_u;
 interface
 
 uses Data.DB, System.Generics.Collections, System.Generics.Defaults;
-// System.SysUtils;
 
+/// <summary>
+/// Converts a TField value to its corresponding SQL constant representation.
+/// </summary>
+/// <param name="pField">The field to convert.</param>
+/// <returns>A string representing the SQL constant.</returns>
 function FieldToSqlConstant(pField: TField): string;
 
+/// <summary>
+/// Generates an SQL insert into statement for a dataset.
+/// </summary>
+/// <param name="q">The dataset containing the data.</param>
+/// <param name="pNomeTabela">The name of the table.</param>
+/// <returns>An SQL insert into statement as a string.</returns>
+function DataSetToSqlInsertInto(q: TDataSet; pNomeTabela: string): string;
+
+/// <summary>
+/// Generates an SQL statement to update or insert data into a table.
+/// </summary>
+/// <param name="q">The dataset containing the data.</param>
+/// <param name="pNomeTabela">The name of the table.</param>
+/// <param name="pPrimaryKeyFieldNames">The primary key field names.</param>
+/// <returns>An SQL statement as a string.</returns>
 function DataSetToSqlGarantir(q: TDataSet;
   pNomeTabela, pPrimaryKeyFieldNames: string): string; overload;
+
+/// <summary>
+/// Generates an SQL statement to update or insert data into a table.
+/// </summary>
+/// <param name="q">The dataset containing the data.</param>
+/// <param name="pNomeTabela">The name of the table.</param>
+/// <param name="pPrimaryKeyFieldNames">The primary key field names.</param>
+/// <param name="pFieldIndexes">The indexes of the fields to include in the statement.</param>
+/// <returns>An SQL statement as a string.</returns>
 function DataSetToSqlGarantir(q: TDataSet; pNomeTabela: string;
   pPrimaryKeyFieldNames: string; pFieldIndexes: TArray<Integer>)
   : string; overload;
 
+/// <summary>
+/// Generates an SQL update statement for a dataset.
+/// </summary>
+/// <param name="q">The dataset containing the data.</param>
+/// <param name="pNomeTabela">The name of the table.</param>
+/// <param name="pPrimaryKeyFieldIndexes">The indexes of the primary key fields.</param>
+/// <returns>An SQL update statement as a string.</returns>
 function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
   pPrimaryKeyFieldIndexes: TArray<Integer>): string; overload;
+
+/// <summary>
+/// Generates an SQL update statement for a dataset.
+/// </summary>
+/// <param name="q">The dataset containing the data.</param>
+/// <param name="pNomeTabela">The name of the table.</param>
+/// <param name="pFieldIndexes">The indexes of the fields to include in the update statement.</param>
+/// <param name="pPrimaryKeyFieldIndexes">The indexes of the primary key fields.</param>
+/// <returns>An SQL update statement as a string.</returns>
 function DataSetToSqlUpdate(q: TDataSet; pNomeTabela: string;
   pFieldIndexes: TArray<Integer>; pPrimaryKeyFieldIndexes: TArray<Integer>)
   : string; overload;
@@ -145,6 +189,30 @@ begin
       ftObject: ;
     }
   end;
+end;
+
+function DataSetToSqlInsertInto(q: TDataSet; pNomeTabela: string): string;
+var
+  i: Integer;
+  oField: TField;
+  FieldNames, SqlConstants: string;
+begin
+  FieldNames := '';
+  SqlConstants := '';
+
+  for i := 0 to q.FieldCount - 1 do
+  begin
+    oField := q.Fields[i];
+    if FieldNames <> '' then
+    begin
+      FieldNames := FieldNames + ',';
+      SqlConstants := SqlConstants + ',';
+    end;
+    FieldNames := FieldNames + oField.FieldName;
+    SqlConstants := SqlConstants + FieldToSqlConstant(oField);
+  end;
+
+  Result := 'INSERT INTO ' + pNomeTabela + ' (' + FieldNames + ') VALUES (' + SqlConstants + ');';
 end;
 
 function DataSetToSqlGarantir(q: TDataSet;
