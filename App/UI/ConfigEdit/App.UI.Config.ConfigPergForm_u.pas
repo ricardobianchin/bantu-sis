@@ -10,8 +10,10 @@ uses
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
   App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
   Sis.Entities.TerminalList, Sis.Entities.Terminal, Data.DB, App.AppObj;
+
 const
   COL_2_X = 362;
+
 type
   {
     TGroupBox = class(Vcl.StdCtrls.TGroupBox)
@@ -76,8 +78,10 @@ type
     procedure UsuAdminSenha1LabeledEditChange(Sender: TObject);
     procedure UsuAdminSenha2LabeledEditChange(Sender: TObject);
 
-    procedure UsuAdminNomeExibLabeledEditKeyPress(Sender: TObject; var Key: Char);
-    procedure UsuAdminNomeUsuLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure UsuAdminNomeExibLabeledEditKeyPress(Sender: TObject;
+      var Key: Char);
+    procedure UsuAdminNomeUsuLabeledEditKeyPress(Sender: TObject;
+      var Key: Char);
     procedure UsuAdminSenha1LabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure UsuAdminSenha2LabeledEditKeyPress(Sender: TObject; var Key: Char);
 
@@ -133,8 +137,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
-      pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
-      reintroduce;
+      pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList;
+      pAppObj: IAppObj); reintroduce;
   end;
 
 var
@@ -145,9 +149,9 @@ implementation
 {$R *.dfm}
 
 uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
-  Sis.Types.Utils_u, App.DB.Utils,
-  Sis.Types.strings_u, Sis.DB.DBTypes, Sis.UI.Constants,
-  App.UI.Config.Constants, Sis.UI.IO.Files, Sis.Entities.Factory;
+  Sis.Types.Utils_u, App.DB.utils, Sis.Types.strings_u, Sis.DB.DBTypes,
+  Sis.UI.Constants, App.UI.Config.Constants, Sis.UI.IO.Files,
+  Sis.Entities.Factory, App.Config.Ambi.Factory_u;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -242,7 +246,8 @@ begin
 
   if FConfigPergTeste.TesteUsuPreenche then
   begin
-    UsuAdminNomeCompletoLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeCompleto;
+    UsuAdminNomeCompletoLabeledEdit.Text :=
+      FConfigPergTeste.TesteUsuNomeCompleto;
     UsuAdminNomeExibLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeExib;
     UsuAdminNomeUsuLabeledEdit.Text := FConfigPergTeste.TesteUsuNomeUsu;
     UsuAdminSenha1LabeledEdit.Text := FConfigPergTeste.TesteUsuSenha1;
@@ -293,7 +298,8 @@ begin
 end;
 
 constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
-  pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList; pAppObj: IAppObj);
+  pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList;
+  pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FTerminalList := pTerminalList;
@@ -305,7 +311,8 @@ begin
   FSisConfig := pSisConfig;
   FUsuarioAdmin := pUsuarioAdmin;
   FLoja := pLoja;
-  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(TerminaisGroupBox);
+  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(TerminaisGroupBox,
+    ConfigAmbiTerminalDBIMudoCreate);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.Preparar;
 end;
@@ -366,7 +373,7 @@ begin
   LocalMaqFrame.Left := PosCol1.X;
   ServerMaqFrame.Left := PosCol2.X;
 
-  LocalMaqFrame.Width := (PosCol2.X -4) - LocalMaqFrame.Left;
+  LocalMaqFrame.Width := (PosCol2.X - 4) - LocalMaqFrame.Left;
 
   FrL := LocalMaqFrame.IpLabeledEdit.Left;
   FrW := LocalMaqFrame.IpLabeledEdit.Width;
@@ -533,8 +540,8 @@ begin
 
 end;
 
-procedure TConfigPergForm.UsuAdminNomeCompletoLabeledEditKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TConfigPergForm.UsuAdminNomeCompletoLabeledEditKeyPress
+  (Sender: TObject; var Key: Char);
 begin
   // inherited;
   if Key = CHAR_ENTER then
@@ -715,8 +722,8 @@ begin
   ShowTimer.Enabled := false;
 {$IFDEF DEBUG}
   CarregTesteStarterIni;
-//  FTerminaisDBGridFrame.InsAction.Execute;
-  //FTerminaisDBGridFrame.AltAction.Execute;
+  // FTerminaisDBGridFrame.InsAction.Execute;
+  // FTerminaisDBGridFrame.AltAction.Execute;
   // OkAct.Execute;
 {$ENDIF}
 end;

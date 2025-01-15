@@ -30,7 +30,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
       Top = 0
       Width = 604
       Height = 66
-      ActivePage = ConfigImportTabSheet
+      ActivePage = ConfigAmbienteTabSheet
       Align = alTop
       TabOrder = 0
       object ConfigAmbienteTabSheet: TTabSheet
@@ -95,7 +95,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
     Left = 0
     Top = 105
     Width = 604
-    Height = 346
+    Height = 342
     Align = alClient
     TabOrder = 3
   end
@@ -127,6 +127,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
     object ConfigTerminaisAction: TAction
       Caption = 'Terminais'
       Hint = 'Castastro dos terminais da loja atual'
+      OnExecute = ConfigTerminaisActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

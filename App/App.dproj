@@ -701,6 +701,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PagPergForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Factory_u.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.UI.Form.TabSheet.Config.Ambi.Terminal_u.pas">
+            <Form>ConfigAmbiTermForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Mudo_u.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Grava_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -78,6 +78,7 @@ uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
   {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,} App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
 
 {$R *.dfm}
+
 { TCaixaSessaoDM }
 
 constructor TCaixaSessaoDM.Create(AOwner: TComponent; pAppObj: IAppObj;

@@ -49,6 +49,9 @@ type
     NomeNaRedeAjudaLabel: TLabel;
     IPLabel: TLabel;
     IPEdit: TEdit;
+    ImpressoraLabel: TLabel;
+    ImpressoraComboBox: TComboBox;
+    AtivoCheckBox: TCheckBox;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -66,6 +69,7 @@ type
     procedure GavetaTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CuponNLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
     procedure IPEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ImpressoraComboBoxKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -291,9 +295,16 @@ begin
   i := StrToInteger(CuponNLinsFinalEdit.Text);
   FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger := i;
 
+  i := ImpressoraComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ID').AsInteger := i;
+
+  s := ImpressoraComboBox.Text;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_DESCR').AsString := s;
+
   //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
   FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean := SempreOffLineCheckBox.Checked;
+  FTerminaisDataSet.FieldByName('ATIVO').AsBoolean := AtivoCheckBox.Checked;
 end;
 
 constructor TTerminalEdDiagForm.Create(AOwner: TComponent;
@@ -311,8 +322,8 @@ begin
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    // OkAct_Diag.Execute;
-    BalancaModoComboBox.SetFocus;
+    //BalancaModoComboBox.SetFocus;
+    ImpressoraComboBox.SetFocus;
     exit;
   end;
 
@@ -350,9 +361,25 @@ begin
   i := FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
   CuponNLinsFinalEdit.Text := i.ToString;
 
+  i := FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ID').AsInteger;
+  ImpressoraComboBox.ItemIndex := i;
+
   //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
   SempreOffLineCheckBox.Checked := FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean;
+
+  AtivoCheckBox.Checked := FTerminaisDataSet.FieldByName('ATIVO').AsBoolean;
+end;
+
+procedure TTerminalEdDiagForm.ImpressoraComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    BalancaModoComboBox.SetFocus;
+    exit;
+  end;
 end;
 
 procedure TTerminalEdDiagForm.IPEditKeyPress(Sender: TObject; var Key: Char);
@@ -649,6 +676,7 @@ begin
   LetraDoDriveComboBox.ItemIndex := 2;
   GavetaTemCheckBox.Checked := False;
   CuponNLinsFinalEdit.Text := '0';
+  ImpressoraComboBox.ItemIndex := 0;
   BalancaModoComboBox.ItemIndex := 0;
   BalancaModoComboBoxChange(BalancaModoComboBox);
   BalancaComboBox.ItemIndex := 0;

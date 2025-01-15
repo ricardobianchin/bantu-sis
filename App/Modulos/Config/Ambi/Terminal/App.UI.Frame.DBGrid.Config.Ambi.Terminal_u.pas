@@ -3,12 +3,13 @@ unit App.UI.Frame.DBGrid.Config.Ambi.Terminal_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.DBGrid_u, Data.DB,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
-  Sis.DB.DataSet.Utils, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, Sis.UI.IO.Output;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Sis.UI.Frame.Bas.DBGrid_u, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids,
+  Vcl.DBGrids, Sis.DB.DataSet.Utils, System.Actions, Vcl.ActnList, Vcl.ComCtrls,
+  Vcl.ToolWin, Sis.UI.IO.Output, App.Config.Ambi.Terminal.DBI;
 
 type
   TTerminaisDBGridFrame = class(TDBGridFrame)
@@ -31,10 +32,14 @@ type
   private
     { Private declarations }
     FOutputNotify: IOutput;
+    FTermDBI: IConfigAmbiTerminalDBI;
+
     function GetNomeArqTabView: string;
+
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; pTermDBI: IConfigAmbiTerminalDBI);
+      reintroduce;
     procedure Preparar;
     procedure SimuleIns;
   end;
@@ -59,15 +64,21 @@ begin
     exit;
   end;
 
-  TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1, TDataSetState.dsEdit);
+  TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
+    TDataSetState.dsEdit);
   if TerminalEdDiagForm.Perg then
+  begin
+    FTermDBI.Alterar(FDMemTable1);
     DBGrid1.Repaint;
+  end;
 end;
 
-constructor TTerminaisDBGridFrame.Create(AOwner: TComponent);
+constructor TTerminaisDBGridFrame.Create(AOwner: TComponent;
+  pTermDBI: IConfigAmbiTerminalDBI);
 begin
-  inherited;
+  inherited Create(AOwner);
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
+  FTermDBI := pTermDBI;
 end;
 
 procedure TTerminaisDBGridFrame.DBGrid1DblClick(Sender: TObject);
@@ -79,7 +90,7 @@ end;
 procedure TTerminaisDBGridFrame.DBGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if key = VK_DELETE then
+  if Key = VK_DELETE then
   begin
     Key := 0;
     ExclAction.Execute;
@@ -102,8 +113,8 @@ begin
   end;
 
   sMens := 'Esta ação vai excluir o terminal no sistema.'#13#10 +
-    'O Banco de Dados NÃO será excluído. Apenas não será usado pelo sistema até que seja reinserido nesta lista'#13#10 +
-    'Deseja excluir?';
+    'O Banco de Dados NÃO será excluído. Apenas não será usado pelo sistema até que seja reinserido nesta lista'#13#10
+    + 'Deseja excluir?';
 
   Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
     [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
@@ -141,7 +152,8 @@ end;
 procedure TTerminaisDBGridFrame.InsActionExecute(Sender: TObject);
 begin
   inherited;
-  TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1, TDataSetState.dsInsert);
+  TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
+    TDataSetState.dsInsert);
   if TerminalEdDiagForm.Perg then
     DBGrid1.Repaint;
 end;
@@ -153,6 +165,7 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDMemTable1, DBGrid1);
   DBGrid1.Align := alClient;
+  FTermDBI.PreenchaDataSet(FDMemTable1);
 end;
 
 procedure TTerminaisDBGridFrame.SimuleIns;
@@ -164,7 +177,7 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-//  exit;
+  // exit;
 
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
@@ -179,7 +192,7 @@ begin
   Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
   Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
   Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
-  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  False;
+  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := False;
   Tab.Post;
 
   Tab.append;
@@ -195,7 +208,7 @@ begin
   Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
   Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
   Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
-  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean :=  True;
+  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := True;
   Tab.Post;
 end;
 

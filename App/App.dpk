@@ -376,6 +376,11 @@ contains
   App.PDV.VendaPag_u in 'Modulos\PDV\Venda\App.PDV.VendaPag_u.pas',
   App.PDV.VendaPag.List in 'Modulos\PDV\Venda\App.PDV.VendaPag.List.pas',
   App.PDV.VendaPag.List_u in 'Modulos\PDV\Venda\App.PDV.VendaPag.List_u.pas',
-  App.UI.PDV.PagPergForm_u in 'Modulos\PDV\UI\PagFrame\App.UI.PDV.PagPergForm_u.pas' {PagPergForm};
+  App.UI.PDV.PagPergForm_u in 'Modulos\PDV\UI\PagFrame\App.UI.PDV.PagPergForm_u.pas' {PagPergForm},
+  App.Config.Ambi.Factory_u in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Factory_u.pas',
+  App.UI.Form.TabSheet.Config.Ambi.Terminal_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.TabSheet.Config.Ambi.Terminal_u.pas' {ConfigAmbiTermForm},
+  App.Config.Ambi.Terminal.DBI in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.pas',
+  App.Config.Ambi.Terminal.DBI.Mudo_u in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Mudo_u.pas',
+  App.Config.Ambi.Terminal.DBI.Grava_u in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Grava_u.pas';
 
 end.
