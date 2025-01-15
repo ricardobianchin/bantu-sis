@@ -21,40 +21,20 @@ type
 
 implementation
 
-uses Sis.DB.DataSet.Utils, System.SysUtils;
+uses Sis.DB.DataSet.Utils, System.SysUtils, Sis.DB.SqlUtils_u, Sis.Win.Utils_u;
 
 { TConfigAmbiTerminalDBIGrava }
 
 procedure TConfigAmbiTerminalDBIGrava.Alterar(pDMemTable: TFDMemTable);
 var
   sSql: string;
-  T: TFDMemTable;
+  sMens: string;
 begin
-  T := pDMemTable;
-
-  sSql := 'UPDATE TERMINAL SET'
-    + 'APELIDO = ' + QuotedStr(T.FieldByName('APELIDO').AsString)
-    + ', NOME_NA_REDE = ' + QuotedStr(T.FieldByName('NOME_NA_REDE').AsString)
-    + ', ' +
-          'IP = ' + QuotedStr(T.FieldByName('IP').AsString) + ', ' +
-          'NF_SERIE = ' + QuotedStr(T.FieldByName('NF_SERIE').AsString) + ', ' +
-          'LETRA_DO_DRIVE = ' + QuotedStr(T.FieldByName('LETRA_DO_DRIVE').AsString) + ', ' +
-          'GAVETA_TEM = ' + QuotedStr(T.FieldByName('GAVETA_TEM').AsString) + ', ' +
-          'BALANCA_MODO_ID = ' + QuotedStr(T.FieldByName('BALANCA_MODO_ID').AsString) + ', ' +
-          'BALANCA_ID = ' + QuotedStr(T.FieldByName('BALANCA_ID').AsString) + ', ' +
-          'BARRAS_COD_INI = ' + QuotedStr(T.FieldByName('BARRAS_COD_INI').AsString) + ', ' +
-          'BARRAS_COD_TAM = ' + QuotedStr(T.FieldByName('BARRAS_COD_TAM').AsString) + ', ' +
-          'CUPOM_NLINS_FINAL = ' + QuotedStr(T.FieldByName('CUPOM_NLINS_FINAL').AsString) + ', ' +
-          'SEMPRE_OFFLINE = ' + QuotedStr(T.FieldByName('SEMPRE_OFFLINE').AsString) + ', ' +
-          'ATIVO = ' + QuotedStr(T.FieldByName('ATIVO').AsString) +
-          ' WHERE TERMINAL_ID = ' + QuotedStr(T.FieldByName('TERMINAL_ID').AsString);
-  ExecuteSQL(sSql);
-end;
-end;
-
-procedure TConfigAmbiTerminalDBIGrava.Excluir(pDMemTable: TFDMemTable);
-begin
-
+  sSql := DataSetToSqlUpdate(pDMemTable, 'TERMINAL', [0]);
+{$IFDEF DEBUG}
+  CopyTextToClipboard(sSql);
+{$ENDIF}
+  ExecuteSQL(sSql, sMens);
 end;
 
 function TConfigAmbiTerminalDBIGrava.GetSqlForEach(pValues: Variant): string;
@@ -93,29 +73,13 @@ end;
 procedure TConfigAmbiTerminalDBIGrava.Inserir(pDMemTable: TFDMemTable);
 var
   sSql: string;
-  T: TFDMemTable;
+  sMens: string;
 begin
-  T := pDMemTable;
-  sSql := 'INSERT INTO TERMINAL (' +
-          'TERMINAL_ID, APELIDO, NOME_NA_REDE, IP, NF_SERIE, LETRA_DO_DRIVE, ' +
-          'GAVETA_TEM, BALANCA_MODO_ID, BALANCA_ID, BARRAS_COD_INI, BARRAS_COD_TAM, ' +
-          'CUPOM_NLINS_FINAL, SEMPRE_OFFLINE, ATIVO) VALUES (' +
-          QuotedStr(pDMemTable.FieldByName('TERMINAL_ID').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('APELIDO').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('NOME_NA_REDE').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('IP').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('NF_SERIE').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('LETRA_DO_DRIVE').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('GAVETA_TEM').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('BALANCA_MODO_ID').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('BALANCA_ID').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('BARRAS_COD_INI').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('BARRAS_COD_TAM').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('CUPOM_NLINS_FINAL').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('SEMPRE_OFFLINE').AsString) + ', ' +
-          QuotedStr(pDMemTable.FieldByName('ATIVO').AsString) + ')';
-  ExecuteSQL(sSql);
-end;
+  sSql := DataSetToSqlInsertInto(pDMemTable, 'TERMINAL');
+{$IFDEF DEBUG}
+  CopyTextToClipboard(sSql);
+{$ENDIF}
+  ExecuteSQL(sSql, sMens);
 end;
 
 procedure TConfigAmbiTerminalDBIGrava.LeRegEInsere(q: TDataSet;
