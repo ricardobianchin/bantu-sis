@@ -11,7 +11,6 @@ type
     procedure PreenchaDataSet(pDMemTable: TFDMemTable);
     procedure Inserir(pDMemTable: TFDMemTable);
     procedure Alterar(pDMemTable: TFDMemTable);
-    procedure Excluir(pDMemTable: TFDMemTable);
     constructor Create;
   end;
 
@@ -27,11 +26,6 @@ end;
 constructor TConfigAmbiTerminalDBIMudo.Create;
 begin
   inherited Create(nil);
-end;
-
-procedure TConfigAmbiTerminalDBIMudo.Excluir(pDMemTable: TFDMemTable);
-begin
-
 end;
 
 procedure TConfigAmbiTerminalDBIMudo.Inserir(pDMemTable: TFDMemTable);
