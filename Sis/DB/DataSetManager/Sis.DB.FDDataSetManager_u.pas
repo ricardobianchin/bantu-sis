@@ -157,6 +157,7 @@ var
   vAlignment: TAlignment;
   sDisplayValues: string;
   Field: TField;
+  sErro: string;
 begin
   sIndex := UpperCase(pParams[0]);
   sNomeCampo := UpperCase(pParams[1]);
@@ -220,7 +221,19 @@ begin
   else if sTipo = 'D' then
   begin
     Field := AdDateTimeField(sNomeCampo, sTitulo, sMascara, vAlignment, bVisible);
-  end;
+  end
+  else
+  begin
+    sErro := 'Erro tipo errado:Sis.DB.FDDataSetManager_u'//
+      +', TFDDataSetManager.DefinaCampo'//
+      +',sIndex='+sIndex//
+      +',sNomeCampo='+sNomeCampo//
+      +',sTipo='+sTipo//
+      ;
+
+    raise Exception.Create(sErro);
+    Field := AdDateTimeField(sNomeCampo, sTitulo, sMascara, vAlignment, bVisible);
+  end
 end;
 
 procedure TFDDataSetManager.DefinaCampos(pDefsSL: TStringList);
