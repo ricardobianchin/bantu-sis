@@ -54,9 +54,12 @@ begin
   FDBConnection := DBConnectionCreate('config.amb.term.conn', pAppObj.SisConfig,
     rDBConnectionParams, pProcessLog, pOutputNotify);
 
-  FTermDBI := ConfigAmbiTerminalDBIGravaCreate(FDBConnection);
+  FTermDBI := ConfigAmbiTerminalDBIGravaCreate(FDBConnection,
+    pUsuarioLog, pAppObj);
   FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FTermDBI);
   FTerminaisDBGridFrame.Align := alClient;
+  FTerminaisDBGridFrame.ExclAction.Visible := False;
+  FTerminaisDBGridFrame.Preparar;
 end;
 
 function TConfigAmbiTermForm.GetTitulo: string;
@@ -67,7 +70,7 @@ end;
 procedure TConfigAmbiTermForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  FTerminaisDBGridFrame.Preparar;
+  //
 end;
 
 end.

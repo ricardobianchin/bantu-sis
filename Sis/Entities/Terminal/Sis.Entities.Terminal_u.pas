@@ -11,15 +11,24 @@ type
     FApelido: string;
     FNomeNaRede: string;
     FIP: string;
-    FNFSerie: smallint;
     FLetraDoDrive: string;
+
+    FNFSerie: smallint;
+
     FGavetaTem: Boolean;
+    FGavetaComando: string;
+
     FBalancaModoId: smallint;
     FBalancaId: smallint;
+
     FBarCodigoIni: smallint;
     FBarCodigoTam: smallint;
+
+    FImpressoraModoId: smallint;
     FCupomNLinsFinal: smallint;
+
     FSempreOffLine: Boolean;
+    FAtivo: Boolean;
 
     FLocalArqDados: string;
     FDatabase: string;
@@ -38,14 +47,17 @@ type
     function GetIP: string;
     procedure SetIP(Value: string);
 
-    function GetNFSerie: smallint;
-    procedure SetNFSerie(Value: smallint);
-
     function GetLetraDoDrive: string;
     procedure SetLetraDoDrive(Value: string);
 
+    function GetNFSerie: smallint;
+    procedure SetNFSerie(Value: smallint);
+
     function GetGavetaTem: Boolean;
     procedure SetGavetaTem(Value: Boolean);
+
+    function GetGavetaComando: string;
+    procedure SetGavetaComando(Value: string);
 
     function GetBalancaModoId: smallint;
     procedure SetBalancaModoId(Value: smallint);
@@ -59,11 +71,17 @@ type
     function GetBarCodigoTam: smallint;
     procedure SetBarCodigoTam(Value: smallint);
 
+    function GetImpressoraModoId: smallint;
+    procedure SetImpressoraModoId(Value: smallint);
+
     function GetCupomNLinsFinal: smallint;
     procedure SetCupomNLinsFinal(Value: smallint);
 
     function GetSempreOffLine: Boolean;
     procedure SetSempreOffLine(Value: Boolean);
+
+    function GetAtivo: Boolean;
+    procedure SetAtivo(Value: Boolean);
 
     function GetLocalArqDados: string;
     procedure SetLocalArqDados(Value: string);
@@ -83,12 +101,15 @@ type
     property NFSerie: smallint read GetNFSerie write SetNFSerie;
     property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
+    property GavetaComando: string read GetGavetaComando write SetGavetaComando;
     property BalancaModoId: smallint read GetBalancaModoId write SetBalancaModoId;
     property BalancaId: smallint read GetBalancaId write SetBalancaId;
     property BarCodigoIni: smallint read GetBarCodigoIni write SetBarCodigoIni;
     property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
+    property ImpressoraModoId: smallint read GetImpressoraModoId write SetImpressoraModoId;
     property CupomNLinsFinal: smallint read GetCupomNLinsFinal write SetCupomNLinsFinal;
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
+    property Ativo: Boolean read GetAtivo write SetAtivo;
 
     property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;
     property Database: string read GetDatabase write SetDatabase;
@@ -135,6 +156,11 @@ begin
     Result := Result + ' Sem WEB';
 end;
 
+function TTerminal.GetAtivo: Boolean;
+begin
+  Result := FAtivo;
+end;
+
 function TTerminal.GetBalancaId: smallint;
 begin
   Result := FBalancaId;
@@ -170,6 +196,11 @@ begin
   Result := FDatabase;
 end;
 
+function TTerminal.GetGavetaComando: string;
+begin
+  Result := FGavetaComando;
+end;
+
 function TTerminal.GetGavetaTem: Boolean;
 begin
   Result := FGavetaTem;
@@ -181,6 +212,11 @@ begin
     Result := NomeNaRede
   else
     Result := IP;
+end;
+
+function TTerminal.GetImpressoraModoId: smallint;
+begin
+  Result := FImpressoraModoId;
 end;
 
 function TTerminal.GetIP: string;
@@ -223,6 +259,11 @@ begin
   FApelido := Value;
 end;
 
+procedure TTerminal.SetAtivo(Value: Boolean);
+begin
+  FAtivo := Value;
+end;
+
 procedure TTerminal.SetBalancaId(Value: smallint);
 begin
   FBalancaId := Value;
@@ -253,9 +294,19 @@ begin
   FDatabase := Value;
 end;
 
+procedure TTerminal.SetGavetaComando(Value: string);
+begin
+  FGavetaComando := Value;
+end;
+
 procedure TTerminal.SetGavetaTem(Value: Boolean);
 begin
   FGavetaTem := Value;
+end;
+
+procedure TTerminal.SetImpressoraModoId(Value: smallint);
+begin
+  FImpressoraModoId := Value;
 end;
 
 procedure TTerminal.SetIP(Value: string);

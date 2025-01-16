@@ -155,7 +155,10 @@ begin
   TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
     TDataSetState.dsInsert);
   if TerminalEdDiagForm.Perg then
+  begin
+    FTermDBI.Inserir(FDMemTable1);
     DBGrid1.Repaint;
+  end;
 end;
 
 procedure TTerminaisDBGridFrame.Preparar;

@@ -19,18 +19,28 @@ begin
     'SELECT'#13#10 //
 
     + 'TERMINAL_ID'#13#10 // 0
-    + ', APELIDO'#13#10 // 1
-    + ', NOME_NA_REDE'#13#10 // 2
-    + ', IP'#13#10 // 3
-    + ', NF_SERIE'#13#10 // 4
-    + ', LETRA_DO_DRIVE'#13#10 // 5
-    + ', GAVETA_TEM'#13#10 // 6
-    + ', BALANCA_MODO_ID'#13#10 // 7
-    + ', BALANCA_ID'#13#10 // 8
-    + ', BARRAS_COD_INI'#13#10 // 9
-    + ', BARRAS_COD_TAM'#13#10 // 10
-    + ', CUPOM_NLINS_FINAL'#13#10 // 11
-    + ', SEMPRE_OFFLINE'#13#10 // 12
+
+    + ', APELIDO'#13#10 //
+    + ', NOME_NA_REDE'#13#10 //
+    + ', IP'#13#10 //
+    + ', LETRA_DO_DRIVE'#13#10 //
+
+    + ', NF_SERIE'#13#10 //
+
+    + ', GAVETA_TEM'#13#10 //
+    + ', GAVETA_COMANDO'#13#10 //
+
+    + ', BALANCA_MODO_ID'#13#10 //
+    + ', BALANCA_ID'#13#10 //
+
+    + ', BARRAS_COD_INI'#13#10 //
+    + ', BARRAS_COD_TAM'#13#10 //
+
+    + ', IMPRESSORA_MODO_ID'#13#10 //
+    + ', CUPOM_NLINS_FINAL'#13#10 //
+
+    + ', SEMPRE_OFFLINE'#13#10 //
+    + ', ATIVO'#13#10 //
 
     + 'FROM LOG_HIST_PA.TEVE_TERMINAL('#13#10 //
 

@@ -36,20 +36,11 @@ begin
   try
     sSql := 'SELECT'#13#10 //
       + 'TERMINAL_ID'#13#10 // 0
-      + ', APELIDO'#13#10 // 1
-      + ', NOME_NA_REDE'#13#10 // 2
-      + ', IP'#13#10 // 3
-      + ', NF_SERIE'#13#10 // 4
-      + ', LETRA_DO_DRIVE'#13#10 // 5
-      + ', GAVETA_TEM'#13#10 // 6
-      + ', BALANCA_MODO_ID'#13#10 // 7
-      + ', BALANCA_ID'#13#10 // 8
-      + ', BARRAS_COD_INI'#13#10 // 9
-      + ', BARRAS_COD_TAM'#13#10 // 10
-      + ', CUPOM_NLINS_FINAL'#13#10 // 11
-      + ', SEMPRE_OFFLINE'#13#10 // 12
+      + ', NOME_NA_REDE'#13#10 // 1
+      + ', IP'#13#10 // 2
+      + ', LETRA_DO_DRIVE'#13#10 // 3
       + ' FROM TERMINAL'#13#10 //
-      + 'WHERE TERMINAL_ID > 0'#13#10 //
+      + 'WHERE TERMINAL_ID > 0 AND ATIVO'#13#10 //
       + 'ORDER BY TERMINAL_ID'#13#10; //
 
     DBServDM.Connection.ExecSQL(sSql, Q);
@@ -62,11 +53,14 @@ begin
       begin
         oDM := TDBTermDM.Create(nil);
 
-        iId := Q.Fields[0].AsInteger;
+        iId := Q.Fields[0 {TERMINAL_ID}].AsInteger;
         oDM.Terminal.TerminalId := iId;
-        oDM.Terminal.NomeNaRede := Q.Fields[2].AsString.Trim;
 
-        sLetraDoDrive := Q.Fields[5].AsString.Trim;
+        oDM.Terminal.NomeNaRede := Q.Fields[1 {NOME NA REDE}].AsString.Trim;
+        if oDM.Terminal.NomeNaRede = '' then
+          oDM.Terminal.NomeNaRede := Q.Fields[2 {IP}].AsString.Trim;
+
+        sLetraDoDrive := Q.Fields[3 {LETRA DO DRIVE}].AsString.Trim;
         if sLetraDoDrive = '' then
           sLetraDoDrive := 'C';
 

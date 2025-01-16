@@ -23,17 +23,21 @@ type
     procedure SetIP(Value: string);
     property IP: string read GetIP write SetIP;
 
-    function GetNFSerie: smallint;
-    procedure SetNFSerie(Value: smallint);
-    property NFSerie: smallint read GetNFSerie write SetNFSerie;
-
     function GetLetraDoDrive: string;
     procedure SetLetraDoDrive(Value: string);
     property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
 
+    function GetNFSerie: smallint;
+    procedure SetNFSerie(Value: smallint);
+    property NFSerie: smallint read GetNFSerie write SetNFSerie;
+
     function GetGavetaTem: Boolean;
     procedure SetGavetaTem(Value: Boolean);
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
+
+    function GetGavetaComando: string;
+    procedure SetGavetaComando(Value: string);
+    property GavetaComando: string read GetGavetaComando write SetGavetaComando;
 
     function GetBalancaModoId: smallint;
     procedure SetBalancaModoId(Value: smallint);
@@ -51,6 +55,10 @@ type
     procedure SetBarCodigoTam(Value: smallint);
     property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
 
+    function GetImpressoraModoId: smallint;
+    procedure SetImpressoraModoId(Value: smallint);
+    property ImpressoraModoId: smallint read GetImpressoraModoId write SetImpressoraModoId;
+
     function GetCupomNLinsFinal: smallint;
     procedure SetCupomNLinsFinal(Value: smallint);
     property CupomNLinsFinal: smallint read GetCupomNLinsFinal write SetCupomNLinsFinal;
@@ -58,6 +66,10 @@ type
     function GetSempreOffLine: Boolean;
     procedure SetSempreOffLine(Value: Boolean);
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
+
+    function GetAtivo: Boolean;
+    procedure SetAtivo(Value: Boolean);
+    property Ativo: Boolean read GetAtivo write SetAtivo;
 
     function GetLocalArqDados: string;
     procedure SetLocalArqDados(Value: string);

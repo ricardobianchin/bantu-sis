@@ -43,7 +43,7 @@ begin
     Application.Initialize;
     Application.MainFormOnTaskbar := True;
     Application.Run;
-    //Exec_u.Execute;
+    Exec_u.Execute;
   finally
     // Liberar o mutex ao finalizar
     CloseHandle(hMutex);

@@ -936,18 +936,29 @@ var
 begin
   sSql := 'EXECUTE PROCEDURE TERMINAL_PA.GARANTIR (' //
     + pTerminal.TerminalId.ToString // TERMINAL_ID
+
     + ', ' + pTerminal.Apelido.QuotedString // APELIDO
     + ', ' + pTerminal.NomeNaRede.QuotedString // NOME_NA_REDE
     + ', ' + pTerminal.IP.QuotedString // IP
-    + ', ' + pTerminal.NFSerie.ToString // NF_SERIE
     + ', ' + pTerminal.LetraDoDrive.QuotedString // LETRA_DO_DRIVE
+
+    + ', ' + pTerminal.NFSerie.ToString // NF_SERIE
+
     + ', ' + BooleanToStrSQL(pTerminal.GavetaTem) // GAVETA_TEM
+    + ', ' + pTerminal.GavetaComando.QuotedString // GAVETA_COMANDO
+
     + ', ' + pTerminal.BalancaModoId.ToString // BALANCA_MODO_ID
     + ', ' + pTerminal.BalancaId.ToString // BALANCA_ID
+
     + ', ' + pTerminal.BarCodigoIni.ToString // BARRAS_COD_INI
     + ', ' + pTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
+
+    + ', ' + pTerminal.ImpressoraModoId.ToString // CUPOM_NLINS_FINAL
     + ', ' + pTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
+
     + ', ' + BooleanToStrSQL(pTerminal.SempreOffLine) // SEMPRE_OFFLINE
+    + ', ' + BooleanToStrSQL(pTerminal.Ativo) // SEMPRE_OFFLINE
+
     + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
     + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
     + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID

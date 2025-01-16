@@ -15,7 +15,8 @@ function TerminalFormCreatorCreate(pFormClassNamesSL: TStringList;
   : IFormCreator;
 
 function ConfigAmbiTerminalDBIMudoCreate: IConfigAmbiTerminalDBI;
-function ConfigAmbiTerminalDBIGravaCreate(pDBConnection: IDBConnection): IConfigAmbiTerminalDBI;
+function ConfigAmbiTerminalDBIGravaCreate(pDBConnection: IDBConnection;
+  pUsuarioAdmin: IUsuario; pAppObj: IAppObj): IConfigAmbiTerminalDBI;
 
 implementation
 
@@ -36,9 +37,11 @@ begin
   Result := TConfigAmbiTerminalDBIMudo.Create;
 end;
 
-function ConfigAmbiTerminalDBIGravaCreate(pDBConnection: IDBConnection): IConfigAmbiTerminalDBI;
+function ConfigAmbiTerminalDBIGravaCreate(pDBConnection: IDBConnection;
+  pUsuarioAdmin: IUsuario; pAppObj: IAppObj): IConfigAmbiTerminalDBI;
 begin
-  Result := TConfigAmbiTerminalDBIGrava.Create(pDBConnection);
+  Result := TConfigAmbiTerminalDBIGrava.Create(pDBConnection,
+    pUsuarioAdmin, pAppObj);
 end;
 
 end.
