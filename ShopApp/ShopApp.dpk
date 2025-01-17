@@ -59,6 +59,8 @@ contains
   ShopApp.UI.PDV.Venda.Frame.FitaDraw_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw_u.pas',
   ShopApp.UI.PDV.Venda.Frame.FitaDraw in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.Venda.Frame.FitaDraw.pas',
   ShopApp.UI.PDV.ItemCancelarForm_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.PDV.ItemCancelarForm_u.pas' {ItemCancelarForm_ShopApp},
-  ShopApp.UI.PDV.PagFrame_u in 'Modulos\PDV\PagFrame\ShopApp.UI.PDV.PagFrame_u.pas' {ShopPagPDVFrame: TFrame};
+  ShopApp.UI.PDV.PagFrame_u in 'Modulos\PDV\PagFrame\ShopApp.UI.PDV.PagFrame_u.pas' {ShopPagPDVFrame: TFrame},
+  ShopApp.PDV.Obj in 'Modulos\PDV\PdvObj\ShopApp.PDV.Obj.pas',
+  ShopApp.PDV.Obj_u in 'Modulos\PDV\PdvObj\ShopApp.PDV.Obj_u.pas';
 
 end.

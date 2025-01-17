@@ -11,7 +11,7 @@ uses
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
   Sis.Entities.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
   App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI, App.PDV.Venda,
-  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI;
+  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -23,6 +23,7 @@ type
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
     function PDVVendaCreate: IPDVVenda; override;
+    function PDVObjCreate: IPDVObj; override;
     function PDVDBICreate: IAppPDVDBI; override;
 
     function VendaFrameCreate: TVendaBasPDVFrame; override;
@@ -76,6 +77,11 @@ begin
     FShopPDVVenda);
 
   Result := FShopAppPDVDBI;
+end;
+
+function TShopPDVModuloForm.PDVObjCreate: IPDVObj;
+begin
+  Result := ShopPdvObjCreate(Terminal);
 end;
 
 function TShopPDVModuloForm.PDVVendaCreate: IPDVVenda;

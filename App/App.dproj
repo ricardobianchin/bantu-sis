@@ -601,8 +601,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Factory_u.pas"/>
         <DCCReference Include="Modulos\PDV\App.PDV.Factory_u.pas"/>
-        <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas"/>
-        <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas"/>
+        <DCCReference Include="Modulos\PDV\PDVObj\App.PDV.Obj.pas"/>
+        <DCCReference Include="Modulos\PDV\PDVObj\App.PDV.Obj_u.pas"/>
         <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.Frame_u.pas">
             <Form>PDVFrame</Form>
             <FormType>dfm</FormType>

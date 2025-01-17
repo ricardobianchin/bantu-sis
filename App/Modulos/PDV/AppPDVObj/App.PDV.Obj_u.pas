@@ -1,14 +1,14 @@
-unit App.PDV.AppPDVObj_u;
+unit App.PDV.Obj_u;
 
 interface
 
-uses App.PDV.AppPDVObj;
+uses App.PDV.Obj;
 
 type
-  TAppPDVObj = class(TInterfacedObject, IAppPDVObj)
+  TPDVObj = class(TInterfacedObject, IAppPDVObj)
   private
-
-    function GetFiscal: Boolean;
+  protected
+    function GetFiscal: Boolean; virtual;
   public
     property Fiscal: Boolean read GetFiscal;
   end;

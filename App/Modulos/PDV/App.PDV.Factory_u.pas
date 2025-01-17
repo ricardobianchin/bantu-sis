@@ -2,11 +2,10 @@ unit App.PDV.Factory_u;
 
 interface
 
-uses Sis.Entities.Types, App.PDV.AppPDVObj, System.Classes, Sis.Types,
+uses Sis.Entities.Types, System.Classes, Sis.Types,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
   App.PDV.VendaPag.List, App.PDV.VendaPag;
 
-function AppPDVObjCreate: IAppPDVObj;
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
   pAction: TAction): TPdvFrame;
 
@@ -19,13 +18,8 @@ function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
 
 implementation
 
-uses App.PDV.AppPDVObj_u, App.UI.PDV.Aviso.Frame_u, System.SysUtils,
+uses App.UI.PDV.Aviso.Frame_u, System.SysUtils,
   App.PDV.VendaPag.List_u, App.PDV.VendaPag_u;
-
-function AppPDVObjCreate: IAppPDVObj;
-begin
-  Result := TAppPDVObj.Create;
-end;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
   pAction: TAction): TPdvFrame;

@@ -4,7 +4,7 @@ interface
 
 uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
-  Sis.DB.DBTypes, App.PDV.DBI, ShopApp.PDV.DBI, Sis.Types,
+  Sis.DB.DBTypes, App.PDV.DBI, ShopApp.PDV.DBI, Sis.Types, ShopApp.PDV.Obj,
   Sis.Entities.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod,
   App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
   ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja, App.PDV.Controlador,
@@ -72,13 +72,13 @@ function ShopPagPDVFrameCreate(AOwner: TComponent; pPdvVenda: IPdvVenda;
 function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
   : IShopFitaDraw;
 
+function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
+
 implementation
 
-uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u //
-    , ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u //
-    , ShopApp.UI.PDV.PagFrame_u //
-
-    ;
+uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u
+    , ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u
+    , ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u;
 
 function ShopPDVVendaCreate( //
   pLoja: IAppLoja; //
@@ -211,6 +211,11 @@ function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
   : IShopFitaDraw;
 begin
   Result := TShopFitaDraw.Create(pVenda, pStringGrid);
+end;
+
+function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
+begin
+  Result := TShopPDVObj.Create(pTerminal);
 end;
 
 end.

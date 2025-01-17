@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.PDV.AppPDVObj,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.PDV.Obj,
   Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
   Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u, App.PDV.Venda,
@@ -27,7 +27,7 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
-    FAppPDVObj: IAppPDVObj;
+    FPDVObj: IPDVObj;
     FPDVVenda: IPDVVenda;
 
     FFrameAtivo: TPDVFrame;
@@ -54,6 +54,7 @@ type
     function VendaFrameCreate: TVendaBasPDVFrame; virtual; abstract;
     function PagFrameCreate: TPagPDVFrame; virtual; abstract;
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
+    function PDVObjCreate: IPDVObj; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
     procedure DecidirPrimeroFrameAtivo; virtual;
 
@@ -124,7 +125,8 @@ begin
   rDBConnectionParams.Arq := Terminal.LocalArqDados;
   rDBConnectionParams.Database := Terminal.Database;
 
-  FAppPDVObj := AppPDVObjCreate;
+  FPDVObj := PDVObjCreate;
+
   FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
     rDBConnectionParams, nil, nil);
 
@@ -158,7 +160,7 @@ begin
   try
     FCaixaSessaoDM.AnaliseCaixa;
 
-    if FAppPDVObj.Fiscal then
+    if FPDVObj.Fiscal then
     begin
       if FCaixaSessaoDM.CaixaSessaoSituacao = cxFechado then
       begin
