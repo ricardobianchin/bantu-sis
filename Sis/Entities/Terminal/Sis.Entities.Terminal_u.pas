@@ -142,7 +142,7 @@ type
     property NomeNaRede: string read GetNomeNaRede write SetNomeNaRede;
     property IP: string read GetIP write SetIP;
     property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
-    
+
     property NFSerie: smallint read GetNFSerie write SetNFSerie;
 
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;

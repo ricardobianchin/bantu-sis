@@ -946,15 +946,21 @@ begin
 
     + ', ' + BooleanToStrSQL(pTerminal.GavetaTem) // GAVETA_TEM
     + ', ' + pTerminal.GavetaComando.QuotedString // GAVETA_COMANDO
+    + ', ' + pTerminal.GavetaImprNome.QuotedString // GAVETA_IMPR_NOME
 
-    + ', ' + pTerminal.BalancaModoId.ToString // BALANCA_MODO_ID
+    + ', ' + pTerminal.BalancaModoUsoId.ToString // BALANCA_MODO_ID
     + ', ' + pTerminal.BalancaId.ToString // BALANCA_ID
 
     + ', ' + pTerminal.BarCodigoIni.ToString // BARRAS_COD_INI
     + ', ' + pTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
 
-    + ', ' + pTerminal.ImpressoraModoId.ToString // CUPOM_NLINS_FINAL
-    + ', ' + pTerminal.CupomNLinsFinal.ToString // CUPOM_NLINS_FINAL
+    + ', ' + pTerminal.ImpressoraModoEnvioId.ToString // IMPRESSORA_MODO_ENVIO_ID
+    + ', ' + pTerminal.ImpressoraModeloId.ToString // IMPRESSORA_MODELO_ID
+    + ', ' + pTerminal.ImpressoraNome.QuotedString // GAVETA_IMPR_NOME
+    + ', ' + pTerminal.ImpressoraColsQtd.ToString // IMPRESSORA_COLS_QTD
+
+
+    + ', ' + pTerminal.CupomQtdLinsFinal.ToString // CUPOM_QTD_LINS_FINAL
 
     + ', ' + BooleanToStrSQL(pTerminal.SempreOffLine) // SEMPRE_OFFLINE
     + ', ' + BooleanToStrSQL(pTerminal.Ativo) // SEMPRE_OFFLINE

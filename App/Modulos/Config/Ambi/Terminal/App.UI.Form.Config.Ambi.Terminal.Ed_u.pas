@@ -30,7 +30,7 @@ type
     NFSerieLabel: TLabel;
     NFSerieAjudaLabel: TLabel;
     BalancaGroupBox: TGroupBox;
-    BalancaModoLabel: TLabel;
+    BalancaModoUsoLabel: TLabel;
     BalancaAjudaLabel: TLabel;
     BalModoComboBox: TComboBox;
     BalancaLabel: TLabel;
@@ -52,9 +52,6 @@ type
     GavComandoEdit: TEdit;
     GavComandoLabel: TLabel;
     ImpressoraGroupBox: TGroupBox;
-    CuponNLinsFinal1Label: TLabel;
-    CuponNLinsFinal2Label: TLabel;
-    CuponNLinsFinalEdit: TEdit;
     ImprModoEnvioComboBox: TComboBox;
     GavComandoToolBar: TToolBar;
     GavetaCopiarToolButton: TToolButton;
@@ -70,6 +67,9 @@ type
     ImprModeloLabel: TLabel;
     ImprQtdColunasEdit: TEdit;
     ImprQtdColunasLabel: TLabel;
+    CupomQtdLinsFinal1Label: TLabel;
+    CupomQtdLinsFinal2Label: TLabel;
+    CupomQtdLinsFinalEdit: TEdit;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -83,7 +83,6 @@ type
     procedure NFSerieEditKeyPress(Sender: TObject; var Key: Char);
     procedure LetraDoDriveComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure GavTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
-    procedure CuponNLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
     procedure IPEditKeyPress(Sender: TObject; var Key: Char);
     procedure ImprModoEnvioComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure GavetaComandoCopiarToolButtonClick(Sender: TObject);
@@ -95,6 +94,7 @@ type
     procedure ImprModeloComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure ImprQtdColunasEditKeyPress(Sender: TObject; var Key: Char);
     procedure ImprNomeEditKeyPress(Sender: TObject; var Key: Char);
+    procedure CupomQtdLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -104,8 +104,6 @@ type
 
     function TerminaIdOk: Boolean;
     function NomeNaRedeOk: Boolean;
-
-    function EscolheuSemBalanca: boolean;
 
     procedure Gravar;
 
@@ -380,8 +378,8 @@ begin
   s := ImprModoEnvioComboBox.Text;
   FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_DESCR').AsString := s;
 
-  i := StrToInteger(CuponNLinsFinalEdit.Text);
-  FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger := i;
+  i := StrToInteger(CupomQtdLinsFinalEdit.Text);
+  FTerminaisDataSet.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := i;
 
   //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
@@ -398,7 +396,7 @@ begin
   NomeNaRedeEdit.Text := 'TERM1';
 end;
 
-procedure TTerminalEdDiagForm.CuponNLinsFinalEditKeyPress(Sender: TObject;
+procedure TTerminalEdDiagForm.CupomQtdLinsFinalEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key = CHAR_ENTER then
@@ -407,6 +405,8 @@ begin
     NFSerieEdit.SetFocus;
     exit;
   end;
+  inherited;
+
 end;
 
 procedure TTerminalEdDiagForm.DataSetToControles;
@@ -441,8 +441,8 @@ begin
   i := FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ID').AsInteger;
   ImprModoEnvioComboBox.ItemIndex := i;
 
-  i := FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
-  CuponNLinsFinalEdit.Text := i.ToString;
+  i := FTerminaisDataSet.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger;
+  CupomQtdLinsFinalEdit.Text := i.ToString;
 
   //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
@@ -481,7 +481,7 @@ begin
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    CuponNLinsFinalEdit.SetFocus;
+    CupomQtdLinsFinalEdit.SetFocus;
     exit;
   end;
   inherited;
@@ -509,11 +509,6 @@ begin
     exit;
   end;
   inherited;
-end;
-
-function TTerminalEdDiagForm.EscolheuSemBalanca: boolean;
-begin
-  Result := BalComboBox.ItemIndex <> 1;
 end;
 
 procedure TTerminalEdDiagForm.GavTemCheckBoxKeyPress(Sender: TObject;
@@ -789,15 +784,26 @@ begin
   NomeNaRedeEdit.Clear;
   IPEdit.Clear;
   SempreOffLineCheckBox.Checked := False;
-  NFSerieEdit.Clear;
-  LetraDoDriveComboBox.ItemIndex := 2;
-  GavTemCheckBox.Checked := False;
-  CuponNLinsFinalEdit.Text := '0';
+
   ImprModoEnvioComboBox.ItemIndex := 0;
+  BalModoComboBox.ItemIndex := 0;
   BalComboBox.ItemIndex := 0;
-  BalComboBox.ItemIndex := 0;
+  
   BarCodigoIniEdit.Text := '2';
   BarCodigoTamEdit.Text := '6';
+  
+  GavTemCheckBox.Checked := False;
+  GavImprNomeEdit.Text := '';
+  GavComandoEdit.Text := '';
+  
+  ImprModoEnvioComboBox.ItemIndex := 0;
+  ImprModeloComboBox.ItemIndex := 0;
+//  ImprQtdColunasEdit.Valor := 40;
+  ImprNomeEdit.Text := '';
+
+  CupomQtdLinsFinalEdit.Text := '0';
+  NFSerieEdit.Clear;
+  LetraDoDriveComboBox.ItemIndex := 2;
 end;
 
 end.

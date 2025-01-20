@@ -98,18 +98,33 @@ begin
   try
     sSql := 'SELECT'#13#10 //
       + 'TERMINAL_ID'#13#10 // 0
+
       + ', APELIDO'#13#10 // 1
       + ', NOME_NA_REDE'#13#10 // 2
       + ', IP'#13#10 // 3
-      + ', NF_SERIE'#13#10 // 4
-      + ', LETRA_DO_DRIVE'#13#10 // 5
+      + ', LETRA_DO_DRIVE'#13#10 // 4
+
+      + ', NF_SERIE'#13#10 // 5
+
       + ', GAVETA_TEM'#13#10 // 6
-      + ', BALANCA_MODO_ID'#13#10 // 7
-      + ', BALANCA_ID'#13#10 // 8
-      + ', BARRAS_COD_INI'#13#10 // 9
-      + ', BARRAS_COD_TAM'#13#10 // 10
-      + ', CUPOM_NLINS_FINAL'#13#10 // 11
-      + ', SEMPRE_OFFLINE'#13#10 // 12
+      + ', GAVETA_COMANDO'#13#10 // 7
+      + ', GAVETA_IMPR_NOME'#13#10 // 8
+
+      + ', BALANCA_MODO_USO_ID'#13#10 // 9
+      + ', BALANCA_ID'#13#10 // 10
+
+      + ', BARRAS_COD_INI'#13#10 // 11
+      + ', BARRAS_COD_TAM'#13#10 // 12
+
+      + ', IMPRESSORA_MODO_ENVIO_ID'#13#10 // 13
+      + ', IMPRESSORA_MODELO_ID'#13#10 // 14
+      + ', IMPRESSORA_NOME'#13#10 // 15
+      + ', IMPRESSORA_COLS_QTD'#13#10 // 16
+
+      + ', CUPOM_QTD_LINS_FINAL'#13#10 // 17
+
+      + ', SEMPRE_OFFLINE'#13#10 // 18
+      + ', ATIVO'#13#10 // 19
       + ' FROM TERMINAL'#13#10 // 13
       + 'WHERE TERMINAL_ID > 0'#13#10 // 13
       ;
@@ -147,24 +162,47 @@ var
   iTerm: TTerminalId;
 begin
   pTerminal.TerminalId := Q.FieldByName('TERMINAL_ID').AsInteger;
+
   pTerminal.Apelido := Trim(Q.FieldByName('APELIDO').AsString);
   pTerminal.NomeNaRede := Trim(Q.FieldByName('NOME_NA_REDE').AsString);
   pTerminal.IP := Trim(Q.FieldByName('IP').AsString);
-  pTerminal.NFSerie := Q.FieldByName('NF_SERIE').AsInteger;
 
   sLetraDoDrive := Q.FieldByName('LETRA_DO_DRIVE').AsString.Trim;
   if sLetraDoDrive = '' then
     sLetraDoDrive := 'C';
-
   pTerminal.LetraDoDrive := sLetraDoDrive[1];
 
+  pTerminal.NFSerie := Q.FieldByName('NF_SERIE').AsInteger;
+
   pTerminal.GavetaTem := Q.FieldByName('GAVETA_TEM').AsBoolean;
-  pTerminal.BalancaModoId := Q.FieldByName('BALANCA_MODO_ID').AsInteger;
+  pTerminal.GavetaComando := Q.FieldByName('GAVETA_').AsString.Trim;
+  pTerminal.GavetaImprNome := Q.FieldByName('GAVETA_').AsString.Trim;
+
+  pTerminal.BalancaModoUsoId := Q.FieldByName('BALANCA_MODO_ID').AsInteger;
+  pTerminal.BalancaModoUsoDescr := Q.FieldByName('BALANCA_').AsString.Trim;
+
   pTerminal.BalancaId := Q.FieldByName('BALANCA_ID').AsInteger;
+  pTerminal.BalancaFabricante := Q.FieldByName('BALANCA_').AsString.Trim;
+  pTerminal.BalancaModelo := Q.FieldByName('BALANCA_').AsString.Trim;
+
   pTerminal.BarCodigoIni := Q.FieldByName('BARRAS_COD_INI').AsInteger;
   pTerminal.BarCodigoTam := Q.FieldByName('BARRAS_COD_TAM').AsInteger;
-  pTerminal.CupomNLinsFinal := Q.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
+
+  pTerminal.CupomQtdLinsFinal := Q.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
   pTerminal.SempreOffLine := Q.FieldByName('SEMPRE_OFFLINE').AsBoolean;
+
+  pTerminal.ImpressoraModoEnvioId := Q.FieldByName('IMPRESSORA_').AsInteger;
+  pTerminal.ImpressoraModoEnvioDescr := Q.FieldByName('IMPRESSORA_').AsString.Trim;
+
+  pTerminal.ImpressoraModeloId := Q.FieldByName('IMPRESSORA_').AsInteger;
+  pTerminal.ImpressoraModeloDescr := Q.FieldByName('IMPRESSORA_').AsString.Trim;
+  pTerminal.ImpressoraNome := Q.FieldByName('IMPRESSORA_').AsString.Trim;
+  pTerminal.ImpressoraColsQtd := Q.FieldByName('IMPRESSORA_').AsInteger;
+
+  pTerminal.CupomQtdLinsFinal := Q.FieldByName('IMPRESSORA_').AsInteger;
+  pTerminal.SempreOffLine := Q.FieldByName('GAVETA_TEM').AsBoolean;
+  pTerminal.Ativo := Q.FieldByName('GAVETA_TEM').AsBoolean;
+
 
   sFormat := '%sDados_%s_Terminal_%.3d.fdb';
   sPasta := pAppObj.AppInfo.PastaDados;

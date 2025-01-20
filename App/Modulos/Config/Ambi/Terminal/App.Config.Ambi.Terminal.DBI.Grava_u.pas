@@ -69,22 +69,26 @@ begin
     + ', ' + T.FieldByName('APELIDO').AsString.QuotedString //
     + ', ' + T.FieldByName('NOME_NA_REDE').AsString.QuotedString //
     + ', ' + T.FieldByName('IP').AsString.QuotedString //
-
     + ', ' + sLetraDrive.QuotedString //
 
     + ', ' + T.FieldByName('NF_SERIE').AsInteger.ToString //
 
     + ', ' + BooleanToStrSQL(T.FieldByName('GAVETA_TEM').AsBoolean) //
     + ', ' + T.FieldByName('GAVETA_COMANDO').AsString.QuotedString //
+    + ', ' + T.FieldByName('GAVETA_IMPR_NOME').AsString.QuotedString //
 
-    + ', ' + T.FieldByName('BALANCA_MODO_ID').AsInteger.ToString //
+    + ', ' + T.FieldByName('BALANCA_MODO_USO_ID').AsInteger.ToString //
     + ', ' + T.FieldByName('BALANCA_ID').AsInteger.ToString //
 
     + ', ' + T.FieldByName('BARRAS_COD_INI').AsInteger.ToString //
     + ', ' + T.FieldByName('BARRAS_COD_TAM').AsInteger.ToString //
 
-    + ', ' + T.FieldByName('IMPRESSORA_MODO_ID').AsInteger.ToString //
-    + ', ' + T.FieldByName('CUPOM_NLINS_FINAL').AsInteger.ToString //
+    + ', ' + T.FieldByName('IMPRESSORA_MODO_ENVIO_ID').AsInteger.ToString //
+    + ', ' + T.FieldByName('IMPRESSORA_MODELO_ID').AsInteger.ToString //
+    + ', ' + T.FieldByName('IMPRESSORA_NOME').AsString.QuotedString //
+    + ', ' + T.FieldByName('IMPRESSORA_COLS_QTD').AsInteger.ToString //
+
+    + ', ' + T.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger.ToString //
 
     + ', ' + BooleanToStrSQL(T.FieldByName('SEMPRE_OFFLINE').AsBoolean) //
     + ', ' + BooleanToStrSQL(T.FieldByName('ATIVO').AsBoolean) //
@@ -116,31 +120,44 @@ begin
 
     + '  , T.GAVETA_TEM'#13#10 //
     + '  , T.GAVETA_COMANDO'#13#10 //
+    + '  , T.GAVETA_IMPR_NOME'#13#10 //
 
-    + '  , T.BALANCA_MODO_ID'#13#10 //
-    + '  , T.BALANCA_ID'#13#10 //
-    + '  , BM.DESCR AS BALANCA_DESCR'#13#10 //
+    + '  , BMU.BALANCA_MODO_USO_ID'#13#10 //
+    + '  , BMU.DESCR AS BALANCA_MODO_USO_DESCR'#13#10 //
+
+    + '  , B.BALANCA_ID'#13#10 //
+    + '  , B.FABRICANTE BALANCA_FABRICANTE'#13#10 //
+    + '  , B.MODELO BALANCA_MODELO'#13#10 //
 
     + '  , T.BARRAS_COD_INI'#13#10 //
     + '  , T.BARRAS_COD_TAM'#13#10 //
 
-    + '  , T.IMPRESSORA_MODO_ID'#13#10 //
-    + '  , IM.DESCR IMPRESSORA_MODO_DESCR'#13#10 //
-    + '  , T.CUPOM_NLINS_FINAL'#13#10 //
+    + '  , IME.IMPRESSORA_MODO_ENVIO_ID'#13#10 //
+    + '  , IME.DESCR IMPRESSORA_MODO_ENVIO_DESCR'#13#10 //
+
+    + '  , IM.IMPRESSORA_MODELO_ID'#13#10 //
+    + '  , IM.DESCR IMPRESSORA_MODELO_DESCR'#13#10 //
+    + '  , T.IMPRESSORA_NOME'#13#10 //
+    + '  , T.IMPRESSORA_COLS_QTD'#13#10 //
+
+    + '  , T.CUPOM_QTD_LINS_FINAL'#13#10 //
 
     + '  , T.SEMPRE_OFFLINE'#13#10 //
     + '  , T.ATIVO'#13#10 //
 
     + 'FROM TERMINAL T'#13#10 //
 
-    + 'JOIN BALANCA_MODO BM ON'#13#10 //
-    + 'T.BALANCA_MODO_ID = BM.BALANCA_MODO_ID'#13#10 //
+    + 'JOIN BALANCA_MODO_USO BMU ON'#13#10 //
+    + 'T.BALANCA_MODO_USO_ID = BMU.BALANCA_MODO_USO_ID'#13#10 //
 
     + 'JOIN BALANCA B ON'#13#10 //
     + 'T.BALANCA_ID = B.BALANCA_ID'#13#10 //
 
-    + 'JOIN IMPRESSORA_MODO IM ON'#13#10 //
-    + 'IM.IMPRESSORA_MODO_ID = T.IMPRESSORA_MODO_ID'#13#10 //
+    + 'JOIN IMPRESSORA_MODO_ENVIO IME ON'#13#10 //
+    + 'IME.IMPRESSORA_MODO_ENVIO_ID = T.IMPRESSORA_MODO_ENVIO_ID'#13#10 //
+
+    + 'JOIN IMPRESSORA_MODELO IM ON'#13#10 //
+    + 'IM.IMPRESSORA_MODELO_ID = T.IMPRESSORA_MODELO_ID'#13#10 //
 
     + 'WHERE T.TERMINAL_ID > 0'#13#10 //
     + 'ORDER BY T.TERMINAL_ID'#13#10 //
@@ -160,23 +177,6 @@ begin
 
   FDMemTable.Append;
   RecordToFDMemTable(q, FDMemTable);
-  (*
-    FDMemTable.Fields[0 { TERMINAL_ID } ].AsInteger :=
-    FDMemTable.Fields[1 { APELIDO } ].AsString :=
-    FDMemTable.Fields[2 { NOME_NA_REDE } ].AsString :=
-    FDMemTable.Fields[3 { IP } ].AsString :=
-    FDMemTable.Fields[4 { NF_SERIE } ].AsInteger :=
-    FDMemTable.Fields[5 { LETRA_DO_DRIVE } ].AsString :=
-    FDMemTable.Fields[6 { GAVETA_TEM } ].AsBoolean :=
-    FDMemTable.Fields[7 { BALANCA_MODO_ID } ]].AsInteger :=
-    FDMemTable.Fields[8 { BALANCA_ID } ]].AsInteger :=
-    FDMemTable.Fields[9 { BALANCA_DESCR } ].AsString :=
-    FDMemTable.Fields[10 { BARRAS_COD_INI } ].AsInteger :=
-    FDMemTable.Fields[11 { BARRAS_COD_TAM } ].AsInteger :=
-    FDMemTable.Fields[12 { CUPOM_NLINS_FINAL } ].AsInteger :=
-    FDMemTable.Fields[13 { SEMPRE_OFFLINE } ].AsBoolean :=
-    FDMemTable.Fields[14 { ATIVO } ].AsBoolean :=
-  *)
   FDMemTable.Post;
 
 end;

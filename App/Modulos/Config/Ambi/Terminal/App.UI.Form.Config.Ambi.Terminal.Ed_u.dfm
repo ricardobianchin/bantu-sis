@@ -1,19 +1,19 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 396
-  ClientWidth = 886
-  ExplicitWidth = 898
-  ExplicitHeight = 434
+  ClientHeight = 395
+  ClientWidth = 882
+  ExplicitWidth = 894
+  ExplicitHeight = 433
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 324
-    Width = 886
-    ExplicitTop = 271
+    Top = 323
+    Width = 882
+    ExplicitTop = 323
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 381
-    Width = 886
-    ExplicitTop = 328
+    Top = 380
+    Width = 882
+    ExplicitTop = 380
   end
   object ObjetivoLabel: TLabel [2]
     Left = 2
@@ -148,22 +148,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'IP'
   end
   inherited BasePanel: TPanel
-    Top = 344
-    Width = 886
+    Top = 343
+    Width = 882
     TabOrder = 12
-    ExplicitTop = 290
-    ExplicitWidth = 844
+    ExplicitTop = 342
+    ExplicitWidth = 878
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 507
-      ExplicitLeft = 465
+      Left = 491
+      ExplicitLeft = 487
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 620
-      ExplicitLeft = 578
+      Left = 604
+      ExplicitLeft = 600
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 700
-      ExplicitLeft = 658
+      Left = 684
+      ExplicitLeft = 680
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -230,7 +230,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     DesignSize = (
       425
       102)
-    object BalancaModoLabel: TLabel
+    object BalancaModoUsoLabel: TLabel
       Left = 6
       Top = 41
       Width = 32
@@ -475,20 +475,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Height = 121
     Caption = 'Impressora'
     TabOrder = 8
-    object CuponNLinsFinal1Label: TLabel
-      Left = 253
-      Top = 95
-      Width = 43
-      Height = 15
-      Caption = 'Avan'#231'ar'
-    end
-    object CuponNLinsFinal2Label: TLabel
-      Left = 337
-      Top = 95
-      Width = 127
-      Height = 15
-      Caption = 'linhas no fim do cupom'
-    end
     object Label1: TLabel
       Left = 6
       Top = 74
@@ -532,17 +518,19 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Height = 15
       Caption = 'Qtd. Colunas'
     end
-    object CuponNLinsFinalEdit: TEdit
-      Left = 301
-      Top = 92
-      Width = 30
-      Height = 23
-      Alignment = taCenter
-      MaxLength = 3
-      NumbersOnly = True
-      TabOrder = 4
-      Text = '23'
-      OnKeyPress = CuponNLinsFinalEditKeyPress
+    object CupomQtdLinsFinal1Label: TLabel
+      Left = 253
+      Top = 95
+      Width = 43
+      Height = 15
+      Caption = 'Avan'#231'ar'
+    end
+    object CupomQtdLinsFinal2Label: TLabel
+      Left = 337
+      Top = 95
+      Width = 127
+      Height = 15
+      Caption = 'linhas no fim do cupom'
     end
     object ImprModoEnvioComboBox: TComboBox
       Left = 6
@@ -561,7 +549,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Left = 6
       Top = 91
       Width = 237
-      Height = 24
+      Height = 23
       Hint = 'Comando para acionamento'
       MaxLength = 260
       TabOrder = 1
@@ -590,6 +578,18 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       TabOrder = 3
       Text = '23'
       OnKeyPress = ImprQtdColunasEditKeyPress
+    end
+    object CupomQtdLinsFinalEdit: TEdit
+      Left = 301
+      Top = 92
+      Width = 30
+      Height = 23
+      Alignment = taCenter
+      MaxLength = 3
+      NumbersOnly = True
+      TabOrder = 4
+      Text = '23'
+      OnKeyPress = CupomQtdLinsFinalEditKeyPress
     end
   end
   inherited ShowTimer_BasForm: TTimer
