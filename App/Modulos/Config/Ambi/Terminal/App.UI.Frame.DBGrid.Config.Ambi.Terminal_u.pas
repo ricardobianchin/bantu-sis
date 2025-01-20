@@ -187,15 +187,35 @@ begin
   Tab.FieldByName('APELIDO').AsString := 'TECIDOS';
   Tab.FieldByName('NOME_NA_REDE').AsString := 'DELPHI-BTU';
   Tab.FieldByName('IP').AsString := '192.168.1.144';
-  Tab.FieldByName('NF_SERIE').AsInteger := 0;
+
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
+  Tab.FieldByName('NF_SERIE').AsInteger := 0;
   Tab.FieldByName('GAVETA_TEM').AsBoolean := False;
-  Tab.FieldByName('BALANCA_MODO_ID').AsInteger := 0;
+  Tab.FieldByName('GAVETA_COMANDO').AsString := '';
+  Tab.FieldByName('GAVETA_IMPR_NOME').AsString := '';
+  Tab.FieldByName('BALANCA_MODO_USO_ID').AsInteger := 0;
+  Tab.FieldByName('BALANCA_MODO_USO_DESCR').AsString := 'SEM';
+
   Tab.FieldByName('BALANCA_ID').AsInteger := 0;
+  Tab.FieldByName('BALANCA_FABRICANTE').AsString := 'SEM';
+  Tab.FieldByName('BALANCA_MODELO').AsString := 'SEM';
+
   Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
   Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
-  Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
+
+  Tab.FieldByName('IMPRESSORA_MODO_ENVIO_ID').AsInteger := 0;
+  Tab.FieldByName('IMPRESSORA_MODO_ENVIO_DESCR').AsString := 'SEM';
+
+  Tab.FieldByName('IMPRESSORA_MODELO_ID').AsInteger := 0;
+  Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := 'SEM';
+
+  Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := '';
+  Tab.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := 0;
+
+  Tab.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := 0;
   Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := False;
+  Tab.FieldByName('ATIVO').AsBoolean := True;
+
   Tab.Post;
 
   Tab.append;
@@ -203,15 +223,34 @@ begin
   Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTO';
   Tab.FieldByName('NOME_NA_REDE').AsString := 'DELPHI-BTU';
   Tab.FieldByName('IP').AsString := '192.168.1.144';
-  Tab.FieldByName('NF_SERIE').AsInteger := 3;
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
-  Tab.FieldByName('GAVETA_TEM').AsBoolean := True;
-  Tab.FieldByName('BALANCA_MODO_ID').AsInteger := 0;
+
+  Tab.FieldByName('NF_SERIE').AsInteger := 0;
+  Tab.FieldByName('GAVETA_TEM').AsBoolean := False;
+  Tab.FieldByName('GAVETA_COMANDO').AsString := '';
+  Tab.FieldByName('GAVETA_IMPR_NOME').AsString := '';
+  Tab.FieldByName('BALANCA_MODO_USO_ID').AsInteger := 0;
+  Tab.FieldByName('BALANCA_MODO_USO_DESCR').AsString := 'SEM';
+
   Tab.FieldByName('BALANCA_ID').AsInteger := 0;
+  Tab.FieldByName('BALANCA_FABRICANTE').AsString := 'SEM';
+  Tab.FieldByName('BALANCA_MODELO').AsString := 'SEM';
+
   Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
   Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
-  Tab.FieldByName('CUPOM_NLINS_FINAL').AsInteger := 0;
-  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := True;
+
+  Tab.FieldByName('IMPRESSORA_MODO_ENVIO_ID').AsInteger := 0;
+  Tab.FieldByName('IMPRESSORA_MODO_ENVIO_DESCR').AsString := 'SEM';
+
+  Tab.FieldByName('IMPRESSORA_MODELO_ID').AsInteger := 0;
+  Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := 'SEM';
+
+  Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := '';
+  Tab.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := 0;
+
+  Tab.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := 0;
+  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := False;
+  Tab.FieldByName('ATIVO').AsBoolean := True;
   Tab.Post;
 end;
 

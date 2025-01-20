@@ -260,7 +260,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Height = 15
       Caption = 'Modelo'
     end
-    object BalModoComboBox: TComboBox
+    object BalModoUsoComboBox: TComboBox
       Left = 44
       Top = 38
       Width = 199
@@ -269,7 +269,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       ItemIndex = 0
       TabOrder = 0
       Text = '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO'
-      OnKeyPress = BalModoComboBoxKeyPress
+      OnKeyPress = BalModoUsoComboBoxKeyPress
       Items.Strings = (
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
