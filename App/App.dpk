@@ -381,6 +381,10 @@ contains
   App.UI.Form.TabSheet.Config.Ambi.Terminal_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.TabSheet.Config.Ambi.Terminal_u.pas' {ConfigAmbiTermForm},
   App.Config.Ambi.Terminal.DBI in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.pas',
   App.Config.Ambi.Terminal.DBI.Mudo_u in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Mudo_u.pas',
-  App.Config.Ambi.Terminal.DBI.Grava_u in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Grava_u.pas';
+  App.Config.Ambi.Terminal.DBI.Grava_u in 'Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Grava_u.pas',
+  App.PDV.UI.Gaveta in 'Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.pas',
+  Sis.UI.IO.Input.Bool in '..\Sis\UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
+  App.PDV.UI.Gaveta.NaoTem_u in 'Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.NaoTem_u.pas',
+  App.PDV.UI.Gaveta.Win_u in 'Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.Win_u.pas';
 
 end.

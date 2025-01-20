@@ -1,18 +1,18 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 343
-  ClientWidth = 848
-  ExplicitWidth = 860
-  ExplicitHeight = 381
+  ClientHeight = 396
+  ClientWidth = 886
+  ExplicitWidth = 898
+  ExplicitHeight = 434
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 271
-    Width = 848
+    Top = 324
+    Width = 886
     ExplicitTop = 271
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 328
-    Width = 848
+    Top = 381
+    Width = 886
     ExplicitTop = 328
   end
   object ObjetivoLabel: TLabel [2]
@@ -58,16 +58,16 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Height = 15
     Caption = 'Nome na Rede'
   end
-  object Label1: TLabel [7]
-    Left = 378
-    Top = 201
+  object LetraDoDriveLabel: TLabel [7]
+    Left = 741
+    Top = 213
     Width = 27
     Height = 15
     Caption = 'Drive'
   end
   object LetraDoDriveAjudaLabel: TLabel [8]
-    Left = 424
-    Top = 185
+    Left = 787
+    Top = 197
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -81,15 +81,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     ParentFont = False
   end
   object NFSerieLabel: TLabel [9]
-    Left = 258
-    Top = 201
+    Left = 620
+    Top = 213
     Width = 65
     Height = 15
     Caption = 'S'#233'rie da NFE'
   end
   object NFSerieAjudaLabel: TLabel [10]
-    Left = 333
-    Top = 185
+    Left = 696
+    Top = 197
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -148,22 +148,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'IP'
   end
   inherited BasePanel: TPanel
-    Top = 291
-    Width = 848
+    Top = 344
+    Width = 886
     TabOrder = 12
     ExplicitTop = 290
     ExplicitWidth = 844
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 473
-      ExplicitLeft = 469
+      Left = 507
+      ExplicitLeft = 465
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 586
-      ExplicitLeft = 582
+      Left = 620
+      ExplicitLeft = 578
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 666
-      ExplicitLeft = 662
+      Left = 700
+      ExplicitLeft = 658
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -200,8 +200,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = NomeNaRedeEditKeyPress
   end
   object LetraDoDriveComboBox: TComboBox [18]
-    Left = 410
-    Top = 198
+    Left = 773
+    Top = 210
     Width = 49
     Height = 23
     Style = csDropDownList
@@ -209,8 +209,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = LetraDoDriveComboBoxKeyPress
   end
   object NFSerieEdit: TEdit [19]
-    Left = 328
-    Top = 198
+    Left = 691
+    Top = 210
     Width = 41
     Height = 23
     Alignment = taCenter
@@ -224,22 +224,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 2
     Top = 71
     Width = 425
-    Height = 90
+    Height = 102
     Caption = 'Modo da Balan'#231'a'
     TabOrder = 5
     DesignSize = (
       425
-      90)
+      102)
     object BalancaModoLabel: TLabel
       Left = 6
-      Top = 37
+      Top = 41
       Width = 32
       Height = 15
       Caption = 'Modo'
     end
     object BalancaAjudaLabel: TLabel
-      Left = 385
-      Top = 16
+      Left = 382
+      Top = 22
       Width = 35
       Height = 12
       CustomHint = BalloonHint1
@@ -252,38 +252,37 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 401
     end
     object BalancaLabel: TLabel
       Left = 254
-      Top = 37
+      Top = 41
       Width = 41
       Height = 15
       Caption = 'Modelo'
     end
-    object BalancaModoComboBox: TComboBox
+    object BalModoComboBox: TComboBox
       Left = 44
-      Top = 34
+      Top = 38
       Width = 199
       Height = 23
       Style = csDropDownList
       ItemIndex = 0
       TabOrder = 0
       Text = '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO'
-      OnChange = BalancaModoComboBoxChange
-      OnKeyPress = BalancaModoComboBoxKeyPress
+      OnKeyPress = BalModoComboBoxKeyPress
       Items.Strings = (
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
-    object BalancaComboBox: TComboBox
+    object BalComboBox: TComboBox
       Left = 301
-      Top = 34
+      Top = 38
       Width = 116
       Height = 23
       Style = csDropDownList
       ItemIndex = 0
       TabOrder = 1
       Text = '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO'
+      OnKeyPress = BalComboBoxKeyPress
       Items.Strings = (
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
     end
@@ -291,30 +290,30 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   object BarCodigoGroupBox: TGroupBox [21]
     Left = 434
     Top = 71
-    Width = 169
-    Height = 90
+    Width = 170
+    Height = 102
     Caption = 'Layout C'#243'd.Barras de Balan'#231'a'
     TabOrder = 6
     DesignSize = (
-      169
-      90)
+      170
+      102)
     object BarCodigoIniLabel: TLabel
       Left = 6
-      Top = 37
+      Top = 41
       Width = 29
       Height = 15
       Caption = 'In'#237'cio'
     end
     object BarCodigoTamLabel: TLabel
       Left = 76
-      Top = 37
+      Top = 41
       Width = 49
       Height = 15
       Caption = 'Tamanho'
     end
     object BarCodigoAjudaLabel: TLabel
-      Left = 128
-      Top = 16
+      Left = 124
+      Top = 22
       Width = 35
       Height = 12
       CustomHint = BalloonHint1
@@ -327,10 +326,11 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 123
     end
     object BarCodigoIniEdit: TEdit
       Left = 38
-      Top = 34
+      Top = 38
       Width = 30
       Height = 23
       Alignment = taCenter
@@ -342,7 +342,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BarCodigoTamEdit: TEdit
       Left = 128
-      Top = 34
+      Top = 38
       Width = 30
       Height = 23
       Alignment = taCenter
@@ -354,7 +354,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   object SempreOffLineCheckBox: TCheckBox [22]
-    Left = 673
+    Left = 672
     Top = 30
     Width = 103
     Height = 17
@@ -375,8 +375,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = IPEditKeyPress
   end
   object AtivoCheckBox: TCheckBox [24]
-    Left = 471
-    Top = 201
+    Left = 618
+    Top = 270
     Width = 167
     Height = 17
     Caption = 'Terminal Ativo no Sistema'
@@ -388,46 +388,53 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   object GavetaGroupBox: TGroupBox [25]
     Left = 610
     Top = 71
-    Width = 223
-    Height = 90
+    Width = 267
+    Height = 102
     Hint = 'Comando para acionamento'
     Caption = 'Gaveta de Dinheiro'
     TabOrder = 7
-    object GavetaComandoLabel: TLabel
+    object GavComandoLabel: TLabel
       Left = 7
-      Top = 64
+      Top = 74
       Width = 53
       Height = 15
       Caption = 'Comando'
     end
-    object GavetaTemCheckBox: TCheckBox
+    object GavImprNomeLabel: TLabel
+      Left = 8
+      Top = 46
+      Width = 110
+      Height = 15
+      Caption = 'Nome da Impressora'
+    end
+    object GavTemCheckBox: TCheckBox
       Left = 7
-      Top = 31
-      Width = 128
+      Top = 20
+      Width = 71
       Height = 17
       Caption = 'Utiliza'
       TabOrder = 0
-      OnKeyPress = GavetaTemCheckBoxKeyPress
+      OnKeyPress = GavTemCheckBoxKeyPress
     end
-    object GavetaComandoEdit: TEdit
+    object GavComandoEdit: TEdit
       Left = 65
-      Top = 61
-      Width = 74
+      Top = 71
+      Width = 121
       Height = 23
       Hint = 'Comando para acionamento'
       MaxLength = 240
-      TabOrder = 1
-      OnKeyPress = GavetaComandoEditKeyPress
+      TabOrder = 2
+      OnKeyPress = GavComandoEditKeyPress
     end
-    object ToolBar1: TToolBar
-      Left = 144
-      Top = 61
+    object GavComandoToolBar: TToolBar
+      Left = 192
+      Top = 72
       Width = 69
       Height = 22
       Align = alNone
-      Caption = 'ToolBar1'
+      Caption = 'GavComandoToolBar'
       Images = SisImgDataModule.ImageList16Flat
-      TabOrder = 2
+      TabOrder = 3
       object GavetaCopiarToolButton: TToolButton
         Left = 0
         Top = 0
@@ -450,67 +457,151 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
         ImageIndex = 6
       end
     end
+    object GavImprNomeEdit: TEdit
+      Left = 124
+      Top = 43
+      Width = 135
+      Height = 23
+      Hint = 'Comando para acionamento'
+      MaxLength = 260
+      TabOrder = 1
+      OnKeyPress = GavImprNomeEditKeyPress
+    end
   end
   object ImpressoraGroupBox: TGroupBox [26]
     Left = 2
-    Top = 165
-    Width = 243
-    Height = 90
+    Top = 176
+    Width = 602
+    Height = 121
     Caption = 'Impressora'
     TabOrder = 8
-    object Label2: TLabel
-      Left = 5
-      Top = 56
+    object CuponNLinsFinal1Label: TLabel
+      Left = 253
+      Top = 95
       Width = 43
       Height = 15
       Caption = 'Avan'#231'ar'
     end
-    object Label3: TLabel
-      Left = 89
-      Top = 56
+    object CuponNLinsFinal2Label: TLabel
+      Left = 337
+      Top = 95
       Width = 127
       Height = 15
       Caption = 'linhas no fim do cupom'
     end
+    object Label1: TLabel
+      Left = 6
+      Top = 74
+      Width = 110
+      Height = 15
+      Caption = 'Nome da Impressora'
+    end
+    object Label2: TLabel
+      Left = 6
+      Top = 58
+      Width = 230
+      Height = 12
+      Caption = 'Spool: Envia ao atalho da impressora no Painel de Controle'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
+      StyleElements = []
+    end
+    object ImprModoEnvioLabel: TLabel
+      Left = 6
+      Top = 18
+      Width = 80
+      Height = 15
+      Caption = 'Modo de Envio'
+    end
+    object ImprModeloLabel: TLabel
+      Left = 262
+      Top = 18
+      Width = 41
+      Height = 15
+      Caption = 'Modelo'
+    end
+    object ImprQtdColunasLabel: TLabel
+      Left = 518
+      Top = 18
+      Width = 69
+      Height = 15
+      Caption = 'Qtd. Colunas'
+    end
     object CuponNLinsFinalEdit: TEdit
-      Left = 54
-      Top = 53
+      Left = 301
+      Top = 92
       Width = 30
       Height = 23
       Alignment = taCenter
       MaxLength = 3
       NumbersOnly = True
-      TabOrder = 0
+      TabOrder = 4
       Text = '23'
       OnKeyPress = CuponNLinsFinalEditKeyPress
     end
-    object ImpressoraComboBox: TComboBox
-      Left = 5
-      Top = 24
-      Width = 141
+    object ImprModoEnvioComboBox: TComboBox
+      Left = 6
+      Top = 34
+      Width = 249
       Height = 23
       CustomHint = BalloonHint1
       Style = csDropDownList
-      ItemIndex = 2
-      TabOrder = 1
-      Text = 'IMPRESSORA FISCAL'
-      OnKeyPress = ImpressoraComboBoxKeyPress
+      TabOrder = 0
+      OnKeyPress = ImprModoEnvioComboBoxKeyPress
       Items.Strings = (
         'SEM IMPRESSORA'
-        'IMPRESSORA TESTE'
-        'IMPRESSORA FISCAL')
+        'SPOOL DE IMPRESSAO DO WINDOWS')
+    end
+    object ImprNomeEdit: TEdit
+      Left = 6
+      Top = 91
+      Width = 237
+      Height = 24
+      Hint = 'Comando para acionamento'
+      MaxLength = 260
+      TabOrder = 1
+      OnKeyPress = ImprNomeEditKeyPress
+    end
+    object ImprModeloComboBox: TComboBox
+      Left = 262
+      Top = 34
+      Width = 249
+      Height = 23
+      CustomHint = BalloonHint1
+      Style = csDropDownList
+      TabOrder = 2
+      OnKeyPress = ImprModeloComboBoxKeyPress
+      Items.Strings = (
+        'IMPRESSORA TEXTO')
+    end
+    object ImprQtdColunasEdit: TEdit
+      Left = 518
+      Top = 34
+      Width = 69
+      Height = 23
+      Alignment = taCenter
+      MaxLength = 3
+      NumbersOnly = True
+      TabOrder = 3
+      Text = '23'
+      OnKeyPress = ImprQtdColunasEditKeyPress
     end
   end
   inherited ShowTimer_BasForm: TTimer
-    Left = 256
-    Top = 231
+    Left = 24
+    Top = 57
   end
   inherited ActionList1_Diag: TActionList
-    Left = 360
-    Top = 247
+    Left = 120
+    Top = 84
   end
   object BalloonHint1: TBalloonHint
-    Left = 319
-    Top = 247
+    Left = 63
+    Top = 127
   end
 end

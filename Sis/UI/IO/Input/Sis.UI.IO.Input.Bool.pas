@@ -6,8 +6,8 @@ uses Sis.UI.IO.Input;
 
 type
   IInputBoolean = interface(IInput)
-    ['{18392A30-398B-4196-A19C-1344492C550B}']
-    function Perg(pCaption, pFrase: string): boolean;
+    ['{95294D59-F1F9-40E7-A14F-98371462562E}']
+    function Perg: boolean;
   end;
 
 implementation

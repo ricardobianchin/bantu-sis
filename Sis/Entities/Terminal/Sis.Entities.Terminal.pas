@@ -39,6 +39,10 @@ type
     procedure SetGavetaComando(Value: string);
     property GavetaComando: string read GetGavetaComando write SetGavetaComando;
 
+    function GetGavetaImprNome: string;
+    procedure SetGavetaImprNome(Value: string);
+    property GavetaImprNome: string read GetGavetaImprNome write SetGavetaImprNome;
+
     function GetBalancaModoId: smallint;
     procedure SetBalancaModoId(Value: smallint);
     property BalancaModoId: smallint read GetBalancaModoId write SetBalancaModoId;

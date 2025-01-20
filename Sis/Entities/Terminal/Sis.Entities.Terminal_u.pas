@@ -17,6 +17,7 @@ type
 
     FGavetaTem: Boolean;
     FGavetaComando: string;
+    FGavetaImprNome: string;
 
     FBalancaModoId: smallint;
     FBalancaId: smallint;
@@ -35,6 +36,7 @@ type
 
     FCriticalSections: ICriticalSections;
 
+    
     function GetTerminalId: TTerminalId;
     procedure SetTerminalId(Value: TTerminalId);
 
@@ -58,6 +60,9 @@ type
 
     function GetGavetaComando: string;
     procedure SetGavetaComando(Value: string);
+
+    function GetGavetaImprNome: string;
+    procedure SetGavetaImprNome(Value: string);
 
     function GetBalancaModoId: smallint;
     procedure SetBalancaModoId(Value: smallint);
@@ -102,6 +107,7 @@ type
     property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
     property GavetaComando: string read GetGavetaComando write SetGavetaComando;
+    property GavetaImprNome: string read GetGavetaImprNome write SetGavetaImprNome;
     property BalancaModoId: smallint read GetBalancaModoId write SetBalancaModoId;
     property BalancaId: smallint read GetBalancaId write SetBalancaId;
     property BarCodigoIni: smallint read GetBarCodigoIni write SetBarCodigoIni;
@@ -206,6 +212,11 @@ begin
   Result := FGavetaTem;
 end;
 
+function TTerminal.GetGavetaImprNome: string;
+begin
+  Result := FGavetaImprNome;
+end;
+
 function TTerminal.GetIdentStr: string;
 begin
   if NomeNaRede <> '' then
@@ -302,6 +313,11 @@ end;
 procedure TTerminal.SetGavetaTem(Value: Boolean);
 begin
   FGavetaTem := Value;
+end;
+
+procedure TTerminal.SetGavetaImprNome(Value: string);
+begin
+  FGavetaImprNome := Value;
 end;
 
 procedure TTerminal.SetImpressoraModoId(Value: smallint);

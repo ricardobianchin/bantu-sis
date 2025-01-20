@@ -23,7 +23,7 @@ type
     ApelidoAjudaLabel: TLabel;
     NomeNaRedeLabel: TLabel;
     NomeNaRedeEdit: TEdit;
-    Label1: TLabel;
+    LetraDoDriveLabel: TLabel;
     LetraDoDriveAjudaLabel: TLabel;
     LetraDoDriveComboBox: TComboBox;
     NFSerieEdit: TEdit;
@@ -32,9 +32,9 @@ type
     BalancaGroupBox: TGroupBox;
     BalancaModoLabel: TLabel;
     BalancaAjudaLabel: TLabel;
-    BalancaModoComboBox: TComboBox;
+    BalModoComboBox: TComboBox;
     BalancaLabel: TLabel;
-    BalancaComboBox: TComboBox;
+    BalComboBox: TComboBox;
     BarCodigoGroupBox: TGroupBox;
     BarCodigoIniEdit: TEdit;
     BarCodigoIniLabel: TLabel;
@@ -48,40 +48,53 @@ type
     IPEdit: TEdit;
     AtivoCheckBox: TCheckBox;
     GavetaGroupBox: TGroupBox;
-    GavetaTemCheckBox: TCheckBox;
-    GavetaComandoEdit: TEdit;
-    GavetaComandoLabel: TLabel;
+    GavTemCheckBox: TCheckBox;
+    GavComandoEdit: TEdit;
+    GavComandoLabel: TLabel;
     ImpressoraGroupBox: TGroupBox;
-    Label2: TLabel;
-    Label3: TLabel;
+    CuponNLinsFinal1Label: TLabel;
+    CuponNLinsFinal2Label: TLabel;
     CuponNLinsFinalEdit: TEdit;
-    ImpressoraComboBox: TComboBox;
-    ToolBar1: TToolBar;
+    ImprModoEnvioComboBox: TComboBox;
+    GavComandoToolBar: TToolBar;
     GavetaCopiarToolButton: TToolButton;
     GavetaColarToolButton: TToolButton;
     GavetaTestarToolButton: TToolButton;
+    GavImprNomeLabel: TLabel;
+    GavImprNomeEdit: TEdit;
+    Label1: TLabel;
+    ImprNomeEdit: TEdit;
+    Label2: TLabel;
+    ImprModoEnvioLabel: TLabel;
+    ImprModeloComboBox: TComboBox;
+    ImprModeloLabel: TLabel;
+    ImprQtdColunasEdit: TEdit;
+    ImprQtdColunasLabel: TLabel;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
-
-    procedure BalancaModoComboBoxChange(Sender: TObject);
 
     procedure TerminalIdEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeNaRedeEditKeyPress(Sender: TObject; var Key: Char);
     procedure SempreOffLineCheckBoxKeyPress(Sender: TObject; var Key: Char);
-    procedure BalancaModoComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure BalModoComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure BarCodigoIniEditKeyPress(Sender: TObject; var Key: Char);
     procedure BarCodigoTamEditKeyPress(Sender: TObject; var Key: Char);
     procedure NFSerieEditKeyPress(Sender: TObject; var Key: Char);
     procedure LetraDoDriveComboBoxKeyPress(Sender: TObject; var Key: Char);
-    procedure GavetaTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure GavTemCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CuponNLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
     procedure IPEditKeyPress(Sender: TObject; var Key: Char);
-    procedure ImpressoraComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure ImprModoEnvioComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure GavetaComandoCopiarToolButtonClick(Sender: TObject);
     procedure CavetaComandoColarToolButtonClick(Sender: TObject);
-    procedure GavetaComandoEditKeyPress(Sender: TObject; var Key: Char);
+    procedure GavComandoEditKeyPress(Sender: TObject; var Key: Char);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure BalComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure GavImprNomeEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ImprModeloComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure ImprQtdColunasEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ImprNomeEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -104,8 +117,8 @@ type
 
     procedure AjudaHintsAjuste;
     procedure LetraDoDriveComboPreencha;
-    procedure BalancaModoComboBoxPreencha;
-    procedure BalancaComboBoxPreencha;
+    procedure BalComboBoxPreencha;
+    procedure BalModoComboBoxPreencha;
 
     procedure PosicioneLetraDoDrive(pText: string);
 
@@ -163,8 +176,8 @@ begin
   inherited;
   AjudaHintsAjuste;
   LetraDoDriveComboPreencha;
-  BalancaModoComboBoxPreencha;
-  BalancaComboBoxPreencha;
+  BalComboBoxPreencha;
+  BalComboBoxPreencha;
 
   if FState = dsInsert then
   begin
@@ -210,47 +223,54 @@ begin
   end;
 end;
 
-procedure TTerminalEdDiagForm.BalancaComboBoxPreencha;
+procedure TTerminalEdDiagForm.BalComboBoxPreencha;
 begin
-  BalancaComboBox.Items.Clear;
+  BalComboBox.Items.Clear;
 
-  BalancaComboBox.Items.Add('SEM BALANCA');
-  BalancaComboBox.Items.Add('TESTE');
-  BalancaComboBox.Items.Add('FILIZOLA');
-  BalancaComboBox.Items.Add('TOLEDO');
-  BalancaComboBox.Items.Add('URANO');
-  BalancaComboBox.Items.Add('ELGIN');
-  BalancaComboBox.Items.Add('MAGNA');
+  BalComboBox.Items.Add('SEM BALANCA');
+  BalComboBox.Items.Add('TESTE');
+  BalComboBox.Items.Add('FILIZOLA');
+  BalComboBox.Items.Add('TOLEDO');
+  BalComboBox.Items.Add('URANO');
+  BalComboBox.Items.Add('ELGIN');
+  BalComboBox.Items.Add('MAGNA');
 end;
 
-procedure TTerminalEdDiagForm.BalancaModoComboBoxChange(Sender: TObject);
-var
-  bVisivel: Boolean;
-begin
-  inherited;
-  bVisivel := BalancaModoComboBox.ItemIndex = 1;
-  BalancaLabel.Visible := bVisivel;
-  BalancaComboBox.Visible := bVisivel;
-end;
-
-procedure TTerminalEdDiagForm.BalancaModoComboBoxKeyPress(Sender: TObject;
+procedure TTerminalEdDiagForm.BalModoComboBoxKeyPress(Sender: TObject;
   var Key: Char);
 begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    if BalComboBox.Visible then
+      BalComboBox.SetFocus
+    else
+      BarCodigoIniEdit.SetFocus;
+    exit;
+  end;
   inherited;
-  if BalancaComboBox.Visible then
-    BalancaComboBox.SetFocus
-  else
-    BarCodigoIniEdit.SetFocus;
 end;
 
-procedure TTerminalEdDiagForm.BalancaModoComboBoxPreencha;
+procedure TTerminalEdDiagForm.BalComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
 begin
-  BalancaModoComboBox.Items.Clear;
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    BarCodigoIniEdit.SetFocus;
+    exit;
+  end;
+  inherited;
+end;
 
-  BalancaModoComboBox.Items.Add('SEM BALANCA');
-  BalancaModoComboBox.Items.Add('BALANCA CONECTADA');
-  BalancaModoComboBox.Items.Add('BALANCA NAO CONECTADA. O USUARIO VAI DIGITAR O PESO');
-  BalancaModoComboBox.Items.Add('O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO');
+procedure TTerminalEdDiagForm.BalModoComboBoxPreencha;
+begin
+  BalModoComboBox.Items.Clear;
+
+  BalModoComboBox.Items.Add('SEM BALANCA');
+  BalModoComboBox.Items.Add('BALANCA CONECTADA');
+  BalModoComboBox.Items.Add('BALANCA NAO CONECTADA. O USUARIO VAI DIGITAR O PESO');
+  BalModoComboBox.Items.Add('O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO');
 end;
 
 procedure TTerminalEdDiagForm.BarCodigoIniEditKeyPress(Sender: TObject;
@@ -272,7 +292,7 @@ begin
   begin
     Key := CHAR_NULO;
     //OkAct_Diag.Execute;
-    GavetaTemCheckBox.SetFocus;
+    GavTemCheckBox.SetFocus;
     exit;
   end;
   inherited;
@@ -282,26 +302,38 @@ procedure TTerminalEdDiagForm.CavetaComandoColarToolButtonClick(
   Sender: TObject);
 begin
   inherited;
-  GavetaComandoEdit.Text := GetClipboardText;
+  GavComandoEdit.Text := GetClipboardText;
 end;
 
 procedure TTerminalEdDiagForm.GavetaComandoCopiarToolButtonClick(
   Sender: TObject);
 begin
   inherited;
-  SetClipboardText(GavetaComandoEdit.Text);
+  SetClipboardText(GavComandoEdit.Text);
 end;
 
-procedure TTerminalEdDiagForm.GavetaComandoEditKeyPress(Sender: TObject;
+procedure TTerminalEdDiagForm.GavImprNomeEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  inherited;
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    ImpressoraComboBox.SetFocus;
+    GavComandoEdit.SetFocus;
     exit;
   end;
+  inherited;
+end;
+
+procedure TTerminalEdDiagForm.GavComandoEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    ImprModoEnvioComboBox.SetFocus;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TTerminalEdDiagForm.ControlesToDataSet;
@@ -321,16 +353,16 @@ begin
   NFSerieEdit.Text := i.ToString;
   FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger := i;
 
-  FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean := GavetaTemCheckBox.Checked;
-  FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString := GavetaComandoEdit.Text;
+  FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean := GavTemCheckBox.Checked;
+  FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString := GavComandoEdit.Text;
 
-  FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger := BalancaModoComboBox.ItemIndex;
-  FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger := BalancaComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger := BalComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger := BalComboBox.ItemIndex;
 
-  if BalancaModoComboBox.ItemIndex = 1 then
-    s := BalancaComboBox.Text
+  if BalComboBox.ItemIndex = 1 then
+    s := BalComboBox.Text
   else
-    s := BalancaModoComboBox.Text;
+    s := BalComboBox.Text;
 
   FTerminaisDataSet.FieldByName('BALANCA_DESCR').AsString := s;
 
@@ -342,10 +374,10 @@ begin
   BarCodigoTamEdit.Text := i.ToString;
   FTerminaisDataSet.FieldByName('BARRAS_COD_TAM').AsInteger := i;
 
-  i := ImpressoraComboBox.ItemIndex;
+  i := ImprModoEnvioComboBox.ItemIndex;
   FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ID').AsInteger := i;
 
-  s := ImpressoraComboBox.Text;
+  s := ImprModoEnvioComboBox.Text;
   FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_DESCR').AsString := s;
 
   i := StrToInteger(CuponNLinsFinalEdit.Text);
@@ -375,7 +407,6 @@ begin
     NFSerieEdit.SetFocus;
     exit;
   end;
-
 end;
 
 procedure TTerminalEdDiagForm.DataSetToControles;
@@ -394,12 +425,12 @@ begin
   i := FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger;
   NFSerieEdit.Text := i.ToString;
 
-  GavetaTemCheckBox.Checked := FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean;
-  GavetaComandoEdit.Text := FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString;
+  GavTemCheckBox.Checked := FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean;
+  GavComandoEdit.Text := FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString;
 
-  BalancaModoComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger;
+  BalComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger;
 
-  BalancaComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger;
+  BalComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger;
 
   i := FTerminaisDataSet.FieldByName('BARRAS_COD_INI').AsInteger;
   BarCodigoIniEdit.Text := i.ToString;
@@ -408,7 +439,7 @@ begin
   BarCodigoTamEdit.Text := i.ToString;
 
   i := FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ID').AsInteger;
-  ImpressoraComboBox.ItemIndex := i;
+  ImprModoEnvioComboBox.ItemIndex := i;
 
   i := FTerminaisDataSet.FieldByName('CUPOM_NLINS_FINAL').AsInteger;
   CuponNLinsFinalEdit.Text := i.ToString;
@@ -420,7 +451,31 @@ begin
   AtivoCheckBox.Checked := FTerminaisDataSet.FieldByName('ATIVO').AsBoolean;
 end;
 
-procedure TTerminalEdDiagForm.ImpressoraComboBoxKeyPress(Sender: TObject;
+procedure TTerminalEdDiagForm.ImprModeloComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    ImprQtdColunasEdit.SetFocus;
+    exit;
+  end;
+  inherited;
+end;
+
+procedure TTerminalEdDiagForm.ImprModoEnvioComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    ImprModoEnvioComboBox.SetFocus;
+    exit;
+  end;
+  inherited;
+end;
+
+procedure TTerminalEdDiagForm.ImprNomeEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key = CHAR_ENTER then
@@ -429,6 +484,19 @@ begin
     CuponNLinsFinalEdit.SetFocus;
     exit;
   end;
+  inherited;
+end;
+
+procedure TTerminalEdDiagForm.ImprQtdColunasEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+    ImprNomeEdit.SetFocus;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TTerminalEdDiagForm.IPEditKeyPress(Sender: TObject; var Key: Char);
@@ -440,22 +508,24 @@ begin
     SempreOffLineCheckBox.SetFocus;
     exit;
   end;
+  inherited;
 end;
 
 function TTerminalEdDiagForm.EscolheuSemBalanca: boolean;
 begin
-  Result := BalancaModoComboBox.ItemIndex <> 1;
+  Result := BalComboBox.ItemIndex <> 1;
 end;
 
-procedure TTerminalEdDiagForm.GavetaTemCheckBoxKeyPress(Sender: TObject;
+procedure TTerminalEdDiagForm.GavTemCheckBoxKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    GavetaComandoEdit.SetFocus;
+    GavImprNomeEdit.SetFocus;
     exit;
   end;
+  inherited;
 end;
 
 procedure TTerminalEdDiagForm.Gravar;
@@ -478,7 +548,7 @@ begin
   begin
     Key := CHAR_NULO;
     // OkAct_Diag.Execute;
-    GavetaTemCheckBox.SetFocus;
+    GavTemCheckBox.SetFocus;
     exit;
   end;
   inherited;
@@ -630,7 +700,7 @@ begin
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    BalancaModoComboBox.SetFocus;
+    BalModoComboBox.SetFocus;
     exit;
   end;
   inherited;
@@ -721,12 +791,11 @@ begin
   SempreOffLineCheckBox.Checked := False;
   NFSerieEdit.Clear;
   LetraDoDriveComboBox.ItemIndex := 2;
-  GavetaTemCheckBox.Checked := False;
+  GavTemCheckBox.Checked := False;
   CuponNLinsFinalEdit.Text := '0';
-  ImpressoraComboBox.ItemIndex := 0;
-  BalancaModoComboBox.ItemIndex := 0;
-  BalancaModoComboBoxChange(BalancaModoComboBox);
-  BalancaComboBox.ItemIndex := 0;
+  ImprModoEnvioComboBox.ItemIndex := 0;
+  BalComboBox.ItemIndex := 0;
+  BalComboBox.ItemIndex := 0;
   BarCodigoIniEdit.Text := '2';
   BarCodigoTamEdit.Text := '6';
 end;

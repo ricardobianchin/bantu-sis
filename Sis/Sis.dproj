@@ -307,7 +307,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Sis.Entidade_u.pas"/>
         <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas">
             <Form>PergBooleanForm</Form>
         </DCCReference>
@@ -494,6 +494,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Sis\Sis.Sis.Atualizavel.pas"/>
         <DCCReference Include="Threads\Sis.Threads.Tarefa.pas"/>
         <DCCReference Include="Threads\Sis.Threads.Tarefa_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.Utils.Printer_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
