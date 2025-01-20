@@ -43,13 +43,25 @@ type
     procedure SetGavetaImprNome(Value: string);
     property GavetaImprNome: string read GetGavetaImprNome write SetGavetaImprNome;
 
-    function GetBalancaModoId: smallint;
-    procedure SetBalancaModoId(Value: smallint);
-    property BalancaModoId: smallint read GetBalancaModoId write SetBalancaModoId;
+    function GetBalancaModoUsoId: smallint;
+    procedure SetBalancaModoUsoId(Value: smallint);
+    property BalancaModoUsoId: smallint read GetBalancaModoUsoId write SetBalancaModoUsoId;
+
+    function GetBalancaModoUsoDescr: string;
+    procedure SetBalancaModoUsoDescr(Value: string);
+    property BalancaModoUsoDescr: string read GetBalancaModoUsoDescr write SetBalancaModoUsoDescr;
 
     function GetBalancaId: smallint;
     procedure SetBalancaId(Value: smallint);
     property BalancaId: smallint read GetBalancaId write SetBalancaId;
+
+    function GetBalancaFabricante: string;
+    procedure SetBalancaFabricante(Value: string);
+    property BalancaFabricante: string read GetBalancaFabricante write SetBalancaFabricante;
+
+    function GetBalancaModelo: string;
+    procedure SetBalancaModelo(Value: string);
+    property BalancaModelo: string read GetBalancaModelo write SetBalancaModelo;
 
     function GetBarCodigoIni: smallint;
     procedure SetBarCodigoIni(Value: smallint);
@@ -59,13 +71,33 @@ type
     procedure SetBarCodigoTam(Value: smallint);
     property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
 
-    function GetImpressoraModoId: smallint;
-    procedure SetImpressoraModoId(Value: smallint);
-    property ImpressoraModoId: smallint read GetImpressoraModoId write SetImpressoraModoId;
+    function GetImpressoraModoEnvioId: smallint;
+    procedure SetImpressoraModoEnvioId(Value: smallint);
+    property ImpressoraModoEnvioId: smallint read GetImpressoraModoEnvioId write SetImpressoraModoEnvioId;
 
-    function GetCupomNLinsFinal: smallint;
-    procedure SetCupomNLinsFinal(Value: smallint);
-    property CupomNLinsFinal: smallint read GetCupomNLinsFinal write SetCupomNLinsFinal;
+    function GetImpressoraModoEnvioDescr: string;
+    procedure SetImpressoraModoEnvioDescr(Value: string);
+    property ImpressoraModoEnvioDescr: string read GetImpressoraModoEnvioDescr write SetImpressoraModoEnvioDescr;
+
+    function GetImpressoraModeloId: smallint;
+    procedure SetImpressoraModeloId(Value: smallint);
+    property ImpressoraModeloId: smallint read GetImpressoraModeloId write SetImpressoraModeloId;
+
+    function GetImpressoraModeloDescr: string;
+    procedure SetImpressoraModeloDescr(Value: string);
+    property ImpressoraModeloDescr: string read GetImpressoraModeloDescr write SetImpressoraModeloDescr;
+
+    function GetImpressoraNome: string;
+    procedure SetImpressoraNome(Value: string);
+    property ImpressoraNome: string read GetImpressoraNome write SetImpressoraNome;
+
+    function GetImpressoraColsQtd: smallint;
+    procedure SetImpressoraColsQtd(Value: smallint);
+    property ImpressoraColsQtd: smallint read GetImpressoraColsQtd write SetImpressoraColsQtd;
+
+    function GetCupomQtdLinsFinal: smallint;
+    procedure SetCupomQtdLinsFinal(Value: smallint);
+    property CupomQtdLinsFinal: smallint read GetCupomQtdLinsFinal write SetCupomQtdLinsFinal;
 
     function GetSempreOffLine: Boolean;
     procedure SetSempreOffLine(Value: Boolean);

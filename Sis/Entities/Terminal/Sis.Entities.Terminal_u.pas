@@ -8,6 +8,7 @@ type
   TTerminal =  class(TInterfacedObject, ITerminal)
   private
     FTerminalId: TTerminalId;
+
     FApelido: string;
     FNomeNaRede: string;
     FIP: string;
@@ -19,14 +20,25 @@ type
     FGavetaComando: string;
     FGavetaImprNome: string;
 
-    FBalancaModoId: smallint;
+    FBalancaModoUsoId: smallint;
+    FBalancaModoUsoDescr: string;
+
     FBalancaId: smallint;
+    FBalancaFabricante: string;
+    FBalancaModelo: string;
 
     FBarCodigoIni: smallint;
     FBarCodigoTam: smallint;
 
-    FImpressoraModoId: smallint;
-    FCupomNLinsFinal: smallint;
+    FImpressoraModoEnvioId: smallint;
+    FImpressoraModoEnvioDescr: string;
+
+    FImpressoraModeloId: smallint;
+    FImpressoraModeloDescr: string;
+    FImpressoraNome: string;
+    FImpressoraColsQtd: smallint;
+
+    FCupomQtdLinsFinal: smallint;
 
     FSempreOffLine: Boolean;
     FAtivo: Boolean;
@@ -36,7 +48,7 @@ type
 
     FCriticalSections: ICriticalSections;
 
-    
+
     function GetTerminalId: TTerminalId;
     procedure SetTerminalId(Value: TTerminalId);
 
@@ -64,11 +76,20 @@ type
     function GetGavetaImprNome: string;
     procedure SetGavetaImprNome(Value: string);
 
-    function GetBalancaModoId: smallint;
-    procedure SetBalancaModoId(Value: smallint);
+    function GetBalancaModoUsoId: smallint;
+    procedure SetBalancaModoUsoId(Value: smallint);
+
+    function GetBalancaModoUsoDescr: string;
+    procedure SetBalancaModoUsoDescr(Value: string);
 
     function GetBalancaId: smallint;
     procedure SetBalancaId(Value: smallint);
+
+    function GetBalancaFabricante: string;
+    procedure SetBalancaFabricante(Value: string);
+
+    function GetBalancaModelo: string;
+    procedure SetBalancaModelo(Value: string);
 
     function GetBarCodigoIni: smallint;
     procedure SetBarCodigoIni(Value: smallint);
@@ -76,11 +97,26 @@ type
     function GetBarCodigoTam: smallint;
     procedure SetBarCodigoTam(Value: smallint);
 
-    function GetImpressoraModoId: smallint;
-    procedure SetImpressoraModoId(Value: smallint);
+    function GetImpressoraModoEnvioId: smallint;
+    procedure SetImpressoraModoEnvioId(Value: smallint);
 
-    function GetCupomNLinsFinal: smallint;
-    procedure SetCupomNLinsFinal(Value: smallint);
+    function GetImpressoraModoEnvioDescr: string;
+    procedure SetImpressoraModoEnvioDescr(Value: string);
+
+    function GetImpressoraModeloId: smallint;
+    procedure SetImpressoraModeloId(Value: smallint);
+
+    function GetImpressoraModeloDescr: string;
+    procedure SetImpressoraModeloDescr(Value: string);
+
+    function GetImpressoraNome: string;
+    procedure SetImpressoraNome(Value: string);
+
+    function GetImpressoraColsQtd: smallint;
+    procedure SetImpressoraColsQtd(Value: smallint);
+
+    function GetCupomQtdLinsFinal: smallint;
+    procedure SetCupomQtdLinsFinal(Value: smallint);
 
     function GetSempreOffLine: Boolean;
     procedure SetSempreOffLine(Value: Boolean);
@@ -98,22 +134,41 @@ type
 
     function GetIdentStr: string;
     function GetCriticalSections: ICriticalSections;
+
   public
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
+
     property Apelido: string read GetApelido write SetApelido;
     property NomeNaRede: string read GetNomeNaRede write SetNomeNaRede;
     property IP: string read GetIP write SetIP;
-    property NFSerie: smallint read GetNFSerie write SetNFSerie;
     property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
+    
+    property NFSerie: smallint read GetNFSerie write SetNFSerie;
+
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
     property GavetaComando: string read GetGavetaComando write SetGavetaComando;
     property GavetaImprNome: string read GetGavetaImprNome write SetGavetaImprNome;
-    property BalancaModoId: smallint read GetBalancaModoId write SetBalancaModoId;
+    
+    property BalancaModoUsoId: smallint read GetBalancaModoUsoId write SetBalancaModoUsoId;
+    property BalancaModoUsoDescr: string read GetBalancaModoUsoDescr write SetBalancaModoUsoDescr;
+
     property BalancaId: smallint read GetBalancaId write SetBalancaId;
+    property BalancaFabricante: string read GetBalancaFabricante write SetBalancaFabricante;
+    property BalancaModelo: string read GetBalancaModelo write SetBalancaModelo;
+    
     property BarCodigoIni: smallint read GetBarCodigoIni write SetBarCodigoIni;
     property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
-    property ImpressoraModoId: smallint read GetImpressoraModoId write SetImpressoraModoId;
-    property CupomNLinsFinal: smallint read GetCupomNLinsFinal write SetCupomNLinsFinal;
+
+    property ImpressoraModoEnvioId: smallint read GetImpressoraModoEnvioId write SetImpressoraModoEnvioId;
+    property ImpressoraModoEnvioDescr: string read GetImpressoraModoEnvioDescr write SetImpressoraModoEnvioDescr;
+
+    property ImpressoraModeloId: smallint read GetImpressoraModeloId write SetImpressoraModeloId;
+    property ImpressoraModeloDescr: string read GetImpressoraModeloDescr write SetImpressoraModeloDescr;
+    property ImpressoraNome: string read GetImpressoraNome write SetImpressoraNome;
+    property ImpressoraColsQtd: smallint read GetImpressoraColsQtd write SetImpressoraColsQtd;
+
+    property CupomQtdLinsFinal: smallint read GetCupomQtdLinsFinal write SetCupomQtdLinsFinal;
+    
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
     property Ativo: Boolean read GetAtivo write SetAtivo;
 
@@ -172,9 +227,9 @@ begin
   Result := FBalancaId;
 end;
 
-function TTerminal.GetBalancaModoId: smallint;
+function TTerminal.GetBalancaModoUsoId: smallint;
 begin
-  Result := FBalancaModoId;
+  Result := FBalancaModoUsoId;
 end;
 
 function TTerminal.GetBarCodigoIni: smallint;
@@ -192,9 +247,9 @@ begin
   Result := FCriticalSections;
 end;
 
-function TTerminal.GetCupomNLinsFinal: smallint;
+function TTerminal.GetCupomQtdLinsFinal: smallint;
 begin
-  Result := FCupomNLinsFinal;
+  Result := FCupomQtdLinsFinal;
 end;
 
 function TTerminal.GetDatabase: string;
@@ -225,9 +280,14 @@ begin
     Result := IP;
 end;
 
-function TTerminal.GetImpressoraModoId: smallint;
+function TTerminal.GetImpressoraModoEnvioDescr: string;
 begin
-  Result := FImpressoraModoId;
+  Result := FImpressoraModoEnvioDescr;
+end;
+
+function TTerminal.GetImpressoraModoEnvioId: smallint;
+begin
+  Result := FImpressoraModoEnvioId;
 end;
 
 function TTerminal.GetIP: string;
@@ -265,6 +325,76 @@ begin
   Result := FTerminalId;
 end;
 
+function TTerminal.GetBalancaModoUsoDescr: string;
+begin
+  Result := FBalancaModoUsoDescr;
+end;
+
+procedure TTerminal.SetBalancaModoUsoDescr(Value: string);
+begin
+  FBalancaModoUsoDescr := Value;
+end;
+
+function TTerminal.GetBalancaFabricante: string;
+begin
+  Result := FBalancaFabricante;
+end;
+
+procedure TTerminal.SetBalancaFabricante(Value: string);
+begin
+  FBalancaFabricante := Value;
+end;
+
+function TTerminal.GetBalancaModelo: string;
+begin
+  Result := FBalancaModelo;
+end;
+
+procedure TTerminal.SetBalancaModelo(Value: string);
+begin
+  FBalancaModelo := Value;
+end;
+
+function TTerminal.GetImpressoraModeloId: smallint;
+begin
+  Result := FImpressoraModeloId;
+end;
+
+procedure TTerminal.SetImpressoraModeloId(Value: smallint);
+begin
+  FImpressoraModeloId := Value;
+end;
+
+function TTerminal.GetImpressoraModeloDescr: string;
+begin
+  Result := FImpressoraModeloDescr;
+end;
+
+procedure TTerminal.SetImpressoraModeloDescr(Value: string);
+begin
+  FImpressoraModeloDescr := Value;
+end;
+
+function TTerminal.GetImpressoraNome: string;
+begin
+  Result := FImpressoraNome;
+end;
+
+procedure TTerminal.SetImpressoraNome(Value: string);
+begin
+  FImpressoraNome := Value;
+end;
+
+function TTerminal.GetImpressoraColsQtd: smallint;
+begin
+  Result := FImpressoraColsQtd;
+end;
+
+procedure TTerminal.SetImpressoraColsQtd(Value: smallint);
+begin
+  FImpressoraColsQtd := Value;
+end;
+
 procedure TTerminal.SetApelido(Value: string);
 begin
   FApelido := Value;
@@ -280,9 +410,9 @@ begin
   FBalancaId := Value;
 end;
 
-procedure TTerminal.SetBalancaModoId(Value: smallint);
+procedure TTerminal.SetBalancaModoUsoId(Value: smallint);
 begin
-  FBalancaModoId := Value;
+  FBalancaModoUsoId := Value;
 end;
 
 procedure TTerminal.SetBarCodigoIni(Value: smallint);
@@ -295,9 +425,9 @@ begin
   FBarCodigoTam := Value;
 end;
 
-procedure TTerminal.SetCupomNLinsFinal(Value: smallint);
+procedure TTerminal.SetCupomQtdLinsFinal(Value: smallint);
 begin
-  FCupomNLinsFinal := Value;
+  FCupomQtdLinsFinal := Value;
 end;
 
 procedure TTerminal.SetDatabase(Value: string);
@@ -320,9 +450,14 @@ begin
   FGavetaImprNome := Value;
 end;
 
-procedure TTerminal.SetImpressoraModoId(Value: smallint);
+procedure TTerminal.SetImpressoraModoEnvioDescr(Value: string);
 begin
-  FImpressoraModoId := Value;
+  FImpressoraModoEnvioDescr := Value;
+end;
+
+procedure TTerminal.SetImpressoraModoEnvioId(Value: smallint);
+begin
+  FImpressoraModoEnvioId := Value;
 end;
 
 procedure TTerminal.SetIP(Value: string);
