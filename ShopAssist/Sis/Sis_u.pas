@@ -4,6 +4,7 @@ interface
 
 const
   TERMINAL_SYNC_PASSO = 50000;
+  PAUSA_SEGUNDOS = 20;
 
 var
   sPastaBin: string;

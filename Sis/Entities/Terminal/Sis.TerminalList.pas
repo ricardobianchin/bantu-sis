@@ -1,8 +1,8 @@
-unit Sis.Entities.TerminalList;
+unit Sis.TerminalList;
 
 interface
 
-uses System.Classes, Sis.Entities.Terminal, Sis.Entities.Types;
+uses System.Classes, Sis.Terminal, Sis.Entities.Types;
 
 type
   ITerminalList = interface(IInterfaceList)
@@ -12,6 +12,9 @@ type
     function TerminalIdToTerminal(pTerminalId: TTerminalId): ITerminal;
     function TerminalIdToIndex(pTerminalId: TTerminalId): integer;
     procedure ExecuteForAll(const Proc: TTerminalProcedure; const pNomeNaRede: string= '');
+
+    function GetAsString: string;
+    property AsString: string read GetAsString;
   end;
 
 

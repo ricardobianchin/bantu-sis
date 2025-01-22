@@ -3,7 +3,7 @@ unit ShopApp.PDV.DBI_u;
 interface
 
 uses ShopApp.PDV.DBI, App.PDV.DBI_u, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
-  Sis.DB.DBTypes, App.AppObj, Sis.Entities.Terminal, Sis.Types.Floats, Data.DB,
+  Sis.DB.DBTypes, App.AppObj, Sis.Terminal, Sis.Types.Floats, Data.DB,
   ShopApp.PDV.Factory_u, App.Est.Venda.Caixa.CaixaSessao;
 
 type

@@ -4,11 +4,12 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Sis.Entities.TerminalList,
+  System.Classes, Vcl.Graphics, Sis.TerminalList,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas_u, Vcl.StdCtrls,
   Vcl.Buttons, App.AppObj, Sis.DB.DBTypes, System.Actions, Vcl.ActnList,
   Vcl.CheckLst, Generics.Collections, Sis.Entities.Types, Sis.Types.Integers,
-  Vcl.ComCtrls, Sis.UI.IO.Output;
+  Vcl.ComCtrls, Sis.UI.IO.Output, Sis.Terminal.DBI, App.AppInfo.Types;
+
 
 type
   TTermEnviarDadosFrame = class(TBasFrame)
@@ -45,8 +46,8 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils, Sis.Sis.Constants, Sis.DB.Factory, Sis.Entities.Terminal,
-  Sis.Entities.Factory, App.DB.Term.EnviarDados,
+uses App.DB.Utils, Sis.Sis.Constants, Sis.DB.Factory, Sis.Terminal,
+  Sis.Terminal.Factory_u, App.DB.Term.EnviarDados,
   App.DB.Term.EnviarDados.Factory_u,
   Sis.UI.IO.Factory;
 
@@ -93,7 +94,9 @@ var
   oDBConnection: IDBConnection;
   I: Integer;
   oTerminal: ITerminal;
+  oTerminalDBI: ITerminalDBI;
   sText: string;
+  sPastaDados, sAtivDescr: string;
 begin
   FStatusOutput.Exibir('Consultando Terminais');
   try
@@ -104,7 +107,10 @@ begin
       ('TermEnviarDadosFrame.PreencherList.Conn', FAppObj.SisConfig,
       oDBConnectionParams, nil, nil);
 
-    PreencherTerminalList(oDBConnection, FAppObj, FTerminalList);
+    oTerminalDBI := TerminalDBICreate(oDBConnection);
+    sPastaDados := FAppObj.AppInfo.PastaDados;
+    sAtivDescr := AtividadeEconomicaSisDescr[FAppObj.AppInfo.AtividadeEconomicaSis];
+    oTerminalDBI.DBToList(FTerminalList, sPastaDados, sAtivDescr);
 
     TermCheckListBox.Items.Clear;
     for I := 0 to FTerminalList.Count - 1 do

@@ -1,4 +1,4 @@
-unit Sis.Entities.Terminal;
+unit Sis.Terminal;
 
 interface
 
@@ -55,13 +55,9 @@ type
     procedure SetBalancaId(Value: smallint);
     property BalancaId: smallint read GetBalancaId write SetBalancaId;
 
-    function GetBalancaFabricante: string;
-    procedure SetBalancaFabricante(Value: string);
-    property BalancaFabricante: string read GetBalancaFabricante write SetBalancaFabricante;
-
-    function GetBalancaModelo: string;
-    procedure SetBalancaModelo(Value: string);
-    property BalancaModelo: string read GetBalancaModelo write SetBalancaModelo;
+    function GetBalancaFabrModelo: string;
+    procedure SetBalancaFabrModelo(Value: string);
+    property BalancaFabrModelo: string read GetBalancaFabrModelo write SetBalancaFabrModelo;
 
     function GetBarCodigoIni: smallint;
     procedure SetBarCodigoIni(Value: smallint);

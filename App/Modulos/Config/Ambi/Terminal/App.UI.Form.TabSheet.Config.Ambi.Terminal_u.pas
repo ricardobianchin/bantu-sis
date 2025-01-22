@@ -9,7 +9,7 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls,
   App.UI.Frame.DBGrid.Config.Ambi.Terminal_u, App.AppObj, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  App.Config.Ambi.Terminal.DBI;
+  App.Config.Ambi.Terminal.DBI, Sis.Terminal.DBI;
 
 type
   TConfigAmbiTermForm = class(TTabSheetAppBasForm)
@@ -17,8 +17,9 @@ type
   private
     { Private declarations }
     FDBConnection: IDBConnection;
-    FTermDBI: IConfigAmbiTerminalDBI;
+    FAmbiTermDBI: IConfigAmbiTerminalDBI;
     FTerminaisDBGridFrame: TTerminaisDBGridFrame;
+    FTerminalDBI: ITerminalDBI;
   protected
     function GetTitulo: string; override;
   public
@@ -37,7 +38,7 @@ implementation
 {$R *.dfm}
 
 uses App.Config.Ambi.Factory_u, App.Est.Venda.CaixaSessaoDM_u, App.DB.Utils,
-  Sis.DB.Factory;
+  Sis.DB.Factory, Sis.Terminal.Factory_u;
 
 { TConfigAmbiTermForm }
 
@@ -54,9 +55,10 @@ begin
   FDBConnection := DBConnectionCreate('config.amb.term.conn', pAppObj.SisConfig,
     rDBConnectionParams, pProcessLog, pOutputNotify);
 
-  FTermDBI := ConfigAmbiTerminalDBIGravaCreate(FDBConnection,
-    pUsuarioLog, pAppObj);
-  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FTermDBI);
+  FTerminalDBI := TerminalDBICreate(FDBConnection);
+  FAmbiTermDBI := ConfigAmbiTerminalDBIGravaCreate(FDBConnection, pUsuarioLog,
+    pAppObj, FTerminalDBI);
+  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FAmbiTermDBI);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.ExclAction.Visible := False;
   FTerminaisDBGridFrame.Preparar;

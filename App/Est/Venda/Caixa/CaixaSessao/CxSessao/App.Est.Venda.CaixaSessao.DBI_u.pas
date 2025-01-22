@@ -4,7 +4,7 @@ interface
 
 uses Sis.DBI_u, App.Est.Venda.CaixaSessao.DBI, Sis.DB.DBTypes, Sis.Usuario,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  App.Est.Venda.CaixaSessaoRecord_u, Sis.Entities.Terminal, Sis.Entidade,
+  App.Est.Venda.CaixaSessaoRecord_u, Sis.Terminal, Sis.Entidade,
   Sis.Entities.Types, Data.DB;
 
 type

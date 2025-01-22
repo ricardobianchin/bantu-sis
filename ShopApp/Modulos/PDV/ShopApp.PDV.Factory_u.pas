@@ -5,7 +5,7 @@ interface
 uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
   Sis.DB.DBTypes, App.PDV.DBI, ShopApp.PDV.DBI, Sis.Types, ShopApp.PDV.Obj,
-  Sis.Entities.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod,
+  Sis.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod,
   App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
   ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja, App.PDV.Controlador,
   App.UI.PDV.PagFrame_u;

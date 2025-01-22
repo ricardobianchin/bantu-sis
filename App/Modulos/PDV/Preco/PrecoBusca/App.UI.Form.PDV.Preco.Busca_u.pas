@@ -69,7 +69,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM, Sis.UI.Controls.Utils, Sis.Types.strings_u,
-  Sis.Types.Utils_u, System.Math, Sis.DB.Factory, Sis.Entities.Terminal,
+  Sis.Types.Utils_u, System.Math, Sis.DB.Factory, Sis.Terminal,
   Sis.DB.DataSet.Utils, Sis.Types.Variants, System.DateUtils;
 
 { TPrecoPregForm }

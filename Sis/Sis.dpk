@@ -269,12 +269,12 @@ contains
   Sis.UI.Form.Bas.Diag.Btn.CheckListView_u in 'UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas' {CheckListViewDiagBasForm},
   Sis.UI.Frame.Bas.DBGrid_u in 'UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas' {DBGridFrame: TFrame},
   Sis.Entities.Types in 'Entities\Sis.Entities.Types.pas',
-  Sis.DB.Updater.Destino.Utils_u in 'DB\Updater\Sis.DB.Updater.Destino.Utils_u.pas',
+  Sis.DB.Updater.PontoAlvo.Utils_u in 'DB\Updater\Sis.DB.Updater.PontoAlvo.Utils_u.pas',
   Sis.DB.Updater.Diretivas_u in 'DB\Updater\Sis.DB.Updater.Diretivas_u.pas',
-  Sis.Entities.Terminal in 'Entities\Terminal\Sis.Entities.Terminal.pas',
-  Sis.Entities.Terminal_u in 'Entities\Terminal\Sis.Entities.Terminal_u.pas',
-  Sis.Entities.TerminalList in 'Entities\Terminal\Sis.Entities.TerminalList.pas',
-  Sis.Entities.TerminalList_u in 'Entities\Terminal\Sis.Entities.TerminalList_u.pas',
+  Sis.Terminal in 'Entities\Terminal\Sis.Terminal.pas',
+  Sis.Terminal_u in 'Entities\Terminal\Sis.Terminal_u.pas',
+  Sis.TerminalList in 'Entities\Terminal\Sis.TerminalList.pas',
+  Sis.TerminalList_u in 'Entities\Terminal\Sis.TerminalList_u.pas',
   Sis.UI.Controls.BotaoFrame_u in 'UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas' {BotaoFrame: TFrame},
   Sil.UI.Controls.Lists.Utils_u in 'UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas',
   Sis.UI.Frame.Bas.Status_u in 'UI\BasForm\Sis.UI.Frame.Bas.Status_u.pas' {StatusFrame: TFrame},
@@ -314,6 +314,9 @@ contains
   Sis.Sis.Atualizavel in 'Sis\Sis.Sis.Atualizavel.pas',
   Sis.Threads.Tarefa in 'Threads\Sis.Threads.Tarefa.pas',
   Sis.Threads.Tarefa_u in 'Threads\Sis.Threads.Tarefa_u.pas',
-  Sis.Win.Utils.Printer_u in 'Win\Sis.Win.Utils.Printer_u.pas';
+  Sis.Win.Utils.Printer_u in 'Win\Sis.Win.Utils.Printer_u.pas',
+  Sis.Terminal.DBI in 'Entities\Terminal\Sis.Terminal.DBI.pas',
+  Sis.Terminal.Factory_u in 'Entities\Terminal\Sis.Terminal.Factory_u.pas',
+  Sis.Terminal.DBI_u in 'Entities\Terminal\Sis.Terminal.DBI_u.pas';
 
 end.

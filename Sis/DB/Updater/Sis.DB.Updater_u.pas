@@ -6,13 +6,14 @@ uses
   Sis.DB.Updater, Sis.ui.io.output, System.Classes, Vcl.Dialogs, Sis.Types,
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
   Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
-  Sis.Entities.Types, Sis.DB.Updater.Destino.Utils_u, Vcl.Forms,
-  Sis.Entities.TerminalList, Sis.Entities.Terminal, Sis.DB.Updater_u.Teste;
+  Sis.Entities.Types, Sis.DB.Updater.PontoAlvo.Utils_u, Vcl.Forms,
+  Sis.TerminalList, Sis.Terminal, Sis.DB.Updater_u.Teste, Sis.Terminal.DBI;
 
 type
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
     FTerminalId: TTerminalId;
+    FTerminalDBI: ITerminalDBI;
     FDBUpdaterPontoAlvo: TDBUpdaterPontoAlvo;
     FsDBUpdaterPontoAlvo: string;
     FDBConnectionParams: TDBConnectionParams;
@@ -100,8 +101,6 @@ type
     procedure GravarIniciais_CrieLoja(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieSistemaFinal(pDBConnection: IDBConnection);
     procedure GravarIniciais_CrieSuporte(pDBConnection: IDBConnection);
-    procedure GravarIniciais_CrieTerminal(pDBConnection: IDBConnection;
-      pTerminal: ITerminal);
 
     procedure DoAposCriarBanco;
 
@@ -153,13 +152,15 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
   Sis.Win.Utils_u, Sis.ui.io.Files, Sis.Win.Execute, Sis.Win.Factory,
-  Sis.DB.Updater.Diretivas_u, Sis.Types.Bool_u;
+  Sis.DB.Updater.Diretivas_u, Sis.Types.Bool_u, Sis.Terminal.Factory_u;
 
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
   pLoja: ISisLoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   pVariaveis: string);
+var
+  sConnNome: string;
 begin
   FVariaveis := TStringList.Create;
 
@@ -189,8 +190,15 @@ begin
     FProcessLog.RegistreLog('FDBConnectionParams.Database=' +
       FDBConnectionParams.Database + ',FCaminhoComandos=' + FCaminhoComandos);
 
-    FDBConnection := DBConnectionCreate('UpdaterDBConnection', FSisConfig,
+    sConnNome := ExtractFileName(FDBConnectionParams.Arq);
+    sConnNome := ChangeFileExt(sConnNome, '');
+    sConnNome := 'Updater.' + FDBConnectionParams.Server + '.' + sConnNome
+      + '.Conn';
+
+    FDBConnection := DBConnectionCreate(sConnNome, FSisConfig,
       FDBConnectionParams, FProcessLog, FOutput);
+
+    FTerminalDBI := TerminalDBICreate(FDBConnection);
 
     FDBUpdaterOperations := DBUpdaterOperationsCreate(FDBConnection,
       FProcessLog, FOutput);
@@ -423,7 +431,7 @@ begin
 
     // updater fim aqui
     // update fim aqui
-    if not SisConfig.LocalMachineIsServer then
+    if FDBUpdaterPontoAlvo <> upontoServidor then
       exit;
 
     bDeveGravarIniciais := FCriouDB and
@@ -551,9 +559,9 @@ begin
   try
     sLog := 'piVersao=' + piVersao.ToString;
 
-//    sNomeArq := VersaoToArqComando(84);
-//    sNomeArq := VersaoToArqComando(100);
-//    sNomeArq := VersaoToArqComando(101);
+    // sNomeArq := VersaoToArqComando(84);
+    // sNomeArq := VersaoToArqComando(100);
+    // sNomeArq := VersaoToArqComando(101);
 
     sNomeArq := VersaoToArqComando(piVersao);
 
@@ -753,12 +761,9 @@ begin
 
   pDBConnection.ExecuteSql('UPDATE USUARIO SET DE_SISTEMA=TRUE' +
     ' WHERE PESSOA_ID < 0;');
-  pDBConnection.ExecuteSql('DELETE FROM TERMINAL where terminal_id > 0;');
 
-  for i := 0 to FTerminalList.Count - 1 do
-  begin
-    GravarIniciais_CrieTerminal(pDBConnection, FTerminalList[i]);
-  end;
+  FTerminalDBI.ListToDB(FTerminalList, FLoja.Id, FUsuarioAdmin.Id,
+    FSisConfig.LocalMachineId.IdentId);
 end;
 
 function TDBUpdater.GravarIniciais_CrieGerenteInicial(pDBConnection
@@ -926,50 +931,6 @@ begin
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}
-  pDBConnection.ExecuteSql(sSql);
-end;
-
-procedure TDBUpdater.GravarIniciais_CrieTerminal(pDBConnection: IDBConnection;
-  pTerminal: ITerminal);
-var
-  sSql: string;
-begin
-  sSql := 'EXECUTE PROCEDURE TERMINAL_PA.GARANTIR (' //
-    + pTerminal.TerminalId.ToString // TERMINAL_ID
-
-    + ', ' + pTerminal.Apelido.QuotedString // APELIDO
-    + ', ' + pTerminal.NomeNaRede.QuotedString // NOME_NA_REDE
-    + ', ' + pTerminal.IP.QuotedString // IP
-    + ', ' + pTerminal.LetraDoDrive.QuotedString // LETRA_DO_DRIVE
-
-    + ', ' + pTerminal.NFSerie.ToString // NF_SERIE
-
-    + ', ' + BooleanToStrSQL(pTerminal.GavetaTem) // GAVETA_TEM
-    + ', ' + pTerminal.GavetaComando.QuotedString // GAVETA_COMANDO
-    + ', ' + pTerminal.GavetaImprNome.QuotedString // GAVETA_IMPR_NOME
-
-    + ', ' + pTerminal.BalancaModoUsoId.ToString // BALANCA_MODO_ID
-    + ', ' + pTerminal.BalancaId.ToString // BALANCA_ID
-
-    + ', ' + pTerminal.BarCodigoIni.ToString // BARRAS_COD_INI
-    + ', ' + pTerminal.BarCodigoTam.ToString // BARRAS_COD_TAM
-
-    + ', ' + pTerminal.ImpressoraModoEnvioId.ToString // IMPRESSORA_MODO_ENVIO_ID
-    + ', ' + pTerminal.ImpressoraModeloId.ToString // IMPRESSORA_MODELO_ID
-    + ', ' + pTerminal.ImpressoraNome.QuotedString // GAVETA_IMPR_NOME
-    + ', ' + pTerminal.ImpressoraColsQtd.ToString // IMPRESSORA_COLS_QTD
-
-
-    + ', ' + pTerminal.CupomQtdLinsFinal.ToString // CUPOM_QTD_LINS_FINAL
-
-    + ', ' + BooleanToStrSQL(pTerminal.SempreOffLine) // SEMPRE_OFFLINE
-    + ', ' + BooleanToStrSQL(pTerminal.Ativo) // SEMPRE_OFFLINE
-
-    + ', ' + FLoja.Id.ToString // LOG_LOJA_ID
-    + ', ' + FUsuarioAdmin.Id.ToString // LOG_PESSOA_ID
-    + ', ' + FSisConfig.LocalMachineId.IdentId.ToString // MACHINE_ID
-    + ');'; //
-
   pDBConnection.ExecuteSql(sSql);
 end;
 

@@ -9,7 +9,7 @@ uses
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg, Sis.UI.Constants,
   Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Usuario,
-  Sis.Entities.TerminalList, Sis.Entities.Factory, App.Loja.DBI;
+  Sis.TerminalList, Sis.Terminal.Factory_u, App.Loja.DBI, Sis.Terminal.DBI;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -50,7 +50,7 @@ type
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
-      pTerminalList: ITerminalList): boolean;
+      pTerminalList: ITerminalList; pTerminalDBI: ITerminalDBI): boolean;
 
     procedure CarregarMachineId;
     procedure CarregarLoja;
@@ -305,10 +305,10 @@ begin
     end;
     GarantaDB;
 
-//    if FLoja.Id < 1 then
-//    begin
-      CarregarLoja;
-//    end;
+    // if FLoja.Id < 1 then
+    // begin
+    CarregarLoja;
+    // end;
 
     if FLoja.Id < 1 then
     begin
@@ -359,12 +359,25 @@ var
   bResultado: boolean;
   oUsuarioAdmin: IUsuario;
   oSisConfig: ISisConfig;
+
+  DBConnection: IDBConnection;
+  oDBConnectionParams: TDBConnectionParams;
+  sMens: string;
+  oTerminalDBI: ITerminalDBI;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
   try
     oUsuarioAdmin := UsuarioCreate;
 
-    bResultado := GarantirConfig(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
+    oDBConnectionParams := TerminalIdToDBConnectionParams
+      (TERMINAL_ID_RETAGUARDA, FAppObj);
+
+    DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
+      oDBConnectionParams, ProcessLog, FProcessOutput);
+
+    oTerminalDBI := TerminalDBICreate(DBConnection);
+    bResultado := GarantirConfig(FLoja, oUsuarioAdmin, FAppObj.TerminalList,
+      oTerminalDBI);
 
     if not bResultado then
     begin
@@ -395,7 +408,7 @@ begin
 end;
 
 function TPrincBasForm.GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
-  pTerminalList: ITerminalList): boolean;
+  pTerminalList: ITerminalList; pTerminalDBI: ITerminalDBI): boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
@@ -406,7 +419,8 @@ begin
     oSisConfig := FAppObj.SisConfig;
 
     oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
-      pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList);
+      pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList,
+      pTerminalDBI);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
     Result := oAppSisConfigGarantirXML.Execute;
 

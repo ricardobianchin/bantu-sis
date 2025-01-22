@@ -4,7 +4,7 @@ interface
 
 uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
-  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Entities.Terminal;
+  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
   pAction: TAction): TPdvFrame;

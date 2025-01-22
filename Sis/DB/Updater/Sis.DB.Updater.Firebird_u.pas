@@ -3,7 +3,7 @@ unit Sis.DB.Updater.Firebird_u;
 interface
 
 uses Sis.DB.Updater_u, Sis.DB.DBTypes, Sis.Config.SisConfig,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario, Sis.Entities.Types, Sis.Entities.TerminalList;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario, Sis.Entities.Types, Sis.TerminalList;
 
 // upd ates especifico para firebird, no pai, funcito q diz se existe o arq dados
 type

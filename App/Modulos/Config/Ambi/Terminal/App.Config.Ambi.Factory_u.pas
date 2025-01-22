@@ -7,7 +7,7 @@ uses App.UI.Form.TabSheet.Config.Ambi.Terminal_u, Data.DB, Sis.DB.DBTypes,
   Sis.UI.IO.Output, System.Classes, App.UI.Form.Bas.Ed_u, Sis.Usuario,
   Sis.UI.Controls.ComboBoxManager, App.AppObj,
   App.UI.FormCreator.TabSheet_u, Sis.UI.FormCreator,
-  App.Config.Ambi.Terminal.DBI;
+  App.Config.Ambi.Terminal.DBI, Sis.Terminal.DBI;
 
 function TerminalFormCreatorCreate(pFormClassNamesSL: TStringList;
   pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
@@ -16,7 +16,8 @@ function TerminalFormCreatorCreate(pFormClassNamesSL: TStringList;
 
 function ConfigAmbiTerminalDBIMudoCreate: IConfigAmbiTerminalDBI;
 function ConfigAmbiTerminalDBIGravaCreate(pDBConnection: IDBConnection;
-  pUsuarioAdmin: IUsuario; pAppObj: IAppObj): IConfigAmbiTerminalDBI;
+  pUsuarioAdmin: IUsuario; pAppObj: IAppObj; pTerminalDBI: ITerminalDBI)
+  : IConfigAmbiTerminalDBI;
 
 implementation
 
@@ -38,10 +39,11 @@ begin
 end;
 
 function ConfigAmbiTerminalDBIGravaCreate(pDBConnection: IDBConnection;
-  pUsuarioAdmin: IUsuario; pAppObj: IAppObj): IConfigAmbiTerminalDBI;
+  pUsuarioAdmin: IUsuario; pAppObj: IAppObj; pTerminalDBI: ITerminalDBI)
+  : IConfigAmbiTerminalDBI;
 begin
   Result := TConfigAmbiTerminalDBIGrava.Create(pDBConnection,
-    pUsuarioAdmin, pAppObj);
+    pUsuarioAdmin, pAppObj, pTerminalDBI);
 end;
 
 end.

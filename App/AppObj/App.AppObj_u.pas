@@ -4,7 +4,7 @@ interface
 
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.Config.SisConfig, Sis.DB.DBTypes, App.Loja, App.Testes.Config,
-  Sis.Entities.TerminalList, Sis.Threads.Crit.CriticalSections;
+  Sis.TerminalList, Sis.Threads.Crit.CriticalSections;
 
 type
   TAppObj = class(TInterfacedObject, IAppObj)

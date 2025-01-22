@@ -1,8 +1,8 @@
-unit Sis.Entities.Terminal_u;
+unit Sis.Terminal_u;
 
 interface
 
-uses Sis.Entities.Types, Sis.Entities.Terminal, Sis.Threads.Crit.CriticalSections;
+uses Sis.Entities.Types, Sis.Terminal, Sis.Threads.Crit.CriticalSections;
 
 type
   TTerminal =  class(TInterfacedObject, ITerminal)
@@ -24,8 +24,7 @@ type
     FBalancaModoUsoDescr: string;
 
     FBalancaId: smallint;
-    FBalancaFabricante: string;
-    FBalancaModelo: string;
+    FBalancaFabrModelo: string;
 
     FBarCodigoIni: smallint;
     FBarCodigoTam: smallint;
@@ -85,11 +84,8 @@ type
     function GetBalancaId: smallint;
     procedure SetBalancaId(Value: smallint);
 
-    function GetBalancaFabricante: string;
-    procedure SetBalancaFabricante(Value: string);
-
-    function GetBalancaModelo: string;
-    procedure SetBalancaModelo(Value: string);
+    function GetBalancaFabrModelo: string;
+    procedure SetBalancaFabrModelo(Value: string);
 
     function GetBarCodigoIni: smallint;
     procedure SetBarCodigoIni(Value: smallint);
@@ -153,9 +149,8 @@ type
     property BalancaModoUsoDescr: string read GetBalancaModoUsoDescr write SetBalancaModoUsoDescr;
 
     property BalancaId: smallint read GetBalancaId write SetBalancaId;
-    property BalancaFabricante: string read GetBalancaFabricante write SetBalancaFabricante;
-    property BalancaModelo: string read GetBalancaModelo write SetBalancaModelo;
-    
+    property BalancaFabrModelo: string read GetBalancaFabrModelo write SetBalancaFabrModelo;
+
     property BarCodigoIni: smallint read GetBarCodigoIni write SetBarCodigoIni;
     property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
 
@@ -168,7 +163,7 @@ type
     property ImpressoraColsQtd: smallint read GetImpressoraColsQtd write SetImpressoraColsQtd;
 
     property CupomQtdLinsFinal: smallint read GetCupomQtdLinsFinal write SetCupomQtdLinsFinal;
-    
+
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
     property Ativo: Boolean read GetAtivo write SetAtivo;
 
@@ -220,6 +215,11 @@ end;
 function TTerminal.GetAtivo: Boolean;
 begin
   Result := FAtivo;
+end;
+
+function TTerminal.GetBalancaFabrModelo: string;
+begin
+  Result := FBalancaFabrModelo;
 end;
 
 function TTerminal.GetBalancaId: smallint;
@@ -335,26 +335,6 @@ begin
   FBalancaModoUsoDescr := Value;
 end;
 
-function TTerminal.GetBalancaFabricante: string;
-begin
-  Result := FBalancaFabricante;
-end;
-
-procedure TTerminal.SetBalancaFabricante(Value: string);
-begin
-  FBalancaFabricante := Value;
-end;
-
-function TTerminal.GetBalancaModelo: string;
-begin
-  Result := FBalancaModelo;
-end;
-
-procedure TTerminal.SetBalancaModelo(Value: string);
-begin
-  FBalancaModelo := Value;
-end;
-
 function TTerminal.GetImpressoraModeloId: smallint;
 begin
   Result := FImpressoraModeloId;
@@ -403,6 +383,11 @@ end;
 procedure TTerminal.SetAtivo(Value: Boolean);
 begin
   FAtivo := Value;
+end;
+
+procedure TTerminal.SetBalancaFabrModelo(Value: string);
+begin
+  FBalancaFabrModelo := Value;
 end;
 
 procedure TTerminal.SetBalancaId(Value: smallint);

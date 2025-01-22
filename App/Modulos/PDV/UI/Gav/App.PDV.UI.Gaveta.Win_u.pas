@@ -2,7 +2,7 @@ unit App.PDV.UI.Gaveta.Win_u;
 
 interface
 
-uses App.PDV.UI.Gaveta, Sis.Entities.Terminal;
+uses App.PDV.UI.Gaveta, Sis.Terminal;
 
 type
   TGavetaWin = class(TInterfacedObject, IGaveta)

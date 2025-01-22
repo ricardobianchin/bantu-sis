@@ -369,10 +369,23 @@ begin
   FTerminaisDataSet.FieldByName('BARRAS_COD_TAM').AsInteger := i;
 
   i := ImprModoEnvioComboBox.ItemIndex;
-  FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ID').AsInteger := i;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ENVIO_ID').AsInteger := i;
 
   s := ImprModoEnvioComboBox.Text;
-  FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_DESCR').AsString := s;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_MODO_ENVIO_DESCR').AsString := s;
+
+  i := ImprModeloComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_MODELO_ID').AsInteger := i;
+
+  s := ImprModeloComboBox.Text;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := s;
+
+  s := Trim(ImprNomeEdit.Text);
+  FTerminaisDataSet.FieldByName('IMPRESSORA_NOME').AsString := s;
+
+  i := StrToInteger(ImprQtdColunasEdit.Text);
+  ImprQtdColunasEdit.Text := i.ToString;
+  FTerminaisDataSet.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := i;
 
   i := StrToInteger(CupomQtdLinsFinalEdit.Text);
   FTerminaisDataSet.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := i;
@@ -424,7 +437,7 @@ begin
   GavComandoEdit.Text := FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString;
   GavImprNomeEdit.Text := FTerminaisDataSet.FieldByName('GAVETA_IMPR_NOME').AsString;
 
-  BalModoUsoComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_MODO_ID').AsInteger;
+  BalModoUsoComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_MODO_USO_ID').AsInteger;
 
   BalComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger;
 

@@ -13,7 +13,6 @@ type
     function Ler(out pMens: string): boolean; virtual;
   end;
 
-
 implementation
 
 uses Data.DB;

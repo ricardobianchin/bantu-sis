@@ -26,14 +26,14 @@ begin
       repeat
         ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
 
-        {$IFDEF DEBUG}
-        break;
-        {$ENDIF}
+//        {$IFDEF DEBUG}
+//        break;
+//        {$ENDIF}
 
         if bPrecisaTerminar then
           break;
-        // break;
-        for iEsperaAtual := 1 to 15 do
+
+        for iEsperaAtual := 1 to PAUSA_SEGUNDOS do
         begin
           bPrecisaTerminar := GetPrecisaTerminar;
           if bPrecisaTerminar then

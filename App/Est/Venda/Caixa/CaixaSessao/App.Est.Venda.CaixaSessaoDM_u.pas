@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, App.AppObj, Sis.Entities.Types, App.DB.Utils,
   System.Actions, Vcl.ActnList, Sis.DB.DBTypes, Vcl.ComCtrls, Data.DB,
-  Sis.Entities.Terminal, Sis.Usuario, App.Est.Types_u, Vcl.DBActns,
+  Sis.Terminal, Sis.Usuario, App.Est.Types_u, Vcl.DBActns,
   App.Est.Venda.Caixa.CaixaSessao,
   Sis.UI.Controls.TToolBar, App.Est.Venda.Caixa.CaixaSessao.Utils_u,
   App.Est.Venda.CaixaSessaoRecord_u,

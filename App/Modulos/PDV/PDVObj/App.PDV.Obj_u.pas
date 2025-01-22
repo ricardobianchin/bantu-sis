@@ -2,7 +2,7 @@ unit App.PDV.Obj_u;
 
 interface
 
-uses App.PDV.Obj, Sis.Entities.Terminal, App.PDV.UI.Gaveta;
+uses App.PDV.Obj, Sis.Terminal, App.PDV.UI.Gaveta;
 
 type
   TPDVObj = class(TInterfacedObject, IPDVObj)

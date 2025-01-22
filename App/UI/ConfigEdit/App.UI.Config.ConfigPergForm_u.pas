@@ -9,7 +9,7 @@ uses
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
   App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
-  Sis.Entities.TerminalList, Sis.Entities.Terminal, Data.DB, App.AppObj;
+  Sis.TerminalList, Sis.Terminal, Data.DB, App.AppObj, Sis.Terminal.DBI;
 
 const
   COL_2_X = 362;
@@ -109,7 +109,7 @@ type
     FSisConfig: ISisConfig;
     FUsuarioAdmin: IUsuario;
     FLoja: ISisLoja;
-
+    FTerminalDBI: ITerminalDBI;
     FConfigPergTeste: TConfigPergTeste;
 
     LocalMaqFrame: TMaqNomeEdFrame;
@@ -138,7 +138,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
       pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList;
-      pAppObj: IAppObj); reintroduce;
+      pAppObj: IAppObj; pTerminalDBI: ITerminalDBI); reintroduce;
   end;
 
 var
@@ -151,7 +151,7 @@ implementation
 uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
   Sis.Types.Utils_u, App.DB.utils, Sis.Types.strings_u, Sis.DB.DBTypes,
   Sis.UI.Constants, App.UI.Config.Constants, Sis.UI.IO.Files,
-  Sis.Entities.Factory, App.Config.Ambi.Factory_u;
+  Sis.Terminal.Factory_u, App.Config.Ambi.Factory_u, App.AppInfo.Types;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -299,10 +299,11 @@ end;
 
 constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
   pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList;
-  pAppObj: IAppObj);
+  pAppObj: IAppObj; pTerminalDBI: ITerminalDBI);
 begin
   inherited Create(AOwner);
   FTerminalList := pTerminalList;
+  FTerminalDBI := pTerminalDBI;
 
   PosCol1 := Point(7, 3);
   PosCol2 := Point(COL_2_X, 3);
@@ -677,7 +678,7 @@ begin
     begin
       Terminal := TerminalCreate;
       FTerminalList.Add(Terminal);
-      DataSetToTerminal(Tab, Terminal, FAppObj);
+      FTerminalDBI.DataSetToTerminal(Tab, Terminal, FAppObj.AppInfo.PastaDados, AtividadeEconomicaSisDescr[FAppObj.AppInfo.AtividadeEconomicaSis]);
       Tab.Next;
     end;
   finally
