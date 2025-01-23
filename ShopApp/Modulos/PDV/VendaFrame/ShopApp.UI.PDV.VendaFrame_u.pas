@@ -8,7 +8,7 @@ uses
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
-  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador;
+  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -46,6 +46,7 @@ type
     FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
     FFitaDraw: IShopFitaDraw;
+    FShopPDVObj: IShopPDVObj;
 
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
@@ -58,7 +59,8 @@ type
     procedure ItemZerar;
     procedure PreencherControles;
 
-    procedure ExibaItemVendido(pDescr: string; pValor: Currency = 0);
+    procedure ItemVendidoExiba(pDescr: string; pValor: Currency = 0);
+    procedure ItemVendidoRepaint;
 
     procedure ItemCancele;
     procedure ItemSelecione(pIndex: Integer = -1);
@@ -82,8 +84,9 @@ type
 
     procedure Iniciar; override;
 
-    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-      pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador); reintroduce;
+    constructor Create(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+      pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
+      pPDVControlador: IPDVControlador); reintroduce;
   end;
 
 var
@@ -105,10 +108,12 @@ begin
   CaretShape.Visible := not CaretShape.Visible;
 end;
 
-constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
+constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
+  pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador);
 begin
-  inherited Create(AOwner, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  FShopPDVObj := pShopPDVObj;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
 
@@ -287,8 +292,21 @@ begin
 
     PDVVenda.Cancelado := True;
     PDVControlador.VaParaFinaliza;
-    exit;
+    Exit;
+  end
+  else if CharInSet(key, ['G', 'g']) then
+  begin
+    Key := #0;
+
+    ExibaMens('Acionando gaveta');
+    ItemVendidoRepaint;
+
+    PDVObj.Gaveta.Acione;
+
+    Sleep(250);
+    ExibaMens('');
   end;
+
   StrBuscaPegueChar(Key);
 end;
 
@@ -302,18 +320,24 @@ end;
 procedure TShopVendaPDVFrame.ExibaErro(pMens: string);
 begin
   inherited;
-  ExibaItemVendido(pMens);
+  ItemVendidoExiba(pMens);
 end;
 
-procedure TShopVendaPDVFrame.ExibaItemVendido(pDescr: string; pValor: Currency);
+procedure TShopVendaPDVFrame.ItemVendidoExiba(pDescr: string; pValor: Currency);
 begin
   ItemDescrLabel.Caption := pDescr;
   ItemTotalLabel.Caption := Iif(pValor = 0, '', DinhToStr(pValor));
 end;
 
+procedure TShopVendaPDVFrame.ItemVendidoRepaint;
+begin
+  ItemDescrLabel.Repaint;
+  ItemTotalLabel.Repaint;
+end;
+
 procedure TShopVendaPDVFrame.ExibaMens(pMens: string);
 begin
-  ExibaItemVendido(pMens);
+  ItemVendidoExiba(pMens);
 end;
 
 procedure TShopVendaPDVFrame.FitaStringGridDrawCell(Sender: TObject;
@@ -344,7 +368,7 @@ begin
   FShopAppPDVDBI.CarregueVendaPendente(bCarregou);
   PreencherControles;
   if FShopPDVVenda.Items.Count = 0 then
-    ExibaItemVendido('');
+    ItemVendidoExiba('');
 
   // SimuleKeyPress('3');
   // SimuleKeyPress('*');
@@ -452,7 +476,7 @@ begin
     Exit;
   end;
   FShopPDVVenda.Items.Add(oItem);
-  ExibaItemVendido(oItem.Prod.DescrRed, oItem.PrecoBruto);
+  ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
   PreencherControles;
   FStrBusca := '';
   StrBuscaMudou;

@@ -63,10 +63,11 @@ function DBIAppCastToShopApp(pAppPDVDBI: IAppPDVDBI): IShopAppPDVDBI;
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
   pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
 
-function ShopVendaPDVFrameCreate(AOwner: TComponent; pPdvVenda: IPdvVenda;
-  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
+function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+  pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
 
-function ShopPagPDVFrameCreate(AOwner: TComponent; pPdvVenda: IPdvVenda;
+function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj; pPdvVenda: IPdvVenda;
   pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador): TPagPDVFrame;
 
 function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
@@ -76,9 +77,9 @@ function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
 
 implementation
 
-uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u
-    , ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u
-    , ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u;
+uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u,
+  ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u,
+  ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u;
 
 function ShopPDVVendaCreate( //
   pLoja: IAppLoja; //
@@ -193,17 +194,18 @@ begin
     pShopPDVVenda);
 end;
 
-function ShopVendaPDVFrameCreate(AOwner: TComponent; pPdvVenda: IPdvVenda;
-  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
+function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+  pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
 begin
-  Result := TShopVendaPDVFrame.Create(AOwner, pPdvVenda, pAppPDVDBI,
-    pPDVControlador);
+  Result := TShopVendaPDVFrame.Create(AOwner, pShopPDVObj, pPdvVenda,
+    pAppPDVDBI, pPDVControlador);
 end;
 
-function ShopPagPDVFrameCreate(AOwner: TComponent; pPdvVenda: IPdvVenda;
+function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj; pPdvVenda: IPdvVenda;
   pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador): TPagPDVFrame;
 begin
-  Result := TShopPagPDVFrame.Create(AOwner, pPdvVenda, pAppPDVDBI,
+  Result := TShopPagPDVFrame.Create(AOwner, pShopPDVObj, pPdvVenda, pAppPDVDBI,
     pPDVControlador);
 end;
 

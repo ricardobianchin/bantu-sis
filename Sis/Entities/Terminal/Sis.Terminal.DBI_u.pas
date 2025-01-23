@@ -406,9 +406,9 @@ begin
     + ', ' + pLogMachineIdentId.ToString // MACHINE_ID
     + ');'; //
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
   DBConnection.ExecuteSQL(sSql);
 end;
 

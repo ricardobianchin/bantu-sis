@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Sis.UI.Frame.Bas_u, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Sis.UI.Frame.Bas_u, Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
+  App.PDV.Obj;
 
 type
   TPDVFrame = class(TBasFrame)
@@ -13,6 +14,10 @@ type
     procedure FrameResize(Sender: TObject);
   private
     { Private declarations }
+    FPDVObj: IPDVObj;
+  protected
+    property PDVObj: IPDVObj read FPDVObj;
+
   public
     { Public declarations }
     procedure Iniciar; virtual;
@@ -21,13 +26,13 @@ type
 
     procedure DimensioneControles; virtual;
 
-    constructor Create(AOwner: TComponent); override;
-
     procedure ExecKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState); virtual;
     procedure ExecKeyPress(Sender: TObject; var Key: Char); virtual;
     procedure ExibaErro(pMens: string); virtual;
     procedure ExibaMens(pMens: string); virtual;
+
+    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj); reintroduce;
   end;
 
 var
@@ -40,10 +45,11 @@ implementation
 
 uses Sis.UI.Controls.Utils;
 
-constructor TPDVFrame.Create(AOwner: TComponent);
+constructor TPDVFrame.Create(AOwner: TComponent; pPDVObj: IPDVObj);
 begin
   inherited Create(AOwner);
   ClearStyleElements(Self);
+  FPDVObj := pPDVObj;
 end;
 
 procedure TPDVFrame.DimensioneControles;

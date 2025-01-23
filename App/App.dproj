@@ -710,9 +710,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Mudo_u.pas"/>
         <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Grava_u.pas"/>
         <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.pas"/>
-        <DCCReference Include="..\Sis\UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
         <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.NaoTem_u.pas"/>
         <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.Win_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

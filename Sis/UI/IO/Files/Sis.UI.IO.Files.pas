@@ -91,23 +91,23 @@ end;
 
 procedure EscreverArquivo(pStr: string; pNomeArq: string);
 var
-  Arquivo: TFileStream;
+  oFileStream: TFileStream;
   Buffer: TBytes;
   iMode: word;
 begin
   iMode := MODE_CREATE;
-  Arquivo := TFileStream.Create(pNomeArq, iMode);
+  oFileStream := TFileStream.Create(pNomeArq, iMode);
   try
     Buffer := TEncoding.UTF8.GetBytes(pStr);
-    Arquivo.Write(Buffer, Length(Buffer));
+    oFileStream.Write(Buffer, Length(Buffer));
   finally
-    Arquivo.Free;
+    oFileStream.Free;
   end;
 end;
 
 procedure AdicioneAoArquivo(pStr: string; pNomeArq: string);
 var
-  Arquivo: TFileStream;
+  oFileStream: TFileStream;
   Buffer: TBytes;
   iMode: word;
 begin
@@ -116,15 +116,15 @@ begin
   else
     iMode := MODE_CREATE;
 
-  Arquivo := TFileStream.Create(pNomeArq, iMode);
+  oFileStream := TFileStream.Create(pNomeArq, iMode);
   try
     if iMode = MODE_APPEND then
-      Arquivo.Seek(0, soEnd); // Posiciona no final do arquivo para append
+      oFileStream.Seek(0, soEnd); // Posiciona no final do oFileStream para append
 
     Buffer := TEncoding.UTF8.GetBytes(pStr);
-    Arquivo.Write(Buffer, Length(Buffer));
+    oFileStream.Write(Buffer, Length(Buffer));
   finally
-    Arquivo.Free;
+    oFileStream.Free;
   end;
 end;
 

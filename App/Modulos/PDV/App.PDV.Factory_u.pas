@@ -4,9 +4,10 @@ interface
 
 uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
-  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal;
+  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal,
+  App.PDV.Obj;
 
-function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
+function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj; pCaption: TCaption;
   pAction: TAction): TPdvFrame;
 
 function VendaPagListCreate: IVendaPagList;
@@ -32,10 +33,10 @@ uses System.SysUtils, App.PDV.VendaPag.List_u//
 
   ;
 
-function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
+function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj; pCaption: TCaption;
   pAction: TAction): TPdvFrame;
 begin
-  Result := TAvisoPDVFrame.Create(pParent, pCaption, pAction);
+  Result := TAvisoPDVFrame.Create(pParent, pPDVObj, pCaption, pAction);
 end;
 
 function VendaPagListCreate: IVendaPagList;

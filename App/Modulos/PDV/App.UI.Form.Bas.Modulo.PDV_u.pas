@@ -67,6 +67,7 @@ type
     property PDVDBI: IAppPDVDBI read FPDVDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
+    property PDVObj: IPDVObj read FPDVObj;
   public
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
@@ -136,8 +137,8 @@ begin
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
 
-  FFrameAviso := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
-    CaixaSessaoAbrirTentarAction);
+  FFrameAviso := PDVFrameAvisoCreate(Self, FPDVObj,
+    'É necessário abrir o caixa', CaixaSessaoAbrirTentarAction);
   FFrameAviso.OculteControles;
 
   FPDVVenda := PDVVendaCreate;
@@ -241,12 +242,14 @@ end;
 procedure TPDVModuloBasForm.PagSomenteDinheiro;
 begin
   FPagFrame.PagSomenteDinheiro;
+  FPDVObj.Gaveta.Acione;
 end;
 
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
   if (not FPDVVenda.Cancelado) and (not FPDVVenda.Finalizado) then
   begin
+    FPDVObj.Gaveta.Acione;
     VaParaVenda;
     FVendaFrame.ExibaMens('Finalizando a venda...');
     Application.ProcessMessages;

@@ -11,7 +11,7 @@ uses
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
   Sis.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
   App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI, App.PDV.Venda,
-  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj;
+  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj, ShopApp.PDV.Obj;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -20,6 +20,7 @@ type
     { Private declarations }
     FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
+    FShopPDVObj: IShopPDVObj;
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
     function PDVVendaCreate: IPDVVenda; override;
@@ -67,7 +68,7 @@ end;
 
 function TShopPDVModuloForm.PagFrameCreate: TPagPDVFrame;
 begin
-  Result := ShopPagPDVFrameCreate(Self, PDVVenda, PDVDBI, Self);
+  Result := ShopPagPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self);
   Result.Visible := False;
 end;
 
@@ -81,7 +82,8 @@ end;
 
 function TShopPDVModuloForm.PDVObjCreate: IPDVObj;
 begin
-  Result := ShopPdvObjCreate(Terminal);
+  FShopPDVObj := ShopPdvObjCreate(Terminal);;
+  Result := FShopPDVObj;
 end;
 
 function TShopPDVModuloForm.PDVVendaCreate: IPDVVenda;
@@ -118,7 +120,7 @@ end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  Result := ShopVendaPDVFrameCreate(Self, PDVVenda, PDVDBI, Self);
+  Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self);
   Result.Visible := False;
 end;
 

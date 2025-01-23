@@ -317,6 +317,7 @@ contains
   Sis.Win.Utils.Printer_u in 'Win\Sis.Win.Utils.Printer_u.pas',
   Sis.Terminal.DBI in 'Entities\Terminal\Sis.Terminal.DBI.pas',
   Sis.Terminal.Factory_u in 'Entities\Terminal\Sis.Terminal.Factory_u.pas',
-  Sis.Terminal.DBI_u in 'Entities\Terminal\Sis.Terminal.DBI_u.pas';
+  Sis.Terminal.DBI_u in 'Entities\Terminal\Sis.Terminal.DBI_u.pas',
+  Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas';
 
 end.
