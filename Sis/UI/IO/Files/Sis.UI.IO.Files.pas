@@ -78,7 +78,7 @@ begin
   DecodeTime(pDtH, hora, minuto, segundo, milisegundo);
 
   // Formata o resultado no formato YYYY-mm-dd_hh-nn-ss-zzz
-  Result := Format('%.4d-%.2d-%.2d_%.2d-%.2d-%.2d-%.3d',
+  Result := Format('%.4d-%.2d-%.2d_%.2dh%.2dm%.2ds%.3d',
     [ano, mes, dia, hora, minuto, segundo, milisegundo]);
 end;
 
