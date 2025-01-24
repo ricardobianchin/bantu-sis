@@ -13,10 +13,6 @@ type
     function GetAtivo: boolean;
     procedure SetAtivo(Value: boolean);
     property Ativo: boolean read GetAtivo write SetAtivo;
-
-//    function GetEnabled: boolean;
-//    procedure SetEnabled(Value: boolean);
-//    property Enabled: boolean read GetEnabled write SetEnabled;
   end;
 
 implementation
