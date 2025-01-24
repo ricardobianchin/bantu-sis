@@ -499,6 +499,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Entities\Terminal\Sis.Terminal.Factory_u.pas"/>
         <DCCReference Include="Entities\Terminal\Sis.Terminal.DBI_u.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.Files.Recorder.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.Files.Recorder_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
