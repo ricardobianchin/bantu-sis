@@ -320,6 +320,13 @@ contains
   Sis.Terminal.DBI_u in 'Entities\Terminal\Sis.Terminal.DBI_u.pas',
   Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
   Sis.Files.Recorder in 'UI\IO\Files\Sis.Files.Recorder.pas',
-  Sis.Files.Recorder_u in 'UI\IO\Files\Sis.Files.Recorder_u.pas';
+  Sis.Files.Recorder_u in 'UI\IO\Files\Sis.Files.Recorder_u.pas',
+  Sis.UI.Impressora in 'UI\Impr\Sis.UI.Impressora.pas',
+  Sis.UI.Impressora_u in 'UI\Impr\Sis.UI.Impressora_u.pas',
+  Sis.UI.ImpressoraTexto_u in 'UI\Impr\Sis.UI.ImpressoraTexto_u.pas',
+  Sis.UI.ImpressoraTexto in 'UI\Impr\Sis.UI.ImpressoraTexto.pas',
+  Sis.UI.Impressao in 'UI\Impr\Sis.UI.Impressao.pas',
+  Sis.UI.Impressao_u in 'UI\Impr\Sis.UI.Impressao_u.pas',
+  Sis.UI.ImpressaoTexto_u in 'UI\Impr\Sis.UI.ImpressaoTexto_u.pas';
 
 end.

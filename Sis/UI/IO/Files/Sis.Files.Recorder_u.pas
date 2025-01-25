@@ -37,7 +37,7 @@ begin
   sArqNome := FPastaRaiz + DateToPath(dtAgora);
   GarantirPasta(sArqNome);
 
-  sArqNome := sArqNome + 'Espelho ' + FAssunto + ' ' + DateToNomeArq(dtAgora) + '.txt';
+  sArqNome := sArqNome + FAssunto + ' ' + DateToNomeArq(dtAgora) + '.txt';
 
   EscreverArquivo(pTexto, sArqNome);
 end;

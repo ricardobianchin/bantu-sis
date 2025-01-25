@@ -501,6 +501,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.Files.Recorder.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.Files.Recorder_u.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.Impressora.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.Impressora_u.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.ImpressoraTexto_u.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.ImpressoraTexto.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.Impressao.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.Impressao_u.pas"/>
+        <DCCReference Include="UI\Impr\Sis.UI.ImpressaoTexto_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -20,6 +20,8 @@ function NowSQLFirebird: string;
 
 function VarToDateTime(Value: Variant): TDateTime;
 
+function GetAgoraString: string;
+
 var
   MonthNames: TStringList;
   MascaraDate, MascaraTime: string;
@@ -182,6 +184,11 @@ begin
     Result := 2 // StrToDate('01/01/1900')
   else
     Result := Value;
+end;
+
+function GetAgoraString: string;
+begin
+  Result := FormatDateTime('dd/mm/yyyy hh:nn', now);
 end;
 
 initialization
