@@ -72,6 +72,12 @@ type
     function GetAlteradoEm: TDateTime;
     procedure SetAlteradoEm(const Value: TDateTime);
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
+
+    function GetEnder1: string;
+    property Ender1: string read GetEnder1;
+
+    function GetEnder2: string;
+    property Ender2: string read GetEnder2;
   end;
 
 implementation

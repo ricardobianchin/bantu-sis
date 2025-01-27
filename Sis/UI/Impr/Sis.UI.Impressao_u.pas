@@ -18,6 +18,7 @@ type
     procedure GereRodape; virtual;
     procedure GereFim; virtual;
     procedure EnvieImpressao; virtual;
+    function GetDtDoc: TDateTime; virtual; abstract;
 
   public
     procedure Imprima; virtual;

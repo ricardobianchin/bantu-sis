@@ -714,6 +714,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.Win_u.pas"/>
         <DCCReference Include="Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho.pas"/>
         <DCCReference Include="Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoVenda_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -2,7 +2,7 @@ unit Sis.UI.ImpressaoTexto_u;
 
 interface
 
-uses Sis.UI.Impressao_u, System.Classes{, Sis.Types};
+uses Sis.UI.Impressao_u, System.Classes {, Sis.Types};
 
 type
   TImpressaoTexto = class(TImpressao)
@@ -14,7 +14,7 @@ type
     procedure GereInicio; override;
     procedure GereFim; override;
     procedure EnvieImpressao; override;
-//    P: TProcedureStringOfObject;
+    // P: TProcedureStringOfObject;
     procedure PegueLinha(pFrase: string);
   public
     constructor Create(pImpressoraNome, pDocTitulo: string);
@@ -23,7 +23,7 @@ type
 
 implementation
 
-uses System.SysUtils, Sis.Win.Utils.Printer_u, Sis.Types.Dates;
+uses System.SysUtils, Sis.Win.Utils.Printer_u;
 
 { TImpressaoTexto }
 
@@ -32,7 +32,7 @@ begin
   inherited Create(pImpressoraNome);
   FDocTitulo := pDocTitulo;
   FSL := TStringList.Create;
-  FQtdLinsPorPag := 0; //zero = infinitas linhas, impressao em bobina
+  FQtdLinsPorPag := 0; // zero = infinitas linhas, impressao em bobina
 end;
 
 destructor TImpressaoTexto.Destroy;
@@ -49,8 +49,6 @@ end;
 
 procedure TImpressaoTexto.GereFim;
 begin
-  inherited;
-  PegueLinha('Gerado em '+GetAgoraString);
 end;
 
 procedure TImpressaoTexto.GereInicio;

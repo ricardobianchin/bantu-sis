@@ -386,6 +386,8 @@ contains
   App.PDV.UI.Gaveta.NaoTem_u in 'Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.NaoTem_u.pas',
   App.PDV.UI.Gaveta.Win_u in 'Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.Win_u.pas',
   App.Pdv.CupomEspelho in 'Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho.pas',
-  App.Pdv.CupomEspelho_u in 'Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho_u.pas';
+  App.Pdv.CupomEspelho_u in 'Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho_u.pas',
+  App.PDV.ImpressaoTexto_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto_u.pas',
+  App.PDV.ImpressaoTextoVenda_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoVenda_u.pas';
 
 end.
