@@ -32,6 +32,7 @@ type
     ToolButton2: TToolButton;
     ToolButton1: TToolButton;
     ToolButton3: TToolButton;
+    GavetaToolButton: TToolButton;
     procedure CaretTimerTimer(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -39,6 +40,7 @@ type
     procedure ItemCanceleToolButtonClick(Sender: TObject);
     procedure PagSomenteDinheiroToolButtonClick(Sender: TObject);
     procedure PagamentoToolButtonClick(Sender: TObject);
+    procedure GavetaToolButtonClick(Sender: TObject);
   private
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
@@ -66,6 +68,7 @@ type
     procedure ItemSelecione(pIndex: Integer = -1);
     function GetItemUltimoIndex: Integer;
 
+    procedure AcioneGaveta;
   protected
     procedure SimuleKeyPress(pChar: Char);
     procedure ExibaControles; override;
@@ -101,6 +104,18 @@ uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.UI.IO.Input.Perg;
 
 { TShopVendaPDVFrame }
+
+procedure TShopVendaPDVFrame.AcioneGaveta;
+begin
+  ExibaMens('Acionando gaveta');
+  ItemVendidoRepaint;
+
+  PDVObj.Gaveta.Acione;
+
+  Sleep(300);
+
+  StrBuscaMudou;
+end;
 
 procedure TShopVendaPDVFrame.CaretTimerTimer(Sender: TObject);
 begin
@@ -294,25 +309,26 @@ begin
     PDVControlador.VaParaFinaliza;
     Exit;
   end
-  else if CharInSet(key, ['G', 'g']) then
+  else if CharInSet(Key, ['G', 'g']) then
   begin
     Key := #0;
-
-    ExibaMens('Acionando gaveta');
-    ItemVendidoRepaint;
-
-    PDVObj.Gaveta.Acione;
-
-    Sleep(250);
-    ExibaMens('');
+    AcioneGaveta;
+    Exit;
+  end
+  else if CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
+    ',']) then
+  begin
+    StrBuscaPegueChar(Key);
   end;
-
-  StrBuscaPegueChar(Key);
 end;
 
 procedure TShopVendaPDVFrame.ExibaControles;
 begin
   PreencherControles;
+  PDVToolBar.Width := PDVToolBar.Width + 1;
+
+//  ControlAlignToCenter(PDVToolBar);
+
   inherited;
 
 end;
@@ -352,6 +368,12 @@ begin
   inherited;
   TForm(Parent).ActiveControl := Nil;
   // InputPanel.SetFocus;
+end;
+
+procedure TShopVendaPDVFrame.GavetaToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  AcioneGaveta;
 end;
 
 function TShopVendaPDVFrame.GetItemUltimoIndex: Integer;
@@ -491,7 +513,13 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.StrBuscaPegueChar(pChar: Char);
+var
+  bCharPode: Boolean;
 begin
+  bCharPode := pChar <> #0;
+  if not bCharPode then
+    Exit;
+
   try
     if pChar = #8 then
     begin

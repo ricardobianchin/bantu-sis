@@ -340,9 +340,9 @@ begin
     + 'FORMA.ID = PAG.FORMA_ID'#13#10 //
     + 'ORDER BY PAG.ORDEM;';
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, q);

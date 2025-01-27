@@ -7,15 +7,18 @@ uses Sis.UI.Impressao_u, System.Classes {, Sis.Types};
 type
   TImpressaoTexto = class(TImpressao)
   private
-    FSL: TStringList;
+    FLinhasSL: TStringList;
     FDocTitulo: string;
     FQtdLinsPorPag: SmallInt;
+
+    function GetTexto: string;
   protected
     procedure GereInicio; override;
     procedure GereFim; override;
     procedure EnvieImpressao; override;
     // P: TProcedureStringOfObject;
     procedure PegueLinha(pFrase: string);
+    property Texto: string read GetTexto;
   public
     constructor Create(pImpressoraNome, pDocTitulo: string);
     destructor Destroy; override;
@@ -31,20 +34,20 @@ constructor TImpressaoTexto.Create(pImpressoraNome, pDocTitulo: string);
 begin
   inherited Create(pImpressoraNome);
   FDocTitulo := pDocTitulo;
-  FSL := TStringList.Create;
+  FLinhasSL := TStringList.Create;
   FQtdLinsPorPag := 0; // zero = infinitas linhas, impressao em bobina
 end;
 
 destructor TImpressaoTexto.Destroy;
 begin
-  FreeAndNil(FSL);
+  FreeAndNil(FLinhasSL);
   inherited;
 end;
 
 procedure TImpressaoTexto.EnvieImpressao;
 begin
   inherited;
-  ImprimaWinSpool(ImpressoraNome, FDocTitulo, FSL.Text);
+  ImprimaWinSpool(ImpressoraNome, FDocTitulo, Texto);
 end;
 
 procedure TImpressaoTexto.GereFim;
@@ -54,12 +57,17 @@ end;
 procedure TImpressaoTexto.GereInicio;
 begin
   inherited;
-  FSL.Clear;
+  FLinhasSL.Clear;
+end;
+
+function TImpressaoTexto.GetTexto: string;
+begin
+  Result := FLinhasSL.Text;
 end;
 
 procedure TImpressaoTexto.PegueLinha(pFrase: string);
 begin
-  FSL.Add(pFrase);
+  FLinhasSL.Add(pFrase);
 end;
 
 end.

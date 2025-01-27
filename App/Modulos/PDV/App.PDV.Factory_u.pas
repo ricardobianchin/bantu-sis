@@ -5,7 +5,8 @@ interface
 uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
   App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
-  App.PDV.CupomEspelho, App.AppObj;
+  App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
+  App.PDV.ImpressaoTextoVenda_u;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -21,7 +22,11 @@ function GavetaNaoTemCreate: IGaveta;
 function GavetaWinCreate(pTerminal: ITerminal): IGaveta;
 function GavetaCreate(pTerminal: ITerminal): IGaveta;
 
-function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
+//function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
+function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
+function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
+  pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
+
 
 implementation
 
@@ -83,6 +88,18 @@ end;
 function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
 begin
   Result := TCupomEspelho.Create(pAppObj, pTipoCupom);
+end;
+
+function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
+begin
+  Result := TCupomEspelho.Create(pAppObj, 'Venda');
+end;
+
+function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
+  pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
+begin
+  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pDocTitulo,
+    pAppObj, pTerminal, pPDVVenda);
 end;
 
 end.

@@ -8,7 +8,7 @@ uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   Sis.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod,
   App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
   ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja, App.PDV.Controlador,
-  App.UI.PDV.PagFrame_u;
+  App.UI.PDV.PagFrame_u, Sis.UI.Impressao;
 
 function ShopPDVVendaCreate( //
   pLoja: IAppLoja; //

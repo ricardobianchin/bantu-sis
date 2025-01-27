@@ -10,9 +10,8 @@ type
   private
     FPastaRaiz: string;
     FAssunto: string;
-
   public
-    procedure Gravar(pTexto: string);
+    procedure Gravar(pTexto: string; pDtH: TDateTime = 0);
 
     constructor Create(pPastaRaiz, pAssunto: string);
   end;
@@ -27,17 +26,25 @@ begin
   FAssunto := pAssunto;
 end;
 
-procedure TFIleRecorder.Gravar(pTexto: string);
+procedure TFIleRecorder.Gravar(pTexto: string; pDtH: TDateTime);
 var
   sArqNome: string;
   dtAgora: TDateTime;
 begin
-  dtAgora := Now;
+  if pDtH = 0 then
+    dtAgora := Now
+  else
+    dtAgora :=  pDtH;
 
   sArqNome := FPastaRaiz + DateToPath(dtAgora);
   GarantirPasta(sArqNome);
 
   sArqNome := sArqNome + FAssunto + ' ' + DateToNomeArq(dtAgora) + '.txt';
+
+{$IFDEF DEBUG}
+  sArqNome := FPastaRaiz + 'Espelho.txt';
+{$ENDIF}
+
 
   EscreverArquivo(pTexto, sArqNome);
 end;

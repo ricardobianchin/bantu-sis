@@ -20,6 +20,7 @@ function NowSQLFirebird: string;
 
 function VarToDateTime(Value: Variant): TDateTime;
 
+function GetDtHString(pDtH: TDateTIme): string;
 function GetAgoraString: string;
 
 var
@@ -186,9 +187,14 @@ begin
     Result := Value;
 end;
 
+function GetDtHString(pDtH: TDateTIme): string;
+begin
+  Result := FormatDateTime('dd/mm/yyyy hh:nn', pDtH);
+end;
+
 function GetAgoraString: string;
 begin
-  Result := FormatDateTime('dd/mm/yyyy hh:nn', now);
+  Result := GetDtHString(now);
 end;
 
 initialization

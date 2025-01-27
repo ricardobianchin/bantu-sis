@@ -13,7 +13,7 @@ uses
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
-  App.PDV.DBI, App.UI.PDV.PagFrame_u;
+  App.PDV.DBI, App.UI.PDV.PagFrame_u, Sis.UI.Impressao;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -39,6 +39,8 @@ type
     FPDVDBI: IAppPDVDBI;
 
     FTermDBConnection: IDBConnection;
+
+    FImpressaoVenda: IImpressao;
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TPDVFrame;
@@ -68,6 +70,7 @@ type
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
     property PDVObj: IPDVObj read FPDVObj;
+    property ImpressaoVenda: IImpressao read FImpressaoVenda;
   public
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
@@ -149,6 +152,9 @@ begin
 
   FPagFrame := PagFrameCreate;
   FPagFrame.OculteControles;
+
+  FImpressaoVenda := ImpressaoTextoVendaCreate(Terminal.ImpressoraNome,
+    'Cupom Venda', AppObj, Terminal, PDVVenda);
 end;
 
 procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
@@ -243,6 +249,7 @@ procedure TPDVModuloBasForm.PagSomenteDinheiro;
 begin
   FPagFrame.PagSomenteDinheiro;
   FPDVObj.Gaveta.Acione;
+  FImpressaoVenda.Imprima;
 end;
 
 procedure TPDVModuloBasForm.VaParaFinaliza;
@@ -253,7 +260,12 @@ begin
     VaParaVenda;
     FVendaFrame.ExibaMens('Finalizando a venda...');
     Application.ProcessMessages;
+//{$IFDEF DEBUG}
+//    FImpressaoVenda.Imprima;
+//{$ENDIF}
+
     FPDVDBI.VendaFinalize;
+    FImpressaoVenda.Imprima;
   end;
 
   FPDVVenda.Zerar;

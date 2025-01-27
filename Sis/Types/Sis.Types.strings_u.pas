@@ -69,7 +69,6 @@ function ConvertHTMLChars(pStr: string): string;
 function ClassNameToNome(pClassName: string;
   pDeleteLastWord: boolean = True): string;
 
-
 procedure EnsureStringFixedLength(var aStr: string; aLength: Integer);
 procedure EnsureStringMinimalLength(var aStr: string; aLength: Integer);
 procedure OverwriteString(var aTargetStr: string; const aSourceStr: string; pStartPos: Integer);
