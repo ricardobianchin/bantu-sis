@@ -50,6 +50,9 @@ type
     function GetPastaComandos: string;
     property PastaComandos: string read GetPastaComandos;
 
+    function GetPastaDocs: string;
+    property PastaDocs: string read GetPastaDocs;
+
     function GetPastaConsultas: string;
     property PastaConsultas: string read GetPastaConsultas;
 

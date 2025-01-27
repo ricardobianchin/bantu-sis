@@ -2,58 +2,29 @@ unit App.Pdv.CupomEspelho_u;
 
 interface
 
-uses
-  App.Pdv.CupomEspelho, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  Vcl.Dialogs;
+uses Sis.Files.Recorder_u, App.Pdv.CupomEspelho, App.AppObj;
 
 type
-  TCupomEspelho = class(TInterfacedObject, ICupomEspelho)
+  TCupomEspelho = class(TFIleRecorder, ICupomEspelho)
   private
-    FAtivo: boolean;
-    FPastaEspelho: string;
-    FAssunto: string;
-
-    function GetAtivo: boolean;
-    procedure SetAtivo(Value: boolean);
+//    FAppObj: IAppObj;
   public
-    procedure Exibir(pFrase: string);
-    procedure ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
-
-    property Ativo: boolean read GetAtivo write SetAtivo;
-
-    constructor Create(pPastaEspelho, pAssunto: string);
+    constructor Create(pAppObj: IAppObj; pTipoCupom: string);
   end;
 
 implementation
 
-uses Sis.UI.IO.Files;
+{ TCupomEspelho }
 
-constructor TCupomEspelho.Create(pPastaEspelho, pAssunto: string);
+constructor TCupomEspelho.Create(pAppObj: IAppObj; pTipoCupom: string);
+var
+  sPastaRaiz: string;
+  sAssunto: string;
 begin
-  FPastaEspelho := pPastaEspelho;
-  FAssunto := pAssunto;
-end;
-
-procedure TCupomEspelho.Exibir(pFrase: string);
-begin
-
-end;
-
-procedure TCupomEspelho.ExibirPausa(pFrase: string; pMsgDlgType: TMsgDlgType);
-begin
-  if not FAtivo then
-    exit;
-  Exibir(pFrase);
-end;
-
-function TCupomEspelho.GetAtivo: boolean;
-begin
-  Result := FAtivo;
-end;
-
-procedure TCupomEspelho.SetAtivo(Value: boolean);
-begin
-  FAtivo := Value;
+  sPastaRaiz := pAppObj.AppInfo.PastaDocs+'Cupom\Espelho\';
+  sAssunto :=  'Cupom Espelho '+pTipoCupom;
+  inherited Create(sPastaRaiz, sAssunto);
+//  FAppObj := pAppObj;
 end;
 
 end.

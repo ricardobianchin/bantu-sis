@@ -2,11 +2,11 @@ unit App.Pdv.CupomEspelho;
 
 interface
 
-uses Sis.UI.IO.Output;
+uses Sis.Files.Recorder;
 
 type
-  ICupomEspelho = interface(IOutput)
-    ['{537FE3CC-83C0-43DF-AD64-1C29968AAFA2}']
+  ICupomEspelho = interface(IFIleRecorder)
+    ['{21C02986-F28F-4529-BA2F-840FC24C0070}']
   end;
 
 implementation

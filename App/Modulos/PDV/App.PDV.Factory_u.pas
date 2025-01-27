@@ -4,11 +4,11 @@ interface
 
 uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
-  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal,
-  App.PDV.Obj;
+  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
+  App.PDV.CupomEspelho, App.AppObj;
 
-function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj; pCaption: TCaption;
-  pAction: TAction): TPdvFrame;
+function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
+  pCaption: TCaption; pAction: TAction): TPdvFrame;
 
 function VendaPagListCreate: IVendaPagList;
 
@@ -21,20 +21,24 @@ function GavetaNaoTemCreate: IGaveta;
 function GavetaWinCreate(pTerminal: ITerminal): IGaveta;
 function GavetaCreate(pTerminal: ITerminal): IGaveta;
 
+function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
+
 implementation
 
-uses System.SysUtils, App.PDV.VendaPag.List_u//
+uses System.SysUtils, App.PDV.VendaPag.List_u //
 
-  , App.UI.PDV.Aviso.Frame_u//
-  , App.PDV.VendaPag_u//
+    , App.UI.PDV.Aviso.Frame_u //
+    , App.PDV.VendaPag_u //
 
-  ,App.PDV.UI.Gaveta.NaoTem_u//
-  , App.PDV.UI.Gaveta.Win_u//
+    , App.PDV.UI.Gaveta.NaoTem_u //
+    , App.PDV.UI.Gaveta.Win_u //
 
-  ;
+    , App.Pdv.CupomEspelho_u //
 
-function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj; pCaption: TCaption;
-  pAction: TAction): TPdvFrame;
+    ;
+
+function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
+  pCaption: TCaption; pAction: TAction): TPdvFrame;
 begin
   Result := TAvisoPDVFrame.Create(pParent, pPDVObj, pCaption, pAction);
 end;
@@ -47,8 +51,7 @@ end;
 function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
   APagamentoFormaTipoId: string; APagamentoFormaTipoDescrRed: string;
   APagamentoFormaDescr: string; AValorDevido, AValorEntregue, ATroco: Currency;
-  ACancelado: Boolean)
-  : IVendaPag;
+  ACancelado: Boolean): IVendaPag;
 begin
   Result := TVendaPag.Create(AOrdem, APagamentoFormaId, APagamentoFormaTipoId,
     APagamentoFormaTipoDescrRed, APagamentoFormaDescr, AValorDevido,
@@ -75,6 +78,11 @@ begin
   begin
     Result := GavetaNaoTemCreate;
   end;
+end;
+
+function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
+begin
+  Result := TCupomEspelho.Create(pAppObj, pTipoCupom);
 end;
 
 end.
