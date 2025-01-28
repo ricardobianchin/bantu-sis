@@ -58,6 +58,7 @@ begin
   PegueLinha(CenterStr('CNPJ.: ' + FAppObj.Loja.C, NCols));
   PegueLinha(CenterStr(FAppObj.Loja.Ender.Ender1, NCols));
   PegueLinha(CenterStr(FAppObj.Loja.Ender.Ender2, NCols));
+  PegueLinha(CenterStr(FAppObj.Loja.Ender.Ender3, NCols));
 
   d := GetDtDoc;
   s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
@@ -73,7 +74,7 @@ begin
   dtAgora := Now;
 
   PegueLinha(CenterStr('Gerado em ' + GetDtHString(dtAgora), NCols));
-  PegueLinha(CenterStr('-', NCols));
+  PegueSeparador;
   FCupomEspelho.Gravar(Texto, dtAgora);
 end;
 

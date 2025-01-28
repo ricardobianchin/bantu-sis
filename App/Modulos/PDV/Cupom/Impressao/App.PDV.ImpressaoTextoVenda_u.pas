@@ -10,6 +10,7 @@ type
   private
     FPDVVenda: IPDVVenda;
     FLenMaxDescr: integer;
+    FTotalLiquido: Currency;
     procedure GereItem(It: IPDVVendaItem);
     procedure GerePag(Pag: IVendaPag);
   protected
@@ -23,7 +24,7 @@ type
 implementation
 
 uses Sis.Types.strings_u, System.SysUtils, System.StrUtils, System.Math,
-  Sis.Types.Floats, App.PDV.Factory_u;
+  Sis.Types.Floats, App.PDV.Factory_u, Sis.Types.Integers;
 
 { TImpressaoTextoPDVVenda }
 
@@ -41,9 +42,12 @@ var
   sQtd: string;
   sMascara: string;
 begin
-  sLinha := '';
-  OverwriteStringRight(sLinha, (It.Ordem + 1).ToString, 3);
+//  sLinha := '';
+//  OverwriteStringRight(sLinha, IntToStrZero(It.Ordem + 1, 3), 3);
   OverwriteStringRight(sLinha, (It.Prod.Id).ToString, 11);
+
+  sLinha := IntToStrZero(It.Ordem + 1, 3);
+  OverwriteStringRight(sLinha, IntToStrZero(It.Prod.Id, 7), 11);
 
   sDescr := StringReplace(It.Prod.DescrRed, #1, #32,
     [rfReplaceAll, rfIgnoreCase]);
@@ -78,8 +82,9 @@ begin
   PegueLinha(sLinha);
 
   if it.Cancelado then
-    PegueLinha('     C A N C E L A D O');
-
+    PegueLinha('     C A N C E L A D O')
+  else
+    FTotalLiquido := FTotalLiquido + it.Preco;
 
 end;
 
@@ -95,7 +100,7 @@ begin
   PegueLinha(sLinha);
   if Pag.Troco >= 0.01 then
   begin
-    sLinha := 'TROCO: ';
+    sLinha := 'TROCO';
     OverwriteStringRight(sLinha, DinhToStr(Pag.Troco), NCols);
     PegueLinha(sLinha);
   end;
@@ -126,7 +131,10 @@ begin
   PegueLinha(sLinha);
 
   PegueSeparador;
-  sLinha := 'TOTAL A PAGAR: '+DinhToStr(FPDVVenda.TotalLiquido);
+  sLinha := 'TOTAL A PAGAR';
+
+  OverwriteStringRight(sLinha, DinhToStr(FTotalLiquido), NCols);
+
   PegueLinha(sLinha);
 
 

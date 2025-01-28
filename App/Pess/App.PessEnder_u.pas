@@ -78,6 +78,7 @@ type
 
     function GetEnder1: string;
     function GetEnder2: string;
+    function GetEnder3: string;
   public
     property Ordem: smallint read GetOrdem write SetOrdem;
     property Logradouro: string read GetLogradouro write SetLogradouro;
@@ -100,6 +101,7 @@ type
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
     property Ender1: string read GetEnder1;
     property Ender2: string read GetEnder2;
+    property Ender3: string read GetEnder3;
   end;
 
 implementation
@@ -161,8 +163,12 @@ end;
 
 function TPessEnder.GetEnder2: string;
 begin
-  Result := MunicipioNome + ' - ' + UFSigla + ' Tel.: (' + DDD + ') ' +
-    FoneComMasc(Fone1);
+  Result := MunicipioNome + ' - ' + UFSigla;
+end;
+
+function TPessEnder.GetEnder3: string;
+begin
+  Result := 'Telefone: (' + DDD + ') ' + FoneComMasc(Fone1);
 end;
 
 function TPessEnder.GetAlteradoEm: TDateTime;

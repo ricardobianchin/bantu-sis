@@ -78,6 +78,9 @@ type
 
     function GetEnder2: string;
     property Ender2: string read GetEnder2;
+
+    function GetEnder3: string;
+    property Ender3: string read GetEnder2;
   end;
 
 implementation

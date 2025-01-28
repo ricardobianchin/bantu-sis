@@ -26,9 +26,9 @@ begin
       repeat
         ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
 
-        {$IFDEF DEBUG}
-        break;
-        {$ENDIF}
+//        {$IFDEF DEBUG}
+//        break;
+//        {$ENDIF}
 
         if bPrecisaTerminar then
           break;

@@ -70,7 +70,7 @@ type
 
     procedure AcioneGaveta;
   protected
-    procedure SimuleKeyPress(pChar: Char);
+//    procedure SimuleKe yP ress(pChar: Char);
     procedure ExibaControles; override;
   public
     { Public declarations }
@@ -280,7 +280,10 @@ begin
     VK_NEXT:
       begin
         Key := 0;
-        PDVControlador.PagSomenteDinheiro;
+        if FShopPDVVenda.VendaPagList.Count = 0 then
+          PDVControlador.PagSomenteDinheiro
+        else
+          PDVControlador.VaParaPag;
       end;
   end;
 end;
@@ -316,7 +319,7 @@ begin
     Exit;
   end
   else if CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
-    ',']) then
+    ',', '*', #13, #8]) then
   begin
     StrBuscaPegueChar(Key);
   end;
@@ -478,10 +481,10 @@ begin
   ItemSelecione;
 end;
 
-procedure TShopVendaPDVFrame.SimuleKeyPress(pChar: Char);
-begin
-  ExecKeyPress(Self, pChar);
-end;
+//procedure TShopVendaPDVFrame.Simule K eyPress(pChar: Char);
+//begin
+//  ExecKeyPress(Self, pChar);
+//end;
 
 procedure TShopVendaPDVFrame.StrBuscaExec;
 var

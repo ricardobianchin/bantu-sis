@@ -40,12 +40,9 @@ begin
   GarantirPasta(sArqNome);
 
   sArqNome := sArqNome + FAssunto + ' ' + DateToNomeArq(dtAgora) + '.txt';
+  EscreverArquivo(pTexto, sArqNome);
 
-{$IFDEF DEBUG}
-  sArqNome := FPastaRaiz + 'Espelho.txt';
-{$ENDIF}
-
-
+  sArqNome := FPastaRaiz + 'Ultimo '+FAssunto + '.txt';
   EscreverArquivo(pTexto, sArqNome);
 end;
 
