@@ -170,7 +170,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
     object PDVToolBar: TToolBar
       Left = 32
       Top = 1
-      Width = 657
+      Width = 745
       Height = 23
       Align = alNone
       ButtonHeight = 21
@@ -232,6 +232,14 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         AutoSize = True
         Caption = 'E - Entrega'
         ImageIndex = 6
+      end
+      object GavetaToolButton: TToolButton
+        Left = 642
+        Top = 0
+        AutoSize = True
+        Caption = 'G - Gaveta'
+        ImageIndex = 7
+        OnClick = GavetaToolButtonClick
       end
     end
   end

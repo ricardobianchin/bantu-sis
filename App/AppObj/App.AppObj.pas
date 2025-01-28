@@ -4,7 +4,7 @@ interface
 
 uses Sis.UI.IO.Output, Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog,
   Sis.Threads.Crit.CriticalSections, App.Testes.Config, Sis.Config.SisConfig,
-  App.AppInfo, App.Loja, Sis.Entities.TerminalList;
+  App.AppInfo, App.Loja, Sis.TerminalList;
 
 {
   AppTestesConfig = da camada App, configuracoes dos testes

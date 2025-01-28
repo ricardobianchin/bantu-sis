@@ -2,7 +2,7 @@ unit App.PDV.DBI_u;
 
 interface
 
-uses Sis.DBI_u, App.PDV.DBI, App.AppObj, Sis.DB.DBTypes, Sis.Entities.Terminal,
+uses Sis.DBI_u, App.PDV.DBI, App.AppObj, Sis.DB.DBTypes, Sis.Terminal,
   App.PDV.Venda, App.PDV.VendaPag, App.PDV.VendaPag_u, App.PDV.VendaPag.List_u,
   FireDAC.Comp.Client, Sis.Types;
 
@@ -340,9 +340,9 @@ begin
     + 'FORMA.ID = PAG.FORMA_ID'#13#10 //
     + 'ORDER BY PAG.ORDEM;';
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, q);

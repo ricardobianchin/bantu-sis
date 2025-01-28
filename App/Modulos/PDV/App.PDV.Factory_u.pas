@@ -2,13 +2,14 @@ unit App.PDV.Factory_u;
 
 interface
 
-uses Sis.Entities.Types, App.PDV.AppPDVObj, System.Classes, Sis.Types,
+uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
-  App.PDV.VendaPag.List, App.PDV.VendaPag;
+  App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
+  App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
+  App.PDV.ImpressaoTextoVenda_u;
 
-function AppPDVObjCreate: IAppPDVObj;
-function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
-  pAction: TAction): TPdvFrame;
+function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
+  pCaption: TCaption; pAction: TAction): TPdvFrame;
 
 function VendaPagListCreate: IVendaPagList;
 
@@ -17,20 +18,34 @@ function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
   APagamentoFormaDescr: string; AValorDevido, AValorEntregue, ATroco: Currency;
   ACancelado: Boolean): IVendaPag;
 
+function GavetaNaoTemCreate: IGaveta;
+function GavetaWinCreate(pTerminal: ITerminal): IGaveta;
+function GavetaCreate(pTerminal: ITerminal): IGaveta;
+
+//function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
+function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
+function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
+  pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
+
+
 implementation
 
-uses App.PDV.AppPDVObj_u, App.UI.PDV.Aviso.Frame_u, System.SysUtils,
-  App.PDV.VendaPag.List_u, App.PDV.VendaPag_u;
+uses System.SysUtils, App.PDV.VendaPag.List_u //
 
-function AppPDVObjCreate: IAppPDVObj;
-begin
-  Result := TAppPDVObj.Create;
-end;
+    , App.UI.PDV.Aviso.Frame_u //
+    , App.PDV.VendaPag_u //
 
-function PDVFrameAvisoCreate(pParent: TWinControl; pCaption: TCaption;
-  pAction: TAction): TPdvFrame;
+    , App.PDV.UI.Gaveta.NaoTem_u //
+    , App.PDV.UI.Gaveta.Win_u //
+
+    , App.Pdv.CupomEspelho_u //
+
+    ;
+
+function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
+  pCaption: TCaption; pAction: TAction): TPdvFrame;
 begin
-  Result := TAvisoPDVFrame.Create(pParent, pCaption, pAction);
+  Result := TAvisoPDVFrame.Create(pParent, pPDVObj, pCaption, pAction);
 end;
 
 function VendaPagListCreate: IVendaPagList;
@@ -41,12 +56,50 @@ end;
 function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
   APagamentoFormaTipoId: string; APagamentoFormaTipoDescrRed: string;
   APagamentoFormaDescr: string; AValorDevido, AValorEntregue, ATroco: Currency;
-  ACancelado: Boolean)
-  : IVendaPag;
+  ACancelado: Boolean): IVendaPag;
 begin
   Result := TVendaPag.Create(AOrdem, APagamentoFormaId, APagamentoFormaTipoId,
     APagamentoFormaTipoDescrRed, APagamentoFormaDescr, AValorDevido,
     AValorEntregue, ATroco, ACancelado);
+end;
+
+function GavetaNaoTemCreate: IGaveta;
+begin
+  Result := TGavetaNaoTem.Create;
+end;
+
+function GavetaWinCreate(pTerminal: ITerminal): IGaveta;
+begin
+  Result := TGavetaWin.Create(pTerminal);
+end;
+
+function GavetaCreate(pTerminal: ITerminal): IGaveta;
+begin
+  if pTerminal.GavetaTem then
+  begin
+    Result := GavetaWinCreate(pTerminal)
+  end
+  else
+  begin
+    Result := GavetaNaoTemCreate;
+  end;
+end;
+
+function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
+begin
+  Result := TCupomEspelho.Create(pAppObj, pTipoCupom);
+end;
+
+function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
+begin
+  Result := TCupomEspelho.Create(pAppObj, 'Venda');
+end;
+
+function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
+  pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
+begin
+  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pDocTitulo,
+    pAppObj, pTerminal, pPDVVenda);
 end;
 
 end.

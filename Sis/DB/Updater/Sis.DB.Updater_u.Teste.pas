@@ -2,7 +2,7 @@ unit Sis.DB.Updater_u.Teste;
 
 interface
 
-uses Sis.DB.DBTypes, Sis.DB.Factory, Sis.Entities.Terminal, Sis.Entities.Types,
+uses Sis.DB.DBTypes, Sis.DB.Factory, Sis.Terminal, Sis.Entities.Types,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 const

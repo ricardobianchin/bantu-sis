@@ -13,7 +13,6 @@ type
     function GetSqlForEach(pValues: variant): string; virtual;
       abstract;
   public
-    constructor Create(pDBConnection: IDBConnection);
     property DBConnection: IDBConnection read GetDBConnection;
 
     function ExecuteSQL(pComandoSQL: string; out pMens: string): boolean;
@@ -23,6 +22,8 @@ type
     procedure ForEach(pValues: variant;
       pProcLeReg: TProcDataSetOfObject); virtual;
     function GetNomeArqTabView(pValues: variant): string; virtual;
+
+    constructor Create(pDBConnection: IDBConnection);
   end;
 
 implementation

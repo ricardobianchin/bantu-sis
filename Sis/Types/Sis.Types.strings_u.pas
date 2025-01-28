@@ -69,11 +69,12 @@ function ConvertHTMLChars(pStr: string): string;
 function ClassNameToNome(pClassName: string;
   pDeleteLastWord: boolean = True): string;
 
-
 procedure EnsureStringFixedLength(var aStr: string; aLength: Integer);
 procedure EnsureStringMinimalLength(var aStr: string; aLength: Integer);
 procedure OverwriteString(var aTargetStr: string; const aSourceStr: string; pStartPos: Integer);
 procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string; aEndPos: Integer);
+//procedure CenterStr(var aTarget: string; aWidth: integer; aFillChar: char = #32; aAddAtEnd: Boolean = False); overload;
+function CenterStr(aTarget: string; aWidth: integer; aFillChar: char = #32; aAddAtEnd: Boolean = False): string; overload;
 
 // function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
@@ -512,7 +513,7 @@ end;
 
 procedure StrDeleteTrailingChars(var pStr: string; const CharSet: TSysCharSet);
 begin
-  while (pStr <> '') and (pStr[Length(pStr)] in CharSet) do
+  while (pStr <> '') and CharInSet(pStr[Length(pStr)], CharSet) do
   begin
     StrDeleteNoFim(pStr, 1);
   end;
@@ -676,33 +677,12 @@ begin
   }
 end;
 
-(*
-  function ClassNameToNome(pClassName: string): string;
-  var
-  i: Integer;
-  begin
-  Result := '';
-
-  // Remove o primeiro caractere se for 'T'
-  if (Length(pClassName) > 0) and (pClassName[1] = 'T') then
-  Delete(pClassName, 1, 1);
-
-  // Adiciona espaços antes de letras maiúsculas seguidas de minúsculas
-  for i := 1 to Length(pClassName) do
-  begin
-  if (i > 1) and (pClassName[i] in ['A'..'Z']) and (pClassName[i-1] in ['a'..'z']) then
-  Result := Result + ' ';
-  Result := Result + pClassName[i];
-  end;
-  end;
-*)
-
 function ClassNameToNome(pClassName: string;
   pDeleteLastWord: boolean = True): string;
 var
   i: integer;
   Words: TStringList;
-  CurrentWord: string;
+  //CurrentWord: string;
 begin
   Result := '';
 
@@ -716,8 +696,8 @@ begin
     i := 1;
     while i <= Length(pClassName) do
     begin
-      if (i > 1) and ((pClassName[i] in ['A' .. 'Z']) and
-        (pClassName[i - 1] in ['a' .. 'z'])) or (pClassName[i] in ['0' .. '9'])
+      if (i > 1) and ((CharInSet(pClassName[i], ['A' .. 'Z']) and
+        CharInSet(pClassName[i - 1], ['a' .. 'z'])) or CharInSet(pClassName[i], ['0' .. '9']))
       then
       begin
         Words.Add(Copy(pClassName, 1, i - 1));
@@ -770,6 +750,60 @@ begin
   EnsureStringMinimalLength(aTargetStr, aEndPos);
   for i := 1 to Length(aSourceStr) do
     aTargetStr[StartPos + i - 1] := aSourceStr[i];
+end;
+
+//procedure CenterStr(var aTarget: string; aWidth: integer; aFillChar: char; aAddAtEnd: Boolean);
+//var
+//  iPadding: integer;
+//  L: integer;
+//begin
+//  aTarget := Trim(aTarget);
+//
+//  L := Length(aTarget);
+//  if L = aWidth then
+//    exit;
+//
+//  if L > aWidth then
+//  begin
+//    SetLength(aTarget, aWidth);
+//    exit;
+//  end;
+//
+//  iPadding := (aWidth - L) div 2;
+//  aTarget := StringOfChar(aFillChar, iPadding) + aTarget;
+//
+//  if aAddAtEnd then
+//  begin
+//    L := Length(aTarget);
+//    aTarget := aTarget + StringOfChar(aFillChar, aWidth - L - iPadding);
+//  end;
+//end;
+
+function CenterStr(aTarget: string; aWidth: integer; aFillChar: char; aAddAtEnd: Boolean): string;
+var
+  iPadding: integer;
+  L: integer;
+begin
+  Result := Trim(aTarget);
+
+  L := Length(Result);
+  if L = aWidth then
+    exit;
+
+  if L > aWidth then
+  begin
+    SetLength(Result, aWidth);
+    exit;
+  end;
+
+  iPadding := (aWidth - L) div 2;
+  Result := StringOfChar(aFillChar, iPadding) + Result;
+
+  if aAddAtEnd then
+  begin
+    L := Length(Result);
+    Result := Result + StringOfChar(aFillChar, aWidth - L - iPadding);
+  end;
 end;
 
 end.

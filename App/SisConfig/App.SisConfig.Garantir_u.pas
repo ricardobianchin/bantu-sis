@@ -4,7 +4,7 @@ interface
 
 uses App.SisConfig.Garantir, Sis.Sis.Executavel_u, Sis.Config.SisConfig,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Usuario,
-  Sis.Loja, Sis.Entities.TerminalList;
+  Sis.Loja, Sis.TerminalList, Sis.Terminal.DBI;
 
 type
   TAppSisConfigGarantirXML = class(TExecutavel, IAppSisConfigGarantirXML)
@@ -18,6 +18,7 @@ type
     FUsuarioAdmin: IUsuario;
     FLoja: ISisLoja;
     FTerminalList: ITerminalList;
+    FTerminalDBI: ITerminalDBI;
 
     function ArqXmlExiste: boolean;
     procedure CopieInicial;
@@ -28,7 +29,8 @@ type
     function Execute: boolean; override;
     constructor Create(pAppObj: IAppObj; pSisConfig: ISisConfig;
       pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pOutput: IOutput;
-      pProcessLog: IProcessLog; pTerminalList: ITerminalList);
+      pProcessLog: IProcessLog; pTerminalList: ITerminalList;
+      pTerminalDBI: ITerminalDBI);
   end;
 
 implementation
@@ -51,7 +53,7 @@ var
 begin
 
   ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig, FUsuarioAdmin,
-    FLoja, FTerminalList, FAppObj);
+    FLoja, FTerminalList, FAppObj, FTerminalDBI);
   try
     r := ConfigPergForm.ShowModal;
     Result := IsPositiveResult(r);
@@ -102,7 +104,8 @@ end;
 
 constructor TAppSisConfigGarantirXML.Create(pAppObj: IAppObj;
   pSisConfig: ISisConfig; pUsuarioAdmin: IUsuario; pLoja: ISisLoja;
-  pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
+  pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList;
+  pTerminalDBI: ITerminalDBI);
 begin
   inherited Create(pOutput, pProcessLog);
   FAppObj := pAppObj;
@@ -110,10 +113,11 @@ begin
   FLoja := pLoja;
   FUsuarioAdmin := pUsuarioAdmin;
   FTerminalList := pTerminalList;
+  FTerminalDBI := pTerminalDBI;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');
-  FNomeArqXML := FAppObj.AppInfo.PastaConfigs + Sis.Sis.Constants.CONFIG_ARQ_NOME +
-    CONFIG_ARQ_EXT;
+  FNomeArqXML := FAppObj.AppInfo.PastaConfigs +
+    Sis.Sis.Constants.CONFIG_ARQ_NOME + CONFIG_ARQ_EXT;
   ProcessLog.RegistreLog('NomeArqXML=' + FNomeArqXML);
   ProcessLog.RetorneLocal;
 end;

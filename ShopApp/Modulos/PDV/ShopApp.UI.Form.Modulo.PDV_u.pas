@@ -9,9 +9,9 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.ModuloSistema,
   App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
-  Sis.Entities.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
+  Sis.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
   App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI, App.PDV.Venda,
-  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI;
+  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj, ShopApp.PDV.Obj;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -20,9 +20,11 @@ type
     { Private declarations }
     FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
+    FShopPDVObj: IShopPDVObj;
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
     function PDVVendaCreate: IPDVVenda; override;
+    function PDVObjCreate: IPDVObj; override;
     function PDVDBICreate: IAppPDVDBI; override;
 
     function VendaFrameCreate: TVendaBasPDVFrame; override;
@@ -66,7 +68,7 @@ end;
 
 function TShopPDVModuloForm.PagFrameCreate: TPagPDVFrame;
 begin
-  Result := ShopPagPDVFrameCreate(Self, PDVVenda, PDVDBI, Self);
+  Result := ShopPagPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self);
   Result.Visible := False;
 end;
 
@@ -76,6 +78,12 @@ begin
     FShopPDVVenda);
 
   Result := FShopAppPDVDBI;
+end;
+
+function TShopPDVModuloForm.PDVObjCreate: IPDVObj;
+begin
+  FShopPDVObj := ShopPdvObjCreate(Terminal);;
+  Result := FShopPDVObj;
 end;
 
 function TShopPDVModuloForm.PDVVendaCreate: IPDVVenda;
@@ -112,7 +120,7 @@ end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  Result := ShopVendaPDVFrameCreate(Self, PDVVenda, PDVDBI, Self);
+  Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self);
   Result.Visible := False;
 end;
 

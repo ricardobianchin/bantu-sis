@@ -90,13 +90,13 @@ var
   y: integer;
   s: string;
   oItem: IShopPDVVendaItem;
-  iPosQtd: integer;
-  iPosPrecoUnit: integer;
-  iPosPreco: integer;
+//  iPosQtd: integer;
+//  iPosPrecoUnit: integer;
+//  iPosPreco: integer;
 begin
-  iPosQtd := 12;
-  iPosPrecoUnit := 30;
-  iPosPreco := 40;
+//  iPosQtd := 12;
+//  iPosPrecoUnit := 30;
+//f  iPosPreco := 40;
 
   oItem := FVenda[ARow];
 

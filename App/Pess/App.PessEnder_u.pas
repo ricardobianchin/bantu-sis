@@ -76,13 +76,17 @@ type
     function GetAlteradoEm: TDateTime;
     procedure SetAlteradoEm(const Value: TDateTime);
 
+    function GetEnder1: string;
+    function GetEnder2: string;
+    function GetEnder3: string;
   public
     property Ordem: smallint read GetOrdem write SetOrdem;
     property Logradouro: string read GetLogradouro write SetLogradouro;
     property Numero: string read GetNumero write SetNumero;
     property Complemento: string read GetComplemento write SetComplemento;
     property Bairro: string read GetBairro write SetBairro;
-    property MunicipioIbgeId: string read GetMunicipioIbgeId write SetMunicipioIbgeId;
+    property MunicipioIbgeId: string read GetMunicipioIbgeId
+      write SetMunicipioIbgeId;
     property MunicipioNome: string read GetMunicipioNome write SetMunicipioNome;
     property UFSigla: string read GetUFSigla write SetUFSigla;
     property CEP: string read GetCEP write SetCEP;
@@ -95,9 +99,14 @@ type
     property Referencia: string read GetReferencia write SetReferencia;
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
     property AlteradoEm: TDateTime read GetAlteradoEm write SetAlteradoEm;
+    property Ender1: string read GetEnder1;
+    property Ender2: string read GetEnder2;
+    property Ender3: string read GetEnder3;
   end;
 
 implementation
+
+uses Sis.Types.Codigos.Utils;
 
 { TPessEnder }
 
@@ -129,6 +138,37 @@ end;
 function TPessEnder.GetDDD: string;
 begin
   Result := FDDD;
+end;
+
+function TPessEnder.GetEnder1: string;
+var
+  sn: string;
+begin
+  sn := '';
+
+  if FNumero <> '' then
+    sn := sn + FNumero;
+
+  if FComplemento <> '' then
+    sn := sn + ' ' + FComplemento;
+
+  if sn <> '' then
+    sn := ', ' + sn;
+
+  Result := Logradouro + sn;
+
+  if Bairro <> '' then
+    Result := Result + ' ' + Bairro;
+end;
+
+function TPessEnder.GetEnder2: string;
+begin
+  Result := MunicipioNome + ' - ' + UFSigla;
+end;
+
+function TPessEnder.GetEnder3: string;
+begin
+  Result := 'Telefone: (' + DDD + ') ' + FoneComMasc(Fone1);
 end;
 
 function TPessEnder.GetAlteradoEm: TDateTime;

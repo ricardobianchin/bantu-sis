@@ -182,6 +182,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\PdvObj\ShopApp.PDV.Obj.pas"/>
+        <DCCReference Include="Modulos\PDV\PdvObj\ShopApp.PDV.Obj_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

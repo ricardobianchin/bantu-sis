@@ -10,7 +10,7 @@ uses
   App.Sessao.EventosDeSessao, Vcl.Menus, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Factory, App.UI.Form.Menu_u,
   Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
-  Sis.Entities.Terminal, Sis.Sis.ExecTardiaDM_u, System.UITypes;
+  Sis.Terminal, Sis.Sis.ExecTardiaDM_u, System.UITypes;
 
 type
   TModuloBasForm = class(TBasForm)

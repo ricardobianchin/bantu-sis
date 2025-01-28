@@ -18,6 +18,7 @@ type
     FPastaConfigs: string;
     FPastaDados: string;
     FPastaImg: string;
+    FPastaDocs: string;
     FPastaComandos: string;
     FPastaConsultas: string;
     FPastaConsTabViews: string;
@@ -44,6 +45,7 @@ type
 
     function GetPasta: string;
     function GetPastaImg: string;
+    function GetPastaDocs: string;
     function GetPastaComandos: string;
     function GetPastaConsultas: string;
     function GetPastaConsTabViews: string;
@@ -73,6 +75,7 @@ type
 
     property Pasta: string read GetPasta;
     property PastaImg: string read GetPastaImg;
+    property PastaDocs: string read GetPastaDocs;
     property PastaComandos: string read GetPastaComandos;
     property PastaConsultas: string read GetPastaConsultas;
     property PastaConsTabViews: string read GetPastaConsTabViews;
@@ -112,6 +115,9 @@ begin
 
   FPastaImg := FPasta + 'Img\';
   ForceDirectories(FPastaImg);
+
+  FPastaDocs := FPasta + 'Docs\';
+  ForceDirectories(FPastaDocs);
 
   FPastaComandos := FPasta + 'Comandos\';
   ForceDirectories(FPastaComandos);
@@ -189,6 +195,11 @@ end;
 function TAppInfo.GetPastaDados: string;
 begin
   Result := FPastaDados;
+end;
+
+function TAppInfo.GetPastaDocs: string;
+begin
+  Result := FPastaDocs;
 end;
 
 function TAppInfo.GetPastaImg: string;

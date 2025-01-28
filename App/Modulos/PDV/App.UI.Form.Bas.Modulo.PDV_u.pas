@@ -6,14 +6,14 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.PDV.AppPDVObj,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, App.PDV.Obj,
   Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants, Sis.Usuario,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj,
-  Sis.Entities.Types, Sis.Entities.Terminal, App.PDV.Factory_u, App.PDV.Venda,
+  Sis.Entities.Types, Sis.Terminal, App.PDV.Factory_u, App.PDV.Venda,
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
-  App.PDV.DBI, App.UI.PDV.PagFrame_u;
+  App.PDV.DBI, App.UI.PDV.PagFrame_u, Sis.UI.Impressao;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -27,7 +27,7 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
-    FAppPDVObj: IAppPDVObj;
+    FPDVObj: IPDVObj;
     FPDVVenda: IPDVVenda;
 
     FFrameAtivo: TPDVFrame;
@@ -39,6 +39,8 @@ type
     FPDVDBI: IAppPDVDBI;
 
     FTermDBConnection: IDBConnection;
+
+    FImpressaoVenda: IImpressao;
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TPDVFrame;
@@ -54,6 +56,7 @@ type
     function VendaFrameCreate: TVendaBasPDVFrame; virtual; abstract;
     function PagFrameCreate: TPagPDVFrame; virtual; abstract;
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
+    function PDVObjCreate: IPDVObj; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
     procedure DecidirPrimeroFrameAtivo; virtual;
 
@@ -66,6 +69,8 @@ type
     property PDVDBI: IAppPDVDBI read FPDVDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
+    property PDVObj: IPDVObj read FPDVObj;
+    property ImpressaoVenda: IImpressao read FImpressaoVenda;
   public
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
@@ -124,7 +129,8 @@ begin
   rDBConnectionParams.Arq := Terminal.LocalArqDados;
   rDBConnectionParams.Database := Terminal.Database;
 
-  FAppPDVObj := AppPDVObjCreate;
+  FPDVObj := PDVObjCreate;
+
   FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
     rDBConnectionParams, nil, nil);
 
@@ -134,8 +140,8 @@ begin
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario);
 
-  FFrameAviso := PDVFrameAvisoCreate(Self, 'É necessário abrir o caixa',
-    CaixaSessaoAbrirTentarAction);
+  FFrameAviso := PDVFrameAvisoCreate(Self, FPDVObj,
+    'É necessário abrir o caixa', CaixaSessaoAbrirTentarAction);
   FFrameAviso.OculteControles;
 
   FPDVVenda := PDVVendaCreate;
@@ -146,6 +152,9 @@ begin
 
   FPagFrame := PagFrameCreate;
   FPagFrame.OculteControles;
+
+  FImpressaoVenda := ImpressaoTextoVendaCreate(Terminal.ImpressoraNome,
+    'Cupom Venda', AppObj, Terminal, PDVVenda);
 end;
 
 procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
@@ -158,7 +167,7 @@ begin
   try
     FCaixaSessaoDM.AnaliseCaixa;
 
-    if FAppPDVObj.Fiscal then
+    if FPDVObj.Fiscal then
     begin
       if FCaixaSessaoDM.CaixaSessaoSituacao = cxFechado then
       begin
@@ -239,16 +248,24 @@ end;
 procedure TPDVModuloBasForm.PagSomenteDinheiro;
 begin
   FPagFrame.PagSomenteDinheiro;
+  FPDVObj.Gaveta.Acione;
+  FImpressaoVenda.Imprima;
 end;
 
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
   if (not FPDVVenda.Cancelado) and (not FPDVVenda.Finalizado) then
   begin
+    FPDVObj.Gaveta.Acione;
     VaParaVenda;
     FVendaFrame.ExibaMens('Finalizando a venda...');
     Application.ProcessMessages;
+//{$IFDEF DEBUG}
+//    FImpressaoVenda.Imprima;
+//{$ENDIF}
+
     FPDVDBI.VendaFinalize;
+    FImpressaoVenda.Imprima;
   end;
 
   FPDVVenda.Zerar;

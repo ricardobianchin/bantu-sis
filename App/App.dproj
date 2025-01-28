@@ -601,8 +601,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Factory_u.pas"/>
         <DCCReference Include="Modulos\PDV\App.PDV.Factory_u.pas"/>
-        <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj.pas"/>
-        <DCCReference Include="Modulos\PDV\AppPDVObj\App.PDV.AppPDVObj_u.pas"/>
+        <DCCReference Include="Modulos\PDV\PDVObj\App.PDV.Obj.pas"/>
+        <DCCReference Include="Modulos\PDV\PDVObj\App.PDV.Obj_u.pas"/>
         <DCCReference Include="Modulos\PDV\UI\App.UI.PDV.Frame_u.pas">
             <Form>PDVFrame</Form>
             <FormType>dfm</FormType>
@@ -701,6 +701,21 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PagPergForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Factory_u.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.UI.Form.TabSheet.Config.Ambi.Terminal_u.pas">
+            <Form>ConfigAmbiTermForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Mudo_u.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.Config.Ambi.Terminal.DBI.Grava_u.pas"/>
+        <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.pas"/>
+        <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.NaoTem_u.pas"/>
+        <DCCReference Include="Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.Win_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoVenda_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

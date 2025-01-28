@@ -4,10 +4,9 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.PDV.Frame_u, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls, App.Est.Venda.CaixaSessaoDM_u,
-  Vcl.ActnList;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  App.UI.PDV.Frame_u, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls,
+  App.Est.Venda.CaixaSessaoDM_u, Vcl.ActnList, App.PDV.Obj;
 
 type
   TAvisoPDVFrame = class(TPDVFrame)
@@ -22,7 +21,7 @@ type
     procedure ExibaControles; override;
     procedure OculteControles; override;
 
-    constructor Create(AOwner: TComponent; pCaption: TCaption;
+    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj; pCaption: TCaption;
       pAction: TAction); reintroduce; virtual;
   end;
 
@@ -54,10 +53,10 @@ begin
   oControl.Top := (AltuDif div 10) * 4;
 end;
 
-constructor TAvisoPDVFrame.Create(AOwner: TComponent; pCaption: TCaption;
-  pAction: TAction);
+constructor TAvisoPDVFrame.Create(AOwner: TComponent; pPDVObj: IPDVObj;
+  pCaption: TCaption; pAction: TAction);
 begin
-  inherited Create(AOwner);
+  inherited Create(AOwner, pPDVObj);
 
   MensagemLabel.Caption := pCaption;
   ControlAlignHorizontal(MensagemLabel);

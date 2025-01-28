@@ -8,7 +8,8 @@ uses
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.UI.FormCreator,
   Sis.DB.DBTypes, App.DB.Utils, Sis.DB.Factory, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.EventosDeSessao,
+  App.Constants,
   Sis.Usuario, App.AppObj, Sis.UI.Controls.Utils, App.DB.Import.Form_u,
   Sis.Types.Contador, Sis.Entities.Types;
 
@@ -36,6 +37,7 @@ type
     // dbimport
     procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
     procedure ConfigAmbiLojasActionExecute(Sender: TObject);
+    procedure ConfigTerminaisActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -43,6 +45,7 @@ type
     FOutputNotify: IOutput;
 
     FAmbiLojasDataSetFormCreator: IFormCreator;
+    FAmbiTerminalDataSetFormCreator: IFormCreator;
 
     procedure TabSheetCrie(pFormCreator: IFormCreator);
   protected
@@ -64,13 +67,14 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Factory, Sis.UI.IO.Factory, App.AppInfo, Sis.Config.SisConfig,
-  App.Pess.UI.Factory_u;
+  App.Pess.UI.Factory_u, App.Config.Ambi.Factory_u;
 
 { TConfigModuloBasForm }
 
 constructor TConfigModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
-  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj; pTerminalId: TTerminalId);
+  pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
+  pTerminalId: TTerminalId);
 var
   oAppInfo: IAppInfo;
   oSisConfig: ISisConfig;
@@ -84,6 +88,10 @@ begin
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
 
   FAmbiLojasDataSetFormCreator := AmbiLojaDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
+
+  FAmbiTerminalDataSetFormCreator := TerminalFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, AppObj);
 
@@ -115,6 +123,12 @@ begin
   finally
     ConfigDBImportAbrirAction.Enabled := True;
   end;
+end;
+
+procedure TConfigModuloBasForm.ConfigTerminaisActionExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAmbiTerminalDataSetFormCreator);
 end;
 
 procedure TConfigModuloBasForm.DBImportPrep;

@@ -8,7 +8,7 @@ uses
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
-  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador;
+  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -32,6 +32,7 @@ type
     ToolButton2: TToolButton;
     ToolButton1: TToolButton;
     ToolButton3: TToolButton;
+    GavetaToolButton: TToolButton;
     procedure CaretTimerTimer(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -39,6 +40,7 @@ type
     procedure ItemCanceleToolButtonClick(Sender: TObject);
     procedure PagSomenteDinheiroToolButtonClick(Sender: TObject);
     procedure PagamentoToolButtonClick(Sender: TObject);
+    procedure GavetaToolButtonClick(Sender: TObject);
   private
     { Private declarations }
     FColuna1Rect, FColuna2Rect: TRect;
@@ -46,6 +48,7 @@ type
     FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
     FFitaDraw: IShopFitaDraw;
+    FShopPDVObj: IShopPDVObj;
 
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
@@ -58,14 +61,16 @@ type
     procedure ItemZerar;
     procedure PreencherControles;
 
-    procedure ExibaItemVendido(pDescr: string; pValor: Currency = 0);
+    procedure ItemVendidoExiba(pDescr: string; pValor: Currency = 0);
+    procedure ItemVendidoRepaint;
 
     procedure ItemCancele;
     procedure ItemSelecione(pIndex: Integer = -1);
     function GetItemUltimoIndex: Integer;
 
+    procedure AcioneGaveta;
   protected
-    procedure SimuleKeyPress(pChar: Char);
+//    procedure SimuleKe yP ress(pChar: Char);
     procedure ExibaControles; override;
   public
     { Public declarations }
@@ -82,8 +87,9 @@ type
 
     procedure Iniciar; override;
 
-    constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-      pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador); reintroduce;
+    constructor Create(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+      pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
+      pPDVControlador: IPDVControlador); reintroduce;
   end;
 
 var
@@ -99,16 +105,30 @@ uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
 
 { TShopVendaPDVFrame }
 
+procedure TShopVendaPDVFrame.AcioneGaveta;
+begin
+  ExibaMens('Acionando gaveta');
+  ItemVendidoRepaint;
+
+  PDVObj.Gaveta.Acione;
+
+  Sleep(300);
+
+  StrBuscaMudou;
+end;
+
 procedure TShopVendaPDVFrame.CaretTimerTimer(Sender: TObject);
 begin
   inherited;
   CaretShape.Visible := not CaretShape.Visible;
 end;
 
-constructor TShopVendaPDVFrame.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
+constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
+  pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador);
 begin
-  inherited Create(AOwner, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  FShopPDVObj := pShopPDVObj;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
 
@@ -260,7 +280,10 @@ begin
     VK_NEXT:
       begin
         Key := 0;
-        PDVControlador.PagSomenteDinheiro;
+        if FShopPDVVenda.VendaPagList.Count = 0 then
+          PDVControlador.PagSomenteDinheiro
+        else
+          PDVControlador.VaParaPag;
       end;
   end;
 end;
@@ -287,14 +310,28 @@ begin
 
     PDVVenda.Cancelado := True;
     PDVControlador.VaParaFinaliza;
-    exit;
+    Exit;
+  end
+  else if CharInSet(Key, ['G', 'g']) then
+  begin
+    Key := #0;
+    AcioneGaveta;
+    Exit;
+  end
+  else if CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
+    ',', '*', #13, #8]) then
+  begin
+    StrBuscaPegueChar(Key);
   end;
-  StrBuscaPegueChar(Key);
 end;
 
 procedure TShopVendaPDVFrame.ExibaControles;
 begin
   PreencherControles;
+  PDVToolBar.Width := PDVToolBar.Width + 1;
+
+//  ControlAlignToCenter(PDVToolBar);
+
   inherited;
 
 end;
@@ -302,18 +339,24 @@ end;
 procedure TShopVendaPDVFrame.ExibaErro(pMens: string);
 begin
   inherited;
-  ExibaItemVendido(pMens);
+  ItemVendidoExiba(pMens);
 end;
 
-procedure TShopVendaPDVFrame.ExibaItemVendido(pDescr: string; pValor: Currency);
+procedure TShopVendaPDVFrame.ItemVendidoExiba(pDescr: string; pValor: Currency);
 begin
   ItemDescrLabel.Caption := pDescr;
   ItemTotalLabel.Caption := Iif(pValor = 0, '', DinhToStr(pValor));
 end;
 
+procedure TShopVendaPDVFrame.ItemVendidoRepaint;
+begin
+  ItemDescrLabel.Repaint;
+  ItemTotalLabel.Repaint;
+end;
+
 procedure TShopVendaPDVFrame.ExibaMens(pMens: string);
 begin
-  ExibaItemVendido(pMens);
+  ItemVendidoExiba(pMens);
 end;
 
 procedure TShopVendaPDVFrame.FitaStringGridDrawCell(Sender: TObject;
@@ -330,6 +373,12 @@ begin
   // InputPanel.SetFocus;
 end;
 
+procedure TShopVendaPDVFrame.GavetaToolButtonClick(Sender: TObject);
+begin
+  inherited;
+  AcioneGaveta;
+end;
+
 function TShopVendaPDVFrame.GetItemUltimoIndex: Integer;
 begin
   Result := FShopPDVVenda.Items.Count - 1;
@@ -344,7 +393,7 @@ begin
   FShopAppPDVDBI.CarregueVendaPendente(bCarregou);
   PreencherControles;
   if FShopPDVVenda.Items.Count = 0 then
-    ExibaItemVendido('');
+    ItemVendidoExiba('');
 
   // SimuleKeyPress('3');
   // SimuleKeyPress('*');
@@ -432,10 +481,10 @@ begin
   ItemSelecione;
 end;
 
-procedure TShopVendaPDVFrame.SimuleKeyPress(pChar: Char);
-begin
-  ExecKeyPress(Self, pChar);
-end;
+//procedure TShopVendaPDVFrame.Simule K eyPress(pChar: Char);
+//begin
+//  ExecKeyPress(Self, pChar);
+//end;
 
 procedure TShopVendaPDVFrame.StrBuscaExec;
 var
@@ -452,7 +501,7 @@ begin
     Exit;
   end;
   FShopPDVVenda.Items.Add(oItem);
-  ExibaItemVendido(oItem.Prod.DescrRed, oItem.PrecoBruto);
+  ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
   PreencherControles;
   FStrBusca := '';
   StrBuscaMudou;
@@ -467,7 +516,13 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.StrBuscaPegueChar(pChar: Char);
+var
+  bCharPode: Boolean;
 begin
+  bCharPode := pChar <> #0;
+  if not bCharPode then
+    Exit;
+
   try
     if pChar = #8 then
     begin

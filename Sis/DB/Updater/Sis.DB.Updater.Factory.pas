@@ -6,7 +6,7 @@ uses Sis.DB.DBTypes, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
   Sis.Config.SisConfig, Sis.DB.Updater, Sis.DB.Updater.Operations,
   Sis.DB.Updater.Comando, Sis.DB.Updater.Campo, Sis.DB.Updater.Campo.List,
   Sis.DB.Updater.Comando.List, Sis.Loja, Sis.Usuario, Sis.Entities.Types,
-  Sis.Entities.TerminalList;
+  Sis.TerminalList;
 
 function DBUpdaterFirebirdCreate(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
