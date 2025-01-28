@@ -1,18 +1,18 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 395
-  ClientWidth = 882
-  ExplicitWidth = 894
-  ExplicitHeight = 433
+  ClientHeight = 512
+  ClientWidth = 978
+  ExplicitWidth = 990
+  ExplicitHeight = 550
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 323
-    Width = 882
+    Top = 440
+    Width = 978
     ExplicitTop = 323
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 380
-    Width = 882
+    Top = 497
+    Width = 978
     ExplicitTop = 380
   end
   object ObjetivoLabel: TLabel [2]
@@ -59,15 +59,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'Nome na Rede'
   end
   object LetraDoDriveLabel: TLabel [7]
-    Left = 741
-    Top = 213
+    Left = 880
+    Top = 333
     Width = 27
     Height = 15
     Caption = 'Drive'
   end
   object LetraDoDriveAjudaLabel: TLabel [8]
-    Left = 787
-    Top = 197
+    Left = 926
+    Top = 317
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -81,15 +81,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     ParentFont = False
   end
   object NFSerieLabel: TLabel [9]
-    Left = 620
-    Top = 213
+    Left = 759
+    Top = 333
     Width = 65
     Height = 15
     Caption = 'S'#233'rie da NFE'
   end
   object NFSerieAjudaLabel: TLabel [10]
-    Left = 696
-    Top = 197
+    Left = 835
+    Top = 317
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -148,22 +148,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'IP'
   end
   inherited BasePanel: TPanel
-    Top = 343
-    Width = 882
+    Top = 460
+    Width = 978
     TabOrder = 12
     ExplicitTop = 342
     ExplicitWidth = 878
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 491
-      ExplicitLeft = 487
+      Left = 583
+      ExplicitLeft = 483
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 604
-      ExplicitLeft = 600
+      Left = 696
+      ExplicitLeft = 596
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 684
-      ExplicitLeft = 680
+      Left = 776
+      ExplicitLeft = 676
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -200,8 +200,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = NomeNaRedeEditKeyPress
   end
   object LetraDoDriveComboBox: TComboBox [18]
-    Left = 773
-    Top = 210
+    Left = 912
+    Top = 330
     Width = 49
     Height = 23
     Style = csDropDownList
@@ -209,8 +209,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = LetraDoDriveComboBoxKeyPress
   end
   object NFSerieEdit: TEdit [19]
-    Left = 691
-    Top = 210
+    Left = 830
+    Top = 330
     Width = 41
     Height = 23
     Alignment = taCenter
@@ -232,14 +232,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       102)
     object BalancaModoUsoLabel: TLabel
       Left = 6
-      Top = 41
+      Top = 36
       Width = 32
       Height = 15
       Caption = 'Modo'
     end
     object BalancaAjudaLabel: TLabel
       Left = 382
-      Top = 22
+      Top = 17
       Width = 35
       Height = 12
       CustomHint = BalloonHint1
@@ -255,14 +255,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BalancaLabel: TLabel
       Left = 254
-      Top = 41
+      Top = 36
       Width = 41
       Height = 15
       Caption = 'Modelo'
     end
     object BalModoUsoComboBox: TComboBox
       Left = 44
-      Top = 38
+      Top = 33
       Width = 199
       Height = 23
       Style = csDropDownList
@@ -275,7 +275,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BalComboBox: TComboBox
       Left = 301
-      Top = 38
+      Top = 33
       Width = 116
       Height = 23
       Style = csDropDownList
@@ -375,8 +375,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = IPEditKeyPress
   end
   object AtivoCheckBox: TCheckBox [24]
-    Left = 618
-    Top = 270
+    Left = 757
+    Top = 390
     Width = 167
     Height = 17
     Caption = 'Terminal Ativo no Sistema'
@@ -469,8 +469,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   object ImpressoraGroupBox: TGroupBox [26]
-    Left = 2
-    Top = 176
+    Left = 86
+    Top = 272
     Width = 602
     Height = 121
     Caption = 'Impressora'
@@ -593,15 +593,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   inherited ShowTimer_BasForm: TTimer
-    Left = 24
-    Top = 57
+    Left = 424
+    Top = 225
   end
   inherited ActionList1_Diag: TActionList
-    Left = 120
-    Top = 84
+    Left = 312
+    Top = 212
   end
   object BalloonHint1: TBalloonHint
-    Left = 63
-    Top = 127
+    Left = 215
+    Top = 207
   end
 end

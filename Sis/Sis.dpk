@@ -327,6 +327,7 @@ contains
   Sis.UI.ImpressoraTexto in 'UI\Impr\Sis.UI.ImpressoraTexto.pas',
   Sis.UI.Impressao in 'UI\Impr\Sis.UI.Impressao.pas',
   Sis.UI.Impressao_u in 'UI\Impr\Sis.UI.Impressao_u.pas',
-  Sis.UI.ImpressaoTexto_u in 'UI\Impr\Sis.UI.ImpressaoTexto_u.pas';
+  Sis.UI.ImpressaoTexto_u in 'UI\Impr\Sis.UI.ImpressaoTexto_u.pas',
+  Sis.Bal.Utils_u in 'UI\Bal\Sis.Bal.Utils_u.pas';
 
 end.
