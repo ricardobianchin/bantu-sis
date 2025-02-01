@@ -6,7 +6,7 @@
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
     </PropertyGroup>
@@ -79,15 +79,13 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -101,10 +99,10 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -119,7 +117,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <PreBuildEvent><![CDATA[C:\Pr\app\bantu\bantu-sis\Controle\GitDescribe_SaveTo_VersaoAtu.bat
+        <PreBuildEvent><![CDATA[C:\Pr\app\bantu\bantu-sis\Controle\VersaoAtu\GitDescribe_SaveTo_VersaoAtu.bat
 $(PreBuildEvent)]]></PreBuildEvent>
     </PropertyGroup>
     <ItemGroup>
@@ -131,6 +129,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="vcledge.dcp"/>
         <DCCReference Include="vclie.dcp"/>
         <DCCReference Include="Sis.dcp"/>
+        <DCCReference Include="BtuComponentes.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
         <DCCReference Include="AppObj\App.Factory.pas"/>
@@ -758,13 +757,13 @@ $(PreBuildEvent)]]></PreBuildEvent>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\Exe\Bin\App.bpl" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
+                    <Platform Name="Win32">
                         <RemoteName>App.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\App.bpl" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
+                <DeployFile LocalName="..\..\Exe\Bin\App.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>App.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -1513,7 +1512,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
-        <PreBuildEvent>C:\Pr\app\bantu\bantu-sis\Controle\GitDescribe_SaveTo_VersaoAtu.bat</PreBuildEvent>
+        <PreBuildEvent>C:\Pr\app\bantu\bantu-sis\Controle\VersaoAtu\GitDescribe_SaveTo_VersaoAtu.bat</PreBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>

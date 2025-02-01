@@ -239,7 +239,7 @@ begin
     + '  , BMU.DESCR AS BALANCA_MODO_USO_DESCR'#13#10 //
 
     + '  , B.BALANCA_ID'#13#10 //
-    + '  , TRIM(B.FABRICANTE || '' '' || B.MODELO) BALANCA_FABR_MODELO'#13#10 //
+    + '  , B.MODELO BALANCA_FABR_MODELO'#13#10 //
 
     + '  , T.BARRAS_COD_INI'#13#10 //
     + '  , T.BARRAS_COD_TAM'#13#10 //

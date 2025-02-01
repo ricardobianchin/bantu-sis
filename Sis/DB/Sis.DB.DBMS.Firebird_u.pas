@@ -271,6 +271,9 @@ var
   RegistryView: TRegistryView;
   sLog: string;
 begin
+  Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
+  exit;
+
   pProcessLog.PegueLocal('TDBMSFirebird.GetFirebirdExePath');
   try
   sLog := '';
@@ -292,9 +295,37 @@ begin
     end;
   end;
 
+
+{
   Result := ReadRegStr(HKEY_LOCAL_MACHINE,
     'SOFTWARE\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
     RegistryView);
+
+}
+
+//Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances
+
+
+  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+    RegistryView);
+
+
+//  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+//    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+//    rvDefault);
+//
+//  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+//    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+//    rvRegistry32);
+//
+//  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+//    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+//    rvRegistry64);
+
+
+
+
   if Result <> '' then
     Result := IncludeTrailingPathDelimiter(Result);
   sLog := sLog + ', [' + Result + ']';

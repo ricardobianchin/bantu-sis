@@ -1,19 +1,19 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 512
-  ClientWidth = 978
-  ExplicitWidth = 990
-  ExplicitHeight = 550
+  ClientHeight = 511
+  ClientWidth = 974
+  ExplicitWidth = 986
+  ExplicitHeight = 549
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 440
-    Width = 978
-    ExplicitTop = 323
+    Top = 439
+    Width = 974
+    ExplicitTop = 439
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 497
-    Width = 978
-    ExplicitTop = 380
+    Top = 496
+    Width = 974
+    ExplicitTop = 496
   end
   object ObjetivoLabel: TLabel [2]
     Left = 2
@@ -148,22 +148,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'IP'
   end
   inherited BasePanel: TPanel
-    Top = 460
-    Width = 978
+    Top = 459
+    Width = 974
     TabOrder = 12
-    ExplicitTop = 342
-    ExplicitWidth = 878
+    ExplicitTop = 458
+    ExplicitWidth = 970
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 583
-      ExplicitLeft = 483
+      Left = 579
+      ExplicitLeft = 575
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 696
-      ExplicitLeft = 596
+      Left = 692
+      ExplicitLeft = 688
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 776
-      ExplicitLeft = 676
+      Left = 772
+      ExplicitLeft = 768
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -224,12 +224,12 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 2
     Top = 71
     Width = 425
-    Height = 102
+    Height = 154
     Caption = 'Modo da Balan'#231'a'
     TabOrder = 5
     DesignSize = (
       425
-      102)
+      154)
     object BalancaModoUsoLabel: TLabel
       Left = 6
       Top = 36
@@ -285,6 +285,27 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       OnKeyPress = BalComboBoxKeyPress
       Items.Strings = (
         '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
+    end
+    object NumEditBtu1: TNumEditBtu
+      Left = 84
+      Top = 62
+      Width = 121
+      Height = 23
+      Alignment = taCenter
+      AutoExit = False
+      Caption = 'NumEditBtu1'
+      EditLabel.Width = 71
+      EditLabel.Height = 23
+      EditLabel.Caption = 'NumEditBtu1'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      ReadOnly = False
+      TabOrder = 2
+      Text = '0'
+      NCasas = 0
+      NCasasEsq = 0
+      Valor = 0
+      MascEsq = '########0'
     end
   end
   object BarCodigoGroupBox: TGroupBox [21]

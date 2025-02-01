@@ -10,8 +10,8 @@ uses System.Classes, System.SysUtils, System.DateUtils, Vcl.Dialogs;
 
 const
   ARQUIVOS: array [0 .. 1] of string =
-    ('C:\Pr\app\bantu\bantu-sis\bantu-instaladores\Shop64\MercadoInicial.iss',
-    'C:\Pr\app\bantu\bantu-sis\bantu-instaladores\Shop64\MercadoAtualiz.iss');
+    ('C:\Pr\app\bantu\bantu-sis\bantu-instaladores\Shop32\MercadoInicial.iss',
+    'C:\Pr\app\bantu\bantu-sis\bantu-instaladores\Shop32\MercadoAtualiz.iss');
 
   MARCA_VERSAO = '#define MyVersionNumber';
   MARCA_COMPILE_DTH = '#define MyDtHCompile';

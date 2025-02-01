@@ -114,9 +114,9 @@
         <DCCReference Include="vclactnband.dcp"/>
         <DCCReference Include="vclx.dcp"/>
         <DCCReference Include="xmlrtl.dcp"/>
-        <DCCReference Include="NumEdit\Btu.UI.Controls.Edit.Custom_u.pas"/>
-        <DCCReference Include="NumEdit\Btu.UI.Controls.Edit.Numeric.Custom_u.pas"/>
-        <DCCReference Include="NumEdit\Btu.UI.Controls.NumericEdit.pas"/>
+        <DCCReference Include="NumEdit\CustomNumEditBtu.pas"/>
+        <DCCReference Include="NumEdit\NumEditBtu.pas"/>
+        <DCCReference Include="NumEdit\CustomEditBtu.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

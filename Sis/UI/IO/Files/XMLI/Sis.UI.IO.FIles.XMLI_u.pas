@@ -57,6 +57,8 @@ begin
   CoInitialize(nil);
   try
     XMLDocument1 := LoadXMLDocument(NomeCompletoArq);
+//    XMLDocument1.Options := [doNormalizeWhitespace, doNodeAutoIndent]; // looks better in Editor ;)  doNormalizeWhitespace
+
     RootNode := XMLDocument1.DocumentElement;
     Result := PrepLer;
   finally
@@ -68,7 +70,7 @@ function TXMLI.PrepGravar: boolean;
 begin
   XMLDocument1:=NewXMLDocument;
   XMLDocument1.Encoding := 'utf-8';
-  XMLDocument1.Options := [doNodeAutoIndent]; // looks better in Editor ;)
+  XMLDocument1.Options := [doNodeAutoIndent]; // looks better in Editor ;)  doNormalizeWhitespace
   RootNode := XMLDocument1.AddChild(FRootNodeName);
   Result := true;
 end;

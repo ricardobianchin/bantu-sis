@@ -45,13 +45,6 @@ begin
 //  Result := DateTimeToStr(DT);
 end;
 
-procedure LeiaStdIn;
-begin
-  ReadLn(sDescribe);
-  ReadLn(sISO8601DtH);
-  ReadLn(sHash);
-end;
-
 procedure LeiaDescribeTxt;
 var
   sl: TStringList;
@@ -70,7 +63,6 @@ end;
 
 begin
   try
-    //LeiaStdIn;
     LeiaDescribeTxt;
     sDtH := ConvertISO8601ToTDateTimeStr(sISO8601DtH);
     SrcAtuExecute(sDescribe, sDtH, sHash);
