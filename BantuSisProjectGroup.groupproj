@@ -18,6 +18,9 @@
         <Projects Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Tools\DBAtu\ToolsDBAtu.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -71,14 +74,23 @@
     <Target Name="BalancaTeste:Make">
         <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ToolsDBAtu">
+        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj"/>
+    </Target>
+    <Target Name="ToolsDBAtu:Clean">
+        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ToolsDBAtu:Make">
+        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;BalancaTeste"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;BalancaTeste;ToolsDBAtu"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;BalancaTeste:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;BalancaTeste:Clean;ToolsDBAtu:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;BalancaTeste:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;BalancaTeste:Make;ToolsDBAtu:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -108,6 +120,12 @@
         </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
             <ProjectGuid>{D7D77DEF-D26C-4E9F-B000-8E1A90C36F97}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Tools\DBAtu\ToolsDBAtu.dproj">
+            <ProjectGuid>{F6B93C09-F47E-47C4-AC17-94201A3B664A}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>

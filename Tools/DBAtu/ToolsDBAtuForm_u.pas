@@ -24,7 +24,6 @@ type
     FToolsDBAtuConfig: IToolsDBAtuConfig;
     FStatusOutput: IOutput;
     FEnumValuesSL: TStringList;
-    FArqTxtDestino: string;
     procedure PegarPastas;
     procedure PreencherBancosListBox;
     procedure CarregarConfig;
@@ -32,7 +31,8 @@ type
     procedure PegarEnumValues;
     procedure ApaguePrefixos;
     procedure AcrescenteIds;
-    procedure AtualizarArqTxtDestino;
+    procedure AtualizarArqTxtDBUpdate;
+    procedure AtualizarArqPasTerminalEd;
     procedure SLUpdateCSVContent(pSL: TStrings; const pTitulo, pFim: string;
       const pNovoConteudo: TStrings);
   public
@@ -67,22 +67,54 @@ begin
   FStatusOutput.Exibir('---'#13#10 + FEnumValuesSL.Text + '----');
 end;
 
-procedure TToolsDBAtuForm.AtualizarArqTxtDestino;
+procedure TToolsDBAtuForm.AtualizarArqPasTerminalEd;
 const
-  TIT = 'BALANCA_ID;MODELO';
+  INI = '//BalComboBox add ini';
+  FIM = '//BalComboBox add fim';
+  ARQ = 'C:\Pr\app\bantu\bantu-sis\Src\App\Modulos\Config\Ambi\Terminal\App.UI.Form.Config.Ambi.Terminal.Ed_u.pas';
+var
+  i: integer;
+  iIni: integer;
+  iFin: integer;
+  iQtdLinsApagar: integer;
+  Linhas, NovoConteudo: TStringList;
+begin
+  Linhas := TStringList.Create;
+  try
+    Linhas.LoadFromFile(ARQ);
+    iIni := SLNLinhaQTem(Linhas, INI);
+    iFin := SLNLinhaQTem(Linhas, FIM);
+    iQtdLinsApagar := (iFin - iIni) - 1;
+    inc(iIni);
+    for i := 1 to iQtdLinsApagar do
+    begin
+      Linhas.Delete(iIni);
+    end;
+    for i := FEnumValuesSL.Count - 1 to 0 do
+    begin
+      Linhas.Insert(iIni, FEnumValuesSL[i] );
+    end;
+    Linhas.SaveToFile(ARQ);
+  finally
+    Linhas.Free;
+  end;
+end;
+
+procedure TToolsDBAtuForm.AtualizarArqTxtDBUpdate;
+const
+  INI = 'BALANCA_ID;MODELO';
   FIM = 'CSV FIM';
+  ARQ = 'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000009.txt';
 var
   Linhas, NovoConteudo: TStringList;
 begin
-  FArqTxtDestino :=
-    'C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000009.txt';
   Linhas := TStringList.Create;
   NovoConteudo := TStringList.Create;
   try
-    Linhas.LoadFromFile(FArqTxtDestino);
+    Linhas.LoadFromFile(ARQ);
     NovoConteudo.Assign(FEnumValuesSL);
-    SLUpdateCSVContent(Linhas, TIT, FIM, NovoConteudo);
-    Linhas.SaveToFile(FArqTxtDestino);
+    SLUpdateCSVContent(Linhas, INI, FIM, NovoConteudo);
+    Linhas.SaveToFile(ARQ);
   finally
     Linhas.Free;
     NovoConteudo.Free;
@@ -110,7 +142,8 @@ begin
     SLUpperCase(FEnumValuesSL);
     FEnumValuesSL[0] := 'NAO INDICADO';
     AcrescenteIds;
-    AtualizarArqTxtDestino;
+    AtualizarArqTxtDBUpdate;
+    AtualizarArqPasTerminalEd;
   finally
     FStatusOutput.Exibir('Executar fim');
   end;

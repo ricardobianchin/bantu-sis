@@ -122,6 +122,7 @@ type
 
     procedure PosicioneLetraDoDrive(pText: string);
 
+
   protected
     procedure AjusteControles; override;
     function PodeOk: Boolean; override;
@@ -226,13 +227,14 @@ end;
 procedure TTerminalEdDiagForm.BalComboBoxPreencha;
 begin
   BalComboBox.Items.Clear;
-
+  //BalComboBox add ini
   BalComboBox.Items.Add('SEM BALANCA');
   BalComboBox.Items.Add('FILIZOLA');
   BalComboBox.Items.Add('TOLEDO');
   BalComboBox.Items.Add('URANO');
   BalComboBox.Items.Add('ELGIN');
   BalComboBox.Items.Add('MAGNA');
+  //BalComboBox add fim
 end;
 
 procedure TTerminalEdDiagForm.BalModoUsoComboBoxKeyPress(Sender: TObject;

@@ -20,10 +20,12 @@ inherited ToolsDBAtuForm: TToolsDBAtuForm
   object StatusMemo: TMemo [1]
     Left = 6
     Top = 128
-    Width = 365
+    Width = 361
     Height = 135
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
+    ExplicitWidth = 357
+    ExplicitHeight = 134
   end
   object BancosListBox: TListBox [2]
     Left = 6
@@ -34,7 +36,7 @@ inherited ToolsDBAtuForm: TToolsDBAtuForm
     TabOrder = 1
   end
   object ExecutarButton: TButton [3]
-    Left = 275
+    Left = 271
     Top = 269
     Width = 97
     Height = 25
@@ -42,6 +44,8 @@ inherited ToolsDBAtuForm: TToolsDBAtuForm
     Caption = 'Executar'
     TabOrder = 2
     OnClick = ExecutarButtonClick
+    ExplicitLeft = 267
+    ExplicitTop = 268
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 120
