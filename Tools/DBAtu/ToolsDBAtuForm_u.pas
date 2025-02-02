@@ -120,7 +120,7 @@ procedure TToolsDBAtuForm.ExecutarButtonClick(Sender: TObject);
 begin
   inherited;
   Executar;
-  // Close;
+  Close;
 end;
 
 procedure TToolsDBAtuForm.FormCreate(Sender: TObject);
