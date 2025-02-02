@@ -10,7 +10,8 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Sis.Types.Integers,
-  Vcl.ToolWin, Vcl.ComCtrls;
+  Vcl.ToolWin, Vcl.ComCtrls, Vcl.Mask, CustomEditBtu, CustomNumEditBtu,
+  NumEditBtu;
 
 type
   TTerminalEdDiagForm = class(TDiagBtnBasForm)
@@ -70,6 +71,7 @@ type
     CupomQtdLinsFinal1Label: TLabel;
     CupomQtdLinsFinal2Label: TLabel;
     CupomQtdLinsFinalEdit: TEdit;
+    NumEditBtu1: TNumEditBtu;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 

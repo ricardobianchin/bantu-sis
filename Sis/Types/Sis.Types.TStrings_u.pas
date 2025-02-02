@@ -2,7 +2,7 @@ unit Sis.Types.TStrings_u;
 
 interface
 
-uses System.Classes;
+uses System.Classes, System.Math;
 
 procedure SLRemoveCommentsSingleLine(pSL: TStrings);
 procedure SLRemoveCommentsMultiLine(pSL: TStrings);
@@ -10,6 +10,8 @@ procedure SLDeleteLinhasForaDe(pSL: TStrings; pStrIni, pStrFin: string);
 procedure SLRemoveVazias(pSL: TStrings);
 procedure SLUpperCase(pSL: TStrings);
 function SLGetAsString(pSL: TStrings; pSeparador: string): string;
+
+procedure SLApaguePrefixos(pSL: TStrings);
 
 // o uso de tstrings.duplicate so funciona se sort=true
 // quando nao posso alterar a ordem dos itens, uso esta funcion
@@ -199,6 +201,31 @@ begin
         Break;
       end;
   end;
+end;
+
+procedure SLApaguePrefixos(pSL: TStrings);
+var
+  i, prefixLength: integer;
+  prefix: string;
+  allHavePrefix: boolean;
+begin
+  if pSL.Count = 0 then
+    Exit;
+
+  prefix := pSL[0];
+  prefixLength := Length(prefix);
+
+  for i := 1 to pSL.Count - 1 do
+  begin
+    prefixLength := Min(prefixLength, Length(pSL[i]));
+    while (prefixLength > 0) and (Copy(pSL[i], 1, prefixLength) <> Copy(prefix, 1, prefixLength)) do
+      Dec(prefixLength);
+    if prefixLength = 0 then
+      Exit;
+  end;
+
+  for i := 0 to pSL.Count - 1 do
+    pSL[i] := Copy(pSL[i], prefixLength + 1, MaxInt);
 end;
 
 end.

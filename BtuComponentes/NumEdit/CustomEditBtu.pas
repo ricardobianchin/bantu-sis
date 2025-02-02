@@ -29,6 +29,8 @@ type
     function GetCaption: string;
     procedure SetAlignment(const Value: TAlignment);
 
+    function VarToCurrency(pValue: variant): Currency;
+    function StrToCurrency(S: string): Currency;
   protected
     { Protected declarations }
     FDigitado: string;
@@ -108,7 +110,7 @@ procedure Register;
 
 implementation
 
-uses Variants, Math{, dialogs}, Sis.Types.Floats;
+uses Variants, Math{, dialogs}{, Sis.Types.Floats};
 
 procedure Register;
 begin
@@ -432,6 +434,18 @@ begin
       result:=s[Posicao]+result;
 end;
 
+function TCustomEditBtu.StrToCurrency(S: string): Currency;
+var
+  ss: string;
+  v: Currency;
+begin
+  if S = '' then
+    S := '0';
+  ss := StrToNumStr(S);
+  v := strtoCurr(ss);
+  result := v;
+end;
+
 function TCustomEditBtu.StrToNum(S: string): double;
 begin
   if Trim(s)='' then
@@ -539,6 +553,14 @@ end;
 function TCustomEditBtu.ValorAceitavel: boolean;
 begin
   result:=true;
+end;
+
+function TCustomEditBtu.VarToCurrency(pValue: variant): Currency;
+var
+  sValue: string;
+begin
+  sValue := VarToStr(pValue);
+  result := StrToCurrency(sValue);
 end;
 
 end.

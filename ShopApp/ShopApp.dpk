@@ -29,8 +29,8 @@ package ShopApp;
 
 requires
   rtl,
-  App,
-  Sis;
+  Sis,
+  App;
 
 contains
   ShopApp.ShopAppObj in 'ShopAppObj\ShopApp.ShopAppObj.pas',

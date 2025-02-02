@@ -15,6 +15,12 @@
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
         </Projects>
+        <Projects Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Teste\AppPackages\t1\AppPackages1.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,40 +65,70 @@
     <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
+    <Target Name="BalancaTeste">
+        <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj"/>
+    </Target>
+    <Target Name="BalancaTeste:Clean">
+        <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BalancaTeste:Make">
+        <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AppPackages1">
+        <MSBuild Projects="Teste\AppPackages\t1\AppPackages1.dproj"/>
+    </Target>
+    <Target Name="AppPackages1:Clean">
+        <MSBuild Projects="Teste\AppPackages\t1\AppPackages1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AppPackages1:Make">
+        <MSBuild Projects="Teste\AppPackages\t1\AppPackages1.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;BalancaTeste;AppPackages1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;BalancaTeste:Clean;AppPackages1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;BalancaTeste:Make;AppPackages1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
-        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
-            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Sis\Sis.dproj">
-            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
-            <Enabled>True</Enabled>
+        <BuildGroupProject Include="Teste\AppPackages\t1\AppPackages1.dproj">
+            <ProjectGuid>{A9C9D529-E958-43DB-8884-44368E1C39C8}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="App\App.dproj">
             <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
             <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
+            <Platforms>Win32</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="Adm\Adm.dproj">
             <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
             <Configurations>Release</Configurations>
-            <Platforms>Win64</Platforms>
+            <Platforms>Win32</Platforms>
             <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
+            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Sis\Sis.dproj">
+            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
+            <ProjectGuid>{D7D77DEF-D26C-4E9F-B000-8E1A90C36F97}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>

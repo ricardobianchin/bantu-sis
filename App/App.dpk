@@ -32,7 +32,8 @@ requires
   vclimg,
   vcledge,
   vclie,
-  Sis;
+  Sis,
+  BtuComponentes;
 
 contains
   App.AppObj in 'AppObj\App.AppObj.pas',

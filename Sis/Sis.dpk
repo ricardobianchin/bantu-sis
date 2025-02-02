@@ -41,7 +41,10 @@ requires
   vclimg,
   FireDACIBDriver,
   vclwinx,
-  vcldb;
+  vcldb,
+  ACBr_Comum,
+  ACBr_synapse,
+  ACBr_Serial;
 
 contains
   Sis.Types.Bool_u in 'Types\Sis.Types.Bool_u.pas',
@@ -209,9 +212,6 @@ contains
   FlatBtnList in 'UI\Controls\Botoes\FlatBtn\FlatBtnList.pas',
   Sis.UI.Controls.TAction in 'UI\Controls\Sis.UI.Controls.TAction.pas',
   Sis.UI.Controls.TLabeledEdit in 'UI\Controls\Sis.UI.Controls.TLabeledEdit.pas',
-  CustomEditBtu in 'UI\Controls\Edits\CustomEditBtu.pas',
-  CustomNumEditBtu in 'UI\Controls\Edits\CustomNumEditBtu.pas',
-  NumEditBtu in 'UI\Controls\Edits\NumEditBtu.pas',
   Sis.DB.Updater.Comando.FB.CreateUniqueKey_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas',
   Sis.UI.Frame.Bas_u in 'UI\BasForm\Sis.UI.Frame.Bas_u.pas' {BasFrame: TFrame},
   Sis.UI.Frame.Bas.Control_u in 'UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas' {ControlBasFrame: TFrame},
@@ -328,6 +328,7 @@ contains
   Sis.UI.Impressao in 'UI\Impr\Sis.UI.Impressao.pas',
   Sis.UI.Impressao_u in 'UI\Impr\Sis.UI.Impressao_u.pas',
   Sis.UI.ImpressaoTexto_u in 'UI\Impr\Sis.UI.ImpressaoTexto_u.pas',
-  Sis.Bal.Utils_u in 'UI\Bal\Sis.Bal.Utils_u.pas';
+  Sis.Bal.Utils_u in 'UI\Bal\Sis.Bal.Utils_u.pas',
+  Sis.UI.IO.Files.PasI in 'UI\IO\Files\Pas\Sis.UI.IO.Files.PasI.pas';
 
 end.

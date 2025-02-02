@@ -469,6 +469,7 @@ end;
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+
   AssistAbrir;
 end;
 

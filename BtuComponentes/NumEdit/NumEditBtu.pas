@@ -1,12 +1,12 @@
-unit BtuNumEdit;
+unit NumEditBtu;
 
 interface
 
 uses
-  SysUtils, Classes, Btu.UI.Controls.Edit.Numeric.Custom_u, ExtCtrls;
+  SysUtils, Classes, CustomNumEditBtu, ExtCtrls;
 
 type
-  TBtuNumEdit = class(TCustomBtuNumEdit)
+  TNumEditBtu = class(TCustomNumEditBtu)
   private
     { Private declarations }
   protected
@@ -95,9 +95,9 @@ uses Graphics;
 
 procedure Register;
 begin
-  RegisterComponents('BtuControls', [TBtuNumEdit]);
+  RegisterComponents('BTU Controls', [TNumEditBtu]);
 end;
 
-{ TBtuNumEdit }
+{ TNumEditBtu }
 
 end.
