@@ -18,9 +18,6 @@
         <Projects Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Tools\DBAtu\ToolsDBAtu.dproj">
-            <Dependencies>Sis\Sis.dproj</Dependencies>
-        </Projects>
         <Projects Include="Teste\AppPackages\t1\AppPackages1.dproj">
             <Dependencies/>
         </Projects>
@@ -77,15 +74,6 @@
     <Target Name="BalancaTeste:Make">
         <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ToolsDBAtu" DependsOnTargets="Sis">
-        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj"/>
-    </Target>
-    <Target Name="ToolsDBAtu:Clean" DependsOnTargets="Sis:Clean">
-        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ToolsDBAtu:Make" DependsOnTargets="Sis:Make">
-        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj" Targets="Make"/>
-    </Target>
     <Target Name="AppPackages1">
         <MSBuild Projects="Teste\AppPackages\t1\AppPackages1.dproj"/>
     </Target>
@@ -96,13 +84,13 @@
         <MSBuild Projects="Teste\AppPackages\t1\AppPackages1.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;BalancaTeste;ToolsDBAtu;AppPackages1"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;BalancaTeste;AppPackages1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;BalancaTeste:Clean;ToolsDBAtu:Clean;AppPackages1:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;BalancaTeste:Clean;AppPackages1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;BalancaTeste:Make;ToolsDBAtu:Make;AppPackages1:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;BalancaTeste:Make;AppPackages1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
@@ -138,12 +126,6 @@
         </BuildGroupProject>
         <BuildGroupProject Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
             <ProjectGuid>{D7D77DEF-D26C-4E9F-B000-8E1A90C36F97}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Tools\DBAtu\ToolsDBAtu.dproj">
-            <ProjectGuid>{F6B93C09-F47E-47C4-AC17-94201A3B664A}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
