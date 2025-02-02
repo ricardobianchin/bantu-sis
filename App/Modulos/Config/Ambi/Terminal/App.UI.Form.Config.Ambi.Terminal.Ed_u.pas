@@ -228,12 +228,43 @@ procedure TTerminalEdDiagForm.BalComboBoxPreencha;
 begin
   BalComboBox.Items.Clear;
   //BalComboBox add ini
-  BalComboBox.Items.Add('SEM BALANCA');
-  BalComboBox.Items.Add('FILIZOLA');
-  BalComboBox.Items.Add('TOLEDO');
-  BalComboBox.Items.Add('URANO');
-  BalComboBox.Items.Add('ELGIN');
-  BalComboBox.Items.Add('MAGNA');
+  BalComboBox.Items.Add('NAO INDICADO'); // 0 - balNenhum
+  BalComboBox.Items.Add('FILIZOLA'); // 1 - balFilizola
+  BalComboBox.Items.Add('TOLEDO'); // 2 - balToledo
+  BalComboBox.Items.Add('TOLEDO2090'); // 3 - balToledo2090
+  BalComboBox.Items.Add('TOLEDO2180'); // 4 - balToledo2180
+  BalComboBox.Items.Add('URANO'); // 5 - balUrano
+  BalComboBox.Items.Add('LUCASTEC'); // 6 - balLucasTec
+  BalComboBox.Items.Add('MAGNA'); // 7 - balMagna
+  BalComboBox.Items.Add('DIGITRON'); // 8 - balDigitron
+  BalComboBox.Items.Add('MAGELLAN'); // 9 - balMagellan
+  BalComboBox.Items.Add('URANOPOP'); // 10 - balUranoPOP
+  BalComboBox.Items.Add('LIDER'); // 11 - balLider
+  BalComboBox.Items.Add('RINNERT'); // 12 - balRinnert
+  BalComboBox.Items.Add('MULLER'); // 13 - balMuller
+  BalComboBox.Items.Add('SATURNO'); // 14 - balSaturno
+  BalComboBox.Items.Add('AFTS'); // 15 - balAFTS
+  BalComboBox.Items.Add('GENERICA'); // 16 - balGenerica
+  BalComboBox.Items.Add('LIBRATEK'); // 17 - balLibratek
+  BalComboBox.Items.Add('MICHELETTI'); // 18 - balMicheletti
+  BalComboBox.Items.Add('ALFA'); // 19 - balAlfa
+  BalComboBox.Items.Add('TOLEDO9091_8530_8540'); // 20 - balToledo9091_8530_8540
+  BalComboBox.Items.Add('WEIGHTECHWT1000'); // 21 - balWeightechWT1000
+  BalComboBox.Items.Add('MARELCG62XL'); // 22 - balMarelCG62XL
+  BalComboBox.Items.Add('WEIGHTECHWT3000_ABS'); // 23 - balWeightechWT3000_ABS
+  BalComboBox.Items.Add('TOLEDO2090N'); // 24 - balToledo2090N
+  BalComboBox.Items.Add('TOLEDOBCS21'); // 25 - balToledoBCS21
+  BalComboBox.Items.Add('PRECISION'); // 26 - balPrecision
+  BalComboBox.Items.Add('DIGITRON_UL'); // 27 - balDigitron_UL
+  BalComboBox.Items.Add('LIBRATEKWT3000IR'); // 28 - balLibratekWT3000IR
+  BalComboBox.Items.Add('TOLEDOTI420'); // 29 - balToledoTi420
+  BalComboBox.Items.Add('WEIGHTECHWT27R_ETH'); // 30 - balWeightechWT27R_ETH
+  BalComboBox.Items.Add('CAPITAL'); // 31 - balCapital
+  BalComboBox.Items.Add('MARTE'); // 32 - balMarte
+  BalComboBox.Items.Add('LENKELK2500'); // 33 - balLenkeLK2500
+  BalComboBox.Items.Add('WEIGHTRUTEST'); // 34 - balWeighTRUTest
+  BalComboBox.Items.Add('URANOUDC'); // 35 - balUranoUDC
+  BalComboBox.Items.Add('SICILIANO'); // 36 - balSiciliano
   //BalComboBox add fim
 end;
 
