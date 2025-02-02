@@ -24,6 +24,7 @@ type
     FToolsDBAtuConfig: IToolsDBAtuConfig;
     FStatusOutput: IOutput;
     FEnumValuesSL: TStringList;
+    FLegiveisSL: TStringList;
     procedure PegarPastas;
     procedure PreencherBancosListBox;
     procedure CarregarConfig;
@@ -55,16 +56,16 @@ procedure TToolsDBAtuForm.AcrescenteIds;
 var
   i: integer;
 begin
-  for i := 0 to FEnumValuesSL.Count - 1 do
+  for i := 0 to FLegiveisSL.Count - 1 do
   begin
-    FEnumValuesSL[i] := i.ToString + ';' + FEnumValuesSL[i];
+    FLegiveisSL[i] := i.ToString + ';' + FLegiveisSL[i];
   end;
 end;
 
 procedure TToolsDBAtuForm.ApaguePrefixos;
 begin
-  SLApaguePrefixos(FEnumValuesSL);
-  FStatusOutput.Exibir('---'#13#10 + FEnumValuesSL.Text + '----');
+  SLApaguePrefixos(FLegiveisSL);
+  FStatusOutput.Exibir('---'#13#10 + FLegiveisSL.Text + '----');
 end;
 
 procedure TToolsDBAtuForm.AtualizarArqPasTerminalEd;
@@ -78,6 +79,8 @@ var
   iFin: integer;
   iQtdLinsApagar: integer;
   Linhas, NovoConteudo: TStringList;
+  sFormat: string;
+  s: string;
 begin
   Linhas := TStringList.Create;
   try
@@ -90,9 +93,11 @@ begin
     begin
       Linhas.Delete(iIni);
     end;
-    for i := FEnumValuesSL.Count - 1 to 0 do
+    sFormat := '  BalComboBox.Items.Add(''%s''); // %d - %s';
+    for i := FLegiveisSL.Count - 1 downto 0 do
     begin
-      Linhas.Insert(iIni, FEnumValuesSL[i] );
+      s := Format(sFormat, [FLegiveisSL[i], i, FEnumValuesSL[i]]);
+      Linhas.Insert(iIni, s);
     end;
     Linhas.SaveToFile(ARQ);
   finally
@@ -112,7 +117,7 @@ begin
   NovoConteudo := TStringList.Create;
   try
     Linhas.LoadFromFile(ARQ);
-    NovoConteudo.Assign(FEnumValuesSL);
+    NovoConteudo.Assign(FLegiveisSL);
     SLUpdateCSVContent(Linhas, INI, FIM, NovoConteudo);
     Linhas.SaveToFile(ARQ);
   finally
@@ -138,12 +143,13 @@ begin
   FStatusOutput.Exibir('Executar ini');
   try
     PegarEnumValues;
+    FLegiveisSL.Assign(FEnumValuesSL);
     ApaguePrefixos;
-    SLUpperCase(FEnumValuesSL);
-    FEnumValuesSL[0] := 'NAO INDICADO';
+    SLUpperCase(FLegiveisSL);
+    FLegiveisSL[0] := 'NAO INDICADO';
+    AtualizarArqPasTerminalEd;
     AcrescenteIds;
     AtualizarArqTxtDBUpdate;
-    AtualizarArqPasTerminalEd;
   finally
     FStatusOutput.Exibir('Executar fim');
   end;
@@ -161,7 +167,7 @@ begin
   inherited;
   FStatusOutput := MemoOutputCreate(StatusMemo);
   FEnumValuesSL := TStringList.Create;
-
+  FLegiveisSL := TStringList.Create;
   PegarPastas;
   PreencherBancosListBox;
   CarregarConfig;
@@ -170,6 +176,7 @@ end;
 procedure TToolsDBAtuForm.FormDestroy(Sender: TObject);
 begin
   FEnumValuesSL.Free;
+  FLegiveisSL.Free;
   inherited;
 end;
 
