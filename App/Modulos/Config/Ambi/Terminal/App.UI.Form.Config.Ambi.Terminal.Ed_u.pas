@@ -71,7 +71,18 @@ type
     CupomQtdLinsFinal1Label: TLabel;
     CupomQtdLinsFinal2Label: TLabel;
     CupomQtdLinsFinalEdit: TEdit;
-    NumEditBtu1: TNumEditBtu;
+    Label3: TLabel;
+    BalPortaComboBox: TComboBox;
+    BaudRateComboBox: TComboBox;
+    BaudRateLabel: TLabel;
+    DataBitsComboBox: TComboBox;
+    DataBitsLabel: TLabel;
+    ParidadeComboBox: TComboBox;
+    ParidadeLabel: TLabel;
+    StopBitsComboBox: TComboBox;
+    StopBitsLabel: TLabel;
+    HandShakingComboBox: TComboBox;
+    HandShakingLabel: TLabel;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 

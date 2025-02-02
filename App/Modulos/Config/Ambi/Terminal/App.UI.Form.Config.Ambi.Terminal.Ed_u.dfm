@@ -1,18 +1,19 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 511
-  ClientWidth = 974
-  ExplicitWidth = 986
-  ExplicitHeight = 549
+  ClientHeight = 401
+  ClientWidth = 931
+  ExplicitLeft = -49
+  ExplicitWidth = 943
+  ExplicitHeight = 439
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 439
-    Width = 974
+    Top = 329
+    Width = 931
     ExplicitTop = 439
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 496
-    Width = 974
+    Top = 386
+    Width = 931
     ExplicitTop = 496
   end
   object ObjetivoLabel: TLabel [2]
@@ -59,15 +60,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'Nome na Rede'
   end
   object LetraDoDriveLabel: TLabel [7]
-    Left = 880
-    Top = 333
+    Left = 741
+    Top = 229
     Width = 27
     Height = 15
     Caption = 'Drive'
   end
   object LetraDoDriveAjudaLabel: TLabel [8]
-    Left = 926
-    Top = 317
+    Left = 787
+    Top = 213
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -81,15 +82,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     ParentFont = False
   end
   object NFSerieLabel: TLabel [9]
-    Left = 759
-    Top = 333
+    Left = 620
+    Top = 229
     Width = 65
     Height = 15
     Caption = 'S'#233'rie da NFE'
   end
   object NFSerieAjudaLabel: TLabel [10]
-    Left = 835
-    Top = 317
+    Left = 696
+    Top = 213
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -148,22 +149,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'IP'
   end
   inherited BasePanel: TPanel
-    Top = 459
-    Width = 974
+    Top = 349
+    Width = 931
     TabOrder = 12
     ExplicitTop = 458
     ExplicitWidth = 970
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 579
-      ExplicitLeft = 575
+      Left = 532
+      ExplicitLeft = 571
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 692
-      ExplicitLeft = 688
+      Left = 645
+      ExplicitLeft = 684
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 772
-      ExplicitLeft = 768
+      Left = 725
+      ExplicitLeft = 764
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -200,8 +201,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = NomeNaRedeEditKeyPress
   end
   object LetraDoDriveComboBox: TComboBox [18]
-    Left = 912
-    Top = 330
+    Left = 773
+    Top = 226
     Width = 49
     Height = 23
     Style = csDropDownList
@@ -209,8 +210,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = LetraDoDriveComboBoxKeyPress
   end
   object NFSerieEdit: TEdit [19]
-    Left = 830
-    Top = 330
+    Left = 691
+    Top = 226
     Width = 41
     Height = 23
     Alignment = taCenter
@@ -223,23 +224,23 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   object BalancaGroupBox: TGroupBox [20]
     Left = 2
     Top = 71
-    Width = 425
-    Height = 154
+    Width = 464
+    Height = 117
     Caption = 'Modo da Balan'#231'a'
     TabOrder = 5
     DesignSize = (
-      425
-      154)
+      464
+      117)
     object BalancaModoUsoLabel: TLabel
       Left = 6
-      Top = 36
+      Top = 29
       Width = 32
       Height = 15
       Caption = 'Modo'
     end
     object BalancaAjudaLabel: TLabel
-      Left = 382
-      Top = 17
+      Left = 421
+      Top = 12
       Width = 35
       Height = 12
       CustomHint = BalloonHint1
@@ -255,14 +256,56 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BalancaLabel: TLabel
       Left = 254
-      Top = 36
+      Top = 29
       Width = 41
       Height = 15
       Caption = 'Modelo'
     end
+    object Label3: TLabel
+      Left = 6
+      Top = 57
+      Width = 28
+      Height = 15
+      Caption = 'Porta'
+    end
+    object BaudRateLabel: TLabel
+      Left = 193
+      Top = 57
+      Width = 50
+      Height = 15
+      Caption = 'BaudRate'
+    end
+    object DataBitsLabel: TLabel
+      Left = 326
+      Top = 57
+      Width = 43
+      Height = 15
+      Caption = 'DataBits'
+    end
+    object ParidadeLabel: TLabel
+      Left = 6
+      Top = 85
+      Width = 46
+      Height = 15
+      Caption = 'Paridade'
+    end
+    object StopBitsLabel: TLabel
+      Left = 129
+      Top = 85
+      Width = 43
+      Height = 15
+      Caption = 'StopBits'
+    end
+    object HandShakingLabel: TLabel
+      Left = 239
+      Top = 85
+      Width = 71
+      Height = 15
+      Caption = 'HandShaking'
+    end
     object BalModoUsoComboBox: TComboBox
       Left = 44
-      Top = 33
+      Top = 26
       Width = 199
       Height = 23
       Style = csDropDownList
@@ -275,49 +318,137 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BalComboBox: TComboBox
       Left = 301
-      Top = 33
-      Width = 116
+      Top = 26
+      Width = 156
       Height = 23
       Style = csDropDownList
       ItemIndex = 0
       TabOrder = 1
-      Text = '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO'
+      Text = 'TOLEDO9091_8530_8540'
       OnKeyPress = BalComboBoxKeyPress
       Items.Strings = (
-        '3;O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO')
+        'TOLEDO9091_8530_8540')
     end
-    object NumEditBtu1: TNumEditBtu
-      Left = 84
-      Top = 62
-      Width = 121
+    object BalPortaComboBox: TComboBox
+      Left = 38
+      Top = 54
+      Width = 147
       Height = 23
-      Alignment = taCenter
-      AutoExit = False
-      Caption = 'NumEditBtu1'
-      EditLabel.Width = 71
-      EditLabel.Height = 23
-      EditLabel.Caption = 'NumEditBtu1'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      ReadOnly = False
+      Style = csDropDownList
+      ItemIndex = 8
       TabOrder = 2
-      Text = '0'
-      NCasas = 0
-      NCasasEsq = 0
-      Valor = 0
-      MascEsq = '########0'
+      Text = 'TCP:192.168.0.31:9100'
+      OnKeyPress = BalComboBoxKeyPress
+      Items.Strings = (
+        'COM1'
+        'COM2'
+        'COM3'
+        'COM4'
+        'LPT1'
+        'LPT2'
+        'LPT3'
+        'LPT4'
+        'TCP:192.168.0.31:9100')
+    end
+    object BaudRateComboBox: TComboBox
+      Left = 249
+      Top = 54
+      Width = 71
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 11
+      TabOrder = 3
+      Text = '57600'
+      OnKeyPress = BalComboBoxKeyPress
+      Items.Strings = (
+        '110'
+        '300'
+        '600'
+        '1200'
+        '2400'
+        '4800'
+        '9600'
+        '14400'
+        '19200'
+        '38400'
+        '56000'
+        '57600')
+    end
+    object DataBitsComboBox: TComboBox
+      Left = 374
+      Top = 54
+      Width = 38
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 4
+      Text = '5'
+      OnKeyPress = BalComboBoxKeyPress
+      Items.Strings = (
+        '5'
+        '6'
+        '7'
+        '8')
+    end
+    object ParidadeComboBox: TComboBox
+      Left = 57
+      Top = 82
+      Width = 65
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 4
+      TabOrder = 5
+      Text = 'space'
+      OnKeyPress = BalComboBoxKeyPress
+      Items.Strings = (
+        'none'
+        'odd'
+        'even'
+        'mark'
+        'space')
+    end
+    object StopBitsComboBox: TComboBox
+      Left = 179
+      Top = 82
+      Width = 54
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 1
+      TabOrder = 6
+      Text = 's1,5'
+      OnKeyPress = BalComboBoxKeyPress
+      Items.Strings = (
+        's1'
+        's1,5'
+        's2')
+    end
+    object HandShakingComboBox: TComboBox
+      Left = 316
+      Top = 82
+      Width = 91
+      Height = 23
+      Style = csDropDownList
+      ItemIndex = 1
+      TabOrder = 7
+      Text = 'XON/XOFF'
+      OnKeyPress = BalComboBoxKeyPress
+      Items.Strings = (
+        'Nenhum'
+        'XON/XOFF'
+        'RTS/CTS'
+        'DTR/DSR')
     end
   end
   object BarCodigoGroupBox: TGroupBox [21]
-    Left = 434
+    Left = 473
     Top = 71
     Width = 170
-    Height = 102
+    Height = 117
     Caption = 'Layout C'#243'd.Barras de Balan'#231'a'
     TabOrder = 6
     DesignSize = (
       170
-      102)
+      117)
     object BarCodigoIniLabel: TLabel
       Left = 6
       Top = 41
@@ -396,8 +527,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = IPEditKeyPress
   end
   object AtivoCheckBox: TCheckBox [24]
-    Left = 757
-    Top = 390
+    Left = 618
+    Top = 286
     Width = 167
     Height = 17
     Caption = 'Terminal Ativo no Sistema'
@@ -407,10 +538,10 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     OnKeyPress = AtivoCheckBoxKeyPress
   end
   object GavetaGroupBox: TGroupBox [25]
-    Left = 610
+    Left = 649
     Top = 71
     Width = 267
-    Height = 102
+    Height = 117
     Hint = 'Comando para acionamento'
     Caption = 'Gaveta de Dinheiro'
     TabOrder = 7
@@ -490,8 +621,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   object ImpressoraGroupBox: TGroupBox [26]
-    Left = 86
-    Top = 272
+    Left = 2
+    Top = 192
     Width = 602
     Height = 121
     Caption = 'Impressora'
@@ -614,15 +745,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   inherited ShowTimer_BasForm: TTimer
-    Left = 424
-    Top = 225
+    Left = 624
+    Top = 89
   end
   inherited ActionList1_Diag: TActionList
-    Left = 312
-    Top = 212
+    Left = 544
+    Top = 108
   end
   object BalloonHint1: TBalloonHint
-    Left = 215
-    Top = 207
+    Left = 495
+    Top = 79
   end
 end
