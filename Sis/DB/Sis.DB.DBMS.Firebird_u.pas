@@ -271,12 +271,15 @@ var
   RegistryView: TRegistryView;
   sLog: string;
 begin
-{$IFDEF DEBUG}
-  Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
-{$ELSE}
   Result := 'C:\Program Files\Firebird\Firebird_5_0\';
-{$ENDIF}
-  exit;
+
+  if not FileExists(Result+'isql.exe') then
+    Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
+
+//{$IFDEF DEBUG}
+//{$ELSE}
+//{$ENDIF}
+//  exit;
 
   pProcessLog.PegueLocal('TDBMSFirebird.GetFirebirdExePath');
   try

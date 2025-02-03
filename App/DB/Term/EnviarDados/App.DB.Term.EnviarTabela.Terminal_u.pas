@@ -33,6 +33,14 @@ type
     CUPOM_QTD_LINS_FINAL: SmallInt;
     SEMPRE_OFFLINE: Boolean;
     ATIVO: Boolean;
+
+    BALANCA_PORTA: SmallInt;
+    BALANCA_BAUDRATE: SmallInt;
+    BALANCA_DATABITS: SmallInt;
+    BALANCA_PARIDADE: SmallInt;
+    BALANCA_STOPBITS: SmallInt;
+    BALANCA_HANDSHAKING: SMALLINT
+
   end;
 
   TDBConnectionLocation = (loServ, loTerm);
@@ -108,7 +116,14 @@ begin
   FAltDBExec.Params[17].AsBoolean := pReg.SEMPRE_OFFLINE;
   FAltDBExec.Params[18].AsBoolean := pReg.ATIVO;
 
-  FAltDBExec.Params[19].AsSmallInt := pReg.TERMINAL_ID;
+  FAltDBExec.Params[19].AsSmallInt := pReg.BALANCA_PORTA;
+  FAltDBExec.Params[20].AsSmallInt := pReg.BALANCA_BAUDRATE;
+  FAltDBExec.Params[21].AsSmallInt := pReg.BALANCA_DATABITS;
+  FAltDBExec.Params[22].AsSmallInt := pReg.BALANCA_PARIDADE;
+  FAltDBExec.Params[23].AsSmallInt := pReg.BALANCA_STOPBITS;
+  FAltDBExec.Params[24].AsSmallInt := pReg.BALANCA_HANDSHAKING;
+
+  FAltDBExec.Params[25].AsSmallInt := pReg.TERMINAL_ID;
   FAltDBExec.Execute;
 end;
 
@@ -260,6 +275,48 @@ begin
         break;
       end;
 
+      Iguais := RegAtual.BALANCA_PORTA = pReg.BALANCA_PORTA;
+      if not Iguais then
+      begin
+        Result := TResultadoBusca.rbTemDiferente;
+        break;
+      end;
+
+      Iguais := RegAtual.BALANCA_BAUDRATE = pReg.BALANCA_BAUDRATE;
+      if not Iguais then
+      begin
+        Result := TResultadoBusca.rbTemDiferente;
+        break;
+      end;
+
+      Iguais := RegAtual.BALANCA_DATABITS = pReg.BALANCA_DATABITS;
+      if not Iguais then
+      begin
+        Result := TResultadoBusca.rbTemDiferente;
+        break;
+      end;
+
+      Iguais := RegAtual.BALANCA_PARIDADE = pReg.BALANCA_PARIDADE;
+      if not Iguais then
+      begin
+        Result := TResultadoBusca.rbTemDiferente;
+        break;
+      end;
+
+      Iguais := RegAtual.BALANCA_STOPBITS = pReg.BALANCA_STOPBITS;
+      if not Iguais then
+      begin
+        Result := TResultadoBusca.rbTemDiferente;
+        break;
+      end;
+
+      Iguais := RegAtual.BALANCA_HANDSHAKING = pReg.BALANCA_HANDSHAKING;
+      if not Iguais then
+      begin
+        Result := TResultadoBusca.rbTemDiferente;
+        break;
+      end;
+
       break;
     end;
   end;
@@ -355,6 +412,13 @@ begin
 
   A[i].SEMPRE_OFFLINE := Q.Fields[18].AsBoolean;
   A[i].ATIVO := Q.Fields[19].AsBoolean;
+
+  A[i].BALANCA_PORTA := Q.Fields[20].AsInteger;
+  A[i].BALANCA_BAUDRATE := Q.Fields[21].AsInteger;
+  A[i].BALANCA_DATABITS := Q.Fields[22].AsInteger;
+  A[i].BALANCA_PARIDADE := Q.Fields[23].AsInteger;
+  A[i].BALANCA_STOPBITS := Q.Fields[24].AsInteger;
+  A[i].BALANCA_HANDSHAKING := Q.Fields[25].AsInteger;
 end;
 
 function TEnvTabTerminal.DataSetToRecord(Q: TDataSet): TRegistro;
@@ -387,6 +451,13 @@ begin
 
   Result.SEMPRE_OFFLINE := Q.Fields[18].AsBoolean;
   Result.ATIVO := Q.Fields[19].AsBoolean;
+
+  Result.BALANCA_PORTA := Q.Fields[20].AsInteger;
+  Result.BALANCA_BAUDRATE := Q.Fields[21].AsInteger;
+  Result.BALANCA_DATABITS := Q.Fields[22].AsInteger;
+  Result.BALANCA_PARIDADE := Q.Fields[23].AsInteger;
+  Result.BALANCA_STOPBITS := Q.Fields[24].AsInteger;
+  Result.BALANCA_HANDSHAKING := Q.Fields[25].AsInteger;
 end;
 
 function TEnvTabTerminal.Execute: Boolean;
@@ -446,7 +517,14 @@ begin
     + ', SEMPRE_OFFLINE = :SEMPRE_OFFLINE' // 17
     + ', ATIVO = :ATIVO' // 18
 
-    + ' WHERE TERMINAL_ID = :TERMINAL_ID' // 19
+    + ', BALANCA_PORTA = :BALANCA_PORTA' // 19
+    + ', BALANCA_BAUDRATE = :BALANCA_BAUDRATE' // 20
+    + ', BALANCA_DATABITS = :BALANCA_DATABITS' // 21
+    + ', BALANCA_PARIDADE = :BALANCA_PARIDADE' // 22
+    + ', BALANCA_STOPBITS = :BALANCA_STOPBITS' // 23
+    + ', BALANCA_HANDSHAKING = :BALANCA_HANDSHAKING' // 24
+
+    + ' WHERE TERMINAL_ID = :TERMINAL_ID' // 25
     + ';';
 end;
 
@@ -474,6 +552,13 @@ begin
     + ', CUPOM_QTD_LINS_FINAL' //
     + ', SEMPRE_OFFLINE' //
     + ', ATIVO' //
+
+    + ', BALANCA_PORTA' //
+    + ', BALANCA_BAUDRATE' //
+    + ', BALANCA_DATABITS' //
+    + ', BALANCA_PARIDADE' //
+    + ', BALANCA_STOPBITS' //
+    + ', BALANCA_HANDSHAKING' //
 
     + ') VALUES(' //
 
@@ -506,6 +591,13 @@ begin
     + ', :SEMPRE_OFFLINE' // 18
     + ', :ATIVO' // 19
 
+    + ', :BALANCA_PORTA' // 20
+    + ', :BALANCA_BAUDRATE' // 21
+    + ', :BALANCA_DATABITS' // 22
+    + ', :BALANCA_PARIDADE' // 23
+    + ', :BALANCA_STOPBITS' // 24
+    + ', :BALANCA_HANDSHAKING' // 25
+
     + ');'; //
 end;
 
@@ -520,8 +612,12 @@ begin
     'NF_SERIE, GAVETA_TEM, GAVETA_COMANDO, GAVETA_IMPR_NOME,'#13#10 +
     'BALANCA_MODO_USO_ID, BALANCA_ID, BARRAS_COD_INI, BARRAS_COD_TAM,'#13#10 +
     'IMPRESSORA_MODO_ENVIO_ID, IMPRESSORA_MODELO_ID, IMPRESSORA_NOME,'#13#10 +
-    'IMPRESSORA_COLS_QTD, CUPOM_QTD_LINS_FINAL, SEMPRE_OFFLINE, ATIVO'#13#10 +
+    'IMPRESSORA_COLS_QTD, CUPOM_QTD_LINS_FINAL, SEMPRE_OFFLINE, ATIVO,'#13#10 +
+    'BALANCA_PORTA, BALANCA_BAUDRATE, BALANCA_DATABITS, BALANCA_PARIDADE,'#13#10 +
+    'BALANCA_STOPBITS, BALANCA_HANDSHAKING'#13#10 +
+
     'FROM TERMINAL'#13#10 +
+
     'WHERE TERMINAL_ID = ' + FTerminalId.ToString + #13#10 +
     'ORDER BY TERMINAL_ID'#13#10;
 end;
@@ -558,6 +654,14 @@ begin
 
   FInsDBExec.Params[18].AsBoolean := pReg.SEMPRE_OFFLINE;
   FInsDBExec.Params[19].AsBoolean := pReg.ATIVO;
+
+  FInsDBExec.Params[20].AsSmallInt := pReg.BALANCA_PORTA;
+  FInsDBExec.Params[21].AsSmallInt := pReg.BALANCA_BAUDRATE;
+  FInsDBExec.Params[22].AsSmallInt := pReg.BALANCA_DATABITS;
+  FInsDBExec.Params[23].AsSmallInt := pReg.BALANCA_PARIDADE;
+  FInsDBExec.Params[24].AsSmallInt := pReg.BALANCA_STOPBITS;
+  FInsDBExec.Params[25].AsSmallInt := pReg.BALANCA_HANDSHAKING;
+
   FInsDBExec.Execute;
 end;
 

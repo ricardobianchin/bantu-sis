@@ -47,6 +47,13 @@ begin
     + ', SEMPRE_OFFLINE'#13#10 //
     + ', ATIVO'#13#10 //
 
+    + ', BALANCA_PORTA'#13#10 //
+    + ', BALANCA_BAUDRATE'#13#10 //
+    + ', BALANCA_DATABITS'#13#10 //
+    + ', BALANCA_PARIDADE'#13#10 //
+    + ', BALANCA_STOPBITS'#13#10 //
+    + ', BALANCA_HANDSHAKING'#13#10 //
+
     + 'FROM LOG_HIST_PA.TEVE_TERMINAL('#13#10 //
 
     + pTerminalId.ToString //

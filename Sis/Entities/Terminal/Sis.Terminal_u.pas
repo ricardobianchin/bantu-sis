@@ -42,6 +42,13 @@ type
     FSempreOffLine: Boolean;
     FAtivo: Boolean;
 
+    FBALANCA_PORTA: smallint;
+    FBALANCA_BAUDRATE: smallint;
+    FBALANCA_DATABITS: smallint;
+    FBALANCA_PARIDADE: smallint;
+    FBALANCA_STOPBITS: smallint;
+    FBALANCA_HANDSHAKING: smallint;
+
     FLocalArqDados: string;
     FDatabase: string;
 
@@ -120,6 +127,24 @@ type
     function GetAtivo: Boolean;
     procedure SetAtivo(Value: Boolean);
 
+    function GetBALANCA_PORTA: smallint;
+    procedure SetBALANCA_PORTA(Value: smallint);
+
+    function GetBALANCA_BAUDRATE: smallint;
+    procedure SetBALANCA_BAUDRATE(Value: smallint);
+
+    function GetBALANCA_DATABITS: smallint;
+    procedure SetBALANCA_DATABITS(Value: smallint);
+
+    function GetBALANCA_PARIDADE: smallint;
+    procedure SetBALANCA_PARIDADE(Value: smallint);
+
+    function GetBALANCA_STOPBITS: smallint;
+    procedure SetBALANCA_STOPBITS(Value: smallint);
+
+    function GetBALANCA_HANDSHAKING: smallint;
+    procedure SetBALANCA_HANDSHAKING(Value: smallint);
+
     function GetLocalArqDados: string;
     procedure SetLocalArqDados(Value: string);
 
@@ -144,7 +169,7 @@ type
     property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
     property GavetaComando: string read GetGavetaComando write SetGavetaComando;
     property GavetaImprNome: string read GetGavetaImprNome write SetGavetaImprNome;
-    
+
     property BalancaModoUsoId: smallint read GetBalancaModoUsoId write SetBalancaModoUsoId;
     property BalancaModoUsoDescr: string read GetBalancaModoUsoDescr write SetBalancaModoUsoDescr;
 
@@ -166,6 +191,13 @@ type
 
     property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
     property Ativo: Boolean read GetAtivo write SetAtivo;
+
+    property BALANCA_PORTA: smallint read GetBALANCA_PORTA write SetBALANCA_PORTA;
+    property BALANCA_BAUDRATE: smallint read GetBALANCA_BAUDRATE write SetBALANCA_BAUDRATE;
+    property BALANCA_DATABITS: smallint read GetBALANCA_DATABITS write SetBALANCA_DATABITS;
+    property BALANCA_PARIDADE: smallint read GetBALANCA_PARIDADE write SetBALANCA_PARIDADE;
+    property BALANCA_STOPBITS: smallint read GetBALANCA_STOPBITS write SetBALANCA_STOPBITS;
+    property BALANCA_HANDSHAKING: smallint read GetBALANCA_HANDSHAKING write SetBALANCA_HANDSHAKING;
 
     property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;
     property Database: string read GetDatabase write SetDatabase;
@@ -230,6 +262,36 @@ end;
 function TTerminal.GetBalancaModoUsoId: smallint;
 begin
   Result := FBalancaModoUsoId;
+end;
+
+function TTerminal.GetBALANCA_BAUDRATE: smallint;
+begin
+  Result := FBALANCA_BAUDRATE;
+end;
+
+function TTerminal.GetBALANCA_DATABITS: smallint;
+begin
+  Result := FBALANCA_DATABITS;
+end;
+
+function TTerminal.GetBALANCA_HANDSHAKING: smallint;
+begin
+  Result := FBALANCA_HANDSHAKING;
+end;
+
+function TTerminal.GetBALANCA_PARIDADE: smallint;
+begin
+  Result := FBALANCA_PARIDADE;
+end;
+
+function TTerminal.GetBALANCA_PORTA: smallint;
+begin
+  Result := FBALANCA_PORTA;
+end;
+
+function TTerminal.GetBALANCA_STOPBITS: smallint;
+begin
+  Result := FBALANCA_STOPBITS;
 end;
 
 function TTerminal.GetBarCodigoIni: smallint;
@@ -398,6 +460,36 @@ end;
 procedure TTerminal.SetBalancaModoUsoId(Value: smallint);
 begin
   FBalancaModoUsoId := Value;
+end;
+
+procedure TTerminal.SetBALANCA_BAUDRATE(Value: smallint);
+begin
+  FBALANCA_BAUDRATE := Value;
+end;
+
+procedure TTerminal.SetBALANCA_DATABITS(Value: smallint);
+begin
+  FBALANCA_DATABITS := Value;
+end;
+
+procedure TTerminal.SetBALANCA_HANDSHAKING(Value: smallint);
+begin
+  FBALANCA_HANDSHAKING := Value;
+end;
+
+procedure TTerminal.SetBALANCA_PARIDADE(Value: smallint);
+begin
+  FBALANCA_PARIDADE := Value;
+end;
+
+procedure TTerminal.SetBALANCA_PORTA(Value: smallint);
+begin
+  FBALANCA_PORTA := Value;
+end;
+
+procedure TTerminal.SetBALANCA_STOPBITS(Value: smallint);
+begin
+  FBALANCA_STOPBITS := Value;
 end;
 
 procedure TTerminal.SetBarCodigoIni(Value: smallint);

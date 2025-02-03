@@ -40,6 +40,8 @@ var
   sArqRemoto: string;
   oHTTPDownload: IHTTPDownload;
 begin
+  RESULT := FALSE;
+  EXIT;
   ProcessLog.PegueAssunto('TAtualizaVersao.Execute');
   try
     ProcessLog.RegistreLog('Inicio');

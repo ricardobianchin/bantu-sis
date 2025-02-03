@@ -534,7 +534,7 @@ begin
     // SetClipboardText(sSqlOrig);
 {$ENDIF}
 {$IFDEF DEBUG}
-    SetClipboardText(sSqlDest);
+    //SetClipboardText(sSqlDest);
 {$ENDIF}
 
     // {$IFDEF DEBUG}

@@ -114,6 +114,13 @@ begin
     + ', ' + BooleanToStrSQL(T.FieldByName('SEMPRE_OFFLINE').AsBoolean) //
     + ', ' + BooleanToStrSQL(T.FieldByName('ATIVO').AsBoolean) //
 
+    + ', ' + T.FieldByName('BALANCA_PORTA').AsInteger.ToString // BALANCA_PORTA
+    + ', ' + T.FieldByName('BALANCA_BAUDRATE').AsInteger.ToString // BALANCA_BAUDRATE
+    + ', ' + T.FieldByName('BALANCA_DATABITS').AsInteger.ToString // BALANCA_DATABITS
+    + ', ' + T.FieldByName('BALANCA_PARIDADE').AsInteger.ToString // BALANCA_PARIDADE
+    + ', ' + T.FieldByName('BALANCA_STOPBITS').AsInteger.ToString // BALANCA_STOPBITS
+    + ', ' + T.FieldByName('BALANCA_HANDSHAKING').AsInteger.ToString // BALANCA_HANDSHAKING
+
     + ', ' + pLogLojaId.ToString // LOG_LOJA_ID
     + ', ' + pLogUsuarioId.ToString // LOG_PESSOA_ID
     + ', ' + pLogMachineIdentId.ToString // MACHINE_ID
@@ -184,6 +191,13 @@ begin
     .AsInteger;
   pTerminal.SempreOffLine := Q.FieldByName('SEMPRE_OFFLINE').AsBoolean;
   pTerminal.Ativo := Q.FieldByName('ATIVO').AsBoolean;
+
+  pTerminal.BALANCA_PORTA := Q.FieldByName('BALANCA_PORTA').AsInteger;
+  pTerminal.BALANCA_BAUDRATE := Q.FieldByName('BALANCA_BAUDRATE').AsInteger;
+  pTerminal.BALANCA_DATABITS := Q.FieldByName('BALANCA_DATABITS').AsInteger;
+  pTerminal.BALANCA_PARIDADE := Q.FieldByName('BALANCA_PARIDADE').AsInteger;
+  pTerminal.BALANCA_STOPBITS := Q.FieldByName('BALANCA_STOPBITS').AsInteger;
+  pTerminal.BALANCA_HANDSHAKING := Q.FieldByName('BALANCA_HANDSHAKING').AsInteger;
 
   sFormat := '%sDados_%s_Terminal_%.3d.fdb';
   sPasta := pPastaDados;
@@ -256,6 +270,13 @@ begin
 
     + '  , T.SEMPRE_OFFLINE'#13#10 //
     + '  , T.ATIVO'#13#10 //
+
+    + '  , T.BALANCA_PORTA'#13#10 //
+    + '  , T.BALANCA_BAUDRATE'#13#10 //
+    + '  , T.BALANCA_DATABITS'#13#10 //
+    + '  , T.BALANCA_PARIDADE'#13#10 //
+    + '  , T.BALANCA_STOPBITS'#13#10 //
+    + '  , T.BALANCA_HANDSHAKING'#13#10 //
 
     + 'FROM TERMINAL T'#13#10 //
 
@@ -401,7 +422,14 @@ begin
     + ', ' + BooleanToStrSQL(T.SempreOffLine) // SEMPRE_OFFLINE
     + ', ' + BooleanToStrSQL(T.Ativo) // SEMPRE_OFFLINE
 
-    + ', ' + pLogLojaId.ToString // LOG_LOJA_ID
+    + ', ' + T.BALANCA_PORTA.ToString // BALANCA_PORTA
+    + ', ' + T.BALANCA_BAUDRATE.ToString // BALANCA_BAUDRATE
+    + ', ' + T.BALANCA_DATABITS.ToString // BALANCA_DATABITS
+    + ', ' + T.BALANCA_PARIDADE.ToString // BALANCA_PARIDADE
+    + ', ' + T.BALANCA_STOPBITS.ToString // BALANCA_STOPBITS
+    + ', ' + T.BALANCA_HANDSHAKING.ToString // BALANCA_HANDSHAKING
+
+   + ', ' + pLogLojaId.ToString // LOG_LOJA_ID
     + ', ' + pLogUsuarioId.ToString // LOG_PESSOA_ID
     + ', ' + pLogMachineIdentId.ToString // MACHINE_ID
     + ');'; //

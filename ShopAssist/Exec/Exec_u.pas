@@ -16,6 +16,7 @@ var
   iEsperaAtual: integer;
 begin
   // ShowMessage('Assist iniciou');
+
   try
     CarregarConfigs;
     InicieLog;
