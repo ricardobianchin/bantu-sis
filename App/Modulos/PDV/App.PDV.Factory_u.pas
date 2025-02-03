@@ -6,7 +6,7 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
   App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
   App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
-  App.PDV.ImpressaoTextoVenda_u;
+  App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -21,6 +21,8 @@ function VendaPagCreate(AOrdem: SmallInt; APagamentoFormaId: TId;
 function GavetaNaoTemCreate: IGaveta;
 function GavetaWinCreate(pTerminal: ITerminal): IGaveta;
 function GavetaCreate(pTerminal: ITerminal): IGaveta;
+
+function BalancaTesteCreate: IBalanca;
 
 //function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
 function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
@@ -37,6 +39,8 @@ uses System.SysUtils, App.PDV.VendaPag.List_u //
 
     , App.PDV.UI.Gaveta.NaoTem_u //
     , App.PDV.UI.Gaveta.Win_u //
+
+    , App.PDV.UI.Balanca.Teste_u //
 
     , App.Pdv.CupomEspelho_u //
 
@@ -100,6 +104,11 @@ function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
 begin
   Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pDocTitulo,
     pAppObj, pTerminal, pPDVVenda);
+end;
+
+function BalancaTesteCreate: IBalanca;
+begin
+  Result := TBalancaTeste.Create;
 end;
 
 end.

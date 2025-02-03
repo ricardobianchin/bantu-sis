@@ -81,7 +81,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, App.UI.PDV.PagPergForm_u, Sis.Types.Floats,
-  Sis.UI.IO.Input.Perg;
+  Sis.UI.IO.Input.Perg, App.PDV.Factory_u;
 
 { TPagPDVFrame }
 
@@ -174,10 +174,27 @@ begin
 end;
 
 procedure TPagPDVFrame.PagSomenteDinheiro;
+var
+  oPag: IVendaPag;
+  V, r, t: Currency;
 begin
+  v := PDVVenda.GetItensPrecoTot;
+  r := v;
+  t := 0;
+
+  oPag := VendaPagCreate( //
+    PDVVenda.VendaPagList.GetProximaOrdem,
+    1, // PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger,
+    #33, // PagFormaFDMemTablePAGAMENTO_FORMA_TIPO_ID.AsString,
+    'DIN', //PagFormaFDMemTableTIPO_DESCR_RED.AsString,
+    'DINHEIRO', //PagFormaFDMemTableFORMA_DESCR.AsString
+    v, r, t, False);
+
+  PDVVenda.VendaPagList.Add(oPag);
+
   PDVDBI.PagSomenteDinheiro;
-  PDVVenda.Finalizado := True; // evita que tente salvar de novo
-  PDVControlador.VaParaFinaliza;
+//  PDVVenda.Finalizado := True; // evita que tente salvar de novo
+//  PDVControlador.VaParaFinaliza;
 end;
 
 procedure TPagPDVFrame.PagCancelar;

@@ -248,12 +248,18 @@ end;
 procedure TPDVModuloBasForm.PagSomenteDinheiro;
 begin
   FPagFrame.PagSomenteDinheiro;
+
   FPDVObj.Gaveta.Acione;
   FImpressaoVenda.Imprima;
+
+  PDVVenda.Finalizado := True; // evita que tente salvar de novo
+  VaParaFinaliza;
+
 end;
 
 procedure TPDVModuloBasForm.VaParaFinaliza;
 begin
+
   if (not FPDVVenda.Cancelado) and (not FPDVVenda.Finalizado) then
   begin
     FPDVObj.Gaveta.Acione;

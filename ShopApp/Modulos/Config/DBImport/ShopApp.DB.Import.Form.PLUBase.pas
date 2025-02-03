@@ -242,7 +242,7 @@ begin
     + ', TRUE' // ATIVO BOOLEAN,
     + ', ' + QuotedStr('') // LOCALIZ NOME_CURTO_DOM,
     + ', 0' // MARGEM PERC_DOM,
-    + ', 0' // BAL_USO SMALLINT,
+    + ', FALSE' // BALANCA_EXIGE BOOLEAN,
     + ', ' + QuotedStr('001') // BAL_DPTO CHAR(3),
     + ', 0' // BAL_VALIDADE_DIAS SMALLINT,
     + ', ' + QuotedStr('') // BAL_TEXTO_ETIQ VARCHAR(400)

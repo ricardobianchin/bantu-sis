@@ -2,13 +2,13 @@ inherited ProdEdForm: TProdEdForm
   Caption = 'ProdEdForm'
   ClientHeight = 469
   ClientWidth = 770
-  ExplicitWidth = 786
-  ExplicitHeight = 508
+  ExplicitWidth = 782
+  ExplicitHeight = 507
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 412
     Width = 770
-    ExplicitTop = 413
+    ExplicitTop = 412
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
@@ -21,27 +21,27 @@ inherited ProdEdForm: TProdEdForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 397
     Width = 770
-    ExplicitTop = 398
+    ExplicitTop = 397
   end
   inherited BasePanel: TPanel
     Top = 432
     Width = 770
-    ExplicitTop = 432
-    ExplicitWidth = 770
+    ExplicitTop = 431
+    ExplicitWidth = 766
     DesignSize = (
       770
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 219
-      ExplicitLeft = 223
+      Left = 215
+      ExplicitLeft = 211
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 332
-      ExplicitLeft = 336
+      Left = 328
+      ExplicitLeft = 324
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 412
-      ExplicitLeft = 416
+      Left = 408
+      ExplicitLeft = 404
     end
   end
   object MeioPanel: TPanel [4]
@@ -53,16 +53,18 @@ inherited ProdEdForm: TProdEdForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
+    ExplicitWidth = 766
+    ExplicitHeight = 381
     object ComunsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 774
+      Width = 770
       Height = 407
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 770
+      ExplicitWidth = 766
     end
   end
   inherited ShowTimer_BasForm: TTimer

@@ -29,9 +29,7 @@ type
     CustoGroupBox: TGroupBox;
     PrecoGroupBox: TGroupBox;
     BalGroupBox: TGroupBox;
-    BalUtilizaTitLabel: TLabel;
     BalTextoEtiqTitLabel: TLabel;
-    BalUtilizaComboBox: TComboBox;
     BalTextoEtiqMemo: TMemo;
     MoldeCapacEmbLabeledEdit: TLabeledEdit;
     AtivoCheckBox: TCheckBox;
@@ -45,6 +43,7 @@ type
     PrecoErroLabel: TLabel;
     LocalizLabeledEdit: TLabeledEdit;
     NcmLabeledEdit: TLabeledEdit;
+    BalancaExigeCheckBox: TCheckBox;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
@@ -372,7 +371,7 @@ begin
   // BalValidEdit.LabelPosition := lpCenter;
 
 
-  BalUtilizaComboBox.TabOrder := 0;
+  BalancaExigeCheckBox.Checked := False;
   BalDpto.TabOrder := 1;
   BalValidEdit.TabOrder := 2;
   BalTextoEtiqMemo.TabOrder := 3;
@@ -453,8 +452,7 @@ begin
   MoldeBalValidEditLabeledEdit.Free;
   MoldeBalDptoLabeledEdit.Free;
 
-  App.Est.Types_u.BalancaUsoStrToSL(BalUtilizaComboBox.Items);
-  BalUtilizaComboBox.ItemIndex := 0;
+  BalancaExigeCheckBox.Checked := False;
   BalDpto.Valor := 1;
   BalValidEdit.Valor := 0;
   CapacEmbEdit.Valor := 1;

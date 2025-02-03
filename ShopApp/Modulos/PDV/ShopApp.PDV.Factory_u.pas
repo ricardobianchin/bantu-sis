@@ -40,7 +40,7 @@ function ShopPDVVendaItemCreate( //
   pProd: IProd; //
   pEstMovQtd: Currency; //
 
-  pBalUso: SmallInt; //
+  pBalancaExige: Boolean; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -137,7 +137,7 @@ function ShopPDVVendaItemCreate( //
   pProd: IProd; //
   pEstMovQtd: Currency; //
 
-  pBalUso: SmallInt; //
+  pBalancaExige: Boolean; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -159,7 +159,7 @@ begin
     , pProd //
     , pEstMovQtd //
 
-    , pBalUso
+    , pBalancaExige
 
     , pCustoUnit //
     , pCusto //

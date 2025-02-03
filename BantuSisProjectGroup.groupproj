@@ -12,14 +12,11 @@
         <Projects Include="ShopApp\ShopApp.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="ShopAssist\ShopAssist.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="Adm\Adm.dproj">
             <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
-        </Projects>
-        <Projects Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="Tools\DBAtu\ToolsDBAtu.dproj">
-            <Dependencies/>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -56,6 +53,15 @@
     <Target Name="ShopApp:Make">
         <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ShopAssist">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj"/>
+    </Target>
+    <Target Name="ShopAssist:Clean">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShopAssist:Make">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Adm" DependsOnTargets="Sis;ShopApp">
         <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
@@ -65,47 +71,17 @@
     <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
-    <Target Name="BalancaTeste">
-        <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj"/>
-    </Target>
-    <Target Name="BalancaTeste:Clean">
-        <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BalancaTeste:Make">
-        <MSBuild Projects="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="ToolsDBAtu">
-        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj"/>
-    </Target>
-    <Target Name="ToolsDBAtu:Clean">
-        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ToolsDBAtu:Make">
-        <MSBuild Projects="Tools\DBAtu\ToolsDBAtu.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;BalancaTeste;ToolsDBAtu"/>
+        <CallTarget Targets="Sis;App;ShopApp;ShopAssist;Adm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;BalancaTeste:Clean;ToolsDBAtu:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;ShopAssist:Clean;Adm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;BalancaTeste:Make;ToolsDBAtu:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;ShopAssist:Make;Adm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
-        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
-            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Sis\Sis.dproj">
-            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
         <BuildGroupProject Include="App\App.dproj">
             <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
             <Configurations>Release</Configurations>
@@ -118,17 +94,23 @@
             <Platforms>Win32</Platforms>
             <Enabled>True</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="..\..\..\..\ter\ACBr\trunk2\Exemplos\ACBrSerial\ACBrBAL\Delphi\BalancaTeste.dproj">
-            <ProjectGuid>{D7D77DEF-D26C-4E9F-B000-8E1A90C36F97}</ProjectGuid>
-            <Configurations>Debug</Configurations>
+        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
+            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
+            <Configurations>Release</Configurations>
             <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
+            <Enabled>True</Enabled>
         </BuildGroupProject>
-        <BuildGroupProject Include="Tools\DBAtu\ToolsDBAtu.dproj">
-            <ProjectGuid>{F6B93C09-F47E-47C4-AC17-94201A3B664A}</ProjectGuid>
-            <Configurations>Debug</Configurations>
+        <BuildGroupProject Include="Sis\Sis.dproj">
+            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
+            <Configurations>Release</Configurations>
             <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="ShopAssist\ShopAssist.dproj">
+            <ProjectGuid>{5CCF951A-7526-4516-84EF-4F86814F14D8}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
         </BuildGroupProject>
     </ItemGroup>
 </Project>

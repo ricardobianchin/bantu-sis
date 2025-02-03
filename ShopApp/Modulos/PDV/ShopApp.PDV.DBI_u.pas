@@ -92,7 +92,7 @@ begin
     + ', P.DESCR_RED'#13#10 // 1
     + ', P.FABR_NOME'#13#10 // 2
     + ', P.UNID_SIGLA'#13#10 // 3
-    + ', P.BAL_USO'#13#10 // 4
+    + ', P.BALANCA_EXIGE'#13#10 // 4
     + ', P.CUSTO'#13#10 // 5
     + ', P.PRECO'#13#10 // 6
 
@@ -316,7 +316,7 @@ begin
     + ', FABR_NOME'#13#10 // 8
     + ', UNID_SIGLA'#13#10 // 9
 
-    + ', BAL_USO'#13#10 // 10
+    + ', BALANCA_EXIGE'#13#10 // 10
 
     + ', CUSTO_UNIT'#13#10 // 11
     + ', CUSTO'#13#10 // 12
@@ -386,7 +386,7 @@ begin
     q.Fields[4 { ORDEM_RET } ].AsInteger, oProd //
     , uQtd //
 
-    , q.Fields[10 { BAL_USO } ].AsInteger //
+    , q.Fields[10 { BALANCA_EXIGE } ].AsBoolean //
 
     , q.Fields[11 { CUSTO_UNIT } ].AsCurrency //
     , q.Fields[12 { CUSTO } ].AsCurrency //
@@ -467,7 +467,7 @@ begin
     q.Fields[7 { ORDEM_RET } ].AsInteger, oProd //
     , q.Fields[8 { QTD } ].AsCurrency //
 
-    , q.Fields[4 { BAL_USO } ].AsInteger //
+    , q.Fields[4 { BALANCA_EXIGE } ].AsBoolean //
 
     , q.Fields[13 { CUSTO_UNIT } ].AsCurrency //
     , q.Fields[14 { CUSTO } ].AsCurrency //

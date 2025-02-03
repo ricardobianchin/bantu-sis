@@ -25,7 +25,7 @@ type
     ICMS_PERC: Currency;
     ATIVO: Boolean;
     LOCALIZ: string;
-    BAL_USO: SmallInt;
+    BALANCA_EXIGE: Boolean;
     CUSTO: Currency;
     PRECO: Currency;
     //CUSTO: TBcd;
@@ -99,7 +99,7 @@ begin
   FAltDBExec.Params[15].AsCurrency := pReg.ICMS_PERC;
   FAltDBExec.Params[16].AsBoolean := pReg.ATIVO;
   FAltDBExec.Params[17].AsString := pReg.LOCALIZ;
-  FAltDBExec.Params[18].AsSmallInt := pReg.BAL_USO;
+  FAltDBExec.Params[18].AsBoolean := pReg.BALANCA_EXIGE;
 
   SetParamCurrency(FInsDBExec.Params[19], pReg.CUSTO);
   SetParamCurrency(FInsDBExec.Params[20], pReg.PRECO);
@@ -239,7 +239,7 @@ begin
         break;
       end;
 
-      Iguais := RegAtual.BAL_USO = pReg.BAL_USO;
+      Iguais := RegAtual.BALANCA_EXIGE = pReg.BALANCA_EXIGE;
       if not Iguais then
       begin
         Result := TResultadoBusca.rbTemDiferente;
@@ -364,7 +364,7 @@ begin
   A[i].ICMS_PERC := Q.Fields[16].AsCurrency;
   A[i].ATIVO := Q.Fields[17].AsBoolean;
   A[i].LOCALIZ := Q.Fields[18].AsString;
-  A[i].BAL_USO := Q.Fields[19].AsInteger;
+  A[i].BALANCA_EXIGE := Q.Fields[19].AsBoolean;
   A[i].CUSTO := Q.Fields[20].AsCurrency;
   A[i].PRECO := Q.Fields[21].AsCurrency;
   A[i].CRIADO_EM := Q.Fields[22].AsDateTime;
@@ -392,7 +392,7 @@ begin
   Result.ICMS_PERC := Q.Fields[16].AsCurrency;
   Result.ATIVO := Q.Fields[17].AsBoolean;
   Result.LOCALIZ := Q.Fields[18].AsString;
-  Result.BAL_USO := Q.Fields[19].AsInteger;
+  Result.BALANCA_EXIGE := Q.Fields[19].AsBoolean;
   Result.CUSTO := Q.Fields[20].AsCurrency;
   Result.PRECO := Q.Fields[21].AsCurrency;
   Result.CRIADO_EM := Q.Fields[22].AsDateTime;
@@ -449,7 +449,7 @@ begin
     + ', ICMS_PERC = :ICMS_PERC'#13#10 //
     + ', ATIVO = :ATIVO'#13#10 //
     + ', LOCALIZ = :LOCALIZ'#13#10 //
-    + ', BAL_USO = :BAL_USO'#13#10 //
+    + ', BALANCA_EXIGE = :BALANCA_EXIGE'#13#10 //
     + ', CUSTO = :CUSTO'#13#10 //
     + ', PRECO = :PRECO'#13#10 //
     + ', CRIADO_EM = :CRIADO_EM'#13#10 //
@@ -482,7 +482,7 @@ begin
     + ', ICMS_PERC'#13#10 //
     + ', ATIVO'#13#10 //
     + ', LOCALIZ'#13#10 //
-    + ', BAL_USO'#13#10 //
+    + ', BALANCA_EXIGE'#13#10 //
     + ', CUSTO'#13#10 //
     + ', PRECO'#13#10 //
     + ', CRIADO_EM'#13#10 //
@@ -509,7 +509,7 @@ begin
     + ', :ICMS_PERC'#13#10 //
     + ', :ATIVO'#13#10 //
     + ', :LOCALIZ'#13#10 //
-    + ', :BAL_USO'#13#10 //
+    + ', :BALANCA_EXIGE'#13#10 //
     + ', :CUSTO'#13#10 //
     + ', :PRECO'#13#10 //
     + ', :CRIADO_EM'#13#10 //
@@ -551,7 +551,7 @@ begin
     + ', ICMS.PERC ICMS_PERC'#13#10 //
     + ', PROD_COMPL.ATIVO'#13#10 //
     + ', PROD_COMPL.LOCALIZ'#13#10 //
-    + ', PROD_COMPL.BAL_USO'#13#10 //
+    + ', PROD_COMPL.BALANCA_EXIGE'#13#10 //
     + ', PROD_CUSTO.CUSTO CUSTO'#13#10 //
     + ', PROD_PRECO.PRECO PRECO'#13#10 //
     + ', PROD.CRIADO_EM'#13#10 //
@@ -615,7 +615,7 @@ begin
     + ', ICMS_PERC'#13#10 //
     + ', ATIVO'#13#10 //
     + ', LOCALIZ'#13#10 //
-    + ', BAL_USO'#13#10 //
+    + ', BALANCA_EXIGE'#13#10 //
     + ', CUSTO'#13#10 //
     + ', PRECO'#13#10 //
     + ', CRIADO_EM'#13#10 //
@@ -649,7 +649,7 @@ begin
   FInsDBExec.Params[16].AsCurrency := pReg.ICMS_PERC;
   FInsDBExec.Params[17].AsBoolean := pReg.ATIVO;
   FInsDBExec.Params[18].AsString := pReg.LOCALIZ;
-  FInsDBExec.Params[19].AsSmallInt := pReg.BAL_USO;
+  FInsDBExec.Params[19].AsBoolean := pReg.BALANCA_EXIGE;
 
   SetParamCurrency(FInsDBExec.Params[20], pReg.CUSTO);
   SetParamCurrency(FInsDBExec.Params[21], pReg.PRECO);

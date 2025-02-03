@@ -1,18 +1,17 @@
 inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
-  ClientHeight = 401
+  ClientHeight = 423
   ClientWidth = 931
-  ExplicitLeft = -49
   ExplicitWidth = 943
-  ExplicitHeight = 439
+  ExplicitHeight = 461
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 329
+    Top = 351
     Width = 931
     ExplicitTop = 439
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 386
+    Top = 408
     Width = 931
     ExplicitTop = 496
   end
@@ -61,14 +60,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object LetraDoDriveLabel: TLabel [7]
     Left = 741
-    Top = 229
+    Top = 237
     Width = 27
     Height = 15
     Caption = 'Drive'
   end
   object LetraDoDriveAjudaLabel: TLabel [8]
     Left = 787
-    Top = 213
+    Top = 221
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -83,14 +82,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object NFSerieLabel: TLabel [9]
     Left = 620
-    Top = 229
+    Top = 237
     Width = 65
     Height = 15
     Caption = 'S'#233'rie da NFE'
   end
   object NFSerieAjudaLabel: TLabel [10]
     Left = 696
-    Top = 213
+    Top = 221
     Width = 35
     Height = 12
     CustomHint = BalloonHint1
@@ -149,7 +148,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Caption = 'IP'
   end
   inherited BasePanel: TPanel
-    Top = 349
+    Top = 371
     Width = 931
     TabOrder = 12
     ExplicitTop = 458
@@ -202,7 +201,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object LetraDoDriveComboBox: TComboBox [18]
     Left = 773
-    Top = 226
+    Top = 234
     Width = 49
     Height = 23
     Style = csDropDownList
@@ -211,7 +210,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object NFSerieEdit: TEdit [19]
     Left = 691
-    Top = 226
+    Top = 234
     Width = 41
     Height = 23
     Alignment = taCenter
@@ -225,12 +224,12 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 2
     Top = 71
     Width = 464
-    Height = 117
+    Height = 120
     Caption = 'Modo da Balan'#231'a'
     TabOrder = 5
     DesignSize = (
       464
-      117)
+      120)
     object BalancaModoUsoLabel: TLabel
       Left = 6
       Top = 29
@@ -263,42 +262,42 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object Label3: TLabel
       Left = 6
-      Top = 57
+      Top = 61
       Width = 28
       Height = 15
       Caption = 'Porta'
     end
     object BaudRateLabel: TLabel
       Left = 193
-      Top = 57
+      Top = 61
       Width = 50
       Height = 15
       Caption = 'BaudRate'
     end
     object DataBitsLabel: TLabel
       Left = 326
-      Top = 57
+      Top = 61
       Width = 43
       Height = 15
       Caption = 'DataBits'
     end
     object ParidadeLabel: TLabel
       Left = 6
-      Top = 85
+      Top = 93
       Width = 46
       Height = 15
       Caption = 'Paridade'
     end
     object StopBitsLabel: TLabel
       Left = 129
-      Top = 85
+      Top = 93
       Width = 43
       Height = 15
       Caption = 'StopBits'
     end
     object HandShakingLabel: TLabel
       Left = 239
-      Top = 85
+      Top = 93
       Width = 71
       Height = 15
       Caption = 'HandShaking'
@@ -331,7 +330,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BalPortaComboBox: TComboBox
       Left = 38
-      Top = 54
+      Top = 58
       Width = 147
       Height = 23
       Style = csDropDownList
@@ -352,7 +351,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object BaudRateComboBox: TComboBox
       Left = 249
-      Top = 54
+      Top = 58
       Width = 71
       Height = 23
       Style = csDropDownList
@@ -376,7 +375,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object DataBitsComboBox: TComboBox
       Left = 374
-      Top = 54
+      Top = 58
       Width = 38
       Height = 23
       Style = csDropDownList
@@ -392,7 +391,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object ParidadeComboBox: TComboBox
       Left = 57
-      Top = 82
+      Top = 90
       Width = 65
       Height = 23
       Style = csDropDownList
@@ -409,7 +408,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object StopBitsComboBox: TComboBox
       Left = 179
-      Top = 82
+      Top = 90
       Width = 54
       Height = 23
       Style = csDropDownList
@@ -424,7 +423,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
     object HandShakingComboBox: TComboBox
       Left = 316
-      Top = 82
+      Top = 90
       Width = 91
       Height = 23
       Style = csDropDownList
@@ -443,12 +442,12 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 473
     Top = 71
     Width = 170
-    Height = 117
+    Height = 120
     Caption = 'Layout C'#243'd.Barras de Balan'#231'a'
     TabOrder = 6
     DesignSize = (
       170
-      117)
+      120)
     object BarCodigoIniLabel: TLabel
       Left = 6
       Top = 41
@@ -528,7 +527,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object AtivoCheckBox: TCheckBox [24]
     Left = 618
-    Top = 286
+    Top = 294
     Width = 167
     Height = 17
     Caption = 'Terminal Ativo no Sistema'
@@ -541,7 +540,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 649
     Top = 71
     Width = 267
-    Height = 117
+    Height = 120
     Hint = 'Comando para acionamento'
     Caption = 'Gaveta de Dinheiro'
     TabOrder = 7
@@ -622,7 +621,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   end
   object ImpressoraGroupBox: TGroupBox [26]
     Left = 2
-    Top = 192
+    Top = 200
     Width = 602
     Height = 121
     Caption = 'Impressora'

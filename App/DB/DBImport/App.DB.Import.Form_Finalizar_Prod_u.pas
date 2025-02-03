@@ -38,7 +38,7 @@ var
   sLocaliz: string[15];
   uMargem: Currency;
 
-  iBalUso: SmallInt;
+  bBalancaExige: Boolean;
   sBalDpto: string[3];
   iBalValidadeDias: SmallInt;
   sBalTextoEtiq: string;
@@ -60,7 +60,7 @@ var
   oFieldFin_ATIVO, //
   oFieldFin_LOCALIZ, //
   oFieldFin_MARGEM, //
-  oFieldFin_BAL_USO, //
+  oFieldFin_BALANCA_EXIGE, //
   oFieldFin_BAL_DPTO, //
   oFieldFin_BAL_VALIDADE_DIAS, //
   oFieldFin_BAL_TEXTO_ETIQ, //
@@ -83,7 +83,7 @@ begin
   oFieldFin_ATIVO:= Q.FieldByName('ATIVO');
   oFieldFin_LOCALIZ:= Q.FieldByName('LOCALIZ');
   oFieldFin_MARGEM:= Q.FieldByName('MARGEM');
-  oFieldFin_BAL_USO := Q.FieldByName('BAL_USO');
+  oFieldFin_BALANCA_EXIGE := Q.FieldByName('BALANCA_EXIGE');
   oFieldFin_BAL_DPTO := Q.FieldByName('BAL_DPTO');
   oFieldFin_BAL_VALIDADE_DIAS := Q.FieldByName('BAL_VALIDADE_DIAS');
   oFieldFin_BAL_TEXTO_ETIQ := Q.FieldByName('BAL_TEXTO_ETIQ');
@@ -106,7 +106,7 @@ begin
   oFieldFin_ATIVO:= nil;
   oFieldFin_LOCALIZ:= nil;
   oFieldFin_MARGEM:= nil;
-  oFieldFin_BAL_USO := nil;
+  oFieldFin_BALANCA_EXIGE := nil;
   oFieldFin_BAL_DPTO := nil;
   oFieldFin_BAL_VALIDADE_DIAS := nil;
   oFieldFin_BAL_TEXTO_ETIQ := nil;
@@ -172,7 +172,7 @@ begin
     + ',PRO.LOCALIZ'#13#10 // 13
     + ',PRO.MARGEM'#13#10 // 14
 
-    + ',PRO.BAL_USO'#13#10 // 15
+    + ',PRO.BALANCA_EXIGE'#13#10 // 15
     + ',PRO.BAL_DPTO'#13#10 // 16
     + ',PRO.BAL_VALIDADE_DIAS'#13#10 // 17
     + ',PRO.BAL_TEXTO_ETIQ'#13#10 // 18
@@ -244,7 +244,7 @@ begin
   if aPreco[0] = 0 then
     aPreco[0] := UM_CENTAVO;
 
-  iBalUso := oFieldFin_BAL_USO.AsInteger;
+  bBalancaExige := oFieldFin_BALANCA_EXIGE.AsBoolean;
   sBalDpto := Trim(oFieldFin_BAL_DPTO.AsString);
   iBalValidadeDias := oFieldFin_BAL_VALIDADE_DIAS.AsInteger;
   sBalTextoEtiq := Trim(oFieldFin_BAL_TEXTO_ETIQ.AsString);
@@ -278,7 +278,7 @@ begin
     + ',' + BooleanToStrSQL(bAtivo) + ',' + QuotedStr(sLocaliz) + ',' +
     CurrencyToStrPonto(uMargem)
 
-    + ',' + iBalUso.ToString + ',' + QuotedStr(sBalDpto) + ',' +
+    + ',' + BooleanToStrSQL(bBalancaExige) + ',' + QuotedStr(sBalDpto) + ',' +
     iBalValidadeDias.ToString + ',' + QuotedStr(sBalTextoEtiq)
 
     + ',' + QuotedStr(sBarras)

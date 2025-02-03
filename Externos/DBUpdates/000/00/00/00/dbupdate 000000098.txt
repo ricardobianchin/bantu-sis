@@ -105,10 +105,6 @@ FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
    );
 
 
-       EST_MOV_ID_RET ORDEM_RET              VENDA_ID_RET      PROD_ID DESCR_RED                     FABR_NOME            UNID_SIGLA BAL_USO                 CUSTO                 PRECO ENCONTRADO MENSAGEM                                                                                             LOG_STR_RET                                                                                                                                                                            
-===================== ====================== ============ ============ ============================= ==================== ========== ======= ===================== ===================== ========== ==================================================================================================== ========================================================================================================================================================================================================
-                    1                      0            1            3 CANETA PARA CELULAR           PADRAO               PC               0                2.5000                 9.900 <true>                                                                                                          PROD_ID=3;VAI VENDA_ITEM_IN S;EST_MOV_ID_RET=1;ORDEM_RET=0;VENDA_ID_RET=1     
-
 
 SELECT *
 FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
@@ -125,9 +121,6 @@ FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
 
 
 
-       EST_MOV_ID_RET ORDEM_RET VENDA_ID_RET      PROD_ID DESCR_RED                     FABR_NOME            UNID_SIGLA BAL_USO                 CUSTO                 PRECO ENCONTRADO MENSAGEM                                                                                             LOG_STR_RET                                                                                                                                                                            
-===================== ====================== ============ ============ ============================= ==================== ========== ======= ===================== ===================== ========== ==================================================================================================== ========================================================================================================================================================================================================
-                    1                      1            1            3 CANETA PARA CELULAR           PADRAO               PC               0                2.5000                 9.900 <true>                                                                                                          PROD_ID=3;VAI VENDA_ITEM_IN S;EST_MOV_ID_RET=1;ORDEM_RET=1;VENDA_ID_RET=1                                                                                                  
 */
 
 
@@ -280,7 +273,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -297,7 +290,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -361,7 +354,7 @@ BEGIN
     , DESCR_RED PROD_DESCR_RED_DOM
     , FABR_NOME NOME_REDU_DOM
     , UNID_SIGLA CHAR(6)
-    , BAL_USO SMALLINT
+    , BALANCA_EXIGE BOOLEAN
     , CUSTO_UNIT CUSTO_DOM
     , CUSTO CUSTO_DOM
     , PRECO_UNIT_ORIGINAL PRECO_DOM
@@ -619,7 +612,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -632,7 +625,7 @@ BEGIN
       P.DESCR_RED,
       P.FABR_NOME,
       P.UNID_SIGLA,
-      P.BAL_USO,
+      P.BALANCA_EXIGE,
       P.CUSTO,
       P.PRECO,
       TRUE AS ENCONTRADO,
@@ -647,7 +640,7 @@ BEGIN
       :DESCR_RED,
       :FABR_NOME,
       :UNID_SIGLA,
-      :BAL_USO,
+      :BALANCA_EXIGE,
       :CUSTO_UNIT,
       :PRECO_UNIT,
       :ENCONTRADO,
@@ -671,7 +664,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -684,7 +677,7 @@ BEGIN
       P.DESCR_RED,
       P.FABR_NOME,
       P.UNID_SIGLA,
-      P.BAL_USO,
+      P.BALANCA_EXIGE,
       P.CUSTO,
       P.PRECO,
       TRUE AS ENCONTRADO,
@@ -701,7 +694,7 @@ BEGIN
       :DESCR_RED,
       :FABR_NOME,
       :UNID_SIGLA,
-      :BAL_USO,
+      :BALANCA_EXIGE,
       :CUSTO_UNIT,
       :PRECO_UNIT,
       :ENCONTRADO,
@@ -811,7 +804,7 @@ BEGIN
     , DESCR_RED PROD_DESCR_RED_DOM
     , FABR_NOME NOME_REDU_DOM
     , UNID_SIGLA CHAR(6)
-    , BAL_USO SMALLINT
+    , BALANCA_EXIGE BOOLEAN
     , CUSTO_UNIT CUSTO_DOM
     , CUSTO CUSTO_DOM
     , PRECO_UNIT_ORIGINAL PRECO_DOM
@@ -828,22 +821,22 @@ BEGIN
   BEGIN
     IF (CHARACTER_LENGTH (:STR_BUSCA) < 8) THEN
     BEGIN
-      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BAL_USO,
+      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BALANCA_EXIGE,
         CUSTO_UNIT, PRECO_UNIT, ENCONTRADO, MENSAGEM
       FROM BY_PROD_ID(CAST(:STR_BUSCA AS ID_DOM))
-      INTO :PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BAL_USO,
+      INTO :PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BALANCA_EXIGE,
         :CUSTO_UNIT, :PRECO_UNIT, :ENCONTRADO, :MENSAGEM;
     END
     ELSE
     BEGIN
-      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BAL_USO,
+      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BALANCA_EXIGE,
         CUSTO_UNIT, PRECO_UNIT, ENCONTRADO, MENSAGEM
       FROM BY_BARRAS(:STR_BUSCA)
-      INTO PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BAL_USO,
+      INTO PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BALANCA_EXIGE,
         :CUSTO_UNIT, :PRECO_UNIT, :ENCONTRADO, :MENSAGEM;
     END
     LOG_STR_RET = 'PROD_ID=' || CAST(PROD_ID AS VARCHAR(7));
-    IF (:BAL_USO = 0 AND :ENCONTRADO) THEN
+    IF (:BALANCA_EXIGE = FALSE AND :ENCONTRADO) THEN
     BEGIN
       :CUSTO = ROUND(:CUSTO_UNIT * :QTD, 2);
       :PRECO_UNIT_ORIGINAL = :PRECO_UNIT;
