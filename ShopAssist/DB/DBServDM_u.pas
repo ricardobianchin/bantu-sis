@@ -30,18 +30,20 @@ implementation
 
 {$R *.dfm}
 
+function GetPastaFirebird: string;
+begin
+  Result := 'C:\Program Files\Firebird\Firebird_5_0\';
+
+  if not FileExists(Result+'isql.exe') then
+    Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
+end;
+
 procedure TDBServDM.DataModuleCreate(Sender: TObject);
 var
   s: string;
 begin
-{$IFDEF DEBUG}
-  s := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
-{$ELSE}
-  s := 'C:\Program Files\Firebird\Firebird_5_0\';
-{$ENDIF}
-
+  s := GetPastaFirebird;
   FDPhysFBDriverLink1.VendorHome := s;
-
 end;
 
 end.

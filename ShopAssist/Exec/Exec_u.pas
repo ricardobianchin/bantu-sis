@@ -25,14 +25,19 @@ begin
     bPrecisaTerminar := False;
     try
       repeat
-        ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
+        CarregarIni;
+        if bAtivo then
+          ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
+
+        if bPrecisaTerminar then
+          break;
+
+        if not bSegueAberto then
+          break;
 //  break;
 //        {$IFDEF DEBUG}
 //        break;
 //        {$ENDIF}
-
-        if bPrecisaTerminar then
-          break;
 
         for iEsperaAtual := 1 to PAUSA_SEGUNDOS do
         begin
