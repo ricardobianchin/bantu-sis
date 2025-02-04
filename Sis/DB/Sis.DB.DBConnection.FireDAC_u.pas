@@ -131,10 +131,14 @@ begin
         ;
     end;
 
-    FFDConnection.Params.Text := 'DriverID=' + sDriver + #13#10 + 'Server=' +
-      DBConnectionParams.Server + #13#10 + 'Database=' + DBConnectionParams.Arq
-      + #13#10 + 'Password=masterkey'#13#10 + 'User_Name=sysdba'#13#10 +
-      'Protocol=TCPIP';
+    FFDConnection.Params.Text := //
+      'DriverID=' + sDriver + #13#10 //
+      + 'Server=' + DBConnectionParams.Server + #13#10 //
+      + 'Database=' + DBConnectionParams.Arq + #13#10 //
+      + 'Password=masterkey'#13#10 //
+      + 'User_Name=sysdba'#13#10 //
+      + 'Protocol=TCPIP' //
+      ;
   finally
     DBLog.Registre('Params='#13#10 + FFDConnection.Params.Text);
     ProcessLog.RetorneLocal;
@@ -251,14 +255,14 @@ begin
   inherited;
   ProcessLog.PegueLocal('TDBConnectionFireDAC.QueryDataSet');
   try
-    sLog := #13#10+pSql + #13#10'vai fazer select com ExecSQL';
+    sLog := #13#10 + pSql + #13#10'vai fazer select com ExecSQL';
     try
       FFDConnection.ExecSQL(pSql, pDataSet);
     except
       on e: exception do
       begin
         sLog := sLog + #13#10 + e.ClassName + ' ' + e.Message + #13#10;
-        raise Exception.Create('Error. '+sLog);
+        raise exception.Create('Error. ' + sLog);
       end;
     end;
     sLog := sLog + 'Retornou,Assigned(pDataSet)=' +

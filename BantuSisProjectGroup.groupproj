@@ -18,6 +18,9 @@
         <Projects Include="ShopAssist\ShopAssist.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Teste\DB\Thread\Thr1\Thr1.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -71,29 +74,26 @@
     <Target Name="ShopAssist:Make">
         <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Thr1">
+        <MSBuild Projects="Teste\DB\Thread\Thr1\Thr1.dproj"/>
+    </Target>
+    <Target Name="Thr1:Clean">
+        <MSBuild Projects="Teste\DB\Thread\Thr1\Thr1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Thr1:Make">
+        <MSBuild Projects="Teste\DB\Thread\Thr1\Thr1.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm;ShopAssist"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;ShopAssist;Thr1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ShopAssist:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ShopAssist:Clean;Thr1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ShopAssist:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ShopAssist:Make;Thr1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='BantuShop'">
-        <BuildGroupProject Include="App\App.dproj">
-            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Adm\Adm.dproj">
-            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
         <BuildGroupProject Include="ShopApp\ShopApp.dproj">
             <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
             <Configurations>Release</Configurations>
@@ -109,6 +109,24 @@
         <BuildGroupProject Include="ShopAssist\ShopAssist.dproj">
             <ProjectGuid>{5CCF951A-7526-4516-84EF-4F86814F14D8}</ProjectGuid>
             <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="App\App.dproj">
+            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Adm\Adm.dproj">
+            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="Teste\DB\Thread\Thr1\Thr1.dproj">
+            <ProjectGuid>{4EFFCE6B-6F15-4A90-90C4-52FF9ADFF521}</ProjectGuid>
+            <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
             <Enabled>False</Enabled>
         </BuildGroupProject>
