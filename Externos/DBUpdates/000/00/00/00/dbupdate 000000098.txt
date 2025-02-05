@@ -91,35 +91,6 @@ SELECT * FROM VENDA_PDV_INS_PA.BY_BARRAS('7869549490313');
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PDV_INS_PA.sql";
 
 
-SELECT *
-FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
-    1 -- LOJA_ID
-    , 1 -- TERMINAL_ID
-    , NULL -- EST_MOV_ID
-    , NULL -- VENDA_ID
-    , 1 -- SESS_LOJA_ID
-    , 1 -- SESS_TERMINAL_ID
-    , 1 -- SESS_ID
-    , 1
-    , '3'
-   );
-
-
-
-SELECT *
-FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
-    1 -- LOJA_ID
-    , 1 -- TERMINAL_ID
-    , 1 -- EST_MOV_ID
-    , 1 -- VENDA_ID
-    , 1 -- SESS_LOJA_ID
-    , 1 -- SESS_TERMINAL_ID
-    , 1 -- SESS_ID
-    , 1
-    , '3'
-   );
-
-
 
 */
 
@@ -857,7 +828,7 @@ BEGIN
         , LOG_STR_RET
       FROM 
         ITEM_PEGUE
-      (
+        (
         :LOJA_ID
         , :TERMINAL_ID
         , :EST_MOV_ID
