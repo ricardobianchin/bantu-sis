@@ -170,6 +170,9 @@ type
 
     function GetDataSet: TDataSet;
     property DataSet: TDataSet read GetDataSet;
+
+    function GetFields: TFields;
+    property Fields: TFields read GetFields;
   end;
 
   IDBExec = interface(IDBSqlOperation)

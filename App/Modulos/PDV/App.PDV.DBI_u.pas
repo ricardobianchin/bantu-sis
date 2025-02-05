@@ -16,13 +16,14 @@ type
     property AppObj: IAppObj read FAppObj;
     property Terminal: ITerminal read FTerminal;
     property PDVVenda: IPDVVenda read FPdvVenda;
+
+    procedure InsiraPagItens; virtual;
+    procedure InsiraEstItens; virtual;
   public
     procedure PagSomenteDinheiro;
     procedure PagInserir(PAGAMENTO_FORMA_ID: TId; VALOR_DEVIDO, VALOR_ENTREGUE,
       TROCO: Currency);
 
-    procedure InsiraPagItens; virtual;
-    procedure InsiraEstItens; virtual;
     procedure PagFormaPreencheDataSet(pFDMemTable: TFDMemTable);
     procedure PagCancelar(pOrdem: SmallInt);
     procedure VendaFinalize;

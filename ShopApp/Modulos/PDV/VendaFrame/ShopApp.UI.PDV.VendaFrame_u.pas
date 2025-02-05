@@ -492,6 +492,7 @@ var
   bEncontrou: Boolean;
   sMensagem: string;
 begin
+  // recebe codigo, retorna item vendido, ou, se nao encontrou
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
     sMensagem);
 
@@ -500,6 +501,12 @@ begin
     ExibaErro(sMensagem);
     Exit;
   end;
+
+  if sMensagem = 'bal' then
+  begin
+
+  end;
+
   FShopPDVVenda.Items.Add(oItem);
   ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
   PreencherControles;

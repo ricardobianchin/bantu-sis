@@ -185,6 +185,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\PdvObj\ShopApp.PDV.Obj.pas"/>
         <DCCReference Include="Modulos\PDV\PdvObj\ShopApp.PDV.Obj_u.pas"/>
+        <DCCReference Include="Modulos\PDV\ShopApp.PDV.DBI_u_BuscaItem.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
