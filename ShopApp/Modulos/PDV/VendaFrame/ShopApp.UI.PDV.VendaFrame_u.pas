@@ -492,7 +492,7 @@ var
   bEncontrou: Boolean;
   sMensagem: string;
 begin
-  // recebe codigo, retorna item vendido, ou, se nao encontrou
+  // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
     sMensagem);
 

@@ -62,6 +62,6 @@ contains
   ShopApp.UI.PDV.PagFrame_u in 'Modulos\PDV\PagFrame\ShopApp.UI.PDV.PagFrame_u.pas' {ShopPagPDVFrame: TFrame},
   ShopApp.PDV.Obj in 'Modulos\PDV\PdvObj\ShopApp.PDV.Obj.pas',
   ShopApp.PDV.Obj_u in 'Modulos\PDV\PdvObj\ShopApp.PDV.Obj_u.pas',
-  ShopApp.PDV.DBI_u_BuscaItem in 'Modulos\PDV\ShopApp.PDV.DBI_u_BuscaItem.pas';
+  ShopApp.PDV.DBI_u_EstMovAdicionador in 'Modulos\PDV\ShopApp.PDV.DBI_u_EstMovAdicionador.pas';
 
 end.

@@ -5,13 +5,13 @@ interface
 uses ShopApp.PDV.DBI, App.PDV.DBI_u, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   Sis.DB.DBTypes, App.AppObj, Sis.Terminal, Sis.Types.Floats, Data.DB,
   ShopApp.PDV.Factory_u, App.Est.Venda.Caixa.CaixaSessao,
-  ShopApp.PDV.DBI_u_BuscaItem;
+  ShopApp.PDV.DBI_u_EstMovAdicionador;
 
 type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
   private
     FShopPdvVenda: IShopPdvVenda;
-    FBuscaItem: TShopAppPDVDBI_BuscaItem;
+    FEstMovAdicionador: TEstMovAdicionador;
     function RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;
     procedure RecordPreencheVenda(q: TDataSet);
 
@@ -86,13 +86,13 @@ constructor TShopAppPDVDBI.Create(pDBConnection: IDBConnection;
 begin
   inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda);
   FShopPdvVenda := pShopPdvVenda;
-  FBuscaItem := TShopAppPDVDBI_BuscaItem.Create(AppObj, Terminal, FShopPdvVenda,
+  FEstMovAdicionador := TEstMovAdicionador.Create(AppObj, Terminal, FShopPdvVenda,
     DBConnection);
 end;
 
 destructor TShopAppPDVDBI.Destroy;
 begin
-  FBuscaItem.Free;
+  FEstMovAdicionador.Free;
   inherited;
 end;
 
@@ -287,84 +287,8 @@ end;
 
 function TShopAppPDVDBI.ItemCreatePelaStrBusca(pStrBusca: string;
   out pEncontrou: Boolean; out pMensagem: string): IShopPDVVendaItem;
-var
-  oProd: IProd;
 begin
-  try
-//    Result := oBusca.ItemCreate(pStrBusca, pEncontrou, pMensagem);
-  finally
-  end;
-
-  // bProdConsultaAberto := False;
-  /// ////
-
-  DBConnection.Abrir;
-  try
-    q := DBQueryCreate('pdvdbi.prodconsulta.q', DBConnection, sSql, nil, nil);
-
-    pEncontrou := not q.Abrir;
-
-    if not pEncontrou then
-    begin
-      pMensagem := 'ERRO BUSCANDO ITEM';
-      exit;
-    end;
-
-    bProdConsultaAberto := True;
-
-    pEncontrou := q.Fields[17 { ENCONTRADO } ].AsBoolean;
-
-    if not pEncontrou then
-    begin
-      pMensagem := q.Fields[18 { MENSAGEM } ].AsString;
-      exit;
-    end;
-
-    if FShopPdvVenda.VendaId = 0 then
-    begin
-      FShopPdvVenda.EstMovId := q.Fields[0 { EST_MOV_ID_RET } ].AsLargeInt;
-      FShopPdvVenda.VendaId := q.Fields[1 { VENDA_ID_RET } ].AsInteger;
-      FShopPdvVenda.DtHDoc := q.Fields[2 { DTH_DOC_RET } ].AsDateTime;
-      FShopPdvVenda.CriadoEm := q.Fields[3 { EST_MOV_CRIADO_EM_RET } ]
-        .AsDateTime;
-    end;
-
-    // oAddPesoExec
-
-    oProd := ProdCreate( //
-      q.Fields[6 { PROD_ID } ].AsInteger //
-      , q.Fields[7 { DESCR_RED } ].AsString //
-      , q.Fields[8 { FABR_NOME } ].AsString,
-      q.Fields[9 { UNID_SIGLA } ].AsString);
-
-    Result := ShopPDVVendaItemCreate( //
-      q.Fields[4 { ORDEM_RET } ].AsInteger, oProd //
-      , uQtd //
-
-      , q.Fields[10 { BALANCA_EXIGE } ].AsBoolean //
-
-      , q.Fields[11 { CUSTO_UNIT } ].AsCurrency //
-      , q.Fields[12 { CUSTO } ].AsCurrency //
-
-      , q.Fields[13 { PRECO_UNIT_ORIGINAL } ].AsCurrency //
-      , q.Fields[14 { PRECO_UNIT_PROMO } ].AsCurrency //
-      , q.Fields[15 { PRECO_UNIT } ].AsCurrency //
-      , q.Fields[16 { PRECO_BRUTO } ].AsCurrency //
-
-      , 0 // desconto
-      , q.Fields[16 { PRECO_BRUTO } ].AsCurrency // preco
-
-      , False // pEstMovItemCancelado
-      , DATA_ZERADA // pEstMovItemCriadoEm
-      , DATA_ZERADA // pEstMovItemAlteradoEm
-      , DATA_ZERADA // pEstMovItemCanceladoEm
-      );
-  finally
-    if bProdConsultaAberto then
-      q.Fechar;
-
-    DBConnection.Fechar;
-  end;
+  Result := FEstMovAdicionador.BuscaProdAddEstMov(pStrBusca, pEncontrou, pMensagem);
 end;
 
 procedure TShopAppPDVDBI.RecordPreencheVenda(q: TDataSet);
