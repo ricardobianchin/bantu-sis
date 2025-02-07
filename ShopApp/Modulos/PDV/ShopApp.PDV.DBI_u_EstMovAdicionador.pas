@@ -3,7 +3,7 @@ unit ShopApp.PDV.DBI_u_EstMovAdicionador;
 interface
 
 uses App.AppObj, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem, Sis.DB.DBTypes,
-  Sis.Terminal, Sis.Entities.Types, Data.DB;
+  Sis.Terminal, Sis.Entities.Types, Data.DB, App.PDV.Obj;
 
 type
   TEstMovAdicionador = class
@@ -14,6 +14,7 @@ type
     FTerminal: ITerminal;
     FVenda: IShopPdvVenda;
     FDBConnection: IDBConnection;
+    FPDVObj: IPDVObj;
 
     FBuscaQ: IDBQuery;
     FAddItemPesoQ: IDBQuery;
@@ -32,7 +33,7 @@ type
     function BuscaProdAddEstMov(pStrBusca: string; out pEncontrou: Boolean;
       out pMensagem: string): IShopPDVVendaItem;
 
-    constructor Create(pAppObj: IAppObj; pTerminal: ITerminal;
+    constructor Create(pAppObj: IAppObj; pPDVObj: IPDVObj; pTerminal: ITerminal;
       pShopPdvVenda: IShopPdvVenda; pDBConnection: IDBConnection);
   end;
 
@@ -88,11 +89,12 @@ begin
   Result := DBQueryCreate('pdvdbibusca.prod.q', FDBConnection, sSql, nil, nil);
 end;
 
-constructor TEstMovAdicionador.Create(pAppObj: IAppObj;
+constructor TEstMovAdicionador.Create(pAppObj: IAppObj; pPDVObj: IPDVObj;
   pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda;
   pDBConnection: IDBConnection);
 begin
   FAppObj := pAppObj;
+  FPDVObj := pPDVObj;
   FTerminal := pTerminal;
   FVenda := pShopPdvVenda;
   FDBConnection := pDBConnection;
@@ -270,6 +272,7 @@ function TEstMovAdicionador.BuscaProdAddEstMov(pStrBusca: string;
 var
   q: TDataSet;
   oProd: IProd;
+  bPrecisaPesar: Boolean;
 begin
   Result := nil;
 
@@ -286,7 +289,13 @@ begin
       exit;
     end;
 
-            //testa se bal
+    bPrecisaPesar := FBuscaQ.Fields[10 {BALANCA_EXIGE} ].AsBoolean and FPDVObj.Balanca.Habilitada;
+
+    if bPrecisaPesar then
+    begin
+      FPDVObj.Balanca.LePeso(uQtd, pEncontrou, pMensagem);
+    end;
+
     q := FBuscaQ.DataSet;
     if FVenda.VendaId = 0 then
     begin

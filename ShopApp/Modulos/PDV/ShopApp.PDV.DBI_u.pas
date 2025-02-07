@@ -5,13 +5,15 @@ interface
 uses ShopApp.PDV.DBI, App.PDV.DBI_u, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   Sis.DB.DBTypes, App.AppObj, Sis.Terminal, Sis.Types.Floats, Data.DB,
   ShopApp.PDV.Factory_u, App.Est.Venda.Caixa.CaixaSessao,
-  ShopApp.PDV.DBI_u_EstMovAdicionador;
+  ShopApp.PDV.DBI_u_EstMovAdicionador, App.PDV.Obj;
 
 type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
   private
     FShopPdvVenda: IShopPdvVenda;
     FEstMovAdicionador: TEstMovAdicionador;
+    FPDVObj: IPDVObj;
+
     function RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;
     procedure RecordPreencheVenda(q: TDataSet);
 
@@ -31,8 +33,8 @@ type
       out pExecutouOk: Boolean; out pMensagem: string);
 
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
-      pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda);
-          destructor Destroy; override;
+      pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda);
+    destructor Destroy; override;
 
   end;
 
@@ -82,12 +84,14 @@ begin
 end;
 
 constructor TShopAppPDVDBI.Create(pDBConnection: IDBConnection;
-  pAppObj: IAppObj; pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda);
+  pAppObj: IAppObj; pPDVObj: IPDVObj; pTerminal: ITerminal;
+  pShopPdvVenda: IShopPdvVenda);
 begin
   inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda);
   FShopPdvVenda := pShopPdvVenda;
-  FEstMovAdicionador := TEstMovAdicionador.Create(AppObj, Terminal, FShopPdvVenda,
-    DBConnection);
+  FPDVObj := pPDVObj;
+  FEstMovAdicionador := TEstMovAdicionador.Create(AppObj, pPDVObj, Terminal,
+    FShopPdvVenda, DBConnection);
 end;
 
 destructor TShopAppPDVDBI.Destroy;
@@ -288,7 +292,8 @@ end;
 function TShopAppPDVDBI.ItemCreatePelaStrBusca(pStrBusca: string;
   out pEncontrou: Boolean; out pMensagem: string): IShopPDVVendaItem;
 begin
-  Result := FEstMovAdicionador.BuscaProdAddEstMov(pStrBusca, pEncontrou, pMensagem);
+  Result := FEstMovAdicionador.BuscaProdAddEstMov(pStrBusca, pEncontrou,
+    pMensagem);
 end;
 
 procedure TShopAppPDVDBI.RecordPreencheVenda(q: TDataSet);

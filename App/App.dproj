@@ -716,9 +716,13 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto_u.pas"/>
         <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoVenda_u.pas"/>
         <DCCReference Include="Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.pas"/>
-        <DCCReference Include="Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.Teste_u.pas"/>
+        <DCCReference Include="Modulos\PDV\UI\Bal\App.PDV.UI.Balanca_u.pas"/>
         <DCCReference Include="Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm_u.pas">
             <Form>BalancaVendaForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Teste_u.pas">
+            <Form>BalancaTesteVendaForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

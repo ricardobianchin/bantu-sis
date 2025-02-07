@@ -2,7 +2,8 @@ unit ShopApp.PDV.DBI;
 
 interface
 
-uses Sis.DBI, ShopApp.PDV.VendaItem, App.Est.Venda.Caixa.CaixaSessao, App.PDV.DBI;
+uses Sis.DBI, ShopApp.PDV.VendaItem, App.Est.Venda.Caixa.CaixaSessao,
+  App.PDV.DBI;
 
 type
   IShopAppPDVDBI = interface(IAppPDVDBI)

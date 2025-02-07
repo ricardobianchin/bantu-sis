@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Form.Bas.Diag_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.StdCtrls, App.PDV.UI.Balanca, Sis.Entities.Types;
+  Vcl.StdCtrls, Sis.Entities.Types, Sis.UI.IO.Output;
 
 type
   TBalancaVendaForm = class(TDiagBasForm)
@@ -16,22 +16,23 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FBalanca: IBalanca;
-    FPeso: string;
+    FPeso: Currency;
     FDeuErro: Boolean;
     FMens: string;
+    FStatusOutput: IOutput;
+  protected
+    procedure LePeso(out pPeso: Currency; out pDeuErro: Boolean;
+      out pMens: string); virtual; abstract;
+    property StatusOutput: IOutput read FStatusOutput;
   public
     { Public declarations }
 
-    property Peso: string read FPeso;
+    property Peso: Currency read FPeso;
     property DeuErro: Boolean read FDeuErro;
     property Mens: string read FMens;
 
-    constructor Create(AOwner: TComponent; pBalanca: IBalanca); reintroduce;
+    constructor Create(AOwner: TComponent); override;
   end;
-
-procedure PergPeso(pBalanca: IBalanca; out pPeso: string; out pErroDeu: Boolean;
-  out pMens: string);
 
 var
   BalancaVendaForm: TBalancaVendaForm;
@@ -40,30 +41,23 @@ implementation
 
 {$R *.dfm}
 
-procedure PergPeso(pBalanca: IBalanca; out pPeso: string; out pErroDeu: Boolean;
-  out pMens: string);
-begin
-  BalancaVendaForm := TBalancaVendaForm.Create(nil, pBalanca);
-  pErroDeu := not BalancaVendaForm.Perg;
-  pPeso := BalancaVendaForm.Peso;
-  pMens := BalancaVendaForm.Mens;
-
-end;
+uses Sis.UI.IO.Factory;
 
 { TBalancaVendaForm }
 
-constructor TBalancaVendaForm.Create(AOwner: TComponent; pBalanca: IBalanca);
+constructor TBalancaVendaForm.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   MensLabel.Parent := FundoPanel;
   AlteracaoTextoLabel.Parent := FundoPanel;
-  FBalanca := pBalanca;
+  FStatusOutput := LabelOutputCreate(StatusLabel);
+  FStatusOutput.Exibir('Lendo peso...');
 end;
 
 procedure TBalancaVendaForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  FBalanca.LePeso(FPeso, FDeuErro, FMens);
+  LePeso(FPeso, FDeuErro, FMens);
 
   if FDeuErro then
     CancelAct_Diag.Execute
