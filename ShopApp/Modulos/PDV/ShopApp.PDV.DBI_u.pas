@@ -11,7 +11,7 @@ type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
   private
     FShopPdvVenda: IShopPdvVenda;
-    FEstMovAdicionador: TEstMovAdicionador;
+    FEstMovAdicionador: TPDVVendaItemAdicionador;
     FPDVObj: IPDVObj;
 
     function RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;
@@ -90,7 +90,7 @@ begin
   inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda);
   FShopPdvVenda := pShopPdvVenda;
   FPDVObj := pPDVObj;
-  FEstMovAdicionador := TEstMovAdicionador.Create(AppObj, pPDVObj, Terminal,
+  FEstMovAdicionador := TPDVVendaItemAdicionador.Create(AppObj, pPDVObj, Terminal,
     FShopPdvVenda, DBConnection);
 end;
 

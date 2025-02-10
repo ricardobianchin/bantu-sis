@@ -13,23 +13,27 @@ type
     FundoPanel: TPanel;
     TitLabel: TLabel;
     StatusLabel: TLabel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure CancelAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FPeso: Currency;
     FDeuErro: Boolean;
-    FMens: string;
+    FMensagem: string;
     FStatusOutput: IOutput;
   protected
     procedure LePeso(out pPeso: Currency; out pDeuErro: Boolean;
-      out pMens: string); virtual; abstract;
+      out pMensagem: string); virtual; abstract;
+    procedure AjusteControles; override;
+        function PodeOk: Boolean; override;
     property StatusOutput: IOutput read FStatusOutput;
+
+
   public
     { Public declarations }
 
     property Peso: Currency read FPeso;
     property DeuErro: Boolean read FDeuErro;
-    property Mens: string read FMens;
+    property Mensagem: string read FMensagem;
 
     constructor Create(AOwner: TComponent); override;
   end;
@@ -45,6 +49,24 @@ uses Sis.UI.IO.Factory;
 
 { TBalancaVendaForm }
 
+procedure TBalancaVendaForm.AjusteControles;
+begin
+  inherited;
+  LePeso(FPeso, FDeuErro, FMensagem);
+
+  if FDeuErro then
+    CancelAct_Diag.Execute
+  else
+    OkAct_Diag.Execute;
+end;
+
+procedure TBalancaVendaForm.CancelAct_DiagExecute(Sender: TObject);
+begin
+  inherited;
+  FDeuErro := True;
+  FMensagem := 'Ler Peso cancelado pelo usuário';
+end;
+
 constructor TBalancaVendaForm.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -52,17 +74,12 @@ begin
   AlteracaoTextoLabel.Parent := FundoPanel;
   FStatusOutput := LabelOutputCreate(StatusLabel);
   FStatusOutput.Exibir('Lendo peso...');
+  SempreDisparaOnShow := True;
 end;
 
-procedure TBalancaVendaForm.ShowTimer_BasFormTimer(Sender: TObject);
+function TBalancaVendaForm.PodeOk: Boolean;
 begin
-  inherited;
-  LePeso(FPeso, FDeuErro, FMens);
-
-  if FDeuErro then
-    CancelAct_Diag.Execute
-  else
-    OkAct_Diag.Execute;
+  Result := FPeso >= 0.001;
 end;
 
 end.

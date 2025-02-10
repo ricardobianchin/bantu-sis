@@ -39,7 +39,7 @@ end;
 procedure TBalanca.LePeso(out pPeso: Currency; out pDeuErro: Boolean;
   out pMensagem: string);
 var
-  Resultado: Boolean;
+  bResultado: Boolean;
 begin
   if not FHabilitada then
   begin
@@ -47,7 +47,14 @@ begin
     pMensagem := 'BALANÇA NÃO CONFIGURADA NO SISTEMA';
     exit;
   end;
-  Resultado := FBalancaVendaForm.Perg
+  bResultado := FBalancaVendaForm.Perg;
+  pDeuErro := FBalancaVendaForm.DeuErro;
+  pMensagem := FBalancaVendaForm.Mensagem;
+  if bResultado then
+  begin
+    pPeso := FBalancaVendaForm.Peso;
+  end;
+
 end;
 
 end.

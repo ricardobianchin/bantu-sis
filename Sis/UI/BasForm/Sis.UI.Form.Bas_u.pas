@@ -16,6 +16,7 @@ type
     { Private declarations }
     FKeyPressFiltraTeclado: boolean;
     FSelecionaProximo: boolean;
+    FSempreDisparaOnShow: Boolean;
 //    FDisparaShowTimer: Boolean;
     FFezShow: boolean;
 //    function GetDisparaShowTimer: Boolean;
@@ -28,7 +29,7 @@ type
 
   protected
 //    property DisparaShowTimer: Boolean read GetDisparaShowTimer write SetDisparaShowTimer;
-
+    property SempreDisparaOnShow: Boolean read FSempreDisparaOnShow write FSempreDisparaOnShow;
     property SelecionaProximo: boolean read GetSelecionaProximo write SetSelecionaProximo;
     procedure SelecioneProximo;
 
@@ -82,6 +83,7 @@ begin
 //  FDisparaShowTimer := False;
   FSelecionaProximo := True;
   FFezShow := False;
+  FSempreDisparaOnShow := False;
 end;
 
 procedure TBasForm.DebugImporteTeclas;
@@ -152,7 +154,10 @@ procedure TBasForm.FormShow(Sender: TObject);
 begin
   if not FFezShow then
   begin
-    FFezShow := True;
+    //if not FSempreDisparaOnShow then
+    //FFezShow := True;
+    FFezShow := not FSempreDisparaOnShow;
+
     DispareShowTimer;
   end;
 end;

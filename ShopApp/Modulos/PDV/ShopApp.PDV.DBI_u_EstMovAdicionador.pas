@@ -3,10 +3,14 @@ unit ShopApp.PDV.DBI_u_EstMovAdicionador;
 interface
 
 uses App.AppObj, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem, Sis.DB.DBTypes,
-  Sis.Terminal, Sis.Entities.Types, Data.DB, App.PDV.Obj;
+  Sis.Terminal, Sis.Entities.Types, Data.DB, App.PDV.Obj, FireDAC.Stan.Param,
+  App.Est.Prod;
 
 type
-  TEstMovAdicionador = class
+  /// <summary>
+  /// adiciona venda item no pdv durante a venda.
+  /// </summary>
+  TPDVVendaItemAdicionador = class
   private
     uQtd: Currency;
     sBusca: string;
@@ -16,10 +20,32 @@ type
     FDBConnection: IDBConnection;
     FPDVObj: IPDVObj;
 
-    FBuscaQ: IDBQuery;
-    FAddItemPesoQ: IDBQuery;
+    /// <summary>
+    /// BusQ busca produto pela StrBusca.
+    /// StrBusca pode conter ou prod_id ou um código de barras.
+    ///
+    /// Retorna se encontrou o produto,
+    /// os dados do produto, incluindo se é um produto de balança.
+    ///
+    /// Se encontrou o produto, insere o item de venda no banco e retorna também
+    /// os dados do cabeçalho da venda.
+    /// Se não encontrou, retorna mensagem de erro.
+    /// Se encontrou o produto e ele for de balança, apenas retorna os dados do
+    /// produto sem criar nada no banco.
+    /// </summary>
+    BusQ: IDBQuery;
+
+    /// <summary>
+    /// PesoQ utilizada se o produto for de balança. Recebará os dados do
+    /// produto de BusQ. Sistema entao lê a balança para obter a quantidade
+    /// PesoQ então insere o item de venda no banco e retorna os dados do
+    /// cabeçalho da venda.
+    /// </summary>
+    PesoQ: IDBQuery;
 
     bBuscaAberto: Boolean;
+    CustoUnit, Custo, PrecoUnit, PrecoUnitOriginal, PrecoUnitPromo, PrecoBruto,
+      Desconto, PrecoLIquido: Currency;
 
     procedure SepareQtdEBusca(pStrBusca: string);
 
@@ -28,7 +54,18 @@ type
 
     function BuscaQCreate: IDBQuery;
     function AddItemPesoQCreate: IDBQuery;
+
     procedure BuscaQParmsPreencher;
+    procedure PesoQParamsPreencher;
+
+    function _ProdCreate: IProd;
+    procedure BusQToVendaCabec;
+    procedure PesoQToVendaCabec;
+
+    function _BusQVendaItemCreate(pProd: IProd): IShopPDVVendaItem;
+    function _PesoQVendaItemCreate(pProd: IProd): IShopPDVVendaItem;
+
+    procedure TentaInserirVendaItem;
   public
     function BuscaProdAddEstMov(pStrBusca: string; out pEncontrou: Boolean;
       out pMensagem: string): IShopPDVVendaItem;
@@ -39,12 +76,12 @@ type
 
 implementation
 
-uses Sis.DB.Factory, Sis.Types.Floats, System.SysUtils, Sis.Types, App.Est.Prod,
-  App.Est.Factory_u, ShopApp.PDV.Factory_u, Sis.Sis.Constants;
+uses Sis.DB.Factory, Sis.Types.Floats, System.SysUtils, Sis.Types,
+  App.Est.Factory_u, ShopApp.PDV.Factory_u, Sis.Sis.Constants, System.Math;
 
-{ TEstMovAdicionador }
+{ TPDVVendaItemAdicionador }
 
-function TEstMovAdicionador.AddItemPesoQCreate: IDBQuery;
+function TPDVVendaItemAdicionador.AddItemPesoQCreate: IDBQuery;
 var
   sSql: string;
 begin
@@ -53,35 +90,31 @@ begin
     nil, nil);
 end;
 
-procedure TEstMovAdicionador.BuscaQParmsPreencher;
+procedure TPDVVendaItemAdicionador.BuscaQParmsPreencher;
 begin
-  FBuscaQ.Params[0].AsSmallInt := FAppObj.Loja.Id;
-  FBuscaQ.Params[1].AsSmallInt := FTerminal.TerminalId;
-  FBuscaQ.Params[2].AsLargeInt := FVenda.EstMovId;
-  FBuscaQ.Params[3].AsInteger := FVenda.VendaId;
-  FBuscaQ.Params[4].AsInteger := FVenda.CaixaSessao.LojaId;
-  FBuscaQ.Params[5].AsSmallInt := FVenda.CaixaSessao.TerminalId;
-  FBuscaQ.Params[6].AsInteger := FVenda.CaixaSessao.Id;
-  FBuscaQ.Params[7].AsCurrency := uQtd;
-  FBuscaQ.Params[8].AsString := sBusca;
-
-  {
-    + '  '0 + LojaId.ToString + ' -- LOJA_ID'#13#10 //
-    + ', '1 + T.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
-
-    + ', '2 + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
-    + ', '3 + V.VendaId.ToString + ' -- VENDA_ID'#13#10 //
-
-    + ', '4 + V.CaixaSessao.LojaId.ToString + ' -- SESS_LOJA_ID'#13#10 //
-    + ', '5 + V.CaixaSessao.TerminalId.ToString + ' -- SESS_TERMINAL_ID'#13#10 //
-    + ', '6 + V.CaixaSessao.Id.ToString + ' -- SESS_ID'#13#10 //
-
-    + ', '7 + CurrencyToStrPonto(uQtd) + ' -- QTD'#13#10 //
-    + ', '8 + QuotedStr(sBusca) + ' -- STR_BUSCA'#13#10 //
-  }
+  BusQ.Params[0].AsSmallInt := FAppObj.Loja.Id;
+  BusQ.Params[1].AsSmallInt := FTerminal.TerminalId;
+  BusQ.Params[2].AsLargeInt := FVenda.EstMovId;
+  BusQ.Params[3].AsInteger := FVenda.VendaId;
+  BusQ.Params[4].AsInteger := FVenda.CaixaSessao.LojaId;
+  BusQ.Params[5].AsSmallInt := FVenda.CaixaSessao.TerminalId;
+  BusQ.Params[6].AsInteger := FVenda.CaixaSessao.Id;
+  BusQ.Params[7].AsCurrency := uQtd;
+  BusQ.Params[8].AsString := sBusca;
 end;
 
-function TEstMovAdicionador.BuscaQCreate: IDBQuery;
+procedure TPDVVendaItemAdicionador.BusQToVendaCabec;
+begin
+  if FVenda.VendaId <> 0 then
+    exit;
+
+  FVenda.EstMovId := BusQ.Fields[0 { EST_MOV_ID_RET } ].AsLargeInt;
+  FVenda.VendaId := BusQ.Fields[1 { VENDA_ID_RET } ].AsInteger;
+  FVenda.DtHDoc := BusQ.Fields[2 { DTH_DOC_RET } ].AsDateTime;
+  FVenda.CriadoEm := BusQ.Fields[3 { EST_MOV_CRIADO_EM_RET } ].AsDateTime;
+end;
+
+function TPDVVendaItemAdicionador.BuscaQCreate: IDBQuery;
 var
   sSql: string;
 begin
@@ -89,7 +122,7 @@ begin
   Result := DBQueryCreate('pdvdbibusca.prod.q', FDBConnection, sSql, nil, nil);
 end;
 
-constructor TEstMovAdicionador.Create(pAppObj: IAppObj; pPDVObj: IPDVObj;
+constructor TPDVVendaItemAdicionador.Create(pAppObj: IAppObj; pPDVObj: IPDVObj;
   pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda;
   pDBConnection: IDBConnection);
 begin
@@ -98,11 +131,11 @@ begin
   FTerminal := pTerminal;
   FVenda := pShopPdvVenda;
   FDBConnection := pDBConnection;
-  FBuscaQ := BuscaQCreate;
-  FAddItemPesoQ := AddItemPesoQCreate;
+  BusQ := BuscaQCreate;
+  PesoQ := AddItemPesoQCreate;
 end;
 
-procedure TEstMovAdicionador.SepareQtdEBusca(pStrBusca: string);
+procedure TPDVVendaItemAdicionador.SepareQtdEBusca(pStrBusca: string);
 var
   iQtdElementos: integer;
   aElementos: TArray<string>;
@@ -122,7 +155,79 @@ begin
   end;
 end;
 
-function TEstMovAdicionador.GetSqlItemAddPeso: string;
+procedure TPDVVendaItemAdicionador.TentaInserirVendaItem;
+begin
+
+end;
+
+function TPDVVendaItemAdicionador._ProdCreate: IProd;
+begin
+  Result := ProdCreate( //
+    BusQ.Fields[6 { PROD_ID } ].AsInteger //
+    , BusQ.Fields[7 { DESCR_RED } ].AsString //
+    , BusQ.Fields[8 { FABR_NOME } ].AsString //
+    , BusQ.Fields[9 { UNID_SIGLA } ].AsString) //
+    ;
+end;
+
+function TPDVVendaItemAdicionador._PesoQVendaItemCreate(pProd: IProd)
+  : IShopPDVVendaItem;
+begin
+  Result := ShopPDVVendaItemCreate( //
+    PesoQ.Fields[4 { ORDEM_RET } ].AsInteger //
+    , pProd //
+    , uQtd //
+
+    , BusQ.Fields[10 { BALANCA_EXIGE } ].AsBoolean //
+
+    , CustoUnit //
+    , Custo //
+
+    , PrecoUnitOriginal //
+    , PrecoUnitPromo //
+    , PrecoUnit //
+    , PrecoBruto //
+
+    , desconto //
+    , PrecoLiquido //
+
+    , False // pEstMovItemCancelado
+    , DATA_ZERADA // pEstMovItemCriadoEm
+    , DATA_ZERADA // pEstMovItemAlteradoEm
+    , DATA_ZERADA // pEstMovItemCanceladoEm
+    );
+end;
+
+function TPDVVendaItemAdicionador._BusQVendaItemCreate(pProd: IProd)
+  : IShopPDVVendaItem;
+begin
+  Result := ShopPDVVendaItemCreate( //
+    BusQ.Fields[4 { ORDEM_RET } ].AsInteger //
+    , pProd //
+    , uQtd //
+
+    , BusQ.Fields[10 { BALANCA_EXIGE } ].AsBoolean //
+
+    , BusQ.Fields[11 { CUSTO_UNIT } ].AsCurrency //
+    , BusQ.Fields[12 { CUSTO } ].AsCurrency //
+
+    , BusQ.Fields[13 { PRECO_UNIT_ORIGINAL } ].AsCurrency //
+    , BusQ.Fields[14 { PRECO_UNIT_PROMO } ].AsCurrency //
+    , BusQ.Fields[15 { PRECO_UNIT } ].AsCurrency //
+    , BusQ.Fields[16 { PRECO_BRUTO } ].AsCurrency //
+    // como nao tem desconto, uso duas vezes preco bruto
+
+    , 0 // desconto
+    , BusQ.Fields[16 { PRECO_BRUTO } ].AsCurrency // preco
+
+    , False // pEstMovItemCancelado
+    , DATA_ZERADA // pEstMovItemCriadoEm
+    , DATA_ZERADA // pEstMovItemAlteradoEm
+    , DATA_ZERADA // pEstMovItemCanceladoEm
+    );
+end;
+
+function TPDVVendaItemAdicionador.GetSqlItemAddPeso: string;
 var
   V: IShopPdvVenda;
   T: ITerminal;
@@ -133,72 +238,45 @@ begin
   LojaId := FAppObj.Loja.Id;
 
   Result := //
-    'SELECT' //
-    + 'EST_MOV_ID_RET' // 0
-    + ', VENDA_ID_RET' // 1
-    + ', DTH_DOC_RET' // 2
-    + ', EST_MOV_CRIADO_EM_RET' // 3
-    + ', ORDEM_RET' // 4
-    + ', EST_MOV_ITEM_CRIADO_EM_RET' // 5
-    + ', MENSAGEM' // 6
-    + ', LOG_STR_RET' // 7
+    'SELECT'#13#10 //
+    + 'EST_MOV_ID_RET'#13#10 // 0
+    + ', VENDA_ID_RET'#13#10 // 1
+    + ', DTH_DOC_RET'#13#10 // 2
+    + ', EST_MOV_CRIADO_EM_RET'#13#10 // 3
+    + ', ORDEM_RET'#13#10 // 4
+    + ', EST_MOV_ITEM_CRIADO_EM_RET'#13#10 // 5
+    + ', MENSAGEM'#13#10 // 6
+    + ', LOG_STR_RET'#13#10 // 7
 
-    + 'FROM ITEM_PEGUE' //
-    + '(' //
-    + ':LOJA_ID' // 0
-    + ', :TERMINAL_ID' // 1
-    + ', :EST_MOV_ID' // 2
-    + ', :VENDA_ID' // 3
-    + ', :SESS_LOJA_ID' // 4
-    + ', :SESS_TERMINAL_ID' // 5
-    + ', :SESS_ID' // 6
-    + ', :PROD_ID' // 7
-    + ', :QTD' // 8
-    + ', :CUSTO_UNIT' // 9
-    + ', :CUSTO' // 10
-    + ', :PRECO_UNIT_ORIGINAL' // 11
-    + ', :PRECO_UNIT_PROMO' // 12
-    + ', :PRECO_UNIT' // 13
-    + ', :PRECO_BRUTO' // 14
-    + ', :DESCONTO' // 15
-    + ', :PRECO' // 16
-    + ', :LOG_STR' // 17
+    + 'FROM VENDA_PDV_INS_PA.ITEM_PEGUE'#13#10 //
+    + '('#13#10 //
+    + ':LOJA_ID'#13#10 // 0
+    + ', :TERMINAL_ID'#13#10 // 1
+    + ', :EST_MOV_ID'#13#10 // 2
+    + ', :VENDA_ID'#13#10 // 3
+    + ', :SESS_LOJA_ID'#13#10 // 4
+    + ', :SESS_TERMINAL_ID'#13#10 // 5
+    + ', :SESS_ID'#13#10 // 6
+    + ', :PROD_ID'#13#10 // 7
+    + ', :QTD'#13#10 // 8
+    + ', :CUSTO_UNIT'#13#10 // 9
+    + ', :CUSTO'#13#10 // 10
+    + ', :PRECO_UNIT_ORIGINAL'#13#10 // 11
+    + ', :PRECO_UNIT_PROMO'#13#10 // 12
+    + ', :PRECO_UNIT'#13#10 // 13
+    + ', :PRECO_BRUTO'#13#10 // 14
+    + ', :DESCONTO'#13#10 // 15
+    + ', :PRECO'#13#10 // 16
+    + ', :LOG_STR'#13#10 // 17
     + ');';
 
-  {
-    +'LOJA_ID ID_SHORT_DOM NOT NULL' //0
-    +', TERMINAL_ID ID_SHORT_DOM NOT NULL' //1
-    +', EST_MOV_ID BIGINT NOT NULL' //2
-    +', VENDA_ID ID_DOM NOT NULL' //3
-    +', SESS_LOJA_ID ID_SHORT_DOM NOT NULL' //4
-    +', SESS_TERMINAL_ID ID_SHORT_DOM NOT NULL' //5
-    +', SESS_ID ID_DOM NOT NULL' //6
-    +', PROD_ID ID_DOM NOT NULL' //7
-    +', QTD QTD_DOM NOT NULL' //8
-    +', CUSTO_UNIT NUMERIC(12, 4) NOT NULL' //9
-    +', CUSTO CUSTO_DOM NOT NULL' //10
-    +', PRECO_UNIT_ORIGINAL NUMERIC(12, 3) NOT NULL' //11
-    +', PRECO_UNIT_PROMO NUMERIC(12, 3) NOT NULL' //12
-    +', PRECO_UNIT NUMERIC(12, 3) NOT NULL' //13
-    +', PRECO_BRUTO NUMERIC(12, 2) NOT NULL' //14
-    +', DESCONTO NUMERIC(12, 2) NOT NULL' //15
-    +', PRECO PRECO_DOM' //16
-    +', LOG_STR VARCHAR(200)' //17
-
-  }
-
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
 end;
 
-function TEstMovAdicionador.GetSqlItemBusque: string;
-var
-  V: IShopPdvVenda;
-  T: ITerminal;
-  LojaId: TShortId;
+function TPDVVendaItemAdicionador.GetSqlItemBusque: string;
 begin
-  V := FVenda;
-  T := FTerminal;
-  LojaId := FAppObj.Loja.Id;
-
   Result := //
     'SELECT'#13#10 //
 
@@ -246,33 +324,66 @@ begin
 
     + ');';
 
-  {
-    + '  '0 + LojaId.ToString + ' -- LOJA_ID'#13#10 //
-    + ', '1 + T.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
-
-    + ', '2 + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
-    + ', '3 + V.VendaId.ToString + ' -- VENDA_ID'#13#10 //
-
-    + ', '4 + V.CaixaSessao.LojaId.ToString + ' -- SESS_LOJA_ID'#13#10 //
-    + ', '5 + V.CaixaSessao.TerminalId.ToString + ' -- SESS_TERMINAL_ID'#13#10 //
-    + ', '6 + V.CaixaSessao.Id.ToString + ' -- SESS_ID'#13#10 //
-
-    + ', '7 + CurrencyToStrPonto(uQtd) + ' -- QTD'#13#10 //
-    + ', '8 + QuotedStr(sBusca) + ' -- STR_BUSCA'#13#10 //
-  }
-
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}
+end;
+
+procedure TPDVVendaItemAdicionador.PesoQParamsPreencher;
+var
+  q: TDataSet;
+  Params: TFDParams;
+begin
+  // indices a esquerda vem de GetSqlItemAddPeso entre parenteses
+  // indices a direita vem de GetSqlItemBusque do select
+
+  q := BusQ.DataSet;
+  Params := PesoQ.Params;
+
+  Params[0].AsSmallInt := FAppObj.Loja.Id;
+  Params[1].AsSmallInt := FTerminal.TerminalId;
+  Params[2].AsSmallInt := FVenda.EstMovId;
+
+  Params[3].AsInteger := FVenda.VendaId;
+
+  Params[4].AsInteger := FVenda.CaixaSessao.LojaId;
+  Params[5].AsSmallInt := FVenda.CaixaSessao.TerminalId;
+  Params[6].AsInteger := FVenda.CaixaSessao.Id;
+
+  Params[7].AsInteger := q.Fields[6 { PROD_ID } ].AsInteger;
+  Params[8].AsCurrency := uQtd;
+
+  Params[9].AsCurrency := CustoUnit;
+  Params[10].AsCurrency := Custo;
+
+  Params[11].AsCurrency := PrecoUnitOriginal;
+  Params[12].AsCurrency := PrecoUnitPromo;
+  Params[13].AsCurrency := PrecoUnit;
+  Params[14].AsCurrency := PrecoBruto;
+  Params[15].AsCurrency := Desconto;
+  Params[16].AsCurrency := PrecoLiquido;
+  Params[17].AsString := 'PDV ADD PESO';
 
 end;
 
-function TEstMovAdicionador.BuscaProdAddEstMov(pStrBusca: string;
+procedure TPDVVendaItemAdicionador.PesoQToVendaCabec;
+begin
+  if FVenda.VendaId <> 0 then
+    exit;
+
+  FVenda.EstMovId := PesoQ.Fields[0 { EST_MOV_ID_RET } ].AsLargeInt;
+  FVenda.VendaId := PesoQ.Fields[1 { VENDA_ID_RET } ].AsInteger;
+  FVenda.DtHDoc := PesoQ.Fields[2 { DTH_DOC_RET } ].AsDateTime;
+  FVenda.CriadoEm := PesoQ.Fields[3 { EST_MOV_CRIADO_EM_RET } ].AsDateTime;
+end;
+
+function TPDVVendaItemAdicionador.BuscaProdAddEstMov(pStrBusca: string;
   out pEncontrou: Boolean; out pMensagem: string): IShopPDVVendaItem;
 var
   q: TDataSet;
   oProd: IProd;
   bPrecisaPesar: Boolean;
+  bErroDeu: Boolean;
 begin
   Result := nil;
 
@@ -280,62 +391,54 @@ begin
   FDBConnection.Abrir;
   try
     BuscaQParmsPreencher;
-    FBuscaQ.Abrir;
-    pEncontrou := FBuscaQ.Fields[17 { ENCONTRADO } ].AsBoolean;
+    BusQ.Abrir;
+    pEncontrou := BusQ.Fields[17 { ENCONTRADO } ].AsBoolean;
 
     if not pEncontrou then
     begin
-      pMensagem := FBuscaQ.Fields[18 { MENSAGEM } ].AsString;
+      pMensagem := BusQ.Fields[18 { MENSAGEM } ].AsString;
       exit;
     end;
 
-    bPrecisaPesar := FBuscaQ.Fields[10 {BALANCA_EXIGE} ].AsBoolean and FPDVObj.Balanca.Habilitada;
+    q := BusQ.DataSet;
 
-    if bPrecisaPesar then
+    oProd := _ProdCreate;
+
+    bPrecisaPesar := q.Fields[10 { BALANCA_EXIGE } ].AsBoolean and
+      FPDVObj.Balanca.Habilitada;
+
+    if not bPrecisaPesar then
     begin
-      FPDVObj.Balanca.LePeso(uQtd, pEncontrou, pMensagem);
+      BusQToVendaCabec;
+      Result := _BusQVendaItemCreate(oProd);
+      exit;
     end;
 
-    q := FBuscaQ.DataSet;
-    if FVenda.VendaId = 0 then
+    // substitui uQtd pelo peso
+    FPDVObj.Balanca.LePeso(uQtd, bErroDeu, pMensagem);
+    if bErroDeu then
     begin
-      FVenda.EstMovId := q.Fields[0 { EST_MOV_ID_RET } ].AsLargeInt;
-      FVenda.VendaId := q.Fields[1 { VENDA_ID_RET } ].AsInteger;
-      FVenda.DtHDoc := q.Fields[2 { DTH_DOC_RET } ].AsDateTime;
-      FVenda.CriadoEm := q.Fields[3 { EST_MOV_CRIADO_EM_RET } ].AsDateTime;
+      pEncontrou := False;
+      exit;
     end;
 
-    oProd := ProdCreate( //
-      q.Fields[6 { PROD_ID } ].AsInteger //
-      , q.Fields[7 { DESCR_RED } ].AsString //
-      , q.Fields[8 { FABR_NOME } ].AsString, q.Fields[9 { UNID_SIGLA } ]
-      .AsString);
+    CustoUnit := BusQ.Fields[11 { CUSTO_UNIT } ].AsCurrency;
+    Custo := RoundTo(uQtd * CustoUnit, -2);
 
-    Result := ShopPDVVendaItemCreate( //
-      q.Fields[4 { ORDEM_RET } ].AsInteger, oProd //
-      , uQtd //
+    PrecoUnitOriginal := BusQ.Fields[13 { PRECO_UNIT_ORIGINAL } ].AsCurrency;
+    PrecoUnitPromo := BusQ.Fields[14 { PRECO_UNIT_PROMO } ].AsCurrency;
+    PrecoUnit := BusQ.Fields[15 { PRECO_UNIT } ].AsCurrency;
 
-      , q.Fields[10 { BALANCA_EXIGE } ].AsBoolean //
+    PrecoBruto := RoundTo(uQtd * PrecoUnit, -2);
+    Desconto := 0;
+    PrecoLiquido := PrecoBruto - Desconto;
 
-      , q.Fields[11 { CUSTO_UNIT } ].AsCurrency //
-      , q.Fields[12 { CUSTO } ].AsCurrency //
-
-      , q.Fields[13 { PRECO_UNIT_ORIGINAL } ].AsCurrency //
-      , q.Fields[14 { PRECO_UNIT_PROMO } ].AsCurrency //
-      , q.Fields[15 { PRECO_UNIT } ].AsCurrency //
-      , q.Fields[16 { PRECO_BRUTO } ].AsCurrency //
-
-      , 0 // desconto
-      , q.Fields[16 { PRECO_BRUTO } ].AsCurrency // preco
-
-      , False // pEstMovItemCancelado
-      , DATA_ZERADA // pEstMovItemCriadoEm
-      , DATA_ZERADA // pEstMovItemAlteradoEm
-      , DATA_ZERADA // pEstMovItemCanceladoEm
-      );
-
+    PesoQParamsPreencher;
+    PesoQ.Abrir;
+    PesoQToVendaCabec;
+    Result := _PesoQVendaItemCreate(oProd);
   finally
-    FBuscaQ.Fechar;
+    BusQ.Fechar;
     FDBConnection.Fechar;
   end;
 end;

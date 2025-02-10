@@ -112,6 +112,7 @@ function BalancaVendaFormCreate(pTerminal: ITerminal): TBalancaVendaForm;
 begin
   Result := TBalancaTesteVendaForm.Create(nil);
 end;
+
 function BalancaCreate(pBalancaVendaForm: TBalancaVendaForm): IBalanca;
 begin
   Result := TBalanca.Create(pBalancaVendaForm);
