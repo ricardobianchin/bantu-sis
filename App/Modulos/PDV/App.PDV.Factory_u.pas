@@ -33,7 +33,7 @@ function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
 
 implementation
 
-uses System.SysUtils, App.PDV.VendaPag.List_u //
+uses System.SysUtils, App.PDV.VendaPag.List_u, Sis.UI.IO.Files
 
     , App.UI.PDV.Aviso.Frame_u //
     , App.PDV.VendaPag_u //
@@ -45,7 +45,9 @@ uses System.SysUtils, App.PDV.VendaPag.List_u //
 
     , App.PDV.CupomEspelho_u //
 
-    , App.PDV.UI.Balanca.VendaForm.Teste_u;
+    , App.PDV.UI.Balanca.VendaForm.Teste_u //
+    , App.PDV.UI.Balanca.VendaForm.Acbr_u, System.IniFiles //
+    ;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -109,8 +111,39 @@ begin
 end;
 
 function BalancaVendaFormCreate(pTerminal: ITerminal): TBalancaVendaForm;
+var
+  sNomeArqIni: string;
+  bBalTeste: Boolean;
+  IniFile: TIniFile;
 begin
-  Result := TBalancaTesteVendaForm.Create(nil);
+  if pTerminal.BalancaId = 0 then
+  begin
+    Result := nil;
+    exit;
+  end;
+
+  sNomeArqIni := GetPastaDoArquivo(Paramstr(0));
+  sNomeArqIni := PastaAcima(sNomeArqIni);
+  sNomeArqIni := sNomeArqIni + 'Configs\' + 'bal.ini';
+
+  if FileExists(sNomeArqIni) then
+  begin
+  IniFile := TIniFile.Create(sNomeArqIni);
+  try
+    bBalTeste := IniFile.ReadBool('bal', 'balanca_teste', False);
+  finally
+    IniFile.Free;
+  end;
+  end
+  else
+  begin
+    bBalTeste := False;
+  end;
+
+  if bBalTeste then
+    Result := TBalancaTesteVendaForm.Create(nil)
+  else
+    Result := TBalancaAcbrVendaForm.Create(nil, pTerminal);
 end;
 
 function BalancaCreate(pBalancaVendaForm: TBalancaVendaForm): IBalanca;

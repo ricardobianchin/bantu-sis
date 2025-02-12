@@ -153,7 +153,7 @@ implementation
 {$R *.dfm}
 
 uses System.Math, Sis.Types.Utils_u, Sis.Types.strings_u, Sis.Win.Utils_u,
-  Sis.UI.ImgDM;
+  Sis.UI.ImgDM, Sis.UI.IO.Serial.Utils_u;
 
 { TTerminalEdDiagForm }
 
@@ -474,7 +474,9 @@ begin
   inherited Create(AOwner);
   FTerminaisDataSet := pTerminaisDataSet;
   FState := pDataSetState;
-  NomeNaRedeEdit.Text := 'TERM1';
+//  NomeNaRedeEdit.Text := 'TERM1';
+
+  PortaSLPreencher(BalPortaComboBox.Items);
 end;
 
 procedure TTerminalEdDiagForm.CupomQtdLinsFinalEditKeyPress(Sender: TObject;

@@ -393,6 +393,7 @@ contains
   App.PDV.UI.Balanca in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.pas',
   App.PDV.UI.Balanca_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca_u.pas',
   App.PDV.UI.Balanca.VendaForm_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm_u.pas' {BalancaVendaForm},
-  App.PDV.UI.Balanca.VendaForm.Teste_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Teste_u.pas' {BalancaTesteVendaForm};
+  App.PDV.UI.Balanca.VendaForm.Teste_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Teste_u.pas' {BalancaTesteVendaForm},
+  App.PDV.UI.Balanca.VendaForm.Acbr_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas' {BalancaAcbrVendaForm};
 
 end.

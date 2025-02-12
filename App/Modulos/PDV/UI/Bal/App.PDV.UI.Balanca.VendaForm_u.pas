@@ -16,24 +16,23 @@ type
     procedure CancelAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
-    FPeso: Currency;
+    FPesoCurrency: Currency;
     FDeuErro: Boolean;
     FMensagem: string;
     FStatusOutput: IOutput;
   protected
-    procedure LePeso(out pPeso: Currency; out pDeuErro: Boolean;
+    procedure LePeso(out pPesoCurrency: Currency; out pDeuErro: Boolean;
       out pMensagem: string); virtual; abstract;
     procedure AjusteControles; override;
-        function PodeOk: Boolean; override;
+    function PodeOk: Boolean; override;
     property StatusOutput: IOutput read FStatusOutput;
-
 
   public
     { Public declarations }
 
-    property Peso: Currency read FPeso;
-    property DeuErro: Boolean read FDeuErro;
-    property Mensagem: string read FMensagem;
+    property PesoCurrency: Currency read FPesoCurrency write FPesoCurrency;
+    property DeuErro: Boolean read FDeuErro write FDeuErro;
+    property Mensagem: string read FMensagem write FMensagem;
 
     constructor Create(AOwner: TComponent); override;
   end;
@@ -52,12 +51,22 @@ uses Sis.UI.IO.Factory;
 procedure TBalancaVendaForm.AjusteControles;
 begin
   inherited;
-  LePeso(FPeso, FDeuErro, FMensagem);
-
-  if FDeuErro then
-    CancelAct_Diag.Execute
-  else
-    OkAct_Diag.Execute;
+  try
+    try
+      LePeso(FPesoCurrency, FDeuErro, FMensagem);
+    except
+      on e: exception do
+      begin
+        FDeuErro := True;
+        FMensagem := e.Message;
+      end;
+    end;
+  finally
+    if FDeuErro then
+      ModalResult := mrCancel
+    else
+      OkAct_Diag.Execute;
+  end;
 end;
 
 procedure TBalancaVendaForm.CancelAct_DiagExecute(Sender: TObject);
@@ -79,7 +88,7 @@ end;
 
 function TBalancaVendaForm.PodeOk: Boolean;
 begin
-  Result := FPeso >= 0.001;
+  Result := FPesoCurrency >= 0.001;
 end;
 
 end.
