@@ -725,6 +725,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>BalancaTesteVendaForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas">
+            <Form>BalancaAcbrVendaForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

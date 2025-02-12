@@ -329,6 +329,7 @@ contains
   Sis.UI.Impressao_u in 'UI\Impr\Sis.UI.Impressao_u.pas',
   Sis.UI.ImpressaoTexto_u in 'UI\Impr\Sis.UI.ImpressaoTexto_u.pas',
   Sis.Bal.Utils_u in 'UI\Bal\Sis.Bal.Utils_u.pas',
-  Sis.UI.IO.Files.PasI in 'UI\IO\Files\Pas\Sis.UI.IO.Files.PasI.pas';
+  Sis.UI.IO.Files.PasI in 'UI\IO\Files\Pas\Sis.UI.IO.Files.PasI.pas',
+  Sis.UI.IO.Serial.Utils_u in 'UI\IO\Serial\Sis.UI.IO.Serial.Utils_u.pas';
 
 end.

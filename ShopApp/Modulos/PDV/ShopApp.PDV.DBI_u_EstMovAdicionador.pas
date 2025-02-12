@@ -101,6 +101,7 @@ begin
   BusQ.Params[6].AsInteger := FVenda.CaixaSessao.Id;
   BusQ.Params[7].AsCurrency := uQtd;
   BusQ.Params[8].AsString := sBusca;
+  BusQ.Params[9].AsBoolean := FPDVObj.Balanca.Habilitada;
 end;
 
 procedure TPDVVendaItemAdicionador.BusQToVendaCabec;
@@ -249,6 +250,7 @@ begin
     + ', LOG_STR_RET'#13#10 // 7
 
     + 'FROM VENDA_PDV_INS_PA.ITEM_PEGUE'#13#10 //
+
     + '('#13#10 //
     + ':LOJA_ID'#13#10 // 0
     + ', :TERMINAL_ID'#13#10 // 1
@@ -321,6 +323,7 @@ begin
 
     + ', :QTD'#13#10 // 7
     + ', :STR_BUSCA'#13#10 // 8
+    + ', :BALANCA_HABILITADA'#13#10 // 9
 
     + ');';
 

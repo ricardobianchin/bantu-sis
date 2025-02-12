@@ -52,7 +52,7 @@ begin
   pMensagem := FBalancaVendaForm.Mensagem;
   if bResultado then
   begin
-    pPeso := FBalancaVendaForm.Peso;
+    pPeso := FBalancaVendaForm.PesoCurrency;
   end;
 
 end;

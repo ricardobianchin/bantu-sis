@@ -16,7 +16,7 @@ type
   private
     { Private declarations }
   protected
-    procedure LePeso(out pPeso: Currency; out pDeuErro: Boolean;
+    procedure LePeso(out pPesoCurrency: Currency; out pDeuErro: Boolean;
       out pMensagem: string); override;
   public
     { Public declarations }
@@ -33,13 +33,13 @@ uses System.Math;
 
 { TBalancaTesteVendaForm }
 
-procedure TBalancaTesteVendaForm.LePeso(out pPeso: Currency;
+procedure TBalancaTesteVendaForm.LePeso(out pPesoCurrency: Currency;
   out pDeuErro: Boolean; out pMensagem: string);
 begin
   inherited;
   if BALANCA_FUNCIONA then
   begin
-    pPeso := RoundTo(Random(3000) / 1000, -3);
+    pPesoCurrency := RoundTo(Random(3000) / 1000, -3);
     pDeuErro := FALSE;
     exit;
   end;
