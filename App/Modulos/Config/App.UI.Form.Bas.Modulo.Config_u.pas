@@ -159,6 +159,8 @@ begin
       ConfigDBImportAbrirAction.Execute;
     end;
   end;
+
+  ConfigTerminaisAction.Execute;
 end;
 
 procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);

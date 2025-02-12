@@ -2,7 +2,7 @@ unit App.PDV.Obj;
 
 interface
 
-uses App.PDV.UI.Gaveta;
+uses App.PDV.UI.Gaveta, App.PDV.UI.Balanca;
 
 type
   IPDVObj = interface(IInterface)
@@ -12,6 +12,9 @@ type
 
     function GetGaveta: IGaveta;
     property Gaveta: IGaveta read GetGaveta;
+
+    function GetBalanca: IBalanca;
+    property Balanca: IBalanca read GetBalanca;
   end;
 
 implementation

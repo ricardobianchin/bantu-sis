@@ -14,6 +14,7 @@ type
     FDPhysFBDriverLink1: TFDPhysFBDriverLink;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     Connection: TFDConnection;
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,5 +29,21 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+function GetPastaFirebird: string;
+begin
+  Result := 'C:\Program Files\Firebird\Firebird_5_0\';
+
+  if not FileExists(Result+'isql.exe') then
+    Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
+end;
+
+procedure TDBServDM.DataModuleCreate(Sender: TObject);
+var
+  s: string;
+begin
+  s := GetPastaFirebird;
+  FDPhysFBDriverLink1.VendorHome := s;
+end;
 
 end.

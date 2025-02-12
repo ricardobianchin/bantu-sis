@@ -80,7 +80,7 @@ type
     property Ender2: string read GetEnder2;
 
     function GetEnder3: string;
-    property Ender3: string read GetEnder2;
+    property Ender3: string read GetEnder3;
   end;
 
 implementation

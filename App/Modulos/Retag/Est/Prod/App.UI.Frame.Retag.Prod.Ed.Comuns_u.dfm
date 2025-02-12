@@ -78,7 +78,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object CustoErroLabel: TLabel
       Left = 2
       Top = 51
-      Width = 80
+      Width = 249
       Height = 15
       Align = alBottom
       Caption = 'CustoErroLabel'
@@ -89,6 +89,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
+      ExplicitWidth = 80
     end
   end
   object PrecoGroupBox: TGroupBox
@@ -101,7 +102,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object PrecoErroLabel: TLabel
       Left = 2
       Top = 51
-      Width = 79
+      Width = 360
       Height = 15
       Align = alBottom
       Caption = 'PrecoErroLabel'
@@ -112,6 +113,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       Font.Style = []
       ParentFont = False
       StyleElements = []
+      ExplicitWidth = 79
     end
   end
   object BalGroupBox: TGroupBox
@@ -121,36 +123,12 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Height = 207
     Caption = 'Balan'#231'a'
     TabOrder = 4
-    object BalUtilizaTitLabel: TLabel
-      Left = 5
-      Top = 22
-      Width = 51
-      Height = 15
-      Caption = 'Utiliza'#231#227'o'
-    end
     object BalTextoEtiqTitLabel: TLabel
       Left = 5
       Top = 94
       Width = 175
       Height = 15
       Caption = 'Texto da Etiqueta (400 caracteres)'
-    end
-    object BalUtilizaComboBox: TComboBox
-      Left = 61
-      Top = 18
-      Width = 270
-      Height = 23
-      Style = csDropDownList
-      DropDownCount = 16
-      ItemIndex = 4
-      TabOrder = 0
-      Text = 'Usu'#225'rio indicar'#225' quantidade e pre'#231'o unit'#225'rio'
-      Items.Strings = (
-        'N'#227'o utiliza'
-        'C'#243'd.barras conter'#225' pre'#231'o total'
-        'Pre'#231'o por unidade'
-        'Usu'#225'rio indicar'#225' pre'#231'o total'
-        'Usu'#225'rio indicar'#225' quantidade e pre'#231'o unit'#225'rio')
     end
     object BalTextoEtiqMemo: TMemo
       Left = 5
@@ -160,7 +138,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       TabStop = False
       MaxLength = 400
       ScrollBars = ssBoth
-      TabOrder = 1
+      TabOrder = 0
       WordWrap = False
     end
     object MoldeBalDptoLabeledEdit: TLabeledEdit
@@ -174,7 +152,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       EditLabel.Caption = 'Departamento'
       LabelPosition = lpLeft
       LabelSpacing = 4
-      TabOrder = 2
+      TabOrder = 1
       Text = '12'
     end
     object MoldeBalValidEditLabeledEdit: TLabeledEdit
@@ -188,8 +166,16 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
       EditLabel.Caption = 'Validade (dias)'
       LabelPosition = lpLeft
       LabelSpacing = 4
-      TabOrder = 3
+      TabOrder = 2
       Text = '1234'
+    end
+    object BalancaExigeCheckBox: TCheckBox
+      Left = 11
+      Top = 24
+      Width = 97
+      Height = 17
+      Caption = 'Produto Exige Balan'#231'a'
+      TabOrder = 3
     end
   end
   object LocalizLabeledEdit: TLabeledEdit

@@ -137,7 +137,6 @@ begin
 
   PegueLinha(sLinha);
 
-
   for i := 0 to FPDVVenda.VendaPagList.Count - 1 do
   begin
     oVendaPag := FPDVVenda.VendaPagList[i];

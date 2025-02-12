@@ -8,7 +8,7 @@ uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   Sis.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod,
   App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
   ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja, App.PDV.Controlador,
-  App.UI.PDV.PagFrame_u, Sis.UI.Impressao;
+  App.UI.PDV.PagFrame_u, Sis.UI.Impressao, App.PDV.Obj;
 
 function ShopPDVVendaCreate( //
   pLoja: IAppLoja; //
@@ -40,7 +40,7 @@ function ShopPDVVendaItemCreate( //
   pProd: IProd; //
   pEstMovQtd: Currency; //
 
-  pBalUso: SmallInt; //
+  pBalancaExige: Boolean; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -61,14 +61,15 @@ function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 function DBIAppCastToShopApp(pAppPDVDBI: IAppPDVDBI): IShopAppPDVDBI;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
+  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
 
 function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
   pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
 
-function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj; pPdvVenda: IPdvVenda;
-  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador): TPagPDVFrame;
+function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+  pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador): TPagPDVFrame;
 
 function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
   : IShopFitaDraw;
@@ -137,7 +138,7 @@ function ShopPDVVendaItemCreate( //
   pProd: IProd; //
   pEstMovQtd: Currency; //
 
-  pBalUso: SmallInt; //
+  pBalancaExige: Boolean; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -159,7 +160,7 @@ begin
     , pProd //
     , pEstMovQtd //
 
-    , pBalUso
+    , pBalancaExige
 
     , pCustoUnit //
     , pCusto //
@@ -188,9 +189,10 @@ begin
 end;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
+  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda)
+  : IShopAppPDVDBI;
 begin
-  Result := TShopAppPDVDBI.Create(pDBConnection, pAppObj, pTerminal,
+  Result := TShopAppPDVDBI.Create(pDBConnection, pAppObj, pPDVObj, pTerminal,
     pShopPDVVenda);
 end;
 
@@ -202,8 +204,9 @@ begin
     pAppPDVDBI, pPDVControlador);
 end;
 
-function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj; pPdvVenda: IPdvVenda;
-  pAppPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador): TPagPDVFrame;
+function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+  pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador): TPagPDVFrame;
 begin
   Result := TShopPagPDVFrame.Create(AOwner, pShopPDVObj, pPdvVenda, pAppPDVDBI,
     pPDVControlador);

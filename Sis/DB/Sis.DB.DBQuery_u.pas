@@ -15,7 +15,9 @@ type
     function GetDataSet: TDataSet; virtual; abstract;
     function GetActive: boolean; virtual; abstract;
     procedure SetActive(Value: boolean); virtual; abstract;
+    function GetFields: TFields; virtual; abstract;
   public
+    property Fields: TFields read GetFields;
     function Abrir: boolean; virtual; abstract;
     procedure Fechar; virtual; abstract;
     function Open: boolean;

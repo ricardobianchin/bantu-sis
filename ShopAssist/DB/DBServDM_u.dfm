@@ -1,4 +1,5 @@
 object DBServDM: TDBServDM
+  OnCreate = DataModuleCreate
   Height = 480
   Width = 640
   object FDPhysFBDriverLink1: TFDPhysFBDriverLink

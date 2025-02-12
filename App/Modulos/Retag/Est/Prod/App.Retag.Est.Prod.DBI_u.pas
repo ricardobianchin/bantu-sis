@@ -160,7 +160,7 @@ begin
     ', CAPAC_EMB' + // 12
     ', NCM' + // 13
     ', MARGEM' + // 14
-    ', BAL_USO' + // 15
+    ', BALANCA_EXIGE' + // 15
     ', BAL_DPTO' + // 16
     ', BAL_VALIDADE_DIAS' + // 17
     ', BAL_TEXTO_ETIQ' + // 18

@@ -103,6 +103,30 @@ type
     procedure SetAtivo(Value: Boolean);
     property Ativo: Boolean read GetAtivo write SetAtivo;
 
+    function GetBALANCA_PORTA: smallint;
+    procedure SetBALANCA_PORTA(Value: smallint);
+    property BALANCA_PORTA: smallint read GetBALANCA_PORTA write SetBALANCA_PORTA;
+
+    function GetBALANCA_BAUDRATE: smallint;
+    procedure SetBALANCA_BAUDRATE(Value: smallint);
+    property BALANCA_BAUDRATE: smallint read GetBALANCA_BAUDRATE write SetBALANCA_BAUDRATE;
+
+    function GetBALANCA_DATABITS: smallint;
+    procedure SetBALANCA_DATABITS(Value: smallint);
+    property BALANCA_DATABITS: smallint read GetBALANCA_DATABITS write SetBALANCA_DATABITS;
+
+    function GetBALANCA_PARIDADE: smallint;
+    procedure SetBALANCA_PARIDADE(Value: smallint);
+    property BALANCA_PARIDADE: smallint read GetBALANCA_PARIDADE write SetBALANCA_PARIDADE;
+
+    function GetBALANCA_STOPBITS: smallint;
+    procedure SetBALANCA_STOPBITS(Value: smallint);
+    property BALANCA_STOPBITS: smallint read GetBALANCA_STOPBITS write SetBALANCA_STOPBITS;
+
+    function GetBALANCA_HANDSHAKING: smallint;
+    procedure SetBALANCA_HANDSHAKING(Value: smallint);
+    property BALANCA_HANDSHAKING: smallint read GetBALANCA_HANDSHAKING write SetBALANCA_HANDSHAKING;
+
     function GetLocalArqDados: string;
     procedure SetLocalArqDados(Value: string);
     property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;

@@ -70,7 +70,7 @@ type
 
     procedure AcioneGaveta;
   protected
-//    procedure SimuleKe yP ress(pChar: Char);
+    // procedure SimuleKe yP ress(pChar: Char);
     procedure ExibaControles; override;
   public
     { Public declarations }
@@ -330,7 +330,7 @@ begin
   PreencherControles;
   PDVToolBar.Width := PDVToolBar.Width + 1;
 
-//  ControlAlignToCenter(PDVToolBar);
+  // ControlAlignToCenter(PDVToolBar);
 
   inherited;
 
@@ -481,10 +481,10 @@ begin
   ItemSelecione;
 end;
 
-//procedure TShopVendaPDVFrame.Simule K eyPress(pChar: Char);
-//begin
-//  ExecKeyPress(Self, pChar);
-//end;
+// procedure TShopVendaPDVFrame.Simule K eyPress(pChar: Char);
+// begin
+// ExecKeyPress(Self, pChar);
+// end;
 
 procedure TShopVendaPDVFrame.StrBuscaExec;
 var
@@ -492,19 +492,25 @@ var
   bEncontrou: Boolean;
   sMensagem: string;
 begin
+  // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
     sMensagem);
 
-  if not bEncontrou then
-  begin
-    ExibaErro(sMensagem);
-    Exit;
-  end;
-  FShopPDVVenda.Items.Add(oItem);
-  ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
-  PreencherControles;
   FStrBusca := '';
   StrBuscaMudou;
+
+  try
+    if not bEncontrou then
+    begin
+      ExibaErro(sMensagem);
+      Exit;
+    end;
+
+    FShopPDVVenda.Items.Add(oItem);
+    ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
+  finally
+    PreencherControles;
+  end;
 end;
 
 procedure TShopVendaPDVFrame.StrBuscaMudou;

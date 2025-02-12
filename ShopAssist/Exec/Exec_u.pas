@@ -16,6 +16,7 @@ var
   iEsperaAtual: integer;
 begin
   // ShowMessage('Assist iniciou');
+
   try
     CarregarConfigs;
     InicieLog;
@@ -24,14 +25,19 @@ begin
     bPrecisaTerminar := False;
     try
       repeat
-        ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
-
-//        {$IFDEF DEBUG}
-//        break;
-//        {$ENDIF}
+        CarregarIni;
+        if bAtivo then
+          ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
 
         if bPrecisaTerminar then
           break;
+
+        if not bSegueAberto then
+          break;
+//  break;
+//        {$IFDEF DEBUG}
+//        break;
+//        {$ENDIF}
 
         for iEsperaAtual := 1 to PAUSA_SEGUNDOS do
         begin

@@ -8,7 +8,7 @@ uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants,
 type
   TPDVVendaItem = class(TEstMovItem, IPDVVendaItem)
   private
-    FBalUso: SmallInt;
+    FBalancaExige: Boolean;
     FCustoUnit: Currency;
     FCusto: Currency;
     FPrecoUnitOriginal: Currency;
@@ -18,8 +18,8 @@ type
     FDesconto: Currency;
     FPreco: Currency;
 
-    function GetBalUso: SmallInt;
-    procedure SetBalUso(Value: SmallInt);
+    function GetBalancaExige: Boolean;
+    procedure SetBalancaExige(Value: Boolean);
 
     function GetCustoUnit: Currency;
     procedure SetCustoUnit(Value: Currency);
@@ -49,7 +49,7 @@ type
   protected
     function GetAsStringFita: string; virtual;
   public
-    property BalUso: SmallInt read GetBalUso write SetBalUso;
+    property BalancaExige: Boolean read GetBalancaExige write SetBalancaExige;
     property CustoUnit: Currency read GetCustoUnit write SetCustoUnit;
     property Custo: Currency read GetCusto write SetCusto;
     property PrecoUnitOriginal: Currency read GetPrecoUnitOriginal
@@ -70,7 +70,7 @@ type
       pProd: IProd; //
       pEstMovQtd: Currency; //
 
-      pBalUso: SmallInt; //
+      pBalancaExige: Boolean; //
 
       pCustoUnit: Currency; //
       pCusto: Currency; //
@@ -99,7 +99,7 @@ constructor TPDVVendaItem.Create( //
   pProd: IProd; //
   pEstMovQtd: Currency; //
 
-  pBalUso: SmallInt; //
+  pBalancaExige: Boolean; //
 
   pCustoUnit: Currency; //
   pCusto: Currency; //
@@ -125,7 +125,7 @@ begin
     , pEstMovItemCanceladoEm //
     );
 
-  FBalUso := pBalUso;
+  FBalancaExige := pBalancaExige;
   FCustoUnit := pCustoUnit;
   FCusto := RoundTo(pCusto, -4);
   FPrecoUnitOriginal := pPrecoUnitOriginal;
@@ -141,9 +141,9 @@ begin
   Result := '';
 end;
 
-function TPDVVendaItem.GetBalUso: SmallInt;
+function TPDVVendaItem.GetBalancaExige: Boolean;
 begin
-  Result := FBalUso;
+  Result := FBalancaExige;
 end;
 
 function TPDVVendaItem.GetCusto: Currency;
@@ -191,9 +191,9 @@ begin
   Result := Iif(CurrencyEhInteiro(Qtd), Trunc(Qtd), 1);
 end;
 
-procedure TPDVVendaItem.SetBalUso(Value: SmallInt);
+procedure TPDVVendaItem.SetBalancaExige(Value: Boolean);
 begin
-  FBalUso := Value;
+  FBalancaExige := Value;
 end;
 
 procedure TPDVVendaItem.SetCusto(Value: Currency);

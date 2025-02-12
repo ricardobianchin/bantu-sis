@@ -11,6 +11,9 @@ var
   sPastaProduto: string;
   sPastaDados: string;
   sPastaTmp: string;
+  sPastaConfig: string;
+  bAtivo: Boolean;
+  bSegueAberto: Boolean;
 
 function GetPrecisaTerminar: Boolean;
 procedure ApaguePrecisaTerminar;
@@ -38,4 +41,7 @@ begin
   sNomeArq := sPastaBin + ASSIST_NOME_ARQ_TERMINAR;
 end;
 
+initialization
+  bAtivo := True;
+  bSegueAberto := True;
 end.

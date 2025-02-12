@@ -37,7 +37,7 @@ begin
     + ', ICMS_PERC'#13#10 // 16
     + ', ATIVO'#13#10 // 17
     + ', LOCALIZ'#13#10 // 18
-    + ', BAL_USO'#13#10 // 19
+    + ', BALANCA_EXIGE'#13#10 // 19
     + ', CUSTO'#13#10 // 20
     + ', PRECO'#13#10 // 21
     + ', CRIADO_EM'#13#10 // 22

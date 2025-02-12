@@ -1,0 +1,6 @@
+"C:\Program Files (x86)\Firebird\Firebird_5_0\isql.exe" "DELPHI-BTU:C:\Pr\app\bantu\bantu-sis\exe\dados\Dados_Mercado_Terminal_001.fdb" -user SYSDBA -password masterkey -i "C:\Pr\app\bantu\bantu-sis\Src\Sql\est\prod\est,prod,select.sql" -o "C:\Pr\app\bantu\bantu-sis\Src\Sql\est\prod\est,prod,select.txt"
+
+
+C:\Pr\app\bantu\bantu-sis\Src\Sql
+
+

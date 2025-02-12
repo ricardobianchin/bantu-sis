@@ -25,7 +25,10 @@ type
 
     function GetPrepared: boolean; override;
     procedure SetPrepared(Value: boolean); override;
+
+    function GetFields: TFields; override;
   public
+
     function Abrir: boolean; override;
     procedure Fechar; override;
 
@@ -134,6 +137,11 @@ end;
 function TDBQueryFireDac.GetDataSet: TDataSet;
 begin
   Result := FFDQuery;
+end;
+
+function TDBQueryFireDac.GetFields: TFields;
+begin
+  Result := FFDQuery.Fields;
 end;
 
 function TDBQueryFireDac.GetIsEmpty: boolean;

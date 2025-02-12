@@ -43,10 +43,11 @@ var
 
 procedure CarregarConfigs;
 function DBServDMCreate: TDBServDM;
+procedure CarregarIni;
 
 implementation
 
-uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u;
+uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u, IniFiles;
 
 function LoadConfigFromXML(const FileName: string): TConfig;
 var
@@ -101,6 +102,24 @@ begin
     ;
 end;
 
+procedure CarregarIni;
+var
+  sNomeArqIni: string;
+  IniFile: TIniFile;
+begin
+  sNomeArqIni := sPastaConfig + 'ShopAssist.ini';
+  if not FileExists(sNomeArqIni) then
+    exit;
+
+  IniFile := TIniFile.Create(sNomeArqIni);
+  try
+    bAtivo := IniFile.ReadBool('exec', 'ativo', True);
+    bSegueAberto := IniFile.ReadBool('exec', 'segue_aberto', True);
+  finally
+    IniFile.Free;
+  end;
+end;
+
 procedure CarregarConfigs;
 var
   sPastaConfigs: string;
@@ -109,6 +128,7 @@ begin
   sPastaBin := IncludeTrailingPathDelimiter(GetCurrentDir);
   sPastaProduto := PastaAcima(sPastaBin);
   sPastaDados := sPastaProduto + 'Dados\';
+  sPastaConfig := sPastaProduto + 'Configs\';
   sPastaTmp := sPastaProduto + 'Tmp\';
 
   sPastaConfigs := sPastaProduto + 'Configs\';

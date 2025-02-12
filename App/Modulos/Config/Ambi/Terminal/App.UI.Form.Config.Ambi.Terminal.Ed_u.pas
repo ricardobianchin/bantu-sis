@@ -71,7 +71,20 @@ type
     CupomQtdLinsFinal1Label: TLabel;
     CupomQtdLinsFinal2Label: TLabel;
     CupomQtdLinsFinalEdit: TEdit;
-    NumEditBtu1: TNumEditBtu;
+    Label3: TLabel;
+
+    BaudRateLabel: TLabel;
+    DataBitsLabel: TLabel;
+    ParidadeLabel: TLabel;
+    StopBitsLabel: TLabel;
+    HandShakingLabel: TLabel;
+
+    BalPortaComboBox: TComboBox;
+    BaudRateComboBox: TComboBox;
+    DataBitsComboBox: TComboBox;
+    ParidadeComboBox: TComboBox;
+    StopBitsComboBox: TComboBox;
+    HandShakingComboBox: TComboBox;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -139,7 +152,8 @@ implementation
 
 {$R *.dfm}
 
-uses System.Math, Sis.Types.Utils_u, Sis.Types.strings_u, Sis.Win.Utils_u, Sis.UI.ImgDM;
+uses System.Math, Sis.Types.Utils_u, Sis.Types.strings_u, Sis.Win.Utils_u,
+  Sis.UI.ImgDM, Sis.UI.IO.Serial.Utils_u;
 
 { TTerminalEdDiagForm }
 
@@ -147,16 +161,15 @@ procedure TTerminalEdDiagForm.AjudaHintsAjuste;
 var
   s: string;
 begin
-  s := 'Pode ser deixado em branco.'+
+  s := 'Pode ser deixado em branco.' +
     ' É um apelido ou número que ajude a identificar o terminal.';
   ApelidoAjudaLabel.Hint := WrapText(s);
 
-  s :=
-    'Letra do Drive no terminal onde o sistema'#13#10 +
+  s := 'Letra do Drive no terminal onde o sistema'#13#10 +
     'foi instalado. Geralmente C:';
   LetraDoDriveAjudaLabel.Hint := WrapText(s);
 
-  s :=  'Série das notas fiscais eletrônicas emitidas neste terminal. Deixando zero, será usado o mesmo número do Código do Terminal. Geralmente é deixado, mesmo, como zero';
+  s := 'Série das notas fiscais eletrônicas emitidas neste terminal. Deixando zero, será usado o mesmo número do Código do Terminal. Geralmente é deixado, mesmo, como zero';
   NFSerieAjudaLabel.Hint := WrapText(s);
 
   s := 'Modo em que o sistema receberá o peso do item vendido. Não se refere à balança que imprime etiquetas';
@@ -226,13 +239,45 @@ end;
 procedure TTerminalEdDiagForm.BalComboBoxPreencha;
 begin
   BalComboBox.Items.Clear;
-
-  BalComboBox.Items.Add('SEM BALANCA');
-  BalComboBox.Items.Add('FILIZOLA');
-  BalComboBox.Items.Add('TOLEDO');
-  BalComboBox.Items.Add('URANO');
-  BalComboBox.Items.Add('ELGIN');
-  BalComboBox.Items.Add('MAGNA');
+  // BalComboBox add ini
+  BalComboBox.Items.Add('NAO INDICADO'); // 0 - balNenhum
+  BalComboBox.Items.Add('FILIZOLA'); // 1 - balFilizola
+  BalComboBox.Items.Add('TOLEDO'); // 2 - balToledo
+  BalComboBox.Items.Add('TOLEDO2090'); // 3 - balToledo2090
+  BalComboBox.Items.Add('TOLEDO2180'); // 4 - balToledo2180
+  BalComboBox.Items.Add('URANO'); // 5 - balUrano
+  BalComboBox.Items.Add('LUCASTEC'); // 6 - balLucasTec
+  BalComboBox.Items.Add('MAGNA'); // 7 - balMagna
+  BalComboBox.Items.Add('DIGITRON'); // 8 - balDigitron
+  BalComboBox.Items.Add('MAGELLAN'); // 9 - balMagellan
+  BalComboBox.Items.Add('URANOPOP'); // 10 - balUranoPOP
+  BalComboBox.Items.Add('LIDER'); // 11 - balLider
+  BalComboBox.Items.Add('RINNERT'); // 12 - balRinnert
+  BalComboBox.Items.Add('MULLER'); // 13 - balMuller
+  BalComboBox.Items.Add('SATURNO'); // 14 - balSaturno
+  BalComboBox.Items.Add('AFTS'); // 15 - balAFTS
+  BalComboBox.Items.Add('GENERICA'); // 16 - balGenerica
+  BalComboBox.Items.Add('LIBRATEK'); // 17 - balLibratek
+  BalComboBox.Items.Add('MICHELETTI'); // 18 - balMicheletti
+  BalComboBox.Items.Add('ALFA'); // 19 - balAlfa
+  BalComboBox.Items.Add('TOLEDO9091_8530_8540'); // 20 - balToledo9091_8530_8540
+  BalComboBox.Items.Add('WEIGHTECHWT1000'); // 21 - balWeightechWT1000
+  BalComboBox.Items.Add('MARELCG62XL'); // 22 - balMarelCG62XL
+  BalComboBox.Items.Add('WEIGHTECHWT3000_ABS'); // 23 - balWeightechWT3000_ABS
+  BalComboBox.Items.Add('TOLEDO2090N'); // 24 - balToledo2090N
+  BalComboBox.Items.Add('TOLEDOBCS21'); // 25 - balToledoBCS21
+  BalComboBox.Items.Add('PRECISION'); // 26 - balPrecision
+  BalComboBox.Items.Add('DIGITRON_UL'); // 27 - balDigitron_UL
+  BalComboBox.Items.Add('LIBRATEKWT3000IR'); // 28 - balLibratekWT3000IR
+  BalComboBox.Items.Add('TOLEDOTI420'); // 29 - balToledoTi420
+  BalComboBox.Items.Add('WEIGHTECHWT27R_ETH'); // 30 - balWeightechWT27R_ETH
+  BalComboBox.Items.Add('CAPITAL'); // 31 - balCapital
+  BalComboBox.Items.Add('MARTE'); // 32 - balMarte
+  BalComboBox.Items.Add('LENKELK2500'); // 33 - balLenkeLK2500
+  BalComboBox.Items.Add('WEIGHTRUTEST'); // 34 - balWeighTRUTest
+  BalComboBox.Items.Add('URANOUDC'); // 35 - balUranoUDC
+  BalComboBox.Items.Add('SICILIANO'); // 36 - balSiciliano
+  // BalComboBox add fim
 end;
 
 procedure TTerminalEdDiagForm.BalModoUsoComboBoxKeyPress(Sender: TObject;
@@ -268,8 +313,10 @@ begin
 
   BalModoUsoComboBox.Items.Add('SEM BALANCA');
   BalModoUsoComboBox.Items.Add('BALANCA CONECTADA');
-  BalModoUsoComboBox.Items.Add('BALANCA NAO CONECTADA. O USUARIO VAI DIGITAR O PESO');
-  BalModoUsoComboBox.Items.Add('O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO');
+  BalModoUsoComboBox.Items.Add
+    ('BALANCA NAO CONECTADA. O USUARIO VAI DIGITAR O PESO');
+  BalModoUsoComboBox.Items.Add
+    ('O USUARIO VAI DIGITAR A QUANTIDADE E O PRECO UNITARIO');
 end;
 
 procedure TTerminalEdDiagForm.BarCodigoIniEditKeyPress(Sender: TObject;
@@ -290,22 +337,22 @@ begin
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-    //OkAct_Diag.Execute;
+    // OkAct_Diag.Execute;
     GavTemCheckBox.SetFocus;
     exit;
   end;
   inherited;
 end;
 
-procedure TTerminalEdDiagForm.CavetaComandoColarToolButtonClick(
-  Sender: TObject);
+procedure TTerminalEdDiagForm.CavetaComandoColarToolButtonClick
+  (Sender: TObject);
 begin
   inherited;
   GavComandoEdit.Text := GetClipboardText;
 end;
 
-procedure TTerminalEdDiagForm.GavetaComandoCopiarToolButtonClick(
-  Sender: TObject);
+procedure TTerminalEdDiagForm.GavetaComandoCopiarToolButtonClick
+  (Sender: TObject);
 begin
   inherited;
   SetClipboardText(GavComandoEdit.Text);
@@ -346,21 +393,29 @@ begin
   FTerminaisDataSet.FieldByName('APELIDO').AsString := ApelidoEdit.Text;
   FTerminaisDataSet.FieldByName('NOME_NA_REDE').AsString := NomeNaRedeEdit.Text;
   FTerminaisDataSet.FieldByName('IP').AsString := IPEdit.Text;
-  FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE').AsString := LetraDoDriveComboBox.Text;
+  FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE').AsString :=
+    LetraDoDriveComboBox.Text;
 
   i := StrToInteger(NFSerieEdit.Text);
   NFSerieEdit.Text := i.ToString;
   FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger := i;
 
-  FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean := GavTemCheckBox.Checked;
-  FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString := GavComandoEdit.Text;
-  FTerminaisDataSet.FieldByName('GAVETA_IMPR_NOME').AsString := Trim(GavImprNomeEdit.Text);
+  FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean :=
+    GavTemCheckBox.Checked;
+  FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString :=
+    GavComandoEdit.Text;
+  FTerminaisDataSet.FieldByName('GAVETA_IMPR_NOME').AsString :=
+    Trim(GavImprNomeEdit.Text);
 
-  FTerminaisDataSet.FieldByName('BALANCA_MODO_USO_ID').AsInteger := BalModoUsoComboBox.ItemIndex;
-  FTerminaisDataSet.FieldByName('BALANCA_MODO_USO_DESCR').AsString := Trim(BalModoUsoComboBox.Text);
+  FTerminaisDataSet.FieldByName('BALANCA_MODO_USO_ID').AsInteger :=
+    BalModoUsoComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_MODO_USO_DESCR').AsString :=
+    Trim(BalModoUsoComboBox.Text);
 
-  FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger := BalComboBox.ItemIndex;
-  FTerminaisDataSet.FieldByName('BALANCA_FABR_MODELO').AsString := BalComboBox.Text;
+  FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger :=
+    BalComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_FABR_MODELO').AsString :=
+    BalComboBox.Text;
 
   i := StrToInteger(BarCodigoIniEdit.Text);
   BarCodigoIniEdit.Text := i.ToString;
@@ -392,10 +447,25 @@ begin
   i := StrToInteger(CupomQtdLinsFinalEdit.Text);
   FTerminaisDataSet.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := i;
 
-  //FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
+  // FTerminaisDataSet.FieldByName('CAMINHO_DE_REDE_DO_SISTEMA').AsString := LetraDoDriveComboBox.Text;
 
-  FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean := SempreOffLineCheckBox.Checked;
+  FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean :=
+    SempreOffLineCheckBox.Checked;
   FTerminaisDataSet.FieldByName('ATIVO').AsBoolean := AtivoCheckBox.Checked;
+
+  FTerminaisDataSet.FieldByName('BALANCA_PORTA').AsInteger :=
+    BalPortaComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_BAUDRATE').AsInteger :=
+    BaudRateComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_DATABITS').AsInteger :=
+    DataBitsComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_PARIDADE').AsInteger :=
+    ParidadeComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_STOPBITS').AsInteger :=
+    StopBitsComboBox.ItemIndex;
+  FTerminaisDataSet.FieldByName('BALANCA_HANDSHAKING').AsInteger :=
+    HandShakingComboBox.ItemIndex;
+
 end;
 
 constructor TTerminalEdDiagForm.Create(AOwner: TComponent;
@@ -404,7 +474,9 @@ begin
   inherited Create(AOwner);
   FTerminaisDataSet := pTerminaisDataSet;
   FState := pDataSetState;
-  NomeNaRedeEdit.Text := 'TERM1';
+//  NomeNaRedeEdit.Text := 'TERM1';
+
+  PortaSLPreencher(BalPortaComboBox.Items);
 end;
 
 procedure TTerminalEdDiagForm.CupomQtdLinsFinalEditKeyPress(Sender: TObject;
@@ -428,20 +500,27 @@ begin
   TerminalIdEdit.Text := i.ToString;
 
   ApelidoEdit.Text := Trim(FTerminaisDataSet.FieldByName('APELIDO').AsString);
-  NomeNaRedeEdit.Text := Trim(FTerminaisDataSet.FieldByName('NOME_NA_REDE').AsString);
+  NomeNaRedeEdit.Text := Trim(FTerminaisDataSet.FieldByName('NOME_NA_REDE')
+    .AsString);
   IPEdit.Text := Trim(FTerminaisDataSet.FieldByName('IP').AsString);
-  PosicioneLetraDoDrive(FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE').AsString);
+  PosicioneLetraDoDrive(FTerminaisDataSet.FieldByName('LETRA_DO_DRIVE')
+    .AsString);
 
   i := FTerminaisDataSet.FieldByName('NF_SERIE').AsInteger;
   NFSerieEdit.Text := i.ToString;
 
-  GavTemCheckBox.Checked := FTerminaisDataSet.FieldByName('GAVETA_TEM').AsBoolean;
-  GavComandoEdit.Text := FTerminaisDataSet.FieldByName('GAVETA_COMANDO').AsString;
-  GavImprNomeEdit.Text := FTerminaisDataSet.FieldByName('GAVETA_IMPR_NOME').AsString;
+  GavTemCheckBox.Checked := FTerminaisDataSet.FieldByName('GAVETA_TEM')
+    .AsBoolean;
+  GavComandoEdit.Text := FTerminaisDataSet.FieldByName
+    ('GAVETA_COMANDO').AsString;
+  GavImprNomeEdit.Text := FTerminaisDataSet.FieldByName
+    ('GAVETA_IMPR_NOME').AsString;
 
-  BalModoUsoComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_MODO_USO_ID').AsInteger;
+  BalModoUsoComboBox.ItemIndex := FTerminaisDataSet.FieldByName
+    ('BALANCA_MODO_USO_ID').AsInteger;
 
-  BalComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_ID').AsInteger;
+  BalComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_ID')
+    .AsInteger;
 
   i := FTerminaisDataSet.FieldByName('BARRAS_COD_INI').AsInteger;
   BarCodigoIniEdit.Text := i.ToString;
@@ -455,7 +534,8 @@ begin
   i := FTerminaisDataSet.FieldByName('IMPRESSORA_MODELO_ID').AsInteger;
   ImprModeloComboBox.ItemIndex := i;
 
-  ImprNomeEdit.Text := FTerminaisDataSet.FieldByName('IMPRESSORA_NOME').AsString;
+  ImprNomeEdit.Text := FTerminaisDataSet.FieldByName('IMPRESSORA_NOME')
+    .AsString;
 
   i := FTerminaisDataSet.FieldByName('IMPRESSORA_COLS_QTD').AsInteger;
   ImprQtdColunasEdit.Text := i.ToString;
@@ -463,9 +543,18 @@ begin
   i := FTerminaisDataSet.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger;
   CupomQtdLinsFinalEdit.Text := i.ToString;
 
-  SempreOffLineCheckBox.Checked := FTerminaisDataSet.FieldByName('SEMPRE_OFFLINE').AsBoolean;
+  SempreOffLineCheckBox.Checked := FTerminaisDataSet.FieldByName
+    ('SEMPRE_OFFLINE').AsBoolean;
 
   AtivoCheckBox.Checked := FTerminaisDataSet.FieldByName('ATIVO').AsBoolean;
+
+  BalPortaComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_PORTA').AsInteger;
+  BaudRateComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_BAUDRATE').AsInteger;
+  DataBitsComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_DATABITS').AsInteger;
+  ParidadeComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_PARIDADE').AsInteger;
+  StopBitsComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_STOPBITS').AsInteger;
+  HandShakingComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_HANDSHAKING').AsInteger;
+
 end;
 
 procedure TTerminalEdDiagForm.ImprModeloComboBoxKeyPress(Sender: TObject;
@@ -568,7 +657,7 @@ end;
 
 procedure TTerminalEdDiagForm.LetraDoDriveComboPreencha;
 var
-  c: char;
+  c: Char;
   s: string;
 begin
   LetraDoDriveComboBox.ItemIndex := -1;
@@ -632,7 +721,8 @@ begin
   Result := (sNome <> '') or (sIP <> '');
   if not Result then
   begin
-    ErroOutput.Exibir('Ou o ''Nome na Rede'' ou o ''IP'' devem ser preenchidos');
+    ErroOutput.Exibir
+      ('Ou o ''Nome na Rede'' ou o ''IP'' devem ser preenchidos');
     NomeNaRedeEdit.SetFocus;
   end;
 end;
@@ -693,7 +783,7 @@ end;
 
 procedure TTerminalEdDiagForm.PosicioneLetraDoDrive(pText: string);
 var
-  c: char;
+  c: Char;
   s: string;
   i: integer;
 begin
@@ -805,17 +895,23 @@ begin
   ImprModoEnvioComboBox.ItemIndex := 0;
   BalModoUsoComboBox.ItemIndex := 0;
   BalComboBox.ItemIndex := 0;
-  
+  BalPortaComboBox.ItemIndex := 0;
+  BaudRateComboBox.ItemIndex := 0;
+  DataBitsComboBox.ItemIndex := 0;
+  ParidadeComboBox.ItemIndex := 0;
+  StopBitsComboBox.ItemIndex := 0;
+  HandShakingComboBox.ItemIndex := 0;
+
   BarCodigoIniEdit.Text := '2';
   BarCodigoTamEdit.Text := '6';
-  
+
   GavTemCheckBox.Checked := False;
   GavImprNomeEdit.Text := '';
   GavComandoEdit.Text := '';
-  
+
   ImprModoEnvioComboBox.ItemIndex := 0;
   ImprModeloComboBox.ItemIndex := 0;
-//  ImprQtdColunasEdit.Valor := 40;
+  // ImprQtdColunasEdit.Valor := 40;
   ImprNomeEdit.Text := '';
 
   CupomQtdLinsFinalEdit.Text := '0';

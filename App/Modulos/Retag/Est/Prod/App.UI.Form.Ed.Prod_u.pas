@@ -210,7 +210,7 @@ end;
 
 procedure TProdEdForm.ControlesToEnt;
 var
-  BalUso: TBalancaUso;
+  bBalancaExige: Boolean;
   cCapac: Currency;
   cMargem: Currency;
 begin
@@ -235,8 +235,7 @@ begin
   ProdEnt.PrecoAtual := FComunsFr.PrecoAtuEdit.Valor;
   ProdEnt.PrecoNovo := FComunsFr.PrecoNovEdit.Valor;
 
-  BalUso := TBalancaUso(FComunsFr.BalUtilizaComboBox.ItemIndex);
-  ProdEnt.ProdBalancaEnt.BalancaUso := BalUso;
+  bBalancaExige := FComunsFr.BalancaExigeCheckBox.Checked;
 
   ProdEnt.ProdBalancaEnt.DptoCod := FComunsFr.BalDpto.Valor;
   ProdEnt.ProdBalancaEnt.ValidadeDias := FComunsFr.BalValidEdit.AsInteger;
@@ -325,7 +324,7 @@ begin
   FComunsFr.PrecoNovEdit.OnExit := PrecoExit;
   FComunsFr.PrecoNovEdit.OnChange := PrecoChange;
 
-  FComunsFr.BalUtilizaComboBox.OnKeyPress := ComboKeyPress;
+  FComunsFr.BalancaExigeCheckBox.OnKeyPress := ComboKeyPress;
 
   FComunsFr.BalDpto.OnKeyPress := EditKeyPress;
   FComunsFr.BalValidEdit.OnKeyPress := EditKeyPress;
@@ -481,7 +480,7 @@ end;
 
 procedure TProdEdForm.EntToControles;
 var
-  iBalUso: integer;
+  bBalancaExige: Boolean;
 begin
   inherited;
   FComunsFr.IdEdit.Valor := ProdEnt.Id;
@@ -493,9 +492,7 @@ begin
   FComunsFr.PrecoAtuEdit.Valor := ProdEnt.PrecoAtual;
   FComunsFr.PrecoNovEdit.Valor := ProdEnt.PrecoNovo;
 
-  iBalUso := Integer(ProdEnt.ProdBalancaEnt.BalancaUso);
-
-  FComunsFr.BalUtilizaComboBox.ItemIndex := iBalUso;
+  FComunsFr.BalancaExigeCheckBox.Checked := bBalancaExige;
   FComunsFr.BalDpto.Valor := ProdEnt.ProdBalancaEnt.DptoCod;
   FComunsFr.BalValidEdit.Valor := ProdEnt.ProdBalancaEnt.ValidadeDias;
   FComunsFr.BalTextoEtiqMemo.Text := ProdEnt.ProdBalancaEnt.TextoEtiq;

@@ -389,6 +389,11 @@ contains
   App.Pdv.CupomEspelho in 'Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho.pas',
   App.Pdv.CupomEspelho_u in 'Modulos\PDV\Cupom\Espelho\App.Pdv.CupomEspelho_u.pas',
   App.PDV.ImpressaoTexto_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto_u.pas',
-  App.PDV.ImpressaoTextoVenda_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoVenda_u.pas';
+  App.PDV.ImpressaoTextoVenda_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoVenda_u.pas',
+  App.PDV.UI.Balanca in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.pas',
+  App.PDV.UI.Balanca_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca_u.pas',
+  App.PDV.UI.Balanca.VendaForm_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm_u.pas' {BalancaVendaForm},
+  App.PDV.UI.Balanca.VendaForm.Teste_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Teste_u.pas' {BalancaTesteVendaForm},
+  App.PDV.UI.Balanca.VendaForm.Acbr_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas' {BalancaAcbrVendaForm};
 
 end.

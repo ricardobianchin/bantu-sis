@@ -91,43 +91,7 @@ SELECT * FROM VENDA_PDV_INS_PA.BY_BARRAS('7869549490313');
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PDV_INS_PA.sql";
 
 
-SELECT *
-FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
-    1 -- LOJA_ID
-    , 1 -- TERMINAL_ID
-    , NULL -- EST_MOV_ID
-    , NULL -- VENDA_ID
-    , 1 -- SESS_LOJA_ID
-    , 1 -- SESS_TERMINAL_ID
-    , 1 -- SESS_ID
-    , 1
-    , '3'
-   );
 
-
-       EST_MOV_ID_RET ORDEM_RET              VENDA_ID_RET      PROD_ID DESCR_RED                     FABR_NOME            UNID_SIGLA BAL_USO                 CUSTO                 PRECO ENCONTRADO MENSAGEM                                                                                             LOG_STR_RET                                                                                                                                                                            
-===================== ====================== ============ ============ ============================= ==================== ========== ======= ===================== ===================== ========== ==================================================================================================== ========================================================================================================================================================================================================
-                    1                      0            1            3 CANETA PARA CELULAR           PADRAO               PC               0                2.5000                 9.900 <true>                                                                                                          PROD_ID=3;VAI VENDA_ITEM_IN S;EST_MOV_ID_RET=1;ORDEM_RET=0;VENDA_ID_RET=1     
-
-
-SELECT *
-FROM VENDA_PDV_INS_PA.PEGUE_ITE M(
-    1 -- LOJA_ID
-    , 1 -- TERMINAL_ID
-    , 1 -- EST_MOV_ID
-    , 1 -- VENDA_ID
-    , 1 -- SESS_LOJA_ID
-    , 1 -- SESS_TERMINAL_ID
-    , 1 -- SESS_ID
-    , 1
-    , '3'
-   );
-
-
-
-       EST_MOV_ID_RET ORDEM_RET VENDA_ID_RET      PROD_ID DESCR_RED                     FABR_NOME            UNID_SIGLA BAL_USO                 CUSTO                 PRECO ENCONTRADO MENSAGEM                                                                                             LOG_STR_RET                                                                                                                                                                            
-===================== ====================== ============ ============ ============================= ==================== ========== ======= ===================== ===================== ========== ==================================================================================================== ========================================================================================================================================================================================================
-                    1                      1            1            3 CANETA PARA CELULAR           PADRAO               PC               0                2.5000                 9.900 <true>                                                                                                          PROD_ID=3;VAI VENDA_ITEM_IN S;EST_MOV_ID_RET=1;ORDEM_RET=1;VENDA_ID_RET=1                                                                                                  
 */
 
 
@@ -280,7 +244,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -297,7 +261,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -348,6 +312,7 @@ BEGIN
     , SESS_ID ID_DOM NOT NULL
     , QTD QTD_DOM NOT NULL
     , STR_BUSCA VARCHAR(30)
+    , BALANCA_HABILITADA BOOLEAN
   )
   RETURNS
   (
@@ -361,7 +326,7 @@ BEGIN
     , DESCR_RED PROD_DESCR_RED_DOM
     , FABR_NOME NOME_REDU_DOM
     , UNID_SIGLA CHAR(6)
-    , BAL_USO SMALLINT
+    , BALANCA_EXIGE BOOLEAN
     , CUSTO_UNIT CUSTO_DOM
     , CUSTO CUSTO_DOM
     , PRECO_UNIT_ORIGINAL PRECO_DOM
@@ -619,7 +584,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -632,7 +597,7 @@ BEGIN
       P.DESCR_RED,
       P.FABR_NOME,
       P.UNID_SIGLA,
-      P.BAL_USO,
+      P.BALANCA_EXIGE,
       P.CUSTO,
       P.PRECO,
       TRUE AS ENCONTRADO,
@@ -647,7 +612,7 @@ BEGIN
       :DESCR_RED,
       :FABR_NOME,
       :UNID_SIGLA,
-      :BAL_USO,
+      :BALANCA_EXIGE,
       :CUSTO_UNIT,
       :PRECO_UNIT,
       :ENCONTRADO,
@@ -671,7 +636,7 @@ BEGIN
     DESCR_RED PROD_DESCR_RED_DOM,
     FABR_NOME NOME_REDU_DOM,
     UNID_SIGLA CHAR(6),
-    BAL_USO SMALLINT,
+    BALANCA_EXIGE BOOLEAN,
     CUSTO_UNIT CUSTO_DOM,
     PRECO_UNIT PRECO_DOM,
     ENCONTRADO BOOLEAN,
@@ -684,7 +649,7 @@ BEGIN
       P.DESCR_RED,
       P.FABR_NOME,
       P.UNID_SIGLA,
-      P.BAL_USO,
+      P.BALANCA_EXIGE,
       P.CUSTO,
       P.PRECO,
       TRUE AS ENCONTRADO,
@@ -701,7 +666,7 @@ BEGIN
       :DESCR_RED,
       :FABR_NOME,
       :UNID_SIGLA,
-      :BAL_USO,
+      :BALANCA_EXIGE,
       :CUSTO_UNIT,
       :PRECO_UNIT,
       :ENCONTRADO,
@@ -798,6 +763,7 @@ BEGIN
     , SESS_ID ID_DOM NOT NULL
     , QTD QTD_DOM NOT NULL
     , STR_BUSCA VARCHAR(30)
+    , BALANCA_HABILITADA BOOLEAN
   )
   RETURNS
   (
@@ -811,7 +777,7 @@ BEGIN
     , DESCR_RED PROD_DESCR_RED_DOM
     , FABR_NOME NOME_REDU_DOM
     , UNID_SIGLA CHAR(6)
-    , BAL_USO SMALLINT
+    , BALANCA_EXIGE BOOLEAN
     , CUSTO_UNIT CUSTO_DOM
     , CUSTO CUSTO_DOM
     , PRECO_UNIT_ORIGINAL PRECO_DOM
@@ -825,29 +791,41 @@ BEGIN
   AS
     DECLARE PRECO NUMERIC(12, 2);
     DECLARE DESCONTO NUMERIC(12, 2);
+    DECLARE BALANCA_PRECISA BOOLEAN;
   BEGIN
     IF (CHARACTER_LENGTH (:STR_BUSCA) < 8) THEN
     BEGIN
-      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BAL_USO,
+      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BALANCA_EXIGE,
         CUSTO_UNIT, PRECO_UNIT, ENCONTRADO, MENSAGEM
       FROM BY_PROD_ID(CAST(:STR_BUSCA AS ID_DOM))
-      INTO :PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BAL_USO,
+      INTO :PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BALANCA_EXIGE,
         :CUSTO_UNIT, :PRECO_UNIT, :ENCONTRADO, :MENSAGEM;
     END
     ELSE
     BEGIN
-      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BAL_USO,
+      SELECT PROD_ID_RET, DESCR_RED, FABR_NOME, UNID_SIGLA, BALANCA_EXIGE,
         CUSTO_UNIT, PRECO_UNIT, ENCONTRADO, MENSAGEM
       FROM BY_BARRAS(:STR_BUSCA)
-      INTO PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BAL_USO,
+      INTO PROD_ID, :DESCR_RED, :FABR_NOME, :UNID_SIGLA, :BALANCA_EXIGE,
         :CUSTO_UNIT, :PRECO_UNIT, :ENCONTRADO, :MENSAGEM;
     END
+
     LOG_STR_RET = 'PROD_ID=' || CAST(PROD_ID AS VARCHAR(7));
-    IF (:BAL_USO = 0 AND :ENCONTRADO) THEN
+
+    IF (NOT :ENCONTRADO) THEN
+    BEGIN
+      SUSPEND;
+      EXIT;
+    END
+
+    :PRECO_UNIT_ORIGINAL = :PRECO_UNIT;
+    :PRECO_UNIT_PROMO = 0;
+
+    :BALANCA_PRECISA = :BALANCA_EXIGE AND :BALANCA_HABILITADA;
+
+    IF (NOT :BALANCA_PRECISA) THEN
     BEGIN
       :CUSTO = ROUND(:CUSTO_UNIT * :QTD, 2);
-      :PRECO_UNIT_ORIGINAL = :PRECO_UNIT;
-      :PRECO_UNIT_PROMO = 0;
       :PRECO_BRUTO = ROUND(:PRECO_UNIT * :QTD, 2);
       :DESCONTO = 0;
       :PRECO = :PRECO_BRUTO - :DESCONTO;
@@ -864,7 +842,7 @@ BEGIN
         , LOG_STR_RET
       FROM 
         ITEM_PEGUE
-      (
+        (
         :LOJA_ID
         , :TERMINAL_ID
         , :EST_MOV_ID

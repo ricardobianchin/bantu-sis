@@ -112,7 +112,7 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuAdminGroupBox: TGroupBox
-      Left = 646
+      Left = 666
       Top = 146
       Width = 300
       Height = 337
@@ -120,7 +120,6 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Login do Administrador'
       TabOrder = 1
       Visible = False
-      ExplicitLeft = 642
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
@@ -363,7 +362,7 @@ object ConfigPergForm: TConfigPergForm
     object TerminaisGroupBox: TGroupBox
       Left = 6
       Top = 146
-      Width = 657
+      Width = 654
       Height = 337
       Caption = 'Terminais'
       TabOrder = 7
