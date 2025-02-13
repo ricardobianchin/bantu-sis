@@ -53,6 +53,7 @@ type
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
     procedure DimensioneFitaStringGrid;
+    procedure DimensioneTotalPanel;
 
     procedure StrBuscaPegueChar(pChar: Char);
     procedure StrBuscaExec; // ADICIONA ITEM
@@ -140,20 +141,27 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.DimensioneControles;
+const
+  LARG_UTIL = 800;
+  ALTU_UTIL = 600;
+  GUTTER = 12;
+  QTD_COLUNAS = 2;
+  GUTTERS_TOTAL = GUTTER * (QTD_COLUNAS - 1);
+  LARG_COLUNA = (LARG_UTIL - GUTTERS_TOTAL) div QTD_COLUNAS;
 var
   MargHor: Integer;
   MargVer: Integer;
 begin
   inherited;
-  MargHor := 5;
-  MargVer := 3;
+  MargHor := (width - LARG_UTIL) div 2;
+  MargVer := (Height - ALTU_UTIL) div 2;
 
   FColuna1Rect.Left := MargHor;
   FColuna1Rect.Top := MargVer;
-  FColuna1Rect.Width := (MeioPanel.Width - (3 * MargHor)) div 2;
+  FColuna1Rect.Width := LARG_COLUNA;
   FColuna1Rect.Height := MeioPanel.Height - (2 * MargVer);
 
-  FColuna2Rect.Left := FColuna1Rect.Width + MargHor * 2;
+  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.Width + GUTTER;
   FColuna2Rect.Top := FColuna1Rect.Top;
   FColuna2Rect.Width := FColuna1Rect.Width;
   FColuna2Rect.Height := FColuna1Rect.Height;
@@ -161,6 +169,7 @@ begin
   DimensioneInput;
   DimensioneItemPanel;
   DimensioneFitaStringGrid;
+  DimensioneTotalPanel;
   ControlAlignToCenter(PDVToolBar);
   PDVToolBar.StyleElements := [seFont, seClient, seBorder];
 end;
@@ -198,10 +207,11 @@ procedure TShopVendaPDVFrame.DimensioneInput;
 var
   l, t, w, h: Integer;
 begin
-  l := FColuna2Rect.Left;
+  l := FColuna1Rect.Left;
   h := FColuna2Rect.Height div 8;
   t := FColuna2Rect.Height - h;
-  w := FColuna2Rect.Width;
+  w := FColuna2Rect.Left + FColuna2Rect.Width - l;
+
 
   InputPanel.Left := l;
   InputPanel.Top := t;
@@ -232,6 +242,12 @@ begin
   ItemPanel.Color := Rgb(16, 21, 36);
   // ItemPanel.BevelOuter := bvNone;
   ItemPanel.Font.Color := Rgb(248, 237, 228);
+end;
+
+procedure TShopVendaPDVFrame.DimensioneTotalPanel;
+begin
+  TotalPanel.Left := FColuna1Rect.Left;
+  TotalPanel.Top := FColuna1Rect.Top;
 end;
 
 procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
