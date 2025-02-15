@@ -10,6 +10,12 @@ uses
   Sis.TerminalList, Sis.Terminal, Sis.DB.Updater_u.Teste, Sis.Terminal.DBI;
 
 type
+  TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
+
+  TGetDBExisteRetornoHelper = record helper for TGetDBExisteRetorno
+    function ToString: string;
+  end;
+
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
     FTerminalId: TTerminalId;
@@ -45,7 +51,7 @@ type
     FLoja: ISisLoja;
     FUsuarioAdmin: IUsuario;
 
-    FCriouDB: Boolean;
+    FDBExisteRetorno: TGetDBExisteRetorno;
 
     FsDiretivaAbre: string;
     FsDiretivaFecha: string;
@@ -111,8 +117,34 @@ type
     property output: IOutput read FOutput;
     property dbms: IDBMS read FDBMS;
     property iVersao: integer read FiVersao write SetiVersao;
-    function GetDBExiste: Boolean; virtual; abstract;
+
+    /// <summary>
+    /// Verifica se o banco de dados existe.
+    /// </summary>
+    /// <returns>
+    /// Retorna um valor de <c>TGetDBExisteRetorno</c> indicando
+    /// se o banco de dados existia, se não existia e foi copiado, ou se não
+    /// existia.
+    /// dbeExistia - O banco de dados já existia.
+    /// dbeNaoExistiaCopiou - O banco de dados não existia e foi copiado.
+    /// dbeNaoExistia - O banco de dados não existia
+    /// </returns>
+    function GetDBExiste: TGetDBExisteRetorno; virtual; abstract;
+
+    /// <summary>
+    /// Garante a existencia do banco de dados, descobre a versão do banco e
+    /// conecta a ele.
+    /// </summary>
+    /// <returns>A versão do banco de dados.</returns>
+    /// <remarks>
+    /// verifica se o banco de dados existe e, se não existir, cria.
+    /// Em seguida, conecta ao banco de dados e prepara as operações principais.
+    /// Se a tabela de histórico de atualizações não existir, retorna -1.
+    /// Caso contrário, retorna a última versão registrada nesta tabela
+    /// </remarks>
+    /// <exception cref="Exception">Lança uma exceção se houver erro ao criar ou conectar ao banco de dados.</exception>
     function DBDescubraVersaoEConecte: integer; virtual;
+
     property LinhasSL: TStringList read FLinhasSL;
 
     function VersaoToArqComando(pVersao: integer): string;
@@ -180,7 +212,6 @@ begin
   FDBMS := pDBMS;
   FLoja := pLoja;
   FUsuarioAdmin := pUsuarioAdmin;
-  FCriouDB := False;
 
   FProcessLog.PegueLocal('TDBUpdater.Create');
 
@@ -214,21 +245,33 @@ end;
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
 var
   sErro: string;
+  eTmp: TGetDBExisteRetorno;
 begin
-  Result := 0;
+  Result := -1;
   FProcessLog.PegueLocal('TDBUpdater.DBDescubraVersaoEConecte');
   try
     FProcessLog.RegistreLog('vai GetDBExiste, testar se o banco existe');
-    if not GetDBExiste then
+    FDBExisteRetorno := GetDBExiste;
+    FProcessLog.RegistreLog('GetDBExiste, retornou ' +
+      FDBExisteRetorno.ToString);
+
+    if not(FDBExisteRetorno = dbeExistia) then
     begin
-      FProcessLog.RegistreLog('banco nao existia, vai CrieDB');
-      CrieDB;
-      FCriouDB := True;
-      FProcessLog.RegistreLog
-        ('vai novamente GetDBExiste, testar se o banco existe');
-      if not GetDBExiste then
+      if FDBExisteRetorno = dbeNaoExistia then
       begin
-        sErro := 'TDBUpdater.DBDescubraVersaoEConecte,Erro ao criar banco de dados';
+        FProcessLog.RegistreLog('banco nao existia, vai CrieDB');
+        CrieDB;
+      end;
+
+      FProcessLog.RegistreLog
+        ('vai novamente GetDBExiste, confirmar que o banco agora existe');
+      eTmp := GetDBExiste;
+      FProcessLog.RegistreLog('GetDBExiste, retornou ' + eTmp.ToString);
+
+      if not(eTmp = dbeExistia) then
+      begin
+        sErro := 'TDBUpdater.DBDescubraVersaoEConecte,' +
+          'Erro ao criar banco de dados';
         FProcessLog.RegistreLog(sErro);
         raise Exception.Create(sErro);
       end
@@ -289,6 +332,9 @@ var
   sPastaEventos: string;
   OWinExecute: IWinExecute;
 begin
+{$IFNDEF DEBUG}
+  exit;
+{$ENDIF}
   if FTerminalId > 1 then
     exit;
 
@@ -431,15 +477,16 @@ begin
 
     // updater fim aqui
     // update fim aqui
-    if FDBUpdaterPontoAlvo <> upontoServidor then
-      exit;
 
-    bDeveGravarIniciais := FCriouDB and
-      (DB_UPDATER_EM_TESTE or TESTE_GRAVA_INICIAIS);
+    if FDBExisteRetorno <> dbeExistia then
+      DoAposCriarBanco;
+
+    bDeveGravarIniciais := (FDBUpdaterPontoAlvo = upontoServidor) and
+      (DB_UPDATER_EM_TESTE or TESTE_GRAVA_INICIAIS) and
+      (FDBExisteRetorno <> dbeExistia);
 
     if bDeveGravarIniciais then
     begin
-      DoAposCriarBanco;
       GravarIniciais(DBConnection);
     end;
   finally
@@ -1081,6 +1128,22 @@ begin
   // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\00\dbupdate 000000084.txt'
   // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\01\dbupdate 000000100.txt'
   Result := sNomeArq;
+end;
+
+{ TGetDBExisteRetornoHelper }
+
+function TGetDBExisteRetornoHelper.ToString: string;
+begin
+  case Self of
+    dbeExistia:
+      Result := 'dbeExistia'; // 'Existia';
+    dbeNaoExistiaCopiou:
+      Result := 'dbeNaoExistiaCopiou'; // 'Não existia, copiou';
+    dbeNaoExistia:
+      Result := 'dbeNaoExistia'; // 'Não existia';
+  else
+    Result := 'Desconhecido';
+  end;
 end;
 
 end.

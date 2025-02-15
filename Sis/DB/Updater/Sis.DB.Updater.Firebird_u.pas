@@ -13,7 +13,16 @@ type
 
     // procedure AtualizeBanco;virtual; abstract;
     function GetNomeBanco: string; override;
-    function GetDBExiste: boolean; override;
+    
+    /// <summary>
+    /// Verifica se o banco de dados existe.
+    /// </summary>
+    /// <returns>
+    /// Retorna um valor de <c>TGetDBExisteRetorno</c> indicando se o banco de dados existia,
+    /// se não existia e foi copiado, ou se não existia.
+    /// </returns>
+    function GetDBExiste: TGetDBExisteRetorno; override;
+
     procedure CrieDB; override;
     // function GetSqlDbUpdateIns: string; override;
     // function GetSqlDbUpdateGetMax: string; override;
@@ -75,19 +84,22 @@ begin
   end;
 end;
 
-function TDBUpdaterFirebird.GetDBExiste: boolean;
+//  TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
+function TDBUpdaterFirebird.GetDBExiste: TGetDBExisteRetorno;
 var
   sPastaInstDados, sNomeArqInstDados: string;
+  Resultado: Boolean;
 begin
-  Result := False;
+  Result := dbeNaoExistia;
   ProcessLog.PegueLocal('TDBUpdaterFirebird.GetDBExiste');
   try
     ProcessLog.RegistreLog('vai testar se existe DBConnectionParams.Arq=' +
       DBConnectionParams.Arq);
-    result := FileExists(DBConnectionParams.Arq);
+    Resultado := FileExists(DBConnectionParams.Arq);
 
-    if result then
+    if Resultado then
     begin
+      Result := dbeExistia;
       ProcessLog.RegistreLog('existia, vai abortar');
       exit;
     end;
@@ -103,9 +115,9 @@ begin
     sNomeArqInstDados := ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
     if TerminalId > 0 then
     begin
-      StrDeleteNoFim(sNomeArqInstDados, 3);
+      StrDeleteNoFim(sNomeArqInstDados, 4);
     end;
-
+(*
     if SisConfig.WinVersionInfo.Version <= 6.1 then
     begin
 
@@ -115,19 +127,20 @@ begin
       sNomeArqInstDados := sNomeArqInstDados + '5';
       if SisConfig.WinVersionInfo.WinPlatform = wplatWin64 then
       begin
-        sNomeArqInstDados := sNomeArqInstDados + '64';
+        sNomeArqInstDados := sNomeArqInstDados + '32'; //+ '64';//NAO DEPENDE DA PLATAFORMA, MAS DA VARSAO DO FIREBIRD, SEMPRE 32
       end
       else
       begin
         sNomeArqInstDados := sNomeArqInstDados + '32';
       end;
     end;
-
+*)
+    sNomeArqInstDados := sNomeArqInstDados + '_v5_32bits';
     sNomeArqInstDados := sPastaInstDados + sNomeArqInstDados + '.fdb';
 
     ProcessLog.RegistreLog('vai testar se existe ' + sNomeArqInstDados);
-    Result := FileExists(sNomeArqInstDados);
-    if not Result then
+    Resultado := FileExists(sNomeArqInstDados);
+    if not Resultado then
     begin
       ProcessLog.RegistreLog('Nao existia arquivo original. vai terminar');
       exit;
@@ -137,12 +150,15 @@ begin
       DBConnectionParams.Arq + ')');
 
     CopyFile(PChar(sNomeArqInstDados), PChar(DBConnectionParams.Arq), False);
+    Result := dbeNaoExistiaCopiou;
 
     ProcessLog.RegistreLog('vai testar se existe');
-    Result := FileExists(DBConnectionParams.Arq);
-    ProcessLog.RegistreLog('Result=' + BooleanToStr(result));
+    Resultado := FileExists(DBConnectionParams.Arq);
+    ProcessLog.RegistreLog('Resultado=' + BooleanToStr(resultado));
+    if not Resultado then
+      Result := dbeNaoExistia;
   finally
-    ProcessLog.RegistreLog('Result=' + BooleanToStr(result));
+    ProcessLog.RegistreLog('Resultado=' + BooleanToStr(resultado));
     ProcessLog.RetorneLocal;
   end;
 end;

@@ -9,8 +9,6 @@ type
   TAtualizaVersao = class(TExecutavel, IAtualizaVersao)
   private
     FAppInfo: IAppInfo;
-    //Output: IOutput;
-    //FProcessLog: IProcessLog;
   public
     constructor Create(pAppInfo: IAppInfo; pOutput: IOutput;
       pProcessLog: IProcessLog);

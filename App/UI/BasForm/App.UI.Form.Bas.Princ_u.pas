@@ -141,9 +141,6 @@ var
   bPrecisaResetar: boolean;
   sLog: string;
 begin
-{$IFDEF DEBUG}
-  exit;
-{$ENDIF}
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
 
   try
