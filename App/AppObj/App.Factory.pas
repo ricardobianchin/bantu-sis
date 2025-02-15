@@ -7,8 +7,8 @@ uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.Usuario, Sis.DB.DBTypes, App.DB.Log, App.Testes.Config, Sis.TerminalList,
   Sis.Terminal.DBI;
 
-function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
-  pAtualizExeURL: string): IAppInfo;
+function AppInfoCreate(pExeName, pAtualizExeSubPasta, pAtualizExeURL: string)
+  : IAppInfo;
 
 function AppObjCreate(pAppInfo: IAppInfo; pLoja: IAppLoja; pDBMS: IDBMS;
   pStatusOutput: IOutput; pProcessOutput: IOutput; pProcessLog: IProcessLog;
@@ -30,8 +30,8 @@ implementation
 uses App.AppObj_u, App.AppInfo_u, App.AtualizaVersao_u, Sis.Config.SisConfig_u,
   App.SisConfig.Garantir_u, App.DB.Log_u, App.Testes.Config_u;
 
-function AppInfoCreate(pExeName: string; pAtualizExeSubPasta: string;
-  pAtualizExeURL: string): IAppInfo;
+function AppInfoCreate(pExeName, pAtualizExeSubPasta, pAtualizExeURL: string)
+  : IAppInfo;
 begin
   Result := TAppInfo.Create(pExeName, pAtualizExeSubPasta, pAtualizExeURL);
 end;

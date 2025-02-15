@@ -8,7 +8,7 @@
     </Compare>
     <Synchronize>
         <Differences LeftOnly="right" LeftNewer="right" RightNewer="right" RightOnly="right"/>
-        <DeletionPolicy>RecycleBin</DeletionPolicy>
+        <DeletionPolicy>Permanent</DeletionPolicy>
         <VersioningFolder Style="Replace"/>
     </Synchronize>
     <Filter>
@@ -28,6 +28,10 @@
         <TimeSpan Type="None">0</TimeSpan>
     </Filter>
     <FolderPairs>
+        <Pair>
+            <Left>C:\Pr\app\bantu\bantu-sis\bantu-api-doc\db\TabViews\</Left>
+            <Right>\\VBOXSVR\d_drive\inst\Bantu\Win32\Mercado\Cons\TabViews</Right>
+        </Pair>
         <Pair>
             <Left>C:\Pr\app\bantu\bantu-sis\bantu-api-doc\db\TabViews\</Left>
             <Right>\\VBOXSVR\d_drive\inst\Bantu\Win64\Mercado\Cons\TabViews</Right>

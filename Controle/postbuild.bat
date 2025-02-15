@@ -2,7 +2,6 @@
 "C:\Program Files\FreeFileSync\FreeFileSync.exe" "C:\Pr\app\bantu\bantu-sis\Src\Controle\atu db updates Inst BatchRun.ffs_batch"
 
 "C:\Program Files\FreeFileSync\FreeFileSync.exe" "C:\Pr\app\bantu\bantu-sis\Src\Controle\atu tabviews Exe.ffs_batch"
-
 "C:\Program Files\FreeFileSync\FreeFileSync.exe" "C:\Pr\app\bantu\bantu-sis\Src\Controle\atu tabviews Inst.ffs_batch"
 
 rem pause

@@ -65,7 +65,7 @@ end;
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
 begin
   Result := App.Factory.AppInfoCreate(Application.ExeName, ATUALIZ_ARQ_SUBPASTA,
-    ATUALIZ_URL);
+    ATUALIZ_URL  );
 end;
 
 procedure TShopPrincForm.PreenchaAtividade;
