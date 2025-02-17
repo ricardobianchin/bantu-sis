@@ -1,12 +1,9 @@
 inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
-  ClientHeight = 266
   ClientWidth = 582
-  ExplicitWidth = 598
-  ExplicitHeight = 305
+  ExplicitWidth = 594
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 194
     Width = 582
   end
   inherited ObjetivoLabel: TLabel
@@ -24,132 +21,86 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 214
     Width = 582
   end
   inherited BasePanel: TPanel
-    Top = 229
     Width = 582
-    ExplicitWidth = 590
+    ExplicitTop = 229
+    ExplicitWidth = 578
     DesignSize = (
       582
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 155
-      ExplicitLeft = 159
+      Left = 147
+      ExplicitLeft = 143
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 268
-      ExplicitLeft = 272
+      Left = 260
+      ExplicitLeft = 256
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 369
-      ExplicitLeft = 373
+      Left = 361
+      ExplicitLeft = 357
     end
   end
   object MeioPanel: TPanel [4]
     Left = 0
     Top = 17
     Width = 582
-    Height = 177
+    Height = 178
     Align = alClient
     BevelOuter = bvNone
     Caption = '  '
     TabOrder = 1
-    object CupomPanel: TPanel
-      Left = 343
-      Top = 0
-      Width = 239
-      Height = 177
-      Align = alRight
-      BevelOuter = bvLowered
-      Caption = '  '
-      TabOrder = 0
-      object Label1: TLabel
-        Left = 1
-        Top = 1
-        Width = 237
-        Height = 17
-        Align = alTop
-        Alignment = taCenter
-        Caption = 'CUPOM'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        StyleElements = [seClient, seBorder]
-        ExplicitWidth = 46
-      end
-      object CupomListBox: TListBox
-        Left = 1
-        Top = 18
-        Width = 237
-        Height = 158
-        TabStop = False
-        Align = alClient
-        BorderStyle = bsNone
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = []
-        ItemHeight = 15
-        Items.Strings = (
-          'TESTE DE IMPRESSAO'
-          ''
-          ''
-          'TESTE DE IMPRESSAO'
-          ''
-          ''
-          '--------------'
-          '      ---------------'
-          '123456789 123456789 123456789 123456789 123456789 ')
-        ParentFont = False
-        TabOrder = 0
-        StyleElements = [seClient, seBorder]
-      end
-    end
+    ExplicitWidth = 578
+    ExplicitHeight = 177
     object TrabPanel: TPanel
       Left = 0
       Top = 0
-      Width = 343
-      Height = 177
+      Width = 582
+      Height = 178
       Align = alClient
       BevelOuter = bvNone
       Caption = '  '
-      TabOrder = 1
-      ExplicitWidth = 347
-      ExplicitHeight = 180
+      TabOrder = 0
+      ExplicitWidth = 339
+      ExplicitHeight = 177
       object ObsPanel: TPanel
         Left = 0
-        Top = 96
-        Width = 347
+        Top = 95
+        Width = 582
         Height = 83
         Align = alBottom
         BevelOuter = bvNone
         Caption = '  '
         TabOrder = 0
-        ExplicitTop = 97
+        ExplicitTop = 94
+        ExplicitWidth = 339
         object Label2: TLabel
           Left = 0
           Top = 0
-          Width = 152
+          Width = 582
           Height = 15
           Align = alTop
           Caption = 'Observa'#231#245'es (200 caracteres)'
+          ExplicitWidth = 152
         end
         object ObsMemo: TMemo
           Left = 0
           Top = 15
-          Width = 347
+          Width = 582
           Height = 68
           Align = alClient
           BorderStyle = bsNone
+          Lines.Strings = (
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do '
+            'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut '
+            'enim ad minim veniam, quis nostrud exercitation ullamco '
+            'exercit ati')
           MaxLength = 200
           TabOrder = 0
           WantReturns = False
+          ExplicitWidth = 339
         end
       end
     end

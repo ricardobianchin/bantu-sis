@@ -95,6 +95,8 @@ begin
 
   FNumerarioListFrame := TNumerarioListFrame.Create(NumerarioTabSheet,
     pCxValorDBI, AppObj.AppInfo.PastaImg + 'App\Numerario\Indiv\');
+
+  NumerarioTabSheet.TabVisible := False;
 end;
 
 function TCxOperUmValorEdForm.DadosOk: boolean;
@@ -144,9 +146,9 @@ procedure TCxOperUmValorEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   TrabPageControl.ActivePage := ValorTabSheet;
-  FValorNumEdit.Valor := 18;
+  FValorNumEdit.Valor := 18.76;
   ObsMemo.Lines.text := 'Abertra teste';
-  OkAct_Diag.Execute;
+//  OkAct_Diag.Execute;
   // TrabPageControl.ActivePage := NumerarioTabSheet;
 end;
 

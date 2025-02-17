@@ -13,13 +13,10 @@ uses
 type
   TCxOperacaoEdForm = class(TEdBasForm)
     MeioPanel: TPanel;
-    CupomPanel: TPanel;
     TrabPanel: TPanel;
     ObsPanel: TPanel;
     Label2: TLabel;
     ObsMemo: TMemo;
-    Label1: TLabel;
-    CupomListBox: TListBox;
   private
     { Private declarations }
     FCxOperacaoEnt: ICxOperacaoEnt;
