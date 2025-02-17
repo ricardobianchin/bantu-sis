@@ -19,6 +19,7 @@ type
     procedure GereFim; virtual;
     procedure EnvieImpressao; virtual;
     function GetDtDoc: TDateTime; virtual; abstract;
+    function GetDocTitulo: string; virtual; abstract;
 
   public
     procedure Imprima; virtual;
