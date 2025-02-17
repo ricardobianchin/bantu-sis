@@ -14,10 +14,12 @@ type
     procedure GereItem(It: IPDVVendaItem);
     procedure GerePag(Pag: IVendaPag);
   protected
+    procedure GereCabec; override;
     procedure GereTexto; override;
     function GetDtDoc: TDateTime; override;
+    function GetDocTitulo: string; override;
   public
-    constructor Create(pImpressoraNome, pDocTitulo: string; pAppObj: IAppObj;
+    constructor Create(pImpressoraNome: string; pAppObj: IAppObj;
       pTerminal: ITerminal; pPDVVenda: IPDVVenda);
   end;
 
@@ -28,11 +30,22 @@ uses Sis.Types.strings_u, System.SysUtils, System.StrUtils, System.Math,
 
 { TImpressaoTextoPDVVenda }
 
-constructor TImpressaoTextoPDVVenda.Create(pImpressoraNome, pDocTitulo: string;
+constructor TImpressaoTextoPDVVenda.Create(pImpressoraNome: string;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda);
 begin
-  inherited Create(pImpressoraNome, pDocTitulo, pAppObj, pTerminal, CupomEspelhoVendaCreate(pAppObj));
+  inherited Create(pImpressoraNome, pAppObj, pTerminal,
+    CupomEspelhoVendaCreate(pAppObj));
   FPDVVenda := pPDVVenda;
+end;
+
+procedure TImpressaoTextoPDVVenda.GereCabec;
+var
+  s: string;
+begin
+  inherited;
+  // s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
+  s := FPDVVenda.GetVendaCod;
+  PegueLinha(CenterStr(s, NCols));
 end;
 
 procedure TImpressaoTextoPDVVenda.GereItem(It: IPDVVendaItem);
@@ -42,8 +55,8 @@ var
   sQtd: string;
   sMascara: string;
 begin
-//  sLinha := '';
-//  OverwriteStringRight(sLinha, IntToStrZero(It.Ordem + 1, 3), 3);
+  // sLinha := '';
+  // OverwriteStringRight(sLinha, IntToStrZero(It.Ordem + 1, 3), 3);
   OverwriteStringRight(sLinha, (It.Prod.Id).ToString, 11);
 
   sLinha := IntToStrZero(It.Ordem + 1, 3);
@@ -65,26 +78,26 @@ begin
 
   sQtd := FormatFloat(sMascara, It.Qtd);
 
-  sLinha := ' '+sQtd+' x '+DinhToStr(it.PrecoUnit);
+  sLinha := ' ' + sQtd + ' x ' + DinhToStr(It.PrecoUnit);
 
-//  OverwriteStringRight(sLinha, sQtd, 10);
-//  OverwriteStringRight(sLinha, 'x', 12);
-//  OverwriteStringRight(sLinha, DinhToStr(it.PrecoUnit), 14);
+  // OverwriteStringRight(sLinha, sQtd, 10);
+  // OverwriteStringRight(sLinha, 'x', 12);
+  // OverwriteStringRight(sLinha, DinhToStr(it.PrecoUnit), 14);
   if It.Desconto >= 0.01 then
   begin
     sLinha := sLinha + ' - ' + DinhToStr(It.Desconto);
   end;
 
   while Length(sLinha) < NCols do
-    sLinha := slinha + '.';
+    sLinha := sLinha + '.';
 
-  OverwriteStringRight(sLinha, DinhToStr(it.Preco), NCols);
+  OverwriteStringRight(sLinha, DinhToStr(It.Preco), NCols);
   PegueLinha(sLinha);
 
-  if it.Cancelado then
+  if It.Cancelado then
     PegueLinha('     C A N C E L A D O')
   else
-    FTotalLiquido := FTotalLiquido + it.Preco;
+    FTotalLiquido := FTotalLiquido + It.Preco;
 
 end;
 
@@ -95,7 +108,7 @@ var
   sQtd: string;
   sMascara: string;
 begin
-  sLinha := Pag.PagamentoFormaTipoDescrRed+' '+Pag.PagamentoFormaDescr;
+  sLinha := Pag.PagamentoFormaTipoDescrRed + ' ' + Pag.PagamentoFormaDescr;
   OverwriteStringRight(sLinha, DinhToStr(Pag.ValorDevido), NCols);
   PegueLinha(sLinha);
   if Pag.Troco >= 0.01 then
@@ -127,7 +140,7 @@ begin
     inc(iQtdVolumes, oPDVVendaItem.QtdVolumes);;
   end;
 
-  sLinha := 'QTD.ITENS: '+iQtdVolumes.ToString;
+  sLinha := 'QTD.ITENS: ' + iQtdVolumes.ToString;
   PegueLinha(sLinha);
 
   PegueSeparador;
@@ -142,6 +155,11 @@ begin
     oVendaPag := FPDVVenda.VendaPagList[i];
     GerePag(oVendaPag);
   end;
+end;
+
+function TImpressaoTextoPDVVenda.GetDocTitulo: string;
+begin
+  Result := 'Cupom Venda ' + FPDVVenda.GetVendaCod;
 end;
 
 function TImpressaoTextoPDVVenda.GetDtDoc: TDateTime;

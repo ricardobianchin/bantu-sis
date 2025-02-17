@@ -28,7 +28,7 @@ type
   public
     // procedure Imprima; virtual;
 
-    constructor Create(pImpressoraNome, pDocTitulo: string; pAppObj: IAppObj;
+    constructor Create(pImpressoraNome: string; pAppObj: IAppObj;
       pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
     // destructor Destroy; override;
   end;
@@ -39,10 +39,10 @@ uses Sis.Types.strings_u, {System.DateUtils,} System.SysUtils, Sis.Types.Dates;
 
 { TImpressaoTextoPDV }
 
-constructor TImpressaoTextoPDV.Create(pImpressoraNome, pDocTitulo: string;
+constructor TImpressaoTextoPDV.Create(pImpressoraNome: string;
   pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
 begin
-  inherited Create(pImpressoraNome, pDocTitulo);
+  inherited Create(pImpressoraNome);
   FAppObj := pAppObj;
   FTerminal := pTerminal;
   FCupomEspelho := pCupomEspelho;
