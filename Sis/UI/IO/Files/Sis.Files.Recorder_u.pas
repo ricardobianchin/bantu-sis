@@ -11,7 +11,7 @@ type
     FPastaRaiz: string;
     FAssunto: string;
   public
-    procedure Gravar(pTexto: string; pDtH: TDateTime = 0);
+    procedure Gravar(pTexto: string; pDtH: TDateTime = 0; pAssunto: string = '');
 
     constructor Create(pPastaRaiz, pAssunto: string);
   end;
@@ -26,9 +26,10 @@ begin
   FAssunto := pAssunto;
 end;
 
-procedure TFIleRecorder.Gravar(pTexto: string; pDtH: TDateTime);
+procedure TFIleRecorder.Gravar(pTexto: string; pDtH: TDateTime; pAssunto: string);
 var
   sArqNome: string;
+  sAssunto: string;
   dtAgora: TDateTime;
 begin
   if pDtH = 0 then
@@ -36,10 +37,15 @@ begin
   else
     dtAgora :=  pDtH;
 
+  if pAssunto = '' then
+    sAssunto := pAssunto
+  else
+    sAssunto := FAssunto;
+
   sArqNome := FPastaRaiz + DateToPath(dtAgora);
   GarantirPasta(sArqNome);
 
-  sArqNome := sArqNome + FAssunto + ' ' + DateToNomeArq(dtAgora) + '.txt';
+  sArqNome := sArqNome + DateToNomeArq(dtAgora) + ' ' + sAssunto + '.txt';
   EscreverArquivo(pTexto, sArqNome);
 
   sArqNome := FPastaRaiz + 'Ultimo '+FAssunto + '.txt';
