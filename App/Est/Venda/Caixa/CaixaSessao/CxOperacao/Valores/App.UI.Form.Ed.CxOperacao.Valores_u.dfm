@@ -5,28 +5,20 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
   TextHeight = 15
   inherited MensLabel: TLabel
     Width = 578
-    ExplicitTop = 194
   end
   inherited ObjetivoLabel: TLabel
     Width = 578
   end
   inherited AlteracaoTextoLabel: TLabel
     Width = 578
-    ExplicitTop = 214
   end
   inherited BasePanel: TPanel
     Width = 578
-    ExplicitTop = 228
     ExplicitWidth = 574
-    inherited OkBitBtn_DiagBtn: TBitBtn
-      Glyph.Data = {00000000}
-    end
-    inherited CancelBitBtn_DiagBtn: TBitBtn
-      Glyph.Data = {00000000}
-    end
   end
   inherited MeioPanel: TPanel
     Width = 578
+    ExplicitWidth = 574
     inherited TrabPanel: TPanel
       Width = 578
       ExplicitWidth = 574
@@ -51,7 +43,19 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 32
-    Top = 16
+    Left = 424
+    Top = 32
+    object FDMemTable1Id: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'Id'
+    end
+    object FDMemTable1Descr: TStringField
+      DisplayLabel = 'Forma de Pagamento'
+      FieldName = 'Descr'
+      Size = 200
+    end
+    object FDMemTable1Valor: TCurrencyField
+      FieldName = 'Valor'
+    end
   end
 end

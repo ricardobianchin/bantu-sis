@@ -76,7 +76,7 @@ implementation
 
 uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
   {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,}
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.Types.strings_u;
 
 {$R *.dfm}
 { TCaixaSessaoDM }
@@ -147,8 +147,8 @@ begin
     q.Fields[0 { pIdChar } ].AsString //
     , q.Fields[1 { pName } ].AsString //
     , q.Fields[2 { pAbrev } ].AsString //
-    , AnsiUppercase(q.Fields[3 { pCaption } ].AsString) //
-    , q.Fields[4 { pHint } ].AsString //
+    , CapitalizeWords(q.Fields[3 { pCaption } ].AsString) //
+    , CapitalizeWords(q.Fields[4 { pHint } ].AsString) //
     , q.Fields[5 { pSinalNumerico } ].AsInteger //
     , q.Fields[6 { pHabilitadoDuranteSessao } ].AsBoolean //
     );

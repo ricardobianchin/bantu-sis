@@ -21,7 +21,7 @@ type
     function GetFieldValuesGravar: string; override;
   public
     function Ler: boolean; override;
-    procedure FecharPodeGet(out pPode: boolean; pMensagem: string);
+    procedure FecharPodeGet(out pPode: boolean; out pMensagem: string);
     constructor Create(pDBConnection: IDBConnection;
       pCxOperacaoEnt: ICxOperacaoEnt);
   end;
@@ -40,13 +40,18 @@ begin
   FCxOperacaoEnt := pCxOperacaoEnt;
 end;
 
-procedure TCxOperacaoDBI.FecharPodeGet(out pPode: boolean; pMensagem: string);
+procedure TCxOperacaoDBI.FecharPodeGet(out pPode: boolean;
+  out pMensagem: string);
+const
+  aMensagens: array [0 .. 3] of string = ('Mensagem não definida',
+    'Pode fechar o caixa', 'Não há Sessão de Caixa aberta',
+    'Há uma venda não finalizada');
 var
   sSql: string;
   oDBQuery: IDBQuery;
 begin
-  sSql := 'SELECT PODE, MENSAGEM'#13#10 //
-    + 'FROM CAIXA_SESSAO_MANUT_PA.FECHAR_PODE_GET;'#13#10 //
+  sSql := 'SELECT PODE, MENSAGEM_ID'#13#10 //
+    + 'FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;'#13#10 //
     ;
 
   DBConnection.Abrir;
@@ -56,7 +61,8 @@ begin
     oDBQuery.Abrir;
     try
       pPode := oDBQuery.Fields[0].AsBoolean;
-      pMensagem := oDBQuery.Fields[1].AsString;
+      pMensagem := 'Operação ''Fechar Sessão'' não pode ser executada. ' +
+        aMensagens[oDBQuery.Fields[1].AsInteger];
     finally
       oDBQuery.Fechar;
     end;
@@ -67,12 +73,12 @@ end;
 
 function TCxOperacaoDBI.GetFieldNamesListaGet: string;
 begin
-
+  Result := '';
 end;
 
 function TCxOperacaoDBI.GetFieldValuesGravar: string;
 begin
-
+  Result := '';
 end;
 
 function TCxOperacaoDBI.GetSqlInserirDoERetornaId: string;
@@ -116,7 +122,7 @@ end;
 
 function TCxOperacaoDBI.Ler: boolean;
 begin
-
+  Result := True;
 end;
 
 procedure TCxOperacaoDBI.RegAtualToEnt(Q: TDataSet);

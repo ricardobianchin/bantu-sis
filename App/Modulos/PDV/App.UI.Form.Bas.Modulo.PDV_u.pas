@@ -154,7 +154,7 @@ begin
     rDBConnectionParams, nil, nil);
 
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
-    pLogUsuario);
+    pLogUsuario, Self);
 
   FFrameAviso := PDVFrameAvisoCreate(Self, FPDVObj,
     'É necessário abrir o caixa', CaixaSessaoAbrirTentarAction);

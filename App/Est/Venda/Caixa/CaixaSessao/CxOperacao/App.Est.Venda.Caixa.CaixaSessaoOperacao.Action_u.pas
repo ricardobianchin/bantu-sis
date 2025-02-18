@@ -6,8 +6,9 @@ uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
-  App.UI.Form.Ed.CxOperacao.UmValor_u, App.AppObj,
-  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao, App.PDV.Controlador;
+  App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
+  App.AppObj, App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao,
+  App.PDV.Controlador;
 
 type
   TCxOperacaoAction = class(TAction)
@@ -40,13 +41,13 @@ type
       pCxOperacaoDBI: ICxOperacaoDBI; //
       pAppObj: IAppObj; //
       pCxValorDBI: ICxValorDBI; //
-      pPDVControlador: IPDVControlador
-      ); reintroduce;
+      pPDVControlador: IPDVControlador); reintroduce;
   end;
 
 implementation
 
-uses Vcl.Dialogs, Data.DB, forms, System.SysUtils, Sis.Types.Bool_u;
+uses Vcl.Dialogs, Data.DB, forms, System.SysUtils, Sis.Types.Bool_u,
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 { TCxOperacaoAction }
 
@@ -64,8 +65,7 @@ constructor TCxOperacaoAction.Create( //
   pCxOperacaoDBI: ICxOperacaoDBI; //
   pAppObj: IAppObj; //
   pCxValorDBI: ICxValorDBI; //
-  pPDVControlador: IPDVControlador
-  );
+  pPDVControlador: IPDVControlador);
 begin
   inherited Create(AOwner);
   FAppObj := pAppObj;
@@ -85,9 +85,32 @@ end;
 
 function TCxOperacaoAction.CxOperacaoEdFormCreate: TCxOperacaoEdForm;
 begin
+  case FCxOperacaoEnt.CxOperacaoTipo.Id of
+    cxopNaoIndicado:
+      ;
+    cxopAbertura //
+      , cxopSangria //
+      , cxopSuprimento: //
+      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
+        FCxOperacaoDBI, FCxValorDBI);
 
-  Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
-    FCxOperacaoDBI, FCxValorDBI);
+    cxopFechamento: //
+      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
+        FCxOperacaoDBI, FCxValorDBI);
+
+    cxopVale: //
+      ;
+    cxopDespesa: //
+      ;
+    cxopConvenio: //
+      ;
+    cxopCrediario: //
+      ;
+    cxopDevolucao: //
+      ;
+    cxopVenda: //
+      ;
+  end;
 
   // Result.Parent := Application.MainForm;
   // Result.Align :=alclient;
@@ -127,7 +150,7 @@ var
 begin
   if FCxOperacaoTipo.Id = cxopFechamento then
   begin
-    FCxOperacaoTipoDBI.FecharPodeGet(Result, sMensagem);
+    FCxOperacaoDBI.FecharPodeGet(Result, sMensagem);
     if not Result then
     begin
       raise Exception.Create(sMensagem);
@@ -139,7 +162,7 @@ begin
   H := FCxOperacaoTipo.HabilitadoDuranteSessao;
 
   // Aplicando a tabela verdade diretamente
-  Result := not (A xor H);
+  Result := not(A xor H);
 
   if Result then
     exit;

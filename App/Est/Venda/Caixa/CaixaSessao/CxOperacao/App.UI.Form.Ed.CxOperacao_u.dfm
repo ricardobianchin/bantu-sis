@@ -1,11 +1,10 @@
 inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
-  ClientHeight = 267
   ClientWidth = 582
   ExplicitWidth = 594
+  ExplicitHeight = 305
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 195
     Width = 582
   end
   inherited ObjetivoLabel: TLabel
@@ -23,11 +22,9 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 215
     Width = 582
   end
   inherited BasePanel: TPanel
-    Top = 230
     Width = 582
     ExplicitTop = 229
     ExplicitWidth = 578
