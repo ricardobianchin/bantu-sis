@@ -42,5 +42,9 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
       Caption = 'Abrir o Caixa'
       OnExecute = CaixaSessaoAbrirTentarActionExecute
     end
+    object CxOperacaoAction: TAction
+      Caption = 'Opera'#231#245'es de Caixa'
+      OnExecute = CxOperacaoActionExecute
+    end
   end
 end

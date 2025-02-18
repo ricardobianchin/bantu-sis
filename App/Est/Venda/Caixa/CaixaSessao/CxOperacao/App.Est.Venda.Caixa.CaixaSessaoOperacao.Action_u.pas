@@ -7,7 +7,7 @@ uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
   App.UI.Form.Ed.CxOperacao.UmValor_u, App.AppObj,
-  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao;
+  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao, App.PDV.Controlador;
 
 type
   TCxOperacaoAction = class(TAction)
@@ -19,6 +19,8 @@ type
     FCxOperacaoDBI: ICxOperacaoDBI;
     FAppObj: IAppObj;
     FCxValorDBI: ICxValorDBI;
+    FPDVControlador: IPDVControlador;
+
     procedure Exec(Sender: TObject);
     function PodeExec: Boolean;
   protected
@@ -37,13 +39,14 @@ type
       pCxOperacaoEnt: ICxOperacaoEnt; //
       pCxOperacaoDBI: ICxOperacaoDBI; //
       pAppObj: IAppObj; //
-      pCxValorDBI: ICxValorDBI //
+      pCxValorDBI: ICxValorDBI; //
+      pPDVControlador: IPDVControlador
       ); reintroduce;
   end;
 
 implementation
 
-uses Vcl.Dialogs, Data.DB, forms, System.SysUtils;
+uses Vcl.Dialogs, Data.DB, forms, System.SysUtils, Sis.Types.Bool_u;
 
 { TCxOperacaoAction }
 
@@ -60,7 +63,8 @@ constructor TCxOperacaoAction.Create( //
   pCxOperacaoEnt: ICxOperacaoEnt; //
   pCxOperacaoDBI: ICxOperacaoDBI; //
   pAppObj: IAppObj; //
-  pCxValorDBI: ICxValorDBI //
+  pCxValorDBI: ICxValorDBI; //
+  pPDVControlador: IPDVControlador
   );
 begin
   inherited Create(AOwner);
@@ -71,6 +75,7 @@ begin
   FCxOperacaoEnt := pCxOperacaoEnt;
   FCxOperacaoDBI := pCxOperacaoDBI;
   FCxValorDBI := pCxValorDBI;
+  FPDVControlador := pPDVControlador;
 
   Name := 'CxOperacao' + FCxOperacaoTipo.Name + 'Ins';
   Caption := FCxOperacaoTipo.Caption;
@@ -99,6 +104,7 @@ begin
   f := CxOperacaoEdFormCreate;
   f.Perg;
   f.Free;
+  FPDVControlador.DecidirPrimeroFrameAtivo;
 end;
 
 procedure TCxOperacaoAction.ExecuteTarget(Target: TObject);
@@ -115,67 +121,32 @@ function TCxOperacaoAction.PodeExec: Boolean;
 var
   sErro: string;
   c: string;
+  A, H: Boolean;
+  status: string;
+  sMensagem: string;
 begin
-  c := QuotedStr(FCxOperacaoTipo.Caption);
-
-  if FCaixaSessao.Aberto then
+  if FCxOperacaoTipo.Id = cxopFechamento then
   begin
-    if FCxOperacaoTipo.HabilitadoDuranteSessao then
+    FCxOperacaoTipoDBI.FecharPodeGet(Result, sMensagem);
+    if not Result then
     begin
-      Result := True;
-    end
-    else
-    begin
-      Result := False;
-      sErro := 'Operação ' + c + ' não pode ser executada com Caixa aberto';
-    end;
-  end
-  else
-  begin
-    if FCxOperacaoTipo.HabilitadoDuranteSessao then
-    begin
-      Result := False;
-      sErro := 'Operação ' + c + ' não pode ser executada com Caixa fechado';
-    end
-    else
-    begin
-      Result := True;
+      raise Exception.Create(sMensagem);
     end;
   end;
+
+  c := QuotedStr(FCxOperacaoTipo.Caption);
+  A := FCaixaSessao.Aberto;
+  H := FCxOperacaoTipo.HabilitadoDuranteSessao;
+
+  // Aplicando a tabela verdade diretamente
+  Result := not (A xor H);
 
   if Result then
     exit;
 
+  status := Iif(A, 'aberto', 'fechado');
+  sErro := 'Operação ' + c + ' não pode ser executada com Caixa ' + status;
   raise Exception.Create(sErro);
-
-(*
-  Result := FCaixaSessao.Aberto = FCxOperacaoTipo.HabilitadoDuranteSessao;
-
-
-  var
-  a, h: Boolean;
-
-  a := FCaixaSessao.Aberto;
-  h := FCxOperacaoTipo.HabilitadoDuranteSessao;
-
-  Result := (a and h) or ( (not a) and (not h));
-
-  Result := not (a xor h);
-
-  Result := (not FCaixaSessao.Aberto and
-    not FCxOperacaoTipo.HabilitadoDuranteSessao) or
-    (FCaixaSessao.Aberto and FCxOperacaoTipo.HabilitadoDuranteSessao);
-
-  Result := not (FCaixaSessao.Aberto xor FCxOperacaoTipo.HabilitadoDuranteSessao);
-
-|FCaixaSessao.Aberto|FCxOperacaoTipo.HabilitadoDuranteSessao|Result|
-|-|-|-|
-|False|False|True|
-|False|True|False|
-|True|False|False|
-|True|True|True|
-
-  *)
 end;
 
 end.

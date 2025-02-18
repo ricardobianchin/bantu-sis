@@ -1,9 +1,11 @@
 inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
+  ClientHeight = 267
   ClientWidth = 582
   ExplicitWidth = 594
   TextHeight = 15
   inherited MensLabel: TLabel
+    Top = 195
     Width = 582
   end
   inherited ObjetivoLabel: TLabel
@@ -21,9 +23,11 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
+    Top = 215
     Width = 582
   end
   inherited BasePanel: TPanel
+    Top = 230
     Width = 582
     ExplicitTop = 229
     ExplicitWidth = 578
@@ -31,16 +35,16 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
       582
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 147
-      ExplicitLeft = 143
+      Left = 143
+      ExplicitLeft = 139
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 260
-      ExplicitLeft = 256
+      Left = 256
+      ExplicitLeft = 252
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 361
-      ExplicitLeft = 357
+      Left = 357
+      ExplicitLeft = 353
     end
   end
   object MeioPanel: TPanel [4]
@@ -63,7 +67,7 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
       BevelOuter = bvNone
       Caption = '  '
       TabOrder = 0
-      ExplicitWidth = 339
+      ExplicitWidth = 578
       ExplicitHeight = 177
       object ObsPanel: TPanel
         Left = 0
@@ -75,7 +79,7 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
         Caption = '  '
         TabOrder = 0
         ExplicitTop = 94
-        ExplicitWidth = 339
+        ExplicitWidth = 578
         object Label2: TLabel
           Left = 0
           Top = 0
@@ -92,15 +96,10 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
           Height = 68
           Align = alClient
           BorderStyle = bsNone
-          Lines.Strings = (
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do '
-            'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut '
-            'enim ad minim veniam, quis nostrud exercitation ullamco '
-            'exercit ati')
           MaxLength = 200
           TabOrder = 0
           WantReturns = False
-          ExplicitWidth = 339
+          ExplicitWidth = 578
         end
       end
     end

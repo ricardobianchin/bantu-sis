@@ -7,7 +7,7 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
   App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
   App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca,
-  App.PDV.UI.Balanca.VendaForm_u;
+  App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -28,8 +28,13 @@ function BalancaCreate(pBalancaVendaForm: TBalancaVendaForm = nil): IBalanca;
 
 // function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
 function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
-function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
+function ImpressaoTextoVendaCreate(pImpressoraNome: string;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
+
+function CupomEspelhoCxOperacaoCreate(pAppObj: IAppObj): ICupomEspelho;
+function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
+  pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
+
 
 implementation
 
@@ -47,6 +52,8 @@ uses System.SysUtils, App.PDV.VendaPag.List_u, Sis.UI.IO.Files
 
     , App.PDV.UI.Balanca.VendaForm.Teste_u //
     , App.PDV.UI.Balanca.VendaForm.Acbr_u, System.IniFiles //
+
+    , App.PDV.ImpressaoTextoCxOperacao_u //
     ;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
@@ -103,10 +110,10 @@ begin
   Result := TCupomEspelho.Create(pAppObj, 'Venda');
 end;
 
-function ImpressaoTextoVendaCreate(pImpressoraNome, pDocTitulo: string;
+function ImpressaoTextoVendaCreate(pImpressoraNome: string;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
 begin
-  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pDocTitulo, pAppObj,
+  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pAppObj,
     pTerminal, pPDVVenda);
 end;
 
@@ -149,6 +156,18 @@ end;
 function BalancaCreate(pBalancaVendaForm: TBalancaVendaForm): IBalanca;
 begin
   Result := TBalanca.Create(pBalancaVendaForm);
+end;
+
+function CupomEspelhoCxOperacaoCreate(pAppObj: IAppObj): ICupomEspelho;
+begin
+  Result := TCupomEspelho.Create(pAppObj, 'Operacao de Caixa');
+end;
+
+function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
+  pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
+begin
+  Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pAppObj,
+    pTerminal, pCxOperacaoEnt);
 end;
 
 end.

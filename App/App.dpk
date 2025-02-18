@@ -394,6 +394,8 @@ contains
   App.PDV.UI.Balanca_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca_u.pas',
   App.PDV.UI.Balanca.VendaForm_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm_u.pas' {BalancaVendaForm},
   App.PDV.UI.Balanca.VendaForm.Teste_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Teste_u.pas' {BalancaTesteVendaForm},
-  App.PDV.UI.Balanca.VendaForm.Acbr_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas' {BalancaAcbrVendaForm};
+  App.PDV.UI.Balanca.VendaForm.Acbr_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas' {BalancaAcbrVendaForm},
+  App.PDV.ImpressaoTextoCxOperacao_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoCxOperacao_u.pas',
+  App.UI.Form.Ed.CxOperacao.Valores_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\Valores\App.UI.Form.Ed.CxOperacao.Valores_u.pas' {CxOperValoresEdForm};
 
 end.

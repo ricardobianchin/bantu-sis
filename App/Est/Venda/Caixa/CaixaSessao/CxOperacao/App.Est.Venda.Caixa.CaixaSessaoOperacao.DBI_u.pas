@@ -21,6 +21,7 @@ type
     function GetFieldValuesGravar: string; override;
   public
     function Ler: boolean; override;
+    procedure FecharPodeGet(out pPode: boolean; pMensagem: string);
     constructor Create(pDBConnection: IDBConnection;
       pCxOperacaoEnt: ICxOperacaoEnt);
   end;
@@ -28,7 +29,7 @@ type
 implementation
 
 uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats,
-  Sis.Win.Utils_u;
+  Sis.Win.Utils_u, Sis.DB.Factory;
 
 { TCxOperacaoDBI }
 
@@ -37,6 +38,31 @@ constructor TCxOperacaoDBI.Create(pDBConnection: IDBConnection;
 begin
   inherited Create(pDBConnection, pCxOperacaoEnt);
   FCxOperacaoEnt := pCxOperacaoEnt;
+end;
+
+procedure TCxOperacaoDBI.FecharPodeGet(out pPode: boolean; pMensagem: string);
+var
+  sSql: string;
+  oDBQuery: IDBQuery;
+begin
+  sSql := 'SELECT PODE, MENSAGEM'#13#10 //
+    + 'FROM CAIXA_SESSAO_MANUT_PA.FECHAR_PODE_GET;'#13#10 //
+    ;
+
+  DBConnection.Abrir;
+  try
+    oDBQuery := DBQueryCreate('cxoper.fecharpode.q', DBConnection, sSql,
+      nil, nil);
+    oDBQuery.Abrir;
+    try
+      pPode := oDBQuery.Fields[0].AsBoolean;
+      pMensagem := oDBQuery.Fields[1].AsString;
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 function TCxOperacaoDBI.GetFieldNamesListaGet: string;
@@ -67,50 +93,25 @@ begin
     + '('#13#10 //
 
     + '  ' + Ent.CaixaSessao.LojaId.ToString //
-    + ' -- LOJA_ID ID_SHORT_DOM NOT NULL'#13#10 //
-
     + '  , ' + Ent.CaixaSessao.TerminalId.ToString //
-    + ' -- TERMINAL_ID ID_SHORT_DOM'#13#10 //
-
     + '  , ' + Ent.CaixaSessao.Id.ToString //
-    + ' -- SESS_ID ID_DOM'#13#10 //
-
     + '  , ' + Ent.OperOrdem.ToString //
-    + ' -- OPER_ORDEM SMALLINT'#13#10 //
-
     + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant //
-    + ' -- OPER_TIPO_ID ID_CHAR_DOM'#13#10 //
-
     + '  , ' + Ent.LogId.ToString //
-    + ' -- OPER_LOG_ID BIGINT'#13#10 //
-
     + '  , ' + Ent.OperTipoOrdem.ToString //
-    + ' -- OPER_TIPO_ORDEM SMALLINT'#13#10 //
-
     + '  , ' + CurrencyToStrPonto(Ent.Valor) //
-    + ' -- VALOR PRECO_DOM Not Null'#13#10 //
-
     + '  , ' + QuotedStr(Ent.obs) //
-    + ' -- OBS OBS_DOM'#13#10 //
 
     + '  , ' + Ent.CaixaSessao.LogUsuario.Id.ToString //
-    + ' -- LOG_PESSOA_ID ID_DOM'#13#10 //
-
     + '  , ' + Ent.CaixaSessao.MachineIdentId.ToString //
-    + ' -- MACHINE_ID ID_SHORT_'#13#10 //
-
     + '  , ' + QuotedStr(Ent.CxValorList.AsList) //
-    + ' -- PAGAMENTO_LIST VARCHAR(300)'#13#10 //
-
     + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) //
-    + ' -- NUMERARIO_LIST VARCHAR(300)'#13#10 //
-
     + ');' //
     ;
 
-//{$IFDEF DEBUG}
-//  CopyTextToClipboard(Result);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
 end;
 
 function TCxOperacaoDBI.Ler: boolean;

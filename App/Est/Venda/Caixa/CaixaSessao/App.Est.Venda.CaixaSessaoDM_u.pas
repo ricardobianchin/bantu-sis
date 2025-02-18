@@ -13,16 +13,15 @@ uses
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.List,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent
-  , App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u,
-  App.Est.Venda.Caixa.CxValor.DBI
-    ;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Action_u,
+  App.Est.Venda.Caixa.CxValor.DBI, App.PDV.Controlador;
 
 type
   /// <summary>
-  ///  AnaliseCaixa;
-  ///  deve analisar o ambiente
-  ///  detectar como estão a abertura de caixa, se tem venda interrompida...
+  /// AnaliseCaixa;
+  /// deve analisar o ambiente
+  /// detectar como estão a abertura de caixa, se tem venda interrompida...
   /// </summary>
   TCaixaSessaoDM = class(TDataModule)
     CaixaSessaoActionList: TActionList;
@@ -49,6 +48,7 @@ type
 
     FCaixaSessaoSituacao: TCaixaSessaoSituacao;
     FCxOperacaoTipoList: ICxOperacaoTipoList;
+    FPDVControlador: IPDVControlador;
 
     procedure CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
   protected
@@ -63,8 +63,8 @@ type
     function GetAction(pCxOpTipo: TCxOpTipo): TAction;
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
-      pTerminalId: TTerminalId; pLogUsuario: IUsuario);
-      reintroduce;
+      pTerminalId: TTerminalId; pLogUsuario: IUsuario;
+      pPDVControlador: IPDVControlador); reintroduce;
   end;
 
 var
@@ -75,14 +75,15 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
-  {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,} App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
+  {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,}
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
 
 {$R *.dfm}
-
 { TCaixaSessaoDM }
 
 constructor TCaixaSessaoDM.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pTerminalId: TTerminalId; pLogUsuario: IUsuario);
+  pTerminalId: TTerminalId; pLogUsuario: IUsuario;
+  pPDVControlador: IPDVControlador);
 var
   rDBConnectionParams: TDBConnectionParams;
 begin
@@ -90,6 +91,7 @@ begin
   FAppObj := pAppObj;
   FLogUsuario := pLogUsuario;
   FTerminalId := pTerminalId;
+  FPDVControlador := pPDVControlador;
   if FTerminalId = 0 then
   begin
     FTerminal := nil;
@@ -124,10 +126,10 @@ end;
 procedure TCaixaSessaoDM.CxOperacaoActionListExecute(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  if action is TCxOperacaoAction then
+  if Action is TCxOperacaoAction then
   begin
     TCxOperacaoAction(Action).CxOperacaoEnt.LimparEnt;
-    Handled:= False;
+    Handled := False;
   end;
 end;
 
@@ -145,7 +147,7 @@ begin
     q.Fields[0 { pIdChar } ].AsString //
     , q.Fields[1 { pName } ].AsString //
     , q.Fields[2 { pAbrev } ].AsString //
-    , q.Fields[3 { pCaption } ].AsString //
+    , AnsiUppercase(q.Fields[3 { pCaption } ].AsString) //
     , q.Fields[4 { pHint } ].AsString //
     , q.Fields[5 { pSinalNumerico } ].AsInteger //
     , q.Fields[6 { pHabilitadoDuranteSessao } ].AsBoolean //
@@ -156,8 +158,9 @@ begin
   oCxOperacaoDBI := CxOperacaoDBICreate(FAlvoDBConnection, oCxOperacaoEnt);
   oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
 
-  o.Action := CxOperacaoActionCreate(CxOperacaoActionList, o,
-    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, oCxValorDBI);
+  o.Action := CxOperacaoActionCreate(CxOperacaoActionList, FCaixaSessao, o,
+    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, oCxValorDBI,
+    FPDVControlador);
 end;
 
 function TCaixaSessaoDM.GetAction(pCxOpTipo: TCxOpTipo): TAction;

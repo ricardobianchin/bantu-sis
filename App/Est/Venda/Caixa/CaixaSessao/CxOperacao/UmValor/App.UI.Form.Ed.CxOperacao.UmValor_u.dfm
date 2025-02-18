@@ -43,16 +43,16 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     ExplicitTop = 419
     ExplicitWidth = 784
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 325
-      ExplicitLeft = 321
+      Left = 321
+      ExplicitLeft = 317
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 438
-      ExplicitLeft = 434
+      Left = 434
+      ExplicitLeft = 430
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 539
-      ExplicitLeft = 535
+      Left = 535
+      ExplicitLeft = 531
     end
   end
   inherited MeioPanel: TPanel
@@ -72,7 +72,7 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
         Top = 0
         Width = 788
         Height = 272
-        ActivePage = NumerarioTabSheet
+        ActivePage = ValorTabSheet
         Align = alClient
         TabOrder = 0
         OnChange = TrabPageControlChange
