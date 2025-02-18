@@ -26,6 +26,7 @@ type
     FSisConfig: ISisConfig;
     FProcessLog: IProcessLog;
     FOutput: IOutput;
+    FMudoOutput: IOutput;
     FDBMS: IDBMS;
     FiVersao: integer;
     FCaminhoComandos: string;
@@ -33,6 +34,7 @@ type
     FDtHExec: TDateTime;
     FSqlDestinoSL: TStringList;
     FsAssunto: string;
+    FNomeArqBanco: string;
     FsVersaoObjetivo: string;
 
     FsDBAtualizPontoAlvo: string;
@@ -115,6 +117,8 @@ type
     property SisConfig: ISisConfig read FSisConfig;
     property ProcessLog: IProcessLog read FProcessLog;
     property output: IOutput read FOutput;
+    property MudoOutput: IOutput read FMudoOutput;
+
     property dbms: IDBMS read FDBMS;
     property iVersao: integer read FiVersao write SetiVersao;
 
@@ -184,7 +188,8 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.DB.Updater_u_GetStrings, Sis.DB.Updater.Comando, Sis.Types.strings_u,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
   Sis.Win.Utils_u, Sis.ui.io.Files, Sis.Win.Execute, Sis.Win.Factory,
-  Sis.DB.Updater.Diretivas_u, Sis.Types.Bool_u, Sis.Terminal.Factory_u;
+  Sis.DB.Updater.Diretivas_u, Sis.Types.Bool_u, Sis.Terminal.Factory_u,
+  Sis.ui.io.Factory;
 
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
@@ -206,10 +211,13 @@ begin
   FPastaProduto := pPastaProduto;
   FSqlDestinoSL := TStringList.Create;
   FDBConnectionParams := pDBConnectionParams;
+  FNomeArqBanco := ExtractFileName(FDBConnectionParams.Arq);
   FSisConfig := pSisConfig;
   FProcessLog := pProcessLog;
   FOutput := pOutput;
+  FMudoOutput := MudoOutputCreate;
   FDBMS := pDBMS;
+
   FLoja := pLoja;
   FUsuarioAdmin := pUsuarioAdmin;
 
@@ -745,7 +753,7 @@ begin
           oComando.UltimoErro;
         // Sis.ui.io.output.exibirpausa.form_u.Exibir(sMensagemErro,
         // TMsgDlgType.mtError);
-        FProcessLog.PegueLocal(sMensagemErro);
+        FProcessLog.RegistreLog(sMensagemErro);
         raise Exception.Create(sMensagemErro);
       end;
     end;
@@ -772,9 +780,9 @@ begin
     sSql := FSqlDestinoSL.Text;
     sNomeBanco := FDBConnectionParams.GetNomeBanco;
     sPastaComandos := FPastaProduto + 'Comandos\Updater\';
-
-    dbms.ExecInterative(sAssunto, sSql, sNomeBanco, sPastaComandos,
-      FProcessLog, FOutput);
+    FOutput.Exibir(FNomeArqBanco + ' ' + sAssunto);
+    dbms.ExecInterative(sAssunto, sSql, sNomeBanco, sPastaComandos, FProcessLog,
+      FMudoOutput);
   finally
     FProcessLog.RetorneLocal;
   end;
