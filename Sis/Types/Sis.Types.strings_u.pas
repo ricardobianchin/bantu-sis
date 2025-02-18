@@ -43,6 +43,8 @@ procedure StrGarantirTermino(var pStr: string; const pTermino: string);
 function IsDigit(c: Char): boolean;
 procedure AjusteAsciiCodeToChar(var pStr: string);
 
+function CapitalizeWords(pStr: string): string;
+
 function TruncSnakeCase(pIdentifier: string;
   pMaxIdentifierLenght: integer): string;
 // function ArrayToSnakeCase(pPalavras: TArray<string>): string;
@@ -69,12 +71,15 @@ function ConvertHTMLChars(pStr: string): string;
 function ClassNameToNome(pClassName: string;
   pDeleteLastWord: boolean = True): string;
 
-procedure EnsureStringFixedLength(var aStr: string; aLength: Integer);
-procedure EnsureStringMinimalLength(var aStr: string; aLength: Integer);
-procedure OverwriteString(var aTargetStr: string; const aSourceStr: string; pStartPos: Integer);
-procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string; aEndPos: Integer);
-//procedure CenterStr(var aTarget: string; aWidth: integer; aFillChar: char = #32; aAddAtEnd: Boolean = False); overload;
-function CenterStr(aTarget: string; aWidth: integer; aFillChar: char = #32; aAddAtEnd: Boolean = False): string; overload;
+procedure EnsureStringFixedLength(var aStr: string; aLength: integer);
+procedure EnsureStringMinimalLength(var aStr: string; aLength: integer);
+procedure OverwriteString(var aTargetStr: string; const aSourceStr: string;
+  pStartPos: integer);
+procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string;
+  aEndPos: integer);
+// procedure CenterStr(var aTarget: string; aWidth: integer; aFillChar: char = #32; aAddAtEnd: Boolean = False); overload;
+function CenterStr(aTarget: string; aWidth: integer; aFillChar: Char = #32;
+  aAddAtEnd: boolean = False): string; overload;
 
 // function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
@@ -83,9 +88,11 @@ implementation
 uses System.StrUtils, System.Variants, System.Classes;
 
 const
-  Imprimiveis = ('0123456789_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+  Imprimiveis =
+    ('0123456789_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' +
     '¡·¿‡√„¬‚…È»Ë ÍÕÌ”Û’ı‘Ù⁄˙«Á');
-  SubstSemAcento = ('0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+  SubstSemAcento =
+    ('0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ' +
     'AaAaAaAaEeEeEeIiOoOoOoUuCc');
 
   VALID_FILENAME_CHARS: TSysCharSet = ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_',
@@ -131,7 +138,7 @@ begin
   begin
     if not CharIsOnlyDigit(sStr[i]) then
     begin
-      Result := false;
+      Result := False;
       break;
     end;
   end;
@@ -213,7 +220,7 @@ begin
   for c in filename do
     if not IsWindowsFilenameChar(c) then
     begin
-      Result := false;
+      Result := False;
       break;
     end;
 end;
@@ -393,6 +400,59 @@ begin
     if Result <> '' then
       Result := Result + '_';
     Result := Result + pPalavras[i];
+  end;
+end;
+
+function CapitalizeWords(pStr: string): string;
+const
+  Conectores = '/È/e/o/a/os/as/um/uma/uns/umas/de/da/do/das/dos/em/na' +
+    '/no/nas/nos/por/sem/sob/';
+var
+  aPalavras: TArray<string>;
+  i: integer;
+  NewSentence: boolean;
+  sPalavra: string;
+  p: integer;
+begin
+  pStr := AnsiLowerCase(pStr);
+
+  NewSentence := True;
+  i := 1;
+
+  while i <= Length(pStr) do
+  begin
+    if NewSentence and (pStr[i] <> ' ') then
+    begin
+      pStr[i] := AnsiUpperCase(pStr[i])[1];
+      NewSentence := False;
+    end;
+
+    if CharInSet(pStr[i], ['.', ';', '?', '!']) then
+      NewSentence := True;
+
+    Inc(i);
+  end;
+
+  aPalavras := pStr.Split([' ']);
+
+  for i := 0 to Length(aPalavras) - 1 do
+  begin
+    sPalavra := aPalavras[i];
+    p := Pos('/'+sPalavra+'/', Conectores);
+    if p = 0 then
+    begin
+      sPalavra[1] := AnsiUpperCase(sPalavra[1])[1];
+      aPalavras[i] := sPalavra;
+    end;
+  end;
+
+  Result := '';
+
+  for i := 0 to Length(aPalavras) - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + ' ';
+    Result := Result + aPalavras[i];
   end;
 end;
 
@@ -592,7 +652,7 @@ var
   i: integer;
   c: Char;
 begin
-  Result := false;
+  Result := False;
   for c in Chars do
   begin
     for i := 1 to Length(Str) do
@@ -682,7 +742,7 @@ function ClassNameToNome(pClassName: string;
 var
   i: integer;
   Words: TStringList;
-  //CurrentWord: string;
+  // CurrentWord: string;
 begin
   Result := '';
 
@@ -697,8 +757,8 @@ begin
     while i <= Length(pClassName) do
     begin
       if (i > 1) and ((CharInSet(pClassName[i], ['A' .. 'Z']) and
-        CharInSet(pClassName[i - 1], ['a' .. 'z'])) or CharInSet(pClassName[i], ['0' .. '9']))
-      then
+        CharInSet(pClassName[i - 1], ['a' .. 'z'])) or CharInSet(pClassName[i],
+        ['0' .. '9'])) then
       begin
         Words.Add(Copy(pClassName, 1, i - 1));
         pClassName := Copy(pClassName, i, Length(pClassName) - i + 1);
@@ -719,7 +779,7 @@ begin
   end;
 end;
 
-procedure EnsureStringFixedLength(var aStr: string; aLength: Integer);
+procedure EnsureStringFixedLength(var aStr: string; aLength: integer);
 begin
   if Length(aStr) < aLength then
     aStr := aStr + StringOfChar(' ', aLength - Length(aStr))
@@ -727,24 +787,26 @@ begin
     aStr := Copy(aStr, 1, aLength);
 end;
 
-procedure EnsureStringMinimalLength(var aStr: string; aLength: Integer);
+procedure EnsureStringMinimalLength(var aStr: string; aLength: integer);
 begin
   if Length(aStr) < aLength then
     aStr := aStr + StringOfChar(' ', aLength - Length(aStr));
 end;
 
-procedure OverwriteString(var aTargetStr: string; const aSourceStr: string; pStartPos: Integer);
+procedure OverwriteString(var aTargetStr: string; const aSourceStr: string;
+  pStartPos: integer);
 var
-  i: Integer;
+  i: integer;
 begin
   EnsureStringMinimalLength(aTargetStr, pStartPos + Length(aSourceStr) - 1);
   for i := 1 to Length(aSourceStr) do
     aTargetStr[pStartPos + i - 1] := aSourceStr[i];
 end;
 
-procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string; aEndPos: Integer);
+procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string;
+  aEndPos: integer);
 var
-  StartPos, i: Integer;
+  StartPos, i: integer;
 begin
   StartPos := aEndPos - Length(aSourceStr) + 1;
   EnsureStringMinimalLength(aTargetStr, aEndPos);
@@ -752,34 +814,35 @@ begin
     aTargetStr[StartPos + i - 1] := aSourceStr[i];
 end;
 
-//procedure CenterStr(var aTarget: string; aWidth: integer; aFillChar: char; aAddAtEnd: Boolean);
-//var
-//  iPadding: integer;
-//  L: integer;
-//begin
-//  aTarget := Trim(aTarget);
+// procedure CenterStr(var aTarget: string; aWidth: integer; aFillChar: char; aAddAtEnd: Boolean);
+// var
+// iPadding: integer;
+// L: integer;
+// begin
+// aTarget := Trim(aTarget);
 //
-//  L := Length(aTarget);
-//  if L = aWidth then
-//    exit;
+// L := Length(aTarget);
+// if L = aWidth then
+// exit;
 //
-//  if L > aWidth then
-//  begin
-//    SetLength(aTarget, aWidth);
-//    exit;
-//  end;
+// if L > aWidth then
+// begin
+// SetLength(aTarget, aWidth);
+// exit;
+// end;
 //
-//  iPadding := (aWidth - L) div 2;
-//  aTarget := StringOfChar(aFillChar, iPadding) + aTarget;
+// iPadding := (aWidth - L) div 2;
+// aTarget := StringOfChar(aFillChar, iPadding) + aTarget;
 //
-//  if aAddAtEnd then
-//  begin
-//    L := Length(aTarget);
-//    aTarget := aTarget + StringOfChar(aFillChar, aWidth - L - iPadding);
-//  end;
-//end;
+// if aAddAtEnd then
+// begin
+// L := Length(aTarget);
+// aTarget := aTarget + StringOfChar(aFillChar, aWidth - L - iPadding);
+// end;
+// end;
 
-function CenterStr(aTarget: string; aWidth: integer; aFillChar: char; aAddAtEnd: Boolean): string;
+function CenterStr(aTarget: string; aWidth: integer; aFillChar: Char;
+  aAddAtEnd: boolean): string;
 var
   iPadding: integer;
   L: integer;
