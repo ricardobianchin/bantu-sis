@@ -105,7 +105,7 @@ end;
 
 function TCxOperacaoEnt.GetNomeEnt: string;
 begin
-  Result := 'Operação de Caixa ' + FCxOperacaoTipo.Caption;
+  Result := 'Operação de Caixa - ' + FCxOperacaoTipo.Caption;
 end;
 
 function TCxOperacaoEnt.GetNomeEntAbrev: string;

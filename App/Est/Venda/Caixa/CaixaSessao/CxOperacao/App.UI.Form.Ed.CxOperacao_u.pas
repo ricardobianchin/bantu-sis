@@ -79,9 +79,10 @@ constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
-  Height := Min(1000, Screen.WorkAreaRect.Height - 10);
-  Width := 900;
+  FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
 
+  Height := Min(600, Screen.WorkAreaRect.Height - 10);
+  Width := 800;
 end;
 
 function TCxOperacaoEdForm.DadosOk: boolean;

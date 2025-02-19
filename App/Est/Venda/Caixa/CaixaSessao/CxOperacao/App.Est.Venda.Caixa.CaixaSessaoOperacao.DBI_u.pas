@@ -6,7 +6,7 @@ uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Classes,
   System.Variants, Sis.Types.Integers,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Ent.DBI_u,
-  Sis.Entities.Types;
+  Sis.Entities.Types, FireDAC.Comp.Client;
 
 type
   TCxOperacaoDBI = class(TEntDBI, ICxOperacaoDBI)
@@ -24,6 +24,7 @@ type
     procedure FecharPodeGet(out pPode: boolean; out pMensagem: string);
     constructor Create(pDBConnection: IDBConnection;
       pCxOperacaoEnt: ICxOperacaoEnt);
+    procedure PreencherPagamentoFormaDataSet(pDMemTable1: TFDMemTable);
   end;
 
 implementation
@@ -123,6 +124,45 @@ end;
 function TCxOperacaoDBI.Ler: boolean;
 begin
   Result := True;
+end;
+
+procedure TCxOperacaoDBI.PreencherPagamentoFormaDataSet
+  (pDMemTable1: TFDMemTable);
+var
+  oDBQuery: IDBQuery;
+  sSql: string;
+begin
+  DBConnection.Abrir;
+  try
+    sSql := //
+      'SELECT FORMA_ID, DESCR'#13#10 //
+      + 'FROM CAIXA_SESSAO_PDV_PA.FECHAMENTO_PAGFORMA_LISTA_GET;' //
+      ;
+
+    oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
+      sSql, nil, nil);
+    pDMemTable1.DisableControls;
+    pDMemTable1.EmptyDataSet;
+    pDMemTable1.BeginBatch;
+    try
+      oDBQuery.Abrir;
+      while not oDBQuery.DataSet.Eof do
+      begin
+        pDMemTable1.Append;
+        pDMemTable1.Fields[0].AsInteger := oDBQuery.DataSet.Fields[0].AsInteger;
+        pDMemTable1.Fields[1].AsString := oDBQuery.DataSet.Fields[1].AsString;
+        pDMemTable1.Post;
+        oDBQuery.DataSet.Next;
+      end;
+    finally
+      oDBQuery.Fechar;
+      pDMemTable1.First;
+      pDMemTable1.EndBatch;
+      pDMemTable1.EnableControls;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 procedure TCxOperacaoDBI.RegAtualToEnt(Q: TDataSet);
