@@ -152,6 +152,32 @@ COMANDO FIM
 
 //////////////////////////////////
 //
+// FOREIGN KEY CAIXA_SESSAO_OPERACAO OPER_TIPO_ID
+//
+//////////////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=CAIXA_SESSAO_OPERACAO
+CAMPOS_FK=OPER_TIPO_ID
+TABELA_PK=CAIXA_SESSAO_OPERACAO_TIPO
+//CAMPOS_PK=
+COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY CAIXA_SESSAO LOG FIM
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////
+//
 // FOREIGN KEY CAIXA_SESSAO_OPERACAO LOG
 //
 //////////////////////////////////
