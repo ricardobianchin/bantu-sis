@@ -12,11 +12,11 @@ uses
 
 type
   TCxOperUmValorEdForm = class(TCxOperacaoEdForm)
+    ObsLabel: TLabel;
     TrabPageControl: TPageControl;
     ValorTabSheet: TTabSheet;
     ValorEdit: TEdit;
     NumerarioTabSheet: TTabSheet;
-    ObsLabel: TLabel;
     procedure TrabPageControlChange(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private

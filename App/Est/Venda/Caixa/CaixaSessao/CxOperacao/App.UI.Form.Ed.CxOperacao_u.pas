@@ -8,12 +8,11 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.UI.Impressao, Sis.Terminal;
 
 type
   TCxOperacaoEdForm = class(TEdBasForm)
     MeioPanel: TPanel;
-    TrabPanel: TPanel;
     ObsPanel: TPanel;
     Label2: TLabel;
     ObsMemo: TMemo;
@@ -21,6 +20,8 @@ type
     { Private declarations }
     FCxOperacaoEnt: ICxOperacaoEnt;
     FCxOperacaoDBI: ICxOperacaoDBI;
+    FImpressao: IImpressao;
+    FTerminal: ITerminal;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -34,12 +35,12 @@ type
     procedure AjusteTabOrder; virtual;
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
     property CxOperacaoDBI: ICxOperacaoDBI read FCxOperacaoDBI;
-
+    function PodeOk: Boolean; override;
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI); override;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pEntEd: IEntEd; pEntDBI: IEntDBI); override;
   end;
 
 var
@@ -49,7 +50,7 @@ implementation
 
 {$R *.dfm}
 
-uses System.Math, App.Est.Venda.CaixaSessao.Factory_u;
+uses System.Math, App.Est.Venda.CaixaSessao.Factory_u, App.PDV.Factory_u;
 
 { TCxOperacaoEdForm }
 
@@ -79,7 +80,9 @@ constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
+  FTerminal := pAppObj.TerminalList.TerminalIdToTerminal(FCxOperacaoEnt.CaixaSessao.TerminalId);
   FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
+  FImpressao := ImpressaoTextoCxOperacaoCreate(Fterminal.ImpressoraNome, pAppObj, FTerminal, FCxOperacaoEnt);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
   Width := 800;
@@ -97,20 +100,28 @@ end;
 
 function TCxOperacaoEdForm.GetObjetivoStr: string;
 var
-  sFormat, sTit, sNom, sVal: string;
+  { sFormat, } sTit, sNom, sVal: string;
 begin
   sTit := EntEd.StateAsTitulo;
   sNom := EntEd.NomeEnt;
   sVal := '';
 
-//  sFormat := '%s %s: %s';
-//  Result := Format(sFormat, [sTit, sNom, sVal]);
+  // sFormat := '%s %s: %s';
+  // Result := Format(sFormat, [sTit, sNom, sVal]);
   Result := sNom;
 end;
 
 function TCxOperacaoEdForm.GravouOk: boolean;
 begin
   Result := EntDBI.Gravar;
+end;
+
+function TCxOperacaoEdForm.PodeOk: Boolean;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+  FImpressao.Imprima;
 end;
 
 end.

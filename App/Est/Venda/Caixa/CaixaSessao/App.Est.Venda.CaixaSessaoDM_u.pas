@@ -177,7 +177,10 @@ begin
 
   Resultado := FCaixaSessaoDBI.CaixaSessaoAbertoGet(rCaixaSessao);
   if not Resultado then
+  begin
+    FCaixaSessaoSituacao := cxFechado;
     exit;
+  end;
 
   if not rCaixaSessao.Aberto then
   begin

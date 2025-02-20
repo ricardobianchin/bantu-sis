@@ -102,10 +102,10 @@ begin
     + '  ' + Ent.CaixaSessao.LojaId.ToString //
     + '  , ' + Ent.CaixaSessao.TerminalId.ToString //
     + '  , ' + Ent.CaixaSessao.Id.ToString //
-    + '  , ' + Ent.OperOrdem.ToString //
+    + '  , null'// + Ent.OperOrdem.ToString //
     + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant //
     + '  , ' + Ent.LogId.ToString //
-    + '  , ' + Ent.OperTipoOrdem.ToString //
+    + '  , null'// + Ent.OperTipoOrdem.ToString //
     + '  , ' + CurrencyToStrPonto(Ent.Valor) //
     + '  , ' + QuotedStr(Ent.obs) //
 
@@ -116,9 +116,9 @@ begin
     + ');' //
     ;
 
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(Result);
-  // {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(Result);
+//   {$ENDIF}
 end;
 
 function TCxOperacaoDBI.Ler: boolean;

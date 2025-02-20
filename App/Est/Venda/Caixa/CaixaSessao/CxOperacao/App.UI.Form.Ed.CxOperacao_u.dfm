@@ -2,12 +2,13 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
   ClientHeight = 302
   ClientWidth = 647
-  ExplicitWidth = 659
-  ExplicitHeight = 340
+  ExplicitWidth = 663
+  ExplicitHeight = 341
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 230
     Width = 647
+    ExplicitTop = 230
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
@@ -26,26 +27,27 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 250
     Width = 647
+    ExplicitTop = 250
   end
   inherited BasePanel: TPanel
     Top = 265
     Width = 647
-    ExplicitTop = 229
-    ExplicitWidth = 578
+    ExplicitTop = 265
+    ExplicitWidth = 647
     DesignSize = (
       647
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 208
-      ExplicitLeft = 139
+      Left = 204
+      ExplicitLeft = 200
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 321
-      ExplicitLeft = 252
+      Left = 317
+      ExplicitLeft = 313
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 422
-      ExplicitLeft = 353
+      Left = 418
+      ExplicitLeft = 414
     end
   end
   object MeioPanel: TPanel [4]
@@ -57,49 +59,37 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     BevelOuter = bvNone
     Caption = '  '
     TabOrder = 1
-    ExplicitWidth = 578
-    ExplicitHeight = 177
-    object TrabPanel: TPanel
+    ExplicitWidth = 643
+    ExplicitHeight = 212
+    object ObsPanel: TPanel
       Left = 0
-      Top = 0
+      Top = 130
       Width = 647
-      Height = 213
-      Align = alClient
+      Height = 83
+      Align = alBottom
       BevelOuter = bvNone
       Caption = '  '
       TabOrder = 0
-      object ObsPanel: TPanel
+      ExplicitTop = 129
+      ExplicitWidth = 643
+      object Label2: TLabel
         Left = 0
-        Top = 129
+        Top = 0
+        Width = 152
+        Height = 15
+        Align = alTop
+        Caption = 'Observa'#231#245'es (200 caracteres)'
+      end
+      object ObsMemo: TMemo
+        Left = 0
+        Top = 15
         Width = 647
-        Height = 83
-        Align = alBottom
-        BevelOuter = bvNone
-        Caption = '  '
+        Height = 68
+        Align = alClient
+        BorderStyle = bsNone
+        MaxLength = 200
         TabOrder = 0
-        ExplicitTop = 94
-        ExplicitWidth = 578
-        object Label2: TLabel
-          Left = 0
-          Top = 0
-          Width = 647
-          Height = 15
-          Align = alTop
-          Caption = 'Observa'#231#245'es (200 caracteres)'
-          ExplicitWidth = 152
-        end
-        object ObsMemo: TMemo
-          Left = 0
-          Top = 15
-          Width = 647
-          Height = 68
-          Align = alClient
-          BorderStyle = bsNone
-          MaxLength = 200
-          TabOrder = 0
-          WantReturns = False
-          ExplicitWidth = 578
-        end
+        WantReturns = False
       end
     end
   end

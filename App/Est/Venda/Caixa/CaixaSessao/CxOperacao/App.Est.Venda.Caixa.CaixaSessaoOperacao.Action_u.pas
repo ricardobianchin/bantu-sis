@@ -22,8 +22,8 @@ type
     FCxValorDBI: ICxValorDBI;
     FPDVControlador: IPDVControlador;
 
-    procedure Exec(Sender: TObject);
     function PodeExec: Boolean;
+    procedure Exec(Sender: TObject);
   protected
     function CxOperacaoEdFormCreate: TCxOperacaoEdForm; virtual;
   public
@@ -85,6 +85,8 @@ end;
 
 function TCxOperacaoAction.CxOperacaoEdFormCreate: TCxOperacaoEdForm;
 begin
+  Result := nil;
+
   case FCxOperacaoEnt.CxOperacaoTipo.Id of
     cxopNaoIndicado:
       ;

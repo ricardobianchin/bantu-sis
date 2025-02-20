@@ -8,6 +8,7 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
   inherited MensLabel: TLabel
     Top = 257
     Width = 578
+    ExplicitTop = 257
   end
   inherited ObjetivoLabel: TLabel
     Width = 578
@@ -15,71 +16,139 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 277
     Width = 578
+    ExplicitTop = 277
   end
   inherited BasePanel: TPanel
     Top = 292
     Width = 578
+    ExplicitTop = 291
     ExplicitWidth = 574
+    inherited MensCopyBitBtn_DiagBtn: TBitBtn
+      Left = 196
+      ExplicitLeft = 192
+    end
+    inherited OkBitBtn_DiagBtn: TBitBtn
+      Left = 309
+      ExplicitLeft = 305
+    end
+    inherited CancelBitBtn_DiagBtn: TBitBtn
+      Left = 410
+      ExplicitLeft = 406
+    end
   end
   inherited MeioPanel: TPanel
     Width = 578
     Height = 240
-    ExplicitWidth = 574
-    inherited TrabPanel: TPanel
+    ExplicitWidth = 578
+    ExplicitHeight = 240
+    inherited ObsPanel: TPanel
+      Top = 157
       Width = 578
-      Height = 240
-      ExplicitHeight = 240
-      inherited ObsPanel: TPanel
-        Top = 157
+      ExplicitTop = 156
+      ExplicitWidth = 574
+      inherited Label2: TLabel
+        Width = 578
+      end
+      inherited ObsMemo: TMemo
         Width = 578
         ExplicitWidth = 574
-        inherited Label2: TLabel
-          Width = 578
-        end
-        inherited ObsMemo: TMemo
-          Width = 578
-          ExplicitTop = 21
-        end
       end
-      object DBGrid1: TDBGrid
-        Left = 0
-        Top = 0
-        Width = 578
-        Height = 157
-        Align = alClient
-        DataSource = DataSource1
-        Options = [dgEditing, dgAlwaysShowEditor, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgCancelOnExit, dgTitleHotTrack]
-        TabOrder = 1
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -12
-        TitleFont.Name = 'Segoe UI'
-        TitleFont.Style = []
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'Id'
-            Title.Alignment = taCenter
-            Visible = False
-          end
-          item
-            Expanded = False
-            FieldName = 'Descr'
-            Width = 200
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'Valor'
-            Title.Alignment = taRightJustify
-            Width = 81
-            Visible = True
-          end>
+    end
+    object DBGrid1: TDBGrid
+      Left = 0
+      Top = 0
+      Width = 578
+      Height = 116
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = DataSource1
+      Options = [dgEditing, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgCancelOnExit, dgTitleHotTrack]
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnColEnter = DBGrid1ColEnter
+      OnColumnMoved = DBGrid1ColumnMoved
+      OnKeyPress = DBGrid1KeyPress
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'Id'
+          Title.Alignment = taCenter
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'Descr'
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Valor'
+          Title.Alignment = taRightJustify
+          Width = 81
+          Visible = True
+        end>
+    end
+    object TotPanel: TPanel
+      Left = 0
+      Top = 116
+      Width = 578
+      Height = 41
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = ' '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      StyleElements = [seClient, seBorder]
+      ExplicitTop = 115
+      ExplicitWidth = 574
+      object TotNumEditBtu: TNumEditBtu
+        Left = 72
+        Top = 3
+        Width = 121
+        Height = 28
+        Alignment = taCenter
+        AutoExit = True
+        Caption = 'Total R$'
+        EditLabel.Width = 54
+        EditLabel.Height = 28
+        EditLabel.Caption = 'Total R$'
+        EditLabel.Font.Charset = DEFAULT_CHARSET
+        EditLabel.Font.Color = clWindowText
+        EditLabel.Font.Height = -15
+        EditLabel.Font.Name = 'Segoe UI'
+        EditLabel.Font.Style = []
+        EditLabel.ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        LabelPosition = lpLeft
+        LabelSpacing = 6
+        ParentFont = False
+        ReadOnly = False
+        TabOrder = 0
+        Text = '0,00'
+        NCasas = 2
+        NCasasEsq = 9
+        Valor = 0
+        MascEsq = '###,##,##0'
       end
     end
   end
   object FDMemTable1: TFDMemTable
     Active = True
+    AfterPost = FDMemTable1AfterPost
     OnNewRecord = FDMemTable1NewRecord
     FieldDefs = <
       item
