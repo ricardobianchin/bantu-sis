@@ -2,15 +2,17 @@ unit Sis.UI.Impressao_u;
 
 interface
 
-uses Sis.UI.Impressao;
+uses Sis.UI.Impressao, Sis.Usuario;
 
 type
   TImpressao = class(TInterfacedObject, IImpressao)
   private
     FImpressoraNome: string;
+    FUsuario: IUsuario;
 
   protected
     property ImpressoraNome: string read FImpressoraNome;
+    property Usuario: IUsuario read FUsuario;
 
     procedure GereInicio; virtual;
     procedure GereCabec; virtual;
@@ -23,16 +25,17 @@ type
 
   public
     procedure Imprima; virtual;
-    constructor Create(pImpressoraNome: string);
+    constructor Create(pImpressoraNome: string; pUsuario: IUsuario);
   end;
 
 implementation
 
 { TImpressao }
 
-constructor TImpressao.Create(pImpressoraNome: string);
+constructor TImpressao.Create(pImpressoraNome: string; pUsuario: IUsuario);
 begin
-  FImpressoraNome := pImpressoraNome
+  FImpressoraNome := pImpressoraNome;
+  FUsuario := pUsuario;
 end;
 
 procedure TImpressao.EnvieImpressao;
