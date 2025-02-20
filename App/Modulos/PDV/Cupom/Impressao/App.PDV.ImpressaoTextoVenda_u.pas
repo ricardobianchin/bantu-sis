@@ -44,7 +44,6 @@ var
   s: string;
 begin
   inherited;
-  // s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
   s := FPDVVenda.GetVendaCod;
   PegueLinha(CenterStr(s, NCols));
 end;
