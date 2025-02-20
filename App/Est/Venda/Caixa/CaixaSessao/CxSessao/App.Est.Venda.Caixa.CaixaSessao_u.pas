@@ -43,7 +43,7 @@ type
     property Conferido: Boolean read GetConferido write SetConferido;
     property MachineIdentId: SmallInt read GetMachineIdentId;
 
-    function GetSessaoCod(pSeparador: string = '-'): string;
+    function GetCod(pSeparador: string = '-'): string;
 
     constructor Create(pLogUsuario: IUsuario; pMachineIdentId: SmallInt; pLojaId: TLojaId = 0;
       pTerminalId: TTerminalId = 0; pId: integer = 0);
@@ -87,7 +87,7 @@ begin
   Result := FMachineIdentId;
 end;
 
-function TCaixaSessao.GetSessaoCod(pSeparador: string): string;
+function TCaixaSessao.GetCod(pSeparador: string): string;
 begin
   Result := Sis.Entities.Types.GetCod(LojaId, TerminalId, Id, 'CX',
     pSeparador);

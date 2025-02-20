@@ -77,7 +77,7 @@ type
       write SetVendaAlteradoEm;
     property VendaPagList: IVendaPagList read GetVendaPagList;
 
-    function GetVendaCod(pSeparador: string = '-'): string;
+    function GetCod(pSeparador: string = '-'): string;
 
     procedure Zerar; override;
 
@@ -196,7 +196,7 @@ begin
   Result := FVendaAlteradoEm;
 end;
 
-function TPDVVenda.GetVendaCod(pSeparador: string): string;
+function TPDVVenda.GetCod(pSeparador: string): string;
 begin
   Result := Sis.Entities.Types.GetCod(Loja.Id, TerminalId, VendaId, 'VEN',
     pSeparador);

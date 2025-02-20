@@ -41,7 +41,7 @@ type
     function GetCxValorList: ICxValorList;
     property CxValorList: ICxValorList read GetCxValorList;
 
-    function GetCxOperCod(pSeparador: string = '-'): string;
+    function GetCod(pSeparador: string = '-'): string;
   end;
 {
 OPER_LOG_ID;BIGINT;S;S

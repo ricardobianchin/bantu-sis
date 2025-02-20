@@ -59,7 +59,7 @@ type
 
     property CxValorList: ICxValorList read GetCxValorList;
 
-    function GetCxOperCod(pSeparador: string = '-'): string;
+    function GetCod(pSeparador: string = '-'): string;
 
     constructor Create(pCaixaSessao: ICaixaSessao;
       pCxOperacaoTipo: ICxOperacaoTipo);
@@ -140,9 +140,9 @@ begin
   Result := FValor;
 end;
 
-function TCxOperacaoEnt.GetCxOperCod(pSeparador: string): string;
+function TCxOperacaoEnt.GetCod(pSeparador: string): string;
 begin
-  Result := FCaixaSessao.GetSessaoCod(pSeparador) + pSeparador +
+  Result := FCaixaSessao.GetCod(pSeparador) + pSeparador +
     FOperOrdem.ToString;
 end;
 

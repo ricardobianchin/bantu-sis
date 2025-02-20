@@ -44,7 +44,7 @@ var
   s: string;
 begin
   inherited;
-  s := FPDVVenda.GetVendaCod;
+  s := FPDVVenda.GetCod;
   PegueLinha(CenterStr(s, NCols));
 end;
 
@@ -159,7 +159,7 @@ end;
 
 function TImpressaoTextoPDVVenda.GetDocTitulo: string;
 begin
-  Result := 'Cupom Venda ' + FPDVVenda.GetVendaCod;
+  Result := 'Cupom Venda ' + FPDVVenda.GetCod;
 end;
 
 function TImpressaoTextoPDVVenda.GetDtDoc: TDateTime;
