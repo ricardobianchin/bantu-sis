@@ -59,13 +59,15 @@ type
 
     property CxValorList: ICxValorList read GetCxValorList;
 
+    function GetCxOperCod(pSeparador: string = '-'): string;
+
     constructor Create(pCaixaSessao: ICaixaSessao;
       pCxOperacaoTipo: ICxOperacaoTipo);
   end;
 
 implementation
 
-uses App.Est.Venda.CaixaSessao.Factory_u;
+uses App.Est.Venda.CaixaSessao.Factory_u, System.SysUtils;
 
 { TCxOperacaoEnt }
 
@@ -136,6 +138,12 @@ end;
 function TCxOperacaoEnt.GetValor: Currency;
 begin
   Result := FValor;
+end;
+
+function TCxOperacaoEnt.GetCxOperCod(pSeparador: string): string;
+begin
+  Result := FCaixaSessao.GetSessaoCod(pSeparador) + pSeparador +
+    FOperOrdem.ToString;
 end;
 
 procedure TCxOperacaoEnt.LimparEnt;
