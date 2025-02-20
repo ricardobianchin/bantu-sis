@@ -19,7 +19,7 @@ type
   end;
 
 function GetCod(pLojaId: TLojaId; pTerminalId: TTerminalId;
-  pId: integer; pPrefixo: string = ''; pSeparador: string = '-'): string;
+  pId: integer; pPrefixo: string; pSeparador: string = '-'): string;
 
 implementation
 
