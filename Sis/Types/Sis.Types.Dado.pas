@@ -13,9 +13,6 @@ property AsString:  read GetAsString write SetAsString;
 property AsInteger:  read GetAsInteger write SetAsInteger;
 property AsBoolean:  read GetAsBoolean write SetAsBoolean;
 property AsCurrency:  read GetAsCurrency write SetAsCurrency;
-
-
-
 }
 
 implementation
