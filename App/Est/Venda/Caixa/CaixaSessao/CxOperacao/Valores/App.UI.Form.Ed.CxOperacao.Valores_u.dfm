@@ -1,44 +1,41 @@
 inherited CxOperValoresEdForm: TCxOperValoresEdForm
   Caption = 'CxOperValoresEdForm'
-  ClientHeight = 329
-  ClientWidth = 578
+  ClientHeight = 328
+  ClientWidth = 574
   ExplicitWidth = 590
   ExplicitHeight = 367
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 257
-    Width = 578
+    Top = 256
+    Width = 574
     ExplicitTop = 257
   end
   inherited ObjetivoLabel: TLabel
-    Width = 578
+    Width = 574
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 277
-    Width = 578
+    Top = 276
+    Width = 574
     ExplicitTop = 277
   end
   inherited BasePanel: TPanel
-    Top = 292
-    Width = 578
+    Top = 291
+    Width = 574
     ExplicitTop = 291
     ExplicitWidth = 574
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 196
       ExplicitLeft = 192
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 309
       ExplicitLeft = 305
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 410
       ExplicitLeft = 406
     end
   end
   inherited MeioPanel: TPanel
-    Width = 578
-    Height = 240
+    Width = 574
+    Height = 239
     ExplicitWidth = 578
     ExplicitHeight = 240
     inherited ObsPanel: TPanel
@@ -46,9 +43,6 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
       Width = 578
       ExplicitTop = 156
       ExplicitWidth = 574
-      inherited Label2: TLabel
-        Width = 578
-      end
       inherited ObsMemo: TMemo
         Width = 578
         ExplicitWidth = 574

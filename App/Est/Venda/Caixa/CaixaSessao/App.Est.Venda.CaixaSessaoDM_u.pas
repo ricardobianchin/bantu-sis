@@ -159,8 +159,8 @@ begin
   oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
 
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, FCaixaSessao, o,
-    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, oCxValorDBI,
-    FPDVControlador);
+    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, FLogUsuario,
+    oCxValorDBI, FPDVControlador);
 end;
 
 function TCaixaSessaoDM.GetAction(pCxOpTipo: TCxOpTipo): TAction;

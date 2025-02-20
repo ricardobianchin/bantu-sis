@@ -1,19 +1,19 @@
 inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
-  ClientHeight = 302
-  ClientWidth = 647
-  ExplicitWidth = 663
-  ExplicitHeight = 341
+  ClientHeight = 301
+  ClientWidth = 643
+  ExplicitWidth = 659
+  ExplicitHeight = 340
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 230
-    Width = 647
+    Top = 229
+    Width = 643
     ExplicitTop = 230
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
     Top = 0
-    Width = 647
+    Width = 643
     Height = 17
     Align = alTop
     Font.Height = -13
@@ -25,42 +25,40 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 250
-    Width = 647
+    Top = 249
+    Width = 643
     ExplicitTop = 250
   end
   inherited BasePanel: TPanel
-    Top = 265
-    Width = 647
+    Top = 264
+    Width = 643
     ExplicitTop = 265
     ExplicitWidth = 647
     DesignSize = (
-      647
+      643
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 204
+      Left = 196
       ExplicitLeft = 200
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 317
+      Left = 309
       ExplicitLeft = 313
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 418
+      Left = 410
       ExplicitLeft = 414
     end
   end
   object MeioPanel: TPanel [4]
     Left = 0
     Top = 17
-    Width = 647
-    Height = 213
+    Width = 643
+    Height = 212
     Align = alClient
     BevelOuter = bvNone
     Caption = '  '
     TabOrder = 1
-    ExplicitWidth = 643
-    ExplicitHeight = 212
     object ObsPanel: TPanel
       Left = 0
       Top = 130

@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Ed.CxOperacao_u, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
-  NumEditBtu, Vcl.ComCtrls, App.UI.Controls.NumerarioListFrame_u,
+  NumEditBtu, Vcl.ComCtrls, App.UI.Controls.NumerarioListFrame_u, Sis.Usuario,
   App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 
 type
@@ -31,8 +31,9 @@ type
     function DadosOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI); reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
+      pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
+      reintroduce; virtual;
   end;
 
 var
@@ -76,9 +77,10 @@ begin
 end;
 
 constructor TCxOperUmValorEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
+  pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI;
+  pCxValorDBI: ICxValorDBI);
 begin
-  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pUsuario, pEntEd, pEntDBI);
 
   FValorNumEdit := TNumEditBtu.Create(Self);
   FValorNumEdit.Parent := ValorTabSheet;
@@ -148,7 +150,7 @@ begin
   TrabPageControl.ActivePage := ValorTabSheet;
   FValorNumEdit.Valor := 18.76;
   ObsMemo.Lines.text := 'Abertra teste';
-//  OkAct_Diag.Execute;
+  // OkAct_Diag.Execute;
   // TrabPageControl.ActivePage := NumerarioTabSheet;
 end;
 

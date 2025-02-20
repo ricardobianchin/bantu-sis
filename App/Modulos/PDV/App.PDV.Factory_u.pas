@@ -6,7 +6,7 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
   App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
   App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
-  App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca,
+  App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca, Sis.Usuario,
   App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
@@ -28,13 +28,13 @@ function BalancaCreate(pBalancaVendaForm: TBalancaVendaForm = nil): IBalanca;
 
 // function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
 function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
-function ImpressaoTextoVendaCreate(pImpressoraNome: string;
+function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuario: IUsuario;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
 
 function CupomEspelhoCxOperacaoCreate(pAppObj: IAppObj): ICupomEspelho;
 function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
-  pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
-
+  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
 
 implementation
 
@@ -110,10 +110,10 @@ begin
   Result := TCupomEspelho.Create(pAppObj, 'Venda');
 end;
 
-function ImpressaoTextoVendaCreate(pImpressoraNome: string;
+function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuario: IUsuario;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
 begin
-  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pAppObj,
+  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pUsuario, pAppObj,
     pTerminal, pPDVVenda);
 end;
 
@@ -135,12 +135,12 @@ begin
 
   if FileExists(sNomeArqIni) then
   begin
-  IniFile := TIniFile.Create(sNomeArqIni);
-  try
-    bBalTeste := IniFile.ReadBool('bal', 'balanca_teste', False);
-  finally
-    IniFile.Free;
-  end;
+    IniFile := TIniFile.Create(sNomeArqIni);
+    try
+      bBalTeste := IniFile.ReadBool('bal', 'balanca_teste', False);
+    finally
+      IniFile.Free;
+    end;
   end
   else
   begin
@@ -164,10 +164,11 @@ begin
 end;
 
 function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
-  pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
+  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
 begin
-  Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pAppObj,
-    pTerminal, pCxOperacaoEnt);
+  Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pUsuario,
+    pAppObj, pTerminal, pCxOperacaoEnt);
 end;
 
 end.

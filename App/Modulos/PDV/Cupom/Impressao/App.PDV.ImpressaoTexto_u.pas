@@ -2,7 +2,8 @@ unit App.PDV.ImpressaoTexto_u;
 
 interface
 
-uses Sis.UI.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.CupomEspelho;
+uses Sis.UI.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.CupomEspelho,
+  Sis.Usuario;
 
 type
   TImpressaoTextoPDV = class(TImpressaoTexto)
@@ -28,8 +29,8 @@ type
   public
     // procedure Imprima; virtual;
 
-    constructor Create(pImpressoraNome: string; pAppObj: IAppObj;
-      pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
+    constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
+      pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
     // destructor Destroy; override;
   end;
 
@@ -40,9 +41,10 @@ uses Sis.Types.strings_u, {System.DateUtils,} System.SysUtils, Sis.Types.Dates;
 { TImpressaoTextoPDV }
 
 constructor TImpressaoTextoPDV.Create(pImpressoraNome: string;
-  pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
+  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCupomEspelho: ICupomEspelho);
 begin
-  inherited Create(pImpressoraNome);
+  inherited Create(pImpressoraNome, pUsuario);
   FAppObj := pAppObj;
   FTerminal := pTerminal;
   FCupomEspelho := pCupomEspelho;
@@ -62,8 +64,9 @@ begin
 
   d := GetDtDoc;
   s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
+
   PegueLinha(CenterStr(s, NCols));
-  PegueSeparador;
+  s := 'OPERADOR: ' + Usuario.NomeExib;
 end;
 
 procedure TImpressaoTextoPDV.GereFim;

@@ -1,27 +1,27 @@
 inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
   Caption = 'CxOperUmValorEdForm'
-  ClientHeight = 456
-  ClientWidth = 784
+  ClientHeight = 455
+  ClientWidth = 780
   ExplicitWidth = 796
   ExplicitHeight = 494
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 384
-    Width = 784
+    Top = 383
+    Width = 780
     ExplicitTop = 384
   end
   inherited ObjetivoLabel: TLabel
-    Width = 784
+    Width = 780
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 404
-    Width = 784
+    Top = 403
+    Width = 780
     ExplicitTop = 404
   end
   object ObsLabel: TLabel [3]
     Left = 0
     Top = 17
-    Width = 784
+    Width = 780
     Height = 13
     Align = alTop
     Caption = 
@@ -38,8 +38,8 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     ExplicitWidth = 464
   end
   inherited BasePanel: TPanel
-    Top = 419
-    Width = 784
+    Top = 418
+    Width = 780
     ExplicitTop = 418
     ExplicitWidth = 780
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
@@ -57,8 +57,8 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
   end
   inherited MeioPanel: TPanel
     Top = 30
-    Width = 784
-    Height = 354
+    Width = 780
+    Height = 353
     ExplicitTop = 30
     ExplicitWidth = 780
     ExplicitHeight = 353
@@ -67,9 +67,6 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
       Width = 784
       ExplicitTop = 271
       ExplicitWidth = 784
-      inherited Label2: TLabel
-        Width = 784
-      end
       inherited ObsMemo: TMemo
         Width = 784
         ExplicitWidth = 784

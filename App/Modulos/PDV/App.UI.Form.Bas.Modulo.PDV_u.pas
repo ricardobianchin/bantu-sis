@@ -103,7 +103,7 @@ end;
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 var
   a: TAction;
-  s: string; // so pra visualizar o name durante o debug
+  //s: string; // so pra visualizar o name durante o debug
 begin
   Result := inherited;
   Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkB]);
@@ -119,7 +119,6 @@ begin
 
   a := FCaixaSessaoDM.GetAction(cxopFechamento);
   Result.PegarAction(a, [vkF]);
-
 
 end;
 
@@ -169,8 +168,8 @@ begin
   FPagFrame := PagFrameCreate;
   FPagFrame.OculteControles;
 
-  FImpressaoVenda := ImpressaoTextoVendaCreate(Terminal.ImpressoraNome, AppObj,
-    Terminal, PDVVenda);
+  FImpressaoVenda := ImpressaoTextoVendaCreate(Terminal.ImpressoraNome,
+    pLogUsuario, AppObj, Terminal, PDVVenda);
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;

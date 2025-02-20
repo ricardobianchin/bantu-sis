@@ -11,7 +11,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Ent.Ed, App.Ent.DBI,
   App.AppObj, App.Est.Venda.Caixa.CxValor.DBI,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Sis.Usuario,
   Vcl.Grids, Vcl.DBGrids, Vcl.Mask, CustomEditBtu, CustomNumEditBtu, NumEditBtu;
 
 type
@@ -45,8 +45,9 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI); reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
+      pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
+      reintroduce; virtual;
   end;
 
 var
@@ -84,7 +85,7 @@ end;
 
 procedure TCxOperValoresEdForm.ControlesToEnt;
 var
-  i: integer;
+  i: Integer;
   v: Currency;
 begin
   inherited;
@@ -103,16 +104,16 @@ begin
 end;
 
 constructor TCxOperValoresEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
+pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
 begin
-  inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pUsuario, pEntEd, pEntDBI);
   PreencherFDMemTable1;
 end;
 
 function TCxOperValoresEdForm.DadosOk: boolean;
 begin
-  Result := inherited;
-  if not Result then
+  result := inherited;
+  if not result then
     exit;
 
 end;
@@ -162,7 +163,7 @@ end;
 
 procedure TCxOperValoresEdForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  if key = #27 then
+  if Key = #27 then
   begin
     if FDMemTable1.State <> TDataSetState.dsBrowse then
     begin

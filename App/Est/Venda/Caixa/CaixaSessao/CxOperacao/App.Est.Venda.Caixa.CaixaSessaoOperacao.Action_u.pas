@@ -4,7 +4,7 @@ interface
 
 uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls, Sis.Usuario,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
   App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
   App.AppObj, App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao,
@@ -21,6 +21,7 @@ type
     FAppObj: IAppObj;
     FCxValorDBI: ICxValorDBI;
     FPDVControlador: IPDVControlador;
+    FUsuario: IUsuario;
 
     function PodeExec: Boolean;
     procedure Exec(Sender: TObject);
@@ -40,6 +41,7 @@ type
       pCxOperacaoEnt: ICxOperacaoEnt; //
       pCxOperacaoDBI: ICxOperacaoDBI; //
       pAppObj: IAppObj; //
+      pUsuario: IUsuario; //
       pCxValorDBI: ICxValorDBI; //
       pPDVControlador: IPDVControlador); reintroduce;
   end;
@@ -64,11 +66,13 @@ constructor TCxOperacaoAction.Create( //
   pCxOperacaoEnt: ICxOperacaoEnt; //
   pCxOperacaoDBI: ICxOperacaoDBI; //
   pAppObj: IAppObj; //
+  pUsuario: IUsuario; //
   pCxValorDBI: ICxValorDBI; //
   pPDVControlador: IPDVControlador);
 begin
   inherited Create(AOwner);
   FAppObj := pAppObj;
+  FUsuario := pUsuario;
   FCaixaSessao := pCaixaSessao;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxOperacaoTipoDBI := pCxOperacaoTipoDBI;
@@ -93,12 +97,12 @@ begin
     cxopAbertura //
       , cxopSangria //
       , cxopSuprimento: //
-      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
-        FCxOperacaoDBI, FCxValorDBI);
+      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FUsuario,
+        FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
     cxopFechamento: //
-      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
-        FCxOperacaoDBI, FCxValorDBI);
+      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FUsuario,
+        FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
     cxopVale: //
       ;

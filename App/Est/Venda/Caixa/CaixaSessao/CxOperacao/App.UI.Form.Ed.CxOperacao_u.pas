@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed, App.Ent.DBI, App.AppObj,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Sis.Usuario,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.UI.Impressao, Sis.Terminal;
 
 type
@@ -22,6 +22,7 @@ type
     FCxOperacaoDBI: ICxOperacaoDBI;
     FImpressao: IImpressao;
     FTerminal: ITerminal;
+    FUsuario: IUsuario;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -35,12 +36,12 @@ type
     procedure AjusteTabOrder; virtual;
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
     property CxOperacaoDBI: ICxOperacaoDBI read FCxOperacaoDBI;
-    function PodeOk: Boolean; override;
+    function PodeOk: boolean; override;
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
-      pEntEd: IEntEd; pEntDBI: IEntDBI); override;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
+      pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
   end;
 
 var
@@ -76,13 +77,16 @@ begin
 end;
 
 constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pEntEd: IEntEd; pEntDBI: IEntDBI);
+  pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  FUsuario := pUsuario;
   FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
-  FTerminal := pAppObj.TerminalList.TerminalIdToTerminal(FCxOperacaoEnt.CaixaSessao.TerminalId);
+  FTerminal := pAppObj.TerminalList.TerminalIdToTerminal
+    (FCxOperacaoEnt.CaixaSessao.TerminalId);
   FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
-  FImpressao := ImpressaoTextoCxOperacaoCreate(Fterminal.ImpressoraNome, pAppObj, FTerminal, FCxOperacaoEnt);
+  FImpressao := ImpressaoTextoCxOperacaoCreate(FTerminal.ImpressoraNome,
+    FUsuario, pAppObj, FTerminal, FCxOperacaoEnt);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
   Width := 800;
@@ -116,7 +120,7 @@ begin
   Result := EntDBI.Gravar;
 end;
 
-function TCxOperacaoEdForm.PodeOk: Boolean;
+function TCxOperacaoEdForm.PodeOk: boolean;
 begin
   Result := inherited;
   if not Result then
