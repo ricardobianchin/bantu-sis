@@ -197,11 +197,9 @@ begin
 end;
 
 function TPDVVenda.GetVendaCod(pSeparador: string): string;
-var
-  sFormat: string;
 begin
-  sFormat := '%d' + pSeparador + '%d' + pSeparador + '%.7d';
-  Result := Format(sFormat, [Loja.Id, TerminalId, VendaId]);
+  Result := Sis.Entities.Types.GetCod(Loja.Id, TerminalId, VendaId, 'VEN',
+    pSeparador);
 end;
 
 function TPDVVenda.GetC: string;
@@ -295,11 +293,11 @@ begin
 end;
 
 procedure TPDVVenda.ItensPegarTots( //
-      out pTotalLiquido: Currency; //
-      out pTotalDevido: Currency; //
-      out pTotalEntregue: Currency; //
-      out pFalta: Currency; //
-      out pTroco: Currency //
+  out pTotalLiquido: Currency; //
+  out pTotalDevido: Currency; //
+  out pTotalEntregue: Currency; //
+  out pFalta: Currency; //
+  out pTroco: Currency //
   );
 begin
   pTotalLiquido := GetItensPrecoTot;
