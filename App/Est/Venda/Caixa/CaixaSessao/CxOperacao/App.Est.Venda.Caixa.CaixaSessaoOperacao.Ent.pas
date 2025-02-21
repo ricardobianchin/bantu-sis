@@ -42,6 +42,10 @@ type
     property CxValorList: ICxValorList read GetCxValorList;
 
     function GetCod(pSeparador: string = '-'): string;
+
+    function GetCriadoEm: TDateTime;
+    procedure SetCriadoEm(Value: TDateTIme);
+    property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
   end;
 {
 OPER_LOG_ID;BIGINT;S;S

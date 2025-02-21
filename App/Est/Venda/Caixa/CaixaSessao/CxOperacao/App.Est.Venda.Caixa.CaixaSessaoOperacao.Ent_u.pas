@@ -20,6 +20,7 @@ type
     FObs: string;
     FCancelado: Boolean;
     FCxValorList: ICxValorList;
+    FCriadoEm: TDateTIme;
 
     function GetCaixaSessao: ICaixaSessao;
     function GetOperOrdem: SmallInt;
@@ -42,6 +43,9 @@ type
 
     function GetCxValorList: ICxValorList;
 
+    function GetCriadoEm: TDateTime;
+    procedure SetCriadoEm(Value: TDateTIme);
+
   protected
     procedure LimparEnt;
     function GetNomeEnt: string; override;
@@ -56,6 +60,8 @@ type
     property Valor: Currency read GetValor write SetValor;
     property Obs: string read GetObs write SetObs;
     property Cancelado: Boolean read GetCancelado write SetCancelado;
+
+    property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
 
     property CxValorList: ICxValorList read GetCxValorList;
 
@@ -146,6 +152,11 @@ begin
     FOperOrdem.ToString;
 end;
 
+function TCxOperacaoEnt.GetCriadoEm: TDateTime;
+begin
+  Result := FCriadoEm;
+end;
+
 procedure TCxOperacaoEnt.LimparEnt;
 begin
   FOperOrdem := 0;
@@ -159,6 +170,11 @@ end;
 procedure TCxOperacaoEnt.SetCancelado(Value: Boolean);
 begin
   FCancelado := Value;
+end;
+
+procedure TCxOperacaoEnt.SetCriadoEm(Value: TDateTIme);
+begin
+  FCriadoEm := Value;
 end;
 
 procedure TCxOperacaoEnt.SetLogId(Value: Int64);

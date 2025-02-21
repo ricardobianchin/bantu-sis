@@ -115,7 +115,7 @@ begin
     + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) //
     + ');' //
     ;
-
+  Ent.CriadoEm := now;
 //   {$IFDEF DEBUG}
 //   CopyTextToClipboard(Result);
 //   {$ENDIF}
