@@ -38,9 +38,9 @@ begin
     dtAgora :=  pDtH;
 
   if pAssunto = '' then
-    sAssunto := pAssunto
+    sAssunto := FAssunto
   else
-    sAssunto := FAssunto;
+    sAssunto := 'Cupom Espelho ' + pAssunto;
 
   sArqNome := FPastaRaiz + DateToPath(dtAgora);
   GarantirPasta(sArqNome);
