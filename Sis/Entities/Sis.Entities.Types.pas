@@ -54,7 +54,7 @@ function GetCod(pLojaId: TLojaId; pTerminalId: TTerminalId;
 var
   sFormat: string;
 begin
-  sFormat := '%d' + pSeparador + '.2%d' + pSeparador + '%.7d';
+  sFormat := '%.2d' + pSeparador + '%.2d' + pSeparador + '%.7d';
   Result := pPrefixo + pSeparador + Format(sFormat,
     [pLojaId, pTerminalId, pId]);
 end;
