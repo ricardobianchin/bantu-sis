@@ -17,6 +17,7 @@ type
     procedure GereTexto; override;
     function GetDtDoc: TDateTime; override;
     function GetDocTitulo: string; override;
+    function GetEspelhoAssuntoAtual: string; override;
   public
     constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
       pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt);
@@ -40,66 +41,30 @@ end;
 procedure TImpressaoTextoPDVCxOperacao.GereCabec;
 var
   s: string;
-  sn: string;
 begin
   inherited;
-  sn := FCxOperacaoEnt.CxOperacaoTipo.Name;
-  PegueLinha(CenterStr(sn, NCols));
-  PegueLinha(CenterStr('', NCols));
+  PegueLinha('');
 
-  s := 'SESSAO DE CAIXA: ' + FCxOperacaoEnt.CaixaSessao.GetCod;
-  PegueLinha(CenterStr(s, NCols));
-  PegueLinha(CenterStr('', NCols));
+  // TIT
+  s := FCxOperacaoEnt.CxOperacaoTipo.Name;
 
   if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
-  begin
-    s := 'NUM.ORDEM: ' + FCxOperacaoEnt.OperOrdem.ToString;
-    PegueLinha(CenterStr(s, NCols));
-
-    s := 'NUM.ORDEM '+sn+': ' + FCxOperacaoEnt.OperTipoOrdem.ToString;
-    PegueLinha(CenterStr(s, NCols));
-  end;
-  PegueLinha(CenterStr('', NCols));
-
-  s := 'VALOR R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
+    s := s + ' ' + (FCxOperacaoEnt.OperTipoOrdem + 1).ToString;
   PegueLinha(CenterStr(s, NCols));
 
-  case FCxOperacaoEnt.CxOperacaoTipo.Id of
-    cxopNaoIndicado:
-      ;
-    cxopAbertura:
-      begin
-      end;
-    cxopSangria:
-      ;
-    cxopSuprimento:
-      ;
-    cxopVale:
-      ;
-    cxopDespesa:
-      ;
-    cxopConvenio:
-      ;
-    cxopCrediario:
-      ;
-    cxopFechamento:
-      ;
-    cxopDevolucao:
-      ;
-    cxopVenda:
-      ;
+  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopFechamento then
+  begin
+    s := 'R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
+    PegueLinha(CenterStr(s, NCols));
+    PegueLinha('');
   end;
 
-  s := 'OPERACAO: ' + FCxOperacaoEnt.GetCod;
-  PegueLinha(s);
+  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
+    s := FCxOperacaoEnt.GetCod
+  else
+    s := FCxOperacaoEnt.CaixaSessao.GetCod;
 
-  s := 'NUM.ORDEM OPERACAO: ' + FCxOperacaoEnt.OperOrdem.ToString;
-  PegueLinha(s);
-
-  s := 'NUM.ORDEM ' + FCxOperacaoEnt.CxOperacaoTipo.Name + ': ' +
-    FCxOperacaoEnt.OperOrdem.ToString;
-  PegueLinha(s);
-
+  PegueLinha(CenterStr(s, NCols));
 end;
 
 procedure TImpressaoTextoPDVCxOperacao.GereTexto;
@@ -116,6 +81,11 @@ end;
 function TImpressaoTextoPDVCxOperacao.GetDtDoc: TDateTime;
 begin
   Result := FCxOperacaoEnt.CriadoEm;
+end;
+
+function TImpressaoTextoPDVCxOperacao.GetEspelhoAssuntoAtual: string;
+begin
+  Result := FCxOperacaoEnt.CxOperacaoTipo.Name + ' ' + FCxOperacaoEnt.GetCod;
 end;
 
 end.
