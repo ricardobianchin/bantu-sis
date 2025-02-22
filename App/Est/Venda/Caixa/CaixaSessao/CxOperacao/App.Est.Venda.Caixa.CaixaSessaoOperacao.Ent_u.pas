@@ -24,6 +24,7 @@ type
 
     function GetCaixaSessao: ICaixaSessao;
     function GetOperOrdem: SmallInt;
+    procedure SetOperOrdem(Value: SmallInt);
     function GetCxOperacaoTipo: ICxOperacaoTipo;
 
     function GetLogId: Int64;
@@ -54,9 +55,9 @@ type
 
   public
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
-    property OperOrdem: SmallInt read GetOperOrdem;
+    property OperOrdem: SmallInt read GetOperOrdem write SetOperOrdem;
     property CxOperacaoTipo: ICxOperacaoTipo read GetCxOperacaoTipo;
-    property OperTipoOrdem: SmallInt read GetOperTipoOrdem;
+    property OperTipoOrdem: SmallInt read GetOperTipoOrdem write SetOperTipoOrdem;
     property Valor: Currency read GetValor write SetValor;
     property Obs: string read GetObs write SetObs;
     property Cancelado: Boolean read GetCancelado write SetCancelado;
@@ -185,6 +186,11 @@ end;
 procedure TCxOperacaoEnt.SetObs(Value: string);
 begin
   FObs := Value;
+end;
+
+procedure TCxOperacaoEnt.SetOperOrdem(Value: SmallInt);
+begin
+  FOperOrdem := Value;
 end;
 
 procedure TCxOperacaoEnt.SetOperTipoOrdem(Value: SmallInt);

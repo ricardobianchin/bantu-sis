@@ -13,7 +13,8 @@ type
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
 
     function GetOperOrdem: SmallInt;
-    property OperOrdem: SmallInt read GetOperOrdem;
+    procedure SetOperOrdem(Value: SmallInt);
+    property OperOrdem: SmallInt read GetOperOrdem write SetOperOrdem;
 
     function GetCxOperacaoTipo: ICxOperacaoTipo;
     property CxOperacaoTipo: ICxOperacaoTipo read GetCxOperacaoTipo;
@@ -24,7 +25,7 @@ type
 
     function GetOperTipoOrdem: SmallInt;
     procedure SetOperTipoOrdem(Value: SmallInt);
-    property OperTipoOrdem: SmallInt read GetOperTipoOrdem;
+    property OperTipoOrdem: SmallInt read GetOperTipoOrdem write SetOperTipoOrdem;
 
     function GetValor: Currency;
     procedure SetValor(Value: Currency);
