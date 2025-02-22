@@ -25,6 +25,7 @@ type
     // procedure EnvieImpressao; override;
     procedure GereTexto; override;
     procedure PegueSeparador(pCharSeparador: Char = '-');
+    function GetEspelhoAssuntoAtual: string; virtual;
 
   public
     // procedure Imprima; virtual;
@@ -72,19 +73,26 @@ end;
 procedure TImpressaoTextoPDV.GereFim;
 var
   dtAgora: TDateTime;
+  s: string;
 begin
   inherited;
   dtAgora := Now;
 
   PegueLinha(CenterStr('Gerado em ' + GetDtHString(dtAgora), NCols));
   PegueSeparador;
-  FCupomEspelho.Gravar(Texto, dtAgora);
+  s := GetEspelhoAssuntoAtual;
+  FCupomEspelho.Gravar(Texto, dtAgora, s);
 end;
 
 procedure TImpressaoTextoPDV.GereTexto;
 begin
   inherited;
   GereCabec;
+end;
+
+function TImpressaoTextoPDV.GetEspelhoAssuntoAtual: string;
+begin
+  Result := '';
 end;
 
 function TImpressaoTextoPDV.GetNCols: integer;
