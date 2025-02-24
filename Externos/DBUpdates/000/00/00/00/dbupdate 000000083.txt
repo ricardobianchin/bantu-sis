@@ -176,7 +176,7 @@ BEGIN
     , PROMOCAO_PERMITE            BOOLEAN
     , COMISSAO_PERMITE            BOOLEAN
     , TAXA_ADM_PERC               PERC_DOM
-    , VALOR_MINIMO                PRECO_DOM
+    , VALOR_MINIMO                DINH_DOM
     , COMISSAO_ABATER_PERC        PERC_DOM
     , REEMBOLSO_DIAS              SMALLINT
     , TEF_USA                     BOOLEAN
@@ -578,7 +578,7 @@ BEGIN
     , PROMOCAO_PERMITE            BOOLEAN
     , COMISSAO_PERMITE            BOOLEAN
     , TAXA_ADM_PERC               PERC_DOM
-    , VALOR_MINIMO                PRECO_DOM
+    , VALOR_MINIMO                DINH_DOM
     , COMISSAO_ABATER_PERC        PERC_DOM
     , REEMBOLSO_DIAS              SMALLINT
     , TEF_USA                     BOOLEAN

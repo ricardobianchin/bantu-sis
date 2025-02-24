@@ -81,10 +81,12 @@ constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FUsuario := pUsuario;
+
   FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
+  FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
+
   FTerminal := pAppObj.TerminalList.TerminalIdToTerminal
     (FCxOperacaoEnt.CaixaSessao.TerminalId);
-  FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
   FImpressao := ImpressaoTextoCxOperacaoCreate(FTerminal.ImpressoraNome,
     FUsuario, pAppObj, FTerminal, FCxOperacaoEnt);
 
@@ -117,7 +119,7 @@ end;
 
 function TCxOperacaoEdForm.GravouOk: boolean;
 begin
-  Result := EntDBI.Gravar;
+  Result := FCxOperacaoDBI.Garantir;
 end;
 
 function TCxOperacaoEdForm.PodeOk: boolean;

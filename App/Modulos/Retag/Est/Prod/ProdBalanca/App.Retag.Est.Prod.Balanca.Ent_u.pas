@@ -7,13 +7,13 @@ uses App.Retag.Est.Prod.Balanca.Ent, App.Est.Types_u;
 type
   TProdBalancaEnt = class(TInterfacedObject, IProdBalancaEnt)
   private
-    FBalancaUso: TBalancaUso;
+    FBalancaExige: Boolean;
     FDptoCod: string;
     FValidadeDias: smallint;
     FTextoEtiq: string;
 
-    function GetBalancaUso: TBalancaUso;
-    procedure SetBalancaUso(Value: TBalancaUso);
+    function GetBalancaExige: Boolean;
+    procedure SetBalancaExige(Value: Boolean);
 
     function GetDptoCod: string;
     procedure SetDptoCod(Value: string);
@@ -24,15 +24,13 @@ type
     function GetTextoEtiq: string;
     procedure SetTextoEtiq(Value: string);
 
-    function GetBalancaUsoStr: string;
   public
-    property BalancaUso: TBalancaUso read GetBalancaUso write SetBalancaUso;
+    property BalancaExige: Boolean read GetBalancaExige write SetBalancaExige;
     property DptoCod: string read GetDptoCod write SetDptoCod;
     property ValidadeDias: smallint read GetValidadeDias write SetValidadeDias;
     property TextoEtiq: string read GetTextoEtiq write SetTextoEtiq;
 
     procedure LimparEnt;
-    property BalancaUsoStr: string read GetBalancaUsoStr;
   end;
 
 implementation
@@ -41,19 +39,14 @@ uses System.SysUtils;
 
 { TProdBalancaEnt }
 
-function TProdBalancaEnt.GetBalancaUsoStr: string;
-begin
-  Result := Integer(FBalancaUso).ToString;
-end;
-
 function TProdBalancaEnt.GetDptoCod: string;
 begin
   Result := FDptoCod;
 end;
 
-function TProdBalancaEnt.GetBalancaUso: TBalancaUso;
+function TProdBalancaEnt.GetBalancaExige: Boolean;
 begin
-  Result := FBalancaUso;
+  Result := FBalancaExige;
 end;
 
 function TProdBalancaEnt.GetTextoEtiq: string;
@@ -68,15 +61,15 @@ end;
 
 procedure TProdBalancaEnt.LimparEnt;
 begin
-  FBalancaUso := TBalancaUso.baltNaoUtiliza;
+  FBalancaExige := False;
   FDptoCod := '001';
   FValidadeDias := 0;
   FTextoEtiq := '';
 end;
 
-procedure TProdBalancaEnt.SetBalancaUso(Value: TBalancaUso);
+procedure TProdBalancaEnt.SetBalancaExige(Value: Boolean);
 begin
-  FBalancaUso := Value;
+  FBalancaExige := Value;
 end;
 
 procedure TProdBalancaEnt.SetDptoCod(Value: string);

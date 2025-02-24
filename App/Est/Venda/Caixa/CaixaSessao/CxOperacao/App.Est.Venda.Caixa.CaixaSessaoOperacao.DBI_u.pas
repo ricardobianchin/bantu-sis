@@ -12,15 +12,12 @@ type
   TCxOperacaoDBI = class(TEntDBI, ICxOperacaoDBI)
   private
     FCxOperacaoEnt: ICxOperacaoEnt;
+    function GetSqlGar: string;
   protected
-    function GetSqlInserirDoERetornaId: string; override;
-
-    procedure SetVarArrayToId(pNovaId: variant); override;
-    procedure RegAtualToEnt(Q: TDataSet); virtual;
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
   public
-    function Ler: boolean; override;
+    function Garantir: boolean;
     procedure FecharPodeGet(out pPode: boolean; out pMensagem: string);
     constructor Create(pDBConnection: IDBConnection;
       pCxOperacaoEnt: ICxOperacaoEnt);
@@ -30,7 +27,7 @@ type
 implementation
 
 uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats,
-  Sis.Win.Utils_u, Sis.DB.Factory;
+  Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates;
 
 { TCxOperacaoDBI }
 
@@ -82,19 +79,20 @@ begin
   Result := '';
 end;
 
-function TCxOperacaoDBI.GetSqlInserirDoERetornaId: string;
+function TCxOperacaoDBI.GetSqlGar: string;
 var
   Ent: ICxOperacaoEnt;
 begin
   Ent := FCxOperacaoEnt;
 
-  Result := 'SELECT '#13#10
-
-    + 'SESS_ID_RET'#13#10 //
-    + ', OPER_ORDEM_RET'#13#10 //
-    + ', OPER_LOG_ID_RET'#13#10 //
-    + ', OPER_TIPO_ORDEM_RET'#13#10 //
-
+  Result := 'SELECT LINHA_TEXTO'#13#10
+{
+    + 'SESS_ID_RET'#13#10 // 0
+    + ', OPER_ORDEM_RET'#13#10 // 1
+    + ', OPER_LOG_ID_RET'#13#10 // 2
+    + ', OPER_TIPO_ORDEM_RET'#13#10 // 3
+    + ', LOG_DTH'#13#10 // 4
+}
     + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
 
     + '('#13#10 //
@@ -115,15 +113,65 @@ begin
     + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) //
     + ');' //
     ;
-  Ent.CriadoEm := now;
+
 //   {$IFDEF DEBUG}
 //   CopyTextToClipboard(Result);
 //   {$ENDIF}
 end;
 
-function TCxOperacaoDBI.Ler: boolean;
+function TCxOperacaoDBI.Garantir: boolean;
+var
+  sSql: string;
+  sDt: string;
+  q: TDataSet;
 begin
-  Result := True;
+  Result := False;
+  sSql := GetSqlGar;
+
+  Result := DBConnection.Abrir;
+  if not Result then
+    exit;
+
+  try
+    DBConnection.QueryDataSet(sSql, q);
+
+    Result := Assigned(q);
+    if not Result then
+      exit;
+    try
+      FCxOperacaoEnt.CaixaSessao.Id := q.Fields[0].AsInteger;
+
+      q.Next;
+      FCxOperacaoEnt.OperOrdem := q.Fields[0].AsInteger;
+
+      q.Next;
+      FCxOperacaoEnt.LogId := q.Fields[0].AsLargeInt;
+
+      q.Next;
+      FCxOperacaoEnt.OperTipoOrdem := q.Fields[0].AsInteger;
+
+      q.Next;
+      sDt := q.Fields[0].AsString;
+      FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
+
+
+{
+  Result := 'SELECT LINHA_TEXTO'#13#10
+    + 'SESS_ID_RET'#13#10 // 0
+    + ', OPER_ORDEM_RET'#13#10 // 1
+    + ', OPER_LOG_ID_RET'#13#10 // 2
+    + ', OPER_TIPO_ORDEM_RET'#13#10 // 3
+    + ', LOG_DTH'#13#10 // 4
+    + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
+}
+
+    finally
+      q.Free;
+    end;
+
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 procedure TCxOperacaoDBI.PreencherPagamentoFormaDataSet
@@ -163,17 +211,6 @@ begin
   finally
     DBConnection.Fechar;
   end;
-end;
-
-procedure TCxOperacaoDBI.RegAtualToEnt(Q: TDataSet);
-begin
-
-end;
-
-procedure TCxOperacaoDBI.SetVarArrayToId(pNovaId: variant);
-begin
-  inherited;
-
 end;
 
 end.

@@ -148,8 +148,11 @@ procedure TCxOperUmValorEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   TrabPageControl.ActivePage := ValorTabSheet;
-  FValorNumEdit.Valor := 18.76;
-  ObsMemo.Lines.text := 'Abertra teste';
+  FValorNumEdit.SetFocus;
+
+//  FValorNumEdit.Valor := 18.76;
+//  ObsMemo.Lines.text := 'Abertra teste';
+
   // OkAct_Diag.Execute;
   // TrabPageControl.ActivePage := NumerarioTabSheet;
 end;

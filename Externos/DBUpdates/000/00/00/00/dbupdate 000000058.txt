@@ -46,7 +46,7 @@ DE_SISTEMA;BOOLEAN;S
 PROMOCAO_PERMITE;BOOLEAN;S
 COMISSAO_PERMITE;BOOLEAN;S
 TAXA_ADM_PERC;PERC_DOM;S
-VALOR_MINIMO;PRECO_DOM;S
+VALOR_MINIMO;DINH_DOM;S
 COMISSAO_ABATER_PERC;PERC_DOM;S
 REEMBOLSO_DIAS;SMALLINT;S
 TEF_USA;BOOLEAN;S
@@ -93,8 +93,10 @@ OBJETO_NOME=PAGAMENTO_FORMA_PA
 /*---------
 NAO ALTERAR AQUI, MAS, NO ARQLUIVO:
 Complementos\PAGAMENTO\pagamento_forma_pa.sql
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Fin\pagamento_forma_pa.sql
-IN C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000\Complementos\Fin\pagamento_forma_pa.sql;
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Fin\pagamento_forma_pa.sql
+
+IN "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Retag\Fin\pagamento_forma_pa.sql";
 */---------
 
 SET TERM ^;
@@ -152,7 +154,6 @@ BEGIN
   END
 END^
 SET TERM ;^
-
 ```
 COMANDO FIM
 //PACKAGE PAGAMENTO_FORMA_PA FIM

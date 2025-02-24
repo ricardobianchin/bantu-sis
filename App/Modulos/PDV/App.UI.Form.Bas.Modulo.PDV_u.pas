@@ -27,6 +27,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure CxOperacaoActionExecute(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPDVObj: IPDVObj;
@@ -353,6 +354,13 @@ end;
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
+end;
+
+procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
+
 end;
 
 end.

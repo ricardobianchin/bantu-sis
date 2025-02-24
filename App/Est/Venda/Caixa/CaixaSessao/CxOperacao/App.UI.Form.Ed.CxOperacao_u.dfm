@@ -1,19 +1,19 @@
 inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
-  ClientHeight = 301
-  ClientWidth = 643
-  ExplicitWidth = 659
-  ExplicitHeight = 340
+  ClientHeight = 299
+  ClientWidth = 635
+  ExplicitWidth = 651
+  ExplicitHeight = 338
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 229
-    Width = 643
-    ExplicitTop = 230
+    Top = 227
+    Width = 635
+    ExplicitTop = 228
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
     Top = 0
-    Width = 643
+    Width = 635
     Height = 17
     Align = alTop
     Font.Height = -13
@@ -25,51 +25,53 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 249
-    Width = 643
-    ExplicitTop = 250
+    Top = 247
+    Width = 635
+    ExplicitTop = 248
   end
   inherited BasePanel: TPanel
-    Top = 264
-    Width = 643
-    ExplicitTop = 265
-    ExplicitWidth = 647
+    Top = 262
+    Width = 635
+    ExplicitTop = 263
+    ExplicitWidth = 639
     DesignSize = (
-      643
+      635
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 196
-      ExplicitLeft = 200
+      Left = 180
+      ExplicitLeft = 188
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 309
-      ExplicitLeft = 313
+      Left = 293
+      ExplicitLeft = 301
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 410
-      ExplicitLeft = 414
+      Left = 394
+      ExplicitLeft = 402
     end
   end
   object MeioPanel: TPanel [4]
     Left = 0
     Top = 17
-    Width = 643
-    Height = 212
+    Width = 635
+    Height = 210
     Align = alClient
     BevelOuter = bvNone
     Caption = '  '
     TabOrder = 1
+    ExplicitWidth = 639
+    ExplicitHeight = 211
     object ObsPanel: TPanel
       Left = 0
-      Top = 130
-      Width = 647
+      Top = 129
+      Width = 643
       Height = 83
       Align = alBottom
       BevelOuter = bvNone
       Caption = '  '
       TabOrder = 0
-      ExplicitTop = 129
-      ExplicitWidth = 643
+      ExplicitTop = 128
+      ExplicitWidth = 639
       object Label2: TLabel
         Left = 0
         Top = 0
@@ -81,7 +83,7 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
       object ObsMemo: TMemo
         Left = 0
         Top = 15
-        Width = 647
+        Width = 643
         Height = 68
         Align = alClient
         BorderStyle = bsNone

@@ -46,7 +46,7 @@ BEGIN
     , PROMOCAO_PERMITE       BOOLEAN
     , COMISSAO_PERMITE       BOOLEAN
     , TAXA_ADM_PERC          PERC_DOM
-    , VALOR_MINIMO           PRECO_DOM
+    , VALOR_MINIMO           DINH_DOM
     , COMISSAO_ABATER_PERC   PERC_DOM
     , REEMBOLSO_DIAS         SMALLINT
     , TEF_USA                BOOLEAN
@@ -67,7 +67,7 @@ BEGIN
     , PROMOCAO_PERMITE       BOOLEAN Not Null
     , COMISSAO_PERMITE       BOOLEAN Not Null
     , TAXA_ADM_PERC          PERC_DOM  Not Null
-    , VALOR_MINIMO           PRECO_DOM Not Null
+    , VALOR_MINIMO           DINH_DOM Not Null
     , COMISSAO_ABATER_PERC   PERC_DOM  Not Null
     , REEMBOLSO_DIAS         SMALLINT Not Null
     , TEF_USA                BOOLEAN Not Null
@@ -96,7 +96,7 @@ BEGIN
     , PROMOCAO_PERMITE       BOOLEAN Not Null
     , COMISSAO_PERMITE       BOOLEAN Not Null
     , TAXA_ADM_PERC          PERC_DOM  Not Null
-    , VALOR_MINIMO           PRECO_DOM Not Null
+    , VALOR_MINIMO           DINH_DOM Not Null
     , COMISSAO_ABATER_PERC   PERC_DOM  Not Null
     , REEMBOLSO_DIAS         SMALLINT Not Null
     , TEF_USA                BOOLEAN Not Null
@@ -133,7 +133,7 @@ BEGIN
     , PROMOCAO_PERMITE       BOOLEAN
     , COMISSAO_PERMITE       BOOLEAN
     , TAXA_ADM_PERC          PERC_DOM
-    , VALOR_MINIMO           PRECO_DOM
+    , VALOR_MINIMO           DINH_DOM
     , COMISSAO_ABATER_PERC   PERC_DOM
     , REEMBOLSO_DIAS         SMALLINT
     , TEF_USA                BOOLEAN
@@ -202,7 +202,7 @@ BEGIN
     , PROMOCAO_PERMITE       BOOLEAN Not Null
     , COMISSAO_PERMITE       BOOLEAN Not Null
     , TAXA_ADM_PERC          PERC_DOM  Not Null
-    , VALOR_MINIMO           PRECO_DOM Not Null
+    , VALOR_MINIMO           DINH_DOM Not Null
     , COMISSAO_ABATER_PERC   PERC_DOM  Not Null
     , REEMBOLSO_DIAS         SMALLINT Not Null
     , TEF_USA                BOOLEAN Not Null
@@ -279,7 +279,7 @@ BEGIN
     , PROMOCAO_PERMITE       BOOLEAN Not Null
     , COMISSAO_PERMITE       BOOLEAN Not Null
     , TAXA_ADM_PERC          PERC_DOM  Not Null
-    , VALOR_MINIMO           PRECO_DOM Not Null
+    , VALOR_MINIMO           DINH_DOM Not Null
     , COMISSAO_ABATER_PERC   PERC_DOM  Not Null
     , REEMBOLSO_DIAS         SMALLINT Not Null
     , TEF_USA                BOOLEAN Not Null
