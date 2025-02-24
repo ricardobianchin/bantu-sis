@@ -12,6 +12,8 @@ function ConvertGMTToTDateTimeStr(const GMT: string): string;
 function DateTimeToSaudacao(const pDtH: TDateTIme): string;
 function ConvertISO8601ToTDateTimeStr(const GMT: string): string;
 
+function TimeStampStrToDateTime(const pTimeStampStr: string): TDateTime;
+
 function DataSQLFirebird(pD: tdate): string;
 function DataHoraSQLFirebird(pD: TDateTIme): string;
 
@@ -139,6 +141,26 @@ begin
   DT := IncHour(DT, -3); // Subtrai 3 horas
 
   Result := DateTimeToStr(DT);
+end;
+
+function TimeStampStrToDateTime(const pTimeStampStr: string): TDateTime;
+var
+  Year, Month, Day, Hour, Minute, Second, MilliSecond: Word;
+begin
+{
+2025-02-22 10:14:41.4440
+122456789 123456789 123
+}
+  Year := StrToInt(Copy(pTimeStampStr, 1, 4));
+  Month := StrToInt(Copy(pTimeStampStr, 6, 2));
+  Day := StrToInt(Copy(pTimeStampStr, 9, 2));
+
+  Hour := StrToInt(Copy(pTimeStampStr, 12, 2));
+  Minute := StrToInt(Copy(pTimeStampStr, 15, 2));
+  Second := StrToInt(Copy(pTimeStampStr, 18, 2));
+  MilliSecond := StrToInt(Copy(pTimeStampStr, 21, 3));
+
+  Result := EncodeDateTime(Year, Month, Day, Hour, Minute, Second, MilliSecond);
 end;
 
 function DataSQLFirebird(pD: tdate): string;
