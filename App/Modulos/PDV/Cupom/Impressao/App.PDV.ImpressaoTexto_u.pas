@@ -18,6 +18,7 @@ type
     property AppObj: IAppObj read FAppObj;
     property Terminal: ITerminal read FTerminal;
     property NCols: integer read GetNCols;
+    function GetAtivo: Boolean; override;
 
     // procedure GereInicio; override;
     procedure GereCabec; override;
@@ -88,6 +89,11 @@ procedure TImpressaoTextoPDV.GereTexto;
 begin
   inherited;
   GereCabec;
+end;
+
+function TImpressaoTextoPDV.GetAtivo: Boolean;
+begin
+  Result := FTerminal.ImpressoraModoEnvioId > 0;
 end;
 
 function TImpressaoTextoPDV.GetEspelhoAssuntoAtual: string;
