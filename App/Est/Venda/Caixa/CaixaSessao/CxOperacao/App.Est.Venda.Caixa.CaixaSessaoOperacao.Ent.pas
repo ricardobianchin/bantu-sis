@@ -4,7 +4,7 @@ interface
 
 uses App.Est.Venda.Caixa.CaixaSessao, App.Ent.Ed, Sis.Entities.Types,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, App.Est.Venda.Caixa.CxValor, App.Est.Venda.Caixa.CxValorList,
-  App.Types, Sis.Types;
+  App.Types, Sis.Types, System.Classes;
 
 type
   ICxOperacaoEnt = interface(IEntEd)
@@ -47,6 +47,9 @@ type
     function GetCriadoEm: TDateTime;
     procedure SetCriadoEm(Value: TDateTIme);
     property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
+
+    function GetLinhas: TStrings;
+    property Linhas: TStrings read GetLinhas;
   end;
 {
 OPER_LOG_ID;BIGINT;S;S
