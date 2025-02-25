@@ -184,7 +184,7 @@ begin
   try
     sSql := //
       'SELECT FORMA_ID, DESCR'#13#10 //
-      + 'FROM CAIXA_SESSAO_PDV_PA.FECHAMENTO_PAGFORMA_LISTA_GET;' //
+      + 'FROM CAIXA_SESSAO_PDV_PA.FECH_TELA_PAGFORMA_LISTA_GET;' //
       ;
 
     oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
