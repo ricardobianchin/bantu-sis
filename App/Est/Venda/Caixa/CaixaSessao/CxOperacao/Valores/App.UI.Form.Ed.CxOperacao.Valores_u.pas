@@ -30,6 +30,7 @@ type
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1ColEnter(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure OkAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     procedure ParaTodosRegs(pCode: TProc);
@@ -173,6 +174,13 @@ begin
   end;
   inherited;
 
+end;
+
+procedure TCxOperValoresEdForm.OkAct_DiagExecute(Sender: TObject);
+begin
+  if FDMemTable1.State <> TDataSetState.dsBrowse then
+    FDMemTable1.Post;
+  inherited;
 end;
 
 procedure TCxOperValoresEdForm.ParaTodosRegs(pCode: TProc);

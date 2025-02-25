@@ -2,13 +2,13 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
   Caption = 'CxOperValoresEdForm'
   ClientHeight = 328
   ClientWidth = 574
-  ExplicitWidth = 590
-  ExplicitHeight = 367
+  ExplicitWidth = 586
+  ExplicitHeight = 366
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 256
     Width = 574
-    ExplicitTop = 257
+    ExplicitTop = 256
   end
   inherited ObjetivoLabel: TLabel
     Width = 574
@@ -16,47 +16,50 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 276
     Width = 574
-    ExplicitTop = 277
+    ExplicitTop = 276
   end
   inherited BasePanel: TPanel
     Top = 291
     Width = 574
-    ExplicitTop = 291
-    ExplicitWidth = 574
+    ExplicitTop = 290
+    ExplicitWidth = 570
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      ExplicitLeft = 192
+      ExplicitLeft = 176
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      ExplicitLeft = 305
+      ExplicitLeft = 289
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      ExplicitLeft = 406
+      ExplicitLeft = 390
     end
   end
   inherited MeioPanel: TPanel
     Width = 574
     Height = 239
-    ExplicitWidth = 578
-    ExplicitHeight = 240
+    ExplicitWidth = 570
+    ExplicitHeight = 238
     inherited ObsPanel: TPanel
-      Top = 157
-      Width = 578
-      ExplicitTop = 156
-      ExplicitWidth = 574
+      Top = 156
+      Width = 574
+      ExplicitTop = 155
+      ExplicitWidth = 570
+      inherited Label2: TLabel
+        Width = 574
+      end
       inherited ObsMemo: TMemo
-        Width = 578
-        ExplicitWidth = 574
+        Width = 574
+        ExplicitWidth = 570
       end
     end
     object DBGrid1: TDBGrid
       Left = 0
       Top = 0
-      Width = 578
-      Height = 116
+      Width = 574
+      Height = 115
       Align = alClient
       BorderStyle = bsNone
       DataSource = DataSource1
-      Options = [dgEditing, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgCancelOnExit, dgTitleHotTrack]
+      Options = [dgEditing, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgTitleHotTrack]
       TabOrder = 1
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -89,8 +92,8 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
     end
     object TotPanel: TPanel
       Left = 0
-      Top = 116
-      Width = 578
+      Top = 115
+      Width = 574
       Height = 41
       Align = alBottom
       BevelOuter = bvNone
@@ -103,8 +106,8 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
       ParentFont = False
       TabOrder = 2
       StyleElements = [seClient, seBorder]
-      ExplicitTop = 115
-      ExplicitWidth = 574
+      ExplicitTop = 114
+      ExplicitWidth = 570
       object TotNumEditBtu: TNumEditBtu
         Left = 72
         Top = 3
