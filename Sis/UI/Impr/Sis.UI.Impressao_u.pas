@@ -22,7 +22,9 @@ type
     procedure EnvieImpressao; virtual;
     function GetDtDoc: TDateTime; virtual; abstract;
     function GetDocTitulo: string; virtual; abstract;
+    function GetAtivo: Boolean; virtual; abstract;
 
+    property Ativo: Boolean read GetAtivo;
   public
     procedure Imprima; virtual;
     constructor Create(pImpressoraNome: string; pUsuario: IUsuario);
@@ -73,7 +75,8 @@ begin
   GereInicio;
   GereTexto;
   GereFim;
-  EnvieImpressao;
+  if Ativo then
+    EnvieImpressao;
 end;
 
 end.
