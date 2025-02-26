@@ -5,7 +5,8 @@ interface
 uses Sis.DBI_u, App.Est.Venda.CaixaSessao.DBI, Sis.DB.DBTypes, Sis.Usuario,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.Est.Venda.CaixaSessaoRecord_u, Sis.Terminal, Sis.Entidade,
-  Sis.Entities.Types, Data.DB, FireDAC.Comp.Client;
+  Sis.Entities.Types, Data.DB, FireDAC.Comp.Client,
+  App.Est.Venda.Caixa.CaixaSessao, System.Classes;
 
 type
   /// <summary>
@@ -13,54 +14,22 @@ type
   /// </summary>
   TCaixaSessaoDBI = class(TDBI, ICaixaSessaoDBI)
   private
-    /// <summary>
-    /// Identificação da loja.
-    /// </summary>
     FLojaId: TLojaId;
-    /// <summary>
-    /// Identificação do terminal.
-    /// </summary>
     FTerminalId: TTerminalId;
-    /// <summary>
-    /// Identificação da máquina.
-    /// </summary>
     FMachineIdentId: smallint;
-    /// <summary>
-    /// Usuário logado no sistema.
-    /// </summary>
     FLogUsuario: IUsuario;
-    /// <summary>
-    /// Mensagem associada à sessão de caixa.
-    /// </summary>
     FMensagem: string;
-    /// <summary>
-    /// Obtém a mensagem associada à sessão de caixa.
-    /// </summary>
     function GetMensagem: string;
   public
-    /// <summary>
-    /// Construtor da classe TCaixaSessaoDBI.
-    /// </summary>
-    /// <param name="pDBConnection">Conexão com o banco de dados.</param>
-    /// <param name="pLogUsuario">Usuário logado no sistema.</param>
-    /// <param name="pLojaId">Identificação da loja.</param>
-    /// <param name="pTerminalId">Identificação do terminal.</param>
-    /// <param name="pMachineIdentId">Identificação da máquina.</param>
     constructor Create(pDBConnection: IDBConnection; pLogUsuario: IUsuario;
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
       reintroduce;
-    /// <summary>
-    /// Verifica se a sessão de caixa está aberta.
-    /// </summary>
-    /// <param name="pCaixaSessaoRec">Registro da sessão de caixa.</param>
-    /// <returns>Retorna true se a sessão estiver aberta; caso contrário, false.</returns>
     function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
       : Boolean;
-    /// <summary>
-    /// Propriedade que obtém a mensagem associada à sessão de caixa.
-    /// </summary>
     property Mensagem: string read GetMensagem;
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+    procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
+      pCaixaSessao: ICaixaSessao);
   end;
 
 implementation
@@ -356,6 +325,12 @@ begin
   finally
     DBConnection.Fechar;
   end;
+end;
+
+procedure TCaixaSessaoDBI.PreenchaCxSessRelatorio(pLinhas: TStrings;
+  pCaixaSessao: ICaixaSessao);
+begin
+
 end;
 
 end.
