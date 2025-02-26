@@ -45,7 +45,7 @@ begin
   sArqNome := FPastaRaiz + DateToPath(dtAgora);
   GarantirPasta(sArqNome);
 
-  sArqNome := sArqNome + DateToNomeArq(dtAgora) + ' ' + sAssunto + '.txt';
+  sArqNome := sArqNome + DateTimeToNomeArq(dtAgora) + ' ' + sAssunto + '.txt';
   EscreverArquivo(pTexto, sArqNome);
 
   sArqNome := FPastaRaiz + 'Ultimo '+FAssunto + '.txt';
