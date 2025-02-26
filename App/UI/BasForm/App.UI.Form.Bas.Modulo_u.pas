@@ -118,7 +118,7 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
 function TModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
   Result := TAppMenuForm.Create(Self);
-  Result.PegarAction(OcultarAction_ModuloBasForm, [vkF3]);
+//  Result.PegarAction(OcultarAction_ModuloBasForm, [vkF3]);
   Result.PegarAction(FecharAction_ModuloBasForm, [vkF4]);
 end;
 
