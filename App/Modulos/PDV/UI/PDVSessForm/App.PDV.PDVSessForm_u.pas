@@ -37,6 +37,7 @@ type
     ToolButton1: TToolButton;
     MensLabel: TLabel;
     procedure RelatActionExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FCaixaSessaoDBI: ICaixaSessaoDBI;
@@ -101,6 +102,16 @@ begin
     'App\PDV\tabview.pdv.sessform.csv';
 
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, SessFDMemTable, DBGrid1);
+end;
+
+procedure TPDVSessForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if key = #27 then
+  begin
+    key := #0;
+    Close;
+  end;
 end;
 
 procedure TPDVSessForm.RelatActionExecute(Sender: TObject);

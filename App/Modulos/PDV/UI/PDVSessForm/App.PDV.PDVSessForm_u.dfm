@@ -3,6 +3,7 @@ inherited PDVSessForm: TPDVSessForm
   ClientHeight = 218
   ClientWidth = 788
   Position = poDesktopCenter
+  OnKeyPress = FormKeyPress
   ExplicitWidth = 800
   ExplicitHeight = 256
   TextHeight = 15
@@ -15,8 +16,8 @@ inherited PDVSessForm: TPDVSessForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 383
-    ExplicitWidth = 536
+    ExplicitTop = 181
+    ExplicitWidth = 784
     object ToolBar1: TToolBar
       Left = 0
       Top = 0
@@ -28,6 +29,7 @@ inherited PDVSessForm: TPDVSessForm
       List = True
       ShowCaptions = True
       TabOrder = 0
+      ExplicitWidth = 784
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -45,7 +47,7 @@ inherited PDVSessForm: TPDVSessForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 536
+    ExplicitWidth = 784
   end
   object MeioPanel: TPanel [2]
     Left = 0
@@ -56,8 +58,8 @@ inherited PDVSessForm: TPDVSessForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
-    ExplicitTop = 28
-    ExplicitHeight = 268
+    ExplicitWidth = 784
+    ExplicitHeight = 145
     object DBGrid1Splitter: TSplitter
       Left = 0
       Top = 105
@@ -114,9 +116,8 @@ inherited PDVSessForm: TPDVSessForm
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitTop = 206
-      ExplicitWidth = 540
-      ExplicitHeight = 139
+      ExplicitWidth = 784
+      ExplicitHeight = 12
       object Splitter2: TSplitter
         Left = 273
         Top = 0
@@ -133,7 +134,7 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 0
-        ExplicitHeight = 139
+        ExplicitHeight = 12
         object ItemDBGrid: TDBGrid
           Left = 0
           Top = 0
@@ -160,10 +161,8 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 1
-        ExplicitLeft = 0
-        ExplicitTop = 384
-        ExplicitWidth = 540
-        ExplicitHeight = 36
+        ExplicitWidth = 503
+        ExplicitHeight = 12
         object PagDBGrid: TDBGrid
           Left = 0
           Top = 0
