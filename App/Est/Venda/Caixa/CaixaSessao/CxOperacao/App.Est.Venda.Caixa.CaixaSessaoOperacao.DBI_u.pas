@@ -86,14 +86,14 @@ var
 begin
   Ent := FCxOperacaoEnt;
 
-  Result := 'SELECT LINHA_TEXTO'#13#10
-{
+  Result := 'SELECT'#13#10
+
     + 'SESS_ID_RET'#13#10 // 0
     + ', OPER_ORDEM_RET'#13#10 // 1
     + ', OPER_LOG_ID_RET'#13#10 // 2
     + ', OPER_TIPO_ORDEM_RET'#13#10 // 3
     + ', LOG_DTH'#13#10 // 4
-}
+
     + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
 
     + '('#13#10 //
@@ -141,31 +141,11 @@ begin
       exit;
     try
       FCxOperacaoEnt.CaixaSessao.Id := q.Fields[0].AsInteger;
-
-      q.Next;
-      FCxOperacaoEnt.OperOrdem := q.Fields[0].AsInteger;
-
-      q.Next;
-      FCxOperacaoEnt.LogId := q.Fields[0].AsLargeInt;
-
-      q.Next;
-      FCxOperacaoEnt.OperTipoOrdem := q.Fields[0].AsInteger;
-
-      q.Next;
-      sDt := q.Fields[0].AsString;
+      FCxOperacaoEnt.OperOrdem := q.Fields[1].AsInteger;
+      FCxOperacaoEnt.LogId := q.Fields[2].AsLargeInt;
+      FCxOperacaoEnt.OperTipoOrdem := q.Fields[3].AsInteger;
+      sDt := q.Fields[4].AsString;
       FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
-
-
-{
-  Result := 'SELECT LINHA_TEXTO'#13#10
-    + 'SESS_ID_RET'#13#10 // 0
-    + ', OPER_ORDEM_RET'#13#10 // 1
-    + ', OPER_LOG_ID_RET'#13#10 // 2
-    + ', OPER_TIPO_ORDEM_RET'#13#10 // 3
-    + ', LOG_DTH'#13#10 // 4
-    + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
-}
-
     finally
       q.Free;
     end;
