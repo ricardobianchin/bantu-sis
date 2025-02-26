@@ -14,6 +14,8 @@ type
     FCxOperacaoEnt: ICxOperacaoEnt;
   protected
     procedure GereCabec; override;
+    procedure GereRodape; override;
+
     procedure GereTexto; override;
     function GetDtDoc: TDateTime; override;
     function GetDocTitulo: string; override;
@@ -25,7 +27,8 @@ type
 
 implementation
 
-uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats;
+uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
+  App.Est.Venda.Caixa.CxValor;
 
 { TImpressaoTextoPDVCxOperacao }
 
@@ -41,6 +44,7 @@ end;
 procedure TImpressaoTextoPDVCxOperacao.GereCabec;
 var
   s: string;
+  bColocaOrdem: Boolean;
 begin
   inherited;
   PegueLinha('');
@@ -48,29 +52,47 @@ begin
   // TIT
   s := FCxOperacaoEnt.CxOperacaoTipo.Name;
 
-  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
+  bColocaOrdem := (FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura) and
+    (FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopFechamento);
+
+  if bColocaOrdem then
     s := s + ' ' + FCxOperacaoEnt.OperTipoOrdem.ToString;
   PegueLinha(CenterStr(s, NCols));
 
-  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopFechamento then
-  begin
-    s := 'R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
-    PegueLinha(CenterStr(s, NCols));
-    PegueLinha('');
-  end;
-
-//  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
-//    s := FCxOperacaoEnt.GetCod
-//  else
-    s := FCxOperacaoEnt.CaixaSessao.GetCod;
-
+  s := 'R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
   PegueLinha(CenterStr(s, NCols));
+//  PegueLinha('');
+end;
+
+procedure TImpressaoTextoPDVCxOperacao.GereRodape;
+var
+  s: string;
+begin
+  // if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
+  // s := FCxOperacaoEnt.GetCod
+  // else
+  // s := FCxOperacaoEnt.CaixaSessao.GetCod;
+
+  s := FCxOperacaoEnt.GetCod;
+  PegueLinha(CenterStr(s, NCols));
+
+  inherited;
 end;
 
 procedure TImpressaoTextoPDVCxOperacao.GereTexto;
+var
+  s: string;
+  i: integer;
+  v: ICxValor;
 begin
   inherited;
-
+  if FCxOperacaoEnt.Linhas.Count > 0 then
+  begin
+    for i := 0 to FCxOperacaoEnt.Linhas.Count - 1 do
+    begin
+      PegueLinha(FCxOperacaoEnt.Linhas[i]);
+    end;
+  end;
 end;
 
 function TImpressaoTextoPDVCxOperacao.GetDocTitulo: string;

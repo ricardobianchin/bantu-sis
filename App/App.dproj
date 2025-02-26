@@ -738,6 +738,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PDVSessForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoCxSessRelat_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

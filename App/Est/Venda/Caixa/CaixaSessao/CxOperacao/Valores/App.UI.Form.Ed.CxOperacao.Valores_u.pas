@@ -57,6 +57,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.Types.strings_u, Sis.Types.Floats;
 { TCxOperValoresEdForm }
 
 procedure TCxOperValoresEdForm.AjusteControles;
@@ -88,6 +90,7 @@ procedure TCxOperValoresEdForm.ControlesToEnt;
 var
   i: Integer;
   v: Currency;
+  s: string;
 begin
   inherited;
   CxOperacaoEnt.Valor := TotNumEditBtu.AsCurrency;
@@ -98,6 +101,17 @@ begin
       v := FDMemTable1.Fields[2].AsCurrency;
       if v >= 0.01 then
       begin
+        s := Trim(FDMemTable1.Fields[1].AsString);
+
+        while Length(s) < 40 do
+        begin
+          s := s + '.';
+        end;
+
+        OverwriteStringRight(s, ' '+DinhToStr(v), 40);
+
+        CxOperacaoEnt.Linhas.Add(s);
+
         i := FDMemTable1.Fields[0].AsInteger;
         CxOperacaoEnt.CxValorList.PegueCxValor(i, v);
       end;

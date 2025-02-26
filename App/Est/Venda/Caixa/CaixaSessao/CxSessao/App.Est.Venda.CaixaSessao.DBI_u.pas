@@ -183,9 +183,6 @@ begin
       SessTerminalId := 1;
       SessId := 1;
 {$ENDIF}
-criar op relat
-apos fech, chama relat
-
       sSql := 'WITH T AS' + #13#10 + //
         '(' + #13#10 + //
         '  SELECT OPER_TIPO_ID, NAME' + #13#10 + //
