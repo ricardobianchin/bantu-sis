@@ -178,6 +178,13 @@ begin
       SessTerminalId := oDBQuery.DataSet.Fields[1].AsInteger;
       SessId := oDBQuery.DataSet.Fields[2].AsInteger;
       oDBQuery.Fechar;
+{$IFDEF DEBUG}
+      SessLojaId := 1;
+      SessTerminalId := 1;
+      SessId := 1;
+{$ENDIF}
+criar op relat
+apos fech, chama relat
 
       sSql := 'WITH T AS' + #13#10 + //
         '(' + #13#10 + //
