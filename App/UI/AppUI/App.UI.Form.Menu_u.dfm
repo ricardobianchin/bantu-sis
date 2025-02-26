@@ -2,25 +2,25 @@ inherited AppMenuForm: TAppMenuForm
   Caption = 'AppMenuForm'
   ClientHeight = 500
   ClientWidth = 800
+  ExplicitLeft = -162
   ExplicitWidth = 800
   ExplicitHeight = 500
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 480
     Width = 800
-    ExplicitTop = 301
+    ExplicitTop = 480
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 465
     Width = 800
-    ExplicitTop = 286
+    ExplicitTop = 465
   end
   inherited FundoPanel_AppMenuForm: TPanel
     Width = 800
     Height = 465
-    ExplicitLeft = 0
-    ExplicitWidth = 637
-    ExplicitHeight = 286
+    ExplicitWidth = 800
+    ExplicitHeight = 465
     object StatusPanel: TPanel [0]
       Left = 1
       Top = 438
@@ -30,8 +30,6 @@ inherited AppMenuForm: TAppMenuForm
       BevelOuter = bvNone
       Caption = '   '
       TabOrder = 0
-      ExplicitTop = 259
-      ExplicitWidth = 635
       object AjudaPanel: TPanel
         Left = 1
         Top = 3
@@ -67,7 +65,6 @@ inherited AppMenuForm: TAppMenuForm
       ParentBackground = False
       TabOrder = 1
       StyleElements = []
-      ExplicitWidth = 635
       DesignSize = (
         798
         41)
@@ -105,13 +102,13 @@ inherited AppMenuForm: TAppMenuForm
         TabOrder = 0
         Transparent = True
         StyleElements = []
-        ExplicitLeft = 592
         object FecharToolButton: TToolButton
           Left = 0
           Top = 0
           Hint = 'Esc - Fechar'
           Caption = 'CancelAct_Diag'
           ImageIndex = 0
+          OnClick = FecharToolButtonClick
         end
       end
     end
@@ -124,7 +121,8 @@ inherited AppMenuForm: TAppMenuForm
       TabOrder = 2
       ExplicitLeft = 1
       ExplicitTop = 42
-      ExplicitWidth = 635
+      ExplicitWidth = 798
+      ExplicitHeight = 396
     end
   end
 end

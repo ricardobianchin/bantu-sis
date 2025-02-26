@@ -17,6 +17,7 @@ type
   TMenuForm = class(TDiagBasForm)
     FundoPanel_AppMenuForm: TPanel;
     BotoesPanel: TPanel;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private const
     BUTTON_WIDTH = 110;
     BUTTON_ROW_HEIGHT = 74;
@@ -77,6 +78,15 @@ begin
 
   ActionEscolhida := FBotoes[oControl.Tag].Action;
   OkAct_Diag.Execute;
+end;
+
+procedure TMenuForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if key = #27 then
+  begin
+    CancelAct_Diag.Execute;
+  end;
 end;
 
 procedure TMenuForm.NovaLinha;

@@ -22,12 +22,12 @@ type
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
-    CxOperacaoAction: TAction;
+    SessFormAction: TAction;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure CxOperacaoActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure SessFormActionExecute(Sender: TObject);
   private
     { Private declarations }
     FPDVObj: IPDVObj;
@@ -93,7 +93,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.UI.IO.Input.Perg;
+uses Sis.DB.Factory, Sis.UI.IO.Input.Perg, App.PDV.PDVSessForm_u;
 
 procedure TPDVModuloBasForm.AjusteControles;
 begin
@@ -110,7 +110,7 @@ begin
   Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkB]);
   Result.NovaLinha;
 
-  Result.PegarAction(CxOperacaoAction, [vkO]);
+  Result.PegarAction(SessFormAction, [vkS]);
 
   a := FCaixaSessaoDM.GetAction(cxopSuprimento);
   Result.PegarAction(a, [vkU]);
@@ -174,12 +174,6 @@ begin
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
-end;
-
-procedure TPDVModuloBasForm.CxOperacaoActionExecute(Sender: TObject);
-begin
-  inherited;
-  showmessage('a');
 end;
 
 procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
@@ -351,6 +345,12 @@ begin
   end;
 end;
 
+procedure TPDVModuloBasForm.SessFormActionExecute(Sender: TObject);
+begin
+  inherited;
+  App.PDV.PDVSessForm_u.Exibir(nil, FCaixaSessaoDM.CaixaSessaoDBI, AppObj);
+end;
+
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
@@ -359,8 +359,8 @@ end;
 procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
-
+//  CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
+  SessFormAction.Execute;
 end;
 
 end.

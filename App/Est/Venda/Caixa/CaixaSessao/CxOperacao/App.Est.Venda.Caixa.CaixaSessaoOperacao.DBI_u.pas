@@ -22,6 +22,7 @@ type
     constructor Create(pDBConnection: IDBConnection;
       pCxOperacaoEnt: ICxOperacaoEnt);
     procedure PreencherPagamentoFormaDataSet(pDMemTable1: TFDMemTable);
+    procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
   end;
 
 implementation
@@ -169,6 +170,44 @@ begin
       q.Free;
     end;
 
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TCxOperacaoDBI.PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+var
+  oDBQuery: IDBQuery;
+  sSql: string;
+begin
+  DBConnection.Abrir;
+  try
+    sSql := //
+      'SELECT FORMA_ID, DESCR'#13#10 //
+      + 'FROM CAIXA_SESSAO_PDV_PA.FECH_TELA_PAGFORMA_LISTA_GET;' //
+      ;
+
+    oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
+      sSql, nil, nil);
+    pDMemTable1.DisableControls;
+    pDMemTable1.EmptyDataSet;
+    pDMemTable1.BeginBatch;
+    try
+      oDBQuery.Abrir;
+      while not oDBQuery.DataSet.Eof do
+      begin
+        pDMemTable1.Append;
+        pDMemTable1.Fields[0].AsInteger := oDBQuery.DataSet.Fields[0].AsInteger;
+        pDMemTable1.Fields[1].AsString := oDBQuery.DataSet.Fields[1].AsString;
+        pDMemTable1.Post;
+        oDBQuery.DataSet.Next;
+      end;
+    finally
+      oDBQuery.Fechar;
+      pDMemTable1.First;
+      pDMemTable1.EndBatch;
+      pDMemTable1.EnableControls;
+    end;
   finally
     DBConnection.Fechar;
   end;

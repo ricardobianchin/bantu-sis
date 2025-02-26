@@ -21,6 +21,10 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
     ExplicitTop = 251
     inherited StatusPanel1: TPanel
       Visible = False
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
+      end
     end
   end
   inherited PopupMenu1: TPopupMenu
@@ -42,9 +46,10 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
       Caption = 'Abrir o Caixa'
       OnExecute = CaixaSessaoAbrirTentarActionExecute
     end
-    object CxOperacaoAction: TAction
-      Caption = 'Opera'#231#245'es de Caixa'
-      OnExecute = CxOperacaoActionExecute
+    object SessFormAction: TAction
+      Category = 'CaixaSessao'
+      Caption = 'Sess'#227'o de Caixa'
+      OnExecute = SessFormActionExecute
     end
   end
 end

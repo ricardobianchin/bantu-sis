@@ -2,7 +2,7 @@ unit App.Est.Venda.CaixaSessao.DBI;
 
 interface
 
-uses Sis.DBI, App.Est.Venda.CaixaSessaoRecord_u;
+uses Sis.DBI, App.Est.Venda.CaixaSessaoRecord_u, FireDAC.Comp.Client;
 
 type
   ICaixaSessaoDBI = interface(IDBI)
@@ -11,6 +11,7 @@ type
 
     function GetMensagem: string;
     property Mensagem: string read GetMensagem;
+    procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
   end;
 
 implementation

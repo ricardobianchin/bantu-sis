@@ -50,6 +50,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Ok'
       TabOrder = 0
+      ExplicitLeft = 225
     end
     object CancelBitBtn_DiagBtn: TBitBtn
       Left = 325
@@ -60,6 +61,7 @@ inherited DiagBtnBasForm: TDiagBtnBasForm
       Anchors = [akTop, akRight]
       Caption = 'Cancelar'
       TabOrder = 1
+      ExplicitLeft = 321
     end
   end
   inherited ShowTimer_BasForm: TTimer

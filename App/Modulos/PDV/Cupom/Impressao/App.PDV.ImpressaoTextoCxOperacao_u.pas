@@ -49,7 +49,7 @@ begin
   s := FCxOperacaoEnt.CxOperacaoTipo.Name;
 
   if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
-    s := s + ' ' + (FCxOperacaoEnt.OperTipoOrdem + 1).ToString;
+    s := s + ' ' + FCxOperacaoEnt.OperTipoOrdem.ToString;
   PegueLinha(CenterStr(s, NCols));
 
   if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopFechamento then
@@ -59,9 +59,9 @@ begin
     PegueLinha('');
   end;
 
-  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
-    s := FCxOperacaoEnt.GetCod
-  else
+//  if FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura then
+//    s := FCxOperacaoEnt.GetCod
+//  else
     s := FCxOperacaoEnt.CaixaSessao.GetCod;
 
   PegueLinha(CenterStr(s, NCols));

@@ -56,6 +56,8 @@ type
   public
     { Public declarations }
     property CaixaSessao: ICaixaSessao read FCaixaSessao;
+    property CaixaSessaoDBI: ICaixaSessaoDBI read FCaixaSessaoDBI;
+
     property CaixaSessaoSituacao: TCaixaSessaoSituacao
       read FCaixaSessaoSituacao;
 
