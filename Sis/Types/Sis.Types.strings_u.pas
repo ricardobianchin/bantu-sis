@@ -83,6 +83,8 @@ function CenterStr(aTarget: string; aWidth: integer; aFillChar: Char = #32;
 
 // function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
+function KeyToStr(Key: Word): String;
+
 implementation
 
 uses System.StrUtils, System.Variants, System.Classes;
@@ -438,7 +440,7 @@ begin
   for i := 0 to Length(aPalavras) - 1 do
   begin
     sPalavra := aPalavras[i];
-    p := Pos('/'+sPalavra+'/', Conectores);
+    p := Pos('/' + sPalavra + '/', Conectores);
     if p = 0 then
     begin
       sPalavra[1] := AnsiUpperCase(sPalavra[1])[1];
@@ -866,6 +868,379 @@ begin
   begin
     L := Length(Result);
     Result := Result + StringOfChar(aFillChar, aWidth - L - iPadding);
+  end;
+end;
+
+function KeyToStr(Key: Word): String;
+begin
+  case Key of
+//    vkHIGHESTVALUE, vkUNKNOWN, vkUNDEFINED:
+//      Result := '??';
+
+    vk0:
+      Result := '0';
+    vk1:
+      Result := '1';
+    vk2:
+      Result := '2';
+    vk3:
+      Result := '3';
+    vk4:
+      Result := '4';
+    vk5:
+      Result := '5';
+    vk6:
+      Result := '6';
+    vk7:
+      Result := '7';
+    vk8:
+      Result := '8';
+    vk9:
+      Result := '9';
+    vkA:
+      Result := 'A';
+    vkB:
+      Result := 'B';
+    vkC:
+      Result := 'C';
+    vkD:
+      Result := 'D';
+    vkE:
+      Result := 'E';
+    vkF:
+      Result := 'F';
+    vkG:
+      Result := 'G';
+    vkH:
+      Result := 'H';
+    vkI:
+      Result := 'I';
+    vkJ:
+      Result := 'J';
+    vkK:
+      Result := 'K';
+    vkL:
+      Result := 'L';
+    vkM:
+      Result := 'M';
+    vkN:
+      Result := 'N';
+    vkO:
+      Result := 'O';
+    vkP:
+      Result := 'P';
+    vkQ:
+      Result := 'Q';
+    vkR:
+      Result := 'R';
+    vkS:
+      Result := 'S';
+    vkT:
+      Result := 'T';
+    vkU:
+      Result := 'U';
+    vkV:
+      Result := 'V';
+    vkW:
+      Result := 'W';
+    vkX:
+      Result := 'X';
+    vkY:
+      Result := 'Y';
+    vkZ:
+      Result := 'Z';
+
+    vkF1:
+      Result := 'F1';
+    vkF2:
+      Result := 'F2';
+    vkF3:
+      Result := 'F2';
+    vkF4:
+      Result := 'F4';
+    vkF5:
+      Result := 'F5';
+    vkF6:
+      Result := 'F6';
+    vkF7:
+      Result := 'F7';
+    vkF8:
+      Result := 'F8';
+    vkF9:
+      Result := 'F9';
+    vkF10:
+      Result := 'F10';
+    vkF11:
+      Result := 'F11';
+    vkF12:
+      Result := 'F12';
+    vkF13:
+      Result := 'F13';
+    vkF14:
+      Result := 'F14';
+    vkF15:
+      Result := 'F15';
+    vkF16:
+      Result := 'F16';
+    vkF17:
+      Result := 'F17';
+    vkF18:
+      Result := 'F18';
+    vkF19:
+      Result := 'F19';
+    vkF20:
+      Result := 'F20';
+    vkF21:
+      Result := 'F21';
+    vkF22:
+      Result := 'F22';
+    vkF23:
+      Result := 'F23';
+    vkF24:
+      Result := 'F24';
+
+    vkTAB:
+      Result := 'Tab';
+    vkSHIFT:
+      Result := 'Shift'; // See also vkLSHIFT, vkRSHIFT
+    vkRETURN:
+      Result := 'Enter'; // The "Enter" key, also used for a keypad center press
+    vkBACK:
+      Result := 'Back'; // The "Backspace" key, dont confuse with the
+    // Android BACK key which is mapped to vkESCAPE
+    vkCONTROL:
+      Result := 'Ctr'; // See also vkLCONTROL, vkRCONTROL
+    vkDELETE:
+      Result := 'Del';
+    vkMENU:
+      Result := 'Alt';
+      // The ALT key. Also called "Option" in Mac OS X. See also vkLMENU, vkRMENU
+    vkPAUSE:
+      Result := 'Pause'; // Pause/Break key
+    vkCAPITAL:
+      Result := 'Caps'; // CapsLock key
+    vkSPACE:
+      Result := 'Space';
+    vkEND:
+      Result := 'End';
+    vkHOME:
+      Result := 'Home';
+    vkLEFT:
+      Result := 'Left';
+    vkUP:
+      Result := 'Up';
+    vkRIGHT:
+      Result := 'Right';
+    vkDOWN:
+      Result := 'Down';
+    vkSELECT:
+      Result := 'Selct';
+    vkPRINT:
+      Result := 'Print'; // PrintScreen key
+    vkEXECUTE:
+      Result := 'Execte';
+    vkSNAPSHOT:
+      Result := 'Snapsht';
+    vkINSERT:
+      Result := 'Insrt';
+    vkCLEAR:
+      Result := 'Clear';
+
+    vkLWIN:
+      Result := 'LSYS';
+      // In Mac OS X this is the Apple, or Command key. Windows Key in PC keyboards
+    vkRWIN:
+      Result := 'RSYS';
+      // In Mac OS X this is the Apple, or Command key. Windows Key in PC keyboards
+    vkESCAPE:
+      Result := 'Esc'; // Also used for the hardware Back key in Android
+    vkPRIOR:
+      Result := 'PageUp'; // Page Up
+    vkNEXT:
+      Result := 'PageDwn'; // Page Down
+    vkSCROLL:
+      Result := 'Scrll';
+
+    vkNUMLOCK:
+      Result := 'Num';
+    vkNUMPAD0:
+      Result := 'Num0';
+    vkNUMPAD1:
+      Result := 'Num1';
+    vkNUMPAD2:
+      Result := 'Num2';
+    vkNUMPAD3:
+      Result := 'Num3';
+    vkNUMPAD4:
+      Result := 'Num4';
+    vkNUMPAD5:
+      Result := 'Num5';
+    vkNUMPAD6:
+      Result := 'Num6';
+    vkNUMPAD7:
+      Result := 'Num7';
+    vkNUMPAD8:
+      Result := 'Num8';
+    vkNUMPAD9:
+      Result := 'Num9';
+    vkMULTIPLY:
+      Result := 'Num*';
+      // vkMULTIPLY up to vkDIVIDE are usually in the numeric keypad in PC keyboards
+    vkADD:
+      Result := 'Num+';
+    vkSEPARATOR:
+      Result := 'NumEntr';
+    vkSUBTRACT:
+      Result := 'Num-';
+//    vkDECIMAL:
+//      Result := 'Num' + DefaultFormatSettings.DecimalSeparator;
+    vkDIVIDE:
+      Result := 'Num/';
+
+    vkLBUTTON:
+      Result := 'LBtn';
+    vkRBUTTON:
+      Result := 'RBtn';
+    vkCANCEL:
+      Result := 'Cncl';
+    vkMBUTTON:
+      Result := 'MBtn';
+    vkXBUTTON1:
+      Result := 'XBtn1';
+    vkXBUTTON2:
+      Result := 'XBtn2';
+
+//    vkOEM_PLUS:
+//      Result := '+'; // For any country/region, the '+' key
+//    vkOEM_COMMA:
+//      Result := ','; // For any country/region, the ',' key
+//    vkOEM_MINUS:
+//      Result := '-'; // For any country/region, the '-' key
+//    vkOEM_PERIOD:
+//      Result := '.'; // For any country/region, the '.' key
+
+    // Application.ExtendedKeysSupport
+    vkLSHIFT:
+      Result := 'LShift';
+    vkRSHIFT:
+      Result := 'RShift';
+    vkLCONTROL:
+      Result := 'LCtr';
+    vkRCONTROL:
+      Result := 'RCtr';
+    vkLMENU:
+      Result := 'LAlt'; // Left ALT key (also named Option in Mac OS X)
+    vkRMENU:
+      Result := 'RAlt'; // Right ALT key (also named Option in Mac OS X)
+
+    vkHELP:
+      Result := 'Help';
+    vkAPPS:
+      Result := 'Apps'; // The PopUp key in PC keyboards
+    vkSLEEP:
+      Result := 'Sleep';
+
+    vkPROCESSKEY:
+      Result := 'Prgrss'; // IME Process key
+
+    vkKANA:
+      Result := 'Kana';
+    // vkHANGUL:     Result := 'Hangul';
+    vkJUNJA:
+      Result := 'Junja';
+    vkFINAL:
+      Result := 'Final';
+    vkHANJA:
+      Result := 'Hanja';
+    // vkKANJI:      Result := 'Kanji';
+    vkCONVERT:
+      Result := 'Conrt';
+    vkNONCONVERT:
+      Result := 'NConrt';
+    vkACCEPT:
+      Result := 'Acc';
+    vkMODECHANGE:
+      Result := 'MdlCh';
+
+    vkATTN:
+      Result := 'Attn';
+    vkCRSEL:
+      Result := 'CrSel';
+    vkEXSEL:
+      Result := 'ExSel';
+    vkEREOF:
+      Result := 'Ereof';
+    vkPLAY:
+      Result := 'Play';
+    vkZOOM:
+      Result := 'Zoom';
+    vkNONAME:
+      Result := 'NoName';
+    vkPA1:
+      Result := 'Pa1';
+
+//    vkLCL_POWER:
+//      Result := 'Power';
+//    vkLCL_CALL:
+//      Result := 'Call';
+//    vkLCL_ENDCALL:
+//      Result := 'EndCall';
+//    vkLCL_AT:
+//      Result := '@';
+      // Not equivalent to anything < $FF, will only be sent by a primary "@" key
+    // but not for a @ key as secondary action of a "2" key for example
+  else
+    Result := '???';
+
+    { Not Used Keys:
+
+      vkBROWSER_BACK        = $A6;
+      vkBROWSER_FORWARD     = $A7;
+      vkBROWSER_REFRESH     = $A8;
+      vkBROWSER_STOP        = $A9;
+      vkBROWSER_SEARCH      = $AA;
+      vkBROWSER_FAVORITES   = $AB;
+      vkBROWSER_HOME        = $AC;
+      vkVOLUME_MUTE         = $AD;
+      vkVOLUME_DOWN         = $AE;
+      vkVOLUME_UP           = $AF;
+      vkMEDIA_NEXT_TRACK    = $B0;
+      vkMEDIA_PREV_TRACK    = $B1;
+      vkMEDIA_STOP          = $B2;
+      vkMEDIA_PLAY_PAUSE    = $B3;
+      vkLAUNCH_MAIL         = $B4;
+      vkLAUNCH_MEDIA_SELECT = $B5;
+      vkLAUNCH_APP1         = $B6;
+      vkLAUNCH_APP2         = $B7;
+
+      // vkOEM keys are utilized only when Application.ExtendedKeysSupport is false
+
+      vkOEM_1               = $BA; // Used for miscellaneous characters; it can vary by keyboard.
+      // For the US standard keyboard, the ';:' key
+
+      vkOEM_2               = $BF; // Used for miscellaneous characters; it can vary by keyboard.
+      // For the US standard keyboard, the '/?' key
+      vkOEM_3               = $C0; // Used for miscellaneous characters; it can vary by keyboard.
+      // For the US standard keyboard, the '`~' key
+
+      vkOEM_4               = $DB; // Used for miscellaneous characters; it can vary by keyboard.
+      // For the US standard keyboard, the '[{' key
+      vkOEM_5               = $DC; // Used for miscellaneous characters; it can vary by keyboard.
+      // For the US standard keyboard, the '\|' key
+      vkOEM_6               = $DD; // Used for miscellaneous characters; it can vary by keyboard.
+      // For the US standard keyboard, the '] } //' key vkOEM_7 = $DE;
+    // Used for miscellaneous characters; it can vary by keyboard.
+    // For the US standard keyboard, the 'single-quote/double-quote' key
+//    vkOEM_8 = $DF;
+    // Used for miscellaneous characters; it can vary by keyboard.
+
+    // $E0 Reserved
+    // $E1 OEM specific
+//    vkOEM_102 = $E2;
+    // Either the angle bracket key or the backslash key on the RT 102-key keyboard
+
+  //  vkOEM_CLEAR = $FE;
+    //}
   end;
 end;
 
