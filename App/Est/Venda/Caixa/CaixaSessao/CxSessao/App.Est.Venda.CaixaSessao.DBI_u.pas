@@ -5,8 +5,7 @@ interface
 uses Sis.DBI_u, App.Est.Venda.CaixaSessao.DBI, Sis.DB.DBTypes, Sis.Usuario,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.Est.Venda.CaixaSessaoRecord_u, Sis.Terminal, Sis.Entidade,
-  Sis.Entities.Types, Data.DB, FireDAC.Comp.Client,
-  App.Est.Venda.Caixa.CaixaSessao, System.Classes;
+  Sis.Entities.Types, Data.DB, FireDAC.Comp.Client, System.Classes;
 
 type
   /// <summary>
@@ -24,12 +23,19 @@ type
     constructor Create(pDBConnection: IDBConnection; pLogUsuario: IUsuario;
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
       reintroduce;
+
     function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
       : Boolean;
+
+    function CaixaSessaoUltimoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
+      : Boolean;
+
     property Mensagem: string read GetMensagem;
-    procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+    procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable;
+      pCaixaSessaoRec: TCaixaSessaoRec);
+
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
-      pCaixaSessao: ICaixaSessao);
+      pCaixaSessaoRec: TCaixaSessaoRec);
   end;
 
 implementation
@@ -93,6 +99,47 @@ begin
   }
 end;
 
+function TCaixaSessaoDBI.CaixaSessaoUltimoGet(var pCaixaSessaoRec
+  : TCaixaSessaoRec): Boolean;
+var
+  oDBQuery: IDBQuery;
+  sSql: string;
+begin
+{$IFNDEF DEBUG}
+  sSql := 'select FIRST(1)' + //
+    ' LOJA_ID' + //
+    ', TERMINAL_ID' + //
+    ', SESS_ID' + //
+    ' FROM CAIXA_SESSAO' + //
+    ' ORDER BY SESS_ID DESC' //
+    ;
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+
+  oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
+    sSql, nil, nil);
+
+  try
+    oDBQuery.Abrir;
+    try
+      pCaixaSessaoRec.LojaId := oDBQuery.DataSet.Fields[0].AsInteger;
+      pCaixaSessaoRec.TerminalId := oDBQuery.DataSet.Fields[1].AsInteger;
+      pCaixaSessaoRec.SessId := oDBQuery.DataSet.Fields[2].AsInteger;
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+
+{$ELSE}
+  pCaixaSessaoRec.LojaId := 1;
+  pCaixaSessaoRec.TerminalId := 1;
+  pCaixaSessaoRec.SessId := 1;
+{$ENDIF}
+end;
+
 constructor TCaixaSessaoDBI.Create(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
   pMachineIdentId: smallint);
@@ -109,15 +156,13 @@ begin
   Result := FMensagem;
 end;
 
-procedure TCaixaSessaoDBI.PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+procedure TCaixaSessaoDBI.PDVCarregarDataSet(pDMemTable1: TFDMemTable;
+  pCaixaSessaoRec: TCaixaSessaoRec);
 var
   oDBQuery: IDBQuery;
   sSql: string;
   t: TFDMemTable;
   q: TDataSet;
-  SessLojaId: TLojaId;
-  SessTerminalId: TTerminalId;
-  SessId: integer;
 begin
   t := pDMemTable1;
 
@@ -132,27 +177,10 @@ begin
     pDMemTable1.BeginBatch;
 
     try
-      sSql := 'select FIRST(1) LOJA_ID, TERMINAL_ID, SESS_ID' +
-        ' FROM CAIXA_SESSAO' + ' ORDER BY SESS_ID DESC';
-//{$IFDEF DEBUG}
-//      CopyTextToClipboard(sSql);
-//{$ENDIF}
-      oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
-        sSql, nil, nil);
-
-      oDBQuery.Abrir;
-      if oDBQuery.DataSet.IsEmpty then
+      if pCaixaSessaoRec.SessId < 1 then
         exit;
-      SessLojaId := oDBQuery.DataSet.Fields[0].AsInteger;
-      SessTerminalId := oDBQuery.DataSet.Fields[1].AsInteger;
-      SessId := oDBQuery.DataSet.Fields[2].AsInteger;
-      oDBQuery.Fechar;
-{$IFDEF DEBUG}
-      SessLojaId := 1;
-      SessTerminalId := 1;
-      SessId := 1;
-{$ENDIF}
-      sSql := 'WITH T AS' + #13#10 + //
+      sSql := //
+        'WITH T AS' + #13#10 + //
         '(' + #13#10 + //
         '  SELECT OPER_TIPO_ID, NAME' + #13#10 + //
         '  FROM CAIXA_SESSAO_OPERACAO_TIPO' + #13#10 + //
@@ -161,9 +189,10 @@ begin
         '  SELECT LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM,' + #13#10 + //
         '  OPER_LOG_ID, OPER_TIPO_ID, VALOR, OBS, CANCELADO' + #13#10 + //
         '  FROM CAIXA_SESSAO_OPERACAO' + #13#10 + //
-        '  WHERE LOJA_ID = ' + SessLojaId.ToString + #13#10 + //
-        '  AND TERMINAL_ID = ' + SessTerminalId.ToString + #13#10 + //
-        '  AND SESS_ID = ' + SessId.ToString + #13#10 + //
+        '  WHERE LOJA_ID = ' + pCaixaSessaoRec.LojaId.ToString + #13#10 + //
+        '  AND TERMINAL_ID = ' + pCaixaSessaoRec.TerminalId.ToString + #13#10 +
+      //
+        '  AND SESS_ID = ' + pCaixaSessaoRec.SessId.ToString + #13#10 + //
         '), L AS' + #13#10 + //
         '(' + #13#10 + //
         '  SELECT LOJA_ID, TERMINAL_ID, LOG_ID, DTH' + #13#10 + //
@@ -223,8 +252,8 @@ begin
 
         t.FieldByName('COD_STR').AsString :=
           Sis.Entities.Types.GetCod(t.FieldByName('LOJA_ID').AsInteger,
-          t.FieldByName('TERMINAL_ID').AsInteger,
-          t.FieldByName('ID').AsInteger, 'CX') + '-' + t.FieldByName('ORDEM').AsInteger.ToString;
+          t.FieldByName('TERMINAL_ID').AsInteger, t.FieldByName('ID').AsInteger,
+          'CX') + '-' + t.FieldByName('ORDEM').AsInteger.ToString;
 
         pDMemTable1.Post;
         oDBQuery.DataSet.Next;
@@ -241,9 +270,10 @@ begin
         '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, VENDA_ID,' + #13#10 + //
         '  TOTAL_LIQUIDO' + #13#10 + //
         '  FROM VENDA' + #13#10 + //
-        '  WHERE LOJA_ID = ' + SessLojaId.ToString + #13#10 + //
-        '  AND TERMINAL_ID = ' + SessTerminalId.ToString + #13#10 + //
-        '  AND SESS_ID = ' + SessId.ToString + #13#10 + //
+        '  WHERE LOJA_ID = ' + pCaixaSessaoRec.LojaId.ToString + #13#10 + //
+        '  AND TERMINAL_ID = ' + pCaixaSessaoRec.TerminalId.ToString + #13#10 +
+      //
+        '  AND SESS_ID = ' + pCaixaSessaoRec.SessId.ToString + #13#10 + //
         ')' + #13#10 + //
         'SELECT' + #13#10 + //
         '  E.LOJA_ID' + #13#10 + //
@@ -265,9 +295,9 @@ begin
         '  AND E.EST_MOV_ID = V.EST_MOV_ID' + #13#10 + //
         ';';
 
-//{$IFDEF DEBUG}
-//      CopyTextToClipboard(sSql);
-//{$ENDIF}
+      // {$IFDEF DEBUG}
+      // CopyTextToClipboard(sSql);
+      // {$ENDIF}
       oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
         sSql, nil, nil);
 
@@ -318,8 +348,8 @@ begin
       pDMemTable1.IndexName := 'IdxCriadoEm';
 
       // pDMemTable1.AddIndex( 'IdxCriadoEm', 'CRIADO_EM', '', [], '', '');
-//      pDMemTable1.IndexName := 'IdxCriadoEm';
-//      pDMemTable1.Indexes.Add.Active := True;
+      // pDMemTable1.IndexName := 'IdxCriadoEm';
+      // pDMemTable1.Indexes.Add.Active := True;
       pDMemTable1.EnableControls;
     end;
   finally
@@ -328,7 +358,7 @@ begin
 end;
 
 procedure TCaixaSessaoDBI.PreenchaCxSessRelatorio(pLinhas: TStrings;
-  pCaixaSessao: ICaixaSessao);
+  pCaixaSessaoRec: TCaixaSessaoRec);
 begin
 
 end;

@@ -7,7 +7,8 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
   App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
   App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca, Sis.Usuario,
-  App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
+  App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.CaixaSessaoRecord_u, App.Est.Venda.CaixaSessao.DBI;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -36,6 +37,11 @@ function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
   pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
   pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
 
+function CupomEspelhoCxSessRelatCreate(pAppObj: IAppObj): ICupomEspelho;
+function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string; pUsuario: IUsuario;
+      pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
+      pCaixaSessaoRec: TCaixaSessaoRec): IImpressao;
+
 implementation
 
 uses System.SysUtils, App.PDV.VendaPag.List_u, Sis.UI.IO.Files
@@ -54,6 +60,7 @@ uses System.SysUtils, App.PDV.VendaPag.List_u, Sis.UI.IO.Files
     , App.PDV.UI.Balanca.VendaForm.Acbr_u, System.IniFiles //
 
     , App.PDV.ImpressaoTextoCxOperacao_u //
+    , App.PDV.ImpressaoTextoCxSessRelat_u //
     ;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
@@ -169,6 +176,19 @@ function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
 begin
   Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pUsuario,
     pAppObj, pTerminal, pCxOperacaoEnt);
+end;
+
+function CupomEspelhoCxSessRelatCreate(pAppObj: IAppObj): ICupomEspelho;
+begin
+  Result := TCupomEspelho.Create(pAppObj, 'Relatorio de Caixa');
+end;
+
+function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string; pUsuario: IUsuario;
+      pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
+      pCaixaSessaoRec: TCaixaSessaoRec): IImpressao;
+begin
+  Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome, pUsuario,
+    pAppObj, pTerminal, pCaixaSessaoDBI, pCaixaSessaoRec);
 end;
 
 end.
