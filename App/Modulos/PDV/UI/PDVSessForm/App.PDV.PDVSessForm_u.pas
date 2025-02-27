@@ -10,39 +10,38 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ToolWin,
-  Vcl.StdCtrls, Sis.UI.IO.Output;
+  Vcl.StdCtrls, Sis.UI.IO.Output, App.Est.Venda.CaixaSessaoRecord_u,
+  Sis.UI.Form.Bas.Diag_u;
 
 type
-  TPDVSessForm = class(TBasForm)
+  TPDVSessForm = class(TDiagBasForm)
     BasePanel: TPanel;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
     TopoPanel: TPanel;
     MeioPanel: TPanel;
+    DBGrid1Splitter: TSplitter;
     DBGrid1: TDBGrid;
     SubPanel: TPanel;
-    DBGrid1Splitter: TSplitter;
-    ItemPanel: TPanel;
     Splitter2: TSplitter;
-    PagPanel: TPanel;
+    ItemPanel: TPanel;
     ItemDBGrid: TDBGrid;
+    PagPanel: TPanel;
     PagDBGrid: TDBGrid;
+    ToolBarActionList: TActionList;
+    RelatAction: TAction;
     SessFDMemTable: TFDMemTable;
     ItemFDMemTable: TFDMemTable;
     PagFDMemTable: TFDMemTable;
     ItemDataSource: TDataSource;
     PagDataSource: TDataSource;
     SessDataSource: TDataSource;
-    ToolBar1: TToolBar;
-    ActionList1: TActionList;
-    RelatAction: TAction;
-    ToolButton1: TToolButton;
-    MensLabel: TLabel;
     procedure RelatActionExecute(Sender: TObject);
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FCaixaSessaoDBI: ICaixaSessaoDBI;
+    FCaixaSessaoRec: TCaixaSessaoRec;
     FAppObj: IAppObj;
-    FErroOutput: IOutput;
   protected
     procedure AjusteControles; override;
   public
@@ -54,14 +53,15 @@ type
 procedure Exibir(AOwner: TComponent; pCaixaSessaoDBI: ICaixaSessaoDBI;
       pAppObj: IAppObj);
 
-var
+      var
   PDVSessForm: TPDVSessForm;
 
 implementation
 
 {$R *.dfm}
 
-uses System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory;
+uses System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
+  App.PDV.ImpressaoTextoCxSessRelat_u;
 
 procedure Exibir(AOwner: TComponent; pCaixaSessaoDBI: ICaixaSessaoDBI;
       pAppObj: IAppObj);
@@ -79,7 +79,8 @@ end;
 procedure TPDVSessForm.AjusteControles;
 begin
   inherited;
-  FCaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable);
+  FCaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessaoRec);
+  FCaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable, FCaixaSessaoRec);
 end;
 
 constructor TPDVSessForm.Create(AOwner: TComponent;
@@ -88,7 +89,6 @@ var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
-  FErroOutput := LabelOutputCreate(MensLabel);
   FCaixaSessaoDBI := pCaixaSessaoDBI;
   FAppObj := pAppObj;
 
@@ -104,25 +104,15 @@ begin
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, SessFDMemTable, DBGrid1);
 end;
 
-procedure TPDVSessForm.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-  inherited;
-  if key = #27 then
-  begin
-    key := #0;
-    Close;
-  end;
-end;
-
 procedure TPDVSessForm.RelatActionExecute(Sender: TObject);
 begin
   inherited;
   if SessFDMemTable.IsEmpty then
   begin
-    FErroOutput.Exibir('Não há registro visivel a processar');
+    ErroOutput.Exibir('Não há registro visivel a processar');
     exit;
   end;
-//
+  FCaixaSessaoDBI
 end;
 
 end.
