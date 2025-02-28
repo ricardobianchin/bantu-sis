@@ -20,7 +20,7 @@ type
     procedure GereRodape; virtual;
     procedure GereFim; virtual;
     procedure EnvieImpressao; virtual;
-    function GetDtDoc: TDateTime; virtual; abstract;
+    function GetDtDoc: TDateTime; virtual;
     function GetDocTitulo: string; virtual; abstract;
     function GetAtivo: Boolean; virtual; abstract;
 
@@ -31,6 +31,8 @@ type
   end;
 
 implementation
+
+uses Sis.Sis.Constants;
 
 { TImpressao }
 
@@ -68,6 +70,11 @@ end;
 procedure TImpressao.GereTexto;
 begin
 
+end;
+
+function TImpressao.GetDtDoc: TDateTime;
+begin
+  Result :=  DATA_ZERADA;
 end;
 
 procedure TImpressao.Imprima;
