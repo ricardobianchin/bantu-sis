@@ -8,6 +8,8 @@ procedure CharSemAcento(var Key: Char; pTudoMaiusculas: boolean = True);
 function StrSemAcento(const pStr: string;
   pTudoMaiusculas: boolean = True): string;
 
+function AddSpacesBetweenChars(pStr: string): string;
+
 function CharIsUpper(pC: Char): boolean;
 function CharIsLower(pC: Char): boolean;
 
@@ -182,6 +184,18 @@ begin
   end;
   if pTudoMaiusculas then
     Result := UpperCase(Result);
+end;
+
+function AddSpacesBetweenChars(pStr: string): string;
+var
+  i: integer;
+begin
+  Result := '';
+  for i := 1 to Length(pStr) do
+  begin
+    Result := Result + pStr[i] + ' ';
+  end;
+  Result := Trim(Result);
 end;
 
 procedure CharToName(var Key: Char);
