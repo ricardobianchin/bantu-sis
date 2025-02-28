@@ -3,7 +3,7 @@ unit App.PDV.ImpressaoTextoVenda_u;
 interface
 
 uses App.PDV.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.Venda,
-  App.PDV.VendaItem, App.PDV.CupomEspelho, App.PDV.VendaPag, Sis.Usuario;
+  App.PDV.VendaItem, App.PDV.VendaPag, Sis.Usuario;
 
 type
   TImpressaoTextoPDVVenda = class(TImpressaoTextoPDV)
@@ -18,6 +18,7 @@ type
     procedure GereTexto; override;
     function GetDtDoc: TDateTime; override;
     function GetDocTitulo: string; override;
+    function GetEspelhoAssuntoAtual: string; override;
   public
     constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
       pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda);
@@ -165,6 +166,11 @@ end;
 function TImpressaoTextoPDVVenda.GetDtDoc: TDateTime;
 begin
   Result := FPDVVenda.DtHDoc;
+end;
+
+function TImpressaoTextoPDVVenda.GetEspelhoAssuntoAtual: string;
+begin
+  Result := FPDVVenda.GetCod;
 end;
 
 end.

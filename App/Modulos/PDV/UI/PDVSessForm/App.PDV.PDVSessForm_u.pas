@@ -10,8 +10,8 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ToolWin,
-  Vcl.StdCtrls, Sis.UI.IO.Output, App.Est.Venda.CaixaSessaoRecord_u,
-  Sis.UI.Form.Bas.Diag_u;
+  Vcl.StdCtrls, Sis.UI.IO.Output, Sis.UI.Form.Bas.Diag_u, Sis.UI.Impressao,
+  Sis.Terminal, Sis.Usuario, App.Est.Venda.Caixa.CaixaSessao;
 
 type
   TPDVSessForm = class(TDiagBasForm)
@@ -37,36 +37,43 @@ type
     PagDataSource: TDataSource;
     SessDataSource: TDataSource;
     procedure RelatActionExecute(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FCaixaSessaoDBI: ICaixaSessaoDBI;
-    FCaixaSessaoRec: TCaixaSessaoRec;
     FAppObj: IAppObj;
+    FTerminal: ITerminal;
+    FCaixaSessao: ICaixaSessao;
+    FCaixaSessaoDBI: ICaixaSessaoDBI;
+    FImpressao: IImpressao;
   protected
     procedure AjusteControles; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pAppObj: IAppObj); reintroduce;
+    constructor Create(AOwner: TComponent; pImpressoraNome: string;
+      pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+      pCaixaSessaoDBI: ICaixaSessaoDBI); reintroduce;
   end;
 
-procedure Exibir(AOwner: TComponent; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pAppObj: IAppObj);
+procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
+  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCaixaSessaoDBI: ICaixaSessaoDBI);
 
-      var
+var
   PDVSessForm: TPDVSessForm;
 
 implementation
 
 {$R *.dfm}
 
-uses System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
-  App.PDV.ImpressaoTextoCxSessRelat_u;
+uses System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory, App.PDV.Factory_u,
+  App.PDV.ImpressaoTextoCxSessRelat_u, App.Est.Venda.CaixaSessao.Factory_u;
 
-procedure Exibir(AOwner: TComponent; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pAppObj: IAppObj);
+procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
+  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCaixaSessaoDBI: ICaixaSessaoDBI);
 begin
-  PDVSessForm := TPDVSessForm.Create(AOwner, pCaixaSessaoDBI, pAppObj);
+  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pUsuario, pAppObj,
+    pTerminal, pCaixaSessaoDBI);
   try
     PDVSessForm.ShowModal;
   finally
@@ -79,18 +86,29 @@ end;
 procedure TPDVSessForm.AjusteControles;
 begin
   inherited;
-  FCaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessaoRec);
-  FCaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable, FCaixaSessaoRec);
+  FCaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
+  FCaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable, FCaixaSessao);
 end;
 
-constructor TPDVSessForm.Create(AOwner: TComponent;
-  pCaixaSessaoDBI: ICaixaSessaoDBI; pAppObj: IAppObj);
+constructor TPDVSessForm.Create(AOwner: TComponent; pImpressoraNome: string;
+  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCaixaSessaoDBI: ICaixaSessaoDBI);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
-  FCaixaSessaoDBI := pCaixaSessaoDBI;
   FAppObj := pAppObj;
+  FTerminal := pTerminal;
+
+  FCaixaSessao := CaixaSessaoCreate(pUsuario //
+    , FAppObj.SisConfig.LocalMachineId.IdentId //
+    , FAppObj.Loja.Id //
+    , pTerminal.TerminalId);
+
+  FCaixaSessaoDBI := pCaixaSessaoDBI;
+
+  FImpressao := ImpressaoTextoCxSessRelatCreate(pImpressoraNome, pUsuario,
+    pAppObj, pTerminal, pCaixaSessaoDBI, FCaixaSessao);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
   Width := 800;
@@ -112,7 +130,13 @@ begin
     ErroOutput.Exibir('Não há registro visivel a processar');
     exit;
   end;
-  FCaixaSessaoDBI
+  FImpressao.Imprima;
+end;
+
+procedure TPDVSessForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  RelatAction.Execute;
 end;
 
 end.

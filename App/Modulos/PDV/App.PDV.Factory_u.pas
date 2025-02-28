@@ -8,7 +8,8 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
   App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca, Sis.Usuario,
   App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
-  App.Est.Venda.CaixaSessaoRecord_u, App.Est.Venda.CaixaSessao.DBI;
+  App.Est.Venda.CaixaSessaoRecord_u, App.Est.Venda.CaixaSessao.DBI,
+  App.Est.Venda.Caixa.CaixaSessao;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -40,7 +41,7 @@ function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
 function CupomEspelhoCxSessRelatCreate(pAppObj: IAppObj): ICupomEspelho;
 function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string; pUsuario: IUsuario;
       pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pCaixaSessaoRec: TCaixaSessaoRec): IImpressao;
+      pCaixaSessao: ICaixaSessao): IImpressao;
 
 implementation
 
@@ -185,10 +186,10 @@ end;
 
 function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string; pUsuario: IUsuario;
       pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pCaixaSessaoRec: TCaixaSessaoRec): IImpressao;
+      pCaixaSessao: ICaixaSessao): IImpressao;
 begin
   Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome, pUsuario,
-    pAppObj, pTerminal, pCaixaSessaoDBI, pCaixaSessaoRec);
+    pAppObj, pTerminal, pCaixaSessaoDBI, pCaixaSessao);
 end;
 
 end.

@@ -4,8 +4,9 @@ interface
 
 uses Sis.DBI_u, App.Est.Venda.CaixaSessao.DBI, Sis.DB.DBTypes, Sis.Usuario,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  App.Est.Venda.CaixaSessaoRecord_u, Sis.Terminal, Sis.Entidade,
-  Sis.Entities.Types, Data.DB, FireDAC.Comp.Client, System.Classes;
+  Sis.Terminal, Sis.Entidade, App.Est.Venda.Caixa.CaixaSessao,
+  Sis.Entities.Types, Data.DB, FireDAC.Comp.Client, System.Classes,
+  App.Est.Venda.CaixaSessaoRecord_u;
 
 type
   /// <summary>
@@ -24,18 +25,18 @@ type
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
       reintroduce;
 
-    function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
+    function CaixaSessaoAbertoGet(pCaixaSessaoRec: TCaixaSessaoRec)
       : Boolean;
 
-    function CaixaSessaoUltimoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
+    function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao)
       : Boolean;
 
     property Mensagem: string read GetMensagem;
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable;
-      pCaixaSessaoRec: TCaixaSessaoRec);
+      pCaixaSessao: ICaixaSessao);
 
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
-      pCaixaSessaoRec: TCaixaSessaoRec);
+      pCaixaSessao: ICaixaSessao);
   end;
 
 implementation
@@ -44,8 +45,7 @@ uses Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, System.SysUtils;
 
 { TCaixaSessaoDBI }
 
-function TCaixaSessaoDBI.CaixaSessaoAbertoGet(var pCaixaSessaoRec
-  : TCaixaSessaoRec): Boolean;
+function TCaixaSessaoDBI.CaixaSessaoAbertoGet(pCaixaSessaoRec: TCaixaSessaoRec): Boolean;
 var
   sSql: string;
   q: TDataSet;
@@ -57,7 +57,8 @@ begin
     exit;
 
   try
-    sSql := 'SELECT'#13#10 + 'SESS_ID'#13#10 // 0
+    sSql := 'SELECT'#13#10 //
+      + 'SESS_ID'#13#10 // 0
       + ', PESSOA_ID'#13#10 // 1
       + ', APELIDO'#13#10 // 2
       + ', ABERTO_EM'#13#10 // 3
@@ -87,31 +88,23 @@ begin
   finally
     DBConnection.Fechar;
   end;
-  {
-    LojaId: TLojaId;
-    TerminalId: TTerminalId;
-    SessId: integer;
-    LogId: Int64;
-    PessoaId: integer;
-    Apelido: string;
-    Conferido: Boolean;
-
-  }
 end;
 
-function TCaixaSessaoDBI.CaixaSessaoUltimoGet(var pCaixaSessaoRec
-  : TCaixaSessaoRec): Boolean;
+function TCaixaSessaoDBI.CaixaSessaoUltimoGet(pCaixaSessao
+  : ICaixaSessao): Boolean;
 var
   oDBQuery: IDBQuery;
   sSql: string;
 begin
-{$IFNDEF DEBUG}
+//{$IFNDEF DEBUG}
   sSql := 'select FIRST(1)' + //
     ' LOJA_ID' + //
     ', TERMINAL_ID' + //
     ', SESS_ID' + //
+
     ' FROM CAIXA_SESSAO' + //
     ' ORDER BY SESS_ID DESC' //
+
     ;
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
@@ -123,9 +116,9 @@ begin
   try
     oDBQuery.Abrir;
     try
-      pCaixaSessaoRec.LojaId := oDBQuery.DataSet.Fields[0].AsInteger;
-      pCaixaSessaoRec.TerminalId := oDBQuery.DataSet.Fields[1].AsInteger;
-      pCaixaSessaoRec.SessId := oDBQuery.DataSet.Fields[2].AsInteger;
+      pCaixaSessao.LojaId := oDBQuery.DataSet.Fields[0].AsInteger;
+      pCaixaSessao.TerminalId := oDBQuery.DataSet.Fields[1].AsInteger;
+      pCaixaSessao.Id := oDBQuery.DataSet.Fields[2].AsInteger;
     finally
       oDBQuery.Fechar;
     end;
@@ -133,11 +126,11 @@ begin
     DBConnection.Fechar;
   end;
 
-{$ELSE}
-  pCaixaSessaoRec.LojaId := 1;
-  pCaixaSessaoRec.TerminalId := 1;
-  pCaixaSessaoRec.SessId := 1;
-{$ENDIF}
+//{$ELSE}
+  pCaixaSessao.LojaId := 1;
+  pCaixaSessao.TerminalId := 1;
+  pCaixaSessao.Id := 1;
+//{$ENDIF}
 end;
 
 constructor TCaixaSessaoDBI.Create(pDBConnection: IDBConnection;
@@ -157,7 +150,7 @@ begin
 end;
 
 procedure TCaixaSessaoDBI.PDVCarregarDataSet(pDMemTable1: TFDMemTable;
-  pCaixaSessaoRec: TCaixaSessaoRec);
+  pCaixaSessao: ICaixaSessao);
 var
   oDBQuery: IDBQuery;
   sSql: string;
@@ -177,47 +170,47 @@ begin
     pDMemTable1.BeginBatch;
 
     try
-      if pCaixaSessaoRec.SessId < 1 then
+      if pCaixaSessao.Id < 1 then
         exit;
       sSql := //
-        'WITH T AS' + #13#10 + //
-        '(' + #13#10 + //
-        '  SELECT OPER_TIPO_ID, NAME' + #13#10 + //
-        '  FROM CAIXA_SESSAO_OPERACAO_TIPO' + #13#10 + //
-        '), O AS' + #13#10 + //
-        '(' + #13#10 + //
-        '  SELECT LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM,' + #13#10 + //
-        '  OPER_LOG_ID, OPER_TIPO_ID, VALOR, OBS, CANCELADO' + #13#10 + //
-        '  FROM CAIXA_SESSAO_OPERACAO' + #13#10 + //
-        '  WHERE LOJA_ID = ' + pCaixaSessaoRec.LojaId.ToString + #13#10 + //
-        '  AND TERMINAL_ID = ' + pCaixaSessaoRec.TerminalId.ToString + #13#10 +
+        'WITH T AS'#13#10 + //
+        '('#13#10 + //
+        '  SELECT OPER_TIPO_ID, NAME'#13#10 + //
+        '  FROM CAIXA_SESSAO_OPERACAO_TIPO'#13#10 + //
+        '), O AS'#13#10 + //
+        '('#13#10 + //
+        '  SELECT LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM,'#13#10 + //
+        '  OPER_LOG_ID, OPER_TIPO_ID, VALOR, OBS, CANCELADO'#13#10 + //
+        '  FROM CAIXA_SESSAO_OPERACAO'#13#10 + //
+        '  WHERE LOJA_ID = ' + pCaixaSessao.LojaId.ToString + #13#10 + //
+        '  AND TERMINAL_ID = ' + pCaixaSessao.TerminalId.ToString + #13#10 +
       //
-        '  AND SESS_ID = ' + pCaixaSessaoRec.SessId.ToString + #13#10 + //
-        '), L AS' + #13#10 + //
-        '(' + #13#10 + //
-        '  SELECT LOJA_ID, TERMINAL_ID, LOG_ID, DTH' + #13#10 + //
-        '  FROM LOG' + #13#10 + //
-        ')' + #13#10 + //
-        'SELECT' + #13#10 + //
-        '  O.LOJA_ID' + #13#10 + // //
-        '  , O.TERMINAL_ID' + #13#10 + // //
-        '  , O.SESS_ID AS ID' + #13#10 + // //
-        '  , O.OPER_LOG_ID AS LOG_ID' + #13#10 + //
-        '  , O.OPER_ORDEM AS ORDEM' + #13#10 + //
-        '  , O.OPER_TIPO_ID AS TIPO_ID' + #13#10 + //
-        '  , T.NAME AS TIPO_STR' + #13#10 + //
-        '  , L.DTH AS CRIADO_EM' + #13#10 + //
-        '  , O.VALOR' + #13#10 + //
-        '  , O.CANCELADO' + #13#10 + //
-        '  , ''01.01.1900'' AS CANCELADO_EM' + #13#10 + //
-        '  , O.OBS' + #13#10 + //
-        'FROM T' + #13#10 + //
-        'JOIN O' + #13#10 + //
-        '  ON T.OPER_TIPO_ID = O.OPER_TIPO_ID' + #13#10 + //
-        'JOIN L' + #13#10 + //
-        '  ON O.LOJA_ID = L.LOJA_ID' + #13#10 + //
-        '  AND O.TERMINAL_ID = L.TERMINAL_ID' + #13#10 + //
-        '  AND O.OPER_LOG_ID = L.LOG_ID' + #13#10 + //
+        '  AND SESS_ID = ' + pCaixaSessao.Id.ToString + #13#10 + //
+        '), L AS'#13#10 + //
+        '('#13#10 + //
+        '  SELECT LOJA_ID, TERMINAL_ID, LOG_ID, DTH'#13#10 + //
+        '  FROM LOG'#13#10 + //
+        ')'#13#10 + //
+        'SELECT'#13#10 + //
+        '  O.LOJA_ID'#13#10 + // //
+        '  , O.TERMINAL_ID'#13#10 + // //
+        '  , O.SESS_ID AS ID'#13#10 + // //
+        '  , O.OPER_LOG_ID AS LOG_ID'#13#10 + //
+        '  , O.OPER_ORDEM AS ORDEM'#13#10 + //
+        '  , O.OPER_TIPO_ID AS TIPO_ID'#13#10 + //
+        '  , T.NAME AS TIPO_STR'#13#10 + //
+        '  , L.DTH AS CRIADO_EM'#13#10 + //
+        '  , O.VALOR'#13#10 + //
+        '  , O.CANCELADO'#13#10 + //
+        '  , ''01.01.1900'' AS CANCELADO_EM'#13#10 + //
+        '  , O.OBS'#13#10 + //
+        'FROM T'#13#10 + //
+        'JOIN O'#13#10 + //
+        '  ON T.OPER_TIPO_ID = O.OPER_TIPO_ID'#13#10 + //
+        'JOIN L'#13#10 + //
+        '  ON O.LOJA_ID = L.LOJA_ID'#13#10 + //
+        '  AND O.TERMINAL_ID = L.TERMINAL_ID'#13#10 + //
+        '  AND O.OPER_LOG_ID = L.LOG_ID'#13#10 + //
         ';';
 
       // {$IFDEF DEBUG}
@@ -259,40 +252,40 @@ begin
         oDBQuery.DataSet.Next;
       end;
 
-      sSql := 'WITH E AS' + #13#10 + //
-        '(' + #13#10 + //
-        '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, CRIADO_EM,' + #13#10 + //
-        '  CANCELADO, CANCELADO_EM' + #13#10 + //
-        '  FROM EST_MOV' + #13#10 + //
-        '  WHERE FINALIZADO' + #13#10 + //
-        '), V AS' + #13#10 + //
-        '(' + #13#10 + //
-        '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, VENDA_ID,' + #13#10 + //
-        '  TOTAL_LIQUIDO' + #13#10 + //
-        '  FROM VENDA' + #13#10 + //
-        '  WHERE LOJA_ID = ' + pCaixaSessaoRec.LojaId.ToString + #13#10 + //
-        '  AND TERMINAL_ID = ' + pCaixaSessaoRec.TerminalId.ToString + #13#10 +
+      sSql := 'WITH E AS'#13#10 + //
+        '('#13#10 + //
+        '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, CRIADO_EM,'#13#10 + //
+        '  CANCELADO, CANCELADO_EM'#13#10 + //
+        '  FROM EST_MOV'#13#10 + //
+        '  WHERE FINALIZADO'#13#10 + //
+        '), V AS'#13#10 + //
+        '('#13#10 + //
+        '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, VENDA_ID,'#13#10 + //
+        '  TOTAL_LIQUIDO'#13#10 + //
+        '  FROM VENDA'#13#10 + //
+        '  WHERE LOJA_ID = ' + pCaixaSessao.LojaId.ToString + #13#10 + //
+        '  AND TERMINAL_ID = ' + pCaixaSessao.TerminalId.ToString + #13#10 +
       //
-        '  AND SESS_ID = ' + pCaixaSessaoRec.SessId.ToString + #13#10 + //
-        ')' + #13#10 + //
-        'SELECT' + #13#10 + //
-        '  E.LOJA_ID' + #13#10 + //
-        '  , E.TERMINAL_ID' + #13#10 + //
-        '  , E.EST_MOV_ID AS ID' + #13#10 + //
-        '  , -1 AS LOG_ID' + #13#10 + //
-        '  , 0 AS ORDEM' + #13#10 + //
-        '  , ''*'' AS TIPO_ID' + #13#10 + //
-        '  , ''VENDA'' AS TIPO_STR' + #13#10 + //
-        '  , E.CRIADO_EM' + #13#10 + //
-        '  , V.TOTAL_LIQUIDO AS VALOR' + #13#10 + //
-        '  , E.CANCELADO' + #13#10 + //
-        '  , E.CANCELADO_EM' + #13#10 + //
-        '  , '''' AS OBS' + #13#10 + //
-        'FROM E' + #13#10 + //
-        'JOIN V' + #13#10 + //
-        '  ON E.LOJA_ID = V.LOJA_ID' + #13#10 + //
-        '  AND E.TERMINAL_ID = V.TERMINAL_ID' + #13#10 + //
-        '  AND E.EST_MOV_ID = V.EST_MOV_ID' + #13#10 + //
+        '  AND SESS_ID = ' + pCaixaSessao.Id.ToString + #13#10 + //
+        ')'#13#10 + //
+        'SELECT'#13#10 + //
+        '  E.LOJA_ID'#13#10 + //
+        '  , E.TERMINAL_ID'#13#10 + //
+        '  , E.EST_MOV_ID AS ID'#13#10 + //
+        '  , -1 AS LOG_ID'#13#10 + //
+        '  , 0 AS ORDEM'#13#10 + //
+        '  , ''*'' AS TIPO_ID'#13#10 + //
+        '  , ''VENDA'' AS TIPO_STR'#13#10 + //
+        '  , E.CRIADO_EM'#13#10 + //
+        '  , V.TOTAL_LIQUIDO AS VALOR'#13#10 + //
+        '  , E.CANCELADO'#13#10 + //
+        '  , E.CANCELADO_EM'#13#10 + //
+        '  , '''' AS OBS'#13#10 + //
+        'FROM E'#13#10 + //
+        'JOIN V'#13#10 + //
+        '  ON E.LOJA_ID = V.LOJA_ID'#13#10 + //
+        '  AND E.TERMINAL_ID = V.TERMINAL_ID'#13#10 + //
+        '  AND E.EST_MOV_ID = V.EST_MOV_ID'#13#10 + //
         ';';
 
       // {$IFDEF DEBUG}
@@ -358,7 +351,7 @@ begin
 end;
 
 procedure TCaixaSessaoDBI.PreenchaCxSessRelatorio(pLinhas: TStrings;
-  pCaixaSessaoRec: TCaixaSessaoRec);
+  pCaixaSessao: ICaixaSessao);
 begin
 
 end;

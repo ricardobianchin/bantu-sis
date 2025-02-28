@@ -104,7 +104,7 @@ end;
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 var
   a: TAction;
-  //s: string; // so pra visualizar o name durante o debug
+  // s: string; // so pra visualizar o name durante o debug
 begin
   Result := inherited;
   Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkB]);
@@ -348,7 +348,8 @@ end;
 procedure TPDVModuloBasForm.SessFormActionExecute(Sender: TObject);
 begin
   inherited;
-  App.PDV.PDVSessForm_u.Exibir(nil, FCaixaSessaoDM.CaixaSessaoDBI, AppObj);
+  App.PDV.PDVSessForm_u.Exibir(nil, Terminal.ImpressoraNome, LogUsuario, AppObj,
+    Terminal, FCaixaSessaoDM.CaixaSessaoDBI);
 end;
 
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
@@ -359,7 +360,7 @@ end;
 procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
+  // CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
   SessFormAction.Execute;
 end;
 

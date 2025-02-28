@@ -15,12 +15,19 @@ type
     Aberto: Boolean;
     AbertoEm: TDateTime;
     procedure Zerar;
+    function GetCod(pSeparador: string = '-'): string;
   end;
 
 implementation
 
 
 { TCaixaSessaoRec }
+
+function TCaixaSessaoRec.GetCod(pSeparador: string): string;
+begin
+  Result := Sis.Entities.Types.GetCod(LojaId, TerminalId, SessId, 'CX',
+    pSeparador);
+end;
 
 procedure TCaixaSessaoRec.Zerar;
 begin

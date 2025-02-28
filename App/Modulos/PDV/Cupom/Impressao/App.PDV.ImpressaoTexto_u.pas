@@ -3,7 +3,7 @@ unit App.PDV.ImpressaoTexto_u;
 interface
 
 uses Sis.UI.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.CupomEspelho,
-  Sis.Usuario;
+  Sis.Usuario, Sis.Sis.Constants;
 
 type
   TImpressaoTextoPDV = class(TImpressaoTexto)
@@ -65,9 +65,11 @@ begin
   PegueLinha(CenterStr(FAppObj.Loja.Ender.Ender3, NCols));
 
   d := GetDtDoc;
-  s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
-
-  PegueLinha(CenterStr(s, NCols));
+  if d <> DATA_ZERADA then
+  begin
+    s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
+    PegueLinha(CenterStr(s, NCols));
+  end;
   s := 'OPERADOR: ' + Usuario.NomeExib;
 end;
 
