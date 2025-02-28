@@ -46,6 +46,7 @@ inherited PDVSessForm: TPDVSessForm
       Height = 105
       Align = alTop
       BorderStyle = bsNone
+      DataSource = SessDataSource
       Options = [dgEditing, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgTitleHotTrack]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -89,6 +90,7 @@ inherited PDVSessForm: TPDVSessForm
           Height = 164
           Align = alClient
           BorderStyle = bsNone
+          DataSource = ItemDataSource
           Options = [dgEditing, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgTitleHotTrack]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
@@ -116,6 +118,7 @@ inherited PDVSessForm: TPDVSessForm
           Height = 164
           Align = alClient
           BorderStyle = bsNone
+          DataSource = PagDataSource
           Options = [dgEditing, dgTitles, dgColLines, dgRowLines, dgAlwaysShowSelection, dgTitleHotTrack]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
