@@ -52,9 +52,12 @@ type
 
     procedure CxOperacaoTipoListLeReg(q: TDataSet; pRecNo: integer);
   protected
-    property Terminal: ITerminal read FTerminal;
   public
     { Public declarations }
+    property AppObj: IAppObj read FAppObj;
+    property Terminal: ITerminal read FTerminal;
+    property LogUsuario: IUsuario read FLogUsuario;
+
     property CaixaSessao: ICaixaSessao read FCaixaSessao;
     property CaixaSessaoDBI: ICaixaSessaoDBI read FCaixaSessaoDBI;
 
