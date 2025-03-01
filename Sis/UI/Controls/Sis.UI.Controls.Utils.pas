@@ -95,9 +95,9 @@ begin
   case pChar of
     'C', 'c':
       result := taCenter;
-    'R', 'r':
+    'R', 'r', 'D', 'd':
       result := taRightJustify;
-  else { L, E, '' }
+  else { L, E, l, e, '' }
     result := taLeftJustify;
   end;
 end;
