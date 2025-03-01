@@ -1,15 +1,105 @@
 /*
 CAIXA_SESSAO_PDV_PA
+show package CAIXA_SESSAO_PDV_PA;
+
+in "C:\Pr\App\Bantu\bantu-sis\src\Externos\DBUpdates Complementos\Complementos\PDV\caixa_sessao_pdv_pa.sql";
+
+prefixos usados
+
+FECH_TELA_ usado na tela de fechamento
+SESS_RELAT_ usado nas rotinas do relatorio de caixa
+
+----------------
+-- 
+SELECT * FROM CAIXA_SESSAO_PDV_PA.;
+*/
+
+/*
+CREATE DOMAIN DINH_DOM AS NUMERIC(12,2);
+*/
+
+/*
+procedures para antes do fechamento de caixa
+o fechamento mesmo ocorre com:
+CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO
+
+----------------
+--tem caixa aberto?
+SELECT * FROM CAIXA_SESSAO_PDV_PA.TEM_CAIXA_ABERTO;
+
+----------------
+--tem venda nao finalizada?
+SELECT * FROM CAIXA_SESSAO_PDV_PA.TEM_VENDA_NAO_FINALIZADA;
+
+----------------
+-- pode fechar caixa?
+SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
+
+----------------
+lista usada no dataset da tela de fechamento
+FORMA_ID DESCR
+======== ============================================================
+       1 DINHEIRO
+       2 TRANSF PIX
+       3 CREDICARD DEB
+       4 CREDICARD CRE
+
 SELECT * FROM CAIXA_SESSAO_PDV_PA.FECH_TELA_PAGFORMA_LISTA_GET;
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_VENDA_PAG_TOTAL_GET(1,1,1);
-SELECT * FROM PAGAMENTO_FORMA_PA.ABREV_LISTA_GET;
+
+----------------
+*/
+
+/*
+a janela de sessao de caixa faz uma union entre 
+lista de vendas e lista de operacoes de caixa
+
+lista de vendas de uma sessao de caixa
+SESS_TELA_VENDAS_LISTA_GET
+
+lista de operacoes de caixa de uma sessao de caixa
+SESS_TELA_CXOPER_LISTA_GET
+
+union entre as duas, lista para a tela
+SESS_TELA_LISTA_GET
+
 
 SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_GET(1, 1, 1);
 
-SELECT * FROM CAIXA_SESSAO_PDV_PA.FECH_RELAT_PAGFORMA_LISTA_GET;
 
 SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_CXOPER_LISTA_GET(1, 1, 1);
 
+
+
+*/
+
+
+/*
+relatorio de caixa
+
+----------------
+-- lista das formas de pagamento usadas no relatorio de caixa
+FORMA_ID DESCR
+======== =====================
+       1 DIN
+       2 PIX
+       3 CREDI DEB
+       4 CREDI CRE
+       
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_RELAT_PAGFORMA_LISTA_GET;
+
+----------------
+-- total de cada forma de pagamento das vendas
+FORMA_ID                 TOTAL
+======== =====================
+       1               139.900
+       2                 9.900
+       3                35.000
+       4                33.000
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_VENDA_PAG_TOTAL_GET(1,1,1);
+
+----------------
+-- 
 
 
 */
@@ -43,7 +133,7 @@ BEGIN
     , DESCR NOME_DOM
   );
   
-  PROCEDURE FECH_RELAT_PAGFORMA_LISTA_GET
+  PROCEDURE SESS_RELAT_PAGFORMA_LISTA_GET
   RETURNS
   (
     FORMA_ID ID_SHORT_DOM
@@ -293,7 +383,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
     DO SUSPEND;
   END
   
-  PROCEDURE FECH_RELAT_PAGFORMA_LISTA_GET
+  PROCEDURE SESS_RELAT_PAGFORMA_LISTA_GET
   RETURNS
   (
     FORMA_ID ID_SHORT_DOM
@@ -309,7 +399,8 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
         WHERE ATIVO
       ), FORMA AS
       (
-          SELECT PAGAMENTO_FORMA_ID ID, PAGAMENTO_FORMA_TIPO_ID TIPO_ID, DESCR_RED
+          SELECT PAGAMENTO_FORMA_ID ID, PAGAMENTO_FORMA_TIPO_ID TIPO_ID,
+            DESCR_RED
           FROM PAGAMENTO_FORMA
           WHERE ATIVO AND PARA_VENDA
       )
@@ -433,8 +524,8 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
         SELECT LOJA_ID, TERMINAL_ID, SESS_ID,OPER_ORDEM, OPER_LOG_ID,
           OPER_TIPO_ID, VALOR, OBS, CANCELADO
         FROM CAIXA_SESSAO_OPERACAO
-        WHERE LOJA_ID = :LOJA_ID
-        AND TERMINAL_ID = :TERMINAL_ID
+        WHERE LOJA_ID = :SESS_LOJA_ID
+        AND TERMINAL_ID = :SESS_TERMINAL_ID
         AND SESS_ID = :SESS_ID
       ), L AS
       (
@@ -617,7 +708,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
   BEGIN
     FOR 
       SELECT 'FP;' || FORMA_ID || ';' || DESCR
-      FROM CAIXA_SESSAO_PDV_PA.FECH_RELAT_PAGFORMA_LISTA_GET -- (:LOJA_ID, :TERMINAL_ID, :SESS_ID)
+      FROM CAIXA_SESSAO_PDV_PA.SESS_RELAT_PAGFORMA_LISTA_GET -- (:LOJA_ID, :TERMINAL_ID, :SESS_ID)
     INTO LINHA
     DO SUSPEND;
   END
