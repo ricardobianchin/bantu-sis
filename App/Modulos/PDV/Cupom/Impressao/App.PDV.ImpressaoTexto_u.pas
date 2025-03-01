@@ -71,6 +71,8 @@ begin
     PegueLinha(CenterStr(s, NCols));
   end;
   s := 'OPERADOR: ' + Usuario.NomeExib;
+  PegueLinha(s);
+  PegueLinha('');
 end;
 
 procedure TImpressaoTextoPDV.GereFim;
@@ -95,6 +97,10 @@ end;
 
 function TImpressaoTextoPDV.GetAtivo: Boolean;
 begin
+  Result := inherited;
+  if not Result then
+    exit;
+
   Result := FTerminal.ImpressoraModoEnvioId > 0;
 end;
 

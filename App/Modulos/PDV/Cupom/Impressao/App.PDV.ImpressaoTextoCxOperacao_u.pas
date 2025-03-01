@@ -47,8 +47,6 @@ var
   bColocaOrdem: Boolean;
 begin
   inherited;
-  PegueLinha('');
-
   // TIT
   s := FCxOperacaoEnt.CxOperacaoTipo.Name;
 
