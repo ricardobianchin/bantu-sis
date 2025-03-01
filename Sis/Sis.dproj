@@ -510,6 +510,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UI\Bal\Sis.Bal.Utils_u.pas"/>
         <DCCReference Include="UI\IO\Files\Pas\Sis.UI.IO.Files.PasI.pas"/>
         <DCCReference Include="UI\IO\Serial\Sis.UI.IO.Serial.Utils_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ShowMessage_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
