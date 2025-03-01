@@ -61,7 +61,7 @@ type
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
     function PDVObjCreate: IPDVObj; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
-    procedure DecidirPrimeroFrameAtivo; virtual;
+    procedure DecidirPrimeiroFrameAtivo; virtual;
 
     procedure VaParaVenda; virtual;
     procedure VaParaPag; virtual;
@@ -98,7 +98,7 @@ uses Sis.DB.Factory, Sis.UI.IO.Input.Perg, App.PDV.PDVSessForm_u;
 procedure TPDVModuloBasForm.AjusteControles;
 begin
   inherited;
-  DecidirPrimeroFrameAtivo;
+  DecidirPrimeiroFrameAtivo;
 end;
 
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
@@ -127,13 +127,13 @@ procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute
   (Sender: TObject);
 var
   a: TAction;
-  s: string; // so pra visualizar o name durante o debug
+  //s: string; // so pra visualizar o name durante o debug
 begin
   inherited;
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
-  s := a.Name;
+  //s := a.Name;
   a.Execute;
-  DecidirPrimeroFrameAtivo;
+  DecidirPrimeiroFrameAtivo;
 end;
 
 constructor TPDVModuloBasForm.Create(AOwner: TComponent;
@@ -176,7 +176,7 @@ begin
   AppMenuForm := AppMenuFormCreate;
 end;
 
-procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
+procedure TPDVModuloBasForm.DecidirPrimeiroFrameAtivo;
 begin
   if Assigned(FFrameAtivo) then
   begin
@@ -300,7 +300,7 @@ begin
   end;
 
   FPDVVenda.Zerar;
-  DecidirPrimeroFrameAtivo;
+  DecidirPrimeiroFrameAtivo;
 end;
 
 procedure TPDVModuloBasForm.VaParaPag;
@@ -348,8 +348,7 @@ end;
 procedure TPDVModuloBasForm.SessFormActionExecute(Sender: TObject);
 begin
   inherited;
-  App.PDV.PDVSessForm_u.Exibir(nil, Terminal.ImpressoraNome, LogUsuario, AppObj,
-    Terminal, FCaixaSessaoDM.CaixaSessaoDBI);
+  App.PDV.PDVSessForm_u.Exibir(nil, Terminal.ImpressoraNome, FCaixaSessaoDM);
 end;
 
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);

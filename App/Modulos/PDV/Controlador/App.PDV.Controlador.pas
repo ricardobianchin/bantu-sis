@@ -10,7 +10,7 @@ type
     procedure VaParaPag;
     procedure VaParaFinaliza;
     procedure PagSomenteDinheiro;
-    procedure DecidirPrimeroFrameAtivo;
+    procedure DecidirPrimeiroFrameAtivo;
   end;
 
 implementation
