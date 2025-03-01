@@ -22,7 +22,7 @@ type
     procedure EnvieImpressao; virtual;
     function GetDtDoc: TDateTime; virtual;
     function GetDocTitulo: string; virtual; abstract;
-    function GetAtivo: Boolean; virtual; abstract;
+    function GetAtivo: Boolean; virtual;
 
     property Ativo: Boolean read GetAtivo;
   public
@@ -70,6 +70,11 @@ end;
 procedure TImpressao.GereTexto;
 begin
 
+end;
+
+function TImpressao.GetAtivo: Boolean;
+begin
+  Result := FImpressoraNome <> '';
 end;
 
 function TImpressao.GetDtDoc: TDateTime;
