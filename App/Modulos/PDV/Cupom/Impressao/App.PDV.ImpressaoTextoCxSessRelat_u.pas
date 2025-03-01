@@ -58,18 +58,17 @@ begin
   PegueLinha(CenterStr(s, NCols));
 
   s := 'SESSAO: ' + FCaixaSessao.GetCod;
-  PegueLinha(CenterStr(s, NCols));
+  PegueLinha(s);
 
   FCaixaSessaoDBI.PreenchaCxSessRelatorio(FLinhasRet, FCaixaSessao);
-
-{$IFDEF DEBUG}
-  CopyTextToClipboard(FLinhasRet.Text);
-{$ENDIF}
 end;
 
 procedure TImpressaoTextoPDVCxSessRelat.GereTexto;
 begin
   inherited;
+{$IFDEF DEBUG}
+  CopyTextToClipboard(FLinhasRet.Text);
+{$ENDIF}
 
 end;
 
