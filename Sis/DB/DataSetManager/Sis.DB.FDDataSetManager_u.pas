@@ -163,7 +163,11 @@ begin
   sNomeCampo := UpperCase(pParams[1]);
   sTipo := UpperCase(pParams[2]);
   sVisibel := UpperCase(pParams[4]);
+
   sMascara := UpperCase(pParams[5]);
+  sMascara := ReplaceStr(sMascara, '\V', ',');
+  sMascara := ReplaceStr(sMascara, '\\', '\');
+
   sTitulo := pParams[6];
   sLargura := pParams[7];
   sAlinhamento := UpperCase(pParams[8]);
@@ -278,6 +282,7 @@ begin
 
   vAlignment := FAlignmentList[pIndex];
   oColumn.Alignment := vAlignment;
+  oColumn.Title.Alignment := oColumn.Alignment;
 
   iLargura := FLargurasList[pIndex];
   if iLargura > 0 then
