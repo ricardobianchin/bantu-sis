@@ -11,14 +11,14 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ToolWin,
   Vcl.StdCtrls, Sis.UI.IO.Output, Sis.UI.Form.Bas.Diag_u, Sis.UI.Impressao,
-  Sis.Terminal, Sis.Usuario, App.Est.Venda.Caixa.CaixaSessao;
+  Sis.Terminal, Sis.Usuario, App.Est.Venda.Caixa.CaixaSessao,
+  Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessaoDM_u;
 
 type
   TPDVSessForm = class(TDiagBasForm)
     BasePanel: TPanel;
     ToolBar1: TToolBar;
-    ToolButton1: TToolButton;
-    TopoPanel: TPanel;
+    RelatToolButton: TToolButton;
     MeioPanel: TPanel;
     DBGrid1Splitter: TSplitter;
     DBGrid1: TDBGrid;
@@ -36,27 +36,44 @@ type
     ItemDataSource: TDataSource;
     PagDataSource: TDataSource;
     SessDataSource: TDataSource;
+    TitleBarPanel: TPanel;
+    TitleBarCaptionLabel: TLabel;
+    ToolBar2: TToolBar;
+    FecharToolButton: TToolButton;
+    SessDescrLabel: TLabel;
+    CancelAction: TAction;
+    SuprAction: TAction;
+    SangrAction: TAction;
+    FechAction: TAction;
+    CancelToolButton: TToolButton;
+    SuprToolButton: TToolButton;
+    SangrToolButton: TToolButton;
+    FechToolButton: TToolButton;
     procedure RelatActionExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure SuprActionExecute(Sender: TObject);
+    procedure SangrActionExecute(Sender: TObject);
+    procedure FechActionExecute(Sender: TObject);
+    procedure CancelActionExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FAppObj: IAppObj;
-    FTerminal: ITerminal;
     FCaixaSessao: ICaixaSessao;
-    FCaixaSessaoDBI: ICaixaSessaoDBI;
+    FCaixaSessaoDM: TCaixaSessaoDM;
     FImpressao: IImpressao;
+
+    procedure SessStatusExiba;
+    procedure Atualizar;
   protected
     procedure AjusteControles; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pImpressoraNome: string;
-      pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-      pCaixaSessaoDBI: ICaixaSessaoDBI); reintroduce;
+      pCaixaSessaoDM: TCaixaSessaoDM); reintroduce;
   end;
 
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCaixaSessaoDBI: ICaixaSessaoDBI);
+  pCaixaSessaoDM: TCaixaSessaoDM);
 
 var
   PDVSessForm: TPDVSessForm;
@@ -65,15 +82,15 @@ implementation
 
 {$R *.dfm}
 
-uses System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory, App.PDV.Factory_u,
-  App.PDV.ImpressaoTextoCxSessRelat_u, App.Est.Venda.CaixaSessao.Factory_u;
+uses Sis.UI.ImgDM, System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
+  App.PDV.Factory_u, Sis.UI.IO.Input.Perg,
+  App.PDV.ImpressaoTextoCxSessRelat_u, App.Est.Venda.CaixaSessao.Factory_u,
+  Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCaixaSessaoDBI: ICaixaSessaoDBI);
+  pCaixaSessaoDM: TCaixaSessaoDM);
 begin
-  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pUsuario, pAppObj,
-    pTerminal, pCaixaSessaoDBI);
+  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pCaixaSessaoDM);
   try
     PDVSessForm.ShowModal;
   finally
@@ -86,29 +103,53 @@ end;
 procedure TPDVSessForm.AjusteControles;
 begin
   inherited;
-  FCaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
-  FCaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable, FCaixaSessao);
+  FCaixaSessaoDM.CaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
+  SessStatusExiba;
+  Atualizar;
+
+  TitleBarCaptionLabel.Caption := 'SESSÃO DE CAIXA';
+  TitleBarCaptionLabel.StyleElements := [];
+  TitleBarCaptionLabel.Font.Color := clWhite;
+  // AlteracaoTextoLabel.Parent := FundoPanel;
+
+  ControlAlignToCenter(TitleBarCaptionLabel);
+  // ControlAlignToRect(Self, Screen.WorkAreaRect);
+  // ControlAlignToCenter(FFiltroFrame);
+
+  ToolBar2.Left := Width - ToolBar2.Width;
+  ToolBar1.Left := 15;
+end;
+
+procedure TPDVSessForm.Atualizar;
+begin
+  FCaixaSessaoDM.CaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable,
+    FCaixaSessao);
+end;
+
+procedure TPDVSessForm.CancelActionExecute(Sender: TObject);
+begin
+  inherited;
+  Atualizar;
 end;
 
 constructor TPDVSessForm.Create(AOwner: TComponent; pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCaixaSessaoDBI: ICaixaSessaoDBI);
+  pCaixaSessaoDM: TCaixaSessaoDM);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
-  FAppObj := pAppObj;
-  FTerminal := pTerminal;
+  ErroOutput := ShowMessageOutputCreate;
+  FCaixaSessaoDM := pCaixaSessaoDM;
 
-  FCaixaSessao := CaixaSessaoCreate(pUsuario //
-    , FAppObj.SisConfig.LocalMachineId.IdentId //
-    , FAppObj.Loja.Id //
-    , pTerminal.TerminalId);
+  FCaixaSessao := CaixaSessaoCreate(FCaixaSessaoDM.LogUsuario //
+    , FCaixaSessaoDM.AppObj.SisConfig.LocalMachineId.IdentId //
+    , FCaixaSessaoDM.AppObj.Loja.Id //
+    , FCaixaSessaoDM.Terminal.TerminalId //
+    );
 
-  FCaixaSessaoDBI := pCaixaSessaoDBI;
-
-  FImpressao := ImpressaoTextoCxSessRelatCreate(pImpressoraNome, pUsuario,
-    pAppObj, pTerminal, pCaixaSessaoDBI, FCaixaSessao);
+  FImpressao := ImpressaoTextoCxSessRelatCreate(pImpressoraNome,
+    FCaixaSessaoDM.LogUsuario, FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
+    FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessao);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
   Width := 800;
@@ -116,27 +157,111 @@ begin
 
   ItemDBGrid.Width := (MeioPanel.Width * 2) div 3;
 
-  sNomeArq := FAppObj.AppInfo.PastaConsTabViews +
+  sNomeArq := FCaixaSessaoDM.AppObj.AppInfo.PastaConsTabViews +
     'App\PDV\tabview.pdv.sessform.csv';
 
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, SessFDMemTable, DBGrid1);
+
+  BorderStyle := bsNone;
+  TitleBarPanel.Color := COR_AZUL_TITLEBAR;
+  ToolBar1.Color := COR_AZUL_TITLEBAR;
+  // DisparaShowTimer := True;
+  MakeRounded(Self, 30);
+  Canvas.Brush.Style := bsClear;
+end;
+
+procedure TPDVSessForm.FechActionExecute(Sender: TObject);
+begin
+  inherited;
+  FCaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
+  Atualizar;
+end;
+
+procedure TPDVSessForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if CharInSet(Key, ['r', 'R']) then
+  begin
+    RelatAction.Execute;
+    exit;
+  end
+  else if CharInSet(Key, ['u', 'U']) then
+  begin
+    SuprAction.Execute;
+    exit;
+  end
+  else if CharInSet(Key, ['a', 'A']) then
+  begin
+    SangrAction.Execute;
+    exit;
+  end
+  else if CharInSet(Key, ['f', 'F']) then
+  begin
+    FechAction.Execute;
+    exit;
+  end;
+  inherited;
 end;
 
 procedure TPDVSessForm.RelatActionExecute(Sender: TObject);
+var
+  bResultado: Boolean;
 begin
   inherited;
-  if SessFDMemTable.IsEmpty then
+  if FCaixaSessao.Id = 0 then
   begin
-    ErroOutput.Exibir('Não há registro visivel a processar');
+    ErroOutput.Exibir('Não há Sessão de Caixa iniciada');
     exit;
   end;
+  if SessFDMemTable.IsEmpty then
+  begin
+    bResultado :=
+      PergBool('Ainda não há registros nesta Sessão. Deseja imprimir mesmo assim?');
+    if not bResultado then
+      exit;
+  end;
   FImpressao.Imprima;
+end;
+
+procedure TPDVSessForm.SangrActionExecute(Sender: TObject);
+begin
+  inherited;
+  FCaixaSessaoDM.GetAction(TCxOpTipo.cxopSangria).Execute;
+  Atualizar;
+end;
+
+procedure TPDVSessForm.SessStatusExiba;
+var
+  s: string;
+  c: ICaixaSessao;
+begin
+  c := FCaixaSessao;
+
+  try
+    if c.Id = 0 then
+    begin
+      s := 'Sem registros de caixa';
+      exit;
+    end;
+    s := 'Sessão: ' + c.getcod //
+      + ' - Operador: ' + c.LogUsuario.NomeExib //
+      + ' - Aberto em: ' + FormatDateTime('dd/mm/yy hh:nn:ss', c.AbertoEm) //
+      ;
+  finally
+    SessDescrLabel.Caption := s;
+  end;
 end;
 
 procedure TPDVSessForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   RelatAction.Execute;
+end;
+
+procedure TPDVSessForm.SuprActionExecute(Sender: TObject);
+begin
+  inherited;
+  FCaixaSessaoDM.GetAction(TCxOpTipo.cxopSuprimento).Execute;
+  Atualizar;
 end;
 
 end.
