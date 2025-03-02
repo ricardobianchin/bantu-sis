@@ -1,0 +1,59 @@
+{
+	"folders": {},
+	"connections": {
+		"jaybird-19556d8d902-394b040dd058da5e": {
+			"provider": "jaybird",
+			"driver": "jaybird",
+			"name": "Retag",
+			"save-password": true,
+			"configuration": {
+				"host": "DELPHI-BTU",
+				"port": "3050",
+				"database": "C:\\Pr\\app\\bantu\\bantu-sis\\exe\\dados\\dados_mercado_retaguarda.fdb",
+				"url": "jdbc:firebirdsql://DELPHI-BTU:3050/C:\\Pr\\app\\bantu\\bantu-sis\\exe\\dados\\dados_mercado_retaguarda.fdb",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"properties": {
+					"encoding": "UTF8"
+				},
+				"auth-model": "native"
+			}
+		},
+		"jaybird-195571e5fa1-4891f2e20c4ce382": {
+			"provider": "jaybird",
+			"driver": "jaybird",
+			"name": "Term1",
+			"save-password": true,
+			"configuration": {
+				"host": "DELPHI-BTU",
+				"port": "3050",
+				"database": "C:\\Pr\\app\\bantu\\bantu-sis\\exe\\dados\\Dados_Mercado_Terminal_001.fdb",
+				"url": "jdbc:firebirdsql://DELPHI-BTU:3050/C:\\Pr\\app\\bantu\\bantu-sis\\exe\\dados\\Dados_Mercado_Terminal_001.fdb",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"properties": {
+					"encoding": "UTF8"
+				},
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}
