@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FreeFileSync XmlType="BATCH" XmlFormat="23">
+<FreeFileSync XmlType="BATCH" XmlFormat="19">
     <Notes/>
     <Compare>
         <Variant>TimeAndSize</Variant>
@@ -7,7 +7,8 @@
         <IgnoreTimeShift/>
     </Compare>
     <Synchronize>
-        <Differences LeftOnly="right" LeftNewer="right" RightNewer="right" RightOnly="right"/>
+        <Variant>Mirror</Variant>
+        <DetectMovedFiles>false</DetectMovedFiles>
         <DeletionPolicy>RecycleBin</DeletionPolicy>
         <VersioningFolder Style="Replace"/>
     </Synchronize>
