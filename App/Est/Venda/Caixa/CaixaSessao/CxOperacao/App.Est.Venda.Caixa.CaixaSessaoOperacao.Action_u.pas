@@ -133,7 +133,7 @@ begin
   f := CxOperacaoEdFormCreate;
   f.Perg;
   f.Free;
-  FPDVControlador.DecidirPrimeroFrameAtivo;
+  FPDVControlador.DecidirPrimeiroFrameAtivo;
 end;
 
 procedure TCxOperacaoAction.ExecuteTarget(Target: TObject);
