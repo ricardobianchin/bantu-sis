@@ -1,25 +1,31 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
+        <ProjectGuid>{170C9E09-F299-48F4-9674-5E52DEDD3D6C}</ProjectGuid>
         <MainSource>Sis.dpk</MainSource>
-        <ProjectVersion>19.5</ProjectVersion>
+        <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <TargetedPlatforms>3</TargetedPlatforms>
+        <ProjectName Condition="'$(ProjectName)'==''">Sis</ProjectName>
+        <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
-        <Base_Win32>true</Base_Win32>
+    <PropertyGroup Condition="('$(Platform)'=='Android' and '$(Base)'=='true') or '$(Base_Android)'!=''">
+        <Base_Android>true</Base_Android>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
-        <Base_Win64>true</Base_Win64>
+    <PropertyGroup Condition="('$(Platform)'=='Android64' and '$(Base)'=='true') or '$(Base_Android64)'!=''">
+        <Base_Android64>true</Base_Android64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
@@ -34,27 +40,9 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
-        <Cfg_1_Win64>true</Cfg_1_Win64>
-        <CfgParent>Cfg_1</CfgParent>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
-        <Cfg_2_Win32>true</Cfg_2_Win32>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
@@ -70,22 +58,23 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>Sis</SanitizedProjectName>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_BplOutput>..\..\Exe\Bin\</DCC_BplOutput>
         <DCC_DcpOutput>..\..\Dcp\</DCC_DcpOutput>
+        <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Android)'!=''">
+        <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Android64)'!=''">
+        <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_HostApplication>C:\Pr\app\bantu\bantu-sis\Exe\Bin\Adm.exe</Debugger_HostApplication>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -100,417 +89,369 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
-        <PostBuildEvent><![CDATA[copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin
-$(PostBuildEvent)]]></PostBuildEvent>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
-        <DCCReference Include="vcl.dcp"/>
+        <DCCReference Include="Vcl.dcp"/>
         <DCCReference Include="dbrtl.dcp"/>
-        <DCCReference Include="FireDACCommon.dcp"/>
+        <DCCReference Include="xmlrtl.dcp"/>
+        <DCCReference Include="vclimg.dcp"/>
+        <DCCReference Include="vclwinx.dcp"/>
         <DCCReference Include="vclx.dcp"/>
+        <DCCReference Include="vcldb.dcp"/>
         <DCCReference Include="FireDAC.dcp"/>
         <DCCReference Include="FireDACCommonDriver.dcp"/>
-        <DCCReference Include="IndySystem.dcp"/>
-        <DCCReference Include="IndyProtocols.dcp"/>
-        <DCCReference Include="IndyCore.dcp"/>
-        <DCCReference Include="vclimg.dcp"/>
+        <DCCReference Include="FireDACCommon.dcp"/>
         <DCCReference Include="FireDACIBDriver.dcp"/>
-        <DCCReference Include="vclwinx.dcp"/>
-        <DCCReference Include="vcldb.dcp"/>
         <DCCReference Include="ACBr_Comum.dcp"/>
         <DCCReference Include="ACBr_synapse.dcp"/>
         <DCCReference Include="ACBr_Serial.dcp"/>
+        <DCCReference Include="IndySystem.dcp"/>
+        <DCCReference Include="IndyProtocols.dcp"/>
+        <DCCReference Include="IndyCore.dcp"/>
+        <DCCReference Include="UI\IO\sndkey32.pas"/>
         <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
-        <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
-        <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.Utils_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.VersionInfo_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.VersionInfo.pas"/>
-        <DCCReference Include="Config\Sis.Config.SisConfig.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBTypes.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBMS.Info_u.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Mudo_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas"/>
-        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.pas"/>
-        <DCCReference Include="Types\Sis.Types.strings_u.pas"/>
-        <DCCReference Include="Types\Sis.Types.Utils_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Dado.pas"/>
+        <DCCReference Include="Types\Sis.Types.Dates.pas"/>
+        <DCCReference Include="Types\Sis.Types.Factory.pas"/>
+        <DCCReference Include="Types\Sis.Types.Floats.pas"/>
+        <DCCReference Include="Types\Sis.Types.Integers.pas"/>
+        <DCCReference Include="Types\Sis.Types.pas"/>
+        <DCCReference Include="Types\Sis.Types.strings.abrev_u.pas"/>
         <DCCReference Include="Types\Sis.Types.strings.Stack.pas"/>
         <DCCReference Include="Types\Sis.Types.strings.Stack_u.pas"/>
-        <DCCReference Include="Types\Sis.Types.Factory.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas_u.pas">
-            <Form>BasForm</Form>
-        </DCCReference>
-        <DCCReference Include="UI\IO\Sis.UI.IO.Factory.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.Utils.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToMemo_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Act_u.pas">
-            <Form>ActBasForm</Form>
-        </DCCReference>
-        <DCCReference Include="UI\Img\Sis.UI.ImgDM.pas">
-            <Form>SisImgDataModule</Form>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="Win\Sis.Win.Factory.pas"/>
+        <DCCReference Include="Types\Sis.Types.strings_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.TStrings_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Utils_u.pas"/>
+        <DCCReference Include="Types\Sis.Types.Variants.pas"/>
+        <DCCReference Include="Types\Contador\Sis.Types.Contador.pas"/>
+        <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
+        <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt_u.pas"/>
+        <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt1_u.pas"/>
+        <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Testes_u.pas"/>
+        <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Utils.pas"/>
         <DCCReference Include="Win\Sis.Win.Execute.pas"/>
         <DCCReference Include="Win\Sis.Win.Execute_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.Factory.pas"/>
+        <DCCReference Include="Win\Sis.Win.Utils.Printer_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.Utils_u.pas"/>
+        <DCCReference Include="Win\Sis.Win.VersionInfo.pas"/>
+        <DCCReference Include="Win\Sis.Win.VersionInfo_u.pas"/>
+        <DCCReference Include="Sis\ExecTardia\Sis.Sis.ExecTardiaDM_u.pas">
+            <Form>ExecTardiaDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Sis\Sis.Sis.Atualizavel.pas"/>
+        <DCCReference Include="Sis\Sis.Sis.Constants.pas"/>
         <DCCReference Include="Sis\Sis.Sis.Executavel.pas"/>
         <DCCReference Include="Sis\Sis.Sis.Executavel_u.pas"/>
-        <DCCReference Include="Sis\Sis.Sis.Constants.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBMS.DBMSConfig_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBMS.DBMSConfig.Firebird_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBMS.Firebird_u.pas"/>
-        <DCCReference Include="Registry\Sis.Win.Registry.pas"/>
-        <DCCReference Include="Debug\Sis.Debug.pas"/>
-        <DCCReference Include="DB\Sis.DB.Factory.pas"/>
-        <DCCReference Include="Config\Sis.Config.SisConfig_u.pas"/>
-        <DCCReference Include="Config\Sis.Config.Factory.pas"/>
-        <DCCReference Include="Config\Sis.Config.SisConfig.XMLI_u.pas"/>
-        <DCCReference Include="Types\Sis.Types.Floats.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBConnection_u.pas"/>
         <DCCReference Include="Sis\Sis.Sis.Nomeavel.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBConnection.FireDAC_u.pas"/>
+        <DCCReference Include="UI\IO\Output\sis.ui.io.output.mudo_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ShowMessage_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToLabel_u.pas"/>
+        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToMemo_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Factory.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.LogRecord_u.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.ProcessLogFile_u.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Registrador.pas"/>
         <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Registrador_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBSQLOperation_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBQuery_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBExec_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBQuery.FireDAC_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBExec.FireDAC_u.pas"/>
-        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.Mudo.pas"/>
+        <DCCReference Include="UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog_u.pas"/>
+        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Files.FileI.pas"/>
+        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Files.FileI_u.pas"/>
+        <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI.pas"/>
+        <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas"/>
+        <DCCReference Include="UI\IO\Files\Pas\Sis.UI.IO.Files.PasI.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.Files.Recorder.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.Files.Recorder_u.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Factory.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.FileInfo_u.pas"/>
+        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Sync.pas"/>
-        <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Factory.pas"/>
-        <DCCReference Include="Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas"/>
-        <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas"/>
-        <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas"/>
-        <DCCReference Include="Web\Sis.Web.Factory.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Splash_u.pas">
-            <Form>SplashForm</Form>
+        <DCCReference Include="UI\IO\Sis.UI.IO.Factory.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas"/>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas_u.pas">
+            <Form>BasForm</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.TImage.pas"/>
-        <DCCReference Include="Entities\Sis.Usuario.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas">
+            <Form>DiagBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas">
+            <Form>DiagBtnBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\Sis.UI.Constants.pas"/>
+        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections.pas"/>
+        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas"/>
+        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.FixedCriticalSection_u.pas"/>
+        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator.pas"/>
+        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator_u.pas"/>
+        <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager.pas"/>
+        <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DataSet.Utils.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBConnection.FireDAC_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBConnection_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExec.FireDAC_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExec_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExecScript.FireDAC_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBExecScript_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.DBMSConfig.Firebird_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.DBMSConfig_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.Firebird_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBMS.Info_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBQuery.FireDAC_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBQuery_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBSQLOperation_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.DBTypes.pas"/>
+        <DCCReference Include="DB\Sis.DB.Factory.pas"/>
+        <DCCReference Include="DB\Sis.DB.FDExecScript_u.pas"/>
+        <DCCReference Include="DB\Sis.DB.Firebird.GetSQL_u.pas"/>
+        <DCCReference Include="DB\SqlUtils\Sis.DB.SqlUtils_u.pas"/>
+        <DCCReference Include="Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.AlignmentList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.AlignmentList_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.Factory.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.HashItem.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.HashItem_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.HashItemList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.HashItemList_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharHashItem.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharHashItem_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharHashList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharItem.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharItem_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IdCharList.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdItem.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdItem_u.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdItemList.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdItemList_u.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.Factory.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.HashItem.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.HashItem_u.pas"/>
-        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoList.pas"/>
-        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoList_u.pas"/>
-        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoItem.pas"/>
-        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoItem_u.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.HashItemList.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.HashItemList_u.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdLojaTermItem.pas"/>
         <DCCReference Include="Lists\Sis.Lists.IdLojaTermItem_u.pas"/>
-        <DCCReference Include="Entities\Sis.Usuario_u.pas"/>
-        <DCCReference Include="Entities\Sis.Entities.Factory.pas"/>
-        <DCCReference Include="Entities\Loja\Sis.Loja.pas"/>
-        <DCCReference Include="Entities\Loja\Sis.Loja_u.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.Reposition.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.Align_u.pas"/>
-        <DCCReference Include="UI\Sis.UI.Constants.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateOrAlterPackage_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateOrAlterProcedure_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateSequence_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateTable_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.EnsureRecords_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.List.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.List_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Constants_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Factory.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Firebird.GetSql_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Firebird_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Operations.FB_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Operations.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IntegerList.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.IntegerList_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.Lista.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.ListaList_u.pas"/>
+        <DCCReference Include="Lists\Sis.Lists.Types.pas"/>
+        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoItem.pas"/>
+        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoItem_u.pas"/>
+        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoList.pas"/>
+        <DCCReference Include="Lists\TextoList\Sis.Lists.TextoList_u.pas"/>
+        <DCCReference Include="UI\Img\Sis.Ui.Img.Factory.pas"/>
+        <DCCReference Include="UI\Img\Sis.Ui.Img.Types.pas"/>
+        <DCCReference Include="UI\Img\Sis.Ui.Img.Utils.pas"/>
+        <DCCReference Include="UI\Img\Sis.UI.ImgDM.pas">
+            <Form>SisImgDataModule</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\Img\Sis.Ui.ImgsList.pas"/>
+        <DCCReference Include="UI\Img\Sis.Ui.ImgsList.Prepare.pas"/>
+        <DCCReference Include="UI\Img\Sis.Ui.ImgsList.Prepare.Sis.pas"/>
+        <DCCReference Include="UI\Img\Sis.Ui.ImgsList_u.pas"/>
+        <DCCReference Include="Debug\Sis.Debug.DebugSteps.pas"/>
+        <DCCReference Include="Debug\Sis.Debug.DebugSteps_u.pas"/>
+        <DCCReference Include="Debug\Sis.Debug.pas"/>
+        <DCCReference Include="Registry\Sis.Win.Registry.pas"/>
+        <DCCReference Include="UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas"/>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager.pas"/>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager_u.pas"/>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Select.Frame_u.pas"/>
+        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Frame_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas_u.pas">
+            <Form>BasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas">
+            <Form>ControlBasFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo.List.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo.List_u.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Campo_u.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateDomains_u.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateForeignKey_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.Firebird.GetSQL_u.pas"/>
-        <DCCReference Include="Types\Sis.Types.TStrings_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateOrAlterPackage_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateOrAlterProcedure_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateSequence_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateTable_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.EnsureRecords_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.List.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.List_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Constants_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Diretivas_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Factory.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Firebird.GetSql_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Firebird_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Operations.FB_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Operations.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.PontoAlvo.Utils_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater_u.Teste.pas"/>
         <DCCReference Include="DB\Updater\Sis.DB.Updater_u_GetStrings.pas"/>
-        <DCCReference Include="Types\Sis.Types.Integers.pas"/>
-        <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt_u.pas"/>
-        <DCCReference Include="Entities\Sis.ModuloSistema.pas"/>
-        <DCCReference Include="Entities\Sis.ModuloSistema.Types.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag_u.pas">
-            <Form>DiagBasForm</Form>
-        </DCCReference>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn_u.pas">
-            <Form>DiagBtnBasForm</Form>
-        </DCCReference>
-        <DCCReference Include="Usuario\Sis.UI.Form.LoginPerg_u.pas">
-            <Form>LoginPergForm</Form>
-        </DCCReference>
-        <DCCReference Include="DBI\Sis.DBI.pas"/>
-        <DCCReference Include="DBI\Sis.DBI_u.pas"/>
-        <DCCReference Include="Usuario\Sis.Usuario.DBI.pas"/>
-        <DCCReference Include="Usuario\Sis.Usuario.DBI_u.pas"/>
-        <DCCReference Include="Usuario\Sis.Usuario.Factory.pas"/>
-        <DCCReference Include="Usuario\Sis.Usuario.DBI.GetSQL_u.pas"/>
-        <DCCReference Include="Usuario\Sis.UI.Form.Login.Config_u.pas"/>
-        <DCCReference Include="Usuario\Sis.UI.Form.Login.Config.pas"/>
-        <DCCReference Include="UI\Actions\Sis.UI.Actions.Utils_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Align_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.ADireita_u.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador_u.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.Alinhador.ADireita_u.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.Factory.pas"/>
-        <DCCReference Include="Entities\Sis.ModuloSistema_u.pas"/>
-        <DCCReference Include="Types\Contador\Sis.Types.Contador.pas"/>
-        <DCCReference Include="Types\Contador\Sis.Types.Contador_u.pas"/>
-        <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager.pas"/>
-        <DCCReference Include="DB\DataSetManager\Sis.DB.FDDataSetManager_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas">
-            <Form>TabSheetBasForm</Form>
-        </DCCReference>
-        <DCCReference Include="Lists\Sis.Lists.Lista.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.AlignmentList.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.AlignmentList_u.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.ListaList_u.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IntegerList.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IntegerList_u.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Reposition.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.TAction.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.TDBGrid.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.TImage.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.TLabeledEdit.pas"/>
         <DCCReference Include="UI\Controls\Sis.UI.Controls.TToolBar.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.Utils.pas"/>
+        <DCCReference Include="UI\Controls\Sis.UI.Controls.WinControlsNavigator.pas"/>
+        <DCCReference Include="DBI\Sis.DBI.pas"/>
+        <DCCReference Include="DBI\Sis.DBI_u.pas"/>
         <DCCReference Include="Entities\Sis.Entidade.pas"/>
         <DCCReference Include="Entities\Sis.Entidade_u.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ToBalloonHint_u.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas">
-            <Form>PergBooleanForm</Form>
-        </DCCReference>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Decorator.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Decorator.Form.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.TDBGrid.pas"/>
-        <DCCReference Include="UI\Controls\Botoes\FlatBtn\CustomFlatBtn.pas"/>
-        <DCCReference Include="UI\Controls\Botoes\FlatBtn\FlatBtn.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.TFlatBtn.pas"/>
-        <DCCReference Include="UI\Controls\Botoes\FlatBtn\FlatBtnList.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.TAction.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.TLabeledEdit.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateUniqueKey_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas_u.pas">
-            <Form>BasFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas">
-            <Form>ControlBasFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Img\Sis.Ui.Img.Types.pas"/>
-        <DCCReference Include="UI\Img\Sis.Ui.ImgsList.pas"/>
-        <DCCReference Include="UI\Img\Sis.Ui.ImgsList_u.pas"/>
-        <DCCReference Include="UI\Img\Sis.Ui.Img.Factory.pas"/>
-        <DCCReference Include="UI\Img\Sis.Ui.ImgsList.Prepare.Sis.pas"/>
-        <DCCReference Include="UI\Img\Sis.Ui.Img.Utils.pas"/>
-        <DCCReference Include="UI\Img\Sis.Ui.ImgsList.Prepare.pas"/>
-        <DCCReference Include="UI\Controls\Sanfona\Sis.UI.Controls.Sanfona_u.pas">
-            <Form>SanfonaFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Controls\Sanfona\Sis.UI.Frame.Bas.Controls.SanfonaItem_u.pas">
-            <Form>SanfonaItemBasFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager.pas"/>
-        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBoxManager_u.pas"/>
-        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Frame_u.pas">
-            <Form>ComboBoxBasFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Controls\ComboBox\Sis.UI.Controls.ComboBox.Select.Frame_u.pas">
-            <Form>ComboBoxSelectBasFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\BasForm\Sis.UI.FormCreator.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.FormCreator_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DataSet.Utils.pas"/>
-        <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Utils.pas"/>
-        <DCCReference Include="Types\Codigos\Sis.Types.Codigos.Testes_u.pas"/>
-        <DCCReference Include="UI\IO\sndkey32.pas"/>
-        <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI.pas"/>
-        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Files.FileI.pas"/>
-        <DCCReference Include="UI\IO\Files\FileI\Sis.UI.IO.Files.FileI_u.pas"/>
-        <DCCReference Include="UI\IO\Files\XMLI\Sis.UI.IO.FIles.XMLI_u.pas"/>
-        <DCCReference Include="Config\Sis.Config.SisConfig.XMLI.pas"/>
-        <DCCReference Include="Config\Sis.Config.ConfigXMLI.pas"/>
-        <DCCReference Include="Config\Sis.Config.ConfigXMLI_u.pas"/>
-        <DCCReference Include="Debug\Sis.Debug.DebugSteps.pas"/>
-        <DCCReference Include="Debug\Sis.Debug.DebugSteps_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateIndex_u.pas"/>
-        <DCCReference Include="Types\Sis.Types.pas"/>
+        <DCCReference Include="Entities\Sis.Entities.Factory.pas"/>
+        <DCCReference Include="Entities\Sis.Entities.Types.pas"/>
+        <DCCReference Include="Entities\Sis.ModuloSistema.pas"/>
+        <DCCReference Include="Entities\Sis.ModuloSistema.Types.pas"/>
+        <DCCReference Include="Entities\Sis.ModuloSistema_u.pas"/>
+        <DCCReference Include="Entities\Sis.Usuario.pas"/>
+        <DCCReference Include="Entities\Sis.Usuario_u.pas"/>
         <DCCReference Include="Entities\Loja\Sis.Loja.DBI.pas"/>
         <DCCReference Include="Entities\Loja\Sis.Loja.DBI_u.pas"/>
         <DCCReference Include="Entities\Loja\Sis.Loja.Factory.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.Types.pas"/>
-        <DCCReference Include="DB\UltimoId\Sis.DB.UltimoId.pas"/>
-        <DCCReference Include="DB\UltimoId\Sis.DB.UltimoId_u.pas"/>
-        <DCCReference Include="UI\Controls\Files\FileSelectLabeledEdit\Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame.pas">
-            <Form>FileSelectLabeledEditFrame</Form>
+        <DCCReference Include="Entities\Loja\Sis.Loja.pas"/>
+        <DCCReference Include="Entities\Loja\Sis.Loja_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Terminal.DBI.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Terminal.DBI_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Terminal.Factory_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Terminal.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Terminal_u.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.TerminalList.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.TerminalList_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.Factory_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.SafeBool.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.SafeBool_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.Tarefa.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.Tarefa_u.pas"/>
+        <DCCReference Include="Threads\Sis.Threads.ThreadBas_u.pas"/>
+        <DCCReference Include="Threads\Sis.UI.Frame.Status.Thread_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Status_u.pas">
+            <Form>StatusFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="Types\Sis.Types.strings.abrev_u.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas">
-            <Form>InputStrForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
-        <DCCReference Include="Types\Sis.Types.Dates.pas"/>
-        <DCCReference Include="Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas"/>
-        <DCCReference Include="UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame_u.pas">
-            <Form>TreeViewFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\Controls\TreeView\Sis.UI.Controls.TreeView.Preencher_u.pas"/>
-        <DCCReference Include="UI\Controls\TreeView\Sis.UI.Controls.TreeView.Preencher.pas"/>
-        <DCCReference Include="UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor.pas"/>
-        <DCCReference Include="UI\Controls\TreeView\Sis.UI.Controls.TreeView.Frame.Preenchedor_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas">
-            <Form>TreeViewDiagBasForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
-        <DCCReference Include="Usuario\Sis.UI.Form.Login.Types_u.pas"/>
-        <DCCReference Include="Types\Crypt\Sis.Types.strings.Crypt1_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas">
-            <Form>CheckListViewDiagBasForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\BasForm\DBGridFrame\Sis.UI.Frame.Bas.DBGrid_u.pas">
             <Form>DBGridFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Entities\Sis.Entities.Types.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.PontoAlvo.Utils_u.pas"/>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater.Diretivas_u.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.Terminal.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.Terminal_u.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.TerminalList.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.TerminalList_u.pas"/>
-        <DCCReference Include="UI\Controls\Botoes\BotaoFrame\Sis.UI.Controls.BotaoFrame_u.pas">
-            <Form>BotaoFrame</Form>
+        <DCCReference Include="UI\BasForm\Sis.UI.Decorator.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Decorator.Form.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Act_u.pas">
+            <Form>ActBasForm</Form>
             <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="UI\Controls\Lists\Sil.UI.Controls.Lists.Utils_u.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Status_u.pas">
-            <Form>StatusFrame</Form>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.CheckListView_u.pas">
+            <Form>CheckListViewDiagBasForm</Form>
             <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.FixedCriticalSection_u.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.ThreadBas_u.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.SafeBool.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.SafeBool_u.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.Factory_u.pas"/>
-        <DCCReference Include="Threads\Sis.UI.Frame.Status.Thread_u.pas">
-            <Form>ThreadStatusFrame</Form>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.Diag.Btn.TreeView_u.pas">
+            <Form>TreeViewDiagBasForm</Form>
             <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.pas"/>
-        <DCCReference Include="Types\Sis.Types.Dado.pas"/>
-        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI.pas"/>
-        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas"/>
-        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI_u.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.Safe.ToLabel_u.pas"/>
-        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections.pas"/>
-        <DCCReference Include="Threads\Crit\Sis.Threads.Crit.CriticalSections_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBExecScript_u.pas"/>
-        <DCCReference Include="DB\Sis.DB.DBExecScript.FireDAC_u.pas"/>
-        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator.pas"/>
-        <DCCReference Include="DB\SqlCreator\Sis.DB.SqlCreator_u.pas"/>
-        <DCCReference Include="DB\SqlUtils\Sis.DB.SqlUtils_u.pas"/>
-        <DCCReference Include="Types\Arrays\Sis.Types.Arrays.ArrayUtils_u.pas"/>
-        <DCCReference Include="Types\Sis.Types.Variants.pas"/>
-        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Filtro_u.pas">
-            <Form>FiltroFrame</Form>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas.TabSheet_u.pas">
+            <Form>TabSheetBasForm</Form>
             <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas">
-            <Form>FiltroStringFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="DB\Updater\Sis.DB.Updater_u.Teste.pas"/>
-        <DCCReference Include="Sis\ExecTardia\Sis.Sis.ExecTardiaDM_u.pas">
-            <Form>ExecTardiaDM</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Menu_u.pas">
             <Form>MenuForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Lists\Sis.Lists.IdCharItem.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IdCharHashItem.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IdCharItem_u.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IdCharList.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IdCharHashList.pas"/>
-        <DCCReference Include="Lists\Sis.Lists.IdCharHashItem_u.pas"/>
-        <DCCReference Include="UI\Controls\Sis.UI.Controls.WinControlsNavigator.pas"/>
-        <DCCReference Include="Sis\Sis.Sis.Atualizavel.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.Tarefa.pas"/>
-        <DCCReference Include="Threads\Sis.Threads.Tarefa_u.pas"/>
-        <DCCReference Include="Win\Sis.Win.Utils.Printer_u.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.Terminal.DBI.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.Terminal.Factory_u.pas"/>
-        <DCCReference Include="Entities\Terminal\Sis.Terminal.DBI_u.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
-        <DCCReference Include="UI\IO\Files\Sis.Files.Recorder.pas"/>
-        <DCCReference Include="UI\IO\Files\Sis.Files.Recorder_u.pas"/>
-        <DCCReference Include="UI\Impr\Sis.UI.Impressora.pas"/>
-        <DCCReference Include="UI\Impr\Sis.UI.Impressora_u.pas"/>
-        <DCCReference Include="UI\Impr\Sis.UI.ImpressoraTexto_u.pas"/>
-        <DCCReference Include="UI\Impr\Sis.UI.ImpressoraTexto.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Form.Splash_u.pas">
+            <Form>SplashForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\Sis.UI.FormCreator.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.FormCreator_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Filtro.BuscaString_u.pas"/>
+        <DCCReference Include="UI\BasForm\Sis.UI.Frame.Bas.Filtro_u.pas">
+            <Form>FiltroFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Config\Sis.Config.ConfigXMLI.pas"/>
+        <DCCReference Include="Config\Sis.Config.ConfigXMLI_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.Factory.pas"/>
+        <DCCReference Include="Config\Sis.Config.MachineId.pas"/>
+        <DCCReference Include="Config\Sis.Config.MachineId_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig.XMLI.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig.XMLI_u.pas"/>
+        <DCCReference Include="Config\Sis.Config.SisConfig_u.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.Factory_u.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfig.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI.pas"/>
+        <DCCReference Include="DB\DBConfig\Sis.DB.DBConfigDBI_u.pas"/>
+        <DCCReference Include="DB\UltimoId\Sis.DB.UltimoId.pas"/>
+        <DCCReference Include="DB\UltimoId\Sis.DB.UltimoId_u.pas"/>
+        <DCCReference Include="UI\Actions\Sis.UI.Actions.Utils_u.pas"/>
+        <DCCReference Include="UI\Bal\Sis.Bal.Utils_u.pas"/>
+        <DCCReference Include="UI\Controls\Files\FileSelectLabeledEdit\Sis.UI.Controls.Files.FileSelectLabeledEdit.Frame.pas">
+            <Form>FileSelectLabeledEditFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <DCCReference Include="UI\Impr\Sis.UI.Impressao.pas"/>
         <DCCReference Include="UI\Impr\Sis.UI.Impressao_u.pas"/>
         <DCCReference Include="UI\Impr\Sis.UI.ImpressaoTexto_u.pas"/>
-        <DCCReference Include="UI\Bal\Sis.Bal.Utils_u.pas"/>
-        <DCCReference Include="UI\IO\Files\Pas\Sis.UI.IO.Files.PasI.pas"/>
         <DCCReference Include="UI\IO\Serial\Sis.UI.IO.Serial.Utils_u.pas"/>
-        <DCCReference Include="UI\IO\Output\Sis.UI.IO.Output.ShowMessage_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Config.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Config_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Types_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.LoginPerg_u.pas">
+            <Form>LoginPergForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Usuario\Sis.Usuario.DBI.GetSQL_u.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.DBI.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.DBI_u.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.Factory.pas"/>
+        <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
+        <DCCReference Include="Web\Sis.Web.Factory.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas"/>
+        <DCCReference Include="Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas"/>
+        <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -532,8 +473,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <Source Name="MainSource">Sis.dpk</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
@@ -554,12 +495,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </DeployFile>
                 <DeployFile LocalName="..\..\Exe\Bin\Sis.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Sis.bpl</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\Exe\Bin\Sis.bpl" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
                         <RemoteName>Sis.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -589,12 +524,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\xml</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidGDBServer">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -650,6 +579,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="AndroidSplashImageDefV21">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-anydpi-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-anydpi-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="AndroidSplashStyles">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
@@ -670,6 +609,66 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV31">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_AdaptiveIcon">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-anydpi-v26</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-anydpi-v26</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_AdaptiveIconBackground">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_AdaptiveIconForeground">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_AdaptiveIconMonochrome">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_AdaptiveIconV33">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-anydpi-v33</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-anydpi-v33</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="Android_Colors">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
@@ -677,6 +676,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_ColorsDark">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-night-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-night-v21</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -847,6 +856,56 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_VectorizedNotificationIcon">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-anydpi-v24</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-anydpi-v24</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_VectorizedSplash">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_VectorizedSplashDark">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-night-anydpi-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-night-anydpi-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_VectorizedSplashV31">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-anydpi-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-anydpi-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_VectorizedSplashV31Dark">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-night-anydpi-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-night-anydpi-v31</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -1025,6 +1084,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win64x">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -1287,10 +1349,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win64x" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
+                <Platform value="Android">False</Platform>
+                <Platform value="Android64">False</Platform>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">True</Platform>
+                <Platform value="Win64">False</Platform>
+                <Platform value="Win64x">False</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
@@ -1298,20 +1364,4 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
-    <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
-        <PreBuildEvent/>
-        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
-        <PreLinkEvent/>
-        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
-        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win64'">
-        <PreBuildEvent/>
-        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
-        <PreLinkEvent/>
-        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(OUTPUTDIR)\$(OUTPUTNAME).* \\VBOXSVR\d_drive\inst\Bantu\$(Platform)\Mercado\inst-bin</PostBuildEvent>
-        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
-    </PropertyGroup>
 </Project>
