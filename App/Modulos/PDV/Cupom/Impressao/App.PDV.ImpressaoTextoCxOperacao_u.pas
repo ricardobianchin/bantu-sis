@@ -96,6 +96,7 @@ end;
 function TImpressaoTextoPDVCxOperacao.GetDocTitulo: string;
 begin
 
+  Result := FCxOperacaoEnt.CxOperacaoTipo.Name + ' ' + FCxOperacaoEnt.GetCod;
 end;
 
 function TImpressaoTextoPDVCxOperacao.GetDtDoc: TDateTime;

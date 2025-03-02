@@ -64,6 +64,7 @@ type
 
     procedure SessStatusExiba;
     procedure Atualizar;
+    procedure BuscarRecente;
   protected
     procedure AjusteControles; override;
   public
@@ -71,7 +72,12 @@ type
     constructor Create(AOwner: TComponent; pImpressoraNome: string;
       pCaixaSessaoDM: TCaixaSessaoDM); reintroduce;
   end;
-
+{
+quando fizer abertura de caixa, pegará a action q tenta abrir
+que receberá via parametro
+ela fica no modu pdv
+apos execuala, faz BuscarRecente
+}
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
   pCaixaSessaoDM: TCaixaSessaoDM);
 
@@ -103,9 +109,7 @@ end;
 procedure TPDVSessForm.AjusteControles;
 begin
   inherited;
-  FCaixaSessaoDM.CaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
-  SessStatusExiba;
-  Atualizar;
+  BuscarRecente;
 
   TitleBarCaptionLabel.Caption := 'SESSÃO DE CAIXA';
   TitleBarCaptionLabel.StyleElements := [];
@@ -124,6 +128,13 @@ procedure TPDVSessForm.Atualizar;
 begin
   FCaixaSessaoDM.CaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable,
     FCaixaSessao);
+end;
+
+procedure TPDVSessForm.BuscarRecente;
+begin
+  FCaixaSessaoDM.CaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
+  SessStatusExiba;
+  Atualizar;
 end;
 
 procedure TPDVSessForm.CancelActionExecute(Sender: TObject);
