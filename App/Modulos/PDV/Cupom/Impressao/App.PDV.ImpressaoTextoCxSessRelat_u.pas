@@ -29,7 +29,7 @@ implementation
 
 uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
   App.Est.Venda.Caixa.CxValor, Sis.Entities.Types, Sis.Win.Utils_u,
-  Sis.Types.Dates;
+  Sis.Types.Dates, Sis.Types.Bool_u;
 
 { TImpressaoTextoPDVCxSessRelat }
 
@@ -69,6 +69,11 @@ procedure TImpressaoTextoPDVCxSessRelat.GereTexto;
 var
   i: integer;
   s: string;
+  ss: string;
+  Items: TArray<string>;
+  uVal: Currency;
+  uTot: Currency;
+  iSinal: SmallInt;
 begin
   inherited;
   // {$IFDEF DEBUG}
@@ -86,16 +91,63 @@ begin
   FCaixaSessao.LogUsuario.NomeExib := FLinhasRet[i];
 
   inc(i);
-  FCaixaSessao.AbertoEm := TimeStampStrToDateTime( FLinhasRet[i]);
+  FCaixaSessao.AbertoEm := TimeStampStrToDateTime(FLinhasRet[i]);
 
   s := 'OPERADOR: ' + FCaixaSessao.LogUsuario.Id.ToString + ' - ' +
     FCaixaSessao.LogUsuario.NomeExib;
   PegueLinha(s);
 
-  S := 'ABERTO EM ' + FormatDateTime('dd/mm/yyyy hh:nn:ss', FCaixaSessao.AbertoEm);
+  s := 'ABERTO EM ' + FormatDateTime('dd/mm/yyyy hh:nn:ss',
+    FCaixaSessao.AbertoEm);
   PegueLinha(s);
 
-  inc(i);
+  PegueLinha('');
+  s := 'OPERACOES DE CAIXA';
+  PegueLinha(CenterStr(s, NCols));
+  uTot := 0;
+  repeat
+    inc(i);
+    if i >= FLinhasRet.Count then
+      break;
+
+    Items := FLinhasRet[i].Split([';']);
+    if Length(Items) = 0 then
+      break;
+
+    if Items[0] <> '2' then
+      break;
+
+    s := Items[1];
+
+    iSinal := StrToInt(Items[2]);
+
+    ss := Iif(iSinal > 0, '(+)', '(-)');
+    OverwriteString(s, ss, 12);
+
+    uVal := StrToCurrency(Items[3]);
+    uTot := uTot + (iSinal * uVal);
+
+    OverwriteStringRight(s, Items[3], 24);
+    PegueLinha(s);
+  until false;
+  s := '';
+  OverwriteStringRight(s, '-------------', 24);
+  PegueLinha(s);
+
+  s := '  TOTAL';
+  OverwriteString(s, '(=)', 12);
+  OverwriteStringRight(s, DinhToStr(uTot), 24);
+  PegueLinha(s);
+
+  PegueLinha('');
+
+  {
+    procedure OverwriteString(var aTargetStr: string; const aSourceStr: string;
+    pStartPos: integer);
+    procedure OverwriteStringRight(var aTargetStr: string; const aSourceStr: string;
+    aEndPos: integer);
+
+  }
 end;
 
 function TImpressaoTextoPDVCxSessRelat.GetDocTitulo: string;
