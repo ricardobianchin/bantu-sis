@@ -69,9 +69,9 @@ begin
   begin
     s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
     PegueLinha(CenterStr(s, NCols));
+    s := 'OPERADOR: ' + Usuario.NomeExib;
+    PegueLinha(s);
   end;
-  s := 'OPERADOR: ' + Usuario.NomeExib;
-  PegueLinha(s);
   PegueLinha('');
 end;
 
