@@ -28,7 +28,8 @@ type
 implementation
 
 uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
-  App.Est.Venda.Caixa.CxValor, Sis.Entities.Types, Sis.Win.Utils_u;
+  App.Est.Venda.Caixa.CxValor, Sis.Entities.Types, Sis.Win.Utils_u,
+  Sis.Types.Dates;
 
 { TImpressaoTextoPDVCxSessRelat }
 
@@ -56,6 +57,7 @@ begin
   inherited;
   s := 'RELATORIO DE CAIXA';
   PegueLinha(CenterStr(s, NCols));
+  PegueLinha('');
 
   s := 'SESSAO: ' + FCaixaSessao.GetCod;
   PegueLinha(s);
@@ -64,12 +66,36 @@ begin
 end;
 
 procedure TImpressaoTextoPDVCxSessRelat.GereTexto;
+var
+  i: integer;
+  s: string;
 begin
   inherited;
-{$IFDEF DEBUG}
-  CopyTextToClipboard(FLinhasRet.Text);
-{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(FLinhasRet.Text);
+  // {$ENDIF}
+  FLinhasRet.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\linhasret.txt');
 
+  i := 0;
+  FCaixaSessao.LogUsuario.LojaId := StrToInt(FLinhasRet[i]);
+
+  inc(i);
+  FCaixaSessao.LogUsuario.Id := StrToInt(FLinhasRet[i]);
+
+  inc(i);
+  FCaixaSessao.LogUsuario.NomeExib := FLinhasRet[i];
+
+  inc(i);
+  FCaixaSessao.AbertoEm := TimeStampStrToDateTime( FLinhasRet[i]);
+
+  s := 'OPERADOR: ' + FCaixaSessao.LogUsuario.Id.ToString + ' - ' +
+    FCaixaSessao.LogUsuario.NomeExib;
+  PegueLinha(s);
+
+  S := 'ABERTO EM ' + FormatDateTime('dd/mm/yyyy hh:nn:ss', FCaixaSessao.AbertoEm);
+  PegueLinha(s);
+
+  inc(i);
 end;
 
 function TImpressaoTextoPDVCxSessRelat.GetDocTitulo: string;

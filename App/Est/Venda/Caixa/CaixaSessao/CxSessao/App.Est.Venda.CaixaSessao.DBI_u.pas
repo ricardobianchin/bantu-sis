@@ -98,32 +98,24 @@ var
 begin
   pCaixaSessao.Zerar;
 
-  sSql := 'SELECT FIRST(1)'#13#10 //
+  sSql := 'SELECT'#13#10 //
 
-    + 'S.LOJA_ID'#13#10 // 0
-    + ', S.TERMINAL_ID'#13#10 // 1
-    + ', S.SESS_ID'#13#10 // 2
-    + ', P.LOJA_ID'#13#10 // 3
-    + ', P.PESSOA_ID'#13#10 // 4
-    + ', P.APELIDO'#13#10 // 5
-    + ', L.DTH'#13#10 // 6
+    + 'SESS_LOJA_ID'#13#10 // 0
+    + ', SESS_TERMINAL_ID'#13#10 // 1
+    + ', SESS_ID'#13#10 // 2
 
-    + 'FROM CAIXA_SESSAO S'#13#10 //
+    + ', OPERADOR_LOJA_ID'#13#10 // 3
+    + ', OPERADOR_ID'#13#10 // 4
 
-    + 'JOIN LOG L ON'#13#10 //
-    + 'S.LOJA_ID = L.LOJA_ID'#13#10 //
-    + 'AND S.TERMINAL_ID = L.TERMINAL_ID'#13#10 //
-    + 'AND S.SESS_LOG_ID = L.LOG_ID'#13#10 //
+    + ', OPERADOR_APELIDO'#13#10 // 5
+    + ', CRIADO_EM'#13#10 // 6
 
-    + 'JOIN PESSOA P ON'#13#10 //
-    + 'P.LOJA_ID = L.LOJA_ID'#13#10 //
-    + 'AND P.PESSOA_ID = L.PESSOA_ID'#13#10 //
-
-    + 'ORDER BY L.DTH DESC'#13#10 //
+    + 'FROM CAIXA_SESSAO_PDV_PA.SESS_ULTIMO_GET;'#13#10 //
     ;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(sSql);
+//   {$ENDIF}
 
   oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
     sSql, nil, nil);
@@ -138,12 +130,15 @@ begin
       exit;
 
     try
+      pCaixaSessao.LogUsuario.TerminalId := 0;
+
       pCaixaSessao.LojaId := oDBQuery.DataSet.Fields[0].AsInteger;
       pCaixaSessao.TerminalId := oDBQuery.DataSet.Fields[1].AsInteger;
       pCaixaSessao.Id := oDBQuery.DataSet.Fields[2].AsInteger;
+
       pCaixaSessao.LogUsuario.LojaId := oDBQuery.DataSet.Fields[3].AsInteger;
-      pCaixaSessao.LogUsuario.TerminalId := 0;
       pCaixaSessao.LogUsuario.Id := oDBQuery.DataSet.Fields[4].AsInteger;
+
       pCaixaSessao.LogUsuario.NomeExib := oDBQuery.DataSet.Fields[5].AsString;
       pCaixaSessao.AbertoEm := oDBQuery.DataSet.Fields[6].AsDateTime;
     finally
@@ -291,97 +286,51 @@ var
   sSql: string;
   q: TDataSet;
   sL, sT, sI: string;
+  sLinha: string;
 begin
-  // pLinhas.Clear;
-  // DBConnection.Abrir;
-  // try
-  // oDBQuery := DBQueryCreate('Cxsess.relat.linhas.get.q', DBConnection,
-  // sSql, nil, nil);
-  //
-  // try
-  // if pCaixaSessao.Id < 1 then
-  // exit;
-  //
-  // sL := pCaixaSessao.LojaId.ToString;
-  // sT := pCaixaSessao.TerminalId.ToString;
-  // sI := pCaixaSessao.Id.ToString;
-  //
-  // sSql := //
-  // 'SELECT' //
-  // + 'LINHA'#13#10 //
-  // + ' FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_GET('#13#10 //
-  //
-  // + sL + ' -- SESS_LOJA_ID'#13#10 //
-  // + ', ' + sT + ' -- SESS_TERMINAL_ID'#13#10 + ', ' + sI +
-  // ' -- SESS_ID'#13#10 //
-  //
-  // + ');';
-  //
-  // // {$IFDEF DEBUG}
-  // // CopyTextToClipboard(sSql);
-  // // {$ENDIF}
-  //
-  // oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
-  // sSql, nil, nil);
-  //
-  // oDBQuery.Abrir;
-  // q := oDBQuery.DataSet;
-  // while not q.Eof do
-  // begin
-  // t.Append;
-  // t.FieldByName('LOJA_ID').AsInteger := q.FieldByName('LOJA_ID')
-  // .AsInteger;
-  // t.FieldByName('TERMINAL_ID').AsInteger := q.FieldByName('TERMINAL_ID')
-  // .AsInteger;
-  // t.FieldByName('ID').AsInteger := q.FieldByName('ID').AsInteger;
-  // t.FieldByName('LOG_ID').AsLargeInt := q.FieldByName('LOG_ID')
-  // .AsLargeInt;
-  // t.FieldByName('ORDEM').AsInteger := q.FieldByName('ORDEM').AsInteger;
-  // t.FieldByName('TIPO_ID').AsString := q.FieldByName('TIPO_ID').AsString;
-  // t.FieldByName('TIPO_STR').AsString := q.FieldByName('TIPO_STR')
-  // .AsString;
-  // t.FieldByName('CRIADO_EM').AsDateTime := q.FieldByName('CRIADO_EM')
-  // .AsDateTime;
-  // t.FieldByName('VALOR').AsCurrency := q.FieldByName('VALOR').AsCurrency;
-  // t.FieldByName('CANCELADO').AsBoolean := q.FieldByName('CANCELADO')
-  // .AsBoolean;
-  // t.FieldByName('OBS').AsString := q.FieldByName('OBS').AsString;
-  //
-  // if t.FieldByName('TIPO_ID').AsString = cxopVenda.ToChar then
-  // t.FieldByName('COD_STR').AsString :=
-  // Sis.Entities.Types.GetCod(t.FieldByName('LOJA_ID').AsInteger,
-  // t.FieldByName('TERMINAL_ID').AsInteger,
-  // t.FieldByName('ID').AsInteger, 'VEN')
-  // else
-  // t.FieldByName('COD_STR').AsString :=
-  // Sis.Entities.Types.GetCod(t.FieldByName('LOJA_ID').AsInteger,
-  // t.FieldByName('TERMINAL_ID').AsInteger,
-  // t.FieldByName('ID').AsInteger, 'CX') + '-' + t.FieldByName('ORDEM')
-  // .AsInteger.ToString;
-  //
-  // pDMemTable1.Post;
-  // oDBQuery.DataSet.Next;
-  // end;
-  // finally
-  // oDBQuery.Fechar;
-  //
-  // pDMemTable1.EndBatch;
-  // with pDMemTable1.Indexes.Add do
-  // begin
-  // Name := 'IdxCriadoEm';
-  // Fields := 'CRIADO_EM';
-  // Active := True;
-  // end;
-  //
-  // pDMemTable1.IndexesActive := True;
-  // pDMemTable1.IndexName := 'IdxCriadoEm';
-  //
-  // pDMemTable1.First;
-  // pDMemTable1.EnableControls;
-  // end;
-  // finally
-  // DBConnection.Fechar;
-  // end;
+  pLinhas.Clear;
+  DBConnection.Abrir;
+  try
+    try
+      if pCaixaSessao.Id < 1 then
+        exit;
+
+      sL := pCaixaSessao.LojaId.ToString;
+      sT := pCaixaSessao.TerminalId.ToString;
+      sI := pCaixaSessao.Id.ToString;
+
+      sSql := //
+        'SELECT'#13#10 //
+        + 'LINHA'#13#10 //
+        + 'FROM TESTE_PA.SESS_RELAT_BYID_GET('#13#10 //
+
+        + sL + ' -- SESS_LOJA_ID'#13#10 //
+        + ', ' + sT + ' -- SESS_TERMINAL_ID'#13#10 + ', ' + sI +
+        ' -- SESS_ID'#13#10 //
+
+        + ');';
+
+//       {$IFDEF DEBUG}
+//       CopyTextToClipboard(sSql);
+//       {$ENDIF}
+
+      oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
+        sSql, nil, nil);
+
+      oDBQuery.Abrir;
+      q := oDBQuery.DataSet;
+      while not q.Eof do
+      begin
+        sLinha := q.Fields[0].AsString.Trim;
+        pLinhas.Add(sLinha);
+        q.Next;
+      end;
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 end.

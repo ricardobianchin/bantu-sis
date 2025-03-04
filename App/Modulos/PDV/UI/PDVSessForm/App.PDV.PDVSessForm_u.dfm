@@ -2,19 +2,21 @@ inherited PDVSessForm: TPDVSessForm
   Caption = 'PDVSessForm'
   ClientHeight = 254
   ClientWidth = 788
-  ExplicitWidth = 800
-  ExplicitHeight = 292
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 804
+  ExplicitHeight = 293
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 197
     Width = 788
     Visible = False
-    ExplicitTop = 313
+    ExplicitTop = 197
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 239
     Width = 788
-    ExplicitTop = 369
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 239
   end
   object MeioPanel: TPanel [2]
     Left = 0
@@ -29,10 +31,6 @@ inherited PDVSessForm: TPDVSessForm
     Padding.Right = 3
     Padding.Bottom = 2
     TabOrder = 1
-    ExplicitLeft = -80
-    ExplicitTop = -23
-    ExplicitWidth = 619
-    ExplicitHeight = 152
     object DBGrid1Splitter: TSplitter
       Left = 3
       Top = 127
@@ -88,10 +86,6 @@ inherited PDVSessForm: TPDVSessForm
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 113
-      ExplicitWidth = 615
-      ExplicitHeight = 163
       object Splitter2: TSplitter
         Left = 273
         Top = 0
@@ -108,7 +102,6 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 0
-        ExplicitHeight = 163
         object ItemDBGrid: TDBGrid
           Left = 0
           Top = 0
@@ -135,8 +128,6 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 1
-        ExplicitWidth = 334
-        ExplicitHeight = 163
         object PagDBGrid: TDBGrid
           Left = 0
           Top = 0
@@ -165,8 +156,6 @@ inherited PDVSessForm: TPDVSessForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 229
-    ExplicitWidth = 619
     object ToolBar1: TToolBar
       Left = 15
       Top = 0
@@ -223,9 +212,6 @@ inherited PDVSessForm: TPDVSessForm
     ParentBackground = False
     TabOrder = 2
     StyleElements = []
-    ExplicitLeft = -51
-    ExplicitTop = 1
-    ExplicitWidth = 670
     DesignSize = (
       788
       41)
@@ -263,7 +249,6 @@ inherited PDVSessForm: TPDVSessForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
-      ExplicitLeft = 572
       object FecharToolButton: TToolButton
         Left = 0
         Top = 0

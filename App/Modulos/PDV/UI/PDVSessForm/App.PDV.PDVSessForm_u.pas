@@ -55,6 +55,7 @@ type
     procedure SangrActionExecute(Sender: TObject);
     procedure FechActionExecute(Sender: TObject);
     procedure CancelActionExecute(Sender: TObject);
+
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
