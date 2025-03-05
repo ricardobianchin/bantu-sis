@@ -12,6 +12,8 @@ const
   SENHA_INCORRETA_MENS = 'Senha incorreta';
 
   DATA_ZERADA_FIREBIRD_STR = '1.1.1900';
+  TIMESTAMP_ZERADO_FIREBIRD_STR = '1900-01-01 00:00:00.0000';
+
   //DATA_ZERADA: TDateTime = 2; //EncodeDate(1900, 1, 1);
   DATA_ZERADA = 2; //EncodeDate(1900, 1, 1);
 
