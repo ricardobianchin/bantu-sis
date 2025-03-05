@@ -29,7 +29,7 @@ implementation
 
 uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
   App.Est.Venda.Caixa.CxValor, Sis.Entities.Types, Sis.Win.Utils_u,
-  Sis.Types.Dates, Sis.Types.Bool_u;
+  Sis.Types.Dates, Sis.Types.Bool_u, Sis.Sis.Constants;
 
 { TImpressaoTextoPDVCxSessRelat }
 
@@ -74,6 +74,7 @@ var
   uVal: Currency;
   uTot: Currency;
   iSinal: SmallInt;
+
 begin
   inherited;
   // {$IFDEF DEBUG}
@@ -97,8 +98,20 @@ begin
     FCaixaSessao.LogUsuario.NomeExib;
   PegueLinha(s);
 
-  s := 'ABERTO EM ' + FormatDateTime('dd/mm/yyyy hh:nn:ss',
+  s := 'ABERTO EM: ' + FormatDateTime('dd/mm/yyyy hh:nn:ss',
     FCaixaSessao.AbertoEm);
+  PegueLinha(s);
+
+  inc(i);
+  ss := FLinhasRet[i];
+  if ss = TIMESTAMP_ZERADO_FIREBIRD_STR then
+  begin
+    s := 'FECHADO EM: AINDA ABERTO';
+  end
+  else
+  begin
+    s := 'FECHADO EM: ' + TimeStampStrToDateTimesTR(ss);
+  end;
   PegueLinha(s);
 
   PegueLinha('');
