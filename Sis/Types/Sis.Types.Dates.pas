@@ -1,4 +1,4 @@
-unit Sis.Types.Dates;
+﻿unit Sis.Types.Dates;
 
 interface
 
@@ -12,6 +12,7 @@ function ConvertGMTToTDateTimeStr(const GMT: string): string;
 function DateTimeToSaudacao(const pDtH: TDateTIme): string;
 function ConvertISO8601ToTDateTimeStr(const GMT: string): string;
 
+function TimeStampStrToDateTimeStr(const pTimeStampStr: string; pComMilisegundos: Boolean = False): string;
 function TimeStampStrToDateTime(const pTimeStampStr: string): TDateTime;
 
 function DataSQLFirebird(pD: tdate): string;
@@ -141,6 +142,35 @@ begin
   DT := IncHour(DT, -3); // Subtrai 3 horas
 
   Result := DateTimeToStr(DT);
+end;
+
+function TimeStampStrToDateTimesTR(const pTimeStampStr: string; pComMilisegundos: Boolean): string;
+begin
+{
+implemente a function TimeStampStrToDateTimeStr
+ela recebe uma string no formato yyyy-mm-dd hh:nn:ss.zzzz
+e retorna uma string no formato dd/mm/yyyy hh:nn:ss.zzz
+por exemplo, se a string for '2025-02-22 10:14:41.4440'
+a função deve retornar '22/02/2025 10:14:41.444'
+
+yyyy-mm-dd hh:nn:ss.zzzz
+2025-02-22 10:14:41.4440
+122456789 123456789 123
+
+se a function TimeStampStrToDateTimesTR receber o parametro
+'2025-02-22 10:14:41.4440'
+vai retornar
+'22/02/2025 10:14:41'?
+}
+  Result := Copy(pTimeStampStr, 9, 2) //
+    + '/' + Copy(pTimeStampStr, 6, 2) //
+    + '/' + Copy(pTimeStampStr, 1, 4) //
+    + ' ' + Copy(pTimeStampStr, 12, 2) //
+    + ':' + Copy(pTimeStampStr, 15, 2) //
+    + ':' + Copy(pTimeStampStr, 18, 2) //
+    ;
+  if pComMilisegundos then
+    Result := Result + '.' + Copy(pTimeStampStr, 21, 3);
 end;
 
 function TimeStampStrToDateTime(const pTimeStampStr: string): TDateTime;
