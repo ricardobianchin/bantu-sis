@@ -221,7 +221,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
   end
   inherited BasePanel: TPanel
-    Top = 433
+    Top = 429
     Width = 592
     TabOrder = 2
     ExplicitTop = 433
@@ -231,9 +231,10 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Left = 0
     Top = 95
     Width = 592
-    Height = 338
+    Height = 334
     Align = alClient
     TabOrder = 3
+    ExplicitHeight = 338
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 184

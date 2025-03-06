@@ -510,7 +510,7 @@ begin
   RetagAjuBemAction.Execute;
   TestaTesteConfig;
   // RetagEstProdICMSAction.Execute;
-  // sleep(150);
+  // s l e e p(150);
   // RetagEstProdFabrAction.Execute;
   // RetagEstProdAction.Execute;
 
