@@ -6,7 +6,7 @@ uses Sis.Types.Utils_u, App.Ent.Ed_u, Sis.Entities.Types, Data.DB,
   App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Est.Venda.Caixa.CxValor,
   App.Est.Venda.Caixa.CxValorList, System.Generics.Collections, App.Types,
-  Sis.Types;
+  Sis.Types, System.Classes;
 
 type
   TCxOperacaoEnt = class(TEntEd, ICxOperacaoEnt)
@@ -20,9 +20,12 @@ type
     FObs: string;
     FCancelado: Boolean;
     FCxValorList: ICxValorList;
+    FCriadoEm: TDateTIme;
+    FLinhas: TStrings;
 
     function GetCaixaSessao: ICaixaSessao;
     function GetOperOrdem: SmallInt;
+    procedure SetOperOrdem(Value: SmallInt);
     function GetCxOperacaoTipo: ICxOperacaoTipo;
 
     function GetLogId: Int64;
@@ -42,6 +45,10 @@ type
 
     function GetCxValorList: ICxValorList;
 
+    function GetCriadoEm: TDateTIme;
+    procedure SetCriadoEm(Value: TDateTIme);
+
+    function GetLinhas: TStrings;
   protected
     procedure LimparEnt;
     function GetNomeEnt: string; override;
@@ -50,22 +57,30 @@ type
 
   public
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
-    property OperOrdem: SmallInt read GetOperOrdem;
+    property OperOrdem: SmallInt read GetOperOrdem write SetOperOrdem;
     property CxOperacaoTipo: ICxOperacaoTipo read GetCxOperacaoTipo;
-    property OperTipoOrdem: SmallInt read GetOperTipoOrdem;
+    property OperTipoOrdem: SmallInt read GetOperTipoOrdem
+      write SetOperTipoOrdem;
     property Valor: Currency read GetValor write SetValor;
     property Obs: string read GetObs write SetObs;
     property Cancelado: Boolean read GetCancelado write SetCancelado;
 
+    property CriadoEm: TDateTIme read GetCriadoEm write SetCriadoEm;
+
     property CxValorList: ICxValorList read GetCxValorList;
+
+    function GetCod(pSeparador: string = '-'): string;
+
+    property Linhas: TStrings read GetLinhas;
 
     constructor Create(pCaixaSessao: ICaixaSessao;
       pCxOperacaoTipo: ICxOperacaoTipo);
+    destructor Destroy; override;
   end;
 
 implementation
 
-uses App.Est.Venda.CaixaSessao.Factory_u;
+uses App.Est.Venda.CaixaSessao.Factory_u, System.SysUtils;
 
 { TCxOperacaoEnt }
 
@@ -76,6 +91,13 @@ begin
   FCaixaSessao := pCaixaSessao;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxValorList := CxValorListCreate;
+  FLinhas := TStringList.Create;
+end;
+
+destructor TCxOperacaoEnt.Destroy;
+begin
+  FLinhas.Free;
+  inherited;
 end;
 
 function TCxOperacaoEnt.GetCaixaSessao: ICaixaSessao;
@@ -98,6 +120,11 @@ begin
   Result := FCxValorList;
 end;
 
+function TCxOperacaoEnt.GetLinhas: TStrings;
+begin
+  Result := FLinhas;
+end;
+
 function TCxOperacaoEnt.GetLogId: Int64;
 begin
   Result := FLogId;
@@ -105,7 +132,7 @@ end;
 
 function TCxOperacaoEnt.GetNomeEnt: string;
 begin
-  Result := 'Operação de Caixa ' + FCxOperacaoTipo.Caption;
+  Result := 'Operação de Caixa - ' + FCxOperacaoTipo.Caption;
 end;
 
 function TCxOperacaoEnt.GetNomeEntAbrev: string;
@@ -138,6 +165,16 @@ begin
   Result := FValor;
 end;
 
+function TCxOperacaoEnt.GetCod(pSeparador: string): string;
+begin
+  Result := FCaixaSessao.GetCod(pSeparador) + pSeparador + FOperOrdem.ToString;
+end;
+
+function TCxOperacaoEnt.GetCriadoEm: TDateTIme;
+begin
+  Result := FCriadoEm;
+end;
+
 procedure TCxOperacaoEnt.LimparEnt;
 begin
   FOperOrdem := 0;
@@ -153,6 +190,11 @@ begin
   FCancelado := Value;
 end;
 
+procedure TCxOperacaoEnt.SetCriadoEm(Value: TDateTIme);
+begin
+  FCriadoEm := Value;
+end;
+
 procedure TCxOperacaoEnt.SetLogId(Value: Int64);
 begin
   FLogId := Value;
@@ -161,6 +203,11 @@ end;
 procedure TCxOperacaoEnt.SetObs(Value: string);
 begin
   FObs := Value;
+end;
+
+procedure TCxOperacaoEnt.SetOperOrdem(Value: SmallInt);
+begin
+  FOperOrdem := Value;
 end;
 
 procedure TCxOperacaoEnt.SetOperTipoOrdem(Value: SmallInt);

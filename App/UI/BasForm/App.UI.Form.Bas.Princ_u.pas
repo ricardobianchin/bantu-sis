@@ -101,7 +101,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
-  App.Constants, App.Pess.Factory_u;
+  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u;
 
 procedure TPrincBasForm.AjusteControles;
 begin

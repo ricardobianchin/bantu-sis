@@ -4,7 +4,7 @@ interface
 
 uses App.Est.Venda.Caixa.CaixaSessao, App.Ent.Ed, Sis.Entities.Types,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, App.Est.Venda.Caixa.CxValor, App.Est.Venda.Caixa.CxValorList,
-  App.Types, Sis.Types;
+  App.Types, Sis.Types, System.Classes;
 
 type
   ICxOperacaoEnt = interface(IEntEd)
@@ -13,7 +13,8 @@ type
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
 
     function GetOperOrdem: SmallInt;
-    property OperOrdem: SmallInt read GetOperOrdem;
+    procedure SetOperOrdem(Value: SmallInt);
+    property OperOrdem: SmallInt read GetOperOrdem write SetOperOrdem;
 
     function GetCxOperacaoTipo: ICxOperacaoTipo;
     property CxOperacaoTipo: ICxOperacaoTipo read GetCxOperacaoTipo;
@@ -24,7 +25,7 @@ type
 
     function GetOperTipoOrdem: SmallInt;
     procedure SetOperTipoOrdem(Value: SmallInt);
-    property OperTipoOrdem: SmallInt read GetOperTipoOrdem;
+    property OperTipoOrdem: SmallInt read GetOperTipoOrdem write SetOperTipoOrdem;
 
     function GetValor: Currency;
     procedure SetValor(Value: Currency);
@@ -41,6 +42,14 @@ type
     function GetCxValorList: ICxValorList;
     property CxValorList: ICxValorList read GetCxValorList;
 
+    function GetCod(pSeparador: string = '-'): string;
+
+    function GetCriadoEm: TDateTime;
+    procedure SetCriadoEm(Value: TDateTIme);
+    property CriadoEm: TDateTime read GetCriadoEm write SetCriadoEm;
+
+    function GetLinhas: TStrings;
+    property Linhas: TStrings read GetLinhas;
   end;
 {
 OPER_LOG_ID;BIGINT;S;S

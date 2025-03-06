@@ -32,7 +32,7 @@ uses System.SysUtils, Sis.Types.strings_u, App.Retag.Fin.Factory,
 
 function TPagFormaDBI.GetPackageName: string;
 begin
-  Result := 'PAGAMENTO_FORMA_PA';
+  Result := 'PAGAMENTO_FORMA_RETAG_PA';
 end;
 
 function TPagFormaDBI.GetPagFormaEnt: IPagFormaEnt;
@@ -42,7 +42,7 @@ end;
 
 function TPagFormaDBI.GetSqlAlterarDo: string;
 begin
-  Result := 'EXECUTE PROCEDURE PAGAMENTO_FORMA_PA.ALTERAR_DO('
+  Result := 'EXECUTE PROCEDURE PAGAMENTO_FORMA_RETAG_PA.ALTERAR_DO('
     + Ent.Id.ToString
     + ',' + QuotedStr(Ent.FormaTipo)
 
@@ -79,7 +79,7 @@ end;
 
 function TPagFormaDBI.GetSqlInserirDoERetornaId: string;
 begin
-  Result := 'SELECT PAGAMENTO_FORMA_ID FROM PAGAMENTO_FORMA_PA.INSERIR_DO('
+  Result := 'SELECT PAGAMENTO_FORMA_ID FROM PAGAMENTO_FORMA_RETAG_PA.INSERIR_DO('
     + QuotedStr(Ent.FormaTipo)
     + ',' + QuotedStr(Ent.Descr)
     + ',' + QuotedStr(Ent.DescrRed)
@@ -113,7 +113,7 @@ begin
     +', DESCR_RED' //CHAR(8)
     +', PARA_VENDA' //BOOLEAN
     +', ATIVO' //BOOLEAN
-    +' FROM PAGAMENTO_FORMA_PA.LISTA_GET;'
+    +' FROM PAGAMENTO_FORMA_PA.LISTA_GET;'//PACKAGE NOME DIF DOS DEMAIS METODOS
     ;
 end;
 
@@ -151,7 +151,7 @@ begin
       ', PESSOA_EXIGE' + //17
       ', A_VISTA' + //18
 
-    ' FROM PAGAMENTO_FORMA_PA.BYID_GET(' + Ent.Id.ToString + ');';
+    ' FROM PAGAMENTO_FORMA_RETAG_PA.BYID_GET(' + Ent.Id.ToString + ');';
 
   DBConnection.Abrir;
   try

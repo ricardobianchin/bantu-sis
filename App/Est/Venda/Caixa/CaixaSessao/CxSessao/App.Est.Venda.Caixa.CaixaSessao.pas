@@ -24,6 +24,8 @@ type
     function GetAbertoEm: TDateTime;
     procedure SetAbertoEm(Value: TDateTime);
     property AbertoEm: TDateTime read GetAbertoEm write SetAbertoEm;
+
+    function GetCod(pSeparador: string = '-'): string;
   end;
 
 

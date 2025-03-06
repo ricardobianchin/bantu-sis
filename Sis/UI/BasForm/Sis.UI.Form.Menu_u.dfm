@@ -9,12 +9,12 @@ inherited MenuForm: TMenuForm
   inherited MensLabel: TLabel
     Top = 301
     Width = 637
-    ExplicitTop = 375
+    ExplicitTop = 301
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 286
     Width = 637
-    ExplicitTop = 360
+    ExplicitTop = 286
   end
   object FundoPanel_AppMenuForm: TPanel [2]
     Left = 0
@@ -24,9 +24,6 @@ inherited MenuForm: TMenuForm
     Align = alClient
     Caption = ' '
     TabOrder = 0
-    ExplicitLeft = -4
-    ExplicitWidth = 475
-    ExplicitHeight = 360
     object BotoesPanel: TPanel
       Left = 16
       Top = 40

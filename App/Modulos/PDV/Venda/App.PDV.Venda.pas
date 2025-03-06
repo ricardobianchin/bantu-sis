@@ -13,6 +13,8 @@ type
     procedure SetVendaId(Value: TId);
     property VendaId: TId read GetVendaId Write SetVendaId;
 
+    function GetCod(pSeparador: string = '-'): string;
+
     function GetCaixaSessao: ICaixaSessao;
     property CaixaSessao: ICaixaSessao read GetCaixaSessao;
 

@@ -2,13 +2,12 @@ unit Sis.UI.ImpressaoTexto_u;
 
 interface
 
-uses Sis.UI.Impressao_u, System.Classes {, Sis.Types};
+uses Sis.UI.Impressao_u, System.Classes, Sis.Usuario;
 
 type
   TImpressaoTexto = class(TImpressao)
   private
     FLinhasSL: TStringList;
-    FDocTitulo: string;
     FQtdLinsPorPag: SmallInt;
 
     function GetTexto: string;
@@ -20,7 +19,7 @@ type
     procedure PegueLinha(pFrase: string);
     property Texto: string read GetTexto;
   public
-    constructor Create(pImpressoraNome, pDocTitulo: string);
+    constructor Create(pImpressoraNome: string; pUsuario: IUsuario);
     destructor Destroy; override;
   end;
 
@@ -30,10 +29,9 @@ uses System.SysUtils, Sis.Win.Utils.Printer_u;
 
 { TImpressaoTexto }
 
-constructor TImpressaoTexto.Create(pImpressoraNome, pDocTitulo: string);
+constructor TImpressaoTexto.Create(pImpressoraNome: string; pUsuario: IUsuario);
 begin
-  inherited Create(pImpressoraNome);
-  FDocTitulo := pDocTitulo;
+  inherited Create(pImpressoraNome, pUsuario);
   FLinhasSL := TStringList.Create;
   FQtdLinsPorPag := 0; // zero = infinitas linhas, impressao em bobina
 end;
@@ -47,7 +45,7 @@ end;
 procedure TImpressaoTexto.EnvieImpressao;
 begin
   inherited;
-  ImprimaWinSpool(ImpressoraNome, FDocTitulo, Texto);
+  ImprimaWinSpool(ImpressoraNome, GetDocTitulo, Texto);
 end;
 
 procedure TImpressaoTexto.GereFim;

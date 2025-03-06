@@ -77,6 +77,8 @@ type
       write SetVendaAlteradoEm;
     property VendaPagList: IVendaPagList read GetVendaPagList;
 
+    function GetCod(pSeparador: string = '-'): string;
+
     procedure Zerar; override;
 
     function GetItensPrecoTot: Currency;
@@ -122,7 +124,7 @@ type
 
 implementation
 
-uses App.PDV.Factory_u;
+uses App.PDV.Factory_u, System.SysUtils;
 
 { TPDVVenda }
 
@@ -192,6 +194,12 @@ end;
 function TPDVVenda.GetVendaAlteradoEm: TDateTime;
 begin
   Result := FVendaAlteradoEm;
+end;
+
+function TPDVVenda.GetCod(pSeparador: string): string;
+begin
+  Result := Sis.Entities.Types.GetCod(Loja.Id, TerminalId, VendaId, 'VEN',
+    pSeparador);
 end;
 
 function TPDVVenda.GetC: string;
@@ -285,11 +293,11 @@ begin
 end;
 
 procedure TPDVVenda.ItensPegarTots( //
-      out pTotalLiquido: Currency; //
-      out pTotalDevido: Currency; //
-      out pTotalEntregue: Currency; //
-      out pFalta: Currency; //
-      out pTroco: Currency //
+  out pTotalLiquido: Currency; //
+  out pTotalDevido: Currency; //
+  out pTotalEntregue: Currency; //
+  out pFalta: Currency; //
+  out pTroco: Currency //
   );
 begin
   pTotalLiquido := GetItensPrecoTot;

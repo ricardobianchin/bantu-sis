@@ -1,6 +1,7 @@
 inherited PDVModuloBasForm: TPDVModuloBasForm
   Caption = 'PDVModuloBasForm'
   ClientHeight = 280
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitHeight = 280
   TextHeight = 15
   inherited TitleBarPanel: TPanel
@@ -18,9 +19,17 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
   inherited BasePanel: TPanel
     Top = 251
     Visible = False
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 251
     inherited StatusPanel1: TPanel
       Visible = False
+      StyleElements = [seFont, seClient, seBorder]
+      inherited StatusLabel1: TLabel
+        StyleElements = [seFont, seClient, seBorder]
+      end
+      inherited OutputLabel: TLabel
+        StyleElements = [seFont, seClient, seBorder]
+      end
     end
   end
   inherited PopupMenu1: TPopupMenu
@@ -41,6 +50,11 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
       Category = 'CaixaSessao'
       Caption = 'Abrir o Caixa'
       OnExecute = CaixaSessaoAbrirTentarActionExecute
+    end
+    object SessFormAction: TAction
+      Category = 'CaixaSessao'
+      Caption = 'Sess'#227'o de Caixa'
+      OnExecute = SessFormActionExecute
     end
   end
 end

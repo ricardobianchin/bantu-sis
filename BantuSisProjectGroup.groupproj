@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{09D70D0B-D47C-48C5-B908-BE2F6B2C4314}</ProjectGuid>
+        <ProjectGuid>{C8DD80DF-9B09-433D-8251-AD3F1494E338}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
         <Projects Include="Sis\Sis.dproj">
@@ -13,7 +13,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="Adm\Adm.dproj">
-            <Dependencies>Sis\Sis.dproj;ShopApp\ShopApp.dproj</Dependencies>
+            <Dependencies/>
         </Projects>
         <Projects Include="ShopAssist\ShopAssist.dproj">
             <Dependencies/>
@@ -53,13 +53,13 @@
     <Target Name="ShopApp:Make">
         <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Adm" DependsOnTargets="Sis;ShopApp">
+    <Target Name="Adm">
         <MSBuild Projects="Adm\Adm.dproj"/>
     </Target>
-    <Target Name="Adm:Clean" DependsOnTargets="Sis:Clean;ShopApp:Clean">
+    <Target Name="Adm:Clean">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Adm:Make" DependsOnTargets="Sis:Make;ShopApp:Make">
+    <Target Name="Adm:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
     <Target Name="ShopAssist">
@@ -81,100 +81,4 @@
         <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ShopAssist:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
-    <ItemGroup Condition="'$(BuildGroup)'=='assist build'">
-        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
-            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Sis\Sis.dproj">
-            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="ShopAssist\ShopAssist.dproj">
-            <ProjectGuid>{5CCF951A-7526-4516-84EF-4F86814F14D8}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="App\App.dproj">
-            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Adm\Adm.dproj">
-            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-    </ItemGroup>
-    <ItemGroup Condition="'$(BuildGroup)'=='Adm Release 32'">
-        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
-            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Sis\Sis.dproj">
-            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="ShopAssist\ShopAssist.dproj">
-            <ProjectGuid>{5CCF951A-7526-4516-84EF-4F86814F14D8}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="App\App.dproj">
-            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Adm\Adm.dproj">
-            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-    </ItemGroup>
-    <ItemGroup Condition="'$(BuildGroup)'=='Adm Debug 32'">
-        <BuildGroupProject Include="ShopApp\ShopApp.dproj">
-            <ProjectGuid>{A0EC23E6-6A70-4027-95C5-649397774C3B}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Sis\Sis.dproj">
-            <ProjectGuid>{45205957-5A8B-47D7-948B-7DB0338AB903}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="ShopAssist\ShopAssist.dproj">
-            <ProjectGuid>{5CCF951A-7526-4516-84EF-4F86814F14D8}</ProjectGuid>
-            <Configurations>Release</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="App\App.dproj">
-            <ProjectGuid>{CF1157BF-4BA3-4E41-914D-60FFDFBA40BE}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="Adm\Adm.dproj">
-            <ProjectGuid>{04910B95-C5C3-4C60-9539-ED3206FF53AE}</ProjectGuid>
-            <Configurations>Debug</Configurations>
-            <Platforms>Win32</Platforms>
-            <Enabled>True</Enabled>
-        </BuildGroupProject>
-    </ItemGroup>
 </Project>

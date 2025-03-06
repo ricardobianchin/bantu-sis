@@ -22,9 +22,12 @@ type
     PDVActionList: TActionList;
     PrecoBuscaAction_PDVModuloBasForm: TAction;
     CaixaSessaoAbrirTentarAction: TAction;
+    SessFormAction: TAction;
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure SessFormActionExecute(Sender: TObject);
   private
     { Private declarations }
     FPDVObj: IPDVObj;
@@ -58,7 +61,7 @@ type
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
     function PDVObjCreate: IPDVObj; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
-    procedure DecidirPrimeroFrameAtivo; virtual;
+    procedure DecidirPrimeiroFrameAtivo; virtual;
 
     procedure VaParaVenda; virtual;
     procedure VaParaPag; virtual;
@@ -71,6 +74,7 @@ type
     Property TermDBConnection: IDBConnection read FTermDBConnection;
     property PDVObj: IPDVObj read FPDVObj;
     property ImpressaoVenda: IImpressao read FImpressaoVenda;
+
   public
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
@@ -89,32 +93,47 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.UI.IO.Input.Perg;
+uses Sis.DB.Factory, Sis.UI.IO.Input.Perg, App.PDV.PDVSessForm_u;
 
 procedure TPDVModuloBasForm.AjusteControles;
 begin
   inherited;
-  DecidirPrimeroFrameAtivo;
+  DecidirPrimeiroFrameAtivo;
 end;
 
 function TPDVModuloBasForm.AppMenuFormCreate: TAppMenuForm;
+var
+  a: TAction;
+  // s: string; // so pra visualizar o name durante o debug
 begin
   Result := inherited;
   Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkB]);
   Result.NovaLinha;
+
+  Result.PegarAction(SessFormAction, [vkS]);
+
+  a := FCaixaSessaoDM.GetAction(cxopSuprimento);
+  Result.PegarAction(a, [vkU]);
+
+  a := FCaixaSessaoDM.GetAction(cxopSangria);
+  Result.PegarAction(a, [vkA]);
+
+  a := FCaixaSessaoDM.GetAction(cxopFechamento);
+  Result.PegarAction(a, [vkF]);
+
 end;
 
 procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute
   (Sender: TObject);
 var
   a: TAction;
-  s: string; // so pra visualizar o name durante o debug
+  //s: string; // so pra visualizar o name durante o debug
 begin
   inherited;
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
-  s := a.Name;
+  //s := a.Name;
   a.Execute;
-  DecidirPrimeroFrameAtivo;
+  DecidirPrimeiroFrameAtivo;
 end;
 
 constructor TPDVModuloBasForm.Create(AOwner: TComponent;
@@ -134,11 +153,8 @@ begin
   FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
     rDBConnectionParams, nil, nil);
 
-  MenuUsaForm := True;
-  AppMenuForm := AppMenuFormCreate;
-
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
-    pLogUsuario);
+    pLogUsuario, Self);
 
   FFrameAviso := PDVFrameAvisoCreate(Self, FPDVObj,
     'É necessário abrir o caixa', CaixaSessaoAbrirTentarAction);
@@ -154,13 +170,22 @@ begin
   FPagFrame.OculteControles;
 
   FImpressaoVenda := ImpressaoTextoVendaCreate(Terminal.ImpressoraNome,
-    'Cupom Venda', AppObj, Terminal, PDVVenda);
+    pLogUsuario, AppObj, Terminal, PDVVenda);
+
+  MenuUsaForm := True;
+  AppMenuForm := AppMenuFormCreate;
 end;
 
-procedure TPDVModuloBasForm.DecidirPrimeroFrameAtivo;
+procedure TPDVModuloBasForm.DecidirPrimeiroFrameAtivo;
 begin
   if Assigned(FFrameAtivo) then
   begin
+    if FFrameAtivo = FVendaFrame then
+    begin
+      if Assigned(FPDVVenda) then
+        if FPDVVenda.VendaId > 0 then
+          exit;
+    end;
     FFrameAtivo.Visible := False;
   end;
 
@@ -266,16 +291,16 @@ begin
     VaParaVenda;
     FVendaFrame.ExibaMens('Finalizando a venda...');
     Application.ProcessMessages;
-//{$IFDEF DEBUG}
-//    FImpressaoVenda.Imprima;
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // FImpressaoVenda.Imprima;
+    // {$ENDIF}
 
     FPDVDBI.VendaFinalize;
     FImpressaoVenda.Imprima;
   end;
 
   FPDVVenda.Zerar;
-  DecidirPrimeroFrameAtivo;
+  DecidirPrimeiroFrameAtivo;
 end;
 
 procedure TPDVModuloBasForm.VaParaPag;
@@ -320,9 +345,22 @@ begin
   end;
 end;
 
+procedure TPDVModuloBasForm.SessFormActionExecute(Sender: TObject);
+begin
+  inherited;
+  App.PDV.PDVSessForm_u.Exibir(nil, Terminal.ImpressoraNome, FCaixaSessaoDM);
+end;
+
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
+end;
+
+procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  // CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
+  //SessFormAction.Execute;
 end;
 
 end.

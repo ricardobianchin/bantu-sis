@@ -113,8 +113,6 @@ contains
   App.Retag.Est.Prod.DBI_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.DBI_u.pas',
   App.UI.Form.Ed.Prod_u in 'Modulos\Retag\Est\Prod\App.UI.Form.Ed.Prod_u.pas' {ProdEdForm},
   App.UI.Form.DataSet.Retag.Est.Prod_u in 'Modulos\Retag\Est\Prod\App.UI.Form.DataSet.Retag.Est.Prod_u.pas' {RetagEstProdDataSetForm},
-  App.UI.Controls.SanfonaItem_u in 'UI\Controls\Sanfona\App.UI.Controls.SanfonaItem_u.pas' {SanfonaItemFrame: TFrame},
-  App.Retag.Prod.SanfonaItem.Bas_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.SanfonaItem.Bas_u.pas' {ProdEdSanfonaItemFrame: TFrame},
   App.UI.Controls.ComboBox.Select.DB.Frame_u in 'UI\Controls\SelectComboBoxFrame\App.UI.Controls.ComboBox.Select.DB.Frame_u.pas' {ComboBoxSelectDBFrame: TFrame},
   App.Retag.Est.Prod.ComboBox_u in 'Modulos\Retag\Est\Prod\App.Retag.Est.Prod.ComboBox_u.pas' {ComboBoxProdEdFrame: TFrame},
   App.UI.FormCreator.DataSet_u in 'UI\BasForm\App.UI.FormCreator.DataSet_u.pas',
@@ -137,7 +135,6 @@ contains
   App.AppInfo.Types in 'AppObj\App.AppInfo.Types.pas',
   App.DB.Log in 'DB\Log\App.DB.Log.pas',
   App.DB.Log_u in 'DB\Log\App.DB.Log_u.pas',
-  App.Retag.Prod.Compl.SanfonaItem_u in 'Modulos\Retag\Est\Prod\App.Retag.Prod.Compl.SanfonaItem_u.pas' {ComplProdEdFrame: TFrame},
   App.UI.Frame.Bas.Retag.Ed_u in 'Modulos\Retag\App.UI.Frame.Bas.Retag.Ed_u.pas' {RetagEdBasFrame: TFrame},
   App.UI.Frame.Bas.Retag.Prod.Ed_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Bas.Retag.Prod.Ed_u.pas' {RetagProdEdBasFrame: TFrame},
   App.UI.Frame.Retag.Prod.Ed.Comuns_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.Ed.Comuns_u.pas' {RetagProdEdComunsFrame: TFrame},
@@ -394,6 +391,10 @@ contains
   App.PDV.UI.Balanca_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca_u.pas',
   App.PDV.UI.Balanca.VendaForm_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm_u.pas' {BalancaVendaForm},
   App.PDV.UI.Balanca.VendaForm.Teste_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Teste_u.pas' {BalancaTesteVendaForm},
-  App.PDV.UI.Balanca.VendaForm.Acbr_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas' {BalancaAcbrVendaForm};
+  App.PDV.UI.Balanca.VendaForm.Acbr_u in 'Modulos\PDV\UI\Bal\App.PDV.UI.Balanca.VendaForm.Acbr_u.pas' {BalancaAcbrVendaForm},
+  App.PDV.ImpressaoTextoCxOperacao_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoCxOperacao_u.pas',
+  App.UI.Form.Ed.CxOperacao.Valores_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\Valores\App.UI.Form.Ed.CxOperacao.Valores_u.pas' {CxOperValoresEdForm},
+  App.PDV.ImpressaoTextoCxSessRelat_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoCxSessRelat_u.pas',
+  App.PDV.PDVSessForm_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas' {PDVSessForm};
 
 end.

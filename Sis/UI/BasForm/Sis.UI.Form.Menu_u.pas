@@ -11,12 +11,14 @@ uses
 type
   TOpcaoRecord = record
     Action: TAction;
-    ShortCuts: TArray<TShortCut>;
+    ShortCuts: TArray<TShortCut>; //   TShortCut = Low(Word)..High(Word);
   end;
 
   TMenuForm = class(TDiagBasForm)
     FundoPanel_AppMenuForm: TPanel;
     BotoesPanel: TPanel;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private const
     BUTTON_WIDTH = 110;
     BUTTON_ROW_HEIGHT = 74;
@@ -29,6 +31,8 @@ type
     FBotoes: TList<TOpcaoRecord>;
     FActionEscolhida: TAction;
     procedure DoBotaoClick(Sender: TObject);
+    function KeyToAction(var Key: Word): TAction;
+    function TemShortCut(pShortCut: word; ShortCuts: TArray<TShortCut>): Boolean;
   public
     { Public declarations }
     procedure NovaLinha;
@@ -46,7 +50,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.UI.Controls.Factory;
+uses Sis.UI.Controls.Utils, Sis.UI.Controls.Factory, Sis.Types.strings_u;
 
 { TMenuForm }
 
@@ -79,6 +83,42 @@ begin
   OkAct_Diag.Execute;
 end;
 
+procedure TMenuForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  a: TAction;
+begin
+  inherited;
+  a := KeyToAction(key);
+  if a = nil then
+    exit;
+
+  a.Execute;
+  Close;
+end;
+
+procedure TMenuForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if key = #27 then
+  begin
+    CancelAct_Diag.Execute;
+  end;
+end;
+
+function TMenuForm.KeyToAction(var Key: Word): TAction;
+begin
+  Result := nil;
+  for var o: TOpcaoRecord in FBotoes do
+  begin
+    if TemShortCut(Key, o.ShortCuts) then
+    begin
+      Result := o.Action;
+      Break;
+    end;
+  end;
+end;
+
 procedure TMenuForm.NovaLinha;
 begin
   FCurrentLeft := STARTING_LEFT;
@@ -91,6 +131,7 @@ var
   o: TOpcaoRecord;
   iProximoLeft: integer;
   iTag: NativeInt;
+  sCap: string;
 begin
   iProximoLeft := FCurrentLeft + BUTTON_WIDTH + 5;
   if iProximoLeft > BotoesPanel.ClientRect.Width then
@@ -100,7 +141,13 @@ begin
   end;
 
   iTag := FBotoes.Count;
-  {b := }BotaoFrameCreate(BotoesPanel, pAction.Caption, '', FCurrentLeft, FCurrentTop,
+  sCap := pAction.Caption;
+  if Length(pShortCuts) > 0 then
+  begin
+    sCap := KeyToStr(pShortCuts[0]) + ' - '+ sCap;
+  end;
+
+  {b := }BotaoFrameCreate(BotoesPanel, sCap, '', FCurrentLeft, FCurrentTop,
     DoBotaoClick, pAction.Images, pAction.ImageIndex , iTag);
 
   o.Action := pAction;
@@ -114,6 +161,20 @@ begin
   Result := inherited Perg;
   if Result then
     pActionEscolhida := FActionEscolhida;
+end;
+
+function TMenuForm.TemShortCut(pShortCut: word;
+  ShortCuts: TArray<TShortCut>): Boolean;
+begin
+  Result := False;
+  for var ShortCut in ShortCuts do
+  begin
+    if ShortCut = pShortCut then
+    begin
+      Result := true;
+      break;
+    end;
+  end;
 end;
 
 end.

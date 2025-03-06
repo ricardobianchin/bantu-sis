@@ -4,19 +4,27 @@ interface
 
 uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls, Sis.Usuario,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
-  App.UI.Form.Ed.CxOperacao.UmValor_u, App.AppObj, App.Est.Venda.Caixa.CxValor.DBI;
+  App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
+  App.AppObj, App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao,
+  App.PDV.Controlador, App.Est.Venda.CaixaSessao.DBI;
 
 type
   TCxOperacaoAction = class(TAction)
   private
+    FCaixaSessao: ICaixaSessao;
+    FCaixaSessaoDBI: ICaixaSessaoDBI;
     FCxOperacaoTipo: ICxOperacaoTipo;
     FCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
     FCxOperacaoEnt: ICxOperacaoEnt;
     FCxOperacaoDBI: ICxOperacaoDBI;
     FAppObj: IAppObj;
     FCxValorDBI: ICxValorDBI;
+    FPDVControlador: IPDVControlador;
+    FUsuario: IUsuario;
+
+    function PodeExec: Boolean;
     procedure Exec(Sender: TObject);
   protected
     function CxOperacaoEdFormCreate: TCxOperacaoEdForm; virtual;
@@ -26,20 +34,25 @@ type
     function HandlesTarget(Target: TObject): Boolean; override;
     property CxOperacaoTipo: ICxOperacaoTipo read FCxOperacaoTipo;
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
-    constructor Create(//
-      AOwner: TComponent;//
-      pCxOperacaoTipo: ICxOperacaoTipo;//
-      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;//
-      pCxOperacaoEnt: ICxOperacaoEnt;//
-      pCxOperacaoDBI: ICxOperacaoDBI;//
-      pAppObj: IAppObj;//
-      pCxValorDBI: ICxValorDBI//
+    constructor Create( //
+      AOwner: TComponent; //
+      pCaixaSessao: ICaixaSessao; //
+      pCxOperacaoTipo: ICxOperacaoTipo; //
+      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; //
+      pCxOperacaoEnt: ICxOperacaoEnt; //
+      pCxOperacaoDBI: ICxOperacaoDBI; //
+      pAppObj: IAppObj; //
+      pUsuario: IUsuario; //
+      pCxValorDBI: ICxValorDBI; //
+      pPDVControlador: IPDVControlador;//
+      pCaixaSessaoDBI: ICaixaSessaoDBI
       ); reintroduce;
   end;
 
 implementation
 
-uses Vcl.Dialogs, Data.DB, forms;
+uses Vcl.Dialogs, Data.DB, forms, System.SysUtils, Sis.Types.Bool_u,
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 { TCxOperacaoAction }
 
@@ -48,23 +61,31 @@ begin
   Enabled := True;
 end;
 
-constructor TCxOperacaoAction.Create(//
-      AOwner: TComponent;//
-      pCxOperacaoTipo: ICxOperacaoTipo;//
-      pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;//
-      pCxOperacaoEnt: ICxOperacaoEnt;//
-      pCxOperacaoDBI: ICxOperacaoDBI;//
-      pAppObj: IAppObj;//
-      pCxValorDBI: ICxValorDBI//
-      );
+constructor TCxOperacaoAction.Create( //
+  AOwner: TComponent; //
+  pCaixaSessao: ICaixaSessao; //
+  pCxOperacaoTipo: ICxOperacaoTipo; //
+  pCxOperacaoTipoDBI: ICxOperacaoTipoDBI; //
+  pCxOperacaoEnt: ICxOperacaoEnt; //
+  pCxOperacaoDBI: ICxOperacaoDBI; //
+  pAppObj: IAppObj; //
+  pUsuario: IUsuario; //
+  pCxValorDBI: ICxValorDBI; //
+      pPDVControlador: IPDVControlador;//
+      pCaixaSessaoDBI: ICaixaSessaoDBI
+  );
 begin
   inherited Create(AOwner);
   FAppObj := pAppObj;
+  FUsuario := pUsuario;
+  FCaixaSessao := pCaixaSessao;
+  FCaixaSessaoDBI := pCaixaSessaoDBI;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxOperacaoTipoDBI := pCxOperacaoTipoDBI;
   FCxOperacaoEnt := pCxOperacaoEnt;
   FCxOperacaoDBI := pCxOperacaoDBI;
   FCxValorDBI := pCxValorDBI;
+  FPDVControlador := pPDVControlador;
 
   Name := 'CxOperacao' + FCxOperacaoTipo.Name + 'Ins';
   Caption := FCxOperacaoTipo.Caption;
@@ -74,22 +95,51 @@ end;
 
 function TCxOperacaoAction.CxOperacaoEdFormCreate: TCxOperacaoEdForm;
 begin
+  Result := nil;
 
-  Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FCxOperacaoEnt,
-    FCxOperacaoDBI, FCxValorDBI);
+  case FCxOperacaoEnt.CxOperacaoTipo.Id of
+    cxopNaoIndicado:
+      ;
+    cxopAbertura //
+      , cxopSangria //
+      , cxopSuprimento: //
+      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FUsuario,
+        FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
-//  Result.Parent := Application.MainForm;
-//  Result.Align :=alclient;
+    cxopFechamento: //
+      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FUsuario,
+        FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
+
+    cxopVale: //
+      ;
+    cxopDespesa: //
+      ;
+    cxopConvenio: //
+      ;
+    cxopCrediario: //
+      ;
+    cxopDevolucao: //
+      ;
+    cxopVenda: //
+      ;
+  end;
+
+  // Result.Parent := Application.MainForm;
+  // Result.Align :=alclient;
 end;
 
 procedure TCxOperacaoAction.Exec(Sender: TObject);
 var
   f: TCxOperacaoEdForm;
 begin
+  if not PodeExec then
+    exit;
+
   FCxOperacaoEnt.State := TDataSetState.dsInsert;
-  F := CxOperacaoEdFormCreate;
-  F.Perg;
-  F.Free;
+  f := CxOperacaoEdFormCreate;
+  f.Perg;
+  f.Free;
+  FPDVControlador.DecidirPrimeiroFrameAtivo;
 end;
 
 procedure TCxOperacaoAction.ExecuteTarget(Target: TObject);
@@ -100,6 +150,41 @@ end;
 function TCxOperacaoAction.HandlesTarget(Target: TObject): Boolean;
 begin
   Result := inherited;
+end;
+
+function TCxOperacaoAction.PodeExec: Boolean;
+var
+  sErro: string;
+  c: string;
+  A, H: Boolean;
+  status: string;
+  sMensagem: string;
+  i: integer;
+begin
+  if FCxOperacaoTipo.Id = cxopFechamento then
+  begin
+    FCxOperacaoDBI.FecharPodeGet(Result, sMensagem);
+    if not Result then
+    begin
+      raise Exception.Create(sMensagem);
+    end;
+  end;
+  FCaixaSessaoDBI.PegDados(FCaixaSessao);
+  i := FCaixaSessao.Id;
+  c := QuotedStr(FCxOperacaoTipo.Caption);
+  A := FCaixaSessao.Aberto;
+  H := FCxOperacaoTipo.HabilitadoDuranteSessao;
+
+  // Aplicando a tabela verdade diretamente
+  Result := not(A xor H);
+
+  if Result then
+    exit;
+
+  status := Iif(A, 'aberto', 'fechado');
+  sErro := 'Operação ' + c + ' não pode ser executada com Caixa ' + status;
+  raise Exception.Create(sErro);
+
 end;
 
 end.

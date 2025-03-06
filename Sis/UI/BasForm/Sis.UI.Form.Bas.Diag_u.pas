@@ -26,7 +26,7 @@ type
   protected
     function PodeOk: boolean; virtual;
     procedure MensLimpar;
-    property ErroOutput: IOutput read FErroOutput;
+    property ErroOutput: IOutput read FErroOutput write FErroOutput;
     property AlteracaoOutput: IOutput read FAlteracaoOutput;
 
 

@@ -14,7 +14,7 @@ uses System.Math, Vcl.ExtCtrls;
 
 function ControlAceito(pControl: TControl): boolean;
 begin
-  result := not(pControl is TBoundLabelEx);
+  result := not(pControl is TBoundLabel);
   if not result then
     exit;
 

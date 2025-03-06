@@ -1,18 +1,19 @@
 inherited CxOperacaoEdForm: TCxOperacaoEdForm
   Caption = 'CxOperacaoEdForm'
-  ClientHeight = 266
-  ClientWidth = 582
-  ExplicitWidth = 598
-  ExplicitHeight = 305
+  ClientHeight = 299
+  ClientWidth = 635
+  ExplicitWidth = 651
+  ExplicitHeight = 338
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 194
-    Width = 582
+    Top = 227
+    Width = 635
+    ExplicitTop = 228
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
     Top = 0
-    Width = 582
+    Width = 635
     Height = 17
     Align = alTop
     Font.Height = -13
@@ -24,133 +25,71 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 214
-    Width = 582
+    Top = 247
+    Width = 635
+    ExplicitTop = 248
   end
   inherited BasePanel: TPanel
-    Top = 229
-    Width = 582
-    ExplicitWidth = 590
+    Top = 262
+    Width = 635
+    ExplicitTop = 263
+    ExplicitWidth = 639
     DesignSize = (
-      582
+      635
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 155
-      ExplicitLeft = 159
+      Left = 180
+      ExplicitLeft = 188
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 268
-      ExplicitLeft = 272
+      Left = 293
+      ExplicitLeft = 301
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 369
-      ExplicitLeft = 373
+      Left = 394
+      ExplicitLeft = 402
     end
   end
   object MeioPanel: TPanel [4]
     Left = 0
     Top = 17
-    Width = 582
-    Height = 177
+    Width = 635
+    Height = 210
     Align = alClient
     BevelOuter = bvNone
     Caption = '  '
     TabOrder = 1
-    object CupomPanel: TPanel
-      Left = 343
-      Top = 0
-      Width = 239
-      Height = 177
-      Align = alRight
-      BevelOuter = bvLowered
-      Caption = '  '
-      TabOrder = 0
-      object Label1: TLabel
-        Left = 1
-        Top = 1
-        Width = 237
-        Height = 17
-        Align = alTop
-        Alignment = taCenter
-        Caption = 'CUPOM'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        StyleElements = [seClient, seBorder]
-        ExplicitWidth = 46
-      end
-      object CupomListBox: TListBox
-        Left = 1
-        Top = 18
-        Width = 237
-        Height = 158
-        TabStop = False
-        Align = alClient
-        BorderStyle = bsNone
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = []
-        ItemHeight = 15
-        Items.Strings = (
-          'TESTE DE IMPRESSAO'
-          ''
-          ''
-          'TESTE DE IMPRESSAO'
-          ''
-          ''
-          '--------------'
-          '      ---------------'
-          '123456789 123456789 123456789 123456789 123456789 ')
-        ParentFont = False
-        TabOrder = 0
-        StyleElements = [seClient, seBorder]
-      end
-    end
-    object TrabPanel: TPanel
+    ExplicitWidth = 639
+    ExplicitHeight = 211
+    object ObsPanel: TPanel
       Left = 0
-      Top = 0
-      Width = 343
-      Height = 177
-      Align = alClient
+      Top = 129
+      Width = 643
+      Height = 83
+      Align = alBottom
       BevelOuter = bvNone
       Caption = '  '
-      TabOrder = 1
-      ExplicitWidth = 347
-      ExplicitHeight = 180
-      object ObsPanel: TPanel
+      TabOrder = 0
+      ExplicitTop = 128
+      ExplicitWidth = 639
+      object Label2: TLabel
         Left = 0
-        Top = 96
-        Width = 347
-        Height = 83
-        Align = alBottom
-        BevelOuter = bvNone
-        Caption = '  '
+        Top = 0
+        Width = 152
+        Height = 15
+        Align = alTop
+        Caption = 'Observa'#231#245'es (200 caracteres)'
+      end
+      object ObsMemo: TMemo
+        Left = 0
+        Top = 15
+        Width = 643
+        Height = 68
+        Align = alClient
+        BorderStyle = bsNone
+        MaxLength = 200
         TabOrder = 0
-        ExplicitTop = 97
-        object Label2: TLabel
-          Left = 0
-          Top = 0
-          Width = 152
-          Height = 15
-          Align = alTop
-          Caption = 'Observa'#231#245'es (200 caracteres)'
-        end
-        object ObsMemo: TMemo
-          Left = 0
-          Top = 15
-          Width = 347
-          Height = 68
-          Align = alClient
-          BorderStyle = bsNone
-          MaxLength = 200
-          TabOrder = 0
-          WantReturns = False
-        end
+        WantReturns = False
       end
     end
   end
