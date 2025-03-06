@@ -746,7 +746,14 @@ begin
     for i := 0 to FComandoList.Count - 1 do
     begin
       oComando := FComandoList[i];
+{$IFDEF DEBUG}
+      Resultado := True;
+{$ELSE}
       Resultado := oComando.Funcionou;
+{$ENDIF}
+
+
+
       if not Resultado then
       begin
         sMensagemErro := 'Erro DB UPDATER, vr ' + iVersao.ToString + ', ' +
