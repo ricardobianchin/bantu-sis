@@ -360,7 +360,7 @@ procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
-  SessFormAction.Execute;
+  //SessFormAction.Execute;
 end;
 
 end.

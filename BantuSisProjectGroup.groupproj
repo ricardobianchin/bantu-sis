@@ -15,6 +15,9 @@
         <Projects Include="Adm\Adm.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="ShopAssist\ShopAssist.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="Adm:Make">
         <MSBuild Projects="Adm\Adm.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ShopAssist">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj"/>
+    </Target>
+    <Target Name="ShopAssist:Clean">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShopAssist:Make">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;App;ShopApp;Adm"/>
+        <CallTarget Targets="Sis;App;ShopApp;Adm;ShopAssist"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;Adm:Clean;ShopAssist:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;Adm:Make;ShopAssist:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

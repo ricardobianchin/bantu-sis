@@ -8,12 +8,13 @@ uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
   App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
   App.AppObj, App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao,
-  App.PDV.Controlador;
+  App.PDV.Controlador, App.Est.Venda.CaixaSessao.DBI;
 
 type
   TCxOperacaoAction = class(TAction)
   private
     FCaixaSessao: ICaixaSessao;
+    FCaixaSessaoDBI: ICaixaSessaoDBI;
     FCxOperacaoTipo: ICxOperacaoTipo;
     FCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
     FCxOperacaoEnt: ICxOperacaoEnt;
@@ -43,7 +44,9 @@ type
       pAppObj: IAppObj; //
       pUsuario: IUsuario; //
       pCxValorDBI: ICxValorDBI; //
-      pPDVControlador: IPDVControlador); reintroduce;
+      pPDVControlador: IPDVControlador;//
+      pCaixaSessaoDBI: ICaixaSessaoDBI
+      ); reintroduce;
   end;
 
 implementation
@@ -68,12 +71,15 @@ constructor TCxOperacaoAction.Create( //
   pAppObj: IAppObj; //
   pUsuario: IUsuario; //
   pCxValorDBI: ICxValorDBI; //
-  pPDVControlador: IPDVControlador);
+      pPDVControlador: IPDVControlador;//
+      pCaixaSessaoDBI: ICaixaSessaoDBI
+  );
 begin
   inherited Create(AOwner);
   FAppObj := pAppObj;
   FUsuario := pUsuario;
   FCaixaSessao := pCaixaSessao;
+  FCaixaSessaoDBI := pCaixaSessaoDBI;
   FCxOperacaoTipo := pCxOperacaoTipo;
   FCxOperacaoTipoDBI := pCxOperacaoTipoDBI;
   FCxOperacaoEnt := pCxOperacaoEnt;
@@ -153,6 +159,7 @@ var
   A, H: Boolean;
   status: string;
   sMensagem: string;
+  i: integer;
 begin
   if FCxOperacaoTipo.Id = cxopFechamento then
   begin
@@ -162,7 +169,8 @@ begin
       raise Exception.Create(sMensagem);
     end;
   end;
-
+  FCaixaSessaoDBI.PegDados(FCaixaSessao);
+  i := FCaixaSessao.Id;
   c := QuotedStr(FCxOperacaoTipo.Caption);
   A := FCaixaSessao.Aberto;
   H := FCxOperacaoTipo.HabilitadoDuranteSessao;
@@ -176,6 +184,7 @@ begin
   status := Iif(A, 'aberto', 'fechado');
   sErro := 'Operação ' + c + ' não pode ser executada com Caixa ' + status;
   raise Exception.Create(sErro);
+
 end;
 
 end.

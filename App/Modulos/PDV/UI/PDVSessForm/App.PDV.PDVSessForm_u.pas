@@ -128,7 +128,7 @@ end;
 procedure TPDVSessForm.Atualizar;
 begin
   FCaixaSessaoDM.CaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable,
-    FCaixaSessao);
+    FCaixaSessaoDM.CaixaSessao);
 end;
 
 procedure TPDVSessForm.BuscarRecente;
@@ -266,7 +266,7 @@ end;
 procedure TPDVSessForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  RelatAction.Execute;
+  //RelatAction.Execute;
 end;
 
 procedure TPDVSessForm.SuprActionExecute(Sender: TObject);

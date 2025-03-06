@@ -77,11 +77,8 @@ var
 
 begin
   inherited;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(FLinhasRet.Text);
-  // {$ENDIF}
-  FLinhasRet.SaveToFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\linhasret.txt');
-
+//  AppObj.AppInfo.PastaBin
+  // INICIO DO RELATORIO INICIO
   i := 0;
   FCaixaSessao.LogUsuario.LojaId := StrToInt(FLinhasRet[i]);
 
@@ -113,13 +110,14 @@ begin
     s := 'FECHADO EM: ' + TimeStampStrToDateTimesTR(ss);
   end;
   PegueLinha(s);
+  // INICIO DO RELATORIO INICIO FIM
 
   PegueLinha('');
   s := 'OPERACOES DE CAIXA';
   PegueLinha(CenterStr(s, NCols));
   uTot := 0;
   repeat
-    inc(i);
+    inc(i);//inc precisa aqui ser no inicio do loop. daqui pra baixo, os incs sao no fim do loop
     if i >= FLinhasRet.Count then
       break;
 
@@ -147,12 +145,76 @@ begin
   OverwriteStringRight(s, '-------------', 24);
   PegueLinha(s);
 
-  s := '  TOTAL';
+  s := 'TOTAL';
   OverwriteString(s, '(=)', 12);
   OverwriteStringRight(s, DinhToStr(uTot), 24);
   PegueLinha(s);
 
+  // RECEBIMENTOS INICIO
   PegueLinha('');
+  s := 'RECEBIMENTOS';
+  PegueLinha(CenterStr(s, NCols));
+
+  S := 'FORMA PAG';
+  OverwriteStringRight(s, 'DIGITADO', 18);
+  OverwriteStringRight(s, 'SISTEMA', 29);
+  OverwriteStringRight(s, 'DIFERENCA', 40);
+  PegueLinha(CenterStr(s, NCols));
+  repeat
+    if i >= FLinhasRet.Count then
+      break;
+
+    Items := FLinhasRet[i].Split([';']);
+    if Length(Items) = 0 then
+      break;
+
+    if Items[0] <> '3' then
+      break;
+
+    s := Items[1];
+
+    OverwriteStringRight(s, Items[2], 18);
+    OverwriteStringRight(s, Items[3], 29);
+    OverwriteStringRight(s, Items[4], 40);
+
+    PegueLinha(s);
+    inc(i);//inc precisa aqui ser no fim do loop
+  until false;
+  // RECEBIMENTOS FIM
+
+
+  // ATIVIDADE POR HORA INICIO
+  PegueLinha('');
+  s := 'ATIVIDADE POR HORA';
+  PegueLinha(CenterStr(s, NCols));
+
+  S := 'HORA';
+  OverwriteStringRight(s, 'VOLUMES', 14);
+  OverwriteStringRight(s, 'TICKETS', 27);
+  OverwriteStringRight(s, 'VENDAS', 40);
+  PegueLinha(CenterStr(s, NCols));
+
+  repeat
+    if i >= FLinhasRet.Count then
+      break;
+
+    Items := FLinhasRet[i].Split([';']);
+    if Length(Items) = 0 then
+      break;
+
+    if Items[0] <> '4' then
+      break;
+
+    s := Items[1];
+
+    OverwriteStringRight(s, Items[2], 14);
+    OverwriteStringRight(s, Items[3], 27);
+    OverwriteStringRight(s, Items[4], 40);
+
+    PegueLinha(s);
+    inc(i);//inc precisa aqui ser no fim do loop
+  until false;
+  // ATIVIDADE POR HORA FIM
 
   {
     procedure OverwriteString(var aTargetStr: string; const aSourceStr: string;

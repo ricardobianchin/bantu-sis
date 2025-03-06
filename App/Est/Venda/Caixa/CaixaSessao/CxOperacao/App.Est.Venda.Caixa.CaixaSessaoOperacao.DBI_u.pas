@@ -144,8 +144,11 @@ begin
       FCxOperacaoEnt.OperOrdem := q.Fields[1].AsInteger;
       FCxOperacaoEnt.LogId := q.Fields[2].AsLargeInt;
       FCxOperacaoEnt.OperTipoOrdem := q.Fields[3].AsInteger;
-      sDt := q.Fields[4].AsString;
-      FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
+      FCxOperacaoEnt.CriadoEm := q.Fields[4].AsDateTime;
+//      sDt := q.Fields[4].AsString;
+//      FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
+
+
     finally
       q.Free;
     end;

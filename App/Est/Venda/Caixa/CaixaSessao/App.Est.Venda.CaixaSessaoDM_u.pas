@@ -165,7 +165,7 @@ begin
 
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, FCaixaSessao, o,
     FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, FLogUsuario,
-    oCxValorDBI, FPDVControlador);
+    oCxValorDBI, FPDVControlador, FCaixaSessaoDBI);
 end;
 
 function TCaixaSessaoDM.GetAction(pCxOpTipo: TCxOpTipo): TAction;
@@ -199,6 +199,8 @@ begin
     FCaixaSessao.Id := rCaixaSessao.SessId;
     FCaixaSessao.Aberto := rCaixaSessao.Aberto;
     FCaixaSessao.AbertoEm := rCaixaSessao.AbertoEm;
+    FCaixaSessao.logusuario.id := rCaixaSessao.pessoaid;
+    FCaixaSessao.logusuario.NomeExib := rCaixaSessao.apelido;
     exit;
   end;
 

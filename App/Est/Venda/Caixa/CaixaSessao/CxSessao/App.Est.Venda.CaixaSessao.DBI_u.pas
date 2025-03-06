@@ -25,7 +25,8 @@ type
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
       reintroduce;
 
-    function CaixaSessaoAbertoGet(pCaixaSessaoRec: TCaixaSessaoRec): Boolean;
+    function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec): Boolean;
+    procedure PegDados(pCaixaSessao: ICaixaSessao);
 
     function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao): Boolean;
 
@@ -44,7 +45,7 @@ uses Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, System.SysUtils,
 
 { TCaixaSessaoDBI }
 
-function TCaixaSessaoDBI.CaixaSessaoAbertoGet(pCaixaSessaoRec
+function TCaixaSessaoDBI.CaixaSessaoAbertoGet(var pCaixaSessaoRec
   : TCaixaSessaoRec): Boolean;
 var
   sSql: string;
@@ -63,9 +64,9 @@ begin
       + ', APELIDO'#13#10 // 2
       + ', ABERTO_EM'#13#10 // 3
       + 'FROM CAIXA_SESSAO_MANUT_PA.ABERTO_GET'#13#10;
-    // {$IFDEF DEBUG}
-    // CopyTextToClipboard(sSql);
-    // {$ENDIF}
+     {$IFDEF DEBUG}
+     CopyTextToClipboard(sSql);
+     {$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
 
     Result := Assigned(q);
@@ -279,6 +280,70 @@ begin
   end;
 end;
 
+procedure TCaixaSessaoDBI.PegDados(pCaixaSessao: ICaixaSessao);
+var
+  sSql: string;
+  q: TDataSet;
+begin
+//  pCaixaSessaoRec.Zerar;
+
+  DBConnection.Abrir;
+
+  try
+    sSql :=
+      'SELECT first(1)'#13#10
+      +'SESS.SESS_ID'#13#10//0
+      +', PESS.PESSOA_ID'#13#10//1
+      +', PESS.APELIDO'#13#10//2
+      +', LOG.DTH ABERTO_EM'#13#10//3
+      +', sess.aberto'#13#10//4
+
+      +'FROM AMBIENTE_SIS AMBI'#13#10
+
+      +'JOIN CAIXA_SESSAO SESS ON'#13#10
+      +'AMBI.LOJA_ID = SESS.LOJA_ID'#13#10
+      +'AND AMBI.TERMINAL_ID = SESS.TERMINAL_ID'#13#10
+
+      +'JOIN LOG ON'#13#10
+      +'SESS.LOJA_ID = LOG.LOJA_ID'#13#10
+      +'AND SESS.TERMINAL_ID = LOG.TERMINAL_ID'#13#10
+      +'AND SESS.SESS_LOG_ID = LOG.LOG_ID'#13#10
+
+      +'JOIN PESSOA PESS ON'#13#10
+      +'LOG.LOJA_ID = PESS.LOJA_ID'#13#10
+      +'AND LOG.PESSOA_TERMINAL_ID = PESS.TERMINAL_ID'#13#10
+      +'AND LOG.PESSOA_ID = PESS.PESSOA_ID'#13#10
+
+      +'order by log.dth desc'#13#10
+      ;
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
+    DBConnection.QueryDataSet(sSql, q);
+
+    //Result := Assigned(q);
+//    if not Result then
+//      exit;
+    try
+      //Result := not q.IsEmpty;
+
+      //if not Result then
+        //exit;
+
+      pCaixaSessao.Id := q.Fields[0].AsInteger;
+      pCaixaSessao.LogUsuario.Id := q.Fields[1].AsInteger;
+      pCaixaSessao.LogUsuario.NomeExib := q.Fields[2].AsString;
+      pCaixaSessao.AbertoEm := q.Fields[3].AsDateTime;
+      pCaixaSessao.Aberto := q.Fields[4].AsBoolean;
+
+    finally
+      q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
 procedure TCaixaSessaoDBI.PreenchaCxSessRelatorio(pLinhas: TStrings;
   pCaixaSessao: ICaixaSessao);
 var
@@ -302,7 +367,7 @@ begin
       sSql := //
         'SELECT'#13#10 //
         + 'LINHA'#13#10 //
-        + 'FROM TESTE_PA.SESS_RELAT_BYID_GET('#13#10 //
+        + 'FROM CAIXA_SESSAO_PDV_PA.SESS_RELAT_BYID_GET('#13#10 //
 
         + sL + ' -- SESS_LOJA_ID'#13#10 //
         + ', ' + sT + ' -- SESS_TERMINAL_ID'#13#10 + ', ' + sI +

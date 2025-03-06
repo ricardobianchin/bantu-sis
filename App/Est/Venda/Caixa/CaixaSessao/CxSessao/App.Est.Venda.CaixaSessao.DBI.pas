@@ -8,12 +8,12 @@ uses Sis.DBI, FireDAC.Comp.Client, System.Classes,
 type
   ICaixaSessaoDBI = interface(IDBI)
     ['{1821EE74-8193-444D-B2C1-098DA1ABAD66}']
-    function CaixaSessaoAbertoGet(pCaixaSessaoRec: TCaixaSessaoRec)
+    function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
       : Boolean;
 
     function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao)
       : Boolean;
-
+    procedure PegDados(pCaixaSessao: ICaixaSessao);
     function GetMensagem: string;
     property Mensagem: string read GetMensagem;
 
