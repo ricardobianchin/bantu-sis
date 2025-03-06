@@ -126,7 +126,7 @@ begin
     pProcessLog.RegistreLog('vai executar');
     pOutput.Exibir('Instalando o firebird...');
     WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-    // sleep(10000);
+    // s l e ep(10000);
     WExec.EspereExecucao(FOutput);
 
     PeguePaths(pProcessLog, pOutput);
@@ -136,7 +136,7 @@ begin
     sParam := 'start';
 
     WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-    // sleep(3000);
+    // s l e e p(3000);
     WExec.EspereExecucao(FOutput);
 
     pOutput.Exibir('Execução terminada');

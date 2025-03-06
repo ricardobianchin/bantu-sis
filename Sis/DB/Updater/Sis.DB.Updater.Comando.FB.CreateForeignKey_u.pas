@@ -55,7 +55,6 @@ var
   bTabPkOk: boolean;
   bCamposPkOk: boolean;
 begin
-  // Sleep(200);
   Result := DBUpdaterOperations.GetForeignKeyInfo(FsKeyName, sTabelaFK,
     sCamposFK, sTabelaPK, sCamposPK);
 
