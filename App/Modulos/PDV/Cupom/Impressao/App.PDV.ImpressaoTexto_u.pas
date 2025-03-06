@@ -29,11 +29,8 @@ type
     function GetEspelhoAssuntoAtual: string; virtual;
 
   public
-    // procedure Imprima; virtual;
-
     constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
       pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
-    // destructor Destroy; override;
   end;
 
 implementation
