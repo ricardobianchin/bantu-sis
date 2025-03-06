@@ -289,7 +289,7 @@ begin
       // PreenchaVendaPagFDMemTable;
       VendaPagFDMemTable.Last;
       Application.ProcessMessages;
-//      sleep(10);
+//      s l e e p(10);
     until False;
   finally
     PagPergForm.Free;
