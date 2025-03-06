@@ -119,7 +119,8 @@ function TModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
   Result := TAppMenuForm.Create(Self);
 //  Result.PegarAction(OcultarAction_ModuloBasForm, [vkF3]);
-  Result.PegarAction(FecharAction_ModuloBasForm, [vkF4]);
+
+//  Result.PegarAction(FecharAction_ModuloBasForm, [vkF4]);
 end;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;

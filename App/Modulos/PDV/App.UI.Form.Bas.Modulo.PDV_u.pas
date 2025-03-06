@@ -107,20 +107,19 @@ var
   // s: string; // so pra visualizar o name durante o debug
 begin
   Result := inherited;
-  Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkB]);
+//  Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkP]);
   Result.NovaLinha;
 
-  Result.PegarAction(SessFormAction, [vkS]);
+  Result.PegarAction(SessFormAction, [vkR]);
 
-  a := FCaixaSessaoDM.GetAction(cxopSuprimento);
-  Result.PegarAction(a, [vkU]);
-
-  a := FCaixaSessaoDM.GetAction(cxopSangria);
-  Result.PegarAction(a, [vkA]);
-
-  a := FCaixaSessaoDM.GetAction(cxopFechamento);
-  Result.PegarAction(a, [vkF]);
-
+//  a := FCaixaSessaoDM.GetAction(cxopSuprimento);
+//  Result.PegarAction(a, [vkU]);
+//
+//  a := FCaixaSessaoDM.GetAction(cxopSangria);
+//  Result.PegarAction(a, [vkA]);
+//
+//  a := FCaixaSessaoDM.GetAction(cxopFechamento);
+//  Result.PegarAction(a, [vkF]);
 end;
 
 procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute
