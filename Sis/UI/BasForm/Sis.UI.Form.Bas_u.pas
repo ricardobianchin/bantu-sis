@@ -119,7 +119,6 @@ end;
 
 destructor TBasForm.Destroy;
 begin
-  sleep(5);
   inherited;
 end;
 
