@@ -57,7 +57,7 @@ begin
     if not FThreadInicializada then
       Exit;
 
-    Sleep(500);
+    Sleep(150);
   until (True);
 end;
 
