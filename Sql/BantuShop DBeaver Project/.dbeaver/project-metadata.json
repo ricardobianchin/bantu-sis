@@ -1,1 +1,1 @@
-{"resources":{"Scripts/Script.sql":{"default-datasource":"jaybird-195571e5fa1-4891f2e20c4ce382"}}}
+{"resources":{"Scripts/Est/Ven/est.ven.por hora.sql":{"default-datasource":"jaybird-195571e5fa1-4891f2e20c4ce382"},"Scripts/Sess/sess venda pag total.sql":{"default-datasource":"jaybird-195571e5fa1-4891f2e20c4ce382"}}}
