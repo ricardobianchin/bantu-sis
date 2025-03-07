@@ -60,7 +60,7 @@ begin
   s := 'R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
   PegueLinha(CenterStr(s, NCols));
 
-  if FCxOperacaoEnt.CxOperacaoTipo.Id  cxopSangria then
+  if FCxOperacaoEnt.CxOperacaoTipo.Id = cxopSangria then
   begin
     PegueLinha('');
     PegueLinha('');
