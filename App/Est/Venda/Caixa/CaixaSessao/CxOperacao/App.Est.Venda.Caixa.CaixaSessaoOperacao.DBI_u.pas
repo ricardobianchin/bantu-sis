@@ -43,7 +43,7 @@ procedure TCxOperacaoDBI.FecharPodeGet(out pPode: boolean;
   out pMensagem: string);
 const
   aMensagens: array [0 .. 3] of string = ('Mensagem não definida',
-    'Pode fechar o caixa', 'Não há Sessão de Caixa aberta',
+    'Pode fechar o caixa', 'Não há Caixa aberto',
     'Há uma venda não finalizada');
 var
   sSql: string;
@@ -60,7 +60,7 @@ begin
     oDBQuery.Abrir;
     try
       pPode := oDBQuery.Fields[0].AsBoolean;
-      pMensagem := 'Operação ''Fechar Sessão'' não pode ser executada. ' +
+      pMensagem := 'Operação ''Fechar o Caixa'' não pode ser executada. ' +
         aMensagens[oDBQuery.Fields[1].AsInteger];
     finally
       oDBQuery.Fechar;

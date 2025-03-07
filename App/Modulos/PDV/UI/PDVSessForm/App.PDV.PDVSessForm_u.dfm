@@ -278,7 +278,7 @@ inherited PDVSessForm: TPDVSessForm
       OnExecute = SangrActionExecute
     end
     object FechAction: TAction
-      Caption = 'F - Fechar Sess'#227'o'
+      Caption = 'F - Fechar o Caixa'
       OnExecute = FechActionExecute
     end
   end
