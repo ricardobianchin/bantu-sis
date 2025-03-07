@@ -54,6 +54,7 @@ begin
 //  MensLabel.Font.Color := 192;//iceberg
   MensLabel.Font.Color := 166;//iceberg
   CriarControles;
+  MensCopyAct_Diag.Visible := False;
 end;
 
 procedure TDiagBtnBasForm.CriarControles;

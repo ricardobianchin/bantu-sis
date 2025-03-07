@@ -105,7 +105,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
+uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory, Sis.UI.IO.Input.Perg;
 
 { TModuloBasForm }
 
@@ -321,9 +321,10 @@ begin
   inherited;
   sMens := 'Deseja finalizar o módulo ' +
     FModuloSistema.TipoOpcaoSisModuloDescr + '?';
-  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
-    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
-  Result := IsPositiveResult(Resultado);
+  Result := PergBool(sMens);
+//  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
+//    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+//  Result := IsPositiveResult(Resultado);
 end;
 
 procedure TModuloBasForm.SetTitleBarText(Value: string);

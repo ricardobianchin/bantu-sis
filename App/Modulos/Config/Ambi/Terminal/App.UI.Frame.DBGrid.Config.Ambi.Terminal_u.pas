@@ -51,7 +51,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory;
+uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory, Sis.UI.IO.Input.Perg;
 
 { TDBGridFrame1 }
 
@@ -116,10 +116,14 @@ begin
     'O Banco de Dados NÃO será excluído. Apenas não será usado pelo sistema até que seja reinserido nesta lista'#13#10
     + 'Deseja excluir?';
 
-  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
-    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+//  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
+//    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+//  bAceitou := IsPositiveResult(Resultado);
+//  if not bAceitou then
+//    exit;
 
-  bAceitou := IsPositiveResult(Resultado);
+
+  bAceitou := PergBool(sMens);
   if not bAceitou then
     exit;
 

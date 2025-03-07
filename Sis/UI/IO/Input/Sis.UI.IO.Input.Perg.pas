@@ -7,11 +7,15 @@ function PergBool(pFrase: string): boolean;
 
 implementation
 
-uses Sis.UI.IO.Input.Bool.Form, Vcl.Dialogs, Vcl.Controls;
+uses Sis.UI.IO.Input.Bool.Form, {Vcl.Dialogs, }Vcl.Controls, WinApi.Windows, Vcl.Forms;
 
 function PergBool(pFrase: string): boolean;
+var
+  Resultado: integer;
 begin
-  Result := IsPositiveResult(MessageDlg(pFrase, TMsgDlgType.mtInformation, [mbYes, mbNo], 0, TMsgDlgBtn.mbNo));
+  Resultado := MessageBox(Application.Handle, pFrase, 'Daros PDV', MB_YESNO + MB_ICONEXCLAMATION +  + MB_DEFBUTTON1);
+  Result := Resultado = ID_YES:
+//  Result := IsPositiveResult(MessageDlg(pFrase, TMsgDlgType.mtInformation, [mbYes, mbNo], 0, TMsgDlgBtn.mbNo));
 end;
 
 //function Perg(pFrase: string; pCaption: string): boolean;
