@@ -48,6 +48,7 @@ begin
     Result := false;
     try
       sLog := 'FFDConnection.Open';
+      FFDConnection.params.values['Server'] := '';
       FFDConnection.Open;
     except
       on e: exception do
