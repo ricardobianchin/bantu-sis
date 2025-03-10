@@ -118,7 +118,7 @@ begin
 
     bExecuteAoCriar := True;
 
-    pProcessLog.RegistreLog('ExecIntall inicio');
+    pProcessLog.RegistreLog('ExecInstal inicio');
     pProcessLog.RegistreLog('sExecFile=' + sExecFile);
     pProcessLog.RegistreLog('sParam=' + sParam);
     pProcessLog.RegistreLog('sStartIn=' + sStartIn);
