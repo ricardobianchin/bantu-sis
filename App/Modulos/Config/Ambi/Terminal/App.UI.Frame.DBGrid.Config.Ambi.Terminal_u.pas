@@ -189,8 +189,8 @@ begin
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
   Tab.FieldByName('APELIDO').AsString := 'TECIDOS';
-  Tab.FieldByName('NOME_NA_REDE').AsString := 'DELPHI-BTU';
-  Tab.FieldByName('IP').AsString := '192.168.1.144';
+  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESKTOP-EJFTSHR';
+  Tab.FieldByName('IP').AsString := '192.168.1.65';
 
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
   Tab.FieldByName('NF_SERIE').AsInteger := 0;
