@@ -12,6 +12,7 @@ procedure SLUpperCase(pSL: TStrings);
 function SLGetAsString(pSL: TStrings; pSeparador: string): string;
 
 procedure SLApaguePrefixos(pSL: TStrings);
+function SalveSL(pSL: TStrings; pNomeArq: string): Boolean;
 
 // o uso de tstrings.duplicate so funciona se sort=true
 // quando nao posso alterar a ordem dos itens, uso esta funcion
@@ -226,6 +227,12 @@ begin
 
   for i := 0 to pSL.Count - 1 do
     pSL[i] := Copy(pSL[i], prefixLength + 1, MaxInt);
+end;
+
+function SalveSL(pSL: TStrings; pNomeArq: string): Boolean;
+begin
+  Result := True;
+  pSL.SaveToFile(pNomeArq);
 end;
 
 end.
