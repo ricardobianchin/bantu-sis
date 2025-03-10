@@ -334,7 +334,8 @@ begin
 end;
 
 destructor TPrincBasForm.Destroy;
-begin
+begin //vai terminar em erro
+
   // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
   try
     ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
