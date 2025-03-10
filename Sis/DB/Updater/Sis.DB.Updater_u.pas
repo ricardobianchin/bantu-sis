@@ -792,7 +792,7 @@ begin
     sPastaComandos := FPastaProduto + 'Comandos\Updater\';
     FOutput.Exibir(FNomeArqBanco + ' ' + sAssunto);
     dbms.ExecInterative(sAssunto, sSql, sNomeBanco, sPastaComandos, FProcessLog,
-      FMudoOutput);
+      FMudoOutput, False);
   finally
     FProcessLog.RetorneLocal;
   end;
