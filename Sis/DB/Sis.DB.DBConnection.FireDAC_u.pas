@@ -111,9 +111,6 @@ begin
       pOutput);
     DBLog.Registre('voltou de inherited Create');
 
-    FFDConnection := TFDConnection.Create(nil);
-    FFDConnection.LoginPrompt := false;
-
     case pDBMSInfo.DatabaseType of
       dbmstUnknown:
         ;
@@ -131,17 +128,43 @@ begin
         ;
     end;
 
+
+
+
+    FFDConnection := TFDConnection.Create(nil);
+    {
+    de um dfm onde funcionou rapido
+
+    Params.Strings = (
+
+        'Database=C:\Pr\app\bantu\bantu-sis\Exe\Dados\Dados_Mercado_Retag' +
+        'uarda.FDB'
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      'Protocol=TCPIP'
+      'Server=DELPHI-BTU'
+      'Port=3050'
+      'CharacterSet=WIN1252'
+      'DriverID=FB')
+    }
     FFDConnection.Params.Text := //
       'DriverID=' + sDriver + #13#10 //
       + 'Server=' + DBConnectionParams.Server + #13#10 //
       + 'Database=' + DBConnectionParams.Arq + #13#10 //
       + 'Password=masterkey'#13#10 //
       + 'User_Name=sysdba'#13#10 //
+      + 'CharacterSet=WIN1252'#13#10 //
       + 'Protocol=TCPIP' //
       ;
-//    FFDConnection.TxOptions.AutoCommit := False;
-//    FFDConnection.TxOptions.AutoStart := False;
-//    FFDConnection.TxOptions.AutoStop := False;
+
+    FFDConnection.LoginPrompt := false;
+
+    FFDConnection.FetchOptions.AssignedValues := [evMode, evUnidirectional];
+    FFDConnection.FetchOptions.Mode := fmAll;
+    FFDConnection.FetchOptions.Unidirectional := True;
+    FFDConnection.UpdateOptions.AssignedValues := [uvRefreshMode];
+    FFDConnection.UpdateOptions.RefreshMode := rmManual;
+
   finally
     DBLog.Registre('Params='#13#10 + FFDConnection.Params.Text);
     ProcessLog.RetorneLocal;
