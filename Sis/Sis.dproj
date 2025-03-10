@@ -435,6 +435,7 @@
         <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas"/>
         <DCCReference Include="Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas"/>
         <DCCReference Include="Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas"/>
+        <DCCReference Include="Entities\Terminal\Sis.Terminal.Utils_u.pas"/>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

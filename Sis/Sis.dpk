@@ -317,6 +317,7 @@ contains
   Sis.Web.HTTPGet.Net_u in 'Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas',
   Sis.Web.HTTP.Download in 'Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas',
   Sis.Web.HTTP.Download_u in 'Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas',
-  Sis.Web.HTTPDownload.NET in 'Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas';
+  Sis.Web.HTTPDownload.NET in 'Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas',
+  Sis.Terminal.Utils_u in 'Entities\Terminal\Sis.Terminal.Utils_u.pas';
 
 end.

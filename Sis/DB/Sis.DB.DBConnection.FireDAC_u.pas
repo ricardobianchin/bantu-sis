@@ -48,7 +48,6 @@ begin
     Result := false;
     try
       sLog := 'FFDConnection.Open';
-      FFDConnection.params.values['Server'] := '';
       FFDConnection.Open;
     except
       on e: exception do
@@ -140,6 +139,9 @@ begin
       + 'User_Name=sysdba'#13#10 //
       + 'Protocol=TCPIP' //
       ;
+//    FFDConnection.TxOptions.AutoCommit := False;
+//    FFDConnection.TxOptions.AutoStart := False;
+//    FFDConnection.TxOptions.AutoStop := False;
   finally
     DBLog.Registre('Params='#13#10 + FFDConnection.Params.Text);
     ProcessLog.RetorneLocal;
