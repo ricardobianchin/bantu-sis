@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C8DD80DF-9B09-433D-8251-AD3F1494E338}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Sis\Sis.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ShopAssist\ShopAssist.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Sis">
+        <MSBuild Projects="Sis\Sis.dproj"/>
+    </Target>
+    <Target Name="Sis:Clean">
+        <MSBuild Projects="Sis\Sis.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Sis:Make">
+        <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ShopAssist">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj"/>
+    </Target>
+    <Target Name="ShopAssist:Clean">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShopAssist:Make">
+        <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Sis;ShopAssist"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Sis:Clean;ShopAssist:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Sis:Make;ShopAssist:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
