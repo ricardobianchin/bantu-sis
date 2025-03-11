@@ -1,3 +1,7 @@
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\CLIENTE_pa.sql";
+
+*/
 SET TERM ^;
 CREATE OR ALTER PACKAGE CLIENTE_PA
 AS

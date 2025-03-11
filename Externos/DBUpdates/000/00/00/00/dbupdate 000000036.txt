@@ -1,23 +1,9 @@
-PESSOA
+PESSOA_PA
 
------------------------------
-TESTES INICIO
------------------------------
-
------------------------------
-TESTES FIM 
------------------------------
-
------------------------------
-INICIO
------------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=PESSOA
 DBATUALIZ_OBJETIVO=CRIAR PACKAGE PESSOA_PA
 DBATUALIZ_OBS=
-
-
-//PACKAGE PESSOA_PA
 
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
