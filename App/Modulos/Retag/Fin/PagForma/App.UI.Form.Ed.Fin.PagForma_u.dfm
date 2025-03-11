@@ -1,14 +1,18 @@
 inherited PagFormaEdForm: TPagFormaEdForm
   Caption = 'PagFormaEdForm'
   ClientHeight = 278
-  ClientWidth = 580
-  ExplicitWidth = 592
-  ExplicitHeight = 316
+  ClientWidth = 594
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 610
+  ExplicitHeight = 317
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 206
-    Width = 580
+    Width = 594
     ExplicitTop = 206
+  end
+  inherited ObjetivoLabel: TLabel
+    StyleElements = [seFont, seClient, seBorder]
   end
   object TipoTitLabel: TLabel [2]
     Left = 160
@@ -33,7 +37,8 @@ inherited PagFormaEdForm: TPagFormaEdForm
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 226
-    Width = 580
+    Width = 594
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 226
   end
   object DescrErroLabel: TLabel [6]
@@ -64,43 +69,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     ParentFont = False
     StyleElements = []
   end
-  object AdminstradoraGroupBox: TGroupBox [8]
-    Left = 3
-    Top = 108
-    Width = 273
-    Height = 45
-    Caption = 'Administradora'
-    TabOrder = 7
-    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
-      Left = 55
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 44
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Taxa (%)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 0
-      Text = '123,45'
-    end
-    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
-      Left = 213
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 92
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Reembolso (Dias)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 1
-      Text = '123,45'
-    end
-  end
-  object DescrLabeledEdit: TLabeledEdit [9]
+  object DescrLabeledEdit: TLabeledEdit [8]
     Left = 58
     Top = 27
     Width = 329
@@ -115,37 +84,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     OnChange = DescrLabeledEditChange
     OnExit = DescrLabeledEditExit
   end
-  object ComissGroupBox: TGroupBox [10]
-    Left = 283
-    Top = 108
-    Width = 204
-    Height = 45
-    Caption = 'Comiss'#227'o'
-    TabOrder = 6
-    object ComissPermiteCheckBox: TCheckBox
-      Left = 8
-      Top = 19
-      Width = 63
-      Height = 17
-      Caption = 'Permite'
-      TabOrder = 0
-    end
-    object MoldeComissAbaterLabeledEdit: TLabeledEdit
-      Left = 146
-      Top = 17
-      Width = 53
-      Height = 23
-      Alignment = taCenter
-      EditLabel.Width = 56
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Abater (%)'
-      LabelPosition = lpLeft
-      LabelSpacing = 4
-      TabOrder = 1
-      Text = '123,45'
-    end
-  end
-  object DescrRedLabeledEdit: TLabeledEdit [11]
+  object DescrRedLabeledEdit: TLabeledEdit [9]
     Left = 499
     Top = 27
     Width = 82
@@ -161,7 +100,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     OnChange = DescrRedLabeledEditChange
     OnExit = DescrRedLabeledEditExit
   end
-  object UsoComboBox: TComboBox [12]
+  object UsoComboBox: TComboBox [10]
     Left = 184
     Top = 71
     Width = 81
@@ -174,7 +113,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'VENDA'
       'COMPRA')
   end
-  object PromoGroupBox: TGroupBox [13]
+  object PromoGroupBox: TGroupBox [11]
     Left = 493
     Top = 108
     Width = 86
@@ -190,7 +129,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 0
     end
   end
-  object VendaExigeGroupBox: TGroupBox [14]
+  object VendaExigeGroupBox: TGroupBox [12]
     Left = 3
     Top = 163
     Width = 408
@@ -236,7 +175,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       TabOrder = 2
     end
   end
-  object AtivoCheckBox: TCheckBox [15]
+  object AtivoCheckBox: TCheckBox [13]
     Left = 438
     Top = 74
     Width = 49
@@ -244,7 +183,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
     Caption = 'Ativa'
     TabOrder = 2
   end
-  object PagFormaTipoComboBox: TComboBox [16]
+  object PagFormaTipoComboBox: TComboBox [14]
     Left = 30
     Top = 71
     Width = 122
@@ -259,7 +198,7 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'CREDITO'
       'TRANSFERENCIA')
   end
-  object RecebComboBox: TComboBox [17]
+  object RecebComboBox: TComboBox [15]
     Left = 347
     Top = 71
     Width = 81
@@ -272,18 +211,88 @@ inherited PagFormaEdForm: TPagFormaEdForm
       'A VISTA'
       'A PRAZO')
   end
+  object ComissGroupBox: TGroupBox [16]
+    Left = 283
+    Top = 108
+    Width = 204
+    Height = 45
+    Caption = 'Comiss'#227'o'
+    TabOrder = 6
+    object ComissPermiteCheckBox: TCheckBox
+      Left = 8
+      Top = 19
+      Width = 63
+      Height = 17
+      Caption = 'Permite'
+      TabOrder = 0
+    end
+    object MoldeComissAbaterLabeledEdit: TLabeledEdit
+      Left = 146
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 56
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Abater (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
+  object AdminstradoraGroupBox: TGroupBox [17]
+    Left = 3
+    Top = 108
+    Width = 273
+    Height = 45
+    Caption = 'Administradora'
+    TabOrder = 7
+    object MoldeTaxaAdmLabeledEdit: TLabeledEdit
+      Left = 55
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 44
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Taxa (%)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 0
+      Text = '123,45'
+    end
+    object MoldeReembolsoDiasLabeledEdit: TLabeledEdit
+      Left = 213
+      Top = 17
+      Width = 53
+      Height = 23
+      Alignment = taCenter
+      EditLabel.Width = 92
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Reembolso (Dias)'
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      TabOrder = 1
+      Text = '123,45'
+    end
+  end
   inherited BasePanel: TPanel
     Top = 241
-    Width = 580
-    ExplicitTop = 240
-    ExplicitWidth = 576
+    Width = 594
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 241
+    ExplicitWidth = 580
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
+      Left = 26
       TabOrder = 0
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
+      Left = 139
       TabOrder = 1
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
+      Left = 240
       TabOrder = 2
     end
   end
