@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FreeFileSync XmlType="BATCH" XmlFormat="19">
+<FreeFileSync XmlType="BATCH" XmlFormat="23">
     <Notes/>
     <Compare>
         <Variant>TimeAndSize</Variant>
@@ -7,8 +7,7 @@
         <IgnoreTimeShift/>
     </Compare>
     <Synchronize>
-        <Variant>Mirror</Variant>
-        <DetectMovedFiles>false</DetectMovedFiles>
+        <Differences LeftOnly="right" LeftNewer="right" RightNewer="right" RightOnly="right"/>
         <DeletionPolicy>Permanent</DeletionPolicy>
         <VersioningFolder Style="Replace"/>
     </Synchronize>
@@ -31,11 +30,11 @@
     <FolderPairs>
         <Pair>
             <Left>C:\Pr\app\bantu\bantu-sis\bantu-api-doc\db\TabViews\</Left>
-            <Right>\\VBOXSVR\d_drive\inst\Bantu\Win32\Mercado\Cons\TabViews</Right>
+            <Right>d:\inst\Bantu\Win32\Mercado\Cons\TabViews</Right>
         </Pair>
         <Pair>
             <Left>C:\Pr\app\bantu\bantu-sis\bantu-api-doc\db\TabViews\</Left>
-            <Right>\\VBOXSVR\d_drive\inst\Bantu\Win64\Mercado\Cons\TabViews</Right>
+            <Right>d:\inst\Bantu\Win64\Mercado\Cons\TabViews</Right>
         </Pair>
     </FolderPairs>
     <Errors Ignore="false" Retry="0" Delay="5"/>
