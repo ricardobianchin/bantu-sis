@@ -55,7 +55,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     OnChange = DescrEditChange
   end
   object DescrRedEdit: TLabeledEdit
-    Left = 582
+    Left = 577
     Top = 46
     Width = 194
     Height = 23
