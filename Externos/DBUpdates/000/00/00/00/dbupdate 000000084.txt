@@ -23,7 +23,7 @@ in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\S
 
 SHOW PACKAGE LOG_HIST_PROD_PA;
 
-SELECT LOG_HIST_PA.ULTIMO_LOG_ID_GET() AS ULTIMO_LOG_ID FROM RDB$DATABASE;
+SELECT LO G_H IST_P A.ULTIMO_LOG_ID_GET() AS ULTIMO_LOG_ID FROM RDB$DATABASE;
 
 select * from LOG_HIST_PROD_PA.teve_terminal(0, 100);
 
