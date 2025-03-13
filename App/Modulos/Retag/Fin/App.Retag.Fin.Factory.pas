@@ -54,8 +54,7 @@ function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;
   pDespTipoEnt: IEntEd): IEntDBI;
 //
 function DespTipoEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI)
-  : TEdBasForm;
+  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI): TEdBasForm;
 //
 // function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
 // pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
@@ -78,7 +77,7 @@ uses App.Fin.PagFormaTipo_u, App.Retag.Fin.PagForma.DBI_u,
   App.Retag.Fin.PagForma.Ent_u, App.UI.Form.DataSet.Retag.Fin.PagForma_u,
   App.UI.Form.Ed.Fin.PagForma_u, App.UI.FormCreator.DataSet_u,
   App.Retag.Fin.PagForma.Ed.DBI_u, App.Retag.Fin.DespTipo.Ent_u,
-  App.Retag.Fin.DespTipo.DBI_u;
+  App.Retag.Fin.DespTipo.DBI_u, App.UI.Form.Ed.Fin.DespTipo_u;
 
 function PagFormaTipoCreate: IPagFormaTipo;
 begin
@@ -174,11 +173,8 @@ begin
   Result := TDespTipoDBI.Create(pDBConnection, TDespTipoEnt(pDespTipoEnt));
 end;
 
-
-
 function DespTipoEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI)
-  : TEdBasForm;
+  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI): TEdBasForm;
 begin
   Result := TDespTipoEdForm.Create(AOwner, pAppObj, pDespTipoEnt, pDespTipoDBI);
 end;
@@ -198,17 +194,17 @@ end;
 /// / begin
 /// / // Result := TDecoratorExclPagForma.Create(pPagForma);
 /// / end;
-//
-// function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-// pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-// pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-// pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
-// begin
-// Result := TDataSetFormCreator.Create(TRetagFinPagFormaDataSetForm,
-// pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
-// pEntEd, pEntDBI, pAppObj);
-// end;
-//
+
+function DespTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TRetagFinDespTipoDataSetForm,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
+end;
+
 // function DespTipoEdDBICreate(pDBConnection: IDBConnection): IEntDBI;
 // begin
 // Result := TPagFormaEdDBI.Create(pDBConnection);

@@ -745,6 +745,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>DespTipoEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.UI.Form.DataSet.Retag.Fin.DespTipo_u.pas">
+            <Form>RetagEstDespTipoDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
