@@ -1,0 +1,115 @@
+OBS
+OBS_INICIAL_PA
+
+---------------------------------------
+TESTES OBS
+---------------------------------------
+
+---------------------------------------
+FIM TESTES
+---------------------------------------
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=OBS
+DBATUALIZ_OBJETIVO=CRIAR OBS, OBS_INICIAL_PA
+DBATUALIZ_OBS=
+
+
+
+
+
+/////////////////////////
+//
+// TABELA OBS
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE TABLE
+OBJETO_NOME=OBS
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM
+
+LOJA_ID;ID_DOM;S;S
+TERMINAL_ID;ID_DOM;S;S
+LOG_ID;BIGINT;S;S
+
+TEXTO;OBS_DOM;S
+
+COLUNAS FIM
+COMANDO FIM
+
+
+
+/////////////////////////
+//
+// PACKAGE OBS_INICIAL_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=OBS_INICIAL_PA
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_INICIAL_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_INICIAL_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_INICIAL_PA.sql";
+
+*/
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE OBS_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE OBS_GAR
+  (
+    LOJA_ID ID_DOM,
+    TERMINAL_ID ID_DOM,
+    LOG_ID BIGINT,
+    TEXTO OBS_DOM
+  );
+END^
+
+------- BODY
+
+RECREATE PACKAGE BODY OBS_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE OBS_GAR
+  (
+    LOJA_ID ID_DOM,
+    TERMINAL_ID ID_DOM,
+    LOG_ID BIGINT,
+    TEXTO OBS_DOM
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO OBS
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      LOG_ID,
+      TEXTO
+    )
+    VALUES 
+    (
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :LOG_ID,
+      :TEXTO
+    )
+    MATCHING (
+      LOJA_ID,
+      TERMINAL_ID,
+      LOG_ID
+    );
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM

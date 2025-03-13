@@ -1,46 +1,184 @@
-EST_MOV_TIPO
-ENSURE RECORDS
+EST_MOV_INICIAL_PA
 
 
+-----------------------------
 INICIO
-
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=ESTOQUE
-DBATUALIZ_OBJETIVO=ENSURE RECORDS EST_MOV_TIPO
+DBATUALIZ_OBJETIVO=CRIAR EST_MOV_INICIAL_PA
+DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_OBS=
 
 
 
 
-
-///////////////////////////
+/////////////////////////
 //
-// EST_MOV_TIPO, ENSURE RECORDS
+// PACKAGE EST_MOV_INICIAL_PA
 //
-///////////////////////////
+/////////////////////////
 COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
-OBJETO_NOME=EST_MOV_TIPO
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=EST_MOV_INICIAL_PA
+/*
 
-CSV INI
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_MOV_INICIAL_PA.sql
 
-EST_MOV_TIPO_ID;DESCR
-#032;NAO INDICADO
-#033;COMPRA
-#034;VENDA
-#035;INVENTARIO
-#036;DEVOLUCAO DE VENDA
-#037;DEVOLUCAO DE COMPRA
-#038;SAIDA
-#039;SAIDA ESTORNO
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_MOV_INICIAL_PA.sql"
 
-CSV FIM
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_MOV_INICIAL_PA.sql";
+
+
+*/
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE EST_MOV_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE EST_MOV_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT  Not Null
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , DTH_DOC TIMESTAMP NOT NULL
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  );
+  
+  
+  PROCEDURE EST_MOV_ITEM_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT Not Null
+    , ORDEM SMALLINT Not Null
+    , PROD_ID ID_DOM Not Null
+    , QTD QTD_DOM Not Null
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  );
+END^
+
+RECREATE PACKAGE BODY EST_MOV_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE EST_MOV_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT  Not Null
+    , EST_MOV_TIPO_ID ID_CHAR_DOM Not Null
+    , DTH_DOC TIMESTAMP NOT NULL
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO EST_MOV 
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      EST_MOV_ID,
+      EST_MOV_TIPO_ID,
+      DTH_DOC,
+      FINALIZADO,
+      CANCELADO,
+      CRIADO_EM,
+      ALTERADO_EM,
+      FINALIZADO_EM,
+      CANCELADO_EM
+    ) 
+    VALUES 
+    (
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :EST_MOV_TIPO_ID,
+      :DTH_DOC,
+      :FINALIZADO,
+      :CANCELADO,
+      :CRIADO_EM,
+      :ALTERADO_EM,
+      :FINALIZADO_EM,
+      :CANCELADO_EM
+    ) 
+    MATCHING 
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      EST_MOV_ID
+    );
+  END
+  
+  PROCEDURE EST_MOV_ITEM_GAR
+  (
+    LOJA_ID ID_SHORT_DOM Not Null
+    , TERMINAL_ID ID_SHORT_DOM Not Null
+    , EST_MOV_ID BIGINT Not Null
+    , ORDEM SMALLINT Not Null
+    , PROD_ID ID_DOM Not Null
+    , QTD QTD_DOM Not Null
+    , FINALIZADO BOOLEAN Not Null
+    , CANCELADO BOOLEAN Not Null
+    , CRIADO_EM TIMESTAMP Not Null
+    , ALTERADO_EM TIMESTAMP
+    , FINALIZADO_EM TIMESTAMP
+    , CANCELADO_EM TIMESTAMP
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO EST_MOV_ITEM
+    (
+      LOJA_ID 
+      , TERMINAL_ID 
+      , EST_MOV_ID 
+      , ORDEM 
+      , PROD_ID 
+      , QTD 
+      , CANCELADO 
+      , CRIADO_EM 
+      , ALTERADO_EM 
+      , CANCELADO_EM 
+    )
+    VALUES
+    (
+      :LOJA_ID 
+      , :TERMINAL_ID 
+      , :EST_MOV_ID 
+      , :ORDEM 
+      , :PROD_ID 
+      , :QTD 
+      , :CANCELADO 
+      , :CRIADO_EM 
+      , :ALTERADO_EM 
+      , :CANCELADO_EM 
+    )
+    MATCHING
+    (
+      LOJA_ID 
+      , TERMINAL_ID 
+      , EST_MOV_ID 
+      , ORDEM 
+    );
+  END
+END^
+SET TERM ;^
+```
 COMANDO FIM
-
-
-
-
-
 
 DBATUALIZ FIM
