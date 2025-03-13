@@ -6,6 +6,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
   inherited MeioPanel: TPanel
     Width = 1000
     Height = 280
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitWidth = 1000
     ExplicitHeight = 280
     object InputPanel: TPanel
@@ -216,28 +217,21 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         Left = 441
         Top = 0
         AutoSize = True
-        Caption = 'C - Cliente'
+        Caption = 'F3 - Cliente'
         ImageIndex = 4
       end
-      object ToolButton1: TToolButton
-        Left = 513
+      object CPFToolButton: TToolButton
+        Left = 517
         Top = 0
         AutoSize = True
-        Caption = 'D - CPF'
+        Caption = 'F4 - CPF'
         ImageIndex = 5
       end
-      object ToolButton3: TToolButton
-        Left = 569
-        Top = 0
-        AutoSize = True
-        Caption = 'E - Entrega'
-        ImageIndex = 6
-      end
       object GavetaToolButton: TToolButton
-        Left = 642
+        Left = 577
         Top = 0
         AutoSize = True
-        Caption = 'G - Gaveta'
+        Caption = 'F6 - Gaveta'
         ImageIndex = 7
         OnClick = GavetaToolButtonClick
       end

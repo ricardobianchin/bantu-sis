@@ -28,19 +28,18 @@ type
   protected
     property DBMSConfig: IDBMSConfig read FDBMSConfig;
   public
-//    function LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB): TDBConnectionParams;
-//    function LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
-//    function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
-//    function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
+    // function LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB): TDBConnectionParams;
+    // function LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
+    // function LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
+    // function LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
 
-//    function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
-//      pOutput: IOutput): boolean;
-    function GarantirDBMSInstalado(pProcessLog: IProcessLog; pOutput: IOutput): boolean;
-    procedure ExecInterative(pAssunto: string; pSql: string;
-      pNomeBanco: string;
-      pPastaComandos: string;
-      pProcessLog: IProcessLog;
-      pOutput: IOutput); overload;
+    // function GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
+    // pOutput: IOutput): boolean;
+    function GarantirDBMSInstalado(pProcessLog: IProcessLog;
+      pOutput: IOutput): boolean;
+    procedure ExecInterative(pAssunto: string; pSql: string; pNomeBanco: string;
+      pPastaComandos: string; pProcessLog: IProcessLog; pOutput: IOutput;
+      pJanelaVisivel: boolean = False); overload;
 
     constructor Create(pSisConfig: ISisConfig; pDBMSConfig: IDBMSConfig;
       pProcessLog: IProcessLog; pOutput: IOutput);
@@ -118,7 +117,7 @@ begin
 
     bExecuteAoCriar := True;
 
-    pProcessLog.RegistreLog('ExecIntall inicio');
+    pProcessLog.RegistreLog('ExecInstal inicio');
     pProcessLog.RegistreLog('sExecFile=' + sExecFile);
     pProcessLog.RegistreLog('sParam=' + sParam);
     pProcessLog.RegistreLog('sStartIn=' + sStartIn);
@@ -126,7 +125,7 @@ begin
     pProcessLog.RegistreLog('vai executar');
     pOutput.Exibir('Instalando o firebird...');
     WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-    // sleep(10000);
+    // s l e ep(10000);
     WExec.EspereExecucao(FOutput);
 
     PeguePaths(pProcessLog, pOutput);
@@ -136,7 +135,7 @@ begin
     sParam := 'start';
 
     WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
-    // sleep(3000);
+    // s l e e p(3000);
     WExec.EspereExecucao(FOutput);
 
     pOutput.Exibir('Execução terminada');
@@ -148,10 +147,8 @@ begin
 end;
 
 procedure TDBMSFirebird.ExecInterative(pAssunto: string; pSql: string;
-      pNomeBanco: string;
-      pPastaComandos: string;
-      pProcessLog: IProcessLog;
-      pOutput: IOutput);
+  pNomeBanco: string; pPastaComandos: string; pProcessLog: IProcessLog;
+  pOutput: IOutput; pJanelaVisivel: boolean);
 var
   sStartIn: string;
   sExecFile: string;
@@ -163,6 +160,8 @@ var
   WExec: IWinExecute;
 
   sLog: string;
+
+  iShowMode: integer;
 
 begin
   pProcessLog.PegueLocal('TDBMSFirebird.ExecInterative');
@@ -177,13 +176,8 @@ begin
 
       GarantirPasta(pPastaComandos);
 
-      sNomeArqTmp :=
-        pPastaComandos
-        + DateTimeToNomeArq()
-        + ' ' + Trim('SQL ' + pAssunto)
-        + ' ' + pNomeBanco
-        + '.sql'
-        ;
+      sNomeArqTmp := pPastaComandos + DateTimeToNomeArq() + ' ' +
+        Trim('SQL ' + pAssunto) + ' ' + pNomeBanco + '.sql';
 
       sLog := sLog + ',sNomeArqTmp=' + sNomeArqTmp;
 
@@ -196,7 +190,8 @@ begin
 
       sExecFile := FIsqlExe;
       sStartIn := FFirebirdPath;
-      sParam := '-user sysdba -password masterkey -i "' + sNomeArqTmp + '"';//  -ch WIN1252';
+      sParam := '-user sysdba -password masterkey -i "' + sNomeArqTmp + '"';
+      // -ch WIN1252';
 
       bExecuteAoCriar := True;
 
@@ -205,7 +200,8 @@ begin
 
       pOutput.Exibir('Executando via ISQL ' +
         ExtractFileName(sNomeArqTmp) + '...');
-      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar);
+      iShowMode := Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
+      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar, iShowMode);
       WExec.EspereExecucao(pOutput);
 
       pOutput.Exibir('Execução terminada');
@@ -234,24 +230,25 @@ begin
     pProcessLog.RegistreLog('retornou false, nao encontrou o Firebird');
 
     raise Exception.Create('Erro: Firebird não detectado');
-    //ExecInstal(pProcessLog, pOutput);
+    // ExecInstal(pProcessLog, pOutput);
   finally
     pProcessLog.RetorneLocal;
   end;
 end;
+
 {
-function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
+  function TDBMSFirebird.GarantirDBServCriadoEAtualizado(pProcessLog: IProcessLog;
   pOutput: IOutput): boolean;
-var
+  var
   oUpdater: IDBUpdater;
   s: string;
-begin
+  begin
   s := 'TDBMSFirebird.GarantirDBServCriadoEAtualizado' +
-    ',vai DBUpdaterFirebirdCreate';
+  ',vai DBUpdaterFirebirdCreate';
   pProcessLog.Exibir(s);
 
   oUpdater := DBUpdaterFirebirdCreate(ldbServidor, self, FSisConfig,
-    pProcessLog, pOutput);
+  pProcessLog, pOutput);
 
   s := 'TDBMSFirebird.GarantirDBServCriadoEAtualizado,vai updater.execute';
   pProcessLog.Exibir(s);
@@ -259,9 +256,9 @@ begin
   Result := oUpdater.Execute;
 
   s := 'TDBMSFirebird.GarantirDBServCriadoEAtualizado' +
-    ',updater.execute retornou,fim';
+  ',updater.execute retornou,fim';
   pProcessLog.Exibir(s);
-end;
+  end;
 }
 function TDBMSFirebird.GetFirebirdExePath(pWinVersionInfo: IWinVersionInfo;
   pProcessLog: IProcessLog; pOutput: IOutput): string;
@@ -273,75 +270,71 @@ var
 begin
   Result := 'C:\Program Files\Firebird\Firebird_5_0\';
 
-  if not FileExists(Result+'isql.exe') then
+  if not FileExists(Result + 'isql.exe') then
     Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
 
-//{$IFDEF DEBUG}
-//{$ELSE}
-//{$ENDIF}
-//  exit;
+  // {$IFDEF DEBUG}
+  // {$ELSE}
+  // {$ENDIF}
+  // exit;
 
   pProcessLog.PegueLocal('TDBMSFirebird.GetFirebirdExePath');
   try
-  sLog := '';
-  case pWinVersionInfo.WinPlatform of
-    wplatNaoIndicado:
+    sLog := '';
+    case pWinVersionInfo.WinPlatform of
+      wplatNaoIndicado:
+        begin
+          RegistryView := rvDefault;
+          sLog := sLog + 'rvDefault';
+        end;
+      wplatWin32:
+        begin
+          RegistryView := rvRegistry32;
+          sLog := sLog + 'rvRegistry32';
+        end;
+    else // wplatWin64:
       begin
-        RegistryView := rvDefault;
-        sLog := sLog + 'rvDefault';
+        RegistryView := rvRegistry64;
+        sLog := sLog + 'rvRegistry64';
       end;
-    wplatWin32:
-      begin
-        RegistryView := rvRegistry32;
-        sLog := sLog + 'rvRegistry32';
-      end;
-  else // wplatWin64:
-    begin
-      RegistryView := rvRegistry64;
-      sLog := sLog + 'rvRegistry64';
     end;
-  end;
+
+    {
+      Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+      'SOFTWARE\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+      RegistryView);
+
+    }
+
+    // Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances
+
+    Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+      'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances',
+      'DefaultInstance', RegistryView);
 
 
-{
-  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
-    'SOFTWARE\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
-    RegistryView);
+    // Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+    // 'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+    // rvDefault);
+    //
+    // Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+    // 'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+    // rvRegistry32);
+    //
+    // Result := ReadRegStr(HKEY_LOCAL_MACHINE,
+    // 'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
+    // rvRegistry64);
 
-}
-
-//Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances
-
-
-  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
-    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
-    RegistryView);
-
-
-//  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
-//    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
-//    rvDefault);
-//
-//  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
-//    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
-//    rvRegistry32);
-//
-//  Result := ReadRegStr(HKEY_LOCAL_MACHINE,
-//    'SOFTWARE\WOW6432Node\Firebird Project\Firebird Server\Instances', 'DefaultInstance',
-//    rvRegistry64);
-
-
-
-
-  if Result <> '' then
-    Result := IncludeTrailingPathDelimiter(Result);
-  sLog := sLog + ', [' + Result + ']';
-  pProcessLog.RegistreLog(sLog);
+    if Result <> '' then
+      Result := IncludeTrailingPathDelimiter(Result);
+    sLog := sLog + ', [' + Result + ']';
+    pProcessLog.RegistreLog(sLog);
   finally
     pProcessLog.RetorneLocal;
   end;
 end;
- function TDBMSFirebird.GetVendorHome: string;
+
+function TDBMSFirebird.GetVendorHome: string;
 begin
   Result := FFirebirdPath;
 end;
@@ -352,59 +345,59 @@ begin
 end;
 
 {
-function TDBMSFirebird.LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB)
+  function TDBMSFirebird.LocalDoDBToConnectionParams(pLocalDoDB: TLocalDoDB)
   : TDBConnectionParams;
-begin
+  begin
   Result.Server := FSisConfig.ServerMachineId.GetIdent;
   Result.Arq := LocalDoDBToNomeArq(pLocalDoDB);
   Result.Database := Result.Arq;
   if Result.Server <> '' then
-    Result.Database := Result.Server + ':' + Result.Database;
-end;
+  Result.Database := Result.Server + ':' + Result.Database;
+  end;
 
-function TDBMSFirebird.LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
-var
+  function TDBMSFirebird.LocalDoDBToDatabase(pLocalDoDB: TLocalDoDB): string;
+  var
   sArq, sServ: string;
-begin
+  begin
   sArq := LocalDoDBToNomeArq(pLocalDoDB);
 
   Result := sArq;
 
   sServ := FSisConfig.ServerMachineId.GetIdent;
   if sServ <> '' then
-    Result := sServ + ':' + Result;
-end;
-
-function TDBMSFirebird.LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
-begin
-  Result := FSisConfig.PastaProduto + 'dados\' + LocalDoDBToNomeBanco
-    (pLocalDoDB) + '.fdb';
-end;
-
-function TDBMSFirebird.LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
-begin
-  case pLocalDoDB of
-    ldbNaoIndicado:
-      Result := '';
-    ldbServidor:
-      Result := 'retag';
-    ldbTerminal:
-      Result := '';
+  Result := sServ + ':' + Result;
   end;
-end;
+
+  function TDBMSFirebird.LocalDoDBToNomeArq(pLocalDoDB: TLocalDoDB): string;
+  begin
+  Result := FSisConfig.PastaProduto + 'dados\' + LocalDoDBToNomeBanco
+  (pLocalDoDB) + '.fdb';
+  end;
+
+  function TDBMSFirebird.LocalDoDBToNomeBanco(pLocalDoDB: TLocalDoDB): string;
+  begin
+  case pLocalDoDB of
+  ldbNaoIndicado:
+  Result := '';
+  ldbServidor:
+  Result := 'retag';
+  ldbTerminal:
+  Result := '';
+  end;
+  end;
 }
 procedure TDBMSFirebird.PeguePaths(pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   pProcessLog.PegueLocal('TDBMSFirebird.PeguePaths');
   try
-  pProcessLog.RegistreLog('inicio');
+    pProcessLog.RegistreLog('inicio');
 
-  FFirebirdPath := GetFirebirdExePath(FSisConfig.WinVersionInfo,
-    pProcessLog, pOutput);
-  pProcessLog.RegistreLog('FFirebirdPath=' + FFirebirdPath);
+    FFirebirdPath := GetFirebirdExePath(FSisConfig.WinVersionInfo,
+      pProcessLog, pOutput);
+    pProcessLog.RegistreLog('FFirebirdPath=' + FFirebirdPath);
 
-  FIsqlExe := FFirebirdPath + 'ISQL.exe';
-  pProcessLog.RegistreLog('FIsqlExe=' + FIsqlExe);
+    FIsqlExe := FFirebirdPath + 'ISQL.exe';
+    pProcessLog.RegistreLog('FIsqlExe=' + FIsqlExe);
   finally
     pProcessLog.RetorneLocal;
   end;

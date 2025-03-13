@@ -109,7 +109,6 @@ type
     FSisConfig: ISisConfig;
     FUsuarioAdmin: IUsuario;
     FLoja: ISisLoja;
-    FTerminalDBI: ITerminalDBI;
     FConfigPergTeste: TConfigPergTeste;
 
     LocalMaqFrame: TMaqNomeEdFrame;
@@ -138,7 +137,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
       pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList;
-      pAppObj: IAppObj; pTerminalDBI: ITerminalDBI); reintroduce;
+      pAppObj: IAppObj); reintroduce;
   end;
 
 var
@@ -151,7 +150,8 @@ implementation
 uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
   Sis.Types.Utils_u, App.DB.utils, Sis.Types.strings_u, Sis.DB.DBTypes,
   Sis.UI.Constants, App.UI.Config.Constants, Sis.UI.IO.Files,
-  Sis.Terminal.Factory_u, App.Config.Ambi.Factory_u, App.AppInfo.Types;
+  Sis.Terminal.Factory_u, App.Config.Ambi.Factory_u, App.AppInfo.Types,
+  Sis.Terminal.Utils_u;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -299,11 +299,10 @@ end;
 
 constructor TConfigPergForm.Create(AOwner: TComponent; pSisConfig: ISisConfig;
   pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pTerminalList: ITerminalList;
-  pAppObj: IAppObj; pTerminalDBI: ITerminalDBI);
+  pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FTerminalList := pTerminalList;
-  FTerminalDBI := pTerminalDBI;
 
   PosCol1 := Point(7, 3);
   PosCol2 := Point(COL_2_X, 3);
@@ -678,7 +677,9 @@ begin
     begin
       Terminal := TerminalCreate;
       FTerminalList.Add(Terminal);
-      FTerminalDBI.DataSetToTerminal(Tab, Terminal, FAppObj.AppInfo.PastaDados, AtividadeEconomicaSisDescr[FAppObj.AppInfo.AtividadeEconomicaSis]);
+      Sis.Terminal.Utils_u.DataSetToTerminal(Tab, Terminal,
+        FAppObj.AppInfo.PastaDados, AtividadeEconomicaSisDescr
+        [FAppObj.AppInfo.AtividadeEconomicaSis]);
       Tab.Next;
     end;
   finally

@@ -112,7 +112,7 @@ begin
   inherited;
   BuscarRecente;
 
-  TitleBarCaptionLabel.Caption := 'SESSÃO DE CAIXA';
+  TitleBarCaptionLabel.Caption := 'Rotinas de Caixa';
   TitleBarCaptionLabel.StyleElements := [];
   TitleBarCaptionLabel.Font.Color := clWhite;
   // AlteracaoTextoLabel.Parent := FundoPanel;
@@ -221,13 +221,13 @@ begin
   inherited;
   if FCaixaSessao.Id = 0 then
   begin
-    ErroOutput.Exibir('Não há Sessão de Caixa iniciada');
+    ErroOutput.Exibir('Não há Caixa Aberto');
     exit;
   end;
   if SessFDMemTable.IsEmpty then
   begin
     bResultado :=
-      PergBool('Ainda não há registros nesta Sessão. Deseja imprimir mesmo assim?');
+      PergBool('Ainda não há registros nesta Abertura de Caixa. Deseja imprimir mesmo assim?');
     if not bResultado then
       exit;
   end;
@@ -254,7 +254,7 @@ begin
       s := 'Sem registros de caixa';
       exit;
     end;
-    s := 'Sessão: ' + c.getcod //
+    s := 'Abertura: ' + c.getcod //
       + ' - Operador: ' + c.LogUsuario.NomeExib //
       + ' - Aberto em: ' + FormatDateTime('dd/mm/yy hh:nn:ss', c.AbertoEm) //
       ;

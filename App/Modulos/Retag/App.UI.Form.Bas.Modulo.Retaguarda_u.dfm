@@ -2,6 +2,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
   ClientWidth = 592
+  StyleElements = [seFont, seClient, seBorder]
   OnDestroy = FormDestroy
   ExplicitWidth = 592
   ExplicitHeight = 458
@@ -30,7 +31,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = AcessoTabSheet
+      ActivePage = FinTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -110,6 +111,13 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Left = 0
             Top = 0
             Action = FinanceiroPagamentoFormaAction
+            AutoSize = True
+          end
+          object ToolButton11: TToolButton
+            Left = 130
+            Top = 0
+            Action = FinanceiroDespesaTipoAction
+            AutoSize = True
           end
         end
       end
@@ -221,17 +229,29 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
   end
   inherited BasePanel: TPanel
-    Top = 433
+    Top = 429
     Width = 592
     TabOrder = 2
-    ExplicitTop = 433
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 429
     ExplicitWidth = 592
+    inherited StatusPanel1: TPanel
+      StyleElements = [seFont, seClient, seBorder]
+      inherited StatusLabel1: TLabel
+        StyleElements = [seFont, seClient, seBorder]
+      end
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
+        StyleElements = [seFont, seClient, seBorder]
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
     Top = 95
     Width = 592
-    Height = 338
+    Height = 334
     Align = alClient
     TabOrder = 3
   end
@@ -352,6 +372,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object FinanceiroPagamentoFormaAction: TAction
       Category = 'Financeiro'
       Caption = 'Formas de Pagamento'
+      Hint = 'Formas de Pagamento'
       OnExecute = FinanceiroPagamentoFormaActionExecute
     end
     object RetagAcessoFuncAction: TAction
@@ -372,7 +393,14 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstVenClienteAction: TAction
       Category = 'Estoque'
       Caption = 'Clientes'
+      Hint = 'Clientes'
       OnExecute = RetagEstVenClienteActionExecute
+    end
+    object FinanceiroDespesaTipoAction: TAction
+      Category = 'Financeiro'
+      Caption = 'Tipos de Despesa'
+      Hint = 'Tipos de Despesa'
+      OnExecute = FinanceiroDespesaTipoActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

@@ -1,70 +1,74 @@
 inherited ProdEdForm: TProdEdForm
   Caption = 'ProdEdForm'
   ClientHeight = 469
-  ClientWidth = 770
-  ExplicitWidth = 782
-  ExplicitHeight = 507
+  ClientWidth = 784
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitLeft = -13
+  ExplicitWidth = 800
+  ExplicitHeight = 508
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 412
-    Width = 770
+    Width = 784
     ExplicitTop = 412
   end
   inherited ObjetivoLabel: TLabel
     Left = 0
     Top = 0
-    Width = 770
+    Width = 784
     Align = alTop
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitLeft = 0
     ExplicitTop = 0
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 397
-    Width = 770
+    Width = 784
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 397
   end
   inherited BasePanel: TPanel
     Top = 432
-    Width = 770
-    ExplicitTop = 431
-    ExplicitWidth = 766
+    Width = 784
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 432
+    ExplicitWidth = 770
     DesignSize = (
-      770
+      784
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 215
-      ExplicitLeft = 211
+      Left = 229
+      ExplicitLeft = 215
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 328
-      ExplicitLeft = 324
+      Left = 342
+      ExplicitLeft = 328
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 408
-      ExplicitLeft = 404
+      Left = 422
+      ExplicitLeft = 408
     end
   end
   object MeioPanel: TPanel [4]
     Left = 0
     Top = 15
-    Width = 770
+    Width = 784
     Height = 382
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 766
-    ExplicitHeight = 381
+    ExplicitWidth = 770
     object ComunsPanel: TPanel
       Left = 0
       Top = 0
-      Width = 770
+      Width = 784
       Height = 407
       Align = alTop
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 766
+      ExplicitWidth = 770
     end
   end
   inherited ShowTimer_BasForm: TTimer

@@ -19,8 +19,7 @@ function AppAtualizaVersaoCreate(pAppInfo: IAppInfo; pOutput: IOutput;
 
 function SisConfigGarantirCreate(pAppObj: IAppObj; pSisConfig: ISisConfig;
   pUsuarioAdmin: IUsuario; pLoja: IAppLoja; pOutput: IOutput;
-  pProcessLog: IProcessLog; pTerminalList: ITerminalList;
-  pTerminalDBI: ITerminalDBI): IAppSisConfigGarantirXML;
+  pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 
 function AppTestesConfigCreate(pProcessLog: IProcessLog = nil;
   pOutput: IOutput = nil): IAppTestesConfig;
@@ -52,11 +51,10 @@ end;
 
 function SisConfigGarantirCreate(pAppObj: IAppObj; pSisConfig: ISisConfig;
   pUsuarioAdmin: IUsuario; pLoja: IAppLoja; pOutput: IOutput;
-  pProcessLog: IProcessLog; pTerminalList: ITerminalList;
-  pTerminalDBI: ITerminalDBI): IAppSisConfigGarantirXML;
+  pProcessLog: IProcessLog; pTerminalList: ITerminalList): IAppSisConfigGarantirXML;
 begin
   Result := TAppSisConfigGarantirXML.Create(pAppObj, pSisConfig, pUsuarioAdmin,
-    pLoja, pOutput, pProcessLog, pTerminalList, pTerminalDBI);
+    pLoja, pOutput, pProcessLog, pTerminalList);
 end;
 
 function AppTestesConfigCreate(pProcessLog: IProcessLog = nil;

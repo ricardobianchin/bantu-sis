@@ -59,6 +59,25 @@ begin
 
   s := 'R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
   PegueLinha(CenterStr(s, NCols));
+
+  if FCxOperacaoEnt.CxOperacaoTipo.Id = cxopSangria then
+  begin
+    PegueLinha('');
+    PegueLinha('');
+    PegueLinha('');
+    s := StringOfChar('_', 26);
+    PegueLinha(CenterStr(s, NCols));
+    s := 'OP: ' + Usuario.NomeExib;
+    PegueLinha(CenterStr(s, NCols));
+
+    PegueLinha('');
+    PegueLinha('');
+    PegueLinha('');
+    s := StringOfChar('_', 26);
+    PegueLinha(CenterStr(s, NCols));
+    s := 'RESPONSAVEL';
+    PegueLinha(CenterStr(s, NCols));
+  end;
 //  PegueLinha('');
 end;
 

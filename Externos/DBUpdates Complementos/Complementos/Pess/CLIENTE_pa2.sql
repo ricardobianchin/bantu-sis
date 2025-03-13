@@ -1,0 +1,154 @@
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\CLIENTE_pa2.sql";
+*/
+DROP PACKAGE CLIENTE_PA;
+SET TERM ^;
+CREATE OR ALTER PACKAGE CLIENTE_PA
+AS
+BEGIN
+  PROCEDURE GARANTIR
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    
+    NOME VARCHAR(60),
+    NOME_FANTASIA VARCHAR(60),
+    APELIDO VARCHAR(20),
+    
+    GENERO_ID CHAR(1),
+    ESTADO_CIVIL_ID CHAR(1),
+    
+    C VARCHAR(15),
+    I VARCHAR(15),
+    M VARCHAR(15),
+    M_UF CHAR(2),
+    
+    EMAIL VARCHAR(50),
+    DT_NASC DATE,
+    ATIVO BOOLEAN,
+    
+    PESSOA_ID INTEGER,
+
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(7),
+    
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS_GRANDE_DOM
+  )
+  RETURNS
+  (
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID_RET ID_SHORT_DOM,
+    PESSOA_ID_RET ID_DOM
+  );
+END^
+
+---------------------------
+---    BODY
+---------------------------
+
+RECREATE PACKAGE BODY CLIENTE_PA
+AS
+BEGIN
+  -- CLIENTE_PA.GARANTIR IMP
+  PROCEDURE GARANTIR
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    
+    NOME VARCHAR(60),
+    NOME_FANTASIA VARCHAR(60),
+    APELIDO VARCHAR(20),
+    
+    GENERO_ID CHAR(1),
+    ESTADO_CIVIL_ID CHAR(1),
+    
+    C VARCHAR(15),
+    I VARCHAR(15),
+    M VARCHAR(15),
+    M_UF CHAR(2),
+    
+    EMAIL VARCHAR(50),
+    DT_NASC DATE,
+    ATIVO BOOLEAN,
+    
+    PESSOA_ID INTEGER,
+
+    LOGRADOURO        VARCHAR(70),
+    NUMERO            NOME_DOM,
+    COMPLEMENTO       NOME_DOM,
+    BAIRRO            NOME_DOM,
+    
+    UF_SIGLA          CHAR(2),
+    CEP               CHAR(8),
+    MUNICIPIO_IBGE_ID CHAR(7),
+    
+    DDD               CHAR(2),
+    FONE1             NOME_CURTO_DOM,
+    FONE2             NOME_CURTO_DOM,
+    FONE3             NOME_CURTO_DOM,
+    
+    CONTATO           NOME_DOM,
+    REFERENCIA        OBS_GRANDE_DOM
+  )
+  RETURNS
+  (
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID_RET ID_SHORT_DOM,
+    PESSOA_ID_RET ID_DOM
+  )
+  AS
+  BEGIN
+    -- CLIENTE_PA.GARANTIR COD
+    SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET
+	FROM PESSOA_PA.GARANTIR(
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :NOME,
+      :NOME_FANTASIA,
+      :APELIDO,
+      :GENERO_ID,
+      :ESTADO_CIVIL_ID,
+      :C,
+      :I,
+      :M,
+      :M_UF,
+      :EMAIL,
+      :DT_NASC,
+      :ATIVO,
+      :PESSOA_ID,
+      :LOGRADOURO,
+      :NUMERO,
+      :COMPLEMENTO,
+      :BAIRRO,
+      :UF_SIGLA,
+      :CEP,
+      :MUNICIPIO_IBGE_ID,
+      :DDD,
+      :FONE1,
+      :FONE2,
+      :FONE3,
+      :CONTATO,
+      :REFERENCIA
+    )
+    INTO :LOJA_ID_RET, :TERMINAL_ID_RET, :PESSOA_ID_RET;
+
+    UPDATE OR INSERT INTO CLIENTE (LOJA_ID, TERMINAL_ID, PESSOA_ID)
+    VALUES (:LOJA_ID_RET, :TERMINAL_ID_RET, :PESSOA_ID_RET)
+    MATCHING (LOJA_ID, TERMINAL_ID, PESSOA_ID);
+     
+    SUSPEND;
+  END
+END^
+SET TERM ;^

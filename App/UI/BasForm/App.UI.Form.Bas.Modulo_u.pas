@@ -105,7 +105,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory;
+uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory, Sis.UI.IO.Input.Perg;
 
 { TModuloBasForm }
 
@@ -119,7 +119,8 @@ function TModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
   Result := TAppMenuForm.Create(Self);
 //  Result.PegarAction(OcultarAction_ModuloBasForm, [vkF3]);
-  Result.PegarAction(FecharAction_ModuloBasForm, [vkF4]);
+
+//  Result.PegarAction(FecharAction_ModuloBasForm, [vkF4]);
 end;
 
 constructor TModuloBasForm.Create(AOwner: TComponent;
@@ -320,9 +321,10 @@ begin
   inherited;
   sMens := 'Deseja finalizar o módulo ' +
     FModuloSistema.TipoOpcaoSisModuloDescr + '?';
-  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
-    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
-  Result := IsPositiveResult(Resultado);
+  Result := PergBool(sMens);
+//  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
+//    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+//  Result := IsPositiveResult(Resultado);
 end;
 
 procedure TModuloBasForm.SetTitleBarText(Value: string);

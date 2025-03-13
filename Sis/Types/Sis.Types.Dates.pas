@@ -227,7 +227,6 @@ end;
 
 function NowSQLFirebird: string;
 begin
-  // sleep(10);
   Result := DataHoraSQLFirebird(now);
 end;
 

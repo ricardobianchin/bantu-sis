@@ -51,7 +51,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory;
+uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory, Sis.UI.IO.Input.Perg;
 
 { TDBGridFrame1 }
 
@@ -116,10 +116,14 @@ begin
     'O Banco de Dados NÃO será excluído. Apenas não será usado pelo sistema até que seja reinserido nesta lista'#13#10
     + 'Deseja excluir?';
 
-  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
-    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+//  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
+//    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+//  bAceitou := IsPositiveResult(Resultado);
+//  if not bAceitou then
+//    exit;
 
-  bAceitou := IsPositiveResult(Resultado);
+
+  bAceitou := PergBool(sMens);
   if not bAceitou then
     exit;
 
@@ -185,8 +189,8 @@ begin
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
   Tab.FieldByName('APELIDO').AsString := 'TECIDOS';
-  Tab.FieldByName('NOME_NA_REDE').AsString := 'DELPHI-BTU';
-  Tab.FieldByName('IP').AsString := '192.168.1.144';
+  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESKTOP-EJFTSHR';
+  Tab.FieldByName('IP').AsString := '192.168.1.65';
 
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
   Tab.FieldByName('NF_SERIE').AsInteger := 0;

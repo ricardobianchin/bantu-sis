@@ -30,8 +30,7 @@ type
     PagSomenteDinheiroToolButton: TToolButton;
     PagamentoToolButton: TToolButton;
     ToolButton2: TToolButton;
-    ToolButton1: TToolButton;
-    ToolButton3: TToolButton;
+    CPFToolButton: TToolButton;
     GavetaToolButton: TToolButton;
     procedure CaretTimerTimer(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
@@ -268,6 +267,11 @@ begin
     Key := 0;
     // FecharAction_ModuloBasForm.Execute;
     Exit;
+  end
+  else if (Key = VK_F5) and (Shift = [])  then
+  begin
+    AcioneGaveta;
+    Exit;
   end;
 
   case Key of
@@ -326,12 +330,6 @@ begin
 
     PDVVenda.Cancelado := True;
     PDVControlador.VaParaFinaliza;
-    Exit;
-  end
-  else if CharInSet(Key, ['G', 'g']) then
-  begin
-    Key := #0;
-    AcioneGaveta;
     Exit;
   end
   else if CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',

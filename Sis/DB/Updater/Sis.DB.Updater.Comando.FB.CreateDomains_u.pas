@@ -208,15 +208,6 @@ begin
     end;
   end;
 
-  (* sLinAtual := StrSemEspacoDuplo(sLinha);
-    if LeftStr(sLinAtual, 13) = 'CREATE DOMAIN' then
-    begin
-    aPalavras := sLinha.Split([' ']);
-    sDomainName := aPalavras[2];
-    FDomainNamesSL.Add(sDomainName);
-    end;
-  *)
-
   ForcarUmComandoPorLinha;
 end;
 

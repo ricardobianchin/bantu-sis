@@ -48,7 +48,6 @@ var
   bCamposOk: boolean;
   s1, s2: string;
 begin
-  //Sleep(200);
   Result := DBUpdaterOperations.GetUniqueKeyInfo(FsKeyName, sCampos);
 
   if not Result then

@@ -88,7 +88,7 @@ begin
   iQtdVoltas := 0;
   iQtdExib := 0;
   repeat
-    sleep(100);
+    sleep(150);
     if not Executando then
       break;
     iMod := iQtdVoltas mod pQtdIntervals;

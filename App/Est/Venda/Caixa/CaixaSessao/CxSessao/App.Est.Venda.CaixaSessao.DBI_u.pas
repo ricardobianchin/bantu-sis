@@ -10,7 +10,7 @@ uses Sis.DBI_u, App.Est.Venda.CaixaSessao.DBI, Sis.DB.DBTypes, Sis.Usuario,
 
 type
   /// <summary>
-  /// TCaixaSessaoDBI é uma classe que implementa as funcionalidades de sessão de caixa.
+  /// TCaixaSessaoDBI é uma classe que implementa as funcionalidades de Abertura de Caixa.
   /// </summary>
   TCaixaSessaoDBI = class(TDBI, ICaixaSessaoDBI)
   private

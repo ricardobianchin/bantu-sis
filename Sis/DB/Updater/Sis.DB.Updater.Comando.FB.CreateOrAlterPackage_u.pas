@@ -131,7 +131,10 @@ begin
     inc(piLin);
     sLinha := pSL[piLin];
     if Trim(sLinha) = '' then
-      Continue;
+    begin
+      if not bPegandoCodigo then
+        Continue;
+    end;
 
     if bPegandoCodigo then
     begin

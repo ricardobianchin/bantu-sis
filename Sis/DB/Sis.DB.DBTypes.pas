@@ -92,7 +92,7 @@ type
     // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string; pNomeBanco: string;
       pPastaComandos: string; pProcessLog: IProcessLog;
-      pOutput: IOutput); overload;
+      pOutput: IOutput; pJanelaVisivel: boolean = False); overload;
 
     function GetVendorHome: string;
     property VendorHome: string read GetVendorHome;

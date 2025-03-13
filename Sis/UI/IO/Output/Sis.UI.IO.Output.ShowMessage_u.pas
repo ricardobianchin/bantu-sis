@@ -32,7 +32,7 @@ end;
 procedure TShowMessageOutput.Exibir(pFrase: string);
 begin
 //  ShowMessage(pFrase);
-//  Application.MessageBox(PWideChar(pFrase), 'Sessão de Caixa', 0);
+//  Application.MessageBox(PWideChar(pFrase), 'Abertura de Caixa', 0);
   ExibirPausa(pFrase, TMsgDlgType.mtInformation);
 end;
 

@@ -4,7 +4,7 @@ interface
 
 uses App.SisConfig.Garantir, Sis.Sis.Executavel_u, Sis.Config.SisConfig,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Usuario,
-  Sis.Loja, Sis.TerminalList, Sis.Terminal.DBI;
+  Sis.Loja, Sis.TerminalList;
 
 type
   TAppSisConfigGarantirXML = class(TExecutavel, IAppSisConfigGarantirXML)
@@ -18,7 +18,6 @@ type
     FUsuarioAdmin: IUsuario;
     FLoja: ISisLoja;
     FTerminalList: ITerminalList;
-    FTerminalDBI: ITerminalDBI;
 
     function ArqXmlExiste: boolean;
     procedure CopieInicial;
@@ -29,8 +28,7 @@ type
     function Execute: boolean; override;
     constructor Create(pAppObj: IAppObj; pSisConfig: ISisConfig;
       pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pOutput: IOutput;
-      pProcessLog: IProcessLog; pTerminalList: ITerminalList;
-      pTerminalDBI: ITerminalDBI);
+      pProcessLog: IProcessLog; pTerminalList: ITerminalList);
   end;
 
 implementation
@@ -51,9 +49,8 @@ function TAppSisConfigGarantirXML.ConfigEdit: boolean;
 var
   r: tmodalresult;
 begin
-
   ConfigPergForm := TConfigPergForm.Create(nil, FSisConfig, FUsuarioAdmin,
-    FLoja, FTerminalList, FAppObj, FTerminalDBI);
+    FLoja, FTerminalList, FAppObj);
   try
     r := ConfigPergForm.ShowModal;
     Result := IsPositiveResult(r);
@@ -104,8 +101,7 @@ end;
 
 constructor TAppSisConfigGarantirXML.Create(pAppObj: IAppObj;
   pSisConfig: ISisConfig; pUsuarioAdmin: IUsuario; pLoja: ISisLoja;
-  pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList;
-  pTerminalDBI: ITerminalDBI);
+  pOutput: IOutput; pProcessLog: IProcessLog; pTerminalList: ITerminalList);
 begin
   inherited Create(pOutput, pProcessLog);
   FAppObj := pAppObj;
@@ -113,7 +109,6 @@ begin
   FLoja := pLoja;
   FUsuarioAdmin := pUsuarioAdmin;
   FTerminalList := pTerminalList;
-  FTerminalDBI := pTerminalDBI;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');
   FNomeArqXML := FAppObj.AppInfo.PastaConfigs +

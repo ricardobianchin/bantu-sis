@@ -241,12 +241,10 @@ begin
 end;
 
 function TAppPessDataSetForm.DoInserir: boolean;
-var
-  Resultado: boolean;
 begin
-  Resultado := PergEd;
+  Result := PergEd;
 
-  if not Resultado then
+  if not Result then
     exit;
 
   FDMemTable.Append;

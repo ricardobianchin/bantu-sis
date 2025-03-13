@@ -7,13 +7,13 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
-  Vcl.StdCtrls, Sis.UI.Frame.Bas.Filtro.BuscaString_u,
-  App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
-  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Fabr.Ent;
+  Vcl.StdCtrls, Sis.UI.Frame.Bas.Filtro.BuscaString_u, Sis.Usuario,
+  Sis.UI.IO.Output, App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
+  Sis.UI.IO.Output.ProcessLog, App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Fabr.Ent,
+  Sis.UI.ImgDM, App.Ent.Ed, App.UI.TabSheet.DataSet.Types_u;
 
 type
   TRetagEstProdFabrDataSetForm = class(TTabSheetDataSetBasForm)
-    procedure FormCreate(Sender: TObject);
     procedure ExclAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
@@ -32,6 +32,11 @@ type
     procedure RecordToEnt; override;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -49,12 +54,12 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 procedure TRetagEstProdFabrDataSetForm.DoAlterar;
 var
-//  oFabrDBI: IEntDBI;
-//  oDBConnectionParams: TDBConnectionParams;
-//  oConn: IDBConnection;
+  // oFabrDBI: IEntDBI;
+  // oDBConnectionParams: TDBConnectionParams;
+  // oConn: IDBConnection;
   Resultado: boolean;
 begin
-  Resultado := ProdFabrPerg( Self, AppObj, EntEd, EntDBI{oFabrDBI});
+  Resultado := ProdFabrPerg(Self, AppObj, EntEd, EntDBI { oFabrDBI } );
   if not Resultado then
     exit;
 
@@ -64,8 +69,8 @@ begin
 end;
 
 procedure TRetagEstProdFabrDataSetForm.DoAtualizar(Sender: TObject);
-//var
-//  Resultado: boolean;
+// var
+// Resultado: boolean;
 begin
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
@@ -85,12 +90,22 @@ end;
 function TRetagEstProdFabrDataSetForm.DoInserir: boolean;
 begin
   inherited;
-  Result := ProdFabrPerg(Self, AppObj, EntEd, EntDBI {oFabrDBI});
+  Result := ProdFabrPerg(Self, AppObj, EntEd, EntDBI { oFabrDBI } );
 
   if not Result then
     exit;
 
   FDMemTable.InsertRecord([ProdFabrEnt.Id, ProdFabrEnt.Descr]);
+end;
+
+constructor TRetagEstProdFabrDataSetForm.Create(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
+begin
+  inherited;
+  FFiltroStringFrame := nil;
 end;
 
 procedure TRetagEstProdFabrDataSetForm.CrieFiltroFrame;
@@ -104,8 +119,7 @@ begin
 
   // FFiltroStringFrame
   oToolB := TitToolBar1_BasTabSheet;
-  FFiltroStringFrame := TFiltroStringFrame.Create(oToolB,
-    DoAtualizar);
+  FFiltroStringFrame := TFiltroStringFrame.Create(oToolB, DoAtualizar);
   FFiltroStringFrame.Parent := oToolB;
 
   iIndexUltimoBotao := oToolB.ButtonCount - 1;
@@ -152,17 +166,12 @@ begin
   // end;
 end;
 
-procedure TRetagEstProdFabrDataSetForm.FormCreate(Sender: TObject);
-begin
-  inherited;
-  FFiltroStringFrame := nil;
-end;
-
 function TRetagEstProdFabrDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.fabr.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
+    'App\Retag\Est\tabview.est.prod.fabr.csv';
 
   Result := sNomeArq;
 end;

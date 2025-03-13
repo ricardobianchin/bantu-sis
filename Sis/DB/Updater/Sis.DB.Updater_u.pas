@@ -189,7 +189,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
   Sis.Types.Integers, Sis.Types.TStrings_u, Sis.Types.strings.Crypt_u,
   Sis.Win.Utils_u, Sis.ui.io.Files, Sis.Win.Execute, Sis.Win.Factory,
   Sis.DB.Updater.Diretivas_u, Sis.Types.Bool_u, Sis.Terminal.Factory_u,
-  Sis.ui.io.Factory;
+  Sis.ui.io.Factory, System.DateUtils;
 
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
@@ -412,6 +412,7 @@ begin
           FDtHExec := Now;
           RemoveExcedentes(FLinhasSL);
           LinhasUppercase(FLinhasSL);
+          // Sis.Types.TStrings_u.SalveSL(FLinhasSL, 'D:\Doc\linhas.txt');
           // teste
           // FLinhasSL.LoadFromFile('C:\Pr\app\bantu\bantu-sis\Exe\Tmp\Testes\Teste Diretivas\origem com diretivas.txt');
           //
@@ -706,6 +707,8 @@ var
   oComando: IComando;
   sComandosSql: string;
   i, iQtdComandos: integer;
+//  Ti, Tf: TDateTime;
+//  s: string;
 begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosGetSql');
   try
@@ -716,7 +719,10 @@ begin
     for i := 0 to FComandoList.Count - 1 do
     begin
       oComando := FComandoList[i];
+//      Ti := Now;
       sComandosSql := oComando.GetAsSql;
+//      Tf := Now;
+//      s := FormatFloat('###0.000', SecondSpan(Ti, Tf));
       if sComandosSql <> '' then
       begin
         inc(iQtdComandos);
@@ -746,7 +752,11 @@ begin
     for i := 0 to FComandoList.Count - 1 do
     begin
       oComando := FComandoList[i];
+{$IFDEF DEBUG}
+      Resultado := True;
+{$ELSE}
       Resultado := oComando.Funcionou;
+{$ENDIF}
       if not Resultado then
       begin
         sMensagemErro := 'Erro DB UPDATER, vr ' + iVersao.ToString + ', ' +
@@ -782,7 +792,7 @@ begin
     sPastaComandos := FPastaProduto + 'Comandos\Updater\';
     FOutput.Exibir(FNomeArqBanco + ' ' + sAssunto);
     dbms.ExecInterative(sAssunto, sSql, sNomeBanco, sPastaComandos, FProcessLog,
-      FMudoOutput);
+      FMudoOutput, False);
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -1071,7 +1081,6 @@ begin
   FProcessLog.PegueLocal('TDBUpdater.RemoveExcedentes');
   try
     sLog := 'TDBUpdater.RemoveExcedentes,' + pSL.Count.ToString + ' linhas,';
-
     SLRemoveCommentsSingleLine(pSL);
     SLRemoveCommentsMultiLine(pSL);
     SLDeleteLinhasForaDe(pSL, DBATUALIZ_INI_CHAVE, DBATUALIZ_FIM_CHAVE);

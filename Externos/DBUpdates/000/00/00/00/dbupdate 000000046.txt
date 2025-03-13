@@ -22,7 +22,7 @@ C;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das mat
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_PONTO_ALVO=SERVIDOR
-DBATUALIZ_ASSUNTO=PROD, PROD_NATU
+DBATUALIZ_ASSUNTO=ESTOQUE, PROD, PROD_NATU
 DBATUALIZ_OBJETIVO=POPULAR PROD_NATU
 DBATUALIZ_OBS=
 {se usa_natu=S}

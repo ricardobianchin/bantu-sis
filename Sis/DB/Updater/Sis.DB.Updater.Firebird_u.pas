@@ -95,6 +95,7 @@ begin
   try
     ProcessLog.RegistreLog('vai testar se existe DBConnectionParams.Arq=' +
       DBConnectionParams.Arq);
+
     Resultado := FileExists(DBConnectionParams.Arq);
 
     if Resultado then
@@ -139,7 +140,9 @@ begin
     sNomeArqInstDados := sPastaInstDados + sNomeArqInstDados + '.fdb';
 
     ProcessLog.RegistreLog('vai testar se existe ' + sNomeArqInstDados);
+
     Resultado := FileExists(sNomeArqInstDados);
+
     if not Resultado then
     begin
       ProcessLog.RegistreLog('Nao existia arquivo original. vai terminar');
