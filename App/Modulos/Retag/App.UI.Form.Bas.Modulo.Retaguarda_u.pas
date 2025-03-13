@@ -116,6 +116,8 @@ type
     PerfilToolButton: TToolButton;
     ToolButton8: TToolButton;
     RetagEstVenClienteAction: TAction;
+    FinanceiroDespesaTipoAction: TAction;
+    ToolButton11: TToolButton;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -141,6 +143,7 @@ type
     procedure RetagAcessoFuncActionExecute(Sender: TObject);
     procedure RetagAcessoPerfilActionExecute(Sender: TObject);
     procedure RetagEstVenClienteActionExecute(Sender: TObject);
+    procedure FinanceiroDespesaTipoActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -167,6 +170,7 @@ type
 
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
+    FDespTipoDataSetFormCreator: IFormCreator;
 
     // abre form
     // tab crie
@@ -301,6 +305,11 @@ begin
   FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
+
+  // fin desp tipo
+  FDespTipoDataSetFormCreator := DespTipoDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppObj: IAppObj;
@@ -379,6 +388,13 @@ begin
 
   FFormClassNamesSL := TStringList.Create;
   FContador := ContadorCreate;
+end;
+
+procedure TRetaguardaModuloBasForm.FinanceiroDespesaTipoActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FDespTipoDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.FinanceiroPagamentoFormaActionExecute
