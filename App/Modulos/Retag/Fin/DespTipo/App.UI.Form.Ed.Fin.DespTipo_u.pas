@@ -38,8 +38,9 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, App.Retag.Est.Prod.Fabr.Ent_u, Sis.Types.Integers,
-  Sis.Types.Variants;
+uses Sis.UI.Controls.TLabeledEdit, Sis.Types.strings_u, Sis.Types.Integers,
+  Sis.Types.Variants, Data.DB;
+
 
 procedure TDespTipoEdForm.AjusteControles;
 var
@@ -128,7 +129,6 @@ end;
 
 function TDespTipoEdForm.GetDespTipoEnt: IDespTipoEnt;
 begin
-cast
   Result := EntEdCastToDespTipoEnt(EntEd);
 end;
 
@@ -137,8 +137,8 @@ var
   sFormat, sTit, sNom, sVal: string;
 begin
   sTit := EntEd.StateAsTitulo;
-  sNom := DescTipoEnt.NomeEnt;
-  sVal := DescTipoEnt.Descr;
+  sNom := DespTipoEnt.NomeEnt;
+  sVal := DespTipoEnt.Descr;
 
   sFormat := '%s %s: %s';
   Result := Format(sFormat, [sTit, sNom, sVal]);

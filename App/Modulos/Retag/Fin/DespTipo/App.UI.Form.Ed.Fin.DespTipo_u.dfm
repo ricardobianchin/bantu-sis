@@ -8,16 +8,7 @@ inherited DespTipoEdForm: TDespTipoEdForm
   inherited AlteracaoTextoLabel: TLabel
     StyleElements = [seFont, seClient, seBorder]
   end
-  inherited BasePanel: TPanel
-    StyleElements = [seFont, seClient, seBorder]
-    inherited OkBitBtn_DiagBtn: TBitBtn
-      Glyph.Data = {00000000}
-    end
-    inherited CancelBitBtn_DiagBtn: TBitBtn
-      Glyph.Data = {00000000}
-    end
-  end
-  object LabeledEdit1: TLabeledEdit [4]
+  object LabeledEdit1: TLabeledEdit [3]
     Left = 8
     Top = 48
     Width = 260
@@ -30,5 +21,8 @@ inherited DespTipoEdForm: TDespTipoEdForm
     Text = ''
     OnChange = LabeledEdit1Change
     OnKeyPress = LabeledEdit1KeyPress
+  end
+  inherited BasePanel: TPanel
+    StyleElements = [seFont, seClient, seBorder]
   end
 end
