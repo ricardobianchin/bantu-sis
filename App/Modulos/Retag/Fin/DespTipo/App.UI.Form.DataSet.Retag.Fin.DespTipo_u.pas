@@ -10,11 +10,11 @@ uses
   Vcl.StdCtrls, Sis.UI.Frame.Bas.Filtro.BuscaString_u, Sis.Usuario,
   Sis.UI.IO.Output, App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl,
   Sis.UI.IO.Output.ProcessLog, App.Ent.Ed.Id.Descr, Sis.UI.ImgDM,
-  App.Ent.Ed, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed.Id.Descr,
+  App.Ent.Ed, App.UI.TabSheet.DataSet.Types_u,
   App.Retag.Fin.DespTipo.Ent, App.Retag.Fin.Factory;
 
 type
-  TRetagEstDespTipoDataSetForm = class(TTabSheetDataSetBasForm)
+  TRetagFinDespTipoDataSetForm = class(TTabSheetDataSetBasForm)
   private
     { Private declarations }
     FFiltroStringFrame: TFiltroStringFrame;
@@ -39,19 +39,19 @@ type
   end;
 
 var
-  RetagEstDespTipoDataSetForm: TRetagEstDespTipoDataSetForm;
+  RetagFinDespTipoDataSetForm: TRetagFinDespTipoDataSetForm;
 
 implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
-  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
-  Sis.UI.Controls.TDBGrid, App.Retag.Fin.DespTipo.Ent_u;
+uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, Sis.DB.Factory, App.DB.Utils,
+  Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u, Sis.UI.Controls.TDBGrid,
+  App.Retag.Fin.DespTipo.Ent_u;
 
 { TRetagEstDespTipoDataSetForm }
 
-constructor TRetagEstDespTipoDataSetForm.Create(AOwner: TComponent;
+constructor TRetagFinDespTipoDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
@@ -61,7 +61,7 @@ begin
   FFiltroStringFrame := nil;
 end;
 
-procedure TRetagEstDespTipoDataSetForm.CrieFiltroFrame;
+procedure TRetagFinDespTipoDataSetForm.CrieFiltroFrame;
 var
   iIndexUltimoBotao: integer;
   l, w: integer;
@@ -88,7 +88,7 @@ begin
     FFiltroStringFrame.Left := 0;
 end;
 
-procedure TRetagEstDespTipoDataSetForm.DoAlterar;
+procedure TRetagFinDespTipoDataSetForm.DoAlterar;
 begin
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
@@ -105,7 +105,7 @@ begin
   end;
 end;
 
-procedure TRetagEstDespTipoDataSetForm.DoAtualizar(Sender: TObject);
+procedure TRetagFinDespTipoDataSetForm.DoAtualizar(Sender: TObject);
 begin
   FDMemTable.DisableControls;
   FDMemTable.BeginBatch;
@@ -122,7 +122,7 @@ begin
   end;
 end;
 
-function TRetagEstDespTipoDataSetForm.DoInserir: boolean;
+function TRetagFinDespTipoDataSetForm.DoInserir: boolean;
 begin
   inherited;
   Result := DespTipoPerg(Self, AppObj, EntEd, EntDBI { oFabrDBI } );
@@ -133,12 +133,12 @@ begin
   FDMemTable.InsertRecord([DespTipoEnt.Id, DespTipoEnt.Descr]);
 end;
 
-function TRetagEstDespTipoDataSetForm.GetDespTipoEnt: IDespTipoEnt;
+function TRetagFinDespTipoDataSetForm.GetDespTipoEnt: IDespTipoEnt;
 begin
   Result := EntEdCastToDespTipoEnt(EntEd);
 end;
 
-function TRetagEstDespTipoDataSetForm.GetNomeArqTabView: string;
+function TRetagFinDespTipoDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
@@ -148,14 +148,14 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TRetagEstDespTipoDataSetForm.RecordToEnt;
+procedure TRetagFinDespTipoDataSetForm.RecordToEnt;
 begin
   inherited;
   DespTipoEnt.Id := FDMemTable.Fields[0].AsInteger;
   DespTipoEnt.Descr := FDMemTable.Fields[1].AsString;
 end;
 
-procedure TRetagEstDespTipoDataSetForm.ToolBar1CrieBotoes;
+procedure TRetagFinDespTipoDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   CrieFiltroFrame;

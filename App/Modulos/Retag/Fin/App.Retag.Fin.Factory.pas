@@ -55,11 +55,10 @@ function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;
 //
 function DespTipoEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI): TEdBasForm;
-//
-// function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
-// pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
-// pPagFormaEdDBI: IPagFormaEdDBI): boolean;
-//
+
+function DespTipoPerg(AOwner: TComponent; pAppObj: IAppObj;
+  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI): boolean;
+
 /// / function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 //
 function DespTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
@@ -77,7 +76,8 @@ uses App.Fin.PagFormaTipo_u, App.Retag.Fin.PagForma.DBI_u,
   App.Retag.Fin.PagForma.Ent_u, App.UI.Form.DataSet.Retag.Fin.PagForma_u,
   App.UI.Form.Ed.Fin.PagForma_u, App.UI.FormCreator.DataSet_u,
   App.Retag.Fin.PagForma.Ed.DBI_u, App.Retag.Fin.DespTipo.Ent_u,
-  App.Retag.Fin.DespTipo.DBI_u, App.UI.Form.Ed.Fin.DespTipo_u;
+  App.Retag.Fin.DespTipo.DBI_u, App.UI.Form.Ed.Fin.DespTipo_u,
+  App.UI.Form.DataSet.Retag.Fin.DespTipo_u;
 
 function PagFormaTipoCreate: IPagFormaTipo;
 begin
@@ -178,18 +178,16 @@ function DespTipoEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
 begin
   Result := TDespTipoEdForm.Create(AOwner, pAppObj, pDespTipoEnt, pDespTipoDBI);
 end;
-//
-// function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
-// pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
-// pPagFormaEdDBI: IPagFormaEdDBI): boolean;
-// var
-// F: TEdBasForm;
-// begin
-// F := PagFormaEdFormCreate(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
-// pPagFormaEdDBI);
-// Result := F.Perg;
-// end;
-//
+
+function DespTipoPerg(AOwner: TComponent; pAppObj: IAppObj;
+  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := DespTipoEdFormCreate(AOwner, pAppObj, pDespTipoEnt, pDespTipoDBI);
+  Result := F.Perg;
+end;
+
 /// / function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 /// / begin
 /// / // Result := TDecoratorExclPagForma.Create(pPagForma);

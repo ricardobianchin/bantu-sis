@@ -1,5 +1,5 @@
-inherited RetagEstDespTipoDataSetForm: TRetagEstDespTipoDataSetForm
-  Caption = 'RetagEstDespTipoDataSetForm'
+inherited RetagFinDespTipoDataSetForm: TRetagFinDespTipoDataSetForm
+  Caption = 'RetagFinDespTipoDataSetForm'
   StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
