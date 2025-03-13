@@ -38,7 +38,8 @@ var
   sFormat: string;
   sBusca: string;
 begin
-  sFormat := 'select DESPESA_TIPO_ID, NOME from DESPESA_TIPO_PA.LISTA_GET(''%s'');';
+  sFormat := 'select DESPESA_TIPO_ID, DESCR' +
+    ' from DESPESA_TIPO_PA.LISTA_GET(''%s'');';
   sBusca := VarToString(pValues[0]);
   Result := Format(sFormat, [sBusca]);
 end;
@@ -56,7 +57,7 @@ var
   sFormat: string;
   sDescr: string;
 begin
-  sFormat := 'SELECT DESPESA_TIPO_ID FROM DESPESA_TIPO_PA.BYNOME_GET(''%s'');';
+  sFormat := 'SELECT DESPESA_TIPO_ID FROM DESPESA_TIPO_PA.BYDESCR_GET(''%s'');';
   sDescr := VarToString(pValuesArray[0]);
   Result := Format(sFormat, [sDescr]);
 end;

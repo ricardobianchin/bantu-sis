@@ -105,7 +105,6 @@ type
     FinTabSheet: TTabSheet;
     FinToolBar: TToolBar;
     PagamentoFormaToolButton: TToolButton;
-    FinanceiroPagamentoFormaAction: TAction;
     AcessoTabSheet: TTabSheet;
     AcessoToolBar: TToolBar;
     FuncToolButton: TToolButton;
@@ -116,8 +115,10 @@ type
     PerfilToolButton: TToolButton;
     ToolButton8: TToolButton;
     RetagEstVenClienteAction: TAction;
-    FinanceiroDespesaTipoAction: TAction;
     ToolButton11: TToolButton;
+
+    FinanceiroPagamentoFormaAction: TAction;
+    FinanceiroDespesaTipoAction: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -292,6 +293,9 @@ var
   oPagFormaTipo: IPagFormaTipo;
   oPagFormaEnt: IEntEd;
   oPagFormaDBI: IEntDBI;
+
+  oDespTipoEnt: IEntEd;
+  oDespTipoDBI: IEntDBI;
 begin
 
   // pPagFormaTipo: IPagFormaTipo
@@ -307,9 +311,12 @@ begin
     FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
 
   // fin desp tipo
+  oDespTipoEnt := RetagFinDespTipoEntCreate;
+  oDespTipoDBI := RetagFinDespTipoDBICreate(pDBConnection, oDespTipoEnt);
+
   FDespTipoDataSetFormCreator := DespTipoDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
+    FOutputNotify, oDespTipoEnt, oDespTipoDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppObj: IAppObj;

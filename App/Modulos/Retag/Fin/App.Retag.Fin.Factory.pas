@@ -47,8 +47,9 @@ function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
 function EntEdCastToDespTipoEnt(pEntEd: IEntEd): IDespTipoEnt;
 function EntDBICastToDespTipoDBI(pEntDBI: IEntDBI): IEntDBI;
 
-function RetagFinDespTipoEntCreate(pState: TDataSetState; pId: integer;
-  pDescr: string): IDespTipoEnt;
+function RetagFinDespTipoEntCreate
+  (pState: TDataSetState = TDataSetState.dsBrowse; pId: integer = 0;
+  pDescr: string = ''): IDespTipoEnt;
 
 function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;
   pDespTipoEnt: IEntEd): IEntDBI;
