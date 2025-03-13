@@ -741,6 +741,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.UI.Form.Ed.Fin.DespTipo_u.pas">
+            <Form>DespTipoEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

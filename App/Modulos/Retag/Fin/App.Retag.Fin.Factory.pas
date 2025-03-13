@@ -4,8 +4,8 @@ interface
 
 uses App.Fin.PagFormaTipo, App.Ent.Ed, App.Ent.DBI,
   Data.DB, Sis.DB.DBTypes, App.UI.Form.Bas.Ed_u, Vcl.StdCtrls, System.Classes,
-  Sis.Loja, Sis.Usuario, Sis.UI.IO.Output.ProcessLog, //
-  Sis.UI.IO.Output, Sis.UI.FormCreator, App.AppObj
+  Sis.Loja, Sis.Usuario, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
+  Sis.UI.FormCreator, App.AppObj, App.Ent.DBI_u
 
     , App.Retag.Fin.PagForma.Ent //
     , App.Retag.Fin.PagForma.Ed.DBI //
@@ -43,21 +43,19 @@ function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
 function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
 
 {$ENDREGION}
-
 {$REGION 'fin desp tipo'}
-
 function EntEdCastToDespTipoEnt(pEntEd: IEntEd): IDespTipoEnt;
 function EntDBICastToDespTipoDBI(pEntDBI: IEntDBI): IEntDBI;
 
-function RetagFinDespTipoEntCreate(pState: TDataSetState;
-  pId: integer; pDescr: string): IDespTipoEnt;
+function RetagFinDespTipoEntCreate(pState: TDataSetState; pId: integer;
+  pDescr: string): IDespTipoEnt;
 
- function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;
-   pDespTipoEnt: IEntEd): IEntDBI;
+function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;
+  pDespTipoEnt: IEntEd): IEntDBI;
 //
-// function PagFormaEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-// pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI)
-// : TEdBasForm;
+function DespTipoEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI)
+  : TEdBasForm;
 //
 // function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
 // pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
@@ -66,11 +64,11 @@ function RetagFinDespTipoEntCreate(pState: TDataSetState;
 /// / function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
 //
 function DespTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
-// function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
+// function DespTipoEdDBICreate(pDBConnection: IDBConnection): IEntDBI;
 
 {$ENDREGION}
 
@@ -152,7 +150,6 @@ begin
 end;
 
 {$ENDREGION}
-
 {$REGION 'fin desp tipo impl'}
 
 function EntEdCastToDespTipoEnt(pEntEd: IEntEd): IDespTipoEnt;
@@ -165,8 +162,8 @@ begin
   Result := TDespTipoDBI(pEntDBI);
 end;
 
-function RetagFinDespTipoEntCreate(pState: TDataSetState;
-  pId: integer; pDescr: string): IDespTipoEnt;
+function RetagFinDespTipoEntCreate(pState: TDataSetState; pId: integer;
+  pDescr: string): IDespTipoEnt;
 begin
   Result := TDespTipoEnt.Create(pState, pId, pDescr);
 end;
@@ -179,44 +176,43 @@ end;
 
 
 
-//function PagFormaEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-//  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI; pPagFormaEdDBI: IPagFormaEdDBI)
-//  : TEdBasForm;
-//begin
-//  Result := TPagFormaEdForm.Create(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
-//    pPagFormaEdDBI);
-//end;
+function DespTipoEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pDespTipoEnt: IEntEd; pDespTipoDBI: IEntDBI)
+  : TEdBasForm;
+begin
+  Result := TDespTipoEdForm.Create(AOwner, pAppObj, pDespTipoEnt, pDespTipoDBI);
+end;
 //
-//function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
-//  pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
-//  pPagFormaEdDBI: IPagFormaEdDBI): boolean;
-//var
-//  F: TEdBasForm;
-//begin
-//  F := PagFormaEdFormCreate(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
-//    pPagFormaEdDBI);
-//  Result := F.Perg;
-//end;
+// function PagFormaPerg(AOwner: TComponent; pAppObj: IAppObj;
+// pPagFormaEnt: IEntEd; pPagFormaDBI: IEntDBI;
+// pPagFormaEdDBI: IPagFormaEdDBI): boolean;
+// var
+// F: TEdBasForm;
+// begin
+// F := PagFormaEdFormCreate(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
+// pPagFormaEdDBI);
+// Result := F.Perg;
+// end;
 //
-//// function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
-//// begin
-//// // Result := TDecoratorExclPagForma.Create(pPagForma);
-//// end;
+/// / function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
+/// / begin
+/// / // Result := TDecoratorExclPagForma.Create(pPagForma);
+/// / end;
 //
-//function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-//  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-//  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-//  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
-//begin
-//  Result := TDataSetFormCreator.Create(TRetagFinPagFormaDataSetForm,
-//    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
-//    pEntEd, pEntDBI, pAppObj);
-//end;
+// function PagFormaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+// pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+// pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+// pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+// begin
+// Result := TDataSetFormCreator.Create(TRetagFinPagFormaDataSetForm,
+// pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+// pEntEd, pEntDBI, pAppObj);
+// end;
 //
-//function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
-//begin
-//  Result := TPagFormaEdDBI.Create(pDBConnection);
-//end;
+// function DespTipoEdDBICreate(pDBConnection: IDBConnection): IEntDBI;
+// begin
+// Result := TPagFormaEdDBI.Create(pDBConnection);
+// end;
 
 {$ENDREGION}
 
