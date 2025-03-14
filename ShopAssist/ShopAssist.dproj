@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -164,6 +164,7 @@
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdCusto.pas"/>
         <DCCReference Include="Sis\Log_u.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdPreco.pas"/>
+        <DCCReference Include="EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -192,6 +193,12 @@
             <Deployment Version="4">
                 <DeployFile LocalName="..\..\Exe\Bin\ShopAssist.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
+                        <RemoteName>ShopAssist.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Exe\Bin\ShopAssist.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
                         <RemoteName>ShopAssist.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

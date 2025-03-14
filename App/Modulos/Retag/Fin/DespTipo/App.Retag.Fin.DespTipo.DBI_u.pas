@@ -13,7 +13,7 @@ type
     function GetSqlForEach(pValues: variant): string; override;
     function GetSqlGetRegsJaExistentes(pValuesArray: variant): string; override;
     function GetSqlGaranteRegERetornaId: string; override;
-    procedure SetVarArrayToId(pNovaId: Variant); override;
+    procedure SetVarArrayToId(pNovaId: variant); override;
     function GetPackageName: string; override;
   end;
 
@@ -48,8 +48,11 @@ function TDespTipoDBI.GetSqlGaranteRegERetornaId: string;
 var
   sFormat: string;
 begin
-  sFormat := 'SELECT ID_GRAVADO FROM DESPESA_TIPO_PA.GARANTIR(%d,''%s'');';
-  Result := Format(sFormat, [GetDespTipo.Id, GetDespTipo.Descr]);
+  sFormat :=
+    'SELECT ID_GRAVADO FROM DESPESA_TIPO_PA.GARANTIR(%d,''%s'', %d, %d, %d);';
+  Result := Format(sFormat, [GetDespTipo.Id, GetDespTipo.Descr,
+    GetDespTipo.LojaId, GetDespTipo.UsuarioId,
+    GetDespTipo.MachineIdentId]);
 end;
 
 function TDespTipoDBI.GetSqlGetRegsJaExistentes(pValuesArray: variant): string;
@@ -62,7 +65,7 @@ begin
   Result := Format(sFormat, [sDescr]);
 end;
 
-procedure TDespTipoDBI.SetVarArrayToId(pNovaId: Variant);
+procedure TDespTipoDBI.SetVarArrayToId(pNovaId: variant);
 begin
   inherited;
   GetDespTipo.Id := VarToInteger(pNovaId[0]);

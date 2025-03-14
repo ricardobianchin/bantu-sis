@@ -311,7 +311,8 @@ begin
     FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
 
   // fin desp tipo
-  oDespTipoEnt := RetagFinDespTipoEntCreate;
+  oDespTipoEnt := RetagFinDespTipoEntCreate(AppObj.Loja.Id, LogUsuario.Id,
+    pAppObj.SisConfig.ServerMachineId.IdentId);
   oDespTipoDBI := RetagFinDespTipoDBICreate(pDBConnection, oDespTipoEnt);
 
   FDespTipoDataSetFormCreator := DespTipoDataSetFormCreatorCreate
