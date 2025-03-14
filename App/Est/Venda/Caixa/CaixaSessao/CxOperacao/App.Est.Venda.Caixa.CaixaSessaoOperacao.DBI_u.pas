@@ -3,26 +3,28 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u;
 interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Classes,
-  System.Variants, Sis.Types.Integers,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Ent.DBI_u,
-  Sis.Entities.Types, FireDAC.Comp.Client;
+  System.Variants, Sis.Types.Integers, App.Ent.Ed, FireDAC.Comp.Client,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.Entities.Types,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Ent.DBI_u;
 
 type
   TCxOperacaoDBI = class(TEntDBI, ICxOperacaoDBI)
   private
     FCxOperacaoEnt: ICxOperacaoEnt;
+    FUsuarioId: integer;
     function GetSqlGar: string;
   protected
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
+
   public
     function Garantir: boolean;
     procedure FecharPodeGet(out pPode: boolean; out pMensagem: string);
-    constructor Create(pDBConnection: IDBConnection;
-      pCxOperacaoEnt: ICxOperacaoEnt);
     procedure PreencherPagamentoFormaDataSet(pDMemTable1: TFDMemTable);
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+
+    constructor Create(pDBConnection: IDBConnection;
+      pCxOperacaoEnt: ICxOperacaoEnt; pUsuarioId: integer); reintroduce;
   end;
 
 implementation
@@ -33,10 +35,11 @@ uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats,
 { TCxOperacaoDBI }
 
 constructor TCxOperacaoDBI.Create(pDBConnection: IDBConnection;
-  pCxOperacaoEnt: ICxOperacaoEnt);
+  pCxOperacaoEnt: ICxOperacaoEnt; pUsuarioId: integer);
 begin
   inherited Create(pDBConnection, pCxOperacaoEnt);
   FCxOperacaoEnt := pCxOperacaoEnt;
+  FUsuarioId := pUsuarioId;
 end;
 
 procedure TCxOperacaoDBI.FecharPodeGet(out pPode: boolean;
@@ -98,26 +101,26 @@ begin
 
     + '('#13#10 //
 
-    + '  ' + Ent.CaixaSessao.LojaId.ToString //
-    + '  , ' + Ent.CaixaSessao.TerminalId.ToString //
-    + '  , ' + Ent.CaixaSessao.Id.ToString //
-    + '  , null'// + Ent.OperOrdem.ToString //
-    + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant //
-    + '  , ' + Ent.LogId.ToString //
-    + '  , null'// + Ent.OperTipoOrdem.ToString //
-    + '  , ' + CurrencyToStrPonto(Ent.Valor) //
-    + '  , ' + QuotedStr(Ent.obs) //
+    + '  ' + Ent.CaixaSessao.LojaId.ToString +' -- loja_id'#13#10 //
+    + '  , ' + Ent.CaixaSessao.TerminalId.ToString +' -- terminal_id'#13#10 //
+    + '  , ' + Ent.CaixaSessao.Id.ToString +' -- sess id'#13#10 //
+    + '  , null' +' -- oper ordem'#13#10 // + Ent.OperOrdem.ToString //
+    + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant +' -- oper tipo'#13#10 //
+    + '  , ' + Ent.LogId.ToString +' -- log id'#13#10 //
+    + '  , null' +' -- tipo ordem'#13#10 //+ Ent.OperTipoOrdem.ToString //
+    + '  , ' + CurrencyToStrPonto(Ent.Valor) +' -- valor'#13#10 //
+    + '  , ' + QuotedStr(Ent.obs) +' -- obs'#13#10 //
 
-    + '  , ' + Ent.CaixaSessao.LogUsuario.Id.ToString //
-    + '  , ' + Ent.CaixaSessao.MachineIdentId.ToString //
-    + '  , ' + QuotedStr(Ent.CxValorList.AsList) //
-    + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) //
+    + '  , ' + FUsuarioId.ToString +' -- usu id'#13#10 //
+    + '  , ' + Ent.CaixaSessao.MachineIdentId.ToString +' -- machine id'#13#10 //
+    + '  , ' + QuotedStr(Ent.CxValorList.AsList) +' -- valor list'#13#10 //
+    + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) +' -- numerario list'#13#10 //
     + ');' //
     ;
 
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(Result);
-//   {$ENDIF}
+{$IFDEF DEBUG}
+  CopyTextToClipboard(Result);
+{$ENDIF}
 end;
 
 function TCxOperacaoDBI.Garantir: boolean;
@@ -145,9 +148,8 @@ begin
       FCxOperacaoEnt.LogId := q.Fields[2].AsLargeInt;
       FCxOperacaoEnt.OperTipoOrdem := q.Fields[3].AsInteger;
       FCxOperacaoEnt.CriadoEm := q.Fields[4].AsDateTime;
-//      sDt := q.Fields[4].AsString;
-//      FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
-
+      // sDt := q.Fields[4].AsString;
+      // FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
 
     finally
       q.Free;

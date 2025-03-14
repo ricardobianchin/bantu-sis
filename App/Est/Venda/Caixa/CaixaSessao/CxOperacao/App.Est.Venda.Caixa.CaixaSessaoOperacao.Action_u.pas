@@ -4,7 +4,7 @@ interface
 
 uses Vcl.ActnList, App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo.DBI,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo, System.Classes,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls, Sis.Usuario,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Vcl.Controls,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, App.UI.Form.Ed.CxOperacao_u,
   App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
   App.AppObj, App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessao,
@@ -22,8 +22,8 @@ type
     FAppObj: IAppObj;
     FCxValorDBI: ICxValorDBI;
     FPDVControlador: IPDVControlador;
-    FUsuario: IUsuario;
-
+    FUsuarioId: integer;
+    FUsuarioNomeExib: string;
     function PodeExec: Boolean;
     procedure Exec(Sender: TObject);
   protected
@@ -42,7 +42,8 @@ type
       pCxOperacaoEnt: ICxOperacaoEnt; //
       pCxOperacaoDBI: ICxOperacaoDBI; //
       pAppObj: IAppObj; //
-      pUsuario: IUsuario; //
+      pUsuarioId: integer; //
+      pUsuarioNomeExib: string; //
       pCxValorDBI: ICxValorDBI; //
       pPDVControlador: IPDVControlador;//
       pCaixaSessaoDBI: ICaixaSessaoDBI
@@ -52,7 +53,7 @@ type
 implementation
 
 uses Vcl.Dialogs, Data.DB, forms, System.SysUtils, Sis.Types.Bool_u,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Usuario.Factory, Sis.Usuario.DBI;
 
 { TCxOperacaoAction }
 
@@ -69,15 +70,19 @@ constructor TCxOperacaoAction.Create( //
   pCxOperacaoEnt: ICxOperacaoEnt; //
   pCxOperacaoDBI: ICxOperacaoDBI; //
   pAppObj: IAppObj; //
-  pUsuario: IUsuario; //
+  pUsuarioId: integer; //
+  pUsuarioNomeExib: string; //
   pCxValorDBI: ICxValorDBI; //
       pPDVControlador: IPDVControlador;//
       pCaixaSessaoDBI: ICaixaSessaoDBI
   );
+//var
+//  oUsuarioDBI: IUsuarioDBI;
 begin
   inherited Create(AOwner);
-  FAppObj := pAppObj;
-  FUsuario := pUsuario;
+  FUsuarioId := pUsuarioId;
+  FUsuarioNomeExib := pUsuarioNomeExib;
+
   FCaixaSessao := pCaixaSessao;
   FCaixaSessaoDBI := pCaixaSessaoDBI;
   FCxOperacaoTipo := pCxOperacaoTipo;
@@ -103,11 +108,11 @@ begin
     cxopAbertura //
       , cxopSangria //
       , cxopSuprimento: //
-      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FUsuario,
+      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FUsuarioId, FUsuarioNomeExib,
         FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
     cxopFechamento: //
-      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FUsuario,
+      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FUsuarioId, FUsuarioNomeExib,
         FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
     cxopVale: //

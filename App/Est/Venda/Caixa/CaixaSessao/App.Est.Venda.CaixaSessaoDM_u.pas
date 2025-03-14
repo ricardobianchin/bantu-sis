@@ -160,11 +160,11 @@ begin
   FCxOperacaoTipoList.Add(o);
 
   oCxOperacaoEnt := CxOperacaoEntCreate(FCaixaSessao, o);
-  oCxOperacaoDBI := CxOperacaoDBICreate(FAlvoDBConnection, oCxOperacaoEnt);
+  oCxOperacaoDBI := CxOperacaoDBICreate(FAlvoDBConnection, oCxOperacaoEnt, FLogUsuario.Id);
   oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
 
-  o.Action := CxOperacaoActionCreate(CxOperacaoActionList, FCaixaSessao, o,
-    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, FLogUsuario,
+  o.Action := CxOperacaoActionCreate( CxOperacaoActionList, FCaixaSessao, o,
+    FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, FLogUsuario.Id,FLogUsuario.NomeExib,
     oCxValorDBI, FPDVControlador, FCaixaSessaoDBI);
 end;
 
