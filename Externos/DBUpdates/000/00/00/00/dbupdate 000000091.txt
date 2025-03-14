@@ -1,40 +1,114 @@
-EST_MOV_TIPO
-
+CAIXA_SESSAO_INICIAL_PA
 -----------------------------
 INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=ESTOQUE
-DBATUALIZ_OBJETIVO=CRIAR EST_MOV_TIPO
+DBATUALIZ_ASSUNTO=CAIXA
+DBATUALIZ_OBJETIVO=CRIAR CAIXA_SESSAO_INICIAL_PA
+//DBATUALIZ_PONTO_ALVO=TERMINAL
 DBATUALIZ_OBS=
 
 
 
 
-
-
-///////////////////////////
+/////////////////////////
 //
-// TABELA EST_MOV_TIPO
+// PACKAGE CAIXA_SESSAO_INICIAL_PA
 //
-///////////////////////////
+/////////////////////////
 COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=CAIXA_SESSAO_INICIAL_PA
+/*
 
-COMANDO_TIPO=CREATE TABLE
-OBJETO_NOME=EST_MOV_TIPO
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql
 
-COLUNAS INI
-//NOME;TIPO;NOT NULL;PRIM;UNIQUE
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql"
 
-EST_MOV_TIPO_ID;ID_CHAR_DOM;S;S
-DESCR;NOME_REDU_DOM;S;N;S
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql";
 
-COLUNAS FIM
+show procedure PERFIL_DE_USO_PA.GARANTIR;
 
+*/
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE CAIXA_SESSAO_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE CAIXA_SESSAO_GAR 
+  (
+    LOJA_ID ID_SHORT_DOM
+    , TERMINAL_ID ID_SHORT_DOM
+    , SESS_ID ID_DOM
+    , SESS_LOG_ID BIGINT
+    , ABERTO BOOLEAN
+    , CONFERIDO BOOLEAN
+  );
+
+  PROCEDURE LISTA_GET
+  (
+    TEXTO_BUSCA VARCHAR(100)
+  )
+  RETURNS
+  (
+    NUM Integer
+  );
+END^
+
+RECREATE PACKAGE BODY CAIXA_SESSAO_INICIAL_PA
+AS
+BEGIN
+  PROCEDURE CAIXA_SESSAO_GAR 
+  (
+    LOJA_ID ID_SHORT_DOM
+    , TERMINAL_ID ID_SHORT_DOM
+    , SESS_ID ID_DOM
+    , SESS_LOG_ID BIGINT
+    , ABERTO BOOLEAN
+    , CONFERIDO BOOLEAN
+  )
+  AS
+  BEGIN
+    UPDATE OR INSERT INTO CAIXA_SESSAO
+    (
+      LOJA_ID,
+      TERMINAL_ID,
+      SESS_ID,
+      SESS_LOG_ID,
+      ABERTO,
+      CONFERIDO
+    )
+    VALUES 
+    (
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :SESS_ID,
+      :SESS_LOG_ID,
+      :ABERTO,
+      :CONFERIDO
+    )
+    MATCHING (
+      LOJA_ID,
+      TERMINAL_ID,
+      SESS_ID
+    );
+  END
+
+  PROCEDURE LISTA_GET
+  (
+    TEXTO_BUSCA VARCHAR(100)
+  )
+  RETURNS
+  (
+    NUM Integer
+  )
+  AS 
+  BEGIN 
+  END
+END^
+SET TERM ;^
+```
 COMANDO FIM
 
-
-
 DBATUALIZ FIM
-
-
