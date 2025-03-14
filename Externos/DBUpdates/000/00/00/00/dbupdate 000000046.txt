@@ -1,145 +1,232 @@
-POPULAR NATU PROD_NATU
+ICMS
 
-
-P;PRODUTO;Movimenta estoque e n&atilde;o permite alterar pre&ccedil;o na venda.
-S;SERVI&Ccedil;O;N&atilde;o movimenta estoque e permite alterar pre&ccedil;o na venda.
-B;COMBO;Grupo de produtos. O seu nome n&atilde;o &eacute; impresso no cupom fiscal, mas s&atilde;o impressos os nomes dos produtos que o comp&otilde;em.
-M;MAT&eacute;RIA-PRIMA;Usado como item dos produtos compostos. N&atilde;o pode ser vendido.
-C;COMPOSTO;Somente o seu nome &eacute; impresso no cupom fiscal. Subtrai estoque das mat&eacute;rias-primas
-
-
-P;PRODUTO;Movimenta estoque. Nao permite alterar preco na venda.
-S;SERVICO;Nao movimenta estoque. Permite alterar preco na venda.
-B;COMBO;Grupo de produtos. O seu nome nao imprime no cupom fiscal, mas sao impressos os nomes dos produtos que o compoem.
-M;MATERIA-PRIMA;Usado como item dos produtos compostos. Nao pode ser vendido.
-C;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das materias-primas
-
-
-
-
-
-    inicio
+//INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_PONTO_ALVO=SERVIDOR
-DBATUALIZ_ASSUNTO=ESTOQUE, PROD, PROD_NATU
-DBATUALIZ_OBJETIVO=POPULAR PROD_NATU
+DBATUALIZ_ASSUNTO=ICMS
+DBATUALIZ_OBJETIVO=CRIA ICMS
 DBATUALIZ_OBS=
-{se usa_natu=S}
 
 
-///////////////////////////
-//
-// NA TABELA PROD_NATU, ENSURE RECORDS
-//
-///////////////////////////
+
+
+/////////////////////////
+// SEQUENCE ICMS_SEQ
+/////////////////////////
 COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
-OBJETO_NOME=PROD_NATU
-
-CSV INI
-PROD_NATU_ID;NOME;DESCR
-
-#032;NAO INDICADO;NAO INDICADO
-#033;PRODUTO;Movimenta estoque. Nao permite alterar preco na venda.
-#034;SERVICO;Nao movimenta estoque. Permite alterar preco na venda.
-#035;MATERIA-PRIMA;Usado como item dos produtos compostos. Nao pode ser vendido.
-#036;COMBO;Grupo de produtos. O seu nome nao imprime no cupom fiscal, mas sao impressos os nomes dos produtos que o compoem.
-#037;COMPOSTO;Somente o seu nome imprime no cupom fiscal. Movimenta estoque das materias-primas
-
-CSV FIM
+COMANDO_TIPO=CREATE SEQUENCE
+OBJETO_NOME=ICMS_SEQ
+VALOR_INICIAL=9
 COMANDO FIM
+// SEQUENCE ICMS_SEQ FIM
 
-{fimse}
-
-
-
-///////////////////////////
+/////////////////////////
 //
-// NA TABELA FABR, ENSURE RECORDS
+// TABELA ICMS
 //
-///////////////////////////
+/////////////////////////
 COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
-OBJETO_NOME=FABR
-
-CSV INI
-FABR_ID;NOME
-
-0;NAO INDICADO
-1;PADRAO
-//2;PILOT
-//3;SAMSUNG
-
-CSV FIM
-COMANDO FIM
-
-
-///////////////////////////
-//
-// NA TABELA PROD_TIPO, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
-OBJETO_NOME=PROD_TIPO
-
-CSV INI
-PROD_TIPO_ID;DESCR
-
-0;NAO INDICADO
-1;PADRAO
-//2;ESCRITORIO
-//3;MONITORES
-
-CSV FIM
-COMANDO FIM
-
-
-///////////////////////////
-//
-// NA TABELA UNID, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
-OBJETO_NOME=UNID
-
-CSV INI
-UNID_ID;DESCR;SIGLA
-
-0;NAO INDICADO;N/IND
-1;UNIDADE;UN
-
-CSV FIM
-COMANDO FIM
-
-
-
-
-
-///////////////////////////
-//
-// NA TABELA ICMS, ENSURE RECORDS
-//
-///////////////////////////
-COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
+COMANDO_TIPO=CREATE TABLE
 OBJETO_NOME=ICMS
 
-CSV INI
-ICMS_ID;SIGLA;DESCR;PERC;ATIVO
-0;;NAO INDICADO;0;TRUE
-1;I;ISENTO;0;TRUE
-2;N;NAO INCIDENCIA;0;TRUE
-3;F;SUBSTITUICAO TRIBUTARIA-RETIDO NA FONTE;0;TRUE
-4;;;18;TRUE
-5;;;20;TRUE
-6;;;22;TRUE
-7;;;37;TRUE
-8;;;39;TRUE
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM;UNIQUE
 
-CSV FIM
+ICMS_ID;ID_SHORT_DOM;N;S;N
+SIGLA;ID_CHAR_DOM;S;N;N
+DESCR;NOME_INTERM_DOM;S;N;N
+PERC;PERC_DOM;S;N;N
+ATIVO;BOOLEAN;S;N;N
+COLUNAS FIM
 COMANDO FIM
+
+
+
+// PACKAGE ICMS_PA
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=ICMS_PA
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE ICMS_PA
+AS
+BEGIN
+  PROCEDURE LISTA_SELECT_GET
+  RETURNS
+  (
+    REGTIPO SMALLINT
+    , ID_RET SMALLINT
+    , DESCR_RET VARCHAR(40)
+  );
+
+  PROCEDURE LISTA_GET
+  RETURNS
+  (
+    ICMS_ID SMALLINT
+    , SIGLA ID_CHAR_DOM
+    , DESCR NOME_INTERM_DOM
+    , PERC PERC_DOM
+    , ATIVO BOOLEAN
+  );
+
+  PROCEDURE BYID_GET
+  (
+    ICMS_ID ID_SHORT_DOM NOT NULL 
+  )
+  RETURNS
+  (
+    SIGLA ID_CHAR_DOM
+    , DESCR NOME_INTERM_DOM
+    , PERC PERC_DOM
+    , ATIVO BOOLEAN
+  );
+
+  PROCEDURE GARANTIR
+  (
+    ICMS_ID ID_SHORT_DOM NOT NULL 
+    , SIGLA ID_CHAR_DOM NOT NULL
+    , DESCR NOME_INTERM_DOM NOT NULL
+    , PERC PERC_DOM NOT NULL
+    , ATIVO BOOLEAN NOT NULL
+  )
+  RETURNS
+  (
+    ID_GRAVADO SMALLINT
+  );
+
+  PROCEDURE BYPERC_GET
+  (
+    PERC PERC_DOM NOT NULL
+  )
+  RETURNS
+  (
+    ICMS_ID SMALLINT
+  );  
+
+  PROCEDURE ATIVO_SET (ICMS_ID ID_SHORT_DOM NOT NULL
+    , ATIVO BOOLEAN NOT NULL);
+    
+END^
+
+RECREATE PACKAGE BODY ICMS_PA
+AS
+BEGIN
+  PROCEDURE LISTA_SELECT_GET
+  RETURNS
+  (
+    REGTIPO SMALLINT
+    , ID_RET SMALLINT
+    , DESCR_RET VARCHAR(40)
+  )
+  AS
+    DECLARE VARIABLE DESCR VARCHAR(40);
+    DECLARE VARIABLE PERC PERC_DOM;
+  BEGIN
+    FOR SELECT 4 AS REGTIPO, ICMS_ID, DESCR, PERC FROM LISTA_GET
+    -- WHERE ICMS_ID > 0
+    INTO :REGTIPO, :ID_RET, :DESCR, :PERC
+    DO
+    BEGIN
+      IF (PERC = 0) THEN
+        DESCR_RET = DESCR;
+      ELSE
+        DESCR_RET = CAST(PERC AS VARCHAR(40));
+      SUSPEND;
+    END
+  END
+
+  PROCEDURE LISTA_GET
+  RETURNS
+  (
+    ICMS_ID SMALLINT
+    , SIGLA ID_CHAR_DOM
+    , DESCR NOME_INTERM_DOM
+    , PERC PERC_DOM
+    , ATIVO BOOLEAN
+  )
+  AS 
+  BEGIN 
+    FOR SELECT I.ICMS_ID, I.SIGLA, I.DESCR, I.PERC, I.ATIVO
+    FROM ICMS I INTO :ICMS_ID, :SIGLA, :DESCR, :PERC, :ATIVO 
+    DO SUSPEND; 
+  END
+
+   PROCEDURE BYID_GET
+  (
+    ICMS_ID ID_SHORT_DOM NOT NULL 
+  )
+  RETURNS
+  (
+    SIGLA ID_CHAR_DOM
+    , DESCR NOME_INTERM_DOM
+    , PERC PERC_DOM
+    , ATIVO BOOLEAN
+  )
+  AS  
+  BEGIN  
+    SELECT FIRST(1) SIGLA, DESCR, PERC, ATIVO
+    FROM ICMS WHERE ICMS_ID = :ICMS_ID INTO 
+    :SIGLA, :DESCR, :PERC, :ATIVO;  
+    SUSPEND;
+  END
+  
+  PROCEDURE GARANTIR
+  (
+    ICMS_ID ID_SHORT_DOM NOT NULL 
+    , SIGLA ID_CHAR_DOM NOT NULL
+    , DESCR NOME_INTERM_DOM NOT NULL
+    , PERC PERC_DOM NOT NULL
+    , ATIVO BOOLEAN NOT NULL
+  )
+  RETURNS
+  (
+    ID_GRAVADO SMALLINT
+  )
+  AS
+  BEGIN
+    IF (ICMS_ID < 1) THEN
+    BEGIN
+      ID_GRAVADO = NEXT VALUE FOR ICMS_SEQ;
+  	END
+    ELSE
+    BEGIN
+	    ID_GRAVADO = ICMS_ID;
+    END	
+	
+    UPDATE OR INSERT INTO ICMS (ICMS_ID, SIGLA, DESCR, PERC, ATIVO)
+    VALUES (:ID_GRAVADO, :SIGLA, :DESCR, :PERC, :ATIVO)
+    MATCHING (ICMS_ID);
+    SUSPEND;
+  END
+
+  PROCEDURE BYPERC_GET
+  (
+    PERC PERC_DOM NOT NULL
+  )
+  RETURNS
+  (
+    ICMS_ID SMALLINT
+  )
+  AS
+  BEGIN
+    SELECT FIRST(1) ICMS_ID FROM ICMS 
+    WHERE PERC = :PERC INTO :ICMS_ID;
+    SUSPEND;
+  END
+
+  PROCEDURE ATIVO_SET (ICMS_ID ID_SHORT_DOM NOT NULL, ATIVO BOOLEAN NOT NULL)
+  AS
+  BEGIN
+    UPDATE ICMS SET ATIVO = :ATIVO WHERE ICMS_ID = :ICMS_ID;
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM
+
 
 DBATUALIZ FIM

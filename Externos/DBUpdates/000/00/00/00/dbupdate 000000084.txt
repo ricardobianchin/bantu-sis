@@ -1,20 +1,9 @@
 OBS
-OBS_MANUT_PA
+OBS_INICIAL_PA
 
 ---------------------------------------
-TESTES OBS_MANUT_PA
+TESTES OBS
 ---------------------------------------
-
-SELECT LOG_ID_RET FROM OBS_MANUT_PA.OBS_INSERIR_DO
-  (
-    1,
-    1,
-    'TEXTO OBS',
-    -2,
-    '#',
-    1
-  );
-
 
 ---------------------------------------
 FIM TESTES
@@ -25,8 +14,7 @@ INICIO
 -----------------------------
 DBATUALIZ INI
 DBATUALIZ_ASSUNTO=OBS
-DBATUALIZ_OBJETIVO=CRIAR OBS_MANUT_PA
-DBATUALIZ_PONTO_ALVO=TERMINAL
+DBATUALIZ_OBJETIVO=CRIAR OBS, OBS_INICIAL_PA
 DBATUALIZ_OBS=
 
 
@@ -35,79 +23,71 @@ DBATUALIZ_OBS=
 
 /////////////////////////
 //
-// PACKAGE OBS_MANUT_PA
+// TABELA OBS
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE TABLE
+OBJETO_NOME=OBS
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM
+
+LOJA_ID;ID_DOM;S;S
+TERMINAL_ID;ID_DOM;S;S
+LOG_ID;BIGINT;S;S
+
+TEXTO;OBS_DOM;S
+
+COLUNAS FIM
+COMANDO FIM
+
+
+
+/////////////////////////
+//
+// PACKAGE OBS_INICIAL_PA
 //
 /////////////////////////
 COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=OBS_MANUT_PA
+OBJETO_NOME=OBS_INICIAL_PA
 /*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_MANUT_PA.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_INICIAL_PA.sql
 
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_MANUT_PA.sql"
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_INICIAL_PA.sql"
 
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_MANUT_PA.sql";
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\OBS\OBS_INICIAL_PA.sql";
 
 */
 ```FIREBIRD
 SET TERM ^;
-CREATE OR ALTER PACKAGE OBS_MANUT_PA
+CREATE OR ALTER PACKAGE OBS_INICIAL_PA
 AS
 BEGIN
-  PROCEDURE OBS_INSERIR_DO
+  PROCEDURE OBS_GAR
   (
-    LOJA_ID ID_DOM NOT NULL,
-    TERMINAL_ID ID_DOM NOT NULL,
-    TEXTO OBS_DOM NOT NULL,
-    LOG_PESSOA_ID ID_DOM NOT NULL,
-    MODULO_SIS_ID ID_CHAR_DOM NOT NULL,
-    MACHINE_ID ID_SHORT_DOM NOT NULL    
-  )
-  RETURNS
-  (
-    LOG_ID_RET BIGINT
+    LOJA_ID ID_DOM,
+    TERMINAL_ID ID_DOM,
+    LOG_ID BIGINT,
+    TEXTO OBS_DOM
   );
 END^
 
 ------- BODY
 
-RECREATE PACKAGE BODY OBS_MANUT_PA
+RECREATE PACKAGE BODY OBS_INICIAL_PA
 AS
 BEGIN
-  PROCEDURE OBS_INSERIR_DO
+  PROCEDURE OBS_GAR
   (
-    LOJA_ID ID_DOM NOT NULL,
-    TERMINAL_ID ID_DOM NOT NULL,
-    TEXTO OBS_DOM NOT NULL,
-    LOG_PESSOA_ID ID_DOM NOT NULL,
-    MODULO_SIS_ID ID_CHAR_DOM NOT NULL,
-    MACHINE_ID ID_SHORT_DOM NOT NULL    
-  )
-  RETURNS
-  (
-    LOG_ID_RET BIGINT
+    LOJA_ID ID_DOM,
+    TERMINAL_ID ID_DOM,
+    LOG_ID BIGINT,
+    TEXTO OBS_DOM
   )
   AS
-    -- OBS MANUT LOGVAR LOGVARS VARS LOG VAR LOG VARLOG VARSLOG
-    DECLARE FEATURE_SIS_ID ID_SHORT_DOM = 12; -- OBS
-    --DECLARE TERMINAL_ID ID_SHORT_DOM = 0; -- RETAGUARDA
-    --DECLARE MODULO_SIS_ID ID_CHAR_DOM = '!'; -- CONFIG
-    --DECLARE MODULO_SIS_ID ID_CHAR_DOM = '"'; -- RETAGUARDA
-    DECLARE ACAO_SIS_ID ID_CHAR_DOM = '%'; -- INSERIR
-    --DECLARE LOG_ID_RET BIGINT;
   BEGIN
-    SELECT LOG_ID_RET FROM LOG_PA.LOG_NOVO_GET
-    (
-      :LOJA_ID,
-      :TERMINAL_ID,
-      :LOG_PESSOA_ID,
-      :MODULO_SIS_ID,
-      :ACAO_SIS_ID,
-      :FEATURE_SIS_ID,
-      :MACHINE_ID
-    ) INTO :LOG_ID_RET;
-
-    INSERT INTO OBS
+    UPDATE OR INSERT INTO OBS
     (
       LOJA_ID,
       TERMINAL_ID,
@@ -118,11 +98,14 @@ BEGIN
     (
       :LOJA_ID,
       :TERMINAL_ID,
-      :LOG_ID_RET,
+      :LOG_ID,
       :TEXTO
+    )
+    MATCHING (
+      LOJA_ID,
+      TERMINAL_ID,
+      LOG_ID
     );
-    
-    SUSPEND;
   END
 END^
 SET TERM ;^
