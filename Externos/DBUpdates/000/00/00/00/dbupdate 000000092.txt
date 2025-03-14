@@ -41,6 +41,10 @@ show procedure PERFIL_DE_USO_PA.GARANTIR;
 
 */
 ```FIREBIRD
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_MANUT_PA.sql";
+
+*/
 SET TERM ^;
 CREATE OR ALTER PACKAGE CAIXA_SESSAO_MANUT_PA
 AS
@@ -643,6 +647,7 @@ BEGIN
     SUSPEND;    
   END
 END^
+SET TERM ;^
 ```
 COMANDO FIM
 
