@@ -73,12 +73,13 @@ type
     constructor Create(AOwner: TComponent; pImpressoraNome: string;
       pCaixaSessaoDM: TCaixaSessaoDM); reintroduce;
   end;
-{
-quando fizer abertura de caixa, pegará a action q tenta abrir
-que receberá via parametro
-ela fica no modu pdv
-apos execuala, faz BuscarRecente
-}
+
+  {
+    quando fizer abertura de caixa, pegará a action q tenta abrir
+    que receberá via parametro
+    ela fica no modu pdv
+    apos execuala, faz BuscarRecente
+  }
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
   pCaixaSessaoDM: TCaixaSessaoDM);
 
@@ -160,7 +161,8 @@ begin
     );
 
   FImpressao := ImpressaoTextoCxSessRelatCreate(pImpressoraNome,
-    FCaixaSessaoDM.LogUsuario, FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
+    FCaixaSessaoDM.LogUsuario.Id, FCaixaSessaoDM.LogUsuario.NomeExib,
+    FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
     FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessao);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
@@ -266,7 +268,7 @@ end;
 procedure TPDVSessForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //RelatAction.Execute;
+  // RelatAction.Execute;
 end;
 
 procedure TPDVSessForm.SuprActionExecute(Sender: TObject);

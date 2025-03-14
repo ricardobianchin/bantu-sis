@@ -31,8 +31,11 @@ type
     function DadosOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
-      pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+  pUsuarioId: integer;
+  pUsuarioNomeExib: string;
+  pEntEd: IEntEd; pEntDBI: IEntDBI;
+  pCxValorDBI: ICxValorDBI);
       reintroduce; virtual;
   end;
 
@@ -77,10 +80,12 @@ begin
 end;
 
 constructor TCxOperUmValorEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI;
+  pUsuarioId: integer;
+  pUsuarioNomeExib: string;
+  pEntEd: IEntEd; pEntDBI: IEntDBI;
   pCxValorDBI: ICxValorDBI);
 begin
-  inherited Create(AOwner, pAppObj, pUsuario, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pUsuarioId, pUsuarioNomeExib, pEntEd, pEntDBI);
 
   FValorNumEdit := TNumEditBtu.Create(Self);
   FValorNumEdit.Parent := ValorTabSheet;

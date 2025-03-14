@@ -8,11 +8,13 @@ type
   TImpressao = class(TInterfacedObject, IImpressao)
   private
     FImpressoraNome: string;
-    FUsuario: IUsuario;
+    FUsuarioId: integer;
+    FUsuarioNomeExib: string;
 
   protected
     property ImpressoraNome: string read FImpressoraNome;
-    property Usuario: IUsuario read FUsuario;
+    property UsuarioId: integer read FUsuarioId;
+    property UsuarioNomeExib: string read FUsuarioNomeExib;
 
     procedure GereInicio; virtual;
     procedure GereCabec; virtual;
@@ -27,7 +29,7 @@ type
     property Ativo: Boolean read GetAtivo;
   public
     procedure Imprima; virtual;
-    constructor Create(pImpressoraNome: string; pUsuario: IUsuario);
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string);
   end;
 
 implementation
@@ -36,10 +38,11 @@ uses Sis.Sis.Constants;
 
 { TImpressao }
 
-constructor TImpressao.Create(pImpressoraNome: string; pUsuario: IUsuario);
+constructor TImpressao.Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string);
 begin
   FImpressoraNome := pImpressoraNome;
-  FUsuario := pUsuario;
+  FUsuarioId := pUsuarioId;
+  FUsuarioNomeExib := pUsuarioNomeExib;
 end;
 
 procedure TImpressao.EnvieImpressao;

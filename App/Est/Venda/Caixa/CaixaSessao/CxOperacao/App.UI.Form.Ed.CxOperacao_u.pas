@@ -22,7 +22,8 @@ type
     FCxOperacaoDBI: ICxOperacaoDBI;
     FImpressao: IImpressao;
     FTerminal: ITerminal;
-    FUsuario: IUsuario;
+    FUsuarioId: integer;
+    FUsuarioNomeExib: string;
   protected
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
@@ -40,8 +41,9 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
-      pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+      pEntDBI: IEntDBI); reintroduce;
   end;
 
 var
@@ -77,10 +79,12 @@ begin
 end;
 
 constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI);
+  pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+  pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
-  FUsuario := pUsuario;
+  FUsuarioId := pUsuarioId;
+  FUsuarioNomeExib := pUsuarioNomeExib;
 
   FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
   FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
@@ -88,7 +92,7 @@ begin
   FTerminal := pAppObj.TerminalList.TerminalIdToTerminal
     (FCxOperacaoEnt.CaixaSessao.TerminalId);
   FImpressao := ImpressaoTextoCxOperacaoCreate(FTerminal.ImpressoraNome,
-    FUsuario, pAppObj, FTerminal, FCxOperacaoEnt);
+    pUsuarioId, pUsuarioNomeExib, pAppObj, FTerminal, FCxOperacaoEnt);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
   Width := 800;
