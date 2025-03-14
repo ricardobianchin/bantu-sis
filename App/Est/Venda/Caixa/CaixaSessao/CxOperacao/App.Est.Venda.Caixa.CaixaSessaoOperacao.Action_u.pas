@@ -45,9 +45,8 @@ type
       pUsuarioId: integer; //
       pUsuarioNomeExib: string; //
       pCxValorDBI: ICxValorDBI; //
-      pPDVControlador: IPDVControlador;//
-      pCaixaSessaoDBI: ICaixaSessaoDBI
-      ); reintroduce;
+      pPDVControlador: IPDVControlador; //
+      pCaixaSessaoDBI: ICaixaSessaoDBI); reintroduce;
   end;
 
 implementation
@@ -73,13 +72,13 @@ constructor TCxOperacaoAction.Create( //
   pUsuarioId: integer; //
   pUsuarioNomeExib: string; //
   pCxValorDBI: ICxValorDBI; //
-      pPDVControlador: IPDVControlador;//
-      pCaixaSessaoDBI: ICaixaSessaoDBI
-  );
-//var
-//  oUsuarioDBI: IUsuarioDBI;
+  pPDVControlador: IPDVControlador; //
+  pCaixaSessaoDBI: ICaixaSessaoDBI);
+// var
+// oUsuarioDBI: IUsuarioDBI;
 begin
   inherited Create(AOwner);
+  FAppObj := pAppObj;
   FUsuarioId := pUsuarioId;
   FUsuarioNomeExib := pUsuarioNomeExib;
 
@@ -108,12 +107,12 @@ begin
     cxopAbertura //
       , cxopSangria //
       , cxopSuprimento: //
-      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FUsuarioId, FUsuarioNomeExib,
-        FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
+      Result := TCxOperUmValorEdForm.Create(Nil, FAppObj, FUsuarioId,
+        FUsuarioNomeExib, FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
     cxopFechamento: //
-      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FUsuarioId, FUsuarioNomeExib,
-        FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
+      Result := TCxOperValoresEdForm.Create(Nil, FAppObj, FUsuarioId,
+        FUsuarioNomeExib, FCxOperacaoEnt, FCxOperacaoDBI, FCxValorDBI);
 
     cxopVale: //
       ;

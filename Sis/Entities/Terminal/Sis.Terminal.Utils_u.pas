@@ -64,6 +64,8 @@ begin
     .AsString.Trim;
   pTerminal.ImpressoraNome := Q.FieldByName('IMPRESSORA_NOME').AsString.Trim;
   pTerminal.ImpressoraColsQtd := Q.FieldByName('IMPRESSORA_COLS_QTD').AsInteger;
+  if pTerminal.ImpressoraColsQtd = 0 then
+    pTerminal.ImpressoraColsQtd := 40;
 
   pTerminal.CupomQtdLinsFinal := Q.FieldByName('CUPOM_QTD_LINS_FINAL')
     .AsInteger;

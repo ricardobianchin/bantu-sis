@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  App.UI.Form.Ed.CxOperacao_u, App.Ent.Ed, App.Ent.DBI, App.AppObj,
+  App.UI.Form.Ed.CxOperacao_u,
+  App.Ent.Ed, App.Ent.DBI, App.AppObj,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   NumEditBtu, Vcl.ComCtrls, App.UI.Controls.NumerarioListFrame_u, Sis.Usuario,
   App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
