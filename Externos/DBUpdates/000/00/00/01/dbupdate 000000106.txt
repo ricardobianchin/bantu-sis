@@ -14,7 +14,7 @@ DBATUALIZ_OBS=
 /*
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql
-                                            
+
 "C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql"
 
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
@@ -54,6 +54,9 @@ COMANDO INI
 COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=LOG_HIST_PA
 ```FIREBIRD
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
+*/
 SET TERM ^;
 CREATE OR ALTER PACKAGE LOG_HIST_PA
 AS

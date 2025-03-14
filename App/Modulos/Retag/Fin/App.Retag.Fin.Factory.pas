@@ -47,9 +47,9 @@ function PagFormaEdDBICreate(pDBConnection: IDBConnection): IPagFormaEdDBI;
 function EntEdCastToDespTipoEnt(pEntEd: IEntEd): IDespTipoEnt;
 function EntDBICastToDespTipoDBI(pEntDBI: IEntDBI): IEntDBI;
 
-function RetagFinDespTipoEntCreate
-  (pState: TDataSetState = TDataSetState.dsBrowse; pId: integer = 0;
-  pDescr: string = ''): IDespTipoEnt;
+function RetagFinDespTipoEntCreate(pLojaId: smallint; pUsuarioId: integer;
+  pMachineIdentId: smallint; pState: TDataSetState = TDataSetState.dsBrowse;
+  pId: integer = 0; pDescr: string = ''): IDespTipoEnt;
 
 function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;
   pDespTipoEnt: IEntEd): IEntDBI;
@@ -162,10 +162,12 @@ begin
   Result := TDespTipoDBI(pEntDBI);
 end;
 
-function RetagFinDespTipoEntCreate(pState: TDataSetState; pId: integer;
+function RetagFinDespTipoEntCreate(pLojaId: smallint; pUsuarioId: integer;
+  pMachineIdentId: smallint; pState: TDataSetState; pId: integer;
   pDescr: string): IDespTipoEnt;
 begin
-  Result := TDespTipoEnt.Create(pState, pId, pDescr);
+  Result := TDespTipoEnt.Create(pLojaId, pUsuarioId, pMachineIdentId, pState,
+    pId, pDescr);
 end;
 
 function RetagFinDespTipoDBICreate(pDBConnection: IDBConnection;

@@ -2,7 +2,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
   ClientWidth = 592
-  StyleElements = [seFont, seClient, seBorder]
   OnDestroy = FormDestroy
   ExplicitWidth = 592
   ExplicitHeight = 458
@@ -232,20 +231,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Top = 429
     Width = 592
     TabOrder = 2
-    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 429
     ExplicitWidth = 592
-    inherited StatusPanel1: TPanel
-      StyleElements = [seFont, seClient, seBorder]
-      inherited StatusLabel1: TLabel
-        StyleElements = [seFont, seClient, seBorder]
-      end
-      inherited OutputLabel: TLabel
-        Width = 203
-        Height = 27
-        StyleElements = [seFont, seClient, seBorder]
-      end
-    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
