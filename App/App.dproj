@@ -749,6 +749,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>RetagFinDespTipoDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Desspesa_u.pas">
+            <Form>CxOperDespesaEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
