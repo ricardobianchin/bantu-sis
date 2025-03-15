@@ -74,7 +74,7 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
       ExplicitTop = 269
       ExplicitWidth = 776
       inherited Label2: TLabel
-        Width = 152
+        Width = 776
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited ObsMemo: TMemo
@@ -93,20 +93,37 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
       TabOrder = 1
       object ValorTabSheet: TTabSheet
         Caption = 'F3 - Indicar o Valor'
-        object ValorEdit: TEdit
-          Left = 75
-          Top = 11
-          Width = 81
-          Height = 29
+        object ValorNumEditBtu: TNumEditBtu
+          Left = 64
+          Top = 16
+          Width = 129
+          Height = 28
+          AutoExit = True
+          Caption = 'Valor R$'
+          EditLabel.Width = 55
+          EditLabel.Height = 28
+          EditLabel.Caption = 'Valor R$'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Segoe UI'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -16
+          Font.Height = -15
           Font.Name = 'Segoe UI'
           Font.Style = []
+          LabelPosition = lpLeft
+          LabelSpacing = 5
           ParentFont = False
+          ReadOnly = False
           TabOrder = 0
-          Text = '12345.65'
-          StyleElements = [seClient, seBorder]
+          Text = '0,00'
+          NCasas = 2
+          NCasasEsq = 7
+          Valor = 0
+          MascEsq = '######0'
         end
       end
       object NumerarioTabSheet: TTabSheet

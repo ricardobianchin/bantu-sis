@@ -9,20 +9,20 @@ uses
   App.Ent.Ed, App.Ent.DBI, App.AppObj,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   NumEditBtu, Vcl.ComCtrls, App.UI.Controls.NumerarioListFrame_u, Sis.Usuario,
-  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
+  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  Vcl.Mask, CustomEditBtu, CustomNumEditBtu;
 
 type
   TCxOperUmValorEdForm = class(TCxOperacaoEdForm)
     ObsLabel: TLabel;
     TrabPageControl: TPageControl;
     ValorTabSheet: TTabSheet;
-    ValorEdit: TEdit;
     NumerarioTabSheet: TTabSheet;
+    ValorNumEditBtu: TNumEditBtu;
     procedure TrabPageControlChange(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FValorNumEdit: TNumEditBtu;
     FNumerarioListFrame: TNumerarioListFrame;
     function GetValorDoControle: Currency;
   protected
@@ -60,11 +60,11 @@ begin
 
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    Result := FValorNumEdit.AsCurrency > ZERO_CURRENCY;
+    Result := ValorNumEditBtu.AsCurrency > ZERO_CURRENCY;
     if not Result then
     begin
       ErroOutput.Exibir('Valor é obrigatório');
-      FValorNumEdit.SetFocus;
+      ValorNumEditBtu.SetFocus;
     end;
     exit;
   end;
@@ -75,7 +75,7 @@ begin
   inherited;
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    CxOperacaoEnt.Valor := FValorNumEdit.AsCurrency;
+    CxOperacaoEnt.Valor := ValorNumEditBtu.AsCurrency;
     exit;
   end;
 end;
@@ -88,18 +88,8 @@ constructor TCxOperUmValorEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
 begin
   inherited Create(AOwner, pAppObj, pUsuarioId, pUsuarioNomeExib, pEntEd, pEntDBI);
 
-  FValorNumEdit := TNumEditBtu.Create(Self);
-  FValorNumEdit.Parent := ValorTabSheet;
-  FValorNumEdit.Alignment := taRightJustify;
-  FValorNumEdit.NCasas := 2;
-  FValorNumEdit.NCasasEsq := 7;
-  FValorNumEdit.Caption := 'Valor R$';
-  FValorNumEdit.LabelPosition := lpLeft;
-  FValorNumEdit.LabelSpacing := 4;
-  FValorNumEdit.Font.Assign(ValorEdit.Font);
-  FValorNumEdit.StyleElements := ValorEdit.StyleElements;
-
-  PegueFormatoDe(FValorNumEdit, ValorEdit);
+  ValorNumEditBtu.EditLabel.StyleElements := ValorNumEditBtu.StyleElements;
+  ValorNumEditBtu.EditLabel.Font.Assign(ValorNumEditBtu.Font);
 
   FNumerarioListFrame := TNumerarioListFrame.Create(NumerarioTabSheet,
     pCxValorDBI, AppObj.AppInfo.PastaImg + 'App\Numerario\Indiv\');
@@ -120,14 +110,14 @@ begin
   begin
     if TrabPageControl.ActivePage = ValorTabSheet then
     begin
-      CxOperacaoEnt.CxValorList.PegueCxValor(1, FValorNumEdit.AsCurrency);
+      CxOperacaoEnt.CxValorList.PegueCxValor(1, ValorNumEditBtu.AsCurrency);
     end;
   end
   else
   begin
     if TrabPageControl.ActivePage = ValorTabSheet then
     begin
-      CxOperacaoEnt.CxValorList[0].Valor := FValorNumEdit.AsCurrency
+      CxOperacaoEnt.CxValorList[0].Valor := ValorNumEditBtu.AsCurrency
     end;
   end;
 end;
@@ -137,7 +127,7 @@ begin
   inherited;
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    FValorNumEdit.Valor := CxOperacaoEnt.Valor;
+    ValorNumEditBtu.Valor := CxOperacaoEnt.Valor;
   end;
 end;
 
@@ -146,7 +136,7 @@ begin
   Result := 0;
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    Result := FValorNumEdit.AsCurrency;
+    Result := ValorNumEditBtu.AsCurrency;
   end;
 end;
 
@@ -154,7 +144,7 @@ procedure TCxOperUmValorEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   TrabPageControl.ActivePage := ValorTabSheet;
-  FValorNumEdit.SetFocus;
+  ValorNumEditBtu.SetFocus;
 
 //  FValorNumEdit.Valor := 18.76;
 //  ObsMemo.Lines.text := 'Abertra teste';
@@ -167,7 +157,7 @@ procedure TCxOperUmValorEdForm.TrabPageControlChange(Sender: TObject);
 begin
   inherited;
   if TrabPageControl.ActivePage = ValorTabSheet then
-    FValorNumEdit.SetFocus
+    ValorNumEditBtu.SetFocus
   else if TrabPageControl.ActivePage = NumerarioTabSheet then
     FNumerarioListFrame.SelecionePrimeiro;
 end;
