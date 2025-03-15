@@ -16,6 +16,7 @@ type
     ObsPanel: TPanel;
     Label2: TLabel;
     ObsMemo: TMemo;
+    procedure ObsMemoKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FCxOperacaoEnt: ICxOperacaoEnt;
@@ -124,6 +125,15 @@ end;
 function TCxOperacaoEdForm.GravouOk: boolean;
 begin
   Result := FCxOperacaoDBI.Garantir;
+end;
+
+procedure TCxOperacaoEdForm.ObsMemoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    OkAct_Diag.Execute;
+  end;
 end;
 
 function TCxOperacaoEdForm.PodeOk: boolean;

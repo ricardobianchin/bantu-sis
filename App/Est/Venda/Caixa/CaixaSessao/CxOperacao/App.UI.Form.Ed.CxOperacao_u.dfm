@@ -91,6 +91,7 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
         MaxLength = 200
         TabOrder = 0
         WantReturns = False
+        OnKeyPress = ObsMemoKeyPress
       end
     end
   end
