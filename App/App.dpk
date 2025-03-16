@@ -401,6 +401,6 @@ contains
   App.Retag.Fin.DespTipo.DBI_u in 'Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.DBI_u.pas',
   App.UI.Form.Ed.Fin.DespTipo_u in 'Modulos\Retag\Fin\DespTipo\App.UI.Form.Ed.Fin.DespTipo_u.pas' {DespTipoEdForm},
   App.UI.Form.DataSet.Retag.Fin.DespTipo_u in 'Modulos\Retag\Fin\DespTipo\App.UI.Form.DataSet.Retag.Fin.DespTipo_u.pas' {RetagFinDespTipoDataSetForm},
-  App.UI.FormEd.CxOperacao.Desspesa_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Desspesa_u.pas' {CxOperDespesaEdForm};
+  App.UI.FormEd.CxOperacao.Despesa_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Despesa_u.pas' {CxOperDespesaEdForm};
 
 end.

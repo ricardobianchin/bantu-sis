@@ -21,6 +21,7 @@ type
     ValorNumEditBtu: TNumEditBtu;
     procedure TrabPageControlChange(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure ValorNumEditBtuKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FNumerarioListFrame: TNumerarioListFrame;
@@ -156,6 +157,14 @@ begin
     ValorNumEditBtu.SetFocus
   else if TrabPageControl.ActivePage = NumerarioTabSheet then
     FNumerarioListFrame.SelecionePrimeiro;
+end;
+
+procedure TCxOperUmValorEdForm.ValorNumEditBtuKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+    SelectNext(TWinControl(Sender), True, True);
 end;
 
 end.

@@ -749,7 +749,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>RetagFinDespTipoDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Desspesa_u.pas">
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Despesa_u.pas">
             <Form>CxOperDespesaEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>

@@ -32,9 +32,13 @@ type
 
     function PegarId(pId: integer; pDescr: string): integer; virtual;
     function PegarIdChar(pId: char; pDescr: string): integer; virtual;
+
+    procedure SetFocus;
   end;
 
 implementation
+
+uses Sis.UI.Controls.Utils;
 
 { TComboBoxManager }
 
@@ -119,6 +123,11 @@ begin
   end;
   P := Pointer(pId);
   Result := FComboBox.Items.AddObject(pDescr, P);
+end;
+
+procedure TComboBoxManager.SetFocus;
+begin
+  TrySetFocus(FComboBox);
 end;
 
 procedure TComboBoxManager.SetId(const pId: integer);

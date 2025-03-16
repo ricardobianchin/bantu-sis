@@ -46,6 +46,9 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 417
     ExplicitWidth = 776
+    DesignSize = (
+      776
+      37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 305
       ExplicitLeft = 305
@@ -70,6 +73,7 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     inherited ObsPanel: TPanel
       Top = 269
       Width = 776
+      TabOrder = 1
       StyleElements = [seFont, seClient, seBorder]
       ExplicitTop = 269
       ExplicitWidth = 776
@@ -90,7 +94,7 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
       Height = 269
       ActivePage = ValorTabSheet
       Align = alClient
-      TabOrder = 1
+      TabOrder = 0
       object ValorTabSheet: TTabSheet
         Caption = 'F3 - Indicar o Valor'
         object ValorNumEditBtu: TNumEditBtu
@@ -120,6 +124,7 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
           ReadOnly = False
           TabOrder = 0
           Text = '0,00'
+          OnKeyPress = ValorNumEditBtuKeyPress
           NCasas = 2
           NCasasEsq = 7
           Valor = 0

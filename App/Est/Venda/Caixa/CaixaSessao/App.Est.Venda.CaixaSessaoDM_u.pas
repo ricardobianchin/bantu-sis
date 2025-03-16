@@ -94,7 +94,7 @@ uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
   {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,}
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.Types.strings_u,
   App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
-  App.UI.FormEd.CxOperacao.Desspesa_u;
+  App.UI.FormEd.CxOperacao.Despesa_u;
 
 {$R *.dfm}
 { TCaixaSessaoDM }
@@ -199,8 +199,6 @@ begin
   oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
   oForm := TCxOperDespesaEdForm.Create(Self, FAppObj, FLogUsuario.Id,
     FLogUsuario.NomeExib, oCxOperacaoEnt, oDBI, oCxValorDBI);
-  oDBI.PreencherDespTipoSL(oForm.FornecComboBox.Items);
-  oForm.FornecComboBox.ItemIndex := -1;
   oForm.Perg;
   oForm.Free;
 
