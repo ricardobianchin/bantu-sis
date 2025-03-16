@@ -38,6 +38,7 @@ type
     procedure AberturaActionExecute(Sender: TObject);
     procedure SuprimentoActionExecute(Sender: TObject);
     procedure SangriaActionExecute(Sender: TObject);
+    procedure DespesaActionExecute(Sender: TObject);
     procedure FechamentoActionExecute(Sender: TObject);
   private
     { Private declarations }
@@ -92,7 +93,8 @@ implementation
 uses Sis.DB.Factory, App.Est.Venda.CaixaSessao.Factory_u,
   {App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent_u,}
   App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.Types.strings_u,
-  App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u;
+  App.UI.Form.Ed.CxOperacao.UmValor_u, App.UI.Form.Ed.CxOperacao.Valores_u,
+  App.UI.FormEd.CxOperacao.Desspesa_u;
 
 {$R *.dfm}
 { TCaixaSessaoDM }
@@ -178,6 +180,60 @@ begin
   o.Action := CxOperacaoActionCreate(CxOperacaoActionList, FCaixaSessao, o,
     FCxOperacaoTipoDBI, oCxOperacaoEnt, oCxOperacaoDBI, FAppObj, FLogUsuario.Id,
     FLogUsuario.NomeExib, oCxValorDBI, FPDVControlador, FCaixaSessaoDBI);
+end;
+
+procedure TCaixaSessaoDM.DespesaActionExecute(Sender: TObject);
+var
+  oCxOperacaoEnt: ICxOperacaoEnt;
+  oCxOperacaoTipo: ICxOperacaoTipo;
+  oDBI: ICxOperacaoDBI;
+  oForm: TCxOperDespesaEdForm;
+  oCxValorDBI: ICxValorDBI;
+begin
+  oCxOperacaoTipo := CxOperacaoTipoCreate('%', 'Despesa', 'DESP', 'Despesa',
+    'Pagamento de Despesas', -1, True);
+
+  oCxOperacaoEnt := CxOperacaoEntCreate(FCaixaSessao, oCxOperacaoTipo);
+  oDBI := CxOperacaoDBICreate(FAlvoDBConnection, oCxOperacaoEnt,
+    FLogUsuario.Id);
+  oCxValorDBI := CxValorDBICreate(FAlvoDBConnection);
+  oForm := TCxOperDespesaEdForm.Create(Self, FAppObj, FLogUsuario.Id,
+    FLogUsuario.NomeExib, oCxOperacaoEnt, oDBI, oCxValorDBI);
+  oDBI.PreencherDespTipoSL(oForm.FornecComboBox.Items);
+  oForm.FornecComboBox.ItemIndex := -1;
+  oForm.Perg;
+  oForm.Free;
+
+  {
+    TCxOpTipo = ( //
+    cxopNaoIndicado = 032 //
+    , cxopAbertura = 033 //
+    , cxopSangria = 034 //
+    , cxopSuprimento = 035 //
+    , cxopVale = 036 //
+    , cxopDespesa = 037 //
+    , cxopConvenio = 038 //
+    , cxopCrediario = 039 //
+    , cxopFechamento = 040 //
+    , cxopDevolucao = 041 //
+    , cxopVenda = 042 //
+    );
+
+  }
+  {
+    OPER_TIPO_ID;NAME;ABREV;CAPTION;HINT;SINAL_NUMERICO;HABILITADO_DURANTE_SESSAO;ORDEM_EXIB
+    #032;NaoIndicado;NaoInd;N?o Indicado;N?o Indicado;0;FALSE;NULL
+    #033;Abertura;Abe;Abrir o Caixa;Abrir o Caixa;1;FALSE;1
+    #034;Sangria;Sang;Sangria;Sa#237da de Dinheiro da Gaveta;-1;TRUE;2
+    #035;Suprimento;Sup;Suprimento;Entrada de Dinheiro na Gaveta;1;TRUE;3
+    #036;Vale;Vale;Vale para Funcionario;Pagamento de Vale a Funcion?rio;-1;TRUE;NULL
+    #037;Despesa;Desp;Despesa;Pagamento de Despesas;-1;TRUE;NULL
+    #038;Convenio;Conv;Conv#234nio;Baixa de Conv?nio;1;TRUE;NULL
+    #039;Crediario;Cre;Credi#225rio;Baixa de Credi?rio;1;TRUE;NULL
+    #040;Fechamento;Fech;Fechar o caixa;Finaliza o caixa que estava aberto;-1;TRUE;9
+    #041;Devolucao;Dev;Devolu#231#227o;Devolu#231#227o;0;TRUE;NULL
+    #042;Venda;Ven;Venda;Venda;1;TRUE;NULL
+  }
 end;
 
 procedure TCaixaSessaoDM.FechamentoActionExecute(Sender: TObject);

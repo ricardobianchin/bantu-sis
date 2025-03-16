@@ -27,6 +27,7 @@ object CaixaSessaoDM: TCaixaSessaoDM
     end
     object DespesaAction: TAction
       Caption = 'Despesa'
+      OnExecute = DespesaActionExecute
     end
     object ValeAction: TAction
       Caption = 'Vale'

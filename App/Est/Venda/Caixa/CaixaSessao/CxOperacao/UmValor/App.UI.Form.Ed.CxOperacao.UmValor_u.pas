@@ -33,11 +33,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj;
-  pUsuarioId: integer;
-  pUsuarioNomeExib: string;
-  pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pCxValorDBI: ICxValorDBI);
-      reintroduce; virtual;
+      pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI); reintroduce; virtual;
   end;
 
 var
@@ -81,12 +78,11 @@ begin
 end;
 
 constructor TCxOperUmValorEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pUsuarioId: integer;
-  pUsuarioNomeExib: string;
-  pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pCxValorDBI: ICxValorDBI);
+  pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
 begin
-  inherited Create(AOwner, pAppObj, pUsuarioId, pUsuarioNomeExib, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pUsuarioId, pUsuarioNomeExib,
+    pEntEd, pEntDBI);
 
   ValorNumEditBtu.EditLabel.StyleElements := ValorNumEditBtu.StyleElements;
   ValorNumEditBtu.EditLabel.Font.Assign(ValorNumEditBtu.Font);
@@ -146,8 +142,8 @@ begin
   TrabPageControl.ActivePage := ValorTabSheet;
   ValorNumEditBtu.SetFocus;
 
-//  FValorNumEdit.Valor := 18.76;
-//  ObsMemo.Lines.text := 'Abertra teste';
+  // FValorNumEdit.Valor := 18.76;
+  // ObsMemo.Lines.text := 'Abertra teste';
 
   // OkAct_Diag.Execute;
   // TrabPageControl.ActivePage := NumerarioTabSheet;

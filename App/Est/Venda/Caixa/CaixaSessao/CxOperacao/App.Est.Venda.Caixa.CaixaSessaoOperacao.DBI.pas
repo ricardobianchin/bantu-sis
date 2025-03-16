@@ -10,6 +10,7 @@ type
     procedure FecharPodeGet(out pPode: Boolean; out pMensagem: string);
     procedure PreencherPagamentoFormaDataSet(pDMemTable1: TFDMemTable);
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+    procedure PreencherDespTipoSL(pSL: TStrings);
   end;
 
 implementation
