@@ -160,7 +160,7 @@ begin
     FAppObj, oBotaoModuloFrame.TerminalId);
 
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
-  FSessaoFrame := SessaoFrameCreate(Self, iOpcaoSisIdModulo, oUsuario,
+  FSessaoFrame := SessaoFrameCreate(nil{Self}, iOpcaoSisIdModulo, oUsuario,
     oModuloBasForm, iSessaoIndex, FAppObj.DBMS, FAppObj.ProcessOutput,
     FAppObj.ProcessLog);
 

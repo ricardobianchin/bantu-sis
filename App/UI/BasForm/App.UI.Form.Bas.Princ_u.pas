@@ -334,18 +334,16 @@ begin
 end;
 
 destructor TPrincBasForm.Destroy;
-begin //vai terminar em erro
-{$IFDEF DEBUG}
-  showmessage('a');
-{$ENDIF}
-  // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
-  try
-    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
-      FProcessLog);
-    inherited;
-  finally
-    // FProcessLog.RetorneLocal;
-  end;
+begin //vai terminar em erro $$
+  inherited;
+//  // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
+//  try
+//    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
+//      FProcessLog);
+//    inherited;
+//  finally
+//    // FProcessLog.RetorneLocal;
+//  end;
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);

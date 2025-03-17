@@ -118,6 +118,7 @@ var
   sResultado: string;
   sNome: string;
   aNovaId: variant;
+  bDataSetWasEmpty: Boolean;
 begin
   Result := False;
   sSqlGaranteRegERetornaId := GetSqlGaranteRegERetornaId;
@@ -132,7 +133,10 @@ begin
   try
     DBConnection.QueryDataSet(sSqlGaranteRegERetornaId, q);
 
-    Result := RecordToVarArray(aNovaId, q);
+    RecordToVarArray(aNovaId, q, bDataSetWasEmpty);
+
+    Result := not bDataSetWasEmpty;
+
     if not Result then
       exit;
 
@@ -272,6 +276,7 @@ var
   sSqlInserirDoERetornaId: string;
   sMens: string;
   q: TDataSet;
+  bDataSetWasEmpty: Boolean;
 begin
   Result := False;
 
@@ -287,7 +292,10 @@ begin
   try
     DBConnection.QueryDataSet(sSqlInserirDoERetornaId, q);
 
-    Result := RecordToVarArray(pNovaId, q);
+    RecordToVarArray(pNovaId, q, bDataSetWasEmpty);
+
+    Result := not bDataSetWasEmpty;
+
     if not Result then
       exit;
 

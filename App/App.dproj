@@ -753,6 +753,9 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>CxOperDespesaEdForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <None Include="..\..\Exe\Configs\Login.Config.xml"/>
+        <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
+        <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

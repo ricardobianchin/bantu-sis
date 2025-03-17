@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
-  Vcl.StdCtrls,
+  Vcl.StdCtrls, Sis.UI.Frame.Bas.Filtro.BuscaString_u,
   App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl, App.Ent.Ed,
   App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator,
   App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId,}
@@ -22,12 +22,14 @@ type
 
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
+    FFiltroStringFrame: TFiltroStringFrame;
 
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 
     function PergEd(pDataSetStateAbrev: string): boolean;
+    procedure CrieFiltroFrame;
 
   protected
     { Protected declarations }
@@ -75,8 +77,36 @@ begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS,
     pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
     pIdPos, pAppObj);
+  FFiltroStringFrame := nil;
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
+end;
+
+procedure TRetagEstProdDataSetForm.CrieFiltroFrame;
+var
+  iIndexUltimoBotao: integer;
+  l, w: integer;
+  oToolB: TToolBar;
+begin
+  if Assigned(FFiltroStringFrame) then
+    exit;
+
+  // FFiltroStringFrame
+  oToolB := TitToolBar1_BasTabSheet;
+  FFiltroStringFrame := TFiltroStringFrame.Create(oToolB, DoAtualizar);
+  FFiltroStringFrame.Parent := oToolB;
+
+  iIndexUltimoBotao := oToolB.ButtonCount - 1;
+
+  if iIndexUltimoBotao > -1 then
+  begin
+    l := oToolB.ControlCount;
+    l := oToolB.Buttons[iIndexUltimoBotao].Left;
+    w := oToolB.Buttons[iIndexUltimoBotao].Width;
+    FFiltroStringFrame.Left := l + w;
+  end
+  else
+    FFiltroStringFrame.Left := 0;
 end;
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
@@ -117,7 +147,10 @@ begin
   FCodsBarrasAcumulando := '';
 
   try
-    oProdDBI.ForEach(0, LeRegEInsere);
+//    oProdDBI.ForEach(0, LeRegEInsere);
+    EntDBI.ForEach(FFiltroStringFrame.Values, LeRegEInsere);
+
+
 
   finally
     FDMemTable.First;
@@ -338,6 +371,7 @@ end;
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
+  CrieFiltroFrame;
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);

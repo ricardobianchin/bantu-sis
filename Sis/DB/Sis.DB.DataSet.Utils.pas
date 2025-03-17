@@ -9,7 +9,8 @@ procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
   pDBGrid: TDBGrid; pIndexIni: integer = 0;
   pIndexFin: integer = INDEX_ILIMITADO);
 
-function RecordToVarArray(out pVarArray: variant; pQ: TDataSet): variant;
+procedure RecordToVarArray(out pVarArray: variant; pQ: TDataSet;
+  out pDataSetWasEmpty: Boolean);
 procedure FDMemTableAppendDataSet(pOrigem: TDataSet; pDestino: TFDMemTable;
   pApagaDestinoAntes: Boolean = True);
 procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
@@ -69,32 +70,50 @@ begin
   end;
 end;
 
-function RecordToVarArray(out pVarArray: variant; pQ: TDataSet): variant;
+procedure RecordToVarArray(out pVarArray: variant; pQ: TDataSet;
+  out pDataSetWasEmpty: Boolean);
 var
   iQtdCampos: integer;
   iFieldIndex: integer;
+  Resultado: Boolean;
 begin
-  pVarArray := vaNull;
+  pDataSetWasEmpty := True;
+  try
+    Resultado := Assigned(pQ);
 
-  Result := Assigned(pQ);
-  if not Result then
-    exit;
+    if not Resultado then
+      exit;
 
-  Result := pQ.Active;
-  if not Result then
-    exit;
+    pDataSetWasEmpty := pQ.IsEmpty;
+    Resultado := not pDataSetWasEmpty;
 
-  iQtdCampos := pQ.fieldcount;
+    if not Resultado then
+      exit;
 
-  Result := iQtdCampos > 0;
-  if not Result then
-    exit;
+    Resultado := pQ.Active;
+    if not Resultado then
+      exit;
 
-  pVarArray := VarArrayCreate([0, iQtdCampos - 1], varVariant);
+    iQtdCampos := pQ.fieldcount;
 
-  for iFieldIndex := 0 to iQtdCampos - 1 do
-  begin
-    pVarArray[iFieldIndex] := pQ.Fields[iFieldIndex].Value;
+    Resultado := iQtdCampos > 0;
+
+    if not Resultado then
+      exit;
+  finally
+    if Resultado then
+    begin
+      pVarArray := VarArrayCreate([0, iQtdCampos - 1], varVariant);
+
+      for iFieldIndex := 0 to iQtdCampos - 1 do
+      begin
+        pVarArray[iFieldIndex] := pQ.Fields[iFieldIndex].Value;
+      end;
+    end
+    else
+    begin
+      pVarArray := VarArrayCreate([1, 0], varVariant);
+    end;
   end;
 end;
 

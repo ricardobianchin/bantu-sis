@@ -173,10 +173,28 @@ end;
 function TCxOperacaoEdForm.GravouOk: boolean;
 var
   sMens: string;
+  sSql: string;
+  vValues: Variant;
+  bDataSetWasEmpty: boolean;
 begin
-  Result := FCxOperacaoDBI.ExecuteSQL(GetSqlGarantir, sMens);
+  Result := False;
+  sSql := GetSqlGarantir;
+
+  FCxOperacaoDBI.GetFirstRecordValues(sSql, vValues, sMens, bDataSetWasEmpty);
+
+  Result := not bDataSetWasEmpty;
+
   if not Result then
+  begin
     ErroOutput.Exibir(sMens);
+    exit;
+  end;
+
+  FCxOperacaoEnt.CaixaSessao.Id := vValues[0];
+  FCxOperacaoEnt.OperOrdem := vValues[1];
+  FCxOperacaoEnt.LogId := vValues[2];
+  FCxOperacaoEnt.OperTipoOrdem := vValues[3];
+  FCxOperacaoEnt.CriadoEm := vValues[4];
 end;
 
 procedure TCxOperacaoEdForm.ObsMemoKeyPress(Sender: TObject; var Key: Char);
