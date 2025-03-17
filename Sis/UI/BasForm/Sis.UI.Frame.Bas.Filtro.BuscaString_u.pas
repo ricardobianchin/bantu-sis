@@ -18,6 +18,7 @@ type
   protected
     function GetValues: variant; override;
     procedure SetValues(Value: variant); override;
+    function NewArrayCreate: variant; override;
   public
     { Public declarations }
     procedure AjusteValores; override;
@@ -57,7 +58,6 @@ end;
 function TFiltroStringFrame.GetValues: variant;
 begin
   Result := inherited;
-  Result := VarArrayCreate([0, 0], varVariant);
   Result[0] := BuscaStringEdit.Text;
 end;
 
@@ -71,6 +71,15 @@ begin
     BuscaStringEdit.Text := '';
 
   AjusteValores;
+end;
+
+function TFiltroStringFrame.NewArrayCreate: variant;
+begin
+  // a quantidade de elementos é decidida por quem criar a classe descendente
+  // neste caso, é um elevento. um array que vai de 0 a 0,
+  // pois eu sei que este frame usará só um controle,
+  // so um parametro
+  Result := VarArrayCreate([0, 0], varVariant);
 end;
 
 end.
