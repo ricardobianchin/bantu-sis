@@ -75,10 +75,6 @@ end;
 
 function TFiltroStringFrame.NewArrayCreate: variant;
 begin
-  // a quantidade de elementos é decidida por quem criar a classe descendente
-  // neste caso, é um elevento. um array que vai de 0 a 0,
-  // pois eu sei que este frame usará só um controle,
-  // so um parametro
   Result := VarArrayCreate([0, 0], varVariant);
 end;
 

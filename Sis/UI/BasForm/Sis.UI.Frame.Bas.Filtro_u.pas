@@ -15,6 +15,14 @@ uses
 // gera propositalmente um array ilogico que vai de 1 a 0
 // end;
 
+{
+  os metodos
+  procedure SetValues(Value: variant); override;
+  function NewArrayCreate: variant; override;
+  trabalham em conjunto e devem ser sobrescritos pensando nisto
+  na classe mae,SetValues chama NewArrayCreate
+}
+
 type
   /// <summary>
   /// Frame base para filtros usados, por exemplo nos forms dataset
@@ -61,6 +69,7 @@ type
   /// </remarks>
   TFiltroFrame = class(TBasFrame)
     AgendeChangeTimer: TTimer;
+
     /// <summary>
     /// Manipula o evento do timer, desabilitando-o e invocando a alteração imediata.
     /// </summary>
