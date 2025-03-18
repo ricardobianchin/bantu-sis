@@ -28,6 +28,7 @@ type
 
     procedure DtHCompileLabelClick(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FecharAction_ActBasFormExecute(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -350,6 +351,14 @@ procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
 begin
   inherited;
   ShowMessage(AppVersao_u.GetInfos);
+end;
+
+procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
+begin
+{$IFNDEF DEBUG}
+  inherited;
+{$ENDIF}
+
 end;
 
 procedure TPrincBasForm.GarantaDB;

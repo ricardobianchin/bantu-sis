@@ -189,7 +189,7 @@ type
     /// <param name="AOwner">Referência ao componente dono.</param>
     /// <param name="pOnChange">Procedimento a ser chamado quando ocorrer a alteração do filtro.</param>
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent);
-      reintroduce;
+      reintroduce; virtual;
   end;
 
 implementation

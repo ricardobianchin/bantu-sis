@@ -1,87 +1,6 @@
-PROD_PA
-PROD
-
-
-
-
-
-SHOW PROCEDURE PROD_PA.INSERIR_DO;
-
-
 /*
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\TMP_PROD_PA.sql
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\TMP_PROD_PA.sql";
-
-SELECT FIRST(5) PROD_ID, DESCR, DESCR_RED
-FROM PROD_TMP_PA.LISTA_GET(1, '', FALSE, FALSE, FALSE, FALSE, FALSE);
-
---BARRAS
-
-SELECT FIRST(5) 
-PROD_ID, COD_BARRAS
-FROM PROD_TMP_PA.LISTA_GET(1, '123', FALSE, TRUE, FALSE, FALSE, FALSE)
-;
-
-SELECT FIRST(5) 
-PROD_ID, COD_BARRAS
-FROM PROD_TMP_PA.LISTA_GET(1, '123', FALSE, FALSE, FALSE, FALSE, FALSE)
-;
-
--- COD
-
-SELECT FIRST(5) 
-PROD_ID
-FROM PROD_TMP_PA.LISTA_GET(1, '3', TRUE, FALSE, FALSE, FALSE, FALSE)
-;
-
--- DESCR
-
-SELECT 
-PROD_ID, DESCR
-FROM PROD_TMP_PA.LISTA_GET(1, 'CARR', FALSE, FALSE, TRUE, FALSE, FALSE)
-;
-
--- FABR
-
-SELECT 
-PROD_ID, FABR_NOME
-FROM PROD_TMP_PA.LISTA_GET(1, 'CARR', FALSE, FALSE, TRUE, FALSE, FALSE)
-;
-
-*/
-
-
-
-
-//INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_PONTO_ALVO=SERVIDOR
-DBATUALIZ_ASSUNTO=ESTOQUE, PROD
-DBATUALIZ_OBJETIVO=CRIA PROD_PA
-DBATUALIZ_OBS=
-
-
-
-
-
-// PACKAGE PROD_PA
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=PROD_PA
-
-/*
-Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROD_PA.sql
-
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROD_PA.sql
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROD_PA.sql"
-
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROD_PA.sql";
 */
-
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE PROD_PA
 AS
@@ -919,6 +838,7 @@ BEGIN
       0 -- ORDEM_ENVOLVIDO SMALLINT
     );
 
+
     EXECUTE PROCEDURE PROD_CUSTO_PA.PROD_CUSTO_HIST_INS(
       :PROD_ID, :LOJA_ID, :PESSOA_ID, :MACHINE_ID, :CUSTO, 0, 0, 0
       ) RETURNING_VALUES :LOG_ID_RET;
@@ -930,7 +850,3 @@ BEGIN
   END
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM

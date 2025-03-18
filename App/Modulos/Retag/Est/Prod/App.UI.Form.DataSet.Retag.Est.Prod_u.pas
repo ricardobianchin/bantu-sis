@@ -7,11 +7,10 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
-  Vcl.StdCtrls, Sis.UI.Frame.Bas.Filtro.BuscaString_u,
-  App.Ent.DBI, Sis.DB.DBTypes, App.UI.Decorator.Form.Excl, App.Ent.Ed,
-  App.Ent.Ed.Id.Descr, App.Retag.Est.Prod.Ent, Sis.UI.FormCreator,
-  App.Est.Prod.Barras.DBI, {Sis.DB.UltimoId,}
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
+  Vcl.StdCtrls, App.UI.Frame.Filtro.Prod_Or_u, App.Ent.DBI, Sis.DB.DBTypes,
+  App.UI.Decorator.Form.Excl, App.Ent.Ed, App.Ent.Ed.Id.Descr,
+  App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
+  {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   App.UI.TabSheet.DataSet.Types_u;
 
 type
@@ -22,7 +21,7 @@ type
 
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
-    FFiltroStringFrame: TFiltroStringFrame;
+    FFiltroFrame: TProdOrFiltroFrame;
 
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
@@ -77,7 +76,7 @@ begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS,
     pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
     pIdPos, pAppObj);
-  FFiltroStringFrame := nil;
+  FFiltroFrame := nil;
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
 end;
@@ -86,27 +85,16 @@ procedure TRetagEstProdDataSetForm.CrieFiltroFrame;
 var
   iIndexUltimoBotao: integer;
   l, w: integer;
-  oToolB: TToolBar;
+  oP: TPanel;
 begin
-  if Assigned(FFiltroStringFrame) then
+  if Assigned(FFiltroFrame) then
     exit;
 
   // FFiltroStringFrame
-  oToolB := TitToolBar1_BasTabSheet;
-  FFiltroStringFrame := TFiltroStringFrame.Create(oToolB, DoAtualizar);
-  FFiltroStringFrame.Parent := oToolB;
-
-  iIndexUltimoBotao := oToolB.ButtonCount - 1;
-
-  if iIndexUltimoBotao > -1 then
-  begin
-    l := oToolB.ControlCount;
-    l := oToolB.Buttons[iIndexUltimoBotao].Left;
-    w := oToolB.Buttons[iIndexUltimoBotao].Width;
-    FFiltroStringFrame.Left := l + w;
-  end
-  else
-    FFiltroStringFrame.Left := 0;
+  oP := TitPanel_BasTabSheet;
+  FFiltroFrame := TProdOrFiltroFrame.Create(oP, DoAtualizar);
+  FFiltroFrame.Parent := oP;
+  FFiltroFrame.Align := alTop;
 end;
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
@@ -148,10 +136,7 @@ begin
 
   try
 //    oProdDBI.ForEach(0, LeRegEInsere);
-    EntDBI.ForEach(FFiltroStringFrame.Values, LeRegEInsere);
-
-
-
+    EntDBI.ForEach(FFiltroFrame.Values, LeRegEInsere);
   finally
     FDMemTable.First;
     FDMemTable.EndBatch;

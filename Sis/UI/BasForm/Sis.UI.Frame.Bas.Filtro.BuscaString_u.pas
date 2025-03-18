@@ -10,9 +10,9 @@ uses
 type
   TFiltroStringFrame = class(TFiltroFrame)
     FiltroTitLabel: TLabel;
-    BuscaStringEdit: TEdit;
-    procedure BuscaStringEditKeyPress(Sender: TObject; var Key: Char);
-    procedure BuscaStringEditChange(Sender: TObject);
+    FiltroStringEdit: TEdit;
+    procedure FiltroStringEditKeyPress(Sender: TObject; var Key: Char);
+    procedure FiltroStringEditChange(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -21,7 +21,6 @@ type
     function NewArrayCreate: variant; override;
   public
     { Public declarations }
-    procedure AjusteValores; override;
   end;
 
 //var
@@ -31,19 +30,13 @@ implementation
 
 {$R *.dfm}
 
-procedure TFiltroStringFrame.AjusteValores;
-begin
-  inherited;
-  //BuscaStringEdit.Text := StrSemCharRepetido(BuscaStringEdit.Text, #32)
-end;
-
-procedure TFiltroStringFrame.BuscaStringEditChange(Sender: TObject);
+procedure TFiltroStringFrame.FiltroStringEditChange(Sender: TObject);
 begin
   inherited;
   AgendeChange;
 end;
 
-procedure TFiltroStringFrame.BuscaStringEditKeyPress(Sender: TObject;
+procedure TFiltroStringFrame.FiltroStringEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
@@ -58,7 +51,7 @@ end;
 function TFiltroStringFrame.GetValues: variant;
 begin
   Result := inherited;
-  Result[0] := BuscaStringEdit.Text;
+  Result[0] := FiltroStringEdit.Text;
 end;
 
 procedure TFiltroStringFrame.SetValues(Value: variant);
@@ -66,9 +59,9 @@ begin
 //  inherited;
   // Acessando o primeiro elemento do vetor de variants
   if VarArrayDimCount(Value) > 0 then
-    BuscaStringEdit.Text := VarToStr(Value[0])
+    FiltroStringEdit.Text := VarToStr(Value[0])
   else
-    BuscaStringEdit.Text := '';
+    FiltroStringEdit.Text := '';
 
   AjusteValores;
 end;

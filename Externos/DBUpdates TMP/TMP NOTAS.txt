@@ -1,0 +1,15 @@
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates TMP\tmp_PA.sql
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates TMP\tmp_PA.sql"
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates TMP\tmp_PA.sql";
+
+Externos\DBUpdates Complementos\Complementos\Est\prod_pa.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\CONFIG_SIS_PA.sql"
+
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\tmp_PA.sql"
+
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\prod_pa.sql";
+*/

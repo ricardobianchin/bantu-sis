@@ -10,13 +10,13 @@ inherited FiltroStringFrame: TFiltroStringFrame
     Height = 15
     Caption = 'Filtro'
   end
-  object BuscaStringEdit: TEdit [1]
+  object FiltroStringEdit: TEdit [1]
     Left = 31
     Top = 0
     Width = 129
     Height = 23
     TabOrder = 0
-    OnChange = BuscaStringEditChange
-    OnKeyPress = BuscaStringEditKeyPress
+    OnChange = FiltroStringEditChange
+    OnKeyPress = FiltroStringEditKeyPress
   end
 end
