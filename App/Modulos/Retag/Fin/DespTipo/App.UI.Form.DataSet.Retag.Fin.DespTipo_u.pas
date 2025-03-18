@@ -89,20 +89,16 @@ begin
 end;
 
 procedure TRetagFinDespTipoDataSetForm.DoAlterar;
+var
+  Resultado: boolean;
 begin
-  FDMemTable.DisableControls;
-  FDMemTable.BeginBatch;
-  FDMemTable.EmptyDataSet;
+  Resultado := DespTipoPerg(Self, AppObj, EntEd, EntDBI);
+  if not Resultado then
+    exit;
 
-  try
-    EntDBI.ForEach(FFiltroStringFrame.Values, LeRegEInsere);
-
-  finally
-    FDMemTable.First;
-    FDMemTable.EndBatch;
-    FDMemTable.EnableControls;
-    DBGridPosicioneColumnVisible(DBGrid1);
-  end;
+  FDMemTable.Edit;
+  FDMemTable.Fields[1].AsString := DespTipoEnt.Descr;
+  FDMemTable.Post;
 end;
 
 procedure TRetagFinDespTipoDataSetForm.DoAtualizar(Sender: TObject);

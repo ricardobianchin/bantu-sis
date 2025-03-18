@@ -2,7 +2,7 @@ unit App.PDV.ImpressaoTextoCxSessRelat_u;
 
 interface
 
-uses App.PDV.ImpressaoTexto_u, App.AppObj, Sis.Terminal, Sis.Usuario,
+uses App.PDV.ImpressaoTexto_u, App.AppObj, Sis.Terminal,
   App.Est.Venda.CaixaSessao.DBI, System.Classes,
   App.Est.Venda.Caixa.CaixaSessao;
 
@@ -19,7 +19,7 @@ type
     function GetDocTitulo: string; override;
     function GetEspelhoAssuntoAtual: string; override;
   public
-    constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
       pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
       pCaixaSessao: ICaixaSessao);
     destructor Destroy; override;
@@ -34,10 +34,10 @@ uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
 { TImpressaoTextoPDVCxSessRelat }
 
 constructor TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
   pCaixaSessaoDBI: ICaixaSessaoDBI; pCaixaSessao: ICaixaSessao);
 begin
-  inherited Create(pImpressoraNome, pUsuario, pAppObj, pTerminal,
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
     CupomEspelhoCxOperacaoCreate(pAppObj));
   FLinhasRet := TStringList.Create;
   FCaixaSessaoDBI := pCaixaSessaoDBI;

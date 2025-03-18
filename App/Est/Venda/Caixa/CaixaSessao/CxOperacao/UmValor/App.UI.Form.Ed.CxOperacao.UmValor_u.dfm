@@ -1,27 +1,30 @@
 inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
   Caption = 'CxOperUmValorEdForm'
-  ClientHeight = 454
-  ClientWidth = 776
-  ExplicitWidth = 792
-  ExplicitHeight = 493
+  ClientHeight = 371
+  ClientWidth = 552
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 568
+  ExplicitHeight = 410
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 382
-    Width = 776
-    ExplicitTop = 383
+    Top = 299
+    Width = 552
+    ExplicitTop = 382
   end
   inherited ObjetivoLabel: TLabel
-    Width = 776
+    Width = 552
+    StyleElements = [seFont, seClient, seBorder]
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 402
-    Width = 776
-    ExplicitTop = 403
+    Top = 319
+    Width = 552
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 402
   end
   object ObsLabel: TLabel [3]
     Left = 0
     Top = 17
-    Width = 776
+    Width = 552
     Height = 13
     Align = alTop
     Caption = 
@@ -38,67 +41,96 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     ExplicitWidth = 464
   end
   inherited BasePanel: TPanel
-    Top = 417
-    Width = 776
+    Top = 334
+    Width = 552
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 417
     ExplicitWidth = 776
+    DesignSize = (
+      552
+      37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 305
-      ExplicitLeft = 301
+      Left = 81
+      ExplicitLeft = 305
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 418
-      ExplicitLeft = 414
+      Left = 194
+      ExplicitLeft = 418
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 519
-      ExplicitLeft = 515
+      Left = 295
+      ExplicitLeft = 519
     end
   end
   inherited MeioPanel: TPanel
     Top = 30
-    Width = 776
-    Height = 352
+    Width = 552
+    Height = 269
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 30
     ExplicitWidth = 776
     ExplicitHeight = 352
     inherited ObsPanel: TPanel
-      Top = 269
-      Width = 776
+      Top = 186
+      Width = 552
+      TabOrder = 1
+      StyleElements = [seFont, seClient, seBorder]
       ExplicitTop = 269
       ExplicitWidth = 776
       inherited Label2: TLabel
-        Width = 776
+        Width = 552
+        StyleElements = [seFont, seClient, seBorder]
       end
       inherited ObsMemo: TMemo
-        Width = 776
+        Width = 552
+        StyleElements = [seFont, seClient, seBorder]
         ExplicitWidth = 776
       end
     end
     object TrabPageControl: TPageControl
       Left = 0
       Top = 0
-      Width = 776
-      Height = 269
+      Width = 552
+      Height = 186
       ActivePage = ValorTabSheet
       Align = alClient
-      TabOrder = 1
+      TabOrder = 0
+      ExplicitWidth = 776
+      ExplicitHeight = 269
       object ValorTabSheet: TTabSheet
         Caption = 'F3 - Indicar o Valor'
-        object ValorEdit: TEdit
-          Left = 75
-          Top = 11
-          Width = 81
-          Height = 29
+        object ValorNumEditBtu: TNumEditBtu
+          Left = 64
+          Top = 16
+          Width = 129
+          Height = 28
+          AutoExit = True
+          Caption = 'Valor R$'
+          EditLabel.Width = 55
+          EditLabel.Height = 28
+          EditLabel.Caption = 'Valor R$'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Segoe UI'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -16
+          Font.Height = -15
           Font.Name = 'Segoe UI'
           Font.Style = []
+          LabelPosition = lpLeft
+          LabelSpacing = 5
           ParentFont = False
+          ReadOnly = False
           TabOrder = 0
-          Text = '12345.65'
-          StyleElements = [seClient, seBorder]
+          Text = '0,00'
+          OnKeyPress = ValorNumEditBtuKeyPress
+          NCasas = 2
+          NCasasEsq = 7
+          Valor = 0
+          MascEsq = '######0'
         end
       end
       object NumerarioTabSheet: TTabSheet

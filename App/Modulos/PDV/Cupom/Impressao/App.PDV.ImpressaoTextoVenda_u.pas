@@ -3,7 +3,7 @@ unit App.PDV.ImpressaoTextoVenda_u;
 interface
 
 uses App.PDV.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.Venda,
-  App.PDV.VendaItem, App.PDV.VendaPag, Sis.Usuario;
+  App.PDV.VendaItem, App.PDV.VendaPag;
 
 type
   TImpressaoTextoPDVVenda = class(TImpressaoTextoPDV)
@@ -20,7 +20,7 @@ type
     function GetDocTitulo: string; override;
     function GetEspelhoAssuntoAtual: string; override;
   public
-    constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
       pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda);
   end;
 
@@ -32,10 +32,10 @@ uses Sis.Types.strings_u, System.SysUtils, System.StrUtils, System.Math,
 { TImpressaoTextoPDVVenda }
 
 constructor TImpressaoTextoPDVVenda.Create(pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
   pPDVVenda: IPDVVenda);
 begin
-  inherited Create(pImpressoraNome, pUsuario, pAppObj, pTerminal,
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
     CupomEspelhoVendaCreate(pAppObj));
   FPDVVenda := pPDVVenda;
 end;

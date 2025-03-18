@@ -5,8 +5,8 @@ interface
 uses App.PDV.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.Venda,
   App.PDV.VendaItem, App.PDV.CupomEspelho, App.PDV.VendaPag,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Sis.Usuario,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.DB.DBTypes;
 
 type
   TImpressaoTextoPDVCxOperacao = class(TImpressaoTextoPDV)
@@ -21,8 +21,9 @@ type
     function GetDocTitulo: string; override;
     function GetEspelhoAssuntoAtual: string; override;
   public
-    constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
-      pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt);
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer;
+      pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
+      pCxOperacaoEnt: ICxOperacaoEnt); reintroduce;
   end;
 
 implementation
@@ -33,10 +34,10 @@ uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
 { TImpressaoTextoPDVCxOperacao }
 
 constructor TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCxOperacaoEnt: ICxOperacaoEnt);
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
+  pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt);
 begin
-  inherited Create(pImpressoraNome, pUsuario, pAppObj, pTerminal,
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
     CupomEspelhoCxOperacaoCreate(pAppObj));
   FCxOperacaoEnt := pCxOperacaoEnt;
 end;
@@ -67,7 +68,7 @@ begin
     PegueLinha('');
     s := StringOfChar('_', 26);
     PegueLinha(CenterStr(s, NCols));
-    s := 'OP: ' + Usuario.NomeExib;
+    s := 'OP: ' + UsuarioNomeExib;
     PegueLinha(CenterStr(s, NCols));
 
     PegueLinha('');
@@ -78,7 +79,7 @@ begin
     s := 'RESPONSAVEL';
     PegueLinha(CenterStr(s, NCols));
   end;
-//  PegueLinha('');
+  // PegueLinha('');
 end;
 
 procedure TImpressaoTextoPDVCxOperacao.GereRodape;

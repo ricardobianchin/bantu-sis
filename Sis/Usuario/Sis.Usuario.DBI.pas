@@ -14,6 +14,8 @@ type
       out pAceito: boolean; out pMens: string): boolean;
 
     function GravarSenha(out pMens: string): boolean;
+
+    procedure Leia;
   end;
 
 implementation

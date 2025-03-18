@@ -159,7 +159,7 @@ inherited PDVSessForm: TPDVSessForm
     object ToolBar1: TToolBar
       Left = 15
       Top = 0
-      Width = 580
+      Width = 1000
       Height = 21
       Align = alNone
       ButtonHeight = 21
@@ -192,8 +192,14 @@ inherited PDVSessForm: TPDVSessForm
         Action = SangrAction
         AutoSize = True
       end
-      object FechToolButton: TToolButton
+      object DespToolButton: TToolButton
         Left = 370
+        Top = 0
+        Action = DespAction
+        AutoSize = True
+      end
+      object FechToolButton: TToolButton
+        Left = 443
         Top = 0
         Action = FechAction
         AutoSize = True
@@ -276,6 +282,10 @@ inherited PDVSessForm: TPDVSessForm
     object SangrAction: TAction
       Caption = 'A - Sangria'
       OnExecute = SangrActionExecute
+    end
+    object DespAction: TAction
+      Caption = 'D - Despesa'
+      OnExecute = DespActionExecute
     end
     object FechAction: TAction
       Caption = 'F - Fechar o Caixa'

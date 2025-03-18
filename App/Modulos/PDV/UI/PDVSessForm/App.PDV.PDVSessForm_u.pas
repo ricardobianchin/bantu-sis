@@ -49,6 +49,8 @@ type
     SuprToolButton: TToolButton;
     SangrToolButton: TToolButton;
     FechToolButton: TToolButton;
+    DespToolButton: TToolButton;
+    DespAction: TAction;
     procedure RelatActionExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure SuprActionExecute(Sender: TObject);
@@ -57,6 +59,7 @@ type
     procedure CancelActionExecute(Sender: TObject);
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure DespActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCaixaSessao: ICaixaSessao;
@@ -73,12 +76,13 @@ type
     constructor Create(AOwner: TComponent; pImpressoraNome: string;
       pCaixaSessaoDM: TCaixaSessaoDM); reintroduce;
   end;
-{
-quando fizer abertura de caixa, pegará a action q tenta abrir
-que receberá via parametro
-ela fica no modu pdv
-apos execuala, faz BuscarRecente
-}
+
+  {
+    quando fizer abertura de caixa, pegará a action q tenta abrir
+    que receberá via parametro
+    ela fica no modu pdv
+    apos execuala, faz BuscarRecente
+  }
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
   pCaixaSessaoDM: TCaixaSessaoDM);
 
@@ -123,6 +127,8 @@ begin
 
   ToolBar2.Left := Width - ToolBar2.Width;
   ToolBar1.Left := 15;
+  ToolBar1.Height := 21;
+  ToolBar1.Realign;
 end;
 
 procedure TPDVSessForm.Atualizar;
@@ -160,7 +166,8 @@ begin
     );
 
   FImpressao := ImpressaoTextoCxSessRelatCreate(pImpressoraNome,
-    FCaixaSessaoDM.LogUsuario, FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
+    FCaixaSessaoDM.LogUsuario.Id, FCaixaSessaoDM.LogUsuario.NomeExib,
+    FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
     FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessao);
 
   Height := Min(600, Screen.WorkAreaRect.Height - 10);
@@ -182,11 +189,19 @@ begin
   Canvas.Brush.Style := bsClear;
 end;
 
+procedure TPDVSessForm.DespActionExecute(Sender: TObject);
+begin
+  inherited;
+  FCaixaSessaoDM.GetAction(TCxOpTipo.cxopDespesa).Execute;
+  Atualizar;
+end;
+
 procedure TPDVSessForm.FechActionExecute(Sender: TObject);
 begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
-  Atualizar;
+  //Atualizar;
+  Close;
 end;
 
 procedure TPDVSessForm.FormKeyPress(Sender: TObject; var Key: Char);
@@ -204,6 +219,11 @@ begin
   else if CharInSet(Key, ['a', 'A']) then
   begin
     SangrAction.Execute;
+    exit;
+  end
+  else if CharInSet(Key, ['d', 'D']) then
+  begin
+    DespAction.Execute;
     exit;
   end
   else if CharInSet(Key, ['f', 'F']) then
@@ -266,7 +286,7 @@ end;
 procedure TPDVSessForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //RelatAction.Execute;
+  // RelatAction.Execute;
 end;
 
 procedure TPDVSessForm.SuprActionExecute(Sender: TObject);

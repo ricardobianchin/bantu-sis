@@ -19,6 +19,8 @@ type
 
     function GravarSenha(out pMens: string): boolean;
 
+    procedure Leia;
+
     constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario;
       pSisConfig: ISisConfig);
   end;
@@ -57,6 +59,54 @@ begin
     , DBConnection // pDBConnection
     , pMens // pMens
     );
+end;
+
+procedure TUsuarioDBI.Leia;
+var
+  sSql: string;
+  q: TDataSet;
+  iCryVer: smallint;
+  sSenhaEncriptada: string;
+  sSenhaDesencriptada: string;
+  bOpcaoSisIdModuloPode: boolean;
+  Resultado: Boolean;
+begin
+  Resultado := DBConnection.Abrir;
+  if not Resultado then
+  begin
+    raise Exception.Create(DBConnection.UltimoErro);
+    exit;
+  end;
+
+  sSql :=
+    'SELECT APELIDO'#13#10 //
+    +'FROM pessoa'#13#10 //
+    +'WHERE loja_id = ' +FUsuario.LojaId.ToString + #13#10 //
+    +'AND terminal_id = 0'#13#10 //
+    +'AND pessoa_id = ' +FUsuario.Id.ToString + #13#10 //
+    ;
+
+  // {$IFDEF DEBUG}
+  // SetClipboardText(sSql);
+  // {$ENDIF}
+  try
+    try
+      DBConnection.QueryDataSet(sSql, q);
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create(DBConnection.UltimoErro);
+      end;
+    end;
+
+    try
+      FUsuario.NomeExib := q.fields[0].AsString.Trim;
+    finally
+      q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 function TUsuarioDBI.LoginValide(pOpcaoSisIdModuloTentando: TOpcaoSisId;

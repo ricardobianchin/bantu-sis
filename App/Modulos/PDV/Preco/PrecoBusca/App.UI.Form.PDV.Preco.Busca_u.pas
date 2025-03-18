@@ -105,7 +105,7 @@ begin
   SetQtdRegsExibindo(qtdNenhu);
 
   FFiltroFrame := TFiltroStringFrame.Create(BasePanel, DoFiltroChange);
-  FFiltroFrame.BuscaStringEdit.OnKeyDown := BuscaStringEditKeyDown;
+  FFiltroFrame.FiltroStringEdit.OnKeyDown := BuscaStringEditKeyDown;
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
 
@@ -128,8 +128,8 @@ begin
   BorderStyle := TFormBorderStyle.bsNone;
   ClearStyleElements(FFiltroFrame);
   FFiltroFrame.Font.Size := 14;
-  FFiltroFrame.BuscaStringEdit.Width := 150;
-  FFiltroFrame.BuscaStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
+  FFiltroFrame.FiltroStringEdit.Width := 150;
+  FFiltroFrame.FiltroStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
     FFiltroFrame.FiltroTitLabel.Width + 5;
   FFiltroFrame.AutoSize := True;
   BasePanel.Height := 50;
@@ -140,7 +140,7 @@ end;
 procedure TPrecoBuscaForm.AjusteControles;
 begin
   inherited;
-  FFiltroFrame.BuscaStringEdit.SetFocus;
+  FFiltroFrame.FiltroStringEdit.SetFocus;
 end;
 
 procedure TPrecoBuscaForm.AjusteQtdRegsExibindo(pQtd: integer);

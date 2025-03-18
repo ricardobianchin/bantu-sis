@@ -3,7 +3,7 @@ unit App.PDV.ImpressaoTexto_u;
 interface
 
 uses Sis.UI.ImpressaoTexto_u, App.AppObj, Sis.Terminal, App.PDV.CupomEspelho,
-  Sis.Usuario, Sis.Sis.Constants;
+  Sis.Sis.Constants;
 
 type
   TImpressaoTextoPDV = class(TImpressaoTexto)
@@ -29,7 +29,7 @@ type
     function GetEspelhoAssuntoAtual: string; virtual;
 
   public
-    constructor Create(pImpressoraNome: string; pUsuario: IUsuario;
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
       pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
   end;
 
@@ -40,10 +40,10 @@ uses Sis.Types.strings_u, {System.DateUtils,} System.SysUtils, Sis.Types.Dates;
 { TImpressaoTextoPDV }
 
 constructor TImpressaoTextoPDV.Create(pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
   pCupomEspelho: ICupomEspelho);
 begin
-  inherited Create(pImpressoraNome, pUsuario);
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib);
   FAppObj := pAppObj;
   FTerminal := pTerminal;
   FCupomEspelho := pCupomEspelho;
@@ -67,7 +67,7 @@ begin
     s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
     PegueLinha(CenterStr(s, NCols));
   end;
-  s := 'OPERADOR: ' + Usuario.NomeExib;
+  s := 'OPERADOR: ' + UsuarioNomeExib;
   PegueLinha(CenterStr(s, NCols));
   PegueLinha('');
 end;

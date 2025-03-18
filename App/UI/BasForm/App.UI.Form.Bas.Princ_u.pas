@@ -28,6 +28,7 @@ type
 
     procedure DtHCompileLabelClick(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FecharAction_ActBasFormExecute(Sender: TObject);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -334,22 +335,30 @@ begin
 end;
 
 destructor TPrincBasForm.Destroy;
-begin //vai terminar em erro
-
-  // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
-  try
-    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
-      FProcessLog);
-    inherited;
-  finally
-    // FProcessLog.RetorneLocal;
-  end;
+begin //vai terminar em erro $$
+  inherited;
+//  // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
+//  try
+//    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
+//      FProcessLog);
+//    inherited;
+//  finally
+//    // FProcessLog.RetorneLocal;
+//  end;
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
 begin
   inherited;
   ShowMessage(AppVersao_u.GetInfos);
+end;
+
+procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
+begin
+{$IFNDEF DEBUG}
+  inherited;
+{$ENDIF}
+
 end;
 
 procedure TPrincBasForm.GarantaDB;

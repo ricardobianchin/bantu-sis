@@ -10,13 +10,16 @@ type
     FDBConnection: IDBConnection;
     function GetDBConnection: IDBConnection;
   protected
-    function GetSqlForEach(pValues: variant): string; virtual;
-      abstract;
+    function GetSqlForEach(pValues: variant): string; virtual; abstract;
   public
     property DBConnection: IDBConnection read GetDBConnection;
 
     function ExecuteSQL(pComandoSQL: string; out pMens: string): boolean;
     function GetValue(pConsultaSQL: string; out pMens: string): variant;
+
+    procedure GetFirstRecordValues(pConsultaSQL: string; out pVarArray: variant;
+      out pMens: string; out pDataSetWasEmpty: boolean);
+
     function GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
 
     procedure ForEach(pValues: variant;
@@ -28,7 +31,8 @@ type
 
 implementation
 
-uses Sis.Types.Integers, Data.DB, Sis.Win.Utils_u;
+uses Sis.Types.Integers, Data.DB, Sis.Win.Utils_u, System.Variants,
+  Sis.DB.DataSet.Utils;
 
 { TDBI }
 
@@ -55,14 +59,13 @@ end;
 
 function TDBI.GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
 var
-  Resultado: Variant;
+  Resultado: variant;
 begin
   Resultado := GetValue(pConsultaSQL, pMens);
-  result := VarToInteger(Resultado);
+  Result := VarToInteger(Resultado);
 end;
 
-procedure TDBI.ForEach(pValues: variant;
-  pProcLeReg: TProcDataSetOfObject);
+procedure TDBI.ForEach(pValues: variant; pProcLeReg: TProcDataSetOfObject);
 var
   sSqlRetRegs: string;
   q: TDataSet;
@@ -71,9 +74,9 @@ begin
   DBConnection.Abrir;
   try
     sSqlRetRegs := GetSqlForEach(pValues);
-//    {$IFDEF DEBUG}
-//    CopyTextToClipboard(sSqlRetRegs);
-//    {$ENDIF}
+//     {$IFDEF DEBUG}
+//     CopyTextToClipboard(sSqlRetRegs);
+//     {$ENDIF}
 
     DBConnection.QueryDataSet(sSqlRetRegs, q);
     try
@@ -120,6 +123,46 @@ end;
 function TDBI.GetDBConnection: IDBConnection;
 begin
   Result := FDBConnection;
+end;
+
+procedure TDBI.GetFirstRecordValues(pConsultaSQL: string;
+  out pVarArray: variant; out pMens: string; out pDataSetWasEmpty: boolean);
+var
+  q: TDataSet;
+  I: integer;
+  Resultado: boolean;
+begin
+  try
+    pDataSetWasEmpty := True;
+
+    Resultado := DBConnection.Abrir;
+    if not Resultado then
+    begin
+      pMens := DBConnection.UltimoErro;
+      exit;
+    end;
+
+    try
+      DBConnection.QueryDataSet(pConsultaSQL, q);
+      try
+        RecordToVarArray( pVarArray, q, pDataSetWasEmpty);
+      finally
+        q.Free;
+      end;
+    finally
+      DBConnection.Fechar;
+    end;
+  finally
+    if not Resultado then
+    begin
+      pVarArray := VarArrayCreate([1, 0], varVariant);
+{
+ pode testar o retorn com
+ if VarIsArray(vRetorno) and (VarArrayHighBound(vRetorno, 1) >= 1) then
+ mas nao será necessario pois agora criei pDataSetWasEmpty
+ }
+    end;
+  end;
 end;
 
 function TDBI.GetNomeArqTabView(pValues: variant): string;

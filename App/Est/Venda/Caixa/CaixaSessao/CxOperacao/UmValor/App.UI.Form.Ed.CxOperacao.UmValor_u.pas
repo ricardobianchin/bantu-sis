@@ -5,23 +5,25 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  App.UI.Form.Ed.CxOperacao_u, App.Ent.Ed, App.Ent.DBI, App.AppObj,
+  App.UI.Form.Ed.CxOperacao_u,
+  App.Ent.Ed, App.Ent.DBI, App.AppObj,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   NumEditBtu, Vcl.ComCtrls, App.UI.Controls.NumerarioListFrame_u, Sis.Usuario,
-  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent;
+  App.Est.Venda.Caixa.CxValor.DBI, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
+  Vcl.Mask, CustomEditBtu, CustomNumEditBtu;
 
 type
   TCxOperUmValorEdForm = class(TCxOperacaoEdForm)
     ObsLabel: TLabel;
     TrabPageControl: TPageControl;
     ValorTabSheet: TTabSheet;
-    ValorEdit: TEdit;
     NumerarioTabSheet: TTabSheet;
+    ValorNumEditBtu: TNumEditBtu;
     procedure TrabPageControlChange(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure ValorNumEditBtuKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
-    FValorNumEdit: TNumEditBtu;
     FNumerarioListFrame: TNumerarioListFrame;
     function GetValorDoControle: Currency;
   protected
@@ -31,9 +33,9 @@ type
     function DadosOk: boolean; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
-      pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
-      reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI); reintroduce; virtual;
   end;
 
 var
@@ -56,11 +58,11 @@ begin
 
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    Result := FValorNumEdit.AsCurrency > ZERO_CURRENCY;
+    Result := ValorNumEditBtu.AsCurrency > ZERO_CURRENCY;
     if not Result then
     begin
       ErroOutput.Exibir('Valor é obrigatório');
-      FValorNumEdit.SetFocus;
+      ValorNumEditBtu.SetFocus;
     end;
     exit;
   end;
@@ -71,29 +73,20 @@ begin
   inherited;
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    CxOperacaoEnt.Valor := FValorNumEdit.AsCurrency;
+    CxOperacaoEnt.Valor := ValorNumEditBtu.AsCurrency;
     exit;
   end;
 end;
 
 constructor TCxOperUmValorEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI;
-  pCxValorDBI: ICxValorDBI);
+  pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
 begin
-  inherited Create(AOwner, pAppObj, pUsuario, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pUsuarioId, pUsuarioNomeExib,
+    pEntEd, pEntDBI);
 
-  FValorNumEdit := TNumEditBtu.Create(Self);
-  FValorNumEdit.Parent := ValorTabSheet;
-  FValorNumEdit.Alignment := taRightJustify;
-  FValorNumEdit.NCasas := 2;
-  FValorNumEdit.NCasasEsq := 7;
-  FValorNumEdit.Caption := 'Valor R$';
-  FValorNumEdit.LabelPosition := lpLeft;
-  FValorNumEdit.LabelSpacing := 4;
-  FValorNumEdit.Font.Assign(ValorEdit.Font);
-  FValorNumEdit.StyleElements := ValorEdit.StyleElements;
-
-  PegueFormatoDe(FValorNumEdit, ValorEdit);
+  ValorNumEditBtu.EditLabel.StyleElements := ValorNumEditBtu.StyleElements;
+  ValorNumEditBtu.EditLabel.Font.Assign(ValorNumEditBtu.Font);
 
   FNumerarioListFrame := TNumerarioListFrame.Create(NumerarioTabSheet,
     pCxValorDBI, AppObj.AppInfo.PastaImg + 'App\Numerario\Indiv\');
@@ -114,14 +107,14 @@ begin
   begin
     if TrabPageControl.ActivePage = ValorTabSheet then
     begin
-      CxOperacaoEnt.CxValorList.PegueCxValor(1, FValorNumEdit.AsCurrency);
+      CxOperacaoEnt.CxValorList.PegueCxValor(1, ValorNumEditBtu.AsCurrency);
     end;
   end
   else
   begin
     if TrabPageControl.ActivePage = ValorTabSheet then
     begin
-      CxOperacaoEnt.CxValorList[0].Valor := FValorNumEdit.AsCurrency
+      CxOperacaoEnt.CxValorList[0].Valor := ValorNumEditBtu.AsCurrency
     end;
   end;
 end;
@@ -131,7 +124,7 @@ begin
   inherited;
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    FValorNumEdit.Valor := CxOperacaoEnt.Valor;
+    ValorNumEditBtu.Valor := CxOperacaoEnt.Valor;
   end;
 end;
 
@@ -140,7 +133,7 @@ begin
   Result := 0;
   if TrabPageControl.ActivePage = ValorTabSheet then
   begin
-    Result := FValorNumEdit.AsCurrency;
+    Result := ValorNumEditBtu.AsCurrency;
   end;
 end;
 
@@ -148,10 +141,10 @@ procedure TCxOperUmValorEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   TrabPageControl.ActivePage := ValorTabSheet;
-  FValorNumEdit.SetFocus;
+  ValorNumEditBtu.SetFocus;
 
-//  FValorNumEdit.Valor := 18.76;
-//  ObsMemo.Lines.text := 'Abertra teste';
+  // FValorNumEdit.Valor := 18.76;
+  // ObsMemo.Lines.text := 'Abertra teste';
 
   // OkAct_Diag.Execute;
   // TrabPageControl.ActivePage := NumerarioTabSheet;
@@ -161,9 +154,17 @@ procedure TCxOperUmValorEdForm.TrabPageControlChange(Sender: TObject);
 begin
   inherited;
   if TrabPageControl.ActivePage = ValorTabSheet then
-    FValorNumEdit.SetFocus
+    ValorNumEditBtu.SetFocus
   else if TrabPageControl.ActivePage = NumerarioTabSheet then
     FNumerarioListFrame.SelecionePrimeiro;
+end;
+
+procedure TCxOperUmValorEdForm.ValorNumEditBtuKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+    SelectNext(TWinControl(Sender), True, True);
 end;
 
 end.

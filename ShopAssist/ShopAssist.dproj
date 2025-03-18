@@ -165,6 +165,7 @@
         <DCCReference Include="Sis\Log_u.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdPreco.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas"/>
+        <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -192,6 +193,12 @@
             </Delphi.Personality>
             <Deployment Version="4">
                 <DeployFile LocalName="..\..\Exe\Bin\ShopAssist.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>ShopAssist.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Exe\Bin\ShopAssist.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>ShopAssist.exe</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -203,9 +210,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\ShopAssist.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\Exe\Configs\ShopAssist.ini" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
-                        <RemoteName>ShopAssist.exe</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

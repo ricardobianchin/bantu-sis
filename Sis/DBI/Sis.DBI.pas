@@ -14,10 +14,11 @@ type
     function GetValue(pConsultaSQL: string; out pMens: string): variant;
     function GetValueInteger(pConsultaSQL: string; out pMens: string): integer;
 
-    procedure ForEach(pValues: variant;
-      pProcLeReg: TProcDataSetOfObject);
+    procedure ForEach(pValues: variant; pProcLeReg: TProcDataSetOfObject);
 
     function GetNomeArqTabView(pValues: variant): string;
+    procedure GetFirstRecordValues(pConsultaSQL: string; out pVarArray: variant;
+      out pMens: string; out pDataSetWasEmpty: boolean);
   end;
 
 implementation

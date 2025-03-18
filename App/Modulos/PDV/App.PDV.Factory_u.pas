@@ -9,7 +9,7 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca, Sis.Usuario,
   App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
   App.Est.Venda.CaixaSessaoRecord_u, App.Est.Venda.CaixaSessao.DBI,
-  App.Est.Venda.Caixa.CaixaSessao;
+  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pPDVObj: IPDVObj;
   pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -30,18 +30,18 @@ function BalancaCreate(pBalancaVendaForm: TBalancaVendaForm = nil): IBalanca;
 
 // function CupomEspelhoCreate(pAppObj: IAppObj; pTipoCupom: string): ICupomEspelho;
 function CupomEspelhoVendaCreate(pAppObj: IAppObj): ICupomEspelho;
-function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuario: IUsuario;
+function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
 
 function CupomEspelhoCxOperacaoCreate(pAppObj: IAppObj): ICupomEspelho;
 function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
+  pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
 
 function CupomEspelhoCxSessRelatCreate(pAppObj: IAppObj): ICupomEspelho;
-function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string; pUsuario: IUsuario;
-      pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pCaixaSessao: ICaixaSessao): IImpressao;
+function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCaixaSessaoDBI: ICaixaSessaoDBI; pCaixaSessao: ICaixaSessao): IImpressao;
 
 implementation
 
@@ -118,10 +118,10 @@ begin
   Result := TCupomEspelho.Create(pAppObj, 'Venda');
 end;
 
-function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuario: IUsuario;
+function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
   pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda): IImpressao;
 begin
-  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pUsuario, pAppObj,
+  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj,
     pTerminal, pPDVVenda);
 end;
 
@@ -172,11 +172,11 @@ begin
 end;
 
 function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
-  pUsuario: IUsuario; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
+  pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
 begin
-  Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pUsuario,
-    pAppObj, pTerminal, pCxOperacaoEnt);
+  Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pUsuarioId,
+    pUsuarioNomeExib, pAppObj, pTerminal, pCxOperacaoEnt);
 end;
 
 function CupomEspelhoCxSessRelatCreate(pAppObj: IAppObj): ICupomEspelho;
@@ -184,11 +184,11 @@ begin
   Result := TCupomEspelho.Create(pAppObj, 'Relatorio de Caixa');
 end;
 
-function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string; pUsuario: IUsuario;
-      pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pCaixaSessao: ICaixaSessao): IImpressao;
+function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string;
+  pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
+  pCaixaSessaoDBI: ICaixaSessaoDBI; pCaixaSessao: ICaixaSessao): IImpressao;
 begin
-  Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome, pUsuario,
+  Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib,
     pAppObj, pTerminal, pCaixaSessaoDBI, pCaixaSessao);
 end;
 

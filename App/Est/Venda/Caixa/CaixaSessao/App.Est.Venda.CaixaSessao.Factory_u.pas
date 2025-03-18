@@ -47,13 +47,15 @@ function ICxOperacaoTipoDBICreate(pDBConnection: IDBConnection)
 function CxOperacaoActionCreate(AOwner: TComponent; pCaixaSessao: ICaixaSessao;
   pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
   pCxOperacaoEnt: ICxOperacaoEnt; pCxOperacaoDBI: ICxOperacaoDBI;
-  pAppObj: IAppObj; pUsuario: IUsuario; pCxValorDBI: ICxValorDBI;
-  pPDVControlador: IPDVControlador; pCaixaSessaoDBI: ICaixaSessaoDBI): TAction;
+  pAppObj: IAppObj; pUsuarioId: integer; pUsuarioNomeExib: string;
+  pCxValorDBI: ICxValorDBI; pPDVControlador: IPDVControlador;
+  pCaixaSessaoDBI: ICaixaSessaoDBI): TAction;
 
 function CxOperacaoEntCreate(pCaixaSessao: ICaixaSessao;
   pCxOperacaoTipo: ICxOperacaoTipo): ICxOperacaoEnt;
 function CxOperacaoDBICreate(pDBConnection: IDBConnection;
-  pCxOperacaoEnt: ICxOperacaoEnt): ICxOperacaoDBI; // IEntDBI;
+  pCxOperacaoEnt: ICxOperacaoEnt; pUsuarioId: integer): ICxOperacaoDBI;
+// IEntDBI;
 
 function EntEdCastToCxOperacaoEnt(pEntEd: IEntEd): ICxOperacaoEnt;
 function EntDBICastToCxOperacaoDBI(pEntDBI: IEntDBI): ICxOperacaoDBI;
@@ -124,8 +126,9 @@ end;
 function CxOperacaoActionCreate(AOwner: TComponent; pCaixaSessao: ICaixaSessao;
   pCxOperacaoTipo: ICxOperacaoTipo; pCxOperacaoTipoDBI: ICxOperacaoTipoDBI;
   pCxOperacaoEnt: ICxOperacaoEnt; pCxOperacaoDBI: ICxOperacaoDBI;
-  pAppObj: IAppObj; pUsuario: IUsuario; pCxValorDBI: ICxValorDBI;
-  pPDVControlador: IPDVControlador; pCaixaSessaoDBI: ICaixaSessaoDBI): TAction;
+  pAppObj: IAppObj; pUsuarioId: integer; pUsuarioNomeExib: string;
+  pCxValorDBI: ICxValorDBI; pPDVControlador: IPDVControlador;
+  pCaixaSessaoDBI: ICaixaSessaoDBI): TAction;
 begin
   Result := nil;
   case pCxOperacaoTipo.Id of
@@ -136,8 +139,8 @@ begin
       , cxopSuprimento //
       , cxopFechamento: //
       Result := TCxOperacaoAction.Create(AOwner, pCaixaSessao, pCxOperacaoTipo,
-        pCxOperacaoTipoDBI, pCxOperacaoEnt, pCxOperacaoDBI, pAppObj, pUsuario,
-        pCxValorDBI, pPDVControlador, pCaixaSessaoDBI);
+        pCxOperacaoTipoDBI, pCxOperacaoEnt, pCxOperacaoDBI, pAppObj, pUsuarioId,
+        pUsuarioNomeExib, pCxValorDBI, pPDVControlador, pCaixaSessaoDBI);
     cxopVale:
       ;
     cxopDespesa:
@@ -170,9 +173,10 @@ begin
 end;
 
 function CxOperacaoDBICreate(pDBConnection: IDBConnection;
-  pCxOperacaoEnt: ICxOperacaoEnt): ICxOperacaoDBI; // IEntDBI;
+  pCxOperacaoEnt: ICxOperacaoEnt; pUsuarioId: integer): ICxOperacaoDBI;
+// IEntDBI;
 begin
-  Result := TCxOperacaoDBI.Create(pDBConnection, pCxOperacaoEnt);
+  Result := TCxOperacaoDBI.Create(pDBConnection, pCxOperacaoEnt, pUsuarioId);
 end;
 
 function CxValorCreate(pPagamentoFormaId: TId; pValor: TPreco): ICxValor;

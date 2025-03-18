@@ -3,40 +3,41 @@ unit App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI_u;
 interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Classes,
-  System.Variants, Sis.Types.Integers,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI,
-  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Ent.DBI_u,
-  Sis.Entities.Types, FireDAC.Comp.Client;
+  System.Variants, Sis.Types.Integers, App.Ent.Ed, FireDAC.Comp.Client,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.DBI, Sis.Entities.Types,
+  App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, App.Ent.DBI_u;
 
 type
   TCxOperacaoDBI = class(TEntDBI, ICxOperacaoDBI)
   private
     FCxOperacaoEnt: ICxOperacaoEnt;
-    function GetSqlGar: string;
+    FUsuarioId: integer;
   protected
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
   public
-    function Garantir: boolean;
     procedure FecharPodeGet(out pPode: boolean; out pMensagem: string);
-    constructor Create(pDBConnection: IDBConnection;
-      pCxOperacaoEnt: ICxOperacaoEnt);
     procedure PreencherPagamentoFormaDataSet(pDMemTable1: TFDMemTable);
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
+    procedure PreencherDespTipoSL(pSL: TStrings);
+
+    constructor Create(pDBConnection: IDBConnection;
+      pCxOperacaoEnt: ICxOperacaoEnt; pUsuarioId: integer); reintroduce;
   end;
 
 implementation
 
 uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats,
-  Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates;
+  Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, Sis.Types.Bool_u;
 
 { TCxOperacaoDBI }
 
 constructor TCxOperacaoDBI.Create(pDBConnection: IDBConnection;
-  pCxOperacaoEnt: ICxOperacaoEnt);
+  pCxOperacaoEnt: ICxOperacaoEnt; pUsuarioId: integer);
 begin
   inherited Create(pDBConnection, pCxOperacaoEnt);
   FCxOperacaoEnt := pCxOperacaoEnt;
+  FUsuarioId := pUsuarioId;
 end;
 
 procedure TCxOperacaoDBI.FecharPodeGet(out pPode: boolean;
@@ -80,84 +81,6 @@ begin
   Result := '';
 end;
 
-function TCxOperacaoDBI.GetSqlGar: string;
-var
-  Ent: ICxOperacaoEnt;
-begin
-  Ent := FCxOperacaoEnt;
-
-  Result := 'SELECT'#13#10
-
-    + 'SESS_ID_RET'#13#10 // 0
-    + ', OPER_ORDEM_RET'#13#10 // 1
-    + ', OPER_LOG_ID_RET'#13#10 // 2
-    + ', OPER_TIPO_ORDEM_RET'#13#10 // 3
-    + ', LOG_DTH'#13#10 // 4
-
-    + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
-
-    + '('#13#10 //
-
-    + '  ' + Ent.CaixaSessao.LojaId.ToString //
-    + '  , ' + Ent.CaixaSessao.TerminalId.ToString //
-    + '  , ' + Ent.CaixaSessao.Id.ToString //
-    + '  , null'// + Ent.OperOrdem.ToString //
-    + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant //
-    + '  , ' + Ent.LogId.ToString //
-    + '  , null'// + Ent.OperTipoOrdem.ToString //
-    + '  , ' + CurrencyToStrPonto(Ent.Valor) //
-    + '  , ' + QuotedStr(Ent.obs) //
-
-    + '  , ' + Ent.CaixaSessao.LogUsuario.Id.ToString //
-    + '  , ' + Ent.CaixaSessao.MachineIdentId.ToString //
-    + '  , ' + QuotedStr(Ent.CxValorList.AsList) //
-    + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) //
-    + ');' //
-    ;
-
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(Result);
-//   {$ENDIF}
-end;
-
-function TCxOperacaoDBI.Garantir: boolean;
-var
-  sSql: string;
-  sDt: string;
-  q: TDataSet;
-begin
-  Result := False;
-  sSql := GetSqlGar;
-
-  Result := DBConnection.Abrir;
-  if not Result then
-    exit;
-
-  try
-    DBConnection.QueryDataSet(sSql, q);
-
-    Result := Assigned(q);
-    if not Result then
-      exit;
-    try
-      FCxOperacaoEnt.CaixaSessao.Id := q.Fields[0].AsInteger;
-      FCxOperacaoEnt.OperOrdem := q.Fields[1].AsInteger;
-      FCxOperacaoEnt.LogId := q.Fields[2].AsLargeInt;
-      FCxOperacaoEnt.OperTipoOrdem := q.Fields[3].AsInteger;
-      FCxOperacaoEnt.CriadoEm := q.Fields[4].AsDateTime;
-//      sDt := q.Fields[4].AsString;
-//      FCxOperacaoEnt.CriadoEm := TimeStampStrToDateTime(sDt);
-
-
-    finally
-      q.Free;
-    end;
-
-  finally
-    DBConnection.Fechar;
-  end;
-end;
-
 procedure TCxOperacaoDBI.PDVCarregarDataSet(pDMemTable1: TFDMemTable);
 var
   oDBQuery: IDBQuery;
@@ -190,6 +113,38 @@ begin
       pDMemTable1.First;
       pDMemTable1.EndBatch;
       pDMemTable1.EnableControls;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TCxOperacaoDBI.PreencherDespTipoSL(pSL: TStrings);
+var
+  oDBQuery: IDBQuery;
+  sSql: string;
+begin
+  pSL.Clear;
+  DBConnection.Abrir;
+  try
+    sSql := //
+      'SELECT DESPESA_TIPO_ID, DESCR'#13#10 //
+      + 'FROM DESPESA_TIPO'#13#10 //
+      + 'ORDER BY DESCR'#13#10 //
+      ;
+
+    oDBQuery := DBQueryCreate('CxOperaca.desptipo.lista.get.q', DBConnection,
+      sSql, nil, nil);
+    try
+      oDBQuery.Abrir;
+      while not oDBQuery.DataSet.Eof do
+      begin
+        pSL.AddObject(oDBQuery.DataSet.Fields[1].AsString,
+          Pointer(oDBQuery.DataSet.Fields[0].AsInteger));
+        oDBQuery.DataSet.Next;
+      end;
+    finally
+      oDBQuery.Fechar;
     end;
   finally
     DBConnection.Fechar;

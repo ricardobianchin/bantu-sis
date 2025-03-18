@@ -16,14 +16,19 @@ type
     ObsPanel: TPanel;
     Label2: TLabel;
     ObsMemo: TMemo;
+    procedure ObsMemoKeyPress(Sender: TObject; var Key: Char);
+    procedure OkAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FCxOperacaoEnt: ICxOperacaoEnt;
     FCxOperacaoDBI: ICxOperacaoDBI;
     FImpressao: IImpressao;
     FTerminal: ITerminal;
-    FUsuario: IUsuario;
+    FUsuarioId: integer;
+    FUsuarioNomeExib: string;
   protected
+    function GetSqlGarantir: string; virtual;
+
     function GetObjetivoStr: string; override;
     procedure AjusteControles; override;
 
@@ -37,11 +42,13 @@ type
     property CxOperacaoEnt: ICxOperacaoEnt read FCxOperacaoEnt;
     property CxOperacaoDBI: ICxOperacaoDBI read FCxOperacaoDBI;
     function PodeOk: boolean; override;
+    property UsuarioId: integer read FUsuarioId;
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
-      pEntEd: IEntEd; pEntDBI: IEntDBI); reintroduce;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+      pEntDBI: IEntDBI); reintroduce;
   end;
 
 var
@@ -51,7 +58,9 @@ implementation
 
 {$R *.dfm}
 
-uses System.Math, App.Est.Venda.CaixaSessao.Factory_u, App.PDV.Factory_u;
+uses System.Math, App.Est.Venda.CaixaSessao.Factory_u, App.PDV.Factory_u,
+  Sis.Types.Floats, Sis.Entities.Types, App.Est.Venda.Caixa.CaixaSessao.Utils_u,
+  Sis.Win.Utils_u;
 
 { TCxOperacaoEdForm }
 
@@ -77,10 +86,12 @@ begin
 end;
 
 constructor TCxOperacaoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI);
+  pUsuarioId: integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+  pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
-  FUsuario := pUsuario;
+  FUsuarioId := pUsuarioId;
+  FUsuarioNomeExib := pUsuarioNomeExib;
 
   FCxOperacaoEnt := EntEdCastToCxOperacaoEnt(pEntEd);
   FCxOperacaoDBI := EntDBICastToCxOperacaoDBI(pEntDBI);
@@ -88,10 +99,10 @@ begin
   FTerminal := pAppObj.TerminalList.TerminalIdToTerminal
     (FCxOperacaoEnt.CaixaSessao.TerminalId);
   FImpressao := ImpressaoTextoCxOperacaoCreate(FTerminal.ImpressoraNome,
-    FUsuario, pAppObj, FTerminal, FCxOperacaoEnt);
+    pUsuarioId, pUsuarioNomeExib, pAppObj, FTerminal, FCxOperacaoEnt);
 
-  Height := Min(600, Screen.WorkAreaRect.Height - 10);
-  Width := 800;
+//  Height := Min(600, Screen.WorkAreaRect.Height - 10);
+//  Width := 800;
 end;
 
 function TCxOperacaoEdForm.DadosOk: boolean;
@@ -117,9 +128,92 @@ begin
   Result := sNom;
 end;
 
-function TCxOperacaoEdForm.GravouOk: boolean;
+function TCxOperacaoEdForm.GetSqlGarantir: string;
+var
+  Ent: ICxOperacaoEnt;
 begin
-  Result := FCxOperacaoDBI.Garantir;
+  Ent := FCxOperacaoEnt; // so pra tornar mais legivel
+
+  Result := 'SELECT'#13#10
+
+    + 'SESS_ID_RET'#13#10 // 0
+    + ', OPER_ORDEM_RET'#13#10 // 1
+    + ', OPER_LOG_ID_RET'#13#10 // 2
+    + ', OPER_TIPO_ORDEM_RET'#13#10 // 3
+    + ', LOG_DTH'#13#10 // 4
+
+    + 'FROM CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO'#13#10 //
+
+    + '('#13#10 //
+
+    + '  ' + Ent.CaixaSessao.LojaId.ToString + ' -- loja_id'#13#10 //
+    + '  , ' + Ent.CaixaSessao.TerminalId.ToString + ' -- terminal_id'#13#10 //
+    + '  , ' + Ent.CaixaSessao.Id.ToString + ' -- sess id'#13#10 //
+    + '  , null' + ' -- oper ordem'#13#10 // + Ent.OperOrdem.ToString //
+    + '  , ' + Ent.CxOperacaoTipo.Id.ToSqlConstant + ' -- oper tipo'#13#10 //
+    + '  , ' + Ent.LogId.ToString + ' -- log id'#13#10 //
+    + '  , null' + ' -- tipo ordem'#13#10 // + Ent.OperTipoOrdem.ToString //
+    + '  , ' + CurrencyToStrPonto(Ent.Valor) + ' -- valor'#13#10 //
+    + '  , ' + QuotedStr(Ent.Obs) + ' -- obs'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- usu id'#13#10 //
+    + '  , ' + Ent.CaixaSessao.MachineIdentId.ToString + ' -- machine id'#13#10
+  //
+    + '  , ' + QuotedStr(Ent.CxValorList.AsList) + ' -- valor list'#13#10 //
+    + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) +
+    ' -- numerario list'#13#10 //
+
+    + ');' //
+    ;
+
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(Result);
+//   {$ENDIF}
+end;
+
+function TCxOperacaoEdForm.GravouOk: boolean;
+var
+  sMens: string;
+  sSql: string;
+  vValues: Variant;
+  bDataSetWasEmpty: boolean;
+begin
+  Result := False;
+  sSql := GetSqlGarantir;
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
+  FCxOperacaoDBI.GetFirstRecordValues(sSql, vValues, sMens, bDataSetWasEmpty);
+
+  Result := not bDataSetWasEmpty;
+
+  if not Result then
+  begin
+    ErroOutput.Exibir(sMens);
+    exit;
+  end;
+
+  FCxOperacaoEnt.CaixaSessao.Id := vValues[0];
+  FCxOperacaoEnt.OperOrdem := vValues[1];
+  FCxOperacaoEnt.LogId := vValues[2];
+  FCxOperacaoEnt.OperTipoOrdem := vValues[3];
+  FCxOperacaoEnt.CriadoEm := vValues[4];
+end;
+
+procedure TCxOperacaoEdForm.ObsMemoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    OkAct_Diag.Execute;
+  end;
+end;
+
+procedure TCxOperacaoEdForm.OkAct_DiagExecute(Sender: TObject);
+begin
+  inherited;
+  FImpressao.Imprima;
+
 end;
 
 function TCxOperacaoEdForm.PodeOk: boolean;
@@ -127,7 +221,6 @@ begin
   Result := inherited;
   if not Result then
     exit;
-  FImpressao.Imprima;
 end;
 
 end.

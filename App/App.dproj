@@ -749,6 +749,23 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>RetagFinDespTipoDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Despesa_u.pas">
+            <Form>CxOperDespesaEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_Or_u.pas">
+            <Form>ProdOrFiltroFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_And_u.pas">
+            <Form>ProdAndFiltroFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <None Include="..\..\Exe\Configs\Login.Config.xml"/>
+        <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
+        <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

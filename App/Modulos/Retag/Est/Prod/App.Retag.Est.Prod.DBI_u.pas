@@ -24,7 +24,8 @@ type
 implementation
 
 uses System.SysUtils, Sis.Types.strings_u, App.Est.Types_u, Sis.Lists.Types,
-  Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats;
+  Sis.Win.Utils_u, Vcl.Dialogs, Sis.Types.Bool_u, Sis.Types.Floats,
+  Sis.Types.Variants;
 
 { TProdDBI }
 
@@ -119,14 +120,25 @@ begin
     ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
 
   // 11
-    ', COD_BARRAS' +
+    ', COD_BARRAS' + //
 
-    ', CUSTO, PRECO' +
+    ', CUSTO, PRECO' + //
 
     ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
 
-    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ');';
-  // SetClipboardText(Result);
+    ' FROM PROD_PA.LISTA_GET(' //
+    + Ent.LojaId.ToString //
+    +', ' + QuotedStr(VarToString(pValues[0]))
+    + ',' + BooleanToStrSql(pValues[1]) //
+    + ',' + BooleanToStrSql(pValues[2]) //
+    + ',' + BooleanToStrSql(pValues[3]) //
+    + ',' + BooleanToStrSql(pValues[4]) //
+    + ',' + BooleanToStrSql(pValues[5]) //
+
+    + ');'; //
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 function TProdDBI.Ler: boolean;
@@ -165,9 +177,18 @@ begin
     ', BAL_VALIDADE_DIAS' + // 17
     ', BAL_TEXTO_ETIQ' + // 18
 
-    ' FROM PROD_PA.LISTA_GET(' + Ent.LojaId.ToString + ')' + //
-    ' WHERE PROD_ID = ' + Ent.Id.ToString + ';' //
-    ;
+    ' FROM PROD_PA.LISTA_GET(' //
+    + Ent.LojaId.ToString //
+    +', ' + QuotedStr(Ent.Id.ToString) //
+    + ',' + BooleanToStrSql(True) //
+    + ',' + BooleanToStrSql(False) //
+    + ',' + BooleanToStrSql(False) //
+    + ',' + BooleanToStrSql(False) //
+    + ',' + BooleanToStrSql(False) //
+
+    + ');'; //
+//    ' WHERE PROD_ID = ' + Ent.Id.ToString + ';' //
+//    ;
 
   DBConnection.Abrir;
   try

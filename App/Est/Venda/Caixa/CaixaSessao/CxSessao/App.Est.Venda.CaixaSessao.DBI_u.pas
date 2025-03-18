@@ -64,9 +64,9 @@ begin
       + ', APELIDO'#13#10 // 2
       + ', ABERTO_EM'#13#10 // 3
       + 'FROM CAIXA_SESSAO_MANUT_PA.ABERTO_GET'#13#10;
-     {$IFDEF DEBUG}
-     CopyTextToClipboard(sSql);
-     {$ENDIF}
+//     {$IFDEF DEBUG}
+//     CopyTextToClipboard(sSql);
+//     {$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
 
     Result := Assigned(q);
@@ -205,9 +205,9 @@ begin
 
       + ');';
 
-{$IFDEF DEBUG}
-    CopyTextToClipboard(sSql);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//    CopyTextToClipboard(sSql);
+//{$ENDIF}
     oDBQuery := DBQueryCreate('CxOperaca.tela.lista.get.q', DBConnection, sSql,
       nil, nil);
 

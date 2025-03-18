@@ -19,6 +19,8 @@ type
     function GetText: string;
     procedure SetText(const Value: string);
     property Text: string read GetText write SetText;
+
+    procedure SetFocus;
   end;
 
 implementation

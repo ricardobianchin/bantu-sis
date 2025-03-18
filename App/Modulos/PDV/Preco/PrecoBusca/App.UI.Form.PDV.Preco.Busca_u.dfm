@@ -2,9 +2,9 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
   Caption = 'PrecoBuscaForm'
   ClientHeight = 272
   ClientWidth = 688
-  ExplicitLeft = -6
-  ExplicitWidth = 700
-  ExplicitHeight = 310
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 704
+  ExplicitHeight = 311
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 252
@@ -14,6 +14,7 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 237
     Width = 688
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 237
   end
   object FundoPanel: TPanel [2]

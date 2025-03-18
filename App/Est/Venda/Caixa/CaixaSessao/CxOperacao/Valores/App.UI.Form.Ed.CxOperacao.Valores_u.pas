@@ -46,9 +46,9 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pAppObj: IAppObj; pUsuario: IUsuario;
-      pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
-      reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pAppObj: IAppObj;
+      pUsuarioId: Integer; pUsuarioNomeExib: string; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI); reintroduce; virtual;
   end;
 
 var
@@ -108,7 +108,7 @@ begin
           s := s + '.';
         end;
 
-        OverwriteStringRight(s, ' '+DinhToStr(v), 40);
+        OverwriteStringRight(s, ' ' + DinhToStr(v), 40);
 
         CxOperacaoEnt.Linhas.Add(s);
 
@@ -119,9 +119,11 @@ begin
 end;
 
 constructor TCxOperValoresEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-pUsuario: IUsuario; pEntEd: IEntEd; pEntDBI: IEntDBI; pCxValorDBI: ICxValorDBI);
+pUsuarioId: Integer; pUsuarioNomeExib: string; pEntEd: IEntEd; pEntDBI: IEntDBI;
+pCxValorDBI: ICxValorDBI);
 begin
-  inherited Create(AOwner, pAppObj, pUsuario, pEntEd, pEntDBI);
+  inherited Create(AOwner, pAppObj, pUsuarioId, pUsuarioNomeExib,
+    pEntEd, pEntDBI);
   PreencherFDMemTable1;
 end;
 

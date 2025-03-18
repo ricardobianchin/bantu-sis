@@ -169,7 +169,7 @@ begin
   FPagFrame.OculteControles;
 
   FImpressaoVenda := ImpressaoTextoVendaCreate(Terminal.ImpressoraNome,
-    pLogUsuario, AppObj, Terminal, PDVVenda);
+    pLogUsuario.Id, pLogUsuario.NomeExib, AppObj, Terminal, PDVVenda);
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;

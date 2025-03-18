@@ -1,0 +1,279 @@
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\TMP_PROD_PA.sql
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\TMP_PROD_PA.sql";
+
+SELECT FIRST(5) PROD_ID, DESCR, DESCR_RED
+FROM PROD_TMP_PA.LISTA_GET(1, '', FALSE, FALSE, FALSE, FALSE, FALSE);
+
+--BARRAS
+
+SELECT FIRST(5) 
+PROD_ID, COD_BARRAS
+FROM PROD_TMP_PA.LISTA_GET(1, '123', FALSE, TRUE, FALSE, FALSE, FALSE)
+;
+
+SELECT FIRST(5) 
+PROD_ID, COD_BARRAS
+FROM PROD_TMP_PA.LISTA_GET(1, '123', FALSE, FALSE, FALSE, FALSE, FALSE)
+;
+
+-- COD
+
+SELECT FIRST(5) 
+PROD_ID
+FROM PROD_TMP_PA.LISTA_GET(1, '3', TRUE, FALSE, FALSE, FALSE, FALSE)
+;
+
+-- DESCR
+
+SELECT 
+PROD_ID, DESCR
+FROM PROD_TMP_PA.LISTA_GET(1, 'CARR', FALSE, FALSE, TRUE, FALSE, FALSE)
+;
+
+-- FABR
+
+SELECT 
+PROD_ID, FABR_NOME
+FROM PROD_TMP_PA.LISTA_GET(1, 'CARR', FALSE, FALSE, TRUE, FALSE, FALSE)
+;
+
+*/
+
+SET TERM ^;
+CREATE OR ALTER PACKAGE PROD_TMP_PA
+AS
+BEGIN
+  PROCEDURE LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , FILTRO_STR VARCHAR(120) NOT NULL
+    , BUSCA_COD BOOLEAN NOT NULL
+    , BUSCA_BARRAS BOOLEAN NOT NULL
+    , BUSCA_DESCR BOOLEAN NOT NULL
+    , BUSCA_FABR BOOLEAN NOT NULL
+    , BUSCA_TIPO BOOLEAN NOT NULL
+  )
+  RETURNS
+  (
+      PROD_ID INTEGER  --  0
+
+    , DESCR PROD_DESCR_DOM  --  1
+    , DESCR_RED PROD_DESCR_RED_DOM  --  2
+    
+    , FABR_ID SMALLINT  --  3
+    , FABR_NOME NOME_REDU_DOM  --  4
+	
+    , TIPO_ID SMALLINT  --  5
+    , TIPO_DESCR NOME_REDU_DOM  --  6
+    , UNID_ID SMALLINT  --  7
+    , UNID_SIGLA CHAR(6)  --  8
+    , ICMS_ID SMALLINT  --  9
+    , ICMS_DESCR_PERC NOME_INTERM_DOM  --  10
+	
+    , COD_BARRAS VARCHAR(14)  --  11
+	
+    , CUSTO CUSTO_DOM  --  12
+    , PRECO PRECO_DOM  --  13
+	
+    , ATIVO BOOLEAN  --  14
+    , LOCALIZ NOME_CURTO_DOM  --  15
+    , CAPAC_EMB NUMERIC(8, 3)  --  16
+
+    , NCM CHAR(8)  --  17
+
+    , MARGEM PERC_DOM  --  18
+	
+    , BALANCA_EXIGE BOOLEAN  --  19
+    , BAL_DPTO CHAR(3)  --  20
+    , BAL_VALIDADE_DIAS SMALLINT  --  21
+    , BAL_TEXTO_ETIQ VARCHAR(400)  --  22
+  );
+END^
+
+ --  -- - body  --  -- -
+
+RECREATE PACKAGE BODY PROD_TMP_PA
+AS
+BEGIN
+  PROCEDURE LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , FILTRO_STR VARCHAR(120) NOT NULL
+    , BUSCA_COD BOOLEAN NOT NULL
+    , BUSCA_BARRAS BOOLEAN NOT NULL
+    , BUSCA_DESCR BOOLEAN NOT NULL
+    , BUSCA_FABR BOOLEAN NOT NULL
+    , BUSCA_TIPO BOOLEAN NOT NULL
+  )
+  RETURNS
+  (
+    PROD_ID INTEGER  --  0
+
+    , DESCR PROD_DESCR_DOM  --  1
+    , DESCR_RED PROD_DESCR_RED_DOM  --  2
+    
+    , FABR_ID SMALLINT  --  3
+    , FABR_NOME NOME_REDU_DOM  --  4
+	
+    , TIPO_ID SMALLINT  --  5
+    , TIPO_DESCR NOME_REDU_DOM  --  6
+    , UNID_ID SMALLINT  --  7
+    , UNID_SIGLA CHAR(6)  --  8
+    , ICMS_ID SMALLINT  --  9
+    , ICMS_DESCR_PERC NOME_INTERM_DOM  --  10
+	
+    , COD_BARRAS VARCHAR(14)  --  11
+	
+    , CUSTO CUSTO_DOM  --  12
+    , PRECO PRECO_DOM  --  13
+	
+    , ATIVO BOOLEAN  --  14
+    , LOCALIZ NOME_CURTO_DOM  --  15
+    , CAPAC_EMB NUMERIC(8, 3)  --  16
+    , NCM CHAR(8)  --  17
+    , MARGEM PERC_DOM  --  18
+	
+    , BALANCA_EXIGE BOOLEAN  --  19
+    , BAL_DPTO CHAR(3)  --  20
+    , BAL_VALIDADE_DIAS SMALLINT  --  21
+    , BAL_TEXTO_ETIQ VARCHAR(400)  --  22
+  )
+  AS 
+  BEGIN 
+    FOR
+      WITH
+      B AS ( -- BARRAS
+        SELECT PROD_ID, COD_BARRAS, ORDEM
+        FROM PROD_BARRAS
+      ),
+      P AS ( -- PROD
+        SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, PROD_TIPO_ID, 
+        UNID_ID, ICMS_ID, CAPAC_EMB, NCM
+        FROM PROD
+      ),
+      CO AS ( -- PROD_COMPL
+        SELECT PROD_ID, ATIVO, LOCALIZ, MARGEM, BALANCA_EXIGE,
+        BAL_DPTO, BAL_VALIDADE_DIAS, BAL_TEXTO_ETIQ
+        FROM PROD_COMPL
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      CU AS (
+        SELECT PROD_ID, CUSTO
+        FROM PROD_CUSTO
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      PR AS (
+        SELECT PROD_ID, PRECO
+        FROM PROD_PRECO
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      F AS ( -- FABR
+        SELECT ID_RET, DESCR_RET 
+        FROM FABR_PA.LISTA_SELECT_GET
+      ),
+      T AS ( -- TIPO
+        SELECT ID_RET, DESCR_RET 
+        FROM PROD_TIPO_PA.LISTA_SELECT_GET
+      )
+      ,
+      U AS ( -- UNID
+        SELECT ID_RET, DESCR_RET 
+        FROM UNID_PA.LISTA_SELECT_GET
+      ),
+      I AS ( -- ICMS
+        SELECT ID_RET, DESCR_RET 
+        FROM ICMS_PA.LISTA_SELECT_GET
+      )
+      SELECT
+      P.PROD_ID, P.DESCR, P.DESCR_RED
+      , F.ID_RET FABR_ID, F.DESCR_RET FABR_NOME
+      , T.ID_RET PROD_TIPO_ID, T.DESCR_RET AS PROD_TIPO_DESCR
+      , U.ID_RET UNID_ID, U.DESCR_RET AS UNID_DESCR
+      , I.ID_RET ICMS_ID, I.DESCR_RET AS ICMS_DESCR
+
+      , B.COD_BARRAS
+
+      , CU.CUSTO
+
+      , PR.PRECO
+
+      , CO.ATIVO
+      , CO.LOCALIZ
+      , P.CAPAC_EMB
+
+      , P.NCM
+
+      , CO.MARGEM
+
+      , CO.BALANCA_EXIGE
+      , CO.BAL_DPTO
+      , CO.BAL_VALIDADE_DIAS
+      , CO.BAL_TEXTO_ETIQ
+      
+      
+      FROM P
+      JOIN CO ON P.PROD_ID = CO.PROD_ID -- CO=COMPL PROD_COMPL
+      LEFT JOIN B ON P.PROD_ID = B.PROD_ID -- B=BARRAS
+      JOIN F ON F.ID_RET = P.FABR_ID -- F=FABR
+      JOIN T ON T.ID_RET = P.PROD_TIPO_ID -- T=TIPO PROD_TIPO
+      JOIN U ON U.ID_RET = P.UNID_ID -- U=UNID
+      JOIN I ON I.ID_RET = P.ICMS_ID -- I=COMS
+	    JOIN CU ON P.PROD_ID = CU.PROD_ID -- CU=CUSTO
+	    JOIN PR ON P.PROD_ID = PR.PROD_ID -- PR=PRECO
+      
+      WHERE 
+      
+      (:FILTRO_STR = '')
+      OR (
+         CASE
+           WHEN :BUSCA_COD    THEN CAST(P.PROD_ID AS VARCHAR(7))
+           WHEN :BUSCA_BARRAS THEN B.COD_BARRAS
+           WHEN :BUSCA_DESCR  THEN P.DESCR || 'Ç' || P.DESCR_RED
+           WHEN :BUSCA_FABR   THEN F.DESCR_RET
+           WHEN :BUSCA_TIPO   THEN T.DESCR_RET
+         END
+       ) LIKE ('%' || :FILTRO_STR || '%')
+      
+      ORDER BY P.PROD_ID, B.ORDEM
+    INTO
+      :PROD_ID 
+      , :DESCR 
+      , :DESCR_RED 
+      
+      , :FABR_ID 
+      , :FABR_NOME 
+      
+      , :TIPO_ID 
+      , :TIPO_DESCR 
+      
+      , :UNID_ID 
+      , :UNID_SIGLA
+      
+      , :ICMS_ID 
+      , :ICMS_DESCR_PERC 
+      
+      , :COD_BARRAS
+      
+      , :CUSTO 
+
+      , :PRECO
+      
+      , :ATIVO 
+      , :LOCALIZ 
+      , :CAPAC_EMB
+
+      , :NCM
+
+      , :MARGEM 
+      
+      , :BALANCA_EXIGE 
+      , :BAL_DPTO 
+      , :BAL_VALIDADE_DIAS 
+      , :BAL_TEXTO_ETIQ
+
+    DO SUSPEND; 
+  END
+END^
+SET TERM ;^

@@ -2,7 +2,7 @@ unit Sis.UI.ImpressaoTexto_u;
 
 interface
 
-uses Sis.UI.Impressao_u, System.Classes, Sis.Usuario;
+uses Sis.UI.Impressao_u, System.Classes;
 
 type
   TImpressaoTexto = class(TImpressao)
@@ -19,7 +19,7 @@ type
     procedure PegueLinha(pFrase: string);
     property Texto: string read GetTexto;
   public
-    constructor Create(pImpressoraNome: string; pUsuario: IUsuario);
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string);
     destructor Destroy; override;
   end;
 
@@ -29,9 +29,9 @@ uses System.SysUtils, Sis.Win.Utils.Printer_u;
 
 { TImpressaoTexto }
 
-constructor TImpressaoTexto.Create(pImpressoraNome: string; pUsuario: IUsuario);
+constructor TImpressaoTexto.Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string);
 begin
-  inherited Create(pImpressoraNome, pUsuario);
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib);
   FLinhasSL := TStringList.Create;
   FQtdLinsPorPag := 0; // zero = infinitas linhas, impressao em bobina
 end;

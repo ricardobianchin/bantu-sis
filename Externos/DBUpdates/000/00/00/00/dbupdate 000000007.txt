@@ -1,4 +1,4 @@
-=SECONFIG_SIS
+CONFIG_SIS
 
 INICIO
 -----------------------------
