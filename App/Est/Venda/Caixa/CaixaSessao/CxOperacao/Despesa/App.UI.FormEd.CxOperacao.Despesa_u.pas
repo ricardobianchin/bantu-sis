@@ -16,8 +16,11 @@ type
     DespTIpoLabel: TLabel;
     DespTipoComboBox: TComboBox;
     FornecNomeLabeledEdit: TLabeledEdit;
+    NumDocLabeledEdit: TLabeledEdit;
     procedure FornecNomeLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure DespTipoComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure ValorNumEditBtuKeyPress(Sender: TObject; var Key: Char);
+    procedure NumDocLabeledEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FDespTipoComboBoxManager: IComboBoxManager;
@@ -40,7 +43,7 @@ implementation
 
 uses App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent, Sis.Types.Floats,
   Sis.Entities.Types, App.Est.Venda.Caixa.CaixaSessao.Utils_u,
-  Sis.UI.Controls.Factory;
+  Sis.UI.Controls.Factory, Sis.Win.Utils_u;
 
 { TCxOperDespesaEdForm }
 
@@ -79,7 +82,13 @@ procedure TCxOperDespesaEdForm.DespTipoComboBoxKeyPress(Sender: TObject;
 begin
   inherited;
   if Key = #13 then
+  begin
+    Key := #0;
     SelectNext(TWinControl(Sender), True, True);
+    exit;
+  end;
+
+  ComboKeyPress(sender, key);
 end;
 
 procedure TCxOperDespesaEdForm.FornecNomeLabeledEditKeyPress(Sender: TObject;
@@ -87,9 +96,12 @@ procedure TCxOperDespesaEdForm.FornecNomeLabeledEditKeyPress(Sender: TObject;
 begin
   inherited;
   if Key = #13 then
-    SelectNext(TWinControl(Sender), True, True)
-  else
-    EditKeyPress(Sender, Key);
+  begin
+    Key := #0;
+    SelectNext(TWinControl(Sender), True, True);
+    exit;
+  end;
+  EditKeyPress(Sender, Key);
 end;
 
 function TCxOperDespesaEdForm.GetSqlGarantir: string;
@@ -135,17 +147,40 @@ begin
     + '  , ' + QuotedStr(Ent.CxValorList.NumerarioAsList) +
     ' -- numerario list'#13#10 //
     + '  , ' + FDespTipoComboBoxManager.Id.ToString //
-    + '  , ' + QuotedStr(Trim(FornecNomeLabeledEdit.Text)) + ' -- numerario list'#13#10 //
-    + ', FORNEC_NOME'#13#10 //
-    + ', NUMDOC'#13#10 //
-
+    + '  , ' + QuotedStr(Trim(FornecNomeLabeledEdit.Text)) + ' -- fornec nome'#13#10 //
+    + '  , ' + QuotedStr(Trim(NumDocLabeledEdit.Text)) + ' -- num doc'#13#10 //
     + ');' //
     ;
 
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(Result);
-  // {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(Result);
+//   {$ENDIF}
+end;
 
+procedure TCxOperDespesaEdForm.NumDocLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    SelectNext(TWinControl(Sender), True, True);
+    exit;
+  end;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TCxOperDespesaEdForm.ValorNumEditBtuKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+//  inherited;
+  if key = #13 then
+  begin
+    key := #0;
+    FDespTipoComboBoxManager.SetFocus;
+    DespTipoComboBox.DroppedDown := true;
+    exit;
+  end;
 end;
 
 end.

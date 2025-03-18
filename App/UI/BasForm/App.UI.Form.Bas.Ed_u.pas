@@ -54,7 +54,7 @@ implementation
 {$R *.dfm}
 
 uses App.DB.Utils, Sis.UI.IO.Input.Perg,
-  App.UI.Controls.ComboBox.Select.DB.Frame_u;
+  App.UI.Controls.ComboBox.Select.DB.Frame_u, Sis.Types.strings_u;
 
 { TEdBasForm }
 
@@ -162,6 +162,7 @@ begin
     Key := #0;
     SelecioneProximo;
   end;
+  CharSemAcento(Key);
 end;
 
 function TEdBasForm.ControlesOk: Boolean;

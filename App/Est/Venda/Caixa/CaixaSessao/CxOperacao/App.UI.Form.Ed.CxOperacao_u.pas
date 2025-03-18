@@ -59,7 +59,8 @@ implementation
 {$R *.dfm}
 
 uses System.Math, App.Est.Venda.CaixaSessao.Factory_u, App.PDV.Factory_u,
-  Sis.Types.Floats, Sis.Entities.Types, App.Est.Venda.Caixa.CaixaSessao.Utils_u;
+  Sis.Types.Floats, Sis.Entities.Types, App.Est.Venda.Caixa.CaixaSessao.Utils_u,
+  Sis.Win.Utils_u;
 
 { TCxOperacaoEdForm }
 
@@ -100,8 +101,8 @@ begin
   FImpressao := ImpressaoTextoCxOperacaoCreate(FTerminal.ImpressoraNome,
     pUsuarioId, pUsuarioNomeExib, pAppObj, FTerminal, FCxOperacaoEnt);
 
-  Height := Min(600, Screen.WorkAreaRect.Height - 10);
-  Width := 800;
+//  Height := Min(600, Screen.WorkAreaRect.Height - 10);
+//  Width := 800;
 end;
 
 function TCxOperacaoEdForm.DadosOk: boolean;
@@ -131,7 +132,7 @@ function TCxOperacaoEdForm.GetSqlGarantir: string;
 var
   Ent: ICxOperacaoEnt;
 begin
-  Ent := FCxOperacaoEnt;// so pra tornar mais legivel
+  Ent := FCxOperacaoEnt; // so pra tornar mais legivel
 
   Result := 'SELECT'#13#10
 
@@ -165,9 +166,9 @@ begin
     + ');' //
     ;
 
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(Result);
-  // {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(Result);
+//   {$ENDIF}
 end;
 
 function TCxOperacaoEdForm.GravouOk: boolean;
@@ -179,7 +180,9 @@ var
 begin
   Result := False;
   sSql := GetSqlGarantir;
-
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
   FCxOperacaoDBI.GetFirstRecordValues(sSql, vValues, sMens, bDataSetWasEmpty);
 
   Result := not bDataSetWasEmpty;

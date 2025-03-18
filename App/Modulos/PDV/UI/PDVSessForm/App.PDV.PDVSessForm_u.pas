@@ -49,6 +49,8 @@ type
     SuprToolButton: TToolButton;
     SangrToolButton: TToolButton;
     FechToolButton: TToolButton;
+    DespToolButton: TToolButton;
+    DespAction: TAction;
     procedure RelatActionExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure SuprActionExecute(Sender: TObject);
@@ -57,6 +59,7 @@ type
     procedure CancelActionExecute(Sender: TObject);
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure DespActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCaixaSessao: ICaixaSessao;
@@ -124,6 +127,8 @@ begin
 
   ToolBar2.Left := Width - ToolBar2.Width;
   ToolBar1.Left := 15;
+  ToolBar1.Height := 21;
+  ToolBar1.Realign;
 end;
 
 procedure TPDVSessForm.Atualizar;
@@ -184,11 +189,19 @@ begin
   Canvas.Brush.Style := bsClear;
 end;
 
+procedure TPDVSessForm.DespActionExecute(Sender: TObject);
+begin
+  inherited;
+  FCaixaSessaoDM.GetAction(TCxOpTipo.cxopDespesa).Execute;
+  Atualizar;
+end;
+
 procedure TPDVSessForm.FechActionExecute(Sender: TObject);
 begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
-  Atualizar;
+  //Atualizar;
+  Close;
 end;
 
 procedure TPDVSessForm.FormKeyPress(Sender: TObject; var Key: Char);
@@ -206,6 +219,11 @@ begin
   else if CharInSet(Key, ['a', 'A']) then
   begin
     SangrAction.Execute;
+    exit;
+  end
+  else if CharInSet(Key, ['d', 'D']) then
+  begin
+    DespAction.Execute;
     exit;
   end
   else if CharInSet(Key, ['f', 'F']) then

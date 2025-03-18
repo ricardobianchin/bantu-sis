@@ -216,6 +216,8 @@ begin
   iTipoId := oFieldFin_IMPORT_PROD_TIPO_ID.AsInteger;
   iUnidId := oFieldFin_IMPORT_UNID_ID.AsInteger;
   iICMSId := oFieldFin_IMPORT_ICMS_ID.AsInteger;
+  if iICMSId < 1 then
+    iICMSId := 1;
 
 //  sProdNatuId := #033; // q.Fields[7].AsString
 

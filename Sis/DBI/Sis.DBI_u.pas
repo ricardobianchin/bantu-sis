@@ -74,9 +74,9 @@ begin
   DBConnection.Abrir;
   try
     sSqlRetRegs := GetSqlForEach(pValues);
-    // {$IFDEF DEBUG}
-    // CopyTextToClipboard(sSqlRetRegs);
-    // {$ENDIF}
+//     {$IFDEF DEBUG}
+//     CopyTextToClipboard(sSqlRetRegs);
+//     {$ENDIF}
 
     DBConnection.QueryDataSet(sSqlRetRegs, q);
     try

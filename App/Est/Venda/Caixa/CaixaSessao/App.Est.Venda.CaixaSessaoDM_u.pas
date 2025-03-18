@@ -241,6 +241,7 @@ var
   oDBI: ICxOperacaoDBI;
   oForm: TCxOperValoresEdForm;
   oCxValorDBI: ICxValorDBI;
+  bResultado: Boolean;
 begin
   oCxOperacaoTipo := CxOperacaoTipoCreate('(', 'Fechamento', 'FECH',
     'Fechamento', 'Terminar a Sessão de Caixa', 0, True);
@@ -252,10 +253,16 @@ begin
 
   oForm := TCxOperValoresEdForm.Create(Self, FAppObj, FLogUsuario.Id,
     FLogUsuario.NomeExib, oCxOperacaoEnt, oDBI, oCxValorDBI);
+  try
+    bResultado := oForm.Perg;
+  finally
+    oForm.Free;
+  end;
 
-  oForm.Perg;
-  oForm.Free;
+  if not bResultado then
+    exit;
 
+  FPDVControlador.DecidirPrimeiroFrameAtivo;
   {
     TCxOpTipo = ( //
     cxopNaoIndicado = 032 //

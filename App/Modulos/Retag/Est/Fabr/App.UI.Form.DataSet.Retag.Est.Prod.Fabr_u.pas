@@ -54,9 +54,6 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
 
 procedure TRetagEstProdFabrDataSetForm.DoAlterar;
 var
-  // oFabrDBI: IEntDBI;
-  // oDBConnectionParams: TDBConnectionParams;
-  // oConn: IDBConnection;
   Resultado: boolean;
 begin
   Resultado := ProdFabrPerg(Self, AppObj, EntEd, EntDBI { oFabrDBI } );

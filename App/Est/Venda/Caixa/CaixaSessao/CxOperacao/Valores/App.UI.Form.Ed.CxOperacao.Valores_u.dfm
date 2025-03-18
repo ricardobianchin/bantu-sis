@@ -1,68 +1,68 @@
 inherited CxOperValoresEdForm: TCxOperValoresEdForm
   Caption = 'CxOperValoresEdForm'
   ClientHeight = 328
-  ClientWidth = 574
+  ClientWidth = 504
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitWidth = 590
+  ExplicitWidth = 520
   ExplicitHeight = 367
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 256
-    Width = 574
+    Width = 504
     ExplicitTop = 256
   end
   inherited ObjetivoLabel: TLabel
-    Width = 574
+    Width = 504
     StyleElements = [seFont, seClient, seBorder]
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 276
-    Width = 574
+    Width = 504
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 276
   end
   inherited BasePanel: TPanel
     Top = 291
-    Width = 574
+    Width = 504
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 290
-    ExplicitWidth = 570
+    ExplicitTop = 291
+    ExplicitWidth = 574
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      ExplicitLeft = 176
+      Left = 238
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      ExplicitLeft = 289
+      Left = 351
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      ExplicitLeft = 390
+      Left = 452
     end
   end
   inherited MeioPanel: TPanel
-    Width = 574
+    Width = 504
     Height = 239
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitWidth = 570
-    ExplicitHeight = 238
+    ExplicitWidth = 574
+    ExplicitHeight = 239
     inherited ObsPanel: TPanel
       Top = 156
-      Width = 574
+      Width = 504
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitTop = 155
-      ExplicitWidth = 570
+      ExplicitTop = 156
+      ExplicitWidth = 574
       inherited Label2: TLabel
-        Width = 152
+        Width = 504
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited ObsMemo: TMemo
-        Width = 574
+        Width = 504
         StyleElements = [seFont, seClient, seBorder]
-        ExplicitWidth = 570
+        ExplicitWidth = 574
       end
     end
     object DBGrid1: TDBGrid
       Left = 0
       Top = 0
-      Width = 574
+      Width = 504
       Height = 115
       Align = alClient
       BorderStyle = bsNone
@@ -101,7 +101,7 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
     object TotPanel: TPanel
       Left = 0
       Top = 115
-      Width = 574
+      Width = 504
       Height = 41
       Align = alBottom
       BevelOuter = bvNone
@@ -114,8 +114,7 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
       ParentFont = False
       TabOrder = 2
       StyleElements = [seClient, seBorder]
-      ExplicitTop = 114
-      ExplicitWidth = 570
+      ExplicitWidth = 574
       object TotNumEditBtu: TNumEditBtu
         Left = 72
         Top = 3

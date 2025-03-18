@@ -253,7 +253,7 @@ BEGIN
         
         NULL, -- LOJA_ID_ENVOLVIDO SMALLINT,
         NULL, -- TERMINAL_ID_ENVOLVIDO SMALLINT,
-        :SESS_ID, -- ID_ENVOLVIDO INTEGER,
+        :SESS_ID_RET, -- ID_ENVOLVIDO INTEGER,
         0 -- ORDEM_ENVOLVIDO SMALLINT
       );    
 
@@ -714,13 +714,12 @@ BEGIN
       :LOJA_ID
       , :TERMINAL_ID
       , :SESS_ID
-      , :OPER_ORDEM
-      , :OPER_LOG_ID
+      , :OPER_ORDEM_RET
+      , :OPER_LOG_ID_RET
       , :DESPESA_TIPO_ID
       , :FORNEC_NOME
       , :NUMDOC
     );    
-  END
-  
+  END  
 END^
 SET TERM ;^

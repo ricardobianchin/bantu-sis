@@ -1,30 +1,30 @@
 inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
   Caption = 'CxOperUmValorEdForm'
-  ClientHeight = 454
-  ClientWidth = 776
+  ClientHeight = 371
+  ClientWidth = 552
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitWidth = 792
-  ExplicitHeight = 493
+  ExplicitWidth = 568
+  ExplicitHeight = 410
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 382
-    Width = 776
+    Top = 299
+    Width = 552
     ExplicitTop = 382
   end
   inherited ObjetivoLabel: TLabel
-    Width = 776
+    Width = 552
     StyleElements = [seFont, seClient, seBorder]
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 402
-    Width = 776
+    Top = 319
+    Width = 552
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 402
   end
   object ObsLabel: TLabel [3]
     Left = 0
     Top = 17
-    Width = 776
+    Width = 552
     Height = 13
     Align = alTop
     Caption = 
@@ -41,48 +41,48 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     ExplicitWidth = 464
   end
   inherited BasePanel: TPanel
-    Top = 417
-    Width = 776
+    Top = 334
+    Width = 552
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 417
     ExplicitWidth = 776
     DesignSize = (
-      776
+      552
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 305
+      Left = 81
       ExplicitLeft = 305
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 418
+      Left = 194
       ExplicitLeft = 418
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 519
+      Left = 295
       ExplicitLeft = 519
     end
   end
   inherited MeioPanel: TPanel
     Top = 30
-    Width = 776
-    Height = 352
+    Width = 552
+    Height = 269
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 30
     ExplicitWidth = 776
     ExplicitHeight = 352
     inherited ObsPanel: TPanel
-      Top = 269
-      Width = 776
+      Top = 186
+      Width = 552
       TabOrder = 1
       StyleElements = [seFont, seClient, seBorder]
       ExplicitTop = 269
       ExplicitWidth = 776
       inherited Label2: TLabel
-        Width = 776
+        Width = 552
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited ObsMemo: TMemo
-        Width = 776
+        Width = 552
         StyleElements = [seFont, seClient, seBorder]
         ExplicitWidth = 776
       end
@@ -90,11 +90,13 @@ inherited CxOperUmValorEdForm: TCxOperUmValorEdForm
     object TrabPageControl: TPageControl
       Left = 0
       Top = 0
-      Width = 776
-      Height = 269
+      Width = 552
+      Height = 186
       ActivePage = ValorTabSheet
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 776
+      ExplicitHeight = 269
       object ValorTabSheet: TTabSheet
         Caption = 'F3 - Indicar o Valor'
         object ValorNumEditBtu: TNumEditBtu
