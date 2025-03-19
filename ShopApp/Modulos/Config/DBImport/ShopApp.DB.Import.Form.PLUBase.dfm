@@ -1,9 +1,11 @@
 inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   Caption = 'Mercado, Importar PLUBase'
   ClientHeight = 340
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitHeight = 379
   TextHeight = 15
   inherited TopoPanel: TPanel
+    StyleElements = [seFont, seClient, seBorder]
     object MoldeFileSelectPanel: TPanel [0]
       Left = 1
       Top = 8
@@ -15,7 +17,20 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   end
   inherited BasePanel: TPanel
     Top = 253
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 253
+    inherited FilConfTitLabel: TLabel
+      StyleElements = [seFont, seClient, seBorder]
+    end
+    inherited FilSelecTitLabel: TLabel
+      StyleElements = [seFont, seClient, seBorder]
+    end
+    inherited FIlConfComboBox: TComboBox
+      StyleElements = [seFont, seClient, seBorder]
+    end
+    inherited FilSelecComboBox: TComboBox
+      StyleElements = [seFont, seClient, seBorder]
+    end
     inherited ValidarBitBtn_AppDBImport: TBitBtn
       TabOrder = 5
     end
@@ -25,30 +40,32 @@ inherited ShopDBImportFormPLUBase: TShopDBImportFormPLUBase
   end
   inherited MeioPanel: TPanel
     Height = 212
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitHeight = 212
     inherited GridsPanel: TPanel
-      Height = 213
+      Height = 212
+      StyleElements = [seFont, seClient, seBorder]
       ExplicitHeight = 212
       inherited SplitterRejeicaoGrid: TSplitter
-        Top = 62
+        Top = 61
         ExplicitTop = 65
         ExplicitWidth = 930
       end
       inherited ProdDBGrid: TDBGrid
-        Height = 62
+        Height = 61
       end
       inherited RejeicaoDBGrid: TDBGrid
-        Top = 67
+        Top = 66
       end
     end
   end
   inherited StatusPanel: TPanel
     Top = 319
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 319
-    ExplicitWidth = 910
     inherited ProgressBar1: TProgressBar
       Left = -53
-      ExplicitLeft = -57
+      ExplicitLeft = -53
     end
   end
 end

@@ -16,6 +16,7 @@ type
   TShopDBImportFormPLUBase = class(TDBImportForm)
     MoldeFileSelectPanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure ImportarAction_AppDBImportExecute(Sender: TObject);
   private
     { Private declarations }
     FNomeArq: string;
@@ -335,6 +336,13 @@ begin
 
     DestinoDBConnection.ExecuteSQL(sSql);
   end;
+end;
+
+procedure TShopDBImportFormPLUBase.ImportarAction_AppDBImportExecute(
+  Sender: TObject);
+begin
+  inherited;
+
 end;
 
 //function TShopDBImportFormPLUBase.JaTemDescr(pDescr: string): boolean;
