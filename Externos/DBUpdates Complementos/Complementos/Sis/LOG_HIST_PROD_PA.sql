@@ -1,3 +1,6 @@
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PROD_PA.sql";
+*/
 SET TERM ^;
 CREATE OR ALTER PACKAGE LOG_HIST_PROD_PA
 AS
@@ -28,7 +31,7 @@ BEGIN
     , ICMS_PERC          PERC_DOM
     , ATIVO              BOOLEAN
     , LOCALIZ            NOME_CURTO_DOM
-    , BAL_USO            SMALLINT
+    , BALANCA_EXIGE      BOOLEAN
     , CUSTO              CUSTO_DOM
     , PRECO              PRECO_DOM
     , CRIADO_EM          TIMESTAMP
@@ -91,7 +94,7 @@ BEGIN
     , ICMS_PERC          PERC_DOM
     , ATIVO              BOOLEAN
     , LOCALIZ            NOME_CURTO_DOM
-    , BAL_USO            SMALLINT
+    , BALANCA_EXIGE      BOOLEAN
     , CUSTO              CUSTO_DOM
     , PRECO              PRECO_DOM
     , CRIADO_EM          TIMESTAMP
@@ -128,7 +131,7 @@ BEGIN
         , ICMS.PERC ICMS_PERC
         , PROD_COMPL.ATIVO
         , PROD_COMPL.LOCALIZ
-        , PROD_COMPL.BAL_USO
+        , PROD_COMPL.BALANCA_EXIGE
         , PROD_CUSTO.CUSTO
         , PROD_PRECO.PRECO
 
@@ -170,15 +173,15 @@ BEGIN
       JOIN ICMS ON
         ICMS.ICMS_ID = PROD.ICMS_ID
       
-      JOIN PROD_CUSTO ON
+      LEFT JOIN PROD_CUSTO ON
         PROD.PROD_ID  = PROD_CUSTO.PROD_ID 
         AND PROD_CUSTO.LOJA_ID = AMBI.LOJA_ID
 
-      JOIN PROD_PRECO ON
+      LEFT JOIN PROD_PRECO ON
         PROD.PROD_ID  = PROD_PRECO.PROD_ID 
         AND PROD_PRECO.LOJA_ID = AMBI.LOJA_ID
 
-      JOIN PROD_BARRAS ON
+      LEFT JOIN PROD_BARRAS ON
         PROD.PROD_ID = PROD_BARRAS.PROD_ID
       
       GROUP BY
@@ -206,7 +209,7 @@ BEGIN
         , ICMS.PERC
         , PROD_COMPL.ATIVO
         , PROD_COMPL.LOCALIZ
-        , PROD_COMPL.BAL_USO
+        , PROD_COMPL.BALANCA_EXIGE
         , PROD_CUSTO.CUSTO
         , PROD_PRECO.PRECO
 
@@ -234,7 +237,7 @@ BEGIN
       , :ICMS_PERC
       , :ATIVO
       , :LOCALIZ
-      , :BAL_USO
+      , :BALANCA_EXIGE
       , :CUSTO
       , :PRECO
       , :CRIADO_EM

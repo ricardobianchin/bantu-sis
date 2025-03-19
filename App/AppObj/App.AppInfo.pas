@@ -44,6 +44,9 @@ type
     function GetPastaDados: string;
     property PastaDados: string read GetPastaDados;
 
+    function GetPastaTmp: string;
+    property PastaTmp: string read GetPastaTmp;
+
     function GetPastaImg: string;
     property PastaImg: string read GetPastaImg;
 

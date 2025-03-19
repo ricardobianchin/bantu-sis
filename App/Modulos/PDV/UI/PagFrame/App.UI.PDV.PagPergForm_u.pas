@@ -89,8 +89,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-      pPDVDBI: IAppPDVDBI;
-      pProcedurePagAppend: TVendaPagProcedure;
+      pPDVDBI: IAppPDVDBI; pProcedurePagAppend: TVendaPagProcedure;
       pPagFormaTem: TVendaPagTesteForma); reintroduce;
   end;
 
@@ -107,8 +106,20 @@ procedure TPagPergForm.AjusteControles;
 begin
   inherited;
   FEntregueTestar := False;
-  TrySetFocus(FValorEdit);
-  FEntregueTestar := True;
+  try
+    if PagFormaFDMemTableACEITA_TROCO.AsBoolean then
+    begin
+      FEntregueEdit.Valor := FFalta;
+      EntreguePanel.Visible := True;
+    end
+    else
+    begin
+      TrySetFocus(FValorEdit);
+      EntreguePanel.Visible := False;
+    end;
+  finally
+    FEntregueTestar := True;
+  end;
 end;
 
 procedure TPagPergForm.AtualizeTroco;
@@ -134,8 +145,7 @@ begin
 end;
 
 constructor TPagPergForm.Create(AOwner: TComponent; pPDVVenda: IPDVVenda;
-  pPDVDBI: IAppPDVDBI;
-  pProcedurePagAppend: TVendaPagProcedure;
+  pPDVDBI: IAppPDVDBI; pProcedurePagAppend: TVendaPagProcedure;
   pPagFormaTem: TVendaPagTesteForma);
 begin
   inherited Create(AOwner);
@@ -206,14 +216,19 @@ end;
 
 procedure TPagPergForm.DecidaEntregueVisivel;
 begin
+  FValorEdit.Valor := FFalta;
+  FEntregueEdit.Valor := 0;
   if PagFormaFDMemTableACEITA_TROCO.AsBoolean then
   begin
     FEntregueEdit.Valor := 0;
     // FTrocoEdit.Valor := 0;
     EntreguePanel.Visible := True;
+    TrySetFocus(FEntregueEdit);
+    FValorEdit.ReadOnly := True;
   end
   else
   begin
+    FValorEdit.ReadOnly := False;
     FEntregueTestar := False;
     TrySetFocus(FValorEdit);
     FEntregueTestar := True;
@@ -249,12 +264,6 @@ begin
   inherited;
   FFalta := FPDVVenda.GetFalta;
   FaltaLabel.Caption := 'Falta: R$ ' + DinhToStr(FFalta);
-  FValorEdit.Valor := FFalta;
-  FEntregueEdit.Valor := 0;
-
-  FEntregueTestar := False;
-  TrySetFocus(FValorEdit);
-  FEntregueTestar := True;
 
   PagFormaFDMemTable.AfterScroll := nil;
   FPDVDBI.PagFormaPreencheDataSet(PagFormaFDMemTable);
@@ -305,8 +314,8 @@ begin
         at := PagFormaFDMemTableACEITA_TROCO.AsBoolean;
         if at then
         begin
-          V := FValorEdit.AsCurrency;
-          if V < FFalta then
+          v := FValorEdit.AsCurrency;
+          if v < FFalta then
           begin
             FEntregueEdit.SetFocus;
             exit;
@@ -327,7 +336,7 @@ var
 begin
   if not ValorOk then
     exit;
-  if not entregueok then
+  if not EntregueOk then
     exit;
 
   at := PagFormaFDMemTableACEITA_TROCO.AsBoolean;
@@ -399,7 +408,7 @@ begin
   if Result then
     exit;
 
-  Result := not IsPositiveResult( ModalResult);
+  Result := not IsPositiveResult(ModalResult);
   if Result then
     exit;
 
@@ -418,7 +427,7 @@ begin
 
   v := FValorEdit.AsCurrency;
   r := FEntregueEdit.AsCurrency;
-  Result := (r = 0) or ( r >= v);
+  Result := (r = 0) or (r >= v);
   if not Result then
   begin
     ErroOutput.Exibir('''Recebido'' deve ser zero ou maior do que o ''Valor''');
@@ -436,9 +445,8 @@ begin
   Result := not FPagFormaTem(1);
 
   if not Result then
-    ErroOutput.Exibir
-      ('Só pode haver um pagamento em dinheiro.'#13#10+
-        'Cancele o existente para inserir outro');
+    ErroOutput.Exibir('Só pode haver um pagamento em dinheiro.'#13#10 +
+      'Cancele o existente para inserir outro');
 end;
 
 procedure TPagPergForm.ValorFaltaToolButtonClick(Sender: TObject);
@@ -457,7 +465,7 @@ function TPagPergForm.ValorOk: Boolean;
 var
   v: Currency;
 begin
-  Result := not IsPositiveResult( ModalResult);
+  Result := not IsPositiveResult(ModalResult);
   if Result then
     exit;
 
