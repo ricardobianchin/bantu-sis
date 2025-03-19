@@ -118,10 +118,10 @@ begin
 +'JOIN TIP ON PRO.IMPORT_PROD_TIPO_ID = TIP.IMPORT_PROD_TIPO_ID'#13#10 //
 +'JOIN UNI ON PRO.IMPORT_UNID_ID = UNI.IMPORT_UNID_ID'#13#10 //
 +'JOIN ICM ON PRO.IMPORT_ICMS_ID = ICM.IMPORT_ICMS_ID'#13#10 //
-+'JOIN BAR ON PRO.import_prod_id = BAR.IMPORT_PROD_ID'#13#10 //
-+'JOIN BARN ON PRO.import_prod_id = BARN.IMPORT_PROD_ID'#13#10 //
-+'JOIN PRE ON PRO.import_prod_id = PRE.IMPORT_PROD_ID'#13#10 //
-+'JOIN PREN ON PRO.import_prod_id = PREN.IMPORT_PROD_ID'#13#10 //
++'left JOIN BAR ON PRO.import_prod_id = BAR.IMPORT_PROD_ID'#13#10 //
++'left JOIN BARN ON PRO.import_prod_id = BARN.IMPORT_PROD_ID'#13#10 //
++'left JOIN PRE ON PRO.import_prod_id = PRE.IMPORT_PROD_ID'#13#10 //
++'left JOIN PREN ON PRO.import_prod_id = PREN.IMPORT_PROD_ID'#13#10 //
 ;
   WhereStr := '';
   case pSelStatus of
