@@ -1,35 +1,6 @@
 VENDA
+TABELA VENDA
 
------------------------------
-TESTES INICIO VENDA
------------------------------
-
-
-LOJA_ID                         (ID_SHORT_DOM) SMALLINT Not Null
-TERMINAL_ID                     (ID_SHORT_DOM) SMALLINT Not Null
-EST_MOV_ID                      BIGINT Not Null
-VENDA_ID                        (ID_DOM) INTEGER Not Null
-SESS_LOJA_ID                    (ID_SHORT_DOM) SMALLINT Not Null
-SESS_TERMINAL_ID                (ID_SHORT_DOM) SMALLINT Not Null
-SESS_ID
-
-
-
-
-DROP PACKAGE VENDA_MANUT_PA;
-DROP PACKAGE VENDA_INICIAL_PA;
-
-DROP TABLE VENDA_ITEM;
-DROP TABLE VENDA;
-DELETE FROM DBUPDATE_HIST WHERE NUM>=96;
-COMMIT;
-
-
-
-
------------------------------
-TESTES FIM VENDA
------------------------------
 -----------------------------
 INICIO
 -----------------------------
@@ -142,7 +113,7 @@ OBJETO_NOME=
 TABELA=VENDA
 CAMPOS=LOJA_ID,TERMINAL_ID,VENDA_ID
 COMANDO FIM
-//OBJETO_NOME Nao É obrigatorio
+//OBJETO_NOME Nao ï¿½ obrigatorio
 // INDEX VENDA LOJ TERM VENDA_ID
 
 
