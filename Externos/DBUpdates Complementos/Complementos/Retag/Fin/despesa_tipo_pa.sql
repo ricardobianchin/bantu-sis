@@ -3,7 +3,6 @@
 
 in "C:\Pr\App\Bantu\bantu-sis\src\externos\DBUpdates Complementos\Complementos\Retag\Fin\despesa_tipo_pa.sql";
 */
-
 SET TERM ^;
 
 CREATE OR ALTER PACKAGE DESPESA_TIPO_PA

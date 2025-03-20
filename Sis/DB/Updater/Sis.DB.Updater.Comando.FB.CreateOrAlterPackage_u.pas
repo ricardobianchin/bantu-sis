@@ -19,9 +19,11 @@ type
   public
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); override;
     function GetAsSql: string; override;
+
     constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
-      pOutput: IOutput);
+      pOutput: IOutput); override;
+
     function Funcionou: boolean; override;
     destructor Destroy; override;
   end;
@@ -29,7 +31,7 @@ type
 implementation
 
 uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Constants_u,
-  Sis.Types.strings_u, Sis.Win.Utils_u;
+  Sis.Types.strings_u, Sis.Win.Utils_u, Sis.UI.IO.Files;
 
 { TComandoFBCreateOrAlterPackage }
 
@@ -37,7 +39,8 @@ constructor TComandoFBCreateOrAlterPackage.Create(pVersaoDB: integer;
   pDBConnection: IDBConnection; pUpdaterOperations: IDBUpdaterOperations;
   pProcessLog: IProcessLog; pOutput: IOutput);
 begin
-  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations, pProcessLog, pOutput);
+  inherited Create(pVersaoDB, pDBConnection, pUpdaterOperations,
+    pProcessLog, pOutput);
   FPackageDefSL := TStringList.Create;
   FCabecLinhasSL := TStringList.Create;
   FBodyLinhasSL := TStringList.Create;
@@ -58,13 +61,9 @@ function TComandoFBCreateOrAlterPackage.Funcionou: boolean;
 var
   sCabec: string;
   sBody: string;
+  sNomeArq: string;
 begin
   DBUpdaterOperations.PackagePegarCodigo(FPackageName, sCabec, sBody);
-
-//  SetClipboardText(sCabec);
-//  SetClipboardText(FCabecLinhasSL.Text);
-//  SetClipboardText(sBody);
-//  SetClipboardText(FBodyLinhasSL.Text);
 
   Result := FCabecLinhasSL.Text = sCabec;
   if not Result then
@@ -72,6 +71,10 @@ begin
     UltimoErro :=
       'TComandoFBCreateOrAlterPackage, Erro ao criar o cabecalho da package ' +
       FPackageName;
+    sNomeArq := PastaTmp + ClassName + ' ' + FPackageName + ' sCabec.txt';
+    EscreverArquivo(sCabec, sNomeArq);
+    sNomeArq := PastaTmp + ClassName + ' ' + FPackageName + ' CabecLinhas.txt';
+    EscreverArquivo(FCabecLinhasSL.Text, sNomeArq);
     Exit;
   end;
 
@@ -81,6 +84,10 @@ begin
     UltimoErro :=
       'TComandoFBCreateOrAlterPackage, Erro ao criar o codigo da package ' +
       FPackageName;
+    sNomeArq := PastaTmp + ClassName + ' ' + FPackageName + ' sBody.txt';
+    EscreverArquivo(sBody, sNomeArq);
+    sNomeArq := PastaTmp + ClassName + ' ' + FPackageName + ' BodyLinhas.txt';
+    EscreverArquivo(FBodyLinhasSL.Text, sNomeArq);
     Exit;
   end;
 end;
@@ -147,13 +154,13 @@ begin
 
       if LeftStr(sLinha, 23) = 'CREATE OR ALTER PACKAGE' then
       begin
-        bPegandoCabec := true;
+        bPegandoCabec := True;
       end
       else if LeftStr(sLinha, 21) = 'RECREATE PACKAGE BODY' then
       begin
         UltimoIndex := FPackageDefSL.Count - 1;
         FPackageDefSL.Insert(UltimoIndex, '');
-        bPegandoBody := true;
+        bPegandoBody := True;
       end;
 
       if bPegandoCabec then
@@ -176,7 +183,7 @@ begin
     end
     else if StrSemStr(sLinha) = SYNTAX_FIREBIRD_INI then
     begin
-      bPegandoCodigo := true;
+      bPegandoCodigo := True;
     end
     else if Pos(DBATUALIZ_OBJETO_NOME_CHAVE + '=', sLinha) = 1 then
     begin
