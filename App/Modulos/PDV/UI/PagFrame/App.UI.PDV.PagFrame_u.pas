@@ -126,10 +126,10 @@ procedure TPagPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-//  case Key of
-//    vk_delete:
-//      PagCancelar;
-//  end;
+  // case Key of
+  // vk_delete:
+  // PagCancelar;
+  // end;
 end;
 
 procedure TPagPDVFrame.ExecKeyPress(Sender: TObject; var Key: Char);
@@ -137,15 +137,18 @@ begin
   inherited;
   case Key of
     #27:
-    begin
-      key := #0;
-      PDVControlador.VaParaVenda;
-    end;
+      begin
+        Key := #0;
+        PDVControlador.VaParaVenda;
+      end;
     #13:
-    begin
-      key := #0;
-      PDVControlador.VaParaFinaliza;
-    end;
+      begin
+        Key := #0;
+        if uFalta > 0 then
+          PagPerg
+        else
+          PDVControlador.VaParaFinaliza;
+      end;
   end;
 end;
 
@@ -170,7 +173,10 @@ end;
 procedure TPagPDVFrame.FinalizarToolButtonClick(Sender: TObject);
 begin
   inherited;
-  PDVControlador.VaParaFinaliza;
+  if uFalta > 0 then
+    PagPerg
+  else
+    PDVControlador.VaParaFinaliza;
 end;
 
 procedure TPagPDVFrame.PagSomenteDinheiro;
@@ -178,23 +184,23 @@ var
   oPag: IVendaPag;
   V, r, t: Currency;
 begin
-  v := PDVVenda.GetItensPrecoTot;
-  r := v;
+  V := PDVVenda.GetItensPrecoTot;
+  r := V;
   t := 0;
 
   oPag := VendaPagCreate( //
-    PDVVenda.VendaPagList.GetProximaOrdem,
-    1, // PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger,
+    PDVVenda.VendaPagList.GetProximaOrdem, 1,
+    // PagFormaFDMemTablePAGAMENTO_FORMA_ID.AsInteger,
     #33, // PagFormaFDMemTablePAGAMENTO_FORMA_TIPO_ID.AsString,
-    'DIN', //PagFormaFDMemTableTIPO_DESCR_RED.AsString,
-    'DINHEIRO', //PagFormaFDMemTableFORMA_DESCR.AsString
-    v, r, t, False);
+    'DIN', // PagFormaFDMemTableTIPO_DESCR_RED.AsString,
+    'DINHEIRO', // PagFormaFDMemTableFORMA_DESCR.AsString
+    V, r, t, False);
 
   PDVVenda.VendaPagList.Add(oPag);
 
   PDVDBI.PagSomenteDinheiro;
-//  PDVVenda.Finalizado := True; // evita que tente salvar de novo
-//  PDVControlador.VaParaFinaliza;
+  // PDVVenda.Finalizado := True; // evita que tente salvar de novo
+  // PDVControlador.VaParaFinaliza;
 end;
 
 procedure TPagPDVFrame.PagCancelar;
@@ -270,7 +276,8 @@ var
 begin
   if uFalta = 0 then
   begin
-    ExibaErro('Valor da venda já foi recebido. Se deseja inserir outra forma de pagamento, cancele uma das já registradas');
+    ExibaErro(
+      'Valor da venda já foi recebido. Se deseja inserir outra forma de pagamento, cancele uma das já registradas');
     exit;
   end;
 
@@ -289,7 +296,7 @@ begin
       // PreenchaVendaPagFDMemTable;
       VendaPagFDMemTable.Last;
       Application.ProcessMessages;
-//      s l e e p(10);
+      // s l e e p(10);
     until False;
   finally
     PagPergForm.Free;
@@ -298,7 +305,8 @@ end;
 
 procedure TPagPDVFrame.PreenchaTotais;
 begin
-  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue, uFalta, uTroco);
+  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue,
+    uFalta, uTroco);
 
   TotLabel.Caption := 'Total: R$ ' + DinhToStr(uTotalLiquido);
   PagoLabel.Caption := 'Recebido: R$ ' + DinhToStr(uTotalEntregue);

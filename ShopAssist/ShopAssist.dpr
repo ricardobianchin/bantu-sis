@@ -46,3 +46,4 @@ begin
     CloseHandle(hMutex);
   end;
 end.
+

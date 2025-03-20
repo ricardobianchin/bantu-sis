@@ -16,6 +16,7 @@ type
     FPasta: string;
     FPastaBin: string;
     FPastaConfigs: string;
+    FPastaTmp: string;
     FPastaDados: string;
     FPastaImg: string;
     FPastaDocs: string;
@@ -53,6 +54,8 @@ type
     function GetPastaBin: string;
     function GetPastaConfigs: string;
 
+    function GetPastaTmp: string;
+
     function GetPastaDados: string;
 
     function GetAtualizExeSubPasta: string;
@@ -82,6 +85,7 @@ type
 
     property PastaBin: string read GetPastaBin;
     property PastaConfigs: string read GetPastaConfigs;
+    property PastaTmp: string read GetPastaTmp;
     property PastaDados: string read GetPastaDados;
 
     property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
@@ -124,6 +128,9 @@ begin
 
   FPastaDados := FPasta + 'Dados\';
   ForceDirectories(FPastaDados);
+
+  FPastaTmp := FPasta + 'Tmp\';
+  ForceDirectories(FPastaTmp);
 
   FPastaConsultas := FPasta + 'Cons\';
   ForceDirectories(FPastaConsultas);
@@ -205,6 +212,11 @@ end;
 function TAppInfo.GetPastaImg: string;
 begin
   Result := FPastaImg;
+end;
+
+function TAppInfo.GetPastaTmp: string;
+begin
+  Result := FPastaTmp;
 end;
 
 function TAppInfo.GetPessoaDonoId: integer;

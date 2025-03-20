@@ -2,6 +2,9 @@ unit Log_u;
 
 interface
 
+var
+  sPastaLog: string;
+
 procedure InicieLog;
 procedure EscrevaLog(pFrase: string);
 
@@ -9,9 +12,6 @@ implementation
 
 uses Sis_u, System.SysUtils, Sis.UI.IO.Files, Sis.Types.Utils_u,
   System.DateUtils;
-
-var
-  sPastaLog: string;
 
 procedure InicieLog;
 var

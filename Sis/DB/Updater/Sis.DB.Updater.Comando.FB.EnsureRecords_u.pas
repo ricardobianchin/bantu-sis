@@ -35,7 +35,7 @@ type
     function GetAsSql: string; override;
     constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
       pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
-      pOutput: IOutput);
+      pOutput: IOutput); override;
     function Funcionou: boolean; override;
     destructor Destroy; override;
   end;

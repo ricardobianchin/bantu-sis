@@ -14,6 +14,7 @@ type
     FDBUpdaterOperations: IDBUpdaterOperations;
     FProcessLog: IProcessLog;
     FOutput: IOutput;
+    FPastaTmp: string;
 
     function GetUltimoErro: string;
     procedure SetUltimoErro(Value: string);
@@ -27,8 +28,10 @@ type
     property VersaoDB: integer read FVersaoDB;
     procedure PegarObjeto(pNome: string); virtual; abstract;
     property DBConnection: IDBConnection read GetDBConnection;
-    property DBUpdaterOperations: IDBUpdaterOperations read FDBUpdaterOperations;
+    property DBUpdaterOperations: IDBUpdaterOperations
+      read FDBUpdaterOperations;
     function GetAsText: string; virtual; abstract;
+    property PastaTmp: string read FPastaTmp;
   public
     procedure PegarLinhas(var piLin: integer; pSL: TStrings); virtual; abstract;
     function GetAsSql: string; virtual; abstract;
@@ -40,15 +43,19 @@ type
     property AsText: string read GetAsText;
 
     constructor Create(pVersaoDB: integer; pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
+      pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
+      pOutput: IOutput); reintroduce; virtual;
   end;
 
 implementation
 
 { TComandoFB }
 
+uses Sis.UI.IO.Files, System.SysUtils;
+
 constructor TComandoFB.Create(pVersaoDB: integer; pDBConnection: IDBConnection;
-      pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog; pOutput: IOutput);
+  pUpdaterOperations: IDBUpdaterOperations; pProcessLog: IProcessLog;
+  pOutput: IOutput);
 begin
   FVersaoDB := pVersaoDB;
   FDBConnection := pDBConnection;
@@ -56,6 +63,8 @@ begin
   FOutput := pOutput;
   FUltimoErro := '';
   FDBUpdaterOperations := pUpdaterOperations;
+  FPastaTmp :=PastaAcima(GetPastaDoArquivo(ParamStr(0))) + 'Tmp/DBUpdater/';
+  ForceDirectories(FPastaTmp);
 end;
 
 function TComandoFB.GetDBConnection: IDBConnection;

@@ -70,7 +70,6 @@ type
 
     procedure AcioneGaveta;
   protected
-    // procedure SimuleKe yP ress(pChar: Char);
     procedure ExibaControles; override;
   public
     { Public declarations }
@@ -409,13 +408,7 @@ begin
   if FShopPDVVenda.Items.Count = 0 then
     ItemVendidoExiba('');
 
-  // SimuleKeyPress('3');
-  // SimuleKeyPress('*');
-  // SimuleKeyPress('2');
-
-  // DigiteStr('2~', 0);
-  // DigiteStr('3*2~', 0);
-  // ExecKeyPress(
+  SimuleTecla(VK_PRIOR)
 end;
 
 procedure TShopVendaPDVFrame.ItemCancele;
@@ -494,11 +487,6 @@ begin
 
   ItemSelecione;
 end;
-
-// procedure TShopVendaPDVFrame.Simule K eyPress(pChar: Char);
-// begin
-// ExecKeyPress(Self, pChar);
-// end;
 
 procedure TShopVendaPDVFrame.StrBuscaExec;
 var
