@@ -41,34 +41,12 @@ inherited PagPergForm: TPagPergForm
     Height = 15
     Caption = 'Escolha a Forma de Pagamento com as setas ['#8593']['#8595']'
   end
-  object MoldeValorLabeledEdit: TLabeledEdit [4]
-    Left = 467
-    Top = 57
-    Width = 108
-    Height = 29
-    Alignment = taCenter
-    EditLabel.Width = 36
-    EditLabel.Height = 29
-    EditLabel.Caption = 'Valor'
-    EditLabel.Font.Charset = DEFAULT_CHARSET
-    EditLabel.Font.Color = clWindowText
-    EditLabel.Font.Height = -16
-    EditLabel.Font.Name = 'Segoe UI'
-    EditLabel.Font.Style = []
-    EditLabel.ParentFont = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    LabelPosition = lpLeft
-    LabelSpacing = 6
-    ParentFont = False
-    TabOrder = 0
-    Text = '123,45'
-    StyleElements = [seClient, seBorder]
-    OnChange = MoldeValorLabeledEditChange
-    OnKeyPress = MoldeValorLabeledEditKeyPress
+  object Label1: TLabel [4]
+    Left = 420
+    Top = 88
+    Width = 157
+    Height = 15
+    Caption = 'Zero = recebeu dinheiro certo'
   end
   object PagFormaDBGrid: TDBGrid [5]
     Left = 3
@@ -85,7 +63,7 @@ inherited PagPergForm: TPagPergForm
     Font.Style = []
     Options = [dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -12
@@ -159,18 +137,10 @@ inherited PagPergForm: TPagPergForm
     List = True
     ParentFont = False
     ShowCaptions = True
-    TabOrder = 2
+    TabOrder = 1
     StyleElements = [seClient, seBorder]
-    object ValorFaltaToolButton: TToolButton
-      Left = 0
-      Top = 0
-      AutoSize = True
-      Caption = 'F3 - Colar Valor que Falta'
-      ImageIndex = 0
-      OnClick = ValorFaltaToolButtonClick
-    end
     object CancelarToolButton: TToolButton
-      Left = 182
+      Left = 0
       Top = 0
       AutoSize = True
       Caption = 'Esc - Voltar'
@@ -178,7 +148,7 @@ inherited PagPergForm: TPagPergForm
       OnClick = CancelarToolButtonClick
     end
     object OkToolButton: TToolButton
-      Left = 272
+      Left = 90
       Top = 0
       AutoSize = True
       Caption = 'Enter - Gravar Pagamento'
@@ -186,55 +156,20 @@ inherited PagPergForm: TPagPergForm
     end
   end
   object EntreguePanel: TPanel [7]
-    Left = 397
-    Top = 105
-    Width = 178
-    Height = 90
+    Left = 374
+    Top = 111
+    Width = 203
+    Height = 82
     BevelOuter = bvNone
     Caption = ' '
-    TabOrder = 3
-    object Label1: TLabel
-      Left = 17
-      Top = 30
-      Width = 157
-      Height = 15
-      Caption = 'Zero = recebeu dinheiro certo'
-    end
-    object MoldeTrocoLabeledEdit: TLabeledEdit
-      Left = 70
-      Top = 61
-      Width = 108
+    TabOrder = 2
+    object EntregueEdit: TNumEditBtu
+      Left = 93
+      Top = 0
+      Width = 110
       Height = 29
-      TabStop = False
-      Alignment = taCenter
-      EditLabel.Width = 38
-      EditLabel.Height = 29
-      EditLabel.Caption = 'Troco'
-      EditLabel.Font.Charset = DEFAULT_CHARSET
-      EditLabel.Font.Color = clWindowText
-      EditLabel.Font.Height = -16
-      EditLabel.Font.Name = 'Segoe UI'
-      EditLabel.Font.Style = []
-      EditLabel.ParentFont = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      LabelPosition = lpLeft
-      LabelSpacing = 6
-      ParentFont = False
-      TabOrder = 0
-      Text = '1234567,89'
-      StyleElements = [seClient, seBorder]
-      OnKeyPress = MoldeValorLabeledEditKeyPress
-    end
-    object MoldeEntregueLabeledEdit: TLabeledEdit
-      Left = 70
-      Top = 1
-      Width = 108
-      Height = 29
-      Alignment = taCenter
+      AutoExit = False
+      Caption = 'Recebido'
       EditLabel.Width = 64
       EditLabel.Height = 29
       EditLabel.Caption = 'Recebido'
@@ -250,14 +185,84 @@ inherited PagPergForm: TPagPergForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       LabelPosition = lpLeft
-      LabelSpacing = 6
+      LabelSpacing = 4
       ParentFont = False
-      TabOrder = 1
-      Text = '123,45'
-      StyleElements = [seClient, seBorder]
-      OnChange = MoldeEntregueLabeledEditChange
-      OnKeyPress = MoldeEntregueLabeledEditKeyPress
+      ReadOnly = False
+      TabOrder = 0
+      Text = '0,00'
+      OnChange = EntregueEditChange
+      OnKeyPress = EntregueEditKeyPress
+      NCasas = 2
+      NCasasEsq = 7
+      Valor = 0
+      MascEsq = '######0'
     end
+    object TrocoEdit: TNumEditBtu
+      Left = 93
+      Top = 53
+      Width = 110
+      Height = 29
+      AutoExit = False
+      Caption = 'Troco'
+      EditLabel.Width = 38
+      EditLabel.Height = 29
+      EditLabel.Caption = 'Troco'
+      EditLabel.Font.Charset = DEFAULT_CHARSET
+      EditLabel.Font.Color = clWindowText
+      EditLabel.Font.Height = -16
+      EditLabel.Font.Name = 'Segoe UI'
+      EditLabel.Font.Style = []
+      EditLabel.ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      LabelPosition = lpLeft
+      LabelSpacing = 4
+      ParentFont = False
+      ReadOnly = False
+      TabOrder = 1
+      Text = '0,00'
+      NCasas = 2
+      NCasasEsq = 7
+      Valor = 0
+      MascEsq = '######0'
+    end
+  end
+  object ValorEdit: TNumEditBtu [8]
+    Left = 467
+    Top = 56
+    Width = 110
+    Height = 29
+    AutoExit = False
+    Caption = 'Valor Devido'
+    EditLabel.Width = 89
+    EditLabel.Height = 29
+    EditLabel.Caption = 'Valor Devido'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -16
+    EditLabel.Font.Name = 'Segoe UI'
+    EditLabel.Font.Style = []
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    LabelPosition = lpLeft
+    LabelSpacing = 4
+    ParentFont = False
+    ReadOnly = False
+    TabOrder = 3
+    Text = '0,00'
+    OnChange = ValorEditChange
+    OnKeyPress = ValorEditKeyPress
+    NCasas = 2
+    NCasasEsq = 7
+    Valor = 0
+    MascEsq = '######0'
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 24

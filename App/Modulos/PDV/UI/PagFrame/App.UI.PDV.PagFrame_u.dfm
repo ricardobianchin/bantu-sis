@@ -10,6 +10,7 @@ inherited PagPDVFrame: TPagPDVFrame
     Height = 233
     Align = alNone
     BevelOuter = bvRaised
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitLeft = 16
     ExplicitTop = 16
     ExplicitWidth = 629
@@ -17,7 +18,7 @@ inherited PagPDVFrame: TPagPDVFrame
     object MensLabel: TLabel
       Left = 1
       Top = 186
-      Width = 71
+      Width = 627
       Height = 20
       Align = alBottom
       Alignment = taCenter
@@ -33,6 +34,7 @@ inherited PagPDVFrame: TPagPDVFrame
       Transparent = True
       WordWrap = True
       StyleElements = [seClient, seBorder]
+      ExplicitWidth = 71
     end
     object TotPanel: TPanel
       Left = 1
@@ -42,7 +44,6 @@ inherited PagPDVFrame: TPagPDVFrame
       Align = alTop
       Caption = ' '
       TabOrder = 0
-      ExplicitWidth = 598
       object PagoLabel: TLabel
         Left = 5
         Top = 27
@@ -163,7 +164,6 @@ inherited PagPDVFrame: TPagPDVFrame
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 2
-      ExplicitWidth = 598
       object ToolBar1: TToolBar
         Left = 0
         Top = 0
@@ -183,8 +183,6 @@ inherited PagPDVFrame: TPagPDVFrame
         ParentFont = False
         ShowCaptions = True
         TabOrder = 0
-        ExplicitWidth = 598
-        ExplicitHeight = 48
         object VoltarToolButton: TToolButton
           Left = 0
           Top = 0
@@ -261,8 +259,8 @@ inherited PagPDVFrame: TPagPDVFrame
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 113
-    Top = 41
+    Left = 145
+    Top = 33
     Content = {
       41444253100000001C030000FF00010001FF02FF03040024000000560065006E
       0064006100500061006700460044004D0065006D005400610062006C00650005
