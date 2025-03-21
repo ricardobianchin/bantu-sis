@@ -320,6 +320,7 @@ contains
   Sis.Web.HTTPDownload.NET in 'Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas',
   Sis.Terminal.Utils_u in 'Entities\Terminal\Sis.Terminal.Utils_u.pas',
   Sis.UI.Form.Select_u in 'UI\Controls\Select\Sis.UI.Form.Select_u.pas' {SelectForm},
-  Sis.UI.Select in 'UI\Controls\Select\Sis.UI.Select.pas';
+  Sis.UI.Select in 'UI\Controls\Select\Sis.UI.Select.pas',
+  Sis.UI.Select.DB_u in 'UI\Controls\Select\Sis.UI.Select.DB_u.pas' {DBSelectForm};
 
 end.

@@ -10,10 +10,13 @@ uses
 type
   TSelectForm = class(TDiagBasForm, ISelect)
     FundoPanel: TPanel;
+    BasePanel: TPanel;
+    QtdRegsLabel: TLabel;
   private
     { Private declarations }
   protected
     function GetLastSelected: string; virtual; abstract;
+    procedure AtualizeQtdRegs; virtual;
   public
     { Public declarations }
     function Perg(pParms: string = ''): Boolean; virtual; abstract;
@@ -30,6 +33,11 @@ implementation
 {$R *.dfm}
 
 { TSelectForm }
+
+procedure TSelectForm.AtualizeQtdRegs;
+begin
+  QtdRegsLabel.Caption := '';
+end;
 
 constructor TSelectForm.Create(AOwner: TComponent);
 begin

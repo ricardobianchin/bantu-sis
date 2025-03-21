@@ -441,6 +441,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UI\Controls\Select\Sis.UI.Select.pas"/>
+        <DCCReference Include="UI\Controls\Select\Sis.UI.Select.DB_u.pas">
+            <Form>DBSelectForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

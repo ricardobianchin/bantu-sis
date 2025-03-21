@@ -26,5 +26,24 @@ inherited SelectForm: TSelectForm
     TabOrder = 0
     ExplicitWidth = 185
     ExplicitHeight = 41
+    object BasePanel: TPanel
+      Left = 1
+      Top = 292
+      Width = 631
+      Height = 19
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = ' '
+      TabOrder = 0
+      StyleElements = [seClient, seBorder]
+      ExplicitTop = 293
+      object QtdRegsLabel: TLabel
+        Left = 1
+        Top = 2
+        Width = 9
+        Height = 15
+        Caption = '   '
+      end
+    end
   end
 end

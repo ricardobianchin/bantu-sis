@@ -43,7 +43,6 @@ type
     function GetQtdRegsExibindo: TQuantidade;
     procedure SetQtdRegsExibindo(const Value: TQuantidade);
 
-    procedure DispareBuscaTimer;
     procedure DoFiltroChange(Sender: TObject);
     procedure LeReg(q: TDataSet; pRecNo: integer);
     procedure BuscaStringEditKeyDown(Sender: TObject; var Key: Word;
@@ -115,7 +114,6 @@ begin
 
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
-  // DisparaShowTimer := True;
   MakeRounded(Self, 30);
 
   ///
@@ -160,11 +158,6 @@ begin
     VK_PRIOR, VK_NEXT, VK_UP, VK_DOWN:
       SimuleTecla(Key, PrecoBuscaTodosFrame.DBGrid1);
   end;
-end;
-
-procedure TPrecoBuscaForm.DispareBuscaTimer;
-begin
-
 end;
 
 procedure TPrecoBuscaForm.DoFiltroChange(Sender: TObject);
