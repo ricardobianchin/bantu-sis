@@ -71,6 +71,7 @@ type
     procedure AcioneGaveta;
   protected
     procedure ExibaControles; override;
+    function ProdSelectCreate: TPDVProdSelectForm; override;
   public
     { Public declarations }
     procedure ExibaErro(pMens: string); override;
@@ -494,6 +495,18 @@ var
   bEncontrou: Boolean;
   sMensagem: string;
 begin
+  if not StrToOnlyDigit(FStrBusca) then
+  begin
+    cria prodselect no app e filho no shop
+    if not ProdSelect.Perg then
+    begin
+      FStrBusca := '';
+      StrBuscaMudou;
+      exit;
+    end;
+    FStrBusca := ProdSelect.UltimoCod;
+  end;
+
   // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
     sMensagem);
@@ -524,24 +537,20 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.StrBuscaPegueChar(pChar: Char);
-var
-  bCharPode: Boolean;
 begin
-  bCharPode := pChar <> #0;
-  if not bCharPode then
-    Exit;
-
   try
     if pChar = #8 then
     begin
       StrDeleteNoFim(FStrBusca, 1);
       Exit;
-    end
-    else if pChar = #13 then
+    end;
+
+    if pChar = #13 then
     begin
       StrBuscaExec;
       Exit;
     end;
+
     CharSemAcento(pChar);
     FStrBusca := FStrBusca + pChar;
   finally
