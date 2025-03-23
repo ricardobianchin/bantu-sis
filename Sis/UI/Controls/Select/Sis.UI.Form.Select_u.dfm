@@ -10,11 +10,13 @@ inherited SelectForm: TSelectForm
   inherited MensLabel: TLabel
     Top = 327
     Width = 633
+    ExplicitTop = 327
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 312
     Width = 633
     StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 312
   end
   object FundoPanel: TPanel [2]
     Left = 0
@@ -24,8 +26,6 @@ inherited SelectForm: TSelectForm
     Align = alClient
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object BasePanel: TPanel
       Left = 1
       Top = 292
@@ -36,7 +36,6 @@ inherited SelectForm: TSelectForm
       Caption = ' '
       TabOrder = 0
       StyleElements = [seClient, seBorder]
-      ExplicitTop = 293
       object QtdRegsLabel: TLabel
         Left = 1
         Top = 2

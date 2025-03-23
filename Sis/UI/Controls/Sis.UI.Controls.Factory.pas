@@ -14,13 +14,12 @@ function BotaoFrameCreate(pParent: TWinControl; pTit, pDescr: string;
   pImageList: TCustomImageList; pImageIndex: System.UITypes.TImageIndex;
   pTag: NativeInt): TBotaoFrame;
 
-function DBSelectFormCreate(AOwner: TComponent; pDBI: IDBI;
-  pFiltro: TFiltroFrame): ISelect;
+function DBSelectFormCreate(pDBI: IDBI; pFiltro: TFiltroFrame): ISelect;
 
 implementation
 
 uses Sis.UI.Controls.Alinhador.ADireita_u, Sis.UI.Controls.ComboBoxManager_u,
-  System.SysUtils, Sis.UI.Select.DB_u;
+  System.SysUtils, Sis.UI.Form.Select.DB_u;
 
 function ControlsAlinhadorADireitaCreate: IControlsAlinhador;
 begin
@@ -49,10 +48,9 @@ begin
   Result.Tag := pTag;
 end;
 
-function DBSelectFormCreate(AOwner: TComponent; pDBI: IDBI;
-  pFiltro: TFiltroFrame): ISelect;
+function DBSelectFormCreate(pDBI: IDBI; pFiltro: TFiltroFrame): ISelect;
 begin
-  Result := TDBSelectForm.Create(AOwner, pDBI, pFiltro);
+  Result := TDBSelectForm.Create(pDBI, pFiltro);
 end;
 
 end.

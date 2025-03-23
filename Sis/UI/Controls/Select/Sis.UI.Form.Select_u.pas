@@ -19,10 +19,10 @@ type
     procedure AtualizeQtdRegs; virtual;
   public
     { Public declarations }
-    function Perg(pParms: string = ''): Boolean; virtual; abstract;
+    function Perg(pParams: string = ''): Boolean; virtual; abstract;
 
     property LastSelected: string read GetLastSelected;
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent); reintroduce; virtual;
   end;
 
 //var
@@ -41,7 +41,7 @@ end;
 
 constructor TSelectForm.Create(AOwner: TComponent);
 begin
-  inherited;
+  inherited Create(AOwner);
   MensLabel.Parent := FundoPanel;
   AlteracaoTextoLabel.Parent := FundoPanel;
 end;

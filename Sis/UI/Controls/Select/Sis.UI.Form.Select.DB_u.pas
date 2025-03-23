@@ -1,4 +1,4 @@
-unit Sis.UI.Select.DB_u;
+unit Sis.UI.Form.Select.DB_u;
 
 interface
 
@@ -25,9 +25,10 @@ type
 
   public
     { Public declarations }
+    function Perg(pParams: string = ''): Boolean; override;
     property DBI: IDBI read FDBI;
     property Filtro: TFiltroFrame read FFiltro;
-    constructor Create(AOwner: TComponent; pDBI: IDBI; pFiltro: TFiltroFrame); reintroduce; virtual;
+    constructor Create(pDBI: IDBI; pFiltro: TFiltroFrame); reintroduce; virtual;
   end;
 
 var
@@ -52,15 +53,17 @@ begin
   QtdRegsLabel.Caption := sMens;
 end;
 
-constructor TDBSelectForm.Create(AOwner: TComponent; pDBI: IDBI; pFiltro: TFiltroFrame);
+constructor TDBSelectForm.Create(pDBI: IDBI; pFiltro: TFiltroFrame);
 var
   sNomeArq: string;
 begin
-  inherited Create(AOwner);
+  inherited Create(nil);
   FDBI := pDBI;
   FFiltro := pFiltro;
-  FFiltro.Parent := FFiltro;
+  FFiltro.Parent := BasePanel;
   FFiltro.Align := alTop;
+  FFiltro.OnChange := DoFiltroChange;
+
   FGridFrame := TDBGridFrame.Create(FundoPanel);
   FGridFrame.Align := alClient;
 
@@ -103,6 +106,11 @@ begin
   T.Append;
   RecordToFDMemTable(q, T);
   T.Post;
+end;
+
+function TDBSelectForm.Perg(pParams: string): Boolean;
+begin
+  Filtro.Values := pParams;
 end;
 
 end.
