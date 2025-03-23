@@ -39,9 +39,11 @@ type
     FPagFrame: TPagPDVFrame;
 
     FCaixaSessaoDM: TCaixaSessaoDM;
-    FPDVDBI: IAppPDVDBI;
 
     FTermDBConnection: IDBConnection;
+
+    FPDVDBI: IAppPDVDBI;
+    FProdSelectDBI: IDBI;
 
     FImpressaoVenda: IImpressao;
 
@@ -61,6 +63,7 @@ type
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
     function PDVObjCreate: IPDVObj; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
+    function ProdSelectDBICreate: IDBI; virtual; abstract;
     procedure DecidirPrimeiroFrameAtivo; virtual;
 
     procedure VaParaVenda; virtual;
@@ -70,6 +73,7 @@ type
 
     property PDVVenda: IPDVVenda read FPDVVenda;
     property PDVDBI: IAppPDVDBI read FPDVDBI;
+    property ProdSelectDBI: IDBI read FProdSelectDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
     property PDVObj: IPDVObj read FPDVObj;
@@ -107,7 +111,7 @@ var
   // s: string; // so pra visualizar o name durante o debug
 begin
   Result := inherited;
-//  Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkP]);
+  Result.PegarAction(PrecoBuscaAction_PDVModuloBasForm, [vkP]);
   Result.NovaLinha;
 
   Result.PegarAction(SessFormAction, [vkR]);
@@ -155,12 +159,13 @@ begin
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario, Self);
 
-  FFrameAviso := PDVFrameAvisoCreate(Self, FPDVObj,
+  FFrameAviso := PDVFrameAvisoCreate(Self, AppObj, FPDVObj,
     'É necessário abrir o caixa', CaixaSessaoAbrirTentarAction);
   FFrameAviso.OculteControles;
 
   FPDVVenda := PDVVendaCreate;
   FPDVDBI := PDVDBICreate;
+  FProdSelectDBI := ProdSelectDBICreate;
 
   FVendaFrame := VendaFrameCreate;
   FVendaFrame.OculteControles;

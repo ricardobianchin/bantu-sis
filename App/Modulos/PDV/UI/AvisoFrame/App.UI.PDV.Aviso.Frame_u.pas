@@ -21,8 +21,8 @@ type
     procedure ExibaControles; override;
     procedure OculteControles; override;
 
-    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj; pCaption: TCaption;
-      pAction: TAction); reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj;
+      pCaption: TCaption; pAction: TAction); reintroduce; virtual;
   end;
 
 var
@@ -53,8 +53,8 @@ begin
   oControl.Top := (AltuDif div 10) * 4;
 end;
 
-constructor TAvisoPDVFrame.Create(AOwner: TComponent; pPDVObj: IPDVObj;
-  pCaption: TCaption; pAction: TAction);
+constructor TAvisoPDVFrame.Create(AOwner: TComponent;
+  pPDVObj: IPDVObj; pCaption: TCaption; pAction: TAction);
 begin
   inherited Create(AOwner, pPDVObj);
 

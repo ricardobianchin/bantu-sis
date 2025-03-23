@@ -27,6 +27,7 @@ type
     function PDVObjCreate: IPDVObj; override;
     function PDVDBICreate: IAppPDVDBI; override;
 
+    function ProdSelectDBICreate: IDBI; override;
     function VendaFrameCreate: TVendaBasPDVFrame; override;
     function PagFrameCreate: TPagPDVFrame; override;
   public
@@ -63,6 +64,7 @@ constructor TShopPDVModuloForm.Create(AOwner: TComponent;
   pTerminalId: TTerminalId);
 begin
   inherited;
+//  FShopProdSelectDBI := ShopProdSelectDBICreate(TermDBConnection, AppObj);
   // AppMenuForm := AppMenuFormCreate;
 end;
 
@@ -116,6 +118,11 @@ begin
   DBI := ShopPrecoBuscaDBICreate(ODBConnection, AppObj);
 
   App.PDV.Preco.PrecoBusca.Factory_u.BuscaPrecoPerg(DBI);
+end;
+
+function TShopPDVModuloForm.ProdSelectDBICreate: IDBI;
+begin
+  Result := ShopProdSelectDBICreate(TermDBConnection, AppObj);
 end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;

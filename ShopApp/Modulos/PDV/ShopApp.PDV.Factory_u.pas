@@ -61,7 +61,8 @@ function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 function DBIAppCastToShopApp(pAppPDVDBI: IAppPDVDBI): IShopAppPDVDBI;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
+  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda)
+  : IShopAppPDVDBI;
 
 function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
@@ -76,11 +77,14 @@ function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
 
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
 
+function ShopProdSelectDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj): IDBI;
+
 implementation
 
 uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u,
   ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u,
-  ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u;
+  ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u,
+  AppShop.PDV.Prod.ProdSelect.DBI_u;
 
 function ShopPDVVendaCreate( //
   pLoja: IAppLoja; //
@@ -221,6 +225,11 @@ end;
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
 begin
   Result := TShopPDVObj.Create(pTerminal);
+end;
+
+function ShopProdSelectDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj): IDBI;
+begin
+  Result := TShopProdSelectDBI.Create(pDBConnection, pAppObj);
 end;
 
 end.

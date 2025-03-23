@@ -15,6 +15,7 @@ type
   private
     { Private declarations }
     FPDVObj: IPDVObj;
+
   protected
     property PDVObj: IPDVObj read FPDVObj;
 
@@ -32,7 +33,8 @@ type
     procedure ExibaErro(pMens: string); virtual;
     procedure ExibaMens(pMens: string); virtual;
 
-    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj); reintroduce;
+    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj);
+      reintroduce;
   end;
 
 var
@@ -45,7 +47,8 @@ implementation
 
 uses Sis.UI.Controls.Utils;
 
-constructor TPDVFrame.Create(AOwner: TComponent; pPDVObj: IPDVObj);
+constructor TPDVFrame.Create(AOwner: TComponent;
+  pPDVObj: IPDVObj);
 begin
   inherited Create(AOwner);
   ClearStyleElements(Self);
