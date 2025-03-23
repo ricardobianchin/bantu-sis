@@ -19,7 +19,7 @@ type
     procedure AtualizeQtdRegs; virtual;
   public
     { Public declarations }
-    function Perg(pParams: string = ''): Boolean; virtual; abstract;
+    function Execute(pParams: string = ''): Boolean; virtual; abstract;
 
     property LastSelected: string read GetLastSelected;
     constructor Create(AOwner: TComponent); reintroduce; virtual;

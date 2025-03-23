@@ -59,7 +59,15 @@ begin
 //  inherited;
   // Acessando o primeiro elemento do vetor de variants
   if VarArrayDimCount(Value) > 0 then
-    FiltroStringEdit.Text := VarToStr(Value[0])
+  begin
+    FiltroStringEdit.Text := VarToStr(Value[0]);
+
+    // Define o cursor no final do texto
+    FiltroStringEdit.SelStart := Length(FiltroStringEdit.Text);
+
+    // Define o tamanho da seleção como zero
+    FiltroStringEdit.SelLength := 0;
+  end
   else
     FiltroStringEdit.Text := '';
 

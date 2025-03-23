@@ -11,7 +11,8 @@ uses
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
   Sis.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
   App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI, App.PDV.Venda,
-  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj, ShopApp.PDV.Obj;
+  Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj, ShopApp.PDV.Obj,
+  Sis.UI.Select, Sis.UI.Frame.Bas.Filtro.BuscaString_u;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -21,13 +22,15 @@ type
     FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
     FShopPDVObj: IShopPDVObj;
+    FShopProdSelectDBI: IDBI;
+    FFiltroStringFrame: TFiltroStringFrame;
+    FShopProdSelect: ISelect;
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
     function PDVVendaCreate: IPDVVenda; override;
     function PDVObjCreate: IPDVObj; override;
     function PDVDBICreate: IAppPDVDBI; override;
 
-    function ProdSelectDBICreate: IDBI; override;
     function VendaFrameCreate: TVendaBasPDVFrame; override;
     function PagFrameCreate: TPagPDVFrame; override;
   public
@@ -45,7 +48,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.Sis.Constants, Sis.Sis.Atualizavel //
+uses Sis.DB.Factory, Sis.Sis.Constants, Sis.Sis.Atualizavel,
+  Sis.UI.Controls.Factory //
 
     , App.PDV.Preco.PrecoBusca.Factory_u //
     , AppShop.PDV.Preco.PrecoBusca.Factory_u //
@@ -64,7 +68,6 @@ constructor TShopPDVModuloForm.Create(AOwner: TComponent;
   pTerminalId: TTerminalId);
 begin
   inherited;
-//  FShopProdSelectDBI := ShopProdSelectDBICreate(TermDBConnection, AppObj);
   // AppMenuForm := AppMenuFormCreate;
 end;
 
@@ -120,14 +123,14 @@ begin
   App.PDV.Preco.PrecoBusca.Factory_u.BuscaPrecoPerg(DBI);
 end;
 
-function TShopPDVModuloForm.ProdSelectDBICreate: IDBI;
-begin
-  Result := ShopProdSelectDBICreate(TermDBConnection, AppObj);
-end;
-
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self);
+  FShopProdSelectDBI := ShopProdSelectDBICreate(TermDBConnection, AppObj);
+  FFiltroStringFrame := TFiltroStringFrame.Create(Application, nil);
+  FShopProdSelect := DBSelectFormCreate(FShopProdSelectDBI, FFiltroStringFrame);
+
+  Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self,
+    FShopProdSelect);
   Result.Visible := False;
 end;
 

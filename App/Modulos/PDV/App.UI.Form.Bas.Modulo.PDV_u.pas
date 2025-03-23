@@ -43,7 +43,6 @@ type
     FTermDBConnection: IDBConnection;
 
     FPDVDBI: IAppPDVDBI;
-    FProdSelectDBI: IDBI;
 
     FImpressaoVenda: IImpressao;
 
@@ -63,7 +62,6 @@ type
     function PDVVendaCreate: IPDVVenda; virtual; abstract;
     function PDVObjCreate: IPDVObj; virtual; abstract;
     function PDVDBICreate: IAppPDVDBI; virtual; abstract;
-    function ProdSelectDBICreate: IDBI; virtual; abstract;
     procedure DecidirPrimeiroFrameAtivo; virtual;
 
     procedure VaParaVenda; virtual;
@@ -73,7 +71,6 @@ type
 
     property PDVVenda: IPDVVenda read FPDVVenda;
     property PDVDBI: IAppPDVDBI read FPDVDBI;
-    property ProdSelectDBI: IDBI read FProdSelectDBI;
 
     Property TermDBConnection: IDBConnection read FTermDBConnection;
     property PDVObj: IPDVObj read FPDVObj;
@@ -165,7 +162,6 @@ begin
 
   FPDVVenda := PDVVendaCreate;
   FPDVDBI := PDVDBICreate;
-  FProdSelectDBI := ProdSelectDBICreate;
 
   FVendaFrame := VendaFrameCreate;
   FVendaFrame.OculteControles;

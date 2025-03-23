@@ -91,7 +91,7 @@ type
 
     constructor Create(AOwner: TComponent;
       pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
-      pPDVControlador: IPDVControlador); reintroduce;
+      pPDVControlador: IPDVControlador; pProdSelect: ISelect); reintroduce;
   end;
 
 var
@@ -127,7 +127,7 @@ end;
 
 constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
   pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
-  pPDVControlador: IPDVControlador);
+  pPDVControlador: IPDVControlador; pProdSelect: ISelect);
 begin
   inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI,
     pPDVControlador);
@@ -135,6 +135,7 @@ begin
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
   FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid);
+  FProdSelect := pProdSelect;
 
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
@@ -338,6 +339,12 @@ begin
   begin
     StrBuscaPegueChar(Key);
   end;
+  CharSemAcento(Key);
+  if Pos(key, 'ABCDEFGHIJKLMNOPQRSTUVXZ')>0 then
+  begin
+    StrBuscaPegueChar(Key);
+    StrBuscaPegueChar(#13);
+  end;
 end;
 
 procedure TShopVendaPDVFrame.ExibaControles;
@@ -498,7 +505,7 @@ var
 begin
   if not StrIsOnlyDigit(FStrBusca) then
   begin
-    if not Fprodselect.Perg then
+    if not Fprodselect.Execute(FStrBusca) then
     begin
       FStrBusca := '';
       StrBuscaMudou;

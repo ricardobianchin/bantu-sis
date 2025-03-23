@@ -15,8 +15,12 @@ inherited DBSelectForm: TDBSelectForm
       ExplicitTop = 296
       ExplicitHeight = 15
       inherited QtdRegsLabel: TLabel
+        Left = 616
         Top = 0
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
         StyleElements = [seFont, seClient, seBorder]
+        ExplicitLeft = 616
         ExplicitTop = 0
       end
     end
