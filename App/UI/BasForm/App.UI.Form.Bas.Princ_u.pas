@@ -358,7 +358,6 @@ begin
 {$IFNDEF DEBUG}
   inherited;
 {$ENDIF}
-
 end;
 
 procedure TPrincBasForm.GarantaDB;

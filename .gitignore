@@ -75,3 +75,5 @@ dcp/
 App/AppVersao/AppVersao_u.pas
 *.delphilsp.json
 App\App.delphilsp.json
+git-repo-info.txt
+generate-git-repo-info.bat

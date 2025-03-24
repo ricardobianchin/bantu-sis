@@ -15,6 +15,7 @@ type
     FPDVVenda: IPDVVenda;
     FPDVDBI: IAppPDVDBI;
     FPDVControlador: IPDVControlador;
+
   protected
     property PDVControlador: IPDVControlador read FPDVControlador;
     property PDVDBI: IAppPDVDBI read FPDVDBI;
@@ -22,9 +23,9 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj; pPDVVenda: IPDVVenda;
-      pPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
-      reintroduce; virtual;
+    constructor Create(AOwner: TComponent; pPDVObj: IPDVObj;
+      pPDVVenda: IPDVVenda; pPDVDBI: IAppPDVDBI;
+      pPDVControlador: IPDVControlador); reintroduce; virtual;
   end;
 
   // var
@@ -35,8 +36,9 @@ implementation
 {$R *.dfm}
 { TVendaBasPDVFrame }
 
-constructor TVendaBasPDVFrame.Create(AOwner: TComponent; pPDVObj: IPDVObj; pPDVVenda: IPDVVenda;
-  pPDVDBI: IAppPDVDBI; pPDVControlador: IPDVControlador);
+constructor TVendaBasPDVFrame.Create(AOwner: TComponent;
+  pPDVObj: IPDVObj; pPDVVenda: IPDVVenda; pPDVDBI: IAppPDVDBI;
+  pPDVControlador: IPDVControlador);
 begin
   inherited Create(AOwner, pPDVObj);
   FPDVVenda := pPDVVenda;

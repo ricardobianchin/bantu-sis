@@ -1143,7 +1143,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>C:\Pr\app\bantu\bantu-sis\Src\Controle\postbuild.bat</PostBuildEvent>
+        <PostBuildEvent>C:\Pr\app\bantu\bantu-sis\Src\Controle\postbuild.bat</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

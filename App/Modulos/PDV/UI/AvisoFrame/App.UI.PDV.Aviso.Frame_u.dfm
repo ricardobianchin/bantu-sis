@@ -1,5 +1,6 @@
 inherited AvisoPDVFrame: TAvisoPDVFrame
   inherited MeioPanel: TPanel
+    StyleElements = [seFont, seClient, seBorder]
     object Panel1: TPanel
       Left = 16
       Top = 24

@@ -5,7 +5,7 @@ interface
 uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
   Sis.DB.DBTypes, App.PDV.DBI, ShopApp.PDV.DBI, Sis.Types, ShopApp.PDV.Obj,
-  Sis.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod,
+  Sis.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod, Sis.UI.Select,
   App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
   ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja, App.PDV.Controlador,
   App.UI.PDV.PagFrame_u, Sis.UI.Impressao, App.PDV.Obj;
@@ -61,11 +61,12 @@ function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 function DBIAppCastToShopApp(pAppPDVDBI: IAppPDVDBI): IShopAppPDVDBI;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda): IShopAppPDVDBI;
+  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda)
+  : IShopAppPDVDBI;
 
 function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
-  pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
+  pPDVControlador: IPDVControlador; pSelect: ISelect): TVendaBasPDVFrame;
 
 function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
@@ -76,11 +77,14 @@ function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
 
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
 
+function ShopProdSelectDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj): IDBI;
+
 implementation
 
 uses ShopApp.PDV.Venda_u, ShopApp.PDV.VendaItem_u, ShopApp.PDV.DBI_u,
   ShopApp.UI.PDV.VendaFrame_u, ShopApp.UI.PDV.Venda.Frame.FitaDraw_u,
-  ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u;
+  ShopApp.UI.PDV.PagFrame_u, ShopApp.PDV.Obj_u,
+  AppShop.PDV.Prod.ProdSelect.DBI_u;
 
 function ShopPDVVendaCreate( //
   pLoja: IAppLoja; //
@@ -198,10 +202,10 @@ end;
 
 function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
-  pPDVControlador: IPDVControlador): TVendaBasPDVFrame;
+  pPDVControlador: IPDVControlador; pSelect: ISelect): TVendaBasPDVFrame;
 begin
   Result := TShopVendaPDVFrame.Create(AOwner, pShopPDVObj, pPdvVenda,
-    pAppPDVDBI, pPDVControlador);
+    pAppPDVDBI, pPDVControlador, pSelect);
 end;
 
 function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
@@ -221,6 +225,11 @@ end;
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
 begin
   Result := TShopPDVObj.Create(pTerminal);
+end;
+
+function ShopProdSelectDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj): IDBI;
+begin
+  Result := TShopProdSelectDBI.Create(pDBConnection, pAppObj);
 end;
 
 end.

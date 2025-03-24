@@ -15,6 +15,7 @@ inherited FiltroStringFrame: TFiltroStringFrame
     Top = 0
     Width = 129
     Height = 23
+    AutoSelect = False
     TabOrder = 0
     OnChange = FiltroStringEditChange
     OnKeyPress = FiltroStringEditKeyPress

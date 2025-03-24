@@ -23,8 +23,8 @@ type
     { Public declarations }
   end;
 
-var
-  DBGridFrame: TDBGridFrame;
+//var
+//  DBGridFrame: TDBGridFrame;
 
 implementation
 

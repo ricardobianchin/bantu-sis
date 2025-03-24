@@ -8,7 +8,8 @@ uses
   App.UI.PDV.VendaBasFrame_u, Vcl.ExtCtrls, Vcl.StdCtrls, System.Types,
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
-  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj;
+  Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj,
+  Sis.UI.Select, Sis.DBI, Sis.UI.Frame.Bas.Filtro_u;
 
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
@@ -48,6 +49,7 @@ type
     FShopAppPDVDBI: IShopAppPDVDBI;
     FFitaDraw: IShopFitaDraw;
     FShopPDVObj: IShopPDVObj;
+    FProdSelect: ISelect;
 
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
@@ -71,6 +73,7 @@ type
     procedure AcioneGaveta;
   protected
     procedure ExibaControles; override;
+
   public
     { Public declarations }
     procedure ExibaErro(pMens: string); override;
@@ -86,9 +89,9 @@ type
 
     procedure Iniciar; override;
 
-    constructor Create(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
-      pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
-      pPDVControlador: IPDVControlador); reintroduce;
+    constructor Create(AOwner: TComponent;
+      pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
+      pPDVControlador: IPDVControlador; pProdSelect: ISelect); reintroduce;
   end;
 
 var
@@ -100,7 +103,7 @@ implementation
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
-  Sis.UI.IO.Input.Perg;
+  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory, Sis.UI.Frame.Bas.Filtro.BuscaString_u;
 
 { TShopVendaPDVFrame }
 
@@ -124,14 +127,15 @@ end;
 
 constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
   pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
-  pPDVControlador: IPDVControlador);
+  pPDVControlador: IPDVControlador; pProdSelect: ISelect);
 begin
-  inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI,
+    pPDVControlador);
   FShopPDVObj := pShopPDVObj;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
-
   FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid);
+  FProdSelect := pProdSelect;
 
   FStrBusca := '';
   ItemDescrLabel.Caption := '';
@@ -156,12 +160,12 @@ begin
 
   FColuna1Rect.Left := MargHor;
   FColuna1Rect.Top := MargVer;
-  FColuna1Rect.Width := LARG_COLUNA;
+  FColuna1Rect.width := LARG_COLUNA;
   FColuna1Rect.Height := MeioPanel.Height - (2 * MargVer);
 
-  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.Width + GUTTER;
+  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.width + GUTTER;
   FColuna2Rect.Top := FColuna1Rect.Top;
-  FColuna2Rect.Width := FColuna1Rect.Width;
+  FColuna2Rect.width := FColuna1Rect.width;
   FColuna2Rect.Height := FColuna1Rect.Height;
 
   DimensioneInput;
@@ -188,15 +192,15 @@ begin
   w := (FitaStringGrid.Canvas.TextWidth('W') * ((CUPOM_QTD_COLS * 2) +
     1)) div 2;
 
-  iDir := ItemPanel.Left + ItemPanel.Width;
+  iDir := ItemPanel.Left + ItemPanel.width;
   l := iDir - w;
 
   FitaStringGrid.Left := l;
   FitaStringGrid.Top := t;
-  FitaStringGrid.Width := w;
+  FitaStringGrid.width := w;
   FitaStringGrid.Height := h;
 
-  FitaStringGrid.DefaultColWidth := FitaStringGrid.Width;
+  FitaStringGrid.DefaultColWidth := FitaStringGrid.width;
 
   FFitaDraw.Prepare;
 end;
@@ -208,12 +212,11 @@ begin
   l := FColuna1Rect.Left;
   h := FColuna2Rect.Height div 8;
   t := FColuna2Rect.Height - h;
-  w := FColuna2Rect.Left + FColuna2Rect.Width - l;
-
+  w := FColuna2Rect.Left + FColuna2Rect.width - l;
 
   InputPanel.Left := l;
   InputPanel.Top := t;
-  InputPanel.Width := w;
+  InputPanel.width := w;
   InputPanel.Height := h;
 
   InputPanel.Color := Rgb(16, 21, 36);
@@ -229,12 +232,12 @@ var
 begin
   l := FColuna1Rect.Left;
   h := InputPanel.Height;
-  w := FColuna2Rect.Left + FColuna2Rect.Width - l;
+  w := FColuna2Rect.Left + FColuna2Rect.width - l;
   t := InputPanel.Top - 4 - h;
 
   ItemPanel.Left := l;
   ItemPanel.Top := t;
-  ItemPanel.Width := w;
+  ItemPanel.width := w;
   ItemPanel.Height := h;
 
   ItemPanel.Color := Rgb(16, 21, 36);
@@ -267,7 +270,7 @@ begin
     // FecharAction_ModuloBasForm.Execute;
     Exit;
   end
-  else if (Key = VK_F5) and (Shift = [])  then
+  else if (Key = VK_F5) and (Shift = []) then
   begin
     AcioneGaveta;
     Exit;
@@ -336,12 +339,18 @@ begin
   begin
     StrBuscaPegueChar(Key);
   end;
+  CharSemAcento(Key);
+  if Pos(key, 'ABCDEFGHIJKLMNOPQRSTUVXZ')>0 then
+  begin
+    StrBuscaPegueChar(Key);
+    StrBuscaPegueChar(#13);
+  end;
 end;
 
 procedure TShopVendaPDVFrame.ExibaControles;
 begin
   PreencherControles;
-  PDVToolBar.Width := PDVToolBar.Width + 1;
+  PDVToolBar.width := PDVToolBar.width + 1;
 
   // ControlAlignToCenter(PDVToolBar);
 
@@ -494,6 +503,17 @@ var
   bEncontrou: Boolean;
   sMensagem: string;
 begin
+  if not StrIsOnlyDigit(FStrBusca) then
+  begin
+    if not Fprodselect.Execute(FStrBusca) then
+    begin
+      FStrBusca := '';
+      StrBuscaMudou;
+      Exit;
+    end;
+    FStrBusca := fprodselect.LastSelected;
+  end;
+
   // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
   oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
     sMensagem);
@@ -524,24 +544,20 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.StrBuscaPegueChar(pChar: Char);
-var
-  bCharPode: Boolean;
 begin
-  bCharPode := pChar <> #0;
-  if not bCharPode then
-    Exit;
-
   try
     if pChar = #8 then
     begin
       StrDeleteNoFim(FStrBusca, 1);
       Exit;
-    end
-    else if pChar = #13 then
+    end;
+
+    if pChar = #13 then
     begin
       StrBuscaExec;
       Exit;
     end;
+
     CharSemAcento(pChar);
     FStrBusca := FStrBusca + pChar;
   finally
