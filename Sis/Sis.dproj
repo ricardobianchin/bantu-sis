@@ -171,7 +171,6 @@
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Sync.pas"/>
         <DCCReference Include="UI\IO\Sis.UI.IO.Factory.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
@@ -443,6 +442,10 @@
         <DCCReference Include="UI\Controls\Select\Sis.UI.Select.pas"/>
         <DCCReference Include="UI\Controls\Select\Sis.UI.Form.Select.DB_u.pas">
             <Form>DBSelectForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.Form_u.pas">
+            <Form>InputBoolCaptionForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="Sis.dpk"/>
