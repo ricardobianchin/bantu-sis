@@ -11,6 +11,7 @@ uses
 
 begin
   Application.Initialize;
+  Application.Title := 'Sistema Daros';
 //  Application.MainFormOnTaskbar := True;
 //  Application.ShowMainForm := False;
   TStyleManager.TrySetStyle('Iceberg Classico');

@@ -4,6 +4,9 @@ interface
 
 uses System.UITypes;
 
+type
+  TBooleanDefault = (boolUndefined, boolFalse, boolTrue);
+
 const
   ZERO_CURRENCY: currency = 0.0;
   UM_CENTAVO: Currency = 0.01;

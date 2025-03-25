@@ -112,7 +112,6 @@ contains
   Sis.UI.IO.Files.Sync in 'UI\IO\Files\Sis.UI.IO.Files.Sync.pas',
   Sis.UI.IO.Factory in 'UI\IO\Sis.UI.IO.Factory.pas',
   Sis.UI.IO.Input.Bool.Caption in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.pas',
-  Sis.UI.IO.Input.Bool.Form in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Form.pas',
   Sis.UI.IO.Input.Bool in 'UI\IO\Input\Sis.UI.IO.Input.Bool.pas',
   Sis.UI.IO.Input in 'UI\IO\Input\Sis.UI.IO.Input.pas',
   Sis.UI.IO.Input.Perg in 'UI\IO\Input\Sis.UI.IO.Input.Perg.pas',
@@ -321,6 +320,7 @@ contains
   Sis.Terminal.Utils_u in 'Entities\Terminal\Sis.Terminal.Utils_u.pas',
   Sis.UI.Form.Select_u in 'UI\Controls\Select\Sis.UI.Form.Select_u.pas' {SelectForm},
   Sis.UI.Select in 'UI\Controls\Select\Sis.UI.Select.pas',
-  Sis.UI.Form.Select.DB_u in 'UI\Controls\Select\Sis.UI.Form.Select.DB_u.pas' {DBSelectForm};
+  Sis.UI.Form.Select.DB_u in 'UI\Controls\Select\Sis.UI.Form.Select.DB_u.pas' {DBSelectForm},
+  Sis.UI.IO.Input.Bool.Caption.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.Form_u.pas' {InputBoolCaptionForm};
 
 end.
