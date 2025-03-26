@@ -45,6 +45,7 @@ type
     FDBMS: IDBMS;
 
     FDBUpdaterVariaveis: string;
+    FPrecisaFechar: Boolean;
 
     procedure GarantaDB;
     function AtualizeVersaoExecutaveis: boolean;
@@ -82,6 +83,8 @@ type
 
     procedure AjusteControles; override;
     procedure AssistAbrir; virtual;
+
+    property PrecisaFechar: Boolean read FPrecisaFechar write FPrecisaFechar;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -247,6 +250,7 @@ begin
   inherited Create(AOwner);
   // ReportMemoryLeaksOnShutdown := True;
   Randomize;
+  FPrecisaFechar := False;
 
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
@@ -299,6 +303,7 @@ begin
       FProcessLog.RegistreLog
         ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
       Application.Terminate;
+      FPrecisaFechar := True;
       exit;
     end;
     GarantaDB;

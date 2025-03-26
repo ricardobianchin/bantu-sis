@@ -2,6 +2,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
   ClientWidth = 592
+  StyleElements = [seFont, seClient, seBorder]
   OnDestroy = FormDestroy
   ExplicitWidth = 592
   ExplicitHeight = 458
@@ -30,7 +31,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = FinTabSheet
+      ActivePage = AjudaTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -204,7 +205,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Height = 30
           AutoSize = True
           ButtonHeight = 30
-          ButtonWidth = 104
+          ButtonWidth = 130
           Caption = 'AjudaToolBar'
           Ctl3D = False
           EdgeInner = esNone
@@ -219,9 +220,14 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Action = RetagAjuBemAction
           end
           object AjuVersaoDBToolButton: TToolButton
-            Left = 104
+            Left = 130
             Top = 0
             Action = RetagAjuVersaoDBAction
+          end
+          object ToolButton12: TToolButton
+            Left = 260
+            Top = 0
+            Action = RetagAjuVersaoSisAction
           end
         end
       end
@@ -231,8 +237,20 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     Top = 429
     Width = 592
     TabOrder = 2
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 429
     ExplicitWidth = 592
+    inherited StatusPanel1: TPanel
+      StyleElements = [seFont, seClient, seBorder]
+      inherited StatusLabel1: TLabel
+        StyleElements = [seFont, seClient, seBorder]
+      end
+      inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
+        StyleElements = [seFont, seClient, seBorder]
+      end
+    end
   end
   object PageControl1: TPageControl [3]
     Left = 0
@@ -388,6 +406,11 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Caption = 'Tipos de Despesa'
       Hint = 'Tipos de Despesa'
       OnExecute = FinanceiroDespesaTipoActionExecute
+    end
+    object RetagAjuVersaoSisAction: TAction
+      Category = 'Ajuda'
+      Caption = 'Vers'#227'o do Sistema'
+      OnExecute = RetagAjuVersaoSisActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

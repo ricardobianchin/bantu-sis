@@ -763,6 +763,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Aju\VersaoSis\App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u.pas">
+            <Form>RetagAjuVersaoSisForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
@@ -815,6 +819,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
                 </DeployFile>
                 <DeployFile LocalName="..\..\Exe\Bin\App.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
+                        <RemoteName>App.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Exe\Bin\App.bpl" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
                         <RemoteName>App.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

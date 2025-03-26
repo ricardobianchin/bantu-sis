@@ -27,7 +27,7 @@ type
 implementation
 
 uses System.DateUtils, System.SysUtils, Sis.Types.Dates, Sis.UI.IO.Files.Sync,
-  Sis.Web.HTTPDownload.NET;
+  Sis.Web.HTTP.Download.NET;
 
 { THTTPDownload }
 
@@ -61,7 +61,7 @@ begin
   FProcessLog.PegueLocal('THTTPDownload.Execute');
   try
     FProcessLog.RegistreLog('vai chamar Sis.Web.HTTPDownload.NET.Execute');
-    Result := Sis.Web.HTTPDownload.NET.Execute(FArqLocal, FArqRemoto,
+    Result := Sis.Web.HTTP.Download.NET.NETDownload(FArqLocal, FArqRemoto,
       FProcessLog, FOutput, FExluiDestinoAntesDeBaixar);
     FProcessLog.RegistreLog('retornou de Sis.Web.HTTPDownload.NET.Execute,Fim');
   finally

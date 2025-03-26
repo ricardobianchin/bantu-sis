@@ -1,36 +1,19 @@
-unit Sis.Web.HTTPDownload.NET;
+ï»¿unit Sis.Web.HTTP.Download.NET;
 
 interface
 
 uses Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
 
-function Execute(pArqLocal, pArqRemoto: string; pProcessLog: IProcessLog;
+function NETDownload(pArqLocal, pArqRemoto: string; pProcessLog: IProcessLog;
   pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): boolean;
 
 implementation
 
 uses
   System.NET.HttpClient, System.NET.URLClient, System.SysUtils, System.Classes,
-  Sis.Types.Dates, Sis.UI.IO.Files.Sync, System.IOUtils, dialogs;
+  Sis.Types.Dates, Sis.UI.IO.Files.Sync, System.IOUtils, dialogs, Sis.Web.HTTP.Net.Utils_u;
 
-function GetValueByName(pName: string; pNetHeaders: TNetHeaders): string;
-var
-  Header: TNameValuePair;
-  LastModifiedValue: string;
-
-begin
-  for Header in pNetHeaders do
-  begin
-    if Header.Name = pName then
-    begin
-      LastModifiedValue := Header.Value;
-      Result := LastModifiedValue;
-      Break;
-    end;
-  end;
-end;
-
-function Execute(pArqLocal, pArqRemoto: string; pProcessLog: IProcessLog;
+function NETDownload(pArqLocal, pArqRemoto: string; pProcessLog: IProcessLog;
   pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean): boolean;
 var
   HttpClient: THTTPClient;
@@ -42,7 +25,7 @@ var
   DtHLocal: TDateTime;
   sGMT: string;
 begin
-  pProcessLog.PegueLocal('Sis.Web.HTTPDownload.NET,function Execute');
+  pProcessLog.PegueLocal('Sis.Web.HTTP.Download_u,function Execute');
 
   pProcessLog.RegistreLog('HttpClient := THTTPClient.Create');
   HttpClient := THTTPClient.Create;
@@ -59,7 +42,7 @@ begin
       on E: Exception do
       begin
         Result := False;
-        pProcessLog.RegistreLog('Sis.Web.HTTPDownload.NET,Erro,HTTPClient.Head,'
+        pProcessLog.RegistreLog('Sis.Web.HTTP.Download_u,Erro,HTTPClient.Head,'
           + E.Message);
       end;
     end;
@@ -78,7 +61,7 @@ begin
       exit;
     end;
 
-    sGMT := GetValueByName('Last-Modified', HTTPResponse.Headers);
+    sGMT := NETGetValueByName('Last-Modified', HTTPResponse.Headers);
     pProcessLog.RegistreLog('sGMT=' + sGMT);
     DtHRemoto := ConvertGMTToTDateTime(sGMT);
     pProcessLog.RegistreLog('DtHRemoto=' + DateTimeToStr(DtHRemoto));
@@ -109,7 +92,7 @@ begin
     FileStream := TFileStream.Create(LocalFilePath, fmCreate);
     try
       pProcessLog.RegistreLog('HTTPClient.Get');
-      pOutput.Exibir('Baixando atualização...');
+      pOutput.Exibir('Baixando arquivo...');
       try
         // showmessage(RemoteFileURL);
         HTTPResponse := HttpClient.Get(RemoteFileURL, FileStream);
@@ -120,7 +103,7 @@ begin
         begin
           // showmessage('HTTPClient.Get '+E.Message+' statuscode='+HTTPResponse.StatusCode.ToString);
           pProcessLog.RegistreLog
-            ('Sis.Web.HTTPDownload.NET,Erro,HTTPClient.Get,' + E.Message);
+            ('Sis.Web.HTTP.Download_u,Erro,HTTPClient.Get,' + E.Message);
           Result := False;
         end;
       end;

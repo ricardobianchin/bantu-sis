@@ -51,6 +51,9 @@ uses App.Sessao.Factory, Sis.Usuario.Factory;
 constructor TSessoesPrincBasForm.Create(AOwner: TComponent);
 begin
   inherited;
+  if PrecisaFechar then
+    exit;
+
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
     FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
