@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -403,6 +403,7 @@ contains
   App.UI.Form.DataSet.Retag.Fin.DespTipo_u in 'Modulos\Retag\Fin\DespTipo\App.UI.Form.DataSet.Retag.Fin.DespTipo_u.pas' {RetagFinDespTipoDataSetForm},
   App.UI.FormEd.CxOperacao.Despesa_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Despesa_u.pas' {CxOperDespesaEdForm},
   App.UI.Frame.Filtro.Prod_Or_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_Or_u.pas' {ProdOrFiltroFrame: TFrame},
-  App.UI.Frame.Filtro.Prod_And_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_And_u.pas' {ProdAndFiltroFrame: TFrame};
+  App.UI.Frame.Filtro.Prod_And_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_And_u.pas' {ProdAndFiltroFrame: TFrame},
+  App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u in 'Modulos\Retag\Aju\VersaoSis\App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u.pas' {RetagAjuVersaoSisForm};
 
 end.

@@ -119,6 +119,8 @@ type
 
     FinanceiroPagamentoFormaAction: TAction;
     FinanceiroDespesaTipoAction: TAction;
+    ToolButton12: TToolButton;
+    RetagAjuVersaoSisAction: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -145,6 +147,7 @@ type
     procedure RetagAcessoPerfilActionExecute(Sender: TObject);
     procedure RetagEstVenClienteActionExecute(Sender: TObject);
     procedure FinanceiroDespesaTipoActionExecute(Sender: TObject);
+    procedure RetagAjuVersaoSisActionExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -154,6 +157,7 @@ type
     // aju
     FAjuBemVindoTabSheetFormCreator: IFormCreator;
     FAjuVersaoDBTabSheetFormCreator: IFormCreator;
+    FAjuVersaoSisFormCreator: IFormCreator;
 
     // ace
     FAcessoPerfilTabSheetFormCreator: IFormCreator;
@@ -285,6 +289,10 @@ begin
   FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, oVersaoDBEnt, oVersaoDBDBI, AppObj);
+
+  FAjuVersaoSisFormCreator := AjuVersaoSisFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorFin(pAppObj: IAppObj;
@@ -478,6 +486,13 @@ procedure TRetaguardaModuloBasForm.RetagAjuVersaoDBActionExecute
 begin
   inherited;
   TabSheetCrie(FAjuVersaoDBTabSheetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagAjuVersaoSisActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FAjuVersaoSisFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);

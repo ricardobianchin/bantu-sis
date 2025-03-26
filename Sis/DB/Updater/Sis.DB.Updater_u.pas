@@ -633,7 +633,7 @@ begin
 
     FOutput.Exibir('iVersao=' + piVersao.ToString);
 
-    FLinhasSL.LoadFromFile(sNomeArq);
+    FLinhasSL.LoadFromFile(sNomeArq, TEncoding.GetEncoding(CP_UTF8));
     // FLinhasSL.LoadFromFile(sNomeArq, TEncoding.GetEncoding(1252));
 
     Result := FLinhasSL.Text <> '';

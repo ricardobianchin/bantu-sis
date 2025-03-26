@@ -16,6 +16,14 @@ function AjuBemVindoSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pAppObj: IAppObj): IFormCreator;
 {$ENDREGION}
+
+{$REGION 'VersaoSis'}
+function AjuVersaoSisFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pAppObj: IAppObj): IFormCreator;
+{$ENDREGION}
+
 {$REGION 'VersaoDB'}
 function EntEdCastToVersaoDBEnt(pEntEd: IEntEd): IVersaoDBEnt;
 function EntDBICastToVersaoDBDBI(pEntDBI: IEntDBI): IEntDBI;
@@ -43,7 +51,8 @@ uses App.UI.Form.TabSheet.Retag.Aju.BemVindo_u, Vcl.Controls,
     , App.Ent.Ed.Id_u //
     , App.Retag.Aju.VersaoDB.Ent_u //
     , App.Retag.Aju.VersaoDB.DBI_u // fabr dbi
-    , App.UI.Form.DataSet.Retag.Aju.VersaoDB_u;
+    , App.UI.Form.DataSet.Retag.Aju.VersaoDB_u //
+    , App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u;
 
 {$REGION 'BemVindo' impl}
 
@@ -58,6 +67,21 @@ begin
 end;
 
 {$ENDREGION}
+
+{$REGION 'VersaoSis' impl}
+
+function AjuVersaoSisFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TTabSheetFormCreator.Create(TRetagAjuVersaoSisForm, 'Versao do Sistema',
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify, pAppObj);
+end;
+
+{$ENDREGION}
+
 {$REGION 'versaodb impl'}
 
 function EntEdCastToVersaoDBEnt(pEntEd: IEntEd): IVersaoDBEnt;

@@ -57,6 +57,10 @@ begin
   // ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
   try
     inherited;
+    if PrecisaFechar then
+      exit;
+
+
   finally
     // ProcessLog.RetorneAssunto;
   end;

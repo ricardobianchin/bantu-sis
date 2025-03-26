@@ -16,6 +16,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
   inherited TitPanel_BasTabSheet: TPanel
     Top = 456
     Align = alBottom
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 456
   end
   object DireitaPanel: TPanel [2]
@@ -31,7 +32,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
     object Label2: TLabel
       Left = 0
       Top = 0
-      Width = 35
+      Width = 185
       Height = 15
       Align = alTop
       Alignment = taCenter
@@ -42,6 +43,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitWidth = 35
     end
     object ProdutosGroupBox: TGroupBox
       Left = 0
@@ -104,6 +106,7 @@ inherited RetagAjuBemVindoForm: TRetagAjuBemVindoForm
     Height = 164
     Caption = 'Terminais'
     TabOrder = 2
+    Visible = False
   end
   inherited ShowTimer_BasForm: TTimer
     Left = 384

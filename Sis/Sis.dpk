@@ -313,14 +313,19 @@ contains
   Sis.Usuario.Factory in 'Usuario\Sis.Usuario.Factory.pas',
   Sis.Usuario.Senha_u in 'Usuario\Sis.Usuario.Senha_u.pas',
   Sis.Web.Factory in 'Web\Sis.Web.Factory.pas',
-  Sis.Web.HTTPGet.Net_u in 'Web\HTTP\HTTPGet\Sis.Web.HTTPGet.Net_u.pas',
-  Sis.Web.HTTP.Download in 'Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download.pas',
-  Sis.Web.HTTP.Download_u in 'Web\HTTP\HTTPDownload\Sis.Web.HTTP.Download_u.pas',
-  Sis.Web.HTTPDownload.NET in 'Web\HTTP\HTTPDownload\NET\Sis.Web.HTTPDownload.NET.pas',
+  Sis.Web.HTTPGet.Net_u in 'Web\HTTP\NET\Sis.Web.HTTPGet.Net_u.pas',
+  Sis.Web.HTTP.Download in 'Web\HTTP\Sis.Web.HTTP.Download.pas',
+  Sis.Web.HTTP.Download_u in 'Web\HTTP\Sis.Web.HTTP.Download_u.pas',
+  Sis.Web.HTTP.Download.NET in 'Web\HTTP\NET\Sis.Web.HTTP.Download.NET.pas',
   Sis.Terminal.Utils_u in 'Entities\Terminal\Sis.Terminal.Utils_u.pas',
   Sis.UI.Form.Select_u in 'UI\Controls\Select\Sis.UI.Form.Select_u.pas' {SelectForm},
   Sis.UI.Select in 'UI\Controls\Select\Sis.UI.Select.pas',
   Sis.UI.Form.Select.DB_u in 'UI\Controls\Select\Sis.UI.Form.Select.DB_u.pas' {DBSelectForm},
-  Sis.UI.IO.Input.Bool.Caption.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.Form_u.pas' {InputBoolCaptionForm};
+  Sis.UI.IO.Input.Bool.Caption.Form_u in 'UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.Form_u.pas' {InputBoolCaptionForm},
+  Sis.Web.HTTP.Upload.NET in 'Web\HTTP\NET\Sis.Web.HTTP.Upload.NET.pas',
+  Sis.Web.HTTP.Net.Utils_u in 'Web\HTTP\NET\Sis.Web.HTTP.Net.Utils_u.pas',
+  Sis.Web.HTTP.Upload in 'Web\HTTP\Sis.Web.HTTP.Upload.pas',
+  Sis.Web.HTTP.Upload_u in 'Web\HTTP\Sis.Web.HTTP.Upload_u.pas',
+  Sis.UI.Controls.RichEditUtils_u in 'UI\Controls\Memo\RichEdit\Sis.UI.Controls.RichEditUtils_u.pas';
 
 end.
