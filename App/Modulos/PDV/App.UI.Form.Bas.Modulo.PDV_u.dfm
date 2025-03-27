@@ -1,10 +1,14 @@
 inherited PDVModuloBasForm: TPDVModuloBasForm
+  BorderStyle = bsSizeable
   Caption = 'PDVModuloBasForm'
-  ClientHeight = 280
+  ClientHeight = 241
+  ClientWidth = 604
   StyleElements = [seFont, seClient, seBorder]
   ExplicitHeight = 280
   TextHeight = 15
   inherited TitleBarPanel: TPanel
+    Width = 604
+    ExplicitWidth = 604
     inherited TitleBarTextCaptionLabel: TLabel
       Top = 4
       Width = 202
@@ -15,19 +19,29 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
       ExplicitWidth = 202
       ExplicitHeight = 21
     end
+    inherited ToolBar1: TToolBar
+      Left = 498
+      ExplicitLeft = 498
+    end
   end
   inherited BasePanel: TPanel
-    Top = 251
+    Top = 212
+    Width = 604
     Visible = False
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 251
+    ExplicitTop = 212
+    ExplicitWidth = 604
     inherited StatusPanel1: TPanel
+      Left = 389
       Visible = False
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitLeft = 389
       inherited StatusLabel1: TLabel
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
         StyleElements = [seFont, seClient, seBorder]
       end
     end

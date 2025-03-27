@@ -28,6 +28,7 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure SessFormActionExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     FPDVObj: IPDVObj;
@@ -253,6 +254,20 @@ begin
   else if FPagFrame.Visible then
     FPagFrame.ExecKeyPress(Sender, Key);
   inherited;
+end;
+
+procedure TPDVModuloBasForm.FormResize(Sender: TObject);
+begin
+  inherited;
+  if Assigned(FrameAtivo) then
+  begin
+    FFrameAtivo.OculteControles;
+    FFrameAtivo.Visible := True;
+    FFrameAtivo.DimensioneControles;
+    FFrameAtivo.ExibaControles;
+    // FFrameAtivo.DebugImporteTeclas;
+  end;
+
 end;
 
 function TPDVModuloBasForm.GetFecharModuloAction: TAction;
