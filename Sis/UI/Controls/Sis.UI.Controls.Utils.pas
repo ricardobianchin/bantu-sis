@@ -23,7 +23,7 @@ procedure ClearStyleElements(pControl: TControl);
 ///     TStyleElements = set of (seFont, seClient, seBorder);
 /// </param>
 procedure SetStyleElementsRecursive(pControl: TControl; pStyleElements: TStyleElements);
-procedure SetHintToName(Control: TControl);
+procedure SetNameToHint(Control: TControl);
 procedure SetTabOrderToHint(Control: TControl);
 procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
 procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
@@ -206,14 +206,14 @@ begin
 end;
 
 
-procedure SetHintToName(Control: TControl);
+procedure SetNameToHint(Control: TControl);
 var
   I: integer;
 begin
   Control.Hint := Control.Name;
   if Control is TWinControl then
     for I := 0 to TWinControl(Control).ControlCount - 1 do
-      SetHintToName(TWinControl(Control).Controls[I]);
+      SetNameToHint(TWinControl(Control).Controls[I]);
 end;
 
 procedure SetTabOrderToHint(Control: TControl);
@@ -298,7 +298,7 @@ end;
 
 function ControlIsVisible(pControl: TControl): boolean;
 begin
-  // Verifica se o controle inicial já está invisível
+  // Verifica se o controle inicial jï¿½ estï¿½ invisï¿½vel
   result := pControl.Visible;
   if not result then
     exit;
@@ -307,7 +307,7 @@ begin
   begin
     pControl := pControl.Parent;
 
-    // Se o parent não estiver visível, saia do loop e retorne False
+    // Se o parent nï¿½o estiver visï¿½vel, saia do loop e retorne False
     result := pControl.Visible;
     if not result then
       break;
@@ -337,7 +337,7 @@ function ButtonCreate(pOwner: TComponent; pParent: TWinControl;
 var
   ButtonWidth: integer;
 begin
-  // Criação do botão
+  // Criaï¿½ï¿½o do botï¿½o
   result := TButton.Create(pOwner);
   result.Parent := pParent;
   result.Caption := pCaption;
@@ -349,9 +349,9 @@ begin
 
   result.Width := ButtonWidth;
 
-  // Definir posição e outros ajustes adicionais, se necessário
+  // Definir posiï¿½ï¿½o e outros ajustes adicionais, se necessï¿½rio
   result.Left := pLeft;
-  result.Top := pTop; // Exemplo de posição
+  result.Top := pTop; // Exemplo de posiï¿½ï¿½o
   Result.Tag := pTag;
 end;
 
