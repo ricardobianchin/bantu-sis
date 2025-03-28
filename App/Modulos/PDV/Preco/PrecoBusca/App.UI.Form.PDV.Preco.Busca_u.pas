@@ -21,7 +21,6 @@ type
     TitleBarCaptionLabel: TLabel;
     ToolBar1: TToolBar;
     FecharToolButton: TToolButton;
-    Edit1: TEdit;
     StatusPanel: TPanel;
     AjudaPanel: TPanel;
     AjudaLabel_PrecoBuscaForm: TLabel;
@@ -29,6 +28,7 @@ type
     TempoLabel_PrecoBuscaForm: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FecharToolButtonClick(Sender: TObject);
+    procedure AjudaLabel_PrecoBuscaFormMouseEnter(Sender: TObject);
   private
     { Private declarations }
     FDBI: IDBI;
@@ -55,6 +55,7 @@ type
     property PrecoBuscaTodosFrame: TDBGridFrame read FPrecoBuscaTodosFrame;
 
     procedure AjusteQtdRegsExibindo(pQtd: integer);
+    procedure AjusteTamanhos; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pDBI: IDBI); reintroduce; virtual;
@@ -96,6 +97,11 @@ begin
   inherited Create(AOwner);
   FDBI := pDBI;
 
+  Left := Screen.WorkAreaRect.Left;
+  Top := Screen.WorkAreaRect.Top;
+  Width := Screen.WorkAreaRect.Right - Screen.WorkAreaRect.Left;
+  Height := Screen.WorkAreaRect.Bottom - Screen.WorkAreaRect.Top;
+
   FPrecoBuscaTodosFrame := TDBGridFrame.Create(FundoPanel);
   FPrecoBuscaUmFrame := TPrecoBuscaUmFrame.Create(FundoPanel);
 
@@ -103,8 +109,13 @@ begin
   FPrecoBuscaUmFrame.Align := alClient;
   SetQtdRegsExibindo(qtdNenhu);
 
+  BasePanel.AutoSize := True;
+  StatusPanel.Top := FundoPanel.Height + 1;
+
   FFiltroFrame := TFiltroStringFrame.Create(BasePanel, DoFiltroChange);
   FFiltroFrame.FiltroStringEdit.OnKeyDown := BuscaStringEditKeyDown;
+  FFiltroFrame.AutoSize := True;
+
   FFDMemTable := TFDMemTable.Create(Self);
   FFDMemTable.Name := ClassName + 'FDMemTable';
 
@@ -117,22 +128,23 @@ begin
   MakeRounded(Self, 30);
 
   ///
-  Height := Min(1000, Screen.WorkAreaRect.Height - 10);
-  Width := 700;
+//  Height := Min(1000, Screen.WorkAreaRect.Height - 10);
+//  Width := 700;
 
   FundoPanel.Align := alClient;
 
-  // WindowState := TWindowState.wsMaximized;
+  WindowState := TWindowState.wsMaximized;
   BorderStyle := TFormBorderStyle.bsNone;
   ClearStyleElements(FFiltroFrame);
-  FFiltroFrame.Font.Size := 14;
-  FFiltroFrame.FiltroStringEdit.Width := 150;
-  FFiltroFrame.FiltroStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
-    FFiltroFrame.FiltroTitLabel.Width + 5;
-  FFiltroFrame.AutoSize := True;
-  BasePanel.Height := 50;
   FPrecoBuscaTodosFrame.DBGrid1.Align := alClient;
 
+end;
+
+procedure TPrecoBuscaForm.AjudaLabel_PrecoBuscaFormMouseEnter(Sender: TObject);
+begin
+  inherited;
+  AjusteTamanhos;
+  StatusPanel.Top := FundoPanel.Height + 10;
 end;
 
 procedure TPrecoBuscaForm.AjusteControles;
@@ -149,6 +161,22 @@ begin
     QtdRegsExibindo := qtdUm
   else { (pQtd <= 0 or pQtd > 1) }
     QtdRegsExibindo := qtdTodos;
+end;
+
+procedure TPrecoBuscaForm.AjusteTamanhos;
+begin
+  inherited;
+  if not Assigned(FFiltroFrame) then
+    exit;
+
+  BasePanel.Height := 120;
+  FFiltroFrame.Top := 0;
+//  FFiltroFrame.Height
+  FFiltroFrame.FiltroStringEdit.Width := 200;
+  FFiltroFrame.FiltroStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
+    FFiltroFrame.FiltroTitLabel.Width + 5;
+  FFiltroFrame.Font.Size := 18;
+
 end;
 
 procedure TPrecoBuscaForm.BuscaStringEditKeyDown(Sender: TObject; var Key: Word;

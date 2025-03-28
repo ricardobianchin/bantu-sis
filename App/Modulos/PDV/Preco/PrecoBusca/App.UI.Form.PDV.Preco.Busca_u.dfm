@@ -30,7 +30,6 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
       Width = 670
       Height = 46
       Align = alBottom
-      AutoSize = True
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
@@ -94,14 +93,6 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
         end
       end
     end
-    object Edit1: TEdit
-      Left = 144
-      Top = 56
-      Width = 121
-      Height = 23
-      TabOrder = 2
-      Text = 'Edit1'
-    end
     object StatusPanel: TPanel
       Left = 1
       Top = 166
@@ -110,7 +101,7 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
       Align = alBottom
       BevelOuter = bvNone
       Caption = '   '
-      TabOrder = 3
+      TabOrder = 2
       DesignSize = (
         670
         26)
@@ -159,6 +150,7 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
           Font.Name = 'Segoe UI Light'
           Font.Style = []
           ParentFont = False
+          OnMouseEnter = AjudaLabel_PrecoBuscaFormMouseEnter
         end
       end
     end
