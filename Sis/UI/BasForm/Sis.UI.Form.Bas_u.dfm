@@ -13,6 +13,7 @@ object BasForm: TBasForm
   KeyPreview = True
   Position = poDesigned
   ShowHint = True
+  OnResize = FormResize
   OnShow = FormShow
   TextHeight = 15
   object ShowTimer_BasForm: TTimer

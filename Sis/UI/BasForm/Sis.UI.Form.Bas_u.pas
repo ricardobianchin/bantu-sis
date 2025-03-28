@@ -11,6 +11,7 @@ type
     ShowTimer_BasForm: TTimer;
     procedure FormShow(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure FormResize(Sender: TObject);
 
   private
     { Private declarations }
@@ -43,6 +44,8 @@ type
 
     procedure DebugImporteTeclas;
     procedure AjusteControles; virtual;
+    procedure AjusteTamanhos; virtual;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -61,6 +64,11 @@ uses Sis.Types.strings_u, Sis.DB.DBTypes, Sis.Types.Utils_u, Sis.UI.Controls.Uti
   Sis.UI.IO.Files.Factory, Sis.UI.IO.Files;
 
 procedure TBasForm.AjusteControles;
+begin
+
+end;
+
+procedure TBasForm.AjusteTamanhos;
 begin
 
 end;
@@ -149,6 +157,11 @@ begin
   CharSemAcento(Key);
 end;
 
+procedure TBasForm.FormResize(Sender: TObject);
+begin
+  AjusteTamanhos;
+end;
+
 procedure TBasForm.FormShow(Sender: TObject);
 begin
   if not FFezShow then
@@ -203,6 +216,7 @@ procedure TBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   ShowTimer_BasForm.Enabled := False;
   AjusteControles;
+  AjusteTamanhos;
 end;
 
 end.
