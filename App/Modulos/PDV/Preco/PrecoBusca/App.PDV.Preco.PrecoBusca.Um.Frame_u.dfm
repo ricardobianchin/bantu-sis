@@ -15,7 +15,7 @@ inherited PrecoBuscaUmFrame: TPrecoBuscaUmFrame
     Caption = 'PrecoLabel'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -43
+    Font.Height = -64
     Font.Name = 'Segoe UI'
     Font.Style = [fsBold]
     ParentFont = False
@@ -32,7 +32,7 @@ inherited PrecoBuscaUmFrame: TPrecoBuscaUmFrame
     Caption = 'DescrLabel'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -21
+    Font.Height = -32
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False

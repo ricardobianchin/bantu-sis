@@ -150,7 +150,6 @@ inherited PrecoBuscaForm: TPrecoBuscaForm
           Font.Name = 'Segoe UI Light'
           Font.Style = []
           ParentFont = False
-          OnMouseEnter = AjudaLabel_PrecoBuscaFormMouseEnter
         end
       end
     end

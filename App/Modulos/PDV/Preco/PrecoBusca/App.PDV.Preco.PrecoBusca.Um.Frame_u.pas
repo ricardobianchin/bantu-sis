@@ -27,6 +27,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Sis.Types.Floats;
+
 { TPrecoBuscaUmFrame }
 
 constructor TPrecoBuscaUmFrame.Create(AOwner: TComponent);
@@ -48,14 +51,15 @@ begin
     Zerar;
     exit;
   end;
-  PrecoLabel.Caption := q.FieldByName('PRECO').AsCurrency.ToString;
+  PrecoLabel.Caption := DinhToStr(q.FieldByName('PRECO').AsCurrency);
   DescrLabel.Caption := q.FieldByName('PROD_ID').AsInteger.ToString //
     + ' - ' //
     + q.FieldByName('DESCR').AsString.Trim //
-    + #13#10 //
-    + 'FABRICANTE: ' + q.FieldByName('FABR_NOME').AsString.Trim //
-    + ' CÓDIGO DE BARRAS: ' //
-    + q.FieldByName('CODS_BARRAS').AsString.Trim //
+//    + ' - ' + q.FieldByName('FABR_NOME').AsString.Trim //
+//    + #13#10 //
+//    + 'FABRICANTE: ' + q.FieldByName('FABR_NOME').AsString.Trim //
+//    + ' CÓDIGO DE BARRAS: ' //
+//    + q.FieldByName('CODS_BARRAS').AsString.Trim //
     ;
 end;
 

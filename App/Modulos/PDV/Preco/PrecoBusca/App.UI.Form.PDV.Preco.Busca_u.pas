@@ -11,7 +11,16 @@ uses
   Sis.Entities.Types, App.AppObj, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Sis.DB.FDDataSetManager, App.PDV.Preco.Utils, Sis.DBI,
   Sis.UI.Frame.Bas.Filtro.BuscaString_u, Vcl.ComCtrls, Vcl.ToolWin,
-  Sis.UI.Constants;
+  Sis.UI.Constants, Vcl.DBGrids;
+
+const
+  LARG_ORIGINAL = 1366;
+  ALTU_ORIGINAL = 737;
+  FILTRO_FONT_SIZE = 24 / ALTU_ORIGINAL;
+  GRID_FONT_SIZE = 16 / ALTU_ORIGINAL;
+
+const
+  ColumnWidths: array[0..4] of Integer = (80, 580, 160, 148, 260);
 
 type
   TPrecoBuscaForm = class(TDiagBasForm)
@@ -28,7 +37,6 @@ type
     TempoLabel_PrecoBuscaForm: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FecharToolButtonClick(Sender: TObject);
-    procedure AjudaLabel_PrecoBuscaFormMouseEnter(Sender: TObject);
   private
     { Private declarations }
     FDBI: IDBI;
@@ -70,7 +78,7 @@ implementation
 
 uses Sis.UI.ImgDM, Sis.UI.Controls.Utils, Sis.Types.strings_u,
   Sis.Types.Utils_u, System.Math, Sis.DB.Factory, Sis.Terminal,
-  Sis.DB.DataSet.Utils, Sis.Types.Variants, System.DateUtils;
+  Sis.DB.DataSet.Utils, Sis.Types.Variants, System.DateUtils, Sis.UI.Controls.TDBGrid;
 
 { TPrecoPregForm }
 
@@ -95,6 +103,9 @@ var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
+  MensLabel.Parent := BasePanel;
+  MensLabel.VIsible := False;
+
   FDBI := pDBI;
 
   Left := Screen.WorkAreaRect.Left;
@@ -110,7 +121,6 @@ begin
   SetQtdRegsExibindo(qtdNenhu);
 
   BasePanel.AutoSize := True;
-  StatusPanel.Top := FundoPanel.Height + 1;
 
   FFiltroFrame := TFiltroStringFrame.Create(BasePanel, DoFiltroChange);
   FFiltroFrame.FiltroStringEdit.OnKeyDown := BuscaStringEditKeyDown;
@@ -128,29 +138,31 @@ begin
   MakeRounded(Self, 30);
 
   ///
-//  Height := Min(1000, Screen.WorkAreaRect.Height - 10);
-//  Width := 700;
+  // Height := Min(1000, Screen.WorkAreaRect.Height - 10);
+  // Width := 700;
 
   FundoPanel.Align := alClient;
 
-  WindowState := TWindowState.wsMaximized;
-  BorderStyle := TFormBorderStyle.bsNone;
+  // WindowState := TWindowState.wsMaximized;
+  // BorderStyle := TFormBorderStyle.bsNone;
+  WindowState := TWindowState.wsNormal;
+  BorderStyle := TFormBorderStyle.bsSizeable;
+  Width := 600;
+  Height := 400;
+  Top := 10;
+  Left := 10;
   ClearStyleElements(FFiltroFrame);
   FPrecoBuscaTodosFrame.DBGrid1.Align := alClient;
 
-end;
-
-procedure TPrecoBuscaForm.AjudaLabel_PrecoBuscaFormMouseEnter(Sender: TObject);
-begin
-  inherited;
-  AjusteTamanhos;
-  StatusPanel.Top := FundoPanel.Height + 10;
 end;
 
 procedure TPrecoBuscaForm.AjusteControles;
 begin
   inherited;
   FFiltroFrame.FiltroStringEdit.SetFocus;
+  StatusPanel.Top := FundoPanel.Height + 10;
+  FFiltroFrame.Top := FundoPanel.Height div 2;
+  // SetNameToHint(Self);
 end;
 
 procedure TPrecoBuscaForm.AjusteQtdRegsExibindo(pQtd: integer);
@@ -164,19 +176,37 @@ begin
 end;
 
 procedure TPrecoBuscaForm.AjusteTamanhos;
+var
+  i: integer;
+  g: TDBGrid;
 begin
   inherited;
   if not Assigned(FFiltroFrame) then
     exit;
+  ControlAlignToCenter(TitleBarCaptionLabel);
 
-  BasePanel.Height := 120;
+//  BasePanel.Height := 120;
   FFiltroFrame.Top := 0;
-//  FFiltroFrame.Height
-  FFiltroFrame.FiltroStringEdit.Width := 200;
+  // FFiltroFrame.Height
+  FFiltroFrame.Font.Size := (24 * height) div ALTU_ORIGINAL;
   FFiltroFrame.FiltroStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
     FFiltroFrame.FiltroTitLabel.Width + 5;
-  FFiltroFrame.Font.Size := 18;
+  FFiltroFrame.FiltroStringEdit.Width := (200 * Width) div LARG_ORIGINAL;
+  ControlAlignToCenter(FFiltroFrame);
 
+  g := FPrecoBuscaTodosFrame.DBGrid1;
+  g.Font.Size := (20 * height) div ALTU_ORIGINAL;
+  G.TitleFont.Size := (g.Font.Size * 9) div 10;
+  for i := 0 to g.Columns.Count - 1 do
+  begin
+    g.columns[i].width := (width * ColumnWidths[i]) div LARG_ORIGINAL;
+  end;
+
+  FPrecoBuscaUmFrame.PrecoLabel.height := FPrecoBuscaUmFrame.Height div 2;
+  FPrecoBuscaUmFrame.DescrLabel.height := FPrecoBuscaUmFrame.PrecoLabel.height - 1;
+
+  FPrecoBuscaUmFrame.PrecoLabel.Font.Size := (75 * FPrecoBuscaUmFrame.Height) div 400;
+  FPrecoBuscaUmFrame.DescrLabel.Font.Size := (27 * FPrecoBuscaUmFrame.Height) div 400;
 end;
 
 procedure TPrecoBuscaForm.BuscaStringEditKeyDown(Sender: TObject; var Key: Word;
@@ -236,11 +266,6 @@ begin
   TitleBarCaptionLabel.StyleElements := [];
   TitleBarCaptionLabel.Font.Color := clWhite;
   AlteracaoTextoLabel.Parent := FundoPanel;
-
-  ControlAlignToCenter(TitleBarCaptionLabel);
-  ControlAlignToRect(Self, Screen.WorkAreaRect);
-  ControlAlignToCenter(FFiltroFrame);
-
 end;
 
 procedure TPrecoBuscaForm.SetQtdRegsExibindo(const Value: TQuantidade);
@@ -249,13 +274,13 @@ begin
   case FQtdRegsExibindo of
     qtdTodos:
       begin
-        FPrecoBuscaTodosFrame.Visible := True;
-        FPrecoBuscaUmFrame.Visible := False;
+        FPrecoBuscaTodosFrame.VIsible := True;
+        FPrecoBuscaUmFrame.VIsible := False;
       end;
   else // qtdNenhu, qtdUm:
     begin
-      FPrecoBuscaTodosFrame.Visible := False;
-      FPrecoBuscaUmFrame.Visible := True;
+      FPrecoBuscaTodosFrame.VIsible := False;
+      FPrecoBuscaUmFrame.VIsible := True;
       FPrecoBuscaUmFrame.PegarRecord(FFDMemTable);
     end;
   end;
