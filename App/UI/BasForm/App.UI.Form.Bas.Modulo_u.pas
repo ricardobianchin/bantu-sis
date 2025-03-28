@@ -163,7 +163,7 @@ end;
 procedure TModuloBasForm.DoFechar;
 begin
   FEventosDeSessao.DoFecharSessao(FSessaoIndex);
-  Free
+  //Free
 //  Close;
 end;
 

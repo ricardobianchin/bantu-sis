@@ -175,6 +175,9 @@ begin
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
+//  WindowState := TWindowState.wsNormal;
+//  width := 1000;
+//  height := 500;
 end;
 
 procedure TPDVModuloBasForm.DecidirPrimeiroFrameAtivo;

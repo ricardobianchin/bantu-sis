@@ -11,6 +11,20 @@ uses
   Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj,
   Sis.UI.Select, Sis.DBI, Sis.UI.Frame.Bas.Filtro_u;
 
+const
+  // GUTTER espaço entre colunas
+  MARGEM = 1 / 205;
+  ENTRE_COLS_LARG = 1 / 40{estava 1/25};
+  PROD_PANEL_ALT = 1 / 8;
+  ENTRE_PROD_PANEL_ALT = 1 / 80;
+  INPUT_FONT_SIZE = 25 / 616;
+  CARET_RATIO = 5 / 19;
+  ITEM_DESCR_FONT_SIZE = 22 / 616;
+  ITEM_DESCR_TOP = 27 / 72;
+  TOTAL_LIQ_FONT_SIZE = 20 / 616;
+  VOLUMES_FONT_SIZE = 12 / 616;
+
+
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
     InputPanel: TPanel;
@@ -33,6 +47,8 @@ type
     ToolButton2: TToolButton;
     CPFToolButton: TToolButton;
     GavetaToolButton: TToolButton;
+    MedeFontesInputPaintBox: TPaintBox;
+    MedeFontesGridPaintBox: TPaintBox;
     procedure CaretTimerTimer(Sender: TObject);
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -50,6 +66,17 @@ type
     FFitaDraw: IShopFitaDraw;
     FShopPDVObj: IShopPDVObj;
     FProdSelect: ISelect;
+
+    FItemPanelTop: integer;
+    FItemPanelHeight: integer;
+
+    FInputPanelTop: integer;
+    FInputPanelHeight: integer;
+
+  MargHor: integer;
+  MargVer: integer;
+  LargUtil: integer;
+  AltuUtil: integer;
 
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
@@ -89,8 +116,8 @@ type
 
     procedure Iniciar; override;
 
-    constructor Create(AOwner: TComponent;
-      pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
+    constructor Create(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
+      pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
       pPDVControlador: IPDVControlador; pProdSelect: ISelect); reintroduce;
   end;
 
@@ -103,7 +130,8 @@ implementation
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory, Sis.UI.Frame.Bas.Filtro.BuscaString_u;
+  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory,
+  Sis.UI.Frame.Bas.Filtro.BuscaString_u;
 
 { TShopVendaPDVFrame }
 
@@ -129,12 +157,11 @@ constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
   pShopPDVObj: IShopPDVObj; pPDVVenda: IPDVVenda; pAppPDVDBI: IAppPDVDBI;
   pPDVControlador: IPDVControlador; pProdSelect: ISelect);
 begin
-  inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI,
-    pPDVControlador);
+  inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI, pPDVControlador);
   FShopPDVObj := pShopPDVObj;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
-  FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid);
+  FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid, MedeFontesGridPaintBox);
   FProdSelect := pProdSelect;
 
   FStrBusca := '';
@@ -143,27 +170,53 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.DimensioneControles;
-const
-  LARG_UTIL = 800;
-  ALTU_UTIL = 600;
-  GUTTER = 12;
-  QTD_COLUNAS = 2;
-  GUTTERS_TOTAL = GUTTER * (QTD_COLUNAS - 1);
-  LARG_COLUNA = (LARG_UTIL - GUTTERS_TOTAL) div QTD_COLUNAS;
+
+//  QTD_COLS = 2;
+//  GUTTERS_TOTAL = GUTTER * (QTD_COLUNAS - 1);
+//  LARG_COLUNA = (LARG_UTIL - GUTTERS_TOTAL) div QTD_COLUNAS;
 var
-  MargHor: Integer;
-  MargVer: Integer;
+  EntreColsLarg: integer;
+  ColunaLarg: integer;
+  ColunaAltu: integer;
+
+  EntrePanelsAltu: integer;
+
 begin
   inherited;
-  MargHor := (width - LARG_UTIL) div 2;
-  MargVer := (Height - ALTU_UTIL) div 2;
+  MargHor := Round(MARGEM * MeioPanel.Height);
+  if MargHor < 1 then
+    MargHor := 1;
+
+  MargVer := Round(MARGEM * MeioPanel.Width);
+  if MargVer < 1 then
+    MargVer := 1;
+
+  EntreColsLarg := Round(ENTRE_COLS_LARG * MeioPanel.Width);
+  if EntreColsLarg < 1 then
+    EntreColsLarg := 1;
+
+  LargUtil := MeioPanel.Width - (2 * MargVer);
+  AltuUtil := MeioPanel.Height - (2 * MargHor);
+
+  EntrePanelsAltu := Round(AltuUtil * ENTRE_PROD_PANEL_ALT);
+  if EntrePanelsAltu < 1 then
+    EntrePanelsAltu := 1;
+
+  FInputPanelHeight := Round(AltuUtil * PROD_PANEL_ALT) - EntrePanelsAltu div 2;
+  FItemPanelHeight := FInputPanelHeight;
+
+  FInputPanelTop := MargVer + AltuUtil - FInputPanelHeight;
+  FItemPanelTop := FInputPanelTop - FItemPanelHeight - EntrePanelsAltu;
+
+  ColunaLarg := (LargUtil - EntreColsLarg) div 2;
+  ColunaAltu := FItemPanelTop - MargVer;
 
   FColuna1Rect.Left := MargHor;
   FColuna1Rect.Top := MargVer;
-  FColuna1Rect.width := LARG_COLUNA;
-  FColuna1Rect.Height := MeioPanel.Height - (2 * MargVer);
+  FColuna1Rect.width := ColunaLarg;
+  FColuna1Rect.Height := ColunaAltu;
 
-  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.width + GUTTER;
+  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.width + EntreColsLarg;
   FColuna2Rect.Top := FColuna1Rect.Top;
   FColuna2Rect.width := FColuna1Rect.width;
   FColuna2Rect.Height := FColuna1Rect.Height;
@@ -186,19 +239,18 @@ begin
 
   FitaStringGrid.Canvas.Font.Assign(FitaStringGrid.Font);
 
-  h := (FColuna2Rect.Height * 56) div 80;
   t := FColuna2Rect.Top;
-  // w := FColuna2Rect.Width;
-  w := (FitaStringGrid.Canvas.TextWidth('W') * ((CUPOM_QTD_COLS * 2) +
-    1)) div 2;
+  h := t + FColuna2Rect.Height;
+  w := FColuna2Rect.Width;
+//  w := (FitaStringGrid.Canvas.TextWidth('W') * ((CUPOM_QTD_COLS * 2) + 1)) div 2;
+//  iDir := ItemPanel.Left + ItemPanel.width;
+//  l := iDir - w;
+//  FitaStringGrid.Left := l;
 
-  iDir := ItemPanel.Left + ItemPanel.width;
-  l := iDir - w;
-
-  FitaStringGrid.Left := l;
-  FitaStringGrid.Top := t;
-  FitaStringGrid.width := w;
-  FitaStringGrid.Height := h;
+  FitaStringGrid.Left := FColuna2Rect.Left;
+  FitaStringGrid.Top := FColuna2Rect.Top;
+  FitaStringGrid.width := FColuna2Rect.Width;
+  FitaStringGrid.Height := FColuna2Rect.Height;
 
   FitaStringGrid.DefaultColWidth := FitaStringGrid.width;
 
@@ -210,9 +262,9 @@ var
   l, t, w, h: Integer;
 begin
   l := FColuna1Rect.Left;
-  h := FColuna2Rect.Height div 8;
-  t := FColuna2Rect.Height - h;
-  w := FColuna2Rect.Left + FColuna2Rect.width - l;
+  h := FInputPanelHeight;
+  t := FInputPanelTop;
+  w := FColuna2Rect.Left + FColuna2Rect.width;
 
   InputPanel.Left := l;
   InputPanel.Top := t;
@@ -222,8 +274,20 @@ begin
   InputPanel.Color := Rgb(16, 21, 36);
   // InputPanel.BevelOuter := bvNone;
   InputPanel.Font.Color := Rgb(248, 237, 228);
+  InputPanel.Font.Size := Round(MeioPanel.Height * INPUT_FONT_SIZE);
 
+  StrBuscaLabel.Left := InputPanel.Width - StrBuscaLabel.Width - MargHor;
+
+  MedeFontesInputPaintBox.Canvas.Font.Assign(InputPanel.Font);
+  CaretShape.Width := MedeFontesInputPaintBox.Canvas.TextWidth('o');
   CaretShape.Brush.Color := InputPanel.Font.Color;
+  CaretShape.left := InputPanel.Width - CaretShape.Width - MargHor;
+  CaretShape.Top := StrBuscaLabel.Top + StrBuscaLabel.Height + MargVer;
+
+  h := Round(CARET_RATIO * CaretShape.Width);
+  if h < 1 then
+    h := 1;
+  CaretShape.Height := h;
 end;
 
 procedure TShopVendaPDVFrame.DimensioneItemPanel;
@@ -231,9 +295,9 @@ var
   l, t, w, h: Integer;
 begin
   l := FColuna1Rect.Left;
-  h := InputPanel.Height;
-  w := FColuna2Rect.Left + FColuna2Rect.width - l;
-  t := InputPanel.Top - 4 - h;
+  h := FItemPanelHeight;
+  w := FColuna2Rect.Left + FColuna2Rect.width;
+  t := FItemPanelTop;
 
   ItemPanel.Left := l;
   ItemPanel.Top := t;
@@ -243,12 +307,30 @@ begin
   ItemPanel.Color := Rgb(16, 21, 36);
   // ItemPanel.BevelOuter := bvNone;
   ItemPanel.Font.Color := Rgb(248, 237, 228);
+
+  ItemDescrLabel.Font.Size := Round(MeioPanel.Height * ITEM_DESCR_FONT_SIZE);
+  ItemDescrLabel.Left := MargHor;
+  ItemDescrLabel.Top := Round(ItemPanel.Height * ITEM_DESCR_TOP);
+
+  ItemTotalLabel.Font.Size := ItemDescrLabel.Font.Size;
+  ItemTotalLabel.Top := ItemDescrLabel.Top;
+  ItemTotalLabel.Left := ItemPanel.WIdth - MargVer - ItemTotalLabel.Width;
+
+
 end;
 
 procedure TShopVendaPDVFrame.DimensioneTotalPanel;
 begin
   TotalPanel.Left := FColuna1Rect.Left;
   TotalPanel.Top := FColuna1Rect.Top;
+  TotalPanel.Width := Round(FColuna1Rect.Width * 0.6);
+
+  TotalLiquidoLabel.Font.Size := Round(MeioPanel.height * TOTAL_LIQ_FONT_SIZE);
+  TotalLiquidoLabel.Top := MargHor;
+
+  VolumesLabel.Font.Size := Round(MeioPanel.height * VOLUMES_FONT_SIZE);
+  VolumesLabel.Top := TotalLiquidoLabel.Top + TotalLiquidoLabel.Height + MargHor;
+  TotalPanel.Height := VolumesLabel.Top + VolumesLabel.Height + MargHor;
 end;
 
 procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
@@ -340,7 +422,7 @@ begin
     StrBuscaPegueChar(Key);
   end;
   CharSemAcento(Key);
-  if Pos(key, 'ABCDEFGHIJKLMNOPQRSTUVXZ')>0 then
+  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVXZ') > 0 then
   begin
     StrBuscaPegueChar(Key);
     StrBuscaPegueChar(#13);
@@ -505,13 +587,13 @@ var
 begin
   if not StrIsOnlyDigit(FStrBusca) then
   begin
-    if not Fprodselect.Execute(FStrBusca) then
+    if not FProdSelect.Execute(FStrBusca) then
     begin
       FStrBusca := '';
       StrBuscaMudou;
       Exit;
     end;
-    FStrBusca := fprodselect.LastSelected;
+    FStrBusca := FProdSelect.LastSelected;
   end;
 
   // recebe codigo, retorna item vendido, ou, avisa que nao encontrou

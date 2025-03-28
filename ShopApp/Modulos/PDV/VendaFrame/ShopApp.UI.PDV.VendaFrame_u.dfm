@@ -9,6 +9,26 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
     StyleElements = [seFont, seClient, seBorder]
     ExplicitWidth = 1000
     ExplicitHeight = 280
+    object MedeFontesInputPaintBox: TPaintBox
+      Left = 513
+      Top = 15
+      Width = 96
+      Height = 59
+      Visible = False
+    end
+    object MedeFontesGridPaintBox: TPaintBox
+      Left = 514
+      Top = 87
+      Width = 96
+      Height = 59
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Courier New'
+      Font.Style = []
+      ParentFont = False
+      Visible = False
+    end
     object InputPanel: TPanel
       Left = 0
       Top = 189
