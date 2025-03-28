@@ -46,7 +46,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessao.Factory_u,
-  Sis.Types.Utils_u;
+  Sis.Types.Utils_u, App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 { TCxOperUmValorEdForm }
 
@@ -54,6 +54,11 @@ function TCxOperUmValorEdForm.ControlesOk: boolean;
 begin
   Result := inherited ControlesOk;
   if not Result then
+    exit;
+
+  Result := CxOperacaoEnt.CxOperacaoTipo.Id = cxOpAbertura;
+
+  if Result then
     exit;
 
   if TrabPageControl.ActivePage = ValorTabSheet then

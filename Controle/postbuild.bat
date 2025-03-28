@@ -16,7 +16,7 @@ REM ---------- VERSOES SIS EXE ----------
 %EXE_FILE% "C:\Pr\app\bantu\bantu-sis\Src\Controle\atu sis updates Exe BatchRun.ffs_batch"
 %EXE_FILE% "C:\Pr\app\bantu\bantu-sis\Src\Controle\atu sis updates Inst BatchRun.ffs_batch"
 
-pause
+rem pause
 
 rem copy "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\000" "C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\000"
 rem pause

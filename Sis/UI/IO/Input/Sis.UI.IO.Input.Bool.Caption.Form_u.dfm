@@ -16,10 +16,6 @@ inherited InputBoolCaptionForm: TInputBoolCaptionForm
     Align = alClient
     Caption = ' '
     TabOrder = 0
-    ExplicitLeft = 136
-    ExplicitTop = 64
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     DesignSize = (
       424
       149)
@@ -42,28 +38,26 @@ inherited InputBoolCaptionForm: TInputBoolCaptionForm
       StyleElements = [seClient, seBorder]
     end
     object SimBitBtn: TBitBtn
-      Left = 91
-      Top = 113
-      Width = 75
-      Height = 25
+      Left = 77
+      Top = 111
+      Width = 102
+      Height = 28
       Anchors = [akLeft, akBottom]
       Caption = '&Sim'
       ModalResult = 6
       TabOrder = 0
       StyleName = 'Luna'
-      ExplicitTop = 383
     end
     object NaoBitBtn: TBitBtn
-      Left = 259
-      Top = 113
-      Width = 75
-      Height = 25
+      Left = 245
+      Top = 111
+      Width = 102
+      Height = 28
       Anchors = [akLeft, akBottom]
       Caption = '&N'#227'o'
       ModalResult = 7
       TabOrder = 1
       StyleName = 'Luna'
-      ExplicitTop = 383
     end
   end
   inherited ShowTimer_BasForm: TTimer

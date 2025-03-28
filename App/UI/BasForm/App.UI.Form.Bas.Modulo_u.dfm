@@ -5,7 +5,6 @@ inherited ModuloBasForm: TModuloBasForm
   ClientHeight = 476
   ClientWidth = 620
   WindowState = wsMaximized
-  StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnResize = FormResize

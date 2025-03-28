@@ -19,6 +19,7 @@ inherited RetagAjuVersaoSisForm: TRetagAjuVersaoSisForm
     Lines.Strings = (
       'RichEdit1')
     ParentFont = False
+    ReadOnly = True
     TabOrder = 1
   end
 end

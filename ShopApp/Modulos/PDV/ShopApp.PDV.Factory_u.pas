@@ -6,7 +6,7 @@ uses App.Est.Venda.Caixa.CaixaSessao, App.PDV.Venda, ShopApp.PDV.Venda,
   ShopApp.PDV.VendaItem, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
   Sis.DB.DBTypes, App.PDV.DBI, ShopApp.PDV.DBI, Sis.Types, ShopApp.PDV.Obj,
   Sis.Terminal, Vcl.Grids, App.AppObj, App.Est.Prod, Sis.UI.Select,
-  App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI,
+  App.UI.PDV.VendaBasFrame_u, System.Classes, Sis.DBI, Vcl.ExtCtrls,
   ShopApp.UI.PDV.Venda.Frame.FitaDraw, App.Loja, App.PDV.Controlador,
   App.UI.PDV.PagFrame_u, Sis.UI.Impressao, App.PDV.Obj;
 
@@ -72,7 +72,7 @@ function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
   pPDVControlador: IPDVControlador): TPagPDVFrame;
 
-function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
+function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid; pMedeFontesPaintBox: TPaintBox)
   : IShopFitaDraw;
 
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
@@ -216,10 +216,10 @@ begin
     pPDVControlador);
 end;
 
-function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid)
+function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid; pMedeFontesPaintBox: TPaintBox)
   : IShopFitaDraw;
 begin
-  Result := TShopFitaDraw.Create(pVenda, pStringGrid);
+  Result := TShopFitaDraw.Create(pVenda, pStringGrid, pMedeFontesPaintBox);
 end;
 
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;

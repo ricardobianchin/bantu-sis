@@ -3,7 +3,7 @@ unit ShopApp.UI.PDV.Venda.Frame.FitaDraw_u;
 interface
 
 uses ShopApp.UI.PDV.Venda.Frame.FitaDraw, ShopApp.PDV.Venda, Vcl.Grids,
-  System.Types, System.Classes, Vcl.Graphics, Sis.Types;
+  System.Types, System.Classes, Vcl.Graphics, Sis.Types, Vcl.ExtCtrls;
 
 type
   TShopFitaDraw = class(TInterfacedObject, IShopFitaDraw)
@@ -12,6 +12,13 @@ type
     FStringGrid: TStringGrid;
     FHLin: integer;
     CabecalhoLinhasSL: TStringList;
+    MedeFontesPaintBox: TPaintBox;
+    TestText: string;
+
+    procedure AdjustFontSize;
+    procedure DiminuaFonte;
+    procedure AumenteFonte;
+
     procedure PreenchaStringGrid;
     procedure DrawCabecalho(pRect: TRect; State: TGridDrawState);
     procedure DrawItem(ARow: integer; pRect: TRect; State: TGridDrawState);
@@ -21,7 +28,7 @@ type
     procedure FitaStringGridDrawCell(Sender: TObject; ACol, ARow: integer;
       Rect: TRect; State: TGridDrawState);
 
-    constructor Create(pVenda: IShopPDVVenda; pStringGrid: TStringGrid);
+    constructor Create(pVenda: IShopPDVVenda; pStringGrid: TStringGrid; pMedeFontesPaintBox: TPaintBox);
     destructor Destroy; override;
 
   end;
@@ -38,11 +45,19 @@ begin
   PreenchaStringGrid;
 end;
 
+procedure TShopFitaDraw.AumenteFonte;
+begin
+
+end;
+
 constructor TShopFitaDraw.Create(pVenda: IShopPDVVenda;
-  pStringGrid: TStringGrid);
+  pStringGrid: TStringGrid; pMedeFontesPaintBox: TPaintBox);
 var
   sC: string;
 begin
+  TestText := StringOfChar('M', 51); // String de teste com 51 "M"s
+
+  MedeFontesPaintBox := pMedeFontesPaintBox;
   FVenda := pVenda;
   FStringGrid := pStringGrid;
   FStringGrid.RowCount := 1;
@@ -59,10 +74,45 @@ begin
 
 end;
 
+procedure TShopFitaDraw.AdjustFontSize;
+var
+  MinSize, MaxSize, MidSize, TextWidth: Integer;
+  TargetWidth: Integer;
+begin
+  TargetWidth := FStringGrid.Width;
+  MedeFontesPaintBox.Canvas.Font.Assign(FStringGrid.Font); // Sincroniza a fonte
+
+  MinSize := 1;  // Tamanho mínimo
+  MaxSize := 20; // Tamanho máximo
+
+  // Busca binária
+  while MinSize <= MaxSize do
+  begin
+    MidSize := (MinSize + MaxSize) div 2;
+    MedeFontesPaintBox.Canvas.Font.Size := MidSize;
+    TextWidth := MedeFontesPaintBox.Canvas.TextWidth(TestText); // Recalcula a cada iteração
+
+    if Abs(TextWidth - TargetWidth) < 10 then // Tolerância de 10 pixels
+      Break
+    else if TextWidth < TargetWidth then
+      MinSize := MidSize + 1
+    else
+      MaxSize := MidSize - 1;
+  end;
+
+  // Ajusta para o maior tamanho que não excede (ou o último calculado)
+  FStringGrid.Font.Size := MedeFontesPaintBox.Canvas.Font.Size;
+end;
+
 destructor TShopFitaDraw.Destroy;
 begin
   CabecalhoLinhasSL.Free;
   inherited;
+end;
+
+procedure TShopFitaDraw.DiminuaFonte;
+begin
+
 end;
 
 procedure TShopFitaDraw.DrawCabecalho(pRect: TRect; State: TGridDrawState);
@@ -90,13 +140,13 @@ var
   y: integer;
   s: string;
   oItem: IShopPDVVendaItem;
-//  iPosQtd: integer;
-//  iPosPrecoUnit: integer;
-//  iPosPreco: integer;
+  // iPosQtd: integer;
+  // iPosPrecoUnit: integer;
+  // iPosPreco: integer;
 begin
-//  iPosQtd := 12;
-//  iPosPrecoUnit := 30;
-//f  iPosPreco := 40;
+  // iPosQtd := 12;
+  // iPosPrecoUnit := 30;
+  // f  iPosPreco := 40;
 
   oItem := FVenda[ARow];
 
@@ -140,6 +190,8 @@ end;
 
 procedure TShopFitaDraw.Prepare;
 begin
+  AdjustFontSize;
+
   if FStringGrid.RowCount < 1 then
     FStringGrid.RowCount := 1;
   FHLin := (FStringGrid.Canvas.TextHeight('Hj') * 11) div 10;

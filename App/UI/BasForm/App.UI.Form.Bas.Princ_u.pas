@@ -360,9 +360,9 @@ end;
 
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
-{$IFNDEF DEBUG}
+//{$IFNDEF DEBUG}
   inherited;
-{$ENDIF}
+//{$ENDIF}
 end;
 
 procedure TPrincBasForm.GarantaDB;
