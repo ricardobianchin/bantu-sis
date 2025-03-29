@@ -42,25 +42,4 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
     Left = 40
     Top = 104
   end
-  object ConfigActionList: TActionList
-    Left = 336
-    Top = 192
-    object ConfigDBImportAbrirAction: TAction
-      Caption = 'Abrir Importa'#231#227'o...'
-      Hint = 'Abre a importa'#231#227'o da oridem selecionada'
-    end
-    object ConfigAmbiLojasAction: TAction
-      Caption = 'Estabelecimentos'
-      Hint = 'Cadastro dos estabelecimentos atual e rede'
-    end
-    object ConfigTerminaisAction: TAction
-      Caption = 'Terminais'
-      Hint = 'Castastro dos terminais da loja atual'
-    end
-  end
-  object BalloonHint1: TBalloonHint
-    Delay = 100
-    Left = 160
-    Top = 184
-  end
 end

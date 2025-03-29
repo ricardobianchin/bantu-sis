@@ -15,11 +15,6 @@ uses
 
 type
   TConfigModuloBasForm = class(TModuloBasForm)
-    ConfigActionList: TActionList;
-    ConfigDBImportAbrirAction: TAction;
-    ConfigAmbiLojasAction: TAction;
-    ConfigTerminaisAction: TAction;
-    BalloonHint1: TBalloonHint;
   private
     { Private declarations }
   protected
