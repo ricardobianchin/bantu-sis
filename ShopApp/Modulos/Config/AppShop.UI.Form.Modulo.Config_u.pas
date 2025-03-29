@@ -51,25 +51,11 @@ end;
 function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
   : TDBImportForm;
 begin
-  case pItemIndex + 1 of
-    1:
-      Result := TShopDBImportFormPLUBase.Create(Application, AppObj, LogUsuario);
-  else
-    Result := nil;
-  end;
 end;
 
 procedure TShopConfigModuloForm.DBImportPrep;
-var
-  i: integer;
 begin
   inherited;
-  for i := Low(MercadoImportSelectItems) to High(MercadoImportSelectItems) do
-  begin
-    DBImportOrigemComboBox.Items.AddObject(MercadoImportSelectItems[i].Descr,
-      Pointer(MercadoImportSelectItems[i].Id));
-  end;
-  DBImportOrigemComboBox.ItemIndex := 0;
 end;
 
 procedure TShopConfigModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
