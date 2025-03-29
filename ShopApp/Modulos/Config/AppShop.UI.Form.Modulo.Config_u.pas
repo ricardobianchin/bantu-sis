@@ -14,12 +14,8 @@ uses
 
 type
   TShopConfigModuloForm = class(TConfigModuloBasForm)
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-  protected
-    procedure DBImportPrep; override;
-    function DBImportFormCreate(pItemIndex: integer): TDBImportForm; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
@@ -46,25 +42,6 @@ constructor TShopConfigModuloForm.Create(AOwner: TComponent;
 begin
   inherited Create(AOwner, pModuloSistema, pEventosDeSessao, pSessaoIndex,
     pUsuario, pAppObj, pTerminalId);
-end;
-
-function TShopConfigModuloForm.DBImportFormCreate(pItemIndex: integer)
-  : TDBImportForm;
-begin
-end;
-
-procedure TShopConfigModuloForm.DBImportPrep;
-begin
-  inherited;
-end;
-
-procedure TShopConfigModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  // {$IFDEF DEBUG}
-  // DBImportAction.Execute;
-  // Application.Terminate;
-  // {$ENDIF}
 end;
 
 end.

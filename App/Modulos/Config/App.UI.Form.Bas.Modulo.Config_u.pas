@@ -46,12 +46,4 @@ begin
     pUsuario, pAppObj, pTerminalId);
 end;
 
-procedure TConfigModuloBasForm.DBImportPrep;
-begin
-end;
-
-procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);
-begin
-end;
-
 end.
