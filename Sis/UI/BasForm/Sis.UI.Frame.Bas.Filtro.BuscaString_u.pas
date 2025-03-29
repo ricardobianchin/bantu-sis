@@ -19,6 +19,7 @@ type
     function GetValues: variant; override;
     procedure SetValues(Value: variant); override;
     function NewArrayCreate: variant; override;
+    procedure SetFontSize(const Value: integer); override;
   public
     { Public declarations }
   end;
@@ -52,6 +53,13 @@ function TFiltroStringFrame.GetValues: variant;
 begin
   Result := inherited;
   Result[0] := FiltroStringEdit.Text;
+end;
+
+procedure TFiltroStringFrame.SetFontSize(const Value: integer);
+begin
+  inherited;
+  FiltroStringEdit.Font.Size := Value;
+  FiltroTitLabel.Font.Size := Value;
 end;
 
 procedure TFiltroStringFrame.SetValues(Value: variant);

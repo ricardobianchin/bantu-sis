@@ -135,7 +135,7 @@ begin
 
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
-  MakeRounded(Self, 30);
+//  MakeRounded(Self, 30);
 
   ///
   // Height := Min(1000, Screen.WorkAreaRect.Height - 10);
@@ -143,14 +143,14 @@ begin
 
   FundoPanel.Align := alClient;
 
-  // WindowState := TWindowState.wsMaximized;
-  // BorderStyle := TFormBorderStyle.bsNone;
-  WindowState := TWindowState.wsNormal;
-  BorderStyle := TFormBorderStyle.bsSizeable;
-  Width := 600;
-  Height := 400;
-  Top := 10;
-  Left := 10;
+  WindowState := TWindowState.wsMaximized;
+  BorderStyle := TFormBorderStyle.bsNone;
+//  WindowState := TWindowState.wsNormal;
+//  BorderStyle := TFormBorderStyle.bsSizeable;
+//  Width := 600;
+//  Height := 400;
+//  Top := 10;
+//  Left := 10;
   ClearStyleElements(FFiltroFrame);
   FPrecoBuscaTodosFrame.DBGrid1.Align := alClient;
 
@@ -162,7 +162,6 @@ begin
   FFiltroFrame.FiltroStringEdit.SetFocus;
   StatusPanel.Top := FundoPanel.Height + 10;
   FFiltroFrame.Top := FundoPanel.Height div 2;
-  // SetNameToHint(Self);
 end;
 
 procedure TPrecoBuscaForm.AjusteQtdRegsExibindo(pQtd: integer);

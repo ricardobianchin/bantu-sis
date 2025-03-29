@@ -153,6 +153,9 @@ type
     /// </summary>
     /// <returns>Um array Variant com os parâmetros base.</returns>
     function NewArrayCreate: variant; virtual; abstract;
+
+    function GetFontSize: integer; virtual;
+    procedure SetFontSize(const Value: integer); virtual;
   public
     /// <summary>
     /// Realiza ajustes ou normalizações necessárias nos valores do filtro.
@@ -190,6 +193,8 @@ type
     /// <param name="pOnChange">Procedimento a ser chamado quando ocorrer a alteração do filtro.</param>
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent);
       reintroduce; virtual;
+
+    property FontSize: integer read GetFontSize write SetFontSize;
   end;
 
 implementation
@@ -226,6 +231,11 @@ begin
     FOnChange(Self);
 end;
 
+function TFiltroFrame.GetFontSize: integer;
+begin
+  Result := Font.Size;
+end;
+
 function TFiltroFrame.GetOnChange: TNotifyEvent;
 begin
   Result := FOnChange;
@@ -238,6 +248,11 @@ begin
   // Implementação padrão. Subclasses devem configurar adequadamente.
   // nao pode  Result := System.Variants.Null;
   // que dará erro fora da classe ao testar se tem ou nao elementos
+end;
+
+procedure TFiltroFrame.SetFontSize(const Value: integer);
+begin
+  Font.Size := Value;
 end;
 
 procedure TFiltroFrame.SetOnChange(const Value: TNotifyEvent);

@@ -422,7 +422,7 @@ begin
     StrBuscaPegueChar(Key);
   end;
   CharSemAcento(Key);
-  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVXZ') > 0 then
+  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVWXZ') > 0 then
   begin
     StrBuscaPegueChar(Key);
     StrBuscaPegueChar(#13);
