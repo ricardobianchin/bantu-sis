@@ -1145,7 +1145,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>&quot;C:\Pr\app\bantu\bantu-sis\Controle\Build Events\post build debug.bat&quot;</PostBuildEvent>
+        <PostBuildEvent>&quot;C:\Pr\app\bantu\bantu-sis\Controle\Build Events\post build debug.bat&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
@@ -1153,7 +1153,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>&quot;C:\Pr\app\bantu\bantu-sis\Controle\Build Events\post build release.bat&quot;</PostBuildEvent>
+        <PostBuildEvent>&quot;C:\Pr\app\bantu\bantu-sis\Controle\Build Events\post build release.bat&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
