@@ -84,7 +84,6 @@ var
   i: integer;
   iLarg: integer;
   iFontSize: integer;
-  iFontSize
 begin
   if not FAjustaTamanho then
     exit;
@@ -99,9 +98,17 @@ begin
   iFontSize := (GRID_FONT_SIZE * FDBGridFrame.DBGrid1.Height) div GRID_ALTU;
   FDBGridFrame.DBGrid1.Font.Size := iFontSize;
   FDBGridFrame.DBGrid1.TitleFont.Size := (iFontSize * 9) div 10;
+
   FFiltro.FontSize := (9 * Height) div 254;
-  MensLabel.Font.Size := (11 * Height) div 254;
-  QtdRegsLabel.Font.Size :=
+  QtdRegsLabel.Font.Size := (5 * Height) div 254;
+  MensLabel.Font.Size := (6 * Height) div 254;
+  TitleBarCaptionLabel.Font.Size := (6 * Height) div 254;
+  TitleBarCaptionLabel.Left := TitleBarPanel.Width div 50;
+  TitleBarCaptionLabel.Top := (TitleBarPanel.Height - TitleBarCaptionLabel.Height) div 2;
+
+  //ControlAlignToRect(TitleBarCaptionLabel, TitleBarPanel.ClientRect);
+  ControlAlignToCenter(FFiltro);
+//  maximizar, borderst
 end;
 
 procedure TDBSelectForm.AtualizeQtdRegs;
@@ -144,14 +151,14 @@ begin
   FDBGridFrame.DBGrid1.Align := alClient;
   FDBGridFrame.DBGrid1.TabStop := False;
 
-  // WindowState := TWindowState.wsMaximized;
-  // BorderStyle := TFormBorderStyle.bsNone;
+//  WindowState := TWindowState.wsMaximized;
+  BorderStyle := TFormBorderStyle.bsNone;
   WindowState := TWindowState.wsNormal;
-  BorderStyle := TFormBorderStyle.bsSizeable;
-  Width := 600;
-  Height := 400;
-  Top := 10;
-  Left := 10;
+//  BorderStyle := TFormBorderStyle.bsSizeable;
+  Top := 0;
+  Left := 0;
+  Width := Screen.WorkAreaRect.Width;
+  Height := Screen.WorkAreaRect.Height;
 
   sNomeArq := DBI.GetNomeArqTabView(varNull);
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDBGridFrame.FDMemTable1,

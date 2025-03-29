@@ -1,5 +1,6 @@
 inherited DBSelectForm: TDBSelectForm
   Caption = 'DBSelectForm'
+  Position = poDesigned
   StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
   inherited AlteracaoTextoLabel: TLabel
@@ -41,7 +42,7 @@ inherited DBSelectForm: TDBSelectForm
         41)
       object TitleBarCaptionLabel: TLabel
         Left = 25
-        Top = 9
+        Top = 0
         Width = 86
         Height = 21
         Caption = 'Selecione...'

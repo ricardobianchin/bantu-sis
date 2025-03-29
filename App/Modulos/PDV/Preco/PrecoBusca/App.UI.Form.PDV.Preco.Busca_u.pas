@@ -182,7 +182,6 @@ begin
   inherited;
   if not Assigned(FFiltroFrame) then
     exit;
-  ControlAlignToCenter(TitleBarCaptionLabel);
 
 //  BasePanel.Height := 120;
   FFiltroFrame.Top := 0;
@@ -191,7 +190,6 @@ begin
   FFiltroFrame.FiltroStringEdit.Left := FFiltroFrame.FiltroTitLabel.Left +
     FFiltroFrame.FiltroTitLabel.Width + 5;
   FFiltroFrame.FiltroStringEdit.Width := (200 * Width) div LARG_ORIGINAL;
-  ControlAlignToCenter(FFiltroFrame);
 
   g := FPrecoBuscaTodosFrame.DBGrid1;
   g.Font.Size := (20 * height) div ALTU_ORIGINAL;
@@ -206,6 +204,9 @@ begin
 
   FPrecoBuscaUmFrame.PrecoLabel.Font.Size := (75 * FPrecoBuscaUmFrame.Height) div 400;
   FPrecoBuscaUmFrame.DescrLabel.Font.Size := (27 * FPrecoBuscaUmFrame.Height) div 400;
+
+  ControlAlignToCenter(TitleBarCaptionLabel);
+  ControlAlignToCenter(FFiltroFrame);
 end;
 
 procedure TPrecoBuscaForm.BuscaStringEditKeyDown(Sender: TObject; var Key: Word;

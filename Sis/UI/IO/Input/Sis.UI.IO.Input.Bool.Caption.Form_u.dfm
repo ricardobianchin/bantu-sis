@@ -29,7 +29,7 @@ inherited InputBoolCaptionForm: TInputBoolCaptionForm
       Caption = 'Deseja fechar o Modulo Retaguarda?'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False

@@ -56,10 +56,16 @@ begin
 end;
 
 procedure TFiltroStringFrame.SetFontSize(const Value: integer);
+var
+  iMarg: integer;
 begin
   inherited;
   FiltroStringEdit.Font.Size := Value;
+  FiltroStringEdit.Width := (130 * value) div 9;
+  iMarg := FiltroStringEdit.Width div 20;
   FiltroTitLabel.Font.Size := Value;
+  FiltroStringEdit.Left := FiltroTitLabel.Left + FiltroTitLabel.Width + iMarg;
+
 end;
 
 procedure TFiltroStringFrame.SetValues(Value: variant);
