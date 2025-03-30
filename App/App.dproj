@@ -767,6 +767,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>RetagAjuVersaoSisForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="UI\Login\App.UI.Form.LoginPerg_u.pas">
+            <Form>LoginPergForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

@@ -94,7 +94,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
-  Sis.Usuario.Factory, Sis.UI.Form.LoginPerg_u, App.Sessao.Factory,
+  Sis.Usuario.Factory, App.UI.Form.LoginPerg_u, {Sis.UI.Form.LoginPerg_u,}
+  App.Sessao.Factory,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
   Sis.Types.Factory, Sis.UI.ImgDM, Sis.Win.Utils_u;
 
@@ -124,6 +125,14 @@ var
   oModuloSistema: IModuloSistema;
 
   oModuloBasForm: TModuloBasForm;
+
+  UsuarioLojaId: SmallInt;
+  UsuarioTerminalId: SmallInt;
+  UsuarioPessoaId: integer;
+  UsuarioNomeCompleto: string;
+  UsuarioNomeDeUsuario: string;
+  UsuarioNomeExib: string;
+
 begin
   oControl := TControl(Sender);
   while not(oControl is TBotaoModuloFrame) do
@@ -137,21 +146,24 @@ begin
 
   DBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, FAppObj);
+
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
   if not PodeAbrirModulo(iOpcaoSisIdModulo, oDBConnection) then
     exit;
 
-  oUsuario := UsuarioCreate();
+  //oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
 
-  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
-
-  bResultado := LoginPerg(FLoginConfig, iOpcaoSisIdModulo, oUsuario,
-    oUsuarioDBI, true, FLogo1NomeArq);
+  bResultado := LoginPerg({FLoginConfig, }iOpcaoSisIdModulo, UsuarioLojaId,
+    UsuarioTerminalId, UsuarioPessoaId, UsuarioNomeCompleto,
+    UsuarioNomeDeUsuario, UsuarioNomeExib, {oUsuarioDBI, }true, FLogo1NomeArq);
 
   if not bResultado then
     exit;
+
+  oUsuario := UsuarioCreate(UsuarioLojaId, UsuarioTerminalId, UsuarioPessoaId,
+    UsuarioNomeCompleto, UsuarioNomeExib, UsuarioNomeDeUsuario);
 
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate(iOpcaoSisIdModulo);
@@ -160,7 +172,7 @@ begin
     FAppObj, oBotaoModuloFrame.TerminalId);
 
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
-  FSessaoFrame := SessaoFrameCreate(nil{Self}, iOpcaoSisIdModulo, oUsuario,
+  FSessaoFrame := SessaoFrameCreate(nil { Self } , iOpcaoSisIdModulo, oUsuario,
     oModuloBasForm, iSessaoIndex, FAppObj.DBMS, FAppObj.ProcessOutput,
     FAppObj.ProcessLog);
 
@@ -384,7 +396,7 @@ begin
   SetExigeLoja := [TOpcaoSisIdModulo.opmoduRetaguarda,
     TOpcaoSisIdModulo.opmoduPDV];
 
-  Result := not (pOpcaoSisIdModulo in SetExigeLoja);
+  Result := not(pOpcaoSisIdModulo in SetExigeLoja);
   if Result then
     exit;
 

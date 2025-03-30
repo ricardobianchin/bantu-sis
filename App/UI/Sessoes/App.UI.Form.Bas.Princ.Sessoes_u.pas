@@ -148,7 +148,7 @@ end;
 procedure TSessoesPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  FSessoesFrame.ExecuteAutoLogin;
+  //FSessoesFrame.ExecuteAutoLogin;
 end;
 
 end.

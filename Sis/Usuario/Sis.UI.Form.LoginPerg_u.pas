@@ -97,15 +97,17 @@ type
 
   public
     { Public declarations }
-    constructor Create(pLoginConfig: ILoginConfig;
-      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-      pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string);
-      reintroduce;
+    constructor Create({pLoginConfig: ILoginConfig{;
+      pTipoOpcaoSisModulo: TOpcaoSisIdModulo{; pUsuario: IUsuario;
+      pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean;
+      pLogo1NomeArq: string});
+     reintroduce;
   end;
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string): boolean;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean;
+  pLogo1NomeArq: string): boolean;
 
 var
   LoginPergForm: TLoginPergForm;
@@ -119,17 +121,23 @@ uses Sis.Types.strings_u, Sis.Types.Utils_u, Sis.Sis.Constants,
 
 function LoginPerg(pLoginConfig: ILoginConfig;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string): boolean;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean;
+  pLogo1NomeArq: string): boolean;
 var
   Resultado: TModalResult;
 begin
-  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoOpcaoSisModulo,
-    pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema, pLogo1NomeArq);
+  LoginPergForm := TLoginPergForm.Create({pLoginConfig{, pTipoOpcaoSisModulo,
+  pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema, pLogo1NomeArq});
   try
-    Resultado := LoginPergForm.ShowModal;
+    // testando aqui loginpreg
+    Resultado := mrok; // LoginPergForm.ShowModal;
     Result := IsPositiveResult(Resultado);
+    pUsuario.Pegar(1, 0, 1);
+    pUsuario.NomeCompleto := 'ANDERSON ARAGAO';
+    pUsuario.NomeDeUsuario := 'ANDERSON';
+    pUsuario.NomeExib := 'ANDERSON';
   finally
-    FreeAndNil(LoginPergForm);
+    LoginPergForm.Free;
   end;
 end;
 
@@ -160,26 +168,26 @@ begin
   end;
 end;
 
-constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string);
+constructor TLoginPergForm.Create({pLoginConfig: ILoginConfig{;
+  pTipoOpcaoSisModulo: TOpcaoSisIdModulo{; pUsuario: IUsuario;
+  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean;
+  pLogo1NomeArq: string});
 var
   sNomeTipo: string;
 begin
   inherited Create(nil);
-  FNomeDeUsuarioStatus := LabelOutputCreate(NomeDeUsuarioStatusLabel);
-  FNomeDeUsuarioStatus.Exibir('');
+//  FNomeDeUsuarioStatus := LabelOutputCreate(NomeDeUsuarioStatusLabel);
+//  FNomeDeUsuarioStatus.Exibir('');
 
-  LoginPergModo := TLoginPergModo.ltLogando;
-  // DisparaShowTimer := True;
-  FUsuario := pUsuario;
-  FUsuarioDBI := pUsuarioDBI;
-  FLoginConfig := pLoginConfig;
-  FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
-  sNomeTipo := AnsiUpperCase(TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo));
-  Caption := Format('Login em %s...', [sNomeTipo]);
-  FLogo1NomeArq := pLogo1NomeArq;
-  Logo1Image.Picture.LoadFromFile(FLogo1NomeArq);
+//  LoginPergModo := TLoginPergModo.ltLogando;
+//  FUsuario := pUsuario;
+//  FUsuarioDBI := pUsuarioDBI;
+//  FLoginConfig := pLoginConfig;
+//  FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
+//  sNomeTipo := AnsiUpperCase(TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo));
+//  Caption := Format('Login em %s...', [sNomeTipo]);
+//  FLogo1NomeArq := pLogo1NomeArq;
+//  Logo1Image.Picture.LoadFromFile(FLogo1NomeArq);
 
 end;
 
@@ -187,7 +195,7 @@ function TLoginPergForm.Senha1DadosOk: boolean;
 var
   sSenha: string;
   sMens: string;
-  bAceito: Boolean;
+  bAceito: boolean;
 begin
   case FLoginPergModo of
     ltLogando:
@@ -405,7 +413,7 @@ begin
   if not Senha2DadosOk then
     exit;
 
-  ModalResult := mrOk;
+  ModalResult := mrok;
 end;
 
 function TLoginPergForm.PodeOk: boolean;

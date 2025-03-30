@@ -3,8 +3,8 @@ inherited LoginPergForm: TLoginPergForm
   ClientHeight = 562
   ClientWidth = 788
   WindowState = wsMaximized
-  ExplicitWidth = 800
-  ExplicitHeight = 600
+  ExplicitWidth = 804
+  ExplicitHeight = 601
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 458
@@ -145,16 +145,15 @@ inherited LoginPergForm: TLoginPergForm
           Left = 0
           Top = 0
           Width = 9
-          Height = 22
+          Height = 15
           Align = alLeft
           Caption = '   '
-          ExplicitHeight = 15
         end
         object LoginPergModoLabel: TLabel
           Left = 9
           Top = 0
-          Width = 443
-          Height = 22
+          Width = 142
+          Height = 20
           Align = alClient
           Caption = 'LoginPergModoLabel'
           Font.Charset = DEFAULT_CHARSET
@@ -164,8 +163,6 @@ inherited LoginPergForm: TLoginPergForm
           Font.Style = []
           ParentFont = False
           StyleElements = []
-          ExplicitWidth = 142
-          ExplicitHeight = 20
         end
       end
       object Senha1LabeledEdit: TLabeledEdit

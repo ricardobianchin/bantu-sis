@@ -219,6 +219,14 @@ var
   iLojaId, iPessoaId: integer;
   sNomeCompleto, sApelido: string;
 begin
+      FUsuario.Pegar(1, 0, 1);
+      FUsuario.NomeCompleto := 'ANDERSON ARAGAO';
+      FUsuario.NomeDeUsuario := 'ANDERSON';
+      FUsuario.NomeExib := 'ANDERSON';
+      pEncontrado := TRUE;
+      RESULT := TRUE;
+  exit; // testando aqui TUsuarioDBI.UsuarioPeloNomeDeUsuario(
+
   Result := DBConnection.Abrir;
   if not Result then
   begin

@@ -24,7 +24,6 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -41,29 +40,7 @@ uses App.Factory, ShopApp.Constants, Sis.DB.Factory, App.AppInfo.Types,
 { TShopPrincForm }
 
 procedure TShopPrincForm.AssistAbrir;
-var
-  sPasta, sParams, sNomeArq, sErro: string;
 begin
-  inherited;
-  sPasta := AppObj.AppInfo.PastaBin;
-  sParams := '';
-  sNomeArq := sPasta + 'ShopAssist.exe';
-
-  ExecutePrograma(sNomeArq, sParams, sPasta, sErro);
-end;
-
-constructor TShopPrincForm.Create(AOwner: TComponent);
-begin
-  // ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
-  try
-    inherited;
-    if PrecisaFechar then
-      exit;
-
-
-  finally
-    // ProcessLog.RetorneAssunto;
-  end;
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
