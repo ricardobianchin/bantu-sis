@@ -56,6 +56,9 @@ lista de vendas e lista de operacoes de caixa
 lista de vendas de uma sessao de caixa
 SESS_TELA_VENDAS_LISTA_GET
 
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_VENDAS_LISTA_GET(1, 1, 1);
+
 lista de operacoes de caixa de uma sessao de caixa
 SESS_TELA_CXOPER_LISTA_GET
 
