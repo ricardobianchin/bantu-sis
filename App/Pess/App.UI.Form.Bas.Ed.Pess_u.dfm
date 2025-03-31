@@ -2,23 +2,31 @@ inherited PessEdBasForm: TPessEdBasForm
   Caption = 'PessEdBasForm'
   ClientHeight = 530
   ClientWidth = 941
-  ExplicitWidth = 953
-  ExplicitHeight = 568
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 957
+  ExplicitHeight = 569
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 495
     Width = 941
     ExplicitTop = 495
   end
+  inherited ObjetivoLabel: TLabel
+    StyleElements = [seFont, seClient, seBorder]
+  end
   inherited AlteracaoTextoLabel: TLabel
     Top = 515
     Width = 941
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 515
   end
   inherited BasePanel: TPanel
     Top = 458
     Width = 941
     TabOrder = 1
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 458
+    ExplicitWidth = 941
   end
   object EnderecoPanel: TPanel [4]
     Left = 0
@@ -29,7 +37,6 @@ inherited PessEdBasForm: TPessEdBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitWidth = 937
   end
   object TitPanel: TPanel [5]
     Left = 0
@@ -40,7 +47,6 @@ inherited PessEdBasForm: TPessEdBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
-    ExplicitWidth = 937
   end
   object NomePanel: TPanel [6]
     Left = 0
@@ -51,7 +57,6 @@ inherited PessEdBasForm: TPessEdBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
-    ExplicitWidth = 937
     object NomePessLabel: TLabel
       Left = 8
       Top = 4
@@ -79,7 +84,6 @@ inherited PessEdBasForm: TPessEdBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 4
-    ExplicitWidth = 937
     object NomeFantaPessLabel: TLabel
       Left = 8
       Top = 4
@@ -124,21 +128,20 @@ inherited PessEdBasForm: TPessEdBasForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 5
-    ExplicitWidth = 937
     object MUFPessLabel: TLabel
-      Left = 692
+      Left = 710
       Top = 4
-      Width = 77
+      Width = 94
       Height = 15
-      Caption = #211'rg'#227'o Emissor'
-      FocusControl = MUFPessEdit
+      Caption = 'UF '#211'rg'#227'o Emissor'
     end
     object MPessLabel: TLabel
-      Left = 475
+      Left = 476
       Top = 4
-      Width = 56
+      Width = 69
       Height = 15
-      Caption = 'Inscr.Mun.'
+      Alignment = taRightJustify
+      Caption = #211'rg'#227'o Emiss.'
       FocusControl = MPessEditEdit
     end
     object DtNascPessLabel: TLabel
@@ -165,11 +168,12 @@ inherited PessEdBasForm: TPessEdBasForm
       FocusControl = CPessEdit
     end
     object IPessLabel: TLabel
-      Left = 237
+      Left = 240
       Top = 4
-      Width = 64
+      Width = 56
       Height = 15
-      Caption = 'Id./Inscr.Est.'
+      Alignment = taRightJustify
+      Caption = 'Identidade'
     end
     object CPessEdit: TEdit
       Left = 68
@@ -179,12 +183,13 @@ inherited PessEdBasForm: TPessEdBasForm
       MaxLength = 20
       NumbersOnly = True
       TabOrder = 0
+      OnChange = CPessEditChange
       OnExit = CPessEditExit
       OnKeyDown = CPessEditKeyDown
       OnKeyPress = CPessEditKeyPress
     end
     object IPessEdit: TEdit
-      Left = 306
+      Left = 300
       Top = 0
       Width = 161
       Height = 23
@@ -193,22 +198,13 @@ inherited PessEdBasForm: TPessEdBasForm
       OnKeyPress = IPessEditKeyPress
     end
     object MPessEditEdit: TEdit
-      Left = 536
+      Left = 551
       Top = 0
       Width = 147
       Height = 23
       MaxLength = 20
       TabOrder = 2
       OnKeyPress = MPessEditEditKeyPress
-    end
-    object MUFPessEdit: TEdit
-      Left = 775
-      Top = 0
-      Width = 87
-      Height = 23
-      MaxLength = 20
-      TabOrder = 3
-      OnKeyPress = MUFPessEditKeyPress
     end
     object AtivoPessCheckBox: TCheckBox
       Left = 444
@@ -246,6 +242,7 @@ inherited PessEdBasForm: TPessEdBasForm
       Height = 17
       Caption = 'cnpj'
       TabOrder = 7
+      TabStop = False
       OnClick = Button1Click
     end
     object Button2: TButton
@@ -255,7 +252,18 @@ inherited PessEdBasForm: TPessEdBasForm
       Height = 17
       Caption = 'cpf'
       TabOrder = 8
+      TabStop = False
       OnClick = Button2Click
+    end
+    object MUFPessComboBox: TComboBox
+      Left = 812
+      Top = 0
+      Width = 61
+      Height = 23
+      MaxLength = 2
+      TabOrder = 3
+      Text = 'MUFPessComboBox'
+      OnKeyPress = MUFPessComboBoxKeyPress
     end
   end
   inherited ShowTimer_BasForm: TTimer
