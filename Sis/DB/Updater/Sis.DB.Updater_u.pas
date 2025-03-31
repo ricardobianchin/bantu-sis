@@ -632,10 +632,15 @@ begin
     sLog := sLog + ',arq encontrado, vai carregar';
 
     FOutput.Exibir('iVersao=' + piVersao.ToString);
-
+    try
     FLinhasSL.LoadFromFile(sNomeArq, TEncoding.GetEncoding(CP_UTF8));
     // FLinhasSL.LoadFromFile(sNomeArq, TEncoding.GetEncoding(1252));
-
+    except on e:exception do
+    begin
+      showmessage(e.message + ' carregando arquivo dbupdate '+QuotedStr(sNomeArq));
+      raise;
+    end;
+    end;
     Result := FLinhasSL.Text <> '';
 
     if not Result then
@@ -707,8 +712,8 @@ var
   oComando: IComando;
   sComandosSql: string;
   i, iQtdComandos: integer;
-//  Ti, Tf: TDateTime;
-//  s: string;
+  // Ti, Tf: TDateTime;
+  // s: string;
 begin
   FProcessLog.PegueLocal('TDBUpdater.ComandosGetSql');
   try
@@ -719,10 +724,10 @@ begin
     for i := 0 to FComandoList.Count - 1 do
     begin
       oComando := FComandoList[i];
-//      Ti := Now;
+      // Ti := Now;
       sComandosSql := oComando.GetAsSql;
-//      Tf := Now;
-//      s := FormatFloat('###0.000', SecondSpan(Ti, Tf));
+      // Tf := Now;
+      // s := FormatFloat('###0.000', SecondSpan(Ti, Tf));
       if sComandosSql <> '' then
       begin
         inc(iQtdComandos);
@@ -1034,24 +1039,28 @@ var
   sSql: string;
   oDBQuery: IDBQuery;
 begin
-  sSql := 'select MACHINE_ID_RET' +
-    ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
-
-  oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
-    sSql, FProcessLog, FOutput);
-
-  oDBQuery.Prepare;
   try
-    oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
-    oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
-    oDBQuery.Abrir;
+    sSql := 'select MACHINE_ID_RET' +
+      ' from machine_pa.BYIDENT_GET (:NOME_NA_REDE, :IP);';
+
+    oDBQuery := DBQueryCreate('TDBUpdater.GravarIniciais.Query', pDBConnection,
+      sSql, FProcessLog, FOutput);
+
+    oDBQuery.Prepare;
     try
-      Result := oDBQuery.DataSet.Fields[0].AsInteger;
+      oDBQuery.Params[0].AsString := FSisConfig.LocalMachineId.Name;
+      oDBQuery.Params[1].AsString := FSisConfig.LocalMachineId.IP;
+      oDBQuery.Abrir;
+      try
+        Result := oDBQuery.DataSet.Fields[0].AsInteger;
+      finally
+        oDBQuery.Fechar;
+      end;
     finally
-      oDBQuery.Fechar;
+      oDBQuery.Unprepare;
     end;
-  finally
-    oDBQuery.Unprepare;
+  except
+
   end;
 end;
 

@@ -3,6 +3,7 @@ inherited DBImportForm: TDBImportForm
   ClientHeight = 335
   ClientWidth = 906
   WindowState = wsMaximized
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 922
   ExplicitHeight = 374
   TextHeight = 15
@@ -47,6 +48,21 @@ inherited DBImportForm: TDBImportForm
       Width = 44
       Height = 15
       Caption = 'Inclus'#227'o'
+    end
+    object FinalizarLabel: TLabel
+      Left = 530
+      Top = 7
+      Width = 102
+      Height = 15
+      Caption = 'Criando Registros...'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 192
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      Visible = False
+      StyleElements = [seClient, seBorder]
     end
     object FIlConfComboBox: TComboBox
       Left = 88
@@ -132,8 +148,8 @@ inherited DBImportForm: TDBImportForm
       Caption = 'Alterar Inclus'#227'o'
       TabOrder = 7
     end
-    object BitBtn1: TBitBtn
-      Left = 459
+    object FinalizarBitBtn: TBitBtn
+      Left = 461
       Top = 3
       Width = 63
       Height = 25
