@@ -28,7 +28,6 @@ type
     CPessEdit: TEdit;
     IPessEdit: TEdit;
     MPessEditEdit: TEdit;
-    MUFPessEdit: TEdit;
     MUFPessLabel: TLabel;
     MPessLabel: TLabel;
     AtivoPessCheckBox: TCheckBox;
@@ -40,6 +39,7 @@ type
     IPessLabel: TLabel;
     Button1: TButton;
     Button2: TButton;
+    MUFPessComboBox: TComboBox;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -58,6 +58,8 @@ type
     procedure CPessEditKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure AtivoPessCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure CPessEditChange(Sender: TObject);
+    procedure MUFPessComboBoxKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -68,6 +70,8 @@ type
     function NomeOk: boolean;
     function COk: boolean;
     procedure ColarC;
+    procedure AjusteCamposPess;
+    procedure PreenchaMUFPessComboBox;
 
   protected
     function GetObjetivoStr: string; override;
@@ -99,6 +103,48 @@ implementation
 uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
   Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types,
   Sis.Types.strings_u, Sis.Win.Utils_u, System.StrUtils;
+
+procedure TPessEdBasForm.AjusteCamposPess;
+begin
+  if CPFValido(CPessEdit.Text) then
+  begin
+    MUFPessComboBox.Visible := True;
+    MUFPessLabel.Visible := True;
+    MPessLabel.Caption := 'Órgão Emissor';
+    IPessLabel.Caption := 'Identidade';
+  end
+  else
+  begin
+    MUFPessComboBox.Visible := False;
+    MUFPessLabel.Visible := False;
+    MPessLabel.Caption := 'Inscr.Mun.';
+    IPessLabel.Caption := 'Inscr.Est.';
+  end;
+
+
+{
+object MPessLabel: TLabel
+  Left = 475
+  Top = 4
+  Width = 56
+  Height = 15
+  Caption = 'Inscr.Mun.'
+  FocusControl = MPessEditEdit
+end
+object IPessLabel: TLabel
+  Left = 237
+  Top = 4
+  Width = 64
+  Height = 15
+  Caption = 'Id./Inscr.Est.'
+end
+
+
+}
+
+
+
+end;
 
 procedure TPessEdBasForm.AjusteControles;
 var
@@ -134,7 +180,7 @@ begin
   CPessEdit.OnKeyPress := CPessEditKeyPress;
   IPessEdit.OnKeyPress := IPessEditKeyPress;
   MPessEditEdit.OnKeyPress := MPessEditEditKeyPress;
-  MUFPessEdit.OnKeyPress := MUFPessEditKeyPress;
+  //MUFPessEdit.OnKeyPress := MUFPessEditKeyPress;
   EMailPessEdit.OnKeyPress := EMailPessEditKeyPress;
   DtNascDateTimePicker.OnKeyPress := DtNascDateTimePickerKeyPress;
   AtivoPessCheckBox.OnKeyPress := AtivoPessCheckBoxKeyPress;
@@ -148,7 +194,7 @@ begin
   CPessEdit.TabOrder := 3;
   IPessEdit.TabOrder := 4;
   MPessEditEdit.TabOrder := 5;
-  MUFPessEdit.TabOrder := 6;
+  MUFPessComboBox.TabOrder := 6;
   EMailPessEdit.TabOrder := 7;
   DtNascDateTimePicker.TabOrder := 8;
   AtivoPessCheckBox.TabOrder := 9;
@@ -264,13 +310,19 @@ begin
   FPessEnt.C := CPessEdit.Text;
   FPessEnt.I := IPessEdit.Text;
   FPessEnt.M := MPessEditEdit.Text;
-  FPessEnt.MUF := MUFPessEdit.Text;
+  FPessEnt.MUF := MUFPessComboBox.Text;
   FPessEnt.EMail := EMailPessEdit.Text;
 
   FPessEnt.DtNasc := DtNascDateTimePicker.Date;
   FPessEnt.Ativo := AtivoPessCheckBox.Checked;
 
   FEnderFrame.ControlesToEnt;
+end;
+
+procedure TPessEdBasForm.CPessEditChange(Sender: TObject);
+begin
+  inherited;
+  AjusteCamposPess;
 end;
 
 procedure TPessEdBasForm.CPessEditExit(Sender: TObject);
@@ -308,6 +360,7 @@ constructor TPessEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  PreenchaMUFPessComboBox;
   FPessEnt := EntEdCastToPessEnt(pEntEd);
   FPessDBI := EntDBICastToPessDBI(pEntDBI);
 
@@ -360,6 +413,8 @@ begin
 end;
 
 procedure TPessEdBasForm.EntToControles;
+var
+  i: integer;
 begin
   inherited;
   NomePessEdit.Text := FPessEnt.Nome;
@@ -368,7 +423,11 @@ begin
   CPessEdit.Text := FPessEnt.C;
   IPessEdit.Text := FPessEnt.I;
   MPessEditEdit.Text := FPessEnt.M;
-  MUFPessEdit.Text := FPessEnt.MUF;
+  i := MUFPessComboBox.Items.IndexOf(FPessEnt.MUF);
+  if i = -1 then
+    i := MUFPessComboBox.Items.IndexOf('RJ');
+
+  MUFPessComboBox.itemindex := i;
   EMailPessEdit.Text := FPessEnt.EMail;
   DtNascDateTimePicker.Date := GetValidDate(FPessEnt.DtNasc);
   AtivoPessCheckBox.Checked := FPessEnt.Ativo;
@@ -421,6 +480,13 @@ begin
   EditKeyPress(Sender, Key);
 end;
 
+procedure TPessEdBasForm.MUFPessComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+end;
+
 procedure TPessEdBasForm.MUFPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
   // inherited;
@@ -468,6 +534,73 @@ begin
       NomeFantaPessEdit.SetFocus;
   end;
   // SelectNext(NomePessEdit,True, True);
+end;
+
+procedure TPessEdBasForm.PreenchaMUFPessComboBox;
+begin
+  MUFPessComboBox.Items.Clear;
+
+  MUFPessComboBox.Items.Add('  ');
+  MUFPessComboBox.Items.Add('AC');
+  MUFPessComboBox.Items.Add('AL');
+  MUFPessComboBox.Items.Add('AM');
+  MUFPessComboBox.Items.Add('AP');
+  MUFPessComboBox.Items.Add('BA');
+  MUFPessComboBox.Items.Add('CE');
+  MUFPessComboBox.Items.Add('DF');
+  MUFPessComboBox.Items.Add('ES');
+  MUFPessComboBox.Items.Add('GO');
+  MUFPessComboBox.Items.Add('MA');
+  MUFPessComboBox.Items.Add('MG');
+  MUFPessComboBox.Items.Add('MS');
+  MUFPessComboBox.Items.Add('MT');
+  MUFPessComboBox.Items.Add('PA');
+  MUFPessComboBox.Items.Add('PE');
+  MUFPessComboBox.Items.Add('PI');
+  MUFPessComboBox.Items.Add('PR');
+  MUFPessComboBox.Items.Add('PR');
+  MUFPessComboBox.Items.Add('RJ');
+  MUFPessComboBox.Items.Add('RN');
+  MUFPessComboBox.Items.Add('RO');
+  MUFPessComboBox.Items.Add('RR');
+  MUFPessComboBox.Items.Add('RS');
+  MUFPessComboBox.Items.Add('SC');
+  MUFPessComboBox.Items.Add('SE');
+  MUFPessComboBox.Items.Add('SP');
+  MUFPessComboBox.Items.Add('TO');
+  MUFPessComboBox.ItemIndex := MUFPessComboBox.Items.IndexOf('RJ');
+
+{
+RO;RONDONIA;11
+AC;ACRE;12
+AM;AMAZONAS;13
+RR;RORAIMA;14
+PA;PARA;15
+AP;AMAPA;16
+TO;TOCANTINS;17
+MA;MARANHAO;21
+PI;PIAUI;22
+CE;CEARA;23
+RN;RIO GRANDE DO NORTE;24
+PR;PARAIBA;25
+PE;PERNAMBUCO;26
+AL;ALAGOAS;27
+SE;SERGIPE;28
+BA;BAHIA;29
+MG;MINAS GERAIS;31
+ES;ESPIRITO SANTO;32
+RJ;RIO DE JANEIRO;33
+SP;SAO PAULO;35
+PR;PARANA;41
+SC;SANTA CATARINA;42
+RS;RIO GRANDE DO SUL;43
+MS;MATO GROSSO DO SUL;50
+MT;MATO GROSSO;51
+GO;GOIAS;52
+DF;DISTRITO FEDERAL;53
+
+}
+
 end;
 
 procedure TPessEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);
