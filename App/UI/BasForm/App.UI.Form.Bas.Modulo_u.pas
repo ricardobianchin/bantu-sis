@@ -191,14 +191,14 @@ begin
     Exit;
   end;
 
-  case Key of
-    vk_f6:
-      begin
-        TrocarAction_ModuloBasForm.Execute;
-        Key := 0;
-        exit;
-      end;
-  end;
+//  case Key of
+//    vk_ f 6:
+//      begin
+//        TrocarAction_ModuloBasForm.Execute;
+//        Key := 0;
+//        exit;
+//      end;
+//  end;
 
   case Key of
     vk_f2:
