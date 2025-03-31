@@ -20,6 +20,8 @@ function CharIsOnlyDigit(Key: Char): boolean;
 function StrToOnlyDigit(const pStr: string): string;
 function StrIsOnlyDigit(const pStr: string): boolean;
 
+procedure CharToLow(var Key: Char);
+
 procedure CharToName(var Key: Char);
 function StrToName(const pStr: string): string;
 
@@ -210,6 +212,13 @@ begin
     Key := SubstSemAcento[Posic]
   else
     Key := '_';
+end;
+
+//gere, por favor, uma procedure no delphi que receba um char por referencia e, se for letra maiuscula, converte para minuscula
+procedure CharToLow(var Key: Char);
+begin
+ if CharInSet(Key, ['A'..'Z']) then
+    Key := Chr(Ord(Key) + 32);
 end;
 
 function StrToName(const pStr: string): string;

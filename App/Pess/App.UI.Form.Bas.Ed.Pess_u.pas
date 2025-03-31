@@ -102,7 +102,7 @@ implementation
 
 uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
   Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types,
-  Sis.Types.strings_u, Sis.Win.Utils_u, System.StrUtils;
+  Sis.Types.strings_u, Sis.Win.Utils_u, System.StrUtils, Sis.Types.Utils_u;
 
 procedure TPessEdBasForm.AjusteCamposPess;
 begin
@@ -409,7 +409,15 @@ end;
 procedure TPessEdBasForm.EMailPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
   // inherited;
-  EditKeyPress(Sender, Key);
+  if Key = CHAR_ENTER then
+  begin
+    Key := CHAR_NULO;
+//    if SelecionaProximo then
+    SelecioneProximo;
+    exit;
+  end;
+
+  CharToLow(Key);
 end;
 
 procedure TPessEdBasForm.EntToControles;

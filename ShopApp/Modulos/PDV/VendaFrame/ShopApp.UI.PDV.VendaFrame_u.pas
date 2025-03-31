@@ -352,7 +352,7 @@ begin
     // FecharAction_ModuloBasForm.Execute;
     Exit;
   end
-  else if (Key = VK_F5) and (Shift = []) then
+  else if (Key = VK_F6) and (Shift = []) then
   begin
     AcioneGaveta;
     Exit;
