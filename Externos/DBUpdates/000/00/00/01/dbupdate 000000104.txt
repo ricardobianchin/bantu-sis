@@ -55,6 +55,8 @@ COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=LOG_HIST_PA
 ```FIREBIRD
 /*
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql"
+
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\LOG_HIST_PA.sql";
 SELECT * FROM LOG_HIST_PA.TEVE_DESPESA_TIPO(0, 1000);
 
@@ -212,9 +214,9 @@ BEGIN
     , NUMERO NOME_DOM
     , COMPLEMENTO NOME_DOM
     , BAIRRO NOME_DOM
-    , UF_SIGLA CHAR
+    , UF_SIGLA CHAR(2)
     , CEP CHAR(8)
-    , MUNICIPIO_IBGE_ID CHAR
+    , MUNICIPIO_IBGE_ID CHAR(7)
     , DDD CHAR(2)
     , FONE1 NOME_CURTO_DOM
     , FONE2 NOME_CURTO_DOM
@@ -683,9 +685,9 @@ BEGIN
     , NUMERO NOME_DOM
     , COMPLEMENTO NOME_DOM
     , BAIRRO NOME_DOM
-    , UF_SIGLA CHAR
+    , UF_SIGLA CHAR(2)
     , CEP CHAR(8)
-    , MUNICIPIO_IBGE_ID CHAR
+    , MUNICIPIO_IBGE_ID CHAR(7)
     , DDD CHAR(2)
     , FONE1 NOME_CURTO_DOM
     , FONE2 NOME_CURTO_DOM

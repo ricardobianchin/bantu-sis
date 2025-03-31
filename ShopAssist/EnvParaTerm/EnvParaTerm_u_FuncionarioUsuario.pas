@@ -63,9 +63,6 @@ begin
 
     + ');' //
     ;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(Result);
-  // {$ENDIF}
 end;
 
 procedure EnvFuncionarioUsuario(pTermDM: TDBTermDM; oExecScript: TExecScript;
@@ -76,9 +73,9 @@ var
   NomeDeUsuarioField: TField;
 begin
   sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(sSql);
+//   {$ENDIF}
   DBServDM.Connection.ExecSQL(sSql, q);
 
   if not Assigned(q) then
