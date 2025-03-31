@@ -360,6 +360,7 @@ end;
 
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
+  AssistPedirPraFechar;
 //{$IFNDEF DEBUG}
   inherited;
 //{$ENDIF}

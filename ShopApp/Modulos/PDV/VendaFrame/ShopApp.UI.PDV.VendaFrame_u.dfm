@@ -229,7 +229,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         Left = 351
         Top = 0
         AutoSize = True
-        Caption = 'PgUp: Finalize'
+        Caption = 'PgUp: Totalize'
         ImageIndex = 3
         OnClick = PagamentoToolButtonClick
       end

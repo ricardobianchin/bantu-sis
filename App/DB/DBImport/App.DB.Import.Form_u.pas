@@ -45,8 +45,9 @@ type
     RejEdBitBtn_AppDBImport: TBitBtn;
     InclusaoAlterarAction_AppDBImport: TAction;
     InclusaoAlterarBitBtn_AppDBImport: TBitBtn;
-    BitBtn1: TBitBtn;
+    FinalizarBitBtn: TBitBtn;
     FinalizarAction_AppDBImport: TAction;
+    FinalizarLabel: TLabel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     procedure ZerarAction_AppDBImportExecute(Sender: TObject);
@@ -286,6 +287,8 @@ procedure TDBImportForm.FinalizarAction_AppDBImportExecute(Sender: TObject);
 begin
   inherited;
   FinalizarAction_AppDBImport.Enabled := False;
+  FinalizarLabel.Visible := True;
+  Application.ProcessMessages;
   try
     ValidarAction_AppDBImport.Execute;
 
@@ -296,6 +299,7 @@ begin
       FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
     FinalizarAction_AppDBImport.Enabled := True;
+    FinalizarLabel.Visible := False;
   end;
 end;
 
