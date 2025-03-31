@@ -102,6 +102,7 @@ var
   s: string;
   i: integer;
   v: ICxValor;
+  bAdicionaAssinaturas: Boolean;
 begin
   inherited;
   if FCxOperacaoEnt.Linhas.Count > 0 then
@@ -111,6 +112,33 @@ begin
       PegueLinha(FCxOperacaoEnt.Linhas[i]);
     end;
   end;
+
+  bAdicionaAssinaturas := (FCxOperacaoEnt.CxOperacaoTipo.Id = cxopSangria);
+  if not bAdicionaAssinaturas then
+    exit;
+
+  PegueLinha('');
+  PegueLinha('');
+  PegueLinha('');
+
+  s := StringOfChar('_', 20);
+  PegueLinha(CenterStr(s, NCols));
+
+  s := 'OPERADOR';
+  PegueLinha(CenterStr(s, NCols));
+
+  PegueLinha('');
+  PegueLinha('');
+  PegueLinha('');
+
+  s := StringOfChar('_', 20);
+  PegueLinha(CenterStr(s, NCols));
+
+  s := 'RESPONSAVEL';
+  PegueLinha(CenterStr(s, NCols));
+
+  PegueLinha('');
+  PegueLinha('');
 end;
 
 function TImpressaoTextoPDVCxOperacao.GetDocTitulo: string;

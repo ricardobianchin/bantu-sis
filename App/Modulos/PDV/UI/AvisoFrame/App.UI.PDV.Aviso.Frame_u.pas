@@ -11,8 +11,10 @@ uses
 type
   TAvisoPDVFrame = class(TPDVFrame)
     Panel1: TPanel;
-    MensagemLabel: TLabel;
     Button1: TButton;
+    GavButton: TButton;
+    MensagemLabel: TLabel;
+    procedure GavButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,6 +53,18 @@ begin
 
   AltuDif := rRect.Height - oControl.Height;
   oControl.Top := (AltuDif div 10) * 4;
+end;
+
+procedure TAvisoPDVFrame.GavButtonClick(Sender: TObject);
+begin
+  inherited;
+  GavButton.Enabled := False;
+  try
+    PDVObj.Gaveta.Acione;
+    sleep(300);
+  finally
+    GavButton.Enabled := True;
+  end;
 end;
 
 constructor TAvisoPDVFrame.Create(AOwner: TComponent;

@@ -158,7 +158,7 @@ begin
     pLogUsuario, Self);
 
   FFrameAviso := PDVFrameAvisoCreate(Self, AppObj, FPDVObj,
-    'É necessário abrir o caixa', CaixaSessaoAbrirTentarAction);
+    'Caixa Fechado', CaixaSessaoAbrirTentarAction);
   FFrameAviso.OculteControles;
 
   FPDVVenda := PDVVendaCreate;
