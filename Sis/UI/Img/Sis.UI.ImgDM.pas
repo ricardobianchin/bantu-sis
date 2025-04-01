@@ -24,6 +24,7 @@ type
     PrincImageList89: TImageList;
     ImageList_13_8: TImageList;
     ControlesImageList_8_8: TImageList;
+    ImageList_13_8_Preto: TImageList;
   private
     { Private declarations }
   public
