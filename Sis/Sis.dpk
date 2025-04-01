@@ -326,6 +326,7 @@ contains
   Sis.Web.HTTP.Net.Utils_u in 'Web\HTTP\NET\Sis.Web.HTTP.Net.Utils_u.pas',
   Sis.Web.HTTP.Upload in 'Web\HTTP\Sis.Web.HTTP.Upload.pas',
   Sis.Web.HTTP.Upload_u in 'Web\HTTP\Sis.Web.HTTP.Upload_u.pas',
-  Sis.UI.Controls.RichEditUtils_u in 'UI\Controls\Memo\RichEdit\Sis.UI.Controls.RichEditUtils_u.pas';
+  Sis.UI.Controls.RichEditUtils_u in 'UI\Controls\Memo\RichEdit\Sis.UI.Controls.RichEditUtils_u.pas',
+  Sis.Web.Utils_u in 'Web\Sis.Web.Utils_u.pas';
 
 end.
