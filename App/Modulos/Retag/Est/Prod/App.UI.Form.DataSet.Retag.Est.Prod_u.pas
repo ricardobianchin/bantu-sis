@@ -11,7 +11,7 @@ uses
   App.UI.Decorator.Form.Excl, App.Ent.Ed, App.Ent.Ed.Id.Descr,
   App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
   {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  App.UI.TabSheet.DataSet.Types_u;
+  App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -22,13 +22,14 @@ type
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
     FFiltroFrame: TProdOrFiltroFrame;
-
+    FMudaLoteFrame: TMudaLoteFrame;
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 
     function PergEd(pDataSetStateAbrev: string): boolean;
     procedure CrieFiltroFrame;
+    procedure CrieMudaLoteFrame;
 
   protected
     { Protected declarations }
@@ -63,7 +64,7 @@ implementation
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
-  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants;
+  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants, Sis.UI.Controls.Utils;
 
 { TRetagEstProdDataSetForm }
 
@@ -77,6 +78,9 @@ begin
     pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
     pIdPos, pAppObj);
   FFiltroFrame := nil;
+  FMudaLoteFrame := nil;
+  CrieMudaLoteFrame;
+
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
 end;
@@ -95,6 +99,20 @@ begin
   FFiltroFrame := TProdOrFiltroFrame.Create(oP, DoAtualizar);
   FFiltroFrame.Parent := oP;
   FFiltroFrame.Align := alTop;
+end;
+
+procedure TRetagEstProdDataSetForm.CrieMudaLoteFrame;
+var
+  oP: TPanel;
+begin
+  if Assigned(FMudaLoteFrame) then
+    exit;
+
+  // FFiltroStringFrame
+  oP := TitPanel_BasTabSheet;
+  FMudaLoteFrame := TMudaLoteFrame.Create(oP);
+  FMudaLoteFrame.Align := alTop;
+
 end;
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
@@ -350,7 +368,7 @@ procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-
+  SetNameToHint(Self);
 end;
 
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;

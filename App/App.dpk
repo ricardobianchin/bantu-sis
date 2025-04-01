@@ -404,6 +404,9 @@ contains
   App.UI.FormEd.CxOperacao.Despesa_u in 'Est\Venda\Caixa\CaixaSessao\CxOperacao\Despesa\App.UI.FormEd.CxOperacao.Despesa_u.pas' {CxOperDespesaEdForm},
   App.UI.Frame.Filtro.Prod_Or_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_Or_u.pas' {ProdOrFiltroFrame: TFrame},
   App.UI.Frame.Filtro.Prod_And_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Filtro.Prod_And_u.pas' {ProdAndFiltroFrame: TFrame},
-  App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u in 'Modulos\Retag\Aju\VersaoSis\App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u.pas' {RetagAjuVersaoSisForm};
+  App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u in 'Modulos\Retag\Aju\VersaoSis\App.UI.Form.TabSheet.Retag.Aju.VersaoSis_u.pas' {RetagAjuVersaoSisForm},
+  App.UI.Frame.Retag.Prod.MudaLote_u in 'Modulos\Retag\Est\Prod\App.UI.Frame.Retag.Prod.MudaLote_u.pas' {MudaLoteFrame: TFrame},
+  App.Testes.Config.ModuRetag.Est.Produtos in 'AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos.pas',
+  App.Testes.Config.ModuRetag.Est.Produtos_u in 'AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos_u.pas';
 
 end.

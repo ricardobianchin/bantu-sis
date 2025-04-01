@@ -660,12 +660,22 @@ procedure TRetaguardaModuloBasForm.TestaTesteConfig_Est;
 var
   bDeveExecutar: Boolean;
 begin
+  // teste est cliente
   bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Est.Cliente.AutoExec;
 
   if bDeveExecutar then
   begin
     MenuPageControl.ActivePage := EstoqueTabSheet;
     RetagEstVenClienteAction.Execute;
+  end;
+
+  // teste est produtos
+  bDeveExecutar := AppObj.AppTestesConfig.ModuRetag.Est.Produtos.AutoExec;
+
+  if bDeveExecutar then
+  begin
+    MenuPageControl.ActivePage := EstoqueTabSheet;
+    RetagEstProdAction.Execute;
   end;
 end;
 

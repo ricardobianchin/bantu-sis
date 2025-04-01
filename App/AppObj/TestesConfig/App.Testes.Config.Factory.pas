@@ -14,6 +14,7 @@ uses
 
     , App.Testes.Config.ModuRetag.Est //
     , App.Testes.Config.ModuRetag.Est.Cliente //
+    , App.Testes.Config.ModuRetag.Est.Produtos //
 
     , App.Testes.Config.ModuRetag.Fin //
     , App.Testes.Config.ModuRetag.Fin.PagamentoForma //
@@ -46,6 +47,7 @@ function ModuRetagAcessoFuncionarioCreate
 // retag est
 function ModuRetagEstCreate: ITesteConfigModuRetagEst;
 function ModuRetagEstClienteCreate: ITesteConfigModuRetagEstCliente;
+function ModuRetagEstProdutosCreate: ITesteConfigModuRetagEstProdutos;
 
 // retag fin
 function ModuRetagFinCreate: ITesteConfigModuRetagFin;
@@ -74,6 +76,7 @@ uses
 
     , App.Testes.Config.ModuRetag.Est_u //
     , App.Testes.Config.ModuRetag.Est.Cliente_u //
+    , App.Testes.Config.ModuRetag.Est.Produtos_u //
 
     , App.Testes.Config.ModuRetag.Fin_u //
     , App.Testes.Config.ModuRetag.Fin.PagamentoForma_u //
@@ -141,6 +144,11 @@ end;
 function ModuRetagEstClienteCreate: ITesteConfigModuRetagEstCliente;
 begin
   Result := TTesteConfigModuRetagEstCliente.Create;
+end;
+
+function ModuRetagEstProdutosCreate: ITesteConfigModuRetagEstProdutos;
+begin
+  Result := TTesteConfigModuRetagEstProdutos.Create;
 end;
 
 // retag fin
