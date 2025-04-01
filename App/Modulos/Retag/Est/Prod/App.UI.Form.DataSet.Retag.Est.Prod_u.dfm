@@ -32,4 +32,10 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
   inherited SelectPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]
   end
+  inherited ActionList1_ActBasForm: TActionList
+    object MudaLoteAction_ProdDatasetTabSheet: TAction
+      Caption = 'Mudan'#231'a em Lote'
+      OnExecute = MudaLoteAction_ProdDatasetTabSheetExecute
+    end
+  end
 end

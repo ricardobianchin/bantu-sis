@@ -3,6 +3,7 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 628
   ExplicitHeight = 477
   TextHeight = 15
@@ -41,8 +42,8 @@ inherited PrincBasForm: TPrincBasForm
       628
       41)
     object TitleBarCaptionLabel: TLabel
-      Left = 25
-      Top = 16
+      Left = 24
+      Top = 20
       Width = 109
       Height = 15
       Caption = 'TitleBarCaptionLabel'

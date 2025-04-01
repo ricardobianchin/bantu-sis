@@ -15,7 +15,9 @@ uses
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
+    MudaLoteAction_ProdDatasetTabSheet: TAction;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure MudaLoteAction_ProdDatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
 
@@ -79,7 +81,6 @@ begin
     pIdPos, pAppObj);
   FFiltroFrame := nil;
   FMudaLoteFrame := nil;
-  CrieMudaLoteFrame;
 
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
@@ -354,6 +355,15 @@ begin
   end;
 end;
 
+procedure TRetagEstProdDataSetForm.MudaLoteAction_ProdDatasetTabSheetExecute(
+  Sender: TObject);
+begin
+  inherited;
+  MudaLoteAction_ProdDatasetTabSheet.Checked := not MudaLoteAction_ProdDatasetTabSheet.Checked;
+  FMudaLoteFrame.Visible := MudaLoteAction_ProdDatasetTabSheet.Checked;
+
+end;
+
 procedure TRetagEstProdDataSetForm.RecordToEnt;
 begin
   inherited;
@@ -368,13 +378,16 @@ procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-  SetNameToHint(Self);
+//  SetNameToHint(Self);
 end;
 
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
+  CrieMudaLoteFrame;
+  FMudaLoteFrame.Visible := False;
   CrieFiltroFrame;
+  ToolBarAddButton(MudaLoteAction_ProdDatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
