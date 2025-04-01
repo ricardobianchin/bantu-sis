@@ -6,11 +6,12 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls,
-  Vcl.StdCtrls, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario, App.AppObj, Sis.DB.DBTypes;
+  Vcl.StdCtrls, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario, App.AppObj, Sis.DB.DBTypes,
+  Vcl.OleCtrls, SHDocVw;
 
 type
   TRetagAjuVersaoSisForm = class(TTabSheetAppBasForm)
-    RichEdit1: TRichEdit;
+    WebBrowser1: TWebBrowser;
   private
     { Private declarations }
     FPastaVersoes: string;
@@ -32,7 +33,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.RichEditUtils_u;
+uses Sis.UI.Controls.RichEditUtils_u, Sis.Web.Utils_u;
 
 { TRetagAjuVersaoSisForm }
 
@@ -42,24 +43,18 @@ var
   oLinhasSL: TStringList;
   i: integer;
 begin
-
-  RichEdit1.Lines.Clear;
   oLinhasSL := TStringList.Create;
   try
   //vai percorrer subpastas de FPastaVersoes
-  // repete ate nao ter mais arquivos, e formar lista de versoes e nome de arquivo respectivo
+  //repete ate nao ter mais arquivos, e formar lista de versoes e nome de arquivo respectivo
   //ordenar em ordem de versao semantica da maior para a menor
   //cada arquivo desta, é colocado em sNomeArqAtual
   //carregado em um tstrings
   //inserido no richedit convertido formatado
-    sNomeArqAtual := AppObj.AppInfo.Pasta + 'Inst\Update\VersoesSis\Recentes.md';
-    oLinhasSL.LoadFromFile(sNomeArqAtual, TEncoding.GetEncoding(CP_UTF8));
-    RichEdit1.Font.Name := 'Segoe UI';
-    RichEdit1.Font.Size := 9;
-    for I := 0 to oLinhasSL.Count - 1 do
-    begin
-      AddMarkdownLine(RichEdit1, oLinhasSL[i]);
-    end;
+    sNomeArqAtual := AppObj.AppInfo.Pasta + 'Inst\Update\VersoesSis\Recentes.html';
+    sNomeArqAtual := Sis.Web.Utils_u.PathToUrl(sNomeArqAtual);
+
+    WebBrowser1.Navigate(sNomeArqAtual);
   finally
     oLinhasSL.Free;
   end;
