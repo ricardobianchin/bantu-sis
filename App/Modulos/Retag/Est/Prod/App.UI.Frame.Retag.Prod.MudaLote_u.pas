@@ -238,7 +238,8 @@ end;
 procedure TMudaLoteFrame.DoUpdateAndCreateLogsServer_Andamento_Exibindo(
   pPasso: integer);
 begin
-  ProgressBar1.Position := pPasso;
+  if (pPasso div 33) = 0 then
+    ProgressBar1.Position := pPasso;
 end;
 
 procedure TMudaLoteFrame.DoUpdateAndCreateLogsServer_Andamento_Mudo(
