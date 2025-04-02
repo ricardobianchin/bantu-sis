@@ -28,7 +28,7 @@ type
     SelectActionList_DataSetForm: TActionList;
     OkAction: TAction;
     CancelAction: TAction;
-    Panel1: TPanel;
+    QtdRegsLabel_TabSheetDataSetBasForm: TLabel;
 
     procedure FiltroAtualizarTimerTimer(Sender: TObject);
     procedure FiltroEdit_DataSetTabSheetChange(Sender: TObject);
@@ -69,6 +69,7 @@ type
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
 
+    procedure AjusteQtdRegsLabel;
     property AtualizaAposEd: boolean read FAtualizaAposEd write FAtualizaAposEd;
 
     function GetFDMemTable: TFDMemTable;
@@ -165,6 +166,14 @@ begin
   SelectPanel.Visible := True;
 end;
 
+procedure TTabSheetDataSetBasForm.AjusteQtdRegsLabel;
+begin
+  if FDMemTable.IsEmpty then
+    QtdRegsLabel_TabSheetDataSetBasForm.Caption := 'Nenhum Registro'
+  else
+    QtdRegsLabel_TabSheetDataSetBasForm.Caption := FDMemTable.RecordCount.ToString + ' Registros';
+end;
+
 procedure TTabSheetDataSetBasForm.AltAction_DatasetTabSheetExecute
   (Sender: TObject);
 var
@@ -206,6 +215,7 @@ procedure TTabSheetDataSetBasForm.DoAposAtualizar;
 begin
   FFDMemTablePodeEventos := True;
   FDMemTableColocarEventos;
+  AjusteQtdRegsLabel;
 end;
 
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
@@ -333,12 +343,13 @@ end;
 
 procedure TTabSheetDataSetBasForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
-
+  AjusteQtdRegsLabel;
 end;
 
 procedure TTabSheetDataSetBasForm.FDMemTableColocarEventos;
 begin
   FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
+  AjusteQtdRegsLabel;
 end;
 
 procedure TTabSheetDataSetBasForm.FDMemTableRetirarEventos;

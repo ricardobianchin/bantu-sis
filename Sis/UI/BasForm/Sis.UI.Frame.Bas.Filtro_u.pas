@@ -200,6 +200,7 @@ type
 implementation
 
 {$R *.dfm}
+
 { TFiltroFrame }
 
 procedure TFiltroFrame.AgendeChange;

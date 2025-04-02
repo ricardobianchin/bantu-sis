@@ -13,7 +13,7 @@ uses
   App.UI.TabSheet.DataSet.Types_u, FireDAC.Comp.Client, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
-  FireDAC.Comp.DataSet, App.AppObj;
+  FireDAC.Comp.DataSet, App.AppObj, Vcl.StdCtrls;
 
 type
   TPerfilDeUsoDataSetForm = class(TTabSheetDataSetBasForm)

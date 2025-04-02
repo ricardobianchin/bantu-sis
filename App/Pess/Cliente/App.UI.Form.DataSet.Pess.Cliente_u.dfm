@@ -4,10 +4,11 @@ inherited AppPessClienteDataSetForm: TAppPessClienteDataSetForm
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
     StyleElements = [seFont, seClient, seBorder]
-    inherited TitToolBar1_BasTabSheet: TToolBar
-      inherited Panel1: TPanel
-        StyleElements = [seFont, seClient, seBorder]
-      end
+    inherited TitAuxPanel_BasTabSheet: TPanel
+      StyleElements = [seFont, seClient, seBorder]
+    end
+    inherited TitToolPanel_BasTabSheet: TPanel
+      StyleElements = [seFont, seClient, seBorder]
     end
   end
   inherited SelectPanel: TPanel

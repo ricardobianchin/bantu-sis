@@ -10,7 +10,7 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, Sis.Config.SisConfig, Sis.Usuario_u, Sis.Types,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario, Sis.DB.DBTypes,
   App.AppInfo, App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI,
-  App.Pess.Ent, App.Pess.DBI, FireDAC.Comp.Client, App.AppObj;
+  App.Pess.Ent, App.Pess.DBI, FireDAC.Comp.Client, App.AppObj, Vcl.StdCtrls;
 
 type
   TAppPessDataSetForm = class(TTabSheetDataSetBasForm)

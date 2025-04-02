@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas.Filtro_u, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,
-  System.Generics.Collections;
+  System.Generics.Collections, Vcl.ComCtrls, Vcl.ToolWin;
 
 type
   TProdOrFiltroFrame = class(TFiltroFrame)
@@ -18,6 +18,10 @@ type
     FabrRadioButton: TRadioButton;
     TipoRadioButton: TRadioButton;
     ErroLabel: TLabel;
+    TitPanel: TPanel;
+    TitLabel: TLabel;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
     procedure FiltroStringLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure FiltroStringLabeledEditChange(Sender: TObject);
   private
@@ -42,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u;
+uses Sis.Types.strings_u, Sis.UI.ImgDM;
 
 { TProdFiltroFrame }
 
@@ -56,6 +60,7 @@ constructor TProdOrFiltroFrame.Create(AOwner: TComponent;
 var
   R: TRadioButton;
   i: Integer;
+  iRadioLeft: Integer;
 begin
   inherited;
   FRadioButtonList := TList<TRadioButton>.Create;
@@ -66,11 +71,12 @@ begin
   FRadioButtonList.Add(FabrRadioButton);
   FRadioButtonList.Add(TipoRadioButton);
 
+  iRadioLeft := FiltroStringLabeledEdit.left + FiltroStringLabeledEdit.Width + 6;
   for i := 0 to FRadioButtonList.Count -1 do
   begin
     R := FRadioButtonList[i];
-    R.Left := 160 + i * 90;
-    R.Top := FiltroStringLabeledEdit.Top + 4;
+    R.Left := iRadioLeft + i * 90;
+    R.Top := FiltroStringLabeledEdit.Top + 3;
     R.onclick := RadioButtonClick;
   end;
 end;

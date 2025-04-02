@@ -3,7 +3,8 @@ unit Sis.DB.DataSet.Utils;
 interface
 
 uses
-  FireDAC.Comp.Client, Vcl.DBGrids, Data.DB, Sis.Sis.Constants, System.Variants;
+  FireDAC.Comp.Client, Vcl.DBGrids, Data.DB, Sis.Sis.Constants, System.Variants,
+  System.Classes;
 
 procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
   pDBGrid: TDBGrid; pIndexIni: integer = 0;
@@ -14,10 +15,11 @@ procedure RecordToVarArray(out pVarArray: variant; pQ: TDataSet;
 procedure FDMemTableAppendDataSet(pOrigem: TDataSet; pDestino: TFDMemTable;
   pApagaDestinoAntes: Boolean = True);
 procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
+procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
 
 implementation
 
-uses System.Classes, Sis.DB.FDDataSetManager, Sis.DB.Factory, System.SysUtils;
+uses Sis.DB.FDDataSetManager, Sis.DB.Factory, System.SysUtils;
 
 procedure DefCamposSL(DefsSL: TStringList; pFDMemTable: TFDMemTable;
   pDBGrid: TDBGrid);
@@ -147,6 +149,30 @@ procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
 begin
   for var i: integer := 0 to pOrigem.fieldcount - 1 do
     pDestino.Fields[i].Value := pOrigem.Fields[i].Value;
+end;
+
+procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
+var
+  iId: integer;
+  p: Pointer;
+  sDescr: string;
+begin
+  while not pOrigem.Eof do
+  begin
+    sDescr := Trim(pOrigem.Fields[1].AsString);
+    iId := pOrigem.Fields[0].AsInteger;
+
+    if iId < 1 then
+    begin
+      pDestinoSL.Add(sDescr);
+      continue;
+    end;
+
+    p := Pointer(iId);
+    pDestinoSL.AddObject(sDescr, p);
+
+    pOrigem.Next;
+  end;
 end;
 
 end.

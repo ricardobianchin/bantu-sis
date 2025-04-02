@@ -1,37 +1,61 @@
 inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   Caption = 'TabSheetDataSetBasForm'
+  ClientHeight = 443
   ClientWidth = 700
   WindowState = wsMaximized
+  StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
+  ExplicitLeft = -59
+  ExplicitTop = -22
   ExplicitWidth = 700
+  ExplicitHeight = 443
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
-    Top = 448
+    Top = 413
     Width = 700
-    Height = 29
+    Height = 30
     Align = alBottom
-    AutoSize = False
-    ExplicitTop = 448
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 394
     ExplicitWidth = 700
-    ExplicitHeight = 29
-    inherited TitToolBar1_BasTabSheet: TToolBar
-      Width = 700
-      Height = 29
-      AutoSize = False
-      ButtonHeight = 30
-      ButtonWidth = 59
-      HotImages = SisImgDataModule.ImageList24Flat
-      ExplicitWidth = 700
-      ExplicitHeight = 29
-      object Panel1: TPanel
-        Left = 0
-        Top = 0
-        Width = 73
-        Height = 30
-        BevelOuter = bvNone
-        Caption = ' '
-        TabOrder = 0
+    ExplicitHeight = 30
+    inherited TitAuxPanel_BasTabSheet: TPanel
+      Left = 560
+      Height = 30
+      StyleElements = [seFont, seClient, seBorder]
+      ExplicitHeight = 30
+      DesignSize = (
+        140
+        30)
+      object QtdRegsLabel_TabSheetDataSetBasForm: TLabel
+        Left = 45
+        Top = 12
+        Width = 90
+        Height = 13
+        Alignment = taRightJustify
+        Anchors = [akRight, akBottom]
+        Caption = 'Nenhum Registro'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
         Visible = False
+        StyleElements = [seClient, seBorder]
+      end
+    end
+    inherited TitToolPanel_BasTabSheet: TPanel
+      Width = 560
+      Height = 30
+      StyleElements = [seFont, seClient, seBorder]
+      ExplicitLeft = 0
+      ExplicitWidth = 560
+      inherited TitToolBar1_BasTabSheet: TToolBar
+        Width = 560
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 558
       end
     end
   end
@@ -39,7 +63,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Left = 0
     Top = 0
     Width = 700
-    Height = 448
+    Height = 413
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]

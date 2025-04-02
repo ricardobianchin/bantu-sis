@@ -10,7 +10,7 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, App.Pess.Cliente.DBI, App.Pess.Cliente.Ent,
   Sis.Usuario, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed, App.Ent.DBI,
-  App.UI.TabSheet.DataSet.Types_u, App.AppObj;
+  App.UI.TabSheet.DataSet.Types_u, App.AppObj, Vcl.StdCtrls;
 
 type
   TAppPessClienteDataSetForm = class(TAppPessDataSetForm)
