@@ -279,34 +279,34 @@ end;
 
 function GetImportProdInserirExistenteSQL: string;
 begin
-  Result := 'EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO(' + iProdId.ToString
-
-    + ',' + QuotedStr(sDescr) + ',' + QuotedStr(sDescrRed)
-
-    + ',' + iFabrId.ToString + ',' + iTipoId.ToString + ',' + iUnidId.ToString +
-    ',' + iICMSId.ToString
+  Result := 'EXECUTE PROCEDURE PROD_PA.INSERIR_EXISTENTE_DO(' //
+    + iProdId.ToString //
+    + ',' + QuotedStr(sDescr) //
+    + ',' + QuotedStr(sDescrRed) //
+    + ',' + iFabrId.ToString //
+    + ',' + iTipoId.ToString //
+    + ',' + iUnidId.ToString //
+    + ',' + iICMSId.ToString //
 
   // + ',' + QuotedStr(sProdNatuId)
 
-    + ',' + CurrencyToStrPonto(uCapacEmb)
+    + ',' + CurrencyToStrPonto(uCapacEmb) //
+    + ',' + QuotedStr(NCM) //
+    + ',' + iLojaId.ToString //
+    + ',' + iUsuarioId.ToString //
+    + ',' + iMachineId.ToString //
 
-    + ',' + QuotedStr(NCM)
-
-    + ',' + iLojaId.ToString + ',' + iUsuarioId.ToString + ',' +
-    iMachineId.ToString
-
-    + ',' + CurrencyToStrPonto(uCusto) + ',' +
-  // iTabPrecoId.ToString + ',' +
-    CurrencyToStrPonto(aPreco[0])
-
-    + ',' + BooleanToStrSQL(bAtivo) + ',' + QuotedStr(sLocaliz) + ',' +
-    CurrencyToStrPonto(uMargem)
-
-    + ',' + BooleanToStrSQL(bBalancaExige) + ',' + QuotedStr(sBalDpto) + ',' +
-    iBalValidadeDias.ToString + ',' + QuotedStr(sBalTextoEtiq)
-
-    + ',' + QuotedStr(sBarras)
-
+    + ',' + CurrencyToStrPonto(uCusto) //
+    + ',' + CurrencyToStrPonto(aPreco[0]) //
+  // iTabPrecoId.ToString + ',' + //
+    + ',' + BooleanToStrSQL(bAtivo) //
+    + ',' + QuotedStr(sLocaliz) //
+    + ',' + CurrencyToStrPonto(uMargem) //
+    + ',' + BooleanToStrSQL(bBalancaExige) //
+    + ',' + QuotedStr(sBalDpto) //
+    + ',' + iBalValidadeDias.ToString //
+    + ',' + QuotedStr(sBalTextoEtiq) //
+    + ',' + QuotedStr(sBarras) //
     + ');';
 end;
 

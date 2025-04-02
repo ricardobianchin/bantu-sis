@@ -11,6 +11,8 @@ uses
 type
   TTabSheetBasForm = class(TActBasForm)
     TitPanel_BasTabSheet: TPanel;
+    TitAuxPanel_BasTabSheet: TPanel;
+    TitToolPanel_BasTabSheet: TPanel;
     TitToolBar1_BasTabSheet: TToolBar;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -43,6 +45,7 @@ constructor TTabSheetBasForm.Create(AOwner: TComponent;
 begin
   inherited Create(AOwner);
   FFormClassNamesSL := pFormClassNamesSL;
+  TitToolBar1_BasTabSheet.Height := TitToolBar1_BasTabSheet.Height;
 end;
 
 procedure TTabSheetBasForm.FormClose(Sender: TObject; var Action: TCloseAction);

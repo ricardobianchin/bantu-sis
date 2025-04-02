@@ -11,24 +11,26 @@ uses
   App.UI.Decorator.Form.Excl, App.Ent.Ed, App.Ent.Ed.Id.Descr,
   App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
   {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  App.UI.TabSheet.DataSet.Types_u;
+  App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
+    MudaLoteAction_ProdDatasetTabSheet: TAction;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure MudaLoteAction_ProdDatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
-
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
     FFiltroFrame: TProdOrFiltroFrame;
-
+    FMudaLoteFrame: TMudaLoteFrame;
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
     property ProdEnt: IProdEnt read GetProdEnt;
 
     function PergEd(pDataSetStateAbrev: string): boolean;
     procedure CrieFiltroFrame;
+    procedure CrieMudaLoteFrame;
 
   protected
     { Protected declarations }
@@ -49,8 +51,8 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-      pIdPos: integer; pAppObj: IAppObj); override;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -63,20 +65,23 @@ implementation
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
-  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants;
+  App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants,
+  Sis.UI.Controls.Utils;
 
 { TRetagEstProdDataSetForm }
 
-constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-      pIdPos: integer; pAppObj: IAppObj);
+constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
 begin
-  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS,
-    pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
+  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
     pIdPos, pAppObj);
   FFiltroFrame := nil;
+  FMudaLoteFrame := nil;
+
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
 
 end;
@@ -92,9 +97,28 @@ begin
 
   // FFiltroStringFrame
   oP := TitPanel_BasTabSheet;
-  FFiltroFrame := TProdOrFiltroFrame.Create(oP, DoAtualizar);
-  FFiltroFrame.Parent := oP;
-  FFiltroFrame.Align := alTop;
+  FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
+  FFiltroFrame.Parent := Self;
+  FFiltroFrame.Align := alBottom;
+  //oP.Height := oP.Height + FFiltroFrame.Height;
+end;
+
+procedure TRetagEstProdDataSetForm.CrieMudaLoteFrame;
+var
+  oP: TPanel;
+  oDBConnectionParams: TDBConnectionParams;
+begin
+  if Assigned(FMudaLoteFrame) then
+    exit;
+
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
+  // FFiltroStringFrame
+  oP := TitPanel_BasTabSheet;
+  FMudaLoteFrame := TMudaLoteFrame.Create(Self, FDMemTable,
+    oDBConnectionParams, AppObj, DoAtualizar, UsuarioLog.Id);
+  FMudaLoteFrame.Align := alBottom;
+//  oP.Height := oP.Height + FMudaLoteFrame.Height;
 end;
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
@@ -133,15 +157,17 @@ begin
   // FProdUltimoId.Zerar;
   FUltimoId := -1;
   FCodsBarrasAcumulando := '';
-
+  oConn.Abrir;
   try
-//    oProdDBI.ForEach(0, LeRegEInsere);
+    FMudaLoteFrame.Atualizar(oConn);
     EntDBI.ForEach(FFiltroFrame.Values, LeRegEInsere);
   finally
     FDMemTable.First;
     FDMemTable.EndBatch;
     FDMemTable.EnableControls;
     DBGridPosicioneColumnVisible(DBGrid1);
+    oConn.Fechar;
+    AjusteQtdRegsLabel;
   end;
 end;
 
@@ -215,20 +241,21 @@ begin
   oProdICMSDBI := RetagEstProdICMSDBICreate(oDBConnection, ProdEnt.ProdICMSEnt);
   oBarrasDBI := AppEstBarrasDBICreate(oDBConnection);
 
-  oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, UsuarioLog,
-    DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt, oProdFabrDBI, oAppObj);
+  oFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(nil, UsuarioLog, DBMS,
+    Output, ProcessLog, OutputNotify, ProdEnt.ProdFabrEnt,
+    oProdFabrDBI, oAppObj);
 
-  oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil, UsuarioLog,
-    DBMS, Output, ProcessLog, OutputNotify,
-    ProdEnt.ProdTipoEnt, oProdTipoDBI, oAppObj);
+  oProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate(nil,
+    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdTipoEnt,
+    oProdTipoDBI, oAppObj);
 
-  oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil, UsuarioLog,
-    DBMS, Output, ProcessLog, OutputNotify,
-    ProdEnt.ProdUnidEnt, oProdUnidDBI, oAppObj);
+  oProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate(nil,
+    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdUnidEnt,
+    oProdUnidDBI, oAppObj);
 
-  oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil, UsuarioLog,
-    DBMS, Output, ProcessLog, OutputNotify,
-    ProdEnt.ProdICMSEnt, oProdICMSDBI, oAppObj);
+  oProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate(nil,
+    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, ProdEnt.ProdICMSEnt,
+    oProdICMSDBI, oAppObj);
 
   oRetagEstProdEdDBI := RetagEstProdEdDBICreate(oDBConnection);
 
@@ -274,7 +301,8 @@ function TRetagEstProdDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
+    'App\Retag\Est\tabview.est.prod.csv';
 
   Result := sNomeArq;
 end;
@@ -336,6 +364,22 @@ begin
   end;
 end;
 
+procedure TRetagEstProdDataSetForm.MudaLoteAction_ProdDatasetTabSheetExecute
+  (Sender: TObject);
+var
+  bVisible: Boolean;
+begin
+  inherited;
+  bVisible := not MudaLoteAction_ProdDatasetTabSheet.Checked;
+  MudaLoteAction_ProdDatasetTabSheet.Checked := bVisible;
+  FMudaLoteFrame.Visible := MudaLoteAction_ProdDatasetTabSheet.Checked;
+  if  bVisible then
+    TitPanel_BasTabSheet.Height := TitPanel_BasTabSheet.Height + FMudaLoteFrame.Height
+  else
+    TitPanel_BasTabSheet.Height := TitPanel_BasTabSheet.Height - FMudaLoteFrame.Height;
+
+end;
+
 procedure TRetagEstProdDataSetForm.RecordToEnt;
 begin
   inherited;
@@ -350,17 +394,21 @@ procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-
+  SetNameToHint(Self);
 end;
 
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
+  CrieMudaLoteFrame;
+  FMudaLoteFrame.Visible := False;
   CrieFiltroFrame;
+  ToolBarAddButton(MudaLoteAction_ProdDatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(ExclAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  QtdRegsLabel_TabSheetDataSetBasForm.Visible := True;
 end;
 
 end.

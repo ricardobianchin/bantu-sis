@@ -43,6 +43,9 @@ type
       , ModuRetag_Est_Cliente_Node //
       , ModuRetag_Est_Cliente_AutoExec_Node //
 
+      , ModuRetag_Est_Produtos_Node //
+      , ModuRetag_Est_Produtos_AutoExec_Node //
+
       , ModuRetag_Fin_Node //
       , ModuRetag_Fin_PagamentoForma_Node //
       , ModuRetag_Fin_PagamentoForma_AutoExec_Node //
@@ -174,6 +177,13 @@ begin
           ModuRetag_Est_Cliente_AutoExec_Node :=
             ModuRetag_Est_Cliente_Node.AddChild('autoexec');
         end;
+
+        ModuRetag_Est_Produtos_Node := ModuRetag_Est_Node.AddChild('produtos');
+        begin
+
+          ModuRetag_Est_Produtos_AutoExec_Node :=
+            ModuRetag_Est_Produtos_Node.AddChild('autoexec');
+        end;
       end;
 
       ModuRetag_Fin_Node := ModuRetagNode.AddChild('fin');
@@ -238,6 +248,10 @@ begin
   // retag est Cliente
   ModuRetag_Est_Cliente_AutoExec_Node.Text :=
     BooleanToStr(FModuRetag.Est.Cliente.AutoExec);
+
+  // retag est Produtos
+  ModuRetag_Est_Produtos_AutoExec_Node.Text :=
+    BooleanToStr(FModuRetag.Est.Produtos.AutoExec);
 
   // retag fin PagamentoForma
   ModuRetag_Fin_PagamentoForma_AutoExec_Node.Text :=
@@ -317,6 +331,12 @@ begin
           ModuRetag_Est_Cliente_AutoExec_Node :=
             ModuRetag_Est_Cliente_Node.ChildNodes['autoexec'];
         end;
+
+        ModuRetag_Est_Produtos_Node := ModuRetag_Est_Node.ChildNodes['produtos'];
+        begin
+          ModuRetag_Est_Produtos_AutoExec_Node :=
+            ModuRetag_Est_Produtos_Node.ChildNodes['autoexec'];
+        end;
       end;
     end;
 
@@ -384,6 +404,10 @@ begin
   // retag est cliente
   s := ModuRetag_Est_Cliente_AutoExec_Node.Text;
   FModuRetag.Est.Cliente.AutoExec := StrToBoolean(s);
+
+  // retag est produtos
+  s := ModuRetag_Est_Produtos_AutoExec_Node.Text;
+  FModuRetag.Est.Produtos.AutoExec := StrToBoolean(s);
 
   // retag fin pagamento forma
   s := ModuRetag_Fin_PagamentoForma_AutoExec_Node.Text;

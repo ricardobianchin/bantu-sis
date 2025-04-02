@@ -20,6 +20,7 @@ type
 
   TProcedureOfObject = procedure of object;
   TProcedureStringOfObject = procedure(pStr: string) of object;
+  TProcedureIntegerOfObject = procedure(pInt: integer) of object;
 
   TFunctionString = function: string;
   TFunctionStringOfObject = function: string of object;

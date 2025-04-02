@@ -4,14 +4,14 @@ interface
 
 uses Vcl.ComCtrls, Vcl.ActnList;
 
-procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar);
+procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar; pAutoSize: Boolean = True);
 procedure ToolBarAjustarAutoSize(pToolBar: TToolBar; pAutoSize: Boolean);
 
 implementation
 
 uses System.SysUtils, Sis.UI.Controls.TAction;
 
-procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar);
+procedure ToolBarAddButton(pAction: TAction; pToolBar: TToolBar; pAutoSize: Boolean = True);
 var
   NovoBotao: TToolButton;
   sNameButton: string;
@@ -36,7 +36,7 @@ begin
     NovoBotao.Left := 0;
   NovoBotao.Parent := pToolBar;
 
-  NovoBotao.AutoSize := False;
+  NovoBotao.AutoSize := pAutoSize;
 end;
 
 procedure ToolBarAjustarAutoSize(pToolBar: TToolBar; pAutoSize: Boolean);

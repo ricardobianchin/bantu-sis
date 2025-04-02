@@ -21,6 +21,9 @@ type
     property Text: string read GetText write SetText;
 
     procedure SetFocus;
+
+    function PegarId(pId: integer; pDescr: string): integer;
+    function PegarIdChar(pId: char; pDescr: string): integer;
   end;
 
 implementation
