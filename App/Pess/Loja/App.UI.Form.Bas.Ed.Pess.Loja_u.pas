@@ -10,7 +10,7 @@ uses
   App.Pess.Loja.Ent, App.AppObj, App.Ent.Ed, App.Ent.DBI, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.ComCtrls;
+  FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.Mask;
 
 type
   TPessLojaEdForm = class(TPessEdBasForm)
@@ -195,7 +195,7 @@ begin
   // {$ENDIF}
 
   DtNascPessLabel.Visible := False;
-  DtNascDateTimePicker.Visible := False;
+  DtNascMaskEdit.Visible := False;
 
   AtivoPessCheckBox.Left := EMailPessEdit.Left + 5 + EMailPessEdit.Width;
   SelecionadoCheckBox.Left := AtivoPessCheckBox.Left + 5 +
