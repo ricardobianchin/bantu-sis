@@ -60,6 +60,7 @@ type
     procedure AtivoPessCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CPessEditChange(Sender: TObject);
     procedure MUFPessComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -496,6 +497,22 @@ procedure TPessEdBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   //
+end;
+
+procedure TPessEdBasForm.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_TAB then
+  begin
+    if Shift = [] then
+    begin
+      if ActiveControl = FEnderFrame.WinControlSeguinteAoCEP then
+      begin
+        FEnderFrame.PesquiseCEP;
+      end;
+    end;
+  end;
 end;
 
 function TPessEdBasForm.GetObjetivoStr: string;

@@ -25,6 +25,7 @@ type
 
     function GetNomeArqTabViewEndereco: string;
     procedure EnderecoFDMemTableAfterScroll(DataSet: TDataSet);
+    function GetWinControlSeguinteAoCEP: TWinControl;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pPessEnt: IPessEnt;
@@ -33,6 +34,8 @@ type
     procedure ControlesToEnt;
     procedure EntToControles;
     function DadosOk: boolean;
+    property WinControlSeguinteAoCEP: TWinControl read GetWinControlSeguinteAoCEP;
+    procedure PesquiseCEP;
   end;
 
 //var
@@ -178,6 +181,16 @@ begin
   sNomeArq := FAppObj.AppInfo.PastaConsTabViews +
     'App\Config\Ambiente\tabview.config.ambi.pess.loja.csv';
   Result := sNomeArq;
+end;
+
+function TEnderFrame.GetWinControlSeguinteAoCEP: TWinControl;
+begin
+  Result := FEnderControlsFrame.WinControlSeguinteAoCEP;
+end;
+
+procedure TEnderFrame.PesquiseCEP;
+begin
+  FEnderControlsFrame.PesquiseCEP;
 end;
 
 procedure TEnderFrame.AjusteControles;

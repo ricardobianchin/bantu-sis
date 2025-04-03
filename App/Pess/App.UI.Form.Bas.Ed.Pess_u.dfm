@@ -3,6 +3,7 @@ inherited PessEdBasForm: TPessEdBasForm
   ClientHeight = 530
   ClientWidth = 941
   StyleElements = [seFont, seClient, seBorder]
+  OnKeyUp = FormKeyUp
   ExplicitWidth = 957
   ExplicitHeight = 569
   TextHeight = 15
