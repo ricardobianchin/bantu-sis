@@ -48,6 +48,9 @@ BEGIN
   )
   RETURNS 
   (
+    ---------------------------
+    --- LISTA_GET RETURNS INICIO
+    ---------------------------
     LOJA_ID ID_SHORT_DOM
     , TERMINAL_ID ID_SHORT_DOM
     , PESSOA_ID ID_DOM
@@ -101,6 +104,9 @@ BEGIN
     , SENHA SENHA_DOM
     , CRY_VER ID_SHORT_DOM
     , PERFIL_DE_USO_DESCRS VARCHAR(1024)
+    ---------------------------
+    --- LISTA_GET RETURNS FIM
+    ---------------------------
   );
   
   PROCEDURE PERFIL_DE_USO_IDS_GET (
@@ -325,11 +331,9 @@ BEGIN
       LEFT JOIN PER ON
         PER.PERFIL_DE_USO_ID = UTPER.PERFIL_DE_USO_ID
 
-
       ----------------------------
       --- WHERE INICIO
       ----------------------------
-
       WHERE 
         NOT USU.DE_SISTEMA
         AND

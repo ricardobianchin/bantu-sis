@@ -137,7 +137,7 @@ implementation
 uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Pess.Utils, Sis.DB.Factory,
   App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u, App.PessEnder,
-  Sis.Types.strings_u, App.Pess.Ent.Factory_u;
+  Sis.Types.strings_u, App.Pess.Ent.Factory_u, Sis.Sis.Constants;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
@@ -296,7 +296,13 @@ begin
   Tab.Fields[iT_M].AsString := FPessEnt.M;
   Tab.Fields[iT_M_UF].AsString := FPessEnt.MUF;
   Tab.Fields[iT_EMAIL].AsString := FPessEnt.EMail;
-  Tab.Fields[iT_DT_NASC].AsDateTime := FPessEnt.DtNasc;
+
+  // DtNasc
+  if FPessEnt.DtNasc = DATA_ZERADA then
+    Tab.Fields[iT_DT_NASC].Clear
+  else
+    Tab.Fields[iT_DT_NASC].AsDateTime := FPessEnt.DtNasc;
+
   Tab.Fields[iT_ATIVO].AsBoolean := FPessEnt.Ativo;
 
   Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := FPessEnt.CriadoEm;
@@ -387,7 +393,12 @@ begin
   Tab.Fields[iT_M].AsString := q.Fields[iQ_M].AsString; //
   Tab.Fields[iT_M_UF].AsString := q.Fields[iQ_M_UF].AsString; //
   Tab.Fields[iT_EMAIL].AsString := q.Fields[iQ_EMAIL].AsString; //
-  Tab.Fields[iT_DT_NASC].AsDateTime := q.Fields[iQ_DT_NASC].AsDateTime; //
+
+  // DtNasc
+  if q.Fields[iQ_DT_NASC].AsDateTime = DATA_ZERADA then
+    Tab.Fields[iT_DT_NASC].Clear
+  else
+    Tab.Fields[iT_DT_NASC].AsDateTime := q.Fields[iQ_DT_NASC].AsDateTime;
 
   Tab.Fields[iT_ATIVO].AsBoolean := Iif(iPessoaId = 0, True,
     q.Fields[iQ_ATIVO].AsBoolean); //

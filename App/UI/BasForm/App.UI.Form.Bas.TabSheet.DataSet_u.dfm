@@ -5,8 +5,6 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   WindowState = wsMaximized
   StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -59
-  ExplicitTop = -22
   ExplicitWidth = 700
   ExplicitHeight = 443
   TextHeight = 15
@@ -16,12 +14,11 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Height = 30
     Align = alBottom
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 394
+    ExplicitTop = 413
     ExplicitWidth = 700
     ExplicitHeight = 30
     inherited TitAuxPanel_BasTabSheet: TPanel
       Left = 560
-      Height = 30
       StyleElements = [seFont, seClient, seBorder]
       ExplicitHeight = 30
       DesignSize = (
@@ -47,7 +44,6 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     end
     inherited TitToolPanel_BasTabSheet: TPanel
       Width = 560
-      Height = 30
       StyleElements = [seFont, seClient, seBorder]
       ExplicitLeft = 0
       ExplicitWidth = 560

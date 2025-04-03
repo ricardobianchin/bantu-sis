@@ -118,8 +118,8 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-      pIdPos: integer; pAppObj: IAppObj); virtual;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
@@ -171,7 +171,8 @@ begin
   if FDMemTable.IsEmpty then
     QtdRegsLabel_TabSheetDataSetBasForm.Caption := 'Nenhum Registro'
   else
-    QtdRegsLabel_TabSheetDataSetBasForm.Caption := FDMemTable.RecordCount.ToString + ' Registros';
+    QtdRegsLabel_TabSheetDataSetBasForm.Caption :=
+      FDMemTable.RecordCount.ToString + ' Registros';
 end;
 
 procedure TTabSheetDataSetBasForm.AltAction_DatasetTabSheetExecute
@@ -245,11 +246,11 @@ begin
   ModalResult := mrCancel;
 end;
 
-constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
-      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-      pIdPos: integer; pAppObj: IAppObj);
+constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
 var
   sNomeArq: string;
 begin

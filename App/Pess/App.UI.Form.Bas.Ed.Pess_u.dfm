@@ -3,6 +3,7 @@ inherited PessEdBasForm: TPessEdBasForm
   ClientHeight = 530
   ClientWidth = 941
   StyleElements = [seFont, seClient, seBorder]
+  OnKeyUp = FormKeyUp
   ExplicitWidth = 957
   ExplicitHeight = 569
   TextHeight = 15
@@ -27,6 +28,9 @@ inherited PessEdBasForm: TPessEdBasForm
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 458
     ExplicitWidth = 941
+    DesignSize = (
+      941
+      37)
   end
   object EnderecoPanel: TPanel [4]
     Left = 0
@@ -216,23 +220,13 @@ inherited PessEdBasForm: TPessEdBasForm
       TabOrder = 4
       OnKeyPress = AtivoPessCheckBoxKeyPress
     end
-    object DtNascDateTimePicker: TDateTimePicker
-      Left = 346
-      Top = 33
-      Width = 89
-      Height = 23
-      Date = 45467.000000000000000000
-      Time = 0.703898645835579400
-      TabOrder = 5
-      OnKeyPress = DtNascDateTimePickerKeyPress
-    end
     object EMailPessEdit: TEdit
       Left = 50
       Top = 33
       Width = 226
       Height = 23
       MaxLength = 60
-      TabOrder = 6
+      TabOrder = 5
       OnKeyPress = EMailPessEditKeyPress
     end
     object Button1: TButton
@@ -241,7 +235,7 @@ inherited PessEdBasForm: TPessEdBasForm
       Width = 26
       Height = 17
       Caption = 'cnpj'
-      TabOrder = 7
+      TabOrder = 6
       TabStop = False
       OnClick = Button1Click
     end
@@ -251,7 +245,7 @@ inherited PessEdBasForm: TPessEdBasForm
       Width = 26
       Height = 17
       Caption = 'cpf'
-      TabOrder = 8
+      TabOrder = 7
       TabStop = False
       OnClick = Button2Click
     end
@@ -264,6 +258,16 @@ inherited PessEdBasForm: TPessEdBasForm
       TabOrder = 3
       Text = 'MUFPessComboBox'
       OnKeyPress = MUFPessComboBoxKeyPress
+    end
+    object DtNascMaskEdit: TMaskEdit
+      Left = 346
+      Top = 33
+      Width = 80
+      Height = 23
+      EditMask = '!99/99/9999;1;_'
+      MaxLength = 10
+      TabOrder = 8
+      Text = '  /  /    '
     end
   end
   inherited ShowTimer_BasForm: TTimer

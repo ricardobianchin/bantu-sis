@@ -84,8 +84,9 @@ type
 
     procedure UFSiglaComboBoxAjuste;
     procedure MunicipioPrepareLista(pUFSigla: string);
-    procedure PesquiseCEP;
     procedure ColarCEP;
+
+    function GetWinControlSeguinteAoCEP: TWinControl;
 
   public
     { Public declarations }
@@ -98,6 +99,9 @@ type
     procedure Exiba;
     procedure Oculte;
     function DadosOk: Boolean;
+    property WinControlSeguinteAoCEP: TWinControl
+      read GetWinControlSeguinteAoCEP;
+    procedure PesquiseCEP;
   end;
 
   // var
@@ -190,6 +194,7 @@ var
   sText: string;
 begin
   inherited;
+
   case Key of
     ord('v'), ord('V'):
       begin
@@ -198,7 +203,7 @@ begin
           ColarCEP;
         end;
       end;
-    13:
+    VK_RETURN:
       begin
         if Shift = [] then
         begin
@@ -210,8 +215,17 @@ end;
 
 procedure TEnderControlsFrame.CEPMaskEditKeyPress(Sender: TObject;
   var Key: Char);
+var
+  sText: string;
+  L: integer;
 begin
   inherited;
+  sText := StrToOnlyDigit(CEPMaskEdit.Text);
+
+  L := Length(sText);
+  if L = 8 then
+    exit;
+
   EditKeyPress(Sender, Key);
 end;
 
@@ -230,7 +244,7 @@ begin
   Insert('-', sText, 6);
   CEPMaskEdit.Text := sText;
   PesquiseCEP;
-//  CEPMaskEdit.EditText := sText;
+  // CEPMaskEdit.EditText := sText;
 end;
 
 procedure TEnderControlsFrame.ComplementoEditKeyPress(Sender: TObject;
@@ -329,10 +343,10 @@ begin
 
   FCEPPodeConsultar := False;
   s := StrToOnlyDigit(Tab.Fields[7 { CEP } ].AsString);
-  
+
   if s <> '' then
-    insert('-', s, 6);
-    
+    Insert('-', s, 6);
+
   CEPMaskEdit.Text := s;
   FCEPPodeConsultar := True;
 
@@ -378,6 +392,11 @@ procedure TEnderControlsFrame.Fone3EditKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   EditKeyPress(Sender, Key);
+end;
+
+function TEnderControlsFrame.GetWinControlSeguinteAoCEP: TWinControl;
+begin
+  Result := UFSiglaComboBox;
 end;
 
 procedure TEnderControlsFrame.LogradouroEditKeyPress(Sender: TObject;
@@ -450,7 +469,6 @@ begin
     exit;
 
   FPesquisandoCEP := True;
-  CEPMaskEdit.SetFocus;
 
   try
     if //
@@ -461,7 +479,10 @@ begin
     then
     begin
       if not PergBool('Consulta CEP e substitui os dados existentes?') then
+      begin
+        TrySetFocus(WinControlSeguinteAoCEP);
         exit;
+      end;
     end;
 
     sText := StrToOnlyDigit(CEPMaskEdit.Text);
@@ -534,7 +555,7 @@ begin
       sLin := StrSemCharRepetido(sLin, #32);
 
       LogradouroEdit.Text := sLin;
-      NumeroEdit.SetFocus;
+      TrySetFocus(NumeroEdit);
       {
         "cep": "23070-221",
         "logradouro": "Estrada do Campinho",

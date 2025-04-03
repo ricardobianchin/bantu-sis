@@ -10,7 +10,7 @@ uses
   App.Pess.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, App.Pess.Ender.Frame_u,
-  Vcl.ComCtrls, App.Pess.Utils;
+  Vcl.ComCtrls, App.Pess.Utils, Vcl.Mask;
 
 type
   TPessEdBasForm = class(TEdBasForm)
@@ -31,10 +31,10 @@ type
     MUFPessLabel: TLabel;
     MPessLabel: TLabel;
     AtivoPessCheckBox: TCheckBox;
-    DtNascDateTimePicker: TDateTimePicker;
     DtNascPessLabel: TLabel;
     EMailPessEdit: TEdit;
     EMailPessLabel: TLabel;
+    DtNascMaskEdit: TMaskEdit;
     CPessLabel: TLabel;
     IPessLabel: TLabel;
     Button1: TButton;
@@ -60,6 +60,7 @@ type
     procedure AtivoPessCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CPessEditChange(Sender: TObject);
     procedure MUFPessComboBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -69,6 +70,8 @@ type
 
     function NomeOk: boolean;
     function COk: boolean;
+    function DtNascOk: boolean;
+
     procedure ColarC;
     procedure AjusteCamposPess;
     procedure PreenchaMUFPessComboBox;
@@ -102,7 +105,8 @@ implementation
 
 uses App.Pess.Ent.Factory_u, Sis.UI.Controls.TLabeledEdit, Sis.Types.Dates,
   Sis.UI.Controls.Utils, Sis.Types.Codigos.Utils, Sis.DB.DBTypes, Sis.Types,
-  Sis.Types.strings_u, Sis.Win.Utils_u, System.StrUtils, Sis.Types.Utils_u;
+  Sis.Types.strings_u, Sis.Win.Utils_u, System.StrUtils, Sis.Types.Utils_u,
+  Sis.Sis.Constants;
 
 procedure TPessEdBasForm.AjusteCamposPess;
 begin
@@ -121,28 +125,25 @@ begin
     IPessLabel.Caption := 'Inscr.Est.';
   end;
 
-
-{
-object MPessLabel: TLabel
-  Left = 475
-  Top = 4
-  Width = 56
-  Height = 15
-  Caption = 'Inscr.Mun.'
-  FocusControl = MPessEditEdit
-end
-object IPessLabel: TLabel
-  Left = 237
-  Top = 4
-  Width = 64
-  Height = 15
-  Caption = 'Id./Inscr.Est.'
-end
-
-
-}
+  {
+    object MPessLabel: TLabel
+    Left = 475
+    Top = 4
+    Width = 56
+    Height = 15
+    Caption = 'Inscr.Mun.'
+    FocusControl = MPessEditEdit
+    end
+    object IPessLabel: TLabel
+    Left = 237
+    Top = 4
+    Width = 64
+    Height = 15
+    Caption = 'Id./Inscr.Est.'
+    end
 
 
+  }
 
 end;
 
@@ -180,9 +181,9 @@ begin
   CPessEdit.OnKeyPress := CPessEditKeyPress;
   IPessEdit.OnKeyPress := IPessEditKeyPress;
   MPessEditEdit.OnKeyPress := MPessEditEditKeyPress;
-  //MUFPessEdit.OnKeyPress := MUFPessEditKeyPress;
+  // MUFPessEdit.OnKeyPress := MUFPessEditKeyPress;
   EMailPessEdit.OnKeyPress := EMailPessEditKeyPress;
-  DtNascDateTimePicker.OnKeyPress := DtNascDateTimePickerKeyPress;
+  DtNascMaskEdit.OnKeyPress := DtNascDateTimePickerKeyPress;
   AtivoPessCheckBox.OnKeyPress := AtivoPessCheckBoxKeyPress;
 end;
 
@@ -196,7 +197,7 @@ begin
   MPessEditEdit.TabOrder := 5;
   MUFPessComboBox.TabOrder := 6;
   EMailPessEdit.TabOrder := 7;
-  DtNascDateTimePicker.TabOrder := 8;
+  DtNascMaskEdit.TabOrder := 8;
   AtivoPessCheckBox.TabOrder := 9;
 end;
 
@@ -265,8 +266,8 @@ begin
       Result := not FPessDBI.CToIdLojaTermRecord(CPessEdit.Text, iLojaId,
         iTerminalId, iPessoaId, sNome);
       if not Result then
-        sMens := 'Já existe um registro com este ' + string(CPessLabel.Caption) +
-          CodsToCodAsString(iLojaId, iTerminalId, iPessoaId,
+        sMens := 'Já existe um registro com este ' + string(CPessLabel.Caption)
+          + CodsToCodAsString(iLojaId, iTerminalId, iPessoaId,
           FPessEnt.CodUsaTerminalId) + ' ' + sNome;
     end;
   finally
@@ -302,6 +303,9 @@ begin
 end;
 
 procedure TPessEdBasForm.ControlesToEnt;
+var
+  sDigitado: string;
+  dtDigitado: TDateTime;
 begin
   inherited;
   FPessEnt.Nome := NomePessEdit.Text;
@@ -313,9 +317,14 @@ begin
   FPessEnt.MUF := MUFPessComboBox.Text;
   FPessEnt.EMail := EMailPessEdit.Text;
 
-  FPessEnt.DtNasc := DtNascDateTimePicker.Date;
-  FPessEnt.Ativo := AtivoPessCheckBox.Checked;
+  // le maskedit dtnasc
+  sDigitado := Trim(DtNascMaskEdit.Text); // Remove espaços extras
+  if TryStrToDate(sDigitado, dtDigitado) then
+    FPessEnt.DtNasc := dtDigitado
+  else
+    FPessEnt.DtNasc := DATA_ZERADA;
 
+  FPessEnt.Ativo := AtivoPessCheckBox.Checked;
   FEnderFrame.ControlesToEnt;
 end;
 
@@ -367,9 +376,6 @@ begin
   FEnderFrame := TEnderFrame.Create(EnderecoPanel, FPessEnt, FPessDBI, pAppObj,
     OkAct_DiagExecute, ErroOutput);
 
-  DtNascDateTimePicker.Time := 0;
-  DtNascDateTimePicker.Date := Date;
-
   ObjetivoLabel.Parent := TitPanel;
   ObjetivoLabel.Top := 1;
 
@@ -395,6 +401,10 @@ begin
   if not Result then
     exit;
 
+  Result := DtNascOk;
+  if not Result then
+    exit;
+
   Result := FEnderFrame.DadosOk;
 end;
 
@@ -406,13 +416,41 @@ begin
   // FEnderFrame.FoqueOPrimeiro;
 end;
 
+function TPessEdBasForm.DtNascOk: boolean;
+const
+  EDIT_VAZIO = '  /  /    ';
+var
+  sDigitado: string;
+  dtDigitado: TDateTime;
+begin
+  sDigitado := DtNascMaskEdit.Text; // Remove espaços extras
+
+  Result := sDigitado = EDIT_VAZIO;
+  if Result then
+    exit;
+
+  Result := TryStrToDate(sDigitado, dtDigitado);
+  if Result then
+    exit;
+
+  if not Result then
+  begin
+    ErroOutput.Exibir('Data inválida. Corrija ou deixe o campo em branco');
+    DtNascMaskEdit.SetFocus;
+    DtNascMaskEdit.SelStart := 0;
+    DtNascMaskEdit.SelLength := 1;
+  end;
+end;
+
 procedure TPessEdBasForm.EMailPessEditKeyPress(Sender: TObject; var Key: Char);
 begin
+  // nao chama EditKeyPress( pois deixaria key uppercase
+  // repete aqui o que tinha em EditKeyPress(, exceto que no fim, CharToLow
   // inherited;
   if Key = CHAR_ENTER then
   begin
     Key := CHAR_NULO;
-//    if SelecionaProximo then
+    // if SelecionaProximo then
     SelecioneProximo;
     exit;
   end;
@@ -422,7 +460,7 @@ end;
 
 procedure TPessEdBasForm.EntToControles;
 var
-  i: integer;
+  I: integer;
 begin
   inherited;
   NomePessEdit.Text := FPessEnt.Nome;
@@ -431,13 +469,18 @@ begin
   CPessEdit.Text := FPessEnt.C;
   IPessEdit.Text := FPessEnt.I;
   MPessEditEdit.Text := FPessEnt.M;
-  i := MUFPessComboBox.Items.IndexOf(FPessEnt.MUF);
-  if i = -1 then
-    i := MUFPessComboBox.Items.IndexOf('RJ');
+  I := MUFPessComboBox.Items.IndexOf(FPessEnt.MUF);
+  if I = -1 then
+    I := MUFPessComboBox.Items.IndexOf('RJ');
 
-  MUFPessComboBox.itemindex := i;
+  MUFPessComboBox.itemindex := I;
   EMailPessEdit.Text := FPessEnt.EMail;
-  DtNascDateTimePicker.Date := GetValidDate(FPessEnt.DtNasc);
+
+  if FPessEnt.DtNasc < 3 then
+    DtNascMaskEdit.Clear
+  else
+    DtNascMaskEdit.Text := FormatDateTime('dd/mm/yyyy', FPessEnt.DtNasc);
+
   AtivoPessCheckBox.Checked := FPessEnt.Ativo;
 
   FEnderFrame.EntToControles;
@@ -454,6 +497,22 @@ procedure TPessEdBasForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   //
+end;
+
+procedure TPessEdBasForm.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_TAB then
+  begin
+    if Shift = [] then
+    begin
+      if ActiveControl = FEnderFrame.WinControlSeguinteAoCEP then
+      begin
+        FEnderFrame.PesquiseCEP;
+      end;
+    end;
+  end;
 end;
 
 function TPessEdBasForm.GetObjetivoStr: string;
@@ -515,7 +574,7 @@ end;
 
 function TPessEdBasForm.NomeFantasiaOk: boolean;
 begin
-  Result := true;
+  Result := True;
 end;
 
 function TPessEdBasForm.NomeOk: boolean;
@@ -576,38 +635,38 @@ begin
   MUFPessComboBox.Items.Add('SE');
   MUFPessComboBox.Items.Add('SP');
   MUFPessComboBox.Items.Add('TO');
-  MUFPessComboBox.ItemIndex := MUFPessComboBox.Items.IndexOf('RJ');
+  MUFPessComboBox.itemindex := MUFPessComboBox.Items.IndexOf('RJ');
 
-{
-RO;RONDONIA;11
-AC;ACRE;12
-AM;AMAZONAS;13
-RR;RORAIMA;14
-PA;PARA;15
-AP;AMAPA;16
-TO;TOCANTINS;17
-MA;MARANHAO;21
-PI;PIAUI;22
-CE;CEARA;23
-RN;RIO GRANDE DO NORTE;24
-PR;PARAIBA;25
-PE;PERNAMBUCO;26
-AL;ALAGOAS;27
-SE;SERGIPE;28
-BA;BAHIA;29
-MG;MINAS GERAIS;31
-ES;ESPIRITO SANTO;32
-RJ;RIO DE JANEIRO;33
-SP;SAO PAULO;35
-PR;PARANA;41
-SC;SANTA CATARINA;42
-RS;RIO GRANDE DO SUL;43
-MS;MATO GROSSO DO SUL;50
-MT;MATO GROSSO;51
-GO;GOIAS;52
-DF;DISTRITO FEDERAL;53
+  {
+    RO;RONDONIA;11
+    AC;ACRE;12
+    AM;AMAZONAS;13
+    RR;RORAIMA;14
+    PA;PARA;15
+    AP;AMAPA;16
+    TO;TOCANTINS;17
+    MA;MARANHAO;21
+    PI;PIAUI;22
+    CE;CEARA;23
+    RN;RIO GRANDE DO NORTE;24
+    PR;PARAIBA;25
+    PE;PERNAMBUCO;26
+    AL;ALAGOAS;27
+    SE;SERGIPE;28
+    BA;BAHIA;29
+    MG;MINAS GERAIS;31
+    ES;ESPIRITO SANTO;32
+    RJ;RIO DE JANEIRO;33
+    SP;SAO PAULO;35
+    PR;PARANA;41
+    SC;SANTA CATARINA;42
+    RS;RIO GRANDE DO SUL;43
+    MS;MATO GROSSO DO SUL;50
+    MT;MATO GROSSO;51
+    GO;GOIAS;52
+    DF;DISTRITO FEDERAL;53
 
-}
+  }
 
 end;
 
