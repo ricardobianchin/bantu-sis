@@ -2,21 +2,22 @@ unit App.DB.Import.Form_Finalizar_Prod_u;
 
 interface
 
-uses Sis.Types.Utils_u, Sis.DB.DBTypes, App.AppObj, Sis.Usuario, Vcl.ComCtrls;
+uses Sis.Types.Utils_u, Sis.DB.DBTypes, App.AppObj, Sis.Usuario, Vcl.ComCtrls, System.Classes;
 
 procedure GarantirProd(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pUsuario: IUsuario; pProgressBar1: TProgressBar);
+  pUsuario: IUsuario; pProgressBar1: TProgressBar; pComandosPendentesSL: TStrings);
 
 implementation
 
 uses Sis.Win.Utils_u, Sis.Types.strings_u, Sis.UI.IO.Files, Data.DB,
-  System.SysUtils, Sis.Types.Floats, Sis.Types.Bool_u, Vcl.Dialogs;
+  System.SysUtils, Sis.Types.Floats, Sis.Types.Bool_u, Vcl.Dialogs, System.Math;
 
 var
   oAppObj: IAppObj;
   oUsuario: IUsuario;
 
   iProdId: integer;
+  iMaiorId: integer;
 
   sDescr: string[120];
   sDescrRed: string[29];
@@ -230,6 +231,8 @@ begin
   else
     sLinhaLog := iProdId.ToString;
 
+  iMaiorId := Max(iProdId, iMaiorId);
+
   sDescr := Trim(oFieldFin_DESCR.AsString);
   sDescrRed := Trim(oFieldFin_DESCR_RED.AsString);
   sLinhaLog := sLinhaLog + ';' + sDescr;
@@ -311,7 +314,7 @@ begin
 end;
 
 procedure GarantirProd(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pUsuario: IUsuario; pProgressBar1: TProgressBar);
+  pUsuario: IUsuario; pProgressBar1: TProgressBar; pComandosPendentesSL: TStrings);
 var
   sSql: string;
   Q: TDataSet;
@@ -321,6 +324,7 @@ var
   iRegAtual: integer;
   sNomeArqLog: string;
 begin
+  iMaiorId := 0;
   sNomeArqLog := pAppObj.AppInfo.Pasta + 'Tmp\DBImport\Log DBImport Prod.txt';
   GarantirPastaDoArquivo(sNomeArqLog);
   CrieLog(sNomeArqLog);
@@ -382,6 +386,7 @@ begin
       pProgressBar1.Position := iRegAtual;
     end;
   finally
+    pComandosPendentesSL.Add('ALTER SEQUENCE PROD_SEQ RESTART WITH '+(iMaiorId + 1).ToString+';');
     LibereCamposFin;
     Q.Free;
     EscrLog('Terminou');
