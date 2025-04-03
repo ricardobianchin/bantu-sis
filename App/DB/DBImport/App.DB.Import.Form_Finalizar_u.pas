@@ -13,7 +13,7 @@ implementation
 uses System.Classes, System.SysUtils, Sis.Types.Bool_u, Sis.Types.Floats,
   App.DB.Import.Form_Finalizar_Fabr_u, App.DB.Import.Form_Finalizar_ProdTipo_u,
   App.DB.Import.Form_Finalizar_Unid_u, App.DB.Import.Form_Finalizar_Prod_u,
-  Sis.DB.Factory;
+  Sis.DB.Factory, App.DB.Utils, Sis.Sis.Constants;
 
 var
   oProdFDMemTable: TFDMemTable;
@@ -26,6 +26,11 @@ var
   bResultado: boolean;
   sSql: string;
   oDBQuery: IDBQuery;
+  oComandosPendentesSL: TStringList;
+  rDestinoDBConnectionParams: TDBConnectionParams;
+  sAssunto: string;
+  sNomeBanco: string;
+  sPastaComando: string;
 begin
   oProdFDMemTable := pProdFDMemTable;
   oDBConnection := pDBConnection;
@@ -33,15 +38,22 @@ begin
   oProdFDMemTable.DisableControls;
 
   ComandosSL := TStringList.Create;
+  oComandosPendentesSL := TStringList.Create;
   oDBConnection.Abrir;
   try
     oProdFDMemTable.First;
 
-    GarantirFabr(oDBConnection);
-    GarantirProdTipo(oDBConnection);
-    GarantirUnid(oDBConnection);
+    rDestinoDBConnectionParams := TerminalIdToDBConnectionParams
+      (TERMINAL_ID_RETAGUARDA, pAppObj);
+
+    oComandosPendentesSL.Add('CONNECT "' + rDestinoDBConnectionParams.Database +
+      '" USER ''SYSDBA'' PASSWORD ''masterkey'';');
+
+    GarantirFabr(oDBConnection, oComandosPendentesSL);
+    GarantirProdTipo(oDBConnection, oComandosPendentesSL);
+    GarantirUnid(oDBConnection, oComandosPendentesSL);
     // nao fiz ainda GarantirICMS. ate unit existe mas nao inserida no projec
-    GarantirProd(oDBConnection, pAppObj, pUsuario, pProgressBar1);
+    GarantirProd(oDBConnection, pAppObj, pUsuario, pProgressBar1, oComandosPendentesSL);
 
     sSql := //
       'SELECT LOG_ID_RET'#13#10 //
@@ -76,10 +88,17 @@ begin
       oDBQuery.Unprepare;
     end;
 
+    sAssunto := 'import alter sequences';
+    sNomeBanco := rDestinoDBConnectionParams.GetNomeBanco;
+    sPastaComando := pAppObj.AppInfo.PastaComandos + 'Import\';
+
+    pAppObj.dbms.ExecInterative(sAssunto, oComandosPendentesSL.Text, sNomeBanco, sPastaComando,
+      nil, nil);
   finally
     pProdFDMemTable.First;
     pProdFDMemTable.EnableControls;
     ComandosSL.Free;
+    oComandosPendentesSL.Free;
     oDBConnection.Fechar;
   end;
 end;
