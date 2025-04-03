@@ -50,7 +50,7 @@ type
 implementation
 
 uses Sis.Win.Registry, System.Win.Registry, Winapi.Windows, System.SysUtils,
-  Sis.Types.Bool_u, Sis.Debug,
+  Sis.Types.Bool_u, Sis.Debug, Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory,
 
   Vcl.Dialogs, Sis.Win.Factory, Sis.UI.IO.Files, Sis.Win.Utils_u;
 
@@ -164,6 +164,12 @@ var
   iShowMode: integer;
 
 begin
+  if not Assigned(pOutput) then
+    pOutput := MudoOutputCreate;
+
+  if not Assigned(pProcessLog) then
+    pProcessLog := MudoProcessLogCreate;
+
   pProcessLog.PegueLocal('TDBMSFirebird.ExecInterative');
   try
     sLog := 'inicio';
