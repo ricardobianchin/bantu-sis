@@ -190,6 +190,7 @@ var
   sText: string;
 begin
   inherited;
+
   case Key of
     ord('v'), ord('V'):
       begin
@@ -198,7 +199,7 @@ begin
           ColarCEP;
         end;
       end;
-    13:
+    VK_RETURN:
       begin
         if Shift = [] then
         begin

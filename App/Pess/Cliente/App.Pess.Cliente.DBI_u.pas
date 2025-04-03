@@ -72,25 +72,23 @@ begin
 end;
 
 function TPessClienteDBI.GetSqlForEach(pValues: variant): string;
-// var
-// iLojaId: integer;
+var
+  iLojaId: smallint;
+  iTerminalId: smallint;
+  iPessoaId: integer;
 begin
-  // iLojaId := pValues[0];
+  iLojaId := pValues[0];
+  iTerminalId := pValues[1];
+  iPessoaId := pValues[2];
 
   Result := 'SELECT'#13#10 //
     + GetFieldNamesListaGet //
-    + 'FROM CLIENTE_PA.LISTA_GET' //
-    + ';'#13#10 //
-    ;
-
-{
-  Result := 'SELECT'#13#10
-    + GetFieldNamesListaGet
-    + 'FROM LOJA_MANUT_PA.LISTA_GET(' //
+    + 'FROM CLIENTE_PA.LISTA_GET(' //
     + iLojaId.ToString //
+    + ', ' + iTerminalId.ToString //
+    + ', ' + iPessoaId.ToString //
     + ');'#13#10 //
     ;
-}
 end;
 
 procedure TPessClienteDBI.RegAtualToEnt(Q: TDataSet);

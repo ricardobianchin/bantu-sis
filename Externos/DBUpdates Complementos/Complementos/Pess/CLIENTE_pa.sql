@@ -7,6 +7,11 @@ CREATE OR ALTER PACKAGE CLIENTE_PA
 AS
 BEGIN
   PROCEDURE LISTA_GET 
+  (
+    LOJA_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    PESSOA_ID_FILTRO INTEGER NOT NULL
+  )
   RETURNS 
   (
     ---------------------------
@@ -121,6 +126,11 @@ RECREATE PACKAGE BODY CLIENTE_PA
 AS
 BEGIN
   PROCEDURE LISTA_GET 
+  (
+    LOJA_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    TERMINAL_ID_FILTRO ID_SHORT_DOM NOT NULL,
+    PESSOA_ID_FILTRO INTEGER NOT NULL
+  )
   RETURNS 
   (
     LOJA_ID ID_SHORT_DOM
@@ -206,6 +216,9 @@ BEGIN
           ORDEM = 0
       )
       SELECT
+      ----------------------------
+      --- SELECT CAMPOS INICIO
+      ----------------------------
         PES.LOJA_ID,
         PES.TERMINAL_ID,
         PES.PESSOA_ID,
@@ -253,6 +266,9 @@ BEGIN
         ENDER.CRIADO_EM ENDER_CRIADO_EM,
         ENDER.ALTERADO_EM ENDER_ALTERADO_EM
     
+      ----------------------------
+      --- SELECT CAMPOS FIM
+      ----------------------------
       FROM PES
 
       LEFT JOIN ENDER ON 
@@ -272,6 +288,22 @@ BEGIN
       CLI.LOJA_ID = PES.LOJA_ID
       AND CLI.TERMINAL_ID = PES.TERMINAL_ID
       AND CLI.PESSOA_ID = PES.PESSOA_ID 
+
+      ----------------------------
+      --- WHERE INICIO
+      ----------------------------
+      WHERE 
+        :LOJA_ID_FILTRO = 0
+        OR 
+        (
+        PES.LOJA_ID = :LOJA_ID_FILTRO
+        AND PES.TERMINAL_ID = :TERMINAL_ID_FILTRO
+        AND PES.PESSOA_ID = :PESSOA_ID_FILTRO
+        )
+
+      ----------------------------
+      --- WHERE FIM
+      ----------------------------
     INTO 
       :LOJA_ID,
       :TERMINAL_ID,
