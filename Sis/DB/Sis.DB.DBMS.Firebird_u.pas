@@ -113,7 +113,7 @@ begin
     try
       GarantirPasta(pPastaComandos);
       sNomeArqOrigem := pDatabase;
-      sNomeArq := DateTimeToNomeArq() + ' ' + ExtractFileName(pDatabase);
+      sNomeArq := DateTimeToNomeArq(pDtHBackup) + ' ' + ExtractFileName(pDatabase);
       sNomeArqDestino := pPastaComandos + sNomeArq + '.fbk';
       sNomeArqSaida := pPastaComandos + sNomeArq + 'Saida.txt';
       sNomeArqErro := pPastaComandos + sNomeArq + 'Erro.txt';
