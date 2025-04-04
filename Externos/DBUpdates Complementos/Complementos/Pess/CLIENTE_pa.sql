@@ -300,7 +300,6 @@ BEGIN
         AND PES.TERMINAL_ID = :TERMINAL_ID_FILTRO
         AND PES.PESSOA_ID = :PESSOA_ID_FILTRO
         )
-
       ----------------------------
       --- WHERE FIM
       ----------------------------
