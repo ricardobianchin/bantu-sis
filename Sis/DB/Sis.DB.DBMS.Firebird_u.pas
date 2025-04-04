@@ -45,12 +45,16 @@ type
       pProcessLog: IProcessLog; pOutput: IOutput);
     property VendorHome: string read GetVendorHome;
     property VendorLib: string read GetVendorLib;
+
+    procedure DoBackupNow(pDtHBackup: TDateTime;
+      pDatabase, pPastaComandos, pPastaTmp: string);
   end;
 
 implementation
 
 uses Sis.Win.Registry, System.Win.Registry, Winapi.Windows, System.SysUtils,
-  Sis.Types.Bool_u, Sis.Debug, Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory,
+  Sis.Types.Bool_u, Sis.Debug, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog.Factory,
 
   Vcl.Dialogs, Sis.Win.Factory, Sis.UI.IO.Files, Sis.Win.Utils_u;
 
@@ -71,6 +75,70 @@ begin
     pProcessLog.RegistreLog(sLog)
   finally
     pProcessLog.RetorneLocal;
+  end;
+end;
+
+procedure TDBMSFirebird.DoBackupNow(pDtHBackup: TDateTime;
+  pDatabase, pPastaComandos, pPastaTmp: string);
+var
+  sStartIn: string;
+  sExecFile: string;
+  sParam: string;
+
+  oOutput: IOutput;
+  oProcessLog: IProcessLog;
+
+  bExecuteAoCriar: boolean;
+
+  WExec: IWinExecute;
+
+  sLog: string;
+
+  iShowMode: integer;
+  sNomeArq: string;
+  sNomeArqOrigem: string;
+  sNomeArqDestino: string;
+  sNomeArqSaida: string;
+  sNomeArqErro: string;
+  sNomeArqBat: string;
+  sComando: string;
+  sLinhaDeComando: string;
+begin
+  oOutput := MudoOutputCreate;
+  oProcessLog := MudoProcessLogCreate;
+
+  oProcessLog.PegueLocal('TDBMSFirebird.DoBackupNow');
+  try
+    sLog := 'inicio';
+    try
+      GarantirPasta(pPastaComandos);
+      sNomeArqOrigem := pDatabase;
+      sNomeArq := DateTimeToNomeArq() + ' ' + ExtractFileName(pDatabase);
+      sNomeArqDestino := pPastaComandos + sNomeArq + '.fbk';
+      sNomeArqSaida := pPastaComandos + sNomeArq + 'Saida.txt';
+      sNomeArqErro := pPastaComandos + sNomeArq + 'Erro.txt';
+      sNomeArqBat := pPastaComandos + sNomeArq + '.bat';
+
+      sLinhaDeComando := '"' + FFirebirdPath + 'gbak.exe" -b "' + sNomeArqOrigem
+        + '" "' + sNomeArqDestino + '" > "' + sNomeArqSaida + '" 2> "' +
+        sNomeArqErro + '"';
+
+      sExecFile := sNomeArqBat;
+      sStartIn := pPastaComandos;
+      sParam := '';
+
+      bExecuteAoCriar := True;
+
+      iShowMode := SW_SHOWMINNOACTIVE;
+      // Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
+      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar,
+        iShowMode);
+      // WExec.EspereExecucao(pOutput);
+    finally
+      oProcessLog.RegistreLog(sLog);
+    end;
+  finally
+    oProcessLog.RetorneLocal;
   end;
 end;
 
@@ -207,7 +275,8 @@ begin
       pOutput.Exibir('Executando via ISQL ' +
         ExtractFileName(sNomeArqTmp) + '...');
       iShowMode := Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
-      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar, iShowMode);
+      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar,
+        iShowMode);
       WExec.EspereExecucao(pOutput);
 
       pOutput.Exibir('Execução terminada');
