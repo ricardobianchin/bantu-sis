@@ -47,7 +47,7 @@ type
     property VendorLib: string read GetVendorLib;
 
     procedure DoBackupNow(pDtHBackup: TDateTime;
-      pDatabase, pPastaComandos, pPastaTmp: string);
+      pDatabase, pPastaComandos: string; out pNomeArqCriado: string);
   end;
 
 implementation
@@ -79,7 +79,7 @@ begin
 end;
 
 procedure TDBMSFirebird.DoBackupNow(pDtHBackup: TDateTime;
-  pDatabase, pPastaComandos, pPastaTmp: string);
+  pDatabase, pPastaComandos: string; out pNomeArqCriado: string);
 var
   sStartIn: string;
   sExecFile: string;
@@ -118,6 +118,7 @@ begin
       sNomeArqSaida := pPastaComandos + sNomeArq + 'Saida.txt';
       sNomeArqErro := pPastaComandos + sNomeArq + 'Erro.txt';
       sNomeArqBat := pPastaComandos + sNomeArq + '.bat';
+      pNomeArqCriado := sNomeArqDestino;
 
       sLinhaDeComando := '"' + FFirebirdPath + 'gbak.exe" -b "' + sNomeArqOrigem
         + '" "' + sNomeArqDestino + '" > "' + sNomeArqSaida + '" 2> "' +

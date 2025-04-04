@@ -100,7 +100,7 @@ type
     function GetVendorLib: string;
     property VendorLib: string read GetVendorLib;
 
-    procedure DoBackupNow(pDtHBackup: TDateTime; pDatabase, pPastaComandos, pPastaTmp: string);
+    procedure DoBackupNow(pDtHBackup: TDateTime; pDatabase, pPastaComandos: string; out pNomeArqCriado: string);
   end;
 
   IDBConnection = interface(INomeavel)
