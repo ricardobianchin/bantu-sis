@@ -1060,7 +1060,7 @@ begin
       oDBQuery.Unprepare;
     end;
   except
-
+    Result := 0;
   end;
 end;
 

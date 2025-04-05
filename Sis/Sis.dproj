@@ -103,6 +103,8 @@
         <DCCReference Include="IndySystem.dcp"/>
         <DCCReference Include="IndyProtocols.dcp"/>
         <DCCReference Include="IndyCore.dcp"/>
+        <DCCReference Include="vclie.dcp"/>
+        <DCCReference Include="vcledge.dcp"/>
         <DCCReference Include="UI\IO\sndkey32.pas"/>
         <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
         <DCCReference Include="Types\Sis.Types.Dado.pas"/>

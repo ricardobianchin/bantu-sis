@@ -13,11 +13,17 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   end
   inherited BasePanel: TPanel
     Width = 604
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitWidth = 604
     inherited StatusPanel1: TPanel
+      StyleElements = [seFont, seClient, seBorder]
+      inherited StatusLabel1: TLabel
+        StyleElements = [seFont, seClient, seBorder]
+      end
       inherited OutputLabel: TLabel
         Width = 203
         Height = 27
+        StyleElements = [seFont, seClient, seBorder]
       end
     end
   end
@@ -35,7 +41,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
       Top = 0
       Width = 604
       Height = 66
-      ActivePage = ConfigAmbienteTabSheet
+      ActivePage = ConfigTarefasTabSheet
       Align = alTop
       TabOrder = 0
       object ConfigAmbienteTabSheet: TTabSheet
@@ -92,6 +98,19 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
           Height = 25
           Action = ConfigDBImportAbrirAction
           TabOrder = 1
+        end
+      end
+      object ConfigTarefasTabSheet: TTabSheet
+        Caption = 'Tarefas'
+        ImageIndex = 2
+        object ConfigBackupAgoraButton: TButton
+          Left = 8
+          Top = 6
+          Width = 127
+          Height = 25
+          Caption = 'Fazer Backup Agora'
+          TabOrder = 0
+          OnClick = ConfigBackupAgoraButtonClick
         end
       end
     end

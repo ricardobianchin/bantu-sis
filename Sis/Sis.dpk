@@ -45,7 +45,9 @@ requires
   ACBr_Serial,
   IndySystem,
   IndyProtocols,
-  IndyCore;
+  IndyCore,
+  vclie,
+  vcledge;
 
 contains
   sndkey32 in 'UI\IO\sndkey32.pas',

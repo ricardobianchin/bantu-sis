@@ -2,7 +2,7 @@ unit Sis.DB.DBMS.Firebird_u;
 
 interface
 
-uses Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output,
+uses Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output, System.Classes,
   Sis.UI.IO.Output.ProcessLog, Sis.Win.VersionInfo, Sis.Win.Execute;
 
 type
@@ -45,12 +45,17 @@ type
       pProcessLog: IProcessLog; pOutput: IOutput);
     property VendorHome: string read GetVendorHome;
     property VendorLib: string read GetVendorLib;
+
+    procedure DoBackupNow(pDtHBackup: TDateTime; pDatabasesSL: TStrings;
+      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings;
+      pPastaComprime: string);
   end;
 
 implementation
 
 uses Sis.Win.Registry, System.Win.Registry, Winapi.Windows, System.SysUtils,
-  Sis.Types.Bool_u, Sis.Debug, Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory,
+  Sis.Types.Bool_u, Sis.Debug, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog.Factory,
 
   Vcl.Dialogs, Sis.Win.Factory, Sis.UI.IO.Files, Sis.Win.Utils_u;
 
@@ -72,6 +77,114 @@ begin
   finally
     pProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TDBMSFirebird.DoBackupNow(pDtHBackup: TDateTime;
+  pDatabasesSL: TStrings; pPastaComandos, pPastaBackup: string;
+  pArqsCriadosSL: TStrings; pPastaComprime: string);
+var
+  sStartIn: string;
+  sExecFile: string;
+  sParam: string;
+
+  bExecuteAoCriar: boolean;
+
+  WExec: IWinExecute;
+
+  iShowMode: integer;
+  sNomeArq: string;
+  sNomeArqOrigem: string;
+  sNomeArqDestino: string;
+  sNomeArqSaida: string;
+  sNomeArqErro: string;
+  sNomeArqBat: string;
+  sComandosBak: string;
+  sLinhaDeComandoBak: string;
+
+  sComandosRes: string;
+  sLinhaDeComandoRes: string;
+
+  sDtNomeArq: string;
+
+  i: integer;
+
+  sDriveBackupFBK: string;
+  sPastaBackupFBK: string;
+  sPastaBackupCSV: string;
+  sDtPasta: string;
+  sComandoComprime: string;
+begin
+  if pDtHBackup = 0 then
+    pDtHBackup := Now;
+
+  sDtNomeArq := DateTimeToNomeArq(pDtHBackup);
+  sDtPasta := Copy(sDtNomeArq, 1, 10);
+  sPastaBackupFBK := pPastaBackup + 'FBK\' + sDtPasta + '\';
+  sPastaBackupCSV := pPastaBackup + 'CSV\' + sDtPasta + '\';
+
+  sDriveBackupFBK := ExtractFileDrive(sPastaBackupFBK);
+
+  sComandoComprime := '"' + pPastaComprime +
+    '7za.exe" a -tzip "%s.zip" * -sdel -x!*.zip';
+
+  GarantirPasta(sPastaBackupFBK);
+  GarantirPasta(sPastaBackupCSV);
+
+  GarantirPasta(pPastaComandos);
+
+  pArqsCriadosSL.Clear;
+  sComandosBak := sDriveBackupFBK + #13#10'CD "' + sPastaBackupFBK + '"' +
+    #13#10#13#10;
+  sComandosRes := '';
+  for i := 0 to pDatabasesSL.Count - 1 do
+  begin
+    sNomeArqOrigem := pDatabasesSL[i];
+
+    sNomeArq := ExtractFileName(sNomeArqOrigem);
+    sNomeArq := ChangeFileExt(sNomeArq, '');
+
+    sNomeArq := sDtNomeArq + ' ' + sNomeArq;
+
+    sNomeArqDestino := sPastaBackupFBK + sNomeArq + '.fbk';
+    sNomeArqSaida := sPastaBackupFBK + sNomeArq + '.Bak.Saida.txt';
+    sNomeArqErro := sPastaBackupFBK + sNomeArq + '.Bak.Erro.txt';
+
+    pArqsCriadosSL.Add(ChangeFileExt(sNomeArqDestino, '.zip'));
+
+    sLinhaDeComandoBak := '"' + FFirebirdPath +
+      'gbak.exe" -v -b -user SYSDBA -password masterkey "' + sNomeArqOrigem +
+      '" "' + sNomeArqDestino + '" > "' + sNomeArqSaida + '" 2> "' +
+      sNomeArqErro + '"';
+
+    sComandosBak := sComandosBak + sLinhaDeComandoBak + #13#10;
+    sComandosBak := sComandosBak + Format(sComandoComprime, [sNomeArq]) +
+      #13#10#13#10;
+
+  end;
+
+  {
+    "C:\Program Files (x86)\Firebird\Firebird_5_0\gbak.exe" -v -c -user SYSDBA -password masterkey "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.fbk" "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\Dados_Mercado_Terminal_001.fdb" > "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Saida.txt" 2> "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Erro.txt"
+
+    // "C:\Program Files (x86)\Firebird\Firebird_5_0\gbak.exe" -v -c -user
+    SYSDBA -password masterkey
+    2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.fbk
+    Dados_Mercado_Terminal_001.fdb" > "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Saida.txt" 2> "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Erro.txt"
+  }
+  sNomeArqBat := pPastaComandos + 'Backup\';
+  ForceDirectories(sNomeArqBat);
+  sNomeArqBat := sNomeArqBat + sDtNomeArq + ' execute backups.bat';
+  EscreverArquivo(sComandosBak, sNomeArqBat);
+
+  sExecFile := sNomeArqBat;
+  sStartIn := pPastaComandos;
+  sParam := '';
+  bExecuteAoCriar := True;
+  iShowMode := SW_SHOWMINNOACTIVE;
+
+  // Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
+  WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar,
+    iShowMode);
+  // WExec.EspereExecucao(pOutput);
 end;
 
 constructor TDBMSFirebird.Create(pSisConfig: ISisConfig;
@@ -207,7 +320,8 @@ begin
       pOutput.Exibir('Executando via ISQL ' +
         ExtractFileName(sNomeArqTmp) + '...');
       iShowMode := Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
-      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar, iShowMode);
+      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar,
+        iShowMode);
       WExec.EspereExecucao(pOutput);
 
       pOutput.Exibir('Execução terminada');

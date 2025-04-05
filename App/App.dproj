@@ -774,6 +774,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos.pas"/>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos_u.pas"/>
+        <DCCReference Include="Modulos\Config\Tar\Bak\App.UI.Form.Config.Tar.Backup.Message_u.pas">
+            <Form>BackupMessageForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
