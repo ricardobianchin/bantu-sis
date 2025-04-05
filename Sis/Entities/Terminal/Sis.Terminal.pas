@@ -145,7 +145,7 @@ type
     property CriticalSections: ICriticalSections read GetCriticalSections;
   end;
 
-  TTerminalProcedure = reference to procedure(pFrame: ITerminal);
+  TTerminalProcedure = reference to procedure(pTerminal: ITerminal);
 
 implementation
 
