@@ -99,7 +99,7 @@ type
     property VendorLib: string read GetVendorLib;
 
     procedure DoBackupNow(pDtHBackup: TDateTime; pDatabasesSL: TStrings;
-      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings);
+      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings; pPastaComprime: string);
   end;
 
   IDBConnection = interface(INomeavel)

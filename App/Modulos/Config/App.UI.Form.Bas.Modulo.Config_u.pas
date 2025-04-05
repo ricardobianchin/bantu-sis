@@ -31,6 +31,8 @@ type
     ConfigTerminaisAction: TAction;
     PageControl1: TPageControl;
     BalloonHint1: TBalloonHint;
+    ConfigTarefasTabSheet: TTabSheet;
+    ConfigBackupAgoraButton: TButton;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -38,6 +40,7 @@ type
     procedure ConfigDBImportAbrirActionExecute(Sender: TObject);
     procedure ConfigAmbiLojasActionExecute(Sender: TObject);
     procedure ConfigTerminaisActionExecute(Sender: TObject);
+    procedure ConfigBackupAgoraButtonClick(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -67,7 +70,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Factory, Sis.UI.IO.Factory, App.AppInfo, Sis.Config.SisConfig,
-  App.Pess.UI.Factory_u, App.Config.Ambi.Factory_u;
+  App.Pess.UI.Factory_u, App.Config.Ambi.Factory_u, Sis.Terminal,
+  Sis.Sis.Constants, App.UI.Form.Config.Tar.Backup.Message_u;
 
 { TConfigModuloBasForm }
 
@@ -106,6 +110,46 @@ procedure TConfigModuloBasForm.ConfigAmbiLojasActionExecute(Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FAmbiLojasDataSetFormCreator);
+end;
+
+procedure TConfigModuloBasForm.ConfigBackupAgoraButtonClick(Sender: TObject);
+var
+  dtAgora: TDateTime;
+  sNomeArqCriado: string;
+  oTerminal: ITerminal;
+  oNomesFDBSL: TStringList;
+  oNomesFBKSL: TStringList;
+  oDBConnectionParams: TDBConnectionParams;
+begin
+  inherited;
+  dtAgora := now;
+
+  oNomesFDBSL := TStringList.Create;
+  oNomesFBKSL := TStringList.Create;
+  try
+    // pega nomearqs terminais
+    AppObj.TerminalList.ExecuteForAll(
+      procedure(pTerminal: ITerminal)
+      begin
+        oNomesFDBSL.Add(pTerminal.LocalArqDados);
+      end, AppObj.SisConfig.LocalMachineId.Name);
+
+    if AppObj.SisConfig.LocalMachineIsServer then
+    begin
+      oDBConnectionParams := TerminalIdToDBConnectionParams
+        (TERMINAL_ID_RETAGUARDA, AppObj);
+
+      oNomesFDBSL.Add(oDBConnectionParams.Arq);
+    end;
+
+    DBMS.DoBackupNow(dtAgora, oNomesFDBSL, AppObj.AppInfo.PastaComandos,
+      AppObj.AppInfo.PastaBackup, oNomesFBKSL, AppObj.AppInfo.PastaToolsComprime);
+
+    BakMessageExibir(oNomesFBKSL);
+  finally
+    oNomesFDBSL.Free;
+    oNomesFBKSL.Free;
+  end;
 end;
 
 procedure TConfigModuloBasForm.ConfigDBImportAbrirActionExecute
@@ -160,7 +204,7 @@ begin
     end;
   end;
 
-//  ConfigTerminaisAction.Execute;
+  // ConfigTerminaisAction.Execute;
 end;
 
 procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);

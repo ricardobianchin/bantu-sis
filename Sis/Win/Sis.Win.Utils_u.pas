@@ -5,19 +5,16 @@ interface
 uses System.UITypes, Sis.Types.Utils_u;
 
 type
-  TWinPlatform = (wplatNaoIndicado, wplatWin32,  wplatWin64);
+  TWinPlatform = (wplatNaoIndicado, wplatWin32, wplatWin64);
 
 const
   VERSION_W7_SP1_DESC = 'Service Pack 1';
 
-  WinPlatforms: array[TWinPlatform] of string = (
-    'NAOINDICADO',
-    'WIN32',
-    'WIN64'
-    );
+  WinPlatforms: array [TWinPlatform] of string = ('NAOINDICADO',
+    'WIN32', 'WIN64');
 
 function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
-  out pCSDVersion: string): boolean;
+  out pCSDVersion: string): Boolean;
 
 function StrToWinPlatform(pStr: string): TWinPlatform;
 
@@ -25,20 +22,24 @@ function IsWow64Process: Boolean;
 
 function GetProgramFilesPath: string;
 
-function ExecutePrograma(Nome, Parametros, Pasta: string; out pErro: string): boolean;
+function ExecutePrograma(Nome, Parametros, Pasta: string;
+  out pErro: string): Boolean;
 
 procedure CopyTextToClipboard(const AText: string);
 
 function GetClipboardText: string;
 procedure SetClipboardText(const AText: string);
 
+procedure ExplorerPasta(pPasta: string);
+
 implementation
 
 uses
-  Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms;
+  Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms,
+  Vcl.FileCtrl;
 
 function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
-  out pCSDVersion: string): boolean;
+  out pCSDVersion: string): Boolean;
 var
   OSVI: TOSVersionInfo;
 begin
@@ -60,13 +61,14 @@ begin
     Result := wplatNaoIndicado
   else if pStr = 'WIN32' then
     Result := wplatWin32
-  else //if pStr = 'WIN64' then
+  else // if pStr = 'WIN64' then
     Result := wplatWin64;
 end;
 
 function IsWow64Process: Boolean;
 type
-  TIsWow64Process = function(AHandle: THandle; var AIsWow64: BOOL): BOOL; stdcall;
+  TIsWow64Process = function(AHandle: THandle; var AIsWow64: BOOL)
+    : BOOL; stdcall;
 
 var
   hIsWow64Process: TIsWow64Process;
@@ -74,10 +76,10 @@ var
   IsWow64: BOOL;
 
 begin
-  {$IFDEF CPUX64}
+{$IFDEF CPUX64}
   // Se o código é 64 bits, o Windows também é 64 bits
   Result := True;
-  {$ELSE}
+{$ELSE}
   // Se o código é 32 bits, usa a função IsWow64Process
   Result := False;
 
@@ -86,7 +88,8 @@ begin
     Exit;
 
   try
-    @hIsWow64Process := Winapi.Windows.GetProcAddress(hKernel32, 'IsWow64Process');
+    @hIsWow64Process := Winapi.Windows.GetProcAddress(hKernel32,
+      'IsWow64Process');
     if not System.Assigned(hIsWow64Process) then
       Exit;
 
@@ -97,7 +100,7 @@ begin
   finally
     Winapi.Windows.FreeLibrary(hKernel32);
   end;
-  {$ENDIF}
+{$ENDIF}
 end;
 
 function GetProgramFilesPath: string;
@@ -108,7 +111,8 @@ begin
   Result := ProgramFilesPath;
 end;
 
-function ExecutePrograma(Nome, Parametros, Pasta: string; out pErro: string): boolean;
+function ExecutePrograma(Nome, Parametros, Pasta: string;
+  out pErro: string): Boolean;
 var
   SEInfo: TShellExecuteInfo;
 begin
@@ -126,17 +130,17 @@ begin
   // Executar o programa usando ShellExecuteEx
   Result := ShellExecuteEx(@SEInfo);
   if not Result then
-    pErro := 'ExecutePrograma '+SysErrorMessage(GetLastError);
+    pErro := 'ExecutePrograma ' + SysErrorMessage(GetLastError);
   {
-  if  then
+    if  then
     Result
     // Aguardar o término do programa
     //WaitForSingleObject(SEInfo.hProcess, INFINITE)
-  else
+    else
     // Mostrar uma mensagem de erro em caso de falha
     raise Exception.Create(SysErrorMessage(GetLastError));
-//    ShowMessage(SysErrorMessage(GetLastError));
-}
+    //    ShowMessage(SysErrorMessage(GetLastError));
+  }
 end;
 
 // função que retorna o conteúdo da área de transferência como uma string
@@ -165,6 +169,21 @@ begin
   // coloca a string na área de transferência
   Clipboard.AsText := AText;
   Sleep(200);
+end;
+
+procedure ExplorerPasta(pPasta: string);
+begin
+  if DirectoryExists(pPasta) then
+  begin
+    // Usa ShellExecute para abrir o Explorer no caminho especificado
+    ShellExecute(0, 'open', PChar('explorer.exe'), PChar(pPasta), nil,
+      SW_SHOWNORMAL);
+  end
+  else
+  begin
+    // Mostra mensagem de erro se o caminho não existir
+    //ShowMessage('O caminho especificado não existe: ' + pPasta);
+  end;
 end;
 
 end.

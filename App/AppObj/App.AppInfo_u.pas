@@ -15,6 +15,8 @@ type
 
     FPasta: string;
     FPastaBin: string;
+    FPastaTools: string;
+    FPastaToolsComprime: string;
     FPastaConfigs: string;
     FPastaTmp: string;
     FPastaDados: string;
@@ -52,8 +54,9 @@ type
     function GetPastaBackup: string;
     function GetPastaConsultas: string;
     function GetPastaConsTabViews: string;
-
     function GetPastaBin: string;
+    function GetPastaTools: string;
+    function GetPastaToolsComprime: string;
     function GetPastaConfigs: string;
 
     function GetPastaTmp: string;
@@ -87,6 +90,8 @@ type
     property PastaConsTabViews: string read GetPastaConsTabViews;
 
     property PastaBin: string read GetPastaBin;
+    property PastaTools: string read GetPastaTools;
+    property PastaToolsComprime: string read GetPastaToolsComprime;
     property PastaConfigs: string read GetPastaConfigs;
     property PastaTmp: string read GetPastaTmp;
     property PastaDados: string read GetPastaDados;
@@ -117,8 +122,13 @@ begin
   FExeName := pExeName;
   FPastaBin := GetPastaDoArquivo(FExeName);
   FPasta := PastaAcima(FPastaBin);
+
   FPastaConfigs := FPasta + 'Configs\';
   ForceDirectories(FPastaConfigs);
+
+  FPastaTools := FPasta + 'Tools\';
+  FPastaToolsComprime := FPasta + 'Tools\7za\';
+  ForceDirectories(FPastaToolsComprime);//ja vale pelo forcedir da tools
 
   FPastaImg := FPasta + 'Img\';
   ForceDirectories(FPastaImg);
@@ -228,6 +238,16 @@ end;
 function TAppInfo.GetPastaTmp: string;
 begin
   Result := FPastaTmp;
+end;
+
+function TAppInfo.GetPastaTools: string;
+begin
+  Result := FPastaTools;
+end;
+
+function TAppInfo.GetPastaToolsComprime: string;
+begin
+  Result := FPastaToolsComprime;
 end;
 
 function TAppInfo.GetPessoaDonoId: integer;

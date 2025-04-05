@@ -38,6 +38,12 @@ type
     function GetPastaBin: string;
     property PastaBin: string read GetPastaBin;
 
+    function GetPastaTools: string;
+    property PastaTools: string read GetPastaTools;
+
+    function GetPastaToolsComprime: string;
+    property PastaToolsComprime: string read GetPastaToolsComprime;
+
     function GetPastaConfigs: string;
     property PastaConfigs: string read GetPastaConfigs;
 

@@ -47,7 +47,8 @@ type
     property VendorLib: string read GetVendorLib;
 
     procedure DoBackupNow(pDtHBackup: TDateTime; pDatabasesSL: TStrings;
-      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings);
+      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings;
+      pPastaComprime: string);
   end;
 
 implementation
@@ -80,7 +81,7 @@ end;
 
 procedure TDBMSFirebird.DoBackupNow(pDtHBackup: TDateTime;
   pDatabasesSL: TStrings; pPastaComandos, pPastaBackup: string;
-  pArqsCriadosSL: TStrings);
+  pArqsCriadosSL: TStrings; pPastaComprime: string);
 var
   sStartIn: string;
   sExecFile: string;
@@ -97,30 +98,44 @@ var
   sNomeArqSaida: string;
   sNomeArqErro: string;
   sNomeArqBat: string;
-  sComandos: string;
-  sLinhaDeComando: string;
+  sComandosBak: string;
+  sLinhaDeComandoBak: string;
+
+  sComandosRes: string;
+  sLinhaDeComandoRes: string;
 
   sDtNomeArq: string;
 
   i: integer;
 
+  sDriveBackupFBK: string;
   sPastaBackupFBK: string;
   sPastaBackupCSV: string;
+  sDtPasta: string;
+  sComandoComprime: string;
 begin
   if pDtHBackup = 0 then
     pDtHBackup := Now;
 
-  sPastaBackupFBK := pPastaBackup + 'FBK\' + sDtNomeArq + '\';
-  sPastaBackupCSV := pPastaBackup + 'CSV\' + sDtNomeArq + '\';
+  sDtNomeArq := DateTimeToNomeArq(pDtHBackup);
+  sDtPasta := Copy(sDtNomeArq, 1, 10);
+  sPastaBackupFBK := pPastaBackup + 'FBK\' + sDtPasta + '\';
+  sPastaBackupCSV := pPastaBackup + 'CSV\' + sDtPasta + '\';
+
+  sDriveBackupFBK := ExtractFileDrive(sPastaBackupFBK);
+
+  sComandoComprime := '"' + pPastaComprime +
+    '7za.exe" a -tzip "%s.zip" * -sdel -x!*.zip';
 
   GarantirPasta(sPastaBackupFBK);
   GarantirPasta(sPastaBackupCSV);
 
   GarantirPasta(pPastaComandos);
 
-  sDtNomeArq := DateTimeToNomeArq(pDtHBackup);
   pArqsCriadosSL.Clear;
-  sComandos := '';
+  sComandosBak := sDriveBackupFBK + #13#10'CD "' + sPastaBackupFBK + '"' +
+    #13#10#13#10;
+  sComandosRes := '';
   for i := 0 to pDatabasesSL.Count - 1 do
   begin
     sNomeArqOrigem := pDatabasesSL[i];
@@ -131,20 +146,34 @@ begin
     sNomeArq := sDtNomeArq + ' ' + sNomeArq;
 
     sNomeArqDestino := sPastaBackupFBK + sNomeArq + '.fbk';
-    sNomeArqSaida := sPastaBackupFBK + sNomeArq + '.Saida.txt';
-    sNomeArqErro := sPastaBackupFBK + sNomeArq + '.Erro.txt';
+    sNomeArqSaida := sPastaBackupFBK + sNomeArq + '.Bak.Saida.txt';
+    sNomeArqErro := sPastaBackupFBK + sNomeArq + '.Bak.Erro.txt';
 
-    pArqsCriadosSL.Add(sNomeArqDestino);
+    pArqsCriadosSL.Add(ChangeFileExt(sNomeArqDestino, '.zip'));
 
-    sLinhaDeComando := '"' + FFirebirdPath +
+    sLinhaDeComandoBak := '"' + FFirebirdPath +
       'gbak.exe" -v -b -user SYSDBA -password masterkey "' + sNomeArqOrigem +
       '" "' + sNomeArqDestino + '" > "' + sNomeArqSaida + '" 2> "' +
       sNomeArqErro + '"';
-    sComandos := sComandos + sLinhaDeComando + #13#10;
+
+    sComandosBak := sComandosBak + sLinhaDeComandoBak + #13#10;
+    sComandosBak := sComandosBak + Format(sComandoComprime, [sNomeArq]) +
+      #13#10#13#10;
+
   end;
 
-  sNomeArqBat := pPastaComandos + sDtNomeArq + ' execute backups.bat';
-  EscreverArquivo(sComandos, sNomeArqBat);
+  {
+    "C:\Program Files (x86)\Firebird\Firebird_5_0\gbak.exe" -v -c -user SYSDBA -password masterkey "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.fbk" "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\Dados_Mercado_Terminal_001.fdb" > "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Saida.txt" 2> "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Erro.txt"
+
+    // "C:\Program Files (x86)\Firebird\Firebird_5_0\gbak.exe" -v -c -user
+    SYSDBA -password masterkey
+    2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.fbk
+    Dados_Mercado_Terminal_001.fdb" > "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Saida.txt" 2> "C:\Pr\app\bantu\bantu-sis\Exe\Backup\FBK\2025-04-05_00h38m22s156\2025-04-05_00h38m22s156 Dados_Mercado_Terminal_001.Restore_Erro.txt"
+  }
+  sNomeArqBat := pPastaComandos + 'Backup\';
+  ForceDirectories(sNomeArqBat);
+  sNomeArqBat := sNomeArqBat + sDtNomeArq + ' execute backups.bat';
+  EscreverArquivo(sComandosBak, sNomeArqBat);
 
   sExecFile := sNomeArqBat;
   sStartIn := pPastaComandos;
