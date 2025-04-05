@@ -12,9 +12,7 @@ type
     TerminalId: TTerminalId;
     Id: integer;
     procedure Zerar;
-    procedure PegarCods(
-      pLojaId: TLojaId;
-      pTerminalId: TTerminalId;
+    procedure PegarCods(pLojaId: TLojaId; pTerminalId: TTerminalId;
       pId: integer);
   end;
 
@@ -91,8 +89,8 @@ type
 
     // procedure ExecInterative(pNomeArqSQL: string; pLocalDoDB: TLocalDoDB; pProcessLog: IProcessLog; pOutput: IOutput); overload;
     procedure ExecInterative(pAssunto: string; pSql: string; pNomeBanco: string;
-      pPastaComandos: string; pProcessLog: IProcessLog;
-      pOutput: IOutput; pJanelaVisivel: boolean = False); overload;
+      pPastaComandos: string; pProcessLog: IProcessLog; pOutput: IOutput;
+      pJanelaVisivel: boolean = False); overload;
 
     function GetVendorHome: string;
     property VendorHome: string read GetVendorHome;
@@ -100,7 +98,8 @@ type
     function GetVendorLib: string;
     property VendorLib: string read GetVendorLib;
 
-    procedure DoBackupNow(pDtHBackup: TDateTime; pDatabase, pPastaComandos: string; out pNomeArqCriado: string);
+    procedure DoBackupNow(pDtHBackup: TDateTime; pDatabasesSL: TStrings;
+      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings);
   end;
 
   IDBConnection = interface(INomeavel)
@@ -374,14 +373,20 @@ begin
   case pFDParam.DataType of
     ftUnknown:
       ;
-    ftWideString, ftString, ftFixedChar: pFDParam.AsString := pValor;
+    ftWideString, ftString, ftFixedChar:
+      pFDParam.AsString := pValor;
 
-    ftSmallint: pFDParam.AsSmallInt := StrToInt(pValor);
-    ftInteger: pFDParam.AsInteger := StrToInt(pValor);
-    ftLargeint: pFDParam.AsLargeInt := StrToInt64(pValor);
+    ftSmallint:
+      pFDParam.AsSmallInt := StrToInt(pValor);
+    ftInteger:
+      pFDParam.AsInteger := StrToInt(pValor);
+    ftLargeint:
+      pFDParam.AsLargeInt := StrToInt64(pValor);
 
-    ftWord: pFDParam.AsInteger := StrToInt(pValor);
-    ftBoolean: pFDParam.AsBoolean := StrToBoolean(pValor);
+    ftWord:
+      pFDParam.AsInteger := StrToInt(pValor);
+    ftBoolean:
+      pFDParam.AsBoolean := StrToBoolean(pValor);
 
     ftFloat:
       pFDParam.AsFloat := StrToFloat(pValor);
@@ -389,10 +394,10 @@ begin
       pFDParam.AsCurrency := StrToCurrency(pValor);
     ftBCD:
       pFDParam.AsBCD := StrToCurrency(pValor);
-    ftSingle: pFDParam.AsSingle := StrToFloat(pValor);
+    ftSingle:
+      pFDParam.AsSingle := StrToFloat(pValor);
     ftFMTBcd:
-      pFDParam.AsFMTBCD := StrToCurrency(pValor);//problema aqui
-
+      pFDParam.AsFMTBCD := StrToCurrency(pValor); // problema aqui
 
     ftTimeStamp:
       pFDParam.AsSQLTimeStamp := StrToSQLTimeStamp(pValor);
@@ -403,77 +408,77 @@ begin
     ftDateTime:
       pFDParam.AsDateTIme := StrToDateTime(pValor);
     (*
-    ftBytes:
+      ftBytes:
       ;
-    ftVarBytes:
+      ftVarBytes:
       ;
-    ftAutoInc:
+      ftAutoInc:
       ;
-    ftBlob:
+      ftBlob:
       ;
-    ftMemo:
+      ftMemo:
       ;
-    ftGraphic:
+      ftGraphic:
       ;
-    ftFmtMemo:
+      ftFmtMemo:
       ;
-    ftParadoxOle:
+      ftParadoxOle:
       ;
-    ftDBaseOle:
+      ftDBaseOle:
       ;
-    ftTypedBinary:
+      ftTypedBinary:
       ;
-    ftCursor:
+      ftCursor:
       ;
-    ftADT:
+      ftADT:
       ;
-    ftArray:
+      ftArray:
       ;
-    ftReference:
+      ftReference:
       ;
-    ftDataSet:
+      ftDataSet:
       ;
-    ftOraBlob:
+      ftOraBlob:
       ;
-    ftOraClob:
+      ftOraClob:
       ;
-    ftVariant:
+      ftVariant:
       ;
-    ftInterface:
+      ftInterface:
       ;
-    ftIDispatch:
+      ftIDispatch:
       ;
-    ftGuid:
+      ftGuid:
       ;
-    ftFMTBcd:
+      ftFMTBcd:
       ;
-    ftFixedWideChar:
+      ftFixedWideChar:
       ;
-    ftWideMemo:
+      ftWideMemo:
       ;
-    ftOraTimeStamp:
+      ftOraTimeStamp:
       ;
-    ftOraInterval:
+      ftOraInterval:
       ;
-    ftLongWord:
+      ftLongWord:
       ;
-    ftShortint:
+      ftShortint:
       ;
-    ftByte:
+      ftByte:
       ;
-    ftExtended:
+      ftExtended:
       ;
-    ftConnection:
+      ftConnection:
       ;
-    ftParams:
+      ftParams:
       ;
-    ftStream:
+      ftStream:
       ;
-    ftTimeStampOffset:
+      ftTimeStampOffset:
       ;
-    ftObject:
+      ftObject:
       ;
-      *)
+    *)
   else
     raise Exception.Create('SetParamValue: Tipo nao programado. Campo ' +
       pFDParam.Name + ' tipo:' + FieldTypeNames[pFDParam.DataType]);

@@ -2,7 +2,7 @@ unit Sis.DB.DBMS.Firebird_u;
 
 interface
 
-uses Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output,
+uses Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output, System.Classes,
   Sis.UI.IO.Output.ProcessLog, Sis.Win.VersionInfo, Sis.Win.Execute;
 
 type
@@ -46,8 +46,8 @@ type
     property VendorHome: string read GetVendorHome;
     property VendorLib: string read GetVendorLib;
 
-    procedure DoBackupNow(pDtHBackup: TDateTime;
-      pDatabase, pPastaComandos: string; out pNomeArqCriado: string);
+    procedure DoBackupNow(pDtHBackup: TDateTime; pDatabasesSL: TStrings;
+      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings);
   end;
 
 implementation
@@ -79,20 +79,16 @@ begin
 end;
 
 procedure TDBMSFirebird.DoBackupNow(pDtHBackup: TDateTime;
-  pDatabase, pPastaComandos: string; out pNomeArqCriado: string);
+  pDatabasesSL: TStrings; pPastaComandos, pPastaBackup: string;
+  pArqsCriadosSL: TStrings);
 var
   sStartIn: string;
   sExecFile: string;
   sParam: string;
 
-  oOutput: IOutput;
-  oProcessLog: IProcessLog;
-
   bExecuteAoCriar: boolean;
 
   WExec: IWinExecute;
-
-  sLog: string;
 
   iShowMode: integer;
   sNomeArq: string;
@@ -101,46 +97,65 @@ var
   sNomeArqSaida: string;
   sNomeArqErro: string;
   sNomeArqBat: string;
-  sComando: string;
+  sComandos: string;
   sLinhaDeComando: string;
+
+  sDtNomeArq: string;
+
+  i: integer;
+
+  sPastaBackupFBK: string;
+  sPastaBackupCSV: string;
 begin
-  oOutput := MudoOutputCreate;
-  oProcessLog := MudoProcessLogCreate;
+  if pDtHBackup = 0 then
+    pDtHBackup := Now;
 
-  oProcessLog.PegueLocal('TDBMSFirebird.DoBackupNow');
-  try
-    sLog := 'inicio';
-    try
-      GarantirPasta(pPastaComandos);
-      sNomeArqOrigem := pDatabase;
-      sNomeArq := DateTimeToNomeArq(pDtHBackup) + ' ' + ExtractFileName(pDatabase);
-      sNomeArqDestino := pPastaComandos + sNomeArq + '.fbk';
-      sNomeArqSaida := pPastaComandos + sNomeArq + 'Saida.txt';
-      sNomeArqErro := pPastaComandos + sNomeArq + 'Erro.txt';
-      sNomeArqBat := pPastaComandos + sNomeArq + '.bat';
-      pNomeArqCriado := sNomeArqDestino;
+  sPastaBackupFBK := pPastaBackup + 'FBK\' + sDtNomeArq + '\';
+  sPastaBackupCSV := pPastaBackup + 'CSV\' + sDtNomeArq + '\';
 
-      sLinhaDeComando := '"' + FFirebirdPath + 'gbak.exe" -b "' + sNomeArqOrigem
-        + '" "' + sNomeArqDestino + '" > "' + sNomeArqSaida + '" 2> "' +
-        sNomeArqErro + '"';
+  GarantirPasta(sPastaBackupFBK);
+  GarantirPasta(sPastaBackupCSV);
 
-      sExecFile := sNomeArqBat;
-      sStartIn := pPastaComandos;
-      sParam := '';
+  GarantirPasta(pPastaComandos);
 
-      bExecuteAoCriar := True;
+  sDtNomeArq := DateTimeToNomeArq(pDtHBackup);
+  pArqsCriadosSL.Clear;
+  sComandos := '';
+  for i := 0 to pDatabasesSL.Count - 1 do
+  begin
+    sNomeArqOrigem := pDatabasesSL[i];
 
-      iShowMode := SW_SHOWMINNOACTIVE;
-      // Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
-      WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar,
-        iShowMode);
-      // WExec.EspereExecucao(pOutput);
-    finally
-      oProcessLog.RegistreLog(sLog);
-    end;
-  finally
-    oProcessLog.RetorneLocal;
+    sNomeArq := ExtractFileName(sNomeArqOrigem);
+    sNomeArq := ChangeFileExt(sNomeArq, '');
+
+    sNomeArq := sDtNomeArq + ' ' + sNomeArq;
+
+    sNomeArqDestino := sPastaBackupFBK + sNomeArq + '.fbk';
+    sNomeArqSaida := sPastaBackupFBK + sNomeArq + '.Saida.txt';
+    sNomeArqErro := sPastaBackupFBK + sNomeArq + '.Erro.txt';
+
+    pArqsCriadosSL.Add(sNomeArqDestino);
+
+    sLinhaDeComando := '"' + FFirebirdPath +
+      'gbak.exe" -v -b -user SYSDBA -password masterkey "' + sNomeArqOrigem +
+      '" "' + sNomeArqDestino + '" > "' + sNomeArqSaida + '" 2> "' +
+      sNomeArqErro + '"';
+    sComandos := sComandos + sLinhaDeComando + #13#10;
   end;
+
+  sNomeArqBat := pPastaComandos + sDtNomeArq + ' execute backups.bat';
+  EscreverArquivo(sComandos, sNomeArqBat);
+
+  sExecFile := sNomeArqBat;
+  sStartIn := pPastaComandos;
+  sParam := '';
+  bExecuteAoCriar := True;
+  iShowMode := SW_SHOWMINNOACTIVE;
+
+  // Iif(pJanelaVisivel, SW_SHOWNOACTIVATE, SW_HIDE);
+  WExec := WinExecuteCreate(sExecFile, sParam, sStartIn, bExecuteAoCriar,
+    iShowMode);
+  // WExec.EspereExecucao(pOutput);
 end;
 
 constructor TDBMSFirebird.Create(pSisConfig: ISisConfig;
