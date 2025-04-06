@@ -197,6 +197,43 @@ inherited PDVSessForm: TPDVSessForm
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
           TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ORDEM'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'PAGAMENTO_FORMA_ID'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCR'
+              Width = 200
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR_DEVIDO'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR_ENTREGUE'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TROCO'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CANCELADO'
+              Visible = True
+            end>
         end
       end
     end
@@ -364,7 +401,8 @@ inherited PDVSessForm: TPDVSessForm
     Top = 44
   end
   object ItemFDMemTable: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -372,6 +410,7 @@ inherited PDVSessForm: TPDVSessForm
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 48
     Top = 104
     object ItemFDMemTableORDEM: TSmallintField
@@ -418,6 +457,7 @@ inherited PDVSessForm: TPDVSessForm
     end
   end
   object PagFDMemTable: TFDMemTable
+    Active = True
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -443,14 +483,17 @@ inherited PDVSessForm: TPDVSessForm
     object PagFDMemTableVALOR_DEVIDO: TCurrencyField
       DisplayLabel = 'Valor'
       FieldName = 'VALOR_DEVIDO'
+      EditFormat = '######0.00'
     end
     object PagFDMemTableVALOR_ENTREGUE: TCurrencyField
       DisplayLabel = 'Recebido'
       FieldName = 'VALOR_ENTREGUE'
+      EditFormat = '######0.00'
     end
     object PagFDMemTableTROCO: TCurrencyField
       DisplayLabel = 'Troco'
       FieldName = 'TROCO'
+      EditFormat = '######0.00'
     end
     object PagFDMemTableCANCELADO: TBooleanField
       DisplayLabel = 'Cancelado'

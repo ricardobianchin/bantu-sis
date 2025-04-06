@@ -85,8 +85,11 @@ type
     FImpressao: IImpressao;
 
     procedure SessStatusExiba;
-    procedure Atualizar;
     procedure BuscarRecente;
+
+    procedure Atualizar;
+    procedure AtualizarDetail;
+
   protected
     procedure AjusteControles; override;
   public
@@ -150,11 +153,18 @@ begin
 end;
 
 procedure TPDVSessForm.Atualizar;
+const
+  CARREGA_DATASETS_DETAIL = True;
 begin
-  FCaixaSessaoDM.CaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable,
-    FCaixaSessaoDM.CaixaSessao);
-  AtualizarItens;
-  AtualiarPag;
+  FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
+    ItemFDMemTable, PagFDMemTable, FCaixaSessaoDM.CaixaSessao,
+    CARREGA_DATASETS_DETAIL);
+end;
+
+procedure TPDVSessForm.AtualizarDetail;
+begin
+  FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSetDetail(SessFDMemTable,
+    ItemFDMemTable, PagFDMemTable);
 end;
 
 procedure TPDVSessForm.BuscarRecente;
@@ -220,7 +230,6 @@ procedure TPDVSessForm.FechActionExecute(Sender: TObject);
 begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
-  //Atualizar;
   Close;
 end;
 
@@ -284,17 +293,13 @@ end;
 procedure TPDVSessForm.SessFDMemTableAfterOpen(DataSet: TDataSet);
 begin
   inherited;
-  AtualizarItens;
-  AtualiarPag;
-
+  AtualizarDetail;
 end;
 
 procedure TPDVSessForm.SessFDMemTableAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  AtualizarItens;
-  AtualiarPag;
-
+  AtualizarDetail;
 end;
 
 procedure TPDVSessForm.SessStatusExiba;

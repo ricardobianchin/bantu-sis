@@ -25,15 +25,20 @@ type
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
       reintroduce;
 
-    function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec): Boolean;
+    function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
+      : Boolean;
     procedure PegDados(pCaixaSessao: ICaixaSessao);
 
     function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao): Boolean;
 
     property Mensagem: string read GetMensagem;
 
-    procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable;
-      pCaixaSessao: ICaixaSessao);
+    procedure PDVSessFormCarregarDataSet(pDMemTableMaster, pDMemTableItem,
+      pDMemTablePag: TFDMemTable; pCaixaSessao: ICaixaSessao;
+      pCarregaDetail: Boolean = True);
+
+    procedure PDVSessFormCarregarDataSetDetail(pDMemTableMaster, pDMemTableItem,
+      pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection = nil);
 
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
       pCaixaSessao: ICaixaSessao);
@@ -65,9 +70,9 @@ begin
       + ', APELIDO'#13#10 // 2
       + ', ABERTO_EM'#13#10 // 3
       + 'FROM CAIXA_SESSAO_MANUT_PA.ABERTO_GET'#13#10;
-//     {$IFDEF DEBUG}
-//     CopyTextToClipboard(sSql);
-//     {$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
 
     Result := Assigned(q);
@@ -115,9 +120,9 @@ begin
     + 'FROM CAIXA_SESSAO_PDV_PA.SESS_ULTIMO_GET;'#13#10 //
     ;
 
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(sSql);
-//   {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
 
   oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
     sSql, nil, nil);
@@ -167,16 +172,17 @@ begin
   Result := FMensagem;
 end;
 
-procedure TCaixaSessaoDBI.PDVCarregarDataSet(pDMemTable1: TFDMemTable;
-  pCaixaSessao: ICaixaSessao);
+procedure TCaixaSessaoDBI.PDVSessFormCarregarDataSet(pDMemTableMaster,
+  pDMemTableItem, pDMemTablePag: TFDMemTable; pCaixaSessao: ICaixaSessao;
+  pCarregaDetail: Boolean);
 var
   oDBQuery: IDBQuery;
   sSql: string;
-  t: TFDMemTable;
+  T: TFDMemTable;
   q: TDataSet;
   sL, sT, sI: string;
 begin
-  t := pDMemTable1;
+  T := pDMemTableMaster;
 
   sL := pCaixaSessao.LojaId.ToString;
   sT := pCaixaSessao.TerminalId.ToString;
@@ -206,16 +212,16 @@ begin
 
       + ');';
 
-//{$IFDEF DEBUG}
-//    CopyTextToClipboard(sSql);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     oDBQuery := DBQueryCreate('CxOperaca.tela.lista.get.q', DBConnection, sSql,
       nil, nil);
 
-    pDMemTable1.DisableControls;
-    pDMemTable1.Indexes.Clear;
-    pDMemTable1.EmptyDataSet;
-    pDMemTable1.BeginBatch;
+    T.DisableControls;
+    T.Indexes.Clear;
+    T.EmptyDataSet;
+    T.BeginBatch;
 
     try
       if pCaixaSessao.Id < 1 then
@@ -225,59 +231,88 @@ begin
       q := oDBQuery.DataSet;
       while not q.Eof do
       begin
-        t.Append;
-        t.FieldByName('LOJA_ID').AsInteger := q.FieldByName('LOJA_ID')
+        T.Append;
+        T.FieldByName('LOJA_ID').AsInteger := q.FieldByName('LOJA_ID')
           .AsInteger;
-        t.FieldByName('TERMINAL_ID').AsInteger := q.FieldByName('TERMINAL_ID')
+        T.FieldByName('TERMINAL_ID').AsInteger := q.FieldByName('TERMINAL_ID')
           .AsInteger;
-        t.FieldByName('ID').AsInteger := q.FieldByName('ID').AsInteger;
-        t.FieldByName('LOG_ID').AsLargeInt := q.FieldByName('LOG_ID')
+        T.FieldByName('ID').AsInteger := q.FieldByName('ID').AsInteger;
+        T.FieldByName('LOG_ID').AsLargeInt := q.FieldByName('LOG_ID')
           .AsLargeInt;
-        t.FieldByName('ORDEM').AsInteger := q.FieldByName('ORDEM').AsInteger;
-        t.FieldByName('TIPO_ID').AsString := q.FieldByName('TIPO_ID').AsString;
-        t.FieldByName('TIPO_STR').AsString := q.FieldByName('TIPO_STR')
+        T.FieldByName('ORDEM').AsInteger := q.FieldByName('ORDEM').AsInteger;
+        T.FieldByName('TIPO_ID').AsString := q.FieldByName('TIPO_ID').AsString;
+        T.FieldByName('TIPO_STR').AsString := q.FieldByName('TIPO_STR')
           .AsString;
-        t.FieldByName('CRIADO_EM').AsDateTime := q.FieldByName('CRIADO_EM')
+        T.FieldByName('CRIADO_EM').AsDateTime := q.FieldByName('CRIADO_EM')
           .AsDateTime;
-        t.FieldByName('VALOR').AsCurrency := q.FieldByName('VALOR').AsCurrency;
-        t.FieldByName('CANCELADO').AsBoolean := q.FieldByName('CANCELADO')
+        T.FieldByName('VALOR').AsCurrency := q.FieldByName('VALOR').AsCurrency;
+        T.FieldByName('CANCELADO').AsBoolean := q.FieldByName('CANCELADO')
           .AsBoolean;
-        t.FieldByName('OBS').AsString := q.FieldByName('OBS').AsString;
+        T.FieldByName('OBS').AsString := q.FieldByName('OBS').AsString;
 
-        if t.FieldByName('TIPO_ID').AsString = cxopVenda.ToChar then
-          t.FieldByName('COD_STR').AsString :=
-            Sis.Entities.Types.GetCod(t.FieldByName('LOJA_ID').AsInteger,
-            t.FieldByName('TERMINAL_ID').AsInteger,
-            t.FieldByName('ID').AsInteger, 'VEN')
+        if T.FieldByName('TIPO_ID').AsString = cxopVenda.ToChar then
+          T.FieldByName('COD_STR').AsString :=
+            Sis.Entities.Types.GetCod(T.FieldByName('LOJA_ID').AsInteger,
+            T.FieldByName('TERMINAL_ID').AsInteger,
+            T.FieldByName('ID').AsInteger, 'VEN')
         else
-          t.FieldByName('COD_STR').AsString :=
-            Sis.Entities.Types.GetCod(t.FieldByName('LOJA_ID').AsInteger,
-            t.FieldByName('TERMINAL_ID').AsInteger,
-            t.FieldByName('ID').AsInteger, 'CX') + '-' + t.FieldByName('ORDEM')
+          T.FieldByName('COD_STR').AsString :=
+            Sis.Entities.Types.GetCod(T.FieldByName('LOJA_ID').AsInteger,
+            T.FieldByName('TERMINAL_ID').AsInteger,
+            T.FieldByName('ID').AsInteger, 'CX') + '-' + T.FieldByName('ORDEM')
             .AsInteger.ToString;
 
-        pDMemTable1.Post;
+        T.Post;
         oDBQuery.DataSet.Next;
       end;
     finally
       oDBQuery.Fechar;
 
-      pDMemTable1.EndBatch;
-      with pDMemTable1.Indexes.Add do
+      T.EndBatch;
+      with T.Indexes.Add do
       begin
         Name := 'IdxCriadoEm';
         Fields := 'CRIADO_EM';
         Active := True;
       end;
 
-      pDMemTable1.IndexesActive := True;
-      pDMemTable1.IndexName := 'IdxCriadoEm';
+      T.IndexesActive := True;
+      T.IndexName := 'IdxCriadoEm';
 
-      pDMemTable1.First;
-      pDMemTable1.EnableControls;
+      T.First;
+      T.EnableControls;
     end;
+
+    if not pCarregaDetail then
+      exit;
+
+    PDVSessFormCarregarDataSetDetail(pDMemTableMaster, pDMemTableItem,
+      pDMemTablePag, DBConnection);
   finally
     DBConnection.Fechar;
+  end;
+end;
+
+procedure TCaixaSessaoDBI.PDVSessFormCarregarDataSetDetail(pDMemTableMaster,
+  pDMemTableItem, pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection);
+var
+  bPrecisouConectar: Boolean;
+begin
+  bPrecisouConectar := pDBConnection = nil;
+
+  if bPrecisouConectar then
+  begin
+    pDBConnection := DBConnection;
+    pDBConnection.Abrir;
+  end;
+
+  try
+
+  finally
+    if bPrecisouConectar then
+    begin
+      pDBConnection.Abrir;
+    end;
   end;
 end;
 
@@ -286,50 +321,44 @@ var
   sSql: string;
   q: TDataSet;
 begin
-//  pCaixaSessaoRec.Zerar;
+  // pCaixaSessaoRec.Zerar;
 
   DBConnection.Abrir;
 
   try
-    sSql :=
-      'SELECT first(1)'#13#10
-      +'SESS.SESS_ID'#13#10//0
-      +', PESS.PESSOA_ID'#13#10//1
-      +', PESS.APELIDO'#13#10//2
-      +', LOG.DTH ABERTO_EM'#13#10//3
-      +', sess.aberto'#13#10//4
+    sSql := 'SELECT first(1)'#13#10 + 'SESS.SESS_ID'#13#10 // 0
+      + ', PESS.PESSOA_ID'#13#10 // 1
+      + ', PESS.APELIDO'#13#10 // 2
+      + ', LOG.DTH ABERTO_EM'#13#10 // 3
+      + ', sess.aberto'#13#10 // 4
 
-      +'FROM AMBIENTE_SIS AMBI'#13#10
+      + 'FROM AMBIENTE_SIS AMBI'#13#10
 
-      +'JOIN CAIXA_SESSAO SESS ON'#13#10
-      +'AMBI.LOJA_ID = SESS.LOJA_ID'#13#10
-      +'AND AMBI.TERMINAL_ID = SESS.TERMINAL_ID'#13#10
+      + 'JOIN CAIXA_SESSAO SESS ON'#13#10 + 'AMBI.LOJA_ID = SESS.LOJA_ID'#13#10
+      + 'AND AMBI.TERMINAL_ID = SESS.TERMINAL_ID'#13#10
 
-      +'JOIN LOG ON'#13#10
-      +'SESS.LOJA_ID = LOG.LOJA_ID'#13#10
-      +'AND SESS.TERMINAL_ID = LOG.TERMINAL_ID'#13#10
-      +'AND SESS.SESS_LOG_ID = LOG.LOG_ID'#13#10
+      + 'JOIN LOG ON'#13#10 + 'SESS.LOJA_ID = LOG.LOJA_ID'#13#10 +
+      'AND SESS.TERMINAL_ID = LOG.TERMINAL_ID'#13#10 +
+      'AND SESS.SESS_LOG_ID = LOG.LOG_ID'#13#10
 
-      +'JOIN PESSOA PESS ON'#13#10
-      +'LOG.LOJA_ID = PESS.LOJA_ID'#13#10
-      +'AND LOG.PESSOA_TERMINAL_ID = PESS.TERMINAL_ID'#13#10
-      +'AND LOG.PESSOA_ID = PESS.PESSOA_ID'#13#10
+      + 'JOIN PESSOA PESS ON'#13#10 + 'LOG.LOJA_ID = PESS.LOJA_ID'#13#10 +
+      'AND LOG.PESSOA_TERMINAL_ID = PESS.TERMINAL_ID'#13#10 +
+      'AND LOG.PESSOA_ID = PESS.PESSOA_ID'#13#10
 
-      +'order by log.dth desc'#13#10
-      ;
+      + 'order by log.dth desc'#13#10;
     // {$IFDEF DEBUG}
     // CopyTextToClipboard(sSql);
     // {$ENDIF}
     DBConnection.QueryDataSet(sSql, q);
 
-    //Result := Assigned(q);
-//    if not Result then
-//      exit;
+    // Result := Assigned(q);
+    // if not Result then
+    // exit;
     try
-      //Result := not q.IsEmpty;
+      // Result := not q.IsEmpty;
 
-      //if not Result then
-        //exit;
+      // if not Result then
+      // exit;
 
       pCaixaSessao.Id := q.Fields[0].AsInteger;
       pCaixaSessao.LogUsuario.Id := q.Fields[1].AsInteger;
@@ -376,9 +405,9 @@ begin
 
         + ');';
 
-//       {$IFDEF DEBUG}
-//       CopyTextToClipboard(sSql);
-//       {$ENDIF}
+      // {$IFDEF DEBUG}
+      // CopyTextToClipboard(sSql);
+      // {$ENDIF}
 
       oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
         sSql, nil, nil);
