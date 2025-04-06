@@ -31,6 +31,7 @@ type
     function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao): Boolean;
 
     property Mensagem: string read GetMensagem;
+
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable;
       pCaixaSessao: ICaixaSessao);
 
