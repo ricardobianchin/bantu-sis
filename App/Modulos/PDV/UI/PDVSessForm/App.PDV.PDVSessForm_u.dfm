@@ -1,28 +1,28 @@
 inherited PDVSessForm: TPDVSessForm
   Caption = 'PDVSessForm'
-  ClientHeight = 254
-  ClientWidth = 788
+  ClientHeight = 353
+  ClientWidth = 984
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitWidth = 804
-  ExplicitHeight = 293
+  ExplicitWidth = 1000
+  ExplicitHeight = 392
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 197
-    Width = 788
+    Top = 296
+    Width = 984
     Visible = False
     ExplicitTop = 197
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 239
-    Width = 788
+    Top = 338
+    Width = 984
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 239
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
-    Width = 788
-    Height = 156
+    Width = 984
+    Height = 255
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -31,10 +31,12 @@ inherited PDVSessForm: TPDVSessForm
     Padding.Right = 3
     Padding.Bottom = 2
     TabOrder = 1
+    ExplicitWidth = 788
+    ExplicitHeight = 156
     object DBGrid1Splitter: TSplitter
       Left = 3
       Top = 127
-      Width = 782
+      Width = 978
       Height = 8
       Cursor = crVSplit
       Align = alTop
@@ -45,7 +47,7 @@ inherited PDVSessForm: TPDVSessForm
     object SessDescrLabel: TLabel
       Left = 3
       Top = 2
-      Width = 782
+      Width = 978
       Height = 20
       Align = alTop
       AutoSize = False
@@ -63,7 +65,7 @@ inherited PDVSessForm: TPDVSessForm
     object DBGrid1: TDBGrid
       Left = 3
       Top = 22
-      Width = 782
+      Width = 978
       Height = 105
       Align = alTop
       BorderStyle = bsNone
@@ -80,24 +82,27 @@ inherited PDVSessForm: TPDVSessForm
     object SubPanel: TPanel
       Left = 3
       Top = 135
-      Width = 782
-      Height = 19
+      Width = 978
+      Height = 118
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
+      ExplicitWidth = 782
+      ExplicitHeight = 19
       object Splitter2: TSplitter
-        Left = 273
+        Left = 537
         Top = 0
         Width = 8
-        Height = 19
+        Height = 118
+        ExplicitLeft = 273
         ExplicitHeight = 140
       end
       object ItemPanel: TPanel
         Left = 0
         Top = 0
-        Width = 273
-        Height = 19
+        Width = 537
+        Height = 118
         Align = alLeft
         BevelOuter = bvNone
         Caption = ' '
@@ -105,8 +110,8 @@ inherited PDVSessForm: TPDVSessForm
         object ItemDBGrid: TDBGrid
           Left = 0
           Top = 0
-          Width = 273
-          Height = 19
+          Width = 537
+          Height = 118
           Align = alClient
           BorderStyle = bsNone
           DataSource = ItemDataSource
@@ -117,22 +122,71 @@ inherited PDVSessForm: TPDVSessForm
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
           TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ORDEM'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'ITEM'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PROD_ID'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCR_RED'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'QTD'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PRECO_UNIT'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCONTO'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PRECO'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CANCELADO'
+              Visible = True
+            end>
         end
       end
       object PagPanel: TPanel
-        Left = 281
+        Left = 545
         Top = 0
-        Width = 501
-        Height = 19
+        Width = 433
+        Height = 118
         Align = alClient
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 1
+        ExplicitLeft = 281
+        ExplicitWidth = 501
+        ExplicitHeight = 19
         object PagDBGrid: TDBGrid
           Left = 0
           Top = 0
-          Width = 501
-          Height = 19
+          Width = 433
+          Height = 118
           Align = alClient
           BorderStyle = bsNone
           DataSource = PagDataSource
@@ -149,13 +203,15 @@ inherited PDVSessForm: TPDVSessForm
   end
   object BasePanel: TPanel [3]
     Left = 0
-    Top = 217
-    Width = 788
+    Top = 316
+    Width = 984
     Height = 22
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitTop = 217
+    ExplicitWidth = 788
     object ToolBar1: TToolBar
       Left = 15
       Top = 0
@@ -209,7 +265,7 @@ inherited PDVSessForm: TPDVSessForm
   object TitleBarPanel: TPanel [4]
     Left = 0
     Top = 0
-    Width = 788
+    Width = 984
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -218,8 +274,9 @@ inherited PDVSessForm: TPDVSessForm
     ParentBackground = False
     TabOrder = 2
     StyleElements = []
+    ExplicitWidth = 788
     DesignSize = (
-      788
+      984
       41)
     object TitleBarCaptionLabel: TLabel
       Left = 161
@@ -238,7 +295,7 @@ inherited PDVSessForm: TPDVSessForm
       StyleElements = []
     end
     object ToolBar2: TToolBar
-      Left = 741
+      Left = 937
       Top = 9
       Width = 54
       Height = 29
@@ -255,6 +312,7 @@ inherited PDVSessForm: TPDVSessForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
+      ExplicitLeft = 741
       object FecharToolButton: TToolButton
         Left = 0
         Top = 0
@@ -293,6 +351,8 @@ inherited PDVSessForm: TPDVSessForm
     end
   end
   object SessFDMemTable: TFDMemTable
+    AfterOpen = SessFDMemTableAfterOpen
+    AfterScroll = SessFDMemTableAfterScroll
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -304,6 +364,7 @@ inherited PDVSessForm: TPDVSessForm
     Top = 44
   end
   object ItemFDMemTable: TFDMemTable
+    Active = True
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -313,6 +374,48 @@ inherited PDVSessForm: TPDVSessForm
     UpdateOptions.AutoCommitUpdates = True
     Left = 48
     Top = 104
+    object ItemFDMemTableORDEM: TSmallintField
+      FieldName = 'ORDEM'
+      Visible = False
+    end
+    object ItemFDMemTableITEM: TSmallintField
+      DisplayLabel = 'Item'
+      FieldName = 'ITEM'
+    end
+    object ItemFDMemTablePROD_ID: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'PROD_ID'
+    end
+    object ItemFDMemTableDESCR_RED: TStringField
+      DisplayLabel = 'Produto'
+      FieldName = 'DESCR_RED'
+      Size = 30
+    end
+    object ItemFDMemTableQTD: TCurrencyField
+      DisplayLabel = 'Qtd'
+      FieldName = 'QTD'
+      EditFormat = '######0.###'
+    end
+    object ItemFDMemTablePRECO_UNIT: TCurrencyField
+      DisplayLabel = 'Pre'#231'o Unit'#225'rio'
+      FieldName = 'PRECO_UNIT'
+      EditFormat = '######0.00'
+    end
+    object ItemFDMemTableDESCONTO: TCurrencyField
+      DisplayLabel = 'Desconto'
+      FieldName = 'DESCONTO'
+      EditFormat = '######0.00'
+    end
+    object ItemFDMemTablePRECO: TCurrencyField
+      DisplayLabel = 'Pre'#231'o'
+      FieldName = 'PRECO'
+      EditFormat = '######0.00'
+    end
+    object ItemFDMemTableCANCELADO: TBooleanField
+      DisplayLabel = 'Cancelado'
+      FieldName = 'CANCELADO'
+      DisplayValues = 'Sim;N'#227'o'
+    end
   end
   object PagFDMemTable: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -322,8 +425,38 @@ inherited PDVSessForm: TPDVSessForm
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 224
-    Top = 112
+    Left = 384
+    Top = 120
+    object PagFDMemTableORDEM: TSmallintField
+      FieldName = 'ORDEM'
+      Visible = False
+    end
+    object PagFDMemTablePAGAMENTO_FORMA_ID: TIntegerField
+      FieldName = 'PAGAMENTO_FORMA_ID'
+      Visible = False
+    end
+    object PagFDMemTableDESCR: TStringField
+      DisplayLabel = 'Forma de Pagamento'
+      FieldName = 'DESCR'
+      Size = 80
+    end
+    object PagFDMemTableVALOR_DEVIDO: TCurrencyField
+      DisplayLabel = 'Valor'
+      FieldName = 'VALOR_DEVIDO'
+    end
+    object PagFDMemTableVALOR_ENTREGUE: TCurrencyField
+      DisplayLabel = 'Recebido'
+      FieldName = 'VALOR_ENTREGUE'
+    end
+    object PagFDMemTableTROCO: TCurrencyField
+      DisplayLabel = 'Troco'
+      FieldName = 'TROCO'
+    end
+    object PagFDMemTableCANCELADO: TBooleanField
+      DisplayLabel = 'Cancelado'
+      FieldName = 'CANCELADO'
+      DisplayValues = 'Sim;N'#227'o'
+    end
   end
   object ItemDataSource: TDataSource
     DataSet = ItemFDMemTable
@@ -332,12 +465,12 @@ inherited PDVSessForm: TPDVSessForm
   end
   object PagDataSource: TDataSource
     DataSet = PagFDMemTable
-    Left = 313
+    Left = 505
     Top = 108
   end
   object SessDataSource: TDataSource
     DataSet = SessFDMemTable
-    Left = 456
-    Top = 132
+    Left = 536
+    Top = 52
   end
 end

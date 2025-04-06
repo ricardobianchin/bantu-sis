@@ -51,6 +51,22 @@ type
     FechToolButton: TToolButton;
     DespToolButton: TToolButton;
     DespAction: TAction;
+    ItemFDMemTableORDEM: TSmallintField;
+    ItemFDMemTableITEM: TSmallintField;
+    ItemFDMemTablePROD_ID: TIntegerField;
+    ItemFDMemTableDESCR_RED: TStringField;
+    ItemFDMemTableQTD: TCurrencyField;
+    ItemFDMemTablePRECO_UNIT: TCurrencyField;
+    ItemFDMemTableDESCONTO: TCurrencyField;
+    ItemFDMemTablePRECO: TCurrencyField;
+    ItemFDMemTableCANCELADO: TBooleanField;
+    PagFDMemTableORDEM: TSmallintField;
+    PagFDMemTablePAGAMENTO_FORMA_ID: TIntegerField;
+    PagFDMemTableVALOR_DEVIDO: TCurrencyField;
+    PagFDMemTableDESCR: TStringField;
+    PagFDMemTableVALOR_ENTREGUE: TCurrencyField;
+    PagFDMemTableTROCO: TCurrencyField;
+    PagFDMemTableCANCELADO: TBooleanField;
     procedure RelatActionExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure SuprActionExecute(Sender: TObject);
@@ -60,6 +76,8 @@ type
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure DespActionExecute(Sender: TObject);
+    procedure SessFDMemTableAfterOpen(DataSet: TDataSet);
+    procedure SessFDMemTableAfterScroll(DataSet: TDataSet);
   private
     { Private declarations }
     FCaixaSessao: ICaixaSessao;
@@ -135,6 +153,8 @@ procedure TPDVSessForm.Atualizar;
 begin
   FCaixaSessaoDM.CaixaSessaoDBI.PDVCarregarDataSet(SessFDMemTable,
     FCaixaSessaoDM.CaixaSessao);
+  AtualizarItens;
+  AtualiarPag;
 end;
 
 procedure TPDVSessForm.BuscarRecente;
@@ -259,6 +279,22 @@ begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopSangria).Execute;
   Atualizar;
+end;
+
+procedure TPDVSessForm.SessFDMemTableAfterOpen(DataSet: TDataSet);
+begin
+  inherited;
+  AtualizarItens;
+  AtualiarPag;
+
+end;
+
+procedure TPDVSessForm.SessFDMemTableAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  AtualizarItens;
+  AtualiarPag;
+
 end;
 
 procedure TPDVSessForm.SessStatusExiba;
