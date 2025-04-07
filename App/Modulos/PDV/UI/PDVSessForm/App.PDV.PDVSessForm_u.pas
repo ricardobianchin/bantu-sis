@@ -67,6 +67,7 @@ type
     PagFDMemTableVALOR_ENTREGUE: TCurrencyField;
     PagFDMemTableTROCO: TCurrencyField;
     PagFDMemTableCANCELADO: TBooleanField;
+    CarregaDetailTimer: TTimer;
     procedure RelatActionExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure SuprActionExecute(Sender: TObject);
@@ -78,6 +79,8 @@ type
     procedure DespActionExecute(Sender: TObject);
     procedure SessFDMemTableAfterOpen(DataSet: TDataSet);
     procedure SessFDMemTableAfterScroll(DataSet: TDataSet);
+    procedure FormResize(Sender: TObject);
+    procedure CarregaDetailTimerTimer(Sender: TObject);
   private
     { Private declarations }
     FCaixaSessao: ICaixaSessao;
@@ -89,6 +92,10 @@ type
 
     procedure Atualizar;
     procedure AtualizarDetail;
+
+    procedure RetiraEventos;
+    procedure RecolocaEventos;
+    procedure DisparaCarregaDetailTimer;
 
   protected
     procedure AjusteControles; override;
@@ -115,7 +122,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM, System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
-  App.PDV.Factory_u, Sis.UI.IO.Input.Perg,
+  App.PDV.Factory_u, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
   App.PDV.ImpressaoTextoCxSessRelat_u, App.Est.Venda.CaixaSessao.Factory_u,
   Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
@@ -156,13 +163,23 @@ procedure TPDVSessForm.Atualizar;
 const
   CARREGA_DATASETS_DETAIL = True;
 begin
+  RetiraEventos;
+  try
   FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
     ItemFDMemTable, PagFDMemTable, FCaixaSessaoDM.CaixaSessao,
     CARREGA_DATASETS_DETAIL);
+  finally
+    RecolocaEventos;
+  end;
 end;
 
 procedure TPDVSessForm.AtualizarDetail;
+var
+  eCxOpTipo: TCxOpTipo;
 begin
+  eCxOpTipo.FromString(SessFDMemTable.Fields[6].AsString);
+  ItemDBGrid.Visible := eCxOpTipo = TCxOpTipo.cxopVenda;
+
   FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSetDetail(SessFDMemTable,
     ItemFDMemTable, PagFDMemTable);
 end;
@@ -178,6 +195,13 @@ procedure TPDVSessForm.CancelActionExecute(Sender: TObject);
 begin
   inherited;
   Atualizar;
+end;
+
+procedure TPDVSessForm.CarregaDetailTimerTimer(Sender: TObject);
+begin
+  inherited;
+  CarregaDetailTimer.Enabled := False;
+  AtualizarDetail;
 end;
 
 constructor TPDVSessForm.Create(AOwner: TComponent; pImpressoraNome: string;
@@ -200,11 +224,8 @@ begin
     FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
     FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessao);
 
-  Height := Min(600, Screen.WorkAreaRect.Height - 10);
-  Width := 800;
-  DBGrid1.Height := (MeioPanel.Height - DBGrid1Splitter.Height) div 2;
-
-  ItemDBGrid.Width := (MeioPanel.Width * 2) div 3;
+//  Height := Min(600, Screen.WorkAreaRect.Height - 10);
+//  Width := 800;
 
   sNomeArq := FCaixaSessaoDM.AppObj.AppInfo.PastaConsTabViews +
     'App\PDV\tabview.pdv.sessform.csv';
@@ -215,8 +236,9 @@ begin
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
   // DisparaShowTimer := True;
-  MakeRounded(Self, 30);
+//  MakeRounded(Self, 30);
   Canvas.Brush.Style := bsClear;
+  WindowState := TWindowState.wsMaximized;
 end;
 
 procedure TPDVSessForm.DespActionExecute(Sender: TObject);
@@ -224,6 +246,12 @@ begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopDespesa).Execute;
   Atualizar;
+end;
+
+procedure TPDVSessForm.DisparaCarregaDetailTimer;
+begin
+  CarregaDetailTimer.Enabled := False;
+  CarregaDetailTimer.Enabled := True;
 end;
 
 procedure TPDVSessForm.FechActionExecute(Sender: TObject);
@@ -263,6 +291,23 @@ begin
   inherited;
 end;
 
+procedure TPDVSessForm.FormResize(Sender: TObject);
+var
+  iPagGridLarg: integer;
+begin
+  inherited;
+  DBGrid1.Height := (MeioPanel.Height - DBGrid1Splitter.Height) div 2;
+  iPagGridLarg := DBGridColumnWidthsGet(PagDBGrid);
+  iPagGridLarg := (iPagGridLarg * 115) div 100;
+  ItemPanel.Width := MeioPanel.Width - iPagGridLarg;
+end;
+
+procedure TPDVSessForm.RecolocaEventos;
+begin
+  SessFDMemTable.AfterOpen := SessFDMemTableAfterOpen;
+  SessFDMemTable.AfterScroll := SessFDMemTableAfterScroll;
+end;
+
 procedure TPDVSessForm.RelatActionExecute(Sender: TObject);
 var
   bResultado: Boolean;
@@ -283,6 +328,12 @@ begin
   FImpressao.Imprima;
 end;
 
+procedure TPDVSessForm.RetiraEventos;
+begin
+  SessFDMemTable.AfterOpen := nil;
+  SessFDMemTable.AfterScroll := nil;
+end;
+
 procedure TPDVSessForm.SangrActionExecute(Sender: TObject);
 begin
   inherited;
@@ -293,13 +344,13 @@ end;
 procedure TPDVSessForm.SessFDMemTableAfterOpen(DataSet: TDataSet);
 begin
   inherited;
-  AtualizarDetail;
+  DisparaCarregaDetailTimer;
 end;
 
 procedure TPDVSessForm.SessFDMemTableAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  AtualizarDetail;
+  DisparaCarregaDetailTimer;
 end;
 
 procedure TPDVSessForm.SessStatusExiba;
@@ -325,9 +376,14 @@ begin
 end;
 
 procedure TPDVSessForm.ShowTimer_BasFormTimer(Sender: TObject);
+var
+  iPagGridLarg: integer;
 begin
   inherited;
-  // RelatAction.Execute;
+  DBGrid1.Height := (MeioPanel.Height - DBGrid1Splitter.Height) div 2;
+  iPagGridLarg := DBGridColumnWidthsGet(PagDBGrid);
+  iPagGridLarg := (iPagGridLarg * 115) div 100;
+  ItemPanel.Width := MeioPanel.Width - iPagGridLarg;
 end;
 
 procedure TPDVSessForm.SuprActionExecute(Sender: TObject);

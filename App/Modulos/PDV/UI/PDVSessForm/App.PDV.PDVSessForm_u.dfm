@@ -10,13 +10,13 @@ inherited PDVSessForm: TPDVSessForm
     Top = 296
     Width = 984
     Visible = False
-    ExplicitTop = 197
+    ExplicitTop = 296
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 338
     Width = 984
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 239
+    ExplicitTop = 338
   end
   object MeioPanel: TPanel [2]
     Left = 0
@@ -31,8 +31,6 @@ inherited PDVSessForm: TPDVSessForm
     Padding.Right = 3
     Padding.Bottom = 2
     TabOrder = 1
-    ExplicitWidth = 788
-    ExplicitHeight = 156
     object DBGrid1Splitter: TSplitter
       Left = 3
       Top = 127
@@ -88,8 +86,6 @@ inherited PDVSessForm: TPDVSessForm
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitWidth = 782
-      ExplicitHeight = 19
       object Splitter2: TSplitter
         Left = 537
         Top = 0
@@ -105,7 +101,7 @@ inherited PDVSessForm: TPDVSessForm
         Height = 118
         Align = alLeft
         BevelOuter = bvNone
-        Caption = ' '
+        Caption = 'Rotinas de Caixa n'#227'o possuem itens'
         TabOrder = 0
         object ItemDBGrid: TDBGrid
           Left = 0
@@ -124,48 +120,61 @@ inherited PDVSessForm: TPDVSessForm
           TitleFont.Style = []
           Columns = <
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'ORDEM'
+              Title.Alignment = taCenter
               Visible = False
             end
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'ITEM'
+              Title.Alignment = taCenter
               Visible = True
             end
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'PROD_ID'
+              Title.Alignment = taCenter
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DESCR_RED'
+              Width = 200
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'QTD'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'PRECO_UNIT'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DESCONTO'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'PRECO'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'CANCELADO'
+              Title.Alignment = taCenter
               Visible = True
             end>
         end
@@ -179,9 +188,6 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 1
-        ExplicitLeft = 281
-        ExplicitWidth = 501
-        ExplicitHeight = 19
         object PagDBGrid: TDBGrid
           Left = 0
           Top = 0
@@ -217,21 +223,26 @@ inherited PDVSessForm: TPDVSessForm
             item
               Expanded = False
               FieldName = 'VALOR_DEVIDO'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'VALOR_ENTREGUE'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'TROCO'
+              Title.Alignment = taRightJustify
               Visible = True
             end
             item
+              Alignment = taCenter
               Expanded = False
               FieldName = 'CANCELADO'
+              Title.Alignment = taCenter
               Visible = True
             end>
         end
@@ -247,8 +258,6 @@ inherited PDVSessForm: TPDVSessForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 217
-    ExplicitWidth = 788
     object ToolBar1: TToolBar
       Left = 15
       Top = 0
@@ -311,7 +320,6 @@ inherited PDVSessForm: TPDVSessForm
     ParentBackground = False
     TabOrder = 2
     StyleElements = []
-    ExplicitWidth = 788
     DesignSize = (
       984
       41)
@@ -349,7 +357,6 @@ inherited PDVSessForm: TPDVSessForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
-      ExplicitLeft = 741
       object FecharToolButton: TToolButton
         Left = 0
         Top = 0
@@ -401,7 +408,49 @@ inherited PDVSessForm: TPDVSessForm
     Top = 44
   end
   object ItemFDMemTable: TFDMemTable
-    FieldDefs = <>
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'ORDEM'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'ITEM'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'PROD_ID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DESCR_RED'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'QTD'
+        DataType = ftCurrency
+        Precision = 19
+      end
+      item
+        Name = 'PRECO_UNIT'
+        DataType = ftCurrency
+        Precision = 19
+      end
+      item
+        Name = 'DESCONTO'
+        DataType = ftCurrency
+        Precision = 19
+      end
+      item
+        Name = 'PRECO'
+        DataType = ftCurrency
+        Precision = 19
+      end
+      item
+        Name = 'CANCELADO'
+        DataType = ftBoolean
+      end>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -515,5 +564,12 @@ inherited PDVSessForm: TPDVSessForm
     DataSet = SessFDMemTable
     Left = 536
     Top = 52
+  end
+  object CarregaDetailTimer: TTimer
+    Enabled = False
+    Interval = 220
+    OnTimer = CarregaDetailTimerTimer
+    Left = 240
+    Top = 129
   end
 end

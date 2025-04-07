@@ -20,6 +20,13 @@ type
     FLogUsuario: IUsuario;
     FMensagem: string;
     function GetMensagem: string;
+
+    procedure PDVSessFormCarregarVenda(pDMemTableMaster, pDMemTableItem,
+      pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection);
+
+    procedure PDVSessFormCarregarCxOper(pDMemTableMaster,
+      pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection);
+
   public
     constructor Create(pDBConnection: IDBConnection; pLogUsuario: IUsuario;
       pLojaId: TLojaId; pTerminalId: TTerminalId; pMachineIdentId: smallint);
@@ -47,7 +54,7 @@ type
 implementation
 
 uses Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, System.SysUtils,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.DB.DataSet.Utils;
 
 { TCaixaSessaoDBI }
 
@@ -170,6 +177,89 @@ end;
 function TCaixaSessaoDBI.GetMensagem: string;
 begin
   Result := FMensagem;
+end;
+
+procedure TCaixaSessaoDBI.PDVSessFormCarregarCxOper(pDMemTableMaster,
+  pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection);
+var
+  iSessLojaId: smallint;
+  iSessTerminalId: smallint;
+  iSessId: integer;
+
+  sSql: string;
+
+  q: TDataSet;
+
+  i: integer;
+
+  T: TFDMemTable;
+
+  s: string;
+begin
+  iSessLojaId := pDMemTableMaster.Fields[0].AsInteger;
+  iSessTerminalId := pDMemTableMaster.Fields[1].AsInteger;
+  iSessId := pDMemTableMaster.Fields[2].AsInteger;
+
+  sSql :=
+    'SELECT'#13#10 //
+    +'2 TIPO_REG'#13#10 //
+    +', OPVAL.OPER_ORDEM ORDEM'#13#10 //
+    +', (OPVAL.OPER_ORDEM + 1) ITEM'#13#10 //
+    +', OPVAL.PAGAMENTO_FORMA_ID ID'#13#10 //
+    +', CASE'#13#10 //
+    +'    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''!'' THEN FORMA.DESCR'#13#10 //
+    +'    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''"'' THEN FORMA.DESCR || '' '' || TIPO.DESCR_RED'#13#10 //
+    +'    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''#'' THEN FORMA.DESCR || '' '' || TIPO.DESCR_RED'#13#10 //
+    +'    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''$'' THEN TIPO.DESCR_RED || '' '' || FORMA.DESCR'#13#10 //
+    +'  END AS DESCR'#13#10 //
+    +''#13#10 //
+    +', OPVAL.VALOR FLOAT1'#13#10 //
+    +', OPVAL.VALOR FLOAT2'#13#10 //
+    +', 0 FLOAT3'#13#10 //
+    +', 0 FLOAT4'#13#10 //
+    +', FALSE CANCELADO'#13#10 //
+    +''#13#10 //
+    +'FROM CAIXA_SESSAO_OPERACAO_VALOR OPVAL'#13#10 //
+    +''#13#10 //
+    +'JOIN PAGAMENTO_FORMA FORMA ON'#13#10 //
+    +'OPVAL.PAGAMENTO_FORMA_ID = FORMA.PAGAMENTO_FORMA_ID'#13#10 //
+    +''#13#10 //
+    +'JOIN PAGAMENTO_FORMA_TIPO TIPO ON'#13#10 //
+    +'TIPO.PAGAMENTO_FORMA_TIPO_ID = FORMA.PAGAMENTO_FORMA_TIPO_ID'#13#10 //
+    ;
+
+  pDMemTablePag.DisableControls;
+
+  try
+    pDMemTablePag.EmptyDataSet;
+
+    pDBConnection.QueryDataSet(sSql, q);
+    if not Assigned(q) then
+      exit;
+
+    try
+      while not q.Eof do
+      begin
+        T := pDMemTablePag;
+        T.Append;
+        T.Fields[0 { ORDEM } ].AsInteger := q.Fields[1 { ORDEM } ].AsInteger;
+        T.Fields[1 { PAGAMENTO_FORMA_ID } ].AsInteger := q.Fields[3 { ID } ]          .AsInteger;
+        T.Fields[2 { DESCR } ].AsString := q.Fields[4 { DESCR } ].AsString;
+        T.Fields[3 { VALOR_DEVIDO } ].AsCurrency := q.Fields[5 { FLOAT1 } ]           .AsCurrency;
+        T.Fields[4 { VALOR_ENTREGUE } ].AsCurrency := q.Fields[6 { FLOAT2 } ]          .AsCurrency;
+        T.Fields[5 { TROCO } ].AsCurrency := q.Fields[7 { FLOAT3 } ].AsCurrency;
+        T.Fields[6 { CANCELADO } ].AsBoolean := q.Fields[9 { CANCELADO } ]          .AsBoolean;
+        T.Post;
+
+        q.Next;
+      end;
+    finally
+      q.Free;
+    end;
+  finally
+    pDMemTablePag.First;
+    pDMemTablePag.EnableControls;
+  end;
 end;
 
 procedure TCaixaSessaoDBI.PDVSessFormCarregarDataSet(pDMemTableMaster,
@@ -297,6 +387,7 @@ procedure TCaixaSessaoDBI.PDVSessFormCarregarDataSetDetail(pDMemTableMaster,
   pDMemTableItem, pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection);
 var
   bPrecisouConectar: Boolean;
+  eCxOpTipo: TCxOpTipo;
 begin
   bPrecisouConectar := pDBConnection = nil;
 
@@ -307,12 +398,159 @@ begin
   end;
 
   try
+    eCxOpTipo.FromString(pDMemTableMaster.Fields[6].AsString);
 
+    if eCxOpTipo = TCxOpTipo.cxopVenda then
+    begin
+      PDVSessFormCarregarVenda(pDMemTableMaster, pDMemTableItem, pDMemTablePag,
+        pDBConnection);
+      exit;
+    end;
+
+    PDVSessFormCarregarCxOper(pDMemTableMaster, pDMemTablePag, pDBConnection);
   finally
     if bPrecisouConectar then
     begin
       pDBConnection.Abrir;
     end;
+  end;
+end;
+
+procedure TCaixaSessaoDBI.PDVSessFormCarregarVenda(pDMemTableMaster,
+  pDMemTableItem, pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection);
+var
+  iEstMovLojaId: smallint;
+  iEstMovTerminalId: smallint;
+  iEstMovId: Int64;
+
+  sSql: string;
+
+  q: TDataSet;
+
+  i: integer;
+
+  T: TFDMemTable;
+
+  s: string;
+begin
+  iEstMovLojaId := pDMemTableMaster.Fields[0].AsInteger;
+  iEstMovTerminalId := pDMemTableMaster.Fields[1].AsInteger;
+  iEstMovId := pDMemTableMaster.Fields[2].AsInteger;
+
+  sSql := 'SELECT'#13#10 //
+    + '1 TIPO_REG'#13#10 //
+    + ', EI.ORDEM'#13#10 //
+    + ', (EI.ORDEM + 1) ITEM'#13#10 //
+    + ', EI.PROD_ID ID'#13#10 //
+    + ', P.DESCR_RED DESCR'#13#10 //
+    + ', EI.QTD FLOAT1'#13#10 //
+    + ', VI.PRECO_UNIT FLOAT2'#13#10 //
+    + ', VI.DESCONTO FLOAT3'#13#10 //
+    + ', VI.PRECO FLOAT4'#13#10 //
+    + ', EI.CANCELADO'#13#10 //
+
+    + 'FROM EST_MOV_ITEM EI'#13#10 //
+
+    + 'JOIN PROD P ON'#13#10 //
+    + 'EI.PROD_ID = P.PROD_ID'#13#10 //
+
+    + 'JOIN VENDA_ITEM VI ON'#13#10 //
+    + '  EI.LOJA_ID = VI.LOJA_ID'#13#10 //
+    + '  AND EI.TERMINAL_ID = VI.TERMINAL_ID'#13#10 //
+    + '  AND EI.EST_MOV_ID = VI.EST_MOV_ID'#13#10 //
+    + '  AND EI.ORDEM = VI.ORDEM'#13#10 //
+
+    + 'WHERE'#13#10 //
+    + '  EI.LOJA_ID = 1'#13#10 //
+    + '  AND EI.TERMINAL_ID = 1'#13#10 //
+    + '  AND EI.EST_MOV_ID = 1'#13#10 //
+
+    + 'UNION'#13#10 //
+
+    + 'SELECT'#13#10 //
+    + '2 TIPO_REG'#13#10 //
+    + ', VPAG.ORDEM'#13#10 //
+    + ', (VPAG.ORDEM + 1) ITEM'#13#10 //
+    + ', VPAG.PAGAMENTO_FORMA_ID ID'#13#10 //
+    + ', CASE'#13#10 //
+    + '    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''!'' THEN FORMA.DESCR'#13#10 //
+    + '    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''"'' THEN FORMA.DESCR || '' '' || TIPO.DESCR_RED'#13#10
+  //
+    + '    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''#'' THEN FORMA.DESCR || '' '' || TIPO.DESCR_RED'#13#10
+  //
+    + '    WHEN TIPO.PAGAMENTO_FORMA_TIPO_ID = ''$'' THEN TIPO.DESCR_RED || '' '' || FORMA.DESCR'#13#10
+  //
+    + '  END AS DESCR'#13#10 //
+    + ', VPAG.VALOR_DEVIDO FLOAT1'#13#10 //
+    + ', VPAG.VALOR_ENTREGUE FLOAT2'#13#10 //
+    + ', VPAG.TROCO FLOAT3'#13#10 //
+    + ', 0 FLOAT4'#13#10 //
+    + ', VPAG.CANCELADO'#13#10 //
+
+    + 'FROM VENDA_PAG VPAG'#13#10 //
+
+    + 'JOIN PAGAMENTO_FORMA FORMA ON'#13#10 //
+    + 'VPAG.PAGAMENTO_FORMA_ID = FORMA.PAGAMENTO_FORMA_ID'#13#10 //
+
+    + 'JOIN PAGAMENTO_FORMA_TIPO TIPO ON'#13#10 //
+    + 'TIPO.PAGAMENTO_FORMA_TIPO_ID = FORMA.PAGAMENTO_FORMA_TIPO_ID'#13#10 //
+    ;
+
+  pDMemTableItem.DisableControls;
+  pDMemTablePag.DisableControls;
+
+  try
+
+    pDMemTableItem.EmptyDataSet;
+    pDMemTablePag.EmptyDataSet;
+
+    pDBConnection.QueryDataSet(sSql, q);
+    if not Assigned(q) then
+      exit;
+
+    try
+      while not q.Eof do
+      begin
+        if q.Fields[0].AsInteger = 1 then
+        begin
+          T := pDMemTableItem;
+          T.Append;
+          T.Fields[0 {ORDEM}].AsInteger := q.Fields[1 {ORDEM}].AsInteger;
+          T.Fields[1 {ITEM}].AsInteger := q.Fields[2 {ITEM}].AsInteger;
+          T.Fields[2 {PROD_ID}].AsInteger := q.Fields[3 {ID}].AsInteger;
+          T.Fields[3 {DESCR_RED}].AsString := q.Fields[4 {DESCR}].AsString;
+          T.Fields[4 {QTD}].AsCurrency := q.Fields[5 {FLOAT1}].AsCurrency;
+          T.Fields[5 {PRECO_UNIT}].AsCurrency := q.Fields[6 {FLOAT2}].AsCurrency;
+          T.Fields[6 {DESCONTO}].AsCurrency := q.Fields[7 {FLOAT3}].AsCurrency;
+          T.Fields[7 {PRECO}].AsCurrency := q.Fields[8 {FLOAT4}].AsCurrency;
+          T.Fields[8 {CANCELADO}].AsBoolean := q.Fields[9 {CANCELADO}].AsBoolean;
+          T.Post;
+        end
+        else
+        begin
+          T := pDMemTablePag;
+          T.Append;
+          T.Fields[0 {ORDEM}].AsInteger := q.Fields[1 {ORDEM}].AsInteger;
+          T.Fields[1 {PAGAMENTO_FORMA_ID}].AsInteger := q.Fields[3 {ID}].AsInteger;
+          T.Fields[2 {DESCR}].AsString := q.Fields[4 {DESCR}].AsString;
+          T.Fields[3 {VALOR_DEVIDO}].AsCurrency := q.Fields[5 {FLOAT1}].AsCurrency;
+          T.Fields[4 {VALOR_ENTREGUE}].AsCurrency := q.Fields[6 {FLOAT2}].AsCurrency;
+          T.Fields[5 {TROCO}].AsCurrency := q.Fields[7 {FLOAT3}].AsCurrency;
+          T.Fields[6 {CANCELADO}].AsBoolean := q.Fields[9 {CANCELADO}].AsBoolean;
+          T.Post;
+        end;
+
+        q.Next;
+      end;
+    finally
+      q.Free;
+    end;
+  finally
+    pDMemTableItem.First;
+    pDMemTablePag.First;
+
+    pDMemTableItem.EnableControls;
+    pDMemTablePag.EnableControls;
   end;
 end;
 
