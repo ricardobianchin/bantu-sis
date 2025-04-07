@@ -12,10 +12,15 @@ procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
 
 procedure RecordToVarArray(out pVarArray: variant; pQ: TDataSet;
   out pDataSetWasEmpty: Boolean);
+
 procedure FDMemTableAppendDataSet(pOrigem: TDataSet; pDestino: TFDMemTable;
   pApagaDestinoAntes: Boolean = True);
+
 procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
+
 procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
+
+function RecordToFielNamesStr(pDataSet: TDataSet): string;
 
 implementation
 
@@ -173,6 +178,20 @@ begin
 
     pOrigem.Next;
   end;
+end;
+
+function RecordToFielNamesStr(pDataSet: TDataSet): string;
+var
+  iQtdCampos: integer;
+begin
+  Result := '';
+  if not pDataSet.Active then
+    exit;
+
+  iQtdCampos := pDataSet.fieldcount;
+  for var i := 0 to iQtdCampos - 1 do
+    Result := Result + 'q.Fields[' + i.ToString +'] // ' + pDataSet.Fields[i]
+      .FieldName + #13#10;
 end;
 
 end.

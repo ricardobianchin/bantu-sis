@@ -3,7 +3,8 @@ unit App.Est.Venda.CaixaSessao.DBI;
 interface
 
 uses Sis.DBI, FireDAC.Comp.Client, System.Classes,
-  App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessaoRecord_u;
+  App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessaoRecord_u,
+  Sis.DB.DBTypes;
 
 type
   ICaixaSessaoDBI = interface(IDBI)
@@ -11,14 +12,17 @@ type
     function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
       : Boolean;
 
-    function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao)
-      : Boolean;
+    function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao): Boolean;
     procedure PegDados(pCaixaSessao: ICaixaSessao);
     function GetMensagem: string;
     property Mensagem: string read GetMensagem;
 
-    procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable;
-      pCaixaSessao: ICaixaSessao);
+    procedure PDVSessFormCarregarDataSet(pDMemTableMaster, pDMemTableItem,
+      pDMemTablePag: TFDMemTable; pCaixaSessao: ICaixaSessao;
+      pCarregaDetail: Boolean = True);
+
+    procedure PDVSessFormCarregarDataSetDetail(pDMemTableMaster, pDMemTableItem,
+      pDMemTablePag: TFDMemTable; pDBConnection: IDBConnection = nil);
 
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
       pCaixaSessao: ICaixaSessao);
