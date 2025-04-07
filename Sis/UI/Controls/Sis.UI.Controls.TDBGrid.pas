@@ -9,7 +9,8 @@ procedure DBGridPosicioneColumnVisible(pDBGrid: TDBGrid);
 function DBGridColumnByFieldName(pGrid: TDBGrid; const pFieldName: String): TColumn;
 function GetTextoSelecionado(pDBGrid: TDBGrid): string;
 procedure CopyTextoSelecionado(pDBGrid: TDBGrid);
-procedure DBGridColumnWidthsGet(pDBGrid: TDBGrid; out pLargs: string);
+//procedure DBGridColumnWidthsGet(pDBGrid: TDBGrid; out pLargs: string);
+function DBGridColumnWidthsGet(pDBGrid: TDBGrid): integer;
 
 implementation
 
@@ -83,7 +84,7 @@ begin
   SetClipboardText(sValorCelula);
 end;
 
-procedure DBGridColumnWidthsGet(pDBGrid: TDBGrid; out pLargs: string);
+{procedure DBGridColumnWidthsGet(pDBGrid: TDBGrid; out pLargs: string);
 var
   i: Integer;
 begin
@@ -93,6 +94,21 @@ begin
     pLargs := pLargs + IntToStr(pDBGrid.Columns[i].Width);
     if i < pDBGrid.Columns.Count - 1 then
       pLargs := pLargs + ';';
+  end;
+end;
+}
+
+function DBGridColumnWidthsGet(pDBGrid: TDBGrid): integer;
+var
+  i: Integer;
+  oColumn: TColumn;
+begin
+  Result := 0;
+  for i := 0 to pDBGrid.Columns.Count - 1 do
+  begin
+    oColumn := pDBGrid.Columns[i];
+    if oColumn.Visible then
+      Inc(Result, oColumn.Width);
   end;
 end;
 
