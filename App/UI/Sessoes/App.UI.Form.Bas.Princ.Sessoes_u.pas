@@ -44,7 +44,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.Sessao.Factory, Sis.Usuario.Factory;
+uses App.Sessao.Factory, Sis.Usuario.Factory, Sis.ModuloSistema, Sis.Entities.Factory;
 
 constructor TSessoesPrincBasForm.Create(AOwner: TComponent);
 begin

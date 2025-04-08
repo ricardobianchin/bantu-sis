@@ -11,7 +11,12 @@ uses
   AppShop.UI.Form.Modulo.Config_u, ShopApp.UI.Form.Modulo.PDV_u,
   AppShop.UI.Form.Modulo.Retaguarda_u, Sis.ModuloSistema, App.Constants,
   Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.UI.IO.Output,
-  Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types;
+  Sis.UI.IO.Output.ProcessLog, App.AppObj, Sis.Entities.Types,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TShopSessoesFrame = class(TSessoesFrame)

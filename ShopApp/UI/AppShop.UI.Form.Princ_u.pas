@@ -8,10 +8,12 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Sessoes_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.UI.Sessoes.Frame,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, Sis.Entities.Factory, AppShop.UI.Form.Modulo.Retaguarda_u, Sis.ModuloSistema.Types;
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -50,6 +52,21 @@ begin
   sNomeArq := sPasta + 'ShopAssist.exe';
 
   ExecutePrograma(sNomeArq, sParams, sPasta, sErro);
+end;
+
+procedure TShopPrincForm.Button1Click(Sender: TObject);
+var
+  TipoOpcaoSisModulo: TOpcaoSisIdModulo;
+  oModuloBasForm: TForm;
+  oModuloSistema: IModuloSistema;
+begin
+  inherited;
+  TipoOpcaoSisModulo := TOpcaoSisIdModulo.opmoduConfiguracoes;
+  oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate();
+  oModuloBasForm := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
+        EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
+
+
 end;
 
 constructor TShopPrincForm.Create(AOwner: TComponent);
