@@ -67,4 +67,23 @@ object SessoesFrame: TSessoesFrame
       ImageIndex = 2
     end
   end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      
+        'Database=C:\Pr\app\bantu\bantu-sis\Exe\Dados\Dados_Mercado_Retag' +
+        'uarda.FDB'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Server=192.168.1.65'
+      'Protocol=TCPIP'
+      'DriverID=FB')
+    LoginPrompt = False
+    Left = 56
+    Top = 16
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    Left = 152
+    Top = 16
+  end
 end

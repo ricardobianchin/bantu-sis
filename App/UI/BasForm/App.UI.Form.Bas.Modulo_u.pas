@@ -319,6 +319,11 @@ var
   Resultado: TModalResult;
 begin
   inherited;
+  {$IFDEF DEBUG}
+  Result := True;
+  exit;
+  {$ENDIF}
+
   sMens := 'Deseja finalizar o módulo ' +
     FModuloSistema.TipoOpcaoSisModuloDescr + '?';
   Result := PergBool(sMens);

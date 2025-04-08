@@ -7,12 +7,17 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin,
   Sis.DB.DBTypes, Sis.Config.SisConfig, Sis.UI.IO.Output.ProcessLog, App.AppObj,
-  Sis.UI.IO.Output, App.Sessao.EventosDeSessao, Sis.UI.Form.Login.Config,
+  Sis.UI.IO.Output, App.Sessao.EventosDeSessao,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
   Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants,
   Sis.UI.Controls.Utils, Sis.Sis.Constants, Data.DB, Vcl.StdCtrls,
-  App.UI.Sessoes.BotModulo.Frame_u, Generics.Collections, Sis.Entities.Types;
+  App.UI.Sessoes.BotModulo.Frame_u, Generics.Collections, Sis.Entities.Types,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TSessoesFrame = class(TFrame, ISessaoList)
@@ -23,12 +28,16 @@ type
     SessoesScrollBox: TScrollBox;
     ActionList1: TActionList;
     Action1: TAction;
+    FDConnection1: TFDConnection;
+    FDQuery1: TFDQuery;
   private
     { Private declarations }
+//    FDBConnection: IDBConnection;
+//    FDBQueryPodeAbrirModulo: IDBQuery;
+
     FPrimeiroShortCut: TShortCut;
     FAppObj: IAppObj;
     FEventosDeSessao: IEventosDeSessao;
-    FLoginConfig: ILoginConfig;
 
     FSessaoCriadorList: ISessaoCriadorList;
     FSessaoFrame: TSessaoFrame;
@@ -37,6 +46,7 @@ type
 
     FBotList: TList<TBotaoModuloFrame>;
     FLogo1NomeArq: string;
+
 
     procedure SessaoCriadorListPrep;
     procedure BotSessaoAlign;
@@ -47,6 +57,8 @@ type
 
     function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)
       : TBotaoModuloFrame;
+
+    function GetSqlPodeAbrirModulo: string;
 
   protected
     property EventosDeSessao: IEventosDeSessao read FEventosDeSessao;
@@ -60,8 +72,10 @@ type
       pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
       virtual; abstract;
+
     function GetAppObj: IAppObj;
     property AppObj: IAppObj read GetAppObj;
+
     function PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
       pDBConnection: IDBConnection): Boolean; virtual;
   public
@@ -83,7 +97,7 @@ type
     function ExecutouPeloShortCut(var Key: word;
       var Shift: TShiftState): Boolean;
 
-    constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
+    constructor Create(AOwner: TComponent;
       pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
 
@@ -94,12 +108,21 @@ implementation
 {$R *.dfm}
 
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
-  Sis.Usuario.Factory, Sis.UI.Form.LoginPerg_u, App.Sessao.Factory,
+  Sis.Usuario.Factory, App.Sessao.Factory, LoginPergForm_u,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
   Sis.Types.Factory, Sis.UI.ImgDM, Sis.Win.Utils_u;
 
 procedure TSessoesFrame.BotSessaoClick(Sender: TObject);
 var
+    iLojaId: TLojaId;
+    iTerminalId: TTerminalId;
+    iId: integer;
+    sNomeCompleto: string;
+    sNomeExib: string;
+    sNomeDeUsuario: string;
+    sSenha: string;
+    iCryVer: smallint;
+
   {
     oBotaoModuloFrame:TBotaoModuloFrame
     vTipoOpcaoSisModulo: TOpcaoSisIdModulo;
@@ -109,15 +132,9 @@ var
   oBotaoModuloFrame: TBotaoModuloFrame;
   iOpcaoSisIdModulo: TOpcaoSisIdModulo;
 
-  sNomeTipo: string;
-  sNameTipo: string;
-  sNameConex: string;
 
   oUsuario: IUsuario;
   oUsuarioDBI: IUsuarioDBI;
-
-  oDBConnection: IDBConnection;
-  DBConnectionParams: TDBConnectionParams;
 
   bResultado: Boolean;
   iSessaoIndex: TSessaoIndex;
@@ -125,33 +142,50 @@ var
 
   oModuloBasForm: TModuloBasForm;
 begin
+
   oControl := TControl(Sender);
   while not(oControl is TBotaoModuloFrame) do
     oControl := oControl.Parent;
   oBotaoModuloFrame := TBotaoModuloFrame(oControl);
 
   iOpcaoSisIdModulo := oBotaoModuloFrame.OpcaoSisIdModulo;
-  sNameTipo := TipoOpcaoSisModuloToName(iOpcaoSisIdModulo);
-  sNomeTipo := TipoOpcaoSisModuloToStr(iOpcaoSisIdModulo);
-  sNameConex := Format('Abr.%s.DBConn', [sNameTipo]);
 
-  DBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, FAppObj);
-  oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
-    DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
-
-  if not PodeAbrirModulo(iOpcaoSisIdModulo, oDBConnection) then
+  if not PodeAbrirModulo(iOpcaoSisIdModulo, nil{FDBConnection}) then
     exit;
 
   oUsuario := UsuarioCreate();
 
-  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
-
-  bResultado := LoginPerg(FLoginConfig, iOpcaoSisIdModulo, oUsuario,
-    oUsuarioDBI, true, FLogo1NomeArq);
+  bResultado := LoginPerg;
 
   if not bResultado then
     exit;
+
+//  oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
+
+{  bResultado := LoginPerg(iOpcaoSisIdModulo,DBConnectionParams, True,
+    FLogo1NomeArq, AppObj.SisConfig.LocalMachineId.IdentId, iLojaId,
+    iTerminalId,
+    iId,
+    sNomeCompleto,
+    sNomeExib,
+    sNomeDeUsuario,
+    sSenha,
+    iCryVer
+);}
+
+  oUsuario.Pegar(iLojaId, iTerminalId, iId);
+  oUsuario.NomeCompleto := sNomeCompleto;
+  oUsuario.NomeExib := sNomeExib;
+  oUsuario.NomeDeUsuario := sNomeDeUsuario;
+  oUsuario.Senha := sSenha;
+  oUsuario.CryVer := iCryVer;
+
+//  oUsuario.Pegar(1, 0, -2);
+//  oUsuario.NomeCompleto := 'SUPORTE';
+//  oUsuario.NomeExib := 'SUPORTE';
+//  oUsuario.NomeDeUsuario := 'SUP';
+//  oUsuario.Senha := '123';
+//  oUsuario.CryVer := 1;
 
   iSessaoIndex := FSessaoIndexContador.GetNext;
   oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate(iOpcaoSisIdModulo);
@@ -200,14 +234,18 @@ begin
 
 end;
 
-constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
+constructor TSessoesFrame.Create(AOwner: TComponent;
   pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj);
+var
+  sNameConex: string;
+  sNomeTipo: string;
+  sNameTipo: string;
+  DBConnectionParams: TDBConnectionParams;
 begin
   inherited Create(AOwner);
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
   FEventosDeSessao := pEventosDeSessao;
-  FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
 
   FPrimeiroShortCut := VK_F3;
@@ -217,6 +255,21 @@ begin
   FLogo1NomeArq := FAppObj.AppInfo.PastaImg + 'App\Logo Tela.jpg';
   SessaoCriadorListPrep;
   BotSessaoAlign;
+
+  DBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
+
+  FDConnection1.Params.Values['Database'] := DBConnectionParams.Arq;
+  FDConnection1.Params.Values['Server'] := DBConnectionParams.Server;
+
+//  sNameTipo := TipoOpcaoSisModuloToName(iOpcaoSisIdModulo);
+//  sNomeTipo := TipoOpcaoSisModuloToStr(iOpcaoSisIdModulo);
+//  sNameConex := Format('Abr.%s.DBConn', [sNameTipo]);
+
+//  FDBConnection := DBConnectionCreate('sessoesframe.con', FAppObj.SisConfig, DBConnectionParams, nil, nil);
+
+//  FDBQueryPodeAbrirModulo := DBQueryCreate('sessframe.PodeAbrirModulo.con', FDBConnection, GetSqlPodeAbrirModulo, nil, nil);
+
   // SessaoCriadorListPrepActionList;
   // SessaoCriadorListPrepToolBar;
 end;
@@ -266,14 +319,23 @@ var
   oAction: TAction;
   oBot: TBotaoModuloFrame;
 begin
-  if not FLoginConfig.AbreModulo then
-    exit;
 
-  oBot := GetBotByTipoOpcao(FLoginConfig.TipoOpcaoSisModulo);
+//opmoduConfiguracoes = 1, opmoduRetaguarda = 2, opmoduPDV = 3
+  oBot := GetBotByTipoOpcao(opmoduConfiguracoes);
   if not Assigned(oBot) then
     exit;
 
   oBot.BotaoClick;
+
+//  if not FLoginConfig.AbreModulo then
+//    exit;
+//
+//  oBot := GetBotByTipoOpcao(FLoginConfig.TipoOpcaoSisModulo);
+//  if not Assigned(oBot) then
+//    exit;
+//
+//  oBot.BotaoClick;
+
 end;
 
 function TSessoesFrame.ExecutouPeloShortCut(var Key: word;
@@ -374,21 +436,9 @@ begin
   end;
 end;
 
-function TSessoesFrame.PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
-  pDBConnection: IDBConnection): Boolean;
-var
-  SetExigeLoja: set of TOpcaoSisIdModulo;
-  sSql: string;
-  sNome: string;
+function TSessoesFrame.GetSqlPodeAbrirModulo: string;
 begin
-  SetExigeLoja := [TOpcaoSisIdModulo.opmoduRetaguarda,
-    TOpcaoSisIdModulo.opmoduPDV];
-
-  Result := not (pOpcaoSisIdModulo in SetExigeLoja);
-  if Result then
-    exit;
-
-  sSql := //
+  Result :=
     'SELECT PES.NOME'#13#10 + #13#10
 
     + 'FROM LOJA LOJ'#13#10 + #13#10
@@ -399,8 +449,37 @@ begin
     + 'LEFT JOIN PESSOA PES ON'#13#10 + 'LEP.LOJA_ID = PES.LOJA_ID'#13#10 +
     'AND LEP.TERMINAL_ID = PES.TERMINAL_ID'#13#10 +
     'AND LEP.PESSOA_ID = PES.PESSOA_ID'#13#10;
+    ;
+end;
 
-  sNome := pDBConnection.GetValueString(sSql);
+function TSessoesFrame.PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
+  pDBConnection: IDBConnection): Boolean;
+var
+  SetExigeLoja: set of TOpcaoSisIdModulo;
+  sSql: string;
+  sNome: string;
+begin
+  Result := True;
+  exit;
+  SetExigeLoja := [TOpcaoSisIdModulo.opmoduRetaguarda,
+    TOpcaoSisIdModulo.opmoduPDV];
+
+  Result := not (pOpcaoSisIdModulo in SetExigeLoja);
+  if Result then
+    exit;
+
+
+  FDConnection1.Open;
+  try
+    FDQuery1.Sql.Text := GetSqlPodeAbrirModulo;
+    FDQuery1.Open;
+//    sNome := FDQuery1.Fields[0].AsString;
+    FDQuery1.Close;
+
+  finally
+    FDConnection1.Close;
+  end;
+
   Result := sNome <> '';
   if not Result then
   begin

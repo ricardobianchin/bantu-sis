@@ -205,6 +205,7 @@ begin
   end;
 
   // ConfigTerminaisAction.Execute;
+  FecharAction_ModuloBasForm.Execute;
 end;
 
 procedure TConfigModuloBasForm.TabSheetCrie(pFormCreator: IFormCreator);

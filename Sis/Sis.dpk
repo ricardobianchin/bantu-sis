@@ -47,7 +47,8 @@ requires
   IndyProtocols,
   IndyCore,
   vclie,
-  vcledge;
+  vcledge,
+  vclFireDAC;
 
 contains
   sndkey32 in 'UI\IO\sndkey32.pas',

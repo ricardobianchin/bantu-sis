@@ -5,7 +5,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">Sis</ProjectName>
         <TargetedPlatforms>1</TargetedPlatforms>
@@ -105,6 +105,7 @@
         <DCCReference Include="IndyCore.dcp"/>
         <DCCReference Include="vclie.dcp"/>
         <DCCReference Include="vcledge.dcp"/>
+        <DCCReference Include="vclFireDAC.dcp"/>
         <DCCReference Include="UI\IO\sndkey32.pas"/>
         <DCCReference Include="Types\Sis.Types.Bool_u.pas"/>
         <DCCReference Include="Types\Sis.Types.Dado.pas"/>

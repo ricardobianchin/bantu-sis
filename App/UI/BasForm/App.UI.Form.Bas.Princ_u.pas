@@ -157,7 +157,7 @@ begin
 
     oAtualizaVersao := AppAtualizaVersaoCreate(FAppInfo, FProcessOutput,
       FProcessLog);
-    bPrecisaResetar := oAtualizaVersao.Execute;
+    bPrecisaResetar := False; // oAtualizaVersao.Execute;
 
     Result := bPrecisaResetar;
     sLog := iif(bPrecisaResetar, 'Result=True,Precisa reiniciar',
@@ -361,9 +361,9 @@ end;
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 begin
   AssistPedirPraFechar;
-{$IFNDEF DEBUG}
+//{$IFNDEF DEBUG}
   inherited;
-{$ENDIF}
+//{$ENDIF}
 end;
 
 procedure TPrincBasForm.GarantaDB;

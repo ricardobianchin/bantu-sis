@@ -9,7 +9,12 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Sis.Usuario, Sis.Config.SisConfig,
   Sis.Usuario.DBI, Sis.UI.Form.Login.Config, Sis.ModuloSistema,
   Sis.ModuloSistema.Types, Vcl.StdActns, Sis.UI.Form.Login.Types_u,
-  Sis.UI.IO.Output, Sis.UI.Controls.Alinhador;
+  Sis.UI.IO.Output, Sis.UI.Controls.Alinhador, Sis.DB.DBTypes,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, Sis.Entities.Types;
 
 type
   TLoginPergForm = class(TDiagBtnBasForm)
@@ -28,14 +33,13 @@ type
     Senha2LabeledEdit: TLabeledEdit;
     Senha3LabeledEdit: TLabeledEdit;
     UsuAdminiExibSenhaCheckBox: TCheckBox;
-    procedure FormShow(Sender: TObject);
+    FDConnection1: TFDConnection;
+    FDQuery1: TFDQuery;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
     // oculta mensagens de erro que estiverem visiveis
     procedure NomeDeUsuarioLabeledEditChange(Sender: TObject);
     procedure Senha1LabeledEditChange(Sender: TObject);
-
-    procedure FormCreate(Sender: TObject);
     procedure UsuAdminiExibSenhaCheckBoxClick(Sender: TObject);
 
     // retiram o foco do controle se enter
@@ -57,14 +61,24 @@ type
 
   private
     { Private declarations }
-    FUsuario: IUsuario;
-    FUsuarioDBI: IUsuarioDBI;
+    FDBConnectionParams: TDBConnectionParams;
+
+    FLojaId: TLojaId;
+    FTerminalId: TTerminalId;
+    FId: integer;
+    FNomeCompleto: string;
+    FNomeExib: string;
+    FNomeDeUsuario: string;
+    FSenha: string;
+    FCryVer: smallint;
+
     FLoginConfig: ILoginConfig;
     FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
 
     FLoginPergModo: TLoginPergModo;
     FNomeDeUsuarioStatus: IOutput;
     FLogo1NomeArq: string;
+    FMachiceIdentId: SmallInt;
 
     /// / ajusta modo
     procedure SetLoginPergModo(Value: TLoginPergModo);
@@ -87,8 +101,13 @@ type
 
     procedure ExecuteAutoLogin;
 
-    function ConsultaNomeDeUsuario(pNomeDeUsuario: string;
+    function ConsultaNomeDeUsuario(pNomeUsuDig: string;
       out pApelido, pMens: string; out pEncontrado: boolean): boolean;
+
+    function LoginValide(pOpcaoSisIdModuloTentando: TOpcaoSisId;
+      out pAceito: boolean; out pMens: string): boolean;
+
+    function GravarSenha(out pMens: string): boolean;
   protected
     procedure PreencherBaseControlsAlinhador(pBaseControlsAlinhador
       : IControlsAlinhador); override;
@@ -97,15 +116,30 @@ type
 
   public
     { Public declarations }
-    constructor Create(pLoginConfig: ILoginConfig;
-      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-      pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string);
+    property LojaId: TLojaId read FLojaId;
+    property TerminalId: TTerminalId read FTerminalId;
+    property Id: integer read FId;
+    property NomeCompleto: string read FNomeCompleto;
+    property NomeExib: string read FNomeExib;
+    property NomeDeUsuario: string read FNomeDeUsuario;
+    property Senha: string read FSenha;
+    property CryVer: smallint read FCryVer;
+
+    constructor Create(pTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+      pDBConnectionParams: TDBConnectionParams;
+      pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string; pMachiceIdentId: SmallInt;
+      out pLojaId: TLojaId; out pTerminalId: TTerminalId; out pId: integer;
+      out pNomeCompleto: string; out pNomeExib: string;
+      out pNomeDeUsuario: string; out pSenha: string; out pCryVer: smallint);
       reintroduce;
   end;
 
-function LoginPerg(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string): boolean;
+function LoginPerg({pTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+  pDBConnectionParams: TDBConnectionParams; pTestaAcessaModuloSistema: boolean;
+  pLogo1NomeArq: string; pMachiceIdentId: SmallInt; out pLojaId: TLojaId; out pTerminalId: TTerminalId;
+  out pId: integer; out pNomeCompleto: string; out pNomeExib: string;
+  out pNomeDeUsuario: string; out pSenha: string;
+  out pCryVer: smallint}): boolean;
 
 var
   LoginPergForm: TLoginPergForm;
@@ -115,22 +149,52 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.strings_u, Sis.Types.Utils_u, Sis.Sis.Constants,
-  Sis.UI.IO.Factory, Sis.Types.Bool_u, Sis.UI.Controls.Utils;
+  Sis.UI.IO.Factory, Sis.Types.Bool_u, Sis.UI.Controls.Utils,
+  Sis.Usuario.Factory, Sis.DB.Factory, Sis.Usuario.DBI.GetSQL_u,
+  Sis.Types.strings.Crypt_u, Sis.Usuario.Senha_u;
 
-function LoginPerg(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string): boolean;
-var
-  Resultado: TModalResult;
+function LoginPerg({pTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+  pDBConnectionParams: TDBConnectionParams; pTestaAcessaModuloSistema: boolean;
+  pLogo1NomeArq: string; pMachiceIdentId: SmallInt; out pLojaId: TLojaId; out pTerminalId: TTerminalId;
+  out pId: integer; out pNomeCompleto: string; out pNomeExib: string;
+  out pNomeDeUsuario: string; out pSenha: string;
+  out pCryVer: smallint}): boolean;
+//var
+//  Resultado: TModalResult;
 begin
-  LoginPergForm := TLoginPergForm.Create(pLoginConfig, pTipoOpcaoSisModulo,
-    pUsuario, pUsuarioDBI, pTestaAcessaModuloSistema, pLogo1NomeArq);
-  try
-    Resultado := LoginPergForm.ShowModal;
-    Result := IsPositiveResult(Resultado);
-  finally
-    FreeAndNil(LoginPergForm);
-  end;
+//    pLojaId := 1;
+//    pTerminalId := 0;
+//    pId := -2;
+//    pNomeCompleto := 'SUPORTE TECNICO';
+//    pNomeExib := 'SUPORTE';
+//    pNomeDeUsuario := 'SUP';
+//    pSenha := '123';
+//    pCryVer := 1;
+    RESULT := tRUE;
+  exit;
+
+//  LoginPergForm := TLoginPergForm.Create(pTipoOpcaoSisModulo,
+//    pDBConnectionParams, pTestaAcessaModuloSistema, pLogo1NomeArq, pMachiceIdentId, pLojaId,
+//    pTerminalId, pId, pNomeCompleto, pNomeExib, pNomeDeUsuario, pSenha,
+//    pCryVer);
+//  try
+//    Resultado := LoginPergForm.ShowModal;
+//    Result := IsPositiveResult(Resultado);
+//    if not Result then
+//      exit;
+//
+//    pLojaId := LoginPergForm.LojaId;
+//    pTerminalId := LoginPergForm.TerminalId;
+//    pId := LoginPergForm.Id;
+//    pNomeCompleto := LoginPergForm.NomeCompleto;
+//    pNomeExib := LoginPergForm.NomeExib;
+//    pNomeDeUsuario := LoginPergForm.NomeDeUsuario;
+//    pSenha := LoginPergForm.Senha;
+//    pCryVer := LoginPergForm.CryVer;
+//
+//  finally
+//    FreeAndNil(LoginPergForm);
+//  end;
 end;
 
 { TLoginPergForm }
@@ -147,38 +211,132 @@ begin
   TrySetFocus(NomeDeUsuarioLabeledEdit);
 end;
 
-function TLoginPergForm.ConsultaNomeDeUsuario(pNomeDeUsuario: string;
+function TLoginPergForm.ConsultaNomeDeUsuario(pNomeUsuDig: string;
   out pApelido, pMens: string; out pEncontrado: boolean): boolean;
+var
+  sSql: string;
+  q: TDataSet;
 begin
-  ErroOutput.Exibir('');
-  FNomeDeUsuarioStatus.Exibir('Buscando usuário...');
   try
-    Result := FUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeDeUsuario, pApelido,
-      pMens, pEncontrado);
+    FDConnection1.Open;
+    Result := FDConnection1.connected;
+  except
+    on e: exception do
+    begin
+      pMens := e.Message;
+      Result := False;
+    end;
+  end;
+
+  if Result = False then
+    exit;
+
+  try
+    q := FDQuery1;
+    FDQuery1.SQL.Text := GetSQLUsuarioPeloNomeDeUsuario(pNomeUsuDig);
+
+    FDQuery1.Open;
+    try
+      pEncontrado := not q.IsEmpty;
+
+      if not pEncontrado then
+      begin
+        pMens := 'Nome de Usuário não encontrado';
+        exit;
+      end;
+
+      FLojaId := q.FieldByName('LOJA_ID').AsInteger;
+      FTerminalId := 0;
+      FId := q.FieldByName('PESSOA_ID').AsInteger;
+      FNomeCompleto := q.FieldByName('NOME').AsString.Trim;
+      FNomeExib := q.FieldByName('APELIDO').AsString.Trim;
+
+      if q.FieldByName('SENHA_ZERADA').AsBoolean then
+      begin
+        pMens := SENHA_ZERADA_MENS;
+        exit;
+      end;
+    finally
+      FDQuery1.Close;
+    end;
+
+    {
+
+
+      iLojaId := q.FieldByName('LOJA_ID').AsInteger;
+      iPessoaId := q.FieldByName('PESSOA_ID').AsInteger;
+      sNomeCompleto := q.FieldByName('NOME').AsString.Trim;
+      sApelido := q.FieldByName('APELIDO').AsString.Trim;
+
+      q.Free;
+
+      FUsuario.Pegar(iLojaId, 0, iPessoaId);
+      FUsuario.NomeCompleto := sNomeCompleto;
+      FUsuario.NomeExib := sApelido;
+
+      if pTipoModuloSistema = modsisNaoIndicado then
+      exit;
+
+      sSql := GetSQLUsuarioAcessaModuloSistema(iLojaId, iPessoaId,
+      pTipoModuloSistema);
+      // sSql := 'SELECT ACESSA FROM USUARIO_PA.USUARIO_ACESSA_MODULO_GET(1, 2,''!'');';
+      DBConnection.QueryDataSet(sSql, q);
+      Result := not q.IsEmpty;
+
+      if not Result then
+      begin
+      q.Free;
+      sTipoModuloSistema := TipoModuloSistemaToStr(pTipoModuloSistema);
+      pMens := 'Usuário sem direitos para abrir o módulo ' + sTipoModuloSistema;
+      exit;
+      end;
+
+      Result := q.Fields[0].AsBoolean;
+      q.Free;
+
+      if not Result then
+      begin
+      sTipoModuloSistema := TipoModuloSistemaToStr(pTipoModuloSistema);
+      pMens := 'Usuário sem direitos para abrir o módulo ' + sTipoModuloSistema;
+      exit;
+      end;
+    }
   finally
-    FNomeDeUsuarioStatus.Exibir('');
+    FDConnection1.Close;
   end;
 end;
 
-constructor TLoginPergForm.Create(pLoginConfig: ILoginConfig;
-  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pUsuarioDBI: IUsuarioDBI; pTestaAcessaModuloSistema: boolean; pLogo1NomeArq: string);
+constructor TLoginPergForm.Create(pTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+  pDBConnectionParams: TDBConnectionParams; pTestaAcessaModuloSistema: boolean;
+  pLogo1NomeArq: string; pMachiceIdentId: SmallInt; out pLojaId: TLojaId; out pTerminalId: TTerminalId;
+  out pId: integer; out pNomeCompleto: string; out pNomeExib: string;
+  out pNomeDeUsuario: string; out pSenha: string; out pCryVer: smallint);
 var
   sNomeTipo: string;
 begin
   inherited Create(nil);
+  MensLabel.Alignment := taCenter;
   FNomeDeUsuarioStatus := LabelOutputCreate(NomeDeUsuarioStatusLabel);
   FNomeDeUsuarioStatus.Exibir('');
 
   LoginPergModo := TLoginPergModo.ltLogando;
   // DisparaShowTimer := True;
-  FUsuario := pUsuario;
-  FUsuarioDBI := pUsuarioDBI;
-  FLoginConfig := pLoginConfig;
+
+  FTerminalId := 0;
+  FCryVer := 1;
+
+
+  FDBConnectionParams := pDBConnectionParams;
+  FDConnection1.Params.Values['Database'] := FDBConnectionParams.Arq;
+  FDConnection1.Params.Values['Server'] := FDBConnectionParams.Server;
+
+  FLoginConfig := LoginConfigCreate;
+  FLoginConfig.Ler;
   FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
   sNomeTipo := AnsiUpperCase(TipoOpcaoSisModuloToStr(pTipoOpcaoSisModulo));
   Caption := Format('Login em %s...', [sNomeTipo]);
   FLogo1NomeArq := pLogo1NomeArq;
+  FMachiceIdentId := pMachiceIdentId;
   Logo1Image.Picture.LoadFromFile(FLogo1NomeArq);
 
 end;
@@ -187,16 +345,15 @@ function TLoginPergForm.Senha1DadosOk: boolean;
 var
   sSenha: string;
   sMens: string;
-  bAceito: Boolean;
+  bAceito: boolean;
 begin
   case FLoginPergModo of
     ltLogando:
       begin
-        FUsuario.Senha := Senha1LabeledEdit.Text;
+        FSenha := Senha1LabeledEdit.Text;
 
         ErroOutput.Exibir('');
-        Result := FUsuarioDBI.LoginValide(TOpcaoSisId(FTipoOpcaoSisModulo),
-          bAceito, sMens);
+        Result := LoginValide(TOpcaoSisId(FTipoOpcaoSisModulo), bAceito, sMens);
 
         if not Result then
         begin
@@ -223,11 +380,10 @@ begin
       end;
     ltMudandoSenha:
       begin
-        FUsuario.Senha := Senha1LabeledEdit.Text;
+        FSenha := Senha1LabeledEdit.Text;
 
         ErroOutput.Exibir('');
-        Result := FUsuarioDBI.LoginValide(TOpcaoSisId(FTipoOpcaoSisModulo),
-          bAceito, sMens);
+        Result := LoginValide(TOpcaoSisId(FTipoOpcaoSisModulo), bAceito, sMens);
 
         if not Result then
         begin
@@ -258,9 +414,9 @@ begin
     ltCriandoSenha:
       begin
         sSenha := Senha1LabeledEdit.Text;
-        FUsuario.Senha := sSenha;
+        FSenha := sSenha;
         ErroOutput.Exibir('');
-        Result := FUsuarioDBI.GravarSenha(sMens);
+        Result := GravarSenha(sMens);
       end;
   end;
   if not Result then
@@ -287,19 +443,150 @@ begin
   OkAct_Diag.Execute;
 end;
 
-procedure TLoginPergForm.FormCreate(Sender: TObject);
+function TLoginPergForm.GravarSenha(out pMens: string): boolean;
+var
+  sComandoSql: string;
+  sSenhaEncriptada: string;
 begin
-  inherited;
-  MensLabel.Alignment := taCenter;
+  Encriptar(FCryVer, FSenha, sSenhaEncriptada);
+
+  try
+    FDConnection1.Open;
+    Result := FDConnection1.connected;
+  except
+    on e: exception do
+    begin
+      ErroOutput.Exibir(e.Message);
+      Result := False;
+    end;
+  end;
+  if Result = False then
+    Exit;
+
+  try
+    sComandoSql := 'EXECUTE PROCEDURE USUARIO_PA.SENHA_SET(' //
+    + FLojaId.ToString // pLojaId.ToString //
+    + ', ' + FId.ToString // pUsuarioPessoaId.ToString //
+    + ', ' + FId.ToString // pLogPessoaId.ToString //
+    + ', ' + FMachiceIdentId.ToString // pMachineId.ToString //
+
+    + ', ' + QuotedStr(sSenhaEncriptada) //
+    + ', ' + FCryVer.ToString //
+    + ');'; //
+
+
+    FDConnection1.ExecSQL(sComandoSql);
+  finally
+    FDConnection1.Close;
+  end;
 end;
 
-procedure TLoginPergForm.FormShow(Sender: TObject);
+function TLoginPergForm.LoginValide(pOpcaoSisIdModuloTentando: TOpcaoSisId;
+  out pAceito: boolean; out pMens: string): boolean;
+var
+  sSql: string;
+  q: TDataSet;
+  iCryVer: smallint;
+  sSenhaEncriptada: string;
+  sSenhaDesencriptada: string;
+  bOpcaoSisIdModuloPode: boolean;
 begin
-  // era pra ser no create, mas volta a false.
-  // está aqui de forma anômala pra se conseguir que DisparaShowTimer fique true
-  // DisparaShowTimer := True;
+  try
+    FDConnection1.Open;
+    Result := FDConnection1.connected;
+  except
+    on e: exception do
+    begin
+      pMens := e.Message;
+      Result := False;
+    end;
+  end;
+  if Result = False then
+    Exit;
 
-  inherited;
+  sSql := 'SELECT'#13#10 //
+    + 'NOME_DE_USUARIO_OK -- 0'#13#10 //
+    + ', CRY_VER -- 1'#13#10 //
+    + ', SENHA -- 2'#13#10 //
+    + ', OPCAO_SIS_ID_MODULO_PODE -- 3'#13#10 //
+
+    + 'FROM USUARIO_PA.LOGIN_VALID_GET('#13#10 //
+
+    + FLojaId.ToString + ' -- LOJA_ID'#13#10 //
+    + ', ' + FId.ToString + ' -- PESSOA_ID'#13#10 //
+    + ', ' + FNomeDeUsuario.QuotedString + ' -- NOME_DE_USUAR'#13#10 //
+    + ', ' + pOpcaoSisIdModuloTentando.ToString + ' -- OPCAO_SIS_ID'#13#10 //
+
+    + ');'; //
+
+  try
+    try
+      FDQuery1.Sql.Text := sSql;
+      FDQuery1.Open;
+    except
+      on e: exception do
+      begin
+        pMens := e.Message;
+        Result := False;
+        raise;
+      end;
+    end;
+
+    try
+      q := FDQuery1;
+      pAceito := not q.IsEmpty;
+
+      if not pAceito then
+      begin
+        pMens := 'Erro buscando o registro do Usuário';
+        exit;
+      end;
+
+      pAceito := q.Fields[0 { NOME_DE_USUARIO_OK } ].AsBoolean;
+
+      if not pAceito then
+      begin
+        pMens := 'Nome de Usuário incorreto';
+        exit;
+      end;
+
+      iCryVer := q.Fields[1 { CRY_VER } ].AsInteger;
+      sSenhaEncriptada := q.Fields[2 { SENHA } ].AsString.Trim;
+
+      Desencriptar(iCryVer, sSenhaEncriptada, sSenhaDesencriptada);
+
+      pAceito := sSenhaDesencriptada <> SENHA_ZERADA;
+      if not pAceito then
+      begin
+        pMens := SENHA_ZERADA_MENS;
+        exit;
+      end;
+
+      pAceito := FSenha = sSenhaDesencriptada;
+      if not pAceito then
+      begin
+        pMens := 'Senha incorreta';
+        exit;
+      end;
+
+      FCryVer := iCryVer;
+
+      bOpcaoSisIdModuloPode := q.FieldByName('OPCAO_SIS_ID_MODULO_PODE')
+        .AsBoolean;
+
+      pAceito := bOpcaoSisIdModuloPode;
+
+      if not pAceito then
+      begin
+        pMens := 'Usuário sem direitos de acesso a este módulo do sistema';
+        exit;
+      end;
+    finally
+      q.Free;
+    end;
+  finally
+    FDConnection1.Close;
+  end;
 end;
 
 procedure TLoginPergForm.MensCopyAct_DiagExecute(Sender: TObject);
@@ -606,8 +893,8 @@ begin
     ltMudandoSenha:
       begin
         sSenha := Senha2LabeledEdit.Text;
-        FUsuario.Senha := sSenha;
-        Result := FUsuarioDBI.GravarSenha(sMens);
+        FSenha := sSenha;
+        Result := GravarSenha(sMens);
       end;
     ltCriandoSenha:
       begin

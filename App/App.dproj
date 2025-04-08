@@ -5,7 +5,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -776,6 +776,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos_u.pas"/>
         <DCCReference Include="Modulos\Config\Tar\Bak\App.UI.Form.Config.Tar.Backup.Message_u.pas">
             <Form>BackupMessageForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UI\Sessoes\Login\LoginPergForm_u.pas">
+            <Form>LoginPergForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
