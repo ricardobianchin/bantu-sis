@@ -29,6 +29,7 @@ type
     procedure DtHCompileLabelClick(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FsLogo1NomeArq: string;
@@ -363,14 +364,30 @@ procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 var
   bResultado: Boolean;
 begin
-  bResultado := PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
+  bResultado := PergBool('Sair do Sistema?', 'Administrador do Sistema Daros', TBooleanDefault.boolFalse);
+  if not bResultado then
+    exit;
     AssistPedirPraFechar;
 {$IFNDEF DEBUG}
     inherited;
 {$ENDIF}
   end;
 
-  procedure TPrincBasForm.GarantaDB; var bResultado: Boolean;
+  procedure TPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_ESCAPE then
+  begin
+    if Shift = [] then
+    begin
+      key := 0;
+      FecharAction_ActBasForm.Execute;
+    end;
+  end;
+end;
+
+procedure TPrincBasForm.GarantaDB; var bResultado: Boolean;
   oUsuarioAdmin: IUsuario; oSisConfig: ISisConfig;
 
   DBConnection: IDBConnection; oDBConnectionParams: TDBConnectionParams;
