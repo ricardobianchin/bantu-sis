@@ -2,7 +2,7 @@ unit Sis.UI.Controls.Factory;
 
 interface
 
-uses Sis.UI.Controls.Alinhador, Sis.UI.Controls.ComboBoxManager, Vcl.StdCtrls,
+uses Vcl.Forms, Sis.UI.Controls.Alinhador, Sis.UI.Controls.ComboBoxManager, Vcl.StdCtrls,
   Sis.UI.Controls.BotaoFrame_u, Vcl.Controls, System.Classes, Vcl.ImgList,
   System.UITypes, Sis.UI.Select, Sis.UI.Frame.Bas.Filtro_u, Sis.DBI;
 
@@ -16,10 +16,13 @@ function BotaoFrameCreate(pParent: TWinControl; pTit, pDescr: string;
 
 function DBSelectFormCreate(pDBI: IDBI; pFiltro: TFiltroFrame): ISelect;
 
+function AndamentoFrameCreateExibe(pParent: TWinControl; pFrase: string = ''): TFrame;
+
 implementation
 
 uses Sis.UI.Controls.Alinhador.ADireita_u, Sis.UI.Controls.ComboBoxManager_u,
-  System.SysUtils, Sis.UI.Form.Select.DB_u;
+  System.SysUtils, Sis.UI.Form.Select.DB_u, Sis.UI.Controls.AndamentoFrame_u,
+  Sis.UI.Controls.Utils;
 
 function ControlsAlinhadorADireitaCreate: IControlsAlinhador;
 begin
@@ -51,6 +54,16 @@ end;
 function DBSelectFormCreate(pDBI: IDBI; pFiltro: TFiltroFrame): ISelect;
 begin
   Result := TDBSelectForm.Create(pDBI, pFiltro);
+end;
+
+function AndamentoFrameCreateExibe(pParent: TWinControl; pFrase: string = ''): TFrame;
+begin
+  Result := TAndamentoFrame.Create(nil);
+  Result.Parent := pParent;
+  ControlAlignToRect(Result, pParent.ClientRect);
+  Result.BringToFront;
+  Result.Visible := True;
+  Result.Repaint;
 end;
 
 end.
