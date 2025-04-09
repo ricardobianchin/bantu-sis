@@ -38,26 +38,32 @@ type
     FFiltro: TFiltroFrame;
     FDadosColunaArray: TArray<TDadosColuna>;
     FAjustaTamanho: Boolean;
+    FAndamentoFrame: TFrame;
 
     procedure DoFiltroChange(Sender: TObject);
     procedure LeReg(q: TDataSet; pRecNo: integer);
-    procedure AtualizeQtdRegs;
     procedure DBGrid1Enter(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
 
     procedure AjusteTamanhos;
+    procedure AndamentoExiba;
+    procedure AndamentoOculte;
 
   protected
+    procedure Atualize; override;
+    procedure AtualizeQtdRegs; override;
     function GetLastSelected: string; override;
     procedure AjusteControles; override;
 
   public
     { Public declarations }
     function Execute(pParams: string = ''): Boolean; override;
+        destructor Destroy; override;
     property DBI: IDBI read FDBI;
     property Filtro: TFiltroFrame read FFiltro;
 
     constructor Create(pDBI: IDBI; pFiltro: TFiltroFrame); reintroduce; virtual;
+
   end;
 
 var
@@ -68,7 +74,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.DB.DataSet.Utils, Sis.Types.strings_u, Sis.UI.Controls.Utils,
-  Sis.UI.Constants;
+  Sis.UI.Constants, Sis.UI.Controls.Factory;
 
 { TDBSelectForm }
 
@@ -111,12 +117,29 @@ begin
 //  maximizar, borderst
 end;
 
+procedure TDBSelectForm.AndamentoExiba;
+begin
+  FAndamentoFrame := AndamentoFrameCreateExibe(Self);
+end;
+
+procedure TDBSelectForm.AndamentoOculte;
+begin
+  if Assigned(FAndamentoFrame) then
+    FreeAndNil(FAndamentoFrame);
+end;
+
+procedure TDBSelectForm.Atualize;
+begin
+  inherited;
+  DoFiltroChange(nil);
+end;
+
 procedure TDBSelectForm.AtualizeQtdRegs;
 var
   sFormat: string;
   sMens: string;
 begin
-  inherited;
+  //inherited;
   sFormat := '%d Registros';
   sMens := Format(sFormat, [FDBGridFrame.FDMemTable1.RecordCount]);
   QtdRegsLabel.Caption := sMens;
@@ -128,6 +151,7 @@ var
   i: integer;
   iWidthTotalOriginal: integer;
 begin
+  FAndamentoFrame := nil;
   FAjustaTamanho := False;
   inherited Create(nil);
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
@@ -191,6 +215,12 @@ begin
   Filtro.SetFocus;
 end;
 
+destructor TDBSelectForm.Destroy;
+begin
+  AndamentoOculte;
+  inherited;
+end;
+
 procedure TDBSelectForm.DoFiltroChange(Sender: TObject);
 var
   T: TFDMemTable;
@@ -198,6 +228,7 @@ begin
   T := FDBGridFrame.FDMemTable1;
   T.DisableControls;
   T.EmptyDataSet;
+  AndamentoExiba;
   try
     T.BeginBatch();
     try
@@ -209,6 +240,7 @@ begin
     T.First;
     T.EnableControls;
     AtualizeQtdRegs;
+    AndamentoOculte;
   end;
 end;
 
@@ -268,6 +300,13 @@ begin
   inherited;
   FDBGridFrame.FDMemTable1.DisableControls;
   case Key of
+    VK_F5:
+    begin
+      if Shift = [] then
+      begin
+        AtuAction.Execute;
+      end;
+    end;
     VK_PRIOR:
       begin
         for i := 1 to 23 do
