@@ -149,7 +149,7 @@ inherited PessEdBasForm: TPessEdBasForm
       FocusControl = MPessEditEdit
     end
     object DtNascPessLabel: TLabel
-      Left = 284
+      Left = 316
       Top = 37
       Width = 56
       Height = 15
@@ -211,7 +211,7 @@ inherited PessEdBasForm: TPessEdBasForm
       OnKeyPress = MPessEditEditKeyPress
     end
     object AtivoPessCheckBox: TCheckBox
-      Left = 444
+      Left = 476
       Top = 36
       Width = 48
       Height = 17
@@ -223,7 +223,7 @@ inherited PessEdBasForm: TPessEdBasForm
     object EMailPessEdit: TEdit
       Left = 50
       Top = 33
-      Width = 226
+      Width = 255
       Height = 23
       MaxLength = 60
       TabOrder = 5
@@ -260,7 +260,7 @@ inherited PessEdBasForm: TPessEdBasForm
       OnKeyPress = MUFPessComboBoxKeyPress
     end
     object DtNascMaskEdit: TMaskEdit
-      Left = 346
+      Left = 378
       Top = 33
       Width = 80
       Height = 23
