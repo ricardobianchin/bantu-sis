@@ -8,7 +8,7 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
     Height = 350
     StyleElements = [seFont, seClient, seBorder]
     ExplicitWidth = 1000
-    ExplicitHeight = 280
+    ExplicitHeight = 350
     object MedeFontesInputPaintBox: TPaintBox
       Left = 513
       Top = 15
@@ -217,7 +217,6 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
         ParentFont = False
         TabOrder = 2
         StyleElements = []
-        ExplicitLeft = 24
         DesignSize = (
           289
           68)
@@ -466,7 +465,6 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitTop = 280
     object PDVToolBar: TToolBar
       Left = 32
       Top = 1
