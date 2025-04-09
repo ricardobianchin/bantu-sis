@@ -394,7 +394,7 @@ procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-  SetNameToHint(Self);
+  //SetNameToHint(Self);
 end;
 
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;

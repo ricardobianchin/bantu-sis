@@ -3,7 +3,6 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
   ClientHeight = 439
   ClientWidth = 688
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitLeft = 2
   ExplicitWidth = 688
   ExplicitHeight = 439
   TextHeight = 15
