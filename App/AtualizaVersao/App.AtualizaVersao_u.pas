@@ -5,6 +5,9 @@ interface
 uses App.AtualizaVersao, Sis.Sis.Executavel_u, Sis.UI.IO.Output,
   Sis.UI.IO.Output.ProcessLog, App.AppInfo;
 
+const
+  TESTA_VERSAO = False;
+
 type
   TAtualizaVersao = class(TExecutavel, IAtualizaVersao)
   private
@@ -38,6 +41,10 @@ var
   sArqRemoto: string;
   oHTTPDownload: IHTTPDownload;
 begin
+  Result := TESTA_VERSAO;
+  if not Result  then
+    exit;
+
   ProcessLog.PegueAssunto('TAtualizaVersao.Execute');
   try
     ProcessLog.RegistreLog('Inicio');

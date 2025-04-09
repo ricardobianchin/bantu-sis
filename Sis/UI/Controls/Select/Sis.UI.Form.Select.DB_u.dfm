@@ -9,20 +9,13 @@ inherited DBSelectForm: TDBSelectForm
   inherited FundoPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]
     inherited BasePanel: TPanel
-      Top = 296
-      Height = 15
-      AutoSize = True
       StyleElements = [seClient, seBorder]
-      ExplicitTop = 296
-      ExplicitHeight = 15
+      ExplicitTop = 292
       inherited QtdRegsLabel: TLabel
-        Left = 616
-        Top = 0
-        Alignment = taRightJustify
-        Anchors = [akTop, akRight]
         StyleElements = [seFont, seClient, seBorder]
-        ExplicitLeft = 616
-        ExplicitTop = 0
+      end
+      inherited ToolsPanel_SelectForm: TPanel
+        StyleElements = [seFont, seClient, seBorder]
       end
     end
     object TitleBarPanel: TPanel

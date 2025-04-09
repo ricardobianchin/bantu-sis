@@ -456,6 +456,11 @@
         <DCCReference Include="Web\HTTP\Sis.Web.HTTP.Upload_u.pas"/>
         <DCCReference Include="UI\Controls\Memo\RichEdit\Sis.UI.Controls.RichEditUtils_u.pas"/>
         <DCCReference Include="Web\Sis.Web.Utils_u.pas"/>
+        <DCCReference Include="UI\Controls\AndamentoFrame\Sis.UI.Controls.AndamentoFrame_u.pas">
+            <Form>AndamentoFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
