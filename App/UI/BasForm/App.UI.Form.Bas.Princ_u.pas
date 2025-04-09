@@ -48,11 +48,11 @@ type
     FPrecisaFechar: Boolean;
 
     procedure GarantaDB;
-    function AtualizeVersaoExecutaveis: boolean;
+    function AtualizeVersaoExecutaveis: Boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
     function GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
-      pTerminalList: ITerminalList): boolean;
+      pTerminalList: ITerminalList): Boolean;
 
     procedure CarregarMachineId;
     procedure CarregarLoja;
@@ -105,7 +105,8 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
-  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u;
+  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.UI.IO.Input.Perg,
+  Sis.Types.Utils_u;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -139,10 +140,10 @@ begin
   EscreverArquivo(sMens, sNomeArq);
 end;
 
-function TPrincBasForm.AtualizeVersaoExecutaveis: boolean;
+function TPrincBasForm.AtualizeVersaoExecutaveis: Boolean;
 var
   oAtualizaVersao: IAtualizaVersao;
-  bPrecisaResetar: boolean;
+  bPrecisaResetar: Boolean;
   sLog: string;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.AtualizeVersaoExecutaveis');
@@ -244,7 +245,7 @@ end;
 
 constructor TPrincBasForm.Create(AOwner: TComponent);
 var
-  bResultado: boolean;
+  bResultado: Boolean;
   sMens: string;
 begin
   inherited Create(AOwner);
@@ -340,16 +341,16 @@ begin
 end;
 
 destructor TPrincBasForm.Destroy;
-begin //vai terminar em erro $$
+begin // vai terminar em erro $$
   inherited;
-//  // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
-//  try
-//    ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
-//      FProcessLog);
-//    inherited;
-//  finally
-//    // FProcessLog.RetorneLocal;
-//  end;
+  // // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
+  // try
+  // ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
+  // FProcessLog);
+  // inherited;
+  // finally
+  // // FProcessLog.RetorneLocal;
+  // end;
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
@@ -359,142 +360,94 @@ begin
 end;
 
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
+var
+  bResultado: Boolean;
 begin
-  AssistPedirPraFechar;
+  bResultado := PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
+    AssistPedirPraFechar;
 {$IFNDEF DEBUG}
-  inherited;
+    inherited;
 {$ENDIF}
-end;
-
-procedure TPrincBasForm.GarantaDB;
-var
-  bResultado: boolean;
-  oUsuarioAdmin: IUsuario;
-  oSisConfig: ISisConfig;
-
-  DBConnection: IDBConnection;
-  oDBConnectionParams: TDBConnectionParams;
-  sMens: string;
-  oTerminalDBI: ITerminalDBI;
-begin
-  FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
-  try
-    oUsuarioAdmin := UsuarioCreate;
-
-    bResultado := GarantirConfig(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
-
-    oDBConnectionParams := TerminalIdToDBConnectionParams
-      (TERMINAL_ID_RETAGUARDA, FAppObj);
-
-    DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
-      oDBConnectionParams, ProcessLog, FProcessOutput);
-
-    oTerminalDBI := TerminalDBICreate(DBConnection);
-
-    if not bResultado then
-    begin
-      FProcessLog.RegistreLog
-        ('GarantirConfig retornou false, Application.Terminate');
-      Application.Terminate;
-      exit;
-    end;
-
-    oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
-      oUsuarioAdmin, DBUpdaterVariaveis);
-
-    if not bResultado then
-    begin
-      FProcessLog.RegistreLog
-        ('GarantirDB retornou false, Application.Terminate');
-      Application.Terminate;
-      exit;
-    end;
-    oSisConfig := FAppObj.SisConfig;
-    FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
-    FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
-    FAppObj.DBMS := FDBMS;
-  finally
-    FProcessLog.RetorneLocal;
   end;
-end;
 
-function TPrincBasForm.GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
-  pTerminalList: ITerminalList): boolean;
-var
-  oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
-  sLog: string;
+  procedure TPrincBasForm.GarantaDB; var bResultado: Boolean;
+  oUsuarioAdmin: IUsuario; oSisConfig: ISisConfig;
+
+  DBConnection: IDBConnection; oDBConnectionParams: TDBConnectionParams;
+  sMens: string; oTerminalDBI: ITerminalDBI;
+  begin FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
+  try oUsuarioAdmin := UsuarioCreate;
+
+  bResultado := GarantirConfig(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
+
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
+
+  DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
+    oDBConnectionParams, ProcessLog, FProcessOutput);
+
+  oTerminalDBI := TerminalDBICreate(DBConnection);
+
+  if not bResultado then begin FProcessLog.RegistreLog
+    ('GarantirConfig retornou false, Application.Terminate');
+  Application.Terminate; exit; end;
+
+  oSisConfig := FAppObj.SisConfig;
+  bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
+    oUsuarioAdmin, DBUpdaterVariaveis);
+
+  if not bResultado then begin FProcessLog.RegistreLog
+    ('GarantirDB retornou false, Application.Terminate'); Application.Terminate;
+  exit; end; oSisConfig := FAppObj.SisConfig;
+  FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
+  FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
+  FAppObj.DBMS := FDBMS; finally FProcessLog.RetorneLocal; end; end;
+
+  function TPrincBasForm.GarantirConfig(pLoja: IAppLoja;
+    pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList): Boolean;
+  var oAppSisConfigGarantirXML: IAppSisConfigGarantirXML; sLog: string;
   oSisConfig: ISisConfig;
-begin
-  FProcessLog.PegueLocal('TPrincBasForm.GarantirConfig');
-  try
-    oSisConfig := FAppObj.SisConfig;
+  begin FProcessLog.PegueLocal('TPrincBasForm.GarantirConfig');
+  try oSisConfig := FAppObj.SisConfig;
 
-    oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
-      pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList);
-    FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
-    Result := oAppSisConfigGarantirXML.Execute;
+  oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
+    pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList);
+  FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
+  Result := oAppSisConfigGarantirXML.Execute;
 
-    sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
-    FProcessLog.RegistreLog(sLog);
-  finally
-    FProcessLog.RetorneLocal;
-  end;
-end;
+  sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
+  FProcessLog.RegistreLog(sLog); finally FProcessLog.RetorneLocal; end; end;
 
-procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);
-begin
-  inherited;
-  Application.Minimize;
-end;
+  procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);
+  begin inherited; Application.Minimize; end;
 
-procedure TPrincBasForm.OculteSplashForm;
-begin
-  FProcessOutput := MudoOutputCreate;
-  if Assigned(SplashForm) then
-    FreeAndNil(SplashForm);
-end;
+  procedure TPrincBasForm.OculteSplashForm;
+  begin FProcessOutput := MudoOutputCreate;
+  if Assigned(SplashForm) then FreeAndNil(SplashForm); end;
 
-procedure TPrincBasForm.PreenchaDBUpdaterVariaveis;
-var
-  eAtiv: TAtividadeEconomicaSis;
-  sVarNome: string;
-  sVarValor: string;
-  sEntrada: string;
-begin
-  eAtiv := AppObj.AppInfo.AtividadeEconomicaSis;
+  procedure TPrincBasForm.PreenchaDBUpdaterVariaveis;
+  var eAtiv: TAtividadeEconomicaSis; sVarNome: string; sVarValor: string;
+  sEntrada: string; begin eAtiv := AppObj.AppInfo.AtividadeEconomicaSis;
 
-  sVarNome := 'ATIVIDADE_ECONOMICA_ID';
-  sVarValor := eAtiv.ToExpandedASCII;
+  sVarNome := 'ATIVIDADE_ECONOMICA_ID'; sVarValor := eAtiv.ToExpandedASCII;
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
   sVarNome := 'ATIVIDADE_ECONOMICA_NAME';
   sVarValor := AtividadeEconomicaSisName[eAtiv];
   DBUpdaterVariaveisPegar(sVarNome, sVarValor);
 
-  sVarNome := 'DATA_ZERADA';
-  sVarValor := QuotedStr(DATA_ZERADA_FIREBIRD_STR);
-  DBUpdaterVariaveisPegar(sVarNome, sVarValor);
-end;
+  sVarNome := 'DATA_ZERADA'; sVarValor := QuotedStr(DATA_ZERADA_FIREBIRD_STR);
+  DBUpdaterVariaveisPegar(sVarNome, sVarValor); end;
 
-procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
+  procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+  begin inherited;
 
-  AssistAbrir;
-end;
+  AssistAbrir; end;
 
-procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-const
-  SC_DRAGMOVE = $F012;
-begin
-  inherited;
-  if Button = mbLeft then
-  begin
-    ReleaseCapture;
-    Perform(WM_SYSCOMMAND, SC_DRAGMOVE, 0);
-  end;
-end;
+  procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;
+    Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  const SC_DRAGMOVE = $F012; begin inherited;
+  if Button = mbLeft then begin ReleaseCapture;
+  Perform(WM_SYSCOMMAND, SC_DRAGMOVE, 0); end; end;
 
-end.
+  end.
