@@ -39,6 +39,8 @@ type
       pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj;
       pTerminalId: TTerminalId); override;
+          destructor Destroy; override;
+
   end;
 
 var
@@ -68,7 +70,16 @@ constructor TShopPDVModuloForm.Create(AOwner: TComponent;
   pTerminalId: TTerminalId);
 begin
   inherited;
+  FShopProdSelectDBI := ShopProdSelectDBICreate(TermDBConnection, AppObj);
+  FFiltroStringFrame := TFiltroStringFrame.Create(Self, nil);
+  FShopProdSelect := DBSelectFormCreate(FShopProdSelectDBI, FFiltroStringFrame);
   // AppMenuForm := AppMenuFormCreate;
+end;
+
+destructor TShopPDVModuloForm.Destroy;
+begin
+  FreeAndNil(FFiltroStringFrame);
+  inherited;
 end;
 
 function TShopPDVModuloForm.PagFrameCreate: TPagPDVFrame;
@@ -125,10 +136,6 @@ end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  FShopProdSelectDBI := ShopProdSelectDBICreate(TermDBConnection, AppObj);
-  FFiltroStringFrame := TFiltroStringFrame.Create(Application, nil);
-  FShopProdSelect := DBSelectFormCreate(FShopProdSelectDBI, FFiltroStringFrame);
-
   Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self,
     FShopProdSelect);
   Result.Visible := False;
