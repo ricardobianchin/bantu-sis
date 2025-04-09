@@ -15,12 +15,15 @@ type
     SimBitBtn: TBitBtn;
     NaoBitBtn: TBitBtn;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
+    FButtonDefault: TBooleanDefault;
   public
     { Public declarations }
     function Perg(pPergunta: string; pCaption: string = '';
       pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
+
   end;
 
 var
@@ -49,12 +52,21 @@ begin
     pCaption := Application.Title;
   Caption := pCaption;
   PerguntaLabel.Caption := pPergunta;
-  case pDefaultResult of
+
+  FButtonDefault := pDefaultResult;
+
+  result := IsPositiveResult(ShowModal);
+end;
+
+procedure TInputBoolCaptionForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  case FButtonDefault of
     //boolUndefined: ;
     boolFalse: NaoBitBtn.SetFocus;
     boolTrue: SimBitBtn.SetFocus;
   end;
-  result := IsPositiveResult(ShowModal);
+
 end;
 
 end.
