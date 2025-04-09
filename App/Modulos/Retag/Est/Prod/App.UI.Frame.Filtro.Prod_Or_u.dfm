@@ -1,27 +1,28 @@
 inherited ProdOrFiltroFrame: TProdOrFiltroFrame
   Width = 700
-  Height = 48
+  Height = 63
+  HelpContext = 65
   ExplicitWidth = 700
-  ExplicitHeight = 48
+  ExplicitHeight = 63
   object FundoPanel: TPanel [0]
     Left = 0
     Top = 0
     Width = 700
-    Height = 48
+    Height = 63
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitHeight = 39
+    ExplicitHeight = 48
     object ErroLabel: TLabel
-      Left = 0
-      Top = 23
-      Width = 6
-      Height = 15
-      Caption = '  '
+      Left = 6
+      Top = 46
+      Width = 3
+      Height = 13
+      Caption = ' '
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 192
-      Font.Height = -12
+      Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
@@ -46,7 +47,7 @@ inherited ProdOrFiltroFrame: TProdOrFiltroFrame
     object CodRadioButton: TRadioButton
       Left = 195
       Top = 24
-      Width = 74
+      Width = 67
       Height = 17
       Caption = 'C'#243'digo'
       TabOrder = 1
@@ -145,7 +146,7 @@ inherited ProdOrFiltroFrame: TProdOrFiltroFrame
     end
   end
   inherited AgendeChangeTimer: TTimer
-    Left = 127
-    Top = 19
+    Left = 511
+    Top = 27
   end
 end
