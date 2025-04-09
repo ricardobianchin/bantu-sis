@@ -58,8 +58,6 @@ COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=IMPORT_PROD_TIPO_PA
 
 /*
-Complementos\Est\prod_pa.txt
-
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\DBImport\
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\DBImport\import_PROD_TIPO_pa.sql
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\DBImport\import_PROD_TIPO_pa.sql";

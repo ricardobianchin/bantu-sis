@@ -19,9 +19,6 @@ COMANDO_TIPO=CREATE OR ALTER PACKAGE
 OBJETO_NOME=EST_STAT_PA
 
 /*
-Complementos\Est\prod_pa.txt
-
-Externos\DBUpdates Complementos\Complementos\Est\est_stat_pa.sql
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\est_stat_pa.sql
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Est\est_stat_pa.sql";
