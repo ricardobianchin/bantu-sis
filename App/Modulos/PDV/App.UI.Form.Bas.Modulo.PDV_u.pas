@@ -26,7 +26,6 @@ type
     procedure CaixaSessaoAbrirTentarActionExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure SessFormActionExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
@@ -372,13 +371,6 @@ end;
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
-end;
-
-procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  // CaixaSessaoDM.GetAction(TCxOpTipo.cxopFechamento).Execute;
-  SessFormAction.Execute;
 end;
 
 end.

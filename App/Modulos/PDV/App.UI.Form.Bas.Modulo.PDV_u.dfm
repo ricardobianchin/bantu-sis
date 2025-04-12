@@ -28,8 +28,6 @@ inherited PDVModuloBasForm: TPDVModuloBasForm
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited OutputLabel: TLabel
-        Width = 203
-        Height = 27
         StyleElements = [seFont, seClient, seBorder]
       end
     end
