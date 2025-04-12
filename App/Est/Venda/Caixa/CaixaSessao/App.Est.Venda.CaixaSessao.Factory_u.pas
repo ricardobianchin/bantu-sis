@@ -6,7 +6,7 @@ interface
 
 uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
   System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj, Sis.Types, App.Types,
-  App.PDV.Controlador
+  App.PDV.Controlador, Sis.UI.Frame.Bas.Filtro_u
 
   // uses caixa sessao
     , App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessao.DBI
@@ -68,6 +68,8 @@ function CxValorListCreate: ICxValorList;
 function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
 function CxNumerarioListCreate: ICxNumerarioList;
 
+function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent): TFiltroFrame;
+
 implementation
 
 uses
@@ -87,7 +89,7 @@ uses
   // uses caixa operacao valor numerario
   App.Est.Venda.Caixa.CxValor.DBI_u, App.Est.Venda.Caixa.CxValor_u,
   App.Est.Venda.Caixa.CxValorList_u, App.Est.Venda.Caixa.CxNumerario_u,
-  App.Est.Venda.Caixa.CxNumerarioList_u;
+  App.Est.Venda.Caixa.CxNumerarioList_u, App.PDV.PDVSessForm.FiltroFrame_u;
 
 function CaixaSessaoDBICreate(pDBConnection: IDBConnection;
   pLogUsuario: IUsuario; pLojaId: TLojaId; pTerminalId: TTerminalId;
@@ -202,6 +204,11 @@ end;
 function CxNumerarioListCreate: ICxNumerarioList;
 begin
   Result := TCxNumerarioList.Create;
+end;
+
+function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent): TFiltroFrame;
+begin
+  Result := TSessFormFiltroFrame.Create(AOwner, pOnChange);
 end;
 
 end.

@@ -1,28 +1,28 @@
 inherited PDVSessForm: TPDVSessForm
   Caption = 'PDVSessForm'
-  ClientHeight = 353
+  ClientHeight = 403
   ClientWidth = 984
   StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 1000
-  ExplicitHeight = 392
+  ExplicitHeight = 442
   TextHeight = 15
   inherited MensLabel: TLabel
-    Top = 296
+    Top = 271
     Width = 984
     Visible = False
-    ExplicitTop = 296
+    ExplicitTop = 221
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 338
+    Top = 291
     Width = 984
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 338
+    ExplicitTop = 241
   end
   object MeioPanel: TPanel [2]
     Left = 0
     Top = 41
     Width = 984
-    Height = 255
+    Height = 230
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
@@ -31,9 +31,10 @@ inherited PDVSessForm: TPDVSessForm
     Padding.Right = 3
     Padding.Bottom = 2
     TabOrder = 1
+    ExplicitHeight = 180
     object DBGrid1Splitter: TSplitter
       Left = 3
-      Top = 127
+      Top = 125
       Width = 978
       Height = 8
       Cursor = crVSplit
@@ -42,27 +43,9 @@ inherited PDVSessForm: TPDVSessForm
       ExplicitTop = 200
       ExplicitWidth = 540
     end
-    object SessDescrLabel: TLabel
-      Left = 3
-      Top = 2
-      Width = 978
-      Height = 20
-      Align = alTop
-      AutoSize = False
-      Caption = '        '
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      Layout = tlCenter
-      StyleElements = [seClient, seBorder]
-      ExplicitWidth = 613
-    end
     object DBGrid1: TDBGrid
       Left = 3
-      Top = 22
+      Top = 20
       Width = 978
       Height = 105
       Align = alTop
@@ -79,18 +62,20 @@ inherited PDVSessForm: TPDVSessForm
     end
     object SubPanel: TPanel
       Left = 3
-      Top = 135
+      Top = 133
       Width = 978
-      Height = 118
+      Height = 95
       Align = alClient
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
+      ExplicitTop = 135
+      ExplicitHeight = 43
       object Splitter2: TSplitter
         Left = 537
         Top = 0
         Width = 8
-        Height = 118
+        Height = 95
         ExplicitLeft = 273
         ExplicitHeight = 140
       end
@@ -98,16 +83,17 @@ inherited PDVSessForm: TPDVSessForm
         Left = 0
         Top = 0
         Width = 537
-        Height = 118
+        Height = 95
         Align = alLeft
         BevelOuter = bvNone
         Caption = 'Rotinas de Caixa n'#227'o possuem itens'
         TabOrder = 0
+        ExplicitHeight = 43
         object ItemDBGrid: TDBGrid
           Left = 0
-          Top = 0
+          Top = 18
           Width = 537
-          Height = 118
+          Height = 77
           Align = alClient
           BorderStyle = bsNone
           DataSource = ItemDataSource
@@ -178,21 +164,54 @@ inherited PDVSessForm: TPDVSessForm
               Visible = True
             end>
         end
+        object ItensTitPanel: TPanel
+          Left = 0
+          Top = 0
+          Width = 537
+          Height = 18
+          Align = alTop
+          BevelOuter = bvNone
+          Caption = '  '
+          Color = 13023391
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 1
+          StyleElements = []
+          object TitItensLabel: TLabel
+            Left = 8
+            Top = -1
+            Width = 27
+            Height = 17
+            Caption = 'Itens'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+        end
       end
       object PagPanel: TPanel
         Left = 545
         Top = 0
         Width = 433
-        Height = 118
+        Height = 95
         Align = alClient
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 1
+        ExplicitHeight = 43
         object PagDBGrid: TDBGrid
           Left = 0
-          Top = 0
+          Top = 18
           Width = 433
-          Height = 118
+          Height = 77
           Align = alClient
           BorderStyle = bsNone
           DataSource = PagDataSource
@@ -246,21 +265,86 @@ inherited PDVSessForm: TPDVSessForm
               Visible = True
             end>
         end
+        object PagTitPanel: TPanel
+          Left = 0
+          Top = 0
+          Width = 433
+          Height = 18
+          Align = alTop
+          BevelOuter = bvNone
+          Caption = '  '
+          Color = 13023391
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 1
+          StyleElements = []
+          object PagTitLabel: TLabel
+            Left = 8
+            Top = -1
+            Width = 132
+            Height = 17
+            Caption = 'Formas de Pagamento'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+        end
+      end
+    end
+    object SessTitPanel: TPanel
+      Left = 3
+      Top = 2
+      Width = 978
+      Height = 18
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = '  '
+      Color = 13023391
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 2
+      StyleElements = []
+      object SessTitLabel: TLabel
+        Left = 8
+        Top = -1
+        Width = 175
+        Height = 17
+        Caption = 'Vendas e Operacoes de Caixa'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
       end
     end
   end
   object BasePanel: TPanel [3]
     Left = 0
-    Top = 316
+    Top = 306
     Width = 984
-    Height = 22
+    Height = 97
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitTop = 256
     object ToolBar1: TToolBar
       Left = 15
-      Top = 0
+      Top = 76
       Width = 1000
       Height = 21
       Align = alNone

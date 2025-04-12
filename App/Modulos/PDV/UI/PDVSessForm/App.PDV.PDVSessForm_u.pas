@@ -12,7 +12,8 @@ uses
   FireDAC.Comp.Client, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ToolWin,
   Vcl.StdCtrls, Sis.UI.IO.Output, Sis.UI.Form.Bas.Diag_u, Sis.UI.Impressao,
   Sis.Terminal, Sis.Usuario, App.Est.Venda.Caixa.CaixaSessao,
-  Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessaoDM_u;
+  Sis.UI.Controls.Utils, App.Est.Venda.CaixaSessaoDM_u,
+  Sis.UI.Frame.Bas.Filtro_u;
 
 type
   TPDVSessForm = class(TDiagBasForm)
@@ -40,7 +41,6 @@ type
     TitleBarCaptionLabel: TLabel;
     ToolBar2: TToolBar;
     FecharToolButton: TToolButton;
-    SessDescrLabel: TLabel;
     CancelAction: TAction;
     SuprAction: TAction;
     SangrAction: TAction;
@@ -68,6 +68,12 @@ type
     PagFDMemTableTROCO: TCurrencyField;
     PagFDMemTableCANCELADO: TBooleanField;
     CarregaDetailTimer: TTimer;
+    ItensTitPanel: TPanel;
+    TitItensLabel: TLabel;
+    PagTitPanel: TPanel;
+    PagTitLabel: TLabel;
+    SessTitPanel: TPanel;
+    SessTitLabel: TLabel;
     procedure RelatActionExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure SuprActionExecute(Sender: TObject);
@@ -86,11 +92,12 @@ type
     FCaixaSessao: ICaixaSessao;
     FCaixaSessaoDM: TCaixaSessaoDM;
     FImpressao: IImpressao;
+    FFiltroFrame: TFiltroFrame;
 
     procedure SessStatusExiba;
     procedure BuscarRecente;
 
-    procedure Atualizar;
+    procedure Atualizar(Sender: TObject);
     procedure AtualizarDetail;
 
     procedure RetiraEventos;
@@ -154,20 +161,29 @@ begin
   // ControlAlignToCenter(FFiltroFrame);
 
   ToolBar2.Left := Width - ToolBar2.Width;
+
+  FFiltroFrame.Top := 0;
+  FFiltroFrame.Left := 0;
+  FFiltroFrame.Width := BasePanel.Width;
+
+  ToolBar1.Top := FFiltroFrame.Top + FFiltroFrame.Height;
   ToolBar1.Left := 15;
   ToolBar1.Height := 21;
   ToolBar1.Realign;
+
+  BasePanel.Height := FFiltroFrame.Height + ToolBar1.Height;
 end;
 
-procedure TPDVSessForm.Atualizar;
+procedure TPDVSessForm.Atualizar(Sender: TObject);
 const
-  CARREGA_DATASETS_DETAIL = True;
+  CARREGA_DATASETS_DETAIL = False;
 begin
   RetiraEventos;
   try
-  FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
-    ItemFDMemTable, PagFDMemTable, FCaixaSessaoDM.CaixaSessao,
-    CARREGA_DATASETS_DETAIL);
+    FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
+      ItemFDMemTable, PagFDMemTable, FCaixaSessaoDM.CaixaSessao,
+      FFiltroFrame.Values, CARREGA_DATASETS_DETAIL);
+    AtualizarDetail;
   finally
     RecolocaEventos;
   end;
@@ -188,13 +204,13 @@ procedure TPDVSessForm.BuscarRecente;
 begin
   FCaixaSessaoDM.CaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
   SessStatusExiba;
-  Atualizar;
+  Atualizar(nil);
 end;
 
 procedure TPDVSessForm.CancelActionExecute(Sender: TObject);
 begin
   inherited;
-  Atualizar;
+  Atualizar(nil);
 end;
 
 procedure TPDVSessForm.CarregaDetailTimerTimer(Sender: TObject);
@@ -212,6 +228,7 @@ begin
   inherited Create(AOwner);
   ErroOutput := ShowMessageOutputCreate;
   FCaixaSessaoDM := pCaixaSessaoDM;
+  FFiltroFrame := SessFormFiltroFrameCreate(BasePanel, Atualizar);
 
   FCaixaSessao := CaixaSessaoCreate(FCaixaSessaoDM.LogUsuario //
     , FCaixaSessaoDM.AppObj.SisConfig.LocalMachineId.IdentId //
@@ -224,8 +241,8 @@ begin
     FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
     FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessao);
 
-//  Height := Min(600, Screen.WorkAreaRect.Height - 10);
-//  Width := 800;
+  // Height := Min(600, Screen.WorkAreaRect.Height - 10);
+  // Width := 800;
 
   sNomeArq := FCaixaSessaoDM.AppObj.AppInfo.PastaConsTabViews +
     'App\PDV\tabview.pdv.sessform.csv';
@@ -236,7 +253,7 @@ begin
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
   // DisparaShowTimer := True;
-//  MakeRounded(Self, 30);
+  // MakeRounded(Self, 30);
   Canvas.Brush.Style := bsClear;
   WindowState := TWindowState.wsMaximized;
 end;
@@ -245,7 +262,7 @@ procedure TPDVSessForm.DespActionExecute(Sender: TObject);
 begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopDespesa).Execute;
-  Atualizar;
+  Atualizar(nil);
 end;
 
 procedure TPDVSessForm.DisparaCarregaDetailTimer;
@@ -338,7 +355,7 @@ procedure TPDVSessForm.SangrActionExecute(Sender: TObject);
 begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopSangria).Execute;
-  Atualizar;
+  Atualizar(nil);
 end;
 
 procedure TPDVSessForm.SessFDMemTableAfterOpen(DataSet: TDataSet);
@@ -371,7 +388,7 @@ begin
       + ' - Aberto em: ' + FormatDateTime('dd/mm/yy hh:nn:ss', c.AbertoEm) //
       ;
   finally
-    SessDescrLabel.Caption := s;
+    SessTitLabel.Caption := s;
   end;
 end;
 
@@ -384,13 +401,14 @@ begin
   iPagGridLarg := DBGridColumnWidthsGet(PagDBGrid);
   iPagGridLarg := (iPagGridLarg * 115) div 100;
   ItemPanel.Width := MeioPanel.Width - iPagGridLarg;
+  DBGrid1.SetFocus;
 end;
 
 procedure TPDVSessForm.SuprActionExecute(Sender: TObject);
 begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopSuprimento).Execute;
-  Atualizar;
+  Atualizar(nil);
 end;
 
 end.

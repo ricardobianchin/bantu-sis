@@ -734,10 +734,6 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoCxSessRelat_u.pas"/>
-        <DCCReference Include="Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas">
-            <Form>PDVSessForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.Ent.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.Ent_u.pas"/>
         <DCCReference Include="Modulos\Retag\Fin\DespTipo\App.Retag.Fin.DespTipo.DBI_u.pas"/>
@@ -778,6 +774,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>BackupMessageForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm.FiltroFrame_u.pas">
+            <Form>SessFormFiltroFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
