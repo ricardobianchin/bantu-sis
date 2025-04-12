@@ -68,7 +68,8 @@ function CxValorListCreate: ICxValorList;
 function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
 function CxNumerarioListCreate: ICxNumerarioList;
 
-function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent): TFiltroFrame;
+function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent;
+  pCaixaSessaoDBI: ICaixaSessaoDBI): TFiltroFrame;
 
 implementation
 
@@ -206,9 +207,10 @@ begin
   Result := TCxNumerarioList.Create;
 end;
 
-function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent): TFiltroFrame;
+function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent;
+  pCaixaSessaoDBI: ICaixaSessaoDBI): TFiltroFrame;
 begin
-  Result := TSessFormFiltroFrame.Create(AOwner, pOnChange);
+  Result := TSessFormFiltroFrame.Create(AOwner, pOnChange, pCaixaSessaoDBI);
 end;
 
 end.

@@ -228,7 +228,7 @@ begin
   inherited Create(AOwner);
   ErroOutput := ShowMessageOutputCreate;
   FCaixaSessaoDM := pCaixaSessaoDM;
-  FFiltroFrame := SessFormFiltroFrameCreate(BasePanel, Atualizar);
+  FFiltroFrame := SessFormFiltroFrameCreate(BasePanel, Atualizar, FCaixaSessaoDM.CaixaSessaoDBI);
 
   FCaixaSessao := CaixaSessaoCreate(FCaixaSessaoDM.LogUsuario //
     , FCaixaSessaoDM.AppObj.SisConfig.LocalMachineId.IdentId //

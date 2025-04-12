@@ -26,6 +26,8 @@ type
 
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
       pCaixaSessao: ICaixaSessao);
+
+    procedure PreencherPagamentoFormaFiltroSL(pSL: TStrings);
   end;
 
 implementation

@@ -52,6 +52,8 @@ type
 
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
       pCaixaSessao: ICaixaSessao);
+
+    procedure PreencherPagamentoFormaFiltroSL(pSL: TStrings);
   end;
 
 implementation
@@ -433,13 +435,14 @@ function TCaixaSessaoDBI.PDVSessFormCarregarDataSetSql(pSessLojaIdStr,
 var
   bExibeVendas: Boolean;
   bExibeCxOper: Boolean;
-
+  iPagFormaId: integer;
   sLojaId, sTermId, sSessId: string;
 begin
   Result := '';
 
-  bExibeVendas := pValues[1];
   bExibeCxOper := pValues[0];
+  bExibeVendas := pValues[1];
+  iPagFormaId  := pValues[2];
 
   Result := Result + 'WITH T AS'#13#10 //
     + '('#13#10 //
@@ -807,6 +810,34 @@ begin
         pLinhas.Add(sLinha);
         q.Next;
       end;
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TCaixaSessaoDBI.PreencherPagamentoFormaFiltroSL(pSL: TStrings);
+var
+  oDBQuery: IDBQuery;
+  sSql: string;
+begin
+  pSL.Clear;
+  pSL.Add('<TODAS AS FORMAS>');
+  DBConnection.Abrir;
+  try
+    sSql := //
+      'SELECT FORMA_ID, DESCR'#13#10 //
+      + 'FROM CAIXA_SESSAO_PDV_PA.FECH_TELA_PAGFORMA_LISTA_GET;' //
+      ;
+
+    oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
+      sSql, nil, nil);
+
+    oDBQuery.Abrir;
+    try
+      ListaSelectPrrencher(oDBQuery.DataSet, pSL);
     finally
       oDBQuery.Fechar;
     end;

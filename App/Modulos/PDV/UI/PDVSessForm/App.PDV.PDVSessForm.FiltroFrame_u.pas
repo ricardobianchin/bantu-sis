@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Filtro_u, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Mask, System.Actions,
-  Vcl.ActnList;
+  Vcl.ActnList, App.Est.Venda.CaixaSessao.DBI, Sis.UI.Controls.ComboBoxManager;
 
 type
   TSessFormFiltroFrame = class(TFiltroFrame)
@@ -37,14 +37,16 @@ type
     { Private declarations }
     FProdIdSelecionado: integer;
     FPagFormaIdSelecionado: integer;
+    FCaixaSessaoDBI: ICaixaSessaoDBI;
+    FPagFormaComboBoxManager: IComboBoxManager;
   protected
     function GetValues: variant; override;
     procedure SetValues(Value: variant); override;
     function NewArrayCreate: variant; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent);
-      override;
+    constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent; pCaixaSessaoDBI: ICaixaSessaoDBI);
+      reintroduce;
   end;
 
 var
@@ -54,7 +56,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Controls.Utils;
+uses Sis.UI.ImgDM, Sis.UI.Controls.Utils, Sis.UI.Controls.Factory;
 
 { TSessFormFiltroFrame }
 
@@ -65,12 +67,16 @@ begin
 end;
 
 constructor TSessFormFiltroFrame.Create(AOwner: TComponent;
-  pOnChange: TNotifyEvent);
+  pOnChange: TNotifyEvent; pCaixaSessaoDBI: ICaixaSessaoDBI);
 begin
-  inherited;
+  inherited Create(AOwner, pOnChange);
+  FCaixaSessaoDBI := pCaixaSessaoDBI;
   ReadOnlySet(ProdLabeledEdit, True);
+  FPagFormaComboBoxManager := ComboBoxManagerCreate(PagFormaComboBox);
   FProdIdSelecionado := 0;
   FPagFormaIdSelecionado := 0;
+  FCaixaSessaoDBI.PreencherPagamentoFormaFiltroSL(PagFormaComboBox.Items);
+  PagFormaComboBox.ItemIndex := 0;
 end;
 
 
@@ -87,6 +93,8 @@ begin
   Result := inherited;
   Result[0] := CxOperCheckBox.Checked;
   Result[1] := VendaCheckBox.Checked;
+  FPagFormaIdSelecionado := FPagFormaComboBoxManager.Id;
+  Result[2] := FPagFormaIdSelecionado;
 end;
 
 function TSessFormFiltroFrame.NewArrayCreate: variant;

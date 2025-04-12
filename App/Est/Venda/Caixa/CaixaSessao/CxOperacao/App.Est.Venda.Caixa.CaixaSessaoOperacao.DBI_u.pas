@@ -17,7 +17,9 @@ type
     function GetFieldValuesGravar: string; override;
   public
     procedure FecharPodeGet(out pPode: boolean; out pMensagem: string);
+
     procedure PreencherPagamentoFormaDataSet(pDMemTable1: TFDMemTable);
+
     procedure PDVCarregarDataSet(pDMemTable1: TFDMemTable);
     procedure PreencherDespTipoSL(pSL: TStrings);
 
@@ -28,7 +30,7 @@ type
 implementation
 
 uses System.SysUtils, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Floats,
-  Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, Sis.Types.Bool_u;
+  Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, Sis.Types.Bool_u, Sis.DB.DataSet.Utils;
 
 { TCxOperacaoDBI }
 

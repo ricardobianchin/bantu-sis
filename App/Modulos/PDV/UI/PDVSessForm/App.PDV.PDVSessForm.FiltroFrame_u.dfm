@@ -115,23 +115,23 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       Caption = ' '
       TabOrder = 3
       object PagFormaLabel: TLabel
-        Left = 1
+        Left = 5
         Top = 3
         Width = 114
         Height = 15
         Caption = 'Forma de Pagamento'
       end
       object PagFormaComboBox: TComboBox
-        Left = 119
+        Left = 123
         Top = 0
         Width = 155
         Height = 23
+        Style = csDropDownList
         TabOrder = 0
-        Text = 'CRE CREDICARD'
         OnChange = PagFormaComboBoxChange
       end
       object ProdLabeledEdit: TLabeledEdit
-        Left = 328
+        Left = 339
         Top = 0
         Width = 321
         Height = 23
@@ -142,9 +142,10 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
         LabelSpacing = 4
         TabOrder = 1
         Text = '1234567 - UUUUUUUUUXUUUUUUUUUXUUUUUUUUUX'
+        StyleElements = []
       end
       object ProdToolBar: TToolBar
-        Left = 652
+        Left = 664
         Top = 0
         Width = 49
         Height = 25
