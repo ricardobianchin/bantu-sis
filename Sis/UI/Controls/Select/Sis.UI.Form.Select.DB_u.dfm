@@ -10,7 +10,6 @@ inherited DBSelectForm: TDBSelectForm
     StyleElements = [seFont, seClient, seBorder]
     inherited BasePanel: TPanel
       StyleElements = [seClient, seBorder]
-      ExplicitTop = 292
       inherited QtdRegsLabel: TLabel
         StyleElements = [seFont, seClient, seBorder]
       end
