@@ -47,14 +47,13 @@ type
 implementation
 
 uses System.SysUtils, System.StrUtils, Sis.Types.Integers,
-  Sis.UI.Controls.Utils,
-  Sis.Lists.Factory, Sis.Types.Bool_u;
+  Sis.UI.Controls.Utils, Sis.Types.strings_u, Sis.Lists.Factory,
+  Sis.Types.Bool_u;
 
 { TFDDataSetManager }
 
 function TFDDataSetManager.AdBooleanField(pNomeCampo, pTitulo,
-  pDisplayValues: string; pAlignment: TAlignment;
-  pVisible: boolean): TField;
+  pDisplayValues: string; pAlignment: TAlignment; pVisible: boolean): TField;
 begin
   Result := FieldCreate(TBooleanField, pNomeCampo, pVisible);
 
@@ -160,7 +159,7 @@ var
   sErro: string;
 begin
   sIndex := UpperCase(pParams[0]);
-  sNomeCampo := UpperCase(pParams[1]);
+  sNomeCampo := StrToName(pParams[1]);
   sTipo := UpperCase(pParams[2]);
   sVisibel := UpperCase(pParams[4]);
 
@@ -195,7 +194,8 @@ begin
 
   if sTipo = 'I' then
   begin
-    Field := AdIntegerField(sNomeCampo, sTitulo, sMascara, vAlignment, bVisible);
+    Field := AdIntegerField(sNomeCampo, sTitulo, sMascara, vAlignment,
+      bVisible);
   end
   else if sTipo = 'S' then
   begin
@@ -212,11 +212,13 @@ begin
     if sDisplayValues = '' then
       sDisplayValues := 'Sim;N'#227'o';
 
-    Field := AdBooleanField(sNomeCampo, sTitulo, sDisplayValues, vAlignment, bVisible);
+    Field := AdBooleanField(sNomeCampo, sTitulo, sDisplayValues, vAlignment,
+      bVisible);
   end
   else if sTipo = 'U' then
   begin
-    Field := AdCurrencyField(sNomeCampo, sTitulo, sMascara, vAlignment, bVisible);
+    Field := AdCurrencyField(sNomeCampo, sTitulo, sMascara, vAlignment,
+      bVisible);
   end
   else if sTipo = 'F' then
   begin
@@ -224,19 +226,21 @@ begin
   end
   else if sTipo = 'D' then
   begin
-    Field := AdDateTimeField(sNomeCampo, sTitulo, sMascara, vAlignment, bVisible);
+    Field := AdDateTimeField(sNomeCampo, sTitulo, sMascara, vAlignment,
+      bVisible);
   end
   else
   begin
-    sErro := 'Erro tipo errado:Sis.DB.FDDataSetManager_u'//
-      +', TFDDataSetManager.DefinaCampo'//
-      +',sIndex='+sIndex//
-      +',sNomeCampo='+sNomeCampo//
-      +',sTipo='+sTipo//
+    sErro := 'Erro tipo errado:Sis.DB.FDDataSetManager_u' //
+      + ', TFDDataSetManager.DefinaCampo' //
+      + ',sIndex=' + sIndex //
+      + ',sNomeCampo=' + sNomeCampo //
+      + ',sTipo=' + sTipo //
       ;
 
     raise Exception.Create(sErro);
-    Field := AdDateTimeField(sNomeCampo, sTitulo, sMascara, vAlignment, bVisible);
+    Field := AdDateTimeField(sNomeCampo, sTitulo, sMascara, vAlignment,
+      bVisible);
   end
 end;
 
