@@ -59,7 +59,8 @@ type
 implementation
 
 uses Sis.Win.Utils_u, Sis.DB.Factory, Sis.Types.Dates, System.SysUtils,
-  App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.DB.DataSet.Utils, Sis.Types.Bool_u;
+  App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.DB.DataSet.Utils,
+  Sis.Types.Bool_u;
 
 { TCaixaSessaoDBI }
 
@@ -293,7 +294,6 @@ procedure TCaixaSessaoDBI.PDVSessFormCarregarDataSet(pDMemTableMaster,
 var
   bExibeVendas: Boolean;
   bExibeCxOper: Boolean;
-
   oDBQuery: IDBQuery;
   sSql: string;
   T: TFDMemTable;
@@ -307,6 +307,7 @@ begin
   try
     bExibeCxOper := pValues[0];
     bExibeVendas := pValues[1];
+
     if (not bExibeVendas) and (not bExibeCxOper) then
       exit;
 
@@ -436,15 +437,18 @@ var
   bExibeVendas: Boolean;
   bExibeCxOper: Boolean;
   iPagFormaId: integer;
+  iProdId: integer;
   sLojaId, sTermId, sSessId: string;
 begin
   Result := '';
 
   bExibeCxOper := pValues[0];
   bExibeVendas := pValues[1];
-  iPagFormaId  := pValues[2];
+  iPagFormaId := pValues[2];
+  iProdId := pValues[3];
 
-  Result := Result + 'WITH T AS'#13#10 //
+  Result := Result //
+    + 'WITH T AS'#13#10 //
     + '('#13#10 //
     + '  SELECT OPER_TIPO_ID, NAME'#13#10 //
     + '  FROM CAIXA_SESSAO_OPERACAO_TIPO'#13#10 //
@@ -454,15 +458,31 @@ begin
     + '  FROM DESPESA_TIPO'#13#10 //
     + '), O AS'#13#10 //
     + '('#13#10 //
-    + '  SELECT LOJA_ID, TERMINAL_ID, SESS_ID,OPER_ORDEM,'#13#10 //
-    + '  OPER_LOG_ID, OPER_TIPO_ID, VALOR, OBS, CANCELADO'#13#10 //
+  // CXOPER
+    + '  SELECT COP.LOJA_ID, COP.TERMINAL_ID, COP.SESS_ID,'#13#10 //
+    + '    COP.OPER_ORDEM, COP.OPER_LOG_ID, COP.OPER_TIPO_ID,'#13#10 //
+    + '    COP.VALOR, COP.OBS, COP.CANCELADO'#13#10 //
 
-    + '  FROM CAIXA_SESSAO_OPERACAO'#13#10 //
+    + '  FROM CAIXA_SESSAO_OPERACAO COP'#13#10 //
+    ;
+  if iPagFormaId > 0 then
+  begin
+    Result := Result //
+      + '  JOIN CAIXA_SESSAO_OPERACAO_VALOR CVAL ON'#13#10 //
+      + '  COP.LOJA_ID = CVAL.LOJA_ID'#13#10 //
+      + '  AND COP.TERMINAL_ID = CVAL.TERMINAL_ID'#13#10 //
+      + '  AND COP.SESS_ID = CVAL.SESS_ID'#13#10 //
+      + '  AND COP.OPER_ORDEM = CVAL.OPER_ORDEM'#13#10 //
+      + '  AND COP.OPER_LOG_ID = CVAL.OPER_LOG_ID'#13#10 //
+      + '  AND CVAL.PAGAMENTO_FORMA_ID = ' + iPagFormaId.ToString + #13#10 //
+      ;
+  end;
 
-    + '  WHERE LOJA_ID = ' + pSessLojaIdStr + #13#10 //
-    + '  AND TERMINAL_ID = ' + pSessTerminalIdStr + #13#10 //
-    + '  AND SESS_ID = ' + pSessIdStr + #13#10 //
-    + '  AND ' + BooleanToStrSQL( bExibeCxOper)
+  Result := Result //
+    + '  WHERE COP.LOJA_ID = ' + pSessLojaIdStr + #13#10 //
+    + '  AND COP.TERMINAL_ID = ' + pSessTerminalIdStr + #13#10 //
+    + '  AND COP.SESS_ID = ' + pSessIdStr + #13#10 //
+    + '  AND ' + BooleanToStrSQL(bExibeCxOper) + #13#10 //
 
     + '), L AS'#13#10 //
     + '('#13#10 //
@@ -470,27 +490,55 @@ begin
     + '  FROM LOG'#13#10 //
     + '), D AS'#13#10 //
     + '('#13#10 //
-    + '  SELECT LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM, OPER_LOG_ID,'#13#10
-  //
-    + '    DESPESA_TIPO_ID, FORNEC_NOME, NUMDOC'#13#10 //
+    + '  SELECT LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM,'#13#10 //
+    + '    OPER_LOG_ID, DESPESA_TIPO_ID, FORNEC_NOME, NUMDOC'#13#10 //
     + '  FROM CAIXA_SESSAO_OPERACAO_DESPESA'#13#10 //
     + ')'#13#10 //
     + ', E AS'#13#10 //
     + '('#13#10 //
-    + '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, CRIADO_EM,'#13#10 //
-    + '    CANCELADO, CANCELADO_EM, FINALIZADO, FINALIZADO_EM'#13#10 //
-    + '  FROM EST_MOV'#13#10 //
+    + '  SELECT EM.LOJA_ID, EM.TERMINAL_ID, EM.EST_MOV_ID,'#13#10 //
+    + '    EM.CRIADO_EM, EM.CANCELADO, EM.CANCELADO_EM, EM.FINALIZADO,'#13#10 //
+    + '    EM.FINALIZADO_EM'#13#10 //
+    + '  FROM EST_MOV EM'#13#10 //
+    ;
+
+  if iProdId > 0 then
+  begin
+    Result := Result
+    + '  JOIN EST_MOV_ITEM EMI ON'#13#10 //
+    + '  EM.LOJA_ID = EMI.LOJA_ID'#13#10 //
+    + '  AND EM.TERMINAL_ID = EMI.TERMINAL_ID'#13#10 //
+    + '  AND EM.EST_MOV_ID = EMI.EST_MOV_ID'#13#10 //
+
+    + '  AND EMI.PROD_ID = ' + iProdId.ToString + #13#10 //
+  end;
+
+  Result := Result
+    +''
     + '), V AS'#13#10 //
     + '('#13#10 //
-    + '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, VENDA_ID,'#13#10 //
-    + ' TOTAL_LIQUIDO'#13#10 //
+    + '  SELECT VE.LOJA_ID, VE.TERMINAL_ID, VE.EST_MOV_ID,'#13#10 //
+    + '    VE.VENDA_ID, VE.TOTAL_LIQUIDO'#13#10 //
 
-    + '  FROM VENDA'#13#10 //
+    + '  FROM VENDA VE'#13#10 //
+    ;
 
-    + '  WHERE SESS_LOJA_ID = ' + pSessLojaIdStr + #13#10 //
-    + '  AND SESS_TERMINAL_ID = ' + pSessTerminalIdStr + #13#10 //
-    + '  AND SESS_ID = ' + pSessIdStr + #13#10 //
-    + '  AND ' + BooleanToStrSQL( bExibeVendas)
+  if iPagFormaId > 0 then
+  begin
+    Result := Result //
+    + '  JOIN VENDA_PAG VEP ON'#13#10 //
+    + '  VE.LOJA_ID = VEP.LOJA_ID'#13#10 //
+    + '  AND VE.TERMINAL_ID = VEP.TERMINAL_ID'#13#10 //
+    + '  AND VE.EST_MOV_ID = VEP.EST_MOV_ID'#13#10 //
+
+    + '  AND VEP.PAGAMENTO_FORMA_ID = ' + iPagFormaId.ToString + #13#10 //
+  end;
+
+  Result := Result //
+    + '  WHERE VE.SESS_LOJA_ID = ' + pSessLojaIdStr + #13#10 //
+    + '  AND VE.SESS_TERMINAL_ID = ' + pSessTerminalIdStr + #13#10 //
+    + '  AND VE.SESS_ID = ' + pSessIdStr + #13#10 //
+    + '  AND ' + BooleanToStrSQL(bExibeVendas) + #13#10 //
 
     + ')'#13#10 //
     + 'SELECT'#13#10 //
