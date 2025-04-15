@@ -6,7 +6,7 @@ interface
 
 uses Sis.DB.DBTypes, Sis.Entities.Types, Sis.Usuario, Vcl.ActnList,
   System.Classes, App.Ent.Ed, App.Ent.DBI, App.AppObj, Sis.Types, App.Types,
-  App.PDV.Controlador, Sis.UI.Frame.Bas.Filtro_u
+  App.PDV.Controlador, Sis.UI.Frame.Bas.Filtro_u, Sis.UI.Select
 
   // uses caixa sessao
     , App.Est.Venda.Caixa.CaixaSessao, App.Est.Venda.CaixaSessao.DBI
@@ -69,7 +69,7 @@ function CxNumerarioCreate(pValor: TPreco; pQtd: SmallInt): ICxNumerario;
 function CxNumerarioListCreate: ICxNumerarioList;
 
 function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent;
-  pCaixaSessaoDBI: ICaixaSessaoDBI): TFiltroFrame;
+  pCaixaSessaoDBI: ICaixaSessaoDBI; pProdSelect: ISelect): TFiltroFrame;
 
 implementation
 
@@ -208,9 +208,10 @@ begin
 end;
 
 function SessFormFiltroFrameCreate(AOwner: TComponent; pOnChange: TNotifyEvent;
-  pCaixaSessaoDBI: ICaixaSessaoDBI): TFiltroFrame;
+  pCaixaSessaoDBI: ICaixaSessaoDBI; pProdSelect: ISelect): TFiltroFrame;
 begin
-  Result := TSessFormFiltroFrame.Create(AOwner, pOnChange, pCaixaSessaoDBI);
+  Result := TSessFormFiltroFrame.Create(AOwner, pOnChange, pCaixaSessaoDBI,
+    pProdSelect);
 end;
 
 end.
