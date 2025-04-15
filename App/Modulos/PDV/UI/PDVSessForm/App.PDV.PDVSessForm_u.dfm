@@ -10,13 +10,13 @@ inherited PDVSessForm: TPDVSessForm
     Top = 271
     Width = 984
     Visible = False
-    ExplicitTop = 221
+    ExplicitTop = 271
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 291
     Width = 984
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 241
+    ExplicitTop = 291
   end
   object MeioPanel: TPanel [2]
     Left = 0
@@ -31,7 +31,6 @@ inherited PDVSessForm: TPDVSessForm
     Padding.Right = 3
     Padding.Bottom = 2
     TabOrder = 1
-    ExplicitHeight = 180
     object DBGrid1Splitter: TSplitter
       Left = 3
       Top = 125
@@ -69,8 +68,6 @@ inherited PDVSessForm: TPDVSessForm
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 1
-      ExplicitTop = 135
-      ExplicitHeight = 43
       object Splitter2: TSplitter
         Left = 537
         Top = 0
@@ -88,7 +85,6 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = 'Rotinas de Caixa n'#227'o possuem itens'
         TabOrder = 0
-        ExplicitHeight = 43
         object ItemDBGrid: TDBGrid
           Left = 0
           Top = 18
@@ -206,7 +202,6 @@ inherited PDVSessForm: TPDVSessForm
         BevelOuter = bvNone
         Caption = ' '
         TabOrder = 1
-        ExplicitHeight = 43
         object PagDBGrid: TDBGrid
           Left = 0
           Top = 18
@@ -341,7 +336,6 @@ inherited PDVSessForm: TPDVSessForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitTop = 256
     object ToolBar1: TToolBar
       Left = 15
       Top = 76

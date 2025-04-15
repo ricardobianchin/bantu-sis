@@ -93,6 +93,7 @@ type
     FCaixaSessaoDM: TCaixaSessaoDM;
     FImpressao: IImpressao;
     FFiltroFrame: TFiltroFrame;
+    FFiltroFrameParentAntigo: TWinControl;
 
     procedure SessStatusExiba;
     procedure BuscarRecente;
@@ -109,7 +110,9 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pImpressoraNome: string;
-      pCaixaSessaoDM: TCaixaSessaoDM); reintroduce;
+      pCaixaSessaoDM: TCaixaSessaoDM; pFiltroFrame: TFiltroFrame); reintroduce;
+
+    destructor Destroy; override;
   end;
 
   {
@@ -119,7 +122,7 @@ type
     apos execuala, faz BuscarRecente
   }
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
-  pCaixaSessaoDM: TCaixaSessaoDM);
+  pCaixaSessaoDM: TCaixaSessaoDM; pFiltroFrame: TFiltroFrame);
 
 var
   PDVSessForm: TPDVSessForm;
@@ -134,9 +137,9 @@ uses Sis.UI.ImgDM, System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
   Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u;
 
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
-  pCaixaSessaoDM: TCaixaSessaoDM);
+  pCaixaSessaoDM: TCaixaSessaoDM; pFiltroFrame: TFiltroFrame);
 begin
-  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pCaixaSessaoDM);
+  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pCaixaSessaoDM, pFiltroFrame);
   try
     PDVSessForm.ShowModal;
   finally
@@ -221,14 +224,18 @@ begin
 end;
 
 constructor TPDVSessForm.Create(AOwner: TComponent; pImpressoraNome: string;
-  pCaixaSessaoDM: TCaixaSessaoDM);
+  pCaixaSessaoDM: TCaixaSessaoDM; pFiltroFrame: TFiltroFrame);
 var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
   ErroOutput := ShowMessageOutputCreate;
   FCaixaSessaoDM := pCaixaSessaoDM;
-  FFiltroFrame := SessFormFiltroFrameCreate(BasePanel, Atualizar, FCaixaSessaoDM.CaixaSessaoDBI);
+  FFiltroFrame := pFiltroFrame;
+  FFiltroFrameParentAntigo := FFiltroFrame.Parent;
+  FFiltroFrame.Parent := BasePanel;
+  FFiltroFrame.Visible := True;
+  FFiltroFrame.OnChange := Atualizar;
 
   FCaixaSessao := CaixaSessaoCreate(FCaixaSessaoDM.LogUsuario //
     , FCaixaSessaoDM.AppObj.SisConfig.LocalMachineId.IdentId //
@@ -263,6 +270,13 @@ begin
   inherited;
   FCaixaSessaoDM.GetAction(TCxOpTipo.cxopDespesa).Execute;
   Atualizar(nil);
+end;
+
+destructor TPDVSessForm.Destroy;
+begin
+  FFiltroFrame.Visible := False;
+  FFiltroFrame.Parent := FFiltroFrameParentAntigo;
+  inherited;
 end;
 
 procedure TPDVSessForm.DisparaCarregaDetailTimer;
