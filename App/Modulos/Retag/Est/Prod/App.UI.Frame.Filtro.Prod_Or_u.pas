@@ -79,6 +79,7 @@ begin
     R.Top := FiltroStringLabeledEdit.Top + 3;
     R.onclick := RadioButtonClick;
   end;
+  ProcessaFiltro := True;
 end;
 
 destructor TProdOrFiltroFrame.Destroy;

@@ -72,6 +72,7 @@ begin
     c.Top := FiltroStringLabeledEdit.Top + 4;
     c.onclick := CheckBoxClick;
   end;
+  ProcessaFiltro := True;
 end;
 
 destructor TProdAndFiltroFrame.Destroy;
