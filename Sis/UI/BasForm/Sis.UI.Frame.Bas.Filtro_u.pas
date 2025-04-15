@@ -76,6 +76,8 @@ type
     /// <param name="Sender">Objeto que disparou o evento (geralmente o timer).</param>
     procedure AgendeChangeTimerTimer(Sender: TObject);
   private
+    FProcessaFiltro: Boolean;
+
     /// <summary>
     /// Evento que é chamado quando há alteração no filtro.
     /// </summary>
@@ -97,6 +99,7 @@ type
     /// </param>
     procedure SetOnChange(const Value: TNotifyEvent);
   protected
+    property ProcessaFiltro: Boolean read FProcessaFiltro write FProcessaFiltro;
     /// <summary>
     /// Atualiza os valores dos controles do filtro.
     /// </summary>
@@ -223,13 +226,19 @@ end;
 constructor TFiltroFrame.Create(AOwner: TComponent; pOnChange: TNotifyEvent);
 begin
   inherited Create(AOwner);
+  ProcessaFiltro := False;
   OnChange := pOnChange;
 end;
 
 procedure TFiltroFrame.DoChange;
 begin
-  if Assigned(FOnChange) then
-    FOnChange(Self);
+  if not ProcessaFiltro then
+    exit;
+
+  if not Assigned(FOnChange) then
+    exit;
+
+  FOnChange(Self);
 end;
 
 function TFiltroFrame.GetFontSize: integer;
