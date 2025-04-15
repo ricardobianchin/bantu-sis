@@ -18,7 +18,7 @@ type
     property Mensagem: string read GetMensagem;
 
     procedure PDVSessFormCarregarDataSet(pDMemTableMaster, pDMemTableItem,
-      pDMemTablePag: TFDMemTable; pCaixaSessao: ICaixaSessao;
+      pDMemTablePag: TFDMemTable; pCaixaSessao: ICaixaSessao; pValues: variant;
       pCarregaDetail: Boolean = True);
 
     procedure PDVSessFormCarregarDataSetDetail(pDMemTableMaster, pDMemTableItem,
@@ -26,6 +26,8 @@ type
 
     procedure PreenchaCxSessRelatorio(pLinhas: TStrings;
       pCaixaSessao: ICaixaSessao);
+
+    procedure PreencherPagamentoFormaFiltroSL(pSL: TStrings);
   end;
 
 implementation

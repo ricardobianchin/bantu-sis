@@ -39,6 +39,7 @@ function IsWindowsFilenameValid(filename: string): boolean;
 
 function RightPos(pCar: Char; pStr: string): integer;
 
+function StrAntes(pStr, pBusca: string): string;
 function StrApos(pStr, pBusca: string): string;
 function StrValue(pStr: string): string;
 
@@ -88,6 +89,8 @@ function CenterStr(aTarget: string; aWidth: integer; aFillChar: Char = #32;
 // function WrapTexto(pStr: string; pMaxCol: integer = 45): boolean;
 
 function KeyToStr(Key: Word): String;
+function PosIndicada(const pStr, pSubStr: string;
+  pOrdemOcorrenciaDesejada: integer): integer;
 
 implementation
 
@@ -214,10 +217,10 @@ begin
     Key := '_';
 end;
 
-//gere, por favor, uma procedure no delphi que receba um char por referencia e, se for letra maiuscula, converte para minuscula
+// gere, por favor, uma procedure no delphi que receba um char por referencia e, se for letra maiuscula, converte para minuscula
 procedure CharToLow(var Key: Char);
 begin
- if CharInSet(Key, ['A'..'Z']) then
+  if CharInSet(Key, ['A' .. 'Z']) then
     Key := Chr(Ord(Key) + 32);
 end;
 
@@ -288,6 +291,24 @@ begin
       exit;
     end;
   end;
+end;
+
+function StrAntes(pStr, pBusca: string): string;
+var
+  iBuscaLen, iPosNaStr: integer;
+begin
+  Result := pStr;
+
+  iBuscaLen := pBusca.Length;
+  if iBuscaLen = 0 then
+    exit;
+
+  iPosNaStr := Pos(pBusca, Result);
+
+  if iPosNaStr = 0 then
+    exit;
+
+  Result := Copy(Result, 1, iPosNaStr - 1);
 end;
 
 function StrApos(pStr, pBusca: string): string;
@@ -380,7 +401,7 @@ end;
 function IsDigit(c: Char): boolean;
 begin
   // Verifica se o código ASCII do char está entre 48 e 57, que correspondem aos algarismos de 0 a 9
-  IsDigit := (ord(c) >= 48) and (ord(c) <= 57);
+  IsDigit := (Ord(c) >= 48) and (Ord(c) <= 57);
 end;
 
 // Procedure que recebe uma string cujo conteúdo são dados separados por ; e substitui as sequências de # seguidas de 3 algarismos pelo caractere ASCII correspondente
@@ -403,7 +424,7 @@ begin
         // Converte os três algarismos em um número inteiro
         code := StrToInt(pStr[i + 1] + pStr[i + 2] + pStr[i + 3]);
         // Converte o número inteiro em um caractere ASCII
-        c := chr(code);
+        c := Chr(code);
         // Substitui a sequência de # e três algarismos pelo caractere ASCII na string original
         pStr := Copy(pStr, 1, i - 1) + c + Copy(pStr, i + 4,
           Length(pStr) - i - 3);
@@ -897,8 +918,8 @@ end;
 function KeyToStr(Key: Word): String;
 begin
   case Key of
-//    vkHIGHESTVALUE, vkUNKNOWN, vkUNDEFINED:
-//      Result := '??';
+    // vkHIGHESTVALUE, vkUNKNOWN, vkUNDEFINED:
+    // Result := '??';
 
     vk0:
       Result := '0';
@@ -1037,7 +1058,7 @@ begin
       Result := 'Del';
     vkMENU:
       Result := 'Alt';
-      // The ALT key. Also called "Option" in Mac OS X. See also vkLMENU, vkRMENU
+    // The ALT key. Also called "Option" in Mac OS X. See also vkLMENU, vkRMENU
     vkPAUSE:
       Result := 'Pause'; // Pause/Break key
     vkCAPITAL:
@@ -1071,10 +1092,10 @@ begin
 
     vkLWIN:
       Result := 'LSYS';
-      // In Mac OS X this is the Apple, or Command key. Windows Key in PC keyboards
+    // In Mac OS X this is the Apple, or Command key. Windows Key in PC keyboards
     vkRWIN:
       Result := 'RSYS';
-      // In Mac OS X this is the Apple, or Command key. Windows Key in PC keyboards
+    // In Mac OS X this is the Apple, or Command key. Windows Key in PC keyboards
     vkESCAPE:
       Result := 'Esc'; // Also used for the hardware Back key in Android
     vkPRIOR:
@@ -1108,15 +1129,15 @@ begin
       Result := 'Num9';
     vkMULTIPLY:
       Result := 'Num*';
-      // vkMULTIPLY up to vkDIVIDE are usually in the numeric keypad in PC keyboards
+    // vkMULTIPLY up to vkDIVIDE are usually in the numeric keypad in PC keyboards
     vkADD:
       Result := 'Num+';
     vkSEPARATOR:
       Result := 'NumEntr';
     vkSUBTRACT:
       Result := 'Num-';
-//    vkDECIMAL:
-//      Result := 'Num' + DefaultFormatSettings.DecimalSeparator;
+    // vkDECIMAL:
+    // Result := 'Num' + DefaultFormatSettings.DecimalSeparator;
     vkDIVIDE:
       Result := 'Num/';
 
@@ -1133,14 +1154,14 @@ begin
     vkXBUTTON2:
       Result := 'XBtn2';
 
-//    vkOEM_PLUS:
-//      Result := '+'; // For any country/region, the '+' key
-//    vkOEM_COMMA:
-//      Result := ','; // For any country/region, the ',' key
-//    vkOEM_MINUS:
-//      Result := '-'; // For any country/region, the '-' key
-//    vkOEM_PERIOD:
-//      Result := '.'; // For any country/region, the '.' key
+    // vkOEM_PLUS:
+    // Result := '+'; // For any country/region, the '+' key
+    // vkOEM_COMMA:
+    // Result := ','; // For any country/region, the ',' key
+    // vkOEM_MINUS:
+    // Result := '-'; // For any country/region, the '-' key
+    // vkOEM_PERIOD:
+    // Result := '.'; // For any country/region, the '.' key
 
     // Application.ExtendedKeysSupport
     vkLSHIFT:
@@ -1202,15 +1223,15 @@ begin
     vkPA1:
       Result := 'Pa1';
 
-//    vkLCL_POWER:
-//      Result := 'Power';
-//    vkLCL_CALL:
-//      Result := 'Call';
-//    vkLCL_ENDCALL:
-//      Result := 'EndCall';
-//    vkLCL_AT:
-//      Result := '@';
-      // Not equivalent to anything < $FF, will only be sent by a primary "@" key
+    // vkLCL_POWER:
+    // Result := 'Power';
+    // vkLCL_CALL:
+    // Result := 'Call';
+    // vkLCL_ENDCALL:
+    // Result := 'EndCall';
+    // vkLCL_AT:
+    // Result := '@';
+    // Not equivalent to anything < $FF, will only be sent by a primary "@" key
     // but not for a @ key as secondary action of a "2" key for example
   else
     Result := '???';
@@ -1251,20 +1272,49 @@ begin
       vkOEM_5               = $DC; // Used for miscellaneous characters; it can vary by keyboard.
       // For the US standard keyboard, the '\|' key
       vkOEM_6               = $DD; // Used for miscellaneous characters; it can vary by keyboard.
-      // For the US standard keyboard, the '] } //' key vkOEM_7 = $DE;
+      // For the US standard keyboard, the '] } // ' key vkOEM_7 = $DE;
     // Used for miscellaneous characters; it can vary by keyboard.
     // For the US standard keyboard, the 'single-quote/double-quote' key
-//    vkOEM_8 = $DF;
+    // vkOEM_8 = $DF;
     // Used for miscellaneous characters; it can vary by keyboard.
 
     // $E0 Reserved
     // $E1 OEM specific
-//    vkOEM_102 = $E2;
+    // vkOEM_102 = $E2;
     // Either the angle bracket key or the backslash key on the RT 102-key keyboard
 
-  //  vkOEM_CLEAR = $FE;
-    //}
+    // vkOEM_CLEAR = $FE;
+    // }
   end;
+end;
+
+function PosIndicada(const pStr, pSubStr: string;
+  pOrdemOcorrenciaDesejada: integer): integer;
+var
+  Contador, InicioBusca, LS: integer;
+begin
+  Result := 0;
+
+  if pOrdemOcorrenciaDesejada < 1 then
+    exit;
+
+  Contador := 0;
+  InicioBusca := 1;
+  LS := Length(pSubStr);
+
+  // Buscar a ocorrência específica
+  while Contador < pOrdemOcorrenciaDesejada do
+  begin
+    Result := PosEx(pSubStr, pStr, InicioBusca);
+    if Result = 0 then
+      Break;
+
+    Inc(Contador);
+    InicioBusca := Result + LS;
+  end;
+
+  if Contador >= pOrdemOcorrenciaDesejada then
+    Dec(Result, LS);
 end;
 
 end.

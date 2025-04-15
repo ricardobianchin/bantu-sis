@@ -45,11 +45,11 @@ type
     procedure DBGrid1Enter(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
 
-    procedure AjusteTamanhos;
     procedure AndamentoExiba;
     procedure AndamentoOculte;
 
   protected
+    procedure AjusteTamanhos; override;
     procedure Atualize; override;
     procedure AtualizeQtdRegs; override;
     function GetLastSelected: string; override;
@@ -174,10 +174,11 @@ begin
   FDBGridFrame.Align := alClient;
   FDBGridFrame.DBGrid1.Align := alClient;
   FDBGridFrame.DBGrid1.TabStop := False;
+  FDBGridFrame.DBGrid1.OnDblClick := DBGrid1DblClick;
 
-//  WindowState := TWindowState.wsMaximized;
+  WindowState := TWindowState.wsMaximized;
   BorderStyle := TFormBorderStyle.bsNone;
-  WindowState := TWindowState.wsNormal;
+//  WindowState := TWindowState.wsNormal;
 //  BorderStyle := TFormBorderStyle.bsSizeable;
   Top := 0;
   Left := 0;
@@ -207,7 +208,12 @@ end;
 
 procedure TDBSelectForm.DBGrid1DblClick(Sender: TObject);
 begin
-  OkAct_Diag.Execute;
+    if FDBGridFrame.FDMemTable1.IsEmpty then
+    begin
+      ErroOutput.Exibir('Não há registro selecionável');
+      exit;
+    end;
+    OkAct_Diag.Execute;
 end;
 
 procedure TDBSelectForm.DBGrid1Enter(Sender: TObject);
@@ -225,6 +231,7 @@ procedure TDBSelectForm.DoFiltroChange(Sender: TObject);
 var
   T: TFDMemTable;
 begin
+  ErroOutput.Exibir('');
   T := FDBGridFrame.FDMemTable1;
   T.DisableControls;
   T.EmptyDataSet;
@@ -289,7 +296,9 @@ begin
   end;
   Filtro.Values := aValores;
 
-  result := Perg
+  result := Perg;
+  ErroOutput.Exibir('');
+
 end;
 
 procedure TDBSelectForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -353,7 +362,8 @@ end;
 
 function TDBSelectForm.GetLastSelected: string;
 begin
-  result := FDBGridFrame.FDMemTable1.Fields[0].AsString;
+  result := RecordToCSVStr(FDBGridFrame.FDMemTable1);
+  // FDBGridFrame.FDMemTable1.Fields[0].AsString;
 end;
 
 { TDadosColuna }
