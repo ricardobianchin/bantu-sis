@@ -186,21 +186,25 @@ begin
     FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
       ItemFDMemTable, PagFDMemTable, FCaixaSessaoDM.CaixaSessao,
       FFiltroFrame.Values, CARREGA_DATASETS_DETAIL);
-    AtualizarDetail;
+//    DBGrid1.Visible := not SessFDMemTable.IsEmpty;
+  AtualizarDetail;
   finally
     RecolocaEventos;
   end;
 end;
 
 procedure TPDVSessForm.AtualizarDetail;
-var
-  eCxOpTipo: TCxOpTipo;
+//var
+//  eCxOpTipo: TCxOpTipo;
 begin
-  eCxOpTipo.FromString(SessFDMemTable.Fields[6].AsString);
-  ItemDBGrid.Visible := eCxOpTipo = TCxOpTipo.cxopVenda;
+//  eCxOpTipo.FromString(SessFDMemTable.Fields[6].AsString);
+//  ItemDBGrid.Visible := eCxOpTipo = TCxOpTipo.cxopVenda;
 
   FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSetDetail(SessFDMemTable,
     ItemFDMemTable, PagFDMemTable);
+
+  ItemDBGrid.Visible := not ItemFDMemTable.IsEmpty;
+  PagDBGrid.Visible := not PagFDMemTable.IsEmpty;
 end;
 
 procedure TPDVSessForm.BuscarRecente;

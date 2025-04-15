@@ -3,6 +3,7 @@ inherited PDVSessForm: TPDVSessForm
   ClientHeight = 403
   ClientWidth = 984
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitLeft = -372
   ExplicitWidth = 1000
   ExplicitHeight = 442
   TextHeight = 15
@@ -25,7 +26,6 @@ inherited PDVSessForm: TPDVSessForm
     Height = 230
     Align = alClient
     BevelOuter = bvNone
-    Caption = ' '
     Padding.Left = 3
     Padding.Top = 2
     Padding.Right = 3
@@ -83,7 +83,7 @@ inherited PDVSessForm: TPDVSessForm
         Height = 95
         Align = alLeft
         BevelOuter = bvNone
-        Caption = 'Rotinas de Caixa n'#227'o possuem itens'
+        Caption = 'Nenhum Item a Exibir'
         TabOrder = 0
         object ItemDBGrid: TDBGrid
           Left = 0
@@ -200,7 +200,7 @@ inherited PDVSessForm: TPDVSessForm
         Height = 95
         Align = alClient
         BevelOuter = bvNone
-        Caption = ' '
+        Caption = 'Nenhuma Forma de Pagamento a Exibir'
         TabOrder = 1
         object PagDBGrid: TDBGrid
           Left = 0
