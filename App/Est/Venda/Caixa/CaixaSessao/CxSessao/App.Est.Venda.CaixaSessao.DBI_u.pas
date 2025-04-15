@@ -298,7 +298,7 @@ var
   sSql: string;
   T: TFDMemTable;
   q: TDataSet;
-  sLojaId, sTermId, sSessId: string;
+  s, sLojaId, sTermId, sSessId: string;
 begin
   T := pDMemTableMaster;
 
@@ -345,12 +345,31 @@ begin
             .AsString;
           T.FieldByName('TIPO_STR').AsString :=
             q.FieldByName('TIPO_STR').AsString;
-          T.FieldByName('CRIADO_EM').AsDateTime := q.FieldByName('CRIADO_EM')
-            .AsDateTime;
+          T.FieldByName('CRIADO_EM').AsDateTime := //
+            q.FieldByName('CRIADO_EM').AsDateTime;
           T.FieldByName('VALOR').AsCurrency := q.FieldByName('VALOR')
             .AsCurrency;
+
+          T.FieldByName('FINALIZADO').AsBoolean := q.FieldByName('FINALIZADO')
+            .AsBoolean;
           T.FieldByName('CANCELADO').AsBoolean := q.FieldByName('CANCELADO')
             .AsBoolean;
+
+          if T.FieldByName('FINALIZADO').AsBoolean then
+          begin
+            s := q.FieldByName('FINALIZADO_EM').AsString;
+
+            T.FieldByName('FINALIZADO_EM').AsDateTime := //
+              TimeStampStrToDateTime(s);
+          end;
+
+          if T.FieldByName('CANCELADO').AsBoolean then
+          begin
+            s := q.FieldByName('CANCELADO_EM').AsString;
+            T.FieldByName('CANCELADO_EM').AsDateTime := //
+              TimeStampStrToDateTime(s);
+          end;
+
           T.FieldByName('OBS').AsString := q.FieldByName('OBS').AsString;
 
           if T.FieldByName('TIPO_ID').AsString = cxopVenda.ToChar then
@@ -413,6 +432,9 @@ begin
   end;
 
   try
+    pDMemTableItem.EmptyDataSet;
+    pDMemTablePag.EmptyDataSet;
+
     eCxOpTipo.FromString(pDMemTableMaster.Fields[6].AsString);
 
     if eCxOpTipo = TCxOpTipo.cxopVenda then
@@ -496,6 +518,7 @@ begin
     + ')'#13#10 //
     + ', E AS'#13#10 //
     + '('#13#10 //
+  // EST_MOV
     + '  SELECT EM.LOJA_ID, EM.TERMINAL_ID, EM.EST_MOV_ID,'#13#10 //
     + '    EM.CRIADO_EM, EM.CANCELADO, EM.CANCELADO_EM, EM.FINALIZADO,'#13#10 //
     + '    EM.FINALIZADO_EM'#13#10 //
@@ -504,18 +527,15 @@ begin
 
   if iProdId > 0 then
   begin
-    Result := Result
-    + '  JOIN EST_MOV_ITEM EMI ON'#13#10 //
-    + '  EM.LOJA_ID = EMI.LOJA_ID'#13#10 //
-    + '  AND EM.TERMINAL_ID = EMI.TERMINAL_ID'#13#10 //
-    + '  AND EM.EST_MOV_ID = EMI.EST_MOV_ID'#13#10 //
+    Result := Result + '  JOIN EST_MOV_ITEM EMI ON'#13#10 //
+      + '  EM.LOJA_ID = EMI.LOJA_ID'#13#10 //
+      + '  AND EM.TERMINAL_ID = EMI.TERMINAL_ID'#13#10 //
+      + '  AND EM.EST_MOV_ID = EMI.EST_MOV_ID'#13#10 //
 
-    + '  AND EMI.PROD_ID = ' + iProdId.ToString + #13#10 //
+      + '  AND EMI.PROD_ID = ' + iProdId.ToString + #13#10 //
   end;
 
-  Result := Result
-    +''
-    + '), V AS'#13#10 //
+  Result := Result + '' + '), V AS'#13#10 //
     + '('#13#10 //
     + '  SELECT VE.LOJA_ID, VE.TERMINAL_ID, VE.EST_MOV_ID,'#13#10 //
     + '    VE.VENDA_ID, VE.TOTAL_LIQUIDO'#13#10 //
@@ -526,12 +546,12 @@ begin
   if iPagFormaId > 0 then
   begin
     Result := Result //
-    + '  JOIN VENDA_PAG VEP ON'#13#10 //
-    + '  VE.LOJA_ID = VEP.LOJA_ID'#13#10 //
-    + '  AND VE.TERMINAL_ID = VEP.TERMINAL_ID'#13#10 //
-    + '  AND VE.EST_MOV_ID = VEP.EST_MOV_ID'#13#10 //
+      + '  JOIN VENDA_PAG VEP ON'#13#10 //
+      + '  VE.LOJA_ID = VEP.LOJA_ID'#13#10 //
+      + '  AND VE.TERMINAL_ID = VEP.TERMINAL_ID'#13#10 //
+      + '  AND VE.EST_MOV_ID = VEP.EST_MOV_ID'#13#10 //
 
-    + '  AND VEP.PAGAMENTO_FORMA_ID = ' + iPagFormaId.ToString + #13#10 //
+      + '  AND VEP.PAGAMENTO_FORMA_ID = ' + iPagFormaId.ToString + #13#10 //
   end;
 
   Result := Result //
@@ -551,7 +571,9 @@ begin
     + '  , ''VENDA'' AS TIPO_STR'#13#10 //
     + '  , E.CRIADO_EM'#13#10 //
     + '  , V.TOTAL_LIQUIDO AS VALOR'#13#10 //
+    + '  , E.FINALIZADO'#13#10 //
     + '  , E.CANCELADO'#13#10 //
+    + '  , E.FINALIZADO_EM'#13#10 //
     + '  , E.CANCELADO_EM'#13#10 //
     + '  , '''' AS OBS'#13#10 //
 
@@ -574,7 +596,9 @@ begin
     + '  , T.NAME AS TIPO_STR'#13#10 //
     + '  , L.DTH AS CRIADO_EM'#13#10 //
     + '  , O.VALOR'#13#10 //
+    + '  , TRUE FINALIZADO'#13#10 //
     + '  , O.CANCELADO'#13#10 //
+    + '  , L.DTH AS FINALIZADO_EM'#13#10 //
     + '  , ''01.01.1900'' AS CANCELADO_EM'#13#10 //
     + '  , TRIM(O.OBS || '' '' || DT.DESCR || '' '' || D.FORNEC_NOME' //
     + ' || '' '' || D.NUMDOC) OBS'#13#10 //
@@ -593,9 +617,9 @@ begin
     + 'LEFT JOIN DT ON'#13#10 //
     + '  D.DESPESA_TIPO_ID = DT.DESPESA_TIPO_ID'#13#10 //
     ;
-//{$IFDEF DEBUG}
-//  CopyTextToClipboard(Result);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
 end;
 
 procedure TCaixaSessaoDBI.PDVSessFormCarregarVenda(pDMemTableMaster,
