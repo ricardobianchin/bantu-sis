@@ -1,8 +1,8 @@
 object AndamentoFrame: TAndamentoFrame
   Left = 0
   Top = 0
-  Width = 137
-  Height = 32
+  Width = 173
+  Height = 46
   Color = 16765337
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,22 +17,20 @@ object AndamentoFrame: TAndamentoFrame
   object Label1: TLabel
     Left = 0
     Top = 0
-    Width = 137
-    Height = 32
+    Width = 173
+    Height = 46
     Align = alClient
     Alignment = taCenter
     Caption = 'Processando...'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 5723934
-    Font.Height = -16
+    Font.Height = -19
     Font.Name = 'Segoe UI'
     Font.Style = [fsBold]
     ParentFont = False
     Layout = tlCenter
     StyleElements = [seClient, seBorder]
-    ExplicitLeft = 40
-    ExplicitTop = 9
-    ExplicitWidth = 108
-    ExplicitHeight = 21
+    ExplicitWidth = 128
+    ExplicitHeight = 25
   end
 end
