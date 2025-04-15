@@ -743,6 +743,7 @@ var
   oItem: IShopPdvVendaItem;
   bEncontrou: Boolean;
   sMensagem: string;
+  sStrBusca: string;
 begin
   if not StrIsOnlyDigit(FStrBusca) then
   begin
@@ -752,7 +753,8 @@ begin
       StrBuscaMudou;
       Exit;
     end;
-    FStrBusca := FProdSelect.LastSelected;
+    sStrBusca := StrAntes(FProdSelect.LastSelected, ';');
+    FStrBusca := sStrBusca;
   end;
 
   // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
