@@ -181,6 +181,12 @@ begin
 2025-02-22 10:14:41.4440
 122456789 123456789 123
 }
+  if Length(pTimeStampStr)=19 then
+  begin
+    Result := StrToDateTime(pTimeStampStr);
+    exit;
+  end;
+
   Year := StrToInt(Copy(pTimeStampStr, 1, 4));
   Month := StrToInt(Copy(pTimeStampStr, 6, 2));
   Day := StrToInt(Copy(pTimeStampStr, 9, 2));
