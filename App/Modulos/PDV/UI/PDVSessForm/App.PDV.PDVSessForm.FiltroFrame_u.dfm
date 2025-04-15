@@ -1,12 +1,12 @@
 inherited SessFormFiltroFrame: TSessFormFiltroFrame
-  Width = 1000
+  Width = 1036
   Height = 48
-  ExplicitWidth = 1000
+  ExplicitWidth = 1036
   ExplicitHeight = 48
   object FundoPanel: TPanel [0]
     Left = 0
     Top = 0
-    Width = 1000
+    Width = 1036
     Height = 48
     Align = alClient
     BevelOuter = bvNone
@@ -29,7 +29,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
     object TitPanel: TPanel
       Left = 0
       Top = 0
-      Width = 1000
+      Width = 1036
       Height = 18
       Align = alTop
       BevelOuter = bvNone
@@ -45,7 +45,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       TabOrder = 0
       StyleElements = []
       DesignSize = (
-        1000
+        1036
         18)
       object TitLabel: TLabel
         Left = 8
@@ -60,8 +60,8 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
         Font.Style = []
         ParentFont = False
       end
-      object ToolBar1: TToolBar
-        Left = 929
+      object TitToolBar: TToolBar
+        Left = 965
         Top = 2
         Width = 42
         Height = 14
@@ -69,17 +69,17 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
         Anchors = [akTop, akRight]
         ButtonHeight = 14
         ButtonWidth = 20
-        Caption = 'ToolBar1'
+        Caption = 'TitToolBar'
         Images = SisImgDataModule.ImageList_13_8_Preto
         TabOrder = 0
         Transparent = True
         Visible = False
         StyleElements = []
-        object ToolButton1: TToolButton
+        object TitFecharToolButton: TToolButton
           Left = 0
           Top = 0
           Hint = 'Ocultar'
-          Caption = 'ToolButton1'
+          Caption = 'TitFecharToolButton'
           ImageIndex = 0
         end
       end
@@ -133,7 +133,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       object ProdLabeledEdit: TLabeledEdit
         Left = 339
         Top = 0
-        Width = 321
+        Width = 350
         Height = 23
         EditLabel.Width = 43
         EditLabel.Height = 23
@@ -141,11 +141,12 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
         LabelPosition = lpLeft
         LabelSpacing = 4
         TabOrder = 1
-        Text = '1234567 - UUUUUUUUUXUUUUUUUUUXUUUUUUUUUX'
+        Text = ''
         StyleElements = []
+        OnClick = ProdLabeledEditClick
       end
       object ProdToolBar: TToolBar
-        Left = 664
+        Left = 693
         Top = 0
         Width = 49
         Height = 25
@@ -158,12 +159,30 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
           Top = 0
           Action = ProdSelectAction
         end
-        object ToolButton2: TToolButton
+        object ProdLimparToolButton: TToolButton
           Left = 23
           Top = 0
           CustomHint = SisImgDataModule.BalloonHint1
           Action = ProdLimparAction
         end
+      end
+    end
+    object FiltroToolBar: TToolBar
+      Left = 932
+      Top = 21
+      Width = 150
+      Height = 29
+      Align = alNone
+      ButtonHeight = 21
+      ButtonWidth = 79
+      Caption = 'FiltroToolBar'
+      List = True
+      ShowCaptions = True
+      TabOrder = 4
+      object LimparFiltroToolButton: TToolButton
+        Left = 0
+        Top = 0
+        Action = FiltroLimparAction
       end
     end
   end
@@ -185,6 +204,10 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       Hint = 'Limpar Produto'
       ImageIndex = 7
       OnExecute = ProdLimparActionExecute
+    end
+    object FiltroLimparAction: TAction
+      Caption = 'Limpar Filtro'
+      OnExecute = FiltroLimparActionExecute
     end
   end
 end

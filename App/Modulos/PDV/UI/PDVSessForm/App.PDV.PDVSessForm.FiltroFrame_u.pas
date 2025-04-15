@@ -3,10 +3,12 @@ unit App.PDV.PDVSessForm.FiltroFrame_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Filtro_u, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Mask, System.Actions,
-  Vcl.ActnList, App.Est.Venda.CaixaSessao.DBI, Sis.UI.Controls.ComboBoxManager;
+  Vcl.ActnList, App.Est.Venda.CaixaSessao.DBI, Sis.UI.Controls.ComboBoxManager,
+  Sis.UI.Select;
 
 type
   TSessFormFiltroFrame = class(TFiltroFrame)
@@ -14,39 +16,47 @@ type
     ErroLabel: TLabel;
     TitPanel: TPanel;
     TitLabel: TLabel;
-    ToolBar1: TToolBar;
-    ToolButton1: TToolButton;
+    TitToolBar: TToolBar;
+    TitFecharToolButton: TToolButton;
     ActionList1: TActionList;
-    ProdSelectAction: TAction;
-    ProdLimparAction: TAction;
-    VendaCheckBox: TCheckBox;
+
     CxOperCheckBox: TCheckBox;
-    VendasPanel: TPanel;
-    PagFormaLabel: TLabel;
+    VendaCheckBox: TCheckBox;
     PagFormaComboBox: TComboBox;
     ProdLabeledEdit: TLabeledEdit;
+
+    ProdSelectAction: TAction;
+    ProdLimparAction: TAction;
     ProdToolBar: TToolBar;
     ProdSelectToolButton: TToolButton;
-    ToolButton2: TToolButton;
+    ProdLimparToolButton: TToolButton;
+    LimparFiltroToolButton: TToolButton;
+
+    VendasPanel: TPanel;
+    PagFormaLabel: TLabel;
+    FiltroToolBar: TToolBar;
+    FiltroLimparAction: TAction;
     procedure CxOperCheckBoxClick(Sender: TObject);
     procedure VendaCheckBoxClick(Sender: TObject);
     procedure PagFormaComboBoxChange(Sender: TObject);
     procedure ProdSelectActionExecute(Sender: TObject);
     procedure ProdLimparActionExecute(Sender: TObject);
+    procedure FiltroLimparActionExecute(Sender: TObject);
+    procedure ProdLabeledEditClick(Sender: TObject);
   private
     { Private declarations }
     FProdIdSelecionado: integer;
-    FPagFormaIdSelecionado: integer;
     FCaixaSessaoDBI: ICaixaSessaoDBI;
     FPagFormaComboBoxManager: IComboBoxManager;
+    FProdSelect: ISelect;
   protected
     function GetValues: variant; override;
     procedure SetValues(Value: variant); override;
     function NewArrayCreate: variant; override;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent; pCaixaSessaoDBI: ICaixaSessaoDBI);
-      reintroduce;
+    constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent;
+      pCaixaSessaoDBI: ICaixaSessaoDBI; pProdSelect: ISelect); reintroduce;
   end;
 
 var
@@ -56,7 +66,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Controls.Utils, Sis.UI.Controls.Factory;
+uses Sis.UI.ImgDM, Sis.UI.Controls.Utils, Sis.UI.Controls.Factory, Sis.Types.strings_u, System.Generics.Collections;
 
 { TSessFormFiltroFrame }
 
@@ -66,35 +76,51 @@ begin
   DoChange;
 end;
 
+procedure TSessFormFiltroFrame.FiltroLimparActionExecute(Sender: TObject);
+begin
+  inherited;
+  ProcessaFiltro := False;
+  try
+    CxOperCheckBox.Checked := True;
+    VendaCheckBox.Checked := True;
+    PagFormaComboBox.ItemIndex := 0;
+    ProdLimparAction.Execute;
+  finally
+    ProcessaFiltro := True;
+    DoChange;
+  end;
+end;
+
 constructor TSessFormFiltroFrame.Create(AOwner: TComponent;
-  pOnChange: TNotifyEvent; pCaixaSessaoDBI: ICaixaSessaoDBI);
+  pOnChange: TNotifyEvent; pCaixaSessaoDBI: ICaixaSessaoDBI;
+  pProdSelect: ISelect);
 begin
   inherited Create(AOwner, pOnChange);
   FCaixaSessaoDBI := pCaixaSessaoDBI;
   ReadOnlySet(ProdLabeledEdit, True);
   FPagFormaComboBoxManager := ComboBoxManagerCreate(PagFormaComboBox);
   FProdIdSelecionado := 0;
-  FPagFormaIdSelecionado := 0;
   FCaixaSessaoDBI.PreencherPagamentoFormaFiltroSL(PagFormaComboBox.Items);
   PagFormaComboBox.ItemIndex := 0;
+  FProdSelect := pProdSelect;
+  FiltroLimparAction.Execute;
+  ProcessaFiltro := True;
 end;
 
-
 {
-bExibeCxOper  pValues[0]
-bExibeVendas  pValues[1]
-iPagFormaId   pValues[2]
-iProdCod      pValues[3]
+  bExibeCxOper  pValues[0]
+  bExibeVendas  pValues[1]
+  iPagFormaId   pValues[2]
+  iProdCod      pValues[3]
 }
-
 
 function TSessFormFiltroFrame.GetValues: variant;
 begin
   Result := inherited;
   Result[0] := CxOperCheckBox.Checked;
   Result[1] := VendaCheckBox.Checked;
-  FPagFormaIdSelecionado := FPagFormaComboBoxManager.Id;
-  Result[2] := FPagFormaIdSelecionado;
+  Result[2] := FPagFormaComboBoxManager.Id;
+  Result[3] := FProdIdSelecionado;
 end;
 
 function TSessFormFiltroFrame.NewArrayCreate: variant;
@@ -109,17 +135,38 @@ begin
 
 end;
 
+procedure TSessFormFiltroFrame.ProdLabeledEditClick(Sender: TObject);
+begin
+  inherited;
+  ProdSelectAction.Execute
+end;
+
 procedure TSessFormFiltroFrame.ProdLimparActionExecute(Sender: TObject);
 begin
   inherited;
+  FProdIdSelecionado := 0;
+  ProdLabeledEdit.Text := '<TODOS OS PRODUTOS>';
   DoChange;
 end;
 
 procedure TSessFormFiltroFrame.ProdSelectActionExecute(Sender: TObject);
+var
+  s: string;
+  aStrings: TArray<string>;
 begin
   inherited;
-  DoChange;
+  if not FProdSelect.Execute() then
+    exit;
 
+  s := FProdSelect.LastSelected;
+
+  aStrings := s.Split([';']);
+
+  FProdIdSelecionado := StrToInt(aStrings[0]);
+
+  ProdLabeledEdit.Text := aStrings[0] + ' - ' + aStrings[1];
+
+  DoChange;
 end;
 
 procedure TSessFormFiltroFrame.SetValues(Value: variant);
