@@ -12,7 +12,8 @@ uses
   Sis.Terminal, App.PDV.Factory_u, App.UI.Form.Menu_u, System.UITypes,
   App.UI.PDV.VendaBasFrame_u, ShopApp.PDV.Venda, ShopApp.PDV.DBI, App.PDV.Venda,
   Sis.DBI, App.UI.PDV.PagFrame_u, App.PDV.DBI, App.PDV.Obj, ShopApp.PDV.Obj,
-  Sis.UI.Select, Sis.UI.Frame.Bas.Filtro.BuscaString_u;
+  Sis.UI.Select, Sis.UI.Frame.Bas.Filtro.BuscaString_u,
+  Sis.UI.Frame.Bas.Filtro_u;
 
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
@@ -22,9 +23,6 @@ type
     FShopPDVVenda: IShopPDVVenda;
     FShopAppPDVDBI: IShopAppPDVDBI;
     FShopPDVObj: IShopPDVObj;
-    FShopProdSelectDBI: IDBI;
-    FFiltroStringFrame: TFiltroStringFrame;
-    FShopProdSelect: ISelect;
   protected
     function AppMenuFormCreate: TAppMenuForm; override;
     function PDVVendaCreate: IPDVVenda; override;
@@ -33,13 +31,18 @@ type
 
     function VendaFrameCreate: TVendaBasPDVFrame; override;
     function PagFrameCreate: TPagPDVFrame; override;
+
+    function ProdSelectFiltroFrameCreate: TFiltroFrame; override;
+    function ProdSelectCreate: ISelect; override;
+    function ProdSelectDBICreate: IDBI; override;
+    function SessFiltroFrameCreate: TFiltroFrame; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
       pLogUsuario: IUsuario; pAppObj: IAppObj;
       pTerminalId: TTerminalId); override;
-          destructor Destroy; override;
+    destructor Destroy; override;
 
   end;
 
@@ -56,7 +59,7 @@ uses Sis.DB.Factory, Sis.Sis.Constants, Sis.Sis.Atualizavel,
     , App.PDV.Preco.PrecoBusca.Factory_u //
     , AppShop.PDV.Preco.PrecoBusca.Factory_u //
     , ShopApp.PDV.Factory_u //
-    ;
+    , App.PDV.PDVSessForm.FiltroFrame_u;
 
 function TShopPDVModuloForm.AppMenuFormCreate: TAppMenuForm;
 begin
@@ -69,17 +72,12 @@ constructor TShopPDVModuloForm.Create(AOwner: TComponent;
   pSessaoIndex: TSessaoIndex; pLogUsuario: IUsuario; pAppObj: IAppObj;
   pTerminalId: TTerminalId);
 begin
-  FShopProdSelectDBI := nil;
-  FFiltroStringFrame := nil;
-  FShopProdSelect := nil;
   inherited;
   // AppMenuForm := AppMenuFormCreate;
 end;
 
 destructor TShopPDVModuloForm.Destroy;
 begin
-  FreeAndNil(FFiltroStringFrame);
-  inherited;
 end;
 
 function TShopPDVModuloForm.PagFrameCreate: TPagPDVFrame;
@@ -134,19 +132,40 @@ begin
   App.PDV.Preco.PrecoBusca.Factory_u.BuscaPrecoPerg(DBI);
 end;
 
+function TShopPDVModuloForm.ProdSelectCreate: ISelect;
+begin
+  Result := DBSelectFormCreate(ProdSelectDBI, ProdSelectFiltroFrame);
+end;
+
+function TShopPDVModuloForm.ProdSelectDBICreate: IDBI;
+begin
+  Result := ShopProdSelectDBICreate(TermDBConnection, AppObj);
+end;
+
+function TShopPDVModuloForm.ProdSelectFiltroFrameCreate: TFiltroFrame;
+begin
+  Result := TFiltroStringFrame.Create(Self, nil);
+end;
+
+function TShopPDVModuloForm.SessFiltroFrameCreate: TFiltroFrame;
+begin
+  Result := TSessFormFiltroFrame.Create(Self, nil, CaixaSessaoDM.CaixaSessaoDBI,
+    ProdSelect);
+end;
+
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
 begin
-  if not Assigned(FShopProdSelectDBI) then
-    FShopProdSelectDBI := ShopProdSelectDBICreate(TermDBConnection, AppObj);
-
-  if not Assigned(FFiltroStringFrame) then
-    FFiltroStringFrame := TFiltroStringFrame.Create(Self, nil);
-
-  if not Assigned(FShopProdSelect) then
-  FShopProdSelect := DBSelectFormCreate(FShopProdSelectDBI, FFiltroStringFrame);
+  // if not Assigned(FShopProdSelectDBI) then
+  // FShopProdSelectDBI := ProdSelectDBICreate
+  //
+  // if not Assigned(FFiltroStringFrame) then
+  // FFiltroStringFrame := TFiltroStringFrame.Create(Self, nil);
+  //
+  // if not Assigned(FShopProdSelect) then
+  // FShopProdSelect := DBSelectFormCreate(FShopProdSelectDBI, FFiltroStringFrame);
 
   Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self,
-    FShopProdSelect);
+    ProdSelect);
   Result.Visible := False;
 end;
 
