@@ -21,6 +21,7 @@ procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
 procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
 
 function RecordToFielNamesStr(pDataSet: TDataSet): string;
+function RecordToCSVStr(pDataSet: TDataSet): string;
 
 implementation
 
@@ -192,6 +193,23 @@ begin
   for var i := 0 to iQtdCampos - 1 do
     Result := Result + 'q.Fields[' + i.ToString +'] // ' + pDataSet.Fields[i]
       .FieldName + #13#10;
+end;
+
+function RecordToCSVStr(pDataSet: TDataSet): string;
+var
+  iQtdCampos: integer;
+begin
+  Result := '';
+  if not pDataSet.Active then
+    exit;
+
+  iQtdCampos := pDataSet.fieldcount;
+  for var i := 0 to iQtdCampos - 1 do
+  begin
+    if Result <> '' then
+      Result := Result + ';';
+    Result := Result + pDataSet.Fields[i].AsString;
+  end;
 end;
 
 end.
