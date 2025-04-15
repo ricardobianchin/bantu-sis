@@ -13,7 +13,8 @@ uses
   App.UI.PDV.Frame_u, App.Est.Venda.CaixaSessaoDM_u, App.Est.Factory_u,
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
-  App.PDV.DBI, App.UI.PDV.PagFrame_u, Sis.UI.Impressao;
+  App.PDV.DBI, App.UI.PDV.PagFrame_u, Sis.UI.Impressao, Sis.UI.Select,
+  Sis.UI.Frame.Bas.Filtro_u;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
@@ -28,6 +29,7 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure SessFormActionExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FPDVObj: IPDVObj;
@@ -45,6 +47,11 @@ type
     FPDVDBI: IAppPDVDBI;
 
     FImpressaoVenda: IImpressao;
+
+    FProdSelectDBI: IDBI;
+    FProdSelectFiltroFrame: TFiltroFrame;
+    FProdSelect: ISelect;
+    FSessFiltroFrame: TFiltroFrame;
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TPDVFrame;
@@ -75,6 +82,16 @@ type
     Property TermDBConnection: IDBConnection read FTermDBConnection;
     property PDVObj: IPDVObj read FPDVObj;
     property ImpressaoVenda: IImpressao read FImpressaoVenda;
+
+    function ProdSelectDBICreate: IDBI; virtual; abstract;
+    function ProdSelectFiltroFrameCreate: TFiltroFrame; virtual; abstract;
+    function ProdSelectCreate: ISelect; virtual; abstract;
+    function SessFiltroFrameCreate: TFiltroFrame; virtual; abstract;
+
+    property ProdSelectDBI: IDBI read FProdSelectDBI;
+    property ProdSelectFiltroFrame: TFiltroFrame read FProdSelectFiltroFrame;
+    property ProdSelect: ISelect read FProdSelect;
+    property SessFiltroFrame: TFiltroFrame read FSessFiltroFrame;
 
   public
     { Public declarations }
@@ -113,25 +130,25 @@ begin
 
   Result.PegarAction(SessFormAction, [vkR]);
 
-//  a := FCaixaSessaoDM.GetAction(cxopSuprimento);
-//  Result.PegarAction(a, [vkU]);
-//
-//  a := FCaixaSessaoDM.GetAction(cxopSangria);
-//  Result.PegarAction(a, [vkA]);
-//
-//  a := FCaixaSessaoDM.GetAction(cxopFechamento);
-//  Result.PegarAction(a, [vkF]);
+  // a := FCaixaSessaoDM.GetAction(cxopSuprimento);
+  // Result.PegarAction(a, [vkU]);
+  //
+  // a := FCaixaSessaoDM.GetAction(cxopSangria);
+  // Result.PegarAction(a, [vkA]);
+  //
+  // a := FCaixaSessaoDM.GetAction(cxopFechamento);
+  // Result.PegarAction(a, [vkF]);
 end;
 
 procedure TPDVModuloBasForm.CaixaSessaoAbrirTentarActionExecute
   (Sender: TObject);
 var
   a: TAction;
-  //s: string; // so pra visualizar o name durante o debug
+  // s: string; // so pra visualizar o name durante o debug
 begin
   inherited;
   a := FCaixaSessaoDM.GetAction(cxopAbertura);
-  //s := a.Name;
+  // s := a.Name;
   a.Execute;
   DecidirPrimeiroFrameAtivo;
 end;
@@ -156,8 +173,14 @@ begin
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
     pLogUsuario, Self);
 
-  FFrameAviso := PDVFrameAvisoCreate(Self, AppObj, FPDVObj,
-    'Caixa Fechado', CaixaSessaoAbrirTentarAction);
+  FProdSelectFiltroFrame := ProdSelectFiltroFrameCreate;
+  FProdSelectDBI := ProdSelectDBICreate;
+  FProdSelect := ProdSelectCreate;
+  FSessFiltroFrame := SessFiltroFrameCreate;
+  FSessFiltroFrame.Visible := False;
+
+  FFrameAviso := PDVFrameAvisoCreate(Self, AppObj, FPDVObj, 'Caixa Fechado',
+    CaixaSessaoAbrirTentarAction);
   FFrameAviso.OculteControles;
 
   FPDVVenda := PDVVendaCreate;
@@ -174,9 +197,9 @@ begin
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
-//  WindowState := TWindowState.wsNormal;
-//  width := 1000;
-//  height := 500;
+  // WindowState := TWindowState.wsNormal;
+  // width := 1000;
+  // height := 500;
 end;
 
 procedure TPDVModuloBasForm.DecidirPrimeiroFrameAtivo;
@@ -365,12 +388,21 @@ end;
 procedure TPDVModuloBasForm.SessFormActionExecute(Sender: TObject);
 begin
   inherited;
-  App.PDV.PDVSessForm_u.Exibir(nil, Terminal.ImpressoraNome, FCaixaSessaoDM);
+  App.PDV.PDVSessForm_u.Exibir(nil, Terminal.ImpressoraNome, FCaixaSessaoDM,
+    SessFiltroFrame);
 end;
 
 procedure TPDVModuloBasForm.SetFrameAtivo(Value: TPDVFrame);
 begin
   FFrameAtivo := Value;
+end;
+
+procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+{$IFDEF DEBUG}
+  SessFormAction.Execute;
+{$ENDIF}
 end;
 
 end.
