@@ -4219,7 +4219,6 @@ LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Pr\app\bantu\bantu-sis\Src\App\Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI_u.pas
-
 [ClosedView_QzpcUHJcYXBwXGJhbnR1XGJhbnR1LXNpc1xTcmNcQXBwXEVzdFxWZW5kYVxDYWl4YVxDYWl4YVNl
 c3Nhb1xDeFNlc3Nhb1xBcHAuRXN0LlZlbmRhLkNhaXhhU2Vzc2FvLkRCSV91LnBhcw==]
 Module=C:\Pr\app\bantu\bantu-sis\Src\App\Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI_u.pas
@@ -4230,4 +4229,24 @@ LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Pr\app\bantu\bantu-sis\Src\App\Est\Venda\Caixa\CaixaSessao\CxSessao\App.Est.Venda.CaixaSessao.DBI_u.pas
+[ClosedView_QzpcUHJcYXBwXGJhbnR1XGJhbnR1LXNpc1xTcmNcU2hvcEFwcFxNb2R1bG9zXFBEVlxWZW5kYUZy
+YW1lXFNob3BBcHAuVUkuUERWLlZlbmRhRnJhbWVfdS5wYXM=]
+Module=C:\Pr\app\bantu\bantu-sis\Src\ShopApp\Modulos\PDV\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas
+CursorX=44
+CursorY=775
+TopLine=764
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Pr\app\bantu\bantu-sis\Src\ShopApp\Modulos\PDV\VendaFrame\ShopApp.UI.PDV.VendaFrame_u.pas
+[ClosedView_QzpcUHJcYXBwXGJhbnR1XGJhbnR1LXNpc1xTcmNcQXBwXE1vZHVsb3NcUERWXFVJXEFwcC5VSS5Q
+RFYuRnJhbWVfdS5wYXM=]
+Module=C:\Pr\app\bantu\bantu-sis\Src\App\Modulos\PDV\UI\App.UI.PDV.Frame_u.pas
+CursorX=1
+CursorY=1
+TopLine=1
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Pr\app\bantu\bantu-sis\Src\App\Modulos\PDV\UI\App.UI.PDV.Frame_u.pas
 

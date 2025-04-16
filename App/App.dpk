@@ -409,6 +409,7 @@ contains
   App.Testes.Config.ModuRetag.Est.Produtos_u in 'AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos_u.pas',
   App.UI.Form.Config.Tar.Backup.Message_u in 'Modulos\Config\Tar\Bak\App.UI.Form.Config.Tar.Backup.Message_u.pas' {BackupMessageForm},
   App.PDV.PDVSessForm.FiltroFrame_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm.FiltroFrame_u.pas' {SessFormFiltroFrame: TFrame},
-  App.PDV.PDVSessForm_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas';
+  App.PDV.PDVSessForm_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas',
+  App.PDV.Venda.Utils_u in 'Modulos\PDV\Venda\App.PDV.Venda.Utils_u.pas';
 
 end.

@@ -780,6 +780,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Venda\App.PDV.Venda.Utils_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
