@@ -6,6 +6,10 @@ type
   TPDVBuscaResultado = (pdvbrNaoDefinido, pdvbrStringNula, pdvbrErro,
     pdvbrValida, pdvbrBuscarDescricao);
 
+const
+  PDVBuscaResultadosAbreSelect: set of TPDVBuscaResultado = [pdvbrNaoDefinido,
+    pdvbrStringNula, pdvbrErro, pdvbrBuscarDescricao];
+
 function BuscaNumericaStatus(const pStrBusca: string): TPDVBuscaResultado;
 
 implementation
@@ -52,14 +56,14 @@ begin
       if iQtdAsterisco > 1 then
       begin
         Result := pdvbrErro;
-//        Exit;
+        // Exit;
       end;
 
       iPosAsterisco := i;
       if (iposSepDecimal > 0) and (iposSepDecimal < iPosAsterisco) then
       begin
         Result := pdvbrErro;
-//        Exit;
+        // Exit;
       end;
     end;
 
@@ -69,20 +73,20 @@ begin
       if iQtdSepDecimal > 1 then
       begin
         Result := pdvbrErro;
-//        Exit;
+        // Exit;
       end;
       iposSepDecimal := i;
       bTemVirgulaOuPonto := True;
       if (iPosAsterisco = 0) or (iposSepDecimal < iPosAsterisco) then
       begin
         Result := pdvbrErro;
-//        Exit;
+        // Exit;
       end;
     end;
   end;
 
   if Result = pdvbrErro then
-    exit;
+    Exit;
 
   c := pStrBusca[1];
   if CharInSet(c, [',', '.', '*']) then
