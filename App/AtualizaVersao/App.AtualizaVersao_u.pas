@@ -6,7 +6,11 @@ uses App.AtualizaVersao, Sis.Sis.Executavel_u, Sis.UI.IO.Output,
   Sis.UI.IO.Output.ProcessLog, App.AppInfo;
 
 const
+{$IFDEF DEBUG}
+  TESTA_VERSAO = False;
+{$ELSE}
   TESTA_VERSAO = True;
+{$ENDIF}
 
 type
   TAtualizaVersao = class(TExecutavel, IAtualizaVersao)
