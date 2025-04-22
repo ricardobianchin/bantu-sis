@@ -3,7 +3,7 @@ unit ShopApp.PDV.DBI;
 interface
 
 uses Sis.DBI, ShopApp.PDV.VendaItem, App.Est.Venda.Caixa.CaixaSessao,
-  App.PDV.DBI;
+  App.PDV.DBI, ShopApp.PDV.Venda.Engat_u;
 
 type
   IShopAppPDVDBI = interface(IAppPDVDBI)
@@ -15,6 +15,9 @@ type
 
     procedure ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
       out pExecutouOk: Boolean; out pMensagem: string);
+
+    procedure StrBuscaToProd(pStrBusca: string; var pEngat: TVendaProdEngat;
+      out pEncontrado: Boolean; out pMens: string);
   end;
 
 implementation

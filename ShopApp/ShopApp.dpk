@@ -63,6 +63,9 @@ contains
   ShopApp.PDV.Obj in 'Modulos\PDV\PdvObj\ShopApp.PDV.Obj.pas',
   ShopApp.PDV.Obj_u in 'Modulos\PDV\PdvObj\ShopApp.PDV.Obj_u.pas',
   ShopApp.PDV.DBI_u_EstMovAdicionador in 'Modulos\PDV\ShopApp.PDV.DBI_u_EstMovAdicionador.pas',
-  AppShop.PDV.Prod.ProdSelect.DBI_u in 'Modulos\PDV\ProdSelect\AppShop.PDV.Prod.ProdSelect.DBI_u.pas';
+  AppShop.PDV.Prod.ProdSelect.DBI_u in 'Modulos\PDV\ProdSelect\AppShop.PDV.Prod.ProdSelect.DBI_u.pas',
+  ShopApp.PDV.Venda.Utils_u in 'Modulos\PDV\ShopApp.PDV.Venda.Utils_u.pas',
+  ShopApp.PDV.Venda.Engat_u in 'Modulos\PDV\ShopApp.PDV.Venda.Engat_u.pas',
+  ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u.pas' {ItemQtdPergForm};
 
 end.

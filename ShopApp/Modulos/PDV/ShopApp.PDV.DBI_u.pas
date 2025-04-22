@@ -5,7 +5,7 @@ interface
 uses ShopApp.PDV.DBI, App.PDV.DBI_u, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   Sis.DB.DBTypes, App.AppObj, Sis.Terminal, Sis.Types.Floats, Data.DB,
   ShopApp.PDV.Factory_u, App.Est.Venda.Caixa.CaixaSessao,
-  ShopApp.PDV.DBI_u_EstMovAdicionador, App.PDV.Obj;
+  ShopApp.PDV.DBI_u_EstMovAdicionador, App.PDV.Obj, ShopApp.PDV.Venda.Engat_u;
 
 type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
@@ -31,6 +31,9 @@ type
 
     procedure ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
       out pExecutouOk: Boolean; out pMensagem: string);
+
+    procedure StrBuscaToProd(pStrBusca: string; var pEngat: TVendaProdEngat;
+      out pEncontrado: Boolean; out pMens: string);
 
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
       pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda);
@@ -90,8 +93,8 @@ begin
   inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda);
   FShopPdvVenda := pShopPdvVenda;
   FPDVObj := pPDVObj;
-  FEstMovAdicionador := TPDVVendaItemAdicionador.Create(AppObj, pPDVObj, Terminal,
-    FShopPdvVenda, DBConnection);
+  FEstMovAdicionador := TPDVVendaItemAdicionador.Create(AppObj, pPDVObj,
+    Terminal, FShopPdvVenda, DBConnection);
 end;
 
 destructor TShopAppPDVDBI.Destroy;
@@ -375,6 +378,58 @@ begin
     , q.Fields[11 { ALTERADO_EM } ].AsDateTime //
     , q.Fields[12 { CANCELADO_EM } ].AsDateTime //
     );
+end;
+
+procedure TShopAppPDVDBI.StrBuscaToProd(pStrBusca: string;
+  var pEngat: TVendaProdEngat; out pEncontrado: Boolean; out pMens: string);
+var
+  sSql: string;
+  oDBQuery: IDBQuery;
+begin
+  // não pode zerar pois qtd ja foi preenchida
+  pEngat.ProdId := 0;
+  pEncontrado := False;
+  pMens := '';
+
+  pEncontrado := DBConnection.Abrir;
+  if not pEncontrado then
+  begin
+    pMens := DBConnection.UltimoErro;
+    exit;
+  end;
+
+  try
+    sSql := //
+      'SELECT PROD_ID, DESCR_RED, FABR_NOME, UNID_SIGLA,'#13#10 + // 3
+      '  BALANCA_EXIGE, CUSTO_UNIT, PRECO_UNIT_ORIGINAL,'#13#10 + // 6
+      '  PRECO_UNIT_PROMO, PRECO_UNIT, ENCONTRADO, MENSAGEM'#13#10 + // 10
+      'FROM VENDA_PDV_INS_PA.STR_BUSCA_TO_PROD(' + QuotedStr(pStrBusca) + ');';
+
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
+    oDBQuery := DBQueryCreate('TShopAppPDVDBI.StrBuscaToProd.q', DBConnection,
+      sSql, nil, nil);
+
+    oDBQuery.Abrir;
+    try
+      pEncontrado := oDBQuery.DataSet.Fields[9].AsBoolean;
+      pMens := oDBQuery.DataSet.Fields[10].AsString;
+
+      if not pEncontrado then
+        exit;
+
+      pEngat.ProdId := oDBQuery.DataSet.Fields[0].AsInteger;
+      pEngat.DescrRed := oDBQuery.DataSet.Fields[1].AsString;
+      pEngat.PrecoUnit := oDBQuery.DataSet.Fields[6].AsCurrency;
+      pEngat.BalancaExige := oDBQuery.DataSet.Fields[4].AsBoolean;
+
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
 end;
 
 end.

@@ -1,14 +1,15 @@
 inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
   Caption = 'ItemCancelarForm_ShopApp'
-  ClientHeight = 279
-  ClientWidth = 520
+  ClientHeight = 319
+  ClientWidth = 536
   Font.Height = -15
-  ExplicitWidth = 532
-  ExplicitHeight = 317
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 552
+  ExplicitHeight = 358
   TextHeight = 20
   inherited MensLabel: TLabel
-    Top = 262
-    Width = 520
+    Top = 302
+    Width = 536
     Height = 17
     Font.Height = -13
     ExplicitTop = 262
@@ -16,9 +17,10 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
     ExplicitHeight = 17
   end
   inherited AlteracaoTextoLabel: TLabel
-    Top = 242
-    Width = 520
+    Top = 282
+    Width = 536
     Height = 20
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 242
     ExplicitWidth = 136
     ExplicitHeight = 20
@@ -32,7 +34,7 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
   end
   object BotaoCancelarLabel: TLabel [3]
     Left = 142
-    Top = 130
+    Top = 170
     Width = 245
     Height = 32
     Cursor = crHandPoint
@@ -56,7 +58,7 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
   end
   object BotaoOkLabel: TLabel [4]
     Left = 142
-    Top = 173
+    Top = 213
     Width = 245
     Height = 32
     Cursor = crHandPoint
@@ -93,7 +95,7 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
   end
   object CancelarStatusLabel: TLabel [6]
     Left = 142
-    Top = 206
+    Top = 246
     Width = 80
     Height = 15
     Anchors = [akLeft, akBottom]
@@ -110,8 +112,8 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
   object ItemPanel: TPanel [7]
     Left = 8
     Top = 47
-    Width = 507
-    Height = 58
+    Width = 519
+    Height = 97
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
@@ -119,8 +121,8 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
     object ItemLabel: TLabel
       Left = 7
       Top = 6
-      Width = 481
-      Height = 63
+      Width = 504
+      Height = 87
       AutoSize = False
       Caption = 'ItemLabel'#13#10'ItemLabel'#13#10'ItemLabel'
       Font.Charset = DEFAULT_CHARSET

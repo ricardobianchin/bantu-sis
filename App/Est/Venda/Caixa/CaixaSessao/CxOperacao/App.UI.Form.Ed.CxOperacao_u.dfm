@@ -42,16 +42,19 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
       635
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 308
-      ExplicitLeft = 308
+      Left = 292
+      Anchors = [akRight, akBottom]
+      ExplicitLeft = 292
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 421
-      ExplicitLeft = 421
+      Left = 405
+      Anchors = [akRight, akBottom]
+      ExplicitLeft = 405
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 522
-      ExplicitLeft = 522
+      Left = 506
+      Anchors = [akRight, akBottom]
+      ExplicitLeft = 506
     end
   end
   object MeioPanel: TPanel [4]
@@ -75,10 +78,11 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
       object Label2: TLabel
         Left = 0
         Top = 0
-        Width = 152
+        Width = 635
         Height = 15
         Align = alTop
         Caption = 'Observa'#231#245'es (200 caracteres)'
+        ExplicitWidth = 152
       end
       object ObsMemo: TMemo
         Left = 0

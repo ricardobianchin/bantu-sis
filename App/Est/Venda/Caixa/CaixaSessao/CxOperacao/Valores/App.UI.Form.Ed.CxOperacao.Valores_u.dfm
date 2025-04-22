@@ -26,29 +26,32 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
     Width = 504
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 291
-    ExplicitWidth = 574
+    ExplicitWidth = 504
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
-      Left = 238
+      Left = 158
+      ExplicitLeft = 158
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
-      Left = 351
+      Left = 271
+      ExplicitLeft = 271
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
-      Left = 452
+      Left = 372
+      ExplicitLeft = 372
     end
   end
   inherited MeioPanel: TPanel
     Width = 504
     Height = 239
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitWidth = 574
+    ExplicitWidth = 504
     ExplicitHeight = 239
     inherited ObsPanel: TPanel
       Top = 156
       Width = 504
       StyleElements = [seFont, seClient, seBorder]
       ExplicitTop = 156
-      ExplicitWidth = 574
+      ExplicitWidth = 504
       inherited Label2: TLabel
         Width = 504
         StyleElements = [seFont, seClient, seBorder]
@@ -56,7 +59,7 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
       inherited ObsMemo: TMemo
         Width = 504
         StyleElements = [seFont, seClient, seBorder]
-        ExplicitWidth = 574
+        ExplicitWidth = 504
       end
     end
     object DBGrid1: TDBGrid
@@ -114,7 +117,6 @@ inherited CxOperValoresEdForm: TCxOperValoresEdForm
       ParentFont = False
       TabOrder = 2
       StyleElements = [seClient, seBorder]
-      ExplicitWidth = 574
       object TotNumEditBtu: TNumEditBtu
         Left = 72
         Top = 3

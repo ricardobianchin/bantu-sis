@@ -9,12 +9,12 @@ uses
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
   Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj,
-  Sis.UI.Select, Sis.DBI, Sis.UI.Frame.Bas.Filtro_u;
+  Sis.UI.Select, Sis.DBI, Sis.UI.Frame.Bas.Filtro_u, ShopApp.PDV.Venda.Engat_u;
 
 const
   // GUTTER espaço entre colunas
   MARGEM = 1 / 205;
-  ENTRE_COLS_LARG = 1 / 40{estava 1/25};
+  ENTRE_COLS_LARG = 1 / 40 { estava 1/25 };
   PROD_PANEL_ALT = 1 / 8;
   ENTRE_PROD_PANEL_ALT = 1 / 80;
   INPUT_FONT_SIZE = 25 / 616;
@@ -23,9 +23,10 @@ const
   ITEM_DESCR_TOP = 27 / 72;
   TOTAL_LIQ_FONT_SIZE = 20 / 616;
   VOLUMES_FONT_SIZE = 12 / 616;
-  AZUL_CLARO_COR = $ffd199;
+  AZUL_CLARO_COR = $FFD199;
   CINZA_FUNDO_COR = $F0F0F0;
   PRETO_INTERNO_COR = $241510;
+
 type
   TShopVendaPDVFrame = class(TVendaBasPDVFrame)
     InputPanel: TPanel;
@@ -115,16 +116,18 @@ type
     FShopPDVObj: IShopPDVObj;
     FProdSelect: ISelect;
 
-    FItemPanelTop: integer;
-    FItemPanelHeight: integer;
+    FItemPanelTop: Integer;
+    FItemPanelHeight: Integer;
 
-    FInputPanelTop: integer;
-    FInputPanelHeight: integer;
+    FInputPanelTop: Integer;
+    FInputPanelHeight: Integer;
 
-  MargHor: integer;
-  MargVer: integer;
-  LargUtil: integer;
-  AltuUtil: integer;
+    MargHor: Integer;
+    MargVer: Integer;
+    LargUtil: Integer;
+    AltuUtil: Integer;
+
+    FEngat: TVendaProdEngat;
 
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
@@ -132,7 +135,10 @@ type
     procedure DimensioneTotalPanel;
 
     procedure StrBuscaPegueChar(pChar: Char);
-    procedure StrBuscaExec; // ADICIONA ITEM
+
+    // processa enter
+    procedure StrBuscaExec;
+
     procedure StrBuscaMudou;
 
     procedure ItemZerar;
@@ -146,9 +152,11 @@ type
     function GetItemUltimoIndex: Integer;
 
     procedure AcioneGaveta;
+    procedure EngatPegar(pEngat: TVendaProdEngat);
+    procedure EngatVender;
+
   protected
     procedure ExibaControles; override;
-
 
   public
     { Public declarations }
@@ -156,12 +164,12 @@ type
     procedure ExibaMens(pMens: string); override;
     procedure DimensioneControles; override;
 
+    // TECLADO PRESS
+    procedure ExecKeyPress(Sender: TObject; var Key: Char); override;
+
     // TECLADO KEYDOWN
     procedure ExecKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState); override;
-
-    // TECLADO PRESS
-    procedure ExecKeyPress(Sender: TObject; var Key: Char); override;
 
     procedure Iniciar; override;
 
@@ -179,8 +187,9 @@ implementation
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory,
-  Sis.UI.Frame.Bas.Filtro.BuscaString_u;
+  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory, ShopApp.PDV.Venda.Utils_u,
+  Sis.UI.Frame.Bas.Filtro.BuscaString_u,
+  ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u;
 
 { TShopVendaPDVFrame }
 
@@ -207,10 +216,12 @@ constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
   pPDVControlador: IPDVControlador; pProdSelect: ISelect);
 begin
   inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  FEngat.Zerar;
   FShopPDVObj := pShopPDVObj;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
-  FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid, MedeFontesGridPaintBox);
+  FFitaDraw := FitaDrawCreate(VendaAppCastToShopApp(pPDVVenda), FitaStringGrid,
+    MedeFontesGridPaintBox);
   FProdSelect := pProdSelect;
 
   FStrBusca := '';
@@ -220,15 +231,15 @@ end;
 
 procedure TShopVendaPDVFrame.DimensioneControles;
 
-//  QTD_COLS = 2;
-//  GUTTERS_TOTAL = GUTTER * (QTD_COLUNAS - 1);
-//  LARG_COLUNA = (LARG_UTIL - GUTTERS_TOTAL) div QTD_COLUNAS;
+// QTD_COLS = 2;
+// GUTTERS_TOTAL = GUTTER * (QTD_COLUNAS - 1);
+// LARG_COLUNA = (LARG_UTIL - GUTTERS_TOTAL) div QTD_COLUNAS;
 var
-  EntreColsLarg: integer;
-  ColunaLarg: integer;
-  ColunaAltu: integer;
+  EntreColsLarg: Integer;
+  ColunaLarg: Integer;
+  ColunaAltu: Integer;
 
-  EntrePanelsAltu: integer;
+  EntrePanelsAltu: Integer;
 
 begin
   inherited;
@@ -262,12 +273,12 @@ begin
 
   FColuna1Rect.Left := MargHor;
   FColuna1Rect.Top := MargVer;
-  FColuna1Rect.width := ColunaLarg;
+  FColuna1Rect.Width := ColunaLarg;
   FColuna1Rect.Height := ColunaAltu;
 
-  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.width + EntreColsLarg;
+  FColuna2Rect.Left := FColuna1Rect.Left + FColuna1Rect.Width + EntreColsLarg;
   FColuna2Rect.Top := FColuna1Rect.Top;
-  FColuna2Rect.width := FColuna1Rect.width;
+  FColuna2Rect.Width := FColuna1Rect.Width;
   FColuna2Rect.Height := FColuna1Rect.Height;
 
   DimensioneInput;
@@ -291,14 +302,14 @@ begin
   t := FColuna2Rect.Top;
   h := t + FColuna2Rect.Height;
   w := FColuna2Rect.Width;
-//  w := (FitaStringGrid.Canvas.TextWidth('W') * ((CUPOM_QTD_COLS * 2) + 1)) div 2;
-//  iDir := ItemPanel.Left + ItemPanel.width;
-//  l := iDir - w;
-//  FitaStringGrid.Left := l;
+  // w := (FitaStringGrid.Canvas.TextWidth('W') * ((CUPOM_QTD_COLS * 2) + 1)) div 2;
+  // iDir := ItemPanel.Left + ItemPanel.width;
+  // l := iDir - w;
+  // FitaStringGrid.Left := l;
 
   FitaStringGrid.Left := FColuna2Rect.Left;
   FitaStringGrid.Top := FColuna2Rect.Top;
-  FitaStringGrid.width := FColuna2Rect.Width;
+  FitaStringGrid.Width := FColuna2Rect.Width;
   FitaStringGrid.Height := FColuna2Rect.Height;
 
   PaintBoxGrid1.BringToFront;
@@ -309,18 +320,20 @@ begin
   PaintPanel1.Left := FitaStringGrid.Left;
   PaintPanel1.Top := FitaStringGrid.Top;
 
-  PaintPanel2.Left := FitaStringGrid.Left + FitaStringGrid.Width - PaintBoxGrid2.Width;
+  PaintPanel2.Left := FitaStringGrid.Left + FitaStringGrid.Width -
+    PaintBoxGrid2.Width;
   PaintPanel2.Top := FitaStringGrid.Top;
 
   PaintPanel3.Left := FitaStringGrid.Left;
-  PaintPanel3.Top := FitaStringGrid.Top + FitaStringGrid.Height - PaintBoxGrid3.Height;
+  PaintPanel3.Top := FitaStringGrid.Top + FitaStringGrid.Height -
+    PaintBoxGrid3.Height;
 
-  PaintPanel4.Left := FitaStringGrid.Left + FitaStringGrid.Width - PaintBoxGrid4.Width;
-  PaintPanel4.Top := FitaStringGrid.Top + FitaStringGrid.Height - PaintBoxGrid4.Height;
+  PaintPanel4.Left := FitaStringGrid.Left + FitaStringGrid.Width -
+    PaintBoxGrid4.Width;
+  PaintPanel4.Top := FitaStringGrid.Top + FitaStringGrid.Height -
+    PaintBoxGrid4.Height;
 
-
-
-  FitaStringGrid.DefaultColWidth := FitaStringGrid.width;
+  FitaStringGrid.DefaultColWidth := FitaStringGrid.Width;
 
   FFitaDraw.Prepare;
 end;
@@ -332,11 +345,11 @@ begin
   l := FColuna1Rect.Left;
   h := FInputPanelHeight;
   t := FInputPanelTop;
-  w := FColuna2Rect.Left + FColuna2Rect.width;
+  w := FColuna2Rect.Left + FColuna2Rect.Width;
 
   InputPanel.Left := l;
   InputPanel.Top := t;
-  InputPanel.width := w;
+  InputPanel.Width := w;
   InputPanel.Height := h;
 
   InputPanel.Color := Rgb(16, 21, 36);
@@ -345,11 +358,13 @@ begin
   InputPanel.Font.Size := Round(MeioPanel.Height * INPUT_FONT_SIZE);
 
   CaretShape.Width := MedeFontesInputPaintBox.Canvas.TextWidth('o');
-  StrBuscaLabel.Left := InputPanel.Width - StrBuscaLabel.Width - (MargHor*2+CaretShape.Width);
+  StrBuscaLabel.Left := InputPanel.Width - StrBuscaLabel.Width -
+    (MargHor * 2 + CaretShape.Width);
 
   MedeFontesInputPaintBox.Canvas.Font.Assign(InputPanel.Font);
   CaretShape.Brush.Color := InputPanel.Font.Color;
-  CaretShape.left := InputPanel.Width - CaretShape.Width - (MargHor*2+CaretShape.Width);
+  CaretShape.Left := InputPanel.Width - CaretShape.Width -
+    (MargHor * 2 + CaretShape.Width);
   CaretShape.Top := StrBuscaLabel.Top + StrBuscaLabel.Height + MargVer;
 
   h := Round(CARET_RATIO * CaretShape.Width);
@@ -365,14 +380,18 @@ begin
   InputPaintPanel1.Left := InputPanel.Left;
   InputPaintPanel1.Top := InputPanel.Top;
 
-  InputPaintPanel2.Left := InputPanel.Left + InputPanel.Width - ItemPaintPanel2.Width - 1;
+  InputPaintPanel2.Left := InputPanel.Left + InputPanel.Width -
+    ItemPaintPanel2.Width - 1;
   InputPaintPanel2.Top := InputPanel.Top;
 
   InputPaintPanel3.Left := InputPanel.Left;
-  InputPaintPanel3.Top := InputPanel.Top + InputPanel.Height - ItemPaintPanel3.Height - 1;
+  InputPaintPanel3.Top := InputPanel.Top + InputPanel.Height -
+    ItemPaintPanel3.Height - 1;
 
-  InputPaintPanel4.Left := InputPanel.Left + InputPanel.Width - ItemPaintPanel2.Width - 1;
-  InputPaintPanel4.Top := InputPanel.Top + InputPanel.Height - ItemPaintPanel3.Height - 1;
+  InputPaintPanel4.Left := InputPanel.Left + InputPanel.Width -
+    ItemPaintPanel2.Width - 1;
+  InputPaintPanel4.Top := InputPanel.Top + InputPanel.Height -
+    ItemPaintPanel3.Height - 1;
 
   CaretShape.BringToFront;
 end;
@@ -383,12 +402,12 @@ var
 begin
   l := FColuna1Rect.Left;
   h := FItemPanelHeight;
-  w := FColuna2Rect.Left + FColuna2Rect.width;
+  w := FColuna2Rect.Left + FColuna2Rect.Width;
   t := FItemPanelTop;
 
   ItemPanel.Left := l;
   ItemPanel.Top := t;
-  ItemPanel.width := w;
+  ItemPanel.Width := w;
   ItemPanel.Height := h;
 
   ItemPanel.Color := Rgb(16, 21, 36);
@@ -401,7 +420,7 @@ begin
 
   ItemTotalLabel.Font.Size := ItemDescrLabel.Font.Size;
   ItemTotalLabel.Top := ItemDescrLabel.Top;
-  ItemTotalLabel.Left := ItemPanel.WIdth - MargVer - ItemTotalLabel.Width;
+  ItemTotalLabel.Left := ItemPanel.Width - MargVer - ItemTotalLabel.Width;
 
   ItemPaintPanel1.BringToFront;
   ItemPaintPanel2.BringToFront;
@@ -411,29 +430,76 @@ begin
   ItemPaintPanel1.Left := ItemPanel.Left;
   ItemPaintPanel1.Top := ItemPanel.Top;
 
-  ItemPaintPanel2.Left := ItemPanel.Left + ItemPanel.Width - ItemPaintPanel2.Width - 1;
+  ItemPaintPanel2.Left := ItemPanel.Left + ItemPanel.Width -
+    ItemPaintPanel2.Width - 1;
   ItemPaintPanel2.Top := ItemPanel.Top;
 
   ItemPaintPanel3.Left := ItemPanel.Left;
-  ItemPaintPanel3.Top := ItemPanel.Top + ItemPanel.Height - ItemPaintPanel3.Height - 1;
+  ItemPaintPanel3.Top := ItemPanel.Top + ItemPanel.Height -
+    ItemPaintPanel3.Height - 1;
 
-  ItemPaintPanel4.Left := ItemPanel.Left + ItemPanel.Width - ItemPaintPanel2.Width - 1;
-  ItemPaintPanel4.Top := ItemPanel.Top + ItemPanel.Height - ItemPaintPanel3.Height -1;
+  ItemPaintPanel4.Left := ItemPanel.Left + ItemPanel.Width -
+    ItemPaintPanel2.Width - 1;
+  ItemPaintPanel4.Top := ItemPanel.Top + ItemPanel.Height -
+    ItemPaintPanel3.Height - 1;
 end;
 
 procedure TShopVendaPDVFrame.DimensioneTotalPanel;
 begin
   TotalExtPanel.Left := FColuna1Rect.Left;
   TotalExtPanel.Top := FColuna1Rect.Top;
-  TotalExtPanel.Width := FColuna1Rect.Right;// Round(FColuna1Rect.Right * 0.6);
+  TotalExtPanel.Width := FColuna1Rect.Right; // Round(FColuna1Rect.Right * 0.6);
   TotalExtPanel.Height := 70;
 
-  TotalLiquidoLabel.Font.Size := Round(MeioPanel.height * TOTAL_LIQ_FONT_SIZE);
+  TotalLiquidoLabel.Font.Size := Round(MeioPanel.Height * TOTAL_LIQ_FONT_SIZE);
   TotalLiquidoLabel.Top := MargHor;
 
-  VolumesLabel.Font.Size := Round(MeioPanel.height * VOLUMES_FONT_SIZE);
-  VolumesLabel.Top := TotalLiquidoLabel.Top + TotalLiquidoLabel.Height + MargHor;
+  VolumesLabel.Font.Size := Round(MeioPanel.Height * VOLUMES_FONT_SIZE);
+  VolumesLabel.Top := TotalLiquidoLabel.Top + TotalLiquidoLabel.Height
+    + MargHor;
   TotalPanel.Height := VolumesLabel.Top + VolumesLabel.Height + MargHor;
+end;
+
+procedure TShopVendaPDVFrame.EngatPegar(pEngat: TVendaProdEngat);
+begin
+  if pEngat.ProdId > 0 then
+  begin
+    EngatVender;
+  end;
+  FEngat.PegarDe(pEngat);
+  ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
+  PreencherControles;
+end;
+
+procedure TShopVendaPDVFrame.EngatVender;
+var
+  oItem: IShopPdvVendaItem;
+  bEncontrou: Boolean;
+  sMens: string;
+  sStrBusca: string;
+begin
+  if FEngat.ProdId = 0 then
+    exit;
+
+  sStrBusca := FEngat.GetStrBusca;
+  oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(sStrBusca, bEncontrou, sMens);
+
+  FEngat.Zerar;
+  FStrBusca := '';
+  StrBuscaMudou;
+
+  try
+    if not bEncontrou then
+    begin
+      ExibaErro(sMens);
+      exit;
+    end;
+
+    FShopPDVVenda.Items.Add(oItem);
+    ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
+  finally
+    PreencherControles;
+  end;
 end;
 
 procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
@@ -453,12 +519,12 @@ begin
   begin
     Key := 0;
     // FecharAction_ModuloBasForm.Execute;
-    Exit;
+    exit;
   end
   else if (Key = VK_F6) and (Shift = []) then
   begin
     AcioneGaveta;
-    Exit;
+    exit;
   end;
 
   case Key of
@@ -466,13 +532,21 @@ begin
       begin
         Key := 0;
         if FitaStringGrid.Row > 0 then
+        begin
           FitaStringGrid.Row := FitaStringGrid.Row - 1;
+          PaintBoxGrid1.Repaint;
+          PaintBoxGrid2.Repaint;
+        end;
       end;
     VK_DOWN:
       begin
         Key := 0;
         if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
+        begin
           FitaStringGrid.Row := FitaStringGrid.Row + 1;
+          PaintBoxGrid1.Repaint;
+          PaintBoxGrid2.Repaint;
+        end;
       end;
     VK_DELETE:
       begin
@@ -502,22 +576,61 @@ var
   sMens: string;
 begin
   inherited;
+  if CharInSet(Key, [',', '.']) then
+  begin
+    if FStrBusca = '' then
+    begin
+      StrBuscaPegueChar(Key);
+      StrBuscaPegueChar(#13);
+      Key := #0;
+    end;
+  end;
+
+  if Key = '*' then
+  begin
+    if FStrBusca = '' then
+    begin
+      if FEngat.ProdId > 0 then
+      begin
+        if ItemQtdPerg(FEngat) then
+        begin
+          ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
+          PreencherControles;
+          exit;
+        end;
+      end;
+      StrBuscaPegueChar(Key);
+      StrBuscaPegueChar(#13);
+      Key := #0;
+    end;
+  end;
+
   if Key = #27 then
   begin
+    if FEngat.ProdId > 0 then
+    begin
+      FEngat.Zerar;
+      FStrBusca := '';
+      StrBuscaMudou;
+      ItemVendidoExiba('');
+      PreencherControles;
+      Key := #0;
+      exit;
+    end;
+
     if PDVVenda.VendaId = 0 then
-      Exit;
+      exit;
 
     Key := #0;
-
     bResultado := PergBool('Deseja cancelar a venda?');
     if not bResultado then
-      Exit;
+      exit;
 
     PDVDBI.EstMovCancele(dtCanceladoEm, bResultado, sMens);
 
     PDVVenda.Cancelado := True;
     PDVControlador.VaParaFinaliza;
-    Exit;
+    exit;
   end
   else if CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
     ',', '*', #13, #8]) then
@@ -525,7 +638,7 @@ begin
     StrBuscaPegueChar(Key);
   end;
   CharSemAcento(Key);
-  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVWXZ') > 0 then
+  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVWXZ/\|!@#$%&()-_<>"''') > 0 then
   begin
     StrBuscaPegueChar(Key);
     StrBuscaPegueChar(#13);
@@ -535,7 +648,7 @@ end;
 procedure TShopVendaPDVFrame.ExibaControles;
 begin
   PreencherControles;
-  PDVToolBar.width := PDVToolBar.width + 1;
+  PDVToolBar.Width := PDVToolBar.Width + 1;
 
   // ControlAlignToCenter(PDVToolBar);
 
@@ -611,12 +724,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(0,0,29,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(0, 0, 29, 29);
 end;
 
 procedure TShopVendaPDVFrame.InputPaintBox2Paint(Sender: TObject);
@@ -625,12 +738,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(-13,0,29-13,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(-13, 0, 29 - 13, 29);
 end;
 
 procedure TShopVendaPDVFrame.InputPaintBox3Paint(Sender: TObject);
@@ -639,12 +752,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(0,-13,29,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(0, -13, 29, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.InputPaintBox4Paint(Sender: TObject);
@@ -653,22 +766,22 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(-13,-13,29-13,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(-13, -13, 29 - 13, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.ItemCancele;
 var
   bResultado: Boolean;
 begin
-  if FitaStringGrid.RowCount = 0 then
+  if FShopPDVVenda.GetQtdItensAtivos = 0 then
   begin
-    ShowMessage('Nenhum item a cancelar');
-    Exit;
+    ShowMessage('Apagar item:'#13#10'Venda sem itens a cancelar');
+    exit;
   end;
 
   ItemCancelarForm_ShopApp := TItemCancelarForm_ShopApp.Create(FitaStringGrid,
@@ -688,7 +801,7 @@ var
   iMax: Integer;
 begin
   if FitaStringGrid.RowCount < 2 then
-    Exit;
+    exit;
 
   iMax := GetItemUltimoIndex;
 
@@ -726,13 +839,16 @@ begin
       uTotalLiquido := uTotalLiquido + oItem.Preco;
     end;
   end;
+  if FEngat.ProdId > 0 then
+  begin
+    Inc(iQtdVolumes, Iif(CurrencyEhInteiro(FEngat.Qtd), Trunc(FEngat.Qtd), 1));
+    uTotalLiquido := uTotalLiquido + FEngat.Preco;
+  end;
 
   s := iQtdVolumes.ToString;
-
   VolumesLabel.Caption := 'Volumes: ' + s;
 
   s := DinhToStr(uTotalLiquido);
-
   TotalLiquidoLabel.Caption := 'Total: ' + s;
 
   ItemSelecione;
@@ -742,37 +858,45 @@ procedure TShopVendaPDVFrame.StrBuscaExec;
 var
   oItem: IShopPdvVendaItem;
   bEncontrou: Boolean;
-  sMensagem: string;
+  sMens: string;
   sStrBusca: string;
+  eResultado: TPDVBuscaResultado;
+
+  sBusca: string;
+
+  rEngat: TVendaProdEngat;
 begin
-  if not StrIsOnlyDigit(FStrBusca) then
-  begin
-    if not FProdSelect.Execute(FStrBusca) then
-    begin
-      FStrBusca := '';
-      StrBuscaMudou;
-      Exit;
-    end;
-    sStrBusca := StrAntes(FProdSelect.LastSelected, ';');
-    FStrBusca := sStrBusca;
-  end;
-
-  // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
-  oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
-    sMensagem);
-
-  FStrBusca := '';
-  StrBuscaMudou;
-
   try
+    eResultado := BuscaNumericaStatus(FStrBusca);
+    if eResultado in PDVBuscaResultadosAbreSelect then
+    begin
+      if not FProdSelect.Execute(FStrBusca) then
+      begin
+        FStrBusca := '';
+        StrBuscaMudou;
+        if FEngat.ProdId > 0 then
+          ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco)
+        else
+          ItemVendidoExiba('');
+        exit;
+      end;
+      sStrBusca := StrAntes(FProdSelect.LastSelected, ';');
+      FStrBusca := sStrBusca;
+    end;
+
+    SepareBuscaStr(FStrBusca, sBusca, rEngat.Qtd);
+
+    FShopAppPDVDBI.StrBuscaToProd(sBusca, rEngat, bEncontrou, sMens);
     if not bEncontrou then
     begin
-      ExibaErro(sMensagem);
-      Exit;
+      ExibaErro(sMens);
+      exit;
     end;
 
-    FShopPDVVenda.Items.Add(oItem);
-    ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
+    EngatPegar(rEngat);
+    FStrBusca := '';
+    StrBuscaMudou;
+    ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
   finally
     PreencherControles;
   end;
@@ -792,13 +916,13 @@ begin
     if pChar = #8 then
     begin
       StrDeleteNoFim(FStrBusca, 1);
-      Exit;
+      exit;
     end;
 
     if pChar = #13 then
     begin
       StrBuscaExec;
-      Exit;
+      exit;
     end;
 
     CharSemAcento(pChar);
@@ -811,12 +935,14 @@ end;
 procedure TShopVendaPDVFrame.PagamentoToolButtonClick(Sender: TObject);
 begin
   inherited;
+  EngatVender;
   PDVControlador.VaParaPag;
 end;
 
 procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);
 begin
   inherited;
+  EngatVender;
   PDVControlador.PagSomenteDinheiro;
 end;
 
@@ -826,12 +952,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := AZUL_CLARO_COR;
-  p.canvas.Ellipse(0,0,29,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := AZUL_CLARO_COR;
+  p.Canvas.Ellipse(0, 0, 29, 29);
 end;
 
 procedure TShopVendaPDVFrame.PaintBox2Paint(Sender: TObject);
@@ -840,12 +966,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := AZUL_CLARO_COR;
-  p.canvas.Ellipse(-13,0,29-13,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := AZUL_CLARO_COR;
+  p.Canvas.Ellipse(-13, 0, 29 - 13, 29);
 end;
 
 procedure TShopVendaPDVFrame.PaintBox3Paint(Sender: TObject);
@@ -854,12 +980,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := AZUL_CLARO_COR;
-  p.canvas.Ellipse(0,-13,29,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := AZUL_CLARO_COR;
+  p.Canvas.Ellipse(0, -13, 29, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.PaintBox4Paint(Sender: TObject);
@@ -868,40 +994,52 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := AZUL_CLARO_COR;
-  p.canvas.Ellipse(-13,-13,29-13,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := AZUL_CLARO_COR;
+  p.Canvas.Ellipse(-13, -13, 29 - 13, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.PaintBoxGrid1Paint(Sender: TObject);
 var
   p: TPaintBox;
+  cor: TColor;
 begin
   inherited;
+  if FitaStringGrid.Row = 0 then
+    cor := AZUL_CLARO_COR
+  else
+    cor := FitaStringGrid.Color;
+
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := AZUL_CLARO_COR;
-  p.canvas.Ellipse(0,0,29,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := cor;
+  p.Canvas.Ellipse(0, 0, 29, 29);
 end;
 
 procedure TShopVendaPDVFrame.PaintBoxGrid2Paint(Sender: TObject);
 var
   p: TPaintBox;
+  cor: TColor;
 begin
   inherited;
+  if FitaStringGrid.Row = 0 then
+    cor := AZUL_CLARO_COR
+  else
+    cor := FitaStringGrid.Color;
+
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := AZUL_CLARO_COR;
-  p.canvas.Ellipse(-13,0,29-13,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := cor;
+  p.Canvas.Ellipse(-13, 0, 29 - 13, 29);
 end;
 
 procedure TShopVendaPDVFrame.PaintBoxGrid3Paint(Sender: TObject);
@@ -910,12 +1048,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := clWhite;
-  p.canvas.Ellipse(0,-13,29,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := clWhite;
+  p.Canvas.Ellipse(0, -13, 29, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.PaintBoxGrid4Paint(Sender: TObject);
@@ -924,12 +1062,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := clWhite;
-  p.canvas.Ellipse(-13,-13,29-13,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := clWhite;
+  p.Canvas.Ellipse(-13, -13, 29 - 13, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.ItemCanceleToolButtonClick(Sender: TObject);
@@ -944,12 +1082,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(0,0,29,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(0, 0, 29, 29);
 end;
 
 procedure TShopVendaPDVFrame.ItemPaintBox2Paint(Sender: TObject);
@@ -958,12 +1096,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(-13,0,29-13,29);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(-13, 0, 29 - 13, 29);
 end;
 
 procedure TShopVendaPDVFrame.ItemPaintBox3Paint(Sender: TObject);
@@ -972,12 +1110,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(0,-13,29,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(0, -13, 29, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.ItemPaintBox4Paint(Sender: TObject);
@@ -986,12 +1124,12 @@ var
 begin
   inherited;
   p := TPaintBox(Sender);
-  p.canvas.pen.Style := psClear;
-  p.canvas.Brush.Style := bsSolid;
-  p.canvas.Brush.Color := CINZA_FUNDO_COR;
-  p.canvas.rectangle(0, 0, 16, 16);
-  p.canvas.Brush.Color := PRETO_INTERNO_COR;
-  p.canvas.Ellipse(-13,-13,29-13,29-13);
+  p.Canvas.pen.Style := psClear;
+  p.Canvas.Brush.Style := bsSolid;
+  p.Canvas.Brush.Color := CINZA_FUNDO_COR;
+  p.Canvas.rectangle(0, 0, 16, 16);
+  p.Canvas.Brush.Color := PRETO_INTERNO_COR;
+  p.Canvas.Ellipse(-13, -13, 29 - 13, 29 - 13);
 end;
 
 procedure TShopVendaPDVFrame.ItemZerar;
