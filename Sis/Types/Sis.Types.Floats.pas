@@ -11,6 +11,7 @@ function FloatToStrPonto(pF: double): string;
 function CurrencyToStrPonto(pF: Currency): string;
 function DinhToStr(pValor: Currency): string;
 function StrToNumStrPonto(S: string): string;
+function IsValidFloatString(const pNumStr: string): Boolean;
 function TruncTo(const AValue: Currency; const ADigit: TRoundToRange = -2)
   : Currency;
 function DinheiroStr(v: Currency; pTrunc: boolean = false): string;
@@ -340,6 +341,31 @@ end;
 function CurrencyEhInteiro(pCurr: Currency): boolean;
 begin
   Result := Frac(pCurr) = 0;
+end;
+
+function IsValidFloatString(const pNumStr: string): Boolean;
+var
+  NormalizedStr: string;
+  I, DotCount: Integer;
+begin
+  // Substituir ',' por '.'
+  NormalizedStr := StringReplace(pNumStr, ',', '.', [rfReplaceAll]);
+
+  // Verificar se só contém dígitos e no máximo um ponto decimal
+  DotCount := 0;
+  for I := 1 to Length(NormalizedStr) do
+  begin
+    if not (NormalizedStr[I] in ['0'..'9', '.']) then
+      Exit(False);
+
+    if NormalizedStr[I] = '.' then
+      Inc(DotCount);
+
+    if DotCount > 1 then
+      Exit(False);
+  end;
+
+  Result := True;
 end;
 
 end.
