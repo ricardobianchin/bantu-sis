@@ -6,7 +6,7 @@ uses App.AtualizaVersao, Sis.Sis.Executavel_u, Sis.UI.IO.Output,
   Sis.UI.IO.Output.ProcessLog, App.AppInfo;
 
 const
-  TESTA_VERSAO = False;
+  TESTA_VERSAO = True;
 
 type
   TAtualizaVersao = class(TExecutavel, IAtualizaVersao)
