@@ -92,6 +92,8 @@ type
       out pTroco: Currency //
       );
 
+    function GetQtdItensAtivos: integer;
+
     constructor Create( //
       pLoja: IAppLoja; //
       pTerminalId: TTerminalId; //
@@ -284,6 +286,20 @@ begin
   begin
     oItem := IPDVVendaItem(Items[I]);
     Result := Result + oItem.Preco;
+  end;
+end;
+
+function TPDVVenda.GetQtdItensAtivos: integer;
+var
+  oItem: IPDVVendaItem;
+  I: Integer;
+begin
+  Result := 0;
+  for I := 0 to Items.Count - 1 do
+  begin
+    oItem := IPDVVendaItem(Items[I]);
+    if not oItem.Cancelado then
+      inc(Result);
   end;
 end;
 

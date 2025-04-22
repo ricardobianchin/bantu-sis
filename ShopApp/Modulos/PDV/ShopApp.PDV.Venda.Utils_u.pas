@@ -1,4 +1,4 @@
-﻿unit App.PDV.Venda.Utils_u;
+﻿unit ShopApp.PDV.Venda.Utils_u;
 
 interface
 
@@ -15,7 +15,8 @@ const
     pdvbrStringNula, pdvbrErro, pdvbrBuscarDescricao];
 
 function BuscaNumericaStatus(const pStrBusca: string): TPDVBuscaResultado;
-procedure SepareBuscaStr(pStr: string; out pBuscaStr: string; out pQtd: Currency);
+procedure SepareBuscaStr(pStr: string; out pBuscaStr: string;
+  out pQtd: Currency);
 
 implementation
 
@@ -109,7 +110,8 @@ begin
   Result := TPDVBuscaResultado.pdvbrValida;
 end;
 
-procedure SepareBuscaStr(pStr: string; out pBuscaStr: string; out pQtd: Currency);
+procedure SepareBuscaStr(pStr: string; out pBuscaStr: string;
+  out pQtd: Currency);
 var
   iQtdElementos: integer;
   aElementos: TArray<string>;

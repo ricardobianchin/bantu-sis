@@ -47,8 +47,6 @@ type
     CustoUnit, Custo, PrecoUnit, PrecoUnitOriginal, PrecoUnitPromo, PrecoBruto,
       Desconto, PrecoLIquido: Currency;
 
-    procedure SepareQtdEBusca(pStrBusca: string);
-
     function GetSqlItemBusque: string;
     function GetSqlItemAddPeso: string;
 
@@ -77,7 +75,8 @@ type
 implementation
 
 uses Sis.DB.Factory, Sis.Types.Floats, System.SysUtils, Sis.Types,
-  App.Est.Factory_u, ShopApp.PDV.Factory_u, Sis.Sis.Constants, System.Math;
+  App.Est.Factory_u, ShopApp.PDV.Factory_u, Sis.Sis.Constants, System.Math,
+  ShopApp.PDV.Venda.Utils_u;
 
 { TPDVVendaItemAdicionador }
 
@@ -134,26 +133,6 @@ begin
   FDBConnection := pDBConnection;
   BusQ := BuscaQCreate;
   PesoQ := AddItemPesoQCreate;
-end;
-
-procedure TPDVVendaItemAdicionador.SepareQtdEBusca(pStrBusca: string);
-var
-  iQtdElementos: integer;
-  aElementos: TArray<string>;
-begin
-  aElementos := pStrBusca.Split(['*']);
-  iQtdElementos := Length(aElementos);
-
-  if iQtdElementos > 1 then
-  begin
-    uQtd := StrToCurrency(aElementos[0]);
-    sBusca := aElementos[1];
-  end
-  else
-  begin
-    uQtd := 1;
-    sBusca := aElementos[0];
-  end;
 end;
 
 procedure TPDVVendaItemAdicionador.TentaInserirVendaItem;
@@ -390,7 +369,7 @@ var
 begin
   Result := nil;
 
-  SepareQtdEBusca(pStrBusca);
+  SepareBuscaStr( pStrBusca, sBusca, uQtd);
   FDBConnection.Abrir;
   try
     BuscaQParmsPreencher;

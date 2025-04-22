@@ -9,7 +9,7 @@ uses
   Vcl.Grids, App.PDV.Venda, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   App.PDV.DBI, ShopApp.PDV.DBI, ShopApp.UI.PDV.Venda.Frame.FitaDraw,
   Vcl.ComCtrls, Vcl.ToolWin, App.PDV.Controlador, ShopApp.PDV.Obj,
-  Sis.UI.Select, Sis.DBI, Sis.UI.Frame.Bas.Filtro_u;
+  Sis.UI.Select, Sis.DBI, Sis.UI.Frame.Bas.Filtro_u, ShopApp.PDV.Venda.Engat_u;
 
 const
   // GUTTER espaço entre colunas
@@ -127,13 +127,18 @@ type
     LargUtil: Integer;
     AltuUtil: Integer;
 
+    FEngat: TVendaProdEngat;
+
     procedure DimensioneItemPanel;
     procedure DimensioneInput;
     procedure DimensioneFitaStringGrid;
     procedure DimensioneTotalPanel;
 
     procedure StrBuscaPegueChar(pChar: Char);
-    procedure StrBuscaExec; // ADICIONA ITEM
+
+    // processa enter
+    procedure StrBuscaExec;
+
     procedure StrBuscaMudou;
 
     procedure ItemZerar;
@@ -147,6 +152,9 @@ type
     function GetItemUltimoIndex: Integer;
 
     procedure AcioneGaveta;
+    procedure EngatPegar(pEngat: TVendaProdEngat);
+    procedure EngatVender;
+
   protected
     procedure ExibaControles; override;
 
@@ -156,12 +164,12 @@ type
     procedure ExibaMens(pMens: string); override;
     procedure DimensioneControles; override;
 
+    // TECLADO PRESS
+    procedure ExecKeyPress(Sender: TObject; var Key: Char); override;
+
     // TECLADO KEYDOWN
     procedure ExecKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState); override;
-
-    // TECLADO PRESS
-    procedure ExecKeyPress(Sender: TObject; var Key: Char); override;
 
     procedure Iniciar; override;
 
@@ -179,8 +187,9 @@ implementation
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory,
-  Sis.UI.Frame.Bas.Filtro.BuscaString_u;
+  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory, ShopApp.PDV.Venda.Utils_u,
+  Sis.UI.Frame.Bas.Filtro.BuscaString_u,
+  ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u;
 
 { TShopVendaPDVFrame }
 
@@ -207,6 +216,7 @@ constructor TShopVendaPDVFrame.Create(AOwner: TComponent;
   pPDVControlador: IPDVControlador; pProdSelect: ISelect);
 begin
   inherited Create(AOwner, pShopPDVObj, pPDVVenda, pAppPDVDBI, pPDVControlador);
+  FEngat.Zerar;
   FShopPDVObj := pShopPDVObj;
   FShopPDVVenda := VendaAppCastToShopApp(pPDVVenda);
   FShopAppPDVDBI := DBIAppCastToShopApp(pAppPDVDBI);
@@ -450,6 +460,48 @@ begin
   TotalPanel.Height := VolumesLabel.Top + VolumesLabel.Height + MargHor;
 end;
 
+procedure TShopVendaPDVFrame.EngatPegar(pEngat: TVendaProdEngat);
+begin
+  if pEngat.ProdId > 0 then
+  begin
+    EngatVender;
+  end;
+  FEngat.PegarDe(pEngat);
+  ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
+  PreencherControles;
+end;
+
+procedure TShopVendaPDVFrame.EngatVender;
+var
+  oItem: IShopPdvVendaItem;
+  bEncontrou: Boolean;
+  sMens: string;
+  sStrBusca: string;
+begin
+  if FEngat.ProdId = 0 then
+    exit;
+
+  sStrBusca := FEngat.GetStrBusca;
+  oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(sStrBusca, bEncontrou, sMens);
+
+  FEngat.Zerar;
+  FStrBusca := '';
+  StrBuscaMudou;
+
+  try
+    if not bEncontrou then
+    begin
+      ExibaErro(sMens);
+      exit;
+    end;
+
+    FShopPDVVenda.Items.Add(oItem);
+    ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
+  finally
+    PreencherControles;
+  end;
+end;
+
 procedure TShopVendaPDVFrame.ExecKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -467,12 +519,12 @@ begin
   begin
     Key := 0;
     // FecharAction_ModuloBasForm.Execute;
-    Exit;
+    exit;
   end
   else if (Key = VK_F6) and (Shift = []) then
   begin
     AcioneGaveta;
-    Exit;
+    exit;
   end;
 
   case Key of
@@ -480,13 +532,21 @@ begin
       begin
         Key := 0;
         if FitaStringGrid.Row > 0 then
+        begin
           FitaStringGrid.Row := FitaStringGrid.Row - 1;
+          PaintBoxGrid1.Repaint;
+          PaintBoxGrid2.Repaint;
+        end;
       end;
     VK_DOWN:
       begin
         Key := 0;
         if FitaStringGrid.Row < FitaStringGrid.RowCount - 1 then
+        begin
           FitaStringGrid.Row := FitaStringGrid.Row + 1;
+          PaintBoxGrid1.Repaint;
+          PaintBoxGrid2.Repaint;
+        end;
       end;
     VK_DELETE:
       begin
@@ -516,22 +576,61 @@ var
   sMens: string;
 begin
   inherited;
+  if CharInSet(Key, [',', '.']) then
+  begin
+    if FStrBusca = '' then
+    begin
+      StrBuscaPegueChar(Key);
+      StrBuscaPegueChar(#13);
+      Key := #0;
+    end;
+  end;
+
+  if Key = '*' then
+  begin
+    if FStrBusca = '' then
+    begin
+      if FEngat.ProdId > 0 then
+      begin
+        if ItemQtdPerg(FEngat) then
+        begin
+          ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
+          PreencherControles;
+          exit;
+        end;
+      end;
+      StrBuscaPegueChar(Key);
+      StrBuscaPegueChar(#13);
+      Key := #0;
+    end;
+  end;
+
   if Key = #27 then
   begin
+    if FEngat.ProdId > 0 then
+    begin
+      FEngat.Zerar;
+      FStrBusca := '';
+      StrBuscaMudou;
+      ItemVendidoExiba('');
+      PreencherControles;
+      Key := #0;
+      exit;
+    end;
+
     if PDVVenda.VendaId = 0 then
-      Exit;
+      exit;
 
     Key := #0;
-
     bResultado := PergBool('Deseja cancelar a venda?');
     if not bResultado then
-      Exit;
+      exit;
 
     PDVDBI.EstMovCancele(dtCanceladoEm, bResultado, sMens);
 
     PDVVenda.Cancelado := True;
     PDVControlador.VaParaFinaliza;
-    Exit;
+    exit;
   end
   else if CharInSet(Key, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
     ',', '*', #13, #8]) then
@@ -539,7 +638,7 @@ begin
     StrBuscaPegueChar(Key);
   end;
   CharSemAcento(Key);
-  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVWXZ') > 0 then
+  if Pos(Key, 'ABCDEFGHIJKLMNOPQRSTUVWXZ/\|!@#$%&()-_<>"''') > 0 then
   begin
     StrBuscaPegueChar(Key);
     StrBuscaPegueChar(#13);
@@ -679,10 +778,10 @@ procedure TShopVendaPDVFrame.ItemCancele;
 var
   bResultado: Boolean;
 begin
-  if FitaStringGrid.RowCount = 0 then
+  if FShopPDVVenda.GetQtdItensAtivos = 0 then
   begin
-    ShowMessage('Nenhum item a cancelar');
-    Exit;
+    ShowMessage('Apagar item:'#13#10'Venda sem itens a cancelar');
+    exit;
   end;
 
   ItemCancelarForm_ShopApp := TItemCancelarForm_ShopApp.Create(FitaStringGrid,
@@ -702,7 +801,7 @@ var
   iMax: Integer;
 begin
   if FitaStringGrid.RowCount < 2 then
-    Exit;
+    exit;
 
   iMax := GetItemUltimoIndex;
 
@@ -740,13 +839,16 @@ begin
       uTotalLiquido := uTotalLiquido + oItem.Preco;
     end;
   end;
+  if FEngat.ProdId > 0 then
+  begin
+    Inc(iQtdVolumes, Iif(CurrencyEhInteiro(FEngat.Qtd), Trunc(FEngat.Qtd), 1));
+    uTotalLiquido := uTotalLiquido + FEngat.Preco;
+  end;
 
   s := iQtdVolumes.ToString;
-
   VolumesLabel.Caption := 'Volumes: ' + s;
 
   s := DinhToStr(uTotalLiquido);
-
   TotalLiquidoLabel.Caption := 'Total: ' + s;
 
   ItemSelecione;
@@ -756,37 +858,45 @@ procedure TShopVendaPDVFrame.StrBuscaExec;
 var
   oItem: IShopPdvVendaItem;
   bEncontrou: Boolean;
-  sMensagem: string;
+  sMens: string;
   sStrBusca: string;
+  eResultado: TPDVBuscaResultado;
+
+  sBusca: string;
+
+  rEngat: TVendaProdEngat;
 begin
-  if not StrIsOnlyDigit(FStrBusca) then
-  begin
-    if not FProdSelect.Execute(FStrBusca) then
-    begin
-      FStrBusca := '';
-      StrBuscaMudou;
-      Exit;
-    end;
-    sStrBusca := StrAntes(FProdSelect.LastSelected, ';');
-    FStrBusca := sStrBusca;
-  end;
-
-  // recebe codigo, retorna item vendido, ou, avisa que nao encontrou
-  oItem := FShopAppPDVDBI.ItemCreatePelaStrBusca(FStrBusca, bEncontrou,
-    sMensagem);
-
-  FStrBusca := '';
-  StrBuscaMudou;
-
   try
+    eResultado := BuscaNumericaStatus(FStrBusca);
+    if eResultado in PDVBuscaResultadosAbreSelect then
+    begin
+      if not FProdSelect.Execute(FStrBusca) then
+      begin
+        FStrBusca := '';
+        StrBuscaMudou;
+        if FEngat.ProdId > 0 then
+          ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco)
+        else
+          ItemVendidoExiba('');
+        exit;
+      end;
+      sStrBusca := StrAntes(FProdSelect.LastSelected, ';');
+      FStrBusca := sStrBusca;
+    end;
+
+    SepareBuscaStr(FStrBusca, sBusca, rEngat.Qtd);
+
+    FShopAppPDVDBI.StrBuscaToProd(sBusca, rEngat, bEncontrou, sMens);
     if not bEncontrou then
     begin
-      ExibaErro(sMensagem);
-      Exit;
+      ExibaErro(sMens);
+      exit;
     end;
 
-    FShopPDVVenda.Items.Add(oItem);
-    ItemVendidoExiba(oItem.Prod.DescrRed, oItem.PrecoBruto);
+    EngatPegar(rEngat);
+    FStrBusca := '';
+    StrBuscaMudou;
+    ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
   finally
     PreencherControles;
   end;
@@ -806,13 +916,13 @@ begin
     if pChar = #8 then
     begin
       StrDeleteNoFim(FStrBusca, 1);
-      Exit;
+      exit;
     end;
 
     if pChar = #13 then
     begin
       StrBuscaExec;
-      Exit;
+      exit;
     end;
 
     CharSemAcento(pChar);
@@ -825,12 +935,14 @@ end;
 procedure TShopVendaPDVFrame.PagamentoToolButtonClick(Sender: TObject);
 begin
   inherited;
+  EngatVender;
   PDVControlador.VaParaPag;
 end;
 
 procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);
 begin
   inherited;
+  EngatVender;
   PDVControlador.PagSomenteDinheiro;
 end;
 
@@ -893,28 +1005,40 @@ end;
 procedure TShopVendaPDVFrame.PaintBoxGrid1Paint(Sender: TObject);
 var
   p: TPaintBox;
+  cor: TColor;
 begin
   inherited;
+  if FitaStringGrid.Row = 0 then
+    cor := AZUL_CLARO_COR
+  else
+    cor := FitaStringGrid.Color;
+
   p := TPaintBox(Sender);
   p.Canvas.pen.Style := psClear;
   p.Canvas.Brush.Style := bsSolid;
   p.Canvas.Brush.Color := CINZA_FUNDO_COR;
   p.Canvas.rectangle(0, 0, 16, 16);
-  p.Canvas.Brush.Color := AZUL_CLARO_COR;
+  p.Canvas.Brush.Color := cor;
   p.Canvas.Ellipse(0, 0, 29, 29);
 end;
 
 procedure TShopVendaPDVFrame.PaintBoxGrid2Paint(Sender: TObject);
 var
   p: TPaintBox;
+  cor: TColor;
 begin
   inherited;
+  if FitaStringGrid.Row = 0 then
+    cor := AZUL_CLARO_COR
+  else
+    cor := FitaStringGrid.Color;
+
   p := TPaintBox(Sender);
   p.Canvas.pen.Style := psClear;
   p.Canvas.Brush.Style := bsSolid;
   p.Canvas.Brush.Color := CINZA_FUNDO_COR;
   p.Canvas.rectangle(0, 0, 16, 16);
-  p.Canvas.Brush.Color := AZUL_CLARO_COR;
+  p.Canvas.Brush.Color := cor;
   p.Canvas.Ellipse(-13, 0, 29 - 13, 29);
 end;
 

@@ -6,7 +6,6 @@ inherited ShopVendaPDVFrame: TShopVendaPDVFrame
   inherited MeioPanel: TPanel
     Width = 1000
     Height = 350
-    StyleElements = [seFont, seClient, seBorder]
     ExplicitWidth = 1000
     ExplicitHeight = 350
     object MedeFontesInputPaintBox: TPaintBox

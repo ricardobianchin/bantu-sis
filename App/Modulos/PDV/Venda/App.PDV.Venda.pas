@@ -62,6 +62,8 @@ type
     function GetItensPrecoTot: Currency;
     function GetFalta: Currency;
 
+    function GetQtdItensAtivos: integer;
+
     procedure ItensPegarTots( //
       out pTotalLiquido: Currency; //
       out pTotalDevido: Currency; //
