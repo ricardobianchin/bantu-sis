@@ -574,6 +574,7 @@ var
   dtCanceladoEm: TDateTime;
   bResultado: Boolean;
   sMens: string;
+  uQtd: Currency;
 begin
   inherited;
   if CharInSet(Key, [',', '.']) then
@@ -586,14 +587,44 @@ begin
     end;
   end;
 
+  if Key = #13 then
+  begin
+    if FEngat.ProdId > 0 then
+    begin
+      if FStrBusca = '' then
+      begin
+        key := #0;
+        EngatVender;
+        FEngat.Zerar;
+        ItemVendidoExiba('');
+        PreencherControles;
+        exit;
+      end;
+    end;
+  end;
+
   if Key = '*' then
   begin
-    if FStrBusca = '' then
+    if FEngat.ProdId > 0 then
     begin
-      if FEngat.ProdId > 0 then
+      if FStrBusca = '' then
       begin
         if ItemQtdPerg(FEngat) then
         begin
+          ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
+          PreencherControles;
+          exit;
+        end;
+      end
+      else if IsValidFloatString(FStrBusca) then
+      begin
+        uQtd := StrToCurrency(FStrBusca);
+        if uQtd > 0 then
+        begin
+          Key := #0;
+          FEngat.Qtd := uQtd;
+          FStrBusca := '';
+          StrBuscaMudou;
           ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
           PreencherControles;
           exit;
@@ -815,6 +846,8 @@ begin
   end;
 
   FitaStringGrid.Row := pIndex + 1;
+  PaintBoxGrid1.Repaint;
+  PaintBoxGrid2.Repaint;
 end;
 
 procedure TShopVendaPDVFrame.PreencherControles;
