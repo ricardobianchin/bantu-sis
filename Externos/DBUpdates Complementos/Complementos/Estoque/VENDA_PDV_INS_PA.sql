@@ -1,6 +1,6 @@
 /*
 ctrl+h
-'1.1.1900' '1.1.1900'
+{ DATA_ZERADA} '1.1.1900'
 DROP PACKAGE VENDA_PDV_INS_PA;
 
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PDV_INS_PA.sql";
@@ -395,8 +395,8 @@ BEGIN
       , :TERMINAL_ID
       , :EST_MOV_ID
       , '"' -- EST_MOV_TIPO_ID #34 VENDA
-      , {DATA_ZERADA} -- EST_MOV_DTH_DOC
-      , {DATA_ZERADA} -- EST_MOV_CRIADO_EM
+      , '1.1.1900' -- EST_MOV_DTH_DOC
+      , '1.1.1900' -- EST_MOV_CRIADO_EM
       , :PROD_ID
       , :QTD
     )

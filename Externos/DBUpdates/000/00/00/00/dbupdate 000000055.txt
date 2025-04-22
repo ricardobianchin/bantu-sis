@@ -451,7 +451,7 @@ BEGIN
             NOT :BUSCA_COD AND (
               CASE
                 WHEN :BUSCA_BARRAS THEN B.COD_BARRAS
-                WHEN :BUSCA_DESCR  THEN P.DESCR || 'Ç' || P.DESCR_RED
+                WHEN :BUSCA_DESCR  THEN P.DESCR || '\SEP\' || P.DESCR_RED
                 WHEN :BUSCA_FABR   THEN F.DESCR_RET
                 WHEN :BUSCA_TIPO   THEN T.DESCR_RET
               END
