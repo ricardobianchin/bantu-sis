@@ -5,11 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Sis.UI.IO.Input.Bool.Caption, Vcl.StdCtrls,
+  Sis.UI.Form.Bas_u, Vcl.ExtCtrls, Vcl.StdCtrls,
   Sis.Types.Utils_u, Vcl.Buttons;
 
 type
-  TInputBoolCaptionForm = class(TBasForm, IInputBooleanCaption)
+  TInputBoolCaptionForm = class(TBasForm)
     FundoPanel: TPanel;
     PerguntaLabel: TLabel;
     SimBitBtn: TBitBtn;
@@ -23,8 +23,9 @@ type
     { Public declarations }
     function Perg(pPergunta: string; pCaption: string = '';
       pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
-
   end;
+function PergBool(pPergunta: string; pCaption: string = '';
+  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
 
 var
   InputBoolCaptionForm: TInputBoolCaptionForm;
@@ -32,6 +33,17 @@ var
 implementation
 
 {$R *.dfm}
+
+function PergBool(pPergunta: string; pCaption: string = '';
+  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
+var
+  oInput: TInputBoolCaptionForm;
+begin
+  oInput := TInputBoolCaptionForm.Create(nil);
+  Result := oInput.Perg(pPergunta, pCaption, pDefaultResult);
+  oInput.Free;
+end;
+
 
 { TInputBoolCaptionForm }
 
@@ -50,6 +62,10 @@ function TInputBoolCaptionForm.Perg(pPergunta: string; pCaption: string = '';
 begin
   if pCaption = '' then
     pCaption := Application.Title;
+
+  if pCaption = '' then
+    pCaption := 'Confirmação';
+
   Caption := pCaption;
   PerguntaLabel.Caption := pPergunta;
 

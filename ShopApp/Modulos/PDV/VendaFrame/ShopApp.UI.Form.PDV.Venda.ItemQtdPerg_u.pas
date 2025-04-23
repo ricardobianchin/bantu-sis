@@ -20,13 +20,14 @@ type
     procedure QtdNumEditBtuKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
+    FExigeBalanca: Boolean;
     procedure CalculePreco;
   protected
       function PodeOk: Boolean; override;
 
   public
-      constructor Create(AOwner: TComponent); override;
     { Public declarations }
+    constructor Create(AOwner: TComponent; pExigeBalanca: Boolean); reintroduce;
 
   end;
 
@@ -39,11 +40,11 @@ implementation
 
 {$R *.dfm}
 
-uses System.Math;
+uses System.Math, ShopApp.PDV.Venda.Utils_u;
 
 function ItemQtdPerg(var pEngat: TVendaProdEngat): Boolean;
 begin
-  ItemQtdPergForm := TItemQtdPergForm.Create(Nil);
+  ItemQtdPergForm := TItemQtdPergForm.Create(Nil, pEngat.BalancaExige);
   try
     ItemQtdPergForm.ProdLabel.Caption := pEngat.GetText;
     ItemQtdPergForm.PrecoUnitNumEditBtu.Valor := pEngat.PrecoUnit;
@@ -71,9 +72,10 @@ begin
   PrecoNumEditBtu.Valor := NovoPreco
 end;
 
-constructor TItemQtdPergForm.Create(AOwner: TComponent);
+constructor TItemQtdPergForm.Create(AOwner: TComponent; pExigeBalanca: Boolean);
 begin
-  inherited;
+  inherited Create(AOwner);
+  FExigeBalanca := pExigeBalanca;
   ReadOnlySet(PrecoUnitNumEditBtu);
   ReadOnlySet(PrecoNumEditBtu);
 end;
@@ -81,12 +83,14 @@ end;
 function TItemQtdPergForm.PodeOk: Boolean;
 var
   Q: Currency;
+  sMens: String;
 begin
   Q := QtdNumEditBtu.AsCurrency;
-  Result := Q > 0;
+
+  Result := ItemQtdValida(Q, FExigeBalanca, sMens);
   if not Result then
   begin
-    ErroOutput.Exibir('Quantidade é obrigatória');
+    ErroOutput.Exibir(sMens);
     QtdNumEditBtu.SetFocus;
   end;
 end;

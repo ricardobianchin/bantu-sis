@@ -34,16 +34,16 @@ inherited ItemQtdPergForm: TItemQtdPergForm
     WordWrap = True
     StyleElements = []
   end
-  object QtdNumEditBtu: TNumEditBtu [3]
+  object PrecoUnitNumEditBtu: TNumEditBtu [3]
     Left = 104
-    Top = 128
+    Top = 88
     Width = 121
     Height = 28
     AutoExit = True
-    Caption = 'Quantidade'
-    EditLabel.Width = 78
+    Caption = 'Pre'#231'o Unit'#225'rio'
+    EditLabel.Width = 94
     EditLabel.Height = 28
-    EditLabel.Caption = 'Quantidade'
+    EditLabel.Caption = 'Pre'#231'o Unit'#225'rio'
     EditLabel.Font.Charset = DEFAULT_CHARSET
     EditLabel.Font.Color = clWindowText
     EditLabel.Font.Height = -15
@@ -59,11 +59,9 @@ inherited ItemQtdPergForm: TItemQtdPergForm
     LabelSpacing = 4
     ParentFont = False
     ReadOnly = False
-    TabOrder = 1
-    Text = '0,000'
-    OnChange = QtdNumEditBtuChange
-    OnKeyPress = QtdNumEditBtuKeyPress
-    NCasas = 3
+    TabOrder = 0
+    Text = '0,00'
+    NCasas = 2
     NCasasEsq = 7
     Valor = 0
     MascEsq = '######0'
@@ -101,16 +99,16 @@ inherited ItemQtdPergForm: TItemQtdPergForm
     Valor = 0
     MascEsq = '######0'
   end
-  object PrecoUnitNumEditBtu: TNumEditBtu [5]
+  object QtdNumEditBtu: TNumEditBtu [5]
     Left = 104
-    Top = 88
+    Top = 128
     Width = 121
     Height = 28
     AutoExit = True
-    Caption = 'Pre'#231'o Unit'#225'rio'
-    EditLabel.Width = 94
+    Caption = 'Quantidade'
+    EditLabel.Width = 78
     EditLabel.Height = 28
-    EditLabel.Caption = 'Pre'#231'o Unit'#225'rio'
+    EditLabel.Caption = 'Quantidade'
     EditLabel.Font.Charset = DEFAULT_CHARSET
     EditLabel.Font.Color = clWindowText
     EditLabel.Font.Height = -15
@@ -126,9 +124,11 @@ inherited ItemQtdPergForm: TItemQtdPergForm
     LabelSpacing = 4
     ParentFont = False
     ReadOnly = False
-    TabOrder = 0
-    Text = '0,00'
-    NCasas = 2
+    TabOrder = 1
+    Text = '0,000'
+    OnChange = QtdNumEditBtuChange
+    OnKeyPress = QtdNumEditBtuKeyPress
+    NCasas = 3
     NCasasEsq = 7
     Valor = 0
     MascEsq = '######0'

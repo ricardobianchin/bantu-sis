@@ -11,15 +11,16 @@ function PergBool(pPergunta: string; pCaption: string = '';
 implementation
 
 uses Sis.UI.IO.Input.Bool.Caption.Form_u, {Vcl.Dialogs,} Vcl.Controls,
-  WinApi.Windows, Vcl.Forms, Sis.UI.IO.Input.Bool.Caption;
+  WinApi.Windows, Vcl.Forms;
 
 function PergBool(pPergunta: string; pCaption: string = '';
   pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
 var
-  oInput: IInputBooleanCaption;
+  oInput: TInputBoolCaptionForm;
 begin
   oInput := TInputBoolCaptionForm.Create(nil);
   Result := oInput.Perg(pPergunta, pCaption, pDefaultResult);
+  oInput.Free;
 end;
 
 (*

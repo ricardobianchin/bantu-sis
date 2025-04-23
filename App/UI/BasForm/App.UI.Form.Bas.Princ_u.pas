@@ -107,7 +107,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
   App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.UI.IO.Input.Perg,
-  Sis.Types.Utils_u;
+  Sis.Types.Utils_u, App.UI.Form.Perg_u, Sis.UI.IO.Input.Bool.Caption.Form_u;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -364,13 +364,20 @@ procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 var
   bResultado: Boolean;
 begin
-  bResultado := PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
+//  bResultado := Sis.UI.IO.Input.Perg.PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
+//    TBooleanDefault.boolFalse);
+
+  bResultado := Sis.UI.IO.Input.Bool.Caption.Form_u.PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
     TBooleanDefault.boolFalse);
+
+
+
+//  bResultado := App.UI.Form.Perg_u.Perg;
   if not bResultado then
     exit;
   AssistPedirPraFechar;
-{$IFNDEF DEBUG}
   inherited;
+{$IFNDEF DEBUG}
 {$ENDIF}
 end;
 
