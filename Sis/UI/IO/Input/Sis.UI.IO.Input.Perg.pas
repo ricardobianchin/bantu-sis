@@ -13,22 +13,24 @@ implementation
 uses Sis.UI.IO.Input.Bool.Caption.Form_u, {Vcl.Dialogs,} Vcl.Controls,
   WinApi.Windows, Vcl.Forms;
 
-function PergBool(pPergunta: string; pCaption: string = '';
-  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
-begin
-  result := False;
-end;
-
 (*
-  function PergBool(pFrase: string): boolean;
-  var
-  Resultado: integer;
+  function PergBool(pPergunta: string; pCaption: string = '';
+  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
   begin
-  Resultado := MessageBox(Application.Handle, PWideChar(pFrase), 'Daros PDV', MB_YESNO + MB_ICONEXCLAMATION +  + MB_DEFBUTTON1);
-  Result := Resultado = ID_YES;
-  //  Result := IsPositiveResult(MessageDlg(pFrase, TMsgDlgType.mtInformation, [mbYes, mbNo], 0, TMsgDlgBtn.mbNo));
+  result := False;
   end;
 *)
+
+function PergBool(pPergunta: string; pCaption: string = '';
+  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
+var
+  Resultado: integer;
+begin
+  Resultado := MessageBox(Application.Handle, PWideChar(pPergunta),
+    PWideChar(pCaption), MB_YESNO + MB_ICONEXCLAMATION + +MB_DEFBUTTON1);
+  Result := Resultado = ID_YES;
+  // Result := IsPositiveResult(MessageDlg(pFrase, TMsgDlgType.mtInformation, [mbYes, mbNo], 0, TMsgDlgBtn.mbNo));
+end;
 
 // function Perg(pFrase: string; pCaption: string): boolean;
 // begin
