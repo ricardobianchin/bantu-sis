@@ -15,12 +15,8 @@ uses Sis.UI.IO.Input.Bool.Caption.Form_u, {Vcl.Dialogs,} Vcl.Controls,
 
 function PergBool(pPergunta: string; pCaption: string = '';
   pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
-var
-  oInput: TInputBoolCaptionForm;
 begin
-  oInput := TInputBoolCaptionForm.Create(nil);
-  Result := oInput.Perg(pPergunta, pCaption, pDefaultResult);
-  oInput.Free;
+  result := False;
 end;
 
 (*

@@ -18,11 +18,12 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
-    FButtonDefault: TBooleanDefault;
+    FDefaultResult: TBooleanDefault;
   public
     { Public declarations }
-    function Perg(pPergunta: string; pCaption: string = '';
-      pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
+    constructor Create(AOwner: TComponent;
+      pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined);
+      reintroduce;
   end;
 function PergBool(pPergunta: string; pCaption: string = '';
   pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
@@ -37,15 +38,31 @@ implementation
 function PergBool(pPergunta: string; pCaption: string = '';
   pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
 var
-  oInput: TInputBoolCaptionForm;
+  PergForm: TInputBoolCaptionForm;
 begin
-  oInput := TInputBoolCaptionForm.Create(nil);
-  Result := oInput.Perg(pPergunta, pCaption, pDefaultResult);
-  oInput.Free;
+  PergForm := TInputBoolCaptionForm.Create(nil, pDefaultResult);
+
+  if pCaption = '' then
+    pCaption := Application.Title;
+
+  if pCaption = '' then
+    pCaption := 'Confirmação';
+
+  PergForm.Caption := pCaption;
+  PergForm.PerguntaLabel.Caption := pPergunta;
+
+  result := IsPositiveResult(PergForm.ShowModal);
+  PergForm.Free;
 end;
 
-
 { TInputBoolCaptionForm }
+
+constructor TInputBoolCaptionForm.Create(AOwner: TComponent;
+  pDefaultResult: TBooleanDefault);
+begin
+  inherited Create(AOwner);
+  FDefaultResult := pDefaultResult;
+end;
 
 procedure TInputBoolCaptionForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -57,27 +74,10 @@ begin
 //  end;
 end;
 
-function TInputBoolCaptionForm.Perg(pPergunta: string; pCaption: string = '';
-  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): boolean;
-begin
-  if pCaption = '' then
-    pCaption := Application.Title;
-
-  if pCaption = '' then
-    pCaption := 'Confirmação';
-
-  Caption := pCaption;
-  PerguntaLabel.Caption := pPergunta;
-
-  FButtonDefault := pDefaultResult;
-
-  result := IsPositiveResult(ShowModal);
-end;
-
 procedure TInputBoolCaptionForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  case FButtonDefault of
+  case FDefaultResult of
     //boolUndefined: ;
     boolFalse: NaoBitBtn.SetFocus;
     boolTrue: SimBitBtn.SetFocus;

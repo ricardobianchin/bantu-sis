@@ -46,7 +46,6 @@ inherited InputBoolCaptionForm: TInputBoolCaptionForm
       Caption = '&Sim'
       ModalResult = 6
       TabOrder = 0
-      StyleName = 'Luna'
     end
     object NaoBitBtn: TBitBtn
       Left = 245
@@ -57,7 +56,6 @@ inherited InputBoolCaptionForm: TInputBoolCaptionForm
       Caption = '&N'#227'o'
       ModalResult = 7
       TabOrder = 1
-      StyleName = 'Luna'
     end
   end
   inherited ShowTimer_BasForm: TTimer

@@ -364,17 +364,18 @@ procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 var
   bResultado: Boolean;
 begin
-//  bResultado := Sis.UI.IO.Input.Perg.PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
-//    TBooleanDefault.boolFalse);
+  // bResultado := Sis.UI.IO.Input.Perg.PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
+  // TBooleanDefault.boolFalse);
 
-  bResultado := Sis.UI.IO.Input.Bool.Caption.Form_u.PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
-    TBooleanDefault.boolFalse);
+//  bResultado := Sis.UI.IO.Input.Bool.Caption.Form_u.PergBool('Sair do Sistema?',
+//    'Administrador do Sistema Daros', TBooleanDefault.boolFalse);
 
+  bResultado := App.UI.Form.Perg_u.Perg('Sair do Sistema?',
+    'Administrador do Sistema Daros', TBooleanDefault.boolFalse);
 
-
-//  bResultado := App.UI.Form.Perg_u.Perg;
   if not bResultado then
     exit;
+
   AssistPedirPraFechar;
   inherited;
 {$IFNDEF DEBUG}
