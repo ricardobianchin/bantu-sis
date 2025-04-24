@@ -611,6 +611,7 @@ begin
       begin
         if ItemQtdPerg(FEngat) then
         begin
+          Key := #0;
           ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
           PreencherControles;
           exit;
@@ -619,16 +620,20 @@ begin
       else if IsValidFloatString(FStrBusca) then
       begin
         uQtd := StrToCurrency(FStrBusca);
-        if uQtd > 0 then
+        if ItemQtdValida(uQtd, FEngat.BalancaExige, sMens) then
         begin
-          Key := #0;
           FEngat.Qtd := uQtd;
           FStrBusca := '';
           StrBuscaMudou;
           ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
           PreencherControles;
-          exit;
+        end
+        else
+        begin
+          ExibaErro(sMens);
         end;
+          Key := #0;
+          exit;
       end;
       StrBuscaPegueChar(Key);
       StrBuscaPegueChar(#13);
@@ -921,6 +926,12 @@ begin
 
     FShopAppPDVDBI.StrBuscaToProd(sBusca, rEngat, bEncontrou, sMens);
     if not bEncontrou then
+    begin
+      ExibaErro(sMens);
+      exit;
+    end;
+
+    if not ItemQtdValida(rEngat.Qtd, rEngat.BalancaExige, sMens) then
     begin
       ExibaErro(sMens);
       exit;

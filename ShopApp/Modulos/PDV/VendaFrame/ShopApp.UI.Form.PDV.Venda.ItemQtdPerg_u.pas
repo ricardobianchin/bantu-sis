@@ -82,12 +82,12 @@ end;
 
 function TItemQtdPergForm.PodeOk: Boolean;
 var
-  Q: Currency;
+  uQtd: Currency;
   sMens: String;
 begin
-  Q := QtdNumEditBtu.AsCurrency;
+  uQtd := QtdNumEditBtu.AsCurrency;
 
-  Result := ItemQtdValida(Q, FExigeBalanca, sMens);
+  Result := ItemQtdValida(uQtd, FExigeBalanca, sMens);
   if not Result then
   begin
     ErroOutput.Exibir(sMens);
