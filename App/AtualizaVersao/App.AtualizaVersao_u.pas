@@ -7,8 +7,8 @@ uses App.AtualizaVersao, Sis.Sis.Executavel_u, Sis.UI.IO.Output,
 
 const
 {$IFDEF DEBUG}
-//  TESTA_VERSAO = False;
-  TESTA_VERSAO = True;
+  TESTA_VERSAO = False;
+//  TESTA_VERSAO = True;
 {$ELSE}
   TESTA_VERSAO = True;
 {$ENDIF}
