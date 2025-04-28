@@ -10,7 +10,7 @@ uses
   App.Pess.Cliente.DBI, App.Pess.Cliente.Ent, App.AppObj, App.Ent.Ed,
   App.Ent.DBI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls, Vcl.Mask;
 
 type
   TPessClienteEdForm = class(TPessEdBasForm)
@@ -46,17 +46,17 @@ uses Sis.Types.Codigos.Utils, Sis.UI.Controls.Utils, Sis.Types.strings_u,
 procedure TPessClienteEdForm.AjusteTabOrder;
 begin
   inherited;
-//
+  //
 end;
 
 procedure TPessClienteEdForm.ControlesToEnt;
 begin
   inherited;
-//
+  //
 end;
 
-constructor TPessClienteEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI);
+constructor TPessClienteEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
+  pEntEd: IEntEd; pEntDBI: IEntDBI);
 begin
   FPessClienteEnt := EntEdCastToPessClienteEnt(pEntEd);
   FPessClienteDBI := EntDBICastToPessClienteDBI(pEntDBI);
@@ -74,7 +74,7 @@ end;
 procedure TPessClienteEdForm.EntToControles;
 begin
   inherited;
-//
+  //
 end;
 
 end.
