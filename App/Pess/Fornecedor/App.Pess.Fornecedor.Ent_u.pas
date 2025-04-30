@@ -24,7 +24,7 @@ uses Data.DB;
 
 function TPessFornecedorEnt.GetCObrigatorio: boolean;
 begin
-  Result := False;
+  Result := True;
 end;
 
 function TPessFornecedorEnt.GetNomeEnt: string;

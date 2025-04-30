@@ -273,19 +273,9 @@ begin
   Tab.Fields[iT_TERMINAL_ID].AsInteger := FPessEnt.TerminalId;
   Tab.Fields[iT_PESSOA_ID].AsInteger := FPessEnt.Id;
 
-  if FPessEnt.CodUsaTerminalId then
-  begin
-    sFormat := '%.2d-%.2d-%.7d';
-    sCod := Format(sFormat, [Tab.Fields[iT_LOJA_ID].AsInteger,
-      Tab.Fields[iT_TERMINAL_ID].AsInteger,
-      Tab.Fields[iT_PESSOA_ID].AsInteger]);
-  end
-  else
-  begin
-    sFormat := '%.2d-%.7d';
-    sCod := Format(sFormat, [Tab.Fields[iT_LOJA_ID].AsInteger,
-      Tab.Fields[iT_PESSOA_ID].AsInteger]);
-  end;
+  sCod := CodsToCodAsString(FPessEnt.LojaId, FPessEnt.TerminalId, FPessEnt.Id,
+    FPessEnt.CodUsaTerminalId);
+
   Tab.Fields[iT_PESS_COD].AsString := sCod;
 
   Tab.Fields[iT_APELIDO].AsString := FPessEnt.Apelido;
@@ -375,7 +365,8 @@ begin
 
 {$ENDIF}
   Tab.Fields[iT_LOJA_ID].AsInteger := q.Fields[iQ_LOJA_ID].AsInteger; //
-  Tab.Fields[iT_TERMINAL_ID].AsInteger := q.Fields[iQ_TERMINAL_ID].AsInteger; //
+  Tab.Fields[iT_TERMINAL_ID].AsInteger := q.Fields[iQ_TERMINAL_ID].AsInteger;
+  //
   Tab.Fields[iT_PESSOA_ID].AsInteger := q.Fields[iQ_PESSOA_ID].AsInteger; //
   iPessoaId := q.Fields[iQ_PESSOA_ID].AsInteger;
 
@@ -411,7 +402,8 @@ begin
   if Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime = 0 then
     Tab.Fields[iT_PESS_CRIADO_EM].AsDateTime := now;
 
-  Tab.Fields[iT_ENDER_ORDEM].AsInteger := q.Fields[iQ_ENDER_ORDEM].AsInteger; //
+  Tab.Fields[iT_ENDER_ORDEM].AsInteger := q.Fields[iQ_ENDER_ORDEM].AsInteger;
+  //
   Tab.Fields[iT_LOGRADOURO].AsString := q.Fields[iQ_LOGRADOURO].AsString; //
   Tab.Fields[iT_NUMERO].AsString := q.Fields[iQ_NUMERO].AsString; //
   Tab.Fields[iT_COMPLEMENTO].AsString := q.Fields[iQ_COMPLEMENTO].AsString; //

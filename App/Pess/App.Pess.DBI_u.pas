@@ -4,7 +4,7 @@ interface
 
 uses App.Ent.DBI, Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Classes,
   System.Variants, Sis.Types.Integers, App.Pess.DBI, App.PessEnder.List,
-  App.Pess.Ent, App.Pess.Geral.Factory_u, App.Ent.DBI_u;
+  App.Pess.Ent, App.Pess.Geral.Factory_u, App.Ent.DBI_u, Sis.Entities.Types;
 
 type
   TPessDBI = class(TEntDBI, IPessDBI)
@@ -15,13 +15,31 @@ type
     procedure RegAtualToEnt(Q: TDataSet); virtual;
     function GetFieldNamesListaGet: string; override;
     function GetFieldValuesGravar: string; override;
+
+    function GetSqlCToPess(pC: string; pExcetoLojaId: smallint;
+      pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string;
+      virtual; abstract;
+
   public
-    function Ler: boolean; override;
-    constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
+    function Ler: Boolean; override;
+
     procedure MunicipioPrepareLista(pUFSigla: string; pSL: TStrings);
-    function CToIdLojaTermRecord(const C: string; out pLojaId: smallint;
-      out pTerminalId: smallint; out pPessoaId: integer;
-      out pNome: string): boolean;
+
+    procedure CToPess( //
+      const pC: string; //
+      out pEncontrado: Boolean; //
+
+      out pEncontradoLojaId: smallint; //
+      out pEncontradoTerminalId: smallint; //
+      out pEncontradoPessoaId: integer; //
+      out pEncontradoNome: string; //
+
+      pExcetoLojaId: smallint; //
+      pExcetoTerminalId: smallint; //
+      pExcetoPessoaId: integer //
+      );
+
+    constructor Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
   end;
 
 implementation
@@ -29,7 +47,8 @@ implementation
 { TPessDBI }
 
 uses App.PessEnder, App.Pess.Loja.Ent.Factory_u, System.SysUtils,
-  Sis.Types.Dates, Sis.Types.Bool_u, App.Pess.Ent.Factory_u, Sis.Win.Utils_u;
+  Sis.Types.Dates, Sis.Types.Bool_u, App.Pess.Ent.Factory_u,
+  Sis.Win.Utils_u;
 
 constructor TPessDBI.Create(pDBConnection: IDBConnection; pPessEnt: IPessEnt);
 begin
@@ -75,7 +94,8 @@ begin
 
   FPessEnt.EMail := Q.Fields[14 { EMAIL } ].AsString;
   FPessEnt.DtNasc := Q.Fields[15 { DT_NASC } ].AsDateTime;
-  FPessEnt.Ativo := iif(FPessEnt.Id = 0, True, Q.Fields[16 { ATIVO } ].AsBoolean);
+  FPessEnt.Ativo := iif(FPessEnt.Id = 0, True,
+    Q.Fields[16 { ATIVO } ].AsBoolean);
 
   FPessEnt.CriadoEm := Q.Fields[17 { PESS_CRIADO_EM } ].AsDateTime;
   FPessEnt.AlteradoEm := Q.Fields[18 { PESS_ALTERADO_EM } ].AsDateTime;
@@ -117,34 +137,44 @@ begin
   oEnder.AlteradoEm := Q.Fields[35 { ENDER_ALTERADO_EM } ].AsDateTime;
 end;
 
-function TPessDBI.CToIdLojaTermRecord(const C: string; out pLojaId: smallint;
-  out pTerminalId: smallint; out pPessoaId: integer; out pNome: string)
-  : boolean;
+procedure TPessDBI.CToPess( //
+  const pC: string; //
+  out pEncontrado: Boolean; //
+
+  out pEncontradoLojaId: smallint; //
+  out pEncontradoTerminalId: smallint; //
+  out pEncontradoPessoaId: integer; //
+  out pEncontradoNome: string; //
+
+  pExcetoLojaId: smallint; //
+  pExcetoTerminalId: smallint; //
+  pExcetoPessoaId: integer //
+  );
 var
-  sFormat: string;
   sSql: string;
   Q: TDataSet;
   Resultado: variant;
   sResultado: string;
   sNome: string;
 begin
-  sSql := 'SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME FROM ID_BY_C(' +
-    QuotedStr(C) + ');';
+  sSql := GetSqlCToPess(pC, pExcetoLojaId, pExcetoTerminalId, pExcetoPessoaId);
 
-  Result := DBConnection.Abrir;
-  if not Result then
+  pEncontrado := DBConnection.Abrir;
+  if not pEncontrado then
+  begin
     exit;
+  end;
 
   try
     DBConnection.QueryDataSet(sSql, Q);
-    Result := not Q.isempty;
-    if not Result then
+    pEncontrado := not Q.isempty;
+    if not pEncontrado then
       exit;
 
-    pLojaId := Q.Fields[0].AsInteger;
-    pTerminalId := Q.Fields[1].AsInteger;
-    pPessoaId := Q.Fields[2].AsInteger;
-    pNome := Trim(Q.Fields[3].AsString);
+    pEncontradoLojaId := Q.Fields[0].AsInteger;
+    pEncontradoTerminalId := Q.Fields[1].AsInteger;
+    pEncontradoPessoaId := Q.Fields[2].AsInteger;
+    pEncontradoNome := Trim(Q.Fields[3].AsString);
   finally
     Q.Free;
     DBConnection.Fechar;
@@ -241,7 +271,8 @@ begin
 
     + ', ' + QuotedStr(el[0].UFSigla) + ' -- UF_SIGLA'#13#10 //
     + ', ' + QuotedStr(el[0].CEP) + ' -- CEP'#13#10 //
-    + ', ' + QuotedStr(el[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10 //
+    + ', ' + QuotedStr(el[0].MunicipioIbgeId) + ' -- MUNICIPIO_IBGE_ID'#13#10
+  //
 
     + ', ' + QuotedStr(el[0].DDD) + ' -- DDD'#13#10 //
     + ', ' + QuotedStr(el[0].Fone1) + ' -- FONE1'#13#10 //
@@ -253,9 +284,8 @@ begin
     ; //
 end;
 
-function TPessDBI.Ler: boolean;
+function TPessDBI.Ler: Boolean;
 var
-  sFormat: string;
   sSql: string;
   Q: TDataSet;
   Resultado: variant;

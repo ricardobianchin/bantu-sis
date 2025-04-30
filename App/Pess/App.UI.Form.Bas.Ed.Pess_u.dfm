@@ -189,8 +189,8 @@ inherited PessEdBasForm: TPessEdBasForm
       TabOrder = 0
       OnChange = CPessEditChange
       OnExit = CPessEditExit
-      OnKeyDown = CPessEditKeyDown
       OnKeyPress = CPessEditKeyPress
+      OnKeyUp = CPessEditKeyUp
     end
     object IPessEdit: TEdit
       Left = 300

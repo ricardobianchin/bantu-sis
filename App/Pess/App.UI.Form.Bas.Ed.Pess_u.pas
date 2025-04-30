@@ -40,7 +40,6 @@ type
     Button1: TButton;
     Button2: TButton;
     MUFPessComboBox: TComboBox;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -55,12 +54,12 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure CPessEditExit(Sender: TObject);
-    procedure CPessEditKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure AtivoPessCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure CPessEditChange(Sender: TObject);
     procedure MUFPessComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure CPessEditKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     FPessEnt: IPessEnt;
@@ -239,14 +238,20 @@ end;
 function TPessEdBasForm.COk: boolean;
 var
   sMens: string;
-  iLojaId, iTerminalId: smallint;
-  iPessoaId: integer;
-  sNome: string;
+
+  iEncontradoLojaId: smallint; //
+  iEncontradoTerminalId: smallint; //
+  iEncontradoPessoaId: integer; //
+  sEncontradoNome: string; //
+
+  bEncontrado: boolean;
+  sC: string;
 begin
   CPessEdit.Text := Trim(CPessEdit.Text);
+  sC := CPessEdit.Text;
 
   try
-    if CPessEdit.Text = '' then
+    if sC = '' then
     begin
       Result := not FPessEnt.CObrigatorio;
       if Result then
@@ -256,19 +261,36 @@ begin
     end
     else
     begin
-      Result := Sis.Types.Codigos.Utils.CValido(CPessEdit.Text);
-      if Result then
-        exit;
-      sMens := CPessLabel.Caption + ' inválido';
-      if not FPessEnt.CObrigatorio then
-        sMens := sMens + '. Corrija o campo ou deixe-o vazio';
-
-      Result := not FPessDBI.CToIdLojaTermRecord(CPessEdit.Text, iLojaId,
-        iTerminalId, iPessoaId, sNome);
+      Result := Sis.Types.Codigos.Utils.CValido(sC);
       if not Result then
+      begin
+        sMens := CPessLabel.Caption + ' inválido';
+        if not FPessEnt.CObrigatorio then
+          sMens := sMens + '. Corrija o campo ou deixe-o vazio';
+        exit;
+      end;
+
+      FPessDBI.CToPess(sC, //
+        bEncontrado, //
+
+        iEncontradoLojaId, //
+        iEncontradoTerminalId, //
+        iEncontradoPessoaId, //
+        sEncontradoNome, //
+
+        FPessEnt.LojaId, //
+        FPessEnt.TerminalId, //
+        FPessEnt.Id); //
+
+      Result := not bEncontrado;
+
+      if not Result then
+      begin
         sMens := 'Já existe um registro com este ' + string(CPessLabel.Caption)
-          + CodsToCodAsString(iLojaId, iTerminalId, iPessoaId,
-          FPessEnt.CodUsaTerminalId) + ' ' + sNome;
+          +': '+ CodsToCodAsString(iEncontradoLojaId, iEncontradoTerminalId,
+          iEncontradoPessoaId, FPessEnt.CodUsaTerminalId) + ' - ' +
+          sEncontradoNome;
+      end;
     end;
   finally
     if not Result then
@@ -290,7 +312,7 @@ begin
   if sText = '' then
     exit;
 
-  sText := LeftStr(sText, 8);
+  sText := LeftStr(sText, 14);
   CPessEdit.Text := sText;
 end;
 
@@ -340,10 +362,14 @@ begin
   CPessEdit.Text := StrToOnlyDigit(CPessEdit.Text);
 end;
 
-procedure TPessEdBasForm.CPessEditKeyDown(Sender: TObject; var Key: Word;
+procedure TPessEdBasForm.CPessEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  // inherited;
+  EditKeyPress(Sender, Key);
+end;
+
+procedure TPessEdBasForm.CPessEditKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var
-  sText: string;
 begin
   inherited;
   case Key of
@@ -351,18 +377,11 @@ begin
       begin
         if Shift = [ssCtrl] then
         begin
+          Key := 0;
           ColarC;
         end;
       end;
   end;
-end;
-
-procedure TPessEdBasForm.CPessEditKeyPress(Sender: TObject; var Key: Char);
-begin
-  // inherited;
-  EditKeyPress(Sender, Key);
-  if Key = #0 then
-    exit;
 end;
 
 constructor TPessEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
@@ -668,12 +687,6 @@ begin
 
   }
 
-end;
-
-procedure TPessEdBasForm.ShowTimer_BasFormTimer(Sender: TObject);
-begin
-  inherited;
-  NomePessEdit.SetFocus;
 end;
 
 end.
