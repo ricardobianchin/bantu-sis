@@ -50,12 +50,12 @@ type
     AjudaToolBar: TToolBar;
     AjuBemToolButton: TToolButton;
     RetagEstProdICMSAction: TAction;
-    ProdTabsTabSheet: TTabSheet;
-    ToolBar5: TToolBar;
-    ToolButton4: TToolButton;
-    ToolButton5: TToolButton;
-    ToolButton6: TToolButton;
-    ToolButton7: TToolButton;
+    EstAuxTabSheet: TTabSheet;
+    EstAuxToolBar: TToolBar;
+    AuxFabrToolButton: TToolButton;
+    AuxTipoToolButton: TToolButton;
+    AuxUnidToolButton: TToolButton;
+    AuxIcmsToolButton: TToolButton;
     MainMenu1: TMainMenu;
     Cadastro1: TMenuItem;
     Estoque1: TMenuItem;
@@ -98,12 +98,12 @@ type
     PerfildeUso1: TMenuItem;
     Usurios2: TMenuItem;
     DireitosdeAcesso1: TMenuItem;
-    ToolBar4: TToolBar;
-    ToolButton9: TToolButton;
-    ToolButton10: TToolButton;
-    ToolButton2: TToolButton;
+    EstoqueToolBar: TToolBar;
+    EstEntrToolButton: TToolButton;
+    EstVenToolButton: TToolButton;
+    EstProdToolButton: TToolButton;
     FinTabSheet: TTabSheet;
-    FinToolBar: TToolBar;
+    FinanceiroToolBar: TToolBar;
     PagamentoFormaToolButton: TToolButton;
     AcessoTabSheet: TTabSheet;
     AcessoToolBar: TToolBar;
@@ -113,14 +113,18 @@ type
     AjuVersaoDBToolButton: TToolButton;
     RetagAcessoPerfilAction: TAction;
     PerfilToolButton: TToolButton;
-    ToolButton8: TToolButton;
+    EstCliToolButton: TToolButton;
     RetagEstVenClienteAction: TAction;
-    ToolButton11: TToolButton;
+    FinanceiroDespesaTipoToolButton: TToolButton;
 
     FinanceiroPagamentoFormaAction: TAction;
     FinanceiroDespesaTipoAction: TAction;
     ToolButton12: TToolButton;
     RetagAjuVersaoSisAction: TAction;
+    EstFornecedorToolButton: TToolButton;
+    RetagEstEntFornecedorAct: TAction;
+    AuxEstSaiMotivosToolButton: TToolButton;
+    RetagEstSaiMotivoAction: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -148,6 +152,7 @@ type
     procedure RetagEstVenClienteActionExecute(Sender: TObject);
     procedure FinanceiroDespesaTipoActionExecute(Sender: TObject);
     procedure RetagAjuVersaoSisActionExecute(Sender: TObject);
+    procedure RetagEstEntFornecedorActExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -163,15 +168,16 @@ type
     FAcessoPerfilTabSheetFormCreator: IFormCreator;
     FAcessoFuncionarioTabSheetFormCreator: IFormCreator;
 
-    // est
+    // est aux
     FFabrDataSetFormCreator: IFormCreator;
     FProdTipoDataSetFormCreator: IFormCreator;
     FProdUnidDataSetFormCreator: IFormCreator;
     FProdICMSDataSetFormCreator: IFormCreator;
-    FProdDataSetFormCreator: IFormCreator;
 
-    // est ven
+    // est
+    FProdDataSetFormCreator: IFormCreator;
     FClienteDataSetFormCreator: IFormCreator;
+    FFornecedorDataSetFormCreator: IFormCreator;
 
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
@@ -218,7 +224,7 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
   App.Acesso.PerfilDeUso.UI.Factory_u, App.UI.Form.DataSet.Pess.Cliente_u,
   App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
-  Sis.Sis.Constants;
+  Sis.Sis.Constants, App.Acesso.Fornecedor.UI.Factory_u, App.Pess.Fornecedor.Ent.Factory_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -392,6 +398,10 @@ begin
   FClienteDataSetFormCreator := ClienteDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, AppObj);
+
+  FFornecedorDataSetFormCreator := FornecedorDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -495,6 +505,12 @@ begin
   TabSheetCrie(FAjuVersaoSisFormCreator);
 end;
 
+procedure TRetaguardaModuloBasForm.RetagEstEntFornecedorActExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FFornecedorDataSetFormCreator);
+end;
+
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
 begin
   inherited;
@@ -548,6 +564,10 @@ begin
   inherited;
   RetagAjuBemAction.Execute;
   TestaTesteConfig;
+  {$IFDEF DEBUG}
+  RetagEstEntFornecedorAct.Execute;
+  {$ENDIF}
+
   // RetagEstProdICMSAction.Execute;
   // s l e e p(150);
   // RetagEstProdFabrAction.Execute;
