@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -410,6 +410,14 @@ contains
   App.UI.Form.Config.Tar.Backup.Message_u in 'Modulos\Config\Tar\Bak\App.UI.Form.Config.Tar.Backup.Message_u.pas' {BackupMessageForm},
   App.PDV.PDVSessForm.FiltroFrame_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm.FiltroFrame_u.pas' {SessFormFiltroFrame: TFrame},
   App.PDV.PDVSessForm_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas',
-  App.UI.Form.Perg_u in 'UI\BasForm\App.UI.Form.Perg_u.pas' {PergForm};
+  App.UI.Form.Perg_u in 'UI\BasForm\App.UI.Form.Perg_u.pas' {PergForm},
+  App.Pess.Fornecedor.Ent in 'Pess\Fornecedor\App.Pess.Fornecedor.Ent.pas',
+  App.Pess.Fornecedor.Ent_u in 'Pess\Fornecedor\App.Pess.Fornecedor.Ent_u.pas',
+  App.Pess.Fornecedor.Ent.Factory_u in 'Pess\Fornecedor\App.Pess.Fornecedor.Ent.Factory_u.pas',
+  App.Pess.Fornecedor.DBI in 'Pess\Fornecedor\App.Pess.Fornecedor.DBI.pas',
+  App.Pess.Fornecedor.DBI_u in 'Pess\Fornecedor\App.Pess.Fornecedor.DBI_u.pas',
+  App.UI.Form.Bas.Ed.Pess.Fornecedor_u in 'Pess\Fornecedor\App.UI.Form.Bas.Ed.Pess.Fornecedor_u.pas' {PessFornecedorEdForm},
+  App.UI.Form.DataSet.Pess.Fornecedor_u in 'Pess\Fornecedor\App.UI.Form.DataSet.Pess.Fornecedor_u.pas' {AppPessFornecedorDataSetForm},
+  App.Acesso.Fornecedor.UI.Factory_u in 'Pess\Fornecedor\App.Acesso.Fornecedor.UI.Factory_u.pas';
 
 end.

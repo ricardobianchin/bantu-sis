@@ -5,7 +5,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -784,6 +784,20 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PergForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Pess\Fornecedor\App.Pess.Fornecedor.Ent.pas"/>
+        <DCCReference Include="Pess\Fornecedor\App.Pess.Fornecedor.Ent_u.pas"/>
+        <DCCReference Include="Pess\Fornecedor\App.Pess.Fornecedor.Ent.Factory_u.pas"/>
+        <DCCReference Include="Pess\Fornecedor\App.Pess.Fornecedor.DBI.pas"/>
+        <DCCReference Include="Pess\Fornecedor\App.Pess.Fornecedor.DBI_u.pas"/>
+        <DCCReference Include="Pess\Fornecedor\App.UI.Form.Bas.Ed.Pess.Fornecedor_u.pas">
+            <Form>PessFornecedorEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Fornecedor\App.UI.Form.DataSet.Pess.Fornecedor_u.pas">
+            <Form>AppPessFornecedorDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Pess\Fornecedor\App.Acesso.Fornecedor.UI.Factory_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
