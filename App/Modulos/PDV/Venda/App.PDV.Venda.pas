@@ -2,11 +2,11 @@ unit App.PDV.Venda;
 
 interface
 
-uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
+uses App.Est.EstMovEnt, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.PDV.VendaItem, App.PDV.VendaPag.List;
 
 type
-  IPDVVenda = interface(IEstMov<IPDVVendaItem>)
+  IPDVVenda = interface(IEstMovEnt<IPDVVendaItem>)
     ['{8E776452-E9BC-4D4B-BAAD-47B22DCFB1BE}']
 
     function GetVendaId: TId;

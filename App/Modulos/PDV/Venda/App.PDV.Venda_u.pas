@@ -3,12 +3,12 @@ unit App.PDV.Venda_u;
 interface
 
 uses App.PDV.Venda, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
-  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.Mov_u,
+  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.Est.EstMovEnt_u,
   Sis.Sis.Constants, App.PDV.VendaItem, App.Loja, System.Generics.Collections,
   App.PDV.VendaPag.List;
 
 type
-  TPDVVenda = class(TEstMov, IPDVVenda)
+  TPDVVenda = class(TEstMovEnt, IPDVVenda)
   private
     FVendaId: TId;
     FCaixaSessao: ICaixaSessao;

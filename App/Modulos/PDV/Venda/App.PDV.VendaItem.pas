@@ -2,7 +2,7 @@ unit App.PDV.VendaItem;
 
 interface
 
-uses App.Est.MoviItem;
+uses App.Est.EstMovItem;
 
 type
   IPDVVendaItem = interface(IEstMovItem)
