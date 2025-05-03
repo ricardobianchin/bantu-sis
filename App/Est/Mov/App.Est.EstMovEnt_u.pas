@@ -1,12 +1,12 @@
-unit App.Est.Mov_u;
+unit App.Est.EstMovEnt_u;
 
 interface
 
-uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
-  System.Classes, App.Loja, System.Generics.Collections, App.Est.MoviItem, App.Ent.Ed_u;
+uses App.Est.EstMovEnt, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
+  System.Classes, App.Loja, System.Generics.Collections, App.Est.EstMovItem, App.Ent.Ed_u;
 
 type
-  TEstMov = class(TEntEd, IEstMov<IEstMovItem>)
+  TEstMovEnt = class(TEntEd, IEstMovEnt<IEstMovItem>)
   private
     FLoja: IAppLoja;
     FTerminalId: TTerminalId;
@@ -91,9 +91,9 @@ implementation
 
 uses Data.DB;
 
-{ TEstMov }
+{ TEstMovEnt }
 
-constructor TEstMov.Create(pLoja: IAppLoja; pTerminalId: TTerminalId;
+constructor TEstMovEnt.Create(pLoja: IAppLoja; pTerminalId: TTerminalId;
   pEstMovTipo: TEstMovTipo; pDtHDoc, pCriadoEm: TDateTime; pEstMovId: Int64;
   pFinalizado, pCancelado: Boolean; pAlteradoEm, pFinalizadoEm,
   pCanceladoEm: TDateTime);
@@ -114,113 +114,113 @@ begin
   FItems := TList<IEstMovItem>.Create;
 end;
 
-destructor TEstMov.Destroy;
+destructor TEstMovEnt.Destroy;
 begin
   FItems.Free;
   inherited;
 end;
 
-function TEstMov.GetAlteradoEm: TDateTime;
+function TEstMovEnt.GetAlteradoEm: TDateTime;
 begin
   Result := FAlteradoEm;
 end;
 
-function TEstMov.GetCancelado: Boolean;
+function TEstMovEnt.GetCancelado: Boolean;
 begin
   Result := FCancelado;
 end;
 
-function TEstMov.GetCanceladoEm: TDateTime;
+function TEstMovEnt.GetCanceladoEm: TDateTime;
 begin
   Result := FCanceladoEm;
 end;
 
-function TEstMov.GetCriadoEm: TDateTime;
+function TEstMovEnt.GetCriadoEm: TDateTime;
 begin
   Result := FCriadoEm;
 end;
 
-function TEstMov.GetDtHDoc: TDateTime;
+function TEstMovEnt.GetDtHDoc: TDateTime;
 begin
   Result := FDtHDoc;
 end;
 
-function TEstMov.GetEstMovTipo: TEstMovTipo;
+function TEstMovEnt.GetEstMovTipo: TEstMovTipo;
 begin
   Result := FEstMovTipo;
 end;
 
-function TEstMov.GetFinalizado: Boolean;
+function TEstMovEnt.GetFinalizado: Boolean;
 begin
   Result := FFinalizado;
 end;
 
-function TEstMov.GetFinalizadoEm: TDateTime;
+function TEstMovEnt.GetFinalizadoEm: TDateTime;
 begin
   Result := FFinalizadoEm;
 end;
 
-function TEstMov.GetEstMovId: Int64;
+function TEstMovEnt.GetEstMovId: Int64;
 begin
   Result := FEstMovId;
 end;
 
-function TEstMov.GetLoja: IAppLoja;
+function TEstMovEnt.GetLoja: IAppLoja;
 begin
   Result := FLoja;
 end;
 
-function TEstMov.GetTerminalId: TTerminalId;
+function TEstMovEnt.GetTerminalId: TTerminalId;
 begin
   Result := FTerminalId;
 end;
 
-function TEstMov.GetItems: TList<IEstMovItem>;
+function TEstMovEnt.GetItems: TList<IEstMovItem>;
 begin
   Result := FItems;
 end;
 
-procedure TEstMov.SetAlteradoEm(Value: TDateTime);
+procedure TEstMovEnt.SetAlteradoEm(Value: TDateTime);
 begin
   FAlteradoEm := Value;
 end;
 
-procedure TEstMov.SetCancelado(Value: Boolean);
+procedure TEstMovEnt.SetCancelado(Value: Boolean);
 begin
   FCancelado := Value;
 end;
 
-procedure TEstMov.SetCanceladoEm(Value: TDateTime);
+procedure TEstMovEnt.SetCanceladoEm(Value: TDateTime);
 begin
   FCanceladoEm := Value;
 end;
 
-procedure TEstMov.SetCriadoEm(Value: TDateTime);
+procedure TEstMovEnt.SetCriadoEm(Value: TDateTime);
 begin
   FCriadoEm := Value;
 end;
 
-procedure TEstMov.SetDtHDoc(Value: TDateTime);
+procedure TEstMovEnt.SetDtHDoc(Value: TDateTime);
 begin
   FDtHDoc := Value;
 end;
 
-procedure TEstMov.SetFinalizado(Value: Boolean);
+procedure TEstMovEnt.SetFinalizado(Value: Boolean);
 begin
   FFinalizado := Value;
 end;
 
-procedure TEstMov.SetFinalizadoEm(Value: TDateTime);
+procedure TEstMovEnt.SetFinalizadoEm(Value: TDateTime);
 begin
   FFinalizadoEm := Value;
 end;
 
-procedure TEstMov.SetTerminalId(Value: TTerminalId);
+procedure TEstMovEnt.SetTerminalId(Value: TTerminalId);
 begin
   FTerminalId := Value;
 end;
 
-procedure TEstMov.Zerar;
+procedure TEstMovEnt.Zerar;
 begin
   FTerminalId := 0;
   FEstMovId := 0;
@@ -233,7 +233,7 @@ begin
   FCanceladoEm := DATA_ZERADA;
 end;
 
-procedure TEstMov.SetEstMovId(Value: Int64);
+procedure TEstMovEnt.SetEstMovId(Value: Int64);
 begin
   FEstMovId := Value;
 end;

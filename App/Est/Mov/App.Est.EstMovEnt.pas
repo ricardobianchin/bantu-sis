@@ -1,13 +1,13 @@
-unit App.Est.Mov;
+unit App.Est.EstMovEnt;
 
 interface
 
 uses
   System.Generics.Collections, Sis.Entities.Types, App.Est.Types_u,
-  System.Classes, App.Loja, App.Est.MoviItem, App.Ent.Ed;
+  System.Classes, App.Loja, App.Est.EstMovItem, App.Ent.Ed;
 
 type
-  IEstMov<T: IEstMovItem> = interface(IEntEd)
+  IEstMovEnt<T: IEstMovItem> = interface(IEntEd)
     ['{8FE1D118-7395-4E42-89C6-B5A1581ACCDF}']
     function GetLoja: IAppLoja;
     property Loja: IAppLoja read GetLoja;
