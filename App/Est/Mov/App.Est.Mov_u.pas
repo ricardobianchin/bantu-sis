@@ -3,10 +3,10 @@ unit App.Est.Mov_u;
 interface
 
 uses App.Est.Mov, Sis.Entities.Types, App.Est.Types_u, Sis.Sis.Constants,
-  System.Classes, App.Loja, System.Generics.Collections, App.Est.MoviItem;
+  System.Classes, App.Loja, System.Generics.Collections, App.Est.MoviItem, App.Ent.Ed_u;
 
 type
-  TEstMov = class(TInterfacedObject, IEstMov<IEstMovItem>)
+  TEstMov = class(TEntEd, IEstMov<IEstMovItem>)
   private
     FLoja: IAppLoja;
     FTerminalId: TTerminalId;
@@ -87,8 +87,9 @@ type
     destructor Destroy; override;
   end;
 
-
 implementation
+
+uses Data.DB;
 
 { TEstMov }
 
@@ -97,7 +98,7 @@ constructor TEstMov.Create(pLoja: IAppLoja; pTerminalId: TTerminalId;
   pFinalizado, pCancelado: Boolean; pAlteradoEm, pFinalizadoEm,
   pCanceladoEm: TDateTime);
 begin
-  inherited Create;
+  inherited Create(dsBrowse);
   FLoja := pLoja;
   FTerminalId := pTerminalId;
   FEstMovTipo := pEstMovTipo;
