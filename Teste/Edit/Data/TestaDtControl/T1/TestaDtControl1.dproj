@@ -129,6 +129,23 @@
             <Form>TestaDtControlForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\BasForm\Sis.UI.Frame.Bas_u.pas">
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\BasForm\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas">
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas">
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\..\..\..\Sis\Types\Sis.Types.strings_u.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\Types\Sis.Types.Utils_u.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\IO\Files\Sis.UI.IO.Files.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\IO\Output\ProcessLog\Sis.UI.IO.Output.ProcessLog.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\Controls\Sis.UI.Controls.Utils.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\Sis.UI.Constants.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\UI\IO\sndkey32.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\Types\Sis.Types.Integers.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
