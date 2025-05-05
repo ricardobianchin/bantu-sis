@@ -24,7 +24,7 @@ begin
     opmoduConfiguracoes:
       Result := 'Configurações';
     opmoduRetaguarda:
-      Result := 'Retaguarda';
+      Result := 'Administração'; //'Retaguarda';
     opmoduPDV:
       Result := 'PDV';
   else

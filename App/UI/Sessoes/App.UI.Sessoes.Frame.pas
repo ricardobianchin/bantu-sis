@@ -427,7 +427,7 @@ begin
   oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
   oSessaoCriador.TerminalId := 0;
-  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Retaguarda';
+  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administração'; //  ' Retaguarda';
 
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
   oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
