@@ -461,6 +461,11 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="UI\BasForm\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas">
+            <Form>DateTimeFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

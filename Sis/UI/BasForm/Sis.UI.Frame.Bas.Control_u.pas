@@ -18,6 +18,7 @@ type
     function GetAsStringSQL: string; virtual;
     function GetAsInteger: integer; virtual;
     function GetAsSmallInt: smallint; virtual;
+    function GetAsDateTime: TDateTime; virtual;
 
     property Value: variant read GetValue write SetValue;
 
@@ -39,6 +40,11 @@ implementation
 uses Sis.Types.Integers, Sis.Types.strings_u;
 
 { TControlBasFrame }
+
+function TControlBasFrame.GetAsDateTime: TDateTime;
+begin
+  Result := VarToDateTime(GetValue);
+end;
 
 function TControlBasFrame.GetAsInteger: integer;
 begin
