@@ -285,6 +285,8 @@ begin
   for I := 0 to Items.Count - 1 do
   begin
     oItem := IPDVVendaItem(Items[I]);
+    if oItem.Cancelado then
+      Continue;
     Result := Result + oItem.Preco;
   end;
 end;
