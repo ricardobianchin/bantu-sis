@@ -133,6 +133,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\..\..\..\Sis\UI\BasForm\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas">
+            <Form>DateTimeFrame</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\..\..\..\Sis\UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas">
@@ -146,6 +147,7 @@
         <DCCReference Include="..\..\..\..\..\Sis\UI\Sis.UI.Constants.pas"/>
         <DCCReference Include="..\..\..\..\..\Sis\UI\IO\sndkey32.pas"/>
         <DCCReference Include="..\..\..\..\..\Sis\Types\Sis.Types.Integers.pas"/>
+        <DCCReference Include="..\..\..\..\..\Sis\Sis\Sis.Sis.Constants.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
