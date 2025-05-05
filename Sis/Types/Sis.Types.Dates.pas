@@ -2,7 +2,7 @@
 
 interface
 
-uses System.Classes;
+uses System.Classes, Sis.Sis.Constants;
 
 function GetValidDate(pDate: TDateTIme): TDateTIme;
 
@@ -25,6 +25,14 @@ function VarToDateTime(Value: Variant): TDateTime;
 
 function GetDtHString(pDtH: TDateTIme): string;
 function GetAgoraString: string;
+
+function GetPrimDiaMes(pDateTime: TDateTime = DATA_ZERADA): TDateTime;
+
+procedure SetDtHRangePreviousMonth(out pInicial: TDateTIme; out pFinal: TDateTIme);
+procedure SetDtHRangeThisMonth(out pInicial: TDateTIme; out pFinal: TDateTIme);
+procedure SetDtHRangeToday(out pInicial: TDateTIme; out pFinal: TDateTIme);
+procedure SetDtHRangeDays(out pInicial: TDateTIme; out pFinal: TDateTIme; ANumberOfDays: integer);
+procedure SetDtHRangeLast30(out pInicial: TDateTIme; out pFinal: TDateTIme);
 
 var
   MonthNames: TStringList;
@@ -252,6 +260,59 @@ end;
 function GetAgoraString: string;
 begin
   Result := GetDtHString(now);
+end;
+
+function GetPrimDiaMes(pDateTime: TDateTime = DATA_ZERADA): TDateTime;
+var
+  Year, Month, Day: Word;
+begin
+  if pDateTime = DATA_ZERADA then
+    pDateTime := Date;
+
+  DecodeDate(pDateTime, Year, Month, Day);
+  Day := 1;
+  Result := EncodeDate(Year, Month, Day);
+end;
+
+procedure SetDtHRangePreviousMonth(out pInicial: TDateTime; out pFinal: TDateTime);
+var
+  Year, Month, Day: Word;
+  CurrentDate: TDateTime;
+begin
+  pFinal := GetPrimDiaMes;
+  pFinal := IncSecond(pFinal, -1);
+
+  pInicial := GetPrimDiaMes(pFinal);
+end;
+
+procedure SetDtHRangeThisMonth(out pInicial: TDateTIme; out pFinal: TDateTIme);
+begin
+  pFinal := Date + 1;
+  pFinal := IncSecond(pFinal, -1);
+  pInicial := GetPrimDiaMes(pFinal);
+
+end;
+
+procedure SetDtHRangeToday(out pInicial: TDateTIme; out pFinal: TDateTIme);
+begin
+  pInicial := Date;
+  pFinal := pInicial + 1;
+  pFinal := IncSecond(pFinal, -1);
+end;
+
+procedure SetDtHRangeDays(out pInicial: TDateTIme; out pFinal: TDateTIme; ANumberOfDays: integer);
+begin
+  pFinal := Date + 1;
+  pInicial := pFinal - (ANumberOfDays + 1);
+  pFinal := IncSecond(pFinal, -1);
+end;
+
+procedure SetDtHRangeLast30(out pInicial: TDateTIme; out pFinal: TDateTIme);
+begin
+  pFinal := Date;
+  pInicial := IncMonth(pFinal, -1);
+  pFinal := pFinal + 1;
+  pFinal := IncSecond(pFinal, -1);
 end;
 
 initialization

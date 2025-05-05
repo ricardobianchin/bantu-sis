@@ -4,7 +4,7 @@ uses
   Vcl.Forms,
   TestaDtControlForm_u in 'TestaDtControlForm_u.pas' {TestaDtControlForm},
   Sis.UI.Frame.Bas_u in '..\..\..\..\..\Sis\UI\BasForm\Sis.UI.Frame.Bas_u.pas',
-  Sis.UI.Frame.Control.DateTime_u in '..\..\..\..\..\Sis\UI\BasForm\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas' {DateTimeFrame},
+  Sis.UI.Frame.Control.DateTime_u in '..\..\..\..\..\Sis\UI\BasForm\DtHFrame\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas' {DateTimeFrame},
   Sis.UI.Frame.Bas.Control_u in '..\..\..\..\..\Sis\UI\BasForm\Sis.UI.Frame.Bas.Control_u.pas',
   Sis.Types.strings_u in '..\..\..\..\..\Sis\Types\Sis.Types.strings_u.pas',
   Sis.Types.Utils_u in '..\..\..\..\..\Sis\Types\Sis.Types.Utils_u.pas',
@@ -14,7 +14,10 @@ uses
   Sis.UI.Constants in '..\..\..\..\..\Sis\UI\Sis.UI.Constants.pas',
   sndkey32 in '..\..\..\..\..\Sis\UI\IO\sndkey32.pas',
   Sis.Types.Integers in '..\..\..\..\..\Sis\Types\Sis.Types.Integers.pas',
-  Sis.Sis.Constants in '..\..\..\..\..\Sis\Sis\Sis.Sis.Constants.pas';
+  Sis.Sis.Constants in '..\..\..\..\..\Sis\Sis\Sis.Sis.Constants.pas',
+  Sis.UI.Fram.COntrol.DtHFaixaFrame_u in '..\..\..\..\..\Sis\UI\BasForm\DtHFrame\DtHFaixaFrame\Sis.UI.Fram.COntrol.DtHFaixaFrame_u.pas',
+  Sis.Types.Dates in '..\..\..\..\..\Sis\Types\Sis.Types.Dates.pas',
+  Sis.Types.Bool_u in '..\..\..\..\..\Sis\Types\Sis.Types.Bool_u.pas';
 
 {$R *.res}
 

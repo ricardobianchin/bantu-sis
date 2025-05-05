@@ -5,7 +5,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">Sis</ProjectName>
         <TargetedPlatforms>1</TargetedPlatforms>
@@ -461,9 +461,13 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="UI\BasForm\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas">
+        <DCCReference Include="UI\BasForm\DtHFrame\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas">
             <Form>DateTimeFrame</Form>
             <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\DtHFrame\DtHFaixaFrame\Sis.UI.Fram.Control.DtHFaixaFrame_u.pas">
+            <Form>DtHFaixaFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <None Include="Sis.dpk"/>

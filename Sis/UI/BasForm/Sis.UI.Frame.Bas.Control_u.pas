@@ -31,7 +31,7 @@ type
     procedure SetUltimoErro(const Value: string); virtual;
   public
     { Public declarations }
-    property UltimoErro: string read FUltimoErro write FUltimoErro;
+    property UltimoErro: string read FUltimoErro write SetUltimoErro;
 
     constructor Create(AOwner: TComponent); override;
   end;
@@ -50,7 +50,7 @@ uses Sis.Types.Integers, Sis.Types.strings_u;
 constructor TControlBasFrame.Create(AOwner: TComponent);
 begin
   inherited;
-  FUltimoErro := '';
+  UltimoErro := '';
 end;
 
 function TControlBasFrame.GetAsDateTime: TDateTime;

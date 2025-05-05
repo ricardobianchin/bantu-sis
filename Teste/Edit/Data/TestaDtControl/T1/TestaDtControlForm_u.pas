@@ -3,9 +3,10 @@ unit TestaDtControlForm_u;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Control.DateTime_u,
-  Vcl.StdCtrls;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Sis.UI.Frame.Control.DateTime_u, Vcl.StdCtrls,
+  Sis.UI.Fram.Control.DtHFaixaFrame_u;
 
 type
   TTestaDtControlForm = class(TForm)
@@ -16,6 +17,7 @@ type
   private
     { Private declarations }
     DateTimeFrame: TDateTimeFrame;
+    DtHFaixaFrame: TDtHFaixaFrame;
   public
     { Public declarations }
   end;
@@ -40,8 +42,11 @@ end;
 procedure TTestaDtControlForm.FormCreate(Sender: TObject);
 begin
   DateTimeFrame := TDateTimeFrame.Create(self);
-  DateTimeFrame.Parent := self;
+  // DateTimeFrame.Parent := self;
   DateTimeFrame.Value := Now;
+
+  DtHFaixaFrame := TDtHFaixaFrame.Create(self);
+  DtHFaixaFrame.Top := 40;
 end;
 
 end.

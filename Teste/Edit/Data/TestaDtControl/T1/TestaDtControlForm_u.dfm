@@ -3,25 +3,26 @@ object TestaDtControlForm: TTestaDtControlForm
   Top = 0
   Caption = 'TestaDtControlForm'
   ClientHeight = 164
-  ClientWidth = 416
+  ClientWidth = 984
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poDesktopCenter
   OnCreate = FormCreate
   TextHeight = 15
   object Label1: TLabel
-    Left = 168
-    Top = 64
+    Left = 336
+    Top = 12
     Width = 34
     Height = 15
     Caption = 'Label1'
   end
   object Button1: TButton
-    Left = 80
-    Top = 56
+    Left = 248
+    Top = 8
     Width = 75
     Height = 25
     Caption = 'Button1'

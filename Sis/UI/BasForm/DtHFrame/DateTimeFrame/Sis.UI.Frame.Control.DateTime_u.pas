@@ -24,8 +24,9 @@ type
     procedure SetUltimoErro(const Value: string); override;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
     property Value;
-    procedure PegarCaption(pNovaCaption: string);
+    procedure PegarNome(pNovoNome: string);
   end;
 
 //var
@@ -36,6 +37,12 @@ implementation
 uses Sis.Sis.Constants;
 
 {$R *.dfm}
+
+constructor TDateTimeFrame.Create(AOwner: TComponent);
+begin
+  inherited;
+  UltimoErro := '';
+end;
 
 procedure TDateTimeFrame.DataMaskEditChange(Sender: TObject);
 begin
@@ -70,7 +77,7 @@ begin
   // Valida com TryStrToDateTime
   if not TryStrToDateTime(FullDateTimeStr, Dt) then
   begin
-    UltimoErro := 'Data inválida';
+    UltimoErro := 'Valor inválido';
     Dt := DATA_ZERADA;
   end;
 
@@ -84,9 +91,9 @@ begin
   UltimoErro := '';
 end;
 
-procedure TDateTimeFrame.PegarCaption(pNovaCaption: string);
+procedure TDateTimeFrame.PegarNome(pNovoNome: string);
 begin
- NomeLabel.Caption := pNovaCaption;
+ NomeLabel.Caption := pNovoNome;
  DataMaskEdit.Left := NomeLabel.Left + NomeLabel.Width + 5;
  HoraMaskEdit.Left := DataMaskEdit.Left + DataMaskEdit.Width + 6;
  Width := HoraMaskEdit.Left + HoraMaskEdit.Width;
