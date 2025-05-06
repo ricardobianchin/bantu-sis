@@ -41,6 +41,7 @@ ACAO_SIS_ID;DESCR
 #041;Registro Cancelado/Estornado/Substituido
 #042;Consulta Feita
 #043;Impressao Realizada
+#044;Registro Finalizado 
 
 CSV FIM
 COMANDO FIM
