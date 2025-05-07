@@ -977,16 +977,46 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.PagamentoToolButtonClick(Sender: TObject);
+var
+    uTotalLiquido: Currency;
+    uTotalDevido: Currency;
+    uTotalEntregue: Currency;
+    uFalta: Currency;
+    uTroco: Currency;
 begin
   inherited;
   EngatVender;
+
+  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue,
+    uFalta, uTroco);
+  if uTotalLiquido = 0 then
+  begin
+    ShowMessage('O Total líquido da venda está zerado');
+    exit;
+  end;
+
   PDVControlador.VaParaPag;
 end;
 
 procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);
+var
+    uTotalLiquido: Currency;
+    uTotalDevido: Currency;
+    uTotalEntregue: Currency;
+    uFalta: Currency;
+    uTroco: Currency;
 begin
   inherited;
   EngatVender;
+
+  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue,
+    uFalta, uTroco);
+  if uTotalLiquido = 0 then
+  begin
+    ShowMessage('O Total líquido da venda está zerado');
+    exit;
+  end;
+
   PDVControlador.PagSomenteDinheiro;
 end;
 
