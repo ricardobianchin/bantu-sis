@@ -126,7 +126,11 @@ var
 begin
   F := PagFormaEdFormCreate(AOwner, pAppObj, pPagFormaEnt, pPagFormaDBI,
     pPagFormaEdDBI);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 // function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;
@@ -188,7 +192,11 @@ var
   F: TEdBasForm;
 begin
   F := DespTipoEdFormCreate(AOwner, pAppObj, pDespTipoEnt, pDespTipoDBI);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 /// / function DecoratorExclPagFormaCreate(pPagForma: IEntEd): IDecoratorExcl;

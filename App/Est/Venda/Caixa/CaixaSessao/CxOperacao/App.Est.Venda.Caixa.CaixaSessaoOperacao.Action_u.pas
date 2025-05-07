@@ -135,14 +135,18 @@ end;
 procedure TCxOperacaoAction.Exec(Sender: TObject);
 var
   f: TCxOperacaoEdForm;
+  bResultado: Boolean;
 begin
   if not PodeExec then
     exit;
 
   FCxOperacaoEnt.State := TDataSetState.dsInsert;
   f := CxOperacaoEdFormCreate;
-  f.Perg;
-  f.Free;
+  try
+    bResultado := F.Perg;
+  finally
+    F.Free;
+  end;
   FPDVControlador.DecidirPrimeiroFrameAtivo;
 end;
 
