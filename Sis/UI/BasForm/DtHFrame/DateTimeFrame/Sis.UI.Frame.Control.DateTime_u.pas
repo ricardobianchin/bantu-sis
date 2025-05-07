@@ -27,6 +27,7 @@ type
     constructor Create(AOwner: TComponent); override;
     property Value;
     procedure PegarNome(pNovoNome: string);
+    procedure PreencheDtH(out pValue: TDateTime; out pMens: string);
   end;
 
 //var
@@ -60,6 +61,12 @@ begin
     HoraMaskEdit.SetFocus;
   end;
 
+end;
+
+procedure TDateTimeFrame.PreencheDtH(out pValue: TDateTime; out pMens: string);
+begin
+  pValue := VarToDateTime( GetValue);
+  pMens := UltimoErro;
 end;
 
 function TDateTimeFrame.GetValue: variant;

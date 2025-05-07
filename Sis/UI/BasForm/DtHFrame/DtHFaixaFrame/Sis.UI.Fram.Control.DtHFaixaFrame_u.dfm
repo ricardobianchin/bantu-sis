@@ -1,8 +1,8 @@
 inherited DtHFaixaFrame: TDtHFaixaFrame
   Width = 569
-  Height = 35
+  Height = 29
   ExplicitWidth = 569
-  ExplicitHeight = 35
+  ExplicitHeight = 29
   object ToolBar1: TToolBar
     Left = 0
     Top = 0

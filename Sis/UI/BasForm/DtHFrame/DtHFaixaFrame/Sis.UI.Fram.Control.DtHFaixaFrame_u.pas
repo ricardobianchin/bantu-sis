@@ -21,10 +21,10 @@ type
     procedure Dias30ToolButtonClick(Sender: TObject);
   private
     { Private declarations }
-    DtIniFrame: TDateTimeFrame;
-    DtFinFrame: TDateTimeFrame;
   public
     { Public declarations }
+    DtIniFrame: TDateTimeFrame;
+    DtFinFrame: TDateTimeFrame;
     constructor Create(AOwner: TComponent); override;
     procedure PegarNomes(pNovoNome1, pNovoNome2: string);
   end;
@@ -50,6 +50,8 @@ begin
   DtFinFrame.Name := 'DtFinFrame';
 
   PegarNomes('Data Inicial', 'Data Final');
+
+  ToolBar1.Top := DtFinFrame.Top + 1;
 end;
 
 procedure TDtHFaixaFrame.Dias30ToolButtonClick(Sender: TObject);
@@ -102,7 +104,7 @@ begin
   DtFinFrame.PegarNome(pNovoNome2);
   DtFinFrame.Left := DtIniFrame.Left + DtIniFrame.Width + 6;
 
-  ToolBar1.Left := DtFinFrame.Left + DtFinFrame.Width + 6;
+  ToolBar1.Left := DtFinFrame.Left + DtFinFrame.Width + 4;
 
   iToolButtonIndex := ToolBar1.ButtonCount - 1;
   oUltimoToolButton := ToolBar1.Buttons[iToolButtonIndex];
