@@ -5,32 +5,27 @@ interface
 uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj,
-  Sis.UI.FormCreator,
-  Sis.DB.UltimoId
+  Sis.UI.FormCreator, Sis.DB.UltimoId, App.Loja, Sis.Entities.Types,
+  Sis.Sis.Constants, Sis.Types
 
-  // os dbi que seguem o padrao, retornam iented
-    , App.Ent.Ed, App.Ent.DBI
+    , App.Ent.Ed, App.Ent.DBI //
 
-  // os dbi que nao seguem o padrao, deves ser citados aqui
     , App.Retag.Est.Prod.ICMS.Ent // icms ent
-
     , App.Retag.Est.Prod.Ent // prod ent
-
     , App.Retag.Est.Prod.Fabr.Ent // fabr ent
+    , App.Retag.Est.Prod.Tipo.Ent //
+    , App.Retag.Est.Prod.Unid.Ent //
 
-  // prod tipo
-    , App.Retag.Est.Prod.Tipo.Ent
-
-  // prod unid
-    , App.Retag.Est.Prod.Unid.Ent
-
-  // prod barras
     , App.Retag.Est.Prod.Barras.Ent //
     , App.Retag.Est.Prod.Barras.Ent.List //
     , App.Est.Prod.Barras.DBI //
 
-  // prod balanca
-    , App.Retag.Est.Prod.Balanca.Ent, App.Retag.Est.Prod.Ed.DBI
+    , App.Retag.Est.Prod.Balanca.Ent //
+
+    , App.Retag.Est.Prod.Ed.DBI
+
+    , App.Retag.Est.EstSaida.DBI //
+    , App.Retag.Est.EstSaida.Ent //
 
     ;
 
@@ -56,7 +51,6 @@ function FabrDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
-
 {$ENDREGION}
 {$REGION 'prod tipo'}
 function EntEdCastToProdTipoEnt(pEntEd: IEntEd): IProdTipoEnt;
@@ -77,9 +71,9 @@ function ProdTipoPerg(AOwner: TComponent; pAppObj: IAppObj;
 // function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
 
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 {$ENDREGION}
 {$REGION 'prod unid'}
@@ -101,9 +95,9 @@ function ProdUnidPerg(AOwner: TComponent; pAppObj: IAppObj;
 // function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
 
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 {$ENDREGION}
 {$REGION 'prod ICMS'}
 function EntEdCastToProdICMSEnt(pEntEd: IEntEd): IProdICMSEnt;
@@ -124,9 +118,9 @@ function ProdICMSPerg(AOwner: TComponent; pAppObj: IAppObj;
 // function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
 
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 {$ENDREGION}
 {$REGION 'prod'}
@@ -199,9 +193,9 @@ function ProdPerg(AOwner: TComponent;
 function EntEdCastToProdEnt(pEntEd: IEntEd): IProdEnt;
 
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;
 {$ENDREGION}
@@ -212,6 +206,44 @@ function ProdBarrasListCreate: IProdBarrasList;
 {$ENDREGION}
 {$REGION 'prod balanca'}
 function ProdBalancaEntCreate: IProdBalancaEnt;
+{$ENDREGION}
+{$REGION 'est sai'}
+function EntEdCastToEstSaidaEnt(pEntEd: IEntEd): IEstSaidaEnt;
+function EntDBICastToEstSaidaDBI(pEntDBI: IEntDBI): IEstSaidaDBI;
+
+function RetagEstSaidaEntCreate( //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
+
+  pEstSaidaId: TId = 0; //
+  pSaidaMotivoId: TId = 0; //
+
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IEstSaidaEnt;
+
+function RetagEstSaidaEntDBICreate(pDBConnection: IDBConnection;
+  pEstSaidaEnt: IEntEd): IEntDBI;
+
+function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): TEdBasForm;
+
+function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): boolean;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+
+function EstSaidaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+
 {$ENDREGION}
 {$REGION 'xxx'}
 {$ENDREGION}
@@ -255,7 +287,6 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u
     , App.UI.Form.Ed.Prod_u // prod ed form
     , App.UI.Form.DataSet.Retag.Est.Prod_u //
     , App.Retag.Est.Prod.UltimoId_u //
-{$ENDREGION}
   // prod barras
     , App.Retag.Est.Prod.Barras.Ent_u, App.Retag.Est.Prod.Barras.Ent.List_u
 
@@ -263,7 +294,15 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u
     , App.Retag.Est.Prod.Balanca.Ent_u
 
   //
-    , App.Retag.Est.Prod.Ed.DBI_u;
+    , App.Retag.Est.Prod.Ed.DBI_u
+{$ENDREGION}
+{$REGION 'uses est sai'}
+    , App.Retag.Est.EstSaida.DBI_u //
+    , App.Retag.Est.EstSaida.Ent_u //
+    , App.UI.Form.DataSet.Est.EstSaida_u //
+    , App.UI.Form.Ed.Est.EstSaida_u //
+{$ENDREGION}
+    ;
 
 {$REGION 'prod fabr impl'}
 
@@ -301,7 +340,11 @@ var
   F: TEdBasForm;
 begin
   F := ProdFabrEdFormCreate(AOwner, pAppObj, pProdFabrEnt, pProdFabrDBI);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
@@ -356,7 +399,11 @@ var
   F: TEdBasForm;
 begin
   F := ProdTipoEdFormCreate(AOwner, pAppObj, pProdTipoEnt, pProdTipoDBI);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 // function DecoratorExclProdTipoCreate(pProdTipo: IEntEd): IDecoratorExcl;
@@ -365,13 +412,13 @@ end;
 // end;
 
 function ProdTipoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdTipoDataSetForm,
-    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -411,7 +458,11 @@ var
   F: TEdBasForm;
 begin
   F := ProdUnidEdFormCreate(AOwner, pAppObj, pProdUnidEnt, pProdUnidDBI);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 // function DecoratorExclProdUnidCreate(pProdUnid: IEntEd): IDecoratorExcl;
@@ -420,13 +471,13 @@ end;
 // end;
 
 function ProdUnidDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdUnidDataSetForm,
-    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -468,7 +519,11 @@ var
   F: TEdBasForm;
 begin
   F := ProdICMSEdFormCreate(AOwner, pAppObj, pProdICMSEnt, pProdICMSDBI);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 // function DecoratorExclProdICMSCreate(pProdICMS: IEntEd): IDecoratorExcl;
@@ -477,13 +532,13 @@ end;
 // end;
 
 function ProdICMSDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdICMSDataSetForm,
-    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
 end;
 
 {$ENDREGION}
@@ -579,7 +634,11 @@ begin
     pProdUnidDBI, pProdICMSDBI, pBarrasDBI, pFabrDataSetFormCreator,
     pProdTipoDataSetFormCreator, pProdUnidDataSetFormCreator,
     pProdICMSDataSetFormCreator, pAppObj, pRetagEstProdEdDBI, pUsuarioLog);
-  Result := F.Perg;
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
 end;
 
 // function DecoratorExclProdCreate(pProd: IEntEd): IDecoratorExcl;
@@ -593,13 +652,13 @@ begin
 end;
 
 function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
   Result := TDataSetFormCreator.Create(TRetagEstProdDataSetForm,
-    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
-    pProcessLog, pOutputNotify, pEntEd, pEntDBI, pAppObj);
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
 end;
 
 function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;
@@ -627,6 +686,81 @@ function ProdBalancaEntCreate: IProdBalancaEnt;
 begin
   Result := TProdBalancaEnt.Create;
 end;
+{$ENDREGION}
+{$REGION 'est sai impl'}
+
+function EntEdCastToEstSaidaEnt(pEntEd: IEntEd): IEstSaidaEnt;
+begin
+  Result := TEstSaidaEnt(pEntEd);
+end;
+
+function EntDBICastToEstSaidaDBI(pEntDBI: IEntDBI): IEstSaidaDBI;
+begin
+  Result := TEstSaidaDBI(pEntDBI);
+end;
+
+function RetagEstSaidaEntCreate( //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
+
+  pEstSaidaId: TId = 0; //
+  pSaidaMotivoId: TId = 0; //
+
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IEstSaidaEnt;
+begin
+  Result := TEstSaidaEnt.Create(pLoja, pTerminalId, pDtHDoc, pEstMovCriadoEm,
+    pEstSaidaId, pSaidaMotivoId, pEstMovId, pEstMovFinalizado, pEstMovCancelado,
+    pEstMovAlteradoEm, pEstMovFinalizadoEm, pEstMovCanceladoEm);
+end;
+
+function RetagEstSaidaEntDBICreate(pDBConnection: IDBConnection;
+  pEstSaidaEnt: IEntEd): IEntDBI;
+begin
+  Result := TEstSaidaDBI.Create(pDBConnection, TEstSaidaEnt(pEstSaidaEnt));
+end;
+
+function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): TEdBasForm;
+begin
+  Result := TEstSaidaEdForm.Create(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI);
+end;
+
+function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := EstSaidaEntEdFormCreate(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI);
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
+end;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+// begin
+// // Result := TDecoratorExclFabr.Create(pProdFabr);
+// end;
+
+function EstSaidaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TAppEstSaidaDataSetForm,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
+end;
+
 {$ENDREGION}
 {$REGION 'xxx impl'}
 {$ENDREGION}

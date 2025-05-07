@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -351,12 +351,12 @@ contains
   App.Est.Venda.Caixa.CxNumerarioList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList_u.pas',
   App.Sis.Assist_u in 'Sis\Assist\App.Sis.Assist_u.pas',
   App.UI.PDV.VendaBasFrame_u in 'Modulos\PDV\UI\VendaFrame\App.UI.PDV.VendaBasFrame_u.pas' {VendaBasPDVFrame: TFrame},
-  App.Est.MoviItem in 'Est\Mov\App.Est.MoviItem.pas',
-  App.Est.Mov in 'Est\Mov\App.Est.Mov.pas',
+  App.Est.EstMovItem in 'Est\Mov\App.Est.EstMovItem.pas',
+  App.Est.EstMovEnt in 'Est\Mov\App.Est.EstMovEnt.pas',
   App.PDV.Controlador in 'Modulos\PDV\Controlador\App.PDV.Controlador.pas',
   App.PDV.Venda in 'Modulos\PDV\Venda\App.PDV.Venda.pas',
-  App.Est.Mov_u in 'Est\Mov\App.Est.Mov_u.pas',
-  App.Est.MoviItem_u in 'Est\Mov\App.Est.MoviItem_u.pas',
+  App.Est.EstMovEnt_u in 'Est\Mov\App.Est.EstMovEnt_u.pas',
+  App.Est.EstMovItem_u in 'Est\Mov\App.Est.EstMovItem_u.pas',
   App.PDV.VendaItem in 'Modulos\PDV\Venda\App.PDV.VendaItem.pas',
   App.PDV.Venda_u in 'Modulos\PDV\Venda\App.PDV.Venda_u.pas',
   App.PDV.VendaItem_u in 'Modulos\PDV\Venda\App.PDV.VendaItem_u.pas',
@@ -418,6 +418,19 @@ contains
   App.Pess.Fornecedor.DBI_u in 'Pess\Fornecedor\App.Pess.Fornecedor.DBI_u.pas',
   App.UI.Form.Bas.Ed.Pess.Fornecedor_u in 'Pess\Fornecedor\App.UI.Form.Bas.Ed.Pess.Fornecedor_u.pas' {PessFornecedorEdForm},
   App.UI.Form.DataSet.Pess.Fornecedor_u in 'Pess\Fornecedor\App.UI.Form.DataSet.Pess.Fornecedor_u.pas' {AppPessFornecedorDataSetForm},
-  App.Acesso.Fornecedor.UI.Factory_u in 'Pess\Fornecedor\App.Acesso.Fornecedor.UI.Factory_u.pas';
+  App.Acesso.Fornecedor.UI.Factory_u in 'Pess\Fornecedor\App.Acesso.Fornecedor.UI.Factory_u.pas',
+  App.Retag.Est.EstSaida.Ent in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.Ent.pas',
+  App.Retag.Est.EstSaidaItem in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem.pas',
+  App.Retag.Est.EstSaidaItem_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem_u.pas',
+  App.Retag.Est.EstSaida.Ent_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.Ent_u.pas',
+  App.Retag.Est.EstSaida.DBI in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.DBI.pas',
+  App.Retag.Est.EstSaida.DBI_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.DBI_u.pas',
+  App.UI.Form.Bas.DataSet.Est_u in 'Modulos\Retag\Est\App.UI.Form.Bas.DataSet.Est_u.pas' {AppEstDataSetForm},
+  App.UI.Form.Ed.Est_u in 'Modulos\Retag\Est\App.UI.Form.Ed.Est_u.pas' {EstEdBasForm},
+  App.UI.Form.DataSet.Est.EstSaida_u in 'Modulos\Retag\Est\Sai\App.UI.Form.DataSet.Est.EstSaida_u.pas' {AppEstSaidaDataSetForm},
+  App.UI.Frame.Bas.EstFiltro_u in 'Modulos\Retag\Est\App.UI.Frame.Bas.EstFiltro_u.pas' {EstFiltroFrame: TFrame},
+  App.UI.Form.Ed.Est.EstSaida_u in 'Modulos\Retag\Est\Sai\App.UI.Form.Ed.Est.EstSaida_u.pas' {EstSaidaEdForm},
+  App.Est.EstMovDBI in 'Est\Mov\App.Est.EstMovDBI.pas',
+  App.Est.EstMovDBI_u in 'Est\Mov\App.Est.EstMovDBI_u.pas';
 
 end.

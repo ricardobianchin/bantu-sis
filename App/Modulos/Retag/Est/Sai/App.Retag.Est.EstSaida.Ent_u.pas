@@ -11,19 +11,31 @@ type
   private
     FEstSaidaId: TId;
     FSaidaMotivoId: TId;
+    FSaidaMotivoDescr: string;
 
     function GetEstSaidaId: TId;
     procedure SetEstSaidaId(Value: TId);
 
+    function GetEstSaidaMotivoDescr: string;
+    procedure SetEstSaidaMotivoDescr(Value: string);
+
     function GetSaidaMotivoId: TId;
     procedure SetSaidaMotivoId(Value: TId);
   protected
+    function GetNomeEnt: string; override;
+    function GetNomeEntAbrev: string; override;
+    function GetTitulo: string; override;
+
     function GetItems: TList<IRetagEstSaidaItem>;
   public
     property EstSaidaId: TId read GetEstSaidaId write SetEstSaidaId;
     property SaidaMotivoId: TId read GetSaidaMotivoId write SetSaidaMotivoId;
+    property SaidaMotivoDescr: string read GetEstSaidaMotivoDescr
+      write SetEstSaidaMotivoDescr;
 
     function GetCod(pSeparador: string = '-'): string;
+
+    procedure Zerar; override;
 
     constructor Create( //
       pLoja: IAppLoja; //
@@ -79,6 +91,11 @@ begin
     pSeparador);
 end;
 
+function TEstSaidaEnt.GetEstSaidaMotivoDescr: string;
+begin
+  Result := FSaidaMotivoDescr;
+end;
+
 function TEstSaidaEnt.GetEstSaidaId: TId;
 begin
   Result := FEstSaidaId;
@@ -89,9 +106,29 @@ begin
   Result := TList<IRetagEstSaidaItem>(inherited Items);
 end;
 
+function TEstSaidaEnt.GetNomeEnt: string;
+begin
+  Result := 'Saída';
+end;
+
+function TEstSaidaEnt.GetNomeEntAbrev: string;
+begin
+  Result := 'EstSai';
+end;
+
 function TEstSaidaEnt.GetSaidaMotivoId: TId;
 begin
   Result := FSaidaMotivoId;
+end;
+
+function TEstSaidaEnt.GetTitulo: string;
+begin
+  Result := 'Saídas';
+end;
+
+procedure TEstSaidaEnt.SetEstSaidaMotivoDescr(Value: string);
+begin
+  FSaidaMotivoDescr := Value;
 end;
 
 procedure TEstSaidaEnt.SetEstSaidaId(Value: TId);
@@ -102,6 +139,13 @@ end;
 procedure TEstSaidaEnt.SetSaidaMotivoId(Value: TId);
 begin
   FSaidaMotivoId := Value;
+end;
+
+procedure TEstSaidaEnt.Zerar;
+begin
+  inherited;
+  FSaidaMotivoId := 0;
+  FSaidaMotivoDescr := 'NAO INDICADO';
 end;
 
 end.

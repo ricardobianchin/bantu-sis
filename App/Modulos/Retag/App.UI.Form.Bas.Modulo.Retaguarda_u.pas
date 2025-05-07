@@ -125,6 +125,13 @@ type
     RetagEstEntFornecedorAct: TAction;
     AuxEstSaiMotivosToolButton: TToolButton;
     RetagEstSaiMotivoAction: TAction;
+    EstSaidaToolButton: TToolButton;
+    RetagEstSaidaAct: TAction;
+    RetagEstEntradaAction: TAction;
+    RetagEstInventarioAction: TAction;
+    EstInventarioToolButton: TToolButton;
+    EstSaldoToolButton: TToolButton;
+    RetagEstSaldoAct: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -153,6 +160,10 @@ type
     procedure FinanceiroDespesaTipoActionExecute(Sender: TObject);
     procedure RetagAjuVersaoSisActionExecute(Sender: TObject);
     procedure RetagEstEntFornecedorActExecute(Sender: TObject);
+    procedure RetagEstSaidaActExecute(Sender: TObject);
+    procedure RetagEstEntradaActionExecute(Sender: TObject);
+    procedure RetagEstInventarioActionExecute(Sender: TObject);
+    procedure RetagEstSaldoActExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -178,6 +189,9 @@ type
     FProdDataSetFormCreator: IFormCreator;
     FClienteDataSetFormCreator: IFormCreator;
     FFornecedorDataSetFormCreator: IFormCreator;
+    FEstSaidaDataSetFormCreator: IFormCreator;
+    FEstEntradaDataSetFormCreator: IFormCreator;
+    FEstInventarioDataSetFormCreator: IFormCreator;
 
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
@@ -224,7 +238,8 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
   App.Acesso.PerfilDeUso.UI.Factory_u, App.UI.Form.DataSet.Pess.Cliente_u,
   App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
-  Sis.Sis.Constants, App.Acesso.Fornecedor.UI.Factory_u, App.Pess.Fornecedor.Ent.Factory_u;
+  Sis.Sis.Constants, App.Acesso.Fornecedor.UI.Factory_u, App.Pess.Fornecedor.Ent.Factory_u,
+  App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -354,6 +369,9 @@ var
 
   oProdEnt: IProdEnt;
   oProdDBI: IEntDBI;
+
+  oEstSaidaEnt: IEstSaidaEnt;
+  oEstSaidaDBI: IEntDBI;
 begin
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
@@ -402,6 +420,14 @@ begin
   FFornecedorDataSetFormCreator := FornecedorDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, AppObj);
+
+  oEstSaidaEnt := RetagEstSaidaEntCreate(AppObj.Loja, 0, DATA_ZERADA,DATA_ZERADA);
+  oEstSaidaDBI := RetagEstSaidaEntDBICreate(pDBConnection, oEstSaidaEnt);
+
+
+  FEstSaidaDataSetFormCreator := EstSaidaEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, oEstSaidaEnt, oEstSaidaDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -511,6 +537,20 @@ begin
   TabSheetCrie(FFornecedorDataSetFormCreator);
 end;
 
+procedure TRetaguardaModuloBasForm.RetagEstEntradaActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+//  TabSheetCrie(FEstEntradaDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstInventarioActionExecute(
+  Sender: TObject);
+begin
+  inherited;
+//  TabSheetCrie(FEstInventarioDataSetFormCreator);
+end;
+
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
 begin
   inherited;
@@ -552,6 +592,18 @@ begin
   TabSheetCrie(FProdUnidDataSetFormCreator);
 end;
 
+procedure TRetaguardaModuloBasForm.RetagEstSaidaActExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FEstSaidaDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstSaldoActExecute(Sender: TObject);
+begin
+  inherited;
+//
+end;
+
 procedure TRetaguardaModuloBasForm.RetagEstVenClienteActionExecute
   (Sender: TObject);
 begin
@@ -565,7 +617,8 @@ begin
   RetagAjuBemAction.Execute;
   TestaTesteConfig;
   {$IFDEF DEBUG}
-  RetagEstEntFornecedorAct.Execute;
+    RetagEstSaidaAct.Execute;
+  //RetagEstEntFornecedorAct.Execute;
   {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

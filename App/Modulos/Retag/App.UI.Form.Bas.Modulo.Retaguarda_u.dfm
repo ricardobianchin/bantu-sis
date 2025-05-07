@@ -31,7 +31,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Top = 1
       Width = 590
       Height = 63
-      ActivePage = EstAuxTabSheet
+      ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -65,29 +65,45 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Action = RetagEstProdAction
             AutoSize = True
           end
-          object EstEntrToolButton: TToolButton
+          object EstVenToolButton: TToolButton
             Left = 59
+            Top = 0
+            AutoSize = True
+            Caption = 'Vendas'
+          end
+          object EstEntrToolButton: TToolButton
+            Left = 107
             Top = 0
             Hint = 'Produtos'
             AutoSize = True
             Caption = 'Entrada de Notas'
-            OnClick = RetagEstProdActionExecute
           end
-          object EstVenToolButton: TToolButton
-            Left = 160
+          object EstInventarioToolButton: TToolButton
+            Left = 208
             Top = 0
+            Action = RetagEstInventarioAction
             AutoSize = True
-            Caption = 'Vendas'
-            OnClick = RetagEstProdEnviarTermActionExecute
+          end
+          object EstSaidaToolButton: TToolButton
+            Left = 277
+            Top = 0
+            Action = RetagEstSaidaAct
+            AutoSize = True
+          end
+          object EstSaldoToolButton: TToolButton
+            Left = 321
+            Top = 0
+            Action = RetagEstSaldoAct
+            AutoSize = True
           end
           object EstCliToolButton: TToolButton
-            Left = 208
+            Left = 361
             Top = 0
             Action = RetagEstVenClienteAction
             AutoSize = True
           end
           object EstFornecedorToolButton: TToolButton
-            Left = 261
+            Left = 414
             Top = 0
             Action = RetagEstEntFornecedorAct
             AutoSize = True
@@ -128,7 +144,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         end
       end
       object EstAuxTabSheet: TTabSheet
-        Caption = 'Par'#226'metros do Estoque'
+        Caption = 'Par'#226'metros'
         ImageIndex = 2
         object EstAuxToolBar: TToolBar
           Left = 0
@@ -441,6 +457,27 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstSaiMotivoAction: TAction
       Category = 'EstAux'
       Caption = 'Motivos de Sa'#237'das'
+      Visible = False
+    end
+    object RetagEstSaidaAct: TAction
+      Category = 'Estoque'
+      Caption = 'Sa'#237'das'
+      OnExecute = RetagEstSaidaActExecute
+    end
+    object RetagEstEntradaAction: TAction
+      Category = 'Estoque'
+      Caption = 'Entrada de Notas'
+      OnExecute = RetagEstEntradaActionExecute
+    end
+    object RetagEstInventarioAction: TAction
+      Category = 'Estoque'
+      Caption = 'Invent'#225'rios'
+      OnExecute = RetagEstInventarioActionExecute
+    end
+    object RetagEstSaldoAct: TAction
+      Category = 'Estoque'
+      Caption = 'Saldo'
+      OnExecute = RetagEstSaldoActExecute
     end
   end
   object BalloonHint1: TBalloonHint

@@ -668,12 +668,12 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Est\Mov\App.Est.MoviItem.pas"/>
-        <DCCReference Include="Est\Mov\App.Est.Mov.pas"/>
+        <DCCReference Include="Est\Mov\App.Est.EstMovItem.pas"/>
+        <DCCReference Include="Est\Mov\App.Est.EstMovEnt.pas"/>
         <DCCReference Include="Modulos\PDV\Controlador\App.PDV.Controlador.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\App.PDV.Venda.pas"/>
-        <DCCReference Include="Est\Mov\App.Est.Mov_u.pas"/>
-        <DCCReference Include="Est\Mov\App.Est.MoviItem_u.pas"/>
+        <DCCReference Include="Est\Mov\App.Est.EstMovEnt_u.pas"/>
+        <DCCReference Include="Est\Mov\App.Est.EstMovItem_u.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaItem.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\App.PDV.Venda_u.pas"/>
         <DCCReference Include="Modulos\PDV\Venda\App.PDV.VendaItem_u.pas"/>
@@ -798,6 +798,35 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Pess\Fornecedor\App.Acesso.Fornecedor.UI.Factory_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\App.UI.Form.Bas.DataSet.Est_u.pas">
+            <Form>AppEstDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\App.UI.Form.Ed.Est_u.pas">
+            <Form>EstEdBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.UI.Form.DataSet.Est.EstSaida_u.pas">
+            <Form>AppEstSaidaDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\App.UI.Frame.Bas.EstFiltro_u.pas">
+            <Form>EstFiltroFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.UI.Form.Ed.Est.EstSaida_u.pas">
+            <Form>EstSaidaEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Est\Mov\App.Est.EstMovDBI.pas"/>
+        <DCCReference Include="Est\Mov\App.Est.EstMovDBI_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

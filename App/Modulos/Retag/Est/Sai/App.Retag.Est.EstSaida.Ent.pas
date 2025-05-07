@@ -17,6 +17,12 @@ type
     procedure SetSaidaMotivoId(Value: TId);
     property SaidaMotivoId: TId read GetSaidaMotivoId write SetSaidaMotivoId;
 
+    function GetEstSaidaMotivoDescr: string;
+    procedure SetEstSaidaMotivoDescr(Value: string);
+    property SaidaMotivoDescr: string read GetEstSaidaMotivoDescr
+      write SetEstSaidaMotivoDescr;
+
+
     function GetCod(pSeparador: string = '-'): string;
   end;
 
