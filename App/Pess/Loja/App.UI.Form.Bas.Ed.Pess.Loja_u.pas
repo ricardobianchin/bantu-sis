@@ -190,10 +190,6 @@ procedure TPessLojaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 // s: string;
 begin
   inherited;
-  // {$IFDEF DEBUG}
-  // SetTabOrderToHint(Self);
-  // {$ENDIF}
-
   DtNascPessLabel.Visible := False;
   DtNascMaskEdit.Visible := False;
 
