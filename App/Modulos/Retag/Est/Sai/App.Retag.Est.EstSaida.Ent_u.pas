@@ -27,6 +27,7 @@ type
     function GetTitulo: string; override;
 
     function GetItems: TList<IRetagEstSaidaItem>;
+    procedure LimparEnt; override;
   public
     property EstSaidaId: TId read GetEstSaidaId write SetEstSaidaId;
     property SaidaMotivoId: TId read GetSaidaMotivoId write SetSaidaMotivoId;
@@ -34,8 +35,6 @@ type
       write SetEstSaidaMotivoDescr;
 
     function GetCod(pSeparador: string = '-'): string;
-
-    procedure Zerar; override;
 
     constructor Create( //
       pLoja: IAppLoja; //
@@ -141,9 +140,10 @@ begin
   FSaidaMotivoId := Value;
 end;
 
-procedure TEstSaidaEnt.Zerar;
+procedure TEstSaidaEnt.LimparEnt;
 begin
   inherited;
+  FEstSaidaId := 0;
   FSaidaMotivoId := 0;
   FSaidaMotivoDescr := 'NAO INDICADO';
 end;

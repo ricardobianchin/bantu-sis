@@ -2,7 +2,8 @@ unit App.Retag.Est.EstSaida.DBI_u;
 
 interface
 
-uses App.Est.EstMovDBI_u, App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent,
+uses App.Est.EstMovDBI_u, App.Retag.Est.EstSaida.DBI,
+  App.Retag.Est.EstSaida.Ent,
   Data.DB, System.Classes, Sis.DB.DBTypes, Sis.Types.Dates;
 
 type
@@ -12,6 +13,8 @@ type
   protected
     function GetSqlForEach(pValues: variant): string; override;
 
+    procedure SetVarArrayToId(pNovaId: variant); override;
+    function GetSqlInserirDoERetornaId: string; override;
   public
 
     procedure SaidaMotivoPrepareLista(pSL: TStrings);
@@ -22,7 +25,8 @@ type
 
 implementation
 
-uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils;
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Entities.Types,
+  Sis.Types, Sis.Types.Floats;
 
 { TEstSaidaDBI }
 
@@ -41,39 +45,64 @@ begin
   dthFin := pValues[1];
 
   Result := 'SELECT'#13#10 //
-    +'LOJA_ID,'#13#10 //
-    +'TERMINAL_ID,'#13#10 //
-    +'EST_MOV_ID,'#13#10 //
-    +'EST_SAIDA_ID,'#13#10 //
-    +'COD,'#13#10 //
+    + 'LOJA_ID,'#13#10 //
+    + 'TERMINAL_ID,'#13#10 //
+    + 'EST_MOV_ID,'#13#10 //
+    + 'EST_SAIDA_ID,'#13#10 //
+    + 'COD,'#13#10 //
 
-    //+'DTH_DOC,'#13#10 //
+  // +'DTH_DOC,'#13#10 //
 
-    +'CRIADO_EM,'#13#10 //
+    + 'CRIADO_EM,'#13#10 //
 
-    +'EST_SAIDA_MOTIVO_ID,'#13#10 //
-    +'EST_SAIDA_NOME,'#13#10 //
+    + 'EST_SAIDA_MOTIVO_ID,'#13#10 //
+    + 'EST_SAIDA_NOME,'#13#10 //
 
-    +'FINALIZADO,'#13#10 //
-    +'FINALIZADO_EM,'#13#10 //
+    + 'FINALIZADO,'#13#10 //
+    + 'FINALIZADO_EM,'#13#10 //
 
-    +'CANCELADO,'#13#10 //
-    //+'ALTERADO_EM,'#13#10 //
-    +'CANCELADO_EM,'#13#10 //
+    + 'CANCELADO,'#13#10 //
+  // +'ALTERADO_EM,'#13#10 //
+    + 'CANCELADO_EM,'#13#10 //
 
-    +'CRIADO_POR_ID,'#13#10 //
-    +'CRIADO_POR_APELIDO,'#13#10 //
+    + 'CRIADO_POR_ID,'#13#10 //
+    + 'CRIADO_POR_APELIDO,'#13#10 //
 
-    +'CANCELADO_POR_ID,'#13#10 //
-    +'CANCELADO_POR_APELIDO,'#13#10 //
+    + 'CANCELADO_POR_ID,'#13#10 //
+    + 'CANCELADO_POR_APELIDO,'#13#10 //
 
-    +'FINALIZADO_POR_ID,'#13#10 //
-    +'FINALIZADO_POR_APELIDO'#13#10 //
+    + 'FINALIZADO_POR_ID,'#13#10 //
+    + 'FINALIZADO_POR_APELIDO'#13#10 //
 
     + 'FROM EST_SAIDA_PA.LISTA_GET(' //
     + DataSQLFirebird(dthIni) //
     + ', ' + DataSQLFirebird(dthFin) //
     + ');'#13#10 //
+    ;
+end;
+
+function TEstSaidaDBI.GetSqlInserirDoERetornaId: string;
+var
+  i: integer;
+  iItemProdId: TId;
+  uItemQtd: Currency;
+
+begin
+  i := FEstSaidaEnt.ItemIndex;
+  iItemProdId := FEstSaidaEnt.Items[i].Prod.Id;
+  uItemQtd := FEstSaidaEnt.Items[i].Qtd;
+
+  Result := 'SELECT EST_MOV_ID_RET, DTH_DOC_RET, EST_MOV_CRIADO_EM_RET,' +
+    ' EST_MOV_ITEM_CRIADO_EM_RET, EST_SAIDA_ID_RET, ORDEM_RET, LOG_STR_RET' +
+    ' FROM EST_SAIDA_ITEM_INS(' + //
+    FEstSaidaEnt.Loja.id.ToString + ',' + //
+    FEstSaidaEnt.TerminalId.ToString + ',' + //
+    FEstSaidaEnt.EstMovId.ToString + ',' + //
+    FEstSaidaEnt.EstSaidaId.ToString + ',' + //
+    FEstSaidaEnt.SaidaMotivoId.ToString + ',' + //
+    iItemProdId.ToString + ',' + //
+    CurrencyToStrPonto(uItemQtd) + ',' + //
+    QuotedStr(FEstSaidaEnt.LogStr) + ');' //
     ;
 end;
 
@@ -85,6 +114,7 @@ var
   p: Pointer;
   iId: integer;
   sDescr: string;
+  sDescr2: string;
 begin
   pSL.Clear;
   // pSL.Add('<TODAS AS FORMAS>');
@@ -109,20 +139,16 @@ begin
           Trim(Q.Fields[1].AsString) //
           ;
 
-        if iId > 0 then
-          sDescr := sDescr //
-            + ' (' //
-            + Trim(Q.Fields[2].AsString) //
-            + ')';
-
-        sDescr := AnsiLowerCase(sDescr);
-        sDescr[1] := AnsiUpperCase(sDescr[1])[1];
-
         if iId < 1 then
         begin
           pSL.Add(sDescr);
+          Q.Next;
           continue;
         end;
+
+        sDescr2 := ' - ' + AnsiLowerCase(Trim(Q.Fields[2].AsString));
+
+        sDescr := sDescr + sDescr2;
 
         p := Pointer(iId);
         pSL.AddObject(sDescr, p);
@@ -135,6 +161,12 @@ begin
   finally
     DBConnection.Fechar;
   end;
+end;
+
+procedure TEstSaidaDBI.SetVarArrayToId(pNovaId: variant);
+begin
+  inherited;
+
 end;
 
 end.

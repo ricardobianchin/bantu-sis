@@ -27,6 +27,8 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.EstSaida.DBI //
     , App.Retag.Est.EstSaida.Ent //
 
+    , App.Retag.Est.EstSaidaItem, App.Est.Prod //
+
     ;
 
 {$REGION 'prod fabr'}
@@ -232,10 +234,12 @@ function RetagEstSaidaEntDBICreate(pDBConnection: IDBConnection;
   pEstSaidaEnt: IEntEd): IEntDBI;
 
 function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): TEdBasForm;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI; pDBConnection: IDBConnection)
+  : TEdBasForm;
 
 function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): boolean;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI;
+  pDBConnection: IDBConnection): boolean;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
@@ -244,13 +248,23 @@ function EstSaidaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
+function RetagEstSaidaItemCreate( //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pQtd: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IRetagEstSaidaItem;
+
 {$ENDREGION}
 {$REGION 'xxx'}
 {$ENDREGION}
 
 implementation
 
-uses Vcl.Controls, App.UI.FormCreator.DataSet_u
+uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
 
 {$REGION 'uses fabr'}
   // fabr
@@ -301,6 +315,7 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u
     , App.Retag.Est.EstSaida.Ent_u //
     , App.UI.Form.DataSet.Est.EstSaida_u //
     , App.UI.Form.Ed.Est.EstSaida_u //
+    , App.Retag.Est.EstSaidaItem_u //
 {$ENDREGION}
     ;
 
@@ -728,17 +743,21 @@ begin
 end;
 
 function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): TEdBasForm;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI; pDBConnection: IDBConnection)
+  : TEdBasForm;
 begin
-  Result := TEstSaidaEdForm.Create(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI);
+  Result := TEstSaidaEdForm.Create(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI,
+    pDBConnection);
 end;
 
 function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI): boolean;
+  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI;
+  pDBConnection: IDBConnection): boolean;
 var
   F: TEdBasForm;
 begin
-  F := EstSaidaEntEdFormCreate(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI);
+  F := EstSaidaEntEdFormCreate(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI,
+    pDBConnection);
   try
     Result := F.Perg;
   finally
@@ -759,6 +778,22 @@ begin
   Result := TDataSetFormCreator.Create(TAppEstSaidaDataSetForm,
     pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
     pEntEd, pEntDBI, pAppObj);
+end;
+
+function RetagEstSaidaItemCreate( //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pQtd: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IRetagEstSaidaItem;
+var
+  oProd: IProd;
+begin
+  oProd := ProdCreate( pId, pDescrRed, pFabrNome, pUnidSigla);
+  Result := TRetagEstSaiItem.Create(pOrdem, oProd, pQtd, pCriadoEm);
 end;
 
 {$ENDREGION}

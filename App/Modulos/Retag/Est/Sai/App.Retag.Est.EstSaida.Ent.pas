@@ -22,7 +22,6 @@ type
     property SaidaMotivoDescr: string read GetEstSaidaMotivoDescr
       write SetEstSaidaMotivoDescr;
 
-
     function GetCod(pSeparador: string = '-'): string;
   end;
 

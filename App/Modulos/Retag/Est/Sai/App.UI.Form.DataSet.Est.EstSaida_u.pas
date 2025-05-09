@@ -15,6 +15,7 @@ uses
 type
   TAppEstSaidaDataSetForm = class(TAppEstDataSetForm)
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -176,13 +177,20 @@ end;
 
 function TAppEstSaidaDataSetForm.PergEd: boolean;
 begin
-  Result := EstSaidaPerg(nil, AppObj, FEstSaidaEnt, FEstSaidaDBI);
+
+  Result := EstSaidaPerg(nil, AppObj, FEstSaidaEnt, FEstSaidaDBI, DBConnection);
 end;
 
 procedure TAppEstSaidaDataSetForm.RecordToEnt;
 begin
   inherited;
 
+end;
+
+procedure TAppEstSaidaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  InsAction_DatasetTabSheet.Execute;
 end;
 
 procedure TAppEstSaidaDataSetForm.ToolBar1CrieBotoes;
