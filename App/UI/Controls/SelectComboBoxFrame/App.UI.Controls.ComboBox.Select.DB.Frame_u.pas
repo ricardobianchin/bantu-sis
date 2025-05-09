@@ -46,6 +46,8 @@ implementation
 
 {$R *.dfm}
 
+uses Sis.UI.ImgDM;
+
 { TComboBoxSelectDBFrame }
 
 procedure TComboBoxSelectDBFrame.BuscaSpeedButtonClick(Sender: TObject);
