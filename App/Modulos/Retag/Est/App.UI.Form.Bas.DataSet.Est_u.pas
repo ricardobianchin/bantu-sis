@@ -7,13 +7,17 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet.DataSet_u,
   Data.DB, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ToolWin, Vcl.StdCtrls, App.UI.Frame.Bas.EstFiltro_u;
+  Vcl.DBGrids, Vcl.ToolWin, Vcl.StdCtrls, App.UI.Frame.Bas.EstFiltro_u,
+  Sis.DB.DBTypes, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
+  App.Ent.Ed, App.Ent.DBI, Sis.Types, App.UI.TabSheet.DataSet.Types_u,
+  App.AppObj;
 
 type
   TAppEstDataSetForm = class(TTabSheetDataSetBasForm)
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
+    FDBConnection: IDBConnection;
 
   protected
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); virtual; abstract;
@@ -26,8 +30,14 @@ type
     procedure ToolBar1CrieBotoes; override;
     property EstFiltroFrame: TEstFiltroFrame read FEstFiltroFrame
       write FEstFiltroFrame;
+    property DBConnection: IDBConnection read FDBConnection;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
+      pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pAppObj: IAppObj); override;
   end;
 
 var
@@ -37,9 +47,26 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid;
+uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
+  Sis.Sis.Constants, Sis.DB.Factory;
 
 { TAppEstDataSetForm }
+
+constructor TAppEstDataSetForm.Create(AOwner: TComponent;
+  pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
+  pIdPos: integer; pAppObj: IAppObj);
+var
+  rDBConnectionParams: TDBConnectionParams;
+begin
+  inherited;
+  rDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
+
+  FDBConnection := DBConnectionCreate('TAppEstDataSetForm.Conn',
+    AppObj.SisConfig, rDBConnectionParams, ProcessLog, Output);
+end;
 
 procedure TAppEstDataSetForm.DoAlterar;
 begin

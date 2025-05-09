@@ -20,6 +20,8 @@ type
     FFinalizadoEm: TDateTime;
     FCanceladoEm: TDateTime;
     FItems: TList<IEstMovItem>;
+    FItemIndex: integer;
+    FLogStr: string;
 
     function GetLoja: IAppLoja;
 
@@ -54,7 +56,15 @@ type
 
     function GetItems: TList<IEstMovItem>;
 
+    function GetItemIndex: integer;
+    procedure SetItemIndex(Value: integer);
+
+    function GetLogStr: string;
+    procedure SetLogStr(Value: string);
+  protected
+
   public
+    procedure Zerar; virtual;
     property Loja: IAppLoja read GetLoja;
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
     property EstMovId: Int64 read GetEstMovId write SetEstMovId;
@@ -68,7 +78,11 @@ type
     property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
     property Items: TList<IEstMovItem> read GetItems;
 
-    procedure Zerar; virtual;
+    property ItemIndex: integer read GetItemIndex write SetItemIndex;
+    property LogStr: string read GetLogStr write SetLogStr;
+
+
+    procedure LimparEnt; override;
 
     constructor Create(
       pLoja: IAppLoja; //
@@ -89,7 +103,7 @@ type
 
 implementation
 
-uses Data.DB;
+uses Data.DB, Sis.Types;
 
 { TEstMovEnt }
 
@@ -165,6 +179,11 @@ begin
   Result := FEstMovId;
 end;
 
+function TEstMovEnt.GetLogStr: string;
+begin
+  Result := FLogStr;
+end;
+
 function TEstMovEnt.GetLoja: IAppLoja;
 begin
   Result := FLoja;
@@ -173,6 +192,27 @@ end;
 function TEstMovEnt.GetTerminalId: TTerminalId;
 begin
   Result := FTerminalId;
+end;
+
+procedure TEstMovEnt.LimparEnt;
+begin
+  inherited;
+  FItemIndex := -1;
+  FTerminalId := 0;
+  FEstMovId := 0;
+  FDtHDoc := DATA_ZERADA;
+  FFinalizado := False;
+  FCancelado := False;
+  FCriadoEm := DATA_ZERADA;
+  FAlteradoEm := DATA_ZERADA;
+  FFinalizadoEm := DATA_ZERADA;
+  FCanceladoEm := DATA_ZERADA;
+  FItems.Clear;
+end;
+
+function TEstMovEnt.GetItemIndex: integer;
+begin
+  Result := FItemIndex;
 end;
 
 function TEstMovEnt.GetItems: TList<IEstMovItem>;
@@ -215,6 +255,16 @@ begin
   FFinalizadoEm := Value;
 end;
 
+procedure TEstMovEnt.SetItemIndex(Value: integer);
+begin
+  FItemIndex := Value;
+end;
+
+procedure TEstMovEnt.SetLogStr(Value: string);
+begin
+  FLogStr := Value;
+end;
+
 procedure TEstMovEnt.SetTerminalId(Value: TTerminalId);
 begin
   FTerminalId := Value;
@@ -222,15 +272,7 @@ end;
 
 procedure TEstMovEnt.Zerar;
 begin
-  FTerminalId := 0;
-  FEstMovId := 0;
-  FDtHDoc := DATA_ZERADA;
-  FFinalizado := False;
-  FCancelado := False;
-  FCriadoEm := DATA_ZERADA;
-  FAlteradoEm := DATA_ZERADA;
-  FFinalizadoEm := DATA_ZERADA;
-  FCanceladoEm := DATA_ZERADA;
+  LimparEnt;
 end;
 
 procedure TEstMovEnt.SetEstMovId(Value: Int64);
