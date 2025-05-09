@@ -42,6 +42,7 @@ inherited EstSaidaEdForm: TEstSaidaEdForm
   inherited NotaGroupBox: TGroupBox
     Top = 27
     Height = 49
+    Caption = 'Nota de Sa'#237'da'
     ExplicitTop = 27
     ExplicitHeight = 49
     object SaidaMotivoLabel: TLabel [0]

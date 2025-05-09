@@ -94,7 +94,7 @@ begin
 
   Result := 'SELECT EST_MOV_ID_RET, DTH_DOC_RET, EST_MOV_CRIADO_EM_RET,' +
     ' EST_MOV_ITEM_CRIADO_EM_RET, EST_SAIDA_ID_RET, ORDEM_RET, LOG_STR_RET' +
-    ' FROM EST_SAIDA_ITEM_INS(' + //
+    ' FROM EST_SAIDA_PA.EST_SAIDA_ITEM_INS(' + //
     FEstSaidaEnt.Loja.id.ToString + ',' + //
     FEstSaidaEnt.TerminalId.ToString + ',' + //
     FEstSaidaEnt.EstMovId.ToString + ',' + //
@@ -166,7 +166,13 @@ end;
 procedure TEstSaidaDBI.SetVarArrayToId(pNovaId: variant);
 begin
   inherited;
-
+  FEstSaidaEnt.EstMovId := pNovaId[0];
+  FEstSaidaEnt.DtHDoc := pNovaId[1];
+  FEstSaidaEnt.CriadoEm := pNovaId[2];
+  FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].CriadoEm := pNovaId[3];
+  FEstSaidaEnt.EstSaidaId := pNovaId[4];
+  //FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].Ordem := pNovaId[5];
+  FEstSaidaEnt.LogStr := pNovaId[6];
 end;
 
 end.

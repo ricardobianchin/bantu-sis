@@ -53,7 +53,8 @@ implementation
 {$R *.dfm}
 
 uses App.Retag.Est.Factory, Sis.UI.Controls.Factory, Sis.DB.DataSet.Utils,
-  Sis.Types.Floats, App.Retag.Est.EstSaidaItem, Data.DB, Sis.Sis.Constants;
+  Sis.Types.Floats, App.Retag.Est.EstSaidaItem, Data.DB, Sis.Sis.Constants,
+  Sis.Types.strings_u;
 
 { TEstSaidaEdForm }
 
@@ -122,17 +123,18 @@ begin
   inherited;
   if EntEd.State = dsInsert then
   begin
-    iOrdem := FEstSaidaEnt.Items.Count;
+    FEstSaidaEnt.ItemIndex := FEstSaidaEnt.Items.Count;
+    iOrdem := FEstSaidaEnt.ItemIndex;
 
     oItem := RetagEstSaidaItemCreate(iOrdem, ProdSelectFrame.ProdId,
-      ProdSelectFrame.ProdDescrRed, ProdSelectFrame.ProdFabrNome, ''{unid},
-      QtdNumEditBtu.Valor, DATA_ZERADA{criadoem});
+      ProdSelectFrame.ProdDescrRed, ProdSelectFrame.ProdFabrNome, '' { unid } ,
+      QtdNumEditBtu.Valor, DATA_ZERADA { criadoem } );
 
     FEstSaidaEnt.Items.Add(oItem);
   end;
 
   FEstSaidaEnt.SaidaMotivoId := FSaidaMotivoMan.Id;
-  FEstSaidaEnt.SaidaMotivoDescr := FSaidaMotivoMan.Text;
+  FEstSaidaEnt.SaidaMotivoDescr := StrAntes(FSaidaMotivoMan.Text, ' -');
 end;
 
 constructor TEstSaidaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
@@ -147,7 +149,7 @@ end;
 
 function TEstSaidaEdForm.DadosOk: boolean;
 begin
-  FEstSaidaDBI.Gravar;
+  Result := True;
 end;
 
 procedure TEstSaidaEdForm.EntToControles;
@@ -178,7 +180,7 @@ end;
 
 function TEstSaidaEdForm.GravouOk: boolean;
 begin
-
+  Result := FEstSaidaDBI.Gravar;
 end;
 
 procedure TEstSaidaEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
