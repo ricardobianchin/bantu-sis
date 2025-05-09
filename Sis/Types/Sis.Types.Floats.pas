@@ -22,6 +22,7 @@ function CurrencyToVar(pValue: Currency): variant;
 function ValorPorExtenso(vlr: Currency): string;
 
 function CurrencyEhInteiro(pCurr: Currency): boolean;
+function CurrencyEhFracionario(pCurr: Currency): boolean;
 
 implementation
 
@@ -341,6 +342,11 @@ end;
 function CurrencyEhInteiro(pCurr: Currency): boolean;
 begin
   Result := Frac(pCurr) = 0;
+end;
+
+function CurrencyEhFracionario(pCurr: Currency): boolean;
+begin
+  Result := Frac(pCurr) > 0;
 end;
 
 function IsValidFloatString(const pNumStr: string): Boolean;
