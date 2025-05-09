@@ -264,8 +264,8 @@ begin
   if EntEd.State = dsInsert then
   begin
     Result := Inserir(i);
-    if Result then
-      SetVarArrayToId(i);
+//    if Result then
+//      SetVarArrayToId(
   end
   else
     Result := Alterar;
