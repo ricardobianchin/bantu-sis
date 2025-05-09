@@ -29,14 +29,12 @@ begin
 end;
 
 function TShopProdSelectDBI.GetNomeArqTabView(pValues: variant): string;
+var
+  sNomeArq: string;
 begin
-  var
-    sNomeArq: string;
-  begin
-    sNomeArq := FAppObj.AppInfo.PastaConsTabViews +
-      'ShopApp\PDV\tabview.shopapp.pdv.prod.prodselect.csv';
-    Result := sNomeArq;
-  end;
+  sNomeArq := FAppObj.AppInfo.PastaConsTabViews +
+    'ShopApp\PDV\tabview.shopapp.pdv.prod.prodselect.csv';
+  Result := sNomeArq;
 end;
 
 function TShopProdSelectDBI.GetSqlForEach(pValues: variant): string;
