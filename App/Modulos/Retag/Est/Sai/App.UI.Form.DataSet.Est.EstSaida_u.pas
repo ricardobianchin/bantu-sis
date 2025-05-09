@@ -55,19 +55,21 @@ uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
 procedure TAppEstSaidaDataSetForm.AtuAction_DatasetTabSheetExecute
   (Sender: TObject);
 var
+  // valores dth so sao lidos aqui pra poder testar
+  // serao depois relidos por ForEach
   DtHIni: TDateTime;
   DtHFin: TDateTime;
   sMens: string;
 begin
   EstFiltroFrame.DtHFaixaFrame.DtIniFrame.PreencheDtH(DtHIni, sMens);
   if sMens <> '' then
-  begin
+  begin // a mens de erro ja foi exibida dentro do dthframe
     exit;
   end;
 
   EstFiltroFrame.DtHFaixaFrame.DtFinFrame.PreencheDtH(DtHFin, sMens);
   if sMens <> '' then
-  begin
+  begin // a mens de erro ja foi exibida dentro do dthframe
     exit;
   end;
 
