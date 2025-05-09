@@ -50,6 +50,8 @@ implementation
 
 {$R *.dfm}
 
+uses Sis.UI.ImgDM;
+
 { TComboBoxBasFrame }
 
 procedure TComboBoxBasFrame.ComboBox1Change(Sender: TObject);
