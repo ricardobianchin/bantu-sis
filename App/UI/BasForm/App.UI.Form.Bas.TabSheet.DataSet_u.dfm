@@ -5,6 +5,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   WindowState = wsMaximized
   StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
+  ExplicitTop = -118
   ExplicitWidth = 700
   ExplicitHeight = 443
   TextHeight = 15
@@ -49,9 +50,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
       ExplicitWidth = 560
       inherited TitToolBar1_BasTabSheet: TToolBar
         Width = 560
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 558
+        ExplicitWidth = 560
       end
     end
   end
@@ -61,6 +60,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Width = 700
     Height = 413
     Align = alClient
+    BorderStyle = bsNone
     DataSource = DataSource1
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 1
