@@ -75,8 +75,8 @@ begin
     + 'FINALIZADO_POR_APELIDO'#13#10 //
 
     + 'FROM EST_SAIDA_PA.LISTA_GET(' //
-    + DataSQLFirebird(dthIni) //
-    + ', ' + DataSQLFirebird(dthFin) //
+    + DataHoraSQLFirebird(dthIni) //
+    + ', ' + DataHoraSQLFirebird(dthFin) //
     + ');'#13#10 //
     ;
 end;

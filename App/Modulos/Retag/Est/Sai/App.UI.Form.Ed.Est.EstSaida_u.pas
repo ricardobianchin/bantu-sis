@@ -232,7 +232,7 @@ procedure TEstSaidaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   SaidaMotivoComboBox.SetFocus;
-  SaidaMotivoComboBox.DroppedDown := True;
+//  SaidaMotivoComboBox.DroppedDown := True;
 end;
 
 end.
