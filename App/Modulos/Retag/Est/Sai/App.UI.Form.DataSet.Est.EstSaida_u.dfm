@@ -22,17 +22,14 @@ inherited AppEstSaidaDataSetForm: TAppEstSaidaDataSetForm
       Height = 23
       StyleElements = [seFont, seClient, seBorder]
       ExplicitHeight = 23
-      inherited TitToolBar1_BasTabSheet: TToolBar
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 560
-      end
     end
   end
   inherited DBGrid1: TDBGrid
     Height = 420
   end
   inherited SelectPanel: TPanel
+    Top = 160
     StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 160
   end
 end

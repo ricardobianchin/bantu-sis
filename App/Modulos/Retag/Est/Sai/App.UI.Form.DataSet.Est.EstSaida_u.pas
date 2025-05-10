@@ -16,6 +16,7 @@ type
   TAppEstSaidaDataSetForm = class(TAppEstDataSetForm)
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -53,6 +54,13 @@ uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
   Sis.UI.Controls.Utils, Sis.Sis.Constants;
 
 { TAppEstSaidaDataSetForm }
+
+procedure TAppEstSaidaDataSetForm.AltAction_DatasetTabSheetExecute(
+  Sender: TObject);
+begin
+//  inherited;
+
+end;
 
 procedure TAppEstSaidaDataSetForm.AtuAction_DatasetTabSheetExecute
   (Sender: TObject);
