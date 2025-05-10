@@ -14,6 +14,7 @@ uses
 
 type
   TAppEstDataSetForm = class(TTabSheetDataSetBasForm)
+    DetailPanel: TPanel;
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;

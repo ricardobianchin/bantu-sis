@@ -25,11 +25,19 @@ inherited AppEstSaidaDataSetForm: TAppEstSaidaDataSetForm
     end
   end
   inherited DBGrid1: TDBGrid
-    Height = 420
+    Height = 200
+  end
+  inherited DetailPanel: TPanel
+    Top = 200
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitLeft = 0
+    ExplicitTop = 200
   end
   inherited SelectPanel: TPanel
+    Left = 544
     Top = 160
     StyleElements = [seFont, seClient, seBorder]
+    ExplicitLeft = 544
     ExplicitTop = 160
   end
 end
