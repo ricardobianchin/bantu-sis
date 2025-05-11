@@ -21,7 +21,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pEstSaidaItemDBI: IDBI); reintroduce;
-    procedure Carregar(pLojaId: TLojaId; pTerminalId: TTerminalId; pId: Int64);
+    procedure Carregar(pLojaId: TLojaId; pTerminalId: TTerminalId; pEstMovId: Int64);
   end;
 
 var
@@ -36,14 +36,14 @@ uses Sis.UI.IO.Files, Sis.DB.DataSet.Utils;
 { TEstSaidaItemDBGridFrame }
 
 procedure TEstSaidaItemDBGridFrame.Carregar(pLojaId: TLojaId;
-  pTerminalId: TTerminalId; pId: Int64);
+  pTerminalId: TTerminalId; pEstMovId: Int64);
 var
   Values: Variant;
 begin
   Values := VarArrayCreate([0, 2], varVariant);
   Values[0] := pLojaId;
   Values[1] := pTerminalId;
-  Values[2] := pId;
+  Values[2] := pEstMovId;
 
   FEstSaidaItemDBI.ForEach(Values, LeRegEInsere);
 end;

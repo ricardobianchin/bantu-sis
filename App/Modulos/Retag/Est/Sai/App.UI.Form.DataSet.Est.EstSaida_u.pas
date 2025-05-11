@@ -143,16 +143,15 @@ var
   i: integer;
   iLojaId: TLojaId;
   iTerminalId: TTerminalId;
-  iId: TId;
-  sCod: string;
+  iEstMovId: Int64;
 begin
   inherited;
 
   iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
   iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
-  iId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
+  iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
 
-  FEstSaidaItemDBGridFrame.Carregar(iLojaId, iTerminalId, iId);
+  FEstSaidaItemDBGridFrame.Carregar(iLojaId, iTerminalId, iEstMovId);
 end;
 
 procedure TAppEstSaidaDataSetForm.EntToRecord;
@@ -315,7 +314,9 @@ procedure TAppEstSaidaDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
-  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(CancAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+
+//  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;
 
 end.

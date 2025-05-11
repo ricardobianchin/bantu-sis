@@ -10,18 +10,20 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, Vcl.StdCtrls, App.UI.Frame.Bas.EstFiltro_u,
   Sis.DB.DBTypes, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.Ent.Ed, App.Ent.DBI, Sis.Types, App.UI.TabSheet.DataSet.Types_u,
-  App.AppObj;
+  App.AppObj, App.Est.EstMovDBI, Sis.Types.Utils_u, Sis.Entities.Types;
 
 type
   TAppEstDataSetForm = class(TTabSheetDataSetBasForm)
     DetailPanel: TPanel;
     DetailTimer: TTimer;
+    CancAction_DatasetTabSheet: TAction;
     procedure DetailTimerTimer(Sender: TObject);
+    procedure CancAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
     FDBConnection: IDBConnection;
-
+    FEstMovDBI: IEstMovDBI;
     procedure DispareDetailTimer;
 
   protected
@@ -55,9 +57,46 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
-  Sis.Sis.Constants, Sis.DB.Factory;
+  Sis.Sis.Constants, Sis.DB.Factory, App.Retag.Est.Factory, App.UI.Form.Perg_u;
 
 { TAppEstDataSetForm }
+
+procedure TAppEstDataSetForm.CancAction_DatasetTabSheetExecute(Sender: TObject);
+var
+  bResultado: boolean;
+var
+  i: integer;
+
+  iLojaId: TLojaId;
+  iTerminalId: TTerminalId;
+  iEstMovId: Int64;
+
+  sCod: string;
+begin
+  inherited;
+  if FDMemTable.IsEmpty then
+  begin
+    ShowMessage('Não há registro a cancelar');
+    exit;
+  end;
+
+  iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
+  iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
+  iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
+
+  sCod := FDMemTable.Fields[4 { COD } ].AsString;
+
+  bResultado := App.UI.Form.Perg_u.Perg('Cancelar nota ' + sCod + '?',
+    'Daros PDV', TBooleanDefault.boolFalse);
+
+  if not bResultado then
+    exit;
+
+  FEstMovDBI.EstMovCancele(iLojaId, iTerminalId, iEstMovId);
+  FDMemTable.Edit;
+  FDMemTable.FieldByName('CANCELADO').AsBoolean := True;
+  FDMemTable.Post;
+end;
 
 constructor TAppEstDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
@@ -68,11 +107,14 @@ var
   rDBConnectionParams: TDBConnectionParams;
 begin
   inherited;
+  FEstMovDBI := EntDBICastToEstMovDBI(pEntDBI);
   rDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, AppObj);
 
   FDBConnection := DBConnectionCreate('TAppEstDataSetForm.Conn',
     AppObj.SisConfig, rDBConnectionParams, ProcessLog, Output);
+
+  InsAction_DatasetTabSheet.Caption := 'Nova Nota';
 end;
 
 procedure TAppEstDataSetForm.DetailCarregar;

@@ -27,6 +27,12 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
   inherited SelectPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]
   end
+  inherited ActionList1_ActBasForm: TActionList
+    object CancAction_DatasetTabSheet: TAction
+      Caption = 'Cancelar Nota'
+      OnExecute = CancAction_DatasetTabSheetExecute
+    end
+  end
   object DetailTimer: TTimer
     Enabled = False
     Interval = 250

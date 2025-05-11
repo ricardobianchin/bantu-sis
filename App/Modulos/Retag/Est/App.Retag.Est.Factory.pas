@@ -6,7 +6,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj,
   Sis.UI.FormCreator, Sis.DB.UltimoId, App.Loja, Sis.Entities.Types,
-  Sis.Sis.Constants, Sis.Types
+  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI
 
     , App.Ent.Ed, App.Ent.DBI //
 
@@ -30,6 +30,10 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.EstSaidaItem, App.Est.Prod //
 
     ;
+
+{$REGION 'est'}
+function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
+{$ENDREGION}
 
 {$REGION 'prod fabr'}
 function EntEdCastToProdFabrEnt(pEntEd: IEntEd): IProdFabrEnt;
@@ -316,6 +320,10 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
     , App.UI.Form.DataSet.Est.EstSaida_u //
     , App.UI.Form.Ed.Est.EstSaida_u //
     , App.Retag.Est.EstSaidaItem_u //
+{$ENDREGION}
+
+{$REGION 'uses est'}
+    , App.Est.EstMovDBI_u
 {$ENDREGION}
     ;
 
@@ -797,7 +805,17 @@ begin
 end;
 
 {$ENDREGION}
+
+{$REGION 'est impl'}
+function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
+begin
+  Result := TEstMovDBI(pEntDBI);
+end;
+{$ENDREGION}
+
 {$REGION 'xxx impl'}
 {$ENDREGION}
+
+
 
 end.
