@@ -15,10 +15,14 @@ uses
 type
   TAppEstDataSetForm = class(TTabSheetDataSetBasForm)
     DetailPanel: TPanel;
+    DetailTimer: TTimer;
+    procedure DetailTimerTimer(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
     FDBConnection: IDBConnection;
+
+    procedure DispareDetailTimer;
 
   protected
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); virtual; abstract;
@@ -32,6 +36,8 @@ type
     property EstFiltroFrame: TEstFiltroFrame read FEstFiltroFrame
       write FEstFiltroFrame;
     property DBConnection: IDBConnection read FDBConnection;
+    procedure FDMemTable1AfterScroll(DataSet: TDataSet); override;
+    procedure DetailCarregar; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -69,6 +75,23 @@ begin
     AppObj.SisConfig, rDBConnectionParams, ProcessLog, Output);
 end;
 
+procedure TAppEstDataSetForm.DetailCarregar;
+begin
+
+end;
+
+procedure TAppEstDataSetForm.DetailTimerTimer(Sender: TObject);
+begin
+  inherited;
+  DetailCarregar;
+end;
+
+procedure TAppEstDataSetForm.DispareDetailTimer;
+begin
+  DetailTimer.Enabled := False;
+  DetailTimer.Enabled := True;
+end;
+
 procedure TAppEstDataSetForm.DoAlterar;
 begin
   inherited;
@@ -89,6 +112,7 @@ begin
     FDMemTable.EndBatch;
     FDMemTable.EnableControls;
     DBGridPosicioneColumnVisible(DBGrid1);
+    DetailCarregar;
   end;
 end;
 
@@ -102,6 +126,12 @@ begin
   FDMemTable.Append;
   EntToRecord;
   FDMemTable.Post;
+end;
+
+procedure TAppEstDataSetForm.FDMemTable1AfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  DispareDetailTimer;
 end;
 
 procedure TAppEstDataSetForm.ToolBar1CrieBotoes;

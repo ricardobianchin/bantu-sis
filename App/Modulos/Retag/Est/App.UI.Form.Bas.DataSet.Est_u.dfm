@@ -23,10 +23,15 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
-    ExplicitLeft = -8
-    ExplicitTop = 199
   end
   inherited SelectPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]
+  end
+  object DetailTimer: TTimer
+    Enabled = False
+    Interval = 250
+    OnTimer = DetailTimerTimer
+    Left = 432
+    Top = 24
   end
 end
