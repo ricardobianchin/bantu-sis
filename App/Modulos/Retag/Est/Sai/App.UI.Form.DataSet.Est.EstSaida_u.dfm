@@ -30,7 +30,6 @@ inherited AppEstSaidaDataSetForm: TAppEstSaidaDataSetForm
   inherited DetailPanel: TPanel
     Top = 200
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitLeft = 0
     ExplicitTop = 200
   end
   inherited SelectPanel: TPanel

@@ -10,7 +10,9 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, Vcl.StdCtrls, Sis.Usuario, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppInfo,
   App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI, App.AppObj,
-  App.Retag.Est.EstSaida.Ent, App.Retag.Est.EstSaida.DBI;
+  App.Retag.Est.EstSaida.Ent, App.Retag.Est.EstSaida.DBI,
+  App.UI.Fram.DBGrid.Est.EstSaidaItem_u, App.Retag.Est.EstSaidaItem.DBI_u,
+  Sis.DBI;
 
 type
   TAppEstSaidaDataSetForm = class(TAppEstDataSetForm)
@@ -21,6 +23,10 @@ type
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
     FEstSaidaDBI: IEstSaidaDBI;
+    FDBConnectionParams: TDBConnectionParams;
+    FDBConnection: IDBConnection;
+    FEstSaidaItemDBI: IDBI;
+    FEstSaidaItemDBGridFrame: TEstSaidaItemDBGridFrame;
   protected
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); override;
 
@@ -32,6 +38,7 @@ type
 
     procedure CrieFiltroFrame; override;
     function PergEd: boolean; override;
+    procedure DetailCarregar; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -55,10 +62,10 @@ uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
 
 { TAppEstSaidaDataSetForm }
 
-procedure TAppEstSaidaDataSetForm.AltAction_DatasetTabSheetExecute(
-  Sender: TObject);
+procedure TAppEstSaidaDataSetForm.AltAction_DatasetTabSheetExecute
+  (Sender: TObject);
 begin
-//  inherited;
+  // inherited;
 
 end;
 
@@ -90,7 +97,6 @@ begin
   end;
 
   inherited;
-
 end;
 
 constructor TAppEstSaidaDataSetForm.Create(AOwner: TComponent;
@@ -102,6 +108,16 @@ begin
   inherited;
   FEstSaidaEnt := EntEdCastToEstSaidaEnt(pEntEd);
   FEstSaidaDBI := EntDBICastToEstSaidaDBI(pEntDBI);
+
+  FDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
+
+  FDBConnection := DBConnectionCreate('TAppEstSaidaDataSetForm.PergEd.conn',
+    AppObj.SisConfig, FDBConnectionParams, ProcessLog, Output);
+
+  FEstSaidaItemDBI := TEstSaidaItemDBI.Create(FDBConnection);
+  FEstSaidaItemDBGridFrame := TEstSaidaItemDBGridFrame.Create(DetailPanel, FEstSaidaItemDBI);
+  FEstSaidaItemDBGridFrame.Align := alClient;
 end;
 
 procedure TAppEstSaidaDataSetForm.CrieFiltroFrame;
@@ -109,15 +125,34 @@ begin
   inherited;
   EstFiltroFrame := TEstFiltroFrame.Create(Self, DoAtualizar);
   EstFiltroFrame.Align := alBottom;
+  EstFiltroFrame.Top := DetailPanel.Top + DetailPanel.Height;
+  TitPanel_BasTabSheet.Top := EstFiltroFrame.Top + EstFiltroFrame.Height;
 
-//{$IFDEF DEBUG}
-//  SetNameToHint(Self);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // SetNameToHint(Self);
+  // {$ENDIF}
   // TitToolBar1_BasTabSheet
 
   // TitToolPanel_BasTabSheet.Height := TitToolPanel_BasTabSheet.Height +
   // EstFiltroFrame.Height;
   // TitToolBar1_BasTabSheet.Top := EstFiltroFrame.Top + EstFiltroFrame.Height;
+end;
+
+procedure TAppEstSaidaDataSetForm.DetailCarregar;
+var
+  i: integer;
+  iLojaId: TLojaId;
+  iTerminalId: TTerminalId;
+  iId: TId;
+  sCod: string;
+begin
+  inherited;
+
+  iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
+  iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
+  iId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
+
+  FEstSaidaItemDBGridFrame.Carregar(iLojaId, iTerminalId, iId);
 end;
 
 procedure TAppEstSaidaDataSetForm.EntToRecord;
@@ -143,12 +178,17 @@ begin
   FDMemTable.Fields[4 { COD } ].AsString := sCod;
 
   FDMemTable.Fields[5 { CRIADO_EM } ].AsDateTime := FEstSaidaEnt.CriadoEm; //
-  FDMemTable.Fields[6 { EST_SAIDA_MOTIVO_ID } ].AsInteger := FEstSaidaEnt.SaidaMotivoId; //
-  FDMemTable.Fields[7 { EST_SAIDA_MOTIVO_DESCR } ].AsString := FEstSaidaEnt.SaidaMotivoDescr; //; //
-  FDMemTable.Fields[8 { FINALIZADO } ].AsBoolean :=  FEstSaidaEnt.Finalizado; //;
-  FDMemTable.Fields[9 { FINALIZADO_EM } ].AsDateTime := FEstSaidaEnt.FinalizadoEm; //
+  FDMemTable.Fields[6 { EST_SAIDA_MOTIVO_ID } ].AsInteger :=
+    FEstSaidaEnt.SaidaMotivoId; //
+  FDMemTable.Fields[7 { EST_SAIDA_MOTIVO_DESCR } ].AsString :=
+    FEstSaidaEnt.SaidaMotivoDescr; // ; //
+  FDMemTable.Fields[8 { FINALIZADO } ].AsBoolean := FEstSaidaEnt.Finalizado;
+  // ;
+  FDMemTable.Fields[9 { FINALIZADO_EM } ].AsDateTime :=
+    FEstSaidaEnt.FinalizadoEm; //
   FDMemTable.Fields[10 { CANCELADO } ].AsBoolean := FEstSaidaEnt.Cancelado; //
-  FDMemTable.Fields[11 { CANCELADO_EM } ].AsDateTime := FEstSaidaEnt.CanceladoEm; //
+  FDMemTable.Fields[11 { CANCELADO_EM } ].AsDateTime :=
+    FEstSaidaEnt.CanceladoEm; //
   FDMemTable.Fields[12 { CRIADO_POR_ID } ].AsInteger := 0;
   FDMemTable.Fields[13 { CRIADO_POR_APELIDO } ].AsString := '';
   FDMemTable.Fields[14 { CANCELADO_POR_ID } ].AsInteger := 0; //
@@ -227,18 +267,9 @@ begin
 end;
 
 function TAppEstSaidaDataSetForm.PergEd: boolean;
-var
-  rDBConnectionParams: TDBConnectionParams;
-  oDBConnection: IDBConnection;
 begin
-  rDBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, AppObj);
-
-  oDBConnection := DBConnectionCreate('TAppEstSaidaDataSetForm.PergEd.conn',
-    AppObj.SisConfig, rDBConnectionParams, ProcessLog, Output);
-
   Result := EstSaidaPerg(nil, AppObj, FEstSaidaEnt, FEstSaidaDBI,
-    oDBConnection);
+    FDBConnection);
 end;
 
 procedure TAppEstSaidaDataSetForm.RecordToEnt;
@@ -254,24 +285,30 @@ begin
   FEstSaidaEnt.EstSaidaId := FDMemTable.Fields[3 { EST_SAIDA_ID } ].AsInteger;
 
   FEstSaidaEnt.CriadoEm := FDMemTable.Fields[5 { CRIADO_EM } ].AsDateTime; //
-  FEstSaidaEnt.SaidaMotivoId := FDMemTable.Fields[6 { EST_SAIDA_MOTIVO_ID } ].AsInteger; //
-  FEstSaidaEnt.SaidaMotivoDescr := FDMemTable.Fields[7 { EST_SAIDA_MOTIVO_DESCR } ].AsString; //
-  FEstSaidaEnt.Finalizado := FDMemTable.Fields[8 { FINALIZADO } ].AsBoolean; //;
-  FEstSaidaEnt.FinalizadoEm := FDMemTable.Fields[9 { FINALIZADO_EM } ].AsDateTime; //
+  FEstSaidaEnt.SaidaMotivoId := FDMemTable.Fields[6 { EST_SAIDA_MOTIVO_ID } ]
+    .AsInteger; //
+  FEstSaidaEnt.SaidaMotivoDescr := FDMemTable.Fields
+    [7 { EST_SAIDA_MOTIVO_DESCR } ].AsString; //
+  FEstSaidaEnt.Finalizado := FDMemTable.Fields[8 { FINALIZADO } ].AsBoolean;
+  // ;
+  FEstSaidaEnt.FinalizadoEm := FDMemTable.Fields[9 { FINALIZADO_EM } ]
+    .AsDateTime; //
   FEstSaidaEnt.Cancelado := FDMemTable.Fields[10 { CANCELADO } ].AsBoolean; //
-  FEstSaidaEnt.CanceladoEm := FDMemTable.Fields[11 { CANCELADO_EM } ].AsDateTime; //
-//  FDMemTable.Fields[12 { CRIADO_POR_ID } ].AsInteger := 0;
-//  FDMemTable.Fields[13 { CRIADO_POR_APELIDO } ].AsString := '';
-//  FDMemTable.Fields[14 { CANCELADO_POR_ID } ].AsInteger := 0; //
-//  FDMemTable.Fields[15 { CANCELADO_POR_APELIDO } ].AsString := ''; //
-//  FDMemTable.Fields[16 { FINALIZADO_POR_ID } ].AsInteger := 0; //
-//  FDMemTable.Fields[17 { FINALIZADO_POR_APELIDO } ].AsString := ''; //
+  FEstSaidaEnt.CanceladoEm := FDMemTable.Fields[11 { CANCELADO_EM } ]
+    .AsDateTime; //
+  // FDMemTable.Fields[12 { CRIADO_POR_ID } ].AsInteger := 0;
+  // FDMemTable.Fields[13 { CRIADO_POR_APELIDO } ].AsString := '';
+  // FDMemTable.Fields[14 { CANCELADO_POR_ID } ].AsInteger := 0; //
+  // FDMemTable.Fields[15 { CANCELADO_POR_APELIDO } ].AsString := ''; //
+  // FDMemTable.Fields[16 { FINALIZADO_POR_ID } ].AsInteger := 0; //
+  // FDMemTable.Fields[17 { FINALIZADO_POR_APELIDO } ].AsString := ''; //
 end;
 
 procedure TAppEstSaidaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  InsAction_DatasetTabSheet.Execute;
+  //InsAction_DatasetTabSheet.Execute;
+
 end;
 
 procedure TAppEstSaidaDataSetForm.ToolBar1CrieBotoes;
