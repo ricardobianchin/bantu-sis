@@ -17,6 +17,7 @@ type
     DetailPanel: TPanel;
     DetailTimer: TTimer;
     CancAction_DatasetTabSheet: TAction;
+    CancItemAction_DatasetTabSheet: TAction;
     procedure DetailTimerTimer(Sender: TObject);
     procedure CancAction_DatasetTabSheetExecute(Sender: TObject);
   private
@@ -24,6 +25,9 @@ type
     FEstFiltroFrame: TEstFiltroFrame;
     FDBConnection: IDBConnection;
     FEstMovDBI: IEstMovDBI;
+
+    FDMemTableCANCELADO: TField;
+    FDMemTableFinalizado: TField;
     procedure DispareDetailTimer;
 
   protected
@@ -40,6 +44,12 @@ type
     property DBConnection: IDBConnection read FDBConnection;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); override;
     procedure DetailCarregar; virtual;
+
+    property DMemTableCANCELADO: TField read FDMemTableCANCELADO;
+    property DMemTableFINALIZADO: TField read FDMemTableFINALIZADO;
+
+
+//    property EstMovDBI: IEstMovDBI read FEstMovDBI;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -72,11 +82,18 @@ var
   iEstMovId: Int64;
 
   sCod: string;
+  sMens: string;
 begin
   inherited;
   if FDMemTable.IsEmpty then
   begin
-    ShowMessage('Não há registro a cancelar');
+    ShowMessage('Não há registro de nota a cancelar');
+    exit;
+  end;
+
+  if FDMemTableCANCELADO.AsBoolean then
+  begin
+    ShowMessage('Nota já está cancelada');
     exit;
   end;
 
@@ -86,15 +103,16 @@ begin
 
   sCod := FDMemTable.Fields[4 { COD } ].AsString;
 
-  bResultado := App.UI.Form.Perg_u.Perg('Cancelar nota ' + sCod + '?',
-    'Daros PDV', TBooleanDefault.boolFalse);
+  sMens := 'Cancelar nota ' + sCod + '?';
+  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV',
+    TBooleanDefault.boolFalse);
 
   if not bResultado then
     exit;
 
   FEstMovDBI.EstMovCancele(iLojaId, iTerminalId, iEstMovId);
   FDMemTable.Edit;
-  FDMemTable.FieldByName('CANCELADO').AsBoolean := True;
+  FDMemTableCANCELADO.AsBoolean := True;
   FDMemTable.Post;
 end;
 
@@ -115,6 +133,8 @@ begin
     AppObj.SisConfig, rDBConnectionParams, ProcessLog, Output);
 
   InsAction_DatasetTabSheet.Caption := 'Nova Nota';
+  FDMemTableCANCELADO := FDMemTable.FindField('CANCELADO');
+  FDMemTableFINALIZADO := FDMemTable.FindField('FINALIZADO');
 end;
 
 procedure TAppEstDataSetForm.DetailCarregar;

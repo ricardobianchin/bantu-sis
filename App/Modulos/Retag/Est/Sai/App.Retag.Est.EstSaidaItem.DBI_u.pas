@@ -44,7 +44,7 @@ begin
     + '  FROM PROD'#13#10 //
     + ')'#13#10 //
     + 'SELECT'#13#10 //
-    + '  EIT.ORDEM,'#13#10 //0
+    + '  EIT.ORDEM + 1 EORDEM,'#13#10 //0
     + '  P.PROD_ID,'#13#10 //1
     + '  P.DESCR_RED,'#13#10 //2
     + '  FA.NOME FABR_NOME,'#13#10 //3

@@ -32,6 +32,9 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
       Caption = 'Cancelar Nota'
       OnExecute = CancAction_DatasetTabSheetExecute
     end
+    object CancItemAction_DatasetTabSheet: TAction
+      Caption = 'Cancelar Item'
+    end
   end
   object DetailTimer: TTimer
     Enabled = False

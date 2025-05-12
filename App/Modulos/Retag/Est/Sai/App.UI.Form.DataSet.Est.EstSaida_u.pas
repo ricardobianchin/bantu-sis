@@ -12,13 +12,14 @@ uses
   App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.EstSaida.Ent, App.Retag.Est.EstSaida.DBI,
   App.UI.Fram.DBGrid.Est.EstSaidaItem_u, App.Retag.Est.EstSaidaItem.DBI_u,
-  Sis.DBI;
+  Sis.DBI, App.UI.Form.Perg_u;
 
 type
   TAppEstSaidaDataSetForm = class(TAppEstDataSetForm)
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure CancItemAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -58,7 +59,7 @@ implementation
 uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
   App.Retag.Est.Factory, Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg,
   App.UI.Form.Retag.Excl_u, Sis.DB.DataSet.Utils, Sis.Entities.Types, Sis.Types,
-  Sis.UI.Controls.Utils, Sis.Sis.Constants;
+  Sis.UI.Controls.Utils, Sis.Sis.Constants, Sis.Types.Utils_u;
 
 { TAppEstSaidaDataSetForm }
 
@@ -97,6 +98,67 @@ begin
   end;
 
   inherited;
+end;
+
+procedure TAppEstSaidaDataSetForm.CancItemAction_DatasetTabSheetExecute(
+  Sender: TObject);
+var
+  bResultado: boolean;
+
+  i: integer;
+
+  iLojaId: TLojaId;
+  iTerminalId: TTerminalId;
+  iEstMovId: Int64;
+  iOrdem: SmallInt;
+
+  sCod: string;
+  sMens: string;
+  ItemCanceladoField: TField;
+begin
+  inherited;
+  if FDMemTable.IsEmpty then
+  begin
+    ShowMessage('Não há registro de nota a cancelar');
+    exit;
+  end;
+
+  if FEstSaidaItemDBGridFrame.FDMemTable1.IsEmpty then
+  begin
+    ShowMessage('Não há registro de item a cancelar');
+    exit;
+  end;
+
+  ItemCanceladoField := FEstSaidaItemDBGridFrame.FDMemTable1.FindField('CANCELADO');
+
+  if ItemCanceladoField.AsBoolean then
+  begin
+    ShowMessage('Item já cancelado');
+    exit;
+  end;
+
+  iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
+  iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
+  iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
+  iOrdem := FEstSaidaItemDBGridFrame.FDMemTable1.Fields[0 {ORDEM}].AsInteger;
+
+  sCod := FDMemTable.Fields[4 { COD } ].AsString;
+
+  sMens := 'Nota ' + sCod + ', item ' +iOrdem.ToString+', deseja excluí?';
+  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV',
+    TBooleanDefault.boolFalse);
+
+
+  bResultado := App.UI.Form.Perg_u.Perg('Cancelar nota ' + sCod + '?',
+    'Daros PDV', TBooleanDefault.boolFalse);
+
+  if not bResultado then
+    exit;
+
+  FEstSaidaDBI.EstMovCanceleItem(iLojaId, iTerminalId, iEstMovId, iOrdem);
+  FDMemTable.Edit;
+  ItemCanceladoField.AsBoolean := True;
+  FDMemTable.Post;
 end;
 
 constructor TAppEstSaidaDataSetForm.Create(AOwner: TComponent;
@@ -315,6 +377,7 @@ begin
   inherited;
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(CancItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 
 //  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;

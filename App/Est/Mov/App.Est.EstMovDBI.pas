@@ -9,6 +9,8 @@ type
     ['{D07C3BB6-2982-4E20-BC88-0F28100C4FE3}']
     procedure EstMovCancele(pLojaId: TLojaId; pTerminalId: TTerminalId;
       pEstMovId: Int64);
+    procedure EstMovCanceleItem(pLojaId: TLojaId; pTerminalId: TTerminalId;
+      pEstMovId: Int64; pOrdem: SmallInt);
   end;
 
 implementation
