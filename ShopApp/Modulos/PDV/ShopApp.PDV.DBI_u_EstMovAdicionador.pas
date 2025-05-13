@@ -4,7 +4,7 @@ interface
 
 uses App.AppObj, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem, Sis.DB.DBTypes,
   Sis.Terminal, Sis.Entities.Types, Data.DB, App.PDV.Obj, FireDAC.Stan.Param,
-  App.Est.Prod;
+  App.Est.Prod, Sis.Types;
 
 type
   /// <summary>
@@ -19,6 +19,7 @@ type
     FVenda: IShopPdvVenda;
     FDBConnection: IDBConnection;
     FPDVObj: IPDVObj;
+    FUsuarioId: TId;
 
     /// <summary>
     /// BusQ busca produto pela StrBusca.
@@ -69,13 +70,14 @@ type
       out pMensagem: string): IShopPDVVendaItem;
 
     constructor Create(pAppObj: IAppObj; pPDVObj: IPDVObj; pTerminal: ITerminal;
-      pShopPdvVenda: IShopPdvVenda; pDBConnection: IDBConnection);
+      pShopPdvVenda: IShopPdvVenda; pDBConnection: IDBConnection;
+      pUsuarioId: TId);
   end;
 
 implementation
 
-uses Sis.DB.Factory, Sis.Types.Floats, System.SysUtils, Sis.Types,
-  App.Est.Factory_u, ShopApp.PDV.Factory_u, Sis.Sis.Constants, System.Math,
+uses Sis.DB.Factory, Sis.Types.Floats, System.SysUtils, App.Est.Factory_u,
+  ShopApp.PDV.Factory_u, Sis.Sis.Constants, System.Math,
   ShopApp.PDV.Venda.Utils_u;
 
 { TPDVVendaItemAdicionador }
@@ -101,6 +103,10 @@ begin
   BusQ.Params[7].AsCurrency := uQtd;
   BusQ.Params[8].AsString := sBusca;
   BusQ.Params[9].AsBoolean := FPDVObj.Balanca.Habilitada;
+
+  BusQ.Params[10].AsInteger := FUsuarioId;
+  BusQ.Params[11].AsSmallInt := FAppObj.SisConfig.LocalMachineId.IdentId;
+  BusQ.Params[12].AsString := Chr(34);
 end;
 
 procedure TPDVVendaItemAdicionador.BusQToVendaCabec;
@@ -124,7 +130,7 @@ end;
 
 constructor TPDVVendaItemAdicionador.Create(pAppObj: IAppObj; pPDVObj: IPDVObj;
   pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda;
-  pDBConnection: IDBConnection);
+  pDBConnection: IDBConnection; pUsuarioId: TId);
 begin
   FAppObj := pAppObj;
   FPDVObj := pPDVObj;
@@ -133,6 +139,7 @@ begin
   FDBConnection := pDBConnection;
   BusQ := BuscaQCreate;
   PesoQ := AddItemPesoQCreate;
+  FUsuarioId := pUsuarioId;
 end;
 
 procedure TPDVVendaItemAdicionador.TentaInserirVendaItem;
@@ -168,8 +175,8 @@ begin
     , PrecoUnit //
     , PrecoBruto //
 
-    , desconto //
-    , PrecoLiquido //
+    , Desconto //
+    , PrecoLIquido //
 
     , False // pEstMovItemCancelado
     , DATA_ZERADA // pEstMovItemCriadoEm
@@ -249,6 +256,11 @@ begin
     + ', :DESCONTO'#13#10 // 15
     + ', :PRECO'#13#10 // 16
     + ', :LOG_STR'#13#10 // 17
+
+    + ', :LOG_PESSOA_ID'#13#10 // 18
+    + ', :MACHINE_ID'#13#10 // 19
+    + ', :MODULO_SIS_ID'#13#10 // 20
+
     + ');';
 
   // {$IFDEF DEBUG}
@@ -304,6 +316,10 @@ begin
     + ', :STR_BUSCA'#13#10 // 8
     + ', :BALANCA_HABILITADA'#13#10 // 9
 
+    + ', :LOG_PESSOA_ID'#13#10 // 10
+    + ', :MACHINE_ID'#13#10 // 11
+    + ', :MODULO_SIS_ID'#13#10 // 12
+
     + ');';
 
   // {$IFDEF DEBUG}
@@ -343,9 +359,12 @@ begin
   Params[13].AsCurrency := PrecoUnit;
   Params[14].AsCurrency := PrecoBruto;
   Params[15].AsCurrency := Desconto;
-  Params[16].AsCurrency := PrecoLiquido;
+  Params[16].AsCurrency := PrecoLIquido;
   Params[17].AsString := 'PDV ADD PESO';
 
+  Params[18].AsInteger := FUsuarioId;
+  Params[19].AsSmallInt := FAppObj.SisConfig.LocalMachineId.IdentId;
+  Params[20].AsString := Chr(34);
 end;
 
 procedure TPDVVendaItemAdicionador.PesoQToVendaCabec;
@@ -369,7 +388,7 @@ var
 begin
   Result := nil;
 
-  SepareBuscaStr( pStrBusca, sBusca, uQtd);
+  SepareBuscaStr(pStrBusca, sBusca, uQtd);
   FDBConnection.Abrir;
   try
     BuscaQParmsPreencher;
@@ -413,7 +432,7 @@ begin
 
     PrecoBruto := RoundTo(uQtd * PrecoUnit, -2);
     Desconto := 0;
-    PrecoLiquido := PrecoBruto - Desconto;
+    PrecoLIquido := PrecoBruto - Desconto;
 
     PesoQParamsPreencher;
     PesoQ.Abrir;

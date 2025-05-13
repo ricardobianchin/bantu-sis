@@ -89,7 +89,7 @@ end;
 function TShopPDVModuloForm.PDVDBICreate: IAppPDVDBI;
 begin
   FShopAppPDVDBI := ShopAppPDVDBICreate(TermDBConnection, AppObj, PDVObj,
-    Terminal, FShopPDVVenda);
+    Terminal, FShopPDVVenda, LogUsuario.Id);
 
   Result := FShopAppPDVDBI;
 end;

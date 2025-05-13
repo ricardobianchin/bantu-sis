@@ -4,8 +4,9 @@ interface
 
 uses ShopApp.PDV.DBI, App.PDV.DBI_u, ShopApp.PDV.Venda, ShopApp.PDV.VendaItem,
   Sis.DB.DBTypes, App.AppObj, Sis.Terminal, Sis.Types.Floats, Data.DB,
-  ShopApp.PDV.Factory_u, App.Est.Venda.Caixa.CaixaSessao,
-  ShopApp.PDV.DBI_u_EstMovAdicionador, App.PDV.Obj, ShopApp.PDV.Venda.Engat_u;
+  ShopApp.PDV.Factory_u, App.Est.Venda.Caixa.CaixaSessao, Sis.Entities.Types,
+  Sis.Types, ShopApp.PDV.DBI_u_EstMovAdicionador, App.PDV.Obj,
+  ShopApp.PDV.Venda.Engat_u;
 
 type
   TShopAppPDVDBI = class(TAppPDVDBI, IShopAppPDVDBI)
@@ -13,6 +14,7 @@ type
     FShopPdvVenda: IShopPdvVenda;
     FEstMovAdicionador: TPDVVendaItemAdicionador;
     FPDVObj: IPDVObj;
+    FUsuarioId: TId;
 
     function RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;
     procedure RecordPreencheVenda(q: TDataSet);
@@ -36,15 +38,16 @@ type
       out pEncontrado: Boolean; out pMens: string);
 
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
-      pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda);
+      pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPdvVenda: IShopPdvVenda;
+      pUsuarioId: TId);
     destructor Destroy; override;
 
   end;
 
 implementation
 
-uses Sis.Win.Utils_u, System.SysUtils, Sis.Entities.Types,
-  App.Est.Prod, App.Est.Factory_u, Sis.Sis.Constants, App.Est.Types_u,
+uses Sis.Win.Utils_u, System.SysUtils, App.Est.Prod, App.Est.Factory_u,
+  Sis.Sis.Constants, App.Est.Types_u,
   Sis.DB.Factory;
 
 { TShopAppPDVDBI }
@@ -88,13 +91,14 @@ end;
 
 constructor TShopAppPDVDBI.Create(pDBConnection: IDBConnection;
   pAppObj: IAppObj; pPDVObj: IPDVObj; pTerminal: ITerminal;
-  pShopPdvVenda: IShopPdvVenda);
+  pShopPdvVenda: IShopPdvVenda; pUsuarioId: TId);
 begin
   inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda);
   FShopPdvVenda := pShopPdvVenda;
   FPDVObj := pPDVObj;
+  FUsuarioId := pUsuarioId;
   FEstMovAdicionador := TPDVVendaItemAdicionador.Create(AppObj, pPDVObj,
-    Terminal, FShopPdvVenda, DBConnection);
+    Terminal, FShopPdvVenda, DBConnection, FUsuarioId);
 end;
 
 destructor TShopAppPDVDBI.Destroy;

@@ -61,8 +61,8 @@ function VendaAppCastToShopApp(pPdvVenda: IPdvVenda): IShopPDVVenda;
 function DBIAppCastToShopApp(pAppPDVDBI: IAppPDVDBI): IShopAppPDVDBI;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda)
-  : IShopAppPDVDBI;
+  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda;
+  pUsuario: TId): IShopAppPDVDBI;
 
 function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
@@ -72,12 +72,13 @@ function ShopPagPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
   pPdvVenda: IPdvVenda; pAppPDVDBI: IAppPDVDBI;
   pPDVControlador: IPDVControlador): TPagPDVFrame;
 
-function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid; pMedeFontesPaintBox: TPaintBox)
-  : IShopFitaDraw;
+function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid;
+  pMedeFontesPaintBox: TPaintBox): IShopFitaDraw;
 
 function ShopPdvObjCreate(pTerminal: ITerminal): IShopPDVObj;
 
-function ShopProdSelectDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj): IDBI;
+function ShopProdSelectDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj): IDBI;
 
 implementation
 
@@ -193,11 +194,11 @@ begin
 end;
 
 function ShopAppPDVDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda)
-  : IShopAppPDVDBI;
+  pPDVObj: IPDVObj; pTerminal: ITerminal; pShopPDVVenda: IShopPDVVenda;
+  pUsuario: TId): IShopAppPDVDBI;
 begin
   Result := TShopAppPDVDBI.Create(pDBConnection, pAppObj, pPDVObj, pTerminal,
-    pShopPDVVenda);
+    pShopPDVVenda, pUsuario);
 end;
 
 function ShopVendaPDVFrameCreate(AOwner: TComponent; pShopPDVObj: IShopPDVObj;
@@ -216,8 +217,8 @@ begin
     pPDVControlador);
 end;
 
-function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid; pMedeFontesPaintBox: TPaintBox)
-  : IShopFitaDraw;
+function FitaDrawCreate(pVenda: IShopPDVVenda; pStringGrid: TStringGrid;
+  pMedeFontesPaintBox: TPaintBox): IShopFitaDraw;
 begin
   Result := TShopFitaDraw.Create(pVenda, pStringGrid, pMedeFontesPaintBox);
 end;
@@ -227,7 +228,8 @@ begin
   Result := TShopPDVObj.Create(pTerminal);
 end;
 
-function ShopProdSelectDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj): IDBI;
+function ShopProdSelectDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj): IDBI;
 begin
   Result := TShopProdSelectDBI.Create(pDBConnection, pAppObj);
 end;
