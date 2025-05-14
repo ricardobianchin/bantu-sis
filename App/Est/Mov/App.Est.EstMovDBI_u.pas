@@ -3,7 +3,7 @@ unit App.Est.EstMovDBI_u;
 interface
 
 uses App.Ent.DBI_u, App.Est.EstMovDBI, Sis.Entities.Types, Sis.Types,
-  Sis.DB.DBTypes, App.Ent.Ed, App.AppObj;
+  Sis.DB.DBTypes, App.Ent.Ed, App.AppObj, App.Est.EstMovItem;
 
 type
   TEstMovDBI = class(TEntDBI, IEstMovDBI)
@@ -14,94 +14,130 @@ type
     property UsuarioId: TId read FUsuarioId;
     property AppObj: IAppObj read FAppObj;
   public
-    procedure EstMovCancele(pLojaId: TLojaId; pTerminalId: TTerminalId;
-      pEstMovId: Int64);
-    procedure EstMovCanceleItem(pLojaId: TLojaId; pTerminalId: TTerminalId;
-      pEstMovId: Int64; pOrdem: SmallInt);
+    procedure EstMovCancele(out pCanceladoEm: TDateTime; out pErroDeu: Boolean;
+      out pErroMens: string; pLojaId: TLojaId; pEstMovId: Int64;
+      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
+
+    procedure EstMovCanceleItem(out pErroDeu: Boolean; out pErroMens: string;
+      pLojaId: TLojaId; pEstMovId: Int64; pOrdem: SmallInt;
+      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
+
     constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
       pAppObj: IAppObj; pUsuarioId: TId);
   end;
 
 implementation
 
-uses System.SysUtils;
+uses System.SysUtils, Data.DB;
 
 { TEstMovDBI }
 
 constructor TEstMovDBI.Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
-      pAppObj: IAppObj; pUsuarioId: TId);
+  pAppObj: IAppObj; pUsuarioId: TId);
 begin
   inherited Create(pDBConnection, pEntEd);
   FUsuarioId := pUsuarioId;
   FAppObj := pAppObj;
 end;
 
-procedure TEstMovDBI.EstMovCancele(pLojaId: TLojaId; pTerminalId: TTerminalId;
-  pEstMovId: Int64);
+procedure TEstMovDBI.EstMovCancele(out pCanceladoEm: TDateTime;
+  out pErroDeu: Boolean; out pErroMens: string; pLojaId: TLojaId;
+  pEstMovId: Int64; pTerminalId: TTerminalId;
+  pModuloSisId: Char);
 var
-  sSql: String;
-  sMens: string;
-  Result: Boolean;
+  sSql: string;
+  q: TDataSet;
+  sMachId: string;
 begin
+  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
+
   sSql := //
-    'UPDATE EST_MOV SET'#13#10 //
-    + 'CANCELADO=TRUE'#13#10 //
-    + 'WHERE'#13#10 //
-    + 'LOJA_ID=' + pLojaId.ToString + #13#10 //
-    + 'AND TERMINAL_ID=' + pTerminalId.ToString + #13#10 //
-    + 'AND EST_MOV_ID=' + pEstMovId.ToString + #13#10 //
-    ;
-  // 'UPDATE EST_MOV SET EST_MOV_TIPO_ID='', DTH_DOC='', FINALIZADO=FALSE, CANCELADO=FALSE, CRIADO_EM='', ALTERADO_EM='1.1.1900', FINALIZADO_EM='1.1.1900', CANCELADO_EM='1.1.1900' WHERE LOJA_ID=0 AND TERMINAL_ID=0 AND EST_MOV_ID=0;
+    'SELECT'#13#10 //
 
-  Result := False;
+    + 'CANCELADO_EM'#13#10 //
 
-  Result := DBConnection.Abrir;
-  if not Result then
+    + 'FROM EST_MOV_MANUT_PA.EST_MOV_CANCELE'#13#10 //
+
+    + '('#13#10 //
+    + '  ' + pLojaId.ToString + ' -- LOJA_ID'#13#10 //
+    + '  , ' + pTerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+    + '  , ' + pEstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+    + '  , ' + QuotedStr(pModuloSisId) + ' -- MODULO_SIS_ID'#13#10 //
+
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+
+  pErroDeu := not DBConnection.Abrir;
+  if pErroDeu then
   begin
-    sMens := DBConnection.UltimoErro;
+    pErroMens := 'Erro ao tentar cancelar Nota. ' + DBConnection.UltimoErro;
     exit;
   end;
 
   try
-    DBConnection.ExecuteSQL(sSql);
+    DBConnection.QueryDataSet(sSql, q);
+    pCanceladoEm := q.Fields[0].AsDateTime;
   finally
     DBConnection.Fechar;
-    Result := True;
   end;
 end;
 
-procedure TEstMovDBI.EstMovCanceleItem(pLojaId: TLojaId;
-  pTerminalId: TTerminalId; pEstMovId: Int64; pOrdem: SmallInt);
+procedure TEstMovDBI.EstMovCanceleItem(out pErroDeu: Boolean;
+  out pErroMens: string; pLojaId: TLojaId; pEstMovId: Int64;
+  pOrdem: SmallInt; pTerminalId: TTerminalId; pModuloSisId: Char);
 var
-  sSql: String;
-  sMens: string;
-  Result: Boolean;
+  sSql: string;
+  dCanceladoEm: TDateTime;
+  q: TDataSet;
+  sMachId: string;
 begin
-  sSql := //
-    'UPDATE EST_MOV_ITEM SET'#13#10 //
-    + 'CANCELADO=TRUE'#13#10 //
-    + 'WHERE'#13#10 //
-    + 'LOJA_ID=' + pLojaId.ToString + #13#10 //
-    + 'AND TERMINAL_ID=' + pTerminalId.ToString + #13#10 //
-    + 'AND EST_MOV_ID=' + pEstMovId.ToString + #13#10 //
-    + 'AND ORDEM=' + pOrdem.ToString + #13#10 //
-    ;
-  // 'UPDATE EST_MOV SET EST_MOV_TIPO_ID='', DTH_DOC='', FINALIZADO=FALSE, CANCELADO=FALSE, CRIADO_EM='', ALTERADO_EM='1.1.1900', FINALIZADO_EM='1.1.1900', CANCELADO_EM='1.1.1900' WHERE LOJA_ID=0 AND TERMINAL_ID=0 AND EST_MOV_ID=0;
-
-  Result := False;
-
-  Result := DBConnection.Abrir;
-  if not Result then
-  begin
-    sMens := DBConnection.UltimoErro;
-    exit;
-  end;
+  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 
   try
-    DBConnection.ExecuteSQL(sSql);
-  finally
-    DBConnection.Fechar;
-    Result := True;
+    sSql := //
+      'SELECT CANCELADO_EM_RET'#13#10 //
+      + 'FROM EST_MOV_MANUT_PA.EST_MOV_ITEM_CANCELE'#13#10 //
+      + '('#13#10 //
+      + '  ' + pLojaId.ToString + ' -- LOJA_ID'#13#10 //
+      + '  , ' + pTerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+      + '  , ' + pEstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+      + '  , ' + pOrdem.ToString + ' -- ORDEM'#13#10 //
+
+      + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+      + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+      + '  , ' + QuotedStr(pModuloSisId) + ' -- MODULO_SIS_ID'#13#10 //
+      + ');';
+
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
+
+    pErroDeu := not DBConnection.Abrir;
+    if pErroDeu then
+    begin
+      pErroMens := 'Erro ao tentar cancelar item. ' + DBConnection.UltimoErro;
+      exit;
+    end;
+
+    try
+      DBConnection.QueryDataSet(sSql, q);
+      dCanceladoEm := q.Fields[0].AsDateTime;
+    finally
+      DBConnection.Fechar;
+    end;
+  except
+    on e: Exception do
+    begin
+      pErroDeu := True;
+      pErroMens := 'Erro ao tentar cancelar item. ' + e.ClassName + ', ' +
+        e.Message;
+    end;
   end;
 end;
 

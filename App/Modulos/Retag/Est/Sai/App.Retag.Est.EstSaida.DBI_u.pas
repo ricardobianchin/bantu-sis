@@ -3,8 +3,9 @@ unit App.Retag.Est.EstSaida.DBI_u;
 interface
 
 uses App.Est.EstMovDBI_u, App.Retag.Est.EstSaida.DBI,
-  App.Retag.Est.EstSaida.Ent,
-  Data.DB, System.Classes, Sis.DB.DBTypes, Sis.Types.Dates;
+  App.Retag.Est.EstSaida.Ent, Sis.Entities.Types, Sis.Types,
+  Data.DB, System.Classes, Sis.DB.DBTypes, Sis.Types.Dates, App.AppObj,
+  Sis.Usuario;
 
 type
   TEstSaidaDBI = class(TEstMovDBI, IEstSaidaDBI)
@@ -19,21 +20,20 @@ type
 
     procedure SaidaMotivoPrepareLista(pSL: TStrings);
 
-    constructor Create(pDBConnection: IDBConnection;
-      pEstSaidaEnt: IEstSaidaEnt);
+    constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
+      pEstSaidaEnt: IEstSaidaEnt; pUsuarioId: TId);
   end;
 
 implementation
 
-uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Entities.Types,
-  Sis.Types, Sis.Types.Floats;
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Types.Floats;
 
 { TEstSaidaDBI }
 
-constructor TEstSaidaDBI.Create(pDBConnection: IDBConnection;
-  pEstSaidaEnt: IEstSaidaEnt);
+constructor TEstSaidaDBI.Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
+  pEstSaidaEnt: IEstSaidaEnt; pUsuarioId: TId);
 begin
-  inherited Create(pDBConnection, pEstSaidaEnt);
+  inherited Create(pDBConnection, pEstSaidaEnt, pAppObj, pUsuarioId);
   FEstSaidaEnt := pEstSaidaEnt;
 end;
 
@@ -86,23 +86,29 @@ var
   i: integer;
   iItemProdId: TId;
   uItemQtd: Currency;
-
+  e: IEstSaidaEnt;
+  sMachId: string;
 begin
-  i := FEstSaidaEnt.ItemIndex;
-  iItemProdId := FEstSaidaEnt.Items[i].Prod.Id;
-  uItemQtd := FEstSaidaEnt.Items[i].Qtd;
+  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
+  e := FEstSaidaEnt;
+  i := e.ItemIndex;
+  iItemProdId := e.Items[i].Prod.Id;
+  uItemQtd := e.Items[i].Qtd;
 
   Result := 'SELECT EST_MOV_ID_RET, DTH_DOC_RET, EST_MOV_CRIADO_EM_RET,' +
     ' EST_MOV_ITEM_CRIADO_EM_RET, EST_SAIDA_ID_RET, ORDEM_RET, LOG_STR_RET' +
     ' FROM EST_SAIDA_PA.EST_SAIDA_ITEM_INS(' + //
-    FEstSaidaEnt.Loja.id.ToString + ',' + //
-    FEstSaidaEnt.TerminalId.ToString + ',' + //
-    FEstSaidaEnt.EstMovId.ToString + ',' + //
-    FEstSaidaEnt.EstSaidaId.ToString + ',' + //
-    FEstSaidaEnt.SaidaMotivoId.ToString + ',' + //
+    e.Loja.Id.ToString + ',' + //
+  // FEstSaidaEnt.TerminalId.ToString + ',' + //
+    e.EstMovId.ToString + ',' + //
+    e.EstSaidaId.ToString + ',' + //
+    e.SaidaMotivoId.ToString + ',' + //
     iItemProdId.ToString + ',' + //
     CurrencyToStrPonto(uItemQtd) + ',' + //
-    QuotedStr(FEstSaidaEnt.LogStr) + ');' //
+    QuotedStr(FEstSaidaEnt.LogStr) + ',' + //
+    UsuarioId.ToString + ',' + //
+    sMachId //
+    + ');' //
     ;
 end;
 
@@ -171,7 +177,7 @@ begin
   FEstSaidaEnt.CriadoEm := pNovaId[2];
   FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].CriadoEm := pNovaId[3];
   FEstSaidaEnt.EstSaidaId := pNovaId[4];
-  //FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].Ordem := pNovaId[5];
+  // FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].Ordem := pNovaId[5];
   FEstSaidaEnt.LogStr := pNovaId[6];
 end;
 

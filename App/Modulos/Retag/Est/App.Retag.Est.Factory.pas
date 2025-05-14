@@ -34,7 +34,6 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
 {$REGION 'est'}
 function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
 {$ENDREGION}
-
 {$REGION 'prod fabr'}
 function EntEdCastToProdFabrEnt(pEntEd: IEntEd): IProdFabrEnt;
 function EntDBICastToProdFabrDBI(pEntDBI: IEntDBI): IEntDBI;
@@ -235,7 +234,7 @@ function RetagEstSaidaEntCreate( //
   ): IEstSaidaEnt;
 
 function RetagEstSaidaEntDBICreate(pDBConnection: IDBConnection;
-  pEstSaidaEnt: IEntEd): IEntDBI;
+  pAppObj: IAppObj; pEstSaidaEnt: IEstSaidaEnt; pUsuarioId: TId): IEntDBI;
 
 function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI; pDBConnection: IDBConnection)
@@ -321,7 +320,6 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
     , App.UI.Form.Ed.Est.EstSaida_u //
     , App.Retag.Est.EstSaidaItem_u //
 {$ENDREGION}
-
 {$REGION 'uses est'}
     , App.Est.EstMovDBI_u
 {$ENDREGION}
@@ -745,9 +743,10 @@ begin
 end;
 
 function RetagEstSaidaEntDBICreate(pDBConnection: IDBConnection;
-  pEstSaidaEnt: IEntEd): IEntDBI;
+  pAppObj: IAppObj; pEstSaidaEnt: IEstSaidaEnt; pUsuarioId: TId): IEntDBI;
 begin
-  Result := TEstSaidaDBI.Create(pDBConnection, TEstSaidaEnt(pEstSaidaEnt));
+  Result := TEstSaidaDBI.Create(pDBConnection, pAppObj, pEstSaidaEnt,
+    pUsuarioId);
 end;
 
 function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
@@ -800,22 +799,19 @@ function RetagEstSaidaItemCreate( //
 var
   oProd: IProd;
 begin
-  oProd := ProdCreate( pId, pDescrRed, pFabrNome, pUnidSigla);
+  oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
   Result := TRetagEstSaiItem.Create(pOrdem, oProd, pQtd, pCriadoEm);
 end;
 
 {$ENDREGION}
-
 {$REGION 'est impl'}
+
 function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
 begin
   Result := TEstMovDBI(pEntDBI);
 end;
 {$ENDREGION}
-
 {$REGION 'xxx impl'}
 {$ENDREGION}
-
-
 
 end.

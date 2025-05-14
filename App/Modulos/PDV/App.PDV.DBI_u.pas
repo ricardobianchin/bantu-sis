@@ -332,6 +332,10 @@ begin
       + '  , ' + v.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
       + '  , ' + v.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
       + '  , ' + pEstMovItem.Ordem.ToString + ' -- ORDEM'#13#10 //
+
+      + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+      + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+      + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
       + ');';
 
     // {$IFDEF DEBUG}

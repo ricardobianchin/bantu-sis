@@ -74,7 +74,7 @@ uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
 procedure TAppEstDataSetForm.CancAction_DatasetTabSheetExecute(Sender: TObject);
 var
   bResultado: boolean;
-var
+  bErroDeu: boolean;
   i: integer;
 
   iLojaId: TLojaId;
@@ -83,6 +83,7 @@ var
 
   sCod: string;
   sMens: string;
+  dCanceladoEm: TDateTime;
 begin
   inherited;
   if FDMemTable.IsEmpty then
@@ -110,7 +111,9 @@ begin
   if not bResultado then
     exit;
 
-  FEstMovDBI.EstMovCancele(iLojaId, iTerminalId, iEstMovId);
+  FEstMovDBI.EstMovCancele(dCanceladoEm, bErroDeu, sMens, iLojaId,
+    iEstMovId);
+
   FDMemTable.Edit;
   FDMemTableCANCELADO.AsBoolean := True;
   FDMemTable.Post;
