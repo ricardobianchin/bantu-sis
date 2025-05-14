@@ -4,7 +4,7 @@ interface
 
 uses Sis.DBI_u, App.PDV.DBI, App.AppObj, Sis.DB.DBTypes, Sis.Terminal,
   App.PDV.Venda, App.PDV.VendaPag, App.PDV.VendaPag_u, App.PDV.VendaPag.List_u,
-  FireDAC.Comp.Client, Sis.Types;
+  FireDAC.Comp.Client, Sis.Types, App.Est.EstMovItem;
 
 type
   TAppPDVDBI = class(TDBI, IAppPDVDBI)
@@ -12,6 +12,7 @@ type
     FAppObj: IAppObj;
     FTerminal: ITerminal;
     FPdvVenda: IPDVVenda;
+    FUsuarioId: TId;
   protected
     property AppObj: IAppObj read FAppObj;
     property Terminal: ITerminal read FTerminal;
@@ -19,6 +20,7 @@ type
 
     procedure InsiraPagItens; virtual;
     procedure InsiraEstItens; virtual;
+    property UsuarioId: TId read FUsuarioId;
   public
     procedure PagSomenteDinheiro;
     procedure PagInserir(PAGAMENTO_FORMA_ID: TId; VALOR_DEVIDO, VALOR_ENTREGUE,
@@ -29,8 +31,12 @@ type
     procedure VendaFinalize;
 
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
-      pTerminal: ITerminal; pPdvVenda: IPDVVenda);
+      pTerminal: ITerminal; pPdvVenda: IPDVVenda; pUsuarioId: TId); reintroduce;
+
     procedure EstMovCancele(out pCanceladoEm: TDateTime; out pErroDeu: boolean;
+      out pErroMensagem: string);
+
+    procedure EstMovItemCancele(pEstMovItem: IEstMovItem;  out pErroDeu: boolean;
       out pErroMensagem: string);
   end;
 
@@ -42,12 +48,13 @@ uses Data.DB, System.SysUtils, Sis.Entities.Types, App.PDV.Factory_u,
 { TAppPDVDBI }
 
 constructor TAppPDVDBI.Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
-  pTerminal: ITerminal; pPdvVenda: IPDVVenda);
+  pTerminal: ITerminal; pPdvVenda: IPDVVenda; pUsuarioId: TId);
 begin
   inherited Create(pDBConnection);
   FAppObj := pAppObj;
   FTerminal := pTerminal;
   FPdvVenda := pPdvVenda;
+  FUsuarioId := pUsuarioId;
 end;
 
 procedure TAppPDVDBI.PagInserir(PAGAMENTO_FORMA_ID: TId;
@@ -219,8 +226,10 @@ var
   sSql: string;
   V: IPDVVenda;
   q: TDataSet;
+  sMachId: string;
 begin
   V := FPdvVenda;
+  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 
   sSql := //
     'SELECT'#13#10 //
@@ -230,12 +239,16 @@ begin
     + ', CUSTO_TOTAL_RET'#13#10 //
     + ', TOTAL_LIQUIDO_RET'#13#10 //
 
-    + 'FROM VENDA_PDV_INS_PA.FINALIZE'#13#10 //
+    + 'FROM VENDA_PDV_INS_PA.FINALIZE_E_TOTALIZE'#13#10 //
 
     + '('#13#10 //
     + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+    + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
     + ');';
 
   // {$IFDEF DEBUG}
@@ -256,31 +269,104 @@ var
   sSql: string;
   V: IPDVVenda;
   q: TDataSet;
+  sMachId: string;
 begin
   V := FPdvVenda;
+  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 
   sSql := //
     'SELECT'#13#10 //
 
     + 'CANCELADO_EM'#13#10 //
 
-    + 'FROM EST_MOV_MANUT_PA.CANCELE'#13#10 //
+    + 'FROM EST_MOV_MANUT_PA.EST_MOV_CANCELE'#13#10 //
 
     + '('#13#10 //
     + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+    + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
+
     + ');';
 
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}
 
-  DBConnection.Abrir;
+  pErroDeu := not DBConnection.Abrir;
+  if pErroDeu then
+  begin
+    pErroMensagem := DBConnection.UltimoErro;
+    exit;
+  end;
+
   try
     DBConnection.QueryDataSet(sSql, q);
+    pCanceladoEm := q.Fields[0].AsDateTime;
   finally
     DBConnection.Fechar;
+  end;
+end;
+
+procedure TAppPDVDBI.EstMovItemCancele(pEstMovItem: IEstMovItem;
+  out pErroDeu: boolean; out pErroMensagem: string);
+var
+  sSql: string;
+  dCanceladoEm: TDateTime;
+  V: IPDVVenda;
+  q: TDataSet;
+  sMachId: string;
+begin
+  V := FPdvVenda;
+  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
+
+  try
+    sSql := //
+      'SELECT CANCELADO_EM_RET'#13#10 //
+      + 'FROM EST_MOV_MANUT_PA.EST_MOV_ITEM_CANCELE'#13#10 //
+      + '('#13#10 //
+      + '  ' + v.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
+      + '  , ' + v.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+      + '  , ' + v.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+      + '  , ' + pEstMovItem.Ordem.ToString + ' -- ORDEM'#13#10 //
+      + ');';
+
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
+
+    pErroDeu := not DBConnection.Abrir;
+    if pErroDeu then
+    begin
+      pErroMensagem := 'Erro ao tentar cancelar item. ' + DBConnection.UltimoErro;
+      exit;
+    end;
+
+    try
+      DBConnection.QueryDataSet(sSql, q);
+      dCanceladoEm := q.Fields[0].AsDateTime;
+    finally
+      DBConnection.Fechar;
+    end;
+
+    try
+      pEstMovItem.Cancelado := True;
+      pEstMovItem.CanceladoEm := dCanceladoEm;
+      pEstMovItem.AlteradoEm := dCanceladoEm;
+      pEstMovItem.AlteradoEm := dCanceladoEm;
+    finally
+      DBConnection.Fechar;
+    end;
+  except
+    on e: Exception do
+    begin
+      pErroDeu := True;
+      pErroMensagem := 'Erro ao tentar cancelar item. ' + e.ClassName + ', ' +
+        e.Message;
+    end;
   end;
 end;
 

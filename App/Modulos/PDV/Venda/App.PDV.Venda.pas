@@ -52,10 +52,6 @@ type
     procedure SetEntregaEm(Value: TDateTime);
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
 
-    function GetVendaAlteradoEm: TDateTime;
-    procedure SetVendaAlteradoEm(Value: TDateTime);
-    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm write SetVendaAlteradoEm;
-
     function GetVendaPagList: IVendaPagList;
     property VendaPagList: IVendaPagList read GetVendaPagList;
 

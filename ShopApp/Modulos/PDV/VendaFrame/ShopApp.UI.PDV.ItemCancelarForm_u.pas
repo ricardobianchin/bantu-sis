@@ -126,7 +126,7 @@ begin
   CancelarStatusLabel.Caption := 'Cancelando...';
   CancelarStatusLabel.Repaint;
 
-  FShopAppPDVDBI.ItemCancelar(FItem, bExecutouOk, sMensagem);
+  FShopAppPDVDBI.EstMovItemCancele(FItem, bExecutouOk, sMensagem);
 
   if not bExecutouOk then
   begin

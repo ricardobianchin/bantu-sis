@@ -14,7 +14,6 @@ type
     FShopPdvVenda: IShopPdvVenda;
     FEstMovAdicionador: TPDVVendaItemAdicionador;
     FPDVObj: IPDVObj;
-    FUsuarioId: TId;
 
     function RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;
     procedure RecordPreencheVenda(q: TDataSet);
@@ -30,9 +29,6 @@ type
 
     // PDV ABRIU, HAVIA VENDA INTERROMPIDA
     procedure CarregueVendaPendente(out pCarregou: Boolean);
-
-    procedure ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
-      out pExecutouOk: Boolean; out pMensagem: string);
 
     procedure StrBuscaToProd(pStrBusca: string; var pEngat: TVendaProdEngat;
       out pEncontrado: Boolean; out pMens: string);
@@ -93,12 +89,12 @@ constructor TShopAppPDVDBI.Create(pDBConnection: IDBConnection;
   pAppObj: IAppObj; pPDVObj: IPDVObj; pTerminal: ITerminal;
   pShopPdvVenda: IShopPdvVenda; pUsuarioId: TId);
 begin
-  inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda);
+  inherited Create(pDBConnection, pAppObj, pTerminal, pShopPdvVenda,
+    pUsuarioId);
   FShopPdvVenda := pShopPdvVenda;
   FPDVObj := pPDVObj;
-  FUsuarioId := pUsuarioId;
   FEstMovAdicionador := TPDVVendaItemAdicionador.Create(AppObj, pPDVObj,
-    Terminal, FShopPdvVenda, DBConnection, FUsuarioId);
+    Terminal, FShopPdvVenda, DBConnection, pUsuarioId);
 end;
 
 destructor TShopAppPDVDBI.Destroy;
@@ -205,7 +201,6 @@ begin
     + ', ENTREGA_TEM'#13#10 // 22
     + ', ENTREGADOR_PESSOA_ID'#13#10 // 23
     + ', ENTREGA_EM'#13#10 // 24
-    + ', VENDA_ALTERADO_EM'#13#10 // 25
 
     + 'FROM VENDA_PDV_INS_PA.PENDENTE_GET'#13#10 //
     + '('#13#10 //
@@ -246,53 +241,6 @@ begin
     end;
   finally
     q.Free;
-  end;
-end;
-
-procedure TShopAppPDVDBI.ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
-  out pExecutouOk: Boolean; out pMensagem: string);
-var
-  sSql: string;
-  v: IShopPdvVenda;
-  dCanceladoEm: TDateTime;
-begin
-  v := FShopPdvVenda;
-
-  try
-    sSql := //
-      'SELECT CANCELADO_EM_RET'#13#10 //
-      + 'FROM VENDA_PDV_INS_PA.CANCELAR_EST_MOV_ITEM'#13#10 //
-      + '('#13#10 //
-      + '  ' + v.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
-      + '  , ' + v.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
-      + '  , ' + v.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
-      + '  , ' + pShopPDVVendaItem.Ordem.ToString + ' -- ORDEM'#13#10 //
-      + ');';
-
-    // {$IFDEF DEBUG}
-    // CopyTextToClipboard(sSql);
-    // {$ENDIF}
-
-    pExecutouOk := DBConnection.Abrir;
-    try
-      dCanceladoEm := DBConnection.GetValueDateTime(sSql);
-
-      pShopPDVVendaItem.Cancelado := True;
-      pShopPDVVendaItem.CanceladoEm := dCanceladoEm;
-      pShopPDVVendaItem.AlteradoEm := dCanceladoEm;
-      FShopPdvVenda.AlteradoEm := dCanceladoEm;
-      FShopPdvVenda.VendaAlteradoEm := dCanceladoEm;
-    finally
-      DBConnection.Fechar;
-      pExecutouOk := True;
-    end;
-  except
-    on e: Exception do
-    begin
-      pExecutouOk := False;
-      pMensagem := 'Erro ao tentar cancelar item. ' + e.ClassName + ', ' +
-        e.Message;
-    end;
   end;
 end;
 
@@ -346,7 +294,6 @@ begin
   v.EntregaTem := q.Fields[22 { ENTREGA_TEM } ].AsBoolean;
   v.EntregadorId := q.Fields[23 { ENTREGADOR_PESSOA_ID } ].AsInteger;
   v.EntregaEm := q.Fields[24 { ENTREGA_EM } ].AsDateTime;
-  v.VendaAlteradoEm := q.Fields[25 { VENDA_ALTERADO_EM } ].AsDateTime;
 end;
 
 function TShopAppPDVDBI.RecordToItemCreate(q: TDataSet): IShopPDVVendaItem;

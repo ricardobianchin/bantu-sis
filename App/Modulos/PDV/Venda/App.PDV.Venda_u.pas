@@ -21,7 +21,6 @@ type
     FEntregaTem: Boolean;
     FEntregadorId: TId;
     FEntregaEm: TDateTime;
-    FVendaAlteradoEm: TDateTime;
     FVendaPagList: IVendaPagList;
 
     function GetVendaId: TId;
@@ -53,9 +52,6 @@ type
     function GetEntregaEm: TDateTime;
     procedure SetEntregaEm(Value: TDateTime);
 
-    function GetVendaAlteradoEm: TDateTime;
-    procedure SetVendaAlteradoEm(Value: TDateTime);
-
     function GetItems: TList<IPDVVendaItem>;
 
     function GetVendaPagList: IVendaPagList;
@@ -73,8 +69,6 @@ type
     property EntregaTem: Boolean read GetEntregaTem write SetEntregaTem;
     property EntregadorId: TId read GetEntregadorId write SetEntregadorId;
     property EntregaEm: TDateTime read GetEntregaEm write SetEntregaEm;
-    property VendaAlteradoEm: TDateTime read GetVendaAlteradoEm
-      write SetVendaAlteradoEm;
     property VendaPagList: IVendaPagList read GetVendaPagList;
 
     function GetCod(pSeparador: string = '-'): string;
@@ -112,7 +106,6 @@ type
       pEntregaTem: Boolean = False; //
       pEntregadorId: TId = 0; //
       pEntregaEm: TDateTime = DATA_ZERADA; //
-      pVendaAlteradoEm: TDateTime = DATA_ZERADA; //
 
       pEstMovId: Int64 = 0; //
       pEstMovFinalizado: Boolean = False; //
@@ -148,7 +141,6 @@ constructor TPDVVenda.Create( //
   pEntregaTem: Boolean; //
   pEntregadorId: TId; //
   pEntregaEm: TDateTime; //
-  pVendaAlteradoEm: TDateTime; //
 
   pEstMovId: Int64; //
   pEstMovFinalizado: Boolean; //
@@ -185,17 +177,11 @@ begin
   FEntregaTem := pEntregaTem;
   FEntregadorId := pEntregadorId;
   FEntregaEm := pEntregaEm;
-  FVendaAlteradoEm := pVendaAlteradoEm;
 
   FCli.Zerar;
   FEnder.Zerar;
 
   FVendaPagList := VendaPagListCreate;
-end;
-
-function TPDVVenda.GetVendaAlteradoEm: TDateTime;
-begin
-  Result := FVendaAlteradoEm;
 end;
 
 function TPDVVenda.GetCod(pSeparador: string): string;
@@ -325,11 +311,6 @@ begin
   pFalta := pTotalLiquido - (pTotalEntregue - pTroco);
 end;
 
-procedure TPDVVenda.SetVendaAlteradoEm(Value: TDateTime);
-begin
-  FVendaAlteradoEm := Value;
-end;
-
 procedure TPDVVenda.SetC(Value: string);
 begin
   FC := Value;
@@ -383,7 +364,6 @@ begin
   FEntregaTem := False;
   FEntregadorId := 0;
   FEntregaEm := DATA_ZERADA;
-  FVendaAlteradoEm := DATA_ZERADA;
   Items.Clear;
   FVendaPagList.Clear;
 end;

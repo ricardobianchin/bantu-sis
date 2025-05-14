@@ -25,7 +25,6 @@ function ShopPDVVendaCreate( //
   pEntregaTem: Boolean = False; //
   pEntregadorId: TId = 0; //
   pEntregaEm: TDateTime = DATA_ZERADA; //
-  pVendaAlteradoEm: TDateTime = DATA_ZERADA; //
 
   pEstMovId: Int64 = 0; //
   pEstMovFinalizado: Boolean = False; //
@@ -102,7 +101,6 @@ function ShopPDVVendaCreate( //
   pEntregaTem: Boolean; //
   pEntregadorId: TId; //
   pEntregaEm: TDateTime; //
-  pVendaAlteradoEm: TDateTime; //
 
   pEstMovId: Int64; //
   pEstMovFinalizado: Boolean; //
@@ -127,7 +125,6 @@ begin
     , pEntregaTem //
     , pEntregadorId //
     , pEntregaEm //
-    , pVendaAlteradoEm //
 
     , pEstMovId //
     , pEstMovFinalizado //
