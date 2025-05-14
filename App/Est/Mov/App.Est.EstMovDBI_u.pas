@@ -2,15 +2,24 @@ unit App.Est.EstMovDBI_u;
 
 interface
 
-uses App.Ent.DBI_u, App.Est.EstMovDBI, Sis.Entities.Types, Sis.Types;
+uses App.Ent.DBI_u, App.Est.EstMovDBI, Sis.Entities.Types, Sis.Types,
+  Sis.DB.DBTypes, App.Ent.Ed, App.AppObj;
 
 type
   TEstMovDBI = class(TEntDBI, IEstMovDBI)
+  private
+    FAppObj: IAppObj;
+    FUsuarioId: TId;
+  protected
+    property UsuarioId: TId read FUsuarioId;
+    property AppObj: IAppObj read FAppObj;
   public
     procedure EstMovCancele(pLojaId: TLojaId; pTerminalId: TTerminalId;
       pEstMovId: Int64);
     procedure EstMovCanceleItem(pLojaId: TLojaId; pTerminalId: TTerminalId;
       pEstMovId: Int64; pOrdem: SmallInt);
+    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
+      pAppObj: IAppObj; pUsuarioId: TId);
   end;
 
 implementation
@@ -18,6 +27,14 @@ implementation
 uses System.SysUtils;
 
 { TEstMovDBI }
+
+constructor TEstMovDBI.Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
+      pAppObj: IAppObj; pUsuarioId: TId);
+begin
+  inherited Create(pDBConnection, pEntEd);
+  FUsuarioId := pUsuarioId;
+  FAppObj := pAppObj;
+end;
 
 procedure TEstMovDBI.EstMovCancele(pLojaId: TLojaId; pTerminalId: TTerminalId;
   pEstMovId: Int64);
