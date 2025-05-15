@@ -1,54 +1,3 @@
-VENDA_PAG_INS_PA
-
-"C:\PROGRAM FILES\NOTEPAD++\NOTEPAD++.EXE" "C:\PR\APP\BANTU\BANTU-SIS\SRC\EXTERNOS\DBUPDATES\000\00\00\01\DBUPDATE 000000101.TXT"
-
-SELECT DBUPDATE_PA.VERSAO_GET() FROM RDB$DATABASE;
-
---DROP PACKAGE VENDA_PAG_INICIAL_PA;
-
-DROP PACKAGE VENDA_PAG_INS_PA;
-DELETE FROM DBUPDATE_HIST WHERE NUM>=101;
-COMMIT;
-
-
-
-/*
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PAG_INS_PA.sql
-
-"C:\PROGRAM FILES\NOTEPAD++\NOTEPAD++.EXE" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PAG_INS_PA.sql"
-
-IN "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PAG_INS_PA.sql";
-
-
-*/
-
-
-
-
------------------------------
-INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=FINANCEIRO
-DBATUALIZ_OBJETIVO=CRIAR VENDA_PAG_INS_PA
-DBATUALIZ_PONTO_ALVO=TERMINAL
-DBATUALIZ_OBS=
-
-
-
-
-/////////////////////////
-//
-// PACKAGE VENDA_PAG_INS_PA
-//
-/////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=VENDA_PAG_INS_PA
-
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE VENDA_PAG_INS_PA
 AS
@@ -320,7 +269,3 @@ BEGIN
   END
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM
