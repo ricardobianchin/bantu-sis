@@ -5,6 +5,8 @@ DROP PACKAGE VENDA_PDV_INS_PA;
 
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\VENDA_PDV_INS_PA.sql";
 
+select * from VENDA_PDV_INS_PA.VENDA_TOTAIS_GET(1, 1, 1);
+
 */
 
 SET TERM ^;

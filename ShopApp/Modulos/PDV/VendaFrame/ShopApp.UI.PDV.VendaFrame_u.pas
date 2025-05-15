@@ -556,15 +556,17 @@ begin
     VK_PRIOR:
       begin
         Key := 0;
+        EngatVender;
         PDVControlador.VaParaPag;
       end;
     VK_NEXT:
       begin
         Key := 0;
+        EngatVender;
         if FShopPDVVenda.VendaPagList.Count = 0 then
-          PDVControlador.PagSomenteDinheiro
+          PagSomenteDinheiroToolButton.Click
         else
-          PDVControlador.VaParaPag;
+          PagamentoToolButton.Click;
       end;
   end;
 end;

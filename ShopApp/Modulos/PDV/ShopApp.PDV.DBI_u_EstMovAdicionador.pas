@@ -106,7 +106,7 @@ begin
 
   BusQ.Params[10].AsInteger := FUsuarioId;
   BusQ.Params[11].AsSmallInt := FAppObj.SisConfig.LocalMachineId.IdentId;
-  BusQ.Params[12].AsString := Chr(34);
+  BusQ.Params[12].AsString := Chr(35);
 end;
 
 procedure TPDVVendaItemAdicionador.BusQToVendaCabec;
@@ -364,7 +364,7 @@ begin
 
   Params[18].AsInteger := FUsuarioId;
   Params[19].AsSmallInt := FAppObj.SisConfig.LocalMachineId.IdentId;
-  Params[20].AsString := Chr(34);
+  Params[20].AsString := Chr(35);
 end;
 
 procedure TPDVVendaItemAdicionador.PesoQToVendaCabec;

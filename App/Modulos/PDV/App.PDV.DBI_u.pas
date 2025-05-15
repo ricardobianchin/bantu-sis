@@ -216,9 +216,9 @@ begin
 
     + ');';
 
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(sSql);
+//   {$ENDIF}
 
   DBConnection.Abrir;
   try

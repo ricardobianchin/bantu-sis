@@ -113,7 +113,7 @@ end;
 
 procedure TItemCancelarForm_ShopApp.OkAct_DiagExecute(Sender: TObject);
 var
-  bExecutouOk: Boolean;
+  bErroDeu: Boolean;
   sMensagem: string;
 begin
   if FItem.Cancelado then
@@ -126,16 +126,17 @@ begin
   CancelarStatusLabel.Caption := 'Cancelando...';
   CancelarStatusLabel.Repaint;
 
-  FShopAppPDVDBI.EstMovItemCancele(FItem, bExecutouOk, sMensagem);
+  FShopAppPDVDBI.EstMovItemCancele(FItem, bErroDeu, sMensagem);
 
-  if not bExecutouOk then
+  CancelarStatusLabel.Caption := '';
+
+  if bErroDeu then
   begin
     ErroOutput.Exibir(sMensagem);
     exit;
   end;
   FItem.Cancelado := True;
   inherited;
-  CancelarStatusLabel.Caption := '';
 end;
 
 end.
