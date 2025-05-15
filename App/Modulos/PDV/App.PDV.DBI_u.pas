@@ -13,6 +13,7 @@ type
     FTerminal: ITerminal;
     FPdvVenda: IPDVVenda;
     FUsuarioId: TId;
+    FMachId: string;
   protected
     property AppObj: IAppObj read FAppObj;
     property Terminal: ITerminal read FTerminal;
@@ -55,6 +56,7 @@ begin
   FTerminal := pTerminal;
   FPdvVenda := pPdvVenda;
   FUsuarioId := pUsuarioId;
+  FMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 end;
 
 procedure TAppPDVDBI.PagInserir(PAGAMENTO_FORMA_ID: TId;
@@ -73,30 +75,25 @@ begin
   end;
 
   sSql := //
-    'INSERT INTO VENDA_PAG('#13#10 //
-
-    + '  LOJA_ID,'#13#10 //
-    + '  TERMINAL_ID,'#13#10 //
-    + '  EST_MOV_ID,'#13#10 //
-    + '  ORDEM,'#13#10 //
-    + '  PAGAMENTO_FORMA_ID,'#13#10 //
-    + '  VALOR_DEVIDO,'#13#10 //
-    + '  VALOR_ENTREGUE,'#13#10 //
-    + '  TROCO,'#13#10 //
-    + '  CANCELADO'#13#10 //
-
-    + ') VALUES ('#13#10 //
+    'EXECUTE PROCEDURE VENDA_PAG_INS_PA.VENDA_PAG_INSERIR('#13#10 //
 
     + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
     + '  , ' + V.VendaPagList.GetProximaOrdem.ToString + ' -- ORDEM'#13#10 //
+
     + '  , ' + PAGAMENTO_FORMA_ID.ToString + #13#10 //
     + '  , ' + CurrencyToStrPonto(VALOR_DEVIDO) + #13#10 //
     + '  , ' + CurrencyToStrPonto(VALOR_ENTREGUE) + #13#10 //
     + '  , ' + CurrencyToStrPonto(TROCO) + #13#10 //
-    + '  , FALSE'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + FMachId + ' -- MACHINE_ID'#13#10 //
+    //+ '  , ''#'' -- MODULO_SIS_ID'#13#10 //
+
     + ');';
+
+
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}
@@ -120,6 +117,11 @@ begin
     + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
     + '  , ' + pOrdem.ToString + ' -- ORDEM'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + FMachId + ' -- MACHINE_ID'#13#10 //
+    //+ '  , ''#'' -- MODULO_SIS_ID'#13#10 //
+
     + ');';
 
   // {$IFDEF DEBUG}
@@ -207,6 +209,11 @@ begin
     + '  ' + V.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
     + '  , ' + V.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+
+    + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + FMachId + ' -- MACHINE_ID'#13#10 //
+    //+ '  , ''#'' -- MODULO_SIS_ID'#13#10 //
+
     + ');';
 
   // {$IFDEF DEBUG}
@@ -226,10 +233,8 @@ var
   sSql: string;
   V: IPDVVenda;
   q: TDataSet;
-  sMachId: string;
 begin
   V := FPdvVenda;
-  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 
   sSql := //
     'SELECT'#13#10 //
@@ -247,8 +252,8 @@ begin
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
 
     + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
-    + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
-    + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
+    + '  , ' + FMachId + ' -- MACHINE_ID'#13#10 //
+//    + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
     + ');';
 
   // {$IFDEF DEBUG}
@@ -269,10 +274,8 @@ var
   sSql: string;
   V: IPDVVenda;
   q: TDataSet;
-  sMachId: string;
 begin
   V := FPdvVenda;
-  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 
   sSql := //
     'SELECT'#13#10 //
@@ -287,7 +290,7 @@ begin
     + '  , ' + V.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
 
     + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
-    + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+    + '  , ' + FMachId + ' -- MACHINE_ID'#13#10 //
     + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
 
     + ');';
@@ -318,10 +321,8 @@ var
   dCanceladoEm: TDateTime;
   V: IPDVVenda;
   q: TDataSet;
-  sMachId: string;
 begin
   V := FPdvVenda;
-  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 
   try
     sSql := //
@@ -334,7 +335,7 @@ begin
       + '  , ' + pEstMovItem.Ordem.ToString + ' -- ORDEM'#13#10 //
 
       + '  , ' + FUsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
-      + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+      + '  , ' + FMachId + ' -- MACHINE_ID'#13#10 //
       + '  , ''#'' -- MODULO_SIS_ID'#13#10 //
       + ');';
 
