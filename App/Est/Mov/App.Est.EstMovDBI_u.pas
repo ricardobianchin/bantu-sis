@@ -10,9 +10,11 @@ type
   private
     FAppObj: IAppObj;
     FUsuarioId: TId;
+    FMachId: string;
   protected
     property UsuarioId: TId read FUsuarioId;
     property AppObj: IAppObj read FAppObj;
+    property sMachId: string read FMachId;
   public
     procedure EstMovCancele(out pCanceladoEm: TDateTime; out pErroDeu: Boolean;
       out pErroMens: string; pLojaId: TLojaId; pEstMovId: Int64;
@@ -38,6 +40,7 @@ begin
   inherited Create(pDBConnection, pEntEd);
   FUsuarioId := pUsuarioId;
   FAppObj := pAppObj;
+  FMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
 end;
 
 procedure TEstMovDBI.EstMovCancele(out pCanceladoEm: TDateTime;
@@ -47,14 +50,11 @@ procedure TEstMovDBI.EstMovCancele(out pCanceladoEm: TDateTime;
 var
   sSql: string;
   q: TDataSet;
-  sMachId: string;
 begin
-  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
-
   sSql := //
     'SELECT'#13#10 //
 
-    + 'CANCELADO_EM'#13#10 //
+    + 'CANCELADO_EM_RET'#13#10 //
 
     + 'FROM EST_MOV_MANUT_PA.EST_MOV_CANCELE'#13#10 //
 
@@ -95,10 +95,7 @@ var
   sSql: string;
   dCanceladoEm: TDateTime;
   q: TDataSet;
-  sMachId: string;
 begin
-  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
-
   try
     sSql := //
       'SELECT CANCELADO_EM_RET'#13#10 //

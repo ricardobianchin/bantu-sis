@@ -87,9 +87,7 @@ var
   iItemProdId: TId;
   uItemQtd: Currency;
   e: IEstSaidaEnt;
-  sMachId: string;
 begin
-  sMachId := AppObj.SisConfig.LocalMachineId.IdentId.ToString;
   e := FEstSaidaEnt;
   i := e.ItemIndex;
   iItemProdId := e.Items[i].Prod.Id;
