@@ -18,11 +18,11 @@ type
   public
     procedure EstMovCancele(out pCanceladoEm: TDateTime; out pErroDeu: Boolean;
       out pErroMens: string; pLojaId: TLojaId; pEstMovId: Int64;
-      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
+      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '"');
 
     procedure EstMovCanceleItem(out pErroDeu: Boolean; out pErroMens: string;
       pLojaId: TLojaId; pEstMovId: Int64; pOrdem: SmallInt;
-      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
+      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '"');
 
     constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
       pAppObj: IAppObj; pUsuarioId: TId);
@@ -98,7 +98,10 @@ var
 begin
   try
     sSql := //
-      'SELECT CANCELADO_EM_RET'#13#10 //
+      'SELECT'#13#10 //
+
+      + 'CANCELADO_EM_RET'#13#10 //
+
       + 'FROM EST_MOV_MANUT_PA.EST_MOV_ITEM_CANCELE'#13#10 //
       + '('#13#10 //
       + '  ' + pLojaId.ToString + ' -- LOJA_ID'#13#10 //

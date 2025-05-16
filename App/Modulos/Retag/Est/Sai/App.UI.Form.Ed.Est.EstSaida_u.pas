@@ -77,13 +77,13 @@ end;
 
 function TEstSaidaEdForm.ControlesOk: boolean;
 begin
-  Result := FSaidaMotivoMan.Id > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir('O Motivo da Saída é obrigatório');
-    SaidaMotivoComboBox.SetFocus;
-    exit;
-  end;
+//  Result := FSaidaMotivoMan.Id > 0;
+//  if not Result then
+//  begin
+//    ErroOutput.Exibir('O Motivo da Saída é obrigatório');
+//    SaidaMotivoComboBox.SetFocus;
+//    exit;
+//  end;
 
   Result := ProdSelectFrame.ProdId > 0;
   if not Result then

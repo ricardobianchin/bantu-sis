@@ -10,7 +10,8 @@ uses
   Vcl.DBGrids, Vcl.ToolWin, Vcl.StdCtrls, App.UI.Frame.Bas.EstFiltro_u,
   Sis.DB.DBTypes, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.Ent.Ed, App.Ent.DBI, Sis.Types, App.UI.TabSheet.DataSet.Types_u,
-  App.AppObj, App.Est.EstMovDBI, Sis.Types.Utils_u, Sis.Entities.Types;
+  App.AppObj, App.Est.EstMovDBI, Sis.Types.Utils_u, Sis.Entities.Types,
+  Sis.UI.Frame.Bas.DBGrid_u;
 
 type
   TAppEstDataSetForm = class(TTabSheetDataSetBasForm)
@@ -20,6 +21,7 @@ type
     CancItemAction_DatasetTabSheet: TAction;
     procedure DetailTimerTimer(Sender: TObject);
     procedure CancAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure CancItemAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
@@ -28,7 +30,12 @@ type
 
     FDMemTableCANCELADO: TField;
     FDMemTableFinalizado: TField;
+    FItemCanceladoField: TField;
+
+    FItemsDBGridFrame: TDBGridFrame;
     procedure DispareDetailTimer;
+
+    procedure SetItemsDBGridFrame(Value: TDBGridFrame);
 
   protected
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); virtual; abstract;
@@ -46,10 +53,10 @@ type
     procedure DetailCarregar; virtual;
 
     property DMemTableCANCELADO: TField read FDMemTableCANCELADO;
-    property DMemTableFINALIZADO: TField read FDMemTableFINALIZADO;
+    property DMemTableFINALIZADO: TField read FDMemTableFinalizado;
 
-
-//    property EstMovDBI: IEstMovDBI read FEstMovDBI;
+    property ItemsDBGridFrame: TDBGridFrame read FItemsDBGridFrame write SetItemsDBGridFrame;
+    // property EstMovDBI: IEstMovDBI read FEstMovDBI;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -111,12 +118,77 @@ begin
   if not bResultado then
     exit;
 
-  FEstMovDBI.EstMovCancele(dCanceladoEm, bErroDeu, sMens, iLojaId,
-    iEstMovId);
+  FEstMovDBI.EstMovCancele(dCanceladoEm, bErroDeu, sMens, iLojaId, iEstMovId);
 
   FDMemTable.Edit;
   FDMemTableCANCELADO.AsBoolean := True;
   FDMemTable.Post;
+end;
+
+procedure TAppEstDataSetForm.CancItemAction_DatasetTabSheetExecute
+  (Sender: TObject);
+var
+  bResultado: boolean;
+  bErroDeu: boolean;
+
+  i: integer;
+
+  iLojaId: TLojaId;
+  iTerminalId: TTerminalId;
+  iEstMovId: Int64;
+  iOrdem: SmallInt;
+  iNumItem: SmallInt;
+
+  sCod: string;
+  sMens: string;
+  dCanceladoEm: TDateTime;
+begin
+  inherited;
+  if FDMemTable.IsEmpty then
+  begin
+    ShowMessage('Não há registro de nota a cancelar');
+    exit;
+  end;
+
+  if ItemsDBGridFrame.FDMemTable1.IsEmpty then
+  begin
+    ShowMessage('Não há registro de item a cancelar');
+    exit;
+  end;
+
+  if FItemCanceladoField.AsBoolean then
+  begin
+    ShowMessage('Item já cancelado');
+    exit;
+  end;
+
+  iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
+  iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
+  iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
+
+  iNumItem := FItemsDBGridFrame.FDMemTable1.Fields[0 { ORDEM } ].AsInteger;
+  iOrdem := INumItem - 1;
+
+  sCod := FDMemTable.Fields[4 { COD } ].AsString;
+
+  sMens := 'Nota ' + sCod + ', item ' + INumItem.ToString + #13#10'Excluir item?';
+
+  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV', TBooleanDefault.boolFalse);
+
+  if not bResultado then
+    exit;
+
+  FEstMovDBI.EstMovCanceleItem(bErroDeu, sMens, iLojaId, iEstMovId, iOrdem);
+
+  if bErroDeu then
+  begin
+    ShowMessage(sMens);
+    exit;
+  end;
+
+  FItemsDBGridFrame.FDMemTable1.Edit;
+  FItemCanceladoField.AsBoolean := True;
+  FItemsDBGridFrame.FDMemTable1.Post;
 end;
 
 constructor TAppEstDataSetForm.Create(AOwner: TComponent;
@@ -137,7 +209,7 @@ begin
 
   InsAction_DatasetTabSheet.Caption := 'Nova Nota';
   FDMemTableCANCELADO := FDMemTable.FindField('CANCELADO');
-  FDMemTableFINALIZADO := FDMemTable.FindField('FINALIZADO');
+  FDMemTableFinalizado := FDMemTable.FindField('FINALIZADO');
 end;
 
 procedure TAppEstDataSetForm.DetailCarregar;
@@ -199,12 +271,17 @@ begin
   DispareDetailTimer;
 end;
 
+procedure TAppEstDataSetForm.SetItemsDBGridFrame(Value: TDBGridFrame);
+begin
+  FItemsDBGridFrame := Value;
+  FItemCanceladoField := FItemsDBGridFrame.FDMemTable1.FindField('CANCELADO');
+end;
+
 procedure TAppEstDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   CrieFiltroFrame;
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
-
 end;
 
 end.

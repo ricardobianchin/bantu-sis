@@ -19,7 +19,6 @@ type
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure CancItemAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -101,82 +100,6 @@ begin
   inherited;
 end;
 
-procedure TAppEstSaidaDataSetForm.CancItemAction_DatasetTabSheetExecute
-  (Sender: TObject);
-var
-  bResultado: boolean;
-  bErroDeu: boolean;
-
-  i: integer;
-
-  iLojaId: TLojaId;
-  iTerminalId: TTerminalId;
-  iEstMovId: Int64;
-  iOrdem: SmallInt;
-
-  sCod: string;
-  sMens: string;
-  ItemCanceladoField: TField;
-  Item: IRetagEstSaidaItem;
-  dCanceladoEm: TDateTime;
-begin
-  inherited;
-  if FDMemTable.IsEmpty then
-  begin
-    ShowMessage('Não há registro de nota a cancelar');
-    exit;
-  end;
-
-  if FEstSaidaItemDBGridFrame.FDMemTable1.IsEmpty then
-  begin
-    ShowMessage('Não há registro de item a cancelar');
-    exit;
-  end;
-
-  ItemCanceladoField := FEstSaidaItemDBGridFrame.FDMemTable1.FindField
-    ('CANCELADO');
-
-  if ItemCanceladoField.AsBoolean then
-  begin
-    ShowMessage('Item já cancelado');
-    exit;
-  end;
-
-  iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
-  iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
-  iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
-  iOrdem := FEstSaidaItemDBGridFrame.FDMemTable1.Fields[0 { ORDEM } ]
-    .AsInteger - 1;
-
-  Item := FEstSaidaEnt.Items[iOrdem];
-  sCod := FDMemTable.Fields[4 { COD } ].AsString;
-
-  sMens := 'Nota ' + sCod + ', item ' + iOrdem.ToString + ', deseja excluí-lo?';
-
-  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV',
-    TBooleanDefault.boolFalse);
-
-  if not bResultado then
-    exit;
-
-  FEstSaidaDBI.EstMovCanceleItem(bErroDeu, sMens, iLojaId, iEstMovId, iOrdem);
-
-  if bErroDeu then
-  begin
-    ShowMessage(sMens);
-    exit;
-  end;
-
-  FDMemTable.Edit;
-  ItemCanceladoField.AsBoolean := True;
-  FDMemTable.Post;
-
-  dCanceladoEm := now;
-  Item.Cancelado := True;
-  Item.CanceladoEm := dCanceladoEm;
-  Item.AlteradoEm := dCanceladoEm;
-end;
-
 constructor TAppEstSaidaDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
@@ -196,6 +119,7 @@ begin
   FEstSaidaItemDBI := TEstSaidaItemDBI.Create(FDBConnection);
   FEstSaidaItemDBGridFrame := TEstSaidaItemDBGridFrame.Create(DetailPanel,
     FEstSaidaItemDBI);
+  ItemsDBGridFrame := FEstSaidaItemDBGridFrame;
   FEstSaidaItemDBGridFrame.Align := alClient;
 end;
 

@@ -1,6 +1,16 @@
 inherited AppEstDataSetForm: TAppEstDataSetForm
   Caption = 'AppEstDataSetForm'
+  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 15
+  inherited TitPanel_BasTabSheet: TPanel
+    StyleElements = [seFont, seClient, seBorder]
+    inherited TitAuxPanel_BasTabSheet: TPanel
+      StyleElements = [seFont, seClient, seBorder]
+    end
+    inherited TitToolPanel_BasTabSheet: TPanel
+      StyleElements = [seFont, seClient, seBorder]
+    end
+  end
   inherited DBGrid1: TDBGrid
     Height = 193
   end
@@ -14,6 +24,9 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
     Caption = ' '
     TabOrder = 3
   end
+  inherited SelectPanel: TPanel
+    StyleElements = [seFont, seClient, seBorder]
+  end
   inherited ActionList1_ActBasForm: TActionList
     object CancAction_DatasetTabSheet: TAction
       Caption = 'Cancelar Nota'
@@ -21,6 +34,7 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
     end
     object CancItemAction_DatasetTabSheet: TAction
       Caption = 'Cancelar Item'
+      OnExecute = CancItemAction_DatasetTabSheetExecute
     end
   end
   object DetailTimer: TTimer
