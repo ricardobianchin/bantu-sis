@@ -280,7 +280,7 @@ begin
   sSql := //
     'SELECT'#13#10 //
 
-    + 'CANCELADO_EM'#13#10 //
+    + 'CANCELADO_EM_RET'#13#10 //
 
     + 'FROM EST_MOV_MANUT_PA.EST_MOV_CANCELE'#13#10 //
 
