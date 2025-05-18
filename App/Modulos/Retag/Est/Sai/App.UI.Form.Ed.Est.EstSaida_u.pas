@@ -15,7 +15,6 @@ type
   TEstSaidaEdForm = class(TEstEdBasForm)
     SaidaMotivoComboBox: TComboBox;
     SaidaMotivoLabel: TLabel;
-    procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure SaidaMotivoComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure QtdNumEditBtuKeyPress(Sender: TObject; var Key: Char);
     procedure SaidaMotivoComboBoxChange(Sender: TObject);
@@ -263,10 +262,4 @@ begin
     end;
   end;
 
-  procedure TEstSaidaEdForm.ShowTimer_BasFormTimer(Sender: TObject);
-  begin
-    inherited;
-    // SaidaMotivoComboBox.DroppedDown := True;
-  end;
-
-end.
+  end.
