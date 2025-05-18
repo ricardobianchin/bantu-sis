@@ -33,8 +33,6 @@ type
     procedure EntToControles; override;
 
     function ControlesOk: boolean; override;
-    function DadosOk: boolean; override;
-    function GravouOk: boolean; override;
     procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
       var Key: Char); override;
   public
@@ -63,25 +61,6 @@ var
   sNom, sDes: string;
 begin
   inherited;
-  case EntEd.State of
-    dsInactive:
-      ;
-    dsBrowse:
-      ;
-    dsEdit:
-      begin
-        sNom := FEstSaidaEnt.NomeEnt;
-        sDes := FEstSaidaEnt.GetCod;
-
-        sFormat := 'Alterando %s: %s';
-        sCaption := Format(sFormat, [sNom, sDes]);
-        ItemGroupBox.Visible := False;
-        Self.Height := Self.Height - ItemGroupBox.Height;
-      end;
-
-    dsInsert:
-      ;
-  end;
   SaidaMotivoComboBox.SetFocus;
 end;
 
@@ -96,6 +75,10 @@ end;
 
 function TEstSaidaEdForm.ControlesOk: boolean;
 begin
+  Result := inherited;
+  if not Result then
+    exit;
+
   // Result := FSaidaMotivoMan.Id > 0;
   // if not Result then
   // begin
@@ -103,40 +86,6 @@ begin
   // SaidaMotivoComboBox.SetFocus;
   // exit;
   // end;
-
-  Result := FEstSaidaEnt.State = dsEdit;
-
-  if Result then
-    exit;
-
-  Result := ProdSelectFrame.ProdId > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir('O Produto é obrigatório');
-    ProdSelectFrame.ProdLabeledEdit.SetFocus;
-    exit;
-  end;
-
-  Result := QtdNumEditBtu.Valor > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir('A Quantidade é obrigatória');
-    QtdNumEditBtu.SetFocus;
-    exit;
-  end;
-
-  Result := ProdSelectFrame.ProdBalancaExige;
-  if Result then
-    exit;
-
-  Result := CurrencyEhInteiro(QtdNumEditBtu.Valor);
-  if not Result then
-  begin
-    ErroOutput.Exibir
-      ('Produto não é de balança. A quantidade deve ser inteira');
-    QtdNumEditBtu.SetFocus;
-    exit;
-  end;
 end;
 
 procedure TEstSaidaEdForm.ControlesToEnt;
@@ -166,7 +115,8 @@ constructor TEstSaidaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection);
 begin
   inherited;
-  FEstSaidaEnt := pEntEd as IEstSaidaEnt; //EntEdCastToEstSaidaEnt(pEntEd);
+  FEstSaidaEnt := EntEdCastToEstSaidaEnt(pEntEd);
+//  FEstSaidaEnt := pEntEd as IEstSaidaEnt;
   FEstSaidaDBI := EntDBICastToEstSaidaDBI(pEntDBI);
   FSaidaMotivoMan := ComboBoxManagerCreate(SaidaMotivoComboBox);
   FEstSaidaDBI.SaidaMotivoPrepareLista(SaidaMotivoComboBox.Items);
@@ -175,91 +125,81 @@ begin
   // begin
   //
   // end;
-    end;
+end;
 
-  function TEstSaidaEdForm.DadosOk: boolean;
+procedure TEstSaidaEdForm.EntToControles;
+var
+  s: string;
+begin
+  inherited;
+  s := '';
+  if FEstSaidaEnt.EstSaidaId > 0 then
   begin
-    Result := True;
+    s := FEstSaidaEnt.GetCod;
   end;
 
-  procedure TEstSaidaEdForm.EntToControles;
-  var
-    s: string;
-  begin
-    s := '';
-    if FEstSaidaEnt.EstSaidaId > 0 then
-    begin
-      s := FEstSaidaEnt.GetCod;
-    end;
+  CodLabeledEdit.Text := s;
+  if FEstSaidaEnt.SaidaMotivoId > 0 then
+    FSaidaMotivoMan.Id := FEstSaidaEnt.SaidaMotivoId
+  else
+    SaidaMotivoComboBox.ItemIndex := 0;
 
-    CodLabeledEdit.Text := s;
-    if FEstSaidaEnt.SaidaMotivoId > 0 then
-      FSaidaMotivoMan.Id := FEstSaidaEnt.SaidaMotivoId
+  // if FEstSaidaEnt.ItemIndex > -1 then
+  // begin
+  // FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex];
+  // end;
+end;
+
+procedure TEstSaidaEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  // inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    ProdSelectFrame.Selecionar;
+    QtdNumEditBtu.SetFocus
+  end;
+end;
+
+procedure TEstSaidaEdForm.QtdNumEditBtuChange(Sender: TObject);
+begin
+  inherited;
+  MensLimpar;
+end;
+
+procedure TEstSaidaEdForm.QtdNumEditBtuKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    OkAct_Diag.Execute;
+  end;
+end;
+
+procedure TEstSaidaEdForm.SaidaMotivoComboBoxChange(Sender: TObject);
+begin
+  inherited;
+  MensLimpar;
+end;
+
+procedure TEstSaidaEdForm.SaidaMotivoComboBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    if EntEd.State = dsInsert then
+    begin
+      ProdSelectFrame.ProdLabeledEdit.SetFocus;
+    end
     else
-      SaidaMotivoComboBox.ItemIndex := 0;
-
-    // if FEstSaidaEnt.ItemIndex > -1 then
-    // begin
-    // FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex];
-    // end;
-  end;
-
-  function TEstSaidaEdForm.GravouOk: boolean;
-  begin
-    Result := FEstSaidaDBI.Gravar;
-  end;
-
-  procedure TEstSaidaEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-    var Key: Char);
-  begin
-    // inherited;
-    if Key = #13 then
     begin
-      Key := #0;
-      ProdSelectFrame.Selecionar;
-      QtdNumEditBtu.SetFocus
-    end;
-  end;
-
-  procedure TEstSaidaEdForm.QtdNumEditBtuChange(Sender: TObject);
-  begin
-    inherited;
-    MensLimpar;
-  end;
-
-  procedure TEstSaidaEdForm.QtdNumEditBtuKeyPress(Sender: TObject;
-    var Key: Char);
-  begin
-    inherited;
-    if Key = #13 then
-    begin
-      Key := #0;
       OkAct_Diag.Execute;
     end;
   end;
+end;
 
-  procedure TEstSaidaEdForm.SaidaMotivoComboBoxChange(Sender: TObject);
-  begin
-    inherited;
-    MensLimpar;
-  end;
-
-  procedure TEstSaidaEdForm.SaidaMotivoComboBoxKeyPress(Sender: TObject;
-    var Key: Char);
-  begin
-    inherited;
-    if Key = #13 then
-    begin
-      Key := #0;
-      if EntEd.State = dsInsert then
-      begin
-        ProdSelectFrame.ProdLabeledEdit.SetFocus;
-      end
-      else
-      begin
-        OkAct_Diag.Execute;
-      end;
-    end;
-  end;
-
-  end.
+end.

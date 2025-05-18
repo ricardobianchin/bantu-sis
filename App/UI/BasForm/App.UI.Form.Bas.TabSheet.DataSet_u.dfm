@@ -5,7 +5,6 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   WindowState = wsMaximized
   StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
-  ExplicitTop = -118
   ExplicitWidth = 700
   ExplicitHeight = 443
   TextHeight = 15

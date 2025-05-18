@@ -50,14 +50,14 @@ begin
     'EXECUTE PROCEDURE EST_SAIDA_PA.ALTERAR_DO'#13#10 //
 
     + '('#13#10 //
-    + '  ' + E.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
-    //+ '  , ' + e.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+    + '  ' + e.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
+  // + '  , ' + e.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
     + '  , ' + e.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
     + '  , ' + e.SaidaMotivoId.ToString + ' -- EST_SAIDA_MOTIVO_ID'#13#10 //
 
     + '  , ' + UsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
     + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
-    //+ '  , ' + QuotedStr(pModuloSisId) + ' -- MODULO_SIS_ID'#13#10 //
+  // + '  , ' + QuotedStr(pModuloSisId) + ' -- MODULO_SIS_ID'#13#10 //
 
     + ');';
 
@@ -144,7 +144,7 @@ procedure TEstSaidaDBI.SaidaMotivoPrepareLista(pSL: TStrings);
 var
   oDBQuery: IDBQuery;
   sSql: string;
-  Q: TDataSet;
+  q: TDataSet;
   p: Pointer;
   iId: integer;
   sDescr: string;
@@ -165,29 +165,29 @@ begin
 
     oDBQuery.Abrir;
     try
-      Q := oDBQuery.DataSet;
-      while not Q.Eof do
+      q := oDBQuery.DataSet;
+      while not q.Eof do
       begin
-        iId := Q.Fields[0].AsInteger;
+        iId := q.Fields[0].AsInteger;
         sDescr := //
-          Trim(Q.Fields[1].AsString) //
+          Trim(q.Fields[1].AsString) //
           ;
 
         if iId < 1 then
         begin
           pSL.Add(sDescr);
-          Q.Next;
+          q.Next;
           continue;
         end;
 
-        sDescr2 := ' - ' + AnsiLowerCase(Trim(Q.Fields[2].AsString));
+        sDescr2 := ' - ' + AnsiLowerCase(Trim(q.Fields[2].AsString));
 
         sDescr := sDescr + sDescr2;
 
         p := Pointer(iId);
         pSL.AddObject(sDescr, p);
 
-        Q.Next;
+        q.Next;
       end;
     finally
       oDBQuery.Fechar;
@@ -203,14 +203,16 @@ var
 begin
   inherited;
   i := FEstSaidaEnt.Items.Count - 1;
-
-  FEstSaidaEnt.EstMovId := pNovaId[0];
-  FEstSaidaEnt.DtHDoc := pNovaId[1];
-  FEstSaidaEnt.CriadoEm := pNovaId[2];
   FEstSaidaEnt.Items[i].CriadoEm := pNovaId[3];
-  FEstSaidaEnt.EstSaidaId := pNovaId[4];
-  // FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].Ordem := pNovaId[5];
+  // FEstSaidaEnt.Items[i].Ordem := pNovaId[5];
   FEstSaidaEnt.LogStr := pNovaId[6];
+  if not FEstSaidaEnt.EditandoItem then
+  begin
+    FEstSaidaEnt.EstMovId := pNovaId[0];
+    FEstSaidaEnt.EstSaidaId := pNovaId[4];
+    FEstSaidaEnt.DtHDoc := pNovaId[1];
+    FEstSaidaEnt.CriadoEm := pNovaId[2];
+  end;
 end;
 
 end.

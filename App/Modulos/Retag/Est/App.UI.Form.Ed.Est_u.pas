@@ -8,7 +8,8 @@ uses
   App.UI.Form.Bas.Ed_u, System.Actions, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.ProdSelectFrame_u, Sis.DB.DBTypes, CustomEditBtu,
-  CustomNumEditBtu, NumEditBtu, Data.DB, App.Est.EstMovEnt, App.Est.EstMovItem;
+  CustomNumEditBtu, NumEditBtu, Data.DB, App.Est.EstMovEnt, App.Est.EstMovItem,
+  App.Est.EstMovDBI;
 
 type
   TEstEdBasForm = class(TEdBasForm)
@@ -16,11 +17,15 @@ type
     CodLabeledEdit: TLabeledEdit;
     ItemGroupBox: TGroupBox;
     QtdNumEditBtu: TNumEditBtu;
+    procedure OkAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FProdSelectFrame: TProdSelectFrame;
     FEstMovEnt: IEstMovEnt<IEstMovItem>;
+    FEstMovDBI: IEstMovDBI;
   protected
+    function ControlesOk: boolean; override;
+
     procedure AjusteControles; override;
     procedure AjusteTabOrder; virtual; abstract;
     procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject; var Key: Char);
@@ -44,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils;
+uses Sis.UI.Controls.Utils, Sis.Types.Floats;
 
 { TEstEdBasForm }
 
@@ -55,12 +60,47 @@ begin
   AjusteTabOrder;
 end;
 
+function TEstEdBasForm.ControlesOk: boolean;
+var
+  s: string;
+begin
+  Result := ProdSelectFrame.ProdId > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('O Produto é obrigatório');
+    ProdSelectFrame.ProdLabeledEdit.SetFocus;
+    exit;
+  end;
+
+  Result := QtdNumEditBtu.Valor > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('A Quantidade é obrigatória');
+    QtdNumEditBtu.SetFocus;
+    exit;
+  end;
+
+  Result := ProdSelectFrame.ProdBalancaExige;
+  if Result then
+    exit;
+
+  Result := CurrencyEhInteiro(QtdNumEditBtu.Valor);
+  if not Result then
+  begin
+    s := 'Produto não é de balança. A quantidade deve ser inteira';
+    ErroOutput.Exibir(s);
+    QtdNumEditBtu.SetFocus;
+    exit;
+  end;
+end;
+
 constructor TEstEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  FEstMovDBI := pEntDBI as IEstMovDBI;
   FEstMovEnt := pEntEd as IEstMovEnt<IEstMovItem>;
-  //FEstMovEnt: IEstMovEnt<IEstMovItem>;pEntEd as IEstSaidaEnt
+  // FEstMovEnt: IEstMovEnt<IEstMovItem>;pEntEd as IEstSaidaEnt
 
   FProdSelectFrame := TProdSelectFrame.Create(ItemGroupBox,
     pDBConnection, pAppObj);
@@ -94,7 +134,13 @@ end;
 
 function TEstEdBasForm.GravouOk: boolean;
 begin
-  Result := EntDBI.Garantir;
+  Result := FEstMovDBI.Gravar;
+end;
+
+procedure TEstEdBasForm.OkAct_DiagExecute(Sender: TObject);
+begin
+  inherited;
+  FEstMovEnt.EditandoItem := True;
 end;
 
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);

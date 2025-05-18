@@ -325,7 +325,7 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
 {$REGION 'uses est'}
     , App.Est.EstMovDBI_u
 {$ENDREGION}
-    ;
+    , App.Est.EstMovEnt_u;
 
 {$REGION 'prod fabr impl'}
 
@@ -714,7 +714,8 @@ end;
 
 function EntEdCastToEstSaidaEnt(pEntEd: IEntEd): IEstSaidaEnt;
 begin
-  Result := pEntEd as IEstSaidaEnt;
+  Result := TEstSaidaEnt(pEntEd);
+//  Result := pEntEd as IEstSaidaEnt;
 end;
 
 function EntDBICastToEstSaidaDBI(pEntDBI: IEntDBI): IEstSaidaDBI;
@@ -815,7 +816,8 @@ end;
 
 function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
 begin
-  Result := pEntEd as IEstMovEnt<IEstMovItem>;
+  Result := TEstMovEnt(pEntEd);
+//  Result := pEntEd as IEstMovEnt<IEstMovItem>;
 //  if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
 //    Exit(Result)
 //  else

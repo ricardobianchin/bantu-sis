@@ -39,9 +39,4 @@ inherited AppEstSaidaDataSetForm: TAppEstSaidaDataSetForm
     ExplicitLeft = 544
     ExplicitTop = 160
   end
-  inherited ActionList1_ActBasForm: TActionList
-    inherited InsItemAction_DatasetTabSheet: TAction
-      OnExecute = InsItemAction_DatasetTabSheetExecute
-    end
-  end
 end

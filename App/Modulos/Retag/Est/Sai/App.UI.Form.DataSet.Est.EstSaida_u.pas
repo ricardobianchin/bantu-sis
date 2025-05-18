@@ -135,7 +135,8 @@ constructor TAppEstSaidaDataSetForm.Create(AOwner: TComponent;
   pIdPos: integer; pAppObj: IAppObj);
 begin
   inherited;
-  FEstSaidaEnt := pEntEd as IEstSaidaEnt; //EntEdCastToEstSaidaEnt(pEntEd);
+//  FEstSaidaEnt := pEntEd as IEstSaidaEnt; //EntEdCastToEstSaidaEnt(pEntEd);
+  FEstSaidaEnt := EntEdCastToEstSaidaEnt(pEntEd);
   FEstSaidaDBI := EntDBICastToEstSaidaDBI(pEntDBI);
 
   FDBConnectionParams := TerminalIdToDBConnectionParams
@@ -382,8 +383,8 @@ procedure TAppEstSaidaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-  fdmemtable.next;
-  InsItemAction_DatasetTabSheet.Execute;
+  //fdmemtable.next;
+//  InsItemAction_DatasetTabSheet.Execute;
 end;
 
 procedure TAppEstSaidaDataSetForm.ToolBar1CrieBotoes;

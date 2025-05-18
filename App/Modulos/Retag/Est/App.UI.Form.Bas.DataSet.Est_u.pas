@@ -233,6 +233,7 @@ end;
 procedure TAppEstDataSetForm.DetailTimerTimer(Sender: TObject);
 begin
   inherited;
+  DetailTimer.Enabled := False;
   DetailCarregar;
 end;
 
@@ -272,9 +273,14 @@ begin
   if not Result then
     exit;
 
-  FDMemTable.Append;
-  EntToRecord;
-  FDMemTable.Post;
+  if not FEstMovEnt.EditandoItem then
+  begin
+    FDMemTable.Append;
+    EntToRecord;
+    FDMemTable.Post;
+  end;
+
+  DetailCarregar;
 end;
 
 procedure TAppEstDataSetForm.FDMemTable1AfterScroll(DataSet: TDataSet);

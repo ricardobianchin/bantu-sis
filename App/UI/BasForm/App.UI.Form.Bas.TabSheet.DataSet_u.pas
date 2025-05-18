@@ -113,6 +113,7 @@ type
 
     property FDMemTablePodeEventos: boolean read FFDMemTablePodeEventos
       write FFDMemTablePodeEventos;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
