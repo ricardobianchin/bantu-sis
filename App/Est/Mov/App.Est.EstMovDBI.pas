@@ -14,6 +14,10 @@ type
     procedure EstMovCanceleItem(out pErroDeu: Boolean; out pErroMens: string;
       pLojaId: TLojaId; pEstMovId: Int64; pOrdem: SmallInt;
       pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
+
+    procedure EstMovFinalize(out pCanceladoEm: TDateTime; out pErroDeu: Boolean;
+      out pErroMens: string; pLojaId: TLojaId; pEstMovId: Int64;
+      pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
   end;
 
 implementation

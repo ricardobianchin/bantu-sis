@@ -86,6 +86,25 @@ COMANDO FIM
 
 //////////////////////////////////
 //
+// FOREIGN KEY EST_SAIDA EST_SAIDA_MOTIVO
+//
+//////////////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=EST_SAIDA
+CAMPOS_FK=EST_SAIDA_MOTIVO_ID
+TABELA_PK=EST_SAIDA_MOTIVO
+//CAMPOS_PK=
+COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY EST_SAIDA EST_MOV FIM
+
+
+
+
+//////////////////////////////////
+//
 // INDEX EST_SAIDA LOJA_ID, TERMINAL_ID, EST_SAIDA_ID
 //
 //////////////////////////////////

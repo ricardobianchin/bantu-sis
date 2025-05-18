@@ -142,6 +142,8 @@ end;
 
 procedure TEstSaidaEnt.LimparEnt;
 begin
+  if EditandoItem then
+    exit;
   inherited;
   FEstSaidaId := 0;
   FSaidaMotivoId := 0;

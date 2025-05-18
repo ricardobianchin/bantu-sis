@@ -40,6 +40,7 @@ procedure TEstSaidaItemDBGridFrame.Carregar(pLojaId: TLojaId;
 var
   Values: Variant;
 begin
+  FDMemTable1.EmptyDataSet;
   Values := VarArrayCreate([0, 2], varVariant);
   Values[0] := pLojaId;
   Values[1] := pTerminalId;

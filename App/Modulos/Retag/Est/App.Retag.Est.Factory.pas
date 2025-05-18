@@ -6,7 +6,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj,
   Sis.UI.FormCreator, Sis.DB.UltimoId, App.Loja, Sis.Entities.Types,
-  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI
+  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI, App.Est.EstMovEnt
 
     , App.Ent.Ed, App.Ent.DBI //
 
@@ -27,12 +27,14 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.EstSaida.DBI //
     , App.Retag.Est.EstSaida.Ent //
 
-    , App.Retag.Est.EstSaidaItem, App.Est.Prod //
+    , App.Retag.Est.EstSaidaItem, App.Est.Prod, App.Est.EstMovItem //
 
     ;
 
 {$REGION 'est'}
 function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
+//function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
+
 {$ENDREGION}
 {$REGION 'prod fabr'}
 function EntEdCastToProdFabrEnt(pEntEd: IEntEd): IProdFabrEnt;
@@ -712,7 +714,7 @@ end;
 
 function EntEdCastToEstSaidaEnt(pEntEd: IEntEd): IEstSaidaEnt;
 begin
-  Result := TEstSaidaEnt(pEntEd);
+  Result := pEntEd as IEstSaidaEnt;
 end;
 
 function EntDBICastToEstSaidaDBI(pEntDBI: IEntDBI): IEstSaidaDBI;
@@ -810,6 +812,16 @@ function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
 begin
   Result := TEstMovDBI(pEntDBI);
 end;
+
+function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
+begin
+  Result := pEntEd as IEstMovEnt<IEstMovItem>;
+//  if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
+//    Exit(Result)
+//  else
+//    Result := nil; // Ou lançar uma exceção personalizada
+end;
+
 {$ENDREGION}
 {$REGION 'xxx impl'}
 {$ENDREGION}

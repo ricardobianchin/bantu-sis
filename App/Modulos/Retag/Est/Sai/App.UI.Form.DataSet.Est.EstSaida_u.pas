@@ -27,6 +27,8 @@ type
     FDBConnection: IDBConnection;
     FEstSaidaItemDBI: IDBI;
     FEstSaidaItemDBGridFrame: TEstSaidaItemDBGridFrame;
+    FDMemTableEST_SAIDA_MOTIVO_ID: TField;
+    FDMemTableEST_SAIDA_MOTIVO_DESCR: TField;
   protected
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); override;
 
@@ -39,6 +41,10 @@ type
     procedure CrieFiltroFrame; override;
     function PergEd: boolean; override;
     procedure DetailCarregar; override;
+
+    function FinalizPode: boolean; override;
+    procedure DoLer; override;
+    procedure DoAlterar; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -63,11 +69,33 @@ uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
 
 { TAppEstSaidaDataSetForm }
 
-procedure TAppEstSaidaDataSetForm.AltAction_DatasetTabSheetExecute
-  (Sender: TObject);
+procedure TAppEstSaidaDataSetForm.AltAction_DatasetTabSheetExecute(
+  Sender: TObject);
+var
+  Result: Boolean;
 begin
-  // inherited;
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de nota a alterar');
+    exit;
+  end;
 
+  Result := not DMemTableFINALIZADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota já está finalizada e não pode ser alterada');
+    exit;
+  end;
+
+  Result := not DMemTableCANCELADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota está cancelada e não pode ser alterada');
+    exit;
+  end;
+
+  inherited;
 end;
 
 procedure TAppEstSaidaDataSetForm.AtuAction_DatasetTabSheetExecute
@@ -107,7 +135,7 @@ constructor TAppEstSaidaDataSetForm.Create(AOwner: TComponent;
   pIdPos: integer; pAppObj: IAppObj);
 begin
   inherited;
-  FEstSaidaEnt := EntEdCastToEstSaidaEnt(pEntEd);
+  FEstSaidaEnt := pEntEd as IEstSaidaEnt; //EntEdCastToEstSaidaEnt(pEntEd);
   FEstSaidaDBI := EntDBICastToEstSaidaDBI(pEntDBI);
 
   FDBConnectionParams := TerminalIdToDBConnectionParams
@@ -121,6 +149,9 @@ begin
     FEstSaidaItemDBI);
   ItemsDBGridFrame := FEstSaidaItemDBGridFrame;
   FEstSaidaItemDBGridFrame.Align := alClient;
+
+  FDMemTableEST_SAIDA_MOTIVO_ID := FDMemTable.FindField('EST_SAIDA_MOTIVO_ID');
+  FDMemTableEST_SAIDA_MOTIVO_DESCR := FDMemTable.FindField('EST_SAIDA_MOTIVO_DESCR');
 end;
 
 procedure TAppEstSaidaDataSetForm.CrieFiltroFrame;
@@ -155,6 +186,30 @@ begin
   iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
 
   FEstSaidaItemDBGridFrame.Carregar(iLojaId, iTerminalId, iEstMovId);
+end;
+
+procedure TAppEstSaidaDataSetForm.DoAlterar;
+var
+  Resultado: boolean;
+begin
+  Resultado := PergEd;
+  if not Resultado then
+    exit;
+
+  FDMemTable.Edit;
+  FDMemTableEST_SAIDA_MOTIVO_ID.AsInteger := FEstSaidaEnt.SaidaMotivoId;
+  FDMemTableEST_SAIDA_MOTIVO_DESCR.AsString := FEstSaidaEnt.SaidaMotivoDescr;
+  FDMemTable.Post;
+end;
+
+procedure TAppEstSaidaDataSetForm.DoLer;
+begin
+  inherited;
+//  FEstSaidaEnt.Loja.Id := FDMemTable.FieldByName('loja_id').AsInteger;
+//  FEstSaidaEnt.TerminalId := FDMemTable.FieldByName('terminal_id').AsInteger;
+//  FEstSaidaEnt.EstMovId := FDMemTable.FieldByName('est_mov_id').AsLargeInt;
+//
+//  FEstSaidaEnt.SaidaMotivoId := FDMemTableEST_SAIDA_MOTIVO_ID.AsInteger;
 end;
 
 procedure TAppEstSaidaDataSetForm.EntToRecord;
@@ -258,6 +313,23 @@ begin
   FDMemTable.Post;
 end;
 
+function TAppEstSaidaDataSetForm.FinalizPode: boolean;
+var
+  s: string;
+begin
+  Result := inherited;
+  if not Result then
+    exit;
+
+  Result := FDMemTableEST_SAIDA_MOTIVO_ID.AsInteger > 0;
+  if not Result then
+  begin
+    s := 'O campo ''Motivo'' é obrigatório para finalizar uma Nota de Saída';
+    ShowMessage(s);
+    exit;
+  end;
+end;
+
 function TAppEstSaidaDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
@@ -310,17 +382,19 @@ procedure TAppEstSaidaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-
+  fdmemtable.next;
+  InsItemAction_DatasetTabSheet.Execute;
 end;
 
 procedure TAppEstSaidaDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(InsItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
-
-  // ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(FinalizAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;
 
 end.

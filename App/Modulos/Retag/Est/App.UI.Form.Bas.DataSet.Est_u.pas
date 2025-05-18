@@ -11,7 +11,7 @@ uses
   Sis.DB.DBTypes, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.Ent.Ed, App.Ent.DBI, Sis.Types, App.UI.TabSheet.DataSet.Types_u,
   App.AppObj, App.Est.EstMovDBI, Sis.Types.Utils_u, Sis.Entities.Types,
-  Sis.UI.Frame.Bas.DBGrid_u;
+  Sis.UI.Frame.Bas.DBGrid_u, App.Est.EstMovEnt, App.Est.EstMovItem;
 
 type
   TAppEstDataSetForm = class(TTabSheetDataSetBasForm)
@@ -19,13 +19,19 @@ type
     DetailTimer: TTimer;
     CancAction_DatasetTabSheet: TAction;
     CancItemAction_DatasetTabSheet: TAction;
+    FinalizAction_DatasetTabSheet: TAction;
+    InsItemAction_DatasetTabSheet: TAction;
     procedure DetailTimerTimer(Sender: TObject);
     procedure CancAction_DatasetTabSheetExecute(Sender: TObject);
     procedure CancItemAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure FinalizAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure InsItemAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
     FDBConnection: IDBConnection;
+
+    FEstMovEnt: IEstMovEnt<IEstMovItem>;
     FEstMovDBI: IEstMovDBI;
 
     FDMemTableCANCELADO: TField;
@@ -55,7 +61,10 @@ type
     property DMemTableCANCELADO: TField read FDMemTableCANCELADO;
     property DMemTableFINALIZADO: TField read FDMemTableFinalizado;
 
-    property ItemsDBGridFrame: TDBGridFrame read FItemsDBGridFrame write SetItemsDBGridFrame;
+    property ItemsDBGridFrame: TDBGridFrame read FItemsDBGridFrame
+      write SetItemsDBGridFrame;
+
+    function FinalizPode: boolean; virtual;
     // property EstMovDBI: IEstMovDBI read FEstMovDBI;
   public
     { Public declarations }
@@ -167,13 +176,15 @@ begin
   iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
 
   iNumItem := FItemsDBGridFrame.FDMemTable1.Fields[0 { ORDEM } ].AsInteger;
-  iOrdem := INumItem - 1;
+  iOrdem := iNumItem - 1;
 
   sCod := FDMemTable.Fields[4 { COD } ].AsString;
 
-  sMens := 'Nota ' + sCod + ', item ' + INumItem.ToString + #13#10'Excluir item?';
+  sMens := 'Nota ' + sCod + ', item ' + iNumItem.ToString +
+    #13#10'Excluir item?';
 
-  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV', TBooleanDefault.boolFalse);
+  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV',
+    TBooleanDefault.boolFalse);
 
   if not bResultado then
     exit;
@@ -200,7 +211,9 @@ var
   rDBConnectionParams: TDBConnectionParams;
 begin
   inherited;
+  FEstMovEnt := pEntEd as IEstMovEnt<IEstMovItem>;
   FEstMovDBI := EntDBICastToEstMovDBI(pEntDBI);
+
   rDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, AppObj);
 
@@ -232,7 +245,6 @@ end;
 procedure TAppEstDataSetForm.DoAlterar;
 begin
   inherited;
-
 end;
 
 procedure TAppEstDataSetForm.DoAtualizar(Sender: TObject);
@@ -269,6 +281,105 @@ procedure TAppEstDataSetForm.FDMemTable1AfterScroll(DataSet: TDataSet);
 begin
   inherited;
   DispareDetailTimer;
+end;
+
+procedure TAppEstDataSetForm.FinalizAction_DatasetTabSheetExecute
+  (Sender: TObject);
+var
+  bResultado: boolean;
+  bErroDeu: boolean;
+  i: integer;
+
+  iLojaId: TLojaId;
+  iTerminalId: TTerminalId;
+  iEstMovId: Int64;
+
+  sCod: string;
+  sMens: string;
+  dFinalizadoEm: TDateTime;
+begin
+  inherited;
+  if not FinalizPode then
+    exit;
+
+  iLojaId := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
+  iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
+  iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
+
+  sCod := FDMemTable.Fields[4 { COD } ].AsString;
+
+  sMens := 'Finalizar nota ' + sCod + '?';
+  bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV',
+    TBooleanDefault.boolFalse);
+
+  if not bResultado then
+    exit;
+
+  FEstMovDBI.EstMovFinalize(dFinalizadoEm, bErroDeu, sMens, iLojaId, iEstMovId);
+
+  FDMemTable.Edit;
+  FDMemTableFINALIZADO.AsBoolean := True;
+  FDMemTable.Post;
+end;
+
+function TAppEstDataSetForm.FinalizPode: boolean;
+begin
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de nota a cancelar');
+    exit;
+  end;
+
+  Result := not FDMemTableFINALIZADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota já está finalizada');
+    exit;
+  end;
+
+  Result := not FDMemTableCANCELADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota está cancelada e não pode ser finalizada');
+    exit;
+  end;
+end;
+
+procedure TAppEstDataSetForm.InsItemAction_DatasetTabSheetExecute(
+  Sender: TObject);
+var
+  Result: Boolean;
+begin
+  inherited;
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de nota a alterar');
+    exit;
+  end;
+
+  Result := not DMemTableFINALIZADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota já está finalizada e não pode ser alterada');
+    exit;
+  end;
+
+  Result := not DMemTableCANCELADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota está cancelada e não pode ser alterada');
+    exit;
+  end;
+
+  RecordToEnt;
+  FEstMovEnt.EditandoItem := True;
+  try
+    InsAction_DatasetTabSheet.Execute;
+  finally
+    FEstMovEnt.EditandoItem := False;
+  end;
 end;
 
 procedure TAppEstDataSetForm.SetItemsDBGridFrame(Value: TDBGridFrame);

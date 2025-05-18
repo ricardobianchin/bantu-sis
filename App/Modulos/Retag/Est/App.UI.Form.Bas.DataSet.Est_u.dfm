@@ -36,6 +36,14 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
       Caption = 'Cancelar Item'
       OnExecute = CancItemAction_DatasetTabSheetExecute
     end
+    object FinalizAction_DatasetTabSheet: TAction
+      Caption = 'Finalize'
+      OnExecute = FinalizAction_DatasetTabSheetExecute
+    end
+    object InsItemAction_DatasetTabSheet: TAction
+      Caption = 'Inserir Item'
+      OnExecute = InsItemAction_DatasetTabSheetExecute
+    end
   end
   object DetailTimer: TTimer
     Enabled = False

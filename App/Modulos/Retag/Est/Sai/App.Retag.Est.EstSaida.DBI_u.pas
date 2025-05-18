@@ -16,6 +16,7 @@ type
 
     procedure SetVarArrayToId(pNovaId: variant); override;
     function GetSqlInserirDoERetornaId: string; override;
+    function GetSqlAlterarDo: string; override;
   public
 
     procedure SaidaMotivoPrepareLista(pSL: TStrings);
@@ -35,6 +36,35 @@ constructor TEstSaidaDBI.Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
 begin
   inherited Create(pDBConnection, pEstSaidaEnt, pAppObj, pUsuarioId);
   FEstSaidaEnt := pEstSaidaEnt;
+end;
+
+function TEstSaidaDBI.GetSqlAlterarDo: string;
+var
+  sSql: string;
+  q: TDataSet;
+  e: IEstSaidaEnt;
+begin
+  e := FEstSaidaEnt;
+
+  Result := //
+    'EXECUTE PROCEDURE EST_SAIDA_PA.ALTERAR_DO'#13#10 //
+
+    + '('#13#10 //
+    + '  ' + E.Loja.Id.ToString + ' -- LOJA_ID'#13#10 //
+    //+ '  , ' + e.TerminalId.ToString + ' -- TERMINAL_ID'#13#10 //
+    + '  , ' + e.EstMovId.ToString + ' -- EST_MOV_ID'#13#10 //
+    + '  , ' + e.SaidaMotivoId.ToString + ' -- EST_SAIDA_MOTIVO_ID'#13#10 //
+
+    + '  , ' + UsuarioId.ToString + ' -- LOG_PESSOA_ID'#13#10 //
+    + '  , ' + sMachId + ' -- MACHINE_ID'#13#10 //
+    //+ '  , ' + QuotedStr(pModuloSisId) + ' -- MODULO_SIS_ID'#13#10 //
+
+    + ');';
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sSql);
+  // {$ENDIF}
+
 end;
 
 function TEstSaidaDBI.GetSqlForEach(pValues: variant): string;
@@ -89,7 +119,7 @@ var
   e: IEstSaidaEnt;
 begin
   e := FEstSaidaEnt;
-  i := e.ItemIndex;
+  i := e.Items.Count - 1;
   iItemProdId := e.Items[i].Prod.Id;
   uItemQtd := e.Items[i].Qtd;
 
@@ -168,12 +198,16 @@ begin
 end;
 
 procedure TEstSaidaDBI.SetVarArrayToId(pNovaId: variant);
+var
+  i: integer;
 begin
   inherited;
+  i := FEstSaidaEnt.Items.Count - 1;
+
   FEstSaidaEnt.EstMovId := pNovaId[0];
   FEstSaidaEnt.DtHDoc := pNovaId[1];
   FEstSaidaEnt.CriadoEm := pNovaId[2];
-  FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].CriadoEm := pNovaId[3];
+  FEstSaidaEnt.Items[i].CriadoEm := pNovaId[3];
   FEstSaidaEnt.EstSaidaId := pNovaId[4];
   // FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex].Ordem := pNovaId[5];
   FEstSaidaEnt.LogStr := pNovaId[6];

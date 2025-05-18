@@ -20,8 +20,8 @@ type
     FFinalizadoEm: TDateTime;
     FCanceladoEm: TDateTime;
     FItems: TList<IEstMovItem>;
-    FItemIndex: integer;
     FLogStr: string;
+    FEditandoItem: Boolean;
 
     function GetLoja: IAppLoja;
 
@@ -56,11 +56,11 @@ type
 
     function GetItems: TList<IEstMovItem>;
 
-    function GetItemIndex: integer;
-    procedure SetItemIndex(Value: integer);
-
     function GetLogStr: string;
     procedure SetLogStr(Value: string);
+
+    function GetEditandoItem: Boolean;
+    procedure SetEditandoItem(Value: Boolean);
   protected
 
   public
@@ -78,9 +78,8 @@ type
     property CanceladoEm: TDateTime read GetCanceladoEm write SetCanceladoEm;
     property Items: TList<IEstMovItem> read GetItems;
 
-    property ItemIndex: integer read GetItemIndex write SetItemIndex;
     property LogStr: string read GetLogStr write SetLogStr;
-
+    property EditandoItem: Boolean read GetEditandoItem write SetEditandoItem;
 
     procedure LimparEnt; override;
 
@@ -174,6 +173,11 @@ begin
   Result := FFinalizadoEm;
 end;
 
+function TEstMovEnt.GetEditandoItem: Boolean;
+begin
+  Result := FEditandoItem;
+end;
+
 function TEstMovEnt.GetEstMovId: Int64;
 begin
   Result := FEstMovId;
@@ -196,8 +200,9 @@ end;
 
 procedure TEstMovEnt.LimparEnt;
 begin
+  if EditandoItem then
+    exit;
   inherited;
-  FItemIndex := -1;
   FTerminalId := 0;
   FEstMovId := 0;
   FDtHDoc := DATA_ZERADA;
@@ -208,11 +213,6 @@ begin
   FFinalizadoEm := DATA_ZERADA;
   FCanceladoEm := DATA_ZERADA;
   FItems.Clear;
-end;
-
-function TEstMovEnt.GetItemIndex: integer;
-begin
-  Result := FItemIndex;
 end;
 
 function TEstMovEnt.GetItems: TList<IEstMovItem>;
@@ -255,11 +255,6 @@ begin
   FFinalizadoEm := Value;
 end;
 
-procedure TEstMovEnt.SetItemIndex(Value: integer);
-begin
-  FItemIndex := Value;
-end;
-
 procedure TEstMovEnt.SetLogStr(Value: string);
 begin
   FLogStr := Value;
@@ -273,6 +268,11 @@ end;
 procedure TEstMovEnt.Zerar;
 begin
   LimparEnt;
+end;
+
+procedure TEstMovEnt.SetEditandoItem(Value: Boolean);
+begin
+  FEditandoItem := Value;
 end;
 
 procedure TEstMovEnt.SetEstMovId(Value: Int64);

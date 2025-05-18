@@ -54,13 +54,13 @@ type
     function GetItems: TList<T>;
     property Items: TList<T> read GetItems;
 
-    function GetItemIndex: integer;
-    procedure SetItemIndex(Value: integer);
-    property ItemIndex: integer read GetItemIndex write SetItemIndex;
-
     function GetLogStr: string;
     procedure SetLogStr(Value: string);
     property LogStr: string read GetLogStr write SetLogStr;
+
+    function GetEditandoItem: Boolean;
+    procedure SetEditandoItem(Value: Boolean);
+    property EditandoItem: Boolean read GetEditandoItem write SetEditandoItem;
 
     procedure Zerar;
   end;
