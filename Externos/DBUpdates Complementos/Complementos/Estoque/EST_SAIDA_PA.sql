@@ -33,7 +33,7 @@ BEGIN
     --DTH_DOC                         TIMESTAMP,
     CRIADO_EM                       TIMESTAMP,
     EST_SAIDA_MOTIVO_ID             ID_SHORT_DOM,
-    EST_SAIDA_NOME                  NOME_INTERM_DOM,
+    EST_SAIDA_MOTIVO_NOME                  NOME_INTERM_DOM,
     FINALIZADO                      BOOLEAN,
     FINALIZADO_EM                   TIMESTAMP,
     CANCELADO                       BOOLEAN,
@@ -137,7 +137,7 @@ BEGIN
     CRIADO_EM                       TIMESTAMP,
 
     EST_SAIDA_MOTIVO_ID             ID_SHORT_DOM,
-    EST_SAIDA_NOME                  NOME_INTERM_DOM,
+    EST_SAIDA_MOTIVO_NOME                  NOME_INTERM_DOM,
 
     FINALIZADO                      BOOLEAN,
     FINALIZADO_EM                   TIMESTAMP,
@@ -216,7 +216,7 @@ BEGIN
       :CRIADO_EM,
 
       :EST_SAIDA_MOTIVO_ID,
-      :EST_SAIDA_NOME,
+      :EST_SAIDA_MOTIVO_NOME,
 
       :FINALIZADO,
       :FINALIZADO_EM,

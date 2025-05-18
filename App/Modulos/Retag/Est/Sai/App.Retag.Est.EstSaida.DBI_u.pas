@@ -86,7 +86,7 @@ begin
     + 'CRIADO_EM,'#13#10 //
 
     + 'EST_SAIDA_MOTIVO_ID,'#13#10 //
-    + 'EST_SAIDA_NOME,'#13#10 //
+    + 'EST_SAIDA_MOTIVO_NOME,'#13#10 //
 
     + 'FINALIZADO,'#13#10 //
     + 'FINALIZADO_EM,'#13#10 //
