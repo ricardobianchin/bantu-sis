@@ -241,7 +241,8 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
   Sis.Sis.Constants, App.Acesso.Fornecedor.UI.Factory_u,
   App.Pess.Fornecedor.Ent.Factory_u,
-  App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent;
+  App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent,
+  App.Retag.Est.Inventario.DBI, App.Retag.Est.Inventario.Ent;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -373,6 +374,9 @@ var
 
   oEstSaidaEnt: IEstSaidaEnt;
   oEstSaidaDBI: IEntDBI;
+
+  oInventarioEnt: IInventarioEnt;
+  oInventarioDBI: IEntDBI;
 begin
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
@@ -431,6 +435,17 @@ begin
   FEstSaidaDataSetFormCreator := EstSaidaEntDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
     oEstSaidaEnt, oEstSaidaDBI, AppObj);
+
+
+  oInventarioEnt := RetagInventarioEntCreate(AppObj.Loja, 0, DATA_ZERADA,
+    DATA_ZERADA);
+
+  oInventarioDBI := RetagInventarioEntDBICreate(pDBConnection, pAppObj,
+    oInventarioEnt, LogUsuario.Id);
+
+  FEstInventarioDataSetFormCreator := InventarioEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oInventarioEnt, oInventarioDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -552,7 +567,7 @@ procedure TRetaguardaModuloBasForm.RetagEstInventarioActionExecute
   (Sender: TObject);
 begin
   inherited;
-  // TabSheetCrie(FEstInventarioDataSetFormCreator);
+  TabSheetCrie(FEstInventarioDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
@@ -621,8 +636,9 @@ begin
   RetagAjuBemAction.Execute;
   TestaTesteConfig;
 {$IFDEF DEBUG}
-  RetagEstSaidaAct.Execute;
   // RetagEstEntFornecedorAct.Execute;
+  //RetagEstSaidaAct.Execute;
+  RetagEstInventarioAction.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

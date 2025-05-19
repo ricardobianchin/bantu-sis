@@ -1,4 +1,4 @@
-unit App.UI.Fram.DBGrid.Est.EstSaidaItem_u;
+unit App.UI.Frame.DBGrid.Est.InventarioItem_u;
 
 interface
 
@@ -8,24 +8,27 @@ uses
   Sis.UI.Frame.Bas.DBGrid_u, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids,
-  Vcl.DBGrids, App.Retag.Est.EstSaidaItem.DBI_u, Sis.DBI, Sis.Entities.Types, Sis.Types;
+  Vcl.DBGrids, App.Retag.Est.InventarioItem.DBI_u, Sis.DBI, Sis.Entities.Types,
+  Sis.Types;
 
 type
-  TEstSaidaItemDBGridFrame = class(TDBGridFrame)
+  TInventarioItemDBGridFrame = class(TDBGridFrame)
   private
     { Private declarations }
-    FEstSaidaItemDBI: IDBI;
+    FInventarioItemDBI: IDBI;
     function GetNomeArqTabView: string;
     procedure Preparar;
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer);
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pEstSaidaItemDBI: IDBI); reintroduce;
-    procedure Carregar(pLojaId: TLojaId; pTerminalId: TTerminalId; pEstMovId: Int64);
+    constructor Create(AOwner: TComponent; pInventarioItemDBI: IDBI);
+      reintroduce;
+    procedure Carregar(pLojaId: TLojaId; pTerminalId: TTerminalId;
+      pEstMovId: Int64);
   end;
 
 var
-  EstSaidaItemDBGridFrame: TEstSaidaItemDBGridFrame;
+  InventarioItemDBGridFrame: TInventarioItemDBGridFrame;
 
 implementation
 
@@ -33,9 +36,9 @@ implementation
 
 uses Sis.UI.IO.Files, Sis.DB.DataSet.Utils;
 
-{ TEstSaidaItemDBGridFrame }
+{ TInventarioItemDBGridFrame }
 
-procedure TEstSaidaItemDBGridFrame.Carregar(pLojaId: TLojaId;
+procedure TInventarioItemDBGridFrame.Carregar(pLojaId: TLojaId;
   pTerminalId: TTerminalId; pEstMovId: Int64);
 var
   Values: Variant;
@@ -46,18 +49,19 @@ begin
   Values[1] := pTerminalId;
   Values[2] := pEstMovId;
 
-  FEstSaidaItemDBI.ForEach(Values, LeRegEInsere);
+  FInventarioItemDBI.ForEach(Values, LeRegEInsere);
 end;
 
-constructor TEstSaidaItemDBGridFrame.Create(AOwner: TComponent; pEstSaidaItemDBI: IDBI);
+constructor TInventarioItemDBGridFrame.Create(AOwner: TComponent;
+  pInventarioItemDBI: IDBI);
 begin
   inherited Create(AOwner);
   DBGrid1.Align := alClient;
-  FEstSaidaItemDBI := pEstSaidaItemDBI;
+  FInventarioItemDBI := pInventarioItemDBI;
   Preparar;
 end;
 
-function TEstSaidaItemDBGridFrame.GetNomeArqTabView: string;
+function TInventarioItemDBGridFrame.GetNomeArqTabView: string;
 var
   sNomeArq: string;
   sExeName: string;
@@ -75,12 +79,11 @@ begin
   ForceDirectories(sPastaConsTabViews);
 
   sNomeArq := sPastaConsTabViews +
-    'App\Retag\Est\Sai\tabview.app.retag.est.estsaiitem.csv';
-
+    'App\Retag\Est\Inv\tabview.app.retag.est.invitem.csv';
   Result := sNomeArq;
 end;
 
-procedure TEstSaidaItemDBGridFrame.LeRegEInsere(q: TDataSet; pRecNo: integer);
+procedure TInventarioItemDBGridFrame.LeRegEInsere(q: TDataSet; pRecNo: integer);
 var
   i: integer;
 begin
@@ -88,19 +91,9 @@ begin
     exit;
 
   FDMemTableAppendDataSet(q, FDMemTable1, True);
-
-//  FDMemTable1.Append;
-//
-//  for i := 0 to q.FieldCount - 1 do
-//  begin
-//    Sis.DB.DataSet.Utils.FDMemTableAppendDataSet()
-//
-//    FDMemTable.Fields[i].Value := q.Fields[i].Value;
-//  end;
-//  FDMemTable1.Post;
 end;
 
-procedure TEstSaidaItemDBGridFrame.Preparar;
+procedure TInventarioItemDBGridFrame.Preparar;
 var
   sNomeArq: string;
 begin

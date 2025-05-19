@@ -10,7 +10,6 @@ type
     procedure SaidaMotivoPrepareLista(pSL: TStrings);
   end;
 
-
 implementation
 
 end.

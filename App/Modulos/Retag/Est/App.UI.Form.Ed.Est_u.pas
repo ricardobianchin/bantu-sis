@@ -58,12 +58,22 @@ begin
   inherited;
   ReadOnlySet(CodLabeledEdit);
   AjusteTabOrder;
+  if FEstMovEnt.State = dsEdit then
+  begin
+    ItemGroupBox.Visible := False;
+    Height := Height - ItemGroupBox.Height;
+  end;
+
 end;
 
 function TEstEdBasForm.ControlesOk: boolean;
 var
   s: string;
 begin
+  Result := FEstMovEnt.State = dsEdit;
+  if Result then
+    Exit;
+
   Result := ProdSelectFrame.ProdId > 0;
   if not Result then
   begin
@@ -141,6 +151,7 @@ procedure TEstEdBasForm.OkAct_DiagExecute(Sender: TObject);
 begin
   inherited;
   FEstMovEnt.EditandoItem := True;
+
 end;
 
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);

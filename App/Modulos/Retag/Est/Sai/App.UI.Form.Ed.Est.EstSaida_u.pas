@@ -29,10 +29,9 @@ type
     procedure AjusteControles; override;
     procedure AjusteTabOrder; override;
 
-    procedure ControlesToEnt; override;
     procedure EntToControles; override;
+    procedure ControlesToEnt; override;
 
-    function ControlesOk: boolean; override;
     procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
       var Key: Char); override;
   public
@@ -73,21 +72,6 @@ begin
   // inherited;
 end;
 
-function TEstSaidaEdForm.ControlesOk: boolean;
-begin
-  Result := inherited;
-  if not Result then
-    exit;
-
-  // Result := FSaidaMotivoMan.Id > 0;
-  // if not Result then
-  // begin
-  // ErroOutput.Exibir('O Motivo da Saída é obrigatório');
-  // SaidaMotivoComboBox.SetFocus;
-  // exit;
-  // end;
-end;
-
 procedure TEstSaidaEdForm.ControlesToEnt;
 var
   oItem: IRetagEstSaidaItem;
@@ -121,10 +105,6 @@ begin
   FSaidaMotivoMan := ComboBoxManagerCreate(SaidaMotivoComboBox);
   FEstSaidaDBI.SaidaMotivoPrepareLista(SaidaMotivoComboBox.Items);
   FSaidaMotivoUltimo := FEstSaidaEnt.SaidaMotivoId;
-  // if FEstSaidaEnt.EditandoItem then
-  // begin
-  //
-  // end;
 end;
 
 procedure TEstSaidaEdForm.EntToControles;

@@ -11,7 +11,7 @@ uses
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.AppInfo,
   App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.EstSaida.Ent, App.Retag.Est.EstSaida.DBI,
-  App.UI.Fram.DBGrid.Est.EstSaidaItem_u, App.Retag.Est.EstSaidaItem.DBI_u,
+  App.UI.Frame.DBGrid.Est.EstSaidaItem_u, App.Retag.Est.EstSaidaItem.DBI_u,
   Sis.DBI, App.UI.Form.Perg_u;
 
 type
@@ -19,6 +19,7 @@ type
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -339,6 +340,13 @@ begin
     'App\Retag\Est\Sai\tabview.app.retag.est.sai.csv';
 
   Result := sNomeArq;
+end;
+
+procedure TAppEstSaidaDataSetForm.InsAction_DatasetTabSheetExecute(
+  Sender: TObject);
+begin
+  inherited;
+//
 end;
 
 function TAppEstSaidaDataSetForm.PergEd: boolean;

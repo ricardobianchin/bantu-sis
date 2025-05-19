@@ -211,8 +211,10 @@ var
   rDBConnectionParams: TDBConnectionParams;
 begin
   inherited;
-  FEstMovEnt := pEntEd as IEstMovEnt<IEstMovItem>;
+  FEstMovEnt := EntEdCastToEstMovEnt(pEntEd);
   FEstMovDBI := EntDBICastToEstMovDBI(pEntDBI);
+
+  FEstMovEnt.EditandoItem := False;
 
   rDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, AppObj);
@@ -267,13 +269,19 @@ begin
 end;
 
 function TAppEstDataSetForm.DoInserir: boolean;
+var
+  ValAnterior: Boolean;
 begin
+  ValAnterior := FEstMovEnt.EditandoItem;
+//  FEstMovEnt.EditandoItem := False;
+
   Result := PergEd;
 
   if not Result then
     exit;
 
-  if not FEstMovEnt.EditandoItem then
+//  if not FEstMovEnt.EditandoItem then
+  if not ValAnterior then
   begin
     FDMemTable.Append;
     EntToRecord;
@@ -333,7 +341,7 @@ begin
   Result := not FDMemTable.IsEmpty;
   if not Result then
   begin
-    ShowMessage('Não há registro de nota a cancelar');
+    ShowMessage('Não há registro de nota a finalizar');
     exit;
   end;
 

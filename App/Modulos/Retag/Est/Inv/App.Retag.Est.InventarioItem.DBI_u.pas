@@ -1,11 +1,11 @@
-unit App.Retag.Est.EstSaidaItem.DBI_u;
+unit App.Retag.Est.InventarioItem.DBI_u;
 
 interface
 
-uses App.Retag.Est.EstSaidaItem, Sis.DBI_u;
+uses App.Retag.Est.InventarioItem, Sis.DBI_u;
 
 type
-  TEstSaidaItemDBI = class(TDBI)
+  TInventarioItemDBI = class(TDBI)
   private
   protected
     function GetSqlForEach(pValues: Variant): string; override;
@@ -17,9 +17,9 @@ implementation
 
 uses Sis.Entities.Types, Sis.Types, System.SysUtils, Sis.Win.Utils_u;
 
-{ TEstSaidaItemDBI }
+{ TInventarioItemDBI }
 
-function TEstSaidaItemDBI.GetSqlForEach(pValues: Variant): string;
+function TInventarioItemDBI.GetSqlForEach(pValues: Variant): string;
 var
   iLojaId: TLojaId;
   iTerminalId: TTerminalId;
@@ -69,4 +69,3 @@ begin
 end;
 
 end.
-

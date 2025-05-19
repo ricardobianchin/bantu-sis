@@ -26,14 +26,19 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
 
     , App.Retag.Est.EstSaida.DBI //
     , App.Retag.Est.EstSaida.Ent //
+    , App.Retag.Est.EstSaidaItem //
 
-    , App.Retag.Est.EstSaidaItem, App.Est.Prod, App.Est.EstMovItem //
+    , App.Retag.Est.Inventario.DBI //
+    , App.Retag.Est.Inventario.Ent //
+    , App.Retag.Est.InventarioItem //
+
+    , App.Est.Prod, App.Est.EstMovItem //
 
     ;
 
 {$REGION 'est'}
 function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
-//function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
+function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
 
 {$ENDREGION}
 {$REGION 'prod fabr'}
@@ -264,6 +269,55 @@ function RetagEstSaidaItemCreate( //
   ): IRetagEstSaidaItem;
 
 {$ENDREGION}
+{$REGION 'est inv'}
+function EntEdCastToInventarioEnt(pEntEd: IEntEd): IInventarioEnt;
+function EntDBICastToInventarioDBI(pEntDBI: IEntDBI): IInventarioDBI;
+
+function RetagInventarioEntCreate( //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
+
+  pInventarioId: TId = 0; //
+
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IInventarioEnt;
+
+function RetagInventarioEntDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj; pInventarioEnt: IInventarioEnt; pUsuarioId: TId): IEntDBI;
+
+function InventarioEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection)
+  : TEdBasForm;
+
+function InventarioPerg(AOwner: TComponent; pAppObj: IAppObj;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI;
+  pDBConnection: IDBConnection): boolean;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+
+function InventarioEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+
+function RetagInventarioItemCreate( //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pQtd: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IRetagInventarioItem;
+
+{$ENDREGION}
 {$REGION 'xxx'}
 {$ENDREGION}
 
@@ -322,10 +376,18 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
     , App.UI.Form.Ed.Est.EstSaida_u //
     , App.Retag.Est.EstSaidaItem_u //
 {$ENDREGION}
-{$REGION 'uses est'}
-    , App.Est.EstMovDBI_u
+{$REGION 'uses est inv'}
+    , App.Retag.Est.Inventario.DBI_u //
+    , App.Retag.Est.Inventario.Ent_u //
+    , App.UI.Form.DataSet.Est.Inventario_u //
+    , App.UI.Form.Ed.Est.Inventario_u //
+    , App.Retag.Est.InventarioItem_u //
 {$ENDREGION}
-    , App.Est.EstMovEnt_u;
+{$REGION 'uses est'}
+    , App.Est.EstMovDBI_u //
+    , App.Est.EstMovEnt_u //
+{$ENDREGION}
+    ;
 
 {$REGION 'prod fabr impl'}
 
@@ -715,7 +777,7 @@ end;
 function EntEdCastToEstSaidaEnt(pEntEd: IEntEd): IEstSaidaEnt;
 begin
   Result := TEstSaidaEnt(pEntEd);
-//  Result := pEntEd as IEstSaidaEnt;
+  // Result := pEntEd as IEstSaidaEnt;
 end;
 
 function EntDBICastToEstSaidaDBI(pEntDBI: IEntDBI): IEstSaidaDBI;
@@ -807,6 +869,103 @@ begin
 end;
 
 {$ENDREGION}
+{$REGION 'est inv impl'}
+
+function EntEdCastToInventarioEnt(pEntEd: IEntEd): IInventarioEnt;
+begin
+  Result := TInventarioEnt(pEntEd);
+  // Result := pEntEd as IInventarioEnt;
+end;
+
+function EntDBICastToInventarioDBI(pEntDBI: IEntDBI): IInventarioDBI;
+begin
+  Result := TInventarioDBI(pEntDBI);
+end;
+
+function RetagInventarioEntCreate( //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
+
+  pInventarioId: TId = 0; //
+
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IInventarioEnt;
+begin
+  Result := TInventarioEnt.Create(pLoja, pTerminalId, pDtHDoc, pEstMovCriadoEm,
+    pInventarioId, pEstMovId, pEstMovFinalizado,
+    pEstMovCancelado, pEstMovAlteradoEm, pEstMovFinalizadoEm,
+    pEstMovCanceladoEm);
+end;
+
+function RetagInventarioEntDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj; pInventarioEnt: IInventarioEnt; pUsuarioId: TId): IEntDBI;
+begin
+  Result := TInventarioDBI.Create(pDBConnection, pAppObj, pInventarioEnt,
+    pUsuarioId);
+end;
+
+function InventarioEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection)
+  : TEdBasForm;
+begin
+  Result := TInventarioEdForm.Create(AOwner, pAppObj, pInventarioEnt,
+    pInventarioDBI, pDBConnection);
+end;
+
+function InventarioPerg(AOwner: TComponent; pAppObj: IAppObj;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI;
+  pDBConnection: IDBConnection): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := InventarioEntEdFormCreate(AOwner, pAppObj, pInventarioEnt,
+    pInventarioDBI, pDBConnection);
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
+end;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+// begin
+// // Result := TDecoratorExclFabr.Create(pProdFabr);
+// end;
+
+function InventarioEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TAppInventarioDataSetForm,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
+end;
+
+function RetagInventarioItemCreate( //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pQtd: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IRetagInventarioItem;
+var
+  oProd: IProd;
+begin
+  oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
+  Result := TRetagInventarioItem.Create(pOrdem, oProd, pQtd, pCriadoEm);
+end;
+
+{$ENDREGION}
 {$REGION 'est impl'}
 
 function EntDBICastToEstMovDBI(pEntDBI: IEntDBI): IEstMovDBI;
@@ -817,11 +976,11 @@ end;
 function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
 begin
   Result := TEstMovEnt(pEntEd);
-//  Result := pEntEd as IEstMovEnt<IEstMovItem>;
-//  if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
-//    Exit(Result)
-//  else
-//    Result := nil; // Ou lançar uma exceção personalizada
+  // Result := pEntEd as IEstMovEnt<IEstMovItem>;
+  // if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
+  // Exit(Result)
+  // else
+  // Result := nil; // Ou lançar uma exceção personalizada
 end;
 
 {$ENDREGION}
