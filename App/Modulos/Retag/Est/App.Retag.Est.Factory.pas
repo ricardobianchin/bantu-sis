@@ -32,6 +32,10 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.Inventario.Ent //
     , App.Retag.Est.InventarioItem //
 
+    , App.Retag.Est.Entrada.DBI //
+    , App.Retag.Est.Entrada.Ent //
+    , App.Retag.Est.EntradaItem //
+
     , App.Est.Prod, App.Est.EstMovItem //
 
     ;
@@ -318,6 +322,59 @@ function RetagInventarioItemCreate( //
   ): IRetagInventarioItem;
 
 {$ENDREGION}
+{$REGION 'est ent'}
+function EntEdCastToEntradaEnt(pEntEd: IEntEd): IEntradaEnt;
+function EntDBICastToEntradaDBI(pEntDBI: IEntDBI): IEntradaDBI;
+
+function RetagEntradaEntCreate( //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
+
+  pEntradaId: TId = 0; //
+  pNDoc: integer = 0; //
+  pSerie: smallint = 0; //
+  pFornecedorId: TId = 0; //
+  pFornecedorApelido: string = ''; //
+
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IEntradaEnt;
+
+function RetagEntradaEntDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj; pEntradaEnt: IEntradaEnt; pUsuarioId: TId): IEntDBI;
+
+function EntradaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection)
+  : TEdBasForm;
+
+function EntradaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
+  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection): boolean;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+
+function EntradaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+
+function RetagEntradaItemCreate( //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pQtd: Currency; //
+  pCusto: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IRetagEntradaItem;
+
+{$ENDREGION}
 {$REGION 'xxx'}
 {$ENDREGION}
 
@@ -382,6 +439,13 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
     , App.UI.Form.DataSet.Est.Inventario_u //
     , App.UI.Form.Ed.Est.Inventario_u //
     , App.Retag.Est.InventarioItem_u //
+{$ENDREGION}
+{$REGION 'uses est ent'}
+    , App.Retag.Est.Entrada.DBI_u //
+    , App.Retag.Est.Entrada.Ent_u //
+    , App.UI.Form.DataSet.Est.Entrada_u //
+    , App.UI.Form.Ed.Est.Entrada_u //
+    , App.Retag.Est.EntradaItem_u //
 {$ENDREGION}
 {$REGION 'uses est'}
     , App.Est.EstMovDBI_u //
@@ -899,9 +963,8 @@ function RetagInventarioEntCreate( //
   ): IInventarioEnt;
 begin
   Result := TInventarioEnt.Create(pLoja, pTerminalId, pDtHDoc, pEstMovCriadoEm,
-    pInventarioId, pEstMovId, pEstMovFinalizado,
-    pEstMovCancelado, pEstMovAlteradoEm, pEstMovFinalizadoEm,
-    pEstMovCanceladoEm);
+    pInventarioId, pEstMovId, pEstMovFinalizado, pEstMovCancelado,
+    pEstMovAlteradoEm, pEstMovFinalizadoEm, pEstMovCanceladoEm);
 end;
 
 function RetagInventarioEntDBICreate(pDBConnection: IDBConnection;
@@ -963,6 +1026,120 @@ var
 begin
   oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
   Result := TRetagInventarioItem.Create(pOrdem, oProd, pQtd, pCriadoEm);
+end;
+
+{$ENDREGION}
+{$REGION 'est ent impl'}
+
+function EntEdCastToEntradaEnt(pEntEd: IEntEd): IEntradaEnt;
+begin
+  Result := TEntradaEnt(pEntEd);
+  // Result := pEntEd as IEntradaEnt;
+end;
+
+function EntDBICastToEntradaDBI(pEntDBI: IEntDBI): IEntradaDBI;
+begin
+  Result := TEntradaDBI(pEntDBI);
+end;
+
+function RetagEntradaEntCreate( //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
+
+  pEntradaId: TId = 0; //
+  pNDoc: integer = 0; //
+  pSerie: smallint = 0; //
+  pFornecedorId: TId = 0; //
+  pFornecedorApelido: string = ''; //
+
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IEntradaEnt;
+begin
+  Result := TEntradaEnt.Create(pLoja, //
+    pTerminalId, //
+    pDtHDoc, //
+    pEstMovCriadoEm, //
+
+    pEntradaId, //
+    pNDoc, //
+    pSerie, //
+    pFornecedorId, //
+    pFornecedorApelido, //
+
+    pEstMovId, //
+    pEstMovFinalizado, //
+    pEstMovCancelado, //
+    pEstMovAlteradoEm, //
+    pEstMovFinalizadoEm, //
+    pEstMovCanceladoEm //
+    );
+end;
+
+function RetagEntradaEntDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj; pEntradaEnt: IEntradaEnt; pUsuarioId: TId): IEntDBI;
+begin
+  Result := TEntradaDBI.Create(pDBConnection, pAppObj, pEntradaEnt, pUsuarioId);
+end;
+
+function EntradaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection)
+  : TEdBasForm;
+begin
+  Result := TEntradaEdForm.Create(AOwner, pAppObj, pEntradaEnt, pEntradaDBI,
+    pDBConnection);
+end;
+
+function EntradaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
+  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := EntradaEntEdFormCreate(AOwner, pAppObj, pEntradaEnt, pEntradaDBI,
+    pDBConnection);
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
+end;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+// begin
+// // Result := TDecoratorExclFabr.Create(pProdFabr);
+// end;
+
+function EntradaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TAppEntradaDataSetForm,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
+end;
+
+function RetagEntradaItemCreate( //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pQtd: Currency; //
+  pCusto: Currency; //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
+  ): IRetagEntradaItem;
+var
+  oProd: IProd;
+begin
+  oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
+  Result := TRetagEntradaItem.Create(pOrdem, oProd, pQtd, pCusto, pCriadoEm);
 end;
 
 {$ENDREGION}

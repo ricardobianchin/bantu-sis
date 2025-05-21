@@ -58,12 +58,12 @@ begin
   inherited;
   ReadOnlySet(CodLabeledEdit);
   AjusteTabOrder;
+  ItemGroupBox.Caption := FEstMovEnt.NomeEnt;
   if FEstMovEnt.State = dsEdit then
   begin
     ItemGroupBox.Visible := False;
     Height := Height - ItemGroupBox.Height;
   end;
-
 end;
 
 function TEstEdBasForm.ControlesOk: boolean;
@@ -134,11 +134,11 @@ function TEstEdBasForm.GetObjetivoStr: string;
 begin
   if FEstMovEnt.EditandoItem then
   begin
-    Result := 'Novo item';
+    Result := 'Novo item de '+FEstMovEnt.NomeEnt;
   end
   else
   begin
-    Result := 'Nova nota';
+    Result := 'Nova nota de '+FEstMovEnt.NomeEnt;
   end;
 end;
 
@@ -157,6 +157,7 @@ end;
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);
 begin
   MensLimpar;
+  QtdNumEditBtu.setFocus;
 end;
 
 end.

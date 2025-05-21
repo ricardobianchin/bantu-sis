@@ -50,7 +50,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           Height = 30
           AutoSize = True
           ButtonHeight = 30
-          ButtonWidth = 125
+          ButtonWidth = 106
           Caption = 'EstoqueToolBar'
           Ctl3D = False
           EdgeInner = esNone
@@ -70,40 +70,40 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Top = 0
             AutoSize = True
             Caption = 'Vendas'
+            Visible = False
           end
           object EstEntrToolButton: TToolButton
             Left = 107
             Top = 0
-            Hint = 'Produtos'
+            Action = RetagEstEntradaAction
             AutoSize = True
-            Caption = 'Entrada de Notas'
           end
           object EstInventarioToolButton: TToolButton
-            Left = 208
+            Left = 158
             Top = 0
             Action = RetagEstInventarioAction
             AutoSize = True
           end
           object EstSaidaToolButton: TToolButton
-            Left = 277
+            Left = 227
             Top = 0
             Action = RetagEstSaidaAct
             AutoSize = True
           end
           object EstSaldoToolButton: TToolButton
-            Left = 321
+            Left = 271
             Top = 0
             Action = RetagEstSaldoAct
             AutoSize = True
           end
           object EstCliToolButton: TToolButton
-            Left = 361
+            Left = 311
             Top = 0
             Action = RetagEstVenClienteAction
             AutoSize = True
           end
           object EstFornecedorToolButton: TToolButton
-            Left = 414
+            Left = 364
             Top = 0
             Action = RetagEstEntFornecedorAct
             AutoSize = True
@@ -466,7 +466,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     end
     object RetagEstEntradaAction: TAction
       Category = 'Estoque'
-      Caption = 'Entrada de Notas'
+      Caption = 'Entrada'
       OnExecute = RetagEstEntradaActionExecute
     end
     object RetagEstInventarioAction: TAction
@@ -477,6 +477,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstSaldoAct: TAction
       Category = 'Estoque'
       Caption = 'Saldo'
+      Visible = False
       OnExecute = RetagEstSaldoActExecute
     end
   end

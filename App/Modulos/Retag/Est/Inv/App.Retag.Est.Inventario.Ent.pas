@@ -7,7 +7,7 @@ uses App.Est.EstMovEnt, Sis.Entities.Types, App.Est.Types_u, Sis.Types,
 
 type
   IInventarioEnt = interface(IEstMovEnt<IRetagInventarioItem>)
-    ['{B52CFF07-AF28-4C57-9C85-93FD0CA1434D}']
+    ['{C8CA537E-8FBF-41DF-AEFC-2243D67749E0}']
 
     function GetInventarioId: TId;
     procedure SetInventarioId(Value: TId);

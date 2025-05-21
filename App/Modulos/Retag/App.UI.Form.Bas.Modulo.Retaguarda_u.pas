@@ -242,7 +242,8 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   Sis.Sis.Constants, App.Acesso.Fornecedor.UI.Factory_u,
   App.Pess.Fornecedor.Ent.Factory_u,
   App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent,
-  App.Retag.Est.Inventario.DBI, App.Retag.Est.Inventario.Ent;
+  App.Retag.Est.Inventario.DBI, App.Retag.Est.Inventario.Ent,
+  App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -377,6 +378,9 @@ var
 
   oInventarioEnt: IInventarioEnt;
   oInventarioDBI: IEntDBI;
+
+  oEntradaEnt: IEntradaEnt;
+  oEntradaDBI: IEntDBI;
 begin
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
@@ -446,6 +450,17 @@ begin
   FEstInventarioDataSetFormCreator := InventarioEntDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
     oInventarioEnt, oInventarioDBI, AppObj);
+
+
+  oEntradaEnt := RetagEntradaEntCreate(AppObj.Loja, 0, DATA_ZERADA,
+    DATA_ZERADA);
+
+  oEntradaDBI := RetagEntradaEntDBICreate(pDBConnection, pAppObj,
+    oEntradaEnt, LogUsuario.Id);
+
+  FEstEntradaDataSetFormCreator := EntradaEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oEntradaEnt, oEntradaDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -560,7 +575,7 @@ procedure TRetaguardaModuloBasForm.RetagEstEntradaActionExecute
   (Sender: TObject);
 begin
   inherited;
-  // TabSheetCrie(FEstEntradaDataSetFormCreator);
+   TabSheetCrie(FEstEntradaDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstInventarioActionExecute
@@ -638,7 +653,7 @@ begin
 {$IFDEF DEBUG}
   // RetagEstEntFornecedorAct.Execute;
   //RetagEstSaidaAct.Execute;
-  RetagEstInventarioAction.Execute;
+  RetagEstEntradaAction.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

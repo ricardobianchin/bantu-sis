@@ -44,7 +44,6 @@ type
     procedure DetailCarregar; override;
 
     function FinalizPode: boolean; override;
-    procedure DoLer; override;
     procedure DoAlterar; override;
   public
     { Public declarations }
@@ -202,16 +201,6 @@ begin
   FDMemTableEST_SAIDA_MOTIVO_ID.AsInteger := FEstSaidaEnt.SaidaMotivoId;
   FDMemTableEST_SAIDA_MOTIVO_DESCR.AsString := FEstSaidaEnt.SaidaMotivoDescr;
   FDMemTable.Post;
-end;
-
-procedure TAppEstSaidaDataSetForm.DoLer;
-begin
-  inherited;
-//  FEstSaidaEnt.Loja.Id := FDMemTable.FieldByName('loja_id').AsInteger;
-//  FEstSaidaEnt.TerminalId := FDMemTable.FieldByName('terminal_id').AsInteger;
-//  FEstSaidaEnt.EstMovId := FDMemTable.FieldByName('est_mov_id').AsLargeInt;
-//
-//  FEstSaidaEnt.SaidaMotivoId := FDMemTableEST_SAIDA_MOTIVO_ID.AsInteger;
 end;
 
 procedure TAppEstSaidaDataSetForm.EntToRecord;

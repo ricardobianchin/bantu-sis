@@ -6,7 +6,7 @@ uses App.Est.EstMovDBI, System.Classes;
 
 type
   IInventarioDBI = interface(IEstMovDBI)
-    ['{4CE2E5C0-36E0-420A-888E-0D3D02718465}']
+    ['{C0AF7B28-5F3D-4163-ADC2-88C2551B12AC}']
   end;
 
 implementation

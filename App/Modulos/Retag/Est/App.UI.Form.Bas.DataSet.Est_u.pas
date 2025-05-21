@@ -407,6 +407,7 @@ begin
   inherited;
   CrieFiltroFrame;
   ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  InsAction_DatasetTabSheet.Caption := 'Nova Nota de '+FEstMovEnt.NomeEnt;
 end;
 
 end.

@@ -112,11 +112,10 @@ procedure TInventarioEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
   // inherited;
-  if Key = #13 then
+  if Key >= #32 then
   begin
     Key := #0;
     ProdSelectFrame.Selecionar;
-    QtdNumEditBtu.SetFocus
   end;
 end;
 
