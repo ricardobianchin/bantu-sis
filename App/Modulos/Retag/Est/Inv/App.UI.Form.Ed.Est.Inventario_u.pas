@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.Inventario.Ent, App.Retag.Est.Inventario.DBI,
   Sis.UI.Controls.ComboBoxManager, Sis.DB.DBTypes, CustomEditBtu,
-  CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types;
+  CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
 
 type
   TInventarioEdForm = class(TEstEdBasForm)
@@ -32,7 +33,9 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pDBConnection: IDBConnection); override;
+      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+      pOutputNotify: IOutput = nil); override;
   end;
 
 var
@@ -46,7 +49,7 @@ uses App.Retag.Est.Factory, Sis.UI.Controls.Factory, Sis.DB.DataSet.Utils,
   Sis.Types.Floats, App.Retag.Est.InventarioItem, Data.DB, Sis.Sis.Constants,
   Sis.Types.strings_u;
 
-  procedure TInventarioEdForm.AjusteControles;
+procedure TInventarioEdForm.AjusteControles;
 begin
   inherited;
   ProdSelectFrame.SetFocus;
@@ -81,11 +84,13 @@ begin
 end;
 
 constructor TInventarioEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection);
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput);
 begin
   inherited;
   FInventarioEnt := EntEdCastToInventarioEnt(pEntEd);
-//  FInventarioEnt := pEntEd as IInventarioEnt;
+  // FInventarioEnt := pEntEd as IInventarioEnt;
   FInventarioDBI := EntDBICastToInventarioDBI(pEntDBI);
 end;
 

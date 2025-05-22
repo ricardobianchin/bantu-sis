@@ -7,14 +7,17 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Sis.UI.Frame.Bas_u, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Sis.DBI,
   Sis.UI.Frame.Bas.Filtro_u, Sis.UI.Select, Sis.DB.DBTypes, App.AppObj,
-  Vcl.Buttons, Sis.Types;
+  Vcl.Buttons, Sis.Types, Sis.UI.FormCreator, Sis.UI.IO.Output, Sis.Usuario,
+  Sis.UI.IO.Output.ProcessLog;
 
 type
   TProdSelectFrame = class(TBasFrame)
     ProdLabeledEdit: TLabeledEdit;
     BuscaSpeedButton: TSpeedButton;
+    ListaSpeedButton: TSpeedButton;
     procedure BuscaSpeedButtonClick(Sender: TObject);
     procedure ProdLabeledEditClick(Sender: TObject);
+    procedure ListaSpeedButtonClick(Sender: TObject);
   private
     { Private declarations }
     FDBConnection: IDBConnection;
@@ -31,6 +34,9 @@ type
 
     FOnSelect: TNotifyEvent;
 
+    FProdFormCreator: IFormCreator;
+    DummyFormClassNamesSL: TStringList;
+
     function ProdSelectDBICreate: IDBI;
     function ProdSelectFiltroFrameCreate: TFiltroFrame;
     function ProdSelectCreate: ISelect;
@@ -46,9 +52,11 @@ type
 
     procedure Selecionar;
 
-
     constructor Create(AOwner: TComponent; pDBConnection: IDBConnection;
-      pAppObj: IAppObj); reintroduce;
+      pAppObj: IAppObj; pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog; pOutputNotify: IOutput); reintroduce;
+    destructor Destroy; override;
+
   end;
 
 var
@@ -60,20 +68,23 @@ implementation
 
 uses Sis.UI.Controls.Utils, Sis.UI.Controls.Factory, Sis.UI.ImgDM,
   Sis.UI.Frame.Bas.Filtro.BuscaString_u, App.Retag.Est.ProdSelectDBI_u,
-  Sis.Types.Bool_u;
+  Sis.Types.Bool_u, App.Retag.Est.Factory;
 
 { TProdSelectFrame }
 
 procedure TProdSelectFrame.BuscaSpeedButtonClick(Sender: TObject);
 begin
   inherited;
-  Selecionar;
+  // Selecionar;
 end;
 
 constructor TProdSelectFrame.Create(AOwner: TComponent;
-  pDBConnection: IDBConnection; pAppObj: IAppObj);
+  pDBConnection: IDBConnection; pAppObj: IAppObj; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput);
 begin
   inherited Create(AOwner);
+  DummyFormClassNamesSL := TStringList.Create;
 
   FDBConnection := pDBConnection;
   FAppObj := pAppObj;
@@ -88,12 +99,47 @@ begin
   FProdBalancaExige := False;
 
   Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
+
+  FProdFormCreator := ProdFormCreatorCreate(DummyFormClassNamesSL, pUsuarioLog,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj, pDBConnection);
+end;
+
+destructor TProdSelectFrame.Destroy;
+begin
+  DummyFormClassNamesSL.Free;
+  inherited;
+end;
+
+procedure TProdSelectFrame.ListaSpeedButtonClick(Sender: TObject);
+var
+  Resultado: Boolean;
+  SelectItem: TSelectItem;
+  a: TArray<string>;
+  s: string;
+begin
+  inherited;
+  SelectItem.Id := ProdId;
+  Resultado := FProdFormCreator.PergSelect(SelectItem);
+  if not Resultado then
+    exit;
+
+  FProdId := SelectItem.Id;
+  s := SelectItem.Descr;
+  a := s.Split([';']);
+  FProdDescrRed := a[1];
+  FProdBalancaExige := StrToBoolean(a[3]);
+  FProdFabrNome := a[2];
+  ProdLabeledEdit.Text := a[0] + ' - ' + a[1];
+
+  if Assigned(FOnSelect) then
+    FOnSelect(Self);
 end;
 
 procedure TProdSelectFrame.ProdLabeledEditClick(Sender: TObject);
 begin
   inherited;
-  Selecionar;
+  ListaSpeedButton.Click;
+  // Selecionar;
 end;
 
 function TProdSelectFrame.ProdSelectCreate: ISelect;
@@ -116,6 +162,9 @@ var
   s: string;
   a: TArray<string>;
 begin
+  ListaSpeedButton.Click;
+  exit;
+
   if FProdSelect.Execute('') then
   begin
     s := FProdSelect.LastSelected;

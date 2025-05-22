@@ -260,7 +260,7 @@ end;
 function TAppInventarioDataSetForm.PergEd: boolean;
 begin
   Result := InventarioPerg(nil, AppObj, FInventarioEnt, FInventarioDBI,
-    FDBConnection);
+    FDBConnection, UsuarioLog, DBMS);
 end;
 
 procedure TAppInventarioDataSetForm.RecordToEnt;

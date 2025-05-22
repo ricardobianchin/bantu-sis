@@ -213,7 +213,13 @@ function ProdDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
+function ProdFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj;
+  pDBConnection: IDBConnection): IFormCreator;
+
 function ProdDataSetUltimoIdCreate(pQ: TDataSet): IUltimoId;
+
 {$ENDREGION}
 {$REGION 'prod barras'}
 function ProdBarrasCreate(pOrdem: smallint = 0; pBarras: string = '')
@@ -248,12 +254,14 @@ function RetagEstSaidaEntDBICreate(pDBConnection: IDBConnection;
   pAppObj: IAppObj; pEstSaidaEnt: IEstSaidaEnt; pUsuarioId: TId): IEntDBI;
 
 function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI; pDBConnection: IDBConnection)
-  : TEdBasForm;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): TEdBasForm;
 
-function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI;
-  pDBConnection: IDBConnection): boolean;
+function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+  pOutputNotify: IOutput = nil): boolean;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
@@ -297,12 +305,14 @@ function RetagInventarioEntDBICreate(pDBConnection: IDBConnection;
   pAppObj: IAppObj; pInventarioEnt: IInventarioEnt; pUsuarioId: TId): IEntDBI;
 
 function InventarioEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection)
-  : TEdBasForm;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): TEdBasForm;
 
 function InventarioPerg(AOwner: TComponent; pAppObj: IAppObj;
-  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI;
-  pDBConnection: IDBConnection): boolean;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): boolean;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
@@ -350,11 +360,15 @@ function RetagEntradaEntDBICreate(pDBConnection: IDBConnection;
   pAppObj: IAppObj; pEntradaEnt: IEntradaEnt; pUsuarioId: TId): IEntDBI;
 
 function EntradaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection)
+  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil)
   : TEdBasForm;
 
 function EntradaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
-  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection): boolean;
+  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): boolean;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
@@ -815,6 +829,53 @@ begin
   Result := TProdEdUltimoId.Create(pQ);
 end;
 
+function ProdFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj;
+  pDBConnection: IDBConnection): IFormCreator;
+var
+  oFabrEnt: IProdFabrEnt;
+  oFabrDBI: IEntDBI;
+
+  oTipoEnt: IProdTipoEnt;
+  oTipoDBI: IEntDBI;
+
+  oUnidEnt: IProdUnidEnt;
+  oUnidDBI: IEntDBI;
+
+  oICMSEnt: IProdICMSEnt;
+  oICMSDBI: IEntDBI;
+
+  oProdBarrasList: IProdBarrasList;
+  oProdBalancaEnt: IProdBalancaEnt;
+
+  oProdEnt: IProdEnt;
+  oProdDBI: IEntDBI;
+begin
+  oFabrEnt := RetagEstProdFabrEntCreate;
+  oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
+
+  oTipoEnt := RetagEstProdTipoEntCreate;
+  oTipoDBI := RetagEstProdTipoDBICreate(pDBConnection, oTipoEnt);
+
+  oUnidEnt := RetagEstProdUnidEntCreate;
+  oUnidDBI := RetagEstProdUnidDBICreate(pDBConnection, oUnidEnt);
+
+  oICMSEnt := RetagEstProdICMSEntCreate;
+  oICMSDBI := RetagEstProdICMSDBICreate(pDBConnection, oICMSEnt);
+
+  oProdBarrasList := ProdBarrasListCreate;
+  oProdBalancaEnt := ProdBalancaEntCreate;
+
+  oProdEnt := RetagEstProdEntCreate(pAppObj.Loja.Id, pUsuarioLog.Id,
+    pAppObj.SisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt,
+    oICMSEnt, oProdBarrasList, oProdBalancaEnt);
+  oProdDBI := RetagEstProdDBICreate(pDBConnection, oProdEnt);
+
+  Result := ProdDataSetFormCreatorCreate(pFormClassNamesSL, pUsuarioLog, pDBMS,
+    pOutput, pProcessLog, pOutputNotify, oProdEnt, oProdDBI, pAppObj);
+end;
+
 {$ENDREGION}
 {$REGION 'prod barras impl'}
 
@@ -879,21 +940,23 @@ begin
 end;
 
 function EstSaidaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI; pDBConnection: IDBConnection)
-  : TEdBasForm;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
 begin
-  Result := TEstSaidaEdForm.Create(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI,
-    pDBConnection);
+  Result := TEstSaidaEdForm.Create(AOwner, pAppObj, pEntEd, pEntDBI,
+    pDBConnection, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
 end;
 
-function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj;
-  pEstSaidaEnt: IEntEd; pEstSaidaDBI: IEntDBI;
-  pDBConnection: IDBConnection): boolean;
+function EstSaidaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): boolean;
 var
   F: TEdBasForm;
 begin
-  F := EstSaidaEntEdFormCreate(AOwner, pAppObj, pEstSaidaEnt, pEstSaidaDBI,
-    pDBConnection);
+  F := EstSaidaEntEdFormCreate(AOwner, pAppObj, pEntEd, pEntDBI, pDBConnection,
+    pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
   try
     Result := F.Perg;
   finally
@@ -975,21 +1038,23 @@ begin
 end;
 
 function InventarioEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection)
-  : TEdBasForm;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
 begin
   Result := TInventarioEdForm.Create(AOwner, pAppObj, pInventarioEnt,
-    pInventarioDBI, pDBConnection);
+    pInventarioDBI, pDBConnection, pUsuarioLog, pDBMS);
 end;
 
 function InventarioPerg(AOwner: TComponent; pAppObj: IAppObj;
-  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI;
-  pDBConnection: IDBConnection): boolean;
+  pInventarioEnt: IEntEd; pInventarioDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput): boolean;
 var
   F: TEdBasForm;
 begin
   F := InventarioEntEdFormCreate(AOwner, pAppObj, pInventarioEnt,
-    pInventarioDBI, pDBConnection);
+    pInventarioDBI, pDBConnection, pUsuarioLog, pDBMS);
   try
     Result := F.Perg;
   finally
@@ -1089,20 +1154,24 @@ begin
 end;
 
 function EntradaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection)
+  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput)
   : TEdBasForm;
 begin
   Result := TEntradaEdForm.Create(AOwner, pAppObj, pEntradaEnt, pEntradaDBI,
-    pDBConnection);
+    pDBConnection, pUsuarioLog, pDBMS);
 end;
 
 function EntradaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
-  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection): boolean;
+  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput): boolean;
 var
   F: TEdBasForm;
 begin
   F := EntradaEntEdFormCreate(AOwner, pAppObj, pEntradaEnt, pEntradaDBI,
-    pDBConnection);
+    pDBConnection, pUsuarioLog, pDBMS);
   try
     Result := F.Perg;
   finally

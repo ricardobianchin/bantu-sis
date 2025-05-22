@@ -1,8 +1,8 @@
 inherited ProdSelectFrame: TProdSelectFrame
-  Width = 500
-  Height = 24
-  ExplicitWidth = 500
-  ExplicitHeight = 24
+  Width = 499
+  Height = 26
+  ExplicitWidth = 499
+  ExplicitHeight = 26
   object BuscaSpeedButton: TSpeedButton
     Left = 471
     Top = 0
@@ -11,7 +11,18 @@ inherited ProdSelectFrame: TProdSelectFrame
     Hint = 'Buscar...'
     ImageIndex = 0
     Images = SisImgDataModule.ImageList16Flat
+    Visible = False
     OnClick = BuscaSpeedButtonClick
+  end
+  object ListaSpeedButton: TSpeedButton
+    Left = 472
+    Top = 0
+    Width = 23
+    Height = 23
+    Hint = 'Produtos...'
+    ImageIndex = 1
+    Images = SisImgDataModule.ImageList16Flat
+    OnClick = ListaSpeedButtonClick
   end
   object ProdLabeledEdit: TLabeledEdit
     Left = 49

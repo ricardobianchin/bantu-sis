@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI,
   Sis.UI.Controls.ComboBoxManager, Sis.DB.DBTypes, CustomEditBtu,
-  CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types;
+  CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
 
 type
   TEntradaEdForm = class(TEstEdBasForm)
@@ -43,7 +44,9 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pDBConnection: IDBConnection); override;
+      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+      pOutputNotify: IOutput = nil); override;
   end;
 
 var
@@ -118,8 +121,10 @@ begin
   FEntradaEnt.FornecedorApelido := StrAntes(FFornecedorMan.Text, ' -');
 end;
 
-constructor TEntradaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection);
+constructor TEntradaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+      pOutputNotify: IOutput);
 begin
   inherited;
   FEntradaEnt := EntEdCastToEntradaEnt(pEntEd);

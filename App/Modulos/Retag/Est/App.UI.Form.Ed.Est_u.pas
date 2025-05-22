@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.ProdSelectFrame_u, Sis.DB.DBTypes, CustomEditBtu,
   CustomNumEditBtu, NumEditBtu, Data.DB, App.Est.EstMovEnt, App.Est.EstMovItem,
-  App.Est.EstMovDBI;
+  App.Est.EstMovDBI, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
 
 type
   TEstEdBasForm = class(TEdBasForm)
@@ -39,7 +39,9 @@ type
     { Public declarations }
 
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pDBConnection: IDBConnection); reintroduce; virtual;
+      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+      pOutputNotify: IOutput = nil); reintroduce; virtual;
   end;
 
 var
@@ -79,7 +81,7 @@ begin
   begin
     ErroOutput.Exibir('O Produto é obrigatório');
     ProdSelectFrame.ProdLabeledEdit.SetFocus;
-    exit;
+    Exit;
   end;
 
   Result := QtdNumEditBtu.Valor > 0;
@@ -87,12 +89,12 @@ begin
   begin
     ErroOutput.Exibir('A Quantidade é obrigatória');
     QtdNumEditBtu.SetFocus;
-    exit;
+    Exit;
   end;
 
   Result := ProdSelectFrame.ProdBalancaExige;
   if Result then
-    exit;
+    Exit;
 
   Result := CurrencyEhInteiro(QtdNumEditBtu.Valor);
   if not Result then
@@ -100,20 +102,22 @@ begin
     s := 'Produto não é de balança. A quantidade deve ser inteira';
     ErroOutput.Exibir(s);
     QtdNumEditBtu.SetFocus;
-    exit;
+    Exit;
   end;
 end;
 
 constructor TEstEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection);
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
   FEstMovDBI := pEntDBI as IEstMovDBI;
   FEstMovEnt := pEntEd as IEstMovEnt<IEstMovItem>;
   // FEstMovEnt: IEstMovEnt<IEstMovItem>;pEntEd as IEstSaidaEnt
 
-  FProdSelectFrame := TProdSelectFrame.Create(ItemGroupBox,
-    pDBConnection, pAppObj);
+  FProdSelectFrame := TProdSelectFrame.Create(ItemGroupBox, pDBConnection,
+    pAppObj, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
 
   FProdSelectFrame.ProdLabeledEdit.OnKeyPress :=
     ProdSelectProdLabeledEditKeyPress;
@@ -134,11 +138,11 @@ function TEstEdBasForm.GetObjetivoStr: string;
 begin
   if FEstMovEnt.EditandoItem then
   begin
-    Result := 'Novo item de '+FEstMovEnt.NomeEnt;
+    Result := 'Novo item de ' + FEstMovEnt.NomeEnt;
   end
   else
   begin
-    Result := 'Nova nota de '+FEstMovEnt.NomeEnt;
+    Result := 'Nova nota de ' + FEstMovEnt.NomeEnt;
   end;
 end;
 
@@ -157,7 +161,7 @@ end;
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);
 begin
   MensLimpar;
-  QtdNumEditBtu.setFocus;
+  QtdNumEditBtu.SetFocus;
 end;
 
 end.

@@ -124,7 +124,7 @@ begin
 
     ', CUSTO, PRECO' + //
 
-    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
+    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM, BALANCA_EXIGE' +
 
     ' FROM PROD_PA.LISTA_GET(' //
     + Ent.LojaId.ToString //

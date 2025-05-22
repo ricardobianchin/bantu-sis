@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.EstSaida.Ent, App.Retag.Est.EstSaida.DBI,
   Sis.UI.Controls.ComboBoxManager, Sis.DB.DBTypes, CustomEditBtu,
-  CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types;
+  CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
 
 type
   TEstSaidaEdForm = class(TEstEdBasForm)
@@ -37,7 +38,9 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pDBConnection: IDBConnection); override;
+      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+      pOutputNotify: IOutput = nil); override;
   end;
 
 var
@@ -95,8 +98,10 @@ begin
   FEstSaidaEnt.SaidaMotivoDescr := StrAntes(FSaidaMotivoMan.Text, ' -');
 end;
 
-constructor TEstSaidaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
-  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection);
+constructor TEstSaidaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+      pOutputNotify: IOutput);
 begin
   inherited;
   FEstSaidaEnt := EntEdCastToEstSaidaEnt(pEntEd);

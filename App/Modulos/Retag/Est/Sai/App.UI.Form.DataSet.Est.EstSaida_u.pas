@@ -341,7 +341,7 @@ end;
 function TAppEstSaidaDataSetForm.PergEd: boolean;
 begin
   Result := EstSaidaPerg(nil, AppObj, FEstSaidaEnt, FEstSaidaDBI,
-    FDBConnection);
+    FDBConnection, UsuarioLog, DBMS);
 end;
 
 procedure TAppEstSaidaDataSetForm.RecordToEnt;

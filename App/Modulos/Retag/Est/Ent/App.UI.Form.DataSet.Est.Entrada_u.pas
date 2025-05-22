@@ -357,7 +357,7 @@ end;
 function TAppEntradaDataSetForm.PergEd: boolean;
 begin
   Result := EntradaPerg(nil, AppObj, FEntradaEnt, FEntradaDBI,
-    FDBConnection);
+    FDBConnection, UsuarioLog, DBMS);
 end;
 
 procedure TAppEntradaDataSetForm.RecordToEnt;
