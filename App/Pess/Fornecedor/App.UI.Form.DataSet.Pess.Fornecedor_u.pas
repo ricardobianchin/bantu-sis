@@ -19,6 +19,7 @@ type
     { Private declarations }
     FPessFornecedorEnt: IPessFornecedorEnt;
     FPessFornecedorDBI: IPessFornecedorDBI;
+
   protected
     function GetNomeArqTabView: string; override;
     procedure QToMemTable(q: TDataSet); override;

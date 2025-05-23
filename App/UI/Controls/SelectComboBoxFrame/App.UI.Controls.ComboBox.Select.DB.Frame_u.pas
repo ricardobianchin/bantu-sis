@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Controls.ComboBox.Select.Frame_u,
-  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed.Id.Descr, Sis.UI.IO.Output, App.Ent.DBI,
+  Vcl.StdCtrls, Vcl.Buttons, App.Ent.Ed.Id, Sis.UI.IO.Output, App.Ent.DBI,
   Sis.DB.DBTypes, System.Actions, Vcl.ActnList, Sis.UI.FormCreator, Sis.Types,
   Vcl.ExtCtrls;
 
@@ -15,12 +15,12 @@ type
     procedure BuscaSpeedButtonClick(Sender: TObject);
   private
     { Private declarations }
-    FEnt: IEntIdDescr;
+    FEnt: IEntEdId;
     FEntDBI: IEntDBI;
     FErroOutput: IOutput;
     FFormCreator: IFormCreator;
 
-    function GetEnt: IEntIdDescr;
+    function GetEnt: IEntEdId;
     function GetEntDBI: IEntDBI;
     function GetErroOutput: IOutput;
   protected
@@ -29,13 +29,13 @@ type
     function GetCaption: string; override;
   public
     { Public declarations }
-    property Ent: IEntIdDescr read GetEnt;
+    property Ent: IEntEdId read GetEnt;
     property EntDBI: IEntDBI read GetEntDBI;
 
     procedure Preencha(pDBConnection: IDBConnection = nil);
     procedure EntIdToItem;
 
-    constructor Create(AOwner: TComponent; pEnt: IEntIdDescr; pEntDBI: IEntDBI;
+    constructor Create(AOwner: TComponent; pEnt: IEntEdId; pEntDBI: IEntDBI;
       pErroOutput: IOutput; pFormCreator: IFormCreator); reintroduce;
   end;
 
@@ -72,7 +72,7 @@ begin
   ComboBox1.ItemIndex := Index;
 end;
 
-constructor TComboBoxSelectDBFrame.Create(AOwner: TComponent; pEnt: IEntIdDescr;
+constructor TComboBoxSelectDBFrame.Create(AOwner: TComponent; pEnt: IEntEdId;
   pEntDBI: IEntDBI; pErroOutput: IOutput; pFormCreator: IFormCreator);
 begin
   FEnt := pEnt;
@@ -98,7 +98,7 @@ begin
   Result := FEntDBI;
 end;
 
-function TComboBoxSelectDBFrame.GetEnt: IEntIdDescr;
+function TComboBoxSelectDBFrame.GetEnt: IEntEdId;
 begin
   Result := FEnt;
 end;

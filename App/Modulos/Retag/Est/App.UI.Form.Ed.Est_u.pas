@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.ProdSelectFrame_u, Sis.DB.DBTypes, CustomEditBtu,
   CustomNumEditBtu, NumEditBtu, Data.DB, App.Est.EstMovEnt, App.Est.EstMovItem,
-  App.Est.EstMovDBI, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
+  App.Est.EstMovDBI, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Files.FileI_u;
 
 type
   TEstEdBasForm = class(TEdBasForm)
@@ -23,6 +23,9 @@ type
     FProdSelectFrame: TProdSelectFrame;
     FEstMovEnt: IEstMovEnt<IEstMovItem>;
     FEstMovDBI: IEstMovDBI;
+    FDummyFormClassNamesSL: TStringList;
+    FMudoOutput: IOutput;
+    FMudoProcessLog: IProcessLog;
   protected
     function ControlesOk: boolean; override;
 
@@ -34,7 +37,9 @@ type
     function GetObjetivoStr: string; override;
     property ProdSelectFrame: TProdSelectFrame read FProdSelectFrame;
     function GravouOk: boolean; override;
-
+    property DummyFormClassNamesSL: TStringList read FDummyFormClassNamesSL;
+    property MudoOutput: IOutput read FMudoOutput;
+    property MudoProcessLog: IProcessLog read FMudoProcessLog;
   public
     { Public declarations }
 
@@ -42,6 +47,7 @@ type
       pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
       pOutputNotify: IOutput = nil); reintroduce; virtual;
+    destructor Destroy; override;
   end;
 
 var
@@ -51,7 +57,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.Types.Floats;
+uses Sis.UI.Controls.Utils, Sis.Types.Floats, Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TEstEdBasForm }
 
@@ -112,6 +118,9 @@ constructor TEstEdBasForm.Create(AOwner: TComponent; pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutputNotify: IOutput);
 begin
   inherited Create(AOwner, pAppObj, pEntEd, pEntDBI);
+  FMudoOutput := MudoOutputCreate;
+  FMudoProcessLog := MudoProcessLogCreate;
+  FDummyFormClassNamesSL := TStringList.Create;
   FEstMovDBI := pEntDBI as IEstMovDBI;
   FEstMovEnt := pEntEd as IEstMovEnt<IEstMovItem>;
   // FEstMovEnt: IEstMovEnt<IEstMovItem>;pEntEd as IEstSaidaEnt
@@ -132,6 +141,12 @@ begin
   CodLabeledEdit.TabStop := False;
   Sis.UI.Controls.Utils.ReadOnlySet(CodLabeledEdit, True);
   // CodLabeledEdit.Color := $00D3D7B9;
+end;
+
+destructor TEstEdBasForm.Destroy;
+begin
+  FDummyFormClassNamesSL.Free;
+  inherited;
 end;
 
 function TEstEdBasForm.GetObjetivoStr: string;

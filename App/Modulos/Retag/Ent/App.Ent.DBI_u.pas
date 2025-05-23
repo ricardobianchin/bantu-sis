@@ -42,7 +42,7 @@ type
 
     property EntEd: IEntEd read GetEntEd write SetEntEd;
 
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
+    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd); reintroduce; virtual;
   end;
 
 implementation

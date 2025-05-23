@@ -9,11 +9,6 @@ inherited AppPessFornecedorDataSetForm: TAppPessFornecedorDataSetForm
     end
     inherited TitToolPanel_BasTabSheet: TPanel
       StyleElements = [seFont, seClient, seBorder]
-      inherited TitToolBar1_BasTabSheet: TToolBar
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 560
-      end
     end
   end
   inherited SelectPanel: TPanel

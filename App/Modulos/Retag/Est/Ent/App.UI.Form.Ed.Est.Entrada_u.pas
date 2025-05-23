@@ -10,14 +10,17 @@ uses
   App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI,
   Sis.UI.Controls.ComboBoxManager, Sis.DB.DBTypes, CustomEditBtu,
   CustomNumEditBtu, NumEditBtu, Sis.Entities.Types, Sis.Types, Sis.UI.IO.Output,
-  Sis.UI.IO.Output.ProcessLog, Sis.Usuario;
+  Sis.UI.IO.Output.ProcessLog, Sis.Usuario, Sis.UI.FormCreator,
+  App.UI.Controls.ComboBox.Select.DB.Frame_u, App.Pess.Fornecedor.DBI,
+  App.UI.Form.DataSet.Pess.Fornecedor_u,
+  App.Pess.Fornecedor.Ent;
 
 type
   TEntradaEdForm = class(TEstEdBasForm)
-    FornecedorLabel: TLabel;
     FornecedorComboBox: TComboBox;
     CustoNumEditBtu: TNumEditBtu;
     CustoUnitNumEditBtu: TNumEditBtu;
+    FornecedorLabel: TLabel;
     procedure CustoNumEditBtuChange(Sender: TObject);
     procedure FornecedorComboBoxKeyPress(Sender: TObject; var Key: Char);
     procedure QtdNumEditBtuKeyPress(Sender: TObject; var Key: Char);
@@ -28,8 +31,12 @@ type
     { Private declarations }
     FEntradaEnt: IEntradaEnt;
     FEntradaDBI: IEntradaDBI;
-    FFornecedorMan: IComboBoxManager;
+    FPessFornecedorEnt: IPessFornecedorEnt;
+    FPessFornecedorDBI: IPessFornecedorDBI;
+    FornecedorSelectFrame: TComboBoxSelectDBFrame;
     FFornecedorIdUltimo: TId;
+    FFornecedorDataSetFormCreator: IFormCreator;
+
     procedure CalculeCustoUnit;
   protected
     procedure AjusteControles; override;
@@ -59,7 +66,8 @@ implementation
 uses App.Retag.Est.Factory, Sis.UI.Controls.Factory, Sis.DB.DataSet.Utils,
   Sis.Types.Floats, App.Retag.Est.EntradaItem, Data.DB, Sis.Sis.Constants,
   Sis.Types.strings_u, Sis.UI.Controls.Utils, App.Types,
-  App.Retag.Est.ProdSelectFrame_u;
+  App.Retag.Est.ProdSelectFrame_u, App.Pess.Fornecedor.Ent.Factory_u,
+  App.Acesso.Fornecedor.UI.Factory_u;
 
 procedure TEntradaEdForm.AjusteControles;
 begin
@@ -117,20 +125,42 @@ begin
     FEntradaEnt.Items.Add(oItem);
   end;
 
-  FEntradaEnt.FornecedorId := FFornecedorMan.Id;
-  FEntradaEnt.FornecedorApelido := StrAntes(FFornecedorMan.Text, ' -');
+  FEntradaEnt.FornecedorId := FornecedorSelectFrame.Id;
+  FEntradaEnt.FornecedorApelido := FornecedorSelectFrame.Text;
 end;
 
-constructor TEntradaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
-      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-      pOutputNotify: IOutput);
+constructor TEntradaEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput);
+var
+  iLojaId: TLojaId;
+  iMachId: SmallInt;
+
 begin
   inherited;
+  iLojaId := pAppObj.Loja.Id;
+  iMachId := pAppObj.SisConfig.LocalMachineId.IdentId;
+
+  FPessFornecedorEnt := PessFornecedorEntCreate(iLojaId,
+    pUsuarioLog.Id, iMachId);
+  FPessFornecedorDBI := PessFornecedorDBICreate(pDBConnection,
+    FPessFornecedorEnt);
+
+  FFornecedorDataSetFormCreator := FornecedorDataSetFormCreatorCreate
+    (DummyFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog,
+    pOutputNotify, AppObj);
+
+  FornecedorSelectFrame := TComboBoxSelectDBFrame.Create(NotaGroupBox,
+    FPessFornecedorEnt, FPessFornecedorDBI, pOutput, FFornecedorDataSetFormCreator);
+
+  FornecedorSelectFrame.Left := 192;
+  FornecedorSelectFrame.Top := 18;
+
   FEntradaEnt := EntEdCastToEntradaEnt(pEntEd);
   // FEstSaidaEnt := pEntEd as IEstSaidaEnt;
   FEntradaDBI := EntDBICastToEntradaDBI(pEntDBI);
-  FFornecedorMan := ComboBoxManagerCreate(FornecedorComboBox);
+
   FEntradaDBI.FornecedorPrepareLista(FornecedorComboBox.Items);
   FFornecedorIdUltimo := FEntradaEnt.FornecedorId;
 end;
@@ -165,10 +195,6 @@ begin
   end;
 
   CodLabeledEdit.Text := s;
-  if FEntradaEnt.FornecedorId > 0 then
-    FFornecedorMan.Id := FEntradaEnt.FornecedorId
-  else
-    FornecedorComboBox.ItemIndex := 0;
 
   // FEntradaEnt.Custo := CustoNumEditBtu.Valor;
 
