@@ -132,7 +132,7 @@ BEGIN
 
     , NCM CHAR(8)  --  17
 
-    , MARGEM PERC_DOM  --  18
+    , MARGEM MARGEM_DOM  --  18
 	
     , BALANCA_EXIGE BOOLEAN  --  19
     , BAL_DPTO CHAR(3)  --  20
@@ -196,7 +196,7 @@ BEGIN
 
     , ATIVO              BOOLEAN NOT NULL
     , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
+    , MARGEM             MARGEM_DOM
 
     , BALANCA_EXIGE      BOOLEAN NOT NULL
     , BAL_DPTO           CHAR(3)  NOT NULL
@@ -248,7 +248,7 @@ BEGIN
 
     , ATIVO              BOOLEAN NOT NULL
     , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
+    , MARGEM             MARGEM_DOM
 
     , BALANCA_EXIGE      BOOLEAN NOT NULL
     , BAL_DPTO           CHAR(3)  NOT NULL
@@ -289,7 +289,7 @@ BEGIN
 
     , ATIVO              BOOLEAN NOT NULL
     , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
+    , MARGEM             MARGEM_DOM
 
     , BALANCA_EXIGE      BOOLEAN NOT NULL
     , BAL_DPTO           CHAR(3)  NOT NULL
@@ -353,8 +353,8 @@ BEGIN
     , LOCALIZ NOME_CURTO_DOM  --  15
     , CAPAC_EMB NUMERIC(8, 3)  --  16
     , NCM CHAR(8)  --  17
-    , MARGEM PERC_DOM  --  18
-	
+    , MARGEM MARGEM_DOM  --  18
+
     , BALANCA_EXIGE BOOLEAN  --  19
     , BAL_DPTO CHAR(3)  --  20
     , BAL_VALIDADE_DIAS SMALLINT  --  21
@@ -609,7 +609,7 @@ BEGIN
 
     , ATIVO              BOOLEAN NOT NULL
     , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
+    , MARGEM             MARGEM_DOM
 
     , BALANCA_EXIGE      BOOLEAN NOT NULL
     , BAL_DPTO           CHAR(3)  NOT NULL
@@ -748,7 +748,7 @@ BEGIN
 
     , ATIVO              BOOLEAN NOT NULL
     , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
+    , MARGEM             MARGEM_DOM
 
     , BALANCA_EXIGE      BOOLEAN NOT NULL
     , BAL_DPTO           CHAR(3)  NOT NULL
@@ -859,7 +859,7 @@ BEGIN
 
     , ATIVO              BOOLEAN NOT NULL
     , LOCALIZ            NOME_CURTO_DOM NOT NULL
-    , MARGEM             PERC_DOM
+    , MARGEM             MARGEM_DOM
 
     , BALANCA_EXIGE      BOOLEAN NOT NULL
     , BAL_DPTO           CHAR(3)  NOT NULL
