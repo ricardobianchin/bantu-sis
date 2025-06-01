@@ -19,8 +19,9 @@ type
     function GetSqlGaranteRegERetornaId: string; override;
 
     function GetSqlCToPess(pC: string; pExcetoLojaId: smallint;
-      pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string;
-      override;
+      pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string; override;
+
+    function GetPackageName: string; override;
   public
     procedure ApelidoTem(pApelido: string; out pEncontrado: Boolean;
       out pEncontradoLojaId: smallint; out pEncontradoPessoaId: integer;
@@ -29,6 +30,7 @@ type
 
     constructor Create(pDBConnection: IDBConnection;
       pPessFornecedorEnt: IPessFornecedorEnt);
+
   end;
 
 implementation
@@ -50,7 +52,7 @@ var
   sNome: string;
   bResultado: Boolean;
 begin
-  SSQL := 'SELECT P.LOJA_ID, P.PESSOA_ID, P.NOME'#13#10 + //
+  sSql := 'SELECT P.LOJA_ID, P.PESSOA_ID, P.NOME'#13#10 + //
     'FROM PESSOA P'#13#10 + //
     'JOIN FORNECEDOR F ON'#13#10 + //
     'P.LOJA_ID  = F.LOJA_ID'#13#10 + //
@@ -116,6 +118,11 @@ begin
     ; }
 end;
 
+function TPessFornecedorDBI.GetPackageName: string;
+begin
+  Result := 'FORNECEDOR_PA';
+end;
+
 function TPessFornecedorDBI.GetSqlGaranteRegERetornaId: string;
 begin
   Result := 'SELECT LOJA_ID_RET, TERMINAL_ID_RET, PESSOA_ID_RET'#13#10 //
@@ -125,8 +132,8 @@ begin
     ;
 end;
 
-function TPessFornecedorDBI.GetSqlCToPess(pC: string; pExcetoLojaId,
-  pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string;
+function TPessFornecedorDBI.GetSqlCToPess(pC: string;
+  pExcetoLojaId, pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string;
 begin
   Result := 'SELECT P.LOJA_ID, P.TERMINAL_ID, P.PESSOA_ID, P.NOME'#13#10 + //
     'FROM PESSOA P'#13#10 + //
