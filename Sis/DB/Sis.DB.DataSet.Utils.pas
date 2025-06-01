@@ -4,7 +4,7 @@ interface
 
 uses
   FireDAC.Comp.Client, Vcl.DBGrids, Data.DB, Sis.Sis.Constants, System.Variants,
-  System.Classes;
+  System.Classes, Sis.DB.DBTypes;
 
 procedure DefCamposArq(pNomeArq: string; pFDMemTable: TFDMemTable;
   pDBGrid: TDBGrid; pIndexIni: integer = 0;
@@ -22,6 +22,8 @@ procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
 
 function RecordToFielNamesStr(pDataSet: TDataSet): string;
 function RecordToCSVStr(pDataSet: TDataSet): string;
+
+procedure DataSetForEach(pDataSet: TDataSet; pProcLeReg: TProcDataSetOfObject);
 
 implementation
 
@@ -191,7 +193,7 @@ begin
 
   iQtdCampos := pDataSet.fieldcount;
   for var i := 0 to iQtdCampos - 1 do
-    Result := Result + 'q.Fields[' + i.ToString +'] // ' + pDataSet.Fields[i]
+    Result := Result + 'q.Fields[' + i.ToString + '] // ' + pDataSet.Fields[i]
       .FieldName + #13#10;
 end;
 
@@ -209,6 +211,37 @@ begin
     if Result <> '' then
       Result := Result + ';';
     Result := Result + pDataSet.Fields[i].AsString;
+  end;
+end;
+
+procedure DataSetForEach(pDataSet: TDataSet; pProcLeReg: TProcDataSetOfObject);
+var
+  EhFDMemTable: Boolean;
+  bm: TBookmark;
+  iRecNo: integer;
+begin
+  EhFDMemTable := pDataSet is TFDMemTable;
+
+  bm := pDataSet.GetBookmark;
+  pDataSet.DisableControls;
+  if EhFDMemTable then
+    (pDataSet as TFDMemTable).BeginBatch;
+  try
+    pDataSet.First;
+    iRecNo := 0;
+    while not pDataSet.Eof do
+    begin
+      inc(iRecNo);
+      pProcLeReg(pDataSet, iRecNo);
+      pDataSet.Next;
+    end;
+    pProcLeReg(pDataSet, -1);
+finally
+    pDataSet.GoToBookmark(BM);
+    pDataSet.FreeBookmark(BM);
+    pDataSet.EnableControls;
+    if EhFDMemTable then
+      (pDataSet as TFDMemTable).EndBatch;
   end;
 end;
 
