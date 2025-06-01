@@ -417,9 +417,9 @@ begin
   MargemEdit.LabelPosition := lpLeft;
   MargemEdit.LabelSpacing := 4;
 
-  MargemEdit.MaxLength := 5;
-  MargemEdit.NCasas := 2;
-  MargemEdit.NCasasEsq := 3;
+  MargemEdit.MaxLength := 8;
+  MargemEdit.NCasas := 4;
+  MargemEdit.NCasasEsq := 4;
 
   MargemEdit.TabOrder := 7;
   //margem fim
