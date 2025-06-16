@@ -28,8 +28,6 @@ type
     procedure ControlesToEnt; override;
     procedure EntToControles; override;
 
-    procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-      var Key: Char); override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
