@@ -26,7 +26,7 @@ type
 
     procedure EstMovFinalize(out pFinalizadoEm: TDateTime;
       out pErroDeu: Boolean; out pErroMens: string; pLojaId: TLojaId;
-      pEstMovId: Int64; pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#');
+      pEstMovId: Int64; pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#'); virtual;
 
     constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
       pAppObj: IAppObj; pUsuarioId: TId);

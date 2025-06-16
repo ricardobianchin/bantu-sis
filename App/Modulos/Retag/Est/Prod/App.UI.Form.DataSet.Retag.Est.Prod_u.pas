@@ -69,7 +69,7 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
   App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants,
-  Sis.UI.Controls.Utils;
+  Sis.UI.Controls.Utils, Sis.DB.DataSet.Utils;
 
 { TRetagEstProdDataSetForm }
 
@@ -318,9 +318,10 @@ end;
 function TRetagEstProdDataSetForm.GetSelectItem: TSelectItem;
 begin
   Result.Id := FDMemTable.Fields[0].AsInteger;
-  Result.Descr := FDMemTable.Fields[0].AsInteger.ToString + ';' +
-    FDMemTable.Fields[2].AsString + ';' + FDMemTable.Fields[4].AsString + ';' +
-    BooleanToStr(FDMemTable.Fields[18].AsBoolean);
+  Result.Descr := RecordToIni(FDMemTable);
+//  Result.Descr := FDMemTable.Fields[0].AsInteger.ToString + ';' +
+//    FDMemTable.Fields[2].AsString + ';' + FDMemTable.Fields[4].AsString + ';' +
+//    BooleanToStr(FDMemTable.Fields[18].AsBoolean);
 end;
 
 procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);

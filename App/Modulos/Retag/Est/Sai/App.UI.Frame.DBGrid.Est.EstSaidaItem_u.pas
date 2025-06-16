@@ -41,6 +41,10 @@ var
   Values: Variant;
 begin
   FDMemTable1.EmptyDataSet;
+
+  if pEstMovId = 0 then
+    exit;
+
   Values := VarArrayCreate([0, 2], varVariant);
   Values[0] := pLojaId;
   Values[1] := pTerminalId;

@@ -30,6 +30,7 @@ type
     property FornecedorApelido: string read GetFornecedorApelido write SetFornecedorApelido;
 
     function GetCod(pSeparador: string = '-'): string;
+    function GetNextNItem: SmallInt;
   end;
 
 implementation

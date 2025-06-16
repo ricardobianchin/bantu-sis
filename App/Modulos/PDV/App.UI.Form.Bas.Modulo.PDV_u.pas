@@ -14,7 +14,7 @@ uses
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
   App.PDV.DBI, App.UI.PDV.PagFrame_u, Sis.UI.Impressao, Sis.UI.Select,
-  Sis.UI.Frame.Bas.Filtro_u;
+  Sis.UI.Frame.Bas.Filtro_u, App.Retag.Est.ProdSelectDBI;
 
 type
   TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)

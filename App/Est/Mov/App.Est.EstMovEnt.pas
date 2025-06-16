@@ -62,6 +62,12 @@ type
     procedure SetEditandoItem(Value: Boolean);
     property EditandoItem: Boolean read GetEditandoItem write SetEditandoItem;
 
+    function GetItemIndex: integer;
+    procedure SetItemIndex(Value: integer);
+    property ItemIndex: integer read GetItemIndex write SetItemIndex;
+
+    function GetLastActiveItemIndex: integer;
+
     procedure Zerar;
   end;
 

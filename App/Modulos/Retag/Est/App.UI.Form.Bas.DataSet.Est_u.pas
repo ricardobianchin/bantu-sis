@@ -21,11 +21,13 @@ type
     CancItemAction_DatasetTabSheet: TAction;
     FinalizAction_DatasetTabSheet: TAction;
     InsItemAction_DatasetTabSheet: TAction;
+    AltItemAction_DatasetTabSheet: TAction;
     procedure DetailTimerTimer(Sender: TObject);
     procedure CancAction_DatasetTabSheetExecute(Sender: TObject);
     procedure CancItemAction_DatasetTabSheetExecute(Sender: TObject);
     procedure FinalizAction_DatasetTabSheetExecute(Sender: TObject);
     procedure InsItemAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure AltItemAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
@@ -87,6 +89,49 @@ uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
 
 { TAppEstDataSetForm }
 
+procedure TAppEstDataSetForm.AltItemAction_DatasetTabSheetExecute(
+  Sender: TObject);
+var
+  Result: Boolean;
+begin
+  inherited;
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de nota a alterar');
+    exit;
+  end;
+
+  Result := not DMemTableFINALIZADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota já está finalizada e não pode ser alterada');
+    exit;
+  end;
+
+  Result := not DMemTableCANCELADO.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Nota está cancelada e não pode ser alterada');
+    exit;
+  end;
+
+  Result := not FItemCanceladoField.AsBoolean;
+  if not Result then
+  begin
+    ShowMessage('Item está cancelado e não pode ser alterado');
+    exit;
+  end;
+
+  RecordToEnt;
+  FEstMovEnt.EditandoItem := True;
+  try
+    AltAction_DatasetTabSheet.Execute;
+  finally
+    FEstMovEnt.EditandoItem := False;
+  end;
+end;
+
 procedure TAppEstDataSetForm.CancAction_DatasetTabSheetExecute(Sender: TObject);
 var
   bResultado: boolean;
@@ -146,7 +191,7 @@ var
   iTerminalId: TTerminalId;
   iEstMovId: Int64;
   iOrdem: SmallInt;
-  iNumItem: SmallInt;
+  iOrdemExibida: SmallInt;
 
   sCod: string;
   sMens: string;
@@ -175,12 +220,12 @@ begin
   iTerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
   iEstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
 
-  iNumItem := FItemsDBGridFrame.FDMemTable1.Fields[0 { ORDEM } ].AsInteger;
-  iOrdem := iNumItem - 1;
+  iOrdemExibida := FItemsDBGridFrame.FDMemTable1.Fields[0 { ORDEM } ].AsInteger;
+  iOrdem := iOrdemExibida - 1;
 
   sCod := FDMemTable.Fields[4 { COD } ].AsString;
 
-  sMens := 'Nota ' + sCod + ', item ' + iNumItem.ToString +
+  sMens := 'Nota ' + sCod + ', item de ordem Nº ' + iOrdemExibida.ToString +
     #13#10'Excluir item?';
 
   bResultado := App.UI.Form.Perg_u.Perg(sMens, 'Daros PDV',

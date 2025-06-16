@@ -63,15 +63,15 @@ uses Sis.UI.Controls.Utils, Sis.Types.Floats, Sis.UI.IO.Factory, Sis.UI.IO.Outpu
 
 procedure TEstEdBasForm.AjusteControles;
 begin
-  inherited;
   ReadOnlySet(CodLabeledEdit);
   AjusteTabOrder;
   ItemGroupBox.Caption := FEstMovEnt.NomeEnt;
-  if FEstMovEnt.State = dsEdit then
+  if (FEstMovEnt.State = dsEdit) and (not FEstMovEnt.EditandoItem) then
   begin
     ItemGroupBox.Visible := False;
     Height := Height - ItemGroupBox.Height;
   end;
+  inherited;
 end;
 
 function TEstEdBasForm.ControlesOk: boolean;
@@ -170,7 +170,6 @@ procedure TEstEdBasForm.OkAct_DiagExecute(Sender: TObject);
 begin
   inherited;
   FEstMovEnt.EditandoItem := True;
-
 end;
 
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);

@@ -15,6 +15,7 @@ type
   end;
 
 function CustoToCustoUnit(pCusto: Currency; pQtd: Currency): Currency;
+function PrecoSugeridoCalc(pCustoUnit: Currency; pMargem: Currency): Currency;
 
 implementation
 
@@ -59,6 +60,11 @@ end;
 function CustoToCustoUnit(pCusto: Currency; pQtd: Currency): Currency;
 begin
   Result := RoundTo(pCusto / pQtd, -4);
+end;
+
+function PrecoSugeridoCalc(pCustoUnit: Currency; pMargem: Currency): Currency;
+begin
+  Result := RoundTo(pCustoUnit * pMargem, -2);
 end;
 
 end.

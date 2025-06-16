@@ -46,6 +46,7 @@ type
       write SetFornecedorApelido;
 
     function GetCod(pSeparador: string = '-'): string;
+    function GetNextNItem: SmallInt;
 
     constructor Create( //
       pLoja: IAppLoja; //
@@ -145,6 +146,21 @@ end;
 function TEntradaEnt.GetNDoc: integer;
 begin
   Result := FNDoc;
+end;
+
+function TEntradaEnt.GetNextNItem: SmallInt;
+var
+  iLastActiveItemIndex: integer;
+  oItem: IRetagEntradaItem;
+begin
+  iLastActiveItemIndex := GetLastActiveItemIndex;
+  if iLastActiveItemIndex = -1 then
+  begin
+    Result := 1;
+    exit;
+  end;
+  oItem := GetItems[iLastActiveItemIndex];
+  Result := oItem.NItem + 1;
 end;
 
 function TEntradaEnt.GetNomeEnt: string;

@@ -1,6 +1,7 @@
 inherited ProdSelectFrame: TProdSelectFrame
   Width = 499
   Height = 26
+  OnResize = FrameResize
   ExplicitWidth = 499
   ExplicitHeight = 26
   object BuscaSpeedButton: TSpeedButton

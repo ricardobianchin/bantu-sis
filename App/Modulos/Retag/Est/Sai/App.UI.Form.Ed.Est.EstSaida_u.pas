@@ -68,10 +68,11 @@ end;
 
 procedure TEstSaidaEdForm.AjusteTabOrder;
 begin
-  CodLabeledEdit.TabOrder := 0;
-  SaidaMotivoComboBox.TabOrder := 1;
-  ProdSelectFrame.TabOrder := 2;
-  QtdNumEditBtu.TabOrder := 3;
+  TabOrderInicie;
+  TabOrderSet(CodLabeledEdit);
+  TabOrderSet(SaidaMotivoComboBox);
+  TabOrderSet(ProdSelectFrame);
+  TabOrderSet(QtdNumEditBtu);
   // inherited;
 end;
 
@@ -140,7 +141,7 @@ procedure TEstSaidaEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
 begin
   // inherited;
 //  if Key = #13 then
-  if Key >= #32 then
+  if (Key >= #32) or (key = #13) then
   begin
     Key := #0;
     ProdSelectFrame.Selecionar;

@@ -1,4 +1,4 @@
-unit App.UI.Form.DataSet.Est.Entrada_u;
+ï»¿unit App.UI.Form.DataSet.Est.Entrada_u;
 
 interface
 
@@ -19,7 +19,6 @@ type
     procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEntradaEnt: IEntradaEnt;
@@ -32,6 +31,9 @@ type
     FDMemTableFORNECEDOR_APELIDO: TField;
     FDMemTableNDOC: TField;
     FDMemTableSERIE: TField;
+
+    procedure DataSetToEntradaItems(q: TDataSet; pRecNo: integer);
+    procedure ItemDBGridDblClick(Sender: TObject);
   protected
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); override;
 
@@ -77,21 +79,21 @@ begin
   Result := not FDMemTable.IsEmpty;
   if not Result then
   begin
-    ShowMessage('Não há registro de nota a alterar');
+    ShowMessage('Nï¿½o hï¿½ registro de nota a alterar');
     exit;
   end;
 
   Result := not DMemTableFINALIZADO.AsBoolean;
   if not Result then
   begin
-    ShowMessage('Nota já está finalizada e não pode ser alterada');
+    ShowMessage('Nota jï¿½ estï¿½ finalizada e nï¿½o pode ser alterada');
     exit;
   end;
 
   Result := not DMemTableCANCELADO.AsBoolean;
   if not Result then
   begin
-    ShowMessage('Nota está cancelada e não pode ser alterada');
+    ShowMessage('Nota estï¿½ cancelada e nï¿½o pode ser alterada');
     exit;
   end;
 
@@ -149,6 +151,8 @@ begin
   FEntradaItemDBGridFrame := TEntradaItemDBGridFrame.Create(DetailPanel,
     FEntradaItemDBI);
   ItemsDBGridFrame := FEntradaItemDBGridFrame;
+  FEntradaItemDBGridFrame.DBGrid1.OnDblClick := ItemDBGridDblClick;
+
   FEntradaItemDBGridFrame.Align := alClient;
 
   FDMemTableFORNECEDOR_ID := FDMemTable.FindField('FORNECEDOR_ID');
@@ -173,6 +177,40 @@ begin
   // TitToolPanel_BasTabSheet.Height := TitToolPanel_BasTabSheet.Height +
   // EstFiltroFrame.Height;
   // TitToolBar1_BasTabSheet.Top := EstFiltroFrame.Top + EstFiltroFrame.Height;
+end;
+
+procedure TAppEntradaDataSetForm.DataSetToEntradaItems(q: TDataSet;
+  pRecNo: integer);
+var
+  oItem: IRetagEntradaItem;
+  g: TEntradaItemDBGridFrame;
+begin
+  if pRecNo = -1 then
+    exit;
+
+  g := FEntradaItemDBGridFrame;
+
+  oItem := App.Retag.Est.Factory.RetagEntradaItemCreate( //
+    g.FieldORDEM.AsInteger, //
+    g.FieldPROD_ID.AsInteger, //
+
+    g.FieldDESCR_RED.AsString, //
+    g.FieldFABR_NOME.AsString, //
+    g.FieldUNID_SIGLA.AsString, //
+
+    g.FieldNITEM.AsInteger, //
+    g.FieldPROD_ID_DELES.AsString, //
+
+    g.FieldQTD.AsCurrency, //
+    g.FieldCUSTO.AsCurrency, //
+    g.FieldMARGEM.AsCurrency, //
+    g.FieldPRECO.AsCurrency, //
+
+    g.FieldCRIADO_EM.AsDateTime, //
+    g.FieldCANCELADO.AsBoolean //
+    );
+
+  FEntradaEnt.Items.Add(oItem);
 end;
 
 procedure TAppEntradaDataSetForm.DetailCarregar;
@@ -281,11 +319,11 @@ begin
 
   FDMemTable.Fields[4 { COD } ].AsString := sCod;
 
-  FDMemTable.Fields[5 { NDOC } ].AsInteger :=
-    q.Fields[5 { NDOC } ].AsInteger; //
+  FDMemTable.Fields[5 { NDOC } ].AsInteger := q.Fields[5 { NDOC } ].AsInteger;
+  //
 
-  FDMemTable.Fields[6 { SERIE } ].AsInteger :=
-    q.Fields[6 { SERIE } ].AsInteger; //
+  FDMemTable.Fields[6 { SERIE } ].AsInteger := q.Fields[6 { SERIE } ].AsInteger;
+  //
 
   FDMemTable.Fields[7 { CRIADO_EM } ].AsDateTime := q.Fields[7 { CRIADO_EM } ]
     .AsDateTime; //
@@ -293,8 +331,8 @@ begin
     q.Fields[8 { EST_SAIDA_MOTIVO_ID } ].AsInteger; //
   FDMemTable.Fields[9 { EST_SAIDA_MOTIVO_DESCR } ].AsString :=
     q.Fields[9 { EST_SAIDA_MOTIVO_DESCR } ].AsString; //
-  FDMemTable.Fields[10 { FINALIZADO } ].AsBoolean := q.Fields[10 { FINALIZADO } ]
-    .AsBoolean; //
+  FDMemTable.Fields[10 { FINALIZADO } ].AsBoolean :=
+    q.Fields[10 { FINALIZADO } ].AsBoolean; //
   FDMemTable.Fields[11 { FINALIZADO_EM } ].AsDateTime :=
     q.Fields[11 { FINALIZADO_EM } ].AsDateTime; //
   FDMemTable.Fields[12 { CANCELADO } ].AsBoolean := q.Fields[12 { CANCELADO } ]
@@ -331,7 +369,7 @@ begin
   Result := FDMemTableFORNECEDOR_ID.AsInteger > 0;
   if not Result then
   begin
-    s := 'O campo ''Fornecedor'' é obrigatório para finalizar uma Nota de Entrada';
+    s := 'O campo ''Fornecedor'' ï¿½ obrigatï¿½rio para finalizar uma Nota de Entrada';
     ShowMessage(s);
     exit;
   end;
@@ -347,26 +385,25 @@ begin
   Result := sNomeArq;
 end;
 
-procedure TAppEntradaDataSetForm.InsAction_DatasetTabSheetExecute
-  (Sender: TObject);
+procedure TAppEntradaDataSetForm.ItemDBGridDblClick(Sender: TObject);
 begin
-  inherited;
-  //
+  AltItemAction_DatasetTabSheet.Execute;
 end;
 
 function TAppEntradaDataSetForm.PergEd: boolean;
 begin
-  Result := EntradaPerg(nil, AppObj, FEntradaEnt, FEntradaDBI,
-    FDBConnection, UsuarioLog, DBMS);
+  Result := EntradaPerg(nil, AppObj, FEntradaEnt, FEntradaDBI, FDBConnection,
+    UsuarioLog, DBMS);
 end;
 
 procedure TAppEntradaDataSetForm.RecordToEnt;
 var
   i: integer;
   sCod: string;
+  oItem: IRetagEntradaItem;
+  g: TEntradaItemDBGridFrame;
 begin
   inherited;
-
   FEntradaEnt.Loja.Id := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
   FEntradaEnt.TerminalId := FDMemTable.Fields[1 { TERMINAL_ID } ].AsInteger;
   FEntradaEnt.EstMovId := FDMemTable.Fields[2 { EST_MOV_ID } ].AsLargeInt;
@@ -376,29 +413,35 @@ begin
   FEntradaEnt.Serie := FDMemTable.Fields[6 { SERIE } ].AsInteger;
 
   FEntradaEnt.CriadoEm := FDMemTable.Fields[7 { CRIADO_EM } ].AsDateTime; //
-  FEntradaEnt.FornecedorId := FDMemTable.Fields[8 { FORNECEDOR_ID } ]
-    .AsInteger; //
-  FEntradaEnt.FornecedorApelido := FDMemTable.Fields
-    [9 { FORNECEDOR_APELIDO } ].AsString; //
+  FEntradaEnt.FornecedorId := FDMemTable.Fields[8 { FORNECEDOR_ID } ].AsInteger;
+  //
+  FEntradaEnt.FornecedorApelido := FDMemTable.Fields[9 { FORNECEDOR_APELIDO } ]
+    .AsString; //
   FEntradaEnt.Finalizado := FDMemTable.Fields[10 { FINALIZADO } ].AsBoolean;
   // ;
   FEntradaEnt.FinalizadoEm := FDMemTable.Fields[11 { FINALIZADO_EM } ]
     .AsDateTime; //
   FEntradaEnt.Cancelado := FDMemTable.Fields[12 { CANCELADO } ].AsBoolean; //
-  FEntradaEnt.CanceladoEm := FDMemTable.Fields[13 { CANCELADO_EM } ]
-    .AsDateTime; //
-  // FDMemTable.Fields[12 { CRIADO_POR_ID } ].AsInteger := 0;
-  // FDMemTable.Fields[13 { CRIADO_POR_APELIDO } ].AsString := '';
-  // FDMemTable.Fields[14 { CANCELADO_POR_ID } ].AsInteger := 0; //
-  // FDMemTable.Fields[15 { CANCELADO_POR_APELIDO } ].AsString := ''; //
-  // FDMemTable.Fields[16 { FINALIZADO_POR_ID } ].AsInteger := 0; //
-  // FDMemTable.Fields[17 { FINALIZADO_POR_APELIDO } ].AsString := ''; //
+  FEntradaEnt.CanceladoEm := FDMemTable.Fields[13 { CANCELADO_EM } ].AsDateTime;
+
+  g := FEntradaItemDBGridFrame;
+  if g.FDMemTable1.IsEmpty then
+    FEntradaEnt.ItemIndex := -1
+  else
+    FEntradaEnt.ItemIndex := g.FieldORDEM.AsInteger - 1;
+
+  FEntradaEnt.Items.Clear;
+  Sis.DB.DataSet.Utils.DataSetForEach(FEntradaItemDBGridFrame.FDMemTable1,
+    DataSetToEntradaItems);
 end;
 
 procedure TAppEntradaDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
+  //AltItemAction_DatasetTabSheet.Execute;
+  // InsItemAction_DatasetTabSheet.Execute;
   // InsAction_DatasetTabSheet.Execute;
+  // AltAction_DatasetTabSheet.Execute;
   // fdmemtable.next;
   // InsItemAction_DatasetTabSheet.Execute;
 
@@ -411,6 +454,7 @@ begin
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+  ToolBarAddButton(AltItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(FinalizAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;

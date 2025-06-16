@@ -1,4 +1,4 @@
-unit App.Retag.Est.Factory;
+ï»¿unit App.Retag.Est.Factory;
 
 interface
 
@@ -6,7 +6,7 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj,
   Sis.UI.FormCreator, Sis.DB.UltimoId, App.Loja, Sis.Entities.Types,
-  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI, App.Est.EstMovEnt
+  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI, App.Est.EstMovEnt, App.Types
 
     , App.Ent.Ed, App.Ent.DBI //
 
@@ -362,13 +362,12 @@ function RetagEntradaEntDBICreate(pDBConnection: IDBConnection;
 function EntradaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
   pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
-  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil)
-  : TEdBasForm;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): TEdBasForm;
 
 function EntradaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
-  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
-  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): boolean;
+  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+  pOutputNotify: IOutput = nil): boolean;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 
@@ -378,14 +377,25 @@ function EntradaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function RetagEntradaItemCreate( //
-  pOrdem: smallint; //
-  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
-  pQtd: Currency; //
-  pCusto: Currency; //
-  pCriadoEm: TDateTime; //
-  pCancelado: boolean = False; //
-  pAlteradoEm: TDateTime = DATA_ZERADA; //
-  pCanceladoEm: TDateTime = DATA_ZERADA //
+      pOrdem: SmallInt; //
+      pId: TId; //
+
+      pDescrRed, //
+      pFabrNome, //
+      pUnidSigla: string; //
+      
+      pNItem: SmallInt; //
+      pProdIdDeles: string; //
+
+      pQtd: Currency; //
+      pCusto: TCusto; //
+      pMargem: Currency; //
+      pPreco: TPreco; //
+
+      pCriadoEm: TDateTime; //
+      pCancelado: Boolean = False; //
+      pAlteradoEm: TDateTime = DATA_ZERADA; //
+      pCanceladoEm: TDateTime = DATA_ZERADA //
   ): IRetagEntradaItem;
 
 {$ENDREGION}
@@ -1156,17 +1166,16 @@ end;
 function EntradaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
   pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-  pProcessLog: IProcessLog; pOutputNotify: IOutput)
-  : TEdBasForm;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
 begin
   Result := TEntradaEdForm.Create(AOwner, pAppObj, pEntradaEnt, pEntradaDBI,
     pDBConnection, pUsuarioLog, pDBMS);
 end;
 
 function EntradaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
-  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
-  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-  pProcessLog: IProcessLog; pOutputNotify: IOutput): boolean;
+  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): boolean;
 var
   F: TEdBasForm;
 begin
@@ -1195,20 +1204,27 @@ begin
 end;
 
 function RetagEntradaItemCreate( //
-  pOrdem: smallint; //
-  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
-  pQtd: Currency; //
-  pCusto: Currency; //
-  pCriadoEm: TDateTime; //
-  pCancelado: boolean = False; //
-  pAlteradoEm: TDateTime = DATA_ZERADA; //
-  pCanceladoEm: TDateTime = DATA_ZERADA //
+      pOrdem: SmallInt; //
+      pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+      pNItem: SmallInt; //
+      pProdIdDeles: string; //
+
+      pQtd: Currency; //
+      pCusto: TCusto; //
+      pMargem: Currency; //
+      pPreco: TPreco; //
+
+      pCriadoEm: TDateTime; //
+      pCancelado: Boolean = False; //
+      pAlteradoEm: TDateTime = DATA_ZERADA; //
+      pCanceladoEm: TDateTime = DATA_ZERADA //
   ): IRetagEntradaItem;
 var
   oProd: IProd;
 begin
   oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
-  Result := TRetagEntradaItem.Create(pOrdem, oProd, pQtd, pCusto, pCriadoEm);
+  Result := TRetagEntradaItem.Create(pOrdem, pNItem, pProdIdDeles, oProd, pQtd, pCusto, pMargem, pPreco,
+    pCriadoEm);
 end;
 
 {$ENDREGION}
@@ -1226,7 +1242,7 @@ begin
   // if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
   // Exit(Result)
   // else
-  // Result := nil; // Ou lançar uma exceção personalizada
+  // Result := nil; // Ou lanï¿½ar uma exceï¿½ï¿½o personalizada
 end;
 
 {$ENDREGION}

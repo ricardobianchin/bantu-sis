@@ -33,7 +33,7 @@ begin
     'WITH EIT AS'#13#10 //
     + '('#13#10 // est mov item
     + '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, '#13#10 //
-    + '    ORDEM, PROD_ID, QTD, CANCELADO'#13#10 //
+    + '    ORDEM, PROD_ID, QTD, CANCELADO, CRIADO_EM'#13#10 //
     + '  FROM EST_MOV_ITEM'#13#10 //
     + '  WHERE LOJA_ID = ' + iLojaId.ToString + #13#10 //
     + '  AND TERMINAL_ID = ' + iTerminalId.ToString + #13#10 //
@@ -41,7 +41,7 @@ begin
 
     + '), ENIT AS('#13#10 //
     + '  SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID,'#13#10 //
-    + '    ORDEM, CUSTO'#13#10 //
+    + '    ORDEM, NITEM, PROD_ID_DELES, CUSTO, MARGEM, PRECO'#13#10 //
     + '  FROM ENTRADA_ITEM'#13#10 //
     + '  WHERE LOJA_ID = ' + iLojaId.ToString + #13#10 //
     + '  AND TERMINAL_ID = ' + iTerminalId.ToString + #13#10 //
@@ -54,13 +54,18 @@ begin
 
     + 'SELECT'#13#10 //
     + '  EIT.ORDEM + 1 EORDEM,'#13#10 // 0
-    + '  P.PROD_ID,'#13#10 // 1
-    + '  P.DESCR_RED,'#13#10 // 2
-    + '  FA.NOME FABR_NOME,'#13#10 // 3
-    + '  U.SIGLA UNID_SIGLA,'#13#10 // 4
-    + '  EIT.QTD,'#13#10 // 5
-    + '  EnIT.CUSTO,'#13#10 // 6
-    + '  EIT.CANCELADO'#13#10 // 7
+    + '  ENIT.NITEM,'#13#10 // 1
+    + '  ENIT.PROD_ID_DELES,'#13#10 // 2
+    + '  P.PROD_ID,'#13#10 // 3
+    + '  P.DESCR_RED,'#13#10 // 4
+    + '  FA.NOME FABR_NOME,'#13#10 // 5
+    + '  U.SIGLA UNID_SIGLA,'#13#10 // 6
+    + '  EIT.QTD,'#13#10 // 7
+    + '  ENIT.CUSTO,'#13#10 // 8
+    + '  ENIT.MARGEM,'#13#10 // 9
+    + '  ENIT.PRECO,'#13#10 // 10
+    + '  EIT.CANCELADO,'#13#10 // 11
+    + '  EIT.CRIADO_EM'#13#10 // 12
 
     + 'FROM EIT'#13#10 //
 
@@ -78,6 +83,8 @@ begin
 
     + 'JOIN UNID U ON'#13#10 //
     + '  U.UNID_ID = P.UNID_ID'#13#10 //
+
+    + 'ORDER BY EIT.ORDEM '#13#10 //
     ;
 
 //{$IFDEF DEBUG}

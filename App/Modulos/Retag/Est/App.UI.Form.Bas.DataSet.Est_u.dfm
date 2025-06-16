@@ -44,6 +44,10 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
       Caption = 'Inserir Item'
       OnExecute = InsItemAction_DatasetTabSheetExecute
     end
+    object AltItemAction_DatasetTabSheet: TAction
+      Caption = 'Alterar Item'
+      OnExecute = AltItemAction_DatasetTabSheetExecute
+    end
   end
   object DetailTimer: TTimer
     Enabled = False

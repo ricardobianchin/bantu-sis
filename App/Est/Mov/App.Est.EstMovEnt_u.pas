@@ -1,4 +1,4 @@
-unit App.Est.EstMovEnt_u;
+﻿unit App.Est.EstMovEnt_u;
 
 interface
 
@@ -22,6 +22,7 @@ type
     FItems: TList<IEstMovItem>;
     FLogStr: string;
     FEditandoItem: Boolean;
+    FItemIndex: integer;
 
     function GetLoja: IAppLoja;
 
@@ -61,6 +62,10 @@ type
 
     function GetEditandoItem: Boolean;
     procedure SetEditandoItem(Value: Boolean);
+
+    function GetItemIndex: integer;
+    procedure SetItemIndex(Value: integer);
+
   protected
 
   public
@@ -80,8 +85,11 @@ type
 
     property LogStr: string read GetLogStr write SetLogStr;
     property EditandoItem: Boolean read GetEditandoItem write SetEditandoItem;
+    property ItemIndex: integer read GetItemIndex write SetItemIndex;
 
     procedure LimparEnt; override;
+
+    function GetLastActiveItemIndex: integer;
 
     constructor Create(
       pLoja: IAppLoja; //
@@ -183,6 +191,21 @@ begin
   Result := FEstMovId;
 end;
 
+function TEstMovEnt.GetLastActiveItemIndex: integer;
+begin
+{percorre a lista do ultimo para o primeiro, procurando o primeiro item
+  que não esteja cancelado ou finalizado, e retorna o índice desse item.}
+  Result := -1;
+  for var i := FItems.Count - 1 downto 0 do
+  begin
+    if not FItems[i].Cancelado then
+    begin
+      Result := i;
+      Break;
+    end;
+  end;
+end;
+
 function TEstMovEnt.GetLogStr: string;
 begin
   Result := FLogStr;
@@ -213,6 +236,11 @@ begin
   FFinalizadoEm := DATA_ZERADA;
   FCanceladoEm := DATA_ZERADA;
   FItems.Clear;
+end;
+
+function TEstMovEnt.GetItemIndex: integer;
+begin
+  Result := FItemIndex;
 end;
 
 function TEstMovEnt.GetItems: TList<IEstMovItem>;
@@ -253,6 +281,11 @@ end;
 procedure TEstMovEnt.SetFinalizadoEm(Value: TDateTime);
 begin
   FFinalizadoEm := Value;
+end;
+
+procedure TEstMovEnt.SetItemIndex(Value: integer);
+begin
+  FItemIndex := Value;
 end;
 
 procedure TEstMovEnt.SetLogStr(Value: string);
