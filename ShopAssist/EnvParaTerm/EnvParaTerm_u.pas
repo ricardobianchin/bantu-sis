@@ -68,7 +68,7 @@ begin
 
       while iAtualIni <= FLogIdFin do
       begin
-        iAtualFIn := Min(FLogIdFin, iAtualIni + TERMINAL_SYNC_PASSO - 1);
+        iAtualFIn := Min(FLogIdFin, iAtualIni + SYNC_QTD_REGS - 1);
         sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
           iAtualFIn.ToString + ';EnvLoja';
         EnvLoja(pTermDM, oExecScript, iAtualIni, iAtualFIn);
@@ -105,7 +105,7 @@ begin
         sLog := sLog + ';Vai Executar';
         oExecScript.Execute;
         EscrevaLog(sLog);
-        Inc(iAtualIni, TERMINAL_SYNC_PASSO);
+        Inc(iAtualIni, SYNC_QTD_REGS);
       end;
     finally
       FreeAndNil(oExecScript);

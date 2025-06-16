@@ -3,7 +3,7 @@ unit Sis_u;
 interface
 
 const
-  TERMINAL_SYNC_PASSO = 50000;
+  SYNC_QTD_REGS = 50000;
   PAUSA_SEGUNDOS = 20;
 
 var
