@@ -25,7 +25,7 @@ type
     FAtualizaAlteracaoTexto: boolean;
   protected
     function PodeOk: boolean; virtual;
-    procedure MensLimpar;
+    procedure MensLimpar; virtual;
     property ErroOutput: IOutput read FErroOutput write FErroOutput;
     property AlteracaoOutput: IOutput read FAlteracaoOutput;
 
