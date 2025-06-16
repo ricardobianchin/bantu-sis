@@ -75,8 +75,6 @@ type
 
     function ControlesOk: Boolean; override;
     function GravouOk: boolean; override;
-    procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-      var Key: Char); override;
     procedure ProdSelectSelect(Sender: TObject); override;
 
     procedure MensLimpar; override;
@@ -111,8 +109,6 @@ begin
   ReadOnlySet(PrecoSugeridoNumEditBtu);
   ReadOnlySet(PrecoAtualNumEditBtu);
 
-  FornecedorSelectFrame.ComboBox1.SetFocus;
-
   NDocNumEditBtu.Left := FornecedorSelectFrame.Left +
     FornecedorSelectFrame.Width + 5 + NDocNumEditBtu.EditLabel.Width +
     NDocNumEditBtu.LabelSpacing;
@@ -132,6 +128,14 @@ begin
 
   CalculeCustoUnit;
   CalculePreco;
+
+  if (FEntradaEnt.EditandoItem) then
+  begin
+    ProdIdDelesLabeledEdit.SetFocus;
+    exit;
+  end;
+
+  FornecedorSelectFrame.ComboBox1.SetFocus;
 
   // exit;
 
@@ -544,17 +548,6 @@ begin
     exit;
   end;
   EditKeyPress(Sender, Key);
-end;
-
-procedure TEntradaEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  // inherited;
-  if (Key >= #32) or (Key = #13) then
-  begin
-    Key := #0;
-    ProdSelectFrame.Selecionar;
-  end;
 end;
 
 procedure TEntradaEdForm.ProdSelectSelect(Sender: TObject);

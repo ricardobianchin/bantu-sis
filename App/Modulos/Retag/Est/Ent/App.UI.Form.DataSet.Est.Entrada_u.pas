@@ -243,6 +243,7 @@ begin
   FDMemTableNDOC.AsInteger := FEntradaEnt.NDoc;
   FDMemTableSERIE.AsInteger := FEntradaEnt.Serie;
   FDMemTable.Post;
+  DetailCarregar;
 end;
 
 procedure TAppEntradaDataSetForm.EntToRecord;
@@ -289,6 +290,8 @@ begin
   FDMemTable.Fields[17 { CANCELADO_POR_APELIDO } ].AsString := ''; //
   FDMemTable.Fields[18 { FINALIZADO_POR_ID } ].AsInteger := 0; //
   FDMemTable.Fields[19 { FINALIZADO_POR_APELIDO } ].AsString := ''; //
+
+  DetailCarregar;
 end;
 
 procedure TAppEntradaDataSetForm.EstLeRegEInsere(q: TDataSet; pRecNo: integer);

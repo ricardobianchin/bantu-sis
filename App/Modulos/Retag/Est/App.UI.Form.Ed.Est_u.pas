@@ -9,7 +9,8 @@ uses
   Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, App.Ent.Ed, App.Ent.DBI, App.AppObj,
   App.Retag.Est.ProdSelectFrame_u, Sis.DB.DBTypes, CustomEditBtu,
   CustomNumEditBtu, NumEditBtu, Data.DB, App.Est.EstMovEnt, App.Est.EstMovItem,
-  App.Est.EstMovDBI, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Files.FileI_u;
+  App.Est.EstMovDBI, Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Files.FileI_u;
 
 type
   TEstEdBasForm = class(TEdBasForm)
@@ -31,8 +32,8 @@ type
 
     procedure AjusteControles; override;
     procedure AjusteTabOrder; virtual; abstract;
-    procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject; var Key: Char);
-      virtual; abstract;
+    procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
+      var Key: Char); virtual;
     procedure ProdSelectSelect(Sender: TObject); virtual;
     function GetObjetivoStr: string; override;
     property ProdSelectFrame: TProdSelectFrame read FProdSelectFrame;
@@ -57,7 +58,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Utils, Sis.Types.Floats, Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory;
+uses Sis.UI.Controls.Utils, Sis.Types.Floats, Sis.UI.IO.Factory,
+  Sis.UI.IO.Output.ProcessLog.Factory;
 
 { TEstEdBasForm }
 
@@ -170,6 +172,29 @@ procedure TEstEdBasForm.OkAct_DiagExecute(Sender: TObject);
 begin
   inherited;
   FEstMovEnt.EditandoItem := True;
+end;
+
+procedure TEstEdBasForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  // inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    if ProdSelectFrame.ProdId > 0 then
+    begin
+      ProdSelectSelect(ProdSelectFrame);
+      Exit;
+    end;
+    ProdSelectFrame.Selecionar;
+  end;
+
+  if (Key >= #32) then
+  begin
+    Key := #0;
+    ProdSelectFrame.Selecionar;
+  end;
+
 end;
 
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);

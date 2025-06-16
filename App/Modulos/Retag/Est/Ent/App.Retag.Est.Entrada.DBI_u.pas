@@ -297,9 +297,9 @@ begin
     sMachId //
     + ');' //
     ;
-{$IFDEF DEBUG}
-  CopyTextToClipboard(Result);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 procedure TEntradaDBI.SetVarArrayToId(pNovaId: variant);

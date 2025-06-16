@@ -113,17 +113,6 @@ begin
   // end;
 end;
 
-procedure TInventarioEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  // inherited;
-  if (Key >= #32) or (key = #13) then
-  begin
-    Key := #0;
-    ProdSelectFrame.Selecionar;
-  end;
-end;
-
 procedure TInventarioEdForm.QtdNumEditBtuChange(Sender: TObject);
 begin
   inherited;

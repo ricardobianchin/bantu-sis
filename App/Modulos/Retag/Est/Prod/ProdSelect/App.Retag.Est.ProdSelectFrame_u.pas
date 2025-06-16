@@ -19,6 +19,8 @@ type
     procedure ProdLabeledEditClick(Sender: TObject);
     procedure ListaSpeedButtonClick(Sender: TObject);
     procedure FrameResize(Sender: TObject);
+    procedure ProdLabeledEditKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     FDBConnection: IDBConnection;
@@ -195,6 +197,22 @@ begin
   inherited;
   ListaSpeedButton.Click;
   // Selecionar;
+end;
+
+procedure TProdSelectFrame.ProdLabeledEditKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  case Key of
+    VK_DOWN:
+    begin
+      if Shift = [] then
+      begin
+        Key := 0;
+        Selecionar;
+      end;
+    end;
+  end;
 end;
 
 function TProdSelectFrame.ProdSelectCreate: ISelect;

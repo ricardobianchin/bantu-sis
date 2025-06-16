@@ -39,5 +39,6 @@ inherited ProdSelectFrame: TProdSelectFrame
     Text = ''
     StyleElements = []
     OnClick = ProdLabeledEditClick
+    OnKeyDown = ProdLabeledEditKeyDown
   end
 end

@@ -33,8 +33,6 @@ type
     procedure EntToControles; override;
     procedure ControlesToEnt; override;
 
-    procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-      var Key: Char); override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
@@ -134,18 +132,6 @@ begin
   // begin
   // FEstSaidaEnt.Items[FEstSaidaEnt.ItemIndex];
   // end;
-end;
-
-procedure TEstSaidaEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  // inherited;
-//  if Key = #13 then
-  if (Key >= #32) or (key = #13) then
-  begin
-    Key := #0;
-    ProdSelectFrame.Selecionar;
-  end;
 end;
 
 procedure TEstSaidaEdForm.QtdNumEditBtuChange(Sender: TObject);
