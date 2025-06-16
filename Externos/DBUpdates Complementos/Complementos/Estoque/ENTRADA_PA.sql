@@ -1,55 +1,36 @@
-ENTRADA_PA
-
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates\000\00\00\00\dbupdate 000000109.txt"
-
-SELECT DBUPDATE_PA.VERSAO_GET() FROM RDB$DATABASE;
-
-show package ENTRADA_PA;
-
-DROP PACKAGE ENTRADA_PA;
-DELETE FROM DBUPDATE_HIST WHERE NUM>=116;
-COMMIT;
-
-
-
 /*
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\ENTRADA_PA.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\ENTRADA_PA.sql"
+SHOW PACKAGE ENTRADA_PA;
 
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\ENTRADA_PA.sql";
 
+SELECT
+EST_MOV_ID_RET
+, DTH_DOC_RET
+, EST_MOV_CRIADO_EM_RET
+, EST_MOV_ITEM_CRIADO_EM_RET
+, ENTRADA_ID_RET
+, ORDEM_RET
+, LOG_STR_RET
+ FROM ENTRADA_PA.ENTRADA_ITEM_INS(1,0,0,0,0,3,1,'1A',2,2,6,1.3,9.99,'',1,1);
+
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\ENTRADA_PA.sql";
+
+SELECT
+EST_MOV_ID_RET
+, DTH_DOC_RET
+, EST_MOV_CRIADO_EM_RET
+, EST_MOV_ITEM_CRIADO_EM_RET
+, ENTRADA_ID_RET
+, ORDEM_RET
+, LOG_STR_RET
+ FROM ENTRADA_PA.ENTRADA_ITEM_INS(1,0,0,0,0,3,1,'1A',2,4,56,1,12.34,'',1,1);
+COMMIT;
+
+ROLLBACK;
+
 */
 
-
-
-
-
------------------------------
-INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=ESTOQUE
-DBATUALIZ_OBJETIVO=CRIAR ENTRADA_PA
-DBATUALIZ_PONTO_ALVO=SERVIDOR
-DBATUALIZ_OBS=
-
-
-
-
-/////////////////////////
-//
-// PACKAGE ENTRADA_PA
-//
-/////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=ENTRADA_PA
-
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE ENTRADA_PA
 AS
@@ -412,7 +393,7 @@ BEGIN
     DECLARE LOG_ID_RET BIGINT;
     DECLARE ORDEM_ANTIGA SMALLINT;
     DECLARE CANCELADO_EM_RET TIMESTAMP;
-  BEGIN
+BEGIN
     -- ENTRADA_PA.ENTRADA_ITEM_INS DEF
     
     LOG_STR_RET = LOG_STR;
@@ -484,7 +465,7 @@ BEGIN
     
     :LOG_STR_RET = :LOG_STR_RET ||';ENTRADA_ID_RET='||:ENTRADA_ID_RET;
     
-    INSERT INTO ENTRADA_ITEM
+/*    INSERT INTO ENTRADA_ITEM
     (
       LOJA_ID
       , TERMINAL_ID
@@ -508,7 +489,7 @@ BEGIN
       , :PRECO
       , :PROD_ID_DELES
     );
-    SUSPEND;
+*/    SUSPEND;
   END
 
   -- ENTRADA_PA.ALTERAR_DO IMP
@@ -666,7 +647,3 @@ BEGIN
 
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM
