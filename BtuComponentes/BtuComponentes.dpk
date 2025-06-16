@@ -33,7 +33,8 @@ requires
   vcl,
   vclactnband,
   vclx,
-  xmlrtl;
+  xmlrtl,
+  dbrtl;
 
 contains
   CustomNumEditBtu in 'NumEdit\CustomNumEditBtu.pas',
