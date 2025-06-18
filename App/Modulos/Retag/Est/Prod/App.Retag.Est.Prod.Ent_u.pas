@@ -4,7 +4,7 @@ interface
 
 uses App.Ent.Ed.Id_u, Data.DB, Sis.DB.DBTypes, Sis.Types.Utils_u,
   App.Retag.Est.Prod.Ent, App.Ent.DBI_u, App.Ent.Ed, App.Retag.Est.Factory,
-  App.Retag.Est.Prod.Barras.Ent.List
+  App.Retag.Est.Prod.Barras.Ent.List, App.Est.Types_u
   //
   , App.Retag.Est.Prod.Fabr.Ent//
   , App.Retag.Est.Prod.Tipo.Ent//
@@ -25,6 +25,9 @@ type
     FProdTipoEnt: IProdTipoEnt;
     FProdUnidEnt: IProdUnidEnt;
     FProdICMSEnt: IProdICMSEnt;
+    FProdNatu: TProdNatu;
+    FProdNatuNome: string;
+
     FProdBarrasList: IProdBarrasList;
 
     FCustoAtual: double;
@@ -53,6 +56,13 @@ type
     function GetProdTipoEnt: IProdTipoEnt;
     function GetProdICMSEnt: IProdICMSEnt;
     function GetProdUnidEnt: IProdUnidEnt;
+
+    function GetProdNatu: TProdNatu;
+    procedure SetProdNatu(Value: TProdNatu);
+
+    function GetProdNatuNome: string;
+    procedure SetProdNatuNome(Value: string);
+
     function GetProdBarrasList: IProdBarrasList;
 
     function GetCustoAtual: double;
@@ -100,6 +110,9 @@ type
     property ProdTipoEnt: IProdTipoEnt read GetProdTipoEnt;
     property ProdUnidEnt: IProdUnidEnt read GetProdUnidEnt;
     property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
+    property ProdNatu: TProdNatu read GetProdNatu write SetProdNatu;
+    property ProdNatuNome: string read GetProdNatuNome write SetProdNatuNome;
+
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;
 
     property CustoAtual: double read GetCustoAtual write SetCustoAtual;
@@ -272,6 +285,16 @@ begin
   Result := FProdICMSEnt;
 end;
 
+function TProdEnt.GetProdNatu: TProdNatu;
+begin
+  Result := FProdNatu;
+end;
+
+function TProdEnt.GetProdNatuNome: string;
+begin
+  Result := FProdNatuNome;
+end;
+
 function TProdEnt.GetProdTipoEnt: IProdTipoEnt;
 begin
   Result := FProdTipoEnt;
@@ -370,6 +393,16 @@ end;
 procedure TProdEnt.SetPrecoNovo(Value: Currency);
 begin
   FPrecoNovo := Value;
+end;
+
+procedure TProdEnt.SetProdNatu(Value: TProdNatu);
+begin
+  FProdNatu := Value;
+end;
+
+procedure TProdEnt.SetProdNatuNome(Value: string);
+begin
+  FProdNatuNome := Value;
 end;
 
 end.

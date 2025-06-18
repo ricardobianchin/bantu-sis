@@ -1,4 +1,4 @@
-unit App.Est.Types_u;
+ï»¿unit App.Est.Types_u;
 
 interface
 
@@ -9,29 +9,30 @@ type
     baltUsoPrecoUnitQtd);
 
   TCaixaSessaoSituacao = (cxFechado, cxAberto, cxAbertoPorOutroUsuario);
-  // TProdNatu = (pnatuNaoIndicado = 32, pnatuProduto = 33, pnatuServico = 34,
-  // pnatuMateriaPrima = 35, pnatuCombo = 36, pnatuComposto = 37);
+  TProdNatu = (pnatuNaoIndicado = 32, pnatuProduto = 33, pnatuServico = 34,
+    pnatuMateriaPrima = 35, pnatuKit = 36, pnatuComposicao = 37);
 
 const
   BalancaUsoStr: array [TBalancaUso] of string = ( //
-    'Não utiliza' //
+    'NÃ£o utiliza' //
     , 'Utiliza' //
-    , 'Usuário indicará preço total' //
-    , 'Usuário indicará quantidade e preço unitário' //
+    , 'UsuÃ¡rio indicarÃ¡ preÃ§o total' //
+    , 'UsuÃ¡rio indicarÃ¡ quantidade e preÃ§o unitÃ¡rio' //
     );
-  //
-  // ProdNatuStr: array [TProdNatu] of string = (
-  // 'Não indicado'//
-  // , 'Produto'//
-  // , 'Serviço'//
-  // , 'Matéria-Prima'//
-  // , 'Combo'//
-  // , 'Composto'//
-  // );
+
+  ProdNatuStr: array [TProdNatu] of string = ( //
+    'NÃ£o indicado' //
+    , 'Produto' //
+    , 'ServiÃ§o' //
+    , 'MatÃ©ria-Prima' //
+    , 'Kit' //
+    , 'ComposiÃ§Ã£o' //
+    );
 
 procedure BalancaUsoStrToSL(pSL: TStrings);
-// function ProdNatuToChar(pProdNatu: TProdNatu): char;
-// function ProdNatuToSql(pProdNatu: TProdNatu): string;
+function ProdNatuToChar(pProdNatu: TProdNatu): char;
+function ProdNatuToSql(pProdNatu: TProdNatu): string;
+function StrToProdNatu(const AValue: string): TProdNatu;
 
 type
   TEstMovTipo = ( //
@@ -66,21 +67,34 @@ begin
     pSL.Add(BalancaUsoStr[Tipo]);
 end;
 
-// function ProdNatuToChar(pProdNatu: TProdNatu): char;
-// begin
-// Result := Chr(Integer(pProdNatu));
-// end;
-//
-// function ProdNatuToSql(pProdNatu: TProdNatu): string;
-// begin
-// Result := QuotedStr(ProdNatuToChar(pProdNatu));
-// end;
+function ProdNatuToChar(pProdNatu: TProdNatu): char;
+begin
+  Result := Chr(Integer(pProdNatu));
+end;
+
+function ProdNatuToSql(pProdNatu: TProdNatu): string;
+begin
+  Result := QuotedStr(ProdNatuToChar(pProdNatu));
+end;
+
+function StrToProdNatu(const AValue: string): TProdNatu;
+var
+  CharValue: char;
+begin
+  if AValue = '' then
+    Result := pnatuNaoIndicado
+  else
+  begin
+    CharValue := AValue[1];
+    Result := TProdNatu(Ord(CharValue));
+  end;
+end;
 
 { TEstMovTipoHelper }
 
 function TEstMovTipoHelper.AsSqlConstant: string;
 begin
-  Result := QuotedStr(Char(Self));
+  Result := QuotedStr(char(Self));
 end;
 
 procedure TEstMovTipoHelper.SetFromString(const AValue: string);
@@ -94,15 +108,22 @@ end;
 function TEstMovTipoHelper.ToNome: string;
 begin
   case Self of
-    emtipoCompra: Result := 'Compra';
-    emtipoVenda:  Result := 'Venda';
-    emtipoInventario: Result := 'Inventário';
-    emtipoDevolucaoDeVenda: Result := 'Devolução de Venda';
-    emtipoDevolucaoDeCompra: Result := 'Devolução de Compra';
-    emtipoSaida: Result := 'Saída';
-    emtipoSaidaEstorno: Result := 'Estorno de Saída';
+    emtipoCompra:
+      Result := 'Compra';
+    emtipoVenda:
+      Result := 'Venda';
+    emtipoInventario:
+      Result := 'Inventï¿½rio';
+    emtipoDevolucaoDeVenda:
+      Result := 'Devoluï¿½ï¿½o de Venda';
+    emtipoDevolucaoDeCompra:
+      Result := 'Devoluï¿½ï¿½o de Compra';
+    emtipoSaida:
+      Result := 'Saï¿½da';
+    emtipoSaidaEstorno:
+      Result := 'Estorno de Saï¿½da';
   else { emtipoNaoIndicado: }
-    Result := 'Não indicado';
+    Result := 'Nï¿½o indicado';
   end;
 end;
 

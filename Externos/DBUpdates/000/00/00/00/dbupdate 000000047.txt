@@ -42,16 +42,28 @@ PROD_NATU_ID;NOME;DESCR
 #032;NAO INDICADO;Nao pode ser usado
 #033;PRODUTO;Movimenta estoque. Preco NAO pode ser alterado na venda.
 #034;SERVICO;Nao movimenta estoque. Preco pode ser alterado na venda.
-#035;MATERIA-PRIMA;Usado nos produtos Composicao. Nao pode ser vendido.
-#036;KIT;Conjunto de produtos. No cupom fiscal, aparecem os nomes dos itens, não do kit. Itens de todas as naturezas podem ser adicionados, exceto materias-primas.
+#035;MATERIA-PRIMA;Compoem os produtos Composicao. Nao pode ser vendido.
+#036;KIT;Conjunto de produtos, exceto materias-primas. No cupom fiscal, aparecem os nomes dos itens, nao do kit.
 #037;COMPOSICAO;Conjunto de materias-primas. Na venda, so o nome da comoposicao aparece no cupom.
 
 CSV FIM
 COMANDO FIM
 
+/*
+PRODUTO - Movimenta estoque. Preço NÃO pode ser alterado na venda.
+SERVIÇO - Não movimenta estoque. Preço pode ser alterado na venda.
+MATÉRIA-PRIMA - Compõem os produtos Composição. Não pode ser vendido.
+KIT - Conjunto de produtos, exceto matérias-primas. No cupom fiscal, aparecem os nomes dos itens, não do kit.
+COMPOSIÇÃO - Conjunto de matérias-primas. Na venda, so o nome da composição aparece no cupom.
+
+PRODUTO
+SERVIÇO
+MATÉRIA-PRIMA
+KIT
+COMPOSIÇÃO
 
 
-
+*/
 ///////////////////////////
 //
 // NA TABELA FABR, ENSURE RECORDS

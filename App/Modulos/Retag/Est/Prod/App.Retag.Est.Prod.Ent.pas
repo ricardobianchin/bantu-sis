@@ -2,7 +2,7 @@ unit App.Retag.Est.Prod.Ent;
 
 interface
 
-uses App.Ent.Ed.Id, Sis.Loja
+uses App.Ent.Ed.Id, Sis.Loja, App.Est.Types_u
   //
   , App.Retag.Est.Prod.Fabr.Ent//
   , App.Retag.Est.Prod.Tipo.Ent//
@@ -34,6 +34,14 @@ type
 
     function GetProdICMSEnt: IProdICMSEnt;
     property ProdICMSEnt: IProdICMSEnt read GetProdICMSEnt;
+
+    function GetProdNatu: TProdNatu;
+    procedure SetProdNatu(Value: TProdNatu);
+    property ProdNatu: TProdNatu read GetProdNatu write SetProdNatu;
+
+    function GetProdNatuNome: string;
+    procedure SetProdNatuNome(Value: string);
+    property ProdNatuNome: string read GetProdNatuNome write SetProdNatuNome;
 
     function GetProdBarrasList: IProdBarrasList;
     property ProdBarrasList: IProdBarrasList read GetProdBarrasList;

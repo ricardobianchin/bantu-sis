@@ -86,12 +86,13 @@ begin
     classe mae preenche algo em DBUpdaterVariaveis
     geralmente aqui se faz:
     DBUpdaterVariaveis := DBUpdaterVariaveis + '...';
-    ao invés de
+    ao invï¿½s de
     DBUpdaterVariaveis := '...';
-    toda entrada precisa terminar com #13#10 pois alimentará TStrings.Text
+    toda entrada precisa terminar com #13#10 pois alimentarï¿½ TStrings.Text
   }
   DBUpdaterVariaveis := DBUpdaterVariaveis +
-    'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
+    'USA_TABPRECO=N'#13#10;
+//    'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
 end;
 
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;

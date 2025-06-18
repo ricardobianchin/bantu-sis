@@ -69,7 +69,7 @@ end;
 procedure TComboBoxBasFrame.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  EditKeyPress(Sender, key);
+  //EditKeyPress(Sender, key);
   if (Key >= #32) or (Key = #8) then
     ComboBox1.DroppedDown := True;
 end;

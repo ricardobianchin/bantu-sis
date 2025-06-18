@@ -653,13 +653,13 @@ begin
 {$IFDEF DEBUG}
   // RetagEstEntFornecedorAct.Execute;
   //RetagEstSaidaAct.Execute;
-  RetagEstEntradaAction.Execute;
+  //RetagEstEntradaAction.Execute;
+  RetagEstProdAction.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;
   // s l e e p(150);
   // RetagEstProdFabrAction.Execute;
-  // RetagEstProdAction.Execute;
 
   // MenuPageControl.ActivePage := EstoqueTabSheet;
   // FinanceiroPagamentoFormaAction.Execute

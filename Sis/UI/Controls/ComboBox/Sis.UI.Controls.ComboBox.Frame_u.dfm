@@ -30,21 +30,19 @@ inherited ComboBoxBasFrame: TComboBoxBasFrame
       Left = 0
       Top = 0
       Width = 103
-      Height = 23
+      Height = 15
       Align = alLeft
       Caption = 'Unidade de Medida'
       FocusControl = ComboBox1
       Layout = tlCenter
-      ExplicitHeight = 15
     end
     object EspacadorLabel: TLabel
       Left = 103
       Top = 0
       Width = 6
-      Height = 23
+      Height = 15
       Align = alLeft
       Caption = '  '
-      ExplicitHeight = 15
     end
     object ComboBox1: TComboBox
       Left = 109

@@ -9,7 +9,7 @@ uses
   App.Retag.Est.Prod.Ent, Vcl.Mask, Sis.UI.IO.Output, NumEditBtu,
   Sis.UI.Controls.ComboBoxManager, App.Ent.DBI, App.Retag.Est.Prod.ComboBox_u,
   Sis.DB.DBTypes, System.Generics.Collections, Sis.UI.FormCreator,
-  App.Retag.Est.Prod.Barras.Frame_u, App.AppObj, sndkey32, Data.DB, Sis.Types
+  App.Retag.Est.Prod.Barras.Frame_u, App.AppObj, sndkey32, Data.DB, Sis.Types, App.Est.Types_u
   //
     , App.Retag.Est.Prod.Fabr.Ent //
     , App.Retag.Est.Prod.Tipo.Ent //
@@ -44,6 +44,8 @@ type
     LocalizLabeledEdit: TLabeledEdit;
     NcmLabeledEdit: TLabeledEdit;
     BalancaExigeCheckBox: TCheckBox;
+    ProdNatuLabel: TLabel;
+    ProdNatuComboBox: TComboBox;
     procedure DescrEditChange(Sender: TObject);
     procedure DescrRedEditChange(Sender: TObject);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
@@ -61,6 +63,9 @@ type
     FAppObj: IAppObj;
 
     SelecioneProximoProc: TProcedureOfObject;
+    procedure FabrComboBox1KeyPress(Sender: TObject; var Key: Char);
+    function GetProdNatuSelecionada: TProdNatu;
+    procedure SetProdNatuSelecionada(const Value: TProdNatu);
   public
     { Public declarations }
 
@@ -85,6 +90,8 @@ type
     TipoFr: TComboBoxProdEdFrame;
     UnidFr: TComboBoxProdEdFrame;
     ICMSFr: TComboBoxProdEdFrame;
+
+    property ProdNatuSelecionada: TProdNatu read GetProdNatuSelecionada write SetProdNatuSelecionada;
 
     constructor Create(AOwner: TComponent; //
       pSelecioneProximoProc: TProcedureOfObject; //
@@ -119,7 +126,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.Types.Integers, Sis.UI.Controls.TLabeledEdit, App.Retag.Est.Factory,
-  App.Est.Types_u, Sis.Types.Codigos.Utils;
+  Sis.Types.Codigos.Utils;
 
 { TRetagProdEdObrigFrame }
 
@@ -231,6 +238,11 @@ begin
 
   iTop := DescrEdit.Top + DescrEdit.Height + 17;
   iLeft := 6;
+
+  ProdNatuLabel.Left := iLeft;
+  ProdNatuComboBox.Left := ProdNatuLabel.Left + ProdNatuLabel.Width + 3;
+
+  iLeft := iLeft + ProdNatuComboBox.Left + ProdNatuComboBox.Width + 5;
 
   TipoFr.Left := iLeft;
   TipoFr.Top := iTop;
@@ -372,6 +384,7 @@ begin
 
 
   BalancaExigeCheckBox.Checked := False;
+  BalancaExigeCheckBox.TabOrder := 0;
   BalDpto.TabOrder := 1;
   BalValidEdit.TabOrder := 2;
   BalTextoEtiqMemo.TabOrder := 3;
@@ -433,6 +446,8 @@ begin
   FWinControlList.Add(DescrEdit);
   FWinControlList.Add(DescrRedEdit);
 
+  FWinControlList.Add(ProdNatuComboBox);
+
   FWinControlList.Add(TipoFr);
   FWinControlList.Add(UnidFr);
   FWinControlList.Add(ICMSFr);
@@ -484,10 +499,36 @@ begin
   inherited;
 end;
 
+procedure TRetagProdEdComunsFrame.FabrComboBox1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if key = #13 then
+  begin
+    Key := #0;
+    SelecioneProximoProc;
+  end;
+end;
+
 procedure TRetagProdEdComunsFrame.GeraBarrasLabelClick(Sender: TObject);
 begin
   inherited;
   BarrasFr.LabeledEdit1.Text := EAN13GetRandom;
+end;
+
+function TRetagProdEdComunsFrame.GetProdNatuSelecionada: TProdNatu;
+var
+  i: integer;
+begin
+  i := ProdNatuComboBox.ItemIndex;
+  Result := TProdNatu(i + 33);
+end;
+
+procedure TRetagProdEdComunsFrame.SetProdNatuSelecionada(const Value: TProdNatu);
+var
+  i: integer;
+begin
+  i := integer(Value);
+  ProdNatuComboBox.ItemIndex := i - 33;
 end;
 
 end.

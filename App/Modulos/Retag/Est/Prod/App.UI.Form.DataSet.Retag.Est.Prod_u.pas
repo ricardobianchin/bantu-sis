@@ -12,7 +12,7 @@ uses
   App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
   {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u,
-  Sis.Types;
+  Sis.Types, App.Est.Types_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -287,16 +287,20 @@ begin
   FDMemTable.Fields[9 { icms_id } ].AsInteger := ProdEnt.ProdUnidEnt.Id;
   FDMemTable.Fields[10 { icms_descr_perc } ].AsString :=
     ProdEnt.ProdICMSEnt.Descr;
-  FDMemTable.Fields[11 { codbarras } ].AsString :=
+
+  FDMemTable.Fields[11 { PROD_NATU_ID } ].AsString :=  ProdNatuToChar(ProdEnt.ProdNatu);
+  FDMemTable.Fields[12 { PROD_NATU_NOME } ].AsString := ProdEnt.ProdNatuNome;
+
+  FDMemTable.Fields[13 { codbarras } ].AsString :=
     ProdEnt.ProdBarrasList.GetAsString(', ');
-  FDMemTable.Fields[12 { Custo } ].AsCurrency :=
+  FDMemTable.Fields[14 { Custo } ].AsCurrency :=
     iif(ProdEnt.CustoNovo > 0, ProdEnt.CustoNovo, ProdEnt.CustoAtual);
-  FDMemTable.Fields[13 { Preco } ].AsCurrency :=
+  FDMemTable.Fields[15 { Preco } ].AsCurrency :=
     iif(ProdEnt.PrecoNovo > 0, ProdEnt.PrecoNovo, ProdEnt.PrecoAtual);
-  FDMemTable.Fields[14 { Ativo } ].AsBoolean := ProdEnt.Ativo;
-  FDMemTable.Fields[15 { Localiz } ].AsString := ProdEnt.Localiz;
-  FDMemTable.Fields[16 { Capac_emb } ].AsCurrency := ProdEnt.CapacEmb;
-  FDMemTable.Fields[17 { Margem } ].AsCurrency := ProdEnt.Margem;
+  FDMemTable.Fields[16 { Ativo } ].AsBoolean := ProdEnt.Ativo;
+  FDMemTable.Fields[17 { Localiz } ].AsString := ProdEnt.Localiz;
+  FDMemTable.Fields[18 { Capac_emb } ].AsCurrency := ProdEnt.CapacEmb;
+  FDMemTable.Fields[19 { Margem } ].AsCurrency := ProdEnt.Margem;
 
 end;
 

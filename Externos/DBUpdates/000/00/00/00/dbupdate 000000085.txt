@@ -18,9 +18,6 @@ C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Confi
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Config\import_prod_pa.sql";
 
 --execute procedure IMPORT_PROD_PA.APAGAR_DO;
-
-
-
 */
 
 COMANDO INI
@@ -44,9 +41,9 @@ BEGIN
     IMPORT_PROD_TIPO_ID ID_DOM,
     IMPORT_UNID_ID ID_DOM,
     IMPORT_ICMS_ID ID_DOM,
-{se usa_natu=s}
+
     PROD_NATU_ID ID_CHAR_DOM,
-{fimse}
+
     CAPAC_EMB QTD_DOM,
     NCM CHAR(8),
 
@@ -83,9 +80,9 @@ BEGIN
     IMPORT_PROD_TIPO_ID ID_DOM,
     IMPORT_UNID_ID ID_DOM,
     IMPORT_ICMS_ID ID_DOM,
-{se usa_natu=s}
+
     PROD_NATU_ID ID_CHAR_DOM,
-{fimse}    
+
     CAPAC_EMB QTD_DOM,
     NCM CHAR(8),
     CUSTO CUSTO_DOM,
@@ -115,9 +112,9 @@ BEGIN
       IMPORT_PROD_TIPO_ID,
       IMPORT_UNID_ID,
       IMPORT_ICMS_ID,
-{se usa_natu=s}
+
       PROD_NATU_ID,
-{fimse}      
+
       CAPAC_EMB,
       NCM,
       CUSTO,
@@ -139,9 +136,9 @@ BEGIN
       :IMPORT_PROD_TIPO_ID,
       :IMPORT_UNID_ID,
       :IMPORT_ICMS_ID,
-{se usa_natu=s}
+
       :PROD_NATU_ID,
-{fimse}      
+
       :CAPAC_EMB,
       :NCM,
       :CUSTO,
