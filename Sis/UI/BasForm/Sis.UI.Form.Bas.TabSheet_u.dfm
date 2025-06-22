@@ -29,8 +29,6 @@ inherited TabSheetBasForm: TTabSheetBasForm
       BevelOuter = bvNone
       Caption = '   '
       TabOrder = 0
-      ExplicitLeft = 560
-      ExplicitHeight = 49
     end
     object TitToolPanel_BasTabSheet: TPanel
       Left = 0
@@ -42,14 +40,13 @@ inherited TabSheetBasForm: TTabSheetBasForm
       BevelOuter = bvNone
       Caption = '   '
       TabOrder = 1
-      ExplicitLeft = 8
       object TitToolBar1_BasTabSheet: TToolBar
         Left = 0
         Top = 0
         Width = 492
         Height = 30
         AutoSize = True
-        ButtonHeight = 21
+        ButtonHeight = 30
         ButtonWidth = 47
         Caption = 'TitToolBar1_BasTabSheet'
         List = True
