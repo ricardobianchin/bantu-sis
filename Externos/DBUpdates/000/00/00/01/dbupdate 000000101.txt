@@ -1,56 +1,46 @@
-PROMO_PA
-
-DELETE FROM DBUPDATE_HIST WHERE NUM>=101;
-COMMIT;
+PROMO_ACAO
+ENSURE RECORDS
 
 
-
------------------------------
 INICIO
+
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=ESTOQUE
-DBATUALIZ_OBJETIVO=CRIAR PROMO_PA
-DBATUALIZ_PONTO_ALVO=SERVIDOR
+DBATUALIZ_ASSUNTO=SIS
+DBATUALIZ_OBJETIVO=PROMO_ACAO, ENSURE RECORDS
 DBATUALIZ_OBS=
 
 
 
 
-/////////////////////////
+
+///////////////////////////
 //
-// PACKAGE PROMO_PA
+// PROMO_ACAO, ENSURE RECORDS
 //
-/////////////////////////
+///////////////////////////
 COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=PROMO_PA
-/*
+COMANDO_TIPO=ENSURE RECORDS
+OBJETO_NOME=PROMO_ACAO
 
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROMO_PA.sql
+CSV INI
 
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROMO_PA.sql"
+PROMO_ACAO_ID;DESCR
 
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROMO_PA.sql";
+#033;CRIA PROMO
+#034;INSERE PRODUTO
+#035;REMOVE PRODUTO
+#036;ATIVA PROMO
+#037;DESATIVA PROMO
+#038;ATIVA PRODUTO
+#039;DESATIVA PRODUTO
+#040;ALTERA PRECO
 
-
-*/
-```FIREBIRD
-SET TERM ^;
-CREATE OR ALTER PACKAGE PROMO_PA
-AS
-BEGIN
-END^
-
----- BODY
-
-RECREATE PACKAGE BODY PROMO_PA
-AS
-BEGIN
-END^
-SET TERM ;^
-```
+CSV FIM
 COMANDO FIM
+
+
+
+
 
 DBATUALIZ FIM
