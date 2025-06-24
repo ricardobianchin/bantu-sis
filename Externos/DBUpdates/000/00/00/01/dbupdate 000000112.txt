@@ -1,58 +1,167 @@
-EST_SAIDA_MOTIVO
-ENSURE RECORDS
+EST_SAIDA
+TABELA EST_SAIDA
+
+DROP TABLE EST_SAIDA_ITEM;
+DROP TABLE EST_SAIDA;
+DELETE FROM DBUPDATE_HIST WHERE NUM>=110;
+COMMIT;
 
 
 -----------------------------
 INICIO
 -----------------------------
 DBATUALIZ INI
-DBATUALIZ_ASSUNTO=ESTOQUE, EST_SAIDA, EST_SAIDA_MOTIVO
-DBATUALIZ_OBJETIVO=EST_SAIDA_MOTIVO, ENSURE RECORDS
+DBATUALIZ_ASSUNTO=ESTOQUE, EST_SAIDA
+DBATUALIZ_OBJETIVO=CRIAR EST_SAIDA, EST_SAIDA_ITEM
+DBATUALIZ_PONTO_ALVO=SERVIDOR
 DBATUALIZ_OBS=
 
 
 
 
-
 ///////////////////////////
 //
-// EST_SAIDA_MOTIVO, ENSURE RECORDS
+// SEQUENCE EST_SAIDA_SEQ
 //
 ///////////////////////////
 COMANDO INI
-COMANDO_TIPO=ENSURE RECORDS
-OBJETO_NOME=EST_SAIDA_MOTIVO
-
-CSV INI
-
-EST_SAIDA_MOTIVO_ID;NOME;DESCR
-
-0;NAO INDICADO;Nao indicado
-1;EXTRAVIO;Perda sem causa clara (ex.: erro de contagem)
-2;FURTO;Subtracao sem violencia
-3;ROUBO;Subtracao com violencia ou grave ameaca
-4;SINISTRO;Perda por desastres (ex.: incendio, inundacao)
-5;DETERIORACAO;Dano por ma conservacao ou contaminacao
-6;VALIDADE OU PERECIMENTO;Vencimento ou apodrecimento natural
-7;INUTILIZACAO;Produto obsoleto e invendavel
-8;AUTOCONSUMO;Uso interno (ex.: consumo de material de escritorio)
-9;QUEBRA;Perda anormal (ex.: quebra de vasilhames)
-
-/*
-EST_SAIDA_MOTIVO_ID;NOME;DESCR
-0;NAO INDICADO;NAO INDICADO
-1;EXTRAVIO;Perda de mercadorias dentro do estabelecimento, sem identificacao clara da causa (ex.: erros de contagem ou movimentação)
-2;FURTO;Subtracao da mercadoria sem o consentimento do proprietario, sem violencia
-3;ROUBO;Subtracao da mercadoria sem o consentimento do proprietario, com o uso de violencia ou grave ameaca
-4;SINISTRO;Perdas causadas por eventos como incêndios, inundacoes ou outros desastres
-5;DETERIORACAO;Perda causada por armazenamento incorreto, exposicao incorreta, contaminacao biologica ou por produtos quimicos
-6;VALIDADE OU PERECIMENTO;Perda causada pelo vencimento ou apodrecimento natural do produto, sem fatores externos
-7;INUTILIZACAO;Perda do produto por ele ter ficado obsoleto, invendavel, sem possibilidade de recuperacao nem venda como sucata
-8;AUTOCONSUMO;Mercadorias retiradas do estoque para uso interno no estabelecimento (ex.: insumos consumidos em atividades administrativas)
-9;QUEBRA;Perdas fora do padrao esperado para a atividade (ex.: quebra de vasilhames alem do razoavel em industrias de bebidas)
-*/
-CSV FIM
+//COMANDO_PONTO_ALVO=SERVIDOR
+COMANDO_TIPO=CREATE SEQUENCE
+OBJETO_NOME=EST_SAIDA_SEQ
+//VALOR_INICIAL=2
 COMANDO FIM
+// SEQUENCE EST_SAIDA FIM
+
+
+
+
+
+
+///////////////////////////
+//
+// TABELA EST_SAIDA
+//
+///////////////////////////
+COMANDO INI
+
+COMANDO_TIPO=CREATE TABLE
+OBJETO_NOME=EST_SAIDA
+
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM;UNIQUE
+
+//NOME    TIPO    NOTNULL    PRIM    UNIQUE
+
+LOJA_ID;ID_SHORT_DOM;S;S
+TERMINAL_ID;ID_SHORT_DOM;S;S
+EST_MOV_ID;BIGINT;S;S
+
+EST_SAIDA_ID;ID_DOM;S
+EST_SAIDA_MOTIVO_ID;ID_SHORT_DOM;S
+
+COLUNAS FIM
+
+COMANDO FIM
+
+
+
+//////////////////////////////////
+//
+// FOREIGN KEY EST_SAIDA EST_MOV
+//
+//////////////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=EST_SAIDA
+CAMPOS_FK=LOJA_ID,TERMINAL_ID,EST_MOV_ID
+TABELA_PK=EST_MOV
+//CAMPOS_PK=
+COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY EST_SAIDA EST_MOV FIM
+
+
+
+
+//////////////////////////////////
+//
+// FOREIGN KEY EST_SAIDA EST_SAIDA_MOTIVO
+//
+//////////////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=EST_SAIDA
+CAMPOS_FK=EST_SAIDA_MOTIVO_ID
+TABELA_PK=EST_SAIDA_MOTIVO
+//CAMPOS_PK=
+COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY EST_SAIDA EST_MOV FIM
+
+
+
+
+//////////////////////////////////
+//
+// INDEX EST_SAIDA LOJA_ID, TERMINAL_ID, EST_SAIDA_ID
+//
+//////////////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE INDEX
+OBJETO_NOME=
+TABELA=EST_SAIDA
+CAMPOS=LOJA_ID,TERMINAL_ID,EST_SAIDA_ID
+COMANDO FIM
+//OBJETO_NOME Nao eh obrigatorio
+// INDEX EST_SAIDA LOJA_ID, TERMINAL_ID, EST_SAIDA_ID
+
+
+
+///////////////////////////
+//
+// TABELA EST_SAIDA_ITEM
+//
+///////////////////////////
+COMANDO INI
+
+COMANDO_TIPO=CREATE TABLE
+OBJETO_NOME=EST_SAIDA_ITEM
+
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM;UNIQUE
+
+//NOME    TIPO    NOTNULL    PRIM    UNIQUE
+
+LOJA_ID;ID_SHORT_DOM;S;S
+TERMINAL_ID;ID_SHORT_DOM;S;S
+EST_MOV_ID;BIGINT;S;S
+ORDEM;SMALLINT;S;S
+
+COLUNAS FIM
+
+COMANDO FIM
+
+
+
+//////////////////////////////////
+//
+// FOREIGN KEY EST_SAIDA_ITEM EST_MOV_ITEM
+//
+//////////////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE FOREIGN KEY
+//OBJETO_NOME=
+TABELA_FK=EST_SAIDA_ITEM
+CAMPOS_FK=LOJA_ID,TERMINAL_ID,EST_MOV_ID,ORDEM
+TABELA_PK=EST_MOV_ITEM
+//CAMPOS_PK=
+COMANDO FIM
+//OBJETO_NOME e CAMPOS_PK nao sao obrigatorios
+// FOREIGN KEY VENDA EST_MOV FIM
+
+
 
 
 
