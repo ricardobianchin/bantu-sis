@@ -111,7 +111,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.UI.IO.Input.Perg, App.PDV.PDVSessForm_u;
+uses Sis.DB.Factory, App.PDV.PDVSessForm_u;
 
 procedure TPDVModuloBasForm.AjusteControles;
 begin

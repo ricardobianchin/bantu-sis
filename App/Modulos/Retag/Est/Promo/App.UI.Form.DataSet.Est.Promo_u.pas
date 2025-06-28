@@ -66,7 +66,7 @@ implementation
 
 uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
   Sis.Sis.Constants, Sis.DB.Factory, App.Retag.Est.Factory, App.UI.Form.Perg_u,
-  Sis.UI.IO.Files, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
+  Sis.UI.IO.Files, App.UI.Form.Retag.Excl_u,
   Sis.DB.DataSet.Utils, Sis.UI.Controls.Utils, App.Est.PromoItem;
 
 { TAppPromoDataSetForm }

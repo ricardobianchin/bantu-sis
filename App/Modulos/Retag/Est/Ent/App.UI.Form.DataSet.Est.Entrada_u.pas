@@ -66,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
-  App.Retag.Est.Factory, Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg,
+  App.Retag.Est.Factory, Sis.DB.Factory, App.DB.Utils,
   App.UI.Form.Retag.Excl_u, Sis.DB.DataSet.Utils, Sis.Entities.Types, Sis.Types,
   Sis.UI.Controls.Utils, Sis.Sis.Constants, Sis.Types.Utils_u,
   App.Retag.Est.EntradaItem;

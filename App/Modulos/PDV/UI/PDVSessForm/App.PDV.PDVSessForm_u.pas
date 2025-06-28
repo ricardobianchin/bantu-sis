@@ -132,9 +132,9 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM, System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
-  App.PDV.Factory_u, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
+  App.PDV.Factory_u, Sis.UI.Controls.TDBGrid,
   App.PDV.ImpressaoTextoCxSessRelat_u, App.Est.Venda.CaixaSessao.Factory_u,
-  Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u;
+  Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
   pCaixaSessaoDM: TCaixaSessaoDM; pFiltroFrame: TFiltroFrame);
@@ -356,7 +356,7 @@ begin
   if SessFDMemTable.IsEmpty then
   begin
     bResultado :=
-      PergBool('Ainda não há registros nesta Abertura de Caixa. Deseja imprimir mesmo assim?');
+      App.UI.Form.Perg_u.Perg('Ainda não há registros nesta Abertura de Caixa. Deseja imprimir mesmo assim?', '' , TBooleanDefault.boolFalse);
     if not bResultado then
       exit;
   end;

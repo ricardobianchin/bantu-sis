@@ -100,7 +100,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
   App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u,

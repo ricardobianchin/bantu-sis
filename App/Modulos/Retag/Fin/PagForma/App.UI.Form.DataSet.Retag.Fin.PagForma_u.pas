@@ -42,7 +42,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Fin.Factory,
-  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid,
+  Sis.DB.Factory, App.DB.Utils, Sis.UI.Controls.TDBGrid,
   App.Retag.Fin.PagForma.Ed.DBI, Sis.Sis.Constants;
 
 { TTabSheetDataSetBasForm1 }

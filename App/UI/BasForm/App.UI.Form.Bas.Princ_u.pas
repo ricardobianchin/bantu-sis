@@ -106,8 +106,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
-  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.UI.IO.Input.Perg,
-  Sis.Types.Utils_u, App.UI.Form.Perg_u, Sis.UI.IO.Input.Bool.Caption.Form_u;
+  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -237,7 +236,7 @@ begin
     sLog := 'Ja ajustou cores do splash, vai SplashForm.CarregarLogo';
     FProcessLog.RegistreLog(sLog);
 
-    SplashForm.Exibir(FAppInfo.NomeExib);
+    SplashForm.Output.Exibir(FAppInfo.NomeExib);
     SplashForm.CarregarLogo(FsLogo1NomeArq);
   finally
     FProcessLog.RetorneLocal;
@@ -288,7 +287,7 @@ begin
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
 
     ConfigureSplashForm;
-    FProcessOutput := SplashForm;
+    FProcessOutput := SplashForm.Output;
     SplashForm.Show;
     Application.ProcessMessages;
 
@@ -364,12 +363,6 @@ procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 var
   bResultado: Boolean;
 begin
-  // bResultado := Sis.UI.IO.Input.Perg.PergBool('Sair do Sistema?', 'Administrador do Sistema Daros',
-  // TBooleanDefault.boolFalse);
-
-//  bResultado := Sis.UI.IO.Input.Bool.Caption.Form_u.PergBool('Sair do Sistema?',
-//    'Administrador do Sistema Daros', TBooleanDefault.boolFalse);
-
   bResultado := App.UI.Form.Perg_u.Perg('Sair do Sistema?',
     'Administrador do Sistema Daros', TBooleanDefault.boolFalse);
 

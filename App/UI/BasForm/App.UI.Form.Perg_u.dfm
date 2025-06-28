@@ -16,10 +16,6 @@ inherited PergForm: TPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitLeft = 80
-    ExplicitTop = 32
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object PerguntaLabel: TLabel
       Left = 9
       Top = 8

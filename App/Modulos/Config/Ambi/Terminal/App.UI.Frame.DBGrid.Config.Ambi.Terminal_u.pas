@@ -51,7 +51,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory, Sis.UI.IO.Input.Perg;
+uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory, App.UI.Form.Perg_u, Sis.Types.Utils_u;
 
 { TDBGridFrame1 }
 
@@ -123,7 +123,7 @@ begin
 //    exit;
 
 
-  bAceitou := PergBool(sMens);
+  bAceitou := Perg(sMens, '', TBooleanDefault.boolFalse);
   if not bAceitou then
     exit;
 

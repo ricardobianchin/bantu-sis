@@ -81,7 +81,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, App.UI.PDV.PagPergForm_u, Sis.Types.Floats,
-  Sis.UI.IO.Input.Perg, App.PDV.Factory_u;
+  App.PDV.Factory_u, Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 { TPagPDVFrame }
 
@@ -221,7 +221,7 @@ begin
     exit;
   end;
 
-  Resultado := PergBool('Deseja cancelar o pagamento?');
+  Resultado := Perg('Deseja cancelar o pagamento?', '', TBooleanDefault.boolFalse);
   if not Resultado then
     exit;
 

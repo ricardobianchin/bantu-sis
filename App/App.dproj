@@ -827,6 +827,83 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="Est\Mov\App.Est.EstMovDBI.pas"/>
         <DCCReference Include="Est\Mov\App.Est.EstMovDBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdSelect\App.Retag.Est.ProdSelectFrame_u.pas">
+            <Form>ProdSelectFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdSelect\App.Retag.Est.ProdSelectDBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.UI.Frame.DBGrid.Est.EstSaidaItem_u.pas">
+            <Form>EstSaidaItemDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.InventarioItem.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.InventarioItem_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.UI.Form.Ed.Est.Inventario_u.pas">
+            <Form>InventarioEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.UI.Form.DataSet.Est.Inventario_u.pas">
+            <Form>AppInventarioDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.UI.Frame.DBGrid.Est.InventarioItem_u.pas">
+            <Form>InventarioItemDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Inv\App.Retag.Est.InventarioItem.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.UI.Form.DataSet.Est.Entrada_u.pas">
+            <Form>AppEntradaDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.EntradaItem.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.EntradaItem.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.Retag.Est.EntradaItem_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.UI.Frame.DBGrid.Est.EntradaItem_u.pas">
+            <Form>EntradaItemDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Ent\App.UI.Form.Ed.Est.Entrada_u.pas">
+            <Form>EntradaEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Prod\ProdSelect\App.Retag.Est.ProdSelectDBI.pas"/>
+        <DCCReference Include="UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet.Master_u.pas">
+            <Form>TabSheetDataSetMasterBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.UI.Form.DataSet.Est.Promo_u.pas">
+            <Form>AppPromoDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.PromoItem.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.PromoItem_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.Promo.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.Promo.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.Promo.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.Promo.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.UI.Form.Ed.Est.Promo_u.pas">
+            <Form>PromoEdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.UI.Frame.DBGrid.Est.EstPromoItem_u.pas">
+            <Form>EstPromoItemDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.EstPromoItem.DBI_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

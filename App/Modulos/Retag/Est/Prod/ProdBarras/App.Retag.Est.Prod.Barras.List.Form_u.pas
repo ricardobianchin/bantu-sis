@@ -54,7 +54,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.ImgDM, Sis.DB.DataSet.Utils, App.UI.Form.Ed.Prod.Barras_u,
-  Sis.UI.IO.Input.Perg, ShellAPI;
+  ShellAPI, Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 procedure TProdBarrasListForm.CancActionExecute(Sender: TObject);
 begin
@@ -102,7 +102,7 @@ begin
     exit;
   end;
 
-  if not PergBool('Excluir o código de barras?') then
+  if not App.UI.Form.Perg_u.Perg('Excluir o código de barras?', '', TBooleanDefault.boolFalse) then
     exit;
 
   FDMemTable.Delete;

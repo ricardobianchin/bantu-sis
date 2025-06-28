@@ -136,7 +136,7 @@ implementation
 
 uses Sis.UI.Controls.Utils, Sis.UI.Controls.TDBGrid,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Pess.Utils, Sis.DB.Factory,
-  App.DB.Utils, Sis.UI.IO.Input.Perg, Sis.Types.Bool_u, App.PessEnder,
+  App.DB.Utils, Sis.Types.Bool_u, App.PessEnder,
   Sis.Types.strings_u, App.Pess.Ent.Factory_u, Sis.Sis.Constants;
 
 constructor TAppPessDataSetForm.Create(AOwner: TComponent;

@@ -105,7 +105,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory, Sis.UI.IO.Input.Perg;
+uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory, Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 { TModuloBasForm }
 
@@ -321,7 +321,7 @@ begin
   inherited;
   sMens := 'Deseja finalizar o módulo ' +
     FModuloSistema.TipoOpcaoSisModuloDescr + '?';
-  Result := PergBool(sMens);
+  Result := App.UI.Form.Perg_u.Perg(sMens, '', TBooleanDefault.boolFalse);
 //  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
 //    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
 //  Result := IsPositiveResult(Resultado);
