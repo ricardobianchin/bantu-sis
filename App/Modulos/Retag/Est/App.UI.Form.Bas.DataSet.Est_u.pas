@@ -23,6 +23,7 @@ type
     InsItemAction_DatasetTabSheet: TAction;
     AltItemAction_DatasetTabSheet: TAction;
     procedure DetailTimerTimer(Sender: TObject);
+
     procedure CancAction_DatasetTabSheetExecute(Sender: TObject);
     procedure CancItemAction_DatasetTabSheetExecute(Sender: TObject);
     procedure FinalizAction_DatasetTabSheetExecute(Sender: TObject);

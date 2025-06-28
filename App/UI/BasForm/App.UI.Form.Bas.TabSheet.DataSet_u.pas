@@ -114,13 +114,15 @@ type
     property FDMemTablePodeEventos: boolean read FFDMemTablePodeEventos
       write FFDMemTablePodeEventos;
 
+    function AtuPode: Boolean; virtual;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
       pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
-      pAppObj: IAppObj); virtual;
+      pAppObj: IAppObj); reintroduce; virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
@@ -224,10 +226,7 @@ procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
   (Sender: TObject);
 begin
   inherited;
-  if State <> dsBrowse then
-    exit;
-
-  if AtuExecutando then
+  if not AtuPode then
     exit;
   try
     AtuExecutando := True;
@@ -239,6 +238,17 @@ begin
     TrySetFocus(DBGrid1);
     AtuExecutando := False;
   end;
+end;
+
+function TTabSheetDataSetBasForm.AtuPode: Boolean;
+begin
+  Result := State = dsBrowse;
+  if not Result then
+    exit;
+
+  Result := not AtuExecutando;
+  if not Result then
+    exit;
 end;
 
 procedure TTabSheetDataSetBasForm.CancelActionExecute(Sender: TObject);

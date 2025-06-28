@@ -7,10 +7,6 @@ uses Sis.Types, App.Est.Prod;
 type
   IEstPromoItem = interface(IInterface)
     ['{8215473D-DAEE-4CB1-A938-9327DCAA4C83}']
-    function GetOrdem: SmallInt;
-    procedure SetOrdem(Value: SmallInt);
-    property Ordem: SmallInt read GetOrdem write SetOrdem;
-
     function GetProd: IProd;
     property Prod: IProd read GetProd;
 

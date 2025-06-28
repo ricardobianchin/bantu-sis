@@ -133,6 +133,8 @@ type
     EstInventarioToolButton: TToolButton;
     EstSaldoToolButton: TToolButton;
     RetagEstSaldoAct: TAction;
+    EstPromoToolButton: TToolButton;
+    RetagEstPromoAct: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -165,6 +167,7 @@ type
     procedure RetagEstEntradaActionExecute(Sender: TObject);
     procedure RetagEstInventarioActionExecute(Sender: TObject);
     procedure RetagEstSaldoActExecute(Sender: TObject);
+    procedure RetagEstPromoActExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -192,6 +195,7 @@ type
     FFornecedorDataSetFormCreator: IFormCreator;
     FEstSaidaDataSetFormCreator: IFormCreator;
     FEstEntradaDataSetFormCreator: IFormCreator;
+    FEstPromoDataSetFormCreator: IFormCreator;
     FEstInventarioDataSetFormCreator: IFormCreator;
 
     // fin
@@ -243,7 +247,9 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Pess.Fornecedor.Ent.Factory_u,
   App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent,
   App.Retag.Est.Inventario.DBI, App.Retag.Est.Inventario.Ent,
-  App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI;
+  App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI, App.Est.Promo.DBI,
+  App.Est.Promo.Ent, App.UI.Form.DataSet.Est.Promo_u,
+  App.UI.Form.Ed.Est.Promo_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -381,6 +387,9 @@ var
 
   oEntradaEnt: IEntradaEnt;
   oEntradaDBI: IEntDBI;
+
+  oEstPromoEnt: IEstPromoEnt;
+  oEstPromoDBI: IEntDBI;
 begin
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
@@ -461,6 +470,23 @@ begin
   FEstEntradaDataSetFormCreator := EntradaEntDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
     oEntradaEnt, oEntradaDBI, AppObj);
+
+
+  oEstPromoEnt := EstPromoEntCreate(//
+    AppObj.Loja,//
+    0,//promoid
+    '', //nome
+    True,//Ativo
+    DATA_ZERADA,//inicia em
+    DATA_ZERADA//termina em
+    );
+
+  oEstPromoDBI := EstPromoEntDBICreate(pDBConnection, pAppObj,oEstPromoEnt,
+     LogUsuario.Id);
+
+  FEstPromoDataSetFormCreator := EstPromoEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oEstPromoEnt, oEstPromoDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -626,6 +652,12 @@ begin
   TabSheetCrie(FProdUnidDataSetFormCreator);
 end;
 
+procedure TRetaguardaModuloBasForm.RetagEstPromoActExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FEstPromoDataSetFormCreator);
+end;
+
 procedure TRetaguardaModuloBasForm.RetagEstSaidaActExecute(Sender: TObject);
 begin
   inherited;
@@ -654,7 +686,8 @@ begin
   // RetagEstEntFornecedorAct.Execute;
   //RetagEstSaidaAct.Execute;
   //RetagEstEntradaAction.Execute;
-  RetagEstProdAction.Execute;
+//  RetagEstProdAction.Execute;
+  RetagEstPromoAct.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

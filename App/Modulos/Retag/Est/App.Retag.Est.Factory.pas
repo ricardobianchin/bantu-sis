@@ -36,6 +36,10 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.Entrada.Ent //
     , App.Retag.Est.EntradaItem //
 
+    , App.Est.Promo.DBI //
+    , App.Est.Promo.Ent //
+    , App.Est.PromoItem //
+
     , App.Est.Prod, App.Est.EstMovItem //
 
     ;
@@ -377,26 +381,72 @@ function EntradaEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function RetagEntradaItemCreate( //
-      pOrdem: SmallInt; //
-      pId: TId; //
+  pOrdem: smallint; //
+  pId: TId; //
 
-      pDescrRed, //
-      pFabrNome, //
-      pUnidSigla: string; //
-      
-      pNItem: SmallInt; //
-      pProdIdDeles: string; //
+  pDescrRed, //
+  pFabrNome, //
+  pUnidSigla: string; //
 
-      pQtd: Currency; //
-      pCusto: TCusto; //
-      pMargem: Currency; //
-      pPreco: TPreco; //
+  pNItem: smallint; //
+  pProdIdDeles: string; //
 
-      pCriadoEm: TDateTime; //
-      pCancelado: Boolean = False; //
-      pAlteradoEm: TDateTime = DATA_ZERADA; //
-      pCanceladoEm: TDateTime = DATA_ZERADA //
+  pQtd: Currency; //
+  pCusto: TCusto; //
+  pMargem: Currency; //
+  pPreco: TPreco; //
+
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
   ): IRetagEntradaItem;
+
+{$ENDREGION}
+{$REGION 'est promo'}
+function EntEdCastToEstPromoEnt(pEntEd: IEntEd): IEstPromoEnt;
+function EntDBICastToEstPromoDBI(pEntDBI: IEntDBI): IEstPromoDBI;
+
+function EstPromoEntCreate( //
+  pLoja: IAppLoja; //
+  pPromoId: integer; //
+  pNome: string; //
+  pAtivo: boolean; //
+  pIniciaEm: TDateTime; //
+  pTerminaEm: TDateTime //
+  ): IEstPromoEnt;
+
+function EstPromoEntDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
+  pEstPromoEnt: IEstPromoEnt; pUsuarioId: TId): IEntDBI;
+
+function EstPromoEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): TEdBasForm;
+
+function EstPromoPerg(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+  pOutputNotify: IOutput = nil): boolean;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+
+function EstPromoEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+
+function RetagPromoItemCreate( //
+  pOrdem: smallint; //
+
+  pId: TId; //
+  pDescrRed, //
+  pFabrNome, //
+  pUnidSigla: string; //
+
+  pPrecoPromo: Currency; //
+  pAtivo: boolean //
+  ): IEstPromoItem;
 
 {$ENDREGION}
 {$REGION 'xxx'}
@@ -470,6 +520,13 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
     , App.UI.Form.DataSet.Est.Entrada_u //
     , App.UI.Form.Ed.Est.Entrada_u //
     , App.Retag.Est.EntradaItem_u //
+{$ENDREGION}
+{$REGION 'uses est Promo'}
+    , App.Est.Promo.DBI_u //
+    , App.Est.Promo.Ent_u //
+    , App.UI.Form.DataSet.Est.Promo_u //
+    , App.UI.Form.Ed.Est.Promo_u //
+    , App.Est.PromoItem_u //
 {$ENDREGION}
 {$REGION 'uses est'}
     , App.Est.EstMovDBI_u //
@@ -1204,27 +1261,124 @@ begin
 end;
 
 function RetagEntradaItemCreate( //
-      pOrdem: SmallInt; //
-      pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
-      pNItem: SmallInt; //
-      pProdIdDeles: string; //
+  pOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; //
+  pNItem: smallint; //
+  pProdIdDeles: string; //
 
-      pQtd: Currency; //
-      pCusto: TCusto; //
-      pMargem: Currency; //
-      pPreco: TPreco; //
+  pQtd: Currency; //
+  pCusto: TCusto; //
+  pMargem: Currency; //
+  pPreco: TPreco; //
 
-      pCriadoEm: TDateTime; //
-      pCancelado: Boolean = False; //
-      pAlteradoEm: TDateTime = DATA_ZERADA; //
-      pCanceladoEm: TDateTime = DATA_ZERADA //
+  pCriadoEm: TDateTime; //
+  pCancelado: boolean = False; //
+  pAlteradoEm: TDateTime = DATA_ZERADA; //
+  pCanceladoEm: TDateTime = DATA_ZERADA //
   ): IRetagEntradaItem;
 var
   oProd: IProd;
 begin
   oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
-  Result := TRetagEntradaItem.Create(pOrdem, pNItem, pProdIdDeles, oProd, pQtd, pCusto, pMargem, pPreco,
-    pCriadoEm);
+  Result := TRetagEntradaItem.Create(pOrdem, pNItem, pProdIdDeles, oProd, pQtd,
+    pCusto, pMargem, pPreco, pCriadoEm);
+end;
+
+{$ENDREGION}
+{$REGION 'est promo impl'}
+
+function EntEdCastToEstPromoEnt(pEntEd: IEntEd): IEstPromoEnt;
+begin
+  Result := TEstPromoEnt(pEntEd);
+  // Result := pEntEd as IPromoEnt;
+end;
+
+function EntDBICastToEstPromoDBI(pEntDBI: IEntDBI): IEstPromoDBI;
+begin
+  Result := TEstPromoDBI(pEntDBI);
+end;
+
+function EstPromoEntCreate( //
+  pLoja: IAppLoja; //
+  pPromoId: integer; //
+  pNome: string; //
+  pAtivo: boolean; //
+  pIniciaEm: TDateTime; //
+  pTerminaEm: TDateTime //
+  ): IEstPromoEnt;
+begin
+  Result := TEstPromoEnt.Create( //
+    pLoja, //
+    pPromoId, //
+    pNome, //
+    pAtivo, //
+    pIniciaEm, //
+    pTerminaEm //
+    );
+end;
+
+function EstPromoEntDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
+  pEstPromoEnt: IEstPromoEnt; pUsuarioId: TId): IEntDBI;
+begin
+  Result := TEstPromoDBI.Create(pDBConnection, pEstPromoEnt, pAppObj,
+    pUsuarioId);
+end;
+
+function EstPromoEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+  pEntEd: IEntEd; pEntDBI: IEntDBI; pDBConnection: IDBConnection;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
+begin
+  Result := TPromoEdForm.Create(AOwner, pAppObj, pEntEd, pEntDBI, pDBConnection,
+    pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
+end;
+
+function EstPromoPerg(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+  pOutputNotify: IOutput): boolean;
+var
+  F: TEdBasForm;
+begin
+  F := EstPromoEntEdFormCreate(AOwner, pAppObj, pEntEd, pEntDBI, pDBConnection,
+    pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
+  try
+    Result := F.Perg;
+  finally
+    F.Free;
+  end;
+end;
+
+// function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
+// begin
+// // Result := TDecoratorExclFabr.Create(pProdFabr);
+// end;
+
+function EstPromoEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TAppPromoDataSetForm, pFormClassNamesSL,
+    pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd,
+    pEntDBI, pAppObj);
+end;
+
+function RetagPromoItemCreate(pOrdem: smallint; //
+
+  pId: TId; //
+  pDescrRed, //
+  pFabrNome, //
+  pUnidSigla: string; //
+
+  pPrecoPromo: Currency; //
+  pAtivo: boolean //
+  ): IEstPromoItem;
+var
+  oProd: IProd;
+begin
+  oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
+  Result := TEstPromoItem.Create(oProd, pPrecoPromo, pAtivo);
 end;
 
 {$ENDREGION}

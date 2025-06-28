@@ -8,14 +8,10 @@ uses
 type
   TEstPromoItem = class(TInterfacedObject, IEstPromoItem)
   strict private
-    FOrdem: SmallInt;
     FProd: IProd;
     FPrecoPromo: Currency;
     FAtivo: Boolean;
   private
-    function GetOrdem: SmallInt;
-    procedure SetOrdem(Value: SmallInt);
-
     function GetProd: IProd;
 
     function GetPrecoPromo: Currency;
@@ -23,50 +19,50 @@ type
 
     function GetAtivo: Boolean;
     procedure SetAtivo(Value: Boolean);
-    public
+  public
     property Prod: IProd read GetProd;
-    property Ordem: SmallInt read GetOrdem write SetOrdem;
     property PrecoPromo: Currency read GetPrecoPromo write SetPrecoPromo;
     property Ativo: Boolean read GetAtivo write SetAtivo;
+
+    constructor Create(pProd: IProd; pPrecoPromo: Currency; pAtivo: Boolean);
   end;
 
 implementation
 
 { TEstPromoItem }
 
-function TEstPromoItem.GetAtivo: Boolean;
+constructor TEstPromoItem.Create(pProd: IProd; pPrecoPromo: Currency;
+  pAtivo: Boolean);
 begin
-    Result := FAtivo;
+  inherited Create;
+  FProd := pProd;
+  FPrecoPromo := pPrecoPromo;
+  FAtivo := pAtivo;
 end;
 
-function TEstPromoItem.GetOrdem: SmallInt;
+function TEstPromoItem.GetAtivo: Boolean;
 begin
-    Result := FOrdem;
+  Result := FAtivo;
 end;
 
 function TEstPromoItem.GetPrecoPromo: Currency;
 begin
-    Result := FPrecoPromo;
+  Result := FPrecoPromo;
 end;
 
 function TEstPromoItem.GetProd: IProd;
 begin
-    Result := FProd;
+  Result := FProd;
 end;
 
 procedure TEstPromoItem.SetAtivo(Value: Boolean);
 begin
-    FAtivo := Value;
+  FAtivo := Value;
 end;
 
 procedure TEstPromoItem.SetPrecoPromo(Value: Currency);
 begin
-    FPrecoPromo := Value;
-end;
-
-procedure TEstPromoItem.SetOrdem(Value: SmallInt);
-begin
-    FOrdem := Value;
+  FPrecoPromo := Value;
 end;
 
 end.

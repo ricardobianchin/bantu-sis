@@ -20,7 +20,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     inherited TitAuxPanel_BasTabSheet: TPanel
       Left = 560
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitHeight = 30
+      ExplicitLeft = 560
       DesignSize = (
         140
         30)
@@ -45,7 +45,6 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     inherited TitToolPanel_BasTabSheet: TPanel
       Width = 560
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitLeft = 0
       ExplicitWidth = 560
       inherited TitToolBar1_BasTabSheet: TToolBar
         Width = 560

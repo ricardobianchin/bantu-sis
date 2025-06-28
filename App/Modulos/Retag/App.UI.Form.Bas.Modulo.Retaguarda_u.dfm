@@ -65,45 +65,51 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Action = RetagEstProdAction
             AutoSize = True
           end
-          object EstVenToolButton: TToolButton
+          object EstPromoToolButton: TToolButton
             Left = 59
+            Top = 0
+            Action = RetagEstPromoAct
+            AutoSize = True
+          end
+          object EstVenToolButton: TToolButton
+            Left = 130
             Top = 0
             AutoSize = True
             Caption = 'Vendas'
             Visible = False
           end
           object EstEntrToolButton: TToolButton
-            Left = 107
+            Left = 178
             Top = 0
             Action = RetagEstEntradaAction
             AutoSize = True
           end
           object EstInventarioToolButton: TToolButton
-            Left = 158
+            Left = 229
             Top = 0
             Action = RetagEstInventarioAction
             AutoSize = True
           end
           object EstSaidaToolButton: TToolButton
-            Left = 227
+            Left = 298
             Top = 0
             Action = RetagEstSaidaAct
             AutoSize = True
           end
           object EstSaldoToolButton: TToolButton
-            Left = 271
+            Left = 342
             Top = 0
             Action = RetagEstSaldoAct
             AutoSize = True
           end
           object EstCliToolButton: TToolButton
-            Left = 311
+            Left = 382
             Top = 0
             Action = RetagEstVenClienteAction
             AutoSize = True
           end
           object EstFornecedorToolButton: TToolButton
-            Left = 364
+            Left = 435
             Top = 0
             Action = RetagEstEntFornecedorAct
             AutoSize = True
@@ -477,8 +483,13 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstSaldoAct: TAction
       Category = 'Estoque'
       Caption = 'Saldo'
-      Visible = False
       OnExecute = RetagEstSaldoActExecute
+    end
+    object RetagEstPromoAct: TAction
+      Category = 'Estoque'
+      Caption = 'Promo'#231#245'es'
+      Visible = False
+      OnExecute = RetagEstPromoActExecute
     end
   end
   object BalloonHint1: TBalloonHint

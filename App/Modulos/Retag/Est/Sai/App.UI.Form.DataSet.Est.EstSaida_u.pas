@@ -16,10 +16,8 @@ uses
 
 type
   TAppEstSaidaDataSetForm = class(TAppEstDataSetForm)
-    procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -45,6 +43,7 @@ type
 
     function FinalizPode: boolean; override;
     procedure DoAlterar; override;
+    function AtuPode: Boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -98,34 +97,35 @@ begin
   inherited;
 end;
 
-procedure TAppEstSaidaDataSetForm.AtuAction_DatasetTabSheetExecute
-  (Sender: TObject);
+function TAppEstSaidaDataSetForm.AtuPode: Boolean;
 var
-  // valores dth so sao lidos aqui pra poder testar
-  // serao depois relidos por ForEach
+  // valores dth so sao lidos do filtro aqui somente pra poder testar
+  // serao depois relidos no ForEach
   DtHIni: TDateTime;
   DtHFin: TDateTime;
   sMens: string;
 begin
-  EstFiltroFrame.DtHFaixaFrame.DtIniFrame.PreencheDtH(DtHIni, sMens);
-  if sMens <> '' then
-  begin // a mens de erro ja foi exibida dentro do dthframe
+  Result := inherited;
+  if not Result then
     exit;
-  end;
+
+  EstFiltroFrame.DtHFaixaFrame.DtIniFrame.PreencheDtH(DtHIni, sMens);
+  Result := sMens = '';
+  if not Result then// a mens de erro ja foi exibida dentro do dthframe
+    exit;
 
   EstFiltroFrame.DtHFaixaFrame.DtFinFrame.PreencheDtH(DtHFin, sMens);
-  if sMens <> '' then
-  begin // a mens de erro ja foi exibida dentro do dthframe
+  Result := sMens = '';
+  if not Result then// a mens de erro ja foi exibida dentro do dthframe
     exit;
-  end;
 
-  if DtHIni >= DtHFin then
+  Result := DtHIni < DtHFin;
+  if not Result then
   begin
     EstFiltroFrame.ErroLabel.Caption :=
       'A data final deve ser maior do que a inicial';
+    exit;
   end;
-
-  inherited;
 end;
 
 constructor TAppEstSaidaDataSetForm.Create(AOwner: TComponent;
@@ -142,7 +142,7 @@ begin
   FDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  FDBConnection := DBConnectionCreate('TAppEstSaidaDataSetForm.PergEd.conn',
+  FDBConnection := DBConnectionCreate('TAppEstSaidaDataSetForm.conn',
     AppObj.SisConfig, FDBConnectionParams, ProcessLog, Output);
 
   FEstSaidaItemDBI := TEstSaidaItemDBI.Create(FDBConnection);
@@ -329,13 +329,6 @@ begin
     'App\Retag\Est\Sai\tabview.app.retag.est.sai.csv';
 
   Result := sNomeArq;
-end;
-
-procedure TAppEstSaidaDataSetForm.InsAction_DatasetTabSheetExecute(
-  Sender: TObject);
-begin
-  inherited;
-//
 end;
 
 function TAppEstSaidaDataSetForm.PergEd: boolean;

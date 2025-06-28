@@ -194,7 +194,6 @@ begin
     Key := #0;
     ProdSelectFrame.Selecionar;
   end;
-
 end;
 
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);

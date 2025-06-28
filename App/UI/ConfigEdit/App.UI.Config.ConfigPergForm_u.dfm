@@ -48,7 +48,6 @@ object ConfigPergForm: TConfigPergForm
       TabOrder = 0
       Transparent = True
       StyleElements = []
-      ExplicitTop = 518
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -121,7 +120,7 @@ object ConfigPergForm: TConfigPergForm
       object LoginErroLabel: TLabel
         Left = 2
         Top = 322
-        Width = 77
+        Width = 296
         Height = 13
         Align = alBottom
         Caption = 'LoginErroLabel'
@@ -132,6 +131,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitWidth = 77
       end
       object ObsLabel: TLabel
         Left = 9

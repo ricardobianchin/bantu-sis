@@ -3,7 +3,7 @@ unit App.Est.EstMovDBI_u;
 interface
 
 uses App.Ent.DBI_u, App.Est.EstMovDBI, Sis.Entities.Types, Sis.Types,
-  Sis.DB.DBTypes, App.Ent.Ed, App.AppObj, App.Est.EstMovItem;
+  Sis.DB.DBTypes, App.Ent.Ed, App.AppObj, App.Est.EstMovItem, Data.DB;
 
 type
   TEstMovDBI = class(TEntDBI, IEstMovDBI)
@@ -29,12 +29,12 @@ type
       pEstMovId: Int64; pTerminalId: TTerminalId = 0; pModuloSisId: Char = '#'); virtual;
 
     constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd;
-      pAppObj: IAppObj; pUsuarioId: TId);
+      pAppObj: IAppObj; pUsuarioId: TId); reintroduce;
   end;
 
 implementation
 
-uses System.SysUtils, Data.DB;
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Types.Floats;
 
 { TEstMovDBI }
 

@@ -1,12 +1,12 @@
-unit App.Est.Promo;
+unit App.Est.Promo.Ent;
 
 interface
 
-uses Sis.Types, App.Est.Prod, System.Generics.Collections, Sis.Entities.Types,
+uses Sis.Types, App.Ent.Ed, System.Generics.Collections, Sis.Entities.Types,
   App.Est.PromoItem, App.Loja;
 
 type
-  IEstPromo = interface(IInterface)
+  IEstPromoEnt = interface(IEntEd)
     ['{16A78AC6-43B2-426D-9AF9-E7DC115BF9B7}']
     function GetLoja: IAppLoja;
     property Loja: IAppLoja read GetLoja;
@@ -35,6 +35,14 @@ type
 
     function GetItems: TList<IEstPromoItem>;
     property Items: TList<IEstPromoItem> read GetItems;
+
+    function GetEditandoItem: Boolean;
+    procedure SetEditandoItem(Value: Boolean);
+    property EditandoItem: Boolean read GetEditandoItem write SetEditandoItem;
+
+    function GetItemIndex: integer;
+    procedure SetItemIndex(Value: integer);
+    property ItemIndex: integer read GetItemIndex write SetItemIndex;
 
   end;
 

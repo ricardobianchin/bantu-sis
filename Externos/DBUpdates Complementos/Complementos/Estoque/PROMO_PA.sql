@@ -1,42 +1,8 @@
-PROMO_PA
-
-DELETE FROM DBUPDATE_HIST WHERE NUM>=101;
-COMMIT;
-
-
-
------------------------------
-INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=ESTOQUE
-DBATUALIZ_OBJETIVO=CRIAR PROMO_PA
-DBATUALIZ_PONTO_ALVO=SERVIDOR
-DBATUALIZ_OBS=
-
-
-
-
-/////////////////////////
-//
-// PACKAGE PROMO_PA
-//
-/////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=PROMO_PA
 /*
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
 C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROMO_PA.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROMO_PA.sql"
-
 in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\PROMO_PA.sql";
 
-
 */
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE PROMO_PA
 AS
@@ -102,7 +68,3 @@ BEGIN
   END
 END^
 SET TERM ;^
-```
-COMANDO FIM
-
-DBATUALIZ FIM

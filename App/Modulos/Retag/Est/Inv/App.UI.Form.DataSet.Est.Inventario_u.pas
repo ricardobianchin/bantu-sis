@@ -16,7 +16,6 @@ uses
 
 type
   TAppInventarioDataSetForm = class(TAppEstDataSetForm)
-    procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
     procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
@@ -40,6 +39,7 @@ type
     function PergEd: boolean; override;
     procedure DetailCarregar; override;
 
+    function AtuPode: Boolean; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -68,8 +68,7 @@ begin
 //  inherited;
 end;
 
-procedure TAppInventarioDataSetForm.AtuAction_DatasetTabSheetExecute(
-  Sender: TObject);
+function TAppInventarioDataSetForm.AtuPode: Boolean;
 var
   // valores dth so sao lidos aqui pra poder testar
   // serao depois relidos por ForEach
@@ -77,24 +76,27 @@ var
   DtHFin: TDateTime;
   sMens: string;
 begin
-  EstFiltroFrame.DtHFaixaFrame.DtIniFrame.PreencheDtH(DtHIni, sMens);
-  if sMens <> '' then
-  begin // a mens de erro ja foi exibida dentro do dthframe
+  Result := inherited;
+  if not Result then
     exit;
-  end;
+
+  EstFiltroFrame.DtHFaixaFrame.DtIniFrame.PreencheDtH(DtHIni, sMens);
+  Result := sMens = '';
+  if not Result then// a mens de erro ja foi exibida dentro do dthframe
+    exit;
 
   EstFiltroFrame.DtHFaixaFrame.DtFinFrame.PreencheDtH(DtHFin, sMens);
-  if sMens <> '' then
-  begin // a mens de erro ja foi exibida dentro do dthframe
+  Result := sMens = '';
+  if not Result then// a mens de erro ja foi exibida dentro do dthframe
     exit;
-  end;
 
-  if DtHIni >= DtHFin then
+  Result := DtHIni < DtHFin;
+  if not Result then
   begin
     EstFiltroFrame.ErroLabel.Caption :=
       'A data final deve ser maior do que a inicial';
+    exit;
   end;
-  inherited;
 end;
 
 constructor TAppInventarioDataSetForm.Create(AOwner: TComponent;

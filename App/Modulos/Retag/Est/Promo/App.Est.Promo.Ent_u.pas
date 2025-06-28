@@ -1,12 +1,12 @@
-unit App.Est.Promo_u;
+unit App.Est.Promo.Ent_u;
 
 interface
 
 uses Sis.Types, App.Est.Prod, System.Generics.Collections, Sis.Entities.Types,
-  App.Est.Promo, App.Est.PromoItem, App.Loja, Sis.Sis.Constants;
+  App.Est.Promo.Ent, App.Est.PromoItem, App.Loja, Sis.Sis.Constants, App.Ent.Ed_u;
 
 type
-  TEstPromo = class(TInterfacedObject, IEstPromo)
+  TEstPromoEnt = class(TEntEd, IEstPromoEnt)
   private
     FLoja: IAppLoja;
 
@@ -20,7 +20,6 @@ type
 
     FEditandoItem: Boolean;
     FItemIndex: integer;
-
 
     function GetPromoId: integer;
     procedure SetPromoId(Value: integer);
@@ -45,8 +44,12 @@ type
 
     function GetItemIndex: integer;
     procedure SetItemIndex(Value: integer);
-    procedure LimparEnt;
   protected
+    function GetNomeEnt: string; override;
+    function GetNomeEntAbrev: string; override;
+    function GetTitulo: string; override;
+
+    procedure LimparEnt; override;
 
   public
     procedure Zerar;
@@ -72,15 +75,17 @@ type
       pAtivo: Boolean; //
       pIniciaEm: TDateTime; //
       pTerminaEm: TDateTime //
-    );
+      );
     destructor Destroy; override;
   end;
 
 implementation
 
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Types.Floats;
+
 { TEstPromo }
 
-constructor TEstPromo.Create(pLoja: IAppLoja; pPromoId: integer; pNome: string;
+constructor TEstPromoEnt.Create(pLoja: IAppLoja; pPromoId: integer; pNome: string;
   pAtivo: Boolean; pIniciaEm, pTerminaEm: TDateTime);
 begin
   FLoja := pLoja;
@@ -94,45 +99,45 @@ begin
   FItems := TList<IEstPromoItem>.Create;
 end;
 
-destructor TEstPromo.Destroy;
+destructor TEstPromoEnt.Destroy;
 begin
   FItems.Free;
   inherited;
 end;
 
-function TEstPromo.GetAtivo: Boolean;
+function TEstPromoEnt.GetAtivo: Boolean;
 begin
   Result := FAtivo;
 end;
 
-function TEstPromo.GetCod(pSeparador: string): string;
+function TEstPromoEnt.GetCod(pSeparador: string): string;
 begin
-  Result := Sis.Entities.Types.GetCod(FLoja.Id, 0, PromoId, 'PROMO',
+  Result := Sis.Entities.Types.GetCod(FLoja.Id, PromoId, 'PROMO',
     pSeparador);
 end;
 
-function TEstPromo.GetEditandoItem: Boolean;
+function TEstPromoEnt.GetEditandoItem: Boolean;
 begin
   Result := FEditandoItem;
 end;
 
-function TEstPromo.GetIniciaEm: TDateTime;
+function TEstPromoEnt.GetIniciaEm: TDateTime;
 begin
   Result := FIniciaEm;
 end;
 
-function TEstPromo.GetItemIndex: integer;
+function TEstPromoEnt.GetItemIndex: integer;
 begin
   Result := FItemIndex;
 end;
 
-function TEstPromo.GetItems: TList<IEstPromoItem>;
+function TEstPromoEnt.GetItems: TList<IEstPromoItem>;
 begin
   Result := FItems;
 //  Result := TList<IEstPromoItem>(Items);
 end;
 
-function TEstPromo.GetLastActiveItemIndex: integer;
+function TEstPromoEnt.GetLastActiveItemIndex: integer;
 begin
   Result := -1;
   for var i := FItems.Count - 1 downto 0 do
@@ -145,27 +150,42 @@ begin
   end;
 end;
 
-function TEstPromo.GetLoja: IAppLoja;
+function TEstPromoEnt.GetLoja: IAppLoja;
 begin
   Result := FLoja;
 end;
 
-function TEstPromo.GetNome: string;
+function TEstPromoEnt.GetNome: string;
 begin
   Result := FNome;
 end;
 
-function TEstPromo.GetPromoId: integer;
+function TEstPromoEnt.GetNomeEnt: string;
+begin
+  Result := 'Promoção';
+end;
+
+function TEstPromoEnt.GetNomeEntAbrev: string;
+begin
+  Result := 'PROMO';
+end;
+
+function TEstPromoEnt.GetPromoId: integer;
 begin
   Result := FPromoId;
 end;
 
-function TEstPromo.GetTerminaEm: TDateTime;
+function TEstPromoEnt.GetTerminaEm: TDateTime;
 begin
   Result := FTerminaEm;
 end;
 
-procedure TEstPromo.LimparEnt;
+function TEstPromoEnt.GetTitulo: string;
+begin
+  Result := 'Promoções';
+end;
+
+procedure TEstPromoEnt.LimparEnt;
 begin
   if EditandoItem then
     exit;
@@ -181,44 +201,44 @@ begin
   FItems.Clear;
 end;
 
-procedure TEstPromo.SetAtivo(Value: Boolean);
+procedure TEstPromoEnt.SetAtivo(Value: Boolean);
 begin
   FAtivo := Value;
 end;
 
-procedure TEstPromo.SetEditandoItem(Value: Boolean);
+procedure TEstPromoEnt.SetEditandoItem(Value: Boolean);
 begin
   FEditandoItem := Value;
 end;
 
-procedure TEstPromo.SetIniciaEm(Value: TDateTime);
+procedure TEstPromoEnt.SetIniciaEm(Value: TDateTime);
 begin
   FIniciaEm := Value;
 end;
 
-procedure TEstPromo.SetItemIndex(Value: integer);
+procedure TEstPromoEnt.SetItemIndex(Value: integer);
 begin
   FItemIndex := Value;
   if (FItemIndex < 0) or (FItemIndex >= FItems.Count) then
     FItemIndex := -1; // Reset to invalid index if out of bounds
 end;
 
-procedure TEstPromo.SetNome(Value: string);
+procedure TEstPromoEnt.SetNome(Value: string);
 begin
   FNome := Value;
 end;
 
-procedure TEstPromo.SetPromoId(Value: integer);
+procedure TEstPromoEnt.SetPromoId(Value: integer);
 begin
   FPromoId := Value;
 end;
 
-procedure TEstPromo.SetTerminaEm(Value: TDateTime);
+procedure TEstPromoEnt.SetTerminaEm(Value: TDateTime);
 begin
   FTerminaEm := Value;
 end;
 
-procedure TEstPromo.Zerar;
+procedure TEstPromoEnt.Zerar;
 begin
   LimparEnt;
 end;
