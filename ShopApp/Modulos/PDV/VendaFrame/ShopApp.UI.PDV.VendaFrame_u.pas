@@ -187,7 +187,7 @@ implementation
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory, ShopApp.PDV.Venda.Utils_u,
+  Sis.UI.Controls.Factory, ShopApp.PDV.Venda.Utils_u, Sis.Types.Utils_u, App.UI.Form.Perg_u,
   Sis.UI.Frame.Bas.Filtro.BuscaString_u,
   ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u;
 
@@ -660,7 +660,7 @@ begin
       exit;
 
     Key := #0;
-    bResultado := PergBool('Deseja cancelar a venda?');
+    bResultado := Perg('Deseja cancelar a venda?', '' , TBooleanDefault.boolFalse);
     if not bResultado then
       exit;
 

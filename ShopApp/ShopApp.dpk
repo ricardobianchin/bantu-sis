@@ -66,6 +66,7 @@ contains
   AppShop.PDV.Prod.ProdSelect.DBI_u in 'Modulos\PDV\ProdSelect\AppShop.PDV.Prod.ProdSelect.DBI_u.pas',
   ShopApp.PDV.Venda.Utils_u in 'Modulos\PDV\ShopApp.PDV.Venda.Utils_u.pas',
   ShopApp.PDV.Venda.Engat_u in 'Modulos\PDV\ShopApp.PDV.Venda.Engat_u.pas',
-  ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u.pas' {ItemQtdPergForm};
+  ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u in 'Modulos\PDV\VendaFrame\ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u.pas' {ItemQtdPergForm},
+  App.Sessao.EventosDeSessao_u in '..\App\Sessao\App.Sessao.EventosDeSessao_u.pas';
 
 end.
