@@ -1,4 +1,4 @@
-unit App.UI.Sessoes.Frame;
+unit App.UI.Sessoes.Frame_u;
 
 interface
 

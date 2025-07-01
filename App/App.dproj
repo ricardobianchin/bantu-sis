@@ -178,7 +178,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\App.UI.Form.Bas.Modulo.Retaguarda_u.pas">
             <Form>RetaguardaModuloBasForm</Form>
         </DCCReference>
-        <DCCReference Include="UI\Sessoes\App.UI.Sessoes.Frame.pas">
+        <DCCReference Include="UI\Sessoes\App.UI.Sessoes.Frame_u.pas">
             <Form>SessoesFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -904,6 +904,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.EstPromoItem.DBI_u.pas"/>
+        <DCCReference Include="Sessao\App.Sessao.EventosDeSessao_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

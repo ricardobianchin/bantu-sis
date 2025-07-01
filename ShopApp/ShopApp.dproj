@@ -201,7 +201,6 @@
             <Form>ItemQtdPergForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\App\Sessao\App.Sessao.EventosDeSessao_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
