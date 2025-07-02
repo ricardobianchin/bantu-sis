@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -468,6 +468,7 @@ contains
   App.UI.Form.Ed.Est.Promo_u in 'Modulos\Retag\Est\Promo\App.UI.Form.Ed.Est.Promo_u.pas' {PromoEdForm},
   App.UI.Frame.DBGrid.Est.EstPromoItem_u in 'Modulos\Retag\Est\Promo\App.UI.Frame.DBGrid.Est.EstPromoItem_u.pas' {EstPromoItemDBGridFrame: TFrame},
   App.Est.EstPromoItem.DBI_u in 'Modulos\Retag\Est\Promo\App.Est.EstPromoItem.DBI_u.pas',
-  App.Sessao.EventosDeSessao_u in 'Sessao\App.Sessao.EventosDeSessao_u.pas';
+  App.Sessao.EventosDeSessao_u in 'Sessao\App.Sessao.EventosDeSessao_u.pas',
+  App.PDV.Controlador_u in 'Modulos\PDV\Controlador\App.PDV.Controlador_u.pas';
 
 end.

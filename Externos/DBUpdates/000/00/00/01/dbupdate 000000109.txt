@@ -84,6 +84,9 @@ BEGIN
     , ICMS_SIGLA         ID_CHAR_DOM
     , ICMS_DESCR         NOME_INTERM_DOM
     , ICMS_PERC          PERC_DOM
+
+    , PROD_NATU_ID       ID_CHAR_DOM
+
     , ATIVO              BOOLEAN
     , LOCALIZ            NOME_CURTO_DOM
     , BALANCA_EXIGE      BOOLEAN
@@ -147,6 +150,9 @@ BEGIN
     , ICMS_SIGLA         ID_CHAR_DOM
     , ICMS_DESCR         NOME_INTERM_DOM
     , ICMS_PERC          PERC_DOM
+
+    , PROD_NATU_ID       ID_CHAR_DOM
+
     , ATIVO              BOOLEAN
     , LOCALIZ            NOME_CURTO_DOM
     , BALANCA_EXIGE      BOOLEAN
@@ -184,6 +190,9 @@ BEGIN
         , ICMS.SIGLA ICMS_SIGLA
         , ICMS.DESCR ICMS_DESCR
         , ICMS.PERC ICMS_PERC
+
+        , PROD.PROD_NATU_ID
+
         , PROD_COMPL.ATIVO
         , PROD_COMPL.LOCALIZ
         , PROD_COMPL.BALANCA_EXIGE
@@ -262,6 +271,7 @@ BEGIN
         , ICMS.SIGLA
         , ICMS.DESCR
         , ICMS.PERC
+        , PROD.PROD_NATU_ID
         , PROD_COMPL.ATIVO
         , PROD_COMPL.LOCALIZ
         , PROD_COMPL.BALANCA_EXIGE
@@ -290,6 +300,7 @@ BEGIN
       , :ICMS_SIGLA
       , :ICMS_DESCR
       , :ICMS_PERC
+      , :PROD_NATU_ID
       , :ATIVO
       , :LOCALIZ
       , :BALANCA_EXIGE

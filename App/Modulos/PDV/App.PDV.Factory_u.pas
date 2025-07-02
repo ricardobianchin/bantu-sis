@@ -9,7 +9,7 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca, Sis.Usuario,
   App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
   App.Est.Venda.CaixaSessaoRecord_u, App.Est.Venda.CaixaSessao.DBI,
-  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes;
+  App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.PDV.Controlador, System.SysUtils;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pAppObj: IAppObj;
   pPDVObj: IPDVObj; pCaption: TCaption; pAction: TAction): TPdvFrame;
@@ -45,9 +45,11 @@ function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string;
   pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
   pCaixaSessao: ICaixaSessao): IImpressao;
 
+function PDVControladorCreate: IPDVControlador;
+
 implementation
 
-uses System.SysUtils, App.PDV.VendaPag.List_u, Sis.UI.IO.Files
+uses App.PDV.VendaPag.List_u, Sis.UI.IO.Files
 
     , App.UI.PDV.Aviso.Frame_u //
     , App.PDV.VendaPag_u //
@@ -64,6 +66,8 @@ uses System.SysUtils, App.PDV.VendaPag.List_u, Sis.UI.IO.Files
 
     , App.PDV.ImpressaoTextoCxOperacao_u //
     , App.PDV.ImpressaoTextoCxSessRelat_u //
+
+    , App.PDV.Controlador_u //
     ;
 
 function PDVFrameAvisoCreate(pParent: TWinControl; pAppObj: IAppObj;
@@ -194,6 +198,11 @@ function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string;
 begin
   Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome, pUsuarioId,
     pUsuarioNomeExib, pAppObj, pTerminal, pCaixaSessaoDBI, pCaixaSessao);
+end;
+
+function PDVControladorCreate: IPDVControlador;
+begin
+  Result := TPDVControlador.Create;
 end;
 
 end.

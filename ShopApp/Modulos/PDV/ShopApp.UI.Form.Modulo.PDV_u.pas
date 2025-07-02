@@ -74,6 +74,13 @@ constructor TShopPDVModuloForm.Create(AOwner: TComponent;
 begin
   inherited;
   // AppMenuForm := AppMenuFormCreate;
+  PDVControlador.PegarProcs( //
+    VaParaVenda, //
+    VaParaPag, //
+    VaParaFinaliza, //
+    PagSomenteDinheiro, //
+    DecidirPrimeiroFrameAtivo //
+    );
 end;
 
 destructor TShopPDVModuloForm.Destroy;
@@ -82,7 +89,8 @@ end;
 
 function TShopPDVModuloForm.PagFrameCreate: TPagPDVFrame;
 begin
-  Result := ShopPagPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self);
+  Result := ShopPagPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI,
+    PDVControlador);
   Result.Visible := False;
 end;
 
@@ -164,8 +172,8 @@ begin
   // if not Assigned(FShopProdSelect) then
   // FShopProdSelect := DBSelectFormCreate(FShopProdSelectDBI, FFiltroStringFrame);
 
-  Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI, Self,
-    ProdSelect);
+  Result := ShopVendaPDVFrameCreate(Self, FShopPDVObj, PDVVenda, PDVDBI,
+    PDVControlador, ProdSelect);
   Result.Visible := False;
 end;
 

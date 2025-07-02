@@ -83,9 +83,13 @@ type
     function ExecutouPeloShortCut(var Key: word;
       var Shift: TShiftState): Boolean;
 
+    procedure PegarEventoSessao(pEventosDeSessao: IEventosDeSessao);
+
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-      pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj); reintroduce;
+      {pEventosDeSessao: IEventosDeSessao; }pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
+
+
 
   end;
 
@@ -201,12 +205,12 @@ begin
 end;
 
 constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-  pEventosDeSessao: IEventosDeSessao; pAppObj: IAppObj);
+  {pEventosDeSessao: IEventosDeSessao;} pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
-  FEventosDeSessao := pEventosDeSessao;
+//  FEventosDeSessao := pEventosDeSessao;
   FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
 
@@ -372,6 +376,11 @@ begin
       break;
     end;
   end;
+end;
+
+procedure TSessoesFrame.PegarEventoSessao(pEventosDeSessao: IEventosDeSessao);
+begin
+  FEventosDeSessao := pEventosDeSessao;
 end;
 
 function TSessoesFrame.PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;

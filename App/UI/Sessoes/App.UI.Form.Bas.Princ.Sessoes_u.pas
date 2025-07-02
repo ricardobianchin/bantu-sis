@@ -58,15 +58,17 @@ begin
   if PrecisaFechar then
     exit;
 
-  FEventosDeSessao := EventosDeSessaoCreate;
-  FEventosDeSessao.Pegar(Self, FSessoesFrame);
-
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
     FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
     FLoginConfig.Ler;
 
     SessoesFrameCriar;
+
+    FEventosDeSessao := EventosDeSessaoCreate;
+    FEventosDeSessao.Pegar(Self, FSessoesFrame);
+    FSessoesFrame.PegarEventoSessao(FEventosDeSessao);
+
     // FSessaoCriadorList := SessaoCriadorListCreate;
   finally
     ProcessLog.RetorneLocal;

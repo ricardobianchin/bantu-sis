@@ -96,7 +96,7 @@ end;
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
   Result := TShopSessoesFrame.Create(Self, LoginConfig,
-    EventosDeSessao, AppObj);
+    {EventosDeSessao, }AppObj);
 end;
 
 end.
