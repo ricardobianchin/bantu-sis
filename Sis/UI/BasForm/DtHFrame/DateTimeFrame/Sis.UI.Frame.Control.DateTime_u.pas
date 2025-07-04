@@ -1,9 +1,10 @@
-unit Sis.UI.Frame.Control.DateTime_u;
+ï»¿unit Sis.UI.Frame.Control.DateTime_u;
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Sis.UI.Frame.Bas.Control_u,
   Vcl.StdCtrls, Vcl.Mask;
 
@@ -17,6 +18,7 @@ type
     procedure DataMaskEditChange(Sender: TObject);
     procedure HoraMaskEditChange(Sender: TObject);
   private
+    FObrigatorio: Boolean;
     { Private declarations }
   protected
     procedure SetValue(const Value: variant); override;
@@ -28,10 +30,12 @@ type
     property Value;
     procedure PegarNome(pNovoNome: string);
     procedure PreencheDtH(out pValue: TDateTime; out pMens: string);
+    property Obrigatorio: Boolean read FObrigatorio write FObrigatorio
+      default False;
   end;
 
-//var
-//  DateTimeFrame: TDateTimeFrame;
+  // var
+  // DateTimeFrame: TDateTimeFrame;
 
 implementation
 
@@ -51,21 +55,19 @@ begin
   UltimoErro := '';
 end;
 
-procedure TDateTimeFrame.DataMaskEditKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TDateTimeFrame.DataMaskEditKeyPress(Sender: TObject; var Key: Char);
 begin
-//  inherited;
-  if key = #13 then
+  // inherited;
+  if Key = #13 then
   begin
-    key := #0;
+    Key := #0;
     HoraMaskEdit.SetFocus;
   end;
-
 end;
 
 procedure TDateTimeFrame.PreencheDtH(out pValue: TDateTime; out pMens: string);
 begin
-  pValue := VarToDateTime( GetValue);
+  pValue := VarToDateTime(GetValue);
   pMens := UltimoErro;
 end;
 
@@ -74,22 +76,35 @@ var
   DtStr, HrStr, FullDateTimeStr: string;
   Dt: TDateTime;
 begin
-  // Obtém as strings dos MaskEdits
+  // Obtï¿½m as strings dos MaskEdits
   DtStr := DataMaskEdit.Text;
   HrStr := HoraMaskEdit.Text;
 
   // Monta string no formato 'dd/mm/yyyy hh:nn:ss'
   FullDateTimeStr := DtStr + ' ' + HrStr;
+  try
+    if not FObrigatorio then
+    begin
+      if FullDateTimeStr = '  /  /       :  :  ' then
+      begin
+        UltimoErro := '';
+        Dt := DATA_ZERADA;
+        exit;
+      end;
+    end;
 
-  // Valida com TryStrToDateTime
-  if not TryStrToDateTime(FullDateTimeStr, Dt) then
-  begin
-    UltimoErro := 'Valor inválido';
-    Dt := DATA_ZERADA;
+    // Valida com TryStrToDateTime
+    if not TryStrToDateTime(FullDateTimeStr, Dt) then
+    begin
+      UltimoErro := 'Valor invÃ¡lido';
+      Dt := DATA_ZERADA;
+      exit;
+    end;
+
+    // Retorna como variant
+  finally
+    Result := Dt;
   end;
-
-  // Retorna como variant
-  Result := Dt;
 end;
 
 procedure TDateTimeFrame.HoraMaskEditChange(Sender: TObject);
@@ -100,10 +115,10 @@ end;
 
 procedure TDateTimeFrame.PegarNome(pNovoNome: string);
 begin
- NomeLabel.Caption := pNovoNome;
- DataMaskEdit.Left := NomeLabel.Left + NomeLabel.Width + 5;
- HoraMaskEdit.Left := DataMaskEdit.Left + DataMaskEdit.Width + 6;
- Width := HoraMaskEdit.Left + HoraMaskEdit.Width;
+  NomeLabel.Caption := pNovoNome;
+  DataMaskEdit.Left := NomeLabel.Left + NomeLabel.Width + 5;
+  HoraMaskEdit.Left := DataMaskEdit.Left + DataMaskEdit.Width + 6;
+  Width := HoraMaskEdit.Left + HoraMaskEdit.Width;
 end;
 
 procedure TDateTimeFrame.SetUltimoErro(const Value: string);
@@ -116,15 +131,15 @@ procedure TDateTimeFrame.SetValue(const Value: variant);
 var
   Dt: TDateTime;
   Dia, Mes, Ano, Hora, Minuto, Segundo, Milissegundo: Word;
- begin
+begin
   inherited;
 
-  // Verifica se o Variant é nulo ou vazio
+  // Verifica se o Variant ï¿½ nulo ou vazio
   if VarIsNull(Value) or VarIsEmpty(Value) then
   begin
     DataMaskEdit.Text := '  /  /    ';
     HoraMaskEdit.Text := '  :  :  ';
-    Exit;
+    exit;
   end;
 
   // Tenta converter o Variant para TDateTime
@@ -135,7 +150,7 @@ var
     begin
       DataMaskEdit.Text := '  /  /    ';
       HoraMaskEdit.Text := '  :  :  ';
-      Exit;
+      exit;
     end;
   end;
 
@@ -143,7 +158,7 @@ var
   begin
     DataMaskEdit.Text := '  /  /    ';
     HoraMaskEdit.Text := '  :  :  ';
-    Exit;
+    exit;
   end;
   // Extrai as partes da data e hora
   DecodeDate(Dt, Ano, Mes, Dia);
@@ -153,4 +168,5 @@ var
   DataMaskEdit.Text := Format('%.2d/%.2d/%.4d', [Dia, Mes, Ano]);
   HoraMaskEdit.Text := Format('%.2d:%.2d:%.2d', [Hora, Minuto, Segundo]);
 end;
+
 end.

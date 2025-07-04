@@ -17,6 +17,7 @@ inherited DateTimeFrame: TDateTimeFrame
     Width = 67
     Height = 13
     Alignment = taRightJustify
+    Anchors = [akTop, akRight]
     Caption = 'Data inv'#225'lida'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 192

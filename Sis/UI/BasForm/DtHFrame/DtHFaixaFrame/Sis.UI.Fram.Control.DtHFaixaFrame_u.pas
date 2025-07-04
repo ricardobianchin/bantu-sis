@@ -45,9 +45,11 @@ begin
   inherited;
   DtIniFrame := TDateTimeFrame.Create(Self);
   DtIniFrame.Name := 'DtIniFrame';
+  DtIniFrame.Obrigatorio := True;
 
   DtFinFrame := TDateTimeFrame.Create(Self);
   DtFinFrame.Name := 'DtFinFrame';
+  DtFinFrame.Obrigatorio := True;
 
   PegarNomes('Data Inicial', 'Data Final');
 
