@@ -1,27 +1,27 @@
 inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
-  ClientWidth = 592
+  ClientWidth = 630
   StyleElements = [seFont, seClient, seBorder]
   OnDestroy = FormDestroy
-  ExplicitWidth = 592
+  ExplicitWidth = 630
   ExplicitHeight = 458
   TextHeight = 15
   inherited TitleBarPanel: TPanel
-    Width = 592
-    ExplicitWidth = 592
+    Width = 630
+    ExplicitWidth = 630
     DesignSize = (
-      592
+      630
       30)
     inherited ToolBar1: TToolBar
-      Left = 498
-      ExplicitLeft = 498
+      Left = 536
+      ExplicitLeft = 536
     end
   end
   object MenuPanel: TPanel [1]
     Left = 0
     Top = 30
-    Width = 592
+    Width = 630
     Height = 65
     Align = alTop
     Caption = ' '
@@ -29,7 +29,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object MenuPageControl: TPageControl
       Left = 1
       Top = 1
-      Width = 590
+      Width = 628
       Height = 63
       ActivePage = EstoqueTabSheet
       Align = alClient
@@ -46,7 +46,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object EstoqueToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -122,7 +122,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object FinanceiroToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -155,7 +155,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object EstAuxToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -206,7 +206,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object AcessoToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -239,7 +239,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object AjudaToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -273,16 +273,18 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   end
   inherited BasePanel: TPanel
     Top = 429
-    Width = 592
+    Width = 630
     TabOrder = 2
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 429
-    ExplicitWidth = 592
+    ExplicitWidth = 630
     DesignSize = (
-      592
+      630
       29)
     inherited StatusPanel1: TPanel
+      Left = 443
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitLeft = 443
       inherited StatusLabel1: TLabel
         StyleElements = [seFont, seClient, seBorder]
       end
@@ -296,7 +298,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   object PageControl1: TPageControl [3]
     Left = 0
     Top = 95
-    Width = 592
+    Width = 630
     Height = 334
     Align = alClient
     TabOrder = 3
@@ -483,6 +485,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstSaldoAct: TAction
       Category = 'Estoque'
       Caption = 'Saldo'
+      Visible = False
       OnExecute = RetagEstSaldoActExecute
     end
     object RetagEstPromoAct: TAction
