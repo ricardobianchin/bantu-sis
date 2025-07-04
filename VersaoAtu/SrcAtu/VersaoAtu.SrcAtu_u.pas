@@ -6,7 +6,7 @@ procedure SrcAtuExecute(pDescribe, pDtH, pHash: string);
 
 implementation
 
-uses System.Classes, System.SysUtils, Vcl.Dialogs;
+uses System.Classes, System.SysUtils, Vcl.Dialogs, System.StrUtils;
 
 const
   VERSAO_SRC_FILENAME = 'C:\Pr\app\bantu\bantu-sis\Src\App\AppVersao\AppVersao_u.pas';
@@ -21,7 +21,8 @@ var
   sl: TStringList;
   I: Integer;
   sLinha: string;
-  aItens: TArray<string>;
+  iPos: integer;
+  sResu: string;
 begin //ConvertImportarActionToTDateTimeStr
   sl := TStringList.Create;
   try
@@ -36,8 +37,10 @@ begin //ConvertImportarActionToTDateTimeStr
       end
       else if Pos(MARCA_VERSAO_RESUMIDA, sLinha) > 0 then
       begin
-        aItens := pDescribe.Split(['-']);
-        sLinha := '    ' + QuotedStr(aItens[0]) + MARCA_VERSAO_RESUMIDA;
+        iPos := Pos('g', pDescribe);
+        Dec(iPos);
+        sResu := LeftStr(pDescribe, iPos);
+        sLinha := '    ' + QuotedStr(sResu) + MARCA_VERSAO_RESUMIDA;
         sl[i] := sLinha;
       end
       else if Pos(MARCA_COMMIT_DTH, sLinha) > 0 then
