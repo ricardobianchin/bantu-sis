@@ -25,28 +25,43 @@ inherited PromoEdForm: TPromoEdForm
     Width = 742
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 322
-    ExplicitWidth = 705
+    ExplicitWidth = 742
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 327
-      ExplicitLeft = 290
+      ExplicitLeft = 327
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
       Left = 440
-      ExplicitLeft = 403
+      ExplicitLeft = 440
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
       Left = 541
-      ExplicitLeft = 504
+      ExplicitLeft = 541
     end
   end
   object MasterGroupBox: TGroupBox [4]
     Left = 8
     Top = 29
     Width = 726
-    Height = 105
+    Height = 112
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    ExplicitWidth = 688
+    object Label1: TLabel
+      Left = 7
+      Top = 96
+      Width = 653
+      Height = 13
+      Caption = 
+        'Data inicial '#233' obrigat'#243'ria, e a data final '#233' opcional; se n'#227'o pr' +
+        'eenchida, a promo'#231#227'o permanecer'#225' vigente at'#233' nova configura'#231#227'o'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      StyleElements = [seClient, seBorder]
+    end
     object CodLabeledEdit: TLabeledEdit
       Left = 48
       Top = 18
@@ -75,6 +90,7 @@ inherited PromoEdForm: TPromoEdForm
       LabelSpacing = 4
       TabOrder = 1
       Text = ''
+      OnKeyPress = NomeLabeledEditKeyPress
     end
     object AtivoCheckBox: TCheckBox
       Left = 582
@@ -85,6 +101,7 @@ inherited PromoEdForm: TPromoEdForm
       Checked = True
       State = cbChecked
       TabOrder = 2
+      OnKeyPress = AtivoCheckBoxKeyPress
     end
   end
   object ItemGroupBox: TGroupBox [5]
@@ -95,7 +112,6 @@ inherited PromoEdForm: TPromoEdForm
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Item'
     TabOrder = 2
-    ExplicitWidth = 688
     object PrecoPromoNumEditBtu: TNumEditBtu
       Left = 567
       Top = 24
@@ -125,6 +141,7 @@ inherited PromoEdForm: TPromoEdForm
       Checked = True
       State = cbChecked
       TabOrder = 1
+      OnKeyPress = ItemAtivoCheckBoxKeyPress
     end
   end
   inherited ShowTimer_BasForm: TTimer

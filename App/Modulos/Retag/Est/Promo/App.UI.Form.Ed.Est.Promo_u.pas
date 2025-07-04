@@ -22,6 +22,12 @@ type
     AtivoCheckBox: TCheckBox;
     PrecoPromoNumEditBtu: TNumEditBtu;
     ItemAtivoCheckBox: TCheckBox;
+    Label1: TLabel;
+
+    procedure NomeLabeledEditKeyPress(Sender: TObject; var Key: Char);
+    procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure ItemAtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FProdSelectFrame: TProdSelectFrame;
@@ -30,16 +36,29 @@ type
     FDummyFormClassNamesSL: TStringList;
     FMudoOutput: IOutput;
     FMudoProcessLog: IProcessLog;
-    FIniciaEm: TDateTimeFrame;
-    FTerminaEm: TDateTimeFrame;
+
+    FIniciaEmFrame: TDateTimeFrame;
+    FTerminaEmFrame: TDateTimeFrame;
+
+    procedure IniciaEmHoraKeyPress(Sender: TObject; var Key: Char);
+    procedure TerminaEmHoraKeyPress(Sender: TObject; var Key: Char);
+
+    function NomeOk: boolean;
+    function IniciaEmOk: boolean;
+    function TerminaEmOk: boolean;
+
+    function ProdOk: boolean;
+    function PrecoPromoOk: boolean;
   protected
     function ControlesOk: boolean; override;
 
     procedure AjusteControles; override;
     procedure AjusteTabOrder; virtual;
+
     procedure ProdSelectProdLabeledEditKeyPress(Sender: TObject;
       var Key: Char); virtual;
     procedure ProdSelectSelect(Sender: TObject); virtual;
+
     function GetObjetivoStr: string; override;
     property ProdSelectFrame: TProdSelectFrame read FProdSelectFrame;
     function GravouOk: boolean; override;
@@ -66,7 +85,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, Sis.Types.Floats, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog.Factory, App.Retag.Est.Factory;
+  Sis.Sis.Constants, Sis.UI.IO.Output.ProcessLog.Factory, App.Retag.Est.Factory;
 
 { TPromoEdForm }
 
@@ -90,14 +109,16 @@ begin
 
 end;
 
-function TPromoEdForm.ControlesOk: boolean;
+procedure TPromoEdForm.AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  CheckBoxKeyPress(Sender, Key);
+end;
+
+function TPromoEdForm.NomeOk: boolean;
 var
   sNome: string;
 begin
-  Result := FEstPromoEnt.State = dsEdit;
-  if Result then
-    Exit;
-
   NomeLabeledEdit.Text := Trim(NomeLabeledEdit.Text);
   sNome := NomeLabeledEdit.Text;
 
@@ -116,23 +137,35 @@ begin
     NomeLabeledEdit.SetFocus;
     Exit;
   end;
+end;
 
-
-  Result := ProdSelectFrame.ProdId > 0;
-  if not Result then
-  begin
-    ErroOutput.Exibir('O Produto é obrigatório');
-    ProdSelectFrame.ProdLabeledEdit.SetFocus;
+function TPromoEdForm.ControlesOk: boolean;
+var
+  sNome: string;
+begin
+  Result := FEstPromoEnt.State = dsEdit;
+  if Result then
     Exit;
-  end;
 
-  Result := PrecoPromoNumEditBtu.Valor > 0;
+  Result := NomeOk;
   if not Result then
-  begin
-    ErroOutput.Exibir('O Preço Promocional é obrigatório');
-    PrecoPromoNumEditBtu.SetFocus;
     Exit;
-  end;
+
+  Result := IniciaEmOk;
+  if not Result then
+    Exit;
+
+  Result := TerminaEmOk;
+  if not Result then
+    Exit;
+
+  Result := ProdOk;
+  if not Result then
+    Exit;
+
+  Result := PrecoPromoOk;
+  if not Result then
+    Exit;
 end;
 
 procedure TPromoEdForm.ControlesToEnt;
@@ -154,15 +187,20 @@ begin
   FEstPromoEnt := EntEdCastToEstPromoEnt(pEntEd);
   FEstPromoDBI := EntDBICastToEstPromoDBI(pEntDBI);
 
-  FIniciaEm := TDateTimeFrame.Create(MasterGroupBox);
-  FIniciaEm.Name := 'FIniciaEmDateTimeFrame';
-  FIniciaEm.Left := 2;
-  FIniciaEm.Top := CodLabeledEdit.Top + CodLabeledEdit.Height + 14;
+  FIniciaEmFrame := TDateTimeFrame.Create(MasterGroupBox);
+  FIniciaEmFrame.Name := 'FIniciaEmDateTimeFrame';
+  FIniciaEmFrame.Left := 4;
+  FIniciaEmFrame.Top := CodLabeledEdit.Top + CodLabeledEdit.Height + 14;
+  FIniciaEmFrame.HoraMaskEdit.OnKeyPress := IniciaEmHoraKeyPress;
+  FIniciaEmFrame.Obrigatorio := True;
+  FIniciaEmFrame.PegarNome('Inicia em');
 
-  FTerminaEm := TDateTimeFrame.Create(MasterGroupBox);
-  FTerminaEm.Name := 'FTerminaEmDateTimeFrame';
-  FTerminaEm.Left := FIniciaEm.Left + FIniciaEm.Width + 6;
-  FTerminaEm.Top := FIniciaEm.Top;
+  FTerminaEmFrame := TDateTimeFrame.Create(MasterGroupBox);
+  FTerminaEmFrame.Name := 'FTerminaEmDateTimeFrame';
+  FTerminaEmFrame.Left := FIniciaEmFrame.Left + FIniciaEmFrame.Width + 6;
+  FTerminaEmFrame.Top := FIniciaEmFrame.Top;
+  FTerminaEmFrame.HoraMaskEdit.OnKeyPress := TerminaEmHoraKeyPress;
+  FTerminaEmFrame.PegarNome('Termina em');
 
   FProdSelectFrame := TProdSelectFrame.Create(ItemGroupBox, pDBConnection,
     pAppObj, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
@@ -215,6 +253,66 @@ begin
   Result := FEstPromoDBI.Gravar;
 end;
 
+procedure TPromoEdForm.IniciaEmHoraKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    FTerminaEmFrame.DataMaskEdit.SetFocus;
+  end;
+end;
+
+function TPromoEdForm.IniciaEmOk: boolean;
+var
+  dthValue: TDateTime;
+  sMens: string;
+begin
+  FIniciaEmFrame.PreencheDtH(dthValue, sMens);
+  Result := sMens = '';
+  if not Result then
+    FIniciaEmFrame.DataMaskEdit.SetFocus;
+end;
+
+procedure TPromoEdForm.ItemAtivoCheckBoxKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    OkAct_Diag.Execute;
+  end;
+end;
+
+procedure TPromoEdForm.NomeLabeledEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  EditKeyPress(Sender, Key);
+
+end;
+
+function TPromoEdForm.PrecoPromoOk: boolean;
+begin
+  Result := PrecoPromoNumEditBtu.Valor > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('O Preço Promocional é obrigatório');
+    PrecoPromoNumEditBtu.SetFocus;
+    Exit;
+  end;
+end;
+
+function TPromoEdForm.ProdOk: boolean;
+begin
+  Result := ProdSelectFrame.ProdId > 0;
+  if not Result then
+  begin
+    ErroOutput.Exibir('O Produto é obrigatório');
+    ProdSelectFrame.ProdLabeledEdit.SetFocus;
+    Exit;
+  end;
+end;
+
 procedure TPromoEdForm.ProdSelectProdLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
@@ -241,6 +339,52 @@ procedure TPromoEdForm.ProdSelectSelect(Sender: TObject);
 begin
   MensLimpar;
   PrecoPromoNumEditBtu.SetFocus;
+end;
+
+procedure TPromoEdForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  NomeLabeledEdit.Text := 'DIA DAS MAES';
+  OkAct_Diag.Execute;
+end;
+
+procedure TPromoEdForm.TerminaEmHoraKeyPress(Sender: TObject; var Key: Char);
+begin
+  FProdSelectFrame.ProdLabeledEdit.SetFocus;
+end;
+
+function TPromoEdForm.TerminaEmOk: boolean;
+var
+  dthIni, dthFin: TDateTime;
+  sMens: string;
+begin
+  FIniciaEmFrame.PreencheDtH(dthIni, sMens);
+  Result := sMens = '';
+  if not Result then
+  begin
+    FIniciaEmFrame.DataMaskEdit.SetFocus;
+    Exit;
+  end;
+
+  FTerminaEmFrame.PreencheDtH(dthFin, sMens);
+  Result := sMens = '';
+  if not Result then
+  begin
+    FTerminaEmFrame.DataMaskEdit.SetFocus;
+    Exit;
+  end;
+
+  Result := dthFin = DATA_ZERADA;
+  if Result then
+    Exit;
+
+  Result := dthIni < dthFin;
+  if not Result then
+  begin
+    ErroOutput.Exibir('A data de término deve ser maior do que a de início');
+    FTerminaEmFrame.DataMaskEdit.SetFocus;
+    Exit;
+  end;
 end;
 
 end.
