@@ -40,7 +40,8 @@ type
 implementation
 
 uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Types.Floats,
-  Sis.DB.Firebird.GetSQL_u;
+  Sis.DB.Firebird.GetSQL_u, Data.FmtBcd, Sis.Types.Bool_u, Sis.Types.Dates,
+  Sis.Win.Utils_u;
 
 { TEstPromoDBI }
 
@@ -76,8 +77,52 @@ begin
 end;
 
 function TEstPromoDBI.GetSqlInserirDoERetornaId: string;
+var
+  i: integer;
+  iProdId: TId;
+  uPrecoPromo: Currency;
+  e: IEstPromoEnt;
+  bItemAtivo: Boolean;
 begin
+  e := FEstPromoEnt;
+  if e.EditandoItem and (e.State = dsEdit) then
+  begin
+    i := e.ItemIndex;
+  end
+  else
+  begin
+    i := e.Items.Count - 1;
+  end;
 
+  iProdId := e.Items[i].Prod.Id;
+  Bcdtocurr(e.Items[i].PrecoPromo, uPrecoPromo);
+  bItemAtivo := e.Items[i].Ativo;
+
+  Result := //
+    'SELECT'#13#10 + 'PROMO_ID_RET'#13#10 //
+
+    + 'FROM PROMO_PA.PROMO_ITEM_INS('#13#10 + //
+
+    e.Loja.Id.ToString + ', -- LOJA_ID'#13#10 + //
+    e.PromoId.ToString + ', -- PROMO_ID'#13#10 + //
+    QuotedStr(e.Nome) + ', -- NOME'#13#10 + //
+    BooleanToStrSQL(e.Ativo) + ', -- PROMO_ATIVO'#13#10 + //
+    DataHoraSQLFirebird(e.IniciaEm) + ', -- INICIA_EM'#13#10 + //
+    DataHoraSQLFirebird(e.TerminaEm) + ', -- TERMINA_EM'#13#10 + //
+    BooleanToStrSQL(e.GravaCabec) + ', -- GRAVA_CABEC'#13#10 + //
+    iProdId.ToString + ', -- PROD_ID'#13#10 + //
+    CurrencyToStrPonto(uPrecoPromo) + ', -- PRECO_PROMO'#13#10 + //
+    BooleanToStrSQL(bItemAtivo) + ', -- PROMO_ITEM_ATIVO'#13#10 + //
+    QuotedStr(e.AcaoSisId) + ', -- ACAO_SIS_ID'#13#10 + //
+
+    UsuarioId.ToString + ', -- LOG_PESSOA_ID'#13#10 + //
+    sMachId + ' -- MACHINE_ID'#13#10 //
+    + ');' //
+    ;
+
+{$IFDEF DEBUG}
+  CopyTextToClipboard(Result);
+{$ENDIF}
 end;
 
 function TEstPromoDBI.NomeJaExistente(pNome: string;
@@ -89,11 +134,10 @@ begin
   Result := False;
 
   sSql := //
-  'SELECT PROMO_ID'#13#10 //
+    'SELECT PROMO_ID'#13#10 //
     + 'FROM PROMO'#13#10 //
     + 'WHERE NOME = ' + QuotedStr(pNome) + #13#10 //
-    + 'AND LOJA_ID = ' + IntToStr(FEstPromoEnt.Loja.Id) + #13#10;
-    ;
+    + 'AND LOJA_ID = ' + IntToStr(FEstPromoEnt.Loja.Id) + #13#10;;
 
   if pPromoIdExceto > 0 then
   begin
@@ -104,12 +148,11 @@ begin
 
   DBConnection.Abrir;
   try
-    oDBQuery := DBQueryCreate('promo.exist.q', DBConnection, sSql,
-      nil, nil);
+    oDBQuery := DBQueryCreate('promo.exist.q', DBConnection, sSql, nil, nil);
     oDBQuery.Abrir;
     try
       Result := oDBQuery.Fields[0].AsInteger = 1;
-      //pMensagem := 'Este nome de promoção já existe.';
+      // pMensagem := 'Este nome de promoção já existe.';
 
     finally
       oDBQuery.Fechar;

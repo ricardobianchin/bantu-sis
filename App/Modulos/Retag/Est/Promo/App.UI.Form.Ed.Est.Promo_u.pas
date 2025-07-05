@@ -11,7 +11,7 @@ uses
   CustomNumEditBtu, NumEditBtu, Data.DB,
   Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Files.FileI_u, App.Est.Promo.DBI, App.Est.Promo.Ent,
-  Sis.UI.Frame.Control.DateTime_u;
+  Sis.UI.Frame.Control.DateTime_u, App.Est.PromoItem;
 
 type
   TPromoEdForm = class(TEdBasForm)
@@ -169,9 +169,44 @@ begin
 end;
 
 procedure TPromoEdForm.ControlesToEnt;
+var
+  oItem: IEstPromoItem;
 begin
   inherited;
+//  FEstPromoEnt.Loja.Id
 
+  FEstPromoEnt.Nome := NomeLabeledEdit.Text;
+  FEstPromoEnt.Ativo := AtivoCheckBox.Checked;
+
+  FEstPromoEnt.IniciaEm := FIniciaEmFrame.Value;
+  FEstPromoEnt.TerminaEm := FTerminaEmFrame.Value;
+
+  FEstPromoEnt.GravaCabec := not FEstPromoEnt.EditandoItem;
+  FEstPromoEnt.AcaoSisId := Chr(37); // inserir
+
+  if EntEd.State = dsEdit then
+  begin
+//    oItem := FEntradaEnt.Items[FEntradaEnt.ItemIndex];
+//    oItem.ProdIdDeles := ProdIdDelesLabeledEdit.Text;
+//    oItem.Custo := CustoNumEditBtu.AsCurrency;
+//    oItem.Margem := MargemNumEditBtu.AsCurrency;
+//    oItem.Preco := PrecoNovoNumEditBtu.AsCurrency;
+//    oItem.Qtd := QtdNumEditBtu.Valor;
+    exit;
+  end;
+
+  oItem := RetagPromoItemCreate(//
+    ProdSelectFrame.ProdId, //
+
+    ProdSelectFrame.ProdDescrRed, //
+    ProdSelectFrame.ProdFabrNome, //
+    '' { UnidSigla } , //
+
+    PrecoPromoNumEditBtu.AsCurrency, //
+    ItemAtivoCheckBox.Checked
+    );
+
+  FEstPromoEnt.Items.Add(oItem);
 end;
 
 constructor TPromoEdForm.Create(AOwner: TComponent; pAppObj: IAppObj;
@@ -345,6 +380,9 @@ procedure TPromoEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   NomeLabeledEdit.Text := 'DIA DAS MAES';
+  FIniciaEmFrame.Value := StrToDateTime('01/08/2025 10:01');
+  ProdSelectFrame.PegarProdId(2);
+  PrecoPromoNumEditBtu.Valor := 3;
   OkAct_Diag.Execute;
 end;
 

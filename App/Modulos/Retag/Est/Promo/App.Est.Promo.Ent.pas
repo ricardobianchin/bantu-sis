@@ -44,6 +44,13 @@ type
     procedure SetItemIndex(Value: integer);
     property ItemIndex: integer read GetItemIndex write SetItemIndex;
 
+    function GetGravaCabec: Boolean;
+    procedure SetGravaCabec(Value: Boolean);
+    property GravaCabec: Boolean read GetGravaCabec write SetGravaCabec;
+
+    function GetAcaoSisId: Char;
+    procedure SetAcaoSisId(Value: Char);
+    property AcaoSisId: Char read GetAcaoSisId write SetAcaoSisId;
   end;
 
 implementation

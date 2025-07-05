@@ -1,4 +1,4 @@
-unit App.Est.Promo.Ent_u;
+ï»¿unit App.Est.Promo.Ent_u;
 
 interface
 
@@ -21,6 +21,9 @@ type
     FEditandoItem: Boolean;
     FItemIndex: integer;
 
+    FGravaCabec: Boolean;
+    FAcaoSisId: Char;
+ 
     function GetPromoId: integer;
     procedure SetPromoId(Value: integer);
 
@@ -44,6 +47,13 @@ type
 
     function GetItemIndex: integer;
     procedure SetItemIndex(Value: integer);
+
+    function GetGravaCabec: Boolean;
+    procedure SetGravaCabec(Value: Boolean);
+
+    function GetAcaoSisId: Char;
+    procedure SetAcaoSisId(Value: Char);
+
   protected
     function GetNomeEnt: string; override;
     function GetNomeEntAbrev: string; override;
@@ -65,6 +75,8 @@ type
 
     property EditandoItem: Boolean read GetEditandoItem write SetEditandoItem;
     property ItemIndex: integer read GetItemIndex write SetItemIndex;
+    property GravaCabec: Boolean read GetGravaCabec write SetGravaCabec;
+    property AcaoSisId: Char read GetAcaoSisId write SetAcaoSisId;
 
     function GetLastActiveItemIndex: integer;
 
@@ -105,6 +117,11 @@ begin
   inherited;
 end;
 
+function TEstPromoEnt.GetAcaoSisId: Char;
+begin
+  Result := FAcaoSisId;
+end;
+
 function TEstPromoEnt.GetAtivo: Boolean;
 begin
   Result := FAtivo;
@@ -119,6 +136,11 @@ end;
 function TEstPromoEnt.GetEditandoItem: Boolean;
 begin
   Result := FEditandoItem;
+end;
+
+function TEstPromoEnt.GetGravaCabec: Boolean;
+begin
+  Result := FGravaCabec;
 end;
 
 function TEstPromoEnt.GetIniciaEm: TDateTime;
@@ -162,7 +184,7 @@ end;
 
 function TEstPromoEnt.GetNomeEnt: string;
 begin
-  Result := 'Promoção';
+  Result := 'Promoï¿½ï¿½o';
 end;
 
 function TEstPromoEnt.GetNomeEntAbrev: string;
@@ -182,7 +204,7 @@ end;
 
 function TEstPromoEnt.GetTitulo: string;
 begin
-  Result := 'Promoções';
+  Result := 'Promoï¿½ï¿½es';
 end;
 
 procedure TEstPromoEnt.LimparEnt;
@@ -198,7 +220,14 @@ begin
   FIniciaEm := DATA_ZERADA;
   FTerminaEm := DATA_ZERADA;
 
+  FGravaCabec := False;
+
   FItems.Clear;
+end;
+
+procedure TEstPromoEnt.SetAcaoSisId(Value: Char);
+begin
+  FAcaoSisId := Value;
 end;
 
 procedure TEstPromoEnt.SetAtivo(Value: Boolean);
@@ -209,6 +238,11 @@ end;
 procedure TEstPromoEnt.SetEditandoItem(Value: Boolean);
 begin
   FEditandoItem := Value;
+end;
+
+procedure TEstPromoEnt.SetGravaCabec(Value: Boolean);
+begin
+  FGravaCabec := True;
 end;
 
 procedure TEstPromoEnt.SetIniciaEm(Value: TDateTime);

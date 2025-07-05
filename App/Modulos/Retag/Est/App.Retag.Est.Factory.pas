@@ -437,9 +437,7 @@ function EstPromoEntDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function RetagPromoItemCreate( //
-  pOrdem: smallint; //
-
-  pId: TId; //
+  pProdId: TId; //
   pDescrRed, //
   pFabrNome, //
   pUnidSigla: string; //
@@ -1364,9 +1362,8 @@ begin
     pEntDBI, pAppObj);
 end;
 
-function RetagPromoItemCreate(pOrdem: smallint; //
-
-  pId: TId; //
+function RetagPromoItemCreate(//
+  pProdId: TId; //
   pDescrRed, //
   pFabrNome, //
   pUnidSigla: string; //
@@ -1377,7 +1374,7 @@ function RetagPromoItemCreate(pOrdem: smallint; //
 var
   oProd: IProd;
 begin
-  oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
+  oProd := ProdCreate(pProdId, pDescrRed, pFabrNome, pUnidSigla);
   Result := TEstPromoItem.Create(oProd, pPrecoPromo, pAtivo);
 end;
 
