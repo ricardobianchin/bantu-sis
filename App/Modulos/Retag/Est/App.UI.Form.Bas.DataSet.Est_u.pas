@@ -29,6 +29,7 @@ type
     procedure FinalizAction_DatasetTabSheetExecute(Sender: TObject);
     procedure InsItemAction_DatasetTabSheetExecute(Sender: TObject);
     procedure AltItemAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
@@ -89,6 +90,12 @@ uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
   Sis.Sis.Constants, Sis.DB.Factory, App.Retag.Est.Factory, App.UI.Form.Perg_u;
 
 { TAppEstDataSetForm }
+
+procedure TAppEstDataSetForm.AltAction_DatasetTabSheetExecute(Sender: TObject);
+begin
+  inherited;
+//
+end;
 
 procedure TAppEstDataSetForm.AltItemAction_DatasetTabSheetExecute(
   Sender: TObject);

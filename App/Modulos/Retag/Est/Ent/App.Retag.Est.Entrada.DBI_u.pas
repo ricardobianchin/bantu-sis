@@ -152,7 +152,6 @@ end;
 
 function TEntradaDBI.GetSqlAlterarDo: string;
 var
-  sSql: string;
   q: TDataSet;
   e: IEntradaEnt;
 begin

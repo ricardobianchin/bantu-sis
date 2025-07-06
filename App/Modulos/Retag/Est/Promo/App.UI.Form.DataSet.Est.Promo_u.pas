@@ -30,6 +30,10 @@ type
     FDBConnection: IDBConnection;
     FEstPromoItemDBI: IDBI;
     FEstPromoItemDBGridFrame: TEstPromoItemDBGridFrame;
+
+    FDMemTableNOME: TField;
+    FDMemTableINICIA_EM: TField;
+    FDMemTableTERMINA_EM: TField;
     FDMemTableATIVO: TField;
 
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer);
@@ -83,6 +87,7 @@ begin
     exit;
   end;
 
+  FEstPromoEnt.EditandoItem := False;
   inherited;
 end;
 
@@ -122,6 +127,9 @@ begin
     FEstPromoItemDBI);
   FEstPromoItemDBGridFrame.Align := alClient;
 
+  FDMemTableNOME := FDMemTable.FindField('NOME');
+  FDMemTableINICIA_EM := FDMemTable.FindField('INICIA_EM');
+  FDMemTableTERMINA_EM := FDMemTable.FindField('TERMINA_EM');
   FDMemTableATIVO := FDMemTable.FindField('ATIVO');
 end;
 
@@ -146,12 +154,13 @@ begin
   Resultado := PergEd;
   if not Resultado then
     exit;
-  {
   FDMemTable.Edit;
-  FDMemTableEST_SAIDA_MOTIVO_ID.AsInteger := FEstSaidaEnt.SaidaMotivoId;
-  FDMemTableEST_SAIDA_MOTIVO_DESCR.AsString := FEstSaidaEnt.SaidaMotivoDescr;
+
+  FDMemTableNOME.AsString := FEstPromoEnt.Nome;
+  FDMemTableINICIA_EM.AsDateTime := FEstPromoEnt.IniciaEm;
+  FDMemTableTERMINA_EM.AsDateTime := FEstPromoEnt.TerminaEm;
+  FDMemTableATIVO.AsBoolean := FEstPromoEnt.Ativo;
   FDMemTable.Post;
-  }
 end;
 
 procedure TAppPromoDataSetForm.DoAtualizar(Sender: TObject);
@@ -171,7 +180,6 @@ begin
     DBGridPosicioneColumnVisible(DBGrid1);
     DetailCarregar;
   end;
-
 end;
 
 function TAppPromoDataSetForm.DoInserir: boolean;
@@ -229,7 +237,7 @@ begin
     exit;
 
   iLojaId := q.Fields[0 { LOJA_ID } ].AsInteger;
-  iId := q.Fields[3 { PROMO_ID } ].AsInteger;
+  iId := q.Fields[1 { PROMO_ID } ].AsInteger;
 
 
   FDMemTable.Append;
@@ -260,8 +268,8 @@ end;
 procedure TAppPromoDataSetForm.InsAction_DatasetTabSheetExecute(
   Sender: TObject);
 begin
+  FEstPromoEnt.EditandoItem := False;
   inherited;
-//
 end;
 
 function TAppPromoDataSetForm.PergEd: boolean;
@@ -287,7 +295,8 @@ end;
 procedure TAppPromoDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  InsAction_DatasetTabSheet.Execute;
+  //InsAction_DatasetTabSheet.Execute;
+  AltAction_DatasetTabSheet.Execute;
 end;
 
 procedure TAppPromoDataSetForm.ToolBar1CrieBotoes;

@@ -184,7 +184,7 @@ end;
 
 function TEstPromoEnt.GetNomeEnt: string;
 begin
-  Result := 'Promo��o';
+  Result := 'Promoção';
 end;
 
 function TEstPromoEnt.GetNomeEntAbrev: string;
@@ -204,7 +204,7 @@ end;
 
 function TEstPromoEnt.GetTitulo: string;
 begin
-  Result := 'Promo��es';
+  Result := 'Promoções';
 end;
 
 procedure TEstPromoEnt.LimparEnt;

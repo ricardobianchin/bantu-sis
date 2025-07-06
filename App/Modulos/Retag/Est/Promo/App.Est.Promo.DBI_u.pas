@@ -56,24 +56,49 @@ begin
 end;
 
 function TEstPromoDBI.GetSqlAlterarDo: string;
+var
+  q: TDataSet;
+  e: IEstPromoEnt;
 begin
+  e := FEstPromoEnt;
 
+  Result := 'EXECUTE PROCEDURE PROMO_PA.ALTERAR_DO('#13#10 +
+    e.Loja.Id.ToString + ', -- LOJA_ID'#13#10 + //
+    e.PromoId.ToString + ', -- PROMO_ID'#13#10 + //
+    QuotedStr(e.Nome) + ', -- NOME'#13#10 + //
+    BooleanToStrSQL(e.Ativo) + ', -- PROMO_ATIVO'#13#10 + //
+    DataHoraSQLFirebird(e.IniciaEm) + ', -- INICIA_EM'#13#10 + //
+    DataHoraSQLFirebird(e.TerminaEm) + ', -- TERMINA_EM'#13#10 + //
+
+    QuotedStr(e.AcaoSisId) + ', -- ACAO_SIS_ID'#13#10 + //
+
+    UsuarioId.ToString + ', -- LOG_PESSOA_ID'#13#10 + //
+    sMachId + ' -- MACHINE_ID'#13#10 //
+    + ');' //
+    ;
+
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(Result);
+//   {$ENDIF}
 end;
 
 function TEstPromoDBI.GetSqlForEach(pValues: variant): string;
 begin
   Result := //
     'SELECT'#13#10 + //
-    '  LOJA_ID,'#13#10 + //
-    '  PROMO_ID,'#13#10 + //
-    '  COD,'#13#10 + //
-    '  NOME,'#13#10 + //
-    '  ATIVO,'#13#10 + //
-    '  INICIA_EM,'#13#10 + //
-    '  TERMINA_EM'#13#10 + //
+    '  LOJA_ID,'#13#10 + // 0
+    '  PROMO_ID,'#13#10 + // 1
+    '  COD,'#13#10 + // 2
+    '  NOME,'#13#10 + // 3
+    '  ATIVO,'#13#10 + // 4
+    '  INICIA_EM,'#13#10 + // 5
+    '  TERMINA_EM'#13#10 + // 6
     'FROM PROMO_PA.LISTA_GET'#13#10 //
   // (' + pValues + ')'
     ;
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
 end;
 
 function TEstPromoDBI.GetSqlInserirDoERetornaId: string;
@@ -120,9 +145,9 @@ begin
     + ');' //
     ;
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(Result);
-{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
 end;
 
 function TEstPromoDBI.NomeJaExistente(pNome: string;

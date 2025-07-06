@@ -23,7 +23,8 @@ uses
   EnvParaTerm_u_ProdCusto in 'EnvParaTerm\EnvParaTerm_u_ProdCusto.pas',
   Log_u in 'Sis\Log_u.pas',
   EnvParaTerm_u_ProdPreco in 'EnvParaTerm\EnvParaTerm_u_ProdPreco.pas',
-  EnvParaTerm_u_DespesaTipo in 'EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas';
+  EnvParaTerm_u_DespesaTipo in 'EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas',
+  TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas';
 
 {$R *.res}
 

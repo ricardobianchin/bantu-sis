@@ -11,7 +11,7 @@ uses
   CustomNumEditBtu, NumEditBtu, Data.DB,
   Sis.Usuario, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Files.FileI_u, App.Est.Promo.DBI, App.Est.Promo.Ent,
-  Sis.UI.Frame.Control.DateTime_u, App.Est.PromoItem;
+  Sis.UI.Frame.Control.DateTime_u, App.Est.PromoItem, Data.FmtBcd;
 
 type
   TPromoEdForm = class(TEdBasForm)
@@ -133,7 +133,7 @@ begin
   Result := not FEstPromoDBI.NomeJaExistente(sNome, FEstPromoEnt.PromoId);
   if not Result then
   begin
-    ErroOutput.Exibir('O Nome já existente');
+    ErroOutput.Exibir('O Nome já existe');
     NomeLabeledEdit.SetFocus;
     Exit;
   end;
@@ -143,9 +143,9 @@ function TPromoEdForm.ControlesOk: boolean;
 var
   sNome: string;
 begin
-  Result := FEstPromoEnt.State = dsEdit;
-  if Result then
-    Exit;
+//  Result := FEstPromoEnt.State = dsEdit;
+//  if Result then
+//    Exit;
 
   Result := NomeOk;
   if not Result then
@@ -157,6 +157,10 @@ begin
 
   Result := TerminaEmOk;
   if not Result then
+    Exit;
+
+  Result := (EntEd.State = dsEdit) and (not FEstPromoEnt.EditandoItem);
+  if Result then
     Exit;
 
   Result := ProdOk;
@@ -173,7 +177,7 @@ var
   oItem: IEstPromoItem;
 begin
   inherited;
-//  FEstPromoEnt.Loja.Id
+  // FEstPromoEnt.Loja.Id
 
   FEstPromoEnt.Nome := NomeLabeledEdit.Text;
   FEstPromoEnt.Ativo := AtivoCheckBox.Checked;
@@ -182,20 +186,37 @@ begin
   FEstPromoEnt.TerminaEm := FTerminaEmFrame.Value;
 
   FEstPromoEnt.GravaCabec := not FEstPromoEnt.EditandoItem;
-  FEstPromoEnt.AcaoSisId := Chr(37); // inserir
 
   if EntEd.State = dsEdit then
   begin
-//    oItem := FEntradaEnt.Items[FEntradaEnt.ItemIndex];
-//    oItem.ProdIdDeles := ProdIdDelesLabeledEdit.Text;
-//    oItem.Custo := CustoNumEditBtu.AsCurrency;
-//    oItem.Margem := MargemNumEditBtu.AsCurrency;
-//    oItem.Preco := PrecoNovoNumEditBtu.AsCurrency;
-//    oItem.Qtd := QtdNumEditBtu.Valor;
-    exit;
+    // oItem := FEntradaEnt.Items[FEntradaEnt.ItemIndex];
+    // oItem.ProdIdDeles := ProdIdDelesLabeledEdit.Text;
+    // oItem.Custo := CustoNumEditBtu.AsCurrency;
+    // oItem.Margem := MargemNumEditBtu.AsCurrency;
+    // oItem.Preco := PrecoNovoNumEditBtu.AsCurrency;
+    // oItem.Qtd := QtdNumEditBtu.Valor;
+
+    FEstPromoEnt.AcaoSisId := Chr(38); // ALTERAR
+
+    if FEstPromoEnt.EditandoItem then
+    begin
+      FEstPromoEnt.Items[FEstPromoEnt.ItemIndex] := RetagPromoItemCreate( //
+        ProdSelectFrame.ProdId, //
+
+        ProdSelectFrame.ProdDescrRed, //
+        ProdSelectFrame.ProdFabrNome, //
+        '' { UnidSigla } , //
+
+        PrecoPromoNumEditBtu.AsCurrency, //
+        ItemAtivoCheckBox.Checked //
+        );
+    end;
+    Exit;
   end;
 
-  oItem := RetagPromoItemCreate(//
+  FEstPromoEnt.AcaoSisId := Chr(37); // inserir
+
+  oItem := RetagPromoItemCreate( //
     ProdSelectFrame.ProdId, //
 
     ProdSelectFrame.ProdDescrRed, //
@@ -203,8 +224,7 @@ begin
     '' { UnidSigla } , //
 
     PrecoPromoNumEditBtu.AsCurrency, //
-    ItemAtivoCheckBox.Checked
-    );
+    ItemAtivoCheckBox.Checked);
 
   FEstPromoEnt.Items.Add(oItem);
 end;
@@ -266,20 +286,69 @@ begin
 end;
 
 procedure TPromoEdForm.EntToControles;
+var
+  s: string;
+  oItem: IEstPromoItem;
+  u: Currency;
 begin
   inherited;
+  s := '';
+  if FEstPromoEnt.PromoId > 0 then
+  begin
+    s := FEstPromoEnt.GetCod;
+  end;
 
+  CodLabeledEdit.Text := s;
+
+  NomeLabeledEdit.Text := FEstPromoEnt.Nome;
+
+  AtivoCheckBox.Checked := FEstPromoEnt.Ativo;
+  FIniciaEmFrame.Value := FEstPromoEnt.IniciaEm;
+  FTerminaEmFrame.Value := FEstPromoEnt.TerminaEm;
+
+  if not ItemGroupBox.Visible then
+    Exit;
+
+  if not FEstPromoEnt.EditandoItem then
+  begin
+    Exit;
+  end;
+
+  if EntEd.State = dsEdit then
+  begin
+    oItem := FEstPromoEnt.GetItems[FEstPromoEnt.ItemIndex];
+    ProdSelectFrame.PegarProdId(oItem.Prod.Id);
+
+    Bcdtocurr(oItem.PrecoPromo, u);
+    PrecoPromoNumEditBtu.Valor := u;
+
+    Exit;
+  end;
 end;
 
 function TPromoEdForm.GetObjetivoStr: string;
 begin
-  if FEstPromoEnt.EditandoItem then
+  if (FEstPromoEnt.State = dsEdit) then
   begin
-    Result := 'Novo item de ' + FEstPromoEnt.NomeEnt;
+    if FEstPromoEnt.EditandoItem then
+    begin
+      Result := 'Alterando item de ' + FEstPromoEnt.NomeEnt;
+    end
+    else
+    begin
+      Result := 'Alterando ' + FEstPromoEnt.NomeEnt;
+    end;
   end
   else
   begin
-    Result := 'Nova ' + FEstPromoEnt.NomeEnt;
+    if FEstPromoEnt.EditandoItem then
+    begin
+      Result := 'Novo item de ' + FEstPromoEnt.NomeEnt;
+    end
+    else
+    begin
+      Result := 'Nova ' + FEstPromoEnt.NomeEnt;
+    end;
   end;
 end;
 
@@ -379,16 +448,23 @@ end;
 procedure TPromoEdForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  NomeLabeledEdit.Text := 'DIA DAS MAES';
-  FIniciaEmFrame.Value := StrToDateTime('01/08/2025 10:01');
-  ProdSelectFrame.PegarProdId(2);
-  PrecoPromoNumEditBtu.Valor := 3;
-  OkAct_Diag.Execute;
+  // NomeLabeledEdit.Text := 'DIA DAS MAES';
+  // FIniciaEmFrame.Value := StrToDateTime('01/08/2025 10:01');
+  // ProdSelectFrame.PegarProdId(2);
+  // PrecoPromoNumEditBtu.Valor := 3;
+  // OkAct_Diag.Execute;
 end;
 
 procedure TPromoEdForm.TerminaEmHoraKeyPress(Sender: TObject; var Key: Char);
 begin
-  FProdSelectFrame.ProdLabeledEdit.SetFocus;
+  if Key = #13 then
+  begin
+    Key := #0;
+    if ItemGroupBox.Visible then
+      FProdSelectFrame.ProdLabeledEdit.SetFocus
+    else
+      OkAct_Diag.Execute;
+  end;
 end;
 
 function TPromoEdForm.TerminaEmOk: boolean;

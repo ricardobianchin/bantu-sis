@@ -18,6 +18,7 @@ type
   TAppEstSaidaDataSetForm = class(TAppEstDataSetForm)
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstSaidaEnt: IEstSaidaEnt;
@@ -328,6 +329,13 @@ begin
     'App\Retag\Est\Sai\tabview.app.retag.est.sai.csv';
 
   Result := sNomeArq;
+end;
+
+procedure TAppEstSaidaDataSetForm.InsAction_DatasetTabSheetExecute(
+  Sender: TObject);
+begin
+  inherited;
+//
 end;
 
 function TAppEstSaidaDataSetForm.PergEd: boolean;

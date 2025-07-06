@@ -41,7 +41,7 @@ begin
     + '  P.PROD_ID,'#13#10 // 1
     + '  P.DESCR_RED,'#13#10 // 2
     + '  FA.NOME FABR_NOME,'#13#10 // 3
-    + '  PIT.PRECO_PROMO'#13#10 // 4
+    + '  PIT.PRECO_PROMO,'#13#10 // 4
     + '  PIT.ATIVO'#13#10 // 5
 
     + 'FROM PIT'#13#10 //
@@ -56,9 +56,9 @@ begin
     + '  PIT.PROD_ID'#13#10 //
     ;
 
-{$IFDEF DEBUG}
-  CopyTextToClipboard(Result);
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 end.

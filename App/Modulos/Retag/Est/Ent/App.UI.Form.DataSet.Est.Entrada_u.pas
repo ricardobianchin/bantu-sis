@@ -79,14 +79,14 @@ begin
   Result := not FDMemTable.IsEmpty;
   if not Result then
   begin
-    ShowMessage('N�o h� registro de nota a alterar');
+    ShowMessage('Não há registro de nota a alterar');
     exit;
   end;
 
   Result := not DMemTableFINALIZADO.AsBoolean;
   if not Result then
   begin
-    ShowMessage('Nota j� est� finalizada e n�o pode ser alterada');
+    ShowMessage('Nota já está finalizada e não pode ser alterada');
     exit;
   end;
 
