@@ -13,9 +13,6 @@ type
 
     procedure CarregueVendaPendente(out pCarregou: Boolean);
 
-    procedure ItemCancelar(pShopPDVVendaItem: IShopPDVVendaItem;
-      out pExecutouOk: Boolean; out pMensagem: string);
-
     procedure StrBuscaToProd(pStrBusca: string; var pEngat: TVendaProdEngat;
       out pEncontrado: Boolean; out pMens: string);
   end;

@@ -11,12 +11,12 @@ type
     function ToString: string;
   end;
 
-{
-  TQuantidadeHelper = record helper for TQuantidade
-  public
+  {
+    TQuantidadeHelper = record helper for TQuantidade
+    public
     procedure SetByInt(pQuantidade: Integer);
-  end;
-}
+    end;
+  }
 
   TProcedureOfObject = procedure of object;
   TProcedureStringOfObject = procedure(pStr: string) of object;
@@ -30,7 +30,15 @@ type
     Descr: string;
   end;
 
-function CodsToCodAsString(pLojaId, pTerminalId: smallint; pId: integer;
+  TRecordAction = (recaNoAction = 32, recaInserir = 33, recaAlterar = 34, recaExcluir = 35,
+    recaAtivar = 36, recaDesativar = 37);
+
+  TRecordActionHelper = record helper for TRecordAction
+    function ToSqlString: string;
+  end;
+
+
+function CodsToCodAsString(pLojaId, pTerminalId: SmallInt; pId: integer;
   pCodUsaTerminalId: boolean): string;
 
 implementation
@@ -38,18 +46,18 @@ implementation
 uses System.SysUtils;
 
 {
-procedure TQuantidadeHelper.SetByInt(pQuantidade: Integer);
-begin
+  procedure TQuantidadeHelper.SetByInt(pQuantidade: Integer);
+  begin
   if pQuantidade <= 0 then
-    Self := qtdNenhu
+  Self := qtdNenhu
   else if pQuantidade = 1 then
-    Self := qtdUm
+  Self := qtdUm
   else
-    Self := qtdTodos;
-end;
+  Self := qtdTodos;
+  end;
 }
 
-function CodsToCodAsString(pLojaId, pTerminalId: smallint; pId: integer;
+function CodsToCodAsString(pLojaId, pTerminalId: SmallInt; pId: integer;
   pCodUsaTerminalId: boolean): string;
 var
   sFormat: string;
@@ -71,6 +79,13 @@ end;
 function TIdHelper.ToString: string;
 begin
   Result := IntToStr(Self);
+end;
+
+{ TRecordActionHelper }
+
+function TRecordActionHelper.ToSqlString: string;
+begin
+  Result := Chr(Integer(Self));
 end;
 
 end.

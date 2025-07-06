@@ -172,10 +172,8 @@
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.Sync.pas"/>
         <DCCReference Include="UI\IO\Sis.UI.IO.Factory.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.pas"/>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Perg.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.Form_u.pas"/>
         <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Str.pas"/>
         <DCCReference Include="UI\BasForm\Sis.UI.Form.Bas_u.pas">
@@ -446,10 +444,6 @@
             <Form>DBSelectForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="UI\IO\Input\Sis.UI.IO.Input.Bool.Caption.Form_u.pas">
-            <Form>InputBoolCaptionForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Web\HTTP\NET\Sis.Web.HTTP.Upload.NET.pas"/>
         <DCCReference Include="Web\HTTP\NET\Sis.Web.HTTP.Net.Utils_u.pas"/>
         <DCCReference Include="Web\HTTP\Sis.Web.HTTP.Upload.pas"/>
@@ -459,6 +453,15 @@
         <DCCReference Include="UI\Controls\AndamentoFrame\Sis.UI.Controls.AndamentoFrame_u.pas">
             <Form>AndamentoFrame</Form>
             <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\DtHFrame\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas">
+            <Form>DateTimeFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UI\BasForm\DtHFrame\DtHFaixaFrame\Sis.UI.Fram.Control.DtHFaixaFrame_u.pas">
+            <Form>DtHFaixaFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <None Include="Sis.dpk"/>

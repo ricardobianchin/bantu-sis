@@ -111,9 +111,9 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.Controls.Factory, Sis.Types.Utils_u, Sis.Types.strings_u,
+uses Sis.UI.Controls.Factory, Sis.Types.strings_u,
   Sis.UI.ImgDM, Sis.Web.HTTPGet.Net_u, Sis.Types.TStrings_u, System.StrUtils,
-  Sis.Win.Utils_u, Winapi.ShellAPI, Sis.UI.IO.Input.Perg;
+  Sis.Win.Utils_u, Winapi.ShellAPI, Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 { TEnderControlsFrame }
 
@@ -478,7 +478,7 @@ begin
       or (LogradouroEdit.Text <> '') //
     then
     begin
-      if not PergBool('Consulta CEP e substitui os dados existentes?') then
+      if not Perg('Consulta CEP e substitui os dados existentes?', '', TBooleanDefault.boolFalse) then
       begin
         TrySetFocus(WinControlSeguinteAoCEP);
         exit;

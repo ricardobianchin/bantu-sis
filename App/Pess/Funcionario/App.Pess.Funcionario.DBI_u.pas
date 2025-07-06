@@ -19,6 +19,9 @@ type
 
     function GetSqlGaranteRegERetornaId: string; override;
 
+    function GetSqlCToPess(pC: string; pExcetoLojaId: smallint;
+      pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string;
+      override;
   public
     constructor Create(pDBConnection: IDBConnection;
       pPessFuncionarioEnt: IPessFuncionarioEnt);
@@ -80,6 +83,24 @@ begin
     + GetFieldValuesGravar //
     + ');'#13#10 //
     ;
+end;
+
+function TPessFuncionarioDBI.GetSqlCToPess(pC: string; pExcetoLojaId,
+  pExcetoTerminalId: smallint; pExcetoPessoaId: integer): string;
+begin
+  Result := 'SELECT P.LOJA_ID, P.TERMINAL_ID, P.PESSOA_ID, P.NOME'#13#10 + //
+    'FROM PESSOA P'#13#10 + //
+    'JOIN FUNCIONARIO F ON'#13#10 + //
+    'P.LOJA_ID  = F.LOJA_ID'#13#10 + //
+    'AND P.TERMINAL_ID = F.TERMINAL_ID'#13#10 + //
+    'AND P.PESSOA_ID = F.PESSOA_ID'#13#10 + //
+    'WHERE P.C = ' + QuotedStr(pC) + #13#10;
+
+  if (pExcetoLojaId <> 0) and (pExcetoPessoaId <> 0) then
+  begin
+    Result := Result + 'AND NOT (P.LOJA_ID = ' + pExcetoLojaId.ToString +
+      ' AND P.PESSOA_ID = ' + pExcetoPessoaId.ToString + ')'#13#10;
+  end;
 end;
 
 function TPessFuncionarioDBI.GetSqlForEach(pValues: variant): string;

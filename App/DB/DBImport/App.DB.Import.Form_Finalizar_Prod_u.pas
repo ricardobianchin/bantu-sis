@@ -23,7 +23,7 @@ var
   sDescrRed: string[29];
 
   iFabrId, iTipoId, iUnidId, iICMSId: integer;
-  // sProdNatuId: string;
+  sProdNatuId: string;
 
   uCapacEmb: Currency;
 
@@ -244,7 +244,7 @@ begin
   if iICMSId < 1 then
     iICMSId := 1;
 
-  // sProdNatuId := #033; // q.Fields[7].AsString
+  sProdNatuId := #033; // q.Fields[7].AsString
 
   uCapacEmb := oFieldFin_CAPAC_EMB.AsCurrency;
 
@@ -291,7 +291,7 @@ begin
     + ',' + iUnidId.ToString //
     + ',' + iICMSId.ToString //
 
-  // + ',' + QuotedStr(sProdNatuId)
+    + ',' + QuotedStr(sProdNatuId)
 
     + ',' + CurrencyToStrPonto(uCapacEmb) //
     + ',' + QuotedStr(NCM) //

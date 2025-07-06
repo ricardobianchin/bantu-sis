@@ -14,10 +14,16 @@ uses
   App.UI.Form.Menu_u, System.UITypes, App.Est.Types_u, App.PDV.Controlador,
   App.Est.Venda.Caixa.CaixaSessao.Utils_u, App.UI.PDV.VendaBasFrame_u, Sis.DBI,
   App.PDV.DBI, App.UI.PDV.PagFrame_u, Sis.UI.Impressao, Sis.UI.Select,
-  Sis.UI.Frame.Bas.Filtro_u;
-
+  Sis.UI.Frame.Bas.Filtro_u, App.Retag.Est.ProdSelectDBI;
+{
+precisa rever a logica do controlador.
+este form era da interface ipdvcontrolador
+descobri que isto nao deve ser feito
+retirei a interface da definicao e passei pra um objeto intermediario
+ficou confuso
+}
 type
-  TPDVModuloBasForm = class(TModuloBasForm, IPDVControlador)
+  TPDVModuloBasForm = class(TModuloBasForm)
     N1: TMenuItem;
     ConsultaPreo1: TMenuItem;
     PDVActionList: TActionList;
@@ -52,6 +58,8 @@ type
     FProdSelectFiltroFrame: TFiltroFrame;
     FProdSelect: ISelect;
     FSessFiltroFrame: TFiltroFrame;
+
+    FPDVControlador: IPDVControlador;
 
     function GetFramesParent: TWinControl;
     function GetFrameAtivo: TPDVFrame;
@@ -97,6 +105,7 @@ type
     { Public declarations }
     property FramesParent: TWinControl read GetFramesParent;
     property FecharModuloAction: TAction read GetFecharModuloAction;
+    property PDVControlador: IPDVControlador read FPDVControlador;
 
     constructor Create(AOwner: TComponent; pModuloSistema: IModuloSistema;
       pEventosDeSessao: IEventosDeSessao; pSessaoIndex: TSessaoIndex;
@@ -111,7 +120,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.DB.Factory, Sis.UI.IO.Input.Perg, App.PDV.PDVSessForm_u;
+uses Sis.DB.Factory, App.PDV.PDVSessForm_u;
 
 procedure TPDVModuloBasForm.AjusteControles;
 begin
@@ -170,8 +179,10 @@ begin
   FTermDBConnection := DBConnectionCreate('PdvModuConn', AppObj.SisConfig,
     rDBConnectionParams, nil, nil);
 
+  FPDVControlador := PDVControladorCreate;
+
   FCaixaSessaoDM := TCaixaSessaoDM.Create(Self, AppObj, pTerminalId,
-    pLogUsuario, Self);
+    pLogUsuario, FPDVControlador);
 
   FProdSelectFiltroFrame := ProdSelectFiltroFrameCreate;
   FProdSelectDBI := ProdSelectDBICreate;
@@ -197,6 +208,7 @@ begin
 
   MenuUsaForm := True;
   AppMenuForm := AppMenuFormCreate;
+
   // WindowState := TWindowState.wsNormal;
   // width := 1000;
   // height := 500;

@@ -1,27 +1,27 @@
 inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   Caption = 'RetaguardaModuloBasForm'
   ClientHeight = 458
-  ClientWidth = 592
+  ClientWidth = 630
   StyleElements = [seFont, seClient, seBorder]
   OnDestroy = FormDestroy
-  ExplicitWidth = 592
+  ExplicitWidth = 630
   ExplicitHeight = 458
   TextHeight = 15
   inherited TitleBarPanel: TPanel
-    Width = 592
-    ExplicitWidth = 592
+    Width = 630
+    ExplicitWidth = 630
     DesignSize = (
-      592
+      630
       30)
     inherited ToolBar1: TToolBar
-      Left = 498
-      ExplicitLeft = 498
+      Left = 536
+      ExplicitLeft = 536
     end
   end
   object MenuPanel: TPanel [1]
     Left = 0
     Top = 30
-    Width = 592
+    Width = 630
     Height = 65
     Align = alTop
     Caption = ' '
@@ -29,9 +29,9 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object MenuPageControl: TPageControl
       Left = 1
       Top = 1
-      Width = 590
+      Width = 628
       Height = 63
-      ActivePage = AjudaTabSheet
+      ActivePage = EstoqueTabSheet
       Align = alClient
       Style = tsFlatButtons
       TabOrder = 0
@@ -43,14 +43,14 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        object ToolBar4: TToolBar
+        object EstoqueToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
-          ButtonWidth = 125
+          ButtonWidth = 106
           Caption = 'EstoqueToolBar'
           Ctl3D = False
           EdgeInner = esNone
@@ -59,31 +59,59 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           List = True
           ShowCaptions = True
           TabOrder = 0
-          object ToolButton2: TToolButton
+          object EstProdToolButton: TToolButton
             Left = 0
             Top = 0
             Action = RetagEstProdAction
             AutoSize = True
           end
-          object ToolButton9: TToolButton
+          object EstPromoToolButton: TToolButton
             Left = 59
             Top = 0
-            Hint = 'Produtos'
+            Action = RetagEstPromoAct
             AutoSize = True
-            Caption = 'Entrada de Notas'
-            OnClick = RetagEstProdActionExecute
           end
-          object ToolButton10: TToolButton
-            Left = 160
+          object EstVenToolButton: TToolButton
+            Left = 130
             Top = 0
             AutoSize = True
             Caption = 'Vendas'
-            OnClick = RetagEstProdEnviarTermActionExecute
+            Visible = False
           end
-          object ToolButton8: TToolButton
-            Left = 208
+          object EstEntrToolButton: TToolButton
+            Left = 178
+            Top = 0
+            Action = RetagEstEntradaAction
+            AutoSize = True
+          end
+          object EstInventarioToolButton: TToolButton
+            Left = 229
+            Top = 0
+            Action = RetagEstInventarioAction
+            AutoSize = True
+          end
+          object EstSaidaToolButton: TToolButton
+            Left = 298
+            Top = 0
+            Action = RetagEstSaidaAct
+            AutoSize = True
+          end
+          object EstSaldoToolButton: TToolButton
+            Left = 342
+            Top = 0
+            Action = RetagEstSaldoAct
+            AutoSize = True
+          end
+          object EstCliToolButton: TToolButton
+            Left = 382
             Top = 0
             Action = RetagEstVenClienteAction
+            AutoSize = True
+          end
+          object EstFornecedorToolButton: TToolButton
+            Left = 435
+            Top = 0
+            Action = RetagEstEntFornecedorAct
             AutoSize = True
           end
         end
@@ -91,15 +119,15 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       object FinTabSheet: TTabSheet
         Caption = 'Financeiro'
         ImageIndex = 3
-        object FinToolBar: TToolBar
+        object FinanceiroToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
           ButtonWidth = 154
-          Caption = 'FinToolBar'
+          Caption = 'FinanceiroToolBar'
           Ctl3D = False
           EdgeInner = esNone
           EdgeOuter = esNone
@@ -113,7 +141,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
             Action = FinanceiroPagamentoFormaAction
             AutoSize = True
           end
-          object ToolButton11: TToolButton
+          object FinanceiroDespesaTipoToolButton: TToolButton
             Left = 130
             Top = 0
             Action = FinanceiroDespesaTipoAction
@@ -121,17 +149,17 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           end
         end
       end
-      object ProdTabsTabSheet: TTabSheet
-        Caption = 'Par'#226'metros dos Produtos'
+      object EstAuxTabSheet: TTabSheet
+        Caption = 'Par'#226'metros'
         ImageIndex = 2
-        object ToolBar5: TToolBar
+        object EstAuxToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
-          ButtonWidth = 95
+          ButtonWidth = 130
           Caption = 'EstoqueToolBar'
           Ctl3D = False
           EdgeInner = esNone
@@ -140,25 +168,35 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           List = True
           ShowCaptions = True
           TabOrder = 0
-          object ToolButton4: TToolButton
+          object AuxFabrToolButton: TToolButton
             Left = 0
             Top = 0
             Action = RetagEstProdFabrAction
+            AutoSize = True
           end
-          object ToolButton5: TToolButton
-            Left = 95
+          object AuxTipoToolButton: TToolButton
+            Left = 71
             Top = 0
             Action = RetagEstProdTipoAction
+            AutoSize = True
           end
-          object ToolButton6: TToolButton
-            Left = 190
+          object AuxUnidToolButton: TToolButton
+            Left = 110
             Top = 0
             Action = RetagEstProdUnidAction
+            AutoSize = True
           end
-          object ToolButton7: TToolButton
-            Left = 285
+          object AuxIcmsToolButton: TToolButton
+            Left = 170
             Top = 0
             Action = RetagEstProdICMSAction
+            AutoSize = True
+          end
+          object AuxEstSaiMotivosToolButton: TToolButton
+            Left = 209
+            Top = 0
+            Action = RetagEstSaiMotivoAction
+            AutoSize = True
           end
         end
       end
@@ -168,7 +206,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object AcessoToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -201,7 +239,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         object AjudaToolBar: TToolBar
           Left = 0
           Top = 0
-          Width = 582
+          Width = 620
           Height = 30
           AutoSize = True
           ButtonHeight = 30
@@ -235,17 +273,24 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   end
   inherited BasePanel: TPanel
     Top = 429
-    Width = 592
+    Width = 630
     TabOrder = 2
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 429
-    ExplicitWidth = 592
+    ExplicitWidth = 630
+    DesignSize = (
+      630
+      29)
     inherited StatusPanel1: TPanel
+      Left = 443
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitLeft = 443
       inherited StatusLabel1: TLabel
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
         StyleElements = [seFont, seClient, seBorder]
       end
     end
@@ -253,7 +298,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
   object PageControl1: TPageControl [3]
     Left = 0
     Top = 95
-    Width = 592
+    Width = 630
     Height = 334
     Align = alClient
     TabOrder = 3
@@ -291,6 +336,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       end
       object Unidades2: TMenuItem
         Action = RetagEstProdUnidAction
+        AutoCheck = True
       end
       object ICMS2: TMenuItem
         Action = RetagEstProdICMSAction
@@ -344,13 +390,13 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       OnExecute = RetagEstProdEnviarTermActionExecute
     end
     object RetagEstProdFabrAction: TAction
-      Category = 'Estoque'
+      Category = 'EstAux'
       Caption = 'Fabricantes'
       Hint = 'Fabricantes dos Produtos'
       OnExecute = RetagEstProdFabrActionExecute
     end
     object RetagEstProdTipoAction: TAction
-      Category = 'Estoque'
+      Category = 'EstAux'
       Caption = 'Tipos'
       Hint = 'Tipos dos produtos'
       OnExecute = RetagEstProdTipoActionExecute
@@ -361,13 +407,14 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       OnExecute = RetagAjuBemActionExecute
     end
     object RetagEstProdUnidAction: TAction
-      Category = 'Estoque'
+      Category = 'EstAux'
+      AutoCheck = True
       Caption = 'Unidades'
       Hint = 'Unidades de Medida'
       OnExecute = RetagEstProdUnidActionExecute
     end
     object RetagEstProdICMSAction: TAction
-      Category = 'Estoque'
+      Category = 'EstAux'
       Caption = 'ICMS'
       Hint = 'Al'#237'quotas (Percentuais) de ICMS. '
       OnExecute = RetagEstProdICMSActionExecute
@@ -410,6 +457,43 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Caption = 'Vers'#227'o do Sistema'
       OnExecute = RetagAjuVersaoSisActionExecute
     end
+    object RetagEstEntFornecedorAct: TAction
+      Category = 'Estoque'
+      Caption = 'Fornecedores'
+      OnExecute = RetagEstEntFornecedorActExecute
+    end
+    object RetagEstSaiMotivoAction: TAction
+      Category = 'EstAux'
+      Caption = 'Motivos de Sa'#237'das'
+      Visible = False
+    end
+    object RetagEstSaidaAct: TAction
+      Category = 'Estoque'
+      Caption = 'Sa'#237'das'
+      OnExecute = RetagEstSaidaActExecute
+    end
+    object RetagEstEntradaAction: TAction
+      Category = 'Estoque'
+      Caption = 'Entrada'
+      OnExecute = RetagEstEntradaActionExecute
+    end
+    object RetagEstInventarioAction: TAction
+      Category = 'Estoque'
+      Caption = 'Invent'#225'rios'
+      OnExecute = RetagEstInventarioActionExecute
+    end
+    object RetagEstSaldoAct: TAction
+      Category = 'Estoque'
+      Caption = 'Saldo'
+      Visible = False
+      OnExecute = RetagEstSaldoActExecute
+    end
+    object RetagEstPromoAct: TAction
+      Category = 'Estoque'
+      Caption = 'Promo'#231#245'es'
+      Visible = False
+      OnExecute = RetagEstPromoActExecute
+    end
   end
   object BalloonHint1: TBalloonHint
     Delay = 100
@@ -438,6 +522,7 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       end
       object Unidades1: TMenuItem
         Action = RetagEstProdUnidAction
+        AutoCheck = True
       end
       object ICMS1: TMenuItem
         Action = RetagEstProdICMSAction

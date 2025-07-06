@@ -39,7 +39,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
-  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
+  Sis.DB.Factory, App.DB.Utils, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Unid.Ent_u, Sis.Sis.Constants;
 
 { TRetagEstProdUnidDataSetForm }
@@ -52,10 +52,10 @@ var
   sBusca: string;
   Resultado: boolean;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppObj);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  oConn := DBConnectionCreate( 'Retag.Unid.Ed.Atu.Conn', AppObj.SisConfig,
+  oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oConn, EntEd);
@@ -77,8 +77,8 @@ var
   oDBConnectionParams: TDBConnectionParams;
   oConn: IDBConnection;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppObj);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
   oConn := DBConnectionCreate('Retag.Unid.Ed.Atu.Conn', AppObj.SisConfig,
     oDBConnectionParams, ProcessLog, Output);
@@ -107,11 +107,11 @@ var
   oDBConnection: IDBConnection;
 begin
   inherited;
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    AppObj);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, AppObj);
 
-  oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn', AppObj.SisConfig,
-    oDBConnectionParams, ProcessLog, Output);
+  oDBConnection := DBConnectionCreate('Retag.Unid.Ed.Ins.Conn',
+    AppObj.SisConfig, oDBConnectionParams, ProcessLog, Output);
 
   oUnidDBI := RetagEstProdUnidDBICreate(oDBConnection, EntEd);
 
@@ -120,14 +120,16 @@ begin
   if not Result then
     exit;
 
-  FDMemTable.InsertRecord([ProdUnidEnt.Id, ProdUnidEnt.Descr, ProdUnidEnt.Sigla]);
+  FDMemTable.InsertRecord([ProdUnidEnt.Id, ProdUnidEnt.Descr,
+    ProdUnidEnt.Sigla]);
 end;
 
 function TRetagEstProdUnidDataSetForm.GetNomeArqTabView: string;
 var
   sNomeArq: string;
 begin
-  sNomeArq := AppObj.AppInfo.PastaConsTabViews + 'App\Retag\Est\tabview.est.prod.unid.csv';
+  sNomeArq := AppObj.AppInfo.PastaConsTabViews +
+    'App\Retag\Est\tabview.est.prod.unid.csv';
 
   Result := sNomeArq;
 end;

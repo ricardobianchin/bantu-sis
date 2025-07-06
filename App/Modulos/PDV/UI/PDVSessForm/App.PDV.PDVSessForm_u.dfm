@@ -3,7 +3,6 @@ inherited PDVSessForm: TPDVSessForm
   ClientHeight = 403
   ClientWidth = 984
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitLeft = -372
   ExplicitWidth = 1000
   ExplicitHeight = 442
   TextHeight = 15

@@ -32,6 +32,12 @@ begin
         if bPrecisaTerminar then
           break;
 
+//        if bAtivo then
+//          ForEachTerminal(TrazerDoTerm, bPrecisaTerminar);
+
+        if bPrecisaTerminar then
+          break;
+
         if not bSegueAberto then
           break;
 //  break;

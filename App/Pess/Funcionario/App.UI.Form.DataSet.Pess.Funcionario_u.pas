@@ -10,7 +10,7 @@ uses
   App.Pess.Funcionario.DBI, App.Pess.Funcionario.Ent, App.AppObj,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.DB.DBTypes, Sis.Usuario,
   App.UI.TabSheet.DataSet.Types_u, App.Ent.Ed, App.Ent.DBI,
-  App.Pess.Funcionario.Ent.Factory_u;
+  App.Pess.Funcionario.Ent.Factory_u, Vcl.StdCtrls;
 
 type
   TAppPessFuncionarioDataSetForm = class(TAppPessDataSetForm)
@@ -51,7 +51,7 @@ implementation
 
 uses App.Pess.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
   Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, Sis.DB.Factory, App.DB.Utils,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.TDBGrid, Sis.UI.ImgDM, Sis.UI.Controls.Utils;
+  Sis.UI.Controls.TDBGrid, Sis.UI.ImgDM, Sis.UI.Controls.Utils;
 
 { TAppPessFuncionarioDataSetForm }
 

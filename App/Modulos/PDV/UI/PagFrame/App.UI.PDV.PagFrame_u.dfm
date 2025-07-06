@@ -18,7 +18,7 @@ inherited PagPDVFrame: TPagPDVFrame
     object MensLabel: TLabel
       Left = 1
       Top = 186
-      Width = 627
+      Width = 71
       Height = 20
       Align = alBottom
       Alignment = taCenter
@@ -34,7 +34,6 @@ inherited PagPDVFrame: TPagPDVFrame
       Transparent = True
       WordWrap = True
       StyleElements = [seClient, seBorder]
-      ExplicitWidth = 71
     end
     object TotPanel: TPanel
       Left = 1

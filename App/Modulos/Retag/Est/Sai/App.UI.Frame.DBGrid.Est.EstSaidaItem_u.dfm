@@ -1,0 +1,2 @@
+inherited EstSaidaItemDBGridFrame: TEstSaidaItemDBGridFrame
+end

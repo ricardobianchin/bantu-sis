@@ -1,4 +1,4 @@
-unit AppShop.UI.Form.Princ_u;
+ï»¿unit AppShop.UI.Form.Princ_u;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Sessoes_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.UI.Sessoes.Frame,
+  Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.UI.Sessoes.Frame_u,
   FireDAC.Comp.Client;
 
 type
@@ -60,7 +60,6 @@ begin
     if PrecisaFechar then
       exit;
 
-
   finally
     // ProcessLog.RetorneAssunto;
   end;
@@ -69,7 +68,7 @@ end;
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;
 begin
   Result := App.Factory.AppInfoCreate(Application.ExeName, ATUALIZ_ARQ_SUBPASTA,
-    ATUALIZ_URL  );
+    ATUALIZ_URL);
 end;
 
 procedure TShopPrincForm.PreenchaAtividade;
@@ -86,17 +85,18 @@ begin
     classe mae preenche algo em DBUpdaterVariaveis
     geralmente aqui se faz:
     DBUpdaterVariaveis := DBUpdaterVariaveis + '...';
-    ao invés de
+    ao invï¿½s de
     DBUpdaterVariaveis := '...';
-    toda entrada precisa terminar com #13#10 pois alimentará TStrings.Text
+    toda entrada precisa terminar com #13#10 pois alimentarï¿½ TStrings.Text
   }
-  DBUpdaterVariaveis := DBUpdaterVariaveis +
-    'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
+  DBUpdaterVariaveis := DBUpdaterVariaveis + 'USA_TABPRECO=N'#13#10;
+  // 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
 end;
 
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
-  Result := TShopSessoesFrame.Create(Self, LoginConfig, Self, AppObj);
+  Result := TShopSessoesFrame.Create(Self, LoginConfig,
+    {EventosDeSessao, }AppObj);
 end;
 
 end.

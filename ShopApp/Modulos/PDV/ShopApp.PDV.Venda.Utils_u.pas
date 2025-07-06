@@ -18,6 +18,8 @@ function BuscaNumericaStatus(const pStrBusca: string): TPDVBuscaResultado;
 procedure SepareBuscaStr(pStr: string; out pBuscaStr: string;
   out pQtd: Currency);
 
+function ItemQtdValida(pQtd: Currency; pBalancaExige: Boolean; out pMens: string): Boolean;
+
 implementation
 
 uses System.SysUtils, System.Character, Sis.Types.Floats;
@@ -128,6 +130,27 @@ begin
   begin
     pBuscaStr := aElementos[0];
     pQtd := 1;
+  end;
+end;
+
+function ItemQtdValida(pQtd: Currency; pBalancaExige: Boolean; out pMens: string): Boolean;
+begin
+  Result := pQtd > 0;
+  if not Result then
+  begin
+    pMens := 'Quantidade é obrigatória';
+    exit;
+  end;
+
+  Result := pBalancaExige;
+  if Result then
+    exit;
+
+  Result := CurrencyEhInteiro(pQtd);
+  if not Result then
+  begin
+    pMens := 'Produto não é de balança. A quantidade deve ser inteira';
+    exit;
   end;
 end;
 

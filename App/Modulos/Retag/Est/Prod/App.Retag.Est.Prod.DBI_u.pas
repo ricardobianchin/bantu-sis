@@ -49,8 +49,9 @@ begin
     + ',' + Ent.ProdTipoEnt.Id.ToString //
     + ',' + Ent.ProdUnidEnt.Id.ToString //
     + ',' + Ent.ProdICMSEnt.Id.ToString //
-  //
-//    + ',' + ProdNatuToSql(pnatuProduto) //
+
+    + ',' + ProdNatuToSql(Ent.ProdNatu) //
+
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
     + ',' + QuotedStr(Ent.NCM) //
 
@@ -73,6 +74,9 @@ begin
 
     + ',' + QuotedStr(sBarras) //
     + ');';
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 function TProdDBI.GetSqlInserirDoERetornaId: string;
@@ -89,6 +93,8 @@ begin
     + ',' + Ent.ProdTipoEnt.Id.ToString //
     + ',' + Ent.ProdUnidEnt.Id.ToString //
     + ',' + Ent.ProdICMSEnt.Id.ToString //
+
+    + ',' + ProdNatuToSql(Ent.ProdNatu) //
 
     + ',' + CurrencyToStrPonto(Ent.CapacEmb) //
     + ',' + QuotedStr(Ent.NCM) //
@@ -111,20 +117,26 @@ begin
     + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
 
     + ',' + QuotedStr(sBarras) + ');'; //
+{$IFDEF DEBUG}
+  CopyTextToClipboard(Result);
+{$ENDIF}
 end;
 
 function TProdDBI.GetSqlForEach(pValues: variant): string;
 begin
   Result := 'SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, FABR_NOME' +
-  // 5           6         7        8         9            10
-    ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' +
+  //     5           6         7        8         9            10
+    ', TIPO_ID, TIPO_DESCR, UNID_ID, UNID_SIGLA, ICMS_ID, ICMS_DESCR_PERC' + //
 
-  // 11
+  //      11             12
+    ', PROD_NATU_ID, PROD_NATU_NOME' +
+
+  // 13
     ', COD_BARRAS' + //
 
     ', CUSTO, PRECO' + //
 
-    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM' +
+    ', ATIVO, LOCALIZ, CAPAC_EMB, MARGEM, BALANCA_EXIGE' +
 
     ' FROM PROD_PA.LISTA_GET(' //
     + Ent.LojaId.ToString //
@@ -162,20 +174,23 @@ begin
     ', UNID_ID' + // 5
     ', ICMS_ID' + // 6
 
-    ', COD_BARRAS' + // 7
+    ', PROD_NATU_ID' + // 7
+    ', PROD_NATU_NOME' + // 8
 
-    ', CUSTO' + // 8
-    ', PRECO' + // 9
+    ', COD_BARRAS' + // 9
 
-    ', ATIVO' + // 10
-    ', LOCALIZ' + // 11
-    ', CAPAC_EMB' + // 12
-    ', NCM' + // 13
-    ', MARGEM' + // 14
-    ', BALANCA_EXIGE' + // 15
-    ', BAL_DPTO' + // 16
-    ', BAL_VALIDADE_DIAS' + // 17
-    ', BAL_TEXTO_ETIQ' + // 18
+    ', CUSTO' + // 10
+    ', PRECO' + // 11
+
+    ', ATIVO' + // 12
+    ', LOCALIZ' + // 13
+    ', CAPAC_EMB' + // 14
+    ', NCM' + // 15
+    ', MARGEM' + // 16
+    ', BALANCA_EXIGE' + // 17
+    ', BAL_DPTO' + // 18
+    ', BAL_VALIDADE_DIAS' + // 19
+    ', BAL_TEXTO_ETIQ' + // 20
 
     ' FROM PROD_PA.LISTA_GET(' //
     + Ent.LojaId.ToString //
@@ -190,6 +205,9 @@ begin
 //    ' WHERE PROD_ID = ' + Ent.Id.ToString + ';' //
 //    ;
 
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
   DBConnection.Abrir;
   try
     DBConnection.QueryDataSet(sSql, q);
@@ -205,26 +223,29 @@ begin
     Ent.ProdUnidEnt.Id := q.Fields[5].AsInteger;
     Ent.ProdICMSEnt.Id := q.Fields[6].AsInteger;
 
-    Ent.CustoAtual := q.Fields[8].AsCurrency;
-    Ent.PrecoAtual := q.Fields[9].AsCurrency;
+    Ent.ProdNatu := StrToProdNatu(q.Fields[7].AsString.Trim);
+    Ent.ProdNatuNome := q.Fields[8].AsString.Trim;
 
-    Ent.Ativo := q.Fields[10].AsBoolean;
-    Ent.Localiz := q.Fields[11].AsString.Trim;
-    Ent.CapacEmb := q.Fields[12].AsCurrency;
+    Ent.CustoAtual := q.Fields[10].AsCurrency;
+    Ent.PrecoAtual := q.Fields[11].AsCurrency;
 
-    Ent.Ncm := Trim(q.Fields[13].AsString);
+    Ent.Ativo := q.Fields[12].AsBoolean;
+    Ent.Localiz := q.Fields[13].AsString.Trim;
+    Ent.CapacEmb := q.Fields[14].AsCurrency;
 
-    Ent.Margem := q.Fields[14].AsCurrency;
+    Ent.Ncm := Trim(q.Fields[15].AsString);
 
-    Ent.ProdBalancaEnt.BalancaExige := q.Fields[15].AsBoolean;
-    Ent.ProdBalancaEnt.DptoCod := q.Fields[16].AsString.Trim;
-    Ent.ProdBalancaEnt.ValidadeDias := q.Fields[17].AsInteger;
-    Ent.ProdBalancaEnt.TextoEtiq := q.Fields[18].AsString.Trim;
+    Ent.Margem := q.Fields[16].AsCurrency;
+
+    Ent.ProdBalancaEnt.BalancaExige := q.Fields[17].AsBoolean;
+    Ent.ProdBalancaEnt.DptoCod := q.Fields[18].AsString.Trim;
+    Ent.ProdBalancaEnt.ValidadeDias := q.Fields[19].AsInteger;
+    Ent.ProdBalancaEnt.TextoEtiq := q.Fields[20].AsString.Trim;
 
     Ent.ProdBarrasList.Clear;
     while not q.eof do
     begin
-      Ent.ProdBarrasList.PegarBarras(q.Fields[7].AsString.Trim, plFim);
+      Ent.ProdBarrasList.PegarBarras(q.Fields[9].AsString.Trim, plFim);
       q.next;
     end;
   finally

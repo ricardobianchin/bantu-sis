@@ -24,8 +24,6 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
       inherited TitToolBar1_BasTabSheet: TToolBar
         Width = 548
         Align = alBottom
-        ExplicitLeft = 0
-        ExplicitTop = 0
         ExplicitWidth = 548
       end
     end

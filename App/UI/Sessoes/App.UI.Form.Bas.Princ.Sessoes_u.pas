@@ -7,11 +7,11 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
-  Vcl.Imaging.pngimage, App.UI.Sessoes.Frame, App.Sessao.EventosDeSessao,
+  Vcl.Imaging.pngimage, App.UI.Sessoes.Frame_u, App.Sessao.EventosDeSessao,
   Sis.UI.Form.Login.Config, App.Constants, App.Sessao;
 
 type
-  TSessoesPrincBasForm = class(TPrincBasForm, IEventosDeSessao)
+  TSessoesPrincBasForm = class(TPrincBasForm)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -20,22 +20,26 @@ type
     { Private declarations }
     // FSessaoCriadorList: ISessaoCriadorList;
     FSessoesFrame: TSessoesFrame;
+    FEventosDeSessao: IEventosDeSessao;
 
     FLoginConfig: ILoginConfig;
     procedure SessoesFrameCriar;
-    procedure DoAbrirSessao(pSessaoIndex: TSessaoIndex);
   protected
     function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
     property LoginConfig: ILoginConfig read FLoginConfig;
 
-    procedure DoCancel;
+    {    procedure DoCancel;
     procedure DoOk;
     procedure DoAposModuloOcultar;
-    procedure DoFecharSessao(pSessaoIndex: TSessaoIndex);
     procedure DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
+    procedure DoFecharSessao(pSessaoIndex: TSessaoIndex);
+    procedure DoAbrirSessao(pSessaoIndex: TSessaoIndex);
+}
+
     procedure AjusteControles; override;
   public
     { Public declarations }
+    property EventosDeSessao: IEventosDeSessao read FEventosDeSessao;
     constructor Create(AOwner: TComponent); override;
   end;
 
@@ -60,55 +64,17 @@ begin
     FLoginConfig.Ler;
 
     SessoesFrameCriar;
+
+    FEventosDeSessao := EventosDeSessaoCreate;
+    FEventosDeSessao.Pegar(Self, FSessoesFrame);
+    FSessoesFrame.PegarEventoSessao(FEventosDeSessao);
+
     // FSessaoCriadorList := SessaoCriadorListCreate;
   finally
     ProcessLog.RetorneLocal;
   end;
 end;
 
-procedure TSessoesPrincBasForm.DoAbrirSessao(pSessaoIndex: TSessaoIndex);
-var
-  iSessaoVisivelIndex: TSessaoIndex;
-  oSessao: ISessao;
-  oModuloBasForm: TForm;
-begin
-  iSessaoVisivelIndex := FSessoesFrame.GetSessaoVisivelIndex;
-
-  if iSessaoVisivelIndex <> SESSAO_INDEX_INVALIDO then
-  begin
-    FSessoesFrame.Sessao[iSessaoVisivelIndex].EscondaModuloForm;
-  end;
-  oSessao := FSessoesFrame[pSessaoIndex];
-  oModuloBasForm := oSessao.ModuloBasForm;
-  oModuloBasForm.Show;
-  DoOk;
-end;
-
-procedure TSessoesPrincBasForm.DoCancel;
-begin
-
-end;
-
-procedure TSessoesPrincBasForm.DoFecharSessao(pSessaoIndex: TSessaoIndex);
-begin
-  FSessoesFrame.DeleteByIndex(pSessaoIndex);
-  Show;
-end;
-
-procedure TSessoesPrincBasForm.DoAposModuloOcultar;
-begin
-  Show;
-end;
-
-procedure TSessoesPrincBasForm.DoOk;
-begin
-  Hide;
-end;
-
-procedure TSessoesPrincBasForm.DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
-begin
-  FSessoesFrame.DoTrocarDaSessao(pSessaoIndex);
-end;
 
 procedure TSessoesPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);

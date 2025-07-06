@@ -100,11 +100,12 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Input.Perg, Sis.DB.DataSet.Utils, Sis.DB.Factory,
+uses Sis.DB.DataSet.Utils, Sis.DB.Factory,
   Sis.Lists.Factory, Sis.UI.Controls.Utils, App.DB.Utils,
   Sis.UI.IO.Output.ProcessLog.Factory, App.DB.Import.Form.SQL.Atualizar_u,
   App.DB.Import.Prod.Rej.Ed.Form_u, Sis.Win.Utils_u,
-  App.DB.Import.Form_Finalizar_u, Sis.Types.Bool_u, Sis.Sis.Constants;
+  App.DB.Import.Form_Finalizar_u, Sis.Types.Bool_u, Sis.Sis.Constants,
+  Sis.Types.Utils_u, App.UI.Form.Perg_u;
 
 { TDBImportForm }
 
@@ -250,8 +251,8 @@ procedure TDBImportForm.DefCampos;
 var
   DefsSL: TStringList;
   sNomeArq: string;
-//  sLinhaAtual: string;
-//  I: integer;
+  // sLinhaAtual: string;
+  // I: integer;
   oFDDataSetManager: IFDDataSetManager;
 begin
   DefsSL := TStringList.Create;
@@ -538,7 +539,7 @@ begin
     // SetClipboardText(sSqlOrig);
 {$ENDIF}
 {$IFDEF DEBUG}
-    //SetClipboardText(sSqlDest);
+    // SetClipboardText(sSqlDest);
 {$ENDIF}
 
     // {$IFDEF DEBUG}
@@ -660,7 +661,8 @@ var
 
 begin
 {$IFNDEF DEBUG}
-  Result := PergBool('Zerar os dados? Esta ação não poderá ser desfeita');
+  Result := Perg('Zerar os dados? Esta ação não poderá ser desfeita', '',
+    TBooleanDefault.boolFalse);
 {$ELSE}
   Result := True;
 {$ENDIF}
@@ -689,9 +691,9 @@ begin
     sl.Add('ALTER SEQUENCE PROD_TIPO_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE UNID_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE ICMS_SEQ RESTART WITH  4;');
-    //sl.Add('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
+    // sl.Add('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
-//    sl.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  3;');
+    // sl.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  3;');
     sl.Add('ALTER SEQUENCE IMPORT_FABR_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE IMPORT_PROD_TIPO_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE IMPORT_UNID_SEQ RESTART WITH  1;');

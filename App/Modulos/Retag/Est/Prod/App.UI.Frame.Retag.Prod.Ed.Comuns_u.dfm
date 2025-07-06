@@ -1,8 +1,8 @@
 inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
-  Width = 800
-  Height = 407
-  ExplicitWidth = 800
-  ExplicitHeight = 407
+  Width = 1017
+  Height = 430
+  ExplicitWidth = 1017
+  ExplicitHeight = 430
   object DescrErroLabel: TLabel
     Left = 5
     Top = 69
@@ -39,6 +39,13 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Caption = 'GeraBarras'
     OnClick = GeraBarrasLabelClick
   end
+  object ProdNatuLabel: TLabel
+    Left = 5
+    Top = 90
+    Width = 47
+    Height = 15
+    Caption = 'Natureza'
+  end
   object DescrEdit: TLabeledEdit
     Left = 60
     Top = 46
@@ -74,7 +81,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Width = 253
     Height = 68
     Caption = 'Custo'
-    TabOrder = 2
+    TabOrder = 3
     object CustoErroLabel: TLabel
       Left = 2
       Top = 51
@@ -98,7 +105,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Width = 364
     Height = 68
     Caption = 'Pre'#231'o'
-    TabOrder = 3
+    TabOrder = 4
     object PrecoErroLabel: TLabel
       Left = 2
       Top = 51
@@ -122,7 +129,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Width = 399
     Height = 207
     Caption = 'Balan'#231'a'
-    TabOrder = 4
+    TabOrder = 5
     object BalTextoEtiqTitLabel: TLabel
       Left = 5
       Top = 94
@@ -172,7 +179,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     object BalancaExigeCheckBox: TCheckBox
       Left = 11
       Top = 24
-      Width = 97
+      Width = 150
       Height = 17
       Caption = 'Produto Exige Balan'#231'a'
       TabOrder = 3
@@ -189,7 +196,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     LabelPosition = lpLeft
     LabelSpacing = 4
     MaxLength = 15
-    TabOrder = 6
+    TabOrder = 7
     Text = ''
   end
   object MoldeCapacEmbLabeledEdit: TLabeledEdit
@@ -203,7 +210,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     EditLabel.Caption = 'Capacidade da Embalagem'
     LabelPosition = lpLeft
     LabelSpacing = 4
-    TabOrder = 7
+    TabOrder = 8
     Text = '12345'
   end
   object AtivoCheckBox: TCheckBox
@@ -212,13 +219,13 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Width = 109
     Height = 17
     Caption = 'Ativo no Sistema'
-    TabOrder = 5
+    TabOrder = 6
     OnKeyPress = AtivoCheckBoxKeyPress
   end
   object MoldeMargemLabeledEdit: TLabeledEdit
     Left = 677
     Top = 252
-    Width = 53
+    Width = 65
     Height = 23
     Alignment = taCenter
     EditLabel.Width = 45
@@ -226,7 +233,7 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     EditLabel.Caption = 'Margem'
     LabelPosition = lpLeft
     LabelSpacing = 4
-    TabOrder = 8
+    TabOrder = 9
     Text = '123,45'
   end
   object NCMLabeledEdit: TLabeledEdit
@@ -241,7 +248,23 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     LabelSpacing = 4
     MaxLength = 8
     NumbersOnly = True
-    TabOrder = 9
+    TabOrder = 10
     Text = ''
+  end
+  object ProdNatuComboBox: TComboBox
+    Left = 60
+    Top = 87
+    Width = 120
+    Height = 23
+    Style = csDropDownList
+    ItemIndex = 2
+    TabOrder = 2
+    Text = 'MAT'#201'RIA-PRIMA'
+    Items.Strings = (
+      'PRODUTO'
+      'SERVI'#199'O'
+      'MAT'#201'RIA-PRIMA'
+      'KIT'
+      'COMPOSI'#199#195'O')
   end
 end

@@ -46,7 +46,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, Sis.DB.Factory, App.DB.Utils,
-  Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u, Sis.UI.Controls.TDBGrid,
+  App.UI.Form.Retag.Excl_u, Sis.UI.Controls.TDBGrid,
   App.Retag.Fin.DespTipo.Ent_u;
 
 { TRetagEstDespTipoDataSetForm }

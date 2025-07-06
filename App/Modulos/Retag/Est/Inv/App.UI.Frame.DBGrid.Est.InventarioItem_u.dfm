@@ -1,0 +1,2 @@
+inherited InventarioItemDBGridFrame: TInventarioItemDBGridFrame
+end

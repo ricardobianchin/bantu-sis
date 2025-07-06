@@ -14,11 +14,13 @@ type
     function AsSqlConstant: string;
   end;
 
+function CustoToCustoUnit(pCusto: Currency; pQtd: Currency): Currency;
+function PrecoSugeridoCalc(pCustoUnit: Currency; pMargem: Currency): Currency;
 
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, System.Math;
 
 
 function TPrecoHelper.AsSqlConstant: string;
@@ -54,5 +56,15 @@ begin
   end;
 end;
   }
+
+function CustoToCustoUnit(pCusto: Currency; pQtd: Currency): Currency;
+begin
+  Result := RoundTo(pCusto / pQtd, -4);
+end;
+
+function PrecoSugeridoCalc(pCustoUnit: Currency; pMargem: Currency): Currency;
+begin
+  Result := RoundTo(pCustoUnit * pMargem, -2);
+end;
 
 end.

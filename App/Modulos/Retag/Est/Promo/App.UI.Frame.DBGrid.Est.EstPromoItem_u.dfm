@@ -1,0 +1,2 @@
+inherited EstPromoItemDBGridFrame: TEstPromoItemDBGridFrame
+end

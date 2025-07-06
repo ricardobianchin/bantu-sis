@@ -11,7 +11,8 @@ uses
   App.UI.Decorator.Form.Excl, App.Ent.Ed, App.Ent.Ed.Id.Descr,
   App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
   {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u;
+  App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u,
+  Sis.Types, App.Est.Types_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -48,6 +49,8 @@ type
 
   public
     { Public declarations }
+    function GetSelectItem: TSelectItem; override;
+
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
@@ -63,10 +66,10 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
-  Sis.DB.Factory, App.DB.Utils, Sis.UI.IO.Input.Perg, App.UI.Form.Retag.Excl_u,
+  Sis.DB.Factory, App.DB.Utils, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
   App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants,
-  Sis.UI.Controls.Utils;
+  Sis.UI.Controls.Utils, Sis.DB.DataSet.Utils;
 
 { TRetagEstProdDataSetForm }
 
@@ -100,7 +103,7 @@ begin
   FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
   FFiltroFrame.Parent := Self;
   FFiltroFrame.Align := alBottom;
-  //oP.Height := oP.Height + FFiltroFrame.Height;
+  // oP.Height := oP.Height + FFiltroFrame.Height;
 end;
 
 procedure TRetagEstProdDataSetForm.CrieMudaLoteFrame;
@@ -115,10 +118,10 @@ begin
     (TERMINAL_ID_RETAGUARDA, AppObj);
   // FFiltroStringFrame
   oP := TitPanel_BasTabSheet;
-  FMudaLoteFrame := TMudaLoteFrame.Create(Self, FDMemTable,
-    oDBConnectionParams, AppObj, DoAtualizar, UsuarioLog.Id);
+  FMudaLoteFrame := TMudaLoteFrame.Create(Self, FDMemTable, oDBConnectionParams,
+    AppObj, DoAtualizar, UsuarioLog.Id);
   FMudaLoteFrame.Align := alBottom;
-//  oP.Height := oP.Height + FMudaLoteFrame.Height;
+  // oP.Height := oP.Height + FMudaLoteFrame.Height;
 end;
 
 procedure TRetagEstProdDataSetForm.DoAlterar;
@@ -284,16 +287,20 @@ begin
   FDMemTable.Fields[9 { icms_id } ].AsInteger := ProdEnt.ProdUnidEnt.Id;
   FDMemTable.Fields[10 { icms_descr_perc } ].AsString :=
     ProdEnt.ProdICMSEnt.Descr;
-  FDMemTable.Fields[11 { codbarras } ].AsString :=
+
+  FDMemTable.Fields[11 { PROD_NATU_ID } ].AsString :=  ProdNatuToChar(ProdEnt.ProdNatu);
+  FDMemTable.Fields[12 { PROD_NATU_NOME } ].AsString := ProdEnt.ProdNatuNome;
+
+  FDMemTable.Fields[13 { codbarras } ].AsString :=
     ProdEnt.ProdBarrasList.GetAsString(', ');
-  FDMemTable.Fields[12 { Custo } ].AsCurrency :=
+  FDMemTable.Fields[14 { Custo } ].AsCurrency :=
     iif(ProdEnt.CustoNovo > 0, ProdEnt.CustoNovo, ProdEnt.CustoAtual);
-  FDMemTable.Fields[13 { Preco } ].AsCurrency :=
+  FDMemTable.Fields[15 { Preco } ].AsCurrency :=
     iif(ProdEnt.PrecoNovo > 0, ProdEnt.PrecoNovo, ProdEnt.PrecoAtual);
-  FDMemTable.Fields[14 { Ativo } ].AsBoolean := ProdEnt.Ativo;
-  FDMemTable.Fields[15 { Localiz } ].AsString := ProdEnt.Localiz;
-  FDMemTable.Fields[16 { Capac_emb } ].AsCurrency := ProdEnt.CapacEmb;
-  FDMemTable.Fields[17 { Margem } ].AsCurrency := ProdEnt.Margem;
+  FDMemTable.Fields[16 { Ativo } ].AsBoolean := ProdEnt.Ativo;
+  FDMemTable.Fields[17 { Localiz } ].AsString := ProdEnt.Localiz;
+  FDMemTable.Fields[18 { Capac_emb } ].AsCurrency := ProdEnt.CapacEmb;
+  FDMemTable.Fields[19 { Margem } ].AsCurrency := ProdEnt.Margem;
 
 end;
 
@@ -310,6 +317,15 @@ end;
 function TRetagEstProdDataSetForm.GetProdEnt: IProdEnt;
 begin
   Result := TProdEnt(EntEd);
+end;
+
+function TRetagEstProdDataSetForm.GetSelectItem: TSelectItem;
+begin
+  Result.Id := FDMemTable.Fields[0].AsInteger;
+  Result.Descr := RecordToIni(FDMemTable);
+//  Result.Descr := FDMemTable.Fields[0].AsInteger.ToString + ';' +
+//    FDMemTable.Fields[2].AsString + ';' + FDMemTable.Fields[4].AsString + ';' +
+//    BooleanToStr(FDMemTable.Fields[18].AsBoolean);
 end;
 
 procedure TRetagEstProdDataSetForm.LeRegEInsere(q: TDataSet; pRecNo: integer);
@@ -367,16 +383,18 @@ end;
 procedure TRetagEstProdDataSetForm.MudaLoteAction_ProdDatasetTabSheetExecute
   (Sender: TObject);
 var
-  bVisible: Boolean;
+  bVisible: boolean;
 begin
   inherited;
   bVisible := not MudaLoteAction_ProdDatasetTabSheet.Checked;
   MudaLoteAction_ProdDatasetTabSheet.Checked := bVisible;
   FMudaLoteFrame.Visible := MudaLoteAction_ProdDatasetTabSheet.Checked;
-  if  bVisible then
-    TitPanel_BasTabSheet.Height := TitPanel_BasTabSheet.Height + FMudaLoteFrame.Height
+  if bVisible then
+    TitPanel_BasTabSheet.Height := TitPanel_BasTabSheet.Height +
+      FMudaLoteFrame.Height
   else
-    TitPanel_BasTabSheet.Height := TitPanel_BasTabSheet.Height - FMudaLoteFrame.Height;
+    TitPanel_BasTabSheet.Height := TitPanel_BasTabSheet.Height -
+      FMudaLoteFrame.Height;
 
 end;
 
@@ -394,7 +412,7 @@ procedure TRetagEstProdDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   // InsAction_DatasetTabSheet.Execute;
-  //SetNameToHint(Self);
+  // SetNameToHint(Self);
 end;
 
 procedure TRetagEstProdDataSetForm.ToolBar1CrieBotoes;

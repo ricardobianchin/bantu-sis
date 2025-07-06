@@ -12,7 +12,7 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
     Width = 536
     Height = 17
     Font.Height = -13
-    ExplicitTop = 262
+    ExplicitTop = 302
     ExplicitWidth = 63
     ExplicitHeight = 17
   end
@@ -21,7 +21,7 @@ inherited ItemCancelarForm_ShopApp: TItemCancelarForm_ShopApp
     Width = 536
     Height = 20
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 242
+    ExplicitTop = 282
     ExplicitWidth = 136
     ExplicitHeight = 20
   end

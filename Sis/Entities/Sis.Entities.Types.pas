@@ -18,8 +18,14 @@ type
     function ToStrZero: string;
   end;
 
-function GetCod(pLojaId: TLojaId; pTerminalId: TTerminalId;
-  pId: integer; pPrefixo: string; pSeparador: string = '-'): string;
+const
+  COD_SEPARADOR = '-';
+ 
+function GetCod(pLojaId: TLojaId; pTerminalId: TTerminalId; pId: integer;
+  pPrefixo: string; pSeparador: string = COD_SEPARADOR): string; overload;
+
+function GetCod(pLojaId: TLojaId; pId: integer;
+  pPrefixo: string; pSeparador: string = COD_SEPARADOR): string; overload;
 
 implementation
 
@@ -49,8 +55,8 @@ begin
   Result := Format('%.3d', [Self]);
 end;
 
-function GetCod(pLojaId: TLojaId; pTerminalId: TTerminalId;
-  pId: integer; pPrefixo: string; pSeparador: string): string;
+function GetCod(pLojaId: TLojaId; pTerminalId: TTerminalId; pId: integer;
+  pPrefixo: string; pSeparador: string): string;
 var
   sFormat: string;
 begin
@@ -59,5 +65,14 @@ begin
     [pLojaId, pTerminalId, pId]);
 end;
 
-end.
+function GetCod(pLojaId: TLojaId; pId: integer; pPrefixo: string;
+  pSeparador: string): string;
+var
+  sFormat: string;
+begin
+  sFormat := '%.2d' + pSeparador + '%.7d';
+  Result := pPrefixo + pSeparador + Format(sFormat,
+    [pLojaId, pId]);
+end;
 
+end.

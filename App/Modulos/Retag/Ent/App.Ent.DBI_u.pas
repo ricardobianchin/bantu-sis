@@ -42,7 +42,7 @@ type
 
     property EntEd: IEntEd read GetEntEd write SetEntEd;
 
-    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd);
+    constructor Create(pDBConnection: IDBConnection; pEntEd: IEntEd); reintroduce; virtual;
   end;
 
 implementation
@@ -264,8 +264,8 @@ begin
   if EntEd.State = dsInsert then
   begin
     Result := Inserir(i);
-    if Result then
-      SetVarArrayToId(i);
+//    if Result then
+//      SetVarArrayToId(
   end
   else
     Result := Alterar;

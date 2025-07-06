@@ -187,7 +187,7 @@ implementation
 
 uses Sis.Types.strings_u, Sis.UI.Controls.Utils, ShopApp.PDV.Factory_u,
   Sis.Types.Floats, Sis.Types.Bool_u, ShopApp.UI.PDV.ItemCancelarForm_u,
-  Sis.UI.IO.Input.Perg, Sis.UI.Controls.Factory, ShopApp.PDV.Venda.Utils_u,
+  Sis.UI.Controls.Factory, ShopApp.PDV.Venda.Utils_u, Sis.Types.Utils_u, App.UI.Form.Perg_u,
   Sis.UI.Frame.Bas.Filtro.BuscaString_u,
   ShopApp.UI.Form.PDV.Venda.ItemQtdPerg_u;
 
@@ -556,15 +556,17 @@ begin
     VK_PRIOR:
       begin
         Key := 0;
+        EngatVender;
         PDVControlador.VaParaPag;
       end;
     VK_NEXT:
       begin
         Key := 0;
+        EngatVender;
         if FShopPDVVenda.VendaPagList.Count = 0 then
-          PDVControlador.PagSomenteDinheiro
+          PagSomenteDinheiroToolButton.Click
         else
-          PDVControlador.VaParaPag;
+          PagamentoToolButton.Click;
       end;
   end;
 end;
@@ -574,6 +576,7 @@ var
   dtCanceladoEm: TDateTime;
   bResultado: Boolean;
   sMens: string;
+  uQtd: Currency;
 begin
   inherited;
   if CharInSet(Key, [',', '.']) then
@@ -586,18 +589,53 @@ begin
     end;
   end;
 
+  if Key = #13 then
+  begin
+    if FEngat.ProdId > 0 then
+    begin
+      if FStrBusca = '' then
+      begin
+        key := #0;
+        EngatVender;
+        FEngat.Zerar;
+        ItemVendidoExiba('');
+        PreencherControles;
+        exit;
+      end;
+    end;
+  end;
+
   if Key = '*' then
   begin
-    if FStrBusca = '' then
+    if FEngat.ProdId > 0 then
     begin
-      if FEngat.ProdId > 0 then
+      if FStrBusca = '' then
       begin
         if ItemQtdPerg(FEngat) then
         begin
+          Key := #0;
           ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
           PreencherControles;
           exit;
         end;
+      end
+      else if IsValidFloatString(FStrBusca) then
+      begin
+        uQtd := StrToCurrency(FStrBusca);
+        if ItemQtdValida(uQtd, FEngat.BalancaExige, sMens) then
+        begin
+          FEngat.Qtd := uQtd;
+          FStrBusca := '';
+          StrBuscaMudou;
+          ItemVendidoExiba(FEngat.DescrRed, FEngat.Preco);
+          PreencherControles;
+        end
+        else
+        begin
+          ExibaErro(sMens);
+        end;
+          Key := #0;
+          exit;
       end;
       StrBuscaPegueChar(Key);
       StrBuscaPegueChar(#13);
@@ -622,7 +660,7 @@ begin
       exit;
 
     Key := #0;
-    bResultado := PergBool('Deseja cancelar a venda?');
+    bResultado := Perg('Deseja cancelar a venda?', '' , TBooleanDefault.boolFalse);
     if not bResultado then
       exit;
 
@@ -815,6 +853,8 @@ begin
   end;
 
   FitaStringGrid.Row := pIndex + 1;
+  PaintBoxGrid1.Repaint;
+  PaintBoxGrid2.Repaint;
 end;
 
 procedure TShopVendaPDVFrame.PreencherControles;
@@ -893,6 +933,12 @@ begin
       exit;
     end;
 
+    if not ItemQtdValida(rEngat.Qtd, rEngat.BalancaExige, sMens) then
+    begin
+      ExibaErro(sMens);
+      exit;
+    end;
+
     EngatPegar(rEngat);
     FStrBusca := '';
     StrBuscaMudou;
@@ -933,16 +979,46 @@ begin
 end;
 
 procedure TShopVendaPDVFrame.PagamentoToolButtonClick(Sender: TObject);
+var
+    uTotalLiquido: Currency;
+    uTotalDevido: Currency;
+    uTotalEntregue: Currency;
+    uFalta: Currency;
+    uTroco: Currency;
 begin
   inherited;
   EngatVender;
+
+  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue,
+    uFalta, uTroco);
+  if uTotalLiquido = 0 then
+  begin
+    ShowMessage('O Total líquido da venda está zerado');
+    exit;
+  end;
+
   PDVControlador.VaParaPag;
 end;
 
 procedure TShopVendaPDVFrame.PagSomenteDinheiroToolButtonClick(Sender: TObject);
+var
+    uTotalLiquido: Currency;
+    uTotalDevido: Currency;
+    uTotalEntregue: Currency;
+    uFalta: Currency;
+    uTroco: Currency;
 begin
   inherited;
   EngatVender;
+
+  PDVVenda.ItensPegarTots(uTotalLiquido, uTotalDevido, uTotalEntregue,
+    uFalta, uTroco);
+  if uTotalLiquido = 0 then
+  begin
+    ShowMessage('O Total líquido da venda está zerado');
+    exit;
+  end;
+
   PDVControlador.PagSomenteDinheiro;
 end;
 

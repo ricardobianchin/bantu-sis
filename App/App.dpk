@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -63,7 +63,7 @@ contains
   App.Sessao.Factory in 'Sessao\App.Sessao.Factory.pas',
   App.UI.Form.Bas.Modulo_u in 'UI\BasForm\App.UI.Form.Bas.Modulo_u.pas' {ModuloBasForm},
   App.UI.Form.Bas.Modulo.Retaguarda_u in 'Modulos\Retag\App.UI.Form.Bas.Modulo.Retaguarda_u.pas' {RetaguardaModuloBasForm},
-  App.UI.Sessoes.Frame in 'UI\Sessoes\App.UI.Sessoes.Frame.pas' {SessoesFrame: TFrame},
+  App.UI.Sessoes.Frame_u in 'UI\Sessoes\App.UI.Sessoes.Frame_u.pas' {SessoesFrame: TFrame},
   App.Sessao.EventosDeSessao in 'Sessao\App.Sessao.EventosDeSessao.pas',
   App.Sessao.Criador_u in 'Sessao\App.Sessao.Criador_u.pas',
   App.Sessao.Criador.Retag_u in 'Sessao\App.Sessao.Criador.Retag_u.pas',
@@ -351,12 +351,12 @@ contains
   App.Est.Venda.Caixa.CxNumerarioList_u in 'Est\Venda\Caixa\CaixaSessao\CxValor\App.Est.Venda.Caixa.CxNumerarioList_u.pas',
   App.Sis.Assist_u in 'Sis\Assist\App.Sis.Assist_u.pas',
   App.UI.PDV.VendaBasFrame_u in 'Modulos\PDV\UI\VendaFrame\App.UI.PDV.VendaBasFrame_u.pas' {VendaBasPDVFrame: TFrame},
-  App.Est.MoviItem in 'Est\Mov\App.Est.MoviItem.pas',
-  App.Est.Mov in 'Est\Mov\App.Est.Mov.pas',
+  App.Est.EstMovItem in 'Est\Mov\App.Est.EstMovItem.pas',
+  App.Est.EstMovEnt in 'Est\Mov\App.Est.EstMovEnt.pas',
   App.PDV.Controlador in 'Modulos\PDV\Controlador\App.PDV.Controlador.pas',
   App.PDV.Venda in 'Modulos\PDV\Venda\App.PDV.Venda.pas',
-  App.Est.Mov_u in 'Est\Mov\App.Est.Mov_u.pas',
-  App.Est.MoviItem_u in 'Est\Mov\App.Est.MoviItem_u.pas',
+  App.Est.EstMovEnt_u in 'Est\Mov\App.Est.EstMovEnt_u.pas',
+  App.Est.EstMovItem_u in 'Est\Mov\App.Est.EstMovItem_u.pas',
   App.PDV.VendaItem in 'Modulos\PDV\Venda\App.PDV.VendaItem.pas',
   App.PDV.Venda_u in 'Modulos\PDV\Venda\App.PDV.Venda_u.pas',
   App.PDV.VendaItem_u in 'Modulos\PDV\Venda\App.PDV.VendaItem_u.pas',
@@ -409,6 +409,66 @@ contains
   App.Testes.Config.ModuRetag.Est.Produtos_u in 'AppObj\TestesConfig\ModuRetag\Est\Prod\App.Testes.Config.ModuRetag.Est.Produtos_u.pas',
   App.UI.Form.Config.Tar.Backup.Message_u in 'Modulos\Config\Tar\Bak\App.UI.Form.Config.Tar.Backup.Message_u.pas' {BackupMessageForm},
   App.PDV.PDVSessForm.FiltroFrame_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm.FiltroFrame_u.pas' {SessFormFiltroFrame: TFrame},
-  App.PDV.PDVSessForm_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas';
+  App.PDV.PDVSessForm_u in 'Modulos\PDV\UI\PDVSessForm\App.PDV.PDVSessForm_u.pas',
+  App.UI.Form.Perg_u in 'UI\BasForm\App.UI.Form.Perg_u.pas' {PergForm},
+  App.Pess.Fornecedor.Ent in 'Pess\Fornecedor\App.Pess.Fornecedor.Ent.pas',
+  App.Pess.Fornecedor.Ent_u in 'Pess\Fornecedor\App.Pess.Fornecedor.Ent_u.pas',
+  App.Pess.Fornecedor.Ent.Factory_u in 'Pess\Fornecedor\App.Pess.Fornecedor.Ent.Factory_u.pas',
+  App.Pess.Fornecedor.DBI in 'Pess\Fornecedor\App.Pess.Fornecedor.DBI.pas',
+  App.Pess.Fornecedor.DBI_u in 'Pess\Fornecedor\App.Pess.Fornecedor.DBI_u.pas',
+  App.UI.Form.Bas.Ed.Pess.Fornecedor_u in 'Pess\Fornecedor\App.UI.Form.Bas.Ed.Pess.Fornecedor_u.pas' {PessFornecedorEdForm},
+  App.UI.Form.DataSet.Pess.Fornecedor_u in 'Pess\Fornecedor\App.UI.Form.DataSet.Pess.Fornecedor_u.pas' {AppPessFornecedorDataSetForm},
+  App.Acesso.Fornecedor.UI.Factory_u in 'Pess\Fornecedor\App.Acesso.Fornecedor.UI.Factory_u.pas',
+  App.Retag.Est.EstSaida.Ent in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.Ent.pas',
+  App.Retag.Est.EstSaidaItem in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem.pas',
+  App.Retag.Est.EstSaidaItem_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem_u.pas',
+  App.Retag.Est.EstSaida.Ent_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.Ent_u.pas',
+  App.Retag.Est.EstSaida.DBI in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.DBI.pas',
+  App.Retag.Est.EstSaida.DBI_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaida.DBI_u.pas',
+  App.UI.Form.Bas.DataSet.Est_u in 'Modulos\Retag\Est\App.UI.Form.Bas.DataSet.Est_u.pas' {AppEstDataSetForm},
+  App.UI.Form.Ed.Est_u in 'Modulos\Retag\Est\App.UI.Form.Ed.Est_u.pas' {EstEdBasForm},
+  App.UI.Form.DataSet.Est.EstSaida_u in 'Modulos\Retag\Est\Sai\App.UI.Form.DataSet.Est.EstSaida_u.pas' {AppEstSaidaDataSetForm},
+  App.UI.Frame.Bas.EstFiltro_u in 'Modulos\Retag\Est\App.UI.Frame.Bas.EstFiltro_u.pas' {EstFiltroFrame: TFrame},
+  App.UI.Form.Ed.Est.EstSaida_u in 'Modulos\Retag\Est\Sai\App.UI.Form.Ed.Est.EstSaida_u.pas' {EstSaidaEdForm},
+  App.Est.EstMovDBI in 'Est\Mov\App.Est.EstMovDBI.pas',
+  App.Est.EstMovDBI_u in 'Est\Mov\App.Est.EstMovDBI_u.pas',
+  App.Retag.Est.ProdSelectFrame_u in 'Modulos\Retag\Est\Prod\ProdSelect\App.Retag.Est.ProdSelectFrame_u.pas' {ProdSelectFrame: TFrame},
+  App.Retag.Est.ProdSelectDBI_u in 'Modulos\Retag\Est\Prod\ProdSelect\App.Retag.Est.ProdSelectDBI_u.pas',
+  App.UI.Frame.DBGrid.Est.EstSaidaItem_u in 'Modulos\Retag\Est\Sai\App.UI.Frame.DBGrid.Est.EstSaidaItem_u.pas' {EstSaidaItemDBGridFrame: TFrame},
+  App.Retag.Est.EstSaidaItem.DBI_u in 'Modulos\Retag\Est\Sai\App.Retag.Est.EstSaidaItem.DBI_u.pas',
+  App.Retag.Est.Inventario.Ent in 'Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.Ent.pas',
+  App.Retag.Est.InventarioItem in 'Modulos\Retag\Est\Inv\App.Retag.Est.InventarioItem.pas',
+  App.Retag.Est.InventarioItem_u in 'Modulos\Retag\Est\Inv\App.Retag.Est.InventarioItem_u.pas',
+  App.Retag.Est.Inventario.DBI in 'Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.DBI.pas',
+  App.Retag.Est.Inventario.DBI_u in 'Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.DBI_u.pas',
+  App.Retag.Est.Inventario.Ent_u in 'Modulos\Retag\Est\Inv\App.Retag.Est.Inventario.Ent_u.pas',
+  App.UI.Form.Ed.Est.Inventario_u in 'Modulos\Retag\Est\Inv\App.UI.Form.Ed.Est.Inventario_u.pas' {InventarioEdForm},
+  App.UI.Form.DataSet.Est.Inventario_u in 'Modulos\Retag\Est\Inv\App.UI.Form.DataSet.Est.Inventario_u.pas' {AppInventarioDataSetForm},
+  App.UI.Frame.DBGrid.Est.InventarioItem_u in 'Modulos\Retag\Est\Inv\App.UI.Frame.DBGrid.Est.InventarioItem_u.pas' {InventarioItemDBGridFrame: TFrame},
+  App.Retag.Est.InventarioItem.DBI_u in 'Modulos\Retag\Est\Inv\App.Retag.Est.InventarioItem.DBI_u.pas',
+  App.Retag.Est.Entrada.Ent in 'Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.Ent.pas',
+  App.Retag.Est.Entrada.Ent_u in 'Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.Ent_u.pas',
+  App.Retag.Est.Entrada.DBI in 'Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.DBI.pas',
+  App.Retag.Est.Entrada.DBI_u in 'Modulos\Retag\Est\Ent\App.Retag.Est.Entrada.DBI_u.pas',
+  App.UI.Form.DataSet.Est.Entrada_u in 'Modulos\Retag\Est\Ent\App.UI.Form.DataSet.Est.Entrada_u.pas' {AppEntradaDataSetForm},
+  App.Retag.Est.EntradaItem.DBI_u in 'Modulos\Retag\Est\Ent\App.Retag.Est.EntradaItem.DBI_u.pas',
+  App.Retag.Est.EntradaItem in 'Modulos\Retag\Est\Ent\App.Retag.Est.EntradaItem.pas',
+  App.Retag.Est.EntradaItem_u in 'Modulos\Retag\Est\Ent\App.Retag.Est.EntradaItem_u.pas',
+  App.UI.Frame.DBGrid.Est.EntradaItem_u in 'Modulos\Retag\Est\Ent\App.UI.Frame.DBGrid.Est.EntradaItem_u.pas' {EntradaItemDBGridFrame: TFrame},
+  App.UI.Form.Ed.Est.Entrada_u in 'Modulos\Retag\Est\Ent\App.UI.Form.Ed.Est.Entrada_u.pas' {EntradaEdForm},
+  App.Retag.Est.ProdSelectDBI in 'Modulos\Retag\Est\Prod\ProdSelect\App.Retag.Est.ProdSelectDBI.pas',
+  App.UI.Form.Bas.TabSheet.DataSet.Master_u in 'UI\BasForm\App.UI.Form.Bas.TabSheet.DataSet.Master_u.pas' {TabSheetDataSetMasterBasForm},
+  App.UI.Form.DataSet.Est.Promo_u in 'Modulos\Retag\Est\Promo\App.UI.Form.DataSet.Est.Promo_u.pas' {AppPromoDataSetForm},
+  App.Est.PromoItem in 'Modulos\Retag\Est\Promo\App.Est.PromoItem.pas',
+  App.Est.PromoItem_u in 'Modulos\Retag\Est\Promo\App.Est.PromoItem_u.pas',
+  App.Est.Promo.Ent in 'Modulos\Retag\Est\Promo\App.Est.Promo.Ent.pas',
+  App.Est.Promo.Ent_u in 'Modulos\Retag\Est\Promo\App.Est.Promo.Ent_u.pas',
+  App.Est.Promo.DBI in 'Modulos\Retag\Est\Promo\App.Est.Promo.DBI.pas',
+  App.Est.Promo.DBI_u in 'Modulos\Retag\Est\Promo\App.Est.Promo.DBI_u.pas',
+  App.UI.Form.Ed.Est.Promo_u in 'Modulos\Retag\Est\Promo\App.UI.Form.Ed.Est.Promo_u.pas' {PromoEdForm},
+  App.UI.Frame.DBGrid.Est.EstPromoItem_u in 'Modulos\Retag\Est\Promo\App.UI.Frame.DBGrid.Est.EstPromoItem_u.pas' {EstPromoItemDBGridFrame: TFrame},
+  App.Est.EstPromoItem.DBI_u in 'Modulos\Retag\Est\Promo\App.Est.EstPromoItem.DBI_u.pas',
+  App.Sessao.EventosDeSessao_u in 'Sessao\App.Sessao.EventosDeSessao_u.pas',
+  App.PDV.Controlador_u in 'Modulos\PDV\Controlador\App.PDV.Controlador_u.pas';
 
 end.

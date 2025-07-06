@@ -21,6 +21,7 @@ type
     MeioPanel: TPanel;
     ComunsPanel: TPanel;
     procedure Button1Click(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
 
@@ -229,6 +230,9 @@ begin
 
   ProdEnt.ProdICMSEnt.Id := FComunsFr.ICMSFr.Id;
   ProdEnt.ProdICMSEnt.Descr := FComunsFr.ICMSFr.Text;
+
+  ProdEnt.ProdNatu := FComunsFr.ProdNatuSelecionada;
+  ProdEnt.ProdNatuNome := FComunsFr.ProdNatuComboBox.Text;
 
   ProdEnt.CustoAtual := FComunsFr.CustoAtuEdit.Valor;
   ProdEnt.CustoNovo := FComunsFr.CustoNovEdit.Valor;
@@ -492,6 +496,8 @@ begin
   FComunsFr.PrecoAtuEdit.Valor := ProdEnt.PrecoAtual;
   FComunsFr.PrecoNovEdit.Valor := ProdEnt.PrecoNovo;
 
+  FComunsFr.ProdNatuSelecionada := ProdEnt.ProdNatu;
+
   FComunsFr.BalancaExigeCheckBox.Checked := bBalancaExige;
   FComunsFr.BalDpto.Valor := ProdEnt.ProdBalancaEnt.DptoCod;
   FComunsFr.BalValidEdit.Valor := ProdEnt.ProdBalancaEnt.ValidadeDias;
@@ -606,6 +612,16 @@ begin
   begin
     FComunsFr.FabrFr.ExibaMens('Obrigatório');
     exit;
+  end;
+end;
+
+procedure TProdEdForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if key = #13 then
+  begin
+    key := #0;
+    SelecioneProximo;
   end;
 end;
 

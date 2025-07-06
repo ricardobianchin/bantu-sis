@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Sessoes.Frame, System.Actions,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Sessoes.Frame_u, System.Actions,
   Vcl.ActnList, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ExtCtrls, App.UI.Sessao.Frame,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.Usuario,
   AppShop.UI.Form.Modulo.Config_u, ShopApp.UI.Form.Modulo.PDV_u,

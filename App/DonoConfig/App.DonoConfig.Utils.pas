@@ -25,7 +25,8 @@ begin
   pAppInfo.PessoaDonoId := 1;
   pAppInfo.FundoCor := $1F0E0A;
   pAppInfo.FonteCor := $00A66644;
-  pAppInfo.NomeExib := 'Administrador do Sistema Daros';//TmpNomeExib;
+//  pAppInfo.NomeExib := 'Administrador do Sistema Daros';//TmpNomeExib;
+  pAppInfo.NomeExib := 'Daros PDV';//TmpNomeExib;
 
 exit;
   Arquivo := pAppInfo.PastaConfigs + 'AppId.bin';

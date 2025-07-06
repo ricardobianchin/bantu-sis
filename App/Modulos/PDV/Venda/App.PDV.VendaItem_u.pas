@@ -2,7 +2,7 @@ unit App.PDV.VendaItem_u;
 
 interface
 
-uses App.PDV.VendaItem, App.Est.MoviItem_u, Sis.Types, Sis.Sis.Constants,
+uses App.PDV.VendaItem, App.Est.EstMovItem_u, Sis.Types, Sis.Sis.Constants,
   App.Est.Prod;
 
 type

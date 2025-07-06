@@ -107,7 +107,7 @@ begin
     bResultado := FNomeArq <> '';
     if not bResultado then
     begin
-      StatusOutput.ExibirPausa('Erro: Nome do Arquivo e´ obrigatorio',
+      StatusOutput.ExibirPausa('Erro: Nome do Arquivo eï¿½ obrigatorio',
         TMsgDlgType.mtError);
       Exit;
     end;
@@ -234,7 +234,7 @@ begin
     + ', ' + iProdUnidId.ToString // IMPORT_UNID_ID ID_DOM,
     + ', ' + iProdIcmsId.ToString // IMPORT_ICMS_ID ID_DOM,
 
-//    + ', ' + QuotedStr(#33) // PROD_NATU_ID ID_CHAR_DOM,
+    + ', ' + QuotedStr(#33) // PROD_NATU_ID ID_CHAR_DOM,
 
     + ', 1' // CAPAC_EMB QTD_DOM,
     + ', ' + QuotedStr(sNCM) // NCM CHAR(8),
@@ -296,9 +296,9 @@ var
 begin
   if cPreco = 0 then
     exit;
-  //o loop é pro form pois tem sempre so uma tabela de precos
-  //em atividades com mais de uma tabela de precos, este loop fará sentido
-  // e PROD_PRECO_TABELA_ID passará a ser usada
+  //o loop ï¿½ pro form pois tem sempre so uma tabela de precos
+  //em atividades com mais de uma tabela de precos, este loop farï¿½ sentido
+  // e PROD_PRECO_TABELA_ID passarï¿½ a ser usada
   for I := 0 to OrigPrecoSL.Count - 1 do
   begin
     sItem := OrigPrecoSL[I];
@@ -489,8 +489,8 @@ begin
     OrigPrecoSL.Clear;
     OrigPrecoSL.Values['1'] := CurrencyToStrPonto(cPreco);
     //em mercado, so tem tabela 1
-    //por isto aqui 1 é constante
-    //em atividades com tabelas de preco, o value deverá ser uma variaven
+    //por isto aqui 1 ï¿½ constante
+    //em atividades com tabelas de preco, o value deverï¿½ ser uma variaven
   end;
 end;
 

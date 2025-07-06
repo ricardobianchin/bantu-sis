@@ -65,7 +65,7 @@ begin
   if pAppObj.TerminalList.Count = 0 then
   begin
     sAtivDescr := AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis];
-     rDBConnectionParams := TerminalIdToDBConnectionParams
+    rDBConnectionParams := TerminalIdToDBConnectionParams
       (TERMINAL_ID_RETAGUARDA, pAppObj);
 
     oDBConnection := DBConnectionCreate('App.DB.Garantir.GarantirDBTerms.conn',

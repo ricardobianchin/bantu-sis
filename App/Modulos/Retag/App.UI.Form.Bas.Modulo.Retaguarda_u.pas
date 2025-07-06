@@ -8,7 +8,8 @@ uses
   App.UI.Form.Bas.Modulo_u, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.StdCtrls, Vcl.Menus, Sis.Types.Contador,
   App.UI.Form.Bas.TabSheet_u, App.UI.Form.Bas.TabSheet.DataSet_u, Sis.Loja,
-  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.EventosDeSessao, App.Constants,
+  Sis.UI.IO.Output, Sis.ModuloSistema, App.Sessao.EventosDeSessao,
+  App.Constants,
   Sis.Usuario, App.AppObj, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, Sis.UI.FormCreator,
   Sis.Entities.Types,
@@ -50,12 +51,12 @@ type
     AjudaToolBar: TToolBar;
     AjuBemToolButton: TToolButton;
     RetagEstProdICMSAction: TAction;
-    ProdTabsTabSheet: TTabSheet;
-    ToolBar5: TToolBar;
-    ToolButton4: TToolButton;
-    ToolButton5: TToolButton;
-    ToolButton6: TToolButton;
-    ToolButton7: TToolButton;
+    EstAuxTabSheet: TTabSheet;
+    EstAuxToolBar: TToolBar;
+    AuxFabrToolButton: TToolButton;
+    AuxTipoToolButton: TToolButton;
+    AuxUnidToolButton: TToolButton;
+    AuxIcmsToolButton: TToolButton;
     MainMenu1: TMainMenu;
     Cadastro1: TMenuItem;
     Estoque1: TMenuItem;
@@ -98,12 +99,12 @@ type
     PerfildeUso1: TMenuItem;
     Usurios2: TMenuItem;
     DireitosdeAcesso1: TMenuItem;
-    ToolBar4: TToolBar;
-    ToolButton9: TToolButton;
-    ToolButton10: TToolButton;
-    ToolButton2: TToolButton;
+    EstoqueToolBar: TToolBar;
+    EstEntrToolButton: TToolButton;
+    EstVenToolButton: TToolButton;
+    EstProdToolButton: TToolButton;
     FinTabSheet: TTabSheet;
-    FinToolBar: TToolBar;
+    FinanceiroToolBar: TToolBar;
     PagamentoFormaToolButton: TToolButton;
     AcessoTabSheet: TTabSheet;
     AcessoToolBar: TToolBar;
@@ -113,14 +114,27 @@ type
     AjuVersaoDBToolButton: TToolButton;
     RetagAcessoPerfilAction: TAction;
     PerfilToolButton: TToolButton;
-    ToolButton8: TToolButton;
+    EstCliToolButton: TToolButton;
     RetagEstVenClienteAction: TAction;
-    ToolButton11: TToolButton;
+    FinanceiroDespesaTipoToolButton: TToolButton;
 
     FinanceiroPagamentoFormaAction: TAction;
     FinanceiroDespesaTipoAction: TAction;
     ToolButton12: TToolButton;
     RetagAjuVersaoSisAction: TAction;
+    EstFornecedorToolButton: TToolButton;
+    RetagEstEntFornecedorAct: TAction;
+    AuxEstSaiMotivosToolButton: TToolButton;
+    RetagEstSaiMotivoAction: TAction;
+    EstSaidaToolButton: TToolButton;
+    RetagEstSaidaAct: TAction;
+    RetagEstEntradaAction: TAction;
+    RetagEstInventarioAction: TAction;
+    EstInventarioToolButton: TToolButton;
+    EstSaldoToolButton: TToolButton;
+    RetagEstSaldoAct: TAction;
+    EstPromoToolButton: TToolButton;
+    RetagEstPromoAct: TAction;
 
     procedure FormDestroy(Sender: TObject);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -148,6 +162,12 @@ type
     procedure RetagEstVenClienteActionExecute(Sender: TObject);
     procedure FinanceiroDespesaTipoActionExecute(Sender: TObject);
     procedure RetagAjuVersaoSisActionExecute(Sender: TObject);
+    procedure RetagEstEntFornecedorActExecute(Sender: TObject);
+    procedure RetagEstSaidaActExecute(Sender: TObject);
+    procedure RetagEstEntradaActionExecute(Sender: TObject);
+    procedure RetagEstInventarioActionExecute(Sender: TObject);
+    procedure RetagEstSaldoActExecute(Sender: TObject);
+    procedure RetagEstPromoActExecute(Sender: TObject);
   private
     { Private declarations }
     FFormClassNamesSL: TStringList;
@@ -163,15 +183,20 @@ type
     FAcessoPerfilTabSheetFormCreator: IFormCreator;
     FAcessoFuncionarioTabSheetFormCreator: IFormCreator;
 
-    // est
+    // est aux
     FFabrDataSetFormCreator: IFormCreator;
     FProdTipoDataSetFormCreator: IFormCreator;
     FProdUnidDataSetFormCreator: IFormCreator;
     FProdICMSDataSetFormCreator: IFormCreator;
-    FProdDataSetFormCreator: IFormCreator;
 
-    // est ven
+    // est
+    FProdDataSetFormCreator: IFormCreator;
     FClienteDataSetFormCreator: IFormCreator;
+    FFornecedorDataSetFormCreator: IFormCreator;
+    FEstSaidaDataSetFormCreator: IFormCreator;
+    FEstEntradaDataSetFormCreator: IFormCreator;
+    FEstPromoDataSetFormCreator: IFormCreator;
+    FEstInventarioDataSetFormCreator: IFormCreator;
 
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
@@ -218,7 +243,13 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Fin.PagFormaTipo, App.Acesso.PerfilDeUso.Ent.Factory_u,
   App.Acesso.PerfilDeUso.UI.Factory_u, App.UI.Form.DataSet.Pess.Cliente_u,
   App.Acesso.Cliente.UI.Factory_u, App.Acesso.Funcionario.UI.Factory_u,
-  Sis.Sis.Constants;
+  Sis.Sis.Constants, App.Acesso.Fornecedor.UI.Factory_u,
+  App.Pess.Fornecedor.Ent.Factory_u,
+  App.Retag.Est.EstSaida.DBI, App.Retag.Est.EstSaida.Ent,
+  App.Retag.Est.Inventario.DBI, App.Retag.Est.Inventario.Ent,
+  App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI, App.Est.Promo.DBI,
+  App.Est.Promo.Ent, App.UI.Form.DataSet.Est.Promo_u,
+  App.UI.Form.Ed.Est.Promo_u;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -287,12 +318,11 @@ begin
   oVersaoDBDBI := RetagAjuVersaoDBDBICreate(pDBConnection, oVersaoDBEnt);
 
   FAjuVersaoDBTabSheetFormCreator := AjuVersaoDBDataSetFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oVersaoDBEnt, oVersaoDBDBI, AppObj);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oVersaoDBEnt, oVersaoDBDBI, AppObj);
 
-  FAjuVersaoSisFormCreator := AjuVersaoSisFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, AppObj);
+  FAjuVersaoSisFormCreator := AjuVersaoSisFormCreatorCreate(FFormClassNamesSL,
+    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorFin(pAppObj: IAppObj;
@@ -315,8 +345,8 @@ begin
 
   // fin pag forma
   FPagFormaDataSetFormCreator := PagFormaDataSetFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oPagFormaEnt, oPagFormaDBI, AppObj);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oPagFormaEnt, oPagFormaDBI, AppObj);
 
   // fin desp tipo
   oDespTipoEnt := RetagFinDespTipoEntCreate(AppObj.Loja.Id, LogUsuario.Id,
@@ -324,8 +354,8 @@ begin
   oDespTipoDBI := RetagFinDespTipoDBICreate(pDBConnection, oDespTipoEnt);
 
   FDespTipoDataSetFormCreator := DespTipoDataSetFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oDespTipoEnt, oDespTipoDBI, AppObj);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oDespTipoEnt, oDespTipoDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateFormCreatorProd(pAppObj: IAppObj;
@@ -348,50 +378,115 @@ var
 
   oProdEnt: IProdEnt;
   oProdDBI: IEntDBI;
+
+  oEstSaidaEnt: IEstSaidaEnt;
+  oEstSaidaDBI: IEntDBI;
+
+  oInventarioEnt: IInventarioEnt;
+  oInventarioDBI: IEntDBI;
+
+  oEntradaEnt: IEntradaEnt;
+  oEntradaDBI: IEntDBI;
+
+  oEstPromoEnt: IEstPromoEnt;
+  oEstPromoDBI: IEntDBI;
 begin
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
 
   FFabrDataSetFormCreator := FabrDataSetFormCreatorCreate(FFormClassNamesSL,
-    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
-    oFabrEnt, oFabrDBI, AppObj);
+    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify, oFabrEnt,
+    oFabrDBI, AppObj);
 
   oTipoEnt := RetagEstProdTipoEntCreate;
   oTipoDBI := RetagEstProdTipoDBICreate(pDBConnection, oTipoEnt);
 
   FProdTipoDataSetFormCreator := ProdTipoDataSetFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oTipoEnt, oTipoDBI, AppObj);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oTipoEnt, oTipoDBI, AppObj);
 
   oUnidEnt := RetagEstProdUnidEntCreate;
   oUnidDBI := RetagEstProdUnidDBICreate(pDBConnection, oUnidEnt);
 
   FProdUnidDataSetFormCreator := ProdUnidDataSetFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oUnidEnt, oUnidDBI, AppObj);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oUnidEnt, oUnidDBI, AppObj);
 
   oICMSEnt := RetagEstProdICMSEntCreate;
   oICMSDBI := RetagEstProdICMSDBICreate(pDBConnection, oICMSEnt);
 
   FProdICMSDataSetFormCreator := ProdICMSDataSetFormCreatorCreate
-    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
-    FOutputNotify, oICMSEnt, oICMSDBI, AppObj);
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oICMSEnt, oICMSDBI, AppObj);
 
   oProdBarrasList := ProdBarrasListCreate;
   oProdBalancaEnt := ProdBalancaEntCreate;
 
   oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, LogUsuario.Id,
-    pAppObj.SisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt, oICMSEnt,
-    oProdBarrasList, oProdBalancaEnt);
+    pAppObj.SisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt,
+    oICMSEnt, oProdBarrasList, oProdBalancaEnt);
   oProdDBI := RetagEstProdDBICreate(pDBConnection, oProdEnt);
 
   FProdDataSetFormCreator := ProdDataSetFormCreatorCreate(FFormClassNamesSL,
-    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
-    oProdEnt, oProdDBI, AppObj);
+    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify, oProdEnt,
+    oProdDBI, AppObj);
 
   FClienteDataSetFormCreator := ClienteDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
     FOutputNotify, AppObj);
+
+  FFornecedorDataSetFormCreator := FornecedorDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog,
+    FOutputNotify, AppObj);
+
+  oEstSaidaEnt := RetagEstSaidaEntCreate(AppObj.Loja, 0, DATA_ZERADA,
+    DATA_ZERADA);
+
+  oEstSaidaDBI := RetagEstSaidaEntDBICreate(pDBConnection, pAppObj,
+    oEstSaidaEnt, LogUsuario.Id);
+
+  FEstSaidaDataSetFormCreator := EstSaidaEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oEstSaidaEnt, oEstSaidaDBI, AppObj);
+
+
+  oInventarioEnt := RetagInventarioEntCreate(AppObj.Loja, 0, DATA_ZERADA,
+    DATA_ZERADA);
+
+  oInventarioDBI := RetagInventarioEntDBICreate(pDBConnection, pAppObj,
+    oInventarioEnt, LogUsuario.Id);
+
+  FEstInventarioDataSetFormCreator := InventarioEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oInventarioEnt, oInventarioDBI, AppObj);
+
+
+  oEntradaEnt := RetagEntradaEntCreate(AppObj.Loja, 0, DATA_ZERADA,
+    DATA_ZERADA);
+
+  oEntradaDBI := RetagEntradaEntDBICreate(pDBConnection, pAppObj,
+    oEntradaEnt, LogUsuario.Id);
+
+  FEstEntradaDataSetFormCreator := EntradaEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oEntradaEnt, oEntradaDBI, AppObj);
+
+
+  oEstPromoEnt := EstPromoEntCreate(//
+    AppObj.Loja,//
+    0,//promoid
+    '', //nome
+    True,//Ativo
+    DATA_ZERADA,//inicia em
+    DATA_ZERADA//termina em
+    );
+
+  oEstPromoDBI := EstPromoEntDBICreate(pDBConnection, pAppObj,oEstPromoEnt,
+     LogUsuario.Id);
+
+  FEstPromoDataSetFormCreator := EstPromoEntDataSetFormCreatorCreate
+    (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
+    oEstPromoEnt, oEstPromoDBI, AppObj);
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -406,8 +501,8 @@ begin
   FContador := ContadorCreate;
 end;
 
-procedure TRetaguardaModuloBasForm.FinanceiroDespesaTipoActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.FinanceiroDespesaTipoActionExecute
+  (Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FDespTipoDataSetFormCreator);
@@ -488,11 +583,32 @@ begin
   TabSheetCrie(FAjuVersaoDBTabSheetFormCreator);
 end;
 
-procedure TRetaguardaModuloBasForm.RetagAjuVersaoSisActionExecute(
-  Sender: TObject);
+procedure TRetaguardaModuloBasForm.RetagAjuVersaoSisActionExecute
+  (Sender: TObject);
 begin
   inherited;
   TabSheetCrie(FAjuVersaoSisFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstEntFornecedorActExecute
+  (Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FFornecedorDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstEntradaActionExecute
+  (Sender: TObject);
+begin
+  inherited;
+   TabSheetCrie(FEstEntradaDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstInventarioActionExecute
+  (Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FEstInventarioDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstProdActionExecute(Sender: TObject);
@@ -536,6 +652,24 @@ begin
   TabSheetCrie(FProdUnidDataSetFormCreator);
 end;
 
+procedure TRetaguardaModuloBasForm.RetagEstPromoActExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FEstPromoDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstSaidaActExecute(Sender: TObject);
+begin
+  inherited;
+  TabSheetCrie(FEstSaidaDataSetFormCreator);
+end;
+
+procedure TRetaguardaModuloBasForm.RetagEstSaldoActExecute(Sender: TObject);
+begin
+  inherited;
+  //
+end;
+
 procedure TRetaguardaModuloBasForm.RetagEstVenClienteActionExecute
   (Sender: TObject);
 begin
@@ -548,10 +682,17 @@ begin
   inherited;
   RetagAjuBemAction.Execute;
   TestaTesteConfig;
+{$IFDEF DEBUG}
+  // RetagEstEntFornecedorAct.Execute;
+  //RetagEstSaidaAct.Execute;
+  //RetagEstEntradaAction.Execute;
+//  RetagEstProdAction.Execute;
+  RetagEstPromoAct.Execute;
+{$ENDIF}
+
   // RetagEstProdICMSAction.Execute;
   // s l e e p(150);
   // RetagEstProdFabrAction.Execute;
-  // RetagEstProdAction.Execute;
 
   // MenuPageControl.ActivePage := EstoqueTabSheet;
   // FinanceiroPagamentoFormaAction.Execute

@@ -1,10 +1,10 @@
-unit CustomEditBtu;
+﻿unit CustomEditBtu;
 
 interface
 
 uses
   System.SysUtils, Classes, Controls, StdCtrls, ExtCtrls, Messages,
-  windows, Graphics;
+  windows, Graphics, Data.FmtBcd;
 
 type
   TCustomEditBtu = class(TCustomLabeledEdit)
@@ -90,6 +90,7 @@ type
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly;
 
     function GetAsCurrency: currency;
+    function GetAsBcd: TBcd;
     procedure SetParent(AParent: TWinControl); override;
   public
     { Public declarations }
@@ -100,6 +101,7 @@ type
     function AsFloat:double;
     property Digitado:string read FDigitado write SetDigitado;
     property AsCurrency: currency read GetAsCurrency;
+    property AsBcd: TBcd read GetAsBcd;
   published
     { Published declarations }
     property Alignment: TAlignment read FAlignment write SetAlignment default taRightJustify;
@@ -115,6 +117,11 @@ uses Variants, Math{, dialogs}{, Sis.Types.Floats};
 procedure Register;
 begin
 //  RegisterComponents('Edits', [TCustomEditBtu]);
+end;
+
+function TCustomEditBtu.GetAsBcd: TBcd;
+begin
+  CurrToBcd(GetAsCurrency, Result);
 end;
 
 { TCustomEditBtu }
@@ -301,7 +308,7 @@ end;
 
 procedure TCustomEditBtu.PreencherText;
 begin
-  //dever� preencher text a partir de digitado
+  //deverá preencher text a partir de digitado
 end;
 
 function TCustomEditBtu.SemZeroAEsquerda(S: string): string;

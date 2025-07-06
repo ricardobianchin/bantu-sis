@@ -30,7 +30,7 @@ type
 
   public
     { Public declarations }
-    procedure EscondeMens;
+    procedure EscondaMens;
     procedure ExibaMens(pFrase: string);
     procedure Limpar; virtual;
 
@@ -50,24 +50,26 @@ implementation
 
 {$R *.dfm}
 
+uses Sis.UI.ImgDM;
+
 { TComboBoxBasFrame }
 
 procedure TComboBoxBasFrame.ComboBox1Change(Sender: TObject);
 begin
   inherited;
-  EscondeMens;
+  EscondaMens;
 end;
 
 procedure TComboBoxBasFrame.ComboBox1CloseUp(Sender: TObject);
 begin
   inherited;
-  EscondeMens;
+  EscondaMens;
 end;
 
 procedure TComboBoxBasFrame.ComboBox1KeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  EditKeyPress(Sender, key);
+  //EditKeyPress(Sender, key);
   if (Key >= #32) or (Key = #8) then
     ComboBox1.DroppedDown := True;
 end;
@@ -82,7 +84,7 @@ begin
   TitLabel.Caption := sCaption;
 end;
 
-procedure TComboBoxBasFrame.EscondeMens;
+procedure TComboBoxBasFrame.EscondaMens;
 begin
   MensLabel.Visible := false;
 end;
@@ -124,7 +126,7 @@ procedure TComboBoxBasFrame.Limpar;
 begin
   ComboBox1.Items.Clear;
   ComboBox1.Text := '';
-  EscondeMens;
+  EscondaMens;
 end;
 
 procedure TComboBoxBasFrame.PegarItem(pId: integer; pText: string);

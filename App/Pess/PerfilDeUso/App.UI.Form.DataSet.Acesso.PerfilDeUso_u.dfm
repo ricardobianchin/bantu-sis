@@ -1,7 +1,6 @@
 inherited PerfilDeUsoDataSetForm: TPerfilDeUsoDataSetForm
   Caption = 'PerfilDeUsoDataSetForm'
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitLeft = 2
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
     StyleElements = [seFont, seClient, seBorder]

@@ -165,6 +165,7 @@
         <DCCReference Include="Sis\Log_u.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdPreco.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -211,6 +212,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\Exe\Configs\ShopAssist.ini" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Exe\Configs\ShopAssist.ini" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

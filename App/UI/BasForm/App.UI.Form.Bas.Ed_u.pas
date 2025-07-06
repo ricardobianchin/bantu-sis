@@ -16,6 +16,8 @@ type
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
     FAppObj: IAppObj;
+    FTabOrderProximo: integer;
+
     procedure AjusteCaption;
     procedure AjusteObjetivo;
   protected
@@ -40,6 +42,9 @@ type
     procedure ComboKeyPress(Sender: TObject; var Key: Char);
     procedure ComboExit(Sender: TObject);
 
+    procedure TabOrderInicie;
+    procedure TabOrderSet(pWinControl: TWinControl);
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pAppObj: IAppObj; pEntEd: IEntEd;
@@ -53,8 +58,7 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils, Sis.UI.IO.Input.Perg,
-  App.UI.Controls.ComboBox.Select.DB.Frame_u, Sis.Types.strings_u;
+uses App.DB.Utils, App.UI.Controls.ComboBox.Select.DB.Frame_u, Sis.Types.strings_u;
 
 { TEdBasForm }
 
@@ -215,6 +219,17 @@ begin
   finally
     AppObj.CriticalSections.DB.Release;
   end;
+end;
+
+procedure TEdBasForm.TabOrderInicie;
+begin
+  FTabOrderProximo := 0;
+end;
+
+procedure TEdBasForm.TabOrderSet(pWinControl: TWinControl);
+begin
+  pWinControl.TabOrder := FTabOrderProximo;
+  inc(FTabOrderProximo);
 end;
 
 end.

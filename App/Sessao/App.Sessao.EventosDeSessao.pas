@@ -13,6 +13,7 @@ type
     procedure DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
     procedure DoFecharSessao(pSessaoIndex: TSessaoIndex);
     procedure DoAbrirSessao(pSessaoIndex: TSessaoIndex);
+    procedure Pegar(pForm: TObject; pSessoesFrame: TObject);
   end;
 
 implementation

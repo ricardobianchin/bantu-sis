@@ -52,14 +52,16 @@ begin
     + ', ICMS_SIGLA'#13#10 // 14
     + ', ICMS_DESCR'#13#10 // 15
     + ', ICMS_PERC'#13#10 // 16
-    + ', ATIVO'#13#10 // 17
-    + ', LOCALIZ'#13#10 // 18
-    + ', BALANCA_EXIGE'#13#10 // 19
-    + ', CUSTO'#13#10 // 20
-    + ', PRECO'#13#10 // 21
-    + ', CRIADO_EM'#13#10 // 22
-    + ', ALTERADO_EM'#13#10 // 23
-    + ', BARRAS'#13#10 // 24
+
+    + ', PROD_NATU_ID'#13#10 // 17
+    + ', ATIVO'#13#10 // 18
+    + ', LOCALIZ'#13#10 // 19
+    + ', BALANCA_EXIGE'#13#10 // 20
+    + ', CUSTO'#13#10 // 21
+    + ', PRECO'#13#10 // 22
+    + ', CRIADO_EM'#13#10 // 23
+    + ', ALTERADO_EM'#13#10 // 24
+    + ', BARRAS'#13#10 // 25
 
     + 'FROM LOG_HIST_PROD_PA.TEVE_PROD('#13#10 //
 
@@ -114,7 +116,7 @@ begin
       begin
         sSql := DataSetToSqlGarantir(q, 'PROD', 'PROD_ID',
           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-          20, 21, 22, 23]);
+          20, 21, 22, 23, 24]);
         oExecScript.PegueComando(sSql);
         EscrLog('p;'+q.fields[0].AsString+';'+sSql);
 
