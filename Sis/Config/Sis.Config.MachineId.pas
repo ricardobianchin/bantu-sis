@@ -13,6 +13,10 @@ type
     function GetIP: string;
     property IP: string read GetIP write SetIP;
 
+    procedure SetLetraDoDrive(const Value: string);
+    function GetLetraDoDrive: string;
+    property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
+
     procedure Zerar;
 
     function GetIsDataOk: boolean;

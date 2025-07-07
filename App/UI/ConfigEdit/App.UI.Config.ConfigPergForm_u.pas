@@ -321,6 +321,7 @@ procedure TConfigPergForm.ControlesToObjetos;
 begin
   FSisConfig.LocalMachineId.Name := LocalMaqFrame.NomeLabeledEdit.Text;
   FSisConfig.LocalMachineId.IP := LocalMaqFrame.IpLabeledEdit.Text;
+  FSisConfig.LocalMachineId.LetraDoDrive := 'C';
 
   FSisConfig.LocalMachineIsServer := EhServidorCheckBox.Checked;
 
@@ -328,11 +329,13 @@ begin
   begin
     FSisConfig.ServerMachineId.Name := FSisConfig.LocalMachineId.Name;
     FSisConfig.ServerMachineId.IP := FSisConfig.LocalMachineId.IP;
+    FSisConfig.ServerMachineId.LetraDoDrive := FSisConfig.LocalMachineId.LetraDoDrive;
   end
   else
   begin
     FSisConfig.ServerMachineId.Name := ServerMaqFrame.NomeLabeledEdit.Text;
     FSisConfig.ServerMachineId.IP := ServerMaqFrame.IpLabeledEdit.Text;
+    FSisConfig.ServerMachineId.LetraDoDrive := 'C';
   end;
 
   FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;

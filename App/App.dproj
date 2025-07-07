@@ -909,6 +909,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
+        <None Include="..\..\Exe\Configs\Sis.Config.SisConfig.xml"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

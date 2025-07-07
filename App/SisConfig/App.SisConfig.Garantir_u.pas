@@ -124,7 +124,7 @@ begin
   Result := True;
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Execute');
   try
-    oSisConfigXMLI := SisConfigXMLICreate(FSisConfig);
+    oSisConfigXMLI := SisConfigXMLICreate(FSisConfig, FTerminalList);
 
     ProcessLog.RegistreLog('vai testar ArqXmlExiste');
     Result := ArqXmlExiste;
