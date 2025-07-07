@@ -57,12 +57,15 @@ end;
 procedure GravarImportProd;
 begin
   sComando := 'UPDATE IMPORT_PROD SET' + //
-    ' VAI_IMPORTAR=' + BooleanToStrSQL(bAImportar) +//
-    ', NOVO_DESCR=' + QuotedStr(sDescr) +//
-    ', NOVO_DESCR_RED=' + QuotedStr(sDescrRed) +//
-    ', NOVO_CUSTO=' +  CurrencyToStrPonto(uCusto) +//
-    ' WHERE IMPORT_PROD_ID=' + iId.ToString//
-    ;
+    ' VAI_IMPORTAR=' + BooleanToStrSQL(bAImportar) + //
+    ', NOVO_DESCR=' + QuotedStr(sDescr) + //
+    ', NOVO_DESCR_RED=' + QuotedStr(sDescrRed);
+
+  if uCusto > 0 then
+    sComando := sComando + ', NOVO_CUSTO=' + CurrencyToStrPonto(uCusto);
+
+  sComando := sComando + ' WHERE IMPORT_PROD_ID=' + iId.ToString;
+
   oDBConnection.ExecuteSQL(sComando);
   // ComandosSL.Add(sComando);
 end;
@@ -78,17 +81,17 @@ begin
   // ComandosSL.Add(sComando);
 
   sComando := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID'
-    // ', PROD_PRECO_TABELA_ID
+  // ', PROD_PRECO_TABELA_ID
     + ', PRECO) VALUES(' //
     + iId.ToString //
     + ', ' //
-   // ', 1, ' +
-    + CurrencyToStrPonto(aPreco[0])//
+  // ', 1, ' +
+    + CurrencyToStrPonto(aPreco[0]) //
     + ');';
 
-//{$IFDEF DEBUG}
-//  CopyTextToClipboard(sComando);
-//{$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(sComando);
+  // {$ENDIF}
 
   oDBConnection.ExecuteSQL(sComando);
   // ComandosSL.Add(sComando);
