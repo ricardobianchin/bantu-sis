@@ -9,7 +9,8 @@ function Gravou(pProdFDMemTable: TFDMemTable; pFDMemTable: TFDMemTable;
 
 implementation
 
-uses System.Classes, System.SysUtils, Sis.Types.Bool_u, Sis.Types.Floats;
+uses System.Classes, System.SysUtils, Sis.Types.Bool_u, Sis.Types.Floats,
+  Sis.Win.Utils_u;
 
 var
   oProdFDMemTable: TFDMemTable;
@@ -32,7 +33,7 @@ begin
   sDescr := oFDMemTable.Fields[5].AsString;
   sDescrRed := oFDMemTable.Fields[6].AsString;
   uCusto := oFDMemTable.Fields[10].AsCurrency;
-  aPreco[0] := oFDMemTable.Fields[12].AsCurrency;;
+  aPreco[0] := oFDMemTable.Fields[12].AsCurrency;
   sBarras := oFDMemTable.Fields[14].AsString;
   aBarras := sBarras.Split([',']);
 end;
@@ -43,33 +44,52 @@ begin
   oProdFDMemTable.Fields[1].AsBoolean := bAImportar;
   oProdFDMemTable.Fields[5].AsString := sDescr;
   oProdFDMemTable.Fields[6].AsString := sDescrRed;
-  oProdFDMemTable.Fields[10].AsCurrency := uCusto;
-  oProdFDMemTable.Fields[12].AsCurrency := aPreco[0];
-  oProdFDMemTable.Fields[14].AsString := sBarras;
+  if uCusto = 0 then
+    oProdFDMemTable.Fields[18].Clear
+  else
+    oProdFDMemTable.Fields[18].AsCurrency := uCusto;
+  if aPreco[0] > 0 then
+    oProdFDMemTable.Fields[20].AsCurrency := aPreco[0];
+  oProdFDMemTable.Fields[26].AsString := sBarras;
   oProdFDMemTable.Post;
 end;
 
 procedure GravarImportProd;
 begin
-  sComando := 'UPDATE IMPORT_PROD SET' + ' VAI_IMPORTAR=' +
-    BooleanToStrSQL(bAImportar) + ', NOVO_DESCR=' + QuotedStr(sDescr) +
-    ', NOVO_DESCR_RED=' + QuotedStr(sDescrRed) + ', NOVO_CUSTO=' +
-    CurrencyToStrPonto(uCusto) + ' WHERE IMPORT_PROD_ID=' + iId.ToString;
+  sComando := 'UPDATE IMPORT_PROD SET' + //
+    ' VAI_IMPORTAR=' + BooleanToStrSQL(bAImportar) +//
+    ', NOVO_DESCR=' + QuotedStr(sDescr) +//
+    ', NOVO_DESCR_RED=' + QuotedStr(sDescrRed) +//
+    ', NOVO_CUSTO=' +  CurrencyToStrPonto(uCusto) +//
+    ' WHERE IMPORT_PROD_ID=' + iId.ToString//
+    ;
   oDBConnection.ExecuteSQL(sComando);
   // ComandosSL.Add(sComando);
 end;
 
 procedure GravarImportProdPreco;
 begin
-  sComando := 'DELETE FROM IMPORT_PROD_PRECO_NOVO' + ' WHERE IMPORT_PROD_ID=' +
-    iId.ToString + ';';
+  sComando := 'DELETE FROM IMPORT_PROD_PRECO_NOVO' + //
+    ' WHERE IMPORT_PROD_ID=' + //
+    iId.ToString + //
+    ';';
+
   oDBConnection.ExecuteSQL(sComando);
   // ComandosSL.Add(sComando);
 
-  sComando := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID' +
-    //', PROD_PRECO_TABELA_ID
-    ', PRECO) VALUES(' + iId.ToString + //', 1, ' +
-    CurrencyToStrPonto(aPreco[0]) + ');';
+  sComando := 'INSERT INTO IMPORT_PROD_PRECO_NOVO (IMPORT_PROD_ID'
+    // ', PROD_PRECO_TABELA_ID
+    + ', PRECO) VALUES(' //
+    + iId.ToString //
+    + ', ' //
+   // ', 1, ' +
+    + CurrencyToStrPonto(aPreco[0])//
+    + ');';
+
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sComando);
+//{$ENDIF}
+
   oDBConnection.ExecuteSQL(sComando);
   // ComandosSL.Add(sComando);
 
