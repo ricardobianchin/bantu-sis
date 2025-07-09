@@ -3,7 +3,8 @@ unit Sis.Terminal.DBI_u;
 interface
 
 uses Sis.DBI_u, Sis.Terminal.DBI, Sis.Terminal, Sis.DB.DBTypes, System.Classes,
-  Sis.TerminalList, System.Variants, FireDAC.Comp.Client, Data.DB;
+  Sis.TerminalList, System.Variants, FireDAC.Comp.Client, Data.DB,
+  Sis.Config.SisConfig;
 
 type
   TTerminalDBI = class(TDBI, ITerminalDBI)
@@ -15,6 +16,8 @@ type
     /// <param name="pTerminal">The terminal interface where the data will be transferred to.</param>
     /// <param name="pPastaDados">The data folder path.</param>
     /// <param name="pAtivDescr">The activity description.</param>
+
+    function GetSqlTerminal(pTerminalId: SmallInt): string;
   protected
     /// <summary>
     /// Gera o SQL query que poderá ser usada em métodos ForEachTerminal
@@ -55,7 +58,8 @@ type
 
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
 
-    procedure ComplementeList(pTerminalList: ITerminalList);
+    procedure ComplementeList(pTerminalList: ITerminalList;
+      pSisConfig: ISisConfig);
 
   end;
 
@@ -63,13 +67,40 @@ implementation
 
 uses System.SysUtils, Sis.Entities.Types, Sis.Types.Bool_u, Sis.Win.Utils_u,
   Sis.Terminal.Factory_u, Sis.DB.DataSet.Utils, Sis.Types.Variants,
-  Sis.Terminal.Utils_u;
+  Sis.Terminal.Utils_u, Sis.DB.Factory;
 
 { TTerminalDBI }
 
-procedure TTerminalDBI.ComplementeList(pTerminalList: ITerminalList);
+procedure TTerminalDBI.ComplementeList(pTerminalList: ITerminalList;
+  pSisConfig: ISisConfig);
+var
+  i: integer;
+  DBConnection: IDBConnection;
+  oDBConnectionParams: TDBConnectionParams;
+  DBQuery: IDBQuery;
+  sSql: string;
+  oTerminal: ITerminal;
 begin
+  for i := 0 to pTerminalList.Count - 1 do
+  begin
+    oTerminal := pTerminalList[i];
+    oDBConnectionParams.Server := oTerminal.NomeNaRede;
+    oDBConnectionParams.Arq := oTerminal.LocalArqDados;
+    oDBConnectionParams.Database := oTerminal.Database;
 
+    DBConnection := DBConnectionCreate('TerminalGetConn', pSisConfig,
+      oDBConnectionParams, nil, nil);
+    DBConnection.Abrir;
+    try
+      sSql := GetSqlTerminal(oTerminal.TerminalId);
+      DBQuery := DBQueryCreate('TerminalGetQ', DBConnection, sSql, nil, nil);
+      DBQuery.Abrir;
+      DataSetToTerminal(DBQuery.DataSet, oTerminal, '', '');
+      DBQuery.Fechar;
+    finally
+      DBConnection.Fechar;
+    end;
+  end;
 end;
 
 procedure TTerminalDBI.DataSetToDB(pDataSet: TDataSet; pLogLojaId: SmallInt;
@@ -120,7 +151,8 @@ begin
     + ', ' + BooleanToStrSQL(T.FieldByName('SEMPRE_OFFLINE').AsBoolean) //
     + ', ' + BooleanToStrSQL(T.FieldByName('ATIVO').AsBoolean) //
 
-    + ', ' + T.FieldByName('BALANCA_PORTA').AsInteger.ToString // BALANCA_PORTA
+    + ', ' + T.FieldByName('BALANCA_PORTA').AsInteger.ToString
+  // BALANCA_PORTA
     + ', ' + T.FieldByName('BALANCA_BAUDRATE').AsInteger.ToString
   // BALANCA_BAUDRATE
     + ', ' + T.FieldByName('BALANCA_DATABITS').AsInteger.ToString
@@ -239,6 +271,74 @@ begin
       ;
 
   Result := Result + 'ORDER BY TERMINAL_ID'#13#10; //
+end;
+
+function TTerminalDBI.GetSqlTerminal(pTerminalId: SmallInt): string;
+var
+  sTipoDeParametro: string;
+  sValor: string;
+begin
+  Result := 'SELECT'#13#10
+  //
+
+    + '  T.TERMINAL_ID'#13#10 //
+
+    + '  , T.APELIDO'#13#10 //
+    + '  , T.NOME_NA_REDE'#13#10 //
+    + '  , T.IP'#13#10 //
+    + '  , T.LETRA_DO_DRIVE'#13#10 // || '':'' LETRADRIVE'#13#10 //
+
+    + '  , T.NF_SERIE'#13#10 //
+
+    + '  , T.GAVETA_TEM'#13#10 //
+    + '  , T.GAVETA_COMANDO'#13#10 //
+    + '  , T.GAVETA_IMPR_NOME'#13#10 //
+
+    + '  , BMU.BALANCA_MODO_USO_ID'#13#10 //
+    + '  , BMU.DESCR AS BALANCA_MODO_USO_DESCR'#13#10 //
+
+    + '  , B.BALANCA_ID'#13#10 //
+    + '  , B.MODELO BALANCA_FABR_MODELO'#13#10 //
+
+    + '  , T.BARRAS_COD_INI'#13#10 //
+    + '  , T.BARRAS_COD_TAM'#13#10 //
+
+    + '  , IME.IMPRESSORA_MODO_ENVIO_ID'#13#10 //
+    + '  , IME.DESCR IMPRESSORA_MODO_ENVIO_DESCR'#13#10 //
+
+    + '  , IM.IMPRESSORA_MODELO_ID'#13#10 //
+    + '  , IM.DESCR IMPRESSORA_MODELO_DESCR'#13#10 //
+    + '  , T.IMPRESSORA_NOME'#13#10 //
+    + '  , T.IMPRESSORA_COLS_QTD'#13#10 //
+
+    + '  , T.CUPOM_QTD_LINS_FINAL'#13#10 //
+
+    + '  , T.SEMPRE_OFFLINE'#13#10 //
+    + '  , T.ATIVO'#13#10 //
+
+    + '  , T.BALANCA_PORTA'#13#10 //
+    + '  , T.BALANCA_BAUDRATE'#13#10 //
+    + '  , T.BALANCA_DATABITS'#13#10 //
+    + '  , T.BALANCA_PARIDADE'#13#10 //
+    + '  , T.BALANCA_STOPBITS'#13#10 //
+    + '  , T.BALANCA_HANDSHAKING'#13#10 //
+
+    + 'FROM TERMINAL T'#13#10 //
+
+    + 'JOIN BALANCA_MODO_USO BMU ON'#13#10 //
+    + 'T.BALANCA_MODO_USO_ID = BMU.BALANCA_MODO_USO_ID'#13#10 //
+
+    + 'JOIN BALANCA B ON'#13#10 //
+    + 'T.BALANCA_ID = B.BALANCA_ID'#13#10 //
+
+    + 'JOIN IMPRESSORA_MODO_ENVIO IME ON'#13#10 //
+    + 'IME.IMPRESSORA_MODO_ENVIO_ID = T.IMPRESSORA_MODO_ENVIO_ID'#13#10 //
+
+    + 'JOIN IMPRESSORA_MODELO IM ON'#13#10 //
+    + 'IM.IMPRESSORA_MODELO_ID = T.IMPRESSORA_MODELO_ID'#13#10 //
+
+    + 'WHERE T.TERMINAL_ID = ' + pTerminalId.ToString + #13#10 //
+    ;
 end;
 
 procedure TTerminalDBI.ListToDB(pTerminalList: ITerminalList;

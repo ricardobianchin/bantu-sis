@@ -92,6 +92,9 @@ begin
   pTerminal.BALANCA_HANDSHAKING := Q.FieldByName('BALANCA_HANDSHAKING')
     .AsInteger;
 
+  if pPastaDados = '' then
+    exit;
+
   sFormat := '%sDados_%s_Terminal_%.3d.fdb';
   sPasta := pPastaDados;
   iTerm := pTerminal.TerminalId;

@@ -444,7 +444,7 @@ begin
     end
     else
     begin
-      oTerminalDBI.ComplementeList(FAppObj.TerminalList);
+      oTerminalDBI.ComplementeList(FAppObj.TerminalList, FAppObj.SisConfig);
     end;
     // CarregarMachineId;
 
