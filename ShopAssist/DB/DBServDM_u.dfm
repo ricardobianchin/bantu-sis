@@ -17,8 +17,8 @@ object DBServDM: TDBServDM
   object Connection: TFDConnection
     Params.Strings = (
       'Protocol=TCPIP'
-      'Server=DELPHI-BTU'
-      'Database=C:\Pr\app\bantu\bantu-sis\Exe\Dados\dados.fdb'
+      'Server=192.168.0.91'
+      'Database=C:\DarosPDV\Dados\Dados_Mercado_Retaguarda.FDB'
       'User_Name=sysdba'
       'Password=masterkey'
       'DriverID=FB')
