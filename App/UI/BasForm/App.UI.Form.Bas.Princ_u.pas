@@ -52,8 +52,9 @@ type
     function AtualizeVersaoExecutaveis: Boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function Garantir_Config_XML_e_Perg(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
-      pTerminalList: ITerminalList): Boolean;
+    function Garantir_Config_XML_e_Perg(pLoja: IAppLoja;
+      pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
+      out pCriouTerminais: Boolean): Boolean;
 
     procedure CarregarMachineId;
     procedure CarregarLoja;
@@ -106,7 +107,8 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
-  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.Types.Utils_u, App.UI.Form.Perg_u;
+  App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.Types.Utils_u,
+  App.UI.Form.Perg_u, Sis.Usuario.DBI;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -325,7 +327,7 @@ begin
 
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
 
-    //CarregarMachineId;
+    // CarregarMachineId;
 
     ClearStyleElements(TitleBarPanel);
 
@@ -393,26 +395,27 @@ procedure TPrincBasForm.Garanta_Config_e_DB;
 var
   bResultado: Boolean;
   oUsuarioAdmin: IUsuario;
+  oUsuarioAdminDBI: IUsuarioDBI;
   oSisConfig: ISisConfig;
 
   DBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
   sMens: string;
   oTerminalDBI: ITerminalDBI;
+  bCriouTerminais: Boolean;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_e_DB');
   try
     oUsuarioAdmin := UsuarioCreate;
 
-    bResultado := Garantir_Config_XML_e_Perg(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
+    bResultado := Garantir_Config_XML_e_Perg(FLoja, oUsuarioAdmin,
+      FAppObj.TerminalList, bCriouTerminais);
 
     oDBConnectionParams := TerminalIdToDBConnectionParams
       (TERMINAL_ID_RETAGUARDA, FAppObj);
 
     DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
       oDBConnectionParams, ProcessLog, FProcessOutput);
-
-    oTerminalDBI := TerminalDBICreate(DBConnection);
 
     if not bResultado then
     begin
@@ -426,7 +429,24 @@ begin
     bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
       oUsuarioAdmin, DBUpdaterVariaveis);
 
-    //CarregarMachineId;
+    oTerminalDBI := TerminalDBICreate(DBConnection);
+    if bCriouTerminais then
+    begin
+      if oUsuarioAdmin.Id = 0 then
+      begin
+        oUsuarioAdminDBI := UsuarioDBICreate(DBConnection, oUsuarioAdmin,
+          FAppObj.SisConfig);
+        oUsuarioAdminDBI.LeiaAdmin;
+      end;
+
+      oTerminalDBI.ListToDB(FAppObj.TerminalList, FLoja.Id, oUsuarioAdmin.Id,
+        FAppObj.SisConfig.LocalMachineId.IdentId);
+    end
+    else
+    begin
+      oTerminalDBI.ComplementeList(FAppObj.TerminalList);
+    end;
+    // CarregarMachineId;
 
     if not bResultado then
     begin
@@ -444,8 +464,9 @@ begin
   end;
 end;
 
-function TPrincBasForm.Garantir_Config_XML_e_Perg(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
-  pTerminalList: ITerminalList): Boolean;
+function TPrincBasForm.Garantir_Config_XML_e_Perg(pLoja: IAppLoja;
+  pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
+  out pCriouTerminais: Boolean): Boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
@@ -460,6 +481,7 @@ begin
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
 
     Result := oAppSisConfigGarantirXML.Execute;
+    pCriouTerminais := oAppSisConfigGarantirXML.CriouTerminais;
 
     sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
     FProcessLog.RegistreLog(sLog);

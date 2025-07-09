@@ -247,10 +247,6 @@ var
   sDel: string;
   i: integer;
 begin
-  sDel := 'DELETE FROM TERMINAL where terminal_id > 0;';
-
-  DBConnection.ExecuteSQL(sDel);
-
   for i := 0 to pTerminalList.Count - 1 do
   begin
     TerminalToDB(pTerminalList[i], pLogLojaId, pLogUsuarioId,
