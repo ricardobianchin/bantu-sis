@@ -48,11 +48,11 @@ type
     FDBUpdaterVariaveis: string;
     FPrecisaFechar: Boolean;
 
-    procedure GarantaDB;
+    procedure Garanta_Config_e_DB;
     function AtualizeVersaoExecutaveis: Boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
+    function Garantir_Config_XML_e_Perg(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
       pTerminalList: ITerminalList): Boolean;
 
     procedure CarregarMachineId;
@@ -307,7 +307,7 @@ begin
       FPrecisaFechar := True;
       exit;
     end;
-    GarantaDB;
+    Garanta_Config_e_DB;
 
     // if FLoja.Id < 1 then
     // begin
@@ -325,7 +325,7 @@ begin
 
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
 
-    CarregarMachineId;
+    //CarregarMachineId;
 
     ClearStyleElements(TitleBarPanel);
 
@@ -389,7 +389,7 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.GarantaDB;
+procedure TPrincBasForm.Garanta_Config_e_DB;
 var
   bResultado: Boolean;
   oUsuarioAdmin: IUsuario;
@@ -400,11 +400,11 @@ var
   sMens: string;
   oTerminalDBI: ITerminalDBI;
 begin
-  FProcessLog.PegueLocal('TPrincBasForm.GarantaDB');
+  FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_e_DB');
   try
     oUsuarioAdmin := UsuarioCreate;
 
-    bResultado := GarantirConfig(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
+    bResultado := Garantir_Config_XML_e_Perg(FLoja, oUsuarioAdmin, FAppObj.TerminalList);
 
     oDBConnectionParams := TerminalIdToDBConnectionParams
       (TERMINAL_ID_RETAGUARDA, FAppObj);
@@ -417,7 +417,7 @@ begin
     if not bResultado then
     begin
       FProcessLog.RegistreLog
-        ('GarantirConfig retornou false, Application.Terminate');
+        ('Garantir_Config_XML_e_Perg retornou false, Application.Terminate');
       Application.Terminate;
       exit;
     end;
@@ -425,6 +425,8 @@ begin
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
       oUsuarioAdmin, DBUpdaterVariaveis);
+
+    //CarregarMachineId;
 
     if not bResultado then
     begin
@@ -442,20 +444,21 @@ begin
   end;
 end;
 
-function TPrincBasForm.GarantirConfig(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
+function TPrincBasForm.Garantir_Config_XML_e_Perg(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
   pTerminalList: ITerminalList): Boolean;
 var
   oAppSisConfigGarantirXML: IAppSisConfigGarantirXML;
   sLog: string;
   oSisConfig: ISisConfig;
 begin
-  FProcessLog.PegueLocal('TPrincBasForm.GarantirConfig');
+  FProcessLog.PegueLocal('TPrincBasForm.Garantir_Config_XML_e_Perg');
   try
     oSisConfig := FAppObj.SisConfig;
 
     oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
       pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList);
     FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
+
     Result := oAppSisConfigGarantirXML.Execute;
 
     sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');

@@ -32,6 +32,20 @@ object ConfigPergForm: TConfigPergForm
     DesignSize = (
       972
       555)
+    object ServerArqConfigErroLabel: TLabel
+      Left = 187
+      Top = 139
+      Width = 132
+      Height = 13
+      Caption = 'ServerArqConfigErroLabel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 192
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      StyleElements = [seClient, seBorder]
+    end
     object ToolBar1: TToolBar
       Left = 16
       Top = 519
@@ -66,8 +80,8 @@ object ConfigPergForm: TConfigPergForm
     end
     object EhServidorCheckBox: TCheckBox
       AlignWithMargins = True
-      Left = 16
-      Top = 122
+      Left = 6
+      Top = 118
       Width = 178
       Height = 17
       Margins.Left = 15
@@ -95,31 +109,31 @@ object ConfigPergForm: TConfigPergForm
         Action = BuscaLocalNomeAction
       end
     end
-    object ServerConfigLabeledEdit: TLabeledEdit
+    object ServerArqConfigLabeledEdit: TLabeledEdit
       AlignWithMargins = True
-      Left = 199
-      Top = 118
-      Width = 440
+      Left = 187
+      Top = 114
+      Width = 462
       Height = 25
-      EditLabel.Width = 180
+      EditLabel.Width = 160
       EditLabel.Height = 17
-      EditLabel.Caption = 'Arquivo config.xml do servidor'
+      EditLabel.Caption = 'Arquivo config. do servidor'
       MaxLength = 20
       TabOrder = 6
       Text = ''
     end
     object UsuAdminGroupBox: TGroupBox
       Left = 666
-      Top = 146
+      Top = 153
       Width = 300
-      Height = 337
+      Height = 333
       Anchors = [akTop, akRight]
       Caption = 'Login do Administrador'
       TabOrder = 1
       Visible = False
       object LoginErroLabel: TLabel
         Left = 2
-        Top = 322
+        Top = 318
         Width = 296
         Height = 13
         Align = alBottom
@@ -349,18 +363,18 @@ object ConfigPergForm: TConfigPergForm
       end
     end
     object ServerConfigSelectButton: TButton
-      Left = 641
-      Top = 118
+      Left = 653
+      Top = 114
       Width = 25
       Height = 25
-      Caption = '...'
+      Action = ServConfigSelectAction
       TabOrder = 5
     end
     object TerminaisGroupBox: TGroupBox
       Left = 6
-      Top = 146
+      Top = 153
       Width = 654
-      Height = 337
+      Height = 333
       Caption = 'Terminais'
       TabOrder = 7
     end
@@ -399,8 +413,16 @@ object ConfigPergForm: TConfigPergForm
       ImageIndex = 2
       OnExecute = BuscaLocalNomeActionExecute
     end
+    object ServConfigSelectAction: TAction
+      Caption = '...'
+      Hint = 'Indique arquivo de config do servidor'
+      OnExecute = ServConfigSelectActionExecute
+    end
   end
   object OpenDialog1: TOpenDialog
+    FileName = '\\SERVER-DAROS\DarosPDV\Configs\Sis.Config.SisConfig.xml'
+    Filter = 'Arq. Config|Sis.Config.SisConfig.xml'
+    Options = [ofReadOnly, ofHideReadOnly, ofNoChangeDir, ofPathMustExist, ofFileMustExist, ofShareAware, ofEnableSizing]
     Left = 279
     Top = 216
   end

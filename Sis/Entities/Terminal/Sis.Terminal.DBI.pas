@@ -17,6 +17,8 @@ type
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
 
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
+
+    procedure ComplementeList(pTerminalList: ITerminalList);
   end;
 
 implementation

@@ -13,11 +13,82 @@ implementation
 
 uses Sis.DB.Factory, Sis.DB.Updater, Sis.DB.Updater.Factory, App.DB.Utils,
   Sis.Sis.Constants, Sis.Terminal, Sis.Entities.Types, Sis.Lists.IntegerList,
-  Sis.Types.Integers, App.AppInfo.Types, Sis.Terminal.Factory_u;
+  Sis.Types.Integers, App.AppInfo.Types, Sis.Terminal.Factory_u,
+  App.SisConfig.DBI, App.SisConfig.Factory, Sis.Terminal.Utils_u,
+  System.SysUtils, System.Classes;
 
 var
   DBMSConfig: IDBMSConfig;
   DBMS: IDBMS;
+
+procedure CarregarMachineId(pAppObj: IAppObj; pProcessLog: IProcessLog;
+  pOutput: IOutput);
+var
+  oSisConfigDBI: ISisConfigDBI;
+  sNomeArq: string;
+  bLeuArq: boolean;
+  SL: TStringList;
+  i: integer;
+  sNomeServ: string;
+  sNomeLocal: string;
+  sLinha: string;
+begin
+  {
+    primeiro tenta ler do txt local
+    se leu, aborta
+    se nao der certo,
+    tenta ler do db servidor
+    grava txt local
+  }
+  SL := TStringList.Create;
+  try
+    sNomeArq := pAppObj.AppInfo.PastaConfigs + 'Sis.Config.MachineId.ini';
+    try
+      bLeuArq := FileExists(sNomeArq);
+      if not bLeuArq then
+        exit;
+
+      SL.LoadFromFile(sNomeArq);
+
+      // ler serv
+      sNomeServ := pAppObj.SisConfig.ServerMachineId.Name;
+      i := StrToIntDef(SL.Values[sNomeServ], 0);
+      bLeuArq := i > 0;
+      if not bLeuArq then
+        exit;
+      pAppObj.SisConfig.ServerMachineId.IdentId := i;
+
+      // ler term
+      sNomeLocal := pAppObj.SisConfig.LocalMachineId.Name;
+      i := StrToIntDef(SL.Values[sNomeLocal], 0);
+      bLeuArq := i > 0;
+      if not bLeuArq then
+        exit;
+      pAppObj.SisConfig.LocalMachineId.IdentId := i;
+
+    finally
+      if not bLeuArq then
+      begin
+        oSisConfigDBI := SisConfigDBICreate(pAppObj, DBMS, pProcessLog,
+          pOutput);
+        oSisConfigDBI.LerMachineIdent;
+
+        SL.Clear;
+
+        sLinha := pAppObj.SisConfig.ServerMachineId.Name + '=' +
+          inttostr(pAppObj.SisConfig.ServerMachineId.IdentId);
+        SL.Add(sLinha);
+
+        sLinha := pAppObj.SisConfig.LocalMachineId.Name + '=' +
+          inttostr(pAppObj.SisConfig.LocalMachineId.IdentId);
+        SL.Add(sLinha);
+        SL.SaveToFile(sNomeArq);
+      end;
+    end;
+  finally
+    SL.Free;
+  end;
+end;
 
 function GarantirDBServ(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
@@ -64,7 +135,8 @@ begin
 
   if pAppObj.TerminalList.Count = 0 then
   begin
-    sAtivDescr := AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis];
+    sAtivDescr := AtividadeEconomicaSisDescr
+      [pAppObj.AppInfo.AtividadeEconomicaSis];
     rDBConnectionParams := TerminalIdToDBConnectionParams
       (TERMINAL_ID_RETAGUARDA, pAppObj);
 
@@ -83,6 +155,16 @@ begin
       oTerminal := pAppObj.TerminalList[iIndex];
 
       rDBConnectionParams.Server := oTerminal.NomeNaRede;
+
+      if oTerminal.LocalArqDados = '' then
+      begin
+        oTerminal.LocalArqDados := Sis.Terminal.Utils_u.GetTermLocalArqDados
+          (pAppObj.AppInfo.PastaDados, oTerminal.TerminalId,
+          AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis]);
+        oTerminal.Database := oTerminal.NomeNaRede + ':' +
+          oTerminal.LocalArqDados;
+      end;
+
       rDBConnectionParams.Arq := oTerminal.LocalArqDados;
       rDBConnectionParams.Database := oTerminal.Database;
 
@@ -132,6 +214,8 @@ begin
         exit;
       end;
     end;
+
+    CarregarMachineId(pAppObj, pProcessLog, pOutput);
 
     GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioAdmin,
       pVariaveis);

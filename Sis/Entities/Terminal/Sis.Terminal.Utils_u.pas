@@ -7,9 +7,21 @@ uses Data.DB, Sis.Terminal;
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
   pPastaDados, pAtivDescr: string);
 
+function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt; pAtivDescr: string): string;
+
 implementation
 
 uses Sis.Entities.Types, System.SysUtils;
+
+function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt; pAtivDescr: string): string;
+var
+  sLetraDoDrive: string;
+  sFormat: string;
+begin
+  sFormat := '%sDados_%s_Terminal_%.3d.fdb';
+
+  Result := Format(sFormat, [pPastaDados, pAtivDescr, pTerminalId]);
+end;
 
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
   pPastaDados, pAtivDescr: string);

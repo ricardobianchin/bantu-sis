@@ -14,6 +14,10 @@ type
     procedure SetLocalMachineIsServer(const Value: boolean);
     property LocalMachineIsServer: boolean read GetLocalMachineIsServer write SetLocalMachineIsServer;
 
+    function GetServerArqConfig: string;
+    procedure SetServerArqConfig(const Value: string);
+    property ServerArqConfig: string read GetServerArqConfig write SetServerArqConfig;
+
     function GetServerMachineId: IMachineId;
     property ServerMachineId: IMachineId read GetServerMachineId;
 

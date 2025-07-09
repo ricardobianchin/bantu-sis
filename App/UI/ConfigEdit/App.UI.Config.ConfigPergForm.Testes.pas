@@ -15,6 +15,7 @@ type
   public
     TesteEhServ: boolean;
     TesteMaqLocalBuscaNome: boolean;
+    ServerArqConfig: string;
 
     TesteUsuPreenche: boolean;
     TesteUsuNomeCompleto: string;
@@ -69,11 +70,15 @@ begin
     // MAQ LOCAL
     IniFile.WriteBool('form', 'maqlocal_buscanome', TesteMaqLocalBuscaNome);
 
+    IniFile.WriteString('form', 'usu_admin_preenche', ServerArqConfig);
+
     // SE É SERVIDOR
     IniFile.WriteBool('form', 'ehserver', TesteEhServ);
 
     // USUARIO ADMINISTRADOR
     IniFile.WriteBool('form', 'usu_admin_preenche', TesteUsuPreenche);
+
+
     IniFile.WriteString('form', 'usu_admin_nomecompleto',
       TesteUsuNomeCompleto);
     IniFile.WriteString('form', 'usu_admin_nomeexib', TesteUsuNomeExib);
@@ -110,6 +115,9 @@ begin
     // MAQ LOCAL
     TesteMaqLocalBuscaNome := IniFile.ReadBool('form',
       'maqlocal_buscanome', False);
+
+    ServerArqConfig := IniFile.ReadString('form',
+      'server_caminho_de_rede', '');
 
     // SE É SERVIDOR
     TesteEhServ := IniFile.ReadBool('form', 'ehserver', False);

@@ -14,20 +14,21 @@ type
     function PrepLer: boolean; override;
     function PrepGravar: boolean; override;
   public
-    constructor Create(pSisConfig: ISisConfig; pTerminalList: ITerminalList; pProcessLog: IProcessLog = nil;
-      pOutput: IOutput = nil);
+    constructor Create(pSisConfig: ISisConfig; pTerminalList: ITerminalList;
+      pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
   end;
 
 implementation
 
 uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, {System.Win.ComObj}
-  System.TypInfo, Sis.Types.Bool_u, Sis.DB.DBTypes,
-  Sis.Types.Floats, Sis.Win.VersionInfo, Sis.Win.Utils_u, Sis.Sis.Constants;
+  System.TypInfo, Sis.Types.Bool_u, Sis.DB.DBTypes, Sis.Terminal,
+  Sis.Types.Floats, Sis.Win.VersionInfo, Sis.Win.Utils_u, Sis.Sis.Constants,
+  Sis.Terminal.Factory_u;
 
 { TSisConfigXMLI }
 
-constructor TSisConfigXMLI.Create(pSisConfig: ISisConfig; pTerminalList: ITerminalList;
-  pProcessLog: IProcessLog; pOutput: IOutput);
+constructor TSisConfigXMLI.Create(pSisConfig: ISisConfig;
+  pTerminalList: ITerminalList; pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   inherited Create('CONFIG', CONFIG_ARQ_NOME, CONFIG_ARQ_EXT, '', False,
     pProcessLog, pOutput);
@@ -37,9 +38,12 @@ end;
 
 function TSisConfigXMLI.PrepGravar: boolean;
 var
-  ServerNode, ServerNomeNode, ServerIpNode, ServerLetraDoDriveNode, IsServerNode, LocalNode,
-    LocalNomeNode, LocalIpNode, LocalLetraDoDriveNode, DBMSNode, SoftwareNode, VersaoDBMSNode,
-    DBFrameworNode, WinNode, VersaoSONode, CSDVersionNode, WinPlatformNode
+  i: integer;
+  ServerNode, ServerNomeNode, ServerIpNode, ServerLetraDoDriveNode,
+    IsServerNode, LocalNode, LocalNomeNode, LocalIpNode, LocalLetraDoDriveNode,
+    ServerArqConfigNode, DBMSNode, SoftwareNode, VersaoDBMSNode, DBFrameworNode,
+    WinNode, VersaoSONode, CSDVersionNode, WinPlatformNode, TerminaisNode,
+    TerminalNode
 
     : IXMLNODE;
   s: string;
@@ -62,6 +66,9 @@ begin
     IsServerNode := ServerNode.AddChild('EH_SERVIDOR');
     s := BooleanToStr(FSisConfig.LocalMachineIsServer);
     IsServerNode.Text := s;
+
+    ServerArqConfigNode := ServerNode.AddChild('ARQ_CONFIG');
+    ServerArqConfigNode.Text := FSisConfig.ServerArqConfig;
   end;
 
   LocalNode := RootNode.AddChild('LOCAL');
@@ -74,6 +81,17 @@ begin
 
     LocalLetraDoDriveNode := LocalNode.AddChild('LETRA_DO_DRIVE');
     LocalLetraDoDriveNode.Text := FSisConfig.LocalMachineId.LetraDoDrive;
+  end;
+
+  TerminaisNode := RootNode.AddChild('TERMINAIS');
+  begin
+    for i := 0 to FTerminalList.Count - 1 do
+    begin
+      TerminalNode := TerminaisNode.AddChild('TERMINAL');
+      TerminalNode.Attributes['ID'] := FTerminalList[i].TerminalId;
+      TerminalNode.AddChild('NOME').Text := FTerminalList[i].NomeNaRede;
+      TerminalNode.AddChild('IP').Text := FTerminalList[i].IP;
+    end;
   end;
 
   DBMSNode := RootNode.AddChild('DBMS');
@@ -104,11 +122,14 @@ end;
 function TSisConfigXMLI.PrepLer: boolean;
 var
   ServerNode, ServerNomeNode, ServerIpNode, IsServerNode, LocalNode,
-    LocalNomeNode, LocalIpNode, DBMSNode, SoftwareNode, VersaoDBMSNode,
-    DBFrameworNode, WinNode, VersaoSONode, CSDVersionNode, WinPlatformNode
+    LocalNomeNode, LocalIpNode, ServerArqConfigNode, DBMSNode, SoftwareNode,
+    VersaoDBMSNode, DBFrameworNode, WinNode, VersaoSONode, CSDVersionNode,
+    WinPlatformNode, TerminaisNode, TerminalNode
 
     : IXMLNODE;
   s: string;
+  i: integer;
+  oTerminal: ITerminal;
 begin
   Result := Inherited;
   if not Result then
@@ -125,6 +146,10 @@ begin
     IsServerNode := ServerNode.ChildNodes.FindNode('EH_SERVIDOR');
     s := IsServerNode.Text;
     FSisConfig.LocalMachineIsServer := StrToBool(s);
+
+    ServerArqConfigNode := ServerNode.ChildNodes.FindNode('ARQ_CONFIG');
+    FSisConfig.ServerArqConfig := ServerArqConfigNode.Text;
+
   end;
 
   LocalNode := RootNode.ChildNodes.FindNode('LOCAL');
@@ -134,6 +159,24 @@ begin
 
     LocalIpNode := LocalNode.ChildNodes.FindNode('IP');
     FSisConfig.LocalMachineId.IP := LocalIpNode.Text;
+  end;
+
+  TerminaisNode := RootNode.ChildNodes.FindNode('TERMINAIS');
+  if Assigned(TerminaisNode) then
+  begin
+    // Count terminal nodes
+    FTerminalList.Clear;
+
+    // Read each TERMINAL node
+    for i := 0 to TerminaisNode.ChildNodes.Count - 1 do
+    begin
+      TerminalNode := TerminaisNode.ChildNodes[i];
+      oTerminal := TerminalCreate;
+      FTerminalList.Add(oTerminal);
+      oTerminal.TerminalId := StrToIntDef(TerminalNode.Attributes['ID'], 0);
+      oTerminal.NomeNaRede := TerminalNode.ChildNodes['NOME'].Text;
+      oTerminal.IP := TerminalNode.ChildNodes['IP'].Text;
+    end;
   end;
 
   DBMSNode := RootNode.ChildNodes.FindNode('DBMS');

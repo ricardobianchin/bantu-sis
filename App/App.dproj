@@ -906,6 +906,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.EstPromoItem.DBI_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.EventosDeSessao_u.pas"/>
         <DCCReference Include="Modulos\PDV\Controlador\App.PDV.Controlador_u.pas"/>
+        <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.CarregaServ.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

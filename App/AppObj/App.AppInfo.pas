@@ -50,6 +50,9 @@ type
     function GetPastaDados: string;
     property PastaDados: string read GetPastaDados;
 
+    function GetPastaDadosServ: string;
+    property PastaDadosServ: string read GetPastaDadosServ;
+
     function GetPastaTmp: string;
     property PastaTmp: string read GetPastaTmp;
 

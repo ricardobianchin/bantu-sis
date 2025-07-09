@@ -54,6 +54,9 @@ type
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
 
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
+
+    procedure ComplementeList(pTerminalList: ITerminalList);
+
   end;
 
 implementation
@@ -63,6 +66,11 @@ uses System.SysUtils, Sis.Entities.Types, Sis.Types.Bool_u, Sis.Win.Utils_u,
   Sis.Terminal.Utils_u;
 
 { TTerminalDBI }
+
+procedure TTerminalDBI.ComplementeList(pTerminalList: ITerminalList);
+begin
+
+end;
 
 procedure TTerminalDBI.DataSetToDB(pDataSet: TDataSet; pLogLojaId: SmallInt;
   pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);

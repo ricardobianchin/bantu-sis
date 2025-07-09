@@ -20,6 +20,7 @@ type
     FPastaConfigs: string;
     FPastaTmp: string;
     FPastaDados: string;
+    FPastaDadosServ: string;
     FPastaImg: string;
     FPastaDocs: string;
     FPastaComandos: string;
@@ -63,11 +64,13 @@ type
 
     function GetPastaDados: string;
 
+    function GetPastaDadosServ: string;
+    procedure SetPastaDadosServ(Value: string);
+
     function GetAtualizExeSubPasta: string;
     function GetAtualizExeURL: string;
 
     function Get_InstUpdate_ExcluiLocalAntesDoDownload: boolean;
-
 
     function GetAtividadeEconomicaSis: TAtividadeEconomicaSis;
     procedure SetAtividadeEconomicaSis(Value: TAtividadeEconomicaSis);
@@ -95,6 +98,7 @@ type
     property PastaConfigs: string read GetPastaConfigs;
     property PastaTmp: string read GetPastaTmp;
     property PastaDados: string read GetPastaDados;
+    property PastaDadosServ: string read GetPastaDadosServ write SetPastaDadosServ;
 
     property AtualizExeSubPasta: string read GetAtualizExeSubPasta;
     property AtualizExeURL: string read GetAtualizExeURL;
@@ -144,6 +148,8 @@ begin
 
   FPastaDados := FPasta + 'Dados\';
   ForceDirectories(FPastaDados);
+
+  FPastaDadosServ := 'C:\DarosPDV\Dados\';
 
   FPastaTmp := FPasta + 'Tmp\';
   ForceDirectories(FPastaTmp);
@@ -225,6 +231,11 @@ begin
   Result := FPastaDados;
 end;
 
+function TAppInfo.GetPastaDadosServ: string;
+begin
+  Result := FPastaDadosServ;
+end;
+
 function TAppInfo.GetPastaDocs: string;
 begin
   Result := FPastaDocs;
@@ -278,6 +289,11 @@ end;
 procedure TAppInfo.SetNomeExib(Value: string);
 begin
   FNomeExib := Value;
+end;
+
+procedure TAppInfo.SetPastaDadosServ(Value: string);
+begin
+  FPastaDadosServ := Value;
 end;
 
 procedure TAppInfo.SetPessoaDonoId(Value: integer);
