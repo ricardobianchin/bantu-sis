@@ -90,7 +90,7 @@ begin
   Result.Connection.LoginPrompt := false;
   sDriver := 'FB';
   sServer := IdentStr(Config.Server.Nome, Config.Server.IP);
-  sArq := sPastaDados + 'dados_mercado_retaguarda.fdb';
+  sArq := sPastaDadosServ + 'dados_mercado_retaguarda.fdb';
 
   Result.Connection.Params.Text := //
     'DriverID=' + sDriver + #13#10 //
@@ -128,6 +128,7 @@ begin
   sPastaBin := IncludeTrailingPathDelimiter(GetCurrentDir);
   sPastaProduto := PastaAcima(sPastaBin);
   sPastaDados := sPastaProduto + 'Dados\';
+  sPastaDadosServ := 'C:\DarosPDV\Dados\';
   sPastaConfig := sPastaProduto + 'Configs\';
   sPastaTmp := sPastaProduto + 'Tmp\';
 

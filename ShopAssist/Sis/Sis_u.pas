@@ -10,6 +10,7 @@ var
   sPastaBin: string;
   sPastaProduto: string;
   sPastaDados: string;
+  sPastaDadosServ: string;
   sPastaTmp: string;
   sPastaConfig: string;
   bAtivo: Boolean;
