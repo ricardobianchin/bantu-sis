@@ -7,7 +7,7 @@ uses
   Sis.Config.SisConfig, Sis.ui.io.output.ProcessLog, Sis.DB.DBTypes,
   Sis.DB.Updater.Comando.List, Sis.DB.Updater.Operations, Sis.Loja, Sis.Usuario,
   Sis.Entities.Types, Sis.DB.Updater.PontoAlvo.Utils_u, Vcl.Forms,
-  Sis.TerminalList, Sis.Terminal, Sis.DB.Updater_u.Teste, Sis.Terminal.DBI;
+  Sis.Terminal, Sis.DB.Updater_u.Teste, Sis.Terminal.DBI;
 
 type
   TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
@@ -48,7 +48,6 @@ type
     FDBConnection: IDBConnection;
 
     FDBUpdaterOperations: IDBUpdaterOperations;
-    FTerminalList: ITerminalList;
 
     FLoja: ISisLoja;
     FUsuarioAdmin: IUsuario;
@@ -175,7 +174,7 @@ type
       pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
       pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
       pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
-      pTerminalList: ITerminalList; pVariaveis: string);
+      pVariaveis: string);
     destructor Destroy; override;
   end;
 
@@ -194,8 +193,7 @@ uses System.SysUtils, System.StrUtils, Sis.DB.Updater.Factory,
 constructor TDBUpdater.Create(pTerminalId: TTerminalId;
   pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
   pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
-  pLoja: ISisLoja; pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
-  pVariaveis: string);
+  pLoja: ISisLoja; pUsuarioAdmin: IUsuario; pVariaveis: string);
 var
   sConnNome: string;
 begin
@@ -203,7 +201,6 @@ begin
 
   FVariaveis.Text := pVariaveis;
   FTerminalId := pTerminalId;
-  FTerminalList := pTerminalList;
   FDBUpdaterPontoAlvo := TerminalIdToPontoAlvo(FTerminalId);
   FsDBUpdaterPontoAlvo :=
     AnsiUpperCase(DBUpdaterPontoAlvoNomes[FDBUpdaterPontoAlvo]);
@@ -387,9 +384,9 @@ begin
       iVersao := DBDescubraVersaoEConecte;
       FProcessLog.RegistreLog('iVersao' + iVersao.ToString);
 
-      Sis.DB.Updater_u.Teste.ResetBanco(FDBConnectionParams, FDBMS,
-        FTerminalList.TerminalIdToTerminal(TerminalId),
-        FPastaProduto + 'Comandos\Updater\', FProcessLog, FOutput);
+//      Sis.DB.Updater_u.Teste.ResetBanco(FDBConnectionParams, FDBMS,
+//        FTe rminal L ist.T ermina lI dToT er minal(T erminalI d),
+//        FPastaProduto + 'Comandos\Updater\', FProcessLog, FOutput);
       try
         repeat
           FOutput.Exibir('');
@@ -827,9 +824,6 @@ begin
 
   pDBConnection.ExecuteSql('UPDATE USUARIO SET DE_SISTEMA=TRUE' +
     ' WHERE PESSOA_ID < 0;');
-
-  FTerminalDBI.ListToDB(FTerminalList, FLoja.Id, FUsuarioAdmin.Id,
-    FSisConfig.LocalMachineId.IdentId);
 end;
 
 function TDBUpdater.GravarIniciais_CrieGerenteInicial(pDBConnection

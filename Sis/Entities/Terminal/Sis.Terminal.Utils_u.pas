@@ -2,18 +2,20 @@ unit Sis.Terminal.Utils_u;
 
 interface
 
-uses Data.DB, Sis.Terminal;
+uses Data.DB, Sis.Terminal, Sis.DB.DBTypes;
 
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
   pPastaDados, pAtivDescr: string);
 
-function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt; pAtivDescr: string): string;
+function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt;
+  pAtivDescr: string): string;
 
 implementation
 
 uses Sis.Entities.Types, System.SysUtils;
 
-function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt; pAtivDescr: string): string;
+function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt;
+  pAtivDescr: string): string;
 var
   sLetraDoDrive: string;
   sFormat: string;

@@ -104,7 +104,7 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
   System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Usuario.Factory,
-  App.SisConfig.Garantir, App.DB.Garantir, Sis.Loja.Factory, Sis.UI.IO.Files,
+  App.SisConfig.Garantir, App.DB.Garantir_u, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
   App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.Types.Utils_u,
@@ -309,6 +309,7 @@ begin
       FPrecisaFechar := True;
       exit;
     end;
+
     Garanta_Config_e_DB;
 
     // if FLoja.Id < 1 then
@@ -427,26 +428,7 @@ begin
 
     oSisConfig := FAppObj.SisConfig;
     bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
-      oUsuarioAdmin, DBUpdaterVariaveis);
-
-    oTerminalDBI := TerminalDBICreate(DBConnection);
-    if bCriouTerminais then
-    begin
-      if oUsuarioAdmin.Id = 0 then
-      begin
-        oUsuarioAdminDBI := UsuarioDBICreate(DBConnection, oUsuarioAdmin,
-          FAppObj.SisConfig);
-        oUsuarioAdminDBI.LeiaAdmin;
-      end;
-
-      oTerminalDBI.ListToDB(FAppObj.TerminalList, FLoja.Id, oUsuarioAdmin.Id,
-        FAppObj.SisConfig.LocalMachineId.IdentId);
-    end
-    else
-    begin
-      oTerminalDBI.ComplementeList(FAppObj.TerminalList, FAppObj.SisConfig);
-    end;
-    // CarregarMachineId;
+      oUsuarioAdmin, DBUpdaterVariaveis, bCriouTerminais);
 
     if not bResultado then
     begin
@@ -455,6 +437,10 @@ begin
       Application.Terminate;
       exit;
     end;
+
+    oTerminalDBI := TerminalDBICreate(DBConnection);
+    oTerminalDBI.ComplementeList(FAppObj.TerminalList, FAppObj.SisConfig);
+
     oSisConfig := FAppObj.SisConfig;
     FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
     FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);

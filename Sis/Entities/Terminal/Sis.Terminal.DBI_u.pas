@@ -1,4 +1,4 @@
-unit Sis.Terminal.DBI_u;
+ï»¿unit Sis.Terminal.DBI_u;
 
 interface
 
@@ -18,27 +18,28 @@ type
     /// <param name="pAtivDescr">The activity description.</param>
 
     function GetSqlTerminal(pTerminalId: SmallInt): string;
+    function GetSQLTerminalGar(pTerminal: ITerminal): string;
   protected
     /// <summary>
-    /// Gera o SQL query que poderá ser usada em métodos ForEachTerminal
+    /// Gera o SQL query que poderï¿½ ser usada em mï¿½todos ForEachTerminal
     /// </summary>
     /// <param name="pValues">
     /// array de parametros a serem usados na sql query
     /// deve ser nulo ou formado por exatamente dois elementos
     ///
-    /// se for nulo, o SQL query criado retornará todos os terminais
+    /// se for nulo, o SQL query criado retornarï¿½ todos os terminais
     ///
     /// se nao for nulo, os valores dos elementos devem ser:
     /// pValues[0] deve conter uma destas strings
     ///
-    /// - NOME_NA_REDE = retornará só os terminais da máquina com este nome
-    /// neste caso, pValues[1] conterá string com o nome na rede
+    /// - NOME_NA_REDE = retornarï¿½ sï¿½ os terminais da mï¿½quina com este nome
+    /// neste caso, pValues[1] conterï¿½ string com o nome na rede
     ///
-    /// - IP = retornará só os terminais da máquina com este IP
-    /// neste caso, pValues[1] conterá string com o IP da máquina
+    /// - IP = retornarï¿½ sï¿½ os terminais da mï¿½quina com este IP
+    /// neste caso, pValues[1] conterï¿½ string com o IP da mï¿½quina
     ///
-    /// - EXCETO = retornará todos os terminais,
-    /// exceto o que tiver código estiver este ID.
+    /// - EXCETO = retornarï¿½ todos os terminais,
+    /// exceto o que tiver cï¿½digo estiver este ID.
     /// pValues[1] contem uma string com este id
     /// </param>
     /// <returns>A string representing the generated SQL query.</returns>
@@ -51,7 +52,8 @@ type
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
 
     procedure TerminalToDB(pTerminal: ITerminal; pLogLojaId: SmallInt;
-      pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
+      pLogUsuarioId: integer; pLogMachineIdentId: SmallInt;
+      pDBConnection: IDBConnection = nil);
 
     procedure DataSetToDB(pDataSet: TDataSet; pLogLojaId: SmallInt;
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
@@ -61,13 +63,15 @@ type
     procedure ComplementeList(pTerminalList: ITerminalList;
       pSisConfig: ISisConfig);
 
+    procedure ListToDBs(pTerminalList: ITerminalList; pSisConfig: ISisConfig;
+      pLogLojaId: SmallInt; pLogUsuarioId: integer);
   end;
 
 implementation
 
 uses System.SysUtils, Sis.Entities.Types, Sis.Types.Bool_u, Sis.Win.Utils_u,
   Sis.Terminal.Factory_u, Sis.DB.DataSet.Utils, Sis.Types.Variants,
-  Sis.Terminal.Utils_u, Sis.DB.Factory;
+  Sis.Terminal.Utils_u, Sis.UI.IO.Input.Bool, Sis.DB.Factory;
 
 { TTerminalDBI }
 
@@ -341,6 +345,123 @@ begin
     ;
 end;
 
+function TTerminalDBI.GetSQLTerminalGar(pTerminal: ITerminal): string;
+begin
+{
+propriedades de ITerminal.
+serao usadas para compor a string result
+
+    property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
+
+    property Apelido: string read GetApelido write SetApelido;
+    property NomeNaRede: string read GetNomeNaRede write SetNomeNaRede;
+    property IP: string read GetIP write SetIP;
+    property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
+
+    property NFSerie: smallint read GetNFSerie write SetNFSerie;
+
+    property GavetaTem: Boolean read GetGavetaTem write SetGavetaTem;
+    property GavetaComando: string read GetGavetaComando write SetGavetaComando;
+    property GavetaImprNome: string read GetGavetaImprNome write SetGavetaImprNome;
+
+    property BalancaModoUsoId: smallint read GetBalancaModoUsoId write SetBalancaModoUsoId;
+    property BalancaModoUsoDescr: string read GetBalancaModoUsoDescr write SetBalancaModoUsoDescr;
+
+    property BalancaId: smallint read GetBalancaId write SetBalancaId;
+    property BalancaFabrModelo: string read GetBalancaFabrModelo write SetBalancaFabrModelo;
+
+    property BarCodigoIni: smallint read GetBarCodigoIni write SetBarCodigoIni;
+    property BarCodigoTam: smallint read GetBarCodigoTam write SetBarCodigoTam;
+
+    property ImpressoraModoEnvioId: smallint read GetImpressoraModoEnvioId write SetImpressoraModoEnvioId;
+    property ImpressoraModoEnvioDescr: string read GetImpressoraModoEnvioDescr write SetImpressoraModoEnvioDescr;
+
+    property ImpressoraModeloId: smallint read GetImpressoraModeloId write SetImpressoraModeloId;
+    property ImpressoraModeloDescr: string read GetImpressoraModeloDescr write SetImpressoraModeloDescr;
+    property ImpressoraNome: string read GetImpressoraNome write SetImpressoraNome;
+    property ImpressoraColsQtd: smallint read GetImpressoraColsQtd write SetImpressoraColsQtd;
+
+    property CupomQtdLinsFinal: smallint read GetCupomQtdLinsFinal write SetCupomQtdLinsFinal;
+
+    property SempreOffLine: Boolean read GetSempreOffLine write SetSempreOffLine;
+    property Ativo: Boolean read GetAtivo write SetAtivo;
+
+    property BALANCA_PORTA: smallint read GetBALANCA_PORTA write SetBALANCA_PORTA;
+    property BALANCA_BAUDRATE: smallint read GetBALANCA_BAUDRATE write SetBALANCA_BAUDRATE;
+    property BALANCA_DATABITS: smallint read GetBALANCA_DATABITS write SetBALANCA_DATABITS;
+    property BALANCA_PARIDADE: smallint read GetBALANCA_PARIDADE write SetBALANCA_PARIDADE;
+    property BALANCA_STOPBITS: smallint read GetBALANCA_STOPBITS write SetBALANCA_STOPBITS;
+    property BALANCA_HANDSHAKING: smallint read GetBALANCA_HANDSHAKING write SetBALANCA_HANDSHAKING;
+
+    property LocalArqDados: string read GetLocalArqDados write SetLocalArqDados;
+    property Database: string read GetDatabase write SetDatabase;
+
+
+    property AsText: string read GetAsText;
+    property IdentStr: string read GetIdentStr;
+
+    property CriticalSections: ICriticalSections read GetCriticalSections;
+
+}
+  Result := //
+    'UPDATE OR INSERT INTO TERMINAL ('#13#10 //
+    + '  TERMINAL_ID,'#13#10 //
+    + '  APELIDO,'#13#10 //
+    + '  NOME_NA_REDE,'#13#10 //
+    + '  IP,'#13#10 //
+    + '  LETRA_DO_DRIVE,'#13#10 //
+    + '  NF_SERIE,'#13#10 //
+    + '  GAVETA_TEM,'#13#10 //
+    + '  GAVETA_COMANDO,'#13#10 //
+    + '  GAVETA_IMPR_NOME,'#13#10 //
+    + '  BALANCA_MODO_USO_ID,'#13#10 //
+    + '  BALANCA_ID,'#13#10 //
+    + '  BARRAS_COD_INI,'#13#10 //
+    + '  BARRAS_COD_TAM,'#13#10 //
+    + '  IMPRESSORA_MODO_ENVIO_ID,'#13#10 //
+    + '  IMPRESSORA_MODELO_ID,'#13#10 //
+    + '  IMPRESSORA_NOME,'#13#10 //
+    + '  IMPRESSORA_COLS_QTD,'#13#10 //
+    + '  CUPOM_QTD_LINS_FINAL,'#13#10 //
+    + '  SEMPRE_OFFLINE,'#13#10 //
+    + '  ATIVO,'#13#10 //
+    + '  BALANCA_PORTA,'#13#10 //
+    + '  BALANCA_BAUDRATE,'#13#10 //
+    + '  BALANCA_DATABITS,'#13#10 //
+    + '  BALANCA_PARIDADE,'#13#10 //
+    + '  BALANCA_STOPBITS,'#13#10 //
+    + '  BALANCA_HANDSHAKING'#13#10 //
+    + '  VALUES ('#13#10 //
+    + pTerminal.TerminalId.ToString + ', -- TERMINAL_ID'#13#10
+    + QuotedStr(pTerminal.Apelido) + ', -- APELIDO'#13#10
+    + QuotedStr(pTerminal.NomeNaRede) + ', -- NOME_NA_REDE'#13#10
+    + QuotedStr(pTerminal.IP) + ', -- IP'#13#10
+    + QuotedStr(pTerminal.LetraDoDrive) + ', -- LETRA_DO_DRIVE'#13#10
+    + pTerminal.NFSerie.ToString + ', -- NF_SERIE'#13#10
+    + BooleanToStrSQL(pTerminal.GavetaTem) + ', -- GAVETA_TEM'#13#10
+    + QuotedStr(pTerminal.GavetaComando) + ', -- GAVETA_COMANDO'#13#10
+    + QuotedStr(pTerminal.GavetaImprNome) + ', -- GAVETA_IMPR_NOME'#13#10
+    + pTerminal.BalancaModoUsoId.ToString + ', -- BALANCA_MODO_USO_ID'#13#10
+    + pTerminal.BalancaId.ToString + ', -- BALANCA_ID'#13#10
+    + pTerminal.BarCodigoIni.ToString + ', -- BARRAS_COD_INI'#13#10
+    + pTerminal.BarCodigoTam.ToString + ', -- BARRAS_COD_TAM'#13#10
+    + pTerminal.ImpressoraModoEnvioId.ToString + ', -- IMPRESSORA_MODO_ENVIO_ID'#13#10
+    + pTerminal.ImpressoraModeloId.ToString + ', -- IMPRESSORA_MODELO_ID'#13#10
+    + QuotedStr(pTerminal.ImpressoraNome) + ', -- IMPRESSORA_NOME'#13#10
+    + pTerminal.ImpressoraColsQtd.ToString + ', -- IMPRESSORA_COLS_QTD'#13#10
+    + pTerminal.CupomQtdLinsFinal.ToString + ', -- CUPOM_QTD_LINS_FINAL'#13#10
+    + BooleanToStrSQL(pTerminal.SempreOffLine) + ', -- SEMPRE_OFFLINE'#13#10
+    + BooleanToStrSQL(pTerminal.Ativo) + ', -- ATIVO'#13#10
+    + pTerminal.Balanca_Porta.ToString + ', -- BALANCA_PORTA'#13#10
+    + pTerminal.Balanca_Baudrate.ToString + ', -- BALANCA_BAUDRATE'#13#10
+    + pTerminal.Balanca_Databits.ToString + ', -- BALANCA_DATABITS'#13#10
+    + pTerminal.Balanca_Paridade.ToString + ', -- BALANCA_PARIDADE'#13#10
+    + pTerminal.Balanca_Stopbits.ToString + ', -- BALANCA_STOPBITS'#13#10
+    + pTerminal.Balanca_Handshaking.ToString + ', -- BALANCA_HANDSHAKING'#13#10
+    + ' ) MATCHING (TERMINAL_ID);'#13#10 //'
+    ;
+end;
+
 procedure TTerminalDBI.ListToDB(pTerminalList: ITerminalList;
   pLogLojaId: SmallInt; pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
 var
@@ -351,6 +472,34 @@ begin
   begin
     TerminalToDB(pTerminalList[i], pLogLojaId, pLogUsuarioId,
       pLogMachineIdentId);
+  end;
+end;
+
+procedure TTerminalDBI.ListToDBs(pTerminalList: ITerminalList;
+  pSisConfig: ISisConfig; pLogLojaId: SmallInt; pLogUsuarioId: integer);
+var
+  i: integer;
+  oDBConnection: IDBConnection;
+  oDBConnectionParams: TDBConnectionParams;
+  oTerminal: ITerminal;
+  oDBExec: IDBExec;
+begin
+  for i := 0 to pTerminalList.Count - 1 do
+  begin
+    oTerminal := pTerminalList[i];
+    oDBConnectionParams.Server := oTerminal.NomeNaRede;
+    oDBConnectionParams.Arq := oTerminal.LocalArqDados;
+    oDBConnectionParams.Database := oTerminal.Database;
+
+    oDBConnection := DBConnectionCreate('TerminalSetConn', pSisConfig,
+      oDBConnectionParams, nil, nil);
+    oDBConnection.Abrir;
+    try
+      TerminalToDB(oTerminal, pLogLojaId, pLogUsuarioId,
+        pSisConfig.LocalMachineId.IdentId, oDBConnection);
+    finally
+      oDBConnection.Fechar;
+    end;
   end;
 end;
 
@@ -414,13 +563,18 @@ begin
 end;
 
 procedure TTerminalDBI.TerminalToDB(pTerminal: ITerminal; pLogLojaId: SmallInt;
-  pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
+  pLogUsuarioId: integer; pLogMachineIdentId: SmallInt;
+  pDBConnection: IDBConnection);
 var
   sSql: string;
   T: ITerminal;
-  sTmp: string;
+  oDBConnection: IDBConnection;
 begin
-  sTmp := DBConnection.Nome;
+  if pDBConnection = nil then
+    oDBConnection := DBConnection
+  else
+    oDBConnection := pDBConnection;
+
   T := pTerminal;
   sSql := 'EXECUTE PROCEDURE TERMINAL_PA.GARANTIR (' //
     + T.TerminalId.ToString // TERMINAL_ID
@@ -467,7 +621,7 @@ begin
   // {$IFDEF DEBUG}
   // CopyTextToClipboard(sSql);
   // {$ENDIF}
-  DBConnection.ExecuteSQL(sSql);
+  oDBConnection.ExecuteSQL(sSql);
 end;
 
 end.

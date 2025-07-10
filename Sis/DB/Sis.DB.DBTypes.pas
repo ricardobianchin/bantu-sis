@@ -26,12 +26,15 @@ type
 
   TDBFramework = (dbfrNaoIndicado, dbfrFireDAC { , dbfrDBX, dbfrZeos } );
 
+  TFirebirdVersion = TDBVersion;
+
   TDBConnectionParams = record
     Server, Arq, Database: string;
     function GetNomeBanco: string;
   end;
 
-  TFirebirdVersion = TDBVersion;
+procedure SetDBConnectionParams(var pDBConnectionParams: TDBConnectionParams;
+  pServer, pArq: string);
 
 procedure SetParamDateTime(pFDParam: TFDParam; pDt: TDateTime);
 procedure SetParamCurrency(pFDParam: TFDParam; pCurr: Currency);
@@ -99,7 +102,8 @@ type
     property VendorLib: string read GetVendorLib;
 
     procedure DoBackupNow(pDtHBackup: TDateTime; pDatabasesSL: TStrings;
-      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings; pPastaComprime: string);
+      pPastaComandos, pPastaBackup: string; pArqsCriadosSL: TStrings;
+      pPastaComprime: string);
   end;
 
   IDBConnection = interface(INomeavel)
@@ -228,6 +232,20 @@ var
 begin
   sNome := ChangeFileExt(ExtractFileName(Arq), '');
   Result := sNome;
+end;
+
+procedure SetDBConnectionParams(var pDBConnectionParams: TDBConnectionParams;
+  pServer, pArq: string);
+begin
+  pDBConnectionParams.Server := pServer;
+  pDBConnectionParams.Arq := pArq;
+  if pServer = '' then
+  begin
+    pDBConnectionParams.Database := pArq;
+    exit;
+  end;
+
+  pDBConnectionParams.Database := pServer + ':' + pArq;
 end;
 
 procedure SetParamDateTime(pFDParam: TFDParam; pDt: TDateTime);
