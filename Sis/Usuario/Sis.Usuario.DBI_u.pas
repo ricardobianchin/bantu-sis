@@ -21,6 +21,8 @@ type
 
     procedure Leia;
 
+    procedure LeiaAdmin;
+
     constructor Create(pDBConnection: IDBConnection; pUsuario: IUsuario;
       pSisConfig: ISisConfig);
   end;
@@ -101,6 +103,68 @@ begin
 
     try
       FUsuario.NomeExib := q.fields[0].AsString.Trim;
+    finally
+      q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TUsuarioDBI.LeiaAdmin;
+var
+  sSql: string;
+  q: TDataSet;
+  Resultado: Boolean;
+begin
+  Resultado := DBConnection.Abrir;
+  if not Resultado then
+  begin
+    raise Exception.Create(DBConnection.UltimoErro);
+    exit;
+  end;
+
+  sSql :=
+    'WITH USU AS ('#13#10 //
+    +'SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID, NOME_DE_USUARIO'#13#10 //
+    +'FROM USUARIO'#13#10 //
+    +'), PER AS ('#13#10 //
+    +'SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID'#13#10 //
+    +'FROM USUARIO_TEM_PERFIL_DE_USO'#13#10 //
+    +'WHERE PERFIL_DE_USO_ID = 2'#13#10 //
+    +')'#13#10 //
+    +'SELECT'#13#10 //
+    +'FIRST(1)'#13#10 //
+    +'USU.LOJA_ID,'#13#10 //0
+    +'USU.TERMINAL_ID,'#13#10 //1
+    +'USU.PESSOA_ID,'#13#10 //2
+    +'USU.NOME_DE_USUARIO'#13#10 //3
+    +'FROM USU'#13#10 //
+    +'JOIN PER ON'#13#10 //
+    +'USU.LOJA_ID = PER.LOJA_ID'#13#10 //
+    +'AND USU.TERMINAL_ID = PER.TERMINAL_ID'#13#10 //
+    +'AND USU.PESSOA_ID = PER.PESSOA_ID'#13#10 //
+    +'ORDER BY USU.PESSOA_ID'#13#10 //
+    ;
+
+  // {$IFDEF DEBUG}
+  // SetClipboardText(sSql);
+  // {$ENDIF}
+  try
+    try
+      DBConnection.QueryDataSet(sSql, q);
+    except
+      on E: Exception do
+      begin
+        raise Exception.Create(DBConnection.UltimoErro);
+      end;
+    end;
+
+    try
+      FUsuario.LojaId := q.fields[0].AsInteger;
+      FUsuario.TerminalId := q.fields[1].AsInteger;
+      FUsuario.Id := q.fields[2].AsInteger;
+      FUsuario.NomeDeUsuario := q.fields[3].AsString.Trim;
     finally
       q.Free;
     end;

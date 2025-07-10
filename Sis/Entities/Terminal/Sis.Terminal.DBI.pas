@@ -2,7 +2,8 @@ unit Sis.Terminal.DBI;
 
 interface
 
-uses Sis.DBI, Sis.TerminalList, Sis.Terminal, FireDAC.Comp.Client, Data.DB;
+uses Sis.DBI, Sis.TerminalList, Sis.Terminal, FireDAC.Comp.Client, Data.DB,
+  Sis.Config.SisConfig;
 
 type
   ITerminalDBI = interface(IDBI)
@@ -17,6 +18,12 @@ type
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
 
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
+
+    procedure ComplementeList(pTerminalList: ITerminalList;
+      pSisConfig: ISisConfig);
+
+    procedure ListToDBs(pTerminalList: ITerminalList; pSisConfig: ISisConfig;
+      pLogLojaId: SmallInt; pLogUsuarioId: integer);
   end;
 
 implementation

@@ -10,12 +10,16 @@ type
     FName: string;
     FIp: string;
     FIdentId: smallint;
-
+    FLetraDoDrive: string;
+    
     function GetName: string;
     procedure SetName(const Value: string);
 
     function GetIp: string;
     procedure SetIp(const Value: string);
+
+    procedure SetLetraDoDrive(const Value: string);
+    function GetLetraDoDrive: string;
 
     function GetIdentId: smallint;
     procedure SetIdentId(const Value: smallint);
@@ -23,6 +27,7 @@ type
   public
     property Name: string read GetName write SetName;
     property Ip: string read GetIp write SetIp;
+    property LetraDoDrive: string read GetLetraDoDrive write SetLetraDoDrive;
 
     function GetIsDataOk: boolean;
     property IsDataOk: boolean read GetIsDataOk;
@@ -58,6 +63,11 @@ begin
   Result := (FName <> '') or (FIp <> '')
 end;
 
+function TMachineId.GetLetraDoDrive: string;
+begin
+  Result := FLetraDoDrive;
+end;
+
 function TMachineId.GetName: string;
 begin
   Result := FName;
@@ -81,6 +91,19 @@ end;
 procedure TMachineId.SetIp(const Value: string);
 begin
   FIp := Trim(Value);
+end;
+
+procedure TMachineId.SetLetraDoDrive(const Value: string);
+begin
+  if Value = '' then
+  begin
+    FLetraDoDrive := 'C';
+    Exit;
+  end;
+  
+  FLetraDoDrive := Trim(Value);
+  if Length(FLetraDoDrive) > 1 then
+    FLetraDoDrive := Copy(FLetraDoDrive, 1, 1);
 end;
 
 procedure TMachineId.SetName(const Value: string);

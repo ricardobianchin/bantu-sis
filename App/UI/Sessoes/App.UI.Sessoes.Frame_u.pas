@@ -86,10 +86,8 @@ type
     procedure PegarEventoSessao(pEventosDeSessao: IEventosDeSessao);
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-      {pEventosDeSessao: IEventosDeSessao; }pAppObj: IAppObj); reintroduce;
+      { pEventosDeSessao: IEventosDeSessao; } pAppObj: IAppObj); reintroduce;
     destructor Destroy; override;
-
-
 
   end;
 
@@ -100,7 +98,7 @@ implementation
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
   Sis.Usuario.Factory, Sis.UI.Form.LoginPerg_u, App.Sessao.Factory,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
-  Sis.Types.Factory, Sis.UI.ImgDM, Sis.Win.Utils_u;
+  Sis.Types.Factory, Sis.UI.ImgDM, Sis.Win.Utils_u, Sis.Terminal;
 
 procedure TSessoesFrame.BotSessaoClick(Sender: TObject);
 var
@@ -164,7 +162,7 @@ begin
     FAppObj, oBotaoModuloFrame.TerminalId);
 
   oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
-  FSessaoFrame := SessaoFrameCreate(nil{Self}, iOpcaoSisIdModulo, oUsuario,
+  FSessaoFrame := SessaoFrameCreate(nil { Self } , iOpcaoSisIdModulo, oUsuario,
     oModuloBasForm, iSessaoIndex, FAppObj.DBMS, FAppObj.ProcessOutput,
     FAppObj.ProcessLog);
 
@@ -205,12 +203,12 @@ begin
 end;
 
 constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
-  {pEventosDeSessao: IEventosDeSessao;} pAppObj: IAppObj);
+  { pEventosDeSessao: IEventosDeSessao; } pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
-//  FEventosDeSessao := pEventosDeSessao;
+  // FEventosDeSessao := pEventosDeSessao;
   FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
 
@@ -393,7 +391,7 @@ begin
   SetExigeLoja := [TOpcaoSisIdModulo.opmoduRetaguarda,
     TOpcaoSisIdModulo.opmoduPDV];
 
-  Result := not (pOpcaoSisIdModulo in SetExigeLoja);
+  Result := not(pOpcaoSisIdModulo in SetExigeLoja);
   if Result then
     exit;
 
@@ -425,9 +423,10 @@ var
   oDBConnection: IDBConnection;
   DBConnectionParams: TDBConnectionParams;
   sSql, sN, sI, sTit2: string;
-  Q: TDataSet;
   vShortCut: TShortCut;
   oBotaoModuloFrame: TBotaoModuloFrame;
+  oTerminal: ITerminal;
+  I: integer;
 begin
   vShortCut := TextToShortCut('F3');
 
@@ -436,7 +435,8 @@ begin
   oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
   oSessaoCriador.TerminalId := 0;
-  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administração'; //  ' Retaguarda';
+  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administração';
+  // ' Retaguarda';
 
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
   oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
@@ -467,74 +467,48 @@ begin
   oBotaoModuloFrame.ShortCut := vShortCut;
   inc(vShortCut);
 
-  DBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, FAppObj);
-  oDBConnection := DBConnectionCreate('App.Sessoes.Conn', FAppObj.SisConfig,
-    DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
+  for I := 0 to FAppObj.TerminalList.Count - 1 do
+  begin
+    oTerminal := FAppObj.TerminalList[I];
 
-  sN := FAppObj.SisConfig.ServerMachineId.Name;
-  sI := FAppObj.SisConfig.ServerMachineId.IP;
+    oSessaoCriador := SessaoCriadorCreate(opmoduPDV);
+    FSessaoCriadorList.Add(oSessaoCriador);
+    oSessaoCriador.TerminalId := oTerminal.TerminalId;
+    oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' PDV ' +
+      oSessaoCriador.TerminalId.ToString;
+    oSessaoCriador.Apelido := oTerminal.Apelido;
+    oSessaoCriador.NFSerie := oTerminal.NFSerie;
+    oSessaoCriador.SempreOffline := oTerminal.SempreOffline;
 
-  sSql := 'SELECT TERMINAL_ID, APELIDO, NF_SERIE, SEMPRE_OFFLINE'#13#10 +
-    'FROM TERMINAL'#13#10 + 'WHERE NOME_NA_REDE=' + sN.QuotedString +
-    #13#10'OR ip=' + sI.QuotedString + #13#10'ORDER BY TERMINAL_ID'#13#10;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(sSql);
-  // {$ENDIF}
+    oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
+    oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
+    FBotList.Add(oBotaoModuloFrame);
+    oBotaoModuloFrame.ImageIndex := 2;
 
-  if not oDBConnection.Abrir then
-    exit;
-  try
-    oDBConnection.QueryDataSet(sSql, Q);
-    try
-      while not Q.Eof do
-      begin
-        oSessaoCriador := SessaoCriadorCreate(opmoduPDV);
-        FSessaoCriadorList.Add(oSessaoCriador);
-        oSessaoCriador.TerminalId := Q.Fields[0].AsInteger;
-        oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' PDV ' +
-          Q.Fields[0].AsInteger.ToString;
-        oSessaoCriador.Apelido := Trim(Q.Fields[1].AsString);
-        oSessaoCriador.NFSerie := Q.Fields[2].AsInteger;
-        oSessaoCriador.SempreOffline := Q.Fields[3].AsBoolean;
+    oBotaoModuloFrame.OpcaoSisIdModulo := TOpcaoSisIdModulo.opmoduPDV;
+    oBotaoModuloFrame.Tit := oSessaoCriador.Titulo;
 
-        oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
-        oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
-        FBotList.Add(oBotaoModuloFrame);
-        oBotaoModuloFrame.ImageIndex := 2;
-
-        oBotaoModuloFrame.OpcaoSisIdModulo := TOpcaoSisIdModulo.opmoduPDV;
-        oBotaoModuloFrame.Tit := oSessaoCriador.Titulo;
-
-        sTit2 := Trim(oSessaoCriador.Apelido);
-        if oSessaoCriador.NFSerie > 0 then
-        begin
-          if sTit2 <> '' then
-            sTit2 := sTit2 + ' ';
-          sTit2 := sTit2 + 'NFe:' + oSessaoCriador.NFSerie.ToString;
-        end;
-
-        if oSessaoCriador.SempreOffline then
-        begin
-          if sTit2 <> '' then
-            sTit2 := sTit2 + ' ';
-          sTit2 := sTit2 + 'Sem WEB';
-        end;
-
-        oBotaoModuloFrame.Tit2 := sTit2;
-        oBotaoModuloFrame.OnBotaoClick := BotSessaoClick;
-        oBotaoModuloFrame.TerminalId := Q.Fields[0].AsInteger;
-        oBotaoModuloFrame.ShortCut := vShortCut;
-
-        Q.Next;
-        inc(vShortCut);
-      end;
-    finally
-      if Assigned(Q) then
-        Q.Free;
+    sTit2 := Trim(oSessaoCriador.Apelido);
+    if oSessaoCriador.NFSerie > 0 then
+    begin
+      if sTit2 <> '' then
+        sTit2 := sTit2 + ' ';
+      sTit2 := sTit2 + 'NFe:' + oSessaoCriador.NFSerie.ToString;
     end;
-  finally
-    oDBConnection.Fechar;
+
+    if oSessaoCriador.SempreOffline then
+    begin
+      if sTit2 <> '' then
+        sTit2 := sTit2 + ' ';
+      sTit2 := sTit2 + 'Sem WEB';
+    end;
+
+    oBotaoModuloFrame.Tit2 := sTit2;
+    oBotaoModuloFrame.OnBotaoClick := BotSessaoClick;
+    oBotaoModuloFrame.TerminalId := oTerminal.TerminalId;
+    oBotaoModuloFrame.ShortCut := vShortCut;
+
+    inc(vShortCut);
   end;
 end;
 

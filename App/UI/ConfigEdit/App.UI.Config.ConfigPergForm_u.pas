@@ -1,4 +1,4 @@
-unit App.UI.Config.ConfigPergForm_u;
+Ôªøunit App.UI.Config.ConfigPergForm_u;
 
 interface
 
@@ -39,7 +39,7 @@ type
     EhServidorCheckBox: TCheckBox;
     MaqLocalToolBar: TToolBar;
     ToolButton5: TToolButton;
-    ServerConfigLabeledEdit: TLabeledEdit;
+    ServerArqConfigLabeledEdit: TLabeledEdit;
     UsuAdminGroupBox: TGroupBox;
     LoginErroLabel: TLabel;
     ObsLabel: TLabel;
@@ -59,6 +59,8 @@ type
     LojaApelidoLabeledEdit: TLabeledEdit;
     ServerConfigSelectButton: TButton;
     TerminaisGroupBox: TGroupBox;
+    ServConfigSelectAction: TAction;
+    ServerArqConfigErroLabel: TLabel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -97,6 +99,7 @@ type
     procedure UsuAdminNomeCompletoLabeledEditKeyPress(Sender: TObject;
       var Key: Char);
     procedure FormDestroy(Sender: TObject);
+    procedure ServConfigSelectActionExecute(Sender: TObject);
   private
     { Private declarations }
 
@@ -123,8 +126,11 @@ type
     function LocalMaqPodeOk: boolean;
 
     function ServerPodeOk: boolean;
+    function TermPodeOk: boolean;
     function UsuAdminPodeOk: boolean;
     function LojaPodeOk: boolean;
+    function ServerArqConfigPodeOk: boolean;
+
 
     function TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
       pErroLabel: TLabel): boolean;
@@ -151,7 +157,7 @@ uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
   Sis.Types.Utils_u, App.DB.utils, Sis.Types.strings_u, Sis.DB.DBTypes,
   Sis.UI.Constants, App.UI.Config.Constants, Sis.UI.IO.Files,
   Sis.Terminal.Factory_u, App.Config.Ambi.Factory_u, App.AppInfo.Types,
-  Sis.Terminal.Utils_u;
+  Sis.Terminal.Utils_u, App.UI.Config.ConfigPergForm_u.CarregaServ;
 
 {
   procedure FillMachineId(ALocalMachineId: IMachineId);
@@ -228,6 +234,11 @@ begin
 end;
 
 procedure TConfigPergForm.CarregTesteStarterIni;
+var
+//  bResultado: Boolean;
+  sNomeArq: string;
+  sNomeNaRede: string;
+  sIp: string;
 begin
   FConfigPergTeste.LerIni;
 
@@ -237,6 +248,14 @@ begin
   end;
 
   EhServidorCheckBox.Checked := FConfigPergTeste.TesteEhServ;
+  ServerArqConfigLabeledEdit.Text := FConfigPergTeste.ServerArqConfig;
+  if ServerArqConfigLabeledEdit.Text <> '' then
+  begin
+    sNomeArq := ServerArqConfigLabeledEdit.Text;
+    ConfigArqLer(sNomeArq, sNomeNaRede, sIp);
+    ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
+    ServerMaqFrame.IpLabeledEdit.Text := sIp;
+  end;
 
   if FConfigPergTeste.TesteLojaPreenche then
   begin
@@ -265,7 +284,8 @@ begin
   if EhServidorCheckBox.Checked then
   begin
     ServerMaqFrame.Visible := false;
-    ServerConfigLabeledEdit.Visible := false;
+    ServerArqConfigLabeledEdit.Visible := false;
+    ServerArqConfigErroLabel.Visible := false;
     ServerConfigSelectButton.Visible := false;
 
     UsuAdminGroupBox.Visible := true;
@@ -274,8 +294,9 @@ begin
   else
   begin
     ServerMaqFrame.Visible := true;
-    ServerConfigLabeledEdit.Visible := true;
+    ServerArqConfigErroLabel.Visible := true;
     ServerConfigSelectButton.Visible := true;
+    ServerArqConfigLabeledEdit.Visible := true;
 
     UsuAdminGroupBox.Visible := false;
     LojaIdGroupBox.Visible := false;
@@ -315,24 +336,29 @@ begin
     ConfigAmbiTerminalDBIMudoCreate);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.Preparar;
+  ServerArqConfigErroLabel.Caption := '';
 end;
 
 procedure TConfigPergForm.ControlesToObjetos;
 begin
   FSisConfig.LocalMachineId.Name := LocalMaqFrame.NomeLabeledEdit.Text;
   FSisConfig.LocalMachineId.IP := LocalMaqFrame.IpLabeledEdit.Text;
+  FSisConfig.LocalMachineId.LetraDoDrive := 'C';
 
   FSisConfig.LocalMachineIsServer := EhServidorCheckBox.Checked;
+  FSisConfig.ServerArqConfig := ServerArqConfigLabeledEdit.Text;
 
   if FSisConfig.LocalMachineIsServer then
   begin
     FSisConfig.ServerMachineId.Name := FSisConfig.LocalMachineId.Name;
     FSisConfig.ServerMachineId.IP := FSisConfig.LocalMachineId.IP;
+    FSisConfig.ServerMachineId.LetraDoDrive := FSisConfig.LocalMachineId.LetraDoDrive;
   end
   else
   begin
     FSisConfig.ServerMachineId.Name := ServerMaqFrame.NomeLabeledEdit.Text;
     FSisConfig.ServerMachineId.IP := ServerMaqFrame.IpLabeledEdit.Text;
+    FSisConfig.ServerMachineId.LetraDoDrive := 'C';
   end;
 
   FSisConfig.DBMSInfo.DatabaseType := dbmstFirebird;
@@ -380,7 +406,7 @@ begin
   Off := 8;
   MaqLocalToolBar.Left := FrL + FrW + Off;
 
-  LocalMaqFrame.GroupBox1.Caption := 'M·quina Local';
+  LocalMaqFrame.GroupBox1.Caption := 'M√°quina Local';
   ServerMaqFrame.GroupBox1.Caption := 'Servidor';
 
   MaqLocalToolBar.BringToFront;
@@ -486,7 +512,7 @@ begin
   if not result then
   begin
     LojaErroLabel.Caption := 'Campo ''' + LojaIdLabeledEdit.EditLabel.Caption +
-      ''' È obrigatÛrio';
+      ''' √© obrigat√≥rio';
     LojaErroLabel.Visible := true;
     LojaIdLabeledEdit.SetFocus;
     exit;
@@ -496,7 +522,7 @@ begin
   if not result then
   begin
     LojaErroLabel.Caption := 'Campo ''' + LojaIdLabeledEdit.EditLabel.Caption +
-      ''' È obrigatÛrio';
+      ''' √© obrigat√≥rio';
     LojaErroLabel.Visible := true;
     LojaIdLabeledEdit.SetFocus;
     exit;
@@ -506,7 +532,7 @@ begin
   if not result then
   begin
     LojaErroLabel.Caption := 'Campo ''' + LojaIdLabeledEdit.EditLabel.Caption +
-      ''' È obrigatÛrio';
+      ''' √© obrigat√≥rio';
     LojaErroLabel.Visible := true;
     LojaIdLabeledEdit.SetFocus;
     exit;
@@ -516,7 +542,7 @@ begin
   if not result then
   begin
     LojaErroLabel.Caption := 'Campo ''' + LojaApelidoLabeledEdit.EditLabel.
-      Caption + ''' È obrigatÛrio';
+      Caption + ''' √© obrigat√≥rio';
     LojaErroLabel.Visible := true;
     LojaApelidoLabeledEdit.SetFocus;
     exit;
@@ -696,12 +722,57 @@ begin
 
   if EhServidorCheckBox.Checked then
   begin
-    result := ServerPodeOk;
+    Result := ServerPodeOk;
   end
   else
   begin
-
+    Result := TermPodeOk;
   end;
+end;
+
+procedure TConfigPergForm.ServConfigSelectActionExecute(Sender: TObject);
+var
+  bResultado: Boolean;
+  sNomeArq: string;
+  sNomeNaRede: string;
+  sIp: string;
+begin
+  bResultado := OpenDialog1.Execute;
+  if not bResultado then
+    exit;
+
+  sNomeArq := OpenDialog1.FileName;
+  if not FileExists(sNomeArq) then
+  begin
+    ShowMessage('Arquivo de configura√ß√£o do servidor n√£o encontrado: ' +
+      sNomeArq);
+    exit;
+  end;
+
+  ServerArqConfigLabeledEdit.Text := sNomeArq;
+
+  ConfigArqLer(sNomeArq, sNomeNaRede, sIp);
+  ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
+  ServerMaqFrame.IpLabeledEdit.Text := sIp;
+end;
+
+function TConfigPergForm.ServerArqConfigPodeOk: boolean;
+begin
+  Result := ServerArqConfigLabeledEdit.Text <> '';
+  if not Result then
+  begin
+    ServerArqConfigErroLabel.Caption := 'Obrigat√≥rio';
+    ServerArqConfigLabeledEdit.SetFocus;
+    exit;
+  end;
+
+  Result := FileExists(ServerArqConfigLabeledEdit.Text);
+  if not Result then
+  begin
+    ServerArqConfigErroLabel.Caption := 'Arquivo n√£o encontrado';
+    exit;
+  end;
+
 end;
 
 function TConfigPergForm.ServerPodeOk: boolean;
@@ -730,6 +801,11 @@ begin
 {$ENDIF}
 end;
 
+function TConfigPergForm.TermPodeOk: boolean;
+begin
+  Result := ServerArqConfigPodeOk;
+end;
+
 function TConfigPergForm.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
   pErroLabel: TLabel): boolean;
 begin
@@ -737,7 +813,7 @@ begin
   if not result then
   begin
     pErroLabel.Caption := 'Campo ''' + pLabeledEdit.EditLabel.Caption +
-      ''' È obrigatÛrio';
+      ''' √© obrigat√≥rio';
     pErroLabel.Visible := true;
     pLabeledEdit.SetFocus;
   end;

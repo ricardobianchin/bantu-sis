@@ -11,7 +11,7 @@ procedure ForEachTerminal(pProc: TProcTermOfObject; var pPrecisaTerminar: boolea
 
 implementation
 
-uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u;
+uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u, vcl.dialogs;
 
 var
   DBTermDMList: TList<TDBTermDM>;
@@ -32,7 +32,11 @@ begin
   EscrevaLog('CrieListaDeTerminais');
   sDriver := 'FB';
   DBTermDMList := TList<TDBTermDM>.Create;
+  try
   DBServDM.Connection.Open;
+  except on e: exception do
+    //showmessage(e.classname + ' '+e.message);
+  end;
   try
     sSql := 'SELECT'#13#10 //
       + 'TERMINAL_ID'#13#10 // 0

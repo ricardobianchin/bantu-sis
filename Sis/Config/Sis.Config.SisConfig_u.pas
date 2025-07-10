@@ -15,6 +15,7 @@ type
     FDBMSInfo: IDBMSInfo;
     FPastaProduto: string;
     FServerLetraDoDrive: char;
+    FServerArqConfig: string;
 
     function GetLocalMachineId: IMachineId;
 
@@ -31,6 +32,11 @@ type
 
     function GetServerLetraDoDrive: char;
     procedure SetServerLetraDoDrive(Value: char);
+
+
+    function GetServerArqConfig: string;
+    procedure SetServerArqConfig(const Value: string);
+
   public
     property LocalMachineId: IMachineId read GetLocalMachineId;
     property LocalMachineIsServer: boolean read GetLocalMachineIsServer write SetLocalMachineIsServer;
@@ -39,6 +45,8 @@ type
     property DBMSInfo: IDBMSInfo read GetDBMSInfo;
     property PastaProduto: string read GetPastaProduto;
     property ServerLetraDoDrive: char read GetServerLetraDoDrive write SetServerLetraDoDrive;
+
+    property ServerArqConfig: string read GetServerArqConfig write SetServerArqConfig;
 
     constructor Create( pLocalMachineId, pServerMachineId: IMachineId; pWinVersionInfo: IWinVersionInfo; pDBMSInfo: IDBMSInfo);
   end;
@@ -80,6 +88,13 @@ begin
   result := FPastaProduto;
 end;
 
+function TSisConfig.GetServerArqConfig: string;
+begin
+  Result := FServerArqConfig;
+  if Result = '' then
+    Result := FPastaProduto + 'Sis.Config.SisConfig.ini';
+end;
+
 function TSisConfig.GetServerLetraDoDrive: char;
 begin
   Result := FServerLetraDoDrive;
@@ -98,6 +113,11 @@ end;
 procedure TSisConfig.SetLocalMachineIsServer(const Value: boolean);
 begin
   FLocalMachineIsServer := Value;
+end;
+
+procedure TSisConfig.SetServerArqConfig(const Value: string);
+begin
+  FServerArqConfig := Value;
 end;
 
 procedure TSisConfig.SetServerLetraDoDrive(Value: char);

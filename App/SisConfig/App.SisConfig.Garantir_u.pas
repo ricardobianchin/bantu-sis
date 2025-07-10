@@ -1,4 +1,4 @@
-unit App.SisConfig.Garantir_u;
+ï»¿unit App.SisConfig.Garantir_u;
 
 interface
 
@@ -18,13 +18,18 @@ type
     FUsuarioAdmin: IUsuario;
     FLoja: ISisLoja;
     FTerminalList: ITerminalList;
-
+    FCriouTerminais: boolean;
     function ArqXmlExiste: boolean;
     procedure CopieInicial;
     procedure CopieAtu;
     function ConfigEdit: boolean;
     procedure PreenchaSisConfigVersao;
-  public
+
+    function GetCriouTerminais: Boolean;
+    procedure SetCriouTerminais(const Value: Boolean);
+
+public
+    property CriouTerminais: Boolean read GetCriouTerminais write SetCriouTerminais;
     function Execute: boolean; override;
     constructor Create(pAppObj: IAppObj; pSisConfig: ISisConfig;
       pUsuarioAdmin: IUsuario; pLoja: ISisLoja; pOutput: IOutput;
@@ -109,6 +114,7 @@ begin
   FLoja := pLoja;
   FUsuarioAdmin := pUsuarioAdmin;
   FTerminalList := pTerminalList;
+  FCriouTerminais := False;
 
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Create');
   FNomeArqXML := FAppObj.AppInfo.PastaConfigs +
@@ -124,7 +130,7 @@ begin
   Result := True;
   ProcessLog.PegueLocal('TAppSisConfigGarantirXML.Execute');
   try
-    oSisConfigXMLI := SisConfigXMLICreate(FSisConfig);
+    oSisConfigXMLI := SisConfigXMLICreate(FSisConfig, FTerminalList);
 
     ProcessLog.RegistreLog('vai testar ArqXmlExiste');
     Result := ArqXmlExiste;
@@ -134,7 +140,7 @@ begin
       oSisConfigXMLI.Ler;
       exit;
     end;
-    ProcessLog.RegistreLog('não existia, vai CopieInicial');
+    ProcessLog.RegistreLog('nï¿½o existia, vai CopieInicial');
     CopieInicial;
 
     PreenchaSisConfigVersao;
@@ -146,7 +152,7 @@ begin
       ProcessLog.RegistreLog('ConfigEdit, usuario cancelou');
       exit;
     end;
-
+    FCriouTerminais := True;
     oSisConfigXMLI.Gravar;
 
   finally
@@ -154,6 +160,11 @@ begin
     CopieAtu;
     ProcessLog.RetorneLocal;
   end;
+end;
+
+function TAppSisConfigGarantirXML.GetCriouTerminais: Boolean;
+begin
+  Result := FCriouTerminais;
 end;
 
 procedure TAppSisConfigGarantirXML.PreenchaSisConfigVersao;
@@ -172,6 +183,11 @@ begin
 
   FSisConfig.WinVersionInfo.PegarVersion(iMajor, iMinor);
   FSisConfig.WinVersionInfo.CSDVersion := sCSDVersion;
+end;
+
+procedure TAppSisConfigGarantirXML.SetCriouTerminais(const Value: Boolean);
+begin
+  FCriouTerminais := Value;
 end;
 
 end.

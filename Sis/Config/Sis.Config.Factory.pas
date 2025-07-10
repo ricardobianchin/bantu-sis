@@ -3,13 +3,15 @@ unit Sis.Config.Factory;
 interface
 
 uses Sis.Config.MachineId, Sis.DB.DBTypes, Sis.Config.SisConfig,
-  Sis.Config.SisConfig.XMLI, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
+  Sis.Config.SisConfig.XMLI, Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output,
+  Sis.TerminalList;
 
 function MachineIdCreate: IMachineId;
 function SisConfigCreate(pVersion: TDBVersion = 0;
   pDatabaseType: TDBMSType = dbmstUnknown): ISisConfig;
 function SisConfigXMLICreate(pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog = nil; pOutput: IOutput = nil): ISisConfigXMLI;
+  pTerminalList: ITerminalList; pProcessLog: IProcessLog = nil;
+  pOutput: IOutput = nil): ISisConfigXMLI;
 
 implementation
 
@@ -37,10 +39,12 @@ begin
     vWinVersionInfo, vDBMSInfo);
 end;
 
-function SisConfigXMLICreate(pSisConfig: ISisConfig; pProcessLog: IProcessLog;
-  pOutput: IOutput): ISisConfigXMLI;
+function SisConfigXMLICreate(pSisConfig: ISisConfig;
+  pTerminalList: ITerminalList; pProcessLog: IProcessLog; pOutput: IOutput)
+  : ISisConfigXMLI;
 begin
-  result := TSisConfigXMLI.Create(pSisConfig, pProcessLog, pOutput);
+  result := TSisConfigXMLI.Create(pSisConfig, pTerminalList,
+    pProcessLog, pOutput);
 end;
 
 end.

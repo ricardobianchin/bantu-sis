@@ -29,7 +29,7 @@ begin
   if pTerminalId = TERMINAL_ID_RETAGUARDA then
   begin
     Result.Server := pAppObj.SisConfig.ServerMachineId.Name;
-    Result.Arq := pAppObj.AppInfo.PastaDados + //
+    Result.Arq := pAppObj.AppInfo.PastaDadosServ + //
       'Dados_' + //
       AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis] + //
       '_Retaguarda.FDB' //

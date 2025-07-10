@@ -2,14 +2,28 @@ unit Sis.Terminal.Utils_u;
 
 interface
 
-uses Data.DB, Sis.Terminal;
+uses Data.DB, Sis.Terminal, Sis.DB.DBTypes;
 
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
   pPastaDados, pAtivDescr: string);
 
+function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt;
+  pAtivDescr: string): string;
+
 implementation
 
 uses Sis.Entities.Types, System.SysUtils;
+
+function GetTermLocalArqDados(pPastaDados: string; pTerminalId: SmallInt;
+  pAtivDescr: string): string;
+var
+  sLetraDoDrive: string;
+  sFormat: string;
+begin
+  sFormat := '%sDados_%s_Terminal_%.3d.fdb';
+
+  Result := Format(sFormat, [pPastaDados, pAtivDescr, pTerminalId]);
+end;
 
 procedure DataSetToTerminal(Q: TDataSet; pTerminal: ITerminal;
   pPastaDados, pAtivDescr: string);
@@ -79,6 +93,9 @@ begin
   pTerminal.BALANCA_STOPBITS := Q.FieldByName('BALANCA_STOPBITS').AsInteger;
   pTerminal.BALANCA_HANDSHAKING := Q.FieldByName('BALANCA_HANDSHAKING')
     .AsInteger;
+
+  if pPastaDados = '' then
+    exit;
 
   sFormat := '%sDados_%s_Terminal_%.3d.fdb';
   sPasta := pPastaDados;

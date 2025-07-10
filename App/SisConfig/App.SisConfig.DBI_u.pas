@@ -14,8 +14,8 @@ type
     FOutput: IOutput;
   public
     procedure LerMachineIdent;
-    constructor Create(pAppObj: IAppObj; pDBMS: IDBMS;
-      pProcessLog: IProcessLog; pOutput: IOutput);
+    constructor Create(pAppObj: IAppObj; pDBMS: IDBMS; pProcessLog: IProcessLog;
+      pOutput: IOutput);
   end;
 
 implementation
@@ -24,8 +24,8 @@ implementation
 
 uses App.DB.Utils, Sis.DB.Factory, Sis.Sis.Constants;
 
-constructor TSisConfigDBI.Create(pAppObj: IAppObj;
-  pDBMS: IDBMS; pProcessLog: IProcessLog; pOutput: IOutput);
+constructor TSisConfigDBI.Create(pAppObj: IAppObj; pDBMS: IDBMS;
+  pProcessLog: IProcessLog; pOutput: IOutput);
 begin
   inherited Create;
   FAppObj := pAppObj;
@@ -41,8 +41,8 @@ var
   sSql: string;
   oDBQuery: IDBQuery;
 begin
-  oDBConnectionParams := TerminalIdToDBConnectionParams(TERMINAL_ID_RETAGUARDA,
-    FAppObj);
+  oDBConnectionParams := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
 
   oDBConnection := DBConnectionCreate('TSisConfigDBI.LerMachineIdent.Conn',
     FAppObj.SisConfig, oDBConnectionParams, FProcessLog, FOutput);
@@ -62,7 +62,8 @@ begin
       oDBQuery.Params[1].AsString := FAppObj.SisConfig.ServerMachineId.IP;
       oDBQuery.Abrir;
       try
-        FAppObj.SisConfig.ServerMachineId.IdentId := oDBQuery.DataSet.Fields[0].AsInteger;
+        FAppObj.SisConfig.ServerMachineId.IdentId := oDBQuery.DataSet.Fields
+          [0].AsInteger;
       finally
         oDBQuery.Fechar;
       end;
@@ -71,7 +72,8 @@ begin
       oDBQuery.Params[1].AsString := FAppObj.SisConfig.LocalMachineId.IP;
       oDBQuery.Abrir;
       try
-        FAppObj.SisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[0].AsInteger;
+        FAppObj.SisConfig.LocalMachineId.IdentId := oDBQuery.DataSet.Fields[0]
+          .AsInteger;
       finally
         oDBQuery.Fechar;
       end;

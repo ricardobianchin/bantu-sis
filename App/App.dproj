@@ -164,7 +164,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         </DCCReference>
         <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm.Testes.pas"/>
         <DCCReference Include="UI\ConfigEdit\App.UI.Config.Constants.pas"/>
-        <DCCReference Include="DB\Garantir\App.DB.Garantir.pas"/>
+        <DCCReference Include="DB\Garantir\App.DB.Garantir_u.pas"/>
         <DCCReference Include="DB\App.DB.Utils.pas"/>
         <DCCReference Include="Sessao\App.Sessao.pas"/>
         <DCCReference Include="Sessao\App.Sessao.List.pas"/>
@@ -906,9 +906,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Promo\App.Est.EstPromoItem.DBI_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao.EventosDeSessao_u.pas"/>
         <DCCReference Include="Modulos\PDV\Controlador\App.PDV.Controlador_u.pas"/>
+        <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.CarregaServ.pas"/>
+        <DCCReference Include="DB\Garantir\App.DB.Garantir_u.GravarInicialTerm.pas"/>
+        <DCCReference Include="DB\Garantir\App.DB.Garantir_u.GravarInicialServ.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
+        <None Include="..\..\Exe\Configs\Sis.Config.SisConfig.xml"/>
+        <None Include="..\..\Exe\Configs\testes.starter.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

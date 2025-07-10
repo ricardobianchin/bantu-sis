@@ -16,6 +16,7 @@ type
     function GravarSenha(out pMens: string): boolean;
 
     procedure Leia;
+    procedure LeiaAdmin;
   end;
 
 implementation
