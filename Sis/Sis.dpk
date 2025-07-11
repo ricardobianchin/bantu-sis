@@ -9,21 +9,21 @@ package Sis;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -329,6 +329,7 @@ contains
   Sis.Web.Utils_u in 'Web\Sis.Web.Utils_u.pas',
   Sis.UI.Controls.AndamentoFrame_u in 'UI\Controls\AndamentoFrame\Sis.UI.Controls.AndamentoFrame_u.pas' {AndamentoFrame: TFrame},
   Sis.UI.Frame.Control.DateTime_u in 'UI\BasForm\DtHFrame\DateTimeFrame\Sis.UI.Frame.Control.DateTime_u.pas' {DateTimeFrame: TFrame},
-  Sis.UI.Fram.Control.DtHFaixaFrame_u in 'UI\BasForm\DtHFrame\DtHFaixaFrame\Sis.UI.Fram.Control.DtHFaixaFrame_u.pas' {DtHFaixaFrame: TFrame};
+  Sis.UI.Fram.Control.DtHFaixaFrame_u in 'UI\BasForm\DtHFrame\DtHFaixaFrame\Sis.UI.Fram.Control.DtHFaixaFrame_u.pas' {DtHFaixaFrame: TFrame},
+  Sis.UI.ImpressaoTexto.POSPrinter_u in 'UI\Impr\Sis.UI.ImpressaoTexto.POSPrinter_u.pas';
 
 end.

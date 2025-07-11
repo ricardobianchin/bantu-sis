@@ -45,7 +45,7 @@ end;
 procedure TImpressaoTexto.EnvieImpressao;
 begin
   inherited;
-  ImprimaWinSpool(ImpressoraNome, GetDocTitulo, Texto);
+  //ImprimaWinSpool(ImpressoraNome, GetDocTitulo, Texto);
 end;
 
 procedure TImpressaoTexto.GereFim;
