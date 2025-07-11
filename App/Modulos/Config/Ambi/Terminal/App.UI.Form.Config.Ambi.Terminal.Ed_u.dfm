@@ -3,6 +3,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   ClientHeight = 423
   ClientWidth = 931
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitTop = -11
   ExplicitWidth = 947
   ExplicitHeight = 462
   TextHeight = 15
@@ -626,7 +627,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 2
     Top = 200
     Width = 602
-    Height = 121
+    Height = 133
     Caption = 'Impressora'
     TabOrder = 8
     object Label1: TLabel
@@ -686,6 +687,21 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Height = 15
       Caption = 'linhas no fim do cupom'
     end
+    object Label4: TLabel
+      Left = 6
+      Top = 114
+      Width = 216
+      Height = 36
+      Caption = 'Se Spool, nome do atalho. Se direta, nome da porta'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
+      StyleElements = []
+    end
     object ImprModoEnvioComboBox: TComboBox
       Left = 6
       Top = 34
@@ -697,6 +713,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       OnKeyPress = ImprModoEnvioComboBoxKeyPress
       Items.Strings = (
         'SEM IMPRESSORA'
+        'POS PRINTER PADRAO EPSON - IMPRESSAO DIRETA'
         'SPOOL DE IMPRESSAO DO WINDOWS')
     end
     object ImprNomeEdit: TEdit
@@ -704,7 +721,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Top = 91
       Width = 237
       Height = 23
-      Hint = 'Comando para acionamento'
       MaxLength = 260
       TabOrder = 1
       OnKeyPress = ImprNomeEditKeyPress

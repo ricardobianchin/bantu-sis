@@ -86,6 +86,7 @@ type
     StopBitsComboBox: TComboBox;
     HandShakingComboBox: TComboBox;
     Button1: TButton;
+    Label4: TLabel;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
