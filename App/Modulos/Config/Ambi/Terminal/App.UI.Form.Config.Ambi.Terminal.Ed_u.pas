@@ -85,7 +85,7 @@ type
     ParidadeComboBox: TComboBox;
     StopBitsComboBox: TComboBox;
     HandShakingComboBox: TComboBox;
-    Button1: TButton;
+    PosPrinterTesteButton: TButton;
     Label4: TLabel;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
@@ -112,7 +112,8 @@ type
     procedure ImprQtdColunasEditKeyPress(Sender: TObject; var Key: Char);
     procedure ImprNomeEditKeyPress(Sender: TObject; var Key: Char);
     procedure CupomQtdLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
-    procedure Button1Click(Sender: TObject);
+    procedure PosPrinterTesteButtonClick(Sender: TObject);
+    procedure ImprModoEnvioComboBoxChange(Sender: TObject);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -347,7 +348,7 @@ begin
   inherited;
 end;
 
-procedure TTerminalEdDiagForm.Button1Click(Sender: TObject);
+procedure TTerminalEdDiagForm.PosPrinterTesteButtonClick(Sender: TObject);
 begin
   inherited;
   PosPrinterTesteForm := TPosPrinterTesteForm.Create(nil);
@@ -581,6 +582,12 @@ begin
     exit;
   end;
   inherited;
+end;
+
+procedure TTerminalEdDiagForm.ImprModoEnvioComboBoxChange(Sender: TObject);
+begin
+  inherited;
+  PosPrinterTesteButton.Visible := ImprModoEnvioComboBox.ItemIndex = 1;
 end;
 
 procedure TTerminalEdDiagForm.ImprModoEnvioComboBoxKeyPress(Sender: TObject;
@@ -825,7 +832,7 @@ end;
 procedure TTerminalEdDiagForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //
+  ImprModoEnvioComboBoxChange(ImprModoEnvioComboBox);
 end;
 
 function TTerminalEdDiagForm.TerminaIdOk: Boolean;

@@ -3,7 +3,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   ClientHeight = 423
   ClientWidth = 931
   StyleElements = [seFont, seClient, seBorder]
-  ExplicitTop = -11
+  ExplicitLeft = -321
   ExplicitWidth = 947
   ExplicitHeight = 462
   TextHeight = 15
@@ -690,8 +690,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     object Label4: TLabel
       Left = 6
       Top = 114
-      Width = 216
-      Height = 36
+      Width = 201
+      Height = 12
       Caption = 'Se Spool, nome do atalho. Se direta, nome da porta'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -710,6 +710,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       CustomHint = BalloonHint1
       Style = csDropDownList
       TabOrder = 0
+      OnChange = ImprModoEnvioComboBoxChange
       OnKeyPress = ImprModoEnvioComboBoxKeyPress
       Items.Strings = (
         'SEM IMPRESSORA'
@@ -761,14 +762,14 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Text = '23'
       OnKeyPress = CupomQtdLinsFinalEditKeyPress
     end
-    object Button1: TButton
-      Left = 496
-      Top = 80
-      Width = 55
+    object PosPrinterTesteButton: TButton
+      Left = 474
+      Top = 90
+      Width = 113
       Height = 25
-      Caption = 'Teste'
+      Caption = 'Teste POS Printer...'
       TabOrder = 5
-      OnClick = Button1Click
+      OnClick = PosPrinterTesteButtonClick
     end
   end
   inherited ShowTimer_BasForm: TTimer
