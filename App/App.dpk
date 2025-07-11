@@ -472,6 +472,7 @@ contains
   App.PDV.Controlador_u in 'Modulos\PDV\Controlador\App.PDV.Controlador_u.pas',
   App.UI.Config.ConfigPergForm_u.CarregaServ in 'UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.CarregaServ.pas',
   App.DB.Garantir_u.GravarInicialTerm in 'DB\Garantir\App.DB.Garantir_u.GravarInicialTerm.pas',
-  App.DB.Garantir_u.GravarInicialServ in 'DB\Garantir\App.DB.Garantir_u.GravarInicialServ.pas';
+  App.DB.Garantir_u.GravarInicialServ in 'DB\Garantir\App.DB.Garantir_u.GravarInicialServ.pas',
+  App.UI.Form.POSPrinter.Teste_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.POSPrinter.Teste_u.pas' {PosPrinterTesteForm};
 
 end.

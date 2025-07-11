@@ -85,6 +85,7 @@ type
     ParidadeComboBox: TComboBox;
     StopBitsComboBox: TComboBox;
     HandShakingComboBox: TComboBox;
+    Button1: TButton;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -110,6 +111,7 @@ type
     procedure ImprQtdColunasEditKeyPress(Sender: TObject; var Key: Char);
     procedure ImprNomeEditKeyPress(Sender: TObject; var Key: Char);
     procedure CupomQtdLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -153,7 +155,7 @@ implementation
 {$R *.dfm}
 
 uses System.Math, Sis.Types.Utils_u, Sis.Types.strings_u, Sis.Win.Utils_u,
-  Sis.UI.ImgDM, Sis.UI.IO.Serial.Utils_u;
+  Sis.UI.ImgDM, Sis.UI.IO.Serial.Utils_u, App.UI.Form.POSPrinter.Teste_u;
 
 { TTerminalEdDiagForm }
 
@@ -342,6 +344,17 @@ begin
     exit;
   end;
   inherited;
+end;
+
+procedure TTerminalEdDiagForm.Button1Click(Sender: TObject);
+begin
+  inherited;
+  PosPrinterTesteForm := TPosPrinterTesteForm.Create(nil);
+  try
+    PosPrinterTesteForm.ShowModal;
+  finally
+    PosPrinterTesteForm.Free;
+  end;
 end;
 
 procedure TTerminalEdDiagForm.CavetaComandoColarToolButtonClick

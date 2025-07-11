@@ -2,18 +2,20 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
   ClientHeight = 423
   ClientWidth = 931
-  ExplicitWidth = 943
-  ExplicitHeight = 461
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 947
+  ExplicitHeight = 462
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 351
     Width = 931
-    ExplicitTop = 439
+    ExplicitTop = 351
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 408
     Width = 931
-    ExplicitTop = 496
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 408
   end
   object ObjetivoLabel: TLabel [2]
     Left = 2
@@ -151,19 +153,20 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Top = 371
     Width = 931
     TabOrder = 12
-    ExplicitTop = 458
-    ExplicitWidth = 970
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 371
+    ExplicitWidth = 931
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 532
-      ExplicitLeft = 571
+      ExplicitLeft = 532
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
       Left = 645
-      ExplicitLeft = 684
+      ExplicitLeft = 645
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
       Left = 725
-      ExplicitLeft = 764
+      ExplicitLeft = 725
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -741,6 +744,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       TabOrder = 4
       Text = '23'
       OnKeyPress = CupomQtdLinsFinalEditKeyPress
+    end
+    object Button1: TButton
+      Left = 496
+      Top = 80
+      Width = 55
+      Height = 25
+      Caption = 'Teste'
+      TabOrder = 5
+      OnClick = Button1Click
     end
   end
   inherited ShowTimer_BasForm: TTimer
