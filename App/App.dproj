@@ -913,6 +913,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <Form>PosPrinterTesteForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto.POSPrinter_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterVenda_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

@@ -6,7 +6,7 @@ uses Sis.Entities.Types, System.Classes, Sis.Types, App.PDV.UI.Gaveta,
   App.UI.PDV.Frame_u, Vcl.ComCtrls, Vcl.Controls, Vcl.ActnList, Vcl.Forms,
   App.PDV.VendaPag.List, App.PDV.VendaPag, Sis.Terminal, App.PDV.Obj,
   App.PDV.CupomEspelho, App.AppObj, Sis.UI.Impressao, App.PDV.Venda,
-  App.PDV.ImpressaoTextoVenda_u, App.PDV.UI.Balanca, Sis.Usuario,
+  App.PDV.UI.Balanca, Sis.Usuario,
   App.PDV.UI.Balanca.VendaForm_u, App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
   App.Est.Venda.CaixaSessaoRecord_u, App.Est.Venda.CaixaSessao.DBI,
   App.Est.Venda.Caixa.CaixaSessao, Sis.DB.DBTypes, App.PDV.Controlador, System.SysUtils;
@@ -64,8 +64,9 @@ uses App.PDV.VendaPag.List_u, Sis.UI.IO.Files
     , App.PDV.UI.Balanca.VendaForm.Teste_u //
     , App.PDV.UI.Balanca.VendaForm.Acbr_u, System.IniFiles //
 
-    , App.PDV.ImpressaoTextoCxOperacao_u //
-    , App.PDV.ImpressaoTextoCxSessRelat_u //
+    , App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u //
+    , App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u //
+    , App.PDV.ImpressaoTextoPOSPrinterVenda_u //
 
     , App.PDV.Controlador_u //
     ;
@@ -128,7 +129,8 @@ function ImpressaoTextoVendaCreate(pImpressoraNome: string; pUsuarioId: integer;
   pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
   pPDVVenda: IPDVVenda): IImpressao;
 begin
-  Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome, pUsuarioId,
+//  pTerminal.ImpressoraModoEnvioId = 1
+  Result := TImpressaoTextoPOSPrinterPDVVenda.Create(pImpressoraNome, pUsuarioId,
     pUsuarioNomeExib, pAppObj, pTerminal, pPDVVenda);
 end;
 
@@ -182,7 +184,8 @@ function ImpressaoTextoCxOperacaoCreate(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
   pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt): IImpressao;
 begin
-  Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome, pUsuarioId,
+//  pTerminal.ImpressoraModoEnvioId = 1
+  Result := TImpressaoTextoPOSPrinterPDVCxOperacao.Create(pImpressoraNome, pUsuarioId,
     pUsuarioNomeExib, pAppObj, pTerminal, pCxOperacaoEnt);
 end;
 
@@ -196,7 +199,8 @@ function ImpressaoTextoCxSessRelatCreate(pImpressoraNome: string;
   pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
   pCaixaSessao: ICaixaSessao): IImpressao;
 begin
-  Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome, pUsuarioId,
+//  pTerminal.ImpressoraModoEnvioId = 1
+  Result := TImpressaoTextoPOSPrinterPDVCxSessRelat.Create(pImpressoraNome, pUsuarioId,
     pUsuarioNomeExib, pAppObj, pTerminal, pCaixaSessaoDBI, pCaixaSessao);
 end;
 

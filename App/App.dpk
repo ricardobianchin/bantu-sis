@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -473,6 +473,10 @@ contains
   App.UI.Config.ConfigPergForm_u.CarregaServ in 'UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.CarregaServ.pas',
   App.DB.Garantir_u.GravarInicialTerm in 'DB\Garantir\App.DB.Garantir_u.GravarInicialTerm.pas',
   App.DB.Garantir_u.GravarInicialServ in 'DB\Garantir\App.DB.Garantir_u.GravarInicialServ.pas',
-  App.UI.Form.POSPrinter.Teste_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.POSPrinter.Teste_u.pas' {PosPrinterTesteForm};
+  App.UI.Form.POSPrinter.Teste_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.POSPrinter.Teste_u.pas' {PosPrinterTesteForm},
+  App.PDV.ImpressaoTexto.POSPrinter_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto.POSPrinter_u.pas',
+  App.PDV.ImpressaoTextoPOSPrinterVenda_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterVenda_u.pas',
+  App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u.pas',
+  App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u.pas';
 
 end.
