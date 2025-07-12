@@ -43,7 +43,7 @@ type
     property Conferido: Boolean read GetConferido write SetConferido;
     property MachineIdentId: SmallInt read GetMachineIdentId;
 
-    function GetCod(pSeparador: string = '-'): string;
+    function GetCod(pComPrefixo: Boolean = True; pSeparador: string = '-'): string;
 
     constructor Create(pLogUsuario: IUsuario; pMachineIdentId: SmallInt; pLojaId: TLojaId = 0;
       pTerminalId: TTerminalId = 0; pId: integer = 0);
@@ -52,6 +52,8 @@ type
 implementation
 
 { TCaixaSessao }
+
+uses Sis.Types.Bool_u;
 
 constructor TCaixaSessao.Create(pLogUsuario: IUsuario; pMachineIdentId: SmallInt; pLojaId: TLojaId;
   pTerminalId: TTerminalId; pId: integer);
@@ -87,9 +89,12 @@ begin
   Result := FMachineIdentId;
 end;
 
-function TCaixaSessao.GetCod(pSeparador: string): string;
+function TCaixaSessao.GetCod(pComPrefixo: Boolean; pSeparador: string): string;
+var
+  sPrefixo: string;
 begin
-  Result := Sis.Entities.Types.GetCod(LojaId, TerminalId, Id, 'CX',
+  sPrefixo := Iif(pComPrefixo, 'CX', '');
+  Result := Sis.Entities.Types.GetCod(LojaId, TerminalId, Id, sPrefixo,
     pSeparador);
 end;
 

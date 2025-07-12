@@ -2,7 +2,8 @@ unit App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u;
 
 interface
 
-uses App.PDV.ImpressaoTexto.POSPrinter_u, App.AppObj, Sis.Terminal, App.PDV.Venda,
+uses App.PDV.ImpressaoTexto.POSPrinter_u, App.AppObj, Sis.Terminal,
+  App.PDV.Venda,
   App.PDV.VendaItem, App.PDV.CupomEspelho, App.PDV.VendaPag,
   App.Est.Venda.Caixa.CaixaSessaoOperacaoTipo,
   App.Est.Venda.Caixa.CaixaSessaoOperacao.Ent,
@@ -33,12 +34,12 @@ uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
 
 { TImpressaoTextoPOSPrinterPDVCxOperacao }
 
-constructor TImpressaoTextoPOSPrinterPDVCxOperacao.Create(
-  pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
-  pAppObj: IAppObj; pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt);
+constructor TImpressaoTextoPOSPrinterPDVCxOperacao.Create(pImpressoraNome
+  : string; pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
+  pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt);
 begin
-  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
-    CupomEspelhoCxOperacaoCreate(pAppObj));
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj,
+    pTerminal, CupomEspelhoCxOperacaoCreate(pAppObj));
   FCxOperacaoEnt := pCxOperacaoEnt;
 end;
 
@@ -49,17 +50,19 @@ var
 begin
   inherited;
   // TIT
-  s := FCxOperacaoEnt.CxOperacaoTipo.Name;
+  s := FCxOperacaoEnt.CxOperacaoTipo.Abrev;
 
   bColocaOrdem := (FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopAbertura) and
     (FCxOperacaoEnt.CxOperacaoTipo.Id <> cxopFechamento);
 
   if bColocaOrdem then
-    s := s + ' ' + FCxOperacaoEnt.OperTipoOrdem.ToString;
-  PegueLinha('</ce>'+s);
+    s := s + ' ' + (FCxOperacaoEnt.OperTipoOrdem + 1).ToString;
 
-  s := 'R$ ' + DinhToStr(FCxOperacaoEnt.Valor);
-  PegueLinha('</ce>'+s);
+  s := s + ' [' + FCxOperacaoEnt.GetCod(False) + ']';
+
+  OverwriteStringRight(s, ' R$ ' + DinhToStr(FCxOperacaoEnt.Valor), 48);
+
+  PegueLinha('</ae>' + s);
 
   if FCxOperacaoEnt.CxOperacaoTipo.Id = cxopSangria then
   begin
@@ -67,17 +70,9 @@ begin
     PegueLinha('');
     PegueLinha('');
     s := StringOfChar('_', 26);
-    PegueLinha('</ce>'+s);
-    s := 'OP: ' + UsuarioNomeExib;
-    PegueLinha('</ce>'+s);
-
-    PegueLinha('');
-    PegueLinha('');
-    PegueLinha('');
-    s := StringOfChar('_', 26);
-    PegueLinha('</ce>'+s);
+    PegueLinha('</ce>' + s);
     s := 'RESPONSAVEL';
-    PegueLinha('</ce>'+s);
+    PegueLinha('</ce>' + s);
   end;
   // PegueLinha('');
 end;
@@ -92,7 +87,7 @@ begin
   // s := FCxOperacaoEnt.CaixaSessao.GetCod;
 
   s := FCxOperacaoEnt.GetCod;
-  PegueLinha('</ce>'+s);
+  PegueLinha('</ce>' + s);
   inherited;
 end;
 
@@ -111,33 +106,6 @@ begin
       PegueLinha(FCxOperacaoEnt.Linhas[i]);
     end;
   end;
-
-  bAdicionaAssinaturas := (FCxOperacaoEnt.CxOperacaoTipo.Id = cxopSangria);
-  if not bAdicionaAssinaturas then
-    exit;
-
-  PegueLinha('');
-  PegueLinha('');
-  PegueLinha('');
-
-  s := StringOfChar('_', 20);
-  PegueLinha('</ce>'+s);
-
-  s := 'OPERADOR';
-  PegueLinha('</ce>'+s);
-
-  PegueLinha('');
-  PegueLinha('');
-  PegueLinha('');
-
-  s := StringOfChar('_', 20);
-  PegueLinha('</ce>'+s);
-
-  s := 'RESPONSAVEL';
-  PegueLinha('</ce>'+s);
-
-  PegueLinha('');
-  PegueLinha('');
 end;
 
 function TImpressaoTextoPOSPrinterPDVCxOperacao.GetDocTitulo: string;

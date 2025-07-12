@@ -56,20 +56,22 @@ var
 begin
   inherited;
   PegueLinha('</ce>'+FAppObj.Loja.NomeFantasia);
-  PegueLinha('</ce>'+'CNPJ.: ' + FAppObj.Loja.C);
+  //PegueLinha('</ce>'+'CNPJ.: ' + FAppObj.Loja.C);
   PegueLinha('</ce>'+FAppObj.Loja.Ender.Ender1);
-  PegueLinha('</ce>'+FAppObj.Loja.Ender.Ender2);
+  //PegueLinha('</ce>'+FAppObj.Loja.Ender.Ender2);
   PegueLinha('</ce>'+FAppObj.Loja.Ender.Ender3);
 
+  s := 'LJ: '+FAppObj.Loja.Id.ToString;
   d := GetDtDoc;
   if d <> DATA_ZERADA then
   begin
-    s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
-    PegueLinha('</ce>'+s);
+    s := s + ' '+FormatDateTime('ddd dd/mmm/yy-hh:nn', d)+'H';
+//    s := 'Data: ' + DateToStr(d) + '   Hora: ' + TimeToStr(d);
+//    PegueLinha('</ce>'+s);
   end;
-  s := 'OPERADOR: ' + UsuarioNomeExib;
+  s := s + ' Opr.: ' + UsuarioId.ToString;
   PegueLinha('</ce>'+s);
-  PegueLinha('');
+//  PegueLinha('');
 end;
 
 procedure TImpressaoTextoPOSPrinterPDV.GereFim;

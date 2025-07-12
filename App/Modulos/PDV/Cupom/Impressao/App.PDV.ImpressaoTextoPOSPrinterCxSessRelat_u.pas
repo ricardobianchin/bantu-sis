@@ -1,4 +1,4 @@
-unit App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u;
+﻿unit App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u;
 
 interface
 
@@ -207,6 +207,7 @@ begin
       break;
 
     s := Items[1];
+    s := Format('%.2d:00', [StrToInt(s)]);
 
     OverwriteStringRight(s, Items[2], 14);
     OverwriteStringRight(s, Items[3], 27);

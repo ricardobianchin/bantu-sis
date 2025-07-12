@@ -69,7 +69,7 @@ type
 
     property CxValorList: ICxValorList read GetCxValorList;
 
-    function GetCod(pSeparador: string = '-'): string;
+    function GetCod(pComPrefixo: Boolean = True; pSeparador: string = '-'): string;
 
     property Linhas: TStrings read GetLinhas;
 
@@ -165,9 +165,9 @@ begin
   Result := FValor;
 end;
 
-function TCxOperacaoEnt.GetCod(pSeparador: string): string;
+function TCxOperacaoEnt.GetCod(pComPrefixo: Boolean; pSeparador: string): string;
 begin
-  Result := FCaixaSessao.GetCod(pSeparador) + pSeparador + FOperOrdem.ToString;
+  Result := FCaixaSessao.GetCod(pComPrefixo, pSeparador) + pSeparador + FOperOrdem.ToString;
 end;
 
 function TCxOperacaoEnt.GetCriadoEm: TDateTIme;

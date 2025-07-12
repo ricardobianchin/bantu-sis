@@ -61,8 +61,9 @@ var
   sFormat: string;
 begin
   sFormat := '%.2d' + pSeparador + '%.2d' + pSeparador + '%.7d';
-  Result := pPrefixo + pSeparador + Format(sFormat,
-    [pLojaId, pTerminalId, pId]);
+    Result := Format(sFormat, [pLojaId, pTerminalId, pId]);
+  if pPrefixo <> '' then
+    Result := pPrefixo + pSeparador + Result;
 end;
 
 function GetCod(pLojaId: TLojaId; pId: integer; pPrefixo: string;

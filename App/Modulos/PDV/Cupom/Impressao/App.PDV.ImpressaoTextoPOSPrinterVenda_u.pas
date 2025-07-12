@@ -2,7 +2,8 @@ unit App.PDV.ImpressaoTextoPOSPrinterVenda_u;
 
 interface
 
-uses App.PDV.ImpressaoTexto.POSPrinter_u, App.AppObj, Sis.Terminal, App.PDV.Venda,
+uses App.PDV.ImpressaoTexto.POSPrinter_u, App.AppObj, Sis.Terminal,
+  App.PDV.Venda,
   App.PDV.VendaItem, App.PDV.VendaPag;
 
 type
@@ -20,8 +21,9 @@ type
     function GetDocTitulo: string; override;
     function GetEspelhoAssuntoAtual: string; override;
   public
-    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
-      pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda);
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer;
+      pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
+      pPDVVenda: IPDVVenda);
   end;
 
 implementation
@@ -35,8 +37,8 @@ constructor TImpressaoTextoPOSPrinterPDVVenda.Create(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
   pTerminal: ITerminal; pPDVVenda: IPDVVenda);
 begin
-  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
-    CupomEspelhoVendaCreate(pAppObj));
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj,
+    pTerminal, CupomEspelhoVendaCreate(pAppObj));
   FPDVVenda := pPDVVenda;
 end;
 
@@ -46,7 +48,7 @@ var
 begin
   inherited;
   s := FPDVVenda.GetCod;
-  PegueLinha('</ce>'+s);
+  PegueLinha('</ce>' + s);
 end;
 
 procedure TImpressaoTextoPOSPrinterPDVVenda.GereItem(It: IPDVVendaItem);
@@ -69,7 +71,7 @@ begin
 
   sLinha := sLinha + ' ' + sDescr;
 
-  PegueLinha(sLinha);
+  PegueLinha('</ae>' + sLinha);
 
   sLinha := '';
   if CurrencyEhInteiro(It.Qtd) then
@@ -140,7 +142,7 @@ begin
     inc(iQtdVolumes, oPDVVendaItem.QtdVolumes);;
   end;
 
-  sLinha := 'QTD.ITENS: ' + iQtdVolumes.ToString;
+  sLinha := '<CE>QTD.ITENS: ' + iQtdVolumes.ToString + '</CE>';
   PegueLinha(sLinha);
 
   PegueSeparador;
