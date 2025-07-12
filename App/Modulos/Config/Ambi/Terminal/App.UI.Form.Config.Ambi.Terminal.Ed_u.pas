@@ -85,6 +85,8 @@ type
     ParidadeComboBox: TComboBox;
     StopBitsComboBox: TComboBox;
     HandShakingComboBox: TComboBox;
+    PosPrinterTesteButton: TButton;
+    Label4: TLabel;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -110,6 +112,8 @@ type
     procedure ImprQtdColunasEditKeyPress(Sender: TObject; var Key: Char);
     procedure ImprNomeEditKeyPress(Sender: TObject; var Key: Char);
     procedure CupomQtdLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
+    procedure PosPrinterTesteButtonClick(Sender: TObject);
+    procedure ImprModoEnvioComboBoxChange(Sender: TObject);
   private
     { Private declarations }
     FTerminaisDataSet: TDataSet;
@@ -153,7 +157,7 @@ implementation
 {$R *.dfm}
 
 uses System.Math, Sis.Types.Utils_u, Sis.Types.strings_u, Sis.Win.Utils_u,
-  Sis.UI.ImgDM, Sis.UI.IO.Serial.Utils_u;
+  Sis.UI.ImgDM, Sis.UI.IO.Serial.Utils_u, App.UI.Form.POSPrinter.Teste_u;
 
 { TTerminalEdDiagForm }
 
@@ -342,6 +346,17 @@ begin
     exit;
   end;
   inherited;
+end;
+
+procedure TTerminalEdDiagForm.PosPrinterTesteButtonClick(Sender: TObject);
+begin
+  inherited;
+  PosPrinterTesteForm := TPosPrinterTesteForm.Create(nil);
+  try
+    PosPrinterTesteForm.ShowModal;
+  finally
+    PosPrinterTesteForm.Free;
+  end;
 end;
 
 procedure TTerminalEdDiagForm.CavetaComandoColarToolButtonClick
@@ -567,6 +582,12 @@ begin
     exit;
   end;
   inherited;
+end;
+
+procedure TTerminalEdDiagForm.ImprModoEnvioComboBoxChange(Sender: TObject);
+begin
+  inherited;
+  PosPrinterTesteButton.Visible := ImprModoEnvioComboBox.ItemIndex = 1;
 end;
 
 procedure TTerminalEdDiagForm.ImprModoEnvioComboBoxKeyPress(Sender: TObject;
@@ -811,7 +832,7 @@ end;
 procedure TTerminalEdDiagForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-  //
+  ImprModoEnvioComboBoxChange(ImprModoEnvioComboBox);
 end;
 
 function TTerminalEdDiagForm.TerminaIdOk: Boolean;

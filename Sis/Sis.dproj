@@ -464,6 +464,7 @@
             <Form>DtHFaixaFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="UI\Impr\Sis.UI.ImpressaoTexto.POSPrinter_u.pas"/>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

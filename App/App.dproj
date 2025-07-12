@@ -909,6 +909,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="UI\ConfigEdit\App.UI.Config.ConfigPergForm_u.CarregaServ.pas"/>
         <DCCReference Include="DB\Garantir\App.DB.Garantir_u.GravarInicialTerm.pas"/>
         <DCCReference Include="DB\Garantir\App.DB.Garantir_u.GravarInicialServ.pas"/>
+        <DCCReference Include="Modulos\Config\Ambi\Terminal\App.UI.Form.POSPrinter.Teste_u.pas">
+            <Form>PosPrinterTesteForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTexto.POSPrinter_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterVenda_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u.pas"/>
+        <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

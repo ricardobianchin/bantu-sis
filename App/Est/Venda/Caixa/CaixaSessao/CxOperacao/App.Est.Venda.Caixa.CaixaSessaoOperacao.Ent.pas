@@ -42,7 +42,7 @@ type
     function GetCxValorList: ICxValorList;
     property CxValorList: ICxValorList read GetCxValorList;
 
-    function GetCod(pSeparador: string = '-'): string;
+    function GetCod(pComPrefixo: Boolean = True; pSeparador: string = '-'): string;
 
     function GetCriadoEm: TDateTime;
     procedure SetCriadoEm(Value: TDateTIme);

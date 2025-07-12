@@ -2,18 +2,21 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
   ClientHeight = 423
   ClientWidth = 931
-  ExplicitWidth = 943
-  ExplicitHeight = 461
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitLeft = -321
+  ExplicitWidth = 947
+  ExplicitHeight = 462
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 351
     Width = 931
-    ExplicitTop = 439
+    ExplicitTop = 351
   end
   inherited AlteracaoTextoLabel: TLabel
     Top = 408
     Width = 931
-    ExplicitTop = 496
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 408
   end
   object ObjetivoLabel: TLabel [2]
     Left = 2
@@ -151,19 +154,20 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Top = 371
     Width = 931
     TabOrder = 12
-    ExplicitTop = 458
-    ExplicitWidth = 970
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 371
+    ExplicitWidth = 931
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 532
-      ExplicitLeft = 571
+      ExplicitLeft = 532
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
       Left = 645
-      ExplicitLeft = 684
+      ExplicitLeft = 645
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
       Left = 725
-      ExplicitLeft = 764
+      ExplicitLeft = 725
     end
   end
   object TerminalIdEdit: TEdit [15]
@@ -623,7 +627,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Left = 2
     Top = 200
     Width = 602
-    Height = 121
+    Height = 133
     Caption = 'Impressora'
     TabOrder = 8
     object Label1: TLabel
@@ -683,6 +687,21 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Height = 15
       Caption = 'linhas no fim do cupom'
     end
+    object Label4: TLabel
+      Left = 6
+      Top = 114
+      Width = 201
+      Height = 12
+      Caption = 'Se Spool, nome do atalho. Se direta, nome da porta'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      WordWrap = True
+      StyleElements = []
+    end
     object ImprModoEnvioComboBox: TComboBox
       Left = 6
       Top = 34
@@ -691,9 +710,11 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       CustomHint = BalloonHint1
       Style = csDropDownList
       TabOrder = 0
+      OnChange = ImprModoEnvioComboBoxChange
       OnKeyPress = ImprModoEnvioComboBoxKeyPress
       Items.Strings = (
         'SEM IMPRESSORA'
+        'POS PRINTER PADRAO EPSON - IMPRESSAO DIRETA'
         'SPOOL DE IMPRESSAO DO WINDOWS')
     end
     object ImprNomeEdit: TEdit
@@ -701,7 +722,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Top = 91
       Width = 237
       Height = 23
-      Hint = 'Comando para acionamento'
       MaxLength = 260
       TabOrder = 1
       OnKeyPress = ImprNomeEditKeyPress
@@ -741,6 +761,15 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       TabOrder = 4
       Text = '23'
       OnKeyPress = CupomQtdLinsFinalEditKeyPress
+    end
+    object PosPrinterTesteButton: TButton
+      Left = 474
+      Top = 90
+      Width = 113
+      Height = 25
+      Caption = 'Teste POS Printer...'
+      TabOrder = 5
+      OnClick = PosPrinterTesteButtonClick
     end
   end
   inherited ShowTimer_BasForm: TTimer

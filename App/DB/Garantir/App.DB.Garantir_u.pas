@@ -230,7 +230,7 @@ begin
 
     CarregarMachineId(pAppObj, pProcessLog, pOutput);
 
-    GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioAdmin,
+    Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioAdmin,
       pVariaveis, pCriouTerminais);
   finally
     pProcessLog.RegistreLog('fim');

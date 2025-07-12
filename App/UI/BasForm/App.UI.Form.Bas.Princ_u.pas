@@ -52,9 +52,11 @@ type
     function AtualizeVersaoExecutaveis: Boolean;
     procedure ConfigureForm;
     procedure ConfigureSplashForm;
-    function Garantir_Config_XML_e_Perg(pLoja: IAppLoja;
-      pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
-      out pCriouTerminais: Boolean): Boolean;
+    function Garanta_Config_XML_e_Perg(pLoja: IAppLoja; pUsuarioAdmin: IUsuario;
+      pTerminalList: ITerminalList; out pCriouTerminais: Boolean): Boolean;
+
+    function Garanta_DB(pCriouTerminais: Boolean;
+      pUsuarioAdmin: IUsuario): Boolean;
 
     procedure CarregarMachineId;
     procedure CarregarLoja;
@@ -396,50 +398,35 @@ procedure TPrincBasForm.Garanta_Config_e_DB;
 var
   bResultado: Boolean;
   oUsuarioAdmin: IUsuario;
-  oUsuarioAdminDBI: IUsuarioDBI;
   oSisConfig: ISisConfig;
+  // variavel oSisConfig usada apenas para o debug trace into ir direto a chamada do metodo
 
-  DBConnection: IDBConnection;
-  oDBConnectionParams: TDBConnectionParams;
   sMens: string;
-  oTerminalDBI: ITerminalDBI;
   bCriouTerminais: Boolean;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_e_DB');
   try
     oUsuarioAdmin := UsuarioCreate;
 
-    bResultado := Garantir_Config_XML_e_Perg(FLoja, oUsuarioAdmin,
+    bResultado := Garanta_Config_XML_e_Perg(FLoja, oUsuarioAdmin,
       FAppObj.TerminalList, bCriouTerminais);
 
-    oDBConnectionParams := TerminalIdToDBConnectionParams
-      (TERMINAL_ID_RETAGUARDA, FAppObj);
-
-    DBConnection := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
-      oDBConnectionParams, ProcessLog, FProcessOutput);
-
     if not bResultado then
     begin
       FProcessLog.RegistreLog
-        ('Garantir_Config_XML_e_Perg retornou false, Application.Terminate');
+        ('Garanta_Config_XML_e_Perg retornou false, Application.Terminate');
       Application.Terminate;
       exit;
     end;
 
-    oSisConfig := FAppObj.SisConfig;
-    bResultado := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
-      oUsuarioAdmin, DBUpdaterVariaveis, bCriouTerminais);
-
+    bResultado := Garanta_DB(bCriouTerminais, oUsuarioAdmin);
     if not bResultado then
     begin
       FProcessLog.RegistreLog
-        ('GarantirDB retornou false, Application.Terminate');
+        ('Garanta_DB retornou false, Application.Terminate');
       Application.Terminate;
       exit;
     end;
-
-    oTerminalDBI := TerminalDBICreate(DBConnection);
-    oTerminalDBI.ComplementeList(FAppObj.TerminalList, FAppObj.SisConfig);
 
     oSisConfig := FAppObj.SisConfig;
     FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
@@ -450,7 +437,7 @@ begin
   end;
 end;
 
-function TPrincBasForm.Garantir_Config_XML_e_Perg(pLoja: IAppLoja;
+function TPrincBasForm.Garanta_Config_XML_e_Perg(pLoja: IAppLoja;
   pUsuarioAdmin: IUsuario; pTerminalList: ITerminalList;
   out pCriouTerminais: Boolean): Boolean;
 var
@@ -458,7 +445,7 @@ var
   sLog: string;
   oSisConfig: ISisConfig;
 begin
-  FProcessLog.PegueLocal('TPrincBasForm.Garantir_Config_XML_e_Perg');
+  FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_XML_e_Perg');
   try
     oSisConfig := FAppObj.SisConfig;
 
@@ -474,6 +461,46 @@ begin
   finally
     FProcessLog.RetorneLocal;
   end;
+end;
+
+function TPrincBasForm.Garanta_DB(pCriouTerminais: Boolean;
+  pUsuarioAdmin: IUsuario): Boolean;
+var
+  DBConnectionServ: IDBConnection;
+  oDBConnectionParamsServ: TDBConnectionParams;
+
+  oSisConfig: ISisConfig;
+  // variavel oSisConfig usada apenas para o debug trace into ir direto a chamada do metodo
+
+  oTerminalDBI: ITerminalDBI;
+  oUsuarioAdminDBI: IUsuarioDBI;
+begin
+  oSisConfig := FAppObj.SisConfig;
+//  if pUsuarioAdmin.Id = 0 then
+//  begin
+//    oUsuarioAdminDBI := UsuarioDBICreate(DBConnectionServ, pUsuarioAdmin,
+//      oSisConfig);
+//    oUsuarioAdminDBI.LeiaAdmin;
+//  end;
+
+  Result := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
+    pUsuarioAdmin, DBUpdaterVariaveis, pCriouTerminais);
+
+  if not Result then
+  begin
+    FProcessLog.RegistreLog('GarantirDB retornou false, Application.Terminate');
+    Application.Terminate;
+    exit;
+  end;
+
+  oDBConnectionParamsServ := TerminalIdToDBConnectionParams
+    (TERMINAL_ID_RETAGUARDA, FAppObj);
+
+  DBConnectionServ := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
+    oDBConnectionParamsServ, ProcessLog, FProcessOutput);
+
+  oTerminalDBI := TerminalDBICreate(DBConnectionServ);
+  oTerminalDBI.ComplementeList(FAppObj.TerminalList, FAppObj.SisConfig);
 end;
 
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);
