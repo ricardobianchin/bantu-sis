@@ -65,6 +65,16 @@ COMANDO FIM
 
 
 
+/*
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\MACHINE_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\MACHINE_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\DB\MACHINE_PA.sql";
+*/
+
+
 
 // PACKAGE MACHINE_PA
 COMANDO INI
@@ -104,20 +114,26 @@ BEGIN
   )
   AS
   BEGIN
-    SELECT MACHINE_ID
+    SELECT FIRST(1) MACHINE_ID
     FROM MACHINE
     WHERE NOME_NA_REDE = :NOME_NA_REDE
-      OR IP = :IP INTO :MACHINE_ID_RET;
+      AND IP = :IP
+    INTO :MACHINE_ID_RET;
     
     IF (:MACHINE_ID_RET IS NULL) THEN
     BEGIN
       MACHINE_ID_RET = NEXT VALUE FOR MACHINE_SEQ;
 
-      INSERT INTO MACHINE(MACHINE_ID, NOME_NA_REDE, IP) VALUES (:MACHINE_ID_RET, :NOME_NA_REDE, :IP);
-    END
-    ELSE
-    BEGIN
-      UPDATE MACHINE SET NOME_NA_REDE = :NOME_NA_REDE, IP = :IP WHERE MACHINE_ID = :MACHINE_ID_RET;
+      INSERT INTO MACHINE
+      (
+        MACHINE_ID,
+        NOME_NA_REDE,
+        IP
+      ) VALUES (
+        :MACHINE_ID_RET,
+        :NOME_NA_REDE,
+        :IP
+      );
     END
     
     SUSPEND;
