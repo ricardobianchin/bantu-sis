@@ -48,18 +48,27 @@ type
 
 implementation
 
-uses System.Variants, Sis.UI.IO.Output.ProcessLog.Factory, System.StrUtils;
+uses System.Variants, Sis.UI.IO.Output.ProcessLog.Factory, System.StrUtils,
+  Sis.UI.IO.Factory;
 
-{ TDBCommand }
+{ TDBSQLOperation }
 
 constructor TDBSQLOperation.Create(pNomeComponente: string;
   pDBConnection: IDBConnection; pProcessLog: IProcessLog; pOutput: IOutput);
 var
   s: string;
 begin
+  if Assigned(pProcessLog) then
+    FProcessLog := pProcessLog
+  else
+    FProcessLog := MudoProcessLogCreate;
+
+  if Assigned(pOutput) then
+    FOutput := pOutput
+  else
+    FOutput := MudoOutputCreate;
+
   FDBConnection := pDBConnection;
-  FProcessLog := pProcessLog;
-  FOutput := pOutput;
 
   FProcessLog.PegueLocal('TDBSQLOperation.Create');
   try
