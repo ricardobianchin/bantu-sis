@@ -107,6 +107,7 @@ begin
       EscrLog('not Assigned(q)');
       exit;
     end;
+    EscrLog('q.FieldCount = '+q.FieldCount.ToString);
     EscrLog('----');
     EscrLog('Inicia loop');
     EscrLog('----');

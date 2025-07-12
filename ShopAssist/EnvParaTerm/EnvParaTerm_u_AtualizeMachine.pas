@@ -9,58 +9,98 @@ procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u;
+  System.SysUtils, DB_u, Configs_u, Log_u;
 
 procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
-  iMaxMachineId: integer;
-  s: string;
+  sMens: string;
+  sSql: string;
   oServMachinesQ: TFDQuery;
-  q: TDataSet;
+  oLocalMachinesQ: TFDQuery;
+  qServ: TDataSet;
+  qLocal: TDataSet;
   iRowsAfected: LongInt;
+
+  iServId: integer;
+  sServNome: string;
+  sServIp: string;
+
+  iLocalId: integer;
+  sLocalNome: string;
+  sLocalIp: string;
 begin
   if pPrecisaTerminar then
     exit;
 
+  sSql := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' //
+    + ' FROM MACHINE' //
+    + ' WHERE NOME_NA_REDE = ' + QuotedStr(Config.Local.Nome) //
+    + ' OR IP = ' + QuotedStr(Config.Local.IP) //
+    ; //
+
   DBServDM.Connection.Open;
-  pTermDM.Connection.Open;
   try
-    // descobre no terminal, qual maior machine_id gravado
-    s := 'select max(machine_id) from machine;';
-    iMaxMachineId := VarToInteger(pTermDM.Connection.ExecSQLScalar(s));
-
-    // busca no servidor machines posteriores à iMaxMachineId
-    s := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' //
-      + ' FROM MACHINE' //
-      + ' WHERE MACHINE_ID > ' + IntToStr(iMaxMachineId) //
-      + ' ORDER BY MACHINE_ID'; //
-
     oServMachinesQ := TFDQuery.Create(nil);
     try
       oServMachinesQ.Connection := DBServDM.Connection;
-      oServMachinesQ.Sql.Text := s;
-
+      oServMachinesQ.Sql.Text := sSql;
       oServMachinesQ.Open;
       try
-        q := oServMachinesQ;
-        while not q.Eof do
-        begin
-          s := 'INSERT INTO MACHINE' + '(MACHINE_ID, NOME_NA_REDE, IP)' //
-            + ' VALUES (' + q.Fields[0].AsInteger.ToString //
-            + ', ' + QuotedStr(q.Fields[1].AsString) //
-            + ', ' + QuotedStr(q.Fields[2].AsString.Trim) //
-            + ');';
-          pTermDM.Connection.ExecSQL(s);
-          q.Next;
-        end;
+        iServId := oServMachinesQ.Fields[0].AsInteger;
+        sServNome := oServMachinesQ.Fields[1].AsString.Trim;
+        sServIp := oServMachinesQ.Fields[2].AsString.Trim;
       finally
         oServMachinesQ.Close;
       end;
     finally
-      oServMachinesQ.Free;
+      FreeAndNil(oServMachinesQ);
     end;
   finally
     DBServDM.Connection.Close;
+  end;
+
+  pTermDM.Connection.Open;
+  try
+    oLocalMachinesQ := TFDQuery.Create(nil);
+    try
+      oLocalMachinesQ.Connection := pTermDM.Connection;
+      oLocalMachinesQ.Sql.Text := sSql;
+      oLocalMachinesQ.Open;
+      try
+        iLocalId := oLocalMachinesQ.Fields[0].AsInteger;
+        sLocalNome := oLocalMachinesQ.Fields[1].AsString.Trim;
+        sLocalIp := oLocalMachinesQ.Fields[2].AsString.Trim;
+      finally
+        oLocalMachinesQ.Close;
+      end;
+
+      if (iServId <> iLocalId) or (sServNome <> sLocalNome) or
+        (sServIp <> sLocalIp) then
+      begin
+        try
+          sSql := 'DELETE FROM MACHINE;';
+          pTermDM.Connection.ExecSQL(sSql);
+
+          sSql := 'INSERT INTO MACHINE(MACHINE_ID, NOME_NA_REDE, IP)' //
+            + ' VALUES (' //
+            + iServId.ToString //
+            + ', ' + QuotedStr(sServNome) //
+            + ', ' + QuotedStr(sServIp) //
+            + ');';
+          pTermDM.Connection.ExecSQL(sSql);
+        except
+          on e: exception do
+          begin
+            sMens := 'Erro atualizando machine. Terminal_id = ' +
+              pTermDM.Terminal.TerminalId.ToString+'. '+sSql + '  ' + e.message;
+            Log_u.EscrevaLog(sMens);
+          end;
+        end;
+      end;
+    finally
+      FreeAndNil(oLocalMachinesQ);
+    end;
+  finally
     pTermDM.Connection.Close;
   end;
 end;

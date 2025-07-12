@@ -43,16 +43,22 @@ var
 
 procedure CarregarConfigs;
 function DBServDMCreate: TDBServDM;
-procedure CarregarIni;
+procedure CarregarIni_Ativo;
+procedure CarregarIni_MaqLocal(out pServNomeNaRede: string; out pServIp: string;
+  out pLocalNomeNaRede: string; out pLocalIp: string; out pLocalArqDados: string);
 
 implementation
 
-uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u, IniFiles;
+uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u, IniFiles,
+  Sis.Win.Utils_u;
 
 function LoadConfigFromXML(const FileName: string): TConfig;
 var
   XMLDoc: IXMLDocument;
   RootNode, Node: IXMLNode;
+  sServNomeNaRede, sServIp: string;
+  sLocalNomeNaRede, sLocalIp: string;
+  sLocalArqDados: string;
 begin
   XMLDoc := LoadXMLDocument(FileName);
 
@@ -76,6 +82,16 @@ begin
   Result.SO.Versao := Node.ChildNodes['VERSAO'].Text;
   Result.SO.CSDVersion := Node.ChildNodes['CSD_VERSION'].Text;
   Result.SO.Platform := Node.ChildNodes['PLATFORM'].Text;
+
+  CarregarIni_MaqLocal(sServNomeNaRede, sServIp, sLocalNomeNaRede, sLocalIp, sLocalArqDados);
+  if sServNomeNaRede <> '' then
+  begin
+    Result.Server.Nome := sServNomeNaRede;
+    Result.Server.IP := sServIp;
+    Result.Local.Nome := sLocalNomeNaRede;
+    Result.Local.IP := sLocalIp;
+    sPastaDados := GetPastaDoArquivo(sLocalArqDados);
+  end;
 end;
 
 function DBServDMCreate: TDBServDM;
@@ -102,7 +118,7 @@ begin
     ;
 end;
 
-procedure CarregarIni;
+procedure CarregarIni_Ativo;
 var
   sNomeArqIni: string;
   IniFile: TIniFile;
@@ -137,6 +153,28 @@ begin
   Config := LoadConfigFromXML(sNomeXml);
 
   InicializePrecisaTerminar;
+end;
+
+procedure CarregarIni_MaqLocal(out pServNomeNaRede: string; out pServIp: string;
+  out pLocalNomeNaRede: string; out pLocalIp: string; out pLocalArqDados: string);
+var
+  sNomeArqIni: string;
+  IniFile: TIniFile;
+begin
+  sNomeArqIni := sPastaConfig + 'ShopAssist.ini';
+  if not FileExists(sNomeArqIni) then
+    exit;
+
+  IniFile := TIniFile.Create(sNomeArqIni);
+  try
+    pServNomeNaRede := IniFile.ReadString('serv', 'nome_na_rede', '');
+    pServIp := IniFile.ReadString('serv', 'ip', '');
+    pLocalNomeNaRede := IniFile.ReadString('local', 'nome_na_rede', '');
+    pLocalIp := IniFile.ReadString('local', 'ip', '');
+    pLocalArqDados := IniFile.ReadString('local', 'arq_dados', '');
+  finally
+    IniFile.Free;
+  end;
 end;
 
 end.

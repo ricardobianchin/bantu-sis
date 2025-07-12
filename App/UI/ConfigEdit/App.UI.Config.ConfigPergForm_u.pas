@@ -153,7 +153,7 @@ implementation
 
 {$R *.dfm}
 
-uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
+uses Math, Sis.UI.Controls.utils, Sis.UI.ImgDM, Sis.Win.Utils_u,
   Sis.Types.Utils_u, App.DB.utils, Sis.Types.strings_u, Sis.DB.DBTypes,
   Sis.UI.Constants, App.UI.Config.Constants, Sis.UI.IO.Files,
   Sis.Terminal.Factory_u, App.Config.Ambi.Factory_u, App.AppInfo.Types,
@@ -190,6 +190,7 @@ uses Math, Winapi.winsock, Sis.UI.Controls.utils, Sis.UI.ImgDM,
   end;
 }
 
+{
 procedure PegarIdMaquina(out pNome: string; out pIp: string);
 var
   Buffer: array [0 .. MAX_COMPUTERNAME_LENGTH + 1] of Char;
@@ -218,6 +219,7 @@ begin
     WSACleanup;
   end;
 end;
+}
 
 procedure TConfigPergForm.BuscaLocalNomeActionExecute(Sender: TObject);
 var

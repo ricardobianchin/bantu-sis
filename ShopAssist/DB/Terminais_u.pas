@@ -7,11 +7,13 @@ uses DBTermDM_u, System.Generics.Collections;
 procedure CrieListaDeTerminais;
 procedure LibereListaDeTerminais;
 
-procedure ForEachTerminal(pProc: TProcTermOfObject; var pPrecisaTerminar: boolean);
+procedure ForEachTerminal(pProc: TProcTermOfObject;
+  var pPrecisaTerminar: boolean);
 
 implementation
 
-uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u, vcl.dialogs;
+uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u,
+  vcl.dialogs, Sis.Win.Utils_u, Configs_u;
 
 var
   DBTermDMList: TList<TDBTermDM>;
@@ -33,9 +35,10 @@ begin
   sDriver := 'FB';
   DBTermDMList := TList<TDBTermDM>.Create;
   try
-  DBServDM.Connection.Open;
-  except on e: exception do
-    //showmessage(e.classname + ' '+e.message);
+    DBServDM.Connection.Open;
+  except
+    on e: exception do
+      // showmessage(e.classname + ' '+e.message);
   end;
   try
     sSql := 'SELECT'#13#10 //
@@ -45,8 +48,13 @@ begin
       + ', LETRA_DO_DRIVE'#13#10 // 3
       + ' FROM TERMINAL'#13#10 //
       + 'WHERE TERMINAL_ID > 0 AND ATIVO'#13#10 //
-      + 'ORDER BY TERMINAL_ID'#13#10; //
+      +' AND (NOME_NA_REDE = '+QuotedStr( Config.Local.Nome) + #13#10 //
+      +' OR IP = '+QuotedStr( Config.Local.Ip) + ')'#13#10 //
+      + 'ORDER BY TERMINAL_ID;'#13#10; //
 
+//{$IFDEF DEBUG}
+//    CopyTextToClipboard(sSql);
+//{$ENDIF}
     DBServDM.Connection.ExecSQL(sSql, Q);
 
     if not Assigned(Q) then
@@ -57,14 +65,14 @@ begin
       begin
         oDM := TDBTermDM.Create(nil);
 
-        iId := Q.Fields[0 {TERMINAL_ID}].AsInteger;
+        iId := Q.Fields[0 { TERMINAL_ID } ].AsInteger;
         oDM.Terminal.TerminalId := iId;
 
-        oDM.Terminal.NomeNaRede := Q.Fields[1 {NOME NA REDE}].AsString.Trim;
+        oDM.Terminal.NomeNaRede := Q.Fields[1 { NOME NA REDE } ].AsString.Trim;
         if oDM.Terminal.NomeNaRede = '' then
-          oDM.Terminal.NomeNaRede := Q.Fields[2 {IP}].AsString.Trim;
+          oDM.Terminal.NomeNaRede := Q.Fields[2 { IP } ].AsString.Trim;
 
-        sLetraDoDrive := Q.Fields[3 {LETRA DO DRIVE}].AsString.Trim;
+        sLetraDoDrive := Q.Fields[3 { LETRA DO DRIVE } ].AsString.Trim;
         if sLetraDoDrive = '' then
           sLetraDoDrive := 'C';
 
@@ -105,7 +113,8 @@ begin
   FreeAndNil(DBTermDMList);
 end;
 
-procedure ForEachTerminal(pProc: TProcTermOfObject; var pPrecisaTerminar: boolean);
+procedure ForEachTerminal(pProc: TProcTermOfObject;
+  var pPrecisaTerminar: boolean);
 begin
   for var oDM in DBTermDMList do
   begin

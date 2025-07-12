@@ -21,11 +21,14 @@ begin
     CarregarConfigs;
     InicieLog;
     DBServDM := DBServDMCreate;
-    CrieListaDeTerminais;
     bPrecisaTerminar := False;
     try
       repeat
-        CarregarIni;
+        CarregarConfigs;
+        CrieListaDeTerminais;
+        try
+
+        CarregarIni_Ativo;
         if bAtivo then
           ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
 
@@ -52,9 +55,11 @@ begin
             break;
           sleep(1000);
         end;
+        finally
+          LibereListaDeTerminais;
+        end;
       until False;
     finally
-      LibereListaDeTerminais;
       FreeAndNil(DBServDM);
       ApaguePrecisaTerminar;
       EscrevaLog('Terminado');

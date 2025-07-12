@@ -32,11 +32,13 @@ procedure SetClipboardText(const AText: string);
 
 procedure ExplorerPasta(pPasta: string);
 
+procedure PegarIdMaquina(out pNome: string; out pIp: string);
+
 implementation
 
 uses
   Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms,
-  Vcl.FileCtrl;
+  Vcl.FileCtrl,  Winapi.winsock;
 
 function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
   out pCSDVersion: string): Boolean;
@@ -183,6 +185,35 @@ begin
   begin
     // Mostra mensagem de erro se o caminho não existir
     //ShowMessage('O caminho especificado não existe: ' + pPasta);
+  end;
+end;
+
+procedure PegarIdMaquina(out pNome: string; out pIp: string);
+var
+  Buffer: array [0 .. MAX_COMPUTERNAME_LENGTH + 1] of Char;
+  Size: DWORD;
+  HostEnt: PHostEnt;
+  WSAData: TWSAData;
+begin
+  // Get the computer name
+  Size := Length(Buffer);
+  if GetComputerName(Buffer, Size) then
+    pNome := Buffer
+  else
+    pNome := '';
+
+  // Get the IP address
+  WSAStartup($101, WSAData);
+  try
+    HostEnt := gethostbyname(PAnsiChar(AnsiString(pNome)));
+    if HostEnt <> nil then
+      pIp := Format('%d.%d.%d.%d', [Byte(HostEnt^.h_addr^[0]),
+        Byte(HostEnt^.h_addr^[1]), Byte(HostEnt^.h_addr^[2]),
+        Byte(HostEnt^.h_addr^[3])])
+    else
+      pIp := '';
+  finally
+    WSACleanup;
   end;
 end;
 
