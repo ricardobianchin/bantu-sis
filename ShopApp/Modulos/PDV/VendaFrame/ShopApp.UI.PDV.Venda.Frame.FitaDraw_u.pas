@@ -195,7 +195,7 @@ begin
 
   if FStringGrid.RowCount < 1 then
     FStringGrid.RowCount := 1;
-  FHLin := (FStringGrid.Canvas.TextHeight('HÍgj') * 12) div 10;
+  FHLin := (FStringGrid.Canvas.TextHeight('HÍgj') * 14) div 10;
   FStringGrid.DefaultRowHeight := FHLin * 3 + 1;
   FStringGrid.RowHeights[0] := FHLin * CabecalhoLinhasSL.Count + 1;
 end;
