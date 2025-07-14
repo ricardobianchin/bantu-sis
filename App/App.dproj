@@ -5,7 +5,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -141,6 +141,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="vclie.dcp"/>
         <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="BtuComponentes.dcp"/>
+        <DCCReference Include="vclFireDAC.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
         <DCCReference Include="AppObj\App.Factory.pas"/>

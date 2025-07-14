@@ -9,7 +9,11 @@ uses
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
   App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
-  Sis.TerminalList, Sis.Terminal, Data.DB, App.AppObj, Sis.Terminal.DBI;
+  Sis.TerminalList, Sis.Terminal, Data.DB, App.AppObj, Sis.Terminal.DBI,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.Client, FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef;
 
 const
   COL_2_X = 362;
@@ -61,6 +65,8 @@ type
     TerminaisGroupBox: TGroupBox;
     ServConfigSelectAction: TAction;
     ServerArqConfigErroLabel: TLabel;
+    ServFDConnection: TFDConnection;
+    Button1: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -100,6 +106,7 @@ type
       var Key: Char);
     procedure FormDestroy(Sender: TObject);
     procedure ServConfigSelectActionExecute(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -230,6 +237,14 @@ begin
   LocalMaqFrame.IpLabeledEdit.Text := sIp;
 end;
 
+procedure TConfigPergForm.Button1Click(Sender: TObject);
+begin
+  ServFDConnection.Params.Values['server'] := ServerMaqFrame.NomeLabeledEdit.Text;
+
+//  showmessage(ServFDConnection.Params.text);
+//
+end;
+
 procedure TConfigPergForm.CancelActExecute(Sender: TObject);
 begin
   modalresult := mrCancel;
@@ -335,7 +350,7 @@ begin
   FUsuarioAdmin := pUsuarioAdmin;
   FLoja := pLoja;
   FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(TerminaisGroupBox,
-    ConfigAmbiTerminalDBIMudoCreate);
+    ConfigAmbiTerminalDBIMudoCreate, ServFDConnection);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.Preparar;
   ServerArqConfigErroLabel.Caption := '';
@@ -756,6 +771,7 @@ begin
   ConfigArqLer(sNomeArq, sNomeNaRede, sIp);
   ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
   ServerMaqFrame.IpLabeledEdit.Text := sIp;
+  ServFDConnection.Params.Values['server'] := ServerMaqFrame.NomeLabeledEdit.Text;
 end;
 
 function TConfigPergForm.ServerArqConfigPodeOk: boolean;

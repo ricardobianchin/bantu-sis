@@ -378,6 +378,15 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Terminais'
       TabOrder = 7
     end
+    object Button1: TButton
+      Left = 112
+      Top = 144
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 8
+      OnClick = Button1Click
+    end
   end
   object ActionList1: TActionList
     Images = SisImgDataModule.ImageList24Flat
@@ -432,5 +441,17 @@ object ConfigPergForm: TConfigPergForm
     OnTimer = ShowTimerTimer
     Left = 104
     Top = 16
+  end
+  object ServFDConnection: TFDConnection
+    Params.Strings = (
+      'Server=192.168.0.91'
+      'Protocol=TCPIP'
+      'Database=C:\DarosPDV\Dados\Dados_Mercado_Retaguarda.FDB'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'DriverID=FB')
+    LoginPrompt = False
+    Left = 224
+    Top = 56
   end
 end

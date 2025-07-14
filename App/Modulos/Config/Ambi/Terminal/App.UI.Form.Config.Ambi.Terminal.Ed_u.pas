@@ -1,4 +1,4 @@
-unit App.UI.Form.Config.Ambi.Terminal.Ed_u;
+ï»¿unit App.UI.Form.Config.Ambi.Terminal.Ed_u;
 
 interface
 
@@ -11,7 +11,8 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Sis.Types.Integers,
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.Mask, CustomEditBtu, CustomNumEditBtu,
-  NumEditBtu;
+  NumEditBtu, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait;
 
 type
   TTerminalEdDiagForm = class(TDiagBtnBasForm)
@@ -87,6 +88,7 @@ type
     HandShakingComboBox: TComboBox;
     PosPrinterTesteButton: TButton;
     Label4: TLabel;
+    FDConnection1: TFDConnection;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -119,6 +121,8 @@ type
     FTerminaisDataSet: TDataSet;
     FState: TDataSetState;
 
+    FServFDConnection: TFDConnection;
+
     procedure Zerar;
 
     function TerminaIdOk: Boolean;
@@ -146,7 +150,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pTerminaisDataSet: TDataSet;
-      pDataSetState: TDataSetState); reintroduce;
+      pDataSetState: TDataSetState; pServFDConnection: TFDConnection);
+      reintroduce;
   end;
 
 var
@@ -166,20 +171,20 @@ var
   s: string;
 begin
   s := 'Pode ser deixado em branco.' +
-    ' É um apelido ou número que ajude a identificar o terminal.';
+    ' ï¿½ um apelido ou nï¿½mero que ajude a identificar o terminal.';
   ApelidoAjudaLabel.Hint := WrapText(s);
 
   s := 'Letra do Drive no terminal onde o sistema'#13#10 +
     'foi instalado. Geralmente C:';
   LetraDoDriveAjudaLabel.Hint := WrapText(s);
 
-  s := 'Série das notas fiscais eletrônicas emitidas neste terminal. Deixando zero, será usado o mesmo número do Código do Terminal. Geralmente é deixado, mesmo, como zero';
+  s := 'Sï¿½rie das notas fiscais eletrï¿½nicas emitidas neste terminal. Deixando zero, serï¿½ usado o mesmo nï¿½mero do Cï¿½digo do Terminal. Geralmente ï¿½ deixado, mesmo, como zero';
   NFSerieAjudaLabel.Hint := WrapText(s);
 
-  s := 'Modo em que o sistema receberá o peso do item vendido. Não se refere à balança que imprime etiquetas';
+  s := 'Modo em que o sistema receberï¿½ o peso do item vendido. Nï¿½o se refere ï¿½ balanï¿½a que imprime etiquetas';
   BalancaAjudaLabel.Hint := WrapText(s);
 
-  s := 'As etiquetas de peso tem o código do produto dentro do código de barras. Aqui você indica a casa do código de barras onde inicia o código do produto e quantas casas ele ocupa';
+  s := 'As etiquetas de peso tem o cï¿½digo do produto dentro do cï¿½digo de barras. Aqui vocï¿½ indica a casa do cï¿½digo de barras onde inicia o cï¿½digo do produto e quantas casas ele ocupa';
   BarCodigoAjudaLabel.Hint := WrapText(s);
 
   s := 'Ou o ''Nome na Rede'' ou o IP devem ser preenchidos. Ou ambos. IP pode ser IPv4 ou IPv6';
@@ -484,14 +489,16 @@ begin
 end;
 
 constructor TTerminalEdDiagForm.Create(AOwner: TComponent;
-  pTerminaisDataSet: TDataSet; pDataSetState: TDataSetState);
+  pTerminaisDataSet: TDataSet; pDataSetState: TDataSetState;
+  pServFDConnection: TFDConnection);
 begin
   inherited Create(AOwner);
   FTerminaisDataSet := pTerminaisDataSet;
   FState := pDataSetState;
-//  NomeNaRedeEdit.Text := 'TERM1';
+  // NomeNaRedeEdit.Text := 'TERM1';
 
   PortaSLPreencher(BalPortaComboBox.Items);
+  FServFDConnection := pServFDConnection;
 end;
 
 procedure TTerminalEdDiagForm.CupomQtdLinsFinalEditKeyPress(Sender: TObject;
@@ -563,12 +570,18 @@ begin
 
   AtivoCheckBox.Checked := FTerminaisDataSet.FieldByName('ATIVO').AsBoolean;
 
-  BalPortaComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_PORTA').AsInteger;
-  BaudRateComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_BAUDRATE').AsInteger;
-  DataBitsComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_DATABITS').AsInteger;
-  ParidadeComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_PARIDADE').AsInteger;
-  StopBitsComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_STOPBITS').AsInteger;
-  HandShakingComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_HANDSHAKING').AsInteger;
+  BalPortaComboBox.ItemIndex := FTerminaisDataSet.FieldByName('BALANCA_PORTA')
+    .AsInteger;
+  BaudRateComboBox.ItemIndex := FTerminaisDataSet.FieldByName
+    ('BALANCA_BAUDRATE').AsInteger;
+  DataBitsComboBox.ItemIndex := FTerminaisDataSet.FieldByName
+    ('BALANCA_DATABITS').AsInteger;
+  ParidadeComboBox.ItemIndex := FTerminaisDataSet.FieldByName
+    ('BALANCA_PARIDADE').AsInteger;
+  StopBitsComboBox.ItemIndex := FTerminaisDataSet.FieldByName
+    ('BALANCA_STOPBITS').AsInteger;
+  HandShakingComboBox.ItemIndex := FTerminaisDataSet.FieldByName
+    ('BALANCA_HANDSHAKING').AsInteger;
 
 end;
 
@@ -838,8 +851,10 @@ end;
 function TTerminalEdDiagForm.TerminaIdOk: Boolean;
 var
   i: integer;
+  sSql: string;
   sTit: string;
   sMens: string;
+  q: TDataSet;
 begin
   Result := ActiveControl = CancelBitBtn_DiagBtn;
   if Result then
@@ -867,8 +882,27 @@ begin
     Result := not TerminaIdTem(i);
     if not Result then
     begin
-      sMens := 'Já existe um registro com este ' + sTit;
+      sMens := 'JÃ¡ existe um registro com este ' + sTit;
       exit;
+    end;
+    try
+      FServFDConnection.Connected := True;
+      sSql := 'SELECT 1 FROM RDB$DATABASE WHERE EXISTS (' +
+        'SELECT 1 FROM TERMINAl WHERE TERMINAL_ID = ' + i.ToString + ')';
+      FServFDConnection.ExecSQL(sSql, q);
+      Result := q.IsEmpty;
+      if not Result then
+      begin
+        sMens := 'JÃ¡ existe um registro com este ' + sTit;
+        exit;
+      end;
+      FServFDConnection.Connected := False;
+    except
+      on e: exception do
+      begin
+        Result := False;
+        sMens := 'Erro ao testar ' + sTit + ': ' + e.message;
+      end;
     end;
   finally
     if not Result then

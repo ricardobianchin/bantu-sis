@@ -9,7 +9,9 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids,
   Vcl.DBGrids, Sis.DB.DataSet.Utils, System.Actions, Vcl.ActnList, Vcl.ComCtrls,
-  Vcl.ToolWin, Sis.UI.IO.Output, App.Config.Ambi.Terminal.DBI;
+  Vcl.ToolWin, Sis.UI.IO.Output, App.Config.Ambi.Terminal.DBI, FireDAC.UI.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.VCLUI.Wait;
 
 type
   TTerminaisDBGridFrame = class(TDBGridFrame)
@@ -22,6 +24,7 @@ type
     AltAction: TAction;
     ExclAction: TAction;
     BalloonHint1: TBalloonHint;
+    FDConnection1: TFDConnection;
     procedure InsActionExecute(Sender: TObject);
     procedure AltActionExecute(Sender: TObject);
     procedure ExclActionExecute(Sender: TObject);
@@ -33,13 +36,14 @@ type
     { Private declarations }
     FOutputNotify: IOutput;
     FTermDBI: IConfigAmbiTerminalDBI;
+    FServFDConnection: TFDConnection;
 
     function GetNomeArqTabView: string;
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pTermDBI: IConfigAmbiTerminalDBI);
-      reintroduce;
+    constructor Create(AOwner: TComponent; pTermDBI: IConfigAmbiTerminalDBI;
+      pServFDConnection: TFDConnection); reintroduce;
     procedure Preparar;
     procedure SimuleIns;
   end;
@@ -51,7 +55,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory, App.UI.Form.Perg_u, Sis.Types.Utils_u;
+uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory,
+  App.UI.Form.Perg_u, Sis.Types.Utils_u;
 
 { TDBGridFrame1 }
 
@@ -65,7 +70,7 @@ begin
   end;
 
   TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
-    TDataSetState.dsEdit);
+    TDataSetState.dsEdit, FServFDConnection);
   if TerminalEdDiagForm.Perg then
   begin
     FTermDBI.Alterar(FDMemTable1);
@@ -74,9 +79,10 @@ begin
 end;
 
 constructor TTerminaisDBGridFrame.Create(AOwner: TComponent;
-  pTermDBI: IConfigAmbiTerminalDBI);
+  pTermDBI: IConfigAmbiTerminalDBI; pServFDConnection: TFDConnection);
 begin
   inherited Create(AOwner);
+  FServFDConnection := pServFDConnection;
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
   FTermDBI := pTermDBI;
 end;
@@ -112,22 +118,29 @@ begin
     exit;
   end;
 
-  sMens := 'Esta ação vai excluir o terminal no sistema.'#13#10 +
-    'O Banco de Dados NÃO será excluído. Apenas não será usado pelo sistema até que seja reinserido nesta lista'#13#10
+  sMens := //
+    'Esta ação vai excluir o terminal no sistema.'#13#10 +
+    'O Banco de Dados NÃO será excluído.'#13#10 +
+    'Apenas não será usado pelo sistema'#13#10+
+    'até que seja reinserido nesta lista'#13#10
     + 'Deseja excluir?';
 
-//  Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
-//    [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
-//  bAceitou := IsPositiveResult(Resultado);
-//  if not bAceitou then
-//    exit;
-
+  // Resultado := MessageDlg(sMens, TMsgDlgType.mtConfirmation,
+  // [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0);
+  // bAceitou := IsPositiveResult(Resultado);
+  // if not bAceitou then
+  // exit;
 
   bAceitou := Perg(sMens, '', TBooleanDefault.boolFalse);
   if not bAceitou then
     exit;
-
-  FDMemTable1.Delete;
+  try
+    showmessage(FDMemTable1.RecordCount.ToString);
+    FDMemTable1.Delete;
+    showmessage(FDMemTable1.RecordCount.ToString);
+  except on e: exception do
+    showmessage(e.message);
+  end;
 end;
 
 function TTerminaisDBGridFrame.GetNomeArqTabView: string;
@@ -157,7 +170,7 @@ procedure TTerminaisDBGridFrame.InsActionExecute(Sender: TObject);
 begin
   inherited;
   TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
-    TDataSetState.dsInsert);
+    TDataSetState.dsInsert, FServFDConnection);
   if TerminalEdDiagForm.Perg then
   begin
     FTermDBI.Inserir(FDMemTable1);
@@ -184,7 +197,7 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-  // exit;
+  exit;
 
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
@@ -221,39 +234,39 @@ begin
 
   Tab.Post;
 
-//  Tab.append;
-//  Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
-//  Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTO';
-//  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESKTOP-EJFTSHR';
-//  Tab.FieldByName('IP').AsString := '192.168.1.65';
-//  Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
-//
-//  Tab.FieldByName('NF_SERIE').AsInteger := 0;
-//  Tab.FieldByName('GAVETA_TEM').AsBoolean := False;
-//  Tab.FieldByName('GAVETA_COMANDO').AsString := '';
-//  Tab.FieldByName('GAVETA_IMPR_NOME').AsString := '';
-//  Tab.FieldByName('BALANCA_MODO_USO_ID').AsInteger := 0;
-//  Tab.FieldByName('BALANCA_MODO_USO_DESCR').AsString := 'SEM';
-//
-//  Tab.FieldByName('BALANCA_ID').AsInteger := 0;
-//  Tab.FieldByName('BALANCA_FABR_MODELO').AsString := 'SEM';
-//
-//  Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
-//  Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
-//
-//  Tab.FieldByName('IMPRESSORA_MODO_ENVIO_ID').AsInteger := 0;
-//  Tab.FieldByName('IMPRESSORA_MODO_ENVIO_DESCR').AsString := 'SEM';
-//
-//  Tab.FieldByName('IMPRESSORA_MODELO_ID').AsInteger := 0;
-//  Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := 'SEM';
-//
-//  Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := '';
-//  Tab.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := 0;
-//
-//  Tab.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := 0;
-//  Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := False;
-//  Tab.FieldByName('ATIVO').AsBoolean := True;
-//  Tab.Post;
+  // Tab.append;
+  // Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
+  // Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTO';
+  // Tab.FieldByName('NOME_NA_REDE').AsString := 'DESKTOP-EJFTSHR';
+  // Tab.FieldByName('IP').AsString := '192.168.1.65';
+  // Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
+  //
+  // Tab.FieldByName('NF_SERIE').AsInteger := 0;
+  // Tab.FieldByName('GAVETA_TEM').AsBoolean := False;
+  // Tab.FieldByName('GAVETA_COMANDO').AsString := '';
+  // Tab.FieldByName('GAVETA_IMPR_NOME').AsString := '';
+  // Tab.FieldByName('BALANCA_MODO_USO_ID').AsInteger := 0;
+  // Tab.FieldByName('BALANCA_MODO_USO_DESCR').AsString := 'SEM';
+  //
+  // Tab.FieldByName('BALANCA_ID').AsInteger := 0;
+  // Tab.FieldByName('BALANCA_FABR_MODELO').AsString := 'SEM';
+  //
+  // Tab.FieldByName('BARRAS_COD_INI').AsInteger := 2;
+  // Tab.FieldByName('BARRAS_COD_TAM').AsInteger := 6;
+  //
+  // Tab.FieldByName('IMPRESSORA_MODO_ENVIO_ID').AsInteger := 0;
+  // Tab.FieldByName('IMPRESSORA_MODO_ENVIO_DESCR').AsString := 'SEM';
+  //
+  // Tab.FieldByName('IMPRESSORA_MODELO_ID').AsInteger := 0;
+  // Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := 'SEM';
+  //
+  // Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := '';
+  // Tab.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := 0;
+  //
+  // Tab.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := 0;
+  // Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := False;
+  // Tab.FieldByName('ATIVO').AsBoolean := True;
+  // Tab.Post;
 end;
 
 end.

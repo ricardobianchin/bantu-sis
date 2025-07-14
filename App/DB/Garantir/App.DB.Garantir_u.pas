@@ -154,6 +154,14 @@ begin
     end;
   }
   try
+    Result := pAppObj.TerminalList.Count = 0;
+    if Result then
+    begin
+      pProcessLog.RegistreLog
+        ('pAppObj.TerminalList.Count = 0, vai abortar, Result = True');
+      exit;
+    end;
+
     sPastaDados := pAppObj.AppInfo.PastaDados;
     sAtiv := AtividadeEconomicaSisDescr[pAppObj.AppInfo.AtividadeEconomicaSis];
 
@@ -177,13 +185,20 @@ begin
         rDBConnectionParamsTerm, pAppObj.AppInfo.Pasta, DBMS, pAppObj.SisConfig,
         pProcessLog, pOutput, pLoja, pUsuarioAdmin, pVariaveis);
 
+      pProcessLog.RegistreLog
+        ('vai chamar oUpdater.Execute, rDBConnectionParamsTerm.Database=' +
+        rDBConnectionParamsTerm.Database);
       Result := oUpdater.Execute;
 
       if pCriouTerminais then
       begin
+        pProcessLog.RegistreLog('criou terminais = True');
+
+        pProcessLog.RegistreLog('vai chamar GravarInicialTerm');
         GravarInicialTerm(oTerminal, rDBConnectionParamsTerm, pAppObj,
           pProcessLog, pOutput, pLoja, pUsuarioAdmin);
 
+        pProcessLog.RegistreLog('vai chamar GravarInicialServ');
         GravarInicialServ(oTerminal, rDBConnectionParamsServ, pAppObj,
           pProcessLog, pOutput, pLoja, pUsuarioAdmin);
       end;
@@ -230,8 +245,8 @@ begin
 
     CarregarMachineId(pAppObj, pProcessLog, pOutput);
 
-    Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja, pUsuarioAdmin,
-      pVariaveis, pCriouTerminais);
+    Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
+      pUsuarioAdmin, pVariaveis, pCriouTerminais);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal

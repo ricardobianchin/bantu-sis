@@ -2,8 +2,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   Caption = 'Terminais'
   ClientHeight = 423
   ClientWidth = 931
-  StyleElements = [seFont, seClient, seBorder]
-  ExplicitLeft = -321
   ExplicitWidth = 947
   ExplicitHeight = 462
   TextHeight = 15
@@ -15,7 +13,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 408
     Width = 931
-    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 408
   end
   object ObjetivoLabel: TLabel [2]
@@ -154,7 +151,6 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     Top = 371
     Width = 931
     TabOrder = 12
-    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 371
     ExplicitWidth = 931
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
@@ -783,5 +779,9 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   object BalloonHint1: TBalloonHint
     Left = 495
     Top = 79
+  end
+  object FDConnection1: TFDConnection
+    Left = 288
+    Top = 72
   end
 end

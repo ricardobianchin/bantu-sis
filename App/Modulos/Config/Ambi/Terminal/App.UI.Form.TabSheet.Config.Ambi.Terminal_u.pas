@@ -9,10 +9,14 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls,
   App.UI.Frame.DBGrid.Config.Ambi.Terminal_u, App.AppObj, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
-  App.Config.Ambi.Terminal.DBI, Sis.Terminal.DBI;
+  App.Config.Ambi.Terminal.DBI, Sis.Terminal.DBI, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client;
 
 type
   TConfigAmbiTermForm = class(TTabSheetAppBasForm)
+    ServFDConnection: TFDConnection;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
@@ -58,7 +62,7 @@ begin
   FTerminalDBI := TerminalDBICreate(FDBConnection);
   FAmbiTermDBI := ConfigAmbiTerminalDBIGravaCreate(FDBConnection, pUsuarioLog,
     pAppObj, FTerminalDBI);
-  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FAmbiTermDBI);
+  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FAmbiTermDBI, ServFDConnection);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.ExclAction.Visible := False;
   FTerminaisDBGridFrame.Preparar;

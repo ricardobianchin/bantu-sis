@@ -51,4 +51,8 @@ inherited TerminaisDBGridFrame: TTerminaisDBGridFrame
     Left = 191
     Top = 171
   end
+  object FDConnection1: TFDConnection
+    Left = 328
+    Top = 56
+  end
 end
