@@ -18,6 +18,7 @@ uses
 type
   TShopPDVModuloForm = class(TPDVModuloBasForm)
     procedure PrecoBuscaAction_PDVModuloBasFormExecute(Sender: TObject);
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
     FShopPDVVenda: IShopPDVVenda;
@@ -159,6 +160,12 @@ function TShopPDVModuloForm.SessFiltroFrameCreate: TFiltroFrame;
 begin
   Result := TSessFormFiltroFrame.Create(Self, nil, CaixaSessaoDM.CaixaSessaoDBI,
     ProdSelect);
+end;
+
+procedure TShopPDVModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+  ExibaMenu;
 end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;

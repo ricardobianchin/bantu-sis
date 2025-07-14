@@ -36,6 +36,8 @@ type
     PagFormaLabel: TLabel;
     FiltroToolBar: TToolBar;
     FiltroLimparAction: TAction;
+    SessComboBox: TComboBox;
+    SessTitLabel: TLabel;
     procedure CxOperCheckBoxClick(Sender: TObject);
     procedure VendaCheckBoxClick(Sender: TObject);
     procedure PagFormaComboBoxChange(Sender: TObject);
