@@ -8,7 +8,7 @@ uses Sis.DBI, Sis.DBI_u, Sis.DB.DBTypes, Data.DB, System.Variants,
 type
   ISisConfigDBI = interface(IInterface)
     ['{A83BEA7E-7D4B-4DA6-93D6-F7AAB10C7F5D}']
-    procedure LerMachineIdent;
+    //procedure LerMachineIdent;
   end;
 
 implementation

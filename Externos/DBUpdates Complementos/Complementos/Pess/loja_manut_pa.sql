@@ -1,7 +1,56 @@
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Pess\loja_manut_pa.sql";
+*/
+
 SET TERM ^;
 CREATE OR ALTER PACKAGE LOJA_MANUT_PA
 AS
 BEGIN
+  PROCEDURE LOJA_SELECIONADO_GET
+  (
+    SERVER_NOME_NA_REDE VARCHAR(15)
+    , SERVER_IP IPV6_DOM
+    , LOCAL_NOME_NA_REDE VARCHAR(15)
+    , LOCAL_IP IPV6_DOM
+  )
+  RETURNS
+  (
+    LOJA_ID                ID_SHORT_DOM,
+    TERMINAL_ID            ID_SHORT_DOM,
+    PESSOA_ID              ID_DOM,
+
+    APELIDO                NOME_REDU_DOM,
+    NOME                   NOME_DOM,
+    NOME_FANTASIA          NOME_DOM,
+
+    C                      VARCHAR(15),
+    I                      VARCHAR(15),
+    M                      VARCHAR(15),
+    M_UF                   CHAR(2),
+
+    EMAIL                  VARCHAR(50),
+
+    LOGRADOURO             VARCHAR(70),
+    NUMERO                 NOME_DOM,
+    COMPLEMENTO            NOME_DOM,
+    BAIRRO                 NOME_DOM,
+    UF_SIGLA               CHAR(2),
+    CEP                    CHAR(8),
+
+    MUNICIPIO_IBGE_ID      CHAR(7),
+    MUNICIPIO_NOME         NOME_DOM,
+
+    DDD                    CHAR(2),
+    FONE1                  NOME_CURTO_DOM,
+    FONE2                  NOME_CURTO_DOM,
+    FONE3                  NOME_CURTO_DOM,
+
+    CONTATO                NOME_DOM,
+    REFERENCIA             OBS_GRANDE_DOM,
+    SERVER_MACHINE_ID_RET  ID_SHORT_DOM,
+    LOCAL_MACHINE_ID_RET   ID_SHORT_DOM
+  );
+  
   PROCEDURE LISTA_GET
   (
     P_LOJA_ID ID_SHORT_DOM NOT NULL
@@ -108,6 +157,198 @@ END^
 RECREATE PACKAGE BODY LOJA_MANUT_PA
 AS
 BEGIN
+  PROCEDURE LOJA_SELECIONADO_GET
+  (
+    SERVER_NOME_NA_REDE VARCHAR(15)
+    , SERVER_IP IPV6_DOM
+    , LOCAL_NOME_NA_REDE VARCHAR(15)
+    , LOCAL_IP IPV6_DOM
+  )
+  RETURNS
+  (
+    LOJA_ID                ID_SHORT_DOM,
+    TERMINAL_ID            ID_SHORT_DOM,
+    PESSOA_ID              ID_DOM,
+
+    APELIDO                NOME_REDU_DOM,
+    NOME                   NOME_DOM,
+    NOME_FANTASIA          NOME_DOM,
+
+    C                      VARCHAR(15),
+    I                      VARCHAR(15),
+    M                      VARCHAR(15),
+    M_UF                   CHAR(2),
+
+    EMAIL                  VARCHAR(50),
+
+    LOGRADOURO             VARCHAR(70),
+    NUMERO                 NOME_DOM,
+    COMPLEMENTO            NOME_DOM,
+    BAIRRO                 NOME_DOM,
+    UF_SIGLA               CHAR(2),
+    CEP                    CHAR(8),
+
+    MUNICIPIO_IBGE_ID      CHAR(7),
+    MUNICIPIO_NOME         NOME_DOM,
+
+    DDD                    CHAR(2),
+    FONE1                  NOME_CURTO_DOM,
+    FONE2                  NOME_CURTO_DOM,
+    FONE3                  NOME_CURTO_DOM,
+
+    CONTATO                NOME_DOM,
+    REFERENCIA             OBS_GRANDE_DOM,
+    SERVER_MACHINE_ID_RET  ID_SHORT_DOM,
+    LOCAL_MACHINE_ID_RET   ID_SHORT_DOM
+  )
+  AS
+  BEGIN 
+    WITH LOJ AS
+    (
+      SELECT FIRST(1)
+        LOJA_ID, 
+        APELIDO
+      FROM 
+        LOJA
+      WHERE 
+        SELECIONADO = TRUE
+    )
+    , LOJPES AS
+    (
+      SELECT 
+        LOJA_ID, 
+        TERMINAL_ID, 
+        PESSOA_ID
+      FROM 
+        LOJA_EH_PESSOA
+    )
+    , PES AS
+    (
+      SELECT 
+        P.LOJA_ID,
+        P.TERMINAL_ID,
+        P.PESSOA_ID, 
+        P.NOME, 
+        P.NOME_FANTASIA, 
+        P.C, 
+        P.I, 
+        P.M, 
+        P.M_UF, 
+        P.EMAIL
+      FROM 
+        LOJPES LP 
+      JOIN PESSOA P ON 
+        LP.LOJA_ID = P.LOJA_ID
+        AND LP.TERMINAL_ID = P.TERMINAL_ID
+        AND LP.PESSOA_ID = P.PESSOA_ID
+    )
+    , ENDER AS
+    (
+      SELECT LOJA_ID, TERMINAL_ID, PESSOA_ID,
+              LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, UF_SIGLA, CEP,
+              MUNICIPIO_IBGE_ID, DDD, FONE1, FONE2, FONE3, CONTATO,
+              REFERENCIA
+      FROM ENDERECO WHERE ORDEM = 0
+    )
+    , MUN AS
+    (
+      SELECT MUNICIPIO_IBGE_ID, NOME FROM MUNICIPIO
+    )
+    SELECT
+      LOJ.LOJA_ID,
+      PES.TERMINAL_ID,
+      PES.PESSOA_ID,
+      
+      LOJ.APELIDO,
+      PES.NOME,
+      PES.NOME_FANTASIA,
+
+      PES.C,
+      PES.I,
+      PES.M,
+      PES.M_UF,
+
+      PES.EMAIL,
+      
+      ENDER.LOGRADOURO,
+      ENDER.NUMERO,
+      ENDER.COMPLEMENTO,
+      ENDER.BAIRRO,      
+      ENDER.UF_SIGLA,
+      ENDER.CEP,
+
+      MUN.MUNICIPIO_IBGE_ID,
+      MUN.NOME MUNICIPIO_NOME,
+      
+      ENDER.DDD,
+      ENDER.FONE1,
+      ENDER.FONE2,
+      ENDER.FONE3,
+
+      ENDER.CONTATO,
+      ENDER.REFERENCIA
+    FROM LOJ
+    LEFT JOIN LOJPES ON
+      LOJ.LOJA_ID = LOJPES.LOJA_ID
+    LEFT JOIN PES ON
+      LOJPES.LOJA_ID = PES.LOJA_ID
+      AND LOJPES.TERMINAL_ID = PES.TERMINAL_ID
+      AND LOJPES.PESSOA_ID = PES.PESSOA_ID
+    LEFT JOIN ENDER ON
+      PES.LOJA_ID = ENDER.LOJA_ID
+      AND PES.TERMINAL_ID = ENDER.TERMINAL_ID
+      AND PES.PESSOA_ID = ENDER.PESSOA_ID
+    LEFT JOIN MUN ON
+      ENDER.MUNICIPIO_IBGE_ID = MUN.MUNICIPIO_IBGE_ID
+  INTO
+    :LOJA_ID,
+    :TERMINAL_ID,
+    :PESSOA_ID,
+
+    :APELIDO,
+    :NOME,
+    :NOME_FANTASIA,
+
+    :C,
+    :I,
+    :M,
+    :M_UF,
+
+    :EMAIL,
+
+    :LOGRADOURO,
+    :NUMERO,
+    :COMPLEMENTO,
+    :BAIRRO,
+    :UF_SIGLA,
+    :CEP,
+
+    :MUNICIPIO_IBGE_ID,
+    :MUNICIPIO_NOME,
+
+    :DDD,
+    :FONE1,
+    :FONE2,
+    :FONE3,
+
+    :CONTATO,
+    :REFERENCIA;
+
+    SELECT MACHINE_ID_RET
+    FROM MACHINE_PA.BYIDENT_GET(
+      :SERVER_NOME_NA_REDE,
+      :SERVER_IP
+    ) INTO :SERVER_MACHINE_ID_RET;
+
+    SELECT MACHINE_ID_RET
+    FROM MACHINE_PA.BYIDENT_GET(
+      :LOCAL_NOME_NA_REDE,
+      :LOCAL_IP
+    ) INTO :LOCAL_MACHINE_ID_RET;
+
+    SUSPEND;
+  END
+
   PROCEDURE LISTA_GET
   (
     P_LOJA_ID ID_SHORT_DOM NOT NULL
@@ -141,7 +382,7 @@ BEGIN
     , UF_SIGLA             CHAR(2)
     , CEP                  CHAR(8)
     , MUNICIPIO_IBGE_ID    CHAR(7)
-    , MUNICIPIO_NOME    NOME_DOM
+    , MUNICIPIO_NOME       NOME_DOM
     , DDD                  CHAR(2)
     , FONE1                NOME_CURTO_DOM
     , FONE2                NOME_CURTO_DOM

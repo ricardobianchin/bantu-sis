@@ -13,7 +13,7 @@ type
     FProcessLog: IProcessLog;
     FOutput: IOutput;
   public
-    procedure LerMachineIdent;
+    //procedure LerMachineIdent;
     constructor Create(pAppObj: IAppObj; pDBMS: IDBMS; pProcessLog: IProcessLog;
       pOutput: IOutput);
   end;
@@ -34,6 +34,7 @@ begin
   FOutput := pOutput;
 end;
 
+{
 procedure TSisConfigDBI.LerMachineIdent;
 var
   oDBConnectionParams: TDBConnectionParams;
@@ -85,5 +86,6 @@ begin
     oDBConnection.Fechar;
   end;
 end;
+}
 
 end.

@@ -66,7 +66,6 @@ type
     ServConfigSelectAction: TAction;
     ServerArqConfigErroLabel: TLabel;
     ServFDConnection: TFDConnection;
-    Button1: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -106,7 +105,6 @@ type
       var Key: Char);
     procedure FormDestroy(Sender: TObject);
     procedure ServConfigSelectActionExecute(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -235,14 +233,6 @@ begin
   PegarIdMaquina(sNome, sIp);
   LocalMaqFrame.NomeLabeledEdit.Text := sNome;
   LocalMaqFrame.IpLabeledEdit.Text := sIp;
-end;
-
-procedure TConfigPergForm.Button1Click(Sender: TObject);
-begin
-  ServFDConnection.Params.Values['server'] := ServerMaqFrame.NomeLabeledEdit.Text;
-
-//  showmessage(ServFDConnection.Params.text);
-//
 end;
 
 procedure TConfigPergForm.CancelActExecute(Sender: TObject);

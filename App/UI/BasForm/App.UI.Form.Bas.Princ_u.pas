@@ -58,7 +58,7 @@ type
     function Garanta_DB(pCriouTerminais: Boolean;
       pUsuarioAdmin: IUsuario): Boolean;
 
-    procedure CarregarMachineId;
+//    procedure CarregarMachineId;
     procedure CarregarLoja;
 
     procedure AssistPedirPraFechar;
@@ -189,15 +189,15 @@ begin
   oLojaDBI.Ler(sMens);
 end;
 
-procedure TPrincBasForm.CarregarMachineId;
-var
-  oSisConfigDBI: ISisConfigDBI;
-begin
-  oSisConfigDBI := SisConfigDBICreate(FAppObj, DBMS, FProcessLog,
-    FProcessOutput);
-
-  oSisConfigDBI.LerMachineIdent;
-end;
+//procedure TPrincBasForm.CarregarMachineId;
+//var
+//  oSisConfigDBI: ISisConfigDBI;
+//begin
+//  oSisConfigDBI := SisConfigDBICreate(FAppObj, DBMS, FProcessLog,
+//    FProcessOutput);
+//
+//  oSisConfigDBI.LerMachineIdent;
+//end;
 
 procedure TPrincBasForm.ConfigureForm;
 var

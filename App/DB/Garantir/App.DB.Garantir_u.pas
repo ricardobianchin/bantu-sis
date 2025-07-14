@@ -16,12 +16,14 @@ uses Sis.DB.Factory, Sis.DB.Updater, Sis.DB.Updater.Factory, App.DB.Utils,
   Sis.Types.Integers, App.AppInfo.Types, Sis.Terminal.Factory_u,
   App.SisConfig.DBI, App.SisConfig.Factory, Sis.Terminal.Utils_u,
   System.SysUtils, System.Classes, App.DB.Garantir_u.GravarInicialTerm,
-  App.DB.Garantir_u.GravarInicialServ;
+  App.DB.Garantir_u.GravarInicialServ, App.Loja.DBI, App.Pess.Factory_u,
+  App.AppObj_u_Ini;
 
 var
   DBMSConfig: IDBMSConfig;
   DBMS: IDBMS;
 
+{
 procedure CarregarMachineId(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput);
 var
@@ -34,13 +36,6 @@ var
   sNomeLocal: string;
   sLinha: string;
 begin
-  {
-    primeiro tenta ler do txt local
-    se leu, aborta
-    se nao der certo,
-    tenta ler do db servidor
-    grava txt local
-  }
   SL := TStringList.Create;
   try
     sNomeArq := pAppObj.AppInfo.PastaConfigs + 'Sis.Config.MachineId.ini';
@@ -90,7 +85,7 @@ begin
     SL.Free;
   end;
 end;
-
+}
 function GarantirDBServ(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
   pVariaveis: string): Boolean;
@@ -213,7 +208,12 @@ function GarantirDB(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
   pVariaveis: string; pCriouTerminais: Boolean): Boolean;
 var
+  DBConnectionServ: IDBConnection;
+  oDBConnectionParamsServ: TDBConnectionParams;
+
   sLog: string;
+  oAppLojaDBI: IAppLojaDBI;
+  sMens: string;
 begin
   Result := False;
   pProcessLog.PegueLocal('App.DB.Garantir.GarantirDB_u');
@@ -243,7 +243,25 @@ begin
       end;
     end;
 
-    CarregarMachineId(pAppObj, pProcessLog, pOutput);
+    oDBConnectionParamsServ := TerminalIdToDBConnectionParams
+      (TERMINAL_ID_RETAGUARDA, pAppObj);
+
+    DBConnectionServ := DBConnectionCreate('GarantirDB.CarregLoja.Conn',
+      pAppObj.SisConfig, oDBConnectionParamsServ, nil, nil);
+
+    oAppLojaDBI := AppLojaDBICreate(pAppObj.Loja, DBConnectionServ);
+    Result := oAppLojaDBI.LerLojaEMachineId(pAppObj, sMens);
+
+    if Result then
+    begin
+      App.AppObj_u_Ini.AppObjIniGravar(pAppObj);
+    end
+    else
+    begin
+      App.AppObj_u_Ini.AppObjIniLer(pAppObj);
+    end;
+
+//    CarregarMachineId(pAppObj, pProcessLog, pOutput);
 
     Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
       pUsuarioAdmin, pVariaveis, pCriouTerminais);

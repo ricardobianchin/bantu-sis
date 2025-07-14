@@ -378,15 +378,6 @@ object ConfigPergForm: TConfigPergForm
       Caption = 'Terminais'
       TabOrder = 7
     end
-    object Button1: TButton
-      Left = 112
-      Top = 144
-      Width = 75
-      Height = 25
-      Caption = 'Button1'
-      TabOrder = 8
-      OnClick = Button1Click
-    end
   end
   object ActionList1: TActionList
     Images = SisImgDataModule.ImageList24Flat
