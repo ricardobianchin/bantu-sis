@@ -23,69 +23,6 @@ var
   DBMSConfig: IDBMSConfig;
   DBMS: IDBMS;
 
-{
-procedure CarregarMachineId(pAppObj: IAppObj; pProcessLog: IProcessLog;
-  pOutput: IOutput);
-var
-  oSisConfigDBI: ISisConfigDBI;
-  sNomeArq: string;
-  bLeuArq: Boolean;
-  SL: TStringList;
-  i: integer;
-  sNomeServ: string;
-  sNomeLocal: string;
-  sLinha: string;
-begin
-  SL := TStringList.Create;
-  try
-    sNomeArq := pAppObj.AppInfo.PastaConfigs + 'Sis.Config.MachineId.ini';
-    try
-      bLeuArq := FileExists(sNomeArq);
-      if not bLeuArq then
-        exit;
-
-      SL.LoadFromFile(sNomeArq);
-
-      // ler serv
-      sNomeServ := pAppObj.SisConfig.ServerMachineId.Name;
-      i := StrToIntDef(SL.Values[sNomeServ], 0);
-      bLeuArq := i > 0;
-      if not bLeuArq then
-        exit;
-      pAppObj.SisConfig.ServerMachineId.IdentId := i;
-
-      // ler term
-      sNomeLocal := pAppObj.SisConfig.LocalMachineId.Name;
-      i := StrToIntDef(SL.Values[sNomeLocal], 0);
-      bLeuArq := i > 0;
-      if not bLeuArq then
-        exit;
-      pAppObj.SisConfig.LocalMachineId.IdentId := i;
-
-    finally
-      if not bLeuArq then
-      begin
-        oSisConfigDBI := SisConfigDBICreate(pAppObj, DBMS, pProcessLog,
-          pOutput);
-        oSisConfigDBI.LerMachineIdent;
-
-        SL.Clear;
-
-        sLinha := pAppObj.SisConfig.ServerMachineId.Name + '=' +
-          inttostr(pAppObj.SisConfig.ServerMachineId.IdentId);
-        SL.Add(sLinha);
-
-        sLinha := pAppObj.SisConfig.LocalMachineId.Name + '=' +
-          inttostr(pAppObj.SisConfig.LocalMachineId.IdentId);
-        SL.Add(sLinha);
-        SL.SaveToFile(sNomeArq);
-      end;
-    end;
-  finally
-    SL.Free;
-  end;
-end;
-}
 function GarantirDBServ(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
   pVariaveis: string): Boolean;
@@ -260,8 +197,6 @@ begin
     begin
       App.AppObj_u_Ini.AppObjIniLer(pAppObj);
     end;
-
-//    CarregarMachineId(pAppObj, pProcessLog, pOutput);
 
     Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
       pUsuarioAdmin, pVariaveis, pCriouTerminais);

@@ -58,7 +58,6 @@ type
     function Garanta_DB(pCriouTerminais: Boolean;
       pUsuarioAdmin: IUsuario): Boolean;
 
-//    procedure CarregarMachineId;
     procedure CarregarLoja;
 
     procedure AssistPedirPraFechar;
@@ -189,16 +188,6 @@ begin
   oLojaDBI.Ler(sMens);
 end;
 
-//procedure TPrincBasForm.CarregarMachineId;
-//var
-//  oSisConfigDBI: ISisConfigDBI;
-//begin
-//  oSisConfigDBI := SisConfigDBICreate(FAppObj, DBMS, FProcessLog,
-//    FProcessOutput);
-//
-//  oSisConfigDBI.LerMachineIdent;
-//end;
-
 procedure TPrincBasForm.ConfigureForm;
 var
   sLog: string;
@@ -314,11 +303,6 @@ begin
 
     Garanta_Config_e_DB;
 
-    // if FLoja.Id < 1 then
-    // begin
-    CarregarLoja;
-    // end;
-
     if FLoja.Id < 1 then
     begin
       sMens := 'Verifique carregamento da Loja. Id zerado';
@@ -329,8 +313,6 @@ begin
     ConfigureForm;
 
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
-
-    // CarregarMachineId;
 
     ClearStyleElements(TitleBarPanel);
 
