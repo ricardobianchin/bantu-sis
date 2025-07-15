@@ -12,7 +12,6 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitHeight = 48
     object ErroLabel: TLabel
       Left = 6
       Top = 76
@@ -52,7 +51,6 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       ParentFont = False
       TabOrder = 0
       StyleElements = []
-      ExplicitTop = 1
       DesignSize = (
         1036
         18)
@@ -201,7 +199,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       Height = 23
       Style = csDropDownList
       TabOrder = 5
-      OnChange = PagFormaComboBoxChange
+      OnChange = SessComboBoxChange
     end
   end
   inherited AgendeChangeTimer: TTimer

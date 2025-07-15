@@ -172,6 +172,7 @@ type
     /// digitar mais de uma palavra
     /// </remarks>
     procedure AjusteValores; virtual;
+    procedure FiltroLimpar; virtual;
 
     /// <summary>
     /// Propriedade que encapsula os valores do filtro.
@@ -239,6 +240,11 @@ begin
     exit;
 
   FOnChange(Self);
+end;
+
+procedure TFiltroFrame.FiltroLimpar;
+begin
+
 end;
 
 function TFiltroFrame.GetFontSize: integer;

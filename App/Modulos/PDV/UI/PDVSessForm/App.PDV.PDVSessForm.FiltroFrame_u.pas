@@ -45,16 +45,19 @@ type
     procedure ProdLimparActionExecute(Sender: TObject);
     procedure FiltroLimparActionExecute(Sender: TObject);
     procedure ProdLabeledEditClick(Sender: TObject);
+    procedure SessComboBoxChange(Sender: TObject);
   private
     { Private declarations }
     FProdIdSelecionado: integer;
     FCaixaSessaoDBI: ICaixaSessaoDBI;
     FPagFormaComboBoxManager: IComboBoxManager;
+    FSessComboBoxManager: IComboBoxManager;
     FProdSelect: ISelect;
   protected
     function GetValues: variant; override;
     procedure SetValues(Value: variant); override;
     function NewArrayCreate: variant; override;
+    procedure FiltroLimpar; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent;
@@ -78,19 +81,26 @@ begin
   DoChange;
 end;
 
-procedure TSessFormFiltroFrame.FiltroLimparActionExecute(Sender: TObject);
+procedure TSessFormFiltroFrame.FiltroLimpar;
 begin
-  inherited;
   ProcessaFiltro := False;
   try
+    inherited;
     CxOperCheckBox.Checked := True;
     VendaCheckBox.Checked := True;
     PagFormaComboBox.ItemIndex := 0;
     ProdLimparAction.Execute;
+    SessComboBox.ItemIndex := 0;
   finally
     ProcessaFiltro := True;
     DoChange;
   end;
+end;
+
+procedure TSessFormFiltroFrame.FiltroLimparActionExecute(Sender: TObject);
+begin
+  inherited;
+  FiltroLimpar;
 end;
 
 constructor TSessFormFiltroFrame.Create(AOwner: TComponent;
@@ -101,9 +111,15 @@ begin
   FCaixaSessaoDBI := pCaixaSessaoDBI;
   ReadOnlySet(ProdLabeledEdit, True);
   FPagFormaComboBoxManager := ComboBoxManagerCreate(PagFormaComboBox);
+  FSessComboBoxManager := ComboBoxManagerCreate(SessComboBox);
+
   FProdIdSelecionado := 0;
   FCaixaSessaoDBI.PreencherPagamentoFormaFiltroSL(PagFormaComboBox.Items);
+  FCaixaSessaoDBI.PreencherSessFiltroSL(SessComboBox.Items);
+
   PagFormaComboBox.ItemIndex := 0;
+  SessComboBox.ItemIndex := 0;
+
   FProdSelect := pProdSelect;
   FiltroLimparAction.Execute;
   ProcessaFiltro := True;
@@ -123,11 +139,12 @@ begin
   Result[1] := VendaCheckBox.Checked;
   Result[2] := FPagFormaComboBoxManager.Id;
   Result[3] := FProdIdSelecionado;
+  Result[4] := FSessComboBoxManager.Id;
 end;
 
 function TSessFormFiltroFrame.NewArrayCreate: variant;
 begin
-  Result := VarArrayCreate([0, 3], varVariant);
+  Result := VarArrayCreate([0, 4], varVariant);
 end;
 
 procedure TSessFormFiltroFrame.PagFormaComboBoxChange(Sender: TObject);
@@ -171,11 +188,18 @@ begin
   DoChange;
 end;
 
+procedure TSessFormFiltroFrame.SessComboBoxChange(Sender: TObject);
+begin
+  inherited;
+  DoChange;
+
+end;
+
 procedure TSessFormFiltroFrame.SetValues(Value: variant);
 begin
   inherited;
   CxOperCheckBox.Checked := Value[0];
-  VendaCheckBox.Checked := Value[0];
+  VendaCheckBox.Checked := Value[1];
 end;
 
 procedure TSessFormFiltroFrame.VendaCheckBoxClick(Sender: TObject);

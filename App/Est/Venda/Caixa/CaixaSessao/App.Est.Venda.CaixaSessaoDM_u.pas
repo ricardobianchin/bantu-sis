@@ -83,8 +83,8 @@ type
       pPDVControlador: IPDVControlador); reintroduce;
   end;
 
-var
-  CaixaSessaoDM: TCaixaSessaoDM;
+//var
+//  CaixaSessaoDM: TCaixaSessaoDM;
 
 implementation
 
