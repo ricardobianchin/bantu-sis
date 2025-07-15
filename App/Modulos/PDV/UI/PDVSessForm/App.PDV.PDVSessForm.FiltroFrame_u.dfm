@@ -1,20 +1,20 @@
 inherited SessFormFiltroFrame: TSessFormFiltroFrame
   Width = 1036
-  Height = 48
+  Height = 91
   ExplicitWidth = 1036
-  ExplicitHeight = 48
+  ExplicitHeight = 91
   object FundoPanel: TPanel [0]
     Left = 0
     Top = 0
     Width = 1036
-    Height = 48
+    Height = 91
     Align = alClient
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
     object ErroLabel: TLabel
       Left = 6
-      Top = 46
+      Top = 76
       Width = 3
       Height = 13
       Caption = ' '
@@ -25,6 +25,13 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       Font.Style = []
       ParentFont = False
       StyleElements = [seClient, seBorder]
+    end
+    object SessTitLabel: TLabel
+      Left = 8
+      Top = 26
+      Width = 51
+      Height = 15
+      Caption = 'Aberturas'
     end
     object TitPanel: TPanel
       Left = 0
@@ -86,7 +93,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
     end
     object VendaCheckBox: TCheckBox
       Left = 120
-      Top = 23
+      Top = 53
       Width = 61
       Height = 17
       Caption = 'Vendas'
@@ -97,7 +104,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
     end
     object CxOperCheckBox: TCheckBox
       Left = 7
-      Top = 23
+      Top = 53
       Width = 109
       Height = 17
       Caption = 'Rotinas de caixa'
@@ -108,7 +115,7 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
     end
     object VendasPanel: TPanel
       Left = 185
-      Top = 21
+      Top = 51
       Width = 920
       Height = 23
       BevelOuter = bvNone
@@ -168,8 +175,8 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
       end
     end
     object FiltroToolBar: TToolBar
-      Left = 932
-      Top = 21
+      Left = 930
+      Top = 49
       Width = 150
       Height = 29
       Align = alNone
@@ -185,10 +192,19 @@ inherited SessFormFiltroFrame: TSessFormFiltroFrame
         Action = FiltroLimparAction
       end
     end
+    object SessComboBox: TComboBox
+      Left = 65
+      Top = 23
+      Width = 384
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 5
+      OnChange = SessComboBoxChange
+    end
   end
   inherited AgendeChangeTimer: TTimer
-    Left = 210
-    Top = 4
+    Left = 130
+    Top = 28
   end
   object ActionList1: TActionList
     Images = SisImgDataModule.ImageList16Flat

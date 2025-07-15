@@ -66,6 +66,7 @@ type
     ServConfigSelectAction: TAction;
     ServerArqConfigErroLabel: TLabel;
     ServFDConnection: TFDConnection;
+    TerminaisErroLabel: TLabel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -135,7 +136,7 @@ type
     function UsuAdminPodeOk: boolean;
     function LojaPodeOk: boolean;
     function ServerArqConfigPodeOk: boolean;
-
+    function TerminalIdPodeOk: boolean;
 
     function TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;
       pErroLabel: TLabel): boolean;
@@ -196,34 +197,34 @@ uses Math, Sis.UI.Controls.utils, Sis.UI.ImgDM, Sis.Win.Utils_u,
 }
 
 {
-procedure PegarIdMaquina(out pNome: string; out pIp: string);
-var
+  procedure PegarIdMaquina(out pNome: string; out pIp: string);
+  var
   Buffer: array [0 .. MAX_COMPUTERNAME_LENGTH + 1] of Char;
   Size: DWORD;
   HostEnt: PHostEnt;
   WSAData: TWSAData;
-begin
+  begin
   // Get the computer name
   Size := Length(Buffer);
   if GetComputerName(Buffer, Size) then
-    pNome := Buffer
+  pNome := Buffer
   else
-    pNome := '';
+  pNome := '';
 
   // Get the IP address
   WSAStartup($101, WSAData);
   try
-    HostEnt := gethostbyname(PAnsiChar(AnsiString(pNome)));
-    if HostEnt <> nil then
-      pIp := Format('%d.%d.%d.%d', [Byte(HostEnt^.h_addr^[0]),
-        Byte(HostEnt^.h_addr^[1]), Byte(HostEnt^.h_addr^[2]),
-        Byte(HostEnt^.h_addr^[3])])
-    else
-      pIp := '';
+  HostEnt := gethostbyname(PAnsiChar(AnsiString(pNome)));
+  if HostEnt <> nil then
+  pIp := Format('%d.%d.%d.%d', [Byte(HostEnt^.h_addr^[0]),
+  Byte(HostEnt^.h_addr^[1]), Byte(HostEnt^.h_addr^[2]),
+  Byte(HostEnt^.h_addr^[3])])
+  else
+  pIp := '';
   finally
-    WSACleanup;
+  WSACleanup;
   end;
-end;
+  end;
 }
 
 procedure TConfigPergForm.BuscaLocalNomeActionExecute(Sender: TObject);
@@ -242,7 +243,7 @@ end;
 
 procedure TConfigPergForm.CarregTesteStarterIni;
 var
-//  bResultado: Boolean;
+  // bResultado: Boolean;
   sNomeArq: string;
   sNomeNaRede: string;
   sIp: string;
@@ -344,6 +345,7 @@ begin
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.Preparar;
   ServerArqConfigErroLabel.Caption := '';
+  TerminaisErroLabel.Caption := '';
 end;
 
 procedure TConfigPergForm.ControlesToObjetos;
@@ -359,7 +361,8 @@ begin
   begin
     FSisConfig.ServerMachineId.Name := FSisConfig.LocalMachineId.Name;
     FSisConfig.ServerMachineId.IP := FSisConfig.LocalMachineId.IP;
-    FSisConfig.ServerMachineId.LetraDoDrive := FSisConfig.LocalMachineId.LetraDoDrive;
+    FSisConfig.ServerMachineId.LetraDoDrive :=
+      FSisConfig.LocalMachineId.LetraDoDrive;
   end
   else
   begin
@@ -729,17 +732,17 @@ begin
 
   if EhServidorCheckBox.Checked then
   begin
-    Result := ServerPodeOk;
+    result := ServerPodeOk;
   end
   else
   begin
-    Result := TermPodeOk;
+    result := TermPodeOk;
   end;
 end;
 
 procedure TConfigPergForm.ServConfigSelectActionExecute(Sender: TObject);
 var
-  bResultado: Boolean;
+  bResultado: boolean;
   sNomeArq: string;
   sNomeNaRede: string;
   sIp: string;
@@ -761,21 +764,22 @@ begin
   ConfigArqLer(sNomeArq, sNomeNaRede, sIp);
   ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
   ServerMaqFrame.IpLabeledEdit.Text := sIp;
-  ServFDConnection.Params.Values['server'] := ServerMaqFrame.NomeLabeledEdit.Text;
+  ServFDConnection.Params.Values['server'] :=
+    ServerMaqFrame.NomeLabeledEdit.Text;
 end;
 
 function TConfigPergForm.ServerArqConfigPodeOk: boolean;
 begin
-  Result := ServerArqConfigLabeledEdit.Text <> '';
-  if not Result then
+  result := ServerArqConfigLabeledEdit.Text <> '';
+  if not result then
   begin
     ServerArqConfigErroLabel.Caption := 'Obrigatório';
     ServerArqConfigLabeledEdit.SetFocus;
     exit;
   end;
 
-  Result := FileExists(ServerArqConfigLabeledEdit.Text);
-  if not Result then
+  result := FileExists(ServerArqConfigLabeledEdit.Text);
+  if not result then
   begin
     ServerArqConfigErroLabel.Caption := 'Arquivo não encontrado';
     exit;
@@ -809,9 +813,66 @@ begin
 {$ENDIF}
 end;
 
+function TConfigPergForm.TerminalIdPodeOk: boolean;
+var
+  TerminalId: integer;
+  t: TDataSet;
+  sSql: string;
+  q: TDataSet;
+  sMens: string;
+begin
+  q := nil;
+  Result := true;
+  try
+    t := FTerminaisDBGridFrame.FDMemTable1;
+
+    t.First;
+    while not t.Eof do
+    begin
+      TerminalId := t.Fields[0].AsInteger;
+
+      try
+        ServFDConnection.Connected := true;
+        sSql := 'SELECT 1 FROM RDB$DATABASE WHERE EXISTS (' +
+          'SELECT 1 FROM TERMINAl WHERE TERMINAL_ID = ' +
+          TerminalId.ToString + ')';
+        ServFDConnection.ExecSQL(sSql, q);
+        result := q.IsEmpty;
+        if not result then
+        begin
+          sMens := 'Já existe um terminal ' + TerminalId.ToString;
+          exit;
+        end;
+        ServFDConnection.Connected := false;
+      except
+        on e: exception do
+        begin
+          result := false;
+          sMens := 'Erro ao testar terminais: ' + e.message;
+        end;
+      end;
+
+      t.Next;
+    end;
+  finally
+    if assigned(q) then
+      q.free;
+    if result then
+      TerminaisErroLabel.Caption := ''
+    else
+      TerminaisErroLabel.Caption := sMens;
+  end;
+end;
+
 function TConfigPergForm.TermPodeOk: boolean;
 begin
-  Result := ServerArqConfigPodeOk;
+  result := ServerArqConfigPodeOk;
+  if not result then
+    exit;
+
+  result := TerminalIdPodeOk;
+  if not result then
+    exit;
 end;
 
 function TConfigPergForm.TesteLabeledEditVazio(pLabeledEdit: TLabeledEdit;

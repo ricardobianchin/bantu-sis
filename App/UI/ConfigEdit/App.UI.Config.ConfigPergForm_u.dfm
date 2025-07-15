@@ -377,6 +377,22 @@ object ConfigPergForm: TConfigPergForm
       Height = 333
       Caption = 'Terminais'
       TabOrder = 7
+      object TerminaisErroLabel: TLabel
+        Left = 2
+        Top = 318
+        Width = 650
+        Height = 13
+        Align = alBottom
+        Caption = 'TerminaisErroLabel'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 192
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        StyleElements = [seClient, seBorder]
+        ExplicitWidth = 96
+      end
     end
   end
   object ActionList1: TActionList

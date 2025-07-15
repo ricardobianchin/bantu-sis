@@ -18,7 +18,7 @@ procedure FDMemTableAppendDataSet(pOrigem: TDataSet; pDestino: TFDMemTable;
 
 procedure RecordToFDMemTable(pOrigem: TDataSet; pDestino: TFDMemTable); inline;
 
-procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
+procedure ListaSelectPreencher(pOrigem: TDataSet; pDestinoSL: TStrings);
 
 function RecordToFielNamesStr(pDataSet: TDataSet): string;
 function RecordToCSVStr(pDataSet: TDataSet): string;
@@ -173,7 +173,7 @@ begin
   end;
 end;
 
-procedure ListaSelectPrrencher(pOrigem: TDataSet; pDestinoSL: TStrings);
+procedure ListaSelectPreencher(pOrigem: TDataSet; pDestinoSL: TStrings);
 var
   iId: integer;
   p: Pointer;

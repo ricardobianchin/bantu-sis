@@ -197,13 +197,13 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-  exit;
+//  exit;
 
   Tab.append;
-  Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
-  Tab.FieldByName('APELIDO').AsString := 'TECIDOS';
+  Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
+  Tab.FieldByName('APELIDO').AsString := 'Maq do Ricardo'; //'TECIDOS';
   Tab.FieldByName('NOME_NA_REDE').AsString := 'DESKTOP-EJFTSHR';
-  Tab.FieldByName('IP').AsString := '192.168.1.65';
+  Tab.FieldByName('IP').AsString := '192.168.0.101';
 
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
   Tab.FieldByName('NF_SERIE').AsInteger := 0;
@@ -226,7 +226,7 @@ begin
   Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := 'SEM';
 
   Tab.FieldByName('IMPRESSORA_MODELO_DESCR').AsString := '';
-  Tab.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := 0;
+  Tab.FieldByName('IMPRESSORA_COLS_QTD').AsInteger := 48;
 
   Tab.FieldByName('CUPOM_QTD_LINS_FINAL').AsInteger := 0;
   Tab.FieldByName('SEMPRE_OFFLINE').AsBoolean := False;

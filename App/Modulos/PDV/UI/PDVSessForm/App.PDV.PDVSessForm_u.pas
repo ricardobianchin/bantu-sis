@@ -1,4 +1,4 @@
-unit App.PDV.PDVSessForm_u;
+ï»¿unit App.PDV.PDVSessForm_u;
 
 interface
 
@@ -89,9 +89,9 @@ type
     procedure CarregaDetailTimerTimer(Sender: TObject);
   private
     { Private declarations }
-    FCaixaSessao: ICaixaSessao;
+    FCaixaSessaoExib: ICaixaSessao;
     FCaixaSessaoDM: TCaixaSessaoDM;
-    FImpressao: IImpressao;
+    FImpressaoRelat: IImpressao;
     FFiltroFrame: TFiltroFrame;
     FFiltroFrameParentAntigo: TWinControl;
 
@@ -116,8 +116,8 @@ type
   end;
 
   {
-    quando fizer abertura de caixa, pegará a action q tenta abrir
-    que receberá via parametro
+    quando fizer abertura de caixa, pegarï¿½ a action q tenta abrir
+    que receberï¿½ via parametro
     ela fica no modu pdv
     apos execuala, faz BuscarRecente
   }
@@ -134,12 +134,14 @@ implementation
 uses Sis.UI.ImgDM, System.Math, Sis.DB.DataSet.Utils, Sis.UI.IO.Factory,
   App.PDV.Factory_u, Sis.UI.Controls.TDBGrid,
   App.PDV.ImpressaoTextoCxSessRelat_u, App.Est.Venda.CaixaSessao.Factory_u,
-  Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Utils_u, App.UI.Form.Perg_u;
+  Sis.UI.Constants, App.Est.Venda.Caixa.CaixaSessao.Utils_u, Sis.Types.Utils_u,
+  App.UI.Form.Perg_u;
 
 procedure Exibir(AOwner: TComponent; pImpressoraNome: string;
   pCaixaSessaoDM: TCaixaSessaoDM; pFiltroFrame: TFiltroFrame);
 begin
-  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pCaixaSessaoDM, pFiltroFrame);
+  PDVSessForm := TPDVSessForm.Create(AOwner, pImpressoraNome, pCaixaSessaoDM,
+    pFiltroFrame);
   try
     PDVSessForm.ShowModal;
   finally
@@ -153,6 +155,7 @@ procedure TPDVSessForm.AjusteControles;
 begin
   inherited;
   BuscarRecente;
+  FCaixaSessaoExib.Id := FCaixaSessaoDM.CaixaSessao.Id;
 
   TitleBarCaptionLabel.Caption := 'Rotinas de Caixa';
   TitleBarCaptionLabel.StyleElements := [];
@@ -175,6 +178,8 @@ begin
   ToolBar1.Realign;
 
   BasePanel.Height := FFiltroFrame.Height + ToolBar1.Height;
+
+  FFiltroFrame.FiltroLimpar;
 end;
 
 procedure TPDVSessForm.Atualizar(Sender: TObject);
@@ -184,21 +189,20 @@ begin
   RetiraEventos;
   try
     FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
-      ItemFDMemTable, PagFDMemTable, FCaixaSessaoDM.CaixaSessao,
-      FFiltroFrame.Values, CARREGA_DATASETS_DETAIL);
-//    DBGrid1.Visible := not SessFDMemTable.IsEmpty;
-  AtualizarDetail;
+      ItemFDMemTable, PagFDMemTable, FCaixaSessaoExib, FFiltroFrame.Values,
+      CARREGA_DATASETS_DETAIL);
+    AtualizarDetail;
   finally
     RecolocaEventos;
   end;
 end;
 
 procedure TPDVSessForm.AtualizarDetail;
-//var
-//  eCxOpTipo: TCxOpTipo;
+// var
+// eCxOpTipo: TCxOpTipo;
 begin
-//  eCxOpTipo.FromString(SessFDMemTable.Fields[6].AsString);
-//  ItemDBGrid.Visible := eCxOpTipo = TCxOpTipo.cxopVenda;
+  // eCxOpTipo.FromString(SessFDMemTable.Fields[6].AsString);
+  // ItemDBGrid.Visible := eCxOpTipo = TCxOpTipo.cxopVenda;
 
   FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSetDetail(SessFDMemTable,
     ItemFDMemTable, PagFDMemTable);
@@ -209,7 +213,8 @@ end;
 
 procedure TPDVSessForm.BuscarRecente;
 begin
-  FCaixaSessaoDM.CaixaSessaoDBI.CaixaSessaoUltimoGet(FCaixaSessao);
+  FCaixaSessaoDM.CaixaSessaoDBI.CaixaSessaoPreencheComUltimo
+    (FCaixaSessaoDM.CaixaSessao);
   SessStatusExiba;
   Atualizar(nil);
 end;
@@ -241,16 +246,16 @@ begin
   FFiltroFrame.Visible := True;
   FFiltroFrame.OnChange := Atualizar;
 
-  FCaixaSessao := CaixaSessaoCreate(FCaixaSessaoDM.LogUsuario //
+  FCaixaSessaoExib := CaixaSessaoCreate(FCaixaSessaoDM.LogUsuario //
     , FCaixaSessaoDM.AppObj.SisConfig.LocalMachineId.IdentId //
     , FCaixaSessaoDM.AppObj.Loja.Id //
     , FCaixaSessaoDM.Terminal.TerminalId //
     );
 
-  FImpressao := ImpressaoTextoCxSessRelatCreate(pImpressoraNome,
+  FImpressaoRelat := ImpressaoTextoCxSessRelatCreate(pImpressoraNome,
     FCaixaSessaoDM.LogUsuario.Id, FCaixaSessaoDM.LogUsuario.NomeExib,
     FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
-    FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessao);
+    FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessaoExib);
 
   // Height := Min(600, Screen.WorkAreaRect.Height - 10);
   // Width := 800;
@@ -348,19 +353,20 @@ var
   bResultado: Boolean;
 begin
   inherited;
-  if FCaixaSessao.Id = 0 then
-  begin
-    ErroOutput.Exibir('Não há Caixa Aberto');
-    exit;
-  end;
-  if SessFDMemTable.IsEmpty then
-  begin
-    bResultado :=
-      App.UI.Form.Perg_u.Perg('Ainda não há registros nesta Abertura de Caixa. Deseja imprimir mesmo assim?', '' , TBooleanDefault.boolFalse);
-    if not bResultado then
-      exit;
-  end;
-  FImpressao.Imprima;
+  // if FCaixaSessaoAtiva.Id = 0 then
+  // begin
+  // ErroOutput.Exibir('Nï¿½o hï¿½ Caixa Aberto');
+  // exit;
+  // end;
+
+  // if SessFDMemTable.IsEmpty then
+  // begin
+  // bResultado :=
+  // App.UI.Form.Perg_u.Perg('Ainda nÃ£o hÃ¡ registros nesta Abertura de Caixa. Deseja imprimir mesmo assim?', '' , TBooleanDefault.boolFalse);
+  // if not bResultado then
+  // exit;
+  // end;
+  FImpressaoRelat.Imprima;
 end;
 
 procedure TPDVSessForm.RetiraEventos;
@@ -393,7 +399,7 @@ var
   s: string;
   c: ICaixaSessao;
 begin
-  c := FCaixaSessao;
+  c := FCaixaSessaoDM.CaixaSessao;
 
   try
     if c.Id = 0 then

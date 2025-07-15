@@ -856,6 +856,7 @@ var
   sMens: string;
   q: TDataSet;
 begin
+  q := nil;
   Result := ActiveControl = CancelBitBtn_DiagBtn;
   if Result then
     exit;
@@ -905,6 +906,8 @@ begin
       end;
     end;
   finally
+    if assigned(q) then
+      q.free;
     if not Result then
     begin
       ErroOutput.Exibir(sMens);

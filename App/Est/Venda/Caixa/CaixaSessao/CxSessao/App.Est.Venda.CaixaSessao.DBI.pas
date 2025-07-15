@@ -12,7 +12,7 @@ type
     function CaixaSessaoAbertoGet(var pCaixaSessaoRec: TCaixaSessaoRec)
       : Boolean;
 
-    function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao): Boolean;
+    function CaixaSessaoPreencheComUltimo(pCaixaSessao: ICaixaSessao): Boolean;
     procedure PegDados(pCaixaSessao: ICaixaSessao);
     function GetMensagem: string;
     property Mensagem: string read GetMensagem;
@@ -28,6 +28,7 @@ type
       pCaixaSessao: ICaixaSessao);
 
     procedure PreencherPagamentoFormaFiltroSL(pSL: TStrings);
+    procedure PreencherSessFiltroSL(pSL: TStrings);
   end;
 
 implementation

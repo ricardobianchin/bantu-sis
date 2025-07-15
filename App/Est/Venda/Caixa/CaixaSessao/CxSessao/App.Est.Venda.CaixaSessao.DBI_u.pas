@@ -39,7 +39,7 @@ type
       : Boolean;
     procedure PegDados(pCaixaSessao: ICaixaSessao);
 
-    function CaixaSessaoUltimoGet(pCaixaSessao: ICaixaSessao): Boolean;
+    function CaixaSessaoPreencheComUltimo(pCaixaSessao: ICaixaSessao): Boolean;
 
     property Mensagem: string read GetMensagem;
 
@@ -54,6 +54,7 @@ type
       pCaixaSessao: ICaixaSessao);
 
     procedure PreencherPagamentoFormaFiltroSL(pSL: TStrings);
+    procedure PreencherSessFiltroSL(pSL: TStrings);
   end;
 
 implementation
@@ -110,8 +111,8 @@ begin
   end;
 end;
 
-function TCaixaSessaoDBI.CaixaSessaoUltimoGet(pCaixaSessao
-  : ICaixaSessao): Boolean;
+function TCaixaSessaoDBI.CaixaSessaoPreencheComUltimo
+  (pCaixaSessao: ICaixaSessao): Boolean;
 var
   oDBQuery: IDBQuery;
   sSql: string;
@@ -299,6 +300,7 @@ var
   T: TFDMemTable;
   q: TDataSet;
   s, sLojaId, sTermId, sSessId: string;
+  iSessId: integer;
 begin
   T := pDMemTableMaster;
 
@@ -315,7 +317,8 @@ begin
     try
       sLojaId := pCaixaSessao.LojaId.ToString;
       sTermId := pCaixaSessao.TerminalId.ToString;
-      sSessId := pCaixaSessao.Id.ToString;
+      iSessId := pValues[4];
+      sSessId := iSessId.ToString;
 
       sSql := PDVSessFormCarregarDataSetSql(sLojaId, sTermId, sSessId, pValues);
 
@@ -325,7 +328,7 @@ begin
       T.Indexes.Clear;
       T.BeginBatch;
       try
-        if pCaixaSessao.Id < 1 then
+        if iSessId < 1 then
           exit;
 
         oDBQuery.Abrir;
@@ -460,7 +463,7 @@ var
   bExibeCxOper: Boolean;
   iPagFormaId: integer;
   iProdId: integer;
-  sLojaId, sTermId, sSessId: string;
+  // sLojaId, sTermId, sSessId: string;
 begin
   Result := '';
 
@@ -783,8 +786,6 @@ var
   sSql: string;
   q: TDataSet;
 begin
-  // pCaixaSessaoRec.Zerar;
-
   DBConnection.Abrir;
 
   try
@@ -909,7 +910,71 @@ begin
 
     oDBQuery.Abrir;
     try
-      ListaSelectPrrencher(oDBQuery.DataSet, pSL);
+      ListaSelectPreencher(oDBQuery.DataSet, pSL);
+    finally
+      oDBQuery.Fechar;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
+procedure TCaixaSessaoDBI.PreencherSessFiltroSL(pSL: TStrings);
+var
+  iId: integer;
+  p: Pointer;
+  sDescr: string;
+  sNome: string;
+  oDBQuery: IDBQuery;
+  sSql: string;
+  q: TDataSet;
+  sIni, sFim: string;
+begin
+  pSL.Clear;
+  DBConnection.Abrir;
+  try
+    sSql := //
+      'SELECT'#13#10 + //
+      'SESS_ID, OPER_APELIDO, ABERTO_EM, FECHADO_EM'#13#10 + //
+      'FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_SELECT_GET('#13#10 + //
+      FLojaId.ToString + ', '#13#10 + //
+      FTerminalId.ToString + ');'#13#10 //
+      ;
+
+    oDBQuery := DBQueryCreate('CxSess.lista.select.get.q', DBConnection, sSql,
+      nil, nil);
+
+    oDBQuery.Abrir;
+    try
+      q := oDBQuery.DataSet;
+      while not q.Eof do
+      begin
+        iId := q.Fields[0].AsInteger;
+
+        if iId < 1 then
+        begin
+          pSL.Add('');
+          continue;
+        end;
+
+        sNome := Trim(q.Fields[1].AsString);
+        sIni := FormatDateTime('dd/mm/yy hh:nn', q.FieldByName('ABERTO_EM')
+          .AsDateTime);
+
+        if q.FieldByName('FECHADO_EM').IsNull then
+          sFim := 'Não fechado'
+        else
+          sFim := FormatDateTime('dd/mm/yy hh:nn', q.FieldByName('FECHADO_EM')
+            .AsDateTime);
+
+        sDescr := GetCod(FLojaId, FTerminalId, iId, '') + ' ' + sNome + ' ' +
+          sIni + ' - ' + sFim;
+
+        p := Pointer(iId);
+        pSL.AddObject(sDescr, p);
+
+        q.Next;
+      end;
     finally
       oDBQuery.Fechar;
     end;
