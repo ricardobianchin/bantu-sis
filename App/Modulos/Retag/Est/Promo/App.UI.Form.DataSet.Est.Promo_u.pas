@@ -250,7 +250,10 @@ begin
   FDMemTable.Fields[3 { NOME } ].AsString := q.Fields[3].AsString;
   FDMemTable.Fields[4 { ATIVO } ].AsBoolean := q.Fields[4].AsBoolean;
   FDMemTable.Fields[5 { INICIA_EM } ].AsDateTime := q.Fields[5].AsDateTime;
-  FDMemTable.Fields[6 { TERMINA_EM } ].AsDateTime := q.Fields[6].AsDateTime;
+  if q.Fields[6].AsDateTime <> DATA_ZERADA then
+  begin
+    FDMemTable.Fields[6 { TERMINA_EM } ].AsDateTime := q.Fields[6].AsDateTime;
+  end;
 
   FDMemTable.Post;
 end;
@@ -296,12 +299,13 @@ procedure TAppPromoDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   //InsAction_DatasetTabSheet.Execute;
-  AltAction_DatasetTabSheet.Execute;
+  //AltAction_DatasetTabSheet.Execute;
 end;
 
 procedure TAppPromoDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
+  ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
