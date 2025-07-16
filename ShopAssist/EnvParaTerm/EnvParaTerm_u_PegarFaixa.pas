@@ -4,8 +4,8 @@ interface
 
 uses DBTermDM_u;
 
-procedure PegarFaixa(pTermDM: TDBTermDM; var pLogIdIni: Int64;
-  var pLogIdFin: Int64);
+procedure PegarFaixa(pTermDM: TDBTermDM; out pLogIdIni: Int64;
+  out pLogIdFin: Int64);
 
 implementation
 
@@ -35,8 +35,8 @@ begin
   Result := VarToInteger64(DBServDM.Connection.ExecSQLScalar(sSql));
 end;
 
-procedure PegarFaixa(pTermDM: TDBTermDM; var pLogIdIni: Int64;
-  var pLogIdFin: Int64);
+procedure PegarFaixa(pTermDM: TDBTermDM; out pLogIdIni: Int64;
+  out pLogIdFin: Int64);
 begin
   pLogIdIni := GetLogIdIni(pTermDM);
   pLogIdFin := GetLogIdFin;

@@ -7,7 +7,7 @@ procedure Execute;
 implementation
 
 uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u,
-  Log_u, Vcl.Dialogs;
+  Log_u, Vcl.Dialogs, TrazerDoTerm_u;
 
 procedure Execute;
 var
@@ -35,11 +35,11 @@ begin
         if bPrecisaTerminar then
           break;
 
-//        if bAtivo then
-//          ForEachTerminal(TrazerDoTerm, bPrecisaTerminar);
+        if bAtivo then
+          ForEachTerminal(TrazerDoTerm, bPrecisaTerminar);
 
-//        if bPrecisaTerminar then
-//          break;
+        if bPrecisaTerminar then
+          break;
 
         if not bSegueAberto then
           break;

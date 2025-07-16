@@ -24,7 +24,9 @@ uses
   Log_u in 'Sis\Log_u.pas',
   EnvParaTerm_u_ProdPreco in 'EnvParaTerm\EnvParaTerm_u_ProdPreco.pas',
   EnvParaTerm_u_DespesaTipo in 'EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas',
-  TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas';
+  TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas',
+  TrazerDoTerm_u_PegarFaixa in 'TrazerDoTerm\TrazerDoTerm_u_PegarFaixa.pas',
+  TrazerDoTerm_u_TrazSess in 'TrazerDoTerm\TrazerDoTerm_u_TrazSess.pas';
 
 {$R *.res}
 
@@ -47,4 +49,5 @@ begin
     CloseHandle(hMutex);
   end;
 end.
+
 
