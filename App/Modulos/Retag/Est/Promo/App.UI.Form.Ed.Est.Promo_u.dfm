@@ -127,21 +127,11 @@ inherited PromoEdForm: TPromoEdForm
       ReadOnly = False
       TabOrder = 0
       Text = '0,00'
+      OnKeyPress = PrecoPromoNumEditBtuKeyPress
       NCasas = 2
       NCasasEsq = 9
       Valor = 0
       MascEsq = '########0'
-    end
-    object ItemAtivoCheckBox: TCheckBox
-      Left = 660
-      Top = 27
-      Width = 71
-      Height = 17
-      Caption = 'Ativo'
-      Checked = True
-      State = cbChecked
-      TabOrder = 1
-      OnKeyPress = ItemAtivoCheckBoxKeyPress
     end
   end
   inherited ShowTimer_BasForm: TTimer

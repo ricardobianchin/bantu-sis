@@ -442,8 +442,8 @@ function RetagPromoItemCreate( //
   pFabrNome, //
   pUnidSigla: string; //
 
-  pPrecoPromo: Currency; //
-  pAtivo: boolean //
+  pPrecoPromo: Currency //
+  //pAtivo: boolean //
   ): IEstPromoItem;
 
 {$ENDREGION}
@@ -1368,14 +1368,14 @@ function RetagPromoItemCreate(//
   pFabrNome, //
   pUnidSigla: string; //
 
-  pPrecoPromo: Currency; //
-  pAtivo: boolean //
+  pPrecoPromo: Currency //
+//  pAtivo: boolean //
   ): IEstPromoItem;
 var
   oProd: IProd;
 begin
   oProd := ProdCreate(pProdId, pDescrRed, pFabrNome, pUnidSigla);
-  Result := TEstPromoItem.Create(oProd, pPrecoPromo, pAtivo);
+  Result := TEstPromoItem.Create(oProd, pPrecoPromo{, pAtivo});
 end;
 
 {$ENDREGION}

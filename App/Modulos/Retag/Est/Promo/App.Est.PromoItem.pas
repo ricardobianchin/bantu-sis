@@ -14,9 +14,9 @@ type
     procedure SetPrecoPromo(Value: Currency);
     property PrecoPromo: Currency read GetPrecoPromo write SetPrecoPromo;
 
-    function GetAtivo: Boolean;
-    procedure SetAtivo(Value: Boolean);
-    property Ativo: Boolean read GetAtivo write SetAtivo;
+//    function GetAtivo: Boolean;
+//    procedure SetAtivo(Value: Boolean);
+//    property Ativo: Boolean read GetAtivo write SetAtivo;
 end;
 
 implementation

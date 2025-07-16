@@ -78,7 +78,7 @@ type
     property GravaCabec: Boolean read GetGravaCabec write SetGravaCabec;
     property AcaoSisId: Char read GetAcaoSisId write SetAcaoSisId;
 
-    function GetLastActiveItemIndex: integer;
+//    function GetLastActiveItemIndex: integer;
 
     constructor Create( //
       pLoja: IAppLoja; //
@@ -159,18 +159,18 @@ begin
 //  Result := TList<IEstPromoItem>(Items);
 end;
 
-function TEstPromoEnt.GetLastActiveItemIndex: integer;
-begin
-  Result := -1;
-  for var i := FItems.Count - 1 downto 0 do
-  begin
-    if FItems[i].Ativo then
-    begin
-      Result := i;
-      Break;
-    end;
-  end;
-end;
+//function TEstPromoEnt.GetLastActiveItemIndex: integer;
+//begin
+//  Result := -1;
+//  for var i := FItems.Count - 1 downto 0 do
+//  begin
+//    if FItems[i].Ativo then
+//    begin
+//      Result := i;
+//      Break;
+//    end;
+//  end;
+//end;
 
 function TEstPromoEnt.GetLoja: IAppLoja;
 begin
@@ -242,7 +242,7 @@ end;
 
 procedure TEstPromoEnt.SetGravaCabec(Value: Boolean);
 begin
-  FGravaCabec := True;
+  FGravaCabec := Value;
 end;
 
 procedure TEstPromoEnt.SetIniciaEm(Value: TDateTime);

@@ -33,6 +33,9 @@ type
     function NomeJaExistente(pNome: string;
       pPromoIdExceto: integer = 0): Boolean;
 
+    function InserirItem: Boolean;
+    function AlterarPromo: Boolean;
+
     constructor Create(pDBConnection: IDBConnection; pEstPromoEnt: IEstPromoEnt;
       pAppObj: IAppObj; pUsuarioId: TId);
   end;
@@ -44,6 +47,15 @@ uses Sis.DB.DataSet.Utils, Sis.DB.Factory, System.SysUtils, Sis.Types.Floats,
   Sis.Win.Utils_u;
 
 { TEstPromoDBI }
+
+function TEstPromoDBI.AlterarPromo: Boolean;
+begin
+  Result := not FEstPromoEnt.GravaCabec;
+  if Result then
+    exit;
+
+  Result := Alterar;
+end;
 
 constructor TEstPromoDBI.Create(pDBConnection: IDBConnection;
   pEstPromoEnt: IEstPromoEnt; pAppObj: IAppObj; pUsuarioId: TId);
@@ -61,6 +73,12 @@ var
   e: IEstPromoEnt;
 begin
   e := FEstPromoEnt;
+
+  if e.EditandoItem then
+  begin
+    Result := GetSqlInserirDoERetornaId;
+    exit;
+  end;
 
   Result := 'EXECUTE PROCEDURE PROMO_PA.ALTERAR_DO('#13#10 +
     e.Loja.Id.ToString + ', -- LOJA_ID'#13#10 + //
@@ -107,7 +125,7 @@ var
   iProdId: TId;
   uPrecoPromo: Currency;
   e: IEstPromoEnt;
-  bItemAtivo: Boolean;
+//  bItemAtivo: Boolean;
 begin
   e := FEstPromoEnt;
   if e.EditandoItem and (e.State = dsEdit) then
@@ -121,7 +139,7 @@ begin
 
   iProdId := e.Items[i].Prod.Id;
   Bcdtocurr(e.Items[i].PrecoPromo, uPrecoPromo);
-  bItemAtivo := e.Items[i].Ativo;
+//  bItemAtivo := e.Items[i].Ativo;
 
   Result := //
     'SELECT'#13#10 + 'PROMO_ID_RET'#13#10 //
@@ -137,7 +155,7 @@ begin
     BooleanToStrSQL(e.GravaCabec) + ', -- GRAVA_CABEC'#13#10 + //
     iProdId.ToString + ', -- PROD_ID'#13#10 + //
     CurrencyToStrPonto(uPrecoPromo) + ', -- PRECO_PROMO'#13#10 + //
-    BooleanToStrSQL(bItemAtivo) + ', -- PROMO_ITEM_ATIVO'#13#10 + //
+//    BooleanToStrSQL(bItemAtivo) + ', -- PROMO_ITEM_ATIVO'#13#10 + //
     QuotedStr(e.AcaoSisId) + ', -- ACAO_SIS_ID'#13#10 + //
 
     UsuarioId.ToString + ', -- LOG_PESSOA_ID'#13#10 + //
@@ -145,9 +163,16 @@ begin
     + ');' //
     ;
 
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(Result);
-  // {$ENDIF}
+// {$IFDEF DEBUG}
+// CopyTextToClipboard(Result);
+// {$ENDIF}
+end;
+
+function TEstPromoDBI.InserirItem: Boolean;
+var
+  aNovaId: variant;
+begin
+  Result := Inserir(aNovaId);
 end;
 
 function TEstPromoDBI.NomeJaExistente(pNome: string;
@@ -190,7 +215,9 @@ end;
 procedure TEstPromoDBI.SetVarArrayToId(pNovaId: variant);
 begin
   inherited;
-
+  if FEstPromoEnt.EditandoItem then
+    exit;
+  FEstPromoEnt.PromoId := pNovaId[0];
 end;
 
 end.

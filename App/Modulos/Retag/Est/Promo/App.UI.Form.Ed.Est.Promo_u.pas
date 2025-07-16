@@ -21,13 +21,14 @@ type
     NomeLabeledEdit: TLabeledEdit;
     AtivoCheckBox: TCheckBox;
     PrecoPromoNumEditBtu: TNumEditBtu;
-    ItemAtivoCheckBox: TCheckBox;
     Label1: TLabel;
 
     procedure NomeLabeledEditKeyPress(Sender: TObject; var Key: Char);
     procedure AtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure ItemAtivoCheckBoxKeyPress(Sender: TObject; var Key: Char);
     procedure ShowTimer_BasFormTimer(Sender: TObject);
+    procedure PrecoPromoNumEditBtuKeyPress(Sender: TObject; var Key: Char);
+    procedure OkAct_DiagExecute(Sender: TObject);
   private
     { Private declarations }
     FProdSelectFrame: TProdSelectFrame;
@@ -43,14 +44,16 @@ type
     procedure IniciaEmHoraKeyPress(Sender: TObject; var Key: Char);
     procedure TerminaEmHoraKeyPress(Sender: TObject; var Key: Char);
 
-    function NomeOk: boolean;
-    function IniciaEmOk: boolean;
-    function TerminaEmOk: boolean;
+    function NomeOk: Boolean;
+    function IniciaEmOk: Boolean;
+    function TerminaEmOk: Boolean;
 
-    function ProdOk: boolean;
-    function PrecoPromoOk: boolean;
+    function ProdOk: Boolean;
+    function PrecoPromoOk: Boolean;
+
+    function GetCabecAlterou: Boolean;
   protected
-    function ControlesOk: boolean; override;
+    function ControlesOk: Boolean; override;
 
     procedure AjusteControles; override;
     procedure AjusteTabOrder; virtual;
@@ -61,7 +64,7 @@ type
 
     function GetObjetivoStr: string; override;
     property ProdSelectFrame: TProdSelectFrame read FProdSelectFrame;
-    function GravouOk: boolean; override;
+    function GravouOk: Boolean; override;
     property DummyFormClassNamesSL: TStringList read FDummyFormClassNamesSL;
     property MudoOutput: IOutput read FMudoOutput;
     property MudoProcessLog: IProcessLog read FMudoProcessLog;
@@ -115,7 +118,7 @@ begin
   CheckBoxKeyPress(Sender, Key);
 end;
 
-function TPromoEdForm.NomeOk: boolean;
+function TPromoEdForm.NomeOk: Boolean;
 var
   sNome: string;
 begin
@@ -139,13 +142,23 @@ begin
   end;
 end;
 
-function TPromoEdForm.ControlesOk: boolean;
+procedure TPromoEdForm.OkAct_DiagExecute(Sender: TObject);
+begin
+  inherited;
+  FEstPromoEnt.EditandoItem := True;
+
+end;
+
+function TPromoEdForm.ControlesOk: Boolean;
 var
   sNome: string;
 begin
 //  Result := FEstPromoEnt.State = dsEdit;
 //  if Result then
 //    Exit;
+
+  Result := (EntEd.State = dsEdit) and (not FEstPromoEnt.EditandoItem);
+  //GetCabecAlterou
 
   Result := NomeOk;
   if not Result then
@@ -178,6 +191,7 @@ var
 begin
   inherited;
   // FEstPromoEnt.Loja.Id
+  FEstPromoEnt.GravaCabec := GetCabecAlterou;
 
   FEstPromoEnt.Nome := NomeLabeledEdit.Text;
   FEstPromoEnt.Ativo := AtivoCheckBox.Checked;
@@ -185,17 +199,8 @@ begin
   FEstPromoEnt.IniciaEm := FIniciaEmFrame.Value;
   FEstPromoEnt.TerminaEm := FTerminaEmFrame.Value;
 
-  FEstPromoEnt.GravaCabec := not FEstPromoEnt.EditandoItem;
-
   if EntEd.State = dsEdit then
   begin
-    // oItem := FEntradaEnt.Items[FEntradaEnt.ItemIndex];
-    // oItem.ProdIdDeles := ProdIdDelesLabeledEdit.Text;
-    // oItem.Custo := CustoNumEditBtu.AsCurrency;
-    // oItem.Margem := MargemNumEditBtu.AsCurrency;
-    // oItem.Preco := PrecoNovoNumEditBtu.AsCurrency;
-    // oItem.Qtd := QtdNumEditBtu.Valor;
-
     FEstPromoEnt.AcaoSisId := Chr(38); // ALTERAR
 
     if FEstPromoEnt.EditandoItem then
@@ -207,8 +212,8 @@ begin
         ProdSelectFrame.ProdFabrNome, //
         '' { UnidSigla } , //
 
-        PrecoPromoNumEditBtu.AsCurrency, //
-        ItemAtivoCheckBox.Checked //
+        PrecoPromoNumEditBtu.AsCurrency //
+        //ItemAtivoCheckBox.Checked //
         );
     end;
     Exit;
@@ -223,8 +228,8 @@ begin
     ProdSelectFrame.ProdFabrNome, //
     '' { UnidSigla } , //
 
-    PrecoPromoNumEditBtu.AsCurrency, //
-    ItemAtivoCheckBox.Checked);
+    PrecoPromoNumEditBtu.AsCurrency //
+    );
 
   FEstPromoEnt.Items.Add(oItem);
 end;
@@ -271,9 +276,9 @@ begin
     PrecoPromoNumEditBtu.LabelSpacing;
   PrecoPromoNumEditBtu.Top := FProdSelectFrame.Top;
 
-  ItemAtivoCheckBox.Top := PrecoPromoNumEditBtu.Top + 3;
-  ItemAtivoCheckBox.Left := PrecoPromoNumEditBtu.Left +
-    PrecoPromoNumEditBtu.Width + 8;
+//  ItemAtivoCheckBox.Top := PrecoPromoNumEditBtu.Top + 3;
+//  ItemAtivoCheckBox.Left := PrecoPromoNumEditBtu.Left +
+//    PrecoPromoNumEditBtu.Width + 8;
 
   CodLabeledEdit.TabStop := False;
   Sis.UI.Controls.Utils.ReadOnlySet(CodLabeledEdit, True);
@@ -326,6 +331,16 @@ begin
   end;
 end;
 
+function TPromoEdForm.GetCabecAlterou: Boolean;
+begin
+  Result := //
+    (FEstPromoEnt.Nome <> NomeLabeledEdit.Text)//
+    or (FEstPromoEnt.Ativo <> AtivoCheckBox.Checked)//
+    or (FEstPromoEnt.IniciaEm <> FIniciaEmFrame.Value)//
+    or (FEstPromoEnt.TerminaEm <> FTerminaEmFrame.Value)//
+    ;
+end;
+
 function TPromoEdForm.GetObjetivoStr: string;
 begin
   if (FEstPromoEnt.State = dsEdit) then
@@ -352,9 +367,19 @@ begin
   end;
 end;
 
-function TPromoEdForm.GravouOk: boolean;
+function TPromoEdForm.GravouOk: Boolean;
+var
+  i: variant;
 begin
-  Result := FEstPromoDBI.Gravar;
+  if (FEstPromoEnt.state = dsInsert) and (not FEstPromoEnt.EditandoItem) then
+  begin
+    Result := FEstPromoDBI.InserirItem;
+    exit;
+  end;
+//  if (FEstPromoEnt.state = dsEdit) and (FEstPromoEnt.EditandoItem) then
+//    Result := FEstPromoDBI.Inserir(i)
+//  else
+//    Result := FEstPromoDBI.Gravar;
 end;
 
 procedure TPromoEdForm.IniciaEmHoraKeyPress(Sender: TObject; var Key: Char);
@@ -366,7 +391,7 @@ begin
   end;
 end;
 
-function TPromoEdForm.IniciaEmOk: boolean;
+function TPromoEdForm.IniciaEmOk: Boolean;
 var
   dthValue: TDateTime;
   sMens: string;
@@ -395,7 +420,18 @@ begin
 
 end;
 
-function TPromoEdForm.PrecoPromoOk: boolean;
+procedure TPromoEdForm.PrecoPromoNumEditBtuKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if Key = #13 then
+  begin
+    Key := #0;
+    OkAct_Diag.Execute;
+  end;
+end;
+
+function TPromoEdForm.PrecoPromoOk: Boolean;
 begin
   Result := PrecoPromoNumEditBtu.Valor > 0;
   if not Result then
@@ -406,7 +442,7 @@ begin
   end;
 end;
 
-function TPromoEdForm.ProdOk: boolean;
+function TPromoEdForm.ProdOk: Boolean;
 begin
   Result := ProdSelectFrame.ProdId > 0;
   if not Result then
@@ -467,7 +503,7 @@ begin
   end;
 end;
 
-function TPromoEdForm.TerminaEmOk: boolean;
+function TPromoEdForm.TerminaEmOk: Boolean;
 var
   dthIni, dthFin: TDateTime;
   sMens: string;

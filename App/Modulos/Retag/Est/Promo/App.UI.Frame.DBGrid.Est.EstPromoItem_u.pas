@@ -21,6 +21,11 @@ type
     procedure LeRegEInsere(q: TDataSet; pRecNo: integer);
   public
     { Public declarations }
+    FieldPROD_ID: TField;
+    FieldDESCR_RED: TField;
+    FieldFABR_NOME: TField;
+    FieldPRECO_PROMO: TField;
+
     constructor Create(AOwner: TComponent; pEstPromoItemDBI: IDBI); reintroduce;
     procedure Carregar(pLojaId: TLojaId; pPromoId: integer);
   end;
@@ -101,6 +106,13 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FDMemTable1, DBGrid1);
   DBGrid1.Align := alClient;
+
+
+  FieldPROD_ID := FDMemTable1.FieldByName('PROD_ID');
+  FieldDESCR_RED := FDMemTable1.FieldByName('DESCR_RED');
+  FieldFABR_NOME := FDMemTable1.FieldByName('FABR_NOME');
+  FieldPRECO_PROMO := FDMemTable1.FieldByName('PRECO_PROMO');
+
 end;
 
 end.
