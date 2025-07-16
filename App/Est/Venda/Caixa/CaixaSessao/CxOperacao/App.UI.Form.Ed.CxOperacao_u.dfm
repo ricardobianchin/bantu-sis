@@ -78,11 +78,10 @@ inherited CxOperacaoEdForm: TCxOperacaoEdForm
       object Label2: TLabel
         Left = 0
         Top = 0
-        Width = 635
+        Width = 152
         Height = 15
         Align = alTop
         Caption = 'Observa'#231#245'es (200 caracteres)'
-        ExplicitWidth = 152
       end
       object ObsMemo: TMemo
         Left = 0

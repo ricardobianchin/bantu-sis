@@ -412,9 +412,9 @@ end;
 procedure TPDVModuloBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-{$IFDEF DEBUG}
-  SessFormAction.Execute;
-{$ENDIF}
+//{$IFDEF DEBUG}
+//  SessFormAction.Execute;
+//{$ENDIF}
 end;
 
 end.
