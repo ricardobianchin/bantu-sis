@@ -17,4 +17,12 @@ inherited AppPromoDataSetForm: TAppPromoDataSetForm
   inherited SelectPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]
   end
+  inherited ActionList1_ActBasForm: TActionList
+    inherited InsItemAction_DatasetTabSheet: TAction
+      OnExecute = InsItemAction_DatasetTabSheetExecute
+    end
+    inherited AltItemAction_DatasetTabSheet: TAction
+      OnExecute = AltItemAction_DatasetTabSheetExecute
+    end
+  end
 end

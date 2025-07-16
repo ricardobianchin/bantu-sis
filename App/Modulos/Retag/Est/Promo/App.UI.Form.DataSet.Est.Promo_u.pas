@@ -21,7 +21,8 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
     procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure AtuAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure AltItemAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure InsItemAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstPromoEnt: IEstPromoEnt;
@@ -36,6 +37,7 @@ type
     FDMemTableTERMINA_EM: TField;
     FDMemTableATIVO: TField;
 
+    procedure DataSetToPromoItems(q: TDataSet; pRecNo: integer);
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer);
   protected
     function PergEd: boolean; override;
@@ -87,15 +89,36 @@ begin
     exit;
   end;
 
-  FEstPromoEnt.EditandoItem := False;
   inherited;
 end;
 
-procedure TAppPromoDataSetForm.AtuAction_DatasetTabSheetExecute(
+procedure TAppPromoDataSetForm.AltItemAction_DatasetTabSheetExecute(
   Sender: TObject);
+var
+  Result: Boolean;
 begin
   inherited;
-   //
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de promoção a alterar');
+    exit;
+  end;
+
+  Result := not FEstPromoItemDBGridFrame.fdmemtable1.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de item de promoção a alterar');
+    exit;
+  end;
+
+  RecordToEnt;
+  FEstPromoEnt.EditandoItem := True;
+  try
+    AltAction_DatasetTabSheet.Execute;
+  finally
+    FEstPromoEnt.EditandoItem := False;
+  end;
 end;
 
 function TAppPromoDataSetForm.AtuPode: boolean;
@@ -131,6 +154,29 @@ begin
   FDMemTableINICIA_EM := FDMemTable.FindField('INICIA_EM');
   FDMemTableTERMINA_EM := FDMemTable.FindField('TERMINA_EM');
   FDMemTableATIVO := FDMemTable.FindField('ATIVO');
+end;
+
+procedure TAppPromoDataSetForm.DataSetToPromoItems(q: TDataSet;
+  pRecNo: integer);
+var
+  oItem: IEstPromoItem;
+  g: TEstPromoItemDBGridFrame;
+begin
+  if pRecNo = -1 then
+    exit;
+
+  g := FEstPromoItemDBGridFrame;
+
+  oItem := App.Retag.Est.Factory.RetagPromoItemCreate( //
+    g.FieldPROD_ID.AsInteger
+    , g.FieldDESCR_RED.AsString
+    , g.FieldFABR_NOME.AsString
+    , '' //sigla
+    , g.FieldPRECO_PROMO.AsCurrency
+//    , g.FieldATIVO.AsBoolean
+    );
+
+  FEstPromoEnt.Items.Add(oItem);
 end;
 
 procedure TAppPromoDataSetForm.DetailCarregar;
@@ -250,7 +296,10 @@ begin
   FDMemTable.Fields[3 { NOME } ].AsString := q.Fields[3].AsString;
   FDMemTable.Fields[4 { ATIVO } ].AsBoolean := q.Fields[4].AsBoolean;
   FDMemTable.Fields[5 { INICIA_EM } ].AsDateTime := q.Fields[5].AsDateTime;
-  FDMemTable.Fields[6 { TERMINA_EM } ].AsDateTime := q.Fields[6].AsDateTime;
+  if q.Fields[6].AsDateTime <> DATA_ZERADA then
+  begin
+    FDMemTable.Fields[6 { TERMINA_EM } ].AsDateTime := q.Fields[6].AsDateTime;
+  end;
 
   FDMemTable.Post;
 end;
@@ -272,6 +321,35 @@ begin
   inherited;
 end;
 
+procedure TAppPromoDataSetForm.InsItemAction_DatasetTabSheetExecute(
+  Sender: TObject);
+var
+  Result: Boolean;
+begin
+  inherited;
+  Result := not FDMemTable.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de promoção a alterar');
+    exit;
+  end;
+
+  Result := not FEstPromoItemDBGridFrame.fdmemtable1.IsEmpty;
+  if not Result then
+  begin
+    ShowMessage('Não há registro de item de promoção a alterar');
+    exit;
+  end;
+
+  RecordToEnt;
+  FEstPromoEnt.EditandoItem := True;
+  try
+    InsAction_DatasetTabSheet.Execute;
+  finally
+    FEstPromoEnt.EditandoItem := False;
+  end;
+end;
+
 function TAppPromoDataSetForm.PergEd: boolean;
 begin
   Result := EstPromoPerg(nil, AppObj, FEstPromoEnt, FEstPromoDBI,
@@ -282,6 +360,11 @@ end;
 CRIAR RecordToEnt; BASEADO NO MESMO METODO EM C:\Pr\app\bantu\bantu-sis\Src\App\Modulos\Retag\Est\Sai\App.UI.Form.DataSet.Est.EstSaida_u.pas
 }
 procedure TAppPromoDataSetForm.RecordToEnt;
+var
+  i: integer;
+  sCod: string;
+  oItem: IEstPromoItem;
+  g: TEstPromoItemDBGridFrame;
 begin
   inherited;
   FEstPromoEnt.Loja.Id := FDMemTable.Fields[0 { LOJA_ID } ].AsInteger;
@@ -290,23 +373,33 @@ begin
   FEstPromoEnt.Ativo := FDMemTable.Fields[4 { ATIVO } ].AsBoolean;
   FEstPromoEnt.IniciaEm := FDMemTable.Fields[5 { INICIA_EM } ].AsDateTime;
   FEstPromoEnt.TerminaEm := FDMemTable.Fields[6 { TERMINA_EM } ].AsDateTime;
+
+  g := FEstPromoItemDBGridFrame;
+  if g.FDMemTable1.IsEmpty then
+    FEstPromoEnt.ItemIndex := -1
+  else
+    FEstPromoEnt.ItemIndex := g.fdmemtable1.recordCount - 1;
+
+  FEstPromoEnt.Items.Clear;
+  Sis.DB.DataSet.Utils.DataSetForEach(g.FDMemTable1, DataSetToPromoItems);
 end;
 
 procedure TAppPromoDataSetForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
   //InsAction_DatasetTabSheet.Execute;
-  AltAction_DatasetTabSheet.Execute;
+  //AltAction_DatasetTabSheet.Execute;
 end;
 
 procedure TAppPromoDataSetForm.ToolBar1CrieBotoes;
 begin
   inherited;
+  ToolBarAddButton(AtuAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(AltAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(InsItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
-  ToolBarAddButton(AltItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
+//  ToolBarAddButton(AltItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
   ToolBarAddButton(CancItemAction_DatasetTabSheet, TitToolBar1_BasTabSheet);
 end;
 
