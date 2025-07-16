@@ -8,6 +8,8 @@ in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\E
   BEGIN
     -- AQUI VAI O CODIGO
   END -- SEM ;
+  drop package PROMO_PA;
+  
 */
 SET TERM ^;
 CREATE OR ALTER PACKAGE PROMO_PA
