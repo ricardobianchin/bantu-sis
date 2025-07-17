@@ -26,7 +26,7 @@ uses
   EnvParaTerm_u_DespesaTipo in 'EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas',
   TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas',
   TrazerDoTerm_u_PegarFaixa in 'TrazerDoTerm\TrazerDoTerm_u_PegarFaixa.pas',
-  TrazerDoTerm_u_TrazSess in 'TrazerDoTerm\TrazerDoTerm_u_TrazSess.pas';
+  TrazerDoTerm_u_TrazCxSess in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxSess.pas';
 
 {$R *.res}
 

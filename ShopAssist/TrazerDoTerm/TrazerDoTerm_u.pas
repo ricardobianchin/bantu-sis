@@ -9,7 +9,7 @@ procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
-  TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazSess;
+  TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess;
 
 procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -60,35 +60,11 @@ begin
       begin
         iAtualFIn := Min(FLogIdFin, iAtualIni + SYNC_QTD_REGS - 1);
         sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
-          iAtualFIn.ToString + ';TrazSess';
-        TrazSess(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvTerminal';
-//        EnvTerminal(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvPagamentoForma';
-//        EnvPagamentoForma(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvDespesaTipo';
-//        EnvDespesaTipo(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvFuncionarioUsuario';
-//        EnvFuncionarioUsuario(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvUsuarioPodeOpcaoSis';
-//        EnvUsuarioPodeOpcaoSis(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvProd';
-//        EnvProd(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvProdCusto';
-//        EnvProdCusto(pTermDM, oExecScript, iAtualIni, iAtualFIn);
-//
-//        sLog := sLog + ';EnvProdPreco';
-//        EnvProdPreco(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+          iAtualFIn.ToString + ';TrazCxSess';
+        TrazCxSess(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-        sComando := 'EXECUTE PROCEDURE SYNC_DO_SERVIDOR_SIS_PA.ATUALIZAR(' +
-          FLogIdFin.ToString + ');';
+        sComando := 'EXECUTE PROCEDURE SYNC_DO_TERMINAL_SIS_PA.ATUALIZE(' +
+          pTermDM.Terminal.TerminalId.ToString + ', ' + FLogIdFin.ToString + ');';
 
         oExecScript.PegueComando(sComando);
 
