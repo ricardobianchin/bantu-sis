@@ -28,7 +28,8 @@ uses
   TrazerDoTerm_u_PegarFaixa in 'TrazerDoTerm\TrazerDoTerm_u_PegarFaixa.pas',
   TrazerDoTerm_u_TrazCxSess in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxSess.pas',
   TrazerDoTerm_u_TrazCxOper in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOper.pas',
-  TrazerDoTerm_u_TrazCxOperDesp in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperDesp.pas';
+  TrazerDoTerm_u_TrazCxOperDesp in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperDesp.pas',
+  TrazerDoTerm_u_TrazCxOperValor in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperValor.pas';
 
 {$R *.res}
 

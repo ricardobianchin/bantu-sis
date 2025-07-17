@@ -170,6 +170,7 @@
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxSess.pas"/>
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOper.pas"/>
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOperDesp.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOperValor.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

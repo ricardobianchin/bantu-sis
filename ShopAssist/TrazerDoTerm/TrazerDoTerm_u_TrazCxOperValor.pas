@@ -1,10 +1,10 @@
-unit TrazerDoTerm_u_TrazCxSess;
+unit TrazerDoTerm_u_TrazCxOperValor;
 
 interface
 
 uses DBTermDM_u, ExecScript_u;
 
-procedure TrazCxSess(pTermDM: TDBTermDM; oExecScript: TExecScript;
+procedure TrazCxOperValor(pTermDM: TDBTermDM; oExecScript: TExecScript;
   pLogIdIni, pLogIdFin: Int64);
 
 implementation
@@ -20,7 +20,6 @@ begin
     + 'LOJA_ID'#13#10 // 0
     + ', TERMINAL_ID'#13#10 // 1
     + ', LOG_ID'#13#10 // 2
-
     + ', DTH'#13#10 // 3
     + ', PESSOA_TERMINAL_ID'#13#10 // 4
     + ', PESSOA_ID'#13#10 // 5
@@ -28,30 +27,24 @@ begin
     + ', ACAO_SIS_ID'#13#10 // 7
     + ', FEATURE_SIS_ID'#13#10 // 8
     + ', MACHINE_ID'#13#10 // 9
+    + ', SESS_ID'#13#10 // 10
+    + ', OPER_ORDEM'#13#10 // 11
+    + ', OPER_LOG_ID'#13#10 // 12
+    + ', VALOR_LOG_ID'#13#10 // 13
+    + ', PAGAMENTO_FORMA_ID'#13#10 // 14
+    + ', VALOR'#13#10 // 15
 
-    + ', ORDEM'#13#10 // 10
-    + ', LOJA_ID_ENVOLVIDO'#13#10 // 11
-    + ', TERMINAL_ID_ENVOLVIDO'#13#10 // 12
-    + ', ID_ENVOLVIDO'#13#10 // 13
-    + ', ORDEM_ENVOLVIDO'#13#10 // 14
-    + ', ID_ENVOLVIDO2'#13#10 // 15
-
-    + ', SESS_ID'#13#10 // 16
-    + ', SESS_LOG_ID'#13#10 // 17
-    + ', ABERTO'#13#10 // 18
-    + ', CONFERIDO'#13#10 // 19
-
-    + 'FROM TERM_LOG_HIST_PA.TEVE_CAIXA_SESSAO('#13#10 //
+    + 'FROM TERM_LOG_HIST_PA.TEVE_CAIXA_SESSAO_OPERACAO_VALOR('#13#10 //
     + pLogIdIni.ToString //
     + ', ' + pLogIdFin.ToString //
     + ');'#13#10 //
     ;
-  // {$IFDEF DEBUG}
-  // CopyTextToClipboard(Result);
-  // {$ENDIF}
+//   {$IFDEF DEBUG}
+//   CopyTextToClipboard(Result);
+//   {$ENDIF}
 end;
 
-procedure TrazCxSess(pTermDM: TDBTermDM; oExecScript: TExecScript;
+procedure TrazCxOperValor(pTermDM: TDBTermDM; oExecScript: TExecScript;
   pLogIdIni, pLogIdFin: Int64);
 var
   sSql: string;
@@ -67,7 +60,7 @@ begin
     on e: Exception do
     begin
       ErroDeu := True;
-      EscrevaLog('TrazCxSess ' + e.Message);
+      EscrevaLog('TrazCxOperDesp ' + e.Message + #13#10 + sSql);
     end;
   end;
 
@@ -87,15 +80,10 @@ begin
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
       oExecScript.PegueComando(sSql);
 
-      sSql := DataSetToSqlGarantir(q, 'LOG_ENVOLVE_ID',
-        'LOJA_ID, TERMINAL_ID, LOG_ID, ORDEM',
-        [0, 1, 2, 10, 11, 12, 13, 14, 15]);
+      sSql := DataSetToSqlGarantir(q, 'CAIXA_SESSAO_OPERACAO_VALOR',
+        'LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM, OPER_LOG_ID, VALOR_LOG_ID',
+        [0, 1, 10, 11, 12, 13, 14, 15]);
       oExecScript.PegueComando(sSql);
-
-      sSql := DataSetToSqlGarantir(q, 'CAIXA_SESSAO',
-        'LOJA_ID, TERMINAL_ID, SESS_ID', [0, 1, 16, 17, 18, 19]);
-      oExecScript.PegueComando(sSql);
-
       q.next;
     end;
   finally
