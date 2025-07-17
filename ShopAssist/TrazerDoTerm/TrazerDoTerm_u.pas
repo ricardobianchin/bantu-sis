@@ -9,7 +9,7 @@ procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
-  TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess;
+  TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess, TrazerDoTerm_u_TrazCxOper;
 
 procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -62,6 +62,9 @@ begin
         sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
           iAtualFIn.ToString + ';TrazCxSess';
         TrazCxSess(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+
+        sLog := sLog + ';TrazCxOper';
+        TrazCxOper(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
         sComando := 'EXECUTE PROCEDURE SYNC_DO_TERMINAL_SIS_PA.ATUALIZE(' +
           pTermDM.Terminal.TerminalId.ToString + ', ' + FLogIdFin.ToString + ');';
