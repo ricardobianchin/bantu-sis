@@ -11,7 +11,8 @@ implementation
 uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
   TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess,
   TrazerDoTerm_u_TrazCxOper, TrazerDoTerm_u_TrazCxOperDesp,
-  TrazerDoTerm_u_TrazCxOperValor;
+  TrazerDoTerm_u_TrazCxOperValor, TrazerDoTerm_u_TrazLogMovs,
+  TrazerDoTerm_u_TrazEstMovVenda;
 
 procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -73,6 +74,12 @@ begin
 
         sLog := sLog + ';TrazCxOperValor';
         TrazCxOperValor(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+
+        sLog := sLog + ';TrazLogMovs';
+        TrazLogMovs(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+
+        sLog := sLog + ';TrazLogMovs';
+        TrazEstMovVenda(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
         sComando := 'EXECUTE PROCEDURE SYNC_DO_TERMINAL_SIS_PA.ATUALIZE(' +
           pTermDM.Terminal.TerminalId.ToString + ', ' +
