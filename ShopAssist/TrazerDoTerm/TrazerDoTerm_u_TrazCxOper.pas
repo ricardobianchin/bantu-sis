@@ -96,7 +96,7 @@ begin
       oExecScript.PegueComando(sSql);
 
       sSql := DataSetToSqlGarantir(q, 'CAIXA_SESSAO_OPERACAO',
-        'LOJA_ID, TERMINAL_ID, SESS_ID', [0, 1, 16, 17, 18, 19, 20, 21, 22]);
+        'LOJA_ID, TERMINAL_ID, SESS_ID, OPER_ORDEM, OPER_LOG_ID', [0, 1, 16, 17, 18, 19, 20, 21, 22]);
       oExecScript.PegueComando(sSql);
 
       q.next;

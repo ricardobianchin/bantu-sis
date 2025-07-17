@@ -9,7 +9,7 @@ procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
-  TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess, TrazerDoTerm_u_TrazCxOper;
+  TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess, TrazerDoTerm_u_TrazCxOper, TrazerDoTerm_u_TrazCxOperDesp;
 
 procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -45,7 +45,7 @@ begin
     exit;
 
   try
-    oExecScript := TExecScript.Create(pTermDM.Connection);
+    oExecScript := TExecScript.Create(DBServDM.Connection);
     try
       PegarFaixa(pTermDM, FLogIdIni, FLogIdFin);
       EscrevaLog('PegarFaixa;FLogIdIni=' + FLogIdIni.ToString + ';FLogIdFin=' +
@@ -65,6 +65,9 @@ begin
 
         sLog := sLog + ';TrazCxOper';
         TrazCxOper(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+
+        sLog := sLog + ';TrazCxOperDesp';
+        TrazCxOperDesp(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
         sComando := 'EXECUTE PROCEDURE SYNC_DO_TERMINAL_SIS_PA.ATUALIZE(' +
           pTermDM.Terminal.TerminalId.ToString + ', ' + FLogIdFin.ToString + ');';
