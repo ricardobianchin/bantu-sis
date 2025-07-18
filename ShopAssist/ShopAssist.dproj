@@ -173,6 +173,8 @@
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOperValor.pas"/>
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazLogMovs.pas"/>
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazEstMovVenda.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazEstMovItemVendaItem.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazVendaPag.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

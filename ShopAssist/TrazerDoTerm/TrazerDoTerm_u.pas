@@ -12,7 +12,7 @@ uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
   TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess,
   TrazerDoTerm_u_TrazCxOper, TrazerDoTerm_u_TrazCxOperDesp,
   TrazerDoTerm_u_TrazCxOperValor, TrazerDoTerm_u_TrazLogMovs,
-  TrazerDoTerm_u_TrazEstMovVenda;
+  TrazerDoTerm_u_TrazEstMovVenda, TrazerDoTerm_u_TrazEstMovItemVendaItem, TrazerDoTerm_u_TrazVendaPag;
 
 procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -78,8 +78,14 @@ begin
         sLog := sLog + ';TrazLogMovs';
         TrazLogMovs(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
-        sLog := sLog + ';TrazLogMovs';
+        sLog := sLog + ';TrazEstMovVenda';
         TrazEstMovVenda(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+
+        sLog := sLog + ';TrazEstMovItemVendaItem';
+        TrazEstMovItemVendaItem(pTermDM, oExecScript, iAtualIni, iAtualFIn);
+
+        sLog := sLog + ';TrazVendaPag';
+        TrazVendaPag(pTermDM, oExecScript, iAtualIni, iAtualFIn);
 
         sComando := 'EXECUTE PROCEDURE SYNC_DO_TERMINAL_SIS_PA.ATUALIZE(' +
           pTermDM.Terminal.TerminalId.ToString + ', ' +

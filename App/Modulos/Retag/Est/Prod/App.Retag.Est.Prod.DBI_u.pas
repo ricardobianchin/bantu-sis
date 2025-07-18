@@ -116,10 +116,8 @@ begin
     + ',' + Ent.ProdBalancaEnt.ValidadeDias.ToString //
     + ',' + QuotedStr(Ent.ProdBalancaEnt.TextoEtiq) //
 
-    + ',' + QuotedStr(sBarras) + ');'; //
-{$IFDEF DEBUG}
-  CopyTextToClipboard(Result);
-{$ENDIF}
+    + ',' + QuotedStr(sBarras) + ');' //
+    ;
 end;
 
 function TProdDBI.GetSqlForEach(pValues: variant): string;

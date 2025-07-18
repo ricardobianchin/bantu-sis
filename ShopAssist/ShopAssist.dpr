@@ -31,7 +31,9 @@ uses
   TrazerDoTerm_u_TrazCxOperDesp in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperDesp.pas',
   TrazerDoTerm_u_TrazCxOperValor in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperValor.pas',
   TrazerDoTerm_u_TrazLogMovs in 'TrazerDoTerm\TrazerDoTerm_u_TrazLogMovs.pas',
-  TrazerDoTerm_u_TrazEstMovVenda in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovVenda.pas';
+  TrazerDoTerm_u_TrazEstMovVenda in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovVenda.pas',
+  TrazerDoTerm_u_TrazEstMovItemVendaItem in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovItemVendaItem.pas',
+  TrazerDoTerm_u_TrazVendaPag in 'TrazerDoTerm\TrazerDoTerm_u_TrazVendaPag.pas';
 
 {$R *.res}
 
