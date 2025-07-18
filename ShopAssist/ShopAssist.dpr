@@ -24,7 +24,16 @@ uses
   Log_u in 'Sis\Log_u.pas',
   EnvParaTerm_u_ProdPreco in 'EnvParaTerm\EnvParaTerm_u_ProdPreco.pas',
   EnvParaTerm_u_DespesaTipo in 'EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas',
-  TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas';
+  TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas',
+  TrazerDoTerm_u_PegarFaixa in 'TrazerDoTerm\TrazerDoTerm_u_PegarFaixa.pas',
+  TrazerDoTerm_u_TrazCxSess in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxSess.pas',
+  TrazerDoTerm_u_TrazCxOper in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOper.pas',
+  TrazerDoTerm_u_TrazCxOperDesp in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperDesp.pas',
+  TrazerDoTerm_u_TrazCxOperValor in 'TrazerDoTerm\TrazerDoTerm_u_TrazCxOperValor.pas',
+  TrazerDoTerm_u_TrazLogMovs in 'TrazerDoTerm\TrazerDoTerm_u_TrazLogMovs.pas',
+  TrazerDoTerm_u_TrazEstMovVenda in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovVenda.pas',
+  TrazerDoTerm_u_TrazEstMovItemVendaItem in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovItemVendaItem.pas',
+  TrazerDoTerm_u_TrazVendaPag in 'TrazerDoTerm\TrazerDoTerm_u_TrazVendaPag.pas';
 
 {$R *.res}
 
@@ -47,4 +56,5 @@ begin
     CloseHandle(hMutex);
   end;
 end.
+
 

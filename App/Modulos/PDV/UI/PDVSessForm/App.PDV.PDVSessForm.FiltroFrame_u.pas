@@ -86,6 +86,11 @@ begin
   ProcessaFiltro := False;
   try
     inherited;
+
+    FProdIdSelecionado := 0;
+    FCaixaSessaoDBI.PreencherPagamentoFormaFiltroSL(PagFormaComboBox.Items);
+    FCaixaSessaoDBI.PreencherSessFiltroSL(SessComboBox.Items);
+
     CxOperCheckBox.Checked := True;
     VendaCheckBox.Checked := True;
     PagFormaComboBox.ItemIndex := 0;
@@ -112,13 +117,6 @@ begin
   ReadOnlySet(ProdLabeledEdit, True);
   FPagFormaComboBoxManager := ComboBoxManagerCreate(PagFormaComboBox);
   FSessComboBoxManager := ComboBoxManagerCreate(SessComboBox);
-
-  FProdIdSelecionado := 0;
-  FCaixaSessaoDBI.PreencherPagamentoFormaFiltroSL(PagFormaComboBox.Items);
-  FCaixaSessaoDBI.PreencherSessFiltroSL(SessComboBox.Items);
-
-  PagFormaComboBox.ItemIndex := 0;
-  SessComboBox.ItemIndex := 0;
 
   FProdSelect := pProdSelect;
   FiltroLimparAction.Execute;

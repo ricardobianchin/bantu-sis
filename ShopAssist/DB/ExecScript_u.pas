@@ -17,6 +17,7 @@ type
     FSql: TStringList;
 
     function GetSQL: TStrings;
+    procedure SalveComandos;
   protected
     property UltimoErro: string read FUltimoErro write FUltimoErro;
   public
@@ -52,6 +53,7 @@ var
   iQtdCommands: integer;
   sComando: string;
 begin
+  SalveComandos;
   FConnection.StartTransaction;
   try
     iQtdCommands := 0;
@@ -103,6 +105,22 @@ begin
   StrDeleteTrailingChars(pComando, [#9, #32, #10, #13]);
   StrGarantirTermino(pComando, ';');
   FSql.Add(pComando);
+end;
+
+procedure TExecScript.SalveComandos;
+var
+  sPasta: string;
+  sArq: string;
+begin
+{$IFNDEF DEBUG}
+  exit;
+{$ENDIF}
+
+  sPasta := ParamStr(0);
+  sPasta := ExtractFilePath(sPasta);
+  sPasta := IncludeTrailingPathDelimiter(sPasta);
+  sArq := sPasta + 'TExecScript.sql';
+  FSql.SaveToFile(sArq);
 end;
 
 end.

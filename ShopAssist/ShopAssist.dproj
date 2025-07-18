@@ -166,6 +166,15 @@
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdPreco.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas"/>
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_PegarFaixa.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxSess.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOper.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOperDesp.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazCxOperValor.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazLogMovs.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazEstMovVenda.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazEstMovItemVendaItem.pas"/>
+        <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u_TrazVendaPag.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -1184,6 +1193,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

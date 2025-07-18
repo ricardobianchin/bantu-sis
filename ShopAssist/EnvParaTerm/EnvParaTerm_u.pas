@@ -24,6 +24,8 @@ var
   sLog: string;
   bDeuErro: Boolean;
 begin
+  exit;
+
   EscrevaLog('EnvParaTerm;' + pTermDM.Terminal.TerminalId.ToString);
   if pPrecisaTerminar then
     exit;
@@ -54,7 +56,8 @@ begin
 
   if bDeuErro then
     exit;
-  TRY
+
+  try
     oExecScript := TExecScript.Create(pTermDM.Connection);
     try
       PegarFaixa(pTermDM, FLogIdIni, FLogIdFin);
@@ -69,6 +72,7 @@ begin
       while iAtualIni <= FLogIdFin do
       begin
         iAtualFIn := Min(FLogIdFin, iAtualIni + SYNC_QTD_REGS - 1);
+
         sLog := 'iAtualIni=' + iAtualIni.ToString + ';iAtualFIn=' +
           iAtualFIn.ToString + ';EnvLoja';
         EnvLoja(pTermDM, oExecScript, iAtualIni, iAtualFIn);
