@@ -5,7 +5,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
@@ -919,6 +919,23 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u.pas"/>
         <DCCReference Include="Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u_Ini.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.Venda.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.Venda.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.Venda.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.Venda.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.UI.Form.DataSet.Est.Venda_u.pas">
+            <Form>AppRetagVendaDataSetForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.UI.Frame.DBGrid.Est.VendaItem_u.pas">
+            <Form>RetagVendaItemDBGridFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\Unit1.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.DBI_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

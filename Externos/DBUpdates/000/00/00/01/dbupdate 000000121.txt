@@ -1,0 +1,320 @@
+RETAG_VENDA_PA
+
+
+SELECT DBUPDATE_PA.VERSAO_GET() FROM RDB$DATABASE;
+
+show package RETAG_VENDA_PA;
+
+DROP PACKAGE RETAG_VENDA_PA;
+DELETE FROM DBUPDATE_HIST WHERE NUM>=116;
+COMMIT;
+
+
+
+/*
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\RETAG_VENDA_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\RETAG_VENDA_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\RETAG_VENDA_PA.sql";
+
+*/
+
+
+
+
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=ESTOQUE
+DBATUALIZ_OBJETIVO=CRIAR RETAG_VENDA_PA
+DBATUALIZ_PONTO_ALVO=SERVIDOR
+DBATUALIZ_OBS=
+
+
+
+
+/////////////////////////
+//
+// PACKAGE RETAG_VENDA_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=RETAG_VENDA_PA
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE RETAG_VENDA_PA
+AS
+BEGIN
+  PROCEDURE LISTA_GET
+  (
+    CRIADO_EM_INICIAL TIMESTAMP NOT NULL,
+    CRIADO_EM_FINAL TIMESTAMP NOT NULL
+  )
+  RETURNS
+  (
+    LOJA_ID                         ID_SHORT_DOM,
+    TERMINAL_ID                     ID_SHORT_DOM,
+    EST_MOV_ID                      BIGINT,
+
+    VENDA_ID                        ID_DOM,
+
+    COD                             VARCHAR(20),
+    --DTH_DOC                         TIMESTAMP,
+
+    CRIADO_EM                       TIMESTAMP,
+
+    DESCONTO_TOTAL                  DINH_DOM,
+    TOTAL_LIQUIDO                   DINH_DOM,
+
+    FINALIZADO                      BOOLEAN,
+    FINALIZADO_EM                   TIMESTAMP,
+
+    CANCELADO                       BOOLEAN,
+    --ALTERADO_EM                     TIMESTAMP,
+    CANCELADO_EM                    TIMESTAMP,
+    
+    CRIADO_POR_ID                   ID_DOM,
+    CRIADO_POR_APELIDO              NOME_REDU_DOM,
+    CANCELADO_POR_ID                ID_DOM,
+    CANCELADO_POR_APELIDO           NOME_REDU_DOM,
+    FINALIZADO_POR_ID               ID_DOM,
+    FINALIZADO_POR_APELIDO          NOME_REDU_DOM
+  );
+
+  PROCEDURE VENDA_ITEM_LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT
+  )
+  RETURNS
+  (
+    ORDEM SMALLINT,
+    PROD_ID ID_DOM,
+    DESCR_RED PROD_DESCR_RED_DOM,
+    FABR_NOME NOME_REDU_DOM,
+    UNID_SIGLA VARCHAR(6),
+    QTD QTD_DOM,
+    PRECO_UNIT DINH_DOM,
+    PRECO DINH_DOM,
+    CANCELADO BOOLEAN
+  );
+  
+END^
+
+----- BODY
+
+RECREATE PACKAGE BODY RETAG_VENDA_PA
+AS
+BEGIN
+  PROCEDURE LISTA_GET
+  (
+    CRIADO_EM_INICIAL TIMESTAMP NOT NULL,
+    CRIADO_EM_FINAL TIMESTAMP NOT NULL
+  )
+  RETURNS
+  (
+    LOJA_ID                         ID_SHORT_DOM,
+    TERMINAL_ID                     ID_SHORT_DOM,
+    EST_MOV_ID                      BIGINT,
+
+    VENDA_ID                        ID_DOM,
+
+    COD                             VARCHAR(20),
+    --DTH_DOC                         TIMESTAMP,
+
+    CRIADO_EM                       TIMESTAMP,
+
+    DESCONTO_TOTAL                  DINH_DOM,
+    TOTAL_LIQUIDO                   DINH_DOM,
+
+    FINALIZADO                      BOOLEAN,
+    FINALIZADO_EM                   TIMESTAMP,
+
+    CANCELADO                       BOOLEAN,
+    --ALTERADO_EM                     TIMESTAMP,
+    CANCELADO_EM                    TIMESTAMP,
+    
+    CRIADO_POR_ID                   ID_DOM,
+    CRIADO_POR_APELIDO              NOME_REDU_DOM,
+    CANCELADO_POR_ID                ID_DOM,
+    CANCELADO_POR_APELIDO           NOME_REDU_DOM,
+    FINALIZADO_POR_ID               ID_DOM,
+    FINALIZADO_POR_APELIDO          NOME_REDU_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      SELECT      
+        EM.LOJA_ID,
+        EM.TERMINAL_ID,
+        EM.EST_MOV_ID,
+        V.VENDA_ID,
+        '' COD,
+        
+        --EM.DTH_DOC,
+        
+        V.DESCONTO_TOTAL,
+        V.TOTAL_LIQUIDO,
+
+        EM.CRIADO_EM,
+
+        EM.FINALIZADO,
+        EM.FINALIZADO_EM,
+
+        EM.CANCELADO,
+        --EM.ALTERADO_EM,
+        EM.CANCELADO_EM,
+        
+        0 CRIADO_POR_ID,
+        '' CRIADO_POR_APELIDO,
+
+        0 CANCELADO_POR_ID,
+        '' CANCELADO_POR_APELIDO,
+
+        0 FINALIZADO_POR_ID,
+        '' FINALIZADO_POR_APELIDO
+        
+      FROM EST_MOV EM
+      INNER JOIN VENDA V
+        ON V.LOJA_ID = EM.LOJA_ID
+        AND V.TERMINAL_ID = EM.TERMINAL_ID
+        AND V.EST_MOV_ID = EM.EST_MOV_ID
+      WHERE
+        (
+          :CRIADO_EM_INICIAL = '01.01.1900' OR
+          EM.CRIADO_EM >= :CRIADO_EM_INICIAL
+        )
+        AND
+        (
+          :CRIADO_EM_FINAL = '01.01.1900' OR
+          EM.CRIADO_EM <= :CRIADO_EM_FINAL
+        )
+    INTO
+      :LOJA_ID,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :VENDA_ID,
+      :COD,
+      
+      --:DTH_DOC,
+
+      :DESCONTO_TOTAL,
+      :TOTAL_LIQUIDO,
+
+      :CRIADO_EM,
+
+      :FINALIZADO,
+      :FINALIZADO_EM,
+
+      :CANCELADO,
+      --:ALTERADO_EM,
+      :CANCELADO_EM,
+
+      :CRIADO_POR_ID,
+      :CRIADO_POR_APELIDO,
+
+      :CANCELADO_POR_ID,
+      :CANCELADO_POR_APELIDO,
+
+      :FINALIZADO_POR_ID,
+      :FINALIZADO_POR_APELIDO
+    DO
+      SUSPEND;
+  END
+
+
+  PROCEDURE VENDA_ITEM_LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT
+  )
+  RETURNS
+  (
+    ORDEM SMALLINT,
+    PROD_ID ID_DOM,
+    DESCR_RED PROD_DESCR_RED_DOM,
+    FABR_NOME NOME_REDU_DOM,
+    UNID_SIGLA VARCHAR(6),
+    QTD QTD_DOM,
+    PRECO_UNIT DINH_DOM,
+    PRECO DINH_DOM,
+    CANCELADO BOOLEAN
+  )
+  AS
+  BEGIN
+    FOR
+      WITH FA AS
+      (
+        SELECT FABR_ID, NOME FROM FABR
+      ), UN AS
+      (
+        SELECT UNID_ID, SIGLA FROM UNID
+      ), P AS
+      (
+        SELECT 
+          PROD_ID, DESCR_RED, FABR_ID, UNID_ID
+        FROM PROD 
+      ), EMI AS
+      (
+        SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, ORDEM,
+          PROD_ID, QTD, CANCELADO, CRIADO_EM, ALTERADO_EM, CANCELADO_EM
+        FROM EST_MOV_ITEM
+        WHERE LOJA_ID = :LOJA_ID
+          AND TERMINAL_ID = :TERMINAL_ID
+          AND EST_MOV_ID = :EST_MOV_ID
+      ), VI AS
+      (
+        SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, ORDEM,
+          CUSTO_UNIT, CUSTO, PRECO_UNIT_ORIGINAL, PRECO_UNIT_PROMO,
+          PRECO_UNIT, PRECO_BRUTO, DESCONTO, PRECO
+        FROM VENDA_ITEM
+      )
+        SELECT
+        VI.ORDEM,
+        EMI.PROD_ID,
+        P.DESCR_RED,
+        FA.NOME,
+        UN.SIGLA,
+        EMI.QTD,
+        VI.PRECO_UNIT,
+        VI.PRECO,
+        EMI.CANCELADO
+      
+      FROM EMI
+      JOIN VI ON EMI.LOJA_ID = VI.LOJA_ID
+        AND EMI.TERMINAL_ID = VI.TERMINAL_ID
+        AND EMI.EST_MOV_ID = VI.EST_MOV_ID
+        AND EMI.ORDEM = VI.ORDEM
+      JOIN P ON EMI.PROD_ID = P.PROD_ID
+      JOIN FA ON P.FABR_ID = FA.FABR_ID 
+      JOIN UN ON P.UNID_ID = UN.UNID_ID
+      
+      ORDER BY EMI.ORDEM
+    INTO
+      :ORDEM,
+      :PROD_ID,
+      :DESCR_RED,
+      :FABR_NOME,
+      :UNID_SIGLA,
+      :QTD,
+      :PRECO_UNIT,
+      :PRECO,
+      :CANCELADO
+    DO
+      SUSPEND;
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM

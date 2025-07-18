@@ -2,7 +2,7 @@ unit App.Retag.Est.EstSaidaItem.DBI_u;
 
 interface
 
-uses App.Retag.Est.EstSaidaItem, Sis.DBI_u;
+uses Sis.DBI_u;
 
 type
   TEstSaidaItemDBI = class(TDBI)

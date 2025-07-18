@@ -74,9 +74,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
           object EstVenToolButton: TToolButton
             Left = 130
             Top = 0
+            Action = RetagEstVenAction
             AutoSize = True
-            Caption = 'Vendas'
-            Visible = False
           end
           object EstEntrToolButton: TToolButton
             Left = 178
@@ -289,8 +288,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited OutputLabel: TLabel
-        Width = 203
-        Height = 27
         StyleElements = [seFont, seClient, seBorder]
       end
     end
@@ -493,6 +490,11 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
       Caption = 'Promo'#231#245'es'
       Visible = False
       OnExecute = RetagEstPromoActExecute
+    end
+    object RetagEstVenAction: TAction
+      Category = 'Estoque'
+      Caption = 'Vendas'
+      OnExecute = RetagEstVenActionExecute
     end
   end
   object BalloonHint1: TBalloonHint

@@ -2,7 +2,7 @@ unit App.Retag.Est.EntradaItem.DBI_u;
 
 interface
 
-uses App.Retag.Est.EntradaItem, Sis.DBI_u;
+uses Sis.DBI_u;
 
 type
   TEntradaItemDBI = class(TDBI)

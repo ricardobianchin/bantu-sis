@@ -8,8 +8,7 @@ uses
   Sis.UI.Frame.Bas.DBGrid_u, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids,
-  Vcl.DBGrids, App.Retag.Est.EntradaItem.DBI_u, Sis.DBI, Sis.Entities.Types,
-  Sis.Types;
+  Vcl.DBGrids, Sis.DBI, Sis.Entities.Types, Sis.Types;
 
 type
   TEntradaItemDBGridFrame = class(TDBGridFrame)
@@ -60,7 +59,7 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.UI.IO.Files, Sis.DB.DataSet.Utils;
+uses Sis.UI.IO.Files, Sis.DB.DataSet.Utils, App.Retag.Est.EntradaItem.DBI_u;
 
 { TEntradaItemDBGridFrame }
 

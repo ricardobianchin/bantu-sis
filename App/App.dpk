@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -479,6 +479,16 @@ contains
   App.PDV.ImpressaoTextoPOSPrinterVenda_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterVenda_u.pas',
   App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxOperacao_u.pas',
   App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u in 'Modulos\PDV\Cupom\Impressao\App.PDV.ImpressaoTextoPOSPrinterCxSessRelat_u.pas',
-  App.AppObj_u_Ini in 'AppObj\App.AppObj_u_Ini.pas';
+  App.AppObj_u_Ini in 'AppObj\App.AppObj_u_Ini.pas',
+  App.Retag.Est.Venda.Ent in 'Modulos\Retag\Est\Ven\App.Retag.Est.Venda.Ent.pas',
+  App.Retag.Est.VendaItem in 'Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.pas',
+  App.Retag.Est.Venda.DBI in 'Modulos\Retag\Est\Ven\App.Retag.Est.Venda.DBI.pas',
+  App.Retag.Est.Venda.Ent_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.Venda.Ent_u.pas',
+  App.Retag.Est.Venda.DBI_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.Venda.DBI_u.pas',
+  App.UI.Form.DataSet.Est.Venda_u in 'Modulos\Retag\Est\Ven\App.UI.Form.DataSet.Est.Venda_u.pas' {AppRetagVendaDataSetForm},
+  App.UI.Frame.DBGrid.Est.VendaItem_u in 'Modulos\Retag\Est\Ven\App.UI.Frame.DBGrid.Est.VendaItem_u.pas' {RetagVendaItemDBGridFrame: TFrame},
+  App.Retag.Est.VendaItem_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem_u.pas',
+  Unit1 in 'Modulos\Retag\Est\Ven\Unit1.pas',
+  App.Retag.Est.VendaItem.DBI_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.DBI_u.pas';
 
 end.
