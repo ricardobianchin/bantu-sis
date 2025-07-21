@@ -1,6 +1,6 @@
 object DBServDM: TDBServDM
   OnCreate = DataModuleCreate
-  Height = 480
+  Height = 278
   Width = 640
   object FDPhysFBDriverLink1: TFDPhysFBDriverLink
     DriverID = 'FB'
@@ -25,5 +25,10 @@ object DBServDM: TDBServDM
     LoginPrompt = False
     Left = 312
     Top = 24
+  end
+  object FDQuery1: TFDQuery
+    Connection = Connection
+    Left = 40
+    Top = 88
   end
 end
