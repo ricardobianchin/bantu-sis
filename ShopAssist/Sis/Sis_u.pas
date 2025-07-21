@@ -6,6 +6,7 @@ const
   SYNC_QTD_REGS = 50000;
   PAUSA_SEGUNDOS = 20;
 
+
 var
   sPastaBin: string;
   sPastaProduto: string;
