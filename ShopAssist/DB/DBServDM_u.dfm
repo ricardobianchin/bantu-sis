@@ -29,6 +29,11 @@ object DBServDM: TDBServDM
   object FDQuery1: TFDQuery
     Connection = Connection
     Left = 40
-    Top = 88
+    Top = 104
+  end
+  object FDCommand1: TFDCommand
+    Connection = Connection
+    Left = 128
+    Top = 104
   end
 end

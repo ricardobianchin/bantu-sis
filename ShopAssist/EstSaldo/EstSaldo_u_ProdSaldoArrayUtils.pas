@@ -5,6 +5,7 @@ interface
 uses EstSaldo_u_ProdSaldoArrayType, Sis.Types;
 
 function ProdIdToIndex(pProdId: TId; pProdSaldoArray: TProdSaldoArray): integer;
+procedure ZereQtds(pProdSaldoArray: TProdSaldoArray);
 
 implementation
 
@@ -22,6 +23,16 @@ begin
       Result := i;
       break;
     end;
+  end;
+end;
+
+procedure ZereQtds(pProdSaldoArray: TProdSaldoArray);
+var
+  i: integer;
+begin
+  for i := 0 to Length(pProdSaldoArray) - 1 do
+  begin
+    pProdSaldoArray[i].Qtd := 0;
   end;
 end;
 

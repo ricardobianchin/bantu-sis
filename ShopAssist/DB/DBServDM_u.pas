@@ -16,12 +16,16 @@ type
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     Connection: TFDConnection;
     FDQuery1: TFDQuery;
+    FDCommand1: TFDCommand;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
     function AbirFDQuery1(pAssunto, pSql: string): Boolean;
+    function FDCommand1Execute(pAssunto, pSql: string): Boolean;
+    function FDCommand1Prepare(pAssunto, pSql: string): Boolean;
+    procedure FDCommand1Unprepare;
     procedure FecharFDQuery1;
   end;
 
@@ -58,7 +62,7 @@ begin
     on e: exception do
     begin
       Result := False;
-      sMens := pAssunto + ': ' + e.Message;
+      sMens := pAssunto + ', AbirFDQuery1: ' + e.Message;
       EscrevaLog(sMens);
     end;
   end;
@@ -70,6 +74,47 @@ var
 begin
   s := GetPastaFirebird;
   FDPhysFBDriverLink1.VendorHome := s;
+end;
+
+function TDBServDM.FDCommand1Execute(pAssunto, pSql: string): Boolean;
+var
+  sMens: string;
+begin
+  FDCommand1.CommandText.Text := pSql;
+  try
+    FDCommand1.Execute;
+    Result := True;
+  except
+    on e: exception do
+    begin
+      Result := False;
+      sMens := pAssunto + ', FDCommand1Prepare: ' + e.Message;
+      EscrevaLog(sMens);
+    end;
+  end;
+end;
+
+function TDBServDM.FDCommand1Prepare(pAssunto, pSql: string): Boolean;
+var
+  sMens: string;
+begin
+  FDCommand1.CommandText.Text := pSql;
+  try
+    FDCommand1.Prepared := True;
+    Result := True;
+  except
+    on e: exception do
+    begin
+      Result := False;
+      sMens := pAssunto + ', FDCommand1Prepare: ' + e.Message;
+      EscrevaLog(sMens);
+    end;
+  end;
+end;
+
+procedure TDBServDM.FDCommand1Unprepare;
+begin
+  FDCommand1.Prepared := False;
 end;
 
 procedure TDBServDM.FecharFDQuery1;

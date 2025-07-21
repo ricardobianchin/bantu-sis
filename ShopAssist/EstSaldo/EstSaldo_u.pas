@@ -82,6 +82,7 @@ begin
       if DtHistMaisRecente < Hoje then
         EstSaldoHistReconstrua(aProdSaldos, DtHistMaisRecente, Hoje);
 
+      LeMov(pProdSaldoArray, DtFaixaIni, DtFaixaFin);
     finally
 //      FreeAndNil(oExecScript);
       EscrevaLog('fechar conexoes');
