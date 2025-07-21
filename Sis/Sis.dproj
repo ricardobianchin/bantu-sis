@@ -465,6 +465,7 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="UI\Impr\Sis.UI.ImpressaoTexto.POSPrinter_u.pas"/>
+        <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateTableTemporary_u.pas"/>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
