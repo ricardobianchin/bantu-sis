@@ -1,0 +1,54 @@
+o nosso sistema possui um recurso chamado dbupdates
+
+ele automatiza a atualizacao dos bancos de dados. se ele detecta um txt novo na pasta local, interpreta o texto executando comandos no banco
+
+no momento ele é compativel somente com bancos firebird, mas, pretendemos criar interfaces para mais bancos de dados futuramente
+
+as versoes do banco de dados sao representadas por um int de 9 digitos. a primeira versao é a 000000000. 
+o nome do respectivo arquivo é "Externos\DBUpdates\000\00\00\00\dbupdate 000000000.txt'
+
+o ultimo arquivo que fica nesta pasta é o 99. na segunda pasta fica a faixa de versoes de 100 a 199 e assim suscessivamente
+o nome do arquivo da versao 99 é "Externos\DBUpdates\000\00\00\00\dbupdate 000000099.txt"
+
+atualmente estamos na versao 122. o nome dele é "Externos\DBUpdates\000\00\00\01\dbupdate 000000122.txt'
+os nomes dos arquivos indicam o numero da versao do banco
+
+eles ficam organizados em uma sequencia de subpastas de forma que cada sequencia de 100 arquivos fica em uma pasta
+
+tentamos priorizar nao ter sql nos comandos, pra que futuramente tenhamos facilidade pra criar interfaces a outros bancos
+
+so aceitamos sql onde seria complicada a representacao do metadado e sua tradução para o banco destino, como por exemplo, comandos create domain, quando os tipos de dados nao seguem um padrao ou a criacao de stored procedures, onde a sintaxe varia de banco pra banco. 
+
+nestes casos, achamos mais simples criar sessoes de sintaxe para cada banco. por exemplo:
+
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=VERSAO DATABASE
+DBATUALIZ_OBJETIVO=CRIAR VERSAO DATABASE, DBUPDATE_HIST, PACKAGE DBUPDATE_PA, DOMAINS BASICOS, COMO O ID_DOM
+//DBATUALIZ_PONTO_ALVO=TERMINAL
+DBATUALIZ_OBS=
+
+
+
+/////////////////////////
+//
+// CREATE DOMAINS
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE DOMAINS
+```FIREBIRD
+CREATE DOMAIN DATAHORA_DOM AS TIMESTAMP;
+```
+```MSSQL
+CREATE DOMAIN DATAHORA_DOM AS DATETIME;
+```
+COMANDO FIM
+
+DBATUALIZ FIM
+
+
+O arquivo "Externos\DBUpdates\000\00\00\00\dbupdate 000000000.txt" cria o necessario para o proprio dbupdater funcionar. onde ele registrará cada versao processada. ele verificará com `FUNCTION VERSAO_GET` qual a ultima versao gravada. se tiver arquivo txt com numero maior, processa um a um em ordem numerica crescente.
+A cada nova versao, registra ela com `PROCEDURE HIST_INS`
+
+
+

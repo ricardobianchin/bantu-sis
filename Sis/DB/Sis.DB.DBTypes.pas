@@ -381,6 +381,8 @@ begin
 end;
 
 procedure SetParamValue(pFDParam: TFDParam; pValor: string);
+var
+  dt: TSQLTimeStamp;
 begin
   if pValor = 'NULL' then
   begin
@@ -418,7 +420,11 @@ begin
       pFDParam.AsFMTBCD := StrToCurrency(pValor); // problema aqui
 
     ftTimeStamp:
-      pFDParam.AsSQLTimeStamp := StrToSQLTimeStamp(pValor);
+    begin
+      //dt := StrToSQLTimeStamp('01/01/1900 00:00:00');
+      dt := StrToSQLTimeStamp(pValor);
+      pFDParam.AsSQLTimeStamp := dt;
+    end;
     ftDate:
       pFDParam.AsDate := Trunc(StrToDate(pValor));
     ftTime:

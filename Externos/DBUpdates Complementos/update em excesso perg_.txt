@@ -1,0 +1,28 @@
+uma vez eu fiz uma rotina em delphi que atualizava um banco de dados firebird
+
+possuia uma tabela prod_saldo
+prod_id integer not null primary key,
+qtd numeric(12,3)
+
+umas 3 vezes por segundo verificava por novidados no banco e gravava um `update prod_saldo set qtd=... where prod_id = ...`
+
+coloquei o sistema em producao
+na manha seguinte, o cliente me ligou, pois o banco de dados havia corrompido
+
+executei a ferramente gfix, o banco ficou ok
+na manha seguinte, o cliente me ligou novamente, pois o banco de dados havia corrompido novamente
+
+entao, desconfiei que eu estava executando updates em excesso. o banco nem tinha terminado a primeira transacao e eu ja estava iniciando outra
+
+entao, diminui a quantidade de testes de um a cada 20 segundos
+
+e eu veriricava com select a qtd que estava no saldo e so fazia update se qtd estivesse diferente
+
+Agora estou criando do zero uma rotina q faz o mesmo 
+
+estou pensando em nao consultar qtd com select. pois é uma chamada adicional ao banco
+
+estou pensando em fazer de novo um update por cada produo, mas agora na forma `update prod_saldo set qtd=18 where prod_id =2 and qtd <> 18;`
+
+tem risco de eu estar fazendo updates em excesso, ou o fato do where exigir que qtd seja diferenca ja vai dar um descando para o banco?
+

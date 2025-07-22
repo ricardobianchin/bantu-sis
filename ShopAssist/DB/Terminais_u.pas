@@ -38,7 +38,7 @@ begin
     DBServDM.Connection.Open;
   except
     on e: exception do
-      // showmessage(e.classname + ' '+e.message);
+      EscrevaLog('Erro CrieListaDeTerminais: '+e.message);
   end;
   try
     sSql := 'SELECT'#13#10 //

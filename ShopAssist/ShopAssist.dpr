@@ -33,7 +33,15 @@ uses
   TrazerDoTerm_u_TrazLogMovs in 'TrazerDoTerm\TrazerDoTerm_u_TrazLogMovs.pas',
   TrazerDoTerm_u_TrazEstMovVenda in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovVenda.pas',
   TrazerDoTerm_u_TrazEstMovItemVendaItem in 'TrazerDoTerm\TrazerDoTerm_u_TrazEstMovItemVendaItem.pas',
-  TrazerDoTerm_u_TrazVendaPag in 'TrazerDoTerm\TrazerDoTerm_u_TrazVendaPag.pas';
+  TrazerDoTerm_u_TrazVendaPag in 'TrazerDoTerm\TrazerDoTerm_u_TrazVendaPag.pas',
+  EstSaldo_u in 'EstSaldo\EstSaldo_u.pas',
+  EstSaldo_u_dbi in 'EstSaldo\EstSaldo_u_dbi.pas',
+  EstSaldo_u_HistReconstrua in 'EstSaldo\EstSaldo_u_HistReconstrua.pas',
+  EstSaldo_u_AtualGravarZerado in 'EstSaldo\EstSaldo_u_AtualGravarZerado.pas',
+  EstSaldo_u_ProdSaldoRecord in 'EstSaldo\EstSaldo_u_ProdSaldoRecord.pas',
+  EstSaldo_u_ProdSaldoArrayUtils in 'EstSaldo\EstSaldo_u_ProdSaldoArrayUtils.pas',
+  EstSaldo_u_ProdSaldoArrayType in 'EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas',
+  Loja_dbi_u in 'Loja\Loja_dbi_u.pas';
 
 {$R *.res}
 

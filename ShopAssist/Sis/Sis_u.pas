@@ -2,6 +2,8 @@ unit Sis_u;
 
 interface
 
+uses Sis.Entities.Types;
+
 const
   SYNC_QTD_REGS = 50000;
   PAUSA_SEGUNDOS = 20;
@@ -15,6 +17,7 @@ var
   sPastaConfig: string;
   bAtivo: Boolean;
   bSegueAberto: Boolean;
+  iLojaId: TLojaId;
 
 function GetPrecisaTerminar: Boolean;
 procedure ApaguePrecisaTerminar;
@@ -30,6 +33,8 @@ var
 function GetPrecisaTerminar: Boolean;
 begin
   Result := FileExists(sNomeArq);
+  if Result then
+    System.SysUtils.DeleteFile(sNomeArq);
 end;
 
 procedure ApaguePrecisaTerminar;
@@ -45,4 +50,5 @@ end;
 initialization
   bAtivo := True;
   bSegueAberto := True;
+  iLojaId := 0;
 end.

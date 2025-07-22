@@ -31,11 +31,16 @@ type
     Platform: string;
   end;
 
+  TEstSaldo = record
+    Processa: string;
+  end;
+
   TConfig = record
     Server: TServer;
     Local: TLocal;
     DBMS: TDBMS;
     SO: TSO;
+    EstSaldo: TEstSaldo;
   end;
 
 var
@@ -68,6 +73,8 @@ begin
   Result.Server.Nome := Node.ChildNodes['NOME'].Text;
   Result.Server.IP := Node.ChildNodes['IP'].Text;
   Result.Server.EhServidor := Node.ChildNodes['EH_SERVIDOR'].Text;
+
+  Result.EstSaldo.Processa := Result.Server.EhServidor;
 
   Node := RootNode.ChildNodes['LOCAL'];
   Result.Local.Nome := Node.ChildNodes['NOME'].Text;

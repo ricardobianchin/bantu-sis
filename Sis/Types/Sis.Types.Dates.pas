@@ -27,6 +27,7 @@ function GetDtHString(pDtH: TDateTIme): string;
 function GetAgoraString: string;
 
 function GetPrimDiaMes(pDateTime: TDateTime = DATA_ZERADA): TDateTime;
+function GetPrimDiaTrimestre(pDateTime: TDateTime = DATA_ZERADA): TDateTime;
 
 procedure SetDtHRangePreviousMonth(out pInicial: TDateTIme; out pFinal: TDateTIme);
 procedure SetDtHRangeThisMonth(out pInicial: TDateTIme; out pFinal: TDateTIme);
@@ -272,6 +273,22 @@ begin
   DecodeDate(pDateTime, Year, Month, Day);
   Day := 1;
   Result := EncodeDate(Year, Month, Day);
+end;
+
+function GetPrimDiaTrimestre(pDateTime: TDateTime = DATA_ZERADA): TDateTime;
+var
+  Year, Month, Day: Word;
+begin
+  if pDateTime = DATA_ZERADA then
+    pDateTime := Date;
+
+  DecodeDate(pDateTime, Year, Month, Day);
+
+  // Calcula o mês inicial do trimestre
+  Month := ((Month - 1) div 3) * 3 + 1;
+
+  // Retorna o primeiro dia do trimestre
+  Result := EncodeDate(Year, Month, 1);
 end;
 
 procedure SetDtHRangePreviousMonth(out pInicial: TDateTime; out pFinal: TDateTime);

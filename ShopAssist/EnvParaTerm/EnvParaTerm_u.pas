@@ -24,8 +24,6 @@ var
   sLog: string;
   bDeuErro: Boolean;
 begin
-  exit;
-
   EscrevaLog('EnvParaTerm;' + pTermDM.Terminal.TerminalId.ToString);
   if pPrecisaTerminar then
     exit;
