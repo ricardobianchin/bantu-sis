@@ -33,6 +33,8 @@ var
 function GetPrecisaTerminar: Boolean;
 begin
   Result := FileExists(sNomeArq);
+  if Result then
+    System.SysUtils.DeleteFile(sNomeArq);
 end;
 
 procedure ApaguePrecisaTerminar;

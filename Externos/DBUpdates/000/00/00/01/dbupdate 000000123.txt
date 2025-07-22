@@ -1,33 +1,47 @@
-/*
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_SALDO_RETAG_PA.sql";
-
-SELECT EST_SALDO_RETAG_PA.DT_HIST_ULTIMA_GET() AS ULTIMA_DATA
-FROM RDB$DATABASE;
-
-SELECT EST_SALDO_RETAG_PA.EST_MOV_DTH_MIN_GET() AS DATA_MAIS_ANTIGA
-FROM RDB$DATABASE;
-
-SELECT * 
-FROM EST_SALDO_RETAG_PA.EST_MOV_ITEM_LISTA_GET(
-'01.01.2025', '31.12.2025'
-) ;
-
-SELECT * FROM EST_SALDO_ATUAL_DTH;
-DELETE FROM EST_SALDO_ATUAL_DTH;
-COMMIT;
-
-EXECUTE PROCEDURE EST_SALDO_RETAG_PA.EST_SALDO_ATUAL_DTH_GAR;
+EST_SALDO_RETAG_PA
 
 DROP PACKAGE EST_SALDO_RETAG_PA;
-DROP TABLE EST_SALDO_ATUAL_DTH;
-DROP TABLE EST_SALDO_ATUAL;
-DROP TABLE EST_SALDO_HIST_DT;
-DROP TABLE EST_SALDO_HIST;
-DELETE FROM DBUPDATE_HIST WHERE NUM>=122;
+DELETE FROM DBUPDATE_HIST WHERE NUM>=123;
 COMMIT;
+
+
+/*
+
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\RETAG_VENDA_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\RETAG_VENDA_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\RETAG_VENDA_PA.sql";
 
 */
 
+
+
+
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_ASSUNTO=ESTOQUE
+DBATUALIZ_OBJETIVO=CRIAR EST_SALDO_RETAG_PA
+DBATUALIZ_PONTO_ALVO=SERVIDOR
+DBATUALIZ_OBS=
+
+
+
+
+/////////////////////////
+//
+// PACKAGE EST_SALDO_RETAG_PA
+//
+/////////////////////////
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=EST_SALDO_RETAG_PA
+
+```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE EST_SALDO_RETAG_PA
 AS
@@ -177,3 +191,7 @@ BEGIN
 
 END^
 SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM
