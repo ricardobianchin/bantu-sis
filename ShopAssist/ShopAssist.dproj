@@ -182,6 +182,7 @@
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoRecord.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoArrayUtils.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas"/>
+        <DCCReference Include="Loja\Loja_dbi_u.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

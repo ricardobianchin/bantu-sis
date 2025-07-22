@@ -9,19 +9,27 @@ function GetEstMovDtHMaisAntigo: TDateTime;
 function GetQtdProdsSaldo: integer;
 procedure InicializeProdSaldoArray(var pProdSaldoArray: TProdSaldoArray;
   out pQtdProdsSaldo: integer);
+
 procedure ProdSaldoArrayLeiaQtdsHist(var pProdSaldoArray: TProdSaldoArray;
   pDt: TDateTime);
-procedure LeMov(pProdSaldoArray: TProdSaldoArray;
+procedure ProdSaldoArrayLeiaQtdsAtual(var pProdSaldoArray: TProdSaldoArray);
+
+procedure ComputeMovimento(pProdSaldoArray: TProdSaldoArray;
   pDtHFaixaIni, pDtHFaixaFin: TDateTime);
 procedure EstSaldoHistGrave(pProdSaldoArray: TProdSaldoArray;
   pDtFaixaFin: TDateTime);
 procedure EstSaldoHistLeia(var pProdSaldoArray: TProdSaldoArray;
   pDtFaixaIni: TDateTime);
+procedure EstSaldoAtualLeia(var pProdSaldoArray: TProdSaldoArray);
+procedure EstSaldoAtualGrave(pProdSaldoArray: TProdSaldoArray;
+  pDtHAtual: TDateTime);
+
+procedure EstSaldoAtualDtHGarantir;
 
 implementation
 
 uses DBServDM_u, System.DateUtils, EstSaldo_u_ProdSaldoRecord, Sis.Types.Dates,
-  EstSaldo_u_ProdSaldoArrayUtils, System.SysUtils, Log_u, Sis.DB.DBTypes;
+  EstSaldo_u_ProdSaldoArrayUtils, System.SysUtils, Log_u, Sis.DB.DBTypes, Sis_u;
 
 function GetSaldoDtHistUltima: TDateTime;
 var
@@ -133,7 +141,6 @@ var
   sSql: string;
   bResultado: Boolean;
 begin
-
   sSql := //
     'SELECT PROD_ID, QTD'#13#10 + //
     'FROM EST_SALDO_HIST'#13#10 + //
@@ -161,7 +168,42 @@ begin
   end;
 end;
 
-procedure LeMov(pProdSaldoArray: TProdSaldoArray;
+procedure ProdSaldoArrayLeiaQtdsAtual(var pProdSaldoArray: TProdSaldoArray);
+var
+  iIndex: integer;
+  iProdId: integer;
+  uQtd: Currency;
+  sSql: string;
+  bResultado: Boolean;
+begin
+  // sSql := //
+  // 'SELECT PROD_ID, QTD'#13#10 + //
+  // 'FROM EST_SALDO_HIST'#13#10 + //
+  // 'WHERE DT = ' + DataSQLFirebird(pDt) + #13#10 + //
+  // 'ORDER BY PROD_ID;'#13#10 //
+  // ;
+  //
+  // bResultado := DBServDM.AbirFDQuery1('ProdSaldoArrayLeiaQtdsHist', sSql);
+  // if not bResultado then
+  // exit;
+  // try
+  // while not DBServDM.FDQuery1.Eof do
+  // begin
+  // iProdId := DBServDM.FDQuery1.Fields[0].AsInteger;
+  // iIndex := ProdIdToIndex(iProdId, pProdSaldoArray);
+  // if iIndex > -1 then
+  // begin
+  // uQtd := DBServDM.FDQuery1.Fields[1].AsCurrency;
+  // pProdSaldoArray[iIndex].Qtd := uQtd;
+  // end;
+  // DBServDM.FDQuery1.Next;
+  // end;
+  // finally
+  // DBServDM.FecharFDQuery1;
+  // end;
+end;
+
+procedure ComputeMovimento(pProdSaldoArray: TProdSaldoArray;
   pDtHFaixaIni, pDtHFaixaFin: TDateTime);
 var
   iIndex: integer;
@@ -177,7 +219,7 @@ begin
     DataHoraSQLFirebird(pDtHFaixaFin) + ');' //
     ;
 
-  bResultado := DBServDM.AbirFDQuery1('LeMov', sSql);
+  bResultado := DBServDM.AbirFDQuery1('ComputeMovimento', sSql);
   if not bResultado then
     exit;
   try
@@ -230,8 +272,8 @@ var
 begin
   DBServDM.Connection.StartTransaction;
   try
-    sSql := 'INSERT INTO EST_SALDO_DT (DT) VALUES(' +
-      DataSQLFirebird(pDtFaixaFin) + ');';
+    sSql := 'UPDATE OR INSERT INTO EST_SALDO_HIST_DT (DT) VALUES(' +
+      DataSQLFirebird(pDtFaixaFin) + ') MATCHING (DT);';
     DBServDM.FDCommand1.CommandText.Text := sSql;
     DBServDM.FDCommand1.Execute;
 
@@ -251,6 +293,59 @@ begin
       end;
     finally
       DBServDM.FDCommand1.Prepared := False;
+    end;
+
+    DBServDM.Connection.Commit;
+  except
+    on e: exception do
+    begin
+      DBServDM.Connection.Rollback;
+      sMens := 'EstSaldoHistGrave: ' + e.Message;
+      EscrevaLog(sMens);
+    end;
+  end;
+end;
+
+procedure EstSaldoAtualGrave(pProdSaldoArray: TProdSaldoArray;
+  pDtHAtual: TDateTime);
+var
+  iIndex: integer;
+  iProdId: integer;
+  cTipo: char;
+  uQtd: Currency;
+  sSql: string;
+  bResultado: Boolean;
+  sMens: string;
+  rProdSaldo: TProdSaldo;
+begin
+  EstSaldoAtualLeia(pProdSaldoArray);
+  DBServDM.Connection.StartTransaction;
+  try
+    sSql := 'UPDATE EST_SALDO_ATUAL_DTH SET DTH = ' +
+      DataHoraSQLFirebird(pDtHAtual) + ';';
+    DBServDM.FDCommand1.CommandText.Text := sSql;
+    DBServDM.FDCommand1.Execute;
+
+    sSql := 'UPDATE OR INSERT INTO EST_SALDO_ATUAL (LOJA_ID, PROD_ID, QTD)' + //
+      ' VALUES(' + iLojaId.ToString + ', :PROD_ID, :QTD)' + //
+      ' MATCHING (LOJA_ID, PROD_ID);';
+
+    DBServDM.FDCommand1.CommandText.Text := sSql;
+
+    DBServDM.FDCommand1.Prepare;
+    try
+      for iIndex := 0 to Length(pProdSaldoArray) - 1 do
+      begin
+        rProdSaldo := pProdSaldoArray[iIndex];
+        if rProdSaldo.Qtd <> rProdSaldo.QtdGravada then
+        begin
+          DBServDM.FDCommand1.Params[0].AsInteger := rProdSaldo.ProdId;
+          SetParamCurrency(DBServDM.FDCommand1.Params[1], rProdSaldo.Qtd);
+          DBServDM.FDCommand1.Execute;
+        end
+      end;
+    finally
+      DBServDM.FDCommand1.Unprepare;
     end;
 
     DBServDM.Connection.Commit;
@@ -296,6 +391,69 @@ begin
     end;
   finally
     DBServDM.FecharFDQuery1;
+  end;
+end;
+
+procedure EstSaldoAtualLeia(var pProdSaldoArray: TProdSaldoArray);
+var
+  iIndex: integer;
+  iProdId: integer;
+  uQtd: Currency;
+  sSql: string;
+  bResultado: Boolean;
+
+  sMens: string;
+begin
+  ZereQtdsGravadas(pProdSaldoArray);
+  sSql := 'SELECT PROD_ID, QTD FROM EST_SALDO_ATUAL' + //
+    ' WHERE LOJA_ID = ' + iLojaId.ToString + ';';
+
+  bResultado := DBServDM.AbirFDQuery1('EstSaldoAtualLeia', sSql);
+  if not bResultado then
+    exit;
+  try
+    while not DBServDM.FDQuery1.Eof do
+    begin
+      iProdId := DBServDM.FDQuery1.Fields[0].AsInteger;
+      iIndex := ProdIdToIndex(iProdId, pProdSaldoArray);
+      if iIndex > -1 then
+      begin
+        uQtd := DBServDM.FDQuery1.Fields[1].AsCurrency;
+        pProdSaldoArray[iIndex].QtdGravada := uQtd;
+      end;
+      DBServDM.FDQuery1.Next;
+    end;
+  finally
+    DBServDM.FecharFDQuery1;
+  end;
+end;
+
+procedure EstSaldoAtualDtHGarantir;
+var
+  iIndex: integer;
+  iProdId: integer;
+  cTipo: char;
+  uQtd: Currency;
+  sSql: string;
+  bResultado: Boolean;
+  sMens: string;
+  rProdSaldo: TProdSaldo;
+begin
+  DBServDM.Connection.StartTransaction;
+  try
+    sSql := 'EXECUTE PROCEDURE EST_SALDO_RETAG_PA.EST_SALDO_ATUAL_DTH_GAR;';
+
+    DBServDM.FDCommand1.CommandText.Text := sSql;
+    DBServDM.FDCommand1.Execute;
+
+    DBServDM.Connection.Commit;
+  except
+    on e: exception do
+    begin
+      DBServDM.Connection.Rollback;
+      sMens := 'EstSaldoAtualDtHGarantir: ' + e.Message;
+      EscrevaLog(sMens);
+    end;
   end;
 end;
 

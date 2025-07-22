@@ -40,7 +40,8 @@ uses
   EstSaldo_u_AtualGravarZerado in 'EstSaldo\EstSaldo_u_AtualGravarZerado.pas',
   EstSaldo_u_ProdSaldoRecord in 'EstSaldo\EstSaldo_u_ProdSaldoRecord.pas',
   EstSaldo_u_ProdSaldoArrayUtils in 'EstSaldo\EstSaldo_u_ProdSaldoArrayUtils.pas',
-  EstSaldo_u_ProdSaldoArrayType in 'EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas';
+  EstSaldo_u_ProdSaldoArrayType in 'EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas',
+  Loja_dbi_u in 'Loja\Loja_dbi_u.pas';
 
 {$R *.res}
 

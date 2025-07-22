@@ -59,6 +59,7 @@ begin
       if iQtdProdsSaldo = 0 then
         exit;
 
+      //Agora := StrToDateTime('21/07/2025 08:00:00');
       Agora := Now;
       Hoje := Trunc(Agora);
 
@@ -82,7 +83,9 @@ begin
       if DtHistMaisRecente < Hoje then
         EstSaldoHistReconstrua(aProdSaldos, DtHistMaisRecente, Hoje);
 
-      LeMov(pProdSaldoArray, DtFaixaIni, DtFaixaFin);
+      EstSaldoHistLeia(aProdSaldos, Hoje);
+      ComputeMovimento(aProdSaldos, Hoje, Agora);
+      EstSaldoAtualGrave(aProdSaldos, Agora);
     finally
 //      FreeAndNil(oExecScript);
       EscrevaLog('fechar conexoes');

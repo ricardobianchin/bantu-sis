@@ -30,7 +30,7 @@ begin
     DtFaixaFin := Min(pDtFin, MesesAFrente);
 
     // Chama o processamento para a faixa atual
-    LeMov(pProdSaldoArray, DtFaixaIni, DtFaixaFin);
+    ComputeMovimento(pProdSaldoArray, DtFaixaIni, DtFaixaFin);
 
     EstSaldoHistGrave(pProdSaldoArray, DtFaixaFin);
 

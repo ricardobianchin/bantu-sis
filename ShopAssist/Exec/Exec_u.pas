@@ -7,13 +7,12 @@ const
   PODE_TRAZER = FALSE;
   PODE_SALDO = TRUE;
 
-
 procedure Execute;
 
 implementation
 
 uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u,
-  Log_u, Vcl.Dialogs, TrazerDoTerm_u, EstSaldo_u;
+  Log_u, Vcl.Dialogs, TrazerDoTerm_u, EstSaldo_u, Loja_dbi_u, EstSaldo_u_dbi;
 
 procedure Execute;
 var
@@ -28,13 +27,19 @@ begin
     InicieLog;
     DBServDM := DBServDMCreate;
     bPrecisaTerminar := FALSE;
+
+    if not CarregueLoja then
+      exit;
+
+    EstSaldoAtualDtHGarantir;
+
     try
       repeat
         CarregarConfigs;
         CrieListaDeTerminais;
         try
-
           CarregarIni_Ativo;
+
           if bAtivo and PODE_ENVIAR then
             ForEachTerminal(EnvParaTerm, bPrecisaTerminar);
 
