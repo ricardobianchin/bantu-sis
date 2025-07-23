@@ -9,6 +9,7 @@ type
     ProdId: TId;
     Qtd: Currency;
     QtdGravada: Currency;
+    ExisteGravada: Boolean;
     procedure Inicializar(pProdId: TId; pQtd: Currency = 0);
   end;
 
@@ -21,6 +22,7 @@ begin
   ProdId := pProdId;
   Qtd := pQtd;
   QtdGravada := 0;
+  ExisteGravada := False;
 end;
 
 end.

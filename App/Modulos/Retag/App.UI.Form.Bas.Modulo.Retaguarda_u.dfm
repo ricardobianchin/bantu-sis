@@ -288,6 +288,8 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
         StyleElements = [seFont, seClient, seBorder]
       end
       inherited OutputLabel: TLabel
+        Width = 203
+        Height = 27
         StyleElements = [seFont, seClient, seBorder]
       end
     end
@@ -482,7 +484,6 @@ inherited RetaguardaModuloBasForm: TRetaguardaModuloBasForm
     object RetagEstSaldoAct: TAction
       Category = 'Estoque'
       Caption = 'Saldo'
-      Visible = False
       OnExecute = RetagEstSaldoActExecute
     end
     object RetagEstPromoAct: TAction

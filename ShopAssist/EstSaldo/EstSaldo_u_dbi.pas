@@ -317,15 +317,11 @@ var
   bResultado: Boolean;
   sMens: string;
   rProdSaldo: TProdSaldo;
+  iQtdGravados: integer;
 begin
   EstSaldoAtualLeia(pProdSaldoArray);
   DBServDM.Connection.StartTransaction;
   try
-    sSql := 'UPDATE EST_SALDO_ATUAL_DTH SET DTH = ' +
-      DataHoraSQLFirebird(pDtHAtual) + ';';
-    DBServDM.FDCommand1.CommandText.Text := sSql;
-    DBServDM.FDCommand1.Execute;
-
     sSql := 'UPDATE OR INSERT INTO EST_SALDO_ATUAL (LOJA_ID, PROD_ID, QTD)' + //
       ' VALUES(' + iLojaId.ToString + ', :PROD_ID, :QTD)' + //
       ' MATCHING (LOJA_ID, PROD_ID);';
@@ -334,18 +330,27 @@ begin
 
     DBServDM.FDCommand1.Prepare;
     try
+      iQtdGravados := 0;
       for iIndex := 0 to Length(pProdSaldoArray) - 1 do
       begin
         rProdSaldo := pProdSaldoArray[iIndex];
-        if rProdSaldo.Qtd <> rProdSaldo.QtdGravada then
+        if (rProdSaldo.Qtd <> rProdSaldo.QtdGravada) or (not rProdSaldo.ExisteGravada) then
         begin
           DBServDM.FDCommand1.Params[0].AsInteger := rProdSaldo.ProdId;
           SetParamCurrency(DBServDM.FDCommand1.Params[1], rProdSaldo.Qtd);
+          inc(iQtdGravados);
           DBServDM.FDCommand1.Execute;
         end
       end;
     finally
       DBServDM.FDCommand1.Unprepare;
+    end;
+    if iQtdGravados > 0 then
+    begin
+      sSql := 'UPDATE EST_SALDO_ATUAL_DTH SET DTH = ' +
+        DataHoraSQLFirebird(pDtHAtual) + ';';
+      DBServDM.FDCommand1.CommandText.Text := sSql;
+      DBServDM.FDCommand1.Execute;
     end;
 
     DBServDM.Connection.Commit;
@@ -420,6 +425,7 @@ begin
       begin
         uQtd := DBServDM.FDQuery1.Fields[1].AsCurrency;
         pProdSaldoArray[iIndex].QtdGravada := uQtd;
+        pProdSaldoArray[iIndex].ExisteGravada := True;
       end;
       DBServDM.FDQuery1.Next;
     end;

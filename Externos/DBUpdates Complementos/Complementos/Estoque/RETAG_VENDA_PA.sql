@@ -1,266 +1,377 @@
 SET TERM ^;
-CREATE OR ALTER PACKAGE RETAG_VENDA_PA
+CREATE OR ALTER PACKAGE EST_SALDO_RETAG_PA
 AS
 BEGIN
-  PROCEDURE LISTA_GET
+  FUNCTION DT_HIST_ULTIMA_GET RETURNS DATE;
+  FUNCTION EST_MOV_DTH_MIN_GET RETURNS TIMESTAMP;
+  FUNCTION PROD_QTD_GET RETURNS INTEGER;
+
+  PROCEDURE PROD_LISTA_GET
+  RETURNS 
   (
-    CRIADO_EM_INICIAL TIMESTAMP NOT NULL,
-    CRIADO_EM_FINAL TIMESTAMP NOT NULL
+    PROD_ID INTEGER
+  );
+
+  PROCEDURE EST_MOV_ITEM_LISTA_GET
+  (
+    DTH_INI TIMESTAMP,
+    DTH_FIN TIMESTAMP
+  )
+  RETURNS 
+  (
+    PROD_ID INTEGER,
+    EST_MOV_TIPO_ID ID_CHAR_DOM,
+    QTD QTD_DOM
+  );
+
+  PROCEDURE EST_SALDO_ATUAL_DTH_GAR;
+
+-- EST_SALDO_RETAG_PA.SALDO_TELA_LISTA_GET DEF
+  PROCEDURE SALDO_TELA_LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , FILTRO_STR VARCHAR(120)
+    , BUSCA_COD BOOLEAN
+    , BUSCA_BARRAS BOOLEAN
+    , BUSCA_DESCR BOOLEAN
+    , BUSCA_FABR BOOLEAN
+    , BUSCA_TIPO BOOLEAN
   )
   RETURNS
   (
-    LOJA_ID                         ID_SHORT_DOM,
-    TERMINAL_ID                     ID_SHORT_DOM,
-    EST_MOV_ID                      BIGINT,
+    PROD_ID INTEGER  --  0
 
-    VENDA_ID                        ID_DOM,
-
-    COD                             VARCHAR(20),
-    --DTH_DOC                         TIMESTAMP,
-
-    CRIADO_EM                       TIMESTAMP,
-
-    DESCONTO_TOTAL                  DINH_DOM,
-    TOTAL_LIQUIDO                   DINH_DOM,
-
-    FINALIZADO                      BOOLEAN,
-    FINALIZADO_EM                   TIMESTAMP,
-
-    CANCELADO                       BOOLEAN,
-    --ALTERADO_EM                     TIMESTAMP,
-    CANCELADO_EM                    TIMESTAMP,
+    , DESCR PROD_DESCR_DOM  --  1
+    , DESCR_RED PROD_DESCR_RED_DOM  --  2
     
-    CRIADO_POR_ID                   ID_DOM,
-    CRIADO_POR_APELIDO              NOME_REDU_DOM,
-    CANCELADO_POR_ID                ID_DOM,
-    CANCELADO_POR_APELIDO           NOME_REDU_DOM,
-    FINALIZADO_POR_ID               ID_DOM,
-    FINALIZADO_POR_APELIDO          NOME_REDU_DOM
+    , FABR_ID SMALLINT  --  3
+    , FABR_NOME NOME_REDU_DOM  --  4
+	
+    , PROD_TIPO_ID SMALLINT  --  5
+    , PROD_TIPO_DESCR NOME_INTERM_DOM  --  6
+      
+    , UNID_ID SMALLINT  --  7
+    , UNID_SIGLA CHAR(6)  --  8
+
+    , COD_BARRAS VARCHAR(233)  --  11
+	
+    , SALDO QTD_DOM --
+
+    , CUSTO_UNIT CUSTO_DOM  --  12
+    , CUSTO_TOTAL DINH_DOM  --  12
+
+    , PRECO_UNIT PRECO_DOM  --  13
+    , PRECO_TOTAL DINH_DOM  --  13
+	
+    , ATIVO BOOLEAN  --  14
+
+    , LOCALIZ NOME_CURTO_DOM  --  15
+    , CAPAC_EMB NUMERIC(8, 3)  --  16
+    , BALANCA_EXIGE BOOLEAN  --  19
   );
 
-  PROCEDURE VENDA_ITEM_LISTA_GET
-  (
-    LOJA_ID ID_SHORT_DOM,
-    TERMINAL_ID ID_SHORT_DOM,
-    EST_MOV_ID BIGINT
-  )
-  RETURNS
-  (
-    ORDEM SMALLINT,
-    PROD_ID ID_DOM,
-    DESCR_RED PROD_DESCR_RED_DOM,
-    FABR_NOME NOME_REDU_DOM,
-    UNID_SIGLA VARCHAR(6),
-    QTD QTD_DOM,
-    PRECO_UNIT DINH_DOM,
-    PRECO DINH_DOM,
-    CANCELADO BOOLEAN
-  );
-  
 END^
 
------ BODY
+----- body -----
 
-RECREATE PACKAGE BODY RETAG_VENDA_PA
+RECREATE PACKAGE BODY EST_SALDO_RETAG_PA
 AS
 BEGIN
-  PROCEDURE LISTA_GET
+  FUNCTION DT_HIST_ULTIMA_GET RETURNS DATE
+  AS
+    DECLARE VARIABLE DT_ATU DATE;
+  BEGIN
+    SELECT MAX(DT)
+    FROM EST_SALDO_HIST_DT
+    INTO :DT_ATU;
+    RETURN COALESCE(:DT_ATU, '1900-01-01');
+  END
+
+  FUNCTION EST_MOV_DTH_MIN_GET RETURNS TIMESTAMP
+  AS
+    DECLARE VARIABLE DTH_MIN_RET TIMESTAMP;
+  BEGIN
+    SELECT MIN(CRIADO_EM)
+    FROM EST_MOV
+    INTO :DTH_MIN_RET;
+
+    RETURN COALESCE(:DTH_MIN_RET, '1900-01-01');
+  END
+
+  FUNCTION PROD_QTD_GET RETURNS INTEGER
+  AS
+    DECLARE VARIABLE QTD_RET INTEGER;
+  BEGIN
+    SELECT COUNT(PROD_ID)
+    FROM PROD
+    WHERE PROD_NATU_ID IN (ASCII_CHAR(33), ASCII_CHAR(35), ASCII_CHAR(37))
+    INTO :QTD_RET;
+
+    RETURN COALESCE(:QTD_RET, 0);
+  END
+
+
+  PROCEDURE PROD_LISTA_GET
+  RETURNS 
   (
-    CRIADO_EM_INICIAL TIMESTAMP NOT NULL,
-    CRIADO_EM_FINAL TIMESTAMP NOT NULL
-  )
-  RETURNS
-  (
-    LOJA_ID                         ID_SHORT_DOM,
-    TERMINAL_ID                     ID_SHORT_DOM,
-    EST_MOV_ID                      BIGINT,
-
-    VENDA_ID                        ID_DOM,
-
-    COD                             VARCHAR(20),
-    --DTH_DOC                         TIMESTAMP,
-
-    CRIADO_EM                       TIMESTAMP,
-
-    DESCONTO_TOTAL                  DINH_DOM,
-    TOTAL_LIQUIDO                   DINH_DOM,
-
-    FINALIZADO                      BOOLEAN,
-    FINALIZADO_EM                   TIMESTAMP,
-
-    CANCELADO                       BOOLEAN,
-    --ALTERADO_EM                     TIMESTAMP,
-    CANCELADO_EM                    TIMESTAMP,
-    
-    CRIADO_POR_ID                   ID_DOM,
-    CRIADO_POR_APELIDO              NOME_REDU_DOM,
-    CANCELADO_POR_ID                ID_DOM,
-    CANCELADO_POR_APELIDO           NOME_REDU_DOM,
-    FINALIZADO_POR_ID               ID_DOM,
-    FINALIZADO_POR_APELIDO          NOME_REDU_DOM
+    PROD_ID INTEGER
   )
   AS
   BEGIN
-    FOR
-      SELECT      
-        EM.LOJA_ID,
-        EM.TERMINAL_ID,
-        EM.EST_MOV_ID,
-        V.VENDA_ID,
-        '' COD,
-        
-        --EM.DTH_DOC,
-        
-        V.DESCONTO_TOTAL,
-        V.TOTAL_LIQUIDO,
-
-        EM.CRIADO_EM,
-
-        EM.FINALIZADO,
-        EM.FINALIZADO_EM,
-
-        EM.CANCELADO,
-        --EM.ALTERADO_EM,
-        EM.CANCELADO_EM,
-        
-        0 CRIADO_POR_ID,
-        '' CRIADO_POR_APELIDO,
-
-        0 CANCELADO_POR_ID,
-        '' CANCELADO_POR_APELIDO,
-
-        0 FINALIZADO_POR_ID,
-        '' FINALIZADO_POR_APELIDO
-        
-      FROM EST_MOV EM
-      INNER JOIN VENDA V
-        ON V.LOJA_ID = EM.LOJA_ID
-        AND V.TERMINAL_ID = EM.TERMINAL_ID
-        AND V.EST_MOV_ID = EM.EST_MOV_ID
-      WHERE
-        (
-          :CRIADO_EM_INICIAL = '01.01.1900' OR
-          EM.CRIADO_EM >= :CRIADO_EM_INICIAL
-        )
-        AND
-        (
-          :CRIADO_EM_FINAL = '01.01.1900' OR
-          EM.CRIADO_EM <= :CRIADO_EM_FINAL
-        )
-    INTO
-      :LOJA_ID,
-      :TERMINAL_ID,
-      :EST_MOV_ID,
-      :VENDA_ID,
-      :COD,
-      
-      --:DTH_DOC,
-
-      :DESCONTO_TOTAL,
-      :TOTAL_LIQUIDO,
-
-      :CRIADO_EM,
-
-      :FINALIZADO,
-      :FINALIZADO_EM,
-
-      :CANCELADO,
-      --:ALTERADO_EM,
-      :CANCELADO_EM,
-
-      :CRIADO_POR_ID,
-      :CRIADO_POR_APELIDO,
-
-      :CANCELADO_POR_ID,
-      :CANCELADO_POR_APELIDO,
-
-      :FINALIZADO_POR_ID,
-      :FINALIZADO_POR_APELIDO
+    FOR SELECT PROD_ID
+        FROM PROD
+        WHERE PROD_NATU_ID IN (ASCII_CHAR(33), ASCII_CHAR(35), ASCII_CHAR(37))
+        ORDER BY PROD_ID
+        INTO :PROD_ID
     DO
       SUSPEND;
   END
 
-
-  PROCEDURE VENDA_ITEM_LISTA_GET
+  PROCEDURE EST_MOV_ITEM_LISTA_GET
   (
-    LOJA_ID ID_SHORT_DOM,
-    TERMINAL_ID ID_SHORT_DOM,
-    EST_MOV_ID BIGINT
+    DTH_INI TIMESTAMP,
+    DTH_FIN TIMESTAMP
   )
-  RETURNS
+  RETURNS 
   (
-    ORDEM SMALLINT,
-    PROD_ID ID_DOM,
-    DESCR_RED PROD_DESCR_RED_DOM,
-    FABR_NOME NOME_REDU_DOM,
-    UNID_SIGLA VARCHAR(6),
-    QTD QTD_DOM,
-    PRECO_UNIT DINH_DOM,
-    PRECO DINH_DOM,
-    CANCELADO BOOLEAN
+    PROD_ID INTEGER,
+    EST_MOV_TIPO_ID ID_CHAR_DOM,
+    QTD QTD_DOM
   )
   AS
   BEGIN
     FOR
-      WITH FA AS
-      (
-        SELECT FABR_ID, NOME FROM FABR
-      ), UN AS
-      (
-        SELECT UNID_ID, SIGLA FROM UNID
-      ), P AS
-      (
-        SELECT 
-          PROD_ID, DESCR_RED, FABR_ID, UNID_ID
-        FROM PROD 
-      ), EMI AS
-      (
-        SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, ORDEM,
-          PROD_ID, QTD, CANCELADO, CRIADO_EM, ALTERADO_EM, CANCELADO_EM
-        FROM EST_MOV_ITEM
-        WHERE LOJA_ID = :LOJA_ID
-          AND TERMINAL_ID = :TERMINAL_ID
-          AND EST_MOV_ID = :EST_MOV_ID
-      ), VI AS
-      (
-        SELECT LOJA_ID, TERMINAL_ID, EST_MOV_ID, ORDEM,
-          CUSTO_UNIT, CUSTO, PRECO_UNIT_ORIGINAL, PRECO_UNIT_PROMO,
-          PRECO_UNIT, PRECO_BRUTO, DESCONTO, PRECO
-        FROM VENDA_ITEM
+      WITH E AS
+      ( 
+      SELECT
+      LOJA_ID
+      , TERMINAL_ID
+      , EST_MOV_ID
+      , EST_MOV_TIPO_ID
+      , FINALIZADO_EM
+      FROM EST_MOV
+      WHERE FINALIZADO
+      AND NOT CANCELADO
+      AND FINALIZADO_EM >= :DTH_INI
+      AND FINALIZADO_EM < :DTH_FIN 
+      ), I AS (
+      SELECT 
+      LOJA_ID
+      , TERMINAL_ID
+      , EST_MOV_ID
+      , ORDEM
+      , PROD_ID
+      , QTD
+      FROM EST_MOV_ITEM
+      WHERE NOT CANCELADO
       )
-        SELECT
-        VI.ORDEM,
-        EMI.PROD_ID,
-        P.DESCR_RED,
-        FA.NOME,
-        UN.SIGLA,
-        EMI.QTD,
-        VI.PRECO_UNIT,
-        VI.PRECO,
-        EMI.CANCELADO
-      
-      FROM EMI
-      JOIN VI ON EMI.LOJA_ID = VI.LOJA_ID
-        AND EMI.TERMINAL_ID = VI.TERMINAL_ID
-        AND EMI.EST_MOV_ID = VI.EST_MOV_ID
-        AND EMI.ORDEM = VI.ORDEM
-      JOIN P ON EMI.PROD_ID = P.PROD_ID
-      JOIN FA ON P.FABR_ID = FA.FABR_ID 
-      JOIN UN ON P.UNID_ID = UN.UNID_ID
-      
-      ORDER BY EMI.ORDEM
-    INTO
-      :ORDEM,
-      :PROD_ID,
-      :DESCR_RED,
-      :FABR_NOME,
-      :UNID_SIGLA,
-      :QTD,
-      :PRECO_UNIT,
-      :PRECO,
-      :CANCELADO
+      SELECT 
+      I.PROD_ID
+      , E.EST_MOV_TIPO_ID
+      , I.QTD
+      FROM E
+      JOIN I ON
+      E.LOJA_ID = I.LOJA_ID
+      AND E.TERMINAL_ID = I.TERMINAL_ID
+      AND E.EST_MOV_ID = I.EST_MOV_ID
+      ORDER BY E.FINALIZADO_EM, I.ORDEM
+    INTO :PROD_ID, :EST_MOV_TIPO_ID, :QTD
     DO
-      SUSPEND;
+      SUSPEND;  
+  END
+
+  PROCEDURE EST_SALDO_ATUAL_DTH_GAR
+  AS
+  BEGIN
+    IF (NOT EXISTS (SELECT 1 FROM EST_SALDO_ATUAL_DTH)) THEN
+    BEGIN
+      INSERT INTO EST_SALDO_ATUAL_DTH (EST_SALDO_ATUAL_DTH_ID, DTH)
+      VALUES (1, '1900-01-01 00:00:00');
+    END  
+  END
+
+  -- EST_SALDO_RETAG_PA.SALDO_TELA_LISTA_GET IMP
+  PROCEDURE SALDO_TELA_LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , FILTRO_STR VARCHAR(120)
+    , BUSCA_COD BOOLEAN
+    , BUSCA_BARRAS BOOLEAN
+    , BUSCA_DESCR BOOLEAN
+    , BUSCA_FABR BOOLEAN
+    , BUSCA_TIPO BOOLEAN
+  )
+  RETURNS
+  (
+    PROD_ID INTEGER  --  0
+
+    , DESCR PROD_DESCR_DOM  --  1
+    , DESCR_RED PROD_DESCR_RED_DOM  --  2
+    
+    , FABR_ID SMALLINT  --  3
+    , FABR_NOME NOME_REDU_DOM  --  4
+	
+    , PROD_TIPO_ID SMALLINT  --  5
+    , PROD_TIPO_DESCR NOME_INTERM_DOM  --  6
+      
+    , UNID_ID SMALLINT  --  7
+    , UNID_SIGLA CHAR(6)  --  8
+
+    , COD_BARRAS VARCHAR(233)  --  11
+	
+    , SALDO QTD_DOM --
+
+    , CUSTO_UNIT CUSTO_DOM  --  12
+    , CUSTO_TOTAL DINH_DOM  --  12
+
+    , PRECO_UNIT PRECO_DOM  --  13
+    , PRECO_TOTAL DINH_DOM  --  13
+	
+    , ATIVO BOOLEAN  --  14
+
+    , LOCALIZ NOME_CURTO_DOM  --  15
+    , CAPAC_EMB NUMERIC(8, 3)  --  16
+    , BALANCA_EXIGE BOOLEAN  --  19
+  )
+  AS
+  BEGIN
+    -- EST_SALDO_RETAG_PA.SALDO_TELA_LISTA_GET COD
+      FOR
+      WITH
+      B AS ( -- BARRAS
+        SELECT PROD_ID, ORDEM, LIST(TRIM(COD_BARRAS)) BARRAS
+        FROM PROD_BARRAS
+        GROUP BY PROD_ID, ORDEM
+        ORDER BY PROD_ID, ORDEM
+      ),
+      P AS ( -- PROD
+        SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, PROD_TIPO_ID, 
+        UNID_ID, CAPAC_EMB
+        FROM PROD
+      ),
+      CO AS ( -- PROD_COMPL
+        SELECT PROD_ID, ATIVO, LOCALIZ, MARGEM, BALANCA_EXIGE        
+        FROM PROD_COMPL
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      CU AS (
+        SELECT PROD_ID, CUSTO CUSTO_UNIT
+        FROM PROD_CUSTO
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      PR AS (
+        SELECT PROD_ID, PRECO PRECO_UNIT
+        FROM PROD_PRECO
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      F AS ( -- FABR
+        SELECT ID_RET FABR_ID, DESCR_RET FABR_NOME
+        FROM FABR_PA.LISTA_SELECT_GET
+      ),
+      T AS ( -- TIPO                          
+        SELECT ID_RET PROD_TIPO_ID, DESCR_RET PROD_TIPO_DESCR
+        FROM PROD_TIPO_PA.LISTA_SELECT_GET
+      )
+      ,
+      U AS ( -- UNID
+        SELECT UNID_ID, SIGLA UNID_SIGLA
+        FROM UNID
+      ),
+      SA AS ( -- EST_SALDO_ATUAL
+        SELECT PROD_ID, QTD
+        FROM EST_SALDO_ATUAL
+        WHERE LOJA_ID = :LOJA_ID
+      )
+      SELECT
+        
+        P.PROD_ID
+
+        , P.DESCR
+        , P.DESCR_RED
+
+        , F.FABR_ID
+        , F.FABR_NOME
+
+        , T.PROD_TIPO_ID
+        , T.PROD_TIPO_DESCR
+
+        , U.UNID_ID
+        , U.UNID_SIGLA
+
+        , B.BARRAS
+
+        , COALESCE(SA.QTD, 0) SALDO
+
+        , CU.CUSTO_UNIT
+        , (CU.CUSTO_UNIT * COALESCE(SA.QTD, 0)) CUSTO_TOTAL
+
+        , PR.PRECO_UNIT
+        , (PR.PRECO_UNIT * COALESCE(SA.QTD, 0)) PRECO_TOTAL
+
+        , CO.ATIVO
+        , CO.LOCALIZ
+        , P.CAPAC_EMB
+
+        , CO.BALANCA_EXIGE
+      
+      FROM P
+      JOIN CO ON P.PROD_ID = CO.PROD_ID -- CO=COMPL PROD_COMPL
+      LEFT JOIN B ON P.PROD_ID = B.PROD_ID -- B=BARRAS
+      JOIN F ON F.FABR_ID = P.FABR_ID -- F=FABR
+      JOIN T ON T.PROD_TIPO_ID = P.PROD_TIPO_ID -- T=TIPO PROD_TIPO
+      JOIN U ON U.UNID_ID = P.UNID_ID -- U=UNID
+	    JOIN CU ON P.PROD_ID = CU.PROD_ID -- CU=CUSTO
+	    JOIN PR ON P.PROD_ID = PR.PROD_ID -- PR=PRECO
+	    LEFT JOIN SA ON P.PROD_ID = SA.PROD_ID -- SA=SALDO
+      
+      WHERE 
+        (:FILTRO_STR = '')
+        OR (
+          (:BUSCA_COD AND CAST(P.PROD_ID AS VARCHAR(7)) = :FILTRO_STR)
+          OR (
+            NOT :BUSCA_COD AND (
+              CASE
+                WHEN :BUSCA_BARRAS THEN B.BARRAS
+                WHEN :BUSCA_DESCR  THEN P.DESCR || '\\SEP\\' || P.DESCR_RED
+                WHEN :BUSCA_FABR   THEN F.FABR_NOME
+                WHEN :BUSCA_TIPO   THEN T.PROD_TIPO_DESCR
+              END
+            ) LIKE ('%' || :FILTRO_STR || '%')
+          )
+        )
+      ORDER BY P.PROD_ID, B.ORDEM
+    INTO
+      :PROD_ID 
+
+      , :DESCR 
+      , :DESCR_RED 
+      
+      , :FABR_ID 
+      , :FABR_NOME 
+      
+      , :PROD_TIPO_ID 
+      , :PROD_TIPO_DESCR
+      
+      , :UNID_ID 
+      , :UNID_SIGLA
+      
+      , :COD_BARRAS
+
+      , :SALDO
+      
+      , :CUSTO_UNIT
+      , :CUSTO_TOTAL
+
+      , :PRECO_UNIT
+      , :PRECO_TOTAL
+      
+      , :ATIVO 
+      , :LOCALIZ 
+      , :CAPAC_EMB
+
+      , :BALANCA_EXIGE 
+
+    DO SUSPEND; 
   END
 END^
 SET TERM ;^

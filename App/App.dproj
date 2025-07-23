@@ -936,6 +936,14 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Ven\Unit1.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.Ent.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.Ent_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u.pas">
+            <Form>RetagSaldoDataSetBasForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
