@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -489,6 +489,11 @@ contains
   App.UI.Frame.DBGrid.Est.VendaItem_u in 'Modulos\Retag\Est\Ven\App.UI.Frame.DBGrid.Est.VendaItem_u.pas' {RetagVendaItemDBGridFrame: TFrame},
   App.Retag.Est.VendaItem_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem_u.pas',
   Unit1 in 'Modulos\Retag\Est\Ven\Unit1.pas',
-  App.Retag.Est.VendaItem.DBI_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.DBI_u.pas';
+  App.Retag.Est.VendaItem.DBI_u in 'Modulos\Retag\Est\Ven\App.Retag.Est.VendaItem.DBI_u.pas',
+  App.Retag.Est.Saldo.Ent in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.Ent.pas',
+  App.Retag.Est.Saldo.Ent_u in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.Ent_u.pas',
+  App.Retag.Est.Saldo.DBI in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI.pas',
+  App.Retag.Est.Saldo.DBI_u in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI_u.pas',
+  App.UI.Form.DataSet.Est.Saldo_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u.pas' {RetagSaldoDataSetBasForm};
 
 end.

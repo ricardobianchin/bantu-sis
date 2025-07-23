@@ -200,6 +200,7 @@ type
     FEstPromoDataSetFormCreator: IFormCreator;
     FEstInventarioDataSetFormCreator: IFormCreator;
     FVenDataSetFormCreator: IFormCreator;
+    FRetagSaldoDataSetFormCreator: IFormCreator;
 
     // fin
     FPagFormaDataSetFormCreator: IFormCreator;
@@ -252,7 +253,8 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Retag.Est.Inventario.DBI, App.Retag.Est.Inventario.Ent,
   App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI, App.Est.Promo.DBI,
   App.Est.Promo.Ent, App.UI.Form.DataSet.Est.Promo_u,
-  App.UI.Form.Ed.Est.Promo_u, App.Retag.Est.Venda.DBI, App.Retag.Est.Venda.Ent;
+  App.UI.Form.Ed.Est.Promo_u, App.Retag.Est.Venda.DBI, App.Retag.Est.Venda.Ent,
+  App.Retag.Est.Saldo.Ent, App.Retag.Est.Saldo.DBI;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -396,6 +398,9 @@ var
 
   oEstPromoEnt: IEstPromoEnt;
   oEstPromoDBI: IEntDBI;
+
+  oRetagSaldoEnt: IRetagSaldoEnt;
+  oRetagSaldoDBI: IEntDBI;
 begin
   oFabrEnt := RetagEstProdFabrEntCreate;
   oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
@@ -488,6 +493,9 @@ begin
     oRetagVendaEnt, oRetagVendaDBI, AppObj);
 
 
+  oProdEnt := RetagEstProdEntCreate(AppObj.Loja.Id, LogUsuario.Id,
+    pAppObj.SisConfig.ServerMachineId.IdentId, oFabrEnt, oTipoEnt, oUnidEnt,
+    oICMSEnt, oProdBarrasList, oProdBalancaEnt);
 
 ///
 
@@ -506,6 +514,22 @@ begin
   FEstPromoDataSetFormCreator := EstPromoEntDataSetFormCreatorCreate
     (FFormClassNamesSL, LogUsuario, DBMS, Output, ProcessLog, FOutputNotify,
     oEstPromoEnt, oEstPromoDBI, AppObj);
+
+  oRetagSaldoEnt := RetagSaldoEntCreate( //
+    AppObj.Loja.Id, //
+    oFabrEnt, // fabr
+    oTipoEnt, // fabr
+    oUnidEnt, // fabr
+    oProdBarrasList, // prod barras list
+    oProdBalancaEnt);
+
+  oRetagSaldoDBI := RetagSaldoDBICreate(pDBConnection, oRetagSaldoEnt);
+
+  FRetagSaldoDataSetFormCreator := RetagSaldoDataSetFormCreatorCreate(FFormClassNamesSL,
+    LogUsuario, DBMS, Output, ProcessLog, FOutputNotify, oRetagSaldoEnt,
+    oRetagSaldoDBI, AppObj);
+
+
 end;
 
 procedure TRetaguardaModuloBasForm.CreateIniciais;
@@ -686,7 +710,7 @@ end;
 procedure TRetaguardaModuloBasForm.RetagEstSaldoActExecute(Sender: TObject);
 begin
   inherited;
-  //
+  TabSheetCrie(FRetagSaldoDataSetFormCreator);
 end;
 
 procedure TRetaguardaModuloBasForm.RetagEstVenActionExecute(Sender: TObject);
@@ -713,7 +737,7 @@ begin
   //RetagEstEntradaAction.Execute;
 //  RetagEstProdAction.Execute;
 //  RetagEstPromoAct.Execute;
-  RetagEstVenAction.Execute;
+//  RetagEstVenAction.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

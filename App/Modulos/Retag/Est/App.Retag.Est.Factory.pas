@@ -46,6 +46,8 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.Venda.DBI //
     , App.Retag.Est.VendaItem //
 
+    , App.Retag.Est.Saldo.Ent, App.Retag.Est.Saldo.DBI //
+
     ;
 
 {$REGION 'est'}
@@ -407,39 +409,38 @@ function RetagEntradaItemCreate( //
   ): IRetagEntradaItem;
 
 {$ENDREGION}
-
 {$REGION 'est retag ven'}
 function EntEdCastToRetagVendaEnt(pEntEd: IEntEd): IRetagVendaEnt;
 function EntDBICastToRetagVendaDBI(pEntDBI: IEntDBI): IRetagVendaDBI;
 
 function RetagVendaEntCreate( //
-      pLoja: IAppLoja; //
-      pTerminalId: TTerminalId; //
-      pDtHDoc: TDateTime; //
-      pEstMovCriadoEm: TDateTime; //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
 
-      pVendaId: TId = 0; //
+  pVendaId: TId = 0; //
 
-      pEstMovId: Int64 = 0; //
-      pEstMovFinalizado: Boolean = False; //
-      pEstMovCancelado: Boolean = False; //
-      pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
-      pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
-      pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
   ): IRetagVendaEnt;
 
-function RetagVendaDBICreate(pDBConnection: IDBConnection;
-  pAppObj: IAppObj; pRetagVendaEnt: IRetagVendaEnt; pUsuarioId: TId): IEntDBI;
+function RetagVendaDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
+  pRetagVendaEnt: IRetagVendaEnt; pUsuarioId: TId): IEntDBI;
 
-//function RetagVendaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-//  pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
-//  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
-//  pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): TEdBasForm;
+// function RetagVendaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+// pEntradaEnt: IEntEd; pEntradaDBI: IEntDBI; pDBConnection: IDBConnection;
+// pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput = nil;
+// pProcessLog: IProcessLog = nil; pOutputNotify: IOutput = nil): TEdBasForm;
 //
-//function RetagVendaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
-//  pEntradaDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
-//  pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
-//  pOutputNotify: IOutput = nil): boolean;
+// function RetagVendaPerg(AOwner: TComponent; pAppObj: IAppObj; pEntradaEnt: IEntEd;
+// pEntradaDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+// pDBMS: IDBMS; pOutput: IOutput = nil; pProcessLog: IProcessLog = nil;
+// pOutputNotify: IOutput = nil): boolean;
 
 function RetagVendaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
@@ -447,17 +448,14 @@ function RetagVendaDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 
 function RetagVendaItemCreate( //
-      pEstMovOrdem: SmallInt; //
-      pId: TId; pDescrRed, pFabrNome, pUnidSigla: string;
-      pEstMovQtd: Currency; //
+  pEstMovOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; pEstMovQtd: Currency; //
 
-      pPrecoUnit: Currency; //
-      pPreco: Currency //
+  pPrecoUnit: Currency; //
+  pPreco: Currency //
   ): IRetagVendaItem;
 
 {$ENDREGION}
-
-
 {$REGION 'est promo'}
 function EntEdCastToEstPromoEnt(pEntEd: IEntEd): IEstPromoEnt;
 function EntDBICastToEstPromoDBI(pEntDBI: IEntDBI): IEstPromoDBI;
@@ -498,8 +496,38 @@ function RetagPromoItemCreate( //
   pUnidSigla: string; //
 
   pPrecoPromo: Currency //
-  //pAtivo: boolean //
+  // pAtivo: boolean //
   ): IEstPromoItem;
+
+{$ENDREGION}
+{$REGION 'est saldo'}
+function RetagSaldoEntCreate( //
+  pLojaId: TLojaId; //
+  pProdFabrEnt: IProdFabrEnt; // fabr
+  pProdTipoEnt: IProdTipoEnt; // fabr
+  pProdUnidEnt: IProdUnidEnt; // fabr
+  pProdBarrasList: IProdBarrasList; // prod barras list
+  pProdBalancaEnt: IProdBalancaEnt; //
+  //
+  pState: TDataSetState = dsBrowse;
+  // campos
+  pId: integer = 0; pDescr: string = ''; pDescrRed: string = '')
+  : IRetagSaldoEnt;
+
+function RetagSaldoDBICreate(pDBConnection: IDBConnection;
+  pRetagSaldoEnt: IRetagSaldoEnt): IEntDBI;
+
+function EntEdCastToRetagSaldoEnt(pEntEd: IEntEd): IRetagSaldoEnt;
+
+function RetagSaldoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+
+function RetagSaldoFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj;
+  pDBConnection: IDBConnection): IFormCreator;
 
 {$ENDREGION}
 {$REGION 'xxx'}
@@ -574,17 +602,16 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
     , App.UI.Form.Ed.Est.Entrada_u //
     , App.Retag.Est.EntradaItem_u //
 {$ENDREGION}
-
 {$REGION 'uses est retag ven'}
     , App.Retag.Est.Venda.DBI_u //
     , App.Retag.Est.Venda.Ent_u //
     , App.UI.Form.DataSet.Est.Venda_u //
-//    , App.UI.Form.Ed.Est.Entrada_u //
+  // , App.UI.Form.Ed.Est.Entrada_u //
     , App.Retag.Est.VendaItem_u //
 {$ENDREGION}
-
-
-
+{$REGION 'uses est saldo'}
+    , App.Retag.Est.Saldo.Ent_u //
+{$ENDREGION}
 {$REGION 'uses est Promo'}
     , App.Est.Promo.DBI_u //
     , App.Est.Promo.Ent_u //
@@ -595,6 +622,10 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
 {$REGION 'uses est'}
     , App.Est.EstMovDBI_u //
     , App.Est.EstMovEnt_u //
+{$ENDREGION}
+{$REGION 'uses retag saldo'}
+    , App.Retag.Est.Saldo.DBI_u //
+    , App.UI.Form.DataSet.Est.Saldo_u //
 {$ENDREGION}
     ;
 
@@ -1008,6 +1039,96 @@ begin
 end;
 
 {$ENDREGION}
+{$REGION 'est saldo impl'}
+
+function RetagSaldoEntCreate( //
+  pLojaId: TLojaId; //
+  pProdFabrEnt: IProdFabrEnt; // fabr
+  pProdTipoEnt: IProdTipoEnt; // fabr
+  pProdUnidEnt: IProdUnidEnt; // fabr
+  pProdBarrasList: IProdBarrasList; // prod barras list
+  pProdBalancaEnt: IProdBalancaEnt; //
+  //
+  pState: TDataSetState = dsBrowse;
+  // campos
+  pId: integer = 0; pDescr: string = ''; pDescrRed: string = '')
+  : IRetagSaldoEnt;
+begin
+  Result := TRetagSaldoEnt.Create(pLojaId, pProdFabrEnt, pProdTipoEnt,
+    pProdUnidEnt, pProdBarrasList, pProdBalancaEnt, pState, pId, pDescr,
+    pDescrRed);
+end;
+
+function RetagSaldoDBICreate(pDBConnection: IDBConnection;
+  pRetagSaldoEnt: IRetagSaldoEnt): IEntDBI;
+begin
+  Result := TRetagSaldoDBI.Create(pDBConnection, pRetagSaldoEnt);
+end;
+
+function EntEdCastToRetagSaldoEnt(pEntEd: IEntEd): IRetagSaldoEnt;
+begin
+  Result := TRetagSaldoEnt(pEntEd);
+end;
+
+function RetagSaldoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
+  pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
+begin
+  Result := TDataSetFormCreator.Create(TRetagSaldoDataSetBasForm,
+    pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
+    pEntEd, pEntDBI, pAppObj);
+end;
+
+function RetagSaldoFormCreatorCreate(pFormClassNamesSL: TStringList;
+  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+  pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj;
+  pDBConnection: IDBConnection): IFormCreator;
+var
+  oFabrEnt: IProdFabrEnt;
+  oFabrDBI: IEntDBI;
+
+  oTipoEnt: IProdTipoEnt;
+  oTipoDBI: IEntDBI;
+
+  oUnidEnt: IProdUnidEnt;
+  oUnidDBI: IEntDBI;
+
+  oProdBarrasList: IProdBarrasList;
+  oProdBalancaEnt: IProdBalancaEnt;
+
+  oRetagSaldoEnt: IRetagSaldoEnt;
+  oRetagSaldoDBI: IEntDBI;
+begin
+  oFabrEnt := RetagEstProdFabrEntCreate;
+  oFabrDBI := RetagEstProdFabrDBICreate(pDBConnection, oFabrEnt);
+
+  oTipoEnt := RetagEstProdTipoEntCreate;
+  oTipoDBI := RetagEstProdTipoDBICreate(pDBConnection, oTipoEnt);
+
+  oUnidEnt := RetagEstProdUnidEntCreate;
+  oUnidDBI := RetagEstProdUnidDBICreate(pDBConnection, oUnidEnt);
+
+  oProdBarrasList := ProdBarrasListCreate;
+  oProdBalancaEnt := ProdBalancaEntCreate;
+
+  oRetagSaldoEnt := RetagSaldoEntCreate( //
+    pAppObj.Loja.Id //
+    , oFabrEnt //
+    , oTipoEnt //
+    , oUnidEnt //
+    , oProdBarrasList //
+    , oProdBalancaEnt //
+    );
+
+  oRetagSaldoDBI := RetagEstProdDBICreate(pDBConnection, oRetagSaldoEnt);
+
+  Result := RetagSaldoDataSetFormCreatorCreate(pFormClassNamesSL, pUsuarioLog,
+    pDBMS, pOutput, pProcessLog, pOutputNotify, oRetagSaldoEnt,
+    oRetagSaldoDBI, pAppObj);
+end;
+
+{$ENDREGION}
 {$REGION 'prod barras impl'}
 
 function ProdBarrasCreate(pOrdem: smallint; pBarras: string): IProdBarras;
@@ -1349,7 +1470,6 @@ begin
 end;
 
 {$ENDREGION}
-
 {$REGION 'est retag ven impl'}
 
 function EntEdCastToRetagVendaEnt(pEntEd: IEntEd): IRetagVendaEnt;
@@ -1364,68 +1484,68 @@ begin
 end;
 
 function RetagVendaEntCreate( //
-      pLoja: IAppLoja; //
-      pTerminalId: TTerminalId; //
-      pDtHDoc: TDateTime; //
-      pEstMovCriadoEm: TDateTime; //
+  pLoja: IAppLoja; //
+  pTerminalId: TTerminalId; //
+  pDtHDoc: TDateTime; //
+  pEstMovCriadoEm: TDateTime; //
 
-      pVendaId: TId = 0; //
+  pVendaId: TId = 0; //
 
-      pEstMovId: Int64 = 0; //
-      pEstMovFinalizado: Boolean = False; //
-      pEstMovCancelado: Boolean = False; //
-      pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
-      pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
-      pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
+  pEstMovId: Int64 = 0; //
+  pEstMovFinalizado: boolean = False; //
+  pEstMovCancelado: boolean = False; //
+  pEstMovAlteradoEm: TDateTime = DATA_ZERADA; //
+  pEstMovFinalizadoEm: TDateTime = DATA_ZERADA; //
+  pEstMovCanceladoEm: TDateTime = DATA_ZERADA //
   ): IRetagVendaEnt;
 begin
   Result := TRetagVendaEnt.Create( //
-      pLoja, //
-      pTerminalId, //
-      pDtHDoc, //
-      pEstMovCriadoEm, //
+    pLoja, //
+    pTerminalId, //
+    pDtHDoc, //
+    pEstMovCriadoEm, //
 
-      pVendaId, //
+    pVendaId, //
 
-      pEstMovId, //
-      pEstMovFinalizado, //
-      pEstMovCancelado, //
-      pEstMovAlteradoEm, //
-      pEstMovFinalizadoEm, //
-      pEstMovCanceladoEm
-    );
+    pEstMovId, //
+    pEstMovFinalizado, //
+    pEstMovCancelado, //
+    pEstMovAlteradoEm, //
+    pEstMovFinalizadoEm, //
+    pEstMovCanceladoEm);
 end;
 
-function RetagVendaDBICreate(pDBConnection: IDBConnection;
-  pAppObj: IAppObj; pRetagVendaEnt: IRetagVendaEnt; pUsuarioId: TId): IEntDBI;
+function RetagVendaDBICreate(pDBConnection: IDBConnection; pAppObj: IAppObj;
+  pRetagVendaEnt: IRetagVendaEnt; pUsuarioId: TId): IEntDBI;
 begin
-  Result := TRetagVendaDBI.Create(pDBConnection, pAppObj, pRetagVendaEnt, pUsuarioId);
+  Result := TRetagVendaDBI.Create(pDBConnection, pAppObj, pRetagVendaEnt,
+    pUsuarioId);
 end;
 
-//function RetagVendaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
-//  pRetagVendaEnt: IEntEd; pRetagVendaDBI: IEntDBI; pDBConnection: IDBConnection;
-//  pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
-//  pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
-//begin
-//  Result := TEntradaEdForm.Create(AOwner, pAppObj, pEntradaEnt, pRetagVendaDBI,
-//    pDBConnection, pUsuarioLog, pDBMS);
-//end;
+// function RetagVendaEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
+// pRetagVendaEnt: IEntEd; pRetagVendaDBI: IEntDBI; pDBConnection: IDBConnection;
+// pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
+// pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
+// begin
+// Result := TEntradaEdForm.Create(AOwner, pAppObj, pEntradaEnt, pRetagVendaDBI,
+// pDBConnection, pUsuarioLog, pDBMS);
+// end;
 
-//function RetagVendaPerg(AOwner: TComponent; pAppObj: IAppObj; pRetagVendaEnt: IEntEd;
-//  pRetagVendaDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
-//  pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
-//  pOutputNotify: IOutput): boolean;
-//var
-//  F: TEdBasForm;
-//begin
-//  F := RetagVendaEntEdFormCreate(AOwner, pAppObj, pRetagVendaEnt, pRetagVendaDBI,
-//    pDBConnection, pUsuarioLog, pDBMS);
-//  try
-//    Result := F.Perg;
-//  finally
-//    F.Free;
-//  end;
-//end;
+// function RetagVendaPerg(AOwner: TComponent; pAppObj: IAppObj; pRetagVendaEnt: IEntEd;
+// pRetagVendaDBI: IEntDBI; pDBConnection: IDBConnection; pUsuarioLog: IUsuario;
+// pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
+// pOutputNotify: IOutput): boolean;
+// var
+// F: TEdBasForm;
+// begin
+// F := RetagVendaEntEdFormCreate(AOwner, pAppObj, pRetagVendaEnt, pRetagVendaDBI,
+// pDBConnection, pUsuarioLog, pDBMS);
+// try
+// Result := F.Perg;
+// finally
+// F.Free;
+// end;
+// end;
 
 // function DecoratorExclProdFabrCreate(pProdFabr: IEntEd): IDecoratorExcl;
 // begin
@@ -1443,25 +1563,21 @@ begin
 end;
 
 function RetagVendaItemCreate( //
-      pEstMovOrdem: SmallInt; //
-      pId: TId; pDescrRed, pFabrNome, pUnidSigla: string;
-      pEstMovQtd: Currency; //
+  pEstMovOrdem: smallint; //
+  pId: TId; pDescrRed, pFabrNome, pUnidSigla: string; pEstMovQtd: Currency; //
 
-      pPrecoUnit: Currency; //
-      pPreco: Currency //
+  pPrecoUnit: Currency; //
+  pPreco: Currency //
   ): IRetagVendaItem;
 var
   oProd: IProd;
 begin
   oProd := ProdCreate(pId, pDescrRed, pFabrNome, pUnidSigla);
-  Result := TRetagVendaItem.Create( pEstMovOrdem, oProd, pEstMovQtd,
+  Result := TRetagVendaItem.Create(pEstMovOrdem, oProd, pEstMovQtd,
     pPrecoUnit, pPreco);
 end;
 
 {$ENDREGION}
-
-
-
 {$REGION 'est promo impl'}
 
 function EntEdCastToEstPromoEnt(pEntEd: IEntEd): IEstPromoEnt;
@@ -1541,20 +1657,20 @@ begin
     pEntDBI, pAppObj);
 end;
 
-function RetagPromoItemCreate(//
+function RetagPromoItemCreate( //
   pProdId: TId; //
   pDescrRed, //
   pFabrNome, //
   pUnidSigla: string; //
 
   pPrecoPromo: Currency //
-//  pAtivo: boolean //
+  // pAtivo: boolean //
   ): IEstPromoItem;
 var
   oProd: IProd;
 begin
   oProd := ProdCreate(pProdId, pDescrRed, pFabrNome, pUnidSigla);
-  Result := TEstPromoItem.Create(oProd, pPrecoPromo{, pAtivo});
+  Result := TEstPromoItem.Create(oProd, pPrecoPromo { , pAtivo } );
 end;
 
 {$ENDREGION}
