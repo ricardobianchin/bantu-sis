@@ -8,6 +8,7 @@ function ProdIdToIndex(pProdId: TId; pProdSaldoArray: TProdSaldoArray): integer;
 procedure ZereQtds(pProdSaldoArray: TProdSaldoArray);
 procedure ZereQtdsGravadas(pProdSaldoArray: TProdSaldoArray);
 
+
 implementation
 
 //uses EstSaldo_u_dbi;
@@ -51,6 +52,7 @@ begin
   begin
     rProdSaldo := pProdSaldoArray[i];
     rProdSaldo.QtdGravada := 0;
+    rProdSaldo.ExisteGravada := False;
   end;
 end;
 

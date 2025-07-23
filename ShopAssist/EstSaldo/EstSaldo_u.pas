@@ -9,7 +9,7 @@ procedure AtualizeEstSaldo(pPrecisaTerminar: Boolean);
 implementation
 
 uses Sis_u, System.Math, ExecScript_u, System.SysUtils, Log_u, EstSaldo_u_dbi,
-  Sis.Sis.Constants, Sis.Types.Dates, EstSaldo_u_AtualGravarZerado, DateUtils,
+  Sis.Sis.Constants, Sis.Types.Dates, DateUtils,
   EstSaldo_u_HistReconstrua, EstSaldo_u_ProdSaldoRecord,
   EstSaldo_u_ProdSaldoArrayType, EstSaldo_u_ProdSaldoArrayUtils;
 
@@ -69,16 +69,20 @@ begin
         exit;
 
       if DtHistMaisRecente = DATA_ZERADA then
-      begin
-        DtMovMaisAntiga := EstSaldo_u_dbi.GetEstMovDtHMaisAntigo;
-        if DtMovMaisAntiga = DATA_ZERADA then
-        begin
-          EstSaldoAtualGravarZerado;
-          exit;
-        end;
+        exit;
 
-        DtHistMaisRecente := DateOf(DtMovMaisAntiga);
-      end;
+
+//      if DtHistMaisRecente = DATA_ZERADA then
+//      begin
+//        DtMovMaisAntiga := EstSaldo_u_dbi.GetEstMovDtHMaisAntigo;
+//        if DtMovMaisAntiga = DATA_ZERADA then
+//        begin
+//          //EstSaldoAtualGravarZerado;
+//          exit;
+//        end;
+//
+//        DtHistMaisRecente := DateOf(DtMovMaisAntiga);
+//      end;
 
       if DtHistMaisRecente < Hoje then
         EstSaldoHistReconstrua(aProdSaldos, DtHistMaisRecente, Hoje);

@@ -178,7 +178,6 @@
         <DCCReference Include="EstSaldo\EstSaldo_u.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_dbi.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_HistReconstrua.pas"/>
-        <DCCReference Include="EstSaldo\EstSaldo_u_AtualGravarZerado.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoRecord.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoArrayUtils.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas"/>

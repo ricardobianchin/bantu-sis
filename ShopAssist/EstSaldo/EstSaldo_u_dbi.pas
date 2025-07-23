@@ -334,7 +334,7 @@ begin
       for iIndex := 0 to Length(pProdSaldoArray) - 1 do
       begin
         rProdSaldo := pProdSaldoArray[iIndex];
-        if rProdSaldo.Qtd <> rProdSaldo.QtdGravada then
+        if (rProdSaldo.Qtd <> rProdSaldo.QtdGravada) or (not rProdSaldo.ExisteGravada) then
         begin
           DBServDM.FDCommand1.Params[0].AsInteger := rProdSaldo.ProdId;
           SetParamCurrency(DBServDM.FDCommand1.Params[1], rProdSaldo.Qtd);
@@ -425,6 +425,7 @@ begin
       begin
         uQtd := DBServDM.FDQuery1.Fields[1].AsCurrency;
         pProdSaldoArray[iIndex].QtdGravada := uQtd;
+        pProdSaldoArray[iIndex].ExisteGravada := True;
       end;
       DBServDM.FDQuery1.Next;
     end;

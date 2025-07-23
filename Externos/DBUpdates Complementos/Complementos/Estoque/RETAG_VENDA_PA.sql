@@ -276,8 +276,9 @@ BEGIN
       U AS ( -- UNID
         SELECT UNID_ID, SIGLA UNID_SIGLA
         FROM UNID
-      ), SA AS ( -- EST_SALDO_ATUAL
-        SELECT PROD_ID, COALESCE(QTD, 0) SALDO
+      ),
+      SA AS ( -- EST_SALDO_ATUAL
+        SELECT PROD_ID, QTD
         FROM EST_SALDO_ATUAL
         WHERE LOJA_ID = :LOJA_ID
       )
@@ -299,13 +300,13 @@ BEGIN
 
         , B.BARRAS
 
-        , SA.SALDO
+        , COALESCE(SA.QTD, 0) SALDO
 
         , CU.CUSTO_UNIT
-        , (CU.CUSTO_UNIT * SA.SALDO) CUSTO_TOTAL
+        , (CU.CUSTO_UNIT * COALESCE(SA.QTD, 0)) CUSTO_TOTAL
 
         , PR.PRECO_UNIT
-        , (PR.PRECO_UNIT * SA.SALDO) PRECO_TOTAL
+        , (PR.PRECO_UNIT * COALESCE(SA.QTD, 0)) PRECO_TOTAL
 
         , CO.ATIVO
         , CO.LOCALIZ
