@@ -16,8 +16,6 @@ uses
 
 type
   TAppInventarioDataSetForm = class(TAppEstDataSetForm)
-    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
-    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FInventarioEnt: IInventarioEnt;
@@ -60,12 +58,6 @@ uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
   App.Retag.Est.Factory, Sis.DB.Factory, App.DB.Utils, App.UI.Form.Retag.Excl_u, Sis.DB.DataSet.Utils, Sis.Entities.Types, Sis.Types,
   Sis.UI.Controls.Utils, Sis.Sis.Constants, Sis.Types.Utils_u,
   App.Retag.Est.InventarioItem;
-
-procedure TAppInventarioDataSetForm.AltAction_DatasetTabSheetExecute(
-  Sender: TObject);
-begin
-//  inherited;
-end;
 
 function TAppInventarioDataSetForm.AtuPode: Boolean;
 var
@@ -249,13 +241,6 @@ begin
     'App\Retag\Est\Inv\tabview.app.retag.est.inv.csv';
 
   Result := sNomeArq;
-end;
-
-procedure TAppInventarioDataSetForm.InsAction_DatasetTabSheetExecute(
-  Sender: TObject);
-begin
-  inherited;
-//
 end;
 
 function TAppInventarioDataSetForm.PergEd: boolean;
