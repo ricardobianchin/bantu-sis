@@ -17,7 +17,6 @@ uses
 type
   TAppEntradaDataSetForm = class(TAppEstDataSetForm)
     procedure ShowTimer_BasFormTimer(Sender: TObject);
-    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEntradaEnt: IEntradaEnt;
@@ -34,6 +33,8 @@ type
     procedure DataSetToEntradaItems(q: TDataSet; pRecNo: integer);
     procedure ItemDBGridDblClick(Sender: TObject);
   protected
+    procedure ActionAlt; override;
+
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); override;
 
     function GetNomeArqTabView: string; override;
@@ -71,8 +72,7 @@ uses App.UI.Frame.Bas.EstFiltro_u, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
   Sis.UI.Controls.Utils, Sis.Sis.Constants, Sis.Types.Utils_u,
   App.Retag.Est.EntradaItem;
 
-procedure TAppEntradaDataSetForm.AltAction_DatasetTabSheetExecute
-  (Sender: TObject);
+procedure TAppEntradaDataSetForm.ActionAlt;
 var
   Result: boolean;
 begin
@@ -93,7 +93,7 @@ begin
   Result := not DMemTableCANCELADO.AsBoolean;
   if not Result then
   begin
-    ShowMessage('Nota est� cancelada e n�o pode ser alterada');
+    ShowMessage('Nota está cancelada e não pode ser alterada');
     exit;
   end;
 

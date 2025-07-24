@@ -69,6 +69,9 @@ type
   protected
     AtuExecutando, InsExecutando, AltExecutando, ExclExecutando: boolean;
 
+    procedure ActionIns; virtual;
+    procedure ActionAlt; virtual;
+
     procedure AjusteQtdRegsLabel;
     property AtualizaAposEd: boolean read FAtualizaAposEd write FAtualizaAposEd;
 
@@ -141,6 +144,51 @@ uses Sis.DB.DataSet.Utils, Sis.UI.Controls.Utils;
 
 { TTabSheetDataSetBasForm }
 
+procedure TTabSheetDataSetBasForm.ActionAlt;
+begin
+  if FDMemTable.IsEmpty then
+  begin
+    OutputNotify.exibir('Não há registros a alterar');
+    exit;
+  end;
+
+  if AltExecutando then
+    exit;
+
+  AltExecutando := True;
+  State := dsEdit;
+  try
+    RecordToEnt;
+    DoLer;
+    DoAlterar;
+  finally
+    State := dsBrowse;
+    TrySetFocus(DBGrid1);
+    AltExecutando := False;
+
+    if AtualizaAposEd then
+      AtuAction_DatasetTabSheet.Execute;
+  end;
+end;
+
+procedure TTabSheetDataSetBasForm.ActionIns;
+begin
+  if InsExecutando then
+    exit;
+  State := dsInsert;
+  InsExecutando := True;
+  try
+    while DoInserir do;
+  finally
+    InsExecutando := False;
+    State := dsBrowse;
+    TrySetFocus(DBGrid1);
+
+    if AtualizaAposEd then
+      AtuAction_DatasetTabSheet.Execute;
+  end;
+end;
+
 procedure TTabSheetDataSetBasForm.AjusteBotoesSelect;
 var
   LastButton: TToolButton;
@@ -184,29 +232,7 @@ var
   Resultado: boolean;
 begin
   inherited;
-  if FDMemTable.IsEmpty then
-  begin
-    OutputNotify.exibir('Não há registros a alterar');
-    exit;
-  end;
-
-  if AltExecutando then
-    exit;
-
-  AltExecutando := True;
-  State := dsEdit;
-  try
-    RecordToEnt;
-    DoLer;
-    DoAlterar;
-  finally
-    State := dsBrowse;
-    TrySetFocus(DBGrid1);
-    AltExecutando := False;
-
-    if AtualizaAposEd then
-      AtuAction_DatasetTabSheet.Execute;
-  end;
+  ActionAlt;
 end;
 
 procedure TTabSheetDataSetBasForm.DoAntesAtualizar;
@@ -486,20 +512,7 @@ procedure TTabSheetDataSetBasForm.InsAction_DatasetTabSheetExecute
   (Sender: TObject);
 begin
   inherited;
-  if InsExecutando then
-    exit;
-  State := dsInsert;
-  InsExecutando := True;
-  try
-    while DoInserir do;
-  finally
-    InsExecutando := False;
-    State := dsBrowse;
-    TrySetFocus(DBGrid1);
-
-    if AtualizaAposEd then
-      AtuAction_DatasetTabSheet.Execute;
-  end;
+  ActionIns;
 end;
 
 procedure TTabSheetDataSetBasForm.LeRegEInsere(q: TDataSet; pRecNo: integer);

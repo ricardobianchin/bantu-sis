@@ -30,6 +30,7 @@ type
     procedure InsItemAction_DatasetTabSheetExecute(Sender: TObject);
     procedure AltItemAction_DatasetTabSheetExecute(Sender: TObject);
     procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
+    procedure InsAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FEstFiltroFrame: TEstFiltroFrame;
@@ -48,6 +49,9 @@ type
     procedure SetItemsDBGridFrame(Value: TDBGridFrame);
 
   protected
+    procedure ActionIns; override;
+    procedure ActionAlt; override;
+
     procedure EstLeRegEInsere(q: TDataSet; pRecNo: integer); virtual; abstract;
     procedure DoAtualizar(Sender: TObject); override;
     function DoInserir: boolean; override;
@@ -91,10 +95,22 @@ uses Sis.UI.Controls.TToolBar, Sis.UI.Controls.TDBGrid, App.DB.Utils,
 
 { TAppEstDataSetForm }
 
-procedure TAppEstDataSetForm.AltAction_DatasetTabSheetExecute(Sender: TObject);
+procedure TAppEstDataSetForm.ActionAlt;
 begin
   inherited;
-//
+
+end;
+
+procedure TAppEstDataSetForm.ActionIns;
+begin
+  inherited;
+
+end;
+
+procedure TAppEstDataSetForm.AltAction_DatasetTabSheetExecute(Sender: TObject);
+begin
+  FEstMovEnt.EditandoItem := False;
+  inherited;
 end;
 
 procedure TAppEstDataSetForm.AltItemAction_DatasetTabSheetExecute(
@@ -134,7 +150,7 @@ begin
   RecordToEnt;
   FEstMovEnt.EditandoItem := True;
   try
-    AltAction_DatasetTabSheet.Execute;
+    ActionAlt;
   finally
     FEstMovEnt.EditandoItem := False;
   end;
@@ -413,6 +429,12 @@ begin
   end;
 end;
 
+procedure TAppEstDataSetForm.InsAction_DatasetTabSheetExecute(Sender: TObject);
+begin
+  FEstMovEnt.EditandoItem := False;
+  inherited;
+end;
+
 procedure TAppEstDataSetForm.InsItemAction_DatasetTabSheetExecute(
   Sender: TObject);
 var
@@ -443,7 +465,7 @@ begin
   RecordToEnt;
   FEstMovEnt.EditandoItem := True;
   try
-    InsAction_DatasetTabSheet.Execute;
+    ActionIns;
   finally
     FEstMovEnt.EditandoItem := False;
   end;
