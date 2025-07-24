@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -494,6 +494,12 @@ contains
   App.Retag.Est.Saldo.Ent_u in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.Ent_u.pas',
   App.Retag.Est.Saldo.DBI in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI.pas',
   App.Retag.Est.Saldo.DBI_u in 'Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI_u.pas',
-  App.UI.Form.DataSet.Est.Saldo_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u.pas' {RetagSaldoDataSetBasForm};
+  App.UI.Form.DataSet.Est.Saldo_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u.pas' {RetagSaldoDataSetForm},
+  App.UI.Form.Est.Saldo.HistProd_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd_u.pas' {EstSaldoHistProdForm},
+  App.UI.Form.DataSet.Est.Saldo_u_HistProdFormRecord in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormRecord.pas',
+  App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList.pas',
+  App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u.pas',
+  App.UI.Form.Est.Saldo.HistProd.DBI in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI.pas',
+  App.UI.Form.Est.Saldo.HistProd.DBI_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas';
 
 end.

@@ -941,9 +941,18 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Saldo\App.Retag.Est.Saldo.DBI_u.pas"/>
         <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u.pas">
-            <Form>RetagSaldoDataSetBasForm</Form>
+            <Form>RetagSaldoDataSetForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd_u.pas">
+            <Form>EstSaldoHistProdForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormRecord.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI.pas"/>
+        <DCCReference Include="Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>
