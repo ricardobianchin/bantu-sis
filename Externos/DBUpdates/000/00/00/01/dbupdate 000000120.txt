@@ -1,5 +1,8 @@
 TERM_LOG_HIST_PA
 
+DELETE FROM DBUPDATE_HIST WHERE NUM>=120;
+COMMIT;
+
 -----------------------------
 INICIO TERM_LOG_HIST_PA
 -----------------------------

@@ -26,6 +26,7 @@ type
       (Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure AltAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
     FRetagSaldoEnt: IRetagSaldoEnt;
@@ -59,6 +60,13 @@ uses App.Retag.Est.Factory, Sis.UI.IO.Files, Sis.UI.Controls.TToolBar,
   App.Acesso.PerfilDeUso.UI.Factory_u, Sis.UI.ImgDM, Sis.Types;
 
 { TRetagSaldoDataSetForm }
+
+procedure TRetagSaldoDataSetForm.AltAction_DatasetTabSheetExecute(
+  Sender: TObject);
+begin
+//  inherited;
+ProdHistAction_RetagSaldoDataSetForm.Execute;
+end;
 
 constructor TRetagSaldoDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;

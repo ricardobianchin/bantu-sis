@@ -37,13 +37,13 @@ function StrToProdNatu(const AValue: string): TProdNatu;
 type
   TEstMovTipo = ( //
     emtipoNaoIndicado = 32 //
-    , emtipoCompra = 33 //
-    , emtipoVenda = 34 //
-    , emtipoInventario = 35 //
-    , emtipoDevolucaoDeVenda = 36 //
-    , emtipoDevolucaoDeCompra = 37 //
-    , emtipoSaida = 38 //
-    , emtipoSaidaEstorno = 39 //
+    , emtipoEntrada = 33 // !
+    , emtipoVenda = 34 // "
+    , emtipoInventario = 35 // #
+    , emtipoDevolucaoDeVenda = 36 // $
+    , emtipoDevolucaoDeCompra = 37 // %
+    , emtipoSaida = 38 // &
+    , emtipoSaidaEstorno = 39 // '
     );
 
 type
@@ -52,6 +52,9 @@ type
     function AsSqlConstant: string;
     procedure SetFromString(const AValue: string);
   end;
+
+procedure EstSaldoHistCalc(var pSaldo: Currency; pQtd: Currency;
+  pEstMovTipo: string; out pCodUsaTerm: Boolean);
 
 implementation
 
@@ -108,22 +111,48 @@ end;
 function TEstMovTipoHelper.ToNome: string;
 begin
   case Self of
-    emtipoCompra:
-      Result := 'Compra';
+    emtipoEntrada:
+      Result := 'Entrada';
     emtipoVenda:
       Result := 'Venda';
     emtipoInventario:
-      Result := 'Invent�rio';
+      Result := 'Inventário';
     emtipoDevolucaoDeVenda:
-      Result := 'Devolu��o de Venda';
+      Result := 'Devolução de Venda';
     emtipoDevolucaoDeCompra:
-      Result := 'Devolu��o de Compra';
+      Result := 'Devolução de Compra';
     emtipoSaida:
-      Result := 'Sa�da';
+      Result := 'Saída';
     emtipoSaidaEstorno:
       Result := 'Estorno de Sa�da';
   else { emtipoNaoIndicado: }
-    Result := 'N�o indicado';
+    Result := 'Não indicado';
+  end;
+end;
+
+procedure EstSaldoHistCalc(var pSaldo: Currency; pQtd: Currency;
+  pEstMovTipo: string; out pCodUsaTerm: Boolean);
+var
+  t: TEstMovTipo;
+begin
+  pCodUsaTerm := False;
+  pEstMovTipo := Trim(pEstMovTipo);
+  if pEstMovTipo = '' then
+    exit;
+  t := TEstMovTipo(Ord(pEstMovTipo[1]));
+  case t of
+    emtipoEntrada:
+      pSaldo := pSaldo + pQtd;
+    emtipoVenda:
+      begin
+        pSaldo := pSaldo - pQtd;
+        pCodUsaTerm := True;
+      end;
+    emtipoInventario:
+      pSaldo := pQtd;
+    emtipoSaida:
+      pSaldo := pSaldo - pQtd;
+    else begin end;
   end;
 end;
 
