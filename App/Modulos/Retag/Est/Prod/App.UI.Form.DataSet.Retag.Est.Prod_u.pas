@@ -7,12 +7,12 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
-  Vcl.StdCtrls, App.UI.Frame.Filtro.Prod_Or_u, App.Ent.DBI, Sis.DB.DBTypes,
+  Vcl.StdCtrls, {App.UI.Frame.Filtro.Prod_Or_u,} App.Ent.DBI, Sis.DB.DBTypes,
   App.UI.Decorator.Form.Excl, App.Ent.Ed, App.Ent.Ed.Id.Descr,
   App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
   {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u,
-  Sis.Types, App.Est.Types_u;
+  Sis.Types, App.Est.Types_u, App.UI.Frame.Filtro.Prod_And_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -23,7 +23,8 @@ type
     { Private declarations }
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
-    FFiltroFrame: TProdOrFiltroFrame;
+    //FFiltroFrame: TProdOrFiltroFrame;
+    FFiltroFrame: TProdAndFiltroFrame;
     FMudaLoteFrame: TMudaLoteFrame;
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
@@ -100,7 +101,8 @@ begin
 
   // FFiltroStringFrame
   oP := TitPanel_BasTabSheet;
-  FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
+  //FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
+  FFiltroFrame := TProdAndFiltroFrame.Create(Self, DoAtualizar);
   FFiltroFrame.Parent := Self;
   FFiltroFrame.Align := alBottom;
   // oP.Height := oP.Height + FFiltroFrame.Height;

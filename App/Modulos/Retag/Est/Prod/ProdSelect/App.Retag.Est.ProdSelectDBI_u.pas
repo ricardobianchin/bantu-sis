@@ -24,7 +24,7 @@ type
 
 implementation
 
-uses App.PDV.Preco.Utils, Sis.Types.strings_u, System.SysUtils, Sis.Win.Utils_u,
+uses App.Prod.BuscaTipo_u, Sis.Types.strings_u, System.SysUtils, Sis.Win.Utils_u,
   Sis.DB.Factory, Sis.DB.DataSet.Utils;
 
 { TProdSelectDBI }

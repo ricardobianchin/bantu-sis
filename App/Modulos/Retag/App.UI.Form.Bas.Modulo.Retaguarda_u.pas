@@ -735,10 +735,12 @@ begin
   // RetagEstEntFornecedorAct.Execute;
   //RetagEstSaidaAct.Execute;
   //RetagEstEntradaAction.Execute;
-//  RetagEstProdAction.Execute;
 //  RetagEstPromoAct.Execute;
 //  RetagEstVenAction.Execute;
-RetagEstSaldoAct.Execute;
+// RetagEstSaldoAct.Execute;
+
+//RetagEstInventarioAction.Execute;
+  RetagEstProdAction.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

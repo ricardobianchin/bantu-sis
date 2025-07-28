@@ -186,13 +186,13 @@ begin
       ProdSelectSelect(ProdSelectFrame);
       Exit;
     end;
-    ProdSelectFrame.Selecionar;
+    ProdSelectFrame.Selecionar('');
   end;
 
   if (Key >= #32) then
   begin
+    ProdSelectFrame.Selecionar(Key);
     Key := #0;
-    ProdSelectFrame.Selecionar;
   end;
 end;
 

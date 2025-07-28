@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Sis.UI.Frame.Bas.DBGrid_u, Sis.Types,
   App.PDV.Preco.PrecoBusca.Um.Frame_u, Vcl.Mask, Sis.DB.DBTypes,
   Sis.Entities.Types, App.AppObj, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Sis.DB.FDDataSetManager, App.PDV.Preco.Utils, Sis.DBI,
+  FireDAC.Comp.Client, Sis.DB.FDDataSetManager, App.Prod.BuscaTipo_u, Sis.DBI,
   Sis.UI.Frame.Bas.Filtro.BuscaString_u, Vcl.ComCtrls, Vcl.ToolWin,
   Sis.UI.Constants, Vcl.DBGrids;
 

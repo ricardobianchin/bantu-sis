@@ -61,7 +61,7 @@ type
 
     property OnSelect: TNotifyEvent read FOnSelect write FOnSelect;
 
-    procedure Selecionar;
+    procedure Selecionar(pStrBusca: string);
     procedure PegarProdId(pProdId: integer);
 
     constructor Create(AOwner: TComponent; pDBConnection: IDBConnection;
@@ -209,7 +209,7 @@ begin
       if Shift = [] then
       begin
         Key := 0;
-        Selecionar;
+        Selecionar('');
       end;
     end;
   end;
@@ -230,13 +230,13 @@ begin
   Result := TFiltroStringFrame.Create(Self, nil);
 end;
 
-procedure TProdSelectFrame.Selecionar;
+procedure TProdSelectFrame.Selecionar(pStrBusca: string);
 var
   s: string;
   a: TArray<string>;
 begin
-  ListaSpeedButton.Click;
-  exit;
+//  ListaSpeedButton.Click;
+//  exit;
 
   if FProdSelect.Execute('') then
   begin

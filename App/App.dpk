@@ -308,7 +308,6 @@ contains
   App.UI.Form.PDV.Preco.Busca_u in 'Modulos\PDV\Preco\PrecoBusca\App.UI.Form.PDV.Preco.Busca_u.pas' {PrecoBuscaForm},
   App.Types in 'App.Types.pas',
   App.PDV.Preco.PrecoBusca.Um.Frame_u in 'Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Um.Frame_u.pas' {PrecoBuscaUmFrame: TFrame},
-  App.PDV.Preco.Utils in 'Modulos\PDV\Preco\App.PDV.Preco.Utils.pas',
   App.UI.Form.Bas.Modulo.PDV_u in 'Modulos\PDV\App.UI.Form.Bas.Modulo.PDV_u.pas' {PDVModuloBasForm},
   App.PDV.Preco.PrecoBusca.Factory_u in 'Modulos\PDV\Preco\PrecoBusca\App.PDV.Preco.PrecoBusca.Factory_u.pas',
   App.PDV.Factory_u in 'Modulos\PDV\App.PDV.Factory_u.pas',
@@ -500,6 +499,7 @@ contains
   App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList.pas',
   App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u.pas',
   App.UI.Form.Est.Saldo.HistProd.DBI in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI.pas',
-  App.UI.Form.Est.Saldo.HistProd.DBI_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas';
+  App.UI.Form.Est.Saldo.HistProd.DBI_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas',
+  App.Prod.BuscaTipo_u in 'Est\Prod\App.Prod.BuscaTipo_u.pas';
 
 end.

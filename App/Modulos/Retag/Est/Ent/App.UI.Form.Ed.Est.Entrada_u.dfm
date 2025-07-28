@@ -2,6 +2,7 @@ inherited EntradaEdForm: TEntradaEdForm
   Caption = 'EntradaEdForm'
   ClientHeight = 321
   ClientWidth = 858
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 874
   ExplicitHeight = 360
   TextHeight = 15
@@ -10,14 +11,19 @@ inherited EntradaEdForm: TEntradaEdForm
     Width = 858
     ExplicitTop = 249
   end
+  inherited ObjetivoLabel: TLabel
+    StyleElements = [seFont, seClient, seBorder]
+  end
   inherited AlteracaoTextoLabel: TLabel
     Top = 269
     Width = 858
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 269
   end
   inherited BasePanel: TPanel
     Top = 284
     Width = 858
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 284
     ExplicitWidth = 858
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
