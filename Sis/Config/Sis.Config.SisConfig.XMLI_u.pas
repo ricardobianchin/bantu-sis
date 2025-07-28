@@ -11,8 +11,8 @@ type
     FSisConfig: ISisConfig;
     FTerminalList: ITerminalList;
   protected
-    function PrepLer: boolean; override;
-    function PrepGravar: boolean; override;
+    function PrepLer(var sLog: string): boolean; override;
+    function PrepGravar(var sLog: string): boolean; override;
   public
     constructor Create(pSisConfig: ISisConfig; pTerminalList: ITerminalList;
       pProcessLog: IProcessLog = nil; pOutput: IOutput = nil);
@@ -23,7 +23,7 @@ implementation
 uses Xml.XMLDoc, Xml.XMLIntf, System.SysUtils, {System.Win.ComObj}
   System.TypInfo, Sis.Types.Bool_u, Sis.DB.DBTypes, Sis.Terminal,
   Sis.Types.Floats, Sis.Win.VersionInfo, Sis.Win.Utils_u, Sis.Sis.Constants,
-  Sis.Terminal.Factory_u;
+  Sis.Terminal.Factory_u, Sis.UI.IO.Input.Bool;
 
 { TSisConfigXMLI }
 
@@ -36,7 +36,7 @@ begin
   FTerminalList := pTerminalList;
 end;
 
-function TSisConfigXMLI.PrepGravar: boolean;
+function TSisConfigXMLI.PrepGravar(var sLog: string): boolean;
 var
   i: integer;
   ServerNode, ServerNomeNode, ServerIpNode, ServerLetraDoDriveNode,
@@ -119,7 +119,7 @@ begin
   end;
 end;
 
-function TSisConfigXMLI.PrepLer: boolean;
+function TSisConfigXMLI.PrepLer(var sLog: string): boolean;
 var
   ServerNode, ServerNomeNode, ServerIpNode, IsServerNode, LocalNode,
     LocalNomeNode, LocalIpNode, ServerArqConfigNode, DBMSNode, SoftwareNode,
@@ -131,39 +131,70 @@ var
   i: integer;
   oTerminal: ITerminal;
 begin
+  sLog := sLog + ', TSisConfigXMLI.PrepLer vai chamar inherited';
   Result := Inherited;
   if not Result then
+  begin
+    sLog := sLog + ', Inherited retornou '+BooleanToStr(Result);
     exit;
+  end;
 
   ServerNode := RootNode.ChildNodes.FindNode('SERVER');
+  Result := TestaNode(ServerNode, 'SERVER', sLog);
+  if not Result then
+    exit;
   begin
     ServerNomeNode := ServerNode.ChildNodes.FindNode('NOME');
+    Result := TestaNode(ServerNode, 'NOME', sLog);
+    if not Result then
+      exit;
     FSisConfig.ServerMachineId.Name := ServerNomeNode.Text;
 
     ServerIpNode := ServerNode.ChildNodes.FindNode('IP');
+    Result := TestaNode(ServerNode, 'IP', sLog);
+    if not Result then
+      exit;
     FSisConfig.ServerMachineId.IP := ServerIpNode.Text;
 
     IsServerNode := ServerNode.ChildNodes.FindNode('EH_SERVIDOR');
+    Result := TestaNode(ServerNode, 'EH_SERVIDOR', sLog);
+    if not Result then
+      exit;
     s := IsServerNode.Text;
     FSisConfig.LocalMachineIsServer := StrToBool(s);
 
     ServerArqConfigNode := ServerNode.ChildNodes.FindNode('ARQ_CONFIG');
+    Result := TestaNode(ServerNode, 'ARQ_CONFIG', sLog);
+    if not Result then
+      exit;
     FSisConfig.ServerArqConfig := ServerArqConfigNode.Text;
-
   end;
 
   LocalNode := RootNode.ChildNodes.FindNode('LOCAL');
+    Result := TestaNode(ServerNode, 'LOCAL', sLog);
+    if not Result then
+      exit;
   begin
     LocalNomeNode := LocalNode.ChildNodes.FindNode('NOME');
+    Result := TestaNode(ServerNode, 'NOME', sLog);
+    if not Result then
+      exit;
     FSisConfig.LocalMachineId.Name := LocalNomeNode.Text;
 
     LocalIpNode := LocalNode.ChildNodes.FindNode('IP');
+    Result := TestaNode(ServerNode, 'IP', sLog);
+    if not Result then
+      exit;
     FSisConfig.LocalMachineId.IP := LocalIpNode.Text;
   end;
 
   TerminaisNode := RootNode.ChildNodes.FindNode('TERMINAIS');
+    Result := TestaNode(ServerNode, 'TERMINAIS', sLog);
+    if not Result then
+      exit;
   if Assigned(TerminaisNode) then
   begin
+    sLog := sLog +', Assigned(TerminaisNode)';
     // Count terminal nodes
     FTerminalList.Clear;
 
@@ -180,26 +211,50 @@ begin
   end;
 
   DBMSNode := RootNode.ChildNodes.FindNode('DBMS');
+    Result := TestaNode(ServerNode, 'DBMS', sLog);
+    if not Result then
+      exit;
   begin
     SoftwareNode := DBMSNode.ChildNodes.FindNode('SOFTWARE');
+    Result := TestaNode(ServerNode, 'SOFTWARE', sLog);
+    if not Result then
+      exit;
     FSisConfig.DBMSInfo.DatabaseType := StrToDBMSType(SoftwareNode.Text);
 
     VersaoDBMSNode := DBMSNode.ChildNodes.FindNode('VERSAO');
+    Result := TestaNode(ServerNode, 'VERSAO', sLog);
+    if not Result then
+      exit;
     FSisConfig.DBMSInfo.Version := StrToNum(VersaoDBMSNode.Text);
 
     DBFrameworNode := DBMSNode.ChildNodes.FindNode('FRAMEWORK');
+    Result := TestaNode(ServerNode, 'FRAMEWORK', sLog);
+    if not Result then
+      exit;
     FSisConfig.DBMSInfo.DBFramework := StrToDBFramework(DBFrameworNode.Text);
   end;
 
   WinNode := RootNode.ChildNodes.FindNode('SO');
+    Result := TestaNode(ServerNode, 'SO', sLog);
+    if not Result then
+      exit;
   begin
     VersaoSONode := WinNode.ChildNodes.FindNode('VERSAO');
+    Result := TestaNode(ServerNode, 'VERSAO', sLog);
+    if not Result then
+      exit;
     FSisConfig.WinVersionInfo.Version := StrToNum(VersaoSONode.Text);
 
     CSDVersionNode := WinNode.ChildNodes.FindNode('CSD_VERSION');
+    Result := TestaNode(ServerNode, 'CSD_VERSION', sLog);
+    if not Result then
+      exit;
     FSisConfig.WinVersionInfo.CSDVersion := CSDVersionNode.Text;
 
     WinPlatformNode := WinNode.ChildNodes.FindNode('PLATFORM');
+    Result := TestaNode(ServerNode, 'PLATFORM', sLog);
+    if not Result then
+      exit;
     FSisConfig.WinVersionInfo.WinPlatform :=
       StrToWinPlatform(DBFrameworNode.Text);
   end;

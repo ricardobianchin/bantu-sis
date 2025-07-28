@@ -38,8 +38,8 @@ type
 
   protected
     procedure Inicialize; override;
-    function prepLer: boolean; override;
-    function PrepGravar: boolean; override;
+    function prepLer(var sLog: string): boolean; override;
+    function PrepGravar(var sLog: string): boolean; override;
 
   public
     property AbreModulo: boolean read GetAbreModulo
@@ -98,7 +98,7 @@ begin
   Result := FSenhaAtual;
 end;
 
-function TLoginConfig.PrepGravar: boolean;
+function TLoginConfig.PrepGravar(var sLog: string): boolean;
 begin
   Result := inherited;
   if not Result then
@@ -130,11 +130,11 @@ begin
   FExecuteOk := True;
 end;
 
-function TLoginConfig.prepLer: boolean;
+function TLoginConfig.prepLer(var sLog: string): boolean;
 var
   s: string;
 begin
-  Result := inherited prepLer;
+  Result := inherited prepLer(sLog);
   if not Result then
     exit;
 

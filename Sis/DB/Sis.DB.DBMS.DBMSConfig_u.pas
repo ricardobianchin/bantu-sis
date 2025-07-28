@@ -16,8 +16,8 @@ type
     function GetPausaAntesExec: boolean;
     procedure SetPausaAntesExec(Value: boolean);
   protected
-    function PrepLer: boolean; override;
-    function  PrepGravar: boolean;  override;
+    function PrepLer(var sLog: string): boolean; override;
+    function  PrepGravar(var sLog: string): boolean;  override;
     procedure Inicialize; override;
 
   public
@@ -52,7 +52,7 @@ begin
   FPausaAntesExec := false;
 end;
 
-function TDBMSConfig.PrepGravar: boolean;
+function TDBMSConfig.PrepGravar(var sLog: string): boolean;
 begin
   Result := inherited;
   if not Result then
@@ -64,11 +64,11 @@ begin
   PausaAntesExecNode.Text := BooleanToStr(FPausaAntesExec);
 end;
 
-function TDBMSConfig.PrepLer: boolean;
+function TDBMSConfig.PrepLer(var sLog: string): boolean;
 var
   s: string;
 begin
-  Result := inherited PrepLer;
+  Result := inherited PrepLer(sLog);
   if not Result then
     exit;
 
