@@ -6,7 +6,8 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, System.Classes, Sis.Entidade, Sis.Loja, Sis.Usuario,
   App.UI.Form.Bas.Ed_u, Sis.UI.Controls.ComboBoxManager, App.AppObj,
   Sis.UI.FormCreator, Sis.DB.UltimoId, App.Loja, Sis.Entities.Types,
-  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI, App.Est.EstMovEnt, App.Types
+  Sis.Sis.Constants, Sis.Types, App.Est.EstMovDBI, App.Est.EstMovEnt, App.Types,
+  Vcl.Forms
 
     , App.Ent.Ed, App.Ent.DBI //
 
@@ -46,7 +47,10 @@ uses Data.DB, Sis.DB.DBTypes, Vcl.StdCtrls, Sis.UI.IO.Output.ProcessLog,
     , App.Retag.Est.Venda.DBI //
     , App.Retag.Est.VendaItem //
 
-    , App.Retag.Est.Saldo.Ent, App.Retag.Est.Saldo.DBI //
+    , App.Retag.Est.Saldo.Ent //
+    , App.Retag.Est.Saldo.DBI //
+    , App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList //
+    , App.UI.Form.Est.Saldo.HistProd.DBI //
 
     ;
 
@@ -529,6 +533,14 @@ function RetagSaldoFormCreatorCreate(pFormClassNamesSL: TStringList;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pAppObj: IAppObj;
   pDBConnection: IDBConnection): IFormCreator;
 
+function HistProdFormListCreate: IHistProdFormList;
+
+function EstSaldoHistProdFormCreate(AOwner: TComponent;
+  pOnCloseForm: TProcedureIntegerOfObject; pProdId: TId; pDescrRed: string;
+  pAppObj: IAppObj): TForm;
+
+function EstSaldoHistProdFormDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj): IEstSaldoHistProdFormDBI;
 {$ENDREGION}
 {$REGION 'xxx'}
 {$ENDREGION}
@@ -626,6 +638,9 @@ uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
 {$REGION 'uses retag saldo'}
     , App.Retag.Est.Saldo.DBI_u //
     , App.UI.Form.DataSet.Est.Saldo_u //
+    , App.UI.Form.Est.Saldo.HistProd_u //
+    , App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u //
+    , App.UI.Form.Est.Saldo.HistProd.DBI_u //
 {$ENDREGION}
     ;
 
@@ -1075,7 +1090,7 @@ function RetagSaldoDataSetFormCreatorCreate(pFormClassNamesSL: TStringList;
   pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
   pEntDBI: IEntDBI; pAppObj: IAppObj): IFormCreator;
 begin
-  Result := TDataSetFormCreator.Create(TRetagSaldoDataSetBasForm,
+  Result := TDataSetFormCreator.Create(TRetagSaldoDataSetForm,
     pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify,
     pEntEd, pEntDBI, pAppObj);
 end;
@@ -1126,6 +1141,25 @@ begin
   Result := RetagSaldoDataSetFormCreatorCreate(pFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, oRetagSaldoEnt,
     oRetagSaldoDBI, pAppObj);
+end;
+
+function HistProdFormListCreate: IHistProdFormList;
+begin
+  Result := THistProdFormList.Create;
+end;
+
+function EstSaldoHistProdFormCreate(AOwner: TComponent;
+  pOnCloseForm: TProcedureIntegerOfObject; pProdId: TId; pDescrRed: string;
+  pAppObj: IAppObj): TForm;
+begin
+  Result := TEstSaldoHistProdForm.Create(AOwner, pOnCloseForm, pProdId,
+    pDescrRed, pAppObj);
+end;
+
+function EstSaldoHistProdFormDBICreate(pDBConnection: IDBConnection;
+  pAppObj: IAppObj): IEstSaldoHistProdFormDBI;
+begin
+  Result := TEstSaldoHistProdFormDBI.Create(pDBConnection, pAppObj);
 end;
 
 {$ENDREGION}

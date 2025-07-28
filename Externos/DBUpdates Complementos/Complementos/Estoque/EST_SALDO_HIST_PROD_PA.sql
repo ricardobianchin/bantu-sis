@@ -1,0 +1,622 @@
+SET TERM ^;
+CREATE OR ALTER PACKAGE EST_SALDO_HIST_PROD_PA
+AS
+BEGIN
+  PROCEDURE HIST_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  );
+END^
+
+----- body -----
+
+RECREATE PACKAGE BODY EST_SALDO_HIST_PROD_PA
+AS
+BEGIN
+  PROCEDURE ORDEN_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT
+  )
+  AS
+  BEGIN
+    -- ORDEN INI
+    FOR
+      WITH EM AS (
+        SELECT
+          FINALIZADO_EM,
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID
+        FROM EST_MOV
+        WHERE FINALIZADO
+        AND NOT CANCELADO
+        AND LOJA_ID = :LOJA_ID
+      ), EMI AS (
+        SELECT
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          ORDEM
+        FROM EST_MOV_ITEM
+        WHERE PROD_ID = :PROD_ID
+        AND NOT CANCELADO
+      )
+      SELECT
+        EM.LOJA_ID LOJA_ID_RET,
+        EM.TERMINAL_ID,
+        EM.EST_MOV_ID,
+        EMI.ORDEM  
+      FROM EM
+      JOIN EMI ON
+      EM.LOJA_ID = EMI.LOJA_ID
+      AND EM.TERMINAL_ID = EMI.TERMINAL_ID
+      AND EM.EST_MOV_ID = EMI.EST_MOV_ID
+      ORDER BY EM.FINALIZADO_EM
+    INTO
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM
+    DO
+      SUSPEND;
+  END
+  -- ORDEN FIM
+  
+  -- ENTRADA INI
+  PROCEDURE HIST_ENT_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      WITH T AS (
+        SELECT 
+          EST_MOV_TIPO_ID,
+          DESCR
+        FROM EST_MOV_TIPO
+        WHERE EST_MOV_TIPO_ID = '!'
+      ), EM AS (
+        SELECT
+          FINALIZADO_EM,
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          EST_MOV_TIPO_ID
+        FROM EST_MOV
+        WHERE FINALIZADO
+        AND NOT CANCELADO
+        AND LOJA_ID = :LOJA_ID
+      ), EMI AS (
+        SELECT
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          ORDEM,
+          QTD
+        FROM EST_MOV_ITEM
+        WHERE PROD_ID = :PROD_ID
+        AND NOT CANCELADO
+      ), AUX AS (
+        SELECT 
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          ENTRADA_ID DOC_ID,
+          'ENT' PREFIXO
+        FROM ENTRADA
+      )
+      SELECT
+        EM.FINALIZADO_EM,
+        AUX.PREFIXO,
+        EM.LOJA_ID LOJA_ID_RET,
+        EM.TERMINAL_ID,
+        EM.EST_MOV_ID,
+        EMI.ORDEM,
+        AUX.DOC_ID,
+        '' COD,
+        EM.EST_MOV_TIPO_ID, 
+        T.DESCR EST_MOV_TIPO_DESCR,
+        EMI.QTD
+      FROM T
+      JOIN EM ON
+      EM.EST_MOV_TIPO_ID = T.EST_MOV_TIPO_ID
+      JOIN EMI ON
+      EM.LOJA_ID = EMI.LOJA_ID
+      AND EM.TERMINAL_ID = EMI.TERMINAL_ID
+      AND EM.EST_MOV_ID = EMI.EST_MOV_ID
+      JOIN AUX ON
+      AUX.LOJA_ID = EM.LOJA_ID
+      AND AUX.TERMINAL_ID = EM.TERMINAL_ID
+      AND AUX.EST_MOV_ID = EM.EST_MOV_ID
+    INTO
+      :FINALIZADO_EM,
+      :PREFIXO,
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM,
+      :DOC_ID,
+      :COD,
+      :EST_MOV_TIPO_ID,
+      :EST_MOV_TIPO_DESCR,
+      :QTD
+    DO
+      SUSPEND;
+  END
+  -- ENTRADA FIM
+  
+  -- VENDA INI
+  PROCEDURE HIST_VEN_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      WITH T AS (
+        SELECT 
+          EST_MOV_TIPO_ID,
+          DESCR
+        FROM EST_MOV_TIPO
+        WHERE EST_MOV_TIPO_ID = '"'
+      ), EM AS (
+        SELECT
+          FINALIZADO_EM,
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          EST_MOV_TIPO_ID
+        FROM EST_MOV
+        WHERE FINALIZADO
+        AND NOT CANCELADO
+        AND LOJA_ID = :LOJA_ID
+      ), EMI AS (
+        SELECT
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          ORDEM,
+          QTD
+        FROM EST_MOV_ITEM
+        WHERE PROD_ID = :PROD_ID
+        AND NOT CANCELADO
+      ), AUX AS (
+        SELECT 
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          VENDA_ID DOC_ID,
+          'VEN' PREFIXO
+        FROM VENDA
+      )
+      SELECT
+        EM.FINALIZADO_EM,
+        AUX.PREFIXO,
+        EM.LOJA_ID LOJA_ID_RET,
+        EM.TERMINAL_ID,
+        EM.EST_MOV_ID,
+        EMI.ORDEM,
+        AUX.DOC_ID,
+        '' COD,
+        EM.EST_MOV_TIPO_ID, 
+        T.DESCR EST_MOV_TIPO_DESCR,
+        EMI.QTD
+      FROM T
+      JOIN EM ON
+      EM.EST_MOV_TIPO_ID = T.EST_MOV_TIPO_ID
+      JOIN EMI ON
+      EM.LOJA_ID = EMI.LOJA_ID
+      AND EM.TERMINAL_ID = EMI.TERMINAL_ID
+      AND EM.EST_MOV_ID = EMI.EST_MOV_ID
+      JOIN AUX ON
+      AUX.LOJA_ID = EM.LOJA_ID
+      AND AUX.TERMINAL_ID = EM.TERMINAL_ID
+      AND AUX.EST_MOV_ID = EM.EST_MOV_ID
+    INTO
+      :FINALIZADO_EM,
+      :PREFIXO,
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM,
+      :DOC_ID,
+      :COD,
+      :EST_MOV_TIPO_ID,
+      :EST_MOV_TIPO_DESCR,
+      :QTD
+    DO
+      SUSPEND;
+  END  
+  -- VENDA FIM
+
+  -- INVENTARIO INI
+  PROCEDURE HIST_INV_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      WITH T AS (
+        SELECT 
+          EST_MOV_TIPO_ID,
+          DESCR
+        FROM EST_MOV_TIPO
+        WHERE EST_MOV_TIPO_ID = '#'
+      ), EM AS (
+        SELECT
+          FINALIZADO_EM,
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          EST_MOV_TIPO_ID
+        FROM EST_MOV
+        WHERE FINALIZADO
+        AND NOT CANCELADO
+        AND LOJA_ID = :LOJA_ID
+      ), EMI AS (
+        SELECT
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          ORDEM,
+          QTD
+        FROM EST_MOV_ITEM
+        WHERE PROD_ID = :PROD_ID
+        AND NOT CANCELADO
+      ), AUX AS (
+        SELECT 
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          INVENTARIO_ID DOC_ID,
+          'INV' PREFIXO
+        FROM INVENTARIO
+      )
+      SELECT
+        EM.FINALIZADO_EM,
+        AUX.PREFIXO,
+        EM.LOJA_ID LOJA_ID_RET,
+        EM.TERMINAL_ID,
+        EM.EST_MOV_ID,
+        EMI.ORDEM,
+        AUX.DOC_ID,
+        '' COD,
+        EM.EST_MOV_TIPO_ID, 
+        T.DESCR EST_MOV_TIPO_DESCR,
+        EMI.QTD
+      FROM T
+      JOIN EM ON
+      EM.EST_MOV_TIPO_ID = T.EST_MOV_TIPO_ID
+      JOIN EMI ON
+      EM.LOJA_ID = EMI.LOJA_ID
+      AND EM.TERMINAL_ID = EMI.TERMINAL_ID
+      AND EM.EST_MOV_ID = EMI.EST_MOV_ID
+      JOIN AUX ON
+      AUX.LOJA_ID = EM.LOJA_ID
+      AND AUX.TERMINAL_ID = EM.TERMINAL_ID
+      AND AUX.EST_MOV_ID = EM.EST_MOV_ID
+    INTO
+      :FINALIZADO_EM,
+      :PREFIXO,
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM,
+      :DOC_ID,
+      :COD,
+      :EST_MOV_TIPO_ID,
+      :EST_MOV_TIPO_DESCR,
+      :QTD
+    DO
+      SUSPEND;
+  END
+  -- INVENTARIO FIM
+  
+  -- EST_SAIDA INI
+  PROCEDURE HIST_SAI_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      WITH T AS (
+        SELECT 
+          EST_MOV_TIPO_ID,
+          DESCR
+        FROM EST_MOV_TIPO
+        WHERE EST_MOV_TIPO_ID = '#'
+      ), EM AS (
+        SELECT
+          FINALIZADO_EM,
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          EST_MOV_TIPO_ID
+        FROM EST_MOV
+        WHERE FINALIZADO
+        AND NOT CANCELADO
+        AND LOJA_ID = :LOJA_ID
+      ), EMI AS (
+        SELECT
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          ORDEM,
+          QTD
+        FROM EST_MOV_ITEM
+        WHERE PROD_ID = :PROD_ID
+        AND NOT CANCELADO
+      ), AUX AS (
+        SELECT 
+          LOJA_ID,
+          TERMINAL_ID,
+          EST_MOV_ID,
+          EST_SAIDA_ID DOC_ID,
+          'SAI' PREFIXO
+        FROM EST_SAIDA
+      )
+      SELECT
+        EM.FINALIZADO_EM,
+        AUX.PREFIXO,
+        EM.LOJA_ID LOJA_ID_RET,
+        EM.TERMINAL_ID,
+        EM.EST_MOV_ID,
+        EMI.ORDEM,
+        AUX.DOC_ID,
+        '' COD,
+        EM.EST_MOV_TIPO_ID, 
+        T.DESCR EST_MOV_TIPO_DESCR,
+        EMI.QTD
+      FROM T
+      JOIN EM ON
+      EM.EST_MOV_TIPO_ID = T.EST_MOV_TIPO_ID
+      JOIN EMI ON
+      EM.LOJA_ID = EMI.LOJA_ID
+      AND EM.TERMINAL_ID = EMI.TERMINAL_ID
+      AND EM.EST_MOV_ID = EMI.EST_MOV_ID
+      JOIN AUX ON
+      AUX.LOJA_ID = EM.LOJA_ID
+      AND AUX.TERMINAL_ID = EM.TERMINAL_ID
+      AND AUX.EST_MOV_ID = EM.EST_MOV_ID
+    INTO
+      :FINALIZADO_EM,
+      :PREFIXO,
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM,
+      :DOC_ID,
+      :COD,
+      :EST_MOV_TIPO_ID,
+      :EST_MOV_TIPO_DESCR,
+      :QTD
+    DO
+      SUSPEND;
+  END
+  -- EST_SAIDA FIM
+  
+  PROCEDURE HIST_UNION_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      SELECT FINALIZADO_EM, PREFIXO, LOJA_ID_RET, TERMINAL_ID,
+        EST_MOV_ID, ORDEM, DOC_ID, COD, EST_MOV_TIPO_ID, 
+        EST_MOV_TIPO_DESCR, QTD QTD_DOM
+      FROM EST_SALDO_HIST_PROD_PA.HIST_ENT_GET(:LOJA_ID, :PROD_ID)
+      
+      UNION ALL
+      
+      SELECT FINALIZADO_EM, PREFIXO, LOJA_ID_RET, TERMINAL_ID,
+        EST_MOV_ID, ORDEM, DOC_ID, COD, EST_MOV_TIPO_ID, 
+        EST_MOV_TIPO_DESCR, QTD QTD_DOM
+      FROM EST_SALDO_HIST_PROD_PA.HIST_VEN_GET(:LOJA_ID, :PROD_ID)
+      
+      UNION ALL
+      
+      SELECT FINALIZADO_EM, PREFIXO, LOJA_ID_RET, TERMINAL_ID,
+        EST_MOV_ID, ORDEM, DOC_ID, COD, EST_MOV_TIPO_ID, 
+        EST_MOV_TIPO_DESCR, QTD QTD_DOM
+      FROM EST_SALDO_HIST_PROD_PA.HIST_INV_GET(:LOJA_ID, :PROD_ID)
+      
+      UNION ALL
+      
+      SELECT FINALIZADO_EM, PREFIXO, LOJA_ID_RET, TERMINAL_ID,
+        EST_MOV_ID, ORDEM, DOC_ID, COD, EST_MOV_TIPO_ID, 
+        EST_MOV_TIPO_DESCR, QTD QTD_DOM
+      FROM EST_SALDO_HIST_PROD_PA.HIST_SAI_GET(:LOJA_ID, :PROD_ID)
+    INTO
+      :FINALIZADO_EM,
+      :PREFIXO,
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM,
+      :DOC_ID,
+      :COD,
+      :EST_MOV_TIPO_ID,
+      :EST_MOV_TIPO_DESCR,
+      :QTD
+    DO
+      SUSPEND;
+  END
+  
+  PROCEDURE HIST_GET
+  (
+    LOJA_ID SMALLINT,
+    PROD_ID ID_DOM    
+  )
+  RETURNS
+  (
+    FINALIZADO_EM TIMESTAMP,
+    PREFIXO VARCHAR(6),
+    LOJA_ID_RET ID_SHORT_DOM,
+    TERMINAL_ID ID_SHORT_DOM,
+    EST_MOV_ID BIGINT,
+    ORDEM SMALLINT,
+    DOC_ID ID_DOM,
+    COD VARCHAR(20),
+    EST_MOV_TIPO_ID CHAR(1), 
+    EST_MOV_TIPO_DESCR VARCHAR(20),
+    QTD QTD_DOM
+  )
+  AS
+  BEGIN
+    FOR
+      SELECT 
+        H.FINALIZADO_EM,
+        H.PREFIXO,
+        H.LOJA_ID_RET,
+        H.TERMINAL_ID,
+        H.EST_MOV_ID,
+        H.ORDEM,
+        H.DOC_ID,
+        H.COD,
+        H.EST_MOV_TIPO_ID, 
+        H.EST_MOV_TIPO_DESCR,
+        H.QTD
+      FROM ORDEN_GET(:LOJA_ID, :PROD_ID) O
+      
+      JOIN EST_SALDO_HIST_PROD_PA.HIST_UNION_GET(:LOJA_ID, :PROD_ID) H ON
+      O.LOJA_ID_RET = H.LOJA_ID_RET
+      AND O.TERMINAL_ID = H.TERMINAL_ID
+      AND O.EST_MOV_ID = H.EST_MOV_ID
+      AND O.ORDEM = H.ORDEM
+    INTO
+      :FINALIZADO_EM,
+      :PREFIXO,
+      :LOJA_ID_RET,
+      :TERMINAL_ID,
+      :EST_MOV_ID,
+      :ORDEM,
+      :DOC_ID,
+      :COD,
+      :EST_MOV_TIPO_ID,
+      :EST_MOV_TIPO_DESCR,
+      :QTD
+    DO
+      SUSPEND;
+  END
+END^
+SET TERM ;^
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Estoque\EST_SALDO_HIST_PROD_PA.sql";
+*/
+
+/*
+SELECT * FROM EST_SALDO_HIST_PROD_PA.ORDEN_GET(1, 2);
+
+SELECT * FROM EST_SALDO_HIST_PROD_PA.HIST_ENT_GET(1, 2);
+SELECT * FROM EST_SALDO_HIST_PROD_PA.HIST_VEN_GET(1, 2);
+SELECT * FROM EST_SALDO_HIST_PROD_PA.HIST_INV_GET(1, 2);
+SELECT * FROM EST_SALDO_HIST_PROD_PA.HIST_SAI_GET(1, 2);
+
+
+
+SELECT * FROM EST_SALDO_HIST_PROD_PA.HIST_GET(1, 2);
+
+
+*/

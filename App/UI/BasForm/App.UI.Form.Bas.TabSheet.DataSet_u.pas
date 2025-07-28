@@ -355,7 +355,6 @@ var
   DefsSL: TStringList;
   sNomeArq: string;
   sLinhaAtual: string;
-  i: integer;
   oFDDataSetManager: IFDDataSetManager;
 begin
   DefsSL := TStringList.Create;

@@ -1,9 +1,9 @@
-unit Sis.UI.Controls.Utils;
+﻿unit Sis.UI.Controls.Utils;
 
 interface
 
 uses Vcl.StdCtrls, Vcl.Controls, Winapi.Messages, System.Classes, System.Types,
-  Vcl.Graphics;
+  Vcl.Graphics, Vcl.Forms;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 procedure SimuleTecla(VkKeyCode: integer; pControl: TControl = nil);
@@ -15,14 +15,16 @@ procedure ReadOnlySet(pCustomEdit: TCustomEdit; pValue: boolean = True);
 function StrToDigiteStr(pStr: string): string;
 procedure DigiteStr(pTexto: string; pEspera: integer); overload;
 
-procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl; pApagaModelo: Boolean = True);
+procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl;
+  pApagaModelo: boolean = True);
 
 procedure ClearStyleElements(pControl: TControl);
 
 /// <param name="pStyleElements">
-///     TStyleElements = set of (seFont, seClient, seBorder);
+/// TStyleElements = set of (seFont, seClient, seBorder);
 /// </param>
-procedure SetStyleElementsRecursive(pControl: TControl; pStyleElements: TStyleElements);
+procedure SetStyleElementsRecursive(pControl: TControl;
+  pStyleElements: TStyleElements);
 procedure SetNameToHint(Control: TControl);
 procedure SetTabOrderToHint(Control: TControl);
 procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
@@ -44,9 +46,11 @@ function ButtonCreate(pOwner: TComponent; pParent: TWinControl;
   pCaption: string; pLeft, pTop: integer; pClickEvent: TNotifyEvent;
   pCanvas: TCanvas; pTag: NativeInt = 0): TButton;
 
+procedure FormGarantaNaTela(pForm: TForm);
+
 implementation
 
-uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst, Vcl.Forms,
+uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst,
   Sis.UI.Constants, sndkey32, System.StrUtils;
 
 type
@@ -171,7 +175,8 @@ begin
   sndkey32.SendKeys(PWideChar(s), True, pEspera);
 end;
 
-procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl; pApagaModelo: Boolean);
+procedure PegueFormatoDe(pWinControlDestino, pWinControlModelo: TWinControl;
+  pApagaModelo: boolean);
 begin
   pWinControlDestino.Parent := pWinControlModelo.Parent;
   pWinControlDestino.Top := pWinControlModelo.Top;
@@ -179,7 +184,8 @@ begin
   pWinControlDestino.Width := pWinControlModelo.Width;
   pWinControlDestino.TabStop := pWinControlModelo.TabStop;
 
-  TMyControl(pWinControlDestino).Font.Assign(TMyControl(pWinControlModelo).Font);
+  TMyControl(pWinControlDestino)
+    .Font.Assign(TMyControl(pWinControlModelo).Font);
 
   if pApagaModelo then
     pWinControlModelo.Free;
@@ -195,7 +201,8 @@ begin
       ClearStyleElements(TWinControl(pControl).Controls[I]);
 end;
 
-procedure SetStyleElementsRecursive(pControl: TControl; pStyleElements: TStyleElements);
+procedure SetStyleElementsRecursive(pControl: TControl;
+  pStyleElements: TStyleElements);
 var
   I: integer;
 begin
@@ -204,7 +211,6 @@ begin
     for I := 0 to TWinControl(pControl).ControlCount - 1 do
       ClearStyleElements(TWinControl(pControl).Controls[I]);
 end;
-
 
 procedure SetNameToHint(Control: TControl);
 var
@@ -352,7 +358,54 @@ begin
   // Definir posi��o e outros ajustes adicionais, se necess�rio
   result.Left := pLeft;
   result.Top := pTop; // Exemplo de posi��o
-  Result.Tag := pTag;
+  result.Tag := pTag;
+end;
+
+procedure FormGarantaNaTela(pForm: TForm);
+var
+  DesktopRect: TRect;
+  FormRect: TRect;
+  NewLeft, NewTop: integer;
+begin
+  // Verifica se o formulário é válido
+  if not Assigned(pForm) then
+    exit;
+
+  // Obtém as coordenadas úteis do desktop
+  DesktopRect := Screen.WorkAreaRect;
+
+  // Obtém as coordenadas do formulário
+  FormRect.Left := pForm.Left;
+  FormRect.Top := pForm.Top;
+  FormRect.Width := pForm.Width;
+  FormRect.Height := pForm.Height;
+
+  // Inicializa as novas posições
+  NewLeft := pForm.Left;
+  NewTop := pForm.Top;
+
+  // Verifica se o formulário está fora da área útil à direita
+  if FormRect.Left + FormRect.Width > DesktopRect.Right then
+    NewLeft := DesktopRect.Right - FormRect.Width;
+
+  // Verifica se o formulário está fora da área útil à esquerda
+  if FormRect.Left < DesktopRect.Left then
+    NewLeft := DesktopRect.Left;
+
+  // Verifica se o formulário está fora da área útil abaixo
+  if FormRect.Top + FormRect.Height > DesktopRect.Bottom then
+    NewTop := DesktopRect.Bottom - FormRect.Height;
+
+  // Verifica se o formulário está fora da área útil acima
+  if FormRect.Top < DesktopRect.Top then
+    NewTop := DesktopRect.Top;
+
+  // Ajusta a posição do formulário, se necessário
+  if (NewLeft <> pForm.Left) or (NewTop <> pForm.Top) then
+  begin
+    pForm.Left := NewLeft;
+    pForm.Top := NewTop;
+  end;
 end;
 
 end.

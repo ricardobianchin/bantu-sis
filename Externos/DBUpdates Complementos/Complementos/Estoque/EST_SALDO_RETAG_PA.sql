@@ -55,6 +55,51 @@ BEGIN
   );
 
   PROCEDURE EST_SALDO_ATUAL_DTH_GAR;
+
+-- EST_SALDO_RETAG_PA.SALDO_TELA_LISTA_GET DEF
+  PROCEDURE SALDO_TELA_LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , FILTRO_STR VARCHAR(120)
+    , BUSCA_COD BOOLEAN
+    , BUSCA_BARRAS BOOLEAN
+    , BUSCA_DESCR BOOLEAN
+    , BUSCA_FABR BOOLEAN
+    , BUSCA_TIPO BOOLEAN
+  )
+  RETURNS
+  (
+    PROD_ID INTEGER  --  0
+
+    , DESCR PROD_DESCR_DOM  --  1
+    , DESCR_RED PROD_DESCR_RED_DOM  --  2
+    
+    , FABR_ID SMALLINT  --  3
+    , FABR_NOME NOME_REDU_DOM  --  4
+	
+    , PROD_TIPO_ID SMALLINT  --  5
+    , PROD_TIPO_DESCR NOME_INTERM_DOM  --  6
+      
+    , UNID_ID SMALLINT  --  7
+    , UNID_SIGLA CHAR(6)  --  8
+
+    , COD_BARRAS VARCHAR(233)  --  11
+	
+    , SALDO QTD_DOM --
+
+    , CUSTO_UNIT CUSTO_DOM  --  12
+    , CUSTO_TOTAL DINH_DOM  --  12
+
+    , PRECO_UNIT PRECO_DOM  --  13
+    , PRECO_TOTAL DINH_DOM  --  13
+	
+    , ATIVO BOOLEAN  --  14
+
+    , LOCALIZ NOME_CURTO_DOM  --  15
+    , CAPAC_EMB NUMERIC(8, 3)  --  16
+    , BALANCA_EXIGE BOOLEAN  --  19
+  );
+
 END^
 
 ----- body -----
@@ -175,5 +220,188 @@ BEGIN
     END  
   END
 
+  -- EST_SALDO_RETAG_PA.SALDO_TELA_LISTA_GET IMP
+  PROCEDURE SALDO_TELA_LISTA_GET
+  (
+    LOJA_ID ID_SHORT_DOM NOT NULL
+    , FILTRO_STR VARCHAR(120)
+    , BUSCA_COD BOOLEAN
+    , BUSCA_BARRAS BOOLEAN
+    , BUSCA_DESCR BOOLEAN
+    , BUSCA_FABR BOOLEAN
+    , BUSCA_TIPO BOOLEAN
+  )
+  RETURNS
+  (
+    PROD_ID INTEGER  --  0
+
+    , DESCR PROD_DESCR_DOM  --  1
+    , DESCR_RED PROD_DESCR_RED_DOM  --  2
+    
+    , FABR_ID SMALLINT  --  3
+    , FABR_NOME NOME_REDU_DOM  --  4
+	
+    , PROD_TIPO_ID SMALLINT  --  5
+    , PROD_TIPO_DESCR NOME_INTERM_DOM  --  6
+      
+    , UNID_ID SMALLINT  --  7
+    , UNID_SIGLA CHAR(6)  --  8
+
+    , COD_BARRAS VARCHAR(233)  --  11
+	
+    , SALDO QTD_DOM --
+
+    , CUSTO_UNIT CUSTO_DOM  --  12
+    , CUSTO_TOTAL DINH_DOM  --  12
+
+    , PRECO_UNIT PRECO_DOM  --  13
+    , PRECO_TOTAL DINH_DOM  --  13
+	
+    , ATIVO BOOLEAN  --  14
+
+    , LOCALIZ NOME_CURTO_DOM  --  15
+    , CAPAC_EMB NUMERIC(8, 3)  --  16
+    , BALANCA_EXIGE BOOLEAN  --  19
+  )
+  AS
+  BEGIN
+    -- EST_SALDO_RETAG_PA.SALDO_TELA_LISTA_GET COD
+      FOR
+      WITH
+      B AS ( -- BARRAS
+        SELECT PROD_ID, ORDEM, LIST(TRIM(COD_BARRAS)) BARRAS
+        FROM PROD_BARRAS
+        GROUP BY PROD_ID, ORDEM
+        ORDER BY PROD_ID, ORDEM
+      ),
+      P AS ( -- PROD
+        SELECT PROD_ID, DESCR, DESCR_RED, FABR_ID, PROD_TIPO_ID, 
+        UNID_ID, CAPAC_EMB
+        FROM PROD
+      ),
+      CO AS ( -- PROD_COMPL
+        SELECT PROD_ID, ATIVO, LOCALIZ, MARGEM, BALANCA_EXIGE        
+        FROM PROD_COMPL
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      CU AS (
+        SELECT PROD_ID, CUSTO CUSTO_UNIT
+        FROM PROD_CUSTO
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      PR AS (
+        SELECT PROD_ID, PRECO PRECO_UNIT
+        FROM PROD_PRECO
+        WHERE LOJA_ID = :LOJA_ID
+      ),
+      F AS ( -- FABR
+        SELECT ID_RET FABR_ID, DESCR_RET FABR_NOME
+        FROM FABR_PA.LISTA_SELECT_GET
+      ),
+      T AS ( -- TIPO                          
+        SELECT ID_RET PROD_TIPO_ID, DESCR_RET PROD_TIPO_DESCR
+        FROM PROD_TIPO_PA.LISTA_SELECT_GET
+      )
+      ,
+      U AS ( -- UNID
+        SELECT UNID_ID, SIGLA UNID_SIGLA
+        FROM UNID
+      ),
+      SA AS ( -- EST_SALDO_ATUAL
+        SELECT PROD_ID, QTD
+        FROM EST_SALDO_ATUAL
+        WHERE LOJA_ID = :LOJA_ID
+      )
+      SELECT
+        
+        P.PROD_ID
+
+        , P.DESCR
+        , P.DESCR_RED
+
+        , F.FABR_ID
+        , F.FABR_NOME
+
+        , T.PROD_TIPO_ID
+        , T.PROD_TIPO_DESCR
+
+        , U.UNID_ID
+        , U.UNID_SIGLA
+
+        , B.BARRAS
+
+        , COALESCE(SA.QTD, 0) SALDO
+
+        , CU.CUSTO_UNIT
+        , (CU.CUSTO_UNIT * COALESCE(SA.QTD, 0)) CUSTO_TOTAL
+
+        , PR.PRECO_UNIT
+        , (PR.PRECO_UNIT * COALESCE(SA.QTD, 0)) PRECO_TOTAL
+
+        , CO.ATIVO
+        , CO.LOCALIZ
+        , P.CAPAC_EMB
+
+        , CO.BALANCA_EXIGE
+      
+      FROM P
+      JOIN CO ON P.PROD_ID = CO.PROD_ID -- CO=COMPL PROD_COMPL
+      LEFT JOIN B ON P.PROD_ID = B.PROD_ID -- B=BARRAS
+      JOIN F ON F.FABR_ID = P.FABR_ID -- F=FABR
+      JOIN T ON T.PROD_TIPO_ID = P.PROD_TIPO_ID -- T=TIPO PROD_TIPO
+      JOIN U ON U.UNID_ID = P.UNID_ID -- U=UNID
+	    JOIN CU ON P.PROD_ID = CU.PROD_ID -- CU=CUSTO
+	    JOIN PR ON P.PROD_ID = PR.PROD_ID -- PR=PRECO
+	    LEFT JOIN SA ON P.PROD_ID = SA.PROD_ID -- SA=SALDO
+      
+      WHERE 
+        (:FILTRO_STR = '')
+        OR (
+          (:BUSCA_COD AND CAST(P.PROD_ID AS VARCHAR(7)) = :FILTRO_STR)
+          OR (
+            NOT :BUSCA_COD AND (
+              CASE
+                WHEN :BUSCA_BARRAS THEN B.BARRAS
+                WHEN :BUSCA_DESCR  THEN P.DESCR || '\\SEP\\' || P.DESCR_RED
+                WHEN :BUSCA_FABR   THEN F.FABR_NOME
+                WHEN :BUSCA_TIPO   THEN T.PROD_TIPO_DESCR
+              END
+            ) LIKE ('%' || :FILTRO_STR || '%')
+          )
+        )
+      ORDER BY P.PROD_ID, B.ORDEM
+    INTO
+      :PROD_ID 
+
+      , :DESCR 
+      , :DESCR_RED 
+      
+      , :FABR_ID 
+      , :FABR_NOME 
+      
+      , :PROD_TIPO_ID 
+      , :PROD_TIPO_DESCR
+      
+      , :UNID_ID 
+      , :UNID_SIGLA
+      
+      , :COD_BARRAS
+
+      , :SALDO
+      
+      , :CUSTO_UNIT
+      , :CUSTO_TOTAL
+
+      , :PRECO_UNIT
+      , :PRECO_TOTAL
+      
+      , :ATIVO 
+      , :LOCALIZ 
+      , :CAPAC_EMB
+
+      , :BALANCA_EXIGE 
+
+    DO SUSPEND; 
+  END
 END^
 SET TERM ;^

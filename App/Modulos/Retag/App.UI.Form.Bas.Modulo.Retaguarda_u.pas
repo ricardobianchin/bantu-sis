@@ -254,7 +254,7 @@ uses App.UI.Retaguarda.ImgDM_u, Sis.Types.Factory, System.Types,
   App.Retag.Est.Entrada.Ent, App.Retag.Est.Entrada.DBI, App.Est.Promo.DBI,
   App.Est.Promo.Ent, App.UI.Form.DataSet.Est.Promo_u,
   App.UI.Form.Ed.Est.Promo_u, App.Retag.Est.Venda.DBI, App.Retag.Est.Venda.Ent,
-  App.Retag.Est.Saldo.Ent, App.Retag.Est.Saldo.DBI;
+  App.Retag.Est.Saldo.Ent, App.Retag.Est.Saldo.DBI, App.UI.Form.Est.Saldo.HistProd.DBI;
 
 constructor TRetaguardaModuloBasForm.Create(AOwner: TComponent;
   pModuloSistema: IModuloSistema; pEventosDeSessao: IEventosDeSessao;
@@ -738,6 +738,7 @@ begin
 //  RetagEstProdAction.Execute;
 //  RetagEstPromoAct.Execute;
 //  RetagEstVenAction.Execute;
+RetagEstSaldoAct.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;
