@@ -197,7 +197,7 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-//  exit;
+  exit;
 
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 2;

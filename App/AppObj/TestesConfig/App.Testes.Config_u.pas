@@ -70,8 +70,8 @@ type
 
   protected
     procedure Inicialize; override;
-    function PrepLer: boolean; override;
-    function PrepGravar: boolean; override;
+    function PrepLer(var sLog: string): boolean; override;
+    function PrepGravar(var sLog: string): boolean; override;
   public
     property ModuConf: ITesteConfigModuConf read GetModuConf;
 
@@ -120,7 +120,7 @@ begin
   FApp.ExecsAtu := True;
 end;
 
-function TAppTestesConfig.PrepGravar: boolean;
+function TAppTestesConfig.PrepGravar(var sLog: string): boolean;
 begin
   Result := inherited;
   if not Result then
@@ -270,11 +270,11 @@ begin
   App_ExecsAtu_Node.Text := BooleanToStr(FApp.ExecsAtu);
 end;
 
-function TAppTestesConfig.PrepLer: boolean;
+function TAppTestesConfig.PrepLer(var sLog: string): boolean;
 var
   s: string;
 begin
-  Result := inherited PrepLer;
+  Result := inherited PrepLer(sLog);
   if not Result then
     exit;
 

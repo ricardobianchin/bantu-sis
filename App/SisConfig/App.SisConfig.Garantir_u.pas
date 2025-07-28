@@ -140,11 +140,13 @@ begin
       oSisConfigXMLI.Ler;
       exit;
     end;
-    ProcessLog.RegistreLog('n�o existia, vai CopieInicial');
+    ProcessLog.RegistreLog('não existia, vai CopieInicial');
     CopieInicial;
 
+    ProcessLog.RegistreLog('vai PreenchaSisConfigVersao;');
     PreenchaSisConfigVersao;
 
+    ProcessLog.RegistreLog('vai ConfigEdit');
     Result := ConfigEdit;
 
     if not Result then
@@ -152,6 +154,7 @@ begin
       ProcessLog.RegistreLog('ConfigEdit, usuario cancelou');
       exit;
     end;
+    ProcessLog.RegistreLog('ConfigEdit, Result=True');
     FCriouTerminais := True;
     oSisConfigXMLI.Gravar;
 

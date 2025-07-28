@@ -388,10 +388,18 @@ var
 begin
   FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_e_DB');
   try
+    try
     oUsuarioAdmin := UsuarioCreate;
+    except on e: exception do
+      FProcessLog.RegistreLog('oUsuarioAdmin := UsuarioCreate erro '+e.message);
+    end;
 
+    try
     bResultado := Garanta_Config_XML_e_Perg(FLoja, oUsuarioAdmin,
       FAppObj.TerminalList, bCriouTerminais);
+    except on e: exception do
+      FProcessLog.RegistreLog('Garanta_Config_XML_e_Perg( erro '+e.message);
+    end;
 
     if not bResultado then
     begin
@@ -401,7 +409,12 @@ begin
       exit;
     end;
 
+    try
     bResultado := Garanta_DB(bCriouTerminais, oUsuarioAdmin);
+    except on e: exception do
+      FProcessLog.RegistreLog('Garanta_DB( erro '+e.message);
+    end;
+
     if not bResultado then
     begin
       FProcessLog.RegistreLog
@@ -411,9 +424,20 @@ begin
     end;
 
     oSisConfig := FAppObj.SisConfig;
+
+    try
     FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
+    except on e: exception do
+      FProcessLog.RegistreLog('DBMSConfigCreate erro '+e.message);
+    end;
+
+    try
     FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
+    except on e: exception do
+      FProcessLog.RegistreLog('DBMSCreate erro '+e.message);
+    end;
     FAppObj.DBMS := FDBMS;
+    FProcessLog.RegistreLog('TPrincBasForm.Garanta_Config_e_DB; ok');
   finally
     FProcessLog.RetorneLocal;
   end;
@@ -428,17 +452,22 @@ var
   oSisConfig: ISisConfig;
 begin
   FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_XML_e_Perg');
+  sLog := 'sLog TPrincBasForm.Garanta_Config_XML_e_Perg';
   try
     oSisConfig := FAppObj.SisConfig;
-
+    sLog := sLog + ',vai SisConfigGarantirCreate';
     oAppSisConfigGarantirXML := SisConfigGarantirCreate(FAppObj, oSisConfig,
       pUsuarioAdmin, pLoja, FProcessOutput, FProcessLog, pTerminalList);
-    FProcessLog.RegistreLog('vai oAppSisConfigGarantirXML.Execute');
+    sLog := sLog + ',voltou SisConfigGarantirCreate';
 
+    sLog := sLog + ',vai oAppSisConfigGarantirXML.Execute';
     Result := oAppSisConfigGarantirXML.Execute;
-    pCriouTerminais := oAppSisConfigGarantirXML.CriouTerminais;
+    sLog := sLog + ',oAppSisConfigGarantirXML.Execute retornou. Result='+BooleanToStr(Result);
 
-    sLog := iif(Result, 'Result=True,ok', 'Result=False,deve abortar');
+    pCriouTerminais := oAppSisConfigGarantirXML.CriouTerminais;
+    sLog := sLog + ',pCriouTerminais='+BooleanToStr(pCriouTerminais);
+
+    sLog := ',TPrincBasForm.Garanta_Config_XML_e_Perg Result='+iif(Result, 'True,ok', 'False,deve abortar');
     FProcessLog.RegistreLog(sLog);
   finally
     FProcessLog.RetorneLocal;
