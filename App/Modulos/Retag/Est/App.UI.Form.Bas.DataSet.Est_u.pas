@@ -47,6 +47,7 @@ type
     procedure DispareDetailTimer;
 
     procedure SetItemsDBGridFrame(Value: TDBGridFrame);
+    procedure SetFiltroFrame(const Value: TEstFiltroFrame);
 
   protected
     procedure ActionIns; override;
@@ -61,7 +62,7 @@ type
     procedure CrieFiltroFrame; virtual; abstract;
     procedure ToolBar1CrieBotoes; override;
     property EstFiltroFrame: TEstFiltroFrame read FEstFiltroFrame
-      write FEstFiltroFrame;
+      write SetFiltroFrame;
     property DBConnection: IDBConnection read FDBConnection;
     procedure FDMemTable1AfterScroll(DataSet: TDataSet); override;
     procedure DetailCarregar; virtual;
@@ -469,6 +470,12 @@ begin
   finally
     FEstMovEnt.EditandoItem := False;
   end;
+end;
+
+procedure TAppEstDataSetForm.SetFiltroFrame(const Value: TEstFiltroFrame);
+begin
+  FEstFiltroFrame := Value;
+  FiltroFrame := Value;
 end;
 
 procedure TAppEstDataSetForm.SetItemsDBGridFrame(Value: TDBGridFrame);

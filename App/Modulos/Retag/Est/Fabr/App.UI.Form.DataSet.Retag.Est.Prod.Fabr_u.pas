@@ -17,7 +17,6 @@ type
     procedure ExclAction_DatasetTabSheetExecute(Sender: TObject);
   private
     { Private declarations }
-    FFiltroStringFrame: TFiltroStringFrame;
     procedure CrieFiltroFrame;
     function GetProdFabrEnt: IProdFabrEnt;
     property ProdFabrEnt: IProdFabrEnt read GetProdFabrEnt;
@@ -74,7 +73,7 @@ begin
   FDMemTable.EmptyDataSet;
 
   try
-    EntDBI.ForEach(FFiltroStringFrame.Values, LeRegEInsere);
+    EntDBI.ForEach(FiltroFrame.Values, LeRegEInsere);
 
   finally
     FDMemTable.First;
@@ -102,7 +101,6 @@ constructor TRetagEstProdFabrDataSetForm.Create(AOwner: TComponent;
   pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 begin
   inherited;
-  FFiltroStringFrame := nil;
 end;
 
 procedure TRetagEstProdFabrDataSetForm.CrieFiltroFrame;
@@ -111,13 +109,13 @@ var
   l, w: integer;
   oToolB: TToolBar;
 begin
-  if Assigned(FFiltroStringFrame) then
+  if Assigned(FiltroFrame) then
     exit;
 
   // FFiltroStringFrame
   oToolB := TitToolBar1_BasTabSheet;
-  FFiltroStringFrame := TFiltroStringFrame.Create(oToolB, DoAtualizar);
-  FFiltroStringFrame.Parent := oToolB;
+  FiltroFrame := TFiltroStringFrame.Create(oToolB, DoAtualizar);
+  FiltroFrame.Parent := oToolB;
 
   iIndexUltimoBotao := oToolB.ButtonCount - 1;
 
@@ -126,10 +124,10 @@ begin
     l := oToolB.ControlCount;
     l := oToolB.Buttons[iIndexUltimoBotao].Left;
     w := oToolB.Buttons[iIndexUltimoBotao].Width;
-    FFiltroStringFrame.Left := l + w;
+    FiltroFrame.Left := l + w;
   end
   else
-    FFiltroStringFrame.Left := 0;
+    FiltroFrame.Left := 0;
 end;
 
 procedure TRetagEstProdFabrDataSetForm.ExclAction_DatasetTabSheetExecute

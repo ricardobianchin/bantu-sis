@@ -10,7 +10,7 @@ uses
   FireDAC.Comp.DataSet, App.AppObj, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
-  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types, App.UI.TabSheet.DataSet.Types_u;
+  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types, App.UI.TabSheet.DataSet.Types_u, Sis.UI.Frame.Bas.Filtro_u;
 
 type
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
@@ -44,6 +44,7 @@ type
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FModoDataSetForm: TModoDataSetForm;
@@ -54,6 +55,7 @@ type
     FStrBuscaInicial: string;
     // FFDDataSetManager: IFDDataSetManager;
 
+    FFiltroFrame: TFiltroFrame;
     FFiltroEditAutomatico: boolean;
 
     FAtualizaAposEd: boolean;
@@ -120,6 +122,9 @@ type
 
     function AtuPode: Boolean; virtual;
     property StrBuscaInicial: string read FStrBuscaInicial;
+
+    function Voltou: Boolean; override;
+    property FiltroFrame: TFiltroFrame read FFiltroFrame write FFiltroFrame;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
@@ -306,6 +311,7 @@ begin
   FModoDataSetForm := pModoDataSetForm;
   FIdPos := pIdPos;
   FStrBuscaInicial := pStrBuscaInicial;
+  FFiltroFrame := nil;
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pAppObj);
 
@@ -450,6 +456,22 @@ begin
   end;
 end;
 
+procedure TTabSheetDataSetBasForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #27 then
+  begin
+    key := #0;
+    if ModoDataSetForm = mdfSelect then
+    begin
+      Voltou;
+    end;
+
+    exit;
+  end;
+
+  inherited;
+end;
+
 function TTabSheetDataSetBasForm.GetCDS1: TFDMemTable;
 begin
   Result := FFDMemTable;
@@ -581,6 +603,26 @@ end;
 procedure TTabSheetDataSetBasForm.SetState(const Value: TDataSetState);
 begin
   FEntEd.State := Value;
+end;
+
+function TTabSheetDataSetBasForm.Voltou: Boolean;
+begin
+  Result := AtuExecutando or InsExecutando or AltExecutando or ExclExecutando;
+  if Result then
+    exit;
+  if Assigned(FiltroFrame) then
+  begin
+    Result := FiltroFrame.Voltou;
+    if Result then
+      exit;
+  end;
+  if ModoDataSetForm = TModoDataSetForm.mdfSelect then
+  begin
+    Result := True;
+    CancelAction.Execute;
+    exit;
+  end;
+  Result := inherited;
 end;
 
 end.

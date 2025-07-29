@@ -23,8 +23,8 @@ type
     { Private declarations }
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
-    //FFiltroFrame: TProdOrFiltroFrame;
-    FFiltroFrame: TProdAndFiltroFrame;
+    // desisti deste FFiltroFrame: TProdOrFiltroFrame;
+//    FFiltroFrame: TProdAndFiltroFrame;
     FMudaLoteFrame: TMudaLoteFrame;
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
@@ -83,7 +83,6 @@ begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
     pIdPos, pStrBuscaInicial, pAppObj);
-  FFiltroFrame := nil;
   FMudaLoteFrame := nil;
 
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
@@ -96,16 +95,16 @@ var
   l, w: integer;
 //  oP: TPanel;
 begin
-  if Assigned(FFiltroFrame) then
+  if Assigned(FiltroFrame) then
     exit;
 
   // FFiltroStringFrame
   //oP := TitPanel_BasTabSheet;
   //FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
-  FFiltroFrame := TProdAndFiltroFrame.Create(Self, DoAtualizar);
-  FFiltroFrame.Parent := Self;
-  FFiltroFrame.Align := alBottom;
-  FFiltroFrame.Values := Sis.Types.Variants.VarToVarArray(StrBuscaInicial);
+  FiltroFrame := TProdAndFiltroFrame.Create(Self, DoAtualizar);
+  FiltroFrame.Parent := Self;
+  FiltroFrame.Align := alBottom;
+  FiltroFrame.Values := Sis.Types.Variants.VarToVarArray(StrBuscaInicial);
   // oP.Height := oP.Height + FFiltroFrame.Height;
 end;
 
@@ -166,7 +165,7 @@ begin
   oConn.Abrir;
   try
     FMudaLoteFrame.Atualizar(oConn);
-    EntDBI.ForEach(FFiltroFrame.Values, LeRegEInsere);
+    EntDBI.ForEach(FiltroFrame.Values, LeRegEInsere);
   finally
     FDMemTable.First;
     FDMemTable.EndBatch;

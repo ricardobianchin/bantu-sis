@@ -16,13 +16,11 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
       Left = 548
       StyleElements = [seFont, seClient, seBorder]
       ExplicitLeft = 548
-      ExplicitHeight = 36
     end
     inherited TitToolPanel_BasTabSheet: TPanel
       Width = 548
       StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 548
-      ExplicitHeight = 36
       inherited TitToolBar1_BasTabSheet: TToolBar
         Width = 548
         Height = 38

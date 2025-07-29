@@ -5,6 +5,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   WindowState = wsMaximized
   StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
   ExplicitWidth = 700
   ExplicitHeight = 443
   TextHeight = 15
@@ -98,8 +99,6 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
       Caption = 'ToolBar1'
       Images = SisImgDataModule.ImageList24FlatSelect
       TabOrder = 0
-      ExplicitWidth = 73
-      ExplicitHeight = 29
       object OkToolButton_DataSetForm: TToolButton
         Left = 0
         Top = 0
