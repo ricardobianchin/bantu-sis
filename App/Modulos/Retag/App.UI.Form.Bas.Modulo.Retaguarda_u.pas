@@ -739,8 +739,8 @@ begin
 //  RetagEstVenAction.Execute;
 // RetagEstSaldoAct.Execute;
 
-//RetagEstInventarioAction.Execute;
-  RetagEstProdAction.Execute;
+//  RetagEstProdAction.Execute;
+RetagEstInventarioAction.Execute;
 {$ENDIF}
 
   // RetagEstProdICMSAction.Execute;

@@ -9,24 +9,27 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   ExplicitHeight = 443
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
-    Top = 413
+    Top = 407
     Width = 700
-    Height = 30
+    Height = 36
     Align = alBottom
+    AutoSize = False
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 413
+    ExplicitTop = 407
     ExplicitWidth = 700
-    ExplicitHeight = 30
+    ExplicitHeight = 36
     inherited TitAuxPanel_BasTabSheet: TPanel
       Left = 560
+      Height = 36
       StyleElements = [seFont, seClient, seBorder]
       ExplicitLeft = 560
+      ExplicitHeight = 36
       DesignSize = (
         140
-        30)
+        36)
       object QtdRegsLabel_TabSheetDataSetBasForm: TLabel
         Left = 45
-        Top = 12
+        Top = 18
         Width = 90
         Height = 13
         Alignment = taRightJustify
@@ -40,12 +43,16 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
         ParentFont = False
         Visible = False
         StyleElements = [seClient, seBorder]
+        ExplicitTop = 12
       end
     end
     inherited TitToolPanel_BasTabSheet: TPanel
       Width = 560
+      Height = 36
+      AutoSize = False
       StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 560
+      ExplicitHeight = 36
       inherited TitToolBar1_BasTabSheet: TToolBar
         Width = 560
         ExplicitWidth = 560
@@ -56,7 +63,7 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     Left = 0
     Top = 0
     Width = 700
-    Height = 413
+    Height = 407
     Align = alClient
     BorderStyle = bsNone
     DataSource = DataSource1
@@ -73,8 +80,8 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
   object SelectPanel: TPanel [2]
     Left = 264
     Top = 256
-    Width = 73
-    Height = 29
+    Width = 76
+    Height = 36
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 2
@@ -82,14 +89,17 @@ inherited TabSheetDataSetBasForm: TTabSheetDataSetBasForm
     object ToolBar1: TToolBar
       Left = 0
       Top = 0
-      Width = 73
-      Height = 29
+      Width = 76
+      Height = 36
       Align = alClient
+      AutoSize = True
       ButtonHeight = 30
       ButtonWidth = 31
       Caption = 'ToolBar1'
       Images = SisImgDataModule.ImageList24FlatSelect
       TabOrder = 0
+      ExplicitWidth = 73
+      ExplicitHeight = 29
       object OkToolButton_DataSetForm: TToolButton
         Left = 0
         Top = 0

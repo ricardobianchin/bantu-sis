@@ -21,6 +21,7 @@ type
     procedure FrameResize(Sender: TObject);
     procedure ProdLabeledEditKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure ProdLabeledEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FDBConnection: IDBConnection;
@@ -48,6 +49,8 @@ type
     function ProdSelectFiltroFrameCreate: TFiltroFrame;
     function ProdSelectCreate: ISelect;
 
+    procedure BuscaSimples(pStrBuscaInicial: string);
+
   public
     { Public declarations }
     property ProdId: TId read FProdId;
@@ -61,7 +64,7 @@ type
 
     property OnSelect: TNotifyEvent read FOnSelect write FOnSelect;
 
-    procedure Selecionar(pStrBusca: string);
+    procedure Selecionar(pStrBuscaInicial: string);
     procedure PegarProdId(pProdId: integer);
 
     constructor Create(AOwner: TComponent; pDBConnection: IDBConnection;
@@ -82,6 +85,32 @@ uses Sis.UI.Controls.Utils, Sis.UI.Controls.Factory, Sis.UI.ImgDM,
   Sis.Types.Bool_u, App.Retag.Est.Factory, Sis.Win.Utils_u, Sis.Types.Floats;
 
 { TProdSelectFrame }
+
+procedure TProdSelectFrame.BuscaSimples(pStrBuscaInicial: string);
+var
+  s: string;
+  a: TArray<string>;
+begin
+  if FProdSelect.Execute(pStrBuscaInicial) then
+  begin
+    s := FProdSelect.LastSelected;
+    a := s.Split([';']);
+
+    FProdId := StrToInt(a[0]);
+    FProdDescrRed := a[1];
+    FProdFabrNome := a[2];
+    FProdBalancaExige := StrToBoolean(a[3]);
+    FCusto := StrToCurr(a[4]);
+    FMargem := StrToCurr(a[5]);
+    FPreco := StrToCurr(a[6]);
+    FBarras := a[7];
+
+    ProdLabeledEdit.Text := a[0] + ' - ' + a[1];
+
+    if Assigned(FOnSelect) then
+      FOnSelect(Self);
+  end;
+end;
 
 procedure TProdSelectFrame.BuscaSpeedButtonClick(Sender: TObject);
 begin
@@ -110,7 +139,8 @@ begin
   FProdBalancaExige := False;
   FBarras := '';
 
-  Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
+  Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, False);
+//  Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
 
   FProdFormCreator := ProdFormCreatorCreate(DummyFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj, pDBConnection);
@@ -142,9 +172,9 @@ begin
   if not Resultado then
     exit;
 
+  FProdId := SelectItem.Id;
   SL := TStringList.Create;
   try
-    FProdId := SelectItem.Id;
     SL.Text := SelectItem.Descr;
     // {$IFDEF DEBUG}
     // CopyTextToClipboard(SL.Text);
@@ -172,6 +202,22 @@ var
   bErroDeu: Boolean;
   sErroMens: string;
 begin
+  if pProdId = 0 then
+  begin
+    FProdId := 0;
+    FProdDescrRed := '';
+    FProdFabrNome := '';
+    FProdBalancaExige := False;
+    FCusto := 0;
+    FMargem := 1;
+    FPreco := 0;
+    FBarras := '';
+
+    ProdLabeledEdit.Text := '';
+
+    exit;
+  end;
+
   FProdSelectDBI.PegarProd(pProdId, vValues, bErroDeu, sErroMens);
 
   if bErroDeu then
@@ -215,6 +261,22 @@ begin
   end;
 end;
 
+procedure TProdSelectFrame.ProdLabeledEditKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+//  case Key of
+//    VK_DOWN:
+//    begin
+//      if Shift = [] then
+//      begin
+//        Key := 0;
+//        Selecionar('');
+//      end;
+//    end;
+//  end;
+end;
+
 function TProdSelectFrame.ProdSelectCreate: ISelect;
 begin
   Result := DBSelectFormCreate(FProdSelectDBI, FProdSelectFiltroFrame);
@@ -230,33 +292,43 @@ begin
   Result := TFiltroStringFrame.Create(Self, nil);
 end;
 
-procedure TProdSelectFrame.Selecionar(pStrBusca: string);
+procedure TProdSelectFrame.Selecionar(pStrBuscaInicial: string);
 var
-  s: string;
+  Resultado: Boolean;
+  SelectItem: TSelectItem;
   a: TArray<string>;
+  SL: TStringList;
 begin
-//  ListaSpeedButton.Click;
-//  exit;
+  inherited;
+  SelectItem.Id := ProdId;
+  SelectItem.StrBuscaInicial := pStrBuscaInicial;
+  Resultado := FProdFormCreator.PergSelect(SelectItem);
+  if not Resultado then
+    exit;
 
-  if FProdSelect.Execute('') then
-  begin
-    s := FProdSelect.LastSelected;
-    a := s.Split([';']);
-
-    FProdId := StrToInt(a[0]);
-    FProdDescrRed := a[1];
-    FProdFabrNome := a[2];
-    FProdBalancaExige := StrToBoolean(a[3]);
-    FCusto := StrToCurr(a[4]);
-    FMargem := StrToCurr(a[5]);
-    FPreco := StrToCurr(a[6]);
-    FBarras := a[7];
-
-    ProdLabeledEdit.Text := a[0] + ' - ' + a[1];
-
-    if Assigned(FOnSelect) then
-      FOnSelect(Self);
+  SL := TStringList.Create;
+  try
+    FProdId := SelectItem.Id;
+    SL.Text := SelectItem.Descr;
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(SL.Text);
+    // {$ENDIF}
+    FProdDescrRed := SL.Values['DESCR_RED'];
+    FProdFabrNome := SL.Values['FABR_NOME'];
+    FProdBalancaExige := StrToBoolean(SL.Values['BALANCA_EXIGE']);
+    FCusto := StrToCurrency(SL.Values['CUSTO']);
+    FMargem := StrToCurrency(SL.Values['MARGEM']);
+    FPreco := StrToCurrency(SL.Values['PRECO']);
+    FBarras := SL.Values['CODBARRAS'];
+  finally
+    SL.Free;
   end;
+
+  ProdLabeledEdit.Text := FProdId.ToString + ' - ' + FProdDescrRed;;
+
+  if Assigned(FOnSelect) then
+    FOnSelect(Self);
+
 end;
 
 end.

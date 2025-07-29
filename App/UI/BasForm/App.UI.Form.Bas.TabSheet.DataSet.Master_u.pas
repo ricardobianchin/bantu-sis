@@ -39,7 +39,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); override;
   end;
 
@@ -56,11 +56,11 @@ constructor TTabSheetDataSetMasterBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
-    pIdPos, pAppObj);
+    pIdPos, pStrBuscaInicial, pAppObj);
 
   FDBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, AppObj);

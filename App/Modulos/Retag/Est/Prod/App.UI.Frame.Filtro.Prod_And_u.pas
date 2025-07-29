@@ -33,9 +33,11 @@ type
 
   public
     { Public declarations }
+    procedure Foque; override;
     constructor Create(AOwner: TComponent; pOnChange: TNotifyEvent); override;
     destructor Destroy; override;
-
+    function Voltou: Boolean; override;
+    procedure FiltroLimpar; override;
   end;
 
 var
@@ -45,7 +47,8 @@ implementation
 
 {$R *.dfm}
 
-uses Sis.Types.strings_u, Sis.UI.ImgDM, App.Prod.BuscaTipo_u;
+uses Sis.Types.strings_u, Sis.UI.ImgDM, App.Prod.BuscaTipo_u,
+  Sis.UI.Controls.Utils, Sis.UI.Controls.TLabeledEdit;
 
 { TProdFiltroFrame }
 
@@ -103,6 +106,12 @@ begin
   inherited;
 end;
 
+procedure TProdAndFiltroFrame.FiltroLimpar;
+begin
+  inherited;
+  FiltroStringLabeledEdit.Clear;
+end;
+
 procedure TProdAndFiltroFrame.FiltroStringLabeledEditChange(Sender: TObject);
 begin
   inherited;
@@ -119,6 +128,12 @@ begin
     DoChange;
   end;
   CharSemAcento(Key);
+end;
+
+procedure TProdAndFiltroFrame.Foque;
+begin
+  inherited;
+  TrySetFocus(FiltroStringLabeledEdit);
 end;
 
 function TProdAndFiltroFrame.GetValues: variant;
@@ -165,10 +180,18 @@ var
   c: TCheckBox;
   i: integer;
 begin
-  if VarArrayDimCount(Value) < 6 then
+  if VarArrayDimCount(Value) < 1 then
     exit;
 
   FiltroStringLabeledEdit.Text := VarToStr(Value[0]);
+  if VarArrayDimCount(Value) = 1 then
+  begin
+    TrySetFocus(FiltroStringLabeledEdit);
+    PosicionarCursorFim(FiltroStringLabeledEdit);
+  end;
+
+  if VarArrayDimCount(Value) < 6 then
+    exit;
 
   for i := 0 to FCheckBoxList.Count - 1 do
   begin
@@ -177,6 +200,15 @@ begin
   end;
 
   AjusteValores;
+end;
+
+function TProdAndFiltroFrame.Voltou: Boolean;
+begin
+  Result := FiltroStringLabeledEdit.Text <> '';
+  if not Result then
+    exit;
+
+  FiltroStringLabeledEdit.Clear;
 end;
 
 end.

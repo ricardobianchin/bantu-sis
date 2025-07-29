@@ -55,7 +55,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); override;
   end;
 
@@ -70,7 +70,7 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
   App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants,
-  Sis.UI.Controls.Utils, Sis.DB.DataSet.Utils;
+  Sis.UI.Controls.Utils, Sis.DB.DataSet.Utils, Sis.Types.Variants;
 
 { TRetagEstProdDataSetForm }
 
@@ -78,11 +78,11 @@ constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
-    pIdPos, pAppObj);
+    pIdPos, pStrBuscaInicial, pAppObj);
   FFiltroFrame := nil;
   FMudaLoteFrame := nil;
 
@@ -94,17 +94,18 @@ procedure TRetagEstProdDataSetForm.CrieFiltroFrame;
 var
   iIndexUltimoBotao: integer;
   l, w: integer;
-  oP: TPanel;
+//  oP: TPanel;
 begin
   if Assigned(FFiltroFrame) then
     exit;
 
   // FFiltroStringFrame
-  oP := TitPanel_BasTabSheet;
+  //oP := TitPanel_BasTabSheet;
   //FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
   FFiltroFrame := TProdAndFiltroFrame.Create(Self, DoAtualizar);
   FFiltroFrame.Parent := Self;
   FFiltroFrame.Align := alBottom;
+  FFiltroFrame.Values := Sis.Types.Variants.VarToVarArray(StrBuscaInicial);
   // oP.Height := oP.Height + FFiltroFrame.Height;
 end;
 

@@ -79,7 +79,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); override;
   end;
 
@@ -275,7 +275,7 @@ constructor TAppEstDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string;pAppObj: IAppObj);
 var
   rDBConnectionParams: TDBConnectionParams;
 begin

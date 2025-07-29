@@ -43,7 +43,7 @@ type
       pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); override;
   end;
 
@@ -64,12 +64,12 @@ constructor TPerfilDeUsoDataSetForm.Create(AOwner: TComponent; pFormClassNamesSL
       pUsuarioLog: IUsuario;
       pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog;
       pOutputNotify: IOutput; pEntEd: IEntEd; pEntDBI: IEntDBI;
-      pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos, pAppObj);
+    pModoDataSetForm, pIdPos, pStrBuscaInicial, pAppObj);
   FPerfilDeUsoEnt := EntEdCastToPerfilDeUsoEnt(pEntEd);
 end;
 

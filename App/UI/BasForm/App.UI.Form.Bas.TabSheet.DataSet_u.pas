@@ -51,6 +51,7 @@ type
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
     FIdPos: integer;
+    FStrBuscaInicial: string;
     // FFDDataSetManager: IFDDataSetManager;
 
     FFiltroEditAutomatico: boolean;
@@ -118,17 +119,18 @@ type
       write FFDMemTablePodeEventos;
 
     function AtuPode: Boolean; virtual;
-
+    property StrBuscaInicial: string read FStrBuscaInicial;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); reintroduce; virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
+
   end;
 
   TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
@@ -205,6 +207,11 @@ begin
       LastButton := TitToolBar1_BasTabSheet.Buttons[i];
   end;
 
+  if TitPanel_BasTabSheet.Height < (SelectPanel.Height + 1) then
+  begin
+    TitPanel_BasTabSheet.Height := (SelectPanel.Height + 1);
+  end;
+
   // Muda o parent do panel para a toolbar
   SelectPanel.Parent := TitToolBar1_BasTabSheet;
   // Posiciona o left do panel
@@ -246,6 +253,8 @@ begin
   FFDMemTablePodeEventos := True;
   FDMemTableColocarEventos;
   AjusteQtdRegsLabel;
+  if FStrBuscaInicial = '' then
+    TrySetFocus(DBGrid1);
 end;
 
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
@@ -261,7 +270,6 @@ begin
     DoAtualizar(Self);
     DoAposAtualizar;
   finally
-    TrySetFocus(DBGrid1);
     AtuExecutando := False;
   end;
 end;
@@ -287,7 +295,7 @@ constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 var
   sNomeArq: string;
 begin
@@ -297,6 +305,7 @@ begin
   FEntDBI := pEntDBI;
   FModoDataSetForm := pModoDataSetForm;
   FIdPos := pIdPos;
+  FStrBuscaInicial := pStrBuscaInicial;
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pAppObj);
 
@@ -316,12 +325,23 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
 
-  if ModoDataSetForm = mdfSelect then
+//  TitToolBar1_BasTabSheet.Height := ToolBar1.Height;
+//  TitToolBar1_BasTabSheet.ButtonHeight := ToolBar1.ButtonHeight;
+//
+//  if TitToolBar1_BasTabSheet.Parent.Height < ToolBar1.Height then
+//    TitToolBar1_BasTabSheet.Parent.Height := ToolBar1.Height;
+
+  if ModoDataSetForm = TModoDataSetForm.mdfSelect then
   begin
     Position := poDesktopCenter;
     BorderStyle := bsDialog;
     Align := alNone;
     Caption := 'Selecionando ' + EntEd.NomeEnt;
+
+    Width := (95 * Screen.WorkAreaRect.Width) div 100;
+    Height := (95 * Screen.WorkAreaRect.Height) div 100;
+
+    ControlAlignToRect(Self, Screen.WorkAreaRect);
   end;
 
   FDMemTableColocarEventos;
@@ -495,7 +515,8 @@ begin
 
   AtuAction_DatasetTabSheet.Execute;
 
-  TrySetFocus(DBGrid1);
+  if fstrbuscainicial = '' then
+    TrySetFocus(DBGrid1);
 
   if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
     exit;

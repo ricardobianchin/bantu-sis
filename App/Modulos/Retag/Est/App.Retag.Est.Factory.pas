@@ -1329,7 +1329,8 @@ function InventarioEntEdFormCreate(AOwner: TComponent; pAppObj: IAppObj;
   pProcessLog: IProcessLog; pOutputNotify: IOutput): TEdBasForm;
 begin
   Result := TInventarioEdForm.Create(AOwner, pAppObj, pInventarioEnt,
-    pInventarioDBI, pDBConnection, pUsuarioLog, pDBMS);
+    pInventarioDBI, pDBConnection, pUsuarioLog, pDBMS, pOutput,
+    pProcessLog, pOutputNotify);
 end;
 
 function InventarioPerg(AOwner: TComponent; pAppObj: IAppObj;
@@ -1340,7 +1341,8 @@ var
   F: TEdBasForm;
 begin
   F := InventarioEntEdFormCreate(AOwner, pAppObj, pInventarioEnt,
-    pInventarioDBI, pDBConnection, pUsuarioLog, pDBMS);
+    pInventarioDBI, pDBConnection, pUsuarioLog, pDBMS, pOutPut, pProcessLog,
+    pOutputNotify);
   try
     Result := F.Perg;
   finally

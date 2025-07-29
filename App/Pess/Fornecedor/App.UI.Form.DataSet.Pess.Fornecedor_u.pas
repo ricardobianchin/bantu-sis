@@ -33,7 +33,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); override;
     { Public declarations }
   end;
@@ -53,14 +53,15 @@ constructor TAppPessFornecedorDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 begin
   FPessFornecedorEnt := EntEdCastToPessFornecedorEnt(pEntEd);
   FPessFornecedorDBI := EntDBICastToPessFornecedorDBI(pEntDBI);
 
-  inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
-    pModoDataSetForm, pIdPos, pAppObj);
+  inherited;
+//   Create(AOwner, pFormClassNamesSL, pUsuarioLog,
+//    pDBMS, pOutput, pProcessLog, pOutputNotify, pEntEd, pEntDBI,
+//    pModoDataSetForm, pIdPos, pAppObj);
 
   // AtualizaAposEd := True;
   // iT_Selecionado := 0;
