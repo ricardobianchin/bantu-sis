@@ -41,6 +41,7 @@ type
     property DummyFormClassNamesSL: TStringList read FDummyFormClassNamesSL;
     property MudoOutput: IOutput read FMudoOutput;
     property MudoProcessLog: IProcessLog read FMudoProcessLog;
+    function Voltou: Boolean; override;
   public
     { Public declarations }
 
@@ -200,6 +201,18 @@ procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);
 begin
   MensLimpar;
   QtdNumEditBtu.SetFocus;
+end;
+
+function TEstEdBasForm.Voltou: Boolean;
+begin
+  Result := ProdSelectFrame.ProdId > 0;
+  if Result then
+  begin
+    ProdSelectFrame.PegarProdId(0);
+    exit;
+  end;
+
+  Result := inherited;
 end;
 
 end.

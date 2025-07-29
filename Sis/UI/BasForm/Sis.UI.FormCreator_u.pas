@@ -19,7 +19,7 @@ type
     property Titulo: string read GetTitulo;
     property FormClassName: string read GetFormClassName;
     function FormCreate(AOwner: TComponent): TForm; virtual;
-    function FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm; virtual;
+    function FormCreateSelect(AOwner: TComponent; pIdPos: integer; pStrBuscaInicial: string): TForm; virtual;
     function PergSelect(var pSelectItem: TSelectItem): boolean; virtual; abstract;
   end;
 
@@ -39,7 +39,7 @@ begin
   Result := FFormClass.Create(AOwner);
 end;
 
-function TFormCreator.FormCreateSelect(AOwner: TComponent; pIdPos: integer): TForm;
+function TFormCreator.FormCreateSelect(AOwner: TComponent; pIdPos: integer; pStrBuscaInicial: string): TForm;
 begin
   Result := nil;
 end;

@@ -173,6 +173,8 @@ type
     /// </remarks>
     procedure AjusteValores; virtual;
     procedure FiltroLimpar; virtual;
+    procedure Foque; virtual;
+    function Voltou: Boolean; virtual;
 
     /// <summary>
     /// Propriedade que encapsula os valores do filtro.
@@ -247,6 +249,11 @@ begin
 
 end;
 
+procedure TFiltroFrame.Foque;
+begin
+
+end;
+
 function TFiltroFrame.GetFontSize: integer;
 begin
   Result := Font.Size;
@@ -279,6 +286,11 @@ end;
 procedure TFiltroFrame.SetValues(Value: variant);
 begin
   // Implementação padrão vazia. Subclasses devem fornecer a implementação específica.
+end;
+
+function TFiltroFrame.Voltou: Boolean;
+begin
+  Result := False;
 end;
 
 end.
