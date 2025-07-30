@@ -3,7 +3,7 @@
 interface
 
 uses Sis.DBI_u, App.Retag.Est.ProdSelectDBI, Sis.DB.DBTypes, App.AppObj,
-  System.Variants, Sis.Entities.Types;
+  System.Variants, Sis.Entities.Types, Sis.Types;
 
 type
   TProdSelectDBI = class(TDBI, IProdSelectDBI)
@@ -20,18 +20,115 @@ type
 
     constructor Create(pDBConnection: IDBConnection; pAppObj: IAppObj;
       pTerminalId: TTerminalId); reintroduce;
+
+    procedure BusqueProd(pStrBusca: string; out pProdId: TId;
+      out pProdDescrRed: string; out pProdBalancaExige: boolean;
+      out pProdFabrNome: string; out pCusto: Currency; out pMargem: Currency;
+      out pPreco: Currency; out pBarras: string; out pErroDeu: boolean;
+      out pMens: string);
+
   end;
 
 implementation
 
-uses App.PDV.Preco.Utils, Sis.Types.strings_u, System.SysUtils, Sis.Win.Utils_u,
-  Sis.DB.Factory, Sis.DB.DataSet.Utils;
+uses App.Prod.BuscaTipo_u, Sis.Types.strings_u, System.SysUtils, Data.DB,
+  Sis.Win.Utils_u, Sis.DB.Factory, Sis.DB.DataSet.Utils, Sis.Types.Integers;
 
 { TProdSelectDBI }
 
+procedure TProdSelectDBI.BusqueProd(pStrBusca: string; out pProdId: TId;
+  out pProdDescrRed: string; out pProdBalancaExige: boolean;
+  out pProdFabrNome: string; out pCusto, pMargem, pPreco: Currency;
+  out pBarras: string; out pErroDeu: boolean; out pMens: string);
+var
+  sBusca: string;
+  eBuscaTipo: TProdBuscaTipo;
+  sProcedureName: string;
+  sParam: string;
+  sSql: string;
+  q: TDataSet;
+begin
+  pProdId := 0;
+  pProdDescrRed := '';
+  pProdFabrNome := '';
+  pProdBalancaExige := False;
+  pCusto := 0;
+  pMargem := 1;
+  pPreco := 0;
+  pBarras := '';
+  pErroDeu := False;
+  pMens := '';
+
+  eBuscaTipo := StrToProdBuscaTipo(pStrBusca);
+
+  case eBuscaTipo of
+    prodbusProdId:
+      begin
+        sProcedureName := 'BY_ID_GET';
+        sParam := pStrBusca;
+      end;
+    prodbusBarras:
+      begin
+        sProcedureName := 'BY_BARRAS_GET';
+        sParam := QuotedStr(pStrBusca);
+      end;
+    prodbusDescr:
+      begin
+        sProcedureName := 'BY_DESCR_RED_GET';
+        sParam := QuotedStr(pStrBusca);
+      end;
+  else
+    begin
+      pErroDeu := True;
+      pMens := 'String de busca nao era nem prod_id, nem descr, nem barras';
+      exit;
+    end;
+  end;
+
+  sSql := 'SELECT'#13#10 //
+
+    + 'PROD_ID,'#13#10 // 0
+    + 'DESCR_RED,'#13#10 // 1
+    + 'FABR_NOME,'#13#10 // 2
+    + 'BALANCA_EXIGE,'#13#10 // 3
+    + 'CUSTO,'#13#10 // 4
+    + 'MARGEM,'#13#10 // 5
+    + 'PRECO,'#13#10 // 6
+    + 'BARRAS'#13#10 // 7
+
+    + 'FROM RETAG_PROD_BUSCA_PA.' + sProcedureName + '(' + sParam + ');'#13#10;
+
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
+
+  DBConnection.Abrir;
+  try
+    DBConnection.QueryDataSet(sSql, q);
+    try
+      if q.IsEmpty then
+      begin
+        exit;
+      end;
+
+      pProdId := q.Fields[0].AsInteger;
+      pProdDescrRed := q.Fields[1].AsString;
+      pProdFabrNome := q.Fields[2].AsString;
+      pProdBalancaExige := q.Fields[3].AsBoolean;
+      pCusto := q.Fields[4].AsCurrency;
+      pMargem := q.Fields[5].AsCurrency;
+      pPreco := q.Fields[6].AsCurrency;
+      pBarras := q.Fields[7].AsString;
+    finally
+      q.Free;
+    end;
+  finally
+    DBConnection.Fechar;
+  end;
+end;
+
 constructor TProdSelectDBI.Create(pDBConnection: IDBConnection;
-  pAppObj: IAppObj;
-      pTerminalId: TTerminalId);
+  pAppObj: IAppObj; pTerminalId: TTerminalId);
 begin
   inherited Create(pDBConnection);
   FAppObj := pAppObj;
@@ -110,9 +207,9 @@ begin
     + 'ORDER BY P.DESCR_RED'#13#10 //
     ;
 
-//   {$IFDEF DEBUG}
-//   CopyTextToClipboard(Result);
-//   {$ENDIF}
+  // {$IFDEF DEBUG}
+  // CopyTextToClipboard(Result);
+  // {$ENDIF}
 end;
 
 procedure TProdSelectDBI.PegarProd(pProdId: integer; var pValues: variant;
@@ -120,7 +217,7 @@ procedure TProdSelectDBI.PegarProd(pProdId: integer; var pValues: variant;
 var
   sSql: string;
   vParametros: variant;
-  Q: IDBQuery;
+  q: IDBQuery;
   DataSetWasEmpty: boolean;
 begin
   pErroDeu := False;
@@ -131,12 +228,12 @@ begin
 
   sSql := GetSqlForEach(vParametros);
 
-  Q := DBQueryCreate('prod.select.q', DBConnection, sSql, nil, nil);
+  q := DBQueryCreate('prod.select.q', DBConnection, sSql, nil, nil);
   try
-    Q.Open;
-    if not Q.DataSet.Eof then
+    q.Open;
+    if not q.DataSet.Eof then
     begin
-      RecordToVarArray(pValues, Q.DataSet, DataSetWasEmpty);
+      RecordToVarArray(pValues, q.DataSet, DataSetWasEmpty);
       if DataSetWasEmpty then
       begin
         pErroDeu := True;
@@ -156,8 +253,8 @@ begin
     end;
   end;
 
-//  pValues[0] := pProdId;
-//  pValues[1] := 'PROD TESTE';
+  // pValues[0] := pProdId;
+  // pValues[1] := 'PROD TESTE';
 end;
 
 end.

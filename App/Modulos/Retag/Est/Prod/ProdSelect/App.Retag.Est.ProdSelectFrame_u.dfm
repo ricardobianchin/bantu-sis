@@ -1,9 +1,9 @@
 inherited ProdSelectFrame: TProdSelectFrame
   Width = 499
-  Height = 26
+  Height = 27
   OnResize = FrameResize
   ExplicitWidth = 499
-  ExplicitHeight = 26
+  ExplicitHeight = 27
   object BuscaSpeedButton: TSpeedButton
     Left = 471
     Top = 0
@@ -40,5 +40,6 @@ inherited ProdSelectFrame: TProdSelectFrame
     StyleElements = []
     OnClick = ProdLabeledEditClick
     OnKeyDown = ProdLabeledEditKeyDown
+    OnKeyPress = ProdLabeledEditKeyPress
   end
 end

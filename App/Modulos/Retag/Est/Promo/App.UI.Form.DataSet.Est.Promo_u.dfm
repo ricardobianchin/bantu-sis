@@ -6,6 +6,7 @@ inherited AppPromoDataSetForm: TAppPromoDataSetForm
     StyleElements = [seFont, seClient, seBorder]
     inherited TitAuxPanel_BasTabSheet: TPanel
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitHeight = 30
     end
     inherited TitToolPanel_BasTabSheet: TPanel
       StyleElements = [seFont, seClient, seBorder]

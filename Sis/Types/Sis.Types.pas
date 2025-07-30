@@ -28,6 +28,7 @@ type
   TSelectItem = record
     Id: integer;
     Descr: string;
+    StrBuscaInicial: string;
   end;
 
   TRecordAction = (recaNoAction = 32, recaInserir = 33, recaAlterar = 34, recaExcluir = 35,

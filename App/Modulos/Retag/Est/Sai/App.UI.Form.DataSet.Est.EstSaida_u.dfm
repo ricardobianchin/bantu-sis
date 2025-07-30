@@ -5,7 +5,6 @@ inherited AppEstSaidaDataSetForm: TAppEstSaidaDataSetForm
   inherited TitPanel_BasTabSheet: TPanel
     Top = 420
     Height = 23
-    AutoSize = False
     StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 420
     ExplicitHeight = 23

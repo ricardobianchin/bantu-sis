@@ -21,8 +21,8 @@ type
 
   public
     function FormCreate(AOwner: TComponent): TForm; override;
-    function FormCreateSelect(AOwner: TComponent; pIdPos: integer)
-      : TForm; override;
+    function FormCreateSelect(AOwner: TComponent; pIdPos: integer;
+      pStrBuscaInicial: string): TForm; override;
     constructor Create(pFormClass: TTabSheetDataSetBasFormClass;
       pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
       pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
@@ -44,25 +44,24 @@ var
   sTitulo: string;
 begin
   sTitulo := pEntEd.Titulo;
-  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pUsuarioLog,
-    pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj);
+  inherited Create(pFormClass, sTitulo, pFormClassNamesSL, pUsuarioLog, pDBMS,
+    pOutput, pProcessLog, pOutputNotify, pAppObj);
   FEntEd := pEntEd;
   FEntDBI := pEntDBI;
 end;
 
 function TDataSetFormCreator.FormCreate(AOwner: TComponent): TForm;
 begin
-  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL,
-    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
-    mdfBrowse, 0, AppObj);
+  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, UsuarioLog, DBMS,
+    Output, ProcessLog, OutputNotify, FEntEd, FEntDBI, mdfBrowse, 0, '', AppObj);
 end;
 
 function TDataSetFormCreator.FormCreateSelect(AOwner: TComponent;
-  pIdPos: integer): TForm;
+  pIdPos: integer; pStrBuscaInicial: string): TForm;
 begin
-  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL,
-    UsuarioLog, DBMS, Output, ProcessLog, OutputNotify, FEntEd, FEntDBI,
-    mdfSelect, pIdPos, AppObj);
+  Result := DataSetFormClass.Create(AOwner, FormClassNamesSL, UsuarioLog, DBMS,
+    Output, ProcessLog, OutputNotify, FEntEd, FEntDBI, mdfSelect,
+    pIdPos, pStrBuscaInicial, AppObj);
 end;
 
 function TDataSetFormCreator.GetDataSetFormClass: TTabSheetDataSetBasFormClass;
@@ -74,7 +73,8 @@ function TDataSetFormCreator.PergSelect(var pSelectItem: TSelectItem): boolean;
 var
   oForm: TTabSheetDataSetBasForm;
 begin
-  oForm := TTabSheetDataSetBasForm(FormCreateSelect(nil, pSelectItem.Id));
+  oForm := TTabSheetDataSetBasForm(FormCreateSelect(nil, pSelectItem.Id,
+    pSelectItem.StrBuscaInicial));
   try
     Result := IsPositiveResult(oForm.ShowModal);
     if Result then

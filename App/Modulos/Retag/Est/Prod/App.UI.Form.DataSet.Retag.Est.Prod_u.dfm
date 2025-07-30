@@ -7,10 +7,10 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
   ExplicitHeight = 439
   TextHeight = 15
   inherited TitPanel_BasTabSheet: TPanel
-    Top = 409
+    Top = 403
     Width = 688
     StyleElements = [seFont, seClient, seBorder]
-    ExplicitTop = 409
+    ExplicitTop = 403
     ExplicitWidth = 688
     inherited TitAuxPanel_BasTabSheet: TPanel
       Left = 548
@@ -23,17 +23,28 @@ inherited RetagEstProdDataSetForm: TRetagEstProdDataSetForm
       ExplicitWidth = 548
       inherited TitToolBar1_BasTabSheet: TToolBar
         Width = 548
-        Align = alBottom
+        Height = 38
+        Align = alNone
+        AutoSize = False
         ExplicitWidth = 548
+        ExplicitHeight = 38
       end
     end
   end
   inherited DBGrid1: TDBGrid
     Width = 688
-    Height = 409
+    Height = 403
   end
   inherited SelectPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]
+    inherited ToolBar1: TToolBar
+      Width = 62
+      Height = 30
+      Align = alNone
+      AutoSize = False
+      ExplicitWidth = 62
+      ExplicitHeight = 30
+    end
   end
   inherited ActionList1_ActBasForm: TActionList
     object MudaLoteAction_ProdDatasetTabSheet: TAction

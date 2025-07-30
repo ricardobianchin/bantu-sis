@@ -12,17 +12,18 @@ inherited AppEstDataSetForm: TAppEstDataSetForm
     end
   end
   inherited DBGrid1: TDBGrid
-    Height = 193
+    Height = 187
   end
   object DetailPanel: TPanel [2]
     Left = 0
-    Top = 193
+    Top = 187
     Width = 700
     Height = 220
     Align = alBottom
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 3
+    ExplicitTop = 193
   end
   inherited SelectPanel: TPanel
     StyleElements = [seFont, seClient, seBorder]

@@ -5,6 +5,7 @@ interface
 uses Vcl.StdCtrls, Vcl.Controls, Winapi.Messages, System.Classes, System.Types,
   Vcl.Graphics, Vcl.Forms;
 
+procedure PosicionarCursorFim(Edit: TCustomEdit);
 function EditVazio(pEdit: TCustomEdit): boolean;
 procedure SimuleTecla(VkKeyCode: integer; pControl: TControl = nil);
 procedure MakeRounded(Control: TWinControl; Radius: integer);
@@ -56,6 +57,15 @@ uses System.SysUtils, ComCtrls, windows, ExtCtrls, CheckLst,
 type
   TMyCustomEdit = class(TCustomEdit);
   TMyControl = class(TControl);
+
+procedure PosicionarCursorFim(Edit: TCustomEdit);
+begin
+  if Assigned(Edit) then
+  begin
+    Edit.SelStart := Length(Edit.Text);
+    Edit.SelLength := 0;
+  end;
+end;
 
 function EditVazio(pEdit: TCustomEdit): boolean;
 begin

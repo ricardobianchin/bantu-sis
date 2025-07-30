@@ -17,7 +17,7 @@ type
 
 implementation
 
-uses App.PDV.Preco.Utils, Sis.Types.strings_u, System.SysUtils;
+uses App.Prod.BuscaTipo_u, Sis.Types.strings_u, System.SysUtils;
 
 { TShopPrecoBuscaDBI }
 

@@ -10,7 +10,7 @@ uses
   FireDAC.Comp.DataSet, App.AppObj, FireDAC.Comp.Client,
   Sis.DB.FDDataSetManager, Sis.DB.Factory, Vcl.StdCtrls, Sis.Config.SisConfig,
   Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, App.Ent.Ed,
-  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types, App.UI.TabSheet.DataSet.Types_u;
+  App.Ent.DBI, Sis.UI.ImgDM, Sis.Types, App.UI.TabSheet.DataSet.Types_u, Sis.UI.Frame.Bas.Filtro_u;
 
 type
   TTabSheetDataSetBasForm = class(TTabSheetAppBasForm)
@@ -44,6 +44,7 @@ type
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FModoDataSetForm: TModoDataSetForm;
@@ -51,8 +52,10 @@ type
     FEntEd: IEntEd;
     FEntDBI: IEntDBI;
     FIdPos: integer;
+    FStrBuscaInicial: string;
     // FFDDataSetManager: IFDDataSetManager;
 
+    FFiltroFrame: TFiltroFrame;
     FFiltroEditAutomatico: boolean;
 
     FAtualizaAposEd: boolean;
@@ -118,17 +121,21 @@ type
       write FFDMemTablePodeEventos;
 
     function AtuPode: Boolean; virtual;
+    property StrBuscaInicial: string read FStrBuscaInicial;
 
+    function Voltou: Boolean; override;
+    property FiltroFrame: TFiltroFrame read FFiltroFrame write FFiltroFrame;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); reintroduce; virtual;
 
     function GetSelectValues: variant;
     function GetSelectItem: TSelectItem; virtual;
+
   end;
 
   TTabSheetDataSetBasFormClass = class of TTabSheetDataSetBasForm;
@@ -205,6 +212,11 @@ begin
       LastButton := TitToolBar1_BasTabSheet.Buttons[i];
   end;
 
+  if TitPanel_BasTabSheet.Height < (SelectPanel.Height + 1) then
+  begin
+    TitPanel_BasTabSheet.Height := (SelectPanel.Height + 1);
+  end;
+
   // Muda o parent do panel para a toolbar
   SelectPanel.Parent := TitToolBar1_BasTabSheet;
   // Posiciona o left do panel
@@ -246,6 +258,8 @@ begin
   FFDMemTablePodeEventos := True;
   FDMemTableColocarEventos;
   AjusteQtdRegsLabel;
+  if FStrBuscaInicial = '' then
+    TrySetFocus(DBGrid1);
 end;
 
 procedure TTabSheetDataSetBasForm.AtuAction_DatasetTabSheetExecute
@@ -261,7 +275,6 @@ begin
     DoAtualizar(Self);
     DoAposAtualizar;
   finally
-    TrySetFocus(DBGrid1);
     AtuExecutando := False;
   end;
 end;
@@ -287,7 +300,7 @@ constructor TTabSheetDataSetBasForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 var
   sNomeArq: string;
 begin
@@ -297,6 +310,8 @@ begin
   FEntDBI := pEntDBI;
   FModoDataSetForm := pModoDataSetForm;
   FIdPos := pIdPos;
+  FStrBuscaInicial := pStrBuscaInicial;
+  FFiltroFrame := nil;
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pAppObj);
 
@@ -316,12 +331,23 @@ begin
   sNomeArq := GetNomeArqTabView;
   Sis.DB.DataSet.Utils.DefCamposArq(sNomeArq, FFDMemTable, DBGrid1);
 
-  if ModoDataSetForm = mdfSelect then
+//  TitToolBar1_BasTabSheet.Height := ToolBar1.Height;
+//  TitToolBar1_BasTabSheet.ButtonHeight := ToolBar1.ButtonHeight;
+//
+//  if TitToolBar1_BasTabSheet.Parent.Height < ToolBar1.Height then
+//    TitToolBar1_BasTabSheet.Parent.Height := ToolBar1.Height;
+
+  if ModoDataSetForm = TModoDataSetForm.mdfSelect then
   begin
     Position := poDesktopCenter;
     BorderStyle := bsDialog;
     Align := alNone;
     Caption := 'Selecionando ' + EntEd.NomeEnt;
+
+    Width := (95 * Screen.WorkAreaRect.Width) div 100;
+    Height := (95 * Screen.WorkAreaRect.Height) div 100;
+
+    ControlAlignToRect(Self, Screen.WorkAreaRect);
   end;
 
   FDMemTableColocarEventos;
@@ -344,7 +370,10 @@ begin
     VK_INSERT:
       InsAction_DatasetTabSheet.Execute;
     VK_RETURN:
-      OkAction.Execute;
+    begin
+      if (Shift = []) or (Shift = [ssCtrl]) then
+        OkAction.Execute;
+    end;
     VK_SPACE:
       AltAction_DatasetTabSheet.Execute;
   end;
@@ -430,6 +459,22 @@ begin
   end;
 end;
 
+procedure TTabSheetDataSetBasForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #27 then
+  begin
+    key := #0;
+    if ModoDataSetForm = mdfSelect then
+    begin
+      Voltou;
+    end;
+
+    exit;
+  end;
+
+  inherited;
+end;
+
 function TTabSheetDataSetBasForm.GetCDS1: TFDMemTable;
 begin
   Result := FFDMemTable;
@@ -495,7 +540,8 @@ begin
 
   AtuAction_DatasetTabSheet.Execute;
 
-  TrySetFocus(DBGrid1);
+  if fstrbuscainicial = '' then
+    TrySetFocus(DBGrid1);
 
   if ModoDataSetForm = TModoDataSetForm.mdfBrowse then
     exit;
@@ -560,6 +606,26 @@ end;
 procedure TTabSheetDataSetBasForm.SetState(const Value: TDataSetState);
 begin
   FEntEd.State := Value;
+end;
+
+function TTabSheetDataSetBasForm.Voltou: Boolean;
+begin
+  Result := AtuExecutando or InsExecutando or AltExecutando or ExclExecutando;
+  if Result then
+    exit;
+  if Assigned(FiltroFrame) then
+  begin
+    Result := FiltroFrame.Voltou;
+    if Result then
+      exit;
+  end;
+  if ModoDataSetForm = TModoDataSetForm.mdfSelect then
+  begin
+    Result := True;
+    CancelAction.Execute;
+    exit;
+  end;
+  Result := inherited;
 end;
 
 end.

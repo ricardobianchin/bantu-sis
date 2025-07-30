@@ -7,12 +7,12 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   App.UI.Form.Bas.TabSheet.DataSet_u, Data.DB, System.Actions, Vcl.ActnList,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.ToolWin, App.AppObj,
-  Vcl.StdCtrls, App.UI.Frame.Filtro.Prod_Or_u, App.Ent.DBI, Sis.DB.DBTypes,
+  Vcl.StdCtrls, {App.UI.Frame.Filtro.Prod_Or_u,} App.Ent.DBI, Sis.DB.DBTypes,
   App.UI.Decorator.Form.Excl, App.Ent.Ed, App.Ent.Ed.Id.Descr,
   App.Retag.Est.Prod.Ent, Sis.UI.FormCreator, App.Est.Prod.Barras.DBI,
   {Sis.DB.UltimoId,} Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   App.UI.TabSheet.DataSet.Types_u, App.UI.Frame.Retag.Prod.MudaLote_u,
-  Sis.Types, App.Est.Types_u;
+  Sis.Types, App.Est.Types_u, App.UI.Frame.Filtro.Prod_And_u;
 
 type
   TRetagEstProdDataSetForm = class(TTabSheetDataSetBasForm)
@@ -23,7 +23,8 @@ type
     { Private declarations }
     FUltimoId: integer;
     FCodsBarrasAcumulando: string;
-    FFiltroFrame: TProdOrFiltroFrame;
+    // desisti deste FFiltroFrame: TProdOrFiltroFrame;
+//    FFiltroFrame: TProdAndFiltroFrame;
     FMudaLoteFrame: TMudaLoteFrame;
     // FProdUltimoId: IUltimoId;
     function GetProdEnt: IProdEnt;
@@ -54,7 +55,7 @@ type
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList;
       pUsuarioLog: IUsuario; pDBMS: IDBMS; pOutput: IOutput;
       pProcessLog: IProcessLog; pOutputNotify: IOutput; pEntEd: IEntEd;
-      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer;
+      pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm; pIdPos: integer; pStrBuscaInicial: string;
       pAppObj: IAppObj); override;
   end;
 
@@ -69,7 +70,7 @@ uses Sis.UI.IO.Files, Sis.UI.Controls.TToolBar, App.Retag.Est.Factory,
   Sis.DB.Factory, App.DB.Utils, App.UI.Form.Retag.Excl_u,
   Sis.UI.Controls.TDBGrid, App.Retag.Est.Prod.Ent_u, App.Est.Factory_u,
   App.Retag.Est.Prod.Ed.DBI, Sis.Types.Bool_u, Sis.Sis.Constants,
-  Sis.UI.Controls.Utils, Sis.DB.DataSet.Utils;
+  Sis.UI.Controls.Utils, Sis.DB.DataSet.Utils, Sis.Types.Variants;
 
 { TRetagEstProdDataSetForm }
 
@@ -77,12 +78,11 @@ constructor TRetagEstProdDataSetForm.Create(AOwner: TComponent;
   pFormClassNamesSL: TStringList; pUsuarioLog: IUsuario; pDBMS: IDBMS;
   pOutput: IOutput; pProcessLog: IProcessLog; pOutputNotify: IOutput;
   pEntEd: IEntEd; pEntDBI: IEntDBI; pModoDataSetForm: TModoDataSetForm;
-  pIdPos: integer; pAppObj: IAppObj);
+  pIdPos: integer; pStrBuscaInicial: string; pAppObj: IAppObj);
 begin
   inherited Create(AOwner, pFormClassNamesSL, pUsuarioLog, pDBMS, pOutput,
     pProcessLog, pOutputNotify, pEntEd, pEntDBI, pModoDataSetForm,
-    pIdPos, pAppObj);
-  FFiltroFrame := nil;
+    pIdPos, pStrBuscaInicial, pAppObj);
   FMudaLoteFrame := nil;
 
   // FProdUltimoId := ProdDataSetUltimoIdCreate(FDMemTable);
@@ -93,16 +93,18 @@ procedure TRetagEstProdDataSetForm.CrieFiltroFrame;
 var
   iIndexUltimoBotao: integer;
   l, w: integer;
-  oP: TPanel;
+//  oP: TPanel;
 begin
-  if Assigned(FFiltroFrame) then
+  if Assigned(FiltroFrame) then
     exit;
 
   // FFiltroStringFrame
-  oP := TitPanel_BasTabSheet;
-  FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
-  FFiltroFrame.Parent := Self;
-  FFiltroFrame.Align := alBottom;
+  //oP := TitPanel_BasTabSheet;
+  //FFiltroFrame := TProdOrFiltroFrame.Create(Self, DoAtualizar);
+  FiltroFrame := TProdAndFiltroFrame.Create(Self, DoAtualizar);
+  FiltroFrame.Parent := Self;
+  FiltroFrame.Align := alBottom;
+  FiltroFrame.Values := Sis.Types.Variants.VarToVarArray(StrBuscaInicial);
   // oP.Height := oP.Height + FFiltroFrame.Height;
 end;
 
@@ -163,7 +165,7 @@ begin
   oConn.Abrir;
   try
     FMudaLoteFrame.Atualizar(oConn);
-    EntDBI.ForEach(FFiltroFrame.Values, LeRegEInsere);
+    EntDBI.ForEach(FiltroFrame.Values, LeRegEInsere);
   finally
     FDMemTable.First;
     FDMemTable.EndBatch;

@@ -22,6 +22,7 @@ type
   protected
     procedure ToolBar1CrieBotoes;virtual;
     procedure PrepareControls; virtual;
+    function Voltou: Boolean; virtual;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pFormClassNamesSL: TStringList); reintroduce;
@@ -81,6 +82,12 @@ end;
 procedure TTabSheetBasForm.ToolBar1CrieBotoes;
 begin
   ToolBarAddButton(FecharAction_ActBasForm, TitToolBar1_BasTabSheet);
+end;
+
+function TTabSheetBasForm.Voltou: Boolean;
+begin
+  Result := True;
+  Close;
 end;
 
 end.

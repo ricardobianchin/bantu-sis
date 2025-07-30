@@ -536,7 +536,7 @@ begin
     if ProdIdDelesLabeledEdit.Text = '' then
     begin
       if ProdSelectFrame.ProdId < 1 then
-        ProdSelectFrame.Selecionar
+        ProdSelectFrame.Selecionar('')
       else
         QtdNumEditBtu.SetFocus;
     end

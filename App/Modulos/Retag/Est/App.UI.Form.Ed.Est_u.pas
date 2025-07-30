@@ -41,6 +41,7 @@ type
     property DummyFormClassNamesSL: TStringList read FDummyFormClassNamesSL;
     property MudoOutput: IOutput read FMudoOutput;
     property MudoProcessLog: IProcessLog read FMudoProcessLog;
+    function Voltou: Boolean; override;
   public
     { Public declarations }
 
@@ -59,7 +60,8 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.Controls.Utils, Sis.Types.Floats, Sis.UI.IO.Factory,
-  Sis.UI.IO.Output.ProcessLog.Factory;
+  Sis.UI.IO.Output.ProcessLog.Factory, App.Retag.Est.Factory,
+  Sis.Types.strings_u;
 
 { TEstEdBasForm }
 
@@ -123,9 +125,8 @@ begin
   FMudoOutput := MudoOutputCreate;
   FMudoProcessLog := MudoProcessLogCreate;
   FDummyFormClassNamesSL := TStringList.Create;
-  FEstMovDBI := pEntDBI as IEstMovDBI;
-  FEstMovEnt := pEntEd as IEstMovEnt<IEstMovItem>;
-  // FEstMovEnt: IEstMovEnt<IEstMovItem>;pEntEd as IEstSaidaEnt
+  FEstMovDBI := EntDBICastToEstMovDBI(pEntDBI);
+  FEstMovEnt := EntEdCastToEstMovEnt(pEntEd);
 
   FProdSelectFrame := TProdSelectFrame.Create(ItemGroupBox, pDBConnection,
     pAppObj, pUsuarioLog, pDBMS, pOutput, pProcessLog, pOutputNotify);
@@ -180,26 +181,41 @@ begin
   // inherited;
   if Key = #13 then
   begin
+    ProdSelectFrame.ProdLabeledEditKeyPress(ProdSelectFrame.ProdLabeledEdit, Key);
     Key := #0;
-    if ProdSelectFrame.ProdId > 0 then
-    begin
-      ProdSelectSelect(ProdSelectFrame);
-      Exit;
-    end;
-    ProdSelectFrame.Selecionar;
+    exit;
+//    if ProdSelectFrame.ProdId > 0 then
+//    begin
+//      ProdSelectSelect(ProdSelectFrame);
+//      Exit;
+//    end;
+//    ProdSelectFrame.Selecionar('');
   end;
-
-  if (Key >= #32) then
-  begin
-    Key := #0;
-    ProdSelectFrame.Selecionar;
-  end;
+  CharSemAcento(Key);
+//  if (Key >= #32) then
+//  begin
+//    ProdSelectFrame.Selecionar(Key);
+//    Key := #0;
+//  end;
 end;
 
 procedure TEstEdBasForm.ProdSelectSelect(Sender: TObject);
 begin
   MensLimpar;
   QtdNumEditBtu.SetFocus;
+end;
+
+function TEstEdBasForm.Voltou: Boolean;
+begin
+  Result := ProdSelectFrame.ProdId > 0;
+  if Result then
+  begin
+    ProdSelectFrame.PegarProdId(0);
+    ProdSelectFrame.ProdLabeledEdit.SetFocus;
+    exit;
+  end;
+
+  Result := inherited;
 end;
 
 end.
