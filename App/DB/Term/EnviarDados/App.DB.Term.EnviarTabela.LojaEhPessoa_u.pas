@@ -208,7 +208,7 @@ end;
 function TEnvTabLojaEhPessoa.GetSqlQtdRegs: string;
 begin
   Result := //
-    'SELECT COUNT(PESSOA_ID)'#13#10 //
+    'SELECT COUNT(*)'#13#10 //
 
     +'FROM LOJA_EH_PESSOA'#13#10 //
 
