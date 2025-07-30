@@ -547,7 +547,7 @@ function EstSaldoHistProdFormDBICreate(pDBConnection: IDBConnection;
 
 implementation
 
-uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u
+uses Vcl.Controls, App.UI.FormCreator.DataSet_u, App.Est.Factory_u, System.SysUtils
 
 {$REGION 'uses fabr'}
   // fabr
@@ -1188,7 +1188,6 @@ end;
 function EntEdCastToEstSaidaEnt(pEntEd: IEntEd): IEstSaidaEnt;
 begin
   Result := TEstSaidaEnt(pEntEd);
-  // Result := pEntEd as IEstSaidaEnt;
 end;
 
 function EntDBICastToEstSaidaDBI(pEntDBI: IEntDBI): IEstSaidaDBI;
@@ -1287,7 +1286,6 @@ end;
 function EntEdCastToInventarioEnt(pEntEd: IEntEd): IInventarioEnt;
 begin
   Result := TInventarioEnt(pEntEd);
-  // Result := pEntEd as IInventarioEnt;
 end;
 
 function EntDBICastToInventarioDBI(pEntDBI: IEntDBI): IInventarioDBI;
@@ -1387,7 +1385,6 @@ end;
 function EntEdCastToEntradaEnt(pEntEd: IEntEd): IEntradaEnt;
 begin
   Result := TEntradaEnt(pEntEd);
-  // Result := pEntEd as IEntradaEnt;
 end;
 
 function EntDBICastToEntradaDBI(pEntDBI: IEntDBI): IEntradaDBI;
@@ -1511,7 +1508,6 @@ end;
 function EntEdCastToRetagVendaEnt(pEntEd: IEntEd): IRetagVendaEnt;
 begin
   Result := TRetagVendaEnt(pEntEd);
-  // Result := pEntEd as IEntradaEnt;
 end;
 
 function EntDBICastToRetagVendaDBI(pEntDBI: IEntDBI): IRetagVendaDBI;
@@ -1619,7 +1615,6 @@ end;
 function EntEdCastToEstPromoEnt(pEntEd: IEntEd): IEstPromoEnt;
 begin
   Result := TEstPromoEnt(pEntEd);
-  // Result := pEntEd as IPromoEnt;
 end;
 
 function EntDBICastToEstPromoDBI(pEntDBI: IEntDBI): IEstPromoDBI;
@@ -1720,7 +1715,7 @@ end;
 function EntEdCastToEstMovEnt(pEntEd: IEntEd): IEstMovEnt<IEstMovItem>;
 begin
   Result := TEstMovEnt(pEntEd);
-  // Result := pEntEd as IEstMovEnt<IEstMovItem>;
+
   // if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
   // Exit(Result)
   // else

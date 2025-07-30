@@ -26,7 +26,7 @@ implementation
 
 function TVendaPagList.GetItem(Index: Integer): IVendaPag;
 begin
-  Result := inherited Items[Index] as IVendaPag;
+  Result := IVendaPag(inherited Items[Index]);
 end;
 
 function TVendaPagList.GetProximaOrdem: SmallInt;

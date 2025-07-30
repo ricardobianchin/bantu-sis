@@ -82,7 +82,8 @@ implementation
 
 uses Sis.UI.Controls.Utils, Sis.UI.Controls.Factory, Sis.UI.ImgDM,
   Sis.UI.Frame.Bas.Filtro.BuscaString_u, App.Retag.Est.ProdSelectDBI_u,
-  Sis.Types.Bool_u, App.Retag.Est.Factory, Sis.Win.Utils_u, Sis.Types.Floats;
+  Sis.Types.Bool_u, App.Retag.Est.Factory, Sis.Win.Utils_u, Sis.Types.Floats,
+  Sis.Types.strings_u;
 
 { TProdSelectFrame }
 
@@ -140,7 +141,7 @@ begin
   FBarras := '';
 
   Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, False);
-//  Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
+  // Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
 
   FProdFormCreator := ProdFormCreatorCreate(DummyFormClassNamesSL, pUsuarioLog,
     pDBMS, pOutput, pProcessLog, pOutputNotify, pAppObj, pDBConnection);
@@ -215,6 +216,7 @@ begin
 
     ProdLabeledEdit.Text := '';
 
+    Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, False);
     exit;
   end;
 
@@ -222,6 +224,7 @@ begin
 
   if bErroDeu then
   begin
+    Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, False);
     // ShowMessage('Erro ao pegar produto: ' + sErroMens);
     exit;
   end;
@@ -236,6 +239,7 @@ begin
   FBarras := vValues[7];
 
   ProdLabeledEdit.Text := FProdId.ToString + ' - ' + FProdDescrRed;
+  Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
 end;
 
 procedure TProdSelectFrame.ProdLabeledEditClick(Sender: TObject);
@@ -251,30 +255,63 @@ begin
   inherited;
   case Key of
     VK_DOWN:
-    begin
-      if Shift = [] then
       begin
-        Key := 0;
-        Selecionar('');
+        if Shift = [] then
+        begin
+          Key := 0;
+          Selecionar('');
+        end;
       end;
-    end;
   end;
 end;
 
 procedure TProdSelectFrame.ProdLabeledEditKeyPress(Sender: TObject;
   var Key: Char);
+var
+  bErroDeu: Boolean;
+  sMens: string;
 begin
   inherited;
-//  case Key of
-//    VK_DOWN:
-//    begin
-//      if Shift = [] then
-//      begin
-//        Key := 0;
-//        Selecionar('');
-//      end;
-//    end;
-//  end;
+  if Key = #13 then
+  begin
+    Key := #0;
+    if ProdLabeledEdit.Text <> '' then
+    begin
+      FProdSelectDBI.BusqueProd(ProdLabeledEdit.Text, //
+        FProdId, //
+        FProdDescrRed, //
+        FProdBalancaExige, //
+        FProdFabrNome, //
+        FCusto, //
+        FMargem, //
+        FPreco, //
+        FBarras, //
+        bErroDeu, //
+        sMens //
+        );
+      if FProdId > 0 then
+      begin
+        ProdLabeledEdit.Text := FProdId.ToString + ' - ' + FProdDescrRed;;
+        Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
+        if Assigned(FOnSelect) then
+          FOnSelect(Self);
+        exit;
+      end;
+    end;
+    Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, False);
+    Selecionar(ProdLabeledEdit.Text);
+  end;
+  CharSemAcento(Key);
+  // case Key of
+  // VK_DOWN:
+  // begin
+  // if Shift = [] then
+  // begin
+  // Key := 0;
+  // Selecionar('');
+  // end;
+  // end;
+  // end;
 end;
 
 function TProdSelectFrame.ProdSelectCreate: ISelect;
@@ -325,10 +362,10 @@ begin
   end;
 
   ProdLabeledEdit.Text := FProdId.ToString + ' - ' + FProdDescrRed;;
+  Sis.UI.Controls.Utils.ReadOnlySet(ProdLabeledEdit, True);
 
   if Assigned(FOnSelect) then
     FOnSelect(Self);
-
 end;
 
 end.

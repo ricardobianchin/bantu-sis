@@ -370,7 +370,10 @@ begin
     VK_INSERT:
       InsAction_DatasetTabSheet.Execute;
     VK_RETURN:
-      OkAction.Execute;
+    begin
+      if (Shift = []) or (Shift = [ssCtrl]) then
+        OkAction.Execute;
+    end;
     VK_SPACE:
       AltAction_DatasetTabSheet.Execute;
   end;
