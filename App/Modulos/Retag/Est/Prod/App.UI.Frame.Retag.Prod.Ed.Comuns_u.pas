@@ -168,6 +168,9 @@ var
   I: integer;
 begin
   inherited Create(AOwner, pProdEnt, pErroOutput);
+
+  ProdNatuComboBox.ItemIndex := 0;
+
   DescrErroLabel.Caption := '';
   DescrRedErroLabel.Caption := '';
   CustoErroLabel.Caption := '';

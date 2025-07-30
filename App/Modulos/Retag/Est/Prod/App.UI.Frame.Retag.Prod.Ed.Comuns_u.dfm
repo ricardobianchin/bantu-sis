@@ -257,9 +257,9 @@ inherited RetagProdEdComunsFrame: TRetagProdEdComunsFrame
     Width = 120
     Height = 23
     Style = csDropDownList
-    ItemIndex = 2
+    ItemIndex = 0
     TabOrder = 2
-    Text = 'MAT'#201'RIA-PRIMA'
+    Text = 'PRODUTO'
     Items.Strings = (
       'PRODUTO'
       'SERVI'#199'O'
