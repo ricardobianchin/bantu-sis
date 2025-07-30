@@ -1047,6 +1047,7 @@ begin
       oDBQuery.Abrir;
       try
         Result := oDBQuery.DataSet.Fields[0].AsInteger;
+        FSisConfig.LocalMachineId.IdentId := Result;
       finally
         oDBQuery.Fechar;
       end;

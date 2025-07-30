@@ -69,6 +69,13 @@ inherited PessEdBasForm: TPessEdBasForm
       Caption = 'Nome'
       FocusControl = NomePessEdit
     end
+    object ApelidoPessLabel: TLabel
+      Left = 535
+      Top = 4
+      Width = 61
+      Height = 15
+      Caption = 'Nome Exib.'
+    end
     object NomePessEdit: TEdit
       Left = 47
       Top = 0
@@ -77,6 +84,15 @@ inherited PessEdBasForm: TPessEdBasForm
       MaxLength = 60
       TabOrder = 0
       OnKeyPress = NomePessEditKeyPress
+    end
+    object ApelidoPessEdit: TEdit
+      Left = 599
+      Top = 0
+      Width = 161
+      Height = 23
+      MaxLength = 20
+      TabOrder = 1
+      OnKeyPress = ApelidoPessEditKeyPress
     end
   end
   object PesJurPanel: TPanel [7]
@@ -96,14 +112,6 @@ inherited PessEdBasForm: TPessEdBasForm
       Caption = 'Nome Fantasia'
       FocusControl = NomeFantaPessEdit
     end
-    object ApelidoPessLabel: TLabel
-      Left = 374
-      Top = 4
-      Width = 61
-      Height = 15
-      Caption = 'Nome Exib.'
-      FocusControl = ApelidoPessEdit
-    end
     object NomeFantaPessEdit: TEdit
       Left = 94
       Top = 0
@@ -112,15 +120,6 @@ inherited PessEdBasForm: TPessEdBasForm
       MaxLength = 60
       TabOrder = 0
       OnKeyPress = NomeFantaPessEditKeyPress
-    end
-    object ApelidoPessEdit: TEdit
-      Left = 440
-      Top = 0
-      Width = 161
-      Height = 23
-      MaxLength = 20
-      TabOrder = 1
-      OnKeyPress = ApelidoPessEditKeyPress
     end
   end
   object DocsPanel: TPanel [8]

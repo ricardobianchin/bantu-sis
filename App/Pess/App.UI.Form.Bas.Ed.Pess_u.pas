@@ -22,8 +22,6 @@ type
     PesJurPanel: TPanel;
     NomeFantaPessLabel: TLabel;
     NomeFantaPessEdit: TEdit;
-    ApelidoPessLabel: TLabel;
-    ApelidoPessEdit: TEdit;
     DocsPanel: TPanel;
     CPessEdit: TEdit;
     IPessEdit: TEdit;
@@ -40,6 +38,8 @@ type
     Button1: TButton;
     Button2: TButton;
     MUFPessComboBox: TComboBox;
+    ApelidoPessEdit: TEdit;
+    ApelidoPessLabel: TLabel;
     procedure NomePessEditKeyPress(Sender: TObject; var Key: Char);
     procedure NomeFantaPessEditKeyPress(Sender: TObject; var Key: Char);
     procedure ApelidoPessEditKeyPress(Sender: TObject; var Key: Char);
@@ -203,8 +203,14 @@ end;
 procedure TPessEdBasForm.ApelidoPessEditKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  // inherited;
   EditKeyPress(Sender, Key);
+  if Key = #13 then
+  begin
+    if FPessEnt.PessTipoAceito = TPessTipoAceito.pestipacSoPessFisica then
+      CPessEdit.SetFocus
+    else
+      NomeFantaPessEdit.SetFocus;
+  end;
 end;
 
 procedure TPessEdBasForm.AtivoPessCheckBoxKeyPress(Sender: TObject;
@@ -614,10 +620,7 @@ begin
   EditKeyPress(Sender, Key);
   if Key = #13 then
   begin
-    if FPessEnt.PessTipoAceito = TPessTipoAceito.pestipacSoPessFisica then
-      CPessEdit.SetFocus
-    else
-      NomeFantaPessEdit.SetFocus;
+    ApelidoPessEdit.SetFocus;
   end;
   // SelectNext(NomePessEdit,True, True);
 end;
