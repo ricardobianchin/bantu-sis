@@ -303,6 +303,7 @@ begin
   FDMemTable.Fields[17 { Localiz } ].AsString := ProdEnt.Localiz;
   FDMemTable.Fields[18 { Capac_emb } ].AsCurrency := ProdEnt.CapacEmb;
   FDMemTable.Fields[19 { Margem } ].AsCurrency := ProdEnt.Margem;
+  FDMemTable.Fields[20 { balanca_exige } ].AsBoolean := ProdEnt.ProdBalancaEnt.BalancaExige;
 
 end;
 

@@ -99,6 +99,11 @@ end;
 
 function StrToBoolean(pStr: string): Boolean; inline;
 begin
+  pStr := Trim(pStr);
+  Result := pStr <> '';
+  if not Result then
+    exit;
+
   Result := StrToBool(pStr);
 end;
 
