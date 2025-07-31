@@ -29,6 +29,8 @@ object ConfigPergForm: TConfigPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
+    ExplicitLeft = 56
+    ExplicitTop = 40
     DesignSize = (
       972
       555)
@@ -123,11 +125,10 @@ object ConfigPergForm: TConfigPergForm
       Text = ''
     end
     object UsuAdminGroupBox: TGroupBox
-      Left = 666
+      Left = 609
       Top = 153
       Width = 300
       Height = 333
-      Anchors = [akTop, akRight]
       Caption = 'Login do Administrador'
       TabOrder = 1
       Visible = False
@@ -373,14 +374,14 @@ object ConfigPergForm: TConfigPergForm
     object TerminaisGroupBox: TGroupBox
       Left = 6
       Top = 153
-      Width = 654
+      Width = 595
       Height = 333
       Caption = 'Terminais'
       TabOrder = 7
       object TerminaisErroLabel: TLabel
         Left = 2
         Top = 318
-        Width = 650
+        Width = 591
         Height = 13
         Align = alBottom
         Caption = 'TerminaisErroLabel'
