@@ -165,7 +165,7 @@ end;
 procedure TShopPDVModuloForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-//  ExibaMenu;
+  // ExibaMenu;
 end;
 
 function TShopPDVModuloForm.VendaFrameCreate: TVendaBasPDVFrame;
