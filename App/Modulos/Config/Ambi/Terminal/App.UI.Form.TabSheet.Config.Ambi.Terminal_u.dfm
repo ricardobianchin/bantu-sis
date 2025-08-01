@@ -7,10 +7,12 @@ inherited ConfigAmbiTermForm: TConfigAmbiTermForm
     inherited TitAuxPanel_BasTabSheet: TPanel
       Height = 21
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitHeight = 21
     end
     inherited TitToolPanel_BasTabSheet: TPanel
       Height = 21
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitHeight = 21
     end
   end
   object ServFDConnection: TFDConnection

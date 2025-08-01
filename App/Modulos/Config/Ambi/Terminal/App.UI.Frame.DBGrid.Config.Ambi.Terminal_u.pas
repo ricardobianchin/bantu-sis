@@ -37,13 +37,14 @@ type
     FOutputNotify: IOutput;
     FTermDBI: IConfigAmbiTerminalDBI;
     FServFDConnection: TFDConnection;
+    FTestaNoDB: Boolean;
 
     function GetNomeArqTabView: string;
 
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pTermDBI: IConfigAmbiTerminalDBI;
-      pServFDConnection: TFDConnection); reintroduce;
+      pServFDConnection: TFDConnection; pTestaNoDB: Boolean); reintroduce;
     procedure Preparar;
     procedure SimuleIns;
   end;
@@ -70,7 +71,7 @@ begin
   end;
 
   TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
-    TDataSetState.dsEdit, FServFDConnection);
+    TDataSetState.dsEdit, FServFDConnection, FTestaNoDB);
   if TerminalEdDiagForm.Perg then
   begin
     FTermDBI.Alterar(FDMemTable1);
@@ -79,12 +80,13 @@ begin
 end;
 
 constructor TTerminaisDBGridFrame.Create(AOwner: TComponent;
-  pTermDBI: IConfigAmbiTerminalDBI; pServFDConnection: TFDConnection);
+  pTermDBI: IConfigAmbiTerminalDBI; pServFDConnection: TFDConnection; pTestaNoDB: Boolean);
 begin
   inherited Create(AOwner);
   FServFDConnection := pServFDConnection;
   FOutputNotify := BalloonHintOutputCreate(BalloonHint1);
   FTermDBI := pTermDBI;
+  FTestaNoDB := pTestaNoDB;
 end;
 
 procedure TTerminaisDBGridFrame.DBGrid1DblClick(Sender: TObject);
@@ -170,7 +172,7 @@ procedure TTerminaisDBGridFrame.InsActionExecute(Sender: TObject);
 begin
   inherited;
   TerminalEdDiagForm := TTerminalEdDiagForm.Create(nil, FDMemTable1,
-    TDataSetState.dsInsert, FServFDConnection);
+    TDataSetState.dsInsert, FServFDConnection, FTestaNoDB);
   if TerminalEdDiagForm.Perg then
   begin
     FTermDBI.Inserir(FDMemTable1);

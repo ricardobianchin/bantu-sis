@@ -341,7 +341,7 @@ begin
   FUsuarioAdmin := pUsuarioAdmin;
   FLoja := pLoja;
   FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(TerminaisGroupBox,
-    ConfigAmbiTerminalDBIMudoCreate, ServFDConnection);
+    ConfigAmbiTerminalDBIMudoCreate, ServFDConnection, False);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.Preparar;
   ServerArqConfigErroLabel.Caption := '';

@@ -62,7 +62,7 @@ begin
   FTerminalDBI := TerminalDBICreate(FDBConnection);
   FAmbiTermDBI := ConfigAmbiTerminalDBIGravaCreate(FDBConnection, pUsuarioLog,
     pAppObj, FTerminalDBI);
-  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FAmbiTermDBI, ServFDConnection);
+  FTerminaisDBGridFrame := TTerminaisDBGridFrame.Create(Self, FAmbiTermDBI, ServFDConnection, True);
   FTerminaisDBGridFrame.Align := alClient;
   FTerminaisDBGridFrame.ExclAction.Visible := False;
   FTerminaisDBGridFrame.Preparar;

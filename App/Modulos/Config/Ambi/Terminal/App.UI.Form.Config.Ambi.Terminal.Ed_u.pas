@@ -89,6 +89,10 @@ type
     PosPrinterTesteButton: TButton;
     Label4: TLabel;
     FDConnection1: TFDConnection;
+    MaqLocalToolBar: TToolBar;
+    ToolButton5: TToolButton;
+    ActionList1: TActionList;
+    BuscaLocalNomeAction: TAction;
 
     procedure ShowTimer_BasFormTimer(Sender: TObject);
 
@@ -116,12 +120,14 @@ type
     procedure CupomQtdLinsFinalEditKeyPress(Sender: TObject; var Key: Char);
     procedure PosPrinterTesteButtonClick(Sender: TObject);
     procedure ImprModoEnvioComboBoxChange(Sender: TObject);
+    procedure BuscaLocalNomeActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FTerminaisDataSet: TDataSet;
+    FTerminaisDataSet: TFDMemTable;
     FState: TDataSetState;
 
     FServFDConnection: TFDConnection;
+    FTestaNoDB: Boolean;
 
     procedure Zerar;
 
@@ -149,8 +155,8 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent; pTerminaisDataSet: TDataSet;
-      pDataSetState: TDataSetState; pServFDConnection: TFDConnection);
+    constructor Create(AOwner: TComponent; pTerminaisDataSet: TFDMemTable;
+      pDataSetState: TDataSetState; pServFDConnection: TFDConnection; pTestaNoDB: Boolean);
       reintroduce;
   end;
 
@@ -353,6 +359,15 @@ begin
   inherited;
 end;
 
+procedure TTerminalEdDiagForm.BuscaLocalNomeActionExecute(Sender: TObject);
+var
+  sNome, sIp: string;
+begin
+  PegarIdMaquina(sNome, sIp);
+  NomeNaRedeEdit.Text := sNome;
+  IPEdit.Text := sIp;
+end;
+
 procedure TTerminalEdDiagForm.PosPrinterTesteButtonClick(Sender: TObject);
 begin
   inherited;
@@ -489,12 +504,13 @@ begin
 end;
 
 constructor TTerminalEdDiagForm.Create(AOwner: TComponent;
-  pTerminaisDataSet: TDataSet; pDataSetState: TDataSetState;
-  pServFDConnection: TFDConnection);
+  pTerminaisDataSet: TFDMemTable; pDataSetState: TDataSetState;
+  pServFDConnection: TFDConnection; pTestaNoDB: Boolean);
 begin
   inherited Create(AOwner);
   FTerminaisDataSet := pTerminaisDataSet;
   FState := pDataSetState;
+  FTestaNoDB := pTestaNoDB;
   // NomeNaRedeEdit.Text := 'TERM1';
 
   PortaSLPreencher(BalPortaComboBox.Items);
@@ -886,6 +902,11 @@ begin
       sMens := 'Já existe um registro com este ' + sTit;
       exit;
     end;
+
+    Result := not FTestaNoDB;
+    if Result then
+      exit;
+
     try
       FServFDConnection.Connected := True;
       sSql := 'SELECT 1 FROM RDB$DATABASE WHERE EXISTS (' +

@@ -203,10 +203,10 @@ begin
     begin
       TerminalNode := TerminaisNode.ChildNodes[i];
       oTerminal := TerminalCreate;
-      FTerminalList.Add(oTerminal);
       oTerminal.TerminalId := StrToIntDef(TerminalNode.Attributes['ID'], 0);
       oTerminal.NomeNaRede := TerminalNode.ChildNodes['NOME'].Text;
       oTerminal.IP := TerminalNode.ChildNodes['IP'].Text;
+      FTerminalList.Add(oTerminal);
     end;
   end;
 

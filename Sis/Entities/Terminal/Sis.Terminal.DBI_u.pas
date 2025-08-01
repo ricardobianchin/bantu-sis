@@ -81,9 +81,9 @@ var
   i: integer;
   DBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
-  DBQuery: IDBQuery;
   sSql: string;
   oTerminal: ITerminal;
+  q: TDataSet;
 begin
   for i := 0 to pTerminalList.Count - 1 do
   begin
@@ -97,10 +97,12 @@ begin
     DBConnection.Abrir;
     try
       sSql := GetSqlTerminal(oTerminal.TerminalId);
-      DBQuery := DBQueryCreate('TerminalGetQ', DBConnection, sSql, nil, nil);
-      DBQuery.Abrir;
-      DataSetToTerminal(DBQuery.DataSet, oTerminal, '', '');
-      DBQuery.Fechar;
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
+      DBConnection.QueryDataSet(sSql, q);
+      DataSetToTerminal(q, oTerminal, '', '');
+      q.free;
     finally
       DBConnection.Fechar;
     end;

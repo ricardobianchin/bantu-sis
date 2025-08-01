@@ -508,7 +508,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
     end
   end
   object SempreOffLineCheckBox: TCheckBox [22]
-    Left = 672
+    Left = 699
     Top = 30
     Width = 103
     Height = 17
@@ -771,6 +771,22 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       OnClick = PosPrinterTesteButtonClick
     end
   end
+  object MaqLocalToolBar: TToolBar [27]
+    Left = 662
+    Top = 27
+    Width = 31
+    Height = 29
+    Align = alNone
+    ButtonWidth = 31
+    Caption = 'LoginToolBar'
+    Images = SisImgDataModule.ImageListLogin16
+    TabOrder = 13
+    object ToolButton5: TToolButton
+      Left = 0
+      Top = 0
+      Action = BuscaLocalNomeAction
+    end
+  end
   inherited ShowTimer_BasForm: TTimer
     Left = 624
     Top = 89
@@ -786,5 +802,16 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   object FDConnection1: TFDConnection
     Left = 288
     Top = 72
+  end
+  object ActionList1: TActionList
+    Images = SisImgDataModule.ImageListLogin16
+    Left = 632
+    Top = 208
+    object BuscaLocalNomeAction: TAction
+      Caption = 'Buscar nome'
+      Hint = 'Descobre o nome da m'#225'quina local'
+      ImageIndex = 2
+      OnExecute = BuscaLocalNomeActionExecute
+    end
   end
 end
