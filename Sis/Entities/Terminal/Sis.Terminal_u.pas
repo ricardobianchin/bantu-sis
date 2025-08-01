@@ -2,7 +2,7 @@ unit Sis.Terminal_u;
 
 interface
 
-uses Sis.Entities.Types, Sis.Terminal, Sis.Threads.Crit.CriticalSections;
+uses Sis.Entities.Types, Sis.Terminal, Sis.Threads.Crit.CriticalSections, Sis.UI.Impressao.Types_u;
 
 type
   TTerminal =  class(TInterfacedObject, ITerminal)

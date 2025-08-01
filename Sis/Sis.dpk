@@ -332,6 +332,7 @@ contains
   Sis.UI.Fram.Control.DtHFaixaFrame_u in 'UI\BasForm\DtHFrame\DtHFaixaFrame\Sis.UI.Fram.Control.DtHFaixaFrame_u.pas' {DtHFaixaFrame: TFrame},
   Sis.UI.ImpressaoTexto.POSPrinter_u in 'UI\Impr\Sis.UI.ImpressaoTexto.POSPrinter_u.pas',
   Sis.DB.Updater.Comando.FB.CreateTableTemporary_u in 'DB\Updater\Sis.DB.Updater.Comando.FB.CreateTableTemporary_u.pas',
-  Sis.UI.ImpressaoMudo_u in 'UI\Impr\Sis.UI.ImpressaoMudo_u.pas';
+  Sis.UI.ImpressaoMudo_u in 'UI\Impr\Sis.UI.ImpressaoMudo_u.pas',
+  Sis.UI.Impressao.Types_u in 'UI\Impr\Sis.UI.Impressao.Types_u.pas';
 
 end.

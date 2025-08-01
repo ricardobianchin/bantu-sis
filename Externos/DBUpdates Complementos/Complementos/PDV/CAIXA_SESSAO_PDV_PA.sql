@@ -1,115 +1,3 @@
-/*
-CAIXA_SESSAO_PDV_PA
-show package CAIXA_SESSAO_PDV_PA;
-DROP package CAIXA_SESSAO_PDV_PA;
-in "C:\Pr\App\Bantu\bantu-sis\src\Externos\DBUpdates Complementos\Complementos\PDV\caixa_sessao_pdv_pa.sql";
-
-prefixos usados
-
-FECH_TELA_ usado na tela de fechamento
-SESS_RELAT_ usado nas rotinas do relatorio de caixa
-
-----------------
--- 
-SELECT * FROM CAIXA_SESSAO_PDV_PA.;
-*/
-
-/*
-CREATE DOMAIN DINH_DOM AS NUMERIC(12, 2);
-*/
-
-/*
-procedures para antes do fechamento de caixa
-o fechamento mesmo ocorre com:
-CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO
-
-----------------
---tem caixa aberto?
-SELECT * FROM CAIXA_SESSAO_PDV_PA.TEM_CAIXA_ABERTO;
-
-----------------
---tem venda nao finalizada?
-SELECT * FROM CAIXA_SESSAO_PDV_PA.TEM_VENDA_NAO_FINALIZADA;
-
-----------------
--- pode fechar caixa?
-SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
-
-----------------
-lista usada no dataset da tela de fechamento
-FORMA_ID DESCR
-======== ============================================================
-       1 DINHEIRO
-       2 TRANSF PIX
-       3 CREDICARD DEB
-       4 CREDICARD CRE
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.FECH_TELA_PAGFORMA_LISTA_GET;
-
-----------------
-*/
-
-/*
-a janela de sessao de caixa faz uma union entre 
-lista de vendas e lista de operacoes de caixa
-
-lista de vendas de uma sessao de caixa
-SESS_TELA_VENDAS_LISTA_GET
-
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_VENDAS_LISTA_GET(1, 1, 1);
-
-lista de operacoes de caixa de uma sessao de caixa
-SESS_TELA_CXOPER_LISTA_GET
-
-union entre as duas, lista para a tela
-SESS_TELA_LISTA_GET
-
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_GET(1, 1, 1);
-
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_CXOPER_LISTA_GET(1, 1, 1);
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_GET(1, 1, 1);
-
-
-*/
-
-
-/*
-relatorio de caixa
-
-----------------
--- lista das formas de pagamento usadas no relatorio de caixa
-FORMA_ID DESCR
-======== =====================
-       1 DIN
-       2 PIX
-       3 CREDI DEB
-       4 CREDI CRE
-       
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_RELAT_PAGFORMA_LISTA_GET;
-
-----------------
--- total de cada forma de pagamento das vendas
-FORMA_ID                 TOTAL
-======== =====================
-       1               139.900
-       2                 9.900
-       3                35.000
-       4                33.000
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_VENDA_PAG_TOTAL_GET(1,1,1);
-
-
-SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_GET(1, 1, 1);
-
-----------------
--- 
-
-
-*/
 SET TERM ^;
 CREATE OR ALTER PACKAGE CAIXA_SESSAO_PDV_PA
 AS
@@ -246,6 +134,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_ULTIMO_GET;
     , OBS VARCHAR(200)
   );  
   
+  -- CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_SELECT_GET DEF
   PROCEDURE SESS_TELA_LISTA_SELECT_GET
   (
     SESS_LOJA_ID ID_SHORT_DOM NOT NULL
@@ -850,6 +739,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
     DO SUSPEND;
   END
   
+  -- CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_SELECT_GET IMP
   PROCEDURE SESS_TELA_LISTA_SELECT_GET
   (
     SESS_LOJA_ID ID_SHORT_DOM NOT NULL
@@ -864,6 +754,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
   )
   AS
   BEGIN
+    -- CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_SELECT_GET COD
     FOR
       WITH SESS AS
     (
@@ -1119,6 +1010,8 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
 
   BEGIN
     -- INICIO DO RELATORIO INICIO
+
+    -- operador, dth abertura
     SELECT
       OPERADOR_LOJA_ID
       , OPERADOR_ID
@@ -1149,20 +1042,19 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
     SUSPEND;
     -- INICIO DO RELATORIO FIM
 
+    -- dth fechamento
     SELECT L.DTH 
-
     FROM CAIXA_SESSAO_OPERACAO O
-
     JOIN LOG L ON
-    O.LOJA_ID = L.LOJA_ID
-    AND O.TERMINAL_ID = L.TERMINAL_ID
-    AND O.OPER_LOG_ID = L.LOG_ID
-
-    WHERE O.LOJA_ID = :LOJA_ID
-    AND O.TERMINAL_ID = :TERMINAL_ID 
-    AND O.SESS_ID = :SESS_ID
-    AND O.OPER_TIPO_ID = '('
-    AND NOT O.CANCELADO
+      O.LOJA_ID = L.LOJA_ID
+      AND O.TERMINAL_ID = L.TERMINAL_ID
+      AND O.OPER_LOG_ID = L.LOG_ID
+    WHERE
+      O.LOJA_ID = :LOJA_ID
+      AND O.TERMINAL_ID = :TERMINAL_ID 
+      AND O.SESS_ID = :SESS_ID
+      AND O.OPER_TIPO_ID = '('
+      AND NOT O.CANCELADO
     INTO
       :FECHADO_EM;
 
@@ -1171,27 +1063,27 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
     LINHA = :FECHADO_EM;
     SUSPEND;
     
+    -- cxoper, name, sum valor
     FOR 
       SELECT 
         O.OPER_TIPO_ID
         , T.NAME
         , T.SINAL_NUMERICO
         , SUM(V.VALOR) AS TOTAL
-
       FROM CAIXA_SESSAO_OPERACAO_TIPO T
-
       JOIN CAIXA_SESSAO_OPERACAO O ON
-      T.OPER_TIPO_ID = O.OPER_TIPO_ID
-
+        T.OPER_TIPO_ID = O.OPER_TIPO_ID
       JOIN CAIXA_SESSAO_OPERACAO_VALOR V ON
-      O.LOJA_ID = V.LOJA_ID
-      AND O.TERMINAL_ID = V.TERMINAL_ID
-      AND O.SESS_ID = V.SESS_ID
-      AND O.OPER_ORDEM = V.OPER_ORDEM
-
-      WHERE NOT O.CANCELADO
-      AND O.OPER_TIPO_ID <> '('
-
+        O.LOJA_ID = V.LOJA_ID
+        AND O.TERMINAL_ID = V.TERMINAL_ID
+        AND O.SESS_ID = V.SESS_ID
+        AND O.OPER_ORDEM = V.OPER_ORDEM
+      WHERE
+        (NOT O.CANCELADO)
+        AND O.OPER_TIPO_ID <> '('
+        AND O.LOJA_ID = :LOJA_ID
+        AND O.TERMINAL_ID = :TERMINAL_ID 
+        AND O.SESS_ID = :SESS_ID
       GROUP BY 
         O.OPER_TIPO_ID
         , T.NAME
@@ -1209,6 +1101,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
         SUSPEND;
      END
 
+    -- forma pag, descr, total digitado, total, dif
     FOR
       SELECT 
         F.FORMA_ID
@@ -1217,13 +1110,11 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
         , P.TOTAL PAG_TOTAL
         , COALESCE(D.TOTAL, 0) - P.TOTAL DIF
       FROM CAIXA_SESSAO_PDV_PA.SESS_RELAT_PAGFORMA_LISTA_GET F
-
-      LEFT JOIN CAIXA_SESSAO_PDV_PA.SESS_RELAT_FECH_TOTAIS_GET(1,1,1) D ON
-      F.FORMA_ID = D.FORMA_ID
-
-      JOIN CAIXA_SESSAO_PDV_PA.SESS_VENDA_PAG_TOTAL_GET(1,1,1) P ON
-      F.FORMA_ID = P.FORMA_ID
-
+      
+      LEFT JOIN CAIXA_SESSAO_PDV_PA.SESS_RELAT_FECH_TOTAIS_GET(:LOJA_ID, :TERMINAL_ID, :SESS_ID) D ON
+        F.FORMA_ID = D.FORMA_ID
+      JOIN CAIXA_SESSAO_PDV_PA.SESS_VENDA_PAG_TOTAL_GET(:LOJA_ID, :TERMINAL_ID, :SESS_ID) P ON
+        F.FORMA_ID = P.FORMA_ID
       ORDER BY F.FORMA_ID
     INTO
       :COMPARE_FORMA_ID
@@ -1243,7 +1134,7 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
         , COUNT(E.EST_MOV_ID) QTD_TICKETS
         , SUM(V.TOTAL_LIQUIDO) TOTAL
       FROM VENDA V
-      JOIN CAIXA_SESSAO_PDV_PA.SESS_RELAT_EST_MOV_LISTA_GET(1,1,1) E ON
+      JOIN CAIXA_SESSAO_PDV_PA.SESS_RELAT_EST_MOV_LISTA_GET(:LOJA_ID, :TERMINAL_ID, :SESS_ID) E ON
       V.LOJA_ID = E.LOJA_ID
       AND V.TERMINAL_ID = E.TERMINAL_ID
       AND V.EST_MOV_ID = E.EST_MOV_ID
@@ -1268,3 +1159,119 @@ SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
   END
 END^
 SET TERM ;^
+
+/*
+in "C:\Pr\App\Bantu\bantu-sis\src\Externos\DBUpdates Complementos\Complementos\PDV\caixa_sessao_pdv_pa.sql";
+*/
+
+/*
+CAIXA_SESSAO_PDV_PA
+show package CAIXA_SESSAO_PDV_PA;
+DROP package CAIXA_SESSAO_PDV_PA;
+
+prefixos usados
+
+FECH_TELA_ usado na tela de fechamento
+SESS_RELAT_ usado nas rotinas do relatorio de caixa
+
+----------------
+-- 
+SELECT * FROM CAIXA_SESSAO_PDV_PA.;
+*/
+
+/*
+CREATE DOMAIN DINH_DOM AS NUMERIC(12, 2);
+*/
+
+/*
+procedures para antes do fechamento de caixa
+o fechamento mesmo ocorre com:
+CAIXA_SESSAO_MANUT_PA.CAIXA_SESSAO_OPERACAO_INSERIR_DO
+
+----------------
+--tem caixa aberto?
+SELECT * FROM CAIXA_SESSAO_PDV_PA.TEM_CAIXA_ABERTO;
+
+----------------
+--tem venda nao finalizada?
+SELECT * FROM CAIXA_SESSAO_PDV_PA.TEM_VENDA_NAO_FINALIZADA;
+
+----------------
+-- pode fechar caixa?
+SELECT * FROM CAIXA_SESSAO_PDV_PA.FECHAR_PODE_GET;
+
+----------------
+lista usada no dataset da tela de fechamento
+FORMA_ID DESCR
+======== ============================================================
+       1 DINHEIRO
+       2 TRANSF PIX
+       3 CREDICARD DEB
+       4 CREDICARD CRE
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.FECH_TELA_PAGFORMA_LISTA_GET;
+
+----------------
+*/
+
+/*
+a janela de sessao de caixa faz uma union entre 
+lista de vendas e lista de operacoes de caixa
+
+lista de vendas de uma sessao de caixa
+SESS_TELA_VENDAS_LISTA_GET
+
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_VENDAS_LISTA_GET(1, 1, 1);
+
+lista de operacoes de caixa de uma sessao de caixa
+SESS_TELA_CXOPER_LISTA_GET
+
+union entre as duas, lista para a tela
+SESS_TELA_LISTA_GET
+
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_GET(1, 1, 1);
+
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_CXOPER_LISTA_GET(1, 1, 1);
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_TELA_LISTA_GET(1, 1, 1);
+
+
+*/
+
+
+/*
+relatorio de caixa
+
+----------------
+-- lista das formas de pagamento usadas no relatorio de caixa
+FORMA_ID DESCR
+======== =====================
+       1 DIN
+       2 PIX
+       3 CREDI DEB
+       4 CREDI CRE
+       
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_RELAT_PAGFORMA_LISTA_GET;
+
+----------------
+-- total de cada forma de pagamento das vendas
+FORMA_ID                 TOTAL
+======== =====================
+       1               139.900
+       2                 9.900
+       3                35.000
+       4                33.000
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_VENDA_PAG_TOTAL_GET(1,1,1);
+
+
+SELECT * FROM CAIXA_SESSAO_PDV_PA.SESS_GET(1, 1, 1);
+
+----------------
+-- 
+
+
+*/

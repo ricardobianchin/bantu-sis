@@ -91,9 +91,9 @@ type
     { Private declarations }
     FCaixaSessaoExib: ICaixaSessao;
     FCaixaSessaoDM: TCaixaSessaoDM;
-    FImpressaoRelat: IImpressao;
     FFiltroFrame: TFiltroFrame;
     FFiltroFrameParentAntigo: TWinControl;
+    FImpressoraNome: string;
 
     procedure SessStatusExiba;
     procedure BuscarRecente;
@@ -188,6 +188,8 @@ const
 begin
   RetiraEventos;
   try
+    FCaixaSessaoExib.Id := FFiltroFrame.Values[4];
+
     FCaixaSessaoDM.CaixaSessaoDBI.PDVSessFormCarregarDataSet(SessFDMemTable,
       ItemFDMemTable, PagFDMemTable, FCaixaSessaoExib, FFiltroFrame.Values,
       CARREGA_DATASETS_DETAIL);
@@ -238,6 +240,7 @@ var
   sNomeArq: string;
 begin
   inherited Create(AOwner);
+  FImpressoraNome := pImpressoraNome;
   ErroOutput := ShowMessageOutputCreate;
   FCaixaSessaoDM := pCaixaSessaoDM;
   FFiltroFrame := pFiltroFrame;
@@ -251,11 +254,6 @@ begin
     , FCaixaSessaoDM.AppObj.Loja.Id //
     , FCaixaSessaoDM.Terminal.TerminalId //
     );
-
-  FImpressaoRelat := ImpressaoTextoCxSessRelatCreate(pImpressoraNome,
-    FCaixaSessaoDM.LogUsuario.Id, FCaixaSessaoDM.LogUsuario.NomeExib,
-    FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
-    FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessaoExib);
 
   // Height := Min(600, Screen.WorkAreaRect.Height - 10);
   // Width := 800;
@@ -350,7 +348,8 @@ end;
 
 procedure TPDVSessForm.RelatActionExecute(Sender: TObject);
 var
-  bResultado: Boolean;
+//  bResultado: Boolean;
+  FImpressaoRelat: IImpressao;
 begin
   inherited;
   // if FCaixaSessaoAtiva.Id = 0 then
@@ -366,6 +365,13 @@ begin
   // if not bResultado then
   // exit;
   // end;
+
+  FImpressaoRelat := ImpressaoTextoCxSessRelatCreate(FImpressoraNome,
+    FCaixaSessaoDM.LogUsuario.Id, FCaixaSessaoDM.LogUsuario.NomeExib,
+    FCaixaSessaoDM.AppObj, FCaixaSessaoDM.Terminal,
+    FCaixaSessaoDM.CaixaSessaoDBI, FCaixaSessaoExib);
+
+
   FImpressaoRelat.Imprima;
 end;
 

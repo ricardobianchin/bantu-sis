@@ -8,7 +8,6 @@ type
   TPreco = TBcd;
   TCusto = TBcd;
 
-
   TPrecoHelper = record helper for TPreco
   public
     function AsSqlConstant: string;

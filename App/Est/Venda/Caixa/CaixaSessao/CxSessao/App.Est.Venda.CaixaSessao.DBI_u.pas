@@ -317,7 +317,7 @@ begin
     try
       sLojaId := pCaixaSessao.LojaId.ToString;
       sTermId := pCaixaSessao.TerminalId.ToString;
-      iSessId := pValues[4];
+      iSessId := pCaixaSessao.Id;
       sSessId := iSessId.ToString;
 
       sSql := PDVSessFormCarregarDataSetSql(sLojaId, sTermId, sSessId, pValues);
@@ -868,9 +868,9 @@ begin
 
         + ');';
 
-      // {$IFDEF DEBUG}
-      // CopyTextToClipboard(sSql);
-      // {$ENDIF}
+//       {$IFDEF DEBUG}
+//       CopyTextToClipboard(sSql);
+//       {$ENDIF}
 
       oDBQuery := DBQueryCreate('CxOperaca.formapag.lista.get.q', DBConnection,
         sSql, nil, nil);
