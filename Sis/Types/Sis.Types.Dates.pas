@@ -153,7 +153,7 @@ begin
   Result := DateTimeToStr(DT);
 end;
 
-function TimeStampStrToDateTimesTR(const pTimeStampStr: string; pComMilisegundos: Boolean): string;
+function TimeStampStrToDateTimeStr(const pTimeStampStr: string; pComMilisegundos: Boolean): string;
 begin
 {
 implemente a function TimeStampStrToDateTimeStr

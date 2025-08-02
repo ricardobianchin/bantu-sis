@@ -29,7 +29,7 @@ implementation
 
 uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
   App.Est.Venda.Caixa.CxValor, Sis.Entities.Types, Sis.Win.Utils_u,
-  Sis.Types.Dates, Sis.Types.Bool_u, Sis.Sis.Constants;
+  Sis.Types.Dates, Sis.Types.Bool_u, Sis.Sis.Constants, Sis.Types.Integers;
 
 { TImpressaoTextoPOSPrinterPDVCxSessRelat }
 
@@ -76,6 +76,10 @@ var
   uTot: Currency;
   iSinal: SmallInt;
 
+  iLoj: SmallInt;
+  iTer: SmallInt;
+  iVId: integer;
+  iOrd: SmallInt;
 begin
   inherited;
 //  AppObj.AppInfo.PastaBin
@@ -217,6 +221,84 @@ begin
     inc(i);//inc precisa aqui ser no fim do loop
   until false;
   // ATIVIDADE POR HORA FIM
+
+
+  //VENDA CANC INICIO
+  PegueLinha('');
+  s := 'VENDAS CANCELADAS';
+  PegueLinha('</ce>'+s);
+
+  s := '</ae>CODIGO';
+  OverwriteString(s, 'CANCELADO EM', 30);
+//  OverwriteString(s, 'CRIADO EM', 20);
+//  OverwriteString(s, 'CANCELADO EM', 40);
+
+  repeat
+    if i >= FLinhasRet.Count then
+      break;
+
+    Items := FLinhasRet[i].Split([';']);
+    if Length(Items) = 0 then
+      break;
+
+    if Items[0] <> '5' then
+      break;
+
+    iLoj := StrToSmallInt(Items[1]);
+    iTer := StrToSmallInt(Items[2]);
+    iVId := StrToInteger(Items[3]);
+
+
+    s := Sis.Entities.Types.GetCod(iLoj, iTer, iVId, 'VEN');
+
+    OverwriteString(s, ' '+TimeStampStrToDateTimeStr(Items[5]), 29);
+//    OverwriteString(s, TimeStampStrToDateTimeStr(Items[2]), 22);
+//    OverwriteString(s, TimeStampStrToDateTimeStr(Items[3]), 42);
+
+    PegueLinha(s);
+    inc(i);//inc precisa aqui ser no fim do loop
+  until false;
+  //VENDA CANC FIM
+
+
+  //ITEM CANC INICIO
+  PegueLinha('');
+  s := 'ITENS CANCELADOS';
+  PegueLinha('</ce>'+s);
+
+  s := '</ae>CODIGO';
+  OverwriteString(s, 'CANCELADO EM', 30);
+//  OverwriteString(s, 'CRIADO EM', 20);
+//  OverwriteString(s, 'CANCELADO EM', 40);
+  PegueLinha(s);
+
+  repeat
+    if i >= FLinhasRet.Count then
+      break;
+
+    Items := FLinhasRet[i].Split([';']);
+    if Length(Items) = 0 then
+      break;
+
+    if Items[0] <> '6' then
+      break;
+
+    iLoj := StrToSmallInt(Items[1]);
+    iTer := StrToSmallInt(Items[2]);
+    iVId := StrToInteger(Items[3]);
+    iOrd := StrToSmallInt(Items[4]);
+
+
+    s := Sis.Entities.Types.GetCod(iLoj, iTer, iVId, 'VEN')+'-'+iOrd.ToString;
+
+    OverwriteString(s, ' '+TimeStampStrToDateTimeStr(Items[5]), 29);
+//    OverwriteString(s, ' '+TimeStampStrToDateTimeStr(Items[4]), 19);
+//    OverwriteString(s, ' '+TimeStampStrToDateTimeStr(Items[5]), 39);
+
+    PegueLinha(s);
+    inc(i);//inc precisa aqui ser no fim do loop
+  until false;
+  //ITEM CANC FIM
 
   {
     procedure OverwriteString(var aTargetStr: string; const aSourceStr: string;

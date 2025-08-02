@@ -1,37 +1,3 @@
-CAIXA_SESSAO_INICIAL_PA
------------------------------
-INICIO
------------------------------
-DBATUALIZ INI
-DBATUALIZ_ASSUNTO=CAIXA
-DBATUALIZ_OBJETIVO=CRIAR CAIXA_SESSAO_INICIAL_PA
-//DBATUALIZ_PONTO_ALVO=TERMINAL
-DBATUALIZ_OBS=
-
-
-
-
-/////////////////////////
-//
-// PACKAGE CAIXA_SESSAO_INICIAL_PA
-//
-/////////////////////////
-COMANDO INI
-COMANDO_TIPO=CREATE OR ALTER PACKAGE
-OBJETO_NOME=CAIXA_SESSAO_INICIAL_PA
-/*
-
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV
-C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql
-
-"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql"
-
-in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql";
-
-show procedure PERFIL_DE_USO_PA.GARANTIR;
-
-*/
-```FIREBIRD
 SET TERM ^;
 CREATE OR ALTER PACKAGE CAIXA_SESSAO_INICIAL_PA
 AS
@@ -148,7 +114,12 @@ BEGIN
 
 END^
 SET TERM ;^
-```
-COMANDO FIM
 
-DBATUALIZ FIM
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\PDV\CAIXA_SESSAO_INICIAL_PA.sql";
+*/
+
+/*
+SELECT ABE_LOG_ID, FECH_LOG_ID FROM CAIXA_SESSAO_INICIAL_PA.LOG_ABE_FECH_GET(1, 3, 1);
+
+*/
