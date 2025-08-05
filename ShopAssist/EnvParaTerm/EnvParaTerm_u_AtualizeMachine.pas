@@ -35,7 +35,7 @@ begin
   sSql := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' //
     + ' FROM MACHINE' //
     + ' WHERE NOME_NA_REDE = ' + QuotedStr(Config.Local.Nome) //
-    + ' OR IP = ' + QuotedStr(Config.Local.IP) //
+    + ' AND IP = ' + QuotedStr(Config.Local.IP) //
     ; //
 
   DBServDM.Connection.Open;
@@ -78,15 +78,16 @@ begin
         (sServIp <> sLocalIp) then
       begin
         try
-          sSql := 'DELETE FROM MACHINE;';
-          pTermDM.Connection.ExecSQL(sSql);
+//          sSql := 'DELETE FROM MACHINE;';
+//          pTermDM.Connection.ExecSQL(sSql);
 
-          sSql := 'INSERT INTO MACHINE(MACHINE_ID, NOME_NA_REDE, IP)' //
-            + ' VALUES (' //
+          sSql := 'UPDATE MACHINE SET MACHINE_ID = ' //
             + iServId.ToString //
+            + ', NOME_NA_REDE = ' //
             + ', ' + QuotedStr(sServNome) //
+            + ', IP = ' //
             + ', ' + QuotedStr(sServIp) //
-            + ');';
+            + ';';
           pTermDM.Connection.ExecSQL(sSql);
         except
           on e: exception do

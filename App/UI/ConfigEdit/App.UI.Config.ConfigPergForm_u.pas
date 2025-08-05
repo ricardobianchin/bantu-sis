@@ -260,7 +260,7 @@ begin
   if ServerArqConfigLabeledEdit.Text <> '' then
   begin
     sNomeArq := ServerArqConfigLabeledEdit.Text;
-    ConfigArqLer(sNomeArq, sNomeNaRede, sIp);
+    ConfigArqLeiaDoServ(sNomeArq, sNomeNaRede, sIp);
     ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
     ServerMaqFrame.IpLabeledEdit.Text := sIp;
   end;
@@ -761,7 +761,7 @@ begin
 
   ServerArqConfigLabeledEdit.Text := sNomeArq;
 
-  ConfigArqLer(sNomeArq, sNomeNaRede, sIp);
+  ConfigArqLeiaDoServ(sNomeArq, sNomeNaRede, sIp);
   ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
   ServerMaqFrame.IpLabeledEdit.Text := sIp;
   ServFDConnection.Params.Values['server'] :=
