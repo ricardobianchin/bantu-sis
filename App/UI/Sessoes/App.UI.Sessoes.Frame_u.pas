@@ -126,19 +126,34 @@ var
   oModuloSistema: IModuloSistema;
 
   oModuloBasForm: TModuloBasForm;
+  iTerminalId: SmallInt;
+  oTerminal: ITerminal;
 begin
   oControl := TControl(Sender);
   while not(oControl is TBotaoModuloFrame) do
     oControl := oControl.Parent;
   oBotaoModuloFrame := TBotaoModuloFrame(oControl);
 
+  iTerminalId := oBotaoModuloFrame.TerminalId;
+
   iOpcaoSisIdModulo := oBotaoModuloFrame.OpcaoSisIdModulo;
   sNameTipo := TipoOpcaoSisModuloToName(iOpcaoSisIdModulo);
   sNomeTipo := TipoOpcaoSisModuloToStr(iOpcaoSisIdModulo);
   sNameConex := Format('Abr.%s.DBConn', [sNameTipo]);
 
+  if iTerminalId = 0 then
+  begin
   DBConnectionParams := TerminalIdToDBConnectionParams
     (TERMINAL_ID_RETAGUARDA, FAppObj);
+  end
+  else
+  begin
+    oTerminal := AppObj.TerminalList.TerminalIdToTerminal(iTerminalId);
+    DBConnectionParams.Server := oTerminal.IdentStr;
+    DBConnectionParams.Arq := oTerminal.LocalArqDados;
+    DBConnectionParams.Database := oTerminal.Database;
+
+  end;
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 

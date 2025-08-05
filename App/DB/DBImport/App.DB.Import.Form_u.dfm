@@ -3,7 +3,6 @@ inherited DBImportForm: TDBImportForm
   ClientHeight = 335
   ClientWidth = 906
   WindowState = wsMaximized
-  StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 922
   ExplicitHeight = 374
   TextHeight = 15

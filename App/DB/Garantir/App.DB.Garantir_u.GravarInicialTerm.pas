@@ -57,6 +57,26 @@ begin
   DBExecScript.PegueComando(sSql);
 end;
 
+procedure GarantirMachine(pAppObj: IAppObj);
+var
+  sSql: string;
+begin
+  sSql := 'UPDATE OR INSERT INTO MACHINE'#13#10 //
+    + '(MACHINE_ID, NOME_NA_REDE, IP)'#13#10 //
+    + 'VALUES ' //
+    + '(' //
+    + pAppObj.SisConfig.LocalMachineId.IdentId.ToString + ', ' //
+    + QuotedStr(pAppObj.SisConfig.LocalMachineId.Name) + ', ' //
+    + QuotedStr(pAppObj.SisConfig.LocalMachineId.Ip)  //
+    + ')'#13#10 //
+    + 'MATCHING (MACHINE_ID);';
+
+//{$IFDEF DEBUG}
+//  CopyTextToClipboard(sSql);
+//{$ENDIF}
+  DBExecScript.PegueComando(sSql);
+end;
+
 procedure GarantirTerminal(pTerminal: ITerminal);
 var
   sSql: string;
@@ -164,6 +184,7 @@ begin
       DBConnectionTerm, nil, nil, FixedCriticalSection, False);
     GarantirAmbi(pLoja.Id, pTerminal.TerminalId);
     GarantirLoja(pLoja);
+    GarantirMachine(pAppObj);
     GarantirTerminal(pTerminal);
     DBExecScript.Execute;
   finally

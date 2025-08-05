@@ -1,4 +1,4 @@
-unit App.DB.Import.Form_u;
+ï»¿unit App.DB.Import.Form_u;
 
 interface
 
@@ -227,7 +227,7 @@ begin
     Active := True;
   end;
   FProdFDMemTable.IndexesActive := True;
-  FProdFDMemTable.IndexName := sNomeIndice; // Ative o índice
+  FProdFDMemTable.IndexName := sNomeIndice; // Ative o ï¿½ndice
 
 
   // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
@@ -295,7 +295,7 @@ begin
 
     if not FProdRejFDMemTable.IsEmpty then
       raise Exception.Create
-        ('Não pode ser finalizado existindo ainda rejeições');
+        ('Nï¿½o pode ser finalizado existindo ainda rejeiï¿½ï¿½es');
     App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable,
       FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
@@ -661,7 +661,7 @@ var
 
 begin
 {$IFNDEF DEBUG}
-  Result := Perg('Zerar os dados? Esta ação não poderá ser desfeita', '',
+  Result := Perg('Zerar os dados? Esta aÃ§Ã£o nÃ£o podera ser desfeita', '',
     TBooleanDefault.boolFalse);
 {$ELSE}
   Result := True;
@@ -692,7 +692,7 @@ begin
     sl.Add('ALTER SEQUENCE UNID_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE ICMS_SEQ RESTART WITH  4;');
     // sl.Add('ALTER SEQUENCE LOG_SEQ RESTART WITH  1;');
-    sl.Add('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
+    //sl.Add('ALTER SEQUENCE MACHINE_SEQ RESTART WITH  1;');
     // sl.Add('ALTER SEQUENCE PESSOA_SEQ RESTART WITH  3;');
     sl.Add('ALTER SEQUENCE IMPORT_FABR_SEQ RESTART WITH  1;');
     sl.Add('ALTER SEQUENCE IMPORT_PROD_TIPO_SEQ RESTART WITH  1;');

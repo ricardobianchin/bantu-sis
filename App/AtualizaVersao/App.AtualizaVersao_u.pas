@@ -8,7 +8,7 @@ uses App.AtualizaVersao, Sis.Sis.Executavel_u, Sis.UI.IO.Output,
 const
 {$IFDEF DEBUG}
   TESTA_VERSAO = False;
-//  TESTA_VERSAO = True;
+  // TESTA_VERSAO = True;
 {$ELSE}
   TESTA_VERSAO = True;
 {$ENDIF}
@@ -30,7 +30,7 @@ uses Sis.Web.HTTP.Download, Sis.UI.IO.Files, Sis.Web.Factory, Sis.Types.Bool_u,
 
 { TAtualizaVersao }
 
-  constructor TAtualizaVersao.Create(pAppInfo: IAppInfo; pOutput: IOutput;
+constructor TAtualizaVersao.Create(pAppInfo: IAppInfo; pOutput: IOutput;
   pProcessLog: IProcessLog);
 begin
   inherited Create(pOutput, pProcessLog);
@@ -48,6 +48,7 @@ var
   oHTTPDownload: IHTTPDownload;
   sArqLog: string;
   sLog: string;
+  iShellExecuteRetorno: integer;
 begin
   dtAgora := Now;
   sArqLog := FAppInfo.PastaTmp + 'Logs\TAtualizaVersao.Execute\';
@@ -93,9 +94,17 @@ begin
       begin
         try
           ProcessLog.RegistreLog('vai executar ' + sArqLocal);
-          sLog := sLog + 'vai executar ' + sArqLocal+ #13#10;
+          sLog := sLog + 'vai executar ' + sArqLocal + #13#10;
 
-          ShellExecute(0, 'open', PChar(sArqLocal), nil, nil, SW_SHOWNORMAL);
+          // ShellExecute(0, 'open', PChar(sArqLocal), PChar('/SILENT'), nil, SW_SHOWNORMAL);
+          // ShellExecute(0, 'runas', PChar(sArqLocal), PChar('/SILENT'), nil, SW_SHOWNORMAL);
+
+          iShellExecuteRetorno := ShellExecute(0, 'runas', PChar(sArqLocal),
+            PChar('/SILENT'), nil, SW_SHOWNORMAL);
+//          if iShellExecuteRetorno <= 32 then
+//            raise Exception.Create('Erro ao executar o instalador: ' +
+//              iShellExecuteRetorno.ToString + '.'#13#10);
+
           ProcessLog.RegistreLog('Executou');
         except
           on E: Exception do
