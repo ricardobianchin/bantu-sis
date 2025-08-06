@@ -152,8 +152,8 @@ begin
     DBConnectionParams.Server := oTerminal.IdentStr;
     DBConnectionParams.Arq := oTerminal.LocalArqDados;
     DBConnectionParams.Database := oTerminal.Database;
-
   end;
+
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
@@ -456,7 +456,10 @@ begin
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
   oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
   FBotList.Add(oBotaoModuloFrame);
+
   oBotaoModuloFrame.ImageIndex := 0;
+  oBotaoModuloFrame.ImageIndexMouseDown := oBotaoModuloFrame.ImageIndex + 3;
+
   oBotaoModuloFrame.TerminalId := 0;
   oBotaoModuloFrame.OpcaoSisIdModulo := TOpcaoSisIdModulo.opmoduRetaguarda;
   oBotaoModuloFrame.Tit := oSessaoCriador.Titulo;
@@ -473,7 +476,10 @@ begin
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
   oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
   FBotList.Add(oBotaoModuloFrame);
+
   oBotaoModuloFrame.ImageIndex := 1;
+  oBotaoModuloFrame.ImageIndexMouseDown := oBotaoModuloFrame.ImageIndex + 3;
+
   oBotaoModuloFrame.TerminalId := 0;
   oBotaoModuloFrame.OpcaoSisIdModulo := TOpcaoSisIdModulo.opmoduConfiguracoes;
   oBotaoModuloFrame.Tit := oSessaoCriador.Titulo;
@@ -498,7 +504,9 @@ begin
     oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
     oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
     FBotList.Add(oBotaoModuloFrame);
+
     oBotaoModuloFrame.ImageIndex := 2;
+    oBotaoModuloFrame.ImageIndexMouseDown := oBotaoModuloFrame.ImageIndex + 3;
 
     oBotaoModuloFrame.OpcaoSisIdModulo := TOpcaoSisIdModulo.opmoduPDV;
     oBotaoModuloFrame.Tit := oSessaoCriador.Titulo;

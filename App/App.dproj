@@ -139,9 +139,9 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="vcledge.dcp"/>
         <DCCReference Include="vclie.dcp"/>
-        <DCCReference Include="Sis.dcp"/>
-        <DCCReference Include="BtuComponentes.dcp"/>
         <DCCReference Include="vclFireDAC.dcp"/>
+        <DCCReference Include="BtuComponentes.dcp"/>
+        <DCCReference Include="Sis.dcp"/>
         <DCCReference Include="AppObj\App.AppObj.pas"/>
         <DCCReference Include="AppObj\App.AppObj_u.pas"/>
         <DCCReference Include="AppObj\App.Factory.pas"/>

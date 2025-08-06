@@ -27,8 +27,6 @@ inherited BotaoFrame: TBotaoFrame
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 40
       ExplicitWidth = 19
     end
     object Tit2Label: TLabel
@@ -46,8 +44,7 @@ inherited BotaoFrame: TBotaoFrame
       Font.Style = []
       ParentFont = False
       WordWrap = True
-      ExplicitTop = 53
-      ExplicitWidth = 106
+      ExplicitWidth = 15
     end
     object IconPanel: TPanel
       Left = 1
@@ -58,9 +55,6 @@ inherited BotaoFrame: TBotaoFrame
       BevelOuter = bvNone
       Caption = ' '
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 108
       object IconImage: TImage
         Left = 20
         Top = 0

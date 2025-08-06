@@ -1,4 +1,4 @@
-unit Sis.UI.Form.LoginPerg_u;
+Ôªøunit Sis.UI.Form.LoginPerg_u;
 
 interface
 
@@ -73,10 +73,10 @@ type
       write SetLoginPergModo;
 
     // controle = Vcl.Controls.TControl
-    // func ControleOk = se o conteudo do controle est· aceitavel
-    // func DadosOk = se o conteudo do controle nao conflitar· com regras de negocio
+    // func ControleOk = se o conteudo do controle est√° aceitavel
+    // func DadosOk = se o conteudo do controle nao conflitar√° com regras de negocio
     // primeiro o usuario so sofre com as 'controle'
-    // so na hora do ok da janela de dialogo È que executarah as dados
+    // so na hora do ok da janela de dialogo √© que executarah as dados
     function NomeDeUsuarioControleDadosOk: boolean;
     function Senha1ControleOk: boolean;
     function Senha2ControleOk: boolean;
@@ -151,7 +151,7 @@ function TLoginPergForm.ConsultaNomeDeUsuario(pNomeDeUsuario: string;
   out pApelido, pMens: string; out pEncontrado: boolean): boolean;
 begin
   ErroOutput.Exibir('');
-  FNomeDeUsuarioStatus.Exibir('Buscando usu·rio...');
+  FNomeDeUsuarioStatus.Exibir('Buscando usu√°rio...');
   try
     Result := FUsuarioDBI.UsuarioPeloNomeDeUsuario(pNomeDeUsuario, pApelido,
       pMens, pEncontrado);
@@ -296,7 +296,7 @@ end;
 procedure TLoginPergForm.FormShow(Sender: TObject);
 begin
   // era pra ser no create, mas volta a false.
-  // est· aqui de forma anÙmala pra se conseguir que DisparaShowTimer fique true
+  // est√° aqui de forma an√¥mala pra se conseguir que DisparaShowTimer fique true
   // DisparaShowTimer := True;
 
   inherited;
@@ -310,7 +310,7 @@ begin
 
   if LoginPergModo = TLoginPergModo.ltCriandoSenha then
   begin
-    ErroOutput.Exibir('… necess·rio criar uma senha');
+    ErroOutput.Exibir('√â necess√°rio criar uma senha');
     Senha1LabeledEdit.SetFocus;
     exit;
   end;
@@ -365,7 +365,7 @@ begin
 
   if not Result then
   begin
-    ErroOutput.Exibir('Campo ''Nome de Usu·rio'' È obrigatÛrio');
+    ErroOutput.Exibir('Campo ''Nome de Usu√°rio'' √© obrigat√≥rio');
     NomeDeUsuarioLabeledEdit.SetFocus;
     exit;
   end;
@@ -374,7 +374,7 @@ begin
 
   if not Result then
   begin
-    ErroOutput.Exibir('Erro buscando o usu·rio: ' + sMens);
+    ErroOutput.Exibir('Erro buscando o usu√°rio: ' + sMens);
     NomeDeUsuarioLabeledEdit.SetFocus;
     exit;
   end;
@@ -570,7 +570,7 @@ begin
 
         if sSenhaDig2 = '' then
         begin
-          ErroOutput.Exibir('Campo ''' + sCaption2 + ''' È obrigatÛrio');
+          ErroOutput.Exibir('Campo ''' + sCaption2 + ''' √© obrigat√≥rio');
           Senha2LabeledEdit.SetFocus;
           exit;
         end;
@@ -723,7 +723,7 @@ begin
   if not Result then
   begin
     sEditCaption := Senha1LabeledEdit.EditLabel.Caption;
-    ErroOutput.Exibir('Campo ''' + sEditCaption + ''' È obrigatÛrio');
+    ErroOutput.Exibir('Campo ''' + sEditCaption + ''' √© obrigat√≥rio');
     Senha1LabeledEdit.SetFocus;
     exit;
   end;

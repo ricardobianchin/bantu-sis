@@ -1,4 +1,4 @@
-unit Sis.Usuario.DBI_u;
+﻿unit Sis.Usuario.DBI_u;
 
 interface
 
@@ -224,7 +224,7 @@ begin
 
       if not pAceito then
       begin
-        pMens := 'Erro buscando o registro do Usu�rio';
+        pMens := 'Erro buscando o registro do Usuário';
         exit;
       end;
 
@@ -232,7 +232,7 @@ begin
 
       if not pAceito then
       begin
-        pMens := 'Nome de Usu�rio incorreto';
+        pMens := 'Nome de Usuário incorreto';
         exit;
       end;
 
@@ -264,7 +264,7 @@ begin
 
       if not pAceito then
       begin
-        pMens := 'Usu�rio sem direitos de acesso a este m�dulo do sistema';
+        pMens := 'Usuário sem direitos de acesso a este módulo do sistema';
         exit;
       end;
     finally
@@ -301,7 +301,7 @@ begin
 
       if not pEncontrado then
       begin
-        pMens := 'Nome de Usu�rio n�o encontrado';
+        pMens := 'Nome de Usuário não encontrado';
         exit;
       end;
 
@@ -351,7 +351,7 @@ begin
       begin
       q.Free;
       sTipoModuloSistema := TipoModuloSistemaToStr(pTipoModuloSistema);
-      pMens := 'Usu�rio sem direitos para abrir o m�dulo ' + sTipoModuloSistema;
+      pMens := 'Usuário sem direitos para abrir o módulo ' + sTipoModuloSistema;
       exit;
       end;
 
@@ -361,7 +361,7 @@ begin
       if not Result then
       begin
       sTipoModuloSistema := TipoModuloSistemaToStr(pTipoModuloSistema);
-      pMens := 'Usu�rio sem direitos para abrir o m�dulo ' + sTipoModuloSistema;
+      pMens := 'Usuário sem direitos para abrir o módulo ' + sTipoModuloSistema;
       exit;
       end;
     }
