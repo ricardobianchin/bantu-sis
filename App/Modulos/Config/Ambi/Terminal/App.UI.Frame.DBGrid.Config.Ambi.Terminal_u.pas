@@ -204,8 +204,8 @@ begin
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
   Tab.FieldByName('APELIDO').AsString := 'Maq do Ricardo'; //'TECIDOS';
-  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESKTOP-EJFTSHR';
-  Tab.FieldByName('IP').AsString := '192.168.0.101';
+  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESENV-RIC';
+  Tab.FieldByName('IP').AsString := '192.168.56.1';
 
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
   Tab.FieldByName('NF_SERIE').AsInteger := 0;
