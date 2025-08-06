@@ -29,7 +29,12 @@ procedure SetStyleElementsRecursive(pControl: TControl;
 procedure SetNameToHint(Control: TControl);
 procedure SetTabOrderToHint(Control: TControl);
 procedure SetCursorToChilds(Control: TControl; pCursor: TCursor);
+
 procedure SetOnClickToChilds(Control: TControl; pOnClick: TNotifyEvent);
+procedure SetOnMouseUpToChilds(Control: TControl; pOnMouseUp: TMouseEvent);
+procedure SetOnMouseDownToChilds(Control: TControl; pOnMouseDown: TMouseEvent);
+procedure SetOnMouseEnterToChilds(Control: TControl; pOnMouseEnter: TNotifyEvent);
+procedure SetOnMouseLeaveToChilds(Control: TControl; pOnMouseLeave: TNotifyEvent);
 
 function GetToolFormHeight: integer;
 
@@ -263,6 +268,46 @@ begin
   if Control is TWinControl then
     for I := 0 to TWinControl(Control).ControlCount - 1 do
       SetOnClickToChilds(TWinControl(Control).Controls[I], pOnClick);
+end;
+
+procedure SetOnMouseDownToChilds(Control: TControl; pOnMouseDown: TMouseEvent);
+var
+  I: integer;
+begin
+  TMyControl(Control).OnMouseDown := pOnMouseDown;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetOnMouseDownToChilds(TWinControl(Control).Controls[I], pOnMouseDown);
+end;
+
+procedure SetOnMouseUpToChilds(Control: TControl; pOnMouseUp: TMouseEvent);
+var
+  I: integer;
+begin
+  TMyControl(Control).OnMouseUp := pOnMouseUp;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetOnMouseUpToChilds(TWinControl(Control).Controls[I], pOnMouseUp);
+end;
+
+procedure SetOnMouseEnterToChilds(Control: TControl; pOnMouseEnter: TNotifyEvent);
+var
+  I: integer;
+begin
+  TMyControl(Control).OnMouseEnter := pOnMouseEnter;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetOnMouseEnterToChilds(TWinControl(Control).Controls[I], pOnMouseEnter);
+end;
+
+procedure SetOnMouseLeaveToChilds(Control: TControl; pOnMouseLeave: TNotifyEvent);
+var
+  I: integer;
+begin
+  TMyControl(Control).OnMouseLeave := pOnMouseLeave;
+  if Control is TWinControl then
+    for I := 0 to TWinControl(Control).ControlCount - 1 do
+      SetOnMouseLeaveToChilds(TWinControl(Control).Controls[I], pOnMouseLeave);
 end;
 
 function GetToolFormHeight: integer;

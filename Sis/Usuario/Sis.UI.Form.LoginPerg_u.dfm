@@ -3,8 +3,9 @@ inherited LoginPergForm: TLoginPergForm
   ClientHeight = 562
   ClientWidth = 788
   WindowState = wsMaximized
-  ExplicitWidth = 800
-  ExplicitHeight = 600
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 804
+  ExplicitHeight = 601
   TextHeight = 15
   inherited MensLabel: TLabel
     Top = 458
@@ -20,6 +21,7 @@ inherited LoginPergForm: TLoginPergForm
   inherited AlteracaoTextoLabel: TLabel
     Top = 547
     Width = 788
+    StyleElements = [seFont, seClient, seBorder]
     ExplicitTop = 547
   end
   object Logo1Image: TImage [2]
@@ -35,22 +37,23 @@ inherited LoginPergForm: TLoginPergForm
   inherited BasePanel: TPanel
     Top = 510
     Width = 788
-    ExplicitTop = 509
-    ExplicitWidth = 784
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 510
+    ExplicitWidth = 788
     DesignSize = (
       788
       37)
     inherited MensCopyBitBtn_DiagBtn: TBitBtn
       Left = 485
-      ExplicitLeft = 481
+      ExplicitLeft = 485
     end
     inherited OkBitBtn_DiagBtn: TBitBtn
       Left = 598
-      ExplicitLeft = 594
+      ExplicitLeft = 598
     end
     inherited CancelBitBtn_DiagBtn: TBitBtn
       Left = 678
-      ExplicitLeft = 674
+      ExplicitLeft = 678
     end
     object SenhaMudarBitBtn_LoginPerg: TBitBtn
       Left = 383
@@ -61,7 +64,6 @@ inherited LoginPergForm: TLoginPergForm
       Caption = 'Alterar a Senha'
       TabOrder = 3
       OnClick = MensCopyAct_DiagExecute
-      ExplicitLeft = 379
     end
   end
   object MeioPanel: TPanel [4]
@@ -73,8 +75,6 @@ inherited LoginPergForm: TLoginPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 1
-    ExplicitWidth = 784
-    ExplicitHeight = 357
     object ControlesPanel: TPanel
       Left = 61
       Top = -22
