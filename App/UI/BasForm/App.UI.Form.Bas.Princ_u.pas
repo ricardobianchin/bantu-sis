@@ -1,4 +1,4 @@
-unit App.UI.Form.Bas.Princ_u;
+ï»¿unit App.UI.Form.Bas.Princ_u;
 
 interface
 
@@ -137,7 +137,7 @@ var
   sMens: string;
   sNomeArq: string;
 begin
-  sMens := 'Arquivo criado automaticamente para fehcar o Assist.'#13#10'O conteudo deste arquivo é irrelevante.';
+  sMens := 'Arquivo criado automaticamente para fehcar o Assist.'#13#10'O conteudo deste arquivo ï¿½ irrelevante.';
   sNomeArq := AppObj.AppInfo.PastaBin + ASSIST_NOME_ARQ_TERMINAR;
 
   EscreverArquivo(sMens, sNomeArq);
@@ -165,7 +165,7 @@ begin
 
     Result := bPrecisaResetar;
     sLog := iif(bPrecisaResetar, 'Result=True,Precisa reiniciar',
-      'Result=False,Não precisa reiniciar');
+      'Result=False,Nï¿½o precisa reiniciar');
   finally
     FProcessLog.RegistreLog(sLog);
     FProcessLog.RetorneLocal;
@@ -503,15 +503,6 @@ begin
     Application.Terminate;
     exit;
   end;
-
-  oDBConnectionParamsServ := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, FAppObj);
-
-  DBConnectionServ := DBConnectionCreate('CarregLojaConn', AppObj.SisConfig,
-    oDBConnectionParamsServ, ProcessLog, FProcessOutput);
-
-  oTerminalDBI := TerminalDBICreate(DBConnectionServ);
-  oTerminalDBI.ComplementeList(FAppObj.TerminalList, FAppObj.SisConfig);
 end;
 
 procedure TPrincBasForm.MinimizeAction_PrincBasFormExecute(Sender: TObject);

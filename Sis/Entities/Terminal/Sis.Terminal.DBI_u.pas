@@ -15,7 +15,7 @@ type
     /// <param name="Q">The dataset containing the data to be transferred.</param>
     /// <param name="pTerminal">The terminal interface where the data will be transferred to.</param>
     /// <param name="pPastaDados">The data folder path.</param>
-    /// <param name="pAtivDescr">The activity description.</param>
+    /// <param name="pAtividadeEconDescr">The activity description.</param>
 
     function GetSqlTerminal(pTerminalId: SmallInt): string;
     function GetSQLTerminalGar(pTerminal: ITerminal): string;
@@ -45,8 +45,8 @@ type
     /// <returns>A string representing the generated SQL query.</returns>
     function GetSqlForEach(pValues: Variant): string; override;
   public
-    procedure DBToList(pTerminalList: ITerminalList;
-      pPastaDados, pAtivDescr: string; pSomenteMaquina: string = '');
+    function DBToList(pTerminalList: ITerminalList;
+      pPastaDados, pAtividadeEconDescr: string; pSomenteMaquina: string = ''): Boolean;
 
     procedure ListToDB(pTerminalList: ITerminalList; pLogLojaId: SmallInt;
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
@@ -60,7 +60,7 @@ type
 
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
 
-    procedure ComplementeList(pTerminalList: ITerminalList;
+    procedure TermDBsParaList(pTerminalList: ITerminalList;
       pSisConfig: ISisConfig);
 
     procedure ListToDBs(pTerminalList: ITerminalList; pSisConfig: ISisConfig;
@@ -75,7 +75,7 @@ uses System.SysUtils, Sis.Entities.Types, Sis.Types.Bool_u, Sis.Win.Utils_u,
 
 { TTerminalDBI }
 
-procedure TTerminalDBI.ComplementeList(pTerminalList: ITerminalList;
+procedure TTerminalDBI.TermDBsParaList(pTerminalList: ITerminalList;
   pSisConfig: ISisConfig);
 var
   i: integer;
@@ -94,7 +94,8 @@ begin
 
     DBConnection := DBConnectionCreate('TerminalGetConn', pSisConfig,
       oDBConnectionParams, nil, nil);
-    DBConnection.Abrir;
+    if not DBConnection.Abrir then
+      continue;
     try
       sSql := GetSqlTerminal(oTerminal.TerminalId);
 //{$IFDEF DEBUG}
@@ -265,6 +266,7 @@ begin
     + 'IM.IMPRESSORA_MODELO_ID = T.IMPRESSORA_MODELO_ID'#13#10 //
 
     + 'WHERE T.TERMINAL_ID > 0'#13#10 //
+    + 'AND T.ATIVO'#13#10 //
     ;
 
   if (sTipoDeParametro = 'NOME_NA_REDE') or (sTipoDeParametro = 'IP') then
@@ -344,6 +346,7 @@ begin
     + 'IM.IMPRESSORA_MODELO_ID = T.IMPRESSORA_MODELO_ID'#13#10 //
 
     + 'WHERE T.TERMINAL_ID = ' + pTerminalId.ToString + #13#10 //
+    + 'AND T.ATIVO'#13#10 //
     ;
 end;
 
@@ -526,8 +529,8 @@ begin
   end;
 end;
 
-procedure TTerminalDBI.DBToList(pTerminalList: ITerminalList;
-  pPastaDados, pAtivDescr: string; pSomenteMaquina: string);
+function TTerminalDBI.DBToList(pTerminalList: ITerminalList;
+  pPastaDados, pAtividadeEconDescr: string; pSomenteMaquina: string): Boolean;
 var
   sSql: string;
   Q: TDataSet;
@@ -535,7 +538,8 @@ var
   vValues: Variant;
 begin
   pTerminalList.Clear;
-  if not DBConnection.Abrir then
+  Result := DBConnection.Abrir;
+  if not Result then
     exit;
   try
     if pSomenteMaquina = '' then
@@ -555,7 +559,7 @@ begin
       oTerminal := TerminalCreate;
       pTerminalList.Add(oTerminal);
 
-      DataSetToTerminal(Q, oTerminal, pPastaDados, pAtivDescr);
+      DataSetToTerminal(Q, oTerminal, pPastaDados, pAtividadeEconDescr);
 
       Q.Next;
     end;
