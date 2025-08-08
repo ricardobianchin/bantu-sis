@@ -218,20 +218,21 @@ begin
     sAtividadeEcon := AtividadeEconomicaSisDescr
       [pAppObj.AppInfo.AtividadeEconomicaSis];
 
-    //neste ponto,TerminalList tem o que tinha no xml
-    //se servidor disponivel, substitui pelo dados servidor
-    //senao, ret false
-    bLeuTermListDoServ := oTerminalDBI.DBToList(pAppObj.TerminalList, sPastaDados, sAtividadeEcon,
-      pAppObj.SisConfig.LocalMachineId.GetIdent);
+    // neste ponto,TerminalList tem o que tinha no xml
+    // se servidor disponivel, substitui pelo dados servidor
+    // senao, ret false
+    bLeuTermListDoServ := oTerminalDBI.DBToList(pAppObj.TerminalList,
+      sPastaDados, sAtividadeEcon, pAppObj.SisConfig.LocalMachineId.GetIdent);
 
     if bLeuTermListDoServ then
     begin
-      //garantir que xml bate com serv
+      // garantir que xml bate com serv
       oSisConfigXMLI := SisConfigXMLICreate(oSisConfig, pAppObj.TerminalList);
       oSisConfigXMLI.Gravar;
     end;
 
-    oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig);
+    oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig,
+      sPastaDados);
 
     Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
       pUsuarioAdmin, pVariaveis, pCriouTerminais, sAtividadeEcon);

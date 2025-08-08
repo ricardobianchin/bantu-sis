@@ -903,11 +903,12 @@ begin
       exit;
     end;
 
-    Result := not FTestaNoDB;
-    if Result then
-      exit;
+//    Result := not FTestaNoDB;
+//    if Result then
+//      exit;
 
     try
+      FServFDConnection.Connected := False;
       FServFDConnection.Connected := True;
       sSql := 'SELECT 1 FROM RDB$DATABASE WHERE EXISTS (' +
         'SELECT 1 FROM TERMINAl WHERE TERMINAL_ID = ' + i.ToString + ')';

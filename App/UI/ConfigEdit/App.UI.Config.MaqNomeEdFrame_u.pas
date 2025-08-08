@@ -26,6 +26,7 @@ type
   public
     { Public declarations }
     function PodeOk: boolean;
+    function GetIdentStr: string;
   end;
 
 var
@@ -44,6 +45,14 @@ procedure TMaqNomeEdFrame.ExibirErro(const pFrase: string);
 begin
   ErroLabel.Caption := pFrase;
   ErroLabel.Visible := true;
+end;
+
+function TMaqNomeEdFrame.GetIdentStr: string;
+begin
+  if NomeLabeledEdit.Text <> '' then
+    result := NomeLabeledEdit.Text
+  else
+    result := IpLabeledEdit.Text;
 end;
 
 procedure TMaqNomeEdFrame.IpLabeledEditChange(Sender: TObject);

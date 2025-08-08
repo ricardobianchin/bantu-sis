@@ -6,7 +6,7 @@ inherited MaqNomeEdFrame: TMaqNomeEdFrame
   object ErroLabel: TLabel
     Left = 0
     Top = 73
-    Width = 322
+    Width = 48
     Height = 13
     Align = alBottom
     Caption = 'ErroLabel'
@@ -17,8 +17,6 @@ inherited MaqNomeEdFrame: TMaqNomeEdFrame
     Font.Style = []
     ParentFont = False
     Visible = False
-    ExplicitTop = 96
-    ExplicitWidth = 48
   end
   object GroupBox1: TGroupBox
     Left = 0

@@ -20,7 +20,7 @@ type
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
 
     procedure TermDBsParaList(pTerminalList: ITerminalList;
-      pSisConfig: ISisConfig);
+      pSisConfig: ISisConfig; pPastaDados: string);
 
     procedure ListToDBs(pTerminalList: ITerminalList; pSisConfig: ISisConfig;
       pLogLojaId: SmallInt; pLogUsuarioId: integer);

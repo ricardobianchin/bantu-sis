@@ -46,7 +46,8 @@ type
     function GetSqlForEach(pValues: Variant): string; override;
   public
     function DBToList(pTerminalList: ITerminalList;
-      pPastaDados, pAtividadeEconDescr: string; pSomenteMaquina: string = ''): Boolean;
+      pPastaDados, pAtividadeEconDescr: string;
+      pSomenteMaquina: string = ''): Boolean;
 
     procedure ListToDB(pTerminalList: ITerminalList; pLogLojaId: SmallInt;
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
@@ -61,7 +62,7 @@ type
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
 
     procedure TermDBsParaList(pTerminalList: ITerminalList;
-      pSisConfig: ISisConfig);
+      pSisConfig: ISisConfig; pPastaDados: string);
 
     procedure ListToDBs(pTerminalList: ITerminalList; pSisConfig: ISisConfig;
       pLogLojaId: SmallInt; pLogUsuarioId: integer);
@@ -76,38 +77,40 @@ uses System.SysUtils, Sis.Entities.Types, Sis.Types.Bool_u, Sis.Win.Utils_u,
 { TTerminalDBI }
 
 procedure TTerminalDBI.TermDBsParaList(pTerminalList: ITerminalList;
-  pSisConfig: ISisConfig);
+  pSisConfig: ISisConfig; pPastaDados: string);
 var
   i: integer;
-  DBConnection: IDBConnection;
+  TermDBConnection: IDBConnection;
   oDBConnectionParams: TDBConnectionParams;
   sSql: string;
   oTerminal: ITerminal;
   q: TDataSet;
 begin
-  for i := 0 to pTerminalList.Count - 1 do
-  begin
-    oTerminal := pTerminalList[i];
-    oDBConnectionParams.Server := oTerminal.NomeNaRede;
-    oDBConnectionParams.Arq := oTerminal.LocalArqDados;
-    oDBConnectionParams.Database := oTerminal.Database;
+    for i := 0 to pTerminalList.Count - 1 do
+    begin
+      oTerminal := pTerminalList[i];
+      oDBConnectionParams.Server := oTerminal.NomeNaRede;
+      oDBConnectionParams.Arq := oTerminal.LocalArqDados;
+      oDBConnectionParams.Database := oTerminal.Database;
+      if not FileExists(oTerminal.LocalArqDados) then
+        continue;
 
-    DBConnection := DBConnectionCreate('TerminalGetConn', pSisConfig,
-      oDBConnectionParams, nil, nil);
-    if not DBConnection.Abrir then
-      continue;
-    try
-      sSql := GetSqlTerminal(oTerminal.TerminalId);
-//{$IFDEF DEBUG}
-//  CopyTextToClipboard(sSql);
-//{$ENDIF}
-      DBConnection.QueryDataSet(sSql, q);
-      DataSetToTerminal(q, oTerminal, '', '');
-      q.free;
-    finally
-      DBConnection.Fechar;
+      TermDBConnection := DBConnectionCreate('TerminalGetConn', pSisConfig,
+        oDBConnectionParams, nil, nil);
+      if not TermDBConnection.Abrir then
+        continue;
+      try
+        sSql := GetSqlTerminal(oTerminal.TerminalId);
+        // {$IFDEF DEBUG}
+        // CopyTextToClipboard(sSql);
+        // {$ENDIF}
+        TermDBConnection.QueryDataSet(sSql, q);
+        DataSetToTerminal(q, oTerminal, '', '');
+        q.free;
+      finally
+        TermDBConnection.Fechar;
+      end;
     end;
-  end;
 end;
 
 procedure TTerminalDBI.DataSetToDB(pDataSet: TDataSet; pLogLojaId: SmallInt;
@@ -352,9 +355,9 @@ end;
 
 function TTerminalDBI.GetSQLTerminalGar(pTerminal: ITerminal): string;
 begin
-{
-propriedades de ITerminal.
-serao usadas para compor a string result
+  {
+    propriedades de ITerminal.
+    serao usadas para compor a string result
 
     property TerminalId: TTerminalId read GetTerminalId write SetTerminalId;
 
@@ -407,7 +410,7 @@ serao usadas para compor a string result
 
     property CriticalSections: ICriticalSections read GetCriticalSections;
 
-}
+  }
   Result := //
     'UPDATE OR INSERT INTO TERMINAL ('#13#10 //
     + '  TERMINAL_ID,'#13#10 //
@@ -437,33 +440,34 @@ serao usadas para compor a string result
     + '  BALANCA_STOPBITS,'#13#10 //
     + '  BALANCA_HANDSHAKING'#13#10 //
     + '  VALUES ('#13#10 //
-    + pTerminal.TerminalId.ToString + ', -- TERMINAL_ID'#13#10
-    + QuotedStr(pTerminal.Apelido) + ', -- APELIDO'#13#10
-    + QuotedStr(pTerminal.NomeNaRede) + ', -- NOME_NA_REDE'#13#10
-    + QuotedStr(pTerminal.IP) + ', -- IP'#13#10
-    + QuotedStr(pTerminal.LetraDoDrive) + ', -- LETRA_DO_DRIVE'#13#10
-    + pTerminal.NFSerie.ToString + ', -- NF_SERIE'#13#10
-    + BooleanToStrSQL(pTerminal.GavetaTem) + ', -- GAVETA_TEM'#13#10
-    + QuotedStr(pTerminal.GavetaComando) + ', -- GAVETA_COMANDO'#13#10
-    + QuotedStr(pTerminal.GavetaImprNome) + ', -- GAVETA_IMPR_NOME'#13#10
-    + pTerminal.BalancaModoUsoId.ToString + ', -- BALANCA_MODO_USO_ID'#13#10
-    + pTerminal.BalancaId.ToString + ', -- BALANCA_ID'#13#10
-    + pTerminal.BarCodigoIni.ToString + ', -- BARRAS_COD_INI'#13#10
-    + pTerminal.BarCodigoTam.ToString + ', -- BARRAS_COD_TAM'#13#10
-    + pTerminal.ImpressoraModoEnvioId.ToString + ', -- IMPRESSORA_MODO_ENVIO_ID'#13#10
-    + pTerminal.ImpressoraModeloId.ToString + ', -- IMPRESSORA_MODELO_ID'#13#10
-    + QuotedStr(pTerminal.ImpressoraNome) + ', -- IMPRESSORA_NOME'#13#10
-    + pTerminal.ImpressoraColsQtd.ToString + ', -- IMPRESSORA_COLS_QTD'#13#10
-    + pTerminal.CupomQtdLinsFinal.ToString + ', -- CUPOM_QTD_LINS_FINAL'#13#10
-    + BooleanToStrSQL(pTerminal.SempreOffLine) + ', -- SEMPRE_OFFLINE'#13#10
-    + BooleanToStrSQL(pTerminal.Ativo) + ', -- ATIVO'#13#10
-    + pTerminal.Balanca_Porta.ToString + ', -- BALANCA_PORTA'#13#10
-    + pTerminal.Balanca_Baudrate.ToString + ', -- BALANCA_BAUDRATE'#13#10
-    + pTerminal.Balanca_Databits.ToString + ', -- BALANCA_DATABITS'#13#10
-    + pTerminal.Balanca_Paridade.ToString + ', -- BALANCA_PARIDADE'#13#10
-    + pTerminal.Balanca_Stopbits.ToString + ', -- BALANCA_STOPBITS'#13#10
-    + pTerminal.Balanca_Handshaking.ToString + ', -- BALANCA_HANDSHAKING'#13#10
-    + ' ) MATCHING (TERMINAL_ID);'#13#10 //'
+    + pTerminal.TerminalId.ToString + ', -- TERMINAL_ID'#13#10 +
+    QuotedStr(pTerminal.Apelido) + ', -- APELIDO'#13#10 +
+    QuotedStr(pTerminal.NomeNaRede) + ', -- NOME_NA_REDE'#13#10 +
+    QuotedStr(pTerminal.IP) + ', -- IP'#13#10 +
+    QuotedStr(pTerminal.LetraDoDrive) + ', -- LETRA_DO_DRIVE'#13#10 +
+    pTerminal.NFSerie.ToString + ', -- NF_SERIE'#13#10 +
+    BooleanToStrSQL(pTerminal.GavetaTem) + ', -- GAVETA_TEM'#13#10 +
+    QuotedStr(pTerminal.GavetaComando) + ', -- GAVETA_COMANDO'#13#10 +
+    QuotedStr(pTerminal.GavetaImprNome) + ', -- GAVETA_IMPR_NOME'#13#10 +
+    pTerminal.BalancaModoUsoId.ToString + ', -- BALANCA_MODO_USO_ID'#13#10 +
+    pTerminal.BalancaId.ToString + ', -- BALANCA_ID'#13#10 +
+    pTerminal.BarCodigoIni.ToString + ', -- BARRAS_COD_INI'#13#10 +
+    pTerminal.BarCodigoTam.ToString + ', -- BARRAS_COD_TAM'#13#10 +
+    pTerminal.ImpressoraModoEnvioId.ToString +
+    ', -- IMPRESSORA_MODO_ENVIO_ID'#13#10 +
+    pTerminal.ImpressoraModeloId.ToString + ', -- IMPRESSORA_MODELO_ID'#13#10 +
+    QuotedStr(pTerminal.ImpressoraNome) + ', -- IMPRESSORA_NOME'#13#10 +
+    pTerminal.ImpressoraColsQtd.ToString + ', -- IMPRESSORA_COLS_QTD'#13#10 +
+    pTerminal.CupomQtdLinsFinal.ToString + ', -- CUPOM_QTD_LINS_FINAL'#13#10 +
+    BooleanToStrSQL(pTerminal.SempreOffLine) + ', -- SEMPRE_OFFLINE'#13#10 +
+    BooleanToStrSQL(pTerminal.Ativo) + ', -- ATIVO'#13#10 +
+    pTerminal.Balanca_Porta.ToString + ', -- BALANCA_PORTA'#13#10 +
+    pTerminal.Balanca_Baudrate.ToString + ', -- BALANCA_BAUDRATE'#13#10 +
+    pTerminal.Balanca_Databits.ToString + ', -- BALANCA_DATABITS'#13#10 +
+    pTerminal.Balanca_Paridade.ToString + ', -- BALANCA_PARIDADE'#13#10 +
+    pTerminal.Balanca_Stopbits.ToString + ', -- BALANCA_STOPBITS'#13#10 +
+    pTerminal.Balanca_Handshaking.ToString + ', -- BALANCA_HANDSHAKING'#13#10 +
+    ' ) MATCHING (TERMINAL_ID);'#13#10 // '
     ;
 end;
 
@@ -511,21 +515,21 @@ end;
 procedure TTerminalDBI.DBToDMemTable(pDMemTable: TFDMemTable);
 var
   sSql: string;
-  Q: TDataSet;
+  q: TDataSet;
 begin
   sSql := GetSqlForEach(Null);
   pDMemTable.EmptyDataSet;
-  DBConnection.QueryDataSet(sSql, Q);
+  DBConnection.QueryDataSet(sSql, q);
   try
-    while not Q.Eof do
+    while not q.Eof do
     begin
       pDMemTable.Append;
-      RecordToFDMemTable(Q, pDMemTable);
+      RecordToFDMemTable(q, pDMemTable);
       pDMemTable.Post;
-      Q.Next;
+      q.Next;
     end;
   finally
-    Q.Free;
+    q.free;
   end;
 end;
 
@@ -533,11 +537,11 @@ function TTerminalDBI.DBToList(pTerminalList: ITerminalList;
   pPastaDados, pAtividadeEconDescr: string; pSomenteMaquina: string): Boolean;
 var
   sSql: string;
-  Q: TDataSet;
+  q: TDataSet;
+  iTerminalId: SmallInt;
   oTerminal: ITerminal;
   vValues: Variant;
 begin
-  pTerminalList.Clear;
   Result := DBConnection.Abrir;
   if not Result then
     exit;
@@ -553,15 +557,19 @@ begin
 
     sSql := GetSqlForEach(vValues);
 
-    DBConnection.QueryDataSet(sSql, Q);
-    while not Q.Eof do
+    DBConnection.QueryDataSet(sSql, q);
+    while not q.Eof do
     begin
-      oTerminal := TerminalCreate;
-      pTerminalList.Add(oTerminal);
+      iTerminalId := q.fields[0].asinteger;
+      oTerminal := pTerminalList.TerminalIdToTerminal(iTerminalId);
+      if oTerminal = nil then
+      begin
+        oTerminal := TerminalCreate;
+        pTerminalList.Add(oTerminal);
+        DataSetToTerminal(q, oTerminal, pPastaDados, pAtividadeEconDescr);
+      end;
 
-      DataSetToTerminal(Q, oTerminal, pPastaDados, pAtividadeEconDescr);
-
-      Q.Next;
+      q.Next;
     end;
   finally
     DBConnection.Fechar;
@@ -612,12 +620,12 @@ begin
     + ', ' + BooleanToStrSQL(T.SempreOffLine) // SEMPRE_OFFLINE
     + ', ' + BooleanToStrSQL(T.Ativo) // SEMPRE_OFFLINE
 
-    + ', ' + T.BALANCA_PORTA.ToString // BALANCA_PORTA
-    + ', ' + T.BALANCA_BAUDRATE.ToString // BALANCA_BAUDRATE
-    + ', ' + T.BALANCA_DATABITS.ToString // BALANCA_DATABITS
-    + ', ' + T.BALANCA_PARIDADE.ToString // BALANCA_PARIDADE
-    + ', ' + T.BALANCA_STOPBITS.ToString // BALANCA_STOPBITS
-    + ', ' + T.BALANCA_HANDSHAKING.ToString // BALANCA_HANDSHAKING
+    + ', ' + T.Balanca_Porta.ToString // BALANCA_PORTA
+    + ', ' + T.Balanca_Baudrate.ToString // BALANCA_BAUDRATE
+    + ', ' + T.Balanca_Databits.ToString // BALANCA_DATABITS
+    + ', ' + T.Balanca_Paridade.ToString // BALANCA_PARIDADE
+    + ', ' + T.Balanca_Stopbits.ToString // BALANCA_STOPBITS
+    + ', ' + T.Balanca_Handshaking.ToString // BALANCA_HANDSHAKING
 
     + ', ' + pLogLojaId.ToString // LOG_LOJA_ID
     + ', ' + pLogUsuarioId.ToString // LOG_PESSOA_ID
