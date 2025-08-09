@@ -452,12 +452,10 @@ object ConfigPergForm: TConfigPergForm
   end
   object ServFDConnection: TFDConnection
     Params.Strings = (
-      'Server=192.168.0.91'
       'Protocol=TCPIP'
-      'Database=C:\DarosPDV\Dados\Dados_Mercado_Retaguarda.FDB'
+      'DriverID=FB'
       'User_Name=sysdba'
-      'Password=masterkey'
-      'DriverID=FB')
+      'Password=masterkey')
     LoginPrompt = False
     BeforeConnect = ServFDConnectionBeforeConnect
     Left = 224

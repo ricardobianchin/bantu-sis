@@ -8,7 +8,7 @@ uses
   Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.Mask,
   Vcl.Imaging.pngimage, Vcl.ComCtrls, Vcl.ToolWin, System.Actions, Vcl.ActnList,
   Sis.Loja, Sis.Config.SisConfig, App.UI.Config.ConfigPergForm.Testes,
-  App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminal_u,
+  App.UI.Config.MaqNomeEdFrame_u, App.UI.Frame.DBGrid.Config.Ambi.Terminais_u,
   Sis.TerminalList, Sis.Terminal, Data.DB, App.AppObj,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
@@ -149,6 +149,9 @@ type
     procedure PegarTerminais;
 
     function TinhaTermNoDB: boolean;
+    function TinhaTermNoHD: boolean;
+    function TinhaTerm: boolean;
+    function NomeArqToTerminalId(sNomeArq: string): SmallInt;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; pSisConfig: ISisConfig;
@@ -239,6 +242,7 @@ begin
   PegarIdMaquina(sNome, sIp);
   LocalMaqFrame.NomeLabeledEdit.Text := sNome;
   LocalMaqFrame.IpLabeledEdit.Text := sIp;
+  TinhaTerm;
 end;
 
 procedure TConfigPergForm.CancelActExecute(Sender: TObject);
@@ -268,7 +272,7 @@ begin
     ConfigArqLeiaDoServ(sNomeArq, sNomeNaRede, sIp);
     ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
     ServerMaqFrame.IpLabeledEdit.Text := sIp;
-    TinhaTermNoDB;
+    TinhaTerm;
   end;
 
   if FConfigPergTeste.TesteLojaPreenche then
@@ -565,6 +569,30 @@ begin
   end;
 end;
 
+function TConfigPergForm.NomeArqToTerminalId(sNomeArq: string): SmallInt;
+var
+  i: integer;
+  sNum: string;
+begin
+  sNum := '';
+  // Percorre a string de trás para frente para encontrar os 3 últimos dígitos
+  for i := Length(sNomeArq) downto 1 do
+  begin
+    if sNomeArq[i] in ['0' .. '9'] then
+      sNum := sNomeArq[i] + sNum
+    else if Length(sNum) = 3 then
+      Break
+    else
+      sNum := '';
+  end;
+
+  // Converte a parte numérica para SmallInt
+  if sNum <> '' then
+    result := StrToInt(sNum)
+  else
+    result := -1; // Retorna -1 se não encontrar número válido
+end;
+
 procedure TConfigPergForm.UsuAdminExibSenhaCheckBoxClick(Sender: TObject);
 begin
   if UsuAdminExibSenhaCheckBox.Checked then
@@ -748,7 +776,10 @@ begin
   if not result then
     exit;
 
-  result := not TinhaTermNoDB;
+  result := not TinhaTerm;
+  if not result then
+    exit;
+
 end;
 
 procedure TConfigPergForm.ReloadActExecute(Sender: TObject);
@@ -780,9 +811,9 @@ begin
   ConfigArqLeiaDoServ(sNomeArq, sNomeNaRede, sIp);
   ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
   ServerMaqFrame.IpLabeledEdit.Text := sIp;
-  ServFDConnection.Params.Values['server'] :=
+  ServFDConnection.Params.Values['Server'] :=
     ServerMaqFrame.NomeLabeledEdit.Text;
-  TinhaTermNoDB;
+  TinhaTerm;
 end;
 
 function TConfigPergForm.ServerArqConfigPodeOk: boolean;
@@ -820,8 +851,18 @@ begin
 end;
 
 procedure TConfigPergForm.ServFDConnectionBeforeConnect(Sender: TObject);
+var
+  sNomeArq: string;
 begin
-  ServFDConnection.Params.Values['server'] :=
+  sNomeArq := FAppObj.AppInfo.PastaDadosServ + //
+    'Dados_' + //
+    AtividadeEconomicaSisDescr[FAppObj.AppInfo.AtividadeEconomicaSis] + //
+    '_Retaguarda.FDB' //
+    ;
+
+  ServFDConnection.Params.Values['Database'] := sNomeArq;
+
+  ServFDConnection.Params.Values['Server'] :=
     ServerMaqFrame.NomeLabeledEdit.Text;
 end;
 
@@ -922,6 +963,25 @@ begin
   end;
 end;
 
+function TConfigPergForm.TinhaTerm: boolean;
+var
+  bR1, bR2: boolean;
+  sServ: string;
+begin
+  sServ := ServerMaqFrame.NomeLabeledEdit.Text;
+
+  result := sServ <> '';
+  if not result then
+    exit;
+
+  // nao faz and com eles diretamente,
+  // pra evitar a otimizacao que se o prim retornou true
+  // ja nao executaria o segundo
+  bR1 := TinhaTermNoDB;
+  bR2 := TinhaTermNoHD;
+  result := bR1 or bR2
+end;
+
 function TConfigPergForm.TinhaTermNoDB: boolean;
 var
   sSql: string;
@@ -930,8 +990,13 @@ var
   iRecordCountFin: integer;
   sMens: string;
   bResultado: boolean;
+  sServ: string;
 begin
-  result := false;
+  sServ := ServerMaqFrame.NomeLabeledEdit.Text;
+
+  result := sServ = '';
+  if result then
+    exit;
 
   iRecordCountIni := FTerminaisDBGridFrame.FDMemTable1.RecordCount;
 
@@ -1010,9 +1075,9 @@ begin
 
     sSql := sSql + 'ORDER BY TERMINAL_ID'#13#10; //
 
-//{$IFDEF DEBUG}
-//    CopyTextToClipboard(sSql);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     ServFDConnection.Connected := false;
     ServFDConnection.Connected := true;
     ServFDConnection.ExecSQL(sSql, q);
@@ -1057,6 +1122,158 @@ begin
     begin
       TerminaisErroLabel.Caption := ''
     end;
+  end;
+end;
+
+function TConfigPergForm.TinhaTermNoHD: boolean;
+var
+  sSqlTerminalGet: string;
+  sSqlIdNoServ: string;
+  sMasc: string;
+  NomesArqSL: TStringList;
+  sTerm: string;
+  TermFDConnection: TFDConnection;
+  i: integer;
+  sLocalArq: string;
+  bResultado: boolean;
+  iTerminalId: SmallInt;
+  q: TDataSet;
+  iQtdAdicionados: integer;
+begin
+  sTerm := LocalMaqFrame.NomeLabeledEdit.Text;
+
+  result := sTerm = '';
+  if result then
+    exit;
+
+  sSqlTerminalGet := 'SELECT'#13#10 //
+
+    + '  T.TERMINAL_ID'#13#10 // 0
+
+    + '  , T.APELIDO'#13#10 // 1
+    + '  , T.NOME_NA_REDE'#13#10 // 2
+    + '  , T.IP'#13#10 // 3
+    + '  , T.LETRA_DO_DRIVE || '':'' LETRADRIVE'#13#10 // 4
+
+    + '  , T.NF_SERIE'#13#10 // 5
+
+    + '  , T.GAVETA_TEM'#13#10 // 6
+    + '  , T.GAVETA_COMANDO'#13#10 // 7
+    + '  , T.GAVETA_IMPR_NOME'#13#10 // 8
+
+    + '  , BMU.BALANCA_MODO_USO_ID'#13#10 // 9
+    + '  , BMU.DESCR AS BALANCA_MODO_USO_DESCR'#13#10 // 10
+
+    + '  , B.BALANCA_ID'#13#10 // 11
+    + '  , B.MODELO BALANCA_FABR_MODELO'#13#10 // 12
+
+    + '  , T.BARRAS_COD_INI'#13#10 // 13
+    + '  , T.BARRAS_COD_TAM'#13#10 // 14
+
+    + '  , IME.IMPRESSORA_MODO_ENVIO_ID'#13#10 // 15
+    + '  , IME.DESCR IMPRESSORA_MODO_ENVIO_DESCR'#13#10 // 16
+
+    + '  , IM.IMPRESSORA_MODELO_ID'#13#10 // 17
+    + '  , IM.DESCR IMPRESSORA_MODELO_DESCR'#13#10 // 18
+    + '  , T.IMPRESSORA_NOME'#13#10 // 19
+    + '  , T.IMPRESSORA_COLS_QTD'#13#10 // 20
+
+    + '  , T.CUPOM_QTD_LINS_FINAL'#13#10 // 21
+
+    + '  , T.SEMPRE_OFFLINE'#13#10 // 22
+    + '  , T.ATIVO'#13#10 // 23
+
+    + '  , T.BALANCA_PORTA'#13#10 // 24
+    + '  , T.BALANCA_BAUDRATE'#13#10 // 25
+    + '  , T.BALANCA_DATABITS'#13#10 // 26
+    + '  , T.BALANCA_PARIDADE'#13#10 // 27
+    + '  , T.BALANCA_STOPBITS'#13#10 // 28
+    + '  , T.BALANCA_HANDSHAKING'#13#10 // 29
+
+    + 'FROM TERMINAL T'#13#10 //
+
+    + 'JOIN BALANCA_MODO_USO BMU ON'#13#10 //
+    + 'T.BALANCA_MODO_USO_ID = BMU.BALANCA_MODO_USO_ID'#13#10 //
+
+    + 'JOIN BALANCA B ON'#13#10 //
+    + 'T.BALANCA_ID = B.BALANCA_ID'#13#10 //
+
+    + 'JOIN IMPRESSORA_MODO_ENVIO IME ON'#13#10 //
+    + 'IME.IMPRESSORA_MODO_ENVIO_ID = T.IMPRESSORA_MODO_ENVIO_ID'#13#10 //
+
+    + 'JOIN IMPRESSORA_MODELO IM ON'#13#10 //
+    + 'IM.IMPRESSORA_MODELO_ID = T.IMPRESSORA_MODELO_ID'#13#10 //
+    ;
+
+  sMasc := 'DADOS_' + AtividadeEconomicaSisDescr
+    [FAppObj.AppInfo.AtividadeEconomicaSis] + '_TERMINAL_???.FDB';
+
+  NomesArqSL := TStringList.Create;
+  TermFDConnection := TFDConnection.Create(Nil);
+  try
+    TermFDConnection.Params.Text := //
+      'Protocol=TCPIP'#13#10 //
+      + 'User_Name=sysdba'#13#10 //
+      + 'Password=masterkey'#13#10 //
+      + 'DriverID=FB'#13#10 //
+      + 'Server=' + sTerm + #13#10 //
+      ;
+
+    LeDiretorio(FAppObj.AppInfo.PastaDados, NomesArqSL, true, sMasc);
+
+    Result := NomesArqSL.Count > 0;
+    if not Result then
+      exit;
+
+    iQtdAdicionados := 0;
+    Result := False;
+    for i := 0 to NomesArqSL.Count - 1 do
+    begin
+      sLocalArq := FAppObj.AppInfo.PastaDados + NomesArqSL[i];
+
+      iTerminalId := NomeArqToTerminalId(sLocalArq);
+      bResultado := FTerminaisDBGridFrame.FDMemTable1.Locate('TERMINAL_ID',
+        iTerminalId, []);
+      if bResultado then
+        Continue;
+
+      ServFDConnection.Connected := false;
+      ServFDConnection.Connected := true;
+      try
+        sSqlIdNoServ := 'SELECT 1 FROM RDB$DATABASE WHERE EXISTS (' +
+          'SELECT 1 FROM TERMINAL WHERE TERMINAL_ID = ' + iTerminalId.ToString;
+        sSqlIdNoServ := sSqlIdNoServ + ')';
+
+        ServFDConnection.ExecSQL(sSqlIdNoServ, q);
+        bResultado := q.IsEmpty;
+      finally
+        q.Free;
+        ServFDConnection.Connected := false;
+      end;
+
+      if not bResultado then
+        Continue;
+
+      TermFDConnection.Params.Values['Database'] := sLocalArq;
+      TermFDConnection.Connected := true;
+      try
+        TermFDConnection.ExecSQL(sSqlTerminalGet, q);
+        if q.IsEmpty then
+          Continue;
+        inc(iQtdAdicionados);
+        FTerminaisDBGridFrame.FDMemTable1.Append;
+        RecordToFDMemTable(q, FTerminaisDBGridFrame.FDMemTable1);
+        FTerminaisDBGridFrame.FDMemTable1.Post;
+      finally
+        TermFDConnection.Connected := false;
+        if assigned(q) then
+          q.Free;
+      end;
+    end;
+    Result := iQtdAdicionados > 0;
+  finally
+    NomesArqSL.Free;
+    TermFDConnection.Free;
   end;
 end;
 
