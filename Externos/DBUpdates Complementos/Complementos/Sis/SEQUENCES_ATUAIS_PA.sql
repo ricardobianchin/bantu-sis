@@ -1,0 +1,122 @@
+SET TERM ^;
+CREATE OR ALTER PACKAGE SEQUENCES_ATUAIS_PA
+AS
+BEGIN
+  PROCEDURE VALUES_GET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL
+  )
+  RETURNS
+  (
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  );
+  
+  PROCEDURE VALUES_SET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  );
+END^
+/*
+----------
+BODY
+----------
+*/
+RECREATE PACKAGE BODY SEQUENCES_ATUAIS_PA
+AS
+BEGIN
+  PROCEDURE VALUES_GET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL
+  )
+  RETURNS
+  (
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  )
+  AS
+  BEGIN
+    SELECT 
+      CAIXA_SESSAO_SEQ,
+      EST_MOV_SEQ,
+      LOG_SEQ,
+      PESSOA_SEQ,
+      VENDA_SEQ
+    FROM SEQUENCES_ATUAIS
+    WHERE TERMINAL_ID = :TERMINAL_ID
+    INTO
+      :CAIXA_SESSAO_SEQ,
+      :EST_MOV_SEQ,
+      :LOG_SEQ,
+      :PESSOA_SEQ,
+      :VENDA_SEQ
+      ;
+    SUSPEND;
+  END
+  
+  PROCEDURE VALUES_SET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  )
+  AS
+  BEGIN
+    /* Verifica se existe registro para o TERMINAL_ID */
+    IF (EXISTS (
+        SELECT 1 
+        FROM SEQUENCES_ATUAIS 
+        WHERE TERMINAL_ID = :TERMINAL_ID
+    )) THEN
+    BEGIN
+        /* Atualiza apenas os campos não nulos */
+        UPDATE SEQUENCES_ATUAIS
+        SET 
+            CAIXA_SESSAO_SEQ = COALESCE(:CAIXA_SESSAO_SEQ, CAIXA_SESSAO_SEQ),
+            EST_MOV_SEQ = COALESCE(:EST_MOV_SEQ, EST_MOV_SEQ),
+            LOG_SEQ = COALESCE(:LOG_SEQ, LOG_SEQ),
+            PESSOA_SEQ = COALESCE(:PESSOA_SEQ, PESSOA_SEQ),
+            VENDA_SEQ = COALESCE(:VENDA_SEQ, VENDA_SEQ)
+        WHERE TERMINAL_ID = :TERMINAL_ID;
+    END
+    ELSE
+    BEGIN
+        /* Insere novo registro com valores padrão 0 para campos nulos */
+        INSERT INTO SEQUENCES_ATUAIS (
+            TERMINAL_ID,
+            CAIXA_SESSAO_SEQ,
+            EST_MOV_SEQ,
+            LOG_SEQ,
+            PESSOA_SEQ,
+            VENDA_SEQ
+        )
+        VALUES (
+            :TERMINAL_ID,
+            COALESCE(:CAIXA_SESSAO_SEQ, 0),
+            COALESCE(:EST_MOV_SEQ, 0),
+            COALESCE(:LOG_SEQ, 0),
+            COALESCE(:PESSOA_SEQ, 0),
+            COALESCE(:VENDA_SEQ, 0)
+        );
+    END
+  END
+END^
+SET TERM ;^
+
+/*
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\SEQUENCES_ATUAIS_PA.sql";
+*/
