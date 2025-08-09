@@ -1,4 +1,4 @@
-unit App.UI.Frame.DBGrid.Config.Ambi.Terminal_u;
+unit App.UI.Frame.DBGrid.Config.Ambi.Terminais_u;
 
 interface
 
@@ -199,7 +199,7 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-  exit;
+//  exit;
 
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;

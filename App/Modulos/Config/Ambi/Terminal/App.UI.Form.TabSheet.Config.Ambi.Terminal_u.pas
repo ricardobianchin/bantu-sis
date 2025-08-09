@@ -7,7 +7,7 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.TabSheet_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ToolWin, Vcl.ComCtrls,
-  App.UI.Frame.DBGrid.Config.Ambi.Terminal_u, App.AppObj, Sis.DB.DBTypes,
+  App.UI.Frame.DBGrid.Config.Ambi.Terminais_u, App.AppObj, Sis.DB.DBTypes,
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Sis.Usuario,
   App.Config.Ambi.Terminal.DBI, Sis.Terminal.DBI, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
