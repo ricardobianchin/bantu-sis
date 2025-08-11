@@ -29,8 +29,6 @@ object ConfigPergForm: TConfigPergForm
     BevelOuter = bvNone
     Caption = ' '
     TabOrder = 0
-    ExplicitLeft = 56
-    ExplicitTop = 40
     DesignSize = (
       972
       555)
@@ -68,14 +66,16 @@ object ConfigPergForm: TConfigPergForm
         Left = 0
         Top = 0
         Action = OkAct
+        AutoSize = True
       end
       object ToolButton2: TToolButton
-        Left = 139
+        Left = 125
         Top = 0
         Action = CancelAct
+        AutoSize = True
       end
       object ToolButton3: TToolButton
-        Left = 278
+        Left = 268
         Top = 0
         Action = ReloadAct
       end
@@ -135,7 +135,7 @@ object ConfigPergForm: TConfigPergForm
       object LoginErroLabel: TLabel
         Left = 2
         Top = 318
-        Width = 77
+        Width = 296
         Height = 13
         Align = alBottom
         Caption = 'LoginErroLabel'
@@ -146,6 +146,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         Visible = False
+        ExplicitWidth = 77
       end
       object ObsLabel: TLabel
         Left = 9
@@ -380,7 +381,7 @@ object ConfigPergForm: TConfigPergForm
       object TerminaisErroLabel: TLabel
         Left = 2
         Top = 318
-        Width = 96
+        Width = 591
         Height = 13
         Align = alBottom
         Caption = 'TerminaisErroLabel'
@@ -391,6 +392,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         StyleElements = [seClient, seBorder]
+        ExplicitWidth = 96
       end
     end
   end
@@ -409,9 +411,9 @@ object ConfigPergForm: TConfigPergForm
       OnExecute = CancelActExecute
     end
     object ReloadAct: TAction
-      Caption = 'Desfazer'
+      Caption = 'Ler do Servidor'
       ImageIndex = 2
-      Visible = False
+      OnExecute = ReloadActExecute
     end
   end
   object BalloonHint1: TBalloonHint
@@ -450,14 +452,13 @@ object ConfigPergForm: TConfigPergForm
   end
   object ServFDConnection: TFDConnection
     Params.Strings = (
-      'Server=192.168.0.91'
       'Protocol=TCPIP'
-      'Database=C:\DarosPDV\Dados\Dados_Mercado_Retaguarda.FDB'
+      'DriverID=FB'
       'User_Name=sysdba'
-      'Password=masterkey'
-      'DriverID=FB')
+      'Password=masterkey')
     LoginPrompt = False
+    BeforeConnect = ServFDConnectionBeforeConnect
     Left = 224
-    Top = 56
+    Top = 48
   end
 end

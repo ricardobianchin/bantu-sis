@@ -3,7 +3,8 @@ unit App.DB.Garantir_u;
 interface
 
 uses Sis.DB.DBTypes, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
-  App.AppObj, Sis.Usuario, Sis.Loja, Sis.TerminalList, Sis.Terminal.DBI;
+  App.AppObj, Sis.Usuario, Sis.Loja, Sis.TerminalList, Sis.Terminal.DBI,
+  Sis.Config.SisConfig;
 
 function GarantirDB(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
@@ -17,7 +18,7 @@ uses Sis.DB.Factory, Sis.DB.Updater, Sis.DB.Updater.Factory, App.DB.Utils,
   App.SisConfig.DBI, App.SisConfig.Factory, Sis.Terminal.Utils_u,
   System.SysUtils, System.Classes, App.DB.Garantir_u.GravarInicialTerm,
   App.DB.Garantir_u.GravarInicialServ, App.Loja.DBI, App.Pess.Factory_u,
-  App.AppObj_u_Ini;
+  App.AppObj_u_Ini, Sis.Config.SisConfig.XMLI, Sis.Config.Factory;
 
 var
   DBMSConfig: IDBMSConfig;
@@ -49,7 +50,7 @@ end;
 
 function GarantirDBTerms(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
-  pVariaveis: string; pCriouTerminais: Boolean): Boolean;
+  pVariaveis: string; pCriouTerminais: Boolean; pAtivDescr: string): Boolean;
 var
   oUpdater: IDBUpdater;
   rDBConnectionParamsServ: TDBConnectionParams;
@@ -58,7 +59,7 @@ var
   oDBConnectionTerm: IDBConnection;
   oTerminal: ITerminal;
   iIndex: integer;
-  sAtivDescr: string;
+
   oTerminalDBI: ITerminalDBI;
   sPastaDados: string;
   sAtiv: string;
@@ -81,7 +82,7 @@ begin
 
     oTerminalDBI := TerminalDBICreate(oDBConnection);
 
-    oTerminalDBI.DBToList(pAppObj.TerminalList, pAppObj.AppInfo.PastaDados,
+    o T ermina l D BI.D BT oL ist(pAppObj.TerminalList, pAppObj.AppInfo.PastaDados,
     sAtivDescr, pAppObj.SisConfig.LocalMachineId.Name);
     end;
   }
@@ -151,8 +152,21 @@ var
   sLog: string;
   oAppLojaDBI: IAppLojaDBI;
   sMens: string;
+
+  oSisConfig: ISisConfig;
+  // variavel oSisConfig usada apenas para o debug trace into ir direto a chamada do metodo
+
+  oTerminalDBI: ITerminalDBI;
+  sPastaDados: string;
+  sAtividadeEcon: string;
+  bLeuTermListDoServ: Boolean;
+
+  oSisConfigXMLI: ISisConfigXMLI;
 begin
   Result := False;
+
+  oSisConfig := pAppObj.SisConfig;
+
   pProcessLog.PegueLocal('App.DB.Garantir.GarantirDB_u');
   try
     DBMSConfig := DBMSConfigCreate(pAppObj.SisConfig, pProcessLog, pOutput);
@@ -198,8 +212,30 @@ begin
       App.AppObj_u_Ini.AppObjIniLer(pAppObj);
     end;
 
+    oTerminalDBI := TerminalDBICreate(DBConnectionServ);
+
+    sPastaDados := pAppObj.AppInfo.PastaDados;
+    sAtividadeEcon := AtividadeEconomicaSisDescr
+      [pAppObj.AppInfo.AtividadeEconomicaSis];
+
+    // neste ponto,TerminalList tem o que tinha no xml
+    // se servidor disponivel, substitui pelo dados servidor
+    // senao, ret false
+    bLeuTermListDoServ := oTerminalDBI.DBToList(pAppObj.TerminalList,
+      sPastaDados, sAtividadeEcon, pAppObj.SisConfig.LocalMachineId.GetIdent);
+
+    if bLeuTermListDoServ then
+    begin
+      // garantir que xml bate com serv
+      oSisConfigXMLI := SisConfigXMLICreate(oSisConfig, pAppObj.TerminalList);
+      oSisConfigXMLI.Gravar;
+    end;
+
+//    oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig,
+//      sPastaDados);
+
     Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
-      pUsuarioAdmin, pVariaveis, pCriouTerminais);
+      pUsuarioAdmin, pVariaveis, pCriouTerminais, sAtividadeEcon);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal

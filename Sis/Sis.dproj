@@ -468,6 +468,7 @@
         <DCCReference Include="DB\Updater\Sis.DB.Updater.Comando.FB.CreateTableTemporary_u.pas"/>
         <DCCReference Include="UI\Impr\Sis.UI.ImpressaoMudo_u.pas"/>
         <DCCReference Include="UI\Impr\Sis.UI.Impressao.Types_u.pas"/>
+        <DCCReference Include="Usuario\Sis.UI.Form.Login.Teste.pas"/>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

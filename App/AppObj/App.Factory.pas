@@ -5,7 +5,7 @@ interface
 uses App.AppObj, App.AppInfo, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
   App.AtualizaVersao, Sis.Config.SisConfig, App.SisConfig.Garantir, App.Loja,
   Sis.Usuario, Sis.DB.DBTypes, App.DB.Log, App.Testes.Config, Sis.TerminalList,
-  Sis.Terminal.DBI;
+  Sis.Terminal.DBI, Sis.ModuloSistema.Types;
 
 function AppInfoCreate(pExeName, pAtualizExeSubPasta, pAtualizExeURL: string)
   : IAppInfo;

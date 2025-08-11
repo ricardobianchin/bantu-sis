@@ -1,0 +1,192 @@
+SEQUENCES_ATUAIS
+
+-----------------------------
+TESTES INICIO
+-----------------------------
+DROP TABLE SEQUENCES_ATUAIS;
+DELETE FROM DBUPDATE_HIST WHERE NUM>=126;
+COMMIT;
+
+
+-----------------------------
+TESTES FIM 
+-----------------------------
+
+
+/*
+Externos\DBUpdates Complementos\Complementos\Sis\SEQUENCES_ATUAIS_PA.sql
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\
+C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\SEQUENCES_ATUAIS_PA.sql
+
+"C:\Program Files\Notepad++\notepad++.exe" "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\SEQUENCES_ATUAIS_PA.sql"
+
+in "C:\Pr\app\bantu\bantu-sis\Src\Externos\DBUpdates Complementos\Complementos\Sis\SEQUENCES_ATUAIS_PA.sql";
+*/
+
+-----------------------------
+INICIO
+-----------------------------
+DBATUALIZ INI
+DBATUALIZ_PONTO_ALVO=SERVIDOR
+DBATUALIZ_ASSUNTO=SIS, PDV, VENDA
+DBATUALIZ_OBJETIVO=CRIA SEQUENCES_ATUAIS
+DBATUALIZ_OBS=
+
+
+//TABELA SEQUENCES_ATUAIS
+
+COMANDO INI
+COMANDO_TIPO=CREATE TABLE
+OBJETO_NOME=SEQUENCES_ATUAIS
+
+COLUNAS INI
+//NOME;TIPO;NOT NULL;PRIM;UNIQUE
+
+TERMINAL_ID;ID_SHORT_DOM;S;S
+CAIXA_SESSAO_SEQ;BIGINT;S
+EST_MOV_SEQ;BIGINT;S
+LOG_SEQ;BIGINT;S
+PESSOA_SEQ;BIGINT;S
+VENDA_SEQ;BIGINT;S
+
+COLUNAS FIM
+COMANDO FIM
+//TABELA SEQUENCES_ATUAIS FIM
+
+
+
+// PACKAGE SEQUENCES_ATUAIS_PA
+COMANDO INI
+COMANDO_TIPO=CREATE OR ALTER PACKAGE
+OBJETO_NOME=SEQUENCES_ATUAIS_PA
+
+```FIREBIRD
+SET TERM ^;
+CREATE OR ALTER PACKAGE SEQUENCES_ATUAIS_PA
+AS
+BEGIN
+  -- SEQUENCES_ATUAIS.VALUES_GET DEF
+  PROCEDURE VALUES_GET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL
+  )
+  RETURNS
+  (
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  );
+  
+  -- SEQUENCES_ATUAIS.VALUES_SET DEF
+  PROCEDURE VALUES_SET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  );
+END^
+/*
+----------
+BODY
+----------
+*/
+RECREATE PACKAGE BODY SEQUENCES_ATUAIS_PA
+AS
+BEGIN
+  -- SEQUENCES_ATUAIS.VALUES_GET IMP
+  PROCEDURE VALUES_GET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL
+  )
+  RETURNS
+  (
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  )
+  AS
+  BEGIN
+    -- SEQUENCES_ATUAIS.VALUES_GET COD
+    SELECT 
+      CAIXA_SESSAO_SEQ,
+      EST_MOV_SEQ,
+      LOG_SEQ,
+      PESSOA_SEQ,
+      VENDA_SEQ
+    FROM SEQUENCES_ATUAIS
+    WHERE TERMINAL_ID = :TERMINAL_ID
+    INTO
+      :CAIXA_SESSAO_SEQ,
+      :EST_MOV_SEQ,
+      :LOG_SEQ,
+      :PESSOA_SEQ,
+      :VENDA_SEQ
+      ;
+    SUSPEND;
+  END
+  
+  -- SEQUENCES_ATUAIS.VALUES_SET IMP
+  PROCEDURE VALUES_SET
+  (
+    TERMINAL_ID ID_SHORT_DOM NOT NULL,
+    CAIXA_SESSAO_SEQ BIGINT,
+    EST_MOV_SEQ BIGINT,
+    LOG_SEQ BIGINT,
+    PESSOA_SEQ BIGINT,
+    VENDA_SEQ BIGINT
+  )
+  AS
+  BEGIN
+    -- SEQUENCES_ATUAIS.VALUES_SET COD
+    /* Atualiza ou insere os valores das sequências atuais para o TERMINAL_ID */
+    /* Verifica se existe registro para o TERMINAL_ID */
+    IF (EXISTS (
+        SELECT 1 
+        FROM SEQUENCES_ATUAIS 
+        WHERE TERMINAL_ID = :TERMINAL_ID
+    )) THEN
+    BEGIN
+        /* Atualiza apenas os campos não nulos */
+        UPDATE SEQUENCES_ATUAIS
+        SET 
+            CAIXA_SESSAO_SEQ = COALESCE(:CAIXA_SESSAO_SEQ, CAIXA_SESSAO_SEQ),
+            EST_MOV_SEQ = COALESCE(:EST_MOV_SEQ, EST_MOV_SEQ),
+            LOG_SEQ = COALESCE(:LOG_SEQ, LOG_SEQ),
+            PESSOA_SEQ = COALESCE(:PESSOA_SEQ, PESSOA_SEQ),
+            VENDA_SEQ = COALESCE(:VENDA_SEQ, VENDA_SEQ)
+        WHERE TERMINAL_ID = :TERMINAL_ID;
+    END
+    ELSE
+    BEGIN
+        /* Insere novo registro com valores padrão 0 para campos nulos */
+        INSERT INTO SEQUENCES_ATUAIS (
+            TERMINAL_ID,
+            CAIXA_SESSAO_SEQ,
+            EST_MOV_SEQ,
+            LOG_SEQ,
+            PESSOA_SEQ,
+            VENDA_SEQ
+        )
+        VALUES (
+            :TERMINAL_ID,
+            COALESCE(:CAIXA_SESSAO_SEQ, 0),
+            COALESCE(:EST_MOV_SEQ, 0),
+            COALESCE(:LOG_SEQ, 0),
+            COALESCE(:PESSOA_SEQ, 0),
+            COALESCE(:VENDA_SEQ, 0)
+        );
+    END
+  END
+END^
+SET TERM ;^
+```
+COMANDO FIM
+
+DBATUALIZ FIM

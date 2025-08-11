@@ -262,7 +262,7 @@ contains
   App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u in 'Modulos\Retag\Acesso\OpcaoSis\App.UI.Form.TreeView.Retag.Acesso.OpcaoSis.Usuario_u.pas' {OpcaoSisUsuarioTreeViewForm},
   App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u in 'Pess\Funcionario\App.UI.Form.Diag.Pess.Funcionario.PerfilDeUso_u.pas' {FuncionarioPerfilDeUsoDiagForm},
   App.UI.Config.MaqNomeEdFrame_u in 'UI\ConfigEdit\App.UI.Config.MaqNomeEdFrame_u.pas' {MaqNomeEdFrame: TFrame},
-  App.UI.Frame.DBGrid.Config.Ambi.Terminal_u in 'Modulos\Config\Ambi\Terminal\App.UI.Frame.DBGrid.Config.Ambi.Terminal_u.pas' {TerminaisDBGridFrame: TFrame},
+  App.UI.Frame.DBGrid.Config.Ambi.Terminais_u in 'Modulos\Config\Ambi\Terminal\App.UI.Frame.DBGrid.Config.Ambi.Terminais_u.pas' {TerminaisDBGridFrame: TFrame},
   App.UI.Form.Config.Ambi.Terminal.Ed_u in 'Modulos\Config\Ambi\Terminal\App.UI.Form.Config.Ambi.Terminal.Ed_u.pas' {TerminalEdDiagForm},
   App.DB.Term.EnviarDados.Frame_u in 'DB\Term\EnviarDados\App.DB.Term.EnviarDados.Frame_u.pas' {TermEnviarDadosFrame: TFrame},
   App.Testes.Config.ModuConf.Import in 'AppObj\TestesConfig\ModuConf\Import\App.Testes.Config.ModuConf.Import.pas',
@@ -500,6 +500,7 @@ contains
   App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.DataSet.Est.Saldo_u_HistProdFormList_u.pas',
   App.UI.Form.Est.Saldo.HistProd.DBI in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI.pas',
   App.UI.Form.Est.Saldo.HistProd.DBI_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas',
-  App.Prod.BuscaTipo_u in 'Est\Prod\App.Prod.BuscaTipo_u.pas';
+  App.Prod.BuscaTipo_u in 'Est\Prod\App.Prod.BuscaTipo_u.pas',
+  App.UI.Sessao.LoginTeste_u in 'UI\Sessoes\App.UI.Sessao.LoginTeste_u.pas';
 
 end.

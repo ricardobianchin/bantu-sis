@@ -10,7 +10,7 @@ procedure TrazEstMovVenda(pTermDM: TDBTermDM; oExecScript: TExecScript;
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u, Log_u;
+  System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u, Log_u, System.Math;
 
 function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
 begin
@@ -65,6 +65,8 @@ var
   q: TDataSet;
   iLojaId: SmallInt;
   ErroDeu: Boolean;
+  iMaiorVendaId: integer;
+  iMaiorEstMovId: Int64;
 begin
   sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
   try
@@ -88,8 +90,13 @@ begin
     // if q.IsEmpty then
     // exit;
 
+    iMaiorVendaId := 0;
+    iMaiorEstMovId := 0;
     while not q.eof do
     begin
+      iMaiorVendaId := Max(iMaiorVendaId, q.Fields[11].AsInteger);
+      iMaiorEstMovId := Max(iMaiorEstMovId, q.Fields[2].AsLargeInt);
+
       sSql := DataSetToSqlGarantir(q, 'EST_MOV',
         'LOJA_ID, TERMINAL_ID, EST_MOV_ID', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       oExecScript.PegueComando(sSql);
@@ -101,6 +108,17 @@ begin
 
       q.next;
     end;
+
+    sSql := 'EXECUTE PROCEDURE SEQUENCES_ATUAIS_PA.VALUES_SET('
+      + pTermDM.Terminal.TerminalId.ToString
+      + ',NULL'
+      + ','+iMaiorEstMovId.ToString
+      + ',NULL'
+      + ',NULL'
+      + ','+iMaiorVendaId.ToString
+      +');';
+
+    oExecScript.PegueComando(sSql);
   finally
     q.Free
   end;

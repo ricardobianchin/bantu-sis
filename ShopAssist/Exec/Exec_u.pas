@@ -5,8 +5,11 @@ interface
 const
   //PODE_ENVIAR = FALSE;
   PODE_ENVIAR = TRUE;
+
   //PODE_TRAZER = FALSE;
   PODE_TRAZER = TRUE;
+
+  //PODE_SALDO = FALSE;
   PODE_SALDO = TRUE;
 
 procedure Execute;

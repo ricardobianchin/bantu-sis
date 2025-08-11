@@ -22,13 +22,16 @@ var
   XmlDoc: IXMLDocument;
   RootNode, ServerNode: IXMLNode;  
 begin
+  if not FileExists(pNomeArqXML) then
+    raise Exception.Create('Caminho inválido para o arquivo de configurações do servidor.');
+
     XmlDoc := LoadXMLDocument(pNomeArqXML);
     XmlDoc.Active := True;
-    
+
     RootNode := XmlDoc.DocumentElement;
     if RootNode = nil then
         raise Exception.Create('Erro ao carregar o arquivo XML: Raiz não encontrada.');
-    
+
     ServerNode := RootNode.ChildNodes.FindNode('SERVER');
     if ServerNode = nil then
         raise Exception.Create('Erro ao carregar o arquivo XML: Nó SERVER não encontrado.');

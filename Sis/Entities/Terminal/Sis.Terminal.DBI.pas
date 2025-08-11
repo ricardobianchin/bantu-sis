@@ -8,8 +8,8 @@ uses Sis.DBI, Sis.TerminalList, Sis.Terminal, FireDAC.Comp.Client, Data.DB,
 type
   ITerminalDBI = interface(IDBI)
     ['{2BA7728F-79A8-4E38-B885-F9C9D072A392}']
-    procedure DBToList(pTerminalList: ITerminalList;
-      pPastaDados, pAtivDescr: string; pSomenteMaquina: string = '');
+    function DBToList(pTerminalList: ITerminalList;
+      pPastaDados, pAtivDescr: string; pSomenteMaquina: string = ''): Boolean;
 
     procedure ListToDB(pTerminalList: ITerminalList; pLogLojaId: SmallInt;
       pLogUsuarioId: integer; pLogMachineIdentId: SmallInt);
@@ -19,8 +19,8 @@ type
 
     procedure DBToDMemTable(pDMemTable: TFDMemTable);
 
-    procedure ComplementeList(pTerminalList: ITerminalList;
-      pSisConfig: ISisConfig);
+    procedure TermDBsParaList(pTerminalList: ITerminalList;
+      pSisConfig: ISisConfig; pPastaDados: string);
 
     procedure ListToDBs(pTerminalList: ITerminalList; pSisConfig: ISisConfig;
       pLogLojaId: SmallInt; pLogUsuarioId: integer);

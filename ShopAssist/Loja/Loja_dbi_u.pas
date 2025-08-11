@@ -8,7 +8,7 @@ function CarregueLoja: Boolean;
 
 implementation
 
-uses Data.DB, System.SysUtils;
+uses Data.DB, System.SysUtils, Sis.Win.Utils_u;
 
 function CarregueLoja: Boolean;
 var
@@ -34,9 +34,9 @@ begin
       + 'FROM LOJA_INICIAL_PA.SELECIONADO_GET'#13#10 //
       + ';';
 
-    // {$IFDEF DEBUG}
-    // CopyTextToClipboard(sSql);
-    // {$ENDIF}
+//     {$IFDEF DEBUG}
+//     CopyTextToClipboard(sSql);
+//     {$ENDIF}
     DBServDM.Connection.ExecSQL(sSql, Q);
 
     Result := Assigned(Q);
