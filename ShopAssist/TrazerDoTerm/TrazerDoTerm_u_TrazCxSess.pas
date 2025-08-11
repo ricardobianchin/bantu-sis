@@ -10,7 +10,7 @@ procedure TrazCxSess(pTermDM: TDBTermDM; oExecScript: TExecScript;
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u, Log_u;
+  System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u, Log_u, System.Math;
 
 function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
 begin
@@ -58,6 +58,8 @@ var
   q: TDataSet;
   iLojaId: SmallInt;
   ErroDeu: Boolean;
+  iMaiorSessId: integer;
+  iMaiorLogId: Int64;
 begin
   sSql := GetSqlServLogs(pLogIdIni, pLogIdFin);
   try
@@ -81,8 +83,13 @@ begin
     // if q.IsEmpty then
     // exit;
 
+    iMaiorSessId := 0;
+    iMaiorLogId := 0;
     while not q.eof do
     begin
+      iMaiorSessId := Max(iMaiorSessId, q.Fields[16].AsInteger);
+      iMaiorLogId := Max(iMaiorLogId, q.Fields[2].AsLargeInt);
+
       sSql := DataSetToSqlGarantir(q, 'LOG', 'LOJA_ID, TERMINAL_ID, LOG_ID',
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
       oExecScript.PegueComando(sSql);
@@ -98,6 +105,16 @@ begin
 
       q.next;
     end;
+
+    sSql := 'EXECUTE PROCEDURE SEQUENCES_ATUAIS_PA.VALUES_SET('
+      + pTermDM.Terminal.TerminalId.ToString
+      + ','+iMaiorSessId.ToString
+      + ',NULL'
+      + ','+iMaiorLogId.ToString
+      + ',NULL'
+      + ',NULL'
+      +');';
+    oExecScript.PegueComando(sSql);
   finally
     q.Free
   end;

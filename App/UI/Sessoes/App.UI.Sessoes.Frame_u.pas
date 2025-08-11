@@ -12,7 +12,8 @@ uses
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
   Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants,
   Sis.UI.Controls.Utils, Sis.Sis.Constants, Data.DB, Vcl.StdCtrls,
-  App.UI.Sessoes.BotModulo.Frame_u, Generics.Collections, Sis.Entities.Types;
+  App.UI.Sessoes.BotModulo.Frame_u, Generics.Collections, Sis.Entities.Types,
+  Sis.UI.Form.Login.Teste;
 
 type
   TSessoesFrame = class(TFrame, ISessaoList)
@@ -29,6 +30,7 @@ type
     FAppObj: IAppObj;
     FEventosDeSessao: IEventosDeSessao;
     FLoginConfig: ILoginConfig;
+    FLoginTeste: ILoginTeste;
 
     FSessaoCriadorList: ISessaoCriadorList;
     FSessaoFrame: TSessaoFrame;
@@ -51,6 +53,8 @@ type
   protected
     property EventosDeSessao: IEventosDeSessao read FEventosDeSessao;
 
+    function LoginTesteCreate(pAppObj: IAppObj): ILoginTeste; virtual;
+
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
       pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
       pTerminalId: TTerminalId): TModuloBasForm; virtual; abstract;
@@ -62,8 +66,6 @@ type
       virtual; abstract;
     function GetAppObj: IAppObj;
     property AppObj: IAppObj read GetAppObj;
-    function PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
-      pDBConnection: IDBConnection): Boolean; virtual;
   public
     { Public declarations }
 
@@ -98,7 +100,8 @@ implementation
 uses Sis.DB.Factory, App.DB.Utils, Sis.Usuario.DBI, Vcl.Menus,
   Sis.Usuario.Factory, Sis.UI.Form.LoginPerg_u, App.Sessao.Factory,
   App.Sessao.Criador, Sis.UI.Actions.Utils_u, Sis.Entities.Factory,
-  Sis.Types.Factory, Sis.UI.ImgDM, Sis.Win.Utils_u, Sis.Terminal;
+  Sis.Types.Factory, Sis.UI.ImgDM, Sis.Win.Utils_u, Sis.Terminal,
+  App.UI.Sessao.LoginTeste_u;
 
 procedure TSessoesFrame.BotSessaoClick(Sender: TObject);
 var
@@ -143,8 +146,8 @@ begin
 
   if iTerminalId = 0 then
   begin
-  DBConnectionParams := TerminalIdToDBConnectionParams
-    (TERMINAL_ID_RETAGUARDA, FAppObj);
+    DBConnectionParams := TerminalIdToDBConnectionParams
+      (TERMINAL_ID_RETAGUARDA, FAppObj);
   end
   else
   begin
@@ -157,15 +160,12 @@ begin
   oDBConnection := DBConnectionCreate(sNameConex, FAppObj.SisConfig,
     DBConnectionParams, FAppObj.ProcessLog, FAppObj.ProcessOutput);
 
-  if not PodeAbrirModulo(iOpcaoSisIdModulo, oDBConnection) then
-    exit;
-
   oUsuario := UsuarioCreate();
 
   oUsuarioDBI := UsuarioDBICreate(oDBConnection, oUsuario, FAppObj.SisConfig);
 
   bResultado := LoginPerg(FLoginConfig, iOpcaoSisIdModulo, oUsuario,
-    oUsuarioDBI, true, FLogo1NomeArq);
+    oUsuarioDBI, true, FLogo1NomeArq, FLoginTeste, iTerminalId);
 
   if not bResultado then
     exit;
@@ -223,6 +223,8 @@ begin
   inherited Create(AOwner);
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
+  FLoginTeste := LoginTesteCreate(FAppObj);
+
   // FEventosDeSessao := pEventosDeSessao;
   FLoginConfig := pLoginConfig;
   FSessaoIndexContador := ContadorCreate;
@@ -391,45 +393,14 @@ begin
   end;
 end;
 
+function TSessoesFrame.LoginTesteCreate(pAppObj: IAppObj): ILoginTeste;
+begin
+  Result := TLoginTeste.Create(pAppObj);
+end;
+
 procedure TSessoesFrame.PegarEventoSessao(pEventosDeSessao: IEventosDeSessao);
 begin
   FEventosDeSessao := pEventosDeSessao;
-end;
-
-function TSessoesFrame.PodeAbrirModulo(pOpcaoSisIdModulo: TOpcaoSisIdModulo;
-  pDBConnection: IDBConnection): Boolean;
-var
-  SetExigeLoja: set of TOpcaoSisIdModulo;
-  sSql: string;
-  sNome: string;
-begin
-  SetExigeLoja := [TOpcaoSisIdModulo.opmoduRetaguarda,
-    TOpcaoSisIdModulo.opmoduPDV];
-
-  Result := not(pOpcaoSisIdModulo in SetExigeLoja);
-  if Result then
-    exit;
-
-  sSql := //
-    'SELECT PES.NOME'#13#10 + #13#10
-
-    + 'FROM LOJA LOJ'#13#10 + #13#10
-
-    + 'LEFT JOIN LOJA_EH_PESSOA LEP ON'#13#10 +
-    'LOJ.LOJA_ID = LEP.LOJA_ID'#13#10 + #13#10
-
-    + 'LEFT JOIN PESSOA PES ON'#13#10 + 'LEP.LOJA_ID = PES.LOJA_ID'#13#10 +
-    'AND LEP.TERMINAL_ID = PES.TERMINAL_ID'#13#10 +
-    'AND LEP.PESSOA_ID = PES.PESSOA_ID'#13#10;
-
-  sNome := pDBConnection.GetValueString(sSql);
-  Result := sNome <> '';
-  if not Result then
-  begin
-    Showmessage('Antes de utilizar o Módulo ' + TipoOpcaoSisModuloToStr
-      (pOpcaoSisIdModulo) +
-      ', é necessário completar os dados da loja no Módulo de Configurações');
-  end;
 end;
 
 procedure TSessoesFrame.SessaoCriadorListPrep;

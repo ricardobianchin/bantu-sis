@@ -853,6 +853,7 @@ end;
 procedure TConfigPergForm.ServFDConnectionBeforeConnect(Sender: TObject);
 var
   sNomeArq: string;
+  sServ: string;
 begin
   sNomeArq := FAppObj.AppInfo.PastaDadosServ + //
     'Dados_' + //
@@ -862,8 +863,12 @@ begin
 
   ServFDConnection.Params.Values['Database'] := sNomeArq;
 
-  ServFDConnection.Params.Values['Server'] :=
-    ServerMaqFrame.NomeLabeledEdit.Text;
+  if EhServidorCheckBox.Checked then
+    sServ := LocalMaqFrame.NomeLabeledEdit.Text
+  else
+    sServ := ServerMaqFrame.NomeLabeledEdit.Text;
+
+  ServFDConnection.Params.Values['Server'] := sServ;
 end;
 
 procedure TConfigPergForm.ShowTimerTimer(Sender: TObject);
@@ -968,7 +973,10 @@ var
   bR1, bR2: boolean;
   sServ: string;
 begin
-  sServ := ServerMaqFrame.NomeLabeledEdit.Text;
+  if EhServidorCheckBox.Checked then
+    sServ := LocalMaqFrame.NomeLabeledEdit.Text
+  else
+    sServ := ServerMaqFrame.NomeLabeledEdit.Text;
 
   result := sServ <> '';
   if not result then
@@ -992,7 +1000,10 @@ var
   bResultado: boolean;
   sServ: string;
 begin
-  sServ := ServerMaqFrame.NomeLabeledEdit.Text;
+  if EhServidorCheckBox.Checked then
+    sServ := LocalMaqFrame.NomeLabeledEdit.Text
+  else
+    sServ := ServerMaqFrame.NomeLabeledEdit.Text;
 
   result := sServ = '';
   if result then
@@ -1139,6 +1150,7 @@ var
   iTerminalId: SmallInt;
   q: TDataSet;
   iQtdAdicionados: integer;
+  sDrive: string;
 begin
   sTerm := LocalMaqFrame.NomeLabeledEdit.Text;
 
@@ -1260,9 +1272,28 @@ begin
         TermFDConnection.ExecSQL(sSqlTerminalGet, q);
         if q.IsEmpty then
           Continue;
+
+        if q.FieldByName('TERMINAL_ID').AsInteger = 0 then
+        begin
+          ShowMessage('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10+sLocalArq);
+          Continue;
+        end;
+
         inc(iQtdAdicionados);
         FTerminaisDBGridFrame.FDMemTable1.Append;
         RecordToFDMemTable(q, FTerminaisDBGridFrame.FDMemTable1);
+
+        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('NOME_NA_REDE').AsString <> sTerm then
+          FTerminaisDBGridFrame.FDMemTable1.FieldByName('NOME_NA_REDE').AsString := sTerm;
+
+        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('IP').AsString <> LocalMaqFrame.IpLabeledEdit.Text then
+          FTerminaisDBGridFrame.FDMemTable1.FieldByName('IP').AsString := LocalMaqFrame.IpLabeledEdit.Text;
+
+        sDrive := ExtractFileDrive(FAppObj.AppInfo.PastaDados);
+
+        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('LETRA_DO_DRIVE').AsString <> sDrive then
+          FTerminaisDBGridFrame.FDMemTable1.FieldByName('LETRA_DO_DRIVE').AsString := sDrive;
+
         FTerminaisDBGridFrame.FDMemTable1.Post;
       finally
         TermFDConnection.Connected := false;

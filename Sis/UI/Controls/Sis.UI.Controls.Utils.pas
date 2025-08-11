@@ -382,6 +382,9 @@ begin
   if not Assigned(pWinControl) then
     exit;
 
+  if not pWinControl.Enabled then
+    exit;
+
   bVisible := ControlIsVisible(pWinControl);
   if not bVisible then
     exit;

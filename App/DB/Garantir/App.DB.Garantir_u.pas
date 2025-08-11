@@ -231,8 +231,8 @@ begin
       oSisConfigXMLI.Gravar;
     end;
 
-    oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig,
-      sPastaDados);
+//    oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig,
+//      sPastaDados);
 
     Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
       pUsuarioAdmin, pVariaveis, pCriouTerminais, sAtividadeEcon);

@@ -389,16 +389,19 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.Garanta_Config_e_DB');
   try
     try
-    oUsuarioAdmin := UsuarioCreate;
-    except on e: exception do
-      FProcessLog.RegistreLog('oUsuarioAdmin := UsuarioCreate erro '+e.message);
+      oUsuarioAdmin := UsuarioCreate;
+    except
+      on e: Exception do
+        FProcessLog.RegistreLog('oUsuarioAdmin := UsuarioCreate erro ' +
+          e.message);
     end;
 
     try
-    bResultado := Garanta_Config_XML_e_Perg(FLoja, oUsuarioAdmin,
-      FAppObj.TerminalList, bCriouTerminais);
-    except on e: exception do
-      FProcessLog.RegistreLog('Garanta_Config_XML_e_Perg( erro '+e.message);
+      bResultado := Garanta_Config_XML_e_Perg(FLoja, oUsuarioAdmin,
+        FAppObj.TerminalList, bCriouTerminais);
+    except
+      on e: Exception do
+        FProcessLog.RegistreLog('Garanta_Config_XML_e_Perg( erro ' + e.message);
     end;
 
     if not bResultado then
@@ -410,9 +413,10 @@ begin
     end;
 
     try
-    bResultado := Garanta_DB(bCriouTerminais, oUsuarioAdmin);
-    except on e: exception do
-      FProcessLog.RegistreLog('Garanta_DB( erro '+e.message);
+      bResultado := Garanta_DB(bCriouTerminais, oUsuarioAdmin);
+    except
+      on e: Exception do
+        FProcessLog.RegistreLog('Garanta_DB( erro ' + e.message);
     end;
 
     if not bResultado then
@@ -426,15 +430,17 @@ begin
     oSisConfig := FAppObj.SisConfig;
 
     try
-    FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
-    except on e: exception do
-      FProcessLog.RegistreLog('DBMSConfigCreate erro '+e.message);
+      FDBMSConfig := DBMSConfigCreate(oSisConfig, FProcessLog, FProcessOutput);
+    except
+      on e: Exception do
+        FProcessLog.RegistreLog('DBMSConfigCreate erro ' + e.message);
     end;
 
     try
-    FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
-    except on e: exception do
-      FProcessLog.RegistreLog('DBMSCreate erro '+e.message);
+      FDBMS := DBMSCreate(oSisConfig, FDBMSConfig, FProcessLog, FProcessOutput);
+    except
+      on e: Exception do
+        FProcessLog.RegistreLog('DBMSCreate erro ' + e.message);
     end;
     FAppObj.DBMS := FDBMS;
     FProcessLog.RegistreLog('TPrincBasForm.Garanta_Config_e_DB; ok');
@@ -462,12 +468,14 @@ begin
 
     sLog := sLog + ',vai oAppSisConfigGarantirXML.Execute';
     Result := oAppSisConfigGarantirXML.Execute;
-    sLog := sLog + ',oAppSisConfigGarantirXML.Execute retornou. Result='+BooleanToStr(Result);
+    sLog := sLog + ',oAppSisConfigGarantirXML.Execute retornou. Result=' +
+      BooleanToStr(Result);
 
     pCriouTerminais := oAppSisConfigGarantirXML.CriouTerminais;
-    sLog := sLog + ',pCriouTerminais='+BooleanToStr(pCriouTerminais);
+    sLog := sLog + ',pCriouTerminais=' + BooleanToStr(pCriouTerminais);
 
-    sLog := ',TPrincBasForm.Garanta_Config_XML_e_Perg Result='+iif(Result, 'True,ok', 'False,deve abortar');
+    sLog := ',TPrincBasForm.Garanta_Config_XML_e_Perg Result=' +
+      iif(Result, 'True,ok', 'False,deve abortar');
     FProcessLog.RegistreLog(sLog);
   finally
     FProcessLog.RetorneLocal;
@@ -487,12 +495,12 @@ var
   oUsuarioAdminDBI: IUsuarioDBI;
 begin
   oSisConfig := FAppObj.SisConfig;
-//  if pUsuarioAdmin.Id = 0 then
-//  begin
-//    oUsuarioAdminDBI := UsuarioDBICreate(DBConnectionServ, pUsuarioAdmin,
-//      oSisConfig);
-//    oUsuarioAdminDBI.LeiaAdmin;
-//  end;
+  // if pUsuarioAdmin.Id = 0 then
+  // begin
+  // oUsuarioAdminDBI := UsuarioDBICreate(DBConnectionServ, pUsuarioAdmin,
+  // oSisConfig);
+  // oUsuarioAdminDBI.LeiaAdmin;
+  // end;
 
   Result := GarantirDB(FAppObj, FProcessLog, FProcessOutput, FLoja,
     pUsuarioAdmin, DBUpdaterVariaveis, pCriouTerminais);

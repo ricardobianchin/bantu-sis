@@ -57,7 +57,7 @@ implementation
 {$R *.dfm}
 
 uses Sis.UI.IO.Files, App.UI.Form.Config.Ambi.Terminal.Ed_u, Sis.UI.IO.Factory,
-  App.UI.Form.Perg_u, Sis.Types.Utils_u;
+  App.UI.Form.Perg_u, Sis.Types.Utils_u, Sis.Win.Utils_u;
 
 { TDBGridFrame1 }
 
@@ -192,6 +192,7 @@ end;
 
 procedure TTerminaisDBGridFrame.SimuleIns;
 var
+  sNome, sIp: string;
   Tab: TDataSet;
 begin
   Tab := FDMemTable1;
@@ -199,13 +200,15 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-//  exit;
+  exit;
+
+  PegarIdMaquina(sNome, sIp);
 
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
   Tab.FieldByName('APELIDO').AsString := 'TECIDOS';
-  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESENV-RIC';
-  Tab.FieldByName('IP').AsString := '192.168.56.1';
+  Tab.FieldByName('NOME_NA_REDE').AsString := sNome; // 'DESENV-RIC';
+  Tab.FieldByName('IP').AsString := sIp; // '192.168.56.1';
 
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
   Tab.FieldByName('NF_SERIE').AsInteger := 0;
@@ -241,8 +244,8 @@ begin
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 2;
   Tab.FieldByName('APELIDO').AsString := 'REVESTIMENTOS';
-  Tab.FieldByName('NOME_NA_REDE').AsString := 'DESENV-RIC';
-  Tab.FieldByName('IP').AsString := '192.168.56.1';
+  Tab.FieldByName('NOME_NA_REDE').AsString := sNome; // 'DESENV-RIC';
+  Tab.FieldByName('IP').AsString := sIp; // '192.168.56.1';
 
   Tab.FieldByName('LETRA_DO_DRIVE').AsString := 'C:';
   Tab.FieldByName('NF_SERIE').AsInteger := 0;
