@@ -12,6 +12,7 @@ uses
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
+    procedure ShowTimer_BasFormTimer(Sender: TObject);
   private
     { Private declarations }
 
@@ -57,8 +58,11 @@ begin
   // ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
   try
     inherited;
-    if PrecisaFechar then
+    if Application.Terminated then
       exit;
+
+    if PrecisaFechar then
+      Application.Terminate;
 
   finally
     // ProcessLog.RetorneAssunto;
@@ -97,6 +101,14 @@ function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
   Result := TShopSessoesFrame.Create(Self, LoginConfig,
     {EventosDeSessao, }AppObj);
+end;
+
+procedure TShopPrincForm.ShowTimer_BasFormTimer(Sender: TObject);
+begin
+  inherited;
+//  if PrecisaFechar then
+//    exit;
+
 end;
 
 end.

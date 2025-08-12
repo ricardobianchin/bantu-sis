@@ -56,6 +56,9 @@ type
     function GetPastaTmp: string;
     property PastaTmp: string read GetPastaTmp;
 
+    function GetPastaAppComandos: string;
+    property PastaAppComandos: string read GetPastaAppComandos;
+
     function GetPastaImg: string;
     property PastaImg: string read GetPastaImg;
 

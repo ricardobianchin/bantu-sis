@@ -98,4 +98,10 @@ inherited PrincBasForm: TPrincBasForm
       OnExecute = MinimizeAction_PrincBasFormExecute
     end
   end
+  object AppComandosExecTimer_PrincBasForm: TTimer
+    Enabled = False
+    OnTimer = AppComandosExecTimer_PrincBasFormTimer
+    Left = 432
+    Top = 72
+  end
 end

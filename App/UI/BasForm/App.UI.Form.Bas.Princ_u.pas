@@ -9,7 +9,8 @@ uses
   Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog, Vcl.ActnList, Vcl.ExtCtrls,
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg, Sis.UI.Constants,
   Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Usuario,
-  Sis.TerminalList, Sis.Terminal.Factory_u, App.Loja.DBI, Sis.Terminal.DBI;
+  Sis.TerminalList, Sis.Terminal.Factory_u, App.Loja.DBI, Sis.Terminal.DBI,
+  System.DateUtils;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -21,6 +22,7 @@ type
     TitleBarCaptionLabel: TLabel;
     Logo1Image: TImage;
     DtHCompileLabel: TLabel;
+    AppComandosExecTimer_PrincBasForm: TTimer;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -30,8 +32,10 @@ type
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure AppComandosExecTimer_PrincBasFormTimer(Sender: TObject);
   private
     { Private declarations }
+    MutexHandle: THandle;
     FsLogo1NomeArq: string;
     FAppInfo: IAppInfo;
     FTerminalList: ITerminalList;
@@ -62,6 +66,13 @@ type
 
     procedure AssistPedirPraFechar;
   protected
+    procedure DoSegundaInstancia; virtual;
+
+    function AppComandoGetNome(pDtH: TDateTime = 0): string; virtual;
+    procedure AppComandosApagueAntigos(pIdadeMaxima: TDateTime = OneSecond * 15); virtual;
+    procedure AppComandoSalve(pComando: string); virtual;
+    procedure AppComandoExecute(var pComando: string); virtual;
+
     procedure DBUpdaterVariaveisPegar(pChave, pValor: string);
 
     property StatusOutput: IOutput read FStatusOutput;
@@ -104,12 +115,12 @@ implementation
 uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.Controls.Utils, Sis.UI.IO.Output.ProcessLog.Factory, Sis.DB.Factory,
   App.AppObj_u_ExecEventos, Sis.UI.Form.Splash_u, Sis.UI.Controls.TImage,
-  System.DateUtils, App.AtualizaVersao, Sis.Types.Bool_u, Sis.Usuario.Factory,
+  App.AtualizaVersao, Sis.Types.Bool_u, Sis.Usuario.Factory,
   App.SisConfig.Garantir, App.DB.Garantir_u, Sis.Loja.Factory, Sis.UI.IO.Files,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
   App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.Types.Utils_u,
-  App.UI.Form.Perg_u, Sis.Usuario.DBI;
+  App.UI.Form.Perg_u, Sis.Usuario.DBI, Sis.UI.IO.Files.ApagueAntigos_u;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -122,6 +133,92 @@ begin
   finally
     FProcessLog.RetorneLocal;
   end;
+end;
+
+procedure TPrincBasForm.AppComandoExecute(var pComando: string);
+begin
+  pComando := AnsiUpperCase(pComando);
+  if pComando = 'HIDE' then
+  begin
+    pComando := '';
+    Hide;
+    exit;
+  end;
+
+  if pComando = 'SHOW' then
+  begin
+    pComando := '';
+    if not Visible then
+      Show;
+    exit;
+  end;
+
+  if pComando = 'CLOSE' then
+  begin
+    pComando := '';
+    Close;
+    exit;
+  end;
+end;
+
+function TPrincBasForm.AppComandoGetNome(pDtH: TDateTime): string;
+begin
+  if pDtH = 0 then
+    pDtH := Now;
+  Result := AppInfo.PastaAppComandos + DateTimeToNomeArq(pDtH) +
+    ' AppComando.tmp';
+end;
+
+procedure TPrincBasForm.AppComandoSalve(pComando: string);
+var
+  sNomeArq: string;
+//  Agora: TDateTime;
+begin
+//  Agora := Now;
+  sNomeArq := AppComandoGetNome{(Agora)};
+  pComando := AnsiUpperCase(pComando);
+  Sis.UI.IO.Files.EscreverArquivo(pComando, sNomeArq);
+  RenameFile(sNomeArq, ChangeFileExt(sNomeArq, '.txt'));
+end;
+
+procedure TPrincBasForm.AppComandosExecTimer_PrincBasFormTimer(Sender: TObject);
+var
+  SL: TStringList;
+  I: Integer;
+  sTexto: string;
+  sNomeArq: string;
+begin
+  inherited;
+  AppComandosExecTimer_PrincBasForm.Enabled := False;
+  SL := TStringList.Create;
+  try
+    AppComandosApagueAntigos;
+    LeDiretorio(FAppInfo.PastaAppComandos, sl, False);
+    sl.Sorted := True;
+    sl.Sorted := False;
+    for I := 0 to sl.Count - 1 do
+    begin
+      sNomeArq := FAppInfo.PastaAppComandos + sl[i];
+      if LerDoArquivo(sNomeArq, sTexto) then
+      begin
+        if sTexto <> '' then
+          AppComandoExecute(sTexto);
+      end;
+      DeleteFile(sNomeArq);
+    end;
+  finally
+    SL.Free;
+    AppComandosExecTimer_PrincBasForm.Enabled := True;
+  end;
+end;
+
+procedure TPrincBasForm.AppComandosApagueAntigos(pIdadeMaxima: TDateTime);
+var
+  Agora: TDateTime;
+begin
+  Agora := Now;
+  Sis.UI.IO.Files.ApagueAntigos_u.DeleteOldFilesAndEmptyDirs
+    (AppInfo.PastaAppComandos, Agora - pIdadeMaxima, False);
 end;
 
 procedure TPrincBasForm.AssistAbrir;
@@ -271,8 +368,19 @@ begin
 
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
-    FLoja := AppLojaCreate;
     FAppInfo := GetAppInfoCreate;
+
+    MutexHandle := CreateMutex(nil, True,
+      '9DC5D990-AAF7-480A-9892-02AF9D0E72ED');
+    if GetLastError = ERROR_ALREADY_EXISTS then
+    begin
+      FProcessLog.RegistreLog('GetLastError = ERROR_ALREADY_EXISTS');
+      DoSegundaInstancia;
+      FPrecisaFechar := True;
+      exit;
+    end;
+
+    FLoja := AppLojaCreate;
 
     FTerminalList := TerminalListCreate;
     FsLogo1NomeArq := FAppInfo.PastaImg + 'App\Logo Tela.jpg';
@@ -296,7 +404,7 @@ begin
     begin
       FProcessLog.RegistreLog
         ('AtualizeVersaoExecutaveis retornou true, Application.Terminate');
-      Application.Terminate;
+      // Application.Terminate;
       FPrecisaFechar := True;
       exit;
     end;
@@ -317,7 +425,8 @@ begin
     ClearStyleElements(TitleBarPanel);
 
   finally
-    FAppObj.ProcessOutput := MudoOutputCreate;
+    if not PrecisaFechar then
+      FAppObj.ProcessOutput := MudoOutputCreate;
     FProcessLog.RetorneLocal;
   end;
 end;
@@ -330,6 +439,8 @@ end;
 destructor TPrincBasForm.Destroy;
 begin // vai terminar em erro $$
   inherited;
+  if MutexHandle <> 0 then
+    CloseHandle(MutexHandle);
   // // FProcessLog.PegueLocal('TPrincBasForm.FormDestroy');
   // try
   // ExecEvento(TEventoDoSistema.eventosisFim, FAppInfo, FStatusOutput,
@@ -338,6 +449,11 @@ begin // vai terminar em erro $$
   // finally
   // // FProcessLog.RetorneLocal;
   // end;
+end;
+
+procedure TPrincBasForm.DoSegundaInstancia;
+begin
+
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
@@ -551,8 +667,10 @@ end;
 procedure TPrincBasForm.ShowTimer_BasFormTimer(Sender: TObject);
 begin
   inherited;
-
+  if PrecisaFechar then
+    exit;
   AssistAbrir;
+  AppComandosExecTimer_PrincBasForm.Enabled := True;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;

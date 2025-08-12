@@ -1,4 +1,4 @@
-unit App.UI.Sessoes.Frame_u;
+ï»¿unit App.UI.Sessoes.Frame_u;
 
 interface
 
@@ -40,15 +40,17 @@ type
     FBotList: TList<TBotaoModuloFrame>;
     FLogo1NomeArq: string;
 
-    procedure SessaoCriadorListPrep;
+    procedure PrepareListaDeCriadoresEBotoes(pTerminaisPreparadosSL: TStrings);
     procedure BotSessaoAlign;
-    procedure SessaoCriadorListPrepToolBar;
+    procedure PrepareListaDeCriadoresEBotoesToolBar;
 
     function GetSessao(Index: integer): ISessao;
     function GetCount: integer;
 
     function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)
       : TBotaoModuloFrame;
+
+    function GetBotByTerminalId(pTerminalId: TTerminalId): TBotaoModuloFrame;
 
   protected
     property EventosDeSessao: IEventosDeSessao read FEventosDeSessao;
@@ -70,6 +72,8 @@ type
     { Public declarations }
 
     // cria sessao
+
+    TerminaisPreparadosSL: TStringList;
     procedure BotSessaoClick(Sender: TObject);
     procedure ExecuteAutoLogin;
 
@@ -86,6 +90,9 @@ type
       var Shift: TShiftState): Boolean;
 
     procedure PegarEventoSessao(pEventosDeSessao: IEventosDeSessao);
+    procedure ExecByName(pName: string);
+
+    procedure ExecByTerminalId(pTerminalId: TTerminalId);
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
       { pEventosDeSessao: IEventosDeSessao; } pAppObj: IAppObj); reintroduce;
@@ -221,6 +228,7 @@ constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
   { pEventosDeSessao: IEventosDeSessao; } pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
+  TerminaisPreparadosSL := TStringList.Create;
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
   FLoginTeste := LoginTesteCreate(FAppObj);
@@ -234,10 +242,10 @@ begin
   // ToolBar1.Images := SisImgDataModule.PrincImageList89;
   ActionList1.Images := SisImgDataModule.PrincImageList89;
   FLogo1NomeArq := FAppObj.AppInfo.PastaImg + 'App\Logo Tela.jpg';
-  SessaoCriadorListPrep;
+  PrepareListaDeCriadoresEBotoes(TerminaisPreparadosSL);
   BotSessaoAlign;
-  // SessaoCriadorListPrepActionList;
-  // SessaoCriadorListPrepToolBar;
+  // PrepareListaDeCriadoresEBotoesActionList;
+  // PrepareListaDeCriadoresEBotoesToolBar;
 end;
 
 procedure TSessoesFrame.DeleteByIndex(pSessaoIndex: TSessaoIndex);
@@ -250,6 +258,7 @@ end;
 
 destructor TSessoesFrame.Destroy;
 begin
+  TerminaisPreparadosSL.Free;
   FBotList.Free;
   inherited;
 end;
@@ -278,6 +287,31 @@ begin
     end;
     end;
   }
+end;
+
+procedure TSessoesFrame.ExecByName(pName: string);
+var
+  eOpcaoSisIdModulo: TOpcaoSisIdModulo;
+  oBotaoModuloFrame: TBotaoModuloFrame;
+begin
+  pName := UpperCase(pName);
+  eOpcaoSisIdModulo := NameToTipoOpcaoSisModulo(pName);
+  oBotaoModuloFrame := GetBotByTipoOpcao(eOpcaoSisIdModulo);
+  if oBotaoModuloFrame = nil then
+    exit;
+
+  oBotaoModuloFrame.BotaoClick;
+end;
+
+procedure TSessoesFrame.ExecByTerminalId(pTerminalId: TTerminalId);
+var
+  oBotaoModuloFrame: TBotaoModuloFrame;
+begin
+  oBotaoModuloFrame := GetBotByTerminalId(pTerminalId);
+  if oBotaoModuloFrame = nil then
+    exit;
+
+  oBotaoModuloFrame.BotaoClick;
 end;
 
 procedure TSessoesFrame.ExecuteAutoLogin;
@@ -325,6 +359,26 @@ end;
 function TSessoesFrame.GetAppObj: IAppObj;
 begin
   Result := FAppObj;
+end;
+
+function TSessoesFrame.GetBotByTerminalId(pTerminalId: TTerminalId)
+  : TBotaoModuloFrame;
+var
+  oBotaoModuloFrame: TBotaoModuloFrame;
+begin
+  Result := nil;
+
+  if pTerminalId < 1 then
+    exit;
+
+  for oBotaoModuloFrame in FBotList do
+  begin
+    if oBotaoModuloFrame.TerminalId = pTerminalId then
+    begin
+      Result := oBotaoModuloFrame;
+      break;
+    end;
+  end;
 end;
 
 function TSessoesFrame.GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)
@@ -403,7 +457,8 @@ begin
   FEventosDeSessao := pEventosDeSessao;
 end;
 
-procedure TSessoesFrame.SessaoCriadorListPrep;
+procedure TSessoesFrame.PrepareListaDeCriadoresEBotoes(pTerminaisPreparadosSL
+  : TStrings);
 var
   oSessaoCriador: ISessaoCriador;
   oDBConnection: IDBConnection;
@@ -414,6 +469,7 @@ var
   oTerminal: ITerminal;
   I: integer;
 begin
+  pTerminaisPreparadosSL.Clear;
   vShortCut := TextToShortCut('F3');
 
   FSessaoCriadorList := SessaoCriadorListCreate;
@@ -421,7 +477,7 @@ begin
   oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
   oSessaoCriador.TerminalId := 0;
-  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administração';
+  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administraï¿½ï¿½o';
   // ' Retaguarda';
 
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
@@ -442,7 +498,7 @@ begin
   oSessaoCriador := SessaoCriadorCreate(opmoduConfiguracoes);
   FSessaoCriadorList.Add(oSessaoCriador);
   oSessaoCriador.TerminalId := 0;
-  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Configurações';
+  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Configuraï¿½ï¿½es';
 
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
   oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
@@ -500,13 +556,14 @@ begin
     oBotaoModuloFrame.Tit2 := sTit2;
     oBotaoModuloFrame.OnBotaoClick := BotSessaoClick;
     oBotaoModuloFrame.TerminalId := oTerminal.TerminalId;
+    pTerminaisPreparadosSL.Add('PDV ' + oTerminal.TerminalId.ToString);
     oBotaoModuloFrame.ShortCut := vShortCut;
 
     inc(vShortCut);
   end;
 end;
 
-procedure TSessoesFrame.SessaoCriadorListPrepToolBar;
+procedure TSessoesFrame.PrepareListaDeCriadoresEBotoesToolBar;
 var
   NovoBotao: TToolButton;
   oSessaoCriador: ISessaoCriador;
@@ -518,11 +575,11 @@ begin
   // begin
   // oSessaoCriador := FSessaoCriadorList[I];
   // NovoBotao := TToolButton.Create(Self);
-  // // Definir as propriedades do botão
+  // // Definir as propriedades do botï¿½o
   //
   // sNameTipo := TipoOpcaoSisModuloToName(oSessaoCriador.TipoOpcaoSisModulo);
   // NovoBotao.Name := Format('Criar%sToolButton', [sNameTipo]);
-  // NovoBotao.Style := tbsButton; // Definir o estilo do botão
+  // NovoBotao.Style := tbsButton; // Definir o estilo do botï¿½o
   // NovoBotao.Action := ActionList1.Actions[I];
   //
   // lastbtnidx := ToolBar1.ButtonCount - 1;
