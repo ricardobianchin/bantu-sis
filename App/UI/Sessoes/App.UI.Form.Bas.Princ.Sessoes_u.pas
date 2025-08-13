@@ -14,8 +14,11 @@ type
   TSessoesPrincBasForm = class(TPrincBasForm)
     BasePanel: TPanel;
     DtHCompilePanel: TPanel;
+    HideToolButton_SessoesPrincBasForm: TToolButton;
+    OcultarAction_SessoesPrincBasForm: TAction;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure OcultarAction_SessoesPrincBasFormExecute(Sender: TObject);
   private
     { Private declarations }
     // FSessaoCriadorList: ISessaoCriadorList;
@@ -165,6 +168,13 @@ begin
   FSessoesFrame.ExecutouPeloShortCut(Key, Shift);
 end;
 
+procedure TSessoesPrincBasForm.OcultarAction_SessoesPrincBasFormExecute(
+  Sender: TObject);
+begin
+  inherited;
+  Hide;
+end;
+
 procedure TSessoesPrincBasForm.AjusteControles;
 begin
   inherited;
@@ -263,6 +273,7 @@ begin
   if PrecisaFechar then
     exit;
   inherited;
+  Hide;
   FSessoesFrame.ExecuteAutoLogin;
 end;
 
