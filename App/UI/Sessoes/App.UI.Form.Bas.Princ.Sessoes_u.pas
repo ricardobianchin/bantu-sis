@@ -187,10 +187,12 @@ begin
 
     Sis.UI.IO.Files.ApagueArquivos(sCaminhoDesktop, SLExistentes);
 
-    for i := 0 to sl.Count - 1 do
-      CrieAtalhoPDVDesktop( nao pode usar sl, tem que pegar sldevemser sl[i], sCaminhoDesktop);
-
-      apos login, buscar sessao com mesmo modulo e usuario. se tiver, exibe, senao, cria outro
+//    for i := 0 to sl.Count - 1 do
+//      CrieAtalhoPDVDesktop(
+//
+//      nao pode usar sl, tem que pegar sldevemser sl[i], sCaminhoDesktop);
+//
+//      apos login, buscar sessao com mesmo modulo e usuario. se tiver, exibe, senao, cria outro
 
   finally
     SLExistentes.Free;

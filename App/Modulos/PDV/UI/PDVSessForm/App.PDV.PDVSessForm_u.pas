@@ -116,8 +116,8 @@ type
   end;
 
   {
-    quando fizer abertura de caixa, pegar� a action q tenta abrir
-    que receber� via parametro
+    quando fizer abertura de caixa, pegará a action q tenta abrir
+    que receberá via parametro
     ela fica no modu pdv
     apos execuala, faz BuscarRecente
   }
@@ -354,7 +354,7 @@ begin
   inherited;
   // if FCaixaSessaoAtiva.Id = 0 then
   // begin
-  // ErroOutput.Exibir('N�o h� Caixa Aberto');
+  // ErroOutput.Exibir('Não há Caixa Aberto');
   // exit;
   // end;
 

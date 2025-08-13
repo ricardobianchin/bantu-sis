@@ -477,7 +477,7 @@ begin
   oSessaoCriador := SessaoCriadorCreate(opmoduRetaguarda);
   FSessaoCriadorList.Add(oSessaoCriador);
   oSessaoCriador.TerminalId := 0;
-  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administra��o';
+  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Administração';
   // ' Retaguarda';
 
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
@@ -498,7 +498,7 @@ begin
   oSessaoCriador := SessaoCriadorCreate(opmoduConfiguracoes);
   FSessaoCriadorList.Add(oSessaoCriador);
   oSessaoCriador.TerminalId := 0;
-  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Configura��es';
+  oSessaoCriador.Titulo := ShortCutToText(vShortCut) + ' Configurações';
 
   oBotaoModuloFrame := TBotaoModuloFrame.Create(TopoPanel);
   oBotaoModuloFrame.Name := 'BotaoModuloFrame' + FBotList.Count.ToString;
@@ -575,11 +575,11 @@ begin
   // begin
   // oSessaoCriador := FSessaoCriadorList[I];
   // NovoBotao := TToolButton.Create(Self);
-  // // Definir as propriedades do bot�o
+  // // Definir as propriedades do botão
   //
   // sNameTipo := TipoOpcaoSisModuloToName(oSessaoCriador.TipoOpcaoSisModulo);
   // NovoBotao.Name := Format('Criar%sToolButton', [sNameTipo]);
-  // NovoBotao.Style := tbsButton; // Definir o estilo do bot�o
+  // NovoBotao.Style := tbsButton; // Definir o estilo do botão
   // NovoBotao.Action := ActionList1.Actions[I];
   //
   // lastbtnidx := ToolBar1.ButtonCount - 1;

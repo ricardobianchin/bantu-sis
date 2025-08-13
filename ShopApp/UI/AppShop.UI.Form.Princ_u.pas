@@ -89,9 +89,9 @@ begin
     classe mae preenche algo em DBUpdaterVariaveis
     geralmente aqui se faz:
     DBUpdaterVariaveis := DBUpdaterVariaveis + '...';
-    ao inv�s de
+    ao invés de
     DBUpdaterVariaveis := '...';
-    toda entrada precisa terminar com #13#10 pois alimentar� TStrings.Text
+    toda entrada precisa terminar com #13#10 pois alimentará TStrings.Text
   }
   DBUpdaterVariaveis := DBUpdaterVariaveis + 'USA_TABPRECO=N'#13#10;
   // 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;

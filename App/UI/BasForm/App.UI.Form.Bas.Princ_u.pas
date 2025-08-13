@@ -234,7 +234,7 @@ var
   sMens: string;
   sNomeArq: string;
 begin
-  sMens := 'Arquivo criado automaticamente para fehcar o Assist.'#13#10'O conteudo deste arquivo � irrelevante.';
+  sMens := 'Arquivo criado automaticamente para fehcar o Assist.'#13#10'O conteúdo deste arquivo é irrelevante.';
   sNomeArq := AppObj.AppInfo.PastaBin + ASSIST_NOME_ARQ_TERMINAR;
 
   EscreverArquivo(sMens, sNomeArq);
@@ -262,7 +262,7 @@ begin
 
     Result := bPrecisaResetar;
     sLog := iif(bPrecisaResetar, 'Result=True,Precisa reiniciar',
-      'Result=False,N�o precisa reiniciar');
+      'Result=False,Não precisa reiniciar');
   finally
     FProcessLog.RegistreLog(sLog);
     FProcessLog.RetorneLocal;

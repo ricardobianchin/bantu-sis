@@ -227,7 +227,7 @@ begin
     Active := True;
   end;
   FProdFDMemTable.IndexesActive := True;
-  FProdFDMemTable.IndexName := sNomeIndice; // Ative o �ndice
+  FProdFDMemTable.IndexName := sNomeIndice; // Ative o índice
 
 
   // FFDMemTable.AfterScroll := FDMemTable1AfterScroll;
@@ -295,7 +295,7 @@ begin
 
     if not FProdRejFDMemTable.IsEmpty then
       raise Exception.Create
-        ('N�o pode ser finalizado existindo ainda rejei��es');
+        ('Não pode ser finalizado existindo ainda rejeições');
     App.DB.Import.Form_Finalizar_u.Finalizar(FProdFDMemTable,
       FDestinoDBConnection, AppObj, Usuario, ProgressBar1);
   finally
