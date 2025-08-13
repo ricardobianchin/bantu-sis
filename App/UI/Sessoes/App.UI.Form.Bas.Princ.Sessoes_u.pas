@@ -24,8 +24,7 @@ type
 
     FLoginConfig: ILoginConfig;
     procedure SessoesFrameCriar;
-    procedure SessoesFrameGarantirAtalhosDesktop;
-    procedure CrieAtalhoPDVDesktop(pTermId, pPastaDesktop: string);
+    function SessoesFrameGarantirAtalhosDesktop: Boolean;
   protected
     procedure DoSegundaInstancia; override;
     procedure AppComandoExecute(var pComando: string); override;
@@ -56,7 +55,7 @@ implementation
 
 uses App.Sessao.Factory, Sis.Usuario.Factory, Sis.Sis.InstanciaAtomica_u,
   System.Generics.Collections, Sis.Entities.Types, Sis.Types.Integers,
-  Sis.Win.Utils_u, Sis.Types.TStrings_u;
+  Sis.Win.Utils_u, Sis.Types.TStrings_u, App.UI.Form.Perg_u, Sis.Types.Utils_u;
 
 procedure TSessoesPrincBasForm.AppComandoExecute(var pComando: string);
 var
@@ -89,6 +88,8 @@ begin
 end;
 
 constructor TSessoesPrincBasForm.Create(AOwner: TComponent);
+var
+  sLog: string;
 begin
   inherited;
   if PrecisaFechar then
@@ -96,31 +97,43 @@ begin
 
   ProcessLog.PegueLocal('TSessoesPrincBasForm.FormCreate');
   try
+    sLog := 'TSessoesPrincBasForm.Create';
     FLoginConfig := LoginConfigCreate(ProcessLog, ProcessOutput);
+    sLog := sLog + ';vai FLoginConfig.Ler';
     FLoginConfig.Ler;
+    sLog := sLog + ';FLoginConfig.Ler retornou';
 
+    sLog := sLog + ';vai SessoesFrameCriar';
     SessoesFrameCriar;
+    sLog := sLog + ';SessoesFrameCriar retornou';
 
-    SessoesFrameGarantirAtalhosDesktop;
+    sLog := sLog + ';vai SessoesFrameGarantirAtalhosDesktop';
+    PrecisaFechar := not SessoesFrameGarantirAtalhosDesktop;
+    if PrecisaFechar then
+    begin
+      sLog := sLog +
+        ';SessoesFrameGarantirAtalhosDesktop retonou false. vai abortar o sistema';
+      exit;
+    end;
+    sLog := sLog + ';SessoesFrameGarantirAtalhosDesktop retornou ok';
 
+    sLog := sLog + ';vai EventosDeSessaoCreate';
     FEventosDeSessao := EventosDeSessaoCreate;
+    sLog := sLog + ';EventosDeSessaoCreate retornou';
+
+    sLog := sLog + ';vai FEventosDeSessao.Pegar';
     FEventosDeSessao.Pegar(Self, FSessoesFrame);
+    sLog := sLog + ';FEventosDeSessao.Pegar retornou';
+
+    sLog := sLog + ';vai FSessoesFrame.PegarEventoSessao';
     FSessoesFrame.PegarEventoSessao(FEventosDeSessao);
+    sLog := sLog + ';FSessoesFrame.PegarEventoSessao retornou';
 
     // FSessaoCriadorList := SessaoCriadorListCreate;
   finally
+    ProcessLog.RegistreLog(sLog);
     ProcessLog.RetorneLocal;
   end;
-end;
-
-procedure TSessoesPrincBasForm.CrieAtalhoPDVDesktop(pTermId,
-  pPastaDesktop: string);
-var
-  sExe: string;
-begin
-  sExe := ParamStr(0);
-  Sis.Win.Utils_u.CrieAtalho(AppInfo.PastaComandos, pPastaDesktop,
-    pTermId, sExe, pTermId, GetPastaDoArquivo(ParamStr(0)));
 end;
 
 procedure TSessoesPrincBasForm.DoSegundaInstancia;
@@ -163,49 +176,69 @@ begin
   ProcessOutput.Ativo := false;
 end;
 
-procedure TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop;
+function TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop: Boolean;
 var
   sl: TStrings;
   i: integer;
   iQtd: integer;
-  sCaminhoDesktop: string;
+  sPastaDesktop: string;
   SLExistentes: TStringList;
   SLDevemSer: TStringList;
+  SLScript: TStringList;
+  sExe: string;
+  sTermId: string;
+  sStartIn: string;
+  sPerg: string;
 begin
   sl := FSessoesFrame.TerminaisPreparadosSL;
-  sCaminhoDesktop := Sis.Win.Utils_u.GetPublicDesktopPath;
+  sPastaDesktop := Sis.Win.Utils_u.GetPublicDesktopPath;
 
   SLExistentes := TStringList.Create;
   SLDevemSer := TStringList.Create;
+  SLScript := TStringList.Create;
+  sExe := ParamStr(0);
+  sStartIn := GetPastaDoArquivo(sExe);
   try
-    for i := 0 to sl.Count - 1 do
-    begin
-      SLDevemSer.Add(sl[i] + '.lnk');
-    end;
-    LeDiretorio(sCaminhoDesktop, SLExistentes, false, 'PDV*.lnk');
-    Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
+    repeat
+      SLDevemSer.Clear;
+      for i := 0 to sl.Count - 1 do
+      begin
+        SLDevemSer.Add(sl[i] + '.lnk');
+      end;
+      LeDiretorio(sPastaDesktop, SLExistentes, True, 'PDV*.lnk');
+      Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
 
-    Sis.UI.IO.Files.ApagueArquivos(sCaminhoDesktop, SLExistentes);
+      Sis.UI.IO.Files.ApagueArquivos(sPastaDesktop, SLExistentes);
 
-//    for i := 0 to sl.Count - 1 do
-//      CrieAtalhoPDVDesktop(
-//
-//      nao pode usar sl, tem que pegar sldevemser sl[i], sCaminhoDesktop);
-//
-//      apos login, buscar sessao com mesmo modulo e usuario. se tiver, exibe, senao, cria outro
+      Result := SLDevemSer.Count = 0;
 
+      if Result then
+        break;
+
+      sPerg := 'O Sistema precisará de autorização de Administrador'#13#10 +
+        'para criar atalhos no Desktop';
+
+      Result := App.UI.Form.Perg_u.Perg(sPerg, 'Criar atalhos no Desktop',
+        TBooleanDefault.boolTrue, '&Aceito', '&Fechar o Sistema');
+      if not Result then
+        exit;
+
+      for i := 0 to SLDevemSer.Count - 1 do
+      begin
+        sTermId := ExtractFileNameOnly(SLDevemSer[i]);
+        Sis.Win.Utils_u.AddScriptCriaAtalho(SLScript, AppInfo.PastaComandos,
+          sPastaDesktop, sTermId, sExe, sTermId, sStartIn);
+      end;
+      Sis.Win.Utils_u.ExecutePowerShellScript(AppInfo.PastaComandos,
+        'Cria Atalho', SLScript);
+      //
+      // apos login, buscar sessao com mesmo modulo e usuario. se tiver, exibe, senao, cria outro
+    until false;
   finally
     SLExistentes.Free;
     SLDevemSer.Free;
+    SLScript.Free;
   end;
-
-  // iQtd := sl.Count;
-  // if iQtd = 0 then
-  // exit;
-  // for i := 0 to sl.Count - 1 do
-  // begin
-  //
-  // end;
 end;
 
 procedure TSessoesPrincBasForm.SessoesFrameCriar;

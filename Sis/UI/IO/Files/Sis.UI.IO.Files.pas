@@ -43,6 +43,8 @@ function EscolhaArquivo(var pNomeArq: string; pFiltros: string = '';
 
 procedure ApagueArquivos(pPasta: string; pSL: TStrings);
 
+function ExtractFileNameOnly(pNomeArq: string): string;
+
 implementation
 
 uses System.SysUtils, System.IOUtils, System.StrUtils, Vcl.Dialogs,
@@ -327,6 +329,11 @@ begin
       end;
     end;
   end;
+end;
+
+function ExtractFileNameOnly(pNomeArq: string): string;
+begin
+  Result := ChangeFileExt(ExtractFileName(pNomeArq), '');
 end;
 
 end.
