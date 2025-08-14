@@ -21,6 +21,7 @@ type
     FPastaTmp: string;
     FPastaDados: string;
     FPastaDadosServ: string;
+    FPastaAppComandos: string;
     FPastaImg: string;
     FPastaDocs: string;
     FPastaComandos: string;
@@ -49,6 +50,7 @@ type
     procedure SetNomeExib(Value: string);
 
     function GetPasta: string;
+    function GetPastaAppComandos: string;
     function GetPastaImg: string;
     function GetPastaDocs: string;
     function GetPastaComandos: string;
@@ -85,6 +87,7 @@ type
     property NomeExib: string read GetNomeExib;
 
     property Pasta: string read GetPasta;
+    property PastaAppComandos: string read GetPastaAppComandos;
     property PastaImg: string read GetPastaImg;
     property PastaDocs: string read GetPastaDocs;
     property PastaComandos: string read GetPastaComandos;
@@ -141,7 +144,8 @@ begin
   ForceDirectories(FPastaDocs);
 
   FPastaComandos := FPasta + 'Comandos\';
-  ForceDirectories(FPastaComandos);
+  FPastaAppComandos := FPastaComandos + 'AppComandos\';
+  ForceDirectories(FPastaAppComandos);
 
   FPastaBackup := FPasta + 'Backup\';
   ForceDirectories(FPastaBackup);
@@ -194,6 +198,11 @@ end;
 function TAppInfo.GetPasta: string;
 begin
   Result := FPasta;
+end;
+
+function TAppInfo.GetPastaAppComandos: string;
+begin
+  Result := FPastaAppComandos;
 end;
 
 function TAppInfo.GetPastaBackup: string;

@@ -124,7 +124,7 @@ begin
     emtipoSaida:
       Result := 'Saída';
     emtipoSaidaEstorno:
-      Result := 'Estorno de Sa�da';
+      Result := 'Estorno de Saída';
   else { emtipoNaoIndicado: }
     Result := 'Não indicado';
   end;

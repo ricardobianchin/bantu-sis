@@ -21,25 +21,25 @@ type
     function GetSQLTerminalGar(pTerminal: ITerminal): string;
   protected
     /// <summary>
-    /// Gera o SQL query que poder� ser usada em m�todos ForEachTerminal
+    /// Gera o SQL query que poderá ser usada em métodos ForEachTerminal
     /// </summary>
     /// <param name="pValues">
     /// array de parametros a serem usados na sql query
     /// deve ser nulo ou formado por exatamente dois elementos
     ///
-    /// se for nulo, o SQL query criado retornar� todos os terminais
+    /// se for nulo, o SQL query criado retornará todos os terminais
     ///
     /// se nao for nulo, os valores dos elementos devem ser:
     /// pValues[0] deve conter uma destas strings
     ///
-    /// - NOME_NA_REDE = retornar� s� os terminais da m�quina com este nome
-    /// neste caso, pValues[1] conter� string com o nome na rede
+    /// - NOME_NA_REDE = retornará só os terminais da máquina com este nome
+    /// neste caso, pValues[1] conterá string com o nome na rede
     ///
-    /// - IP = retornar� s� os terminais da m�quina com este IP
-    /// neste caso, pValues[1] conter� string com o IP da m�quina
+    /// - IP = retornará só os terminais da máquina com este IP
+    /// neste caso, pValues[1] conterá string com o IP da máquina
     ///
-    /// - EXCETO = retornar� todos os terminais,
-    /// exceto o que tiver c�digo estiver este ID.
+    /// - EXCETO = retornará todos os terminais,
+    /// exceto o que tiver código estiver este ID.
     /// pValues[1] contem uma string com este id
     /// </param>
     /// <returns>A string representing the generated SQL query.</returns>

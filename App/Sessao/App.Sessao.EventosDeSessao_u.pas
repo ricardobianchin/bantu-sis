@@ -42,7 +42,7 @@ begin
 
   if iSessaoVisivelIndex <> SESSAO_INDEX_INVALIDO then
   begin
-    FSessoesFrame.Sessao[iSessaoVisivelIndex].EscondaModuloForm;
+    FSessoesFrame[iSessaoVisivelIndex].EscondaModuloForm;
   end;
   oSessao := FSessoesFrame[pSessaoIndex];
   oModuloBasForm := oSessao.ModuloBasForm;
@@ -52,7 +52,7 @@ end;
 
 procedure TEventosDeSessao.DoAposModuloOcultar;
 begin
-  FForm.Show;
+  //FForm.Show;
 end;
 
 procedure TEventosDeSessao.DoCancel;
@@ -63,7 +63,7 @@ end;
 procedure TEventosDeSessao.DoFecharSessao(pSessaoIndex: TSessaoIndex);
 begin
   FSessoesFrame.DeleteByIndex(pSessaoIndex);
-  FForm.Show;
+//  FForm.Show;
 end;
 
 procedure TEventosDeSessao.DoOk;
@@ -73,7 +73,8 @@ end;
 
 procedure TEventosDeSessao.DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
 begin
-  FSessoesFrame.DoTrocarDaSessao(pSessaoIndex);
+//  FSessoesFrame.DoTrocarDaSessao(pSessaoIndex);
+  FForm.Show;
 end;
 
 end.

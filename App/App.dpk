@@ -57,7 +57,6 @@ contains
   App.DB.Garantir_u in 'DB\Garantir\App.DB.Garantir_u.pas',
   App.DB.Utils in 'DB\App.DB.Utils.pas',
   App.Sessao in 'Sessao\App.Sessao.pas',
-  App.Sessao.List in 'Sessao\App.Sessao.List.pas',
   App.Sessao.Criador in 'Sessao\App.Sessao.Criador.pas',
   App.Sessao.Criador.List in 'Sessao\App.Sessao.Criador.List.pas',
   App.Sessao.Criador.List_u in 'Sessao\App.Sessao.Criador.List_u.pas',
@@ -501,6 +500,7 @@ contains
   App.UI.Form.Est.Saldo.HistProd.DBI in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI.pas',
   App.UI.Form.Est.Saldo.HistProd.DBI_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas',
   App.Prod.BuscaTipo_u in 'Est\Prod\App.Prod.BuscaTipo_u.pas',
-  App.UI.Sessao.LoginTeste_u in 'UI\Sessoes\App.UI.Sessao.LoginTeste_u.pas';
+  App.UI.Sessao.LoginTeste_u in 'UI\Sessoes\App.UI.Sessao.LoginTeste_u.pas',
+  App.Sessao_u in 'Sessao\App.Sessao_u.pas';
 
 end.

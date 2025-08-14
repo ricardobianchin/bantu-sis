@@ -373,7 +373,7 @@ begin
   Result := FDMemTableFORNECEDOR_ID.AsInteger > 0;
   if not Result then
   begin
-    s := 'O campo ''Fornecedor'' � obrigat�rio para finalizar uma Nota de Entrada';
+    s := 'O campo ''Fornecedor'' é obrigatório para finalizar uma Nota de Entrada';
     ShowMessage(s);
     exit;
   end;

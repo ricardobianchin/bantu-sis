@@ -76,7 +76,7 @@ var
   DtStr, HrStr, FullDateTimeStr: string;
   Dt: TDateTime;
 begin
-  // Obt�m as strings dos MaskEdits
+  // Obtém as strings dos MaskEdits
   DtStr := DataMaskEdit.Text;
   HrStr := HoraMaskEdit.Text;
 
@@ -134,7 +134,7 @@ var
 begin
   inherited;
 
-  // Verifica se o Variant � nulo ou vazio
+  // Verifica se o Variant é nulo ou vazio
   if VarIsNull(Value) or VarIsEmpty(Value) then
   begin
     DataMaskEdit.Text := '  /  /    ';

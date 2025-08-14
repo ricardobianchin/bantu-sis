@@ -2,7 +2,7 @@
 
 interface
 
-uses System.UITypes, Sis.Types.Utils_u;
+uses System.UITypes, Sis.Types.Utils_u, System.Classes;
 
 type
   TWinPlatform = (wplatNaoIndicado, wplatWin32, wplatWin64);
@@ -21,6 +21,7 @@ function StrToWinPlatform(pStr: string): TWinPlatform;
 function IsWow64Process: Boolean;
 
 function GetProgramFilesPath: string;
+function GetPublicDesktopPath: string;
 
 function ExecutePrograma(Nome, Parametros, Pasta: string;
   out pErro: string): Boolean;
@@ -34,11 +35,20 @@ procedure ExplorerPasta(pPasta: string);
 
 procedure PegarIdMaquina(out pNome: string; out pIp: string);
 
+// procedure CrieAtalho(pPastaComandos: string; pScriptSL: TStringList);
+
+procedure ExecutePowerShellScript(pPastaComandos, pAssunto: string;
+  pPowerShellScriptSL: TStringList);
+
+procedure AddScriptCriaAtalho(pPowerShellScriptSL: TStringList;
+  pPastaComandos, pPastaDesktop, pNomeAtalho, pExe, pParams, pStartIn: string);
+
 implementation
 
 uses
   Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms,
-  Vcl.FileCtrl,  Winapi.winsock;
+  Vcl.FileCtrl, Winapi.winsock, Winapi.ActiveX, Winapi.ShlObj,
+  Sis.Types.strings_u;
 
 function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
   out pCSDVersion: string): Boolean;
@@ -110,7 +120,17 @@ var
   ProgramFilesPath: string;
 begin
   ProgramFilesPath := GetEnvironmentVariable('ProgramFiles');
-  Result := ProgramFilesPath;
+  Result := IncludeTrailingPathDelimiter(ProgramFilesPath);
+end;
+
+function GetPublicDesktopPath: string;
+var
+  Path: array [0 .. MAX_PATH] of Char;
+begin
+  Result := '';
+  if SHGetFolderPath(0, CSIDL_COMMON_DESKTOPDIRECTORY, 0, SHGFP_TYPE_CURRENT,
+    @Path[0]) = S_OK then
+    Result := IncludeTrailingPathDelimiter(Path);
 end;
 
 function ExecutePrograma(Nome, Parametros, Pasta: string;
@@ -184,7 +204,7 @@ begin
   else
   begin
     // Mostra mensagem de erro se o caminho não existir
-    //ShowMessage('O caminho especificado não existe: ' + pPasta);
+    // ShowMessage('O caminho especificado não existe: ' + pPasta);
   end;
 end;
 
@@ -215,6 +235,72 @@ begin
   finally
     WSACleanup;
   end;
+end;
+
+// procedure CrieAtalho(pPastaComandos, pPastaDesktop, pNomeAtalho, pExe, pParams,
+// pStartIn: string);
+// var
+// ScriptSL: TStringList;
+// sNomeScript: string;
+// begin
+// pPastaDesktop := IncludeTrailingPathDelimiter(pPastaDesktop);
+// pStartIn := IncludeTrailingPathDelimiter(pStartIn);
+// pPastaComandos := IncludeTrailingPathDelimiter(pPastaComandos);
+// sNomeScript := pPastaComandos + 'CriaAtalho.ps1';
+//
+// ScriptSL := TStringList.Create;
+// try
+// ScriptSL.Add('# script criado automaticamente. cria atalho');
+// ScriptSL.Add('$WShell = New-Object -ComObject WScript.Shell');
+// ScriptSL.Add('$Shortcut = $WShell.CreateShortcut("' + pPastaDesktop +
+// pNomeAtalho + '.lnk")');
+// ScriptSL.Add('$Shortcut.TargetPath = "' + pExe + '"');
+// if pParams <> '' then
+// ScriptSL.Add('$Shortcut.Arguments = "' + pParams + '"');
+// ScriptSL.Add('$Shortcut.WorkingDirectory = "' + pStartIn + '"');
+// ScriptSL.Add('$Shortcut.Save()');
+// ScriptSL.SaveToFile(sNomeScript);
+//
+// ShellExecute(0, 'runas', 'powershell.exe',
+// PChar('-File "' + sNomeScript + '"'), PChar(pPastaComandos),
+// SW_SHOWNORMAL);
+//
+// finally
+// ScriptSL.Free;
+// end;
+// end;
+
+procedure ExecutePowerShellScript(pPastaComandos, pAssunto: string;
+  pPowerShellScriptSL: TStringList);
+var
+  sNomeScript: string;
+begin
+  pPastaComandos := IncludeTrailingPathDelimiter(pPastaComandos);
+  sNomeScript := pPastaComandos +
+    StrToNomeArq('PowerShell ' + pAssunto) + '.ps1';
+
+  pPowerShellScriptSL.SaveToFile(sNomeScript);
+
+  ShellExecute(0, 'runas', 'powershell.exe',
+    PChar('-File "' + sNomeScript + '"'), PChar(pPastaComandos), SW_SHOWNORMAL);
+end;
+
+procedure AddScriptCriaAtalho(pPowerShellScriptSL: TStringList;
+  pPastaComandos, pPastaDesktop, pNomeAtalho, pExe, pParams, pStartIn: string);
+begin
+  pPastaDesktop := IncludeTrailingPathDelimiter(pPastaDesktop);
+  pStartIn := IncludeTrailingPathDelimiter(pStartIn);
+
+  pPowerShellScriptSL.Add('# script criado automaticamente. cria atalho');
+  pPowerShellScriptSL.Add('$WShell = New-Object -ComObject WScript.Shell');
+  pPowerShellScriptSL.Add('$Shortcut = $WShell.CreateShortcut("' + pPastaDesktop
+    + pNomeAtalho + '.lnk")');
+  pPowerShellScriptSL.Add('$Shortcut.TargetPath = "' + pExe + '"');
+  if pParams <> '' then
+    pPowerShellScriptSL.Add('$Shortcut.Arguments = "' + pParams + '"');
+  pPowerShellScriptSL.Add('$Shortcut.WorkingDirectory = "' + pStartIn + '"');
+  pPowerShellScriptSL.Add('$Shortcut.Save()');
+  pPowerShellScriptSL.Add('');
 end;
 
 end.

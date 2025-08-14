@@ -162,13 +162,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             </Delphi.Personality>
             <Deployment Version="4">
                 <DeployFile LocalName="..\..\Exe\Bin\Adm.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
+                    <Platform Name="Win32">
                         <RemoteName>Adm.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\Adm.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
+                <DeployFile LocalName="..\..\Exe\Bin\Adm.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>Adm.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

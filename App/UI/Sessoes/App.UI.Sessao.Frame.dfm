@@ -48,6 +48,7 @@ object SessaoFrame: TSessaoFrame
       Top = 8
       Width = 46
       Height = 25
+      Cursor = crHandPoint
       Action = AbrirAction
       TabOrder = 0
     end

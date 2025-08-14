@@ -33,7 +33,7 @@ var
   bTemVirgulaOuPonto, bTemAlfa: Boolean;
 begin
   Result := TPDVBuscaResultado.pdvbrStringNula;
-  // Inicializa com o status padr�o para string vazia
+  // Inicializa com o status padrão para string vazia
 
   if pStrBusca = '' then
     Exit;

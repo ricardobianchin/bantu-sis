@@ -359,7 +359,7 @@ end;
 
 function ControlIsVisible(pControl: TControl): boolean;
 begin
-  // Verifica se o controle inicial j� est� invis�vel
+  // Verifica se o controle inicial já está invisível
   result := pControl.Visible;
   if not result then
     exit;
@@ -368,7 +368,7 @@ begin
   begin
     pControl := pControl.Parent;
 
-    // Se o parent n�o estiver vis�vel, saia do loop e retorne False
+    // Se o parent não estiver visível, saia do loop e retorne False
     result := pControl.Visible;
     if not result then
       break;
@@ -401,7 +401,7 @@ function ButtonCreate(pOwner: TComponent; pParent: TWinControl;
 var
   ButtonWidth: integer;
 begin
-  // Cria��o do bot�o
+  // Criação do botão
   result := TButton.Create(pOwner);
   result.Parent := pParent;
   result.Caption := pCaption;
@@ -413,9 +413,9 @@ begin
 
   result.Width := ButtonWidth;
 
-  // Definir posi��o e outros ajustes adicionais, se necess�rio
+  // Definir posição e outros ajustes adicionais, se necessário
   result.Left := pLeft;
-  result.Top := pTop; // Exemplo de posi��o
+  result.Top := pTop; // Exemplo de posição
   result.Tag := pTag;
 end;
 

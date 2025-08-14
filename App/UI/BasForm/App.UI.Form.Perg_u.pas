@@ -26,7 +26,8 @@ type
   end;
 
 function Perg(pPergunta: string; pCaption: string = '';
-  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): Boolean;
+  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined;
+  pTextoSim: string = '&Sim'; pTextoNao: string = '&Não'): Boolean;
 
 // var
 // PergForm: TPergForm;
@@ -35,8 +36,9 @@ implementation
 
 {$R *.dfm}
 
-function Perg(pPergunta: string; pCaption: string = '';
-  pDefaultResult: TBooleanDefault = TBooleanDefault.boolUndefined): Boolean;
+function Perg(pPergunta: string; pCaption: string;
+  pDefaultResult: TBooleanDefault; pTextoSim: string;
+  pTextoNao: string): Boolean;
 var
   PergForm: TPergForm;
 begin
@@ -50,6 +52,8 @@ begin
 
   PergForm.Caption := pCaption;
   PergForm.PerguntaLabel.Caption := pPergunta;
+  PergForm.SimBitBtn.Caption := pTextoSim;
+  PergForm.NaoBitBtn.Caption := pTextoNao;
 
   result := IsPositiveResult(PergForm.ShowModal);
   PergForm.Free;

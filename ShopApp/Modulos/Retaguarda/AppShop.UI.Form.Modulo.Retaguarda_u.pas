@@ -11,6 +11,7 @@ uses
 type
   TShopRetaguardaModuloForm = class(TRetaguardaModuloBasForm)
     procedure FormCreate(Sender: TObject);
+    procedure FecharAction_ModuloBasFormExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -25,6 +26,13 @@ implementation
 {$R *.dfm}
 
 uses App.UI.Retaguarda.ImgDM_u;
+
+procedure TShopRetaguardaModuloForm.FecharAction_ModuloBasFormExecute(
+  Sender: TObject);
+begin
+  inherited;
+//
+end;
 
 procedure TShopRetaguardaModuloForm.FormCreate(Sender: TObject);
 begin

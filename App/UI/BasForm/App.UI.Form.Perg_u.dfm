@@ -26,26 +26,27 @@ inherited PergForm: TPergForm
       Caption = 'PerguntaLabel'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -16
+      Font.Height = -15
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
+      WordWrap = True
       StyleElements = [seClient, seBorder]
     end
     object SimBitBtn: TBitBtn
-      Left = 55
+      Left = 47
       Top = 122
-      Width = 96
+      Width = 111
       Height = 31
       Caption = '&Sim'
       ModalResult = 6
       TabOrder = 0
     end
     object NaoBitBtn: TBitBtn
-      Left = 279
+      Left = 271
       Top = 122
-      Width = 96
+      Width = 111
       Height = 31
       Caption = '&N'#227'o'
       ModalResult = 7

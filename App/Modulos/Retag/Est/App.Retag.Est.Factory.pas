@@ -1719,7 +1719,7 @@ begin
   // if Supports(pEntEd, IEstMov<IEstMovItem>, Result) then
   // Exit(Result)
   // else
-  // Result := nil; // Ou lan�ar uma exce��o personalizada
+  // Result := nil; // Ou lançar uma exceção personalizada
 end;
 
 {$ENDREGION}

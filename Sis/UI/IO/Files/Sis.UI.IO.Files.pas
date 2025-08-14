@@ -41,6 +41,10 @@ function LerDoArquivo(pNomeArq: string; out pConteudo: string): boolean;
 function EscolhaArquivo(var pNomeArq: string; pFiltros: string = '';
   pTitulo: string = ''): boolean;
 
+procedure ApagueArquivos(pPasta: string; pSL: TStrings);
+
+function ExtractFileNameOnly(pNomeArq: string): string;
+
 implementation
 
 uses System.SysUtils, System.IOUtils, System.StrUtils, Vcl.Dialogs,
@@ -294,6 +298,42 @@ begin
   finally
     OpenDialog1.Free;
   end;
+end;
+
+procedure ApagueArquivos(pPasta: string; pSL: TStrings);
+var
+  i: Integer;
+  NomeArquivo: string;
+begin
+  // Garante que a pasta termina com '\'
+  if (pPasta <> '') and (pPasta[Length(pPasta)] <> '\') then
+    pPasta := pPasta + '\';
+
+  // Percorre a lista de arquivos
+  for i := 0 to pSL.Count - 1 do
+  begin
+    // Concatena pasta com nome do arquivo
+    NomeArquivo := pPasta + pSL[i];
+
+    // Verifica se o arquivo existe antes de tentar apagar
+    if FileExists(NomeArquivo) then
+    begin
+      try
+        // Tenta apagar o arquivo
+        DeleteFile(NomeArquivo);
+      except
+        // Tratamento de erro opcional
+        // Pode ser removido ou personalizado conforme necessidade
+//        on E: Exception do
+//          ShowMessage('Erro ao apagar ' + NomeArquivo + ': ' + E.Message);
+      end;
+    end;
+  end;
+end;
+
+function ExtractFileNameOnly(pNomeArq: string): string;
+begin
+  Result := ChangeFileExt(ExtractFileName(pNomeArq), '');
 end;
 
 end.

@@ -57,8 +57,11 @@ begin
   // ProcessLog.PegueAssunto('TShopPrincForm.FormCreate');
   try
     inherited;
-    if PrecisaFechar then
+    if Application.Terminated then
       exit;
+
+    if PrecisaFechar then
+      Application.Terminate;
 
   finally
     // ProcessLog.RetorneAssunto;
@@ -85,9 +88,9 @@ begin
     classe mae preenche algo em DBUpdaterVariaveis
     geralmente aqui se faz:
     DBUpdaterVariaveis := DBUpdaterVariaveis + '...';
-    ao inv�s de
+    ao invés de
     DBUpdaterVariaveis := '...';
-    toda entrada precisa terminar com #13#10 pois alimentar� TStrings.Text
+    toda entrada precisa terminar com #13#10 pois alimentará TStrings.Text
   }
   DBUpdaterVariaveis := DBUpdaterVariaveis + 'USA_TABPRECO=N'#13#10;
   // 'USA_TABPRECO=N'#13#10'USA_NATU=N'#13#10;
@@ -96,7 +99,7 @@ end;
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
   Result := TShopSessoesFrame.Create(Self, LoginConfig,
-    {EventosDeSessao, }AppObj);
+    AppObj);
 end;
 
 end.

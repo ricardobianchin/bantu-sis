@@ -177,20 +177,20 @@ var
   s: string;
 begin
   s := 'Pode ser deixado em branco.' +
-    ' � um apelido ou n�mero que ajude a identificar o terminal.';
+    ' É um apelido ou número que ajude a identificar o terminal.';
   ApelidoAjudaLabel.Hint := WrapText(s);
 
   s := 'Letra do Drive no terminal onde o sistema'#13#10 +
     'foi instalado. Geralmente C:';
   LetraDoDriveAjudaLabel.Hint := WrapText(s);
 
-  s := 'S�rie das notas fiscais eletr�nicas emitidas neste terminal. Deixando zero, ser� usado o mesmo n�mero do C�digo do Terminal. Geralmente � deixado, mesmo, como zero';
+  s := 'Série das notas fiscais eletrônicas emitidas neste terminal. Deixando zero, será usado o mesmo número do Código do Terminal. Geralmente é deixado, mesmo, como zero';
   NFSerieAjudaLabel.Hint := WrapText(s);
 
-  s := 'Modo em que o sistema receber� o peso do item vendido. N�o se refere � balan�a que imprime etiquetas';
+  s := 'Modo em que o sistema receberá o peso do item vendido. Não se refere à balançaa que imprime etiquetas';
   BalancaAjudaLabel.Hint := WrapText(s);
 
-  s := 'As etiquetas de peso tem o c�digo do produto dentro do c�digo de barras. Aqui voc� indica a casa do c�digo de barras onde inicia o c�digo do produto e quantas casas ele ocupa';
+  s := 'As etiquetas de peso tem o código do produto dentro do código de barras. Aqui você indica a casa do código de barras onde inicia o código do produto e quantas casas ele ocupa';
   BarCodigoAjudaLabel.Hint := WrapText(s);
 
   s := 'Ou o ''Nome na Rede'' ou o IP devem ser preenchidos. Ou ambos. IP pode ser IPv4 ou IPv6';

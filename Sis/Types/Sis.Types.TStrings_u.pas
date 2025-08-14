@@ -21,6 +21,8 @@ procedure SLAddUnique(pSL: TStrings; pStr: string);
 function SLNLinhaQTem(pSL: TStrings; pS: string; pNLinhaInic: integer = 0;
   IgnoraCase: boolean = true): integer;
 
+procedure DeleteItensIguais(pSL1, pSL2: TStrings);
+
 implementation
 
 uses System.SysUtils, Sis.Types.strings_u;
@@ -233,6 +235,28 @@ function SalveSL(pSL: TStrings; pNomeArq: string): Boolean;
 begin
   Result := True;
   pSL.SaveToFile(pNomeArq);
+end;
+
+procedure DeleteItensIguais(pSL1, pSL2: TStrings);
+var
+  i, j: integer;
+begin
+  i := 0;
+  while i < pSL1.Count do
+  begin
+    for j := 0 to pSL2.Count - 1 do
+    begin
+      if AnsiCompareText(pSL1[i], pSL2[j]) = 0 then
+      begin
+        pSL1.Delete(i);
+        pSL2.Delete(j);
+        Continue;
+      end;
+    end;
+    Inc(i);
+    if i = pSL1.Count then
+      break;
+  end;
 end;
 
 end.

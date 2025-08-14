@@ -27,7 +27,7 @@ inherited ModuloBasForm: TModuloBasForm
       620
       30)
     object TitleBarTextCaptionLabel: TLabel
-      Left = 103
+      Left = 57
       Top = 8
       Width = 130
       Height = 15
@@ -41,9 +41,9 @@ inherited ModuloBasForm: TModuloBasForm
       StyleElements = []
     end
     object ToolBar1: TToolBar
-      Left = 514
+      Left = 480
       Top = 3
-      Width = 101
+      Width = 204
       Height = 23
       Align = alNone
       Anchors = [akTop, akRight]
@@ -53,13 +53,18 @@ inherited ModuloBasForm: TModuloBasForm
       Images = SisImgDataModule.ImageList_40_24
       TabOrder = 0
       StyleElements = []
-      object ToolButton1: TToolButton
+      object TrocarToolButton_ModuloBasForm: TToolButton
         Left = 0
+        Top = 0
+        Action = TrocarAction_ModuloBasForm
+      end
+      object OcultarToolButton_ModuloBasForm: TToolButton
+        Left = 47
         Top = 0
         Action = OcultarAction_ModuloBasForm
       end
-      object FecharToolButton: TToolButton
-        Left = 47
+      object FecharToolButton_ModuloBasForm: TToolButton
+        Left = 94
         Top = 0
         Action = FecharAction_ModuloBasForm
       end
@@ -67,7 +72,7 @@ inherited ModuloBasForm: TModuloBasForm
     object ToolBar2: TToolBar
       Left = 0
       Top = 3
-      Width = 103
+      Width = 50
       Height = 22
       Align = alNone
       ButtonWidth = 47
@@ -80,11 +85,6 @@ inherited ModuloBasForm: TModuloBasForm
         Left = 0
         Top = 0
         Action = MenuAction_ModuloBasForm
-      end
-      object ToolButton3: TToolButton
-        Left = 47
-        Top = 0
-        Action = TrocarAction_ModuloBasForm
       end
     end
   end
@@ -152,7 +152,7 @@ inherited ModuloBasForm: TModuloBasForm
     end
     object TrocarAction_ModuloBasForm: TAction
       Caption = 'TrocarAction_ModuloBasForm'
-      Hint = 'Trocar (F6)'
+      Hint = 'Alternar entre M'#243'dulos em uso'
       ImageIndex = 6
       OnExecute = TrocarAction_ModuloBasFormExecute
     end
