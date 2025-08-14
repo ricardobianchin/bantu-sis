@@ -29,7 +29,8 @@ procedure EstSaldoAtualDtHGarantir;
 implementation
 
 uses DBServDM_u, System.DateUtils, EstSaldo_u_ProdSaldoRecord, Sis.Types.Dates,
-  EstSaldo_u_ProdSaldoArrayUtils, System.SysUtils, Log_u, Sis.DB.DBTypes, Sis_u;
+  EstSaldo_u_ProdSaldoArrayUtils, System.SysUtils, Log_u, Sis.DB.DBTypes, Sis_u,
+  Sis.Log;
 
 function GetSaldoDtHistUltima: TDateTime;
 var
@@ -301,7 +302,8 @@ begin
     begin
       DBServDM.Connection.Rollback;
       sMens := 'EstSaldoHistGrave: ' + e.Message;
-      EscrevaLog(sMens);
+      Log.Escreva(sMens);
+      //EscrevaLog(sMens);
     end;
   end;
 end;
@@ -359,7 +361,8 @@ begin
     begin
       DBServDM.Connection.Rollback;
       sMens := 'EstSaldoHistGrave: ' + e.Message;
-      EscrevaLog(sMens);
+      Log.Escreva(sMens);
+      //EscrevaLog(sMens);
     end;
   end;
 end;
@@ -458,7 +461,8 @@ begin
     begin
       DBServDM.Connection.Rollback;
       sMens := 'EstSaldoAtualDtHGarantir: ' + e.Message;
-      EscrevaLog(sMens);
+      Log.Escreva(sMens);
+      //EscrevaLog(sMens);
     end;
   end;
 end;

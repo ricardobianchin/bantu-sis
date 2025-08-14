@@ -13,7 +13,7 @@ procedure ForEachTerminal(pProc: TProcTermOfObject;
 implementation
 
 uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u,
-  vcl.dialogs, Sis.Win.Utils_u, Configs_u;
+  vcl.dialogs, Sis.Win.Utils_u, Configs_u, Sis.Log;
 
 var
   DBTermDMList: TList<TDBTermDM>;
@@ -31,14 +31,16 @@ var
   iId: integer;
   sDriver: string;
 begin
-  EscrevaLog('CrieListaDeTerminais');
+  Log.Escreva('CrieListaDeTerminais');
+  //EscrevaLog('CrieListaDeTerminais');
   sDriver := 'FB';
   DBTermDMList := TList<TDBTermDM>.Create;
   try
     DBServDM.Connection.Open;
   except
     on e: exception do
-      EscrevaLog('Erro CrieListaDeTerminais: '+e.message);
+      Log.Escreva('Erro CrieListaDeTerminais: '+e.message);
+      //EscrevaLog('Erro CrieListaDeTerminais: '+e.message);
   end;
   try
     sSql := 'SELECT'#13#10 //
@@ -107,7 +109,8 @@ end;
 
 procedure LibereListaDeTerminais;
 begin
-  EscrevaLog('LibereListaDeTerminais');
+  Log.Escreva('LibereListaDeTerminais');
+  //EscrevaLog('LibereListaDeTerminais');
   for var oDM in DBTermDMList do
     FreeAndNil(oDM);
   FreeAndNil(DBTermDMList);

@@ -12,7 +12,8 @@ uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
   TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess,
   TrazerDoTerm_u_TrazCxOper, TrazerDoTerm_u_TrazCxOperDesp,
   TrazerDoTerm_u_TrazCxOperValor, TrazerDoTerm_u_TrazLogMovs,
-  TrazerDoTerm_u_TrazEstMovVenda, TrazerDoTerm_u_TrazEstMovItemVendaItem, TrazerDoTerm_u_TrazVendaPag;
+  TrazerDoTerm_u_TrazEstMovVenda, TrazerDoTerm_u_TrazEstMovItemVendaItem, TrazerDoTerm_u_TrazVendaPag,
+  Sis.Log;
 
 procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -23,7 +24,8 @@ var
   sLog: string;
   bDeuErro: Boolean;
 begin
-  EscrevaLog('TrazerDoTerm;' + pTermDM.Terminal.TerminalId.ToString);
+  Log.Escreva('TrazerDoTerm;' + pTermDM.Terminal.TerminalId.ToString);
+  //EscrevaLog('TrazerDoTerm;' + pTermDM.Terminal.TerminalId.ToString);
   if pPrecisaTerminar then
     exit;
 
@@ -32,7 +34,8 @@ begin
     exit;
 
   try
-    EscrevaLog('abrir conexoes');
+    Log.Escreva('abrir conexoes');
+    //EscrevaLog('abrir conexoes');
     DBServDM.Connection.Open;
     pTermDM.Connection.Open;
     bDeuErro := False;
@@ -40,7 +43,8 @@ begin
     on E: exception do
     begin
       bDeuErro := True;
-      EscrevaLog('Erro ' + E.ClassName + ' ' + E.Message);
+      Log.Escreva('Erro ' + E.ClassName + ' ' + E.Message);
+      //EscrevaLog('Erro ' + E.ClassName + ' ' + E.Message);
     end;
   end;
 
@@ -51,8 +55,10 @@ begin
     oExecScript := TExecScript.Create(DBServDM.Connection);
     try
       PegarFaixa(pTermDM, FLogIdIni, FLogIdFin);
-      EscrevaLog('PegarFaixa;FLogIdIni=' + FLogIdIni.ToString + ';FLogIdFin=' +
+      Log.Escreva('PegarFaixa;FLogIdIni=' + FLogIdIni.ToString + ';FLogIdFin=' +
         FLogIdFin.ToString);
+      //EscrevaLog('PegarFaixa;FLogIdIni=' + FLogIdIni.ToString + ';FLogIdFin=' +
+        //FLogIdFin.ToString);
 
       if FLogIdIni = FLogIdFin then
         exit;
@@ -95,20 +101,24 @@ begin
 
         sLog := sLog + ';Vai Executar';
         oExecScript.Execute;
-        EscrevaLog(sLog);
+        Log.Escreva(sLog);
+        //EscrevaLog(sLog);
         Inc(iAtualIni, SYNC_QTD_REGS);
       end;
     finally
       FreeAndNil(oExecScript);
-      EscrevaLog('fechar conexoes');
+      Log.Escreva('fechar conexoes');
+      //EscrevaLog('fechar conexoes');
       DBServDM.Connection.Close;
       pTermDM.Connection.Close;
-      EscrevaLog('EnvParaTerm;Fim');
+      Log.Escreva('EnvParaTerm;Fim');
+      //EscrevaLog('EnvParaTerm;Fim');
     end;
   except
     on E: exception do
     begin
-      EscrevaLog('EnvParaTerm_u.EnvParaTerm;' + E.ClassName + ' ' + E.Message);
+      Log.Escreva('EnvParaTerm_u.EnvParaTerm;' + E.ClassName + ' ' + E.Message);
+      //EscrevaLog('EnvParaTerm_u.EnvParaTerm;' + E.ClassName + ' ' + E.Message);
     end;
   end;
   pPrecisaTerminar := GetPrecisaTerminar;

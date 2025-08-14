@@ -162,7 +162,6 @@
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_UsuarioPodeOpcaoSis.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_Prod.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdCusto.pas"/>
-        <DCCReference Include="Sis\Log_u.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_ProdPreco.pas"/>
         <DCCReference Include="EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas"/>
         <DCCReference Include="TrazerDoTerm\TrazerDoTerm_u.pas"/>
@@ -182,6 +181,9 @@
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoArrayUtils.pas"/>
         <DCCReference Include="EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas"/>
         <DCCReference Include="Loja\Loja_dbi_u.pas"/>
+        <DCCReference Include="Sis\Sis.Log.pas"/>
+        <DCCReference Include="Sis\Sis.Log_u.pas"/>
+        <DCCReference Include="Sis\Log_u.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

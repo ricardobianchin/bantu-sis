@@ -8,14 +8,15 @@ function CarregueLoja: Boolean;
 
 implementation
 
-uses Data.DB, System.SysUtils, Sis.Win.Utils_u;
+uses Data.DB, System.SysUtils, Sis.Win.Utils_u, Sis.Log;
 
 function CarregueLoja: Boolean;
 var
   sSql: string;
   Q: TDataSet;
 begin
-  EscrevaLog('CarregueLoja');
+  Log.Escreva('CarregueLoja');
+  //EscrevaLog('CarregueLoja');
 
   try
     DBServDM.Connection.Open;
@@ -24,7 +25,8 @@ begin
     on e: exception do
     begin
       Result := False;
-      EscrevaLog('Erro CarregueLoja: ' + e.message);
+      Log.Escreva('Erro CarregueLoja: ' + e.message);
+      //EscrevaLog('Erro CarregueLoja: ' + e.message);
     end;
   end;
 
