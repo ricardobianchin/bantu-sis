@@ -1089,50 +1089,54 @@ begin
     // {$IFDEF DEBUG}
     // CopyTextToClipboard(sSql);
     // {$ENDIF}
-    ServFDConnection.Connected := false;
-    ServFDConnection.Connected := true;
-    ServFDConnection.ExecSQL(sSql, q);
     try
-      while not q.Eof do
-      begin
-        bResultado := FTerminaisDBGridFrame.FDMemTable1.Locate('TERMINAL_ID',
-          q.Fields[0].AsInteger, []);
+      ServFDConnection.Connected := false;
+      ServFDConnection.Connected := true;
+      ServFDConnection.ExecSQL(sSql, q);
+      try
+        while not q.Eof do
+        begin
+          bResultado := FTerminaisDBGridFrame.FDMemTable1.Locate('TERMINAL_ID',
+            q.Fields[0].AsInteger, []);
 
-        if bResultado then
-        begin
-          FTerminaisDBGridFrame.FDMemTable1.Edit;
-        end
-        else
-        begin
-          FTerminaisDBGridFrame.FDMemTable1.Append;
+          if bResultado then
+          begin
+            FTerminaisDBGridFrame.FDMemTable1.Edit;
+          end
+          else
+          begin
+            FTerminaisDBGridFrame.FDMemTable1.Append;
+          end;
+
+          RecordToFDMemTable(q, FTerminaisDBGridFrame.FDMemTable1);
+
+          FTerminaisDBGridFrame.FDMemTable1.Post;
+          q.Next;
         end;
-
-        RecordToFDMemTable(q, FTerminaisDBGridFrame.FDMemTable1);
-
-        FTerminaisDBGridFrame.FDMemTable1.Post;
-        q.Next;
+      finally
+        q.Free;
       end;
+      ServFDConnection.Connected := false;
+
+      iRecordCountFin := FTerminaisDBGridFrame.FDMemTable1.RecordCount;
+
+      result := iRecordCountFin > iRecordCountIni;
     finally
-      q.Free;
+      FTerminaisDBGridFrame.FDMemTable1.First;
+      FTerminaisDBGridFrame.FDMemTable1.EnableControls;
+      FTerminaisDBGridFrame.FDMemTable1.EndBatch;
+      if result then
+      begin
+        sMens := 'Havia no servidor, registro de terminais para este computador';
+        TerminaisErroLabel.Caption := sMens;
+      end
+      else
+      begin
+        TerminaisErroLabel.Caption := ''
+      end;
     end;
-    ServFDConnection.Connected := false;
-
-    iRecordCountFin := FTerminaisDBGridFrame.FDMemTable1.RecordCount;
-
-    result := iRecordCountFin > iRecordCountIni;
-  finally
-    FTerminaisDBGridFrame.FDMemTable1.First;
-    FTerminaisDBGridFrame.FDMemTable1.EnableControls;
-    FTerminaisDBGridFrame.FDMemTable1.EndBatch;
-    if result then
-    begin
-      sMens := 'Havia no servidor, registro de terminais para este computador';
-      TerminaisErroLabel.Caption := sMens;
-    end
-    else
-    begin
-      TerminaisErroLabel.Caption := ''
-    end;
+  except
+    Result := False;
   end;
 end;
 
@@ -1233,12 +1237,12 @@ begin
 
     LeDiretorio(FAppObj.AppInfo.PastaDados, NomesArqSL, true, sMasc);
 
-    Result := NomesArqSL.Count > 0;
-    if not Result then
+    result := NomesArqSL.Count > 0;
+    if not result then
       exit;
 
     iQtdAdicionados := 0;
-    Result := False;
+    result := false;
     for i := 0 to NomesArqSL.Count - 1 do
     begin
       sLocalArq := FAppObj.AppInfo.PastaDados + NomesArqSL[i];
@@ -1275,7 +1279,9 @@ begin
 
         if q.FieldByName('TERMINAL_ID').AsInteger = 0 then
         begin
-          ShowMessage('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10+sLocalArq);
+          ShowMessage
+            ('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10
+            + sLocalArq);
           Continue;
         end;
 
@@ -1283,16 +1289,22 @@ begin
         FTerminaisDBGridFrame.FDMemTable1.Append;
         RecordToFDMemTable(q, FTerminaisDBGridFrame.FDMemTable1);
 
-        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('NOME_NA_REDE').AsString <> sTerm then
-          FTerminaisDBGridFrame.FDMemTable1.FieldByName('NOME_NA_REDE').AsString := sTerm;
+        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('NOME_NA_REDE')
+          .AsString <> sTerm then
+          FTerminaisDBGridFrame.FDMemTable1.FieldByName('NOME_NA_REDE')
+            .AsString := sTerm;
 
-        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('IP').AsString <> LocalMaqFrame.IpLabeledEdit.Text then
-          FTerminaisDBGridFrame.FDMemTable1.FieldByName('IP').AsString := LocalMaqFrame.IpLabeledEdit.Text;
+        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('IP').AsString <>
+          LocalMaqFrame.IpLabeledEdit.Text then
+          FTerminaisDBGridFrame.FDMemTable1.FieldByName('IP').AsString :=
+            LocalMaqFrame.IpLabeledEdit.Text;
 
         sDrive := ExtractFileDrive(FAppObj.AppInfo.PastaDados);
 
-        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('LETRA_DO_DRIVE').AsString <> sDrive then
-          FTerminaisDBGridFrame.FDMemTable1.FieldByName('LETRA_DO_DRIVE').AsString := sDrive;
+        if FTerminaisDBGridFrame.FDMemTable1.FieldByName('LETRA_DO_DRIVE')
+          .AsString <> sDrive then
+          FTerminaisDBGridFrame.FDMemTable1.FieldByName('LETRA_DO_DRIVE')
+            .AsString := sDrive;
 
         FTerminaisDBGridFrame.FDMemTable1.Post;
       finally
@@ -1301,7 +1313,7 @@ begin
           q.Free;
       end;
     end;
-    Result := iQtdAdicionados > 0;
+    result := iQtdAdicionados > 0;
   finally
     NomesArqSL.Free;
     TermFDConnection.Free;
