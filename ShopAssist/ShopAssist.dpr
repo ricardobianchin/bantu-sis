@@ -21,7 +21,6 @@ uses
   EnvParaTerm_u_UsuarioPodeOpcaoSis in 'EnvParaTerm\EnvParaTerm_u_UsuarioPodeOpcaoSis.pas',
   EnvParaTerm_u_Prod in 'EnvParaTerm\EnvParaTerm_u_Prod.pas',
   EnvParaTerm_u_ProdCusto in 'EnvParaTerm\EnvParaTerm_u_ProdCusto.pas',
-  Log_u in 'Sis\Log_u.pas',
   EnvParaTerm_u_ProdPreco in 'EnvParaTerm\EnvParaTerm_u_ProdPreco.pas',
   EnvParaTerm_u_DespesaTipo in 'EnvParaTerm\EnvParaTerm_u_DespesaTipo.pas',
   TrazerDoTerm_u in 'TrazerDoTerm\TrazerDoTerm_u.pas',
@@ -40,7 +39,10 @@ uses
   EstSaldo_u_ProdSaldoRecord in 'EstSaldo\EstSaldo_u_ProdSaldoRecord.pas',
   EstSaldo_u_ProdSaldoArrayUtils in 'EstSaldo\EstSaldo_u_ProdSaldoArrayUtils.pas',
   EstSaldo_u_ProdSaldoArrayType in 'EstSaldo\EstSaldo_u_ProdSaldoArrayType.pas',
-  Loja_dbi_u in 'Loja\Loja_dbi_u.pas';
+  Loja_dbi_u in 'Loja\Loja_dbi_u.pas',
+  Sis.Log in 'Sis\Sis.Log.pas',
+  Sis.Log_u in 'Sis\Sis.Log_u.pas',
+  Log_u in 'Sis\Log_u.pas';
 
 {$R *.res}
 
@@ -63,6 +65,7 @@ begin
     CloseHandle(hMutex);
   end;
 end.
+
 
 
 

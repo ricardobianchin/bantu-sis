@@ -36,7 +36,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Log_u;
+uses Log_u, Sis.Log;
 
 {$R *.dfm}
 
@@ -63,7 +63,8 @@ begin
     begin
       Result := False;
       sMens := pAssunto + ', AbirFDQuery1: ' + e.Message;
-      EscrevaLog(sMens);
+      Log.Escreva(sMens);
+      //EscrevaLog(sMens);
     end;
   end;
 end;
@@ -89,7 +90,8 @@ begin
     begin
       Result := False;
       sMens := pAssunto + ', FDCommand1Prepare: ' + e.Message;
-      EscrevaLog(sMens);
+      Log.Escreva(sMens);
+      //EscrevaLog(sMens);
     end;
   end;
 end;
@@ -107,7 +109,8 @@ begin
     begin
       Result := False;
       sMens := pAssunto + ', FDCommand1Prepare: ' + e.Message;
-      EscrevaLog(sMens);
+      Log.Escreva(sMens);
+      //EscrevaLog(sMens);
     end;
   end;
 end;

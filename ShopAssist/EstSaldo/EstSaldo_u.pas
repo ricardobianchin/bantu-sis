@@ -11,7 +11,7 @@ implementation
 uses Sis_u, System.Math, ExecScript_u, System.SysUtils, Log_u, EstSaldo_u_dbi,
   Sis.Sis.Constants, Sis.Types.Dates, DateUtils,
   EstSaldo_u_HistReconstrua, EstSaldo_u_ProdSaldoRecord,
-  EstSaldo_u_ProdSaldoArrayType, EstSaldo_u_ProdSaldoArrayUtils;
+  EstSaldo_u_ProdSaldoArrayType, EstSaldo_u_ProdSaldoArrayUtils, Sis.Log;
 
 var
   MaxDt: TDateTime;
@@ -29,7 +29,8 @@ var
   DtHistMaisRecente: TDateTime;
   DtMovMaisAntiga: TDateTime;
 begin
-  EscrevaLog('AtualizeEstSaldo;');
+  Log.Escreva('AtualizeEstSaldo;');
+  //EscrevaLog('AtualizeEstSaldo;');
   if pPrecisaTerminar then
     exit;
 
@@ -38,14 +39,16 @@ begin
     exit;
 
   try
-    EscrevaLog('abrir conexao servidor');
+    Log.Escreva('abrir conexao servidor');
+    //EscrevaLog('abrir conexao servidor');
     DBServDM.Connection.Open;
     bDeuErro := False;
   except
     on E: exception do
     begin
       bDeuErro := True;
-      EscrevaLog('Erro ' + E.ClassName + ' ' + E.Message);
+      Log.Escreva('Erro ' + E.ClassName + ' ' + E.Message);
+      //EscrevaLog('Erro ' + E.ClassName + ' ' + E.Message);
     end;
   end;
 
@@ -92,14 +95,17 @@ begin
       EstSaldoAtualGrave(aProdSaldos, Agora);
     finally
 //      FreeAndNil(oExecScript);
-      EscrevaLog('fechar conexoes');
+      Log.Escreva('fechar conexoes');
+      //EscrevaLog('fechar conexoes');
       DBServDM.Connection.Close;
-      EscrevaLog('EnvParaTerm;Fim');
+      Log.Escreva('EnvParaTerm;Fim');
+      //EscrevaLog('EnvParaTerm;Fim');
     end;
   except
     on E: exception do
     begin
-      EscrevaLog('EnvParaTerm_u.EnvParaTerm;' + E.ClassName + ' ' + E.Message);
+      Log.Escreva('EnvParaTerm_u.EnvParaTerm;' + E.ClassName + ' ' + E.Message);
+      //EscrevaLog('EnvParaTerm_u.EnvParaTerm;' + E.ClassName + ' ' + E.Message);
     end;
   end;
   pPrecisaTerminar := GetPrecisaTerminar;

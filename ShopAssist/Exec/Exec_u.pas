@@ -17,7 +17,8 @@ procedure Execute;
 implementation
 
 uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u,
-  Log_u, Vcl.Dialogs, TrazerDoTerm_u, EstSaldo_u, Loja_dbi_u, EstSaldo_u_dbi;
+  Log_u, Vcl.Dialogs, TrazerDoTerm_u, EstSaldo_u, Loja_dbi_u, EstSaldo_u_dbi,
+  Sis.Log;
 
 procedure Execute;
 var
@@ -29,7 +30,7 @@ begin
 
   try
     CarregarConfigs;
-    InicieLog;
+    //InicieLog;
     DBServDM := DBServDMCreate;
     bPrecisaTerminar := FALSE;
 
@@ -84,13 +85,15 @@ begin
     finally
       FreeAndNil(DBServDM);
       ApaguePrecisaTerminar;
-      EscrevaLog('Terminado');
+      Log.Escreva('Terminado');
+      //EscrevaLog('Terminado');
       // ShowMessage('Assist Terminou');
     end;
   except
     on e: exception do
     begin
-      EscrevaLog('Exec_u.Execute;' + e.ClassName + ' ' + e.Message);
+       Log.Escreva('Exec_u.Execute;' + e.ClassName + ' ' + e.Message);
+      //EscrevaLog('Exec_u.Execute;' + e.ClassName + ' ' + e.Message);
     end;
   end;
 end;

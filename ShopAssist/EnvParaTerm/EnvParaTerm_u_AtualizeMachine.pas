@@ -9,7 +9,7 @@ procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u, Configs_u, Log_u;
+  System.SysUtils, DB_u, Configs_u, Log_u, Sis.Log;
 
 procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -94,7 +94,8 @@ begin
           begin
             sMens := 'Erro atualizando machine. Terminal_id = ' +
               pTermDM.Terminal.TerminalId.ToString+'. '+sSql + '  ' + e.message;
-            Log_u.EscrevaLog(sMens);
+              Log.Escreva(sMens);
+              //Log_u.EscrevaLog(sMens);
           end;
         end;
       end;

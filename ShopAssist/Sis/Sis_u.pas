@@ -6,7 +6,7 @@ uses Sis.Entities.Types;
 
 const
   SYNC_QTD_REGS = 50000;
-  PAUSA_SEGUNDOS = 20;
+  PAUSA_SEGUNDOS = 5;
 
 var
   sPastaBin: string;

@@ -55,7 +55,7 @@ procedure CarregarIni_MaqLocal(out pServNomeNaRede: string; out pServIp: string;
 implementation
 
 uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u, IniFiles,
-  Sis.Win.Utils_u;
+  Sis.Win.Utils_u, Sis.Log, Sis.Log_u;
 
 function LoadConfigFromXML(const FileName: string): TConfig;
 var
@@ -107,7 +107,9 @@ var
   sServer: string;
   sArq: string;
 begin
-  EscrevaLog('DBServDMCreate');
+
+  Log.Escreva('DBServDMCreate');
+  //EscrevaLog('DBServDMCreate');
   Result := TDBServDM.Create(nil);
 
   Result.Connection.LoginPrompt := false;
@@ -160,6 +162,9 @@ begin
   Config := LoadConfigFromXML(sNomeXml);
 
   InicializePrecisaTerminar;
+
+  if not Assigned(Sis.Log.Log) then
+    Sis.Log.Log := Sis.Log_u.TLog.Create;
 end;
 
 procedure CarregarIni_MaqLocal(out pServNomeNaRede: string; out pServIp: string;

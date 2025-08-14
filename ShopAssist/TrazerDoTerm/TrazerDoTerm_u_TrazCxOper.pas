@@ -10,7 +10,7 @@ procedure TrazCxOper(pTermDM: TDBTermDM; oExecScript: TExecScript;
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u, Log_u;
+  System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u, Log_u, Sis.Log;
 
 function GetSqlServLogs(pLogIdIni: Int64; pLogIdFin: Int64): string;
 begin
@@ -70,7 +70,8 @@ begin
     on e: Exception do
     begin
       ErroDeu := True;
-      EscrevaLog('TrazCxOper ' + e.Message+ #13#10+sSql);
+      Log.Escreva('TrazCxOper ' + e.Message+ #13#10+sSql);
+      //EscrevaLog('TrazCxOper ' + e.Message+ #13#10+sSql);
     end;
   end;
 

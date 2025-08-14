@@ -1,4 +1,4 @@
-unit Log_u;
+unit Sis.Log_u;
 
 interface
 
@@ -47,6 +47,7 @@ begin
   dHoje := Trunc(dAgora);
 
   sNomeArq := sPastaLog + 'Log Assist ' + DateToNomeArq(dHoje) + '.txt';
+
   sAgora := FormatDateTime('dd/mm/yyyy hh:nn:ss,zzz', dAgora);
   AdicioneAoArquivo(sAgora + ';' + pFrase + sNOVA_LINHA, sNomeArq);
 end;
