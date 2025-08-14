@@ -17,14 +17,13 @@ type
     TitleBarPanel: TPanel;
     TitleBarTextCaptionLabel: TLabel;
     ToolBar1: TToolBar;
-    FecharToolButton: TToolButton;
+    FecharToolButton_ModuloBasForm: TToolButton;
     TitleBarActionList_ModuloBasForm: TActionList;
     FecharAction_ModuloBasForm: TAction;
-    ToolButton1: TToolButton;
+    OcultarToolButton_ModuloBasForm: TToolButton;
     OcultarAction_ModuloBasForm: TAction;
     ToolBar2: TToolBar;
     MenuToolButton: TToolButton;
-    ToolButton3: TToolButton;
     MenuAction_ModuloBasForm: TAction;
     TrocarAction_ModuloBasForm: TAction;
     PopupMenu1: TPopupMenu;
@@ -35,6 +34,7 @@ type
     OutputLabel: TLabel;
     OcultarActionModuloBasForm2: TMenuItem;
     OcultarEsteMenu1: TMenuItem;
+    TrocarToolButton_ModuloBasForm: TToolButton;
 
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -67,6 +67,7 @@ type
     function GetProcessLog: IProcessLog;
 
   protected
+
     procedure ExibaMenu; virtual;
     function PergFechar: boolean;
     function Voltou: boolean; virtual;
@@ -74,6 +75,7 @@ type
     function Fechou: boolean; virtual;
 
     function GetAppObj: IAppObj;
+    procedure AjusteControles; override;
     property AppObj: IAppObj read GetAppObj;
 
     property DBMS: IDBMS read GetDBMS;
@@ -115,6 +117,12 @@ uses Sis.UI.ImgDM, Sis.UI.Constants, Sis.UI.IO.Output.ProcessLog.Factory, Sis.Ty
 // FTipoModuloSistema := moduloNaoIndicado;;
 // end;
 
+procedure TModuloBasForm.AjusteControles;
+begin
+  inherited;
+  ToolBar1.Left := Width - 140;
+end;
+
 function TModuloBasForm.AppMenuFormCreate: TAppMenuForm;
 begin
   Result := TAppMenuForm.Create(Self);
@@ -152,12 +160,14 @@ begin
     sCaption := sCaption +' '+ FTerminalId.ToString;
 
   FecharAction_ModuloBasForm.Caption := sCaption;
+  FecharAction_ModuloBasForm.Hint := sCaption;
 
   sCaption := 'Ocultar ' + FModuloSistema.TipoOpcaoSisModuloDescr;
   if FTerminalId > 0 then
     sCaption := sCaption +' '+ FTerminalId.ToString;
 
   OcultarAction_ModuloBasForm.Caption := sCaption;
+  OcultarAction_ModuloBasForm.Hint := sCaption;
 end;
 
 procedure TModuloBasForm.DoFechar;
@@ -335,8 +345,8 @@ end;
 procedure TModuloBasForm.TrocarAction_ModuloBasFormExecute(Sender: TObject);
 begin
   inherited;
-  OcultarAction_ModuloBasForm.Execute;
-  // FEventosDeSessao.DoTrocarDaSessao(FSessaoIndex)
+  //OcultarAction_ModuloBasForm.Execute;
+  FEventosDeSessao.DoTrocarDaSessao(FSessaoIndex)
 end;
 
 function TModuloBasForm.Voltou: boolean;

@@ -25,10 +25,10 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
       670
       41)
     inherited ToolBar1: TToolBar
-      Left = 522
-      Width = 158
-      ExplicitLeft = 522
-      ExplicitWidth = 158
+      Left = 514
+      Width = 157
+      ExplicitLeft = 514
+      ExplicitWidth = 157
       object HideToolButton_SessoesPrincBasForm: TToolButton
         Left = 94
         Top = 0

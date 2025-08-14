@@ -20,8 +20,9 @@ type
   protected
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
-      pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame; override;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex;
+      pTerminalId: TTerminalId; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog): TSessaoFrame; override;
 
     function ModuloBasFormCreate(pModuloSistema: IModuloSistema;
       pSessaoIndex: TSessaoIndex; pUsuario: IUsuario; pAppObj: IAppObj;
@@ -47,13 +48,13 @@ function TShopSessoesFrame.ModuloBasFormCreate(pModuloSistema: IModuloSistema;
 begin
   case pModuloSistema.TipoOpcaoSisModulo of
     opmoduConfiguracoes:
-      Result := TShopConfigModuloForm.Create(Application, pModuloSistema,
+      Result := TShopConfigModuloForm.Create(Self, pModuloSistema,
         EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
     opmoduRetaguarda:
-      Result := TShopRetaguardaModuloForm.Create(Application, pModuloSistema,
+      Result := TShopRetaguardaModuloForm.Create(Self, pModuloSistema,
         EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
     opmoduPDV:
-      Result := TShopPDVModuloForm.Create(Application, pModuloSistema,
+      Result := TShopPDVModuloForm.Create(Self, pModuloSistema,
         EventosDeSessao, pSessaoIndex, pUsuario, AppObj, pTerminalId);
   else // modsisNaoIndicado:
     Result := nil;
@@ -61,12 +62,14 @@ begin
 end;
 
 function TShopSessoesFrame.SessaoFrameCreate(AOwner: TComponent;
-  pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-  pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
-  pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
+      pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex;
+      pTerminalId: TTerminalId; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog): TSessaoFrame;
 begin
   Result := TShopSessaoFrame.Create(AOwner, pTipoOpcaoSisModulo, pUsuario,
-    pModuloBasForm, pSessaoIndex, EventosDeSessao, pDBMS, pOutput, pProcessLog);
+    pModuloBasForm, pSessaoIndex, pTerminalId, EventosDeSessao, pDBMS, pOutput,
+    pProcessLog);
 end;
 
 end.

@@ -52,6 +52,8 @@ type
     FDBUpdaterVariaveis: string;
     FPrecisaFechar: Boolean;
 
+    FAppComandosBuscandoArquivos: Boolean;
+
     procedure Garanta_Config_e_DB;
     function AtualizeVersaoExecutaveis: Boolean;
     procedure ConfigureForm;
@@ -66,10 +68,12 @@ type
 
     procedure AssistPedirPraFechar;
   protected
+    procedure ExeParamsDecida; virtual;
     procedure DoSegundaInstancia; virtual;
 
     function AppComandoGetNome(pDtH: TDateTime = 0): string; virtual;
-    procedure AppComandosApagueAntigos(pIdadeMaxima: TDateTime = OneSecond * 15); virtual;
+    procedure AppComandosApagueAntigos(pIdadeMaxima: TDateTime = OneSecond *
+      15); virtual;
     procedure AppComandoSalve(pComando: string); virtual;
     procedure AppComandoExecute(var pComando: string); virtual;
 
@@ -128,6 +132,7 @@ begin
   FProcessLog.PegueLocal('TPrincBasForm.ShowTimer_BasFormTimer');
   try
     inherited;
+    ToolBar1.Left := Width - ToolBar1.Width;
     ToolBar1.Repaint;
     OculteSplashForm;
   finally
@@ -172,10 +177,10 @@ end;
 procedure TPrincBasForm.AppComandoSalve(pComando: string);
 var
   sNomeArq: string;
-//  Agora: TDateTime;
+  // Agora: TDateTime;
 begin
-//  Agora := Now;
-  sNomeArq := AppComandoGetNome{(Agora)};
+  // Agora := Now;
+  sNomeArq := AppComandoGetNome { (Agora) };
   pComando := AnsiUpperCase(pComando);
   Sis.UI.IO.Files.EscreverArquivo(pComando, sNomeArq);
   RenameFile(sNomeArq, ChangeFileExt(sNomeArq, '.txt'));
@@ -189,16 +194,19 @@ var
   sNomeArq: string;
 begin
   inherited;
-  AppComandosExecTimer_PrincBasForm.Enabled := False;
+  if FAppComandosBuscandoArquivos then
+    exit;
+
+  FAppComandosBuscandoArquivos := True;
   SL := TStringList.Create;
   try
     AppComandosApagueAntigos;
-    LeDiretorio(FAppInfo.PastaAppComandos, sl, False);
-    sl.Sorted := True;
-    sl.Sorted := False;
-    for I := 0 to sl.Count - 1 do
+    LeDiretorio(FAppInfo.PastaAppComandos, SL, False);
+    SL.Sorted := True;
+    SL.Sorted := False;
+    for I := 0 to SL.Count - 1 do
     begin
-      sNomeArq := FAppInfo.PastaAppComandos + sl[i];
+      sNomeArq := FAppInfo.PastaAppComandos + SL[I];
       if LerDoArquivo(sNomeArq, sTexto) then
       begin
         if sTexto <> '' then
@@ -208,7 +216,7 @@ begin
     end;
   finally
     SL.Free;
-    AppComandosExecTimer_PrincBasForm.Enabled := True;
+    FAppComandosBuscandoArquivos := False;
   end;
 end;
 
@@ -341,13 +349,13 @@ begin
   inherited Create(AOwner);
   // ReportMemoryLeaksOnShutdown := True;
   Randomize;
+  FAppComandosBuscandoArquivos := False;
   FPrecisaFechar := False;
 
   TitleBarPanel.Color := COR_AZUL_TITLEBAR;
   ToolBar1.Color := COR_AZUL_TITLEBAR;
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
-  ToolBar1.Left := Width - ToolBar1.Width;
 
   FProcessLog := ProcessLogFileCreate(Name);
   FStatusOutput := MudoOutputCreate;
@@ -369,6 +377,8 @@ begin
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FAppInfo := GetAppInfoCreate;
+
+    ExeParamsDecida;
 
     MutexHandle := CreateMutex(nil, True,
       '9DC5D990-AAF7-480A-9892-02AF9D0E72ED');
@@ -453,7 +463,6 @@ end;
 
 procedure TPrincBasForm.DoSegundaInstancia;
 begin
-
 end;
 
 procedure TPrincBasForm.DtHCompileLabelClick(Sender: TObject);
@@ -462,11 +471,17 @@ begin
   ShowMessage(AppVersao_u.GetInfos);
 end;
 
+procedure TPrincBasForm.ExeParamsDecida;
+begin
+
+end;
+
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
 var
   bResultado: Boolean;
 begin
-  bResultado := App.UI.Form.Perg_u.Perg('Sair do Sistema?',
+  bResultado := App.UI.Form.Perg_u.Perg
+    ('Fechar o Gerenciador?'#13#10'Tarefas como a atualização automática de preços ficarão pausadas. Para não interrompê-las, escolha ''Ocultar''',
     'Administrador do Sistema Daros', TBooleanDefault.boolFalse);
 
   if not bResultado then

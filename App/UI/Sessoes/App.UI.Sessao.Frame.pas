@@ -4,16 +4,15 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ExtCtrls,
-  System.Actions, Vcl.ActnList, App.UI.Form.Bas.Modulo_u,
-  Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao, App.Sessao.EventosDeSessao,
-  Sis.UI.Form.LoginPerg_u, Sis.UI.Form.Login.Config, Sis.DB.DBTypes, App.Constants,
-  Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,
+  App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema.Types, Sis.Usuario, App.Sessao,
+  App.Sessao.EventosDeSessao, Sis.UI.Form.LoginPerg_u, Sis.UI.Form.Login.Config,
+  Sis.DB.DBTypes, App.Constants, Sis.UI.IO.Output, Sis.UI.IO.Output.ProcessLog,
+  Sis.Entities.Types;
 
 type
-  TSessaoFrame = class(TFrame, ISessao)
+  TSessaoFrame = class(TFrame)
     FundoPanel: TPanel;
     ApelidoLabel: TLabel;
     ModuloLabel: TLabel;
@@ -25,38 +24,26 @@ type
     procedure AbrirActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FModuloBasForm: TModuloBasForm;
-    FTipoOpcaoSisModulo: TOpcaoSisIdModulo;
-    FUsuario: IUsuario;
-    FIndex: TSessaoIndex;
     FEventosDeSessao: IEventosDeSessao;
     FDBMS: IDBMS;
     FOutput: IOutput;
     FProcessLog: IProcessLog;
-
-//    FLoginConfig: ILoginConfig;
-
-    function GetModuloBasForm: TModuloBasForm;
-    function GetUsuario: IUsuario;
-    function GetIndex: TSessaoIndex;
+    FSessao: ISessao;
 
   protected
   public
     { Public declarations }
 
-    property ModuloBasForm: TModuloBasForm read GetModuloBasForm;
-    property Index: TSessaoIndex read GetIndex;
-    property Usuario: IUsuario read GetUsuario;
-    procedure EscondaModuloForm;
     property DBMS: IDBMS read FDBMS;
     property Output: IOutput read FOutput;
     property ProcessLog: IProcessLog read FProcessLog;
+    property Sessao: ISessao read FSessao;
 
     constructor Create(AOwner: TComponent;
       pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
       pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-      pEventosDeSessao: IEventosDeSessao; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
-      //; pLoginConfig: ILoginConfig
+      pTerminalId: TTerminalId; pEventosDeSessao: IEventosDeSessao;
+      pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
       ); reintroduce;
   end;
 
@@ -64,64 +51,43 @@ implementation
 
 {$R *.dfm}
 
-uses App.DB.Utils, Sis.DB.Factory;
+uses App.DB.Utils, Sis.DB.Factory, App.Sessao.Factory, Sis.UI.Controls.Utils;
 
 { TSessaoFrame }
 
 procedure TSessaoFrame.AbrirActionExecute(Sender: TObject);
 begin
-  FEventosDeSessao.DoAbrirSessao(Index)
+  FEventosDeSessao.DoAbrirSessao(Sessao.Index)
 end;
 
 constructor TSessaoFrame.Create(AOwner: TComponent;
   pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
   pModuloBasForm: TModuloBasForm; pIndex: TSessaoIndex;
-  pEventosDeSessao: IEventosDeSessao; pDBMS: IDBMS; pOutput: IOutput; pProcessLog: IProcessLog
-  {; pLoginConfig: ILoginConfig}
+  pTerminalId: TTerminalId; pEventosDeSessao: IEventosDeSessao; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog
   );
 var
   s: string;
 begin
   inherited Create(AOwner);
-  FModuloBasForm := pModuloBasForm;
-  FTipoOpcaoSisModulo := pTipoOpcaoSisModulo;
-  FUsuario := pUsuario;
-  FIndex := pIndex;
+  FSessao := SessaoCreate(pTipoOpcaoSisModulo, pUsuario,
+    pModuloBasForm, pIndex, pTerminalId);
+
   FEventosDeSessao := pEventosDeSessao;
   FDBMS := pDBMS;
   FOutput := pOutput;
   FProcessLog := pProcessLog;
 
-//  FLoginConfig := pLoginConfig;
+  // FLoginConfig := pLoginConfig;
 
-  s := FUsuario.NomeExib;
+  s := Sessao.Usuario.NomeExib;
   ApelidoLabel.Caption := s;
 
-  s := TipoOpcaoSisModuloToStr(FTipoOpcaoSisModulo);
+  s := TipoOpcaoSisModuloToStr(Sessao.TipoOpcaoSisModulo);
   ModuloLabel.Caption := s;
-end;
 
-procedure TSessaoFrame.EscondaModuloForm;
-begin
-  if not ModuloBasForm.Visible then
-    exit;
-
-  ModuloBasForm.Hide;
-end;
-
-function TSessaoFrame.GetIndex: TSessaoIndex;
-begin
-  Result := FIndex;
-end;
-
-function TSessaoFrame.GetModuloBasForm: TModuloBasForm;
-begin
-  Result := FModuloBasForm;
-end;
-
-function TSessaoFrame.GetUsuario: IUsuario;
-begin
-  Result := FUsuario;
+  Sis.UI.Controls.Utils.SetOnClickToChilds(Self, AbrirActionExecute);
+  Sis.UI.Controls.Utils.SetCursorToChilds(Self, crHandPoint);
 end;
 
 end.

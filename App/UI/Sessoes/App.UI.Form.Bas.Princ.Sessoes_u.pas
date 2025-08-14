@@ -9,6 +9,14 @@ uses
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.Imaging.pngimage, App.UI.Sessoes.Frame_u, App.Sessao.EventosDeSessao,
   Sis.UI.Form.Login.Config, App.Constants, App.Sessao, Sis.UI.IO.Files;
+const
+{$IFDEF DEBUG}
+  AUTO_OCULTAR = TRUE;
+  //AUTO_OCULTAR = FALSE;
+{$ELSE}
+  AUTO_OCULTAR = TRUE;
+{$ENDIF}
+
 
 type
   TSessoesPrincBasForm = class(TPrincBasForm)
@@ -29,9 +37,11 @@ type
     procedure SessoesFrameCriar;
     function SessoesFrameGarantirAtalhosDesktop: Boolean;
   protected
-    procedure DoSegundaInstancia; override;
+    procedure ExeParamsDecida; override;
+
     procedure AppComandoExecute(var pComando: string); override;
     function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
+        procedure DoSegundaInstancia; override;
     property LoginConfig: ILoginConfig read FLoginConfig;
 
     { procedure DoCancel;
@@ -140,17 +150,21 @@ begin
 end;
 
 procedure TSessoesPrincBasForm.DoSegundaInstancia;
+begin
+  inherited;
+  if ParamCount = 0 then
+  begin
+    AppComandoSalve('SHOW');
+    exit;
+  end;
+end;
+
+procedure TSessoesPrincBasForm.ExeParamsDecida;
 var
   sParam: string;
   i: integer;
 begin
   inherited;
-  if ParamCount = 0 then
-  begin
-    AppComandoSalve('show');
-    exit;
-  end;
-
   sParam := '';
   for i := 1 to ParamCount do
   begin
@@ -164,12 +178,21 @@ end;
 procedure TSessoesPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  inherited;
+  if Key = VK_ESCAPE then
+  begin
+    if Shift = [] then
+    begin
+      Key := 0;
+      OcultarAction_SessoesPrincBasForm.Execute;
+      //FecharAction_ActBasForm.Execute;
+    end;
+  end;
   FSessoesFrame.ExecutouPeloShortCut(Key, Shift);
+  inherited;
 end;
 
-procedure TSessoesPrincBasForm.OcultarAction_SessoesPrincBasFormExecute(
-  Sender: TObject);
+procedure TSessoesPrincBasForm.OcultarAction_SessoesPrincBasFormExecute
+  (Sender: TObject);
 begin
   inherited;
   Hide;
@@ -273,7 +296,8 @@ begin
   if PrecisaFechar then
     exit;
   inherited;
-  Hide;
+  if AUTO_OCULTAR then
+    Hide;
   FSessoesFrame.ExecuteAutoLogin;
 end;
 

@@ -2,7 +2,7 @@ unit App.Sessao;
 
 interface
 
-uses App.UI.Form.Bas.Modulo_u, Sis.Usuario, App.Constants;
+uses App.UI.Form.Bas.Modulo_u, Sis.Usuario, App.Constants, Sis.ModuloSistema.Types, Sis.Entities.Types;
 
 type
   ISessao = interface(IInterface)
@@ -15,6 +15,12 @@ type
 
     function GetIndex: TSessaoIndex;
     property Index: TSessaoIndex read GetIndex;
+
+    function GetTipoOpcaoSisModulo: TOpcaoSisIdModulo;
+    property TipoOpcaoSisModulo: TOpcaoSisIdModulo read GetTipoOpcaoSisModulo;
+
+    function GetTerminalId: TTerminalId;
+    property TerminalId: TTerminalId read GetTerminalId;
 
     procedure EscondaModuloForm;
   end;

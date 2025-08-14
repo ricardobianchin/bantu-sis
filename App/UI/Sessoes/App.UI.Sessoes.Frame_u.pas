@@ -10,13 +10,13 @@ uses
   Sis.UI.IO.Output, App.Sessao.EventosDeSessao, Sis.UI.Form.Login.Config,
   App.Sessao.Criador.List, App.UI.Sessao.Frame, Sis.Usuario,
   Sis.ModuloSistema.Types, App.UI.Form.Bas.Modulo_u, Sis.ModuloSistema,
-  Sis.Types.Contador, App.Sessao.List, App.Sessao, App.Constants,
+  Sis.Types.Contador, App.Sessao, App.Constants,
   Sis.UI.Controls.Utils, Sis.Sis.Constants, Data.DB, Vcl.StdCtrls,
   App.UI.Sessoes.BotModulo.Frame_u, Generics.Collections, Sis.Entities.Types,
   Sis.UI.Form.Login.Teste;
 
 type
-  TSessoesFrame = class(TFrame, ISessaoList)
+  TSessoesFrame = class(TFrame)
     FundoPanel: TPanel;
     TopoPanel: TPanel;
     BasePanel: TPanel;
@@ -33,19 +33,16 @@ type
     FLoginTeste: ILoginTeste;
 
     FSessaoCriadorList: ISessaoCriadorList;
-    FSessaoFrame: TSessaoFrame;
 
     FSessaoIndexContador: IContador;
 
     FBotList: TList<TBotaoModuloFrame>;
     FLogo1NomeArq: string;
 
+    function GetSessao(Index: integer): ISessao;
     procedure PrepareListaDeCriadoresEBotoes(pTerminaisPreparadosSL: TStrings);
     procedure BotSessaoAlign;
     procedure PrepareListaDeCriadoresEBotoesToolBar;
-
-    function GetSessao(Index: integer): ISessao;
-    function GetCount: integer;
 
     function GetBotByTipoOpcao(pTipoOpcaoSisModulo: TOpcaoSisIdModulo)
       : TBotaoModuloFrame;
@@ -63,9 +60,9 @@ type
 
     function SessaoFrameCreate(AOwner: TComponent;
       pTipoOpcaoSisModulo: TOpcaoSisIdModulo; pUsuario: IUsuario;
-      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex; pDBMS: IDBMS;
-      pOutput: IOutput; pProcessLog: IProcessLog): TSessaoFrame;
-      virtual; abstract;
+      pModuloBasForm: TModuloBasForm; pSessaoIndex: TSessaoIndex;
+      pTerminalId: TTerminalId; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog): TSessaoFrame; virtual; abstract;
     function GetAppObj: IAppObj;
     property AppObj: IAppObj read GetAppObj;
   public
@@ -77,14 +74,7 @@ type
     procedure BotSessaoClick(Sender: TObject);
     procedure ExecuteAutoLogin;
 
-    function GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;
-    function GetSessaoVisivelIndex: TSessaoIndex;
-
     procedure DoTrocarDaSessao(pSessaoIndex: TSessaoIndex);
-    procedure DeleteByIndex(pSessaoIndex: TSessaoIndex);
-
-    property Count: integer read GetCount;
-    property Sessao[Index: integer]: ISessao read GetSessao; default;
 
     function ExecutouPeloShortCut(var Key: word;
       var Shift: TShiftState): Boolean;
@@ -93,6 +83,16 @@ type
     procedure ExecByName(pName: string);
 
     procedure ExecByTerminalId(pTerminalId: TTerminalId);
+    function GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;
+    function GetSessaoVisivelIndex: TSessaoIndex;
+    procedure DeleteByIndex(pSessaoIndex: TSessaoIndex);
+
+
+    function GetSessaoFrameByUso(pUsuarioId: integer;
+      pOpcaoSisIdModulo: TOpcaoSisIdModulo; pTerminalId: TTerminalId)
+      : TSessaoFrame;
+
+    property Sessao[Index: integer]: ISessao read GetSessao; default;
 
     constructor Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
       { pEventosDeSessao: IEventosDeSessao; } pAppObj: IAppObj); reintroduce;
@@ -138,6 +138,7 @@ var
   oModuloBasForm: TModuloBasForm;
   iTerminalId: SmallInt;
   oTerminal: ITerminal;
+  oSessaoFrame: TSessaoFrame;
 begin
   oControl := TControl(Sender);
   while not(oControl is TBotaoModuloFrame) do
@@ -177,21 +178,27 @@ begin
   if not bResultado then
     exit;
 
-  iSessaoIndex := FSessaoIndexContador.GetNext;
-  oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate(iOpcaoSisIdModulo);
+  oSessaoFrame := GetSessaoFrameByUso(oUsuario.Id, iOpcaoSisIdModulo,
+    iTerminalId);
 
-  oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
-    FAppObj, oBotaoModuloFrame.TerminalId);
+  if oSessaoFrame = nil then
+  begin
+    iSessaoIndex := FSessaoIndexContador.GetNext;
+    oModuloSistema := Sis.Entities.Factory.ModuloSistemaCreate(iOpcaoSisIdModulo);
 
-  oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
-  FSessaoFrame := SessaoFrameCreate(nil { Self } , iOpcaoSisIdModulo, oUsuario,
-    oModuloBasForm, iSessaoIndex, FAppObj.DBMS, FAppObj.ProcessOutput,
-    FAppObj.ProcessLog);
+    oModuloBasForm := ModuloBasFormCreate(oModuloSistema, iSessaoIndex, oUsuario,
+      FAppObj, iTerminalId);
 
-  FSessaoFrame.Parent := SessoesScrollBox;
-  FSessaoFrame.Top := SessoesScrollBox.ControlCount * FSessaoFrame.Height + 5;
-  FSessaoFrame.Name := 'SessaoFrame' + iSessaoIndex.ToString;
-  oModuloBasForm.Show;
+    oModuloBasForm.Name := 'ModuloBasForm' + iSessaoIndex.ToString;
+    oSessaoFrame := SessaoFrameCreate(nil { Self } , iOpcaoSisIdModulo, oUsuario,
+      oModuloBasForm, iSessaoIndex, iTerminalId, FAppObj.DBMS,
+      FAppObj.ProcessOutput, FAppObj.ProcessLog);
+
+    oSessaoFrame.Parent := SessoesScrollBox;
+    oSessaoFrame.Top := SessoesScrollBox.ControlCount * oSessaoFrame.Height + 5;
+    oSessaoFrame.Name := 'SessaoFrame' + iSessaoIndex.ToString;
+  end;
+  oSessaoFrame.Sessao.ModuloBasForm.Show;
   FEventosDeSessao.DoOk;
 end;
 
@@ -250,10 +257,19 @@ end;
 
 procedure TSessoesFrame.DeleteByIndex(pSessaoIndex: TSessaoIndex);
 var
+  I: integer;
+  oControl: TControl;
   oSessaoFrame: TSessaoFrame;
 begin
-  oSessaoFrame := TSessaoFrame(GetSessaoByIndex(pSessaoIndex));
-  oSessaoFrame.Free;
+  for I := 0 to SessoesScrollBox.ControlCount - 1 do
+  begin
+    oControl := SessoesScrollBox.Controls[I];
+    oSessaoFrame := TSessaoFrame(oControl);
+    if oSessaoFrame.Sessao.Index = pSessaoIndex then
+    begin
+      FreeAndNil(oSessaoFrame);
+    end;
+  end;
 end;
 
 destructor TSessoesFrame.Destroy;
@@ -273,7 +289,7 @@ begin
     diag
   }
 
-  EventosDeSessao.DoAposModuloOcultar;
+  //EventosDeSessao.DoAposModuloOcultar;
   {
     Result := nil;
     for I := 0 to SessoesScrollBox.ControlCount - 1 do
@@ -343,7 +359,7 @@ begin
     exit;
 
   MenorShortCut := FPrimeiroShortCut;
-  MaiorShortCut := MenorShortCut + Count - 1;
+  MaiorShortCut := MenorShortCut + FBotList.Count - 1;
   wShortCut := TShortCut(Key);
 
   Result := (wShortCut >= MenorShortCut) and (wShortCut <= MaiorShortCut);
@@ -398,14 +414,11 @@ begin
   end;
 end;
 
-function TSessoesFrame.GetCount: integer;
-begin
-  Result := SessoesScrollBox.ControlCount;
-end;
-
 function TSessoesFrame.GetSessao(Index: integer): ISessao;
 begin
-  Result := TSessaoFrame(SessoesScrollBox.Controls[Index]);
+  Result := GetSessaoByIndex(Index);
+//  Result := TSessaoFrame(SessoesScrollBox.Controls[Index]).Sessao;
+
 end;
 
 function TSessoesFrame.GetSessaoByIndex(pSessaoIndex: TSessaoIndex): ISessao;
@@ -419,9 +432,37 @@ begin
   begin
     oControl := SessoesScrollBox.Controls[I];
     oSessaoFrame := TSessaoFrame(oControl);
-    if oSessaoFrame.Index = pSessaoIndex then
+    if oSessaoFrame.Sessao.Index = pSessaoIndex then
     begin
-      Result := oSessaoFrame;
+      Result := oSessaoFrame.Sessao;
+      break;
+    end;
+  end;
+end;
+
+function TSessoesFrame.GetSessaoFrameByUso(pUsuarioId: integer;
+  pOpcaoSisIdModulo: TOpcaoSisIdModulo; pTerminalId: TTerminalId): TSessaoFrame;
+var
+  Fr: TSessaoFrame;
+  Se: ISessao;
+  oControl: TControl;
+  I: integer;
+  bAceito: Boolean;
+begin
+  Result := nil;
+  for I := 0 to SessoesScrollBox.ControlCount - 1 do
+  begin
+    oControl := SessoesScrollBox.Controls[I];
+    Fr := TSessaoFrame(oControl);
+    Se := Fr.Sessao;
+
+    bAceito := (Se.Usuario.Id = pUsuarioId) and
+      (Se.TipoOpcaoSisModulo = pOpcaoSisIdModulo) and
+      (Se.TerminalId = pTerminalId);
+
+    if bAceito then
+    begin
+      Result := Fr;
       break;
     end;
   end;
@@ -439,9 +480,9 @@ begin
     oControl := SessoesScrollBox.Controls[I];
     oSessaoFrame := TSessaoFrame(oControl);
 
-    if oSessaoFrame.ModuloBasForm.Visible then
+    if oSessaoFrame.Sessao.ModuloBasForm.Visible then
     begin
-      Result := oSessaoFrame.Index;
+      Result := oSessaoFrame.Sessao.Index;
       break;
     end;
   end;
