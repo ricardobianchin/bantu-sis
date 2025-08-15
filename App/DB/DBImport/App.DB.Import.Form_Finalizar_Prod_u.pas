@@ -326,7 +326,7 @@ var
 begin
   iMaiorId := 0;
   sNomeArqLog := pAppObj.AppInfo.Pasta + 'Tmp\DBImport\Log DBImport Prod.txt';
-  GarantirPastaDoArquivo(sNomeArqLog);
+  GarantaPastaDoArquivo(sNomeArqLog);
   CrieLog(sNomeArqLog);
 
   oAppObj := pAppObj;

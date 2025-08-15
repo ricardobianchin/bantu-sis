@@ -1,4 +1,4 @@
-unit Sis.UI.IO.Output.ProcessLog;
+﻿unit Sis.UI.IO.Output.ProcessLog;
 
 interface
 

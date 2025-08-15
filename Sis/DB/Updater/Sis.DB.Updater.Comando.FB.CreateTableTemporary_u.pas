@@ -44,27 +44,27 @@ end;
 
 function TComandoFBCreateTableTemporary.Funcionou: boolean;
 begin
-
+  Result := True;
 end;
 
 function TComandoFBCreateTableTemporary.GetAsSql: string;
 begin
-
+  Result := '';
 end;
 
 function TComandoFBCreateTableTemporary.GetAsText: string;
 begin
-
+  Result := '';
 end;
 
 function TComandoFBCreateTableTemporary.GetPKName: string;
 begin
-
+  Result := '';
 end;
 
 function TComandoFBCreateTableTemporary.GetSqlCreateTable: string;
 begin
-
+  Result := '';
 end;
 
 procedure TComandoFBCreateTableTemporary.PegarLinhas(var piLin: integer;

@@ -70,8 +70,8 @@ begin
       ProcessLog.RegistreLog('Inicio');
       sArqLocal := FAppInfo.Pasta + FAppInfo.AtualizExeSubPasta;
 
-      ProcessLog.RegistreLog('GarantirPastaDoArquivo ' + sArqLocal);
-      GarantirPastaDoArquivo(sArqLocal);
+      ProcessLog.RegistreLog('GarantaPastaDoArquivo ' + sArqLocal);
+      GarantaPastaDoArquivo(sArqLocal);
 
       sArqRemoto := FAppInfo.AtualizExeURL;
       ProcessLog.RegistreLog('sArqRemoto=' + sArqRemoto);

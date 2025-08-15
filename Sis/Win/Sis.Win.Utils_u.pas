@@ -2,7 +2,8 @@
 
 interface
 
-uses System.UITypes, Sis.Types.Utils_u, System.Classes;
+uses System.UITypes, Sis.Types.Utils_u, System.Classes, Sis.UI.IO.Output,
+  Sis.UI.IO.Output.ProcessLog, Sis.Win.Execute;
 
 type
   TWinPlatform = (wplatNaoIndicado, wplatWin32, wplatWin64);
@@ -38,7 +39,8 @@ procedure PegarIdMaquina(out pNome: string; out pIp: string);
 // procedure CrieAtalho(pPastaComandos: string; pScriptSL: TStringList);
 
 procedure ExecutePowerShellScript(pPastaComandos, pAssunto: string;
-  pPowerShellScriptSL: TStringList);
+  pPowerShellScriptSL: TStringList; out pErroDeu: Boolean; out pMens: string;
+  pOutput: IOutput = nil; pProcessLog: IProcessLog = nil);
 
 procedure AddScriptCriaAtalho(pPowerShellScriptSL: TStringList;
   pPastaComandos, pPastaDesktop, pNomeAtalho, pExe, pParams, pStartIn: string);
@@ -48,7 +50,8 @@ implementation
 uses
   Vcl.Clipbrd, Winapi.ShellAPI, Winapi.Windows, System.SysUtils, Vcl.Forms,
   Vcl.FileCtrl, Winapi.winsock, Winapi.ActiveX, Winapi.ShlObj,
-  Sis.Types.strings_u;
+  Sis.Types.strings_u, Vcl.Dialogs, Sis.Win.Factory, Sis.UI.IO.Files,
+  Sis.UI.IO.Factory, Sis.UI.IO.Output.ProcessLog.Factory;
 
 function GetWindowsVersion(out pMajor: integer; out pMinor: integer;
   out pCSDVersion: string): Boolean;
@@ -271,18 +274,72 @@ end;
 // end;
 
 procedure ExecutePowerShellScript(pPastaComandos, pAssunto: string;
-  pPowerShellScriptSL: TStringList);
+  pPowerShellScriptSL: TStringList; out pErroDeu: Boolean; out pMens: string;
+  pOutput: IOutput; pProcessLog: IProcessLog);
 var
   sNomeScript: string;
+  WinExec: IWinExecute;
+  sLog: string;
 begin
-  pPastaComandos := IncludeTrailingPathDelimiter(pPastaComandos);
-  sNomeScript := pPastaComandos +
-    StrToNomeArq('PowerShell ' + pAssunto) + '.ps1';
+  if not Assigned(pOutput) then
+    pOutput := MudoOutputCreate;
 
-  pPowerShellScriptSL.SaveToFile(sNomeScript);
+  if not Assigned(pProcessLog) then
+    pProcessLog := MudoProcessLogCreate;
 
-  ShellExecute(0, 'runas', 'powershell.exe',
-    PChar('-File "' + sNomeScript + '"'), PChar(pPastaComandos), SW_SHOWNORMAL);
+  pProcessLog.PegueLocal('ExecutePowerShellScript');
+  try
+    pPastaComandos := GarantaPasta(pPastaComandos);
+    // Garante a pasta e adiciona barra final
+    sNomeScript := pPastaComandos +
+      StrToNomeArq('PowerShell ' + pAssunto) + '.ps1';
+
+    // Salva o script PowerShell no arquivo
+    pPowerShellScriptSL.SaveToFile(sNomeScript);
+    pProcessLog.RegistreLog('Script salvo: ' + sNomeScript, Now,
+      lptExecExternal, sNomeScript);
+
+    // Cria IWinExecute para executar o script com elevação e captura de saída/erro
+    WinExec := WinExecuteCreate('powershell.exe',
+      '-ExecutionPolicy ByPass -File "' + sNomeScript + '"', pPastaComandos, //
+      False, // Não executar ao criar
+      SW_SHOWMINNOACTIVE, //
+      True, // pElevate para runas
+      pOutput, //
+      pProcessLog, //
+      pPastaComandos, //
+      '', // Nome padrão com timestamp (ex.: WinExec.saida.<timestamp>.txt)
+      '' // Nome padrão com timestamp (ex.: WinExec.erro.<timestamp>.txt)
+      );
+
+    // Executa o comando
+    pProcessLog.RegistreLog('vai WinExec.Execute');
+    if WinExec.Execute then
+    begin
+      pProcessLog.RegistreLog('vai WinExec.EspereExecucao');
+      WinExec.EspereExecucao(pOutput);
+
+      pErroDeu := WinExec.Erro <> '';
+      pMens := WinExec.Erro;
+
+      // // Exibe resultado, mantendo comportamento original
+      // if WinExec.Erro <> '' then
+      // ShowMessage('Erro no PowerShell: ' + WinExec.Erro)
+      // else
+      // ShowMessage('Execução OK: ' + WinExec.Saida);
+
+      // Opcional: apaga o arquivo de script após execução
+      // DeleteFile(sNomeScript);
+    end
+    else
+    begin
+      pErroDeu := True;
+      pMens := 'Falha ao iniciar execução do script PowerShell';
+      pProcessLog.RegistreLog(pMens, Now, lptExecExternal, sNomeScript);
+    end;
+  finally
+    pProcessLog.RetorneLocal;
+  end;
 end;
 
 procedure AddScriptCriaAtalho(pPowerShellScriptSL: TStringList;

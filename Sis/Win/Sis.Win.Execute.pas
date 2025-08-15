@@ -1,4 +1,4 @@
-unit Sis.Win.Execute;
+﻿unit Sis.Win.Execute;
 
 interface
 
@@ -10,6 +10,12 @@ type
     function Execute: boolean;
     function Executando: boolean;
     procedure EspereExecucao(pOutput: IOutput; pQtdIntervals: integer = 8);
+
+    function GetSaida: string;
+    property Saida: string read GetSaida;
+
+    function GetErro: string;
+    property Erro: string read GetErro;
   end;
 
 implementation

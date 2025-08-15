@@ -1,4 +1,4 @@
-unit Configs_u;
+﻿unit Configs_u;
 
 interface
 

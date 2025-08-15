@@ -13,7 +13,8 @@ procedure ExecEvento(pEventoDoSistema: TEventoDoSistema; pAppInfo: IAppInfo;
 
 implementation
 
-uses Sis.UI.IO.Files, System.SysUtils, Sis.Win.Factory, Sis.Win.Execute;
+uses Sis.UI.IO.Files, System.SysUtils, Sis.Win.Factory, Sis.Win.Execute,
+  Winapi.Windows;
 
 procedure ExecEvento(pEventoDoSistema: TEventoDoSistema; pAppInfo: IAppInfo;
   pOutput: IOutput; pProcessLog: IProcessLog);
@@ -26,7 +27,7 @@ begin
   try
     sCaminho := pAppInfo.PastaComandos + 'Eventos\';
 
-    GarantirPasta(sCaminho);
+    GarantaPasta(sCaminho);
 
     case pEventoDoSistema of
       eventosisInicio:
@@ -48,7 +49,9 @@ begin
       EscreverArquivo('rem Arquivo criado automaticamente', sNomeArq);
     end;
 
-    OWinExecute := WinExecuteCreate(sNomeArq, '', sCaminho, True, 1, pOutput);
+    OWinExecute := WinExecuteCreate(sNomeArq, '', sCaminho, True,
+      SW_SHOWNORMAL);
+
     OWinExecute.EspereExecucao(pOutput, 16);
   finally
     pProcessLog.RetorneLocal;

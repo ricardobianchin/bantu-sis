@@ -64,7 +64,7 @@ begin
   sPastaDebug := sPastaDebug+'Configs\Debug\';
   sPastaDebug := sPastaDebug + Sis.Types.Utils_u.ObterHierarquiaDeClasses(ClassType);
   sNomeArq := sPastaDebug + '\' + 'Teclas.txt';
-  GarantirPastaDoArquivo(sNomeArq);
+  GarantaPastaDoArquivo(sNomeArq);
   Resultado := FileExists(sNomeArq);
   if not Resultado then
     exit;

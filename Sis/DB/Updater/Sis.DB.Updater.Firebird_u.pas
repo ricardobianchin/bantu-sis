@@ -19,7 +19,7 @@ type
     /// </summary>
     /// <returns>
     /// Retorna um valor de <c>TGetDBExisteRetorno</c> indicando se o banco de dados existia,
-    /// se não existia e foi copiado, ou se não existia.
+    /// se nï¿½o existia e foi copiado, ou se nï¿½o existia.
     /// </returns>
     function GetDBExiste: TGetDBExisteRetorno; override;
 
@@ -107,12 +107,12 @@ begin
 
     ProcessLog.RegistreLog('nao existia');
 
-    GarantirPastaDoArquivo(DBConnectionParams.Arq);
+    GarantaPastaDoArquivo(DBConnectionParams.Arq);
 
     sPastaInstDados := PastaProduto + 'Inst\inst-Firebird\dados\';
     ProcessLog.RegistreLog('sPastaInstDados=' + sPastaInstDados);
 
-    GarantirPasta(sPastaInstDados);
+    GarantaPasta(sPastaInstDados);
     sNomeArqInstDados := ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
     if TerminalId > 0 then
     begin
