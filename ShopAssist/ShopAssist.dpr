@@ -1,4 +1,4 @@
-program ShopAssist;
+Ôªøprogram ShopAssist;
 
 uses
   Vcl.Forms,
@@ -53,7 +53,7 @@ begin
   try
     if GetLastError = ERROR_ALREADY_EXISTS then
     begin
-      // Outra inst‚ncia est· em execuÁ„o
+      // Outra inst√¢ncia est√° em execu√ß√£o
       Exit;
     end;
     Application.Initialize;

@@ -1,4 +1,4 @@
-unit Sis.Sis.Executavel_u;
+﻿unit Sis.Sis.Executavel_u;
 
 interface
 

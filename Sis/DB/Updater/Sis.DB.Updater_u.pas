@@ -75,28 +75,28 @@ type
     /// <summary>
     /// Grava os dados iniciais no banco de dados.
     /// </summary>
-    /// <param name="pDBConnection">Conexão com o banco de dados.</param>
+    /// <param name="pDBConnection">Conexï¿½o com o banco de dados.</param>
     /// <remarks>
-    /// Este método realiza várias operações de inicialização,
-    /// incluindo a criação de registros de gerente, loja e suporte.
+    /// Este mï¿½todo realiza vï¿½rias operaï¿½ï¿½es de inicializaï¿½ï¿½o,
+    /// incluindo a criaï¿½ï¿½o de registros de gerente, loja e suporte.
     /// </remarks>
     /// <remarks>
-    /// Quando ainda não existe pessoa, não é possível gerar um log.
-    /// Logs aqui são necessários pois serão usados para notificar os PDVs
+    /// Quando ainda nï¿½o existe pessoa, nï¿½o ï¿½ possï¿½vel gerar um log.
+    /// Logs aqui sï¿½o necessï¿½rios pois serï¿½o usados para notificar os PDVs
     /// destes novos registros.
     ///
     /// Primeiro, chama <c>GravarIniciais_CrieGerenteInicial</c>
     /// que gera a pessoa sem o uso de stored procedures,
     /// apenas <c>INSERT INTO</c>.
     ///
-    /// Depois que o registro da pessoa do gerente já existe,
+    /// Depois que o registro da pessoa do gerente jï¿½ existe,
     /// pode-se criar a loja e as demais tabelas.
-    /// Mesmo o gerente agora será regravado usando stored procedures
-    /// e todos terão os seus logs registrados.
+    /// Mesmo o gerente agora serï¿½ regravado usando stored procedures
+    /// e todos terï¿½o os seus logs registrados.
     ///
-    /// aí que entra a <c>GravarIniciais_CrieGerenteFinal</c>
+    /// aï¿½ que entra a <c>GravarIniciais_CrieGerenteFinal</c>
     /// </remarks>
-    /// <exception cref="EAbort">Lança uma exceção se estiver em um terminal.</exception>
+    /// <exception cref="EAbort">Lanï¿½a uma exceï¿½ï¿½o se estiver em um terminal.</exception>
     procedure GravarIniciais(pDBConnection: IDBConnection);
 
     function GravarIniciais_CrieMachineIdLocal(pDBConnection: IDBConnection)
@@ -126,26 +126,26 @@ type
     /// </summary>
     /// <returns>
     /// Retorna um valor de <c>TGetDBExisteRetorno</c> indicando
-    /// se o banco de dados existia, se não existia e foi copiado, ou se não
+    /// se o banco de dados existia, se nï¿½o existia e foi copiado, ou se nï¿½o
     /// existia.
-    /// dbeExistia - O banco de dados já existia.
-    /// dbeNaoExistiaCopiou - O banco de dados não existia e foi copiado.
-    /// dbeNaoExistia - O banco de dados não existia
+    /// dbeExistia - O banco de dados jï¿½ existia.
+    /// dbeNaoExistiaCopiou - O banco de dados nï¿½o existia e foi copiado.
+    /// dbeNaoExistia - O banco de dados nï¿½o existia
     /// </returns>
     function GetDBExiste: TGetDBExisteRetorno; virtual; abstract;
 
     /// <summary>
-    /// Garante a existencia do banco de dados, descobre a versão do banco e
+    /// Garante a existencia do banco de dados, descobre a versï¿½o do banco e
     /// conecta a ele.
     /// </summary>
-    /// <returns>A versão do banco de dados.</returns>
+    /// <returns>A versï¿½o do banco de dados.</returns>
     /// <remarks>
-    /// verifica se o banco de dados existe e, se não existir, cria.
-    /// Em seguida, conecta ao banco de dados e prepara as operações principais.
-    /// Se a tabela de histórico de atualizações não existir, retorna -1.
-    /// Caso contrário, retorna a última versão registrada nesta tabela
+    /// verifica se o banco de dados existe e, se nï¿½o existir, cria.
+    /// Em seguida, conecta ao banco de dados e prepara as operaï¿½ï¿½es principais.
+    /// Se a tabela de histï¿½rico de atualizaï¿½ï¿½es nï¿½o existir, retorna -1.
+    /// Caso contrï¿½rio, retorna a ï¿½ltima versï¿½o registrada nesta tabela
     /// </remarks>
-    /// <exception cref="Exception">Lança uma exceção se houver erro ao criar ou conectar ao banco de dados.</exception>
+    /// <exception cref="Exception">Lanï¿½a uma exceï¿½ï¿½o se houver erro ao criar ou conectar ao banco de dados.</exception>
     function DBDescubraVersaoEConecte: integer; virtual;
 
     property LinhasSL: TStringList read FLinhasSL;
@@ -347,7 +347,7 @@ begin
   sPastaExe := PastaAcima(sPastaBin);
   sPastaEventos := sPastaExe + 'Comandos\Eventos\';
 
-  GarantirPasta(sPastaEventos);
+  GarantaPasta(sPastaEventos);
 
   sNomeArqBat := sPastaEventos + 'Exec Apos Criar DB';
   if FTerminalId = 0 then
@@ -1155,9 +1155,9 @@ begin
     dbeExistia:
       Result := 'dbeExistia'; // 'Existia';
     dbeNaoExistiaCopiou:
-      Result := 'dbeNaoExistiaCopiou'; // 'Não existia, copiou';
+      Result := 'dbeNaoExistiaCopiou'; // 'Nï¿½o existia, copiou';
     dbeNaoExistia:
-      Result := 'dbeNaoExistia'; // 'Não existia';
+      Result := 'dbeNaoExistia'; // 'Nï¿½o existia';
   else
     Result := 'Desconhecido';
   end;

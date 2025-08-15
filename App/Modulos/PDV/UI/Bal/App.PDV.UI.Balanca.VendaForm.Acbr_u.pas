@@ -64,13 +64,13 @@ begin
     valid := Trunc(ACBrBAL1.UltimoPesoLido);
     case valid of
       0:
-        Mensagem := 'Balança, coloque o produto';
+        Mensagem := 'Balanï¿½a, coloque o produto';
       -1:
-        Mensagem := 'Balança, peso instável. Tente novamente';
+        Mensagem := 'Balanï¿½a, peso instï¿½vel. Tente novamente';
       -2:
-        Mensagem := 'Balança, peso negativo';
+        Mensagem := 'Balanï¿½a, peso negativo';
       -10:
-        Mensagem := 'Balança, Sobrepeso';
+        Mensagem := 'Balanï¿½a, Sobrepeso';
     end;
   end;
 end;
@@ -98,7 +98,7 @@ begin
   FTerminal := pTerminal;
   FPastaLog := GetPastaDoArquivo(ParamStr(0));
   FPastaLog := PastaAcima(FPastaLog) + 'Tmp\PDV\Bal\';
-  GarantirPasta(FPastaLog);
+  GarantaPasta(FPastaLog);
 end;
 
 function TBalancaAcbrVendaForm.GetNomeArqLog: string;
@@ -112,7 +112,7 @@ begin
 
   if Ativar then
   begin
-    // configura porta de comunicação
+    // configura porta de comunicaï¿½ï¿½o
     ACBrBAL1.Modelo := TACBrBALModelo(FTerminal.BalancaId);
     ACBrBAL1.Device.HandShake := TACBrHandShake(FTerminal.BALANCA_HANDSHAKING);
     ACBrBAL1.Device.Parity := TACBrSerialParity(FTerminal.BALANCA_PARIDADE);
@@ -122,7 +122,7 @@ begin
     ACBrBAL1.Device.Porta := PortaNomes[FTerminal.BALANCA_PORTA];
     ACBrBAL1.ArqLOG := GetNomeArqLog;
 
-    // Conecta com a balança
+    // Conecta com a balanï¿½a
     ACBrBAL1.Ativar;
   end;
 end;

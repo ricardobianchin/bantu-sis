@@ -127,10 +127,10 @@ begin
   sComandoComprime := '"' + pPastaComprime +
     '7za.exe" a -tzip "%s.zip" * -sdel -x!*.zip';
 
-  GarantirPasta(sPastaBackupFBK);
-  GarantirPasta(sPastaBackupCSV);
+  GarantaPasta(sPastaBackupFBK);
+  GarantaPasta(sPastaBackupCSV);
 
-  GarantirPasta(pPastaComandos);
+  GarantaPasta(pPastaComandos);
 
   pArqsCriadosSL.Clear;
   sComandosBak := sDriveBackupFBK + #13#10'CD "' + sPastaBackupFBK + '"' +
@@ -251,8 +251,8 @@ begin
     // s l e e p(3000);
     WExec.EspereExecucao(FOutput);
 
-    pOutput.Exibir('Execução terminada');
-    pProcessLog.RegistreLog('Execução terminada');
+    pOutput.Exibir('Execuï¿½ï¿½o terminada');
+    pProcessLog.RegistreLog('Execuï¿½ï¿½o terminada');
     pProcessLog.RegistreLog('ExecIntall fim');
   finally
     pProcessLog.RetorneLocal;
@@ -293,7 +293,7 @@ begin
         exit;
       end;
 
-      GarantirPasta(pPastaComandos);
+      GarantaPasta(pPastaComandos);
 
       sNomeArqTmp := pPastaComandos + DateTimeToNomeArq() + ' ' +
         Trim('SQL ' + pAssunto) + ' ' + pNomeBanco + '.sql';
@@ -324,8 +324,8 @@ begin
         iShowMode);
       WExec.EspereExecucao(pOutput);
 
-      pOutput.Exibir('Execução terminada');
-      sLog := sLog + ',Execução terminada';
+      pOutput.Exibir('Execuï¿½ï¿½o terminada');
+      sLog := sLog + ',Execuï¿½ï¿½o terminada';
     finally
       pProcessLog.RegistreLog(sLog);
     end;
@@ -349,7 +349,7 @@ begin
     end;
     pProcessLog.RegistreLog('retornou false, nao encontrou o Firebird');
 
-    raise Exception.Create('Erro: Firebird não detectado');
+    raise Exception.Create('Erro: Firebird nï¿½o detectado');
     // ExecInstal(pProcessLog, pOutput);
   finally
     pProcessLog.RetorneLocal;

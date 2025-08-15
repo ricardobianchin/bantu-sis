@@ -222,9 +222,15 @@ var
   sTermId: string;
   sStartIn: string;
   sPerg: string;
+  bErroDeu: Boolean;
+  sMens: string;
 begin
+  ProcessLog.PegueLocal('TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop');
+  try
   sl := FSessoesFrame.TerminaisPreparadosSL;
   sPastaDesktop := Sis.Win.Utils_u.GetPublicDesktopPath;
+
+  ProcessLog.RegistreLog('FSessoesFrame.TerminaisPreparadosSL='#13#10+FSessoesFrame.TerminaisPreparadosSL.text+#13#10);
 
   SLExistentes := TStringList.Create;
   SLDevemSer := TStringList.Create;
@@ -238,15 +244,33 @@ begin
       begin
         SLDevemSer.Add(sl[i] + '.lnk');
       end;
-      LeDiretorio(sPastaDesktop, SLExistentes, True, 'PDV*.lnk');
-      Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
 
+      //le diretorio
+      ProcessLog.RegistreLog('SLDevemSer='#13#10+SLDevemSer.text+#13#10);
+      LeDiretorio(sPastaDesktop, SLExistentes, True, 'PDV*.lnk');
+      ProcessLog.RegistreLog('SLExistentes='#13#10+SLExistentes.text+#13#10);
+
+      //delete iguais
+      ProcessLog.RegistreLog('vai DeleteItensIguais');
+      Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
+      ProcessLog.RegistreLog('DeleteItensIguais voltou');
+
+      ProcessLog.RegistreLog('SLDevemSer='#13#10+SLDevemSer.text+#13#10);
+      ProcessLog.RegistreLog('SLExistentes='#13#10+SLExistentes.text+#13#10);
+
+      //apague arqs
+      ProcessLog.RegistreLog('vai ApagueArquivos');
       Sis.UI.IO.Files.ApagueArquivos(sPastaDesktop, SLExistentes);
+      ProcessLog.RegistreLog('ApagueArquivos voltou');
 
       Result := SLDevemSer.Count = 0;
+      ProcessLog.RegistreLog('SLDevemSer.Count='+SLDevemSer.Count.ToString);
 
       if Result then
+      begin
+        ProcessLog.RegistreLog('SLDevemSer.Count=0, abortando');
         break;
+      end;
 
       sPerg := 'O Sistema precisará de autorização de Administrador'#13#10 +
         'para criar atalhos no Desktop';
@@ -254,7 +278,10 @@ begin
       Result := App.UI.Form.Perg_u.Perg(sPerg, 'Criar atalhos no Desktop',
         TBooleanDefault.boolTrue, '&Aceito', '&Fechar o Sistema');
       if not Result then
+      begin
+        ProcessLog.RegistreLog('usuario cancelou, abortando');
         exit;
+      end;
 
       for i := 0 to SLDevemSer.Count - 1 do
       begin
@@ -262,15 +289,19 @@ begin
         Sis.Win.Utils_u.AddScriptCriaAtalho(SLScript, AppInfo.PastaComandos,
           sPastaDesktop, sTermId, sExe, sTermId, sStartIn);
       end;
+      ProcessLog.RegistreLog('AddScriptCriaAtalho SLScript='#13#10+SLScript.text+#13#10);
+
       Sis.Win.Utils_u.ExecutePowerShellScript(AppInfo.PastaComandos,
-        'Cria Atalho', SLScript);
-      //
-      // apos login, buscar sessao com mesmo modulo e usuario. se tiver, exibe, senao, cria outro
+        'Cria Atalho', SLScript, bErroDeu, sMens, nil, ProcessLog);
     until false;
   finally
     SLExistentes.Free;
     SLDevemSer.Free;
     SLScript.Free;
+  end;
+  finally
+    ProcessLog.RegistreLog('Terminou');
+    ProcessLog.RetorneLocal;
   end;
 end;
 

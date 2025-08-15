@@ -43,7 +43,7 @@ begin
     sAssunto := 'Cupom Espelho ' + pAssunto;
 
   sArqNome := FPastaRaiz + DateToPath(dtAgora);
-  GarantirPasta(sArqNome);
+  GarantaPasta(sArqNome);
 
   sArqNome := sArqNome + DateTimeToNomeArq(dtAgora) + ' ' + sAssunto + '.txt';
   EscreverArquivo(pTexto, sArqNome);

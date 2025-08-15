@@ -95,7 +95,7 @@ var
   sNomeArq: string;
 begin
   FPastaLog := sPastaTmp + 'Assist\';
-  GarantirPasta(FPastaLog);
+  GarantaPasta(FPastaLog);
 
   dAgora := Now;
   dHoje := Trunc(dAgora);

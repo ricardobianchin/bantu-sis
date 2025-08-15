@@ -13,8 +13,8 @@ function PastaAcima(pPastaOrigem: string = ''): string;
 function PastaAtual: string;
 
 // garantir pasta
-procedure GarantirPasta(const pPasta: string);
-function GarantirPastaDoArquivo(const pNomeArq: string): string;
+function GarantaPasta(const pPasta: string): string;
+function GarantaPastaDoArquivo(const pNomeArq: string): string;
 
 // date time
 function DateTimeToNomeArq(pDtH: TDateTime = 0): string;
@@ -148,9 +148,9 @@ begin
   try
     // Define o tamanho do buffer de acordo com o tamanho do arquivo
     SetLength(Buffer, Arquivo.Size);
-    // Lê o arquivo para o buffer
+    // Lï¿½ o arquivo para o buffer
     Arquivo.Read(Buffer, Length(Buffer));
-    // Converte o buffer em string usando a codificação UTF-8
+    // Converte o buffer em string usando a codificaï¿½ï¿½o UTF-8
     pConteudo := TEncoding.UTF8.GetString(Buffer);
     Result := true; // Retorna true se a leitura foi bem sucedida
   finally
@@ -164,15 +164,16 @@ begin
   Result := IncludeTrailingPathDelimiter(ExtractFilePath(pNomeArq));
 end;
 
-procedure GarantirPasta(const pPasta: string);
+function GarantaPasta(const pPasta: string): string;
 begin
+  Result := IncludeTrailingPathDelimiter(pPasta);
   ForceDirectories(pPasta);
 end;
 
-function GarantirPastaDoArquivo(const pNomeArq: string): string;
+function GarantaPastaDoArquivo(const pNomeArq: string): string;
 begin
   Result := GetPastaDoArquivo(pNomeArq);
-  GarantirPasta(Result);
+  GarantaPasta(Result);
 end;
 
 function PastaAcima(pPastaOrigem: string = ''): string;
@@ -267,7 +268,7 @@ begin
   sLog := 'NomeArq=' + pNomeArq;
   pProcessLog.PegueLocal('Sis.UI.IO.Files function VaParaPastaDoArquivo');
 
-  sPasta := GarantirPastaDoArquivo(pNomeArq);
+  sPasta := GarantaPastaDoArquivo(pNomeArq);
   sLog := sLog + ',Pasta=' + sPasta;
   pProcessLog.RegistreLog(sLog);
   VaParaPasta(sPasta);

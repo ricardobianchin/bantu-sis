@@ -22,7 +22,7 @@ var
   sNomeArq: string;
 begin
   sPastaLog := sPastaTmp + 'Assist\';
-  GarantirPasta(sPastaLog);
+  GarantaPasta(sPastaLog);
 
   dAgora := Now;
   dHoje := Trunc(dAgora);

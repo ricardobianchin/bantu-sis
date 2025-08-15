@@ -3,8 +3,6 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   ClientHeight = 583
   ClientWidth = 670
   Position = poDesktopCenter
-  StyleElements = [seFont, seClient, seBorder]
-  ExplicitLeft = -59
   ExplicitWidth = 670
   ExplicitHeight = 583
   TextHeight = 15

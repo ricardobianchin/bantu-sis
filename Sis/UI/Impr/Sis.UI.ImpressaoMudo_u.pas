@@ -14,7 +14,7 @@ type
     function GetAtivo: Boolean; override;
 
   public
-    procedure Imprima; virtual;
+    procedure Imprima; override;
     constructor Create();
   end;
 
