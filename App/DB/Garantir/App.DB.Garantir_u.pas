@@ -24,6 +24,52 @@ var
   DBMSConfig: IDBMSConfig;
   DBMS: IDBMS;
 
+procedure GarantirTermsMachine(pAppObj: IAppObj; pProcessLog: IProcessLog;
+  pOutput: IOutput);
+var
+  oTerminal: ITerminal;
+  rDBConnectionParamsTerm: TDBConnectionParams;
+  oDBConnectionTerm: IDBConnection;
+  iIndex: integer;
+  TermDBConection: IDBConnection;
+  iTerminalId: SmallInt;
+  sSql: string;
+begin
+  sSql := 'UPDATE OR INSERT INTO MACHINE'#13#10 //
+    + '(MACHINE_ID, NOME_NA_REDE, IP)'#13#10 //
+    + 'VALUES ' //
+    + '(' //
+    + pAppObj.SisConfig.LocalMachineId.IdentId.ToString + ', ' //
+    + QuotedStr(pAppObj.SisConfig.LocalMachineId.Name) + ', ' //
+    + QuotedStr(pAppObj.SisConfig.LocalMachineId.Ip) //
+    + ')'#13#10 //
+    + 'MATCHING (MACHINE_ID);';
+
+  for iIndex := 0 to pAppObj.TerminalList.Count - 1 do
+  begin
+    oTerminal := pAppObj.TerminalList[iIndex];
+    iTerminalId := oTerminal.TerminalId;
+
+    rDBConnectionParamsTerm.Server := oTerminal.IdentStr;
+    rDBConnectionParamsTerm.Arq := oTerminal.LocalArqDados;
+    rDBConnectionParamsTerm.Database := oTerminal.Database;
+
+    TermDBConection := DBConnectionCreate
+      ('App.DB.Garantir_u.GarantirTermsMachine' + iTerminalId.ToString +
+      '.conn', pAppObj.SisConfig, rDBConnectionParamsTerm, pProcessLog,
+      pOutput);
+
+    TermDBConection.Abrir;
+    try
+      TermDBConection.ExecuteSQL(sSql);
+    finally
+      TermDBConection.Fechar;
+    end;
+
+  end;
+
+end;
+
 function GarantirDBServ(pAppObj: IAppObj; pProcessLog: IProcessLog;
   pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
   pVariaveis: string): Boolean;
@@ -199,7 +245,7 @@ begin
 
     DBConnectionServ := DBConnectionCreate('GarantirDB.CarregLoja.Conn',
       pAppObj.SisConfig, oDBConnectionParamsServ, nil, nil);
-
+    pOutput.Exibir('Buscando servidor...');
     oAppLojaDBI := AppLojaDBICreate(pAppObj.Loja, DBConnectionServ);
     Result := oAppLojaDBI.LerLojaEMachineId(pAppObj, sMens);
 
@@ -231,11 +277,13 @@ begin
       oSisConfigXMLI.Gravar;
     end;
 
-//    oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig,
-//      sPastaDados);
+    // oTerminalDBI.TermDBsParaList(pAppObj.TerminalList, pAppObj.SisConfig,
+    // sPastaDados);
 
     Result := GarantirDBTerms(pAppObj, pProcessLog, pOutput, pLoja,
       pUsuarioAdmin, pVariaveis, pCriouTerminais, sAtividadeEcon);
+
+    GarantirTermsMachine(pAppObj, pProcessLog, pOutput);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal

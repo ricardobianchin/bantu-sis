@@ -116,7 +116,7 @@ var
   I: integer;
   sOrigem, sDestino: string;
 begin
-  pOutput.Exibir('Sincronizando pasta...');
+  pOutput.Exibir('Sincronizando pasta');
   OrigemLista := TList<IFileInfo>.Create;
   DestinoLista := TList<IFileInfo>.Create;
   oDesatualizadosSL := TStringList.Create;
@@ -156,7 +156,7 @@ begin
     OrigemLista.Free;
     DestinoLista.Free;
     oDesatualizadosSL.Free;
-    pOutput.Exibir('Sincronizando pasta fim');
+    pOutput.Exibir('Sincronizando pasta. fim');
   end;
 end;
 

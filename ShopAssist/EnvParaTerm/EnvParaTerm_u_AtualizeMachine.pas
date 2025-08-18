@@ -78,24 +78,26 @@ begin
         (sServIp <> sLocalIp) then
       begin
         try
-//          sSql := 'DELETE FROM MACHINE;';
-//          pTermDM.Connection.ExecSQL(sSql);
+          // sSql := 'UPDATE MACHINE SET MACHINE_ID = ' //
+          // + iServId.ToString //
+          // + ', NOME_NA_REDE = ' //
+          // + ', ' + QuotedStr(sServNome) //
+          // + ', IP = ' //
+          // + ', ' + QuotedStr(sServIp) //
+          // + ';';
 
-          sSql := 'UPDATE MACHINE SET MACHINE_ID = ' //
-            + iServId.ToString //
-            + ', NOME_NA_REDE = ' //
-            + ', ' + QuotedStr(sServNome) //
-            + ', IP = ' //
-            + ', ' + QuotedStr(sServIp) //
-            + ';';
+          sSql := 'UPDATE OR INSERT INTO MACHINE (MACHINE_ID, NOME_NA_REDE, IP) '
+            + 'VALUES (' + iServId.ToString + ', ' + QuotedStr(sServNome) + ', '
+            + QuotedStr(sServIp) + ') MATCHING (MACHINE_ID);';
           pTermDM.Connection.ExecSQL(sSql);
         except
           on e: exception do
           begin
             sMens := 'Erro atualizando machine. Terminal_id = ' +
-              pTermDM.Terminal.TerminalId.ToString+'. '+sSql + '  ' + e.message;
-              Log.Escreva(sMens);
-              //Log_u.EscrevaLog(sMens);
+              pTermDM.Terminal.TerminalId.ToString + '. ' + sSql + '  ' +
+              e.message;
+            Log.Escreva(sMens);
+            // Log_u.EscrevaLog(sMens);
           end;
         end;
       end;
