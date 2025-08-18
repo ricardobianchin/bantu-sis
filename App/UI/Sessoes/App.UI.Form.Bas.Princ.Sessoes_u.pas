@@ -225,6 +225,7 @@ var
   bErroDeu: Boolean;
   sMens: string;
 begin
+  Result := True;
   ProcessLog.PegueLocal
     ('TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop');
   try

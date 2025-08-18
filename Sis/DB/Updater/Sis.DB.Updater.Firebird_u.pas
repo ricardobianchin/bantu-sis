@@ -22,7 +22,7 @@ type
     /// Retorna um valor de <c>TGetDBExisteRetorno</c> indicando se o banco de dados existia,
     /// se n�o existia e foi copiado, ou se n�o existia.
     /// </returns>
-    function GetDBExiste: TGetDBExisteRetorno; override;
+    function DescubraDBExiste: TDBExisteRetorno; override;
 
     procedure CrieDB; override;
     // function GetSqlDbUpdateIns: string; override;
@@ -87,13 +87,13 @@ begin
 end;
 
 // TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
-function TDBUpdaterFirebird.GetDBExiste: TGetDBExisteRetorno;
+function TDBUpdaterFirebird.DescubraDBExiste: TDBExisteRetorno;
 var
   sPastaInstDados, sNomeArqInstDados: string;
   Resultado: Boolean;
 begin
   Result := dbeNaoExistia;
-  ProcessLog.PegueLocal('TDBUpdaterFirebird.GetDBExiste');
+  ProcessLog.PegueLocal('TDBUpdaterFirebird.DescubraDBExiste');
   try
     ProcessLog.RegistreLog('vai testar se existe DBConnectionParams.Arq=' +
       DBConnectionParams.Arq);

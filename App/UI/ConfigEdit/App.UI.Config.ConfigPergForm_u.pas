@@ -1146,7 +1146,12 @@ begin
       end;
     end;
   except
-    Result := False;
+        on e: exception do
+        begin
+          result := false;
+          sMens := 'Erro ao testar terminais: ' + e.message;
+          showmessage(smens);
+        end;
   end;
 end;
 

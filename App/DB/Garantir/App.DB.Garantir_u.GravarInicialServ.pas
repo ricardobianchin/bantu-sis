@@ -4,7 +4,7 @@ interface
 
 uses Sis.DB.DBTypes, Sis.Usuario, Sis.Loja, Sis.UI.IO.Output.ProcessLog,
   Sis.UI.IO.Output, App.AppObj, Sis.Terminal, Sis.Entities.Types,
-  Sis.Types.Bool_u;
+  Sis.Types.Bool_u{, Vcl.Dialogs};
 
 procedure GravarInicialServ(pTerminal: ITerminal;
   rDBConnectionParamsServ: TDBConnectionParams; pAppObj: IAppObj;
@@ -100,7 +100,9 @@ begin
 
     GarantirTerminal(pTerminal, pAppObj, pLoja, pUsuarioAdmin);
 
+    DBExecScript.Sql.SaveToFile('C:\DarosPDV\Garantir serv.sql');
     DBExecScript.Execute;
+//    showmessage('C:\DarosPDV\Garantir serv.sql');
   finally
     DBConnectionServ.Fechar;
     FixedCriticalSection.Free;
