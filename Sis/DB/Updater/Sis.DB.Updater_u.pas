@@ -1,4 +1,4 @@
-unit Sis.DB.Updater_u;
+﻿unit Sis.DB.Updater_u;
 
 interface
 
@@ -10,11 +10,6 @@ uses
   Sis.Terminal, Sis.DB.Updater_u.Teste, Sis.Terminal.DBI;
 
 type
-  TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
-
-  TGetDBExisteRetornoHelper = record helper for TGetDBExisteRetorno
-    function ToString: string;
-  end;
 
   TDBUpdater = class(TInterfacedObject, IDBUpdater)
   private
@@ -52,7 +47,7 @@ type
     FLoja: ISisLoja;
     FUsuarioAdmin: IUsuario;
 
-    FDBExisteRetorno: TGetDBExisteRetorno;
+    FDBExisteRetorno: TDBExisteRetorno;
 
     FsDiretivaAbre: string;
     FsDiretivaFecha: string;
@@ -112,6 +107,9 @@ type
     procedure DoAposCriarBanco;
 
     procedure LinhasUppercase(pSL: TStrings);
+
+    function GetDBExisteRetorno: TDBExisteRetorno;
+    procedure SetDBExisteRetorno(Value: TDBExisteRetorno);
   protected
     property SisConfig: ISisConfig read FSisConfig;
     property ProcessLog: IProcessLog read FProcessLog;
@@ -132,7 +130,7 @@ type
     /// dbeNaoExistiaCopiou - O banco de dados n�o existia e foi copiado.
     /// dbeNaoExistia - O banco de dados n�o existia
     /// </returns>
-    function GetDBExiste: TGetDBExisteRetorno; virtual; abstract;
+    function DescubraDBExiste: TDBExisteRetorno; virtual; abstract;
 
     /// <summary>
     /// Garante a existencia do banco de dados, descobre a vers�o do banco e
@@ -168,6 +166,8 @@ type
     procedure DiretivasAjustaCaracteres; virtual;
     property TerminalId: TTerminalId read FTerminalId;
   public
+    property DBExisteRetorno: TDBExisteRetorno read GetDBExisteRetorno write SetDBExisteRetorno;
+
     function Execute: Boolean;
 
     constructor Create(pTerminalId: TTerminalId;
@@ -250,14 +250,14 @@ end;
 function TDBUpdater.DBDescubraVersaoEConecte: integer;
 var
   sErro: string;
-  eTmp: TGetDBExisteRetorno;
+  eTmp: TDBExisteRetorno;
 begin
   Result := -1;
   FProcessLog.PegueLocal('TDBUpdater.DBDescubraVersaoEConecte');
   try
-    FProcessLog.RegistreLog('vai GetDBExiste, testar se o banco existe');
-    FDBExisteRetorno := GetDBExiste;
-    FProcessLog.RegistreLog('GetDBExiste, retornou ' +
+    FProcessLog.RegistreLog('vai DescubraDBExiste, testar se o banco existe');
+    FDBExisteRetorno := DescubraDBExiste;
+    FProcessLog.RegistreLog('DescubraDBExiste, retornou ' +
       FDBExisteRetorno.ToString);
 
     if not(FDBExisteRetorno = dbeExistia) then
@@ -269,9 +269,9 @@ begin
       end;
 
       FProcessLog.RegistreLog
-        ('vai novamente GetDBExiste, confirmar que o banco agora existe');
-      eTmp := GetDBExiste;
-      FProcessLog.RegistreLog('GetDBExiste, retornou ' + eTmp.ToString);
+        ('vai novamente DescubraDBExiste, confirmar que o banco agora existe');
+      eTmp := DescubraDBExiste;
+      FProcessLog.RegistreLog('DescubraDBExiste, retornou ' + eTmp.ToString);
 
       if not(eTmp = dbeExistia) then
       begin
@@ -308,6 +308,11 @@ begin
   finally
     FProcessLog.RetorneLocal;
   end;
+end;
+
+function TDBUpdater.GetDBExisteRetorno: TDBExisteRetorno;
+begin
+  Result := FDBExisteRetorno;
 end;
 
 destructor TDBUpdater.Destroy;
@@ -493,7 +498,7 @@ begin
 
     if bDeveGravarIniciais then
     begin
-      GravarIniciais(DBConnection);
+        GravarIniciais(DBConnection);
     end;
   finally
     FProcessLog.RegistreLog('DBConnection.Fechar');
@@ -1094,6 +1099,11 @@ begin
   end;
 end;
 
+procedure TDBUpdater.SetDBExisteRetorno(Value: TDBExisteRetorno);
+begin
+  FDBExisteRetorno := Value;
+end;
+
 procedure TDBUpdater.SetiVersao(const Value: integer);
 begin
   FiVersao := Value;
@@ -1145,22 +1155,6 @@ begin
   // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\00\dbupdate 000000084.txt'
   // sNomeArq = 'C:\Pr\app\bantu\bantu-sis\Exe\Inst\Update\DBUpdates\000\00\00\01\dbupdate 000000100.txt'
   Result := sNomeArq;
-end;
-
-{ TGetDBExisteRetornoHelper }
-
-function TGetDBExisteRetornoHelper.ToString: string;
-begin
-  case Self of
-    dbeExistia:
-      Result := 'dbeExistia'; // 'Existia';
-    dbeNaoExistiaCopiou:
-      Result := 'dbeNaoExistiaCopiou'; // 'N�o existia, copiou';
-    dbeNaoExistia:
-      Result := 'dbeNaoExistia'; // 'N�o existia';
-  else
-    Result := 'Desconhecido';
-  end;
 end;
 
 end.

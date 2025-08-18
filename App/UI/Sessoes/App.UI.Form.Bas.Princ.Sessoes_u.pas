@@ -9,14 +9,14 @@ uses
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.Imaging.pngimage, App.UI.Sessoes.Frame_u, App.Sessao.EventosDeSessao,
   Sis.UI.Form.Login.Config, App.Constants, App.Sessao, Sis.UI.IO.Files;
+
 const
 {$IFDEF DEBUG}
   AUTO_OCULTAR = TRUE;
-  //AUTO_OCULTAR = FALSE;
+  // AUTO_OCULTAR = FALSE;
 {$ELSE}
   AUTO_OCULTAR = TRUE;
 {$ENDIF}
-
 
 type
   TSessoesPrincBasForm = class(TPrincBasForm)
@@ -41,7 +41,7 @@ type
 
     procedure AppComandoExecute(var pComando: string); override;
     function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
-        procedure DoSegundaInstancia; override;
+    procedure DoSegundaInstancia; override;
     property LoginConfig: ILoginConfig read FLoginConfig;
 
     { procedure DoCancel;
@@ -184,7 +184,7 @@ begin
     begin
       Key := 0;
       OcultarAction_SessoesPrincBasForm.Execute;
-      //FecharAction_ActBasForm.Execute;
+      // FecharAction_ActBasForm.Execute;
     end;
   end;
   FSessoesFrame.ExecutouPeloShortCut(Key, Shift);
@@ -225,80 +225,86 @@ var
   bErroDeu: Boolean;
   sMens: string;
 begin
-  ProcessLog.PegueLocal('TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop');
+  Result := True;
+  ProcessLog.PegueLocal
+    ('TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop');
   try
-  sl := FSessoesFrame.TerminaisPreparadosSL;
-  sPastaDesktop := Sis.Win.Utils_u.GetPublicDesktopPath;
+    sl := FSessoesFrame.TerminaisPreparadosSL;
+    sPastaDesktop := Sis.Win.Utils_u.GetPublicDesktopPath;
 
-  ProcessLog.RegistreLog('FSessoesFrame.TerminaisPreparadosSL='#13#10+FSessoesFrame.TerminaisPreparadosSL.text+#13#10);
+    ProcessLog.RegistreLog('FSessoesFrame.TerminaisPreparadosSL='#13#10 +
+      FSessoesFrame.TerminaisPreparadosSL.text + #13#10);
 
-  SLExistentes := TStringList.Create;
-  SLDevemSer := TStringList.Create;
-  SLScript := TStringList.Create;
-  sExe := ParamStr(0);
-  sStartIn := GetPastaDoArquivo(sExe);
-  try
-    repeat
-      SLDevemSer.Clear;
-      for i := 0 to sl.Count - 1 do
-      begin
-        SLDevemSer.Add(sl[i] + '.lnk');
-      end;
+    SLExistentes := TStringList.Create;
+    SLDevemSer := TStringList.Create;
+    SLScript := TStringList.Create;
+    sExe := ParamStr(0);
+    sStartIn := GetPastaDoArquivo(sExe);
+    try
+      repeat
+        SLDevemSer.Clear;
+        for i := 0 to sl.Count - 1 do
+        begin
+          SLDevemSer.Add(sl[i] + '.lnk');
+        end;
 
-      //le diretorio
-      ProcessLog.RegistreLog('SLDevemSer='#13#10+SLDevemSer.text+#13#10);
-      LeDiretorio(sPastaDesktop, SLExistentes, True, 'PDV*.lnk');
-      ProcessLog.RegistreLog('SLExistentes='#13#10+SLExistentes.text+#13#10);
+        // le diretorio
+        ProcessLog.RegistreLog('SLDevemSer='#13#10 + SLDevemSer.text + #13#10);
+        LeDiretorio(sPastaDesktop, SLExistentes, TRUE, 'PDV*.lnk');
+        ProcessLog.RegistreLog('SLExistentes='#13#10 + SLExistentes.text
+          + #13#10);
 
-      //delete iguais
-      ProcessLog.RegistreLog('vai DeleteItensIguais');
-      Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
-      ProcessLog.RegistreLog('DeleteItensIguais voltou');
+        // delete iguais
+        ProcessLog.RegistreLog('vai DeleteItensIguais');
+        Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
+        ProcessLog.RegistreLog('DeleteItensIguais voltou');
 
-      ProcessLog.RegistreLog('SLDevemSer='#13#10+SLDevemSer.text+#13#10);
-      ProcessLog.RegistreLog('SLExistentes='#13#10+SLExistentes.text+#13#10);
+        ProcessLog.RegistreLog('SLDevemSer='#13#10 + SLDevemSer.text + #13#10);
+        ProcessLog.RegistreLog('SLExistentes='#13#10 + SLExistentes.text
+          + #13#10);
 
-      //apague arqs
-      ProcessLog.RegistreLog('vai ApagueArquivos');
-      Sis.UI.IO.Files.ApagueArquivos(sPastaDesktop, SLExistentes);
-      ProcessLog.RegistreLog('ApagueArquivos voltou');
+        // apague arqs
+        ProcessLog.RegistreLog('vai ApagueArquivos');
+        Sis.UI.IO.Files.ApagueArquivos(sPastaDesktop, SLExistentes);
+        ProcessLog.RegistreLog('ApagueArquivos voltou');
 
-      Result := SLDevemSer.Count = 0;
-      ProcessLog.RegistreLog('SLDevemSer.Count='+SLDevemSer.Count.ToString);
+        Result := SLDevemSer.Count = 0;
+        ProcessLog.RegistreLog('SLDevemSer.Count=' + SLDevemSer.Count.ToString);
 
-      if Result then
-      begin
-        ProcessLog.RegistreLog('SLDevemSer.Count=0, abortando');
-        break;
-      end;
+        if Result then
+        begin
+          ProcessLog.RegistreLog('SLDevemSer.Count=0, abortando');
+          break;
+        end;
 
-      sPerg := 'O Sistema precisará de autorização de Administrador'#13#10 +
-        'para criar atalhos no Desktop';
+        sPerg := 'O Sistema precisará de autorização de Administrador'#13#10 +
+          'para criar atalhos no Desktop';
 
-      Result := App.UI.Form.Perg_u.Perg(sPerg, 'Criar atalhos no Desktop',
-        TBooleanDefault.boolTrue, '&Aceito', '&Fechar o Sistema');
-      if not Result then
-      begin
-        ProcessLog.RegistreLog('usuario cancelou, abortando');
-        exit;
-      end;
+        Result := App.UI.Form.Perg_u.Perg(sPerg, 'Criar atalhos no Desktop',
+          TBooleanDefault.boolTrue, '&Aceito', '&Fechar o Sistema');
+        if not Result then
+        begin
+          ProcessLog.RegistreLog('usuario cancelou, abortando');
+          exit;
+        end;
 
-      for i := 0 to SLDevemSer.Count - 1 do
-      begin
-        sTermId := ExtractFileNameOnly(SLDevemSer[i]);
-        Sis.Win.Utils_u.AddScriptCriaAtalho(SLScript, AppInfo.PastaComandos,
-          sPastaDesktop, sTermId, sExe, sTermId, sStartIn);
-      end;
-      ProcessLog.RegistreLog('AddScriptCriaAtalho SLScript='#13#10+SLScript.text+#13#10);
-
-      Sis.Win.Utils_u.ExecutePowerShellScript(AppInfo.PastaComandos,
-        'Cria Atalho', SLScript, bErroDeu, sMens, nil, ProcessLog);
-    until false;
-  finally
-    SLExistentes.Free;
-    SLDevemSer.Free;
-    SLScript.Free;
-  end;
+        for i := 0 to SLDevemSer.Count - 1 do
+        begin
+          sTermId := ExtractFileNameOnly(SLDevemSer[i]);
+          Sis.Win.Utils_u.AddScriptCriaAtalho(SLScript, AppInfo.PastaComandos,
+            sPastaDesktop, sTermId, sExe, sTermId, sStartIn);
+        end;
+        ProcessLog.RegistreLog('AddScriptCriaAtalho SLScript='#13#10 +
+          SLScript.text + #13#10);
+        SLScript.SaveToFile( AppInfo.PastaComandos+'cria atalho tmp.ps1');
+        Sis.Win.Utils_u.ExecutePowerShellScript(AppInfo.PastaComandos,
+          'Cria Atalho', SLScript, bErroDeu, sMens, ProcessOutput, ProcessLog);
+      until false;
+    finally
+      SLExistentes.Free;
+      SLDevemSer.Free;
+      SLScript.Free;
+    end;
   finally
     ProcessLog.RegistreLog('Terminou');
     ProcessLog.RetorneLocal;

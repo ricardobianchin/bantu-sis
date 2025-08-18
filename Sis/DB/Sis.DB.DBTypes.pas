@@ -7,6 +7,12 @@ uses
   Sis.UI.IO.Output, Sis.Sis.Nomeavel, Sis.Config.ConfigXMLI, Sis.Entities.Types;
 
 type
+  TDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
+
+  TGetDBExisteRetornoHelper = record helper for TDBExisteRetorno
+    function ToString: string;
+  end;
+
   TIdLojaTermRecord = record
     LojaId: TLojaId;
     TerminalId: TTerminalId;
@@ -634,6 +640,22 @@ begin
   LojaId := 0;
   TerminalId := 0;
   Id := 0;
+end;
+
+{ TGetDBExisteRetornoHelper }
+
+function TGetDBExisteRetornoHelper.ToString: string;
+begin
+  case Self of
+    dbeExistia:
+      Result := 'dbeExistia'; // 'Existia';
+    dbeNaoExistiaCopiou:
+      Result := 'dbeNaoExistiaCopiou'; // 'Nao existia, copiou';
+    dbeNaoExistia:
+      Result := 'dbeNaoExistia'; // 'Nao existia';
+  else
+    Result := 'Desconhecido';
+  end;
 end;
 
 end.

@@ -381,7 +381,7 @@ object ConfigPergForm: TConfigPergForm
       object TerminaisErroLabel: TLabel
         Left = 2
         Top = 318
-        Width = 96
+        Width = 591
         Height = 13
         Align = alBottom
         Caption = 'TerminaisErroLabel'
@@ -392,6 +392,7 @@ object ConfigPergForm: TConfigPergForm
         Font.Style = []
         ParentFont = False
         StyleElements = [seClient, seBorder]
+        ExplicitWidth = 96
       end
     end
   end

@@ -290,7 +290,6 @@ begin
   pProcessLog.PegueLocal('ExecutePowerShellScript');
   try
     pPastaComandos := GarantaPasta(pPastaComandos);
-    // Garante a pasta e adiciona barra final
     sNomeScript := pPastaComandos +
       StrToNomeArq('PowerShell ' + pAssunto) + '.ps1';
 
