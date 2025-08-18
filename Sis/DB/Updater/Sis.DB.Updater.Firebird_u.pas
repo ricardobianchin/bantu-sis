@@ -1,9 +1,10 @@
-unit Sis.DB.Updater.Firebird_u;
+﻿unit Sis.DB.Updater.Firebird_u;
 
 interface
 
 uses Sis.DB.Updater_u, Sis.DB.DBTypes, Sis.Config.SisConfig,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario, Sis.Entities.Types;
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, Sis.Loja, Sis.Usuario,
+  Sis.Entities.Types;
 
 // upd ates especifico para firebird, no pai, funcito q diz se existe o arq dados
 type
@@ -13,7 +14,7 @@ type
 
     // procedure AtualizeBanco;virtual; abstract;
     function GetNomeBanco: string; override;
-    
+
     /// <summary>
     /// Verifica se o banco de dados existe.
     /// </summary>
@@ -27,10 +28,11 @@ type
     // function GetSqlDbUpdateIns: string; override;
     // function GetSqlDbUpdateGetMax: string; override;
   public
-    constructor Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
-      pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-      pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
-      pUsuarioAdmin: IUsuario; pVariaveis: string);
+    constructor Create(pTerminalId: TTerminalId;
+      pDBConnectionParams: TDBConnectionParams; pPastaProduto: string;
+      pDBMS: IDBMS; pSisConfig: ISisConfig; pProcessLog: IProcessLog;
+      pOutput: IOutput; pLoja: ISisLoja; pUsuarioAdmin: IUsuario;
+      pVariaveis: string);
   end;
 
 implementation
@@ -41,16 +43,16 @@ uses System.SysUtils, System.StrUtils, Winapi.Windows, System.Variants,
 
 { TDBUpdaterFirebird }
 
-constructor TDBUpdaterFirebird.Create(pTerminalId: TTerminalId; pDBConnectionParams: TDBConnectionParams;
-  pPastaProduto: string; pDBMS: IDBMS; pSisConfig: ISisConfig;
-  pProcessLog: IProcessLog; pOutput: IOutput; pLoja: ISisLoja;
-  pUsuarioAdmin: IUsuario; pVariaveis: string);
+constructor TDBUpdaterFirebird.Create(pTerminalId: TTerminalId;
+  pDBConnectionParams: TDBConnectionParams; pPastaProduto: string; pDBMS: IDBMS;
+  pSisConfig: ISisConfig; pProcessLog: IProcessLog; pOutput: IOutput;
+  pLoja: ISisLoja; pUsuarioAdmin: IUsuario; pVariaveis: string);
 begin
   pProcessLog.PegueLocal('TDBUpdaterFirebird.Create');
   try
     pProcessLog.RegistreLog('vai inherited Create');
-    inherited Create(pTerminalId, pDBConnectionParams, pPastaProduto, pDBMS, pSisConfig,
-      pProcessLog, pOutput, pLoja, pUsuarioAdmin, pVariaveis);
+    inherited Create(pTerminalId, pDBConnectionParams, pPastaProduto, pDBMS,
+      pSisConfig, pProcessLog, pOutput, pLoja, pUsuarioAdmin, pVariaveis);
   finally
     pProcessLog.RegistreLog('fim');
     pProcessLog.RetorneLocal;
@@ -84,7 +86,7 @@ begin
   end;
 end;
 
-//  TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
+// TGetDBExisteRetorno = (dbeExistia, dbeNaoExistiaCopiou, dbeNaoExistia);
 function TDBUpdaterFirebird.GetDBExiste: TGetDBExisteRetorno;
 var
   sPastaInstDados, sNomeArqInstDados: string;
@@ -113,29 +115,30 @@ begin
     ProcessLog.RegistreLog('sPastaInstDados=' + sPastaInstDados);
 
     GarantaPasta(sPastaInstDados);
-    sNomeArqInstDados := ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
+    sNomeArqInstDados :=
+      ChangeFileExt(ExtractFileName(DBConnectionParams.Arq), '');
     if TerminalId > 0 then
     begin
       StrDeleteNoFim(sNomeArqInstDados, 4);
     end;
-(*
-    if SisConfig.WinVersionInfo.Version <= 6.1 then
-    begin
-
-    end
-    else
-    begin
-      sNomeArqInstDados := sNomeArqInstDados + '5';
-      if SisConfig.WinVersionInfo.WinPlatform = wplatWin64 then
+    (*
+      if SisConfig.WinVersionInfo.Version <= 6.1 then
       begin
-        sNomeArqInstDados := sNomeArqInstDados + '32'; //+ '64';//NAO DEPENDE DA PLATAFORMA, MAS DA VARSAO DO FIREBIRD, SEMPRE 32
+
       end
       else
       begin
-        sNomeArqInstDados := sNomeArqInstDados + '32';
+      sNomeArqInstDados := sNomeArqInstDados + '5';
+      if SisConfig.WinVersionInfo.WinPlatform = wplatWin64 then
+      begin
+      sNomeArqInstDados := sNomeArqInstDados + '32'; //+ '64';//NAO DEPENDE DA PLATAFORMA, MAS DA VARSAO DO FIREBIRD, SEMPRE 32
+      end
+      else
+      begin
+      sNomeArqInstDados := sNomeArqInstDados + '32';
       end;
-    end;
-*)
+      end;
+    *)
     sNomeArqInstDados := sNomeArqInstDados + '_v5_32bits';
     sNomeArqInstDados := sPastaInstDados + sNomeArqInstDados + '.fdb';
 
@@ -157,18 +160,18 @@ begin
 
     ProcessLog.RegistreLog('vai testar se existe');
     Resultado := FileExists(DBConnectionParams.Arq);
-    ProcessLog.RegistreLog('Resultado=' + BooleanToStr(resultado));
+    ProcessLog.RegistreLog('Resultado=' + BooleanToStr(Resultado));
     if not Resultado then
       Result := dbeNaoExistia;
   finally
-    ProcessLog.RegistreLog('Resultado=' + BooleanToStr(resultado));
+    ProcessLog.RegistreLog('Resultado=' + BooleanToStr(Resultado));
     ProcessLog.RetorneLocal;
   end;
 end;
 
 function TDBUpdaterFirebird.GetNomeBanco: string;
 begin
-  result := 'FIREBIRD';
+  Result := 'FIREBIRD';
 end;
 
 // function TDBUpdaterFirebird.GetSqlDbUpdateGetMax: string;

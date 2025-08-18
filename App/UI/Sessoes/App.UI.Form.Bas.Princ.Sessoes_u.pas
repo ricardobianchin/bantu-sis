@@ -295,9 +295,9 @@ begin
         end;
         ProcessLog.RegistreLog('AddScriptCriaAtalho SLScript='#13#10 +
           SLScript.text + #13#10);
-
+        SLScript.SaveToFile( AppInfo.PastaComandos+'cria atalho tmp.ps1');
         Sis.Win.Utils_u.ExecutePowerShellScript(AppInfo.PastaComandos,
-          'Cria Atalho', SLScript, bErroDeu, sMens, nil, ProcessLog);
+          'Cria Atalho', SLScript, bErroDeu, sMens, ProcessOutput, ProcessLog);
       until false;
     finally
       SLExistentes.Free;

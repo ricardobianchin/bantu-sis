@@ -259,11 +259,6 @@ var
 begin
   FConfigPergTeste.LerIni;
 
-  if FConfigPergTeste.TesteMaqLocalBuscaNome then
-  begin
-    BuscaLocalNomeAction.Execute;
-  end;
-
   EhServidorCheckBox.Checked := FConfigPergTeste.TesteEhServ;
   ServerArqConfigLabeledEdit.Text := FConfigPergTeste.ServerArqConfig;
   if ServerArqConfigLabeledEdit.Text <> '' then
@@ -272,7 +267,6 @@ begin
     ConfigArqLeiaDoServ(sNomeArq, sNomeNaRede, sIp);
     ServerMaqFrame.NomeLabeledEdit.Text := sNomeNaRede;
     ServerMaqFrame.IpLabeledEdit.Text := sIp;
-    TinhaTerm;
   end;
 
   if FConfigPergTeste.TesteLojaPreenche then
@@ -280,6 +274,15 @@ begin
     LojaIdLabeledEdit.Text := FConfigPergTeste.TesteLojaId.ToString;
     LojaApelidoLabeledEdit.Text := FConfigPergTeste.TesteLojaApelido;
   end;
+
+  if FConfigPergTeste.TesteMaqLocalBuscaNome then
+  begin
+    BuscaLocalNomeAction.Execute;
+  end;
+
+  Application.ProcessMessages;
+  if ServerArqConfigLabeledEdit.Text <> '' then
+    TinhaTerm;
 
   if FConfigPergTeste.TesteUsuPreenche then
   begin
@@ -292,7 +295,7 @@ begin
     UsuAdminExibSenhaCheckBox.Checked := FConfigPergTeste.TesteUsuExibSenha;
     FTerminaisDBGridFrame.SimuleIns;
   end;
-
+  Application.ProcessMessages;
   if FConfigPergTeste.TesteExecutaOk then
     OkAct.Execute;
 end;
@@ -972,6 +975,7 @@ function TConfigPergForm.TinhaTerm: boolean;
 var
   bR1, bR2: boolean;
   sServ: string;
+  sTerm: string;
 begin
   if EhServidorCheckBox.Checked then
     sServ := LocalMaqFrame.NomeLabeledEdit.Text
@@ -979,6 +983,12 @@ begin
     sServ := ServerMaqFrame.NomeLabeledEdit.Text;
 
   result := sServ <> '';
+  if not result then
+    exit;
+
+  sTerm := LocalMaqFrame.NomeLabeledEdit.Text;
+
+  result := sTerm <> '';
   if not result then
     exit;
 
@@ -1144,7 +1154,7 @@ function TConfigPergForm.TinhaTermNoHD: boolean;
 var
   sSqlTerminalGet: string;
   sSqlIdNoServ: string;
-  sMasc: string;
+  sMascNomeArqTerm: string;
   NomesArqSL: TStringList;
   sTerm: string;
   TermFDConnection: TFDConnection;
@@ -1221,12 +1231,13 @@ begin
     + 'IM.IMPRESSORA_MODELO_ID = T.IMPRESSORA_MODELO_ID'#13#10 //
     ;
 
-  sMasc := 'DADOS_' + AtividadeEconomicaSisDescr
+  sMascNomeArqTerm := 'DADOS_' + AtividadeEconomicaSisDescr
     [FAppObj.AppInfo.AtividadeEconomicaSis] + '_TERMINAL_???.FDB';
 
   NomesArqSL := TStringList.Create;
   TermFDConnection := TFDConnection.Create(Nil);
   try
+    // preenche os params fixos
     TermFDConnection.Params.Text := //
       'Protocol=TCPIP'#13#10 //
       + 'User_Name=sysdba'#13#10 //
@@ -1235,24 +1246,30 @@ begin
       + 'Server=' + sTerm + #13#10 //
       ;
 
-    LeDiretorio(FAppObj.AppInfo.PastaDados, NomesArqSL, true, sMasc);
+    // busca term fdb local
+    LeDiretorio(FAppObj.AppInfo.PastaDados, NomesArqSL, true, sMascNomeArqTerm);
 
     result := NomesArqSL.Count > 0;
-    if not result then
+    if not result then // nao tinha, aborta
       exit;
 
     iQtdAdicionados := 0;
     result := false;
-    for i := 0 to NomesArqSL.Count - 1 do
+    for i := 0 to NomesArqSL.Count - 1 do // pra cada arquivo do hd
     begin
       sLocalArq := FAppObj.AppInfo.PastaDados + NomesArqSL[i];
 
+      // usa nome do arquivo pra descobrir termnal_id
       iTerminalId := NomeArqToTerminalId(sLocalArq);
+
+      // testa se ja tinha este tem no memtable
       bResultado := FTerminaisDBGridFrame.FDMemTable1.Locate('TERMINAL_ID',
         iTerminalId, []);
       if bResultado then
-        Continue;
+        Continue;//ja dinha, aborta este arquivo local
 
+      // certifica-se que este term nao tem no serv.
+      // se tiver, nao precisa cadastra
       ServFDConnection.Connected := false;
       ServFDConnection.Connected := true;
       try
@@ -1268,8 +1285,9 @@ begin
       end;
 
       if not bResultado then
-        Continue;
+        Continue;//nao veio empty, ja tinha no serv, aborta este arq local
 
+      // preenche os params que mudam a cada iteração
       TermFDConnection.Params.Values['Database'] := sLocalArq;
       TermFDConnection.Connected := true;
       try
@@ -1279,9 +1297,9 @@ begin
 
         if q.FieldByName('TERMINAL_ID').AsInteger = 0 then
         begin
-          ShowMessage
-            ('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10
-            + sLocalArq);
+//          ShowMessage
+//            ('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10
+//            + sLocalArq);
           Continue;
         end;
 

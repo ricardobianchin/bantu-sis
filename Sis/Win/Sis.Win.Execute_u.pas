@@ -3,8 +3,8 @@
 interface
 
 uses Sis.Win.Execute, Sis.Sis.Executavel_u, ShellApi, Windows,
-  Sis.UI.IO.Output, System.SysUtils, System.Classes,
-  Sis.UI.IO.Output.ProcessLog;
+  Sis.UI.IO.Output, System.SysUtils, System.Classes,Vcl.Controls,
+  Sis.UI.IO.Output.ProcessLog, Vcl.Dialogs;
 
 type
   TWinExecute = class(TExecutavel, IWinExecute)
@@ -37,7 +37,7 @@ type
 
 implementation
 
-uses Vcl.Forms;
+uses Vcl.Forms, Sis.UI.IO.Files;
 
 { TWinExecute }
 
@@ -122,6 +122,7 @@ end;
 
 function TWinExecute.Execute: boolean;
 begin
+  Output.Exibir('Vai executar '+ExtractFileName(FExecuteFile));
   ProcessLog.PegueLocal('TWinExecute.Execute');
   try
     ProcessLog.RegistreLog('vai ShellExecuteEx');
@@ -171,7 +172,8 @@ begin
         inc(iQtdExib);
         pOutput.Exibir('Aguardando a execução... ' + IntToStr(iQtdVoltas));
       end;
-
+//      if IsPositiveResult(MessageDlg('abortar?', mtconfirmation, [mbyes, mbno], 0)) then
+//        break;
       inc(iQtdVoltas);
     until False;
 
