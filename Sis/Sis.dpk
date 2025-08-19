@@ -9,21 +9,21 @@ package Sis;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -336,6 +336,11 @@ contains
   Sis.UI.Impressao.Types_u in 'UI\Impr\Sis.UI.Impressao.Types_u.pas',
   Sis.UI.Form.Login.Teste in 'Usuario\Sis.UI.Form.Login.Teste.pas',
   Sis.Sis.InstanciaAtomica_u in 'Sis\IAtom\Sis.Sis.InstanciaAtomica_u.pas',
-  Sis.UI.IO.Files.ApagueAntigos_u in 'UI\IO\Files\Sis.UI.IO.Files.ApagueAntigos_u.pas';
+  Sis.UI.IO.Files.ApagueAntigos_u in 'UI\IO\Files\Sis.UI.IO.Files.ApagueAntigos_u.pas',
+  Sis.Win.ShortCutCreator.Factory_u in 'Win\ShortCutCreator\Sis.Win.ShortCutCreator.Factory_u.pas',
+  Sis.Win.ShortCutCreator in 'Win\ShortCutCreator\Sis.Win.ShortCutCreator.pas',
+  Sis.Win.ShortCutCreator.PowerShell_u in 'Win\ShortCutCreator\Sis.Win.ShortCutCreator.PowerShell_u.pas',
+  Sis.Win.ShortCutCreator_u in 'Win\ShortCutCreator\Sis.Win.ShortCutCreator_u.pas',
+  Sis.Win.ShortCutCreator.Bat_u in 'Win\ShortCutCreator\Sis.Win.ShortCutCreator.Bat_u.pas';
 
 end.
