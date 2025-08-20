@@ -200,8 +200,6 @@ begin
   while not Tab.IsEmpty do
     Tab.Delete;
 
-  exit;
-
   PegarIdMaquina(sNome, sIp);
 
   Tab.append;

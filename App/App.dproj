@@ -954,6 +954,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <DCCReference Include="Est\Prod\App.Prod.BuscaTipo_u.pas"/>
         <DCCReference Include="UI\Sessoes\App.UI.Sessao.LoginTeste_u.pas"/>
         <DCCReference Include="Sessao\App.Sessao_u.pas"/>
+        <DCCReference Include="UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u.pas"/>
+        <DCCReference Include="UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor.pas"/>
         <None Include="..\..\Exe\Configs\Login.Config.xml"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <None Include="..\..\Exe\Configs\app.testes.config.xml"/>

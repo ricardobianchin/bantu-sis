@@ -40,7 +40,7 @@ type
     FLogo1NomeArq: string;
 
     function GetSessao(Index: integer): ISessao;
-    procedure PrepareListaDeCriadoresEBotoes(pTerminaisPreparadosSL: TStrings);
+    procedure PrepareListaDeCriadoresEBotoes(pTerminaisComIconeSL: TStrings);
     procedure BotSessaoAlign;
     procedure PrepareListaDeCriadoresEBotoesToolBar;
 
@@ -70,7 +70,7 @@ type
 
     // cria sessao
 
-    TerminaisPreparadosSL: TStringList;
+    TerminaisComIconeSL: TStringList;
     procedure BotSessaoClick(Sender: TObject);
     procedure ExecuteAutoLogin;
 
@@ -235,7 +235,7 @@ constructor TSessoesFrame.Create(AOwner: TComponent; pLoginConfig: ILoginConfig;
   { pEventosDeSessao: IEventosDeSessao; } pAppObj: IAppObj);
 begin
   inherited Create(AOwner);
-  TerminaisPreparadosSL := TStringList.Create;
+  TerminaisComIconeSL := TStringList.Create;
   FBotList := TList<TBotaoModuloFrame>.Create;
   FAppObj := pAppObj;
   FLoginTeste := LoginTesteCreate(FAppObj);
@@ -249,7 +249,7 @@ begin
   // ToolBar1.Images := SisImgDataModule.PrincImageList89;
   ActionList1.Images := SisImgDataModule.PrincImageList89;
   FLogo1NomeArq := FAppObj.AppInfo.PastaImg + 'App\Logo Tela.jpg';
-  PrepareListaDeCriadoresEBotoes(TerminaisPreparadosSL);
+  PrepareListaDeCriadoresEBotoes(TerminaisComIconeSL);
   BotSessaoAlign;
   // PrepareListaDeCriadoresEBotoesActionList;
   // PrepareListaDeCriadoresEBotoesToolBar;
@@ -274,7 +274,7 @@ end;
 
 destructor TSessoesFrame.Destroy;
 begin
-  TerminaisPreparadosSL.Free;
+  TerminaisComIconeSL.Free;
   FBotList.Free;
   inherited;
 end;
@@ -498,7 +498,7 @@ begin
   FEventosDeSessao := pEventosDeSessao;
 end;
 
-procedure TSessoesFrame.PrepareListaDeCriadoresEBotoes(pTerminaisPreparadosSL
+procedure TSessoesFrame.PrepareListaDeCriadoresEBotoes(pTerminaisComIconeSL
   : TStrings);
 var
   oSessaoCriador: ISessaoCriador;
@@ -510,7 +510,7 @@ var
   oTerminal: ITerminal;
   I: integer;
 begin
-  pTerminaisPreparadosSL.Clear;
+  pTerminaisComIconeSL.Clear;
   vShortCut := TextToShortCut('F3');
 
   FSessaoCriadorList := SessaoCriadorListCreate;
@@ -597,7 +597,7 @@ begin
     oBotaoModuloFrame.Tit2 := sTit2;
     oBotaoModuloFrame.OnBotaoClick := BotSessaoClick;
     oBotaoModuloFrame.TerminalId := oTerminal.TerminalId;
-    pTerminaisPreparadosSL.Add('PDV ' + oTerminal.TerminalId.ToString);
+    pTerminaisComIconeSL.Add('PDV ' + oTerminal.TerminalId.ToString);
     oBotaoModuloFrame.ShortCut := vShortCut;
 
     inc(vShortCut);

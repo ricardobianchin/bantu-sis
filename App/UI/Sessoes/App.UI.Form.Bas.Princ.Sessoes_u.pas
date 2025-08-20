@@ -8,7 +8,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ_u, System.Actions,
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.Imaging.pngimage, App.UI.Sessoes.Frame_u, App.Sessao.EventosDeSessao,
-  Sis.UI.Form.Login.Config, App.Constants, App.Sessao, Sis.UI.IO.Files;
+  Sis.UI.Form.Login.Config, App.Constants, App.Sessao, Sis.UI.IO.Files,
+  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor;
 
 const
 {$IFDEF DEBUG}
@@ -34,8 +35,8 @@ type
     FEventosDeSessao: IEventosDeSessao;
 
     FLoginConfig: ILoginConfig;
+    FAtalhosGarantidor: IAtalhosGarantidor;
     procedure SessoesFrameCriar;
-    function SessoesFrameGarantirAtalhosDesktop: Boolean;
   protected
     procedure ExeParamsDecida; override;
 
@@ -68,8 +69,7 @@ implementation
 
 uses App.Sessao.Factory, Sis.Usuario.Factory, Sis.Sis.InstanciaAtomica_u,
   System.Generics.Collections, Sis.Entities.Types, Sis.Types.Integers,
-  Sis.Win.Utils_u, Sis.Types.TStrings_u, App.UI.Form.Perg_u, Sis.Types.Utils_u,
-  Sis.Win.ShortCutCreator, Sis.Win.Factory;
+  Sis.Win.Utils_u, Sis.Types.TStrings_u, App.UI.Form.Perg_u, Sis.Types.Utils_u;
 
 procedure TSessoesPrincBasForm.AppComandoExecute(var pComando: string);
 var
@@ -121,15 +121,19 @@ begin
     SessoesFrameCriar;
     sLog := sLog + ';SessoesFrameCriar retornou';
 
-    sLog := sLog + ';vai SessoesFrameGarantirAtalhosDesktop';
-    PrecisaFechar := not SessoesFrameGarantirAtalhosDesktop;
+    sLog := sLog + ';FAtalhosGarantidor := AtalhosGarantidorCreate';
+    FAtalhosGarantidor := AtalhosGarantidorCreate
+      (AppInfo, FSessoesFrame.TerminaisComIconeSL, ProcessOutput, ProcessLog);
+    sLog := sLog + ';vai FAtalhosGarantidor.Execute';
+    PrecisaFechar := not FAtalhosGarantidor.Execute;
+
     if PrecisaFechar then
     begin
       sLog := sLog +
-        ';SessoesFrameGarantirAtalhosDesktop retonou false. vai abortar o sistema';
+        ';FAtalhosGarantidor.Execute retonou False. vai abortar o sistema';
       exit;
     end;
-    sLog := sLog + ';SessoesFrameGarantirAtalhosDesktop retornou ok';
+    sLog := sLog + ';FAtalhosGarantidor.Execute retornou True, ok';
 
     sLog := sLog + ';vai EventosDeSessaoCreate';
     FEventosDeSessao := EventosDeSessaoCreate;
@@ -208,107 +212,6 @@ begin
   // StatusLabel.left := 30;
 
   ProcessOutput.Ativo := false;
-end;
-
-function TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop: Boolean;
-var
-  sl: TStrings;
-  i: integer;
-  iQtd: integer;
-  sPastaDesktop: string;
-  SLExistentes: TStringList;
-  SLDevemSer: TStringList;
-  sExe: string;
-  sTermId: string;
-  sStartIn: string;
-  sPerg: string;
-  bErroDeu: Boolean;
-  sMens: string;
-  oShortCutCreator: IShortCutCreator;
-begin
-  Result := True;
-  ProcessLog.PegueLocal
-    ('TSessoesPrincBasForm.SessoesFrameGarantirAtalhosDesktop');
-  try
-    sl := FSessoesFrame.TerminaisPreparadosSL;
-    sPastaDesktop := Sis.Win.Utils_u.GetPublicDesktopPath;
-
-    ProcessLog.RegistreLog('FSessoesFrame.TerminaisPreparadosSL='#13#10 +
-      FSessoesFrame.TerminaisPreparadosSL.text + #13#10);
-
-    SLExistentes := TStringList.Create;
-    SLDevemSer := TStringList.Create;
-    sExe := ParamStr(0);
-    sStartIn := GetPastaDoArquivo(sExe);
-    try
-      repeat
-        SLDevemSer.Clear;
-        for i := 0 to sl.Count - 1 do
-        begin
-          SLDevemSer.Add(sl[i] + '.lnk');
-        end;
-
-        // le diretorio
-        ProcessLog.RegistreLog('SLDevemSer='#13#10 + SLDevemSer.text + #13#10);
-        LeDiretorio(sPastaDesktop, SLExistentes, TRUE, 'PDV*.lnk');
-        ProcessLog.RegistreLog('SLExistentes='#13#10 + SLExistentes.text
-          + #13#10);
-
-        // delete iguais
-        ProcessLog.RegistreLog('vai DeleteItensIguais');
-        Sis.Types.TStrings_u.DeleteItensIguais(SLExistentes, SLDevemSer);
-        ProcessLog.RegistreLog('DeleteItensIguais voltou');
-
-        ProcessLog.RegistreLog('SLDevemSer='#13#10 + SLDevemSer.text + #13#10);
-        ProcessLog.RegistreLog('SLExistentes='#13#10 + SLExistentes.text
-          + #13#10);
-
-        // apague arqs
-        ProcessLog.RegistreLog('vai ApagueArquivos');
-        Sis.UI.IO.Files.ApagueArquivos(sPastaDesktop, SLExistentes);
-        ProcessLog.RegistreLog('ApagueArquivos voltou');
-
-        Result := SLDevemSer.Count = 0;
-        ProcessLog.RegistreLog('SLDevemSer.Count=' + SLDevemSer.Count.ToString);
-
-        if Result then
-        begin
-          ProcessLog.RegistreLog('SLDevemSer.Count=0, abortando');
-          break;
-        end;
-
-        sPerg := 'O Sistema precisará de autorização de Administrador'#13#10 +
-          'para criar atalhos no Desktop';
-
-        Result := App.UI.Form.Perg_u.Perg(sPerg, 'Criar atalhos no Desktop',
-          TBooleanDefault.boolTrue, '&Aceito', '&Fechar o Sistema');
-        if not Result then
-        begin
-          ProcessLog.RegistreLog('usuario cancelou, abortando');
-          exit;
-        end;
-
-        oShortCutCreator := ShortCutCreatorCreate('Cria Atalho',
-          AppInfo.PastaComandos, sPastaDesktop, 'ps1', ProcessOutput, ProcessLog);
-
-        //ScriptSL.Add('rem script criado automaticamente. cria atalho');
-        for i := 0 to SLDevemSer.Count - 1 do
-        begin
-          sTermId := ExtractFileNameOnly(SLDevemSer[i]);
-          oShortCutCreator.AddScriptFor(sTermId, sExe, sTermId, sStartIn);
-        end;
-
-        ProcessLog.RegistreLog('oShortCutCreator.Execute');
-        oShortCutCreator.Execute;
-      until false;
-    finally
-      SLExistentes.Free;
-      SLDevemSer.Free;
-    end;
-  finally
-    ProcessLog.RegistreLog('Terminou');
-    ProcessLog.RetorneLocal;
-  end;
 end;
 
 procedure TSessoesPrincBasForm.SessoesFrameCriar;
