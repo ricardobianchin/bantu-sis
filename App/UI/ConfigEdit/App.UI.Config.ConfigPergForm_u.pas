@@ -148,7 +148,7 @@ type
     procedure ControlesToObjetos;
     procedure PegarTerminais;
 
-    function TinhaTermNoDB: boolean;
+    function TinhaTermNoDBdoServ: boolean;
     function TinhaTermNoHD: boolean;
     function TinhaTerm: boolean;
     function NomeArqToTerminalId(sNomeArq: string): SmallInt;
@@ -787,7 +787,7 @@ end;
 
 procedure TConfigPergForm.ReloadActExecute(Sender: TObject);
 begin
-  TinhaTermNoDB;
+  TinhaTermNoDBdoServ;
 end;
 
 procedure TConfigPergForm.ServConfigSelectActionExecute(Sender: TObject);
@@ -995,12 +995,12 @@ begin
   // nao faz and com eles diretamente,
   // pra evitar a otimizacao que se o prim retornou true
   // ja nao executaria o segundo
-  bR1 := TinhaTermNoDB;
+  bR1 := TinhaTermNoDBdoServ;
   bR2 := TinhaTermNoHD;
   result := bR1 or bR2
 end;
 
-function TConfigPergForm.TinhaTermNoDB: boolean;
+function TConfigPergForm.TinhaTermNoDBdoServ: boolean;
 var
   sSql: string;
   q: TDataSet;
@@ -1146,12 +1146,12 @@ begin
       end;
     end;
   except
-        on e: exception do
-        begin
-          result := false;
-          sMens := 'Erro ao testar terminais: ' + e.message;
-          showmessage(smens);
-        end;
+    on e: exception do
+    begin
+      result := false;
+      sMens := 'Erro ao testar terminais: ' + e.message;
+      //ShowMessage(sMens);
+    end;
   end;
 end;
 
@@ -1271,7 +1271,7 @@ begin
       bResultado := FTerminaisDBGridFrame.FDMemTable1.Locate('TERMINAL_ID',
         iTerminalId, []);
       if bResultado then
-        Continue;//ja dinha, aborta este arquivo local
+        Continue; // ja dinha, aborta este arquivo local
 
       // certifica-se que este term nao tem no serv.
       // se tiver, nao precisa cadastra
@@ -1290,7 +1290,7 @@ begin
       end;
 
       if not bResultado then
-        Continue;//nao veio empty, ja tinha no serv, aborta este arq local
+        Continue; // nao veio empty, ja tinha no serv, aborta este arq local
 
       // preenche os params que mudam a cada iteração
       TermFDConnection.Params.Values['Database'] := sLocalArq;
@@ -1302,9 +1302,9 @@ begin
 
         if q.FieldByName('TERMINAL_ID').AsInteger = 0 then
         begin
-//          ShowMessage
-//            ('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10
-//            + sLocalArq);
+          // ShowMessage
+          // ('Arquivo de terminal foi ignorado por ter número de terminal zerado.'#13#10
+          // + sLocalArq);
           Continue;
         end;
 

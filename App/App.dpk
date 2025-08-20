@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -501,6 +501,8 @@ contains
   App.UI.Form.Est.Saldo.HistProd.DBI_u in 'Modulos\Retag\Est\Saldo\App.UI.Form.Est.Saldo.HistProd.DBI_u.pas',
   App.Prod.BuscaTipo_u in 'Est\Prod\App.Prod.BuscaTipo_u.pas',
   App.UI.Sessao.LoginTeste_u in 'UI\Sessoes\App.UI.Sessao.LoginTeste_u.pas',
-  App.Sessao_u in 'Sessao\App.Sessao_u.pas';
+  App.Sessao_u in 'Sessao\App.Sessao_u.pas',
+  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u.pas',
+  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor.pas';
 
 end.

@@ -1,4 +1,4 @@
-unit Sis.UI.IO.Files;
+﻿unit Sis.UI.IO.Files;
 
 interface
 
@@ -166,6 +166,9 @@ end;
 
 function GarantaPasta(const pPasta: string): string;
 begin
+  if pPasta = '' then
+    exit;
+
   Result := IncludeTrailingPathDelimiter(pPasta);
   ForceDirectories(pPasta);
 end;
