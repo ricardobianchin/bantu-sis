@@ -471,7 +471,6 @@
         <DCCReference Include="Usuario\Sis.UI.Form.Login.Teste.pas"/>
         <DCCReference Include="Sis\IAtom\Sis.Sis.InstanciaAtomica_u.pas"/>
         <DCCReference Include="UI\IO\Files\Sis.UI.IO.Files.ApagueAntigos_u.pas"/>
-        <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator.Factory_u.pas"/>
         <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator.pas"/>
         <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator.PowerShell_u.pas"/>
         <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator_u.pas"/>

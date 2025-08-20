@@ -56,7 +56,7 @@ procedure TShortCutCreator.Inicialize(pAssunto, pPastaComandos,
   pPastaDesktop: string);
 begin
   FAssunto := pAssunto;
-  FPastaComandos := GarantaPasta(PastaComandos);
+  FPastaComandos := GarantaPasta(pPastaComandos);
   FPastaDesktop := IncludeTrailingPathDelimiter(pPastaDesktop);
 end;
 
