@@ -68,7 +68,8 @@ implementation
 
 uses App.Sessao.Factory, Sis.Usuario.Factory, Sis.Sis.InstanciaAtomica_u,
   System.Generics.Collections, Sis.Entities.Types, Sis.Types.Integers,
-  Sis.Win.Utils_u, Sis.Types.TStrings_u, App.UI.Form.Perg_u, Sis.Types.Utils_u;
+  Sis.Win.Utils_u, Sis.Types.TStrings_u, App.UI.Form.Perg_u, Sis.Types.Utils_u,
+  Sis.Win.ShortCutCreator, Sis.Win.Factory;
 
 procedure TSessoesPrincBasForm.AppComandoExecute(var pComando: string);
 var
@@ -217,13 +218,13 @@ var
   sPastaDesktop: string;
   SLExistentes: TStringList;
   SLDevemSer: TStringList;
-  SLScript: TStringList;
   sExe: string;
   sTermId: string;
   sStartIn: string;
   sPerg: string;
   bErroDeu: Boolean;
   sMens: string;
+  oShortCutCreator: IShortCutCreator;
 begin
   Result := True;
   ProcessLog.PegueLocal
@@ -237,7 +238,6 @@ begin
 
     SLExistentes := TStringList.Create;
     SLDevemSer := TStringList.Create;
-    SLScript := TStringList.Create;
     sExe := ParamStr(0);
     sStartIn := GetPastaDoArquivo(sExe);
     try
@@ -288,22 +288,22 @@ begin
           exit;
         end;
 
+        oShortCutCreator := ShortCutCreatorCreate('Cria Atalho',
+          AppInfo.PastaComandos, sPastaDesktop, 'ps1', ProcessOutput, ProcessLog);
+
+        //ScriptSL.Add('rem script criado automaticamente. cria atalho');
         for i := 0 to SLDevemSer.Count - 1 do
         begin
           sTermId := ExtractFileNameOnly(SLDevemSer[i]);
-          Sis.Win.Utils_u.AddScriptCriaAtalho(SLScript, AppInfo.PastaComandos,
-            sPastaDesktop, sTermId, sExe, sTermId, sStartIn);
+          oShortCutCreator.AddScriptFor(sTermId, sExe, sTermId, sStartIn);
         end;
-        ProcessLog.RegistreLog('AddScriptCriaAtalho SLScript='#13#10 +
-          SLScript.text + #13#10);
-        SLScript.SaveToFile( AppInfo.PastaComandos+'cria atalho tmp.ps1');
-        Sis.Win.Utils_u.ExecutePowerShellScript(AppInfo.PastaComandos,
-          'Cria Atalho', SLScript, bErroDeu, sMens, ProcessOutput, ProcessLog);
+
+        ProcessLog.RegistreLog('oShortCutCreator.Execute');
+        oShortCutCreator.Execute;
       until false;
     finally
       SLExistentes.Free;
       SLDevemSer.Free;
-      SLScript.Free;
     end;
   finally
     ProcessLog.RegistreLog('Terminou');
