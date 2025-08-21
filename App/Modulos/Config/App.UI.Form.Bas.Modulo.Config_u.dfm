@@ -3,6 +3,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   ClientWidth = 604
   StyleElements = []
   ExplicitWidth = 604
+  ExplicitHeight = 480
   TextHeight = 15
   inherited TitleBarPanel: TPanel
     Width = 604
@@ -13,19 +14,7 @@ inherited ConfigModuloBasForm: TConfigModuloBasForm
   end
   inherited BasePanel: TPanel
     Width = 604
-    StyleElements = [seFont, seClient, seBorder]
     ExplicitWidth = 604
-    inherited StatusPanel1: TPanel
-      StyleElements = [seFont, seClient, seBorder]
-      inherited StatusLabel1: TLabel
-        StyleElements = [seFont, seClient, seBorder]
-      end
-      inherited OutputLabel: TLabel
-        Width = 203
-        Height = 27
-        StyleElements = [seFont, seClient, seBorder]
-      end
-    end
   end
   object TopoPanel: TPanel [2]
     Left = 0

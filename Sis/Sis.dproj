@@ -431,7 +431,6 @@
         <DCCReference Include="Usuario\Sis.Usuario.Senha_u.pas"/>
         <DCCReference Include="Web\Sis.Web.Factory.pas"/>
         <DCCReference Include="Web\HTTP\NET\Sis.Web.HTTPGet.Net_u.pas"/>
-        <DCCReference Include="Web\HTTP\Sis.Web.HTTP.Download.pas"/>
         <DCCReference Include="Web\HTTP\Sis.Web.HTTP.Download_u.pas"/>
         <DCCReference Include="Web\HTTP\NET\Sis.Web.HTTP.Download.NET.pas"/>
         <DCCReference Include="Entities\Terminal\Sis.Terminal.Utils_u.pas"/>
@@ -446,7 +445,6 @@
         </DCCReference>
         <DCCReference Include="Web\HTTP\NET\Sis.Web.HTTP.Upload.NET.pas"/>
         <DCCReference Include="Web\HTTP\NET\Sis.Web.HTTP.Net.Utils_u.pas"/>
-        <DCCReference Include="Web\HTTP\Sis.Web.HTTP.Upload.pas"/>
         <DCCReference Include="Web\HTTP\Sis.Web.HTTP.Upload_u.pas"/>
         <DCCReference Include="UI\Controls\Memo\RichEdit\Sis.UI.Controls.RichEditUtils_u.pas"/>
         <DCCReference Include="Web\Sis.Web.Utils_u.pas"/>
@@ -475,6 +473,13 @@
         <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator.PowerShell_u.pas"/>
         <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator_u.pas"/>
         <DCCReference Include="Win\ShortCutCreator\Sis.Win.ShortCutCreator.Bat_u.pas"/>
+        <DCCReference Include="Web\HTTP\Sis.Web.HTTP.FileTranser.pas"/>
+        <DCCReference Include="Web\HTTP\Sis.Web.HTTP.FileTranser_u.pas"/>
+        <DCCReference Include="Web\FTP\Sis.Web.FTP.Frame_u.pas">
+            <Form>FtpDM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="Sis.dpk"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

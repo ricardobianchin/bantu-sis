@@ -4,11 +4,12 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
+  System.Classes, Vcl.Graphics, Sis.DB.DBTypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, App.UI.Form.Bas.Princ.Sessoes_u,
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
-  Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.UI.Sessoes.Frame_u,
-  FireDAC.Comp.Client;
+  Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.AppObj,
+  App.UI.Sessoes.Frame_u, FireDAC.Comp.Client, Sis.UI.IO.Output.ProcessLog,
+  Sis.UI.IO.Output, App.DB.Bak, Sis.Sis.Executavel, Sis.Web.Factory;
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
@@ -16,12 +17,15 @@ type
     { Private declarations }
 
   protected
+    function ExeParamsDecida: Boolean; override;
     function SessoesFrameCreate: TSessoesFrame; override;
     function GetAppInfoCreate: IAppInfo; override;
     procedure PreenchaAtividade; override;
     procedure PreenchaDBUpdaterVariaveis; override;
     procedure AssistAbrir; override;
 
+    function AppBakCreate(pAppObj: IAppObj; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog): IAppBak; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -35,10 +39,16 @@ implementation
 {$R *.dfm}
 
 uses App.Factory, ShopApp.Constants, Sis.DB.Factory, App.AppInfo.Types,
-  ShopApp.UI.Sessoes.Frame_u, Sis.DB.DBTypes, App.DB.Utils, Sis.Sis.Constants,
-  Sis.Threads.Factory_u, Sis.Win.Utils_u;
+  ShopApp.UI.Sessoes.Frame_u, App.DB.Utils, Sis.Sis.Constants,
+  Sis.Threads.Factory_u, Sis.Win.Utils_u, ShopApp.DB.Bak_u, Sis.Web.FTP.Frame_u;
 
 { TShopPrincForm }
+
+function TShopPrincForm.AppBakCreate(pAppObj: IAppObj; pDBMS: IDBMS;
+  pOutput: IOutput; pProcessLog: IProcessLog): IAppBak;
+begin
+  Result := TShopAppBak.Create(pAppObj, pDBMS, pOutput, pProcessLog);
+end;
 
 procedure TShopPrincForm.AssistAbrir;
 var
@@ -65,6 +75,41 @@ begin
 
   finally
     // ProcessLog.RetorneAssunto;
+  end;
+end;
+
+function TShopPrincForm.ExeParamsDecida: Boolean;
+var
+  sArqLocal: string;
+  sArqRemoto: string;
+  sNomeArq: string;
+  sGuid: string;
+  bExluiDestinoAntes: Boolean;
+  oUpload: IExecutavel;
+  bErroDeu: Boolean;
+  sErroMens: string;
+begin
+  Result := ParamCount < 2;
+  if Result then
+    exit;
+
+  if AnsiLowerCase(ParamStr(1)) = 'upbak' then
+  begin
+    sArqLocal := ParamStr(2);
+
+    if not FileExists(sArqLocal) then
+      exit;
+
+    sNomeArq := ExtractFileName(sArqLocal);
+    sGuid := AppInfo.PessoaDonoGuid;
+    bExluiDestinoAntes := False;
+    sArqRemoto := Format(BACKUP_URL, [sGuid, sNomeArq]);
+
+//    oUpload := HTTPUploadCreate(sArqLocal, sArqRemoto, bExluiDestinoAntes,
+//      nil, nil);
+//    oUpload.Execute;
+
+    Sis.Web.FTP.Frame_u.Put(sArqLocal, sArqRemoto, bErroDeu, sErroMens);
   end;
 end;
 
@@ -98,8 +143,7 @@ end;
 
 function TShopPrincForm.SessoesFrameCreate: TSessoesFrame;
 begin
-  Result := TShopSessoesFrame.Create(Self, LoginConfig,
-    AppObj);
+  Result := TShopSessoesFrame.Create(Self, LoginConfig, AppObj);
 end;
 
 end.

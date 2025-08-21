@@ -3,6 +3,7 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
+  StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
   ExplicitWidth = 628
   ExplicitHeight = 477
@@ -99,9 +100,16 @@ inherited PrincBasForm: TPrincBasForm
   end
   object AppComandosExecTimer_PrincBasForm: TTimer
     Enabled = False
-    Interval = 800
+    Interval = 700
     OnTimer = AppComandosExecTimer_PrincBasFormTimer
     Left = 432
     Top = 72
+  end
+  object TarefasTimer_PrincBasForm: TTimer
+    Enabled = False
+    Interval = 3600000
+    OnTimer = TarefasTimer_PrincBasFormTimer
+    Left = 80
+    Top = 96
   end
 end

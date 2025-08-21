@@ -23,6 +23,8 @@ var
 
 begin
   pAppInfo.PessoaDonoId := 1;
+  pAppInfo.PessoaDonoGuid := '75D834F0-F69C-4B62-A533-242E0CD0A56E';
+
   pAppInfo.FundoCor := $1F0E0A;
   pAppInfo.FonteCor := $00A66644;
 //  pAppInfo.NomeExib := 'Administrador do Sistema Daros';//TmpNomeExib;

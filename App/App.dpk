@@ -9,21 +9,21 @@ package App;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$IMPLICITBUILD ON}
 
@@ -503,6 +503,8 @@ contains
   App.UI.Sessao.LoginTeste_u in 'UI\Sessoes\App.UI.Sessao.LoginTeste_u.pas',
   App.Sessao_u in 'Sessao\App.Sessao_u.pas',
   App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u.pas',
-  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor.pas';
+  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor.pas',
+  App.DB.Bak in 'DB\Bak\App.DB.Bak.pas',
+  App.DB.Bak_u in 'DB\Bak\App.DB.Bak_u.pas';
 
 end.

@@ -20,109 +20,112 @@ var
   HTTPResponse: IHTTPResponse;
   FileStream: TFileStream;
   RemoteFileURL, LocalFilePath: string;
-
-  DtHRemoto: TDateTime;
-  DtHLocal: TDateTime;
+  DtHRemoto, DtHLocal: TDateTime;
   sGMT: string;
 begin
-  pProcessLog.PegueLocal('Sis.Web.HTTP.Download_u,function Execute');
+  Result := False; // inicia como falso -> mais seguro contra retornos errados
 
-  pProcessLog.RegistreLog('HttpClient := THTTPClient.Create');
+  pProcessLog.PegueLocal('Sis.Web.HTTP.Download_u,function Execute');
   HttpClient := THTTPClient.Create;
+
   try
     RemoteFileURL := pArqRemoto;
-    pProcessLog.RegistreLog('RemoteFileURL=' + RemoteFileURL);
+    LocalFilePath := pArqLocal;
 
+    pProcessLog.RegistreLog('RemoteFileURL=' + RemoteFileURL);
+    pProcessLog.RegistreLog('LocalFilePath=' + LocalFilePath);
+
+    // 1. Tenta obter HEAD para validar e checar Last-Modified
     try
-      pProcessLog.RegistreLog
-        ('vai HTTPResponse := HttpClient.Head(RemoteFileURL)');
+      pProcessLog.RegistreLog('Fazendo HEAD...');
       HTTPResponse := HttpClient.Head(RemoteFileURL);
-      Result := True;
     except
       on E: Exception do
       begin
-        Result := False;
-        pProcessLog.RegistreLog('Sis.Web.HTTP.Download_u,Erro,HTTPClient.Head,'
-          + E.Message);
+        // Se o HEAD falhar, ainda podemos tentar um GET direto
+        pProcessLog.RegistreLog('HEAD falhou: ' + E.Message + ' -> tentando GET direto');
+        HTTPResponse := nil;
       end;
     end;
 
-    if not Result then
+    // 2. Se teve resposta válida no HEAD, analisa código e data
+    if Assigned(HTTPResponse) then
     begin
-      pProcessLog.RegistreLog('not Result, vai abortar');
-      exit;
-    end;
-
-    Result := HTTPResponse.StatusCode = 200;
-    if not Result then
-    begin
-      pProcessLog.RegistreLog('HTTPResponse.StatusCode=' +
-        HTTPResponse.StatusCode.ToString + ', precisava ser 200');
-      exit;
-    end;
-
-    sGMT := NETGetValueByName('Last-Modified', HTTPResponse.Headers);
-    pProcessLog.RegistreLog('sGMT=' + sGMT);
-    DtHRemoto := ConvertGMTToTDateTime(sGMT);
-    pProcessLog.RegistreLog('DtHRemoto=' + DateTimeToStr(DtHRemoto));
-
-    LocalFilePath := pArqLocal;
-    pProcessLog.RegistreLog('LocalFilePath=' + LocalFilePath);
-
-    DtHLocal := GetDataArquivo(pArqLocal);
-    pProcessLog.RegistreLog('DtHLocal=' + DateTimeToStr(DtHLocal));
-
-    Result := DtHRemoto > DtHLocal;
-    if not Result then
-    begin
-      pProcessLog.RegistreLog('nao precisava atualizar');
-      exit;
-    end;
-
-    if pExluiDestinoAntesDeBaixar then
-    begin
-      if FileExists(LocalFilePath) then
+      if HTTPResponse.StatusCode <> 200 then
       begin
-        pProcessLog.RegistreLog('vai apagar LocalFilePath=' + LocalFilePath);
-        TFile.Delete(LocalFilePath);
-        pProcessLog.RegistreLog('apagou');
+        pProcessLog.RegistreLog('HEAD retornou StatusCode=' +
+          HTTPResponse.StatusCode.ToString + ', esperado=200');
+        Exit; // aborta sem baixar
+      end;
+
+      sGMT := NETGetValueByName('Last-Modified', HTTPResponse.Headers);
+      pProcessLog.RegistreLog('sGMT=' + sGMT);
+
+      if sGMT <> '' then
+      begin
+        DtHRemoto := ConvertGMTToTDateTime(sGMT);
+        pProcessLog.RegistreLog('DtHRemoto=' + DateTimeToStr(DtHRemoto));
+
+        DtHLocal := GetDataArquivo(pArqLocal);
+        pProcessLog.RegistreLog('DtHLocal=' + DateTimeToStr(DtHLocal));
+
+        // só baixa se remoto for mais novo
+        if DtHRemoto <= DtHLocal then
+        begin
+          pProcessLog.RegistreLog('Arquivo local já está atualizado, download desnecessário.');
+          Exit;
+        end;
+      end
+      else
+      begin
+        pProcessLog.RegistreLog('Cabeçalho Last-Modified não informado, seguirá para download.');
       end;
     end;
 
-    FileStream := TFileStream.Create(LocalFilePath, fmCreate);
-    try
-      pProcessLog.RegistreLog('HTTPClient.Get');
-      pOutput.Exibir('Baixando arquivo...');
+    // 3. Apaga destino antes de baixar (se configurado)
+    if pExluiDestinoAntesDeBaixar and FileExists(LocalFilePath) then
+    begin
       try
-        // showmessage(RemoteFileURL);
-        HTTPResponse := HttpClient.Get(RemoteFileURL, FileStream);
-        Result := True;
-        // showmessage('baixou');
+        pProcessLog.RegistreLog('Excluindo arquivo antigo: ' + LocalFilePath);
+        TFile.Delete(LocalFilePath);
       except
         on E: Exception do
         begin
-          // showmessage('HTTPClient.Get '+E.Message+' statuscode='+HTTPResponse.StatusCode.ToString);
-          pProcessLog.RegistreLog
-            ('Sis.Web.HTTP.Download_u,Erro,HTTPClient.Get,' + E.Message);
-          Result := False;
+          pProcessLog.RegistreLog('Erro ao apagar arquivo: ' + E.Message);
+          Exit;
+        end;
+      end;
+    end;
+
+    // 4. Faz o download com GET
+    FileStream := TFileStream.Create(LocalFilePath, fmCreate);
+    try
+      pOutput.Exibir('Baixando arquivo...');
+      try
+        HTTPResponse := HttpClient.Get(RemoteFileURL, FileStream);
+      except
+        on E: Exception do
+        begin
+          pProcessLog.RegistreLog('Erro no GET: ' + E.Message);
+          Exit;
         end;
       end;
 
-      if not Result then
+      if (HTTPResponse.StatusCode = 200) then
       begin
-        pProcessLog.RegistreLog('nao precisava atualizar');
-        exit;
+        pProcessLog.RegistreLog('Download concluído com sucesso.');
+        Result := True;
+      end
+      else
+      begin
+        pProcessLog.RegistreLog('GET retornou StatusCode=' +
+          HTTPResponse.StatusCode.ToString + ', esperado=200');
       end;
-
-      Result := HTTPResponse.StatusCode = 200;
-      pProcessLog.RegistreLog('HTTPResponse.StatusCode=' +
-        HTTPResponse.StatusCode.ToString + ', precisava ser 200');
     finally
       FileStream.Free;
     end;
   finally
-    if assigned(HttpClient) then
-      HttpClient.Free;
+    HttpClient.Free;
     pProcessLog.RegistreLog('Fim');
     pProcessLog.RetorneLocal;
   end;

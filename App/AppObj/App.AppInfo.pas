@@ -20,6 +20,10 @@ type
     procedure SetPessoaDonoId(Value: integer);
     property PessoaDonoId: integer read GetPessoaDonoId write SetPessoaDonoId;
 
+    function GetPessoaDonoGuid: string;
+    procedure SetPessoaDonoGuid(Value: string);
+    property PessoaDonoGuid: string read GetPessoaDonoGuid write SetPessoaDonoGuid;
+
     function GetFundoCor: TColor;
     procedure SetFundoCor(Value: TColor);
     property FundoCor: TColor read GetFundoCor write SetFundoCor;

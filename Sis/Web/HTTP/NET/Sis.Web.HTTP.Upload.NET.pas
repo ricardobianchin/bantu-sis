@@ -20,96 +20,98 @@ var
   HTTPResponse: IHTTPResponse;
   FileStream: TFileStream;
   RemoteFileURL, LocalFilePath: string;
-  DtHRemoto: TDateTime;
-  DtHLocal: TDateTime;
+  DtHRemoto, DtHLocal: TDateTime;
   sGMT: string;
 begin
-  pProcessLog.PegueLocal('Sis.Web.HTTPUpload.NET,function Execute');
+  Result := False; // mais seguro iniciar falso
 
-  pProcessLog.RegistreLog('HttpClient := THTTPClient.Create');
+  pProcessLog.PegueLocal('Sis.Web.HTTPUpload.NET,function Execute');
   HttpClient := THTTPClient.Create;
+
   try
     RemoteFileURL := pArqRemoto;
-    pProcessLog.RegistreLog('RemoteFileURL=' + RemoteFileURL);
-
-    // Verifica se o arquivo remoto existe e pega informações
-    try
-      pProcessLog.RegistreLog
-        ('vai HTTPResponse := HttpClient.Head(RemoteFileURL)');
-      HTTPResponse := HttpClient.Head(RemoteFileURL);
-      Result := True;
-    except
-      on E: Exception do
-      begin
-        Result := False;
-        pProcessLog.RegistreLog('Sis.Web.HTTPUpload.NET,Erro,HTTPClient.Head,' +
-          E.Message);
-      end;
-    end;
-
-    if not Result then
-    begin
-      // Se não conseguiu HEAD, assume que o arquivo não existe e prossegue com upload
-      Result := True;
-    end
-    else
-    begin
-      Result := HTTPResponse.StatusCode = 200;
-      if Result then
-      begin
-        // Arquivo remoto existe, verifica datas
-        sGMT := NETGetValueByName('Last-Modified', HTTPResponse.Headers);
-        pProcessLog.RegistreLog('sGMT=' + sGMT);
-        DtHRemoto := ConvertGMTToTDateTime(sGMT);
-        pProcessLog.RegistreLog('DtHRemoto=' + DateTimeToStr(DtHRemoto));
-
-        LocalFilePath := pArqLocal;
-        pProcessLog.RegistreLog('LocalFilePath=' + LocalFilePath);
-
-        DtHLocal := GetDataArquivo(pArqLocal);
-        pProcessLog.RegistreLog('DtHLocal=' + DateTimeToStr(DtHLocal));
-
-        Result := DtHLocal > DtHRemoto;
-        if not Result then
-        begin
-          pProcessLog.RegistreLog('nao precisava atualizar');
-          exit;
-        end;
-      end;
-    end;
-
-    // Preparação para upload
     LocalFilePath := pArqLocal;
+
+    pProcessLog.RegistreLog('RemoteFileURL=' + RemoteFileURL);
+    pProcessLog.RegistreLog('LocalFilePath=' + LocalFilePath);
+
+    // 1. Se arquivo local não existe, aborta imediatamente
     if not FileExists(LocalFilePath) then
     begin
       pProcessLog.RegistreLog('Arquivo local não existe: ' + LocalFilePath);
-      Result := False;
-      exit;
+      Exit;
     end;
 
+    // 2. Faz HEAD para checar se já existe remoto (opcional)
+    HTTPResponse := nil;
+    try
+      pProcessLog.RegistreLog('Fazendo HEAD...');
+      HTTPResponse := HttpClient.Head(RemoteFileURL);
+    except
+      on E: Exception do
+      begin
+        pProcessLog.RegistreLog('HEAD falhou: ' + E.Message +
+          ' -> seguirá com upload mesmo assim');
+      end;
+    end;
+
+    if Assigned(HTTPResponse) and (HTTPResponse.StatusCode = 200) then
+    begin
+      // Arquivo remoto existe, compara datas
+      sGMT := NETGetValueByName('Last-Modified', HTTPResponse.Headers);
+      pProcessLog.RegistreLog('sGMT=' + sGMT);
+
+      if sGMT <> '' then
+      begin
+        DtHRemoto := ConvertGMTToTDateTime(sGMT);
+        DtHLocal  := GetDataArquivo(LocalFilePath);
+
+        pProcessLog.RegistreLog('DtHRemoto=' + DateTimeToStr(DtHRemoto));
+        pProcessLog.RegistreLog('DtHLocal='  + DateTimeToStr(DtHLocal));
+
+        // só envia se local for mais novo
+        if DtHLocal <= DtHRemoto then
+        begin
+          pProcessLog.RegistreLog('Arquivo remoto já atualizado, upload desnecessário.');
+          Exit;
+        end;
+      end
+      else
+      begin
+        pProcessLog.RegistreLog('Sem cabeçalho Last-Modified remoto, seguirá upload.');
+      end;
+    end;
+
+    // 3. Faz upload
     FileStream := TFileStream.Create(LocalFilePath, fmOpenRead);
     try
-      pProcessLog.RegistreLog('HTTPClient.Put');
       pOutput.Exibir('Enviando atualização...');
       try
         HTTPResponse := HttpClient.Put(RemoteFileURL, FileStream);
-        Result := HTTPResponse.StatusCode = 200;
-        pProcessLog.RegistreLog('HTTPResponse.StatusCode=' +
-          HTTPResponse.StatusCode.ToString + ', precisava ser 200');
       except
         on E: Exception do
         begin
-          pProcessLog.RegistreLog('Sis.Web.HTTPUpload.NET,Erro,HTTPClient.Put,'
-            + E.Message);
-          Result := False;
+          pProcessLog.RegistreLog('Erro no PUT: ' + E.Message);
+          Exit;
         end;
+      end;
+
+      if (HTTPResponse.StatusCode = 200) then
+      begin
+        pProcessLog.RegistreLog('Upload concluído com sucesso.');
+        Result := True;
+      end
+      else
+      begin
+        pProcessLog.RegistreLog('PUT retornou StatusCode=' +
+          HTTPResponse.StatusCode.ToString + ', esperado=200');
       end;
     finally
       FileStream.Free;
     end;
+
   finally
-    if assigned(HttpClient) then
-      HttpClient.Free;
+    HttpClient.Free;
     pProcessLog.RegistreLog('Fim');
     pProcessLog.RetorneLocal;
   end;

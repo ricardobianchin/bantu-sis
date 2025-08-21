@@ -25,8 +25,8 @@ type
 
 implementation
 
-uses Sis.Web.HTTP.Download, Sis.UI.IO.Files, Sis.Web.Factory, Sis.Types.Bool_u,
-  Winapi.Windows, Winapi.ShellAPI, System.SysUtils;
+uses Sis.UI.IO.Files, Sis.Web.Factory, Sis.Types.Bool_u,
+  Winapi.Windows, Winapi.ShellAPI, System.SysUtils, Sis.Sis.Executavel;
 
 { TAtualizaVersao }
 
@@ -45,7 +45,7 @@ var
   dtAgora: TDateTime;
   sArqLocal: string;
   sArqRemoto: string;
-  oHTTPDownload: IHTTPDownload;
+  oHTTPDownload: IExecutavel;
   sArqLog: string;
   sLog: string;
   iShellExecuteRetorno: integer;
@@ -80,8 +80,8 @@ begin
       sLog := sLog + 'sArqRemoto=' + sArqRemoto + #13#10;
 
       ProcessLog.RegistreLog('vai IHTTPDownloadCreate');
-      oHTTPDownload := HTTPDownloadCreate(sArqLocal, sArqRemoto, ProcessLog,
-        Output, FAppInfo.InstUpdate_ExcluiLocalAntesDoDownload);
+      oHTTPDownload := HTTPDownloadCreate(sArqLocal, sArqRemoto,
+        FAppInfo.InstUpdate_ExcluiLocalAntesDoDownload, Output, ProcessLog);
 
       ProcessLog.RegistreLog('vai oHTTPDownload.Execute');
       Result := oHTTPDownload.Execute;
@@ -101,9 +101,9 @@ begin
 
           iShellExecuteRetorno := ShellExecute(0, 'runas', PChar(sArqLocal),
             PChar('/SILENT'), nil, SW_SHOWNORMAL);
-//          if iShellExecuteRetorno <= 32 then
-//            raise Exception.Create('Erro ao executar o instalador: ' +
-//              iShellExecuteRetorno.ToString + '.'#13#10);
+          // if iShellExecuteRetorno <= 32 then
+          // raise Exception.Create('Erro ao executar o instalador: ' +
+          // iShellExecuteRetorno.ToString + '.'#13#10);
 
           ProcessLog.RegistreLog('Executou');
         except
