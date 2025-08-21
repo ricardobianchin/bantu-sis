@@ -230,11 +230,14 @@ end;
 
 procedure TPrincBasForm.AppComandosApagueAntigos(pIdadeMaxima: TDateTime);
 var
-  Agora: TDateTime;
+  dtAgora: TDateTime;
+  bCompletei: Boolean;
+  sErroMens: string;
 begin
-  Agora := Now;
+  dtAgora := Now;
+  bCompletei := True;
   Sis.UI.IO.Files.ApagueAntigos_u.DeleteOldFilesAndEmptyDirs
-    (AppInfo.PastaAppComandos, Agora - pIdadeMaxima, False);
+    (AppInfo.PastaAppComandos, dtAgora - pIdadeMaxima, False, False, bCompletei, sErroMens);
 end;
 
 procedure TPrincBasForm.AssistAbrir;
