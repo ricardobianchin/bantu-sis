@@ -10,7 +10,7 @@ uses
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Imaging.jpeg, Sis.UI.Constants,
   Vcl.Imaging.pngimage, Sis.Config.SisConfig, Sis.DB.DBTypes, Sis.Usuario,
   Sis.TerminalList, Sis.Terminal.Factory_u, App.Loja.DBI, Sis.Terminal.DBI,
-  System.DateUtils;
+  System.DateUtils, App.DB.Bak;
 
 type
   TPrincBasForm = class(TActBasForm)
@@ -23,6 +23,7 @@ type
     Logo1Image: TImage;
     DtHCompileLabel: TLabel;
     AppComandosExecTimer_PrincBasForm: TTimer;
+    TarefasTimer_PrincBasForm: TTimer;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -33,6 +34,7 @@ type
     procedure FecharAction_ActBasFormExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure AppComandosExecTimer_PrincBasFormTimer(Sender: TObject);
+    procedure TarefasTimer_PrincBasFormTimer(Sender: TObject);
   private
     { Private declarations }
     MutexHandle: THandle;
@@ -54,6 +56,8 @@ type
 
     FAppComandosBuscandoArquivos: Boolean;
 
+    FAppBak: IAppBak;
+
     procedure Garanta_Config_e_DB;
     function AtualizeVersaoExecutaveis: Boolean;
     procedure ConfigureForm;
@@ -68,7 +72,7 @@ type
 
     procedure AssistPedirPraFechar;
   protected
-    procedure ExeParamsDecida; virtual;
+    function ExeParamsDecida: Boolean; virtual;
     procedure DoSegundaInstancia; virtual;
 
     function AppComandoGetNome(pDtH: TDateTime = 0): string; virtual;
@@ -103,6 +107,9 @@ type
     procedure AssistAbrir; virtual;
 
     property PrecisaFechar: Boolean read FPrecisaFechar write FPrecisaFechar;
+
+    function AppBakCreate(pAppObj: IAppObj; pDBMS: IDBMS; pOutput: IOutput;
+      pProcessLog: IProcessLog): IAppBak; virtual; abstract;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -124,7 +131,8 @@ uses App.Factory, App.UI.Form.Status_u, Sis.UI.IO.Factory, Sis.UI.ImgDM,
   Sis.UI.ImgsList.Prepare, App.SisConfig.Factory, App.SisConfig.DBI,
   App.DB.Utils, AppVersao_u, Sis.Sis.Constants, App.AppInfo.Types,
   App.Constants, App.Pess.Factory_u, Sis.Types.strings_u, Sis.Types.Utils_u,
-  App.UI.Form.Perg_u, Sis.Usuario.DBI, Sis.UI.IO.Files.ApagueAntigos_u;
+  App.UI.Form.Perg_u, Sis.Usuario.DBI, Sis.UI.IO.Files.ApagueAntigos_u,
+  App.DonoConfig.Utils;
 
 procedure TPrincBasForm.AjusteControles;
 begin
@@ -357,9 +365,17 @@ begin
   // DisparaShowTimer := True;
   MakeRounded(Self, 30);
 
-  FProcessLog := ProcessLogFileCreate(Name);
+  if paramcount < 2 then
+  begin
+    FProcessLog := ProcessLogFileCreate(Name);
+  end
+  else
+  begin
+    FProcessLog := MudoProcessLogCreate;
+  end;
+
   FStatusOutput := MudoOutputCreate;
-  FProcessOutput := nil;
+  FProcessOutput := MudoOutputCreate;
   // FProcessOutput := SplashForm;
 
   FProcessLog.PegueLocal('TPrincBasForm.FormCreate');
@@ -377,11 +393,14 @@ begin
     FProcessLog.RegistreLog('FAppInfo,FAppObj,Create');
     // FAppInfo := App.Factory.AppInfoCreate(Application.ExeName);
     FAppInfo := GetAppInfoCreate;
+    App.DonoConfig.Utils.DonoConfigLer(FAppInfo);
 
-    ExeParamsDecida;
+    FPrecisaFechar := not ExeParamsDecida;
+    if FPrecisaFechar then
+      exit;
 
     MutexHandle := CreateMutex(nil, True,
-      '9DC5D990-AAF7-480A-9892-02AF9D0E72ED');
+      'DAROS-9DC5D990-AAF7-480A-9892-02AF9D0E72ED');
     if GetLastError = ERROR_ALREADY_EXISTS then
     begin
       FProcessLog.RegistreLog('GetLastError = ERROR_ALREADY_EXISTS');
@@ -398,9 +417,12 @@ begin
     ToolBar1.Images := SisImgDataModule.ImageList_40_24;
 
     ConfigureSplashForm;
-    FProcessOutput := SplashForm.Output;
-    SplashForm.Show;
-    Application.ProcessMessages;
+    if paramcount < 2 then
+    begin
+      FProcessOutput := SplashForm.Output;
+      SplashForm.Show;
+      Application.ProcessMessages;
+    end;
 
     FAppObj := App.Factory.AppObjCreate(FAppInfo, FLoja, { FDBMS } nil,
       FStatusOutput, FProcessOutput, FProcessLog, FTerminalList);
@@ -433,6 +455,8 @@ begin
     Sis.UI.ImgsList.Prepare.PrepareImgs(AppInfo.PastaImg);
 
     ClearStyleElements(TitleBarPanel);
+
+    FAppBak := AppBakCreate(FAppObj, FDBMS, nil, ProcessLog);
 
   finally
     if not PrecisaFechar then
@@ -471,9 +495,9 @@ begin
   ShowMessage(AppVersao_u.GetInfos);
 end;
 
-procedure TPrincBasForm.ExeParamsDecida;
+function TPrincBasForm.ExeParamsDecida: Boolean;
 begin
-
+  Result := True;
 end;
 
 procedure TPrincBasForm.FecharAction_ActBasFormExecute(Sender: TObject);
@@ -686,6 +710,14 @@ begin
     exit;
   AssistAbrir;
   AppComandosExecTimer_PrincBasForm.Enabled := True;
+  FAppBak.Execute;
+  TarefasTimer_PrincBasForm.Enabled := True;
+end;
+
+procedure TPrincBasForm.TarefasTimer_PrincBasFormTimer(Sender: TObject);
+begin
+  inherited;
+  FAppBak.Execute;
 end;
 
 procedure TPrincBasForm.TitleBarPanelMouseDown(Sender: TObject;

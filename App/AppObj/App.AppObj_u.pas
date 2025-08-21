@@ -159,7 +159,7 @@ begin
 
     App.AppObj_u_VaParaPasta.VaParaPastaExe(FAppInfo, ProcessLog);
 
-    App.DonoConfig.Utils.DonoConfigLer(FAppInfo);
+    //App.DonoConfig.Utils.DonoConfigLer(FAppInfo);
 
   finally
     ProcessLog.RegistreLog('Fim');

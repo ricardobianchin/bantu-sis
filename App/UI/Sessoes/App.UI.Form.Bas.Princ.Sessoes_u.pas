@@ -38,7 +38,7 @@ type
     FAtalhosGarantidor: IAtalhosGarantidor;
     procedure SessoesFrameCriar;
   protected
-    procedure ExeParamsDecida; override;
+    function ExeParamsDecida: Boolean; override;
 
     procedure AppComandoExecute(var pComando: string); override;
     function SessoesFrameCreate: TSessoesFrame; virtual; abstract;
@@ -164,7 +164,7 @@ begin
   end;
 end;
 
-procedure TSessoesPrincBasForm.ExeParamsDecida;
+function TSessoesPrincBasForm.ExeParamsDecida: Boolean;
 var
   sParam: string;
   i: integer;

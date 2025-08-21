@@ -9,6 +9,8 @@ type
   private
     FExeName: string;
     FPessoaDonoId: integer;
+    FPessoaDonoGuid: string;
+
     FFundoCor: TColor;
     FFonteCor: TColor;
     FNomeExib: string;
@@ -77,11 +79,15 @@ type
     function GetAtividadeEconomicaSis: TAtividadeEconomicaSis;
     procedure SetAtividadeEconomicaSis(Value: TAtividadeEconomicaSis);
 
+
+    function GetPessoaDonoGuid: string;
+    procedure SetPessoaDonoGuid(Value: string);
   public
     property ExeName: string read GetExeName;
 
     property AtividadeEconomicaSis: TAtividadeEconomicaSis read GetAtividadeEconomicaSis write SetAtividadeEconomicaSis;
     property PessoaDonoId: integer read GetPessoaDonoId write SetPessoaDonoId;
+    property PessoaDonoGuid: string read GetPessoaDonoGuid write SetPessoaDonoGuid;
     property FundoCor: TColor read GetFundoCor write SetFundoCor;
     property FonteCor: TColor read GetFonteCor write SetFonteCor;
     property NomeExib: string read GetNomeExib;
@@ -270,6 +276,11 @@ begin
   Result := FPastaToolsComprime;
 end;
 
+function TAppInfo.GetPessoaDonoGuid: string;
+begin
+  Result := FPessoaDonoGuid;
+end;
+
 function TAppInfo.GetPessoaDonoId: integer;
 begin
   Result := FPessoaDonoId;
@@ -303,6 +314,11 @@ end;
 procedure TAppInfo.SetPastaDadosServ(Value: string);
 begin
   FPastaDadosServ := Value;
+end;
+
+procedure TAppInfo.SetPessoaDonoGuid(Value: string);
+begin
+  FPessoaDonoGuid := Value;
 end;
 
 procedure TAppInfo.SetPessoaDonoId(Value: integer);

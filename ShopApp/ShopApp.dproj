@@ -201,6 +201,7 @@
             <Form>ItemQtdPergForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="DB\Bak\ShopApp.DB.Bak_u.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
