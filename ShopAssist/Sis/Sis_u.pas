@@ -13,11 +13,18 @@ var
   sPastaProduto: string;
   sPastaDados: string;
   sPastaDadosServ: string;
+
   sPastaTmp: string;
+  sPastaBackup: string;
+  sPastaComandos: string;
+  sPastaComandosBackup: string;
+  sPastaDocs: string;
+
   sPastaConfig: string;
   bAtivo: Boolean;
   bSegueAberto: Boolean;
   iLojaId: TLojaId;
+  dtUltimoApagamento: TDateTime;
 
 function GetPrecisaTerminar: Boolean;
 procedure ApaguePrecisaTerminar;
@@ -25,7 +32,7 @@ procedure InicializePrecisaTerminar;
 
 implementation
 
-uses System.SysUtils, App.Constants;
+uses System.SysUtils, App.Constants, Sis.Sis.Constants;
 
 var
   sNomeArq: string;
@@ -51,4 +58,5 @@ initialization
   bAtivo := True;
   bSegueAberto := True;
   iLojaId := 0;
+  dtUltimoApagamento := DATA_ZERADA;
 end.

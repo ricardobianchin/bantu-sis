@@ -156,6 +156,10 @@ begin
   sPastaDadosServ := 'C:\DarosPDV\Dados\';
   sPastaConfig := sPastaProduto + 'Configs\';
   sPastaTmp := sPastaProduto + 'Tmp\';
+  sPastaBackup := sPastaProduto + 'Backup\';
+  sPastaComandos := sPastaProduto + 'Comandos\';
+  sPastaComandosBackup := sPastaComandos + 'Backup\';
+  sPastaDocs := sPastaProduto + 'Docs\';
 
   sPastaConfigs := sPastaProduto + 'Configs\';
   sNomeXml := sPastaConfigs + 'Sis.Config.SisConfig.xml';

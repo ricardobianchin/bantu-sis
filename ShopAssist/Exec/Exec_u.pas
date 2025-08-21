@@ -18,7 +18,7 @@ implementation
 
 uses Configs_u, System.SysUtils, DBServDM_u, Terminais_u, EnvParaTerm_u, Sis_u,
   Log_u, Vcl.Dialogs, TrazerDoTerm_u, EstSaldo_u, Loja_dbi_u, EstSaldo_u_dbi,
-  Sis.Log;
+  Sis.Log, Arqs_Apag_u;
 
 procedure Execute;
 var
@@ -60,6 +60,8 @@ begin
 
           if bAtivo and PODE_SALDO then
             EstSaldo_u.AtualizeEstSaldo(bPrecisaTerminar);
+
+          Arqs_Apag_u.ArqsApagar;
 
           if bPrecisaTerminar then
             break;

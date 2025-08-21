@@ -184,6 +184,7 @@
         <DCCReference Include="Sis\Sis.Log.pas"/>
         <DCCReference Include="Sis\Sis.Log_u.pas"/>
         <DCCReference Include="Sis\Log_u.pas"/>
+        <DCCReference Include="Arqs\Apag\Arqs_Apag_u.pas"/>
         <None Include="..\..\Exe\Configs\ShopAssist.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

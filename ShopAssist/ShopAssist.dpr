@@ -42,7 +42,8 @@ uses
   Loja_dbi_u in 'Loja\Loja_dbi_u.pas',
   Sis.Log in 'Sis\Sis.Log.pas',
   Sis.Log_u in 'Sis\Sis.Log_u.pas',
-  Log_u in 'Sis\Log_u.pas';
+  Log_u in 'Sis\Log_u.pas',
+  Arqs_Apag_u in 'Arqs\Apag\Arqs_Apag_u.pas';
 
 {$R *.res}
 
