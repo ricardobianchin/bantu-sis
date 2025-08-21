@@ -1,65 +1,125 @@
 ﻿unit Sis.UI.IO.Files.ApagueAntigos_u;
-//unit OldFileCleaner;
 
 interface
+{
+
+var
+  bCompletou: Boolean;
+  sErro: string;
+begin
+  bCompletou := False;
+  repeat
+    DeleteOldFilesAndEmptyDirs('C:\Caminho\Para\Pasta', Now - 30, True, True, bCompletou, sErro);
+    // Aqui você pode adicionar um Sleep(10) ou Application.ProcessMessages
+    // para não travar a aplicação, se o diretório for muito grande.
+  until bCompletou;
+
+  if sErro <> '' then
+    ShowMessage(sErro);
+end;
+
+}
 
 uses
-  System.SysUtils;
+  System.SysUtils, System.Classes;
 
-procedure DeleteOldFilesAndEmptyDirs(const APath: string; const AOlderThan: TDateTime; pRemoverVazias: Boolean);
+const
+  MAX_FILES_TO_DELETE = 60000;
+
+procedure DeleteOldFilesAndEmptyDirs(const APath: string;
+  const AOlderThan: TDateTime; pRemoverVazias: Boolean;
+  pRecursivamente: Boolean; var pCompletei: Boolean; out pErroMens: string);
 
 implementation
 
-procedure DeleteOldFilesAndEmptyDirs(const APath: string; const AOlderThan: TDateTime; pRemoverVazias: Boolean);
+procedure DeleteOldFilesAndEmptyDirs(const APath: string;
+  const AOlderThan: TDateTime; pRemoverVazias: Boolean;
+  pRecursivamente: Boolean; var pCompletei: Boolean; out pErroMens: string);
 var
   SR: TSearchRec;
   FullPath: string;
-  IsEmpty: Boolean;
+  FilesToDelete: TStringList;
 begin
-  // Primeira passagem: deletar arquivos antigos e recursar em subpastas
-  if FindFirst(IncludeTrailingPathDelimiter(APath) + '*.*', faAnyFile, SR) = 0 then
-  begin
-    repeat
-      if (SR.Name <> '.') and (SR.Name <> '..') then
-      begin
-        FullPath := IncludeTrailingPathDelimiter(APath) + SR.Name;
-        if (SR.Attr and faDirectory) = faDirectory then
-        begin
-          // Chamada recursiva para subpasta
-          DeleteOldFilesAndEmptyDirs(FullPath, AOlderThan, pRemoverVazias);
-        end
-        else
-        begin
-          // Arquivo: verificar se é mais antigo e deletar
-          if FileDateToDateTime(SR.Time) < AOlderThan then
+  pErroMens := '';
+  pCompletei := False;
+  FilesToDelete := TStringList.Create;
+  try
+    if FindFirst(IncludeTrailingPathDelimiter(APath) + '*.*', faAnyFile, SR) = 0 then
+    begin
+      try
+        repeat
+          if (SR.Name <> '.') and (SR.Name <> '..') then
           begin
-            DeleteFile(FullPath);
+            FullPath := IncludeTrailingPathDelimiter(APath) + SR.Name;
+
+            if (SR.Attr and faDirectory) = faDirectory then
+            begin
+              // Se é um diretório, mas a recursividade não está ativada,
+              // apenas continue, pois não fazemos nada com ele.
+              if pRecursivamente then
+              begin
+                // Chamada recursiva para subdiretórios
+                DeleteOldFilesAndEmptyDirs(FullPath, AOlderThan,
+                  pRemoverVazias, pRecursivamente, pCompletei, pErroMens);
+
+                // Se o subdiretório não completou, saia do método.
+                if not pCompletei then
+                  Exit;
+              end;
+            end
+            else // É um arquivo
+            begin
+              // Se a lista de arquivos a serem apagados atingiu o limite,
+              // a operação não pode ser completada nesta chamada.
+              if FilesToDelete.Count >= MAX_FILES_TO_DELETE then
+              begin
+                pCompletei := False;
+                Break; // Interrompe o loop de busca
+              end;
+
+              // Adiciona o arquivo à lista se ele for mais velho que a data limite.
+              if FileDateToDateTime(SR.Time) < AOlderThan then
+                FilesToDelete.Add(FullPath);
+            end;
           end;
-        end;
+        until FindNext(SR) <> 0;
+      finally
+        FindClose(SR);
       end;
-    until FindNext(SR) <> 0;
-    FindClose(SR);
-  end;
+    end;
 
-  if not pRemoverVazias then
-    exit;
+    // Se o loop de busca terminou naturalmente, significa que completou.
+    if FindNext(SR) <> 0 then
+      pCompletei := False
+    else
+      pCompletei := True;
 
-  // Segunda passagem: verificar se a pasta está vazia (sem arquivos ou subpastas) e remover se for o caso
-  IsEmpty := True;
-  if FindFirst(IncludeTrailingPathDelimiter(APath) + '*.*', faAnyFile, SR) = 0 then
-  begin
-    repeat
-      if (SR.Name <> '.') and (SR.Name <> '..') then
-      begin
-        IsEmpty := False;
-        Break;
+    // Excluir arquivos coletados no lote atual
+    for FullPath in FilesToDelete do
+    begin
+      try
+        if not DeleteFile(FullPath) then
+          pErroMens := 'Erro ao excluir: ' + FullPath;
+      except
+        on E: Exception do
+          pErroMens := 'Erro ao excluir ' + FullPath + ': ' + E.Message;
       end;
-    until FindNext(SR) <> 0;
-    FindClose(SR);
-  end;
-  if IsEmpty then
-  begin
-    RemoveDir(APath);
+    end;
+
+    // Só tenta remover a pasta se o processo foi completado
+    if pRemoverVazias and pCompletei then
+    begin
+      try
+        if not RemoveDir(APath) then
+          pErroMens := 'Erro ao remover pasta: ' + APath;
+      except
+        on E: Exception do
+          pErroMens := 'Erro ao remover pasta ' + APath + ': ' + E.Message;
+      end;
+    end;
+
+  finally
+    FilesToDelete.Free;
   end;
 end;
 
