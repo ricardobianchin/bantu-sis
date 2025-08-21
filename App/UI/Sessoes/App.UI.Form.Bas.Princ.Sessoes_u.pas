@@ -9,7 +9,7 @@ uses
   Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin,
   Vcl.Imaging.pngimage, App.UI.Sessoes.Frame_u, App.Sessao.EventosDeSessao,
   Sis.UI.Form.Login.Config, App.Constants, App.Sessao, Sis.UI.IO.Files,
-  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor;
+  App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor, Vcl.Menus;
 
 const
 {$IFDEF DEBUG}
@@ -25,9 +25,18 @@ type
     DtHCompilePanel: TPanel;
     HideToolButton_SessoesPrincBasForm: TToolButton;
     OcultarAction_SessoesPrincBasForm: TAction;
+    TrayIconPopupMenu_SessoesPrincBasForm: TPopupMenu;
+    Ocultarestemenu1: TMenuItem;
+    Ocultarestemenu2: TMenuItem;
+    OcultaroGerenciador1: TMenuItem;
+    ExibiroGerenciador1: TMenuItem;
     procedure ShowTimer_BasFormTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure OcultarAction_SessoesPrincBasFormExecute(Sender: TObject);
+    procedure OcultaroGerenciador1Click(Sender: TObject);
+    procedure ExibiroGerenciador1Click(Sender: TObject);
+    procedure TrayIcon_PrincBasFormMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
     // FSessaoCriadorList: ISessaoCriadorList;
@@ -169,7 +178,7 @@ var
   sParam: string;
   i: integer;
 begin
-  inherited;
+  Result := inherited;
   sParam := '';
   for i := 1 to ParamCount do
   begin
@@ -178,6 +187,12 @@ begin
     sParam := sParam + ParamStr(i);
   end;
   AppComandoSalve(sParam);
+end;
+
+procedure TSessoesPrincBasForm.ExibiroGerenciador1Click(Sender: TObject);
+begin
+  inherited;
+  Show;
 end;
 
 procedure TSessoesPrincBasForm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -198,6 +213,12 @@ end;
 
 procedure TSessoesPrincBasForm.OcultarAction_SessoesPrincBasFormExecute
   (Sender: TObject);
+begin
+  inherited;
+  Hide;
+end;
+
+procedure TSessoesPrincBasForm.OcultaroGerenciador1Click(Sender: TObject);
 begin
   inherited;
   Hide;
@@ -239,6 +260,17 @@ begin
   if AUTO_OCULTAR then
     Hide;
   FSessoesFrame.ExecuteAutoLogin;
+end;
+
+procedure TSessoesPrincBasForm.TrayIcon_PrincBasFormMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+//  if Button = TMouseButton.mbRight then
+//  begin
+//    TrayIcon_PrincBasForm.PopupMenu.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+//  end;
+
 end;
 
 end.

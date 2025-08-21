@@ -24,7 +24,7 @@ type
     DtHCompileLabel: TLabel;
     AppComandosExecTimer_PrincBasForm: TTimer;
     TarefasTimer_PrincBasForm: TTimer;
-    TrayIcon1: TTrayIcon;
+    TrayIcon_PrincBasForm: TTrayIcon;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -36,7 +36,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure AppComandosExecTimer_PrincBasFormTimer(Sender: TObject);
     procedure TarefasTimer_PrincBasFormTimer(Sender: TObject);
-    procedure TrayIcon1Click(Sender: TObject);
+    procedure TrayIcon_PrincBasFormClick(Sender: TObject);
   private
     { Private declarations }
     MutexHandle: THandle;
@@ -365,7 +365,7 @@ begin
   // ReportMemoryLeaksOnShutdown := True;
   Randomize;
 
-  TrayIcon1.Icon.Assign(Self.Icon);
+  TrayIcon_PrincBasForm.Icon.Assign(Self.Icon);
 
   FAppComandosBuscandoArquivos := False;
   FPrecisaFechar := False;
@@ -718,7 +718,7 @@ begin
   inherited;
   if PrecisaFechar then
     exit;
-  TrayIcon1.Visible := True;
+  TrayIcon_PrincBasForm.Visible := True;
   AssistAbrir;
   AppComandosExecTimer_PrincBasForm.Enabled := True;
   FAppBak.Execute;
@@ -744,10 +744,10 @@ begin
   end;
 end;
 
-procedure TPrincBasForm.TrayIcon1Click(Sender: TObject);
+procedure TPrincBasForm.TrayIcon_PrincBasFormClick(Sender: TObject);
 begin
   inherited;
-  Show;
+  Visible := not Visible;
 end;
 
 procedure TPrincBasForm.WndProc(var Message: TMessage);

@@ -3,6 +3,7 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
   ClientHeight = 583
   ClientWidth = 670
   Position = poDesktopCenter
+  StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 670
   ExplicitHeight = 583
   TextHeight = 15
@@ -59,6 +60,28 @@ inherited SessoesPrincBasForm: TSessoesPrincBasForm
       Caption = 'OcultarAction_SessoesPrincBasForm'
       ImageIndex = 7
       OnExecute = OcultarAction_SessoesPrincBasFormExecute
+    end
+  end
+  inherited TrayIcon_PrincBasForm: TTrayIcon
+    PopupMenu = TrayIconPopupMenu_SessoesPrincBasForm
+    OnMouseUp = TrayIcon_PrincBasFormMouseUp
+  end
+  object TrayIconPopupMenu_SessoesPrincBasForm: TPopupMenu
+    Left = 384
+    Top = 184
+    object Ocultarestemenu1: TMenuItem
+      Caption = 'Ocultar este menu'
+    end
+    object Ocultarestemenu2: TMenuItem
+      Caption = '-'
+    end
+    object OcultaroGerenciador1: TMenuItem
+      Caption = 'Ocultar o Gerenciador'
+      OnClick = OcultaroGerenciador1Click
+    end
+    object ExibiroGerenciador1: TMenuItem
+      Caption = 'Exibir o Gerenciador'
+      OnClick = ExibiroGerenciador1Click
     end
   end
 end

@@ -112,8 +112,8 @@ inherited PrincBasForm: TPrincBasForm
     Left = 80
     Top = 96
   end
-  object TrayIcon1: TTrayIcon
-    OnClick = TrayIcon1Click
+  object TrayIcon_PrincBasForm: TTrayIcon
+    OnClick = TrayIcon_PrincBasFormClick
     Left = 184
     Top = 184
   end
