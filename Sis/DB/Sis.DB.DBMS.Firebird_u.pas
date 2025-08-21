@@ -1,4 +1,4 @@
-unit Sis.DB.DBMS.Firebird_u;
+﻿unit Sis.DB.DBMS.Firebird_u;
 
 interface
 
@@ -159,7 +159,12 @@ begin
     sComandosBak := sComandosBak + sLinhaDeComandoBak + #13#10;
     sComandosBak := sComandosBak + Format(sComandoComprime, [sNomeArq]) +
       #13#10#13#10;
+  end;
 
+  for i := 0 to pArqsCriadosSL.Count - 1 do
+  begin
+    sComandosBak := sComandosBak + '"' + ParamStr(0) + '" upbak "' +
+      pArqsCriadosSL[i] + '"' + #13#10#13#10;
   end;
 
   {

@@ -2,26 +2,14 @@ unit Sis.Web.HTTP.Upload_u;
 
 interface
 
-uses Sis.Web.HTTP.Upload, IdHTTP, System.Classes, IdSSL, IdSSLOpenSSL,
-  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output;
+uses Sis.Web.HTTP.FileTranser_u, IdHTTP, System.Classes, IdSSL, IdSSLOpenSSL,
+  Sis.UI.IO.Output.ProcessLog, Sis.UI.IO.Output, sis.sis.Executavel_u;
 
 type
-  THTTPUpload = class(TInterfacedObject, IHTTPUpload)
+  THTTPUpload = class(THTTPFileTranser)
   private
-    FProcessLog: IProcessLog;
-    FOutput: IOutput;
-    FExluiDestinoAntesDeBaixar: boolean;
-    // FDtHLocal, FDtHRemoto : TDateTIme;
-    FArqLocal, FArqRemoto: string;
-
-    // IdHTTP1: TIdHTTP;
-    // IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
-    // MS: TMemoryStream;
-    // function ExecuteIndy: Boolean;
   public
-    function Execute: boolean;
-    constructor Create(pArqLocal, pArqRemoto: string; pProcessLog: IProcessLog;
-      pOutput: IOutput; pExluiDestinoAntesDeBaixar: boolean);
+    function Execute: boolean; override;
   end;
 
 implementation
@@ -30,21 +18,6 @@ uses System.DateUtils, System.SysUtils, Sis.Types.Dates, Sis.UI.IO.Files.Sync,
   Sis.Web.HTTP.Upload.NET;
 
 { THTTPUpload }
-
-constructor THTTPUpload.Create(pArqLocal, pArqRemoto: string;
-  pProcessLog: IProcessLog; pOutput: IOutput;
-  pExluiDestinoAntesDeBaixar: boolean);
-begin
-  FArqLocal := pArqLocal;
-  FArqRemoto := pArqRemoto;
-  FProcessLog := pProcessLog;
-  FOutput := pOutput;
-  FExluiDestinoAntesDeBaixar := pExluiDestinoAntesDeBaixar;
-
-  FProcessLog.PegueLocal('THTTPUpload.Create');
-  FProcessLog.RegistreLog('Local=' + FArqLocal + ',Remoto=' + FArqRemoto);
-  FProcessLog.RetorneLocal;
-end;
 
 function THTTPUpload.Execute: boolean;
 begin
@@ -55,17 +28,17 @@ begin
 
     case WEB_LIB_USADA of
     WEB_LIB_INDY: Result := ExecuteIndy;
-    WEB_LIB_NET: Result := Sis.Web.HTTPUpload.NET.Execute(FArqLocal, FArqRemoto, FProcessLog, FOutput, FExluiDestinoAntesDeBaixar);
+    WEB_LIB_NET: Result := Sis.Web.HTTPUpload.NET.Execute(FArqLocal, FArqRemoto, ProcessLog, Output, FExluiDestinoAntesDeBaixar);
     end;
   }
-  FProcessLog.PegueLocal('THTTPUpload.Execute');
+  ProcessLog.PegueLocal('THTTPUpload.Execute');
   try
-    FProcessLog.RegistreLog('vai chamar Sis.Web.HTTPUpload.NET.Execute');
-    Result := Sis.Web.HTTP.Upload.NET.NETUpload(FArqLocal, FArqRemoto,
-      FProcessLog, FOutput);
-    FProcessLog.RegistreLog('retornou de Sis.Web.HTTPUpload.NET.Execute,Fim');
+    ProcessLog.RegistreLog('vai chamar Sis.Web.HTTPUpload.NET.Execute');
+    Result := Sis.Web.HTTP.Upload.NET.NETUpload(ArqLocal, ArqRemoto,
+      ProcessLog, Output);
+    ProcessLog.RegistreLog('retornou de Sis.Web.HTTPUpload.NET.Execute,Fim');
   finally
-    FProcessLog.RetorneLocal;
+    ProcessLog.RetorneLocal;
   end;
 end;
 
@@ -126,7 +99,7 @@ end;
   sLog := sLog + ',HTTP.Free';
   IdHTTP1.Free;
   sLog := sLog + ',Result=' + BooleanToStr(Result);
-  FProcessLog.Exibir(sLog);
+  ProcessLog.Exibir(sLog);
   end;
   end;
 }
