@@ -3,6 +3,7 @@ inherited PrincBasForm: TPrincBasForm
   Caption = 'PrincBasForm'
   ClientHeight = 477
   ClientWidth = 628
+  StyleElements = [seFont, seClient, seBorder]
   OnKeyDown = FormKeyDown
   ExplicitWidth = 628
   ExplicitHeight = 477
@@ -110,5 +111,10 @@ inherited PrincBasForm: TPrincBasForm
     OnTimer = TarefasTimer_PrincBasFormTimer
     Left = 80
     Top = 96
+  end
+  object TrayIcon1: TTrayIcon
+    OnClick = TrayIcon1Click
+    Left = 184
+    Top = 184
   end
 end

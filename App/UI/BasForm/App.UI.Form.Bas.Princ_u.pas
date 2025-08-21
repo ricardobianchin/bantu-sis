@@ -24,6 +24,7 @@ type
     DtHCompileLabel: TLabel;
     AppComandosExecTimer_PrincBasForm: TTimer;
     TarefasTimer_PrincBasForm: TTimer;
+    TrayIcon1: TTrayIcon;
 
     procedure MinimizeAction_PrincBasFormExecute(Sender: TObject);
     procedure TitleBarPanelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -35,6 +36,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure AppComandosExecTimer_PrincBasFormTimer(Sender: TObject);
     procedure TarefasTimer_PrincBasFormTimer(Sender: TObject);
+    procedure TrayIcon1Click(Sender: TObject);
   private
     { Private declarations }
     MutexHandle: THandle;
@@ -72,6 +74,8 @@ type
 
     procedure AssistPedirPraFechar;
   protected
+    procedure WndProc(var Message: TMessage); override;
+
     function ExeParamsDecida: Boolean; virtual;
     procedure DoSegundaInstancia; virtual;
 
@@ -360,6 +364,9 @@ begin
   inherited Create(AOwner);
   // ReportMemoryLeaksOnShutdown := True;
   Randomize;
+
+  TrayIcon1.Icon.Assign(Self.Icon);
+
   FAppComandosBuscandoArquivos := False;
   FPrecisaFechar := False;
 
@@ -711,6 +718,7 @@ begin
   inherited;
   if PrecisaFechar then
     exit;
+  TrayIcon1.Visible := True;
   AssistAbrir;
   AppComandosExecTimer_PrincBasForm.Enabled := True;
   FAppBak.Execute;
@@ -734,6 +742,25 @@ begin
     ReleaseCapture;
     Perform(WM_SYSCOMMAND, SC_DRAGMOVE, 0);
   end;
+end;
+
+procedure TPrincBasForm.TrayIcon1Click(Sender: TObject);
+begin
+  inherited;
+  Show;
+end;
+
+procedure TPrincBasForm.WndProc(var Message: TMessage);
+begin
+//  if Message.Msg = WM_SHOWWINDOW then
+//  begin
+//    if Message.WParam = 1 then
+//      ShowMessage('Formulário está sendo mostrado!')
+//    else
+//      ShowMessage('Formulário está sendo escondido!');
+//  end;
+
+  inherited WndProc(Message);
 end;
 
 end.
