@@ -22,8 +22,13 @@ var
   Len: Integer;  // Variável para armazenar o comprimento da string
 
 begin
+{$IFDEF DEBUG}
   pAppInfo.PessoaDonoId := 1;
+  pAppInfo.PessoaDonoGuid := '91F18A55-C43A-4952-A44D-F420E100AE96';
+{$ELSE}
+  pAppInfo.PessoaDonoId := 2;
   pAppInfo.PessoaDonoGuid := '75D834F0-F69C-4B62-A533-242E0CD0A56E';
+{$ENDIF}
 
   pAppInfo.FundoCor := $1F0E0A;
   pAppInfo.FonteCor := $00A66644;

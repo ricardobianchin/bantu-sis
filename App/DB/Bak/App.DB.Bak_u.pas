@@ -4,6 +4,13 @@ interface
 
 uses Sis.Sis.Executavel_u, App.DB.Bak, Sis.UI.IO.Output, Sis.DB.DBTypes,
   Sis.UI.IO.Output.ProcessLog, System.Classes, App.AppObj;
+const
+{$IFDEF DEBUG}
+//  FAZ_BACKUP = TRUE;
+  FAZ_BACKUP = FALSE;
+{$ELSE}
+  FAZ_BACKUP = TRUE;
+{$ENDIF}
 
 type
   TAppBak = class(TExecutavel, IAppBak)
@@ -43,6 +50,9 @@ var
   oArqsCriadosSL: TStringList;
 begin
   Result := True;
+
+  if not FAZ_BACKUP then
+    exit;
 
   if FExecutando then
     exit;
