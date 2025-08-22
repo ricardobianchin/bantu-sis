@@ -41,7 +41,7 @@ var
   FilesToDelete: TStringList;
 begin
   pErroMens := '';
-  pCompletei := False;
+  pCompletei := True;
   FilesToDelete := TStringList.Create;
   try
     if FindFirst(IncludeTrailingPathDelimiter(APath) + '*.*', faAnyFile, SR) = 0 then
@@ -87,12 +87,6 @@ begin
         FindClose(SR);
       end;
     end;
-
-    // Se o loop de busca terminou naturalmente, significa que completou.
-    if FindNext(SR) <> 0 then
-      pCompletei := False
-    else
-      pCompletei := True;
 
     // Excluir arquivos coletados no lote atual
     for FullPath in FilesToDelete do
