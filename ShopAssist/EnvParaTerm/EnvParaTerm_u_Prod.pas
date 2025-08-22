@@ -11,14 +11,17 @@ implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
   System.SysUtils, DB_u, Sis.DB.SqlUtils_u, Sis.Win.Utils_u,
-  Sis.Types.strings_u, Log_u;
+  Sis.Types.strings_u, Sis_u;
 
 var
   FLog: TextFile;
 
 procedure InicieLog(pTerminalId: SmallInt);
+var
+  sNomeArq: string;
 begin
-  AssignFile(FLog, sPastaLog + 'env_prod' + pTerminalId.ToString + '.txt');
+  sNomeArq  := sPastaLog + 'env_prod' + pTerminalId.ToString + '.txt';
+  AssignFile(FLog, sNomeArq);
   Rewrite(FLog);
   CloseFile(FLog);
 end;
@@ -35,33 +38,32 @@ begin
   Result := //
     'SELECT'#13#10 //
 
-    + 'PROD_ID'#13#10 // 0
-    + ', DESCR'#13#10 // 1
-    + ', DESCR_RED'#13#10 // 2
-    + ', FABR_ID'#13#10 // 3
-    + ', PROD_TIPO_ID'#13#10 // 4
-    + ', UNID_ID'#13#10 // 5
-    + ', ICMS_ID'#13#10 // 6
-    + ', CAPAC_EMB'#13#10 // 7
-    + ', NCM'#13#10 // 8
-    + ', DE_SISTEMA'#13#10 // 9
-    + ', FABR_NOME'#13#10 // 10
-    + ', PROD_TIPO_DESCR'#13#10 // 11
-    + ', UNID_DESCR'#13#10 // 12
-    + ', UNID_SIGLA'#13#10 // 13
-    + ', ICMS_SIGLA'#13#10 // 14
-    + ', ICMS_DESCR'#13#10 // 15
-    + ', ICMS_PERC'#13#10 // 16
-
-    + ', PROD_NATU_ID'#13#10 // 17
-    + ', ATIVO'#13#10 // 18
-    + ', LOCALIZ'#13#10 // 19
-    + ', BALANCA_EXIGE'#13#10 // 20
-    + ', CUSTO'#13#10 // 21
-    + ', PRECO'#13#10 // 22
-    + ', CRIADO_EM'#13#10 // 23
-    + ', ALTERADO_EM'#13#10 // 24
-    + ', BARRAS'#13#10 // 25
+    + 'PROD_ID -- 0'#13#10 //
+    + ', DESCR -- 1'#13#10 //
+    + ', DESCR_RED -- 2'#13#10 //
+    + ', FABR_ID -- 3'#13#10 //
+    + ', PROD_TIPO_ID -- 4'#13#10 //
+    + ', UNID_ID -- 5'#13#10 //
+    + ', ICMS_ID -- 6'#13#10 //
+    + ', CAPAC_EMB -- 7'#13#10 //
+    + ', NCM -- 8'#13#10 //
+    + ', DE_SISTEMA -- 9'#13#10 //
+    + ', FABR_NOME -- 10'#13#10 //
+    + ', PROD_TIPO_DESCR -- 11'#13#10 //
+    + ', UNID_DESCR -- 12'#13#10 //
+    + ', UNID_SIGLA -- 13'#13#10 //
+    + ', ICMS_SIGLA -- 14'#13#10 //
+    + ', ICMS_DESCR -- 15'#13#10 //
+    + ', ICMS_PERC -- 16'#13#10 //
+    + ', PROD_NATU_ID -- 17'#13#10 //
+    + ', ATIVO -- 18'#13#10 //
+    + ', LOCALIZ -- 19'#13#10 //
+    + ', BALANCA_EXIGE -- 20'#13#10 //
+    + ', CUSTO -- 21'#13#10 //
+    + ', PRECO -- 22'#13#10 //
+    + ', CRIADO_EM -- 23'#13#10 //
+    + ', ALTERADO_EM -- 24'#13#10 //
+    + ', BARRAS -- 25'#13#10 //
 
     + 'FROM LOG_HIST_PROD_PA.TEVE_PROD('#13#10 //
 
@@ -121,7 +123,7 @@ begin
         oExecScript.PegueComando(sSql);
         EscrLog('p;'+q.fields[0].AsString+';'+sSql);
 
-        sBarras := q.Fields[24].AsString.Trim;
+        sBarras := q.Fields[25].AsString.Trim;
         if sBarras <> '' then
         begin
           StrDeleteTrailingChars(sBarras, [',', ';', #32, #13, #10]);

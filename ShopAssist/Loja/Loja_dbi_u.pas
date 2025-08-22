@@ -2,7 +2,7 @@ unit Loja_dbi_u;
 
 interface
 
-uses Sis_u, Log_u, DBServDM_u;
+uses Sis_u, DBServDM_u;
 
 function CarregueLoja: Boolean;
 
@@ -47,11 +47,13 @@ begin
 
     try
       iLojaId := Q.Fields[0 { LOJA_ID } ].AsInteger;
+      Log.Escreva('iLojaId='+iLojaId.ToString);
     finally
       Q.Free;
     end;
   finally
     DBServDM.Connection.Close;
+    Log.Escreva('CarregueLoja fim');
   end;
 end;
 

@@ -8,7 +8,7 @@ procedure TrazerDoTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 
 implementation
 
-uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils, Log_u,
+uses Sis_u, DBServDM_u, System.Math, ExecScript_u, System.SysUtils,
   TrazerDoTerm_u_PegarFaixa, TrazerDoTerm_u_TrazCxSess,
   TrazerDoTerm_u_TrazCxOper, TrazerDoTerm_u_TrazCxOperDesp,
   TrazerDoTerm_u_TrazCxOperValor, TrazerDoTerm_u_TrazLogMovs,

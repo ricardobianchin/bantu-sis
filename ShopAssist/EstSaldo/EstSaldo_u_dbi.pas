@@ -29,7 +29,7 @@ procedure EstSaldoAtualDtHGarantir;
 implementation
 
 uses DBServDM_u, System.DateUtils, EstSaldo_u_ProdSaldoRecord, Sis.Types.Dates,
-  EstSaldo_u_ProdSaldoArrayUtils, System.SysUtils, Log_u, Sis.DB.DBTypes, Sis_u,
+  EstSaldo_u_ProdSaldoArrayUtils, System.SysUtils, Sis.DB.DBTypes, Sis_u,
   Sis.Log;
 
 function GetSaldoDtHistUltima: TDateTime;
@@ -448,6 +448,7 @@ var
   sMens: string;
   rProdSaldo: TProdSaldo;
 begin
+  Log.Escreva('EstSaldoAtualDtHGarantir');
   DBServDM.Connection.StartTransaction;
   try
     sSql := 'EXECUTE PROCEDURE EST_SALDO_RETAG_PA.EST_SALDO_ATUAL_DTH_GAR;';
@@ -456,11 +457,12 @@ begin
     DBServDM.FDCommand1.Execute;
 
     DBServDM.Connection.Commit;
+    Log.Escreva('EstSaldoAtualDtHGarantir fim');
   except
     on e: exception do
     begin
       DBServDM.Connection.Rollback;
-      sMens := 'EstSaldoAtualDtHGarantir: ' + e.Message;
+      sMens := 'EstSaldoAtualDtHGarantir fim com erro: ' + e.Message;
       Log.Escreva(sMens);
       //EscrevaLog(sMens);
     end;

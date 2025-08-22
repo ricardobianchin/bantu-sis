@@ -12,7 +12,7 @@ procedure ForEachTerminal(pProc: TProcTermOfObject;
 
 implementation
 
-uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u, Log_u,
+uses Data.DB, DBServDM_u, App.AppInfo.Types, System.SysUtils, Sis_u,
   vcl.dialogs, Sis.Win.Utils_u, Configs_u, Sis.Log;
 
 var
@@ -32,15 +32,15 @@ var
   sDriver: string;
 begin
   Log.Escreva('CrieListaDeTerminais');
-  //EscrevaLog('CrieListaDeTerminais');
+  // EscrevaLog('CrieListaDeTerminais');
   sDriver := 'FB';
   DBTermDMList := TList<TDBTermDM>.Create;
   try
     DBServDM.Connection.Open;
   except
     on e: exception do
-      Log.Escreva('Erro CrieListaDeTerminais: '+e.message);
-      //EscrevaLog('Erro CrieListaDeTerminais: '+e.message);
+      Log.Escreva('Erro CrieListaDeTerminais: ' + e.message);
+    // EscrevaLog('Erro CrieListaDeTerminais: '+e.message);
   end;
   try
     sSql := 'SELECT'#13#10 //
@@ -50,13 +50,13 @@ begin
       + ', LETRA_DO_DRIVE'#13#10 // 3
       + ' FROM TERMINAL'#13#10 //
       + 'WHERE TERMINAL_ID > 0 AND ATIVO'#13#10 //
-      +' AND (NOME_NA_REDE = '+QuotedStr( Config.Local.Nome) + #13#10 //
-      +' OR IP = '+QuotedStr( Config.Local.Ip) + ')'#13#10 //
+      + ' AND (NOME_NA_REDE = ' + QuotedStr(Config.Local.Nome) + #13#10 //
+      + ' OR IP = ' + QuotedStr(Config.Local.Ip) + ')'#13#10 //
       + 'ORDER BY TERMINAL_ID;'#13#10; //
 
-//{$IFDEF DEBUG}
-//    CopyTextToClipboard(sSql);
-//{$ENDIF}
+    // {$IFDEF DEBUG}
+    // CopyTextToClipboard(sSql);
+    // {$ENDIF}
     DBServDM.Connection.ExecSQL(sSql, Q);
 
     if not Assigned(Q) then
@@ -96,6 +96,8 @@ begin
           + 'Protocol=TCPIP' //
           ;
 
+        Log.Escreva('terminal_id=' + iId.ToString + ';' +
+          oDM.Terminal.NomeNaRede + ';' + oDM.Terminal.LocalArqDados);
         DBTermDMList.Add(oDM);
         Q.Next;
       end;
@@ -104,13 +106,14 @@ begin
     end;
   finally
     DBServDM.Connection.Close;
+    Log.Escreva('CrieListaDeTerminais fim');
   end;
 end;
 
 procedure LibereListaDeTerminais;
 begin
   Log.Escreva('LibereListaDeTerminais');
-  //EscrevaLog('LibereListaDeTerminais');
+  // EscrevaLog('LibereListaDeTerminais');
   for var oDM in DBTermDMList do
     FreeAndNil(oDM);
   FreeAndNil(DBTermDMList);

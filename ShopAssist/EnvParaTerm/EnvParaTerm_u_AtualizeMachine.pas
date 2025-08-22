@@ -9,7 +9,7 @@ procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u, Configs_u, Log_u, Sis.Log;
+  System.SysUtils, DB_u, Configs_u, Sis.Log;
 
 procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -97,7 +97,6 @@ begin
               pTermDM.Terminal.TerminalId.ToString + '. ' + sSql + '  ' +
               e.message;
             Log.Escreva(sMens);
-            // Log_u.EscrevaLog(sMens);
           end;
         end;
       end;

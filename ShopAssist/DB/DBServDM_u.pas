@@ -36,7 +36,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Log_u, Sis.Log;
+uses Sis.Log;
 
 {$R *.dfm}
 

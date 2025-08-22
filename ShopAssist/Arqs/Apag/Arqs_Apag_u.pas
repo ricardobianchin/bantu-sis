@@ -38,7 +38,7 @@ begin
     exit;
   dtUltimoApagamento := dtAgora;
   dtHoje := Trunc(dtAgora);
-  dtOlderThan := Date - 40;
+  dtOlderThan := dtHoje - 40;
 
   PastaApagar(sPastaTmp,            dtOlderThan, True { pRemoverVazias}, True {pRecursivamente});
   PastaApagar(sPastaBackup,         dtOlderThan, True { pRemoverVazias}, True {pRecursivamente});

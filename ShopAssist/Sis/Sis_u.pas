@@ -15,6 +15,7 @@ var
   sPastaDadosServ: string;
 
   sPastaTmp: string;
+  sPastaLog: string;
   sPastaBackup: string;
   sPastaComandos: string;
   sPastaComandosBackup: string;
@@ -28,7 +29,7 @@ var
 
 function GetPrecisaTerminar: Boolean;
 procedure ApaguePrecisaTerminar;
-procedure InicializePrecisaTerminar;
+procedure InicializePrecisaTerminar(var pLog: string);
 
 implementation
 
@@ -49,9 +50,10 @@ begin
   DeleteFile(sNomeArq);
 end;
 
-procedure InicializePrecisaTerminar;
+procedure InicializePrecisaTerminar(var pLog: string);
 begin
   sNomeArq := sPastaBin + ASSIST_NOME_ARQ_TERMINAR;
+  pLog := pLog + 'InicializePrecisaTerminar: ' + sNomeArq + #13#10;
 end;
 
 initialization

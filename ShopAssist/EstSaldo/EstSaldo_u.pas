@@ -8,7 +8,7 @@ procedure AtualizeEstSaldo(pPrecisaTerminar: Boolean);
 
 implementation
 
-uses Sis_u, System.Math, ExecScript_u, System.SysUtils, Log_u, EstSaldo_u_dbi,
+uses Sis_u, System.Math, ExecScript_u, System.SysUtils, EstSaldo_u_dbi,
   Sis.Sis.Constants, Sis.Types.Dates, DateUtils,
   EstSaldo_u_HistReconstrua, EstSaldo_u_ProdSaldoRecord,
   EstSaldo_u_ProdSaldoArrayType, EstSaldo_u_ProdSaldoArrayUtils, Sis.Log;

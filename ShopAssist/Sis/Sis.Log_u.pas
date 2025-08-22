@@ -69,6 +69,7 @@ begin
   sNomeArq := FPastaLog + 'Log Assist ' + DateToNomeArq(dHoje) + '.txt';
 
   sAgora := FormatDateTime('hh:nn:ss,zzz', dAgora);
+  pFrase := StringReplace(pFrase, #13#10, ';', [TReplaceFlag.rfReplaceAll]);
 
   pFrase := Comprima(pFrase, sNomeArq);
   pFrase := sAgora + ';' + pFrase + sNOVA_LINHA;

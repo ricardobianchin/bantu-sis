@@ -9,7 +9,7 @@ uses
   System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ToolWin, Vcl.Imaging.pngimage, App.AppInfo, App.AppObj,
   App.UI.Sessoes.Frame_u, FireDAC.Comp.Client, Sis.UI.IO.Output.ProcessLog,
-  Sis.UI.IO.Output, App.DB.Bak, Sis.Sis.Executavel, Sis.Web.Factory;
+  Sis.UI.IO.Output, App.DB.Bak, Sis.Sis.Executavel, Sis.Web.Factory, Vcl.Menus;
 
 type
   TShopPrincForm = class(TSessoesPrincBasForm)
@@ -89,9 +89,11 @@ var
   bErroDeu: Boolean;
   sErroMens: string;
 begin
-  Result := ParamCount < 2;
-  if Result then
+  if ParamCount < 2 then
+  begin
+    Result := inherited;
     exit;
+  end;
 
   if AnsiLowerCase(ParamStr(1)) = 'upbak' then
   begin
@@ -110,7 +112,10 @@ begin
 //    oUpload.Execute;
 
     Sis.Web.FTP.Frame_u.Put(sArqLocal, sArqRemoto, bErroDeu, sErroMens);
+    exit;
   end;
+
+  Result := inherited;
 end;
 
 function TShopPrincForm.GetAppInfoCreate: IAppInfo;

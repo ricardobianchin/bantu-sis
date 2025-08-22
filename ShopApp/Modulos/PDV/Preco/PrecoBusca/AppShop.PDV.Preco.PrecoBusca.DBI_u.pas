@@ -17,7 +17,7 @@ type
 
 implementation
 
-uses App.Prod.BuscaTipo_u, Sis.Types.strings_u, System.SysUtils;
+uses App.Prod.BuscaTipo_u, Sis.Types.strings_u, System.SysUtils, Sis.Win.Utils_u;
 
 { TShopPrecoBuscaDBI }
 
@@ -86,6 +86,9 @@ begin
         ;
     end;
   end;
+//{$IFDEF DEBUG}
+//CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 end.

@@ -42,7 +42,6 @@ uses
   Loja_dbi_u in 'Loja\Loja_dbi_u.pas',
   Sis.Log in 'Sis\Sis.Log.pas',
   Sis.Log_u in 'Sis\Sis.Log_u.pas',
-  Log_u in 'Sis\Log_u.pas',
   Arqs_Apag_u in 'Arqs\Apag\Arqs_Apag_u.pas';
 
 {$R *.res}
@@ -50,7 +49,7 @@ uses
 var
   hMutex: THandle;
 begin
-  hMutex := CreateMutex(nil, True, 'ShopAssistMutex');
+  hMutex := CreateMutex(nil, True, 'ShopAssistMutex_A399FA3D-CA72-4832-AC7B-A45BDBE061DB');
   try
     if GetLastError = ERROR_ALREADY_EXISTS then
     begin
@@ -66,8 +65,4 @@ begin
     CloseHandle(hMutex);
   end;
 end.
-
-
-
-
 

@@ -12,7 +12,7 @@ uses Sis_u, EnvParaTerm_u_AtualizeMachine, EnvParaTerm_u_PegarFaixa, DBServDM_u,
   System.Math, ExecScript_u, System.SysUtils, EnvParaTerm_u_Loja,
   EnvParaTerm_u_Terminal, EnvParaTerm_u_PagamentoForma,
   EnvParaTerm_u_FuncionarioUsuario, EnvParaTerm_u_UsuarioPodeOpcaoSis,
-  EnvParaTerm_u_Prod, EnvParaTerm_u_ProdCusto, Log_u, EnvParaTerm_u_ProdPreco,
+  EnvParaTerm_u_Prod, EnvParaTerm_u_ProdCusto, EnvParaTerm_u_ProdPreco,
   EnvParaTerm_u_DespesaTipo, Sis.Log;
 
 procedure EnvParaTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);

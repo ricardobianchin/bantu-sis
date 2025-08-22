@@ -50,14 +50,15 @@ procedure CarregarConfigs;
 function DBServDMCreate: TDBServDM;
 procedure CarregarIni_Ativo;
 procedure CarregarIni_MaqLocal(out pServNomeNaRede: string; out pServIp: string;
-  out pLocalNomeNaRede: string; out pLocalIp: string; out pLocalArqDados: string);
+  out pLocalNomeNaRede: string; out pLocalIp: string;
+  out pLocalArqDados: string);
 
 implementation
 
-uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, Log_u, IniFiles,
-  Sis.Win.Utils_u, Sis.Log, Sis.Log_u;
+uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, IniFiles,
+  Sis.Win.Utils_u, Sis.Log, Sis.Log_u, Sis.Types.Bool_u;
 
-function LoadConfigFromXML(const FileName: string): TConfig;
+function LoadConfigFromXML(const FileName: string; var pLog: string): TConfig;
 var
   XMLDoc: IXMLDocument;
   RootNode, Node: IXMLNode;
@@ -65,32 +66,47 @@ var
   sLocalNomeNaRede, sLocalIp: string;
   sLocalArqDados: string;
 begin
+  pLog := pLog + ';''LoadConfigFromXML: ' + FileName + ';';
   XMLDoc := LoadXMLDocument(FileName);
 
   RootNode := XMLDoc.DocumentElement;
+  pLog := pLog + 'RootNode: ' + RootNode.NodeName + ';';
 
   Node := RootNode.ChildNodes['SERVER'];
   Result.Server.Nome := Node.ChildNodes['NOME'].Text;
   Result.Server.IP := Node.ChildNodes['IP'].Text;
   Result.Server.EhServidor := Node.ChildNodes['EH_SERVIDOR'].Text;
 
+  pLog := pLog + 'Server: ' + Result.Server.Nome + ', ' + Result.Server.IP +
+    ', ' + Result.Server.EhServidor + ';';
+
   Result.EstSaldo.Processa := Result.Server.EhServidor;
+  pLog := pLog + 'EstSaldo.Processa: ' + Result.EstSaldo.Processa + ';';
 
   Node := RootNode.ChildNodes['LOCAL'];
   Result.Local.Nome := Node.ChildNodes['NOME'].Text;
   Result.Local.IP := Node.ChildNodes['IP'].Text;
+
+  pLog := pLog + 'Local: ' + Result.Local.Nome + ', ' + Result.Local.IP + ';';
 
   Node := RootNode.ChildNodes['DBMS'];
   Result.DBMS.Software := Node.ChildNodes['SOFTWARE'].Text;
   Result.DBMS.Versao := Node.ChildNodes['VERSAO'].Text;
   Result.DBMS.Framework := Node.ChildNodes['FRAMEWORK'].Text;
 
+  pLog := pLog + 'DBMS: ' + Result.DBMS.Software + ', ' + Result.DBMS.Versao +
+    ', ' + Result.DBMS.Framework + ';';
+
   Node := RootNode.ChildNodes['SO'];
   Result.SO.Versao := Node.ChildNodes['VERSAO'].Text;
   Result.SO.CSDVersion := Node.ChildNodes['CSD_VERSION'].Text;
   Result.SO.Platform := Node.ChildNodes['PLATFORM'].Text;
 
-  CarregarIni_MaqLocal(sServNomeNaRede, sServIp, sLocalNomeNaRede, sLocalIp, sLocalArqDados);
+  pLog := pLog + 'SO: ' + Result.SO.Versao + ', ' + Result.SO.CSDVersion +
+    ', ' + Result.SO.Platform + ';';
+
+  CarregarIni_MaqLocal(sServNomeNaRede, sServIp, sLocalNomeNaRede, sLocalIp,
+    sLocalArqDados);
   if sServNomeNaRede <> '' then
   begin
     Result.Server.Nome := sServNomeNaRede;
@@ -98,7 +114,14 @@ begin
     Result.Local.Nome := sLocalNomeNaRede;
     Result.Local.IP := sLocalIp;
     sPastaDados := GetPastaDoArquivo(sLocalArqDados);
+    pLog := pLog + 'Server.nome = ' + Result.Server.Nome + ';' +
+      'Server.IP = ' + Result.Server.IP + ';' +
+      'Local.nome = ' + Result.Local.Nome + ';' +
+      'Local.IP = ' + Result.Local.IP + ';' +
+      'PastaDados = ' + sPastaDados + ';';
+    exit;  
   end;
+  pLog := pLog + 'CarregarIni_MaqLocal retornou vazio' + ';' + 'LoadConfigFromXML fim';
 end;
 
 function DBServDMCreate: TDBServDM;
@@ -106,10 +129,11 @@ var
   sDriver: string;
   sServer: string;
   sArq: string;
+  s: string;
 begin
 
   Log.Escreva('DBServDMCreate');
-  //EscrevaLog('DBServDMCreate');
+  // EscrevaLog('DBServDMCreate');
   Result := TDBServDM.Create(nil);
 
   Result.Connection.LoginPrompt := false;
@@ -125,6 +149,10 @@ begin
     + 'User_Name=sysdba'#13#10 //
     + 'Protocol=TCPIP' //
     ;
+  s :='DBServDM Params'#13#10 + Result.Connection.Params.Text + #13#10;
+  Log.Escreva(s);
+
+  Log.Escreva('DBServDMCreate fim');
 end;
 
 procedure CarregarIni_Ativo;
@@ -132,6 +160,7 @@ var
   sNomeArqIni: string;
   IniFile: TIniFile;
 begin
+  Log.Escreva('CarregarIni_Ativo');
   sNomeArqIni := sPastaConfig + 'ShopAssist.ini';
   if not FileExists(sNomeArqIni) then
     exit;
@@ -139,9 +168,13 @@ begin
   IniFile := TIniFile.Create(sNomeArqIni);
   try
     bAtivo := IniFile.ReadBool('exec', 'ativo', True);
+    Log.Escreva('Ativo='+BooleanToStr(bAtivo));
+
     bSegueAberto := IniFile.ReadBool('exec', 'segue_aberto', True);
+    Log.Escreva('bSegueAberto='+BooleanToStr(bSegueAberto));
   finally
     IniFile.Free;
+    Log.Escreva('CarregarIni_Ativo fim');
   end;
 end;
 
@@ -149,30 +182,48 @@ procedure CarregarConfigs;
 var
   sPastaConfigs: string;
   sNomeXml: string;
+  sLog: string;
 begin
+  sLog := 'CarregarConfigs ini;';
   sPastaBin := IncludeTrailingPathDelimiter(GetCurrentDir);
   sPastaProduto := PastaAcima(sPastaBin);
   sPastaDados := sPastaProduto + 'Dados\';
   sPastaDadosServ := 'C:\DarosPDV\Dados\';
   sPastaConfig := sPastaProduto + 'Configs\';
   sPastaTmp := sPastaProduto + 'Tmp\';
+  sPastaLog := sPastaTmp+'Assist\';
   sPastaBackup := sPastaProduto + 'Backup\';
   sPastaComandos := sPastaProduto + 'Comandos\';
   sPastaComandosBackup := sPastaComandos + 'Backup\';
   sPastaDocs := sPastaProduto + 'Docs\';
 
+  sLog := sLog + 'sPastaBin: ' + sPastaBin + ';' +
+    'sPastaProduto: ' + sPastaProduto + ';' +
+    'sPastaDados: ' + sPastaDados + ';' +
+    'sPastaDadosServ: ' + sPastaDadosServ + ';' +
+    'sPastaConfig: ' + sPastaConfig + ';' +
+    'sPastaTmp: ' + sPastaTmp + ';' +
+    'sPastaBackup: ' + sPastaBackup + ';' +
+    'sPastaComandos: ' + sPastaComandos + ';' +
+    'sPastaComandosBackup: ' + sPastaComandosBackup + ';' +
+    'sPastaDocs: ' + sPastaDocs;
+
   sPastaConfigs := sPastaProduto + 'Configs\';
   sNomeXml := sPastaConfigs + 'Sis.Config.SisConfig.xml';
-  Config := LoadConfigFromXML(sNomeXml);
+  Config := LoadConfigFromXML(sNomeXml, sLog);
 
-  InicializePrecisaTerminar;
+  InicializePrecisaTerminar(sLog);
 
   if not Assigned(Sis.Log.Log) then
+  begin
     Sis.Log.Log := Sis.Log_u.TLog.Create;
+    Sis.Log.Log.Escreva(sLog+#13#10'CarregarConfigs fim');
+  end;
 end;
 
 procedure CarregarIni_MaqLocal(out pServNomeNaRede: string; out pServIp: string;
-  out pLocalNomeNaRede: string; out pLocalIp: string; out pLocalArqDados: string);
+  out pLocalNomeNaRede: string; out pLocalIp: string;
+  out pLocalArqDados: string);
 var
   sNomeArqIni: string;
   IniFile: TIniFile;

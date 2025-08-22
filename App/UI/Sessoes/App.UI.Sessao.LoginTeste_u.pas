@@ -219,19 +219,19 @@ begin
 
   sMens := '';
 
-  if CAIXA_SESSAO_SEQ_SERV <> CAIXA_SESSAO_SEQ_TERM then
+  if CAIXA_SESSAO_SEQ_SERV > CAIXA_SESSAO_SEQ_TERM then
     sMens := sMens + '.SESS';
 
-  if EST_MOV_SEQ_SERV <> EST_MOV_SEQ_TERM then
+  if EST_MOV_SEQ_SERV > EST_MOV_SEQ_TERM then
     sMens := sMens + '.EST';
 
-  if LOG_SEQ_SERV <> LOG_SEQ_TERM then
+  if LOG_SEQ_SERV > LOG_SEQ_TERM then
     sMens := sMens + '.LOG';
 
-  if PESSOA_SEQ_SERV <> PESSOA_SEQ_TERM then
+  if PESSOA_SEQ_SERV > PESSOA_SEQ_TERM then
     sMens := sMens + '.PESS';
 
-  if VENDA_SEQ_SERV <> VENDA_SEQ_TERM then
+  if VENDA_SEQ_SERV > VENDA_SEQ_TERM then
     sMens := sMens + '.VEN';
 
   Result := sMens = '';

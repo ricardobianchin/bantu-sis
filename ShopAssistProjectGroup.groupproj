@@ -6,6 +6,12 @@
         <Projects Include="Sis\Sis.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="App\App.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ShopApp\ShopApp.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="ShopAssist\ShopAssist.dproj">
             <Dependencies/>
         </Projects>
@@ -26,6 +32,24 @@
     <Target Name="Sis:Make">
         <MSBuild Projects="Sis\Sis.dproj" Targets="Make"/>
     </Target>
+    <Target Name="App">
+        <MSBuild Projects="App\App.dproj"/>
+    </Target>
+    <Target Name="App:Clean">
+        <MSBuild Projects="App\App.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="App:Make">
+        <MSBuild Projects="App\App.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ShopApp">
+        <MSBuild Projects="ShopApp\ShopApp.dproj"/>
+    </Target>
+    <Target Name="ShopApp:Clean">
+        <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShopApp:Make">
+        <MSBuild Projects="ShopApp\ShopApp.dproj" Targets="Make"/>
+    </Target>
     <Target Name="ShopAssist">
         <MSBuild Projects="ShopAssist\ShopAssist.dproj"/>
     </Target>
@@ -36,13 +60,13 @@
         <MSBuild Projects="ShopAssist\ShopAssist.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Sis;ShopAssist"/>
+        <CallTarget Targets="Sis;App;ShopApp;ShopAssist"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Sis:Clean;ShopAssist:Clean"/>
+        <CallTarget Targets="Sis:Clean;App:Clean;ShopApp:Clean;ShopAssist:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Sis:Make;ShopAssist:Make"/>
+        <CallTarget Targets="Sis:Make;App:Make;ShopApp:Make;ShopAssist:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
