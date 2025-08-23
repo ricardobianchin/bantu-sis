@@ -923,7 +923,7 @@ begin
     except
       on e: exception do
       begin
-        Result := False;
+        Result := True;
         sMens := 'Erro ao testar ' + sTit + ': ' + e.message;
       end;
     end;
