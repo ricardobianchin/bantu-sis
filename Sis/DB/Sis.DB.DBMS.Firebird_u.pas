@@ -398,6 +398,9 @@ begin
   if not FileExists(Result + 'isql.exe') then
     Result := 'C:\Program Files (x86)\Firebird\Firebird_5_0\';
 
+  if FileExists(Result + 'isql.exe') then
+    exit;
+
   // {$IFDEF DEBUG}
   // {$ELSE}
   // {$ENDIF}
@@ -522,7 +525,7 @@ begin
     pProcessLog.RegistreLog('FFirebirdPath=' + FFirebirdPath);
 
     FIsqlExe := FFirebirdPath + 'ISQL.exe';
-    pProcessLog.RegistreLog('FIsqlExe=' + FIsqlExe);
+    pProcessLog.RegistreLog('FIsqlExe=[' + FIsqlExe+']');
   finally
     pProcessLog.RetorneLocal;
   end;

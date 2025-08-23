@@ -156,8 +156,8 @@ begin
       DBConnectionParams.Arq + ')');
 
     CopyFile(PChar(sNomeArqInstDados), PChar(DBConnectionParams.Arq), False);
-    showmessage('copy "' + sNomeArqInstDados + '" "' +
-      DBConnectionParams.Arq + '"');
+//    showmessage('copy "' + sNomeArqInstDados + '" "' +
+//      DBConnectionParams.Arq + '"');
     Result := dbeNaoExistiaCopiou;
 
     ProcessLog.RegistreLog('vai testar se existe');
