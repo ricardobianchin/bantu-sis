@@ -9,7 +9,7 @@ procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 implementation
 
 uses DBServDM_u, Data.DB, FireDAC.Comp.Client, Sis.Types.Integers,
-  System.SysUtils, DB_u, Configs_u, Sis.Log;
+  System.SysUtils, DB_u, Configs_u, Sis.Log, Sis.Log_u;
 
 procedure AtualizeMachine(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 var
@@ -31,19 +31,21 @@ var
 begin
   if pPrecisaTerminar then
     exit;
-
+  try
   sSql := 'SELECT MACHINE_ID, NOME_NA_REDE, trim(IP) colip' //
     + ' FROM MACHINE' //
     + ' WHERE NOME_NA_REDE = ' + QuotedStr(Config.Local.Nome) //
     + ' AND IP = ' + QuotedStr(Config.Local.IP) //
     ; //
-
+  Sis.Log.Log.Escreva('AtualizeMachine;vai abrir serv');
   DBServDM.Connection.Open;
   try
+    Sis.Log.Log.Escreva('AtualizeMachine;vai abriu');
     oServMachinesQ := TFDQuery.Create(nil);
     try
       oServMachinesQ.Connection := DBServDM.Connection;
       oServMachinesQ.Sql.Text := sSql;
+      Sis.Log.Log.Escreva('AtualizeMachine;vai oServMachinesQ.Open');
       oServMachinesQ.Open;
       try
         iServId := oServMachinesQ.Fields[0].AsInteger;
@@ -59,12 +61,15 @@ begin
     DBServDM.Connection.Close;
   end;
 
+  Sis.Log.Log.Escreva('AtualizeMachine;vai abrir term');
   pTermDM.Connection.Open;
   try
+    Sis.Log.Log.Escreva('AtualizeMachine;vai abriu');
     oLocalMachinesQ := TFDQuery.Create(nil);
     try
       oLocalMachinesQ.Connection := pTermDM.Connection;
       oLocalMachinesQ.Sql.Text := sSql;
+    Sis.Log.Log.Escreva('AtualizeMachine;vai oLocalMachinesQ.Open');
       oLocalMachinesQ.Open;
       try
         iLocalId := oLocalMachinesQ.Fields[0].AsInteger;
@@ -105,6 +110,9 @@ begin
     end;
   finally
     pTermDM.Connection.Close;
+  end;
+  except on e:exception do
+    Log.Escreva('AtualizeMachine erro '+e.Message)
   end;
 end;
 

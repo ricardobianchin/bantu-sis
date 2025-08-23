@@ -26,8 +26,6 @@ var
   iQtdPausa: integer;
   iEsperaAtual: integer;
 begin
-  // ShowMessage('Assist iniciou');
-
   try
     CarregarConfigs;
     //InicieLog;
@@ -42,6 +40,7 @@ begin
     try
       repeat
         CarregarConfigs;
+
         CrieListaDeTerminais;
         try
           CarregarIni_Ativo;
@@ -89,7 +88,6 @@ begin
       ApaguePrecisaTerminar;
       Log.Escreva('Terminado');
       //EscrevaLog('Terminado');
-      // ShowMessage('Assist Terminou');
     end;
   except
     on e: exception do

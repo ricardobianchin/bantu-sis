@@ -41,6 +41,7 @@ begin
     SL.Add(pFrase);
     SL.SaveToFile(sNomeArqDic);
   end;
+//  Result := pFrase;
   Result := '&'+i.ToString+';';
 end;
 

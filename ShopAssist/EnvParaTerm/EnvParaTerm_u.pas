@@ -2,7 +2,7 @@ unit EnvParaTerm_u;
 
 interface
 
-uses DBTermDM_u;
+uses DBTermDM_u, vcl.Dialogs;
 
 procedure EnvParaTerm(pTermDM: TDBTermDM; var pPrecisaTerminar: Boolean);
 

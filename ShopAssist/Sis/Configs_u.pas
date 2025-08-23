@@ -58,7 +58,7 @@ implementation
 uses System.SysUtils, Sis.UI.IO.Files, Xml.XMLIntf, Xml.XMLDoc, IniFiles,
   Sis.Win.Utils_u, Sis.Log, Sis.Log_u, Sis.Types.Bool_u;
 
-function LoadConfigFromXML(const FileName: string; var pLog: string): TConfig;
+function LoadConfigFromXML(const FileName: string; var sLog: string): TConfig;
 var
   XMLDoc: IXMLDocument;
   RootNode, Node: IXMLNode;
@@ -66,35 +66,35 @@ var
   sLocalNomeNaRede, sLocalIp: string;
   sLocalArqDados: string;
 begin
-  pLog := pLog + ';''LoadConfigFromXML: ' + FileName + ';';
+  sLog := sLog + ';LoadConfigFromXML: ' + FileName + ';';
   XMLDoc := LoadXMLDocument(FileName);
 
   RootNode := XMLDoc.DocumentElement;
-  pLog := pLog + 'RootNode: ' + RootNode.NodeName + ';';
+  sLog := sLog + 'RootNode: ' + RootNode.NodeName + ';';
 
   Node := RootNode.ChildNodes['SERVER'];
   Result.Server.Nome := Node.ChildNodes['NOME'].Text;
   Result.Server.IP := Node.ChildNodes['IP'].Text;
   Result.Server.EhServidor := Node.ChildNodes['EH_SERVIDOR'].Text;
 
-  pLog := pLog + 'Server: ' + Result.Server.Nome + ', ' + Result.Server.IP +
+  sLog := sLog + 'Server: ' + Result.Server.Nome + ', ' + Result.Server.IP +
     ', ' + Result.Server.EhServidor + ';';
 
   Result.EstSaldo.Processa := Result.Server.EhServidor;
-  pLog := pLog + 'EstSaldo.Processa: ' + Result.EstSaldo.Processa + ';';
+  sLog := sLog + 'EstSaldo.Processa: ' + Result.EstSaldo.Processa + ';';
 
   Node := RootNode.ChildNodes['LOCAL'];
   Result.Local.Nome := Node.ChildNodes['NOME'].Text;
   Result.Local.IP := Node.ChildNodes['IP'].Text;
 
-  pLog := pLog + 'Local: ' + Result.Local.Nome + ', ' + Result.Local.IP + ';';
+  sLog := sLog + 'Local: ' + Result.Local.Nome + ', ' + Result.Local.IP + ';';
 
   Node := RootNode.ChildNodes['DBMS'];
   Result.DBMS.Software := Node.ChildNodes['SOFTWARE'].Text;
   Result.DBMS.Versao := Node.ChildNodes['VERSAO'].Text;
   Result.DBMS.Framework := Node.ChildNodes['FRAMEWORK'].Text;
 
-  pLog := pLog + 'DBMS: ' + Result.DBMS.Software + ', ' + Result.DBMS.Versao +
+  sLog := sLog + 'DBMS: ' + Result.DBMS.Software + ', ' + Result.DBMS.Versao +
     ', ' + Result.DBMS.Framework + ';';
 
   Node := RootNode.ChildNodes['SO'];
@@ -102,26 +102,27 @@ begin
   Result.SO.CSDVersion := Node.ChildNodes['CSD_VERSION'].Text;
   Result.SO.Platform := Node.ChildNodes['PLATFORM'].Text;
 
-  pLog := pLog + 'SO: ' + Result.SO.Versao + ', ' + Result.SO.CSDVersion +
-    ', ' + Result.SO.Platform + ';';
+  sLog := sLog + 'SO: ' + Result.SO.Versao + ', ' + Result.SO.CSDVersion + ', '
+    + Result.SO.Platform + ';';
 
-  CarregarIni_MaqLocal(sServNomeNaRede, sServIp, sLocalNomeNaRede, sLocalIp,
-    sLocalArqDados);
-  if sServNomeNaRede <> '' then
-  begin
-    Result.Server.Nome := sServNomeNaRede;
-    Result.Server.IP := sServIp;
-    Result.Local.Nome := sLocalNomeNaRede;
-    Result.Local.IP := sLocalIp;
-    sPastaDados := GetPastaDoArquivo(sLocalArqDados);
-    pLog := pLog + 'Server.nome = ' + Result.Server.Nome + ';' +
-      'Server.IP = ' + Result.Server.IP + ';' +
-      'Local.nome = ' + Result.Local.Nome + ';' +
-      'Local.IP = ' + Result.Local.IP + ';' +
-      'PastaDados = ' + sPastaDados + ';';
-    exit;  
-  end;
-  pLog := pLog + 'CarregarIni_MaqLocal retornou vazio' + ';' + 'LoadConfigFromXML fim';
+  // CarregarIni_MaqLocal(sServNomeNaRede, sServIp, sLocalNomeNaRede, sLocalIp,
+  // sLocalArqDados);
+  // if sServNomeNaRede <> '' then
+  // begin
+  // Result.Server.Nome := sServNomeNaRede;
+  // Result.Server.IP := sServIp;
+  // Result.Local.Nome := sLocalNomeNaRede;
+  // Result.Local.IP := sLocalIp;
+  // sPastaDados := GetPastaDoArquivo(sLocalArqDados);
+  // pLog := pLog + 'Server.nome = ' + Result.Server.Nome + ';' +
+  // 'Server.IP = ' + Result.Server.IP + ';' + 'Local.nome = ' +
+  // Result.Local.Nome + ';' + 'Local.IP = ' + Result.Local.IP + ';' +
+  // 'PastaDados = ' + sPastaDados + ';';
+  // exit;
+  // end;
+  // pLog := pLog + 'CarregarIni_MaqLocal retornou vazio' + ';' +
+  // 'LoadConfigFromXML fim';
+  sLog := sLog + ';LoadConfigFromXML fim';
 end;
 
 function DBServDMCreate: TDBServDM;
@@ -149,7 +150,7 @@ begin
     + 'User_Name=sysdba'#13#10 //
     + 'Protocol=TCPIP' //
     ;
-  s :='DBServDM Params'#13#10 + Result.Connection.Params.Text + #13#10;
+  s := 'DBServDM Params'#13#10 + Result.Connection.Params.Text + #13#10;
   Log.Escreva(s);
 
   Log.Escreva('DBServDMCreate fim');
@@ -168,10 +169,10 @@ begin
   IniFile := TIniFile.Create(sNomeArqIni);
   try
     bAtivo := IniFile.ReadBool('exec', 'ativo', True);
-    Log.Escreva('Ativo='+BooleanToStr(bAtivo));
+    Log.Escreva('Ativo=' + BooleanToStr(bAtivo));
 
     bSegueAberto := IniFile.ReadBool('exec', 'segue_aberto', True);
-    Log.Escreva('bSegueAberto='+BooleanToStr(bSegueAberto));
+    Log.Escreva('bSegueAberto=' + BooleanToStr(bSegueAberto));
   finally
     IniFile.Free;
     Log.Escreva('CarregarIni_Ativo fim');
@@ -184,40 +185,45 @@ var
   sNomeXml: string;
   sLog: string;
 begin
-  sLog := 'CarregarConfigs ini;';
-  sPastaBin := IncludeTrailingPathDelimiter(GetCurrentDir);
-  sPastaProduto := PastaAcima(sPastaBin);
-  sPastaDados := sPastaProduto + 'Dados\';
-  sPastaDadosServ := 'C:\DarosPDV\Dados\';
-  sPastaConfig := sPastaProduto + 'Configs\';
-  sPastaTmp := sPastaProduto + 'Tmp\';
-  sPastaLog := sPastaTmp+'Assist\';
-  sPastaBackup := sPastaProduto + 'Backup\';
-  sPastaComandos := sPastaProduto + 'Comandos\';
-  sPastaComandosBackup := sPastaComandos + 'Backup\';
-  sPastaDocs := sPastaProduto + 'Docs\';
+  try
+    sLog := 'CarregarConfigs ini;';
+    sPastaBin := IncludeTrailingPathDelimiter(GetCurrentDir);
+    sPastaProduto := PastaAcima(sPastaBin);
+    sPastaDados := sPastaProduto + 'Dados\';
+    sPastaDadosServ := 'C:\DarosPDV\Dados\';
+    sPastaConfig := sPastaProduto + 'Configs\';
+    sPastaTmp := sPastaProduto + 'Tmp\';
+    sPastaLog := sPastaTmp + 'Assist\';
+    sPastaBackup := sPastaProduto + 'Backup\';
+    sPastaComandos := sPastaProduto + 'Comandos\';
+    sPastaComandosBackup := sPastaComandos + 'Backup\';
+    sPastaDocs := sPastaProduto + 'Docs\';
 
-  sLog := sLog + 'sPastaBin: ' + sPastaBin + ';' +
-    'sPastaProduto: ' + sPastaProduto + ';' +
-    'sPastaDados: ' + sPastaDados + ';' +
-    'sPastaDadosServ: ' + sPastaDadosServ + ';' +
-    'sPastaConfig: ' + sPastaConfig + ';' +
-    'sPastaTmp: ' + sPastaTmp + ';' +
-    'sPastaBackup: ' + sPastaBackup + ';' +
-    'sPastaComandos: ' + sPastaComandos + ';' +
-    'sPastaComandosBackup: ' + sPastaComandosBackup + ';' +
-    'sPastaDocs: ' + sPastaDocs;
+    sLog := sLog + 'sPastaBin: ' + sPastaBin + ';' + 'sPastaProduto: ' +
+      sPastaProduto + ';' + 'sPastaDados: ' + sPastaDados + ';' +
+      'sPastaDadosServ: ' + sPastaDadosServ + ';' + 'sPastaConfig: ' +
+      sPastaConfig + ';' + 'sPastaTmp: ' + sPastaTmp + ';' + 'sPastaBackup: ' +
+      sPastaBackup + ';' + 'sPastaComandos: ' + sPastaComandos + ';' +
+      'sPastaComandosBackup: ' + sPastaComandosBackup + ';' + 'sPastaDocs: ' +
+      sPastaDocs;
 
-  sPastaConfigs := sPastaProduto + 'Configs\';
-  sNomeXml := sPastaConfigs + 'Sis.Config.SisConfig.xml';
-  Config := LoadConfigFromXML(sNomeXml, sLog);
+    sPastaConfigs := sPastaProduto + 'Configs\';
+    sNomeXml := sPastaConfigs + 'Sis.Config.SisConfig.xml';
+    Config := LoadConfigFromXML(sNomeXml, sLog);
 
-  InicializePrecisaTerminar(sLog);
+    InicializePrecisaTerminar(sLog);
 
-  if not Assigned(Sis.Log.Log) then
-  begin
-    Sis.Log.Log := Sis.Log_u.TLog.Create;
-    Sis.Log.Log.Escreva(sLog+#13#10'CarregarConfigs fim');
+    if not Assigned(Sis.Log.Log) then
+    begin
+      Sis.Log.Log := Sis.Log_u.TLog.Create;
+      Sis.Log.Log.Escreva(sLog + #13#10'CarregarConfigs fim');
+    end;
+  except
+    on e: exception do
+    begin
+      sLog := sLog + e.Message;
+      Sis.Log.Log.Escreva(';erro: ' + sLog);
+    end;
   end;
 end;
 

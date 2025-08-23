@@ -22,9 +22,6 @@ begin
     // Aqui você pode adicionar um Sleep(10) ou Application.ProcessMessages
     // para não travar a aplicação, se o diretório for muito grande.
   until bCompletou or (sErro <> '');
-
-//  if sErro <> '' then
-//    ShowMessage(sErro);
 end;
 
 procedure ArqsApagar;

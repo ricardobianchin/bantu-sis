@@ -18,6 +18,7 @@ type
     FDQuery1: TFDQuery;
     FDCommand1: TFDCommand;
     procedure DataModuleCreate(Sender: TObject);
+    procedure ConnectionBeforeConnect(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,7 +37,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Sis.Log;
+uses Sis.Log, Sis.Types.Bool_u, Configs_u, Sis_u, Sis.Log_u;
 
 {$R *.dfm}
 
@@ -67,6 +68,29 @@ begin
       //EscrevaLog(sMens);
     end;
   end;
+end;
+
+procedure TDBServDM.ConnectionBeforeConnect(Sender: TObject);
+var
+  sDriver: string;
+  sServer: string;
+  sArq: string;
+begin
+  Connection.LoginPrompt := false;
+  sDriver := 'FB';
+//  Iif(pNome = '', pIP, pNome)
+  sServer := iif(Config.Server.Nome = '', Config.Server.IP, Config.Server.Nome);
+  sArq := sPastaDadosServ + 'dados_mercado_retaguarda.fdb';
+
+  Connection.Params.Text := //
+    'DriverID=' + sDriver + #13#10 //
+    + 'Server=' + sServer + #13#10 //
+    + 'Database=' + sArq + #13#10 //
+    + 'Password=masterkey'#13#10 //
+    + 'User_Name=sysdba'#13#10 //
+    + 'Protocol=TCPIP' //
+    ;
+  Log.Escreva('TDBServDM.ConnectionBeforeConnect('#13#10+Connection.Params.Text+#13#10);
 end;
 
 procedure TDBServDM.DataModuleCreate(Sender: TObject);
