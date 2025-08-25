@@ -9,17 +9,22 @@ type
   private
     FLinhasSL: TStringList;
     FQtdLinsPorPag: SmallInt;
+    FImpressaoDireta: Boolean;
 
     function GetTexto: string;
   protected
     procedure GereInicio; override;
     procedure GereFim; override;
-    procedure EnvieImpressao; override;
     // P: TProcedureStringOfObject;
     procedure PegueLinha(pFrase: string);
     property Texto: string read GetTexto;
+
+    function GetImpressaoDireta: Boolean;
+    property ImpressaoDireta: Boolean read FImpressaoDireta;
+
+    procedure EnvieImpressao; override;
   public
-    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string);
+    constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string; pImpressaoDireta: Boolean);
     destructor Destroy; override;
   end;
 
@@ -29,11 +34,12 @@ uses System.SysUtils, Sis.Win.Utils.Printer_u;
 
 { TImpressaoTexto }
 
-constructor TImpressaoTexto.Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string);
+constructor TImpressaoTexto.Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string; pImpressaoDireta: Boolean);
 begin
   inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib);
   FLinhasSL := TStringList.Create;
   FQtdLinsPorPag := 0; // zero = infinitas linhas, impressao em bobina
+  FImpressaoDireta := pImpressaoDireta;
 end;
 
 destructor TImpressaoTexto.Destroy;
@@ -45,7 +51,14 @@ end;
 procedure TImpressaoTexto.EnvieImpressao;
 begin
   inherited;
-  //ImprimaWinSpool(ImpressoraNome, GetDocTitulo, Texto);
+  if ImpressaoDireta then
+  begin
+    ImprimaDireta(ImpressoraNome, Texto);
+  end
+  else
+  begin
+    ImprimaWinSpool(ImpressoraNome, GetDocTitulo, Texto);
+  end;
 end;
 
 procedure TImpressaoTexto.GereFim;
@@ -56,6 +69,11 @@ procedure TImpressaoTexto.GereInicio;
 begin
   inherited;
   FLinhasSL.Clear;
+end;
+
+function TImpressaoTexto.GetImpressaoDireta: Boolean;
+begin
+  Result := FImpressaoDireta;
 end;
 
 function TImpressaoTexto.GetTexto: string;

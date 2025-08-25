@@ -23,7 +23,7 @@ type
   public
     constructor Create(pImpressoraNome: string; pUsuarioId: integer;
       pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
-      pCxOperacaoEnt: ICxOperacaoEnt); reintroduce;
+      pCxOperacaoEnt: ICxOperacaoEnt; pImpressaoDireta: Boolean); reintroduce;
   end;
 
 implementation
@@ -35,10 +35,10 @@ uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
 
 constructor TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj;
-  pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt);
+  pTerminal: ITerminal; pCxOperacaoEnt: ICxOperacaoEnt; pImpressaoDireta: Boolean);
 begin
   inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
-    CupomEspelhoCxOperacaoCreate(pAppObj));
+    CupomEspelhoCxOperacaoCreate(pAppObj), pImpressaoDireta);
   FCxOperacaoEnt := pCxOperacaoEnt;
 end;
 

@@ -1,4 +1,4 @@
-unit App.PDV.ImpressaoTexto.POSPrinter_u;
+﻿unit App.PDV.ImpressaoTexto.POSPrinter_u;
 
 interface
 
@@ -23,7 +23,7 @@ type
     // procedure GereInicio; override;
     procedure GereCabec; override;
     procedure GereFim; override;
-    // procedure EnvieImpressao; override;
+
     procedure GereTexto; override;
     procedure PegueSeparador(pCharSeparador: Char = '-');
     function GetEspelhoAssuntoAtual: string; virtual;

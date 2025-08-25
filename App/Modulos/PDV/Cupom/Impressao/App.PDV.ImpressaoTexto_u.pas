@@ -23,14 +23,14 @@ type
     // procedure GereInicio; override;
     procedure GereCabec; override;
     procedure GereFim; override;
-    // procedure EnvieImpressao; override;
+
     procedure GereTexto; override;
     procedure PegueSeparador(pCharSeparador: Char = '-');
     function GetEspelhoAssuntoAtual: string; virtual;
 
   public
     constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
-      pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho);
+      pAppObj: IAppObj; pTerminal: ITerminal; pCupomEspelho: ICupomEspelho; pImpressaoDireta: Boolean); reintroduce; virtual;
   end;
 
 implementation
@@ -41,9 +41,9 @@ uses Sis.Types.strings_u, {System.DateUtils,} System.SysUtils, Sis.Types.Dates;
 
 constructor TImpressaoTextoPDV.Create(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCupomEspelho: ICupomEspelho);
+  pCupomEspelho: ICupomEspelho; pImpressaoDireta: Boolean);
 begin
-  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib);
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pImpressaoDireta);
   FAppObj := pAppObj;
   FTerminal := pTerminal;
   FCupomEspelho := pCupomEspelho;

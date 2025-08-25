@@ -282,6 +282,9 @@ begin
       ;
 
   Result := Result + 'ORDER BY TERMINAL_ID'#13#10; //
+//{$IFDEF DEBUG}
+//CopyTextToClipboard(Result);
+//{$ENDIF}
 end;
 
 function TTerminalDBI.GetSqlTerminal(pTerminalId: SmallInt): string;
@@ -566,8 +569,9 @@ begin
       begin
         oTerminal := TerminalCreate;
         pTerminalList.Add(oTerminal);
-        DataSetToTerminal(q, oTerminal, pPastaDados, pAtividadeEconDescr);
       end;
+
+      DataSetToTerminal(q, oTerminal, pPastaDados, pAtividadeEconDescr);
 
       q.Next;
     end;

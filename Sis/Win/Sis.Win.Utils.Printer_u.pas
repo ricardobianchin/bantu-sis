@@ -3,6 +3,7 @@ unit Sis.Win.Utils.Printer_u;
 interface
 
 procedure ImprimaWinSpool(pNomeImpressora, pTitulo, pTexto: string);
+procedure ImprimaDireta(pPorta, pTexto: string);
 
 implementation
 
@@ -12,7 +13,6 @@ procedure ImprimaWinSpool(pNomeImpressora, pTitulo, pTexto: string);
 var
   Doc: Doc_Info_1;
   iRet: Longword;
-  s: String;
   HPrinter: THandle;
   iSize: Cardinal;
 begin
@@ -22,12 +22,21 @@ begin
   Doc.pDatatype := 'RAW';
   StartDocPrinter(HPrinter, 1, @Doc);
 
-  s := pTexto;
-  iSize := Strlen(PChar(s));
+  iSize := Strlen(PChar(pTexto));
 
-  WritePrinter(HPrinter, @s[1], iSize, iRet);
+  WritePrinter(HPrinter, @pTexto[1], iSize, iRet);
   EndDocPrinter(HPrinter);
   ClosePrinter(HPrinter);
+end;
+
+procedure ImprimaDireta(pPorta, pTexto: string);
+var
+  F: TextFile;
+begin
+  AssignFile(F, pPorta);
+  Rewrite(F);
+  Writeln(F, pTexto);
+  CloseFile(F);
 end;
 
 end.

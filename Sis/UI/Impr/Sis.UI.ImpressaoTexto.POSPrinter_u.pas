@@ -25,7 +25,7 @@ uses System.SysUtils, Vcl.Dialogs;
 constructor TImpressaoTextoPOSPrinter.Create(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string);
 begin
-  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib);
+  inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, False);
   ACBrPosPrinter1 := TACBrPosPrinter.Create(nil);
 
 end;
@@ -40,7 +40,7 @@ procedure TImpressaoTextoPOSPrinter.EnvieImpressao;
 var
   s: string;
 begin
-  inherited;
+  //inherited;
   // ACBrPosPrinter1.Porta := 'USB:0416, 5011';
   ACBrPosPrinter1.Porta := ImpressoraNome;
 

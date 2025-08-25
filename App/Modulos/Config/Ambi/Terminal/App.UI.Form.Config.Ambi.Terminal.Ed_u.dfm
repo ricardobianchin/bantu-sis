@@ -3,6 +3,7 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
   ClientHeight = 423
   ClientWidth = 931
   StyleElements = [seFont, seClient, seBorder]
+  ExplicitLeft = -50
   ExplicitWidth = 947
   ExplicitHeight = 462
   TextHeight = 15
@@ -714,7 +715,8 @@ inherited TerminalEdDiagForm: TTerminalEdDiagForm
       Items.Strings = (
         'SEM IMPRESSORA'
         'POS PRINTER PADRAO EPSON - IMPRESSAO DIRETA'
-        'SPOOL DE IMPRESSAO DO WINDOWS')
+        'SPOOL DE IMPRESSAO DO WINDOWS'
+        'PORTA - IMPRESSAO DIRETA')
     end
     object ImprNomeEdit: TEdit
       Left = 6

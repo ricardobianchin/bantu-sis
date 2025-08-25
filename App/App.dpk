@@ -505,6 +505,7 @@ contains
   App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor_u.pas',
   App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor in 'UI\Sessoes\App.UI.Form.Bas.Princ.Sessoes.AtalhosGarantidor.pas',
   App.DB.Bak in 'DB\Bak\App.DB.Bak.pas',
-  App.DB.Bak_u in 'DB\Bak\App.DB.Bak_u.pas';
+  App.DB.Bak_u in 'DB\Bak\App.DB.Bak_u.pas',
+  App.PDV.UI.Gaveta.Direta_u in 'Modulos\PDV\UI\Gav\App.PDV.UI.Gaveta.Direta_u.pas';
 
 end.

@@ -202,6 +202,8 @@ begin
 
   PegarIdMaquina(sNome, sIp);
 
+//  exit;
+
   Tab.append;
   Tab.FieldByName('TERMINAL_ID').AsInteger := 1;
   Tab.FieldByName('APELIDO').AsString := 'TECIDOS';

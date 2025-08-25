@@ -21,7 +21,7 @@ type
     function GetEspelhoAssuntoAtual: string; override;
   public
     constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
-      pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda);
+      pAppObj: IAppObj; pTerminal: ITerminal; pPDVVenda: IPDVVenda; pImpressaoDireta: Boolean); Reintroduce;
   end;
 
 implementation
@@ -33,10 +33,10 @@ uses Sis.Types.strings_u, System.SysUtils, System.StrUtils, System.Math,
 
 constructor TImpressaoTextoPDVVenda.Create(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
-  pPDVVenda: IPDVVenda);
+  pPDVVenda: IPDVVenda; pImpressaoDireta: Boolean);
 begin
   inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
-    CupomEspelhoVendaCreate(pAppObj));
+    CupomEspelhoVendaCreate(pAppObj), pImpressaoDireta);
   FPDVVenda := pPDVVenda;
 end;
 

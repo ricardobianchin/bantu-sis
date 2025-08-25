@@ -161,7 +161,10 @@ begin
               pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pPDVVenda);
           imprenvWinSpool:
             Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome,
-              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pPDVVenda);
+              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pPDVVenda, False);
+          imprenvDireta:
+            Result := TImpressaoTextoPDVVenda.Create(pImpressoraNome,
+              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pPDVVenda, True);
         end;
       end;
   end;
@@ -235,7 +238,10 @@ begin
               pTerminal, pCxOperacaoEnt);
           imprenvWinSpool:
             Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome,
-              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pCxOperacaoEnt);
+              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pCxOperacaoEnt, False);
+          imprenvDireta:
+            Result := TImpressaoTextoPDVCxOperacao.Create(pImpressoraNome,
+              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pCxOperacaoEnt, True);
         end;
       end;
   end;
@@ -270,7 +276,11 @@ begin
           imprenvWinSpool:
             Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome,
               pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pCaixaSessaoDBI,
-              pCaixaSessao);
+              pCaixaSessao, False);
+          imprenvDireta:
+            Result := TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome,
+              pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal, pCaixaSessaoDBI,
+              pCaixaSessao, True);
         end;
       end;
   end;

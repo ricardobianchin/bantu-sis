@@ -21,7 +21,7 @@ type
   public
     constructor Create(pImpressoraNome: string; pUsuarioId: integer; pUsuarioNomeExib: string;
       pAppObj: IAppObj; pTerminal: ITerminal; pCaixaSessaoDBI: ICaixaSessaoDBI;
-      pCaixaSessao: ICaixaSessao);
+      pCaixaSessao: ICaixaSessao; pImpressaoDireta: Boolean);
     destructor Destroy; override;
   end;
 
@@ -35,10 +35,10 @@ uses App.PDV.Factory_u, Sis.Types.strings_u, System.SysUtils, Sis.Types.Floats,
 
 constructor TImpressaoTextoPDVCxSessRelat.Create(pImpressoraNome: string;
   pUsuarioId: integer; pUsuarioNomeExib: string; pAppObj: IAppObj; pTerminal: ITerminal;
-  pCaixaSessaoDBI: ICaixaSessaoDBI; pCaixaSessao: ICaixaSessao);
+  pCaixaSessaoDBI: ICaixaSessaoDBI; pCaixaSessao: ICaixaSessao; pImpressaoDireta: Boolean);
 begin
   inherited Create(pImpressoraNome, pUsuarioId, pUsuarioNomeExib, pAppObj, pTerminal,
-    CupomEspelhoCxOperacaoCreate(pAppObj));
+    CupomEspelhoCxOperacaoCreate(pAppObj), pImpressaoDireta);
   FLinhasRet := TStringList.Create;
   FCaixaSessaoDBI := pCaixaSessaoDBI;
   FCaixaSessao := pCaixaSessao;
